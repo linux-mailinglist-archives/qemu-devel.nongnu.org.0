@@ -2,46 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6EB456D6E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 11:39:17 +0100 (CET)
-Received: from localhost ([::1]:54016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624BE456DB4
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 11:42:55 +0100 (CET)
+Received: from localhost ([::1]:57406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo1Ia-0003in-GU
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 05:39:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33698)
+	id 1mo1M6-0006CC-7c
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 05:42:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>) id 1mo1Fa-00026q-0Q
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 05:36:11 -0500
-Received: from mail.csgraf.de ([85.25.223.15]:41808 helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>) id 1mo1FK-00034X-MG
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 05:36:09 -0500
-Received: from [192.168.24.197]
- (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
- by csgraf.de (Postfix) with ESMTPSA id 1B5F860804E4;
- Fri, 19 Nov 2021 11:35:44 +0100 (CET)
-Message-ID: <6f83f61e-138d-b8a2-b21c-0dbd2805437d@csgraf.de>
-Date: Fri, 19 Nov 2021 11:35:42 +0100
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mo1KO-000532-Ih
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 05:41:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54041)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mo1K8-0003tA-I2
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 05:41:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637318451;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bNW29QlzyrK/HRDX5UM1zsprjO9EIHL7sf8OT2fSyqY=;
+ b=P2DfRR8na6AcgAF7G64D/fjyNHHL7Thv57Du5C17Iqqm3aszMkBDJKz/OWF1kAPqeQrzgU
+ jHmnD0R1sPjJnSh3rtLae7+pchWmU+RDaJzlXgdpcgrc23FPHkmnJNH+Y0UYFGZw1ToCJL
+ RRY8UtO3AwZtlM5uPD24txQQ/E/bwIk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-109-c5AMD7U7PY2GXdDB-AkEzQ-1; Fri, 19 Nov 2021 05:40:49 -0500
+X-MC-Unique: c5AMD7U7PY2GXdDB-AkEzQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ l4-20020a05600c1d0400b00332f47a0fa3so4511981wms.8
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 02:40:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=bNW29QlzyrK/HRDX5UM1zsprjO9EIHL7sf8OT2fSyqY=;
+ b=2+WbFQeCcrrz6YmRer4MDHcMxqtj/1PiaEpWeUd4EoxzwzLwVtInz9qDF2VY89gr0H
+ /xg0OD5DuH6GZ7DI1irLtyNwy9e5ljxkNow1Yh3kbnv8IXhKScX1LwumvCsL6ZKUvcsj
+ OZ0gNRxsa2HrW8AsYv7xk+FvSb5gcjCsGM9drsBs/R9roplhhKMoRPc9cvQ6arRqUcKK
+ v4GEHoNyGEQHYjZqa7s3drAvn0dfpI2SXsgfPlxsD/ylfw5bVzd3qESvbpMhA1BZ7Fpu
+ ERciacRAjFKvh2aoEBr/w58CRaXb3FhBKEfR6iyxPm7RiC3K2U18IzrBhdx71+K+Ewcw
+ WYmQ==
+X-Gm-Message-State: AOAM5331+Wi8/Fg2cl3NIdnfLaK8+nJxSs5lblFfBqoNKYWrJIzdYKkP
+ J6L2m59NBOmcnpxyUM8LHP2v9ldj3wH4motOviZVSWsNZfqHqAaUpZy5v6dZzjRd0O6W04kjygN
+ 9ColW99sQ82L/uLo=
+X-Received: by 2002:a5d:5186:: with SMTP id k6mr6158807wrv.146.1637318448380; 
+ Fri, 19 Nov 2021 02:40:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyhUQXOcGJVKBvKC6uBQ9fPTF4Eanll8zg+QnsEpZKoyivlL1AyJa2rxUFv6/jnHdDQZltDZw==
+X-Received: by 2002:a5d:5186:: with SMTP id k6mr6158766wrv.146.1637318448101; 
+ Fri, 19 Nov 2021 02:40:48 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id n1sm2975256wmq.6.2021.11.19.02.40.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Nov 2021 02:40:47 -0800 (PST)
+Message-ID: <f2de8ec7-3157-0f87-cfc8-70633e0f8658@redhat.com>
+Date: Fri, 19 Nov 2021 11:40:46 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.1
-Subject: Re: [PULL 02/22] arm: tcg: Adhere to SMCCC 1.3 section 5.2
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210930151201.9407-1-peter.maydell@linaro.org>
- <20210930151201.9407-3-peter.maydell@linaro.org>
- <CAFEAcA_-V7uJ3hkC88ycXFBEXxV2fiUTBNrh+RDnjDfX2GGNww@mail.gmail.com>
-From: Alexander Graf <agraf@csgraf.de>
-In-Reply-To: <CAFEAcA_-V7uJ3hkC88ycXFBEXxV2fiUTBNrh+RDnjDfX2GGNww@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH for-6.2] hw/misc/sifive_u_otp: Use IF_PFLASH for the OTP
+ device instead of IF_NONE
+To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ Markus Armbruster <armbru@redhat.com>
+References: <20211119102549.217755-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211119102549.217755-1-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.727,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.727, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,92 +100,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrei Warkentin <andrey.warkentin@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Jean-Christophe DUBOIS <jcd@tribudubois.net>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11/19/21 11:25, Thomas Huth wrote:
+> Configuring a drive with "if=none" is meant for creation of a backend
+> only, it should not get automatically assigned to a device frontend.
+> Use "if=pflash" for the One-Time-Programmable device instead (like
+> it is e.g. also done for the efuse device in hw/arm/xlnx-zcu102.c).
+> 
+> Since the old way of configuring the device has already been published
+> with the previous QEMU versions, we cannot remove this immediately, but
+> have to deprecate it and support it for at least two more releases.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  docs/about/deprecated.rst | 6 ++++++
+>  hw/misc/sifive_u_otp.c    | 9 ++++++++-
+>  2 files changed, 14 insertions(+), 1 deletion(-)
 
-On 18.11.21 22:57, Peter Maydell wrote:
-> On Thu, 30 Sept 2021 at 16:12, Peter Maydell <peter.maydell@linaro.org> wrote:
->> From: Alexander Graf <agraf@csgraf.de>
->>
->> The SMCCC 1.3 spec section 5.2 says
->>
->>    The Unknown SMC Function Identifier is a sign-extended value of (-1)
->>    that is returned in the R0, W0 or X0 registers. An implementation must
->>    return this error code when it receives:
->>
->>      * An SMC or HVC call with an unknown Function Identifier
->>      * An SMC or HVC call for a removed Function Identifier
->>      * An SMC64/HVC64 call from AArch32 state
->>
->> To comply with these statements, let's always return -1 when we encounter
->> an unknown HVC or SMC call.
-> TL/DR: I propose to revert this for 6.2.
->
-> This change turns out to cause regressions, for instance on the
-> imx6ul boards as described here:
-> https://lore.kernel.org/qemu-devel/c8b89685-7490-328b-51a3-48711c140a84@tribudubois.net/
->
-> The primary cause of that regression is that the guest code running
-> at EL3 expects SMCs (not related to PSCI) to do what they would if
-> our PSCI emulation was not present at all, but after this change
-> they instead set a value in R0/X0 and continue.
->
-> I had a look at fixing this, which involves deferring the "do we
-> want to enable PSCI emulation?" decision into the hw/arm/boot.c
-> code (which is the only place we finally figure out whether we're
-> going to be booting the guest into EL3 or not). I have some
-> more-or-less working prototype code, but in the course of writing
-> it I discovered a much harder to fix issue:
->
-> The highbank board both:
->   (1) wants to enable PSCI emulation
->   (2) has a bit of guest code that it wants to run at EL3 and
->       to perform SMC calls that trap to the monitor vector table:
->       this is the boot stub code that is written to memory by
->       arm_write_secure_board_setup_dummy_smc() and which the
->       highbank board enables by setting bootinfo->secure_board_setup
->
-> We can't satisfy both of those and also have the PSCI emulation
-> handle all SMC instruction executions regardless of function
-> identifier value.
->
-> There is probably a solution to this, but I'm not sure what it
-> is right now (it might involve having QEMU manually do the things
-> that we currently have the arm_write_secure_board_setup_dummy_smc
-> write guest code to do) and it's going to require digging through
-> what the highbank board actually is supposed to do here. Given
-> that we're already in the release cycle for 6.2, I think the
-> safest and simplest approach is to revert this patch for now,
-> which just takes us back to the behaviour we've always had
-> in previous releases. We can then take our time to figure out
-> how to clean up this mess in 7.0.
+> diff --git a/hw/misc/sifive_u_otp.c b/hw/misc/sifive_u_otp.c
+> index 18aa0bd55d..cf6098ff2c 100644
+> --- a/hw/misc/sifive_u_otp.c
+> +++ b/hw/misc/sifive_u_otp.c
+> @@ -209,7 +209,14 @@ static void sifive_u_otp_realize(DeviceState *dev, Error **errp)
+>                            TYPE_SIFIVE_U_OTP, SIFIVE_U_OTP_REG_SIZE);
+>      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
+>  
+> -    dinfo = drive_get_next(IF_NONE);
+> +    dinfo = drive_get_next(IF_PFLASH);
+> +    if (!dinfo) {
+> +        dinfo = drive_get_next(IF_NONE);
 
+Isn't it a bug to call drive_get_next() from DeviceRealize()?
 
-Ugh :(. Conceptually, once you tell QEMU to handle PSCI, you're 
-basically giving up that EL to it. It sounds almost as if what these 
-boards (imx6ul + highbank) want is an EL4 they can call into to deflect 
-PSCI calls into from EL3 they own. We would basically have to allocate a 
-currently undefinied/reserved instruction as "QEMU SMC" and make the EL3 
-code call that when it needs to call QEMU for PSCI operations. Or a PV 
-MMIO device. Or a PV sysreg. But at the end of the day, EL3 calling into 
-QEMU differently than on real hardware is paravirtualization.
-
-I agree with the conclusion that we revert it for QEMU 6.2 though. The 2 
-guest OSs I'm aware of that rely on the behavior in the patch / spec 
-(Windows and VMware ESXi) require more QEMU modifications to be fully 
-functional: SMC as default conduit for Windows and EL3 PSR exposure for 
-ESXi. So neither of them would work out of the box with 6.2 as is.
-
-Just to double check: Is the broken monitor code that expects QEMU to 
-partially handle SMCs only ever injected into the guest by us or is 
-there existing guest payload code for EL3 that makes the same assumption?
-
-
-Alex
-
+Shouldn't drive_get_next() be restricted to the MachineClass?
 
 
