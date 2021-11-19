@@ -2,78 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3AD4457669
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 19:29:42 +0100 (CET)
-Received: from localhost ([::1]:54800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB6C7457673
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 19:34:11 +0100 (CET)
+Received: from localhost ([::1]:35314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo8dp-0005a0-Tf
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 13:29:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37616)
+	id 1mo8iB-0003EE-0W
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 13:34:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mo8XV-0004OM-3C; Fri, 19 Nov 2021 13:23:09 -0500
-Received: from [2607:f8b0:4864:20::a35] (port=39677
- helo=mail-vk1-xa35.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mo8XR-0001qH-Pw; Fri, 19 Nov 2021 13:23:08 -0500
-Received: by mail-vk1-xa35.google.com with SMTP id 84so6399303vkc.6;
- Fri, 19 Nov 2021 10:23:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=wEhzjJ2tChIizKtHFKzSMHPFIqsyie4TVEusXUHYHu0=;
- b=JrkG/it9EeM7frjETcmcPhEfespsTaCtd/uL09MJ/74gxkpz2QqcNNYwPEquH0CjyG
- XLoaCiVckCDPVlo8A3mTZWAHHl3qT+Hj8VjzRJoWG5BSCuU17Ap3sNyqOe7uEFxJ0vkA
- yZoWW8OewjYiryvCk5i2K2t7czBY+slHQFFgWT+aGRP0eogO1zHJHfvy5e8CWjwm+8t3
- xzbiuj688mRweqqbJbg0VVqwIEHnDF7rF2hxKipCZ702UZnfVxs51ECqsi5GFb2HVqt2
- BWkJ3ERjze4GJu/RrOwzPmPk3vlbx73b2NvIE3x4Obmlw4IjjGWESKWl2ahLTifY7d6W
- bx9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=wEhzjJ2tChIizKtHFKzSMHPFIqsyie4TVEusXUHYHu0=;
- b=zWGHyzzz6uIseS4hgmaoC8C9kbwj0L/Pg+ZrLTcbAwJXm0qa+D3s3it4PPiQh3NEUv
- hJp7HEAWuTxlmkQAsSXBmy+UUTRKcKHIWWvg3DU3gEQak4zCbbK6M7+GRdKUYlMt3RSo
- AkYkiEoUP/jIW0a7JAThA7IHEeUM1g1oyIC389gCFGlAO36MEI9rMr7zIslKBh1IsfBv
- hGvSol8853s9z3s3UBtWnWMFpV+B1uhKeRnv5yzruEc86MIybH3luhlVFr36GGh8cA12
- mAgRzn/piBV5zehs0JD6q9eXmHg81oiPj0E2Teu/0r74lTEZ/2qCD+ooli2Pte63HZIM
- dW3g==
-X-Gm-Message-State: AOAM532vCghxexeEa7fV6gey5r8voOfXhb44ZNhlkgbX8bpjEGpFkQMK
- V0H8c5i6PfuGHeOhmixJL9OGJ8sh1z6hrA==
-X-Google-Smtp-Source: ABdhPJzclwEFG9ZqibFgs558cyZTbCUsuOyYg3NTI5kpEaNspt4MHciqXXbG4tFFI6QXnlVaDuJb8g==
-X-Received: by 2002:a05:6122:214e:: with SMTP id
- m14mr97974972vkd.19.1637346181109; 
- Fri, 19 Nov 2021 10:23:01 -0800 (PST)
-Received: from rekt.ibmuc.com ([152.250.208.89])
- by smtp.gmail.com with ESMTPSA id x142sm339871vsx.15.2021.11.19.10.22.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 10:23:00 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.0 v7 10/10] target/ppc/excp_helper.c: EBB handling
- adjustments
-Date: Fri, 19 Nov 2021 15:22:16 -0300
-Message-Id: <20211119182216.628676-11-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211119182216.628676-1-danielhb413@gmail.com>
-References: <20211119182216.628676-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mo8Xz-0005p3-Lq
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 13:23:41 -0500
+Received: from [2001:738:2001:2001::2001] (port=39696 helo=zero.eik.bme.hu)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mo8Xw-0001up-Os
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 13:23:38 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 4871D75603A;
+ Fri, 19 Nov 2021 19:23:35 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 23732755FE6; Fri, 19 Nov 2021 19:23:35 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 21993755F74;
+ Fri, 19 Nov 2021 19:23:35 +0100 (CET)
+Date: Fri, 19 Nov 2021 19:23:35 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH-for-7.0 2/5] hw/display/vga-mmio: Inline vga_mm_init()
+In-Reply-To: <e414c4b-11b-86d7-0b3-5f937db07f49@eik.bme.hu>
+Message-ID: <f78126db-9533-2796-4ead-6d4e60cce2dd@eik.bme.hu>
+References: <20211119171202.458919-1-f4bug@amsat.org>
+ <20211119171202.458919-3-f4bug@amsat.org>
+ <e414c4b-11b-86d7-0b3-5f937db07f49@eik.bme.hu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a35
+Content-Type: multipart/mixed;
+ boundary="3866299591-1362958849-1637346215=:35384"
+X-Spam-Probability: 9%
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a35;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa35.google.com
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,86 +61,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current logic is only considering event-based exceptions triggered
-by the performance monitor. This is true now, but we might want to add
-support for external event-based exceptions in the future.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Let's make it a bit easier to do so by adding the bit logic that would
-happen in case we were dealing with an external event-based exception.
+--3866299591-1362958849-1637346215=:35384
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-While we're at it, add a few comments explaining why we're setting and
-clearing BESCR bits.
+On Fri, 19 Nov 2021, BALATON Zoltan wrote:
+> On Fri, 19 Nov 2021, Philippe Mathieu-Daudé wrote:
+>> Inline vga_mm_init() in vga_mmio_init() to simplify the
+>> next patch review. Kind of.
+>> 
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>> hw/display/vga-mmio.c | 27 ++++++++++-----------------
+>> 1 file changed, 10 insertions(+), 17 deletions(-)
+>> 
+>> diff --git a/hw/display/vga-mmio.c b/hw/display/vga-mmio.c
+>> index 8aaf44e7b1d..0aefbcf53a0 100644
+>> --- a/hw/display/vga-mmio.c
+>> +++ b/hw/display/vga-mmio.c
+>> @@ -65,12 +65,19 @@ static const MemoryRegionOps vga_mm_ctrl_ops = {
+>>     .endianness = DEVICE_NATIVE_ENDIAN,
+>> };
+>> 
+>> -static void vga_mm_init(VGAMmioState *s, hwaddr vram_base,
+>> -                        hwaddr ctrl_base, int it_shift,
+>> -                        MemoryRegion *address_space)
+>> +int vga_mmio_init(hwaddr vram_base,
+>> +                    hwaddr ctrl_base, int it_shift,
+>> +                    MemoryRegion *address_space)
+>
+> Indentation? (But it's removed later so does not really matter.)
+>
+>> {
+>> +    VGAMmioState *s;
+>>     MemoryRegion *s_ioport_ctrl, *vga_io_memory;
+>> 
+>> +    s = g_malloc0(sizeof(*s));
+>> +
+>> +    s->vga.vram_size_mb = VGA_RAM_SIZE / MiB;
+>> +    s->vga.global_vmstate = true;
+>> +    vga_common_init(&s->vga, NULL);
+>> +
+>>     s->it_shift = it_shift;
+>>     s_ioport_ctrl = g_malloc(sizeof(*s_ioport_ctrl));
+>>     memory_region_init_io(s_ioport_ctrl, NULL, &vga_mm_ctrl_ops, s,
+>> @@ -89,20 +96,6 @@ static void vga_mm_init(VGAMmioState *s, hwaddr 
+>> vram_base,
+>>     memory_region_add_subregion(address_space,
+>>                                 vram_base + 0x000a0000, vga_io_memory);
+>>     memory_region_set_coalescing(vga_io_memory);
+>> -}
+>> -
+>> -int vga_mmio_init(hwaddr vram_base,
+>> -                    hwaddr ctrl_base, int it_shift,
+>> -                    MemoryRegion *address_space)
+>> -{
+>> -    VGAMmioState *s;
+>> -
+>> -    s = g_malloc0(sizeof(*s));
+>> -
+>> -    s->vga.vram_size_mb = VGA_RAM_SIZE / MiB;
+>> -    s->vga.global_vmstate = true;
+>> -    vga_common_init(&s->vga, NULL);
+>> -    vga_mm_init(s, vram_base, ctrl_base, it_shift, address_space);
+>
+> Where did this vga_mm_init() go?
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- target/ppc/excp_helper.c | 45 ++++++++++++++++++++++++++++++++++------
- 1 file changed, 39 insertions(+), 6 deletions(-)
+Sorry, this is what's being inlined... So I mean
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index a26d266fe6..42e2fee9c8 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -801,14 +801,47 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-         break;
-     case POWERPC_EXCP_EBB:       /* Event-based branch exception             */
-         if ((env->spr[SPR_FSCR] & (1ull << FSCR_EBB)) &&
--            (env->spr[SPR_BESCR] & BESCR_GE) &&
--            (env->spr[SPR_BESCR] & BESCR_PME)) {
-+            (env->spr[SPR_BESCR] & BESCR_GE)) {
-             target_ulong nip;
- 
--            env->spr[SPR_BESCR] &= ~BESCR_GE;   /* Clear GE */
--            env->spr[SPR_BESCR] |= BESCR_PMEO;  /* Set PMEO */
--            env->spr[SPR_EBBRR] = env->nip;     /* Save NIP for rfebb insn */
--            nip = env->spr[SPR_EBBHR];          /* EBB handler */
-+            /*
-+             * If we have Performance Monitor Event-Based exception
-+             * enabled (BESCR_PME) and a Performance Monitor alert
-+             * occurred (MMCR0_PMAO), clear BESCR_PME and set BESCR_PMEO
-+             * (Performance Monitor Event-Based Exception Occurred).
-+             *
-+             * Software is responsible for clearing both BESCR_PMEO and
-+             * MMCR0_PMAO after the event has been handled.
-+             */
-+            if ((env->spr[SPR_BESCR] & BESCR_PME) &&
-+                (env->spr[SPR_POWER_MMCR0] & MMCR0_PMAO)) {
-+                env->spr[SPR_BESCR] &= ~BESCR_PME;
-+                env->spr[SPR_BESCR] |= BESCR_PMEO;
-+            }
-+
-+            /*
-+             * In the case of External Event-Based exceptions, do a
-+             * similar logic with BESCR_EE and BESCR_EEO. BESCR_EEO must
-+             * also be cleared by software.
-+             *
-+             * PowerISA 3.1 considers that we'll not have BESCR_PMEO and
-+             * BESCR_EEO set at the same time. We can check for BESCR_PMEO
-+             * being not set in step above to see if this exception was
-+             * trigged by an external event.
-+             */
-+            if (env->spr[SPR_BESCR] & BESCR_EE &&
-+                !(env->spr[SPR_BESCR] & BESCR_PMEO)) {
-+                env->spr[SPR_BESCR] &= ~BESCR_EE;
-+                env->spr[SPR_BESCR] |= BESCR_EEO;
-+            }
-+
-+            /*
-+             * Clear BESCR_GE, save NIP for 'rfebb' and point the
-+             * execution to the event handler (SPR_EBBHR) address.
-+             */
-+            env->spr[SPR_BESCR] &= ~BESCR_GE;
-+            env->spr[SPR_EBBRR] = env->nip;
-+            nip = env->spr[SPR_EBBHR];
-             powerpc_set_excp_state(cpu, nip, env->msr);
-         }
-         /*
--- 
-2.31.1
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 
+> Regards,
+> BALATON Zoltan
+>
+>>     s->vga.con = graphic_console_init(NULL, 0, s->vga.hw_ops, s);
+>> 
+>
+--3866299591-1362958849-1637346215=:35384--
 
