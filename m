@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EBA3456C2E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 10:16:47 +0100 (CET)
-Received: from localhost ([::1]:55876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16590456C37
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 10:19:21 +0100 (CET)
+Received: from localhost ([::1]:33872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo00k-0002xX-EW
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 04:16:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60674)
+	id 1mo03E-0007W6-7C
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 04:19:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mnztB-0003z9-Oa
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:08:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36192)
+ id 1mnztY-0004Vu-4X
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:09:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mnzt9-0003rW-7E
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:08:56 -0500
+ id 1mnztV-0003tl-WC
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:09:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637312934;
+ s=mimecast20190719; t=1637312957;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UPYKx9uhzqpV56MxW183OXn607XHAZablOEesagsGDs=;
- b=delo6M7yG0OJ3kSbp4hjePEbBfhWLJIhPktguIC1m0mwkRGaRW4d5bMm8zt2QjnaroxWEn
- RfHqMCzvCcz/WTnCt6IY9UimLEWnYHBXXI/4gkrvtlV0DLLbsdW/967ZWgiyaoO5jYV8cP
- wHwZIN7abD7F7FsCHy0hVAuRzblHwMo=
+ bh=EocQ4KUZF6qnZeGCQI3/6edVKmrKAfowhRq9ao3tx9g=;
+ b=PLCsPZ8gBfAepT+WP5ueCSfjdQ9xsLZvFbfPt0Nvar+LLzkk0/t4J0oF8oFk8kgtePucxy
+ viOTYeHBTI8QSTzoT+33n6syC8vN0qhNpfZpeV4wpycLzBct/1Zphi3Dq06yfz/VmxFirG
+ eBn0trpnoJsow6xh2fMZKwVpOaxm9Hc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-Kjwvx1lgPROhZSsKQkkuSw-1; Fri, 19 Nov 2021 04:08:51 -0500
-X-MC-Unique: Kjwvx1lgPROhZSsKQkkuSw-1
+ us-mta-468-jPq6fYT4OfG00q37YJIXWQ-1; Fri, 19 Nov 2021 04:09:14 -0500
+X-MC-Unique: jPq6fYT4OfG00q37YJIXWQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6737C1023F5A;
- Fri, 19 Nov 2021 09:08:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 454F21023F4E;
+ Fri, 19 Nov 2021 09:09:13 +0000 (UTC)
 Received: from thinkpad.redhat.com (unknown [10.39.194.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B8A35D740;
- Fri, 19 Nov 2021 09:08:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C66E862A41;
+ Fri, 19 Nov 2021 09:08:50 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 3/4] failover: fix unplug pending detection
-Date: Fri, 19 Nov 2021 10:07:17 +0100
-Message-Id: <20211119090718.440793-4-lvivier@redhat.com>
+Subject: [PATCH v5 4/4] tests/libqtest: update virtio-net failover test
+Date: Fri, 19 Nov 2021 10:07:18 +0100
+Message-Id: <20211119090718.440793-5-lvivier@redhat.com>
 In-Reply-To: <20211119090718.440793-1-lvivier@redhat.com>
 References: <20211119090718.440793-1-lvivier@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -88,79 +88,48 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Failover needs to detect the end of the PCI unplug to start migration
-after the VFIO card has been unplugged.
-
-To do that, a flag is set in pcie_cap_slot_unplug_request_cb() and reset in
-pcie_unplug_device().
-
-But since
-    17858a169508 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35")
-we have switched to ACPI unplug and these functions are not called anymore
-and the flag not set. So failover migration is not able to detect if card
-is really unplugged and acts as it's done as soon as it's started. So it
-doesn't wait the end of the unplug to start the migration. We don't see any
-problem when we test that because ACPI unplug is faster than PCIe native
-hotplug and when the migration really starts the unplug operation is
-already done.
-
-See c000a9bd06ea ("pci: mark device having guest unplug request pending")
-    a99c4da9fc2a ("pci: mark devices partially unplugged")
+Update the migration test to check we correctly wait the end
+of the card unplug before doing the migration.
 
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
 ---
- hw/acpi/pcihp.c | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
+ tests/qtest/virtio-net-failover.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index f610a25d2ef9..30405b5113d7 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -222,9 +222,27 @@ static void acpi_pcihp_eject_slot(AcpiPciHpState *s, unsigned bsel, unsigned slo
-         PCIDevice *dev = PCI_DEVICE(qdev);
-         if (PCI_SLOT(dev->devfn) == slot) {
-             if (!acpi_pcihp_pc_no_hotplug(s, dev)) {
--                hotplug_ctrl = qdev_get_hotplug_handler(qdev);
--                hotplug_handler_unplug(hotplug_ctrl, qdev, &error_abort);
--                object_unparent(OBJECT(qdev));
-+                /*
-+                 * partially_hotplugged is used by virtio-net failover:
-+                 * failover has asked the guest OS to unplug the device
-+                 * but we need to keep some references to the device
-+                 * to be able to plug it back in case of failure so
-+                 * we don't execute hotplug_handler_unplug().
-+                 */
-+                if (dev->partially_hotplugged) {
-+                    /*
-+                     * pending_deleted_event is set to true when
-+                     * virtio-net failover asks to unplug the device,
-+                     * and set to false here when the operation is done
-+                     * This is used by the migration loop to detect the
-+                     * end of the operation and really start the migration.
-+                     */
-+                    qdev->pending_deleted_event = false;
-+                } else {
-+                    hotplug_ctrl = qdev_get_hotplug_handler(qdev);
-+                    hotplug_handler_unplug(hotplug_ctrl, qdev, &error_abort);
-+                    object_unparent(OBJECT(qdev));
-+                }
-             }
-         }
-     }
-@@ -396,6 +414,12 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-         return;
-     }
+diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
+index 11fa0b21f8bf..9a81133154d6 100644
+--- a/tests/qtest/virtio-net-failover.c
++++ b/tests/qtest/virtio-net-failover.c
+@@ -541,6 +541,29 @@ static void test_outmigrate(gconstpointer opaque)
  
-+    /*
-+     * pending_deleted_event is used by virtio-net failover to detect the
-+     * end of the unplug operation, the flag is set to false in
-+     * acpi_pcihp_eject_slot() when the operation is completed.
-+     */
-+    pdev->qdev.pending_deleted_event = true;
-     s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
-     acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
- }
+     qobject_unref(resp);
+ 
++    /* wait the end of the migration setup phase */
++    while (true) {
++        const gchar *status;
++
++        ret = migrate_status(qts);
++
++        status = qdict_get_str(ret, "status");
++        if (strcmp(status, "wait-unplug") == 0) {
++            break;
++        }
++
++        /* The migration must not start if the card is not ejected */
++        g_assert_cmpstr(status, !=, "active");
++        g_assert_cmpstr(status, !=, "completed");
++        g_assert_cmpstr(status, !=, "failed");
++        g_assert_cmpstr(status, !=, "cancelling");
++        g_assert_cmpstr(status, !=, "cancelled");
++
++        qobject_unref(ret);
++    }
++    qobject_unref(ret);
++
++    /* OS unplugs the cards, QEMU can move from wait-unplug state */
+     qtest_outl(qts, ACPI_PCIHP_ADDR_ICH9 + PCI_EJ_BASE, 1);
+ 
+     qtest_qmp_eventwait(qts, "STOP");
 -- 
 2.33.1
 
