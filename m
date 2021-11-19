@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2C745712D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 15:50:50 +0100 (CET)
-Received: from localhost ([::1]:57888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1369245712E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 15:51:08 +0100 (CET)
+Received: from localhost ([::1]:57918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo5E1-0000er-I1
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 09:50:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48092)
+	id 1mo5EJ-0000g7-1o
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 09:51:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mo59A-0002hh-7i
+ id 1mo59A-0002hi-8V
  for qemu-devel@nongnu.org; Fri, 19 Nov 2021 09:45:49 -0500
-Received: from [2a00:1450:4864:20::52d] (port=37671
- helo=mail-ed1-x52d.google.com)
+Received: from [2a00:1450:4864:20::52a] (port=39760
+ helo=mail-ed1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mo597-0003a8-C4
+ id 1mo597-0003aI-Bf
  for qemu-devel@nongnu.org; Fri, 19 Nov 2021 09:45:47 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id e3so43703654edu.4
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 06:45:43 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id w1so43683096edc.6
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 06:45:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JQKZ9bRtqSvHpNaLNoc+FaaQORBxNiFocmVVGQINbJ4=;
- b=h1pXpsUm9vhjIWkXu1cPvKosFlP6v1VI6cfKf60PpoAsELLioV+ybgRHGr65Uxpa6F
- Mqn+PSL77zZxqiczdb390GUKWEwLZ4dP2v1bn6MaJqKCbQa8j4S0m6xhw6jmWwd7AZII
- p+oYqZUEVbmmpXfyddCv9p8OEF6GJAecOcMDr4ciXblCUwFSs5RhMcxXScYQ6V1y28nr
- 03rRs/PMg9D5ZwQQP1ehWowziyDoRIt5sHRfAODVgcYcaZcOMgxEalLaCjfr1zbNTFTS
- 2ebo2jcfu9t8sjU1IhosB3w6yw1Aemb4Dep1SsJ4BEWwXQdkvmmTpZJswFOYrVhhgwkT
- C8fA==
+ bh=nTBeiSYtfqyKgwXrCNwHRY5u4tXc9JC5JK/7Z1LztnA=;
+ b=H4jAPEjV3eRHVc8Ij5FgmqTqjjDNjH6ZJ+ypH1FCXYlcncGbrX63IiNx3v69d3CN2N
+ L+hqRNoy2c44Bhn8fh6gU06eMGyQZUUqeM+KKSEOZC7LD5HKiqwyzEfDlJKVjxwtKICz
+ BsAMFtLqEYql1TBmX9YmuDtXsTLTHakoUXJed9Jwq9RuOIBBCOKy3ffGj2s+/YUmZKFS
+ z8qIEsbxiPdYPKgfNgOjkLb4yGejJo/hGYZruV3+zVHqGLDl7wSxxanb+ESTaqowGt4d
+ 87aznfwn94pV0jXXJCRdySjgvde4b57E6OGXuopxFfRu7FSGe7Lfi0HHTa9u7pDAfG+E
+ p9Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JQKZ9bRtqSvHpNaLNoc+FaaQORBxNiFocmVVGQINbJ4=;
- b=OeQ9kKSiLWjhG73tmlVqrqCR9iW14DVE6o8ExGSDllmQK/m5C52o0topzPKC2q50u7
- 2goiSJAlr5Z1tHEfivWIGYSktbpYurweFCn6D6GpsvjUtmgyjXCV8nXzS824sVB22iv6
- XUA1oDXFK1VBQEBOqkbBLyVAaQjTQGwS09H/X5vSHgzsZpA+uYkmkuaZS6KUT9cUgXee
- 8WcNKkgAE4Vh7cq3L83cuIYjPz6Z92NSkwQoYRiEiE7eg4C0dJHEL0J4GHq2tCR9gfIS
- 5RJCe5XuA86nnzMBZ4t/CbufMG4QKVFqyHE0ACUcCM4FnUKhqsjidjZpPajO06lAsTo0
- aFvA==
-X-Gm-Message-State: AOAM532Ux06Hib167mAOB6qhKbpD3tzlYazoxeysMxmifchqNmDW5d6q
- IJTydATWW6KxW7WKcUy5ZN2/nkcs2E4=
-X-Google-Smtp-Source: ABdhPJxceXjuqxfcU2K/ftzWRspg5fzOSokNA8fjiOsQNvNPGh6WlkUrFoE3FH3+1RxgCvlY+gwKQw==
-X-Received: by 2002:a17:907:8a1b:: with SMTP id
- sc27mr8630830ejc.572.1637333142744; 
- Fri, 19 Nov 2021 06:45:42 -0800 (PST)
+ bh=nTBeiSYtfqyKgwXrCNwHRY5u4tXc9JC5JK/7Z1LztnA=;
+ b=ZuEnEJ6rDnhg94uZUfPpddQ+sqiKDuyAVRMMTeSUEfyrJjs6PmTc+udG+qusoR3bza
+ D3V90n8+czuHEXLYhmxAiuU6CW/yMFXFOv213aV5kKkEgOxWDX+Vm9KOpQ4gMY89tVw9
+ UNrD3L7ZkEWj9Nymf1URKZrYw9K7BYzUHrZ++CdKAxT2h5Kg7OlmWj/ZKyfrOq5E7Y4o
+ KAGa6bZ2hYUNUTAwICz1kIb/l/uMYkOaFpkj+etbUdYRjvcST1jbzewGkmBuKI8WernS
+ UNbVAFZDk1SSX7mh4IOoFDLHFnpDPJUBftSc8ZVI6DOCMZE5mph4d0PC0VAmDcCgvtWC
+ 01pg==
+X-Gm-Message-State: AOAM5308zaHijntRCZ+Mq/QLLjcXtD9J63WgKo01Wv4REZEhAmu+N7kq
+ F7E4TeAfRcymrnmflLf5btdb4aweSOY=
+X-Google-Smtp-Source: ABdhPJwsom5Mzn6IMmeUwhBLyXxJ89rFG/DmemOKM2q2mX4djZ28Dhig7nUeySfE6ushY59zgQFjAg==
+X-Received: by 2002:a17:906:4fc5:: with SMTP id
+ i5mr8765415ejw.475.1637333143449; 
+ Fri, 19 Nov 2021 06:45:43 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id z25sm26934ejd.80.2021.11.19.06.45.41
+ by smtp.gmail.com with ESMTPSA id z25sm26934ejd.80.2021.11.19.06.45.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 06:45:42 -0800 (PST)
+ Fri, 19 Nov 2021 06:45:43 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/7] esp: ensure that async_len is reset to 0 during
- esp_hard_reset()
-Date: Fri, 19 Nov 2021 15:45:35 +0100
-Message-Id: <20211119144539.285740-4-pbonzini@redhat.com>
+Subject: [PULL 4/7] qtest/am53c974-test: add test for reset before transfer
+Date: Fri, 19 Nov 2021 15:45:36 +0100
+Message-Id: <20211119144539.285740-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211119144539.285740-1-pbonzini@redhat.com>
 References: <20211119144539.285740-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,39 +87,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-If a reset command is sent after data has been transferred into the SCSI buffer
-ensure that async_len is reset to 0. Otherwise a subsequent TI command assumes
-the SCSI buffer contains data to be transferred to the device causing it to
-dereference the stale async_buf pointer.
+Based upon the qtest reproducer posted to Gitlab issue #724 at
+https://gitlab.com/qemu-project/qemu/-/issues/724.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Fixes: https://gitlab.com/qemu-project/qemu/-/issues/724
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20211118100327.29061-2-mark.cave-ayland@ilande.co.uk>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20211118100327.29061-3-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/esp.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qtest/am53c974-test.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 84f935b549..58d0edbd56 100644
---- a/hw/scsi/esp.c
-+++ b/hw/scsi/esp.c
-@@ -894,6 +894,7 @@ void esp_hard_reset(ESPState *s)
-     memset(s->wregs, 0, ESP_REGS);
-     s->tchi_written = 0;
-     s->ti_size = 0;
-+    s->async_len = 0;
-     fifo8_reset(&s->fifo);
-     fifo8_reset(&s->cmdfifo);
-     s->dma = 0;
+diff --git a/tests/qtest/am53c974-test.c b/tests/qtest/am53c974-test.c
+index 9b1e4211bd..d214a912b3 100644
+--- a/tests/qtest/am53c974-test.c
++++ b/tests/qtest/am53c974-test.c
+@@ -223,6 +223,34 @@ static void test_inflight_cancel_ok(void)
+     qtest_quit(s);
+ }
+ 
++static void test_reset_before_transfer_ok(void)
++{
++    QTestState *s = qtest_init(
++        "-device am53c974,id=scsi "
++        "-device scsi-hd,drive=disk0 -drive "
++        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
++
++    qtest_outl(s, 0xcf8, 0x80001010);
++    qtest_outl(s, 0xcfc, 0xc000);
++    qtest_outl(s, 0xcf8, 0x80001004);
++    qtest_outw(s, 0xcfc, 0x01);
++    qtest_outl(s, 0xc007, 0x2500);
++    qtest_outl(s, 0xc00a, 0x410000);
++    qtest_outl(s, 0xc00a, 0x410000);
++    qtest_outw(s, 0xc00b, 0x0200);
++    qtest_outw(s, 0xc040, 0x03);
++    qtest_outw(s, 0xc009, 0x00);
++    qtest_outw(s, 0xc00b, 0x00);
++    qtest_outw(s, 0xc009, 0x00);
++    qtest_outw(s, 0xc00b, 0x00);
++    qtest_outw(s, 0xc009, 0x00);
++    qtest_outw(s, 0xc003, 0x1000);
++    qtest_outw(s, 0xc00b, 0x1000);
++    qtest_outl(s, 0xc00b, 0x9000);
++    qtest_outw(s, 0xc00b, 0x1000);
++    qtest_quit(s);
++}
++
+ int main(int argc, char **argv)
+ {
+     const char *arch = qtest_get_arch();
+@@ -248,6 +276,8 @@ int main(int argc, char **argv)
+                        test_cancelled_request_ok);
+         qtest_add_func("am53c974/test_inflight_cancel_ok",
+                        test_inflight_cancel_ok);
++        qtest_add_func("am53c974/test_reset_before_transfer_ok",
++                       test_reset_before_transfer_ok);
+     }
+ 
+     return g_test_run();
 -- 
 2.33.1
 
