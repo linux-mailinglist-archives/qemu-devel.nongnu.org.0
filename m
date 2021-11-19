@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78CB44572F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:29:43 +0100 (CET)
-Received: from localhost ([::1]:60688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B8B94572D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:25:05 +0100 (CET)
+Received: from localhost ([::1]:48730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo6li-0000Pw-K5
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:29:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44266)
+	id 1mo6hE-0000FM-Nw
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:25:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mo6Ov-0006WP-3M
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:06:09 -0500
-Received: from [2a00:1450:4864:20::335] (port=33382
- helo=mail-wm1-x335.google.com)
+ id 1mo6Ow-0006dq-Rc
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:06:10 -0500
+Received: from [2a00:1450:4864:20::430] (port=37448
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mo6Ot-0004TO-KY
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:06:08 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- r9-20020a7bc089000000b00332f4abf43fso8029413wmh.0
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:06:07 -0800 (PST)
+ id 1mo6Ov-0004U0-96
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:06:10 -0500
+Received: by mail-wr1-x430.google.com with SMTP id b12so18965838wrh.4
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:06:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hJYMrWgBLbvrLnER5gqNxXtDWmn4A7cBf68IZ0GsqMY=;
- b=xHBjhQiyR0UT3bi8zLicgY6s95KFyObAnKUjDDjYFJCbfNvnKJ51NmCNIMQL4TrySX
- B8baOTtXMO9KX04nXASzK+AWNq8uo+IVPXZLktTTQmpKgFS+5TFg+XQ6yS9+QP7LutqF
- YS7VrASDGRiA85/bHzDbYOorezCSazgyZTTNr0/pi8ONnpcNjgo5ODJbNAWGKyic120D
- L7WGrPLEtjzzyW/cHKJh3YSlhAk3P+ywFvaey22bgsgUZE0TUFxdLMU0ZTb60pUKkt9Z
- 9GV4q99JyBJzI/h6A1x13Eytkxxn3tqE/caZUcMEp+pwTr9/+csg/T7ERA3tYUEov4/A
- snpw==
+ bh=/fq8YVZ41y2m63Xbs624QcT/491tkKkPk8MVBVrP9XU=;
+ b=L20IbaCSCw2joaYjiV86ERzsKPG66sNPl0PMblYgPd42h8nBoLlG10lQTURLUkCoad
+ pQG6ikhqoEfqZyMI06BNcndCaeJ4i3p/icMTI2wOjJC+YRCVZUCooXhO8DdwYjqv3k0t
+ 7ZycddbrFt7eFxYjKyZtTFX3iFFVuN9aOlWub1A6oelEMcQB4db/m90fZr2nNMgZG/HS
+ 68VxHyjN1FHXbw5MQ6kcETN1Omj2xObzYfWWPDYfMzUwHT/Z3oTi48Jwwo+AiE8gqMYm
+ zUT6v5EWf+wQL+cD2U3hLdGnJ6c2Vh+SsKXND0SwT7wlhsTz7HWe+/KBxXInQ53xy7Hd
+ rbFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hJYMrWgBLbvrLnER5gqNxXtDWmn4A7cBf68IZ0GsqMY=;
- b=j2VIAAbx2HvkV6fd3VAmDwvvl/bnJejaW99ygb3t2MV9TPvCUYr56dw5LmzX64heoD
- bGKkkxQwccwCdj3pZZklWbgh6Yf0j/6p+baIN2wIHCMc8Dvg1ZOgGjARL5oyQjCMODb/
- 9pSpB2lRHOGW2rM/AI/BY68qacSD5L+EfneLbXdHRQtw6EEwqyb4gToZWrI/ay0XwLZe
- 9drYxG/AMkpKSIgrMiPP1ryWgBpLLwwzLABcHzRWFnCxTEnapKa0Q6E4QzEAUstqhHaa
- URFxRlQUeePndXPLQ24lNDOr/gGHnKYDNVhWkMH1NkBB+m9SkOcL6xhhy/ktUJ7l5qBP
- QOUA==
-X-Gm-Message-State: AOAM533M88vim29P9c8yyf8lw3f9A+FCBmJ+rViD/ePQRswZbECl5qst
- AuGHNw5kwlg4UZHHyh5B3iRdsP+k3gmrxNZkgI0=
-X-Google-Smtp-Source: ABdhPJwsEOK1xyOlH3Riu6GP97cAQnptiCiUM7p8aZlvkIKh3SczdfKevcuPqpQuCbMFlF39wvf3mA==
-X-Received: by 2002:a05:600c:1e06:: with SMTP id
- ay6mr979917wmb.64.1637337966209; 
- Fri, 19 Nov 2021 08:06:06 -0800 (PST)
+ bh=/fq8YVZ41y2m63Xbs624QcT/491tkKkPk8MVBVrP9XU=;
+ b=q0tKUGOhSliIHqnejgmmR7kNqKaOlyoZ6FYgz1mKiWKEqV6MMZBgzu70YXWihhLcxZ
+ eU2a/hNVRCUpcmhuEPTw8ILcj0fkMHSvZJVOGyyppA+zuU/GQ2H05f2Su4qI8ozmRjWU
+ uFldjFkca7/vYC5FntJ7+gnRRPiRrwKEcdGdTvRonwvCeKGruMhMsBbqwJqtm7hs0OSH
+ 3t0FAgBPvLq6THqOpv3I0wHwi3zYeeV5uuXMwCuht/LrWClTYGQ7z+1G/CjSZg4lBDXS
+ 5iDDbV1GO+mxz+WalEC5NUF9JFAlVj93XQiNALYMlIkjNvCFuaGCsGeyJ/7JGBUQgzug
+ tbgg==
+X-Gm-Message-State: AOAM531BxFlVV4veae33Tw8vgzuFFalSm3JcMgAtI2HvLpwCSx1rHhxY
+ vqJqWrEE6vgFfxLo+Mqv9xl1yFeN2Vym1+Y2pDE=
+X-Google-Smtp-Source: ABdhPJyo+lcqfCGx4teRNFTeC5DfMyd0Xh52owo9N7A6GYn8QBGTR4xv0nYtesR1EJ+v7Rn18rbXfw==
+X-Received: by 2002:adf:e882:: with SMTP id d2mr8748452wrm.389.1637337967756; 
+ Fri, 19 Nov 2021 08:06:07 -0800 (PST)
 Received: from localhost.localdomain
  (165.red-37-158-79.dynamicip.rima-tde.net. [37.158.79.165])
- by smtp.gmail.com with ESMTPSA id q84sm14044877wme.3.2021.11.19.08.06.04
+ by smtp.gmail.com with ESMTPSA id q84sm14044877wme.3.2021.11.19.08.06.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 08:06:05 -0800 (PST)
+ Fri, 19 Nov 2021 08:06:07 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 25/35] target/ppc: Update xsrqpi and xsrqpxp to new flags
-Date: Fri, 19 Nov 2021 17:04:52 +0100
-Message-Id: <20211119160502.17432-26-richard.henderson@linaro.org>
+Subject: [PATCH 26/35] target/ppc: Update fre to new flags
+Date: Fri, 19 Nov 2021 17:04:53 +0100
+Message-Id: <20211119160502.17432-27-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211119160502.17432-1-richard.henderson@linaro.org>
 References: <20211119160502.17432-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -98,42 +96,42 @@ the snan-ness of the operand.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/fpu_helper.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ target/ppc/fpu_helper.c | 21 ++++++++-------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index f17d5a1af1..f46d529f04 100644
+index f46d529f04..7b4407e189 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -3090,11 +3090,8 @@ void helper_xsrqpi(CPUPPCState *env, uint32_t opcode,
-     t.f128 = float128_round_to_int(xb->f128, &tstat);
-     env->fp_status.float_exception_flags |= tstat.float_exception_flags;
+@@ -717,20 +717,15 @@ float64 helper_fre(CPUPPCState *env, float64 arg)
+ {
+     /* "Estimate" the reciprocal with actual division.  */
+     float64 ret = float64_div(float64_one, arg, &env->fp_status);
+-    int status = get_float_exception_flags(&env->fp_status);
++    int flags = get_float_exception_flags(&env->fp_status);
  
--    if (unlikely(tstat.float_exception_flags & float_flag_invalid)) {
--        if (float128_is_signaling_nan(xb->f128, &tstat)) {
--            float_invalid_op_vxsnan(env, GETPC());
--            t.f128 = float128_snan_to_qnan(t.f128);
+-    if (unlikely(status)) {
+-        if (status & float_flag_invalid) {
+-            if (float64_is_signaling_nan(arg, &env->fp_status)) {
+-                /* sNaN reciprocal */
+-                float_invalid_op_vxsnan(env, GETPC());
+-            }
 -        }
-+    if (unlikely(tstat.float_exception_flags & float_flag_invalid_snan)) {
+-        if (status & float_flag_divbyzero) {
+-            float_zero_divide_excp(env, GETPC());
+-            /* For FPSCR.ZE == 0, the result is 1/2.  */
+-            ret = float64_set_sign(float64_half, float64_is_neg(arg));
+-        }
++    if (unlikely(flags & float_flag_invalid_snan)) {
 +        float_invalid_op_vxsnan(env, GETPC());
++    }
++    if (unlikely(flags & float_flag_divbyzero)) {
++        float_zero_divide_excp(env, GETPC());
++        /* For FPSCR.ZE == 0, the result is 1/2.  */
++        ret = float64_set_sign(float64_half, float64_is_neg(arg));
      }
  
-     if (ex == 0 && (tstat.float_exception_flags & float_flag_inexact)) {
-@@ -3148,11 +3145,9 @@ void helper_xsrqpxp(CPUPPCState *env, uint32_t opcode,
-     t.f128 = floatx80_to_float128(round_res, &tstat);
-     env->fp_status.float_exception_flags |= tstat.float_exception_flags;
- 
--    if (unlikely(tstat.float_exception_flags & float_flag_invalid)) {
--        if (float128_is_signaling_nan(xb->f128, &tstat)) {
--            float_invalid_op_vxsnan(env, GETPC());
--            t.f128 = float128_snan_to_qnan(t.f128);
--        }
-+    if (unlikely(tstat.float_exception_flags & float_flag_invalid_snan)) {
-+        float_invalid_op_vxsnan(env, GETPC());
-+        t.f128 = float128_snan_to_qnan(t.f128);
-     }
- 
-     helper_compute_fprf_float128(env, t.f128);
+     return ret;
 -- 
 2.25.1
 
