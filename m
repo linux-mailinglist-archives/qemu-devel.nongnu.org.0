@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF92D457369
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:49:20 +0100 (CET)
-Received: from localhost ([::1]:51142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B559D45734E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:43:06 +0100 (CET)
+Received: from localhost ([::1]:38108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo74h-0007Xh-I9
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:49:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45880)
+	id 1mo6yf-0006me-Rn
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:43:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mo6Si-0005Rx-7T
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:10:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29904)
+ id 1mo6bK-0005Ua-Ls
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:18:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mo6Se-00057g-Dd
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:10:02 -0500
+ id 1mo6bH-0004NI-N0
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:18:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637338199;
+ s=mimecast20190719; t=1637338734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ObiipgFLkn1KNVX+ImG0hqwb4NhoY38Bu49jh+8I19Q=;
- b=ISmhTh6IWctkkRod4Dcj+ZujoKYJM4YUcsR1+Qt3jOW7oWTz8U26L6SJd7vxqWJ+hI5bwN
- 53VbOM0JY9UPMi7TZgw3YOu8OABf6u3UYhdXTsz+Xf5AqOlAWieyFDhGvYhf6e0Aiq1em+
- EoWo2WwrF1+YlviFZxkuhLGxsXxOKAQ=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PlvVppBVudH/UEJy9S8QVuC82f8h8BZZu6Qw7PbzFO0=;
+ b=ekrKxALKhG8ykqKxqx8X58d9RzlJ3C4kPVXTcxqrOljToC1jrFz2VvJrOrBJ6SBQVw8cKA
+ x6AChuEH/GIotPW8NzikaUOoM5jR+rriEubL/59k6vW+TuSFfSZ8tu90lAtKu8FIJ3kXJt
+ uFCodOjlcee9ASAtDt4DZDwQTNW5Azk=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-121-bgMU4AHaMvCz6EBA-Tpiyg-1; Fri, 19 Nov 2021 11:09:58 -0500
-X-MC-Unique: bgMU4AHaMvCz6EBA-Tpiyg-1
-Received: by mail-pl1-f200.google.com with SMTP id
- l14-20020a170903120e00b00143cc292bc3so4754466plh.1
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:09:57 -0800 (PST)
+ us-mta-100-TWuZASCsMDWS6jLopjrYWA-1; Fri, 19 Nov 2021 11:18:53 -0500
+X-MC-Unique: TWuZASCsMDWS6jLopjrYWA-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ l7-20020a622507000000b00494608c84a4so5898309pfl.6
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:18:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ObiipgFLkn1KNVX+ImG0hqwb4NhoY38Bu49jh+8I19Q=;
- b=iLfrPpGCuDHnIVVOOSPiuxSJAi6JPLwLib2uAIUsaO+TvZ3S7iP1gHNorbBeagDbX9
- 9inOZNLAIktA/IPq3I0CeFvzWvA1u78H6y0ISOF/K7WiWN5b2SPkBDVmM9wdxOJP0Ns0
- oIoNh/XlIb50EmD5ZoKAYFUxrH/d7tdeFCIz0CeUWDrywoRgCZOy/y5tNSDzzhWWYiW9
- LLCgl/RIw3VD4F9sTHuysKoriArmj5lzloYNY31oEfHewJxKT6O1YLrZH5H+e/YeCgI9
- nrQhFGW3MXZfUZFfN2wf6f4NfakBZVlyAcJWfCLJTf4cohkonPD2IsD/wQF1QSfPYyXM
- j0Yg==
-X-Gm-Message-State: AOAM533SjncZuMx77zwFE7qnfzdmbjklSEKWMjIccnF8HFU2JaVtDG+x
- OCK5XgPWziKf2bgH4BjF1hEIzTFjwcslcKohvmEkfBXfnvawh0g23OiXU7TMzMW+1tjzIAWoW3h
- 1PlN4gFp6rcLzOJrfR358PRnhu0Vsy6s=
-X-Received: by 2002:a17:902:8645:b0:142:8c0d:3f4a with SMTP id
- y5-20020a170902864500b001428c0d3f4amr76972834plt.3.1637338196775; 
- Fri, 19 Nov 2021 08:09:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxo765hCU6CBMwkEOV7PzGhOXsUuJk1e112nv73rgYZsb+iRi+V0ZvutEi+ttiwl6wRJFRcz/FXXOtxM8GhfrU=
-X-Received: by 2002:a17:902:8645:b0:142:8c0d:3f4a with SMTP id
- y5-20020a170902864500b001428c0d3f4amr76972781plt.3.1637338196455; Fri, 19 Nov
- 2021 08:09:56 -0800 (PST)
+ bh=PlvVppBVudH/UEJy9S8QVuC82f8h8BZZu6Qw7PbzFO0=;
+ b=T7dwuQfOw7o32xGH4UuHUxkhqxVs0bbVdCDa0C5zGPDyYO+rSS4gi2UBRO9UDhw3za
+ /jh0nISQqmot+TT3dEJaKT9KGBoOIH+qlwr7bGNWtf7Ssn5C1agSTM6+VDEbQR7VmbsE
+ lBEJ2EYyPIy4l19O0J+nBOHQDDdYoFaRt4tdWDkbDnRXNF77H0dMIMQ8FQrFJLSxwBtm
+ eVAxupJji9C/UYAiMpmJXT2VtvxO00t/UdfJ4V+WEYptm4sGd9vrS6WIRGY8svRy2K+j
+ /cMrYsAqbKJoBx1heqwTLTe1bbxCvsYtz0lKnnS11N7lfDhkpLyNvcO6TiyBvlKQ8HQy
+ IapA==
+X-Gm-Message-State: AOAM531/+F9Yvuxt4U8eNk8Gp2OWcn25809Ak9K0y5hvm7KY5WOmD36b
+ IrjYzPLfWheGD5B6BFnYIs34ePrnxl5u5mzPVE6US8t6wCqk2XSFOZvC8OBIKsNS70UiHp1+M6M
+ e0xvnZJvWPHi8c0yRQJx6MSBnXIkUdRI=
+X-Received: by 2002:a17:90b:1057:: with SMTP id
+ gq23mr883264pjb.203.1637338731745; 
+ Fri, 19 Nov 2021 08:18:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx7OP3lG8BIDuvgsmg3BvHvPxHNSiSHVKnTr6+Eu5F13qS7oXzLBwpe+p1jifpASeX6FTZWqOe5NYJHSSls4e8=
+X-Received: by 2002:a17:90b:1057:: with SMTP id
+ gq23mr882532pjb.203.1637338724863; 
+ Fri, 19 Nov 2021 08:18:44 -0800 (PST)
 MIME-Version: 1.0
 References: <20211118204620.1897674-1-jsnow@redhat.com>
- <20211118204620.1897674-6-jsnow@redhat.com>
-In-Reply-To: <20211118204620.1897674-6-jsnow@redhat.com>
+ <20211118204620.1897674-8-jsnow@redhat.com>
+In-Reply-To: <20211118204620.1897674-8-jsnow@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 19 Nov 2021 13:09:30 -0300
-Message-ID: <CAKJDGDapeyB-2HAzNWrX6RumLOZvkZMkq6HAM2AiL-Fmb5BbtQ@mail.gmail.com>
-Subject: Re: [PATCH 5/7] python/machine: handle "fast" QEMU terminations
+Date: Fri, 19 Nov 2021 13:18:18 -0300
+Message-ID: <CAKJDGDb2HsHbF8M_9LDqkS+D9pP=-XvmRRw+HJBhG7J+hFvM2A@mail.gmail.com>
+Subject: Re: [PATCH 7/7] python/aqmp: fix send_fd_scm for python 3.6.x
 To: John Snow <jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,36 +97,18 @@ Cc: Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 18, 2021 at 5:49 PM John Snow <jsnow@redhat.com> wrote:
+On Thu, Nov 18, 2021 at 5:53 PM John Snow <jsnow@redhat.com> wrote:
 >
-> In the case that the QEMU process actually launches -- but then dies so
-> quickly that we can't establish a QMP connection to it -- QEMUMachine
-> currently calls _post_shutdown() assuming that it never launched the VM
-> process.
+> 3.6 doesn't play keepaway with the socket object, so we don't need to go
+> fishing for it on this version. In fact, so long as 'sendmsg' is still
+> available, it's probably preferable to just use that method and only go
+> fishing for forbidden details when we absolutely have to.
 >
-> This isn't true, though: it "merely" may have failed to establish a QMP
-> connection and the process is in the middle of its own exit path.
->
-> If we don't wait for the subprocess, the caller may get a bogus `None`
-> return for .exitcode(). This behavior was observed from
-> device-crash-test; after the switch to Async QMP, the timings were
-> changed such that it was now seemingly possible to witness the failure
-> of "vm.launch()" *prior* to the exitcode becoming available.
->
-> The semantic of the `_launched` property is changed in this
-> patch. Instead of representing the condition "launch() executed
-> successfully", it will now represent "has forked a child process
-> successfully". This way, wait() when called in the exit path won't
-> become a no-op.
-> Signed-off-by: John Snow <jsnow@redhat.com>
-
-Nitpick: double signed-off-by
-
->
+> Reported-by: Thomas Huth <thuth@redhat.com>
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/machine/machine.py | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
+>  python/qemu/aqmp/qmp_client.py | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
