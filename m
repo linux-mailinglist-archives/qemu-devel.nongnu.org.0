@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50B945686B
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 03:57:19 +0100 (CET)
-Received: from localhost ([::1]:37110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6FD845686C
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 03:58:40 +0100 (CET)
+Received: from localhost ([::1]:39550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnu5W-0000mV-GX
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 21:57:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38856)
+	id 1mnu6p-0002Sv-QE
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 21:58:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mnu3R-0008RP-GP
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 21:55:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45147)
+ id 1mnu5T-0001Hz-ER
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 21:57:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mnu3N-0000Vb-1Q
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 21:55:07 -0500
+ id 1mnu5P-0000tN-Vh
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 21:57:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637290503;
+ s=mimecast20190719; t=1637290631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+ZsQfMHUS35yAOErKVmWnS/n+rmWtfHRwB64Xghtan8=;
- b=S7Mee03lx4zCsBnsWYC7W6pHjkixuvB6U+OeRvsv507cYLe2pnH1PNPhyHWGHREcz/s/lq
- 9OdsNc2mkKPrPUvRb2lTTJZHkErhYQi6TpTeh9gjFetqoE5hlmxXruvu/N8+GGz5nChjCl
- JsgoeoP1EJc4dz1hZZFr7cO7GUtUcAs=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=n2HBkBfW7dwBePX3Lsybi27YoS+GApcfORVT9RNgXUU=;
+ b=OiLusoqjiR3ntCWgRAivz1jQALMUqDFg1zzC1nChTX/HJexKvBVwnpvTmDbS69cbaya+jg
+ T6HZFTwrSvBhBoLUx1MIT5qluU0EKnppGlZu0OAbdhrhzkZOMrGQwk6/k47ozyYYBt3CP5
+ 9RGBG0mQzEOlWulg5OIFAhDZ8w7oV4M=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-69-sCuw-oGGPpiwu2EEpFISCw-1; Thu, 18 Nov 2021 21:55:00 -0500
-X-MC-Unique: sCuw-oGGPpiwu2EEpFISCw-1
-Received: by mail-lf1-f69.google.com with SMTP id
- m2-20020a056512014200b0041042b64791so5560509lfo.6
- for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 18:54:59 -0800 (PST)
+ us-mta-453-FPm7iIehOGu-DFwtZJR0OQ-1; Thu, 18 Nov 2021 21:57:10 -0500
+X-MC-Unique: FPm7iIehOGu-DFwtZJR0OQ-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ m2-20020a056512014200b0041042b64791so5563520lfo.6
+ for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 18:57:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=+ZsQfMHUS35yAOErKVmWnS/n+rmWtfHRwB64Xghtan8=;
- b=XrVZm3sKfp5Lw4ARIBB6JXh2B7VCaLUoEYVcU62hJjaGRdIkMrl2gdu4MKupZ1bddq
- U64IixOfskCoux8IvQFLiW2CnM4p8FpvQJOgaKAKcIvDt2WdjjbgGmrebV71PlQwMAMp
- PEJT5NZ2r4alEzqedQ4/Y8amQGx/797gkcpxJunNAeUBhg+BsTBAY2/Lm7vW3n84jNQt
- CbJyhyLBz/lmZ7kb5Wqz6FtIJNTv/d2ymL8PsJOTRUeTc5K0PyAp0fUvYwnvzWghS5Rh
- Y4JnSab1B0DsOhIvclP32ZqeVqAPUE1kSpza6Zqp0TE3CgayDNCq+fzLZusgVBOYqJyy
- M8Kw==
-X-Gm-Message-State: AOAM533Me7Oha2t9YOu31fXM2DlVNYsk10zGsX8ds83MFGxlQBgtzthz
- eJV8RiScPd0ILCaYJrRHRnCaCjkCCBVGGDytJaf1Ihi8+h4fTBADBymTILZhv43QK3Nc4MS3Fdz
- QH6GF+1MgHPwr7PQxuXzXQFtNd+aQwOc=
-X-Received: by 2002:a05:6512:685:: with SMTP id
- t5mr30013835lfe.84.1637290498584; 
- Thu, 18 Nov 2021 18:54:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxBjUrBY3LAq4wiFbxz1T1YRgBa6VKvDJlwlZ+PsWRy3BUxCYr8xtjlFv/UNkeVJvXoGQjWgSW2s1/c+tnlGyQ=
-X-Received: by 2002:a05:6512:685:: with SMTP id
- t5mr30013795lfe.84.1637290498196; 
- Thu, 18 Nov 2021 18:54:58 -0800 (PST)
+ bh=n2HBkBfW7dwBePX3Lsybi27YoS+GApcfORVT9RNgXUU=;
+ b=XP93heLiWtRqoOyGl+4kj/5zp8VOYvBRgZy6BdbVeMWE3JD3nzyqaD0XFlsp5lfEr7
+ Rw/nbWbZxrj8wslGih8iD8v+a1QpctM68ghdHSBsN9vIiHPO3rhE7V9910hNYUWf7nrB
+ rMpU9kR7YjsoFnfhQPqrvF+QqI1w3RxIGMPsxa1GVzKJqPJpxO9W+5unoHsoF7FFIGyo
+ sdXl3LGYRT3hVd7U5b7qU69WJJpaUM9Tn4u8FYORMxH3SU4iBP7A2lRSbALT/SrYV5Vy
+ Bm3i2MZ6nc295z6T7lpUT/iOEZ4V03n5NV1WqP3KoBioNvLqDw9358lhk8C63fGZlrD1
+ 86Tg==
+X-Gm-Message-State: AOAM530rOPc1PDaJaWPWiAikvztxm/5rmRJdbUwYze6RZDqW2nGQgW4d
+ VZGFBsfMHCKOoqFKjAkLo147KokgcyfKIIV8RchWpB4BycUDnMpattsn745w6QxzT+v4SHekvri
+ h66m2cFmTyW31UR7iJ5Pl1q31QVKU+ew=
+X-Received: by 2002:a05:6512:3d09:: with SMTP id
+ d9mr29990728lfv.481.1637290628493; 
+ Thu, 18 Nov 2021 18:57:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxPqQqASGgbBmoFeG7DEVH9f9Xsfkd0dopoBGEzMOUVc2gvI17OsIKgaewvZxXlhiSu9zCUpu5Tl0kFoeAQs1A=
+X-Received: by 2002:a05:6512:3d09:: with SMTP id
+ d9mr29990689lfv.481.1637290628213; 
+ Thu, 18 Nov 2021 18:57:08 -0800 (PST)
 MIME-Version: 1.0
 References: <20211112091414.34223-1-yaroshchuk2000@gmail.com>
- <CACGkMEuiXy+OhGxq0aR=f0HuvFAbN427m=HL035WuJLsOsGpSg@mail.gmail.com>
- <CADO9X9Rqcn_Bg=pg=14Y=rxXV6AniPAfPTfvHW9=NrXTpjo1oQ@mail.gmail.com>
- <CACGkMEtRg6SmSYm3TH5zc-VWUSKf=n9GKtV9VbVchrE1j-osDA@mail.gmail.com>
- <CADO9X9TXGvPi6DF2gSgaM+=buJCiD-P-4_O8vPfusXG8AGYouA@mail.gmail.com>
- <CACGkMEuSV8d0Hw-SrPGhk+HkwWLhH_x_MF-q5G8quUe_W9a5gw@mail.gmail.com>
- <CADO9X9Rh1bkaPnJZvmwfpgnWB_goQGYsb+gpg5iTqL85C1dP7Q@mail.gmail.com>
-In-Reply-To: <CADO9X9Rh1bkaPnJZvmwfpgnWB_goQGYsb+gpg5iTqL85C1dP7Q@mail.gmail.com>
+ <20211112091414.34223-4-yaroshchuk2000@gmail.com>
+ <CACGkMEuFGbH0xkp1K344kkgOzKcjn+iKQtgidgFWqmYkrG0KjQ@mail.gmail.com>
+ <CADO9X9THeoddu+Uiny-Sj9z1y-eLmdC4SQqAnnan0bo4ZwsF=A@mail.gmail.com>
+In-Reply-To: <CADO9X9THeoddu+Uiny-Sj9z1y-eLmdC4SQqAnnan0bo4ZwsF=A@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 19 Nov 2021 10:54:47 +0800
-Message-ID: <CACGkMEuLxpjPLON5X08dZfxc2NvresJiR52JjW419M81FhAZvA@mail.gmail.com>
-Subject: Re: [PATCH v5 0/6] Add vmnet.framework based network backend
+Date: Fri, 19 Nov 2021 10:56:56 +0800
+Message-ID: <CACGkMEshn1W8dTV=1T2uE9bnZnRxNMFBoFW3qxMBPkApUCeSCg@mail.gmail.com>
+Subject: Re: [PATCH v5 3/6] net/vmnet: implement shared mode (vmnet-shared)
 To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
@@ -99,339 +96,553 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: phillip.ennen@gmail.com, qemu-devel <qemu-devel@nongnu.org>, "Armbruster,
- Markus" <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+Cc: phillip.ennen@gmail.com, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
  Phillip Tennen <phillip@axleos.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
  Howard Spoelstra <hsp.cat7@gmail.com>, Alessio Dionisi <hello@adns.io>,
  Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 19, 2021 at 1:42 AM Vladislav Yaroshchuk
+On Fri, Nov 19, 2021 at 1:12 AM Vladislav Yaroshchuk
 <yaroshchuk2000@gmail.com> wrote:
 >
 >
 >
-> =D1=81=D1=80, 17 =D0=BD=D0=BE=D1=8F=D0=B1. 2021 =D0=B3. =D0=B2 09:10, Jas=
+> =D0=BF=D0=BD, 15 =D0=BD=D0=BE=D1=8F=D0=B1. 2021 =D0=B3. =D0=B2 07:47, Jas=
 on Wang <jasowang@redhat.com>:
 >>
->> On Tue, Nov 16, 2021 at 11:30 PM Vladislav Yaroshchuk
+>> On Fri, Nov 12, 2021 at 5:14 PM Vladislav Yaroshchuk
 >> <yaroshchuk2000@gmail.com> wrote:
 >> >
->> >
->> >
->> > =D0=B2=D1=82, 16 =D0=BD=D0=BE=D1=8F=D0=B1. 2021 =D0=B3. =D0=B2 10:23, =
-Jason Wang <jasowang@redhat.com>:
->> >>
->> >> On Mon, Nov 15, 2021 at 6:45 PM Vladislav Yaroshchuk
->> >> <yaroshchuk2000@gmail.com> wrote:
->> >> >
->> >> >
->> >> >
->> >> > =D0=BF=D0=BD, 15 =D0=BD=D0=BE=D1=8F=D0=B1. 2021 =D0=B3. =D0=B2 07:5=
-3, Jason Wang <jasowang@redhat.com>:
->> >> >>
->> >> >> On Fri, Nov 12, 2021 at 5:14 PM Vladislav Yaroshchuk
->> >> >> <yaroshchuk2000@gmail.com> wrote:
->> >> >> >
->> >> >> > macOS provides networking API for VMs called 'vmnet.framework':
->> >> >> > https://developer.apple.com/documentation/vmnet
->> >> >> >
->> >> >> > We can provide its support as the new QEMU network backends whic=
-h
->> >> >> > represent three different vmnet.framework interface usage modes:
->> >> >> >
->> >> >> >   * `vmnet-shared`:
->> >> >> >     allows the guest to communicate with other guests in shared =
-mode and
->> >> >> >     also with external network (Internet) via NAT. Has (macOS-pr=
-ovided)
->> >> >> >     DHCP server; subnet mask and IP range can be configured;
->> >> >> >
->> >> >> >   * `vmnet-host`:
->> >> >> >     allows the guest to communicate with other guests in host mo=
-de.
->> >> >> >     By default has enabled DHCP as `vmnet-shared`, but providing
->> >> >> >     network unique id (uuid) can make `vmnet-host` interfaces is=
-olated
->> >> >> >     from each other and also disables DHCP.
->> >> >> >
->> >> >> >   * `vmnet-bridged`:
->> >> >> >     bridges the guest with a physical network interface.
->> >> >> >
->> >> >> > This backends cannot work on macOS Catalina 10.15 cause we use
->> >> >> > vmnet.framework API provided only with macOS 11 and newer. Seems
->> >> >> > that it is not a problem, because QEMU guarantees to work on two=
- most
->> >> >> > recent versions of macOS which now are Big Sur (11) and Monterey=
- (12).
->> >> >> >
->> >> >> > Also, we have one inconvenient restriction: vmnet.framework inte=
-rfaces
->> >> >> > can create only privileged user:
->> >> >> > `$ sudo qemu-system-x86_64 -nic vmnet-shared`
->> >> >> >
->> >> >> > Attempt of `vmnet-*` netdev creation being unprivileged user fai=
-ls with
->> >> >> > vmnet's 'general failure'.
->> >> >> >
->> >> >> > This happens because vmnet.framework requires `com.apple.vm.netw=
-orking`
->> >> >> > entitlement which is: "restricted to developers of virtualizatio=
-n software.
->> >> >> > To request this entitlement, contact your Apple representative."=
- as Apple
->> >> >> > documentation says:
->> >> >> > https://developer.apple.com/documentation/bundleresources/entitl=
-ements/com_apple_vm_networking
->> >> >>
->> >> >> Do you know how multipass work? Looks like it uses vmnet without p=
-rivileges.
->> >> >>
->> >> >
->> >> > I've just checked this, and they still need root privileges. They h=
-ave a
->> >> > `multipassd` daemon which is launched as root by launchd by default=
-.
->> >> >
->> >> > ```
->> >> > bash-5.1$ ps axo ruser,ruid,comm | grep multipass
->> >> > root                 0 /Library/Application Support/com.canonical.m=
-ultipass/bin/multipassd
->> >> > root                 0 /Library/Application Support/com.canonical.m=
-ultipass/bin/hyperkit
->> >> > ```
->> >> >
->> >> > That's the reason why it's required to 'enter a password' while mul=
-tipass installation:
->> >> > it creates launchd plist (kinda launch rule) and places it to /Libr=
-ary/LaunchDaemons/,
->> >> > which can be done only with root privileges.
->> >> >
->> >> > ```
->> >> > bash-5.1$ ll /Library/LaunchDaemons | grep multipass
->> >> > -rw-r--r--   1 root  wheel   1.1K 15 Nov 12:47 com.canonical.multip=
-assd.plist
->> >> > ```
->> >> >
->> >> > And after this launchd launches this multipassd daemon as root ever=
-y boot.
->> >> >
->> >> > So an unprivileged user can launch a multipass VM instance, but act=
-ually the
->> >> > `hyperkit` process which interacts with vmnet is gonna be launched =
-by multipassd
->> >> > running as root.
->> >>
->> >> I wonder how it passes the vmnet object to qemu? Nothing obvious from
->> >> the qemu command line that multipass launched:
->> >>
->> >> -nic vmnet-macos,mode=3Dshared,model=3Dvirtio-net-pci,mac=3D52:54:00:=
-52:e8:e4
->> >>
->> >> (But I haven't had time to check their qemu codes).
->> >>
->> >
->> > It seems they just use QEMU with patch by Phillip Tennen:
->> > https://patchew.org/QEMU/20210218134947.1860-1-phillip.ennen@gmail.com=
-/
->> >
->> > In that patch he does quite the same as we in this series, the
->> > difference remains in foreground: he creates one new 'vmnet-macos'
->> > netdev, and uses 'mode=3Dshared' property to choose vmnet
->> > operating mode. I decided to create three different netdevs instead
->> > (vmnet-shared, vmnet-host, vmnet-bridged). Also I've added some
->> > features related to isolation and ipv6.
+>> > Signed-off-by: Phillip Tennen <phillip@axleos.com>
+>> > Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+>> > ---
 >>
->> Ok.
+>> Commit log please.
 >>
->> >
->> > > I wonder how it passes the vmnet object to qemu
->> > I hope I clearly described this.
 >>
->> A silly question, how did the 'hyperkit' process pass the vmnet object t=
-o qemu?
->>
-> I think I didn't describe it very well in the previous mail.
-> The 'hyperkit' and QEMU are two multipass 'drivers'.
 >
-> hyperkit is an independent hypervisor based on xhyve (bhyve):
-> https://github.com/moby/hyperkit
->
-> So there are many ways to launch multipass VMs:
-> * VM <-> hyperkit <-> host
-> * VM <-> QEMU <-> host
-> * VM <-> virtualbox <-> host
-> * etc.
->
-> https://discourse.ubuntu.com/t/announcing-the-first-release-candidate-for=
--apple-m1-support/24445
->
-> So hyperkit doesn't pass anything to QEMU, it's a separate
-> hypervisor and multipass driver. But it uses vmnet backend
-> too, the same way as we do:
-> https://github.com/moby/hyperkit/blob/2f061e447e1435cdf1b9eda364cea6414f2=
-c606b/src/lib/pci_virtio_net_vmnet.c#L250
+> Sorry, I don't understand what you mean here.
+> What is the 'commit log'?
 
-Ok, I think I get it.
+I meant the change log to describe the changes.
 
 >
+>>
+>> >  net/vmnet-common.m | 305 ++++++++++++++++++++++++++++++++++++++++++++=
++
+>> >  net/vmnet-shared.c |  75 ++++++++++-
+>> >  net/vmnet_int.h    |  23 ++++
+>> >  3 files changed, 399 insertions(+), 4 deletions(-)
 >> >
->> >> >
->> >> > tl;dr sadly, we can't interact with vmnet.framework without having =
-our binary correctly
->> >> > signed and being an unprivileged user. Root privileges or special s=
-ignature with
->> >> > entitlement is required.
->> >>
->> >> This is something similar to what happens in other OS. E.g for the ta=
-p
->> >> backend, it can't be created without privileges. So qemu allows to:
->> >>
->> >> 1) the TAP to be created by privileged program like libvirt, and its
->> >> fd could be passed to qemu via SCM_RIGHTS
->> >> 2) run a set-uid helper to create and config TAP
->> >>
->> >> This is something we need to consider now or in the future probably.
->> >>
+>> > diff --git a/net/vmnet-common.m b/net/vmnet-common.m
+>> > index 532d152840..b058e1b846 100644
+>> > --- a/net/vmnet-common.m
+>> > +++ b/net/vmnet-common.m
+>> > @@ -10,6 +10,8 @@
+>> >   */
 >> >
->> > Seems we can do nothing with this if we have qemu-bundled &
->> > direct vmnet.framework interaction, it always requires privileges
->> > or entitlement.
->> > The workaround can be moving vmnet-related things to
->> > another helper binary running with privileges, and usage of
->> > this helper somewhere between qemu and vmnet.
->>
->> Yes, that's my point.
->>
+>> >  #include "qemu/osdep.h"
+>> > +#include "qemu/main-loop.h"
+>> > +#include "qemu/log.h"
+>> >  #include "qapi/qapi-types-net.h"
+>> >  #include "vmnet_int.h"
+>> >  #include "clients.h"
+>> > @@ -17,4 +19,307 @@
+>> >  #include "qapi/error.h"
 >> >
->> > I think for now it's applicable to leave it as is, having qemu
->> > that requires privileges for vmnet.framework usage.
+>> >  #include <vmnet/vmnet.h>
+>> > +#include <dispatch/dispatch.h>
+>> >
+>> > +#ifdef DEBUG
+>> > +#define D(x) x
+>> > +#define D_LOG(...) qemu_log(__VA_ARGS__)
+>> > +#else
+>> > +#define D(x) do { } while (0)
+>> > +#define D_LOG(...) do { } while (0)
+>> > +#endif
+>> > +
+>> > +typedef struct vmpktdesc vmpktdesc_t;
+>> > +typedef struct iovec iovec_t;
+>> > +
+>> > +static void vmnet_set_send_enabled(VmnetCommonState *s, bool enable)
+>> > +{
+>> > +    s->send_enabled =3D enable;
 >>
->> Right, but we need to consider it for the future.
->>
->> Btw, if you wish, you can list yourself as the maintainer for this backe=
-nd.
+>> Is there a way to disable the event when enable is false?
 >>
 >
-> Ok, thank you! Let me do this in the next patch version, after
-> we finish our discussion and I fix all the issues you pointed
-> in your review.
+> It seems there's no way except setting/unsetting
+> the callback via `vmnet_interface_set_event_callback`.
+> I decided to drop packages using `s->send_enabled`
+> without dealing with the callback.
 
-Sure.
+ok.
+
+>
+>> > +}
+>> > +
+>> > +
+>> > +static void vmnet_send_completed(NetClientState *nc, ssize_t len)
+>> > +{
+>> > +    VmnetCommonState *s =3D DO_UPCAST(VmnetCommonState, nc, nc);
+>> > +    vmnet_set_send_enabled(s, true);
+>> > +}
+>> > +
+>> > +
+>> > +static void vmnet_send(NetClientState *nc,
+>> > +                       interface_event_t event_id,
+>> > +                       xpc_object_t event)
+>> > +{
+>> > +    assert(event_id =3D=3D VMNET_INTERFACE_PACKETS_AVAILABLE);
+>> > +
+>> > +    VmnetCommonState *s;
+>> > +    uint64_t packets_available;
+>> > +
+>> > +    struct iovec *iov;
+>> > +    struct vmpktdesc *packets;
+>> > +    int pkt_cnt;
+>> > +    int i;
+>> > +
+>> > +    vmnet_return_t if_status;
+>> > +    ssize_t size;
+>> > +
+>> > +    s =3D DO_UPCAST(VmnetCommonState, nc, nc);
+>> > +
+>> > +    packets_available =3D xpc_dictionary_get_uint64(
+>> > +        event,
+>> > +        vmnet_estimated_packets_available_key
+>> > +    );
+>> > +
+>> > +    pkt_cnt =3D (packets_available < VMNET_PACKETS_LIMIT) ?
+>> > +              packets_available :
+>> > +              VMNET_PACKETS_LIMIT;
+>> > +
+>> > +
+>> > +    iov =3D s->iov_buf;
+>> > +    packets =3D s->packets_buf;
+>> > +
+>> > +    for (i =3D 0; i < pkt_cnt; ++i) {
+>> > +        packets[i].vm_pkt_size =3D s->max_packet_size;
+>> > +        packets[i].vm_pkt_iovcnt =3D 1;
+>> > +        packets[i].vm_flags =3D 0;
+>> > +    }
+>> > +
+>> > +    if_status =3D vmnet_read(s->vmnet_if, packets, &pkt_cnt);
+>> > +    if (if_status !=3D VMNET_SUCCESS) {
+>> > +        error_printf("vmnet: read failed: %s\n",
+>> > +                     vmnet_status_map_str(if_status));
+>> > +    }
+>> > +    qemu_mutex_lock_iothread();
+>> > +    for (i =3D 0; i < pkt_cnt; ++i) {
+>> > +        size =3D qemu_send_packet_async(nc,
+>> > +                                      iov[i].iov_base,
+>> > +                                      packets[i].vm_pkt_size,
+>> > +                                      vmnet_send_completed);
+>> > +        if (size =3D=3D 0) {
+>> > +            vmnet_set_send_enabled(s, false);
+>> > +        } else if (size < 0) {
+>> > +            break;
+>> > +        }
+>> > +    }
+>> > +    qemu_mutex_unlock_iothread();
+>> > +
+>> > +}
+>> > +
+>> > +
+>> > +static void vmnet_register_event_callback(VmnetCommonState *s)
+>> > +{
+>> > +    dispatch_queue_t avail_pkt_q =3D dispatch_queue_create(
+>> > +        "org.qemu.vmnet.if_queue",
+>> > +        DISPATCH_QUEUE_SERIAL
+>> > +    );
+>> > +
+>> > +    vmnet_interface_set_event_callback(
+>> > +        s->vmnet_if,
+>> > +        VMNET_INTERFACE_PACKETS_AVAILABLE,
+>> > +        avail_pkt_q,
+>> > +        ^(interface_event_t event_id, xpc_object_t event) {
+>> > +          if (s->send_enabled) {
+>> > +              vmnet_send(&s->nc, event_id, event);
+>> > +          }
+>> > +        });
+>> > +}
+>> > +
+>> > +
+>> > +static void vmnet_bufs_init(VmnetCommonState *s)
+>> > +{
+>> > +    int i;
+>> > +    struct vmpktdesc *packets;
+>> > +    struct iovec *iov;
+>> > +
+>> > +    packets =3D s->packets_buf;
+>> > +    iov =3D s->iov_buf;
+>> > +
+>> > +    for (i =3D 0; i < VMNET_PACKETS_LIMIT; ++i) {
+>> > +        iov[i].iov_len =3D s->max_packet_size;
+>> > +        iov[i].iov_base =3D g_malloc0(iov[i].iov_len);
+>> > +        packets[i].vm_pkt_iov =3D iov + i;
+>> > +    }
+>> > +}
+>> > +
+>> > +
+>> > +const char *vmnet_status_map_str(vmnet_return_t status)
+>> > +{
+>> > +    switch (status) {
+>> > +    case VMNET_SUCCESS:
+>> > +        return "success";
+>> > +    case VMNET_FAILURE:
+>> > +        return "general failure";
+>> > +    case VMNET_MEM_FAILURE:
+>> > +        return "memory allocation failure";
+>> > +    case VMNET_INVALID_ARGUMENT:
+>> > +        return "invalid argument specified";
+>> > +    case VMNET_SETUP_INCOMPLETE:
+>> > +        return "interface setup is not complete";
+>> > +    case VMNET_INVALID_ACCESS:
+>> > +        return "invalid access, permission denied";
+>> > +    case VMNET_PACKET_TOO_BIG:
+>> > +        return "packet size is larger than MTU";
+>> > +    case VMNET_BUFFER_EXHAUSTED:
+>> > +        return "buffers exhausted in kernel";
+>> > +    case VMNET_TOO_MANY_PACKETS:
+>> > +        return "packet count exceeds limit";
+>> > +    case VMNET_SHARING_SERVICE_BUSY:
+>> > +        return "conflict, sharing service is in use";
+>> > +    default:
+>> > +        return "unknown vmnet error";
+>> > +    }
+>> > +}
+>> > +
+>> > +
+>> > +int vmnet_if_create(NetClientState *nc,
+>> > +                    xpc_object_t if_desc,
+>> > +                    Error **errp,
+>> > +                    void (*completion_callback)(xpc_object_t interfac=
+e_param))
+>> > +{
+>> > +    VmnetCommonState *s;
+>> > +
+>> > +    dispatch_queue_t if_create_q;
+>> > +    dispatch_semaphore_t if_created_sem;
+>> > +
+>> > +    __block vmnet_return_t if_status;
+>> > +
+>> > +    if_create_q =3D dispatch_queue_create("org.qemu.vmnet.create",
+>> > +                                        DISPATCH_QUEUE_SERIAL);
+>> > +    if_created_sem =3D dispatch_semaphore_create(0);
+>> > +
+>> > +    xpc_dictionary_set_bool(
+>> > +        if_desc,
+>> > +        vmnet_allocate_mac_address_key,
+>> > +        false
+>> > +    );
+>> > +
+>> > +    D(D_LOG("vmnet.start.interface_desc:\n");
+>> > +    xpc_dictionary_apply(if_desc,
+>> > +                         ^bool(const char *k, xpc_object_t v) {
+>> > +                           char *desc =3D xpc_copy_description(v);
+>> > +                           D_LOG("  %s=3D%s\n", k, desc);
+>> > +                           free(desc);
+>> > +                           return true;
+>> > +                         }));
+>> > +
+>> > +    s =3D DO_UPCAST(VmnetCommonState, nc, nc);
+>> > +    s->vmnet_if =3D vmnet_start_interface(
+>> > +        if_desc,
+>> > +        if_create_q,
+>> > +        ^(vmnet_return_t status, xpc_object_t interface_param) {
+>> > +          if_status =3D status;
+>> > +          if (status !=3D VMNET_SUCCESS || !interface_param) {
+>> > +              dispatch_semaphore_signal(if_created_sem);
+>> > +              return;
+>> > +          }
+>> > +
+>> > +          s->mtu =3D xpc_dictionary_get_uint64(
+>> > +              interface_param,
+>> > +              vmnet_mtu_key);
+>> > +          s->max_packet_size =3D xpc_dictionary_get_uint64(
+>> > +              interface_param,
+>> > +              vmnet_max_packet_size_key);
+>> > +          D(D_LOG("vmnet.start.interface_param:\n");
+>> > +          xpc_dictionary_apply(interface_param,
+>> > +                               ^bool(const char *k, xpc_object_t v) {
+>> > +                                 char *desc =3D xpc_copy_description(=
+v);
+>> > +                                 D_LOG("  %s=3D%s\n", k, desc);
+>> > +                                 free(desc);
+>> > +                                 return true;
+>> > +                               }));
+>> > +          dispatch_semaphore_signal(if_created_sem);
+>> > +        });
+>> > +
+>> > +    if (s->vmnet_if =3D=3D NULL) {
+>> > +        error_setg(errp, "unable to create interface with requested p=
+arams");
+>> > +        return -1;
+>> > +    }
+>> > +
+>> > +    dispatch_semaphore_wait(if_created_sem, DISPATCH_TIME_FOREVER);
+>> > +    dispatch_release(if_create_q);
+>> > +
+>> > +    if (if_status !=3D VMNET_SUCCESS) {
+>> > +        error_setg(errp,
+>> > +                   "cannot create vmnet interface: %s",
+>> > +                   vmnet_status_map_str(if_status));
+>> > +        return -1;
+>> > +    }
+>> > +
+>> > +    vmnet_register_event_callback(s);
+>> > +    vmnet_bufs_init(s);
+>> > +    vmnet_set_send_enabled(s, true);
+>> > +
+>> > +    return 0;
+>> > +}
+>> > +
+>> > +
+>> > +ssize_t vmnet_receive_common(NetClientState *nc,
+>> > +                             const uint8_t *buf,
+>> > +                             size_t size)
+>> > +{
+>> > +    VmnetCommonState *s;
+>> > +    vmpktdesc_t packet;
+>> > +    iovec_t iov;
+>> > +    int pkt_cnt;
+>> > +    vmnet_return_t if_status;
+>> > +
+>> > +    s =3D DO_UPCAST(VmnetCommonState, nc, nc);
+>> > +
+>> > +    if (size > s->max_packet_size) {
+>> > +        warn_report("vmnet: packet is too big, %zu > %llu\n",
+>> > +                    packet.vm_pkt_size,
+>> > +                    s->max_packet_size);
+>> > +        return -1;
+>> > +    }
+>> > +
+>> > +    iov.iov_base =3D (char *) buf;
+>> > +    iov.iov_len =3D size;
+>> > +
+>> > +    packet.vm_pkt_iovcnt =3D 1;
+>> > +    packet.vm_flags =3D 0;
+>> > +    packet.vm_pkt_size =3D size;
+>> > +    packet.vm_pkt_iov =3D &iov;
+>>
+>> It looks to me vmnet framework supports iov so I wonder if a
+>> .receive_iov() is better because of its performance.
+>>
+>
+> I've just tried to implement this call, and because of some
+> reason `vmnet_write` fails with `VMNET_INVALID_ARGUMENT`
+> when iovcnt > 1. Tested with `vmxnet3`. Collecting all the iovs
+> into a big one and passing it to vmnet works fine (the default
+> behaviour when only the .receive() but not the .receive_iov()
+> is implemented).
+>
+> This should be investigated, but currently I don't understand
+> what exactly causes this error. The fact that vmnet.framework
+> is a 'blackbox' makes the situation much worse.
+>
+> Phillip's version is also broken:
+> https://patchew.org/QEMU/20210218134947.1860-1-phillip.ennen@gmail.com/
+> Looks like this wasn't noticed before.
+>
+> If it's applicable, we can use the .receive() only, and put
+> .receive_iov() implementation to the backlog.
+
+Ok, we can go with receive() first.
 
 Thanks
 
 >
->>
->> Thanks
->>
+>> > +
+>> > +    pkt_cnt =3D 1;
+>> > +    if_status =3D vmnet_write(s->vmnet_if, &packet, &pkt_cnt);
+>> > +
+>> > +    if (if_status !=3D VMNET_SUCCESS) {
+>> > +        error_report("vmnet: write error: %s\n",
+>> > +                     vmnet_status_map_str(if_status));
+>> > +    }
+>> > +
+>> > +    if (if_status =3D=3D VMNET_SUCCESS && pkt_cnt) {
+>> > +        return size;
+>> > +    }
+>> > +    return 0;
+>> > +}
+>> > +
+>> > +
+>> > +void vmnet_cleanup_common(NetClientState *nc)
+>> > +{
+>> > +    VmnetCommonState *s;
+>> > +    dispatch_queue_t if_destroy_q;
+>> > +
+>> > +    s =3D DO_UPCAST(VmnetCommonState, nc, nc);
+>> > +
+>> > +    qemu_purge_queued_packets(nc);
+>> > +    vmnet_set_send_enabled(s, false);
+>> > +
+>> > +    if (s->vmnet_if =3D=3D NULL) {
+>> > +        return;
+>> > +    }
+>> > +
+>> > +    if_destroy_q =3D dispatch_queue_create(
+>> > +        "org.qemu.vmnet.destroy",
+>> > +        DISPATCH_QUEUE_SERIAL
+>> > +    );
+>> > +
+>> > +    vmnet_stop_interface(
+>> > +        s->vmnet_if,
+>> > +        if_destroy_q,
+>> > +        ^(vmnet_return_t status) {
+>> > +        });
+>> > +
+>> > +    for (int i =3D 0; i < VMNET_PACKETS_LIMIT; ++i) {
+>> > +        g_free(s->iov_buf[i].iov_base);
+>> > +    }
+>> > +}
+>> > diff --git a/net/vmnet-shared.c b/net/vmnet-shared.c
+>> > index f8c4a4f3b8..b27ada3219 100644
+>> > --- a/net/vmnet-shared.c
+>> > +++ b/net/vmnet-shared.c
+>> > @@ -10,16 +10,83 @@
 >> >
->> >>
->> >> Thanks
->> >>
->> >> >
->> >> >
->> >> >> Thanks
->> >> >>
->> >> >
->> >> > Thank you for your review, I will check it this week and reply as s=
-oon as possible.
->> >> >
->> >> >>
->> >> >> >
->> >> >> > One more note: we still have quite useful but not supported
->> >> >> > 'vmnet.framework' features as creating port forwarding rules, IP=
-v6
->> >> >> > NAT prefix specifying and so on.
->> >> >> >
->> >> >> > Nevertheless, new backends work fine and tested within `qemu-sys=
-tem-x86-64`
->> >> >> > on macOS Bir Sur 11.5.2 host with such nic models:
->> >> >> >   * e1000-82545em
->> >> >> >   * virtio-net-pci
->> >> >> >   * vmxnet3
->> >> >> >
->> >> >> > The guests were:
->> >> >> >   * macOS 10.15.7
->> >> >> >   * Ubuntu Bionic (server cloudimg)
->> >> >> >
->> >> >> >
->> >> >> > This series partially reuses patches by Phillip Tennen:
->> >> >> > https://patchew.org/QEMU/20210218134947.1860-1-phillip.ennen@gma=
-il.com/
->> >> >> > So I included his signed-off line into one of the commit message=
-s and
->> >> >> > also here.
->> >> >> >
->> >> >> > v1 -> v2:
->> >> >> >  Since v1 minor typos were fixed, patches rebased onto latest ma=
-ster,
->> >> >> >  redundant changes removed (small commits squashed)
->> >> >> >
->> >> >> > v2 -> v3:
->> >> >> >  - QAPI style fixes
->> >> >> >  - Typos fixes in comments
->> >> >> >  - `#include`'s updated to be in sync with recent master
->> >> >> > v3 -> v4:
->> >> >> >  - Support vmnet interfaces isolation feature
->> >> >> >  - Support vmnet-host network uuid setting feature
->> >> >> >  - Refactored sources a bit
->> >> >> > v4 -> v5:
->> >> >> >  - Missed 6.2 boat, now 7.0 candidate
->> >> >> >  - Fix qapi netdev descriptions and styles
->> >> >> >    (@subnetmask -> @subnet-mask)
->> >> >> >  - Support vmnet-shared IPv6 prefix setting feature
->> >> >> >
->> >> >> > Signed-off-by: Phillip Tennen <phillip@axleos.com>
->> >> >> > Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
->> >> >> >
->> >> >> > Vladislav Yaroshchuk (6):
->> >> >> >   net/vmnet: add vmnet dependency and customizable option
->> >> >> >   net/vmnet: add vmnet backends to qapi/net
->> >> >> >   net/vmnet: implement shared mode (vmnet-shared)
->> >> >> >   net/vmnet: implement host mode (vmnet-host)
->> >> >> >   net/vmnet: implement bridged mode (vmnet-bridged)
->> >> >> >   net/vmnet: update qemu-options.hx
->> >> >> >
->> >> >> >  meson.build                   |   4 +
->> >> >> >  meson_options.txt             |   2 +
->> >> >> >  net/clients.h                 |  11 ++
->> >> >> >  net/meson.build               |   7 +
->> >> >> >  net/net.c                     |  10 ++
->> >> >> >  net/vmnet-bridged.m           | 111 ++++++++++++
->> >> >> >  net/vmnet-common.m            | 325 +++++++++++++++++++++++++++=
-+++++++
->> >> >> >  net/vmnet-host.c              | 111 ++++++++++++
->> >> >> >  net/vmnet-shared.c            |  92 ++++++++++
->> >> >> >  net/vmnet_int.h               |  48 +++++
->> >> >> >  qapi/net.json                 | 127 ++++++++++++-
->> >> >> >  qemu-options.hx               |  25 +++
->> >> >> >  scripts/meson-buildoptions.sh |   3 +
->> >> >> >  13 files changed, 874 insertions(+), 2 deletions(-)
->> >> >> >  create mode 100644 net/vmnet-bridged.m
->> >> >> >  create mode 100644 net/vmnet-common.m
->> >> >> >  create mode 100644 net/vmnet-host.c
->> >> >> >  create mode 100644 net/vmnet-shared.c
->> >> >> >  create mode 100644 net/vmnet_int.h
->> >> >> >
->> >> >> > --
->> >> >> > 2.23.0
->> >> >> >
->> >> >>
->> >> >
->> >> >
->> >> > --
->> >> > Best Regards,
->> >> >
->> >> > Vladislav Yaroshchuk
->> >>
+>> >  #include "qemu/osdep.h"
+>> >  #include "qapi/qapi-types-net.h"
+>> > +#include "qapi/error.h"
+>> >  #include "vmnet_int.h"
+>> >  #include "clients.h"
+>> > -#include "qemu/error-report.h"
+>> > -#include "qapi/error.h"
 >> >
+>> >  #include <vmnet/vmnet.h>
 >> >
+>> > +typedef struct VmnetSharedState {
+>> > +  VmnetCommonState cs;
+>> > +} VmnetSharedState;
+>> > +
+>> > +
+>> > +static xpc_object_t create_if_desc(const Netdev *netdev, Error **errp=
+)
+>> > +{
+>> > +    const NetdevVmnetSharedOptions *options =3D &(netdev->u.vmnet_sha=
+red);
+>> > +    xpc_object_t if_desc =3D xpc_dictionary_create(NULL, NULL, 0);
+>> > +
+>> > +    xpc_dictionary_set_uint64(
+>> > +        if_desc,
+>> > +        vmnet_operation_mode_key,
+>> > +        VMNET_SHARED_MODE
+>> > +    );
+>> > +
+>> > +    xpc_dictionary_set_bool(
+>> > +        if_desc,
+>> > +        vmnet_enable_isolation_key,
+>> > +        options->isolated
+>> > +    );
+>> > +
+>> > +    if (options->has_nat66_prefix) {
+>> > +        xpc_dictionary_set_string(if_desc,
+>> > +                                  vmnet_nat66_prefix_key,
+>> > +                                  options->nat66_prefix);
+>> > +    }
+>> > +
+>> > +    if (options->has_dhcpstart ||
+>> > +        options->has_dhcpend ||
+>> > +        options->has_subnet_mask) {
+>> > +
+>> > +        if (options->has_dhcpstart &&
+>> > +            options->has_dhcpend &&
+>> > +            options->has_subnet_mask) {
+>> > +
+>> > +            xpc_dictionary_set_string(if_desc,
+>> > +                                      vmnet_start_address_key,
+>> > +                                      options->dhcpstart);
+>> > +            xpc_dictionary_set_string(if_desc,
+>> > +                                      vmnet_end_address_key,
+>> > +                                      options->dhcpend);
+>> > +            xpc_dictionary_set_string(if_desc,
+>> > +                                      vmnet_subnet_mask_key,
+>> > +                                      options->subnet_mask);
+>> > +        } else {
+>> > +            error_setg(
+>> > +                errp,
+>> > +                "'dhcpstart', 'dhcpend', 'subnet_mask' "
+>> > +                "should be provided together"
+>> > +            );
+>> > +        }
+>> > +    }
+>> > +
+>> > +    return if_desc;
+>> > +}
+>> > +
+>> > +static NetClientInfo net_vmnet_shared_info =3D {
+>> > +    .type =3D NET_CLIENT_DRIVER_VMNET_SHARED,
+>> > +    .size =3D sizeof(VmnetSharedState),
+>> > +    .receive =3D vmnet_receive_common,
+>> > +    .cleanup =3D vmnet_cleanup_common,
+>> > +};
+>> > +
+>> >  int net_init_vmnet_shared(const Netdev *netdev, const char *name,
+>> >                            NetClientState *peer, Error **errp)
+>> >  {
+>> > -  error_setg(errp, "vmnet-shared is not implemented yet");
+>> > -  return -1;
+>> > +    NetClientState *nc =3D qemu_new_net_client(&net_vmnet_shared_info=
+,
+>> > +                                             peer, "vmnet-shared", na=
+me);
+>> > +    xpc_object_t if_desc =3D create_if_desc(netdev, errp);
+>> > +
+>> > +    return vmnet_if_create(nc, if_desc, errp, NULL);
+>> >  }
+>> > +
+>> > diff --git a/net/vmnet_int.h b/net/vmnet_int.h
+>> > index c5982259a4..3979fe4678 100644
+>> > --- a/net/vmnet_int.h
+>> > +++ b/net/vmnet_int.h
+>> > @@ -16,10 +16,33 @@
+>> >
+>> >  #include <vmnet/vmnet.h>
+>> >
+>> > +#define VMNET_PACKETS_LIMIT 50
+>> > +
+>> >  typedef struct VmnetCommonState {
+>> >    NetClientState nc;
+>> > +  interface_ref vmnet_if;
+>> > +
+>> > +  bool send_enabled;
+>> > +
+>> > +  uint64_t mtu;
+>> > +  uint64_t max_packet_size;
+>> > +
+>> > +  struct vmpktdesc packets_buf[VMNET_PACKETS_LIMIT];
+>> > +  struct iovec iov_buf[VMNET_PACKETS_LIMIT];
+>> >
+>> >  } VmnetCommonState;
+>> >
+>> > +const char *vmnet_status_map_str(vmnet_return_t status);
+>> > +
+>> > +int vmnet_if_create(NetClientState *nc,
+>> > +                    xpc_object_t if_desc,
+>> > +                    Error **errp,
+>> > +                    void (*completion_callback)(xpc_object_t interfac=
+e_param));
+>> > +
+>> > +ssize_t vmnet_receive_common(NetClientState *nc,
+>> > +                             const uint8_t *buf,
+>> > +                             size_t size);
+>> > +
+>> > +void vmnet_cleanup_common(NetClientState *nc);
+>> >
+>> >  #endif /* VMNET_INT_H */
 >> > --
->> > Best Regards,
+>> > 2.23.0
 >> >
->> > Vladislav Yaroshchuk
->>
+>
+>
+> --
+> Best Regards,
+>
+> Vladislav Yaroshchuk
 
 
