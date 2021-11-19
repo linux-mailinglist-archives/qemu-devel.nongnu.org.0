@@ -2,62 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452C24576CB
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 19:55:13 +0100 (CET)
-Received: from localhost ([::1]:38320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2B734576E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 20:12:44 +0100 (CET)
+Received: from localhost ([::1]:42608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo92W-0008NS-2R
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 13:55:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46756)
+	id 1mo9JT-0003aP-BG
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 14:12:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1mo91J-00070B-3z
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 13:53:57 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2158)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mo9EU-0002lF-2p
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 14:07:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1mo91F-0004x9-TL
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 13:53:56 -0500
-Received: from fraeml736-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Hwm1l4sxqz67JRZ;
- Sat, 20 Nov 2021 02:50:03 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml736-chm.china.huawei.com (10.206.15.217) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 19 Nov 2021 19:53:50 +0100
-Received: from localhost (10.52.121.186) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 19 Nov
- 2021 18:53:49 +0000
-Date: Fri, 19 Nov 2021 18:53:43 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Ben Widawsky <ben.widawsky@intel.com>
-Subject: Re: Follow-up on the CXL discussion at OFTC
-Message-ID: <20211119185343.000020c0@Huawei.com>
-In-Reply-To: <20211119015207.62fhk5mjmvaj5nz4@intel.com>
-References: <OF255704A1.78FEF164-ON0025878E.00821084-0025878F.00015560@ibm.com>
- <20211117165719.pqig62t5z2grgjvv@intel.com>
- <20211117173201.00002513@Huawei.com>
- <OF164E5BA6.E927FE73-ON00258791.0078E206-88258791.007ABBAD@ibm.com>
- <20211119015207.62fhk5mjmvaj5nz4@intel.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mo9EQ-00072y-KS
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 14:07:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637348848;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A6Q073wi+jev9h6dJ+IaU36AmwmdkoWGivlj6o2glwI=;
+ b=AHF6YFATmZigA8v1F/iBcK8JOf1sGbZ9U0KkPkTESoljIpzfHKa12sDc9uPk35VElYCgPY
+ RHDfnEIDkt5ILPvLDlJON8IJ3E19XFQ7ko+6SHaSt6DeWrSFalxyWLXz3oNorF5uyRbt0T
+ B+/1MB3rUJyFIJo9T5aMzkc2AehVCL0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-414-G85TtoJFMJSyWFbaXMoP5Q-1; Fri, 19 Nov 2021 14:07:26 -0500
+X-MC-Unique: G85TtoJFMJSyWFbaXMoP5Q-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l6-20020a05600c4f0600b0033321934a39so5190374wmq.9
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 11:07:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=A6Q073wi+jev9h6dJ+IaU36AmwmdkoWGivlj6o2glwI=;
+ b=6o0HrPaeDHJgarQzCOg6EO5oZwXwotQRob8tmLijkgxbT+EnkRUxN7h7K+uVd+SrZe
+ 2pjFHmcdyb1RfRE8qiWaEJLLkrhwqkp6lNVi133HfnPS+dunigVOboYmsoWNYg7gL5BV
+ hmCAllhrAvfxa8IrNnnbOyOwc7aCnLFab/pPDJVIYtwW+3xxUGocPuuGRiZeTd4fF0mF
+ CnBYBpAkXJ7TGym/NEypTok+LfcPuxYG2xCxJKwXuAUiV7HWd9xK3GpX3DVHQ/66lBYC
+ P2TBYWpYuK7cwsM585JlDr3L7RhkIPaAZdRuXmCb1YkInMxwaaTc1uKh2ZjW8TsfFrmg
+ 6Z2Q==
+X-Gm-Message-State: AOAM532iULVzC/Rb4LFcpFv42XPZlxh7d5VrsXcTBMTTYSsfPJMIMupX
+ t4cxaEG5DBPpVCBSRVS7+08+55w95FdTqrerFhuxN59wrVuG97VndNDG/2GEU/H5gsHqyr++H1b
+ kz9QP1OK8F2hD45Y=
+X-Received: by 2002:adf:f5ce:: with SMTP id k14mr9948889wrp.100.1637348845306; 
+ Fri, 19 Nov 2021 11:07:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx2xNmk/sogDObBmSh/fjNoM9uPCV4QmfZ+6fuYtnSD9NYz7Yt3NnqfgxPdEK1k0UyhMh2KEw==
+X-Received: by 2002:adf:f5ce:: with SMTP id k14mr9948853wrp.100.1637348845084; 
+ Fri, 19 Nov 2021 11:07:25 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id m125sm12819546wmm.39.2021.11.19.11.07.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Nov 2021 11:07:24 -0800 (PST)
+Message-ID: <23766d94-96da-d2c7-eb12-2e830e178d0c@redhat.com>
+Date: Fri, 19 Nov 2021 20:07:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.121.186]
-X-ClientProxiedBy: lhreml724-chm.china.huawei.com (10.201.108.75) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [RFC PATCH-for-6.2 v3] qdev-monitor: Only allow full --global
+ <driver>.<property>=<val> option
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20211119182644.480115-1-philmd@redhat.com>
+ <a83d167f-60b8-6991-2f5-ab6ab8a6beac@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <a83d167f-60b8-6991-2f5-ab6ab8a6beac@eik.bme.hu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.727, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,166 +100,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-cxl@vger.kernel.org, Saransh Gupta1 <saransh@ibm.com>,
- qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Nov 2021 17:52:07 -0800
-Ben Widawsky <ben.widawsky@intel.com> wrote:
-
-> On 21-11-18 15:20:34, Saransh Gupta1 wrote:
-> > Hi Ben and Jonathan,
-> > 
-> > Thanks for your replies. I'm looking forward to the patches.
-> > 
-> > For QEMU, I see hotplug support as an item on the list and would like to 
-> > start working on it. It would be great if you can provide some pointers 
-> > about how I should go about it.  
+On 11/19/21 19:46, BALATON Zoltan wrote:
+> On Fri, 19 Nov 2021, Philippe Mathieu-Daudé wrote:
+>> When not all fields of the --global option are provided,
+>> QEMU might crash:
+>>
+>>  $ qemu-system-x86_64 -global driver=isa-fdc
+>>  qemu-system-x86_64: ../../devel/qemu/qapi/string-input-visitor.c:394:
+>>  string_input_visitor_new: Assertion `str' failed.
+>>  Aborted (core dumped)
+>>
+>> Fix by only allowing --global with all 3 fields:
+>>
+>>  $ qemu-system-x86_64 -global driver=isa-fdc
+>>  Invalid 'global' option format. It must be provided as:
+>>    --global <driver>.<property>=<value>
+>>
+>> Reported-by: Thomas Huth <thuth@redhat.com>
+>> Suggested-by: Markus Armbruster <armbru@redhat.com>
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/604
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> v3: Change qemu_global_option (Markus)
+>>
+>> Supersedes: <20211119122911.365036-1-philmd@redhat.com>
+>> ---
+>> softmmu/qdev-monitor.c | 9 +++------
+>> 1 file changed, 3 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+>> index 01f3834db57..558272b147c 100644
+>> --- a/softmmu/qdev-monitor.c
+>> +++ b/softmmu/qdev-monitor.c
+>> @@ -1029,13 +1029,10 @@ int qemu_global_option(const char *str)
+>>         qemu_opt_set(opts, "value", str + offset + 1, &error_abort);
+>>         return 0;
+>>     }
+>> +    printf("Invalid 'global' option format. It must be provided as:\n");
+>> +    printf("  --global <driver>.<property>=<value>\n");
 > 
-> It's been a while, so I can't recall what's actually missing. I think it should
-> mostly behave like a normal PCIe endpoint.
+> Should these be something else tnan plain printf? (Such as qemu_prinf or
+> qdev_printf or similar? Not sure how these work but plain printf in QEMU
+> is usually not what's meant.)
+
+I thought so first, but qemu_opts_print_help() calls plain printf()...
+
+> Regards,
+> BALATON Zoltan
 > 
-> > Also, which version of kernel and QEMU (maybe Jonathan's upcoming version) 
-> > would be a good starting point for it?  
-> 
-> If he rebased and claims it works I have no reason to doubt it :-). I have a
-> small fix on my v4 branch if you want to use the latest port patches.
-
-Thanks. I'd missed that one. Now pushed down into the original patch.
-
-It occurred to me that technically I only know my rebase works on Arm64...
-Fingers crossed for x86.
-
-Anyhow, I'll run more tests on it next week (possibly even including x86),
-
-Available at: 
-https://github.com/hisilicon/qemu/tree/cxl-hacks
-
-For arm64 the description at
-https://people.kernel.org/jic23/ will almost work with this. 
-There is a bug however that I need to track down which currently means you
-need to set the pxb uid to the same as the bus number.   Shouldn't take
-long to fix but it's Friday evening...
-(add uid=0x80 to the options for pxb-cxl)
-
-I dropped the CMA patch from Avery from this tree as need to improve
-the way it's getting hold of some parts of libSPDM and move to the current
-version of that library (rather than the old openSPDM)
-
-Ben, if you don't mind me trying to push this forwards, I'll do a bit
-of cleanup and reordering then make use of the QEMU folks we have / know and
-try and start getting your hard work upstream.
-
-Whilst I've not poked the various interfaces yet, this is working with
-a kernel tree that is current cxl/next + Ira's DOE series and Ben's region series
-+ (for fun) my SPDM series.  That tree's a franken monster so I'm not planning
-to share it unless anyone has particular need of it.  Hopefully the various
-parts will move forwards this cycle anyway so I can stop having to spend
-as much time on rebases!
-
-Jonathan 
-
-> 
-> > 
-> > Thanks,
-> > Saransh
-> > 
-> > 
-> > 
-> > From:   "Jonathan Cameron" <Jonathan.Cameron@Huawei.com>
-> > To:     "Ben Widawsky" <ben.widawsky@intel.com>
-> > Cc:     "Saransh Gupta1" <saransh@ibm.com>, <linux-cxl@vger.kernel.org>, 
-> > <qemu-devel@nongnu.org>
-> > Date:   11/17/2021 09:32 AM
-> > Subject:        [EXTERNAL] Re: Follow-up on the CXL discussion at OFTC
-> > 
-> > 
-> > 
-> > On Wed, 17 Nov 2021 08:57:19 -0800
-> > Ben Widawsky <ben.widawsky@intel.com> wrote:
-> >   
-> > > Hi Saransh. Please add the list for these kind of questions. I've   
-> > converted your  
-> > > HTML mail, but going forward, the list will eat it, so please use text   
-> > only.  
-> > > 
-> > > On 21-11-16 00:14:33, Saransh Gupta1 wrote:  
-> > > >    Hi Ben,
-> > > > 
-> > > >    This is Saransh from IBM. Sorry to have (unintentionally) dropped   
-> > out  
-> > > >    of the conversion on OFTC, I'm new to IRC.
-> > > >    Just wanted to follow-up on the discussion there. We discussed   
-> > about  
-> > > >    helping with linux patches reviews. On that front, I have   
-> > identified  
-> > > >    some colleague(s) who can help me with this. Let me know if/how you
-> > > >    want to proceed with that.   
-> > > 
-> > > Currently the ball is in my court to re-roll the RFC v2 patches [1]   
-> > based on  
-> > > feedback from Dan. I've implemented all/most of it, but I'm still   
-> > debugging some  
-> > > issues with the result.
-> > >   
-> > > > 
-> > > >    Maybe not urgently, but my team would also like to get an   
-> > understanding  
-> > > >    of the missing pieces in QEMU. Initially our focus is on type3   
-> > memory  
-> > > >    access and hotplug support. Most of the work that my team does is
-> > > >    open-source, so contributing to the QEMU effort is another possible
-> > > >    line of collaboration.   
-> > > 
-> > > If you haven't seen it already, check out my LPC talk [2]. The QEMU   
-> > patches  
-> > > could use a lot of love. Mostly, I have little/no motivation until   
-> > upstream  
-> > > shows an interest because I don't have time currently to make sure I   
-> > don't break  
-> > > vs. upstream. If you want more details here, I can provide them, and I   
-> > will Cc  
-> > > the qemu-devel mailing list; the end of the LPC talk [2] does have a   
-> > list.
-> > Hi Ben, Saransh
-> > 
-> > I have a forward port of the series + DOE etc to near current QEMU that is 
-> > lightly tested,
-> > and can look to push that out publicly later this week.
-> > 
-> > I'd also like to push QEMU support forwards and to start getting this 
-> > upstream in QEMU
-> > + fill in some of the missing parts.
-> > 
-> > Was aiming to make progress on this a few weeks ago, but as ever other 
-> > stuff
-> > got in the way.
-> > 
-> > +CC qemu-devel in case anyone else also looking at this.
-> > 
-> > Jonathan
-> > 
-> > 
-> >   
-> > >   
-> > > > 
-> > > >    Thanks for your help and guidance!
-> > > > 
-> > > >    Best,
-> > > >    Saransh Gupta
-> > > >    Research Staff Member, IBM Research   
-> > > 
-> > > [1]:   
-> > https://lore.kernel.org/linux-cxl/20211022183709.1199701-1-ben.widawsky@intel.com/T/#t 
-> >   
-> > > [2]:   
-> > https://www.youtube.com/watch?v=g89SLjt5Bd4&list=PLVsQ_xZBEyN3wA8Ej4BUjudXFbXuxhnfc&index=49 
-> > 
-> > 
-> > 
-> > 
-> > 
-> >   
+>> -    opts = qemu_opts_parse_noisily(&qemu_global_opts, str, false);
+>> -    if (!opts) {
+>> -        return -1;
+>> -    }
 
 
