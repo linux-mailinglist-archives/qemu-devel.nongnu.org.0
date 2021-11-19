@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B564572FA
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:31:52 +0100 (CET)
-Received: from localhost ([::1]:38414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E71457331
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:37:55 +0100 (CET)
+Received: from localhost ([::1]:56018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo6nn-0004Zp-N3
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:31:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51056)
+	id 1mo6te-000870-My
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:37:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mo6fq-00075G-EI
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:23:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36806)
+ id 1mo6j6-0006Gw-5f
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:27:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mo6fn-0005Mi-Rr
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:23:37 -0500
+ id 1mo6j0-0005zu-Oe
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:26:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637339014;
+ s=mimecast20190719; t=1637339214;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=A41A1UGsUCgmBJoKu1eFJuwQR4wEx16nwik+2np6lXY=;
- b=DUqR5jgczuT1F2hEveLoOeitvFUCHYBpHNykjUC2gUqswY74JSHrxRNFTU47Pyb7+yEBfV
- sdRw5hl2LVrkGvvY0MK/teWiTWW3WtBc/fXmTQPcd3tJgn2MB/6ZTMOlHjRXS4QnUhqYod
- Rt5ojMY38bih+HfUWWZsQvj/JXLfd7s=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ToCcad016m2vwF1WcbT4JiWqSR4EvRlYA1HcRAProR8=;
+ b=Y/IYXgUbIxZUnftMbbvdB1Xu8+LIoejHlX4EHsuf7yj8sBUaIzVzirkzlbkGuJPL3i98SY
+ L2rYfgCU5ddkDg89KxM1Wh+p09dJGDd5LQWHWUOOwx1IimpxPRPaz8rFnXf6YxM3yWqt/f
+ ki2ZBV7t+q4VMuCHxz5DSjyudBmbG7A=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-572-KU8bxXyrO9eTG3zVO0nwfA-1; Fri, 19 Nov 2021 11:23:32 -0500
-X-MC-Unique: KU8bxXyrO9eTG3zVO0nwfA-1
-Received: by mail-pj1-f69.google.com with SMTP id
- h15-20020a17090a648f00b001a96c2c97abso3478789pjj.9
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:23:32 -0800 (PST)
+ us-mta-263-KUDaLAu2PF2gQPxhvypB2A-1; Fri, 19 Nov 2021 11:26:52 -0500
+X-MC-Unique: KUDaLAu2PF2gQPxhvypB2A-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ z13-20020a627e0d000000b004a2849e589aso5935855pfc.0
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:26:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=A41A1UGsUCgmBJoKu1eFJuwQR4wEx16nwik+2np6lXY=;
- b=bTcjA+zOOzWQzVToP/7uw7F9SKumaPpqz9CWCNoCUGQcImYnZX0WIri0N/S25MV2+7
- FiuWP08ErmroPtbXhCh0HyjdjP7lYNgaTg8giVUJinAbxAIfWkLNoD3kAIBfYhf5zMoF
- KHjzKhV8Bkoz/zfvIkf8l5Hv78ClwVyQMGW+8pfdYoHHYC0yIXv9SXCQaLf8aD7KJpv3
- hwZ4duYff/ZINTrQKGWJfSJkNivAp4uM766KoMLuDJIt5lsNS7BhkQHlyz2s9m1z7cVW
- NjOl4EZ5j886vxV6FoudVcjJ3pO+1f454cUYJ8c3h5ALgoV4G5dpe4uLSEF4nOdivL+s
- FJpw==
-X-Gm-Message-State: AOAM531NII4rWGMzVRU7LJ3Sr9Kw8dadQKQRZfvfeSfKm0f3VhDDfJvI
- dko+ol08et3FJwFO/rpXmzaGddrFaf5phEdsG1cTEDqCwk6wruWSGfFK2O9pTJqAG2vGt5aBHRi
- v/29V2YokMCwULfZBKmf7vKqavyxZcDk=
-X-Received: by 2002:a63:1007:: with SMTP id f7mr2047295pgl.212.1637339011266; 
- Fri, 19 Nov 2021 08:23:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxLK6eJAcP039wqbfAZ2NqSPCnOX9vuafGR70GPH3x4A48kjGuMCjVwOGLy4BK6HiPf62HoAwg3DuVy0xs+rao=
-X-Received: by 2002:a63:1007:: with SMTP id f7mr2047273pgl.212.1637339011072; 
- Fri, 19 Nov 2021 08:23:31 -0800 (PST)
+ bh=ToCcad016m2vwF1WcbT4JiWqSR4EvRlYA1HcRAProR8=;
+ b=AUOva8asgGb7MXQ8Q6yBfQzbYpHKN+Jm9pJ/z94DxW2xpZggdTXMYpbSKg6VKK1JC9
+ MUkMjaoFT1SoU06rR0q3TZFOhUnYdUWl6JDOKOjBcb4pPlIYxzrguxMKlqbmLM+96C8H
+ u3YEIMZdE2FkIbmO+Fjt+JuLCCgNKPv9GArZ0VS+pWw7vztR/rVlu/PAmONDPYxVE4W9
+ vpXQz4FggUuyjEzoMMuDiOVBGlGltfwI46iZGPr/R4wfCK+2FZTBpWOztpbTAYObpQQU
+ DGDkdNsOtt7zpIGLsf4bP8uFxgVGb2YpJoHzmL/0cGNHksirKJnvGjLL8BbTHaSh6BQd
+ O4vA==
+X-Gm-Message-State: AOAM533pREoBIOtYhuKGhxvJzAVKog/f0NlP4f/EWipE3KOmAYYytuSn
+ V8ewRs7Xo6UbKJvhMTZzAW+Je8D6ahXl9GXOgR/3KVoJP2c3rIJFEmTqfByynQiaith7izWG1A9
+ KP1nCRIMzfFQrOSi2H1pLGvXmLvqtx8w=
+X-Received: by 2002:a17:90b:1057:: with SMTP id
+ gq23mr953721pjb.203.1637339211572; 
+ Fri, 19 Nov 2021 08:26:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwC/UMeOl4Sn+jTWiBXUuEtMbz6x4tKzqP7rHVyU/pF6lFDv4YVGUFaM6E2baAIHHd48KeBouX1/9+wdPcCMs4=
+X-Received: by 2002:a17:90b:1057:: with SMTP id
+ gq23mr953671pjb.203.1637339211282; 
+ Fri, 19 Nov 2021 08:26:51 -0800 (PST)
 MIME-Version: 1.0
 References: <20211119135348.407679-1-farosas@linux.ibm.com>
 In-Reply-To: <20211119135348.407679-1-farosas@linux.ibm.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 19 Nov 2021 13:23:04 -0300
-Message-ID: <CAKJDGDZxV9prPohFkXJB85ZLxFgTs4B0NS5Ri88BcoRC7XYdMw@mail.gmail.com>
+Date: Fri, 19 Nov 2021 13:26:25 -0300
+Message-ID: <CAKJDGDY8p+5sNVDOKMjmJkWaiYSQtgDy3AffnzfMtFrRp5s5nA@mail.gmail.com>
 Subject: Re: [PATCH] tests/avocado: ppc: Add smoke tests for MPC7400 and
  MPC7450 families
 To: Fabiano Rosas <farosas@linux.ibm.com>
@@ -69,15 +71,15 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,6 +98,8 @@ Cc: danielhb413@gmail.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Cleber Rosa <crosa@redhat.com>, Philippe Mathieu Daude <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+One more comment, sorry.
 
 On Fri, Nov 19, 2021 at 10:54 AM Fabiano Rosas <farosas@linux.ibm.com> wrote:
 >
@@ -131,11 +135,19 @@ On Fri, Nov 19, 2021 at 10:54 AM Fabiano Rosas <farosas@linux.ibm.com> wrote:
 > +# later.  See the COPYING file in the top-level directory.
 > +
 > +from avocado import skip
+> +from avocado_qemu import QemuSystemTest
+> +from avocado_qemu import wait_for_console_pattern
+> +
+> +class ppc74xxCpu(QemuSystemTest):
+> +
+> +    timeout = 5
+> +
+> +    def test_ppc_7400(self):
+> +        """
+> +        :avocado: tags=arch:ppc
 
-You are not using this import in the file. No need to import it here.
-
-Removing the unused import, the code looks good to me, so:
-
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+All your tests are using the same "arch" tag, so you can define it in
+the class and avoid duplication. This is more aesthetic, so it is up
+to you.
 
 
