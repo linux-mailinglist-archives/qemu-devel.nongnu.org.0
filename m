@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38CF4572CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:23:34 +0100 (CET)
-Received: from localhost ([::1]:43186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE6B4572CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:23:08 +0100 (CET)
+Received: from localhost ([::1]:41716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo6fl-0004nD-Sa
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:23:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43822)
+	id 1mo6fL-0003o6-Ml
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:23:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mo6Oc-0005UU-Dv
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:05:50 -0500
-Received: from [2a00:1450:4864:20::330] (port=36647
- helo=mail-wm1-x330.google.com)
+ id 1mo6Of-0005c1-CZ
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:05:53 -0500
+Received: from [2a00:1450:4864:20::334] (port=50927
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mo6Oa-0004I4-KG
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:05:50 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- i8-20020a7bc948000000b0030db7b70b6bso10873589wml.1
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:05:47 -0800 (PST)
+ id 1mo6Od-0004Iz-L1
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:05:53 -0500
+Received: by mail-wm1-x334.google.com with SMTP id 133so9006387wme.0
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:05:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=s7EfQpdLCHZf6QMUUM6cZX2T9EjRc0bCKi3InTs2Bf4=;
- b=oN0Payc1KdvQt/frd+8tdypM6VnvGDgj6AacPRA8rZfr34RhKbL7srm9s1uoBJOAw/
- rFtbR83yy/wHGA/ZN8Z/6c/rJ5FGIRddbO+KGCdhX3ZLfcNJm4n0ru0QzTzKurrdM4jQ
- SyVakHLMfNHbK69iGqYBnt2pB2b0NtS9qA8Rvl5O74IMlnssQ7rJwU3xgi8Mvp4XGoSv
- DbWkCvroTJ/M1xuj1j74qoZqmZcyPv1UXOed6AqdtWsjHFX6Wb/igJot0ryqH1j2HZKF
- nSsaE1vMIrbg2vP3t3jVcoVdn8+vaR8VAQ3h8t5z+qF9FoTFy7DhbjGqy6HIpk0cuNGU
- lqEw==
+ bh=wryGVpZb06m25zx5Ni2rv3/SjWRLXHAAknrwCXzqExE=;
+ b=T7y43h8yTZU7KC2hbppEPJzpQE0AFnfnWnxTwKwsaefnR0ZRSXDQgw+HLB2ny7pKUv
+ TW1MEjECrdpjuSiuagpw8zpJsTMqctO6Plg/ZNVl4dGxt8zsv0qlSreQATNaXnvSquLk
+ DIP3f2PhLfaoZLndLDhtnP9TMB+VlDo+jq0/Nvk1yTv0/1TctswR1GqYoIbd0X0ifw8V
+ IGy0DHGP6/u7nDZCTz+ITsMBavkhP76+g9KPiS/4I1jnR+ekbxX4YbACWTE4CLfjkB5l
+ aa/jnxUIYnT6XYh2ZD6qQseGfLqHQz3H+6Xnb2tqjvyQzvyifx5n46kITL9oFNT3jSNV
+ d/XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=s7EfQpdLCHZf6QMUUM6cZX2T9EjRc0bCKi3InTs2Bf4=;
- b=4o0iI6Hd4KE/qqy4Xv/B3bFBYusdcSXMtsfFS5NQ5avsoZG8TWg5H+XuvGSVG/ejPb
- VW2YalHb5Hnt9svrC8pzUhfdzme/s+v484anYx409Mv4mtHFwQErwWAi52MPmh6c9Vsr
- YAyEvskVt/fuCbc8gD8KGljHknOIqXvvuFG/cjL4Y8SMcRsNgBcHRX6U00PzzJoqPcYw
- xL7fKSdI8GkWGC/tSA10XOJSyGV7tJFkhLgXYQOl+3kPHU4WHR5K4nYPlvtQBHcWtorO
- DUVthNDDb6HKyyWfzvH6U89Jd0trvWnzhcZwN91+oGi/naoSMR/tA2S/IVZKrtfQQWxn
- hXjA==
-X-Gm-Message-State: AOAM5310Ysz5j1InoH32Y1p90vs5Znq1NT10Hz5c5uars5ApHR/F7a+8
- xTV3U4eTmO1SpXlUwWsPRMklhUPxbrxX5FrYJWg=
-X-Google-Smtp-Source: ABdhPJwD0vf/iQ1nuBK+gAIOzEcjb5ErxPSGnSsc+3le88z0/V8uo+oqhjgC0wmXAEp+2ETYCjhTIw==
-X-Received: by 2002:a7b:cf25:: with SMTP id m5mr883885wmg.51.1637337946897;
- Fri, 19 Nov 2021 08:05:46 -0800 (PST)
+ bh=wryGVpZb06m25zx5Ni2rv3/SjWRLXHAAknrwCXzqExE=;
+ b=HDIaFr5mciMLyydbaGKuaAaEgv7VysUCNEeX/Ka85FlFRW9OHU4jS59FgxrWTx4Jdp
+ Ya9XWOrgFOtCLDR3EkCz8pCJ+ge3mfIztynaSYQnyEwkBjuw/WfFoCP63/vFAinpHsa0
+ k0PgaUZd7ubO4gqPsYjjGT2BwG7OKlFHAXg1HWQhmBVTJBIIf83V/1hi6fquRfN/fF5n
+ gPPqWRmLMzfb+Nal/uY0EEfli/J0Ss5EKhrfsTVitl+bORCXJv2T2Vxo7ljVQfNCJcFD
+ 1rZzwJNQfp2/h2FnlyZ7wsMNJZP6TViXJudtVDfes0T7jCHPTK+1ocpPRdFLNa8VrJpm
+ EKyg==
+X-Gm-Message-State: AOAM530+yXd31O2UMoMrpgIDE8eRLaCKKc57agyThwxPWOvdg7s+H/Be
+ 1rWUkCC4baquQ+0LoLawe5rq3GbffvPJUvclB2M=
+X-Google-Smtp-Source: ABdhPJwfJdnbVu8XBXs9OyU2yiRAjZ3PwUeVoIv3RhSYv3y/o4uuljp48c4N6pwSQXbtJ1hWTy++qA==
+X-Received: by 2002:a1c:448b:: with SMTP id r133mr877343wma.85.1637337949255; 
+ Fri, 19 Nov 2021 08:05:49 -0800 (PST)
 Received: from localhost.localdomain
  (165.red-37-158-79.dynamicip.rima-tde.net. [37.158.79.165])
- by smtp.gmail.com with ESMTPSA id q84sm14044877wme.3.2021.11.19.08.05.44
+ by smtp.gmail.com with ESMTPSA id q84sm14044877wme.3.2021.11.19.08.05.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 08:05:46 -0800 (PST)
+ Fri, 19 Nov 2021 08:05:48 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/35] target/ppc: Tidy inexact handling in do_fri
-Date: Fri, 19 Nov 2021 17:04:43 +0100
-Message-Id: <20211119160502.17432-17-richard.henderson@linaro.org>
+Subject: [PATCH 17/35] target/ppc: Clean up do_fri
+Date: Fri, 19 Nov 2021 17:04:44 +0100
+Message-Id: <20211119160502.17432-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211119160502.17432-1-richard.henderson@linaro.org>
 References: <20211119160502.17432-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,37 +91,54 @@ Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In GEN_FLOAT_B, we called helper_reset_fpstatus immediately
-before calling helper_fri*.  Therefore get_float_exception_flags
-is known to be zero, and this code can be simplified.
+Let float64_round_to_int detect and silence snans.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/fpu_helper.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ target/ppc/fpu_helper.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 535002741a..ec0288df01 100644
+index ec0288df01..3a462e5596 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -606,16 +606,12 @@ static uint64_t do_fri(CPUPPCState *env, uint64_t arg,
-         float_invalid_op_vxsnan(env, GETPC());
-         farg.ll = arg | 0x0008000000000000ULL;
-     } else {
--        int inexact = get_float_exception_flags(&env->fp_status) &
--                      float_flag_inexact;
-         set_float_rounding_mode(rounding_mode, &env->fp_status);
-         farg.ll = float64_round_to_int(farg.d, &env->fp_status);
-         set_float_rounding_mode(old_rounding_mode, &env->fp_status);
+@@ -596,25 +596,23 @@ FPU_FCFI(fcfidus, uint64_to_float32, 1)
+ static uint64_t do_fri(CPUPPCState *env, uint64_t arg,
+                        FloatRoundMode rounding_mode)
+ {
+-    CPU_DoubleU farg;
+     FloatRoundMode old_rounding_mode = get_float_rounding_mode(&env->fp_status);
++    int flags;
  
-         /* fri* does not set FPSCR[XX] */
--        if (!inexact) {
--            env->fp_status.float_exception_flags &= ~float_flag_inexact;
--        }
-+        env->fp_status.float_exception_flags &= ~float_flag_inexact;
+-    farg.ll = arg;
++    set_float_rounding_mode(rounding_mode, &env->fp_status);
++    arg = float64_round_to_int(arg, &env->fp_status);
++    set_float_rounding_mode(old_rounding_mode, &env->fp_status);
+ 
+-    if (unlikely(float64_is_signaling_nan(farg.d, &env->fp_status))) {
+-        /* sNaN round */
++    flags = get_float_exception_flags(&env->fp_status);
++    if (flags & float_flag_invalid_snan) {
+         float_invalid_op_vxsnan(env, GETPC());
+-        farg.ll = arg | 0x0008000000000000ULL;
+-    } else {
+-        set_float_rounding_mode(rounding_mode, &env->fp_status);
+-        farg.ll = float64_round_to_int(farg.d, &env->fp_status);
+-        set_float_rounding_mode(old_rounding_mode, &env->fp_status);
+-
+-        /* fri* does not set FPSCR[XX] */
+-        env->fp_status.float_exception_flags &= ~float_flag_inexact;
      }
++
++    /* fri* does not set FPSCR[XX] */
++    set_float_exception_flags(flags & ~float_flag_inexact, &env->fp_status);
      do_float_check_status(env, GETPC());
-     return farg.ll;
+-    return farg.ll;
++
++    return arg;
+ }
+ 
+ uint64_t helper_frin(CPUPPCState *env, uint64_t arg)
 -- 
 2.25.1
 
