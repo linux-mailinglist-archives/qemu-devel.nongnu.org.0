@@ -2,70 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB1F456BEE
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 09:56:14 +0100 (CET)
-Received: from localhost ([::1]:52446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15CD2456BFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 09:58:49 +0100 (CET)
+Received: from localhost ([::1]:60804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnzgr-0005So-RZ
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 03:56:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56234)
+	id 1mnzjM-0002pg-3I
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 03:58:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mnzdn-0003Kb-0h
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 03:53:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50766)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mnzdt-0003R6-68
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 03:53:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mnzdl-0000UV-Ff
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 03:53:02 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mnzdr-0000Um-Cr
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 03:53:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637311981;
+ s=mimecast20190719; t=1637311985;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UPYKx9uhzqpV56MxW183OXn607XHAZablOEesagsGDs=;
- b=d+EF2YNrOBsbWo0q7wc9tVcQCdzhrFTLKnRBj5Oov1wdyMiIqY2zBx7C/V7uQoPEyHiMIx
- CLIjZ0dJpHxYnB5IMJqk3WHifvzU+pSczpEF6mYlN3s+aKWuyu2A5O9pqF7Ug8JrB9QpHA
- hzu2tBl6pxMAU93HIG0iXPiHlufeeEA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FYO2iWVZf/CmPpLGBP6AASHnGpm6WORgRWXzwqN8w2I=;
+ b=LcHmdUwBgnDzYa9wwoUx3ar0uZ37/YIH4lzvahr2bohVIS0/LG7gCqwTOEkbH6pHcFf/aW
+ /4/vb7R05b3TFZmgKwil1WdDZ0lpzrCk//lrVHEpgX6OILXLzKcpfsmktpSI/YnRiIARX0
+ 1mTkN3xmKxepfsSDr2s5Y75gLRGaGtU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-200-e7hRRkSLPpeKcLCfV5bXYQ-1; Fri, 19 Nov 2021 03:52:57 -0500
-X-MC-Unique: e7hRRkSLPpeKcLCfV5bXYQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59683100C610;
- Fri, 19 Nov 2021 08:52:56 +0000 (UTC)
-Received: from thinkpad.redhat.com (unknown [10.39.194.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D01EF5C1A1;
- Fri, 19 Nov 2021 08:52:22 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/3] failover: fix unplug pending detection
-Date: Fri, 19 Nov 2021 09:49:48 +0100
-Message-Id: <20211119084948.434680-4-lvivier@redhat.com>
-In-Reply-To: <20211119084948.434680-1-lvivier@redhat.com>
-References: <20211119084948.434680-1-lvivier@redhat.com>
+ us-mta-207-qH7ySHoSO2ySweBjfEQOig-1; Fri, 19 Nov 2021 03:53:04 -0500
+X-MC-Unique: qH7ySHoSO2ySweBjfEQOig-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n41-20020a05600c502900b003335ab97f41so4417544wmr.3
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 00:53:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FYO2iWVZf/CmPpLGBP6AASHnGpm6WORgRWXzwqN8w2I=;
+ b=xHhczoRV5Fmu222HMBp1ks1Q2cTed/B1yHo/qTMHafb9s7KabxRETBePioxrvYCmEc
+ hMJk5sUypQblVGHBDBMh5beTotnBCbpv/yh38DfITCnUZbsa2FeM5d3KpDjNqLy2Xn1W
+ UjbIWGNBX/VWAC+kVFSCJedkbeivyOkEvAYUrfw5MVjHDqwhWlF1Tv97U39zDrhAAl0G
+ m2eFMYUMx+oSXGdX4hCQ5ZJVHZuaRS3U8pR0jxDrbSnWu9fCijKOGSCCKv2P2VYJDHSO
+ Q0vyjUfk+U/QdPO80sFRC+Hp8YDLHOc5YQdb9QxNIekvVoo7rO/PbrlDsIwl1DZOAMKf
+ oSiA==
+X-Gm-Message-State: AOAM531LlwUd/X1Lakika7Qjs3nuEt/7EM+7kJ3WaSCG+OUJy2Y8/E9k
+ 56VQVld5uIkRQyRLH3UxR0Sjjy9QsCqKApZo9Kbi9rpMYdSjxBEyZOJ27Eh9rTSuVOusSM45Dq9
+ stxwGwjgoiVXJt08=
+X-Received: by 2002:a7b:c109:: with SMTP id w9mr4837075wmi.114.1637311983226; 
+ Fri, 19 Nov 2021 00:53:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzauuW6C3xfNIUKQz8L7b5vUhZVS7ih0VCXco7D6F8Vef5itJk7qRUNRCzhb9nYAScCxsWqMw==
+X-Received: by 2002:a7b:c109:: with SMTP id w9mr4837044wmi.114.1637311983040; 
+ Fri, 19 Nov 2021 00:53:03 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id f19sm15815423wmq.34.2021.11.19.00.53.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Nov 2021 00:53:02 -0800 (PST)
+Message-ID: <7ae6b5a6-9e03-2cc7-0165-1a544584eeb5@redhat.com>
+Date: Fri, 19 Nov 2021 09:53:01 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] ui/gtk: mon_num parameter to specify target monitor for
+ launching Qemu
+To: Dongwon Kim <dongwon.kim@intel.com>, qemu-devel@nongnu.org
+References: <20211118225127.26147-1-dongwon.kim@intel.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211118225127.26147-1-dongwon.kim@intel.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-1.727, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,89 +100,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Michael Roth <michael.roth@amd.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>, Jens Freimann <jfreimann@redhat.com>
+Cc: sweeaun <swee.aun.khor@intel.com>,
+ Khairul Anuar Romli <khairul.anuar.romli@intel.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Failover needs to detect the end of the PCI unplug to start migration
-after the VFIO card has been unplugged.
+On 11/18/21 23:51, Dongwon Kim wrote:
+> Introducing a new integer parameter to specify the monitor where the
+> Qemu window is placed upon launching.
+> 
+> Monitor index can start from 0 to (total number of monitors - 1).
+> Default value for the parameter is -1, which doesn't affect anything.
+> 
+> It can be used together with full-screen=on, which will make the Qemu
 
-To do that, a flag is set in pcie_cap_slot_unplug_request_cb() and reset in
-pcie_unplug_device().
+"QEMU"
 
-But since
-    17858a169508 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35")
-we have switched to ACPI unplug and these functions are not called anymore
-and the flag not set. So failover migration is not able to detect if card
-is really unplugged and acts as it's done as soon as it's started. So it
-doesn't wait the end of the unplug to start the migration. We don't see any
-problem when we test that because ACPI unplug is faster than PCIe native
-hotplug and when the migration really starts the unplug operation is
-already done.
+> window full-screened on the targetted monitor.
 
-See c000a9bd06ea ("pci: mark device having guest unplug request pending")
-    a99c4da9fc2a ("pci: mark devices partially unplugged")
+Typo "targeted"
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
----
- hw/acpi/pcihp.c | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> Cc: sweeaun <swee.aun.khor@intel.com>
+> Cc: Khairul Anuar Romli <khairul.anuar.romli@intel.com>
+> Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+> ---
+>  qapi/ui.json    |  7 ++++++-
+>  qemu-options.hx |  2 +-
+>  ui/gtk.c        | 10 ++++++++++
+>  3 files changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index d7567ac866..7552b503b2 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -1099,13 +1099,18 @@
+>  #               assuming the guest will resize the display to match
+>  #               the window size then.  Otherwise it defaults to "off".
+>  #               Since 3.1
+> +# @mon-num:     Indicate monitor where Qemu window is lauched. mon-num
+> +#               could be any number from -1 to (total num of monitors - 1).
+> +#               (default: -1: use default monitor)
+> +#               since 6.2
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index f610a25d2ef9..30405b5113d7 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -222,9 +222,27 @@ static void acpi_pcihp_eject_slot(AcpiPciHpState *s, unsigned bsel, unsigned slo
-         PCIDevice *dev = PCI_DEVICE(qdev);
-         if (PCI_SLOT(dev->devfn) == slot) {
-             if (!acpi_pcihp_pc_no_hotplug(s, dev)) {
--                hotplug_ctrl = qdev_get_hotplug_handler(qdev);
--                hotplug_handler_unplug(hotplug_ctrl, qdev, &error_abort);
--                object_unparent(OBJECT(qdev));
-+                /*
-+                 * partially_hotplugged is used by virtio-net failover:
-+                 * failover has asked the guest OS to unplug the device
-+                 * but we need to keep some references to the device
-+                 * to be able to plug it back in case of failure so
-+                 * we don't execute hotplug_handler_unplug().
-+                 */
-+                if (dev->partially_hotplugged) {
-+                    /*
-+                     * pending_deleted_event is set to true when
-+                     * virtio-net failover asks to unplug the device,
-+                     * and set to false here when the operation is done
-+                     * This is used by the migration loop to detect the
-+                     * end of the operation and really start the migration.
-+                     */
-+                    qdev->pending_deleted_event = false;
-+                } else {
-+                    hotplug_ctrl = qdev_get_hotplug_handler(qdev);
-+                    hotplug_handler_unplug(hotplug_ctrl, qdev, &error_abort);
-+                    object_unparent(OBJECT(qdev));
-+                }
-             }
-         }
-     }
-@@ -396,6 +414,12 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-         return;
-     }
- 
-+    /*
-+     * pending_deleted_event is used by virtio-net failover to detect the
-+     * end of the unplug operation, the flag is set to false in
-+     * acpi_pcihp_eject_slot() when the operation is completed.
-+     */
-+    pdev->qdev.pending_deleted_event = true;
-     s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
-     acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
- }
--- 
-2.33.1
+I believe this is 7.0 material now, so "since 7.0".
+
+>  #
+>  # Since: 2.12
+>  #
+>  ##
+>  { 'struct'  : 'DisplayGTK',
+>    'data'    : { '*grab-on-hover' : 'bool',
+> -                '*zoom-to-fit'   : 'bool'  } }
+> +                '*zoom-to-fit'   : 'bool',
+> +                '*mon-num'       : 'int' } }
+>  
+>  ##
+>  # @DisplayEGLHeadless:
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 7749f59300..7a888b16b1 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1852,7 +1852,7 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
+>  #endif
+>  #if defined(CONFIG_GTK)
+>      "-display gtk[,full-screen=on|off][,gl=on|off][,grab-on-hover=on|off]\n"
+> -    "            [,show-cursor=on|off][,window-close=on|off]\n"
+> +    "            [,mon-num=<value>][,show-cursor=on|off][,window-close=on|off]\n"
+>  #endif
+>  #if defined(CONFIG_VNC)
+>      "-display vnc=<display>[,<optargs>]\n"
+> diff --git a/ui/gtk.c b/ui/gtk.c
+> index d2892ea6b4..8d8aa55822 100644
+> --- a/ui/gtk.c
+> +++ b/ui/gtk.c
+> @@ -2314,6 +2314,16 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
+>                               vc && vc->type == GD_VC_VTE);
+>  #endif
+>  
+> +    if (opts->u.gtk.has_mon_num && opts->u.gtk.mon_num &&
+> +        opts->u.gtk.mon_num >= 0) {
+> +        GdkRectangle mon_dest;
+> +        if (opts->u.gtk.mon_num < gdk_display_get_n_monitors(window_display)) {
+> +            gdk_monitor_get_geometry(
+> +                gdk_display_get_monitor(window_display, opts->u.gtk.mon_num),
+> +                &mon_dest);
+> +            gtk_window_move(GTK_WINDOW(s->window), mon_dest.x, mon_dest.y);
+> +        }
+> +    }
+>      if (opts->has_full_screen &&
+>          opts->full_screen) {
+>          gtk_menu_item_activate(GTK_MENU_ITEM(s->full_screen_item));
+> 
 
 
