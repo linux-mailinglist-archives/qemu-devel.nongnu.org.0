@@ -2,59 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAED0456E8B
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 12:58:09 +0100 (CET)
-Received: from localhost ([::1]:54980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DE29456EC4
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 13:23:03 +0100 (CET)
+Received: from localhost ([::1]:47276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo2Wu-0004Fd-Gx
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 06:58:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57498)
+	id 1mo2uz-0003FS-Vn
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 07:23:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mo2Us-0002Sk-2E
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 06:56:02 -0500
-Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233]:45211)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mo2tc-0002V8-2I
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 07:21:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mo2Up-0006o1-Ea
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 06:56:01 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.216])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id D946B21D0D;
- Fri, 19 Nov 2021 11:55:49 +0000 (UTC)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 19 Nov
- 2021 12:55:49 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004921d4dac-74ad-4a85-b4a2-24c4b493eaa7,
- CBFBDF4C02FD64E4A0D2A4314BE1A858C761FC9E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PULL for-6.2 2/2] tests/tcg/ppc64le: Fix compile flags for
- byte_reverse
-Date: Fri, 19 Nov 2021 12:55:45 +0100
-Message-ID: <20211119115545.2080251-3-clg@kaod.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211119115545.2080251-1-clg@kaod.org>
-References: <20211119115545.2080251-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mo2tY-0000SD-FK
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 07:21:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637324491;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hzTz+5JYzzIiZGXzTipIOarM9LyND78JA1T2fX3Q7aA=;
+ b=W+AnoChLXSZIamnE7SfXr7t8ye84g54slGw4DOgIhRoWofrQXTRTryc/oRwV0yzHKdVtsT
+ mTX8J+v7mM7wXhTRmscZadULJsCIDToGzOp+tN6cDyoeKLcd5pRSoztyYNPpMkZ3flwLVb
+ Gavt9blcBqwYFoob6Ae5L22raAVUeOs=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-390-7GVmwIMONMmBA_61ZCyE0A-1; Fri, 19 Nov 2021 07:21:29 -0500
+X-MC-Unique: 7GVmwIMONMmBA_61ZCyE0A-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ mn13-20020a17090b188d00b001a64f277c1eso6623198pjb.2
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 04:21:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hzTz+5JYzzIiZGXzTipIOarM9LyND78JA1T2fX3Q7aA=;
+ b=6OZ2ScL084U/sJyFvJfJ/aabi6kMIUYv6tWclidLTuQ5p1L1CjJVt1cLathVNdNPbC
+ qrisq2U3JKceVv1GicvbxBHEyqwCdeAz6F5Q/wgtEI8F2TS1gu01GvyegCZ5o98Klyk8
+ ndwboubbvzU7fq2loq+zS65nHPQRiAd3nqlaAOq9jHnkcbViwrV3huIDOJO9irxHCNg7
+ vR1lVffpBBb6V3P0zj8whF98WCfr2b7blsn0KMgn5OlShi7Lb35pEmFbL7dWhupzAnaT
+ TwB+V0FHfxFGodyejObgTO4JLAEwSUHijEcR/bB0V2usVAdWnNHZwiPdGzHwZfi4c6xz
+ Azkw==
+X-Gm-Message-State: AOAM533TUDgIN0IgTDgVs1t453u1H/C1LXurqH8AbA2RBgHLX5YYUNBZ
+ bbXpV1OEsCWxITSqJ8bKIE/wAMv+ER+KU02bO6L3cO0FuD/ktb3iRPi3gPepl9nwhQ71+hveLgk
+ kniv+1Q3/KYtjwqxmDCMi/PaTpdAkbFE=
+X-Received: by 2002:a17:902:c3cc:b0:141:be17:405e with SMTP id
+ j12-20020a170902c3cc00b00141be17405emr76967154plj.76.1637324488667; 
+ Fri, 19 Nov 2021 04:21:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxSPcIBgCtbhHj68RCu56uZhLFb1IGstXc+oVj+PmWD1XlZa23XSE4oo91JVPOaUYLUqqYRMeYRQ6ZlgrjnKxc=
+X-Received: by 2002:a17:902:c3cc:b0:141:be17:405e with SMTP id
+ j12-20020a170902c3cc00b00141be17405emr76967119plj.76.1637324488415; Fri, 19
+ Nov 2021 04:21:28 -0800 (PST)
 MIME-Version: 1.0
+References: <20211118204620.1897674-1-jsnow@redhat.com>
+ <20211118204620.1897674-2-jsnow@redhat.com>
+In-Reply-To: <20211118204620.1897674-2-jsnow@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Fri, 19 Nov 2021 09:21:02 -0300
+Message-ID: <CAKJDGDY9fxXLknx7QMn1vxVGNzK-oDgFQPOO2iDkS-7C2_bz7A@mail.gmail.com>
+Subject: Re: [PATCH 1/7] python/machine: add @sock_dir property
+To: John Snow <jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 394fa661-6809-4a0b-8482-97ed22b99468
-X-Ovh-Tracer-Id: 10431744113605774243
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrfeekgdeffecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
- helo=2.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,57 +92,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On Thu, Nov 18, 2021 at 5:50 PM John Snow <jsnow@redhat.com> wrote:
+>
+> Analogous to temp_dir and log_dir, add a sock_dir property that defaults
+> to @temp_dir -- instead of base_temp_dir -- when the user hasn't
+> overridden the sock dir value in the initializer.
+>
+> This gives us a much more unique directory to put sockfiles in by default.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/qemu/machine/machine.py | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
+>
 
-With a host compiler new enough to recognize power10 insns,
-CROSS_CC_HAS_POWER10 is true, but we do not supply the -cpu
-option to the compiler, resulting in
-
-/tmp/ccAVdYJd.s: Assembler messages:
-/tmp/ccAVdYJd.s:49: Error: unrecognized opcode: `brh'
-/tmp/ccAVdYJd.s:78: Error: unrecognized opcode: `brw'
-/tmp/ccAVdYJd.s:107: Error: unrecognized opcode: `brd'
-make[2]: *** [byte_reverse] Error 1
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- tests/tcg/ppc64le/Makefile.target | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
-
-diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
-index 5e65b1590dba..ba2fde5ff1c3 100644
---- a/tests/tcg/ppc64le/Makefile.target
-+++ b/tests/tcg/ppc64le/Makefile.target
-@@ -9,18 +9,12 @@ PPC64LE_TESTS=bcdsub
- endif
- bcdsub: CFLAGS += -mpower8-vector
- 
--PPC64LE_TESTS += byte_reverse
- ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
-+PPC64LE_TESTS += byte_reverse
-+endif
-+byte_reverse: CFLAGS += -mcpu=power10
- run-byte_reverse: QEMU_OPTS+=-cpu POWER10
- run-plugin-byte_reverse-with-%: QEMU_OPTS+=-cpu POWER10
--else
--byte_reverse:
--	$(call skip-test, "BUILD of $@", "missing compiler support")
--run-byte_reverse:
--	$(call skip-test, "RUN of byte_reverse", "not built")
--run-plugin-byte_reverse-with-%:
--	$(call skip-test, "RUN of byte_reverse ($*)", "not built")
--endif
- 
- PPC64LE_TESTS += signal_save_restore_xer
- 
--- 
-2.31.1
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
