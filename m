@@ -2,100 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D03456FF4
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 14:49:24 +0100 (CET)
-Received: from localhost ([::1]:52772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB98945701D
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 14:54:52 +0100 (CET)
+Received: from localhost ([::1]:58080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo4GZ-0004eH-L5
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 08:49:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59202)
+	id 1mo4Lr-0008Jp-NX
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 08:54:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1mo4CM-0007AH-1r; Fri, 19 Nov 2021 08:45:02 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25920)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1mo4Fu-0004lw-2G
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 08:48:42 -0500
+Received: from mga12.intel.com ([192.55.52.136]:23751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1mo4CK-000748-5M; Fri, 19 Nov 2021 08:45:01 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AJDfRhl003555; 
- Fri, 19 Nov 2021 13:44:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=2FgDclDBFZ0Coo+j3xKpdf9IaUEUknh/O0Fh3T9/3pA=;
- b=CwOqEJ76Ajl2oaOa4SgmvL8P/qvOJiYPIaSLWYnYd1e5artMz5La1H0q9wQOhcBF1IO3
- OkSHycnA9+a9iQX2JQX1Z9nfse0GUaV/lkKEoPJMohdxR6+45Xy2p9cBaT9dGEAu+Wx2
- tlQpIC/02T84aV6/rPAlSfISiDMljXH775LyMaDbtk0Rftx28a7iZ4p327d6uCnA0egQ
- FloXFH0xJbVh6sJnKikr3idxt+4dWXIACPzBfs40yPNWPgMZ7DHftuN5DndgcPylTzQv
- ejjlV8Fv2DV0JmCXZPuhyTrtgk4ReC77m1XSVilHXU8RW5jYCLc0Jbvib3RhjPP7Fjgm Lg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ced1f81tu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Nov 2021 13:44:45 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AJDfxw1005450;
- Fri, 19 Nov 2021 13:44:45 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ced1f81t7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Nov 2021 13:44:44 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AJDcsx1031802;
- Fri, 19 Nov 2021 13:44:43 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma03dal.us.ibm.com with ESMTP id 3ca50e2cka-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Nov 2021 13:44:43 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1AJDigBI49152448
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 19 Nov 2021 13:44:42 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 53B4FC605A;
- Fri, 19 Nov 2021 13:44:42 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7FB2BC6061;
- Fri, 19 Nov 2021 13:44:40 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.163.29.60])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 19 Nov 2021 13:44:40 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/2] ppc: Add PVRs for the MPC7450 family
-Date: Fri, 19 Nov 2021 10:44:31 -0300
-Message-Id: <20211119134431.406753-3-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20211119134431.406753-1-farosas@linux.ibm.com>
-References: <20211119134431.406753-1-farosas@linux.ibm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ehPwyjPSjMzp81fhaD_ySllQLEldEMtk
-X-Proofpoint-ORIG-GUID: JBDHaHMFjO-6qtrlw1FmkpU_1VbxYrz1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-19_09,2021-11-17_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- mlxlogscore=804 mlxscore=0 adultscore=0 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 malwarescore=0 spamscore=0 bulkscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111190075
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1mo4Fq-0000D7-Do
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 08:48:41 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10172"; a="214443810"
+X-IronPort-AV: E=Sophos;i="5.87,247,1631602800"; d="scan'208";a="214443810"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2021 05:48:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,247,1631602800"; d="scan'208";a="507904726"
+Received: from chaop.bj.intel.com ([10.240.192.101])
+ by orsmga008.jf.intel.com with ESMTP; 19 Nov 2021 05:48:26 -0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
+Subject: [RFC v2 PATCH 00/13] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Date: Fri, 19 Nov 2021 21:47:26 +0800
+Message-Id: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=192.55.52.136;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,84 +55,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, mark.cave-ayland@ilande.co.uk, qemu-ppc@nongnu.org,
- clg@kaod.org, openbios@openbios.org, david@gibson.dropbear.id.au
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ david@redhat.com, "J . Bruce Fields" <bfields@fieldses.org>,
+ dave.hansen@intel.com, "H . Peter Anvin" <hpa@zytor.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
+ Jeff Layton <jlayton@kernel.org>, john.ji@intel.com,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows the processors from the 7450 family to pass the initial
-PVR verification. Enables 7441, 7445, 7447, 7447a, 7448, 7450, 7451,
-7455, 7457 and 7457a.
+This RFC series try to implement the fd-based KVM guest private memory
+proposal described at [1] and an improved 'New Proposal' described at [2].
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+In general this patch series introduce fd-based memslot which provide
+guest memory through fd[offset,size] instead of hva/size. The fd then
+can be created from a supported memory filesystem like tmpfs/hugetlbfs,
+etc which we refer as memory backing store. KVM and backing store
+exchange some callbacks when such memslot gets created. At runtime KVM
+will call into callbacks provided by backing store to get the pfn with
+the fd+offset. Backing store will also call into KVM callbacks when
+userspace fallocate/punch hole on fd to notify KVM to map/unmap second
+MMU page tables.
+
+Comparing to existing hva-based memslot, this new type of memslot allow
+guest memory unmapped from host userspace like QEMU and even the kernel
+itself, therefore reduce attack surface and bring some other benefits. 
+
+Based on this fd-based memslot, we can build guest private memory that
+is going to be used in confidential computing environments such as Intel
+TDX and AMD SEV. When supported, the backing store can provide more
+enforcement on the fd and KVM can use a single memslot to hold both
+private and shared part of the guest memory. For more detailed
+description please refer to [2].
+
+Because this design introducing some callbacks between memory backing
+store and KVM, and for private memory KVM relies on backing store to do
+additonal enforcement and to tell if a address is private or shared,
+I would like KVM/mm/fs people can have a look at this part.
+
+
+[1]
+https://lkml.kernel.org/kvm/51a6f74f-6c05-74b9-3fd7-b7cd900fb8cc@redhat.com/
+[2]
+https://lkml.kernel.org/linux-fsdevel/20211111141352.26311-1-chao.p.peng@linux.intel.com/
+
+Thanks,
+Chao
 ---
- arch/ppc/qemu/init.c | 52 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+Chao Peng (12):
+  KVM: Add KVM_EXIT_MEMORY_ERROR exit
+  KVM: Extend kvm_userspace_memory_region to support fd based memslot
+  KVM: Add fd-based memslot data structure and utils
+  KVM: Implement fd-based memory using new memfd interfaces
+  KVM: Register/unregister memfd backed memslot
+  KVM: Handle page fault for fd based memslot
+  KVM: Rename hva memory invalidation code to cover fd-based offset
+  KVM: Introduce kvm_memfd_invalidate_range
+  KVM: Match inode for invalidation of fd-based slot
+  KVM: Add kvm_map_gfn_range
+  KVM: Introduce kvm_memfd_fallocate_range
+  KVM: Enable memfd based page invalidation/fallocate
 
-diff --git a/arch/ppc/qemu/init.c b/arch/ppc/qemu/init.c
-index 45cd77e..e40385a 100644
---- a/arch/ppc/qemu/init.c
-+++ b/arch/ppc/qemu/init.c
-@@ -569,6 +569,58 @@ static const struct cpudef ppc_defs[] = {
-         .tlb_size = 0x80,
-         .initfn = cpu_g4_init,
-     },
-+    {
-+        .iu_version = 0x80000000,
-+        .name = "PowerPC,G4",
-+        .icache_size = 0x8000,
-+        .dcache_size = 0x8000,
-+        .icache_sets = 0x80,
-+        .dcache_sets = 0x80,
-+        .icache_block_size = 0x20,
-+        .dcache_block_size = 0x20,
-+        .tlb_sets = 0x40,
-+        .tlb_size = 0x80,
-+        .initfn = cpu_g4_init,
-+    },
-+    {
-+        .iu_version = 0x80010000,
-+        .name = "PowerPC,G4",
-+        .icache_size = 0x8000,
-+        .dcache_size = 0x8000,
-+        .icache_sets = 0x80,
-+        .dcache_sets = 0x80,
-+        .icache_block_size = 0x20,
-+        .dcache_block_size = 0x20,
-+        .tlb_sets = 0x40,
-+        .tlb_size = 0x80,
-+        .initfn = cpu_g4_init,
-+    },
-+    {
-+        .iu_version = 0x80020000,
-+        .name = "PowerPC,G4",
-+        .icache_size = 0x8000,
-+        .dcache_size = 0x8000,
-+        .icache_sets = 0x80,
-+        .dcache_sets = 0x80,
-+        .icache_block_size = 0x20,
-+        .dcache_block_size = 0x20,
-+        .tlb_sets = 0x40,
-+        .tlb_size = 0x80,
-+        .initfn = cpu_g4_init,
-+    },
-+    {
-+        .iu_version = 0x80030000,
-+        .name = "PowerPC,G4",
-+        .icache_size = 0x8000,
-+        .dcache_size = 0x8000,
-+        .icache_sets = 0x80,
-+        .dcache_sets = 0x80,
-+        .icache_block_size = 0x20,
-+        .dcache_block_size = 0x20,
-+        .tlb_sets = 0x40,
-+        .tlb_size = 0x80,
-+        .initfn = cpu_g4_init,
-+    },
-     {
-         .iu_version = 0x00390000,
-         .name = "PowerPC,970",
+Kirill A. Shutemov (1):
+  mm/shmem: Introduce F_SEAL_GUEST
+
+ arch/arm64/kvm/mmu.c               |  14 +--
+ arch/mips/kvm/mips.c               |  14 +--
+ arch/powerpc/include/asm/kvm_ppc.h |  28 ++---
+ arch/powerpc/kvm/book3s.c          |  14 +--
+ arch/powerpc/kvm/book3s_hv.c       |  14 +--
+ arch/powerpc/kvm/book3s_pr.c       |  14 +--
+ arch/powerpc/kvm/booke.c           |  14 +--
+ arch/powerpc/kvm/powerpc.c         |  14 +--
+ arch/riscv/kvm/mmu.c               |  14 +--
+ arch/s390/kvm/kvm-s390.c           |  14 +--
+ arch/x86/include/asm/kvm_host.h    |   6 +-
+ arch/x86/kvm/Makefile              |   3 +-
+ arch/x86/kvm/mmu/mmu.c             | 122 ++++++++++++++++++++-
+ arch/x86/kvm/vmx/main.c            |   6 +-
+ arch/x86/kvm/vmx/tdx.c             |   6 +-
+ arch/x86/kvm/vmx/tdx_stubs.c       |   6 +-
+ arch/x86/kvm/x86.c                 |  16 +--
+ include/linux/kvm_host.h           |  58 ++++++++--
+ include/linux/memfd.h              |  24 +++++
+ include/linux/shmem_fs.h           |   9 ++
+ include/uapi/linux/fcntl.h         |   1 +
+ include/uapi/linux/kvm.h           |  27 +++++
+ mm/memfd.c                         |  33 +++++-
+ mm/shmem.c                         | 123 ++++++++++++++++++++-
+ virt/kvm/kvm_main.c                | 165 +++++++++++++++++++++++------
+ virt/kvm/memfd.c                   | 123 +++++++++++++++++++++
+ 26 files changed, 733 insertions(+), 149 deletions(-)
+ create mode 100644 virt/kvm/memfd.c
+
 -- 
-2.29.2
+2.17.1
 
 
