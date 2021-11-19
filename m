@@ -2,87 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C84E4576A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 19:44:42 +0100 (CET)
-Received: from localhost ([::1]:48234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2335A4576B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 19:50:58 +0100 (CET)
+Received: from localhost ([::1]:55776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo8sK-0003vW-Sl
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 13:44:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39312)
+	id 1mo8yN-0000vb-SA
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 13:50:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mo8dA-0005LU-Up
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 13:29:00 -0500
-Received: from [2a00:1450:4864:20::336] (port=36447
- helo=mail-wm1-x336.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mo8d9-0002je-Bf
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 13:29:00 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- i8-20020a7bc948000000b0030db7b70b6bso11175517wml.1
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 10:28:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jLy0NlzhHMC3/Ud5CgK/1HTdtW2HsRGBSyVoe4TtKE8=;
- b=hvG1VHLqVYRW74WQCTC0zouQsaUcGIo+5ajVqCGtN9Zitc1+2dmskLtcEBwSk3cZN9
- wvR63WjLgaW6FlbW5sPiIF45jElh53TePXK2DYfa2Azm7YdpJFsacnsVQW3P4MTzRL1r
- 9l8HVBeiJXkdeFtxxAADZjbaYtdxWepGDcQosdYuXN9oKZHVilNWHO6gdnpdPN5nYIuu
- xz3RTy8KR6eaKsKcHg6lX/DM1OAxqW9polkDAvIYleuLP9dOHbEXR82BynY4WNbT3PYP
- Devh7WvUbcSUB23z+JsU/shSvpfRT96OY/oSkxQp71ZYiDMLxJOwDJzrDe27AzJrGXLQ
- F1UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jLy0NlzhHMC3/Ud5CgK/1HTdtW2HsRGBSyVoe4TtKE8=;
- b=OPIQajj4PdtFn/ERQs8AUGqOL0D4j5Vn4ghSHTQy2n/LbhhATyK72xHO3hxcHOmyZG
- 1bBLrByvAHK7JXBwaxOo70IzKBmo1O3+LHtLFC+3GF8AhpkN83XThQh4aojtntat3hy8
- TuEGJauNaSBAxk/dVFBw1ag6BvXZz72FwAgg4EATB8AEBCO2mKI0iCxx0dbOvuYjOVke
- GV1HcshUU40cEZYqyZBVVLyLQDmBIaT+ysYFxTnDyXMVAuptmYjUelZBOjIZIBfTwBXM
- Js2e9rmwV8szo+MoGZd6UHOhrPh0NqXzj6dgOmtheUM+Eph9kFesv2iRgplXLvnbhmpZ
- QnBw==
-X-Gm-Message-State: AOAM530Iqu6TR21T5SoU+YuKevw6Cap/B8Md+dW5fuNaLs8T+gmzr3C0
- pBaBUJG2MkCLJ/4RPwqUxKY=
-X-Google-Smtp-Source: ABdhPJwNunPJfMBUwU8mOH8Wb/0Ub2MsEPTYBK0oiZWpyNYR57aVzS26Fxm5/Q2wziTZnc9zf5mdwA==
-X-Received: by 2002:a05:600c:4e94:: with SMTP id
- f20mr2029287wmq.77.1637346537823; 
- Fri, 19 Nov 2021 10:28:57 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id c6sm16717207wmq.46.2021.11.19.10.28.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Nov 2021 10:28:57 -0800 (PST)
-Message-ID: <bf740ceb-91be-25bf-0c7f-a0a331a22a08@amsat.org>
-Date: Fri, 19 Nov 2021 19:28:56 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH-for-7.0 2/5] hw/display/vga-mmio: Inline vga_mm_init()
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mo8oG-0001pu-MG
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 13:40:28 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:54410)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mo8oD-0004ag-Ow
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 13:40:28 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 5EB07746353;
+ Fri, 19 Nov 2021 19:40:23 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 2FD64746333; Fri, 19 Nov 2021 19:40:23 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 2DD507462D3;
+ Fri, 19 Nov 2021 19:40:23 +0100 (CET)
+Date: Fri, 19 Nov 2021 19:40:23 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH-for-7.0 3/5] hw/display/vga-mmio: QOM'ify vga_mmio_init()
+ as TYPE_VGA_MMIO
+In-Reply-To: <20211119171202.458919-4-f4bug@amsat.org>
+Message-ID: <b1e9c418-e119-409e-10c1-c5eb56f812ec@eik.bme.hu>
 References: <20211119171202.458919-1-f4bug@amsat.org>
- <20211119171202.458919-3-f4bug@amsat.org>
- <e414c4b-11b-86d7-0b3-5f937db07f49@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <e414c4b-11b-86d7-0b3-5f937db07f49@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.727,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ <20211119171202.458919-4-f4bug@amsat.org>
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="3866299591-112189302-1637347223=:35384"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,83 +60,220 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
  qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/21 19:20, BALATON Zoltan wrote:
-> On Fri, 19 Nov 2021, Philippe Mathieu-Daudé wrote:
->> Inline vga_mm_init() in vga_mmio_init() to simplify the
->> next patch review. Kind of.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> hw/display/vga-mmio.c | 27 ++++++++++-----------------
->> 1 file changed, 10 insertions(+), 17 deletions(-)
->>
->> diff --git a/hw/display/vga-mmio.c b/hw/display/vga-mmio.c
->> index 8aaf44e7b1d..0aefbcf53a0 100644
->> --- a/hw/display/vga-mmio.c
->> +++ b/hw/display/vga-mmio.c
->> @@ -65,12 +65,19 @@ static const MemoryRegionOps vga_mm_ctrl_ops = {
->>     .endianness = DEVICE_NATIVE_ENDIAN,
->> };
->>
->> -static void vga_mm_init(VGAMmioState *s, hwaddr vram_base,
->> -                        hwaddr ctrl_base, int it_shift,
->> -                        MemoryRegion *address_space)
->> +int vga_mmio_init(hwaddr vram_base,
->> +                    hwaddr ctrl_base, int it_shift,
->> +                    MemoryRegion *address_space)
-> 
-> Indentation? (But it's removed later so does not really matter.)
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Oops I didn't notice.
+--3866299591-112189302-1637347223=:35384
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
->> {
->> +    VGAMmioState *s;
->>     MemoryRegion *s_ioport_ctrl, *vga_io_memory;
->>
->> +    s = g_malloc0(sizeof(*s));
->> +
->> +    s->vga.vram_size_mb = VGA_RAM_SIZE / MiB;
->> +    s->vga.global_vmstate = true;
->> +    vga_common_init(&s->vga, NULL);
+On Fri, 19 Nov 2021, Philippe Mathieu-Daudé wrote:
+> Introduce TYPE_VGA_MMIO, a sysbus device.
+>
+> While there is no change in the vga_mmio_init()
+> interface, this is a migration compatibility break
+> of the MIPS Acer Pica 61 Jazz machine (pica61).
+>
+> Suggested-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> hw/display/vga-mmio.c | 134 +++++++++++++++++++++++++++++-------------
+> 1 file changed, 94 insertions(+), 40 deletions(-)
+>
+> diff --git a/hw/display/vga-mmio.c b/hw/display/vga-mmio.c
+> index 0aefbcf53a0..d1c5f31c134 100644
+> --- a/hw/display/vga-mmio.c
+> +++ b/hw/display/vga-mmio.c
+> @@ -2,6 +2,7 @@
+>  * QEMU MMIO VGA Emulator.
+>  *
+>  * Copyright (c) 2003 Fabrice Bellard
+> + * Copyright (c) 2021 Philippe Mathieu-Daudé
 
-        ^---- here is vga_mm_init() inlined [*]
+I think it's OK to add copyright line to record who's to blame if you 
+change or rewrite significant parts of a file. In this case just 
+QOM-ifying it may not be large enough change for me to add my copyright if 
+I were doing this. I don't mind, just thought git blame in this case might 
+be enough unless of course you want to also take maintainership of the 
+file. :-)
 
->>     s->it_shift = it_shift;
->>     s_ioport_ctrl = g_malloc(sizeof(*s_ioport_ctrl));
->>     memory_region_init_io(s_ioport_ctrl, NULL, &vga_mm_ctrl_ops, s,
->> @@ -89,20 +96,6 @@ static void vga_mm_init(VGAMmioState *s, hwaddr
->> vram_base,
->>     memory_region_add_subregion(address_space,
->>                                 vram_base + 0x000a0000, vga_io_memory);
->>     memory_region_set_coalescing(vga_io_memory);
->> -}
->> -
->> -int vga_mmio_init(hwaddr vram_base,
->> -                    hwaddr ctrl_base, int it_shift,
->> -                    MemoryRegion *address_space)
->> -{
->> -    VGAMmioState *s;
->> -
->> -    s = g_malloc0(sizeof(*s));
->> -
->> -    s->vga.vram_size_mb = VGA_RAM_SIZE / MiB;
->> -    s->vga.global_vmstate = true;
->> -    vga_common_init(&s->vga, NULL);
->> -    vga_mm_init(s, vram_base, ctrl_base, it_shift, address_space);
-> 
-> Where did this vga_mm_init() go?
+>  *
+>  * Permission is hereby granted, free of charge, to any person obtaining a copy
+>  * of this software and associated documentation files (the "Software"), to deal
+> @@ -23,21 +24,34 @@
+>  */
+>
+> #include "qemu/osdep.h"
+> -#include "qemu/bitops.h"
+> -#include "qemu/units.h"
+> -#include "migration/vmstate.h"
+> +#include "qapi/error.h"
+> #include "hw/display/vga.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/qdev-properties.h"
+> #include "vga_int.h"
+> -#include "ui/pixel_ops.h"
+>
+> -#define VGA_RAM_SIZE (8 * MiB)
+> +/*
+> + * QEMU interface:
+> + *  + sysbus MMIO region 0: VGA I/O registers
+> + *  + sysbus MMIO region 1: VGA MMIO registers
+> + *  + sysbus MMIO region 2: VGA memory
+> + */
+>
+> -typedef struct VGAMmioState {
+> +#define TYPE_VGA_MMIO "vga-mmio"
+> +OBJECT_DECLARE_SIMPLE_TYPE(VGAMmioState, VGA_MMIO)
+> +
+> +struct VGAMmioState {
+> +    /*< private >*/
+> +    SysBusDevice parent_obj;
+> +
+> +    /*< public >*/
+>     VGACommonState vga;
+> -    int it_shift;
+> -} VGAMmioState;
+> +    MemoryRegion iomem;
+> +    MemoryRegion lowmem;
+> +
+> +    uint8_t it_shift;
+> +};
+>
+> -/* Memory mapped interface */
+> static uint64_t vga_mm_read(void *opaque, hwaddr addr, unsigned size)
+> {
+>     VGAMmioState *s = opaque;
+> @@ -65,43 +79,83 @@ static const MemoryRegionOps vga_mm_ctrl_ops = {
+>     .endianness = DEVICE_NATIVE_ENDIAN,
+> };
+>
+> +static void vga_mmio_reset(DeviceState *dev)
+> +{
+> +    VGAMmioState *d = VGA_MMIO(dev);
+> +    VGACommonState *s = &d->vga;
+> +
+> +    vga_common_reset(s);
 
-Earlier in [*].
+Maybe there's no need for separate variable s here as it's only used once, 
+you could just as well write vga_common_reset(&d->vga).
 
-> Regards,
-> BALATON Zoltan
-> 
->>     s->vga.con = graphic_console_init(NULL, 0, s->vga.hw_ops, s);
->>
->>
+> +}
+> +
+> int vga_mmio_init(hwaddr vram_base,
+>                     hwaddr ctrl_base, int it_shift,
+>                     MemoryRegion *address_space)
+> {
+> -    VGAMmioState *s;
+> -    MemoryRegion *s_ioport_ctrl, *vga_io_memory;
+> +    DeviceState *dev;
+> +    SysBusDevice *s;
+>
+> -    s = g_malloc0(sizeof(*s));
+> +    dev = qdev_new(TYPE_VGA_MMIO);
+> +    qdev_prop_set_uint8(dev, "it_shift", it_shift);
+> +    s = SYS_BUS_DEVICE(dev);
+> +    sysbus_realize_and_unref(s, &error_fatal);
+>
+> -    s->vga.vram_size_mb = VGA_RAM_SIZE / MiB;
+> -    s->vga.global_vmstate = true;
+> -    vga_common_init(&s->vga, NULL);
+> -
+> -    s->it_shift = it_shift;
+> -    s_ioport_ctrl = g_malloc(sizeof(*s_ioport_ctrl));
+> -    memory_region_init_io(s_ioport_ctrl, NULL, &vga_mm_ctrl_ops, s,
+> -                          "vga-mm-ctrl", 0x100000);
+> -    memory_region_set_flush_coalesced(s_ioport_ctrl);
+> -
+> -    vga_io_memory = g_malloc(sizeof(*vga_io_memory));
+> -    /* XXX: endianness? */
+> -    memory_region_init_io(vga_io_memory, NULL, &vga_mem_ops, &s->vga,
+> -                          "vga-mem", 0x20000);
+> -
+> -    vmstate_register(NULL, 0, &vmstate_vga_common, s);
+> -
+> -    memory_region_add_subregion(address_space, ctrl_base, s_ioport_ctrl);
+> -    s->vga.bank_offset = 0;
+> -    memory_region_add_subregion(address_space,
+> -                                vram_base + 0x000a0000, vga_io_memory);
+> -    memory_region_set_coalescing(vga_io_memory);
+> -
+> -    s->vga.con = graphic_console_init(NULL, 0, s->vga.hw_ops, s);
+> -
+> -    memory_region_add_subregion(address_space,
+> -                                VBE_DISPI_LFB_PHYSICAL_ADDRESS,
+> -                                &s->vga.vram);
+> +    sysbus_mmio_map(s, 0, ctrl_base);
+> +    sysbus_mmio_map(s, 1, vram_base + 0x000a0000);
+> +    sysbus_mmio_map(s, 2, VBE_DISPI_LFB_PHYSICAL_ADDRESS);
+>
+>     return 0;
+> }
+> +
+> +static void vga_mmio_realizefn(DeviceState *dev, Error **errp)
+> +{
+> +    VGAMmioState *s = VGA_MMIO(dev);
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> +
+> +    memory_region_init_io(&s->iomem, OBJECT(dev), &vga_mm_ctrl_ops, s,
+
+But maybe you can store OBJECT(dev) in a local as it's needed more than 
+once here. Otherwise
+
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+> +                          "vga-mmio", 0x100000);
+> +    memory_region_set_flush_coalesced(&s->iomem);
+> +    sysbus_init_mmio(sbd, &s->iomem);
+> +
+> +    /* XXX: endianness? */
+> +    memory_region_init_io(&s->lowmem, OBJECT(dev), &vga_mem_ops, &s->vga,
+> +                          "vga-lowmem", 0x20000);
+> +    memory_region_set_coalescing(&s->lowmem);
+> +    sysbus_init_mmio(sbd, &s->lowmem);
+> +
+> +    s->vga.bank_offset = 0;
+> +    s->vga.global_vmstate = true;
+> +    vga_common_init(&s->vga, OBJECT(dev));
+> +    sysbus_init_mmio(sbd, &s->vga.vram);
+> +    s->vga.con = graphic_console_init(dev, 0, s->vga.hw_ops, &s->vga);
+> +}
+> +
+> +static Property vga_mmio_properties[] = {
+> +    DEFINE_PROP_UINT8("it_shift", VGAMmioState, it_shift, 0),
+> +    DEFINE_PROP_UINT32("vgamem_mb", VGAMmioState, vga.vram_size_mb, 8),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void vga_mmio_class_initfn(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->realize = vga_mmio_realizefn;
+> +    dc->reset = vga_mmio_reset;
+> +    dc->vmsd = &vmstate_vga_common;
+> +    device_class_set_props(dc, vga_mmio_properties);
+> +    set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
+> +}
+> +
+> +static const TypeInfo vga_mmio_info = {
+> +    .name          = TYPE_VGA_MMIO,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(VGAMmioState),
+> +    .class_init    = vga_mmio_class_initfn,
+> +};
+> +
+> +static void vga_mmio_register_types(void)
+> +{
+> +    type_register_static(&vga_mmio_info);
+> +}
+> +
+> +type_init(vga_mmio_register_types)
+>
+--3866299591-112189302-1637347223=:35384--
 
