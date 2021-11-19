@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB96645763D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 19:18:07 +0100 (CET)
-Received: from localhost ([::1]:36652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C7145764D
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 19:21:27 +0100 (CET)
+Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo8Sc-0001Lb-RU
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 13:18:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35914)
+	id 1mo8Vr-0002tJ-2N
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 13:21:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mo8QS-0008E7-Pn
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 13:15:53 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:37325)
+ id 1mo8V2-0002DA-LF
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 13:20:36 -0500
+Received: from [2001:738:2001:2001::2001] (port=42762 helo=zero.eik.bme.hu)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mo8QQ-0000qu-C6
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 13:15:52 -0500
+ id 1mo8V0-0001Zc-95
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 13:20:36 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id CFD85755F74;
- Fri, 19 Nov 2021 19:15:46 +0100 (CET)
+ by localhost (Postfix) with SMTP id 7268F756041;
+ Fri, 19 Nov 2021 19:20:30 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B6224748F54; Fri, 19 Nov 2021 19:15:46 +0100 (CET)
+ id 5169B756040; Fri, 19 Nov 2021 19:20:30 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id B44BF746353;
- Fri, 19 Nov 2021 19:15:46 +0100 (CET)
-Date: Fri, 19 Nov 2021 19:15:46 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4FD7875603A;
+ Fri, 19 Nov 2021 19:20:30 +0100 (CET)
+Date: Fri, 19 Nov 2021 19:20:30 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH-for-7.0 1/5] hw/display: Rename VGA_ISA_MM -> VGA_MMIO
-In-Reply-To: <20211119171202.458919-2-f4bug@amsat.org>
-Message-ID: <bba367ed-e3a-d6e5-2d88-93ca51ebccd4@eik.bme.hu>
+Subject: Re: [PATCH-for-7.0 2/5] hw/display/vga-mmio: Inline vga_mm_init()
+In-Reply-To: <20211119171202.458919-3-f4bug@amsat.org>
+Message-ID: <e414c4b-11b-86d7-0b3-5f937db07f49@eik.bme.hu>
 References: <20211119171202.458919-1-f4bug@amsat.org>
- <20211119171202.458919-2-f4bug@amsat.org>
+ <20211119171202.458919-3-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="3866299591-1645420269-1637345746=:35384"
+ boundary="3866299591-748369311-1637346030=:35384"
 X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
+ (failed)
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,31 +69,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-1645420269-1637345746=:35384
+--3866299591-748369311-1637346030=:35384
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
 On Fri, 19 Nov 2021, Philippe Mathieu-Daudé wrote:
-> There is no ISA bus part in the MMIO VGA device, so rename:
->
-> *  hw/display/vga-isa-mm.c -> hw/display/vga-mmio.c
-> *  CONFIG_VGA_ISA_MM -> CONFIG_VGA_MMIO
-> *  ISAVGAMMState -> VGAMmioState
-> *  isa_vga_mm_init() -> vga_mmio_init()
+> Inline vga_mm_init() in vga_mmio_init() to simplify the
+> next patch review. Kind of.
 >
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-
 > ---
-> configs/devices/mips-softmmu/common.mak |  2 +-
-> include/hw/display/vga.h                |  2 +-
-> hw/display/{vga-isa-mm.c => vga-mmio.c} | 16 ++++++++--------
-> hw/mips/jazz.c                          |  2 +-
-> hw/display/Kconfig                      |  2 +-
-> hw/display/meson.build                  |  2 +-
-> hw/mips/Kconfig                         |  2 +-
-> 7 files changed, 14 insertions(+), 14 deletions(-)
-> rename hw/display/{vga-isa-mm.c => vga-mmio.c} (93%)
---3866299591-1645420269-1637345746=:35384--
+> hw/display/vga-mmio.c | 27 ++++++++++-----------------
+> 1 file changed, 10 insertions(+), 17 deletions(-)
+>
+> diff --git a/hw/display/vga-mmio.c b/hw/display/vga-mmio.c
+> index 8aaf44e7b1d..0aefbcf53a0 100644
+> --- a/hw/display/vga-mmio.c
+> +++ b/hw/display/vga-mmio.c
+> @@ -65,12 +65,19 @@ static const MemoryRegionOps vga_mm_ctrl_ops = {
+>     .endianness = DEVICE_NATIVE_ENDIAN,
+> };
+>
+> -static void vga_mm_init(VGAMmioState *s, hwaddr vram_base,
+> -                        hwaddr ctrl_base, int it_shift,
+> -                        MemoryRegion *address_space)
+> +int vga_mmio_init(hwaddr vram_base,
+> +                    hwaddr ctrl_base, int it_shift,
+> +                    MemoryRegion *address_space)
+
+Indentation? (But it's removed later so does not really matter.)
+
+> {
+> +    VGAMmioState *s;
+>     MemoryRegion *s_ioport_ctrl, *vga_io_memory;
+>
+> +    s = g_malloc0(sizeof(*s));
+> +
+> +    s->vga.vram_size_mb = VGA_RAM_SIZE / MiB;
+> +    s->vga.global_vmstate = true;
+> +    vga_common_init(&s->vga, NULL);
+> +
+>     s->it_shift = it_shift;
+>     s_ioport_ctrl = g_malloc(sizeof(*s_ioport_ctrl));
+>     memory_region_init_io(s_ioport_ctrl, NULL, &vga_mm_ctrl_ops, s,
+> @@ -89,20 +96,6 @@ static void vga_mm_init(VGAMmioState *s, hwaddr vram_base,
+>     memory_region_add_subregion(address_space,
+>                                 vram_base + 0x000a0000, vga_io_memory);
+>     memory_region_set_coalescing(vga_io_memory);
+> -}
+> -
+> -int vga_mmio_init(hwaddr vram_base,
+> -                    hwaddr ctrl_base, int it_shift,
+> -                    MemoryRegion *address_space)
+> -{
+> -    VGAMmioState *s;
+> -
+> -    s = g_malloc0(sizeof(*s));
+> -
+> -    s->vga.vram_size_mb = VGA_RAM_SIZE / MiB;
+> -    s->vga.global_vmstate = true;
+> -    vga_common_init(&s->vga, NULL);
+> -    vga_mm_init(s, vram_base, ctrl_base, it_shift, address_space);
+
+Where did this vga_mm_init() go?
+
+Regards,
+BALATON Zoltan
+
+>     s->vga.con = graphic_console_init(NULL, 0, s->vga.hw_ops, s);
+>
+>
+--3866299591-748369311-1637346030=:35384--
 
