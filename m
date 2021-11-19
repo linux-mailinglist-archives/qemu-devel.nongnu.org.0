@@ -2,78 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05838456E54
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 12:39:52 +0100 (CET)
-Received: from localhost ([::1]:46060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00366456E3F
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 12:33:25 +0100 (CET)
+Received: from localhost ([::1]:33070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo2FC-0005aj-IW
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 06:39:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50390)
+	id 1mo28y-00052M-Dk
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 06:33:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <daniellalee111@gmail.com>)
- id 1mo29n-00006Y-9f; Fri, 19 Nov 2021 06:34:15 -0500
-Received: from [2607:f8b0:4864:20::233] (port=33694
- helo=mail-oi1-x233.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <daniellalee111@gmail.com>)
- id 1mo29l-000681-E7; Fri, 19 Nov 2021 06:34:14 -0500
-Received: by mail-oi1-x233.google.com with SMTP id q25so21469277oiw.0;
- Fri, 19 Nov 2021 03:34:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=TSCDq1EAKnVzQiZQOTJUrYn1sPNX8uFfLQz1YsVKcpA=;
- b=eMpq5NLzaI4/yaGpJvu60SHGMz4rl9JUTnBz/Z3orUpbYT/q+jY473BjuA7n0CPUtR
- quGp6ZouRjBREkGwK4s19hBoW+FYboLY9WgAlrLp1+Q96AOchvDyF2L/b2OlS/r/cJuH
- jvYtVKuLwKeyRYHKfG+/twfEBVyLLRuzMgh1HlEeQZ4ySGgB64Y9p8ivsGhCZJOy3en2
- ay/INTCqi4lvEnusEYElsm/tuE9+7DSkfr46CXKc/d9e+EF6MrGOa8Ri76tViiyFS+aZ
- qDvJwM3182GKX9pHbo/WlEnKkh4oHom645vC45tBVvQSAkvCWSo3Ur6zMlbAAyJl8/+M
- ZgiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=TSCDq1EAKnVzQiZQOTJUrYn1sPNX8uFfLQz1YsVKcpA=;
- b=kDGVaVGEerSQLSZW4oXgZ/VyrkPcHMX+AZ+jMidGJFqMG9chTN/hyRRH7LzMTG9BFm
- K+jBkwgl+mchiIUVfiJWHCnL/tjoVd67SUTOB9qVjZAmQFG+zGjkZT5YEJn9OZmlXCCT
- tMERITSMlh8PiP5GP898idp6IPx8EsPD7i9IFZigi21Yw1LLpjfuktV5YwMhFyqwCf7U
- 5qyDNR0zi8zl4x3oDRLvfE4TUFJThVBbkYTjY4+j+lwJ9k9j1JsW8zidH6zymumkVrpm
- /LpMYfr4HU+WFxN+NonIUYHzzc2G2t/bOfPh+gllAXTv3VaU89X7wtdxFTYKKhDATQE/
- 16Vg==
-X-Gm-Message-State: AOAM53087uDjkT1vnxShXmSYeBKXHXk8h7jBhDrHyCs0XH+gk46Qe/h4
- gQ/bmKoA/O7nhN8XE7a5e9JSv6jX/RBt4A==
-X-Google-Smtp-Source: ABdhPJybe7umx9KfT2SobFuUqhBi0/YAwqffV8MYkluN8n7MwT7xkXVyLioRuUPLfaHpxIF78TCCvQ==
-X-Received: by 2002:a17:90b:3142:: with SMTP id
- ip2mr3742068pjb.207.1637321192819; 
- Fri, 19 Nov 2021 03:26:32 -0800 (PST)
-Received: from localhost.localdomain ([106.52.23.176])
- by smtp.googlemail.com with ESMTPSA id l4sm2771605pfc.121.2021.11.19.03.26.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 03:26:32 -0800 (PST)
-From: Daniella Lee <daniellalee111@gmail.com>
-To: kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-Subject: [PATCH] block vvfat.c fix leak when failure occurs
-Date: Fri, 19 Nov 2021 19:25:53 +0800
-Message-Id: <20211119112553.352222-1-daniellalee111@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <d02640d5-7c6c-f78b-da6a-0cad1d53d80f@redhat.com>
-References: <d02640d5-7c6c-f78b-da6a-0cad1d53d80f@redhat.com>
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mo23W-000389-2b
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 06:27:47 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:44140)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mo23Q-0005Ex-Re
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 06:27:45 -0500
+Received: from [192.168.12.10] (unknown [195.68.53.70])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 55ED520896;
+ Fri, 19 Nov 2021 11:27:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1637321251;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WxMvJLlaSyZuu01QiAEru9yMasylabLZBzvJr/jJ4S4=;
+ b=08D9TlqVwrU25PVsTqsDvmmtqOTptfPK91EAjCOcMcKA2UnXFzwIrs7WRFGz/uXaRccwoQ
+ FtczgLjZLQve/fOIcQg4neGRtB96hq4qwAu/WoV8ZiSitFmS0FObeSRORQyK66g5nnvZu8
+ fQdTouK2OLgy4/9l04CTkQJaZl4TyKk=
+Message-ID: <062ebe36-0b8c-2b73-6a5a-db7d2c7e98b7@greensocs.com>
+Date: Fri, 19 Nov 2021 12:27:30 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.2
+Subject: Re: [PATCH 3/5] hw/core: Remove uses of QERR_DEVICE_NO_HOTPLUG
+Content-Language: en-US-large
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20211029230147.2465055-1-philmd@redhat.com>
+ <20211029230147.2465055-4-philmd@redhat.com>
+ <87zgq0r1yq.fsf@dusky.pond.sub.org>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <87zgq0r1yq.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::233
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
- envelope-from=daniellalee111@gmail.com; helo=mail-oi1-x233.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.727,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,65 +68,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniella Lee <daniellalee111@gmail.com>, pai.po.sec@gmail.com
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based on your suggestions. I made a new patch which contians:
-1.format detection
-2.replace calloc with g_malloc0 in enable_write_target function
-3.use g_free without null pointer detection in vvfat_open function
-4.delete line "ret = 0", use return ret directly in vvfat_open function
 
 
-Signed-off-by: Daniella Lee <daniellalee111@gmail.com>
----
- block/vvfat.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+On 11/19/21 09:20, Markus Armbruster wrote:
+> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
+> 
+>> QERR_DEVICE_NO_HOTPLUG definition is obsolete since 2015 (commit
+>> 4629ed1e989, "qerror: Finally unused, clean up"). Replace the two
+>> uses and drop the definition.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>   include/qapi/qmp/qerror.h | 3 ---
+>>   hw/core/qdev.c            | 3 ++-
+>>   softmmu/qdev-monitor.c    | 2 +-
+>>   3 files changed, 3 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/include/qapi/qmp/qerror.h b/include/qapi/qmp/qerror.h
+>> index 596fce0c54e..f49ae01cdb0 100644
+>> --- a/include/qapi/qmp/qerror.h
+>> +++ b/include/qapi/qmp/qerror.h
+>> @@ -26,9 +26,6 @@
+>>   #define QERR_DEVICE_IN_USE \
+>>       "Device '%s' is in use"
+>>   
+>> -#define QERR_DEVICE_NO_HOTPLUG \
+>> -    "Device '%s' does not support hotplugging"
+>> -
+>>   #define QERR_FEATURE_DISABLED \
+>>       "The feature '%s' is not enabled"
+>>   
+>> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+>> index 7f06403752d..14375861c36 100644
+>> --- a/hw/core/qdev.c
+>> +++ b/hw/core/qdev.c
+>> @@ -734,7 +734,8 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
+>>       static int unattached_count;
+>>   
+>>       if (dev->hotplugged && !dc->hotpluggable) {
+>> -        error_setg(errp, QERR_DEVICE_NO_HOTPLUG, object_get_typename(obj));
+>> +        error_setg(errp, "Device '%s' does not support hotplugging",
+>> +                   object_get_typename(obj));
+>>           return;
+>>       }
+>>   
+>> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+>> index 4851de51a5c..35a885a6623 100644
+>> --- a/softmmu/qdev-monitor.c
+>> +++ b/softmmu/qdev-monitor.c
+>> @@ -896,7 +896,7 @@ void qdev_unplug(DeviceState *dev, Error **errp)
+>>       }
+>>   
+>>       if (!dc->hotpluggable) {
+>> -        error_setg(errp, QERR_DEVICE_NO_HOTPLUG,
+>> +        error_setg(errp, "Device '%s' does not support hotplugging",
+>>                      object_get_typename(OBJECT(dev)));
+>>           return;
+>>       }
+> 
+> When the same error is detected in multiple places, I like to ask myself
+> whether the code calls for a refactoring.  But I can't see a useful one
+> here.
+> 
 
-diff --git a/block/vvfat.c b/block/vvfat.c
-index 05e78e3c27..5dacc6cfac 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -1279,8 +1279,18 @@ static int vvfat_open(BlockDriverState *bs, QDict *options, int flags,
- 
-     qemu_co_mutex_init(&s->lock);
- 
--    ret = 0;
-+    qemu_opts_del(opts);
-+
-+    return 0;
-+
- fail:
-+    g_free(s->qcow_filename);
-+    s->qcow_filename = NULL;
-+    g_free(s->cluster_buffer);
-+    s->cluster_buffer = NULL;
-+    g_free(s->used_clusters);
-+    s->used_clusters = NULL;
-+
-     qemu_opts_del(opts);
-     return ret;
- }
-@@ -3118,7 +3128,7 @@ static int enable_write_target(BlockDriverState *bs, Error **errp)
-     int size = sector2cluster(s, s->sector_count);
-     QDict *options;
- 
--    s->used_clusters = calloc(size, 1);
-+    s->used_clusters = g_malloc0(size);
- 
-     array_init(&(s->commits), sizeof(commit_t));
- 
-@@ -3166,8 +3176,6 @@ static int enable_write_target(BlockDriverState *bs, Error **errp)
-     return 0;
- 
- err:
--    g_free(s->qcow_filename);
--    s->qcow_filename = NULL;
-     return ret;
- }
- 
--- 
-2.17.1
+Since the realize check will catch more case (devices created 
+recursively by a command or simply by C code), we could remove the 
+softmmu/qdev-monitor.c check and rely on realize catching that just after.
+In theory failing during realize should have the same result as "not 
+trying to create the device in the first place".
+
+--
+Damien
+
 
 
