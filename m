@@ -2,52 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16A894568EA
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF6E4568EB
 	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 05:06:42 +0100 (CET)
-Received: from localhost ([::1]:44192 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:44486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnvAf-0002Ki-40
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 23:06:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50228)
+	id 1mnvAe-0002Y2-I3
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 23:06:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mnv7u-0000U9-4O
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 23:03:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47690)
+ id 1mnv7x-0000Vl-9V
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 23:03:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mnv7q-00069i-Fv
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 23:03:49 -0500
+ id 1mnv7u-0006AQ-Mp
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 23:03:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637294624;
+ s=mimecast20190719; t=1637294630;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vuh1jLAnYLOXE9D/Bw08ZuN5OlHGXievbVlXm8DebZA=;
- b=C49fxs25SSMMI353av/qMLQIMq3dgX/27jFnkekcU5v+5E7QB1rV1MTCMo9KxG3Om/oi0i
- DadJC8dge9zBd0qn4tjBTa8frfxFn9FnejdV9MD4+Ad+vb/bm2gn7K4piEg5t+VXZ91nv8
- ylNHAg8814pc1BXlOGHioQmOlyK8CcU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O+tB+YFYhuHEBK7CsL9GlmnbNtRTQ7niRop0xvz4Kfc=;
+ b=HPB8WGKLagC1HklJlgtPtUpTWcGLqiskjbbFPIwAnbA72wpE0mqduiunfP+QUX8P2Fq801
+ QoYQLY4i5CizaVBCnjImmFTF+wyyPbMJKIFg8G/6pWHp+pjoY/qF7Jw1vakYNh69ibtpI+
+ /z/yT3bY1nli46clWk416STxL0Rr6Bs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-478-02bfBmlXMH6cs-6SO57E2Q-1; Thu, 18 Nov 2021 23:03:42 -0500
-X-MC-Unique: 02bfBmlXMH6cs-6SO57E2Q-1
+ us-mta-244-x1_qXCHpNIatngA1G-4hcw-1; Thu, 18 Nov 2021 23:03:45 -0500
+X-MC-Unique: x1_qXCHpNIatngA1G-4hcw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02C82824F83;
- Fri, 19 Nov 2021 04:03:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25DD4802C91;
+ Fri, 19 Nov 2021 04:03:44 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-18.pek2.redhat.com [10.72.13.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 99BD160BF1;
- Fri, 19 Nov 2021 04:03:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 94B9460BF1;
+ Fri, 19 Nov 2021 04:03:41 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 0/3] Net patches
-Date: Fri, 19 Nov 2021 12:03:33 +0800
-Message-Id: <20211119040336.14460-1-jasowang@redhat.com>
+Subject: [PULL 1/3] net: vmxnet3: validate configuration values during
+ activate (CVE-2021-20203)
+Date: Fri, 19 Nov 2021 12:03:34 +0800
+Message-Id: <20211119040336.14460-2-jasowang@redhat.com>
+In-Reply-To: <20211119040336.14460-1-jasowang@redhat.com>
+References: <20211119040336.14460-1-jasowang@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
@@ -77,35 +81,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Gaoning Pan <pgn@zju.edu.cn>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 44a3aa0608f01274418487b655d42467c1d8334e:
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-  Merge tag 'sev-hashes-pull-request' of https://gitlab.com/berrange/qemu into staging (2021-11-18 15:06:05 +0100)
+While activating device in vmxnet3_acticate_device(), it does not
+validate guest supplied configuration values against predefined
+minimum - maximum limits. This may lead to integer overflow or
+OOB access issues. Add checks to avoid it.
 
-are available in the git repository at:
+Fixes: CVE-2021-20203
+Buglink: https://bugs.launchpad.net/qemu/+bug/1913873
+Reported-by: Gaoning Pan <pgn@zju.edu.cn>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/net/vmxnet3.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-  https://github.com/jasowang/qemu.git tags/net-pull-request
-
-for you to fetch changes up to 0656fbc7ddccdade1709742a9b56ae07dd3c280a:
-
-  net/colo-compare.c: Fix incorrect return when input wrong size (2021-11-19 11:44:22 +0800)
-
-----------------------------------------------------------------
-
-----------------------------------------------------------------
-Prasad J Pandit (1):
-      net: vmxnet3: validate configuration values during activate (CVE-2021-20203)
-
-Zhang Chen (2):
-      net/colo-compare.c: Fix ACK track reverse issue
-      net/colo-compare.c: Fix incorrect return when input wrong size
-
- hw/net/vmxnet3.c   | 13 +++++++++++++
- net/colo-compare.c |  8 +++++---
- 2 files changed, 18 insertions(+), 3 deletions(-)
-
+diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+index 41f796a..f65af4e 100644
+--- a/hw/net/vmxnet3.c
++++ b/hw/net/vmxnet3.c
+@@ -1441,6 +1441,7 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+     vmxnet3_setup_rx_filtering(s);
+     /* Cache fields from shared memory */
+     s->mtu = VMXNET3_READ_DRV_SHARED32(d, s->drv_shmem, devRead.misc.mtu);
++    assert(VMXNET3_MIN_MTU <= s->mtu && s->mtu < VMXNET3_MAX_MTU);
+     VMW_CFPRN("MTU is %u", s->mtu);
+ 
+     s->max_rx_frags =
+@@ -1486,6 +1487,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+         /* Read rings memory locations for TX queues */
+         pa = VMXNET3_READ_TX_QUEUE_DESCR64(d, qdescr_pa, conf.txRingBasePA);
+         size = VMXNET3_READ_TX_QUEUE_DESCR32(d, qdescr_pa, conf.txRingSize);
++        if (size > VMXNET3_TX_RING_MAX_SIZE) {
++            size = VMXNET3_TX_RING_MAX_SIZE;
++        }
+ 
+         vmxnet3_ring_init(d, &s->txq_descr[i].tx_ring, pa, size,
+                           sizeof(struct Vmxnet3_TxDesc), false);
+@@ -1496,6 +1500,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+         /* TXC ring */
+         pa = VMXNET3_READ_TX_QUEUE_DESCR64(d, qdescr_pa, conf.compRingBasePA);
+         size = VMXNET3_READ_TX_QUEUE_DESCR32(d, qdescr_pa, conf.compRingSize);
++        if (size > VMXNET3_TC_RING_MAX_SIZE) {
++            size = VMXNET3_TC_RING_MAX_SIZE;
++        }
+         vmxnet3_ring_init(d, &s->txq_descr[i].comp_ring, pa, size,
+                           sizeof(struct Vmxnet3_TxCompDesc), true);
+         VMXNET3_RING_DUMP(VMW_CFPRN, "TXC", i, &s->txq_descr[i].comp_ring);
+@@ -1537,6 +1544,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+             /* RX rings */
+             pa = VMXNET3_READ_RX_QUEUE_DESCR64(d, qd_pa, conf.rxRingBasePA[j]);
+             size = VMXNET3_READ_RX_QUEUE_DESCR32(d, qd_pa, conf.rxRingSize[j]);
++            if (size > VMXNET3_RX_RING_MAX_SIZE) {
++                size = VMXNET3_RX_RING_MAX_SIZE;
++            }
+             vmxnet3_ring_init(d, &s->rxq_descr[i].rx_ring[j], pa, size,
+                               sizeof(struct Vmxnet3_RxDesc), false);
+             VMW_CFPRN("RX queue %d:%d: Base: %" PRIx64 ", Size: %d",
+@@ -1546,6 +1556,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+         /* RXC ring */
+         pa = VMXNET3_READ_RX_QUEUE_DESCR64(d, qd_pa, conf.compRingBasePA);
+         size = VMXNET3_READ_RX_QUEUE_DESCR32(d, qd_pa, conf.compRingSize);
++        if (size > VMXNET3_RC_RING_MAX_SIZE) {
++            size = VMXNET3_RC_RING_MAX_SIZE;
++        }
+         vmxnet3_ring_init(d, &s->rxq_descr[i].comp_ring, pa, size,
+                           sizeof(struct Vmxnet3_RxCompDesc), true);
+         VMW_CFPRN("RXC queue %d: Base: %" PRIx64 ", Size: %d", i, pa, size);
+-- 
+2.7.4
 
 
