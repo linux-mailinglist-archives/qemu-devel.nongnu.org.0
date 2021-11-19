@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B559D45734E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:43:06 +0100 (CET)
-Received: from localhost ([::1]:38108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B564572FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:31:52 +0100 (CET)
+Received: from localhost ([::1]:38414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo6yf-0006me-Rn
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:43:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49338)
+	id 1mo6nn-0004Zp-N3
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:31:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mo6bK-0005Ua-Ls
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:18:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37238)
+ id 1mo6fq-00075G-EI
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:23:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mo6bH-0004NI-N0
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:18:57 -0500
+ id 1mo6fn-0005Mi-Rr
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:23:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637338734;
+ s=mimecast20190719; t=1637339014;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=PlvVppBVudH/UEJy9S8QVuC82f8h8BZZu6Qw7PbzFO0=;
- b=ekrKxALKhG8ykqKxqx8X58d9RzlJ3C4kPVXTcxqrOljToC1jrFz2VvJrOrBJ6SBQVw8cKA
- x6AChuEH/GIotPW8NzikaUOoM5jR+rriEubL/59k6vW+TuSFfSZ8tu90lAtKu8FIJ3kXJt
- uFCodOjlcee9ASAtDt4DZDwQTNW5Azk=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=A41A1UGsUCgmBJoKu1eFJuwQR4wEx16nwik+2np6lXY=;
+ b=DUqR5jgczuT1F2hEveLoOeitvFUCHYBpHNykjUC2gUqswY74JSHrxRNFTU47Pyb7+yEBfV
+ sdRw5hl2LVrkGvvY0MK/teWiTWW3WtBc/fXmTQPcd3tJgn2MB/6ZTMOlHjRXS4QnUhqYod
+ Rt5ojMY38bih+HfUWWZsQvj/JXLfd7s=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-100-TWuZASCsMDWS6jLopjrYWA-1; Fri, 19 Nov 2021 11:18:53 -0500
-X-MC-Unique: TWuZASCsMDWS6jLopjrYWA-1
-Received: by mail-pf1-f200.google.com with SMTP id
- l7-20020a622507000000b00494608c84a4so5898309pfl.6
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:18:53 -0800 (PST)
+ us-mta-572-KU8bxXyrO9eTG3zVO0nwfA-1; Fri, 19 Nov 2021 11:23:32 -0500
+X-MC-Unique: KU8bxXyrO9eTG3zVO0nwfA-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ h15-20020a17090a648f00b001a96c2c97abso3478789pjj.9
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:23:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=PlvVppBVudH/UEJy9S8QVuC82f8h8BZZu6Qw7PbzFO0=;
- b=T7dwuQfOw7o32xGH4UuHUxkhqxVs0bbVdCDa0C5zGPDyYO+rSS4gi2UBRO9UDhw3za
- /jh0nISQqmot+TT3dEJaKT9KGBoOIH+qlwr7bGNWtf7Ssn5C1agSTM6+VDEbQR7VmbsE
- lBEJ2EYyPIy4l19O0J+nBOHQDDdYoFaRt4tdWDkbDnRXNF77H0dMIMQ8FQrFJLSxwBtm
- eVAxupJji9C/UYAiMpmJXT2VtvxO00t/UdfJ4V+WEYptm4sGd9vrS6WIRGY8svRy2K+j
- /cMrYsAqbKJoBx1heqwTLTe1bbxCvsYtz0lKnnS11N7lfDhkpLyNvcO6TiyBvlKQ8HQy
- IapA==
-X-Gm-Message-State: AOAM531/+F9Yvuxt4U8eNk8Gp2OWcn25809Ak9K0y5hvm7KY5WOmD36b
- IrjYzPLfWheGD5B6BFnYIs34ePrnxl5u5mzPVE6US8t6wCqk2XSFOZvC8OBIKsNS70UiHp1+M6M
- e0xvnZJvWPHi8c0yRQJx6MSBnXIkUdRI=
-X-Received: by 2002:a17:90b:1057:: with SMTP id
- gq23mr883264pjb.203.1637338731745; 
- Fri, 19 Nov 2021 08:18:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx7OP3lG8BIDuvgsmg3BvHvPxHNSiSHVKnTr6+Eu5F13qS7oXzLBwpe+p1jifpASeX6FTZWqOe5NYJHSSls4e8=
-X-Received: by 2002:a17:90b:1057:: with SMTP id
- gq23mr882532pjb.203.1637338724863; 
- Fri, 19 Nov 2021 08:18:44 -0800 (PST)
+ bh=A41A1UGsUCgmBJoKu1eFJuwQR4wEx16nwik+2np6lXY=;
+ b=bTcjA+zOOzWQzVToP/7uw7F9SKumaPpqz9CWCNoCUGQcImYnZX0WIri0N/S25MV2+7
+ FiuWP08ErmroPtbXhCh0HyjdjP7lYNgaTg8giVUJinAbxAIfWkLNoD3kAIBfYhf5zMoF
+ KHjzKhV8Bkoz/zfvIkf8l5Hv78ClwVyQMGW+8pfdYoHHYC0yIXv9SXCQaLf8aD7KJpv3
+ hwZ4duYff/ZINTrQKGWJfSJkNivAp4uM766KoMLuDJIt5lsNS7BhkQHlyz2s9m1z7cVW
+ NjOl4EZ5j886vxV6FoudVcjJ3pO+1f454cUYJ8c3h5ALgoV4G5dpe4uLSEF4nOdivL+s
+ FJpw==
+X-Gm-Message-State: AOAM531NII4rWGMzVRU7LJ3Sr9Kw8dadQKQRZfvfeSfKm0f3VhDDfJvI
+ dko+ol08et3FJwFO/rpXmzaGddrFaf5phEdsG1cTEDqCwk6wruWSGfFK2O9pTJqAG2vGt5aBHRi
+ v/29V2YokMCwULfZBKmf7vKqavyxZcDk=
+X-Received: by 2002:a63:1007:: with SMTP id f7mr2047295pgl.212.1637339011266; 
+ Fri, 19 Nov 2021 08:23:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxLK6eJAcP039wqbfAZ2NqSPCnOX9vuafGR70GPH3x4A48kjGuMCjVwOGLy4BK6HiPf62HoAwg3DuVy0xs+rao=
+X-Received: by 2002:a63:1007:: with SMTP id f7mr2047273pgl.212.1637339011072; 
+ Fri, 19 Nov 2021 08:23:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20211118204620.1897674-1-jsnow@redhat.com>
- <20211118204620.1897674-8-jsnow@redhat.com>
-In-Reply-To: <20211118204620.1897674-8-jsnow@redhat.com>
+References: <20211119135348.407679-1-farosas@linux.ibm.com>
+In-Reply-To: <20211119135348.407679-1-farosas@linux.ibm.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 19 Nov 2021 13:18:18 -0300
-Message-ID: <CAKJDGDb2HsHbF8M_9LDqkS+D9pP=-XvmRRw+HJBhG7J+hFvM2A@mail.gmail.com>
-Subject: Re: [PATCH 7/7] python/aqmp: fix send_fd_scm for python 3.6.x
-To: John Snow <jsnow@redhat.com>
+Date: Fri, 19 Nov 2021 13:23:04 -0300
+Message-ID: <CAKJDGDZxV9prPohFkXJB85ZLxFgTs4B0NS5Ri88BcoRC7XYdMw@mail.gmail.com>
+Subject: Re: [PATCH] tests/avocado: ppc: Add smoke tests for MPC7400 and
+ MPC7450 families
+To: Fabiano Rosas <farosas@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,24 +90,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: danielhb413@gmail.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel <qemu-devel@nongnu.org>, Wainer Moschetta <wainersm@redhat.com>,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>, Philippe Mathieu Daude <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 18, 2021 at 5:53 PM John Snow <jsnow@redhat.com> wrote:
+On Fri, Nov 19, 2021 at 10:54 AM Fabiano Rosas <farosas@linux.ibm.com> wrote:
 >
-> 3.6 doesn't play keepaway with the socket object, so we don't need to go
-> fishing for it on this version. In fact, so long as 'sendmsg' is still
-> available, it's probably preferable to just use that method and only go
-> fishing for forbidden details when we absolutely have to.
+> These tests ensure that our emulation for these cpus is not completely
+> broken and we can at least run OpenBIOS on them.
 >
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: John Snow <jsnow@redhat.com>
+> $ make check-avocado AVOCADO_TESTS=../tests/avocado/ppc_74xx.py
+>
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+>
 > ---
->  python/qemu/aqmp/qmp_client.py | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+> Note that the 7450s are currently broken, depending on the fix for
+> https://gitlab.com/qemu-project/qemu/-/issues/86 that is being
+> discussed in the thread:
 >
+> https://lists.nongnu.org/archive/html/qemu-ppc/2021-11/msg00289.html
+> ---
+>  tests/avocado/ppc_74xx.py | 134 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 134 insertions(+)
+>  create mode 100644 tests/avocado/ppc_74xx.py
+>
+> diff --git a/tests/avocado/ppc_74xx.py b/tests/avocado/ppc_74xx.py
+> new file mode 100644
+> index 0000000000..72b99d39c0
+> --- /dev/null
+> +++ b/tests/avocado/ppc_74xx.py
+> @@ -0,0 +1,134 @@
+> +# Smoke tests for 74xx cpus (aka G4).
+> +#
+> +# Copyright (c) 2021, IBM Corp.
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> +# later.  See the COPYING file in the top-level directory.
+> +
+> +from avocado import skip
+
+You are not using this import in the file. No need to import it here.
+
+Removing the unused import, the code looks good to me, so:
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
