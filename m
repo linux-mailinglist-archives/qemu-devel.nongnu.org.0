@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 349DC457311
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:34:27 +0100 (CET)
-Received: from localhost ([::1]:46736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD14845730E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:32:44 +0100 (CET)
+Received: from localhost ([::1]:40802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo6qI-0001s8-Aa
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:34:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44406)
+	id 1mo6od-0006Fl-VP
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:32:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mo6Oy-0006jq-UM
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:06:12 -0500
-Received: from [2a00:1450:4864:20::432] (port=37450
- helo=mail-wr1-x432.google.com)
+ id 1mo6P0-0006pI-Ci
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:06:14 -0500
+Received: from [2a00:1450:4864:20::32a] (port=54871
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mo6Ow-0004Ub-Pw
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:06:12 -0500
-Received: by mail-wr1-x432.google.com with SMTP id b12so18965966wrh.4
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:06:10 -0800 (PST)
+ id 1mo6Oy-0004VT-D2
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:06:14 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id i12so8962923wmq.4
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:06:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sweQ4BDR3k99ik596XHBGoHw6k1qdFiMXzqKL7htKfk=;
- b=ZR3mlp1GexIJeHznNLQNHG3iA04cMZeo1k9D4B3m0K0AyNuNajWC2d4B4D2QqQlK7s
- JbrzS7qET35L2/B+P7SEkr8XV8pbkOnWnBV6WhVQUOdPOY8+vpM5vxYo/tPD60BtbIIE
- 1lOnMOW/2R8ZFi+wzOe34sLdH6ooxyMcu+v3SU41zXGiaJOVDUA0TfEm6XFaiqeJsHr7
- 8D+nTisnH9PEQI03vZED+kIGmqE8XDgjzYaO+XAkQgiAtsSOLOXJ4VDnl01OLym49oZU
- cUT4rob4PnH8s1IX5RtulGdXEHumTecLOR5zx5/okx/QQYPavrE6cyskw5NaVUUd2/S5
- 2PFw==
+ bh=5FSYrrr1a7ZftVvc2Pz+uGJWEMEubZTsphTz8FBcu/Y=;
+ b=CRRkD1JIC7/boKQYfK/xYK+dtLsKoXx7mRzLz0Kk14DLb33tYVTzMM0uy85I3dwV5M
+ 1aqXnt6tQT4v1bSDZG1ll3II5n7Gv42PspBh+pdp5XJs+nmWoL9HvIgR6qypYtFHB7Jo
+ WGzVdHtvJp1TEjEEi61P9bLY6sdQhB5LQGKQtItUxF9ypCZVx8gQ6Wxl91FMAcko+65p
+ AEwVUlZPmpXQ3mk6gfrjDj1UdSyvEiE/pn3727iRNR3bpVX7MY/A3SSD6aSMtF9p6Uly
+ Tt868eVIeX8ZXj71RXRVwA7x6Bo8AbablgwO5L3OGr728ka+SubpP/GTMXoopjIXS4QF
+ qgfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sweQ4BDR3k99ik596XHBGoHw6k1qdFiMXzqKL7htKfk=;
- b=OPQL/7BnclbpsPqph5qsNuYnHdBnmXfK/mUKyhTK5xpfYNnDGGZxRx3+diO6wauHFI
- LAG5JUuM0HM7xNkwWyYEGYTkyqhDBGwHt1LHtBmj/uhRgpCZbqKKFf/rpBJX4bqUdIdg
- 0llx7jka+BjFwhojuTeFEdyk1LSgqkG7k9HufLz0rQcze6EfE3dKZ3gVaLAZViv7sRkV
- S5FRrIAZjsFU99dhpGTFPA7ERW3i2M53FoMhWypFO4Y7JRdRrjN2pw3xMMK9pHLyJEyT
- p5nolfYUWQeGc5kwhQj30UkerxhtxJdl/FJC76xVonFC44WhS+mbbDMGgEhLOsXWccAP
- 6Y3g==
-X-Gm-Message-State: AOAM533RdLh5HtICr37GhN9xEBb3UXBynT6+KSxX8/AOk2dmyRRYLmJb
- I+riKSgFwexI5StZWRtEvEJXWB7G3qXkMNrEsxU=
-X-Google-Smtp-Source: ABdhPJwGcB42dPrF9+QF246b47tU/BNRC5EvGbTIc46vA1Zc/kLFqMYjSb0QE7ZK6oz7a4MHByOWGg==
-X-Received: by 2002:a5d:6dab:: with SMTP id u11mr8456896wrs.46.1637337969340; 
- Fri, 19 Nov 2021 08:06:09 -0800 (PST)
+ bh=5FSYrrr1a7ZftVvc2Pz+uGJWEMEubZTsphTz8FBcu/Y=;
+ b=gv2rH/XhwJe+7ZvH7A/eXzULOvnBNc/0bMyMyxsu+FF4+6vqo5/plYmgLXfQLZF57x
+ pOghAABczT+v2jSX0Tt6DcJUfIfEgm7uQRtOUKNIj9t59y/GeFQxQcI11vZQznvHMRTz
+ 4kxM1LDIXvhIkDaek9geInLEH54n+2UBq0jSmL1jV39QfeiQ2CkqEjXNgkDnVlh1nEHw
+ NDtNmO0fDSW2uxyFgMxNX/ZQs4KIkbcYLiFIACyvKDhwX8DxZiienAvJpLhwNqvlSuvy
+ lMcNhy9ECu0Q8pc01njTfDso+0Qzib9Ka9iQf+QssG2HmA/0HAJ4QGQ6tD8wJaAZE+Zz
+ uJjw==
+X-Gm-Message-State: AOAM533NPc1gqTfzwGUxQ8hP3nQ3RHEq2ScyGCzfuzmr+bhEMnH/lka2
+ pfYJRfAWh2dVZgFdFpgmbUYJhwbDN18X1ulBUvs=
+X-Google-Smtp-Source: ABdhPJx7MZo28+XLPSqr0mqdFR3T/fgxUIYL/hUsprmykie0AdbpantInBXVaomiBzc5Wn70FMX0xA==
+X-Received: by 2002:a1c:448b:: with SMTP id r133mr880408wma.85.1637337970951; 
+ Fri, 19 Nov 2021 08:06:10 -0800 (PST)
 Received: from localhost.localdomain
  (165.red-37-158-79.dynamicip.rima-tde.net. [37.158.79.165])
- by smtp.gmail.com with ESMTPSA id q84sm14044877wme.3.2021.11.19.08.06.07
+ by smtp.gmail.com with ESMTPSA id q84sm14044877wme.3.2021.11.19.08.06.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 08:06:08 -0800 (PST)
+ Fri, 19 Nov 2021 08:06:10 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 27/35] softfloat: Add float64r32 arithmetic routines
-Date: Fri, 19 Nov 2021 17:04:54 +0100
-Message-Id: <20211119160502.17432-28-richard.henderson@linaro.org>
+Subject: [PATCH 28/35] target/ppc: Add helpers for fmadds et al
+Date: Fri, 19 Nov 2021 17:04:55 +0100
+Message-Id: <20211119160502.17432-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211119160502.17432-1-richard.henderson@linaro.org>
 References: <20211119160502.17432-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,198 +91,107 @@ Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These variants take a float64 as input, compute the result to
-infinite precision (as we do with FloatParts), round the result
-to the precision and dynamic range of float32, and then return
-the result in the format of float64.
-
-This is the operation PowerPC requires for its float32 operations.
+Use float64r32_muladd.  Fixes a double-rounding issue with performing
+the compuation in float64 and then rounding afterward.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/fpu/softfloat.h |  12 +++++
- fpu/softfloat.c         | 110 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 122 insertions(+)
+ target/ppc/helper.h                |  4 ++++
+ target/ppc/fpu_helper.c            | 17 ++++++++++++++++-
+ target/ppc/translate/fp-impl.c.inc | 13 +++++--------
+ 3 files changed, 25 insertions(+), 9 deletions(-)
 
-diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index 0d3b407807..d34b2c44d2 100644
---- a/include/fpu/softfloat.h
-+++ b/include/fpu/softfloat.h
-@@ -908,6 +908,18 @@ static inline bool float64_unordered_quiet(float64 a, float64 b,
- *----------------------------------------------------------------------------*/
- float64 float64_default_nan(float_status *status);
- 
-+/*----------------------------------------------------------------------------
-+| Software IEC/IEEE double-precision operations, rounding to single precision,
-+| returning a result in double precision, with only one rounding step.
-+*----------------------------------------------------------------------------*/
-+
-+float64 float64r32_add(float64, float64, float_status *status);
-+float64 float64r32_sub(float64, float64, float_status *status);
-+float64 float64r32_mul(float64, float64, float_status *status);
-+float64 float64r32_div(float64, float64, float_status *status);
-+float64 float64r32_muladd(float64, float64, float64, int, float_status *status);
-+float64 float64r32_sqrt(float64, float_status *status);
-+
- /*----------------------------------------------------------------------------
- | Software IEC/IEEE extended double-precision conversion routines.
- *----------------------------------------------------------------------------*/
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 834ed3a054..7f524d4377 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -1693,6 +1693,50 @@ static float64 float64_round_pack_canonical(FloatParts64 *p,
-     return float64_pack_raw(p);
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 627811cefc..ca893e1232 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -100,6 +100,10 @@ DEF_HELPER_4(fmadd, i64, env, i64, i64, i64)
+ DEF_HELPER_4(fmsub, i64, env, i64, i64, i64)
+ DEF_HELPER_4(fnmadd, i64, env, i64, i64, i64)
+ DEF_HELPER_4(fnmsub, i64, env, i64, i64, i64)
++DEF_HELPER_4(fmadds, i64, env, i64, i64, i64)
++DEF_HELPER_4(fmsubs, i64, env, i64, i64, i64)
++DEF_HELPER_4(fnmadds, i64, env, i64, i64, i64)
++DEF_HELPER_4(fnmsubs, i64, env, i64, i64, i64)
+ DEF_HELPER_2(fsqrt, f64, env, f64)
+ DEF_HELPER_2(fre, i64, env, i64)
+ DEF_HELPER_2(fres, i64, env, i64)
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 7b4407e189..5caeed2c45 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -657,10 +657,25 @@ static float64 do_fmadd(CPUPPCState *env, float64 a, float64 b,
+     return ret;
  }
  
-+static float64 float64r32_round_pack_canonical(FloatParts64 *p,
-+                                               float_status *s)
++static uint64_t do_fmadds(CPUPPCState *env, float64 a, float64 b,
++                          float64 c, int madd_flags, uintptr_t retaddr)
 +{
-+    parts_uncanon(p, s, &float32_params);
++    float64 ret = float64r32_muladd(a, b, c, madd_flags, &env->fp_status);
++    int flags = get_float_exception_flags(&env->fp_status);
 +
-+    /*
-+     * In parts_uncanon, we placed the fraction for float32 at the lsb.
-+     * We need to adjust the fraction higher so that the least N bits are
-+     * zero, and the fraction is adjacent to the float64 implicit bit.
-+     */
-+    switch (p->cls) {
-+    case float_class_normal:
-+        if (unlikely(p->exp == 0)) {
-+            /*
-+             * The result is denormal for float32, but can be represented
-+             * in normalized form for float64.  Adjust, per canonicalize.
-+             */
-+            int shift = frac_normalize(p);
-+            p->exp = (float32_params.frac_shift -
-+                      float32_params.exp_bias - shift + 1 +
-+                      float64_params.exp_bias);
-+            frac_shr(p, float64_params.frac_shift);
-+        } else {
-+            frac_shl(p, float32_params.frac_shift - float64_params.frac_shift);
-+            p->exp += float64_params.exp_bias - float32_params.exp_bias;
-+        }
-+        break;
-+    case float_class_snan:
-+    case float_class_qnan:
-+        frac_shl(p, float32_params.frac_shift - float64_params.frac_shift);
-+        p->exp = float64_params.exp_max;
-+        break;
-+    case float_class_inf:
-+        p->exp = float64_params.exp_max;
-+        break;
-+    case float_class_zero:
-+        break;
-+    default:
-+        g_assert_not_reached();
++    if (unlikely(flags & float_flag_invalid)) {
++        float_invalid_op_madd(env, flags, 1, retaddr);
 +    }
-+
-+    return float64_pack_raw(p);
++    return ret;
 +}
 +
- static void float128_unpack_canonical(FloatParts128 *p, float128 f,
-                                       float_status *s)
- {
-@@ -1938,6 +1982,28 @@ float64_sub(float64 a, float64 b, float_status *s)
-     return float64_addsub(a, b, s, hard_f64_sub, soft_f64_sub);
+ #define FPU_FMADD(op, madd_flags)                                    \
+     uint64_t helper_##op(CPUPPCState *env, uint64_t arg1,            \
+                          uint64_t arg2, uint64_t arg3)               \
+-    { return do_fmadd(env, arg1, arg2, arg3, madd_flags, GETPC()); }
++    { return do_fmadd(env, arg1, arg2, arg3, madd_flags, GETPC()); } \
++    uint64_t helper_##op##s(CPUPPCState *env, uint64_t arg1,         \
++                         uint64_t arg2, uint64_t arg3)               \
++    { return do_fmadds(env, arg1, arg2, arg3, madd_flags, GETPC()); }
+ 
+ #define MADD_FLGS 0
+ #define MSUB_FLGS float_muladd_negate_c
+diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
+index aad97a12e8..b1af4bef61 100644
+--- a/target/ppc/translate/fp-impl.c.inc
++++ b/target/ppc/translate/fp-impl.c.inc
+@@ -31,7 +31,7 @@ static void gen_set_cr1_from_fpscr(DisasContext *ctx)
+ #endif
+ 
+ /***                       Floating-Point arithmetic                       ***/
+-#define _GEN_FLOAT_ACB(name, op, op1, op2, isfloat, set_fprf, type)           \
++#define _GEN_FLOAT_ACB(name, op1, op2, set_fprf, type)                        \
+ static void gen_f##name(DisasContext *ctx)                                    \
+ {                                                                             \
+     TCGv_i64 t0;                                                              \
+@@ -50,10 +50,7 @@ static void gen_f##name(DisasContext *ctx)                                    \
+     get_fpr(t0, rA(ctx->opcode));                                             \
+     get_fpr(t1, rC(ctx->opcode));                                             \
+     get_fpr(t2, rB(ctx->opcode));                                             \
+-    gen_helper_f##op(t3, cpu_env, t0, t1, t2);                                \
+-    if (isfloat) {                                                            \
+-        gen_helper_frsp(t3, cpu_env, t3);                                     \
+-    }                                                                         \
++    gen_helper_f##name(t3, cpu_env, t0, t1, t2);                              \
+     set_fpr(rD(ctx->opcode), t3);                                             \
+     if (set_fprf) {                                                           \
+         gen_compute_fprf_float64(t3);                                         \
+@@ -68,8 +65,8 @@ static void gen_f##name(DisasContext *ctx)                                    \
  }
  
-+static float64 float64r32_addsub(float64 a, float64 b, float_status *status,
-+                                 bool subtract)
-+{
-+    FloatParts64 pa, pb, *pr;
-+
-+    float64_unpack_canonical(&pa, a, status);
-+    float64_unpack_canonical(&pb, b, status);
-+    pr = parts_addsub(&pa, &pb, status, subtract);
-+
-+    return float64r32_round_pack_canonical(pr, status);
-+}
-+
-+float64 float64r32_add(float64 a, float64 b, float_status *status)
-+{
-+    return float64r32_addsub(a, b, status, false);
-+}
-+
-+float64 float64r32_sub(float64 a, float64 b, float_status *status)
-+{
-+    return float64r32_addsub(a, b, status, true);
-+}
-+
- static bfloat16 QEMU_FLATTEN
- bfloat16_addsub(bfloat16 a, bfloat16 b, float_status *status, bool subtract)
- {
-@@ -2069,6 +2135,17 @@ float64_mul(float64 a, float64 b, float_status *s)
-                         f64_is_zon2, f64_addsubmul_post);
+ #define GEN_FLOAT_ACB(name, op2, set_fprf, type)                              \
+-_GEN_FLOAT_ACB(name, name, 0x3F, op2, 0, set_fprf, type);                     \
+-_GEN_FLOAT_ACB(name##s, name, 0x3B, op2, 1, set_fprf, type);
++_GEN_FLOAT_ACB(name, 0x3F, op2, set_fprf, type);                              \
++_GEN_FLOAT_ACB(name##s, 0x3B, op2, set_fprf, type);
+ 
+ #define _GEN_FLOAT_AB(name, op, op1, op2, inval, isfloat, set_fprf, type)     \
+ static void gen_f##name(DisasContext *ctx)                                    \
+@@ -233,7 +230,7 @@ static void gen_frsqrtes(DisasContext *ctx)
  }
  
-+float64 float64r32_mul(float64 a, float64 b, float_status *status)
-+{
-+    FloatParts64 pa, pb, *pr;
-+
-+    float64_unpack_canonical(&pa, a, status);
-+    float64_unpack_canonical(&pb, b, status);
-+    pr = parts_mul(&pa, &pb, status);
-+
-+    return float64r32_round_pack_canonical(pr, status);
-+}
-+
- bfloat16 QEMU_FLATTEN
- bfloat16_mul(bfloat16 a, bfloat16 b, float_status *status)
- {
-@@ -2296,6 +2373,19 @@ float64_muladd(float64 xa, float64 xb, float64 xc, int flags, float_status *s)
-     return soft_f64_muladd(ua.s, ub.s, uc.s, flags, s);
- }
- 
-+float64 float64r32_muladd(float64 a, float64 b, float64 c,
-+                          int flags, float_status *status)
-+{
-+    FloatParts64 pa, pb, pc, *pr;
-+
-+    float64_unpack_canonical(&pa, a, status);
-+    float64_unpack_canonical(&pb, b, status);
-+    float64_unpack_canonical(&pc, c, status);
-+    pr = parts_muladd(&pa, &pb, &pc, flags, status);
-+
-+    return float64r32_round_pack_canonical(pr, status);
-+}
-+
- bfloat16 QEMU_FLATTEN bfloat16_muladd(bfloat16 a, bfloat16 b, bfloat16 c,
-                                       int flags, float_status *status)
- {
-@@ -2419,6 +2509,17 @@ float64_div(float64 a, float64 b, float_status *s)
-                         f64_div_pre, f64_div_post);
- }
- 
-+float64 float64r32_div(float64 a, float64 b, float_status *status)
-+{
-+    FloatParts64 pa, pb, *pr;
-+
-+    float64_unpack_canonical(&pa, a, status);
-+    float64_unpack_canonical(&pb, b, status);
-+    pr = parts_div(&pa, &pb, status);
-+
-+    return float64r32_round_pack_canonical(pr, status);
-+}
-+
- bfloat16 QEMU_FLATTEN
- bfloat16_div(bfloat16 a, bfloat16 b, float_status *status)
- {
-@@ -4285,6 +4386,15 @@ float64 QEMU_FLATTEN float64_sqrt(float64 xa, float_status *s)
-     return soft_f64_sqrt(ua.s, s);
- }
- 
-+float64 float64r32_sqrt(float64 a, float_status *status)
-+{
-+    FloatParts64 p;
-+
-+    float64_unpack_canonical(&p, a, status);
-+    parts_sqrt(&p, status, &float64_params);
-+    return float64r32_round_pack_canonical(&p, status);
-+}
-+
- bfloat16 QEMU_FLATTEN bfloat16_sqrt(bfloat16 a, float_status *status)
- {
-     FloatParts64 p;
+ /* fsel */
+-_GEN_FLOAT_ACB(sel, sel, 0x3F, 0x17, 0, 0, PPC_FLOAT_FSEL);
++_GEN_FLOAT_ACB(sel, 0x3F, 0x17, 0, PPC_FLOAT_FSEL);
+ /* fsub - fsubs */
+ GEN_FLOAT_AB(sub, 0x14, 0x000007C0, 1, PPC_FLOAT);
+ /* Optional: */
 -- 
 2.25.1
 
