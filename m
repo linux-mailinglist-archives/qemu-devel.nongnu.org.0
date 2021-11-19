@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF6E4568EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 05:06:42 +0100 (CET)
-Received: from localhost ([::1]:44486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC19A4568EC
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 05:06:46 +0100 (CET)
+Received: from localhost ([::1]:44622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnvAe-0002Y2-I3
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 23:06:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50286)
+	id 1mnvAj-0002dX-QP
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 23:06:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mnv7x-0000Vl-9V
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 23:03:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48639)
+ id 1mnv7y-0000Z6-R5
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 23:03:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mnv7u-0006AQ-Mp
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 23:03:52 -0500
+ id 1mnv7v-0006Aa-VW
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 23:03:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637294630;
+ s=mimecast20190719; t=1637294631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O+tB+YFYhuHEBK7CsL9GlmnbNtRTQ7niRop0xvz4Kfc=;
- b=HPB8WGKLagC1HklJlgtPtUpTWcGLqiskjbbFPIwAnbA72wpE0mqduiunfP+QUX8P2Fq801
- QoYQLY4i5CizaVBCnjImmFTF+wyyPbMJKIFg8G/6pWHp+pjoY/qF7Jw1vakYNh69ibtpI+
- /z/yT3bY1nli46clWk416STxL0Rr6Bs=
+ bh=NSNqzMdiYd1AqcnEVTVw0nNmp24RCW0UjMdkXR+jmI8=;
+ b=Lg4mr/JrDb9g2dKhCWBY+PTHYBtuTFYAW9v3FyvQMzUJ5tf7XiMXH/J3XyR5H7emfig6Yj
+ VroFv7N0q0+NblXiNvcnpqzGUNuHLbgzfO9KJlDG6a1wx5SPvZj53/ovT0kIFRCswQG688
+ YDWDtRNK+o/ZoNH0j91JmIqq4IWwmw0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-244-x1_qXCHpNIatngA1G-4hcw-1; Thu, 18 Nov 2021 23:03:45 -0500
-X-MC-Unique: x1_qXCHpNIatngA1G-4hcw-1
+ us-mta-499-_0mhWNoXPA-pjKG-CXMGVQ-1; Thu, 18 Nov 2021 23:03:47 -0500
+X-MC-Unique: _0mhWNoXPA-pjKG-CXMGVQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25DD4802C91;
- Fri, 19 Nov 2021 04:03:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CF86802C91;
+ Fri, 19 Nov 2021 04:03:46 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-18.pek2.redhat.com [10.72.13.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94B9460BF1;
- Fri, 19 Nov 2021 04:03:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8BDF60BF1;
+ Fri, 19 Nov 2021 04:03:44 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 1/3] net: vmxnet3: validate configuration values during
- activate (CVE-2021-20203)
-Date: Fri, 19 Nov 2021 12:03:34 +0800
-Message-Id: <20211119040336.14460-2-jasowang@redhat.com>
+Subject: [PULL 2/3] net/colo-compare.c: Fix ACK track reverse issue
+Date: Fri, 19 Nov 2021 12:03:35 +0800
+Message-Id: <20211119040336.14460-3-jasowang@redhat.com>
 In-Reply-To: <20211119040336.14460-1-jasowang@redhat.com>
 References: <20211119040336.14460-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,79 +80,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Gaoning Pan <pgn@zju.edu.cn>,
- Prasad J Pandit <pjp@fedoraproject.org>
+Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Prasad J Pandit <pjp@fedoraproject.org>
+From: Zhang Chen <chen.zhang@intel.com>
 
-While activating device in vmxnet3_acticate_device(), it does not
-validate guest supplied configuration values against predefined
-minimum - maximum limits. This may lead to integer overflow or
-OOB access issues. Add checks to avoid it.
+The TCP protocol ACK maybe bigger than uint32_t MAX.
+At this time, the ACK will reverse to 0. This patch
+fix the max_ack and min_ack track issue.
 
-Fixes: CVE-2021-20203
-Buglink: https://bugs.launchpad.net/qemu/+bug/1913873
-Reported-by: Gaoning Pan <pgn@zju.edu.cn>
-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/vmxnet3.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ net/colo-compare.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-index 41f796a..f65af4e 100644
---- a/hw/net/vmxnet3.c
-+++ b/hw/net/vmxnet3.c
-@@ -1441,6 +1441,7 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-     vmxnet3_setup_rx_filtering(s);
-     /* Cache fields from shared memory */
-     s->mtu = VMXNET3_READ_DRV_SHARED32(d, s->drv_shmem, devRead.misc.mtu);
-+    assert(VMXNET3_MIN_MTU <= s->mtu && s->mtu < VMXNET3_MAX_MTU);
-     VMW_CFPRN("MTU is %u", s->mtu);
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index b8876d7..1225f40 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -209,7 +209,8 @@ static void fill_pkt_tcp_info(void *data, uint32_t *max_ack)
  
-     s->max_rx_frags =
-@@ -1486,6 +1487,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-         /* Read rings memory locations for TX queues */
-         pa = VMXNET3_READ_TX_QUEUE_DESCR64(d, qdescr_pa, conf.txRingBasePA);
-         size = VMXNET3_READ_TX_QUEUE_DESCR32(d, qdescr_pa, conf.txRingSize);
-+        if (size > VMXNET3_TX_RING_MAX_SIZE) {
-+            size = VMXNET3_TX_RING_MAX_SIZE;
-+        }
+     pkt->tcp_seq = ntohl(tcphd->th_seq);
+     pkt->tcp_ack = ntohl(tcphd->th_ack);
+-    *max_ack = *max_ack > pkt->tcp_ack ? *max_ack : pkt->tcp_ack;
++    /* Need to consider ACK will bigger than uint32_t MAX */
++    *max_ack = pkt->tcp_ack - *max_ack > 0 ? pkt->tcp_ack : *max_ack;
+     pkt->header_size = pkt->transport_header - (uint8_t *)pkt->data
+                        + (tcphd->th_off << 2);
+     pkt->payload_size = pkt->size - pkt->header_size;
+@@ -413,7 +414,8 @@ static void colo_compare_tcp(CompareState *s, Connection *conn)
+      * can ensure that the packet's payload is acknowledged by
+      * primary and secondary.
+     */
+-    uint32_t min_ack = conn->pack > conn->sack ? conn->sack : conn->pack;
++    uint32_t min_ack = conn->pack - conn->sack > 0 ?
++                       conn->sack : conn->pack;
  
-         vmxnet3_ring_init(d, &s->txq_descr[i].tx_ring, pa, size,
-                           sizeof(struct Vmxnet3_TxDesc), false);
-@@ -1496,6 +1500,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-         /* TXC ring */
-         pa = VMXNET3_READ_TX_QUEUE_DESCR64(d, qdescr_pa, conf.compRingBasePA);
-         size = VMXNET3_READ_TX_QUEUE_DESCR32(d, qdescr_pa, conf.compRingSize);
-+        if (size > VMXNET3_TC_RING_MAX_SIZE) {
-+            size = VMXNET3_TC_RING_MAX_SIZE;
-+        }
-         vmxnet3_ring_init(d, &s->txq_descr[i].comp_ring, pa, size,
-                           sizeof(struct Vmxnet3_TxCompDesc), true);
-         VMXNET3_RING_DUMP(VMW_CFPRN, "TXC", i, &s->txq_descr[i].comp_ring);
-@@ -1537,6 +1544,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-             /* RX rings */
-             pa = VMXNET3_READ_RX_QUEUE_DESCR64(d, qd_pa, conf.rxRingBasePA[j]);
-             size = VMXNET3_READ_RX_QUEUE_DESCR32(d, qd_pa, conf.rxRingSize[j]);
-+            if (size > VMXNET3_RX_RING_MAX_SIZE) {
-+                size = VMXNET3_RX_RING_MAX_SIZE;
-+            }
-             vmxnet3_ring_init(d, &s->rxq_descr[i].rx_ring[j], pa, size,
-                               sizeof(struct Vmxnet3_RxDesc), false);
-             VMW_CFPRN("RX queue %d:%d: Base: %" PRIx64 ", Size: %d",
-@@ -1546,6 +1556,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-         /* RXC ring */
-         pa = VMXNET3_READ_RX_QUEUE_DESCR64(d, qd_pa, conf.compRingBasePA);
-         size = VMXNET3_READ_RX_QUEUE_DESCR32(d, qd_pa, conf.compRingSize);
-+        if (size > VMXNET3_RC_RING_MAX_SIZE) {
-+            size = VMXNET3_RC_RING_MAX_SIZE;
-+        }
-         vmxnet3_ring_init(d, &s->rxq_descr[i].comp_ring, pa, size,
-                           sizeof(struct Vmxnet3_RxCompDesc), true);
-         VMW_CFPRN("RXC queue %d: Base: %" PRIx64 ", Size: %d", i, pa, size);
+ pri:
+     if (g_queue_is_empty(&conn->primary_list)) {
 -- 
 2.7.4
 
