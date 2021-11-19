@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6BD457106
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 15:47:36 +0100 (CET)
-Received: from localhost ([::1]:51392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28049457107
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 15:47:37 +0100 (CET)
+Received: from localhost ([::1]:51414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo5At-0004lC-4U
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 09:47:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48068)
+	id 1mo5Au-0004ls-0G
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 09:47:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mo599-0002hW-A7
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 09:45:47 -0500
-Received: from [2a00:1450:4864:20::52a] (port=37668
- helo=mail-ed1-x52a.google.com)
+ id 1mo59A-0002hU-6N
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 09:45:48 -0500
+Received: from [2a00:1450:4864:20::533] (port=47062
+ helo=mail-ed1-x533.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mo597-0003Zx-F1
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 09:45:47 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id e3so43703406edu.4
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 06:45:42 -0800 (PST)
+ id 1mo597-0003a2-Bb
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 09:45:46 -0500
+Received: by mail-ed1-x533.google.com with SMTP id y13so43518417edd.13
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 06:45:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=S4WcyNcg5hoULtV70DvWKqOAgeFCc06Rzhg1frdIwHA=;
- b=Do6umhuk2XKgbikNyj5z4g2q5TiBfCDKffpQJ9djOzjJ5tvuShBRos20QqZ5cL8+T9
- Wf+G68dCf8tnRkzsnvW3FWZZByGH894q6EZzQ3mGY3gOA1FvCHIM1TZf7CQbB9nApqo+
- tMc9fXfVcA+Z9i02ve7z66HhyOe3ufjyM1AGUGk595feIpWDmgK/yjp0iu66/tYEmBN6
- v84wCsYSOTw6xrlzdmh7MwE2xZ6U+Jj1YvdENPInwPjDqQed8MCUQe9Q/+K7hb0egZ24
- bPMADfLCTTtQ1GUgahhGEEGmf0K38YZ3B45vMR5z4IC8ypoCj15Gt8mXOsrV9jwv26+v
- Q0jw==
+ bh=LNmgxkki39VS/5cKODPLgvf7JSDULcUYXDW8fN8IF6A=;
+ b=dyX+mNcvQJmdq3ND7VG6ovtHF8sblfcA57xMEPoj9x5DhAYFxfqOLEXlNWkweOruq1
+ SzCTro9MVm21zTBT3kc3VNy7Plhs3KighM1BPyCWVl/WFa2OIfM+ao3n+U/8u1NF1qk0
+ 4PFdrzNdg04GVB0cWkswIKFneDkGw7jDeScaq58LqJ2X8r8tJ0Vo7T9l9Dkk/qHVWb+g
+ GKbk5Nl+4R9jlZidxiVG4agTles9RlVCyA5YlBhWbTWJ7/CPunP+d3XeqgmbtUK97qoD
+ vQmf3+kdhmXBe6Ral6zRLGbYOzWR+M7X3aRdM9wRK3BTbDzlq4dXGKb4aae7XqrMg7ox
+ Yz0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=S4WcyNcg5hoULtV70DvWKqOAgeFCc06Rzhg1frdIwHA=;
- b=Hjo2II4IA0Y15xStyffp4/8feJ+mUwnz9uCEcQnK9oByB4pH8lQ2hXXrW3APGw+E2V
- pmN17Kw9xcKdCJ2zGl4a8JRY4E2a03Q9/AgDoO+4J3wIHF9jfrd1wyGojqhAKqZ+UE2S
- FcGVJ6gVwZ2E5c72J+MqoZ5k2SLNQssbOSZHnoScCljQdqlXCi+BI1BusvIH1awXV6Qr
- LTe7TWxiV4KjmiFtqtoc4V97meKW3a/pgJnyBCiQMDJisXG+5EimoVRED22BADF2KsRm
- CXWUdLXdMITo7H2NXjgE1Ih47B9Yg+ofQSC+CkXL7nJpDMB/zvw7ZIP0SURhlh0RKJAu
- 4iYw==
-X-Gm-Message-State: AOAM532a2r9HV4pqbLVSXZTwKwlMGUEDyHkwa0z3eDvfjeLqVpZuYE0O
- 5G5uzsd7nl5QA5+9O4Lj56lGFrvE3J0=
-X-Google-Smtp-Source: ABdhPJz5IVJR4urJXUmauBn5PhidJdWIs4egx88QuDIArXD3c6fOlXf/Q6FKGuSGdVdMSKJEGi7TdA==
-X-Received: by 2002:a17:906:ad89:: with SMTP id
- la9mr8327268ejb.178.1637333141253; 
+ bh=LNmgxkki39VS/5cKODPLgvf7JSDULcUYXDW8fN8IF6A=;
+ b=JX42wiSJlFEaOOlJ2HMNZQ/CVGSHIGvf6KvyL+JlGa67i3wLrNpALB5UsweDMhQ/aa
+ alWf9eLlT3S+5eJ5R4yy0T+7fxD5yjlrFr1KLfRgcV9+MhZyymjaMGzq1y+996TIDdwf
+ 171plpJmSRPSzbOs+sHl57iN9ghgoBs/lcMy8RyKr6aouo50PEB6eyOH5LgPvVErdGx3
+ ak3mY5Oaov3ImEsMlVCBciLeKU3dLhiaZpxtMmQzbzdSQpNSpmFjUdWFod4mTH074MCx
+ PUsY0ciHT85icXsfbqxTRIaeL6RRdU+mn1V3Ut3Ya9HtQf4zYV4R7O7QA2EK+0tE0aRv
+ OYoA==
+X-Gm-Message-State: AOAM5321ghUpRBIIV2kRih6lV4GQFS+eBF9bXIPCtCHwAsaqw20imEID
+ l1a0FHt1sBZ69HancoXGhdcDmPprz1o=
+X-Google-Smtp-Source: ABdhPJxU2z2PX18hL95TBW5k/aUxxI+q4ViLgiy1yMPi/S69HO4x+na9XaV55HctNYLlwgf6s6fH7A==
+X-Received: by 2002:a17:907:7e91:: with SMTP id
+ qb17mr8745049ejc.449.1637333141877; 
  Fri, 19 Nov 2021 06:45:41 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id z25sm26934ejd.80.2021.11.19.06.45.40
+ by smtp.gmail.com with ESMTPSA id z25sm26934ejd.80.2021.11.19.06.45.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 06:45:40 -0800 (PST)
+ Fri, 19 Nov 2021 06:45:41 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/7] meson: fix botched compile check conversions
-Date: Fri, 19 Nov 2021 15:45:33 +0100
-Message-Id: <20211119144539.285740-2-pbonzini@redhat.com>
+Subject: [PULL 2/7] nvmm: Fix support for stable version
+Date: Fri, 19 Nov 2021 15:45:34 +0100
+Message-Id: <20211119144539.285740-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211119144539.285740-1-pbonzini@redhat.com>
 References: <20211119144539.285740-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,105 +87,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: nia <nia@NetBSD.org>, Kamil Rytarowski <kamil@netbsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a bunch of incorrect conversions from configure to Meson, which result
-in different outcomes with --extra-cflags=-Werror.
+From: nia <nia@NetBSD.org>
 
-pthread_setname_np needs "#define _GNU_SOURCE" on Linux (which I am using
-also for the non-Linux check, so that it correctly fails with an error
-about having too few parameters).
+NVMM user version 1 is the version being shipped with netbsd-9,
+which is the most recent stable branch of NetBSD. This makes it
+possible to use the NVMM accelerator on the most recent NetBSD
+release, 9.2, which lacks nvmm_cpu_stop.
 
-Fix struct checks to use has_type instead of has_symbol, and "#define
-_GNU_SOURCE" too in the case of struct mmsghdr.
+(CC'ing maintainers)
 
-Remove an apostrophe that ended up at the end of a #include line.
-
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Nia Alarie <nia@NetBSD.org>
+Reviewed-by: Kamil Rytarowski <kamil@netbsd.org>
+Message-Id: <YWblCe2J8GwCaV9U@homeworld.netbsd.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+ meson.build                 |  4 +---
+ target/i386/nvmm/nvmm-all.c | 10 ++++++++++
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 2ece4fe088..93a5e50a16 100644
+index 93a5e50a16..582f356209 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1547,8 +1547,6 @@ config_host_data.set('CONFIG_INOTIFY',
-                      cc.has_header_symbol('sys/inotify.h', 'inotify_init'))
- config_host_data.set('CONFIG_INOTIFY1',
-                      cc.has_header_symbol('sys/inotify.h', 'inotify_init1'))
--config_host_data.set('CONFIG_IOVEC',
--                     cc.has_header_symbol('sys/uio.h', 'struct iovec'))
- config_host_data.set('CONFIG_MACHINE_BSWAP_H',
-                      cc.has_header_symbol('machine/bswap.h', 'bswap32',
-                                           prefix: '''#include <sys/endian.h>
-@@ -1561,8 +1559,6 @@ config_host_data.set('CONFIG_SYSMACROS',
-                      cc.has_header_symbol('sys/sysmacros.h', 'makedev'))
- config_host_data.set('HAVE_OPTRESET',
-                      cc.has_header_symbol('getopt.h', 'optreset'))
--config_host_data.set('HAVE_UTMPX',
--                     cc.has_header_symbol('utmpx.h', 'struct utmpx'))
- config_host_data.set('HAVE_IPPROTO_MPTCP',
-                      cc.has_header_symbol('netinet/in.h', 'IPPROTO_MPTCP'))
- 
-@@ -1574,6 +1570,14 @@ config_host_data.set('HAVE_STRUCT_STAT_ST_ATIM',
-                      cc.has_member('struct stat', 'st_atim',
-                                    prefix: '#include <sys/stat.h>'))
- 
-+# has_type
-+config_host_data.set('CONFIG_IOVEC',
-+                     cc.has_type('struct iovec',
-+                                 prefix: '#include <sys/uio.h>'))
-+config_host_data.set('HAVE_UTMPX',
-+                     cc.has_type('struct utmpx',
-+                                 prefix: '#include <utmpx.h>'))
-+
- config_host_data.set('CONFIG_EVENTFD', cc.links('''
-   #include <sys/eventfd.h>
-   int main(void) { return eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC); }'''))
-@@ -1615,7 +1619,7 @@ config_host_data.set('CONFIG_POSIX_MADVISE', cc.links(gnu_source_prefix + '''
-   #include <stddef.h>
-   int main(void) { return posix_madvise(NULL, 0, POSIX_MADV_DONTNEED); }'''))
- 
--config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_W_TID', cc.links('''
-+config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_W_TID', cc.links(gnu_source_prefix + '''
-   #include <pthread.h>
- 
-   static void *f(void *p) { return NULL; }
-@@ -1626,7 +1630,7 @@ config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_W_TID', cc.links('''
-     pthread_setname_np(thread, "QEMU");
-     return 0;
-   }''', dependencies: threads))
--config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_WO_TID', cc.links('''
-+config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_WO_TID', cc.links(gnu_source_prefix + '''
-   #include <pthread.h>
- 
-   static void *f(void *p) { pthread_setname_np("QEMU"); return NULL; }
-@@ -1662,8 +1666,10 @@ config_host_data.set('HAVE_MLOCKALL', cc.links(gnu_source_prefix + '''
- 
- have_l2tpv3 = false
- if not get_option('l2tpv3').disabled() and have_system
--  have_l2tpv3 = (cc.has_header_symbol('sys/socket.h', 'struct mmsghdr')
--                 and cc.has_header('linux/ip.h'))
-+  have_l2tpv3 = cc.has_type('struct mmsghdr',
-+    prefix: gnu_source_prefix + '''
-+      #include <sys/socket.h>
-+      #include <linux/ip.h>''')
+@@ -323,9 +323,7 @@ if not get_option('hax').disabled()
+   endif
  endif
- config_host_data.set('CONFIG_L2TPV3', have_l2tpv3)
+ if targetos == 'netbsd'
+-  if cc.has_header_symbol('nvmm.h', 'nvmm_cpu_stop', required: get_option('nvmm'))
+-    nvmm = cc.find_library('nvmm', required: get_option('nvmm'))
+-  endif
++  nvmm = cc.find_library('nvmm', required: get_option('nvmm'))
+   if nvmm.found()
+     accelerators += 'CONFIG_NVMM'
+   endif
+diff --git a/target/i386/nvmm/nvmm-all.c b/target/i386/nvmm/nvmm-all.c
+index 14c996f968..9af261eea3 100644
+--- a/target/i386/nvmm/nvmm-all.c
++++ b/target/i386/nvmm/nvmm-all.c
+@@ -750,7 +750,11 @@ nvmm_vcpu_loop(CPUState *cpu)
+         nvmm_vcpu_pre_run(cpu);
  
-@@ -1689,7 +1695,7 @@ config_host_data.set('CONFIG_NETMAP', have_netmap)
- # xfs headers will not try to redefine structs from linux headers
- # if this macro is set.
- config_host_data.set('HAVE_FSXATTR', cc.links('''
--  #include <linux/fs.h>'
-+  #include <linux/fs.h>
-   struct fsxattr foo;
-   int main(void) {
-     return 0;
+         if (qatomic_read(&cpu->exit_request)) {
++#if NVMM_USER_VERSION >= 2
+             nvmm_vcpu_stop(vcpu);
++#else
++            qemu_cpu_kick_self();
++#endif
+         }
+ 
+         /* Read exit_request before the kernel reads the immediate exit flag */
+@@ -767,6 +771,7 @@ nvmm_vcpu_loop(CPUState *cpu)
+         switch (exit->reason) {
+         case NVMM_VCPU_EXIT_NONE:
+             break;
++#if NVMM_USER_VERSION >= 2
+         case NVMM_VCPU_EXIT_STOPPED:
+             /*
+              * The kernel cleared the immediate exit flag; cpu->exit_request
+@@ -775,6 +780,7 @@ nvmm_vcpu_loop(CPUState *cpu)
+             smp_wmb();
+             qcpu->stop = true;
+             break;
++#endif
+         case NVMM_VCPU_EXIT_MEMORY:
+             ret = nvmm_handle_mem(mach, vcpu);
+             break;
+@@ -888,8 +894,12 @@ nvmm_ipi_signal(int sigcpu)
+ {
+     if (current_cpu) {
+         struct qemu_vcpu *qcpu = get_qemu_vcpu(current_cpu);
++#if NVMM_USER_VERSION >= 2
+         struct nvmm_vcpu *vcpu = &qcpu->vcpu;
+         nvmm_vcpu_stop(vcpu);
++#else
++        qcpu->stop = true;
++#endif
+     }
+ }
+ 
 -- 
 2.33.1
 
