@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E822457332
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:37:59 +0100 (CET)
-Received: from localhost ([::1]:56356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C99E9457314
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:34:36 +0100 (CET)
+Received: from localhost ([::1]:47470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo6ti-0008Kb-CQ
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:37:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44724)
+	id 1mo6qR-0002L9-UT
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:34:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mo6PM-00076Q-Ng
+ id 1mo6PM-00076R-Nt
  for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:06:39 -0500
-Received: from [2a00:1450:4864:20::432] (port=38449
- helo=mail-wr1-x432.google.com)
+Received: from [2a00:1450:4864:20::32a] (port=51809
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mo6P6-0004Xy-7v
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:06:23 -0500
-Received: by mail-wr1-x432.google.com with SMTP id u18so18987297wrg.5
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:06:18 -0800 (PST)
+ id 1mo6P6-0004Yd-20
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:06:21 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id 137so5443897wma.1
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:06:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oeLIswcSVdWllblb8zsAtciTHxrmWmXEMgr/6V/SjGY=;
- b=Q7pdQHmy5rxjhV1AMuFC1fHPaIybjaA0wc0KSuopEiDLcp5azdiGJFHrSbAmCIRNJc
- 0dF1hbo6pWTjgnBJpdP5cechtaKYcSdBp6OLdTKJAC2iW4pIWOXyfDlhTrkbtL9D5Ldr
- Tugyf7A0qJW8m6rX6XslEmQVbUwR4Txb0HRSfEvOBQPw2LTE4FZi3Ty5uqcvCrFxQRJF
- 3cXwt4ChounxnsV5WKuPrtHa8/j7XsQWgAlqN+A8syAB3DX2Mbye6hMYuHTy/MbGNWc9
- apLG0TOv78LEAouV3zeMhQgqZJnv7DRI2WMae7yH6hfFVgAzdvopYyhpQBzFBj2oT0it
- F1Wg==
+ bh=uD5uZbS3EVAOjcQ/CDXvtD52ArIioGdfvnZGW+Oo0bM=;
+ b=Okqf4Va6f+otawpW/dP83gscpzFcQ8IYUp2/cvhR18JoG0gUR+sO7S5Dc0cuXWViRq
+ wd7NYmKchZF6OqUJua3/hxE7LcKqLlx4/hMpXY2JGjF0zGxN7kzgGlwmPk2WpZvl9+Jp
+ N1tFHbBaIltq4ymxNI/TlI+UTF1x96PdIcHyvPSTP88XEQVydvjGv+W3cQfPglAheoUu
+ EXNx6X033D2/z1hLVzmm9IzExUF4Kf0PtwqHkpg7nudeXE7wgWK2jZkEWw8CAF4PazzD
+ oZaydcUlc1Ba344fJCy4WKN1lzcZYA/7qKpALkqs0kETZsW46IPSREvse0icMTkjrhMk
+ bT5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oeLIswcSVdWllblb8zsAtciTHxrmWmXEMgr/6V/SjGY=;
- b=JNNCEqK8Z5WBQ/9/3fneGQ5fVmgwxOnq+jmJNi2JurVYWQEz6WJ6mwnRhAzWoyKxKR
- 3acCMTLgaKyTa2hAn88kGXHCZieKDuqyDhaytiPQA1LjgIMBUot0RYW8yIjDXpiFc1oZ
- 4bZZUvQgBekCmQUtW+L0hw3DjlbTJiSBvcFhY3q244joYMBvfwxgk151KyEOuUKXIukO
- u76vggEHFntH50VzaX0TqIo9YnPu0ymG0j5+ItCRIC9X4FM5M+HmU9lWicEbsYoQlUXj
- bC7rtQAsC7Oxj93FZp/PPEH6XUY9h5enPLEI5bNvEv28tP6vKelsCKHXuD699NkNvn9f
- Kl1A==
-X-Gm-Message-State: AOAM531+TJHRNYyaMOxdnK5DZjxWpX1hQmUV4xxknVAkxQwj7plVGBZu
- paUsZ+9UsobSrVhUYnJcLATBIqYtNb0xf190j9M=
-X-Google-Smtp-Source: ABdhPJwYA/7EnXBmm+Cmv5gLfu6JSzu9NwJoVlP1Cbuy/x2Vua0LWjEeIUSWKmVyyrxSoSCi4RVXHg==
-X-Received: by 2002:adf:db47:: with SMTP id f7mr8560886wrj.113.1637337977308; 
- Fri, 19 Nov 2021 08:06:17 -0800 (PST)
+ bh=uD5uZbS3EVAOjcQ/CDXvtD52ArIioGdfvnZGW+Oo0bM=;
+ b=LyUxmoatKZZea448YDoNAjaAAR7OMxQ/WtBPzwqICV5MYlZYkaRzsBngHbBI/xH01r
+ NmAqTdifBgxoHNI8kfw6eqIuBr9fPJzNqlIP43wTswOF+YOFGgAfMlPWu9N+sIE1J3nP
+ fsPEjsh8i5pH8uLguYjvPWiQq0jUcDskdwGSgfbPLn4z1HtUJS25odAyejNWfhCpTIFH
+ fzLLqF+4cUPG8OHmyjtUiMqCWi200CJ9oJR8CPms2aTO8Nk3+Yf4ObQRnafKRB+T/f0t
+ mJXXPTiX7KkndFDa/civjta4H5LJLoqNi6Trsa4txSNArXU+7qJcM6vh9TyqDyyRPYNs
+ LdCA==
+X-Gm-Message-State: AOAM530NdGRsoEb7ngt8VLR5dYmImL60wHkoWfKoT4t2VUDIFBjxtWhn
+ Y/Ph8FAYoQntx4nrFxYwR3btbw1azrXo/AvwgvU=
+X-Google-Smtp-Source: ABdhPJwETfcDnlhKvFSCcTVxUns0/MvY6esdjifbPKNonOAXU+yIMbpeLzlUaJcIUte5kYGho+GAlg==
+X-Received: by 2002:a05:600c:1e06:: with SMTP id
+ ay6mr981821wmb.64.1637337978777; 
+ Fri, 19 Nov 2021 08:06:18 -0800 (PST)
 Received: from localhost.localdomain
  (165.red-37-158-79.dynamicip.rima-tde.net. [37.158.79.165])
- by smtp.gmail.com with ESMTPSA id q84sm14044877wme.3.2021.11.19.08.06.15
+ by smtp.gmail.com with ESMTPSA id q84sm14044877wme.3.2021.11.19.08.06.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 08:06:16 -0800 (PST)
+ Fri, 19 Nov 2021 08:06:18 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 32/35] target/ppc: Add helper for frsqrtes
-Date: Fri, 19 Nov 2021 17:04:59 +0100
-Message-Id: <20211119160502.17432-33-richard.henderson@linaro.org>
+Subject: [PATCH 33/35] target/ppc: Update fres to new flags and float64r32
+Date: Fri, 19 Nov 2021 17:05:00 +0100
+Message-Id: <20211119160502.17432-34-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211119160502.17432-1-richard.henderson@linaro.org>
 References: <20211119160502.17432-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,72 +93,52 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 There is no double-rounding bug here, because the result is
-merely an estimate to within 1 part in 32, but perform the
+merely an estimate to within 1 part in 256, but perform the
 operation with float64r32_div for consistency.
+
+Use float_flag_invalid_snan instead of recomputing the
+snan-ness of the operand.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/helper.h                |  1 +
- target/ppc/fpu_helper.c            | 19 +++++++++++++++++++
- target/ppc/translate/fp-impl.c.inc |  3 +--
- 3 files changed, 21 insertions(+), 2 deletions(-)
+ target/ppc/fpu_helper.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 9810d416cf..48d12233ea 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -113,6 +113,7 @@ DEF_HELPER_2(fsqrts, f64, env, f64)
- DEF_HELPER_2(fre, i64, env, i64)
- DEF_HELPER_2(fres, i64, env, i64)
- DEF_HELPER_2(frsqrte, i64, env, i64)
-+DEF_HELPER_2(frsqrtes, i64, env, i64)
- DEF_HELPER_4(fsel, i64, env, i64, i64, i64)
- 
- DEF_HELPER_FLAGS_2(ftdiv, TCG_CALL_NO_RWG_SE, i32, i64, i64)
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 6278d61d36..cb511f2050 100644
+index cb511f2050..ea238929da 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -848,6 +848,25 @@ float64 helper_frsqrte(CPUPPCState *env, float64 arg)
-     return retd;
+@@ -813,20 +813,20 @@ float64 helper_fre(CPUPPCState *env, float64 arg)
+ /* fres - fres. */
+ uint64_t helper_fres(CPUPPCState *env, uint64_t arg)
+ {
+-    CPU_DoubleU farg;
+-    float32 f32;
++    /* "Estimate" the reciprocal with actual division.  */
++    float64 ret = float64r32_div(float64_one, arg, &env->fp_status);
++    int flags = get_float_exception_flags(&env->fp_status);
+ 
+-    farg.ll = arg;
+-
+-    if (unlikely(float64_is_signaling_nan(farg.d, &env->fp_status))) {
+-        /* sNaN reciprocal */
++    if (unlikely(flags & float_flag_invalid_snan)) {
+         float_invalid_op_vxsnan(env, GETPC());
+     }
+-    farg.d = float64_div(float64_one, farg.d, &env->fp_status);
+-    f32 = float64_to_float32(farg.d, &env->fp_status);
+-    farg.d = float32_to_float64(f32, &env->fp_status);
++    if (unlikely(flags & float_flag_divbyzero)) {
++        float_zero_divide_excp(env, GETPC());
++        /* For FPSCR.ZE == 0, the result is 1/2.  */
++        ret = float64_set_sign(float64_half, float64_is_neg(arg));
++    }
+ 
+-    return farg.ll;
++    return ret;
  }
  
-+/* frsqrtes  - frsqrtes. */
-+float64 helper_frsqrtes(CPUPPCState *env, float64 arg)
-+{
-+    /* "Estimate" the reciprocal with actual division.  */
-+    float64 rets = float64_sqrt(arg, &env->fp_status);
-+    float64 retd = float64r32_div(float64_one, rets, &env->fp_status);
-+    int flags = get_float_exception_flags(&env->fp_status);
-+
-+    if (unlikely(flags & float_flag_invalid)) {
-+        float_invalid_op_sqrt(env, flags, 1, GETPC());
-+    }
-+    if (unlikely(flags & float_flag_divbyzero)) {
-+        /* Reciprocal of (square root of) zero.  */
-+        float_zero_divide_excp(env, GETPC());
-+    }
-+
-+    return retd;
-+}
-+
- /* fsel - fsel. */
- uint64_t helper_fsel(CPUPPCState *env, uint64_t arg1, uint64_t arg2,
-                      uint64_t arg3)
-diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-index 17b4d46040..9056a773cb 100644
---- a/target/ppc/translate/fp-impl.c.inc
-+++ b/target/ppc/translate/fp-impl.c.inc
-@@ -212,8 +212,7 @@ static void gen_frsqrtes(DisasContext *ctx)
-     t1 = tcg_temp_new_i64();
-     gen_reset_fpstatus();
-     get_fpr(t0, rB(ctx->opcode));
--    gen_helper_frsqrte(t1, cpu_env, t0);
--    gen_helper_frsp(t1, cpu_env, t1);
-+    gen_helper_frsqrtes(t1, cpu_env, t0);
-     set_fpr(rD(ctx->opcode), t1);
-     gen_compute_fprf_float64(t1);
-     if (unlikely(Rc(ctx->opcode) != 0)) {
+ /* frsqrte  - frsqrte. */
 -- 
 2.25.1
 
