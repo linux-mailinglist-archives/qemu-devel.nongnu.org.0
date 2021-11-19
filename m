@@ -2,85 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D751E456C61
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 10:34:00 +0100 (CET)
-Received: from localhost ([::1]:38780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 855AF456C5E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 10:33:23 +0100 (CET)
+Received: from localhost ([::1]:36542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo0HQ-0004qh-12
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 04:34:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36832)
+	id 1mo0Go-0003La-Dk
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 04:33:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mo054-0003ao-6H
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:21:15 -0500
-Received: from [2a00:1450:4864:20::32c] (port=33406
- helo=mail-wm1-x32c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mo052-0006Li-Dk
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:21:13 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- r9-20020a7bc089000000b00332f4abf43fso7342507wmh.0
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 01:21:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ehmV/pLY/uCqoPHpBc3mPPY1GKsiUveliUn2UjIx5l8=;
- b=HTYwRs4qEatPWStxw3uscpX+EpcyueAVdrpIVZXm+pjvS20T0szFSNn/HCJbz30QYS
- VHooWw0RmKwgOAlFSMnHCruMc6hZxyl/mQFJYkZVeIVWCTeI2RGrCw7MVMey38hWSKgs
- FjVub4M7P3b1uVdg5FMUo/InHXm6Hqm6fQvH1BYZnYb5WhBNExDNad3Xia1gjjw8qIPM
- 2ydJYZUbuVpFoPvobMbAaP55nbX88fjJi88bPN4BzAhiQg/O4N7tcUXfH4VxVDGCTsMD
- d9fLORKhHsbM4koGUbDufaQ2h5F+B+zadsFVbAemodESYbIpZI/UqCGY2NwN5rRYsMBF
- Usog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ehmV/pLY/uCqoPHpBc3mPPY1GKsiUveliUn2UjIx5l8=;
- b=ugiGjNgbHC5VFEDiloYBs62sL7osQ6StaXCVRubxmbngIR9JVh4sZnGZa43289rBHv
- m+a/8BrqI7tJ8ZaHR66m1Jqx/UfGxgMyxNhiphgSZmQ8WDAf/++bnI5DhqXI0J9zqeEU
- u2R8tLRaWpQeE+bSqmyK4oepnxLsB+NqG84/jpJeDdjOSdMxMmBnc5QSBiBTeO6yxkNi
- PxDRxx1++7mPCW+zu1d68t5x6aFKYELsRuIx/NL2wIpQ/O0lVcoCzLJrztXaMbrNfckY
- 23Vm/AErdhkJQ6iW9Ii22+QJfzrUlsVUVT4l7TuwmJONt0jwQtlp4JzM3Iwifj6WoJQK
- RW5Q==
-X-Gm-Message-State: AOAM533ARnzIxcdhGKOArttL2pC8I2ze7dozvCBfQXlYVLDC5yCkWdQi
- AioUUFOtWttv9n4aHW582rGr6g==
-X-Google-Smtp-Source: ABdhPJyQGb+xdqyZZkOlHdHid95fi2T4SThsKPW9aYUpHBRJIO5ETbv4lnVcjTU2BDIpvTCbRyx53g==
-X-Received: by 2002:a05:600c:3494:: with SMTP id
- a20mr4924574wmq.195.1637313670960; 
- Fri, 19 Nov 2021 01:21:10 -0800 (PST)
-Received: from [192.168.8.105] (165.red-37-158-79.dynamicip.rima-tde.net.
- [37.158.79.165])
- by smtp.gmail.com with ESMTPSA id b6sm12472303wmq.45.2021.11.19.01.21.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Nov 2021 01:21:10 -0800 (PST)
-Subject: Re: [PATCH v2 2/3] target/ppc: ppc_store_fpscr doesn't update bit 52
-To: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20211118132502.984059-1-lucas.araujo@eldorado.org.br>
- <20211118132502.984059-3-lucas.araujo@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3e8865b6-df3e-9b0c-aea9-810d96052255@linaro.org>
-Date: Fri, 19 Nov 2021 10:21:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mo08J-0000CW-KF
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:24:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59938)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mo08H-0006mP-CH
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:24:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637313871;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e5PgIM7t0ko7eR9oN9zN7gzDRIip4K6lcgtzTyspJ1I=;
+ b=DkbYLJ8TlbFjRMaCxZDm17zSeR2NDxU8xFKlpE5Mo6nY6ixMEtmYTyQox7gO2ieM8dBCGR
+ /mOTd7ljt0d9YeEe9M07nlHCqhSHiJ+6ziAGJ70qi2Sea7wQdQaJoWWpBXrSOKOq/7sgfv
+ Jfu5XqCC5iUfcbAUNGS9GrhCGYS0ya0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-507--p5u7h5UNcO4x63D8wJbnQ-1; Fri, 19 Nov 2021 04:24:28 -0500
+X-MC-Unique: -p5u7h5UNcO4x63D8wJbnQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 891EF1006AA0;
+ Fri, 19 Nov 2021 09:24:27 +0000 (UTC)
+Received: from [10.39.194.192] (unknown [10.39.194.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21419604CC;
+ Fri, 19 Nov 2021 09:24:08 +0000 (UTC)
+Message-ID: <0457933c-610d-0f78-7ae3-07648280e838@redhat.com>
+Date: Fri, 19 Nov 2021 10:24:08 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211118132502.984059-3-lucas.araujo@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] ui/gtk: mon_num parameter to specify target monitor for
+ launching Qemu
+To: Dongwon Kim <dongwon.kim@intel.com>, qemu-devel@nongnu.org
+References: <20211118225127.26147-1-dongwon.kim@intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20211118225127.26147-1-dongwon.kim@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.727,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.727, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,19 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, mark.cave-ayland@ilande.co.uk, pc@us.ibm.com,
- david@gibson.dropbear.id.au, matheus.ferst@eldorado.org.br, clg@kaod.org
+Cc: sweeaun <swee.aun.khor@intel.com>,
+ Khairul Anuar Romli <khairul.anuar.romli@intel.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/21 2:25 PM, Lucas Mateus Castro (alqotel) wrote:
-> +/* FPSCR bits that can be set by mtfsf, mtfsfi and mtfsb1 */
-> +#define FPSCR_MTFS_MASK (~((1ull << 11) | FP_VX | FP_FEX))
+On 11/18/21 23:51, Dongwon Kim wrote:
+> +# @mon-num:     Indicate monitor where Qemu window is lauched. mon-num
+> +#               could be any number from -1 to (total num of monitors - 1).
+> +#               (default: -1: use default monitor)
+> +#               since 6.2
 
-If you're going to make the reserved bit 52 read-as-zero-writes-ignored, you should do the 
-same for reserved bits 0-31.  Otherwise drop this and let the bits be read-write with no 
-effect.
+There is no need to accept -1; the opts->u.gtk struct uses a separate 
+boolean field to indicate the default.  Instead, the parameter should be 
+an unsigned integer ("uint32").
 
+Also please use "monitor", not "mon-num".  We usually avoid abbreviations.
 
-r~
+> +    if (opts->u.gtk.has_mon_num && opts->u.gtk.mon_num &&
+> +        opts->u.gtk.mon_num >= 0) {
+
+Rejecting 0 ("opts->u.gtk.mon_num") is incorrect.  If you declare it as 
+unsigned, you can just use "if (opts->u.gtk.has_mon_num").
+
+Thanks,
+
+Paolo
+
+> +        GdkRectangle mon_dest;
+> +        if (opts->u.gtk.mon_num < gdk_display_get_n_monitors(window_display)) {
+> +            gdk_monitor_get_geometry(
+> +                gdk_display_get_monitor(window_display, opts->u.gtk.mon_num),
+> +                &mon_dest);
+> +            gtk_window_move(GTK_WINDOW(s->window), mon_dest.x, mon_dest.y);
+> +        }
+> +    }
+>       if (opts->has_full_screen &&
+>           opts->full_screen) {
+>           gtk_menu_item_activate(GTK_MENU_ITEM(s->full_screen_item));
+> -- 
+
 
