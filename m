@@ -2,129 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE89045681F
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 03:32:13 +0100 (CET)
-Received: from localhost ([::1]:53522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4588456844
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 03:47:03 +0100 (CET)
+Received: from localhost ([::1]:32788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnthA-0000Cb-4I
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 21:32:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34752)
+	id 1mntva-0005tw-Gb
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 21:47:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shreyas.shah@elastics.cloud>)
- id 1mntf5-0007l3-Uk
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 21:29:59 -0500
-Received: from mail-mw2nam08on2139.outbound.protection.outlook.com
- ([40.107.101.139]:60627 helo=NAM04-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mnttH-0004ZE-75
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 21:44:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shreyas.shah@elastics.cloud>)
- id 1mntf2-0002p1-QA
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 21:29:59 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BSdv3gRpHC1U6AWdHTXYq2JdTzjBJE5BqumQKaXN7tlth2vRHCJOPx22pSt27rBjncyEpRlH4/ThAKKjv21gzQxkWhq3WlisN4l9jv0svP8nf24uUgQK5GHiLMCaueLhon7mZzeiK+YpyOG1zEuD71ugNCuzDHmuLVoAKdY9RW2AzLzSrBWIVEzeqCvTuobjI7Fz7axy7EO7AupGUkdqdL6f3xJqcctJZ7G1uEZoE1hBchQvDcA8w0XJdhnIm66jNQPdPCly0LFgIgYsjUhIm1hZ6X4QuFW5DbKcziOw/73lBXGj/7Zt+BEIi5iJLsC0f2apVHjNWyfgir57gQwnzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IVIFbcERLbJ8kGTYsKXbJ8R0lzNPV1qONHnqq8+c2Ho=;
- b=DfGFggZzAtoWZ3CeUilXixd6Xj0MWdlv/ZcBrpBZGmVpTfUTY/AJhdVT09pcqx7ozzWodpMUG4a89n9snx+IAqyubrHr5N0dXzXiP0vx5eOlxamJaa4PbfsTP3+/PLmbln+13b1T8Y/lOoTxyG7WliVmnwSZITbaR1+EN+2jnOk17pbhUPrULXbp1EnVGc+dTNZgQcG5xK2AOksYwQ3vovMm4uj7BfsIGkjqd1X69jpMZHq45NZtJyoBFJZQ1eoRf6w2pzBVoS5VZBQOJh06AbLDRxLjPySXFmZFMVrSfL6KEqeSEAZ+zY/atibg/wjkklizf/J6WI01260nw9qYIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=elastics.cloud; dmarc=pass action=none
- header.from=elastics.cloud; dkim=pass header.d=elastics.cloud; arc=none
-Received: from BY5PR12MB4179.namprd12.prod.outlook.com (2603:10b6:a03:211::8)
- by BYAPR12MB3510.namprd12.prod.outlook.com (2603:10b6:a03:13a::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Fri, 19 Nov
- 2021 02:29:51 +0000
-Received: from BY5PR12MB4179.namprd12.prod.outlook.com
- ([fe80::fdcf:4e98:b845:f650]) by BY5PR12MB4179.namprd12.prod.outlook.com
- ([fe80::fdcf:4e98:b845:f650%6]) with mapi id 15.20.4713.022; Fri, 19 Nov 2021
- 02:29:51 +0000
-To: Ben Widawsky <ben.widawsky@intel.com>
-CC: Saransh Gupta1 <saransh@ibm.com>, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>, "linux-cxl@vger.kernel.org"
- <linux-cxl@vger.kernel.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: Follow-up on the CXL discussion at OFTC
-Thread-Topic: Follow-up on the CXL discussion at OFTC
-Thread-Index: AQHX2+CvgZdbGOWQAkmzzqDeTIciUKwJ3UEAgAAI7MCAADEjAIAACybA
-Date: Fri, 19 Nov 2021 02:29:51 +0000
-Message-ID: <BY5PR12MB4179AA1B062AEA75098E15D8E89C9@BY5PR12MB4179.namprd12.prod.outlook.com>
-References: <OF255704A1.78FEF164-ON0025878E.00821084-0025878F.00015560@ibm.com>
- <20211117165719.pqig62t5z2grgjvv@intel.com>
- <20211117173201.00002513@Huawei.com>
- <OF164E5BA6.E927FE73-ON00258791.0078E206-88258791.007ABBAD@ibm.com>
- <BY5PR12MB4179A47F68A9A15E5888D074E89B9@BY5PR12MB4179.namprd12.prod.outlook.com>
- <20211119014822.j247ayrsdve4yxyu@intel.com>
-In-Reply-To: <20211119014822.j247ayrsdve4yxyu@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=elastics.cloud;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3adf511a-ea75-4bd1-4fc6-08d9ab04772e
-x-ms-traffictypediagnostic: BYAPR12MB3510:
-x-microsoft-antispam-prvs: <BYAPR12MB3510B609A91FB0FA86B7E94EE89C9@BYAPR12MB3510.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4303;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: vxnLUFzwE/zucLEn+9/PceTpENb9wqnYbSZmL3QdibYwB822XxIqccmYqrPTDvm2rakCvJqh7oAx4lb6Qb800cXLUUD74L4z85FqmV6O09iEsTwcvEqQGXQeJkH7xJJeeUEhgsKoABuEWitW0+7yYrfk8eOSbSYw7MCvUndf9pQAffa2zkT14coXci9TCv5g2iz6VYrlT20dHJ9ooKUJi2YB9shDh9nTAO35QT9xExDDTWjtK2YlOJjzhQ99+9rthlAH2kUMoW1QRkQQloUFpedMubXIciiy6T0JjlpVPvIl0TFrXYhu8F9AdbrrH3uYTfvN/k9Y9Ut8Mf2zS/RUA/FmXeE6mnE8uGgsVWDVLLdBdVb9sEGNZ8hZbklEp1YZ5/SsRpsrglUCf2fk9ip9eN9UEoHX9Dw1mfOhKegZMgX01ENbiotphG6Of9p17UukSdj9dkgTX/A5vEGzlHLHqytUpJV/m2VH9uj8ovAd8/GzmK/6ko8mEKXoLjoLpdsZYEHezphxdVOsYQBUiEvo9SizL1TLwcEjVKruPYEjU0hsKpkjDdI0d0K9xmXBNz6VPVk4wFKopdLOoBil5P7iWa2yXKzmt7wDafQ/uimOYqXivq4VwY2XDGsdYhpwxu6TyrMLc0D3ujBIOyEeWkB1qy92bdkI3wvDFNE+e+M9CX+6w77jW5YxPAMeW/+XDCkaSdJc18Qz41VsXIne+2U1AN5cUZd/k0VZt7M7TYXAQs8=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR12MB4179.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(396003)(346002)(39830400003)(136003)(366004)(86362001)(9686003)(122000001)(54906003)(66946007)(6506007)(33656002)(66446008)(508600001)(55016002)(38070700005)(186003)(8676002)(71200400001)(6916009)(53546011)(4326008)(5660300002)(316002)(66476007)(64756008)(26005)(66556008)(4744005)(76116006)(38100700002)(83380400001)(8936002)(44832011)(52536014)(7696005)(2906002)(71440200001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?PANbT3fk0eQgFIk9iPX+fITyXrsjMAuMfe9PE4BP++GLWsBL7u0+rqVa7QYu?=
- =?us-ascii?Q?L/Y3A48yMQJYUxTRqJZIXeefKjyk14H61SGnz6WxcnaqJK3s3JIsQZbxDhZe?=
- =?us-ascii?Q?/CI1yqFa0IhNtOGKJqRgx/kFH7kQaT0ctK7u8mBbQHPJ2lRJJ0h6j8wwXDPa?=
- =?us-ascii?Q?JoOyZ0iIxJh0Pbt814zYZYPASoDQXbPoLShmKJTQPBdef0uETdvymjK6ctvi?=
- =?us-ascii?Q?6GEO/lvjgWzcFll0jgVvkU8e2VQO/iO1aH1f/yY7h+2TdjFywVf8tJRKRTqL?=
- =?us-ascii?Q?Tidc5GPGgJ5TEGUdnZfiYqqJJWIY8P3WWbbFeWi/6JZCT57BTODouY6n/M67?=
- =?us-ascii?Q?6XhLyfiOkLwPD9sq5FuGrG/9lmnV8wQ+FaTuTcilkb9LOiaON7MFwZGs3uYq?=
- =?us-ascii?Q?YHljWzWFsI4zmc2eaLXdSTuMrmx9ddvYQ44DZSjMZsQ4opgrxGxqQDJf2sil?=
- =?us-ascii?Q?HrMDCn+nD5l7TzWyY1eCVJ7a6trrY1qwBgDbdXFIJ3lssV31ifuYe/WV/U/l?=
- =?us-ascii?Q?tzYSUaPW0h0jdoIh6XEqToRaTzHJTX6McooHsINNpLqNBZv9TkIjZly907qZ?=
- =?us-ascii?Q?UTj3yiDv8ohcvqdl/tRpT4ILNM9Mk6Wf1L1pCt5B+B1QBSMPMhyeHE73456R?=
- =?us-ascii?Q?q8CvHM/AHE9I9ZC0QgxgNLo0kLi3Qrt0ZvUAElkk258T4TUh92ho/bxWa8W7?=
- =?us-ascii?Q?MemhJ8Nc3zPkoR1COQQidvEUvda5a+IPZYrroOJR4g2jGbm+jHlpQy5+VEiG?=
- =?us-ascii?Q?sH1hR1u0wa/J7kOkJyIdYEjsSAEnvhhNOU93m+Q2CtMc3E54FJtY2r+H7TX0?=
- =?us-ascii?Q?KrsGDiyEAGg2IEoVgi08GhfOakJ7CPD9p2l9lz11lnSnlB+Z+Qw7JTS9Fay3?=
- =?us-ascii?Q?nxc8oRUx8J2VgDmhJjBQQmR6GZpyKZq25Cnj1THnsILKKbkwJLR2cr7S3BDP?=
- =?us-ascii?Q?ScNd4GC4HuL1e3yj0Rs65fc4RPSe80MfqrA/w+YinVWO+dSa7tPD39snRqX2?=
- =?us-ascii?Q?jT6+PT0nbi9mJNECkvXe4Av9m3e0SaVPkk9dJ2gH8Oz97OWVc7jh1nvoUphl?=
- =?us-ascii?Q?T0gpt24rN4/njUV9uatugYv6N29cHvBC7HCzwV7tuF01GXLVIFzqL5e8TC3C?=
- =?us-ascii?Q?WGbr02IainkcV8QzpfwR1pW0xuiPnpeukD54F+v9UyyEXUUCytMpn4rZONzS?=
- =?us-ascii?Q?hkWKO79n9rfu6fOTNhyW9Z7/N3AxxF+KTB3QtW50ZHbARgYOVIH0OpMUJmBy?=
- =?us-ascii?Q?M7pY8FxIudNQgfAa4eBVtPxosdE4uZFrPS9p1WRDRun2vpkxJcJ7DqowuaCL?=
- =?us-ascii?Q?O7K2g8oidejx2BfhU7nf4rBdXa0GBhYZL/0Snmbc3IF4ejP4Tgi/IzYBMcIj?=
- =?us-ascii?Q?D9hsccWEW4wEHjctRawl407s6Er72KRQBDptgrCYhnP2pZztp0/IivTTBl3L?=
- =?us-ascii?Q?iJ7k5t7ZrH4H3jlS3VT4oRfRZNvI5F+/vv/H9qUMDuEH7PAadC6s0Nqpn5ET?=
- =?us-ascii?Q?pteeSVWwcHPkjNzECBFKnASIM+p186QnaWw1K9AJItmUC9Rg5HM03aaiL13B?=
- =?us-ascii?Q?pPZCxNY18Edph4odVFmEIwOn8qH36FSM4zAV3+QW6a8evrkBq5YZzlysqySX?=
- =?us-ascii?Q?vpYjQTrXjjy1+PUWlFe1gH0wSs0b+dbMrO3cXBxgf21kf68YyFZptZa+FwP4?=
- =?us-ascii?Q?3AmKSw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mnttD-0006MZ-Ku
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 21:44:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637289874;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pQjytDkaUwAw8ee8KZynBqZhxX8QWmF8Z3xL3DKDxKs=;
+ b=QuGq7/m4ZZSaHFUoyaEoAntAD27GO6RIjgjo14mghCFoEMVoCcdymb6fRL/dwySbB//e98
+ seWS0lB+4Y7Zc4h//gSLzbjQ0jetWH9RAEktQfiPArZmVBXqkObY0wT56APGJWDrPmqQH+
+ 4O0eD5wJVXz/vGht7ya4Fxr85zqB3P4=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-124-ke0zExGZNgqahCDyDkXgzA-1; Thu, 18 Nov 2021 21:44:32 -0500
+X-MC-Unique: ke0zExGZNgqahCDyDkXgzA-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ g38-20020a0565123ba600b004036147023bso5556034lfv.10
+ for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 18:44:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pQjytDkaUwAw8ee8KZynBqZhxX8QWmF8Z3xL3DKDxKs=;
+ b=wJk5QDj/XyRFiZ7Ru0XSw8kjzw/etdskx0LssbCVbKvE+fEFQmUQd6Sym1+ijK82u1
+ 5kqCVZajV0xL1OepCwfxc74TIW8WUmxlyS73AC5NsmRIRh5hbJLuRuSwfBQKMh6oXiwD
+ oo2Pv1IKKTG+Uuln02fBrlkYFy3R+TvKN2quceZervBcTDiKOITJtczDIqe99gc+YeLi
+ ZWze/dWVDvk+soOl4Cpg98GY1xgqc8XU/y0Y1wdYk/AUpg4cClT1t8Bdrcrwb+3slnwu
+ xalTQZ9MnqM2t5Fid0N+lGIfXNWfcoxufOXIrCKjS9qF+0MqSbjprkX/dLEK+gbQhuml
+ 5NcA==
+X-Gm-Message-State: AOAM531YaCReIMsnTGUjbTYRBtfWJjU3hyM8Klf80MZpRhodKHHux/PD
+ UEsadvQCVizHksM079hevmUUl15cY2jH5iuIaBJpo+UtmyAivx02q7CDu2DT2YkKidDRzRCl9w6
+ S4sJ0kHcBf7exVODY/+l0C6H3459SxKg=
+X-Received: by 2002:a05:6512:3d09:: with SMTP id
+ d9mr29920632lfv.481.1637289871314; 
+ Thu, 18 Nov 2021 18:44:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxRt4xVxM/t9CNqS2vT8GNQ7J51IiGmO0r1KA2KZFYvMYlLP/hpXDX50Zad2utHxp6Y5aE2a9ZqUmeZ9LqESrU=
+X-Received: by 2002:a05:6512:3d09:: with SMTP id
+ d9mr29920597lfv.481.1637289870985; 
+ Thu, 18 Nov 2021 18:44:30 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: elastics.cloud
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4179.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3adf511a-ea75-4bd1-4fc6-08d9ab04772e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2021 02:29:51.6701 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 28558b47-528a-463d-9ef1-81068bcc77f9
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5k7iP38mH1A6wuhjL8ljqdsr0MThNIJK75NSEMQBddjZ66Jfq9oUhjtOFV8ueukI73GHhTJzREzPuDGFMZlEQXMEr8XpbLzrhrv6Hku0nLI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3510
-Received-SPF: pass client-ip=40.107.101.139;
- envelope-from=shreyas.shah@elastics.cloud;
- helo=NAM04-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+References: <20211117192851.65529-1-eperezma@redhat.com>
+ <20211117192851.65529-3-eperezma@redhat.com>
+ <CACGkMEtad_+DBt4NJcjtRfPYXPUn6BVCUses7yeb8sMVhQL58g@mail.gmail.com>
+ <CAJaqyWfYiG1LJV=26Zn5KDMYnGYuB2fDOVQBUz4snnXJq=UVSg@mail.gmail.com>
+In-Reply-To: <CAJaqyWfYiG1LJV=26Zn5KDMYnGYuB2fDOVQBUz4snnXJq=UVSg@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 19 Nov 2021 10:44:20 +0800
+Message-ID: <CACGkMEtxoqEAn3C10DxcC-xdJKJ+YpoVbUY+C88=_L7dkv=cbw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] virtio-net: Only enable userland vq if using tap
+ backend
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -138,37 +97,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Cindy Lu <lulu@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Shreyas Shah <shreyas.shah@elastics.cloud>
-From:  Shreyas Shah via <qemu-devel@nongnu.org>
 
-Hi Ben
+On Thu, Nov 18, 2021 at 3:57 PM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
+>
+> On Thu, Nov 18, 2021 at 6:06 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Thu, Nov 18, 2021 at 3:29 AM Eugenio P=C3=A9rez <eperezma@redhat.com=
+> wrote:
+> > >
+> > > Qemu falls back on userland handlers even if vhost-user and vhost-vdp=
+a
+> > > cases. These assumes a tap device can handle the packets.
+> > >
+> > > If a vdpa device fail to start, it can trigger a sigsegv because of
+> > > that. Do not resort on them unless actually possible.
+> >
+> > It would be better to show the calltrace here then we can see the root =
+cause.
+> >
+>
+> Sure, I'll paste here and I'll resend to the next version:
+> #1  0x000055955f696e92 in nc_sendv_compat (flags=3D<optimized out>,
+> iovcnt=3D2, iov=3D0x7ffe73abe300, nc=3D0x7fcf22d6d010) at ../net/net.c:75=
+6
+> #2  qemu_deliver_packet_iov (sender=3D<optimized out>,
+> opaque=3D0x7fcf22d6d010, iovcnt=3D2, iov=3D0x7ffe73abe300, flags=3D<optim=
+ized
+> out>) at ../net/net.c:784
+> #3  qemu_deliver_packet_iov (sender=3D<optimized out>, flags=3D<optimized
+> out>, iov=3D0x7ffe73abe300, iovcnt=3D2, opaque=3D0x7fcf22d6d010) at
+> ../net/net.c:763
+> #4  0x000055955f69a078 in qemu_net_queue_deliver_iov (iovcnt=3D2,
+> iov=3D0x7ffe73abe300, flags=3D0, sender=3D0x5595631f5ac0,
+>     queue=3D0x559561c7baa0) at ../net/queue.c:179
+> #5  qemu_net_queue_send_iov (queue=3D0x559561c7baa0,
+> sender=3D0x5595631f5ac0, flags=3Dflags@entry=3D0,
+> iov=3Diov@entry=3D0x7ffe73abe300,
+>     iovcnt=3Diovcnt@entry=3D2, sent_cb=3Dsent_cb@entry=3D0x55955f82ae60
+> <virtio_net_tx_complete>) at ../net/queue.c:246
+> #6  0x000055955f697d43 in qemu_sendv_packet_async
+> (sent_cb=3D0x55955f82ae60 <virtio_net_tx_complete>, iovcnt=3D2,
+> iov=3D0x7ffe73abe300,
+>     sender=3D<optimized out>) at ../net/net.c:825
+> #7  qemu_sendv_packet_async (sender=3D<optimized out>,
+> iov=3Diov@entry=3D0x7ffe73abe300, iovcnt=3Diovcnt@entry=3D1662966768,
+>     sent_cb=3Dsent_cb@entry=3D0x55955f82ae60 <virtio_net_tx_complete>) at
+> ../net/net.c:794
+> #8  0x000055955f82aba9 in virtio_net_flush_tx (q=3D0x0,
+> q@entry=3D0x5595631edbf0) at ../hw/net/virtio-net.c:2577
+> #9  0x000055955f82ade8 in virtio_net_tx_bh (opaque=3D0x5595631edbf0) at
+> ../hw/net/virtio-net.c:2694
+> #10 0x000055955f9e847d in aio_bh_call (bh=3D0x559561c7e590) at ../util/as=
+ync.c:169
+> #11 aio_bh_poll (ctx=3Dctx@entry=3D0x559561c81650) at ../util/async.c:169
+> #12 0x000055955f9d6912 in aio_dispatch (ctx=3D0x559561c81650) at
+> ../util/aio-posix.c:381
+> #13 0x000055955f9e8322 in aio_ctx_dispatch (source=3D<optimized out>,
+> callback=3D<optimized out>, user_data=3D<optimized out>)
+>     at ../util/async.c:311
+> #14 0x00007fcf20a5495d in g_main_context_dispatch () from
+> /lib64/libglib-2.0.so.0
+> #15 0x000055955f9f2fc0 in glib_pollfds_poll () at ../util/main-loop.c:232
+> #16 os_host_main_loop_wait (timeout=3D<optimized out>) at ../util/main-lo=
+op.c:255
+> #17 main_loop_wait (nonblocking=3Dnonblocking@entry=3D0) at ../util/main-=
+loop.c:531
+> #18 0x000055955f7eee49 in qemu_main_loop () at ../softmmu/runstate.c:726
+> #19 0x000055955f6235c2 in main (argc=3D<optimized out>, argv=3D<optimized
+> out>, envp=3D<optimized out>) at ../softmmu/main.c:50
+>
+> In nc_sendv_compat, nc->info is net_vhost_vdpa_info, so
+> nc->info->receive is NULL.
+>
+> > >
+> > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > ---
+> > >  include/hw/virtio/virtio.h |  2 ++
+> > >  hw/net/virtio-net.c        |  4 ++++
+> > >  hw/virtio/virtio.c         | 21 +++++++++++++--------
+> > >  3 files changed, 19 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> > > index 8bab9cfb75..1712ba0b4c 100644
+> > > --- a/include/hw/virtio/virtio.h
+> > > +++ b/include/hw/virtio/virtio.h
+> > > @@ -105,6 +105,8 @@ struct VirtIODevice
+> > >      VMChangeStateEntry *vmstate;
+> > >      char *bus_name;
+> > >      uint8_t device_endian;
+> > > +    /* backend does not support userspace handler */
+> > > +    bool disable_ioeventfd_handler;
+> > >      bool use_guest_notifier_mask;
+> > >      AddressSpace *dma_as;
+> > >      QLIST_HEAD(, VirtQueue) *vector_queues;
+> > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > > index 004acf858f..8c5c4e5a9d 100644
+> > > --- a/hw/net/virtio-net.c
+> > > +++ b/hw/net/virtio-net.c
+> > > @@ -3501,6 +3501,10 @@ static void virtio_net_device_realize(DeviceSt=
+ate *dev, Error **errp)
+> > >      nc =3D qemu_get_queue(n->nic);
+> > >      nc->rxfilter_notify_enabled =3D 1;
+> > >
+> > > +    if (!nc->peer || nc->peer->info->type !=3D NET_CLIENT_DRIVER_TAP=
+) {
+> > > +        /* Only tap can use userspace networking */
+> > > +        vdev->disable_ioeventfd_handler =3D true;
+> > > +    }
+> > >      if (nc->peer && nc->peer->info->type =3D=3D NET_CLIENT_DRIVER_VH=
+OST_VDPA) {
+> > >          struct virtio_net_config netcfg =3D {};
+> > >          memcpy(&netcfg.mac, &n->nic_conf.macaddr, ETH_ALEN);
+> > > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> > > index ea7c079fb0..1e04db6650 100644
+> > > --- a/hw/virtio/virtio.c
+> > > +++ b/hw/virtio/virtio.c
+> > > @@ -3734,17 +3734,22 @@ static int virtio_device_start_ioeventfd_impl=
+(VirtIODevice *vdev)
+> > >              err =3D r;
+> > >              goto assign_error;
+> > >          }
+> > > -        event_notifier_set_handler(&vq->host_notifier,
+> > > -                                   virtio_queue_host_notifier_read);
+> > > +
+> > > +        if (!vdev->disable_ioeventfd_handler) {
+> > > +            event_notifier_set_handler(&vq->host_notifier,
+> > > +                                       virtio_queue_host_notifier_re=
+ad);
+> >
+> > This is just about not responding to ioeventfd. Does this happen only
+> > when ioeventfd is enabled? If yes, we probably need a consistent way
+> > to deal with that. Will having a dummy receiver be more simpler?
+> >
+>
+> If you mean NetClientInfo receiver, that would make qemu to actually
+> read from the virtqueue, I'm not sure if that is the right behavior
+> even for net devices. I see way simpler for qemu not to monitor
+> virtqueue kicks at all, isn't it?
 
-Are you planning to add the CXL2.0 switch inside QEMU or already added in o=
-ne of the version?=20
-=20
-Regards,
-Shreyas
+It looks not easy, the ioeventfd or vmexit monitoring is set up by the
+virtio-pci. As you've seen, even if you disable ioeventfd it can still
+come from the slow vmexit path.
 
------Original Message-----
-From: Ben Widawsky <ben.widawsky@intel.com>=20
-Sent: Thursday, November 18, 2021 5:48 PM
-To: Shreyas Shah <shreyas.shah@elastics.cloud>
-Cc: Saransh Gupta1 <saransh@ibm.com>; Jonathan Cameron <Jonathan.Cameron@hu=
-awei.com>; linux-cxl@vger.kernel.org; qemu-devel@nongnu.org
-Subject: Re: Follow-up on the CXL discussion at OFTC
+And virtio-pci is loosely coupled with its peer, which makes it even
+more tricky to do that.
 
-On 21-11-18 22:52:56, Shreyas Shah wrote:
-> Hello Folks,
->=20
-> Any plan to add CXL2.0 switch ports in QEMU?=20
+>
+> net_vhost_user_info has a receiver to treat the special case of
+> reverse ARP. But I think vhost-user can't fall back to qemu userspace
+> networking at all.
+>
+> But the crash is still reproducible with ioeventfd=3Doff, so I need to
+> improve the patch either way.
 
-What's your definition of plan?
+So I wonder if we can simply use receive_disabled of the netclient.
 
->=20
-> Regards,
-> Shreyas
+Thanks
 
-[snip]
+>
+> Thanks!
+>
+> > Thanks
+> >
+> > > +        }
+> > >      }
+> > >
+> > > -    for (n =3D 0; n < VIRTIO_QUEUE_MAX; n++) {
+> > > -        /* Kick right away to begin processing requests already in v=
+ring */
+> > > -        VirtQueue *vq =3D &vdev->vq[n];
+> > > -        if (!vq->vring.num) {
+> > > -            continue;
+> > > +    if (!vdev->disable_ioeventfd_handler) {
+> > > +        for (n =3D 0; n < VIRTIO_QUEUE_MAX; n++) {
+> > > +            /* Kick right away to begin processing requests already =
+in vring */
+> > > +            VirtQueue *vq =3D &vdev->vq[n];
+> > > +            if (!vq->vring.num) {
+> > > +                continue;
+> > > +            }
+> > > +            event_notifier_set(&vq->host_notifier);
+> > >          }
+> > > -        event_notifier_set(&vq->host_notifier);
+> > >      }
+> > >      memory_region_transaction_commit();
+> > >      return 0;
+> > > --
+> > > 2.27.0
+> > >
+> >
+>
+
 
