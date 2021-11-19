@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A3C4574FF
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 18:03:11 +0100 (CET)
-Received: from localhost ([::1]:35920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC224574FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 18:03:00 +0100 (CET)
+Received: from localhost ([::1]:35212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo7I6-0008EO-7k
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 12:03:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42054)
+	id 1mo7Hv-0007jq-T3
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 12:02:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mo7EN-0005L8-3Y
+ id 1mo7EN-0005LB-43
  for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:59:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47647)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mo7EE-00036n-W7
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:59:12 -0500
+ id 1mo7EG-000374-0Z
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:59:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637341150;
+ s=mimecast20190719; t=1637341151;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0rYdjt1Fquz/o/MTD7skzHN1tkIhl+DVJLQUz2RjsO8=;
- b=Jl2kRKw8GYBcIzA9b/rH1bA777NXVGy7Vh7Zc3k8W0VRTkiuQ37wdox+iMxauS/vIgZw1S
- +ilEMPww2XUp20ysQZB6NJkwXTWhe4uM80K1PfSPuo701no60FCUVlZd8A3OqkGY0L8HG/
- 8tum6ZEQaZ5D73KadLOJchQ21kV/L2w=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ao9wdx6I6p8gRFWFOrvvGJdtsNfToaF6+klEmdsHy2A=;
+ b=J+SXFX/wmFdh+N3GILWlxGpu3j58zzwR7SVD1XM2WD+SEbp1bg468Ut4Ek1TDiU7KJPlLZ
+ Tpuf1uWvvthFvOqXGVC3jOpM1wDCXIZl2CgBPy4073fXjtXrXq5Fbnht8Xb5HoZ3ImwHeU
+ EMBiBG3MbcPyWZ62jlP+u6sepiVHnbk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-225-EUNFxqAwMYGxjdn75kbd5A-1; Fri, 19 Nov 2021 11:59:09 -0500
-X-MC-Unique: EUNFxqAwMYGxjdn75kbd5A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- q7-20020adff507000000b0017d160d35a8so1902101wro.4
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:59:08 -0800 (PST)
+ us-mta-357-UmBtULndNvWjU9HV0o9Jgg-1; Fri, 19 Nov 2021 11:59:10 -0500
+X-MC-Unique: UmBtULndNvWjU9HV0o9Jgg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j193-20020a1c23ca000000b003306ae8bfb7so4332713wmj.7
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:59:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0rYdjt1Fquz/o/MTD7skzHN1tkIhl+DVJLQUz2RjsO8=;
- b=fPVmHADNcI+bXYQ8fw9yhnQWD8orCj91rE3y03U7Ls20Gyta3lvmJxGvS8EC1vqr68
- wBRWG3y49qc5TCZ+r8ArcsJJPOmQwuZglwEJ01FY4falPaRF9j1FuU9ROlKZ9d/cFtF7
- ewQ7+1DtmRw92yiQDWYp39NFn5EwtZF+kGCzHp21eLgctIEgCBN5YsNnO04NhhjdfDZG
- CmNjFkpD6SvyqhLQSDxAaSEsTcV0DjZv6SVlF9IKXyKM5kRUQZqKJvsOsonjDLARnk4c
- zEdVRECGRqX9Cun2uCw2IhkYxTZSFzSu8hebwUlw7TuefxtN7kroTwrS3xZkodClxNYY
- x1KA==
-X-Gm-Message-State: AOAM531g1hGfLOWldJMI9mXQ8BEFD9uSviZ5ogApRUZMOuMSvoccYGqj
- 4VEqIoH0PRNIl638LFgUKHVR6oOk4/b843RP4gQy2cExAWYarKsHM07eZZG7IhfN3Nk2KzlfAsB
- fwuO3xd5TwYLvKpvLn5OS+15kfYQ3hK30aYvbkGKjsIpopKgjckT6OP2l2xq8S6ug4+8=
-X-Received: by 2002:adf:cf0a:: with SMTP id o10mr9121411wrj.84.1637341147332; 
- Fri, 19 Nov 2021 08:59:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyWNgw+l/lA0vDSaZ1GRpmEPis1XcvpP+ZZ1cZ9CpCzx1NWa9qB4NTW7vwiKP/b+G+msmS9RA==
-X-Received: by 2002:adf:cf0a:: with SMTP id o10mr9121383wrj.84.1637341147128; 
- Fri, 19 Nov 2021 08:59:07 -0800 (PST)
+ bh=Ao9wdx6I6p8gRFWFOrvvGJdtsNfToaF6+klEmdsHy2A=;
+ b=B3OiS3eGQy18NwA18uCI0dxCkDmTIWyz957zBa9xtRPcL9Gm4Fr4AiL7HgO4otowYu
+ o6FhdUPejC0oVhuzYcFyqhS9PtSY8OzfIEZ3TfYkVJRtENpCLkAlkg8TYoyvvRAGE9WK
+ XG+BrFDtAq6c315So7c4Lltxi5GROqXGbtviBm5TAWwyyK/fWogEiIDxNMWjjpN59ump
+ JASEysptNNiYHT/VLiCbY2JjvmnWCmr+lRQp7P/nkiw0jBTNaqAEIlFFnSwjM+Zno6dQ
+ 1NWDnxSGGflH+NsSAH3GgYEohM7I8uOQSURZMce4n6gsq5hZR6K07AqVs1OIPkUdYHoV
+ Q25g==
+X-Gm-Message-State: AOAM5301u1kyy+k8c/eCo+tGHycFXm3Q9kDDhP7/O7zKEknMBLZ5z1kd
+ F8r4qzLdPT2r3rlNeitUTBasOK22twh6FLJd6YxOOl8yyzo+vrwp5OuryZrJBUrB8sosVJAy1SI
+ OzdiqVgPr/QJ+8kqGP1X3HNUwMpq4B8PVr9sEpFI4v+fkheaMSpOzjXY4FqHhoQlatmA=
+X-Received: by 2002:a5d:4b0e:: with SMTP id v14mr9410578wrq.196.1637341149019; 
+ Fri, 19 Nov 2021 08:59:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyNct7971vGv2B8kUSYm+UF7EoC5gLAzyJsJ4ILdkQVtJ1iPUOOCJqv2oapjVZ77m6U2/cyCg==
+X-Received: by 2002:a5d:4b0e:: with SMTP id v14mr9410537wrq.196.1637341148740; 
+ Fri, 19 Nov 2021 08:59:08 -0800 (PST)
 Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
  [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id n2sm13079142wmi.36.2021.11.19.08.59.06
+ by smtp.gmail.com with ESMTPSA id q123sm12588655wma.30.2021.11.19.08.59.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 08:59:06 -0800 (PST)
+ Fri, 19 Nov 2021 08:59:08 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/11] dump: Remove is_zero_page()
-Date: Fri, 19 Nov 2021 17:58:54 +0100
-Message-Id: <20211119165903.18813-3-quintela@redhat.com>
+Subject: [PATCH 03/11] multifd: Fill offset and block for reception
+Date: Fri, 19 Nov 2021 17:58:55 +0100
+Message-Id: <20211119165903.18813-4-quintela@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211119165903.18813-1-quintela@redhat.com>
 References: <20211119165903.18813-1-quintela@redhat.com>
@@ -104,41 +104,27 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It just calls buffer_is_zero().  Just change the callers.
+We were using the iov directly, but we will need this info on the
+following patch.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- dump/dump.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ migration/multifd.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/dump/dump.c b/dump/dump.c
-index 662d0a62cd..a84d8b1598 100644
---- a/dump/dump.c
-+++ b/dump/dump.c
-@@ -1293,14 +1293,6 @@ static size_t get_len_buf_out(size_t page_size, uint32_t flag_compress)
-     return 0;
- }
- 
--/*
-- * check if the page is all 0
-- */
--static inline bool is_zero_page(const uint8_t *buf, size_t page_size)
--{
--    return buffer_is_zero(buf, page_size);
--}
--
- static void write_dump_pages(DumpState *s, Error **errp)
- {
-     int ret = 0;
-@@ -1357,7 +1349,7 @@ static void write_dump_pages(DumpState *s, Error **errp)
-      */
-     while (get_next_page(&block_iter, &pfn_iter, &buf, s)) {
-         /* check zero page */
--        if (is_zero_page(buf, s->dump_info.page_size)) {
-+        if (buffer_is_zero(buf, s->dump_info.page_size)) {
-             ret = write_cache(&page_desc, &pd_zero, sizeof(PageDescriptor),
-                               false);
-             if (ret < 0) {
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 7c9deb1921..e2adcdffa1 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -364,6 +364,8 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
+                        offset, block->used_length);
+             return -1;
+         }
++        p->pages->offset[i] = offset;
++        p->pages->block = block;
+         p->pages->iov[i].iov_base = block->host + offset;
+         p->pages->iov[i].iov_len = qemu_target_page_size();
+     }
 -- 
 2.33.1
 
