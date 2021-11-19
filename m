@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA5B45750E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 18:10:55 +0100 (CET)
-Received: from localhost ([::1]:52966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FB145754B
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 18:19:05 +0100 (CET)
+Received: from localhost ([::1]:40664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo7PW-0002q2-E6
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 12:10:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42142)
+	id 1mo7XU-0005ag-Ga
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 12:19:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mo7EP-0005Mp-VB
+ id 1mo7ES-0005Ni-LC
  for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:59:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45346)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mo7EM-00037S-Rj
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:59:21 -0500
+ id 1mo7EN-00037c-0C
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:59:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637341154;
+ s=mimecast20190719; t=1637341155;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x21JJpo3l6foj8NaP+rDiQL/I3NxYzqELlR8UI5gEko=;
- b=LKklua/w+3W5ztDo3Pca3aQK8KkV4YdnhFyzElgFI5RlQDShACBg4d3bV4fA+tM9Ipfxsi
- Se0jM59D1SQb8Ag8mDarb2CiZ6tJ601ktNHDLZRSRrqNn2V+gOxPSg0IE+I/RR8+r0sTKb
- Eorp7At+LjUWbluY/05SnvvvUPqyboA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=i65KouW0qros+OIR6AIOQYFf5hMQeAXenZJYYpUSVVc=;
+ b=acuSVmmeiTZmhxSlzis6Y5QOtSUL0WGsCKX4Xnb0PHiUPqn4R6JZkOgtQywq9ph2o4A9Th
+ Bk4cYXZ0xrDF7h52NVe/eK+REXP8gAlBw6Tdq/jXyzO0rAFSm/WTu1KzjQT08MqrW+sDCr
+ 2ptudUmN+9BJaPW8x5jUn8vIxdbw+BA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-452-UVsshjNEMTC89GQk3-ZPNQ-1; Fri, 19 Nov 2021 11:59:13 -0500
-X-MC-Unique: UVsshjNEMTC89GQk3-ZPNQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o10-20020a05600c4fca00b0033312e1ed8bso5046596wmq.2
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:59:13 -0800 (PST)
+ us-mta-597-WJ3odMrdNfW-stbtMXpbGw-1; Fri, 19 Nov 2021 11:59:14 -0500
+X-MC-Unique: WJ3odMrdNfW-stbtMXpbGw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m14-20020a05600c3b0e00b0033308dcc933so5025403wms.7
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:59:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=x21JJpo3l6foj8NaP+rDiQL/I3NxYzqELlR8UI5gEko=;
- b=CPnGcq7FZKuo9RRidWTfr8x9ijjrXd6m7G4WVktDmO8b2ufKKuHECL682eIQpoNhpT
- clOGISvMgJm9MAmYspvBlUFS+7oEze9n59dbRlPhUff/S0U35UubOHRjjHBnSU3t/VSZ
- 5b6n1EbX1zO6VknJe5nK4zqT0S+OPVomRz0p4xaaMpL6swZkGn+DJrNFI87LROtcqMAY
- Tvx6FfGEC+oF9taFYl4xXWcc2kggJPtM/ShLGPr8vTlJCuDFo4XJU+4wRf9L+wb+GLlu
- 8/PjRU4OrEKfY5cF7Bnn+gesr5u+2Y+oApIBCyruQsCHrax0Pmb+l0sVDPqNaxFlI7r/
- 6o+A==
-X-Gm-Message-State: AOAM532VrfATk52vL1d0T3YZQtkXlOHL1r1gFMKdVlst9viW9hDONRdp
- fPhJRIgunB8v/SmiuzWr0Fn679rCk0PMueLup+4nyoR5SXMgcO/adlKWjPq5DrTR3en29AZUR2E
- pUTBqWvSvurMMZMAgP5Mr+IiHBGyWQefzg2rss0ROIRjWI7DiJX7yqzLUN6bk9xSXzFc=
-X-Received: by 2002:a05:600c:1c87:: with SMTP id
- k7mr1364877wms.103.1637341151605; 
- Fri, 19 Nov 2021 08:59:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxyTctBnGPSKZ8duGzvf0uNNdqhxv+QnSFjj933dUnJZIaL3RngLiUJ0w5ddcT9gBW4wBrk2Q==
-X-Received: by 2002:a05:600c:1c87:: with SMTP id
- k7mr1364824wms.103.1637341151229; 
- Fri, 19 Nov 2021 08:59:11 -0800 (PST)
+ bh=i65KouW0qros+OIR6AIOQYFf5hMQeAXenZJYYpUSVVc=;
+ b=5V31Pi7Yec4TZOMG9+j2xzy2QGqyJWvgH+a2IuvacSzob2JJ8wtHbjH3n8MKwJM3Ft
+ AASTOmM79TDe4KgKd98Yul8FHjmVRFJlwD/QsCZinyu+/Zfbjrke+F+CxiHIvVJ52FRG
+ Vzy7iRKsZxDRUIpkAOQfgw9fM1rnE0pylpCx/nqsNu5VQrJ6/FkGeX4xo+RNNDvMHJeA
+ 1VaXKsvje00j60uhNiA9uVEiHstGhSm9njfGhA02z6ztEGMWME1DQFxhqUIPEYknH28m
+ zw3nIV6xMOAd0ATZFGoanu6yeDtJYgYRcHb42PK5UAFo/HydOCnpVLAcIpNOzlLpE4t/
+ qHEw==
+X-Gm-Message-State: AOAM5330pEQoGtUg7QkjIRruDPWMBSFNYuu/3+c95dDmZx/c0mD1dbVe
+ aNBemHw87TB/XnbhKQtNm17EPC6KTjjWr6zgkxtNbJvI0sUBt+4wL8U1Nhvol97XALgixtYN4xe
+ rPoY0AuxXCPU8mrz5SgiMcH5qmVUcGbYIRtkyPxJ1K0pWBuq7Ccc+JRwLwUAdi6G50x8=
+X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr9543643wrz.211.1637341152928; 
+ Fri, 19 Nov 2021 08:59:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy7gAXwONI7KBjAdoRaTRdt9K+KFrT/uhUv+G7NryByEpmBVwjhIqyDZIsIH1aZOE0A5rto9A==
+X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr9543589wrz.211.1637341152600; 
+ Fri, 19 Nov 2021 08:59:12 -0800 (PST)
 Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
  [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id k187sm11986790wme.0.2021.11.19.08.59.10
+ by smtp.gmail.com with ESMTPSA id f7sm16351799wmg.6.2021.11.19.08.59.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 08:59:10 -0800 (PST)
+ Fri, 19 Nov 2021 08:59:12 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/11] multifd: Make zlib compression method not use iovs
-Date: Fri, 19 Nov 2021 17:58:57 +0100
-Message-Id: <20211119165903.18813-6-quintela@redhat.com>
+Subject: [PATCH 06/11] migration: Move iov from pages to params
+Date: Fri, 19 Nov 2021 17:58:58 +0100
+Message-Id: <20211119165903.18813-7-quintela@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211119165903.18813-1-quintela@redhat.com>
 References: <20211119165903.18813-1-quintela@redhat.com>
@@ -78,7 +76,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -106,82 +104,165 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This will allow us to reduce the number of system calls on the next patch.
+
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd-zlib.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ migration/multifd.h |  8 ++++++--
+ migration/multifd.c | 30 +++++++++++++++++++++---------
+ 2 files changed, 27 insertions(+), 11 deletions(-)
 
-diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-index ab4ba75d75..40d4cbd0b8 100644
---- a/migration/multifd-zlib.c
-+++ b/migration/multifd-zlib.c
-@@ -13,6 +13,7 @@
- #include "qemu/osdep.h"
- #include <zlib.h>
- #include "qemu/rcu.h"
-+#include "exec/ramblock.h"
- #include "exec/target_page.h"
- #include "qapi/error.h"
- #include "migration.h"
-@@ -99,8 +100,8 @@ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
+diff --git a/migration/multifd.h b/migration/multifd.h
+index 15c50ca0b2..67f9104051 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -62,8 +62,6 @@ typedef struct {
+     uint64_t packet_num;
+     /* offset of each page */
+     ram_addr_t *offset;
+-    /* pointer to each page */
+-    struct iovec *iov;
+     RAMBlock *block;
+ } MultiFDPages_t;
+ 
+@@ -110,6 +108,10 @@ typedef struct {
+     uint64_t num_pages;
+     /* syncs main thread and channels */
+     QemuSemaphore sem_sync;
++    /* buffers to send */
++    struct iovec *iov;
++    /* used for compression methods */
++    uint32_t iovs_used;
+     /* used for compression methods */
+     void *data;
+ }  MultiFDSendParams;
+@@ -149,6 +151,8 @@ typedef struct {
+     uint64_t num_pages;
+     /* syncs main thread and channels */
+     QemuSemaphore sem_sync;
++    /* buffers to recv */
++    struct iovec *iov;
+     /* used for de-compression methods */
+     void *data;
+ } MultiFDRecvParams;
+diff --git a/migration/multifd.c b/migration/multifd.c
+index e2adcdffa1..4368b7f855 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -87,6 +87,14 @@ static void nocomp_send_cleanup(MultiFDSendParams *p, Error **errp)
+ static int nocomp_send_prepare(MultiFDSendParams *p, uint32_t used,
+                                Error **errp)
+ {
++    MultiFDPages_t *pages = p->pages;
++
++    for (int i = 0; i < used; i++) {
++        p->iov[p->iovs_used].iov_base = pages->block->host + pages->offset[i];
++        p->iov[p->iovs_used].iov_len = qemu_target_page_size();
++        p->iovs_used++;
++    }
++
+     p->next_packet_size = used * qemu_target_page_size();
+     p->flags |= MULTIFD_FLAG_NOCOMP;
+     return 0;
+@@ -105,7 +113,7 @@ static int nocomp_send_prepare(MultiFDSendParams *p, uint32_t used,
   */
- static int zlib_send_prepare(MultiFDSendParams *p, uint32_t used, Error **errp)
+ static int nocomp_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
  {
--    struct iovec *iov = p->pages->iov;
-     struct zlib_data *z = p->data;
-+    size_t page_size = qemu_target_page_size();
-     z_stream *zs = &z->zs;
-     uint32_t out_size = 0;
-     int ret;
-@@ -114,8 +115,8 @@ static int zlib_send_prepare(MultiFDSendParams *p, uint32_t used, Error **errp)
-             flush = Z_SYNC_FLUSH;
+-    return qio_channel_writev_all(p->c, p->pages->iov, used, errp);
++    return qio_channel_writev_all(p->c, p->iov, p->iovs_used, errp);
+ }
+ 
+ /**
+@@ -154,7 +162,11 @@ static int nocomp_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **errp)
+                    p->id, flags, MULTIFD_FLAG_NOCOMP);
+         return -1;
+     }
+-    return qio_channel_readv_all(p->c, p->pages->iov, used, errp);
++    for (int i = 0; i < p->pages->used; i++) {
++        p->iov[i].iov_base = p->pages->block->host + p->pages->offset[i];
++        p->iov[i].iov_len = qemu_target_page_size();
++    }
++    return qio_channel_readv_all(p->c, p->iov, used, errp);
+ }
+ 
+ static MultiFDMethods multifd_nocomp_ops = {
+@@ -244,7 +256,6 @@ static MultiFDPages_t *multifd_pages_init(size_t size)
+     MultiFDPages_t *pages = g_new0(MultiFDPages_t, 1);
+ 
+     pages->allocated = size;
+-    pages->iov = g_new0(struct iovec, size);
+     pages->offset = g_new0(ram_addr_t, size);
+ 
+     return pages;
+@@ -256,8 +267,6 @@ static void multifd_pages_clear(MultiFDPages_t *pages)
+     pages->allocated = 0;
+     pages->packet_num = 0;
+     pages->block = NULL;
+-    g_free(pages->iov);
+-    pages->iov = NULL;
+     g_free(pages->offset);
+     pages->offset = NULL;
+     g_free(pages);
+@@ -366,8 +375,6 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
          }
+         p->pages->offset[i] = offset;
+         p->pages->block = block;
+-        p->pages->iov[i].iov_base = block->host + offset;
+-        p->pages->iov[i].iov_len = qemu_target_page_size();
+     }
  
--        zs->avail_in = iov[i].iov_len;
--        zs->next_in = iov[i].iov_base;
-+        zs->avail_in = page_size;
-+        zs->next_in = p->pages->block->host + p->pages->offset[i];
+     return 0;
+@@ -471,8 +478,6 @@ int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset)
  
-         zs->avail_out = available;
-         zs->next_out = z->zbuff + out_size;
-@@ -240,6 +241,7 @@ static void zlib_recv_cleanup(MultiFDRecvParams *p)
- static int zlib_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **errp)
- {
-     struct zlib_data *z = p->data;
-+    size_t page_size = qemu_target_page_size();
-     z_stream *zs = &z->zs;
-     uint32_t in_size = p->next_packet_size;
-     /* we measure the change of total_out */
-@@ -264,7 +266,6 @@ static int zlib_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **errp)
-     zs->next_in = z->zbuff;
+     if (pages->block == block) {
+         pages->offset[pages->used] = offset;
+-        pages->iov[pages->used].iov_base = block->host + offset;
+-        pages->iov[pages->used].iov_len = qemu_target_page_size();
+         pages->used++;
  
-     for (i = 0; i < used; i++) {
--        struct iovec *iov = &p->pages->iov[i];
-         int flush = Z_NO_FLUSH;
-         unsigned long start = zs->total_out;
+         if (pages->used < pages->allocated) {
+@@ -565,6 +570,8 @@ void multifd_save_cleanup(void)
+         p->packet_len = 0;
+         g_free(p->packet);
+         p->packet = NULL;
++        g_free(p->iov);
++        p->iov = NULL;
+         multifd_send_state->ops->send_cleanup(p, &local_err);
+         if (local_err) {
+             migrate_set_error(migrate_get_current(), local_err);
+@@ -653,6 +660,7 @@ static void *multifd_send_thread(void *opaque)
+             uint32_t used = p->pages->used;
+             uint64_t packet_num = p->packet_num;
+             flags = p->flags;
++            p->iovs_used = 0;
  
-@@ -272,8 +273,8 @@ static int zlib_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **errp)
-             flush = Z_SYNC_FLUSH;
-         }
+             if (used) {
+                 ret = multifd_send_state->ops->send_prepare(p, used,
+@@ -922,6 +930,7 @@ int multifd_save_setup(Error **errp)
+         p->packet->version = cpu_to_be32(MULTIFD_VERSION);
+         p->name = g_strdup_printf("multifdsend_%d", i);
+         p->tls_hostname = g_strdup(s->hostname);
++        p->iov = g_new0(struct iovec, page_count);
+         socket_send_channel_create(multifd_new_send_channel_async, p);
+     }
  
--        zs->avail_out = iov->iov_len;
--        zs->next_out = iov->iov_base;
-+        zs->avail_out = page_size;
-+        zs->next_out = p->pages->block->host + p->pages->offset[i];
+@@ -1021,6 +1030,8 @@ int multifd_load_cleanup(Error **errp)
+         p->packet_len = 0;
+         g_free(p->packet);
+         p->packet = NULL;
++        g_free(p->iov);
++        p->iov = NULL;
+         multifd_recv_state->ops->recv_cleanup(p);
+     }
+     qemu_sem_destroy(&multifd_recv_state->sem_sync);
+@@ -1161,6 +1172,7 @@ int multifd_load_setup(Error **errp)
+                       + sizeof(uint64_t) * page_count;
+         p->packet = g_malloc0(p->packet_len);
+         p->name = g_strdup_printf("multifdrecv_%d", i);
++        p->iov = g_new0(struct iovec, page_count);
+     }
  
-         /*
-          * Welcome to inflate semantics
-@@ -286,8 +287,8 @@ static int zlib_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **errp)
-         do {
-             ret = inflate(zs, flush);
-         } while (ret == Z_OK && zs->avail_in
--                             && (zs->total_out - start) < iov->iov_len);
--        if (ret == Z_OK && (zs->total_out - start) < iov->iov_len) {
-+                             && (zs->total_out - start) < page_size);
-+        if (ret == Z_OK && (zs->total_out - start) < page_size) {
-             error_setg(errp, "multifd %d: inflate generated too few output",
-                        p->id);
-             return -1;
+     for (i = 0; i < thread_count; i++) {
 -- 
 2.33.1
 
