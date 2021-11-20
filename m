@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4ED6457C8F
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 09:21:56 +0100 (CET)
-Received: from localhost ([::1]:34810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA80457C92
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 09:32:32 +0100 (CET)
+Received: from localhost ([::1]:38640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moLdD-0004v9-Ak
-	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 03:21:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58402)
+	id 1moLnT-00080a-FU
+	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 03:32:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moLbc-000495-8i
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:20:16 -0500
-Received: from [2a00:1450:4864:20::330] (port=34806
- helo=mail-wm1-x330.google.com)
+ id 1moLm3-0006va-Me
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:31:03 -0500
+Received: from [2a00:1450:4864:20::32d] (port=39643
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moLba-0001e9-5F
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:20:15 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- ay10-20020a05600c1e0a00b0033aa12cdd33so134174wmb.1
- for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 00:20:13 -0800 (PST)
+ id 1moLm1-0006Nx-Di
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:31:03 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ n33-20020a05600c502100b0032fb900951eso12277476wmr.4
+ for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 00:31:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TcrowQmRHGgCS9TupezP3iR3sOd34KCc0+1esHuz5Es=;
- b=cHKzLx22hIABJJL6roAW4FStL/a7w9OZvuAJ1daiMrm2kQiHnPlpDO4aDu4divcUHD
- 6IG5ETFFlbcJStJ4RQwj3jfwhOmUc87lElvITMHw+wt9LKlsphX3k40JLAoiP4Q6oWzk
- +G4s07CdlXGnn7xN0v4jMa5A8Bx3on+E2wQxMNOq9LIDPR57ifwy/605ImZduAw6iQ55
- ZBOgd5tClYvCqEZxCf9mDkNo2mE3V3C6hJKR9a7QnZFhRkadzLt08a1m38fCVI+WPAen
- lytdxQqK3ingspFkYZfGiOp5Pr4LxcqqKGJ6HSRSOiZcut/SwI3e7CugnUlr4lPuzuwT
- DSGQ==
+ bh=umU8FDl5srRnLPjrsFiw9HlfUlx1JFkbh7bknmM9ICw=;
+ b=tUxRkLedLmn7q7lS4rG37ollm0sxYh1HmFmvXcSxLf7MaWQyPFGd+BEpVEDZxi+Te2
+ ikqWPS8VBR830JBEnp1VMziomV+7RaM6w7C1prS0Pkh/aWlsI4+n/mqGVVJnbUz5Pr7d
+ FUeDlr3gpK6qz0wiDlYReq2XPmMXWsnmkb8yZyjEFmxy0qygFzqM0nR5aAwDGxotZq4y
+ RduVG+0iLrRq1l7nHoCPeNr6qiNyb0L9lqHzrdXSHHrf2v/7R+iXQuB1g1jJKY07DrG1
+ 0/U4Iv4umtvTgXelZEccQt/aoWuHIwWXmY5Y874LnB0wN31L1Epeocu1gBONgAE2aCRb
+ tgag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=TcrowQmRHGgCS9TupezP3iR3sOd34KCc0+1esHuz5Es=;
- b=zlXhpHNxG5+b+nIa8LUmrTtiE51vd0NTrdEgdVZGrBTY1WLEmZizKwAV6IMV/l8IsU
- tDlqXvqzVQCstLnwhurzgcFkawRX5rlShoUSeW8tUyL7osG3GXjlI3TJUWwAMHoe7oCE
- D5Etb/j0ZOyRY7XSWG/Z2W7KZvyL7/n8B2FhbpmaofoUDt2/1xFOiRptdHnL7tPWW15w
- uHkHTbNKARVGH112S/8xHWixFDTr/fwpMMaMXLIrBUDsT3UNMoFdZZ8Z/as3SubpFvAZ
- 0zqxhW5j3jMyoyDUfIEOZLzJI7+7vlnJnT6cgWiNfs8PRXto35aU8fw5vZPcYTJ2Sb8V
- lLxQ==
-X-Gm-Message-State: AOAM530APHqQ+16Y+funQ3UrwhqmlRD9ALi/VwRm3L3eBcjp2dY8rKxY
- c3xLYKPVCPPwe0xRZ9oBOqqLEQ==
-X-Google-Smtp-Source: ABdhPJzjKFVv4NTxv56x79Yvzpq2BEkDELoPho8skfLAULFVF3RWCEHZiUOyRA3pnkYTsEtvHw539g==
-X-Received: by 2002:a7b:c8c2:: with SMTP id f2mr7907185wml.63.1637396412495;
- Sat, 20 Nov 2021 00:20:12 -0800 (PST)
+ bh=umU8FDl5srRnLPjrsFiw9HlfUlx1JFkbh7bknmM9ICw=;
+ b=F+WCYNYgbtVVeQNncmF3DCtk0YAKT76PgDIUXxch+u44YCIoy7PXk/W7PC+XDhJjyl
+ ugU0PnfOBDsD9dggFsJBuHyFG8OJu57iUNI6PEssLVPnkuvwQoL8M0H6J+jzb7fXogu5
+ +/6wPgIPhXckFQMURBAcpceUkQh9yy6NfYzCjZVaSq7b8zwYLlJckojRvBaCqu72Bgv5
+ Sb6QY9YUcVgwMCelx/Ht8S7cBXQDlGIjz3IryrcWzMVkiv/NqNLGIOZrX/zpOf+D1XJo
+ 9At+BxgTaFRGx20Ohibp/Fn8580Mj0r3O43A0xAE1Eo8DxRJOTLx2HD0nPo84X/Rgptg
+ eN/A==
+X-Gm-Message-State: AOAM5325CDLAvobSGXPN4jQqIepKPJ4zQINEKcyprek0x3VVOL4dAY1m
+ esT1SgIbAv7t7YvrDOD4+rOrnA==
+X-Google-Smtp-Source: ABdhPJwr5SPFET+bNkaMlCJSjPJvIS2/jEyz6g0JzbDb1c8AEf+H8hbcVolDLv9yDv08uAN99kXSoQ==
+X-Received: by 2002:a05:600c:1d9b:: with SMTP id
+ p27mr8141396wms.123.1637397059769; 
+ Sat, 20 Nov 2021 00:30:59 -0800 (PST)
 Received: from [192.168.8.104] (9.red-95-126-194.staticip.rima-tde.net.
  [95.126.194.9])
- by smtp.gmail.com with ESMTPSA id n2sm15127943wmi.36.2021.11.20.00.20.10
+ by smtp.gmail.com with ESMTPSA id h3sm1898507wrv.69.2021.11.20.00.30.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Nov 2021 00:20:12 -0800 (PST)
-Subject: Re: [PATCH v11 07/26] target/loongarch: Add fixed point load/store
+ Sat, 20 Nov 2021 00:30:59 -0800 (PST)
+Subject: Re: [PATCH v11 08/26] target/loongarch: Add fixed point atomic
  instruction translation
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
- <1637302410-24632-8-git-send-email-gaosong@loongson.cn>
+ <1637302410-24632-9-git-send-email-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <52e99aaa-1fa3-7b54-76e8-2ba4df4853fa@linaro.org>
-Date: Sat, 20 Nov 2021 09:20:07 +0100
+Message-ID: <06ade806-c0e7-afbf-dd02-87cd5c1862a5@linaro.org>
+Date: Sat, 20 Nov 2021 09:30:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <1637302410-24632-8-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <1637302410-24632-9-git-send-email-gaosong@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
@@ -98,81 +99,82 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/19/21 7:13 AM, Song Gao wrote:
->   DEF_HELPER_FLAGS_1(bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
+> This includes:
+> - LL.{W/D}, SC.{W/D}
+> - AM{SWAP/ADD/AND/OR/XOR/MAX/MIN}[_DB].{W/D}
+> - AM{MAX/MIN}[_DB].{WU/DU}
+> 
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/loongarch/insn_trans/trans_atomic.c.inc | 130 +++++++++++++++++++++++++
+>   target/loongarch/insns.decode                  |  44 +++++++++
+>   target/loongarch/translate.c                   |   1 +
+>   3 files changed, 175 insertions(+)
+>   create mode 100644 target/loongarch/insn_trans/trans_atomic.c.inc
+> 
+> diff --git a/target/loongarch/insn_trans/trans_atomic.c.inc b/target/loongarch/insn_trans/trans_atomic.c.inc
+> new file mode 100644
+> index 0000000..96957bb
+> --- /dev/null
+> +++ b/target/loongarch/insn_trans/trans_atomic.c.inc
+> @@ -0,0 +1,130 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Copyright (c) 2021 Loongson Technology Corporation Limited
+> + */
 > +
-> +DEF_HELPER_3(asrtle_d, void, env, tl, tl)
-> +DEF_HELPER_3(asrtgt_d, void, env, tl, tl)
-
-Use DEF_HELPER_FLAGS_3 and TCG_CALL_NO_WG.
-
-(They do not write globals, but do implicitly read them via the exception path, and of 
-course the exception is a side-effect.)
-
-> +static bool gen_load_gt(DisasContext *ctx, arg_rrr *a, MemOp mop)
+> +static bool gen_ll(DisasContext *ctx, arg_rr_i *a,
+> +                   void (*func)(TCGv, TCGv, int))
 > +{
 > +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
 > +    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-> +    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-> +    TCGv addr = tcg_temp_new();
+> +    TCGv t0 = tcg_temp_new();
 > +
-> +    gen_helper_asrtgt_d(cpu_env, src1, src2);
-> +    tcg_gen_add_tl(addr, src1, src2);
-> +    tcg_gen_qemu_ld_tl(dest, addr, ctx->mem_idx, mop);
+> +    tcg_gen_addi_tl(t0, src1, a->imm << 2);
 
-This add is incorrect.  The address is rj (src1).
-Likewise for the rest of the bound check memory ops.
+The ll/sc instructions would of course use the same pre-shifted immediate as for 
+ldptr/stptr, as discussed wrt the previous patch.
 
-> +static bool gen_ldptr(DisasContext *ctx, arg_rr_i *a, MemOp mop)
+> +static bool gen_am(DisasContext *ctx, arg_rrr *a,
+> +                   void (*func)(TCGv, TCGv, TCGv, TCGArg, MemOp),
+> +                   MemOp mop)
 > +{
 > +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
 > +    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
-> +    TCGv temp = NULL;
+> +    TCGv val = gpr_src(ctx, a->rk, EXT_NONE);
 > +
-> +    if (a->imm) {
-> +        temp = tcg_temp_new();
-> +        tcg_gen_addi_tl(temp, addr, a->imm << 2);
-> +        addr = temp;
-> +    }
+> +    if ((a->rd != 0) && ((a->rj == a->rd) || (a->rk == a->rd))) {
 
-I think it would be cleaner to have this immediate shift handled by decodetree, so that 
-gen_ldptr is dropped in favor of gen_load (and also for stores).  It would also print the 
-correct logical offset on the disassembly side.
+BTW, you don't need to overdo it with the parenthesis.
 
-%i14s2      10:s14 !function=shl_2
-@rr_i14s2   .... .... .............. rj:5 rd:5  &rr_i imm=%i14s2
+    if (a != b && (c == d || e == f)) {
 
+is fine.
 
-> +/* loongarch sync */
-> +static void gen_loongarch_sync(int stype)
+> +static bool gen_am_db(DisasContext *ctx, arg_rrr *a,
+> +                      void (*func)(TCGv, TCGv, TCGv, TCGArg, MemOp),
+> +                      MemOp mop)
 > +{
-> +    TCGBar tcg_mo = TCG_BAR_SC;
+> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+> +    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
+> +    TCGv val = gpr_src(ctx, a->rk, EXT_NONE);
 > +
-> +    switch (stype) {
-> +    case 0x4: /* SYNC_WMB */
-> +        tcg_mo |= TCG_MO_ST_ST;
-> +        break;
-> +    case 0x10: /* SYNC_MB */
-> +        tcg_mo |= TCG_MO_ALL;
-> +        break;
-> +    case 0x11: /* SYNC_ACQUIRE */
-> +        tcg_mo |= TCG_MO_LD_LD | TCG_MO_LD_ST;
-> +        break;
-> +    case 0x12: /* SYNC_RELEASE */
-> +        tcg_mo |= TCG_MO_ST_ST | TCG_MO_LD_ST;
-> +        break;
-> +    case 0x13: /* SYNC_RMB */
-> +        tcg_mo |= TCG_MO_LD_LD;
-> +        break;
-> +    default:
-> +        tcg_mo |= TCG_MO_ALL;
-> +        break;
+> +    if ((a->rd != 0) && ((a->rj == a->rd) || (a->rk == a->rd))) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "Warning: source register overlaps destination register"
+> +                      "in atomic insn at pc=0x" TARGET_FMT_lx "\n",
+> +                      ctx->base.pc_next - 4);
+> +        return false;
 > +    }
 > +
-> +    tcg_gen_mb(tcg_mo);
-> +}
+> +    gen_loongarch_sync(0x10);
+> +    func(dest, addr, val, ctx->mem_idx, mop);
 
-This is copied from mips, I think.  The only defined hint for dbar is 0.  I think this 
-function should be removed, and just emit the tcg barrier directly within trans_dbar.
+All tcg atomic ops are sequentially consistent, so you don't need the extra sync, and thus 
+this entire function.
+
 
 
 r~
