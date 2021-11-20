@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D99A457C7F
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 09:08:45 +0100 (CET)
-Received: from localhost ([::1]:57052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4ED6457C8F
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 09:21:56 +0100 (CET)
+Received: from localhost ([::1]:34810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moLQS-0000FQ-7d
-	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 03:08:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54804)
+	id 1moLdD-0004v9-Ak
+	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 03:21:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moLNw-0007IP-0t
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:06:09 -0500
-Received: from [2a00:1450:4864:20::42c] (port=46752
- helo=mail-wr1-x42c.google.com)
+ id 1moLbc-000495-8i
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:20:16 -0500
+Received: from [2a00:1450:4864:20::330] (port=34806
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moLNs-0006QY-2T
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:06:07 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id u1so22165933wru.13
- for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 00:06:03 -0800 (PST)
+ id 1moLba-0001e9-5F
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:20:15 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ ay10-20020a05600c1e0a00b0033aa12cdd33so134174wmb.1
+ for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 00:20:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rNuSf+ZTFvuYrjXQ16Pn2nKWyBor5n/4apCUU6/UQt0=;
- b=kK5xVfQhzKjMXoiltrW/Af4Z6MYtYRt77M/VuChCv31OFrJBcc7WHc/IhegeAKyWrC
- mzK7WurTAm2FWdO10b3w2gCmfwk+VwL9RlOmYd93BTt4cSmtB/qgwcxR52NeW+vTg4Rl
- EJ313Op3sHPl53164M21hX5msb9PtM3ES6s9lrql3hcHHY/7F0jVY7AXiWhg7/SNRd84
- WIXtxKg2zpOc8plvzvpEP1mStjV1GzkxA4EpPivDg58dpnbB9piNbf7eiqJmIii0isdF
- JOjPrJGdL1h+3bniAvunzwSjbcBTCKFV5zB1pjGccxhTLRXuO05jUv/9ESDpL+msNlZF
- vs+g==
+ bh=TcrowQmRHGgCS9TupezP3iR3sOd34KCc0+1esHuz5Es=;
+ b=cHKzLx22hIABJJL6roAW4FStL/a7w9OZvuAJ1daiMrm2kQiHnPlpDO4aDu4divcUHD
+ 6IG5ETFFlbcJStJ4RQwj3jfwhOmUc87lElvITMHw+wt9LKlsphX3k40JLAoiP4Q6oWzk
+ +G4s07CdlXGnn7xN0v4jMa5A8Bx3on+E2wQxMNOq9LIDPR57ifwy/605ImZduAw6iQ55
+ ZBOgd5tClYvCqEZxCf9mDkNo2mE3V3C6hJKR9a7QnZFhRkadzLt08a1m38fCVI+WPAen
+ lytdxQqK3ingspFkYZfGiOp5Pr4LxcqqKGJ6HSRSOiZcut/SwI3e7CugnUlr4lPuzuwT
+ DSGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rNuSf+ZTFvuYrjXQ16Pn2nKWyBor5n/4apCUU6/UQt0=;
- b=jr+XZBkd6agGHWJ1yZpkZn5R4W2ncE2LSxflx42TPaFxQveU6H0jNyW0uH7GpNontf
- xKL+3hfr8sib+V8fpQrrrqh74WLq276s31sf88x4EXo8iC6mIQ7HjbR+0kHo/lIQI6Cm
- kYa3F4rbZ8wKoW6/TTzZqzTTTzEMYaodKENU89Xv+VOuI6TchyniB/bQEQ9LieXlC8lS
- aaa0CLAz8SlrJMbB9lUIaml9UIxfj8jDsYOECoPerI9C452IM+YvLNm9JHpCWxcdzc50
- NRBo1CXT77e3EsXUiX5TPnjW38/23k5v9zueN1twD5Jt6eERK7jPUNo4uFQMnIazHTGX
- YWiw==
-X-Gm-Message-State: AOAM532PeRUl75gJ+Ax37muJgOR8L7mCcV8vBL7MfCB/GsWmgjKZfTOL
- w+aXlKFfaKUgdqVom9kxwNrf8w==
-X-Google-Smtp-Source: ABdhPJxs31jryc0uGdtcwAouQljWFE/zQ3gA4YdCddGWQfnP8P8UXW163YBaAJJucDiKHuVI3D2MjA==
-X-Received: by 2002:a5d:6d07:: with SMTP id e7mr14748014wrq.311.1637395562028; 
- Sat, 20 Nov 2021 00:06:02 -0800 (PST)
+ bh=TcrowQmRHGgCS9TupezP3iR3sOd34KCc0+1esHuz5Es=;
+ b=zlXhpHNxG5+b+nIa8LUmrTtiE51vd0NTrdEgdVZGrBTY1WLEmZizKwAV6IMV/l8IsU
+ tDlqXvqzVQCstLnwhurzgcFkawRX5rlShoUSeW8tUyL7osG3GXjlI3TJUWwAMHoe7oCE
+ D5Etb/j0ZOyRY7XSWG/Z2W7KZvyL7/n8B2FhbpmaofoUDt2/1xFOiRptdHnL7tPWW15w
+ uHkHTbNKARVGH112S/8xHWixFDTr/fwpMMaMXLIrBUDsT3UNMoFdZZ8Z/as3SubpFvAZ
+ 0zqxhW5j3jMyoyDUfIEOZLzJI7+7vlnJnT6cgWiNfs8PRXto35aU8fw5vZPcYTJ2Sb8V
+ lLxQ==
+X-Gm-Message-State: AOAM530APHqQ+16Y+funQ3UrwhqmlRD9ALi/VwRm3L3eBcjp2dY8rKxY
+ c3xLYKPVCPPwe0xRZ9oBOqqLEQ==
+X-Google-Smtp-Source: ABdhPJzjKFVv4NTxv56x79Yvzpq2BEkDELoPho8skfLAULFVF3RWCEHZiUOyRA3pnkYTsEtvHw539g==
+X-Received: by 2002:a7b:c8c2:: with SMTP id f2mr7907185wml.63.1637396412495;
+ Sat, 20 Nov 2021 00:20:12 -0800 (PST)
 Received: from [192.168.8.104] (9.red-95-126-194.staticip.rima-tde.net.
  [95.126.194.9])
- by smtp.gmail.com with ESMTPSA id r17sm18022231wmq.5.2021.11.20.00.06.00
+ by smtp.gmail.com with ESMTPSA id n2sm15127943wmi.36.2021.11.20.00.20.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Nov 2021 00:06:01 -0800 (PST)
-Subject: Re: [PATCH v11 06/26] target/loongarch: Add fixed point bit
+ Sat, 20 Nov 2021 00:20:12 -0800 (PST)
+Subject: Re: [PATCH v11 07/26] target/loongarch: Add fixed point load/store
  instruction translation
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
- <1637302410-24632-7-git-send-email-gaosong@loongson.cn>
+ <1637302410-24632-8-git-send-email-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8c4b8bff-9502-0a2c-3ecd-3b1156a69e81@linaro.org>
-Date: Sat, 20 Nov 2021 09:05:58 +0100
+Message-ID: <52e99aaa-1fa3-7b54-76e8-2ba4df4853fa@linaro.org>
+Date: Sat, 20 Nov 2021 09:20:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <1637302410-24632-7-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <1637302410-24632-8-git-send-email-gaosong@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
@@ -97,71 +98,81 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/19/21 7:13 AM, Song Gao wrote:
-> +static bool gen_rr(DisasContext *ctx, arg_rr *a,
-> +                   DisasExtend src_ext, DisasExtend dst_ext,
-> +                   void (*func)(TCGv, TCGv))
+>   DEF_HELPER_FLAGS_1(bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
+> +
+> +DEF_HELPER_3(asrtle_d, void, env, tl, tl)
+> +DEF_HELPER_3(asrtgt_d, void, env, tl, tl)
+
+Use DEF_HELPER_FLAGS_3 and TCG_CALL_NO_WG.
+
+(They do not write globals, but do implicitly read them via the exception path, and of 
+course the exception is a side-effect.)
+
+> +static bool gen_load_gt(DisasContext *ctx, arg_rrr *a, MemOp mop)
 > +{
-> +    TCGv dest = gpr_dst(ctx, a->rd, dst_ext);
-> +    TCGv src1 = gpr_src(ctx, a->rj, src_ext);
+> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+> +    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+> +    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+> +    TCGv addr = tcg_temp_new();
 > +
-> +    func(dest, src1);
+> +    gen_helper_asrtgt_d(cpu_env, src1, src2);
+> +    tcg_gen_add_tl(addr, src1, src2);
+> +    tcg_gen_qemu_ld_tl(dest, addr, ctx->mem_idx, mop);
+
+This add is incorrect.  The address is rj (src1).
+Likewise for the rest of the bound check memory ops.
+
+> +static bool gen_ldptr(DisasContext *ctx, arg_rr_i *a, MemOp mop)
+> +{
+> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+> +    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
+> +    TCGv temp = NULL;
 > +
-> +    if (dst_ext) {
-> +        gen_set_gpr(a->rd, dest, dst_ext);
+> +    if (a->imm) {
+> +        temp = tcg_temp_new();
+> +        tcg_gen_addi_tl(temp, addr, a->imm << 2);
+> +        addr = temp;
 > +    }
 
-Again, I think you should call gen_set_gpr unconditionally.
+I think it would be cleaner to have this immediate shift handled by decodetree, so that 
+gen_ldptr is dropped in favor of gen_load (and also for stores).  It would also print the 
+correct logical offset on the disassembly side.
 
-> +static bool trans_bytepick_w(DisasContext *ctx, arg_bytepick_w *a)
+%i14s2      10:s14 !function=shl_2
+@rr_i14s2   .... .... .............. rj:5 rd:5  &rr_i imm=%i14s2
+
+
+> +/* loongarch sync */
+> +static void gen_loongarch_sync(int stype)
 > +{
-> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-> +    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-> +    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+> +    TCGBar tcg_mo = TCG_BAR_SC;
 > +
-> +    tcg_gen_concat_tl_i64(dest, src1, src2);
-> +    tcg_gen_sextract_i64(dest, dest, (32 - (a->sa) * 8), 32);
+> +    switch (stype) {
+> +    case 0x4: /* SYNC_WMB */
+> +        tcg_mo |= TCG_MO_ST_ST;
+> +        break;
+> +    case 0x10: /* SYNC_MB */
+> +        tcg_mo |= TCG_MO_ALL;
+> +        break;
+> +    case 0x11: /* SYNC_ACQUIRE */
+> +        tcg_mo |= TCG_MO_LD_LD | TCG_MO_LD_ST;
+> +        break;
+> +    case 0x12: /* SYNC_RELEASE */
+> +        tcg_mo |= TCG_MO_ST_ST | TCG_MO_LD_ST;
+> +        break;
+> +    case 0x13: /* SYNC_RMB */
+> +        tcg_mo |= TCG_MO_LD_LD;
+> +        break;
+> +    default:
+> +        tcg_mo |= TCG_MO_ALL;
+> +        break;
+> +    }
 > +
-> +    return true;
+> +    tcg_gen_mb(tcg_mo);
 > +}
 
-Better to use gen_rrr_sa.
-
-> +static bool trans_bytepick_d(DisasContext *ctx, arg_bytepick_d *a)
-> +{
-> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-> +    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-> +    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-> +
-> +    tcg_gen_extract2_i64(dest, src1, src2, (64 - (a->sa) * 8));
-> +    return true;
-> +}
-
-Likewise.
-
-> +static void gen_ctz_w(TCGv dest, TCGv src1)
-> +{
-> +    tcg_gen_ori_tl(dest, src1, (target_ulong)MAKE_64BIT_MASK(32, 32));
-> +    tcg_gen_ctzi_tl(dest, dest, 32);
-
-This should be TARGET_LONG_BITS.  It will never happen, because the value is not zero per 
-the OR, but it's what is most efficient for a tcg backend that naturally produces 
-TARGET_LONG_BITS for a TL-sized ctz.
-
-> +}
-> +
-> +static void gen_cto_w(TCGv dest, TCGv src1)
-> +{
-> +    tcg_gen_not_tl(dest, src1);
-> +    tcg_gen_ext32u_tl(dest, dest);
-> +    gen_ctz_w(dest, dest);
-> +}
-
-The EXT32U here is useless, as the OR within gen_ctz_w overrides it.
-
-> +&rr_2bw       rd rj msbw lsbw
-> +&rr_2bd       rd rj msbd lsbd
-
-Merge these.
+This is copied from mips, I think.  The only defined hint for dbar is 0.  I think this 
+function should be removed, and just emit the tcg barrier directly within trans_dbar.
 
 
 r~
