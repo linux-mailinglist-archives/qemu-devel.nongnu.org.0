@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38766457C9D
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 09:53:54 +0100 (CET)
-Received: from localhost ([::1]:52304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C62457C9F
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 09:55:55 +0100 (CET)
+Received: from localhost ([::1]:55220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moM89-0001X9-Bn
-	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 03:53:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35720)
+	id 1moMA6-0003XS-H1
+	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 03:55:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1moM73-00008h-7Z
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:52:45 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:39556 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1moM6z-0006ua-BE
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:52:44 -0500
-Received: from [10.20.42.193] (unknown [10.20.42.193])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx+M1Qt5hhI+oAAA--.224S3;
- Sat, 20 Nov 2021 16:52:32 +0800 (CST)
-Subject: Re: [PATCH v11 04/26] target/loongarch: Add fixed point arithmetic
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1moM8z-0002pk-8C
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:54:45 -0500
+Received: from [2a00:1450:4864:20::430] (port=44560
+ helo=mail-wr1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1moM8x-0007vf-DA
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:54:44 -0500
+Received: by mail-wr1-x430.google.com with SMTP id n29so22287337wra.11
+ for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 00:54:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=YgEU63jWTQx9ezspBLO7lQEByylPIYKwLzZjfeHpXrI=;
+ b=swRerhER4FvqMyXd3vwU/DHG6clv5ndlnyIiHPVyOhkY8F6kgeeZ8i8Zn33GvEbHGP
+ mV77rZYGpJul2rNY1wlJoftsWoagJXskVJB5mQv3GndnGWh2KRTawDWftC92QY9nqToU
+ iebv/6s+hTwkoGghZ7ozQVpCd7XRcSRQDFfQVGcS9cEWJORLL8G/Z7vz1y7kUA/UDRYy
+ GyQ6jwpuYa3PnaNITIAG+aQ8CapFqjiHoeH/3nxX9bggLdsFSOGYMe2HiG7opP51NV97
+ rFgVHsVZT1CsvvmFiURfflrPA7c1GDNwXcrUhqVBUdPrZNyCFMr0UqYPV+mcoktYySe/
+ 7k5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YgEU63jWTQx9ezspBLO7lQEByylPIYKwLzZjfeHpXrI=;
+ b=noWOakCAUh5UJ0SX88og2ypvnPSPSg8WvpvUNItm7jop9YkURtk2zzkRunINg2rwKS
+ /l6oOzEShO4s9/8agEYVyuF/zppSvYRY84ebi85MiuB4KQc1NioP6uvzAIms/C0COLk+
+ Zu9jq+o9SbkDrJgon65j42HDg7bEWa0+GAFqau1I+QPvVu0E3U1evDYSj/M61sDTPzaF
+ V4t8mTP7Nl0gn0SuuVCA7JAi0rErW92iLrwU6tOtPlip9wELS+g5LF1Ih0/O4U1z9gjV
+ 9W1znaQdpieZ+pAg9WuEJHLNWYVHIuoLKajfYDTPirUJxSPu6oujVcUaaXzbq6O9bTB8
+ tP8Q==
+X-Gm-Message-State: AOAM531qTQ08PxHQFsnrFoVm/l1NQnbvWiBDXA1Fz/JrY6YizPPGzCWP
+ es7GUm38Y/APEgsmGbEOOFLNkw==
+X-Google-Smtp-Source: ABdhPJzCXe1ATh+o3Ea554hT1DCP5ztZDS7hyI1AJfsonslR6I60lP1cfp8P9wvOJ6YD4jIstyABUg==
+X-Received: by 2002:adf:f990:: with SMTP id f16mr15913760wrr.128.1637398481828; 
+ Sat, 20 Nov 2021 00:54:41 -0800 (PST)
+Received: from [192.168.8.104] (9.red-95-126-194.staticip.rima-tde.net.
+ [95.126.194.9])
+ by smtp.gmail.com with ESMTPSA id p12sm2409245wrr.10.2021.11.20.00.54.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 20 Nov 2021 00:54:41 -0800 (PST)
+Subject: Re: [PATCH v11 10/26] target/loongarch: Add floating point arithmetic
  instruction translation
-To: Richard Henderson <richard.henderson@linaro.org>
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
- <1637302410-24632-5-git-send-email-gaosong@loongson.cn>
- <6ccd9c56-9db6-7a40-d59c-22bf3fc2f6b0@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <b6259138-0f0d-c0dd-c4ed-632f76e507fb@loongson.cn>
-Date: Sat, 20 Nov 2021 16:52:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ <1637302410-24632-11-git-send-email-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8768ae20-cc6e-5439-e9c0-07917368675a@linaro.org>
+Date: Sat, 20 Nov 2021 09:54:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <6ccd9c56-9db6-7a40-d59c-22bf3fc2f6b0@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------F725EC670056822656FA1CAD"
+In-Reply-To: <1637302410-24632-11-git-send-email-gaosong@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-CM-TRANSID: AQAAf9Dx+M1Qt5hhI+oAAA--.224S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFyfuF4UurW5Gw1fJw15XFb_yoW8JFW7pF
- y8Jr4UCFyUJwn5Jr97Zw4UWFy7Xw18Jw45J34xCa4jka18tryv9r42qrZI9r1YyrWkX3y5
- AFyrW34jvFWUt37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvE1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
- jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzx
- vE52x082IY62kv0487McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8
- JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYx
- C7Mx8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487MxkIecxEwVCm-wCF
- 04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26ryrJr1UJwCFx2IqxVCFs4IE7xkEbV
- WUJVW8JwC20s026c02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
- 67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
- IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1l
- IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWI
- evJa73UjIFyTuYvjfUwYFCUUUUU
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-2.625, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.625,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,131 +92,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org,
- laurent@vivier.eu
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------F725EC670056822656FA1CAD
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 11/19/21 7:13 AM, Song Gao wrote:
+> +static void update_fcsr0_mask(CPULoongArchState *env, uintptr_t pc, int mask)
+> +{
+> +    int flags = get_float_exception_flags(&env->fp_status);
+> +
+> +    set_float_exception_flags(0, &env->fp_status);
+> +
+> +    if (~mask) {
+> +        flags = flags & (~mask);
+> +    }
 
-Hi Richard,
+No need for if -- mask will always be valid.
 
-On 2021/11/20 下午3:17, Richard Henderson wrote:
-> On 11/19/21 7:13 AM, Song Gao wrote:
->> +static bool gen_rrr(DisasContext *ctx, arg_rrr *a,
->> +                    DisasExtend src1_ext, DisasExtend src2_ext,
->> +                    DisasExtend dst_ext, void (*func)(TCGv, TCGv, 
->> TCGv))
->> +{
->> +    TCGv dest = gpr_dst(ctx, a->rd, dst_ext);
->> +    TCGv src1 = gpr_src(ctx, a->rj, src1_ext);
->> +    TCGv src2 = gpr_src(ctx, a->rk, src2_ext);
->> +
->> +    func(dest, src1, src2);
->> +
->> +    /* dst_ext is EXT_NONE and input is dest, We don't run 
->> gen_set_gpr. */
->> +    if (dst_ext) {
->> +        gen_set_gpr(a->rd, dest, dst_ext);
->> +    }
->
-> Why the (incomplete) condition around gen_set_gpr?
->
-> I think it's a bug to not name EXT_NONE in the test (just because 
-> EXT_NONE == 0 now...), but I also think you should not have added the 
-> test at all.  We will not generate any code in the end within 
-> gen_set_gpr, but it allows the routines to be self-contained.  You 
-> shouldn't assume what gpr_dst returned.
->
-You're right, gen_set_gpr not need EXT_NONE at all, and we need not condition around gen_set_gpr.
-I think that if we know the dst_ext is EXT_NONE, we do't need gen_set_gpr.  I'll correct them on v12.
+     flags &= ~mask.
 
-Thanks
-Song Gao
+> +    if (!flags) {
+> +        SET_FP_CAUSE(env->fcsr0, flags);
+> +        return;
+> +    }
+> +
+> +    flags = ieee_ex_to_loongarch(flags);
+> +    SET_FP_CAUSE(env->fcsr0, flags);
 
->
-> r~
+It looks like this could be hoisted above the !flags check to unify the two statements.
 
---------------F725EC670056822656FA1CAD
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <pre>Hi Richard,
-</pre>
-    <div class="moz-cite-prefix">On 2021/11/20 下午3:17, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:6ccd9c56-9db6-7a40-d59c-22bf3fc2f6b0@linaro.org">On
-      11/19/21 7:13 AM, Song Gao wrote:
-      <br>
-      <blockquote type="cite">+static bool gen_rrr(DisasContext *ctx,
-        arg_rrr *a,
-        <br>
-        +                    DisasExtend src1_ext, DisasExtend src2_ext,
-        <br>
-        +                    DisasExtend dst_ext, void (*func)(TCGv,
-        TCGv, TCGv))
-        <br>
-        +{
-        <br>
-        +    TCGv dest = gpr_dst(ctx, a-&gt;rd, dst_ext);
-        <br>
-        +    TCGv src1 = gpr_src(ctx, a-&gt;rj, src1_ext);
-        <br>
-        +    TCGv src2 = gpr_src(ctx, a-&gt;rk, src2_ext);
-        <br>
-        +
-        <br>
-        +    func(dest, src1, src2);
-        <br>
-        +
-        <br>
-        +    /* dst_ext is EXT_NONE and input is dest, We don't run
-        gen_set_gpr. */
-        <br>
-        +    if (dst_ext) {
-        <br>
-        +        gen_set_gpr(a-&gt;rd, dest, dst_ext);
-        <br>
-        +    }
-        <br>
-      </blockquote>
-      <br>
-      Why the (incomplete) condition around gen_set_gpr?
-      <br>
-      <br>
-      I think it's a bug to not name EXT_NONE in the test (just because
-      EXT_NONE == 0 now...), but I also think you should not have added
-      the test at all.  We will not generate any code in the end within
-      gen_set_gpr, but it allows the routines to be self-contained.  You
-      shouldn't assume what gpr_dst returned.
-      <br>
-      <br>
-    </blockquote>
-    <pre>You're right, gen_set_gpr not need EXT_NONE at all, and we need not condition around gen_set_gpr. 
-I think that if we know the dst_ext is EXT_NONE, we do't need gen_set_gpr.  I'll correct them on v12. 
+> +/* Floating-point helper */
+> +DEF_HELPER_3(fadd_s, i64, env, i64, i64)
+> +DEF_HELPER_3(fadd_d, i64, env, i64, i64)
+> +DEF_HELPER_3(fsub_s, i64, env, i64, i64)
+> +DEF_HELPER_3(fsub_d, i64, env, i64, i64)
+> +DEF_HELPER_3(fmul_s, i64, env, i64, i64)
+> +DEF_HELPER_3(fmul_d, i64, env, i64, i64)
+> +DEF_HELPER_3(fdiv_s, i64, env, i64, i64)
+> +DEF_HELPER_3(fdiv_d, i64, env, i64, i64)
+> +DEF_HELPER_3(fmax_s, i64, env, i64, i64)
+> +DEF_HELPER_3(fmax_d, i64, env, i64, i64)
+> +DEF_HELPER_3(fmin_s, i64, env, i64, i64)
+> +DEF_HELPER_3(fmin_d, i64, env, i64, i64)
+> +DEF_HELPER_3(fmaxa_s, i64, env, i64, i64)
+> +DEF_HELPER_3(fmaxa_d, i64, env, i64, i64)
+> +DEF_HELPER_3(fmina_s, i64, env, i64, i64)
+> +DEF_HELPER_3(fmina_d, i64, env, i64, i64)
+> +
+> +DEF_HELPER_5(fmuladd_s, i64, env, i64, i64, i64, i32)
+> +DEF_HELPER_5(fmuladd_d, i64, env, i64, i64, i64, i32)
+> +
+> +DEF_HELPER_3(fscaleb_s, i64, env, i64, i64)
+> +DEF_HELPER_3(fscaleb_d, i64, env, i64, i64)
+> +
+> +DEF_HELPER_2(flogb_s, i64, env, i64)
+> +DEF_HELPER_2(flogb_d, i64, env, i64)
+> +
+> +DEF_HELPER_2(fsqrt_s, i64, env, i64)
+> +DEF_HELPER_2(fsqrt_d, i64, env, i64)
+> +DEF_HELPER_2(frsqrt_s, i64, env, i64)
+> +DEF_HELPER_2(frsqrt_d, i64, env, i64)
+> +DEF_HELPER_2(frecip_s, i64, env, i64)
+> +DEF_HELPER_2(frecip_d, i64, env, i64)
 
-Thanks
-Song Gao
-</pre>
-    <blockquote type="cite"
-      cite="mid:6ccd9c56-9db6-7a40-d59c-22bf3fc2f6b0@linaro.org">
-      <br>
-      r~
-      <br>
-    </blockquote>
-  </body>
-</html>
+DEF_HELPER_FLAGS_N, TCG_CALL_NO_WG.
 
---------------F725EC670056822656FA1CAD--
 
+r~
 
