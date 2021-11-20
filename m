@@ -2,87 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F024580D1
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 23:36:16 +0100 (CET)
-Received: from localhost ([::1]:38720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C764580FA
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 00:40:04 +0100 (CET)
+Received: from localhost ([::1]:48460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moYxz-0001rA-8c
-	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 17:36:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48546)
+	id 1moZxj-0003j0-3S
+	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 18:40:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moYwu-0000xO-Hz
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 17:35:08 -0500
-Received: from [2a00:1450:4864:20::32e] (port=43669
- helo=mail-wm1-x32e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moYws-0007nW-4A
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 17:35:08 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- o19-20020a1c7513000000b0033a93202467so1473951wmc.2
- for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 14:35:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZWbr/2vHaYihnisCiK784wK+kh1ViJ+MF6oPCR2LCTc=;
- b=f1mVsmY5OYP/F62iust/NMGTttBM3eP0ZDnjXzXtREruqqsvubz02kgcJZht2wIAci
- Ge2SBn4jJbSG5InjaRWUTZivlDr5d6ATHzBYBCf1s6rGRWxikkjwD/0JM+De7aBUOgt4
- VsK7ICs7nsGPR1nkq7gpnoeeNAVID9YtyVDtzoELBOUwRUCaL/s+wL2McHJskPEuQMqY
- QqVETKz72XcMnkJ2tAjpNqaLx7+5HLfl+PRjK7vcNAp/qnsj4SxpyAs2a8md2/OEgyLO
- j04crzZcZ4aqAUZpRiAki/VNdzb/sU68FPg52fikixaAjb3v43mw2XsOETHo0NKSLryY
- Pi7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZWbr/2vHaYihnisCiK784wK+kh1ViJ+MF6oPCR2LCTc=;
- b=7l/5QP293yDqnNyxdD4xYDQfmNx/9YEv0kZQrCnFwsqd5dTGlBeWWutiDt/1Yjwo9H
- byLNLvTovo8d+TV6tF/a4sHU6uxLFn6syZRBcQbq3EqeG579J94zbBV153VMD7bJG3rZ
- fbBVzvX6E1C954PjkbNY/0d8dV8eWiKz5ZjKoyXJZFMH7PyOfssOY8igRdhoDnHVCzIp
- /bxDcPbUAJA7JGeW+XN1yMRaUuP13iS3KV32MJbrHC2jL7dY8jT/TLIfN/ObFqsrrtWm
- FIUXoiIoeEcLgQ7Br1mDcVhqCiZKESxL9xp6r5IbubR9cIJLtRyzTxZ6eUOU/13p4fDO
- 3yMQ==
-X-Gm-Message-State: AOAM533zsUxB1+PuGt9Liuf4RQgWd4x593kbxwOTn0rqFJPjYwIeyWQI
- q7cSxAHiUyFdOv5oHga771RnSQ==
-X-Google-Smtp-Source: ABdhPJwRaQiQ7RXrZpegKeHAzKoEB8Nbx6W7mi/oskytctQ90BSY+lj2elUyY6KHWz6A1a5kzPQh+g==
-X-Received: by 2002:a1c:a5c7:: with SMTP id
- o190mr14686120wme.186.1637447704301; 
- Sat, 20 Nov 2021 14:35:04 -0800 (PST)
-Received: from [192.168.8.101] (77.red-88-31-131.dynamicip.rima-tde.net.
- [88.31.131.77])
- by smtp.gmail.com with ESMTPSA id f15sm5165544wmg.30.2021.11.20.14.35.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Nov 2021 14:35:03 -0800 (PST)
-Subject: Re: [PATCH v1 12/12] target/riscv: Support virtual time context
- synchronization
-To: Yifei Jiang <jiangyifei@huawei.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211120074644.729-1-jiangyifei@huawei.com>
- <20211120074644.729-13-jiangyifei@huawei.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d9c9196a-692c-cbcf-339b-8e84ecde7cee@linaro.org>
-Date: Sat, 20 Nov 2021 23:34:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
+ id 1moZwm-0002nO-Mu; Sat, 20 Nov 2021 18:39:04 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:40651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
+ id 1moZwk-0005ND-5M; Sat, 20 Nov 2021 18:39:04 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 4054A320091B;
+ Sat, 20 Nov 2021 18:38:56 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Sat, 20 Nov 2021 18:38:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ny25jd
+ zcivLuTIqn4a0R9QkKjd8ZVxKCwB8GTbwgPrM=; b=Q4VUY28N/yZFApXOO7o4UE
+ /elRl89eFFVzOoBOPnPZiKVktjPhpyEw1h272x8Akyvyycc8LJMKaldQ3o+ZJEFy
+ Wzbw6M1pmMCxuaoYB589TBbyYzta2rxsa7dwGsBosgUPaxYXczXDQlLDZMI41yG0
+ xX7wHRFMGSW/8g8G1jYNx968D5cjLwUV123hR/t0uveVI7KaaPHWLtSkCttfSvcp
+ ELLSPyi11dt9OmbgsZQWFNC7u3Ri22hP766XozW+N0hSn8DaXav2oZUbGYOTJ6P4
+ va1AoZ4klcwZcmybLEByjliUKwhQRulpiFEPzZE1qqf1hERQn4M+UvamxaNI6ahQ
+ ==
+X-ME-Sender: <xms:D4eZYd9xKBXs7uGVTOufFQikGzaefBxWFGRBZLFJnlZ634RMFPZJYA>
+ <xme:D4eZYRvyEPwls8I_CyPpRRXjasqSTq-k_IVwPii-i1yX-sCI0-vEZy19jxms3nhKl
+ obVR3iJn7JpMc-dQZk>
+X-ME-Received: <xmr:D4eZYbCv_x68DUffXiqmMjRoAtyo0O5T8_jODl6olJCn7rqaeioceX0RrO7KC6UHW4VVFd5RJIEJy3xo3O8IeWcXwVGIybLAXOA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgedugddufecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefhihhnnhcuvfhh
+ rghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrghtth
+ gvrhhnpefhkeevueeivddtffetvedtgfehudekffettdegudfgleethfefudefffffvdfh
+ teenucffohhmrghinhepghhnuhdrohhrghdpghhithhlrggsrdgtohhmnecuvehluhhsth
+ gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfhhthhgrihhnsehlihhn
+ uhigqdhmieekkhdrohhrgh
+X-ME-Proxy: <xmx:D4eZYRda2cX2JbCsMWeaQQBB12HIJ1X9cEhVoQRT7V0_YXcX-6WKAg>
+ <xmx:D4eZYSPK878Vhchz90wCX7Rbqfv9pTAUO_ppyXfJmcizHVZ5UWBZfA>
+ <xmx:D4eZYTkfk_W8lx6s_AgLFb2pVI2AFO25gUmwzSN6SQLKFh3aE-wD7w>
+ <xmx:D4eZYfrSQNhjKSwbefN6Ay6Y1tVvJsSjJ91hCFcWJekxrGqPWQQiZg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 20 Nov 2021 18:38:54 -0500 (EST)
+Date: Sun, 21 Nov 2021 10:38:50 +1100 (AEDT)
+From: Finn Thain <fthain@linux-m68k.org>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
+ Laurent Vivier <laurent@vivier.eu>, 
+ =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v1 0/9] hw/mos6522: VIA timer emulation fixes and
+ improvements
+In-Reply-To: <74d1f17a-d414-8cda-6720-a62617613215@ilande.co.uk>
+Message-ID: <8b1022bd-f4ae-d0bd-3f22-425da56ef753@linux-m68k.org>
+References: <cover.1632437396.git.fthain@linux-m68k.org>
+ <e0411348-abd7-3db9-b5bd-8f1d52c1226f@linux-m68k.org>
+ <2fb3d9f8-0f20-082d-d9f1-ab2984356866@ilande.co.uk>
+ <ad537ce9-ec40-b5e4-bb32-5f53e42db29@linux-m68k.org>
+ <74d1f17a-d414-8cda-6720-a62617613215@ilande.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <20211120074644.729-13-jiangyifei@huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.625,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=64.147.123.21; envelope-from=fthain@linux-m68k.org;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,40 +88,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bin.meng@windriver.com, Mingwang Li <limingwang@huawei.com>,
- kvm@vger.kernel.org, libvir-list@redhat.com, anup.patel@wdc.com,
- wanbo13@huawei.com, Alistair.Francis@wdc.com, kvm-riscv@lists.infradead.org,
- wanghaibin.wang@huawei.com, fanliang@huawei.com, palmer@dabbelt.com,
- wu.wubin@huawei.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/20/21 8:46 AM, Yifei Jiang wrote:
->   const VMStateDescription vmstate_riscv_cpu = {
->       .name = "cpu",
->       .version_id = 3,
->       .minimum_version_id = 3,
-> +    .post_load = cpu_post_load,
->       .fields = (VMStateField[]) {
->           VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
->           VMSTATE_UINT64_ARRAY(env.fpr, RISCVCPU, 32),
-> @@ -211,6 +221,10 @@ const VMStateDescription vmstate_riscv_cpu = {
->           VMSTATE_UINT64(env.mtohost, RISCVCPU),
->           VMSTATE_UINT64(env.timecmp, RISCVCPU),
->   
-> +        VMSTATE_UINT64(env.kvm_timer_time, RISCVCPU),
-> +        VMSTATE_UINT64(env.kvm_timer_compare, RISCVCPU),
-> +        VMSTATE_UINT64(env.kvm_timer_state, RISCVCPU),
-> +
->           VMSTATE_END_OF_LIST()
->       },
+On Sat, 20 Nov 2021, Mark Cave-Ayland wrote:
 
-Can't alter VMStateDescription.fields without bumping version.
+> On 19/11/2021 08:39, Finn Thain wrote:
+> 
+> > On Thu, 18 Nov 2021, Mark Cave-Ayland wrote:
+> > 
+> >>
+> >> Hi Finn,
+> >>
+> >> I've not forgotten about this series - we're now in 6.2 freeze, but it's
+> >> on my TODO list to revisit in the next development cycle this along with
+> >> the ESP stress-ng changes which I've also been looking at. As mentioned
+> >> in my previous reviews the patch will need some further analysis:
+> >> particularly the logic in mos6522_read() that can generate a spurious
+> >> interrupt on a register read needs to be removed,
+> > 
+> > If mos6522 fails to raise its IRQ then the counter value observed by the
+> > guest will not make sense. This relationship was explained in the
+> > description of patch 8. If you have a problem with that patch, please
+> > reply there so that your misapprehension can be placed in context.
+> 
+> It is the existing code in mos6522_read() which is doing the wrong thing here,
+> which I mentioned in
+> https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02883.html.
+> 
 
-If this is really kvm-only state, consider placing it into a subsection.  But I worry 
-about kvm-only state because ideally we'd be able to migrate between tcg and kvm (if only 
-for debugging).
+How disingenous. I responded to that message 2 months ago and you 
+completely ignored my response.
 
+Basically, you found a bug in your own modified version of mainline code, 
+and you claimed that this is somehow relevant to this patch series. 
+(Apparently you failed to find that bug in my code.)
 
-r~
+Once again, if you have an objection to existing code in mainline QEMU, 
+please take it up with the author of that code (commit cd8843ff25) which 
+is Laurent.
+
+This patch series is a separate issue. It doesn't add anything 
+objectionable (commit cd8843ff25 was not objected to), it fixes bugs, 
+improves emulation fidelity, improves performance and reduces guest 
+malfunctions.
+
+> 
+> That is true, but as per the link above there is an existing bug in the 
+> mos6522 device, and the patchset builds on this in its current form, 
+> including adding a state field which shouldn't be required.
+> 
+
+The state enum is required for the oneshot feature (patch 9). It is also 
+needed to produce the correct relationship between irq and counter (patch 
+8), and between interrupt flag set and clear operations. Finally, it is 
+also useful for debugging purposes.
+
+> From looking at mac_read_clk() presumably the problem here is that the 
+> timer IRQ fires on 0 rather than on 0xffff when it overflows? 
+
+Guests depend on the correct relationship between timer irq flag and timer 
+counter value. If QEMU can't get that right, the Linux clocksource can't 
+work without race conditions. This problem is almost certain to affect 
+other guests too.
+
+You are being foolish to insist that this is somehow a Linux quirk.
+
+> If so, this should be a very small and simple patch. Once these 2 fixes 
+> are in place, it will be much easier to test the remaining changes.
+> 
+> >> I realized that I could easily cross-compile a 5.14 kernel to test 
+> >> this theory with the test root image and .config you supplied at 
+> >> https://gitlab.com/qemu-project/qemu/-/issues/611 using the QEMU 
+> >> docker-m68k-cross image to avoid having to build a complete toolchain 
+> >> by hand. The kernel builds successfully using this method, but during 
+> >> boot it hangs sending the first SCSI CDB to the ESP device, failing 
+> >> to send the last byte using PDMA.
+> >>
+> >> Are there known issues cross-compiling an m68k kernel on an x86 host?
+> > 
+> > Not that I'm aware of.
+> > 
+> >> Or are your current kernels being built from a separate branch 
+> >> outside of mainline Linux git?
+> >>
+> > I use mainline Linux when testing QEMU. I provided a mainline build, 
+> > attached to the same bug report, so you don't have to build it.
+> 
+> The problem here is that I have no way to reproduce your results and 
+> test any patches other than to try and build a kernel with your extra 
+> warning and run it.
+
+Nonsense. Any programmer can easily observe the gettimeofday problem. Just 
+run it in a loop. (How else would you establish monotonicity?)
+
+Similarly, anyone who can understand mos6522.c and can read patches could 
+easily add assertions to establish any of the deficiencies claimed in 
+these patches.
+
+The problem isn't that you "have no way to reproduce results". The problem 
+is that you are unwilling or unable to understand the datasheet and the 
+patches.
+
+> Even then I don't know how long to wait for the clock to jump, how much 
+> it jumps by, or if there is anything else that needs to be done to 
+> trigger the warning.
+> 
+> Any help with being able to build a working cross-m68k kernel to test 
+> this would be gratefully received, otherwise I don't feel I have enough 
+> knowledge of the m68k kernel to be able to validate the fixes and review 
+> the changes in order to merge them.
+> 
+
+I've already helped you by supplying a mainline vmlinux binary. But you 
+don't even need that. If you don't believe what I've said about mos6522.c 
+behaviour, just install Debian/m68k.
+
+Anyway, thanks for taking the time to write. A competent reviewer has to 
+do much more than that, but I'm not paying for competence so I suppose I'm 
+asking too much.
+
+The absence of constructive review over the last few months is partly the 
+result of get_maintainer.pl directing this submission to the wrong inbox. 
+Phillippe, Laurent, please consider the following patch as well.
+
+Signed-off-by: Finn Thain <fthain@linux-m68k.org>
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d3879aa3c1..f2e0ca8bbd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1285,11 +1285,9 @@ F: hw/ppc/mac_newworld.c
+ F: hw/pci-host/uninorth.c
+ F: hw/pci-bridge/dec.[hc]
+ F: hw/misc/macio/
+-F: hw/misc/mos6522.c
+ F: hw/nvram/mac_nvram.c
+ F: hw/input/adb*
+ F: include/hw/misc/macio/
+-F: include/hw/misc/mos6522.h
+ F: include/hw/ppc/mac_dbdma.h
+ F: include/hw/pci-host/uninorth.h
+ F: include/hw/input/adb*
 
