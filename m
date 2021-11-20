@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF40457D2E
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 11:47:12 +0100 (CET)
-Received: from localhost ([::1]:48370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE5B457D29
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 11:40:23 +0100 (CET)
+Received: from localhost ([::1]:43938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moNtn-00044K-A9
-	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 05:47:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36900)
+	id 1moNnC-0000W9-5w
+	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 05:40:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1moNsk-0003KS-M8
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 05:46:06 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:43596
+ id 1moNlT-0007Zf-JX
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 05:38:35 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:42455
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1moNsh-0003gv-Ux
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 05:46:06 -0500
+ (envelope-from <huangy81@chinatelecom.cn>) id 1moNjy-0004Bx-JH
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 05:38:35 -0500
 HMM_SOURCE_IP: 172.18.0.218:60404.1303875965
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
@@ -52,7 +52,7 @@ X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
