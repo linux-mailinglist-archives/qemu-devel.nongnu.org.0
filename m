@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA80457C92
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 09:32:32 +0100 (CET)
-Received: from localhost ([::1]:38640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8D5E457C9C
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 09:53:44 +0100 (CET)
+Received: from localhost ([::1]:51552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moLnT-00080a-FU
-	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 03:32:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60026)
+	id 1moM7z-000138-FM
+	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 03:53:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moLm3-0006va-Me
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:31:03 -0500
-Received: from [2a00:1450:4864:20::32d] (port=39643
- helo=mail-wm1-x32d.google.com)
+ id 1moM6p-0008Nq-QG
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:52:31 -0500
+Received: from [2a00:1450:4864:20::42e] (port=39798
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moLm1-0006Nx-Di
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:31:03 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- n33-20020a05600c502100b0032fb900951eso12277476wmr.4
- for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 00:31:00 -0800 (PST)
+ id 1moM6n-0006tv-M3
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:52:31 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id d27so22363639wrb.6
+ for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 00:52:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=umU8FDl5srRnLPjrsFiw9HlfUlx1JFkbh7bknmM9ICw=;
- b=tUxRkLedLmn7q7lS4rG37ollm0sxYh1HmFmvXcSxLf7MaWQyPFGd+BEpVEDZxi+Te2
- ikqWPS8VBR830JBEnp1VMziomV+7RaM6w7C1prS0Pkh/aWlsI4+n/mqGVVJnbUz5Pr7d
- FUeDlr3gpK6qz0wiDlYReq2XPmMXWsnmkb8yZyjEFmxy0qygFzqM0nR5aAwDGxotZq4y
- RduVG+0iLrRq1l7nHoCPeNr6qiNyb0L9lqHzrdXSHHrf2v/7R+iXQuB1g1jJKY07DrG1
- 0/U4Iv4umtvTgXelZEccQt/aoWuHIwWXmY5Y874LnB0wN31L1Epeocu1gBONgAE2aCRb
- tgag==
+ bh=QRdwGdjhcx240cn2m3OGmznmhXkLSBj5/caFwG2jcI0=;
+ b=gzDt5dkAfR9788rNsKYDPS2dLcG6/S4fHsDuw6S45yPGr//nC5wuSZfwF53w8//9/O
+ Atccwdb23HR6FDQNFVCGxIhizfyT/y1310CMmS3NxQfPO7xOYQEHs5vO6fTx5zE+KbV/
+ qKF5rxv7alZg/okiA60hZ9MpU70XAg9wU481r3k67mT75SqGc+J3xfhhCaGuIGk/UOLg
+ N/kc2PgGrOSwrrgpcbsnYcpxcKA9Yr0bfJXHNZ5USDnBuMggUBt+uJ5Anj7fH6+Qi0Gw
+ b6R6AbMEqjM6rivjNLPQd/UViDguavCafJibIyMxiaQxnI6Fprx3Csyv5Q6omNvaPhzG
+ r+oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=umU8FDl5srRnLPjrsFiw9HlfUlx1JFkbh7bknmM9ICw=;
- b=F+WCYNYgbtVVeQNncmF3DCtk0YAKT76PgDIUXxch+u44YCIoy7PXk/W7PC+XDhJjyl
- ugU0PnfOBDsD9dggFsJBuHyFG8OJu57iUNI6PEssLVPnkuvwQoL8M0H6J+jzb7fXogu5
- +/6wPgIPhXckFQMURBAcpceUkQh9yy6NfYzCjZVaSq7b8zwYLlJckojRvBaCqu72Bgv5
- Sb6QY9YUcVgwMCelx/Ht8S7cBXQDlGIjz3IryrcWzMVkiv/NqNLGIOZrX/zpOf+D1XJo
- 9At+BxgTaFRGx20Ohibp/Fn8580Mj0r3O43A0xAE1Eo8DxRJOTLx2HD0nPo84X/Rgptg
- eN/A==
-X-Gm-Message-State: AOAM5325CDLAvobSGXPN4jQqIepKPJ4zQINEKcyprek0x3VVOL4dAY1m
- esT1SgIbAv7t7YvrDOD4+rOrnA==
-X-Google-Smtp-Source: ABdhPJwr5SPFET+bNkaMlCJSjPJvIS2/jEyz6g0JzbDb1c8AEf+H8hbcVolDLv9yDv08uAN99kXSoQ==
-X-Received: by 2002:a05:600c:1d9b:: with SMTP id
- p27mr8141396wms.123.1637397059769; 
- Sat, 20 Nov 2021 00:30:59 -0800 (PST)
+ bh=QRdwGdjhcx240cn2m3OGmznmhXkLSBj5/caFwG2jcI0=;
+ b=mn3CEVGsSk8bWcXCRBNEkAxAdcsCYHpcUi6FvcLJMGdyB8QmB9wlf8nN22BNM5nh25
+ c/bNiZPlBF898v5VYQody4N8rSr7nwjyIgs3Y2fMWgt5LufYr4SnvdlVMMgX11uFYdU2
+ eKML4tK6B0fHTAtNRWRgN6Xhk4QYnIHfzHnCDv5tBvLxtkFU6Cobnukh6dDbkknPpIGa
+ oqXnP+vnof2ZGEO6zLnqSaCngpWMWkdLdQ5i9HLBgutWRo2Ha69vSBSQTdjVlHs5qCiF
+ rFgfbR/2LB6t6HnhWuCZA2bcDsTehYsotrnSBymK/qe0cpvSI0FAqIJTpXKdQaAYb+43
+ Sudg==
+X-Gm-Message-State: AOAM531J2gsoTINsDh7/a5qeXFztzPcBlqJZDRfA3OZ0Gwd49cV+PCP4
+ 6nroQH9gpABjDSfcaV1jlvBjaA==
+X-Google-Smtp-Source: ABdhPJz5vkGn1uAUgQzdGSZ7opiiK8kyph4D5TOghBu6Eb8sEuYC3LSTMuAPKsybaRXPOZGtZyixcQ==
+X-Received: by 2002:a05:6000:181:: with SMTP id
+ p1mr15776149wrx.292.1637398346141; 
+ Sat, 20 Nov 2021 00:52:26 -0800 (PST)
 Received: from [192.168.8.104] (9.red-95-126-194.staticip.rima-tde.net.
  [95.126.194.9])
- by smtp.gmail.com with ESMTPSA id h3sm1898507wrv.69.2021.11.20.00.30.58
+ by smtp.gmail.com with ESMTPSA id r8sm2563721wrz.43.2021.11.20.00.52.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Nov 2021 00:30:59 -0800 (PST)
-Subject: Re: [PATCH v11 08/26] target/loongarch: Add fixed point atomic
+ Sat, 20 Nov 2021 00:52:25 -0800 (PST)
+Subject: Re: [PATCH v11 09/26] target/loongarch: Add fixed point extra
  instruction translation
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
- <1637302410-24632-9-git-send-email-gaosong@loongson.cn>
+ <1637302410-24632-10-git-send-email-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <06ade806-c0e7-afbf-dd02-87cd5c1862a5@linaro.org>
-Date: Sat, 20 Nov 2021 09:30:54 +0100
+Message-ID: <0ab788fe-a22b-8dfc-978d-73c5f8b1d246@linaro.org>
+Date: Sat, 20 Nov 2021 09:52:21 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <1637302410-24632-9-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <1637302410-24632-10-git-send-email-gaosong@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
@@ -99,82 +98,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/19/21 7:13 AM, Song Gao wrote:
-> This includes:
-> - LL.{W/D}, SC.{W/D}
-> - AM{SWAP/ADD/AND/OR/XOR/MAX/MIN}[_DB].{W/D}
-> - AM{MAX/MIN}[_DB].{WU/DU}
-> 
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/loongarch/insn_trans/trans_atomic.c.inc | 130 +++++++++++++++++++++++++
->   target/loongarch/insns.decode                  |  44 +++++++++
->   target/loongarch/translate.c                   |   1 +
->   3 files changed, 175 insertions(+)
->   create mode 100644 target/loongarch/insn_trans/trans_atomic.c.inc
-> 
-> diff --git a/target/loongarch/insn_trans/trans_atomic.c.inc b/target/loongarch/insn_trans/trans_atomic.c.inc
-> new file mode 100644
-> index 0000000..96957bb
-> --- /dev/null
-> +++ b/target/loongarch/insn_trans/trans_atomic.c.inc
-> @@ -0,0 +1,130 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * Copyright (c) 2021 Loongson Technology Corporation Limited
-> + */
-> +
-> +static bool gen_ll(DisasContext *ctx, arg_rr_i *a,
-> +                   void (*func)(TCGv, TCGv, int))
+> +DEF_HELPER_3(crc32, tl, tl, tl, tl)
+> +DEF_HELPER_3(crc32c, tl, tl, tl, tl)
+> +DEF_HELPER_2(cpucfg, tl, env, tl)
+
+DEF_HELPER_FLAGS_N, TCG_CALL_NO_RWG_SE.
+
+> +target_ulong helper_cpucfg(CPULoongArchState *env, target_ulong rj)
 > +{
-> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-> +    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-> +    TCGv t0 = tcg_temp_new();
-> +
-> +    tcg_gen_addi_tl(t0, src1, a->imm << 2);
+> +    return env->cpucfg[rj];
+> +}
 
-The ll/sc instructions would of course use the same pre-shifted immediate as for 
-ldptr/stptr, as discussed wrt the previous patch.
-
-> +static bool gen_am(DisasContext *ctx, arg_rrr *a,
-> +                   void (*func)(TCGv, TCGv, TCGv, TCGArg, MemOp),
-> +                   MemOp mop)
-> +{
-> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-> +    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
-> +    TCGv val = gpr_src(ctx, a->rk, EXT_NONE);
-> +
-> +    if ((a->rd != 0) && ((a->rj == a->rd) || (a->rk == a->rd))) {
-
-BTW, you don't need to overdo it with the parenthesis.
-
-    if (a != b && (c == d || e == f)) {
-
-is fine.
-
-> +static bool gen_am_db(DisasContext *ctx, arg_rrr *a,
-> +                      void (*func)(TCGv, TCGv, TCGv, TCGArg, MemOp),
-> +                      MemOp mop)
-> +{
-> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-> +    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
-> +    TCGv val = gpr_src(ctx, a->rk, EXT_NONE);
-> +
-> +    if ((a->rd != 0) && ((a->rj == a->rd) || (a->rk == a->rd))) {
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "Warning: source register overlaps destination register"
-> +                      "in atomic insn at pc=0x" TARGET_FMT_lx "\n",
-> +                      ctx->base.pc_next - 4);
-> +        return false;
-> +    }
-> +
-> +    gen_loongarch_sync(0x10);
-> +    func(dest, addr, val, ctx->mem_idx, mop);
-
-All tcg atomic ops are sequentially consistent, so you don't need the extra sync, and thus 
-this entire function.
-
+The value of the source register should be bounded by ARRAY_SIZE(env->cpucfg); 
+out-of-bound indicies read 0.
 
 
 r~
