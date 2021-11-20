@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7093D457CC5
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 10:55:09 +0100 (CET)
-Received: from localhost ([::1]:37332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5626E457CC6
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 10:56:18 +0100 (CET)
+Received: from localhost ([::1]:39606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moN5Q-0007bS-3k
-	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 04:55:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46658)
+	id 1moN6X-0000mN-7L
+	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 04:56:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moN4M-0006Yu-6x
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 04:54:02 -0500
-Received: from [2a00:1450:4864:20::336] (port=41753
- helo=mail-wm1-x336.google.com)
+ id 1moN4u-0007m0-MS
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 04:54:36 -0500
+Received: from [2a00:1450:4864:20::330] (port=39475
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moN4K-0002JO-4W
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 04:54:01 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- f7-20020a1c1f07000000b0032ee11917ceso9405416wmf.0
- for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 01:53:59 -0800 (PST)
+ id 1moN4s-0002N7-JA
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 04:54:36 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ n33-20020a05600c502100b0032fb900951eso12376925wmr.4
+ for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 01:54:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=pLB7PSqKHKJrxvvyfJjOpvt8se8liKN7YPH7ATtgbps=;
- b=wOvdJrd14cM1cOpZ2IA2zyqrUWQKx9c27B5YVHOY0tvRaQj7+xHvVTazgJyiI8pLIw
- CtWDuvcyeJDzRiOAXvipdUUytgmOlgAUOAbcAYG7nJP8MgKauD0YsDUmPEESMfEoGS1d
- uDzvRWYsXJXH+f+qV6TS8pzM4KIvYzhTPicBQfhXL2yd8Igrp7xUDZO893NOn7cFKHwn
- O9eIYcRxT31LhS/BKNkjfP6awgA9kTSYdtKHyMhZjEAs1euC6hTvNFNVl4UBFDtxha9G
- XH/i0RJsbmpdL0s2Nb+dFDUR2nIJ7gfdasH2NclLkb04C8Ia7ln/rLrSmh/WmSxQQIyg
- vEdA==
+ bh=NQju6idVScfUR86bAgOpu/21oLK1v3nj0RpWwIrXcB0=;
+ b=M0jeNTedKTccsiYa4zzVNnBDcBVoxwNBzAyakV0HdoAGvh8PI52MaTjM5VBaINWf5q
+ 8thrg0jImRM+QpBryOP60Tkxp4LXrqINZM6Nvj3AJK2i835/cF2OfGxUIkXZGCJlQelA
+ nwtWJYZF4xwBF7C8LlZLGtAmqK/ky/GKOMq31tZAymOJMD+FtuoBq9c7ozDbVql5YIX7
+ XpQlH4oF8OHBQ3oqRirwtt3bJ3LrC1yRSVzL/WPNBR7bmgBWDA2QwmUXcjI3Vcg7nI4N
+ 6f0JxqraVf5GaGoqYV3P9KHIEmW2O9lcWgdDVLZjkpFSFZ65yhDQ9XaCPTlhq2cpr0wv
+ DHfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=pLB7PSqKHKJrxvvyfJjOpvt8se8liKN7YPH7ATtgbps=;
- b=7TJyIyWU64FxBxrQLfnVdQm7DiG7xiTITJFY/9HW/RCPfFsO5coXHW37mbjIg3HmW6
- Bxm1fJVWKx05ofPEkRe6Jec1BkSxsHJUOEYJskVXbE1PmIl9uX3cbTqrG9D85jJKY891
- woNsO0dbNhU1p0HElPhB8+vjCSXRZUKDHEh2bvFKpSkK2mcJjrFewlzw0/uqzJHFk9kF
- F/qsTUDqXO+hGs75EjzrFCtjNHgyCMVzwhXDeai1HgF/riC6Q/0KRS8KbpdvoI2rj8zz
- BghOuGjvhJvbIqGLbUEdZIkfCqOOGENLMO9b33+s9dpU5mG4lNsBveqUXj+byCuXrJ2+
- ONvQ==
-X-Gm-Message-State: AOAM533l6wDLw0WPc1e6aAJTQj3Jw7QpFUECc3L2brviQY3BNwrd+Fws
- +/Zu7bJzNqc4uxJURw+v7WsSUQ==
-X-Google-Smtp-Source: ABdhPJwCQUIOP5TdlZ8FBli3pgtgQy/dWpEv2uzMTFJUcoBO0gum0BVegRxkeGiQcrjMntPY+uYnvw==
-X-Received: by 2002:a05:600c:1987:: with SMTP id
- t7mr8509221wmq.24.1637402038102; 
- Sat, 20 Nov 2021 01:53:58 -0800 (PST)
+ bh=NQju6idVScfUR86bAgOpu/21oLK1v3nj0RpWwIrXcB0=;
+ b=210gP9GErcs1g7+GfvHTPCJjLCMQTTTxWzDDdyzlVtPxSOYZZMPNuPhikvEDvxIiJP
+ Qsec1ZHj6Y6pusohRvPhdf9wDumoNdBjZ5ZI6EMMK8ni2NbPUWcxHUC0sGluZPE7KPxg
+ xt+mGTEzpdwaYa3J2HkUPvYyCAb8g1Y/UpvBc7XvlbKOCKzczEyCXnUKwE+93TU7dEQz
+ B+ejbSmEpyABrj8sYtTeiaEr6Qh43dVxTLjDHMTmI77r8AU3Jt3odh/WsfpCywCtQbZ7
+ f93t7oiF4rxgOkgvpJUJNisqOiertpzBU6QehDrkh/qTpy0s+aO9lkAl4fTg0+VMf2bO
+ JqHQ==
+X-Gm-Message-State: AOAM531ySOfcxIfZDu/No69HGAU0nGb1AlDGFYXJOdwar5mGYDG6QoBm
+ geY9f4+aDPfVBlT4oUluQsIGWw==
+X-Google-Smtp-Source: ABdhPJzvz48WuJD4/o6z9NxzJOJFoZrq9Xu6fMwC+sOdPxNImNG4HLQVzDILSTP2ubg9YTR5sE7TLw==
+X-Received: by 2002:a05:600c:6025:: with SMTP id
+ az37mr5364669wmb.194.1637402073198; 
+ Sat, 20 Nov 2021 01:54:33 -0800 (PST)
 Received: from [192.168.8.104] (9.red-95-126-194.staticip.rima-tde.net.
  [95.126.194.9])
- by smtp.gmail.com with ESMTPSA id b11sm14637237wmj.35.2021.11.20.01.53.56
+ by smtp.gmail.com with ESMTPSA id r8sm2760948wrz.43.2021.11.20.01.54.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Nov 2021 01:53:57 -0800 (PST)
-Subject: Re: [PATCH v11 16/26] target/loongarch: Add disassembler
+ Sat, 20 Nov 2021 01:54:32 -0800 (PST)
+Subject: Re: [PATCH v11 17/26] linux-user: Add LoongArch generic header files
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
- <1637302410-24632-17-git-send-email-gaosong@loongson.cn>
+ <1637302410-24632-18-git-send-email-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2cad6c1d-6a82-15e3-8b4a-68630a2c2f9d@linaro.org>
-Date: Sat, 20 Nov 2021 10:53:54 +0100
+Message-ID: <57ad5eff-2d9a-ae58-fc30-d9cc21332822@linaro.org>
+Date: Sat, 20 Nov 2021 10:54:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <1637302410-24632-17-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <1637302410-24632-18-git-send-email-gaosong@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
@@ -98,20 +98,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/19/21 7:13 AM, Song Gao wrote:
-> +static void output_r_offs(DisasContext *ctx, arg_r_offs *a,
-> +                          const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, %d # 0x%lx", a->rj, a->offs,
+> This includes:
+> - sockbits.h
+> - target_errno_defs.h
+> - target_fcntl.h
+> - termbits.h
+> 
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
+> Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
+> ---
+>   linux-user/loongarch64/sockbits.h          | 11 +++++++++++
+>   linux-user/loongarch64/target_errno_defs.h | 12 ++++++++++++
+>   linux-user/loongarch64/target_fcntl.h      | 11 +++++++++++
+>   linux-user/loongarch64/termbits.h          | 11 +++++++++++
+>   4 files changed, 45 insertions(+)
+>   create mode 100644 linux-user/loongarch64/sockbits.h
+>   create mode 100644 linux-user/loongarch64/target_errno_defs.h
+>   create mode 100644 linux-user/loongarch64/target_fcntl.h
+>   create mode 100644 linux-user/loongarch64/termbits.h
 
-%lx is wrong; use PRIx64.
-Many instances.
-
-If you use
-
-     make docker-test-build@fedora-i386-cross
-
-you should see errors here.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
