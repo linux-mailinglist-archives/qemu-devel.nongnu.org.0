@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5626E457CC6
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 10:56:18 +0100 (CET)
-Received: from localhost ([::1]:39606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B827E457CC9
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 11:07:39 +0100 (CET)
+Received: from localhost ([::1]:46254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moN6X-0000mN-7L
-	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 04:56:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46806)
+	id 1moNHW-000636-Bn
+	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 05:07:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moN4u-0007m0-MS
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 04:54:36 -0500
-Received: from [2a00:1450:4864:20::330] (port=39475
- helo=mail-wm1-x330.google.com)
+ id 1moNGF-0005FT-Sd
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 05:06:19 -0500
+Received: from [2a00:1450:4864:20::335] (port=50726
+ helo=mail-wm1-x335.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moN4s-0002N7-JA
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 04:54:36 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- n33-20020a05600c502100b0032fb900951eso12376925wmr.4
- for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 01:54:34 -0800 (PST)
+ id 1moNGD-00042m-Fr
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 05:06:19 -0500
+Received: by mail-wm1-x335.google.com with SMTP id 133so10699599wme.0
+ for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 02:06:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NQju6idVScfUR86bAgOpu/21oLK1v3nj0RpWwIrXcB0=;
- b=M0jeNTedKTccsiYa4zzVNnBDcBVoxwNBzAyakV0HdoAGvh8PI52MaTjM5VBaINWf5q
- 8thrg0jImRM+QpBryOP60Tkxp4LXrqINZM6Nvj3AJK2i835/cF2OfGxUIkXZGCJlQelA
- nwtWJYZF4xwBF7C8LlZLGtAmqK/ky/GKOMq31tZAymOJMD+FtuoBq9c7ozDbVql5YIX7
- XpQlH4oF8OHBQ3oqRirwtt3bJ3LrC1yRSVzL/WPNBR7bmgBWDA2QwmUXcjI3Vcg7nI4N
- 6f0JxqraVf5GaGoqYV3P9KHIEmW2O9lcWgdDVLZjkpFSFZ65yhDQ9XaCPTlhq2cpr0wv
- DHfw==
+ bh=k6cdR4vuZiE7Myq1Bj2aLIpIlk7Vp6poJYIfrC8xqN8=;
+ b=E/eQJJDEJ+dMa8RnitD2VEuKibkk5s5Y+RgBBLJfZ5cmgOFcbQLJQ1PUZ9b3tU9XYY
+ MLyaq3paL3DzJFeghcqsqJ9S+FG2adzewYJwrbITnqg18D4jWDJ2M2p2QaF+fq0Ux0n9
+ 1Olbo7thvXmWfXLA/C9lINI4kXRhM3mlny/jQrCjcFVSVM6sHArHOXzwlMjpppKpoQop
+ aE5DVbcLqJUzrfvdGOpf/tc1L0d2UaGlK8xQwo0eug2vJZDQ30/KosG4Eecsz/p5LyxH
+ 3eLnYYHOx9CX1yPURC5GlBCzGUyeh2gk4WJbG08ZOFzPSCeF9dJjtIVwqHsbrPqCDto0
+ 3ibg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=NQju6idVScfUR86bAgOpu/21oLK1v3nj0RpWwIrXcB0=;
- b=210gP9GErcs1g7+GfvHTPCJjLCMQTTTxWzDDdyzlVtPxSOYZZMPNuPhikvEDvxIiJP
- Qsec1ZHj6Y6pusohRvPhdf9wDumoNdBjZ5ZI6EMMK8ni2NbPUWcxHUC0sGluZPE7KPxg
- xt+mGTEzpdwaYa3J2HkUPvYyCAb8g1Y/UpvBc7XvlbKOCKzczEyCXnUKwE+93TU7dEQz
- B+ejbSmEpyABrj8sYtTeiaEr6Qh43dVxTLjDHMTmI77r8AU3Jt3odh/WsfpCywCtQbZ7
- f93t7oiF4rxgOkgvpJUJNisqOiertpzBU6QehDrkh/qTpy0s+aO9lkAl4fTg0+VMf2bO
- JqHQ==
-X-Gm-Message-State: AOAM531ySOfcxIfZDu/No69HGAU0nGb1AlDGFYXJOdwar5mGYDG6QoBm
- geY9f4+aDPfVBlT4oUluQsIGWw==
-X-Google-Smtp-Source: ABdhPJzvz48WuJD4/o6z9NxzJOJFoZrq9Xu6fMwC+sOdPxNImNG4HLQVzDILSTP2ubg9YTR5sE7TLw==
-X-Received: by 2002:a05:600c:6025:: with SMTP id
- az37mr5364669wmb.194.1637402073198; 
- Sat, 20 Nov 2021 01:54:33 -0800 (PST)
+ bh=k6cdR4vuZiE7Myq1Bj2aLIpIlk7Vp6poJYIfrC8xqN8=;
+ b=kGDazir43u0EuN1Z6KySis9FC19QjZ/l8e0N9CMX7IY4S+56302ijCOgaVIKxZrT28
+ EywxYwZ1Q9m37v3J90b5qnnguwRrPgrWHWPgJzEs3yRKiFhh7q4hP19oKxQ0bNizPAGN
+ /eakveKJ9OQDopbSXYGV7RXTizvhNZ2ooNk2+d+Gmt2Ma4KrrMpUnQoWLrSgPy2nlAay
+ 86wFgNYdKxfdT3Kw+Pcg4Au1M7W/wEqonUbrTCkHHJ8WMkEE9MPeKSrhZd8rk/bM46CW
+ OT+gDd5Uf44Kw/8QuSGYROJDkHTCs6ev6lQZPNzZiHB0Y4O4oRqa6R7V3aQgQBJm8jSN
+ FAHA==
+X-Gm-Message-State: AOAM532/vFUv3Qw9yMVUzYCWrKBUj1OOnx2J/fI1UgKEc3weX+Q/ySyk
+ 1LmWqlwSnzrOHpcXPL8Z1VByAw==
+X-Google-Smtp-Source: ABdhPJxdGHCufbfbkF89XCmmIenkJOqszsEsaVJG8t84WHsAaZKSuHoLVLzbaN8fU5NUiyAWgrjdcw==
+X-Received: by 2002:a05:600c:1987:: with SMTP id
+ t7mr8593377wmq.24.1637402775822; 
+ Sat, 20 Nov 2021 02:06:15 -0800 (PST)
 Received: from [192.168.8.104] (9.red-95-126-194.staticip.rima-tde.net.
  [95.126.194.9])
- by smtp.gmail.com with ESMTPSA id r8sm2760948wrz.43.2021.11.20.01.54.31
+ by smtp.gmail.com with ESMTPSA id z18sm2335658wrq.11.2021.11.20.02.06.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Nov 2021 01:54:32 -0800 (PST)
-Subject: Re: [PATCH v11 17/26] linux-user: Add LoongArch generic header files
+ Sat, 20 Nov 2021 02:06:15 -0800 (PST)
+Subject: Re: [PATCH v11 18/26] linux-user: Add LoongArch specific structures
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
- <1637302410-24632-18-git-send-email-gaosong@loongson.cn>
+ <1637302410-24632-19-git-send-email-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <57ad5eff-2d9a-ae58-fc30-d9cc21332822@linaro.org>
-Date: Sat, 20 Nov 2021 10:54:29 +0100
+Message-ID: <228e4abf-6137-3e44-ed1d-918fbe2e0d6b@linaro.org>
+Date: Sat, 20 Nov 2021 11:06:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <1637302410-24632-18-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <1637302410-24632-19-git-send-email-gaosong@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
@@ -98,26 +97,48 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/19/21 7:13 AM, Song Gao wrote:
-> This includes:
-> - sockbits.h
-> - target_errno_defs.h
-> - target_fcntl.h
-> - termbits.h
-> 
-> Signed-off-by: Song Gao<gaosong@loongson.cn>
-> Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 > ---
->   linux-user/loongarch64/sockbits.h          | 11 +++++++++++
->   linux-user/loongarch64/target_errno_defs.h | 12 ++++++++++++
->   linux-user/loongarch64/target_fcntl.h      | 11 +++++++++++
->   linux-user/loongarch64/termbits.h          | 11 +++++++++++
->   4 files changed, 45 insertions(+)
->   create mode 100644 linux-user/loongarch64/sockbits.h
->   create mode 100644 linux-user/loongarch64/target_errno_defs.h
->   create mode 100644 linux-user/loongarch64/target_fcntl.h
->   create mode 100644 linux-user/loongarch64/termbits.h
+>   linux-user/loongarch64/target_structs.h | 48 +++++++++++++++++++++++++++++++++
+>   1 file changed, 48 insertions(+)
+>   create mode 100644 linux-user/loongarch64/target_structs.h
+> 
+> diff --git a/linux-user/loongarch64/target_structs.h b/linux-user/loongarch64/target_structs.h
+> new file mode 100644
+> index 0000000..cc7928a
+> --- /dev/null
+> +++ b/linux-user/loongarch64/target_structs.h
+> @@ -0,0 +1,48 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * LoongArch specific structures for linux-user
+> + *
+> + * Copyright (c) 2021 Loongson Technology Corporation Limited
+> + */
+> +
+> +#ifndef LOONGARCH_TARGET_STRUCTS_H
+> +#define LOONGARCH_TARGET_STRUCTS_H
+> +
+> +struct target_ipc_perm {
+> +    abi_int __key;                      /* Key.  */
+> +    abi_uint uid;                       /* Owner's user ID.  */
+> +    abi_uint gid;                       /* Owner's group ID.  */
+> +    abi_uint cuid;                      /* Creator's user ID.  */
+> +    abi_uint cgid;                      /* Creator's group ID.  */
+> +    abi_uint mode;                      /* Read/write permission.  */
+> +    abi_ushort __seq;                   /* Sequence number.  */
+> +    abi_ushort __pad1;
+> +    abi_ulong __unused1;
+> +    abi_ulong __unused2;
+> +};
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+We should most definitely create a generic version of this file before we do any more 
+replication.
+
+The aarch64 version is generic, with copies in cris, hexagon, i386, m68k, microblaze, 
+nios2, openrisc, riscv, and sh4.
+
 
 r~
 
