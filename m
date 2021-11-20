@@ -2,84 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B3D3457C3F
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 08:44:43 +0100 (CET)
-Received: from localhost ([::1]:39160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C2C457C51
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 08:49:38 +0100 (CET)
+Received: from localhost ([::1]:45932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moL3B-0001qW-SF
-	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 02:44:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45340)
+	id 1moL7w-0006ho-UV
+	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 02:49:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moL1R-0000QY-Ix
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 02:42:53 -0500
-Received: from [2a00:1450:4864:20::334] (port=54229
- helo=mail-wm1-x334.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moL1P-0005VD-Oo
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 02:42:53 -0500
-Received: by mail-wm1-x334.google.com with SMTP id y196so10463957wmc.3
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 23:42:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=WJuGnGTFyaPbWt1CZmUvQu7gq+dB1zfvIreuz+kWeG8=;
- b=Vzs4MKAZ+1Ll+hLTGi2eSszdzkohHa6q6IROMQiBBAf2tOEsK5aJqKCm3LYFb9Hi98
- X30xIKzT9JsgT+EM8tobkCXB+70f3swX3aTbF/aKvX1f1TlFZRdzk4vEvFFztOZO+doT
- c45ABslnytlG8cGm/eJ41J9/jhu9UD+35/HDXFYWeiB65Z59vQtJGEF1V3ytBcAvHQdw
- xnUkCVkNYRch98LASyLg9JswQrSjPJyefGopL1th0+Vk/dxGQYn4CC2FYiWRQooO7hVK
- 9iD4gOtBeBynLNkwFj6jEwfCABrABqxYUzoXcNmf8xudfggmDtO1b75ro54h978hwYPn
- 4iRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WJuGnGTFyaPbWt1CZmUvQu7gq+dB1zfvIreuz+kWeG8=;
- b=TeRcU06/XfAp4yzieFNkJ2azv3rlLQ8165lSTd+wAriBdAjdGTCECVsuRVmsJxedkr
- gPuc/0kHwCiRdsi0G6mAegTCcqkqWQr8NfKkSa64MLqe3YgO+mjaLZMJTnGiIsgZNx6v
- wISdsXhGiyCWYnwcfU0WEYvrtAaZ0NJvm6+dZjJwOEoTMPehsaV3Srht3UhqrFvj/0jj
- 6e33LMTp76IZfalbQ1oAAxY9dbP/7OnAlN6ki5bDUhXxr2UooRBs+Y91sr8354C49dOk
- /nv9PLWXXFec18JsYzjogdtJyJrA1epCSus2tw2ibV9NcYSEQ7U8qMqO6hLkiDfxkhRr
- Vgow==
-X-Gm-Message-State: AOAM532ZWNqeAow+VsuPLAKVW7SaTB3zfHOPd4uvImUJK6KamM2tHtqd
- I9xxvaWBLDNS0dyRvM0gj55oFg==
-X-Google-Smtp-Source: ABdhPJzUnRX5snmsIkFDmxKQWMK8tukJYFXDW/Hvdefp883V7cIpiTeqdv2IlzFc+9/kgDpAYW7xKA==
-X-Received: by 2002:a7b:cc11:: with SMTP id f17mr7819500wmh.122.1637394169699; 
- Fri, 19 Nov 2021 23:42:49 -0800 (PST)
-Received: from [192.168.8.104] (9.red-95-126-194.staticip.rima-tde.net.
- [95.126.194.9])
- by smtp.gmail.com with ESMTPSA id 138sm9602929wma.17.2021.11.19.23.42.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Nov 2021 23:42:49 -0800 (PST)
-Subject: Re: [PATCH v11 05/26] target/loongarch: Add fixed point shift
- instruction translation
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
- <1637302410-24632-6-git-send-email-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a3ccf869-fe7c-96d5-6390-4bb9b4bba02f@linaro.org>
-Date: Sat, 20 Nov 2021 08:42:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1moL5X-0003vd-KL; Sat, 20 Nov 2021 02:47:07 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3500)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1moL5U-0006cy-IY; Sat, 20 Nov 2021 02:47:07 -0500
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Hx5CF6jfHzZd5b;
+ Sat, 20 Nov 2021 15:44:25 +0800 (CST)
+Received: from kwepemm600017.china.huawei.com (7.193.23.234) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Sat, 20 Nov 2021 15:46:49 +0800
+Received: from huawei.com (10.174.186.236) by kwepemm600017.china.huawei.com
+ (7.193.23.234) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Sat, 20 Nov
+ 2021 15:46:48 +0800
+From: Yifei Jiang <jiangyifei@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
+Subject: [PATCH v1 00/12] Add riscv kvm accel support
+Date: Sat, 20 Nov 2021 15:46:32 +0800
+Message-ID: <20211120074644.729-1-jiangyifei@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
 MIME-Version: 1.0
-In-Reply-To: <1637302410-24632-6-git-send-email-gaosong@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.625,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.174.186.236]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemm600017.china.huawei.com (7.193.23.234)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=jiangyifei@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,74 +61,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, laurent@vivier.eu
+Cc: bin.meng@windriver.com, kvm@vger.kernel.org, libvir-list@redhat.com,
+ anup.patel@wdc.com, wanbo13@huawei.com, Yifei Jiang <jiangyifei@huawei.com>,
+ Alistair.Francis@wdc.com, kvm-riscv@lists.infradead.org,
+ wanghaibin.wang@huawei.com, palmer@dabbelt.com, fanliang@huawei.com,
+ wu.wubin@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/21 7:13 AM, Song Gao wrote:
-> +static bool gen_shift(DisasContext *ctx, arg_rr_i *a,
-> +                      void(*func)(TCGv, TCGv, TCGv))
-> +{
-> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_SIGN);
-> +    TCGv src1 = gpr_src(ctx, a->rj, EXT_ZERO);
-> +    TCGv src2 = tcg_constant_tl(a->imm);
-> +
-> +    func(dest, src1, src2);
-> +    gen_set_gpr(a->rd, dest, EXT_SIGN);
-> +
-> +    return true;
-> +}
+This series adds both riscv32 and riscv64 kvm support, and implements
+migration based on riscv.
 
-This is no longer generic; it's specific to word operations.  But there's nothing in here 
-that can't be done with gen_rr_i, so I think you should remove it.
+Because of RISC-V KVM has been merged into the Linux master, so this
+series are changed from RFC to patch v1.
 
-> +
-> +static bool gen_shift_i(DisasContext *ctx, arg_rr_i *a,
-> +                        void(*func)(TCGv, TCGv, target_long))
-> +{
-> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-> +    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-> +
-> +    func(dest, src1, a->imm);
-> +
-> +    return true;
-> +}
+Several steps to use this:
+1. Build emulation
+$ ./configure --target-list=riscv64-softmmu
+$ make -j$(nproc)
 
-This one has dropped gen_set_gpr.
+2. Build kernel
 
-I think that your current gen_rr_i should be named gen_rri_v (variable) and this one 
-should regain the DisasExtend and be named gen_rri_c (constant).
+3. Build QEMU VM
+Cross built in riscv toolchain.
+$ PKG_CONFIG_LIBDIR=<toolchain pkgconfig path>
+$ export PKG_CONFIG_SYSROOT_DIR=<toolchain sysroot path>
+$ ./configure --target-list=riscv64-softmmu --enable-kvm \
+--cross-prefix=riscv64-linux-gnu- --disable-libiscsi --disable-glusterfs \
+--disable-libusb --disable-usb-redir --audio-drv-list= --disable-opengl \
+--disable-libxml2
+$ make -j$(nproc)
 
-Then, in the previous,
+4. Start emulation
+$ ./qemu-system-riscv64 -M virt -m 4096M -cpu rv64,x-h=true -nographic \
+        -name guest=riscv-hyp,debug-threads=on \
+        -smp 4 \
+        -bios ./fw_jump.bin \
+        -kernel ./Image \
+        -drive file=./hyp.img,format=raw,id=hd0 \
+        -device virtio-blk-device,drive=hd0 \
+        -append "root=/dev/vda rw console=ttyS0 earlycon=sbi"
 
-TRANS(addi_w, gen_rri_c, EXT_NONE, EXT_SIGN, tcg_gen_addi_tl)
-TRANS(addi_d, gen_rri_c, EXT_NONE, EXT_NONE, tcg_gen_addi_tl)
-TRANS(andi, gen_rri_c, EXT_NONE, EXT_NONE, tcg_gen_andi_tl)
-TRANS(ori, gen_rri_c, EXT_NONE, EXT_NONE, tcg_gen_ori_tl)
-TRANS(xori, gen_rri_c, EXT_NONE, EXT_NONE, tcg_gen_xori_tl)
+5. Start kvm-acceled QEMU VM in emulation
+$ ./qemu-system-riscv64 -M virt,accel=kvm -m 1024M -cpu host -nographic \
+        -name guest=riscv-guset \
+        -smp 2 \
+        -bios none \
+        -kernel ./Image \
+        -drive file=./guest.img,format=raw,id=hd0 \
+        -device virtio-blk-device,drive=hd0 \
+        -append "root=/dev/vda rw console=ttyS0 earlycon=sbi"
 
-There are a few identity tests within these tcg_gen_opi_tl functions which would be nice 
-to apply.  Particularly because the canonical "nop" instruction for loongarch is "andi 
-r0,r0,0".
+Changes since RFC v6
+- Rebase on recent commit 8627edfb3f1fca24a96a0954148885c3241c10f8
+- Sync-up headers with Linux-5.16-rc1
 
-> +TRANS(slli_w, gen_shift, tcg_gen_shl_tl)
-> +TRANS(slli_d, gen_shift_i, tcg_gen_shli_tl)
-> +TRANS(srli_w, gen_shift, tcg_gen_shr_tl)
-> +TRANS(srli_d, gen_shift_i, tcg_gen_shri_tl)
-> +TRANS(srai_d, gen_shift_i, tcg_gen_sari_tl)
-> +TRANS(rotri_w, gen_shift, gen_rotr_w)
-> +TRANS(rotri_d, gen_shift_i, tcg_gen_rotri_tl)
+Changes since RFC v5
+- Rebase on QEMU v6.1.0-rc1 and kvm-riscv linux v19.
+- Move kvm interrupt setting to riscv_cpu_update_mip().
+- Replace __u64 with uint64_t.
 
-Then these become
+Changes since RFC v4
+- Rebase on QEMU v6.0.0-rc2 and kvm-riscv linux v17.
+- Remove time scaling support as software solution is incomplete.
+  Because it will cause unacceptable performance degradation. and
+  We will post a better solution.
+- Revise according to Alistair's review comments.
+  - Remove compile time XLEN checks in kvm_riscv_reg_id
+  - Surround TYPE_RISCV_CPU_HOST definition by CONFIG_KVM and share
+    it between RV32 and RV64.
+  - Add kvm-stub.c for reduce unnecessary compilation checks.
+  - Add riscv_setup_direct_kernel() to direct boot kernel for KVM.
 
-TRANS(slli_w, gen_rri_c, EXT_NONE, EXT_SIGN, tcg_gen_shli_tl)
-TRANS(slli_d, gen_rri_c, EXT_NONE, EXT_NONE, tcg_gen_shli_tl)
-TRANS(srli_w, gen_rri_c, EXT_SIGN, EXT_SIGN, tcg_gen_shri_tl)
-TRANS(srli_d, gen_rri_c, EXT_NONE, EXT_NONE, tcg_gen_shri_tl)
-TRANS(srai_d, gen_rri_c, EXT_NONE, EXT_NONE, tcg_gen_sari_tl)
-TRANS(rotri_w, gen_rri_v, EXT_NONE, EXT_NONE, gen_rotr_w)
-TRANS(rotri_d, gen_rri_c, EXT_NONE, EXT_NONE, tcg_gen_rotri_tl)
+Changes since RFC v3
+- Rebase on QEMU v5.2.0-rc2 and kvm-riscv linux v15.
+- Add time scaling support(New patches 13, 14 and 15).
+- Fix the bug that guest vm can't reboot.
 
+Changes since RFC v2
+- Fix checkpatch error at target/riscv/sbi_ecall_interface.h.
+- Add riscv migration support.
 
-r~
+Changes since RFC v1
+- Add separate SBI ecall interface header.
+- Add riscv32 kvm accel support.
+
+Yifei Jiang (12):
+  update-linux-headers: Add asm-riscv/kvm.h
+  target/riscv: Add target/riscv/kvm.c to place the public kvm interface
+  target/riscv: Implement function kvm_arch_init_vcpu
+  target/riscv: Implement kvm_arch_get_registers
+  target/riscv: Implement kvm_arch_put_registers
+  target/riscv: Support start kernel directly by KVM
+  target/riscv: Support setting external interrupt by KVM
+  target/riscv: Handle KVM_EXIT_RISCV_SBI exit
+  target/riscv: Add host cpu type
+  target/riscv: Add kvm_riscv_get/put_regs_timer
+  target/riscv: Implement virtual time adjusting with vm state changing
+  target/riscv: Support virtual time context synchronization
+
+ hw/riscv/boot.c                    |  11 +
+ hw/riscv/virt.c                    |   7 +
+ include/hw/riscv/boot.h            |   1 +
+ linux-headers/asm-riscv/kvm.h      | 128 ++++++
+ linux-headers/linux/kvm.h          |   8 +
+ meson.build                        |   2 +
+ target/riscv/cpu.c                 |  57 +++
+ target/riscv/cpu.h                 |  10 +
+ target/riscv/cpu_helper.c          |  27 --
+ target/riscv/kvm-stub.c            |  30 ++
+ target/riscv/kvm.c                 | 610 +++++++++++++++++++++++++++++
+ target/riscv/kvm_riscv.h           |  25 ++
+ target/riscv/machine.c             |  14 +
+ target/riscv/meson.build           |   1 +
+ target/riscv/sbi_ecall_interface.h |  72 ++++
+ 15 files changed, 976 insertions(+), 27 deletions(-)
+ create mode 100644 linux-headers/asm-riscv/kvm.h
+ create mode 100644 target/riscv/kvm-stub.c
+ create mode 100644 target/riscv/kvm.c
+ create mode 100644 target/riscv/kvm_riscv.h
+ create mode 100644 target/riscv/sbi_ecall_interface.h
+
+-- 
+2.19.1
+
 
