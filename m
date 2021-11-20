@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2BC457C67
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 08:59:42 +0100 (CET)
-Received: from localhost ([::1]:44458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D99A457C7F
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 09:08:45 +0100 (CET)
+Received: from localhost ([::1]:57052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moLHh-00089q-El
-	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 02:59:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50280)
+	id 1moLQS-0000FQ-7d
+	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 03:08:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1moLG7-0006Vl-9a
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 02:58:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25479)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1moLG3-00029E-PB
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 02:58:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637395078;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a1Pz5cnwH0eRk+tC42Eh47BnVLX55QKu3Skci6YHIhM=;
- b=i0dOr/avf80WElL/GOT/4i9ZkcilCOGVhS2tYQa4vkt+AE+uVPBNG7QMGpKEv+p7iNmPaH
- mEWzZj66SLr7crA6D4dyo1WZeg3pTF/FEod++lJ6V7Yx9+HGdgtEl+BM7MBeGH3VcWF6Aw
- BXXQkpoWcMFTESB2EsRxDfkj7whQRSo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-353-gp3vu1XPNtG7kDK3jTA5Kw-1; Sat, 20 Nov 2021 02:57:57 -0500
-X-MC-Unique: gp3vu1XPNtG7kDK3jTA5Kw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EAA0806689;
- Sat, 20 Nov 2021 07:57:56 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 12B2F10246E3;
- Sat, 20 Nov 2021 07:57:38 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6655211380A7; Sat, 20 Nov 2021 08:57:36 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v2 3/3] cpus-common: implement dirty limit on vCPU
-References: <cover.1637256224.git.huangy81@chinatelecom.cn>
- <cover.1637258578.git.huangy81@chinatelecom.cn>
- <1d7b72b34a97fcd8ece586a4671abc0916fc67ee.1637258578.git.huangy81@chinatelecom.cn>
-Date: Sat, 20 Nov 2021 08:57:36 +0100
-In-Reply-To: <1d7b72b34a97fcd8ece586a4671abc0916fc67ee.1637258578.git.huangy81@chinatelecom.cn>
- (huangy's message of "Fri, 19 Nov 2021 02:17:03 +0800")
-Message-ID: <87fsrrz2bz.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1moLNw-0007IP-0t
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:06:09 -0500
+Received: from [2a00:1450:4864:20::42c] (port=46752
+ helo=mail-wr1-x42c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1moLNs-0006QY-2T
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 03:06:07 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id u1so22165933wru.13
+ for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 00:06:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=rNuSf+ZTFvuYrjXQ16Pn2nKWyBor5n/4apCUU6/UQt0=;
+ b=kK5xVfQhzKjMXoiltrW/Af4Z6MYtYRt77M/VuChCv31OFrJBcc7WHc/IhegeAKyWrC
+ mzK7WurTAm2FWdO10b3w2gCmfwk+VwL9RlOmYd93BTt4cSmtB/qgwcxR52NeW+vTg4Rl
+ EJ313Op3sHPl53164M21hX5msb9PtM3ES6s9lrql3hcHHY/7F0jVY7AXiWhg7/SNRd84
+ WIXtxKg2zpOc8plvzvpEP1mStjV1GzkxA4EpPivDg58dpnbB9piNbf7eiqJmIii0isdF
+ JOjPrJGdL1h+3bniAvunzwSjbcBTCKFV5zB1pjGccxhTLRXuO05jUv/9ESDpL+msNlZF
+ vs+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rNuSf+ZTFvuYrjXQ16Pn2nKWyBor5n/4apCUU6/UQt0=;
+ b=jr+XZBkd6agGHWJ1yZpkZn5R4W2ncE2LSxflx42TPaFxQveU6H0jNyW0uH7GpNontf
+ xKL+3hfr8sib+V8fpQrrrqh74WLq276s31sf88x4EXo8iC6mIQ7HjbR+0kHo/lIQI6Cm
+ kYa3F4rbZ8wKoW6/TTzZqzTTTzEMYaodKENU89Xv+VOuI6TchyniB/bQEQ9LieXlC8lS
+ aaa0CLAz8SlrJMbB9lUIaml9UIxfj8jDsYOECoPerI9C452IM+YvLNm9JHpCWxcdzc50
+ NRBo1CXT77e3EsXUiX5TPnjW38/23k5v9zueN1twD5Jt6eERK7jPUNo4uFQMnIazHTGX
+ YWiw==
+X-Gm-Message-State: AOAM532PeRUl75gJ+Ax37muJgOR8L7mCcV8vBL7MfCB/GsWmgjKZfTOL
+ w+aXlKFfaKUgdqVom9kxwNrf8w==
+X-Google-Smtp-Source: ABdhPJxs31jryc0uGdtcwAouQljWFE/zQ3gA4YdCddGWQfnP8P8UXW163YBaAJJucDiKHuVI3D2MjA==
+X-Received: by 2002:a5d:6d07:: with SMTP id e7mr14748014wrq.311.1637395562028; 
+ Sat, 20 Nov 2021 00:06:02 -0800 (PST)
+Received: from [192.168.8.104] (9.red-95-126-194.staticip.rima-tde.net.
+ [95.126.194.9])
+ by smtp.gmail.com with ESMTPSA id r17sm18022231wmq.5.2021.11.20.00.06.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 20 Nov 2021 00:06:01 -0800 (PST)
+Subject: Re: [PATCH v11 06/26] target/loongarch: Add fixed point bit
+ instruction translation
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
+ <1637302410-24632-7-git-send-email-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8c4b8bff-9502-0a2c-3ecd-3b1156a69e81@linaro.org>
+Date: Sat, 20 Nov 2021 09:05:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+In-Reply-To: <1637302410-24632-7-git-send-email-gaosong@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.625,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,119 +92,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-huangy81@chinatelecom.cn writes:
-
-> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->
-> implement dirtyrate calculation periodically basing on
-> dirty-ring and throttle vCPU until it reachs the quota
-> dirtyrate given by user.
->
-> introduce qmp commands set-dirty-limit/cancel-dirty-limit to
-> set/cancel dirty limit on vCPU.
->
-> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
-
-[...]
-
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index e948e81..dd65e9e 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -881,6 +881,13 @@ void end_exclusive(void);
->   */
->  void qemu_init_vcpu(CPUState *cpu);
-> =20
-> +/**
-> + * dirtylimit_setup:
-> + *
-> + * dirtylimit setup.
-> + */
-
-This is even worse than no documentation.
-
-> +void dirtylimit_setup(int max_cpus);
+On 11/19/21 7:13 AM, Song Gao wrote:
+> +static bool gen_rr(DisasContext *ctx, arg_rr *a,
+> +                   DisasExtend src_ext, DisasExtend dst_ext,
+> +                   void (*func)(TCGv, TCGv))
+> +{
+> +    TCGv dest = gpr_dst(ctx, a->rd, dst_ext);
+> +    TCGv src1 = gpr_src(ctx, a->rj, src_ext);
 > +
->  #define SSTEP_ENABLE  0x1  /* Enable simulated HW single stepping */
->  #define SSTEP_NOIRQ   0x2  /* Do not use IRQ while single stepping */
->  #define SSTEP_NOTIMER 0x4  /* Do not Timers while single stepping */
-> diff --git a/qapi/misc.json b/qapi/misc.json
-> index 358548a..7f6da34 100644
-> --- a/qapi/misc.json
-> +++ b/qapi/misc.json
-> @@ -527,3 +527,47 @@
->   'data': { '*option': 'str' },
->   'returns': ['CommandLineOptionInfo'],
->   'allow-preconfig': true }
+> +    func(dest, src1);
 > +
-> +##
-> +# @DirtyRateQuotaVcpu:
-> +#
-> +# Dirty rate of vcpu.
-> +#
-> +# @idx: vcpu index.
-> +#
-> +# @dirtyrate: dirty rate.
-> +#
-> +# Since: 6.3
-> +#
-> +##
-> +{ 'struct': 'DirtyRateQuotaVcpu',
-> +  'data': { 'idx': 'int', 'dirtyrate': 'uint64' } }
+> +    if (dst_ext) {
+> +        gen_set_gpr(a->rd, dest, dst_ext);
+> +    }
+
+Again, I think you should call gen_set_gpr unconditionally.
+
+> +static bool trans_bytepick_w(DisasContext *ctx, arg_bytepick_w *a)
+> +{
+> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+> +    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+> +    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
 > +
-> +##
-> +# @set-dirty-limit:
-> +#
-> +# Since: 6.3
-> +#
-> +# Example:
-> +#   {"execute": "set-dirty-limit"}
-> +#    "arguments": { "idx": "cpu-index",
-> +#                   "dirtyrate": "quota-dirtyrate" } }
-
-The example cannot work: the arguments must be numbers, not strings.
-
-> +#
-> +##
-> +{ 'command': 'set-dirty-limit',
-> +  'data': 'DirtyRateQuotaVcpu' }
-
-Why make DirtyRateQuotaVcpu a separate type?  Why not
-
-   { 'command': 'set-dirty-limit',
-     'data': { 'idx': 'int', 'dirtyrate': 'uint64' } }
-
+> +    tcg_gen_concat_tl_i64(dest, src1, src2);
+> +    tcg_gen_sextract_i64(dest, dest, (32 - (a->sa) * 8), 32);
 > +
-> +##
-> +# @cancel-dirty-limit:
-> +#
-> +# @idx: index of vCPU to be canceled
-> +#
-> +# Since: 6.3
-> +#
-> +# Example:
-> +#   {"execute": "cancel-dirty-limit"}
-> +#    "arguments": { "idx": "cpu-index" } }
-> +#
-> +##
-> +{ 'command': 'cancel-dirty-limit',
-> +  'data': { 'idx': 'int' } }
+> +    return true;
+> +}
 
-Overall, documentation is too terse.  What is a "dirty rate of vcpu",
-and why should I care?  Is it related to query-dirty-rate?
+Better to use gen_rrr_sa.
 
-Nitpick: you use both "vcpu" and "vCPU" in comments.  Stick to the
-latter, please.
+> +static bool trans_bytepick_d(DisasContext *ctx, arg_bytepick_d *a)
+> +{
+> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+> +    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+> +    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+> +
+> +    tcg_gen_extract2_i64(dest, src1, src2, (64 - (a->sa) * 8));
+> +    return true;
+> +}
 
-[...]
+Likewise.
 
+> +static void gen_ctz_w(TCGv dest, TCGv src1)
+> +{
+> +    tcg_gen_ori_tl(dest, src1, (target_ulong)MAKE_64BIT_MASK(32, 32));
+> +    tcg_gen_ctzi_tl(dest, dest, 32);
+
+This should be TARGET_LONG_BITS.  It will never happen, because the value is not zero per 
+the OR, but it's what is most efficient for a tcg backend that naturally produces 
+TARGET_LONG_BITS for a TL-sized ctz.
+
+> +}
+> +
+> +static void gen_cto_w(TCGv dest, TCGv src1)
+> +{
+> +    tcg_gen_not_tl(dest, src1);
+> +    tcg_gen_ext32u_tl(dest, dest);
+> +    gen_ctz_w(dest, dest);
+> +}
+
+The EXT32U here is useless, as the OR within gen_ctz_w overrides it.
+
+> +&rr_2bw       rd rj msbw lsbw
+> +&rr_2bd       rd rj msbd lsbd
+
+Merge these.
+
+
+r~
 
