@@ -2,39 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA3645800D
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 19:50:32 +0100 (CET)
-Received: from localhost ([::1]:35918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 303BC4580BB
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 22:55:50 +0100 (CET)
+Received: from localhost ([::1]:55796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moVRX-0007bP-JW
-	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 13:50:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53866)
+	id 1moYKq-00009j-If
+	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 16:55:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1moVNv-0004vS-8O; Sat, 20 Nov 2021 13:46:47 -0500
-Received: from vps-vb.mhejs.net ([37.28.154.113]:44656)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1moYJR-0007kH-C7; Sat, 20 Nov 2021 16:54:21 -0500
+Received: from [2001:41c9:1:41f::167] (port=47358
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1moVNt-0004D2-7f; Sat, 20 Nov 2021 13:46:46 -0500
-Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <mail@maciej.szmigiero.name>)
- id 1moVNg-0001xn-Ib; Sat, 20 Nov 2021 19:46:32 +0100
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] MAINTAINERS: Add myself as a reviewer for Hyper-V VMBus
-Date: Sat, 20 Nov 2021 19:46:27 +0100
-Message-Id: <b145dcf08ae606e9d29e55b2f701a3fe4f16b347.1637433881.git.maciej.szmigiero@oracle.com>
-X-Mailer: git-send-email 2.33.0
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1moYJM-0004lt-RN; Sat, 20 Nov 2021 16:54:18 -0500
+Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1moYIz-0002qW-IZ; Sat, 20 Nov 2021 21:53:57 +0000
+To: Finn Thain <fthain@linux-m68k.org>
+References: <cover.1632437396.git.fthain@linux-m68k.org>
+ <e0411348-abd7-3db9-b5bd-8f1d52c1226f@linux-m68k.org>
+ <2fb3d9f8-0f20-082d-d9f1-ab2984356866@ilande.co.uk>
+ <ad537ce9-ec40-b5e4-bb32-5f53e42db29@linux-m68k.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <74d1f17a-d414-8cda-6720-a62617613215@ilande.co.uk>
+Date: Sat, 20 Nov 2021 21:53:48 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <ad537ce9-ec40-b5e4-bb32-5f53e42db29@linux-m68k.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.28.154.113;
- envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v1 0/9] hw/mos6522: VIA timer emulation fixes and
+ improvements
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.625,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -48,41 +67,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Jon Doron <arilou@gmail.com>, qemu-trivial@nongnu.org,
- Roman Kagan <rvkagan@yandex-team.ru>, "Denis V . Lunev" <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
+On 19/11/2021 08:39, Finn Thain wrote:
 
-This way there is at least some contact point for incoming patches.
+> On Thu, 18 Nov 2021, Mark Cave-Ayland wrote:
+> 
+>>
+>> Hi Finn,
+>>
+>> I've not forgotten about this series - we're now in 6.2 freeze, but it's
+>> on my TODO list to revisit in the next development cycle this along with
+>> the ESP stress-ng changes which I've also been looking at. As mentioned
+>> in my previous reviews the patch will need some further analysis:
+>> particularly the logic in mos6522_read() that can generate a spurious
+>> interrupt on a register read needs to be removed,
+> 
+> If mos6522 fails to raise its IRQ then the counter value observed by the
+> guest will not make sense. This relationship was explained in the
+> description of patch 8. If you have a problem with that patch, please
+> reply there so that your misapprehension can be placed in context.
 
-We'll see whether the code still gets just a random patch a few times
-a year or whether it requires a permanent maintainer to take care of it.
+It is the existing code in mos6522_read() which is doing the wrong thing here, which 
+I mentioned in https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02883.html.
 
-Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+>> and also testing is required to ensure that these changes don't affect
+>> the CUDA clock warping which allows OS X to boot under qemu-system-ppc.
+>>
+> 
+> I'm not expecting any issues. What is required in order to confirm this?
+> Would it be sufficient to boot a Mac OS X 10.4 installer DVD?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d3879aa3c12c..7f57e7fda73b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1729,6 +1729,12 @@ F: include/hw/block/fdc.h
- F: tests/qtest/fdc-test.c
- T: git https://gitlab.com/jsnow/qemu.git ide
- 
-+Hyper-V VMBus
-+S: Odd Fixes
-+R: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
-+F: hw/hyperv/vmbus.c
-+F: include/hw/hyperv/vmbus*.h
-+
- OMAP
- M: Peter Maydell <peter.maydell@linaro.org>
- L: qemu-arm@nongnu.org
+Possibly: I've only been testing various images since after the timing workaround was 
+added so I'm not sure exactly what the symptoms are, but the links sent earlier in 
+the thread are still valid.
+
+>> I'm confident that qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) is monotonic,
+> 
+> As I mentioned, it is monotonic here.
+
+Phew :)
+
+>> since if it were not then there would be huge numbers of complaints from
+>> QEMU users. It appears that Linux can potentially alter the ticks in
+>> mac_read_clk() at
+>> https://github.com/torvalds/linux/blob/master/arch/m68k/mac/via.c#L624
+>> which suggests the issue is related to timer wraparound. I'd like to
+>> confirm exactly which part of your series fixes the specific problem of
+>> the clock jumping backwards before merging these changes.
+>>
+> 
+> You really only need a good datasheet to review these patches. You don't
+> need a deep understanding of any particular guest, and you shouldn't be
+> targetting any particular guest.
+> 
+> One of the purposes of this patch series is to allow the guest to change
+> to better exploit actual, physical hardware. Since QEMU regression testing
+> is part of the kernel development process, regressions need to be avoided.
+> 
+> That means QEMU's shortcomings hinder Linux development.
+> 
+> Therefore, QEMU should not target the via timer driver in Linux v2.6 or
+> the one in v5.15 or the one in NetBSD etc. QEMU should target correctness
+> -- especially when that can be had for cheap. Wouldn't you agree?
+> 
+> QEMU deviates in numerous ways from the behaviour of real mos6522 timer.
+> This patch series does not address all of these deviations (see patch 8).
+> Instead, this patch series addresses only the most aggregious ones, and
+> they do impact existing guests.
+
+That is true, but as per the link above there is an existing bug in the mos6522 
+device, and the patchset builds on this in its current form, including adding a state 
+field which shouldn't be required.
+
+ From looking at mac_read_clk() presumably the problem here is that the timer IRQ 
+fires on 0 rather than on 0xffff when it overflows? If so, this should be a very 
+small and simple patch. Once these 2 fixes are in place, it will be much easier to 
+test the remaining changes.
+
+>> I realized that I could easily cross-compile a 5.14 kernel to test this
+>> theory with the test root image and .config you supplied at
+>> https://gitlab.com/qemu-project/qemu/-/issues/611 using the QEMU
+>> docker-m68k-cross image to avoid having to build a complete toolchain by
+>> hand. The kernel builds successfully using this method, but during boot
+>> it hangs sending the first SCSI CDB to the ESP device, failing to send
+>> the last byte using PDMA.
+>>
+>> Are there known issues cross-compiling an m68k kernel on an x86 host?
+> 
+> Not that I'm aware of.
+> 
+>> Or are your current kernels being built from a separate branch outside
+>> of mainline Linux git?
+>>
+> I use mainline Linux when testing QEMU. I provided a mainline build,
+> attached to the same bug report, so you don't have to build it.
+
+The problem here is that I have no way to reproduce your results and test any patches 
+other than to try and build a kernel with your extra warning and run it. Even then I 
+don't know how long to wait for the clock to jump, how much it jumps by, or if there 
+is anything else that needs to be done to trigger the warning.
+
+Any help with being able to build a working cross-m68k kernel to test this would be 
+gratefully received, otherwise I don't feel I have enough knowledge of the m68k 
+kernel to be able to validate the fixes and review the changes in order to merge them.
+
+
+ATB,
+
+Mark.
 
