@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28058457D33
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 11:54:32 +0100 (CET)
-Received: from localhost ([::1]:56382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BDD6457DD8
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 13:26:48 +0100 (CET)
+Received: from localhost ([::1]:59382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moO0s-0001ON-QD
-	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 05:54:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38442)
+	id 1moPSA-00043j-MX
+	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 07:26:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moNzu-0000Dl-U7
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 05:53:30 -0500
-Received: from [2a00:1450:4864:20::335] (port=45977
- helo=mail-wm1-x335.google.com)
+ id 1moPQO-0002jl-Vh
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 07:24:56 -0500
+Received: from [2a00:1450:4864:20::430] (port=43637
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moNzt-0006gG-3X
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 05:53:30 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- g191-20020a1c9dc8000000b0032fbf912885so9433279wme.4
- for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 02:53:28 -0800 (PST)
+ id 1moPQN-0007K9-9z
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 07:24:56 -0500
+Received: by mail-wr1-x430.google.com with SMTP id t30so22991158wra.10
+ for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 04:24:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GWfAx9h39pHV5cKb5Rg0NOAb+UbB2fm5V/UREadwRto=;
- b=b/0dQ4J6D+mPOpLG4KooswdeuGPrFs9+lIEOdMpJWma0bHC9mdz9+7IhF6DpLzQf/x
- Eb+sB/DqgcLPs6zoLsop6EGFsmXt3FKfucglbnG7+RCbOEfbqO6S3rHgQH8cdPiYx8pB
- ToAp2iLuy1J9h8+w9Dy5j3PQqbI3YQltfOheMRxyTYh5s39+0BXjBxQtX5uGvcPN/tsr
- yMlpdYMjg+dJo8MZeymBZ82uReqdNf9AJTqM9YnNUVNJkVhEqySwZNnJWbTz1f6MrSQF
- EEcMWAOz6ap3sAgvU7AZfuxpNA1Y5+/bpgsOyqh0rRUp3QfQUHOidkOgoQuCnWzlbdgf
- GfHA==
+ bh=IsQUvqEkZgI/RMwh3SJD+wLaoccTLgVBtN2xS9tMxME=;
+ b=Y8R3gDeGOxNUqp8WZ7TTd92zHb1XKPRGNttm9stF0InV/mJEpGb6M0oP2lsUwC3P5U
+ zkqO52XVuA1D37WCo4oVEs5HKwbUi7MT50FJIkZHUC5ftzb72aTO/zyqDd+9DKn2aBT4
+ iMLaaYgKqxuox3kyQEojJsv4mZ0FUBcRLK/B+MdqlJiQNw1g/tsyjNbhjhAvFJwnQagb
+ znMoZ5FmaDR51U+EuuE1IK7YPq0UkVyiDNK6RDqlzAciSDgCC/9syCb1D1EY1RHnemt7
+ MrbWL+F6nVqaY1H2FcFjfpOSpYh1oNjhGLKzMwk1qz+UP2yCyDOJZPMsfaNNMc5S25Lc
+ SpCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=GWfAx9h39pHV5cKb5Rg0NOAb+UbB2fm5V/UREadwRto=;
- b=CifzRIl/pU2bBVZY9VjCenfbj4Tbu+abfp3ItEBbBeZjeNkzQyRAkG3F4oqg7pzpqY
- 28PUYE1MvbdjaQmt8pXxC8aQUPiqnSTeLtFmC4hPbv1bAqk4Fjj1Z+24dqsjd0YKTAgW
- 4uLUPxtUe9kwogeTZxpSIMh1Qmbxfo7x9ds8Q4AyfbZ7N5ixNiVQaZM/JYjiMuq+Px0o
- FbmmR+jehr+XhKVv08jI40Dqh92QSvNK/2EcmTYtH0+FVwM1Ai4FbAiBjzloaSQQirD7
- 3Q2Aed0a26WsVuh6Gp6e0EoK+8YNBCdGBCISiOigqalww+snvZzfPBzn3sTCbkS87OFU
- mfLg==
-X-Gm-Message-State: AOAM533aSkeIvpxY3h1yao/ECuL9vdTzdOsUUEoOgFYyccb1pu+lKeoy
- 1Fv6R1NAv81qjjipEOk3p6cvkA==
-X-Google-Smtp-Source: ABdhPJztZTyw+bmocNf7v219fVjrS54WLBWjpFOU83bnXkMYMyJnkEJknVx8iTY8VxKJLYNvw4dCkw==
-X-Received: by 2002:a1c:1c8:: with SMTP id 191mr8724294wmb.90.1637405607530;
- Sat, 20 Nov 2021 02:53:27 -0800 (PST)
+ bh=IsQUvqEkZgI/RMwh3SJD+wLaoccTLgVBtN2xS9tMxME=;
+ b=vkY4+SSR5pGBZrCuy/8laFG4wzMR3L4E+lKtFSJs6lG2b1gMGzRX3Brw/OYr4L75ER
+ baeMK7hVfafUFNIUc4Dv/Lzbh/I+R8E5M0eOxlw3x8C9ymwnRKb1IGhyJiNm3z9wr6C8
+ shM2iSl2SWlD/PN7MyuCQJyHOX71u3KRk04AE+AY3m9hce9jEAbDsjuvnC/t7Gbm1HlW
+ /LamXdjeKT9vo5YFLGADszCYahIrWKRAH3y37/F3WeX9rE5Ce7v+G7gKDfkhI9JwwuZO
+ FrPWWP/zzqMgk5sPX2J+EA5IA396/Aln1IHGk5vwoxFHMZO6j1LyI6VUt+gHYx0b3fKD
+ DCzQ==
+X-Gm-Message-State: AOAM532Rga6vvlD5vpGMwQK9wSqFDS5FUIOVxTVuwPPhrs7TIFSuWbGO
+ nPAx6YHw839TkKJ0wtSqhep4Fg==
+X-Google-Smtp-Source: ABdhPJzg/mp2j4dcsQotkdrN8eHPkmnIL4MPHcQJqu367aY0Cy9G0ni7864oSf3eYMeB3Rp945UJTg==
+X-Received: by 2002:a5d:4e0b:: with SMTP id p11mr16912693wrt.88.1637411093245; 
+ Sat, 20 Nov 2021 04:24:53 -0800 (PST)
 Received: from [192.168.8.104] (9.red-95-126-194.staticip.rima-tde.net.
  [95.126.194.9])
- by smtp.gmail.com with ESMTPSA id z11sm2378256wrt.58.2021.11.20.02.53.26
+ by smtp.gmail.com with ESMTPSA id r62sm2627677wmr.35.2021.11.20.04.24.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Nov 2021 02:53:26 -0800 (PST)
-Subject: Re: [PATCH v11 22/26] linux-user: Add LoongArch cpu_loop support
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
- <1637302410-24632-23-git-send-email-gaosong@loongson.cn>
+ Sat, 20 Nov 2021 04:24:52 -0800 (PST)
+Subject: Re: [PATCH 01/11] migration: Remove is_zero_range()
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+References: <20211119165903.18813-1-quintela@redhat.com>
+ <20211119165903.18813-2-quintela@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <643c9f7c-c4f7-843c-08e3-fd5bf803b350@linaro.org>
-Date: Sat, 20 Nov 2021 11:53:22 +0100
+Message-ID: <60257dc9-9613-4229-2d4c-273ffb9e02a6@linaro.org>
+Date: Sat, 20 Nov 2021 13:24:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <1637302410-24632-23-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <20211119165903.18813-2-quintela@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
@@ -92,21 +91,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, laurent@vivier.eu
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/21 7:13 AM, Song Gao wrote:
-> +        case EXCP_ADE:
-> +            force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR, env->badaddr);
-> +            break;
+On 11/19/21 5:58 PM, Juan Quintela wrote:
+> It just calls buffer_is_zero().  Just change the callers.
+> 
+> Signed-off-by: Juan Quintela<quintela@redhat.com>
+> ---
+>   migration/ram.c | 9 ++-------
+>   1 file changed, 2 insertions(+), 7 deletions(-)
 
-No longer required; should be handled correctly by cpu_loop_exit_sigsegv.
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-
-
 r~
+
 
