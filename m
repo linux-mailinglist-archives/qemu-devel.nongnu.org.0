@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9EE1457C0E
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 08:11:34 +0100 (CET)
-Received: from localhost ([::1]:48428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085FA457C10
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 08:18:41 +0100 (CET)
+Received: from localhost ([::1]:52880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moKX7-0003zT-EG
-	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 02:11:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60074)
+	id 1moKdz-0007UJ-L7
+	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 02:18:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moKVu-0003El-NS
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 02:10:18 -0500
-Received: from [2a00:1450:4864:20::42e] (port=44877
- helo=mail-wr1-x42e.google.com)
+ id 1moKcv-0006ep-FT
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 02:17:35 -0500
+Received: from [2a00:1450:4864:20::331] (port=55007
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moKVs-0008MO-VV
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 02:10:18 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id n29so21979696wra.11
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 23:10:16 -0800 (PST)
+ id 1moKct-0005PR-Ox
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 02:17:33 -0500
+Received: by mail-wm1-x331.google.com with SMTP id i12so10439611wmq.4
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 23:17:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1cK1KWkM/bxHs/+y9L6HpyODIo+svK7aE/kzjbOujIY=;
- b=HedlRi3/XPL9SshZ1T8+gZH16uIPC46U5WmeNW7Nh+qLc74nkmU7wcSICVn9X1FoC1
- TBL+C0Fx3pfi7sLKsxZ7n9t+EooYz9O8/2ELTWWuSpnw/+tkn9s9epKlTyB6N3bjcpjO
- Tk+AVhC5qvU5yBKkOSqjACRm9rF1qzTaqTZwy0GLCdMmHy6bylNY5YBEwRbK6opjVjpN
- nCv5euiMDDaLj8/SCr8hmjdnhfvZNp6MYFxRSTJIFSq4mI9pOV9vH86EY29jPJIQvRPb
- bPwXdpIAbtSftQDp/wGAoszOFXd3eqKyLXRTGQORYboLdKIjEH8xZ4FavmTxq277VI1V
- 2Agg==
+ bh=eImycyLoCfpteuMt4Nmlvzk3po9QfzK4bIcAAZZvSwc=;
+ b=ytNiSrpNR/+44N7qHoxRc8Af7oejJvQT55ihqjPcVY5PzknerSFrKB7/9+YLd35956
+ 7Z+eOVOF6fbKlZmoJsnGVpy4E5un2PF+Tk0EEdXwk2T8k7cAWSaJi2qYgxjnS6mof55v
+ 6BIdZfT98vpRqppWaGw++glbKxctEy2GT7GyBzgR9FE7YlVCJFMKJm7E+XcEdQFa7Eqa
+ zFlZMvFQSa3xLjXeX3xuMVM9rYURhzx2JBwG/8dczH10GMj3Y+7EEjXDyddgZEZLfpYe
+ WweUD7Pjon4bBODmH+mfeHSXgsm9qZTX/9w4sJCObjV9f7un1rbUEzVjEMeqFBy9lCk0
+ Y3/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1cK1KWkM/bxHs/+y9L6HpyODIo+svK7aE/kzjbOujIY=;
- b=UqIm588ovxB4BX1Oxbu1ykNVJf+Z6tlDaCAgvxSNRdFd3VE6ti91ZyinAJOapqKpgp
- 2ERnt8f0j9eTVUcsiA/fneEliTba4UPScFDxFq3EN7OmbT4qWUqTqZxYbecWWjZRPova
- J1Dk9x6alkXcmLQzSAbKcQyrOKuOP9sQLfPIQQ0runA6nk44iorxBEKYLCWTMoeJyeox
- HOjqGpoErUAGUmrX521l2qlj5F5c6XKL4U7nH9vb4WZ/0OnZB1/NdhhQQL+JvLEW0jAc
- 2AB3Vl5d17dMXSnHjpj6Qwtxzgb0VT7P8pRTlFf66Z6gbl8WQ7ocCbMjBnlEjMFBLOb8
- LmIw==
-X-Gm-Message-State: AOAM532uoZQzVp6gOKvrCPj+u1PZmue6tPdBHHuZP/xrLff6E6/VbZfE
- UqeHb25mPqt/GmXI6emssE3cjg==
-X-Google-Smtp-Source: ABdhPJzZuDYmtYPjGWLCFRTlfaUKjkg/GtiV4wiaBQIBpEaRfa3DyElIVzDe//3eUQXyHCUPGGq5TA==
-X-Received: by 2002:adf:df0b:: with SMTP id y11mr14935079wrl.181.1637392215237; 
- Fri, 19 Nov 2021 23:10:15 -0800 (PST)
+ bh=eImycyLoCfpteuMt4Nmlvzk3po9QfzK4bIcAAZZvSwc=;
+ b=y0fzdWXBik5RSDvdj22O5JMWMerX8KRUEoQM2TV6qTap+60JCBZo5O4Yd6/6FXQ+C9
+ uQBJpFk8KVMOK20FBXUKCanlMvBc/wYAYIb3ZBBLi/4yX+LeljlfZi6+UNEWoHjxyL5s
+ czgDUwbWi/bKEBNzzM/7f3s04PBngfzzsX0ffugAJkYQ/+35FxbvpH5BCQ9OsMup3Lfo
+ +Dwezh8HeewI1HpOTTQuyqWo/lRPFBsnO6lkxh6qMCJPZZRa9Ib6ztSs6hcqJug7CxU9
+ 5eUfCD0YqO1v2TYS0LIPrYB6dYaHbwvPUV2N/S+rOrFrJfzKvxy38Y59wRS6vb+Ldsk+
+ Hu1A==
+X-Gm-Message-State: AOAM531VVdeImvDTTIxwcPSPn5j98FDblmhzGFuAalARD2j425lir/Ke
+ 7c67BET8dEz4TfQRFfT6K0Tv8Q==
+X-Google-Smtp-Source: ABdhPJxiIf/EE1xiJXBnXrteoDz9oMhDvgFOpv0qAomJ1CbcOlZFpsY8oiwaEHgzOmuc6Kb4hp+sxg==
+X-Received: by 2002:a7b:c8c8:: with SMTP id f8mr7710634wml.49.1637392649981;
+ Fri, 19 Nov 2021 23:17:29 -0800 (PST)
 Received: from [192.168.8.104] (9.red-95-126-194.staticip.rima-tde.net.
  [95.126.194.9])
- by smtp.gmail.com with ESMTPSA id c79sm1851686wme.43.2021.11.19.23.10.13
+ by smtp.gmail.com with ESMTPSA id w7sm1881705wru.51.2021.11.19.23.17.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Nov 2021 23:10:14 -0800 (PST)
+ Fri, 19 Nov 2021 23:17:29 -0800 (PST)
 Subject: Re: [PATCH v11 04/26] target/loongarch: Add fixed point arithmetic
  instruction translation
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
  <1637302410-24632-5-git-send-email-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e7bfff86-44d5-0f1f-ba95-53177ccb6454@linaro.org>
-Date: Sat, 20 Nov 2021 08:10:11 +0100
+Message-ID: <6ccd9c56-9db6-7a40-d59c-22bf3fc2f6b0@linaro.org>
+Date: Sat, 20 Nov 2021 08:17:24 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
@@ -69,10 +69,10 @@ In-Reply-To: <1637302410-24632-5-git-send-email-gaosong@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
@@ -97,43 +97,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/19/21 7:13 AM, Song Gao wrote:
-> +static void gen_mulh_w(TCGv dest, TCGv src1, TCGv src2)
+> +static bool gen_rrr(DisasContext *ctx, arg_rrr *a,
+> +                    DisasExtend src1_ext, DisasExtend src2_ext,
+> +                    DisasExtend dst_ext, void (*func)(TCGv, TCGv, TCGv))
 > +{
-> +    tcg_gen_mul_i64(dest, src1, src2);
-> +    tcg_gen_sari_i64(dest, dest, 32);
-> +}
+> +    TCGv dest = gpr_dst(ctx, a->rd, dst_ext);
+> +    TCGv src1 = gpr_src(ctx, a->rj, src1_ext);
+> +    TCGv src2 = gpr_src(ctx, a->rk, src2_ext);
 > +
-> +static void gen_mulh_wu(TCGv dest, TCGv src1, TCGv src2)
-> +{
-> +    tcg_gen_mul_i64(dest, src1, src2);
-> +    tcg_gen_sari_i64(dest, dest, 32);
-> +}
-
-These two are the same; you only need one of them.  The difference between the two insns 
-is in the EXT_{SIGN,ZERO} parameter that precedes these callbacks.
-
-> +static void gen_alsl_w(TCGv dest, TCGv src1, TCGv src2,
-> +                       TCGv temp, target_long sa)
-> +{
-> +    tcg_gen_shli_tl(temp, src1, sa);
-> +    tcg_gen_add_tl(dest, temp, src2);
-> +}
+> +    func(dest, src1, src2);
 > +
-> +static void gen_alsl_wu(TCGv dest, TCGv src1, TCGv src2,
-> +                        TCGv temp, target_long sa)
-> +{
-> +    tcg_gen_shli_tl(temp, src1, sa);
-> +    tcg_gen_add_tl(dest, temp, src2);
-> +}
-> +
-> +static void gen_alsl_d(TCGv dest, TCGv src1, TCGv src2,
-> +                       TCGv temp, target_long sa)
-> +{
-> +    tcg_gen_shli_tl(temp, src1, sa);
-> +    tcg_gen_add_tl(dest, temp, src2);
-> +}
+> +    /* dst_ext is EXT_NONE and input is dest, We don't run gen_set_gpr. */
+> +    if (dst_ext) {
+> +        gen_set_gpr(a->rd, dest, dst_ext);
+> +    }
 
-Likewise, these are identical.
+Why the (incomplete) condition around gen_set_gpr?
+
+I think it's a bug to not name EXT_NONE in the test (just because EXT_NONE == 0 now...), 
+but I also think you should not have added the test at all.  We will not generate any code 
+in the end within gen_set_gpr, but it allows the routines to be self-contained.  You 
+shouldn't assume what gpr_dst returned.
 
 
 r~
