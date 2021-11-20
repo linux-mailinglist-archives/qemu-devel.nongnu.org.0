@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CD1457E04
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 13:32:57 +0100 (CET)
-Received: from localhost ([::1]:41562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D574457E32
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Nov 2021 13:34:41 +0100 (CET)
+Received: from localhost ([::1]:43802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moPY7-00032T-Ua
-	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 07:32:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59994)
+	id 1moPZo-0004YZ-Gq
+	for lists+qemu-devel@lfdr.de; Sat, 20 Nov 2021 07:34:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moPSD-0005Dg-Ak
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 07:26:49 -0500
-Received: from [2a00:1450:4864:20::332] (port=39600
- helo=mail-wm1-x332.google.com)
+ id 1moPX5-0002jM-DK
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 07:31:52 -0500
+Received: from [2a00:1450:4864:20::32d] (port=37629
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1moPSB-0007iO-HB
- for qemu-devel@nongnu.org; Sat, 20 Nov 2021 07:26:49 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- n33-20020a05600c502100b0032fb900951eso12589977wmr.4
- for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 04:26:47 -0800 (PST)
+ id 1moPX3-0001FL-7c
+ for qemu-devel@nongnu.org; Sat, 20 Nov 2021 07:31:50 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ k37-20020a05600c1ca500b00330cb84834fso12591446wms.2
+ for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 04:31:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=79tgbNES0Gmj8AUlEa3DT3uOtkq7uO0OdcIXOwF01rM=;
- b=DjVilvhUMB6VQzvu5/BRuqUin0O6SaBCan1kKLt9sjSiMjBeXU8fgxk1fxL9SFTDq1
- y8CY45mxue1wIqoBtGtVsb3DXwUGhZuxBz1Pu+a8Or+sOEu71vCCmJjmZPeBNF4Zg71m
- vGx86LIh8gMoVwsAyNIDiNRu7pHsji3CY6J27+T3QQc5xvNGYv4de8H4u6UR9pQqKciM
- o3KjRs+xBtqJaVNrvP6rQmfx/EyJlxEjum2Zsiho9g5DNFtHG3jMgL2Hp+z2btI/jPU6
- lG0SSdYT4Sx78/pB6IJiux30T/3x7mYd7HUWQAFN1jgbpHoSdLHYnA6AY9PUf4TbboCk
- bLvQ==
+ bh=XPAKNIt0YbPjlsIzKjszUGjgdSYBWb6HzDIOIeCXyI4=;
+ b=zxKS9kZeA3N/Dz9rnYZfpvfCjv38HZwlcRd79hYUx5w92e7ZcAITldQly4hhdGCIi1
+ 9PziBYgrUoKIbUagYphp3UZ+hKf4PYabQ/DqpuWSRs8BW8tbGUBd+onEB2YnkyxQV448
+ rwsA2MbVg6x5Km/8EnNxZoV//p2xJoxXoJjVazF3xX/pF3zfwQ+B5auidq08R2pWqbLE
+ IfrpPB9DIcZl2Ogq/JHjQlR7DEqn0PWe56Tx5aWtBtNDzEysNgfp1MtiiWKR1YzD0bx+
+ U4R0WMzzhT9fiGrpGQG1Q+mWLtPO8bMYbyvdxVodPoLRYvDehI9yYa5MbvqtzgQEKAg6
+ nsAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=79tgbNES0Gmj8AUlEa3DT3uOtkq7uO0OdcIXOwF01rM=;
- b=Kob/cXS3jpz5be4Ajw8lDk1AP9vYOjP9R6APfj9y+BakmqgYc06lLCL5DXLpcHHaGT
- N9Fn7N1VtHJv4pUJoCXYYVvNqQ7uLSGFbIemg3nutEQSV+otvbVQJ5f0eetOrftKLpfQ
- z71BJ9I7n5JqFnjG1kzGkLXNCKaRL+Hey643hbvmGj9RNtNgizTrmezbsXw/BBOhg3c4
- yuznPQqI2W4lmjFDEJoOstj95YMRTITu1ihuYiYGd/FCl0gtXT+MNl6OwA589EnFlBcA
- okfk7pcvKmsTqc3GO93NH+Aig6brsAf0y3GiFwZIvR1XvPNDHUjBj/kYuclFRv233Giz
- 9pDw==
-X-Gm-Message-State: AOAM532vHGmDXvC0i+GslnVeaWFNjp2j+H2gYQsVUVrhKTj/kvExwF+w
- lIof+wA8eT+4TFLXFPbH2B5o3Q==
-X-Google-Smtp-Source: ABdhPJx65nVRiNyQ8h53/GSTTE3bGjD6/TYcCr4J5COvQbGqsieKa0gb6+LBZRTUNvoiavLoJ2kYGQ==
-X-Received: by 2002:a05:600c:3505:: with SMTP id
- h5mr9566895wmq.22.1637411206042; 
- Sat, 20 Nov 2021 04:26:46 -0800 (PST)
+ bh=XPAKNIt0YbPjlsIzKjszUGjgdSYBWb6HzDIOIeCXyI4=;
+ b=5T4bLpS1JOCNHJOHvRWVG7yOXAT7rjZqMYfcMcPGT1FAWCLIYtgJYcTKur7FILLl/g
+ xTdhZ8CoNduZ6x8yogKhaAJCtZCPPRcf8oiVwJT1r7R0FXPLopGFI8DHZR3KkMIjxVdG
+ CSyqmmpE8nl4RICuuRzWFBKFFYtv7ptTEZP5Ury2NATZBCM6w14EjFm3omyVpb39Vg3a
+ 4zA0PZ+MO9/myuQqjbxva92BkwJhFq8chMWuExA2sBxMwSg+YfqlvnX4XpNGgPvii+x3
+ pDKfIcyTFsoq7u7S3ebDvyhNjpJ6RrRVj+RLoy+O6vkPY3HAmr6JHL0YGQxJ/oyMeKNc
+ srrA==
+X-Gm-Message-State: AOAM532ihXGTKgt3Xj+BjvWLGw0mbDefwllE5gky87MZdYdcRQ26mstz
+ vaNKXx1ulpsneng6OBpUyF8yWQ==
+X-Google-Smtp-Source: ABdhPJxedwPA0lj6Zp97K+6PAXCwkxfw8CzALkRbFXUMBeF09LSLfOaoJ4eAlmFnokVtGxNL+A8Sbw==
+X-Received: by 2002:a05:600c:4e07:: with SMTP id
+ b7mr9361826wmq.16.1637411507391; 
+ Sat, 20 Nov 2021 04:31:47 -0800 (PST)
 Received: from [192.168.8.104] (9.red-95-126-194.staticip.rima-tde.net.
  [95.126.194.9])
- by smtp.gmail.com with ESMTPSA id y142sm2820413wmc.40.2021.11.20.04.26.45
+ by smtp.gmail.com with ESMTPSA id l124sm15781872wml.8.2021.11.20.04.31.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Nov 2021 04:26:45 -0800 (PST)
-Subject: Re: [PATCH 03/11] multifd: Fill offset and block for reception
+ Sat, 20 Nov 2021 04:31:46 -0800 (PST)
+Subject: Re: [PATCH 06/11] migration: Move iov from pages to params
 To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
 References: <20211119165903.18813-1-quintela@redhat.com>
- <20211119165903.18813-4-quintela@redhat.com>
+ <20211119165903.18813-7-quintela@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <cd4f7997-7860-8145-0200-ad0d7df92c6c@linaro.org>
-Date: Sat, 20 Nov 2021 13:26:43 +0100
+Message-ID: <6977e283-a5d8-75b6-a0a1-c51e0d3b75e0@linaro.org>
+Date: Sat, 20 Nov 2021 13:31:42 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211119165903.18813-4-quintela@redhat.com>
+In-Reply-To: <20211119165903.18813-7-quintela@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
@@ -100,30 +100,33 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/19/21 5:58 PM, Juan Quintela wrote:
-> We were using the iov directly, but we will need this info on the
-> following patch.
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
->   migration/multifd.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 7c9deb1921..e2adcdffa1 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -364,6 +364,8 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->                          offset, block->used_length);
->               return -1;
->           }
-> +        p->pages->offset[i] = offset;
-> +        p->pages->block = block;
->           p->pages->iov[i].iov_base = block->host + offset;
->           p->pages->iov[i].iov_len = qemu_target_page_size();
->       }
-> 
+>   static int nocomp_send_prepare(MultiFDSendParams *p, uint32_t used,
+>                                  Error **errp)
+>   {
+> +    MultiFDPages_t *pages = p->pages;
+> +
+> +    for (int i = 0; i < used; i++) {
+> +        p->iov[p->iovs_used].iov_base = pages->block->host + pages->offset[i];
+> +        p->iov[p->iovs_used].iov_len = qemu_target_page_size();
+> +        p->iovs_used++;
+> +    }
+> +
+>       p->next_packet_size = used * qemu_target_page_size();
 
-Block should be stored one outside the loop.
+Compute qemu_target_page_size once in the function.
+Hoist p->iovs_used to a local variable around the loop.
+
+> @@ -154,7 +162,11 @@ static int nocomp_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **errp)
+>                      p->id, flags, MULTIFD_FLAG_NOCOMP);
+>           return -1;
+>       }
+> -    return qio_channel_readv_all(p->c, p->pages->iov, used, errp);
+> +    for (int i = 0; i < p->pages->used; i++) {
+> +        p->iov[i].iov_base = p->pages->block->host + p->pages->offset[i];
+> +        p->iov[i].iov_len = qemu_target_page_size();
+> +    }
+
+Similarly.
 
 
 r~
