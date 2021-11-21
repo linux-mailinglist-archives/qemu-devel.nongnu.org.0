@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE47D458363
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 13:32:20 +0100 (CET)
-Received: from localhost ([::1]:41522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEFEB458352
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 13:28:02 +0100 (CET)
+Received: from localhost ([::1]:55530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mom16-0001iU-0I
-	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 07:32:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52680)
+	id 1molwv-0000Yc-Rb
+	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 07:28:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1moluN-0003pH-4W; Sun, 21 Nov 2021 07:25:23 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2956)
+ id 1moluO-0003r4-Gx; Sun, 21 Nov 2021 07:25:24 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1moluJ-0005md-4l; Sun, 21 Nov 2021 07:25:22 -0500
+ id 1moluK-0005mx-DP; Sun, 21 Nov 2021 07:25:24 -0500
 Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HxqH62FBkzcb0j;
- Sun, 21 Nov 2021 20:20:18 +0800 (CST)
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HxqL12X9Sz1DJC8;
+ Sun, 21 Nov 2021 20:22:49 +0800 (CST)
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Sun, 21 Nov 2021 20:25:15 +0800
+ 15.1.2308.20; Sun, 21 Nov 2021 20:25:17 +0800
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
 CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
@@ -33,10 +33,10 @@ CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  Ani Sinha <ani@anisinha.ca>, Markus Armbruster <armbru@redhat.com>, Eric
  Blake <eblake@redhat.com>, <wanghaibin.wang@huawei.com>, Yanan Wang
  <wangyanan55@huawei.com>
-Subject: [PATCH v4 08/10] tests/acpi/bios-tables-test: Allow changes to
- virt/PPTT file
-Date: Sun, 21 Nov 2021 20:25:00 +0800
-Message-ID: <20211121122502.9844-9-wangyanan55@huawei.com>
+Subject: [PATCH v4 09/10] hw/acpi/virt-acpi-build: Support cluster level in
+ PPTT generation
+Date: Sun, 21 Nov 2021 20:25:01 +0800
+Message-ID: <20211121122502.9844-10-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20211121122502.9844-1-wangyanan55@huawei.com>
 References: <20211121122502.9844-1-wangyanan55@huawei.com>
@@ -46,13 +46,13 @@ X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,21 +71,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Yanan Wang <wangyanan55@huawei.com>
 From:  Yanan Wang via <qemu-devel@nongnu.org>
 
-List test/data/acpi/virt/PPTT as the expected files allowed to
-be changed in tests/qtest/bios-tables-test-allowed-diff.h
+Support cluster level in generation of ACPI Processor Properties
+Topology Table (PPTT) for ARM virt machines.
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- 1 file changed, 1 insertion(+)
+ hw/arm/virt-acpi-build.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..cb143a55a6 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/PPTT",
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index bef7056213..b34f0dbee0 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -839,6 +839,21 @@ build_pptt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+             0, socket, NULL, 0);
+     }
+ 
++    length = g_queue_get_length(list);
++    for (i = 0; i < length; i++) {
++        int cluster;
++
++        father_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
++        for (cluster = 0; cluster < ms->smp.clusters; cluster++) {
++            g_queue_push_tail(list,
++                GUINT_TO_POINTER(table_data->len - pptt_start));
++            build_processor_hierarchy_node(
++                table_data,
++                (0 << 0), /* not a physical package */
++                father_offset, cluster, NULL, 0);
++        }
++    }
++
+     length = g_queue_get_length(list);
+     for (i = 0; i < length; i++) {
+         int core;
 -- 
 2.19.1
 
