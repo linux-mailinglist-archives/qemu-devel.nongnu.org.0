@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08E04582DC
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 11:03:08 +0100 (CET)
-Received: from localhost ([::1]:57814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26BE45834E
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 13:27:28 +0100 (CET)
+Received: from localhost ([::1]:53346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mojgh-0004zD-Ty
-	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 05:03:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53754)
+	id 1molwN-0007UN-NW
+	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 07:27:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mojdn-0001sk-UW
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 05:00:08 -0500
-Received: from [2001:41c9:1:41f::167] (port=47646
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1moluL-0003oq-J7; Sun, 21 Nov 2021 07:25:21 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mojdm-0001G1-40
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 05:00:07 -0500
-Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe] (helo=kentang.home)
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1mojda-00055A-Qn
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 09:59:58 +0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org
-Date: Sun, 21 Nov 2021 09:59:33 +0000
-Message-Id: <20211121095933.28174-3-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211121095933.28174-1-mark.cave-ayland@ilande.co.uk>
-References: <20211121095933.28174-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1moluH-0005l4-Rl; Sun, 21 Nov 2021 07:25:21 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HxqKp3wH8z1DJQQ;
+ Sun, 21 Nov 2021 20:22:38 +0800 (CST)
+Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Sun, 21 Nov 2021 20:25:06 +0800
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
+ <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, Marcel
+ Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Markus Armbruster <armbru@redhat.com>, Eric
+ Blake <eblake@redhat.com>, <wanghaibin.wang@huawei.com>, Yanan Wang
+ <wangyanan55@huawei.com>
+Subject: [PATCH v4 00/10] ARM virt: Introduce CPU clusters topology support
+Date: Sun, 21 Nov 2021 20:24:52 +0800
+Message-ID: <20211121122502.9844-1-wangyanan55@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 2/2] escc: update the R_SPEC register SPEC_ALLSENT bit when
- writing to W_TXCTRL1
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
- (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,52 +65,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Yanan Wang <wangyanan55@huawei.com>
+From:  Yanan Wang via <qemu-devel@nongnu.org>
 
-The ESCC datasheet states that SPEC_ALLSENT is always set in sync mode and set
-in async mode once all characters have cleared the transmitter. Since writes to
-SERIAL_DATA use a synchronous chardev API, the guest can never see the state when
-transmission is in progress so it is possible to set SPEC_ALLSENT in the
-R_SPEC register unconditionally.
+Hi,
 
-This fixes a hang when using the Sun PROM as it attempts to enumerate the
-onboard serial devices, and a similar hang in OpenBSD SPARC32 where in both cases
-the boot process will not proceed until SPEC_ALLSENT has been set after writing
-to W_TXCTRL1.
+This series introduces the new CPU clusters topology parameter
+and enable the support for it on ARM virt machines.
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20211118181835.18497-3-mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/char/escc.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Background and descriptions:
+The new Cluster-Aware Scheduling support has landed in Linux 5.16,
+which has been proved to benefit the scheduling performance (e.g.
+load balance and wake_affine strategy) on both x86_64 and AArch64.
+We can see Kernel PR [1] and the latest patch set [2] for reference.
 
-diff --git a/hw/char/escc.c b/hw/char/escc.c
-index a7d9050c83..8755d8d34f 100644
---- a/hw/char/escc.c
-+++ b/hw/char/escc.c
-@@ -586,6 +586,20 @@ static void escc_mem_write(void *opaque, hwaddr addr,
-             s->wregs[s->reg] = val;
-             break;
-         case W_TXCTRL1:
-+            s->wregs[s->reg] = val;
-+            /*
-+             * The ESCC datasheet states that SPEC_ALLSENT is always set in
-+             * sync mode, and set in async mode when all characters have
-+             * cleared the transmitter. Since writes to SERIAL_DATA use the
-+             * blocking qemu_chr_fe_write_all() function to write each
-+             * character, the guest can never see the state when async data
-+             * is in the process of being transmitted so we can set this bit
-+             * unconditionally regardless of the state of the W_TXCTRL1 mode
-+             * bits.
-+             */
-+            s->rregs[R_SPEC] |= SPEC_ALLSENT;
-+            escc_update_parameters(s);
-+            break;
-         case W_TXCTRL2:
-             s->wregs[s->reg] = val;
-             escc_update_parameters(s);
--- 
-2.20.1
+So now in Linux 5.16 we have four-level arch-neutral CPU topology
+definition like below and a new scheduler level for clusters.
+struct cpu_topology {
+    int thread_id;
+    int core_id;
+    int cluster_id;
+    int package_id;
+    int llc_id;
+    cpumask_t thread_sibling;
+    cpumask_t core_sibling;
+    cpumask_t cluster_sibling;
+    cpumask_t llc_sibling;
+}
+
+A cluster generally means a group of CPU cores which share L2 cache
+or other mid-level resources, and it is the shared resources that
+is used to improve scheduler's behavior. From the point of view of
+the size range, it's between CPU die and CPU core. For example, on
+some ARM64 Kunpeng servers, we have 6 clusters in each NUMA node,
+and 4 CPU cores in each cluster. The 4 CPU cores share a separate
+L2 cache and a L3 cache tag, which brings cache affinity advantage.
+
+[1] https://lore.kernel.org/lkml/163572864855.3357115.17938524897008353101.tglx@xen13/
+[2] https://lkml.org/lkml/2021/9/24/178
+
+In virtualization, on the Hosts which have pClusters, if we can
+design a vCPU topology with cluster level for guest kernel and
+have a dedicated vCPU pinning. A Cluster-Aware Guest kernel can
+also make use of the cache affinity of CPU clusters to gain
+similar scheduling performance.
+
+This series consists of two parts:
+The first part (patch 1-3):
+Implement infrastructure for CPU cluster level topology support,
+including the SMP documentation, configuration and parsing.
+
+The second part (part 4-10):
+Enable CPU cluster support on ARM virt machines, so that users
+can specify a 4-level CPU hierarchy sockets/clusters/cores/threads.
+And the 4-level topology will be described to guest kernel through
+ACPI PPTT and DT cpu-map.
+
+Changelog:
+v3->v4:
+- Significant change from v3 to v4, since the whole series is reworked
+  based on latest QEMU SMP frame.
+- v3: https://lore.kernel.org/qemu-devel/20210516103228.37792-1-wangyanan55@huawei.com/
+
+Yanan Wang (10):
+  qemu-options: Improve readability of SMP related Docs
+  hw/core/machine: Introduce CPU cluster topology support
+  hw/core/machine: Wrap target specific parameters together
+  hw/arm/virt: Support clusters on ARM virt machines
+  hw/arm/virt: Support cluster level in DT cpu-map
+  hw/acpi/aml-build: Improve scalability of PPTT generation
+  hw/arm/virt-acpi-build: Make an ARM specific PPTT generator
+  tests/acpi/bios-tables-test: Allow changes to virt/PPTT file
+  hw/acpi/virt-acpi-build: Support cluster level in PPTT generation
+  tests/acpi/bios-table-test: Update expected virt/PPTT file
+
+ hw/acpi/aml-build.c         |  66 ++------------------------
+ hw/arm/virt-acpi-build.c    |  92 +++++++++++++++++++++++++++++++++++-
+ hw/arm/virt.c               |  16 ++++---
+ hw/core/machine-smp.c       |  29 +++++++++---
+ hw/core/machine.c           |   3 ++
+ include/hw/acpi/aml-build.h |   5 +-
+ include/hw/boards.h         |   6 ++-
+ qapi/machine.json           |   5 +-
+ qemu-options.hx             |  91 +++++++++++++++++++++++++++--------
+ softmmu/vl.c                |   3 ++
+ tests/data/acpi/virt/PPTT   | Bin 76 -> 96 bytes
+ 11 files changed, 214 insertions(+), 102 deletions(-)
+
+--
+2.19.1
 
 
