@@ -2,46 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8074582C7
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 10:42:08 +0100 (CET)
-Received: from localhost ([::1]:46698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D41954582DB
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 11:02:27 +0100 (CET)
+Received: from localhost ([::1]:55872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mojMN-0004tR-En
-	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 04:42:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50682)
+	id 1mojg1-0003gA-I3
+	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 05:02:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mojLC-0004CS-6W
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 04:40:54 -0500
-Received: from [2001:41c9:1:41f::167] (port=47610
+ id 1mojdg-0001dI-E9
+ for qemu-devel@nongnu.org; Sun, 21 Nov 2021 05:00:00 -0500
+Received: from [2001:41c9:1:41f::167] (port=47638
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mojLA-0005Ig-1g
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 04:40:53 -0500
-Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe]
+ id 1mojde-0001DO-NC
+ for qemu-devel@nongnu.org; Sun, 21 Nov 2021 05:00:00 -0500
+Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mojKw-00052T-5Z; Sun, 21 Nov 2021 09:40:42 +0000
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20211118181835.18497-1-mark.cave-ayland@ilande.co.uk>
- <CAFEAcA9iCtdyprx7C_m0++TrUjTEEYPYGsA96cVQ4jZVR0hjzw@mail.gmail.com>
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1mojdS-00055A-Ju
+ for qemu-devel@nongnu.org; Sun, 21 Nov 2021 09:59:50 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <c60261f4-ba71-ad13-b0c6-bda4c3270ffd@ilande.co.uk>
-Date: Sun, 21 Nov 2021 09:40:41 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+To: qemu-devel@nongnu.org
+Date: Sun, 21 Nov 2021 09:59:31 +0000
+Message-Id: <20211121095933.28174-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9iCtdyprx7C_m0++TrUjTEEYPYGsA96cVQ4jZVR0hjzw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH for-6.2 0/2] escc: fixes for STATUS_TXEMPTY and
- SPEC_ALLSENT
+Subject: [PULL 0/2] qemu-sparc queue 20211121
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -49,12 +43,11 @@ X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
  envelope-from=mark.cave-ayland@ilande.co.uk;
  helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.022,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,40 +60,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/11/2021 18:23, Peter Maydell wrote:
+The following changes since commit 8627edfb3f1fca24a96a0954148885c3241c10f8:
 
-> On Thu, 18 Nov 2021 at 18:18, Mark Cave-Ayland
-> <mark.cave-ayland@ilande.co.uk> wrote:
->>
->> This is another attempt to fix booting 32-bit QEMU SPARC machines in
->> qemu-system-sparc using a real Sun PROM based upon further experiments and
->> re-reading of the ESCC datasheet from a previous patch posted at
->> https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg00324.html.
->>
->> It appears that both the Sun PROM and OpenBSD with OpenBIOS fail to send an
->> explicit reset command as recommended in the ESCC datasheet, which causes
->> hangs during serial port enumeration since the introduction of the recent
->> ESCC reset changes.
->>
->> The first patch always sets STATUS_TXEMPTY in R_STATUS on hardware reset
->> which wasn't documented in the "Reset" section(s) but is documented in the
->> "Transmit Interrupts and Transmit Buffer Empty Bit" section, whilst the
->> second patch updates SPEC_ALLSENT when writing to W_TXCTRL1.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> 
-> Series
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2021-11-19 17:16:57 +0100)
 
-Thanks Peter. I've added this to my qemu-sparc queue and will send a PR shortly with 
-both yours and Philippe's R-B tags.
+are available in the Git repository at:
 
+  git://github.com/mcayland/qemu.git tags/qemu-sparc-20211121
 
-ATB,
+for you to fetch changes up to 319e89cdc32096432b578152a47d0d156033b711:
 
-Mark.
+  escc: update the R_SPEC register SPEC_ALLSENT bit when writing to W_TXCTRL1 (2021-11-21 09:56:52 +0000)
+
+----------------------------------------------------------------
+qemu-sparc queue
+  - contains fixes for ESCC reset issues with Sun PROM and OpenBSD on SPARC32
+
+----------------------------------------------------------------
+Mark Cave-Ayland (2):
+      escc: always set STATUS_TXEMPTY in R_STATUS on device reset
+      escc: update the R_SPEC register SPEC_ALLSENT bit when writing to W_TXCTRL1
+
+ hw/char/escc.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
