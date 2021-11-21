@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9CCF45834D
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 13:27:16 +0100 (CET)
-Received: from localhost ([::1]:52310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91EAE45834C
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 13:27:15 +0100 (CET)
+Received: from localhost ([::1]:52182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1molwB-0006nT-Qu
-	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 07:27:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52604)
+	id 1molwA-0006iY-5j
+	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 07:27:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1moluL-0003oi-0H; Sun, 21 Nov 2021 07:25:21 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2955)
+ id 1moluM-0003p7-Ie; Sun, 21 Nov 2021 07:25:22 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1moluH-0005lu-Sh; Sun, 21 Nov 2021 07:25:20 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HxqH12MTvzcZxK;
- Sun, 21 Nov 2021 20:20:13 +0800 (CST)
+ id 1moluI-0005mA-IB; Sun, 21 Nov 2021 07:25:22 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HxqKw2C25zZd0b;
+ Sun, 21 Nov 2021 20:22:44 +0800 (CST)
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Sun, 21 Nov 2021 20:25:10 +0800
+ 15.1.2308.20; Sun, 21 Nov 2021 20:25:12 +0800
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
 CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
@@ -33,9 +33,9 @@ CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  Ani Sinha <ani@anisinha.ca>, Markus Armbruster <armbru@redhat.com>, Eric
  Blake <eblake@redhat.com>, <wanghaibin.wang@huawei.com>, Yanan Wang
  <wangyanan55@huawei.com>
-Subject: [PATCH v4 04/10] hw/arm/virt: Support clusters on ARM virt machines
-Date: Sun, 21 Nov 2021 20:24:56 +0800
-Message-ID: <20211121122502.9844-5-wangyanan55@huawei.com>
+Subject: [PATCH v4 05/10] hw/arm/virt: Support cluster level in DT cpu-map
+Date: Sun, 21 Nov 2021 20:24:57 +0800
+Message-ID: <20211121122502.9844-6-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20211121122502.9844-1-wangyanan55@huawei.com>
 References: <20211121122502.9844-1-wangyanan55@huawei.com>
@@ -70,60 +70,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Yanan Wang <wangyanan55@huawei.com>
 From:  Yanan Wang via <qemu-devel@nongnu.org>
 
-In implementations of ARM64 architecture, at most there could be
-a CPU topology hierarchy like "sockets/dies/clusters/cores/threads"
-defined. For example, some ARM64 server chip Kunpeng 920 totally
-has 2 sockets, 2 NUMA nodes (also represent CPU dies range) in each
-socket, 6 clusters in each NUMA node, 4 CPU cores in each cluster.
-
-Clusters within the same NUMA share the L3 cache data and cores
-within the same cluster share a L2 cache and a L3 cache tag.
-Given that designing a vCPU topology with cluster level for the
-guest can gain scheduling performance improvement, let's support
-this new parameter on ARM virt machines.
-
-After this, we can define a 4-level CPU topology hierarchy like:
-cpus=*,maxcpus=*,sockets=*,clusters=*,cores=*,threads=*.
+Support one cluster level between core and physical package in the
+cpu-map of Arm/virt devicetree. This is also consistent with Linux
+Doc "Documentation/devicetree/bindings/cpu/cpu-topology.txt".
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- hw/arm/virt.c   |  1 +
- qemu-options.hx | 10 ++++++++++
- 2 files changed, 11 insertions(+)
+ hw/arm/virt.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 369552ad45..b2129f7ccd 100644
+index b2129f7ccd..dfdc64c4e3 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -2698,6 +2698,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     hc->unplug_request = virt_machine_device_unplug_request_cb;
-     hc->unplug = virt_machine_device_unplug_cb;
-     mc->nvdimm_supported = true;
-+    mc->smp_props.clusters_supported = true;
-     mc->auto_enable_numa_with_memhp = true;
-     mc->auto_enable_numa_with_memdev = true;
-     mc->default_ram_id = "mach-virt.ram";
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 0f26f7dad7..74d335e4c3 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -277,6 +277,16 @@ SRST
+@@ -430,9 +430,8 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+          * can contain several layers of clustering within a single physical
+          * package and cluster nodes can be contained in parent cluster nodes.
+          *
+-         * Given that cluster is not yet supported in the vCPU topology,
+-         * we currently generate one cluster node within each socket node
+-         * by default.
++         * Note: currently we only support one layer of clustering within
++         * each physical package.
+          */
+         qemu_fdt_add_subnode(ms->fdt, "/cpus/cpu-map");
  
-         -smp 16,sockets=2,dies=2,cores=2,threads=2,maxcpus=16
+@@ -442,14 +441,16 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
  
-+    The following sub-option defines a CPU topology hierarchy (2 sockets
-+    totally on the machine, 2 clusters per socket, 2 cores per cluster,
-+    2 threads per core) for ARM virt machines which support sockets/clusters
-+    /cores/threads. Some members of the option can be omitted but their values
-+    will be automatically computed:
-+
-+    ::
-+
-+        -smp 16,sockets=2,clusters=2,cores=2,threads=2,maxcpus=16
-+
-     Historically preference was given to the coarsest topology parameters
-     when computing missing values (ie sockets preferred over cores, which
-     were preferred over threads), however, this behaviour is considered
+             if (ms->smp.threads > 1) {
+                 map_path = g_strdup_printf(
+-                    "/cpus/cpu-map/socket%d/cluster0/core%d/thread%d",
+-                    cpu / (ms->smp.cores * ms->smp.threads),
++                    "/cpus/cpu-map/socket%d/cluster%d/core%d/thread%d",
++                    cpu / (ms->smp.clusters * ms->smp.cores * ms->smp.threads),
++                    (cpu / (ms->smp.cores * ms->smp.threads)) % ms->smp.clusters,
+                     (cpu / ms->smp.threads) % ms->smp.cores,
+                     cpu % ms->smp.threads);
+             } else {
+                 map_path = g_strdup_printf(
+-                    "/cpus/cpu-map/socket%d/cluster0/core%d",
+-                    cpu / ms->smp.cores,
++                    "/cpus/cpu-map/socket%d/cluster%d/core%d",
++                    cpu / (ms->smp.clusters * ms->smp.cores),
++                    (cpu / ms->smp.cores) % ms->smp.clusters,
+                     cpu % ms->smp.cores);
+             }
+             qemu_fdt_add_path(ms->fdt, map_path);
 -- 
 2.19.1
 
