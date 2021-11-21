@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F722458296
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 09:54:12 +0100 (CET)
-Received: from localhost ([::1]:46962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8074582C7
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 10:42:08 +0100 (CET)
+Received: from localhost ([::1]:46698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moiby-0000Cv-Tk
-	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 03:54:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49022)
+	id 1mojMN-0004tR-En
+	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 04:42:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <orzechowski.alexander@gmail.com>)
- id 1moglU-0005Lk-U3
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 01:55:52 -0500
-Received: from [2607:f8b0:4864:20::833] (port=41482
- helo=mail-qt1-x833.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <orzechowski.alexander@gmail.com>)
- id 1moglT-00032l-4g
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 01:55:52 -0500
-Received: by mail-qt1-x833.google.com with SMTP id v22so13534606qtx.8
- for <qemu-devel@nongnu.org>; Sat, 20 Nov 2021 22:55:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=kWxlpj8mWhkOK0M2vJPQE3IMUvDbT9hEDEfIqiv7KKU=;
- b=oUwZ9xU9UTBWaP83vM+LZHXlv76Zc1QtBGbyMdj4wvXu+5KVAsG+0xshhcYNo8XoQ1
- 0eNA0pe0JXT9+VK2wuvSCHIYAc007F4+wmyPQp0tZdgWMydnWND+v0bcx/mSQO9ZI5I+
- NcLpS6MBLM1iD0wJs9day28LqJoml0n8NgbcYX/XJUsg3Kn54oCuxc2EOuY0gjV8mPva
- wVbwlxnGCCVQe3wxQPYyMlaou0WSnIaf5WdzxCpcFnlaILneH+LkiWSsaAQHE48ksRYj
- gSOEFK5bQZAN+mATLn8Ybkee32YF3jut5NuHUtGGF1MAYxCiASwiCijnySvFWgUXYpXe
- OFvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=kWxlpj8mWhkOK0M2vJPQE3IMUvDbT9hEDEfIqiv7KKU=;
- b=mbNr+sYgjreeGDxjQMwt+C2t0/d1cvRxtV6PrlnslhWBq2x7Ylx0qgx6U0FKLzGIYI
- gZg0eDGC6BFlsAngFgt8vEbYSg2nRMHUhgflzzekVYmnAzp8mdG3U/usnAF4x/yYSNBf
- EbXT6UCiLmWRHWuGP/82svNxodcld0qhebF4QGia+vVK7mj7Y7F4Wlw10qCj2cYNibgX
- cOphChpCEIwDH3Fd3nzkskt8nutZXylMUaps5vhf/wAQ3hET+jYvxeK7He8Xn0YFwmcT
- AqokfQQ7engDOFOSewW23CyKAKMeSAZ1ZC4Yl3lDuUPOqkdVMu/kHQIfNmOnijGb3FHO
- 3qRw==
-X-Gm-Message-State: AOAM532JKztHiWR6k6jOvxNjn+Wb4iuJkEMmE/S/9mzUghuopdFp1v8t
- 8AQqqyx8hSi8VM7pnvjxxmKOmZqhRYrmxeivg+w=
-X-Google-Smtp-Source: ABdhPJw2PUbtHqFgYrtCyJehfdfStp9wzNGGfim/iVCnCLkiXptBXeiETjHS0Z+4Xkb6zYvQFHXNVQ==
-X-Received: by 2002:a05:622a:1112:: with SMTP id
- e18mr20799459qty.226.1637477750240; 
- Sat, 20 Nov 2021 22:55:50 -0800 (PST)
-Received: from alexdesktop.localdomain
- (cpebc4dfb42ca53-cmbc4dfb42ca50.cpe.net.cable.rogers.com. [99.251.122.96])
- by smtp.gmail.com with ESMTPSA id j24sm2489860qkg.133.2021.11.20.22.55.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Nov 2021 22:55:50 -0800 (PST)
-From: Alexander Orzechowski <orzechowski.alexander@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] ui: fix incorrect pointer position on highdpi with gtk
-Date: Sun, 21 Nov 2021 01:55:04 -0500
-Message-Id: <20211121065504.29101-3-orzechowski.alexander@gmail.com>
-X-Mailer: git-send-email 2.34.0
-In-Reply-To: <20211121065504.29101-1-orzechowski.alexander@gmail.com>
-References: <20211121065504.29101-1-orzechowski.alexander@gmail.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mojLC-0004CS-6W
+ for qemu-devel@nongnu.org; Sun, 21 Nov 2021 04:40:54 -0500
+Received: from [2001:41c9:1:41f::167] (port=47610
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mojLA-0005Ig-1g
+ for qemu-devel@nongnu.org; Sun, 21 Nov 2021 04:40:53 -0500
+Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mojKw-00052T-5Z; Sun, 21 Nov 2021 09:40:42 +0000
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20211118181835.18497-1-mark.cave-ayland@ilande.co.uk>
+ <CAFEAcA9iCtdyprx7C_m0++TrUjTEEYPYGsA96cVQ4jZVR0hjzw@mail.gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <c60261f4-ba71-ad13-b0c6-bda4c3270ffd@ilande.co.uk>
+Date: Sun, 21 Nov 2021 09:40:41 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::833
+In-Reply-To: <CAFEAcA9iCtdyprx7C_m0++TrUjTEEYPYGsA96cVQ4jZVR0hjzw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH for-6.2 0/2] escc: fixes for STATUS_TXEMPTY and
+ SPEC_ALLSENT
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=orzechowski.alexander@gmail.com; helo=mail-qt1-x833.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.022,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sun, 21 Nov 2021 03:51:46 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,57 +67,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Orzechowski <orzechowski.alexander@gmail.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alexander Orzechowski <orzechowski.alexander@gmail.com>
----
- ui/gtk.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+On 18/11/2021 18:23, Peter Maydell wrote:
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index d2892ea6b4..b2670142b5 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -838,10 +838,11 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
- {
-     VirtualConsole *vc = opaque;
-     GtkDisplayState *s = vc->s;
-+    GdkWindow *window;
-     int x, y;
-     int mx, my;
-     int fbh, fbw;
--    int ww, wh;
-+    int ww, wh, ws;
- 
-     if (!vc->gfx.ds) {
-         return TRUE;
-@@ -850,8 +851,10 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
-     fbw = surface_width(vc->gfx.ds) * vc->gfx.scale_x;
-     fbh = surface_height(vc->gfx.ds) * vc->gfx.scale_y;
- 
--    ww = gdk_window_get_width(gtk_widget_get_window(vc->gfx.drawing_area));
--    wh = gdk_window_get_height(gtk_widget_get_window(vc->gfx.drawing_area));
-+    window = gtk_widget_get_window(vc->gfx.drawing_area);
-+    ww = gdk_window_get_width(window);
-+    wh = gdk_window_get_height(window);
-+    ws = gdk_window_get_scale_factor (window);
- 
-     mx = my = 0;
-     if (ww > fbw) {
-@@ -861,8 +864,8 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
-         my = (wh - fbh) / 2;
-     }
- 
--    x = (motion->x - mx) / vc->gfx.scale_x;
--    y = (motion->y - my) / vc->gfx.scale_y;
-+    x = (motion->x - mx) / vc->gfx.scale_x * ws;
-+    y = (motion->y - my) / vc->gfx.scale_y * ws;
- 
-     if (qemu_input_is_absolute()) {
-         if (x < 0 || y < 0 ||
--- 
-2.34.0
+> On Thu, 18 Nov 2021 at 18:18, Mark Cave-Ayland
+> <mark.cave-ayland@ilande.co.uk> wrote:
+>>
+>> This is another attempt to fix booting 32-bit QEMU SPARC machines in
+>> qemu-system-sparc using a real Sun PROM based upon further experiments and
+>> re-reading of the ESCC datasheet from a previous patch posted at
+>> https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg00324.html.
+>>
+>> It appears that both the Sun PROM and OpenBSD with OpenBIOS fail to send an
+>> explicit reset command as recommended in the ESCC datasheet, which causes
+>> hangs during serial port enumeration since the introduction of the recent
+>> ESCC reset changes.
+>>
+>> The first patch always sets STATUS_TXEMPTY in R_STATUS on hardware reset
+>> which wasn't documented in the "Reset" section(s) but is documented in the
+>> "Transmit Interrupts and Transmit Buffer Empty Bit" section, whilst the
+>> second patch updates SPEC_ALLSENT when writing to W_TXCTRL1.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> 
+> Series
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+Thanks Peter. I've added this to my qemu-sparc queue and will send a PR shortly with 
+both yours and Philippe's R-B tags.
+
+
+ATB,
+
+Mark.
 
