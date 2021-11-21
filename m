@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D26BE45834E
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 13:27:28 +0100 (CET)
-Received: from localhost ([::1]:53346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E333E45835C
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 13:31:08 +0100 (CET)
+Received: from localhost ([::1]:37006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1molwN-0007UN-NW
-	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 07:27:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52614)
+	id 1molzw-0007Av-0e
+	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 07:31:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1moluL-0003oq-J7; Sun, 21 Nov 2021 07:25:21 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2905)
+ id 1moluM-0003pG-UG; Sun, 21 Nov 2021 07:25:22 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1moluH-0005l4-Rl; Sun, 21 Nov 2021 07:25:21 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HxqKp3wH8z1DJQQ;
- Sun, 21 Nov 2021 20:22:38 +0800 (CST)
+ id 1moluH-0005l5-ST; Sun, 21 Nov 2021 07:25:22 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HxqKq5MX1z1DJQV;
+ Sun, 21 Nov 2021 20:22:39 +0800 (CST)
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Sun, 21 Nov 2021 20:25:06 +0800
+ 15.1.2308.20; Sun, 21 Nov 2021 20:25:07 +0800
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
 CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
@@ -33,10 +33,12 @@ CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  Ani Sinha <ani@anisinha.ca>, Markus Armbruster <armbru@redhat.com>, Eric
  Blake <eblake@redhat.com>, <wanghaibin.wang@huawei.com>, Yanan Wang
  <wangyanan55@huawei.com>
-Subject: [PATCH v4 00/10] ARM virt: Introduce CPU clusters topology support
-Date: Sun, 21 Nov 2021 20:24:52 +0800
-Message-ID: <20211121122502.9844-1-wangyanan55@huawei.com>
+Subject: [PATCH v4 01/10] qemu-options: Improve readability of SMP related Docs
+Date: Sun, 21 Nov 2021 20:24:53 +0800
+Message-ID: <20211121122502.9844-2-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
+In-Reply-To: <20211121122502.9844-1-wangyanan55@huawei.com>
+References: <20211121122502.9844-1-wangyanan55@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.174.187.128]
@@ -68,91 +70,139 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Yanan Wang <wangyanan55@huawei.com>
 From:  Yanan Wang via <qemu-devel@nongnu.org>
 
-Hi,
+We have a description in qemu-options.hx for each CPU topology
+parameter to explain what it exactly means, and also an extra
+declaration for the target-specific one, e.g. "for PC only"
+when describing "dies", and "for PC, it's on one die" when
+describing "cores".
 
-This series introduces the new CPU clusters topology parameter
-and enable the support for it on ARM virt machines.
+Now we are going to introduce one more non-generic parameter
+"clusters", it will make the Doc less readable and  if we still
+continue to use the legacy way to describe it.
 
-Background and descriptions:
-The new Cluster-Aware Scheduling support has landed in Linux 5.16,
-which has been proved to benefit the scheduling performance (e.g.
-load balance and wake_affine strategy) on both x86_64 and AArch64.
-We can see Kernel PR [1] and the latest patch set [2] for reference.
+So let's at first make two tweaks of the Docs to improve the
+readability and also scalability:
+1) In the -help text: Delete the extra specific declaration and
+   describe each topology parameter level by level. Then add a
+   note to declare that different machines may support different
+   subsets and the actual meaning of the supported parameters
+   will vary accordingly.
+2) In the rST text: List all the sub-hierarchies currently
+   supported in QEMU, and correspondingly give an example of
+   -smp configuration for each of them.
 
-So now in Linux 5.16 we have four-level arch-neutral CPU topology
-definition like below and a new scheduler level for clusters.
-struct cpu_topology {
-    int thread_id;
-    int core_id;
-    int cluster_id;
-    int package_id;
-    int llc_id;
-    cpumask_t thread_sibling;
-    cpumask_t core_sibling;
-    cpumask_t cluster_sibling;
-    cpumask_t llc_sibling;
-}
+Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+---
+ qemu-options.hx | 76 ++++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 59 insertions(+), 17 deletions(-)
 
-A cluster generally means a group of CPU cores which share L2 cache
-or other mid-level resources, and it is the shared resources that
-is used to improve scheduler's behavior. From the point of view of
-the size range, it's between CPU die and CPU core. For example, on
-some ARM64 Kunpeng servers, we have 6 clusters in each NUMA node,
-and 4 CPU cores in each cluster. The 4 CPU cores share a separate
-L2 cache and a L3 cache tag, which brings cache affinity advantage.
-
-[1] https://lore.kernel.org/lkml/163572864855.3357115.17938524897008353101.tglx@xen13/
-[2] https://lkml.org/lkml/2021/9/24/178
-
-In virtualization, on the Hosts which have pClusters, if we can
-design a vCPU topology with cluster level for guest kernel and
-have a dedicated vCPU pinning. A Cluster-Aware Guest kernel can
-also make use of the cache affinity of CPU clusters to gain
-similar scheduling performance.
-
-This series consists of two parts:
-The first part (patch 1-3):
-Implement infrastructure for CPU cluster level topology support,
-including the SMP documentation, configuration and parsing.
-
-The second part (part 4-10):
-Enable CPU cluster support on ARM virt machines, so that users
-can specify a 4-level CPU hierarchy sockets/clusters/cores/threads.
-And the 4-level topology will be described to guest kernel through
-ACPI PPTT and DT cpu-map.
-
-Changelog:
-v3->v4:
-- Significant change from v3 to v4, since the whole series is reworked
-  based on latest QEMU SMP frame.
-- v3: https://lore.kernel.org/qemu-devel/20210516103228.37792-1-wangyanan55@huawei.com/
-
-Yanan Wang (10):
-  qemu-options: Improve readability of SMP related Docs
-  hw/core/machine: Introduce CPU cluster topology support
-  hw/core/machine: Wrap target specific parameters together
-  hw/arm/virt: Support clusters on ARM virt machines
-  hw/arm/virt: Support cluster level in DT cpu-map
-  hw/acpi/aml-build: Improve scalability of PPTT generation
-  hw/arm/virt-acpi-build: Make an ARM specific PPTT generator
-  tests/acpi/bios-tables-test: Allow changes to virt/PPTT file
-  hw/acpi/virt-acpi-build: Support cluster level in PPTT generation
-  tests/acpi/bios-table-test: Update expected virt/PPTT file
-
- hw/acpi/aml-build.c         |  66 ++------------------------
- hw/arm/virt-acpi-build.c    |  92 +++++++++++++++++++++++++++++++++++-
- hw/arm/virt.c               |  16 ++++---
- hw/core/machine-smp.c       |  29 +++++++++---
- hw/core/machine.c           |   3 ++
- include/hw/acpi/aml-build.h |   5 +-
- include/hw/boards.h         |   6 ++-
- qapi/machine.json           |   5 +-
- qemu-options.hx             |  91 +++++++++++++++++++++++++++--------
- softmmu/vl.c                |   3 ++
- tests/data/acpi/virt/PPTT   | Bin 76 -> 96 bytes
- 11 files changed, 214 insertions(+), 102 deletions(-)
-
---
+diff --git a/qemu-options.hx b/qemu-options.hx
+index ae2c6dbbfc..7a59db7764 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -207,14 +207,26 @@ ERST
+ 
+ DEF("smp", HAS_ARG, QEMU_OPTION_smp,
+     "-smp [[cpus=]n][,maxcpus=maxcpus][,sockets=sockets][,dies=dies][,cores=cores][,threads=threads]\n"
+-    "                set the number of CPUs to 'n' [default=1]\n"
++    "                set the number of initial CPUs to 'n' [default=1]\n"
+     "                maxcpus= maximum number of total CPUs, including\n"
+     "                offline CPUs for hotplug, etc\n"
+-    "                sockets= number of discrete sockets in the system\n"
+-    "                dies= number of CPU dies on one socket (for PC only)\n"
+-    "                cores= number of CPU cores on one socket (for PC, it's on one die)\n"
+-    "                threads= number of threads on one CPU core\n",
+-        QEMU_ARCH_ALL)
++    "                sockets= number of sockets on the machine board\n"
++    "                dies= number of dies in one socket\n"
++    "                cores= number of cores in one die\n"
++    "                threads= number of threads in one core\n"
++    "Note: Different machines may have different subsets of the CPU topology\n"
++    "      parameters supported, so the actual meaning of the supported parameters\n"
++    "      will vary accordingly. For example, for a machine type that supports a\n"
++    "      three-level CPU hierarchy of sockets/cores/threads, the parameters will\n"
++    "      sequentially mean as below:\n"
++    "                sockets means the number of sockets on the machine board\n"
++    "                cores means the number of cores in one socket\n"
++    "                threads means the number of threads in one core\n"
++    "      For a particular machine type board, an expected CPU topology hierarchy\n"
++    "      can be defined through the supported sub-option. Unsupported parameters\n"
++    "      can also be provided in addition to the sub-option, but their values\n"
++    "      must be set as 1 in the purpose of correct parsing.\n",
++    QEMU_ARCH_ALL)
+ SRST
+ ``-smp [[cpus=]n][,maxcpus=maxcpus][,sockets=sockets][,dies=dies][,cores=cores][,threads=threads]``
+     Simulate a SMP system with '\ ``n``\ ' CPUs initially present on
+@@ -225,27 +237,57 @@ SRST
+     initial CPU count will match the maximum number. When only one of them
+     is given then the omitted one will be set to its counterpart's value.
+     Both parameters may be specified, but the maximum number of CPUs must
+-    be equal to or greater than the initial CPU count. Both parameters are
+-    subject to an upper limit that is determined by the specific machine
+-    type chosen.
+-
+-    To control reporting of CPU topology information, the number of sockets,
+-    dies per socket, cores per die, and threads per core can be specified.
+-    The sum `` sockets * cores * dies * threads `` must be equal to the
+-    maximum CPU count. CPU targets may only support a subset of the topology
+-    parameters. Where a CPU target does not support use of a particular
+-    topology parameter, its value should be assumed to be 1 for the purpose
+-    of computing the CPU maximum count.
++    be equal to or greater than the initial CPU count. Product of the
++    CPU topology hierarchy must be equal to the maximum number of CPUs.
++    Both parameters are subject to an upper limit that is determined by
++    the specific machine type chosen.
++
++    To control reporting of CPU topology information, values of the topology
++    parameters can be specified. Machines may only support a subset of the
++    parameters and different machines may have different subsets supported
++    which vary depending on capacity of the corresponding CPU targets. So
++    for a particular machine type board, an expected topology hierarchy can
++    be defined through the supported sub-option. Unsupported parameters can
++    also be provided in addition to the sub-option, but their values must be
++    set as 1 in the purpose of correct parsing.
+ 
+     Either the initial CPU count, or at least one of the topology parameters
+     must be specified. The specified parameters must be greater than zero,
+     explicit configuration like "cpus=0" is not allowed. Values for any
+     omitted parameters will be computed from those which are given.
++
++    For example, the following sub-option defines a CPU topology hierarchy
++    (2 sockets totally on the machine, 2 cores per socket, 2 threads per
++    core) for a machine that only supports sockets/cores/threads.
++    Some members of the option can be omitted but their values will be
++    automatically computed:
++
++    ::
++
++        -smp 8,sockets=2,cores=2,threads=2,maxcpus=8
++
++    The following sub-option defines a CPU topology hierarchy (2 sockets
++    totally on the machine, 2 dies per socket, 2 cores per die, 2 threads
++    per core) for PC machines which support sockets/dies/cores/threads.
++    Some members of the option can be omitted but their values will be
++    automatically computed:
++
++    ::
++
++        -smp 16,sockets=2,dies=2,cores=2,threads=2,maxcpus=16
++
+     Historically preference was given to the coarsest topology parameters
+     when computing missing values (ie sockets preferred over cores, which
+     were preferred over threads), however, this behaviour is considered
+     liable to change. Prior to 6.2 the preference was sockets over cores
+     over threads. Since 6.2 the preference is cores over sockets over threads.
++
++    For example, the following option defines a machine board with 2 sockets
++    of 1 core before 6.2 and 1 socket of 2 cores after 6.2:
++
++    ::
++
++        -smp 2
+ ERST
+ 
+ DEF("numa", HAS_ARG, QEMU_OPTION_numa,
+-- 
 2.19.1
 
 
