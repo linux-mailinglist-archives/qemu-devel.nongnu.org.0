@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36741458359
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 13:30:22 +0100 (CET)
-Received: from localhost ([::1]:33534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9CCF45834D
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 13:27:16 +0100 (CET)
+Received: from localhost ([::1]:52310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1molzB-0004qj-B3
-	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 07:30:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52664)
+	id 1molwB-0006nT-Qu
+	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 07:27:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1moluM-0003pE-R5; Sun, 21 Nov 2021 07:25:22 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2841)
+ id 1moluL-0003oi-0H; Sun, 21 Nov 2021 07:25:21 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1moluH-0005lb-Sp; Sun, 21 Nov 2021 07:25:22 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HxqH002M5zbhph;
- Sun, 21 Nov 2021 20:20:12 +0800 (CST)
+ id 1moluH-0005lu-Sh; Sun, 21 Nov 2021 07:25:20 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HxqH12MTvzcZxK;
+ Sun, 21 Nov 2021 20:20:13 +0800 (CST)
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Sun, 21 Nov 2021 20:25:09 +0800
+ 15.1.2308.20; Sun, 21 Nov 2021 20:25:10 +0800
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
 CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
@@ -33,10 +33,9 @@ CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  Ani Sinha <ani@anisinha.ca>, Markus Armbruster <armbru@redhat.com>, Eric
  Blake <eblake@redhat.com>, <wanghaibin.wang@huawei.com>, Yanan Wang
  <wangyanan55@huawei.com>
-Subject: [PATCH v4 03/10] hw/core/machine: Wrap target specific parameters
- together
-Date: Sun, 21 Nov 2021 20:24:55 +0800
-Message-ID: <20211121122502.9844-4-wangyanan55@huawei.com>
+Subject: [PATCH v4 04/10] hw/arm/virt: Support clusters on ARM virt machines
+Date: Sun, 21 Nov 2021 20:24:56 +0800
+Message-ID: <20211121122502.9844-5-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20211121122502.9844-1-wangyanan55@huawei.com>
 References: <20211121122502.9844-1-wangyanan55@huawei.com>
@@ -46,8 +45,8 @@ X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -71,84 +70,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Yanan Wang <wangyanan55@huawei.com>
 From:  Yanan Wang via <qemu-devel@nongnu.org>
 
-Wrap the CPU target specific parameters together into a single
-variable, so that we don't need to update the other lines but
-a single line when new topology parameters are introduced.
+In implementations of ARM64 architecture, at most there could be
+a CPU topology hierarchy like "sockets/dies/clusters/cores/threads"
+defined. For example, some ARM64 server chip Kunpeng 920 totally
+has 2 sockets, 2 NUMA nodes (also represent CPU dies range) in each
+socket, 6 clusters in each NUMA node, 4 CPU cores in each cluster.
 
-No functional change intended.
+Clusters within the same NUMA share the L3 cache data and cores
+within the same cluster share a L2 cache and a L3 cache tag.
+Given that designing a vCPU topology with cluster level for the
+guest can gain scheduling performance improvement, let's support
+this new parameter on ARM virt machines.
+
+After this, we can define a 4-level CPU topology hierarchy like:
+cpus=*,maxcpus=*,sockets=*,clusters=*,cores=*,threads=*.
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- hw/core/machine-smp.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ hw/arm/virt.c   |  1 +
+ qemu-options.hx | 10 ++++++++++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
-index 87ceb45470..2a3f16e52b 100644
---- a/hw/core/machine-smp.c
-+++ b/hw/core/machine-smp.c
-@@ -77,6 +77,7 @@ void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-     unsigned cores   = config->has_cores ? config->cores : 0;
-     unsigned threads = config->has_threads ? config->threads : 0;
-     unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
-+    unsigned others;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 369552ad45..b2129f7ccd 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2698,6 +2698,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     hc->unplug_request = virt_machine_device_unplug_request_cb;
+     hc->unplug = virt_machine_device_unplug_cb;
+     mc->nvdimm_supported = true;
++    mc->smp_props.clusters_supported = true;
+     mc->auto_enable_numa_with_memhp = true;
+     mc->auto_enable_numa_with_memdev = true;
+     mc->default_ram_id = "mach-virt.ram";
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 0f26f7dad7..74d335e4c3 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -277,6 +277,16 @@ SRST
  
-     /*
-      * Specified CPU topology parameters must be greater than zero,
-@@ -109,6 +110,8 @@ void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-     dies = dies > 0 ? dies : 1;
-     clusters = clusters > 0 ? clusters : 1;
+         -smp 16,sockets=2,dies=2,cores=2,threads=2,maxcpus=16
  
-+    others = dies * clusters;
++    The following sub-option defines a CPU topology hierarchy (2 sockets
++    totally on the machine, 2 clusters per socket, 2 cores per cluster,
++    2 threads per core) for ARM virt machines which support sockets/clusters
++    /cores/threads. Some members of the option can be omitted but their values
++    will be automatically computed:
 +
-     /* compute missing values based on the provided ones */
-     if (cpus == 0 && maxcpus == 0) {
-         sockets = sockets > 0 ? sockets : 1;
-@@ -122,30 +125,30 @@ void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-             if (sockets == 0) {
-                 cores = cores > 0 ? cores : 1;
-                 threads = threads > 0 ? threads : 1;
--                sockets = maxcpus / (dies * clusters * cores * threads);
-+                sockets = maxcpus / (cores * threads * others);
-             } else if (cores == 0) {
-                 threads = threads > 0 ? threads : 1;
--                cores = maxcpus / (sockets * dies * clusters * threads);
-+                cores = maxcpus / (sockets * threads * others);
-             }
-         } else {
-             /* prefer cores over sockets since 6.2 */
-             if (cores == 0) {
-                 sockets = sockets > 0 ? sockets : 1;
-                 threads = threads > 0 ? threads : 1;
--                cores = maxcpus / (sockets * dies * clusters * threads);
-+                cores = maxcpus / (sockets * threads * others);
-             } else if (sockets == 0) {
-                 threads = threads > 0 ? threads : 1;
--                sockets = maxcpus / (dies * clusters * cores * threads);
-+                sockets = maxcpus / (cores * threads * others);
-             }
-         }
- 
-         /* try to calculate omitted threads at last */
-         if (threads == 0) {
--            threads = maxcpus / (sockets * dies * clusters * cores);
-+            threads = maxcpus / (sockets * cores * others);
-         }
-     }
- 
--    maxcpus = maxcpus > 0 ? maxcpus : sockets * dies * clusters * cores * threads;
-+    maxcpus = maxcpus > 0 ? maxcpus : sockets * cores * threads * others;
-     cpus = cpus > 0 ? cpus : maxcpus;
- 
-     ms->smp.cpus = cpus;
-@@ -157,7 +160,7 @@ void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-     ms->smp.max_cpus = maxcpus;
- 
-     /* sanity-check of the computed topology */
--    if (sockets * dies * clusters * cores * threads != maxcpus) {
-+    if (sockets * cores * threads * others != maxcpus) {
-         g_autofree char *topo_msg = cpu_hierarchy_to_string(ms);
-         error_setg(errp, "Invalid CPU topology: "
-                    "product of the hierarchy must match maxcpus: "
++    ::
++
++        -smp 16,sockets=2,clusters=2,cores=2,threads=2,maxcpus=16
++
+     Historically preference was given to the coarsest topology parameters
+     when computing missing values (ie sockets preferred over cores, which
+     were preferred over threads), however, this behaviour is considered
 -- 
 2.19.1
 
