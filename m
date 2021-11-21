@@ -2,58 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CA5145835A
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 13:30:53 +0100 (CET)
-Received: from localhost ([::1]:35766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9822645846F
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 16:18:18 +0100 (CET)
+Received: from localhost ([::1]:34122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1molzg-0006JQ-87
-	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 07:30:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52726)
+	id 1moobh-0002ki-7f
+	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 10:18:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1moluO-0003s0-Ov; Sun, 21 Nov 2021 07:25:24 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2957)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mooal-00025q-R7
+ for qemu-devel@nongnu.org; Sun, 21 Nov 2021 10:17:19 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:59903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1moluL-0005nA-Hm; Sun, 21 Nov 2021 07:25:24 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HxqH854l2zcb4K;
- Sun, 21 Nov 2021 20:20:20 +0800 (CST)
-Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Sun, 21 Nov 2021 20:25:18 +0800
-To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
- <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Markus Armbruster <armbru@redhat.com>, Eric
- Blake <eblake@redhat.com>, <wanghaibin.wang@huawei.com>, Yanan Wang
- <wangyanan55@huawei.com>
-Subject: [PATCH v4 10/10] tests/acpi/bios-table-test: Update expected
- virt/PPTT file
-Date: Sun, 21 Nov 2021 20:25:02 +0800
-Message-ID: <20211121122502.9844-11-wangyanan55@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20211121122502.9844-1-wangyanan55@huawei.com>
-References: <20211121122502.9844-1-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mooak-0001ac-9f
+ for qemu-devel@nongnu.org; Sun, 21 Nov 2021 10:17:19 -0500
+Received: from quad ([82.142.2.234]) by mrelayeu.kundenserver.de (mreue010
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MYNaE-1nAAup1Z3q-00VTjH; Sun, 21
+ Nov 2021 16:17:13 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: fix Coverity CID 1464101
+Date: Sun, 21 Nov 2021 16:17:11 +0100
+Message-Id: <20211121151711.331653-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:tMpAsGQXfr/0LOuNJVUnFMG1LpmIw6tAkEqEBe8UF9aLcaKf35I
+ 5JMRe/44MnBWRDiBc7RQu/a+KaYc3j7Ic48YZWXWdezOKMqgsiJvxOCl+y8XkwFiNVrENZT
+ GwxW3rP0Ov4/EN+OeSqbrAnOi2irE4ujRuKjzgUsJ+Cii6VyMmedW9FI/SB8JpQk/jv7Dm8
+ 5A79x804Pj1jwpEF5Cs8A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:29tO9I/cmn0=:zoTcJrIASMJ+A1PWsQPh/T
+ 4Zz0YcCQKoJbzK6AFFZxFX1XisDGKsTn18WzUQxDRSQqnv/4FAhL07lzfOTm6qHJ+zhN7fe5w
+ 8G66WMFW034BSg94BBo7/BtjjLUZk5qsKKgWjkMIW+8kthD9MkOvatQRjic54gaG+KulN+Ufb
+ /FYaywNwULcgZR3PF/buZCLp+ssxNGMU8gTyH+c0lEJ2z268xfBFQd9v5G10eqa3HVu7vURhT
+ 1WiNg14tNnCsKZgjYzwIaVVPYIAD3gWxc9KlsWSOYGUYmaBZLpC7s0QKTnUMyt6DNjruRUHbZ
+ jqgsGMK/ludUOfUhGpmeHQLpqWefW6oxkx/96bvLWtPpXHuYtbZ/C23FHCDfqNjQM89whmJPL
+ QRF69x8J3uGYYltZhMsSFBmvO2vt18wNfj/ltiEk3SL2DKAbPu1NkkyKWE6O1BHtR3FK0m692
+ icLRpKbfe9TfTdCGIqKkvBSC+q4p9D8YquM2edMpeBttXDhbW97A+wSaaITn3kWJHUThan2Oj
+ YS+fKKT6VD+tOtIC5nwmVQDQyZ49NB4FaY/o+UlgWqYNw8glS5Cn8tPxkN7UezbHxGx1AYPkM
+ H4c3RggDjHi1gJklh8oVJ3/ZrGd1hcPswJBjpI1haN6q6lGcdsRndF3zNZmoO7rDeJ666HNSo
+ F57FvlukQNPMxJkDh9n80S1jJm5viLhbkgCXGNeUM+QzG6azcpQnJZVgX9+fj8YIY5Po=
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,110 +63,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, richard.henderson@linaro.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Yanan Wang <wangyanan55@huawei.com>
-From:  Yanan Wang via <qemu-devel@nongnu.org>
 
-Run ./tests/data/acpi/rebuild-expected-aml.sh from build directory
-to update PPTT binary. Also empty bios-tables-test-allowed-diff.h.
+target_mmap() can fail and return -1, but we don't check for that and
+instead assume it's always valid.
 
-The disassembled differences between actual and expected PPTT:
-
- /*
-  * Intel ACPI Component Architecture
-  * AML/ASL+ Disassembler version 20180810 (64-bit version)
-  * Copyright (c) 2000 - 2018 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/PPTT, Mon Oct 25 20:24:53 2021
-+ * Disassembly of /tmp/aml-BPI5B1, Mon Oct 25 20:24:53 2021
-  *
-  * ACPI Data Table [PPTT]
-  *
-  * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
-  */
-
- [000h 0000   4]                    Signature : "PPTT"    [Processor Properties Topology Table]
--[004h 0004   4]                 Table Length : 0000004C
-+[004h 0004   4]                 Table Length : 00000060
- [008h 0008   1]                     Revision : 02
--[009h 0009   1]                     Checksum : A8
-+[009h 0009   1]                     Checksum : 48
- [00Ah 0010   6]                       Oem ID : "BOCHS "
- [010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
- [024h 0036   1]                Subtable Type : 00 [Processor Hierarchy Node]
- [025h 0037   1]                       Length : 14
- [026h 0038   2]                     Reserved : 0000
- [028h 0040   4]        Flags (decoded below) : 00000001
-                             Physical package : 1
-                      ACPI Processor ID valid : 0
- [02Ch 0044   4]                       Parent : 00000000
- [030h 0048   4]            ACPI Processor ID : 00000000
- [034h 0052   4]      Private Resource Number : 00000000
-
- [038h 0056   1]                Subtable Type : 00 [Processor Hierarchy Node]
- [039h 0057   1]                       Length : 14
- [03Ah 0058   2]                     Reserved : 0000
--[03Ch 0060   4]        Flags (decoded below) : 0000000A
-+[03Ch 0060   4]        Flags (decoded below) : 00000000
-                             Physical package : 0
--                     ACPI Processor ID valid : 1
-+                     ACPI Processor ID valid : 0
- [040h 0064   4]                       Parent : 00000024
- [044h 0068   4]            ACPI Processor ID : 00000000
- [048h 0072   4]      Private Resource Number : 00000000
-
--Raw Table Data: Length 76 (0x4C)
-+[04Ch 0076   1]                Subtable Type : 00 [Processor Hierarchy Node]
-+[04Dh 0077   1]                       Length : 14
-+[04Eh 0078   2]                     Reserved : 0000
-+[050h 0080   4]        Flags (decoded below) : 0000000A
-+                            Physical package : 0
-+                     ACPI Processor ID valid : 1
-+[054h 0084   4]                       Parent : 00000038
-+[058h 0088   4]            ACPI Processor ID : 00000000
-+[05Ch 0092   4]      Private Resource Number : 00000000
-+
-+Raw Table Data: Length 96 (0x60)
-
--    0000: 50 50 54 54 4C 00 00 00 02 A8 42 4F 43 48 53 20  // PPTTL.....BOCHS
-+    0000: 50 50 54 54 60 00 00 00 02 48 42 4F 43 48 53 20  // PPTT`....HBOCHS
-     0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
-     0020: 01 00 00 00 00 14 00 00 01 00 00 00 00 00 00 00  // ................
--    0030: 00 00 00 00 00 00 00 00 00 14 00 00 0A 00 00 00  // ................
--    0040: 24 00 00 00 00 00 00 00 00 00 00 00              // $...........
-+    0030: 00 00 00 00 00 00 00 00 00 14 00 00 00 00 00 00  // ................
-+    0040: 24 00 00 00 00 00 00 00 00 00 00 00 00 14 00 00  // $...............
-+    0050: 0A 00 00 00 38 00 00 00 00 00 00 00 00 00 00 00  // ....8...........
-
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+Fixes: db2af69d6ba8 ("linux-user: Add infrastructure for a signal trampoline page")
+Cc: richard.henderson@linaro.org
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tests/data/acpi/virt/PPTT                   | Bin 76 -> 96 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- 2 files changed, 1 deletion(-)
+ linux-user/elfload.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/tests/data/acpi/virt/PPTT b/tests/data/acpi/virt/PPTT
-index 7a1258ecf123555b24462c98ccbb76b4ac1d0c2b..f56ea63b369a604877374ad696c396e796ab1c83 100644
-GIT binary patch
-delta 53
-zcmV-50LuSNU<y!BR8(L90006=kqR;-00000Bme*a000000000002BZK3IG5AH~;_u
-L0000000000uCW9Z
-
-delta 32
-qcmV+*0N?*$ObSp?R8&j=00080kqR=APy`Gl00000000000001OcLdh}
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index cb143a55a6..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/PPTT",
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 5da8c02d0822..767f54c76dc5 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -3254,9 +3254,13 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
+      * Otherwise, allocate a private page to hold them.
+      */
+     if (TARGET_ARCH_HAS_SIGTRAMP_PAGE) {
+-        abi_ulong tramp_page = target_mmap(0, TARGET_PAGE_SIZE,
+-                                           PROT_READ | PROT_WRITE,
+-                                           MAP_PRIVATE | MAP_ANON, -1, 0);
++        abi_long tramp_page = target_mmap(0, TARGET_PAGE_SIZE,
++                                          PROT_READ | PROT_WRITE,
++                                          MAP_PRIVATE | MAP_ANON, -1, 0);
++        if (tramp_page == -1) {
++            return -errno;
++        }
++
+         setup_sigtramp(tramp_page);
+         target_mprotect(tramp_page, TARGET_PAGE_SIZE, PROT_READ | PROT_EXEC);
+     }
 -- 
-2.19.1
+2.31.1
 
 
