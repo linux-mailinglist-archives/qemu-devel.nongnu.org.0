@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F2145848F
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 16:49:34 +0100 (CET)
-Received: from localhost ([::1]:47206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB7FC458495
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 16:53:18 +0100 (CET)
+Received: from localhost ([::1]:49884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mop5w-0003qg-Lh
-	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 10:49:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34464)
+	id 1mop9Z-0005i1-Fc
+	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 10:53:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mop4K-00035K-C0
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 10:47:52 -0500
-Received: from [2a00:1450:4864:20::32e] (port=46786
- helo=mail-wm1-x32e.google.com)
+ id 1mop81-00050h-S4
+ for qemu-devel@nongnu.org; Sun, 21 Nov 2021 10:51:41 -0500
+Received: from [2a00:1450:4864:20::42d] (port=40717
+ helo=mail-wr1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mop4I-0005wR-Lx
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 10:47:51 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- b184-20020a1c1bc1000000b0033140bf8dd5so11520800wmb.5
- for <qemu-devel@nongnu.org>; Sun, 21 Nov 2021 07:47:49 -0800 (PST)
+ id 1mop80-0006Vx-DR
+ for qemu-devel@nongnu.org; Sun, 21 Nov 2021 10:51:41 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id r8so27844139wra.7
+ for <qemu-devel@nongnu.org>; Sun, 21 Nov 2021 07:51:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=x9VHWbTJLNaDdwMaR8iqBE85djNgZEIL/rv5ztHQ1V4=;
- b=jPjJ8z6RHF9q6Z0ugM+X30wcAtI8TAXVkcyX9BX5AP6HUhjXbcCwqPboTJLHCTIq34
- gfFN4qDYi540mhsORRcVyurUYxbTB83KrfcF/Unp4n/o/20XQDS9XHPTOLan1mv5STQs
- VvkzYW5swoFRF27SwwsIMYvV7HTExlJnONnS2xtpHRQ5JMHkhl+J+Z/AppBFyc902ip7
- xV0YpwKRJlfCVv5l+7Ps/siPYtw18lpAzsJsvn/mRBdgAjQEhKGVGCxnj5dKoLqDllAM
- lG602wjxxz5U+Tn2Bynd4uPkSrOJrj/28any8SUKnymux9GdZAAiOVAt9GGQ/zGfTXrj
- 1C1w==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=RsiIo2ufxunFaIqi/yNIfhaMMIWTHmvAZj9sFBMHOcA=;
+ b=Pz84dWIRZMGkpky8JR3cTAhF1MEjbIzWmj6ywxqqEeRVldFcShyR1ZDwZ4Pnk5kZ/R
+ sxJ61guiy8Iw2htZKvx7uDuGwNeR7qyJREMc247DMdHpGEHJ9GEUJxMnKDsCUiN3Hzy1
+ iO7p/uMApiwkifrcH9saQlN2ih6YyXD08m+ca4c1aASblhI2SxF1jXEtLdPdFrZAgnTc
+ 17fSa7w8MyR8UWw+Kw4CPDBbiy4twCLGr9bk9u8QO/IZ4yYJ3Cn2EWdBc9ohNesbJ+F3
+ 3ymct9bJMbb8wirU5PEzbbAdiXuIOQsRLBdG/mKoa2NSpVWlDSZHo124F2Ut6fMOOjUz
+ 92dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=x9VHWbTJLNaDdwMaR8iqBE85djNgZEIL/rv5ztHQ1V4=;
- b=j2vqpUL53txkLcUSN5hei4AthgKApqdAMNzXPbBNGf9+OY2MO804LHKgEIysZYxD20
- witnkGAu4pv+glDIgd7AzRlL0um533WIswJj/GJ5MNJjg3ROpMP2oin0juD1X0cVSdcz
- fR37/DFJxT2DJHlt6ofxMopZI+akhU4t63c2tW5yQpbkyH+sBQEkFrltY9jPQOH4bHi/
- 9z+9UB5UWao/32i26ZIerztSdpFe+el7wuk8WGz1Az5ti6l1uO6o8axq99DqV84DwRkr
- U6I5LRuk+3BlZ3jrdly7d7UzAyrh2T4HLkiR1/Pl/DbOtBqnTzWUKYrrzhis7whXlY5d
- cYAQ==
-X-Gm-Message-State: AOAM533HnJfpXCaNZpDnUAWymYxznH4GkcGLDuQAW6iUPlrhWwmGRY6i
- vIxHojE70mrZ41bL+VHXa12vl3Jd71T0hLDa/Kg=
-X-Google-Smtp-Source: ABdhPJyXzTkZWiNmjCE8NXSaGlIJkqz1yMmNW4VEYasiLYc2tEc4Zi51rYH5Lr5zVmn8AOsaArs3Rw==
-X-Received: by 2002:a05:600c:1914:: with SMTP id
- j20mr21063370wmq.26.1637509668056; 
- Sun, 21 Nov 2021 07:47:48 -0800 (PST)
+ bh=RsiIo2ufxunFaIqi/yNIfhaMMIWTHmvAZj9sFBMHOcA=;
+ b=SwvTSA9i3dUaSfCSM9OfC/4D4zph2ttTS4VGZLbkpoPzvnXs0+uQK6nGZZmH/teKtL
+ mON45TQIazqPsiyQh/UE5G1TBOGmKqGue2HRrp3b8EttgHMg3vnMyAo0lOw9giYQjUpQ
+ 684EZmhY/aczkMdpJV1CP+NmhSMmGmAnwZ3Y43NrQYiADpXmbNEtj1x4RHnVyAUNZtXW
+ sxZvmyaxjp4eYmAJYwsxLaavd3Oub4eQKcsfOH53HRvjYmW8fIyw7KGsf3HPW1/FV1lu
+ qChcr6L1032ewxegNYcN762TpdJV7PbZ0Stim9hpGgwh+YjnOsfbSaFq0w73zcrD4bPa
+ b4Gw==
+X-Gm-Message-State: AOAM5316FloDK+wQ2VLwh50xR6sUGpEZIjzrW/EJ0kTXnPj6UdxvPzQx
+ r2XT2ohNVV/QK8RyktM22nh//Q==
+X-Google-Smtp-Source: ABdhPJyzbjm3k0wnWrK9tbayLO09D4cr0KNh3CG5/epig0UHyatD7WVRanrQQCIhNNvT5v9EBsWCBg==
+X-Received: by 2002:a5d:508d:: with SMTP id a13mr28698375wrt.41.1637509898911; 
+ Sun, 21 Nov 2021 07:51:38 -0800 (PST)
 Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
  [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id f81sm20672851wmf.22.2021.11.21.07.47.46
+ by smtp.gmail.com with ESMTPSA id z18sm6222693wrq.11.2021.11.21.07.51.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Nov 2021 07:47:47 -0800 (PST)
-Subject: Re: [PULL 0/2] qemu-sparc queue 20211121
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20211121095933.28174-1-mark.cave-ayland@ilande.co.uk>
+ Sun, 21 Nov 2021 07:51:38 -0800 (PST)
+Subject: Re: [PATCH] linux-user: fix Coverity CID 1464101
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20211121151711.331653-1-laurent@vivier.eu>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2a3d4701-ba69-9e9d-2246-4cccec2c1d64@linaro.org>
-Date: Sun, 21 Nov 2021 16:47:43 +0100
+Message-ID: <2fe23639-4531-6f42-fbd3-c4e5e0e1ce31@linaro.org>
+Date: Sun, 21 Nov 2021 16:51:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211121095933.28174-1-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20211121151711.331653-1-laurent@vivier.eu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -92,36 +90,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/21/21 10:59 AM, Mark Cave-Ayland wrote:
-> The following changes since commit 8627edfb3f1fca24a96a0954148885c3241c10f8:
+On 11/21/21 4:17 PM, Laurent Vivier wrote:
+> target_mmap() can fail and return -1, but we don't check for that and
+> instead assume it's always valid.
 > 
->    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2021-11-19 17:16:57 +0100)
-> 
-> are available in the Git repository at:
-> 
->    git://github.com/mcayland/qemu.git tags/qemu-sparc-20211121
-> 
-> for you to fetch changes up to 319e89cdc32096432b578152a47d0d156033b711:
-> 
->    escc: update the R_SPEC register SPEC_ALLSENT bit when writing to W_TXCTRL1 (2021-11-21 09:56:52 +0000)
-> 
-> ----------------------------------------------------------------
-> qemu-sparc queue
->    - contains fixes for ESCC reset issues with Sun PROM and OpenBSD on SPARC32
-> 
-> ----------------------------------------------------------------
-> Mark Cave-Ayland (2):
->        escc: always set STATUS_TXEMPTY in R_STATUS on device reset
->        escc: update the R_SPEC register SPEC_ALLSENT bit when writing to W_TXCTRL1
-> 
->   hw/char/escc.c | 25 +++++++++++++++++++++++++
->   1 file changed, 25 insertions(+)
+> Fixes: db2af69d6ba8 ("linux-user: Add infrastructure for a signal trampoline page")
+> Cc: richard.henderson@linaro.org
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>   linux-user/elfload.c | 10 +++++++---
+>   1 file changed, 7 insertions(+), 3 deletions(-)
 
-Applied, thanks.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
+> 
+> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> index 5da8c02d0822..767f54c76dc5 100644
+> --- a/linux-user/elfload.c
+> +++ b/linux-user/elfload.c
+> @@ -3254,9 +3254,13 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
+>        * Otherwise, allocate a private page to hold them.
+>        */
+>       if (TARGET_ARCH_HAS_SIGTRAMP_PAGE) {
+> -        abi_ulong tramp_page = target_mmap(0, TARGET_PAGE_SIZE,
+> -                                           PROT_READ | PROT_WRITE,
+> -                                           MAP_PRIVATE | MAP_ANON, -1, 0);
+> +        abi_long tramp_page = target_mmap(0, TARGET_PAGE_SIZE,
+> +                                          PROT_READ | PROT_WRITE,
+> +                                          MAP_PRIVATE | MAP_ANON, -1, 0);
+> +        if (tramp_page == -1) {
+> +            return -errno;
+> +        }
+> +
+>           setup_sigtramp(tramp_page);
+>           target_mprotect(tramp_page, TARGET_PAGE_SIZE, PROT_READ | PROT_EXEC);
+>       }
+> 
 
 
