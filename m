@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90CC44590D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 16:04:28 +0100 (CET)
-Received: from localhost ([::1]:46794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787324590DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 16:06:02 +0100 (CET)
+Received: from localhost ([::1]:50422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpArq-0007Oe-RW
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 10:04:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39682)
+	id 1mpAtN-0001Vf-JR
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 10:06:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mpAoq-0003zw-8L
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:01:20 -0500
-Received: from [2607:f8b0:4864:20::92a] (port=46724
- helo=mail-ua1-x92a.google.com)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mpAqf-0006kp-G8
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:03:13 -0500
+Received: from [2607:f8b0:4864:20::935] (port=42940
+ helo=mail-ua1-x935.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mpAol-0008Dh-6c
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:01:19 -0500
-Received: by mail-ua1-x92a.google.com with SMTP id az37so37074355uab.13
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 07:01:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mpAqY-00009O-Rw
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:03:13 -0500
+Received: by mail-ua1-x935.google.com with SMTP id t13so37089160uad.9
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 07:03:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nm/kY+Nkh4m8i9zHe0tmSMvjxrNBqF8vMpSagpedPjU=;
- b=5+9YIXqRpfsgM9e3Pyif8YPlZgb0Yuwn+Ch2ZOUYkdCkFGgv5wBzAFjQhNgREZ2V75
- 0y+UeUht2PJN5vksgtEFznBFPeSVU2Pu3sfopJefMj4Fr8FNppNWeuGkIgnJQ5Mld+h8
- eXkS/cGySJ2LAy4X3vISFOLdqrboLJD6qBQ//2hJiP31UapNpzNAh6WcupqShQUzyF70
- UvYTAoRZJZ56VuTtqwu55H/Unq+wcT1vXClvzlwEb4N0RQ9lhyvqOLlC6txAp4R7cTOr
- zjpCYZTAQeMc9lAdiYG02ZjRqZaXV1Y5rs639Qzuft7FNUln1S5HF/fMrdJztIq9tf8w
- Pj1Q==
+ :cc; bh=EmAGaw5kRpez1jLTPSpWtKtZbGI3Ajvi+X5YLNSqjc4=;
+ b=be4xlZG3N8wBkkfbMPuyFwe3798w8T5wo8DuSLZaqqN8u0GSCgJoCjEIrT91FKt58x
+ 448zSxWEkBklqLbXPU0UUNQAQ0iCEhYGJw0n70PSt6+SBwQ1Bx1FUWNntmIoen2EXogq
+ uFXkVTMMD/IBy9WbcS6ffn2hEv5iDeZGxXuYIELmPm6G0A0UZf11fwATDvUkhZG8HrYa
+ Li5EZ70FW/nfu8qbcl0ajnWOyfhz5aLmC8GGXHs3ifEFh25jWGZ+PpL3OBx2oR6FRxEa
+ EsxFaaRHZm6mtr/TQd+AYHWzqp7YJAfxyM86dSSRBwhjXT9mg7OkhlUVUkDSOeh9pJAW
+ cSjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nm/kY+Nkh4m8i9zHe0tmSMvjxrNBqF8vMpSagpedPjU=;
- b=mjTvkW5XwMrTOHI3Wp5F6B6zi7pJm8i1oPvgjxBeQfY19VViKpY2Dd9sBH2dlJTqrL
- W/HNhS6J9PuEJ/o6CyuJUKmtSrDsHWVF6ZUi0u4ida2wVZOtlVCey0sqY3zdDPhJR2Yy
- z5YvfwEbEuIEx7GSfEgZkhr8fPSsW+o2b9jv+qG5HY4nHJ4iW7zhSoMsSwpzdqc+6Z6a
- /KYzQVUmDFrkCnOyA3ldOYv/Z26fpY6wtyhsFgh6lGvsPgeQWLIWx8TrkDIaTxJIqFoK
- case2wMnAByPa0yJQb+OBsNAIPypTvnnurENhi91xG+m03poARE2w3P0bXlYUPYQS7lV
- 51Mw==
-X-Gm-Message-State: AOAM530/iulyINRXSFxPWhCSEbpIkQi/XrZIRyUcqzWvNKV02TfV8SfF
- OkRmNjLsTe0yIurS+amDNLTulpqaTLrzOBjQfrjGgA==
-X-Google-Smtp-Source: ABdhPJw9UIwjeWRssE422DVZxmnqRKuRyqqbazxizpx6BNK0yaV0VyNwpAUrMYULv15SoVmLQUu8V35N42Soewqd/BY=
-X-Received: by 2002:a05:6102:d94:: with SMTP id
- d20mr134501462vst.12.1637593273401; 
- Mon, 22 Nov 2021 07:01:13 -0800 (PST)
+ bh=EmAGaw5kRpez1jLTPSpWtKtZbGI3Ajvi+X5YLNSqjc4=;
+ b=jEB8lX9ApjJFOMwSC+Cjr9/LACfPT7fZYCJYhKl1KAeWX0xO7dnd/BAI9mMT5omfjX
+ zxuOncKyQ54aH5WxLdFEDhkuFoaRRS7SO0rh2gntj8wXFFnpLWnmX39E7PpwmMriQldG
+ 9jR+4JkKPdNfNfrVqgPhZYmFOgWeM3DHu4SUSDA02Mv37Ibz8uxIiC9OE1IBC0PTZi28
+ 3wNBhRhjppjiXfyRDIL42P7TCPvWxg1RikbR8SWLlqkS/pfgtYEuw2htLwHNQaiuHSd6
+ ENIQ08U2A7gEVdchgN3n0RYHP02QP8SL6EOD41HMzqRibNp68h20/RTyKiVSa1pcCeQg
+ Yv2w==
+X-Gm-Message-State: AOAM531OaLTQ9S+HPPUIGNjqjQliCrdIVsd3Ac5py7J0oez2ZCsCjo2j
+ BJ8Tb9GnZXS0vaZso/EdzSiJHr3FqzrYibQ1Eep55A==
+X-Google-Smtp-Source: ABdhPJzLbd3GgFKy+hFntOVLMF0NDOqmzR4QP39GGE+FBD0PmhOKj0OS+pam1ybGo/jOReyf35fG3TBTUnEBgoBNooY=
+X-Received: by 2002:ab0:6f47:: with SMTP id r7mr86263206uat.85.1637593384941; 
+ Mon, 22 Nov 2021 07:03:04 -0800 (PST)
 MIME-Version: 1.0
 References: <20211122131200.229286-1-richard.henderson@linaro.org>
- <20211122131200.229286-3-richard.henderson@linaro.org>
-In-Reply-To: <20211122131200.229286-3-richard.henderson@linaro.org>
+ <20211122131200.229286-2-richard.henderson@linaro.org>
+In-Reply-To: <20211122131200.229286-2-richard.henderson@linaro.org>
 From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 22 Nov 2021 08:01:02 -0700
-Message-ID: <CANCZdfred9sw_3beK6_eGRJSg9wVhbzotWatCbesEyEh5RGPpQ@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 2/2] linux-user/signal.c: Create a common
- rewind_if_in_safe_syscall
+Date: Mon, 22 Nov 2021 08:02:53 -0700
+Message-ID: <CANCZdfqvnO2+EAOU2_z1fPZh2GLgzO34wGAWrrRW8PbLzoOaTw@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 1/2] linux-user: Add host_signal_set_pc to set pc
+ in mcontext
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000059144c05d161e54f"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92a
+Content-Type: multipart/alternative; boundary="000000000000ff0f1e05d161ebe4"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::935
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::92a;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::935;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x935.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -87,7 +86,7 @@ Cc: Laurent Vivier <laurent@vivier.eu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000059144c05d161e54f
+--000000000000ff0f1e05d161ebe4
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -96,324 +95,216 @@ richard.henderson@linaro.org> wrote:
 
 > From: Warner Losh <imp@bsdimp.com>
 >
-> All instances of rewind_if_in_safe_syscall are the same, differing only
-> in how the instruction point is fetched from the ucontext and the size
-> of the registers. Use host_signal_pc and new host_signal_set_pc
-> interfaces to fetch the pointer to the PC and adjust if needed. Delete
-> all the old copies of rewind_if_in_safe_syscall.
+> Add a new function host_signal_set_pc to set the next pc in an
+> mcontext. The caller should ensure this is a valid PC for execution.
 >
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Message-Id: <20211113045603.60391-3-imp@bsdimp.com>
-> [rth: include safe-syscall.h, simplify ifdefs]
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20211113045603.60391-2-imp@bsdimp.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/host/aarch64/hostdep.h | 20 --------------------
->  linux-user/host/arm/hostdep.h     | 20 --------------------
->  linux-user/host/i386/hostdep.h    | 20 --------------------
->  linux-user/host/ppc64/hostdep.h   | 20 --------------------
->  linux-user/host/riscv/hostdep.h   | 20 --------------------
->  linux-user/host/s390x/hostdep.h   | 20 --------------------
->  linux-user/host/x86_64/hostdep.h  | 20 --------------------
->  linux-user/safe-syscall.h         |  3 +++
->  linux-user/signal.c               | 15 ++++++++++++---
->  9 files changed, 15 insertions(+), 143 deletions(-)
+>  linux-user/host/aarch64/host-signal.h | 5 +++++
+>  linux-user/host/alpha/host-signal.h   | 5 +++++
+>  linux-user/host/arm/host-signal.h     | 5 +++++
+>  linux-user/host/i386/host-signal.h    | 5 +++++
+>  linux-user/host/mips/host-signal.h    | 5 +++++
+>  linux-user/host/ppc/host-signal.h     | 5 +++++
+>  linux-user/host/riscv/host-signal.h   | 5 +++++
+>  linux-user/host/s390/host-signal.h    | 5 +++++
+>  linux-user/host/sparc/host-signal.h   | 9 +++++++++
+>  linux-user/host/x86_64/host-signal.h  | 5 +++++
+>  10 files changed, 54 insertions(+)
 >
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
 
-The changes to what I wrote look good.
+This looks like what I submitted, and will work with the cleaned up other
+half.
 
 Warner
 
 
-> diff --git a/linux-user/host/aarch64/hostdep.h
-> b/linux-user/host/aarch64/hostdep.h
-> index a8d41a21ad..39299d798a 100644
-> --- a/linux-user/host/aarch64/hostdep.h
-> +++ b/linux-user/host/aarch64/hostdep.h
-> @@ -15,24 +15,4 @@
->  /* We have a safe-syscall.inc.S */
->  #define HAVE_SAFE_SYSCALL
->
-> -#ifndef __ASSEMBLER__
-> -
-> -/* These are defined by the safe-syscall.inc.S file */
-> -extern char safe_syscall_start[];
-> -extern char safe_syscall_end[];
-> -
-> -/* Adjust the signal context to rewind out of safe-syscall if we're in i=
-t
-> */
-> -static inline void rewind_if_in_safe_syscall(void *puc)
-> -{
-> -    ucontext_t *uc =3D puc;
-> -    __u64 *pcreg =3D &uc->uc_mcontext.pc;
-> -
-> -    if (*pcreg > (uintptr_t)safe_syscall_start
-> -        && *pcreg < (uintptr_t)safe_syscall_end) {
-> -        *pcreg =3D (uintptr_t)safe_syscall_start;
-> -    }
-> -}
-> -
-> -#endif /* __ASSEMBLER__ */
-> -
->  #endif
-> diff --git a/linux-user/host/arm/hostdep.h b/linux-user/host/arm/hostdep.=
-h
-> index 9276fe6ceb..86b137875a 100644
-> --- a/linux-user/host/arm/hostdep.h
-> +++ b/linux-user/host/arm/hostdep.h
-> @@ -15,24 +15,4 @@
->  /* We have a safe-syscall.inc.S */
->  #define HAVE_SAFE_SYSCALL
->
-> -#ifndef __ASSEMBLER__
-> -
-> -/* These are defined by the safe-syscall.inc.S file */
-> -extern char safe_syscall_start[];
-> -extern char safe_syscall_end[];
-> -
-> -/* Adjust the signal context to rewind out of safe-syscall if we're in i=
-t
-> */
-> -static inline void rewind_if_in_safe_syscall(void *puc)
-> -{
-> -    ucontext_t *uc =3D puc;
-> -    unsigned long *pcreg =3D &uc->uc_mcontext.arm_pc;
-> -
-> -    if (*pcreg > (uintptr_t)safe_syscall_start
-> -        && *pcreg < (uintptr_t)safe_syscall_end) {
-> -        *pcreg =3D (uintptr_t)safe_syscall_start;
-> -    }
-> -}
-> -
-> -#endif /* __ASSEMBLER__ */
-> -
->  #endif
-> diff --git a/linux-user/host/i386/hostdep.h
-> b/linux-user/host/i386/hostdep.h
-> index 073be74d87..ce7136501f 100644
-> --- a/linux-user/host/i386/hostdep.h
-> +++ b/linux-user/host/i386/hostdep.h
-> @@ -15,24 +15,4 @@
->  /* We have a safe-syscall.inc.S */
->  #define HAVE_SAFE_SYSCALL
->
-> -#ifndef __ASSEMBLER__
-> -
-> -/* These are defined by the safe-syscall.inc.S file */
-> -extern char safe_syscall_start[];
-> -extern char safe_syscall_end[];
-> -
-> -/* Adjust the signal context to rewind out of safe-syscall if we're in i=
-t
-> */
-> -static inline void rewind_if_in_safe_syscall(void *puc)
-> -{
-> -    ucontext_t *uc =3D puc;
-> -    greg_t *pcreg =3D &uc->uc_mcontext.gregs[REG_EIP];
-> -
-> -    if (*pcreg > (uintptr_t)safe_syscall_start
-> -        && *pcreg < (uintptr_t)safe_syscall_end) {
-> -        *pcreg =3D (uintptr_t)safe_syscall_start;
-> -    }
-> -}
-> -
-> -#endif /* __ASSEMBLER__ */
-> -
->  #endif
-> diff --git a/linux-user/host/ppc64/hostdep.h
-> b/linux-user/host/ppc64/hostdep.h
-> index 98979ad917..0c290dd904 100644
-> --- a/linux-user/host/ppc64/hostdep.h
-> +++ b/linux-user/host/ppc64/hostdep.h
-> @@ -15,24 +15,4 @@
->  /* We have a safe-syscall.inc.S */
->  #define HAVE_SAFE_SYSCALL
->
-> -#ifndef __ASSEMBLER__
-> -
-> -/* These are defined by the safe-syscall.inc.S file */
-> -extern char safe_syscall_start[];
-> -extern char safe_syscall_end[];
-> -
-> -/* Adjust the signal context to rewind out of safe-syscall if we're in i=
-t
-> */
-> -static inline void rewind_if_in_safe_syscall(void *puc)
-> -{
-> -    ucontext_t *uc =3D puc;
-> -    unsigned long *pcreg =3D &uc->uc_mcontext.gp_regs[PT_NIP];
-> -
-> -    if (*pcreg > (uintptr_t)safe_syscall_start
-> -        && *pcreg < (uintptr_t)safe_syscall_end) {
-> -        *pcreg =3D (uintptr_t)safe_syscall_start;
-> -    }
-> -}
-> -
-> -#endif /* __ASSEMBLER__ */
-> -
->  #endif
-> diff --git a/linux-user/host/riscv/hostdep.h
-> b/linux-user/host/riscv/hostdep.h
-> index 2ba07456ae..7f67c22868 100644
-> --- a/linux-user/host/riscv/hostdep.h
-> +++ b/linux-user/host/riscv/hostdep.h
-> @@ -11,24 +11,4 @@
->  /* We have a safe-syscall.inc.S */
->  #define HAVE_SAFE_SYSCALL
->
-> -#ifndef __ASSEMBLER__
-> -
-> -/* These are defined by the safe-syscall.inc.S file */
-> -extern char safe_syscall_start[];
-> -extern char safe_syscall_end[];
-> -
-> -/* Adjust the signal context to rewind out of safe-syscall if we're in i=
-t
-> */
-> -static inline void rewind_if_in_safe_syscall(void *puc)
-> -{
-> -    ucontext_t *uc =3D puc;
-> -    unsigned long *pcreg =3D &uc->uc_mcontext.__gregs[REG_PC];
-> -
-> -    if (*pcreg > (uintptr_t)safe_syscall_start
-> -        && *pcreg < (uintptr_t)safe_syscall_end) {
-> -        *pcreg =3D (uintptr_t)safe_syscall_start;
-> -    }
-> -}
-> -
-> -#endif /* __ASSEMBLER__ */
-> -
->  #endif
-> diff --git a/linux-user/host/s390x/hostdep.h
-> b/linux-user/host/s390x/hostdep.h
-> index 4f0171f36f..d801145854 100644
-> --- a/linux-user/host/s390x/hostdep.h
-> +++ b/linux-user/host/s390x/hostdep.h
-> @@ -15,24 +15,4 @@
->  /* We have a safe-syscall.inc.S */
->  #define HAVE_SAFE_SYSCALL
->
-> -#ifndef __ASSEMBLER__
-> -
-> -/* These are defined by the safe-syscall.inc.S file */
-> -extern char safe_syscall_start[];
-> -extern char safe_syscall_end[];
-> -
-> -/* Adjust the signal context to rewind out of safe-syscall if we're in i=
-t
-> */
-> -static inline void rewind_if_in_safe_syscall(void *puc)
-> -{
-> -    ucontext_t *uc =3D puc;
-> -    unsigned long *pcreg =3D &uc->uc_mcontext.psw.addr;
-> -
-> -    if (*pcreg > (uintptr_t)safe_syscall_start
-> -        && *pcreg < (uintptr_t)safe_syscall_end) {
-> -        *pcreg =3D (uintptr_t)safe_syscall_start;
-> -    }
-> -}
-> -
-> -#endif /* __ASSEMBLER__ */
-> -
->  #endif
-> diff --git a/linux-user/host/x86_64/hostdep.h
-> b/linux-user/host/x86_64/hostdep.h
-> index a4fefb5114..9c62bd26bd 100644
-> --- a/linux-user/host/x86_64/hostdep.h
-> +++ b/linux-user/host/x86_64/hostdep.h
-> @@ -15,24 +15,4 @@
->  /* We have a safe-syscall.inc.S */
->  #define HAVE_SAFE_SYSCALL
->
-> -#ifndef __ASSEMBLER__
-> -
-> -/* These are defined by the safe-syscall.inc.S file */
-> -extern char safe_syscall_start[];
-> -extern char safe_syscall_end[];
-> -
-> -/* Adjust the signal context to rewind out of safe-syscall if we're in i=
-t
-> */
-> -static inline void rewind_if_in_safe_syscall(void *puc)
-> -{
-> -    ucontext_t *uc =3D puc;
-> -    greg_t *pcreg =3D &uc->uc_mcontext.gregs[REG_RIP];
-> -
-> -    if (*pcreg > (uintptr_t)safe_syscall_start
-> -        && *pcreg < (uintptr_t)safe_syscall_end) {
-> -        *pcreg =3D (uintptr_t)safe_syscall_start;
-> -    }
-> -}
-> -
-> -#endif /* __ASSEMBLER__ */
-> -
->  #endif
-> diff --git a/linux-user/safe-syscall.h b/linux-user/safe-syscall.h
-> index 6bc0390262..aaa9ffc0e2 100644
-> --- a/linux-user/safe-syscall.h
-> +++ b/linux-user/safe-syscall.h
-> @@ -127,6 +127,9 @@
->  #ifdef HAVE_SAFE_SYSCALL
->  /* The core part of this function is implemented in assembly */
->  extern long safe_syscall_base(int *pending, long number, ...);
-> +/* These are defined by the safe-syscall.inc.S file */
-> +extern char safe_syscall_start[];
-> +extern char safe_syscall_end[];
->
->  #define safe_syscall(...)                                               =
-\
->      ({                                                                  =
-\
-> diff --git a/linux-user/signal.c b/linux-user/signal.c
-> index 81c45bfce9..6d5e5b698c 100644
-> --- a/linux-user/signal.c
-> +++ b/linux-user/signal.c
-> @@ -31,6 +31,7 @@
->  #include "trace.h"
->  #include "signal-common.h"
->  #include "host-signal.h"
-> +#include "safe-syscall.h"
->
->  static struct target_sigaction sigact_table[TARGET_NSIG];
->
-> @@ -793,12 +794,20 @@ int queue_signal(CPUArchState *env, int sig, int
-> si_type,
->      return 1; /* indicates that the signal was queued */
+> diff --git a/linux-user/host/aarch64/host-signal.h
+> b/linux-user/host/aarch64/host-signal.h
+> index 0c0b08383a..9770b36dc1 100644
+> --- a/linux-user/host/aarch64/host-signal.h
+> +++ b/linux-user/host/aarch64/host-signal.h
+> @@ -35,6 +35,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+>      return uc->uc_mcontext.pc;
 >  }
 >
-> -#ifndef HAVE_SAFE_SYSCALL
-> +
-> +/* Adjust the signal context to rewind out of safe-syscall if we're in i=
-t
-> */
->  static inline void rewind_if_in_safe_syscall(void *puc)
->  {
-> -    /* Default version: never rewind */
-> -}
-> +#ifdef HAVE_SAFE_SYSCALL
-> +    ucontext_t *uc =3D (ucontext_t *)puc;
-> +    uintptr_t pcreg =3D host_signal_pc(uc);
-> +
-> +    if (pcreg > (uintptr_t)safe_syscall_start
-> +        && pcreg < (uintptr_t)safe_syscall_end) {
-> +        host_signal_set_pc(uc, (uintptr_t)safe_syscall_start);
-> +    }
->  #endif
+> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+> +{
+> +    uc->uc_mcontext.pc =3D pc;
 > +}
->
->  static void host_signal_handler(int host_sig, siginfo_t *info, void *puc=
-)
+> +
+>  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
 >  {
+>      struct _aarch64_ctx *hdr;
+> diff --git a/linux-user/host/alpha/host-signal.h
+> b/linux-user/host/alpha/host-signal.h
+> index e080be412f..f4c942948a 100644
+> --- a/linux-user/host/alpha/host-signal.h
+> +++ b/linux-user/host/alpha/host-signal.h
+> @@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+>      return uc->uc_mcontext.sc_pc;
+>  }
+>
+> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+> +{
+> +    uc->uc_mcontext.sc_pc =3D pc;
+> +}
+> +
+>  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+>  {
+>      uint32_t *pc =3D (uint32_t *)host_signal_pc(uc);
+> diff --git a/linux-user/host/arm/host-signal.h
+> b/linux-user/host/arm/host-signal.h
+> index efb165c0c5..6c095773c0 100644
+> --- a/linux-user/host/arm/host-signal.h
+> +++ b/linux-user/host/arm/host-signal.h
+> @@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+>      return uc->uc_mcontext.arm_pc;
+>  }
+>
+> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+> +{
+> +    uc->uc_mcontext.arm_pc =3D pc;
+> +}
+> +
+>  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+>  {
+>      /*
+> diff --git a/linux-user/host/i386/host-signal.h
+> b/linux-user/host/i386/host-signal.h
+> index 4c8eef99ce..abe1ece5c9 100644
+> --- a/linux-user/host/i386/host-signal.h
+> +++ b/linux-user/host/i386/host-signal.h
+> @@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+>      return uc->uc_mcontext.gregs[REG_EIP];
+>  }
+>
+> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+> +{
+> +    uc->uc_mcontext.gregs[REG_EIP] =3D pc;
+> +}
+> +
+>  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+>  {
+>      return uc->uc_mcontext.gregs[REG_TRAPNO] =3D=3D 0xe
+> diff --git a/linux-user/host/mips/host-signal.h
+> b/linux-user/host/mips/host-signal.h
+> index ef341f7c20..c666ed8c3f 100644
+> --- a/linux-user/host/mips/host-signal.h
+> +++ b/linux-user/host/mips/host-signal.h
+> @@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+>      return uc->uc_mcontext.pc;
+>  }
+>
+> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+> +{
+> +    uc->uc_mcontext.pc =3D pc;
+> +}
+> +
+>  #if defined(__misp16) || defined(__mips_micromips)
+>  #error "Unsupported encoding"
+>  #endif
+> diff --git a/linux-user/host/ppc/host-signal.h
+> b/linux-user/host/ppc/host-signal.h
+> index a491c413dc..1d8e658ff7 100644
+> --- a/linux-user/host/ppc/host-signal.h
+> +++ b/linux-user/host/ppc/host-signal.h
+> @@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+>      return uc->uc_mcontext.regs->nip;
+>  }
+>
+> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+> +{
+> +    uc->uc_mcontext.regs->nip =3D pc;
+> +}
+> +
+>  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+>  {
+>      return uc->uc_mcontext.regs->trap !=3D 0x400
+> diff --git a/linux-user/host/riscv/host-signal.h
+> b/linux-user/host/riscv/host-signal.h
+> index 3b168cb58b..a4f170efb0 100644
+> --- a/linux-user/host/riscv/host-signal.h
+> +++ b/linux-user/host/riscv/host-signal.h
+> @@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+>      return uc->uc_mcontext.__gregs[REG_PC];
+>  }
+>
+> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+> +{
+> +    uc->uc_mcontext.__gregs[REG_PC] =3D pc;
+> +}
+> +
+>  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+>  {
+>      /*
+> diff --git a/linux-user/host/s390/host-signal.h
+> b/linux-user/host/s390/host-signal.h
+> index 26990e4893..a524f2ab00 100644
+> --- a/linux-user/host/s390/host-signal.h
+> +++ b/linux-user/host/s390/host-signal.h
+> @@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+>      return uc->uc_mcontext.psw.addr;
+>  }
+>
+> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+> +{
+> +    uc->uc_mcontext.psw.addr =3D pc;
+> +}
+> +
+>  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+>  {
+>      uint16_t *pinsn =3D (uint16_t *)host_signal_pc(uc);
+> diff --git a/linux-user/host/sparc/host-signal.h
+> b/linux-user/host/sparc/host-signal.h
+> index 5e71d33f8e..7342936071 100644
+> --- a/linux-user/host/sparc/host-signal.h
+> +++ b/linux-user/host/sparc/host-signal.h
+> @@ -20,6 +20,15 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+>  #endif
+>  }
+>
+> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+> +{
+> +#ifdef __arch64__
+> +    uc->uc_mcontext.mc_gregs[MC_PC] =3D pc;
+> +#else
+> +    uc->uc_mcontext.gregs[REG_PC] =3D pc;
+> +#endif
+> +}
+> +
+>  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+>  {
+>      uint32_t insn =3D *(uint32_t *)host_signal_pc(uc);
+> diff --git a/linux-user/host/x86_64/host-signal.h
+> b/linux-user/host/x86_64/host-signal.h
+> index 883d2fcf65..c71d597eb2 100644
+> --- a/linux-user/host/x86_64/host-signal.h
+> +++ b/linux-user/host/x86_64/host-signal.h
+> @@ -15,6 +15,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+>      return uc->uc_mcontext.gregs[REG_RIP];
+>  }
+>
+> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+> +{
+> +    uc->uc_mcontext.gregs[REG_RIP] =3D pc;
+> +}
+> +
+>  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+>  {
+>      return uc->uc_mcontext.gregs[REG_TRAPNO] =3D=3D 0xe
 > --
 > 2.25.1
 >
 >
 
---00000000000059144c05d161e54f
+--000000000000ff0f1e05d161ebe4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -425,340 +316,236 @@ nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
 padding-left:1ex">From: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" t=
 arget=3D"_blank">imp@bsdimp.com</a>&gt;<br>
 <br>
-All instances of rewind_if_in_safe_syscall are the same, differing only<br>
-in how the instruction point is fetched from the ucontext and the size<br>
-of the registers. Use host_signal_pc and new host_signal_set_pc<br>
-interfaces to fetch the pointer to the PC and adjust if needed. Delete<br>
-all the old copies of rewind_if_in_safe_syscall.<br>
+Add a new function host_signal_set_pc to set the next pc in an<br>
+mcontext. The caller should ensure this is a valid PC for execution.<br>
 <br>
 Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=3D"=
 _blank">imp@bsdimp.com</a>&gt;<br>
-Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
 org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-Message-Id: &lt;<a href=3D"mailto:20211113045603.60391-3-imp@bsdimp.com" ta=
-rget=3D"_blank">20211113045603.60391-3-imp@bsdimp.com</a>&gt;<br>
-[rth: include safe-syscall.h, simplify ifdefs]<br>
+Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
+ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
+Message-Id: &lt;<a href=3D"mailto:20211113045603.60391-2-imp@bsdimp.com" ta=
+rget=3D"_blank">20211113045603.60391-2-imp@bsdimp.com</a>&gt;<br>
 Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
 naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
 ---<br>
-=C2=A0linux-user/host/aarch64/hostdep.h | 20 --------------------<br>
-=C2=A0linux-user/host/arm/hostdep.h=C2=A0 =C2=A0 =C2=A0| 20 ---------------=
------<br>
-=C2=A0linux-user/host/i386/hostdep.h=C2=A0 =C2=A0 | 20 --------------------=
-<br>
-=C2=A0linux-user/host/ppc64/hostdep.h=C2=A0 =C2=A0| 20 --------------------=
-<br>
-=C2=A0linux-user/host/riscv/hostdep.h=C2=A0 =C2=A0| 20 --------------------=
-<br>
-=C2=A0linux-user/host/s390x/hostdep.h=C2=A0 =C2=A0| 20 --------------------=
-<br>
-=C2=A0linux-user/host/x86_64/hostdep.h=C2=A0 | 20 --------------------<br>
-=C2=A0linux-user/safe-syscall.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 3 =
-+++<br>
-=C2=A0linux-user/signal.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| 15 ++++++++++++---<br>
-=C2=A09 files changed, 15 insertions(+), 143 deletions(-)<br></blockquote><=
-div><br></div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdim=
-p.com">imp@bsdimp.com</a>&gt;</div><div><br></div><div>The changes to what =
-I wrote look good.<br></div><div><br></div><div>Warner<br></div><div>=C2=A0=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">
-diff --git a/linux-user/host/aarch64/hostdep.h b/linux-user/host/aarch64/ho=
-stdep.h<br>
-index a8d41a21ad..39299d798a 100644<br>
---- a/linux-user/host/aarch64/hostdep.h<br>
-+++ b/linux-user/host/aarch64/hostdep.h<br>
-@@ -15,24 +15,4 @@<br>
-=C2=A0/* We have a safe-syscall.inc.S */<br>
-=C2=A0#define HAVE_SAFE_SYSCALL<br>
-<br>
--#ifndef __ASSEMBLER__<br>
--<br>
--/* These are defined by the safe-syscall.inc.S file */<br>
--extern char safe_syscall_start[];<br>
--extern char safe_syscall_end[];<br>
--<br>
--/* Adjust the signal context to rewind out of safe-syscall if we&#39;re in=
- it */<br>
--static inline void rewind_if_in_safe_syscall(void *puc)<br>
--{<br>
--=C2=A0 =C2=A0 ucontext_t *uc =3D puc;<br>
--=C2=A0 =C2=A0 __u64 *pcreg =3D &amp;uc-&gt;uc_mcontext.pc;<br>
--<br>
--=C2=A0 =C2=A0 if (*pcreg &gt; (uintptr_t)safe_syscall_start<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; *pcreg &lt; (uintptr_t)safe_syscall=
-_end) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 *pcreg =3D (uintptr_t)safe_syscall_start;<br>
--=C2=A0 =C2=A0 }<br>
--}<br>
--<br>
--#endif /* __ASSEMBLER__ */<br>
--<br>
-=C2=A0#endif<br>
-diff --git a/linux-user/host/arm/hostdep.h b/linux-user/host/arm/hostdep.h<=
-br>
-index 9276fe6ceb..86b137875a 100644<br>
---- a/linux-user/host/arm/hostdep.h<br>
-+++ b/linux-user/host/arm/hostdep.h<br>
-@@ -15,24 +15,4 @@<br>
-=C2=A0/* We have a safe-syscall.inc.S */<br>
-=C2=A0#define HAVE_SAFE_SYSCALL<br>
-<br>
--#ifndef __ASSEMBLER__<br>
--<br>
--/* These are defined by the safe-syscall.inc.S file */<br>
--extern char safe_syscall_start[];<br>
--extern char safe_syscall_end[];<br>
--<br>
--/* Adjust the signal context to rewind out of safe-syscall if we&#39;re in=
- it */<br>
--static inline void rewind_if_in_safe_syscall(void *puc)<br>
--{<br>
--=C2=A0 =C2=A0 ucontext_t *uc =3D puc;<br>
--=C2=A0 =C2=A0 unsigned long *pcreg =3D &amp;uc-&gt;uc_mcontext.arm_pc;<br>
--<br>
--=C2=A0 =C2=A0 if (*pcreg &gt; (uintptr_t)safe_syscall_start<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; *pcreg &lt; (uintptr_t)safe_syscall=
-_end) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 *pcreg =3D (uintptr_t)safe_syscall_start;<br>
--=C2=A0 =C2=A0 }<br>
--}<br>
--<br>
--#endif /* __ASSEMBLER__ */<br>
--<br>
-=C2=A0#endif<br>
-diff --git a/linux-user/host/i386/hostdep.h b/linux-user/host/i386/hostdep.=
-h<br>
-index 073be74d87..ce7136501f 100644<br>
---- a/linux-user/host/i386/hostdep.h<br>
-+++ b/linux-user/host/i386/hostdep.h<br>
-@@ -15,24 +15,4 @@<br>
-=C2=A0/* We have a safe-syscall.inc.S */<br>
-=C2=A0#define HAVE_SAFE_SYSCALL<br>
-<br>
--#ifndef __ASSEMBLER__<br>
--<br>
--/* These are defined by the safe-syscall.inc.S file */<br>
--extern char safe_syscall_start[];<br>
--extern char safe_syscall_end[];<br>
--<br>
--/* Adjust the signal context to rewind out of safe-syscall if we&#39;re in=
- it */<br>
--static inline void rewind_if_in_safe_syscall(void *puc)<br>
--{<br>
--=C2=A0 =C2=A0 ucontext_t *uc =3D puc;<br>
--=C2=A0 =C2=A0 greg_t *pcreg =3D &amp;uc-&gt;uc_mcontext.gregs[REG_EIP];<br=
+=C2=A0linux-user/host/aarch64/host-signal.h | 5 +++++<br>
+=C2=A0linux-user/host/alpha/host-signal.h=C2=A0 =C2=A0| 5 +++++<br>
+=C2=A0linux-user/host/arm/host-signal.h=C2=A0 =C2=A0 =C2=A0| 5 +++++<br>
+=C2=A0linux-user/host/i386/host-signal.h=C2=A0 =C2=A0 | 5 +++++<br>
+=C2=A0linux-user/host/mips/host-signal.h=C2=A0 =C2=A0 | 5 +++++<br>
+=C2=A0linux-user/host/ppc/host-signal.h=C2=A0 =C2=A0 =C2=A0| 5 +++++<br>
+=C2=A0linux-user/host/riscv/host-signal.h=C2=A0 =C2=A0| 5 +++++<br>
+=C2=A0linux-user/host/s390/host-signal.h=C2=A0 =C2=A0 | 5 +++++<br>
+=C2=A0linux-user/host/sparc/host-signal.h=C2=A0 =C2=A0| 9 +++++++++<br>
+=C2=A0linux-user/host/x86_64/host-signal.h=C2=A0 | 5 +++++<br>
+=C2=A010 files changed, 54 insertions(+)<br></blockquote><div><br></div><di=
+v>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp=
+.com</a>&gt;</div><div><br></div><div>This looks like what I submitted, and=
+ will work with the cleaned up other half.</div><div><br></div><div>Warner<=
+br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
 >
--<br>
--=C2=A0 =C2=A0 if (*pcreg &gt; (uintptr_t)safe_syscall_start<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; *pcreg &lt; (uintptr_t)safe_syscall=
-_end) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 *pcreg =3D (uintptr_t)safe_syscall_start;<br>
--=C2=A0 =C2=A0 }<br>
--}<br>
--<br>
--#endif /* __ASSEMBLER__ */<br>
--<br>
-=C2=A0#endif<br>
-diff --git a/linux-user/host/ppc64/hostdep.h b/linux-user/host/ppc64/hostde=
-p.h<br>
-index 98979ad917..0c290dd904 100644<br>
---- a/linux-user/host/ppc64/hostdep.h<br>
-+++ b/linux-user/host/ppc64/hostdep.h<br>
-@@ -15,24 +15,4 @@<br>
-=C2=A0/* We have a safe-syscall.inc.S */<br>
-=C2=A0#define HAVE_SAFE_SYSCALL<br>
-<br>
--#ifndef __ASSEMBLER__<br>
--<br>
--/* These are defined by the safe-syscall.inc.S file */<br>
--extern char safe_syscall_start[];<br>
--extern char safe_syscall_end[];<br>
--<br>
--/* Adjust the signal context to rewind out of safe-syscall if we&#39;re in=
- it */<br>
--static inline void rewind_if_in_safe_syscall(void *puc)<br>
--{<br>
--=C2=A0 =C2=A0 ucontext_t *uc =3D puc;<br>
--=C2=A0 =C2=A0 unsigned long *pcreg =3D &amp;uc-&gt;uc_mcontext.gp_regs[PT_=
-NIP];<br>
--<br>
--=C2=A0 =C2=A0 if (*pcreg &gt; (uintptr_t)safe_syscall_start<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; *pcreg &lt; (uintptr_t)safe_syscall=
-_end) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 *pcreg =3D (uintptr_t)safe_syscall_start;<br>
--=C2=A0 =C2=A0 }<br>
--}<br>
--<br>
--#endif /* __ASSEMBLER__ */<br>
--<br>
-=C2=A0#endif<br>
-diff --git a/linux-user/host/riscv/hostdep.h b/linux-user/host/riscv/hostde=
-p.h<br>
-index 2ba07456ae..7f67c22868 100644<br>
---- a/linux-user/host/riscv/hostdep.h<br>
-+++ b/linux-user/host/riscv/hostdep.h<br>
-@@ -11,24 +11,4 @@<br>
-=C2=A0/* We have a safe-syscall.inc.S */<br>
-=C2=A0#define HAVE_SAFE_SYSCALL<br>
-<br>
--#ifndef __ASSEMBLER__<br>
--<br>
--/* These are defined by the safe-syscall.inc.S file */<br>
--extern char safe_syscall_start[];<br>
--extern char safe_syscall_end[];<br>
--<br>
--/* Adjust the signal context to rewind out of safe-syscall if we&#39;re in=
- it */<br>
--static inline void rewind_if_in_safe_syscall(void *puc)<br>
--{<br>
--=C2=A0 =C2=A0 ucontext_t *uc =3D puc;<br>
--=C2=A0 =C2=A0 unsigned long *pcreg =3D &amp;uc-&gt;uc_mcontext.__gregs[REG=
-_PC];<br>
--<br>
--=C2=A0 =C2=A0 if (*pcreg &gt; (uintptr_t)safe_syscall_start<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; *pcreg &lt; (uintptr_t)safe_syscall=
-_end) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 *pcreg =3D (uintptr_t)safe_syscall_start;<br>
--=C2=A0 =C2=A0 }<br>
--}<br>
--<br>
--#endif /* __ASSEMBLER__ */<br>
--<br>
-=C2=A0#endif<br>
-diff --git a/linux-user/host/s390x/hostdep.h b/linux-user/host/s390x/hostde=
-p.h<br>
-index 4f0171f36f..d801145854 100644<br>
---- a/linux-user/host/s390x/hostdep.h<br>
-+++ b/linux-user/host/s390x/hostdep.h<br>
-@@ -15,24 +15,4 @@<br>
-=C2=A0/* We have a safe-syscall.inc.S */<br>
-=C2=A0#define HAVE_SAFE_SYSCALL<br>
-<br>
--#ifndef __ASSEMBLER__<br>
--<br>
--/* These are defined by the safe-syscall.inc.S file */<br>
--extern char safe_syscall_start[];<br>
--extern char safe_syscall_end[];<br>
--<br>
--/* Adjust the signal context to rewind out of safe-syscall if we&#39;re in=
- it */<br>
--static inline void rewind_if_in_safe_syscall(void *puc)<br>
--{<br>
--=C2=A0 =C2=A0 ucontext_t *uc =3D puc;<br>
--=C2=A0 =C2=A0 unsigned long *pcreg =3D &amp;uc-&gt;uc_mcontext.psw.addr;<b=
+diff --git a/linux-user/host/aarch64/host-signal.h b/linux-user/host/aarch6=
+4/host-signal.h<br>
+index 0c0b08383a..9770b36dc1 100644<br>
+--- a/linux-user/host/aarch64/host-signal.h<br>
++++ b/linux-user/host/aarch64/host-signal.h<br>
+@@ -35,6 +35,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
 r>
--<br>
--=C2=A0 =C2=A0 if (*pcreg &gt; (uintptr_t)safe_syscall_start<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; *pcreg &lt; (uintptr_t)safe_syscall=
-_end) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 *pcreg =3D (uintptr_t)safe_syscall_start;<br>
--=C2=A0 =C2=A0 }<br>
--}<br>
--<br>
--#endif /* __ASSEMBLER__ */<br>
--<br>
-=C2=A0#endif<br>
-diff --git a/linux-user/host/x86_64/hostdep.h b/linux-user/host/x86_64/host=
-dep.h<br>
-index a4fefb5114..9c62bd26bd 100644<br>
---- a/linux-user/host/x86_64/hostdep.h<br>
-+++ b/linux-user/host/x86_64/hostdep.h<br>
-@@ -15,24 +15,4 @@<br>
-=C2=A0/* We have a safe-syscall.inc.S */<br>
-=C2=A0#define HAVE_SAFE_SYSCALL<br>
-<br>
--#ifndef __ASSEMBLER__<br>
--<br>
--/* These are defined by the safe-syscall.inc.S file */<br>
--extern char safe_syscall_start[];<br>
--extern char safe_syscall_end[];<br>
--<br>
--/* Adjust the signal context to rewind out of safe-syscall if we&#39;re in=
- it */<br>
--static inline void rewind_if_in_safe_syscall(void *puc)<br>
--{<br>
--=C2=A0 =C2=A0 ucontext_t *uc =3D puc;<br>
--=C2=A0 =C2=A0 greg_t *pcreg =3D &amp;uc-&gt;uc_mcontext.gregs[REG_RIP];<br=
->
--<br>
--=C2=A0 =C2=A0 if (*pcreg &gt; (uintptr_t)safe_syscall_start<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; *pcreg &lt; (uintptr_t)safe_syscall=
-_end) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 *pcreg =3D (uintptr_t)safe_syscall_start;<br>
--=C2=A0 =C2=A0 }<br>
--}<br>
--<br>
--#endif /* __ASSEMBLER__ */<br>
--<br>
-=C2=A0#endif<br>
-diff --git a/linux-user/safe-syscall.h b/linux-user/safe-syscall.h<br>
-index 6bc0390262..aaa9ffc0e2 100644<br>
---- a/linux-user/safe-syscall.h<br>
-+++ b/linux-user/safe-syscall.h<br>
-@@ -127,6 +127,9 @@<br>
-=C2=A0#ifdef HAVE_SAFE_SYSCALL<br>
-=C2=A0/* The core part of this function is implemented in assembly */<br>
-=C2=A0extern long safe_syscall_base(int *pending, long number, ...);<br>
-+/* These are defined by the safe-syscall.inc.S file */<br>
-+extern char safe_syscall_start[];<br>
-+extern char safe_syscall_end[];<br>
-<br>
-=C2=A0#define safe_syscall(...)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-=C2=A0 =C2=A0 =C2=A0({=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-diff --git a/linux-user/signal.c b/linux-user/signal.c<br>
-index 81c45bfce9..6d5e5b698c 100644<br>
---- a/linux-user/signal.c<br>
-+++ b/linux-user/signal.c<br>
-@@ -31,6 +31,7 @@<br>
-=C2=A0#include &quot;trace.h&quot;<br>
-=C2=A0#include &quot;signal-common.h&quot;<br>
-=C2=A0#include &quot;host-signal.h&quot;<br>
-+#include &quot;safe-syscall.h&quot;<br>
-<br>
-=C2=A0static struct target_sigaction sigact_table[TARGET_NSIG];<br>
-<br>
-@@ -793,12 +794,20 @@ int queue_signal(CPUArchState *env, int sig, int si_t=
-ype,<br>
-=C2=A0 =C2=A0 =C2=A0return 1; /* indicates that the signal was queued */<br=
->
+=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.pc;<br>
 =C2=A0}<br>
 <br>
--#ifndef HAVE_SAFE_SYSCALL<br>
-+<br>
-+/* Adjust the signal context to rewind out of safe-syscall if we&#39;re in=
- it */<br>
-=C2=A0static inline void rewind_if_in_safe_syscall(void *puc)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 /* Default version: never rewind */<br>
--}<br>
-+#ifdef HAVE_SAFE_SYSCALL<br>
-+=C2=A0 =C2=A0 ucontext_t *uc =3D (ucontext_t *)puc;<br>
-+=C2=A0 =C2=A0 uintptr_t pcreg =3D host_signal_pc(uc);<br>
-+<br>
-+=C2=A0 =C2=A0 if (pcreg &gt; (uintptr_t)safe_syscall_start<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; pcreg &lt; (uintptr_t)safe_syscall_=
-end) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 host_signal_set_pc(uc, (uintptr_t)safe_syscall=
-_start);<br>
-+=C2=A0 =C2=A0 }<br>
-=C2=A0#endif<br>
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
++{<br>
++=C2=A0 =C2=A0 uc-&gt;uc_mcontext.pc =3D pc;<br>
 +}<br>
++<br>
+=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
 <br>
-=C2=A0static void host_signal_handler(int host_sig, siginfo_t *info, void *=
-puc)<br>
 =C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0struct _aarch64_ctx *hdr;<br>
+diff --git a/linux-user/host/alpha/host-signal.h b/linux-user/host/alpha/ho=
+st-signal.h<br>
+index e080be412f..f4c942948a 100644<br>
+--- a/linux-user/host/alpha/host-signal.h<br>
++++ b/linux-user/host/alpha/host-signal.h<br>
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.sc_pc;<br>
+=C2=A0}<br>
+<br>
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
++{<br>
++=C2=A0 =C2=A0 uc-&gt;uc_mcontext.sc_pc =3D pc;<br>
++}<br>
++<br>
+=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
+<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t *pc =3D (uint32_t *)host_signal_pc(uc);<br>
+diff --git a/linux-user/host/arm/host-signal.h b/linux-user/host/arm/host-s=
+ignal.h<br>
+index efb165c0c5..6c095773c0 100644<br>
+--- a/linux-user/host/arm/host-signal.h<br>
++++ b/linux-user/host/arm/host-signal.h<br>
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.arm_pc;<br>
+=C2=A0}<br>
+<br>
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
++{<br>
++=C2=A0 =C2=A0 uc-&gt;uc_mcontext.arm_pc =3D pc;<br>
++}<br>
++<br>
+=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
+<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0/*<br>
+diff --git a/linux-user/host/i386/host-signal.h b/linux-user/host/i386/host=
+-signal.h<br>
+index 4c8eef99ce..abe1ece5c9 100644<br>
+--- a/linux-user/host/i386/host-signal.h<br>
++++ b/linux-user/host/i386/host-signal.h<br>
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.gregs[REG_EIP];<br>
+=C2=A0}<br>
+<br>
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
++{<br>
++=C2=A0 =C2=A0 uc-&gt;uc_mcontext.gregs[REG_EIP] =3D pc;<br>
++}<br>
++<br>
+=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
+<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.gregs[REG_TRAPNO] =3D=3D 0xe<=
+br>
+diff --git a/linux-user/host/mips/host-signal.h b/linux-user/host/mips/host=
+-signal.h<br>
+index ef341f7c20..c666ed8c3f 100644<br>
+--- a/linux-user/host/mips/host-signal.h<br>
++++ b/linux-user/host/mips/host-signal.h<br>
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.pc;<br>
+=C2=A0}<br>
+<br>
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
++{<br>
++=C2=A0 =C2=A0 uc-&gt;uc_mcontext.pc =3D pc;<br>
++}<br>
++<br>
+=C2=A0#if defined(__misp16) || defined(__mips_micromips)<br>
+=C2=A0#error &quot;Unsupported encoding&quot;<br>
+=C2=A0#endif<br>
+diff --git a/linux-user/host/ppc/host-signal.h b/linux-user/host/ppc/host-s=
+ignal.h<br>
+index a491c413dc..1d8e658ff7 100644<br>
+--- a/linux-user/host/ppc/host-signal.h<br>
++++ b/linux-user/host/ppc/host-signal.h<br>
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.regs-&gt;nip;<br>
+=C2=A0}<br>
+<br>
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
++{<br>
++=C2=A0 =C2=A0 uc-&gt;uc_mcontext.regs-&gt;nip =3D pc;<br>
++}<br>
++<br>
+=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
+<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.regs-&gt;trap !=3D 0x400<br>
+diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/host/riscv/ho=
+st-signal.h<br>
+index 3b168cb58b..a4f170efb0 100644<br>
+--- a/linux-user/host/riscv/host-signal.h<br>
++++ b/linux-user/host/riscv/host-signal.h<br>
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.__gregs[REG_PC];<br>
+=C2=A0}<br>
+<br>
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
++{<br>
++=C2=A0 =C2=A0 uc-&gt;uc_mcontext.__gregs[REG_PC] =3D pc;<br>
++}<br>
++<br>
+=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
+<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0/*<br>
+diff --git a/linux-user/host/s390/host-signal.h b/linux-user/host/s390/host=
+-signal.h<br>
+index 26990e4893..a524f2ab00 100644<br>
+--- a/linux-user/host/s390/host-signal.h<br>
++++ b/linux-user/host/s390/host-signal.h<br>
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.psw.addr;<br>
+=C2=A0}<br>
+<br>
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
++{<br>
++=C2=A0 =C2=A0 uc-&gt;uc_mcontext.psw.addr =3D pc;<br>
++}<br>
++<br>
+=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
+<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0uint16_t *pinsn =3D (uint16_t *)host_signal_pc(uc);<br>
+diff --git a/linux-user/host/sparc/host-signal.h b/linux-user/host/sparc/ho=
+st-signal.h<br>
+index 5e71d33f8e..7342936071 100644<br>
+--- a/linux-user/host/sparc/host-signal.h<br>
++++ b/linux-user/host/sparc/host-signal.h<br>
+@@ -20,6 +20,15 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
+r>
+=C2=A0#endif<br>
+=C2=A0}<br>
+<br>
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
++{<br>
++#ifdef __arch64__<br>
++=C2=A0 =C2=A0 uc-&gt;uc_mcontext.mc_gregs[MC_PC] =3D pc;<br>
++#else<br>
++=C2=A0 =C2=A0 uc-&gt;uc_mcontext.gregs[REG_PC] =3D pc;<br>
++#endif<br>
++}<br>
++<br>
+=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
+<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t insn =3D *(uint32_t *)host_signal_pc(uc);<br>
+diff --git a/linux-user/host/x86_64/host-signal.h b/linux-user/host/x86_64/=
+host-signal.h<br>
+index 883d2fcf65..c71d597eb2 100644<br>
+--- a/linux-user/host/x86_64/host-signal.h<br>
++++ b/linux-user/host/x86_64/host-signal.h<br>
+@@ -15,6 +15,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.gregs[REG_RIP];<br>
+=C2=A0}<br>
+<br>
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
++{<br>
++=C2=A0 =C2=A0 uc-&gt;uc_mcontext.gregs[REG_RIP] =3D pc;<br>
++}<br>
++<br>
+=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
+<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.gregs[REG_TRAPNO] =3D=3D 0xe<=
+br>
 -- <br>
 2.25.1<br>
 <br>
 </blockquote></div></div>
 
---00000000000059144c05d161e54f--
+--000000000000ff0f1e05d161ebe4--
 
