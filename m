@@ -2,96 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB98B4597C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 23:35:27 +0100 (CET)
-Received: from localhost ([::1]:47648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F0614597C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 23:36:33 +0100 (CET)
+Received: from localhost ([::1]:50124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpHuI-0007Rh-HA
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 17:35:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43130)
+	id 1mpHvM-0000ox-BB
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 17:36:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1mpHsW-0006iA-AG; Mon, 22 Nov 2021 17:33:36 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53302)
+ (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
+ id 1mpHtG-0007ht-G1; Mon, 22 Nov 2021 17:34:22 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:54875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1mpHsU-0004KO-4X; Mon, 22 Nov 2021 17:33:36 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AMMNMAC028486; 
- Mon, 22 Nov 2021 22:33:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=DMg5hW12Jymwq7ieESIl8yJIwWMrXPvTlSgqWa3dJBk=;
- b=mdU5oy3XkTUe/jHUKrVHnhOFzCRiQ2/Ce8mfUqiRoylxbYQxHZ6CCikp/OD+FGjaI0St
- UUOKHZ9AAo2w69+luMjYhZNLrLo2/N9ZIsWqKyTqRADuGqb/MudsreUxTiCmptZk6/dY
- 6bA/IsBndYA5+oqyMJ2Z74Rmkd/WGzO42sMCZ6Qk3QWfk5yQwGoFp+2bWx/b9C406Fhv
- fAx6/Ayok67jgthN5qr/XpCL4BfQ9LVNLL0lGM/8Y8qYe3or/XmMsxOqYt38/MHnhy26
- 6htP78m9bu0aZ6icEMG9RnUpZKvMOEFtU4DYilJw/BXUwMr0NdIWbBXCsVVysvme1KF0 JQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cgkxt842r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Nov 2021 22:33:30 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AMMNL22028454;
- Mon, 22 Nov 2021 22:33:30 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cgkxt842m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Nov 2021 22:33:30 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AMMWvK3013241;
- Mon, 22 Nov 2021 22:33:28 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com
- (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
- by ppma05wdc.us.ibm.com with ESMTP id 3cerna83aa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Nov 2021 22:33:28 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1AMMXRA041615620
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 22 Nov 2021 22:33:27 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 100A9BE089;
- Mon, 22 Nov 2021 22:33:27 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2C339BE084;
- Mon, 22 Nov 2021 22:33:26 +0000 (GMT)
-Received: from localhost.localdomain.com (unknown [9.65.86.146])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 22 Nov 2021 22:33:25 +0000 (GMT)
-From: Collin Walling <walling@linux.ibm.com>
-To: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-Subject: [RFC PATCH] s390: kvm: reduce frequency of CPU syncs of diag318 info
-Date: Mon, 22 Nov 2021 17:33:07 -0500
-Message-Id: <20211122223307.101790-1-walling@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
+ id 1mpHtE-0004Nk-8T; Mon, 22 Nov 2021 17:34:22 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 37CC632007F9;
+ Mon, 22 Nov 2021 17:34:16 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Mon, 22 Nov 2021 17:34:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=GeFxMH
+ hk963wP48bsosdue7CpFiGqCtYGCh+cQeLAqc=; b=G544TbUuegMA17h5LDHI7F
+ 06AcnoozJviUc5aRrUB3jMdwpCDJ+Ctnd6slj+mdylBirZHz28M8Qf6HT/0hX4DY
+ udc48KXBoYgqEZsUWA0TWEupz0Fr4hbNtXAEoVNVspDoZdLv0+Z8Uj5pmAjJQi1O
+ HZ3OolLzEED0c5UAj4LRzWBm9myD+HvniC+MKuUlyQD7lNAlJ+8OAb3WMa09vn3Y
+ KlUdUr8L3fvesmGcKBrVgatOzXojpLRIGXqtc8IZRhLaACNrXom3GmhHY86kM2fZ
+ aWgwaktGlsEOXqHeCBab+u7XqI+E5+QRZAwDA1zML160xQTdmCLn5hoN48kj1XIA
+ ==
+X-ME-Sender: <xms:5xqcYf0P59kpZb553sSlkHlkKMnsjRUGJxPUDAIec8IwhLAH7MuZ1g>
+ <xme:5xqcYeE48cpQ3EZk5RT9Tfh_Tvebf74K7JeQvXjdcqH3jbatdNQ_xL52i1sz7w5f_
+ UqAHqUJSzgklbtOUU4>
+X-ME-Received: <xmr:5xqcYf61m6Yxtz88AVPK58pPhX1ZJJjDh63Urk0mT68mL5A5y9CP6IMNUB1uLl3ShCtcluxeskPDV_l1KaIayZexqokyDMjwy2w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeeggdduieegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffujgfkfhggtgesthdtredttddtvdenucfhrhhomhephfhinhhnucfv
+ hhgrihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrth
+ htvghrnhepkeevvedtkeeftdefhfdvgfelleefhfdtfeeiteejjeevgffhudefjeekhefg
+ uedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehfthhhrghinheslhhinhhugidqmheikehk
+ rdhorhhg
+X-ME-Proxy: <xmx:5xqcYU0d2iQkq-rIhEMDA11rAtiC0UZ_fru5XFIOjO12UCCnH_JOoA>
+ <xmx:5xqcYSFscaxCOzfCmIX-zpHI4PCCYweraLUFmqzwHnj1xNgwYD1x0g>
+ <xmx:5xqcYV9MwyCsj1Nm80AmQzNIQmtlAR_zlkmX2yRQ8uE7J68wwr7ODQ>
+ <xmx:5xqcYeikPp98SUZt6QeXLPZ9F5056E9tZsUXmtyxBOzpTTgt5hK-2Q>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 22 Nov 2021 17:34:11 -0500 (EST)
+Date: Tue, 23 Nov 2021 09:34:06 +1100 (AEDT)
+From: Finn Thain <fthain@linux-m68k.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v1 0/9] hw/mos6522: VIA timer emulation fixes and
+ improvements
+In-Reply-To: <CAFEAcA-h2B3JELSrQs0dP3shqPNDe2NDMqCqT5oGoOjjM6mzRw@mail.gmail.com>
+Message-ID: <159c1cb-eec0-d689-1df7-8fcfdc2e5c25@linux-m68k.org>
+References: <cover.1632437396.git.fthain@linux-m68k.org>
+ <e0411348-abd7-3db9-b5bd-8f1d52c1226f@linux-m68k.org>
+ <2fb3d9f8-0f20-082d-d9f1-ab2984356866@ilande.co.uk>
+ <ad537ce9-ec40-b5e4-bb32-5f53e42db29@linux-m68k.org>
+ <74d1f17a-d414-8cda-6720-a62617613215@ilande.co.uk>
+ <8b1022bd-f4ae-d0bd-3f22-425da56ef753@linux-m68k.org>
+ <CAFEAcA-h2B3JELSrQs0dP3shqPNDe2NDMqCqT5oGoOjjM6mzRw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Vh_1R-MdRbEZ1zy8psPnMa9XHkdbN1ov
-X-Proofpoint-ORIG-GUID: scBUPGRP6gsOrNA-3imaJ-f07OPwZq6x
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-22_08,2021-11-22_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 lowpriorityscore=0
- suspectscore=0 malwarescore=0 adultscore=0 clxscore=1015 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111220112
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=walling@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=64.147.123.25; envelope-from=fthain@linux-m68k.org;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,75 +88,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
- frankja@linux.ibm.com, david@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ Laurent Vivier <Laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DIAGNOSE 0318 is invoked only once during IPL. As such, the
-diag318 info will only change once initially and during resets.
-Let's only sync the register to convey the info to KVM if and
-only if the diag318 info has changed. Only set the dirty bit
-flag for diag318 whenever it must be updated.
+On Mon, 22 Nov 2021, Peter Maydell wrote:
 
-The migration handler will invoke the set_diag318 helper on
-post_load to ensure the info is set on the destination machine.
+> On Sat, 20 Nov 2021 at 23:40, Finn Thain <fthain@linux-m68k.org> wrote:
+> > Anyway, thanks for taking the time to write. A competent reviewer has to
+> > do much more than that, but I'm not paying for competence so I suppose I'm
+> > asking too much.
+> 
+> Please dial back the aggressive tone here, Finn: this kind of
+> thing is way out of line. We're all trying to help improve QEMU here,
+> and sniping at Mark is not constructive.
+> 
 
-Signed-off-by: Collin Walling <walling@linux.ibm.com>
----
- target/s390x/kvm/kvm.c |  5 -----
- target/s390x/machine.c | 14 ++++++++++++++
- 2 files changed, 14 insertions(+), 5 deletions(-)
+Peter, you seem to have misunderstood what I wrote. What I said was not 
+sniping. "Incompetent" was my conclusion after I judiciously rejected 
+"malicious". Here's what I mean by incompetent.
 
-diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-index 6acf14d5ec..6a141399f7 100644
---- a/target/s390x/kvm/kvm.c
-+++ b/target/s390x/kvm/kvm.c
-@@ -599,11 +599,6 @@ int kvm_arch_put_registers(CPUState *cs, int level)
-         cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_ETOKEN;
-     }
- 
--    if (can_sync_regs(cs, KVM_SYNC_DIAG318)) {
--        cs->kvm_run->s.regs.diag318 = env->diag318_info;
--        cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
--    }
--
-     /* Finally the prefix */
-     if (can_sync_regs(cs, KVM_SYNC_PREFIX)) {
-         cs->kvm_run->s.regs.prefix = env->psa;
-diff --git a/target/s390x/machine.c b/target/s390x/machine.c
-index 37a076858c..a5d113ce3a 100644
---- a/target/s390x/machine.c
-+++ b/target/s390x/machine.c
-@@ -234,6 +234,19 @@ const VMStateDescription vmstate_etoken = {
-     }
- };
- 
-+static int diag318_post_load(void *opaque, int version_id)
-+{
-+    S390CPU *cpu = opaque;
-+    CPUState *cs = CPU(cpu);
-+    CPUS390XState *env = &S390_CPU(cs)->env;
-+
-+    if (kvm_enabled()) {
-+        kvm_s390_set_diag318(cs, env->diag318_info);
-+    }
-+
-+    return 0;
-+}
-+
- static bool diag318_needed(void *opaque)
- {
-     return s390_has_feat(S390_FEAT_DIAG_318);
-@@ -243,6 +256,7 @@ const VMStateDescription vmstate_diag318 = {
-     .name = "cpu/diag318",
-     .version_id = 1,
-     .minimum_version_id = 1,
-+    .post_load = diag318_post_load,
-     .needed = diag318_needed,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT64(env.diag318_info, S390CPU),
--- 
-2.31.1
 
+CONTRIBUTOR: Here's a patch.
+
+MAINTAINER: I personally don't like that pattern. End of story.
+
+CONTRIBUTOR: I don't think I'll contribute further to this project.
+
+[Everyone loses.]
+
+
+Now, here's what I would consider "competent":
+
+CONTRIBUTOR: Here's a patch.
+
+MAINTAINER: That pattern (I've quoted it to help further the discussion) 
+is widely deprecated. You should use a different pattern instead. [Or read 
+this reference. Or refer to this code.]
+
+CONTRIBUTOR: OK, I see that this really is a problem, and I see that there 
+really is a better way. However, the antipattern is already part of 
+existing code, and my changes don't worsen the problem, and don't require 
+that the problem persist.
+
+MAINTAINER: You're right. My bad (I'm new to this). Since I never bothered 
+to fix the existing antipattern, and no-one else thought it was worth 
+fixing either, clearly it's not that important, and I should not have 
+sought to veto your work, which is substantially unrelated, and beneficial 
+either way.
+
+CONTRIBUTOR: No problem.
+
+[Everyone wins.]
+
+
+Finally, here's the background for you to ponder, in case you would like 
+to intervene to produce a better outcome. (I think you are potentially 
+well positioned for that.)
+
+https://lore.kernel.org/qemu-devel/cover.1629799776.git.fthain@linux-m68k.org/
+https://lore.kernel.org/qemu-devel/cover.1632437396.git.fthain@linux-m68k.org/
 
