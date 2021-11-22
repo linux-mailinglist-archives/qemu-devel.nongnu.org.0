@@ -2,86 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2B97458626
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Nov 2021 20:36:46 +0100 (CET)
-Received: from localhost ([::1]:56112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE98E458777
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 01:48:11 +0100 (CET)
+Received: from localhost ([::1]:38588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mosdp-0001ff-6r
-	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 14:36:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55596)
+	id 1moxVC-00011X-CJ
+	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 19:48:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mosYK-00063t-C7
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 14:31:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60460)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mosYG-0004sw-SC
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 14:31:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637523048;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0DpBYvFnbpENCIc2vWx5PWg7yTkQp8LJkc0XIjlMNt0=;
- b=Qew5i5xA+Gei0oK28XAPL+bc8arrVkGbgZ2L6oWQxc//+KQLm9aNOZt8OVO3gQ4/MTVzsH
- nWcs/teWifOEVvIK1PNoCekzp88KwDBElsn6yQ1uQuaeaO34eIK5gNGHGNEAstaza0x5B8
- QDTDFhHIS288VftNtbwSnube2UX1DFQ=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-413-gjg0QfNpPa-DNFheWc_Imw-1; Sun, 21 Nov 2021 14:30:47 -0500
-X-MC-Unique: gjg0QfNpPa-DNFheWc_Imw-1
-Received: by mail-pj1-f72.google.com with SMTP id
- x18-20020a17090a789200b001a7317f995cso10655252pjk.4
- for <qemu-devel@nongnu.org>; Sun, 21 Nov 2021 11:30:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1moxSS-0008GC-D6; Sun, 21 Nov 2021 19:45:20 -0500
+Received: from [2607:f8b0:4864:20::d2a] (port=38469
+ helo=mail-io1-xd2a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1moxSQ-0000Pd-Dy; Sun, 21 Nov 2021 19:45:20 -0500
+Received: by mail-io1-xd2a.google.com with SMTP id z18so21088037iof.5;
+ Sun, 21 Nov 2021 16:45:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0CF4Uwb5tnWyuxk0XR0uj+OOZJpjPy4U7vtbtufUiFY=;
+ b=B7Iqlr5sKcNIowf0OApkN9ECwCicZsoK1859F+TZqjtTkEYWnzLsgkL2TY++jvEx3o
+ Xx94QOhNCKbAdCOE6GyfnL3jjFi85jzxIDmSDBXvj8h8WVxfmjYduXPXQuynqSLKvUYl
+ 6SaSF3BYPiQkxbBECXqQDXRrn+vu+sXYRo9XwRAdQzQxrTCwNLRHnwppsA46dX1gXSN9
+ hhYtpPbhlN7Tr/9JLwTM4Zge7WT4w8vdEvlYS27RWggkfJ9F4OdGao84zO5sEeRgoL0D
+ zPcmG8+9yGzJswzLOTdLy49qzF1UVoR2wJsTzrkC6JUrmTqV8LGEu01C4MnqJqr6ULW3
+ JoAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0DpBYvFnbpENCIc2vWx5PWg7yTkQp8LJkc0XIjlMNt0=;
- b=6knGpMme3voO8cza8MFOUgW7K5/T6wl5DCnk2ZyDPDSnbr0PQoeor1rlXkjNEbTNwc
- 8uBy02x787UZctt9G0l1TKn1qJmETbwSQehWouMPefTGYHVv2nHPUmTscm0dgTLiWTX4
- lO3q2rt9tHfHXKyww076LFrc+EVgdddX+wS8+zAvef6lH5y1R4v353bOUdFGiLFYyQ22
- KDVehYC67TmQNM0ZIAkJfbsqnXqUGkYSc9mDQLjgt8wbd0LOrFiW8akgXFkyKrm/kkvS
- JR277pIdYjObhWoAS46XLStkD6wrTaMGMa/Z00bBzczJI9JFM3iYW7qkkbOZZwx0twko
- pzug==
-X-Gm-Message-State: AOAM5322g+VKvEnZ7o310PVZC5BtkmajRL8hsrd4+mqCXH2DTE/lw9Zs
- 0nlnW6un2cru3OTNHqBcLmwtq1jinPR4lhhgWlBVvigUXk0ypl/0o0rj2BKSWelb9gPc95WJ607
- mr0e41+smin4lsoAxCkYiy4QYip/jpy0=
-X-Received: by 2002:a63:778c:: with SMTP id
- s134mr18959038pgc.289.1637523045665; 
- Sun, 21 Nov 2021 11:30:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwIATTvQUP3+uPLWghfVp6vTzPbwsCI8jA74pXKdVixVErzqpbyUKDOTUEQCigeCbtSoSGa+IrLqQCMVTBedNI=
-X-Received: by 2002:a63:778c:: with SMTP id
- s134mr18959009pgc.289.1637523045370; 
- Sun, 21 Nov 2021 11:30:45 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=0CF4Uwb5tnWyuxk0XR0uj+OOZJpjPy4U7vtbtufUiFY=;
+ b=29SCgCa2Nf+QGPTEx5vlIOuZZQ/RJC3lTpX7S3zn72ekA194IImbUXJBfVBwIu35MH
+ 9V5n4nPFD4UEioju0uU0Qv2LIRmdqmK3bFRv1HxoJ9wlTcWdqK7vEZMyHoGsktmeH4Ky
+ V1+RbfNDTTKiksfTLJMsG9rcvK22GuZCC44s2ANss/vBSKoP8gD6wO2zxV/huFBxgJOJ
+ 22dh7Mn2Xmc9QMYP6pxB0GKoNZFFWLuadzrKne2Eb7i551f1YxpSuDAsXCxFJG+IK6Yf
+ oS7E/fsq0H1Jt7FsVCUL+Z4CNcW+F36bDTwoqbgZk1KtLCmdgFFqmB9q7HVm6WHW7hVA
+ xepA==
+X-Gm-Message-State: AOAM531lmY4cT6N04u28wE013pR7ucq0pT0HI1xcYRzxucRQUvnUE6MP
+ IoCfxN+3QK7bHkOV/MNxV49NZdvuSDWvJS3fys8=
+X-Google-Smtp-Source: ABdhPJwVXd/W8JSsN6BROV2ASUIZvirZ9XzcEdx5qq/352E3fLQ457jA8wQuTRxhjXBdJ/iF3nLwhvAmqQCtc8fP51Y=
+X-Received: by 2002:a02:9f0c:: with SMTP id z12mr44343097jal.117.1637541915435; 
+ Sun, 21 Nov 2021 16:45:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20211119165903.18813-1-quintela@redhat.com>
- <20211119165903.18813-3-quintela@redhat.com>
-In-Reply-To: <20211119165903.18813-3-quintela@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Sun, 21 Nov 2021 23:30:34 +0400
-Message-ID: <CAMxuvayk=mE-aCQrgkEXOxk+DSqCDhjkqR_sRdxwpZDdbE=ueg@mail.gmail.com>
-Subject: Re: [PATCH 02/11] dump: Remove is_zero_page()
-To: Juan Quintela <quintela@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20211119102549.217755-1-thuth@redhat.com>
+In-Reply-To: <20211119102549.217755-1-thuth@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 22 Nov 2021 10:44:49 +1000
+Message-ID: <CAKmqyKN6-C8M-mXwrkhSaNioW3LXpM5rkixnpDZy+gUyFQeEiA@mail.gmail.com>
+Subject: Re: [PATCH for-6.2] hw/misc/sifive_u_otp: Use IF_PFLASH for the OTP
+ device instead of IF_NONE
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,57 +79,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 19, 2021 at 8:59 PM Juan Quintela <quintela@redhat.com> wrote:
+On Fri, Nov 19, 2021 at 8:27 PM Thomas Huth <thuth@redhat.com> wrote:
 >
-> It just calls buffer_is_zero().  Just change the callers.
+> Configuring a drive with "if=none" is meant for creation of a backend
+> only, it should not get automatically assigned to a device frontend.
+> Use "if=pflash" for the One-Time-Programmable device instead (like
+> it is e.g. also done for the efuse device in hw/arm/xlnx-zcu102.c).
 >
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> Since the old way of configuring the device has already been published
+> with the previous QEMU versions, we cannot remove this immediately, but
+> have to deprecate it and support it for at least two more releases.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Thanks!
+
+Applied to riscv-to-apply.next
+
+Alistair
 
 > ---
->  dump/dump.c | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
+>  docs/about/deprecated.rst | 6 ++++++
+>  hw/misc/sifive_u_otp.c    | 9 ++++++++-
+>  2 files changed, 14 insertions(+), 1 deletion(-)
 >
-> diff --git a/dump/dump.c b/dump/dump.c
-> index 662d0a62cd..a84d8b1598 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -1293,14 +1293,6 @@ static size_t get_len_buf_out(size_t page_size, ui=
-nt32_t flag_compress)
->      return 0;
->  }
+> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> index c03fcf951f..ff7488cb63 100644
+> --- a/docs/about/deprecated.rst
+> +++ b/docs/about/deprecated.rst
+> @@ -192,6 +192,12 @@ as short-form boolean values, and passed to plugins as ``arg_name=on``.
+>  However, short-form booleans are deprecated and full explicit ``arg_name=on``
+>  form is preferred.
 >
-> -/*
-> - * check if the page is all 0
-> - */
-> -static inline bool is_zero_page(const uint8_t *buf, size_t page_size)
-> -{
-> -    return buffer_is_zero(buf, page_size);
-> -}
-> -
->  static void write_dump_pages(DumpState *s, Error **errp)
->  {
->      int ret =3D 0;
-> @@ -1357,7 +1349,7 @@ static void write_dump_pages(DumpState *s, Error **=
-errp)
->       */
->      while (get_next_page(&block_iter, &pfn_iter, &buf, s)) {
->          /* check zero page */
-> -        if (is_zero_page(buf, s->dump_info.page_size)) {
-> +        if (buffer_is_zero(buf, s->dump_info.page_size)) {
->              ret =3D write_cache(&page_desc, &pd_zero, sizeof(PageDescrip=
-tor),
->                                false);
->              if (ret < 0) {
+> +``-drive if=none`` for the sifive_u OTP device (since 6.2)
+> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +Using ``-drive if=none`` to configure the OTP device of the sifive_u
+> +RISC-V machine is deprecated. Use ``-drive if=pflash`` instead.
+> +
+>
+>  QEMU Machine Protocol (QMP) commands
+>  ------------------------------------
+> diff --git a/hw/misc/sifive_u_otp.c b/hw/misc/sifive_u_otp.c
+> index 18aa0bd55d..cf6098ff2c 100644
+> --- a/hw/misc/sifive_u_otp.c
+> +++ b/hw/misc/sifive_u_otp.c
+> @@ -209,7 +209,14 @@ static void sifive_u_otp_realize(DeviceState *dev, Error **errp)
+>                            TYPE_SIFIVE_U_OTP, SIFIVE_U_OTP_REG_SIZE);
+>      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
+>
+> -    dinfo = drive_get_next(IF_NONE);
+> +    dinfo = drive_get_next(IF_PFLASH);
+> +    if (!dinfo) {
+> +        dinfo = drive_get_next(IF_NONE);
+> +        if (dinfo) {
+> +            warn_report("using \"-drive if=none\" for the OTP is deprecated, "
+> +                        "use \"-drive if=pflash\" instead.");
+> +        }
+> +    }
+>      if (dinfo) {
+>          int ret;
+>          uint64_t perm;
 > --
-> 2.33.1
+> 2.27.0
 >
-
+>
 
