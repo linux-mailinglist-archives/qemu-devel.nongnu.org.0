@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD37459493
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 19:16:23 +0100 (CET)
-Received: from localhost ([::1]:55396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 457F7459514
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 19:49:57 +0100 (CET)
+Received: from localhost ([::1]:48038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpDra-0006Uv-1m
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 13:16:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48692)
+	id 1mpEO3-0005pA-SQ
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 13:49:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpDpu-0005Vg-J8
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 13:14:38 -0500
-Received: from [2a00:1450:4864:20::32a] (port=35776
- helo=mail-wm1-x32a.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mpEIn-0001ht-5h
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 13:44:30 -0500
+Received: from [2a00:1450:4864:20::436] (port=46972
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpDps-0005My-IP
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 13:14:37 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- 77-20020a1c0450000000b0033123de3425so17622721wme.0
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 10:14:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mpEIk-000119-3Y
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 13:44:28 -0500
+Received: by mail-wr1-x436.google.com with SMTP id u1so34445482wru.13
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 10:44:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=yXeG9GNhttoFVxymAHI/IVlUht39In7WngPnjuTEAh4=;
- b=MOmFyZcEmzX+wsiUTDwC5KSeBm5qqWIMghtNDTHnJddWYFITJffsAsQKShEzJ8OVKJ
- 7d59OllATH32Tgml0PRYgd0rQOejatfPww2DZe1KOehfsvmD83Sa6sWHy1sWsKlTHYcZ
- umTHUY/yYVxynlMHoavlTRnEGJcwu1YPFu1ivh4bWzNPU/xRIY89kquQ7yOLUtanN91/
- JE4pZe18paGxJKSMT1hBsqD03jCohgNQnXKonHPjbNhbyTfDf4kPEssUFYhYlslE7ATV
- offVTHj50rXMnyxBoHTgpicOGW0soy1Pt93oNuy9kNeWPEQYXXjzBSlZvTFEhJpuodeF
- na1A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4PDKAov0eAJwmhl7SJWIk0PPWDUQdjaifK5Xy6DTrvo=;
+ b=ol9Bq41EREqCUadJfLZop723+PChdX28C5Wrs3XRLQLHpT0esHOnIHmrsXOX6YDLx/
+ i10ShC5VgnScPrHk03PEFxg58yPehuHJOxxd7t+CT5SFJDkgFYd7/godBI/fLDqU06Tf
+ K+KRZi4ILee4Yl1IQvqhEeV/9bmMIGNGaX9cbU+yJ2mM3+V02OiYF81evwnM4Hb0SWEb
+ BGTPJt/T/CwUU6KX4HuOmKDy7QJsDTjVjK4VQifqaad8Ydst4Mg+IBd7uP6OOTAAiGuQ
+ zSjCZ931jshJLKKGJUaHt4Srtf8pvCMXnYQKH1nY/oYw7Z9ac+K+qiyDHTRaDYR5exy7
+ yTdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=yXeG9GNhttoFVxymAHI/IVlUht39In7WngPnjuTEAh4=;
- b=pCRIJTxx1v1RLugfOeBTft3tjFlEKQ4hxOLN7bZBru1tm/8EIzIfBIHP5ees6qQHbC
- JeHcPafxR+yHjcaKqTbv7WSXgGCwXO75QnNZfY60nZT417hONM/v910Af6UFvbB6HiuW
- A0czUDqsTB5kI14MS5CyZ6911hxfctQnaFUKQaW8mYABU+1r0kGA4AZ6ShbZ+Qt6vc0G
- THVwI3bQQVpJyhTNcOeSXtTkmRvmKIPr01GyLurqhFMl76qU6hQB1+vojVEeEpkgdAnE
- EO9w/uBIwXY7uullRfyFK6nMzyNFlNkuhKoKhYI1W60alxYmL20P9JgpOmH584toqDLp
- UTyg==
-X-Gm-Message-State: AOAM532frNQYWUa9luVi9jGEloDhGWU1rwzCrU8MxNlVH0HvTJDs022q
- 12bMjPRDjQPMHI4wKrDhmHygSx3huk0ftWExWrg=
-X-Google-Smtp-Source: ABdhPJwdPVbRHD6IoAFv3Y0fa66GwWZNt2KhQyNaR5cdX9LIchrJQ67bVtEXpvj1KevsHk5EQ//zjA==
-X-Received: by 2002:a1c:7f56:: with SMTP id a83mr32185276wmd.32.1637604874831; 
- Mon, 22 Nov 2021 10:14:34 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id f8sm21770230wmf.2.2021.11.22.10.14.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 10:14:34 -0800 (PST)
-Subject: Re: [PULL 0/1] target-arm queue
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20211122134342.660953-1-peter.maydell@linaro.org>
- <CAFEAcA_f6pYLNigkEpYWAEJCEsySqJOARH+e8OmftAFj+iCCeg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a26d3fd2-0124-64be-595b-e39a5347d840@linaro.org>
-Date: Mon, 22 Nov 2021 19:14:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ bh=4PDKAov0eAJwmhl7SJWIk0PPWDUQdjaifK5Xy6DTrvo=;
+ b=ltPh19i2JQLKhkkFnuyM2nw9VL6R9n2mYOIV6zjBQkKjSl5SQ8d/6Ko+lZjqQGZ4O5
+ XRQFBFWWW4MQJzAVWSuQ+MK+0GB2u1l5gslkDyB/BsYMtYTW6fsPlM65Lz4J9y2tH1b5
+ ivaQcR4FjvVbciX59+g6D+WrZrd8vJvGs2zd04+tZNQ8iuMw2qxlG96XRUqF9iXCr/8y
+ BQ2e60tEN5BIqOsb7T0lgi4YL4hZ7ZoxrPP/mKf0WkJNN+cZsnhYbuhwgSYhkyggqQbr
+ 2hA9kwH5PSWcJSvfNJxxqIBkbPiXAIYmOojUsmQMvORl32UA5rXH+vFjVqAenrdrH9yW
+ ZeHQ==
+X-Gm-Message-State: AOAM532ec6P0wfFwuMegEuAIVlUGIPqZXEDYh5IKChln7l6Zup3SMfI7
+ d5BIbmAbAmNTNjB8EAmbYhF+4JXCj4xx4A==
+X-Google-Smtp-Source: ABdhPJyq14oIJQZUc0yCIw0RpBQKU0OnEx41GuSZ+md4X2+i3SgAdEyCP0JcO0WwXtOzQj3ZRz958w==
+X-Received: by 2002:a05:6000:1201:: with SMTP id
+ e1mr39972373wrx.298.1637606664461; 
+ Mon, 22 Nov 2021 10:44:24 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id i15sm26298163wmq.18.2021.11.22.10.44.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Nov 2021 10:44:24 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/1] target-arm queue
+Date: Mon, 22 Nov 2021 18:44:21 +0000
+Message-Id: <20211122184422.901437-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_f6pYLNigkEpYWAEJCEsySqJOARH+e8OmftAFj+iCCeg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -92,39 +84,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/22/21 7:06 PM, Peter Maydell wrote:
-> On Mon, 22 Nov 2021 at 13:43, Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> Just one patch for rc2, a revert.
->>
->> -- PMM
->>
->> The following changes since commit 49aaac3548bc5a4632a14de939d5312b28dc1ba2:
->>
->>    Merge tag 'linux-user-for-6.2-pull-request' of git://github.com/vivier/qemu into staging (2021-11-22 10:33:13 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20211122
->>
->> for you to fetch changes up to 4825eaae4fdd56fba0febdfbdd7bf9684ae3ee0d:
->>
->>    Revert "arm: tcg: Adhere to SMCCC 1.3 section 5.2" (2021-11-22 13:41:48 +0000)
->>
->> ----------------------------------------------------------------
->> target-arm queue:
->>   * revert SMCCC/PSCI change, as it regresses some usecases for some boards
-> 
-> Since this hasn't been applied yet I'll reroll it to add Eric's
-> "don't bump the ITS version fields" patch. (But if you get here
-> first that's fine too.)
+Apologies for sending two pullreqs today; Eric's patch came in a
+few hours after I sent the first one but it's definitely a
+release-critical fix.
 
-Gitlab has been dreadfully slow this evening, but it's applied now.
+-- PMM
 
+The following changes since commit 89d2f9e4c63799f7f03e9180c63b7dc45fc2a04a:
 
-r~
+  Merge tag 'pull-target-arm-20211122' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2021-11-22 16:35:54 +0100)
 
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20211122-1
+
+for you to fetch changes up to 33a0c404fb90a3fa8eea6ebf5c535fc7bc0b9912:
+
+  hw/intc/arm_gicv3_its: Revert version increments in vmstate_its (2021-11-22 18:17:19 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * drop spurious bump of ITS vmstate version fields
+
+----------------------------------------------------------------
+Eric Auger (1):
+      hw/intc/arm_gicv3_its: Revert version increments in vmstate_its
+
+ hw/intc/arm_gicv3_its_common.c | 2 --
+ 1 file changed, 2 deletions(-)
 
