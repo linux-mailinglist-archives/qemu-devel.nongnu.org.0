@@ -2,96 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E485E458CD4
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 11:58:18 +0100 (CET)
-Received: from localhost ([::1]:40254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1604C458D80
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 12:35:12 +0100 (CET)
+Received: from localhost ([::1]:39402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp71e-0007my-1P
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 05:58:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53060)
+	id 1mp7bL-0005ws-6z
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 06:35:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mp6nY-0002Mm-Ei
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 05:43:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56407)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mp7a3-00050H-NH
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 06:33:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mp6nT-0007lb-N8
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 05:43:43 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mp7a2-0006po-GU
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 06:33:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637577817;
+ s=mimecast20190719; t=1637580829;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XLZX75B5fgr8MgsphElsYjdhalZ6ezFsowpxr5UWbVI=;
- b=heOP+4bXAs1lKUE2C0TEyMRUjKD20GeGWSJ4BKcxm8xRHnC0Aqcl29lWHTP/DVpkT8+Xni
- Am2EFbp1hSlJ8qmh5H3moDLxM9as8wMbt0SRwbo9VyPX+O/Z1GswbxInCm052qQvsqEskj
- etNbYx78JlKxnFki9ptsh5JfgO678WE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uCAo8tNBYqjYbYU5JkoqonFteLnbw1SpFiI/f2ieGLc=;
+ b=hcyiTbVOqlLtuL2GwV5+1TEfeMb4ak7O7wFUO0mGjHkwMHYl6+iLMfYiHNLCyabT8xhaO1
+ q9qedBpjCamSZvmhUOC1QdHzM0nI1gE4MrlI7D6rKfq3udxT198pOY1u8mrcPxZX2qI7dl
+ iqDHfJMOUAmOeRNDlXQ98/uOqr9wVzo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-370-binHNC85NvqAlTinvBg55w-1; Mon, 22 Nov 2021 05:43:36 -0500
-X-MC-Unique: binHNC85NvqAlTinvBg55w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m14-20020a05600c3b0e00b0033308dcc933so9159277wms.7
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 02:43:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=XLZX75B5fgr8MgsphElsYjdhalZ6ezFsowpxr5UWbVI=;
- b=7v1f0TdPNKTB625X9vC8q5HhN0R3sMa+Pe0aJl5SJD+bTAdUsLdtPWu2IUIeOqKlMJ
- 4qn0wIpZYpCdVDox7I6jhA4oUdDeORAXDxKi/pvSJZxv8N+I3NHioRMqDXD9WQwA/Ry5
- NTMIF1+4avMfsdcHtRrvvTdnti5NI1EPlJpUgeinNO+PPJgQnkgcDFKK9vyOxa6MVlB7
- irE8CHwanx37MNdk0+ITciUlMkDnO+TqwQDJisaGlhTrCX550SMnxAzWg/9Bj2vhNta7
- BZ8XZNLM7YLBv3UBfsy+fLoKfy05pC0N2zCMGJqX+XhCa2UZhPLQfKI6cHmKkBgOSDCW
- SsDg==
-X-Gm-Message-State: AOAM532g/gCqjboBX/YiUw4Gr4fb4ixOYdvfs8E2xmIDq62eH9zayT8o
- wT/J98lw6EeZ9vuepETKyWiueFVfP3CFQMTWuZBginNVSf6BApBc59tngu5BgN/FAstBLyhfjsE
- DS9weMAGeVqfjTSM=
-X-Received: by 2002:a05:600c:2297:: with SMTP id
- 23mr27487847wmf.73.1637577815238; 
- Mon, 22 Nov 2021 02:43:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxjyslzWhSrW697w4dGpdHU4huD0YzZPqI39U8qDu3ChGVLln9fvUSssSUFiZYRFRiRbb69QA==
-X-Received: by 2002:a05:600c:2297:: with SMTP id
- 23mr27487819wmf.73.1637577815033; 
- Mon, 22 Nov 2021 02:43:35 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id l7sm10298396wry.86.2021.11.22.02.43.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 02:43:34 -0800 (PST)
-Message-ID: <3a0d2ef9-6175-c735-44c2-048991a00a24@redhat.com>
-Date: Mon, 22 Nov 2021 11:43:33 +0100
+ us-mta-303-v9oPsqZUNpaX0kduzPgmMA-1; Mon, 22 Nov 2021 06:33:46 -0500
+X-MC-Unique: v9oPsqZUNpaX0kduzPgmMA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5F218799EC;
+ Mon, 22 Nov 2021 11:33:44 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DF02B5E274;
+ Mon, 22 Nov 2021 11:33:26 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 95EF1180039D; Mon, 22 Nov 2021 10:08:15 +0100 (CET)
+Date: Mon, 22 Nov 2021 10:08:15 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v3 3/3] hw/i386: expose a "smbios-entry-point-type" PC
+ machine property
+Message-ID: <20211122090815.2vjsh4vrp7cvqi7g@sirius.home.kraxel.org>
+References: <20211026151100.1691925-1-ehabkost@redhat.com>
+ <20211026151100.1691925-4-ehabkost@redhat.com>
+ <a2618cf2-a2a6-53f6-a7f0-8bb3a72d32e9@redhat.com>
+ <20211102072349-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH for-6.2] Fix some typos in documentation (found by
- codespell)
-To: Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20211117210702.1393570-1-sw@weilnetz.de>
- <2130deed-8f14-05fb-5da1-3c86744bbffb@redhat.com>
- <37b8b2dd-89c0-ed8e-1c8e-cd591b133b7d@weilnetz.de>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <37b8b2dd-89c0-ed8e-1c8e-cd591b133b7d@weilnetz.de>
+In-Reply-To: <20211102072349-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,54 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Jagannathan Raman <jag.raman@oracle.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/11/2021 11.15, Stefan Weil wrote:
-> Am 18.11.21 um 00:27 schrieb Philippe Mathieu-Daudé:
+On Tue, Nov 02, 2021 at 07:25:25AM -0400, Michael S. Tsirkin wrote:
+> On Tue, Nov 02, 2021 at 09:51:35AM +0100, Philippe Mathieu-Daud� wrote:
+> > On 10/26/21 17:11, Eduardo Habkost wrote:
+> > > The i440fx and Q35 machine types are both hardcoded to use the
+> > > legacy SMBIOS 2.1 (32-bit) entry point. This is a sensible
+> > > conservative choice because SeaBIOS only supports SMBIOS 2.1
+> > > 
+> > > EDK2, however, can also support SMBIOS 3.0 (64-bit) entry points,
+> > > and QEMU already uses this on the ARM virt machine type.
+> > > 
+> > > This adds a property to allow the choice of SMBIOS entry point
+> > > versions For example to opt in to 64-bit SMBIOS entry point:
+> > > 
+> > >    $QEMU -machine q35,smbios-entry-point-type=64
+> > 
+> > It would be nice to have a test for this...
+> > 
+> > Otherwise,
+> > Reviewed-by: Philippe Mathieu-Daud� <philmd@redhat.com>
 > 
->> On 11/17/21 22:07, Stefan Weil wrote:
->>> Signed-off-by: Stefan Weil <sw@weilnetz.de>
->>> ---
->>>   docs/devel/multi-process.rst            | 2 +-
->>>   docs/devel/qgraph.rst                   | 2 +-
->>>   docs/devel/writing-monitor-commands.rst | 2 +-
->>>   docs/hyperv.txt                         | 2 +-
->>>   docs/system/cpu-models-x86.rst.inc      | 2 +-
->>>   docs/system/devices/nvme.rst            | 2 +-
->>>   docs/system/gdb.rst                     | 2 +-
->>>   docs/system/ppc/ppce500.rst             | 2 +-
->>>   docs/system/riscv/shakti-c.rst          | 2 +-
->>>   9 files changed, 9 insertions(+), 9 deletions(-)
->>> diff --git a/docs/system/cpu-models-x86.rst.inc 
->>> b/docs/system/cpu-models-x86.rst.inc
->>> index 6e8be7d79b..884b6d20fb 100644
->>> --- a/docs/system/cpu-models-x86.rst.inc
->>> +++ b/docs/system/cpu-models-x86.rst.inc
->>> @@ -49,7 +49,7 @@ future OS and toolchains are likely to target newer 
->>> ABIs. The
->>>   table that follows illustrates which ABI compatibility levels
->>>   can be satisfied by the QEMU CPU models. Note that the table only
->>>   lists the long term stable CPU model versions (eg Haswell-v4).
->>> -In addition to whats listed, there are also many CPU model
->>> +In addition to what's listed, there are also many CPU model
->>>   aliases which resolve to a different CPU model version,
->>>   depending on the machine type is in use.
->> For a non-native English speaker, this is clearer:
->>
->> "In addition to what is listed"
-> 
-> 
-> I agree. Maybe Paolo or whoever applies that patch can change that detail.
+> Can we update seabios and the switch the default?
 
-I'm currently assembling a pull request for doc updates, and will add you 
-patch there (with the "what is" fixed).
+seabios support is unfortunately not yet merged upstream.
 
-  Thomas
+> Maybe just for q35?
+> Or are there more considerations?
+
+It's a guest-visible change, so IMHO we need the runtime switch anyway
+so old machine types can continue to use the smbios 2.x entry point.
+
+We'll switch the default at some point for sure, but I don't think
+that'll happen for the 6.2 machine type.  We are simply too late.
+
+take care,
+  Gerd
 
 
