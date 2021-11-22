@@ -2,53 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A36458B3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 10:21:09 +0100 (CET)
-Received: from localhost ([::1]:57248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4D0458B55
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 10:26:37 +0100 (CET)
+Received: from localhost ([::1]:60580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp5Vb-0006BZ-LJ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 04:21:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59106)
+	id 1mp5au-0000Ul-Iq
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 04:26:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1mp5Tx-0005RS-4u
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:19:25 -0500
-Received: from mga01.intel.com ([192.55.52.88]:12602)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1mp5Tu-000417-1s
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:19:24 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10175"; a="258571507"
-X-IronPort-AV: E=Sophos;i="5.87,254,1631602800"; d="scan'208";a="258571507"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2021 01:19:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,254,1631602800"; d="scan'208";a="496790995"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by orsmga007.jf.intel.com with ESMTP; 22 Nov 2021 01:19:09 -0800
-Date: Mon, 22 Nov 2021 17:18:23 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Yao Yuan <yaoyuan0329os@gmail.com>
-Subject: Re: [RFC v2 PATCH 07/13] KVM: Handle page fault for fd based memslot
-Message-ID: <20211122091823.GB28749@chaop.bj.intel.com>
-References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
- <20211119134739.20218-8-chao.p.peng@linux.intel.com>
- <20211120015529.w23fg2df3fqs4ov5@sapienza>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1mp5a1-0008D7-6x
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:25:41 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:58171
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1mp5Zy-0005Jq-67
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:25:40 -0500
+HMM_SOURCE_IP: 172.18.0.48:37396.424958470
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id DF8862800B6;
+ Mon, 22 Nov 2021 17:25:16 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id 4f802a960bb641c8a336bea581af778e for
+ armbru@redhat.com; Mon, 22 Nov 2021 17:25:30 CST
+X-Transaction-ID: 4f802a960bb641c8a336bea581af778e
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+Message-ID: <6a71b1a4-547a-aaef-2666-deabe4b7b410@chinatelecom.cn>
+Date: Mon, 22 Nov 2021 17:25:11 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211120015529.w23fg2df3fqs4ov5@sapienza>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=192.55.52.88;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga01.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v3 3/3] cpus-common: implement dirty limit on vCPU
+To: Markus Armbruster <armbru@redhat.com>
+References: <cover.1637403404.git.huangy81@chinatelecom.cn>
+ <cover.1637403404.git.huangy81@chinatelecom.cn>
+ <99ea5e76926164d60a4ee62d0a1831823bc0d7a9.1637403404.git.huangy81@chinatelecom.cn>
+ <87o86cprql.fsf@dusky.pond.sub.org>
+ <1a8f3590-c7be-016e-842c-b4b29df92d2c@chinatelecom.cn>
+ <874k84o8t2.fsf@dusky.pond.sub.org>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <874k84o8t2.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.223;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,165 +68,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
- susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
- linux-kernel@vger.kernel.org, john.ji@intel.com,
- Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Nov 20, 2021 at 09:55:29AM +0800, Yao Yuan wrote:
-> On Fri, Nov 19, 2021 at 09:47:33PM +0800, Chao Peng wrote:
-> > Current code assume the private memory is persistent and KVM can check
-> > with backing store to see if private memory exists at the same address
-> > by calling get_pfn(alloc=false).
-> >
-> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> >  arch/x86/kvm/mmu/mmu.c | 75 ++++++++++++++++++++++++++++++++++++++++--
-> >  1 file changed, 73 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> > index 40377901598b..cd5d1f923694 100644
-> > --- a/arch/x86/kvm/mmu/mmu.c
-> > +++ b/arch/x86/kvm/mmu/mmu.c
-> > @@ -3277,6 +3277,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
-> >  	if (max_level == PG_LEVEL_4K)
-> >  		return PG_LEVEL_4K;
-> >
-> > +	if (memslot_is_memfd(slot))
-> > +		return max_level;
-> > +
-> >  	host_level = host_pfn_mapping_level(kvm, gfn, pfn, slot);
-> >  	return min(host_level, max_level);
-> >  }
-> > @@ -4555,6 +4558,65 @@ static bool kvm_arch_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
-> >  				  kvm_vcpu_gfn_to_hva(vcpu, gfn), &arch);
-> >  }
-> >
-> > +static bool kvm_faultin_pfn_memfd(struct kvm_vcpu *vcpu,
-> > +				  struct kvm_page_fault *fault, int *r)
-> > +{	int order;
-> > +	kvm_pfn_t pfn;
-> > +	struct kvm_memory_slot *slot = fault->slot;
-> > +	bool priv_gfn = kvm_vcpu_is_private_gfn(vcpu, fault->addr >> PAGE_SHIFT);
-> > +	bool priv_slot_exists = memslot_has_private(slot);
-> > +	bool priv_gfn_exists = false;
-> > +	int mem_convert_type;
-> > +
-> > +	if (priv_gfn && !priv_slot_exists) {
-> > +		*r = RET_PF_INVALID;
-> > +		return true;
-> > +	}
-> > +
-> > +	if (priv_slot_exists) {
-> > +		pfn = slot->memfd_ops->get_pfn(slot, slot->priv_file,
-> > +					       fault->gfn, false, &order);
-> > +		if (pfn >= 0)
-> > +			priv_gfn_exists = true;
-> 
-> Need "fault->pfn = pfn" here if actual pfn is returned in
-> get_pfn(alloc=false) case for private page case.
-> 
-> > +	}
-> > +
-> > +	if (priv_gfn && !priv_gfn_exists) {
-> > +		mem_convert_type = KVM_EXIT_MEM_MAP_PRIVATE;
-> > +		goto out_convert;
-> > +	}
-> > +
-> > +	if (!priv_gfn && priv_gfn_exists) {
-> > +		slot->memfd_ops->put_pfn(pfn);
-> > +		mem_convert_type = KVM_EXIT_MEM_MAP_SHARED;
-> > +		goto out_convert;
-> > +	}
-> > +
-> > +	if (!priv_gfn) {
-> > +		pfn = slot->memfd_ops->get_pfn(slot, slot->file,
-> > +					       fault->gfn, true, &order);
-> 
-> Need "fault->pfn = pfn" here, because he pfn for
-> share page is getted here only.
-> 
-> > +		if (fault->pfn < 0) {
-> > +			*r = RET_PF_INVALID;
-> > +			return true;
-> > +		}
-> > +	}
 
-Right, I actually have "fault->pfn = pfn" here but accidentally deleted
-in a code factoring.
 
-Chao
-> > +
-> > +	if (slot->flags & KVM_MEM_READONLY)
-> > +		fault->map_writable = false;
-> > +	if (order == 0)
-> > +		fault->max_level = PG_LEVEL_4K;
-> > +
-> > +	return false;
-> > +
-> > +out_convert:
-> > +	vcpu->run->exit_reason = KVM_EXIT_MEMORY_ERROR;
-> > +	vcpu->run->mem.type = mem_convert_type;
-> > +	vcpu->run->mem.u.map.gpa = fault->gfn << PAGE_SHIFT;
-> > +	vcpu->run->mem.u.map.size = PAGE_SIZE;
-> > +	fault->pfn = -1;
-> > +	*r = -1;
-> > +	return true;
-> > +}
-> > +
-> >  static bool kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault, int *r)
-> >  {
-> >  	struct kvm_memory_slot *slot = fault->slot;
-> > @@ -4596,6 +4658,9 @@ static bool kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault,
-> >  		}
-> >  	}
-> >
-> > +	if (memslot_is_memfd(slot))
-> > +		return kvm_faultin_pfn_memfd(vcpu, fault, r);
-> > +
-> >  	async = false;
-> >  	fault->pfn = __gfn_to_pfn_memslot(slot, fault->gfn, false, &async,
-> >  					  fault->write, &fault->map_writable,
-> > @@ -4660,7 +4725,8 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
-> >  	else
-> >  		write_lock(&vcpu->kvm->mmu_lock);
-> >
-> > -	if (fault->slot && mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva))
-> > +	if (fault->slot && !memslot_is_memfd(fault->slot) &&
-> > +			mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva))
-> >  		goto out_unlock;
-> >  	r = make_mmu_pages_available(vcpu);
-> >  	if (r)
-> > @@ -4676,7 +4742,12 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
-> >  		read_unlock(&vcpu->kvm->mmu_lock);
-> >  	else
-> >  		write_unlock(&vcpu->kvm->mmu_lock);
-> > -	kvm_release_pfn_clean(fault->pfn);
-> > +
-> > +	if (memslot_is_memfd(fault->slot))
-> > +		fault->slot->memfd_ops->put_pfn(fault->pfn);
-> > +	else
-> > +		kvm_release_pfn_clean(fault->pfn);
-> > +
-> >  	return r;
-> >  }
-> >
-> > --
-> > 2.17.1
-> >
+在 2021/11/22 17:10, Markus Armbruster 写道:
+> Hyman Huang <huangy81@chinatelecom.cn> writes:
+> 
+>> =E5=9C=A8 2021/11/22 15:35, Markus Armbruster =E5=86=99=E9=81=93:
+>>> huangy81@chinatelecom.cn writes:
+>>>
+>>>> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
+>>>>
+>>>> implement dirtyrate calculation periodically basing on
+>>>> dirty-ring and throttle vCPU until it reachs the quota
+>>>> dirtyrate given by user.
+>>>>
+>>>> introduce qmp commands set-dirty-limit/cancel-dirty-limit to
+>>>> set/cancel dirty limit on vCPU.
+>>>
+>>> Please start sentences with a capital letter.
+>>>
+>> Ok，i'll check the syntax problem next version.
+>>>>
+>>>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>>
+>>>
+>>> [...]
+>>>
+>>>> diff --git a/qapi/misc.json b/qapi/misc.json
+>>>> index 358548a..98e6001 100644
+>>>> --- a/qapi/misc.json
+>>>> +++ b/qapi/misc.json
+>>>> @@ -527,3 +527,42 @@
+>>>>     'data': { '*option': 'str' },
+>>>>     'returns': ['CommandLineOptionInfo'],
+>>>>     'allow-preconfig': true }
+>>>> +
+>>>> +##
+>>>> +# @set-dirty-limit:
+>>>> +#
+>>>> +# This command could be used to cap the vCPU memory load, which is also
+>>>> +# refered as dirtyrate. One should use "calc-dirty-rate" with "dirty-ring"
+>>>> +# and to calculate vCPU dirtyrate and query it with "query-dirty-rate".
+>>>> +# Once getting the vCPU current dirtyrate, "set-dirty-limit" can be used
+>>>> +# to set the upper limit of dirtyrate for the interested vCPU.
+>>>
+>>> "dirtyrate" is not a word.  Let's spell it "dirty page rate", for
+>>> consistency with the documentation in migration.json.
+>> Ok, sounds good.
+>>>
+>>> Regarding "One should use ...": sounds like you have to run
+>>> calc-dirty-rate with argument @mode set to @dirty-ring before this
+>>> command.  Correct?  What happens when you don't?  set-dirty-limit fails?
+> 
+> You didn't answer this question.
+set-dirty-limit doesn't do any pre-check about if calc-dirty-rate has 
+executed, so it doesn't fail.
+
+Since only executing calc-dirty-rate with dirty-ring mode can we get the 
+vCPU dirty page rate currently(while the dirty-bitmap only get the vm 
+dirty page rate), "One should use ..." maybe misleading, what i actually 
+want to say is "One should use the dirty-ring mode to calculate the vCPU 
+dirty page rate".
+> 
+>>> Do you also have to run query-dirty-rate before this command?
+>> Actually no, i'll clarify the usage next verison.
+> 
+> Regarding "dirty-ring": is this merely a limitation of the
+> implementation, i.e. other modes could be made to work if we cared, or
+> is it more fundamental?
+> 
+>>> Speaking of migration.json: should these commands be defined there, next
+>>> to calc-dirty-rate and query-dirty-rate?
+>> I'm struggling too because these commands will be used in migration but
+>> it is vCPU they handle.
+> 
+> I think migration.json is more about CPUs than misc.json is.  Let's add
+> the new commands to migration.json if migration maintainers are okay
+> with it.
+> 
+> [...]
+> 
+
+-- 
+Best regard
+
+Hyman Huang(黄勇)
 
