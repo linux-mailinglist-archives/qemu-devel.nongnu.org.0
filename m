@@ -2,79 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0754459097
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 15:52:56 +0100 (CET)
-Received: from localhost ([::1]:45426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B94044590A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 15:57:31 +0100 (CET)
+Received: from localhost ([::1]:56460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpAgh-0003rc-D4
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 09:52:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59238)
+	id 1mpAl8-00033B-6j
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 09:57:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mpAZe-0003XP-MC
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:45:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47119)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpAio-0000Tm-ML
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:55:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mpAZc-0004eg-IL
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:45:38 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpAil-0006u2-Gd
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:55:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637592332;
+ s=mimecast20190719; t=1637592901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8ydClnzshLRe23XINH683gpM01E2VTNZ7KtLy7jFMFw=;
- b=VHKcLZpkh7W2RnoySHOBzHQyJ4KTH3/bgMq1W8P4H9zl7ydDtLVmxtatHQ2hnhL5d5QFtd
- QVlKcGX7xrp0Elqg8iY5mDaLf0EcvyRHR1Bme66r3vURac3JeooD0izSFJgrjKBFRybHW+
- 1aE6Wq3o/42xjmyvT58WW+SDi7Xza5Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hdudmNrUP3qDcSxDmdPAFqNl0U/7WxgN31aB0x4iiWc=;
+ b=gbUeSHGMqRqxtdxZnyrv6S0+CVZqTwre2+XuS2R8JT41kYqKcaJPzQM4J8fd7fdahT5ThP
+ 4cNHWC42nsuxcebk55/En+i8mrLMY3REzOTZykdYivz1HE2M1I9io9ame22j+LfM2tDFdi
+ m3EJPl+wkgQJ5IKBDnqRl89/49Uu4UY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-368-IPNDePdfPaSP5MxkEBZgpw-1; Mon, 22 Nov 2021 09:45:29 -0500
-X-MC-Unique: IPNDePdfPaSP5MxkEBZgpw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 521E6100CD03;
- Mon, 22 Nov 2021 14:45:28 +0000 (UTC)
-Received: from paraplu (unknown [10.39.193.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8018E5F93C;
- Mon, 22 Nov 2021 14:45:25 +0000 (UTC)
-Date: Mon, 22 Nov 2021 15:45:20 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 1/2] docs: Fix botched rST conversion of
- 'submitting-a-patch.rst'
-Message-ID: <YZusFeMlVzPugcoM@paraplu>
-References: <20211119193118.949698-2-kchamart@redhat.com>
- <56026d2a-0b9e-ff83-d953-a284a810a8ed@redhat.com>
- <YZtu59t8DoZZ15nQ@paraplu>
- <b03ffb0c-0c4f-b792-f6c1-55014a0ae003@redhat.com>
- <YZuK09xP0I28dvMr@paraplu>
- <c591c571-f922-28a5-e8be-75e6cccb261a@redhat.com>
- <CAFEAcA8QuSsazUZU23DJgXHhU=ez948wQFJkHZGRYWxhiXbuDg@mail.gmail.com>
- <ef4ff222-1053-904a-77c2-39adc9dd929a@redhat.com>
- <CAFEAcA-+38PB3aOypgbAmeJN-X3P2gzB5K+CTAveXdt7jmF3mw@mail.gmail.com>
- <a2087e9c-82cb-8cc6-e580-9cc27891c196@redhat.com>
+ us-mta-331-pWKNgCwKP6yCjztU3XyOYA-1; Mon, 22 Nov 2021 09:55:00 -0500
+X-MC-Unique: pWKNgCwKP6yCjztU3XyOYA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ g11-20020a1c200b000000b003320d092d08so6908738wmg.9
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 06:55:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hdudmNrUP3qDcSxDmdPAFqNl0U/7WxgN31aB0x4iiWc=;
+ b=qXdZqUHdoXCeMkDlFiF+4kOOzUNjeKVDi0jcUSWHOede++4KBpkhMYpuSiKQcsYbOn
+ icpIGOSLCWDlv7CLaa8pf1sltmMZqlCIX6/6voW13lpngR2bOn6vomuTUHFcrJXVZVmU
+ LCSIqqq9XxCFMm8Hr5SLLluFinvMQ5Jv+v8RusUqE29/e/yPF4rQh4kzyWtrSjyMdtDO
+ oLkglRep7LpfMShzMNU8YfKVldfj0TKxNz/GdHREW7osQuLrK53aNBkF8+iD8ZC5vV7V
+ JXJr/zCnZ8ZY0EnFS+ZjtJ9r2zdP/NTty+H8g8SXPFVhKaVInCJW7VsTNHhH2a7y5YrK
+ lXNA==
+X-Gm-Message-State: AOAM531/0B4Bgi14RF1NFwOolnuyH1LXSCQ0vn7FYKHFXc8NXsCC7S/5
+ q5+kg855oXHvY2RjJgpEkEjbnA376Wa9vt3J3fkar0apRZ5Fx33u0ZwoulsfkejuFi7lXvyvJgA
+ DTOqLb5/4J/VgIHFtgtRs+X4bkvtEDKQjyTiB95YH9qTw+gVu+eB/3Z49j9spCypo
+X-Received: by 2002:adf:f947:: with SMTP id q7mr37781801wrr.260.1637592898643; 
+ Mon, 22 Nov 2021 06:54:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyM0RECJufpIOKuls+RlPR3/j2vsLTlO7jfWYa/B6V+02Eu3L35xgBvci1PDuUoSMpIr+qjSA==
+X-Received: by 2002:adf:f947:: with SMTP id q7mr37781746wrr.260.1637592898311; 
+ Mon, 22 Nov 2021 06:54:58 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id p12sm10773919wrr.10.2021.11.22.06.54.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Nov 2021 06:54:57 -0800 (PST)
+Message-ID: <a67ccbe8-7701-ee38-5e5c-a65f60f33f20@redhat.com>
+Date: Mon, 22 Nov 2021 15:54:56 +0100
 MIME-Version: 1.0
-In-Reply-To: <a2087e9c-82cb-8cc6-e580-9cc27891c196@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH-for-6.2 0/2] hw/block/fdc: Fix CVE-2021-3507
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
+References: <20211118115733.4038610-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211118115733.4038610-1-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,52 +100,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- Laurent Vivier <Laurent@vivier.eu>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
+ qemu-block@nongnu.org, Darren Kenny <darren.kenny@oracle.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 22, 2021 at 03:01:58PM +0100, Thomas Huth wrote:
-> On 22/11/2021 14.53, Peter Maydell wrote:
+ping for 6.2?
 
-[...]
-
-> > I don't think we should be recommending to new contributors that
-> > they do things that established contributors generally do not do.
-> > The document has enough "things you should do or think about" already.
-> > My preference would be for simply not mentioning spelling-checking.
-
-Fair points; and yes, the doc can be intimidating as is.
-
-> > (If we do want to come up with some process for dealing with
-> > spelling issues in the codebase, then we either need to put it
-> > into CI so it's run automatically, or we need to have something
-> > that works on the individual patch level.)
-
-For individual patches, some projects use commit hooks for `aspell` /
-`codespell`.  The contributor still needs to wade through false
-positives, though.  For Sphinx-based documentation, there's
-"sphinxcontrib-spelling"[1].  I don't know how effective it is, but it
-lets one configure project-specific private dictionaries[2], which could
-eliminate many false positives.
-
-> Ok ... In any case - seems like this needs more discussion, so I'll
-> drop it from the patch for now. We can still add some wording or CI
-> magic later, but that's certainly something that we rather want to do
-> after version 6.2 has been released...
-
-Yeah, dropping it sounds fine.
-
-[1] https://github.com/sphinx-contrib/spelling
-[2] https://sphinxcontrib-spelling.readthedocs.io/en/latest/customize.html#private-dictionaries
-
--- 
-/kashyap
+On 11/18/21 12:57, Philippe Mathieu-Daudé wrote:
+> Trivial fix for CVE-2021-3507.
+> 
+> Philippe Mathieu-Daudé (2):
+>   hw/block/fdc: Prevent end-of-track overrun (CVE-2021-3507)
+>   tests/qtest/fdc-test: Add a regression test for CVE-2021-3507
+> 
+>  hw/block/fdc.c         |  8 ++++++++
+>  tests/qtest/fdc-test.c | 20 ++++++++++++++++++++
+>  2 files changed, 28 insertions(+)
+> 
 
 
