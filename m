@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B875545887E
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 04:57:02 +0100 (CET)
-Received: from localhost ([::1]:55604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 608F8458881
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 04:57:45 +0100 (CET)
+Received: from localhost ([::1]:57774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp0Rx-0002Ro-Dh
-	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 22:57:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55774)
+	id 1mp0Se-0003uA-Gv
+	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 22:57:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mp0Qm-0001ar-Aq
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 22:55:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28576)
+ id 1mp0Rh-0002fx-T9
+ for qemu-devel@nongnu.org; Sun, 21 Nov 2021 22:56:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mp0Qj-000552-Hi
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 22:55:47 -0500
+ id 1mp0Rf-0005Lk-V6
+ for qemu-devel@nongnu.org; Sun, 21 Nov 2021 22:56:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637553344;
+ s=mimecast20190719; t=1637553403;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kEgz5cbKZxAI7pBzdC/KTj4UyOK/+N6fumRqcXNe2E4=;
- b=c11MKwVNDs4/ApT3r6o9eo2yNl5SCpAutPfv49QHMZsuBka5T//zWzcmZITD/M+2Qy1OZO
- IUERGFU7QSN09JnG4WKKi9npOJSU/vk1qC0z0nwiB1wXU61u6GafC0HzJhEHFX2soKnMJp
- 1SrzpRcOk42QgLUqp2cXS7w5K4AoDUs=
+ bh=tsqVqkZ80Lb9ARDD+6dL9wvgN8291OdJipVR5eUAPow=;
+ b=FhV9qo70GDWftL6sQvYOcG62xbiovifQXTJj4J37jtKneq5uf6GwnLet+VAF8u0sWjqUuF
+ v0gwzIrxESelu030modll6xP5DoFyuW1RKQjTfbQvMSdKekM+1f6S/NJGQFHGjEDMQQrDG
+ jq1ic13wdeW1CM+gWafFjSeJ2XaM9jU=
 Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
  [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-297-pEH-KvzQPK282wyyltEgEg-1; Sun, 21 Nov 2021 22:55:43 -0500
-X-MC-Unique: pEH-KvzQPK282wyyltEgEg-1
+ us-mta-543-qV4cOzdFNoOOOzRRdev2uQ-1; Sun, 21 Nov 2021 22:56:40 -0500
+X-MC-Unique: qV4cOzdFNoOOOzRRdev2uQ-1
 Received: by mail-lf1-f72.google.com with SMTP id
- h40-20020a0565123ca800b00402514d959fso11122501lfv.7
- for <qemu-devel@nongnu.org>; Sun, 21 Nov 2021 19:55:43 -0800 (PST)
+ y40-20020a0565123f2800b003fded085638so11066868lfa.0
+ for <qemu-devel@nongnu.org>; Sun, 21 Nov 2021 19:56:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=kEgz5cbKZxAI7pBzdC/KTj4UyOK/+N6fumRqcXNe2E4=;
- b=QETBC9mTvVPYVrStNjgAei8xWkKb/HaZO2nDBsciCoRQilSNPzZoUuJuDESSQ59EUn
- 0JVLsC+f3UT2NxMO9wcqQbLKA2JEAVaZZhbJxTh0qmOkhEPghyxzL0lgCTzJgU75/vkT
- aiteMDq81tqNHqibGX+JwzLXyQ7BwgOVLDWi2ZkLD+WbqHxx399+4XVBGSoYEvXNk9Ql
- BeUbTYByKpVuCjXwsZedb7D+yyvQOubpBr9tN8Dmzdaq5fYLSXY/kg7dwLz6MbGHvWkK
- em8epSWAphUBRfU1/iK4+J78gqHjVh/diw0KoZLnefZYBWl5hBjbBFwM4kzI7w80xWAJ
- EWxQ==
-X-Gm-Message-State: AOAM5332nmm7xCu4GZXdhWnVLtQo1GNL8Ko6UdM2pSjmlLF+H/wItBM6
- ixsXKoxC1gf5Lv7pL1CmZR2NO9TUQWYQ/1QnJmXTUoMbJXrtJwseslY3zZ+/wBy2Nn4XEmB8vze
- pdYMCmHxtpMHi1vkipIgpQANYk66IJV0=
-X-Received: by 2002:a2e:2ac1:: with SMTP id
- q184mr49936429ljq.420.1637553342179; 
- Sun, 21 Nov 2021 19:55:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzZ0mMw888SgknpNacLcBQn+Pc4PGfQDAXZDhROanOr5VnWDd1Qq57hjB0zmVqL8KTMG/flEqHzflLTINYjkas=
-X-Received: by 2002:a2e:2ac1:: with SMTP id
- q184mr49936383ljq.420.1637553341750; 
- Sun, 21 Nov 2021 19:55:41 -0800 (PST)
+ bh=tsqVqkZ80Lb9ARDD+6dL9wvgN8291OdJipVR5eUAPow=;
+ b=iJgXkVeLTqAUf3gAwA/TjXmJccFuLqRoUq2Acki2g6egk0yc6a4cdmTJ9GRcQ2p3bq
+ 0xldkls5ZCX60EHpiveDPV9yhLrgPa/xFaeW6L5QrJ6JDhm3bzh5AGXTYSWUP3ykPQXu
+ NlW5B/VBs4QYFKQrdhf8P+/WU+/yhA8BU0jl7pCi+Uqpjt2FniUjPRteQuSVnVacUqJD
+ VXcYNyK0D+RJOwQYyomyrHx2HbjUzLAWhz6FJPCl9GxC/C2cdX4d+gaA6hI9huGg19vw
+ Vj1FON+dciE3PUwOCBBxLWEmus5WxdBX2AKf75HEmV+0tlHDLw7FJ9nRhKJGKIRzewY6
+ PhYg==
+X-Gm-Message-State: AOAM5318VsUPUH2L3Y19755itv7k6ounCn4CaziOJ2UOn9Q4OSiZzFI3
+ l08vILWKpbSTxsK6OLoGAHZ7Q3uX2IM+f6xmiDGWCkH1GmoBYpYtXgH5TEh/AP0mNSk1S5haPVh
+ eaqcg8po7r5hL0+nX14fbQ5J+OqNQgic=
+X-Received: by 2002:a2e:b88d:: with SMTP id r13mr47484916ljp.362.1637553398638; 
+ Sun, 21 Nov 2021 19:56:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzE/DRQBaXtt76ObYHTFZfuvOM/piCojy5/at66HtAvMAzUp1PiteaVKpXizA12eClMDunrde8lxtM3dam8uR0=
+X-Received: by 2002:a2e:b88d:: with SMTP id r13mr47484847ljp.362.1637553397918; 
+ Sun, 21 Nov 2021 19:56:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20211119102033.36149-1-eperezma@redhat.com>
- <20211119102033.36149-3-eperezma@redhat.com>
-In-Reply-To: <20211119102033.36149-3-eperezma@redhat.com>
+In-Reply-To: <20211119102033.36149-1-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 22 Nov 2021 11:55:30 +0800
-Message-ID: <CACGkMEuY5cX+6iCXGNqmZLTAKpVG3vcSxmowtqinj2uK8yOktA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] vdpa: Add dummy receive callbacks
+Date: Mon, 22 Nov 2021 11:56:27 +0800
+Message-ID: <CACGkMEsO6faPj+geYWjopTzNQLX8FX6Us7KYST400Xa5=PPuTA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] vdpa: Fix SIGSEGV on failed vdpa devices
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
@@ -73,15 +70,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,58 +107,32 @@ ote:
 > that. Add dummy receivers that return no progress so it can keep
 > running.
 >
-> Fixes: 1e0a84ea49 ("vhost-vdpa: introduce vhost-vdpa net client")
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> ---
->  net/vhost-vdpa.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+> Tested with a modified version of vp_vdpa to fail negotiation.
 >
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 2e3c22a8c7..4c75b78304 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -170,9 +170,25 @@ static bool vhost_vdpa_check_peer_type(NetClientStat=
-e *nc, ObjectClass *oc,
->      return true;
->  }
+> This is another bersion of the patch proposed in [1], but the subject
+> didn't match the patch anymore.
 >
-> +/** Dummy receive in case qemu falls back to userland tap networking */
-> +static ssize_t vhost_vdpa_receive_iov(NetClientState *nc,
-> +                                      const struct iovec *iov, int iovcn=
-t)
-> +{
-> +    return 0;
-> +}
-> +
-> +/** Dummy receive in case qemu falls back to userland tap networking */
-> +static ssize_t vhost_vdpa_receive_raw(NetClientState *nc, const uint8_t =
-*buf,
-> +                                      size_t size)
-> +{
-> +    return 0;
-> +}
+> [1] https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg03719.htm=
+l
+>
 
-It looks to me the .receive_raw is not need, in nc_sendv_compat() we had:
-
-=3D>  if (flags & QEMU_NET_PACKET_FLAG_RAW && nc->info->receive_raw) {
-        ret =3D nc->info->receive_raw(nc, buffer, offset);
-    } else {
-        ret =3D nc->info->receive(nc, buffer, offset);
-    }
+As discussed, we need to consider fixing the gRARP transmission issue
+on top, any idea on that?
 
 Thanks
 
-> +
->  static NetClientInfo net_vhost_vdpa_info =3D {
->          .type =3D NET_CLIENT_DRIVER_VHOST_VDPA,
->          .size =3D sizeof(VhostVDPAState),
-> +        .receive_iov =3D vhost_vdpa_receive_iov,
-> +        .receive_raw =3D vhost_vdpa_receive_raw,
->          .cleanup =3D vhost_vdpa_cleanup,
->          .has_vnet_hdr =3D vhost_vdpa_has_vnet_hdr,
->          .has_ufo =3D vhost_vdpa_has_ufo,
+> Eugenio P=C3=A9rez (3):
+>   virtio-net: Fix indentation
+>   vdpa: Add dummy receive callbacks
+>   virtio-net: Fix log message
+>
+>  hw/net/virtio-net.c | 13 +++++++------
+>  net/vhost-vdpa.c    | 16 ++++++++++++++++
+>  2 files changed, 23 insertions(+), 6 deletions(-)
+>
 > --
 > 2.27.0
+>
 >
 
 
