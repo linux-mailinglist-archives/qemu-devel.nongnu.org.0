@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 231EC458FAC
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 14:46:59 +0100 (CET)
-Received: from localhost ([::1]:53694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CAB4458FCF
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 14:55:28 +0100 (CET)
+Received: from localhost ([::1]:59532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp9es-0007Rl-8h
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 08:46:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38816)
+	id 1mp9n5-0003b8-CU
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 08:55:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mp9bp-0005wj-LO
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:43:49 -0500
-Received: from [2a00:1450:4864:20::32e] (port=36860
- helo=mail-wm1-x32e.google.com)
+ id 1mp9lI-0002qO-TS
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:53:37 -0500
+Received: from [2a00:1450:4864:20::32d] (port=34644
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mp9bm-0002yh-UE
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:43:49 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- i8-20020a7bc948000000b0030db7b70b6bso16824915wml.1
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 05:43:46 -0800 (PST)
+ id 1mp9lF-0004af-Ny
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:53:36 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ ay10-20020a05600c1e0a00b0033aa12cdd33so3347364wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 05:53:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QtycwYKH46ndmhVQ28QqqPnj2RqndVlu0g56ghXJQdM=;
- b=epy863vdNnoYzOwBS2htxhMP24nTpGODMegNgptHpBFVVN/7jCZnx01uLyrxNZsi9t
- gx2X/SeHG8/NaYcbqITlcmPFp+bOjOt+AdGT8yU+doga5IBlVhTZlVNQtKSlyzg5Ejzp
- 6vwqSpiFxVpMpwj2JLqiocCBBcS+wfma7Qf/GI2PNLw2jtwhChtSksmW1zhrpbTOrDG/
- Mxk52YHxR0kP3PxQahaYWM0D4NjpxdJmx2G4YzN3p5jRJQLTMvMcWSIcIZiShHtixbz2
- aueRFv0mixMMno7xwVHFxWIoN9LmZhdj6XQFG9vPCBsWZIwZ7G5znEddZSCYRaj8qnuz
- sXxA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XXLue/Az7JqLzh01PP+RyjN3CfdOFmd0T6AHdlwVETw=;
+ b=snb4Hl3bCGTNxCimSs6EZdeylWNH38L40O/AYSe4OmQcWkFatVPh37lS7qur0B9pPu
+ RximtX8vCwzz5F3m7GEAw871/7xI971FGDfu1jy21xKRXff3+/5vulJDib0JP18Vaquk
+ ZxpmU/uubB2giyVUFzOqH0gv+8VsOGaAT7V8IkrUxbau97wL+t4iOBFARadwKsyfN7GV
+ 8JAO4LiXYmagbMQ6ihEKzicGwnQXl+0KBDxdv3aPZNWOeXNLL54MDJXimEg28v0e5LZh
+ XzZL4ZFipg2tg7eYixQs1y24jWRNupNExF7VhqfucM1QLb4zF8nVDIrX643LH/ALoLwr
+ IoTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=QtycwYKH46ndmhVQ28QqqPnj2RqndVlu0g56ghXJQdM=;
- b=CLwHNrzMFColI/LfJ/a+FzmTPn8fwg2iXCY7NEO/0Tq+8v6SWKkMoP83iU7EeR5+YE
- X9sqloaeLsZuT3ppRJAoeoKf0PcQxgiEr8M+6sk1wq4O3JG7eN3TMg8sDG87r/tYe6mn
- +fYj21jJvVz/MVt/rAsfooDqLiYFFSoueGOlNrMU6gi8kfYvr5G68KXWicbQiS+yy/9/
- mo6lNpCfQGlRUQvj+CZcX0Nir5itNVyeYg+izbOaDQsZROcsDUPKzcY+AHUoGtSolwUO
- by0GSqfQlsse6ID+gjcA6miZ2TPlAhOBdvIpYEta8rNTbYxlIdfUOMd4brPuhjGcp29/
- 9RkQ==
-X-Gm-Message-State: AOAM532c+aUDwyxoXLunJjwY0SOTh8hNgBv+SE2JZFhJiAMhqWR+aPYl
- GaObI89tBCRH6m79RiA8ghZbOHPyteIitw==
-X-Google-Smtp-Source: ABdhPJxYGUkAXlfBn1/hYKoOcKpnRmjVu6FQDaxfZFu0Bj0NeZpQ5iTz9LlWy4td2cZCupwT6Ikimg==
-X-Received: by 2002:a05:600c:2149:: with SMTP id
- v9mr30600269wml.59.1637588625495; 
- Mon, 22 Nov 2021 05:43:45 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id t11sm8931474wrz.97.2021.11.22.05.43.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Nov 2021 05:43:45 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] Revert "arm: tcg: Adhere to SMCCC 1.3 section 5.2"
-Date: Mon, 22 Nov 2021 13:43:42 +0000
-Message-Id: <20211122134342.660953-2-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211122134342.660953-1-peter.maydell@linaro.org>
-References: <20211122134342.660953-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XXLue/Az7JqLzh01PP+RyjN3CfdOFmd0T6AHdlwVETw=;
+ b=LoL7HzuPqZ5YR1Cb8Numic7u3UZqrNc1O59q28aEgGPuU1dINOMyrQbSwC6O3LRPKr
+ yIlt0CRERhpPwgGW7SrxTR0zXAsuj2fOOnPD92XE4xBLttW+6WYEr8DPqZ5QtpG9tgac
+ Njxj9hqrp6L92O40uD3NfhTyFp6N2kzQmU8ISIFikCwHSaqhxRTdNsAlqsHWXed0QpRk
+ MR5nQiVOfW21CsgJc7F9A1eCeraGVoeNfHNpZB8GKdvjgqcZbOVXa4OcHUCgLHyTP0A3
+ MPsV0lBdwi+BNU4XowiGjUwuPpEVJgA5sQ27BFv3I5QE7DxzZHPzSsXvlnt7GlzsMlxi
+ svjg==
+X-Gm-Message-State: AOAM530KTT2NnfPkUMfjnPvtGbhs/Cazcij56kqg3ooKnm9UjVNWBF8z
+ tTYWdsOkp2ftg8vPZ4QxvYHUiI7cIaSwTMUIui41MA==
+X-Google-Smtp-Source: ABdhPJwwlDnMYZhikdGK+lPNDxlglSViqO5J24qzEAhUD/iS2NLqLO2WrLTQSA1OP2fOrwTGGbj81nojH9PKom3UQNU=
+X-Received: by 2002:a05:600c:22d0:: with SMTP id
+ 16mr30183348wmg.37.1637589210512; 
+ Mon, 22 Nov 2021 05:53:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+References: <20211119193118.949698-1-kchamart@redhat.com>
+ <20211119193118.949698-2-kchamart@redhat.com>
+ <56026d2a-0b9e-ff83-d953-a284a810a8ed@redhat.com> <YZtu59t8DoZZ15nQ@paraplu>
+ <b03ffb0c-0c4f-b792-f6c1-55014a0ae003@redhat.com> <YZuK09xP0I28dvMr@paraplu>
+ <c591c571-f922-28a5-e8be-75e6cccb261a@redhat.com>
+ <CAFEAcA8QuSsazUZU23DJgXHhU=ez948wQFJkHZGRYWxhiXbuDg@mail.gmail.com>
+ <ef4ff222-1053-904a-77c2-39adc9dd929a@redhat.com>
+In-Reply-To: <ef4ff222-1053-904a-77c2-39adc9dd929a@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 22 Nov 2021 13:53:19 +0000
+Message-ID: <CAFEAcA-+38PB3aOypgbAmeJN-X3P2gzB5K+CTAveXdt7jmF3mw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] docs: Fix botched rST conversion of
+ 'submitting-a-patch.rst'
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -87,111 +88,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>, Laurent Vivier <Laurent@vivier.eu>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 9fcd15b9193e819b6cc2fd0a45e3506148812bb4.
+On Mon, 22 Nov 2021 at 13:30, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 22/11/2021 14.25, Peter Maydell wrote:
+> > On Mon, 22 Nov 2021 at 12:37, Thomas Huth <thuth@redhat.com> wrote:
+> >> What about simply replacing it with a new sentence below the bullet list,
+> >> saying:
+> >>
+> >> "Please also use a spell checker like `codespell
+> >> https://github.com/codespell-project/codespell` with your patches"
+> >
+> > How many regular contributors actually do that?
+>
+> Considering the typos that we have in the code, not enough ;-)
+>
+> Anyway, it's just a polite recommendation here, not a must-do, so mentioning
+> codespell here doesn't really hurt, does it?
 
-This change turns out to cause regressions, for instance on the
-imx6ul boards as described here:
-https://lore.kernel.org/qemu-devel/c8b89685-7490-328b-51a3-48711c140a84@tribudubois.net/
+I don't think we should be recommending to new contributors that
+they do things that established contributors generally do not do.
+The document has enough "things you should do or think about" already.
+My preference would be for simply not mentioning spelling-checking.
 
-The primary cause of that regression is that the guest code running
-at EL3 expects SMCs (not related to PSCI) to do what they would if
-our PSCI emulation was not present at all, but after this change
-they instead set a value in R0/X0 and continue.
+(If we do want to come up with some process for dealing with
+spelling issues in the codebase, then we either need to put it
+into CI so it's run automatically, or we need to have something
+that works on the individual patch level.)
 
-We could fix that by a refactoring that allowed us to only turn on
-the PSCI emulation if we weren't booting the guest at EL3, but there
-is a more tangled problem with the highbank board, which:
- (1) wants to enable PSCI emulation
- (2) has a bit of guest code that it wants to run at EL3 and
-     to perform SMC calls that trap to the monitor vector table:
-     this is the boot stub code that is written to memory by
-     arm_write_secure_board_setup_dummy_smc() and which the
-     highbank board enables by setting bootinfo->secure_board_setup
-
-We can't satisfy both of those and also have the PSCI emulation
-handle all SMC instruction executions regardless of function
-identifier value.
-
-This is too tricky to try to sort out before 6.2 is released;
-revert this commit so we can take the time to get it right in
-the 7.0 release.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20211119163419.557623-1-peter.maydell@linaro.org
----
- target/arm/psci.c | 35 +++++++++++++++++++++++++++++------
- 1 file changed, 29 insertions(+), 6 deletions(-)
-
-diff --git a/target/arm/psci.c b/target/arm/psci.c
-index b279c0b9a45..6709e280133 100644
---- a/target/arm/psci.c
-+++ b/target/arm/psci.c
-@@ -27,13 +27,15 @@
- 
- bool arm_is_psci_call(ARMCPU *cpu, int excp_type)
- {
--    /*
--     * Return true if the exception type matches the configured PSCI conduit.
--     * This is called before the SMC/HVC instruction is executed, to decide
--     * whether we should treat it as a PSCI call or with the architecturally
-+    /* Return true if the r0/x0 value indicates a PSCI call and
-+     * the exception type matches the configured PSCI conduit. This is
-+     * called before the SMC/HVC instruction is executed, to decide whether
-+     * we should treat it as a PSCI call or with the architecturally
-      * defined behaviour for an SMC or HVC (which might be UNDEF or trap
-      * to EL2 or to EL3).
-      */
-+    CPUARMState *env = &cpu->env;
-+    uint64_t param = is_a64(env) ? env->xregs[0] : env->regs[0];
- 
-     switch (excp_type) {
-     case EXCP_HVC:
-@@ -50,7 +52,27 @@ bool arm_is_psci_call(ARMCPU *cpu, int excp_type)
-         return false;
-     }
- 
--    return true;
-+    switch (param) {
-+    case QEMU_PSCI_0_2_FN_PSCI_VERSION:
-+    case QEMU_PSCI_0_2_FN_MIGRATE_INFO_TYPE:
-+    case QEMU_PSCI_0_2_FN_AFFINITY_INFO:
-+    case QEMU_PSCI_0_2_FN64_AFFINITY_INFO:
-+    case QEMU_PSCI_0_2_FN_SYSTEM_RESET:
-+    case QEMU_PSCI_0_2_FN_SYSTEM_OFF:
-+    case QEMU_PSCI_0_1_FN_CPU_ON:
-+    case QEMU_PSCI_0_2_FN_CPU_ON:
-+    case QEMU_PSCI_0_2_FN64_CPU_ON:
-+    case QEMU_PSCI_0_1_FN_CPU_OFF:
-+    case QEMU_PSCI_0_2_FN_CPU_OFF:
-+    case QEMU_PSCI_0_1_FN_CPU_SUSPEND:
-+    case QEMU_PSCI_0_2_FN_CPU_SUSPEND:
-+    case QEMU_PSCI_0_2_FN64_CPU_SUSPEND:
-+    case QEMU_PSCI_0_1_FN_MIGRATE:
-+    case QEMU_PSCI_0_2_FN_MIGRATE:
-+        return true;
-+    default:
-+        return false;
-+    }
- }
- 
- void arm_handle_psci_call(ARMCPU *cpu)
-@@ -172,9 +194,10 @@ void arm_handle_psci_call(ARMCPU *cpu)
-         break;
-     case QEMU_PSCI_0_1_FN_MIGRATE:
-     case QEMU_PSCI_0_2_FN_MIGRATE:
--    default:
-         ret = QEMU_PSCI_RET_NOT_SUPPORTED;
-         break;
-+    default:
-+        g_assert_not_reached();
-     }
- 
- err:
--- 
-2.25.1
-
+-- PMM
 
