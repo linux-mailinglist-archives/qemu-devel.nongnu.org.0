@@ -2,60 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5187B459136
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 16:22:59 +0100 (CET)
-Received: from localhost ([::1]:45772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 425C9459181
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 16:37:14 +0100 (CET)
+Received: from localhost ([::1]:50960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpB9m-0001AS-Fo
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 10:22:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48714)
+	id 1mpBNY-0005RD-Sd
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 10:37:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mpB8Z-0000VC-T5
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:21:45 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:34619)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mpB8R-0003bW-VI
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:21:38 -0500
-Received: from [192.168.100.1] ([82.142.2.234]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MMoOy-1n7wRK2uA8-00Iij3; Mon, 22 Nov 2021 16:21:30 +0100
-Message-ID: <290f4df5-fe4a-6665-89f8-69f958cf452c@vivier.eu>
-Date: Mon, 22 Nov 2021 16:21:29 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpBLz-0004Fx-No
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:35:36 -0500
+Received: from [2a00:1450:4864:20::42c] (port=36663
+ helo=mail-wr1-x42c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpBLy-0005VD-9z
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:35:35 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id s13so33529012wrb.3
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 07:35:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=rIOJjATpEMHFPGOgLu8pe/TRItvjeVhlcoYx8wAMN84=;
+ b=BIbwlq3vAenxbhzw/NdhMz+uiupbwrfUCy5etIWeRg/LSEbM+HEE1Ujr3XE4+aitrB
+ YoL3hXAAdG2IaupPTE+s050ZqcgqLZnw1UeJkS7kiUXljCJBIhoW2aePOWPlhK7+JP6L
+ t3HFXIrSl2+XkIjH2Ma3BApDt+C+lqQAJJtBq9fSTZiBbH75WbH3sfrs1C5U33a1ywb/
+ r7WtTXeIru440nq+RXgnHTaJ703mQFFrIs5kbnW0l2VQoaHRd9vbwPTGDB4NlCU9MWgJ
+ 7WZiviY/OOwqJtLLCpnJDu3920irnt/gxlPbVHA+VbE+sW2jov9Y7O9matiteukkf2Xz
+ DfxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rIOJjATpEMHFPGOgLu8pe/TRItvjeVhlcoYx8wAMN84=;
+ b=JLn6xF4VOBK7zhq9m54vSz5SIqhzJ1KuJOb5gAMXRQ4aQ71PrvWSsSDNojmpWw4tlC
+ dLl9EVy7s0K0XjkOb+z6dh6uGWmZpkiRvOW5MPiOtY/iAwCe7V1kjXRXQ1dWyzXb62sI
+ HKJA+tlQn1NBi8WP5JzhJaupyuZh/Ff7cHWi5FOqBL05Wb13mCyCxp/kvtErkKFnBTJx
+ 49k2zazYddyHS8HJvp1NDVwEn+TwAxrz7KX5rMdc6aw+BepyKZdL5hghs9JMqyAypsiN
+ fCxxKUNMHY69sq/rUEvm8mYw40/fE9FZpVcrOT85tk0iaiz4DIN6YMROWq25zXfLWtQl
+ mYaA==
+X-Gm-Message-State: AOAM532KED0h5hf+4Msjy9MvxW1YQ6hR3AMbNi1URHY7hLUznwxJ94bp
+ XTCLocA6GfaMDu/EmJEWryLptQ==
+X-Google-Smtp-Source: ABdhPJzUDJwgr9sAyNSb0rrU48h2vRsS2N/oQkgIvAsxGkOSBuhOw29noPVZUGpwW9EVXHyFeJjd6A==
+X-Received: by 2002:adf:ecce:: with SMTP id s14mr38654023wro.98.1637595332693; 
+ Mon, 22 Nov 2021 07:35:32 -0800 (PST)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id b14sm11639803wrd.24.2021.11.22.07.35.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Nov 2021 07:35:32 -0800 (PST)
+Subject: Re: [PULL 0/8] Fixes 20211122 patches
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20211122124015.909318-1-kraxel@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9633afea-4224-cb56-a2e1-b57e84fedfa3@linaro.org>
+Date: Mon, 22 Nov 2021 16:35:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] linux-user: implement more loop ioctls
-Content-Language: fr
-To: Andreas Schwab <schwab@suse.de>
-References: <mvmzgpwmfxs.fsf@suse.de>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <mvmzgpwmfxs.fsf@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20211122124015.909318-1-kraxel@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:/nIPkWiApvhu1QJqh1dOwbhGCgnHKdEpEOMDTHrdXfEd3D51+Dc
- HEc4VOAymgvofMSk5jhoe+rvwCAVj4x2Sds7Hm2xAHXM9GZn5J6cVnlc25aPrhIrdcua9qO
- hl5Q4gOj03Pnk3h5EFSUFWwrELRk4LnUot02Lh7O3t50umArNnY53uB6oHJFc2Gv5NST7ri
- GJTcKyWMvc6lw5kE37CoA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dJ/oonHWJME=:TWwdmMJHmiT7spCd0bhzpW
- he1ELM/+eobOpStarqXJbt5QS3a/dLDLQX51939Ns0tWQ68NbNwO8B7jQl/GHskfAV+yyY/vq
- 4ZUKvseoMABUEVjF6AtqNMXKM1lhD/zET74XwzYFbd0SqDFNHa9xftToZrsH/5y80HR00Qy0c
- KkRkcsnPCr82YcYavs3Z1aFmhW13zGrQWbUnn1Fr2sgroKw6L6VMOc7Jwi9IQIz+/u7v/FDsI
- JjzPGDg7zWupn52JiXZNUt0pPvJsdOhjB5/dmlSXpi2TnVMm5APhmFbgxgArM2kYFK1enjEZE
- ezM9TdTPdC3wX6U1ePK7oEiR+goiy+hrOWcLX07p4zfsoR6G8bEmJYqTBUTrzvZZJLuwu0XTZ
- ydLNy0wNvl0s1YKRcvIDl/Ps37/rcPdBEvx49Sg/HYmL2Hai7LT3Z9FLSuub5s0YdSx7gPbyU
- rDvKP4efRYR2I+YzLVDIHuuzsYdLyp20m/6CstoAo+qqUXBRUO5Ovf2kUJo3RXG18f64flRvV
- 5HY/pdLiRf3FFR/mUNTl1IIofzZdXAgCLm61WesOTxn3B+hx76FI8/FsaleXsHMgJW+ZezDTO
- YMhvFEYvyagKXhdGpZxbgz4adhtSI02UwxmG7yN0uS1Zr0JRJEx5Wjyk1vV3PPeENlrw9G2pu
- tP6yWaq0xMdzjn3KPz2BB713XWCRI5NZI2mkggXv6sxDWSAFBad/Xdr4z9no37stw9qY=
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,88 +90,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 22/11/2021 à 15:18, Andreas Schwab a écrit :
-> LOOP_CONFIGURE is now used by losetup, and it cannot cope with ENOSYS.
+On 11/22/21 1:40 PM, Gerd Hoffmann wrote:
+> The following changes since commit c5fbdd60cf1fb52f01bdfe342b6fa65d5343e1b1:
 > 
-> Signed-off-by: Andreas Schwab <schwab@suse.de>
-> ---
->   linux-user/ioctls.h        | 4 ++++
->   linux-user/linux_loop.h    | 2 ++
->   linux-user/syscall_defs.h  | 4 ++++
->   linux-user/syscall_types.h | 6 ++++++
->   4 files changed, 16 insertions(+)
+>    Merge tag 'qemu-sparc-20211121' of git://github.com/mcayland/qemu into staging (2021-11-21 14:12:25 +0100)
 > 
-> diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-> index 7193c3b226..5ac5efc8aa 100644
-> --- a/linux-user/ioctls.h
-> +++ b/linux-user/ioctls.h
-> @@ -637,6 +637,10 @@
->     IOCTL(LOOP_SET_STATUS64, IOC_W, MK_PTR(MK_STRUCT(STRUCT_loop_info64)))
->     IOCTL(LOOP_GET_STATUS64, IOC_R, MK_PTR(MK_STRUCT(STRUCT_loop_info64)))
->     IOCTL(LOOP_CHANGE_FD, 0, TYPE_INT)
-> +  IOCTL(LOOP_SET_CAPACITY, 0, TYPE_INT)
-> +  IOCTL(LOOP_SET_DIRECT_IO, 0, TYPE_INT)
-> +  IOCTL(LOOP_SET_BLOCK_SIZE, 0, TYPE_INT)
-> +  IOCTL(LOOP_CONFIGURE, IOC_W, MK_PTR(MK_STRUCT(STRUCT_loop_configure)))
->   
->     IOCTL(LOOP_CTL_ADD, 0, TYPE_INT)
->     IOCTL(LOOP_CTL_REMOVE, 0, TYPE_INT)
-> diff --git a/linux-user/linux_loop.h b/linux-user/linux_loop.h
-> index c69fea11e4..f80b96f1ff 100644
-> --- a/linux-user/linux_loop.h
-> +++ b/linux-user/linux_loop.h
-> @@ -96,6 +96,8 @@ struct loop_info64 {
->   #define LOOP_CHANGE_FD		0x4C06
->   #define LOOP_SET_CAPACITY       0x4C07
->   #define LOOP_SET_DIRECT_IO      0x4C08
-> +#define LOOP_SET_BLOCK_SIZE     0x4C09
-> +#define LOOP_CONFIGURE          0x4C0A
->   
->   /* /dev/loop-control interface */
->   #define LOOP_CTL_ADD            0x4C80
-> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index a5ce487dcc..560a29afd8 100644
-> --- a/linux-user/syscall_defs.h
-> +++ b/linux-user/syscall_defs.h
-> @@ -1219,6 +1219,10 @@ struct target_rtc_pll_info {
->   #define TARGET_LOOP_SET_STATUS64      0x4C04
->   #define TARGET_LOOP_GET_STATUS64      0x4C05
->   #define TARGET_LOOP_CHANGE_FD         0x4C06
-> +#define TARGET_LOOP_SET_CAPACITY      0x4C07
-> +#define TARGET_LOOP_SET_DIRECT_IO     0x4C08
-> +#define TARGET_LOOP_SET_BLOCK_SIZE    0x4C09
-> +#define TARGET_LOOP_CONFIGURE         0x4C0A
->   
->   #define TARGET_LOOP_CTL_ADD           0x4C80
->   #define TARGET_LOOP_CTL_REMOVE        0x4C81
-> diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-> index ba2c1518eb..7c46e4fb25 100644
-> --- a/linux-user/syscall_types.h
-> +++ b/linux-user/syscall_types.h
-> @@ -201,6 +201,12 @@ STRUCT(loop_info64,
->          MK_ARRAY(TYPE_CHAR, 32),  /* lo_encrypt_key */
->          MK_ARRAY(TYPE_ULONGLONG, 2))  /* lo_init */
->   
-> +STRUCT(loop_configure,
-
-It should be named "loop_config", like int he kernel.
-
-Except that:
-
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-
-> +       TYPE_INT,                 /* fd */
-> +       TYPE_INT,                 /* block_size */
-> +       MK_STRUCT(STRUCT_loop_info64), /* info */
-> +       MK_ARRAY(TYPE_ULONGLONG, 8)) /* __reserved */
-> +
->   /* mag tape ioctls */
->   STRUCT(mtop, TYPE_SHORT, TYPE_INT)
->   STRUCT(mtget, TYPE_LONG, TYPE_LONG, TYPE_LONG, TYPE_LONG, TYPE_LONG,
+> are available in the Git repository at:
 > 
+>    git://git.kraxel.org/qemu tags/fixes-20211122-pull-request
+> 
+> for you to fetch changes up to b9e5628ca5d42994cc6f82752d9bf0bc98f51f64:
+> 
+>    microvm: check g_file_set_contents() return value (2021-11-22 11:14:28 +0100)
+> 
+> ----------------------------------------------------------------
+> fixes for 6.2: microvm, ui, modules.
+> 
+> ----------------------------------------------------------------
+> 
+> Alexander Orzechowski (2):
+>    ui: fix incorrect scaling on highdpi with gtk/opengl
+>    ui: fix incorrect pointer position on highdpi with gtk
+> 
+> Dongwon Kim (1):
+>    ui/gtk: graphic_hw_gl_flushed after closing dmabuf->fence_fd
+> 
+> Gerd Hoffmann (2):
+>    microvm: add missing g_free() call
+>    microvm: check g_file_set_contents() return value
+> 
+> Laurent Vivier (1):
+>    migration: fix dump-vmstate with modules
+> 
+> Philippe Mathieu-Daudé (1):
+>    hw/i386/microvm: Reduce annoying debug message in dt_setup_microvm()
+> 
+> Vladimir Sementsov-Ogievskiy (1):
+>    ui/vnc-clipboard: fix adding notifier twice
+> 
+>   hw/i386/microvm-dt.c | 11 +++++++++--
+>   softmmu/vl.c         |  1 +
+>   ui/gtk-gl-area.c     |  7 ++++---
+>   ui/gtk.c             | 17 ++++++++++-------
+>   ui/vnc-clipboard.c   | 10 ++++++----
+>   5 files changed, 30 insertions(+), 16 deletions(-)
+
+Applied, thanks.
+
+r~
 
 
