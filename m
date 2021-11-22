@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC2C45878D
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 01:56:42 +0100 (CET)
-Received: from localhost ([::1]:38080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 178B7458780
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 01:51:45 +0100 (CET)
+Received: from localhost ([::1]:48860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moxdR-0002mc-N0
-	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 19:56:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56852)
+	id 1moxYd-0007wq-Tj
+	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 19:51:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1moxbd-0001L2-6g
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 19:54:49 -0500
-Received: from [2607:f8b0:4864:20::833] (port=38607
- helo=mail-qt1-x833.google.com)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1moxWV-00044m-AO
+ for qemu-devel@nongnu.org; Sun, 21 Nov 2021 19:49:31 -0500
+Received: from [2607:f8b0:4864:20::f2b] (port=41631
+ helo=mail-qv1-xf2b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1moxbb-0001UQ-8c
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 19:54:48 -0500
-Received: by mail-qt1-x833.google.com with SMTP id 8so15119143qtx.5
- for <qemu-devel@nongnu.org>; Sun, 21 Nov 2021 16:54:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1moxWS-0000x0-OE
+ for qemu-devel@nongnu.org; Sun, 21 Nov 2021 19:49:31 -0500
+Received: by mail-qv1-xf2b.google.com with SMTP id m17so11306471qvx.8
+ for <qemu-devel@nongnu.org>; Sun, 21 Nov 2021 16:49:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cCK2bUbse7yru7oE1n3A+8naGre4JcOd9jVp/ZAIUxM=;
- b=V4uB/tK301o/sHWQ8ssd0lIN0pqz8ioxcbUMnJugpzEt+Q/iATSIVdg76G8y0mL4TW
- rNxQxRdQTUbYfuw+bkkmO9E60GRbwMvWf28VXN6gvEbhu2hKeE3mqmmc5+hVpzfDaDdV
- A4hY/VTZBUlV87C3GMshbpPTmQ7w1wWQFGBa1z0e4yFn6Vni0+G6dZ8cz9Q4Gpegp5vt
- Ty2qVO4ydAmOI4PccD9EoLGNNqTKdsWfgzNRBr/OoQvz2L3GehgkyHGtg5CF0CPsig3s
- 4ojoLpdNt54+XJq3WtNQIFnc8OizV6wSl+Haiw55iCOVc5Mtfpbf+Rh9KZZbdPaGFiPA
- o34A==
+ bh=ooNc9C+/G+PaEVIqBJRV5jh7i77KYYOu/GB9/LuUlxA=;
+ b=kbCGJnl4MEe0FBxsKhNp5c0N91Uvz2Rb9d+0jGJ2ymkLwt7b0jfJI+8FJYz4KFu3ce
+ UofQ1SkljAyh0dKoveFQWfzKQo+qW64PDqjxn99iY3+rG3GhXNS7bx+KyFeGpeIzqTMa
+ CRadpvMFM7cUxT+ezX1MQhEqz3lZ0hUVOIJ9snBMWWK0UKM4z+f553tzN22SWaP7PNEK
+ zR1PSuWTQ2BKvOIggl6R0xQPqoFnuatiQmQE+twy2Ii7WY/Pa0uAp5iev4Z2hnW071Xa
+ rB+XGwIcentVUVy4nyse9345kgHHKBMf+x8ufBPoEjUWM8UEfj8CFwX8kNB2cR9vvqQM
+ Nw7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cCK2bUbse7yru7oE1n3A+8naGre4JcOd9jVp/ZAIUxM=;
- b=duNd7eb0/i89NMERj906uTzecjW7xIYQoyR1Ktr4Ry0pjAZ5FkMgFCjw42fRM5oADo
- WVovjGX7wdPUySaj3v18RhIwkQSJS7duqcY/Qn7rnCs0ui9AI+Rd1yJ9jSLqsCO1FsqE
- q2i+Np0QV/tvAfnmyb7B5zssBaE5JiKlMyBAGC53on8B3R9vYT1raQeu3rWmh5Vc8wiT
- 2N+mlAzFk7jspMXVTfsZCeN9QilD0Z6CHwyZgsz0zIaNNrD/gmhEVlaQvS5lp4G+oQba
- 9Rak0DR5gOu6lp0oLE+hMumnfi5RqgcGKX65B4YZCVr5+fxrZl4accyUinP0VzMe4Olt
- wmQQ==
-X-Gm-Message-State: AOAM532OdS9vkEghHAlKHJ3QhQY+VgMjIEf5ovranOJlJLPFKltFF2rf
- u172Ja//X079jjHk4QRLs+cEGFAbEy6D1g==
-X-Google-Smtp-Source: ABdhPJxNR/EqNGMRJGOY3UXv538omMxTB1E2yuqnhAwnGs9EpYBxdLTvdAmhkO5NAPumbHq+I3/u6g==
-X-Received: by 2002:a37:491:: with SMTP id 139mr45353356qke.418.1637542166865; 
- Sun, 21 Nov 2021 16:49:26 -0800 (PST)
+ bh=ooNc9C+/G+PaEVIqBJRV5jh7i77KYYOu/GB9/LuUlxA=;
+ b=fCetWyr1n/1sRdFmJfSjqbDzSbY/LFFNhooEFgE5pm7pMLKullFTwEniNcY5O/ONdc
+ DxMOyv3lMaqwMfayMPeOXn6lykT0900H+SHIcwFQvY1WkoV2fn3+C+LOmh0lLAQGav3L
+ a0srCAUaOhAxAILrYPcJ1GMMFUG9phhXEpHyv31rMSOvNQEYIv+eLxGFkpHxyzn3uwdg
+ n6ayAIsPZmJkubUJ3WzKyUWNG/2rgwmi2J2v8MpkpDyrlxeerJpGWsDwVJ4yTe9cpjy0
+ aWItUaesuWI8onGKALTzp0MSPk9Rh6DNljrWj4s5j9NIvM/9N8meP+RjcAVcKhf4gg2Z
+ vJYw==
+X-Gm-Message-State: AOAM532hP7V/fS6U7/3ShwyhL1iwdQPxLJ+f/2OXAg6xhSar9tA/lZf7
+ s8oU0ChIp2elmWoRLqhlr1Bn50bZep4+zw==
+X-Google-Smtp-Source: ABdhPJx2fklUq3Dw9JtudVYe9w0qF7q7bPF2nTkbNnYvdm/ox9QI1W7C5aYgFx+IC8KI+L10l3QmpA==
+X-Received: by 2002:ad4:40c6:: with SMTP id x6mr95054211qvp.32.1637542167824; 
+ Sun, 21 Nov 2021 16:49:27 -0800 (PST)
 Received: from localhost.localdomain
  (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
  [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id x17sm3651745qta.66.2021.11.21.16.49.26
+ by smtp.gmail.com with ESMTPSA id x17sm3651745qta.66.2021.11.21.16.49.27
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 21 Nov 2021 16:49:26 -0800 (PST)
+ Sun, 21 Nov 2021 16:49:27 -0800 (PST)
 From: Will Cohen <wwcohen@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/11] 9p: darwin: Handle struct stat(fs) differences
-Date: Sun, 21 Nov 2021 19:49:05 -0500
-Message-Id: <20211122004913.20052-4-wwcohen@gmail.com>
+Subject: [PATCH v2 04/11] 9p: darwin: Handle struct dirent differences
+Date: Sun, 21 Nov 2021 19:49:06 -0500
+Message-Id: <20211122004913.20052-5-wwcohen@gmail.com>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211122004913.20052-1-wwcohen@gmail.com>
 References: <20211122004913.20052-1-wwcohen@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::833
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f2b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=wwcohen@gmail.com; helo=mail-qt1-x833.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
+ envelope-from=wwcohen@gmail.com; helo=mail-qv1-xf2b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -94,111 +94,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
+On darwin d_seekoff exists, but is optional and does not seem to
+be commonly used by file systems. Use `telldir` instead to obtain
+the seek offset.
+
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+[Michael Roitzsch: - Rebase for NixOS]
 Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
 ---
- hw/9pfs/9p-proxy.c | 17 ++++++++++++++---
  hw/9pfs/9p-synth.c |  2 ++
- hw/9pfs/9p.c       | 16 ++++++++++++++--
- 3 files changed, 30 insertions(+), 5 deletions(-)
+ hw/9pfs/9p.c       | 33 +++++++++++++++++++++++++++++++--
+ hw/9pfs/codir.c    |  4 ++++
+ 3 files changed, 37 insertions(+), 2 deletions(-)
 
-diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
-index 09bd9f1464..be1546c1be 100644
---- a/hw/9pfs/9p-proxy.c
-+++ b/hw/9pfs/9p-proxy.c
-@@ -123,10 +123,15 @@ static void prstatfs_to_statfs(struct statfs *stfs, ProxyStatFS *prstfs)
-     stfs->f_bavail = prstfs->f_bavail;
-     stfs->f_files = prstfs->f_files;
-     stfs->f_ffree = prstfs->f_ffree;
-+#ifdef CONFIG_DARWIN
-+    stfs->f_fsid.val[0] = prstfs->f_fsid[0] & 0xFFFFFFFFU;
-+    stfs->f_fsid.val[1] = prstfs->f_fsid[1] >> 32 & 0xFFFFFFFFU;
-+#else
-     stfs->f_fsid.__val[0] = prstfs->f_fsid[0] & 0xFFFFFFFFU;
-     stfs->f_fsid.__val[1] = prstfs->f_fsid[1] >> 32 & 0xFFFFFFFFU;
-     stfs->f_namelen = prstfs->f_namelen;
-     stfs->f_frsize = prstfs->f_frsize;
-+#endif
- }
- 
- /* Converts proxy_stat structure to VFS stat structure */
-@@ -143,12 +148,18 @@ static void prstat_to_stat(struct stat *stbuf, ProxyStat *prstat)
-    stbuf->st_size = prstat->st_size;
-    stbuf->st_blksize = prstat->st_blksize;
-    stbuf->st_blocks = prstat->st_blocks;
--   stbuf->st_atim.tv_sec = prstat->st_atim_sec;
--   stbuf->st_atim.tv_nsec = prstat->st_atim_nsec;
-+   stbuf->st_atime = prstat->st_atim_sec;
-    stbuf->st_mtime = prstat->st_mtim_sec;
--   stbuf->st_mtim.tv_nsec = prstat->st_mtim_nsec;
-    stbuf->st_ctime = prstat->st_ctim_sec;
-+#ifdef CONFIG_DARWIN
-+   stbuf->st_atimespec.tv_nsec = prstat->st_atim_nsec;
-+   stbuf->st_mtimespec.tv_nsec = prstat->st_mtim_nsec;
-+   stbuf->st_ctimespec.tv_nsec = prstat->st_ctim_nsec;
-+#else
-+   stbuf->st_atim.tv_nsec = prstat->st_atim_nsec;
-+   stbuf->st_mtim.tv_nsec = prstat->st_mtim_nsec;
-    stbuf->st_ctim.tv_nsec = prstat->st_ctim_nsec;
-+#endif
- }
- 
- /*
 diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-index b38088e066..4a4a776d06 100644
+index 4a4a776d06..09b9c25288 100644
 --- a/hw/9pfs/9p-synth.c
 +++ b/hw/9pfs/9p-synth.c
-@@ -427,7 +427,9 @@ static int synth_statfs(FsContext *s, V9fsPath *fs_path,
-     stbuf->f_bsize = 512;
-     stbuf->f_blocks = 0;
-     stbuf->f_files = synth_node_count;
+@@ -222,7 +222,9 @@ static void synth_direntry(V9fsSynthNode *node,
+ {
+     strcpy(entry->d_name, node->name);
+     entry->d_ino = node->attr->inode;
 +#ifndef CONFIG_DARWIN
-     stbuf->f_namelen = NAME_MAX;
+     entry->d_off = off + 1;
 +#endif
-     return 0;
  }
  
+ static struct dirent *synth_get_dentry(V9fsSynthNode *dir,
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 9c63e14b28..f4f0c200c7 100644
+index f4f0c200c7..c06e8a85a0 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -1313,11 +1313,17 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
-     v9lstat->st_blksize = stat_to_iounit(pdu, stbuf);
-     v9lstat->st_blocks = stbuf->st_blocks;
-     v9lstat->st_atime_sec = stbuf->st_atime;
--    v9lstat->st_atime_nsec = stbuf->st_atim.tv_nsec;
-     v9lstat->st_mtime_sec = stbuf->st_mtime;
--    v9lstat->st_mtime_nsec = stbuf->st_mtim.tv_nsec;
-     v9lstat->st_ctime_sec = stbuf->st_ctime;
-+#ifdef CONFIG_DARWIN
-+    v9lstat->st_atime_nsec = stbuf->st_atimespec.tv_nsec;
-+    v9lstat->st_mtime_nsec = stbuf->st_mtimespec.tv_nsec;
-+    v9lstat->st_ctime_nsec = stbuf->st_ctimespec.tv_nsec;
-+#else
-+    v9lstat->st_atime_nsec = stbuf->st_atim.tv_nsec;
-+    v9lstat->st_mtime_nsec = stbuf->st_mtim.tv_nsec;
-     v9lstat->st_ctime_nsec = stbuf->st_ctim.tv_nsec;
-+#endif
-     /* Currently we only support BASIC fields in stat */
-     v9lstat->st_result_mask = P9_STATS_BASIC;
+@@ -2218,6 +2218,25 @@ static int v9fs_xattr_read(V9fsState *s, V9fsPDU *pdu, V9fsFidState *fidp,
+     return offset;
+ }
  
-@@ -3519,9 +3525,15 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
-     f_bavail = stbuf->f_bavail / bsize_factor;
-     f_files  = stbuf->f_files;
-     f_ffree  = stbuf->f_ffree;
++/**
++ * Get the seek offset of a dirent. If not available from the structure itself,
++ * obtain it by calling telldir.
++ */
++static int v9fs_dent_telldir(V9fsPDU *pdu, V9fsFidState *fidp,
++                             struct dirent *dent)
++{
 +#ifdef CONFIG_DARWIN
-+    fsid_val = (unsigned int)stbuf->f_fsid.val[0] |
-+               (unsigned long long)stbuf->f_fsid.val[1] << 32;
-+    f_namelen = MAXNAMLEN;
++    /*
++     * Darwin has d_seekoff, which appears to function similarly to d_off.
++     * However, it does not appear to be supported on all file systems,
++     * so use telldir for correctness.
++     */
++    return telldir(fidp->fs.dir.stream);
 +#else
-     fsid_val = (unsigned int) stbuf->f_fsid.__val[0] |
-                (unsigned long long)stbuf->f_fsid.__val[1] << 32;
-     f_namelen = stbuf->f_namelen;
++    return dent->d_off;
 +#endif
++}
++
+ static int coroutine_fn v9fs_do_readdir_with_stat(V9fsPDU *pdu,
+                                                   V9fsFidState *fidp,
+                                                   uint32_t max_count)
+@@ -2281,7 +2300,11 @@ static int coroutine_fn v9fs_do_readdir_with_stat(V9fsPDU *pdu,
+         count += len;
+         v9fs_stat_free(&v9stat);
+         v9fs_path_free(&path);
+-        saved_dir_pos = dent->d_off;
++        saved_dir_pos = v9fs_dent_telldir(pdu, fidp, dent);
++        if (saved_dir_pos < 0) {
++            err = saved_dir_pos;
++            break;
++        }
+     }
  
-     return pdu_marshal(pdu, offset, "ddqqqqqqd",
-                        f_type, f_bsize, f_blocks, f_bfree,
+     v9fs_readdir_unlock(&fidp->fs.dir);
+@@ -2420,6 +2443,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
+     V9fsString name;
+     int len, err = 0;
+     int32_t count = 0;
++    off_t off;
+     struct dirent *dent;
+     struct stat *st;
+     struct V9fsDirEnt *entries = NULL;
+@@ -2480,12 +2504,17 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
+             qid.version = 0;
+         }
+ 
++        off = v9fs_dent_telldir(pdu, fidp, dent);
++        if (off < 0) {
++            err = off;
++            break;
++        }
+         v9fs_string_init(&name);
+         v9fs_string_sprintf(&name, "%s", dent->d_name);
+ 
+         /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
+         len = pdu_marshal(pdu, 11 + count, "Qqbs",
+-                          &qid, dent->d_off,
++                          &qid, off,
+                           dent->d_type, &name);
+ 
+         v9fs_string_free(&name);
+diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+index 032cce04c4..78aca1d98b 100644
+--- a/hw/9pfs/codir.c
++++ b/hw/9pfs/codir.c
+@@ -167,7 +167,11 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
+         }
+ 
+         size += len;
++#ifdef CONFIG_DARWIN
++        saved_dir_pos = telldir(fidp->fs.dir.stream);
++#else
+         saved_dir_pos = dent->d_off;
++#endif
+     }
+ 
+     /* restore (last) saved position */
 -- 
 2.34.0
 
