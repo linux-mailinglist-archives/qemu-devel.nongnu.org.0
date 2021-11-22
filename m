@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4DE9458E2D
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 13:21:53 +0100 (CET)
-Received: from localhost ([::1]:54050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A1D9458E36
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 13:23:47 +0100 (CET)
+Received: from localhost ([::1]:56200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp8KW-0003mU-QQ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 07:21:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45886)
+	id 1mp8ML-0005MK-Jd
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 07:23:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mp8IV-0002wT-DH
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:19:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36178)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mp8IS-0005eD-9B
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:19:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637583583;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BZkVWBRrY+uvmMy1N+3hy6BNNXSYSfNPH4VS4n2ZSkI=;
- b=eRsT0Yi+s8za81ydcEtzz5dDB4u5FIjeIDeZMKa7IyE9pf7pYaTxe9yh0D8q5uF1YFm3Yb
- iRSBJuACLnTSvu+ZyRAHxKl3HN8m1c7NYjYBTGEusNG0SwrsU1rq+Fi7Km9hTCdDULbe11
- g5LZhw1U5SgkUgpSfnnovpzbZIPjhBo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-51-J9k2OuKkNpiohmTUxWREIQ-1; Mon, 22 Nov 2021 07:19:40 -0500
-X-MC-Unique: J9k2OuKkNpiohmTUxWREIQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A368C18414A2;
- Mon, 22 Nov 2021 12:19:39 +0000 (UTC)
-Received: from paraplu (unknown [10.39.193.57])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3556319D9F;
- Mon, 22 Nov 2021 12:19:33 +0000 (UTC)
-Date: Mon, 22 Nov 2021 13:19:31 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 1/2] docs: Fix botched rST conversion of
- 'submitting-a-patch.rst'
-Message-ID: <YZuK09xP0I28dvMr@paraplu>
-References: <20211119193118.949698-1-kchamart@redhat.com>
- <20211119193118.949698-2-kchamart@redhat.com>
- <56026d2a-0b9e-ff83-d953-a284a810a8ed@redhat.com>
- <YZtu59t8DoZZ15nQ@paraplu>
- <b03ffb0c-0c4f-b792-f6c1-55014a0ae003@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mp8Jv-0003yk-Kv
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:21:15 -0500
+Received: from [2a00:1450:4864:20::435] (port=36851
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mp8Js-000622-5R
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:21:15 -0500
+Received: by mail-wr1-x435.google.com with SMTP id s13so32382126wrb.3
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 04:21:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=e5kOScGmMwHGJdUVGqMAZ+Dp7+85ewPH5nQw6JJXU70=;
+ b=EVLU2u88CwLWmCd4RBa8H245mneo3MlWFl6o6DxkFBR5J6trAY7S7RIuLQxwFfxW8F
+ 1IGbpmd9Gski/ooHjnX+PPqTxp7TAuvU1vAI4V4tmPTP8mL98yFMk1GemlpHSLkoyRsp
+ pELZUkVXxAQGRjvO7I91EeKgmgSqp4Ucz978MK8Ek5S2Q9Bypn0m5rpKweelqCnKNzBT
+ HL+Kwm6csgVbboJGXApBjhD3kigv7VIB4HpmjWuL3sB42mVMJSciqdA8/O08pvKBg5xj
+ PCi6/T9BLQStfSNHvYi8s875IMCmZZnoHOq/lFGXk4rSfnnvbH2fumY3gmGGppP8wcD3
+ qAiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=e5kOScGmMwHGJdUVGqMAZ+Dp7+85ewPH5nQw6JJXU70=;
+ b=E5u4vImmjikSV4o01BuTiRWWC9bG/bT3yohc1jcfGrU1nxM3/2i4pSFvpd6pTM/Rlg
+ 9GQt2irnJLJ9OERworahitkEq1iAaJuzVNzIp2lXFTCOcKas4WUacuSGJ7miQ9JPHWj/
+ xGM84Qrdi6OnRc0McAX4cjVeaffHkaOBJInoDO6m/ptKreO6r1ppGHyp9Dnl5VzOpoET
+ Pb6AIDlSMep4QOzp5pgVzgnVnyw4jZdZlhCGdE7iOzN3T9A11NF9DUpvuqssSPnljbtJ
+ GMbfNjj2QEhub4ABJMXWV7niIi/PdvxLhRzWmi8SU5QTq00nhQsBEFJMjcDVbTXjUTNp
+ w0Vg==
+X-Gm-Message-State: AOAM531bligVU4htrxavtLfmkzvU+3E77TTbktTitw+Ay+IDFicwvOhw
+ AWzNl2UweCDn6g9I5NYbDiOHgFfGcP8IvY1k0oM=
+X-Google-Smtp-Source: ABdhPJz+ZWxEEQzEWn57TNFErsE4c59uQgmi++dj9x3RbGxHkCDBf4IjMt0EnbqvyeZELxwLdmXTNw==
+X-Received: by 2002:adf:dc0a:: with SMTP id t10mr38364635wri.8.1637583670576; 
+ Mon, 22 Nov 2021 04:21:10 -0800 (PST)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id p14sm20358338wms.29.2021.11.22.04.21.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Nov 2021 04:21:10 -0800 (PST)
+Subject: Re: [PATCH v5 04/17] common-user: Move syscall error detection into
+ safe_syscall_base
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20211117160412.71563-1-richard.henderson@linaro.org>
+ <20211117160412.71563-5-richard.henderson@linaro.org>
+ <CAFEAcA-cCdFSHVg6hKARipde9yLw=owNm3EZTfwbE5Bo8M0sFA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <70c52554-ca05-5035-98a0-0bc9f340244a@linaro.org>
+Date: Mon, 22 Nov 2021 13:21:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <b03ffb0c-0c4f-b792-f6c1-55014a0ae003@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kchamart@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA-cCdFSHVg6hKARipde9yLw=owNm3EZTfwbE5Bo8M0sFA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,41 +93,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, imp@bsdimp.com, Laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 22, 2021 at 11:36:54AM +0100, Thomas Huth wrote:
-> On 22/11/2021 11.20, Kashyap Chamarthy wrote:
-> > On Mon, Nov 22, 2021 at 10:51:15AM +0100, Thomas Huth wrote:
-
-[...]
-
-> > > I'll add the link to https://wiki.qemu.org/Contribute/SpellCheck again.
-> > 
-> > Please don't -- I intentionally dropped it in a previous iteration based
-> > on this feedback from Peter Maydell:
-> > 
-> >      "I'm not sure that SpellCheck in particular is sufficiently baked
-> >      to be in the actual docs. I'd rather just drop the reference to it
-> >      from SubmitAPatch."
-> >      (https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg00137.html)
+On 11/22/21 12:55 PM, Peter Maydell wrote:
+>> -       /* This is the entry point for making a system call. The calling
+>> +       /*
+>> +        * This is the entry point for making a system call. The calling
+>>           * convention here is that of a C varargs function with the
+>>           * first argument an 'int *' to the signal_pending flag, the
+>>           * second one the system call number (as a 'long'), and all further
+>>           * arguments being syscall arguments (also 'long').
 > 
-> Ok, so I'll drop that line completely (otherwise it does not really make
-> sense to have it in this list after the "See also:" right in front of it).
+> This comment text needs updating to mention the new errnop argument.
+> (Applies to all the similar comments in the files for the other archs.)
 
-I kept that because an explicit reminder about spell-check is useful;
-it's easy to forget.  Another option is to retain the line, but replace
-"See also:" with "And:".  Not sure if it's any better.  But I don't mind
-either way.
+Yep.
 
--- 
-/kashyap
+>> +       /*
+>> +         * The syscall calling convention isn't the same as the C one:
+> 
+> Looks like the indent here is wrong ?
 
+Irritatingly, these files are a mix of tabs/spaces.
+
+>>           * we enter with x0 == *signal_pending
+>> -        *               x1 == syscall number
+>> -        *               x2 ... x7, (stack) == syscall arguments
+>> +        *               x1 == errno
+> 
+> "int* address of errno"
+
+Arg, fixed some of these, but clearly. not all.
+
+>>          /* code path for having successfully executed the syscall */
+>> +       cmn     x0, #4095
+>> +       b.cs    1f
+> 
+> Shouldn't this be going to label 0f ? We need to do the 'neg',
+> and unless I'm misreading the diff there's currently no path
+> of execution that gets to that.
+
+Oops, rebase error, where the fix landed in the next patch.
+
+>> +        *               r2 == syscall number
+>> +        *               r3, [sp+0] ... [sp+16] == syscall arguments
+>>           *               and return the result in r0
+> 
+> Don't we wind up with a potential issue here with 64-bit arguments
+> due to the calling convention wanting to put those in aligned
+> memory/register locations? Previously because we had just two
+> extra arguments the arguments started at r2 and had the same
+> alignment behaviour as the syscall wants for them starting at
+> r0; but now we start at r3 so if for instance the first argument
+> is 64-bit it will be in [sp+0][sp+4] but should go in r0:r1
+> I think...
+> 
+> (Stopped reviewing here because if we need to change the
+> way we call these functions there's no point my reviewing
+> the fine detail of the asm.)
+
+Oof.  I missed that detail.  Yes, that is a problem (I think arm is the only such 
+supported host).  I think the best solution would be to *not* pass in &errno, but to have 
+the assembly tail-call to
+
+long safe_syscall_errno_tail(int value)
+{
+     errno = value;
+     return -1;
+}
+
+Which is probably more efficient in any case.  I'll re-work this.
+
+
+r~
 
