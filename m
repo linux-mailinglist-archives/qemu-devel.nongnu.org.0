@@ -2,84 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1176845974A
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 23:22:07 +0100 (CET)
-Received: from localhost ([::1]:41608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB98B4597C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 23:35:27 +0100 (CET)
+Received: from localhost ([::1]:47648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpHhN-0002sQ-Mv
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 17:22:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41026)
+	id 1mpHuI-0007Rh-HA
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 17:35:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpHgX-0002AP-7U
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 17:21:13 -0500
-Received: from [2a00:1450:4864:20::331] (port=45966
- helo=mail-wm1-x331.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpHgT-00031H-84
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 17:21:11 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- g191-20020a1c9dc8000000b0032fbf912885so986784wme.4
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 14:21:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=mf1qN6nTnJJWGgAJ+25p7C5OH1axyjSiHUS94dC3ydI=;
- b=wxUv8uThFm0YGnN0EPB8ne5d7GzYtfLhoC8O3EKbdsJIsAAyXcFq4aN429iWb/7pv8
- 2QTn80Aq15gFWw0tL/O+1h/GGQ7DSMW8EMAeOJqwt2y2OTdQyx+7I2wkQ2JI3GUxHwvp
- 1wijjLlpDj6mHgfYpDTpOgb7n48EyUoGv6KuQqMhCNsi6keU3n/vvRfJMihIvC2RWF7C
- UtkTj0Z9KIOQ/hbnxQkfV1/7jyvOzmgM2v820HBdnEUlxt80CJI6gquyFqYSaI3D/ovG
- 8t7AiKu4kVS4auqb1h74PbCvzafcSRwBNtaiwAq5MMD4tqshikZDTR/F9AsnBsWMzx5m
- u/8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mf1qN6nTnJJWGgAJ+25p7C5OH1axyjSiHUS94dC3ydI=;
- b=I7s8kgwwdLryyOe0auSYlDq1UvYNqTxI9XSIi3CZVz1jjTgH1AGn4eDvz9x+DOF2Pf
- B+JrgP9DNp4xpFEqin8anpaF8BVky9IGoeHQAZuXJRSyCn/jNYqYQS2S52rnE80GgW5A
- XhlHrwNcd/d6wJIG+CwmELbnXmPZKVLFDns5oodxzUbZ7GfNnEchwm+abp8AnCC03z8U
- 5f31TJFzGln9193LTyioyj1f/JUrUNzIKuA05LK63UYSXJ9k+D4KI/S4FAEmcidKmmf0
- uzCfH4pOfs0OUc0g0sfzm1zJaXW1+QOMW4VvxHyPY12nmtdbxnqUZbbFh6vg5rPLwwsr
- fW6Q==
-X-Gm-Message-State: AOAM533Ftd1NzdJ4/l6PmAYEcrW9aqGdkgkKQZ3ITnCmAUfv+sRIKvfZ
- VO2HbpAAT0oVG20Pc1/oqadpPLxssGqN7FSgXYI=
-X-Google-Smtp-Source: ABdhPJyDZDmYZXQAmcBkClZG/gu5R+JsIVdkpSfJiEEuFnBY2yovNs9zXPw+BOMdknJ2KBISgMcyGw==
-X-Received: by 2002:a05:600c:1c13:: with SMTP id
- j19mr34549058wms.175.1637619667647; 
- Mon, 22 Nov 2021 14:21:07 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id z12sm10017550wrv.78.2021.11.22.14.21.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 14:21:07 -0800 (PST)
-Subject: Re: [PULL 0/2] NBD patches for 6.2-rc2, 2021-11-22
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20211122140212.1511814-1-eblake@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f7e526af-7531-df55-eea6-a17633215861@linaro.org>
-Date: Mon, 22 Nov 2021 23:21:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1mpHsW-0006iA-AG; Mon, 22 Nov 2021 17:33:36 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53302)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1mpHsU-0004KO-4X; Mon, 22 Nov 2021 17:33:36 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AMMNMAC028486; 
+ Mon, 22 Nov 2021 22:33:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=DMg5hW12Jymwq7ieESIl8yJIwWMrXPvTlSgqWa3dJBk=;
+ b=mdU5oy3XkTUe/jHUKrVHnhOFzCRiQ2/Ce8mfUqiRoylxbYQxHZ6CCikp/OD+FGjaI0St
+ UUOKHZ9AAo2w69+luMjYhZNLrLo2/N9ZIsWqKyTqRADuGqb/MudsreUxTiCmptZk6/dY
+ 6bA/IsBndYA5+oqyMJ2Z74Rmkd/WGzO42sMCZ6Qk3QWfk5yQwGoFp+2bWx/b9C406Fhv
+ fAx6/Ayok67jgthN5qr/XpCL4BfQ9LVNLL0lGM/8Y8qYe3or/XmMsxOqYt38/MHnhy26
+ 6htP78m9bu0aZ6icEMG9RnUpZKvMOEFtU4DYilJw/BXUwMr0NdIWbBXCsVVysvme1KF0 JQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cgkxt842r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Nov 2021 22:33:30 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AMMNL22028454;
+ Mon, 22 Nov 2021 22:33:30 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cgkxt842m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Nov 2021 22:33:30 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AMMWvK3013241;
+ Mon, 22 Nov 2021 22:33:28 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com
+ (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+ by ppma05wdc.us.ibm.com with ESMTP id 3cerna83aa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Nov 2021 22:33:28 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1AMMXRA041615620
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 22 Nov 2021 22:33:27 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 100A9BE089;
+ Mon, 22 Nov 2021 22:33:27 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2C339BE084;
+ Mon, 22 Nov 2021 22:33:26 +0000 (GMT)
+Received: from localhost.localdomain.com (unknown [9.65.86.146])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 22 Nov 2021 22:33:25 +0000 (GMT)
+From: Collin Walling <walling@linux.ibm.com>
+To: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Subject: [RFC PATCH] s390: kvm: reduce frequency of CPU syncs of diag318 info
+Date: Mon, 22 Nov 2021 17:33:07 -0500
+Message-Id: <20211122223307.101790-1-walling@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20211122140212.1511814-1-eblake@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Vh_1R-MdRbEZ1zy8psPnMa9XHkdbN1ov
+X-Proofpoint-ORIG-GUID: scBUPGRP6gsOrNA-3imaJ-f07OPwZq6x
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-22_08,2021-11-22_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 lowpriorityscore=0
+ suspectscore=0 malwarescore=0 adultscore=0 clxscore=1015 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111220112
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=walling@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,38 +104,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
+ frankja@linux.ibm.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/22/21 3:02 PM, Eric Blake wrote:
-> The following changes since commit 49aaac3548bc5a4632a14de939d5312b28dc1ba2:
-> 
->    Merge tag 'linux-user-for-6.2-pull-request' of git://github.com/vivier/qemu into staging (2021-11-22 10:33:13 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-11-22
-> 
-> for you to fetch changes up to e35574226a63f29e32eda8da5cc14832f19850e2:
-> 
->    nbd/server: Simplify zero and trim (2021-11-22 07:37:15 -0600)
-> 
-> ----------------------------------------------------------------
-> nbd patches for 2021-11-22
-> 
-> - Eric Blake: Avoid uninitialized memory on client hard disconnect
-> - Eric Blake: Take advantage of block layer 64-bit zero/trim
-> 
-> ----------------------------------------------------------------
-> Eric Blake (2):
->        nbd/server: Don't complain on certain client disconnects
->        nbd/server: Simplify zero and trim
-> 
->   nbd/server.c | 26 ++++++--------------------
->   1 file changed, 6 insertions(+), 20 deletions(-)
+DIAGNOSE 0318 is invoked only once during IPL. As such, the
+diag318 info will only change once initially and during resets.
+Let's only sync the register to convey the info to KVM if and
+only if the diag318 info has changed. Only set the dirty bit
+flag for diag318 whenever it must be updated.
 
-Applied, thanks.
+The migration handler will invoke the set_diag318 helper on
+post_load to ensure the info is set on the destination machine.
 
-r~
+Signed-off-by: Collin Walling <walling@linux.ibm.com>
+---
+ target/s390x/kvm/kvm.c |  5 -----
+ target/s390x/machine.c | 14 ++++++++++++++
+ 2 files changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+index 6acf14d5ec..6a141399f7 100644
+--- a/target/s390x/kvm/kvm.c
++++ b/target/s390x/kvm/kvm.c
+@@ -599,11 +599,6 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+         cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_ETOKEN;
+     }
+ 
+-    if (can_sync_regs(cs, KVM_SYNC_DIAG318)) {
+-        cs->kvm_run->s.regs.diag318 = env->diag318_info;
+-        cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
+-    }
+-
+     /* Finally the prefix */
+     if (can_sync_regs(cs, KVM_SYNC_PREFIX)) {
+         cs->kvm_run->s.regs.prefix = env->psa;
+diff --git a/target/s390x/machine.c b/target/s390x/machine.c
+index 37a076858c..a5d113ce3a 100644
+--- a/target/s390x/machine.c
++++ b/target/s390x/machine.c
+@@ -234,6 +234,19 @@ const VMStateDescription vmstate_etoken = {
+     }
+ };
+ 
++static int diag318_post_load(void *opaque, int version_id)
++{
++    S390CPU *cpu = opaque;
++    CPUState *cs = CPU(cpu);
++    CPUS390XState *env = &S390_CPU(cs)->env;
++
++    if (kvm_enabled()) {
++        kvm_s390_set_diag318(cs, env->diag318_info);
++    }
++
++    return 0;
++}
++
+ static bool diag318_needed(void *opaque)
+ {
+     return s390_has_feat(S390_FEAT_DIAG_318);
+@@ -243,6 +256,7 @@ const VMStateDescription vmstate_diag318 = {
+     .name = "cpu/diag318",
+     .version_id = 1,
+     .minimum_version_id = 1,
++    .post_load = diag318_post_load,
+     .needed = diag318_needed,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT64(env.diag318_info, S390CPU),
+-- 
+2.31.1
 
 
