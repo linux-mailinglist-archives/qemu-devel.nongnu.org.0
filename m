@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EEFE459854
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 00:19:43 +0100 (CET)
-Received: from localhost ([::1]:38376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D404598AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 00:54:27 +0100 (CET)
+Received: from localhost ([::1]:51318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpIb7-0005ZI-TZ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 18:19:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50558)
+	id 1mpJ8k-0007Va-Bi
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 18:54:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mpIZz-0004tX-89
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 18:18:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32767)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mpJ7w-0006q5-BR
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 18:53:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mpIZv-0001Dv-7r
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 18:18:30 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mpJ7t-00056d-50
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 18:53:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637623105;
+ s=mimecast20190719; t=1637625211;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t2haoMnpnIxAnPQvH0KP5S5Ujktti2HMPUHpS+W81mk=;
- b=dTxRtbmV5dPegw8evSyjy1VY+hvqArwcBOxodEIhjllSCEh+n+iMkf58fhgC3RweCTi1L2
- imglvr7SLb1pTIqVV6i0ylZDWdd8lVDbax2ImcYkKJz5KAdVIrZRkke7vP+DvigzL0GHfl
- xObWGXkiqy3HLExqw3O0NHSFYLidH4Y=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=V/iV/mJTlo9XRRLIage1WcUmRhIqLg//1kUheQcJLbo=;
+ b=H4s2R17NjgPDbi9oN875hvsJAiZZ6+ESaoSkX2V7o5M8LIFtyT4wN91Kq915yVFP8V7xl9
+ jQrzcGbEA0MsqCTo+3ZYf6ChHmE423sfMHXtaelV3dZzuAnjGJyO94ny2mJopHHs6+x3Y6
+ EXs1TgfRdmY4KIqH9tnW8PYdJ6Ad/1A=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-317-U4xGCzjWNtSrL1DsFWjlZg-1; Mon, 22 Nov 2021 18:18:22 -0500
-X-MC-Unique: U4xGCzjWNtSrL1DsFWjlZg-1
-Received: by mail-lj1-f199.google.com with SMTP id
- j11-20020a2ea90b000000b00218c174bb5dso718059ljq.22
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 15:18:22 -0800 (PST)
+ us-mta-309-8n4V_Y5xP-yJ0UedJwMCmQ-1; Mon, 22 Nov 2021 18:53:29 -0500
+X-MC-Unique: 8n4V_Y5xP-yJ0UedJwMCmQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o18-20020a05600c511200b00332fa17a02eso676117wms.5
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 15:53:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=t2haoMnpnIxAnPQvH0KP5S5Ujktti2HMPUHpS+W81mk=;
- b=Ixcd3mxIqXvdh8S7yDAD9db58G68aGlxxliOv82A1H1Ot0hxhcZQP1sjfGSo+B103S
- nG6dguwnF2B3zXSzPX1K7wQb6LzTjyTbQyEzHYJCfGHGkgrfSznqrggVXJo+3jDm2PBP
- jHjYdYF4SIHI5vIIu8/yE06tFlMGxKbhHdbcFRPYTg+jUs4su9MuopVgaKwbYUipBw6j
- xRk/waKcFAknM5QhryxVeRtuYk/k+T4vnrDA58Hj/czIfsxaDeAXyayN9eysWtdTHsuA
- esxz6WATJhZhceYXTOLNzdSf6Ya7guTNGcJZs8DjhwN7LAzpnKVOKkaYNZl5xtJccZHp
- YaHQ==
-X-Gm-Message-State: AOAM533BzTRyxBjDGQ954EmcA/PhnMsehdfy+xQm+X9KXj7qhauVBZoq
- ODussMfZJP7cwI9fi5kLj5kHkitRTTFTS+pO/rRucDWkvt86Ij2YUIIrVWB6zCqvTFbrPDh+CJS
- Utqc0DqS4UmZZCtYoHEwdrJowHEYMRDw=
-X-Received: by 2002:a05:6512:158e:: with SMTP id
- bp14mr71054lfb.630.1637623100827; 
- Mon, 22 Nov 2021 15:18:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx5AghVqieahi9XFPaoh1hU7wu8aNx8m2vPO08lPG7phLcfxB/z33TjPwIAO9+lgAG4OQMfDU3OcWzbNfTSkYI=
-X-Received: by 2002:a05:6512:158e:: with SMTP id
- bp14mr71023lfb.630.1637623100526; 
- Mon, 22 Nov 2021 15:18:20 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=V/iV/mJTlo9XRRLIage1WcUmRhIqLg//1kUheQcJLbo=;
+ b=Q5etfjhs9l4MKVCRuaQ+1HS4b8Q4Ufo6T2weNUTBV+t/wm/bkYtTHT7I+z53h8bg8C
+ +/ijQPzSg9swvSsLHi90/dJjGje99Uhpu1Ma85yXDaLmNTWyn5w/LrGWOiNjAZDZ7CdC
+ BXEjItdynXxSn3dyTgS5Z51T7drs3G6vxUqRzSzOI5uPB/muMjiB06+ZnoM7n5i19tIm
+ h6T5SLqoOEQ6eOfRtpTSagUTtVZsKVFMh3MtTYe6VN/772WN7h/EHo8Y/y3MluaWRaWQ
+ ELTLZgMkal33iEVb4+zIwmPgQ4t6RM5LZNRXTpdiXwJ5/ykk5FIU0wCuzFRejV2nR49r
+ t/xg==
+X-Gm-Message-State: AOAM531gIPSYcuqo6c/Kn0WGz/GXARC4qMF+ZUzrRF0L53/ZoNzX1aE8
+ i8U4UGPp3ryK5yUas8ZnvyOGIlEzDFGocg7UHMJRlHcOi5kYaK/Dsy/y94ovbmYYKzTf2aKX66j
+ 3tCnqokGuQpgGgsg=
+X-Received: by 2002:adf:dd0a:: with SMTP id a10mr1701195wrm.60.1637625208830; 
+ Mon, 22 Nov 2021 15:53:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz1GaRagWp1PLT6PCRJjG+JAjzFpHo9DCJfvpdas8DE+402jUNenMjXYicxZn3D454oxSAhNQ==
+X-Received: by 2002:adf:dd0a:: with SMTP id a10mr1701172wrm.60.1637625208644; 
+ Mon, 22 Nov 2021 15:53:28 -0800 (PST)
+Received: from redhat.com ([45.15.19.36])
+ by smtp.gmail.com with ESMTPSA id q26sm10436001wrc.39.2021.11.22.15.53.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Nov 2021 15:53:27 -0800 (PST)
+Date: Mon, 22 Nov 2021 18:53:23 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1] virtio-mem: Don't skip alignment checks when warning
+ about block size
+Message-ID: <20211122185320-mutt-send-email-mst@kernel.org>
+References: <20211011173305.13778-1-david@redhat.com>
+ <20211012032705-mutt-send-email-mst@kernel.org>
+ <3c54b0ab-85b6-bb86-93f6-ecfd6c63f346@redhat.com>
 MIME-Version: 1.0
-References: <20211112051040.923746-1-leobras@redhat.com>
- <20211112051040.923746-2-leobras@redhat.com>
- <YY4+LWnRTV7iaErs@redhat.com>
-In-Reply-To: <YY4+LWnRTV7iaErs@redhat.com>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Mon, 22 Nov 2021 20:18:09 -0300
-Message-ID: <CAJ6HWG4Z7Y=qvp4SZE1+hsk-imouHrsBr9M8Seo1_zPvMtOWjg@mail.gmail.com>
-Subject: Re: [PATCH v5 1/6] QIOChannel: Add io_writev_zerocopy &
- io_flush_zerocopy callbacks
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+In-Reply-To: <3c54b0ab-85b6-bb86-93f6-ecfd6c63f346@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -96,103 +95,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Daniel,
-Thanks for the feedback!
+On Mon, Nov 22, 2021 at 01:01:51PM +0100, David Hildenbrand wrote:
+> On 12.10.21 09:27, Michael S. Tsirkin wrote:
+> > On Mon, Oct 11, 2021 at 07:33:05PM +0200, David Hildenbrand wrote:
+> >> If we warn about the block size being smaller than the default, we skip
+> >> some alignment checks.
+> >>
+> >> This can currently only fail on x86-64, when specifying a block size of
+> >> 1 MiB, however, we detect the THP size of 2 MiB.
+> >>
+> >> Fixes: 228957fea3a9 ("virtio-mem: Probe THP size to determine default block size")
+> >> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> >> Signed-off-by: David Hildenbrand <david@redhat.com>
+> > 
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> 
+> Thanks Michael, will you send this for the v6.2 release?
+> 
+> 
+> -- 
+> Thanks,
+> 
+> David / dhildenb
 
-On Fri, Nov 12, 2021 at 7:13 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> On Fri, Nov 12, 2021 at 02:10:36AM -0300, Leonardo Bras wrote:
-> > -int qio_channel_writev_all(QIOChannel *ioc,
-> > -                           const struct iovec *iov,
-> > -                           size_t niov,
-> > -                           Error **erp);
-> > +int qio_channel_writev_all_flags(QIOChannel *ioc,
-> > +                                 const struct iovec *iov,
-> > +                                 size_t niov,
-> > +                                 int flags,
-> > +                                 Error **errp);
-> > +#define qio_channel_writev_all(ioc, iov, niov, errp) \
-> > +    qio_channel_writev_all_flags(ioc, iov, niov, 0, errp)
->
-> We already have separate methods for zerocopy, instead of adding
-> flags, so we shouldn't add flags to this either.
->
-> Add a qio_channel_writev_zerocopy_all method instead.
->
-> Internally, we can still make both qio_channel_writev_zerocopy_all
-> and qio_channel_writev_all use the same helper method, just don't
-> expose flags in the public API. Even internally we don't really
-> need flags, just a bool
-
-I see.
-The idea of having a flag was to make it easier to expand the
-interface in the future.
-I got some feedback on v1 that would suggest it would be desired:
-http://patchwork.ozlabs.org/project/qemu-devel/patch/20210831110238.299458-=
-2-leobras@redhat.com/
-
-
->
-[...]
-> > +#define qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, errp) \
-> > +    qio_channel_writev_full_all_flags(ioc, iov, niov, fds, nfds, 0, er=
-rp)
->
-> There's no need for this at all. Since fd passing is not supported
-> with zerocopy, there's no reason to ever use this method.
->
-> > +/**
-> > + * qio_channel_writev_zerocopy:
-> > + * @ioc: the channel object
-> > + * @iov: the array of memory regions to write data from
-> > + * @niov: the length of the @iov array
-> > + * @errp: pointer to a NULL-initialized error object
-> > + *
-> > + * Behaves like qio_channel_writev_full_all_flags, but may write
->
-> qio_channel_writev
->
-> > + * data asynchronously while avoiding unnecessary data copy.
-> > + * This function may return before any data is actually written,
-> > + * but should queue every buffer for writing.
->
-> Callers mustn't rely on "should" docs - they must rely on the
-> return value indicating how many bytes were accepted.
->
-> Also mention that this requires locked memory and can/will fail if
-> insufficient locked memory is available.
->
-
-Sure, I will update that.
-
-> > +/**
-> > + * qio_channel_flush_zerocopy:
-> > + * @ioc: the channel object
-> > + * @errp: pointer to a NULL-initialized error object
-> > + *
-> > + * Will block until every packet queued with
-> > + * qio_channel_writev_zerocopy() is sent, or return
-> > + * in case of any error.
-> > + *
-> > + * Returns -1 if any error is found, 0 otherwise.
->
->   Returns -1 if any error is found, 0 if all data was sent,
->            or 1 if all data was sent but at least some was copied.
->
-
-I don't really get the return 1 part, I mean, per description it will
-'block until every queued packet was sent, so "at least some was
-copied" doesn't seem to fit here.
-Could you elaborate?
-
-Best regards,
-Leo
+sure
 
 
