@@ -2,83 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4FE14590A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 15:57:32 +0100 (CET)
-Received: from localhost ([::1]:56550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E434590AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 15:59:06 +0100 (CET)
+Received: from localhost ([::1]:33960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpAl8-00036D-8P
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 09:57:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37058)
+	id 1mpAmf-0006xw-Ab
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 09:59:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpAiy-0000an-5K
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:55:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28719)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mpAl4-0004VR-3O
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:57:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpAiv-0006wk-IH
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:55:15 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mpAl1-0007Ta-TY
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:57:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637592912;
+ s=mimecast20190719; t=1637593043;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NfmUHQY8GaR5ZzrGyDF3to1LagJK8Yu1dCFFPL7b5IA=;
- b=fjFdjqMhiwwJcYRx5pDOvat6QM8dariCug7K9YJa9uzGZIFBB+NB0pyAELJKVqEZS74akl
- kaMqGTjlqCWou01JJsrDebP2AbxgE85WISjYJ3OYUjyzHpS8HkzV99J4oGEwD0oE2v8Hct
- UGOPhfVwLSDUSpCSG8sLlZKSLxglDnY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=a6sxP8BbpsAMN/5roSu3j/ZWT90syA5vCmiIsqjbMtk=;
+ b=CTZzBYOj9NMS5ihn+fb5DQ0CxKjOREYArVSwooh1gGYa7KVAOl/GRdo+Lm3TQbPQ0N5RMX
+ trHokDDWh6MqpRVL150h4rHCDPS8CKctvHJXt7xOcml7yfI84XG/1CzOa+lx8Ku+yVMg34
+ 1mEDWYR0JMwosIttyQ5pqFLcz9/tpK8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-537-JMAJLM0lNXmotoMpKDxAXw-1; Mon, 22 Nov 2021 09:55:11 -0500
-X-MC-Unique: JMAJLM0lNXmotoMpKDxAXw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- q17-20020adff791000000b00183e734ba48so3174096wrp.8
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 06:55:11 -0800 (PST)
+ us-mta-130-Oa8UnAnHN7amKcz6IAaA-w-1; Mon, 22 Nov 2021 09:57:22 -0500
+X-MC-Unique: Oa8UnAnHN7amKcz6IAaA-w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 138-20020a1c0090000000b00338bb803204so6171108wma.1
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 06:57:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:cc:references:from:organization:in-reply-to
  :content-transfer-encoding;
- bh=NfmUHQY8GaR5ZzrGyDF3to1LagJK8Yu1dCFFPL7b5IA=;
- b=vKjlFf4KdZ1ig/zO59rbqZ7GYtamiQjLv/LpcsAW90DOwu78OLKfUwG1Y22o/gsN54
- K2Hv9xUvzpX01uYPCxwVJ+DsdC9HOPdOEU1t9yYyD6kwH6meaJyYiU1hBNwYDaRNuCZx
- Hguuoszn9z8XhTcs7o246wj/2WPUuLkQ+qhtrZOSBImcdZgzPHubIQR9HUGUpqpG6w90
- kME8ka8/SbBO7DKSOwygAiec3DnH/IYPoelimCUtNZo5O3Zddykpc46ZF+67PudhD6sP
- NFHj6SzBeIyqqZyayo40E8/LeGxPZM+/Mpe2MNcTlMg+tu9r3aW31emnTAKpCFlHKb9z
- /12Q==
-X-Gm-Message-State: AOAM5304QgqmtbnXtwik2vh2FOxmiMkFNCUYwhQ0hKXTpBaBmBdo88xR
- EyKMCxaqqYVIPZUBlSgVrgvqtOqSKrBvK77U295sNiSdW2d6l9n+cUzQke17qehp99ELx3tYCqM
- 6kM/hTTtFefZQMGgx4/Oij6xN1K9EFfgjFk+R3EVdnrmsloFNkVXJzPT3syLe8ji4
-X-Received: by 2002:a7b:ce16:: with SMTP id m22mr26046115wmc.137.1637592910027; 
- Mon, 22 Nov 2021 06:55:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJycZHPAK6P31ytWpUqlKsrcbIi7kdixESWqE0Rpf4ryuXFnpVFHGOoF+aE8WOgvfBZ60bQuNA==
-X-Received: by 2002:a7b:ce16:: with SMTP id m22mr26046055wmc.137.1637592909615; 
- Mon, 22 Nov 2021 06:55:09 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id e12sm11029657wrq.20.2021.11.22.06.55.08
+ bh=a6sxP8BbpsAMN/5roSu3j/ZWT90syA5vCmiIsqjbMtk=;
+ b=aE5to7GSh4LfA4GNGiWDzNm48/Eyb49bEO2qHTgnUBPP9HxqxMEZl1Q6pHm8gNC/OE
+ nzig8OzWE0EstlkyBp9ONtWpdAvaLFERebwnqT+EsWRnWU1TUqaWNjkDEQkk90amLk4T
+ G4Q07LkRgrbV7DZS54O3d2OwNgOXOrkT8Iz27j2XBxahwTGtBAi60aT0dcGyi+yyvqli
+ ncVvgclxh+eirNff3YuQXIiQAjBXPSiGcfktV2BA20ccBiG8dVXvcMl2+G0AuSk5i7N+
+ SZI9Cnkra9YERgbeoBTGmsH4bxcC9pY2T18125HOi6QpSovunkBuuVZUACJ1lykeQZDu
+ LFFw==
+X-Gm-Message-State: AOAM531CxedLlHrEbt7gmexB0/zLnINsHNRFkmLllyKYkQGSgNrm9RBw
+ fxluSZlHQ3pvo+hLcyN/R+aCYtzEjjyMlA9Tu5BWuTks4JxVHQ82kckO8+e7aIPTLQgjn3M4qsu
+ egdyNjYyx1j+x+4s=
+X-Received: by 2002:a7b:ce8c:: with SMTP id q12mr29900017wmj.91.1637593040912; 
+ Mon, 22 Nov 2021 06:57:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzb1fVkmOhpRnzBJsEnrS5eq+nBwa2MfaKvZWrzzGVY0sVj4OHkUiEBZAugOc7zSp386W7pog==
+X-Received: by 2002:a7b:ce8c:: with SMTP id q12mr29899978wmj.91.1637593040715; 
+ Mon, 22 Nov 2021 06:57:20 -0800 (PST)
+Received: from [192.168.3.132] (p5b0c667b.dip0.t-ipconnect.de. [91.12.102.123])
+ by smtp.gmail.com with ESMTPSA id s63sm10249585wme.22.2021.11.22.06.57.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 06:55:09 -0800 (PST)
-Message-ID: <7e776ddd-4f2e-99e4-e234-c5b6a3e2bd1c@redhat.com>
-Date: Mon, 22 Nov 2021 15:55:07 +0100
+ Mon, 22 Nov 2021 06:57:20 -0800 (PST)
+Message-ID: <d2b46b84-8930-4304-2946-4d4a16698b24@redhat.com>
+Date: Mon, 22 Nov 2021 15:57:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH-for-6.2 v3 0/2] hw/block/fdc: Fix CVE-2021-20196
-To: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20211118120635.4043197-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211118120635.4043197-1-philmd@redhat.com>
+Subject: Re: [RFC v2 PATCH 01/13] mm/shmem: Introduce F_SEAL_GUEST
+To: Jason Gunthorpe <jgg@ziepe.ca>
+References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
+ <20211119134739.20218-2-chao.p.peng@linux.intel.com>
+ <20211119151943.GH876299@ziepe.ca>
+ <df11d753-6242-8f7c-cb04-c095f68b41fa@redhat.com>
+ <20211119160023.GI876299@ziepe.ca>
+ <4efdccac-245f-eb1f-5b7f-c1044ff0103d@redhat.com>
+ <20211122133145.GQ876299@ziepe.ca>
+ <56c0dffc-5fc4-c337-3e85-a5c9ce619140@redhat.com>
+ <20211122140148.GR876299@ziepe.ca>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20211122140148.GR876299@ziepe.ca>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -86,7 +93,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,26 +106,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
- qemu-block@nongnu.org, Darren Kenny <darren.kenny@oracle.com>,
- Alexander Bulekov <alxndr@bu.edu>, Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Gaoning Pan <pgn@zju.edu.cn>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Chao Peng <chao.p.peng@linux.intel.com>,
+ ak@linux.intel.com, Jonathan Corbet <corbet@lwn.net>,
+ Joerg Roedel <joro@8bytes.org>, x86@kernel.org,
+ Hugh Dickins <hughd@google.com>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, luto@kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Jim Mattson <jmattson@google.com>, dave.hansen@intel.com,
+ Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
+ Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ john.ji@intel.com, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping for 6.2?
+On 22.11.21 15:01, Jason Gunthorpe wrote:
+> On Mon, Nov 22, 2021 at 02:35:49PM +0100, David Hildenbrand wrote:
+>> On 22.11.21 14:31, Jason Gunthorpe wrote:
+>>> On Mon, Nov 22, 2021 at 10:26:12AM +0100, David Hildenbrand wrote:
+>>>
+>>>> I do wonder if we want to support sharing such memfds between processes
+>>>> in all cases ... we most certainly don't want to be able to share
+>>>> encrypted memory between VMs (I heard that the kernel has to forbid
+>>>> that). It would make sense in the use case you describe, though.
+>>>
+>>> If there is a F_SEAL_XX that blocks every kind of new access, who
+>>> cares if userspace passes the FD around or not?
+>> I was imagining that you actually would want to do some kind of "change
+>> ownership". But yeah, the intended semantics and all use cases we have
+>> in mind are not fully clear to me yet. If it's really "no new access"
+>> (side note: is "access" the right word?) then sure, we can pass the fd
+>> around.
+> 
+> What is "ownership" in a world with kvm and iommu are reading pages
+> out of the same fd?
 
-> Alexander Bulekov (1):
->   tests/qtest/fdc-test: Add a regression test for CVE-2021-20196
-> 
-> Philippe Mathieu-Daudé (1):
->   hw/block/fdc: Kludge missing floppy drive to fix CVE-2021-20196
-> 
->  hw/block/fdc.c         | 14 +++++++++++++-
->  tests/qtest/fdc-test.c | 21 +++++++++++++++++++++
->  2 files changed, 34 insertions(+), 1 deletion(-)
-> 
+In the world of encrypted memory / TDX, KVM somewhat "owns" that memory
+IMHO (for example, only it can migrate or swap out these pages; it's
+might be debatable if the TDX module or KVM actually "own" these pages ).
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
