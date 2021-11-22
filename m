@@ -2,72 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787324590DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 16:06:02 +0100 (CET)
-Received: from localhost ([::1]:50422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 387EF459106
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 16:10:50 +0100 (CET)
+Received: from localhost ([::1]:59504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpAtN-0001Vf-JR
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 10:06:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40472)
+	id 1mpAy1-0007el-Aa
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 10:10:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mpAqf-0006kp-G8
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:03:13 -0500
-Received: from [2607:f8b0:4864:20::935] (port=42940
- helo=mail-ua1-x935.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mpAqY-00009O-Rw
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:03:13 -0500
-Received: by mail-ua1-x935.google.com with SMTP id t13so37089160uad.9
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 07:03:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EmAGaw5kRpez1jLTPSpWtKtZbGI3Ajvi+X5YLNSqjc4=;
- b=be4xlZG3N8wBkkfbMPuyFwe3798w8T5wo8DuSLZaqqN8u0GSCgJoCjEIrT91FKt58x
- 448zSxWEkBklqLbXPU0UUNQAQ0iCEhYGJw0n70PSt6+SBwQ1Bx1FUWNntmIoen2EXogq
- uFXkVTMMD/IBy9WbcS6ffn2hEv5iDeZGxXuYIELmPm6G0A0UZf11fwATDvUkhZG8HrYa
- Li5EZ70FW/nfu8qbcl0ajnWOyfhz5aLmC8GGXHs3ifEFh25jWGZ+PpL3OBx2oR6FRxEa
- EsxFaaRHZm6mtr/TQd+AYHWzqp7YJAfxyM86dSSRBwhjXT9mg7OkhlUVUkDSOeh9pJAW
- cSjA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpAuX-0003pa-D2
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:07:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59785)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpAuR-0000vg-9A
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:07:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637593619;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7HNdb2tt/SMg3ihyXdEzZR5yaQw44U4iAoXpEHLkOf8=;
+ b=OD5GmAFgppXRLZ/MmIDj5WMH/sqtuM9eFp3gQOsv33Px0Q4TbEsJVRCtTSn5USZvOVqETC
+ 6z+nqBSWKl2BiQTl4USSHK3n8TburVeC8Tw5yTF8J54rD/43tkrTBJHJd12l3QGUZ8mLiK
+ SpMaOXcxMbHG74JVIpRbx64zoePnq8k=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-380-INll1rWxN_2K_tiIrd-mQQ-1; Mon, 22 Nov 2021 10:06:58 -0500
+X-MC-Unique: INll1rWxN_2K_tiIrd-mQQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 205-20020a1c00d6000000b003335d1384f1so10318744wma.3
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 07:06:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EmAGaw5kRpez1jLTPSpWtKtZbGI3Ajvi+X5YLNSqjc4=;
- b=jEB8lX9ApjJFOMwSC+Cjr9/LACfPT7fZYCJYhKl1KAeWX0xO7dnd/BAI9mMT5omfjX
- zxuOncKyQ54aH5WxLdFEDhkuFoaRRS7SO0rh2gntj8wXFFnpLWnmX39E7PpwmMriQldG
- 9jR+4JkKPdNfNfrVqgPhZYmFOgWeM3DHu4SUSDA02Mv37Ibz8uxIiC9OE1IBC0PTZi28
- 3wNBhRhjppjiXfyRDIL42P7TCPvWxg1RikbR8SWLlqkS/pfgtYEuw2htLwHNQaiuHSd6
- ENIQ08U2A7gEVdchgN3n0RYHP02QP8SL6EOD41HMzqRibNp68h20/RTyKiVSa1pcCeQg
- Yv2w==
-X-Gm-Message-State: AOAM531OaLTQ9S+HPPUIGNjqjQliCrdIVsd3Ac5py7J0oez2ZCsCjo2j
- BJ8Tb9GnZXS0vaZso/EdzSiJHr3FqzrYibQ1Eep55A==
-X-Google-Smtp-Source: ABdhPJzLbd3GgFKy+hFntOVLMF0NDOqmzR4QP39GGE+FBD0PmhOKj0OS+pam1ybGo/jOReyf35fG3TBTUnEBgoBNooY=
-X-Received: by 2002:ab0:6f47:: with SMTP id r7mr86263206uat.85.1637593384941; 
- Mon, 22 Nov 2021 07:03:04 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7HNdb2tt/SMg3ihyXdEzZR5yaQw44U4iAoXpEHLkOf8=;
+ b=6fIqutkQOJMkIiVehwEsidec7u10KZX6n9wkUM1VEYKy5JBUdk1c+bvu/d9WdR02m6
+ 8GBfnbgL51l4EH21dHggYM5CZj3txjlI8xhdKdrhhL55RPMNW1AQMaPzNrjPW3TGjx+V
+ AvbvyyNsVVR1jS0HuxoROat6vAUeBGAWbFmTSw1JaHg27I0tYA9LVhaBGSRNTJF0/gJf
+ mbSFsV1QQdMsLtETZl3eXdkB81tfh+mX2ZKwXz9leRs7qBTYJO+Y4r6o91cid0SdYeAT
+ C6B5Zltt0/+UFRqtcvLFQeucjmRxyQhW5gMwUnHfgb5tNP6eiO8/Znj1g6Z6WW1zmAyq
+ WtIg==
+X-Gm-Message-State: AOAM531N/Ntq2xybMiJ3OxJEIcwDX4yz7SjMbLwnh++8fHyjLkIk+2Rz
+ mlHWFxq5TO0ywdz5fAv99NoD4uq7LHWBRhoM0m3CjIZrC5NXAbxTSvrCYtB1+gInhD9hn6I/zgc
+ Tq9ySfHnkhd9afFE=
+X-Received: by 2002:a5d:64ea:: with SMTP id g10mr40139299wri.242.1637593617005; 
+ Mon, 22 Nov 2021 07:06:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzpAz3BM1JaUryUUoMdf7TTl/w5EcCZ8pRYLe/xm5fIBcCaGEAkgKutWHPQbdKiJ20bVtfHHw==
+X-Received: by 2002:a5d:64ea:: with SMTP id g10mr40139256wri.242.1637593616767; 
+ Mon, 22 Nov 2021 07:06:56 -0800 (PST)
+Received: from [192.168.8.100] (tmo-097-143.customers.d1-online.com.
+ [80.187.97.143])
+ by smtp.gmail.com with ESMTPSA id bg12sm8892624wmb.5.2021.11.22.07.06.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Nov 2021 07:06:56 -0800 (PST)
+Message-ID: <dc9e58cb-44f8-1f6e-db4c-cd887d7a82a2@redhat.com>
+Date: Mon, 22 Nov 2021 16:06:54 +0100
 MIME-Version: 1.0
-References: <20211122131200.229286-1-richard.henderson@linaro.org>
- <20211122131200.229286-2-richard.henderson@linaro.org>
-In-Reply-To: <20211122131200.229286-2-richard.henderson@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 22 Nov 2021 08:02:53 -0700
-Message-ID: <CANCZdfqvnO2+EAOU2_z1fPZh2GLgzO34wGAWrrRW8PbLzoOaTw@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 1/2] linux-user: Add host_signal_set_pc to set pc
- in mcontext
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000ff0f1e05d161ebe4"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::935
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::935;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x935.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH-for-7.0 1/5] hw/display: Rename VGA_ISA_MM -> VGA_MMIO
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20211119171202.458919-1-f4bug@amsat.org>
+ <20211119171202.458919-2-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20211119171202.458919-2-f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,472 +101,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Khem Raj <raj.khem@gmail.com>
+Cc: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ff0f1e05d161ebe4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Nov 22, 2021 at 6:12 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> From: Warner Losh <imp@bsdimp.com>
->
-> Add a new function host_signal_set_pc to set the next pc in an
-> mcontext. The caller should ensure this is a valid PC for execution.
->
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20211113045603.60391-2-imp@bsdimp.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 19/11/2021 18.11, Philippe Mathieu-Daudé wrote:
+> There is no ISA bus part in the MMIO VGA device, so rename:
+> 
+>   *  hw/display/vga-isa-mm.c -> hw/display/vga-mmio.c
+>   *  CONFIG_VGA_ISA_MM -> CONFIG_VGA_MMIO
+>   *  ISAVGAMMState -> VGAMmioState
+>   *  isa_vga_mm_init() -> vga_mmio_init()
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  linux-user/host/aarch64/host-signal.h | 5 +++++
->  linux-user/host/alpha/host-signal.h   | 5 +++++
->  linux-user/host/arm/host-signal.h     | 5 +++++
->  linux-user/host/i386/host-signal.h    | 5 +++++
->  linux-user/host/mips/host-signal.h    | 5 +++++
->  linux-user/host/ppc/host-signal.h     | 5 +++++
->  linux-user/host/riscv/host-signal.h   | 5 +++++
->  linux-user/host/s390/host-signal.h    | 5 +++++
->  linux-user/host/sparc/host-signal.h   | 9 +++++++++
->  linux-user/host/x86_64/host-signal.h  | 5 +++++
->  10 files changed, 54 insertions(+)
->
+>   configs/devices/mips-softmmu/common.mak |  2 +-
+>   include/hw/display/vga.h                |  2 +-
+>   hw/display/{vga-isa-mm.c => vga-mmio.c} | 16 ++++++++--------
+>   hw/mips/jazz.c                          |  2 +-
+>   hw/display/Kconfig                      |  2 +-
+>   hw/display/meson.build                  |  2 +-
+>   hw/mips/Kconfig                         |  2 +-
+>   7 files changed, 14 insertions(+), 14 deletions(-)
+>   rename hw/display/{vga-isa-mm.c => vga-mmio.c} (93%)
 
-Reviewed-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-This looks like what I submitted, and will work with the cleaned up other
-half.
-
-Warner
-
-
-> diff --git a/linux-user/host/aarch64/host-signal.h
-> b/linux-user/host/aarch64/host-signal.h
-> index 0c0b08383a..9770b36dc1 100644
-> --- a/linux-user/host/aarch64/host-signal.h
-> +++ b/linux-user/host/aarch64/host-signal.h
-> @@ -35,6 +35,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
->      return uc->uc_mcontext.pc;
->  }
->
-> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-> +{
-> +    uc->uc_mcontext.pc =3D pc;
-> +}
-> +
->  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
->  {
->      struct _aarch64_ctx *hdr;
-> diff --git a/linux-user/host/alpha/host-signal.h
-> b/linux-user/host/alpha/host-signal.h
-> index e080be412f..f4c942948a 100644
-> --- a/linux-user/host/alpha/host-signal.h
-> +++ b/linux-user/host/alpha/host-signal.h
-> @@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
->      return uc->uc_mcontext.sc_pc;
->  }
->
-> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-> +{
-> +    uc->uc_mcontext.sc_pc =3D pc;
-> +}
-> +
->  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
->  {
->      uint32_t *pc =3D (uint32_t *)host_signal_pc(uc);
-> diff --git a/linux-user/host/arm/host-signal.h
-> b/linux-user/host/arm/host-signal.h
-> index efb165c0c5..6c095773c0 100644
-> --- a/linux-user/host/arm/host-signal.h
-> +++ b/linux-user/host/arm/host-signal.h
-> @@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
->      return uc->uc_mcontext.arm_pc;
->  }
->
-> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-> +{
-> +    uc->uc_mcontext.arm_pc =3D pc;
-> +}
-> +
->  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
->  {
->      /*
-> diff --git a/linux-user/host/i386/host-signal.h
-> b/linux-user/host/i386/host-signal.h
-> index 4c8eef99ce..abe1ece5c9 100644
-> --- a/linux-user/host/i386/host-signal.h
-> +++ b/linux-user/host/i386/host-signal.h
-> @@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
->      return uc->uc_mcontext.gregs[REG_EIP];
->  }
->
-> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-> +{
-> +    uc->uc_mcontext.gregs[REG_EIP] =3D pc;
-> +}
-> +
->  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
->  {
->      return uc->uc_mcontext.gregs[REG_TRAPNO] =3D=3D 0xe
-> diff --git a/linux-user/host/mips/host-signal.h
-> b/linux-user/host/mips/host-signal.h
-> index ef341f7c20..c666ed8c3f 100644
-> --- a/linux-user/host/mips/host-signal.h
-> +++ b/linux-user/host/mips/host-signal.h
-> @@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
->      return uc->uc_mcontext.pc;
->  }
->
-> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-> +{
-> +    uc->uc_mcontext.pc =3D pc;
-> +}
-> +
->  #if defined(__misp16) || defined(__mips_micromips)
->  #error "Unsupported encoding"
->  #endif
-> diff --git a/linux-user/host/ppc/host-signal.h
-> b/linux-user/host/ppc/host-signal.h
-> index a491c413dc..1d8e658ff7 100644
-> --- a/linux-user/host/ppc/host-signal.h
-> +++ b/linux-user/host/ppc/host-signal.h
-> @@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
->      return uc->uc_mcontext.regs->nip;
->  }
->
-> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-> +{
-> +    uc->uc_mcontext.regs->nip =3D pc;
-> +}
-> +
->  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
->  {
->      return uc->uc_mcontext.regs->trap !=3D 0x400
-> diff --git a/linux-user/host/riscv/host-signal.h
-> b/linux-user/host/riscv/host-signal.h
-> index 3b168cb58b..a4f170efb0 100644
-> --- a/linux-user/host/riscv/host-signal.h
-> +++ b/linux-user/host/riscv/host-signal.h
-> @@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
->      return uc->uc_mcontext.__gregs[REG_PC];
->  }
->
-> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-> +{
-> +    uc->uc_mcontext.__gregs[REG_PC] =3D pc;
-> +}
-> +
->  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
->  {
->      /*
-> diff --git a/linux-user/host/s390/host-signal.h
-> b/linux-user/host/s390/host-signal.h
-> index 26990e4893..a524f2ab00 100644
-> --- a/linux-user/host/s390/host-signal.h
-> +++ b/linux-user/host/s390/host-signal.h
-> @@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
->      return uc->uc_mcontext.psw.addr;
->  }
->
-> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-> +{
-> +    uc->uc_mcontext.psw.addr =3D pc;
-> +}
-> +
->  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
->  {
->      uint16_t *pinsn =3D (uint16_t *)host_signal_pc(uc);
-> diff --git a/linux-user/host/sparc/host-signal.h
-> b/linux-user/host/sparc/host-signal.h
-> index 5e71d33f8e..7342936071 100644
-> --- a/linux-user/host/sparc/host-signal.h
-> +++ b/linux-user/host/sparc/host-signal.h
-> @@ -20,6 +20,15 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
->  #endif
->  }
->
-> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-> +{
-> +#ifdef __arch64__
-> +    uc->uc_mcontext.mc_gregs[MC_PC] =3D pc;
-> +#else
-> +    uc->uc_mcontext.gregs[REG_PC] =3D pc;
-> +#endif
-> +}
-> +
->  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
->  {
->      uint32_t insn =3D *(uint32_t *)host_signal_pc(uc);
-> diff --git a/linux-user/host/x86_64/host-signal.h
-> b/linux-user/host/x86_64/host-signal.h
-> index 883d2fcf65..c71d597eb2 100644
-> --- a/linux-user/host/x86_64/host-signal.h
-> +++ b/linux-user/host/x86_64/host-signal.h
-> @@ -15,6 +15,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
->      return uc->uc_mcontext.gregs[REG_RIP];
->  }
->
-> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-> +{
-> +    uc->uc_mcontext.gregs[REG_RIP] =3D pc;
-> +}
-> +
->  static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
->  {
->      return uc->uc_mcontext.gregs[REG_TRAPNO] =3D=3D 0xe
-> --
-> 2.25.1
->
->
-
---000000000000ff0f1e05d161ebe4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Nov 22, 2021 at 6:12 AM Richa=
-rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
-nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">From: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" t=
-arget=3D"_blank">imp@bsdimp.com</a>&gt;<br>
-<br>
-Add a new function host_signal_set_pc to set the next pc in an<br>
-mcontext. The caller should ensure this is a valid PC for execution.<br>
-<br>
-Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=3D"=
-_blank">imp@bsdimp.com</a>&gt;<br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
-org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
-Message-Id: &lt;<a href=3D"mailto:20211113045603.60391-2-imp@bsdimp.com" ta=
-rget=3D"_blank">20211113045603.60391-2-imp@bsdimp.com</a>&gt;<br>
-Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
-naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
----<br>
-=C2=A0linux-user/host/aarch64/host-signal.h | 5 +++++<br>
-=C2=A0linux-user/host/alpha/host-signal.h=C2=A0 =C2=A0| 5 +++++<br>
-=C2=A0linux-user/host/arm/host-signal.h=C2=A0 =C2=A0 =C2=A0| 5 +++++<br>
-=C2=A0linux-user/host/i386/host-signal.h=C2=A0 =C2=A0 | 5 +++++<br>
-=C2=A0linux-user/host/mips/host-signal.h=C2=A0 =C2=A0 | 5 +++++<br>
-=C2=A0linux-user/host/ppc/host-signal.h=C2=A0 =C2=A0 =C2=A0| 5 +++++<br>
-=C2=A0linux-user/host/riscv/host-signal.h=C2=A0 =C2=A0| 5 +++++<br>
-=C2=A0linux-user/host/s390/host-signal.h=C2=A0 =C2=A0 | 5 +++++<br>
-=C2=A0linux-user/host/sparc/host-signal.h=C2=A0 =C2=A0| 9 +++++++++<br>
-=C2=A0linux-user/host/x86_64/host-signal.h=C2=A0 | 5 +++++<br>
-=C2=A010 files changed, 54 insertions(+)<br></blockquote><div><br></div><di=
-v>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp=
-.com</a>&gt;</div><div><br></div><div>This looks like what I submitted, and=
- will work with the cleaned up other half.</div><div><br></div><div>Warner<=
-br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->
-diff --git a/linux-user/host/aarch64/host-signal.h b/linux-user/host/aarch6=
-4/host-signal.h<br>
-index 0c0b08383a..9770b36dc1 100644<br>
---- a/linux-user/host/aarch64/host-signal.h<br>
-+++ b/linux-user/host/aarch64/host-signal.h<br>
-@@ -35,6 +35,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.pc;<br>
-=C2=A0}<br>
-<br>
-+static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
-+{<br>
-+=C2=A0 =C2=A0 uc-&gt;uc_mcontext.pc =3D pc;<br>
-+}<br>
-+<br>
-=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
-<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0struct _aarch64_ctx *hdr;<br>
-diff --git a/linux-user/host/alpha/host-signal.h b/linux-user/host/alpha/ho=
-st-signal.h<br>
-index e080be412f..f4c942948a 100644<br>
---- a/linux-user/host/alpha/host-signal.h<br>
-+++ b/linux-user/host/alpha/host-signal.h<br>
-@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.sc_pc;<br>
-=C2=A0}<br>
-<br>
-+static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
-+{<br>
-+=C2=A0 =C2=A0 uc-&gt;uc_mcontext.sc_pc =3D pc;<br>
-+}<br>
-+<br>
-=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
-<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t *pc =3D (uint32_t *)host_signal_pc(uc);<br>
-diff --git a/linux-user/host/arm/host-signal.h b/linux-user/host/arm/host-s=
-ignal.h<br>
-index efb165c0c5..6c095773c0 100644<br>
---- a/linux-user/host/arm/host-signal.h<br>
-+++ b/linux-user/host/arm/host-signal.h<br>
-@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.arm_pc;<br>
-=C2=A0}<br>
-<br>
-+static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
-+{<br>
-+=C2=A0 =C2=A0 uc-&gt;uc_mcontext.arm_pc =3D pc;<br>
-+}<br>
-+<br>
-=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
-<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0/*<br>
-diff --git a/linux-user/host/i386/host-signal.h b/linux-user/host/i386/host=
--signal.h<br>
-index 4c8eef99ce..abe1ece5c9 100644<br>
---- a/linux-user/host/i386/host-signal.h<br>
-+++ b/linux-user/host/i386/host-signal.h<br>
-@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.gregs[REG_EIP];<br>
-=C2=A0}<br>
-<br>
-+static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
-+{<br>
-+=C2=A0 =C2=A0 uc-&gt;uc_mcontext.gregs[REG_EIP] =3D pc;<br>
-+}<br>
-+<br>
-=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
-<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.gregs[REG_TRAPNO] =3D=3D 0xe<=
-br>
-diff --git a/linux-user/host/mips/host-signal.h b/linux-user/host/mips/host=
--signal.h<br>
-index ef341f7c20..c666ed8c3f 100644<br>
---- a/linux-user/host/mips/host-signal.h<br>
-+++ b/linux-user/host/mips/host-signal.h<br>
-@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.pc;<br>
-=C2=A0}<br>
-<br>
-+static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
-+{<br>
-+=C2=A0 =C2=A0 uc-&gt;uc_mcontext.pc =3D pc;<br>
-+}<br>
-+<br>
-=C2=A0#if defined(__misp16) || defined(__mips_micromips)<br>
-=C2=A0#error &quot;Unsupported encoding&quot;<br>
-=C2=A0#endif<br>
-diff --git a/linux-user/host/ppc/host-signal.h b/linux-user/host/ppc/host-s=
-ignal.h<br>
-index a491c413dc..1d8e658ff7 100644<br>
---- a/linux-user/host/ppc/host-signal.h<br>
-+++ b/linux-user/host/ppc/host-signal.h<br>
-@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.regs-&gt;nip;<br>
-=C2=A0}<br>
-<br>
-+static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
-+{<br>
-+=C2=A0 =C2=A0 uc-&gt;uc_mcontext.regs-&gt;nip =3D pc;<br>
-+}<br>
-+<br>
-=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
-<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.regs-&gt;trap !=3D 0x400<br>
-diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/host/riscv/ho=
-st-signal.h<br>
-index 3b168cb58b..a4f170efb0 100644<br>
---- a/linux-user/host/riscv/host-signal.h<br>
-+++ b/linux-user/host/riscv/host-signal.h<br>
-@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.__gregs[REG_PC];<br>
-=C2=A0}<br>
-<br>
-+static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
-+{<br>
-+=C2=A0 =C2=A0 uc-&gt;uc_mcontext.__gregs[REG_PC] =3D pc;<br>
-+}<br>
-+<br>
-=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
-<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0/*<br>
-diff --git a/linux-user/host/s390/host-signal.h b/linux-user/host/s390/host=
--signal.h<br>
-index 26990e4893..a524f2ab00 100644<br>
---- a/linux-user/host/s390/host-signal.h<br>
-+++ b/linux-user/host/s390/host-signal.h<br>
-@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.psw.addr;<br>
-=C2=A0}<br>
-<br>
-+static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
-+{<br>
-+=C2=A0 =C2=A0 uc-&gt;uc_mcontext.psw.addr =3D pc;<br>
-+}<br>
-+<br>
-=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
-<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0uint16_t *pinsn =3D (uint16_t *)host_signal_pc(uc);<br>
-diff --git a/linux-user/host/sparc/host-signal.h b/linux-user/host/sparc/ho=
-st-signal.h<br>
-index 5e71d33f8e..7342936071 100644<br>
---- a/linux-user/host/sparc/host-signal.h<br>
-+++ b/linux-user/host/sparc/host-signal.h<br>
-@@ -20,6 +20,15 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
-r>
-=C2=A0#endif<br>
-=C2=A0}<br>
-<br>
-+static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
-+{<br>
-+#ifdef __arch64__<br>
-+=C2=A0 =C2=A0 uc-&gt;uc_mcontext.mc_gregs[MC_PC] =3D pc;<br>
-+#else<br>
-+=C2=A0 =C2=A0 uc-&gt;uc_mcontext.gregs[REG_PC] =3D pc;<br>
-+#endif<br>
-+}<br>
-+<br>
-=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
-<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t insn =3D *(uint32_t *)host_signal_pc(uc);<br>
-diff --git a/linux-user/host/x86_64/host-signal.h b/linux-user/host/x86_64/=
-host-signal.h<br>
-index 883d2fcf65..c71d597eb2 100644<br>
---- a/linux-user/host/x86_64/host-signal.h<br>
-+++ b/linux-user/host/x86_64/host-signal.h<br>
-@@ -15,6 +15,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.gregs[REG_RIP];<br>
-=C2=A0}<br>
-<br>
-+static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<br>
-+{<br>
-+=C2=A0 =C2=A0 uc-&gt;uc_mcontext.gregs[REG_RIP] =3D pc;<br>
-+}<br>
-+<br>
-=C2=A0static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)=
-<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0return uc-&gt;uc_mcontext.gregs[REG_TRAPNO] =3D=3D 0xe<=
-br>
--- <br>
-2.25.1<br>
-<br>
-</blockquote></div></div>
-
---000000000000ff0f1e05d161ebe4--
 
