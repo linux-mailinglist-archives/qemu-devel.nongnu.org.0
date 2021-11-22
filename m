@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B5D6458A89
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 09:27:06 +0100 (CET)
-Received: from localhost ([::1]:49056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 736CA458A92
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 09:32:20 +0100 (CET)
+Received: from localhost ([::1]:60988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp4fJ-00043I-3h
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 03:27:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40724)
+	id 1mp4kM-0003oF-R3
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 03:32:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mp4bf-0001X0-7o
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 03:23:22 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:47439)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mp4bp-0001bt-3b
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 03:23:37 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:60065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mp4bd-00035B-9b
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 03:23:19 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mp4bj-000387-EN
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 03:23:28 -0500
 Received: from quad ([82.142.2.234]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MsI8Y-1mUnfO2ePi-00tgid; Mon, 22
- Nov 2021 09:23:12 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MfYgC-1m9PC50Osa-00g1kL; Mon, 22
+ Nov 2021 09:23:13 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] linux-user: Always use flexible arrays for dirent d_name
-Date: Mon, 22 Nov 2021 09:23:07 +0100
-Message-Id: <20211122082310.377809-3-laurent@vivier.eu>
+Subject: [PULL 3/5] linux-user: Fix member types of target_dirent64
+Date: Mon, 22 Nov 2021 09:23:08 +0100
+Message-Id: <20211122082310.377809-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211122082310.377809-1-laurent@vivier.eu>
 References: <20211122082310.377809-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5LpdvuPJWcOtcrY42LZkbzOsBSbBZDVTzI/2rMSSjBy4r8Lv3gW
- 4rZ3A8RzjGrDX1JB4WtNDu/IFUPjIwhbRucW8aprT0U6rkfxzIsSX3iIspv2qNc/lupGmb9
- ZSwtM94pCYcQ/eZxr6mcvpdmE2L8NXUnrvFKpaa0jFsZIZZ9FS0ENzCzvakdBMqimW4Y1+P
- w6vKyZBeKDvRueeLa/kUw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:CP6ehPMzv1Q=:KcBQW7QM3/9e3+7nK50l8e
- pPan1fnD9/+3WqS4AoNixmwZ946C/BZcLNyoVHaHu9IHIeuATOpN0fxg4c9nMway7sufq6Jp8
- rmr0vIlFltY0EG/U7X2fa/XhUCJf1OskvekArFLrY1J9MNQnsH8h9kmELy8OU7iEsrOTPI589
- 6dUoc555pjMVSG/T7TwxnEU/8vQEvrY9D3XEYg3ivRiV51bqNR0CzXUlf9aRX2XsuyJ4DrXtO
- rgHq3DEkHq64DVXEygFtB4RhK1U2wANG2kIylB9VuxnTh8ymKsbfot9YDY2U9i+k+LuiDxZ+5
- JmTYjo+IRiGTTwbRUzim5kh4ZUbiKD9eptLhZl1lPnBENzKK84+Uso0Xejq9coaPV1Tq1bsM0
- l40c/r+55ESY/vUJrPVcxcWDUdfruIrlAKq8UvHkusqsrYPKHmQ0W/A6TDjZcW4RoTJG5+o0j
- ZmLfNYkt1g0KY5u/GF2jTDLs0WE+qd5h+QLAd8SsGVftjyIXPsW9t5nDSi8NObRQCbRgXYgMm
- 3p2goHYWrmFQ2AjdAJ/nvdW+Rpj2hZKVX0bndWkZ740Scgf1F/4nWIf4CiEkUjN2/E+lQsA7l
- a7TKDXLkFKW60V5eEIoiaYSy0WT22YWFFFqMK6wmiBPICrsFjUvhfAL+huOhsZOPAUiIddmsN
- 6Xww1PlqlPfg5XxWq6cjJObeL4iYQP19TY2WjzZwLCyJ6Im4Huag676qojpq2CxICjpA=
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:V8SCLv3shdtwPoBM8doLJzITV7wB1dalB7sfrFHL9Jsu4zwveix
+ Jp9UCYTiEpwPBuBjMq1rpzuWrwufzJ7Ly/6Bx0tL9rOuiOYu1Wr8JDasHTmoaJFiuNGeCDy
+ xW08tV0jrWFM01UZOKYw86kthvFtZo/bR6jQdm6k3GbwCJ2nXLY2Ahv9DYSCuWyjg/zI7SL
+ UXkXATo2Vzj/KP/v/4HeA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LznGhAElsyA=:U5n/s0gz/e19U6uwyWL+pG
+ quXHKIKe7Hj/3MjxSb5o32UNEeafUUZC896YkuGj2pQbaOAaHltM+KVTZvflQuxC1UWhNALGz
+ gAjK8cMIUTtmBPj6sPqGyuUONwBnuewv4jzZ59DjHy8LB5Sidw03fyKyoWWANcNw+dBdCmiM8
+ SIHKzE3wcv6KVcwJ+dyyUU4ShltGRh8UOFiOyY8vH+lgErXHQYTQnoBeMADAbnR8r7KnNs9c/
+ DV1g62FRn7i8u485MEZ1K6IZSsr4INi66a+LGVaOqVfsCt2oNZJG1l3sPjNK1yezo+KMgG1HS
+ qRXLjD6QxHONPZPbwzTDHtZb2OnuBkjcAWG7GcyKlym1UvI/wjJrUCgdLl5dYPl7Vzg7Nvg9v
+ 3eomqd2gNuF+aB2YFjHwsXMESVkaoPaJ+scAqbm1v02ztkTdbY+4XgoHMT4jImDH8wEUeh57H
+ diThL+Owi29NXodK0ZM63gkU5TXEO4DxygfV9MpKjIr9UkWP3ds0uXEph0AXNjrIsZfryA20U
+ TpNY1BuwDYnCdGRqFlqyZ1ie7T/Zz7qUEe+vfaDQlbF3f+CAgoANNgmg4dlgfboCNqa/mUiOb
+ DVIXFWroTmjUSFnQ24vUYNEVOtUy+mQwqt1WHj03VC3xzHe6N16Zzh1ilNxIWL01EvDF3m/hm
+ qB7kCKQGyR1LLGTrq4Nia6l7Cr4TXORXdccoP0sUXKOz5z2P5ObdKooQ4lh6aeBBtZiY=
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,70 +74,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We currently use a flexible array member for target_dirent,
-but use incorrectly fixed length arrays for target_dirent64,
-linux_dirent and linux_dirent64.
-
-This requires that we adjust the definition of the VFAT READDIR
-ioctls which hard-code the 256 namelen size into the ioctl constant.
+The host uint64_t (etc) does not have the correct
+alignment constraint as the guest: use abi_* types.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211114103539.298686-3-richard.henderson@linaro.org>
+Message-Id: <20211114103539.298686-4-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c      | 6 ++++--
  linux-user/syscall_defs.h | 6 +++---
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index a2f605dec4ca..499415ad81b8 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -197,8 +197,10 @@
- //#define DEBUG_ERESTARTSYS
- 
- //#include <linux/msdos_fs.h>
--#define	VFAT_IOCTL_READDIR_BOTH		_IOR('r', 1, struct linux_dirent [2])
--#define	VFAT_IOCTL_READDIR_SHORT	_IOR('r', 2, struct linux_dirent [2])
-+#define VFAT_IOCTL_READDIR_BOTH \
-+    _IOC(_IOC_READ, 'r', 1, (sizeof(struct linux_dirent) + 256) * 2)
-+#define VFAT_IOCTL_READDIR_SHORT \
-+    _IOC(_IOC_READ, 'r', 2, (sizeof(struct linux_dirent) + 256) * 2)
- 
- #undef _syscall0
- #undef _syscall1
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index a5ce487dcc38..98b09ee6d656 100644
+index 98b09ee6d656..41aaafbac12c 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -441,7 +441,7 @@ struct target_dirent64 {
- 	int64_t		d_off;
- 	unsigned short	d_reclen;
+@@ -437,9 +437,9 @@ struct target_dirent {
+ };
+ 
+ struct target_dirent64 {
+-	uint64_t	d_ino;
+-	int64_t		d_off;
+-	unsigned short	d_reclen;
++	abi_ullong      d_ino;
++	abi_llong       d_off;
++	abi_ushort      d_reclen;
  	unsigned char	d_type;
--	char		d_name[256];
-+	char		d_name[];
+ 	char		d_name[];
  };
- 
- 
-@@ -2714,7 +2714,7 @@ struct linux_dirent {
-     long            d_ino;
-     unsigned long   d_off;
-     unsigned short  d_reclen;
--    char            d_name[256]; /* We must not include limits.h! */
-+    char            d_name[];
- };
- 
- struct linux_dirent64 {
-@@ -2722,7 +2722,7 @@ struct linux_dirent64 {
-     int64_t         d_off;
-     unsigned short  d_reclen;
-     unsigned char   d_type;
--    char            d_name[256];
-+    char            d_name[];
- };
- 
- struct target_mq_attr {
 -- 
 2.31.1
 
