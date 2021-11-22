@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E24458E0B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 13:12:31 +0100 (CET)
-Received: from localhost ([::1]:41812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFDD1458E17
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 13:18:28 +0100 (CET)
+Received: from localhost ([::1]:47942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp8BR-0003ay-9I
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 07:12:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43750)
+	id 1mp8HC-0007wr-Aj
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 07:18:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mp89E-0002XZ-L3
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:10:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32265)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mp8Er-0006pB-RJ
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:16:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mp89B-0004HD-W1
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:10:11 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mp8Ep-00056Y-5W
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:16:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637583009;
+ s=mimecast20190719; t=1637583357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rKv8jIyKXoc1j9Mhs+cajfyXl40q7rppWt1/IRAuwIQ=;
- b=iDhN2ilCxTdDO2986ZCAbTfNDMjOglth1dv4LN4KgQQBgFsQBjUalopwi6vghx2vMAKEIJ
- X0GZRGz/+nXaRoWGPp7qrI3Uq8usxyuK1xAMFRVq/hNXe7yUoXymbbkP7LSX2IEW2mQTPS
- /81h/nFl6PFFrdAisFluDBS28EGDH/A=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hdRofaOLUP0ztdALFcsjC3kqoUUAV2bdoU8YWngRX/w=;
+ b=WxNlDhtQTKweNfFrvSlGrOjOJ4xr/ubjW45Fvh0kG+R6xx80PonV8r0R95QaVSBnE83nZl
+ cctOMyN7RGEKsR1LTWcrWTdFyqwamjS8GxRqzDqTLvTB0EeGtQRBoBXJ43JWkXb72fF2jY
+ 2CdNhOOZDDzvzc6GgXVfbC1Vz3FDRkU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-355-1KWSuE5UOKGH29GpZ-mWhA-1; Mon, 22 Nov 2021 07:10:08 -0500
-X-MC-Unique: 1KWSuE5UOKGH29GpZ-mWhA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- d3-20020adfa343000000b0018ed6dd4629so3064254wrb.2
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 04:10:07 -0800 (PST)
+ us-mta-289-gK2v82RDPaKCLNA4repSoA-1; Mon, 22 Nov 2021 07:15:56 -0500
+X-MC-Unique: gK2v82RDPaKCLNA4repSoA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v62-20020a1cac41000000b0033719a1a714so6709856wme.6
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 04:15:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rKv8jIyKXoc1j9Mhs+cajfyXl40q7rppWt1/IRAuwIQ=;
- b=ZRuksLPY71M2PhOk1uHROqNpgjq0MY9l3F1IJ0tBGhXtYEx4ej6EdkLaMc9L8z+nQy
- oFMWJb1i6P7BZI41wDP2vuU0AxuU+zPiGKjtaoWhTZ+X+AfXiPRQo9qDkaTD/jlXPYW5
- TWw7BCT1KQJK38++dDWdPQfaDtq6IRDVZKs5Lasokg/buYQ5tOxgON69Vf+jgUGsZ6RW
- YuCjV+OaH2v3CCIJnVaH4KxYJm3ovljTzLk2dSncc4pZ0P60Or9A9ooqhSX4xsgzAmWb
- UniJf0H5zlkr3pXxcXxb8dh0EWz2KldLmVghZz7MyAfAiMocnSiTyIV6ux48c3t5xsol
- 4e/g==
-X-Gm-Message-State: AOAM533Ruq67x+L2G7nhqpCyZqc+tBVZuqNO3PtMroXdjCTZZcpHvB5x
- EUAN92R+TtYOYIatesKv7YeXwLJYyFlHZXaSae7C3NBDRiioVg7xntrQG9LChKHhA0XlsAjuVpR
- aWtCUtlJxrCAcEhM=
-X-Received: by 2002:a7b:ce16:: with SMTP id m22mr24660344wmc.137.1637583006777; 
- Mon, 22 Nov 2021 04:10:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyW6t+ZRaktQ+ir7CXeH06astJgy0JNbtzauW2kDbzSf5XM6emtv1YiTHJRWeECA/OBX4VFpQ==
-X-Received: by 2002:a7b:ce16:: with SMTP id m22mr24660306wmc.137.1637583006589; 
- Mon, 22 Nov 2021 04:10:06 -0800 (PST)
+ bh=hdRofaOLUP0ztdALFcsjC3kqoUUAV2bdoU8YWngRX/w=;
+ b=EvN0+1Rfs+5XvkZ+UmRGYhccra9vKMIcRSOyK/FjwXAWNNO7XYD+8rPMLtOptf/Tqi
+ xqRB4OWQBZvpAOrutinYb85flY0A9IVaRl63Wj+1Ce1k0iW1LXrYxbR2gx5htuvIYQbQ
+ m+DEsBgWoKYJFtHn1HdnSXbCbXIv5UZ2IaDea8JIl6Af1XXJO6+v9rrksXH/sVUz43qJ
+ xSM8W2dEVXewVTpGp5B3ADRLR41q/xpLPyUSIIGzWEIPI94VgifgQVZxnmQGDgc28guA
+ bgRMW/TVdGrI9hvIxYLtdh1Ozaa6vI+n5AGq12JI0rJhE0LVTEZGjNJHLLfwe2G7Y6os
+ xMhQ==
+X-Gm-Message-State: AOAM532xGxTSi4UM/Btd4SIs3i4YWWzmL4QcnRCm5thSmIyGHPdwd92r
+ lRIxQBn8UG8xhJxE2b3MJ7BzGFBmmV+bd05GN1Wm/Tva11CzfYITvIjjjSzQvrq3XhZceVo0Yq7
+ AEXbUkBmXQWMTx6g=
+X-Received: by 2002:a05:600c:6d2:: with SMTP id
+ b18mr29649406wmn.98.1637583355532; 
+ Mon, 22 Nov 2021 04:15:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz6MehIuPFtqm3fOPXrBaw3hOkBYCwKiXN3KMaB4hrWFt0M2y5wo0ZXKoNlfYO3JTFKXqCXVQ==
+X-Received: by 2002:a05:600c:6d2:: with SMTP id
+ b18mr29649373wmn.98.1637583355288; 
+ Mon, 22 Nov 2021 04:15:55 -0800 (PST)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id 138sm16464530wma.17.2021.11.22.04.10.05
+ by smtp.gmail.com with ESMTPSA id x21sm20168227wmc.14.2021.11.22.04.15.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 04:10:06 -0800 (PST)
-Message-ID: <17a034f7-de27-08a9-65b4-f0c1a551c0f3@redhat.com>
-Date: Mon, 22 Nov 2021 13:10:05 +0100
+ Mon, 22 Nov 2021 04:15:54 -0800 (PST)
+Message-ID: <f701c999-0a08-75d0-e715-c7cc6aeb494e@redhat.com>
+Date: Mon, 22 Nov 2021 13:15:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH-for-6.2?] ui/gtk: graphic_hw_gl_flushed after closing
- dmabuf->fence_fd
-To: Dongwon Kim <dongwon.kim@intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20211121172237.14937-1-dongwon.kim@intel.com>
+Subject: Re: [PATCH 2/2] ui: fix incorrect pointer position on highdpi with gtk
+To: Alexander Orzechowski <orzechowski.alexander@gmail.com>,
+ qemu-devel@nongnu.org
+References: <20211121065504.29101-1-orzechowski.alexander@gmail.com>
+ <20211121065504.29101-3-orzechowski.alexander@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211121172237.14937-1-dongwon.kim@intel.com>
+In-Reply-To: <20211121065504.29101-3-orzechowski.alexander@gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -102,48 +103,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/21/21 18:22, Dongwon Kim wrote:
-> The dmabuf often becomes invalid right after unblocking pipeline
-> and graphic_hw_gl_flushed in case a new scanout blob is submitted
-> because the dmabuf associated with the current guest scanout is
-> freed after swapping.
-> 
-> So both graphic_hw_gl_block and graphic_hw_gl_flushed should be
-> executed after closing fence_fd for the current dmabuf.
-> 
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-
-If so:
-Fixes: 65b847d284c ("ui: Create sync objects and fences only for blobs")
-
-> Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+On 11/21/21 07:55, Alexander Orzechowski wrote:
+> Signed-off-by: Alexander Orzechowski <orzechowski.alexander@gmail.com>
 > ---
->  ui/gtk.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  ui/gtk.c | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
 > 
 > diff --git a/ui/gtk.c b/ui/gtk.c
-> index 7abe1a69d8..2a3a9db13f 100644
+> index d2892ea6b4..b2670142b5 100644
 > --- a/ui/gtk.c
 > +++ b/ui/gtk.c
-> @@ -589,11 +589,11 @@ void gd_hw_gl_flushed(void *vcon)
->      VirtualConsole *vc = vcon;
->      QemuDmaBuf *dmabuf = vc->gfx.guest_fb.dmabuf;
+> @@ -838,10 +838,11 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
+>  {
+>      VirtualConsole *vc = opaque;
+>      GtkDisplayState *s = vc->s;
+> +    GdkWindow *window;
+>      int x, y;
+>      int mx, my;
+>      int fbh, fbw;
+> -    int ww, wh;
+> +    int ww, wh, ws;
 >  
-> -    graphic_hw_gl_block(vc->gfx.dcl.con, false);
-> -    graphic_hw_gl_flushed(vc->gfx.dcl.con);
->      qemu_set_fd_handler(dmabuf->fence_fd, NULL, NULL, NULL);
->      close(dmabuf->fence_fd);
->      dmabuf->fence_fd = -1;
-> +    graphic_hw_gl_block(vc->gfx.dcl.con, false);
-> +    graphic_hw_gl_flushed(vc->gfx.dcl.con);
->  }
+>      if (!vc->gfx.ds) {
+>          return TRUE;
+> @@ -850,8 +851,10 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
+>      fbw = surface_width(vc->gfx.ds) * vc->gfx.scale_x;
+>      fbh = surface_height(vc->gfx.ds) * vc->gfx.scale_y;
 >  
->  /** DisplayState Callbacks (opengl version) **/
-> 
+> -    ww = gdk_window_get_width(gtk_widget_get_window(vc->gfx.drawing_area));
+> -    wh = gdk_window_get_height(gtk_widget_get_window(vc->gfx.drawing_area));
+> +    window = gtk_widget_get_window(vc->gfx.drawing_area);
+> +    ww = gdk_window_get_width(window);
+> +    wh = gdk_window_get_height(window);
+> +    ws = gdk_window_get_scale_factor (window);
+
+Please follow the coding style and remove the extra space.
+
+Otherwise LGTM.
 
 
