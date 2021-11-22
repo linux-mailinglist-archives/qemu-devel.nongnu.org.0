@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36822458BAB
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 10:35:32 +0100 (CET)
-Received: from localhost ([::1]:44712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A14458BBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 10:45:40 +0100 (CET)
+Received: from localhost ([::1]:47802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp5jX-0000js-BD
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 04:35:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36208)
+	id 1mp5tL-0003RZ-BU
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 04:45:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mp5h9-0007Se-Gw
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:33:04 -0500
-Received: from [2a00:1450:4864:20::436] (port=35412
- helo=mail-wr1-x436.google.com)
+ id 1mp5rd-0002b2-HU
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:43:53 -0500
+Received: from [2a00:1450:4864:20::330] (port=46639
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mp5h4-0006US-TP
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:33:03 -0500
-Received: by mail-wr1-x436.google.com with SMTP id i5so31513506wrb.2
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 01:32:58 -0800 (PST)
+ id 1mp5rb-0007t5-Px
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:43:52 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ b184-20020a1c1bc1000000b0033140bf8dd5so13008253wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 01:43:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MNBfWvR2Qf9eT4lPmQLVA+mbqf+kyQVhnjL6gA8Xbvo=;
- b=gcafVq+9jRQNThcqs2UiYEVWmsuEnrqXt1wd5Oai1DoXmdbkunIBfl2u1N3HAKDvi8
- qDwTzXiM1vb4XnOioAhXFjE15M1N1l2uMr7yNrrVNNRW9tdxa6GCcV9K6nIzAcphBUgB
- 1iMY1i0YsZb6oXtDVizxLtSndY1Hs/Q9Na0bJrofx0xj4yNSy4o4mWs09agSdisrFVMp
- nuKAFsbVEQ9WXV/SBikfbOSLnyByAD5fgBfaumdZP0EkGRfd/MDldbt/gZKwi8EwfLe7
- +wCyYr9e4UyUR8zNxUWKRsCRKVwO1Zd1qRcKAiVYHd58fndO3ub/9AK6tvqwIhUrSGT9
- T/jQ==
+ bh=BCAz8rMFGmSy4j0/Vt1IMc0fHBSXO9yNkRpaAc0MvFs=;
+ b=hd+rOlY7asFPI1+jWwYem1T9si1+m/TQZ1Ci8n9avlcxfR6Pt0VR3lSPpFczSzwWKc
+ iCdAqW3yndtI0jRgT9yMolIy3YgtiTov5pCyTevfZv28KeFTxkq5iBqAXoZegcBd1IGh
+ mO9RjRUVv2OAPNs4mkjjNbmaGmM7FyizC7npuxiOUo2UW/QL2gFoYiTYD60oLEqAW5Co
+ cnzUUTIEAOJ8u3d5l/AAoiYSZmN0k4/tjPg8AmyOenNWBxy0+2VjV5bop1Jb7xlXDj8d
+ AYzdy1J38ngp4HU4k9EUBjhlkJ14+NIKy9LWRmrMBGelV9NsCAhh2yURxh1V82IPNyfk
+ +xig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MNBfWvR2Qf9eT4lPmQLVA+mbqf+kyQVhnjL6gA8Xbvo=;
- b=xllbt7OK40aJQuWLS3E1xJVyDW4qOxIkO5ybR7cWhVITbn6xv6VOhEDB0vyQ9PBgBg
- ESKL1gkYP2c9nKm+FKq+1KxiA+F/oInNOei3xe13uyHlbFLBv896Y4kz3h1k7qWBVSfa
- axcFVjTwdng8zFbgEF9Sgj6DRn0fGeu3OUKRdNVqtXkvKnOaieOewgBdHraCQKRRCmVc
- sYfU6RDbuj+nCrBdWQF1/5WkA6YZ2ZrPbxPw6XQSCtghGhRs+OGjGkoDXM8Nv939Xchy
- B+jTK0macgjZv4DlZlGTdIva5TNdCgWFTSvzvnp0P18JQ1aC1tu8CYREsr6fAmaydZoL
- q10Q==
-X-Gm-Message-State: AOAM531+mNa34ft3CEQmjNjf0rjw2CjORe8T08pVHZFrlFb51v3yOt0T
- Vbz1dxZcFqYKRaYZ6W/dWeGc1Q==
-X-Google-Smtp-Source: ABdhPJxcEXDPgWRd1mRFrntq08t9aJ04wlmmw2+NBIwHaGafvgfO7C0j35y1LC+v+d0E+c7V/NI99g==
-X-Received: by 2002:a5d:4575:: with SMTP id a21mr35045849wrc.193.1637573577066; 
- Mon, 22 Nov 2021 01:32:57 -0800 (PST)
+ bh=BCAz8rMFGmSy4j0/Vt1IMc0fHBSXO9yNkRpaAc0MvFs=;
+ b=zzFxfauyFSF5FnBM2KqjUtTw63g5P1wDG5Js/WcxLgOwtj5jdV5YiVzrgQ6jcUiZyu
+ QRzwpRXinMXVB9SP39ooD2I1dc5Qw9j/9jFG9in00YJBmRiPmX7WrbRnCUazXDIj/NT1
+ QhoE+qnwyeaHFvV1dDnjqefv+eTJukmT8ZmWS1QozmuB3cPx9wSR3FJfR3VmtC+psc59
+ xKhzAEzLtghKLuT2PvydHQ7TPkz1/xKL+CKahyRpIS1l+rpzGuMT11Cf3OAN6placbzt
+ Lczs+/HzXu59nElG2QXkor94HprWsyQeJJTOYSl5fPTBN+e/J94tYgaPNwnIgNBEpDzb
+ ORSQ==
+X-Gm-Message-State: AOAM53351IVroO7Pzgps6Rv9v3ULJ5XM8b+VARPRz+c8PZ9/OK200yIX
+ 9abWwxlMYYK2Q4oL8tdbpvqbRw==
+X-Google-Smtp-Source: ABdhPJyFwZxqjdsd48S22rWen4pvc7aMEcJFDrhSUpYGb14MvUu9dI0dvWsV9OMlx3C12pVUFeeVbQ==
+X-Received: by 2002:a1c:a711:: with SMTP id q17mr27791652wme.158.1637574230303; 
+ Mon, 22 Nov 2021 01:43:50 -0800 (PST)
 Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
  [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id g198sm8596761wme.23.2021.11.22.01.32.55
+ by smtp.gmail.com with ESMTPSA id o12sm11372571wrc.85.2021.11.22.01.43.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 01:32:56 -0800 (PST)
-Subject: Re: [PULL 0/2] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@opensource.wdc.com>,
- qemu-devel@nongnu.org
-References: <20211122065206.83544-1-alistair.francis@opensource.wdc.com>
+ Mon, 22 Nov 2021 01:43:49 -0800 (PST)
+Subject: Re: [PATCH 35/35] test/tcg/ppc64le: Add float reference files
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+References: <20211119160502.17432-1-richard.henderson@linaro.org>
+ <20211119160502.17432-36-richard.henderson@linaro.org>
+ <41eda524-8e61-88e6-71ff-757fae97bc9b@kaod.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8bc9cc8c-cf47-ca35-2ea8-e6c6dbd07192@linaro.org>
-Date: Mon, 22 Nov 2021 10:32:53 +0100
+Message-ID: <0e4d4227-4a67-7a6e-4f45-6416faebbc93@linaro.org>
+Date: Mon, 22 Nov 2021 10:43:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211122065206.83544-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <41eda524-8e61-88e6-71ff-757fae97bc9b@kaod.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -91,44 +93,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/22/21 7:52 AM, Alistair Francis wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> The following changes since commit c5fbdd60cf1fb52f01bdfe342b6fa65d5343e1b1:
-> 
->    Merge tag 'qemu-sparc-20211121' of git://github.com/mcayland/qemu into staging (2021-11-21 14:12:25 +0100)
-> 
-> are available in the Git repository at:
-> 
->    git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20211122
-> 
-> for you to fetch changes up to 526e7443027c71fe7b04c29df529e1f9f425f9e3:
-> 
->    hw/misc/sifive_u_otp: Do not reset OTP content on hardware reset (2021-11-22 10:46:22 +1000)
-> 
-> ----------------------------------------------------------------
-> Seventh RISC-V PR for QEMU 6.2
-> 
->   - Deprecate IF_NONE for SiFive OTP
->   - Don't reset SiFive OTP content
-> 
-> ----------------------------------------------------------------
-> Philippe Mathieu-Daudé (1):
->        hw/misc/sifive_u_otp: Do not reset OTP content on hardware reset
-> 
-> Thomas Huth (1):
->        hw/misc/sifive_u_otp: Use IF_PFLASH for the OTP device instead of IF_NONE
-> 
->   docs/about/deprecated.rst |  6 ++++++
->   hw/misc/sifive_u_otp.c    | 22 +++++++++++++---------
->   2 files changed, 19 insertions(+), 9 deletions(-)
+On 11/21/21 6:47 PM, Cédric Le Goater wrote:
+> I am getting an error with this test. See below.
+...
+>   ### Rounding to nearest
+>   from single: f32(-nan:0xffa00000)
+> -  to double: f64(-nan:0x00fff4000000000000) (INVALID)
+> +  to double: f64(-nan:0x00fff4000000000000) (OK)
 
-Applied, thanks.
+Well that's disconcerting.
+
+I can replicate this failure on an x86_64 host, but do not see the same error on a power9 
+ppc64le host.
+
 
 r~
-
 
