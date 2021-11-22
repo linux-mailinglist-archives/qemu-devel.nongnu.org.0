@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D2645908C
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 15:49:01 +0100 (CET)
-Received: from localhost ([::1]:39248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F91459080
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 15:46:30 +0100 (CET)
+Received: from localhost ([::1]:59492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpAcu-0007r0-Gg
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 09:49:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58694)
+	id 1mpAaT-0002Qf-T6
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 09:46:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpAXy-000832-BR
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpAXy-00081T-42
  for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:43:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20924)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpAXu-0004KH-7P
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:43:54 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpAXw-0004KO-5h
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:43:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637592225;
+ s=mimecast20190719; t=1637592227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xlDuw6JepQCnCpYigO7jx1fwgi1pLU0iPUo6TOJ8NwI=;
- b=KnxcJXkiqbzlkZgMpYGK72+mX3I4HsUlLpJLAt35hQueZTvXx+EVfcvwaXqzrMpuEs8aYp
- LwKF9xoQox7E/+jILfZ1GFtqBUXIOYp2JL0g1zF+hu2KELipILk1JzX6rGzN3Fed5O+oSc
- O+dU2YqeFCKz2k8jTuZy8btbT/JjieE=
+ bh=oZVB/+Y9/2QxjNIl+X1VYgFbeci9ymh4BHacyneS4kc=;
+ b=L4Pgr6G9QTG8dZ3gk6GYA501DQ5zvnQ/lfyphS50LSQbjHt04Ke1FlyojPM/iXA8HqGFwY
+ l0WY2untk5sIdcUG1ixBMHxwuwBSo8gZ4RqQgYulKspgn0lF3zADtjqpYoK/mIKeNU3ws1
+ 7eiDnH+rOo5ewhJRQ6m3FjfACxrAfX0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-328-NFLs9pVtPSm1W_d7VJ9V1w-1; Mon, 22 Nov 2021 09:43:43 -0500
-X-MC-Unique: NFLs9pVtPSm1W_d7VJ9V1w-1
+ us-mta-352-4XW6qVarO1Glmr_d1inodw-1; Mon, 22 Nov 2021 09:43:45 -0500
+X-MC-Unique: 4XW6qVarO1Glmr_d1inodw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A351804157;
- Mon, 22 Nov 2021 14:43:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98B95100CCC1;
+ Mon, 22 Nov 2021 14:43:44 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 120CC607D5;
- Mon, 22 Nov 2021 14:43:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2779E5E274;
+ Mon, 22 Nov 2021 14:43:42 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 3/6] Fix some typos in documentation (found by codespell)
-Date: Mon, 22 Nov 2021 15:43:17 +0100
-Message-Id: <20211122144320.29178-4-thuth@redhat.com>
+Subject: [PULL 4/6] docs: Drop deprecated 'props' from object-add
+Date: Mon, 22 Nov 2021 15:43:18 +0100
+Message-Id: <20211122144320.29178-5-thuth@redhat.com>
 In-Reply-To: <20211122144320.29178-1-thuth@redhat.com>
 References: <20211122144320.29178-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -55,8 +55,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -78,147 +78,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: "Rao, Lei" <lei.rao@intel.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Weil <sw@weilnetz.de>
+From: "Rao, Lei" <lei.rao@intel.com>
 
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
-Message-Id: <20211117210702.1393570-1-sw@weilnetz.de>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-[thuth: "what's" --> "what is" as suggested by philmd]
+In commit 5024340745 "qapi/qom: Drop deprecated 'props' from
+object-add" (v6.0.0), we also should update documents.
+
+Signed-off-by: Lei Rao <lei.rao@intel.com>
+Message-Id: <1637567387-28250-1-git-send-email-lei.rao@intel.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- docs/devel/multi-process.rst            | 2 +-
- docs/devel/qgraph.rst                   | 2 +-
- docs/devel/writing-monitor-commands.rst | 2 +-
- docs/hyperv.txt                         | 2 +-
- docs/system/cpu-models-x86.rst.inc      | 2 +-
- docs/system/devices/nvme.rst            | 2 +-
- docs/system/gdb.rst                     | 2 +-
- docs/system/ppc/ppce500.rst             | 2 +-
- docs/system/riscv/shakti-c.rst          | 2 +-
- 9 files changed, 9 insertions(+), 9 deletions(-)
+ docs/COLO-FT.txt        | 16 ++++++++--------
+ docs/system/authz.rst   | 26 ++++++++++----------------
+ docs/throttle.txt       |  8 +++-----
+ docs/tools/qemu-nbd.rst |  2 +-
+ 4 files changed, 22 insertions(+), 30 deletions(-)
 
-diff --git a/docs/devel/multi-process.rst b/docs/devel/multi-process.rst
-index e5758a79ab..5c857ff3b9 100644
---- a/docs/devel/multi-process.rst
-+++ b/docs/devel/multi-process.rst
-@@ -641,7 +641,7 @@ the CPU that issued the MMIO.
- +==========+========================+
- | rid      | range MMIO is within   |
- +----------+------------------------+
--| offset   | offset withing *rid*   |
-+| offset   | offset within *rid*    |
- +----------+------------------------+
- | type     | e.g., load or store    |
- +----------+------------------------+
-diff --git a/docs/devel/qgraph.rst b/docs/devel/qgraph.rst
-index db44d71002..43342d9d65 100644
---- a/docs/devel/qgraph.rst
-+++ b/docs/devel/qgraph.rst
-@@ -14,7 +14,7 @@ support that device.
- Using only libqos APIs, the test has to manually take care of
- covering all the setups, and build the correct command line.
+diff --git a/docs/COLO-FT.txt b/docs/COLO-FT.txt
+index 8d6d53a5a2..fd5ffcc6e5 100644
+--- a/docs/COLO-FT.txt
++++ b/docs/COLO-FT.txt
+@@ -289,11 +289,11 @@ Wait until disk is synced, then:
+ {'execute': 'human-monitor-command', 'arguments':{ 'command-line': 'drive_add -n buddy driver=replication,mode=primary,file.driver=nbd,file.host=127.0.0.2,file.port=9999,file.export=parent0,node-name=replication0'}}
+ {'execute': 'x-blockdev-change', 'arguments':{ 'parent': 'colo-disk0', 'node': 'replication0' } }
  
--This also introduces backward compability issues: if a device/driver command
-+This also introduces backward compatibility issues: if a device/driver command
- line name is changed, all tests that use that will not work
- properly anymore and need to be adjusted.
+-{'execute': 'object-add', 'arguments':{ 'qom-type': 'filter-mirror', 'id': 'm0', 'props': { 'netdev': 'hn0', 'queue': 'tx', 'outdev': 'mirror0' } } }
+-{'execute': 'object-add', 'arguments':{ 'qom-type': 'filter-redirector', 'id': 'redire0', 'props': { 'netdev': 'hn0', 'queue': 'rx', 'indev': 'compare_out' } } }
+-{'execute': 'object-add', 'arguments':{ 'qom-type': 'filter-redirector', 'id': 'redire1', 'props': { 'netdev': 'hn0', 'queue': 'rx', 'outdev': 'compare0' } } }
++{'execute': 'object-add', 'arguments':{ 'qom-type': 'filter-mirror', 'id': 'm0', 'netdev': 'hn0', 'queue': 'tx', 'outdev': 'mirror0' } }
++{'execute': 'object-add', 'arguments':{ 'qom-type': 'filter-redirector', 'id': 'redire0', 'netdev': 'hn0', 'queue': 'rx', 'indev': 'compare_out' } }
++{'execute': 'object-add', 'arguments':{ 'qom-type': 'filter-redirector', 'id': 'redire1', 'netdev': 'hn0', 'queue': 'rx', 'outdev': 'compare0' } }
+ {'execute': 'object-add', 'arguments':{ 'qom-type': 'iothread', 'id': 'iothread1' } }
+-{'execute': 'object-add', 'arguments':{ 'qom-type': 'colo-compare', 'id': 'comp0', 'props': { 'primary_in': 'compare0-0', 'secondary_in': 'compare1', 'outdev': 'compare_out0', 'iothread': 'iothread1' } } }
++{'execute': 'object-add', 'arguments':{ 'qom-type': 'colo-compare', 'id': 'comp0', 'primary_in': 'compare0-0', 'secondary_in': 'compare1', 'outdev': 'compare_out0', 'iothread': 'iothread1' } }
  
-diff --git a/docs/devel/writing-monitor-commands.rst b/docs/devel/writing-monitor-commands.rst
-index b3e2c8481d..1693822f8f 100644
---- a/docs/devel/writing-monitor-commands.rst
-+++ b/docs/devel/writing-monitor-commands.rst
-@@ -677,7 +677,7 @@ return a single text string::
+ {'execute': 'migrate-set-capabilities', 'arguments':{ 'capabilities': [ {'capability': 'x-colo', 'state': true } ] } }
+ {'execute': 'migrate', 'arguments':{ 'uri': 'tcp:127.0.0.2:9998' } }
+@@ -318,11 +318,11 @@ Wait until disk is synced, then:
+ {'execute': 'human-monitor-command', 'arguments':{ 'command-line': 'drive_add -n buddy driver=replication,mode=primary,file.driver=nbd,file.host=127.0.0.1,file.port=9999,file.export=parent0,node-name=replication0'}}
+ {'execute': 'x-blockdev-change', 'arguments':{ 'parent': 'colo-disk0', 'node': 'replication0' } }
  
- The ``HumanReadableText`` struct is intended to be used for all
- commands, under the ``x-`` name prefix that are returning unstructured
--text targetted at humans. It should never be used for commands outside
-+text targeted at humans. It should never be used for commands outside
- the ``x-`` name prefix, as those should be using structured QAPI types.
+-{'execute': 'object-add', 'arguments':{ 'qom-type': 'filter-mirror', 'id': 'm0', 'props': { 'insert': 'before', 'position': 'id=rew0', 'netdev': 'hn0', 'queue': 'tx', 'outdev': 'mirror0' } } }
+-{'execute': 'object-add', 'arguments':{ 'qom-type': 'filter-redirector', 'id': 'redire0', 'props': { 'insert': 'before', 'position': 'id=rew0', 'netdev': 'hn0', 'queue': 'rx', 'indev': 'compare_out' } } }
+-{'execute': 'object-add', 'arguments':{ 'qom-type': 'filter-redirector', 'id': 'redire1', 'props': { 'insert': 'before', 'position': 'id=rew0', 'netdev': 'hn0', 'queue': 'rx', 'outdev': 'compare0' } } }
++{'execute': 'object-add', 'arguments':{ 'qom-type': 'filter-mirror', 'id': 'm0', 'insert': 'before', 'position': 'id=rew0', 'netdev': 'hn0', 'queue': 'tx', 'outdev': 'mirror0' } }
++{'execute': 'object-add', 'arguments':{ 'qom-type': 'filter-redirector', 'id': 'redire0', 'insert': 'before', 'position': 'id=rew0', 'netdev': 'hn0', 'queue': 'rx', 'indev': 'compare_out' } }
++{'execute': 'object-add', 'arguments':{ 'qom-type': 'filter-redirector', 'id': 'redire1', 'insert': 'before', 'position': 'id=rew0', 'netdev': 'hn0', 'queue': 'rx', 'outdev': 'compare0' } }
+ {'execute': 'object-add', 'arguments':{ 'qom-type': 'iothread', 'id': 'iothread1' } }
+-{'execute': 'object-add', 'arguments':{ 'qom-type': 'colo-compare', 'id': 'comp0', 'props': { 'primary_in': 'compare0-0', 'secondary_in': 'compare1', 'outdev': 'compare_out0', 'iothread': 'iothread1' } } }
++{'execute': 'object-add', 'arguments':{ 'qom-type': 'colo-compare', 'id': 'comp0', 'primary_in': 'compare0-0', 'secondary_in': 'compare1', 'outdev': 'compare_out0', 'iothread': 'iothread1' } }
  
- Implementing the QMP command
-diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-index 5d99fd9a72..0417c183a3 100644
---- a/docs/hyperv.txt
-+++ b/docs/hyperv.txt
-@@ -195,7 +195,7 @@ The enlightenment allows to use Hyper-V SynIC with hardware APICv/AVIC enabled.
- Normally, Hyper-V SynIC disables these hardware feature and suggests the guest
- to use paravirtualized AutoEOI feature.
- Note: enabling this feature on old hardware (without APICv/AVIC support) may
--have negative effect on guest's performace.
-+have negative effect on guest's performance.
+ {'execute': 'migrate-set-capabilities', 'arguments':{ 'capabilities': [ {'capability': 'x-colo', 'state': true } ] } }
+ {'execute': 'migrate', 'arguments':{ 'uri': 'tcp:127.0.0.1:9998' } }
+diff --git a/docs/system/authz.rst b/docs/system/authz.rst
+index 942af39602..55b7315e49 100644
+--- a/docs/system/authz.rst
++++ b/docs/system/authz.rst
+@@ -77,9 +77,7 @@ To create an instance of this driver via QMP:
+      "arguments": {
+        "qom-type": "authz-simple",
+        "id": "authz0",
+-       "props": {
+-         "identity": "fred"
+-       }
++       "identity": "fred"
+      }
+    }
  
- 3.19. hv-no-nonarch-coresharing=on/off/auto
- ===========================================
-diff --git a/docs/system/cpu-models-x86.rst.inc b/docs/system/cpu-models-x86.rst.inc
-index 6e8be7d79b..7f6368f999 100644
---- a/docs/system/cpu-models-x86.rst.inc
-+++ b/docs/system/cpu-models-x86.rst.inc
-@@ -49,7 +49,7 @@ future OS and toolchains are likely to target newer ABIs. The
- table that follows illustrates which ABI compatibility levels
- can be satisfied by the QEMU CPU models. Note that the table only
- lists the long term stable CPU model versions (eg Haswell-v4).
--In addition to whats listed, there are also many CPU model
-+In addition to what is listed, there are also many CPU model
- aliases which resolve to a different CPU model version,
- depending on the machine type is in use.
+@@ -110,15 +108,13 @@ To create an instance of this class via QMP:
+      "arguments": {
+        "qom-type": "authz-list",
+        "id": "authz0",
+-       "props": {
+-         "rules": [
+-            { "match": "fred", "policy": "allow", "format": "exact" },
+-            { "match": "bob", "policy": "allow", "format": "exact" },
+-            { "match": "danb", "policy": "deny", "format": "exact" },
+-            { "match": "dan*", "policy": "allow", "format": "glob" }
+-         ],
+-         "policy": "deny"
+-       }
++       "rules": [
++          { "match": "fred", "policy": "allow", "format": "exact" },
++          { "match": "bob", "policy": "allow", "format": "exact" },
++          { "match": "danb", "policy": "deny", "format": "exact" },
++          { "match": "dan*", "policy": "allow", "format": "glob" }
++       ],
++       "policy": "deny"
+      }
+    }
  
-diff --git a/docs/system/devices/nvme.rst b/docs/system/devices/nvme.rst
-index a1c0db01f6..b5acb2a9c1 100644
---- a/docs/system/devices/nvme.rst
-+++ b/docs/system/devices/nvme.rst
-@@ -70,7 +70,7 @@ namespaces and additional features, the ``nvme-ns`` device must be used.
+@@ -143,10 +139,8 @@ To create an instance of this class via QMP:
+      "arguments": {
+        "qom-type": "authz-list-file",
+        "id": "authz0",
+-       "props": {
+-         "filename": "/etc/qemu/myvm-vnc.acl",
+-         "refresh": true
+-       }
++       "filename": "/etc/qemu/myvm-vnc.acl",
++       "refresh": true
+      }
+    }
  
- The namespaces defined by the ``nvme-ns`` device will attach to the most
- recently defined ``nvme-bus`` that is created by the ``nvme`` device. Namespace
--identifers are allocated automatically, starting from ``1``.
-+identifiers are allocated automatically, starting from ``1``.
+diff --git a/docs/throttle.txt b/docs/throttle.txt
+index b5b78b7326..0a0453a5ee 100644
+--- a/docs/throttle.txt
++++ b/docs/throttle.txt
+@@ -273,11 +273,9 @@ A group can be created using the object-add QMP function:
+      "arguments": {
+        "qom-type": "throttle-group",
+        "id": "group0",
+-       "props": {
+-         "limits" : {
+-           "iops-total": 1000
+-           "bps-write": 2097152
+-         }
++       "limits" : {
++         "iops-total": 1000,
++         "bps-write": 2097152
+        }
+      }
+    }
+diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
+index 56e54cd441..726cd18960 100644
+--- a/docs/tools/qemu-nbd.rst
++++ b/docs/tools/qemu-nbd.rst
+@@ -31,7 +31,7 @@ driver options if ``--image-opts`` is specified.
  
- There are a number of parameters available:
+ *dev* is an NBD device.
  
-diff --git a/docs/system/gdb.rst b/docs/system/gdb.rst
-index bdb42dae2f..453eb73f6c 100644
---- a/docs/system/gdb.rst
-+++ b/docs/system/gdb.rst
-@@ -56,7 +56,7 @@ machine has more than one CPU, QEMU exposes each CPU cluster as a
- separate "inferior", where each CPU within the cluster is a separate
- "thread". Most QEMU machine types have identical CPUs, so there is a
- single cluster which has all the CPUs in it.  A few machine types are
--heterogenous and have multiple clusters: for example the ``sifive_u``
-+heterogeneous and have multiple clusters: for example the ``sifive_u``
- machine has a cluster with one E51 core and a second cluster with four
- U54 cores. Here the E51 is the only thread in the first inferior, and
- the U54 cores are all threads in the second inferior.
-diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
-index afc58f60f5..9beef39171 100644
---- a/docs/system/ppc/ppce500.rst
-+++ b/docs/system/ppc/ppce500.rst
-@@ -75,7 +75,7 @@ as the BIOS. QEMU follows below truth table to select which payload to execute:
- When both -bios and -kernel are present, QEMU loads U-Boot and U-Boot in turns
- automatically loads the kernel image specified by the -kernel parameter via
- U-Boot's built-in "bootm" command, hence a legacy uImage format is required in
--such senario.
-+such scenario.
+-.. option:: --object type,id=ID,...props...
++.. option:: --object type,id=ID,...
  
- Running Linux kernel
- --------------------
-diff --git a/docs/system/riscv/shakti-c.rst b/docs/system/riscv/shakti-c.rst
-index a6035d42b0..fea57f7b6b 100644
---- a/docs/system/riscv/shakti-c.rst
-+++ b/docs/system/riscv/shakti-c.rst
-@@ -45,7 +45,7 @@ Shakti SDK can be used to generate the baremetal example UART applications.
- Binary would be generated in:
-   software/examples/uart_applns/loopback/output/loopback.shakti
- 
--You could also download the precompiled example applicatons using below
-+You could also download the precompiled example applications using below
- commands.
- 
- .. code-block:: bash
+   Define a new instance of the *type* object class identified by *ID*.
+   See the :manpage:`qemu(1)` manual page for full details of the properties
 -- 
 2.27.0
 
