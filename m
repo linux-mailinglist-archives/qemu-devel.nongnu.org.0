@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1748C458F55
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 14:24:57 +0100 (CET)
-Received: from localhost ([::1]:58870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D68B458F5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 14:28:12 +0100 (CET)
+Received: from localhost ([::1]:34020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp9JX-0006kS-NU
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 08:24:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33428)
+	id 1mp9Mf-00011y-VW
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 08:28:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mp9GL-0004TK-7R
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:21:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22929)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mp9GH-0006o4-Ue
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:21:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637587291;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cTynbvJGmeQHBcTMjDZTp2AmMqGjN1XefdZfn3aQevU=;
- b=M44g04kuxzCt6E3ctv0j+4m6I/V1eanUaf95aMiGCnYvqlwTVoa3dAVb1pKITlvZe4ka5d
- iORVBTInikPorEYaIFxpBTXeoP4m4ZVlg3+ngR/h5E+K/B5P7LOq3Xb52cr1JrxTirA/tv
- kOB/faFHxgP72nQV3uIe/16zWdWKIwI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-486-oJgZ6u2fMF6qTNSQppIxTg-1; Mon, 22 Nov 2021 08:21:26 -0500
-X-MC-Unique: oJgZ6u2fMF6qTNSQppIxTg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E63601B18BC5
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 13:21:25 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.244])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 80B5A19D9F;
- Mon, 22 Nov 2021 13:21:24 +0000 (UTC)
-Date: Mon, 22 Nov 2021 13:21:21 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [RFC PATCH-for-6.2 v3] qdev-monitor: Only allow full --global
- <driver>.<property>=<val> option
-Message-ID: <YZuZUVAho51eoVXA@redhat.com>
-References: <20211119182644.480115-1-philmd@redhat.com>
- <87czmv1fof.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mp9KH-00089W-72
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:25:41 -0500
+Received: from [2a00:1450:4864:20::429] (port=42824
+ helo=mail-wr1-x429.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mp9KF-0007n1-LI
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:25:40 -0500
+Received: by mail-wr1-x429.google.com with SMTP id c4so32661242wrd.9
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 05:25:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VciI4mD+64AnqqnlGndErcV/UESzz+hkZ7747+TM4ks=;
+ b=Phbg0QoVlQPlY86Xgvlcdw4R3QzcO9uhIhjhprdQzt4fTFtBHiTepgW7cLk7ka2ACH
+ giQABigsfJQAyH4OmRbhnabVNbjyrSyDnmxh+owXLn9YHc/d5SpHoq+q81ugjoZJfLES
+ 9i6C9TGC32PGVusf4KpCskDMby1k4zzb3Q5CifMolt3ew1Q/V1H2U+liD/W2Da31WWGR
+ /Zg0bZ4CnIgpR9LgJXkvXsTHkki2VzzGT2gMgPO1bWTCrbRwhYK7lCcsiuePmlfP/jNy
+ RGWjdlyaPcYMZbzzB4XoSsQ3qOqkvAlT4FGws22YK1xlH4WPRTMPBmSEWGk7eYXnn0lw
+ s9Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VciI4mD+64AnqqnlGndErcV/UESzz+hkZ7747+TM4ks=;
+ b=6/OauBobYtQGOoI/0GBcKIcNjPdqtHYarxti+75d+5ICe579Fi8u9KpaYYdTBYIQD9
+ pFoI9DbplUASLR5f8iUzftYeOVG+z+9RHOMLMTPi7entRa30BxcWSU32VnWJkOVQG7IH
+ 2RWkKW7H4UH9XZXtTsy7pM3K9Mdo6zwXRAU9E6oeBdg7TtX24mpwuMA9Gf+TKSuKODXS
+ gBRzdXwTD2Z0QvTOBoxCzekQHDlNclsD5v5e8JEHzSAxAijWH+p0oe840pIaWO4lZDDf
+ KUsryZC5+mePZrcZwyawAtq85oTZarhpGlODokspFY9TgZlnK0JTD8bDCUNMhEgsdWwH
+ Yy0g==
+X-Gm-Message-State: AOAM530F9pDXQI1IfqvsEV0QhAxW5WZV985eASb5eXe9paqq3eOfRX+H
+ XE/ZR6lk9V+3P1rT7x6TQY83UkgTJO6JJXo4tFKCtg==
+X-Google-Smtp-Source: ABdhPJzv87blkIC4n0JRn1A8tF7TWsRUbLmAU4vYgC2boqHHfkNiHSDt4hX5sVfPFLwORaRrybUsKCkhjep555b7kwI=
+X-Received: by 2002:adf:e984:: with SMTP id h4mr38390899wrm.149.1637587537571; 
+ Mon, 22 Nov 2021 05:25:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87czmv1fof.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211119193118.949698-1-kchamart@redhat.com>
+ <20211119193118.949698-2-kchamart@redhat.com>
+ <56026d2a-0b9e-ff83-d953-a284a810a8ed@redhat.com> <YZtu59t8DoZZ15nQ@paraplu>
+ <b03ffb0c-0c4f-b792-f6c1-55014a0ae003@redhat.com> <YZuK09xP0I28dvMr@paraplu>
+ <c591c571-f922-28a5-e8be-75e6cccb261a@redhat.com>
+In-Reply-To: <c591c571-f922-28a5-e8be-75e6cccb261a@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 22 Nov 2021 13:25:26 +0000
+Message-ID: <CAFEAcA8QuSsazUZU23DJgXHhU=ez948wQFJkHZGRYWxhiXbuDg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] docs: Fix botched rST conversion of
+ 'submitting-a-patch.rst'
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,104 +84,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>, Laurent Vivier <Laurent@vivier.eu>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Nov 20, 2021 at 07:53:20AM +0100, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
-> 
-> > When not all fields of the --global option are provided,
-> > QEMU might crash:
-> >
-> >   $ qemu-system-x86_64 -global driver=isa-fdc
-> >   qemu-system-x86_64: ../../devel/qemu/qapi/string-input-visitor.c:394:
-> >   string_input_visitor_new: Assertion `str' failed.
-> >   Aborted (core dumped)
-> >
-> > Fix by only allowing --global with all 3 fields:
-> >
-> >   $ qemu-system-x86_64 -global driver=isa-fdc
-> >   Invalid 'global' option format. It must be provided as:
-> >     --global <driver>.<property>=<value>
-> >
-> > Reported-by: Thomas Huth <thuth@redhat.com>
-> > Suggested-by: Markus Armbruster <armbru@redhat.com>
-> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/604
-> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > ---
-> > v3: Change qemu_global_option (Markus)
-> >
-> > Supersedes: <20211119122911.365036-1-philmd@redhat.com>
-> > ---
-> >  softmmu/qdev-monitor.c | 9 +++------
-> >  1 file changed, 3 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> > index 01f3834db57..558272b147c 100644
-> > --- a/softmmu/qdev-monitor.c
-> > +++ b/softmmu/qdev-monitor.c
-> > @@ -1029,13 +1029,10 @@ int qemu_global_option(const char *str)
-> >          qemu_opt_set(opts, "value", str + offset + 1, &error_abort);
-> >          return 0;
-> >      }
-> > +    printf("Invalid 'global' option format. It must be provided as:\n");
-> > +    printf("  --global <driver>.<property>=<value>\n");
-> >  
-> > -    opts = qemu_opts_parse_noisily(&qemu_global_opts, str, false);
-> > -    if (!opts) {
-> > -        return -1;
-> > -    }
-> > -
-> > -    return 0;
-> > +    return -1;
-> >  }
-> >  
-> >  bool qmp_command_available(const QmpCommand *cmd, Error **errp)
-> 
-> This drops a documented part of the external interface:
-> 
->     $ qemu-system-x86_64 -help | grep -C 1 global
->                     i.e. -set drive.$id.file=/path/to/image
->     -global driver.property=value
-> --> -global driver=driver,property=property,value=value
->                     set a global default for a driver property
+On Mon, 22 Nov 2021 at 12:37, Thomas Huth <thuth@redhat.com> wrote:
+> What about simply replacing it with a new sentence below the bullet list,
+> saying:
+>
+> "Please also use a spell checker like `codespell
+> https://github.com/codespell-project/codespell` with your patches"
 
-This doc makes it look like the two syntaxes are functionally
-equivalent, but it seems that's not quite the case.
+How many regular contributors actually do that?
 
-libvirt uses the driver.propert=value syntax for everything
-except one case
-
-  -global driver=cfi.pflash01,property=secure,value=on
-
-for that one if we try to use
-
-  -global cfi.pflash01.secure=on
-
-it complains
-
-  qemu-system-x86_64: warning: global cfi.pflash01.secure has invalid class name
-
-what's going on here ?
-
->     -boot [order=drives][,once=drives][,menu=on|off]
-> 
-> It goes back to commit 3751d7c43f "vl: allow full-blown QemuOpts syntax
-> for -global", v2.4.0.
-> 
-> The appropriate fix is to check @opts for presence of all three
-> parameters.
-> 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
