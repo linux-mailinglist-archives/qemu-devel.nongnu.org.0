@@ -2,53 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22E80458CF1
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 12:04:43 +0100 (CET)
-Received: from localhost ([::1]:57148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA96458D08
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 12:08:52 +0100 (CET)
+Received: from localhost ([::1]:43286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp77o-0002Ze-6m
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 06:04:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53004)
+	id 1mp7Bi-0003s8-VD
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 06:08:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mp6nM-000231-Ff
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 05:43:33 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:40916
- helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mp6rP-0001ek-FI
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 05:47:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mp6nH-0007jJ-PL
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 05:43:31 -0500
-Received: from ld50.lan (unknown [101.88.31.179])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id B8B4160B08;
- Mon, 22 Nov 2021 18:42:57 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1637577778; bh=tvMOZ8aNSmXtiCQg64zkCUTfT001SNnyD3hO+Up+MDU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZPXNT1xJHt8nxGZeHDpac/DyQq1FIt2lyfFKVXVWE/+KXxjSy/CYWd/EJYS24fxSn
- PUrZOFg23fW8hTlJfqQWi0DLyul6HxARgHvTxHGp7UqRicSXErKDCAQ/Oic4eEyBmw
- Qs1YDnb7m00qIIKF/GgT94H8BUDIGBtvDmISnZx4=
-From: WANG Xuerui <git@xen0n.name>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 31/31] tests/docker: Add gentoo-loongarch64-cross image and
- run cross builds in GitLab
-Date: Mon, 22 Nov 2021 18:42:01 +0800
-Message-Id: <20211122104201.112695-32-git@xen0n.name>
-X-Mailer: git-send-email 2.34.0
-In-Reply-To: <20211122104201.112695-1-git@xen0n.name>
-References: <20211122104201.112695-1-git@xen0n.name>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mp6rO-0008Fn-19
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 05:47:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637578061;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7vIKauLk4a+Iz2VF7MBP9ptXSsSZS43uFQ0y0qFk688=;
+ b=PLP7vlVwX+Ad7ilUAu5uMfNKxKhX7ycjj5Gfp5524ChnYNL4JXKDIs+ej2kdCwyLb/VXi+
+ Nt2szyXyIzlizVl97+4XlES2V79qegvcrhdzNiffCQ+XkGxAk8bK6ZcweJ5BzpvQIxIJ1L
+ xqJwinxw1Z1/SmHrH4J9hg6zvh4cAGk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-536-MtNAGA0ZPFKcskxV0pNjNA-1; Mon, 22 Nov 2021 05:47:38 -0500
+X-MC-Unique: MtNAGA0ZPFKcskxV0pNjNA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 69-20020a1c0148000000b0033214e5b021so6627696wmb.3
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 02:47:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7vIKauLk4a+Iz2VF7MBP9ptXSsSZS43uFQ0y0qFk688=;
+ b=6FuI3pOj9XwhbrYePWpOw+cNX/VxMchnc57+HKr1aORPcPlKKTSp5agnN/eLvAn5NJ
+ 4oHPWY9zCsFFihcONbPDCaqKOV9jYAFIxz2A+1a/UmURhG7ilIkIGR2OGczSDWcAK53U
+ z88e0j/86gAkehJpUSm8TGGd8C3HiczJSTXxOxDnAzI84CP00hlNA3STVpff+cmF3aau
+ OWUpwSdNuJ9LaUfF+oNBcBH1q/V4wUpYq16DDdMANMZbIflU/VgfVrqBpSD/asnDWGuY
+ 1MaPHuFXWbBjySTo/xNocl2AHUB5zhy/EdgQOYd7S8umssBbKc433vlyhaZK1nWwbPVm
+ IfJA==
+X-Gm-Message-State: AOAM532nzWq47NqR0idTFSZwClDR6+cXdW6fxsSMeq7kM9rp+NVdf8Wg
+ xR3nADpSWSBSvIYjqsKX/dBX4WQx9XTWuP3XKarunZw5n/AWaXtVgWg7U2dvl/4RehTby5bT51w
+ ij0eZL7TJFk21X3E=
+X-Received: by 2002:adf:e78c:: with SMTP id n12mr36100293wrm.83.1637578057152; 
+ Mon, 22 Nov 2021 02:47:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzXI8JKaFu67ehYD4xLVUXXis+2jbOGETIDlz39xolTTiAIKUrwfAhwfgia+lCastW2X/e2fg==
+X-Received: by 2002:adf:e78c:: with SMTP id n12mr36100261wrm.83.1637578056934; 
+ Mon, 22 Nov 2021 02:47:36 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id a1sm10422187wri.89.2021.11.22.02.47.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Nov 2021 02:47:36 -0800 (PST)
+Message-ID: <303fb332-a321-044d-cfec-a4866584a48c@redhat.com>
+Date: Mon, 22 Nov 2021 11:47:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=git@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 1/2] docs: Drop deprecated 'props' from object-add
+To: "Rao, Lei" <lei.rao@intel.com>, armbru@redhat.com, chen.zhang@intel.com,
+ zhang.zhanghailiang@huawei.com, wencongyang2@huawei.com,
+ xiechanglong.d@gmail.com, berto@igalia.com, eblake@redhat.com,
+ vsementsov@virtuozzo.com
+References: <1637567387-28250-1-git-send-email-lei.rao@intel.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <1637567387-28250-1-git-send-email-lei.rao@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,310 +100,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- XiaoJuan Yang <yangxiaojuan@loongson.cn>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, WANG Xuerui <git@xen0n.name>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Song Gao <gaosong@loongson.cn>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Normally this would be based on qemu/debian10 or qemu/ubuntu2004, but
-after a week-long struggle, I still cannot build stage2 gcc with the
-known-good LoongArch toolchain sources, so I chose the least-resistance
-path with Gentoo as base image. As this image is not expected to be
-re-built by CI, like hexagon, it should not take much maintenance
-effort; also it's expected to be replaced as soon as Debian is
-available.
+On 22/11/2021 08.49, Rao, Lei wrote:
+> From: "Rao, Lei" <lei.rao@intel.com>
+> 
+> In commit 5024340745 "qapi/qom: Drop deprecated 'props' from
+> object-add" (v6.0.0), we also should update documents.
+> 
+> Signed-off-by: Lei Rao <lei.rao@intel.com>
+> ---
+>   docs/COLO-FT.txt        | 16 ++++++++--------
+>   docs/system/authz.rst   | 26 ++++++++++----------------
+>   docs/throttle.txt       |  8 +++-----
+>   docs/tools/qemu-nbd.rst |  2 +-
+>   4 files changed, 22 insertions(+), 30 deletions(-)
 
-As the LoongArch target has not been merged yet, a check-tcg job is not
-added at the moment, but cross builds with the TCG port are already
-possible, and added to CI matrix.
+Thansk! FYI, I'm currently assembling a pull request for documentation 
+updates and will add you both patches there.
 
-As a reference, the image takes about 27 minutes to rebuild on a
-Threadripper 3990X system with Docker operating on HDD; YMMV but it
-probably wouldn't become significantly shorter, as everything needs to
-be built from source in our case.
-
-Signed-off-by: WANG Xuerui <git@xen0n.name>
----
- .gitlab-ci.d/container-cross.yml              |  27 ++++
- .gitlab-ci.d/crossbuilds.yml                  |  16 +++
- MAINTAINERS                                   |   2 +
- tests/docker/Makefile.include                 |  21 +++
- .../gentoo-loongarch64-cross.docker           |  19 +++
- .../build-toolchain.sh                        | 123 ++++++++++++++++++
- 6 files changed, 208 insertions(+)
- create mode 100644 tests/docker/dockerfiles/gentoo-loongarch64-cross.docker
- create mode 100755 tests/docker/dockerfiles/gentoo-loongarch64-cross.docker.d/build-toolchain.sh
-
-diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
-index a3b5b90552..7a8cc556cc 100644
---- a/.gitlab-ci.d/container-cross.yml
-+++ b/.gitlab-ci.d/container-cross.yml
-@@ -82,6 +82,33 @@ hppa-debian-cross-container:
-   variables:
-     NAME: debian-hppa-cross
- 
-+# Similar to hexagon, we don't want to build loongarch64 in the CI either.
-+loongarch64-cross-container:
-+  image: docker:stable
-+  stage: containers
-+  rules:
-+    - if: '$CI_PROJECT_NAMESPACE == "qemu-project"'
-+      when: never
-+    - when: always
-+  variables:
-+    NAME: gentoo-loongarch64-cross
-+    GIT_DEPTH: 1
-+  services:
-+    - docker:dind
-+  before_script:
-+    - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
-+    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/qemu/$NAME:latest"
-+    - docker info
-+    - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-+  script:
-+    - echo "TAG:$TAG"
-+    - echo "COMMON_TAG:$COMMON_TAG"
-+    - docker pull $COMMON_TAG
-+    - docker tag $COMMON_TAG $TAG
-+    - docker push "$TAG"
-+  after_script:
-+    - docker logout
-+
- m68k-debian-cross-container:
-   extends: .container_job_template
-   stage: containers-layer2
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index 17d6cb3e45..49f5b5525e 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -68,6 +68,22 @@ cross-i386-tci:
-     EXTRA_CONFIGURE_OPTS: --target-list=i386-softmmu,i386-linux-user,aarch64-softmmu,aarch64-linux-user,ppc-softmmu,ppc-linux-user
-     MAKE_CHECK_ARGS: check check-tcg
- 
-+cross-loongarch64-system:
-+  extends: .cross_system_build_job
-+  allow_failure: true
-+  needs:
-+    job: loongarch64-cross-container
-+  variables:
-+    IMAGE: gentoo-loongarch64-cross
-+
-+cross-loongarch64-user:
-+  extends: .cross_user_build_job
-+  allow_failure: true
-+  needs:
-+    job: loongarch64-cross-container
-+  variables:
-+    IMAGE: gentoo-loongarch64-cross
-+
- cross-mips-system:
-   extends: .cross_system_build_job
-   needs:
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a638fb6b31..165ef630bf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3141,6 +3141,8 @@ LoongArch64 TCG target
- M: WANG Xuerui <git@xen0n.name>
- S: Maintained
- F: tcg/loongarch64/
-+F: tests/docker/dockerfiles/gentoo-loongarch64-cross.docker
-+F: tests/docker/dockerfiles/gentoo-loongarch64-cross.docker.d/
- 
- MIPS TCG target
- M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index f1a0c5db7a..a2cdf193bb 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -176,6 +176,27 @@ docker-image-debian-hexagon-cross: $(DOCKER_FILES_DIR)/debian-hexagon-cross.dock
- 				qemu/debian-hexagon-cross --add-current-user,		\
- 			"PREPARE", "debian-hexagon-cross"))
- 
-+#
-+# Same for loongarch64-cross.
-+#
-+docker-image-gentoo-loongarch64-cross: $(DOCKER_FILES_DIR)/gentoo-loongarch64-cross.docker
-+	$(if $(NOCACHE), 								\
-+		$(call quiet-command,							\
-+			$(DOCKER_SCRIPT) build -t qemu/gentoo-loongarch64-cross -f $< 	\
-+			$(if $V,,--quiet) --no-cache 					\
-+			--registry $(DOCKER_REGISTRY) --extra-files			\
-+			$(DOCKER_FILES_DIR)/gentoo-loongarch64-cross.docker.d/build-toolchain.sh, \
-+			"BUILD", "gentoo-loongarch64-cross"),				\
-+		$(call quiet-command,							\
-+			$(DOCKER_SCRIPT) fetch $(if $V,,--quiet)			\
-+				qemu/gentoo-loongarch64-cross $(DOCKER_REGISTRY),	\
-+			"FETCH", "gentoo-loongarch64-cross")				\
-+		$(call quiet-command,							\
-+			$(DOCKER_SCRIPT) update $(if $V,,--quiet) 			\
-+				qemu/gentoo-loongarch64-cross --add-current-user,	\
-+			"PREPARE", "gentoo-loongarch64-cross"))
-+
-+
- debian-toolchain-run = \
- 	$(if $(NOCACHE), 						\
- 		$(call quiet-command,					\
-diff --git a/tests/docker/dockerfiles/gentoo-loongarch64-cross.docker b/tests/docker/dockerfiles/gentoo-loongarch64-cross.docker
-new file mode 100644
-index 0000000000..6f4582d8d2
---- /dev/null
-+++ b/tests/docker/dockerfiles/gentoo-loongarch64-cross.docker
-@@ -0,0 +1,19 @@
-+#
-+# Docker LoongArch64 cross-compiler target
-+#
-+# This docker target is used for building loongarch64 tests. As it also
-+# needs to be able to build QEMU itself in CI we include it's
-+# build-deps. It is also a "stand-alone" image so as not to be
-+# triggered by re-builds on other base images given it takes a long
-+# time to build.
-+#
-+
-+FROM gentoo/stage3:20211116
-+
-+ADD build-toolchain.sh /root/build-toolchain.sh
-+RUN cd /root && ./build-toolchain.sh
-+
-+# Specify the cross prefix for this image (see tests/docker/common.rc)
-+ENV QEMU_CONFIGURE_OPTS --cross-prefix=loongarch64-unknown-linux-gnu-
-+# We don't have target support at the moment, so just verify that things build
-+ENV DEF_TARGET_LIST x86_64-softmmu,x86_64-linux-user
-diff --git a/tests/docker/dockerfiles/gentoo-loongarch64-cross.docker.d/build-toolchain.sh b/tests/docker/dockerfiles/gentoo-loongarch64-cross.docker.d/build-toolchain.sh
-new file mode 100755
-index 0000000000..90aa51c255
---- /dev/null
-+++ b/tests/docker/dockerfiles/gentoo-loongarch64-cross.docker.d/build-toolchain.sh
-@@ -0,0 +1,123 @@
-+#!/bin/bash
-+
-+set -e
-+
-+TRIPLE=loongarch64-unknown-linux-gnu
-+CROSSDEV_OV=/opt/crossdev-overlay
-+LOONGSON_OV=/opt/loongson-overlay
-+CROSS_EMERGE="${TRIPLE}-emerge"
-+
-+J=$(expr $(nproc) / 2)
-+echo "MAKEOPTS=\"-j${J}\"" >> /etc/portage/make.conf
-+echo "EGIT_CLONE_TYPE=shallow" >> /etc/portage/make.conf
-+
-+# these features are not supported in Docker
-+export FEATURES="-ipc-sandbox -network-sandbox"
-+
-+# populate Portage tree
-+GENTOO_MIRROR='https://bouncer.gentoo.org/fetch/root/all'
-+PORTAGE_SNAPSHOT_FILE=gentoo-20211116.tar.xz
-+pushd /tmp
-+    wget "${GENTOO_MIRROR}/snapshots/${PORTAGE_SNAPSHOT_FILE}"
-+
-+    mkdir -p /var/db/repos/gentoo
-+    pushd /var/db/repos/gentoo
-+        tar -xf "/tmp/${PORTAGE_SNAPSHOT_FILE}" --strip-components=1
-+    popd
-+
-+    rm "$PORTAGE_SNAPSHOT_FILE"
-+popd
-+
-+emerge -j crossdev dev-vcs/git
-+
-+# prepare for crossdev
-+mkdir /etc/portage/repos.conf
-+crossdev -t "$TRIPLE" --ov-output "$CROSSDEV_OV" --init-target
-+
-+git clone https://github.com/xen0n/loongson-overlay.git "$LOONGSON_OV"
-+pushd "$LOONGSON_OV"
-+    git checkout 6aae40366a9c11e82ae0e9450b40b056ef58409c
-+popd
-+
-+pushd "${CROSSDEV_OV}/cross-${TRIPLE}"
-+    rm binutils gcc glibc linux-headers
-+    ln -s "${LOONGSON_OV}/sys-devel/binutils" .
-+    ln -s "${LOONGSON_OV}/sys-devel/gcc" .
-+    ln -s "${LOONGSON_OV}/sys-libs/glibc" .
-+    ln -s "${LOONGSON_OV}/sys-kernel/linux-headers" .
-+popd
-+
-+cat > "${CROSSDEV_OV}/metadata/layout.conf" <<EOF
-+masters = gentoo
-+repo-name = crossdev-overlay
-+manifest-hashes = SHA256 SHA512 WHIRLPOOL
-+thin-manifests = true
-+EOF
-+
-+chown -R portage:portage "$CROSSDEV_OV"
-+chown -R portage:portage "$LOONGSON_OV"
-+
-+# patch Portage tree for linux-headers
-+pushd /var/db/repos/gentoo
-+
-+# this is to please checkpatch, hmm...
-+TAB="$(printf "\t")"
-+patch -Np1 <<EOF
-+--- a/eclass/toolchain-funcs.eclass${TAB}2021-11-16 23:28:36.425419786 +0800
-++++ b/eclass/toolchain-funcs.eclass${TAB}2021-11-16 23:29:30.378384948 +0800
-+@@ -675,6 +675,7 @@
-+ ${TAB}${TAB}${TAB}fi
-+ ${TAB}${TAB}${TAB};;
-+ ${TAB}${TAB}ia64*)${TAB}${TAB}echo ia64;;
-++${TAB}${TAB}loongarch*)${TAB}ninj loongarch loong;;
-+ ${TAB}${TAB}m68*)${TAB}${TAB}echo m68k;;
-+ ${TAB}${TAB}metag*)${TAB}${TAB}echo metag;;
-+ ${TAB}${TAB}microblaze*)${TAB}echo microblaze;;
-+@@ -752,6 +753,7 @@
-+ ${TAB}${TAB}hppa*)${TAB}${TAB}echo big;;
-+ ${TAB}${TAB}i?86*)${TAB}${TAB}echo little;;
-+ ${TAB}${TAB}ia64*)${TAB}${TAB}echo little;;
-++${TAB}${TAB}loongarch*)${TAB}echo little;;
-+ ${TAB}${TAB}m68*)${TAB}${TAB}echo big;;
-+ ${TAB}${TAB}mips*l*)${TAB}echo little;;
-+ ${TAB}${TAB}mips*)${TAB}${TAB}echo big;;
-+EOF
-+unset TAB
-+
-+popd
-+
-+# make cross toolchain
-+crossdev -t "$TRIPLE" --without-headers \
-+    --binutils 2.37_p1-r1 \
-+    --gcc 12.0.0_pre9999
-+
-+# prepare for loongarch cross emerges
-+pushd "/usr/${TRIPLE}/etc/portage"
-+    rm make.profile
-+    ln -s "$LOONGSON_OV"/profiles/desktop/3a5000 ./make.profile
-+
-+    mkdir repos.conf
-+    cat > repos.conf/loongson.conf <<EOF
-+[loongson]
-+priority = 50
-+location = $LOONGSON_OV
-+auto-sync = No
-+EOF
-+
-+popd
-+
-+# add build deps for qemu
-+
-+# gawk seems to have problems installing with concurrency, and its deps
-+# include ncurses that needs disabling sandbox to correctly build under
-+# Docker, so just turn off sandbox for all emerges
-+export FEATURES="$FEATURES -sandbox -usersandbox"
-+"$CROSS_EMERGE" -1 --onlydeps -j4 gawk
-+mkdir -p "/usr/${TRIPLE}/bin"
-+MAKEOPTS='-j1' "$CROSS_EMERGE" -1 gawk
-+
-+# then build the rest
-+"$CROSS_EMERGE" -1 --onlydeps -j4 qemu
-+
-+# clean up downloaded files and Portage tree for smaller image
-+rm -rf /var/db/repos/gentoo /var/cache/distfiles
--- 
-2.34.0
+  Thomas
 
 
