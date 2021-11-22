@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1D9458E36
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 13:23:47 +0100 (CET)
-Received: from localhost ([::1]:56200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42545458E73
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 13:33:34 +0100 (CET)
+Received: from localhost ([::1]:32780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp8ML-0005MK-Jd
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 07:23:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46204)
+	id 1mp8Vo-0000ls-Pk
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 07:33:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mp8Jv-0003yk-Kv
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:21:15 -0500
-Received: from [2a00:1450:4864:20::435] (port=36851
- helo=mail-wr1-x435.google.com)
+ id 1mp8UO-000052-6S
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:32:04 -0500
+Received: from [2a00:1450:4864:20::332] (port=45687
+ helo=mail-wm1-x332.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mp8Js-000622-5R
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:21:15 -0500
-Received: by mail-wr1-x435.google.com with SMTP id s13so32382126wrb.3
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 04:21:11 -0800 (PST)
+ id 1mp8UM-0007UG-3O
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:32:03 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ g191-20020a1c9dc8000000b0032fbf912885so13442480wme.4
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 04:32:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=e5kOScGmMwHGJdUVGqMAZ+Dp7+85ewPH5nQw6JJXU70=;
- b=EVLU2u88CwLWmCd4RBa8H245mneo3MlWFl6o6DxkFBR5J6trAY7S7RIuLQxwFfxW8F
- 1IGbpmd9Gski/ooHjnX+PPqTxp7TAuvU1vAI4V4tmPTP8mL98yFMk1GemlpHSLkoyRsp
- pELZUkVXxAQGRjvO7I91EeKgmgSqp4Ucz978MK8Ek5S2Q9Bypn0m5rpKweelqCnKNzBT
- HL+Kwm6csgVbboJGXApBjhD3kigv7VIB4HpmjWuL3sB42mVMJSciqdA8/O08pvKBg5xj
- PCi6/T9BLQStfSNHvYi8s875IMCmZZnoHOq/lFGXk4rSfnnvbH2fumY3gmGGppP8wcD3
- qAiw==
+ bh=EeetnQQ1rJFxR++gyQ1ZyiyJEMKc604wkYZ5oNSYY7k=;
+ b=uw3XYgsrxD3Z9Gv4QovqpS/p1crGciHTt5N9AdEPxNfJH53PX4VHBanOiP/ujP48E3
+ tmM+MmEuFkwNyi9l8VjldzNP2d5rfNlANEl0WSddxtRiKsoc+CegK0ePJkSgt6Rv712E
+ BzMVuEBb65i/YMejt2gYhjM6crhGYimoM8GY31LgaJrGVsP3e5xZla2prNebKF38zcd5
+ plr/vDdZ3CvXtNhyzKG5q2CApjQN+l+pmJDH37+FTp1kRmXVNrgIRRKTIVhxwxb4deJc
+ 5snmhBnppY0lKVbuZXBfCct/mRf2qwuOqqIB6ElCQI+HQph7alsBJqa2Tsx2s4R6cysc
+ 2E+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=e5kOScGmMwHGJdUVGqMAZ+Dp7+85ewPH5nQw6JJXU70=;
- b=E5u4vImmjikSV4o01BuTiRWWC9bG/bT3yohc1jcfGrU1nxM3/2i4pSFvpd6pTM/Rlg
- 9GQt2irnJLJ9OERworahitkEq1iAaJuzVNzIp2lXFTCOcKas4WUacuSGJ7miQ9JPHWj/
- xGM84Qrdi6OnRc0McAX4cjVeaffHkaOBJInoDO6m/ptKreO6r1ppGHyp9Dnl5VzOpoET
- Pb6AIDlSMep4QOzp5pgVzgnVnyw4jZdZlhCGdE7iOzN3T9A11NF9DUpvuqssSPnljbtJ
- GMbfNjj2QEhub4ABJMXWV7niIi/PdvxLhRzWmi8SU5QTq00nhQsBEFJMjcDVbTXjUTNp
- w0Vg==
-X-Gm-Message-State: AOAM531bligVU4htrxavtLfmkzvU+3E77TTbktTitw+Ay+IDFicwvOhw
- AWzNl2UweCDn6g9I5NYbDiOHgFfGcP8IvY1k0oM=
-X-Google-Smtp-Source: ABdhPJz+ZWxEEQzEWn57TNFErsE4c59uQgmi++dj9x3RbGxHkCDBf4IjMt0EnbqvyeZELxwLdmXTNw==
-X-Received: by 2002:adf:dc0a:: with SMTP id t10mr38364635wri.8.1637583670576; 
- Mon, 22 Nov 2021 04:21:10 -0800 (PST)
+ bh=EeetnQQ1rJFxR++gyQ1ZyiyJEMKc604wkYZ5oNSYY7k=;
+ b=b6FRyq/xIss0lVkNG0eP3nhAGC6jIttTzHV4AHRuVr7SqcQBgEULUpfZXtiTRSC53Y
+ MNybic2tKoiu04bejt1GeLpWq3jrUxgVqZl2kSOFQ03YW7OpKp51VeAxBqmHVGFQabG+
+ EQESqQ2bdBRRMqEtV8nbRQy4GKuyZb/TDJ4KL9WNeWvfj3YWCItHeSnYYFskQCvj7fNW
+ veqG3kBI+0ZVuZiXOAkYvPwkE53kLg962VMmr4g/+vMf7e6xLnNIY2Suy3+dxKpX0Nn9
+ MhqyJKgxpyHXI0NjL+yiLgJLRnnVImoZcGzF/AjPLITOQ76Ca5nXbAbK1NApr7FX3iC7
+ DoqA==
+X-Gm-Message-State: AOAM532S6cHh775V9vqz+293hZFa712fnWRk+hmEhvIAYsk3A2EGgnWK
+ wCCqmWep6qL+q5VJZgUa5wgwFA==
+X-Google-Smtp-Source: ABdhPJxS2cWh81YoXYIJ/gEWIUX9Hz2WkisbYyCKpJBqkHj4akeVCUf5Ni7YaRgGKF/4qswokRNICg==
+X-Received: by 2002:a1c:80c5:: with SMTP id b188mr29864463wmd.57.1637584320162; 
+ Mon, 22 Nov 2021 04:32:00 -0800 (PST)
 Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
  [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id p14sm20358338wms.29.2021.11.22.04.21.09
+ by smtp.gmail.com with ESMTPSA id b10sm8968650wrt.36.2021.11.22.04.31.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 04:21:10 -0800 (PST)
-Subject: Re: [PATCH v5 04/17] common-user: Move syscall error detection into
- safe_syscall_base
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20211117160412.71563-1-richard.henderson@linaro.org>
- <20211117160412.71563-5-richard.henderson@linaro.org>
- <CAFEAcA-cCdFSHVg6hKARipde9yLw=owNm3EZTfwbE5Bo8M0sFA@mail.gmail.com>
+ Mon, 22 Nov 2021 04:31:59 -0800 (PST)
+Subject: Re: [PATCH v11 19/26] linux-user: Add LoongArch signal support
+To: gaosong <gaosong@loongson.cn>, zltjiangshi@gmail.com
+References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
+ <1637302410-24632-20-git-send-email-gaosong@loongson.cn>
+ <9195824d-31d2-f2e8-610b-f8f86d687707@linaro.org>
+ <d5fed5e0-3708-4891-03e6-868986dea360@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <70c52554-ca05-5035-98a0-0bc9f340244a@linaro.org>
-Date: Mon, 22 Nov 2021 13:21:07 +0100
+Message-ID: <8cca87af-eb4c-2839-577c-2a0c149fc4fe@linaro.org>
+Date: Mon, 22 Nov 2021 13:31:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-cCdFSHVg6hKARipde9yLw=owNm3EZTfwbE5Bo8M0sFA@mail.gmail.com>
+In-Reply-To: <d5fed5e0-3708-4891-03e6-868986dea360@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -93,78 +94,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, imp@bsdimp.com, Laurent@vivier.eu
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, chenhuacai@loongson.cn,
+ qemu-devel@nongnu.org, maobibo@loongson.cn, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/22/21 12:55 PM, Peter Maydell wrote:
->> -       /* This is the entry point for making a system call. The calling
->> +       /*
->> +        * This is the entry point for making a system call. The calling
->>           * convention here is that of a C varargs function with the
->>           * first argument an 'int *' to the signal_pending flag, the
->>           * second one the system call number (as a 'long'), and all further
->>           * arguments being syscall arguments (also 'long').
+On 11/22/21 12:41 PM, gaosong wrote:
+> Hi Richard,
 > 
-> This comment text needs updating to mention the new errnop argument.
-> (Applies to all the similar comments in the files for the other archs.)
-
-Yep.
-
->> +       /*
->> +         * The syscall calling convention isn't the same as the C one:
+> On 2021/11/20 下午6:33, Richard Henderson wrote:
+>>
+>> Drop all of the the inline markers.
+>>
+>>> +{
+>>> +    int i;
+>>> +
+>>> +    __put_user(env->pc, &sc->sc_pc);
+>>> +
+>>> +    __put_user(0, &sc->sc_gpr[0]);
+>>> +    for (i = 1; i < 32; ++i) {
+>>> +        __put_user(env->gpr[i], &sc->sc_gpr[i]);
+>>> +    }
+>>> +
+>>> +    for (i = 0; i < 32; ++i) {
+>>> +        __put_user(env->fpr[i], &sc->sc_fpr[i]);
+>>> +    }
+>>> +}
+>>
+>> Missing fcsr and fcc.
+>>
+>> I'll note that the kernel is missing sets of vscr and scr[0-3]. IMO they should at least 
+>> be zeroed in advance of supporting the vector extension.
 > 
-> Looks like the indent here is wrong ?
+> I see that vcsr set at [1]:178.
+> [1]
+> https://github.com/loongson/linux/blob/loongarch-next/arch/loongarch/kernel/signal.c
 
-Irritatingly, these files are a mix of tabs/spaces.
+That happens after line 171:
 
->>           * we enter with x0 == *signal_pending
->> -        *               x1 == syscall number
->> -        *               x2 ... x7, (stack) == syscall arguments
->> +        *               x1 == errno
-> 
-> "int* address of errno"
+		if (likely(!err))
+			break;
 
-Arg, fixed some of these, but clearly. not all.
+It seems most unlikely that there would be an error...
 
->>          /* code path for having successfully executed the syscall */
->> +       cmn     x0, #4095
->> +       b.cs    1f
-> 
-> Shouldn't this be going to label 0f ? We need to do the 'neg',
-> and unless I'm misreading the diff there's currently no path
-> of execution that gets to that.
-
-Oops, rebase error, where the fix landed in the next patch.
-
->> +        *               r2 == syscall number
->> +        *               r3, [sp+0] ... [sp+16] == syscall arguments
->>           *               and return the result in r0
-> 
-> Don't we wind up with a potential issue here with 64-bit arguments
-> due to the calling convention wanting to put those in aligned
-> memory/register locations? Previously because we had just two
-> extra arguments the arguments started at r2 and had the same
-> alignment behaviour as the syscall wants for them starting at
-> r0; but now we start at r3 so if for instance the first argument
-> is 64-bit it will be in [sp+0][sp+4] but should go in r0:r1
-> I think...
-> 
-> (Stopped reviewing here because if we need to change the
-> way we call these functions there's no point my reviewing
-> the fine detail of the asm.)
-
-Oof.  I missed that detail.  Yes, that is a problem (I think arm is the only such 
-supported host).  I think the best solution would be to *not* pass in &errno, but to have 
-the assembly tail-call to
-
-long safe_syscall_errno_tail(int value)
-{
-     errno = value;
-     return -1;
-}
-
-Which is probably more efficient in any case.  I'll re-work this.
+There is a macro for sc_save_vcsr in fpu.S, but it isn't used.
 
 
 r~
