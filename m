@@ -2,61 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5AA459193
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 16:44:36 +0100 (CET)
-Received: from localhost ([::1]:55388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301224591AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 16:52:14 +0100 (CET)
+Received: from localhost ([::1]:57818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpBUg-0000S2-TW
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 10:44:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54264)
+	id 1mpBc5-0002UA-5H
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 10:52:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mpBTe-00083w-KY
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:43:30 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:50095)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mpBTb-0006lS-V5
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:43:30 -0500
-Received: from [192.168.100.1] ([82.142.2.234]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MWAf4-1n8RJm48d8-00XgP1; Mon, 22 Nov 2021 16:43:25 +0100
-Message-ID: <38b341b4-1aae-91b5-9f4c-aa451a6f4157@vivier.eu>
-Date: Mon, 22 Nov 2021 16:43:24 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpBae-0001jQ-MJ
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:50:44 -0500
+Received: from [2a00:1450:4864:20::42c] (port=37762
+ helo=mail-wr1-x42c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpBac-0007iw-9y
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:50:43 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id b12so33549917wrh.4
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 07:50:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=fWvPmdqBh9xucPvdUH22UlRpOYYHU1lC3eXjWDYnP6U=;
+ b=o7RdvfkJp1zgdRhwKWf7oCDMgNozyKuBCp+fct8d0nGHQZEfRS8Ba+qTRhNgnPpP/3
+ Qq6RCNubJJeD9axIC1NTb2A6JmxG4odB/osqtCmKnDBUXRT7HoB+ZBHLOl3omX5XzQUY
+ d9vbBvGhjiINuriujyKH9F8mupUhDkuAug/7ELffAsKVo1YQmfIIZoRSUn7xcWuL7ITc
+ 3iggYOIynjtBG8uAoLO1FtGe3f3VehnLz5pdZkqNijtk+FHBUPQ7WuIyoYNExtZekT0N
+ PUD/fE2VYcnlFoG6QLCsmu5FE1GY6kUeQTXjh17ULtorE/FOyFp8XyJJ+1wzP/9FCkK9
+ 2bUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fWvPmdqBh9xucPvdUH22UlRpOYYHU1lC3eXjWDYnP6U=;
+ b=js/Jvk8jy5kI/d5+lvYL3OCdcB1xRRz1Z8GuOreUbD5nPc3lpd3p4INS5QS56Rd7Rv
+ JpuyYG7gdDHU/YJkuZ5hYv4EAuAhkgvkPZjrmYku6Rml/Az4mtN/SjLh4r/ZHul+RT28
+ MZabSnlz9dLIYjdM+n8uu7Thh58tygKvvoTfHF7VrWyb6F1g3btyqZ3O4VqVPPxjm0+5
+ 3nQmLDQlo2roXnZZEqoHpCpxDJeWxq2V6i7GebAuO3IAhhd6jbAE7GnibxuSDg1QEVjE
+ PYA5WkOXABx754DOEkMrzeSZdrMMngP6+J359/CzIqpQC2wzvUDLHOhan2H8FpD593io
+ NZOA==
+X-Gm-Message-State: AOAM533mAeFhyB/80pKLWkgMJ6J4RyElPac9I8DZKWHz8fgRwc5dw6yv
+ fRlsQguLjImGWsdT4gYSs7GFzZyQggu7FvDTMJQ=
+X-Google-Smtp-Source: ABdhPJzX4b8xRjWxKTwCRoKCdQfswJbiUaQnxqjYELdmn3jddCAkT1URvwVqBY9mctp50xh+RixYmg==
+X-Received: by 2002:a5d:6d0b:: with SMTP id e11mr39291142wrq.16.1637596240503; 
+ Mon, 22 Nov 2021 07:50:40 -0800 (PST)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id g5sm13539991wri.45.2021.11.22.07.50.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Nov 2021 07:50:39 -0800 (PST)
 Subject: Re: [PATCH for-6.2 0/2] linux-user: Create a common
  rewind_if_in_safe_syscall
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>
+To: Laurent Vivier <laurent@vivier.eu>
 References: <20211122131200.229286-1-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20211122131200.229286-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <38b341b4-1aae-91b5-9f4c-aa451a6f4157@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <336a43f3-2d24-8848-16b5-a241d995d492@linaro.org>
+Date: Mon, 22 Nov 2021 16:50:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <38b341b4-1aae-91b5-9f4c-aa451a6f4157@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:4VB16JN39WrPShxNcFI41fxdjKY9Z2IlWHxjTjS6P4LbaSKkrzs
- iiviJUd6dYJPfo/L2wLstF3JwsHsu8x36oaJulAeR/w9IJzTZkb2CgP9DKo4qTN6X5snxWp
- L5fH2ZtrcZ+T72H1eL3QBrpozomnNUcK5JCRk62DlZCJUC5kUINW27tghlSfQEk6pcwgGla
- 1olPS8IHWym9ZjosYyO4A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YCaMkajbaA4=:QtK0EyVm9+tXCtPRGAmmvE
- yuU1YjbY3EpmDB86LN1Q0mULXVlpHqN+rDV0bewBfg1D9TOgBNkA5ZJKTY4QAjMQfoaOYG4eq
- qpdt6GOkxS6lEJHtRrPD6WWaCRqO5An/yudmD4f0AC2//4Re1Mq4gS8LZy5FC7iDilqlbkwrx
- vnqaXS/SAIhxFc0lpCycn2IoY9baHuYvAvJuQD7KhTFYyWCkSGhdVhv9Y5Ihytg/IVB2Lcvnq
- t4WnVW3qIjr9USu3gfHVUYlLKSAxpXEzuWxcgOU+XoExWRk7JSALb3+0Y0iC6IHU/rjqve4Pu
- Q+AjGYPboIFtErMKR76vr/nUnemLYTVp1fYdKkILQn3m/r6f+he9+awKdcbFX3ohxsgSzk6Nf
- FGWbMK44Uu5wjjWnM8ONiFZXhR+mrX5SY3Ogr1GKr9wfQn3LP8JKCmQ3G2EPwNZNGfnhR1Q1G
- 3IK/M/vjn4mM2ZyPNKQ2A+9kUM9iFiBxMiBWc+sNx1oF0pknkIEjggBHhdZvbYsnWUFVqFcIb
- t3BsIgQ1OWTf8ZSIHQAzLfxc8KMHRnRnChdb7BR5Q5MAs4S1xwASBiUcyuPJCZwXwULtnZEsT
- 6361m1Y3tT0N79hDOIB+TzHmuLErP8h3sPOCmEY8IutjEfpjdeC7qWcFpCydqpM6bV1J06Zm4
- rZkOcrILeKH3EFQ88SeLqbL+ZpDxOVCYTy94JU3KQgzf9cDN/Fuecs0SyeBtoazp03ag=
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,47 +96,50 @@ Cc: raj.khem@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 11/22/21 4:43 PM, Laurent Vivier wrote:
+> Hi,
+> 
+> Le 22/11/2021 à 14:11, Richard Henderson a écrit :
+>> This is a re-packaging of two of Warner's patches that
+>> fix a build issue on aarch64 using musl:
+>>
+>> https://lore.kernel.org/qemu-devel/20211108194230.1836262-1-raj.khem@gmail.com/
+>>
+>>
+>> r~
+>>
+>>
+>> Warner Losh (2):
+>>    linux-user: Add host_signal_set_pc to set pc in mcontext
+>>    linux-user/signal.c: Create a common rewind_if_in_safe_syscall
+>>
+>>   linux-user/host/aarch64/host-signal.h |  5 +++++
+>>   linux-user/host/aarch64/hostdep.h     | 20 --------------------
+>>   linux-user/host/alpha/host-signal.h   |  5 +++++
+>>   linux-user/host/arm/host-signal.h     |  5 +++++
+>>   linux-user/host/arm/hostdep.h         | 20 --------------------
+>>   linux-user/host/i386/host-signal.h    |  5 +++++
+>>   linux-user/host/i386/hostdep.h        | 20 --------------------
+>>   linux-user/host/mips/host-signal.h    |  5 +++++
+>>   linux-user/host/ppc/host-signal.h     |  5 +++++
+>>   linux-user/host/ppc64/hostdep.h       | 20 --------------------
+>>   linux-user/host/riscv/host-signal.h   |  5 +++++
+>>   linux-user/host/riscv/hostdep.h       | 20 --------------------
+>>   linux-user/host/s390/host-signal.h    |  5 +++++
+>>   linux-user/host/s390x/hostdep.h       | 20 --------------------
+>>   linux-user/host/sparc/host-signal.h   |  9 +++++++++
+>>   linux-user/host/x86_64/host-signal.h  |  5 +++++
+>>   linux-user/host/x86_64/hostdep.h      | 20 --------------------
+>>   linux-user/safe-syscall.h             |  3 +++
+>>   linux-user/signal.c                   | 15 ++++++++++++---
+>>   19 files changed, 69 insertions(+), 143 deletions(-)
+>>
+> 
+> Richard, will you take this series via one of your branches or do you want I send a 
+> linux-user pull request for it?
 
-Le 22/11/2021 à 14:11, Richard Henderson a écrit :
-> This is a re-packaging of two of Warner's patches that
-> fix a build issue on aarch64 using musl:
-> 
-> https://lore.kernel.org/qemu-devel/20211108194230.1836262-1-raj.khem@gmail.com/
-> 
-> 
-> r~
-> 
-> 
-> Warner Losh (2):
->    linux-user: Add host_signal_set_pc to set pc in mcontext
->    linux-user/signal.c: Create a common rewind_if_in_safe_syscall
-> 
->   linux-user/host/aarch64/host-signal.h |  5 +++++
->   linux-user/host/aarch64/hostdep.h     | 20 --------------------
->   linux-user/host/alpha/host-signal.h   |  5 +++++
->   linux-user/host/arm/host-signal.h     |  5 +++++
->   linux-user/host/arm/hostdep.h         | 20 --------------------
->   linux-user/host/i386/host-signal.h    |  5 +++++
->   linux-user/host/i386/hostdep.h        | 20 --------------------
->   linux-user/host/mips/host-signal.h    |  5 +++++
->   linux-user/host/ppc/host-signal.h     |  5 +++++
->   linux-user/host/ppc64/hostdep.h       | 20 --------------------
->   linux-user/host/riscv/host-signal.h   |  5 +++++
->   linux-user/host/riscv/hostdep.h       | 20 --------------------
->   linux-user/host/s390/host-signal.h    |  5 +++++
->   linux-user/host/s390x/hostdep.h       | 20 --------------------
->   linux-user/host/sparc/host-signal.h   |  9 +++++++++
->   linux-user/host/x86_64/host-signal.h  |  5 +++++
->   linux-user/host/x86_64/hostdep.h      | 20 --------------------
->   linux-user/safe-syscall.h             |  3 +++
->   linux-user/signal.c                   | 15 ++++++++++++---
->   19 files changed, 69 insertions(+), 143 deletions(-)
-> 
+I have nothing pending myself, but I can send this if you'd like.  I mostly wanted your 
+ack on it.
 
-Richard, will you take this series via one of your branches or do you want I send a linux-user pull 
-request for it?
-
-Thanks,
-Laurent
+r~
 
