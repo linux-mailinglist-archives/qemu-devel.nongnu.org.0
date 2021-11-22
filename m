@@ -2,63 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45DD04592AF
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 17:09:11 +0100 (CET)
-Received: from localhost ([::1]:39658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DBA745930C
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 17:31:48 +0100 (CET)
+Received: from localhost ([::1]:46990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpBsU-0001eD-DN
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 11:09:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60418)
+	id 1mpCEM-0007jV-Cf
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 11:31:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mpBrf-0000Jq-8y
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 11:08:19 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:33887)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mpCDA-0006jY-Qe
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 11:30:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mpBrc-0001S4-NF
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 11:08:19 -0500
-Received: from [192.168.100.1] ([82.142.2.234]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MlbPO-1mO8pi3ZPW-00incg; Mon, 22 Nov 2021 17:08:04 +0100
-Message-ID: <e98f76e6-d754-4d80-180c-6614eb813787@vivier.eu>
-Date: Mon, 22 Nov 2021 17:08:04 +0100
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mpCD7-0004eo-NO
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 11:30:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637598629;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nohvYLdn/xqX6AHuzRWHXXSsEyGcuh9G7ifTPCNsKls=;
+ b=VMN3b+V/X8Q0ECnEM4iy3XLtbdlTuyiTe2lpSRhNHHkI+ZyYBWig4KhM9qpuLaPEh6WsGO
+ 4xMi/xhv/pNuszvpEF2/LyJdlHlIW/JPtKDjGU9s7+gnWYYPe9D6cIcnO6MZZrTG8zzOv1
+ biFbVdRxsQOk/T+5XXQRNV3XyflHI0g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-247-N5TEOEqXPkmDKwVdQd1joQ-1; Mon, 22 Nov 2021 11:30:25 -0500
+X-MC-Unique: N5TEOEqXPkmDKwVdQd1joQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC0DB1851726;
+ Mon, 22 Nov 2021 16:30:24 +0000 (UTC)
+Received: from redhat.com (ovpn-113-22.phx2.redhat.com [10.3.113.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D94AADCB;
+ Mon, 22 Nov 2021 16:30:03 +0000 (UTC)
+Date: Mon, 22 Nov 2021 10:30:01 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v4 20/32] nbd/client-connection: implement connection retry
+Message-ID: <20211122163001.ahvcby7rrg4hc23n@redhat.com>
+References: <20210610100802.5888-1-vsementsov@virtuozzo.com>
+ <20210610100802.5888-21-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH for-6.2 0/2] linux-user: Create a common
- rewind_if_in_safe_syscall
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <20211122131200.229286-1-richard.henderson@linaro.org>
- <38b341b4-1aae-91b5-9f4c-aa451a6f4157@vivier.eu>
- <336a43f3-2d24-8848-16b5-a241d995d492@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <336a43f3-2d24-8848-16b5-a241d995d492@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:onVZxu+AHaT3hFzEYk3pelTOytqUMhUlHcgK2pqduQZDQtUpJzj
- FsRKk8jmPcnI1p+v418jeWfrJ/nM6mxN4iokaxbeku27t9xBxJpu2eSU+xYIjT1g91ewep+
- NPeiauv41g7y2C+Rl82hulyFKNty+1fxfmqTWdt4LMJAJ6KhOf0TWkMzeKEGE4LcBfFX6LD
- lnTW/RquRNTjAKMBh1PAQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Tb0Q5aNGICc=:ehJHEyleAIRJfHVpzssQ8s
- Yn3RbKVZmHzZIPVOt04G1PHjbD5lznJ8cmutb3ttMstMdCdMjTuG1bWFSPnO+fJ8LLgPwDJZM
- m2ndfVvL7g3/Ck4IHVtXYEmrd6RcwMKKLP92+9gJAzfzUV8vgXH6pjJNHCRag3FOyvah2IMi4
- Bzm6m33dywoPaLQgqfxiAoze96n8eQ2WqqBfn7I1MTo/4mVeiJZFDDX6bRHypuYgr7+NErfIR
- SRc+xltLKrydUJTW9LU0jf+CBctrTLgo5BWO3zHmzMLXrdDN2WySRJ+u803HJM3P4qDMH6s6B
- +gdj+slLoyHExpgx0rdY9L/uWuEa9fSacw/+4jVht+AYSjnh3u35+5Dx3Z6h/0rc2/CFCYTXB
- zfEyb6/zuZhrdsjMiP6ESRmewPxZ6CjcmXo2w9L4l8yEnDJVe23IsWGOtIJA1ukErWdo+FxG0
- g8D5qjIHdMX8oj3uFWqU0T+t1HvgF3NhqvgZXBlrFgruHbGSWqcFBrUqwk12PmA2I8rVpoPYA
- McU1orlx8eo1jlu2QyyI5C3RPuhexT7LZt+1DzVNYK00JLbhcKlaiYuZpExKgLhVPPQGrkp3f
- Iq5OySl951Bu2Vi/VEpwUv8pKePQzZzLGFjLURiVnKqcfsDRJAPXhOk6E6O/G5lbknv3lSwED
- GgN+TJvhz0qvvPtz7EXT31NHwpTSTX9Ri98HJ4mTCyhtetC9hUh6QQ8VXTMdWJ6ddIeg=
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210610100802.5888-21-vsementsov@virtuozzo.com>
+User-Agent: NeoMutt/20211029-26-f6989f
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,58 +78,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: raj.khem@gmail.com, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 22/11/2021 à 16:50, Richard Henderson a écrit :
-> On 11/22/21 4:43 PM, Laurent Vivier wrote:
->> Hi,
->>
->> Le 22/11/2021 à 14:11, Richard Henderson a écrit :
->>> This is a re-packaging of two of Warner's patches that
->>> fix a build issue on aarch64 using musl:
->>>
->>> https://lore.kernel.org/qemu-devel/20211108194230.1836262-1-raj.khem@gmail.com/
->>>
->>>
->>> r~
->>>
->>>
->>> Warner Losh (2):
->>>    linux-user: Add host_signal_set_pc to set pc in mcontext
->>>    linux-user/signal.c: Create a common rewind_if_in_safe_syscall
->>>
->>>   linux-user/host/aarch64/host-signal.h |  5 +++++
->>>   linux-user/host/aarch64/hostdep.h     | 20 --------------------
->>>   linux-user/host/alpha/host-signal.h   |  5 +++++
->>>   linux-user/host/arm/host-signal.h     |  5 +++++
->>>   linux-user/host/arm/hostdep.h         | 20 --------------------
->>>   linux-user/host/i386/host-signal.h    |  5 +++++
->>>   linux-user/host/i386/hostdep.h        | 20 --------------------
->>>   linux-user/host/mips/host-signal.h    |  5 +++++
->>>   linux-user/host/ppc/host-signal.h     |  5 +++++
->>>   linux-user/host/ppc64/hostdep.h       | 20 --------------------
->>>   linux-user/host/riscv/host-signal.h   |  5 +++++
->>>   linux-user/host/riscv/hostdep.h       | 20 --------------------
->>>   linux-user/host/s390/host-signal.h    |  5 +++++
->>>   linux-user/host/s390x/hostdep.h       | 20 --------------------
->>>   linux-user/host/sparc/host-signal.h   |  9 +++++++++
->>>   linux-user/host/x86_64/host-signal.h  |  5 +++++
->>>   linux-user/host/x86_64/hostdep.h      | 20 --------------------
->>>   linux-user/safe-syscall.h             |  3 +++
->>>   linux-user/signal.c                   | 15 ++++++++++++---
->>>   19 files changed, 69 insertions(+), 143 deletions(-)
->>>
->>
->> Richard, will you take this series via one of your branches or do you want I send a linux-user 
->> pull request for it?
+Reviving this thread, as a good as place as any for my question:
+
+On Thu, Jun 10, 2021 at 01:07:50PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Add an option for a thread to retry connection until succeeds. We'll
+> use nbd/client-connection both for reconnect and for initial connection
+> in nbd_open(), so we need a possibility to use same NBDClientConnection
+> instance to connect once in nbd_open() and then use retry semantics for
+> reconnect.
 > 
-> I have nothing pending myself, but I can send this if you'd like.  I mostly wanted your ack on it.
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/block/nbd.h     |  2 ++
+>  nbd/client-connection.c | 56 +++++++++++++++++++++++++++++++----------
+>  2 files changed, 45 insertions(+), 13 deletions(-)
 
-Acked-by: Laurent Vivier <laurent@vivier.eu>
+>  NBDClientConnection *nbd_client_connection_new(const SocketAddress *saddr,
+>                                                 bool do_negotiation,
+>                                                 const char *export_name,
+> @@ -154,23 +164,43 @@ static void *connect_thread_func(void *opaque)
+>      NBDClientConnection *conn = opaque;
+>      int ret;
+>      bool do_free;
+> +    uint64_t timeout = 1;
+> +    uint64_t max_timeout = 16;
+>  
+> -    conn->sioc = qio_channel_socket_new();
+> +    while (true) {
+> +        conn->sioc = qio_channel_socket_new();
+>  
+> -    error_free(conn->err);
+> -    conn->err = NULL;
+> -    conn->updated_info = conn->initial_info;
+> +        error_free(conn->err);
+> +        conn->err = NULL;
+> +        conn->updated_info = conn->initial_info;
+>  
+> -    ret = nbd_connect(conn->sioc, conn->saddr,
+> -                      conn->do_negotiation ? &conn->updated_info : NULL,
+> -                      conn->tlscreds, &conn->ioc, &conn->err);
 
-Thanks,
-Laurent
+This says that on each retry attempt, we reset whether to ask the
+server for structured replies back to our original initial_info
+values.
+
+But when dealing with NBD retries in general, I suspect we have a bug.
+Consider what happens if our first connection requests structured
+replies and base:allocation block status, and we are successful.  But
+later, the server disconnects, triggering a retry.  Suppose that on
+our retry, we encounter a different server that no longer supports
+structured replies.  We would no longer be justified in sending
+NBD_CMD_BLOCK_STATUS requests to the reconnected server.  But I can't
+find anywhere in the code base that ensures that on a reconnect, the
+new server supplies at least as many extensions as the original
+server, nor anywhere that we would be able to gracefully handle an
+in-flight block status command that can no longer be successfully
+continued because the reconnect landed on a downgraded server.
+
+In general, you don't expect a server to downgrade its capabilities
+across restarts, so assuming that a retried connection will hit a
+server at least as capable as the original server is typical, even if
+unsafe.  But it is easy enough to use nbdkit to write a server that
+purposefully downgrades its abilities after the first client
+connection, for testing how qemu falls apart if it continues making
+assumptions about the current server based solely on what it learned
+prior to retrying from the first server.
+
+Is this something we need to address quickly for inclusion in 6.2?
+Maybe by having a retry connect fail if the new server does not have
+the same capabilities as the old?  Do we also need to care about a
+server reporting a different size export than the old server?
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
