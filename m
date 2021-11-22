@@ -2,90 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C6CD458E1C
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 13:19:25 +0100 (CET)
-Received: from localhost ([::1]:51664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4DE9458E2D
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 13:21:53 +0100 (CET)
+Received: from localhost ([::1]:54050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp8I8-00021I-Gp
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 07:19:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45496)
+	id 1mp8KW-0003mU-QQ
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 07:21:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mp8GF-0007yG-Qi
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:17:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39978)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1mp8IV-0002wT-DH
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:19:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mp8GD-0005QI-Iy
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:17:27 -0500
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1mp8IS-0005eD-9B
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:19:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637583444;
+ s=mimecast20190719; t=1637583583;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xtaloi5R+LH/p1amxef3z86CYMvQ7bGT240F6mebXq8=;
- b=efpjBfvganhWL73hYbnPH+8N+D71XcAQ5PaMk8CeYTOvV1JkZRTYY0oPCEVJkvjDKrttW9
- b/k182OOo4+fJi/MmlmE3SfV+CIeyKkwn2Wv/1b4xfi1ipLYi1nw4vA9xcOUCf01vM8bUf
- Ya6RPE/0+o4UAoi99wcfU8U1TIyQ2C8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BZkVWBRrY+uvmMy1N+3hy6BNNXSYSfNPH4VS4n2ZSkI=;
+ b=eRsT0Yi+s8za81ydcEtzz5dDB4u5FIjeIDeZMKa7IyE9pf7pYaTxe9yh0D8q5uF1YFm3Yb
+ iRSBJuACLnTSvu+ZyRAHxKl3HN8m1c7NYjYBTGEusNG0SwrsU1rq+Fi7Km9hTCdDULbe11
+ g5LZhw1U5SgkUgpSfnnovpzbZIPjhBo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-Ein6ymQkMhmhp2Ifyrqxpg-1; Mon, 22 Nov 2021 07:17:23 -0500
-X-MC-Unique: Ein6ymQkMhmhp2Ifyrqxpg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 69-20020a1c0148000000b0033214e5b021so6726691wmb.3
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 04:17:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=xtaloi5R+LH/p1amxef3z86CYMvQ7bGT240F6mebXq8=;
- b=L1ncDw3kOyj5yOFsi2dqn8ufaCpR/jD8f6G8GDraGpULVhyMrnsEkyRVKAAeKwwRth
- kwq+kuRZ9RmqQ/zGv0FgcPSUvdNh7Id7Vgi1cWItfxe7huvvNIYajW1LKFhi3U9dkO6K
- WaBkxg+lGiiQP+Xnlyx1Z+TP6h0QUYcxoGkK6NhN9SOnu4/dap4ZPjrWNoOYMiJfCvHc
- cjbZZcFMoD0oEWJWMosy/8ExmyvGpGbbpjgHZVs7X8ljnog/sydtVj2ZUTkmaa/2BUAr
- 8/t941AXC4vSFT8fyklRuDbLvH88dWgSUXnjoXsBMGM1mjhgdbNnfNNUpnYQeYmMaDH6
- vGXw==
-X-Gm-Message-State: AOAM5320kZRFTtpsje6x+tpQ6B9xUXQWpmYAYiNwuLJSvKej/evEXC6E
- B7P1QMv3V9AJPxoeRH4Fjf8L/ti/dzadHtjrj3lEtOePPWlZql5o5orrd/s6ySLx6Ure9aXFX/g
- cQvHHi8vWLoDwkAc=
-X-Received: by 2002:adf:9bcd:: with SMTP id e13mr37090401wrc.165.1637583441894; 
- Mon, 22 Nov 2021 04:17:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyut/Tst1nlHd4W6dCshnzM2Owz2NdBVxKRr1JGcEeOrdYRXxyVzXwhsY7m9j+SyWQCF3LZjA==
-X-Received: by 2002:adf:9bcd:: with SMTP id e13mr37090359wrc.165.1637583441651; 
- Mon, 22 Nov 2021 04:17:21 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id n7sm8684577wro.68.2021.11.22.04.17.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 04:17:21 -0800 (PST)
-Message-ID: <a605fb86-d86f-e200-de80-e5802254f52e@redhat.com>
-Date: Mon, 22 Nov 2021 13:17:19 +0100
+ us-mta-51-J9k2OuKkNpiohmTUxWREIQ-1; Mon, 22 Nov 2021 07:19:40 -0500
+X-MC-Unique: J9k2OuKkNpiohmTUxWREIQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A368C18414A2;
+ Mon, 22 Nov 2021 12:19:39 +0000 (UTC)
+Received: from paraplu (unknown [10.39.193.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3556319D9F;
+ Mon, 22 Nov 2021 12:19:33 +0000 (UTC)
+Date: Mon, 22 Nov 2021 13:19:31 +0100
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/2] docs: Fix botched rST conversion of
+ 'submitting-a-patch.rst'
+Message-ID: <YZuK09xP0I28dvMr@paraplu>
+References: <20211119193118.949698-1-kchamart@redhat.com>
+ <20211119193118.949698-2-kchamart@redhat.com>
+ <56026d2a-0b9e-ff83-d953-a284a810a8ed@redhat.com>
+ <YZtu59t8DoZZ15nQ@paraplu>
+ <b03ffb0c-0c4f-b792-f6c1-55014a0ae003@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] MAINTAINERS: Add myself as a reviewer for Hyper-V VMBus
-To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>, qemu-devel@nongnu.org
-References: <b145dcf08ae606e9d29e55b2f701a3fe4f16b347.1637433881.git.maciej.szmigiero@oracle.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <b145dcf08ae606e9d29e55b2f701a3fe4f16b347.1637433881.git.maciej.szmigiero@oracle.com>
+In-Reply-To: <b03ffb0c-0c4f-b792-f6c1-55014a0ae003@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kchamart@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,42 +83,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Jon Doron <arilou@gmail.com>, qemu-trivial@nongnu.org,
- Roman Kagan <rvkagan@yandex-team.ru>, "Denis V . Lunev" <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/20/21 19:46, Maciej S. Szmigiero wrote:
-> From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
-> 
-> This way there is at least some contact point for incoming patches.
-> 
-> We'll see whether the code still gets just a random patch a few times
-> a year or whether it requires a permanent maintainer to take care of it.
-> 
-> Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
-> ---
->  MAINTAINERS | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d3879aa3c12c..7f57e7fda73b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1729,6 +1729,12 @@ F: include/hw/block/fdc.h
->  F: tests/qtest/fdc-test.c
->  T: git https://gitlab.com/jsnow/qemu.git ide
->  
-> +Hyper-V VMBus
-> +S: Odd Fixes
-> +R: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
-> +F: hw/hyperv/vmbus.c
-> +F: include/hw/hyperv/vmbus*.h
+On Mon, Nov 22, 2021 at 11:36:54AM +0100, Thomas Huth wrote:
+> On 22/11/2021 11.20, Kashyap Chamarthy wrote:
+> > On Mon, Nov 22, 2021 at 10:51:15AM +0100, Thomas Huth wrote:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+[...]
 
-Thank you!
+> > > I'll add the link to https://wiki.qemu.org/Contribute/SpellCheck again.
+> > 
+> > Please don't -- I intentionally dropped it in a previous iteration based
+> > on this feedback from Peter Maydell:
+> > 
+> >      "I'm not sure that SpellCheck in particular is sufficiently baked
+> >      to be in the actual docs. I'd rather just drop the reference to it
+> >      from SubmitAPatch."
+> >      (https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg00137.html)
+> 
+> Ok, so I'll drop that line completely (otherwise it does not really make
+> sense to have it in this list after the "See also:" right in front of it).
+
+I kept that because an explicit reminder about spell-check is useful;
+it's easy to forget.  Another option is to retain the line, but replace
+"See also:" with "And:".  Not sure if it's any better.  But I don't mind
+either way.
+
+-- 
+/kashyap
 
 
