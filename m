@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F9D6458783
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 01:53:22 +0100 (CET)
-Received: from localhost ([::1]:55742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B9B4587E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 02:59:54 +0100 (CET)
+Received: from localhost ([::1]:49852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moxaD-00047M-JZ
-	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 19:53:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56140)
+	id 1moycb-0006g1-Ev
+	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 20:59:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1moxWZ-0004F1-76
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 19:49:35 -0500
-Received: from [2607:f8b0:4864:20::72c] (port=46683
- helo=mail-qk1-x72c.google.com)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1moybI-0005sV-R6; Sun, 21 Nov 2021 20:58:33 -0500
+Received: from [2607:f8b0:4864:20::d36] (port=40564
+ helo=mail-io1-xd36.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1moxWX-0000yE-RV
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 19:49:34 -0500
-Received: by mail-qk1-x72c.google.com with SMTP id a11so16418108qkh.13
- for <qemu-devel@nongnu.org>; Sun, 21 Nov 2021 16:49:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1moybH-00009e-49; Sun, 21 Nov 2021 20:58:32 -0500
+Received: by mail-io1-xd36.google.com with SMTP id p23so21283358iod.7;
+ Sun, 21 Nov 2021 17:58:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sVL92mTvh6v8iF1R3vWkKRUUlyjnSFC3fOOV0v2z5ak=;
- b=I4B0dGE16e8GGX5KPhiJLJm7kAmblYHohvqe6SU0cwXXIARJrlEg/9f6zBSjLdm/Fd
- 47/K9hgy4tNwnalJjqAavKI9+bWWqGwZBWqG0ZmXNyXhk023Z/DnFhhYxafJQtabcT9W
- Y943vRFxCEwbYbirjGG53tnMgoenxh2Rq1kvBkE2aPOpGav4U9F5xLdbD8psAr8SB1en
- 1yE/NT6RYqfUzQAQdEM7uoHxTx3RPgsEuFtn66Eu1xi80v5HORZxbSDvZg0mXbJSSzba
- VMRQVAv0fSPsfaJooH9YeXxRr6yo5D0qvAPgYboN0HTNxisrffnHdrx3Eg1Wq2ggq4bh
- jO7w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=u1Ygz5hQs1Cxb2pKI34tUnAvp8b3L7Iq85EX8qUfHF4=;
+ b=JIXcVcqtu3U4zp4JLEDhMciG+L2ZGYNewNCYEpYcNHJCB0lKhrqxKZBD+9OHg/RoSX
+ Adzo9UapQ+myj71zeXNOZF9QRl/zmXb4LNvuDjlURowg895pxfv6v0LT4SCns34Akk4C
+ ++umMZhGkQyuMuVyjNeCi4Z4c/0x4FNkvFfpDaVsvs3wGsFp6qP9FAkLRJgfvLfx32Ru
+ 9ydyqsKyii9wxjPR+Whxwuw5s2dUEHhouFO7+9NmSagr1EXbXtCQW+9n/n6AUMeuuB5S
+ pSWJtwsYoqnU5B6i3cLSUZhxRxyNLElu39j4x28u+l0rnuFnzXzOX5CZH7sVT58KpF5N
+ 6hHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sVL92mTvh6v8iF1R3vWkKRUUlyjnSFC3fOOV0v2z5ak=;
- b=L41A7pkqv3I6jur04x4CmbqY0xUTcgJoNwOuc1qcOzDWr9h2rZYOALnUsbahhgn6P7
- ymVW4jknMf55yPmZWhCigZrYr5RoXKzIR7vtuxwKtNmBnIez5ddvqKDAmj+jMU8bVHwE
- 7ZIoA9PjXusEovqrlYka0lckpNKeOtjVYQjaFCfCU1GuQdyq3CUPq/t4P0KXLABmX8PV
- YJMSS+4E9YX+YnK2ZuVtH8n3u9T97TB6INtuvUyDawLrO2p39EqO2EQ8D3hxE9nY2TDZ
- NxX5rgommPqRe+3qFaY96SBAedBWVIbV0f3Xev9yzaN1tb37N0WO25CeES2HLcs8isXc
- +t1w==
-X-Gm-Message-State: AOAM5327hjesi8CfeTI3Z6/9NusQ3xr2cIdPLn6BqHo75kWC4LDCJ9V5
- 7aRU9fp29ce6Fk87NR9B8U7qmn+yswzW3w==
-X-Google-Smtp-Source: ABdhPJzJO7+38kVv+boOowRn0tnopMwGe4hD7SDOxbnLf93sKeMumLmQ/wSljH5+CgG14XO6AvQgFQ==
-X-Received: by 2002:a05:620a:915:: with SMTP id
- v21mr44140257qkv.449.1637542172997; 
- Sun, 21 Nov 2021 16:49:32 -0800 (PST)
-Received: from localhost.localdomain
- (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
- [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id x17sm3651745qta.66.2021.11.21.16.49.32
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 21 Nov 2021 16:49:32 -0800 (PST)
-From: Will Cohen <wwcohen@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/11] 9p: darwin: meson: Allow VirtFS on Darwin
-Date: Sun, 21 Nov 2021 19:49:13 -0500
-Message-Id: <20211122004913.20052-12-wwcohen@gmail.com>
-X-Mailer: git-send-email 2.34.0
-In-Reply-To: <20211122004913.20052-1-wwcohen@gmail.com>
-References: <20211122004913.20052-1-wwcohen@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=u1Ygz5hQs1Cxb2pKI34tUnAvp8b3L7Iq85EX8qUfHF4=;
+ b=LoGPM0K+3wVqluEqiVyhVovJTiSMRPIH8KFv1elBBg7SyguOAmV41iRgVJtTtKV38X
+ UqlvlUVA/6Ddv/Y2+1mgQqifIMv3seb6/i0VHkMuOi0Wi6lho8t//Z+SAYLXT6je+bZZ
+ HcDqSJt8bPCGxMxbR3Q0q+HCzBPN98KVL8GTXGgTHE4wVJTip/wPNrtVe+uVzLsj823u
+ FeEnZHxavPwutU1OG4PZIG65CZPRM9bKJB1SUhG0BXY5cdtU/+UDMbaycF/q7c9HX7pU
+ S/aeYKtpUUMuAqNbQFIzBTTYqxKKvasGXuIEt9FJ/IjxJQOuibnn/QfbTrwslo42wHuI
+ tU2Q==
+X-Gm-Message-State: AOAM5303nkMJUlUftvN4r1RwTbr+o7TJSFugb75G1IZ45thSrjxCVIHW
+ qkOV80aJQ+vPxBf1I9L6Ukd/jrrcvzQCUi0c0wk=
+X-Google-Smtp-Source: ABdhPJz3g2Ha3q83kvyr3JQv/KF3jo+U4E66XHPCQcC9vfw2VrFKVmL2ywm/RXje+b+HZjSf8KlhHXKUaWPd+ex0k3k=
+X-Received: by 2002:a05:6638:32a2:: with SMTP id
+ f34mr44342976jav.63.1637546309727; 
+ Sun, 21 Nov 2021 17:58:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72c
+References: <20211116080621.2521-1-liweiwei@iscas.ac.cn>
+ <20211116080621.2521-2-liweiwei@iscas.ac.cn>
+In-Reply-To: <20211116080621.2521-2-liweiwei@iscas.ac.cn>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 22 Nov 2021 11:58:03 +1000
+Message-ID: <CAKmqyKPDJ801SFJTBYfkcKQ9B295J+TKoAiY=syduuKSw3pS7Q@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/7] target/riscv: rvk: add cfg properties for zbk*
+ and zk*
+To: liweiwei <liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d36
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
- envelope-from=wwcohen@gmail.com; helo=mail-qk1-x72c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,68 +81,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Keno Fischer <keno@juliacomputing.com>, Greg Kurz <groug@kaod.org>,
- hi@alyssa.is, Michael Roitzsch <reactorcontrol@icloud.com>,
- Will Cohen <wwcohen@gmail.com>
+Cc: lazyparser@gmail.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ lustrew@foxmail.com, wangjunqiang <wangjunqiang@iscas.ac.cn>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, luruibo2000@163.com,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Keno Fischer <keno@juliacomputing.com>
+On Tue, Nov 16, 2021 at 6:11 PM liweiwei <liweiwei@iscas.ac.cn> wrote:
+>
+> Signed-off-by: liweiwei <liweiwei@iscas.ac.cn>
+> Signed-off-by: wangjunqiang <wangjunqiang@iscas.ac.cn>
 
-Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-[Michael Roitzsch: - Rebase for NixOS]
-Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-[Will Cohen: - Rebase to master]
-Signed-off-by: Will Cohen <wwcohen@gmail.com>
----
- fsdev/meson.build |  1 +
- meson.build       | 12 ++++++++----
- 2 files changed, 9 insertions(+), 4 deletions(-)
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/fsdev/meson.build b/fsdev/meson.build
-index adf57cc43e..b632b66348 100644
---- a/fsdev/meson.build
-+++ b/fsdev/meson.build
-@@ -7,6 +7,7 @@ fsdev_ss.add(when: ['CONFIG_FSDEV_9P'], if_true: files(
-   'qemu-fsdev.c',
- ), if_false: files('qemu-fsdev-dummy.c'))
- softmmu_ss.add_all(when: 'CONFIG_LINUX', if_true: fsdev_ss)
-+softmmu_ss.add_all(when: 'CONFIG_DARWIN', if_true: fsdev_ss)
- 
- if have_virtfs_proxy_helper
-   executable('virtfs-proxy-helper',
-diff --git a/meson.build b/meson.build
-index 96de1a6ef9..0f92adea52 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1383,17 +1383,21 @@ endif
- have_host_block_device = (targetos != 'darwin' or
-     cc.has_header('IOKit/storage/IOMedia.h'))
- 
--have_virtfs = (targetos == 'linux' and
-+if targetos == 'darwin'
-+  have_virtfs = have_system
-+else
-+  have_virtfs = (targetos == 'linux' and
-     have_system and
-     libattr.found() and
-     libcap_ng.found())
-+endif
- 
--have_virtfs_proxy_helper = have_virtfs and have_tools
-+have_virtfs_proxy_helper = targetos == 'linux' and have_virtfs and have_tools
- 
- if get_option('virtfs').enabled()
-   if not have_virtfs
--    if targetos != 'linux'
--      error('virtio-9p (virtfs) requires Linux')
-+    if targetos != 'linux' and targetos != 'darwin'
-+      error('virtio-9p (virtfs) requires Linux or Darwin')
-     elif not libcap_ng.found() or not libattr.found()
-       error('virtio-9p (virtfs) requires libcap-ng-devel and libattr-devel')
-     elif not have_system
--- 
-2.34.0
+Alistair
 
+> ---
+>  target/riscv/cpu.c | 23 +++++++++++++++++++++++
+>  target/riscv/cpu.h | 13 +++++++++++++
+>  2 files changed, 36 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index f812998123..a5ec182a86 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -491,6 +491,29 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>              cpu->cfg.ext_d = true;
+>          }
+>
+> +        if (cpu->cfg.ext_zk) {
+> +            cpu->cfg.ext_zkn = true;
+> +            cpu->cfg.ext_zkr = true;
+> +            cpu->cfg.ext_zkt = true;
+> +        }
+> +
+> +        if (cpu->cfg.ext_zkn) {
+> +            cpu->cfg.ext_zbkb = true;
+> +            cpu->cfg.ext_zbkc = true;
+> +            cpu->cfg.ext_zbkx = true;
+> +            cpu->cfg.ext_zkne = true;
+> +            cpu->cfg.ext_zknd = true;
+> +            cpu->cfg.ext_zknh = true;
+> +        }
+> +
+> +        if (cpu->cfg.ext_zks) {
+> +            cpu->cfg.ext_zbkb = true;
+> +            cpu->cfg.ext_zbkc = true;
+> +            cpu->cfg.ext_zbkx = true;
+> +            cpu->cfg.ext_zksed = true;
+> +            cpu->cfg.ext_zksh = true;
+> +        }
+> +
+>          /* Set the ISA extensions, checks should have happened above */
+>          if (cpu->cfg.ext_i) {
+>              ext |= RVI;
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 0760c0af93..74e8be4847 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -308,7 +308,20 @@ struct RISCVCPU {
+>          bool ext_zba;
+>          bool ext_zbb;
+>          bool ext_zbc;
+> +        bool ext_zbkb;
+> +        bool ext_zbkc;
+> +        bool ext_zbkx;
+>          bool ext_zbs;
+> +        bool ext_zk;
+> +        bool ext_zkn;
+> +        bool ext_zknd;
+> +        bool ext_zkne;
+> +        bool ext_zknh;
+> +        bool ext_zkr;
+> +        bool ext_zks;
+> +        bool ext_zksed;
+> +        bool ext_zksh;
+> +        bool ext_zkt;
+>          bool ext_counters;
+>          bool ext_ifencei;
+>          bool ext_icsr;
+> --
+> 2.17.1
+>
+>
 
