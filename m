@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C9445947E
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 19:07:08 +0100 (CET)
-Received: from localhost ([::1]:42306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DBEB459482
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 19:08:11 +0100 (CET)
+Received: from localhost ([::1]:44888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpDid-0005jf-Gu
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 13:07:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45884)
+	id 1mpDje-0007VW-GI
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 13:08:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mpDgh-0004Cx-F4
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 13:05:07 -0500
-Received: from [2a00:1450:4864:20::42e] (port=34600
- helo=mail-wr1-x42e.google.com)
+ id 1mpDiI-00067i-Oa
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 13:06:46 -0500
+Received: from [2a00:1450:4864:20::42b] (port=43572
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mpDge-0003yI-Sl
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 13:05:06 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id d5so34323921wrc.1
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 10:05:04 -0800 (PST)
+ id 1mpDiG-0004Fr-Ou
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 13:06:46 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id t30so34220376wra.10
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 10:06:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fsiAKJlKsguZpsdNMTI1cutUkKwCWY61D/RBqGw3BCY=;
- b=olFzDbEmarzN3rtl2pzCAtYSK/u87+OEA2DaiArd6NpG+F0fFwamtMPTXy8g+wO0tN
- zvQuVSDMA+UTOflCcvEixKYkPRhEugWr1ulw+lOO1D55ABJoOmL8+JTdv7IGVo7WWb52
- eekg6+fDOS4cAyY9kZvCW5RFFxp7WCvSvK/YtXzr9H7Ulqj687ns/1Ynft+v2QzHqKlw
- aHdr+nTl7hBsNcPo+zWhE/1o82+2NOruM7rzomIRnL202hIJAJMcEzLLw9q9hsweYCSC
- yz8/+3dl/sMkk/FuM8UBVRc4B1Ra39T8GQFi76mNFqYNIPOgoC4uLsz0YjYNP/dbPsOC
- 0BbA==
+ :cc; bh=7VZpd7wHnJqRumawbJbXlpoBD05f4hWB6rWFW//Gx7A=;
+ b=P19DRofLnSH4dcl/8UXqkBlCSjcoG/6KbRCq2IIM94xw3cWojIkczSZr3e4pmSYFJ4
+ zMKCVxMqj6NL5OWOlspe2P/WSK+9rQT9lLJg2prQ5OeSdndTa0pHl91+dLVOPSiwsZFA
+ GL0JNbpuYyRLKFK0HVlYTPGGXJy2wGbqRN1f90sJzUErpmyxMbJIz+2TWj4Ph3GRm0n4
+ ILv1NvUBrpE8nET5+Mr/YBOYm9iwZr2YAVcODl1HBFwrgd/mriEBcD4L5YWCBfo6TZtJ
+ QtGV1Pjv54OsVXGaZ5cUWGG5lIGSzrlrBmbSfZd+ZTfbDrgTnQn/YREyVDBKuMVvnbVW
+ shUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=fsiAKJlKsguZpsdNMTI1cutUkKwCWY61D/RBqGw3BCY=;
- b=S9PGrOQj3HRO5REXUT3u1WckHGDLiOYaQkAq4RAtZomShDHMqzUHbI8I8uej7bZzQX
- 4Ga6KRYCX2i80CrwEBnfLukjHhLqKyXZssvChGZ4vZB331gTuB1ca+TS7pBNdLOwX1pn
- NYqz75eV58zqR1nxUdGw8ygwi1O3ky14J0OiEE36S2tYcpVWnsxUIlWi7EQqomXIA1BK
- PLruvdzm+5xcF7vjzEwhghEmiXv7b51HuKaNLuPEvmgvDady1nt4ttPXaZd6r5I0R5/p
- 0Dw1EsUWXpmwVI4RGjJFBlcFLC0osSonwU052jplHRZcQMkDCvFLOW36o9OPMveym5kv
- OmaQ==
-X-Gm-Message-State: AOAM530fsxz8CIWbyEzVXNXW/LY8ZcK57eW1eohEIcld+EvM+I9G4vPl
- blpkmY6x+w+99iG6/M6vHr2rLbBvoOep5KsUhtZkBQ==
-X-Google-Smtp-Source: ABdhPJzV76nxRHimGMneAxxy+9cjF3j2nlfxTtEq8L1fAmdVYcwgjnaps9N2qSiYugtbC6qDA4YEpgkPPyirvL7iiJM=
-X-Received: by 2002:a05:6000:186e:: with SMTP id
- d14mr39836018wri.376.1637604303259; 
- Mon, 22 Nov 2021 10:05:03 -0800 (PST)
+ bh=7VZpd7wHnJqRumawbJbXlpoBD05f4hWB6rWFW//Gx7A=;
+ b=xD2wY8c/oOH0ZVHDaiRJlOQwkzclHGTM1mQY7BQtd4RIW8poJlCFlG8oBwfYXzqkH8
+ AuRXBNRqPMvT3J8E12Nrpom21c4YZjRPxrulSlQXCfQ3SgHCDuc+dlIfO4Ir3IOZ+XMo
+ BWyREuMoMpwsHPpbGli+Fxf79Cyirdy1W8ZLOnFty+fknbZYJchE+JRabg9/nyIjOvF+
+ xiAegG9gnB9UR49xHPsNA4Xw0p4qCTZM3PYrt8x4nbwVJzUrv6YCcnHLhBJcoYFH8JP2
+ qxsoUgFnyQ6GsSAL1hu9PF27+fxpOWoS0NAJyE7omnWiEheb0Jd482ZgaWUTL7n0yVu+
+ 40kw==
+X-Gm-Message-State: AOAM532uqLp0i9+Ec3x4Gv5+DdWNboYQAET5m+xD5Cpn1tD6yTzXktbQ
+ ZGCHQ42zi5xSCwQf+u8LaubZPEKs8DWO2h1MvfKfGQmZ1UI=
+X-Google-Smtp-Source: ABdhPJzIw3apfkwZ4SNBw6SkHPOuTgXxBC1vCI0sDEtJgfIKemwSbdkq0mWQkpfttUprohtnXGqPVvj/Ff71TzB/c38=
+X-Received: by 2002:a5d:6151:: with SMTP id y17mr41231272wrt.275.1637604403122; 
+ Mon, 22 Nov 2021 10:06:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20211122171020.1195483-1-eric.auger@redhat.com>
-In-Reply-To: <20211122171020.1195483-1-eric.auger@redhat.com>
+References: <20211122134342.660953-1-peter.maydell@linaro.org>
+In-Reply-To: <20211122134342.660953-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 22 Nov 2021 18:04:52 +0000
-Message-ID: <CAFEAcA-g9yjdO24cs+FSD0tp-Sw=RMe5_v0aVyFfWbY8zZp=Sw@mail.gmail.com>
-Subject: Re: [PATCH for-6.2] hw/intc/arm_gicv3_its: Revert version increments
- in vmstate_its
-To: Eric Auger <eric.auger@redhat.com>
+Date: Mon, 22 Nov 2021 18:06:32 +0000
+Message-ID: <CAFEAcA_f6pYLNigkEpYWAEJCEsySqJOARH+e8OmftAFj+iCCeg@mail.gmail.com>
+Subject: Re: [PULL 0/1] target-arm queue
+To: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -81,46 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: drjones@redhat.com, shashi.mallela@linaro.org, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, eric.auger.pro@gmail.com
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Nov 2021 at 17:10, Eric Auger <eric.auger@redhat.com> wrote:
+On Mon, 22 Nov 2021 at 13:43, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> Commit 18f6290a6a ("hw/intc: GICv3 ITS initial framework")
-> incremented version_id and minimum_version_id fields of
-> VMStateDescription vmstate_its. This breaks the migration between
-> 6.2 and 6.1 with the following message:
+> Just one patch for rc2, a revert.
 >
-> qemu-system-aarch64: savevm: unsupported version 1 for 'arm_gicv3_its' v0
-> qemu-system-aarch64: load of migration failed: Invalid argument
+> -- PMM
 >
-> Revert that change.
+> The following changes since commit 49aaac3548bc5a4632a14de939d5312b28dc1ba2:
 >
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> ---
->  hw/intc/arm_gicv3_its_common.c | 2 --
->  1 file changed, 2 deletions(-)
+>   Merge tag 'linux-user-for-6.2-pull-request' of git://github.com/vivier/qemu into staging (2021-11-22 10:33:13 +0100)
 >
-> diff --git a/hw/intc/arm_gicv3_its_common.c b/hw/intc/arm_gicv3_its_common.c
-> index 7d7f3882e76..90b85f1e25c 100644
-> --- a/hw/intc/arm_gicv3_its_common.c
-> +++ b/hw/intc/arm_gicv3_its_common.c
-> @@ -50,8 +50,6 @@ static int gicv3_its_post_load(void *opaque, int version_id)
+> are available in the Git repository at:
 >
->  static const VMStateDescription vmstate_its = {
->      .name = "arm_gicv3_its",
-> -    .version_id = 1,
-> -    .minimum_version_id = 1,
->      .pre_save = gicv3_its_pre_save,
->      .post_load = gicv3_its_post_load,
->      .priority = MIG_PRI_GICV3_ITS,
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20211122
+>
+> for you to fetch changes up to 4825eaae4fdd56fba0febdfbdd7bf9684ae3ee0d:
+>
+>   Revert "arm: tcg: Adhere to SMCCC 1.3 section 5.2" (2021-11-22 13:41:48 +0000)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * revert SMCCC/PSCI change, as it regresses some usecases for some boards
 
-Oops, I didn't notice that the version bump lines were still
-in the patchset I applied :-(
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Since this hasn't been applied yet I'll reroll it to add Eric's
+"don't bump the ITS version fields" patch. (But if you get here
+first that's fine too.)
 
 -- PMM
 
