@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A2ED458FF1
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 15:05:27 +0100 (CET)
-Received: from localhost ([::1]:43060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B507458FFC
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 15:09:46 +0100 (CET)
+Received: from localhost ([::1]:51472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp9wk-0003hD-6h
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 09:05:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45356)
+	id 1mpA0v-0001Qr-Go
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 09:09:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mp9to-0001PC-Ih
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:02:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56421)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mp9tq-0001Tm-IB
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:02:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31092)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mp9tk-0006ED-Mp
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:02:24 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mp9tj-0006Dq-Qc
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 09:02:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637589740;
+ s=mimecast20190719; t=1637589739;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1Xj8SXSSVDrdA5i87ZZXjqe2HQJ71f+RhbDtb1kw1I0=;
- b=gQgXEimAu5A1GG8lr3G0AxUtvl8uxxyZ0aRTkNfLfqZr385hM04okOUPBrX6tQXaZvIZ7l
- gYoCJ5KeW6Eippb7lnd3QL9mex4X2vTILsf8PHXkypXStDJjG7/zyNlTGu1s2vPbcaJgeC
- igPGk/ZLLY21ff37umV0YbNssSoFmE8=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1s4gIdmWmJJqJEj01NGTgcYt6J2rkpdjZoxa2C8B1BM=;
+ b=SIdj4Sdyx/f9AWExq1ODc8F9qDeXJjnQPher11egEb9cFpgBxZXw+xmPYGnGXZkYGpa7AF
+ lrNeocP3oVlknW4TMk+4rCX/NxrvNOyhv1WD6BOiXX8x4RKDuog/zRqw0eDo+f4nyltojm
+ JfRqpANgIZYtL0NFr/W2aOJBbipbNpY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-568-YWTAWf9fMhCiHpOb0ZoqSA-1; Mon, 22 Nov 2021 09:02:15 -0500
-X-MC-Unique: YWTAWf9fMhCiHpOb0ZoqSA-1
+ us-mta-584-CePcm6EdMvS3f6RByOg1iA-1; Mon, 22 Nov 2021 09:02:15 -0500
+X-MC-Unique: CePcm6EdMvS3f6RByOg1iA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5919E84B9FF
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 14:02:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1CA919057A0;
+ Mon, 22 Nov 2021 14:02:14 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 27B7560862
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 14:02:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8238360862;
+ Mon, 22 Nov 2021 14:02:14 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] NBD patches for 6.2-rc2, 2021-11-22
-Date: Mon, 22 Nov 2021 08:02:10 -0600
-Message-Id: <20211122140212.1511814-1-eblake@redhat.com>
+Subject: [PULL 1/2] nbd/server: Don't complain on certain client disconnects
+Date: Mon, 22 Nov 2021 08:02:11 -0600
+Message-Id: <20211122140212.1511814-2-eblake@redhat.com>
+In-Reply-To: <20211122140212.1511814-1-eblake@redhat.com>
+References: <20211122140212.1511814-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -61,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,35 +77,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-stable@nongnu.org,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 49aaac3548bc5a4632a14de939d5312b28dc1ba2:
+When a client disconnects abruptly, but did not have any pending
+requests (for example, when using nbdsh without calling h.shutdown),
+we used to output the following message:
 
-  Merge tag 'linux-user-for-6.2-pull-request' of git://github.com/vivier/qemu into staging (2021-11-22 10:33:13 +0100)
+$ qemu-nbd -f raw file
+$ nbdsh -u 'nbd://localhost:10809' -c 'h.trim(1,0)'
+qemu-nbd: Disconnect client, due to: Failed to read request: Unexpected end-of-file before all bytes were read
 
-are available in the Git repository at:
+Then in commit f148ae7, we refactored nbd_receive_request() to use
+nbd_read_eof(); when this returns 0, we regressed into tracing
+uninitialized memory (if tracing is enabled) and reporting a
+less-specific:
 
-  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-11-22
+qemu-nbd: Disconnect client, due to: Request handling failed in intermediate state
 
-for you to fetch changes up to e35574226a63f29e32eda8da5cc14832f19850e2:
+Note that with Unix sockets, we have yet another error message,
+unchanged by the 6.0 regression:
 
-  nbd/server: Simplify zero and trim (2021-11-22 07:37:15 -0600)
+$ qemu-nbd -k /tmp/sock -f raw file
+$ nbdsh -u 'nbd+unix:///?socket=/tmp/sock' -c 'h.trim(1,0)'
+qemu-nbd: Disconnect client, due to: Failed to send reply: Unable to write to socket: Broken pipe
 
-----------------------------------------------------------------
-nbd patches for 2021-11-22
+But in all cases, the error message goes away if the client performs a
+soft shutdown by using NBD_CMD_DISC, rather than a hard shutdown by
+abrupt disconnect:
 
-- Eric Blake: Avoid uninitialized memory on client hard disconnect
-- Eric Blake: Take advantage of block layer 64-bit zero/trim
+$ nbdsh -u 'nbd://localhost:10809' -c 'h.trim(1,0)' -c 'h.shutdown()'
 
-----------------------------------------------------------------
-Eric Blake (2):
-      nbd/server: Don't complain on certain client disconnects
-      nbd/server: Simplify zero and trim
+This patch fixes things to avoid uninitialized memory, and in general
+avoids warning about a client that does a hard shutdown when not in
+the middle of a packet.  A client that aborts mid-request, or which
+does not read the full server's reply, can still result in warnings,
+but those are indeed much more unusual situations.
 
- nbd/server.c | 26 ++++++--------------------
- 1 file changed, 6 insertions(+), 20 deletions(-)
+CC: qemu-stable@nongnu.org
+Fixes: f148ae7d36 ("nbd/server: Quiesce coroutines on context switch", v6.0.0)
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+[eblake: defer unrelated typo fixes to later patch]
+Message-Id: <20211117170230.1128262-2-eblake@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ nbd/server.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
+diff --git a/nbd/server.c b/nbd/server.c
+index d9164ee6d0da..74ba48709451 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1418,6 +1418,9 @@ static int nbd_receive_request(NBDClient *client, NBDRequest *request,
+     if (ret < 0) {
+         return ret;
+     }
++    if (ret == 0) {
++        return -EIO;
++    }
+
+     /* Request
+        [ 0 ..  3]   magic   (NBD_REQUEST_MAGIC)
 -- 
 2.33.1
 
