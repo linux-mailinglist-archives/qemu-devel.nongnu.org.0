@@ -2,49 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B78B4458D3F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 12:19:30 +0100 (CET)
-Received: from localhost ([::1]:45646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD9B4458D27
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 12:15:50 +0100 (CET)
+Received: from localhost ([::1]:36414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp7M9-0007V0-Sg
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 06:19:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57308)
+	id 1mp7Ib-0001JN-Vp
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 06:15:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mp78b-0006SI-Bq; Mon, 22 Nov 2021 06:05:29 -0500
-Received: from out28-77.mail.aliyun.com ([115.124.28.77]:40192)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mp78Y-0001w7-8E; Mon, 22 Nov 2021 06:05:29 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0798699|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.00517054-0.000148883-0.994681;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047209; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.LxAOnUR_1637579115; 
-Received: from roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.LxAOnUR_1637579115)
- by smtp.aliyun-inc.com(10.147.42.135);
- Mon, 22 Nov 2021 19:05:15 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2 5/5] target/riscv: Modify return and parameter type for
- pmp_adjust_tlb_size
-Date: Mon, 22 Nov 2021 19:02:30 +0800
-Message-Id: <20211122110230.38783-6-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211122110230.38783-1-zhiwei_liu@c-sky.com>
-References: <20211122110230.38783-1-zhiwei_liu@c-sky.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mp7Gp-0006OR-Jw
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 06:14:00 -0500
+Received: from [2a00:1450:4864:20::435] (port=46822
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mp7Gn-0003B4-Hx
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 06:13:59 -0500
+Received: by mail-wr1-x435.google.com with SMTP id u1so31937024wru.13
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 03:13:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=Z4/ewiFUUs8bciHGRf9CsCA8dO3/I0XRkPFE7WbZgP4=;
+ b=ZrV15Sg/5sAig+5yyMR7MzmxG81/JrQSN0W4YKAqZLGXWwNMYnujP+lN3G1DH2/zIz
+ key3YBrMBAWQq1FZPps0Rmml6K+f4tiijuEutC7kyIbwO7lWClSLg+EOJUlG81LWUaQZ
+ rIfLiZchCMYcmNqJHFg/H23I8WpbcDmCe/QdLeiszb34xST+sMxEUGNhcM2BaEwMCCjR
+ ezLlz4LU77EcbCXjhhcX54SUDtdnJRVkg/L3m1kqBv/6PYAYHJeSf3aAE7cabv/chQOH
+ bVuUiWYYocOe20yycL++HrqnDezpabd4sgYis2nNf4r4nKehvIFOBGKn9S6WitVZr50a
+ F1pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Z4/ewiFUUs8bciHGRf9CsCA8dO3/I0XRkPFE7WbZgP4=;
+ b=wr41Irs01bdpKJ+GNGMUvhDyfmdnT68dd0Xzsmk7SIKsC71MhMdOyLtMkh5s+TqTbR
+ QfUzu3zOhC8drJc4R7bLg8opqRo9I5/MJ19MMmamUwgg94AOwyrLtvKlKhiSFoHb8IqY
+ f3EDDQbzEY7DgGyIGvrQVdmBtBuaBgx03RtWX1Bpk5kwMVHeKve0MxRRwp1ckdT5rHAr
+ Nr2DfWv32fVoBzLK7IJwtMohoFc6ea2D+G97jsGIBn/U0Z3V8QhKLjwqQR3VNYv9seTo
+ 7plcADy9VZP9l5/xhI6LHtebUqjyP7deTnjP2Iv4v+XavDckE9c4gEF71pofbDVEW7B1
+ GftA==
+X-Gm-Message-State: AOAM5319RYYAsX4Ds/LrNfluJUEH79BJ/L1nKEhhSoX5XG+mC7po19I0
+ /eSX1GjYkl53PoFeFnBwiFN09lsEsysiuVBzih4=
+X-Google-Smtp-Source: ABdhPJzDbmskhS3fYDGwHIA5dmRFc7jRhG2qyjMrvA5e0Q78j9kJZ0qTKH57Ecu3nw+Ti72owKs6Kw==
+X-Received: by 2002:a5d:58fb:: with SMTP id f27mr38085575wrd.10.1637579635192; 
+ Mon, 22 Nov 2021 03:13:55 -0800 (PST)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id y15sm9121039wry.72.2021.11.22.03.13.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Nov 2021 03:13:54 -0800 (PST)
+Subject: Re: [PULL 0/5] Linux user for 6.2 patches
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20211122082310.377809-1-laurent@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <076a3d26-ca6c-0e6a-cef5-0c10cc44c3cd@linaro.org>
+Date: Mon, 22 Nov 2021 12:13:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=115.124.28.77; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-77.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+In-Reply-To: <20211122082310.377809-1-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,85 +90,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
----
- target/riscv/cpu_helper.c |  3 ++-
- target/riscv/pmp.c        | 13 +++++++------
- target/riscv/pmp.h        |  4 ++--
- 3 files changed, 11 insertions(+), 9 deletions(-)
+On 11/22/21 9:23 AM, Laurent Vivier wrote:
+> The following changes since commit 8627edfb3f1fca24a96a0954148885c3241c10f8:
+> 
+>    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2021-11-19 17:16:57 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    git://github.com/vivier/qemu.git tags/linux-user-for-6.2-pull-request
+> 
+> for you to fetch changes up to 802ae45e94151a6d3ee20eadcb865cf6c875df34:
+> 
+>    linux-user: fix Coverity CID 1464101 (2021-11-22 09:17:08 +0100)
+> 
+> ----------------------------------------------------------------
+> linux-user pull request 20211122
+> 
+> Fixes for CID 1464101 and gilab #704
+> 
+> ----------------------------------------------------------------
+> 
+> Laurent Vivier (1):
+>    linux-user: fix Coverity CID 1464101
+> 
+> Richard Henderson (4):
+>    linux-user: Split out do_getdents, do_getdents64
+>    linux-user: Always use flexible arrays for dirent d_name
+>    linux-user: Fix member types of target_dirent64
+>    linux-user: Rewrite do_getdents, do_getdents64
+> 
+>   linux-user/elfload.c      |  10 +-
+>   linux-user/syscall.c      | 314 +++++++++++++++++++-------------------
+>   linux-user/syscall_defs.h |  12 +-
+>   3 files changed, 172 insertions(+), 164 deletions(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index cf8109197d..45e29e6c01 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -376,7 +376,8 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
- 
-     *prot = pmp_priv_to_page_prot(pmp_priv);
-     if (tlb_size != NULL) {
--        pmp_adjust_tlb_size(env, addr & ~(*tlb_size - 1), tlb_size);
-+        *tlb_size = pmp_adjust_tlb_size(env, addr & ~(*tlb_size - 1),
-+                                        *tlb_size);
-     }
- 
-     return TRANSLATE_SUCCESS;
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 19baf87384..726974c97c 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -620,25 +620,26 @@ static target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
-  * Check is there a PMP entry which range covers this page. If so,
-  * try to find the minimum granularity for the TLB size.
-  */
--void pmp_adjust_tlb_size(CPURISCVState *env, hwaddr tlb_sa,
--                         target_ulong *tlb_size)
-+target_ulong pmp_adjust_tlb_size(CPURISCVState *env, hwaddr tlb_sa,
-+                                 target_ulong tlb_size)
- {
-     int i;
-     target_ulong val;
--    target_ulong tlb_ea = (tlb_sa + *tlb_size - 1);
-+    target_ulong tlb_ea = (tlb_sa + tlb_size - 1);
- 
-     if (pmp_get_num_rules(env) == 0) {
--        return;
-+        return tlb_size;
-     }
- 
-     for (i = 0; i < MAX_RISCV_PMPS; i++) {
-         val = pmp_get_tlb_size(env, i, tlb_sa, tlb_ea);
-         if (val) {
--            if (*tlb_size > val) {
--                *tlb_size = val;
-+            if (tlb_size > val) {
-+                tlb_size = val;
-             }
-         }
-     }
-+    return tlb_size;
- }
- 
- /*
-diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-index 600ac65d08..c110fb796b 100644
---- a/target/riscv/pmp.h
-+++ b/target/riscv/pmp.h
-@@ -71,8 +71,8 @@ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
- bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-     target_ulong size, pmp_priv_t privs, pmp_priv_t *allowed_privs,
-     target_ulong mode);
--void pmp_adjust_tlb_size(CPURISCVState *env, hwaddr tlb_sa,
--                         target_ulong *tlb_size);
-+target_ulong pmp_adjust_tlb_size(CPURISCVState *env, hwaddr tlb_sa,
-+                                 target_ulong tlb_size);
- void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
- void pmp_update_rule_nums(CPURISCVState *env);
- uint32_t pmp_get_num_rules(CPURISCVState *env);
--- 
-2.25.1
+Applied, thanks.
+
+r~
 
 
