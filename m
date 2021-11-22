@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD44D458CEF
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 12:04:34 +0100 (CET)
-Received: from localhost ([::1]:56344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 437D3458CF7
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 12:07:38 +0100 (CET)
+Received: from localhost ([::1]:37644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp77h-00020E-SC
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 06:04:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54646)
+	id 1mp7Af-0000Af-Bp
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 06:07:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mp6vX-0002fd-4b; Mon, 22 Nov 2021 05:51:59 -0500
-Received: from [2a00:1450:4864:20::42f] (port=39727
- helo=mail-wr1-x42f.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mp73R-0004b4-Mh
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 06:00:11 -0500
+Received: from [2a00:1450:4864:20::331] (port=50986
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mp6vV-0000NH-Kg; Mon, 22 Nov 2021 05:51:58 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id d27so31894592wrb.6;
- Mon, 22 Nov 2021 02:51:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Tdq7N3oNCaqvE7IxQ4unaziboqg8QUaCE/ZXK4Tc81s=;
- b=ekuBg/7W7q3hiCgSwO67UU6+u3tB0/hWhHicDyVeOtx1S6FWeUH8pl/bS50pZp44md
- dz7ZOzORVF0HWDTfYcxN5jkppikEM394PpnH70rPe8yo+SXef/ir1vdzK5m/D9qayM1P
- Mj8P6trUPqmmDSYUI9gHqYilxaFA5V6Cwih3VAMhwyK8dILBTunnzoOqlEew+StIb+vJ
- WbI+7TwWS3BA+NWygLL06bXLpotrtf3b/O2Xhsl1SHbirVfDXHLovoWdYrKVXD0643KT
- Ffu+I1rXe5djGfrOqZfwcN4Gske4BV/iLsiaxnmE63NifGJ1eHH1staPQb5dBxQD6uuF
- 1wDw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mp73P-00017f-Tq
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 06:00:09 -0500
+Received: by mail-wm1-x331.google.com with SMTP id 133so14934597wme.0
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 03:00:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=2IExDQvEd2WzGQ71T3AjMsU+y1fO98aLmLROqfsaKhA=;
+ b=i4QDkzrOyJ6Bl4ifmkIblt0VMAdDzxRQUWDlKXWnbOg433DtnsAQQT7siRD9oQb9Nt
+ uGrI+cUp8s5ryn2HlQtMSyo90OJGuAACd/RnTHP1PV9BKMPn+ekN/6x+vl6ZrvlmiTDa
+ m9O/Wxq9jbr9KmWxf456zXU80iu35cvvjG8rByMcEaUr6rhADee4mjrSUjz9r61DvHhD
+ f+qzkSeL+JEnGWD5yaF0K+TaHVKwoEZtQNFO3IYRg2UnQu9i+UpsVoI11fOJnHjWOeAo
+ fIRkDgKMz53FOO5c+SnryRlBPY7Zvz75OPUppYBmIjCwhMb4bYkMUvKt90doWGbSuFbe
+ HTzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Tdq7N3oNCaqvE7IxQ4unaziboqg8QUaCE/ZXK4Tc81s=;
- b=d6ce8I68BhEEkCw6HkDXCNDw5mkdeUBSTsjne10QSUEeN28TnNvMX4S7lHosuzbYuO
- E1CW2yCK82JeU9BUdM9lgQ1/cRDTkzV4+UGgjeCNgngBFjqAjHMWlmcSOI4phr73oLEj
- h6HEwbL6kTgXcQxP4luxOuj4KgMRD5cqyso/75GtmqImTC2JSM46uTI2pPNFarrbo0BN
- ls3vdKGMhirbM24eAQv7omp+leAmft5lfj2M1YUxbuzCGxkPfMq/3l4Uusu1k9qmwAdF
- Drx745MitPUiUaKIXNrVjfsXxWW/QiHtAI9KiAIUcjPlvOKOXYdBA2qa3d/PtuHp9b+Z
- 4ybw==
-X-Gm-Message-State: AOAM531hA3B/uTfzsdI/XEkhWZKOuAcjyBLKUirDxRhA6rGt2V+uev51
- t3C4zxrXmwog56WCd4sJFnr5xbmRA1Q=
-X-Google-Smtp-Source: ABdhPJwgnucgX0aZEVama/oCf60IyOTSr2um5lLWliNgAsYwac6y0+cVtLriQatzCmXR6qpkZ6CRMA==
-X-Received: by 2002:adf:f40b:: with SMTP id g11mr38059008wro.296.1637578307169; 
- Mon, 22 Nov 2021 02:51:47 -0800 (PST)
-Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id
- o4sm24345061wmq.31.2021.11.22.02.51.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Nov 2021 02:51:46 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/net/allwinner_emac: Replace MII_ANAR_TX -> MII_ANLPAR_TX
- definition
-Date: Mon, 22 Nov 2021 11:51:45 +0100
-Message-Id: <20211122105145.1053455-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2IExDQvEd2WzGQ71T3AjMsU+y1fO98aLmLROqfsaKhA=;
+ b=3RpqXvpmGriHwTP4CAUNe8iKG9HdvkrzHHFOR/X/yy/Zd4ODkXjhAKNnTpeYZzGw3Q
+ hnZNcQfZ63MYxo9lxC6MmqfiQ9DQtVbG4G35yCW6KgNCxeCo/RQbj/Q1Kn9Rf93HsXb1
+ wRmeHtamGDsORqtpH+MG0gbcpPXdjUPOHcI1iIZ92SQgx9jpqcvLDPrV0Ez97ntE66lk
+ LZy8LB00WeQ+ITI8939dtxZ0XkN7eNFATF4IiTHZUooODryLGVKqaRMlWR8L895qMlO/
+ 0H7bXouLU8l7v2n0r8tiQlcJY14FCvw4GZZ5hysQrB0hHNvSr84msKoJhZNq9fyJ9ldl
+ ziIA==
+X-Gm-Message-State: AOAM5300cOMZ4fpZdvHRR7GDFUV/4FAK7md3qfuN4NrxilLnvlW7EKRF
+ UqT99QK24pk6y3f9CYgvBacksO5T2/kod6h9brngpw==
+X-Google-Smtp-Source: ABdhPJza13QGPc428vffXPiGYNBV0Z+9Na0lZbzfuypfvg3k7ks29V0dDauoQPl+8C8SAhtRiUeOoyj78S5ABJOpoF0=
+X-Received: by 2002:a1c:7f43:: with SMTP id a64mr2739182wmd.133.1637578800996; 
+ Mon, 22 Nov 2021 03:00:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+References: <20211115223619.2599282-1-philmd@redhat.com>
+In-Reply-To: <20211115223619.2599282-1-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 22 Nov 2021 10:59:49 +0000
+Message-ID: <CAFEAcA8TvHb3XG6Kw83=Bb69YZ+GF0p4r6uG+UdwM3UbLmQ31A@mail.gmail.com>
+Subject: Re: [PATCH-for-6.2? 0/2] hw/intc/arm_gicv3: Introduce
+ CONFIG_ARM_GIC_TCG Kconfig selector
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -85,36 +82,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org
+Cc: Miroslav Rezanina <mrezanin@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Shashi Mallela <shashi.mallela@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While both MII_ANAR_TX / MII_ANLPAR_TX have the same value,
-the ANAR and ANLPAR registers are different, so technically
-the ANLPAR register have to use the MII_ANLPAR_TX definition.
+On Mon, 15 Nov 2021 at 22:36, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> The GICv3 ITS support has been introduced uring the 6.2 development
+> window (commits 18f6290a6a9..17fb5e36aab). This device is for
+> emulation. When building virtualization-only binary, it might be
+> desirable to not include this device.
+>
+> Introduce the CONFIG_ARM_GIC_TCG Kconfig selector to allow downstream
+> distributions to deselect this device.
+>
+> Based-on: pull-target-arm-20211115-1
+>
+> Philippe Mathieu-Daud=C3=A9 (2):
+>   hw/intc/arm_gicv3: Extract gicv3_set_gicv3state from arm_gicv3_cpuif.c
+>   hw/intc/arm_gicv3: Introduce CONFIG_ARM_GIC_TCG Kconfig selector
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/net/allwinner_emac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-diff --git a/hw/net/allwinner_emac.c b/hw/net/allwinner_emac.c
-index ddddf35c45d..3aed92b8f1a 100644
---- a/hw/net/allwinner_emac.c
-+++ b/hw/net/allwinner_emac.c
-@@ -50,7 +50,7 @@ static void mii_reset(RTL8201CPState *mii, bool link_ok)
-                 MII_BMSR_10T_HD | MII_BMSR_MFPS | MII_BMSR_AUTONEG;
-     mii->anar = MII_ANAR_TXFD | MII_ANAR_TX | MII_ANAR_10FD | MII_ANAR_10 |
-                 MII_ANAR_CSMACD;
--    mii->anlpar = MII_ANAR_TX;
-+    mii->anlpar = MII_ANLPAR_TX;
- 
-     mii_set_link(mii, link_ok);
- }
--- 
-2.31.1
+This looks OK to me, but I'm inclined to leave it for 7.0 at this
+point in the release cycle, unless it would be awkward for
+downstreams if we didn't put it in ?
 
+thanks
+-- PMM
 
