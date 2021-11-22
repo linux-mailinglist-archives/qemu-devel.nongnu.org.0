@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C57459702
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 22:53:21 +0100 (CET)
-Received: from localhost ([::1]:36164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1176845974A
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 23:22:07 +0100 (CET)
+Received: from localhost ([::1]:41608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpHFY-00066u-7s
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 16:53:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36488)
+	id 1mpHhN-0002sQ-Mv
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 17:22:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mpHEk-0005EG-Nv
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 16:52:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55815)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mpHEi-0008C0-AQ
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 16:52:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637617947;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hKcbz42WDlceZiRI92VB8Ef/+3asFlAb8Tm5J5HJVcU=;
- b=ZWi4WbAs0Og01p15lTS4tMtA7wlgYiR4+ILOj/ZazGjGobOMsViYibGq2sAkopM4SM839b
- B1xUZ2DjVPdQIQZ9mCcg/X/7eAsZZU5+sUvHVpH95jOJ2oU2hBXX55UiTJJh0drzfuX/At
- pWB6Kbbon6Fbrl3kinfXjjz7UNHBBTo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-52-1DOa4UaNNOeoNQ-unWEj6w-1; Mon, 22 Nov 2021 16:52:23 -0500
-X-MC-Unique: 1DOa4UaNNOeoNQ-unWEj6w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D409A0CAD;
- Mon, 22 Nov 2021 21:52:22 +0000 (UTC)
-Received: from redhat.com (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE04D1037F5D;
- Mon, 22 Nov 2021 21:51:47 +0000 (UTC)
-Date: Mon, 22 Nov 2021 15:51:45 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v4 20/32] nbd/client-connection: implement connection retry
-Message-ID: <20211122215145.wf2dqyhsc5zt6wbm@redhat.com>
-References: <20210610100802.5888-1-vsementsov@virtuozzo.com>
- <20210610100802.5888-21-vsementsov@virtuozzo.com>
- <20211122163001.ahvcby7rrg4hc23n@redhat.com>
- <fca77dff-caba-907b-6ab2-91ed9987760f@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpHgX-0002AP-7U
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 17:21:13 -0500
+Received: from [2a00:1450:4864:20::331] (port=45966
+ helo=mail-wm1-x331.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpHgT-00031H-84
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 17:21:11 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ g191-20020a1c9dc8000000b0032fbf912885so986784wme.4
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 14:21:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=mf1qN6nTnJJWGgAJ+25p7C5OH1axyjSiHUS94dC3ydI=;
+ b=wxUv8uThFm0YGnN0EPB8ne5d7GzYtfLhoC8O3EKbdsJIsAAyXcFq4aN429iWb/7pv8
+ 2QTn80Aq15gFWw0tL/O+1h/GGQ7DSMW8EMAeOJqwt2y2OTdQyx+7I2wkQ2JI3GUxHwvp
+ 1wijjLlpDj6mHgfYpDTpOgb7n48EyUoGv6KuQqMhCNsi6keU3n/vvRfJMihIvC2RWF7C
+ UtkTj0Z9KIOQ/hbnxQkfV1/7jyvOzmgM2v820HBdnEUlxt80CJI6gquyFqYSaI3D/ovG
+ 8t7AiKu4kVS4auqb1h74PbCvzafcSRwBNtaiwAq5MMD4tqshikZDTR/F9AsnBsWMzx5m
+ u/8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mf1qN6nTnJJWGgAJ+25p7C5OH1axyjSiHUS94dC3ydI=;
+ b=I7s8kgwwdLryyOe0auSYlDq1UvYNqTxI9XSIi3CZVz1jjTgH1AGn4eDvz9x+DOF2Pf
+ B+JrgP9DNp4xpFEqin8anpaF8BVky9IGoeHQAZuXJRSyCn/jNYqYQS2S52rnE80GgW5A
+ XhlHrwNcd/d6wJIG+CwmELbnXmPZKVLFDns5oodxzUbZ7GfNnEchwm+abp8AnCC03z8U
+ 5f31TJFzGln9193LTyioyj1f/JUrUNzIKuA05LK63UYSXJ9k+D4KI/S4FAEmcidKmmf0
+ uzCfH4pOfs0OUc0g0sfzm1zJaXW1+QOMW4VvxHyPY12nmtdbxnqUZbbFh6vg5rPLwwsr
+ fW6Q==
+X-Gm-Message-State: AOAM533Ftd1NzdJ4/l6PmAYEcrW9aqGdkgkKQZ3ITnCmAUfv+sRIKvfZ
+ VO2HbpAAT0oVG20Pc1/oqadpPLxssGqN7FSgXYI=
+X-Google-Smtp-Source: ABdhPJyDZDmYZXQAmcBkClZG/gu5R+JsIVdkpSfJiEEuFnBY2yovNs9zXPw+BOMdknJ2KBISgMcyGw==
+X-Received: by 2002:a05:600c:1c13:: with SMTP id
+ j19mr34549058wms.175.1637619667647; 
+ Mon, 22 Nov 2021 14:21:07 -0800 (PST)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id z12sm10017550wrv.78.2021.11.22.14.21.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Nov 2021 14:21:07 -0800 (PST)
+Subject: Re: [PULL 0/2] NBD patches for 6.2-rc2, 2021-11-22
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20211122140212.1511814-1-eblake@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f7e526af-7531-df55-eea6-a17633215861@linaro.org>
+Date: Mon, 22 Nov 2021 23:21:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <fca77dff-caba-907b-6ab2-91ed9987760f@virtuozzo.com>
-User-Agent: NeoMutt/20211029-26-f6989f
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211122140212.1511814-1-eblake@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,51 +92,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 22, 2021 at 08:17:34PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> 22.11.2021 19:30, Eric Blake wrote:
-> > Reviving this thread, as a good as place as any for my question:
-> > 
-
-> >   But I can't
-> > find anywhere in the code base that ensures that on a reconnect, the
-> > new server supplies at least as many extensions as the original
-> > server, nor anywhere that we would be able to gracefully handle an
-> > in-flight block status command that can no longer be successfully
-> > continued because the reconnect landed on a downgraded server.
-> > 
-
+On 11/22/21 3:02 PM, Eric Blake wrote:
+> The following changes since commit 49aaac3548bc5a4632a14de939d5312b28dc1ba2:
 > 
-> Yes that's a problem. We previously noted it here https://lists.gnu.org/archive/html/qemu-block/2021-06/msg00458.html
-
-Aha!  And oops that we've let it slide this long.  But now that we
-know the problem was also present in 6.1, and not a new regression in
-6.2, it is less urgent to get a fix in.  If we get one written in
-time, it's still game for inclusion for -rc2 or maybe -rc3, but as we
-get further along in the process, it should not hold up the final
-release (it would not be -rc4 material, for example).
-
+>    Merge tag 'linux-user-for-6.2-pull-request' of git://github.com/vivier/qemu into staging (2021-11-22 10:33:13 +0100)
 > 
-> Honestly, I didn't start any fix for that :(.. I agree, it would be good to fix it somehow in 6.2. I'll try to make something simple this week. Or did you already started doing some fix?
+> are available in the Git repository at:
+> 
+>    https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-11-22
+> 
+> for you to fetch changes up to e35574226a63f29e32eda8da5cc14832f19850e2:
+> 
+>    nbd/server: Simplify zero and trim (2021-11-22 07:37:15 -0600)
+> 
+> ----------------------------------------------------------------
+> nbd patches for 2021-11-22
+> 
+> - Eric Blake: Avoid uninitialized memory on client hard disconnect
+> - Eric Blake: Take advantage of block layer 64-bit zero/trim
+> 
+> ----------------------------------------------------------------
+> Eric Blake (2):
+>        nbd/server: Don't complain on certain client disconnects
+>        nbd/server: Simplify zero and trim
+> 
+>   nbd/server.c | 26 ++++++--------------------
+>   1 file changed, 6 insertions(+), 20 deletions(-)
 
-I haven't started writing anything on the topic.  I've got some
-patches that I hope to post soon targetting 7.0 that allow an
-extension for NBD_CMD_BLOCK_STATUS to do a full round-trip 64-bit
-operation, which is why I noticed it (if the 64-bit extension is not
-present on reconnect, we have a problem - but it's no worse than the
-existing problems).  But I'm currently so focused on getting the new
-feature interoperating between qemu, libnbd, and nbdkit, plus the US
-Thanksgiving break this week, that I'm happy to let you take first
-shot at client-side validation that a server reconnect does not lose
-capabilities.
+Applied, thanks.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+r~
 
 
