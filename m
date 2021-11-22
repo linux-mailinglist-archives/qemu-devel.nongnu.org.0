@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0B2458EA9
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 13:48:26 +0100 (CET)
-Received: from localhost ([::1]:44682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29ED7458EB5
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 13:51:29 +0100 (CET)
+Received: from localhost ([::1]:50322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp8kD-00017H-Tn
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 07:48:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50338)
+	id 1mp8nA-0004zV-8Z
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 07:51:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mp8co-0004km-5W
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:40:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46549)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mp8dE-0004zy-Dz
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:41:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mp8cm-00008G-5j
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:40:45 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mp8dB-0000EL-SF
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:41:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637584842;
+ s=mimecast20190719; t=1637584868;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4JaB0rIb8ZziaYLtht1TSLju4CiVwqQdj3eTMouM9Ek=;
- b=WOEjjVIazvBltvar/mC6IlNHzIuw17uAwAIqMnHIGiqBbYko3+BEJwY48Zgm0et+jKZAFi
- Ad2k6tPkWdVtLcPwtSc3Djdzs8Wmjx2sSrLgQ6y68fVmJovxTSiEKlsdNdX6pV8BIVroGl
- xYKCMyPZAqTtAb+1e0hyQrH0BQ4HhOI=
+ bh=9nTFeOLRVbwU0A2W3Cdqm3bKuYIuwPrG1l490zy5PpQ=;
+ b=JOp6UmMsS3VSNq8HGWWZmDQu6dK1FAShfdlUHxFMMvPDlV8anJXTxpnB5PHL9a2REWN25Y
+ mQQK6IGBg7soBNwhgU94Tgy7OQZkpSDqQ5uqtqwHzYufeVr+/XOWT/VszvF54vw52UI2VB
+ LeVlrJ6cHWkR+AJ/AH/s+vIeo+yeQ1s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-601-pdyycFvDMaKW_jBtL9epPQ-1; Mon, 22 Nov 2021 07:40:39 -0500
-X-MC-Unique: pdyycFvDMaKW_jBtL9epPQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-515-yRQ_xXu8NEimMsS2nL0C4Q-1; Mon, 22 Nov 2021 07:41:05 -0500
+X-MC-Unique: yRQ_xXu8NEimMsS2nL0C4Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7306D19200C0;
- Mon, 22 Nov 2021 12:40:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 733DB1018722;
+ Mon, 22 Nov 2021 12:41:04 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 833671980E;
- Mon, 22 Nov 2021 12:40:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 103467945D;
+ Mon, 22 Nov 2021 12:40:37 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 519BE18007A2; Mon, 22 Nov 2021 13:40:15 +0100 (CET)
+ id 5CB9D1800851; Mon, 22 Nov 2021 13:40:15 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/8] ui: fix incorrect scaling on highdpi with gtk/opengl
-Date: Mon, 22 Nov 2021 13:40:08 +0100
-Message-Id: <20211122124015.909318-2-kraxel@redhat.com>
+Subject: [PULL 2/8] ui: fix incorrect pointer position on highdpi with gtk
+Date: Mon, 22 Nov 2021 13:40:09 +0100
+Message-Id: <20211122124015.909318-3-kraxel@redhat.com>
 In-Reply-To: <20211122124015.909318-1-kraxel@redhat.com>
 References: <20211122124015.909318-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,39 +91,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Alexander Orzechowski <orzechowski.alexander@gmail.com>
 
 Signed-off-by: Alexander Orzechowski <orzechowski.alexander@gmail.com>
-Message-Id: <20211121065504.29101-2-orzechowski.alexander@gmail.com>
+Message-Id: <20211121065504.29101-3-orzechowski.alexander@gmail.com>
 
 [ kraxel: codestyle fix ]
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/gtk-gl-area.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ ui/gtk.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
-index 461da7712f4f..01e4e74ee361 100644
---- a/ui/gtk-gl-area.c
-+++ b/ui/gtk-gl-area.c
-@@ -41,15 +41,16 @@ void gd_gl_area_draw(VirtualConsole *vc)
- #ifdef CONFIG_GBM
-     QemuDmaBuf *dmabuf = vc->gfx.guest_fb.dmabuf;
- #endif
--    int ww, wh, y1, y2;
-+    int ww, wh, ws, y1, y2;
+diff --git a/ui/gtk.c b/ui/gtk.c
+index d2892ea6b4a9..dc4a1491f0ce 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -838,10 +838,11 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
+ {
+     VirtualConsole *vc = opaque;
+     GtkDisplayState *s = vc->s;
++    GdkWindow *window;
+     int x, y;
+     int mx, my;
+     int fbh, fbw;
+-    int ww, wh;
++    int ww, wh, ws;
  
-     if (!vc->gfx.gls) {
-         return;
+     if (!vc->gfx.ds) {
+         return TRUE;
+@@ -850,8 +851,10 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
+     fbw = surface_width(vc->gfx.ds) * vc->gfx.scale_x;
+     fbh = surface_height(vc->gfx.ds) * vc->gfx.scale_y;
+ 
+-    ww = gdk_window_get_width(gtk_widget_get_window(vc->gfx.drawing_area));
+-    wh = gdk_window_get_height(gtk_widget_get_window(vc->gfx.drawing_area));
++    window = gtk_widget_get_window(vc->gfx.drawing_area);
++    ww = gdk_window_get_width(window);
++    wh = gdk_window_get_height(window);
++    ws = gdk_window_get_scale_factor(window);
+ 
+     mx = my = 0;
+     if (ww > fbw) {
+@@ -861,8 +864,8 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
+         my = (wh - fbh) / 2;
      }
  
-     gtk_gl_area_make_current(GTK_GL_AREA(vc->gfx.drawing_area));
--    ww = gtk_widget_get_allocated_width(vc->gfx.drawing_area);
--    wh = gtk_widget_get_allocated_height(vc->gfx.drawing_area);
-+    ws = gdk_window_get_scale_factor(gtk_widget_get_window(vc->gfx.drawing_area));
-+    ww = gtk_widget_get_allocated_width(vc->gfx.drawing_area) * ws;
-+    wh = gtk_widget_get_allocated_height(vc->gfx.drawing_area) * ws;
+-    x = (motion->x - mx) / vc->gfx.scale_x;
+-    y = (motion->y - my) / vc->gfx.scale_y;
++    x = (motion->x - mx) / vc->gfx.scale_x * ws;
++    y = (motion->y - my) / vc->gfx.scale_y * ws;
  
-     if (vc->gfx.scanout_mode) {
-         if (!vc->gfx.guest_fb.framebuffer) {
+     if (qemu_input_is_absolute()) {
+         if (x < 0 || y < 0 ||
 -- 
 2.33.1
 
