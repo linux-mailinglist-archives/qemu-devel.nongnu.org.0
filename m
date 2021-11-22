@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013E7458EEA
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 14:03:01 +0100 (CET)
-Received: from localhost ([::1]:38984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FCA458F25
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 14:07:24 +0100 (CET)
+Received: from localhost ([::1]:43088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp8yJ-0000As-J3
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 08:02:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54654)
+	id 1mp92Z-000312-GB
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 08:07:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mp8w8-000789-Ei
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:00:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38624)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mp90A-0001iy-7b
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:04:55 -0500
+Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229]:44601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mp8w5-0003Ul-Ny
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:00:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637586040;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VDyveFqvxlZwYSUS7S6JBOtkoTt6wEKkbwOcLRvWx9k=;
- b=gk7jK7WdpW7WSYcea8zscrmWToWQMOQ3jRXfBud433oc8Uqx4j4ro2XqebJ0vntGtVT/eO
- AON7noYQWRQFcPdoznC4XfJGjeabBd+hIcAa4WRZpPAhTq76V2s7BzfOfKOXq7Z7NPPa+E
- Xfulg8Mghuc5frBxjsXQ0Jf4TGpRyjA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-178-mmCgOlgPMUmhALmDX7rp6A-1; Mon, 22 Nov 2021 08:00:36 -0500
-X-MC-Unique: mmCgOlgPMUmhALmDX7rp6A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EF7A10247A9;
- Mon, 22 Nov 2021 13:00:35 +0000 (UTC)
-Received: from paraplu (unknown [10.39.193.57])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8179557CB9;
- Mon, 22 Nov 2021 12:59:55 +0000 (UTC)
-Date: Mon, 22 Nov 2021 13:59:52 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 1/2] docs: Fix botched rST conversion of
- 'submitting-a-patch.rst'
-Message-ID: <YZuUSOrmJY7iCSZz@paraplu>
-References: <20211119193118.949698-1-kchamart@redhat.com>
- <20211119193118.949698-2-kchamart@redhat.com>
- <56026d2a-0b9e-ff83-d953-a284a810a8ed@redhat.com>
- <YZtu59t8DoZZ15nQ@paraplu>
- <b03ffb0c-0c4f-b792-f6c1-55014a0ae003@redhat.com>
- <YZuK09xP0I28dvMr@paraplu>
- <c591c571-f922-28a5-e8be-75e6cccb261a@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mp906-000478-6N
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:04:53 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.28])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 9DF8F20AD8;
+ Mon, 22 Nov 2021 13:04:36 +0000 (UTC)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Mon, 22 Nov
+ 2021 14:04:35 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G005588146fd-ee55-4250-8738-c053e21b29ee,
+ 416F395970A38A0BC3BF4248461703C95BA59510) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <673145cf-f64c-2520-3ed5-dae2a16704e7@kaod.org>
+Date: Mon, 22 Nov 2021 14:04:34 +0100
 MIME-Version: 1.0
-In-Reply-To: <c591c571-f922-28a5-e8be-75e6cccb261a@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 35/35] test/tcg/ppc64le: Add float reference files
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, <qemu-devel@nongnu.org>
+References: <20211119160502.17432-1-richard.henderson@linaro.org>
+ <20211119160502.17432-36-richard.henderson@linaro.org>
+ <41eda524-8e61-88e6-71ff-757fae97bc9b@kaod.org>
+ <0e4d4227-4a67-7a6e-4f45-6416faebbc93@linaro.org>
+ <45a736de-efe4-1638-65c7-28764c93248a@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <45a736de-efe4-1638-65c7-28764c93248a@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: cba51174-a762-4329-b598-4a0784bf2787
+X-Ovh-Tracer-Id: 10764447535829453731
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrgeeggdeglecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
+ helo=4.mo548.mail-out.ovh.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,37 +73,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 22, 2021 at 01:36:53PM +0100, Thomas Huth wrote:
-> On 22/11/2021 13.19, Kashyap Chamarthy wrote:
-
-[...]
-
-> > I kept that because an explicit reminder about spell-check is useful;
-> > it's easy to forget.  Another option is to retain the line, but replace
-> > "See also:" with "And:".  Not sure if it's any better.  But I don't mind
-> > either way.
+On 11/22/21 12:16, Richard Henderson wrote:
+> On 11/22/21 10:43 AM, Richard Henderson wrote:
+>> On 11/21/21 6:47 PM, Cédric Le Goater wrote:
+>>> I am getting an error with this test. See below.
+>> ...
+>>>   ### Rounding to nearest
+>>>   from single: f32(-nan:0xffa00000)
+>>> -  to double: f64(-nan:0x00fff4000000000000) (INVALID)
+>>> +  to double: f64(-nan:0x00fff4000000000000) (OK)
+>>
+>> Well that's disconcerting.
+>>
+>> I can replicate this failure on an x86_64 host, but do not see the same error on a power9 ppc64le host.
 > 
-> What about simply replacing it with a new sentence below the bullet list,
-> saying:
+> Bah.  The test case is buggy.
 > 
-> "Please also use a spell checker like `codespell
-> https://github.com/codespell-project/codespell` with your patches"
+> It reads the fpscr for the flags *after* having gone through the printf for the result, at which point you are at the mercy of whatever other fp arithmetic libc chooses to do.
 > 
-> ?
+> Fixed with
+> 
+> --- a/tests/tcg/multiarch/float_convs.c
+> +++ b/tests/tcg/multiarch/float_convs.c
+> @@ -51,8 +51,8 @@ static void convert_single_to_double(float input)
+> 
+>       output = input;
+> 
+> -    out_fmt = fmt_f64(output);
+>       flag_fmt = fmt_flags();
+> +    out_fmt = fmt_f64(output);
+>       printf("  to double: %s (%s)\n", out_fmt, flag_fmt);
+>       free(out_fmt);
+>       free(flag_fmt);
+> 
+> But this alone of course causes other "failures", because we've got some incorrect reference files.
 
-Sounds good to me; go for it.  Thanks!
+Looks fine. Will you send this patch independently ?
 
--- 
-/kashyap
+The patchset doesn't seem to break anything.
 
+Thanks,
+
+C.
 
