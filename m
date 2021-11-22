@@ -2,73 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E070D458D49
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 12:23:22 +0100 (CET)
-Received: from localhost ([::1]:52812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D49EF458D39
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 12:18:16 +0100 (CET)
+Received: from localhost ([::1]:43322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp7Pu-00040O-2Y
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 06:23:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59472)
+	id 1mp7Kx-0005yO-LX
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 06:18:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mp7HP-0008E5-Is
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 06:14:35 -0500
-Received: from [2a00:1450:4864:20::429] (port=33770
- helo=mail-wr1-x429.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mp7JX-0003r3-7Y
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 06:16:47 -0500
+Received: from [2a00:1450:4864:20::32d] (port=40934
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mp7HN-0003H8-Ob
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 06:14:35 -0500
-Received: by mail-wr1-x429.google.com with SMTP id d24so32047519wra.0
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 03:14:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mp7JV-00042y-NE
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 06:16:46 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ j140-20020a1c2392000000b003399ae48f58so8509896wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 03:16:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=yoFdkWO62twBanTX65W0CEzc9tStIbxUYO8OnbTVzjw=;
- b=nur0CyPscKh+zNJuTK12QgxLqnqL4NhoiVnJIj4jjDy+VteHKqELy1Haw1rYv4nE7U
- ESG1347CidssyvLdluEe3ACafw3zJvcHg0ET1oaq1+Ag7MCldtBsNQT+H8gP161cPB9N
- h7ADPZwDU2go6w4CSvAOH23kQFrsBz8rKrcWDKTdk6lpk6MJzAVgXD+j2Tdv2ykgibV9
- rwCHCoWCuPvr1aONicP6vA1E3XYv4+ONCJ0aZr/yaZbCN+K/vNwf6tosXQ/RSA/jJ0gA
- sg+S8zYtzoLfdxeSskFWr7Be8QuVwde3YANdWWWpX49edHjaq6GS7odXsQPIAzFNJpv5
- 0XsQ==
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sq3AWM0kHoMFRDpvZzM2Q4p/grpRqXhu60sXjGT7CoY=;
+ b=fqpYF/q4Y5NuFN6jYWbag9pVw5FPJ3yL8bT8KTX/OljiF7ljgC1dLwEDHBYtQyITBO
+ ZJ56F9q2nbYD3XtDhJVm8Hy9Q4zKB2xETf5/PBqLXcYNIpSND8DbfF9c/EAp/i2zKO58
+ E1BJtcasrvaXveO1wWNZC6V9kH4aMRIxdEDRkYAEJ3C33+THZymj5GBCD2cFYC1IlGjw
+ rObY4YUxAHeJZOWH3bOWQqlzhNcjNtHlSY0pFN7TyL84W07rNqslk7lb70tz1ZzT9jmE
+ J+OJAtdgkwke8ZOYXUsPU35IsJbBDXEGtrDfAAG8jeOfpT6SM/cgLTRgEkjM5PmCaraE
+ YLJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=yoFdkWO62twBanTX65W0CEzc9tStIbxUYO8OnbTVzjw=;
- b=6I2u+CWjfJaqmU4NkS7BtApL8ojK5eoB8eEC7lO5I5YfAhdBB7M5L/SVi8IlO1wy3V
- TbjnuXWo6aFnTp4v/Ac47lNW0hbtXyx863NmzvyUWqTUzAfaQw5BdDHQu045LyqR5myu
- P9TRGn1OYYNgkPWDhiBwE4FqjLFjXAO+rsVu2hpCB4Sdg20eAbFtfvzXXFkJ+nYt3L6B
- 8ldD/IuUJVzY8OC4j5c9Pe0kY2r25+wFLt8RkKyG3sTeQvwRC4XTWuPreYspOrcEmmV6
- jFLILRId192O8lwnk8Obx9QICgFSFg9uF1sJbGudgNiSdqgkRORjb3qK5ME4uUmEQtII
- pH7g==
-X-Gm-Message-State: AOAM532phyLGaYdstfa++kQzERiAXMD9jGrorvdc7zVrthzXp21v5BU5
- 193LmIjVYU3cUgnQgM9lIa4c6V2mV2jwjvo6StxuwQ==
-X-Google-Smtp-Source: ABdhPJygWV4EY0Z8ZAB77tXm5TzUm7hjJTXvihZf52gOC/T0TbK1s4z/iJOw/XTCA9mrVvU2G82DrAfyxuve3fCzync=
-X-Received: by 2002:a5d:6da1:: with SMTP id u1mr37524846wrs.263.1637579672483; 
- Mon, 22 Nov 2021 03:14:32 -0800 (PST)
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sq3AWM0kHoMFRDpvZzM2Q4p/grpRqXhu60sXjGT7CoY=;
+ b=nUE+Jj6J1MweKKe5TiSEd5Jl0I8zAFofVNRGv/Lg/QTAv+k3gsHyabg8ABZIdFBf6p
+ WvM4kLOGBttkBD2dMpF39dFOzq33CIr6qNPwvUXtiPzs/C9euoFLkZHddyJUX8/c1B/D
+ mxGUTbReeOkqeFIcEPi9nX8JcXlQ7hyxAuQq4JhtmBDmOuKUGqIzndXzMwoZAppuPzw6
+ FAED20nSCofOITNbbLfDS5uef2ghTKEdGrnivRixLewhQfOFKpypzhl9QoZLj1hf/41i
+ bkaPaHFIknT4MDBGFiJtkjCtidbp5EUpv2iCItjRtwqGfyW0zOvgEaEXq0JJKc6WRBY+
+ abPQ==
+X-Gm-Message-State: AOAM532z4vEw/XKOGRpO1TxOxQ2DLp0TVsIw0TCNB+x8HgqP/ZyVzPcp
+ jwe0L/avgOBhsY73vqdsK0pv/w==
+X-Google-Smtp-Source: ABdhPJwcKFJoLEk6muC5z3FauTXz5r2bVSwYl9AglN7gfdXDS4f/CklM8ZD4Ch6Y1Wcl7Xw+CBYTWQ==
+X-Received: by 2002:a05:600c:1e1c:: with SMTP id
+ ay28mr29147244wmb.131.1637579804292; 
+ Mon, 22 Nov 2021 03:16:44 -0800 (PST)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id k15sm8538829wrx.53.2021.11.22.03.16.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Nov 2021 03:16:43 -0800 (PST)
+Subject: Re: [PATCH 35/35] test/tcg/ppc64le: Add float reference files
+From: Richard Henderson <richard.henderson@linaro.org>
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+References: <20211119160502.17432-1-richard.henderson@linaro.org>
+ <20211119160502.17432-36-richard.henderson@linaro.org>
+ <41eda524-8e61-88e6-71ff-757fae97bc9b@kaod.org>
+ <0e4d4227-4a67-7a6e-4f45-6416faebbc93@linaro.org>
+Message-ID: <45a736de-efe4-1638-65c7-28764c93248a@linaro.org>
+Date: Mon, 22 Nov 2021 12:16:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211105172127.224462-1-f4bug@amsat.org>
- <20211105172127.224462-4-f4bug@amsat.org>
-In-Reply-To: <20211105172127.224462-4-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 22 Nov 2021 11:14:21 +0000
-Message-ID: <CAFEAcA-xNhWGV46SY5K9uChAZWvU44YYgTgXu5wVjKtMq8XTug@mail.gmail.com>
-Subject: Re: [PATCH 3/3] hw/input/pckbd: Rename i8042_setup_a20_line() and its
- a20 irq argument
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+In-Reply-To: <0e4d4227-4a67-7a6e-4f45-6416faebbc93@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -83,74 +95,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Nov 2021 at 17:21, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
->
-> 'a20_out' is an input IRQ, rename it as 'a20_input'.
-> i8042_setup_a20_line() doesn't take a Device parameter
-> but an ISADevice one. Rename it as i8042_isa_*() to
-> make it explicit.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  include/hw/input/i8042.h | 2 +-
->  hw/i386/pc.c             | 2 +-
->  hw/input/pckbd.c         | 4 ++--
->  3 files changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
-> index 1d90432daef..3534fcc4b43 100644
-> --- a/include/hw/input/i8042.h
-> +++ b/include/hw/input/i8042.h
-> @@ -21,6 +21,6 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq=
-,
->                     MemoryRegion *region, ram_addr_t size,
->                     hwaddr mask);
->  void i8042_isa_mouse_fake_event(ISAKBDState *isa);
-> -void i8042_setup_a20_line(ISADevice *dev, qemu_irq a20_out);
-> +void i8042_isa_setup_a20_line(ISADevice *dev, qemu_irq a20_input);
->
->  #endif /* HW_INPUT_I8042_H */
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 2592a821486..06ef74ca22b 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -1043,7 +1043,7 @@ static void pc_superio_init(ISABus *isa_bus, bool c=
-reate_fdctrl, bool no_vmport)
->      port92 =3D isa_create_simple(isa_bus, TYPE_PORT92);
->
->      a20_line =3D qemu_allocate_irqs(handle_a20_line_change, first_cpu, 2=
-);
-> -    i8042_setup_a20_line(i8042, a20_line[0]);
-> +    i8042_isa_setup_a20_line(i8042, a20_line[0]);
+On 11/22/21 10:43 AM, Richard Henderson wrote:
+> On 11/21/21 6:47 PM, Cédric Le Goater wrote:
+>> I am getting an error with this test. See below.
+> ...
+>>   ### Rounding to nearest
+>>   from single: f32(-nan:0xffa00000)
+>> -  to double: f64(-nan:0x00fff4000000000000) (INVALID)
+>> +  to double: f64(-nan:0x00fff4000000000000) (OK)
+> 
+> Well that's disconcerting.
+> 
+> I can replicate this failure on an x86_64 host, but do not see the same error on a power9 
+> ppc64le host.
 
-I think these days we can directly call
-    qdev_connect_gpio_out_named(DEVICE(i8042), I8042_A20_LINE, 0, a20_line[=
-0]);
-and drop the i8042_setup_a20_line() wrapper entirely,
-since the named GPIO lines are a "public" interface to the device.
-We only have this i8042_setup_a20_line() because the original
-implementation (added in commit 956a3e6bb738) predates gpio lines
-and did an assignment into the KBDState struct which needed to
-be private to pckbd.c.
+Bah.  The test case is buggy.
 
->      qdev_connect_gpio_out_named(DEVICE(port92),
->                                  PORT92_A20_LINE, 0, a20_line[1]);
+It reads the fpscr for the flags *after* having gone through the printf for the result, at 
+which point you are at the mercy of whatever other fp arithmetic libc chooses to do.
 
-That would then make it consistent with how we're wiring up the
-other A20 input source here.
+Fixed with
 
-(Some day we should perhaps make the A20 input to the CPU an actual
-GPIO input on the CPU device object, so we could wire the I8042_A20_LINE
-and PORT92_A20_LINE to it via an OR gate, and drop the intermidate
-qemu_irq array and handle_a20_line_change function. But needing
-the OR gate makes that a little clunky so I'm not sure it's
-really worth the effort.)
+--- a/tests/tcg/multiarch/float_convs.c
++++ b/tests/tcg/multiarch/float_convs.c
+@@ -51,8 +51,8 @@ static void convert_single_to_double(float input)
 
--- PMM
+      output = input;
+
+-    out_fmt = fmt_f64(output);
+      flag_fmt = fmt_flags();
++    out_fmt = fmt_f64(output);
+      printf("  to double: %s (%s)\n", out_fmt, flag_fmt);
+      free(out_fmt);
+      free(flag_fmt);
+
+But this alone of course causes other "failures", because we've got some incorrect 
+reference files.
+
+
+r~
 
