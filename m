@@ -2,98 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EADD458F9F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 14:43:27 +0100 (CET)
-Received: from localhost ([::1]:49538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9545B458FA9
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 14:45:42 +0100 (CET)
+Received: from localhost ([::1]:53238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp9bR-0004Ue-Go
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 08:43:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37820)
+	id 1mp9dd-00076n-K9
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 08:45:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mp9X4-0000uh-RN
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:38:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31507)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1mp9X2-0000tz-Vq
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:38:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46117)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mp9X3-0001ry-FZ
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:38:54 -0500
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1mp9X0-0001ra-V0
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:38:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637588332;
+ s=mimecast20190719; t=1637588328;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rwY3o/VQqo00YePBAj9g+Nv81SqmDpyw3j8pRIXWUUE=;
- b=dHx66hWDQcRIi/pE1Y599sbh99IN67G8jJnfpbrrMOJ9xTCfAQPMtBGB4DzDYhTgN9RGAu
- cOKI/GuoV7yo4D7g+v65k0KN6l8C5vtBx47XcR4zOAl0CbZP2ENRkcfeNLi4tNouYZkC4d
- pStlSq7V9E7c+8R1fY+j1EfTabzQv3w=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TPpl4dLb2KzN9j94zo+FyeVR0L5j0uykRCcIXkcFxAM=;
+ b=bRFexkZfQb40Ucc2inXHi4Zrujib+xE0/Orb8Zo+ayguqLT47FuQup/26epWI0H8I0tCP1
+ FYl8zz7BkpSfu74yi36nfybGzvAIgPF6TEpZlBdKxn4NtU8t0YBSKFBwiwnAkXh+XXj+ra
+ 7syYFOCy4nP/lMX5Zcb7NYZHjNJ6tW8=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-512-DmXzu1seM0qkhythOKZOew-1; Mon, 22 Nov 2021 08:38:51 -0500
-X-MC-Unique: DmXzu1seM0qkhythOKZOew-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n41-20020a05600c502900b003335ab97f41so9404474wmr.3
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 05:38:51 -0800 (PST)
+ us-mta-517-tEfGm1U0ODaP_BDoxFjJpw-1; Mon, 22 Nov 2021 08:38:47 -0500
+X-MC-Unique: tEfGm1U0ODaP_BDoxFjJpw-1
+Received: by mail-oi1-f198.google.com with SMTP id
+ bj40-20020a05680819a800b002bc9d122f13so12730081oib.2
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 05:38:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=rwY3o/VQqo00YePBAj9g+Nv81SqmDpyw3j8pRIXWUUE=;
- b=MToD7gqB7mhzOAvG6YeKJ+jGN9YYtBuYKJoylIDLyWCJD6gO3a+eViuvXZDljPGLeb
- sEQHklTiYaZIxRhQul1KLxStsyZNzLbc/l5ZSp2o7CfwEO9uOXBHv8fIrhoHZm/BsorK
- usB+rPCVA1GlVN2OUKetcZ/Lup0cDK2BnFxwqUI+WrfH1Y6sVj80ISuTcVkNBZwTop53
- ISJJINU89F09B6OefPOTFxY/ePGOGJ8pj/k178MNuReXPb2MYEyogriDWLDt/QAqcnjd
- 1gI4VgcLqSzKWv47ko8It2FVio7kmtzK7jaxZGU4icpAVWHgwXnDlNnZYxa4AC01Wy+N
- n0/Q==
-X-Gm-Message-State: AOAM530wBO3CbOTxhDFmfT1sXKixjie/7/0X3C4wtWGvp+EsUaDvR8qF
- ww2OAv0zJGlHdTRt3E4UwnyoTPQ8bBEnA5nq5nB29p6C9xJKU+hath+Ah7B1/pL0PWFdWeRtMPs
- NxNJp+g2+bxg/oDw=
-X-Received: by 2002:a5d:68ce:: with SMTP id p14mr37405015wrw.116.1637588330454; 
- Mon, 22 Nov 2021 05:38:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxig5J+xFpa/poBSCii3211ZdlSgBulYgpW2WVsXjyTLCvJr4vsBqGq1onnnyzl72RjKxklvg==
-X-Received: by 2002:a5d:68ce:: with SMTP id p14mr37404987wrw.116.1637588330299; 
- Mon, 22 Nov 2021 05:38:50 -0800 (PST)
-Received: from [192.168.8.100] (tmo-097-143.customers.d1-online.com.
- [80.187.97.143])
- by smtp.gmail.com with ESMTPSA id d9sm8777596wre.52.2021.11.22.05.38.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 05:38:49 -0800 (PST)
-Message-ID: <16f9a181-9398-12f4-4d3b-5c15bee15e35@redhat.com>
-Date: Mon, 22 Nov 2021 14:38:42 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=TPpl4dLb2KzN9j94zo+FyeVR0L5j0uykRCcIXkcFxAM=;
+ b=RQZIkX4hFwQ9ktfxNbJdt1EDaQuyZfahRymgSfD8dgDjdWi5vQ8F9LRPoLR1ourfbG
+ FVgt9XMEwmsSOBIhNRFo8XnbRBU22F3M5xp3uxo2l4pdlAUZPIpfxw8gma7Clkj9E5Yc
+ mNMYT+vaEznUA+sdkRmJaOud1i4AHdE5yyiWP5BI49g11ju05ljE6IOGOftmeZUjvl9+
+ V7CR26BE0GnxyFC1kW1zdo3tjtsJD9WDX32FcFFUYan/QfghrEmSi/P5HFEHmFSmaNuR
+ 9LXCrK7k3eILU++NmW44PtVe8APjaaX9xOFummrjCRjkp+6oG6arCSTaG/0eJgQ75AZO
+ HC0g==
+X-Gm-Message-State: AOAM531u7WG4D3luJ8f8/f4SjgdIMWQztfbb/uayF1JI5M536U0Q3dx9
+ juXwH8cuK0ntdH2blZpQvXE3R5vrMJXD+Qt/NEh5YfHzftJeC0Gx8CCUvD2BEkbWxXDr4IfvDan
+ PGobKGqolmUSLr7g=
+X-Received: by 2002:a4a:3744:: with SMTP id r65mr5003249oor.11.1637588326737; 
+ Mon, 22 Nov 2021 05:38:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxO2w4IMuODMrVh7ozN+vd+qfYvlmDtzB/yw2UCjIOVhXy957zBTxRwxlKvR+7kmJVwfDDBCw==
+X-Received: by 2002:a4a:3744:: with SMTP id r65mr5003229oor.11.1637588326501; 
+ Mon, 22 Nov 2021 05:38:46 -0800 (PST)
+Received: from redhat.com ([38.15.36.239])
+ by smtp.gmail.com with ESMTPSA id i16sm1862414oig.15.2021.11.22.05.38.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Nov 2021 05:38:46 -0800 (PST)
+Date: Mon, 22 Nov 2021 06:38:45 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Yishai Hadas <yishaih@nvidia.com>
+Subject: Re: [PATCH] vfio/migration: Improve to read/write full migration
+ region per chunk
+Message-ID: <20211122063845.42a6c0cb.alex.williamson@redhat.com>
+In-Reply-To: <9e1ac80f-da3c-ed68-89f4-c0008220c10d@nvidia.com>
+References: <20211111095040.183977-1-yishaih@nvidia.com>
+ <9e1ac80f-da3c-ed68-89f4-c0008220c10d@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 1/2] docs: Fix botched rST conversion of
- 'submitting-a-patch.rst'
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20211119193118.949698-1-kchamart@redhat.com>
- <20211119193118.949698-2-kchamart@redhat.com>
- <56026d2a-0b9e-ff83-d953-a284a810a8ed@redhat.com> <YZtu59t8DoZZ15nQ@paraplu>
- <b03ffb0c-0c4f-b792-f6c1-55014a0ae003@redhat.com> <YZuK09xP0I28dvMr@paraplu>
- <c591c571-f922-28a5-e8be-75e6cccb261a@redhat.com>
- <CAFEAcA8QuSsazUZU23DJgXHhU=ez948wQFJkHZGRYWxhiXbuDg@mail.gmail.com>
- <ef4ff222-1053-904a-77c2-39adc9dd929a@redhat.com>
- <YZucJGIZFKM7v3xa@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <YZucJGIZFKM7v3xa@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,48 +99,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Kashyap Chamarthy <kchamart@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- Laurent Vivier <Laurent@vivier.eu>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: cjia@nvidia.com, cohuck@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ kwankhede@nvidia.com, jgg@nvidia.com, maorg@nvidia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/11/2021 14.33, Daniel P. Berrangé wrote:
-> On Mon, Nov 22, 2021 at 02:30:10PM +0100, Thomas Huth wrote:
->> On 22/11/2021 14.25, Peter Maydell wrote:
->>> On Mon, 22 Nov 2021 at 12:37, Thomas Huth <thuth@redhat.com> wrote:
->>>> What about simply replacing it with a new sentence below the bullet list,
->>>> saying:
->>>>
->>>> "Please also use a spell checker like `codespell
->>>> https://github.com/codespell-project/codespell` with your patches"
->>>
->>> How many regular contributors actually do that?
->>
->> Considering the typos that we have in the code, not enough ;-)
->>
->> Anyway, it's just a polite recommendation here, not a must-do, so mentioning
->> codespell here doesn't really hurt, does it?
+On Mon, 22 Nov 2021 09:40:56 +0200
+Yishai Hadas <yishaih@nvidia.com> wrote:
+
+> Gentle ping for review, CCing more people who may be involved.
+
+I'll wait for comments from others, but since we're already in the 6.2
+freeze and vfio migration is still experimental (and I'm on PTO this
+week), I expect this to be queued when the next development window
+opens.  Thanks,
+
+Alex
+
+
+> On 11/11/2021 11:50 AM, Yishai Hadas wrote:
+> > Upon reading/writing the migration data there is no real reason to limit
+> > the read/write system call from the file to be 8 bytes.
+> >
+> > In addition, there is no reason to depend on the file offset alignment.
+> > The offset is just some logical value which depends also on the region
+> > index and has nothing to do with the amount of data that can be
+> > accessed.
+> >
+> > Move to read/write the full region size per chunk, this reduces
+> > dramatically the number of the systems calls that are needed and improve
+> > performance.
+> >
+> > Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
+> > ---
+> >   hw/vfio/migration.c | 36 ++----------------------------------
+> >   1 file changed, 2 insertions(+), 34 deletions(-)
+> >
+> > diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> > index ff6b45de6b5..b5f310bb831 100644
+> > --- a/hw/vfio/migration.c
+> > +++ b/hw/vfio/migration.c
+> > @@ -62,40 +62,8 @@ static inline int vfio_mig_access(VFIODevice *vbasedev, void *val, int count,
+> >       return 0;
+> >   }
+> >   
+> > -static int vfio_mig_rw(VFIODevice *vbasedev, __u8 *buf, size_t count,
+> > -                       off_t off, bool iswrite)
+> > -{
+> > -    int ret, done = 0;
+> > -    __u8 *tbuf = buf;
+> > -
+> > -    while (count) {
+> > -        int bytes = 0;
+> > -
+> > -        if (count >= 8 && !(off % 8)) {
+> > -            bytes = 8;
+> > -        } else if (count >= 4 && !(off % 4)) {
+> > -            bytes = 4;
+> > -        } else if (count >= 2 && !(off % 2)) {
+> > -            bytes = 2;
+> > -        } else {
+> > -            bytes = 1;
+> > -        }
+> > -
+> > -        ret = vfio_mig_access(vbasedev, tbuf, bytes, off, iswrite);
+> > -        if (ret) {
+> > -            return ret;
+> > -        }
+> > -
+> > -        count -= bytes;
+> > -        done += bytes;
+> > -        off += bytes;
+> > -        tbuf += bytes;
+> > -    }
+> > -    return done;
+> > -}
+> > -
+> > -#define vfio_mig_read(f, v, c, o)       vfio_mig_rw(f, (__u8 *)v, c, o, false)
+> > -#define vfio_mig_write(f, v, c, o)      vfio_mig_rw(f, (__u8 *)v, c, o, true)
+> > +#define vfio_mig_read(f, v, c, o)       vfio_mig_access(f, (__u8 *)v, c, o, false)
+> > +#define vfio_mig_write(f, v, c, o)      vfio_mig_access(f, (__u8 *)v, c, o, true)
+> >   
+> >   #define VFIO_MIG_STRUCT_OFFSET(f)       \
+> >                                    offsetof(struct vfio_device_migration_info, f)  
 > 
-> Well if you run 'codespell' with no args on qemu.git right now, you
-> get over 5000 possible mistakes reported. Many (perhaps even most)
-> will be false positives, but with that amount of existing report,
-> I don't think its credible to request contributors to run this
-> and wade through its results to see if they made things worse or
-> not.
-
-Ok, then maybe something like this:
-
-"If your patch adds new documentation, then please also consider to use a 
-spell checker like `codespell` to avoid typos in the new text" ?
-
-Otherwise, I can also simply drop that sentence about spell checking.
-
-  Thomas
+> 
 
 
