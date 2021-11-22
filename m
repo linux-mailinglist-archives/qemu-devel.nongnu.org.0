@@ -2,83 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46292458884
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 04:59:56 +0100 (CET)
-Received: from localhost ([::1]:33688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86BF445889A
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 05:21:31 +0100 (CET)
+Received: from localhost ([::1]:38868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp0Ul-0006kX-D9
-	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 22:59:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56210)
+	id 1mp0pe-0003A7-41
+	for lists+qemu-devel@lfdr.de; Sun, 21 Nov 2021 23:21:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mp0TG-0005GN-88
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 22:58:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27931)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>)
+ id 1mp0oR-0001vZ-3m; Sun, 21 Nov 2021 23:20:15 -0500
+Received: from mga14.intel.com ([192.55.52.115]:28529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mp0TD-0005SR-M2
- for qemu-devel@nongnu.org; Sun, 21 Nov 2021 22:58:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637553498;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QejhMNBGSf8GwLzEjMFunyBCaOf68ynMf70L9s+gHvM=;
- b=Avp/k0KvXiXmvlTdOvFA06Hn/7pg3KAJVgIKBe0hi0eIHUPAL6qjDdk1NJFjG+fHjeYlIJ
- JYKKq3kaZJsJmJsOhGm+Rg4R2sGjUl2XRncZogqnzKVfvRTp2jbIPfaJZwtm3hoigOmmVz
- VCv5j9H9PPxpUZZk5EK8qcy5tSzDltY=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-356-e-H8i99lN6CWlDQu4CuuDA-1; Sun, 21 Nov 2021 22:58:17 -0500
-X-MC-Unique: e-H8i99lN6CWlDQu4CuuDA-1
-Received: by mail-lf1-f70.google.com with SMTP id
- u20-20020a056512129400b0040373ffc60bso11037999lfs.15
- for <qemu-devel@nongnu.org>; Sun, 21 Nov 2021 19:58:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QejhMNBGSf8GwLzEjMFunyBCaOf68ynMf70L9s+gHvM=;
- b=7Gen/1nA0qbmOwVkpf9vKyQ9H7SN3L9PG7AU4nVr5+5i9V+U4oLFZQkDMVbhOMNrre
- HwgSRrXkOZGx3iGORwD1J+34K263FybW08xvsffjFXeY0aS3W4H5bOrrf/y+hKrdONom
- lltXNu74rvikTbw8nlCDXa2ZpOYcuqKsYJaSBWtfsaj+t0avFEqBZmQho2/0bkTqAzdy
- dPaNI71CL4DGg6T/v1k1EA0hR6lNkKSmE5+y3hKjoyzbYebVFBFH58VZR4r05qjEknKM
- wyNQ4htCmeF30NTzpTOiJFDdvXsyvk3AvxJRb1YmbN406Fjap6AMdjRQMdiUj5EtReNn
- I5Ag==
-X-Gm-Message-State: AOAM531+9U9U3WW8tWtJ0Cq8qerb6XzbDBO/47qqGGFGfiRFDKl6BQnv
- +3TQUF7x9B24DKlboZJKzJVlrr7qmiNULXCxNRbZF4ENvJxZYfyPEfM1fPhEcEPcff8HAPD5CfL
- 3p1mq2GKszkFWi+kENIX2q2RrUtYG2Lc=
-X-Received: by 2002:a2e:b742:: with SMTP id k2mr50488371ljo.107.1637553495636; 
- Sun, 21 Nov 2021 19:58:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw642tA2q6fnBoaaFWQrqnBxe8Pemf67Q2+JxOZmEMBk7P6QlVhk39F2dFvgIgpP4nV4ST2zP/4mOWjMihsWKM=
-X-Received: by 2002:a2e:b742:: with SMTP id k2mr50488350ljo.107.1637553495452; 
- Sun, 21 Nov 2021 19:58:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20211119053506.290459-1-chen.zhang@intel.com>
- <20211119053506.290459-2-chen.zhang@intel.com>
-In-Reply-To: <20211119053506.290459-2-chen.zhang@intel.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 22 Nov 2021 11:58:04 +0800
-Message-ID: <CACGkMEu74XdxUgf794ws-FciSkGsyub5Kmi34a-cs+JPBRra+g@mail.gmail.com>
-Subject: Re: [PATCH V3 2/2] test/qtest/test-filter-mirror.c: Change the
- default vnet_hdr_support
-To: Zhang Chen <chen.zhang@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>)
+ id 1mp0oP-0008NJ-0F; Sun, 21 Nov 2021 23:20:14 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10175"; a="234955665"
+X-IronPort-AV: E=Sophos;i="5.87,253,1631602800"; d="scan'208";a="234955665"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2021 20:20:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,253,1631602800"; d="scan'208";a="496716217"
+Received: from unknown (HELO localhost.localdomain.bj.intel.com)
+ ([10.238.156.105])
+ by orsmga007.jf.intel.com with ESMTP; 21 Nov 2021 20:20:04 -0800
+From: "Rao, Lei" <lei.rao@intel.com>
+To: armbru@redhat.com, chen.zhang@intel.com, zhang.zhanghailiang@huawei.com,
+ wencongyang2@huawei.com, xiechanglong.d@gmail.com, berto@igalia.com,
+ eblake@redhat.com, vsementsov@virtuozzo.com
+Subject: [PATCH 1/2] docs: Drop deprecated 'props' from object-add
+Date: Mon, 22 Nov 2021 12:11:22 +0800
+Message-Id: <1637554283-11264-1-git-send-email-lei.rao@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: pass client-ip=192.55.52.115; envelope-from=lei.rao@intel.com;
+ helo=mga14.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,41 +54,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-dev <qemu-devel@nongnu.org>, Li Zhijian <lizhijian@cn.fujitsu.com>
+Cc: qemu-trivial@nongnu.org, "Rao, Lei" <lei.rao@intel.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 19, 2021 at 1:45 PM Zhang Chen <chen.zhang@intel.com> wrote:
->
-> As net filters changed default vnet_hdr_support=on.
-> For this e1000 test case need to add vnet_hdr_support=off.
->
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> ---
+From: "Rao, Lei" <lei.rao@intel.com>
 
-I squashed this into the previous patch to have a better bisection
-behaviour and queue it for 7.0.
+In commit 5024340745 "qapi/qom: Drop deprecated 'props' from
+object-add" (v6.0.0), we also should update documents.
 
-Thanks
+Signed-off-by: Lei Rao <lei.rao@intel.com>
+---
+ docs/system/authz.rst   | 26 ++++++++++----------------
+ docs/throttle.txt       |  8 +++-----
+ docs/tools/qemu-nbd.rst |  2 +-
+ 3 files changed, 14 insertions(+), 22 deletions(-)
 
->  tests/qtest/test-filter-mirror.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tests/qtest/test-filter-mirror.c b/tests/qtest/test-filter-mirror.c
-> index bc0dee64dd..7756f8cfc1 100644
-> --- a/tests/qtest/test-filter-mirror.c
-> +++ b/tests/qtest/test-filter-mirror.c
-> @@ -45,7 +45,7 @@ static void test_mirror(void)
->          "-netdev socket,id=qtest-bn0,fd=%d "
->          "-device %s,netdev=qtest-bn0,id=qtest-e0 "
->          "-chardev socket,id=mirror0,fd=%d "
-> -        "-object filter-mirror,id=qtest-f0,netdev=qtest-bn0,queue=tx,outdev=mirror0 "
-> +        "-object filter-mirror,id=qtest-f0,netdev=qtest-bn0,queue=tx,outdev=mirror0,vnet_hdr_support=off "
->          , send_sock[1], devstr, recv_sock[1]);
->
->      struct iovec iov[] = {
-> --
-> 2.25.1
->
+diff --git a/docs/system/authz.rst b/docs/system/authz.rst
+index 942af39..55b7315 100644
+--- a/docs/system/authz.rst
++++ b/docs/system/authz.rst
+@@ -77,9 +77,7 @@ To create an instance of this driver via QMP:
+      "arguments": {
+        "qom-type": "authz-simple",
+        "id": "authz0",
+-       "props": {
+-         "identity": "fred"
+-       }
++       "identity": "fred"
+      }
+    }
+ 
+@@ -110,15 +108,13 @@ To create an instance of this class via QMP:
+      "arguments": {
+        "qom-type": "authz-list",
+        "id": "authz0",
+-       "props": {
+-         "rules": [
+-            { "match": "fred", "policy": "allow", "format": "exact" },
+-            { "match": "bob", "policy": "allow", "format": "exact" },
+-            { "match": "danb", "policy": "deny", "format": "exact" },
+-            { "match": "dan*", "policy": "allow", "format": "glob" }
+-         ],
+-         "policy": "deny"
+-       }
++       "rules": [
++          { "match": "fred", "policy": "allow", "format": "exact" },
++          { "match": "bob", "policy": "allow", "format": "exact" },
++          { "match": "danb", "policy": "deny", "format": "exact" },
++          { "match": "dan*", "policy": "allow", "format": "glob" }
++       ],
++       "policy": "deny"
+      }
+    }
+ 
+@@ -143,10 +139,8 @@ To create an instance of this class via QMP:
+      "arguments": {
+        "qom-type": "authz-list-file",
+        "id": "authz0",
+-       "props": {
+-         "filename": "/etc/qemu/myvm-vnc.acl",
+-         "refresh": true
+-       }
++       "filename": "/etc/qemu/myvm-vnc.acl",
++       "refresh": true
+      }
+    }
+ 
+diff --git a/docs/throttle.txt b/docs/throttle.txt
+index b5b78b7..0a0453a 100644
+--- a/docs/throttle.txt
++++ b/docs/throttle.txt
+@@ -273,11 +273,9 @@ A group can be created using the object-add QMP function:
+      "arguments": {
+        "qom-type": "throttle-group",
+        "id": "group0",
+-       "props": {
+-         "limits" : {
+-           "iops-total": 1000
+-           "bps-write": 2097152
+-         }
++       "limits" : {
++         "iops-total": 1000,
++         "bps-write": 2097152
+        }
+      }
+    }
+diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
+index 56e54cd..726cd189 100644
+--- a/docs/tools/qemu-nbd.rst
++++ b/docs/tools/qemu-nbd.rst
+@@ -31,7 +31,7 @@ driver options if ``--image-opts`` is specified.
+ 
+ *dev* is an NBD device.
+ 
+-.. option:: --object type,id=ID,...props...
++.. option:: --object type,id=ID,...
+ 
+   Define a new instance of the *type* object class identified by *ID*.
+   See the :manpage:`qemu(1)` manual page for full details of the properties
+-- 
+1.8.3.1
 
 
