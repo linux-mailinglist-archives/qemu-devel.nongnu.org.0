@@ -2,60 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4D0458B55
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 10:26:37 +0100 (CET)
-Received: from localhost ([::1]:60580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA10458B5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 10:27:51 +0100 (CET)
+Received: from localhost ([::1]:34938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp5au-0000Ul-Iq
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 04:26:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33744)
+	id 1mp5c6-0002EJ-LU
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 04:27:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1mp5a1-0008D7-6x
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:25:41 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:58171
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1mp5Zy-0005Jq-67
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:25:40 -0500
-HMM_SOURCE_IP: 172.18.0.48:37396.424958470
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id DF8862800B6;
- Mon, 22 Nov 2021 17:25:16 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 4f802a960bb641c8a336bea581af778e for
- armbru@redhat.com; Mon, 22 Nov 2021 17:25:30 CST
-X-Transaction-ID: 4f802a960bb641c8a336bea581af778e
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-Message-ID: <6a71b1a4-547a-aaef-2666-deabe4b7b410@chinatelecom.cn>
-Date: Mon, 22 Nov 2021 17:25:11 +0800
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mp5ai-0000kG-Mo
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:26:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26329)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mp5ae-0005UM-Lg
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:26:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637573178;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=W24LOqoXm5rO4QnnE3nnOA9qNOGul+S9uy89jqjOA+M=;
+ b=M9SWiDlQlmjsbRXUaSKQ884eBAyR/4gyn54RGanf8kh25DNdqTD8jUBMR9J28hwfAfPbWH
+ eYoGWAAWGxkEvoeSlJxC/9ggFqGsLeywZFHzbiCcr6aRX5WBhMvfAt8iwlMX8/AVHBJl5K
+ Yp9o2jmYLeOjQtSLd16rQXHvfkzHdLI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-367-7q9yg_1GPBykBpyI-cquLA-1; Mon, 22 Nov 2021 04:26:15 -0500
+X-MC-Unique: 7q9yg_1GPBykBpyI-cquLA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ a64-20020a1c7f43000000b003335e5dc26bso959955wmd.8
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 01:26:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=W24LOqoXm5rO4QnnE3nnOA9qNOGul+S9uy89jqjOA+M=;
+ b=RjgSr2LGTFpXO7GJEl1oAdHfyYZPwLG7j3o0bQwoJoay64AY6NDiSrZiE4wAi28+8q
+ QVrJUQX05khELQ64z9GUoIXOpWSUmURtJKABFB7Hpm56aSAMGYpf9LXIWQL4zAwyQ4Aa
+ 0r5uv7yuazoOrIC3ot8LW69kdvVk5xeHPA7um2DtbMFqNnqtJIFNCtzsYl+Nle7fcrI9
+ JOg3/h9d03UmtPdmByAer59FxLtqFHUCmTXhSWXo2887+o+mSatXlVFHqR1+DQ5Pi18Y
+ gY84PEvoNkgUz4ivL7powRWFtR9IBOXH+1aWPsubg1EfO9tKHzovz6CVJtEiH+KW/E7m
+ amhQ==
+X-Gm-Message-State: AOAM532L3EU2TqdpTiryLw4npDQGIf+VWZhbN93Ce71NVwFt6+a0F8zk
+ jKe9TPb1qxypr5m/28iePySRERk/JHhMhz/ERcFW2fVYFZN9gZ+3PAFMIYS8ZyRz3WsbrPdOg0y
+ 2UQ0Ffe6wqtAfSEk=
+X-Received: by 2002:a05:600c:104b:: with SMTP id
+ 11mr28668577wmx.54.1637573174603; 
+ Mon, 22 Nov 2021 01:26:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyLFJu5j4VPLLnAmpU8CA4IejbWxqy8Vo0yv4T3cYINYpxhqk/tZpLIoYKCers6pf22TsjTpQ==
+X-Received: by 2002:a05:600c:104b:: with SMTP id
+ 11mr28668518wmx.54.1637573174383; 
+ Mon, 22 Nov 2021 01:26:14 -0800 (PST)
+Received: from [192.168.3.132] (p5b0c667b.dip0.t-ipconnect.de. [91.12.102.123])
+ by smtp.gmail.com with ESMTPSA id t8sm8351680wrv.30.2021.11.22.01.26.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Nov 2021 01:26:13 -0800 (PST)
+Message-ID: <4efdccac-245f-eb1f-5b7f-c1044ff0103d@redhat.com>
+Date: Mon, 22 Nov 2021 10:26:12 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v3 3/3] cpus-common: implement dirty limit on vCPU
-To: Markus Armbruster <armbru@redhat.com>
-References: <cover.1637403404.git.huangy81@chinatelecom.cn>
- <cover.1637403404.git.huangy81@chinatelecom.cn>
- <99ea5e76926164d60a4ee62d0a1831823bc0d7a9.1637403404.git.huangy81@chinatelecom.cn>
- <87o86cprql.fsf@dusky.pond.sub.org>
- <1a8f3590-c7be-016e-842c-b4b29df92d2c@chinatelecom.cn>
- <874k84o8t2.fsf@dusky.pond.sub.org>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <874k84o8t2.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.223;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [RFC v2 PATCH 01/13] mm/shmem: Introduce F_SEAL_GUEST
+To: Jason Gunthorpe <jgg@ziepe.ca>
+References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
+ <20211119134739.20218-2-chao.p.peng@linux.intel.com>
+ <20211119151943.GH876299@ziepe.ca>
+ <df11d753-6242-8f7c-cb04-c095f68b41fa@redhat.com>
+ <20211119160023.GI876299@ziepe.ca>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20211119160023.GI876299@ziepe.ca>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,98 +105,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Chao Peng <chao.p.peng@linux.intel.com>,
+ ak@linux.intel.com, Jonathan Corbet <corbet@lwn.net>,
+ Joerg Roedel <joro@8bytes.org>, x86@kernel.org,
+ Hugh Dickins <hughd@google.com>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, luto@kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Jim Mattson <jmattson@google.com>, dave.hansen@intel.com,
+ Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
+ Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ john.ji@intel.com, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 19.11.21 17:00, Jason Gunthorpe wrote:
+> On Fri, Nov 19, 2021 at 04:39:15PM +0100, David Hildenbrand wrote:
+> 
+>>> If qmeu can put all the guest memory in a memfd and not map it, then
+>>> I'd also like to see that the IOMMU can use this interface too so we
+>>> can have VFIO working in this configuration.
+>>
+>> In QEMU we usually want to (and must) be able to access guest memory
+>> from user space, with the current design we wouldn't even be able to
+>> temporarily mmap it -- which makes sense for encrypted memory only. The
+>> corner case really is encrypted memory. So I don't think we'll see a
+>> broad use of this feature outside of encrypted VMs in QEMU. I might be
+>> wrong, most probably I am :)
+> 
+> Interesting..
+> 
+> The non-encrypted case I had in mind is the horrible flow in VFIO to
+> support qemu re-execing itself (VFIO_DMA_UNMAP_FLAG_VADDR).
 
+Thanks for sharing!
 
-在 2021/11/22 17:10, Markus Armbruster 写道:
-> Hyman Huang <huangy81@chinatelecom.cn> writes:
 > 
->> =E5=9C=A8 2021/11/22 15:35, Markus Armbruster =E5=86=99=E9=81=93:
->>> huangy81@chinatelecom.cn writes:
->>>
->>>> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->>>>
->>>> implement dirtyrate calculation periodically basing on
->>>> dirty-ring and throttle vCPU until it reachs the quota
->>>> dirtyrate given by user.
->>>>
->>>> introduce qmp commands set-dirty-limit/cancel-dirty-limit to
->>>> set/cancel dirty limit on vCPU.
->>>
->>> Please start sentences with a capital letter.
->>>
->> Ok，i'll check the syntax problem next version.
->>>>
->>>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->>>
->>>
->>> [...]
->>>
->>>> diff --git a/qapi/misc.json b/qapi/misc.json
->>>> index 358548a..98e6001 100644
->>>> --- a/qapi/misc.json
->>>> +++ b/qapi/misc.json
->>>> @@ -527,3 +527,42 @@
->>>>     'data': { '*option': 'str' },
->>>>     'returns': ['CommandLineOptionInfo'],
->>>>     'allow-preconfig': true }
->>>> +
->>>> +##
->>>> +# @set-dirty-limit:
->>>> +#
->>>> +# This command could be used to cap the vCPU memory load, which is also
->>>> +# refered as dirtyrate. One should use "calc-dirty-rate" with "dirty-ring"
->>>> +# and to calculate vCPU dirtyrate and query it with "query-dirty-rate".
->>>> +# Once getting the vCPU current dirtyrate, "set-dirty-limit" can be used
->>>> +# to set the upper limit of dirtyrate for the interested vCPU.
->>>
->>> "dirtyrate" is not a word.  Let's spell it "dirty page rate", for
->>> consistency with the documentation in migration.json.
->> Ok, sounds good.
->>>
->>> Regarding "One should use ...": sounds like you have to run
->>> calc-dirty-rate with argument @mode set to @dirty-ring before this
->>> command.  Correct?  What happens when you don't?  set-dirty-limit fails?
+> Here VFIO is connected to a VA in a mm_struct that will become invalid
+> during the kexec period, but VFIO needs to continue to access it. For
+> IOMMU cases this is OK because the memory is already pinned, but for
+> the 'emulated iommu' used by mdevs pages are pinned dynamically. qemu
+> needs to ensure that VFIO can continue to access the pages across the
+> kexec, even though there is nothing to pin_user_pages() on.
 > 
-> You didn't answer this question.
-set-dirty-limit doesn't do any pre-check about if calc-dirty-rate has 
-executed, so it doesn't fail.
+> This flow would work a lot better if VFIO was connected to the memfd
+> that is storing the guest memory. Then it naturally doesn't get
+> disrupted by exec() and we don't need the mess in the kernel..
 
-Since only executing calc-dirty-rate with dirty-ring mode can we get the 
-vCPU dirty page rate currently(while the dirty-bitmap only get the vm 
-dirty page rate), "One should use ..." maybe misleading, what i actually 
-want to say is "One should use the dirty-ring mode to calculate the vCPU 
-dirty page rate".
+I do wonder if we want to support sharing such memfds between processes
+in all cases ... we most certainly don't want to be able to share
+encrypted memory between VMs (I heard that the kernel has to forbid
+that). It would make sense in the use case you describe, though.
+
 > 
->>> Do you also have to run query-dirty-rate before this command?
->> Actually no, i'll clarify the usage next verison.
+> I was wondering if we could get here using the direct_io APIs but this
+> would do the job too.
 > 
-> Regarding "dirty-ring": is this merely a limitation of the
-> implementation, i.e. other modes could be made to work if we cared, or
-> is it more fundamental?
+>> Apart from the special "encrypted memory" semantics, I assume nothing
+>> speaks against allowing for mmaping these memfds, for example, for any
+>> other VFIO use cases.
 > 
->>> Speaking of migration.json: should these commands be defined there, next
->>> to calc-dirty-rate and query-dirty-rate?
->> I'm struggling too because these commands will be used in migration but
->> it is vCPU they handle.
+> We will eventually have VFIO with "encrypted memory". There was a talk
+> in LPC about the enabling work for this.
+
+Yes, I heard about that as well. In the foreseeable future, we'll have
+shared memory only visible for VFIO devices.
+
 > 
-> I think migration.json is more about CPUs than misc.json is.  Let's add
-> the new commands to migration.json if migration maintainers are okay
-> with it.
-> 
-> [...]
-> 
+> So, if the plan is to put fully encrpyted memory inside a memfd, then
+> we still will eventually need a way to pull the pfns it into the
+> IOMMU, presumably along with the access control parameters needed to
+> pass to the secure monitor to join a PCI device to the secure memory.
+
+Long-term, agreed.
 
 -- 
-Best regard
+Thanks,
 
-Hyman Huang(黄勇)
+David / dhildenb
+
 
