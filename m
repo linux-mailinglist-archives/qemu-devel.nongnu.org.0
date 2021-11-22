@@ -2,94 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E3A458DFB
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 13:06:06 +0100 (CET)
-Received: from localhost ([::1]:37566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E24458E0B
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 13:12:31 +0100 (CET)
+Received: from localhost ([::1]:41812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp85F-0008C0-Jy
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 07:06:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42370)
+	id 1mp8BR-0003ay-9I
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 07:12:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mp840-0007H3-Ss
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:04:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26058)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mp89E-0002XZ-L3
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:10:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mp83y-0002pC-PJ
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:04:48 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mp89B-0004HD-W1
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 07:10:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637582686;
+ s=mimecast20190719; t=1637583009;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=39yIz6lLPMrpmAQPLdmfeQDERMqPTewiDQw8O3Cj+kU=;
- b=OOgOIpL3bmWalxB8ruC8/fS5oz0cKx92+DwgC33fpIXDX8ji+26cI06rlpVEKbx0VDeVpm
- mTbU/Wj4h6W1nPYEj8atxczSW18jYDdHQJXb8XW9DkOQ3RO0jYKr+GE/I2agnsmII1ed4K
- Y06ZnvKAH3tUCxh/q7OD93mkWcyaV5I=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rKv8jIyKXoc1j9Mhs+cajfyXl40q7rppWt1/IRAuwIQ=;
+ b=iDhN2ilCxTdDO2986ZCAbTfNDMjOglth1dv4LN4KgQQBgFsQBjUalopwi6vghx2vMAKEIJ
+ X0GZRGz/+nXaRoWGPp7qrI3Uq8usxyuK1xAMFRVq/hNXe7yUoXymbbkP7LSX2IEW2mQTPS
+ /81h/nFl6PFFrdAisFluDBS28EGDH/A=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-184-70zlB-FIOpG8hKlqHAljbg-1; Mon, 22 Nov 2021 07:04:45 -0500
-X-MC-Unique: 70zlB-FIOpG8hKlqHAljbg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- z138-20020a1c7e90000000b003319c5f9164so10080776wmc.7
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 04:04:44 -0800 (PST)
+ us-mta-355-1KWSuE5UOKGH29GpZ-mWhA-1; Mon, 22 Nov 2021 07:10:08 -0500
+X-MC-Unique: 1KWSuE5UOKGH29GpZ-mWhA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d3-20020adfa343000000b0018ed6dd4629so3064254wrb.2
+ for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 04:10:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=39yIz6lLPMrpmAQPLdmfeQDERMqPTewiDQw8O3Cj+kU=;
- b=CdM9F8n9A25CbQClPs1tOCXl5lRTxlogUBv789/hZQ3DIt+fPme5V3IHvxQvaktMuq
- P9SF8KMj81ZAgafPKrTSEI0UgQdzBkGtjpYNU7K5NX0GLwkzVvv8qSmTTd/n9w0ozGc2
- jPVg1ZNOT7kDghljpDAxAULo+VcQSJ8BXY3UlliKVP9czrotEsXcBYSuvqyhSwGjEBhO
- 803+53tq+y25hwNAsjt9Y5O0oa75i9hq058kE9CBDN0IZa9WbDMfBmYGfRl8WqJtKsVy
- x0mit80covfiOYvYcOfMT2sYgy058AjBVLirIFRmukm8AZXotet30F01CFLuxTz1zQS7
- fx4g==
-X-Gm-Message-State: AOAM533uu7iN+ycMB+Xwclr3Gl/oj6ef3SqWJK+1l4PnZi5b7R1za9Gu
- wHX2Cnjbe2nSJsjMQgJd8lwWi8bwSJqBnYTe/Vi5zlClUPkyFtrSZGEL13M8RDUvtAINPXGCVNB
- UfbLYGOor95GBEXk=
-X-Received: by 2002:a05:600c:3505:: with SMTP id
- h5mr28452642wmq.22.1637582683377; 
- Mon, 22 Nov 2021 04:04:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyjT4PPLERNyL1WzG+Wp3tDGK4KUYKLQKLNjuCL5RhvOIcieCwW0KsZ8AS8fQLWiyaqQ1FuSQ==
-X-Received: by 2002:a05:600c:3505:: with SMTP id
- h5mr28452624wmq.22.1637582683206; 
- Mon, 22 Nov 2021 04:04:43 -0800 (PST)
+ bh=rKv8jIyKXoc1j9Mhs+cajfyXl40q7rppWt1/IRAuwIQ=;
+ b=ZRuksLPY71M2PhOk1uHROqNpgjq0MY9l3F1IJ0tBGhXtYEx4ej6EdkLaMc9L8z+nQy
+ oFMWJb1i6P7BZI41wDP2vuU0AxuU+zPiGKjtaoWhTZ+X+AfXiPRQo9qDkaTD/jlXPYW5
+ TWw7BCT1KQJK38++dDWdPQfaDtq6IRDVZKs5Lasokg/buYQ5tOxgON69Vf+jgUGsZ6RW
+ YuCjV+OaH2v3CCIJnVaH4KxYJm3ovljTzLk2dSncc4pZ0P60Or9A9ooqhSX4xsgzAmWb
+ UniJf0H5zlkr3pXxcXxb8dh0EWz2KldLmVghZz7MyAfAiMocnSiTyIV6ux48c3t5xsol
+ 4e/g==
+X-Gm-Message-State: AOAM533Ruq67x+L2G7nhqpCyZqc+tBVZuqNO3PtMroXdjCTZZcpHvB5x
+ EUAN92R+TtYOYIatesKv7YeXwLJYyFlHZXaSae7C3NBDRiioVg7xntrQG9LChKHhA0XlsAjuVpR
+ aWtCUtlJxrCAcEhM=
+X-Received: by 2002:a7b:ce16:: with SMTP id m22mr24660344wmc.137.1637583006777; 
+ Mon, 22 Nov 2021 04:10:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyW6t+ZRaktQ+ir7CXeH06astJgy0JNbtzauW2kDbzSf5XM6emtv1YiTHJRWeECA/OBX4VFpQ==
+X-Received: by 2002:a7b:ce16:: with SMTP id m22mr24660306wmc.137.1637583006589; 
+ Mon, 22 Nov 2021 04:10:06 -0800 (PST)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id o10sm10696010wri.15.2021.11.22.04.04.42
+ by smtp.gmail.com with ESMTPSA id 138sm16464530wma.17.2021.11.22.04.10.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 04:04:42 -0800 (PST)
-Message-ID: <d57c594d-41a4-6617-9890-a6e19955550f@redhat.com>
-Date: Mon, 22 Nov 2021 13:04:41 +0100
+ Mon, 22 Nov 2021 04:10:06 -0800 (PST)
+Message-ID: <17a034f7-de27-08a9-65b4-f0c1a551c0f3@redhat.com>
+Date: Mon, 22 Nov 2021 13:10:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH-for-6.2? 0/2] hw/intc/arm_gicv3: Introduce
- CONFIG_ARM_GIC_TCG Kconfig selector
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20211115223619.2599282-1-philmd@redhat.com>
- <CAFEAcA8TvHb3XG6Kw83=Bb69YZ+GF0p4r6uG+UdwM3UbLmQ31A@mail.gmail.com>
+Subject: Re: [PATCH-for-6.2?] ui/gtk: graphic_hw_gl_flushed after closing
+ dmabuf->fence_fd
+To: Dongwon Kim <dongwon.kim@intel.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20211121172237.14937-1-dongwon.kim@intel.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <CAFEAcA8TvHb3XG6Kw83=Bb69YZ+GF0p4r6uG+UdwM3UbLmQ31A@mail.gmail.com>
+In-Reply-To: <20211121172237.14937-1-dongwon.kim@intel.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,34 +102,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Miroslav Rezanina <mrezanin@redhat.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Shashi Mallela <shashi.mallela@linaro.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/22/21 11:59, Peter Maydell wrote:
-> On Mon, 15 Nov 2021 at 22:36, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> The GICv3 ITS support has been introduced uring the 6.2 development
->> window (commits 18f6290a6a9..17fb5e36aab). This device is for
->> emulation. When building virtualization-only binary, it might be
->> desirable to not include this device.
->>
->> Introduce the CONFIG_ARM_GIC_TCG Kconfig selector to allow downstream
->> distributions to deselect this device.
->>
->> Based-on: pull-target-arm-20211115-1
->>
->> Philippe Mathieu-Daudé (2):
->>   hw/intc/arm_gicv3: Extract gicv3_set_gicv3state from arm_gicv3_cpuif.c
->>   hw/intc/arm_gicv3: Introduce CONFIG_ARM_GIC_TCG Kconfig selector
+On 11/21/21 18:22, Dongwon Kim wrote:
+> The dmabuf often becomes invalid right after unblocking pipeline
+> and graphic_hw_gl_flushed in case a new scanout blob is submitted
+> because the dmabuf associated with the current guest scanout is
+> freed after swapping.
 > 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> So both graphic_hw_gl_block and graphic_hw_gl_flushed should be
+> executed after closing fence_fd for the current dmabuf.
 > 
-> This looks OK to me, but I'm inclined to leave it for 7.0 at this
-> point in the release cycle, unless it would be awkward for
-> downstreams if we didn't put it in ?
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
 
-Mirek was Cc'ed and didn't comment so let's delay it to 7.0.
+If so:
+Fixes: 65b847d284c ("ui: Create sync objects and fences only for blobs")
+
+> Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+> ---
+>  ui/gtk.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/ui/gtk.c b/ui/gtk.c
+> index 7abe1a69d8..2a3a9db13f 100644
+> --- a/ui/gtk.c
+> +++ b/ui/gtk.c
+> @@ -589,11 +589,11 @@ void gd_hw_gl_flushed(void *vcon)
+>      VirtualConsole *vc = vcon;
+>      QemuDmaBuf *dmabuf = vc->gfx.guest_fb.dmabuf;
+>  
+> -    graphic_hw_gl_block(vc->gfx.dcl.con, false);
+> -    graphic_hw_gl_flushed(vc->gfx.dcl.con);
+>      qemu_set_fd_handler(dmabuf->fence_fd, NULL, NULL, NULL);
+>      close(dmabuf->fence_fd);
+>      dmabuf->fence_fd = -1;
+> +    graphic_hw_gl_block(vc->gfx.dcl.con, false);
+> +    graphic_hw_gl_flushed(vc->gfx.dcl.con);
+>  }
+>  
+>  /** DisplayState Callbacks (opengl version) **/
+> 
 
 
