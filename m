@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14855458F90
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 14:38:49 +0100 (CET)
-Received: from localhost ([::1]:41020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB154458F8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 14:38:04 +0100 (CET)
+Received: from localhost ([::1]:41282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp9Wy-0006kE-4x
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 08:38:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36282)
+	id 1mp9WF-0006wg-N0
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 08:38:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@ziepe.ca>) id 1mp9QH-0003i9-3Y
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:31:53 -0500
-Received: from [2607:f8b0:4864:20::72f] (port=34653
- helo=mail-qk1-x72f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jgg@ziepe.ca>) id 1mp9QC-0000yd-C6
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:31:49 -0500
-Received: by mail-qk1-x72f.google.com with SMTP id t6so18080634qkg.1
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 05:31:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=u7JEhlzeqWEWi1WfdsbI31hG4XTiKs7YjTVY93B2ee4=;
- b=CRLeFVlaDHYADj0c4pdgyA6WVjM0CriKWH34VQ3Zgnf0WtTraYkd/cgjTCbMDOczww
- NdXiD8njOfcPQpNHpYRgBzhYd2yhCkVtjUBQDrAQcLu+SgaPJ18JLMcHZiSnAkVeknnd
- 0r6V6MGiqUoTitEC42jbkgtqGFrBYYzJPumsEkVo7XS5sE6Xgi92bWwMj7cA04T9KZgG
- KBEMYlzIWnHu0BDIdQb3DAJr0IAt/qNWxoYSuFBMXOWkuMB4UlcMl9O5g8H1aCzjXOTg
- YIexlAtl5QrrWHsZHnXp+oDhqqchuEu2x1mCbFWEHmpRnxygBJW2KKryq/0Wb2YGQp6B
- zPUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=u7JEhlzeqWEWi1WfdsbI31hG4XTiKs7YjTVY93B2ee4=;
- b=2Yvv4MFmVrTiw6AdRu2IckumOh/8qKwyKs+NgLDJYnV+fvtNMCb8lACuY0Gyi0iNPW
- 7+Lt8IkdMEDe0Vv65SmAnv+a8aKjGN4YPnXxbER9laWCniddMAPiYhax7sBvLxlrPiYQ
- 58dG59a+5mgdcPat/eWjFCWtQKMC3TQFAsv47ICZIcp36Xm4qP/sxdXHE+gMiHFitgeZ
- mf1E7yJviVPnl25k88B2tTrnbVvxLTrS+JT3E06PvEagNSE/Eok9o9JDfM06ZUDxDgiZ
- aYQr4p8j8DFPYuW57fmSYp0gidIAUkBo5IiJ35MotywPRvd9YvKdafOTLXXVnZzWJfST
- t13g==
-X-Gm-Message-State: AOAM530hm4LDWpdfzuH7L38Y5BZH5V+Myql1yZULp1bBCN6zj7xzHsst
- 3i3qw9nHNFSvfJz3ZyUFPzuEyg==
-X-Google-Smtp-Source: ABdhPJyVecFgN4ENVdXtmS+AeA6UBpyD+QSrsm4bekxw4Uozjfi2oAytM0ALDEqjOc3nqbmPpEzZDw==
-X-Received: by 2002:a05:620a:c84:: with SMTP id
- q4mr47040794qki.176.1637587906879; 
- Mon, 22 Nov 2021 05:31:46 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.113.129])
- by smtp.gmail.com with ESMTPSA id n19sm4455570qta.78.2021.11.22.05.31.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Nov 2021 05:31:46 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1mp9Q9-00DrvP-FD; Mon, 22 Nov 2021 09:31:45 -0400
-Date: Mon, 22 Nov 2021 09:31:45 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [RFC v2 PATCH 01/13] mm/shmem: Introduce F_SEAL_GUEST
-Message-ID: <20211122133145.GQ876299@ziepe.ca>
-References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
- <20211119134739.20218-2-chao.p.peng@linux.intel.com>
- <20211119151943.GH876299@ziepe.ca>
- <df11d753-6242-8f7c-cb04-c095f68b41fa@redhat.com>
- <20211119160023.GI876299@ziepe.ca>
- <4efdccac-245f-eb1f-5b7f-c1044ff0103d@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mp9S4-0004yh-Sd
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:33:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36113)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mp9Rw-0001C1-L1
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 08:33:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637588016;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=+fySEIHzm0+oJNRS6ztrxLVol4O2DLU3h9CnSOeyUC0=;
+ b=BGxki6PqMnUYfYzKRMu2zWAEcae+ls3i6NUvRA0JkGPQ1Q04NkTNpinZxS5g2oqeanqkvK
+ HxXQNRta/QI13XZxFVekO1nO0B8FGwQ47103g/VsisEz4mbQo/6nwOyBrg4szziiWTda67
+ OZRvw5OwJbnn1LRA1JqQ+oEk6DYTdcs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-73-kZLcYYwkPjqQNnPARB8whQ-1; Mon, 22 Nov 2021 08:33:33 -0500
+X-MC-Unique: kZLcYYwkPjqQNnPARB8whQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8466100D841;
+ Mon, 22 Nov 2021 13:33:31 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 025185DF5F;
+ Mon, 22 Nov 2021 13:33:26 +0000 (UTC)
+Date: Mon, 22 Nov 2021 13:33:24 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/2] docs: Fix botched rST conversion of
+ 'submitting-a-patch.rst'
+Message-ID: <YZucJGIZFKM7v3xa@redhat.com>
+References: <20211119193118.949698-1-kchamart@redhat.com>
+ <20211119193118.949698-2-kchamart@redhat.com>
+ <56026d2a-0b9e-ff83-d953-a284a810a8ed@redhat.com>
+ <YZtu59t8DoZZ15nQ@paraplu>
+ <b03ffb0c-0c4f-b792-f6c1-55014a0ae003@redhat.com>
+ <YZuK09xP0I28dvMr@paraplu>
+ <c591c571-f922-28a5-e8be-75e6cccb261a@redhat.com>
+ <CAFEAcA8QuSsazUZU23DJgXHhU=ez948wQFJkHZGRYWxhiXbuDg@mail.gmail.com>
+ <ef4ff222-1053-904a-77c2-39adc9dd929a@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <ef4ff222-1053-904a-77c2-39adc9dd929a@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <4efdccac-245f-eb1f-5b7f-c1044ff0103d@redhat.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72f; envelope-from=jgg@ziepe.ca;
- helo=mail-qk1-x72f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,34 +88,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, Chao Peng <chao.p.peng@linux.intel.com>,
- ak@linux.intel.com, Jonathan Corbet <corbet@lwn.net>,
- Joerg Roedel <joro@8bytes.org>, x86@kernel.org,
- Hugh Dickins <hughd@google.com>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, luto@kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Jim Mattson <jmattson@google.com>, dave.hansen@intel.com,
- Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- john.ji@intel.com, Yu Zhang <yu.c.zhang@linux.intel.com>,
- linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Kashyap Chamarthy <kchamart@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Laurent Vivier <Laurent@vivier.eu>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 22, 2021 at 10:26:12AM +0100, David Hildenbrand wrote:
+On Mon, Nov 22, 2021 at 02:30:10PM +0100, Thomas Huth wrote:
+> On 22/11/2021 14.25, Peter Maydell wrote:
+> > On Mon, 22 Nov 2021 at 12:37, Thomas Huth <thuth@redhat.com> wrote:
+> > > What about simply replacing it with a new sentence below the bullet list,
+> > > saying:
+> > > 
+> > > "Please also use a spell checker like `codespell
+> > > https://github.com/codespell-project/codespell` with your patches"
+> > 
+> > How many regular contributors actually do that?
+> 
+> Considering the typos that we have in the code, not enough ;-)
+> 
+> Anyway, it's just a polite recommendation here, not a must-do, so mentioning
+> codespell here doesn't really hurt, does it?
 
-> I do wonder if we want to support sharing such memfds between processes
-> in all cases ... we most certainly don't want to be able to share
-> encrypted memory between VMs (I heard that the kernel has to forbid
-> that). It would make sense in the use case you describe, though.
+Well if you run 'codespell' with no args on qemu.git right now, you
+get over 5000 possible mistakes reported. Many (perhaps even most)
+will be false positives, but with that amount of existing report,
+I don't think its credible to request contributors to run this
+and wade through its results to see if they made things worse or
+not.
 
-If there is a F_SEAL_XX that blocks every kind of new access, who
-cares if userspace passes the FD around or not?
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Jason
 
