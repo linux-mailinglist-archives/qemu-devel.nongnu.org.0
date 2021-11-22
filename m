@@ -2,77 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653DC458B28
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 10:12:41 +0100 (CET)
-Received: from localhost ([::1]:51746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A36458B3A
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 10:21:09 +0100 (CET)
+Received: from localhost ([::1]:57248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mp5NM-0001ry-Rw
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 04:12:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52568)
+	id 1mp5Vb-0006BZ-LJ
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 04:21:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mp5Lc-00014k-DQ
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:10:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22679)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1mp5Tx-0005RS-4u
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:19:25 -0500
+Received: from mga01.intel.com ([192.55.52.88]:12602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mp5LY-0001Mh-AK
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:10:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637572242;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=H9TqZCiLbpMfL2jPsRI1Tp18pLVrwWWzQ0XIGkcjRUQ=;
- b=QUaaI6MchghoD7RdChNa5rSkKGCVZP1xPgcjJ1Z5Z26TB4YHfpscRymvkOMK8NmUE51Z8t
- clAX0SjmjIuEwLMl5YzLZlXhZwDMbQfMCKQv7V8vHSzDqEbKTdJwxX8kFidRBrBJSOOvBI
- 77UMqrh10w4kfvb5iEB9KgonfT/N+hs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-376-7WDa68JeOaq18mtQA46USg-1; Mon, 22 Nov 2021 04:10:38 -0500
-X-MC-Unique: 7WDa68JeOaq18mtQA46USg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7ED410168C0;
- Mon, 22 Nov 2021 09:10:37 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D14D4ABBB;
- Mon, 22 Nov 2021 09:10:03 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 67A3D11380A7; Mon, 22 Nov 2021 10:10:01 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Hyman Huang <huangy81@chinatelecom.cn>
-Subject: Re: [PATCH v3 3/3] cpus-common: implement dirty limit on vCPU
-References: <cover.1637403404.git.huangy81@chinatelecom.cn>
- <cover.1637403404.git.huangy81@chinatelecom.cn>
- <99ea5e76926164d60a4ee62d0a1831823bc0d7a9.1637403404.git.huangy81@chinatelecom.cn>
- <87o86cprql.fsf@dusky.pond.sub.org>
- <1a8f3590-c7be-016e-842c-b4b29df92d2c@chinatelecom.cn>
-Date: Mon, 22 Nov 2021 10:10:01 +0100
-In-Reply-To: <1a8f3590-c7be-016e-842c-b4b29df92d2c@chinatelecom.cn> (Hyman
- Huang's message of "Mon, 22 Nov 2021 16:19:37 +0800")
-Message-ID: <874k84o8t2.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1mp5Tu-000417-1s
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 04:19:24 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10175"; a="258571507"
+X-IronPort-AV: E=Sophos;i="5.87,254,1631602800"; d="scan'208";a="258571507"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2021 01:19:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,254,1631602800"; d="scan'208";a="496790995"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by orsmga007.jf.intel.com with ESMTP; 22 Nov 2021 01:19:09 -0800
+Date: Mon, 22 Nov 2021 17:18:23 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Yao Yuan <yaoyuan0329os@gmail.com>
+Subject: Re: [RFC v2 PATCH 07/13] KVM: Handle page fault for fd based memslot
+Message-ID: <20211122091823.GB28749@chaop.bj.intel.com>
+References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
+ <20211119134739.20218-8-chao.p.peng@linux.intel.com>
+ <20211120015529.w23fg2df3fqs4ov5@sapienza>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211120015529.w23fg2df3fqs4ov5@sapienza>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=192.55.52.88;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga01.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,90 +61,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
+ susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
+ linux-kernel@vger.kernel.org, john.ji@intel.com,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hyman Huang <huangy81@chinatelecom.cn> writes:
+On Sat, Nov 20, 2021 at 09:55:29AM +0800, Yao Yuan wrote:
+> On Fri, Nov 19, 2021 at 09:47:33PM +0800, Chao Peng wrote:
+> > Current code assume the private memory is persistent and KVM can check
+> > with backing store to see if private memory exists at the same address
+> > by calling get_pfn(alloc=false).
+> >
+> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  arch/x86/kvm/mmu/mmu.c | 75 ++++++++++++++++++++++++++++++++++++++++--
+> >  1 file changed, 73 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> > index 40377901598b..cd5d1f923694 100644
+> > --- a/arch/x86/kvm/mmu/mmu.c
+> > +++ b/arch/x86/kvm/mmu/mmu.c
+> > @@ -3277,6 +3277,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
+> >  	if (max_level == PG_LEVEL_4K)
+> >  		return PG_LEVEL_4K;
+> >
+> > +	if (memslot_is_memfd(slot))
+> > +		return max_level;
+> > +
+> >  	host_level = host_pfn_mapping_level(kvm, gfn, pfn, slot);
+> >  	return min(host_level, max_level);
+> >  }
+> > @@ -4555,6 +4558,65 @@ static bool kvm_arch_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
+> >  				  kvm_vcpu_gfn_to_hva(vcpu, gfn), &arch);
+> >  }
+> >
+> > +static bool kvm_faultin_pfn_memfd(struct kvm_vcpu *vcpu,
+> > +				  struct kvm_page_fault *fault, int *r)
+> > +{	int order;
+> > +	kvm_pfn_t pfn;
+> > +	struct kvm_memory_slot *slot = fault->slot;
+> > +	bool priv_gfn = kvm_vcpu_is_private_gfn(vcpu, fault->addr >> PAGE_SHIFT);
+> > +	bool priv_slot_exists = memslot_has_private(slot);
+> > +	bool priv_gfn_exists = false;
+> > +	int mem_convert_type;
+> > +
+> > +	if (priv_gfn && !priv_slot_exists) {
+> > +		*r = RET_PF_INVALID;
+> > +		return true;
+> > +	}
+> > +
+> > +	if (priv_slot_exists) {
+> > +		pfn = slot->memfd_ops->get_pfn(slot, slot->priv_file,
+> > +					       fault->gfn, false, &order);
+> > +		if (pfn >= 0)
+> > +			priv_gfn_exists = true;
+> 
+> Need "fault->pfn = pfn" here if actual pfn is returned in
+> get_pfn(alloc=false) case for private page case.
+> 
+> > +	}
+> > +
+> > +	if (priv_gfn && !priv_gfn_exists) {
+> > +		mem_convert_type = KVM_EXIT_MEM_MAP_PRIVATE;
+> > +		goto out_convert;
+> > +	}
+> > +
+> > +	if (!priv_gfn && priv_gfn_exists) {
+> > +		slot->memfd_ops->put_pfn(pfn);
+> > +		mem_convert_type = KVM_EXIT_MEM_MAP_SHARED;
+> > +		goto out_convert;
+> > +	}
+> > +
+> > +	if (!priv_gfn) {
+> > +		pfn = slot->memfd_ops->get_pfn(slot, slot->file,
+> > +					       fault->gfn, true, &order);
+> 
+> Need "fault->pfn = pfn" here, because he pfn for
+> share page is getted here only.
+> 
+> > +		if (fault->pfn < 0) {
+> > +			*r = RET_PF_INVALID;
+> > +			return true;
+> > +		}
+> > +	}
 
-> =3DE5=3D9C=3DA8 2021/11/22 15:35, Markus Armbruster =3DE5=3D86=3D99=3DE9=
-=3D81=3D93:
->> huangy81@chinatelecom.cn writes:
->>=20
->>> From: Hyman Huang(=3DE9=3DBB=3D84=3DE5=3D8B=3D87) <huangy81@chinateleco=
-m.cn>
->>>
->>> implement dirtyrate calculation periodically basing on
->>> dirty-ring and throttle vCPU until it reachs the quota
->>> dirtyrate given by user.
->>>
->>> introduce qmp commands set-dirty-limit/cancel-dirty-limit to
->>> set/cancel dirty limit on vCPU.
->>=20
->> Please start sentences with a capital letter.
->>=20
-> Ok=EF=BC=8Ci'll check the syntax problem next version.
->>>
->>> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.c=
-n>
->>
->>=20
->> [...]
->>=20
->>> diff --git a/qapi/misc.json b/qapi/misc.json
->>> index 358548a..98e6001 100644
->>> --- a/qapi/misc.json
->>> +++ b/qapi/misc.json
->>> @@ -527,3 +527,42 @@
->>>    'data': { '*option': 'str' },
->>>    'returns': ['CommandLineOptionInfo'],
->>>    'allow-preconfig': true }
->>> +
->>> +##
->>> +# @set-dirty-limit:
->>> +#
->>> +# This command could be used to cap the vCPU memory load, which is als=
-o
->>> +# refered as dirtyrate. One should use "calc-dirty-rate" with "dirty-r=
-ing"
->>> +# and to calculate vCPU dirtyrate and query it with "query-dirty-rate"=
-.
->>> +# Once getting the vCPU current dirtyrate, "set-dirty-limit" can be us=
-ed
->>> +# to set the upper limit of dirtyrate for the interested vCPU.
->>=20
->> "dirtyrate" is not a word.  Let's spell it "dirty page rate", for
->> consistency with the documentation in migration.json.
-> Ok, sounds good.
->>=20
->> Regarding "One should use ...": sounds like you have to run
->> calc-dirty-rate with argument @mode set to @dirty-ring before this
->> command.  Correct?  What happens when you don't?  set-dirty-limit fails?
+Right, I actually have "fault->pfn = pfn" here but accidentally deleted
+in a code factoring.
 
-You didn't answer this question.
-
->> Do you also have to run query-dirty-rate before this command?
-> Actually no, i'll clarify the usage next verison.
-
-Regarding "dirty-ring": is this merely a limitation of the
-implementation, i.e. other modes could be made to work if we cared, or
-is it more fundamental?
-
->> Speaking of migration.json: should these commands be defined there, next
->> to calc-dirty-rate and query-dirty-rate?
-> I'm struggling too because these commands will be used in migration but=
-=20
-> it is vCPU they handle.
-
-I think migration.json is more about CPUs than misc.json is.  Let's add
-the new commands to migration.json if migration maintainers are okay
-with it.
-
-[...]
-
+Chao
+> > +
+> > +	if (slot->flags & KVM_MEM_READONLY)
+> > +		fault->map_writable = false;
+> > +	if (order == 0)
+> > +		fault->max_level = PG_LEVEL_4K;
+> > +
+> > +	return false;
+> > +
+> > +out_convert:
+> > +	vcpu->run->exit_reason = KVM_EXIT_MEMORY_ERROR;
+> > +	vcpu->run->mem.type = mem_convert_type;
+> > +	vcpu->run->mem.u.map.gpa = fault->gfn << PAGE_SHIFT;
+> > +	vcpu->run->mem.u.map.size = PAGE_SIZE;
+> > +	fault->pfn = -1;
+> > +	*r = -1;
+> > +	return true;
+> > +}
+> > +
+> >  static bool kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault, int *r)
+> >  {
+> >  	struct kvm_memory_slot *slot = fault->slot;
+> > @@ -4596,6 +4658,9 @@ static bool kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault,
+> >  		}
+> >  	}
+> >
+> > +	if (memslot_is_memfd(slot))
+> > +		return kvm_faultin_pfn_memfd(vcpu, fault, r);
+> > +
+> >  	async = false;
+> >  	fault->pfn = __gfn_to_pfn_memslot(slot, fault->gfn, false, &async,
+> >  					  fault->write, &fault->map_writable,
+> > @@ -4660,7 +4725,8 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
+> >  	else
+> >  		write_lock(&vcpu->kvm->mmu_lock);
+> >
+> > -	if (fault->slot && mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva))
+> > +	if (fault->slot && !memslot_is_memfd(fault->slot) &&
+> > +			mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva))
+> >  		goto out_unlock;
+> >  	r = make_mmu_pages_available(vcpu);
+> >  	if (r)
+> > @@ -4676,7 +4742,12 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
+> >  		read_unlock(&vcpu->kvm->mmu_lock);
+> >  	else
+> >  		write_unlock(&vcpu->kvm->mmu_lock);
+> > -	kvm_release_pfn_clean(fault->pfn);
+> > +
+> > +	if (memslot_is_memfd(fault->slot))
+> > +		fault->slot->memfd_ops->put_pfn(fault->pfn);
+> > +	else
+> > +		kvm_release_pfn_clean(fault->pfn);
+> > +
+> >  	return r;
+> >  }
+> >
+> > --
+> > 2.17.1
+> >
 
