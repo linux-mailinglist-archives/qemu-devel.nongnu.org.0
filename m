@@ -2,101 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF483459130
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 16:18:36 +0100 (CET)
-Received: from localhost ([::1]:42882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5187B459136
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Nov 2021 16:22:59 +0100 (CET)
+Received: from localhost ([::1]:45772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpB5X-0007R8-MO
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 10:18:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46276)
+	id 1mpB9m-0001AS-Fo
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 10:22:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mpB37-0005yI-8I
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:16:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29643)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mpB8Z-0000VC-T5
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:21:45 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:34619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mpB2s-0002Ua-Ts
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:15:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637594149;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=621jYNtFW+0mFTU6R2GKZf+P+Fi4Pvi8SOzQ0aE6RqI=;
- b=iwkuELpZAhqolFQcC1E6znrWv2bjBEuIT4o77IdVGM4lv+Y6VLR4FhYvje5zKJ6D3w6yjR
- ktOjG7C7d3NYSzLVrn7S3sP8zOpm9GY+qW92a6jxpkc6GZJPe51k8dgXrAD4yAEF4wC5WU
- V0+D0vruKnDpbRxgTUctKHh3LY5hRaA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-415-HKOOwmtPP4OWzz1jwto9vA-1; Mon, 22 Nov 2021 10:15:48 -0500
-X-MC-Unique: HKOOwmtPP4OWzz1jwto9vA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- h13-20020adfa4cd000000b001883fd029e8so3213171wrb.11
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 07:15:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=621jYNtFW+0mFTU6R2GKZf+P+Fi4Pvi8SOzQ0aE6RqI=;
- b=rqByjd4m5ouV0BKwnDo7UQc8WCcSYMTBC6+Cn2rq13F27BmtMpn84N+cUgw7SIuWVw
- YmZk73R7pt8UsX2ofAfuH5Tp4TkcmFaXMebIRYip+Ka67q5FPYsiIeq2XixhziNqf8YP
- Ar1Sk772dJfSIBfo7U0UIMdw7TJJ6HT4MAGBYcOmyIGfCScDtXyoeQKbtgVHcJGCyUmB
- qbYafBqXWvoCNwHHZstSZCACTWlSIfwGUPro6nGusB4Fkk1gcn0Bo2l1zSZvVf3rfpj7
- kozo1LyI/pwA5C0zUNX2CtFIAlhnY9cXE88P6C2Fl+lQbbhlenMaKfSVbYxYPfPsr+Ax
- Xc3g==
-X-Gm-Message-State: AOAM532bD8DAx/zURnRFZfVoTq0fwOImnwqYEi/vXVUn/T5iYkjiyqIa
- D9quTksAoyPYPcWiuYx+4VG6QqeXjg5ygtDWiKwOlCTfmde4S9STo25eDjE8RNZpCF10FtGc6kP
- jP7X7bHfC2JEwVn4=
-X-Received: by 2002:a5d:47c9:: with SMTP id o9mr23544447wrc.348.1637594147122; 
- Mon, 22 Nov 2021 07:15:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxuFOOEsifCDD0U8JxvjAD6WFeCs8A6VTuxwL4oNddrkpIFu/eH1rQJ0/pc+09fBfKgQ5UEOw==
-X-Received: by 2002:a5d:47c9:: with SMTP id o9mr23544380wrc.348.1637594146835; 
- Mon, 22 Nov 2021 07:15:46 -0800 (PST)
-Received: from [192.168.3.132] (p5b0c667b.dip0.t-ipconnect.de. [91.12.102.123])
- by smtp.gmail.com with ESMTPSA id d7sm8948184wrw.87.2021.11.22.07.15.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 07:15:46 -0800 (PST)
-Message-ID: <f201406b-1448-f7c4-5484-3f4c257b6896@redhat.com>
-Date: Mon, 22 Nov 2021 16:15:44 +0100
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mpB8R-0003bW-VI
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 10:21:38 -0500
+Received: from [192.168.100.1] ([82.142.2.234]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MMoOy-1n7wRK2uA8-00Iij3; Mon, 22 Nov 2021 16:21:30 +0100
+Message-ID: <290f4df5-fe4a-6665-89f8-69f958cf452c@vivier.eu>
+Date: Mon, 22 Nov 2021 16:21:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [RFC v2 PATCH 01/13] mm/shmem: Introduce F_SEAL_GUEST
-To: Jason Gunthorpe <jgg@ziepe.ca>
-References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
- <20211119134739.20218-2-chao.p.peng@linux.intel.com>
- <20211119151943.GH876299@ziepe.ca>
- <df11d753-6242-8f7c-cb04-c095f68b41fa@redhat.com>
- <20211119160023.GI876299@ziepe.ca>
- <4efdccac-245f-eb1f-5b7f-c1044ff0103d@redhat.com>
- <20211122133145.GQ876299@ziepe.ca>
- <56c0dffc-5fc4-c337-3e85-a5c9ce619140@redhat.com>
- <20211122140148.GR876299@ziepe.ca>
- <d2b46b84-8930-4304-2946-4d4a16698b24@redhat.com>
- <20211122150956.GS876299@ziepe.ca>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20211122150956.GS876299@ziepe.ca>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.709,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.097, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Subject: Re: [PATCH] linux-user: implement more loop ioctls
+Content-Language: fr
+To: Andreas Schwab <schwab@suse.de>
+References: <mvmzgpwmfxs.fsf@suse.de>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <mvmzgpwmfxs.fsf@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:/nIPkWiApvhu1QJqh1dOwbhGCgnHKdEpEOMDTHrdXfEd3D51+Dc
+ HEc4VOAymgvofMSk5jhoe+rvwCAVj4x2Sds7Hm2xAHXM9GZn5J6cVnlc25aPrhIrdcua9qO
+ hl5Q4gOj03Pnk3h5EFSUFWwrELRk4LnUot02Lh7O3t50umArNnY53uB6oHJFc2Gv5NST7ri
+ GJTcKyWMvc6lw5kE37CoA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dJ/oonHWJME=:TWwdmMJHmiT7spCd0bhzpW
+ he1ELM/+eobOpStarqXJbt5QS3a/dLDLQX51939Ns0tWQ68NbNwO8B7jQl/GHskfAV+yyY/vq
+ 4ZUKvseoMABUEVjF6AtqNMXKM1lhD/zET74XwzYFbd0SqDFNHa9xftToZrsH/5y80HR00Qy0c
+ KkRkcsnPCr82YcYavs3Z1aFmhW13zGrQWbUnn1Fr2sgroKw6L6VMOc7Jwi9IQIz+/u7v/FDsI
+ JjzPGDg7zWupn52JiXZNUt0pPvJsdOhjB5/dmlSXpi2TnVMm5APhmFbgxgArM2kYFK1enjEZE
+ ezM9TdTPdC3wX6U1ePK7oEiR+goiy+hrOWcLX07p4zfsoR6G8bEmJYqTBUTrzvZZJLuwu0XTZ
+ ydLNy0wNvl0s1YKRcvIDl/Ps37/rcPdBEvx49Sg/HYmL2Hai7LT3Z9FLSuub5s0YdSx7gPbyU
+ rDvKP4efRYR2I+YzLVDIHuuzsYdLyp20m/6CstoAo+qqUXBRUO5Ovf2kUJo3RXG18f64flRvV
+ 5HY/pdLiRf3FFR/mUNTl1IIofzZdXAgCLm61WesOTxn3B+hx76FI8/FsaleXsHMgJW+ZezDTO
+ YMhvFEYvyagKXhdGpZxbgz4adhtSI02UwxmG7yN0uS1Zr0JRJEx5Wjyk1vV3PPeENlrw9G2pu
+ tP6yWaq0xMdzjn3KPz2BB713XWCRI5NZI2mkggXv6sxDWSAFBad/Xdr4z9no37stw9qY=
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,60 +68,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, Chao Peng <chao.p.peng@linux.intel.com>,
- ak@linux.intel.com, Jonathan Corbet <corbet@lwn.net>,
- Joerg Roedel <joro@8bytes.org>, x86@kernel.org,
- Hugh Dickins <hughd@google.com>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, luto@kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Jim Mattson <jmattson@google.com>, dave.hansen@intel.com,
- Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- john.ji@intel.com, Yu Zhang <yu.c.zhang@linux.intel.com>,
- linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22.11.21 16:09, Jason Gunthorpe wrote:
-> On Mon, Nov 22, 2021 at 03:57:17PM +0100, David Hildenbrand wrote:
->> On 22.11.21 15:01, Jason Gunthorpe wrote:
->>> On Mon, Nov 22, 2021 at 02:35:49PM +0100, David Hildenbrand wrote:
->>>> On 22.11.21 14:31, Jason Gunthorpe wrote:
->>>>> On Mon, Nov 22, 2021 at 10:26:12AM +0100, David Hildenbrand wrote:
->>>>>
->>>>>> I do wonder if we want to support sharing such memfds between processes
->>>>>> in all cases ... we most certainly don't want to be able to share
->>>>>> encrypted memory between VMs (I heard that the kernel has to forbid
->>>>>> that). It would make sense in the use case you describe, though.
->>>>>
->>>>> If there is a F_SEAL_XX that blocks every kind of new access, who
->>>>> cares if userspace passes the FD around or not?
->>>> I was imagining that you actually would want to do some kind of "change
->>>> ownership". But yeah, the intended semantics and all use cases we have
->>>> in mind are not fully clear to me yet. If it's really "no new access"
->>>> (side note: is "access" the right word?) then sure, we can pass the fd
->>>> around.
->>>
->>> What is "ownership" in a world with kvm and iommu are reading pages
->>> out of the same fd?
->>
->> In the world of encrypted memory / TDX, KVM somewhat "owns" that memory
->> IMHO (for example, only it can migrate or swap out these pages; it's
->> might be debatable if the TDX module or KVM actually "own" these pages ).
+Le 22/11/2021 à 15:18, Andreas Schwab a écrit :
+> LOOP_CONFIGURE is now used by losetup, and it cannot cope with ENOSYS.
 > 
-> Sounds like it is a swap provider more than an owner?
+> Signed-off-by: Andreas Schwab <schwab@suse.de>
+> ---
+>   linux-user/ioctls.h        | 4 ++++
+>   linux-user/linux_loop.h    | 2 ++
+>   linux-user/syscall_defs.h  | 4 ++++
+>   linux-user/syscall_types.h | 6 ++++++
+>   4 files changed, 16 insertions(+)
+> 
+> diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+> index 7193c3b226..5ac5efc8aa 100644
+> --- a/linux-user/ioctls.h
+> +++ b/linux-user/ioctls.h
+> @@ -637,6 +637,10 @@
+>     IOCTL(LOOP_SET_STATUS64, IOC_W, MK_PTR(MK_STRUCT(STRUCT_loop_info64)))
+>     IOCTL(LOOP_GET_STATUS64, IOC_R, MK_PTR(MK_STRUCT(STRUCT_loop_info64)))
+>     IOCTL(LOOP_CHANGE_FD, 0, TYPE_INT)
+> +  IOCTL(LOOP_SET_CAPACITY, 0, TYPE_INT)
+> +  IOCTL(LOOP_SET_DIRECT_IO, 0, TYPE_INT)
+> +  IOCTL(LOOP_SET_BLOCK_SIZE, 0, TYPE_INT)
+> +  IOCTL(LOOP_CONFIGURE, IOC_W, MK_PTR(MK_STRUCT(STRUCT_loop_configure)))
+>   
+>     IOCTL(LOOP_CTL_ADD, 0, TYPE_INT)
+>     IOCTL(LOOP_CTL_REMOVE, 0, TYPE_INT)
+> diff --git a/linux-user/linux_loop.h b/linux-user/linux_loop.h
+> index c69fea11e4..f80b96f1ff 100644
+> --- a/linux-user/linux_loop.h
+> +++ b/linux-user/linux_loop.h
+> @@ -96,6 +96,8 @@ struct loop_info64 {
+>   #define LOOP_CHANGE_FD		0x4C06
+>   #define LOOP_SET_CAPACITY       0x4C07
+>   #define LOOP_SET_DIRECT_IO      0x4C08
+> +#define LOOP_SET_BLOCK_SIZE     0x4C09
+> +#define LOOP_CONFIGURE          0x4C0A
+>   
+>   /* /dev/loop-control interface */
+>   #define LOOP_CTL_ADD            0x4C80
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index a5ce487dcc..560a29afd8 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -1219,6 +1219,10 @@ struct target_rtc_pll_info {
+>   #define TARGET_LOOP_SET_STATUS64      0x4C04
+>   #define TARGET_LOOP_GET_STATUS64      0x4C05
+>   #define TARGET_LOOP_CHANGE_FD         0x4C06
+> +#define TARGET_LOOP_SET_CAPACITY      0x4C07
+> +#define TARGET_LOOP_SET_DIRECT_IO     0x4C08
+> +#define TARGET_LOOP_SET_BLOCK_SIZE    0x4C09
+> +#define TARGET_LOOP_CONFIGURE         0x4C0A
+>   
+>   #define TARGET_LOOP_CTL_ADD           0x4C80
+>   #define TARGET_LOOP_CTL_REMOVE        0x4C81
+> diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+> index ba2c1518eb..7c46e4fb25 100644
+> --- a/linux-user/syscall_types.h
+> +++ b/linux-user/syscall_types.h
+> @@ -201,6 +201,12 @@ STRUCT(loop_info64,
+>          MK_ARRAY(TYPE_CHAR, 32),  /* lo_encrypt_key */
+>          MK_ARRAY(TYPE_ULONGLONG, 2))  /* lo_init */
+>   
+> +STRUCT(loop_configure,
 
-Yes, I think we can phrase it that way, + "migrate provider"
+It should be named "loop_config", like int he kernel.
 
+Except that:
 
--- 
-Thanks,
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
-David / dhildenb
+> +       TYPE_INT,                 /* fd */
+> +       TYPE_INT,                 /* block_size */
+> +       MK_STRUCT(STRUCT_loop_info64), /* info */
+> +       MK_ARRAY(TYPE_ULONGLONG, 8)) /* __reserved */
+> +
+>   /* mag tape ioctls */
+>   STRUCT(mtop, TYPE_SHORT, TYPE_INT)
+>   STRUCT(mtget, TYPE_LONG, TYPE_LONG, TYPE_LONG, TYPE_LONG, TYPE_LONG,
+> 
 
 
