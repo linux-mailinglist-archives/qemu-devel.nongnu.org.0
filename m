@@ -2,48 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA48D45A72B
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 17:06:48 +0100 (CET)
-Received: from localhost ([::1]:45490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D0A45A729
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 17:06:42 +0100 (CET)
+Received: from localhost ([::1]:44800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpYJj-0004wV-W5
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 11:06:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56062)
+	id 1mpYJd-0004QF-N7
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 11:06:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1mpYIb-0003XE-Az; Tue, 23 Nov 2021 11:05:37 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:32871)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mpYIE-0003HS-Uc
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 11:05:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1mpYIY-0000EH-Jd; Tue, 23 Nov 2021 11:05:36 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 1ANG4Kl8005639
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Tue, 23 Nov 2021 11:04:23 -0500
-Date: Tue, 23 Nov 2021 11:04:20 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-6.2 2/2] tests/qtest/fdc-test: Add a regression test
- for CVE-2021-3507
-Message-ID: <20211123160356.242bgy2mejvc4qxu@mozz.bu.edu>
-References: <20211118115733.4038610-1-philmd@redhat.com>
- <20211118115733.4038610-3-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mpYIB-00006Q-Tm
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 11:05:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637683511;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Di7XWHPbouk60fNGglxlRQAGyHh6CPCwhm37n8DP5y8=;
+ b=PG/0P4Ee5bPQb1Bu4cPobofvPhhGckk07O8aMZPaRSr/JFgwdHAf0NVW37eoiboWs5STfQ
+ pZJbrUUDyFMxq6vmdW48WBgim4E1SDwoXw/BoVhbEkutSgdg+Jc4TkVa0vGYrWK8GpdZh8
+ 3muvqWq83YX1PPC0cNPDiFjm5n7kTy4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-144-wyE_8GIbOTqp22wq2rRDJA-1; Tue, 23 Nov 2021 11:05:04 -0500
+X-MC-Unique: wyE_8GIbOTqp22wq2rRDJA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA79D8066EC
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 16:05:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F94D101E58D;
+ Tue, 23 Nov 2021 16:05:03 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B199111380A7; Tue, 23 Nov 2021 17:05:01 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [RFC PATCH 00/12] QOM/QAPI integration part 1
+References: <20211103173002.209906-1-kwolf@redhat.com>
+Date: Tue, 23 Nov 2021 17:05:01 +0100
+In-Reply-To: <20211103173002.209906-1-kwolf@redhat.com> (Kevin Wolf's message
+ of "Wed, 3 Nov 2021 18:29:50 +0100")
+Message-ID: <871r365042.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211118115733.4038610-3-philmd@redhat.com>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,115 +79,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Darren Kenny <darren.kenny@oracle.com>, Hanna Reitz <hreitz@redhat.com>,
- =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ eblake@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 211118 1257, Philippe Mathieu-Daudé wrote:
-> Add the reproducer from https://gitlab.com/qemu-project/qemu/-/issues/339
-> 
-> Without the previous commit, when running 'make check-qtest-i386'
-> with QEMU configured with '--enable-sanitizers' we get:
-> 
->   ==4028352==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x619000062a00 at pc 0x5626d03c491a bp 0x7ffdb4199410 sp 0x7ffdb4198bc0
->   READ of size 786432 at 0x619000062a00 thread T0
->       #0 0x5626d03c4919 in __asan_memcpy (qemu-system-i386+0x1e65919)
->       #1 0x5626d1c023cc in flatview_write_continue softmmu/physmem.c:2787:13
->       #2 0x5626d1bf0c0f in flatview_write softmmu/physmem.c:2822:14
->       #3 0x5626d1bf0798 in address_space_write softmmu/physmem.c:2914:18
->       #4 0x5626d1bf0f37 in address_space_rw softmmu/physmem.c:2924:16
->       #5 0x5626d1bf14c8 in cpu_physical_memory_rw softmmu/physmem.c:2933:5
->       #6 0x5626d0bd5649 in cpu_physical_memory_write include/exec/cpu-common.h:82:5
->       #7 0x5626d0bd0a07 in i8257_dma_write_memory hw/dma/i8257.c:452:9
->       #8 0x5626d09f825d in fdctrl_transfer_handler hw/block/fdc.c:1616:13
->       #9 0x5626d0a048b4 in fdctrl_start_transfer hw/block/fdc.c:1539:13
->       #10 0x5626d09f4c3e in fdctrl_write_data hw/block/fdc.c:2266:13
->       #11 0x5626d09f22f7 in fdctrl_write hw/block/fdc.c:829:9
->       #12 0x5626d1c20bc5 in portio_write softmmu/ioport.c:207:17
-> 
->   0x619000062a00 is located 0 bytes to the right of 512-byte region [0x619000062800,0x619000062a00)
->   allocated by thread T0 here:
->       #0 0x5626d03c66ec in posix_memalign (qemu-system-i386+0x1e676ec)
->       #1 0x5626d2b988d4 in qemu_try_memalign util/oslib-posix.c:210:11
->       #2 0x5626d2b98b0c in qemu_memalign util/oslib-posix.c:226:27
->       #3 0x5626d09fbaf0 in fdctrl_realize_common hw/block/fdc.c:2341:20
->       #4 0x5626d0a150ed in isabus_fdc_realize hw/block/fdc-isa.c:113:5
->       #5 0x5626d2367935 in device_set_realized hw/core/qdev.c:531:13
-> 
->   SUMMARY: AddressSanitizer: heap-buffer-overflow (qemu-system-i386+0x1e65919) in __asan_memcpy
->   Shadow bytes around the buggy address:
->     0x0c32800044f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->     0x0c3280004500: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->     0x0c3280004510: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->     0x0c3280004520: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->     0x0c3280004530: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->   =>0x0c3280004540:[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->     0x0c3280004550: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->     0x0c3280004560: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->     0x0c3280004570: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->     0x0c3280004580: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->     0x0c3280004590: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
->   Shadow byte legend (one shadow byte represents 8 application bytes):
->     Addressable:           00
->     Heap left redzone:       fa
->     Freed heap region:       fd
->   ==4028352==ABORTING
-> 
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  tests/qtest/fdc-test.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
-> index 26b69f7c5cd..f164d972d10 100644
-> --- a/tests/qtest/fdc-test.c
-> +++ b/tests/qtest/fdc-test.c
-> @@ -546,6 +546,25 @@ static void fuzz_registers(void)
->      }
->  }
->  
-> +static void test_cve_2021_3507(void)
-> +{
-> +    QTestState *s;
-> +
-> +    s = qtest_initf("-nographic -m 32M -nodefaults "
-> +                    "-drive file=%s,format=raw,if=floppy", test_image);
+Kevin Wolf <kwolf@redhat.com> writes:
 
-Does it make sense to run this with -snapshot ?
+> This series adds QOM class definitions to the QAPI schema, introduces
+> a new TypeInfo.instance_config() callback that configures the object at
+> creation time (instead of setting properties individually) and is
+> separate from runtime property setters (which often used to be not
+> really tested for runtime use), and finally generates a marshalling
+> function for .instance_config() from the QAPI schema that makes this a
+> natural C interface rather than a visitor based one.
+>
+> This is loosely based on Paolo's old proposal in the wiki:
+> https://wiki.qemu.org/Features/QOM-QAPI_integration
+>
+> The series is in a rather early stage and I don't really have any
+> automated tests or documentation in this series yet. I'm also only
+> converting the class hierarchy for the random number generator backends
+> to show what the result looks like, the other objects still need to be
+> done.
+>
+> So the question to you isn't whether this is mergeable (it isn't), but
+> whether you think this is the right approach for starting to integrate
+> QOM and QAPI better.
+>
+> You'll also see that this doesn't really remove the duplication between
+> property definitions in the code and configuration struct definitions in
+> the QAPI schema yet (because we want to keep at least a read-only
+> runtime property for every configuration option), but at least they mean
+> somewhat different things now (creation vs. runtime) instead of being
+> completely redundant.
+>
+> Possible future steps:
+>
+> * Define at least those properties to the schema that correspond to a
+>   config option. For both setters and getters for each option, we'll
+>   probably want to select in the schema between 'not available',
+>   'automatically generated function' and 'manually implemented'.
+>
+>   Other runtime properties could be either left in the code or added to
+>   the schema as well. Either way, we need to figure out how to best
+>   describe these things in the schema.
 
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+Permit me a diversion of sorts.
 
-> +    qtest_outl(s, 0x9, 0x0a0206);
-> +    qtest_outw(s, 0x3f4, 0x1600);
-> +    qtest_outw(s, 0x3f4, 0x0000);
-> +    qtest_outw(s, 0x3f4, 0x0000);
-> +    qtest_outw(s, 0x3f4, 0x0000);
-> +    qtest_outw(s, 0x3f4, 0x0200);
-> +    qtest_outw(s, 0x3f4, 0x0200);
-> +    qtest_outw(s, 0x3f4, 0x0000);
-> +    qtest_outw(s, 0x3f4, 0x0000);
-> +    qtest_outw(s, 0x3f4, 0x0000);
-> +    qtest_quit(s);
-> +}
-> +
->  int main(int argc, char **argv)
->  {
->      int fd;
-> @@ -576,6 +595,7 @@ int main(int argc, char **argv)
->      qtest_add_func("/fdc/read_no_dma_18", test_read_no_dma_18);
->      qtest_add_func("/fdc/read_no_dma_19", test_read_no_dma_19);
->      qtest_add_func("/fdc/fuzz-registers", fuzz_registers);
-> +    qtest_add_func("/fdc/fuzz/cve_2021_3507", test_cve_2021_3507);
->  
->      ret = g_test_run();
->  
-> -- 
-> 2.31.1
-> 
+With QOM, we have properties.  A property is readable if it has a
+getter, writable if it has a setter.  There is no real concept of
+configuration vs. state.  Writable properties can be written at any
+time.
+
+In practice, some properties are to be used only like configuration, and
+we check configuration at realize time (for devices), or by a surrogate
+like qemu_add_machine_init_done_notifier().  If you set them later,
+things may break, and you get to keep the pieces.
+
+In this "QOM/QAPI integration part 1", configuration (expressed in QAPI
+schema) makes it into QOM.
+
+Now we have configuration *and* properties.
+
+Do we need the properties?
+
+Note I'm not asking whether we need setters.  I'm asking whether we need
+to expose configuration bits via qom-set & friends in addition to the
+QAPI schema and query-qmp-schema.
+
+> * Getting rid of the big 'object-add' union: While the union is not too
+>   bad for the rather small number of user-creatable objects, it
+>   wouldn't scale at all for devices.
+>
+>   My idea there is that we could define something like this:
+>
+>   { 'struct': 'ObjectOptions',
+>     'data': {
+>         'id': 'str',
+>         'config': { 'type': 'qom-config-any:user-creatable',
+>                     'embed': true } } }
+>
+>   Obviously this would be an extension of the schema language to add an
+>   'embed' option (another hopefully more acceptable attempt to flatten
+>   things...), so I'd like to hear opinions on this first before I go to
+>   implement it.
+
+'embed': true would splice in the members of a struct type instead of a
+single member of that struct type.  Correct?
+
+Stretch goal: make it work for union types, too :)
+
+I've thought of this before.  Plenty of nesting in the wire format
+exists pretty much only to let us have the C structs we want.  Right
+now, the only way to "splice in" such a struct is the base type.
+General splicing could be useful.  It may take an introspection flag
+day.
+
+>   Also note that 'qom-config-any:user-creatable' is new, too. The
+>   'qom-config:...' types introduced by this series don't work for
+>   subclasses, but only for the exact class.
+>
+>   On the external interface, the new 'qom-config-any:...' type including
+>   subclasses would basically behave (and be introspected) like the union
+>   we have today, just without being defined explicitly.
+
+I'm not sure I follow.  How is the qom-config-any:user-creatable to be
+defined?  QAPI collects all the qom-config:* types into a union
+automatically?
+
+>   As for the C representation for configurations that include
+>   subclasses, I'm imagining a struct that just contains the qom_type
+>   string (so we can call the right handler) and a pointer to the real
+>   config (that is treated as opaque by the generic code).
+
+Now you lost me.
+
+> I could probably add more, but let's just start with this for discussion
+> now.
+
+I wish we could fill a whiteboard together...
+
 
