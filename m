@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B019245A9BF
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 18:12:37 +0100 (CET)
-Received: from localhost ([::1]:38156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB55345A9E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 18:20:45 +0100 (CET)
+Received: from localhost ([::1]:47868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpZLQ-0006gb-AD
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 12:12:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43468)
+	id 1mpZTG-00057l-NG
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 12:20:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mpZJX-0005Yr-HE
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:10:39 -0500
-Received: from [2a00:1450:4864:20::336] (port=44932
- helo=mail-wm1-x336.google.com)
+ (Exim 4.90_1) (envelope-from <jgg@ziepe.ca>) id 1mpZQ9-0002Ia-Tf
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:17:29 -0500
+Received: from [2607:f8b0:4864:20::f2a] (port=38437
+ helo=mail-qv1-xf2a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mpZJV-0000OC-KA
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:10:39 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- p27-20020a05600c1d9b00b0033bf8532855so2590466wms.3
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 09:10:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+pnw4UnWSsaFCtOoB/ZU0sfK7/yij1QM8IDECVNjnXI=;
- b=y0fD/qHFU+9JHlV4W0LexMJRUdxnqv70ox/YUhioRuRzsH7/cikhiadgYoTn4JHNHp
- ZwMlNeMI3X9m0L4EiI+AVvZ7uaTI/MrXGyZWbpLUj0LHMnnTCiKnlVs944c55EQtEmVX
- P6U2MFRki61pck+HgmII2dRcBaH/2Z8itrUq47bbf7BFl1/dIyzNesqoBZRZ8Irb0GSp
- j+fTfr+agNxaV6pCY3tt5i4u1iU2ynI2f7WMU/E9HOJ3jZqsCmI5CtRjrbNVLxshuqBM
- p3MUFqhrkyqcrjkaMPaZjyPZE8qSz6ApjjWrOhRE2qIPxQ7AWD61zEuRuBW5N/9GJ7eo
- GOww==
+ (Exim 4.90_1) (envelope-from <jgg@ziepe.ca>) id 1mpZQ7-0001tS-1i
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:17:29 -0500
+Received: by mail-qv1-xf2a.google.com with SMTP id a24so15467455qvb.5
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 09:17:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=dC7uVzt5MrM2Gpk9LsKlRUHiHwvI+5kbQiNrhRQEF6A=;
+ b=HM1ELBL6+qrvalddZKiZw/V6FXnHcMyFZLZfs67w7amsPIslJxelFU4TMjYnUqS5mW
+ 8NGMFJ7vfDrM/iIXSd6jsaSLlTg0VQj+QMdCvE41WvkoCQBAGaDgpZRmoNmqkXvsB1cJ
+ QgaGAk/Av+gjr7UM7Zq7HZnZkL2lyALAZbInsSeNoJir4dw7UbP1UIjcPig45faa/64/
+ jvC+pTThM3ceUYvLfwJ1+QSyuWBdAknmdurKpKyDdLKAg+5N3alo4Ec3Wbpm2S8/Uv2w
+ AYnn8nIrJjy1LY7CJh3Z1dDw4IS8yETG0cN3IlthsDTwSlINDkSJBQLctYDFC3FUmN8E
+ 3+mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+pnw4UnWSsaFCtOoB/ZU0sfK7/yij1QM8IDECVNjnXI=;
- b=jSSsGB/7VsUtrKcIvfJEuGNI7mGhSqCDJ+yygvzCMy99/gkjiCZKFb9FSGB3t5Grw/
- J5szqgw4rg5o80VXfCnEiR6N2O5OlwkJSJcVV6tktL0vR/CcH06AqrbEuA9n/c17RgHc
- h5ivZmnAVWQ2qFulopYzFECgg6VrEy/4yF3sHFC1QwrM4LU1IIFTNYZdvUs85sR1NkJa
- cqr5t0iF/ifvY7E0WilTD6xkqRBwxRUEFJFqMbLR9opyGopwE30WSP1XZesSEZqfDYks
- 1p7OYHoS1bZSIR/xwcWL+IDpYCZ/xPuxFWsibdAIlN860qKyCMdsd+ZgrmT1YqORQsJ1
- ntMA==
-X-Gm-Message-State: AOAM533pHQPP3vM+4L/BVykRXGlWctldZkCeazmgE1Qq4q8qKpQoqUy4
- mAaADqycXBAXnsGO8Z7Lv+cBZA==
-X-Google-Smtp-Source: ABdhPJxHsj1cMP47DGGpHMIzILbPme4oARjvMtdR4jho1bOaLU0qL6HYETlE4Aq7hS7Gmx/KI8Ml+A==
-X-Received: by 2002:a05:600c:2f10:: with SMTP id
- r16mr4985542wmn.141.1637687433489; 
- Tue, 23 Nov 2021 09:10:33 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id g18sm2479262wmq.4.2021.11.23.09.10.32
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=dC7uVzt5MrM2Gpk9LsKlRUHiHwvI+5kbQiNrhRQEF6A=;
+ b=2ikHE7KDznm4Kvd4Y7kDpsLV2A/Jgh6KKxc+GE5254qbw8i3PDXRlGXyDnaraF6GfM
+ v3ffxTt3gcQeU9UgEJe7fzLbdIJltvIcuUCEmZoTA6Ne5YJarKzxL4o+quWe2mdCgaii
+ Javz9tnjCmpfi/yrNnvoZp04HxyPWetXJFBmXTsdDFoOoVn8CWi9zBr1dnlo6JQkr1mg
+ a2wOgxrAzc7rzDHMItrkExAjAuLigvzlwHy1cBQXYbYtIhUA+PXTAxmsnUHwHIR0cj3a
+ l8hqnz91fjZYYyIKIET3CGJ1GST8g0bj7b2bartsR8aiTGwLw6JbUwKNdLOGZSEsOyuq
+ CZbg==
+X-Gm-Message-State: AOAM532S7lynGDCXEpwWKQGTR5eaIYAPQPwVNX/AvWxPWhspWI4QaeLM
+ /xcjJx9gqdtp5T9DGwEk55zR5w==
+X-Google-Smtp-Source: ABdhPJxtD1ArRYMjSPPd0YoD13PmNVq/BXBvjflzk5qi5Q9ez9zBHlK3Jkepb5uP7WHDg9Rr2wTk4Q==
+X-Received: by 2002:a05:6214:246e:: with SMTP id
+ im14mr8350503qvb.14.1637687844906; 
+ Tue, 23 Nov 2021 09:17:24 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.113.129])
+ by smtp.gmail.com with ESMTPSA id x21sm6354233qkf.77.2021.11.23.09.17.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 09:10:32 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [for-6.2] hw/intc/arm_gicv3: Update cached state after acknowledging
- LPI
-Date: Tue, 23 Nov 2021 17:10:31 +0000
-Message-Id: <20211123171031.975367-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ Tue, 23 Nov 2021 09:17:23 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1mpZQ3-000Dij-2a; Tue, 23 Nov 2021 13:17:23 -0400
+Date: Tue, 23 Nov 2021 13:17:23 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC v2 PATCH 01/13] mm/shmem: Introduce F_SEAL_GUEST
+Message-ID: <20211123171723.GD5112@ziepe.ca>
+References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
+ <20211119134739.20218-2-chao.p.peng@linux.intel.com>
+ <20211119151943.GH876299@ziepe.ca>
+ <df11d753-6242-8f7c-cb04-c095f68b41fa@redhat.com>
+ <6de78894-8269-ea3a-b4ee-a5cc4dad827e@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6de78894-8269-ea3a-b4ee-a5cc4dad827e@redhat.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f2a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a; envelope-from=jgg@ziepe.ca;
+ helo=mail-qv1-xf2a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -87,53 +92,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, "J . Bruce Fields" <bfields@fieldses.org>,
+ linux-mm@kvack.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
+ susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
+ linux-kernel@vger.kernel.org, john.ji@intel.com,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In gicv3_redist_lpi_pending() we update cs->hpplpi to indicate the
-new highest priority pending LPI after changing the requested LPI
-pending bit.  However the overall highest priority pending interrupt
-information won't be updated unless we call gicv3_redist_update().
-We do that from the callsite in gicv3-redist_process_lpi(), but not
-from the callsite in icc_activate_irq().  The effect is that when the
-guest acknowledges an LPI by reading ICC_IAR1_EL1, we mark it as not
-pending in the data structure but still leave it in cs->hppi so will
-offer it to the guest again.
+On Tue, Nov 23, 2021 at 10:06:02AM +0100, Paolo Bonzini wrote:
 
-The effect is that if we are using an emulated GICv3 and ITS and
-using devices which use LPIs (ie PCI devices) then Linux will
-complain "irq 54: nobody cared" and then hang (probably because the
-stale bogus interrupt info meant we never tried to deliver some other
-real interrupt).
+> I think it's great that memfd hooks are usable by more than one subsystem,
+> OTOH it's fair that whoever needs it does the work---and VFIO does not need
+> it for confidential VMs, yet, so it should be fine for now to have a single
+> user.
 
-Add the missing gicv3_redist_update() call.
+I think adding a new interface to a core kernel subsystem should come
+with a greater requirement to work out something generally useful and
+not be overly wedded to a single use case (eg F_SEAL_GUEST)
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-Marked for-6.2 because this is a bug fix to the ITS support
-which is new in this release. At least for me this is necessary
-to boot Debian on the virt board, since the ITS is default-enabled.
-The failure seemed to be somewhat intermittent; I haven't bothered
-to try to work out why.
+Especially if something like 'single user' is not just a small
+implementation artifact but a key design tennant of the whole eventual
+solution.
 
- hw/intc/arm_gicv3_cpuif.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index 3fe5de8ad7d..2d9f2ad2b6c 100644
---- a/hw/intc/arm_gicv3_cpuif.c
-+++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -906,6 +906,7 @@ static void icc_activate_irq(GICv3CPUState *cs, int irq)
-         gicv3_update(cs->gic, irq, 1);
-     } else {
-         gicv3_redist_lpi_pending(cs, irq, 0);
-+        gicv3_redist_update(cs);
-     }
- }
- 
--- 
-2.25.1
-
+Jason
 
