@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7172645ADB2
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 21:59:31 +0100 (CET)
-Received: from localhost ([::1]:35736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6440E45ADB5
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 21:59:38 +0100 (CET)
+Received: from localhost ([::1]:36080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpct0-0004MC-0X
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 15:59:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40524)
+	id 1mpct7-0004aV-GZ
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 15:59:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mpcr9-0001ui-FG
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 15:57:35 -0500
-Received: from [2a00:1450:4864:20::429] (port=35616
- helo=mail-wr1-x429.google.com)
+ id 1mpcrD-0001zY-61
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 15:57:39 -0500
+Received: from [2a00:1450:4864:20::431] (port=43859
+ helo=mail-wr1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mpcr7-0006LH-H1
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 15:57:35 -0500
-Received: by mail-wr1-x429.google.com with SMTP id i5so222116wrb.2
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 12:57:32 -0800 (PST)
+ id 1mpcrA-0006Mb-DX
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 15:57:38 -0500
+Received: by mail-wr1-x431.google.com with SMTP id v11so164270wrw.10
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 12:57:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Xl5Vgk0YQyYb1wxD/Ut57kOMsbfZbkXQIZ0at/zZwfg=;
- b=ahz7yv7bCIhw1V71QWFxmiA+WyXwrq4lGkH+m+1krERN7x5pRBHmUPUKwsm68e/QQo
- X7wDaikSws3yzM0yq/z2vusPKc0AaSJ4YTKaq3XRGlrKOT+ci2i9KyCvWqHJMd0zthaX
- LolBpQPQfWJYVvE7m5c4BHY30HQLk+AesKdjZr3Y6TfTmAx+7VDIWREpCaWQ0IKPy/SK
- cRM+/ICu2ZfhcdCyud/L87W1Cjs/byh3gLFr8rjAFQh9Ehro4gSijvOxZNmiwWJeXA8Q
- tumj6WPi4Z4tARtRoLk1SG4TWXzw/E7gQx2sbUmPUdOwDW3l6Rmhzv8WP28+XpTh88zl
- yEng==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=kYpaKzAArYGilOIi+XPhEtI4zXEl1Bkmm+GbL7na2Ng=;
+ b=ZqUV0jPW3EWGWO8rhnFWveZO57PcmH6O8pHaxEqI1S+GqX1Ijj8CpvJ9PYXKpk2WmM
+ Xiog2joRtpBofXixQNPIe6F94ebYT++STKs1ca3e2Gya9Unr2ddUqgFHDSMNppuzCbay
+ gt6HhEMIFU14yuzqDUSeYWHSwQAUkqPB2qOheaTRblJsvMlmcZfNj9EkqjtS4ap7u6lC
+ b9nDtjymIVVXsJAPhsWnsjPZMAdNvAvBql/h2wdxoj6VZspaZz1ruO9H7kVayUAOFmXh
+ HSkYJmYbcHno3JAHUHUeB7g6yba+nR9tGVZ/V+xiDfIcmAL/iz0T6Arx1coiJBO+l9o7
+ adJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Xl5Vgk0YQyYb1wxD/Ut57kOMsbfZbkXQIZ0at/zZwfg=;
- b=EY4KNs6E1lBMVEeyrIBnTMJ9UC43sB9nSV15r48xxKkK9f0FxiXGED1FGnBsIDDFFG
- 0Qs85QDXYV7aQ/VyyN5phX/Rv7b7dumica3NGOeryWbKaYT9wYimlALUsbVe3LQpVNvG
- tvBqTKPTp6hSB5rQkuNRzED/khl2CTTbzZ8fUb7+iMLPxvYx7nsZoeCJwDESL2ESeGjl
- Vp2VO92/+RB0owaMYkf7LtnV75G99CvI/irY7aT2J+uayhpj0DW2fHM6LF0kOvsPcPc1
- FDuB5pQAmmYXZel42rGcrMAntC0WtNLgP22oEcFyk4PZ9pMfvaWkt8nUDToKP8CzGFCk
- TeWg==
-X-Gm-Message-State: AOAM531iP6n1cu9plZlPl1gpOQ7dhrF2aGiacTjoFTaToO7mp2l+N+oO
- S0JGAncfD7b+5VWL5E4u1dcrNA==
-X-Google-Smtp-Source: ABdhPJwJzTasmaBTXHSfgxGEOp9y9nthxh0MwmsGDqY9Rb5LQr7zkZ9YWfnRxdTGb7o/FjUFkpXs3Q==
-X-Received: by 2002:a05:6000:1c2:: with SMTP id
- t2mr11256705wrx.378.1637701051542; 
- Tue, 23 Nov 2021 12:57:31 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=kYpaKzAArYGilOIi+XPhEtI4zXEl1Bkmm+GbL7na2Ng=;
+ b=RIcH3KW/TsPgVxxNgmwWZ8Zq3NN2M0AObUgEdmAKrk+l5YlSVrjrLAOkleazqiKsw9
+ b/Js/g9j6q9PCdp1my76rYtWbrsHeKz1TlGV76qGOh2V6HGaTnrEvaB0aOCGcUOUjwQO
+ 52/v5QVjKRwfJBkc8JjEWjQiQnv3TMK9VuRJAL5ABxtNu82gHRKuYuNy4u67ywF1EQfd
+ bFGBMuyFwgF0G11NGZohH9zgT+9n9i18mCaKfTraecZsI461M5txVT2RT5xPUbqasoPZ
+ dFsc/KZnQJRPIsWacxMzC+caOHuLbeeylJtLAb84kJTPu0aCukYTWengJ4KoLIfSNtpH
+ 9p/w==
+X-Gm-Message-State: AOAM53252/ABAvIAY81ksZtUz1uGmyT2G2Q24Li5wMQO9DQ5lySJJqFx
+ CLWE2fgm53ufsgpQyep95+Wo+w==
+X-Google-Smtp-Source: ABdhPJzG3S/NnbJY7iB8iAnGobaThzi8f39Aovs51/cFB2dL04aR4ancdKudnWIKAcWbujLbB/F11A==
+X-Received: by 2002:adf:8008:: with SMTP id 8mr10895564wrk.188.1637701055078; 
+ Tue, 23 Nov 2021 12:57:35 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l18sm13220684wrt.81.2021.11.23.12.57.30
+ by smtp.gmail.com with ESMTPSA id m14sm17750665wrp.28.2021.11.23.12.57.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 23 Nov 2021 12:57:30 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 28FAA1FF96;
+ by zen.linaroharston (Postfix) with ESMTP id 4E73F1FF99;
  Tue, 23 Nov 2021 20:57:29 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for 6.2 v1 0/7] more tcg, plugin, test and build fixes
-Date: Tue, 23 Nov 2021 20:57:22 +0000
-Message-Id: <20211123205729.2205806-1-alex.bennee@linaro.org>
+Subject: [PATCH  v1 2/7] accel/tcg: suppress IRQ check for special TBs
+Date: Tue, 23 Nov 2021 20:57:24 +0000
+Message-Id: <20211123205729.2205806-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211123205729.2205806-1-alex.bennee@linaro.org>
+References: <20211123205729.2205806-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -88,47 +89,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com,
+Cc: fam@euphon.net, berrange@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, f4bug@amsat.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Generally when we set cpu->cflags_next_tb it is because we want to
+carefully control the execution of the next TB. Currently there is a
+race that causes cflags_next_tb to get ignored if an IRQ is processed
+before we execute any actual instructions.
 
-As the release process rolls on here if the current state of my
-for-6.2 tree. There are fixes for TCG, plugins, build and test.
+To avoid this we introduce a new compiler flag: CF_NOIRQ to suppress
+this check in the generated code so we know we will definitely execute
+the next block.
 
-The following still need review:
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/245
+---
+ include/exec/exec-all.h   |  1 +
+ include/exec/gen-icount.h | 21 +++++++++++++++++----
+ accel/tcg/cpu-exec.c      | 14 ++++++++++++++
+ 3 files changed, 32 insertions(+), 4 deletions(-)
 
- - plugins/meson.build: fix linker issue with weird paths
- - tests/avocado: fix tcg_plugin mem access count test
- - accel/tcg: suppress IRQ check for special TBs
-
-Alex Bennée (4):
-  accel/tcg: suppress IRQ check for special TBs
-  tests/avocado: fix tcg_plugin mem access count test
-  plugins/meson.build: fix linker issue with weird paths
-  gdbstub: handle a potentially racing TaskState
-
-Pavel Dovgalyuk (1):
-  softmmu: fix watchpoint-interrupt races
-
-Philippe Mathieu-Daudé (1):
-  MAINTAINERS: Add section for Aarch64 GitLab custom runner
-
-Willian Rampazzo (1):
-  MAINTAINERS: Remove me as a reviewer for the build and test/avocado
-
- include/exec/exec-all.h      |  1 +
- include/exec/gen-icount.h    | 21 +++++++++++++++++----
- accel/tcg/cpu-exec.c         | 19 +++++++++++++++++++
- gdbstub.c                    |  2 +-
- MAINTAINERS                  | 10 ++++++++--
- plugins/meson.build          |  4 ++--
- tests/avocado/tcg_plugins.py |  2 +-
- 7 files changed, 49 insertions(+), 10 deletions(-)
-
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 6bb2a0f7ec..35d8e93976 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -503,6 +503,7 @@ struct TranslationBlock {
+ #define CF_USE_ICOUNT    0x00020000
+ #define CF_INVALID       0x00040000 /* TB is stale. Set with @jmp_lock held */
+ #define CF_PARALLEL      0x00080000 /* Generate code for a parallel context */
++#define CF_NOIRQ         0x00100000 /* Generate an uninterruptible TB */
+ #define CF_CLUSTER_MASK  0xff000000 /* Top 8 bits are cluster ID */
+ #define CF_CLUSTER_SHIFT 24
+ 
+diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
+index 610cba58fe..c57204ddad 100644
+--- a/include/exec/gen-icount.h
++++ b/include/exec/gen-icount.h
+@@ -21,7 +21,6 @@ static inline void gen_tb_start(const TranslationBlock *tb)
+ {
+     TCGv_i32 count;
+ 
+-    tcg_ctx->exitreq_label = gen_new_label();
+     if (tb_cflags(tb) & CF_USE_ICOUNT) {
+         count = tcg_temp_local_new_i32();
+     } else {
+@@ -42,7 +41,19 @@ static inline void gen_tb_start(const TranslationBlock *tb)
+         icount_start_insn = tcg_last_op();
+     }
+ 
+-    tcg_gen_brcondi_i32(TCG_COND_LT, count, 0, tcg_ctx->exitreq_label);
++    /*
++     * Emit the check against icount_decr.u32 to see if we should exit
++     * unless we suppress the check with CF_NOIRQ. If we are using
++     * icount and have suppressed interruption the higher level code
++     * should have ensured we don't run more instructions than the
++     * budget.
++     */
++    if (tb_cflags(tb) & CF_NOIRQ) {
++        tcg_ctx->exitreq_label = NULL;
++    } else {
++        tcg_ctx->exitreq_label = gen_new_label();
++        tcg_gen_brcondi_i32(TCG_COND_LT, count, 0, tcg_ctx->exitreq_label);
++    }
+ 
+     if (tb_cflags(tb) & CF_USE_ICOUNT) {
+         tcg_gen_st16_i32(count, cpu_env,
+@@ -74,8 +85,10 @@ static inline void gen_tb_end(const TranslationBlock *tb, int num_insns)
+                            tcgv_i32_arg(tcg_constant_i32(num_insns)));
+     }
+ 
+-    gen_set_label(tcg_ctx->exitreq_label);
+-    tcg_gen_exit_tb(tb, TB_EXIT_REQUESTED);
++    if (tcg_ctx->exitreq_label) {
++        gen_set_label(tcg_ctx->exitreq_label);
++        tcg_gen_exit_tb(tb, TB_EXIT_REQUESTED);
++    }
+ }
+ 
+ #endif
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 9cb892e326..9e3ed42ceb 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -721,6 +721,15 @@ static inline bool need_replay_interrupt(int interrupt_request)
+ static inline bool cpu_handle_interrupt(CPUState *cpu,
+                                         TranslationBlock **last_tb)
+ {
++    /*
++     * If we have special cflags lets not get distracted with IRQs. We
++     * shall exit the loop as soon as the next TB completes what it
++     * needs to do.
++     */
++    if (cpu->cflags_next_tb != -1) {
++        return false;
++    }
++
+     /* Clear the interrupt flag now since we're processing
+      * cpu->interrupt_request and cpu->exit_request.
+      * Ensure zeroing happens before reading cpu->exit_request or
+@@ -954,11 +963,16 @@ int cpu_exec(CPUState *cpu)
+              * after-access watchpoints.  Since this request should never
+              * have CF_INVALID set, -1 is a convenient invalid value that
+              * does not require tcg headers for cpu_common_reset.
++             *
++             * As we don't want this special TB being interrupted by
++             * some sort of asynchronous event we apply CF_NOIRQ to
++             * disable the usual event checking.
+              */
+             cflags = cpu->cflags_next_tb;
+             if (cflags == -1) {
+                 cflags = curr_cflags(cpu);
+             } else {
++                cflags |= CF_NOIRQ;
+                 cpu->cflags_next_tb = -1;
+             }
+ 
 -- 
 2.30.2
 
