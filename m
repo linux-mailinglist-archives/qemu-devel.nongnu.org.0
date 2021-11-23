@@ -2,103 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20A73459F44
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 10:30:16 +0100 (CET)
-Received: from localhost ([::1]:47496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE4F459F68
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 10:42:25 +0100 (CET)
+Received: from localhost ([::1]:53280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpS7y-0000cL-Nt
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 04:30:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45622)
+	id 1mpSJj-0005AH-NY
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 04:42:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1mpS6t-0008Hc-3r; Tue, 23 Nov 2021 04:29:07 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7150)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpSHk-0003eS-0g
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 04:40:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1mpS6q-00008V-9k; Tue, 23 Nov 2021 04:29:06 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AN9HaK6012350; 
- Tue, 23 Nov 2021 09:29:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=BYzPSo1eSbv/2r06L/yNu73K8ugAK0dHjs+2rCY16d0=;
- b=hzTltJ4ZD54BfY6zDq9TR+nGxFQgUGcFiZVgZNp/b1CTY29NsJfFs36ty7VVNOanzwSi
- YZNI3j89mKpeIgAiwrh9PJoF/UIgqFGjBQS6mRBWljdqIHHeE/uPKTHMX+mFYZHlW85H
- U59qGL1Kp95/jRQ9saV1ixxIeY0/3hglKtaydjWfEh9KgirsOr7h6+BtdRQs0u1dNVyH
- JrfU9K4eMqFCyI2pO+6aYGEQgxKEhS9Om0vP2NjDZkkFjPIymG/OCcbSOtqhA3HjCppb
- WGl7+Qm3A3+8qFT9Q8sNoNEcn1/BHQB1VeD9W/uo7eb/yCCBLthypaJ7wwIuvtWgucdE 5w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cgwhhg5e5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Nov 2021 09:29:01 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AN9OjCF018618;
- Tue, 23 Nov 2021 09:29:01 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cgwhhg5dc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Nov 2021 09:29:01 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AN9GsSb008124;
- Tue, 23 Nov 2021 09:28:58 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03ams.nl.ibm.com with ESMTP id 3cern9wwfc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Nov 2021 09:28:58 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1AN9Lkuc54526214
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Nov 2021 09:21:46 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 713A24204B;
- Tue, 23 Nov 2021 09:28:54 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0CEF942045;
- Tue, 23 Nov 2021 09:28:54 +0000 (GMT)
-Received: from [9.171.17.161] (unknown [9.171.17.161])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 23 Nov 2021 09:28:53 +0000 (GMT)
-Message-ID: <f3effe3a-b164-0ce1-aea4-55cde62c2295@de.ibm.com>
-Date: Tue, 23 Nov 2021 10:28:53 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpSHf-0001ht-0N
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 04:40:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637660412;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lvysc9rERv4Q+2iCfPkCElB2HMXXdaJrr/miG1x6jgs=;
+ b=S/FjVA3NYllpHK7cLRzx67dKxl8Z0Eys0TPunxYb2URgToFAJp0REmgTWyLIIHolBId7R3
+ TOWvx/TJA4nXD8Fn/HdzzSHd09YWXWdtUMjp/J3AOrhaP4kz5WJweDGOrgB7RfNl1Kgqeh
+ BpMMN29yiIAO512mmWam+aiwAMvVCZo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-348-KTQjnoq2MJG87Fb8D2PLQw-1; Tue, 23 Nov 2021 04:40:11 -0500
+X-MC-Unique: KTQjnoq2MJG87Fb8D2PLQw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m14-20020a05600c3b0e00b0033308dcc933so1231948wms.7
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 01:40:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=lvysc9rERv4Q+2iCfPkCElB2HMXXdaJrr/miG1x6jgs=;
+ b=jJa614K0IYPQXq4241uZFOI6OREKABgfsXZRYPBPAEeAfa8p+qxdPXgbul9N7rZ37h
+ CzZ74Z+01p1VToReT0fNlA1EjhHOy1ISliWI/oWkLmxMRqdZ7opVwPa2xqb90SKo1p+D
+ RvqJKg+/MjmT7WjQxVHMGm9yx+cs8cjRvSgmWKT1NiYavb7zBnphujYyeoTwYqZtWF7C
+ gYPMnZUssTKKnGXCLP4dx9sf+L4+rJElacRbugwRA2Fmip0VrR/6D9G9hkzJmebTe3kg
+ AOYibWc+Co7MQnO3HV8IUAR0teREdGIU5dNTUPvBJlfXi8Nh4hSUsaM5xV9Svmg/Co6u
+ 2m1A==
+X-Gm-Message-State: AOAM532X+v4XVKURwzYIh/6CN+lrZnH7VEN0winGG0D3HEAHZ/2tzgRo
+ JS3HgPWeIGDxMOBaFQlUL6OL4q2Ycxqp8HMxFt7zzav9DOgSIMxUSmfVN0ZOb/uGUfneB6zlgKg
+ pYmVZWLRMaYW7iEQ=
+X-Received: by 2002:a5d:6d07:: with SMTP id e7mr5235878wrq.311.1637660410307; 
+ Tue, 23 Nov 2021 01:40:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxVKv62om05Nak5085UtPyVQyb1vWnYIBmItlOO0ryhZMtnEzgsBR/Lh+2+rQVti5Mvk3CeZA==
+X-Received: by 2002:a5d:6d07:: with SMTP id e7mr5235839wrq.311.1637660410020; 
+ Tue, 23 Nov 2021 01:40:10 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id u23sm12295543wru.21.2021.11.23.01.40.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Nov 2021 01:40:09 -0800 (PST)
+Message-ID: <8f582c75-5ae5-0690-f83f-848ac1592b5b@redhat.com>
+Date: Tue, 23 Nov 2021 10:40:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
+ Thunderbird/91.3.0
 Subject: Re: [PATCH v4] s390: kvm: adjust diag318 resets to retain data
-Content-Language: en-US
-To: Collin Walling <walling@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, thuth@redhat.com, qemu-stable@nongnu.org
+To: Christian Borntraeger <borntraeger@de.ibm.com>,
+ Collin Walling <walling@linux.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org
 References: <20211117152303.627969-1-walling@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-In-Reply-To: <20211117152303.627969-1-walling@linux.ibm.com>
+ <f3effe3a-b164-0ce1-aea4-55cde62c2295@de.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <f3effe3a-b164-0ce1-aea4-55cde62c2295@de.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: w2L0mTV_IecEzjBppJxEgxB0FEUqhgYa
-X-Proofpoint-ORIG-GUID: YkD19F3N394gA1G5fDYxlRsGj9AjLYTm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-23_03,2021-11-22_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0
- bulkscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
- malwarescore=0 priorityscore=1501 spamscore=0 mlxlogscore=999 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111230044
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.515,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.515, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,88 +104,30 @@ Cc: cohuck@redhat.com, frankja@linux.ibm.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 17.11.21 um 16:23 schrieb Collin Walling:
-> The CPNC portion of the diag318 data is erroneously reset during an
-> initial CPU reset caused by SIGP. Let's go ahead and relocate the
-> diag318_info field within the CPUS390XState struct such that it is
-> only zeroed during a clear reset. This way, the CPNC will be retained
-> for each VCPU in the configuration after the diag318 instruction
-> has been invoked.
+On 23/11/2021 10.28, Christian Borntraeger wrote:
+> Am 17.11.21 um 16:23 schrieb Collin Walling:
+>> The CPNC portion of the diag318 data is erroneously reset during an
+>> initial CPU reset caused by SIGP. Let's go ahead and relocate the
+>> diag318_info field within the CPUS390XState struct such that it is
+>> only zeroed during a clear reset. This way, the CPNC will be retained
+>> for each VCPU in the configuration after the diag318 instruction
+>> has been invoked.
+>>
+>> The s390_machine_reset code already takes care of zeroing the diag318
+>> data on VM resets, which also cover resets caused by diag308.
+>>
+>> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+>> Fixes: fabdada9357b ("s390: guest support for diagnose 0x318")
+>> Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
+>> Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+>> Reviewed-by: Christian Borntraeger <borntraeger@linux.ibm.com>
 > 
-> The s390_machine_reset code already takes care of zeroing the diag318
-> data on VM resets, which also cover resets caused by diag308.
-> 
-> Signed-off-by: Collin Walling <walling@linux.ibm.com>
-> Fixes: fabdada9357b ("s390: guest support for diagnose 0x318")
-> Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+> Thomas, I think this is good to go. Will you take it via your tree?
 
-Thomas, I think this is good to go. Will you take it via your tree?
+Yes, queued to s390x-next now:
 
-> ---
-> 
-> Changelog:
-> 
->      v4
->      - fixed up commit message and added r-b's
-> 
->      v3
->      - reverted changes from previous versions
->      - simply relocate diag318_info in CPU State struct
->      - add comment in set_diag318 to explain resets
-> 
->      v2
->      - handler uses run_on_cpu again
->      - reworded commit message slightly
->      - added fixes and reported-by tags
-> 
->      v3
->      - nixed code reduction changes
->      - added a comment to diag318 handler to briefly describe
->          when relevent data is zeroed
-> 
-> ---
->   target/s390x/cpu.h     | 4 ++--
->   target/s390x/kvm/kvm.c | 4 ++++
->   2 files changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> index 3153d053e9..88aace36ff 100644
-> --- a/target/s390x/cpu.h
-> +++ b/target/s390x/cpu.h
-> @@ -63,6 +63,8 @@ struct CPUS390XState {
->       uint64_t etoken;       /* etoken */
->       uint64_t etoken_extension; /* etoken extension */
->   
-> +    uint64_t diag318_info;
-> +
->       /* Fields up to this point are not cleared by initial CPU reset */
->       struct {} start_initial_reset_fields;
->   
-> @@ -118,8 +120,6 @@ struct CPUS390XState {
->       uint16_t external_call_addr;
->       DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
->   
-> -    uint64_t diag318_info;
-> -
->   #if !defined(CONFIG_USER_ONLY)
->       uint64_t tlb_fill_tec;   /* translation exception code during tlb_fill */
->       int tlb_fill_exc;        /* exception number seen during tlb_fill */
-> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-> index 5b1fdb55c4..6acf14d5ec 100644
-> --- a/target/s390x/kvm/kvm.c
-> +++ b/target/s390x/kvm/kvm.c
-> @@ -1585,6 +1585,10 @@ void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info)
->           env->diag318_info = diag318_info;
->           cs->kvm_run->s.regs.diag318 = diag318_info;
->           cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
-> +        /*
-> +         * diag 318 info is zeroed during a clear reset and
-> +         * diag 308 IPL subcodes.
-> +         */
->       }
->   }
->   
-> 
+https://gitlab.com/thuth/qemu/-/commits/s390x-next/
+
+  Thomas
+
 
