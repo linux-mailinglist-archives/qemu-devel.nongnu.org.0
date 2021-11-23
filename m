@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1EE459E9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 09:53:22 +0100 (CET)
-Received: from localhost ([::1]:50024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 968DC459EBC
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 09:56:19 +0100 (CET)
+Received: from localhost ([::1]:54440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpRYH-0006gn-Md
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 03:53:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36728)
+	id 1mpRb8-0001Ob-OA
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 03:56:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mpRX3-00058V-Gj
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 03:52:05 -0500
-Received: from [2a00:1450:4864:20::533] (port=45892
- helo=mail-ed1-x533.google.com)
+ id 1mpRZy-0000bK-LD
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 03:55:06 -0500
+Received: from [2a00:1450:4864:20::430] (port=33738
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mpRX1-0003SB-N3
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 03:52:05 -0500
-Received: by mail-ed1-x533.google.com with SMTP id y12so88839594eda.12
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 00:52:03 -0800 (PST)
+ id 1mpRZw-0003ef-VK
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 03:55:06 -0500
+Received: by mail-wr1-x430.google.com with SMTP id d24so37696659wra.0
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 00:55:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ZlSGmgK04sSRdzce60rca16DF7pHY7R8mkHLd+e2EtI=;
- b=ITSbDLvVQF5Pys3yfnDfjJPsOOVVYvoLjUSScohcTrvaJdHl/9EHS8d9i2S5R8Uf/K
- 4s2WMJQDwnIFw+lX6/BqKFRfbyJP6lGaNpaGJfzlYYrY9KqADfho7+J+Sc+eKEeB4gQM
- jNQovETzFOv4K7+TmCcvlFvC2Y6H2Kp/3ilLyt+hPn88AWWXvoNtfld/FvPJKoV+jfNQ
- aUdhg6DabReEPo7FO8FG2sjodRYZNH6wlYAuThcxUHpIjKmLyTWqB+b7b/1S5Hn0S7LA
- e7b6tKbcqf9trxQvprbQwmW8C54tdEuqQd+T2O/lOxhqx/ntiNtEeCL1c4i9+S6iIh5Z
- FjVQ==
+ bh=BqjTDota6qXyAvZTc5GkJOlaJlVWffG7A+eb5cGOB4I=;
+ b=hFdqHn9RNEZSqmlr5iDLMvf0Vh/+AoriBzrucJDGFvvIJzpz2aAWz7zCwMcTOr+R34
+ 6j7hJ9fO5kHUgK7EB0/daaP7kC1zOgykiLKdxfc87gJDPQoyALSWcczHDm9U0BSYJokp
+ AYs2XlP5glYCiNr0o9z00QBu/ifYKPDURHskwgpc+6Gn6RND+kHujM/yXBMtesmOY/qw
+ xD+0iG3/gZa85Jdlli0QkI8k/btW15XtTW9xX1W3cJOR27cMXzr4GgO0atHXR5uypfHq
+ HS1mH2y+lrz1qzuP7LB1a47LCmEbc+GawVY+0evta3MLP0+p9x32ab6JPgNFuPo2gcKI
+ 7omA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ZlSGmgK04sSRdzce60rca16DF7pHY7R8mkHLd+e2EtI=;
- b=5N190BDWCA2o55mkAPNRQkxwc0fkxlk2t/W4eJOlhmsHOt094gngyISdp/Zd1uyIem
- QVbIZJqQLo5PAWle2oSyOXn5ABY6Rbm6mg2w7guPucRYDImiE2bYYa/8fcNkZrYfMAOb
- /6KyP/IYmyBWhuSnHhsCQEOfQ2hUYQ5Q5wP/nCkePmAH+sbDIe1qk/J9DyZzAPr/tIJP
- xZYK2rCKETCFc0UmxSfZXZDFEukhpwmsRAoYUPPVHlWGN7GgLg2HRY6voilptf323zzO
- kGtMCIXVGO1hsboCf/+8B+FrqxZViwjfICqzdji7k6YueN9R3eAYWRpE6CpIacrdzFMi
- y5/g==
-X-Gm-Message-State: AOAM5300+i/FCT1rL/1sHO30S/krmysgcm2y7qBiUptzRZ79z5Cfgi83
- T9E5lZDHH6J78AoWc6Up8hY=
-X-Google-Smtp-Source: ABdhPJyvvvQQvkGIxCW0eOgt8FiihExxUTGI/KDUle/HeZ8ErdGrPrU0t0a4F1hxpkf//prQqRAmew==
-X-Received: by 2002:a17:906:961a:: with SMTP id
- s26mr5477877ejx.494.1637657522264; 
- Tue, 23 Nov 2021 00:52:02 -0800 (PST)
+ bh=BqjTDota6qXyAvZTc5GkJOlaJlVWffG7A+eb5cGOB4I=;
+ b=Snb8q4S/ewUoYuw4VEeQL15x3OxVyenwngl6w0AvN+nKZThEVO5hDuKyNfhha7fgrl
+ O71ApysSg+K/eAl6fJteTrVK4c4xIC4iOEIjkzGW+ccsgQMNPc/zWTpLE0PE9/irbxUC
+ paWJLIhcq4KKB8YiMQjKVWViN3KCoU2FGsN1V+Se9XkTj8hnn7tKNC684+vA9iug2dZE
+ 2Jm5Ty6NMms9ahI+m6t+79VJgcmwoSROnopJEnZ8CAwAEyNph7YNMmQ04elI8+kOizwu
+ LspbxgbAjJYk/WQTN/h8UXcxneLAkqCp2yVTaQDS35SBDOHQXr7E/SoidIW3lQnbvQNj
+ mf1A==
+X-Gm-Message-State: AOAM530oH6uTUyY2tM+XJfHJxBs7Ao0O205Dzp1V5Lefv0E2wG1I/lI/
+ xdl6H95lZcsYqtff6bLB7t8=
+X-Google-Smtp-Source: ABdhPJywg45Zdyiao5yHIoV/TWl9Lu4GeLuq7tkwSYZ5N0X3GzMOpvzt3xNpQ/xwFgF2+cvecBOasQ==
+X-Received: by 2002:adf:d84c:: with SMTP id k12mr5341362wrl.24.1637657703555; 
+ Tue, 23 Nov 2021 00:55:03 -0800 (PST)
 Received: from ?IPV6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
  ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.googlemail.com with ESMTPSA id hv17sm5182114ejc.66.2021.11.23.00.51.54
+ by smtp.googlemail.com with ESMTPSA id n1sm502199wmq.6.2021.11.23.00.54.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Nov 2021 00:52:01 -0800 (PST)
-Message-ID: <edd15117-def0-71b6-6422-66490155448d@redhat.com>
-Date: Tue, 23 Nov 2021 09:51:53 +0100
+ Tue, 23 Nov 2021 00:55:03 -0800 (PST)
+Message-ID: <5f6f43a1-bb4c-f498-2aba-4c93ab57fc98@gnu.org>
+Date: Tue, 23 Nov 2021 09:54:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [RFC v2 PATCH 13/13] KVM: Enable memfd based page
- invalidation/fallocate
+Subject: Re: [RFC v2 PATCH 01/13] mm/shmem: Introduce F_SEAL_GUEST
 Content-Language: en-US
 To: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
 References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
- <20211119134739.20218-14-chao.p.peng@linux.intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211119134739.20218-14-chao.p.peng@linux.intel.com>
+ <20211119134739.20218-2-chao.p.peng@linux.intel.com>
+From: Paolo Bonzini <bonzini@gnu.org>
+In-Reply-To: <20211119134739.20218-2-chao.p.peng@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -114,14 +112,55 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/19/21 14:47, Chao Peng wrote:
-> +	list_for_each_entry(kvm, &vm_list, vm_list) {
-> +		if (kvm == vm)
-> +			return false;
-> +	}
+> +static void guest_invalidate_page(struct inode *inode,
+> +				  struct page *page, pgoff_t start, pgoff_t end)
+> +{
+> +	struct shmem_inode_info *info = SHMEM_I(inode);
 > +
-> +	return true;
+> +	if (!info->guest_ops || !info->guest_ops->invalidate_page_range)
+> +		return;
+> +
+> +	start = max(start, page->index);
+> +	end = min(end, page->index + thp_nr_pages(page)) - 1;
+> +
+> +	info->guest_ops->invalidate_page_range(inode, info->guest_owner,
+> +					       start, end);
+> +}
 
-This would have to take the kvm_lock, but see my reply to patch 1.
+The lack of protection makes the API quite awkward to use;
+the usual way to do this is with refcount_inc_not_zero (aka 
+kvm_get_kvm_safe).
+
+Can you use the shmem_inode_info spinlock to protect against this?  If 
+register/unregister take the spinlock, the invalidate and fallocate can 
+take a reference under the same spinlock, like this:
+
+	if (!info->guest_ops)
+		return;
+
+	spin_lock(&info->lock);
+	ops = info->guest_ops;
+	if (!ops) {
+		spin_unlock(&info->lock);
+		return;
+	}
+
+	/* Calls kvm_get_kvm_safe.  */
+	r = ops->get_guest_owner(info->guest_owner);
+	spin_unlock(&info->lock);
+	if (r < 0)
+		return;
+
+	start = max(start, page->index);
+	end = min(end, page->index + thp_nr_pages(page)) - 1;
+
+	ops->invalidate_page_range(inode, info->guest_owner,
+					       start, end);
+	ops->put_guest_owner(info->guest_owner);
+
+Considering that you have to take a mutex anyway in patch 13, and that 
+the critical section here is very small, the extra indirect calls are 
+cheaper than walking the vm_list; and it makes the API clearer.
 
 Paolo
 
