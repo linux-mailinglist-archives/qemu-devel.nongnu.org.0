@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DAC6459E70
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 09:43:00 +0100 (CET)
-Received: from localhost ([::1]:39222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87C1459E8A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 09:48:21 +0100 (CET)
+Received: from localhost ([::1]:42096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpROD-0007Tw-L5
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 03:42:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34726)
+	id 1mpRTQ-0001BK-Qi
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 03:48:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mpRN8-0006P0-Jl
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 03:41:50 -0500
-Received: from [2a00:1450:4864:20::432] (port=45605
- helo=mail-wr1-x432.google.com)
+ id 1mpRS7-0000T4-W3
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 03:47:01 -0500
+Received: from [2a00:1450:4864:20::529] (port=41957
+ helo=mail-ed1-x529.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mpRN5-0002CX-82
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 03:41:49 -0500
-Received: by mail-wr1-x432.google.com with SMTP id o13so2673831wrs.12
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 00:41:46 -0800 (PST)
+ id 1mpRS5-0002mo-UG
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 03:46:59 -0500
+Received: by mail-ed1-x529.google.com with SMTP id g14so88889483edb.8
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 00:46:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=g0d3QqsCZsAQe09AQzK3FGjRTfaWx8wJ4QGwqSaUY0s=;
- b=Mw62+XRWvlT8qzBeQZ/h0IBf67LqzhudM5xDapZFn6GgfYhCFcPBmka7Oj1ocwxvUQ
- /cNvmDmqTcYcrSyuuxeDgHc0xFZUqCTComJMB86gBn2KEDpFumMcEqIXhxSwB6YMjubD
- lt3NXPRM2NtOwMMqJs0LE8AhzdddiT36Z6qT5lxRIodNyCjTuauigZnaHO1DCx5GVDql
- epdOGzox9iGOjYi+i7ugyfur4oshX7Ze5oXbADgUgZ+gz+Z0B8y4Vn5a0HN+V8Nh+J7S
- HwMyR5sLcNaGdSCjB99j7FaSlB31s+kjOffJkUhXlpnG/VQ5xi3wdnNC3HpGS7PAxaV6
- VRrQ==
+ bh=7HA05XhYlCzTp4qvhhSBcSuSKybJ0PulYKdWBwG+DL8=;
+ b=eRxUC+sJSCTIGOoVdTOOhCcUZfnZdG7DdFIkTVEmTD9NGwphMQiid3xEfITu5XW/Fm
+ OPcyu0o0RT6S6BanewL3NWZY6xVwmP0C439+0yWwFxG7UfkAXRzQPZpRKz3tzk18JnVw
+ HtjSX+daGQP8TGpv1J7Hr4rpLkhRhWOvo2U6K+oZWNz38u91Wa2/oojHfKIIW/fP8O/2
+ ahzoMGXbn8rp25gMWGp0CrvgXNrpYwO9AUUeMsfLXR/CR8EAjxMYcttXW0FO+AjATfG+
+ AGb2k3JRmpq499iNZ+yWcjQK0WwJ6RmYDNO89V0hqqHW4QFAC87ThcSmDD7gnTTsYtlu
+ 0MVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=g0d3QqsCZsAQe09AQzK3FGjRTfaWx8wJ4QGwqSaUY0s=;
- b=6TC118b1KcCwCOWk7P7mUYmakaLCp11MAoiY4nOtHhazlZShTOA7G48Wq56FZG7nRt
- TFnnIUvBhFtQkTpfXj+EgVe4uvBWcGbD7OvYh+coB57R3NRRsX5/8H7U+z5hqRM1LkMh
- BZWK4xP+jFp0FCIXCihNA0kPOJSMJn1FVbnzJxtyBEkSJfmUY3XldcXq4q3YXFxSWj8e
- Te4/qqNBUuroy0Wt6nU9ZWOc7vWoEUmMczPVxQoZ+CBJku/16ctxC3WfLYmVkj3L0U+5
- xL/5nlNOSwoNm1UMgqE0WOoCa9qTOyP6bKDQqEt7pr1GdZOI+X7upxv2aFqdflZYcIoJ
- s4rw==
-X-Gm-Message-State: AOAM533y8d/k6NysNnIQjdURa+Gxpl8bfwZNX1YO8kcHQ5e9zE8G8eMY
- 1RslSJvCja715+Ig6z1xtdU=
-X-Google-Smtp-Source: ABdhPJwvHgZSqW8ZEVCAO/5N69oBusE0Bm0f9EvZzy4r53G0pOj/QfdnMwTLqTwvVRJp7btLIQMB3Q==
-X-Received: by 2002:adf:cd02:: with SMTP id w2mr5046687wrm.269.1637656904964; 
- Tue, 23 Nov 2021 00:41:44 -0800 (PST)
+ bh=7HA05XhYlCzTp4qvhhSBcSuSKybJ0PulYKdWBwG+DL8=;
+ b=Zsxa+VBcJsu6OPINLsanLRdSurpGQE8rVWXuinJ7eWjad34Mq9KDIrwt7I/sEnCmmy
+ 4TtXPdQhnRjydxeQE00Z6gaONzjg30JCQDk3mVcXAFb7WMBIHBcV7XXPTYcdSPI4N/a1
+ nX4TgMEVkWcJgvuBHreQTRGdFOlnMN9zjF+BheR2ThvmspLTz9/pzTY5k0DG7Hv01+cN
+ oLuwVR70zG5gR53xR35wFfoO37cA2ga5/tseTVsIGbH0Z/UQJq+kDIE1/fIXSoOcX8dG
+ illyxIpi7LxxGKiqNJfDT4Q/GhQ8OuXSE8ejdP+ehTYQA8Xb2d4zsUObEIqdXdwyfTml
+ NFNg==
+X-Gm-Message-State: AOAM533WWOqlVhRe1cSexXmp81S9CvO8zaHOqgXFYSkTyf2xKXO1xNz7
+ 9fpaNG9mZcxQ8uDuOM06G04=
+X-Google-Smtp-Source: ABdhPJygultcXZ5O6UR+Ra3FMuRkjBlnywYkj/YSuUzgBBN4t/ktdv6OEJaf5N8LyoDiF4gs7MeeKQ==
+X-Received: by 2002:a17:906:974c:: with SMTP id
+ o12mr2362914ejy.229.1637657214203; 
+ Tue, 23 Nov 2021 00:46:54 -0800 (PST)
 Received: from ?IPV6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
  ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.googlemail.com with ESMTPSA id p27sm348736wmi.28.2021.11.23.00.41.35
+ by smtp.googlemail.com with ESMTPSA id cs12sm5074681ejc.15.2021.11.23.00.46.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Nov 2021 00:41:44 -0800 (PST)
-Message-ID: <d54d58a4-3cd0-5fa3-3a81-b4bb27a7f511@redhat.com>
-Date: Tue, 23 Nov 2021 09:41:34 +0100
+ Tue, 23 Nov 2021 00:46:53 -0800 (PST)
+Message-ID: <4041d98a-23df-e9ed-b245-5edd7151fec5@redhat.com>
+Date: Tue, 23 Nov 2021 09:46:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [RFC v2 PATCH 04/13] KVM: Add fd-based memslot data structure and
- utils
+Subject: Re: [RFC v2 PATCH 09/13] KVM: Introduce kvm_memfd_invalidate_range
 Content-Language: en-US
 To: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
 References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
- <20211119134739.20218-5-chao.p.peng@linux.intel.com>
+ <20211119134739.20218-10-chao.p.peng@linux.intel.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211119134739.20218-5-chao.p.peng@linux.intel.com>
+In-Reply-To: <20211119134739.20218-10-chao.p.peng@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::529
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -113,20 +113,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/19/21 14:47, Chao Peng wrote:
-> For fd-based memslot store the file references for shared fd and the
-> private fd (if any) in the memslot structure. Since there is no 'hva'
-> concept we cannot call hva_to_pfn() to get a pfn, instead kvm_memfd_ops
-> is added to get_pfn/put_pfn from the memory backing stores that provide
-> these fds.
-> 
-> Signed-off-by: Yu Zhang<yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng<chao.p.peng@linux.intel.com>
-> ---
+> +
+> +	/* Prevent memslot modification */
+> +	spin_lock(&kvm->mn_invalidate_lock);
+> +	kvm->mn_active_invalidate_count++;
+> +	spin_unlock(&kvm->mn_invalidate_lock);
+> +
+> +	ret = __kvm_handle_useraddr_range(kvm, &useraddr_range);
+> +
+> +	spin_lock(&kvm->mn_invalidate_lock);
+> +	kvm->mn_active_invalidate_count--;
+> +	spin_unlock(&kvm->mn_invalidate_lock);
+> +
 
-What about kvm_read/write_guest?  Maybe the proposal which kept 
-userspace_addr for the shared fd is more doable (it would be great to 
-ultimately remove the mandatory userspace mapping for the shared fd, but 
-I think KVM is not quite ready for that).
+
+You need to follow this with a rcuwait_wake_up as in 
+kvm_mmu_notifier_invalidate_range_end.
+
+It's probably best if you move the manipulations of 
+mn_active_invalidate_count from kvm_mmu_notifier_invalidate_range_* to 
+two separate functions.
 
 Paolo
 
