@@ -2,104 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 506FE45A381
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 14:15:52 +0100 (CET)
-Received: from localhost ([::1]:55830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164BF45A38C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 14:18:37 +0100 (CET)
+Received: from localhost ([::1]:58490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpVeJ-0005AX-EF
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 08:15:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41004)
+	id 1mpVgy-00078W-6o
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 08:18:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mpVcO-0004Oa-85; Tue, 23 Nov 2021 08:13:52 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22158)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mpVeG-0005tb-69
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 08:15:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mpVcM-0007CB-4z; Tue, 23 Nov 2021 08:13:51 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1ANCJEpw016868; 
- Tue, 23 Nov 2021 13:13:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=MIR/w00B6CrSTPOh8VloSYXmAKqoTDhcayTaROA9LCs=;
- b=c8SUdSY8sEniq11zVN0/JXtYmeNto5Pprkk8HhasjIhAd5XUSWXm45uqlzQZvv6fCkoF
- 48SjA4CGVMtD0DUZw6hBeAxInFZJ3A6doNRfUjjTkxz8Y++qRT8hvLjhpOxcuGqNxkwF
- gdX6sO5BW/qvRhanS4ud1Z3qF9vPEf6CPwAajGtKIjsBIVBxPs/xMU6tuYj5TkTCsy8F
- Zm55SVCHz8IKe7ei+DxDmGtGDD3t+QBWYqGN8MucOU9qeD6lb+GdNIQfTbkgWntB0oCP
- ff2MsOIC878L07PC5UhRgPFRLiUGksAMTnTkoMhBDd7regs6PTW9HLWpUH7APNFuBIbr Wg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cgvq85r21-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Nov 2021 13:13:48 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1ANCvt8j032645;
- Tue, 23 Nov 2021 13:13:48 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cgvq85r1h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Nov 2021 13:13:47 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AND92s9029249;
- Tue, 23 Nov 2021 13:13:46 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3cer9jr6t6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Nov 2021 13:13:46 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1ANDDhc825755914
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Nov 2021 13:13:43 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1765511C052;
- Tue, 23 Nov 2021 13:13:43 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7066B11C05E;
- Tue, 23 Nov 2021 13:13:42 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.0.71])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Tue, 23 Nov 2021 13:13:42 +0000 (GMT)
-Date: Tue, 23 Nov 2021 14:13:40 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 0/5] virtio: early detect 'modern' virtio
-Message-ID: <20211123141340.3def6ccb.pasic@linux.ibm.com>
-In-Reply-To: <20211112145749.618157-1-pasic@linux.ibm.com>
-References: <20211112145749.618157-1-pasic@linux.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mpVeC-0007Rg-Ej
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 08:15:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637673343;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tA9/xQQC7RA/XysaU7jm+fmo64pd1mVXQdTHeoLwuB0=;
+ b=HirIVL+seQATSTgRDhl1JIWNjRhXl6eb2FDJ1800VI6ndggVa9vSV8GUd8nszIILiWpS2R
+ hDNuhBjwIsMWRcWb11TiVOEMH/LZeECOBSB/wV1qgPMmb0HtZT/lirR42c4qKWJzKuHY+c
+ VlMox57SFs/TIGFczK7pIezUYwOdToE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-131-HIpzPVPSO9K3IEssW5rulQ-1; Tue, 23 Nov 2021 08:15:42 -0500
+X-MC-Unique: HIpzPVPSO9K3IEssW5rulQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E78D1927802
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 13:15:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 98A935F4EA;
+ Tue, 23 Nov 2021 13:15:34 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 11A0711380A7; Tue, 23 Nov 2021 14:15:33 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [RFC PATCH 09/12] qapi/qom: Convert rng-backend/random to class
+References: <20211103173002.209906-1-kwolf@redhat.com>
+ <20211103173002.209906-10-kwolf@redhat.com>
+Date: Tue, 23 Nov 2021 14:15:33 +0100
+In-Reply-To: <20211103173002.209906-10-kwolf@redhat.com> (Kevin Wolf's message
+ of "Wed, 3 Nov 2021 18:29:59 +0100")
+Message-ID: <87bl2b6miy.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 2T9uvshPqTuLvLoRxvZyPR5AaFNAngrh
-X-Proofpoint-GUID: i_eXB5fn2TKc3YaEfcFyzBoXGcBIWgj1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-23_04,2021-11-23_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- priorityscore=1501 phishscore=0 mlxscore=0 malwarescore=0 suspectscore=0
- lowpriorityscore=0 clxscore=1015 spamscore=0 mlxlogscore=999 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111230075
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,24 +80,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
+Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ eblake@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 12 Nov 2021 15:57:44 +0100
-Halil Pasic <pasic@linux.ibm.com> wrote:
+Kevin Wolf <kwolf@redhat.com> writes:
 
-> This is an early RFC for a transport specific early detecton of
-> modern virtio, which is most relevant for transitional devices on big
-> endian platforms, when drivers access the config space before
-> FEATURES_OK is set.
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  qapi/qom.json | 22 ++++++++++++++++------
+>  1 file changed, 16 insertions(+), 6 deletions(-)
+>
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index ccd1167808..a167e91f67 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -721,6 +721,16 @@
+>  { 'struct': 'RngProperties',
+>    'data': { '*opened': { 'type': 'bool', 'features': ['deprecated'] } } }
+>  
+> +##
+> +# @rng-backend:
+> +#
+> +# Base class for random number generator backends
+> +#
+> +# Since: 1.3
+> +##
+> +{ 'class': 'rng-backend',
+> +  'config': 'RngProperties' }
+> +
+>  ##
+>  # @RngEgdProperties:
+>  #
+> @@ -736,18 +746,18 @@
+>    'data': { 'chardev': 'str' } }
+>  
+>  ##
+> -# @RngRandomProperties:
+> +# @rng-random:
+>  #
+> -# Properties for rng-random objects.
+> +# Random number generator backend using a host random number device
+>  #
+>  # @filename: the filename of the device on the host to obtain entropy from
+>  #            (default: "/dev/urandom")
+>  #
+>  # Since: 1.3
+>  ##
+> -{ 'struct': 'RngRandomProperties',
+> -  'base': 'RngProperties',
+> -  'data': { '*filename': 'str' } }
+> +{ 'class': 'rng-random',
+> +  'parent': 'rng-backend',
+> +  'config': { '*filename': 'str' } }
+>  
+>  ##
+>  # @SevGuestProperties:
+> @@ -889,7 +899,7 @@
+>        'qtest':                      'QtestProperties',
+>        'rng-builtin':                'RngProperties',
+>        'rng-egd':                    'RngEgdProperties',
+> -      'rng-random':                 { 'type': 'RngRandomProperties',
+> +      'rng-random':                 { 'type': 'qom-config:rng-random',
+>                                        'if': 'CONFIG_POSIX' },
+>        'secret':                     'SecretProperties',
+>        'secret_keyring':             { 'type': 'SecretKeyringProperties',
 
-[..]
+This generates struct q_obj_rng_random_config and struct
+qom_config_rng_random.  Their names violate coding style.
 
-Ping!
+The former struct appears to be unused.  Hmm, the next patch will use
+it.  Okay.
 
-@Michael: Can you have a look at this, please?
 
