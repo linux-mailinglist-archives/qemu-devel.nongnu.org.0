@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73FF345AA89
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 18:49:33 +0100 (CET)
-Received: from localhost ([::1]:36258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8080C45AA94
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 18:53:45 +0100 (CET)
+Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpZvA-0002hr-Iu
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 12:49:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52446)
+	id 1mpZzE-0000jA-JU
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 12:53:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpZkT-0004pT-6T
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:38:29 -0500
-Received: from [2a00:1450:4864:20::42a] (port=41487
- helo=mail-wr1-x42a.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mpZsQ-0007SL-SB
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:46:42 -0500
+Received: from [2a00:1450:4864:20::435] (port=37681
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpZkR-00052J-QT
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:38:28 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id a9so40276003wrr.8
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 09:38:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mpZsP-00063N-7Y
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:46:42 -0500
+Received: by mail-wr1-x435.google.com with SMTP id b12so40331636wrh.4
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 09:46:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=EG4DMUGXVEyZNv1Q4b/NktcGLb+o4TMJ3Kcuz4Efvk0=;
- b=VmB3ArHRas2JsubwzWGCImBIQHihsJKdV4h4a6Tw7prAar7RzvHEkVr18HXMIToOgk
- pZggtwS+EJpbtuAU2Hz/SCE2hLAv/9hrLUa4G16pvycuihkPqRfUqNFI1ZvCVhCJDNrg
- PotuyUUgn1ADWiquV9aBuk0SDPlAB7J/4+CKqAvUpDNo550aSTMWuNoa3nMGaiSWnPTT
- lteG9r+CfmwuSQLHOtMGtIoD3MqcG3gJZiSg8a1qXnNzv1NdImuHl67a80Ztg986G4eP
- nDHiG4yTDNPRS/6BK3bXLcP+MQVnT1P2N8ychLXfeoojIsyViTNX7K+jIXjKsPVzo3hB
- 1f8A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fT1se1ZMcem8yAzBEjkdVN6j0Sf1AV9hhBoZDI1TbLI=;
+ b=cNKQE1c3Zh+5SH7XWucI2xjibwXb6+C/D5pqVXH8t+yU1bR8a3+9tM0N2Rd0pm1udV
+ jN0Me464rWrBP4XUTkuK9cJY6iTfNLi+1rx+/B2mIT5PQ7Uaiolrd1kiDVQKQuG20mdT
+ LoxJxjcNz2q6bkY/CoZbuAkjUeCEhqdCWW6JB3PuV/t/3UVqB2PqBH/OQjlOSoh2Wew3
+ LgofjTJhHkzpBwiEMB0A+SCJvzEL52MYc3bzJ6FyOvlQxJj12irBgqevZ97SoV5RuxEj
+ rqIr17dcgkbl8p3gSPrlnx2ALWxpVaRazgs8sFZUIr6f04/wmO5xq6Ejxe8p2/SGFV/5
+ wV+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=EG4DMUGXVEyZNv1Q4b/NktcGLb+o4TMJ3Kcuz4Efvk0=;
- b=HHThhQqyiFihKngKIJkuxtJMHK05VW5kZhOaICcLtSETlTgEWFHw5S1V6F0lMqVD6A
- IRhh01paRNPBwfkR7n48vGuOSqMoXf0aLEYGvyKCiwSC2kBdiDIpFwd1k/ysXW/SrcHi
- oYfHkBQRafUYY0eF8OEUREBMehtas6K6omKSEB2GU3GS7ozU9/S0rsLI0MApj3nPOVMj
- 1JkXWyzLRx8m5VonRNLBHhjbLSFmFS/p8/aHCB0f9Rx28UJxcbJ9REOMl9abuBBDLV47
- nlNCmDq+EMWR+vCPwZYMZnJPxYNBOn8uDlLd9XMvHqh88z5pyG0K+k10W8QRDL0GfOoC
- WI1Q==
-X-Gm-Message-State: AOAM533oNl7AnrwPpNS/9nCX3CCqnZRIfjAz77j4mT2r/I3lSj6ZLUA0
- mEHzoR0glP+3mM6o8NLTpR1oplrVS8NfOOtq35o=
-X-Google-Smtp-Source: ABdhPJxn72u8wECnVCOUIJ3DA84zE4AtnUyHm+HH4iObUbcFffl/jYoKk4FB3Y3m+bRgKg18ccT4FQ==
-X-Received: by 2002:a5d:4a0b:: with SMTP id m11mr9324459wrq.120.1637689106475; 
- Tue, 23 Nov 2021 09:38:26 -0800 (PST)
-Received: from cloudburst.home (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id n13sm13054883wrt.44.2021.11.23.09.38.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 09:38:26 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 16/16] meson: Move bsd_user_ss to bsd-user/
-Date: Tue, 23 Nov 2021 18:37:59 +0100
-Message-Id: <20211123173759.1383510-17-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211123173759.1383510-1-richard.henderson@linaro.org>
-References: <20211123173759.1383510-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fT1se1ZMcem8yAzBEjkdVN6j0Sf1AV9hhBoZDI1TbLI=;
+ b=grSm3QOv/8iLvF57R/YkvDvQfuex/HBRCEMyeCUZa2ojJ663IXMjznad/RscGzid9e
+ C95OnRml8d10c+gWyJaQ3WHimNs9lqZeUo34vcGltBLWKSvPklByiM6KqYHK8VXbyns/
+ b4R55E4cDydFUKhVIs2k7xsh9vtzu/OI9pX56YuoO9CT5EwhegoqdJgnwC3oe/VekSoD
+ KJAjPlsJhLpwcWH0MxrOubSroJnJbS+vxaybUOWtaIxEnH2fmYC+498JBz8Y2lKDR0wA
+ NmjCJY/hBIe1FVW88cx/9ghVRdn5/GgJFmaFRcAROEa0MItUdFtNy3uSfrF+T+e/+Z2I
+ tenA==
+X-Gm-Message-State: AOAM532HH1QXUv9thFKHkrEmAWd9uwjN6uNvawatLoU+ibEnR2M7Ysz3
+ ELmmjnAv1xdBWqRt2rKCCtNqGYlZuZeRrj42PNJW3Q==
+X-Google-Smtp-Source: ABdhPJz1kidocrn9q9tH9wJTCxZW5yPi3cV9yWkePsGCcngNyFMBKlNGJ4tKvHK7WBeP1dQiTzBw0pH+82PDIRE6cMQ=
+X-Received: by 2002:a5d:6da1:: with SMTP id u1mr9539602wrs.263.1637689599230; 
+ Tue, 23 Nov 2021 09:46:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+References: <20211123171031.975367-1-peter.maydell@linaro.org>
+In-Reply-To: <20211123171031.975367-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 23 Nov 2021 17:46:27 +0000
+Message-ID: <CAFEAcA8XMtAHKY=saAajLc2b03_PHGi+G=iioEpeetuS3Hh5yg@mail.gmail.com>
+Subject: Re: [for-6.2] hw/intc/arm_gicv3: Update cached state after
+ acknowledging LPI
+To: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -87,63 +80,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, imp@bsdimp.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Shashi Mallela <shashi.mallela@linaro.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have no need to reference bsd_user_ss outside of bsd-user.
-Go ahead and merge it directly into specific_ss.
+On Tue, 23 Nov 2021 at 17:10, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> In gicv3_redist_lpi_pending() we update cs->hpplpi to indicate the
+> new highest priority pending LPI after changing the requested LPI
+> pending bit.  However the overall highest priority pending interrupt
+> information won't be updated unless we call gicv3_redist_update().
+> We do that from the callsite in gicv3-redist_process_lpi(), but not
+> from the callsite in icc_activate_irq().  The effect is that when the
+> guest acknowledges an LPI by reading ICC_IAR1_EL1, we mark it as not
+> pending in the data structure but still leave it in cs->hppi so will
+> offer it to the guest again.
+>
+> The effect is that if we are using an emulated GICv3 and ITS and
+> using devices which use LPIs (ie PCI devices) then Linux will
+> complain "irq 54: nobody cared" and then hang (probably because the
+> stale bogus interrupt info meant we never tried to deliver some other
+> real interrupt).
 
-Reviewed-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- meson.build          | 3 ---
- bsd-user/meson.build | 4 ++++
- 2 files changed, 4 insertions(+), 3 deletions(-)
+Hmm; this is definitely a bug, but maybe it's not the cause of
+the symptoms listed above -- I've just seen them again even
+with this fix. I'll keep digging...
 
-diff --git a/meson.build b/meson.build
-index bf7af382de..e425129011 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2363,7 +2363,6 @@ genh += hxdep
- authz_ss = ss.source_set()
- blockdev_ss = ss.source_set()
- block_ss = ss.source_set()
--bsd_user_ss = ss.source_set()
- chardev_ss = ss.source_set()
- common_ss = ss.source_set()
- common_user_ss = ss.source_set()
-@@ -2618,8 +2617,6 @@ subdir('common-user')
- subdir('bsd-user')
- subdir('linux-user')
- 
--specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
--
- common_user_ss = common_user_ss.apply(config_all, strict: false)
- common_user = static_library('common-user',
-                              sources: common_user_ss.sources(),
-diff --git a/bsd-user/meson.build b/bsd-user/meson.build
-index 25c3976ead..9fcb80c3fa 100644
---- a/bsd-user/meson.build
-+++ b/bsd-user/meson.build
-@@ -2,6 +2,8 @@ if not have_bsd_user
-    subdir_done()
- endif
- 
-+bsd_user_ss = ss.source_set()
-+
- common_user_inc += include_directories('.')
- 
- bsd_user_ss.add(files(
-@@ -17,3 +19,5 @@ bsd_user_ss.add(files(
- 
- # Pull in the OS-specific build glue, if any
- subdir(targetos)
-+
-+specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
--- 
-2.25.1
-
+-- PMM
 
