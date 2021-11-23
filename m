@@ -2,72 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06AD745A3DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 14:36:12 +0100 (CET)
-Received: from localhost ([::1]:43838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BE645A3EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 14:39:16 +0100 (CET)
+Received: from localhost ([::1]:48780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpVxy-0000vv-La
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 08:36:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44930)
+	id 1mpW0x-0004nK-Ph
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 08:39:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mpVt6-0006ul-PM
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 08:31:08 -0500
-Received: from [2a00:1450:4864:20::42a] (port=40462
- helo=mail-wr1-x42a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mpVt1-0001Ls-UF
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 08:31:08 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id r8so38916238wra.7
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 05:31:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lU0tq5ALFM3S1rLOtkmUzuIr7oX82LMYwFJMeLbxWzk=;
- b=I7xqtSdSF5wfoi3ZGSlZihrQRwNyNLutRt9Mh/aL0JK0cmL2ihg9ZGumyXRBXGNt7+
- SI7i0tcG1ByciOgPrWoksv7vL1SKejkmF4xk+3iwdtkZX9/Xf8fVe5qCNnwosq4vZonV
- FxhH9+5mohwpamfatPJoJ9/KVALqYX0u7PdM6ksZeHQy60qVkAPja17Lf+IwW2ypHp9I
- kaBxnpAFaoKoviptmD+fR6sa6XgoUM7cpzuGFlqRcuBGVzLnVzVF8Uh4Adn962U4u92b
- QtAWj5JTeStlo8G4dA4lqS5hEvDYALPGynxVeDJ9umbrXm4w82SEgb0YaDxKLEk101Kp
- uW9w==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mpVvF-0008BV-ER
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 08:33:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38552)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mpVv6-0001mZ-3e
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 08:33:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637674390;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=amDK/iX0yCXjL98lI7490zPsQK8PCUmUReIz8siI5Ac=;
+ b=JZjpGwM3Xv7pfo6AfgvbUrPQLYElYjAaQXCNcgOG0cmVKeUJycPPB1FphIjR+QLS3qWF+U
+ s0Dem5FS6fLSaOwk2+LUA0zVrQz1+cJMsoRsb8uZcC8PhwtAqmSPT9lA36wakGY2W4G79O
+ yv7RyJqQlJ21PuOdvVoYjcDYhnD5myg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-517-6Q4mR9YYOymQxU0A15O20w-1; Tue, 23 Nov 2021 08:33:06 -0500
+X-MC-Unique: 6Q4mR9YYOymQxU0A15O20w-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ p12-20020a05600c1d8c00b0033a22e48203so1538706wms.6
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 05:33:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lU0tq5ALFM3S1rLOtkmUzuIr7oX82LMYwFJMeLbxWzk=;
- b=cZ25dgHIILwaGx/z0D+MXCl/g/Y3vjQpXwp9SEoUK7U4bGd6cCweyIdXQlwHANExM/
- HeWaqoGln0Q85dWQJ92TaQ5wc+DK084fIpNbkxDlGtzxi1ZdKDqQ8qq8XEO/aJCTsXAd
- ronBazWoStB52xXW0XXF4iLFtq7Suy3WQ0IOOdVJQzyBuplbpnoZtCv5VN5wIZwSxm82
- CLd3rjL4yOyC//t3Fs//L6zSy1XawMyK9AjbTIHLx7TVxh26St7j1Ra/8elvDaqPrGRr
- A3zeK+DGakbDgKKzGo4bVh6hM1tLZ5MhY9n7sRpuBPuGZIRcRfUG0SgUuzcorLX1tFwi
- 2jUA==
-X-Gm-Message-State: AOAM531W4C3/CVECDvbgbvPNFl8h2wmJAjZVLAgbuwgzurTR/kY9mkKh
- yM5raN0lfv/icqjpCwNnfSZzM+OoayCIVl0ITxI=
-X-Google-Smtp-Source: ABdhPJxBySm54AZLQGJ64I36vfl+CCmndfRukhMAQNEHDgKfKDQ/j4vubTYPCgJQISZc+a1xnnN1VAgFSxMrnJVG6CU=
-X-Received: by 2002:a5d:6da5:: with SMTP id u5mr7545742wrs.374.1637674261877; 
- Tue, 23 Nov 2021 05:31:01 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=amDK/iX0yCXjL98lI7490zPsQK8PCUmUReIz8siI5Ac=;
+ b=jjmhd2/sbipQMnPlpGAt1swdKYUmeOSG0xwqPJLP+tIOaKoq5M55D7p7z9QvbOKiW8
+ xG1wgTs+n3chZCxkgi0OBU/+OBr1NYrJtUWuNy0EegzbJVFEswnPWGNkaQxmu1o8s4lB
+ Z1WbcoBnTJS7rcpJnSFzD+wQbhekp1qyygxQGPDRI5PEz9r2wFCu2uiRAJMgOifZOkbE
+ I0KkO3HhXL2qTa8y6jkn8M9YA7KkV3lLh9z3Bx5xyayVeb60mkCix4nnXQWJfUQs9d4y
+ dKcnOtVvWnMH8GHkkYQ528NlgTclqbK779F/oAErtrrPaL98PBSl9d7tYnExiefNebIE
+ oSng==
+X-Gm-Message-State: AOAM53022y6G37kbWsELFuQUfeIkjFuSewoD15cGll2FAXNMoTxPGrof
+ 1S3pMChnYQzOa8VDorGk9+JRRULOwyEWMcD4e5HbDiAzdWu2z/V/bN9BKqi+AT2E4LHox8Q16ki
+ /L5iSIr28UnFwUpk=
+X-Received: by 2002:a5d:54cf:: with SMTP id x15mr2388767wrv.30.1637674385608; 
+ Tue, 23 Nov 2021 05:33:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzWoV8yLnT7YS7kXMz0VxMzSp+8146ihFymwJD41tasC5ANtmDHTq2qRSEOHtowE1IDq7Zk0w==
+X-Received: by 2002:a5d:54cf:: with SMTP id x15mr2388729wrv.30.1637674385409; 
+ Tue, 23 Nov 2021 05:33:05 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id k187sm2360027wme.0.2021.11.23.05.33.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Nov 2021 05:33:05 -0800 (PST)
+Message-ID: <f01963c1-9445-1d0d-ae8e-6649d8397934@redhat.com>
+Date: Tue, 23 Nov 2021 14:33:04 +0100
 MIME-Version: 1.0
-References: <20211123130915.390848-1-pbonzini@redhat.com>
-In-Reply-To: <20211123130915.390848-1-pbonzini@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 23 Nov 2021 17:30:49 +0400
-Message-ID: <CAJ+F1CLGHEo4+seD0dMXKRKOfx8Ti1GF35hQwzjxPQ66c0F=XQ@mail.gmail.com>
-Subject: Re: [PATCH] chardev: delete QemuOpts when a chardev is removed
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000a318de05d174c03f"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH-for-6.2 v3 1/2] hw/block/fdc: Kludge missing floppy drive
+ to fix CVE-2021-20196
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211118120635.4043197-1-philmd@redhat.com>
+ <20211118120635.4043197-2-philmd@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211118120635.4043197-2-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.515, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,143 +102,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
+ qemu-block@nongnu.org, Darren Kenny <darren.kenny@oracle.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-stable@nongnu.org,
+ Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gaoning Pan <pgn@zju.edu.cn>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a318de05d174c03f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Nov 23, 2021 at 5:11 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
-
-> QEMU cannot add a chardev with the same id as a previously unplugged
-> device.
-> The root cause of this issue is that the QemuOpts is still registered,
-> causing qemu_opts_create to fail.  Remove the QemuOpts when a character
-> device is removed.
+On 18.11.21 13:06, Philippe Mathieu-Daudé wrote:
+> Guest might select another drive on the bus by setting the
+> DRIVE_SEL bit of the DIGITAL OUTPUT REGISTER (DOR).
+> The current controller model doesn't expect a BlockBackend
+> to be NULL. A simple way to fix CVE-2021-20196 is to create
+> an empty BlockBackend when it is missing. All further
+> accesses will be safely handled, and the controller state
+> machines keep behaving correctly.
 >
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: qemu-stable@nongnu.org
+> Fixes: CVE-2021-20196
+> Reported-by: Gaoning Pan (Ant Security Light-Year Lab) <pgn@zju.edu.cn>
+> BugLink: https://bugs.launchpad.net/qemu/+bug/1912780
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/338
+> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   hw/block/fdc.c | 14 +++++++++++++-
+>   1 file changed, 13 insertions(+), 1 deletion(-)
 >
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
----
->  chardev/char.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->
-> diff --git a/chardev/char.c b/chardev/char.c
-> index 0169d8dde4..d46b307830 100644
-> --- a/chardev/char.c
-> +++ b/chardev/char.c
-> @@ -277,6 +277,20 @@ static void char_init(Object *obj)
->
->  }
->
-> +static void chr_unparent(Object *obj)
-> +{
-> +    const char *id;
-> +    QemuOpts *opts;
+> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+> index d21b717b7d6..6f94b6a6daa 100644
+> --- a/hw/block/fdc.c
+> +++ b/hw/block/fdc.c
+> @@ -1161,7 +1161,19 @@ static FDrive *get_drv(FDCtrl *fdctrl, int unit)
+>   
+>   static FDrive *get_cur_drv(FDCtrl *fdctrl)
+>   {
+> -    return get_drv(fdctrl, fdctrl->cur_drv);
+> +    FDrive *cur_drv = get_drv(fdctrl, fdctrl->cur_drv);
 > +
-> +    if (obj->parent =3D=3D get_chardevs_root()) {
-> +        id =3D object_get_canonical_path_component(obj);
-> +        opts =3D qemu_opts_find(qemu_find_opts("chardev"), id);
-> +        if (opts) {
-> +            qemu_opts_del(opts);
-> +        }
+> +    if (!cur_drv->blk) {
+> +        /*
+> +         * Kludge: empty drive line selected. Create an anonymous
+> +         * BlockBackend to avoid NULL deref with various BlockBackend
+> +         * API calls within this model (CVE-2021-20196).
+> +         * Due to the controller QOM model limitations, we don't
+> +         * attach the created to the controller device.
+> +         */
+> +        cur_drv->blk = blk_new(qemu_get_aio_context(), 0, BLK_PERM_ALL);
+
+So to me this looks basically like a mini version of 
+floppy_drive_realize(), and I was wondering what else we might want to 
+use from that function.  fd_init() and fd_revalidate() look interesting, 
+but it appears that fdctrl_realize_common() already did that for all 
+drives so we should be good.
+
+Then again, fd_revalidate() behaves differently for the initial drv->blk 
+== NULL (drv->drive is set to TYPE_NONE, and last_sect and max_track are 
+set to 0) and for then later !blk_is_inserted() (drv->drive not changed 
+(so I guess it stays TYPE_NONE?), but last_sect and max_track are set to 
+0xff).  Not sure if that’s a problem.  Probably not, given that I think 
+drv->disk and drv->drive both stay TYPE_NONE.
+
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+
 > +    }
-> +}
-> +
->  static int null_chr_write(Chardev *chr, const uint8_t *buf, int len)
->  {
->      return len;
-> @@ -286,6 +300,7 @@ static void char_class_init(ObjectClass *oc, void
-> *data)
->  {
->      ChardevClass *cc =3D CHARDEV_CLASS(oc);
->
-> +    oc->unparent =3D chr_unparent;
->      cc->chr_write =3D null_chr_write;
->      cc->chr_be_event =3D chr_be_event;
->  }
-> --
-> 2.33.1
->
->
->
+> +    return cur_drv;
+>   }
+>   
+>   /* Status A register : 0x00 (read-only) */
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000a318de05d174c03f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 23, 2021 at 5:11 PM Paolo=
- Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">QEMU=
- cannot add a chardev with the same id as a previously unplugged device.<br=
->
-The root cause of this issue is that the QemuOpts is still registered,<br>
-causing qemu_opts_create to fail.=C2=A0 Remove the QemuOpts when a characte=
-r<br>
-device is removed.<br>
-<br>
-Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
-get=3D"_blank">pbonzini@redhat.com</a>&gt;<br></blockquote><div><br></div><=
-div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lur=
-eau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0chardev/char.c | 15 +++++++++++++++<br>
-=C2=A01 file changed, 15 insertions(+)<br>
-<br>
-diff --git a/chardev/char.c b/chardev/char.c<br>
-index 0169d8dde4..d46b307830 100644<br>
---- a/chardev/char.c<br>
-+++ b/chardev/char.c<br>
-@@ -277,6 +277,20 @@ static void char_init(Object *obj)<br>
-<br>
-=C2=A0}<br>
-<br>
-+static void chr_unparent(Object *obj)<br>
-+{<br>
-+=C2=A0 =C2=A0 const char *id;<br>
-+=C2=A0 =C2=A0 QemuOpts *opts;<br>
-+<br>
-+=C2=A0 =C2=A0 if (obj-&gt;parent =3D=3D get_chardevs_root()) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 id =3D object_get_canonical_path_component(obj=
-);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 opts =3D qemu_opts_find(qemu_find_opts(&quot;c=
-hardev&quot;), id);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (opts) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_opts_del(opts);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-=C2=A0static int null_chr_write(Chardev *chr, const uint8_t *buf, int len)<=
-br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0return len;<br>
-@@ -286,6 +300,7 @@ static void char_class_init(ObjectClass *oc, void *data=
-)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0ChardevClass *cc =3D CHARDEV_CLASS(oc);<br>
-<br>
-+=C2=A0 =C2=A0 oc-&gt;unparent =3D chr_unparent;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;chr_write =3D null_chr_write;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;chr_be_event =3D chr_be_event;<br>
-=C2=A0}<br>
--- <br>
-2.33.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000a318de05d174c03f--
 
