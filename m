@@ -2,94 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B93045A73A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 17:10:45 +0100 (CET)
-Received: from localhost ([::1]:52858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29DF745A75C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 17:15:19 +0100 (CET)
+Received: from localhost ([::1]:57832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpYNY-0001Tk-2b
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 11:10:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56640)
+	id 1mpYRw-0004xa-Vs
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 11:15:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mpYLC-0007jU-3g
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 11:08:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44953)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mpYOD-0003Df-Dz
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 11:11:25 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:56058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mpYL9-0000Vd-Hu
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 11:08:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637683695;
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mpYOA-0000pS-GS
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 11:11:25 -0500
+Received: from [192.168.12.10] (unknown [195.68.53.70])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 6BE6821A86;
+ Tue, 23 Nov 2021 16:11:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1637683878;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b4ywWOcEdVmi7y/nVuZ2D/rY9fOrJDgbUztkd6x/Ets=;
- b=AufkEJ+2wNKYS6maVmys161fcWhooFlH0xVqvlRLBuTRdbTbBbXEU8EgVMu7CNhbxjMhSg
- HiNvUG8Q0h8S0Hpeqi5N9sKZsTOBDGvSw10avQUGROTHNzMGeF3zhIrSvOd8unNh4eZsvv
- 65Z9+e5hDk698REC++P75V66h2Vu3kQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-483-Q8QWLjnmP0KtsPH1H2JdQw-1; Tue, 23 Nov 2021 11:08:13 -0500
-X-MC-Unique: Q8QWLjnmP0KtsPH1H2JdQw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- bg20-20020a05600c3c9400b0033a9300b44bso1771897wmb.2
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 08:08:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=b4ywWOcEdVmi7y/nVuZ2D/rY9fOrJDgbUztkd6x/Ets=;
- b=Py0hU2OiZRaZXW37N+H64Hf2CE3ihZumjjGSljd8Fy7S5oIuW/I8s0+ieaUsUEcxko
- 2uhI4z0j0TcYVZUT53e0UUFqeyK9agafQrvxnp3vMSDFXHhpdaLKdi3gXYXMM5lPYSix
- 3VsjI8iZi5WWhMMYtmhxqt4hgldPzG6q0d+Tp+rC6YJQbPZPdxFwJsJaGQHQLpzdMUOQ
- sSXdyghJuwtMXQJn7rJG9+y6KS2bq1LbXOv4BvEQ0ON+u/xn2DBza1XNtHqZPf6ffryz
- xvIdFQpuAvaXimaZJofd0Z8kLiX5pDz/0dH2cM99oIiL9/AJyS8iQ8NFye2H8Mt2r3KH
- QfgA==
-X-Gm-Message-State: AOAM530AJsbSgCu8ChZDXkCYbks2ryNxUsWmy9b1ITx1Qh83yaEIV+Gw
- GGSZY4vRqFf9y6I/V/Kp0cN6Ynem5hc7bMaxzFG7r6RYH7kKYutmPE0ss6trom6pP8OZobhZJQp
- 7FvGieFvWf6cuE7s=
-X-Received: by 2002:a1c:7c19:: with SMTP id x25mr4577964wmc.42.1637683689657; 
- Tue, 23 Nov 2021 08:08:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwU1gBiL01dR16KY3ojKE8L937UBjV77ZCBmqOnTyoqOgjjmRW7MfU+r8PflFcashQ/8vwPcA==
-X-Received: by 2002:a1c:7c19:: with SMTP id x25mr4577573wmc.42.1637683687070; 
- Tue, 23 Nov 2021 08:08:07 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id y142sm1571389wmc.40.2021.11.23.08.08.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Nov 2021 08:08:06 -0800 (PST)
-Message-ID: <bb1c8fac-544f-bd5f-ed41-2b40439276a8@redhat.com>
-Date: Tue, 23 Nov 2021 17:08:06 +0100
+ bh=MnIGOSNOK3mp570k8LMcpgjjNBFNFk7fkdqmYPA6QlQ=;
+ b=cbMdFohpYXsFJReaH1SpvAhpF6UEDqQe/FRFAJnJGxkEOPPB2N6cs/5UDFkbBgkbB92Q6V
+ YaycGOGGqbaWFEPjij7lyci4APDZJZQk3FIjqosW972NJ+tInxweE/PftKavfHRpdlA3aJ
+ ClG9Icoh3XqUCd8SRtTaZ8PEAtd90U8=
+Message-ID: <d3ae2bea-7d60-a714-100c-40b31fd19725@greensocs.com>
+Date: Tue, 23 Nov 2021 17:11:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH-for-6.2 2/2] tests/qtest/fdc-test: Add a regression test
- for CVE-2021-3507
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211118115733.4038610-1-philmd@redhat.com>
- <20211118115733.4038610-3-philmd@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211118115733.4038610-3-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+ Thunderbird/91.3.2
+Subject: Re: [RFC PATCH v3 0/5] QMP support for cold-plugging devices
+Content-Language: en-US-large
+To: Markus Armbruster <armbru@redhat.com>
+References: <20211117144703.16305-1-damien.hedde@greensocs.com>
+ <87y25jw69i.fsf@dusky.pond.sub.org>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <87y25jw69i.fsf@dusky.pond.sub.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -69
-X-Spam_score: -7.0
-X-Spam_bar: -------
-X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.515, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.515,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,117 +66,223 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
- qemu-block@nongnu.org, Darren Kenny <darren.kenny@oracle.com>,
- Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: edgar.iglesias@xilinx.com,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Mark Burton <mark.burton@greensocs.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18.11.21 12:57, Philippe Mathieu-Daudé wrote:
-> Add the reproducer from https://gitlab.com/qemu-project/qemu/-/issues/339
->
-> Without the previous commit, when running 'make check-qtest-i386'
-> with QEMU configured with '--enable-sanitizers' we get:
->
->    ==4028352==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x619000062a00 at pc 0x5626d03c491a bp 0x7ffdb4199410 sp 0x7ffdb4198bc0
->    READ of size 786432 at 0x619000062a00 thread T0
->        #0 0x5626d03c4919 in __asan_memcpy (qemu-system-i386+0x1e65919)
->        #1 0x5626d1c023cc in flatview_write_continue softmmu/physmem.c:2787:13
->        #2 0x5626d1bf0c0f in flatview_write softmmu/physmem.c:2822:14
->        #3 0x5626d1bf0798 in address_space_write softmmu/physmem.c:2914:18
->        #4 0x5626d1bf0f37 in address_space_rw softmmu/physmem.c:2924:16
->        #5 0x5626d1bf14c8 in cpu_physical_memory_rw softmmu/physmem.c:2933:5
->        #6 0x5626d0bd5649 in cpu_physical_memory_write include/exec/cpu-common.h:82:5
->        #7 0x5626d0bd0a07 in i8257_dma_write_memory hw/dma/i8257.c:452:9
->        #8 0x5626d09f825d in fdctrl_transfer_handler hw/block/fdc.c:1616:13
->        #9 0x5626d0a048b4 in fdctrl_start_transfer hw/block/fdc.c:1539:13
->        #10 0x5626d09f4c3e in fdctrl_write_data hw/block/fdc.c:2266:13
->        #11 0x5626d09f22f7 in fdctrl_write hw/block/fdc.c:829:9
->        #12 0x5626d1c20bc5 in portio_write softmmu/ioport.c:207:17
->
->    0x619000062a00 is located 0 bytes to the right of 512-byte region [0x619000062800,0x619000062a00)
->    allocated by thread T0 here:
->        #0 0x5626d03c66ec in posix_memalign (qemu-system-i386+0x1e676ec)
->        #1 0x5626d2b988d4 in qemu_try_memalign util/oslib-posix.c:210:11
->        #2 0x5626d2b98b0c in qemu_memalign util/oslib-posix.c:226:27
->        #3 0x5626d09fbaf0 in fdctrl_realize_common hw/block/fdc.c:2341:20
->        #4 0x5626d0a150ed in isabus_fdc_realize hw/block/fdc-isa.c:113:5
->        #5 0x5626d2367935 in device_set_realized hw/core/qdev.c:531:13
->
->    SUMMARY: AddressSanitizer: heap-buffer-overflow (qemu-system-i386+0x1e65919) in __asan_memcpy
->    Shadow bytes around the buggy address:
->      0x0c32800044f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->      0x0c3280004500: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->      0x0c3280004510: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->      0x0c3280004520: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->      0x0c3280004530: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    =>0x0c3280004540:[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->      0x0c3280004550: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->      0x0c3280004560: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->      0x0c3280004570: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->      0x0c3280004580: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->      0x0c3280004590: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
->    Shadow byte legend (one shadow byte represents 8 application bytes):
->      Addressable:           00
->      Heap left redzone:       fa
->      Freed heap region:       fd
->    ==4028352==ABORTING
->
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->   tests/qtest/fdc-test.c | 20 ++++++++++++++++++++
->   1 file changed, 20 insertions(+)
->
-> diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
-> index 26b69f7c5cd..f164d972d10 100644
-> --- a/tests/qtest/fdc-test.c
-> +++ b/tests/qtest/fdc-test.c
-> @@ -546,6 +546,25 @@ static void fuzz_registers(void)
->       }
->   }
->   
-> +static void test_cve_2021_3507(void)
-> +{
-> +    QTestState *s;
-> +
-> +    s = qtest_initf("-nographic -m 32M -nodefaults "
-> +                    "-drive file=%s,format=raw,if=floppy", test_image);
-> +    qtest_outl(s, 0x9, 0x0a0206);
-> +    qtest_outw(s, 0x3f4, 0x1600);
-> +    qtest_outw(s, 0x3f4, 0x0000);
-> +    qtest_outw(s, 0x3f4, 0x0000);
-> +    qtest_outw(s, 0x3f4, 0x0000);
-> +    qtest_outw(s, 0x3f4, 0x0200);
-> +    qtest_outw(s, 0x3f4, 0x0200);
-> +    qtest_outw(s, 0x3f4, 0x0000);
-> +    qtest_outw(s, 0x3f4, 0x0000);
-> +    qtest_outw(s, 0x3f4, 0x0000);
 
-No idea what this does (looks like a 256-byte sector read read from 
-sector 2 with EOT=0), but hits the problem and reproduces for me.
 
-Unfortunately, I have the exact same problem with test_image as I did in 
-the other series.
+On 11/20/21 10:00, Markus Armbruster wrote:
+> Damien Hedde <damien.hedde@greensocs.com> writes:
+> 
+>> Hi all,
+>>
+>> This series adds support for cold-plugging devices using QMP
+>> commands. It is a step towards machine configuration using QMP, but
+>> it does not allow the user to add more devices than he could do with
+>> the CLI options before.
+>>
+>> Right now we can add a device using 2 ways:
+>> + giving "-device" CLI option. In that case the device is
+>>    cold-plugged: it is created before the machine becomes ready.
+>> + issuing device_add QMP command. In that case the device is
+>>    hot-plugged (the command can not be issued before the machine is
+>>    ready).
+>>
+>> This series allows to issue device_add QMP to cold-plug a device
+>> like we do with "-device" CLI option. All added QMP commands are
+>> marked as 'unstable' in qapi as they are part of preconfig.
+>> We achieve this by introducing a new 'x-machine-init' command to
+>> stop the VM creation at a point where we can cold-plug devices.
+>>
+>> We are aware of the ongoing discussion about preconfig future (see
+>> [1]). This patchset includes no major modifications from the v2 (but
+>> the scope is reduced) and "x-machine-init" simply stops the
+>> configuration between qemu_board_init() and qemu_create_cli_devices()
+>> function calls.
+>>
+>> As a consequence, in the current state, the timeline is:
+> 
+> "current state" = with this series applied?
 
-Hanna
+yes. this patchset adds the first two steps.
 
-> +    qtest_quit(s);
-> +}
-> +
->   int main(int argc, char **argv)
->   {
->       int fd;
-> @@ -576,6 +595,7 @@ int main(int argc, char **argv)
->       qtest_add_func("/fdc/read_no_dma_18", test_read_no_dma_18);
->       qtest_add_func("/fdc/read_no_dma_19", test_read_no_dma_19);
->       qtest_add_func("/fdc/fuzz-registers", fuzz_registers);
-> +    qtest_add_func("/fdc/fuzz/cve_2021_3507", test_cve_2021_3507);
->   
->       ret = g_test_run();
->   
+> 
+>> + "x-machine-init" command
+>> + "device_add" cold-plug commands (no fw_cfg legacy order support)
+>> + "x-exit-preconfig" command will then trigger the following
+>> + "-soundhw" CLI options
+>> + "-fw_cfg" CLI options
+>> + usb devices creation
+>> + "-device" CLI options (with fw_cfg legacy order support)
+>> + some other devices creation (with fw_cfg legacy order support)
+>>
+>> We don't know if the differences between -device/device_add are
+>> acceptable or not. To reduce/remove them we could move the
+>> "x-machine-init" stopping point. What do you think ?
+> 
+> I'm not sure I understand this paragraph.
+> 
+> I understand the difference between -device and device_add in master:
+> cold vs. hot plug.
+> 
+> Your patch series makes "cold" device_add possible, i.e. it reduces
+> (eliminates?) the difference between -device and device_add when the
+> latter is "cold".
 
+Yes.
+Apart, before this patchset cold-plugging with device_add was not 
+possible at all.
+
+So, any difference between -device and a cold device_add is added here. 
+(no bad intention, the patch did not move since v1 and this part of the 
+code is just really tricky to understand...)
+
+> 
+> What difference remains that moving 'the "x-machine-init" stopping
+> point' would 'reduce/remove'?
+
+To answer this, let's take a look at qemu_create_cli_devices() (I 
+removed some comments).
+
+| 1 static void qemu_create_cli_devices(void)
+| 2 {
+| 3     DeviceOption *opt;
+| 4
+| 5     soundhw_init();
+| 6
+| 7     qemu_opts_foreach(qemu_find_opts("fw_cfg"),
+| 8                       parse_fw_cfg, fw_cfg_find(), &error_fatal);
+| 9
+|10     /* init USB devices */
+|11     if (machine_usb(current_machine)) {
+|12         if (foreach_device_config(DEV_USB, usb_parse) < 0)
+|13             exit(1);
+|14     }
+|15
+|16     /* init generic devices */
+|17     rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
+|18     qemu_opts_foreach(qemu_find_opts("device"),
+|19                       device_init_func, NULL, &error_fatal);
+|20     QTAILQ_FOREACH(opt, &device_opts, next) {
+|21         loc_push_restore(&opt->loc);
+|22         qdev_device_add_from_qdict(opt->opts, true, &error_fatal);
+|23         loc_pop(&opt->loc);
+|24     }
+|25     rom_reset_order_override();
+|26 }
+
+The configuration timeline is:
+Line 3    : handle "-soundhw" (deprecated).
+Line 7-8  : handle "-fw_cfg"
+Line 10-14: related to USB devices
+Line 18-19: handle "-device" CLI options (legacy cli format)
+Line 20-24: handle "-device" CLI options (json format)
+
+With this patchset implementation, we pause just before calling this 
+function (it seemed logical to stop here, given the machine phase). But 
+the above timeline happens after we paused and issued device_add to cold 
+plug devices. As a consequence there is a difference between (1) giving 
+a -device option and (2) issuing a device_add at this pause point.
+
+The biggest difference is the fw_cfg option I think: it is related with 
+the rom_set_order_override()/rom_reset_order_override() (line 17 and 
+25). There is also the usb devices parts in between. I lack the 
+knowledge about fw_cfg/usb to tell if it is important or not.
+
+What I wanted to say is I don't know if the difference is acceptable. If 
+we want device_add to support all -device use cases, it is not. In that 
+case we need to stop either in the middle of this function (line 15) or 
+at the end (better with your sketch in mind).
+
+Note that rom_set_order_override()/rom_reset_order_override() only 
+set/reset a switch variable that changes how fw_cfg files are sorted. It 
+could be integrated into device_add code (and removed from the above 
+function) without changing the behavior.
+
+> 
+>> Patches 1, 3 and 5 miss a review.
+>>
+>> The series is organized as follow:
+>>
+>> + Patches 1 and 2 converts the MachinePhase enum to a qapi definition
+>>    and add the 'query-machine-phase'. It allows to introspect the
+>>    current machine phase during preconfig as we will now be able to
+>>    reach several machine phases using QMP.
+> 
+> If we fold MachinePhase into RunState, we can reuse query-status.
+> 
+> Having two state machines run one after the other feels like one too
+> many.
+> 
+>> + Patch 3 adds the 'x-machine-init' QMP command to stop QEMU at
+>>    machine-initialized phase during preconfig.
+>> + Patch 4 allows issuing device_add QMP command during the
+>>    machine-initialized phase.
+>> + Patch 5 improves the doc about preconfig in consequence.
+> 
+> I understand you want to make progress towards machine configuration
+> with QMP.  However, QEMU startup is (in my educated opinion) a hole, and
+> we should be wary of digging deeper.
+> 
+> The "timeline" you gave above illustrates this.  It's a complicated
+> shuffling of command line options and QMP commands that basically nobody
+> can keep in working memory.  We have reshuffled it / made it more
+> complicated quite a few times already to support new features.  Based on
+> your cover letter, I figure you're making it more complicated once more.
+> 
+> At some point, we need to stop digging us deeper into the hole.  This is
+> not an objection to merging your work.  It's a call to stop and think.
+
+That's why we re-posted this as RFC. Reading the preconfig thread, I had 
+the feeling what we've initially proposed 6 months ago was not going 
+into the direction discussed in the thread. We don't want to put more 
+effort in a dead-end but we are committed into fixing it so that it fits 
+into the good direction.
+
+Do you mean we should wait for "stabilize preconfig" thread to arrive to 
+some conclusion before we continue to work on this ?
+
+Thanks,
+Damien
+
+> 
+> Let me quote the sketch I posted to the "Stabilize preconfig" thread:
+> 
+> 1. Start event loop
+> 
+> 2. Feed it CLI left to right.  Each option runs a handler just like each
+>     QMP command does.
+> 
+>     Options that read a configuration file inject the file into the feed.
+> 
+>     Options that create a monitor create it suspended.
+> 
+>     Options may advance the phase / run state, and they may require
+>     certain phase(s).
+> 
+> 3. When we're done with CLI, resume any monitors we created.
+> 
+> 4. Monitors now feed commands to the event loop.  Commands may advance
+>     the phase / run state, and they may require certain phase(s).
+> 
+> Users can do as much or as little with the CLI as they want.  You'd
+> probably want to set up a QMP monitor and no more.
+> 
+> device_add becomes possible at a certain state of the phase / run state
+> machine.  It changes from cold to hot plug at a certain later state.
+> 
+>> [1]: https://lore.kernel.org/qemu-devel/b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com
+>>
+>> Thanks for your feedback.
+> 
 
