@@ -2,70 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D9645A413
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 14:45:41 +0100 (CET)
-Received: from localhost ([::1]:56444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1421045A419
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 14:51:18 +0100 (CET)
+Received: from localhost ([::1]:38686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpW7A-0001hl-8v
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 08:45:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47338)
+	id 1mpWCa-0000dY-VX
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 08:51:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mpW4y-00083T-Gq
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 08:43:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45386)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpWAk-0007Dh-EG
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 08:49:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mpW4u-0003pi-WA
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 08:43:24 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpWAg-0004f6-BU
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 08:49:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637675000;
+ s=mimecast20190719; t=1637675357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=662Eu7PXYmrPma8O6CiucOkvcPEwV+AucS/VeDAUISY=;
- b=EC+55et3ONRk9N2vc7DtQ44PYCVTtcyUzxLkrgrZgr1JI7l1IrIELHcDIA21yO9HUjat5q
- RpWDFI56J/2mCv5oqIOHSCGEdUFD/q7/ccFcDOfX3hIPdNPG+ZDFbVaG1Kxonh5B8gjBwW
- TQJ0x79AEJQybyTItB1FAP3V74CJ79g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dYakA3F55O53MQ7zpkVm5nmYNpmaTH3xLMEhkjQMThs=;
+ b=Np82Kok+RSTitxznGpSEzRPZ+Ih8pexsdHqasXA8lc3aUZqePJshEu50z9KRQzqwuCvAmt
+ fv0YE4l/wdtuYo+LruBij2Sd0c7j91IffI0idSDBGoZ4nloxSsIpVj5OMaIyQmmXjKG9Gc
+ njECcKx8SPKMgIr4diw13VWddmdMqac=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-392-VMiU5dXXMOaBYHCj25SXJQ-1; Tue, 23 Nov 2021 08:43:16 -0500
-X-MC-Unique: VMiU5dXXMOaBYHCj25SXJQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBF911926DA0
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 13:43:15 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A47E62A41;
- Tue, 23 Nov 2021 13:43:14 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] spice: Update QXLInterface for spice >= 0.15.0
-Date: Tue, 23 Nov 2021 13:43:02 +0000
-Message-Id: <20211123134302.45741-3-berrange@redhat.com>
-In-Reply-To: <20211123134302.45741-1-berrange@redhat.com>
-References: <20211123134302.45741-1-berrange@redhat.com>
+ us-mta-373-rs-NgkSyOqS5w0J9h_u7Qg-1; Tue, 23 Nov 2021 08:49:15 -0500
+X-MC-Unique: rs-NgkSyOqS5w0J9h_u7Qg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k25-20020a05600c1c9900b00332f798ba1dso1257241wms.4
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 05:49:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=dYakA3F55O53MQ7zpkVm5nmYNpmaTH3xLMEhkjQMThs=;
+ b=HBBnX9uqPmxw8Zwrt7OA/aUWJqJYZUtOVMnnpBXvCPCTh5tI5Yfz+keYvkFQVuBBNq
+ orItHaPxIAbYGA9EwGNrCw6re4uLcZsQB7dIPUYB8a9e1qpaE9Dom2nItKKilZ4xfJfK
+ L7FNxoconqlkau+g5goEl/RgjKOw+DjtdYIs/yx6Coc5p/6OS6Nvdi3KD03u1/31SQCH
+ 3Q5uiIhlrI/sg0BiddAFZCRuuT2HpCc8eRmfIGLgJskN5fC8jCJnJFt3TN1kZLYOvlSn
+ +D3VIVB1Rd5RZ40b8CTTFSrOmYmZIQ0sAn95DN6SAcIBqSRuDSkTwvLdrFVcx5+BWOC/
+ OzSg==
+X-Gm-Message-State: AOAM5324IvWxw346lntzpbAEyRnPkTgOSsnOB1K+nNIr6MkUx3xchYaB
+ TARmUuXCQtR/BTjBLZXqcYzJ3WoXF1dfDAYvJjFuf03ivQcYoGMCmDkNM9enEdaaAVajleXjmpZ
+ ublLAGG4N7qO6XzU=
+X-Received: by 2002:a05:6000:2c7:: with SMTP id
+ o7mr7600923wry.62.1637675354640; 
+ Tue, 23 Nov 2021 05:49:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJysrkX9h+Ky0F5WLDORzHisAuxyyYI6iEYQ4rTFiZ3Zo+xKIXTc+4W2816+6Hmb4ZWjIEErVQ==
+X-Received: by 2002:a05:6000:2c7:: with SMTP id
+ o7mr7600871wry.62.1637675354339; 
+ Tue, 23 Nov 2021 05:49:14 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id h27sm1467517wmc.43.2021.11.23.05.49.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Nov 2021 05:49:13 -0800 (PST)
+Message-ID: <e4e69416-35f4-c9d7-1628-a9e45c64b4c6@redhat.com>
+Date: Tue, 23 Nov 2021 14:49:12 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH-for-6.2 v3 2/2] tests/qtest/fdc-test: Add a regression
+ test for CVE-2021-20196
+To: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20211118120635.4043197-1-philmd@redhat.com>
+ <20211118120635.4043197-3-philmd@redhat.com>
+ <1cca5391-18e9-8e29-9c8b-0d44010cdecd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <1cca5391-18e9-8e29-9c8b-0d44010cdecd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-3.515, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,117 +104,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
+ qemu-block@nongnu.org, Darren Kenny <darren.kenny@oracle.com>,
+ Markus Armbruster <armbru@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gaoning Pan <pgn@zju.edu.cn>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+On 11/23/21 14:42, Hanna Reitz wrote:
+> On 18.11.21 13:06, Philippe Mathieu-Daudé wrote:
+>> From: Alexander Bulekov <alxndr@bu.edu>
+>>
+>> Without the previous commit, when running 'make check-qtest-i386'
+>> with QEMU configured with '--enable-sanitizers' we get:
+>>
+>>    AddressSanitizer:DEADLYSIGNAL
+>>    =================================================================
+>>    ==287878==ERROR: AddressSanitizer: SEGV on unknown address
+>> 0x000000000344
+>>    ==287878==The signal is caused by a WRITE memory access.
+>>    ==287878==Hint: address points to the zero page.
+>>        #0 0x564b2e5bac27 in blk_inc_in_flight
+>> block/block-backend.c:1346:5
+>>        #1 0x564b2e5bb228 in blk_pwritev_part block/block-backend.c:1317:5
+>>        #2 0x564b2e5bcd57 in blk_pwrite block/block-backend.c:1498:11
+>>        #3 0x564b2ca1cdd3 in fdctrl_write_data hw/block/fdc.c:2221:17
+>>        #4 0x564b2ca1b2f7 in fdctrl_write hw/block/fdc.c:829:9
+>>        #5 0x564b2dc49503 in portio_write softmmu/ioport.c:201:9
+>>
+>> Add the reproducer for CVE-2021-20196.
+>>
+>> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+>> Message-Id: <20210319050906.14875-2-alxndr@bu.edu>
+>> [PMD: Rebased, use global test_image]
+>> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>   tests/qtest/fdc-test.c | 21 +++++++++++++++++++++
+>>   1 file changed, 21 insertions(+)
+> 
+> Not sure if I’m doing something wrong, but:
+> 
+> Using the global test_image brings a problem, namely that this test
+> fails unconditionally (for me at least...?), with the reason being that
+> the global QEMU instance (launched by qtest_start(), quit by
+> qtest_end()) still has that image open, so by launching a second
+> instance concurrently, I get this:
+> 
+> qemu-system-x86_64: Failed to get "write" lock
+> Is another process using the image [/tmp/qtest.xV4IxX]?
 
-spice updated the spelling (and arguments) of "attache_worker" in
-0.15.0. Update QEMU to match, preventing -Wdeprecated-declarations
-compilations from reporting build errors.
+Hmm I had too many odd problems running qtests in parallel so I
+switched to 'make check-qtest -j1' more than 1 year ago, which
+is probably why I haven't noticed that issue.
 
-See also:
-https://gitlab.freedesktop.org/spice/spice/-/commit/974692bda1e77af92b71ed43b022439448492cb9
+Using another 'test_image' seems against code reuse principle,
+but at this point in release, duplicating it is simpler. Someone
+will clean that later =)
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- hw/display/qxl.c        | 14 +++++++++++++-
- include/ui/qemu-spice.h |  6 ++++++
- ui/spice-display.c      | 11 +++++++++++
- 3 files changed, 30 insertions(+), 1 deletion(-)
+> So either we need to use a different image file, or we need to quit the
+> global instance before using it (e.g. putting a qtest_end() at the
+> beginning of test_cve_*()), although the latter just seems wrong.
+> 
+> Second, I can’t make this test fail.  When I apply this patch first (to
+> master) and run it, I don’t get a SIGSEGV.
 
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 29c80b4289..1da6703e44 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -517,13 +517,20 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct QXLCommandExt *ext)
- 
- /* spice display interface callbacks */
- 
--static void interface_attach_worker(QXLInstance *sin, QXLWorker *qxl_worker)
-+static void interface_attached_worker(QXLInstance *sin)
- {
-     PCIQXLDevice *qxl = container_of(sin, PCIQXLDevice, ssd.qxl);
- 
-     trace_qxl_interface_attach_worker(qxl->id);
- }
- 
-+#if !(SPICE_HAS_ATTACHED_WORKER)
-+static void interface_attach_worker(QXLInstance *sin, QXLWorker *qxl_worker)
-+{
-+    interface_attached_worker(sin);
-+}
-+#endif
-+
- static void interface_set_compression_level(QXLInstance *sin, int level)
- {
-     PCIQXLDevice *qxl = container_of(sin, PCIQXLDevice, ssd.qxl);
-@@ -1131,7 +1138,12 @@ static const QXLInterface qxl_interface = {
-     .base.major_version      = SPICE_INTERFACE_QXL_MAJOR,
-     .base.minor_version      = SPICE_INTERFACE_QXL_MINOR,
- 
-+#if SPICE_HAS_ATTACHED_WORKER
-+    .attached_worker         = interface_attached_worker,
-+#else
-     .attache_worker          = interface_attach_worker,
-+#endif
-+
-     .set_compression_level   = interface_set_compression_level,
- #if SPICE_NEEDS_SET_MM_TIME
-     .set_mm_time             = interface_set_mm_time,
-diff --git a/include/ui/qemu-spice.h b/include/ui/qemu-spice.h
-index 71ecd6cfd1..21fe195e18 100644
---- a/include/ui/qemu-spice.h
-+++ b/include/ui/qemu-spice.h
-@@ -40,6 +40,12 @@ int qemu_spice_migrate_info(const char *hostname, int port, int tls_port,
- #define SPICE_NEEDS_SET_MM_TIME 0
- #endif
- 
-+#if defined(SPICE_SERVER_VERSION) && (SPICE_SERVER_VERSION >= 0x000f00)
-+#define SPICE_HAS_ATTACHED_WORKER 1
-+#else
-+#define SPICE_HAS_ATTACHED_WORKER 0
-+#endif
-+
- #else  /* CONFIG_SPICE */
- 
- #include "qemu/error-report.h"
-diff --git a/ui/spice-display.c b/ui/spice-display.c
-index f59c69882d..1a60cebb7d 100644
---- a/ui/spice-display.c
-+++ b/ui/spice-display.c
-@@ -500,10 +500,17 @@ void qemu_spice_display_refresh(SimpleSpiceDisplay *ssd)
- 
- /* spice display interface callbacks */
- 
-+#if SPICE_HAS_ATTACHED_WORKER
-+static void interface_attached_worker(QXLInstance *sin)
-+{
-+    /* nothing to do */
-+}
-+#else
- static void interface_attach_worker(QXLInstance *sin, QXLWorker *qxl_worker)
- {
-     /* nothing to do */
- }
-+#endif
- 
- static void interface_set_compression_level(QXLInstance *sin, int level)
- {
-@@ -702,7 +709,11 @@ static const QXLInterface dpy_interface = {
-     .base.major_version      = SPICE_INTERFACE_QXL_MAJOR,
-     .base.minor_version      = SPICE_INTERFACE_QXL_MINOR,
- 
-+#if SPICE_HAS_ATTACHED_WORKER
-+    .attached_worker         = interface_attached_worker,
-+#else
-     .attache_worker          = interface_attach_worker,
-+#endif
-     .set_compression_level   = interface_set_compression_level,
- #if SPICE_NEEDS_SET_MM_TIME
-     .set_mm_time             = interface_set_mm_time,
--- 
-2.33.1
+Is your QEMU built with --enable-sanitizers ?
 
 
