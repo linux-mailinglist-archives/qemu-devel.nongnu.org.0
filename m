@@ -2,116 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92FB45A0AB
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 11:53:58 +0100 (CET)
-Received: from localhost ([::1]:39432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E5D45A0C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 12:00:36 +0100 (CET)
+Received: from localhost ([::1]:48538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpTR0-00057M-2n
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 05:53:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34644)
+	id 1mpTXP-0002zh-QE
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 06:00:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1mpTLJ-0006xP-AG
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 05:48:05 -0500
-Received: from mail-bn8nam11on2059.outbound.protection.outlook.com
- ([40.107.236.59]:39777 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mpTVt-0002EF-Re; Tue, 23 Nov 2021 05:59:02 -0500
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:43190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1mpTLH-0002YK-BP
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 05:48:04 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WAsMPPdvgKj58W5UUU7/PX/y2SM6WNcE8HX0FR4sp5qYOz3O52xJ+Sf1b5Ca9fuxbNsOzqoweav0Xs829ZQeHYLtQNzb4wEyEw4Xd+n5L7aAn8fBa10AUbIODB6Wg0LLZWPlz52uQaYI8n/YrXt6vvIj3zfxqJpShBboTffRT6S80e4osYm60pFEMFbPwL7hXtmmBcDpXS5/n9O0wv5axXqy09io0gvnT4xoC0Cb9jDpPFXUU8c5BopCjhTQEoyAYuixrSn67KwOCkPrW0/LMjtEMfvUnjdjkHQRnI3kKLPajlL4xmnDOe/Hl4OXTErXuB/9OD2ucAy6wnZxb4x76w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R4v4AMMpxEetDVMKGq2VLy2fw5aJUhLV/z6q22BIiJs=;
- b=kCxQqPEqBugIrg4uqfPVS1+gbaD57F2Ei0QWOsq8zMfWCNzO1jVwdQBr/Fhm3dFnI2cZ+l7fGS4xH94pwy1oZgbKrmkogvSqHruh9TcFdKYxSE0IV0wI9uq5jhATSwmrAb1G2t3Eqx5KemYPlxnRMbTI8ZsYsXr8UCa76lNVygTHt2iThbVZHSYeCUsg7v1wmW/7iL0da9glZqLJTWIpZQcDkySWxbS+5dE7hrezpjUKcT29wkB9c2er0yfGABri428Es+2qwBp8ZSW4aPaUm/ncla0YrZwsTWoFvrECurN0FhmAUGBzJDSyNhiEXBRMYjPjHIO3FVSwaTj1+0KTQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R4v4AMMpxEetDVMKGq2VLy2fw5aJUhLV/z6q22BIiJs=;
- b=FZ0XXpiiNNLlEH1xQxKWWfR2BB2/+/7Hy/U27GgoviwIZ9ay6QSDgXzohPF61Qh4gsQ/dJkR9kEOTMhiIRSGulL+6U8aforwDOGzqG6icHAl2ybVX53iixLGpYo6nyNG/29lBJ4s6vmG+zn1m6+PQn+GyVaTCf1MxAz3t5FeQxg=
-Received: from SN6PR16CA0057.namprd16.prod.outlook.com (2603:10b6:805:ca::34)
- by BY5PR02MB6034.namprd02.prod.outlook.com (2603:10b6:a03:1b5::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.20; Tue, 23 Nov
- 2021 10:48:00 +0000
-Received: from SN1NAM02FT0025.eop-nam02.prod.protection.outlook.com
- (2603:10b6:805:ca:cafe::b4) by SN6PR16CA0057.outlook.office365.com
- (2603:10b6:805:ca::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.21 via Frontend
- Transport; Tue, 23 Nov 2021 10:48:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- SN1NAM02FT0025.mail.protection.outlook.com (10.97.5.19) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4713.19 via Frontend Transport; Tue, 23 Nov 2021 10:47:59 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Tue, 23 Nov 2021 02:47:58 -0800
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Tue, 23 Nov 2021 02:47:58 -0800
-Received: from [10.71.117.214] (port=57283 helo=localhost)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <edgar@xilinx.com>)
- id 1mpTLC-0002ib-6B; Tue, 23 Nov 2021 02:47:58 -0800
-Date: Tue, 23 Nov 2021 11:47:57 +0100
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-To: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Subject: Re: [PATCH v2 03/10] include/hw/dma/xlnx_csu_dma: Include ptimer.h
- and stream.h in the header
-Message-ID: <20211123104757.GF5816@toto>
-References: <20211123103428.8765-1-francisco.iglesias@xilinx.com>
- <20211123103428.8765-4-francisco.iglesias@xilinx.com>
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mpTVr-0003iC-Gt; Tue, 23 Nov 2021 05:59:01 -0500
+Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 15A6040252;
+ Tue, 23 Nov 2021 11:58:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=univ-grenoble-alpes.fr; s=2020; t=1637665130;
+ bh=tYMic9OaQkDWXz/NzU9niDqABfXLgafPMCazwh8TLyY=;
+ h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+ b=Bcelb7E8GWzJEdgHWFkcTfWKCtMYtTu7OjI4OXlZM3w+qZpHnO1Nd7G9uPpGjFoq0
+ bViCzO8CZ+OoXlbNJXEkxreix34grKuOimAJfb7vU35m0RAeBdj/u3uJGAy0NRj9o4
+ 2MTtSn3f/Z7HZ6ECQXQSvws/cN/Iw+boTwdIh6BvJmlEVh/4HxyWQCu54UneFwi0/E
+ YrNFUP2/MfuKKw+bshPt02nJ6KDYC2OdYRRbzKNV7F/P6HnoOp2A5g8PFLbBllYOXV
+ v2+zpg+EcfQ/1K2W3hPTjCkiMWNtxzNSKjJAnrqVdBP0k9NliuYpr1e9CT6clIQE7P
+ 6PBvQKT+Zs5lA==
+Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
+ by mailhost.u-ga.fr (Postfix) with ESMTP id F2FA260070;
+ Tue, 23 Nov 2021 11:58:49 +0100 (CET)
+Received: from [147.171.46.30] (eduroam5-030.minatec.grenoble-inp.fr
+ [147.171.46.30])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 19EC414005C;
+ Tue, 23 Nov 2021 11:58:49 +0100 (CET)
+Message-ID: <8be6502a-6118-9383-683b-fdbc443a5feb@univ-grenoble-alpes.fr>
+Date: Tue, 23 Nov 2021 11:58:48 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20211123103428.8765-4-francisco.iglesias@xilinx.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9cb9a422-6f66-486f-4ed8-08d9ae6eb742
-X-MS-TrafficTypeDiagnostic: BY5PR02MB6034:
-X-Microsoft-Antispam-PRVS: <BY5PR02MB6034BD890E3CCAB0B705D5CAC2609@BY5PR02MB6034.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: x/pmxYgt+vDlSVaxyfGLPPKIsAxVxFOKvsjQzdauu0BkPAW5KRgTWhQTxPZvZlpl9JJw8eWUZ2QwQrpCSQvIQWHFH1cmtaRSxEZ7gNIC47xydalxVLDmiHv//P48lrmXjYl0jBL2rtfJdT9e9OkWVApB1W2k7Pp9W5ieHCoQrsutkilN5gzIf5EmaZhVww9ZQiqECAvB40COWN8uLwNyL+lA1pIFDVaq1D0LoleIwTUl48YcasWzXJnP0dKxuhTdrJCTxZNl9UFBX3BDvt6yzlJnMpcAUtxoLmAxZ6r1wUXfyh4ImnGMQdnPtT9JL2nOkhqw8qC8/iM7CKHDVyP4IrfsJnfnpOm8lixm2hU9yrpbRRLoV5JjhQMJcXWCSz7lSG54RAEvzCmZCvmIKq1ykpyFIHA1hUylxqOw11enQAeLm1VftAZ0aNcDRwrmWOmBsCOySkPD2ABILG+F4rZm7HlIl+Zmu6rX56BusC0c/Hr8v2N6Yi6g3HZAsmJPbVLVvPyark5njkGQGbPf4zNJDiAEdPhnJi9+YY1VbLU3n02fAw8XDjrwrT7Cv+hOHUBBO0VDQX/jrvMt+OKWGsBiX2zSNvFS+zFLjf8ittUlBluP+h2uM1nCPoT0z8qlDw4zKj/UAQKxsfmNLBJa7zhrf8zcTAAUteYY69j0/sZ7n7s15/09JPVC0ge28I5SHfykPWdbA5bVLDnghMfhhQ91Vg==
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(7916004)(46966006)(36840700001)(33716001)(8936002)(36860700001)(70586007)(70206006)(1076003)(9686003)(186003)(33656002)(2906002)(6862004)(4744005)(36906005)(47076005)(26005)(9786002)(4326008)(5660300002)(356005)(426003)(8676002)(6636002)(336012)(7636003)(54906003)(316002)(508600001)(82310400004);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2021 10:47:59.3047 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9cb9a422-6f66-486f-4ed8-08d9ae6eb742
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0025.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6034
-Received-SPF: pass client-ip=40.107.236.59; envelope-from=edgar@xilinx.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Content-Language: en-US
+To: Alistair Francis <alistair23@gmail.com>
+References: <20211112145902.205131-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20211112145902.205131-7-frederic.petrot@univ-grenoble-alpes.fr>
+ <CAKmqyKOFqe+0n--MkUyw1V_ncsktX_qSHQU6p6r+OqWf-t6g=w@mail.gmail.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Subject: Re: [PATCH v5 06/18] target/riscv: array for the 64 upper bits of
+ 128-bit registers
+In-Reply-To: <CAKmqyKOFqe+0n--MkUyw1V_ncsktX_qSHQU6p6r+OqWf-t6g=w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (42)
+X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.515,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -124,40 +85,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, frasse.iglesias@gmail.com, alistair@alistair23.me,
- qemu-devel@nongnu.org, alistair23@gmail.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Fabien Portas <fabien.portas@grenoble-inp.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 23, 2021 at 10:34:21AM +0000, Francisco Iglesias wrote:
-> Include ptimer.h and stream.h in the header for being able to build and
-> reuse the DMA model (the first usage of StreamSink, StreamCanPushNotifyFn
-> and ptimer_state is in the header).
-
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-
-
+On 23/11/2021 07:09, Alistair Francis wrote:
+> On Sat, Nov 13, 2021 at 1:07 AM Frédéric Pétrot
+> <frederic.petrot@univ-grenoble-alpes.fr> wrote:
+>> +static bool rv128_needed(void *opaque)
+>> +{
+>> +    RISCVCPU *cpu = opaque;
+>> +    CPURISCVState *env = &cpu->env;
+>> +
+>> +    return env->misa_mxl_max == MXL_RV128;
+>> +}
 > 
-> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-> ---
->  include/hw/dma/xlnx_csu_dma.h | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/include/hw/dma/xlnx_csu_dma.h b/include/hw/dma/xlnx_csu_dma.h
-> index 9e9dc551e9..8c39e46f58 100644
-> --- a/include/hw/dma/xlnx_csu_dma.h
-> +++ b/include/hw/dma/xlnx_csu_dma.h
-> @@ -21,6 +21,9 @@
->  #ifndef XLNX_CSU_DMA_H
->  #define XLNX_CSU_DMA_H
->  
-> +#include "hw/ptimer.h"
-> +#include "hw/stream.h"
-> +
->  #define TYPE_XLNX_CSU_DMA "xlnx.csu_dma"
->  
->  #define XLNX_CSU_DMA_R_MAX (0x2c / 4)
-> -- 
-> 2.11.0
-> 
+> I think it would just be better to use riscv_cpu_mxl() directly
+> instead of adding a new function here.
+
+   Ok, thanks.
+   I was doing that because as Zhiwei is progressing on the dynamic handling
+   of xlen, in the end the "current" mxl could be different from mxl_max, and
+   some state to be saved might live in the registers upper 64-bit.
+   But you are quite right that we are not there yet, so I'll do that.
+
+   Frédéric
+-- 
++---------------------------------------------------------------------------+
+| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
+| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
+| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
++---------------------------------------------------------------------------+
 
