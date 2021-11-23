@@ -2,92 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE4F459F68
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 10:42:25 +0100 (CET)
-Received: from localhost ([::1]:53280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49061459F78
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 10:47:11 +0100 (CET)
+Received: from localhost ([::1]:56698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpSJj-0005AH-NY
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 04:42:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48800)
+	id 1mpSOM-0007d5-53
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 04:47:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpSHk-0003eS-0g
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 04:40:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53859)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mpSN5-0006yA-JM
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 04:45:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpSHf-0001ht-0N
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 04:40:18 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mpSN1-0002Wc-Mn
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 04:45:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637660412;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1637660746;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lvysc9rERv4Q+2iCfPkCElB2HMXXdaJrr/miG1x6jgs=;
- b=S/FjVA3NYllpHK7cLRzx67dKxl8Z0Eys0TPunxYb2URgToFAJp0REmgTWyLIIHolBId7R3
- TOWvx/TJA4nXD8Fn/HdzzSHd09YWXWdtUMjp/J3AOrhaP4kz5WJweDGOrgB7RfNl1Kgqeh
- BpMMN29yiIAO512mmWam+aiwAMvVCZo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ItZp09yEEUgHuG63hVHMZ52G30yJlbwzqhUKDeuWSwE=;
+ b=eicUrwrIsLpE65/NWDvSP8dF8OTAseI7iQX+AKxqKoRfFQEUz0f2WGbtAwxWh8uVeX6cR1
+ ZdSIRpEiUsDrfiKau8TAc51yQ/CkcOKZlgCPgybTimcYFiBleiZ4Gf6eRbre9GU5QmRXrZ
+ aPUYQRgqEMVA0lopCdy+0Qb0HUK50q4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-348-KTQjnoq2MJG87Fb8D2PLQw-1; Tue, 23 Nov 2021 04:40:11 -0500
-X-MC-Unique: KTQjnoq2MJG87Fb8D2PLQw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m14-20020a05600c3b0e00b0033308dcc933so1231948wms.7
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 01:40:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=lvysc9rERv4Q+2iCfPkCElB2HMXXdaJrr/miG1x6jgs=;
- b=jJa614K0IYPQXq4241uZFOI6OREKABgfsXZRYPBPAEeAfa8p+qxdPXgbul9N7rZ37h
- CzZ74Z+01p1VToReT0fNlA1EjhHOy1ISliWI/oWkLmxMRqdZ7opVwPa2xqb90SKo1p+D
- RvqJKg+/MjmT7WjQxVHMGm9yx+cs8cjRvSgmWKT1NiYavb7zBnphujYyeoTwYqZtWF7C
- gYPMnZUssTKKnGXCLP4dx9sf+L4+rJElacRbugwRA2Fmip0VrR/6D9G9hkzJmebTe3kg
- AOYibWc+Co7MQnO3HV8IUAR0teREdGIU5dNTUPvBJlfXi8Nh4hSUsaM5xV9Svmg/Co6u
- 2m1A==
-X-Gm-Message-State: AOAM532X+v4XVKURwzYIh/6CN+lrZnH7VEN0winGG0D3HEAHZ/2tzgRo
- JS3HgPWeIGDxMOBaFQlUL6OL4q2Ycxqp8HMxFt7zzav9DOgSIMxUSmfVN0ZOb/uGUfneB6zlgKg
- pYmVZWLRMaYW7iEQ=
-X-Received: by 2002:a5d:6d07:: with SMTP id e7mr5235878wrq.311.1637660410307; 
- Tue, 23 Nov 2021 01:40:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxVKv62om05Nak5085UtPyVQyb1vWnYIBmItlOO0ryhZMtnEzgsBR/Lh+2+rQVti5Mvk3CeZA==
-X-Received: by 2002:a5d:6d07:: with SMTP id e7mr5235839wrq.311.1637660410020; 
- Tue, 23 Nov 2021 01:40:10 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id u23sm12295543wru.21.2021.11.23.01.40.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Nov 2021 01:40:09 -0800 (PST)
-Message-ID: <8f582c75-5ae5-0690-f83f-848ac1592b5b@redhat.com>
-Date: Tue, 23 Nov 2021 10:40:08 +0100
+ us-mta-34-YLkEJcZHOg2Jx3NWDlovCA-1; Tue, 23 Nov 2021 04:45:42 -0500
+X-MC-Unique: YLkEJcZHOg2Jx3NWDlovCA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DD07873073
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 09:45:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B74AA10023AB;
+ Tue, 23 Nov 2021 09:45:18 +0000 (UTC)
+Date: Tue, 23 Nov 2021 09:45:15 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Leonardo Bras Soares Passos <leobras@redhat.com>
+Subject: Re: [PATCH v5 1/6] QIOChannel: Add io_writev_zerocopy &
+ io_flush_zerocopy callbacks
+Message-ID: <YZy4Kz/H/9sZpjCi@redhat.com>
+References: <20211112051040.923746-1-leobras@redhat.com>
+ <20211112051040.923746-2-leobras@redhat.com>
+ <YY4+LWnRTV7iaErs@redhat.com>
+ <CAJ6HWG4Z7Y=qvp4SZE1+hsk-imouHrsBr9M8Seo1_zPvMtOWjg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v4] s390: kvm: adjust diag318 resets to retain data
-To: Christian Borntraeger <borntraeger@de.ibm.com>,
- Collin Walling <walling@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org
-References: <20211117152303.627969-1-walling@linux.ibm.com>
- <f3effe3a-b164-0ce1-aea4-55cde62c2295@de.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <f3effe3a-b164-0ce1-aea4-55cde62c2295@de.ibm.com>
+In-Reply-To: <CAJ6HWG4Z7Y=qvp4SZE1+hsk-imouHrsBr9M8Seo1_zPvMtOWjg@mail.gmail.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -69
-X-Spam_score: -7.0
-X-Spam_bar: -------
-X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.515, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,34 +86,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, frankja@linux.ibm.com, david@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/11/2021 10.28, Christian Borntraeger wrote:
-> Am 17.11.21 um 16:23 schrieb Collin Walling:
->> The CPNC portion of the diag318 data is erroneously reset during an
->> initial CPU reset caused by SIGP. Let's go ahead and relocate the
->> diag318_info field within the CPUS390XState struct such that it is
->> only zeroed during a clear reset. This way, the CPNC will be retained
->> for each VCPU in the configuration after the diag318 instruction
->> has been invoked.
->>
->> The s390_machine_reset code already takes care of zeroing the diag318
->> data on VM resets, which also cover resets caused by diag308.
->>
->> Signed-off-by: Collin Walling <walling@linux.ibm.com>
->> Fixes: fabdada9357b ("s390: guest support for diagnose 0x318")
->> Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
->> Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
->> Reviewed-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+On Mon, Nov 22, 2021 at 08:18:09PM -0300, Leonardo Bras Soares Passos wrote:
+> Hello Daniel,
+> Thanks for the feedback!
 > 
-> Thomas, I think this is good to go. Will you take it via your tree?
+> On Fri, Nov 12, 2021 at 7:13 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Fri, Nov 12, 2021 at 02:10:36AM -0300, Leonardo Bras wrote:
+> > > -int qio_channel_writev_all(QIOChannel *ioc,
+> > > -                           const struct iovec *iov,
+> > > -                           size_t niov,
+> > > -                           Error **erp);
+> > > +int qio_channel_writev_all_flags(QIOChannel *ioc,
+> > > +                                 const struct iovec *iov,
+> > > +                                 size_t niov,
+> > > +                                 int flags,
+> > > +                                 Error **errp);
+> > > +#define qio_channel_writev_all(ioc, iov, niov, errp) \
+> > > +    qio_channel_writev_all_flags(ioc, iov, niov, 0, errp)
+> >
+> > We already have separate methods for zerocopy, instead of adding
+> > flags, so we shouldn't add flags to this either.
+> >
+> > Add a qio_channel_writev_zerocopy_all method instead.
+> >
+> > Internally, we can still make both qio_channel_writev_zerocopy_all
+> > and qio_channel_writev_all use the same helper method, just don't
+> > expose flags in the public API. Even internally we don't really
+> > need flags, just a bool
+> 
+> I see.
+> The idea of having a flag was to make it easier to expand the
+> interface in the future.
+> I got some feedback on v1 that would suggest it would be desired:
+> http://patchwork.ozlabs.org/project/qemu-devel/patch/20210831110238.299458-2-leobras@redhat.com/
+> 
+> 
+> >
+> [...]
+> > > +#define qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, errp) \
+> > > +    qio_channel_writev_full_all_flags(ioc, iov, niov, fds, nfds, 0, errp)
+> >
+> > There's no need for this at all. Since fd passing is not supported
+> > with zerocopy, there's no reason to ever use this method.
+> >
+> > > +/**
+> > > + * qio_channel_writev_zerocopy:
+> > > + * @ioc: the channel object
+> > > + * @iov: the array of memory regions to write data from
+> > > + * @niov: the length of the @iov array
+> > > + * @errp: pointer to a NULL-initialized error object
+> > > + *
+> > > + * Behaves like qio_channel_writev_full_all_flags, but may write
+> >
+> > qio_channel_writev
+> >
+> > > + * data asynchronously while avoiding unnecessary data copy.
+> > > + * This function may return before any data is actually written,
+> > > + * but should queue every buffer for writing.
+> >
+> > Callers mustn't rely on "should" docs - they must rely on the
+> > return value indicating how many bytes were accepted.
+> >
+> > Also mention that this requires locked memory and can/will fail if
+> > insufficient locked memory is available.
+> >
+> 
+> Sure, I will update that.
+> 
+> > > +/**
+> > > + * qio_channel_flush_zerocopy:
+> > > + * @ioc: the channel object
+> > > + * @errp: pointer to a NULL-initialized error object
+> > > + *
+> > > + * Will block until every packet queued with
+> > > + * qio_channel_writev_zerocopy() is sent, or return
+> > > + * in case of any error.
+> > > + *
+> > > + * Returns -1 if any error is found, 0 otherwise.
+> >
+> >   Returns -1 if any error is found, 0 if all data was sent,
+> >            or 1 if all data was sent but at least some was copied.
+> >
+> 
+> I don't really get the return 1 part, I mean, per description it will
+> 'block until every queued packet was sent, so "at least some was
+> copied" doesn't seem to fit here.
+> Could you elaborate?
 
-Yes, queued to s390x-next now:
+Passing the ZEROCOPY flag to the kernel does not guarantee
+that the copy is avoided, it is merely a hint to the kernel
 
-https://gitlab.com/thuth/qemu/-/commits/s390x-next/
+When getting the notification, the ee_code  field in the
+notification struct will have the flag
+SO_EE_CODE_ZEROCOPY_COPIED  set if the kernel could not
+avoid the copy.
 
-  Thomas
+In this case, it is better for the application to stop
+using the ZEROCOPY flag and just do normal writes, so
+it avoids the overhead of the the notifications.
+
+This is described in "Deferred copies" section of the
+Documentation/networking/msg_zerocopy.rst in linux.git
+
+So I'm suggesting that the return value of this method
+be '0' if SO_EE_CODE_ZEROCOPY_COPIED was *NOT* set in
+/all/ notifications, or '1' if SO_EE_CODE_ZEROCOPY_COPIED
+was set in at least one notification.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
