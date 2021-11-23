@@ -2,72 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6367645A682
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 16:27:15 +0100 (CET)
-Received: from localhost ([::1]:41660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67C4945A68D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 16:32:13 +0100 (CET)
+Received: from localhost ([::1]:52032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpXhR-00064L-W1
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 10:27:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44728)
+	id 1mpXmG-0005Fy-ID
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 10:32:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mpXfB-0005BE-BN
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 10:24:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46239)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpXk4-0003pn-FR
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 10:29:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mpXf8-0001wA-Qk
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 10:24:52 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpXk1-0003p7-Tj
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 10:29:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637681086;
+ s=mimecast20190719; t=1637681393;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vs6LaVjjrAAgpBKWWiYCRctDMNAuCZrYcc1R/34HoSw=;
- b=fUWuzSrwQAc0WnXuXvn5mvHCiw9nVLa/CGwLod5dexXaajYwwqzzU81u0SJtErjuaUE/Lu
- phheGQrkN+CDP0Xn9Yn/Cwv1ykpnZQKN1hK88WGQrumOZRAnBVdhMgM245kITQ98aKb2fD
- 8HNX/kV51xG90uPq27N+a/fJKCwr5ZM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=RPZAJjWpPx0VfwwSceeurwyAvB+o2w4zNgo9zeoAhCM=;
+ b=InK40C8E7frWMk3PAM6tS8VvPppDQQfGpr+0Z7n6Epg7kJxk51C740saLhldu7mNzVp/30
+ uyaowGF5B9CwRgCblC6sWz3ocqwFhkU/RT+AVWeNXk5NJghUCF3Qi/WQC+AtnWVAscC7Yl
+ 2iF9uL2xErMu3OCcp55NJGP6z/8bZXY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-BFDH5w7SPjuNbezNXLy00g-1; Tue, 23 Nov 2021 10:24:22 -0500
-X-MC-Unique: BFDH5w7SPjuNbezNXLy00g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28B7ABBF02
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 15:24:20 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F4C95D6CF;
- Tue, 23 Nov 2021 15:24:01 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A52A611380A7; Tue, 23 Nov 2021 16:23:59 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [RFC PATCH 02/12] qom: Create object_configure()
-References: <20211103173002.209906-1-kwolf@redhat.com>
- <20211103173002.209906-3-kwolf@redhat.com>
-Date: Tue, 23 Nov 2021 16:23:59 +0100
-In-Reply-To: <20211103173002.209906-3-kwolf@redhat.com> (Kevin Wolf's message
- of "Wed, 3 Nov 2021 18:29:52 +0100")
-Message-ID: <8735nm6gkw.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-537-47Y6puaxM0yc-WwS3cAlhQ-1; Tue, 23 Nov 2021 10:29:50 -0500
+X-MC-Unique: 47Y6puaxM0yc-WwS3cAlhQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 69-20020a1c0148000000b0033214e5b021so8623282wmb.3
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 07:29:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=RPZAJjWpPx0VfwwSceeurwyAvB+o2w4zNgo9zeoAhCM=;
+ b=dOGKeNVVFQ4oT/epWUhQCpbI1hU7Y1vTr+siZhIcUUx0hMuwVg3EuKzyph/Ln0f4g3
+ 883/45BNfAPihfsAipEszUsGusNGl+kYmUuUwx0dJsL4gFgR1Yfa2zVzVOrrXNjk1HRh
+ ZQZe8De5L5MGlPte4GoC5NtRnvUMr/g0lgSb3PknrTVIfFKCz52ZZhZvsdCYhmk06RJd
+ q+u1oD75jjZDYOT2dXqK2LAvm/sPbJ+hlAyiGhjOIuFA5b+40S/Z4m0djuw7t0gzIUKu
+ TEmbUhs3aIbpVP5sA/vR/swArEeBILbEr8Y0ivehC3TC3fiDtrYdS3Ej0/x14n1opiDE
+ +uDA==
+X-Gm-Message-State: AOAM531rWIC5EvxZGU2epnAUKZzhOXuGnvzIR6r4tTz3Xu2qqQvd7EeV
+ ky9Ct/JfKjZxe43qpBCT+FIsHpsBc6X7eTk4okV1Z+f/JM1xrske0sHW2TXLH+48tFuD+s0SmJE
+ YnP048dr/R1unxcM=
+X-Received: by 2002:a5d:4b8a:: with SMTP id b10mr8098560wrt.413.1637681389403; 
+ Tue, 23 Nov 2021 07:29:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzYMA22HwBPd7EiZLbtRRgk+gUFPArSZ3Xyf69NOxxi8RpRsIFewfMUqL7BKO+ITRr6NV0WPw==
+X-Received: by 2002:a5d:4b8a:: with SMTP id b10mr8098528wrt.413.1637681389149; 
+ Tue, 23 Nov 2021 07:29:49 -0800 (PST)
+Received: from [192.168.8.100] (tmo-097-143.customers.d1-online.com.
+ [80.187.97.143])
+ by smtp.gmail.com with ESMTPSA id g13sm17023219wrd.57.2021.11.23.07.29.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Nov 2021 07:29:48 -0800 (PST)
+Message-ID: <99260ad0-2b56-b235-dc7c-1f1b7b66df8e@redhat.com>
+Date: Tue, 23 Nov 2021 16:29:47 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 1/1] MAINTAINERS: update email address of Christian
+ Borntraeger
+To: Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20211123095511.132810-1-borntraeger@linux.ibm.com>
+ <bc047f32-4c79-da4b-4684-908c92a53439@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <bc047f32-4c79-da4b-4684-908c92a53439@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.515, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,99 +101,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
- eblake@redhat.com, ehabkost@redhat.com
+Cc: Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+On 23/11/2021 16.17, Christian Borntraeger wrote:
+> 
+> 
+> Am 23.11.21 um 10:55 schrieb Christian Borntraeger:
+>> My borntraeger@de.ibm.com email is just a forwarder to the
+>> linux.ibm.com address. Let us remove the extra hop to avoid
+>> a potential source of errors.
+>>
+>> While at it, add the relevant email addresses to mailmap.
+>>
+>> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> 
+> This should have been the new adress I think. Want me to resend?
 
-> This renames object_set_properties_from_qdict() to object_configure()
-> and removes the QDict parameter from it: With visit_next_struct_member()
-> it can set all properties without looking at the keys of the QDict.
->
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  qom/object_interfaces.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
->
-> diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-> index 3b61c195c5..f9f5608194 100644
-> --- a/qom/object_interfaces.c
-> +++ b/qom/object_interfaces.c
-> @@ -42,16 +42,15 @@ bool user_creatable_can_be_deleted(UserCreatable *uc)
->      }
->  }
->  
-> -static void object_set_properties_from_qdict(Object *obj, const QDict *qdict,
-> -                                             Visitor *v, Error **errp)
-> +static void object_configure(Object *obj, Visitor *v, Error **errp)
->  {
-> -    const QDictEntry *e;
-> +    const char *key;
->  
->      if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
->          return;
->      }
-> -    for (e = qdict_first(qdict); e; e = qdict_next(qdict, e)) {
-> -        if (!object_property_set(obj, e->key, v, errp)) {
-> +    while ((key = visit_next_struct_member(v))) {
-> +        if (!object_property_set(obj, key, v, errp)) {
->              goto out;
->          }
->      }
-> @@ -69,7 +68,7 @@ void object_set_properties_from_keyval(Object *obj, const QDict *qdict,
->      } else {
->          v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
->      }
-> -    object_set_properties_from_qdict(obj, qdict, v, errp);
-> +    object_configure(obj, v, errp);
->      visit_free(v);
->  }
->  
-> @@ -108,7 +107,7 @@ Object *user_creatable_add_type(const char *type, const char *id,
->  
->      assert(qdict);
+Yes, it might be better if the S-o-B matches the "From:" address, I think.
 
-This is the only remaining use of parameter @qdict.  Let's drop it.
+  Thomas
 
->      obj = object_new(type);
-> -    object_set_properties_from_qdict(obj, qdict, v, &local_err);
-> +    object_configure(obj, v, &local_err);
->      if (local_err) {
->          goto out;
->      }
 
-Brief recap how configuration data flows trough QMP object-add to QOM:
-
-* QMP object-add is fully typed: union ObjectOptions.  QMP core parses
-  input via QDict to ObjectOptions (JSON parser + QObject input
-  visitor), and passes that to qmp_object_add().
-
-* qmp_object_add() passes it on to user_creatable_add_qapi().
-
-  Aside: getting rid of the wrapper would be as easy as renaming
-  user_creatable_add_qapi() to qmp_object_add().
-
-* user_creatable_add_qapi() converts right back to QDict (QObject output
-  visitor).  It extracts the non-properties "qom-type" and "id", and
-  passes the properties (wrapped in a QObject input visitor) to
-  user_creatable_add_type().
-
-* user_creatable_add_type() feeds the properties to object_configure(),
-  formerly object_set_properties_from_qdict().
-
-Your patch simplifies one detail of the last step.  Small
-simplifications are welcome, too.
-
-The visitor ping-pong remains: input -> output -> input.
-
-We play visitor ping-pong because we reduce the problem "for each member
-of ObjectOptions: set property" to the solved problem "set properties
-for an input visitor".
-
-Straight solution of the problem: a QOM property output visitor.
-
-Observation, not demand.
+>> ---
+>>   .mailmap    | 1 +
+>>   MAINTAINERS | 6 +++---
+>>   2 files changed, 4 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/.mailmap b/.mailmap
+>> index 8beb2f95ae28..c45d1c530144 100644
+>> --- a/.mailmap
+>> +++ b/.mailmap
+>> @@ -50,6 +50,7 @@ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> 
+>> <arikalo@wavecomp.com>
+>>   Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> 
+>> <aleksandar.rikalo@rt-rk.com>
+>>   Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
+>>   Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori 
+>> <aliguori@us.ibm.com>
+>> +Christian Borntraeger <borntraeger@linux.ibm.com> <borntraeger@de.ibm.com>
+>>   Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+>>   Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
+>>   Greg Kurz <groug@kaod.org> <gkurz@linux.vnet.ibm.com>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index d3879aa3c12c..e19d88ca9960 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -393,7 +393,7 @@ F: target/ppc/kvm.c
+>>   S390 KVM CPUs
+>>   M: Halil Pasic <pasic@linux.ibm.com>
+>> -M: Christian Borntraeger <borntraeger@de.ibm.com>
+>> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+>>   S: Supported
+>>   F: target/s390x/kvm/
+>>   F: target/s390x/ioinst.[ch]
+>> @@ -1527,7 +1527,7 @@ S390 Machines
+>>   -------------
+>>   S390 Virtio-ccw
+>>   M: Halil Pasic <pasic@linux.ibm.com>
+>> -M: Christian Borntraeger <borntraeger@de.ibm.com>
+>> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+>>   S: Supported
+>>   F: hw/char/sclp*.[hc]
+>>   F: hw/char/terminal3270.c
+>> @@ -1541,7 +1541,7 @@ T: git https://github.com/borntraeger/qemu.git 
+>> s390-next
+>>   L: qemu-s390x@nongnu.org
+>>   S390-ccw boot
+>> -M: Christian Borntraeger <borntraeger@de.ibm.com>
+>> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+>>   M: Thomas Huth <thuth@redhat.com>
+>>   S: Supported
+>>   F: hw/s390x/ipl.*
+>>
+> 
 
 
