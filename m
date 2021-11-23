@@ -2,105 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37936459FE8
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 11:16:35 +0100 (CET)
-Received: from localhost ([::1]:47076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA9945A009
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 11:22:28 +0100 (CET)
+Received: from localhost ([::1]:52778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpSqo-0004aj-3M
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 05:16:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56276)
+	id 1mpSwV-00007v-AU
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 05:22:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mpSob-0003AU-B6; Tue, 23 Nov 2021 05:14:17 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34990
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mpSoY-0006Va-Fv; Tue, 23 Nov 2021 05:14:17 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AN9kmD1026739; 
- Tue, 23 Nov 2021 10:14:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=Dlb+HgXaQDGOB0Q1JR3u2ljrxedMirwed5tW5g5c5hg=;
- b=PJUwqZZhNv/6RpvqOoCdrOik/K4earbmokJ5hiKD4TSAMHwCHW3pYdtcHiZTq5K3Vy30
- b58O2LuZBzT4cO4SaVDLUjRQX0/bT6ZrfCFca7WCflroft3kjhIbyKBX15p1XHib5oMD
- 4nvtVS3wEyZqJZ4J/8MoZ6gSaUbVqttM4XNH+aL58SuoN8hlE34bX4nrrN1exRseq7LG
- mIB/meOJYMPvbdSA4u6EW7cnKJIsffgVSuiZb7oVbfugNAEPwbeKmPz2SQp4bEeQoQFM
- gMeP3xOwdsf/QibSxSH4Qdn+bDJ0vdXKBfZkxzdc1iRrwmde9Va+IbEE+7/W2GHxWuxF 7g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cgwyhrg0s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Nov 2021 10:14:11 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AN9tGuI025668;
- Tue, 23 Nov 2021 10:14:10 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cgwyhrg0g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Nov 2021 10:14:10 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1ANAD2hO019830;
- Tue, 23 Nov 2021 10:14:09 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06ams.nl.ibm.com with ESMTP id 3cer9jpgdn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Nov 2021 10:14:08 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1ANA6vf163832382
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Nov 2021 10:06:57 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C1F7711C054;
- Tue, 23 Nov 2021 10:14:05 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4BC8A11C05B;
- Tue, 23 Nov 2021 10:14:05 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.0.71])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Tue, 23 Nov 2021 10:14:05 +0000 (GMT)
-Date: Tue, 23 Nov 2021 11:14:03 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Christian Borntraeger <borntraeger@linux.ibm.com>
-Subject: Re: [PATCH 1/1] MAINTAINERS: update email address of Christian
- Borntraeger
-Message-ID: <20211123111403.7e9aac7b.pasic@linux.ibm.com>
-In-Reply-To: <20211123095511.132810-1-borntraeger@linux.ibm.com>
-References: <20211123095511.132810-1-borntraeger@linux.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: MV6SbCFTWOLu84wtKkCH_TRouKnK0hbi
-X-Proofpoint-ORIG-GUID: EKrK5KTQhej706VJLK0e0zcIQ2xJ0Cbe
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpSv5-0007K5-Q8
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 05:20:59 -0500
+Received: from [2a00:1450:4864:20::433] (port=33713
+ helo=mail-wr1-x433.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpSv3-0007ZI-46
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 05:20:58 -0500
+Received: by mail-wr1-x433.google.com with SMTP id d24so38113843wra.0
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 02:20:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=w1dN/GFADqVxlO4wCGxnsqIYk3A5mD4gYgLmfR2r7WU=;
+ b=FR8K99vpUIRnJFU2eUpHCMOKGZVzKS9ZfFey+3Ph3qGFnMftrHauNrrcA/IFHIyJop
+ 1x/6hkz3ohzK3Iu7ekuIKsbYLl+qqtmqQE1HUPmO/hxsg6MaORfIti5P8kzQHzRJpyxa
+ y4NX6rSrhu1x/aRPjrpL52fAxr0E8TOvPzMHDSe3D3FeZ0c+SkJJzfESIK1r9fPu5L4q
+ YTl8PIkK1DKIP/Da3/TMGZ03YkAeb8IH21pTpslBLt6kcZ2ReemT31Y6MkUtthJkVC6t
+ 80OlZ8TgfDN4JnXusyXxQBHOQtkBfqIaElg6GJKHrWBXAMX4wzomOf4q8RS6nfFolp2S
+ JBBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=w1dN/GFADqVxlO4wCGxnsqIYk3A5mD4gYgLmfR2r7WU=;
+ b=i5EWtnvQ1fAbg2TGHp0CO1B2cO0AKzfKwxvQjnEFfGuSbG66VWWlDKB42oxla59RD/
+ CudyxYxsVxUriQOHup4dqmc9zvkqjd7UMXXu4rjNOjaTSeVnw0tWYvEdTPGKnwgASxcc
+ YeeOqyFRDI/5TEap0g4M65MGr2TStUF8tn53JIHWnmqeEq2AS0OAvv902vLemBoC+lP2
+ Y9Y9R96g7YRWbW70ahjWaOPikJltU+qHcbbo2VWtwuvZsTgBdKOGcan6jpT4OFBicoxx
+ o86WdXQnpyigstby2V+v3q+DKlv3tXQNZW5P9ixF87oFUsc/MnFY9CDBRQ8f1okA3Vzh
+ DfsA==
+X-Gm-Message-State: AOAM530nk6F9m6F5GjtpV09Q2LDGGyzDondHcV4XRiVCZ/Kh8Q0bVjGF
+ rRsjU3pS1gN/UCK+zj9meINBQA==
+X-Google-Smtp-Source: ABdhPJyrH6VOpG+skcDoz/RBas4nT1nBUeC5Tsah1BY93OsrwWPiogxBkIR426p7e2/F2e4GG8avsg==
+X-Received: by 2002:adf:fe8b:: with SMTP id l11mr5708713wrr.228.1637662854909; 
+ Tue, 23 Nov 2021 02:20:54 -0800 (PST)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id h18sm12522347wre.46.2021.11.23.02.20.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Nov 2021 02:20:54 -0800 (PST)
+Subject: Re: [PATCH v7 31/31] tests/docker: Add gentoo-loongarch64-cross image
+ and run cross builds in GitLab
+To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
+References: <20211122104201.112695-1-git@xen0n.name>
+ <20211122104201.112695-32-git@xen0n.name>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ba910daf-59aa-f0be-82c7-73a08da20a08@linaro.org>
+Date: Tue, 23 Nov 2021 11:20:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-23_03,2021-11-23_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=966
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 clxscore=1015
- spamscore=0 impostorscore=0 bulkscore=0 malwarescore=0 adultscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111230055
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211122104201.112695-32-git@xen0n.name>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.515,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,74 +92,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ XiaoJuan Yang <yangxiaojuan@loongson.cn>, Song Gao <gaosong@loongson.cn>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Nov 2021 10:55:11 +0100
-Christian Borntraeger <borntraeger@linux.ibm.com> wrote:
+On 11/22/21 11:42 AM, WANG Xuerui wrote:
+> Normally this would be based on qemu/debian10 or qemu/ubuntu2004, but
+> after a week-long struggle, I still cannot build stage2 gcc with the
+> known-good LoongArch toolchain sources, so I chose the least-resistance
+> path with Gentoo as base image. As this image is not expected to be
+> re-built by CI, like hexagon, it should not take much maintenance
+> effort; also it's expected to be replaced as soon as Debian is
+> available.
 
-> My borntraeger@de.ibm.com email is just a forwarder to the
-> linux.ibm.com address. Let us remove the extra hop to avoid
-> a potential source of errors.
-> 
-> While at it, add the relevant email addresses to mailmap.
-> 
-> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+That seems fine.  I'm familiar with gentoo (only remaining distro for alpha), and it's a 
+good way to bootstrap a new system.
 
-Acked-by: Halil Pasic <pasic@linux.ibm.com>
+> +docker-image-gentoo-loongarch64-cross: $(DOCKER_FILES_DIR)/gentoo-loongarch64-cross.docker
+> +	$(if $(NOCACHE), 								\
+> +		$(call quiet-command,							\
+> +			$(DOCKER_SCRIPT) build -t qemu/gentoo-loongarch64-cross -f $< 	\
+> +			$(if $V,,--quiet) --no-cache 					\
+> +			--registry $(DOCKER_REGISTRY) --extra-files			\
+> +			$(DOCKER_FILES_DIR)/gentoo-loongarch64-cross.docker.d/build-toolchain.sh, \
+> +			"BUILD", "gentoo-loongarch64-cross"),				\
+> +		$(call quiet-command,							\
+> +			$(DOCKER_SCRIPT) fetch $(if $V,,--quiet)			\
+> +				qemu/gentoo-loongarch64-cross $(DOCKER_REGISTRY),	\
+> +			"FETCH", "gentoo-loongarch64-cross")				\
+> +		$(call quiet-command,							\
+> +			$(DOCKER_SCRIPT) update $(if $V,,--quiet) 			\
+> +				qemu/gentoo-loongarch64-cross --add-current-user,	\
+> +			"PREPARE", "gentoo-loongarch64-cross"))
+> +
+> +
+>   debian-toolchain-run = \
+>   	$(if $(NOCACHE), 						\
+>   		$(call quiet-command,					\
 
-> ---
->  .mailmap    | 1 +
->  MAINTAINERS | 6 +++---
->  2 files changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/.mailmap b/.mailmap
-> index 8beb2f95ae28..c45d1c530144 100644
-> --- a/.mailmap
-> +++ b/.mailmap
-> @@ -50,6 +50,7 @@ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
->  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
->  Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
->  Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
-> +Christian Borntraeger <borntraeger@linux.ibm.com> <borntraeger@de.ibm.com>
->  Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
->  Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
->  Greg Kurz <groug@kaod.org> <gkurz@linux.vnet.ibm.com>
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d3879aa3c12c..e19d88ca9960 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -393,7 +393,7 @@ F: target/ppc/kvm.c
->  
->  S390 KVM CPUs
->  M: Halil Pasic <pasic@linux.ibm.com>
-> -M: Christian Borntraeger <borntraeger@de.ibm.com>
-> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
->  S: Supported
->  F: target/s390x/kvm/
->  F: target/s390x/ioinst.[ch]
-> @@ -1527,7 +1527,7 @@ S390 Machines
->  -------------
->  S390 Virtio-ccw
->  M: Halil Pasic <pasic@linux.ibm.com>
-> -M: Christian Borntraeger <borntraeger@de.ibm.com>
-> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
->  S: Supported
->  F: hw/char/sclp*.[hc]
->  F: hw/char/terminal3270.c
-> @@ -1541,7 +1541,7 @@ T: git https://github.com/borntraeger/qemu.git s390-next
->  L: qemu-s390x@nongnu.org
->  
->  S390-ccw boot
-> -M: Christian Borntraeger <borntraeger@de.ibm.com>
-> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
->  M: Thomas Huth <thuth@redhat.com>
->  S: Supported
->  F: hw/s390x/ipl.*
+Note the addition of debian-toolchain-run, handling the boilerplate for this for 
+microblaze and nios2.
 
+(I haven't converted hexagon to this, because I had expected to be able to replace that 
+with a pre-built toolchain.  But then the compiler turned out to be buggy, and that patch 
+got dropped.  I hope we can revisit this during 7.0.)
+
+> +FROM gentoo/stage3:20211116
+
+If I understand correctly, this should be the fully qualified name: docker.io/library/etc. 
+  Alex? Phil?
+
+> +"$CROSS_EMERGE" -1 --onlydeps -j4 gawk
+...
+> +"$CROSS_EMERGE" -1 --onlydeps -j4 qemu
+
+Why the quotes on CROSS_EMERGE?  Use $J, which you computed earlier.
+
+All minor nits, as it Worked For Me.  Thanks for putting this together.
+
+
+r~
 
