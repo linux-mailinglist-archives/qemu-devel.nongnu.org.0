@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B6A459A30
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 03:44:48 +0100 (CET)
-Received: from localhost ([::1]:42278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7435D459A33
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 03:47:26 +0100 (CET)
+Received: from localhost ([::1]:46654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpLnb-0005ZX-8E
-	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 21:44:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49704)
+	id 1mpLq9-0000C3-KD
+	for lists+qemu-devel@lfdr.de; Mon, 22 Nov 2021 21:47:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mpLhm-00064t-LG
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 21:38:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54322)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mpLhw-0006en-J8
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 21:38:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mpLhl-0006Dm-4x
- for qemu-devel@nongnu.org; Mon, 22 Nov 2021 21:38:46 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mpLhu-0006Ec-3w
+ for qemu-devel@nongnu.org; Mon, 22 Nov 2021 21:38:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637635124;
+ s=mimecast20190719; t=1637635133;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8+GTZSvctCBccGSoZcytnr/ai9XcAGGv85l+9WkFHIw=;
- b=N2Q3t46JGwjII/wUwL5lQEnV/VtJPCB3s2Rap8lPimjoPivDsYdLWwQ/JM8+tPmi8lj42O
- GhnzF3ebmjOnpOunZHFIrOlutQP4StglsL3ychNiqpZP7VRiHjYyBBPh0tzvq2YArcInAg
- MfUF0gjQWuDXS4QZWhWBlG+n+E7oAF0=
+ bh=BmKhJlmTMFOh8oz4coCKQMEtDBnyVKL9nKTyCeC2BEA=;
+ b=WybkWMOOAWrU0X2y05GLZbN1PXjsotMPJw5+JHuf27Om1XPTVPctcr069Y6+TbUwYIx7ev
+ bz54KAoOGV4KabzmaQ/zVt5TXLToNweFL72t0vLj+psH7b1yQ6dMDYQC/L+FQ3fUzYfHXI
+ h/AMyHN7j4CEz+iCUVUrxhS3jnNQHsw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-qmcuTuPbPca-cOUl1_ujOw-1; Mon, 22 Nov 2021 21:38:41 -0500
-X-MC-Unique: qmcuTuPbPca-cOUl1_ujOw-1
+ us-mta-459-AIOv-_-JPLS1X6lffIwMyA-1; Mon, 22 Nov 2021 21:38:43 -0500
+X-MC-Unique: AIOv-_-JPLS1X6lffIwMyA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19337425C8;
- Tue, 23 Nov 2021 02:38:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25A891023F4D;
+ Tue, 23 Nov 2021 02:38:42 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.32.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 46B3756A8B;
- Tue, 23 Nov 2021 02:38:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 46C5A64188;
+ Tue, 23 Nov 2021 02:38:40 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/7] scripts/device-crash-test: Use a QMP timeout
-Date: Mon, 22 Nov 2021 21:38:04 -0500
-Message-Id: <20211123023805.2745382-7-jsnow@redhat.com>
+Subject: [PULL 7/7] python/aqmp: fix send_fd_scm for python 3.6.x
+Date: Mon, 22 Nov 2021 21:38:05 -0500
+Message-Id: <20211123023805.2745382-8-jsnow@redhat.com>
 In-Reply-To: <20211123023805.2745382-1-jsnow@redhat.com>
 References: <20211123023805.2745382-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -90,38 +90,40 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Despite all the previous fixes, it's still possible for
-device-crash-test to wedge itself in the case that QEMU terminates *so
-quickly* that it doesn't even begin a connection attempt to our QMP
-client. Python will just joyfully wait ad infinitum for a connection
-that will now never arrive.
+3.6 doesn't play keepaway with the socket object, so we don't need to go
+fishing for it on this version. In fact, so long as 'sendmsg' is still
+available, it's probably preferable to just use that method and only go
+fishing for forbidden details when we absolutely have to.
 
-The real fix is to use asyncio to simultaneously poll both the health of
-the launched process AND the connection attempt. That's quite a bit more
-invasive than just setting a connection timeout, though.
-
-Do the very simplest thing for now.
-
+Reported-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20211118204620.1897674-7-jsnow@redhat.com
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Message-id: 20211118204620.1897674-8-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/device-crash-test | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ python/qemu/aqmp/qmp_client.py | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/device-crash-test b/scripts/device-crash-test
-index 1c73dac93e..7fbd99158b 100755
---- a/scripts/device-crash-test
-+++ b/scripts/device-crash-test
-@@ -353,7 +353,7 @@ def checkOneCase(args, testcase):
-             '-device', qemuOptsEscape(device)]
-     cmdline = ' '.join([binary] + args)
-     dbg("will launch QEMU: %s", cmdline)
--    vm = QEMUMachine(binary=binary, args=args)
-+    vm = QEMUMachine(binary=binary, args=args, qmp_timer=15)
+diff --git a/python/qemu/aqmp/qmp_client.py b/python/qemu/aqmp/qmp_client.py
+index f987da02eb..8105e29fa8 100644
+--- a/python/qemu/aqmp/qmp_client.py
++++ b/python/qemu/aqmp/qmp_client.py
+@@ -639,9 +639,12 @@ def send_fd_scm(self, fd: int) -> None:
+         if sock.family != socket.AF_UNIX:
+             raise AQMPError("Sending file descriptors requires a UNIX socket.")
  
-     exc = None
-     exc_traceback = None
+-        # Void the warranty sticker.
+-        # Access to sendmsg in asyncio is scheduled for removal in Python 3.11.
+-        sock = sock._sock  # pylint: disable=protected-access
++        if not hasattr(sock, 'sendmsg'):
++            # We need to void the warranty sticker.
++            # Access to sendmsg is scheduled for removal in Python 3.11.
++            # Find the real backing socket to use it anyway.
++            sock = sock._sock  # pylint: disable=protected-access
++
+         sock.sendmsg(
+             [b' '],
+             [(socket.SOL_SOCKET, socket.SCM_RIGHTS, struct.pack('@i', fd))]
 -- 
 2.31.1
 
