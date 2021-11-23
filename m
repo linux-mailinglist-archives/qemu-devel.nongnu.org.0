@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE5D45AE6C
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 22:23:21 +0100 (CET)
-Received: from localhost ([::1]:57522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8636245AEFD
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 23:24:51 +0100 (CET)
+Received: from localhost ([::1]:52690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpdG4-0003Dr-S8
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 16:23:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45122)
+	id 1mpeDa-0005HE-59
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 17:24:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mpdCm-0007bI-3j; Tue, 23 Nov 2021 16:19:56 -0500
-Received: from [2607:f8b0:4864:20::936] (port=34717
- helo=mail-ua1-x936.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpeCZ-0004av-4P
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 17:23:47 -0500
+Received: from [2a00:1450:4864:20::32a] (port=51892
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mpdCk-0000sV-L0; Tue, 23 Nov 2021 16:19:55 -0500
-Received: by mail-ua1-x936.google.com with SMTP id n6so718662uak.1;
- Tue, 23 Nov 2021 13:19:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=budw8rwTucK71mveKmK+tJzUcdX2R7X6bC6D+k0TqKo=;
- b=S75xhv3E8EVr7qTkdhLPwMNrqKlAX81iVE7gGOAryBZSkVZ9MK19LU+HHdNnLwAr/D
- KkI6ZTK8GftJ+ydr0Bl5Y8Mln/S1imrLiq4a6Dy6ivrU0n/4YevVOL2WFfkHI9FyVLnC
- jAjhm/IPotBVtuSFOo76Cez1T7TBKM4tXo4+o2B1c3J4urpQ68E4zdvqyxlIwkdGKWeB
- PDQuio6SFwZUlqCSuMJzA37P6XqCnzYvyX/P8Ne2xcbi0ZAIB6SnfT4hSpEwQt0lEnQw
- Ro3hVg3cw4KJrBeSTp2pf9xildswW/fvYGT7snOtM/59BztJzxo8u0QmVOC1JOvdmGXg
- 8Sug==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpeCX-0000kb-Hp
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 17:23:46 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id 137so394101wma.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 14:23:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=to:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=0Z34Dc/EMQo3GGsLJj9nS7SJmOi10MatdaESs9ckmVI=;
+ b=hZiRLBnqwQeEjmpOZ/v8vb9p05OARcyNCJDcyFUYEholovj0H1umLClq+k24skfVXM
+ TgF80ZooOjQSFvFhabNBQ4hti/YXY5KJcWtT0a4bBFKHtiKRo4XB2CLj2X+aFScF9LJM
+ WOXGByrXJQUMoAGyfv1dYhZc8+UqLW85IMld3+Y3VEvu7Z9lcKK00qMUo/H0BlzxgIH6
+ L/x+lQs/OmiHJ19TlL48C6dDbGR1uBIynQDw4rM1T6emhLUvF4Esa5H+QkUAftnMQbeq
+ p+4HXoG4eNYo0Uynyx2RQSZ0a2ipzdOLQQVr76vZukPoVLwH0gFO9A2nqWDas5VpPkJs
+ brYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=budw8rwTucK71mveKmK+tJzUcdX2R7X6bC6D+k0TqKo=;
- b=2ZKyoAS1mv+eMGew4NiWr2OejdwpQUCnJTZv4CFsHANbjZY/3z3Z8fkBlbMOticxYB
- iEt5iBa4Fau6y1ilKckFBPfgliUZ4lcKErT7Ky/VAWcAFq/l8S8DrQ32KqzfYa62w8eX
- //qa/WPfCwd8gcd1+pedVPjJc9NJaEKQ4zRDbk1DkpTTdB9owPMeauWrg4NOs1SII3pI
- Tw2GReIWXJO7HLRkDqEWyfwHk+R85HA8geRfoXq4r+Nq21IL3ww9v+HYb76zovDbC/ag
- 939PPubDrukIHLsz0drCSGuzELofXZEIW1xiJmjmrqpp4/ufyHSxB+rIs08WePxB5T8v
- FgBQ==
-X-Gm-Message-State: AOAM532f39sXuVlMtqRyTQIjfjO7DhnByROXhOPi99fJKjSwWguzR+l7
- bWVAePSMoCzisOBZ0nboqhIt6OdW8bY=
-X-Google-Smtp-Source: ABdhPJxbgAt4pwCcfxVwBEuPu9N8YGK0uDiPxKALDA7ORqZac/LVywfdSrET/FripGSfQXdM5/j4AQ==
-X-Received: by 2002:a05:6102:5109:: with SMTP id
- bm9mr13640422vsb.10.1637702393398; 
- Tue, 23 Nov 2021 13:19:53 -0800 (PST)
-Received: from rekt.ibmuc.com ([191.19.215.188])
- by smtp.gmail.com with ESMTPSA id h7sm6807958vkk.2.2021.11.23.13.19.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 13:19:53 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] ivshmem-test.c: enable test_ivshmem_server for ppc64 arch
-Date: Tue, 23 Nov 2021 18:19:32 -0300
-Message-Id: <20211123211932.284043-3-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211123211932.284043-1-danielhb413@gmail.com>
-References: <20211123211932.284043-1-danielhb413@gmail.com>
+ h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=0Z34Dc/EMQo3GGsLJj9nS7SJmOi10MatdaESs9ckmVI=;
+ b=K6RfJD1f1150NidW4o+UXYIrV1+u1mJO1H0MN2n9FKS3604exyh1kxsZoea5mY+E3K
+ wdQrmsyOsKe18jTFSzsah1kJgAIGMsD+hoztT8D89pRRLOIjx7nSTKA3Y6eOKnNjpddG
+ FzLs8BkE1ra5hrH48dxKke1t1OvJmBoGUibgxATkDB26p0eAk3IyGT26J/TknPcqBlFZ
+ HTOvQzSy4EHZj2+rk9e1mpvSwp8JeziKj21uLofPZVQ4ukgbkbd1qG/RjFi2hEaahmkM
+ F8tyB0hQWz1v3FyPZ+CUKVDieqRnfIlIz7vN9oXiG3qh0l4sjQo7I/NJugszdqGA/XBm
+ qKvg==
+X-Gm-Message-State: AOAM531msamcl9hQjeS/H+VwUK6dbEHIm7thyZJ919FAEZUPmRSWpMRl
+ o4cAMw8NsOfpxmFm6u/qh77l6hlqxI2X1U/h4wg=
+X-Google-Smtp-Source: ABdhPJxEobXQk/IRd7LLfLffjrFzhnaD352FzhbjWBk79i6VOXeIgkp4u9TMDBXv7T8wxJ1W4C6QIg==
+X-Received: by 2002:a05:600c:282:: with SMTP id 2mr7984702wmk.91.1637706223190; 
+ Tue, 23 Nov 2021 14:23:43 -0800 (PST)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id m36sm2882924wms.25.2021.11.23.14.23.42
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Nov 2021 14:23:42 -0800 (PST)
+To: qemu-devel <qemu-devel@nongnu.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Subject: Delay rc2 until 24 Nov
+Message-ID: <ba2e8c4b-5e68-af08-bbe6-fef29d3177d1@linaro.org>
+Date: Tue, 23 Nov 2021 23:23:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::936
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::936;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x936.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,63 +88,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test, if enabled by hand, was failing when the ivhsmem device was
-being declared as DEVICE_NATIVE_ENDIAN with the following error:
+I'm going to delay rc2 from tonight until tomorrow.
+Hoping for a resolution to the gicv3 issue.
 
-/ppc64/ivshmem/pair: OK
-/ppc64/ivshmem/server:
-**
-ERROR:/home/danielhb/qemu/tests/qtest/ivshmem-test.c:367:test_ivshmem_server:
-assertion failed (ret != 0): (0 != 0)
-Aborted
+Bear in mind that Thursday, 25 Nov starts the Thanksgiving holiday weekend in the US, so 
+I'm officially off until Monday.
 
-After the endianess change done in the previous patch, we can verify in
-both a a Power 9 little-endian host and in a Power 8 big-endian host
-that this test is now passing:
 
-$ QTEST_QEMU_BINARY=./ppc64-softmmu/qemu-system-ppc64 ./tests/qtest/ivshmem-test -m slow
-/ppc64/ivshmem/single: OK
-/ppc64/ivshmem/hotplug: OK
-/ppc64/ivshmem/memdev: OK
-/ppc64/ivshmem/pair: OK
-/ppc64/ivshmem/server: OK
-
-Let's keep it that way by officialy enabling it for ppc64.
-
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- tests/qtest/ivshmem-test.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/tests/qtest/ivshmem-test.c b/tests/qtest/ivshmem-test.c
-index dfa69424ed..fe94dd3b96 100644
---- a/tests/qtest/ivshmem-test.c
-+++ b/tests/qtest/ivshmem-test.c
-@@ -463,7 +463,6 @@ static gchar *mktempshm(int size, int *fd)
- int main(int argc, char **argv)
- {
-     int ret, fd;
--    const char *arch = qtest_get_arch();
-     gchar dir[] = "/tmp/ivshmem-test.XXXXXX";
- 
-     g_test_init(&argc, &argv, NULL);
-@@ -488,9 +487,7 @@ int main(int argc, char **argv)
-     qtest_add_func("/ivshmem/memdev", test_ivshmem_memdev);
-     if (g_test_slow()) {
-         qtest_add_func("/ivshmem/pair", test_ivshmem_pair);
--        if (strcmp(arch, "ppc64") != 0) {
--            qtest_add_func("/ivshmem/server", test_ivshmem_server);
--        }
-+        qtest_add_func("/ivshmem/server", test_ivshmem_server);
-     }
- 
- out:
--- 
-2.31.1
-
+r~
 
