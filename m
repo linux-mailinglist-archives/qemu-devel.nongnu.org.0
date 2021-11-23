@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C957145AD9E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 21:53:02 +0100 (CET)
-Received: from localhost ([::1]:55894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7172645ADB2
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 21:59:31 +0100 (CET)
+Received: from localhost ([::1]:35736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpcmj-000792-Hg
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 15:53:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38074)
+	id 1mpct0-0004MC-0X
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 15:59:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mpclc-0006TD-P9
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 15:51:52 -0500
-Received: from [2a00:1450:4864:20::32a] (port=51059
- helo=mail-wm1-x32a.google.com)
+ id 1mpcr9-0001ui-FG
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 15:57:35 -0500
+Received: from [2a00:1450:4864:20::429] (port=35616
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mpcla-0005L5-Vm
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 15:51:52 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id 133so232124wme.0
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 12:51:50 -0800 (PST)
+ id 1mpcr7-0006LH-H1
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 15:57:35 -0500
+Received: by mail-wr1-x429.google.com with SMTP id i5so222116wrb.2
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 12:57:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=CdHPLDU6c3/D27vWQ2nkRmg/muPbHVo6jFkdiPG8jO8=;
- b=QCyj5kDLbhlH4cDkz+VIJup/O/P8B58ElTISNHh1JWVyL0MQfK0ttklWJmrHQXDsLs
- CmlkDcGRJhvbh98s2Jrk9ctoCKhYKxEfFCQP37lTiXgiTVUt99RuyxjWkZrT8NajKXoP
- qNYbnjIcbqx7y1GBPA8dRsl9JrF50btZGXakCP5HwL+0xUCpbFbF+41KfrY7F1FSzrCp
- QGuSM+x4Gaz7jmpmZA/l8cPuGLhSVGQzaLA33bF8+SMg6W98/UH7bTMQNCRvrQF+Sz/o
- CINhyqsgZBijFwNX7zLxLs2z12fivf/2zDzIazbmvaPemu0z2v40nlxP6oCd+qlpm6Iu
- xS7A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Xl5Vgk0YQyYb1wxD/Ut57kOMsbfZbkXQIZ0at/zZwfg=;
+ b=ahz7yv7bCIhw1V71QWFxmiA+WyXwrq4lGkH+m+1krERN7x5pRBHmUPUKwsm68e/QQo
+ X7wDaikSws3yzM0yq/z2vusPKc0AaSJ4YTKaq3XRGlrKOT+ci2i9KyCvWqHJMd0zthaX
+ LolBpQPQfWJYVvE7m5c4BHY30HQLk+AesKdjZr3Y6TfTmAx+7VDIWREpCaWQ0IKPy/SK
+ cRM+/ICu2ZfhcdCyud/L87W1Cjs/byh3gLFr8rjAFQh9Ehro4gSijvOxZNmiwWJeXA8Q
+ tumj6WPi4Z4tARtRoLk1SG4TWXzw/E7gQx2sbUmPUdOwDW3l6Rmhzv8WP28+XpTh88zl
+ yEng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=CdHPLDU6c3/D27vWQ2nkRmg/muPbHVo6jFkdiPG8jO8=;
- b=H7ON2XGC6TWAnWiO4aQm4rOwIje72vvnAaevTiMmAE5AdGjlV6L0qHLLmPlcVDPCFl
- S1Ln+/qiOuAF2EKsFCeSh1siUSwMDiLIUiUcV44T3hPtDwB0xmuX4zL77MVyavtFuEzo
- ZVqQpe7yx8vnUHtxpPWi5Z4RN7mGugkquJv5f8PgRRO865hAeW9VNdkvPs52KmR2CuW5
- D5+2ZIRXQVtEU6a3/wl/eOgW5faFH3a1oyock7o9z4vMZdmtI0rrJDUhC2jB061BanwB
- B/01IQKCbVkO85VaQbVBXyMDziG3JvQqc45MZjRIOuj6ihgYaHBb0dFRUpwgZIONAJYD
- dIaw==
-X-Gm-Message-State: AOAM531zeSx48h9DHGpcb5Empmwj0TdlKfKdSq+sg1xzsyeMWgdriN3b
- V+olZ95cmLNevLdhsMyWBBkhYA==
-X-Google-Smtp-Source: ABdhPJzB2YgLQBWvQL588g03NhCufzRTqwRcKHef2M6+zgJQKYWyPiHEhmCk/ozG0lLeVrkage/QxQ==
-X-Received: by 2002:a05:600c:1d9b:: with SMTP id
- p27mr7141649wms.123.1637700709035; 
- Tue, 23 Nov 2021 12:51:49 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Xl5Vgk0YQyYb1wxD/Ut57kOMsbfZbkXQIZ0at/zZwfg=;
+ b=EY4KNs6E1lBMVEeyrIBnTMJ9UC43sB9nSV15r48xxKkK9f0FxiXGED1FGnBsIDDFFG
+ 0Qs85QDXYV7aQ/VyyN5phX/Rv7b7dumica3NGOeryWbKaYT9wYimlALUsbVe3LQpVNvG
+ tvBqTKPTp6hSB5rQkuNRzED/khl2CTTbzZ8fUb7+iMLPxvYx7nsZoeCJwDESL2ESeGjl
+ Vp2VO92/+RB0owaMYkf7LtnV75G99CvI/irY7aT2J+uayhpj0DW2fHM6LF0kOvsPcPc1
+ FDuB5pQAmmYXZel42rGcrMAntC0WtNLgP22oEcFyk4PZ9pMfvaWkt8nUDToKP8CzGFCk
+ TeWg==
+X-Gm-Message-State: AOAM531iP6n1cu9plZlPl1gpOQ7dhrF2aGiacTjoFTaToO7mp2l+N+oO
+ S0JGAncfD7b+5VWL5E4u1dcrNA==
+X-Google-Smtp-Source: ABdhPJwJzTasmaBTXHSfgxGEOp9y9nthxh0MwmsGDqY9Rb5LQr7zkZ9YWfnRxdTGb7o/FjUFkpXs3Q==
+X-Received: by 2002:a05:6000:1c2:: with SMTP id
+ t2mr11256705wrx.378.1637701051542; 
+ Tue, 23 Nov 2021 12:57:31 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e18sm12934609wrs.48.2021.11.23.12.51.47
+ by smtp.gmail.com with ESMTPSA id l18sm13220684wrt.81.2021.11.23.12.57.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 12:51:48 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 482B71FF96;
- Tue, 23 Nov 2021 20:51:47 +0000 (GMT)
-References: <20211116163226.2719320-1-f4bug@amsat.org>
-User-agent: mu4e 1.7.5; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] MAINTAINERS: Add section for Aarch64 GitLab custom runner
-Date: Tue, 23 Nov 2021 20:51:40 +0000
-In-reply-to: <20211116163226.2719320-1-f4bug@amsat.org>
-Message-ID: <87fsrmfvdo.fsf@linaro.org>
+ Tue, 23 Nov 2021 12:57:30 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 28FAA1FF96;
+ Tue, 23 Nov 2021 20:57:29 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for 6.2 v1 0/7] more tcg, plugin, test and build fixes
+Date: Tue, 23 Nov 2021 20:57:22 +0000
+Message-Id: <20211123205729.2205806-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,19 +88,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+As the release process rolls on here if the current state of my
+for-6.2 tree. There are fixes for TCG, plugins, build and test.
 
-> Add a MAINTAINERS section to cover the GitLab YAML config file
-> containing the jobs run on the custom runner sponsored by the
-> Works On Arm project [*].
+The following still need review:
 
-Queued to for-6.2/tcg-gdb-plugin-fixes, thanks.
+ - plugins/meson.build: fix linker issue with weird paths
+ - tests/avocado: fix tcg_plugin mem access count test
+ - accel/tcg: suppress IRQ check for special TBs
 
---=20
-Alex Benn=C3=A9e
+Alex Bennée (4):
+  accel/tcg: suppress IRQ check for special TBs
+  tests/avocado: fix tcg_plugin mem access count test
+  plugins/meson.build: fix linker issue with weird paths
+  gdbstub: handle a potentially racing TaskState
+
+Pavel Dovgalyuk (1):
+  softmmu: fix watchpoint-interrupt races
+
+Philippe Mathieu-Daudé (1):
+  MAINTAINERS: Add section for Aarch64 GitLab custom runner
+
+Willian Rampazzo (1):
+  MAINTAINERS: Remove me as a reviewer for the build and test/avocado
+
+ include/exec/exec-all.h      |  1 +
+ include/exec/gen-icount.h    | 21 +++++++++++++++++----
+ accel/tcg/cpu-exec.c         | 19 +++++++++++++++++++
+ gdbstub.c                    |  2 +-
+ MAINTAINERS                  | 10 ++++++++--
+ plugins/meson.build          |  4 ++--
+ tests/avocado/tcg_plugins.py |  2 +-
+ 7 files changed, 49 insertions(+), 10 deletions(-)
+
+-- 
+2.30.2
+
 
