@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DED545A711
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 17:01:44 +0100 (CET)
-Received: from localhost ([::1]:35690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A44145A716
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 17:03:51 +0100 (CET)
+Received: from localhost ([::1]:41888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpYEo-0006Wy-LL
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 11:01:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53844)
+	id 1mpYGs-0002MV-1U
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 11:03:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mpYCa-0004JH-3v
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 10:59:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36584)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mpYCd-0004WW-VL
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 10:59:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mpYCY-0007g9-Hp
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 10:59:23 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mpYCc-0007gu-Az
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 10:59:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637683161;
+ s=mimecast20190719; t=1637683165;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u0cpCi9JMgKY3XtvC3AUbvyyeW3xdqtWpXVJ2QeSanE=;
- b=cPH4JMQfvf2E7jMhWobitgBNERLMS+JohejDwf9jYLLh8tBiJB+fsyctugffs7PmbsRrAW
- tp1oc72h/dy6WXPUjsAZ+1gFvUcECr5YeFlH8Uar8ed91V2+qmtKHOS4m8GPT/sUcObAO7
- SpyuC1Ih/0SA6n1aOyjxSrSgaHL02Rg=
+ bh=kpfgdX372kuJC19fIhHQJvofnBmUEOAhXayxTc7AI8w=;
+ b=cuvMVL0fZqzrlL/ZH78ngYXbCJ/bVXsLKSXDbapqcv/9tiqViq9tjarjdPhpsgfIh/WPui
+ nocSujENbTf5D0Z+Yx6eWbR2S15uCUXBBKecb8H3FBvIPvjARIf8yqDf3t4ZI83Ayp4LJN
+ oU2/ekUR1e/wI0je0qYvMnMtAjGapzo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-418-0utgXHEYNBaPnwP_wXYGWw-1; Tue, 23 Nov 2021 10:59:18 -0500
-X-MC-Unique: 0utgXHEYNBaPnwP_wXYGWw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-508-alESFW-mPvuJuKMEFcesOA-1; Tue, 23 Nov 2021 10:59:21 -0500
+X-MC-Unique: alESFW-mPvuJuKMEFcesOA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8433AA40CB;
- Tue, 23 Nov 2021 15:59:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D17FF100C61C;
+ Tue, 23 Nov 2021 15:59:20 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A2BB879454;
- Tue, 23 Nov 2021 15:59:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 39E0A5D6CF;
+ Tue, 23 Nov 2021 15:59:19 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 1/3] block/vvfat.c fix leak when failure occurs
-Date: Tue, 23 Nov 2021 16:59:07 +0100
-Message-Id: <20211123155909.717547-2-hreitz@redhat.com>
+Subject: [PULL 2/3] iotests: Use aes-128-cbc
+Date: Tue, 23 Nov 2021 16:59:08 +0100
+Message-Id: <20211123155909.717547-3-hreitz@redhat.com>
 In-Reply-To: <20211123155909.717547-1-hreitz@redhat.com>
 References: <20211123155909.717547-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,98 +83,107 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniella Lee <daniellalee111@gmail.com>
+Our gnutls crypto backend (which is the default as of 8bd0931f6)
+supports neither twofish-128 nor the CTR mode.  CBC and aes-128 are
+supported by all of our backends (as far as I can tell), so use
+aes-128-cbc in our iotests.
 
-Function vvfat_open called function enable_write_target and init_directories,
-and these functions malloc new memory for BDRVVVFATState::qcow_filename,
-BDRVVVFATState::used_clusters, and BDRVVVFATState::cluster_buff.
+(We could also use e.g. aes-256-cbc, but the different key sizes would
+lead to different key slot offsets and so change the reference output
+more, which is why I went with aes-128.)
 
-When the specified folder does not exist ,it may contains memory leak.
-After init_directories function is executed, the vvfat_open return -EIO,
-and bdrv_open_driver goto label open_failed,
-the program use g_free(bs->opaque) to release BDRVVVFATState struct
-without members mentioned.
-
-command line:
-qemu-system-x86_64 -hdb <vdisk qcow file>  -usb -device usb-storage,drive=fat16
--drive file=fat:rw:fat-type=16:"<path of a host folder does not exist>",
-id=fat16,format=raw,if=none
-
-enable_write_target called:
-(gdb) bt
-    at ../block/vvfat.c:3114
-    flags=155650, errp=0x7fffffffd780) at ../block/vvfat.c:1236
-    node_name=0x0, options=0x555556fa45d0, open_flags=155650,
-    errp=0x7fffffffd890) at ../block.c:1558
-    errp=0x7fffffffd890) at ../block.c:1852
-    reference=0x0, options=0x555556fa45d0, flags=40962, parent=0x555556f98cd0,
-    child_class=0x555556b1d6a0 <child_of_bds>, child_role=19,
-    errp=0x7fffffffda90) at ../block.c:3779
-    options=0x555556f9cfc0, bdref_key=0x555556239bb8 "file",
-    parent=0x555556f98cd0, child_class=0x555556b1d6a0 <child_of_bds>,
-    child_role=19, allow_none=true, errp=0x7fffffffda90) at ../block.c:3419
-    reference=0x0, options=0x555556f9cfc0, flags=8194, parent=0x0,
-    child_class=0x0, child_role=0, errp=0x555556c98c40 <error_fatal>)
-    at ../block.c:3726
-    options=0x555556f757b0, flags=0, errp=0x555556c98c40 <error_fatal>)
-    at ../block.c:3872
-    options=0x555556f757b0, flags=0, errp=0x555556c98c40 <error_fatal>)
-    at ../block/block-backend.c:436
-    bs_opts=0x555556f757b0, errp=0x555556c98c40 <error_fatal>)
-    at ../blockdev.c:608
-    errp=0x555556c98c40 <error_fatal>) at ../blockdev.c:992
-......
-
-Signed-off-by: Daniella Lee <daniellalee111@gmail.com>
-Message-Id: <20211119112553.352222-1-daniellalee111@gmail.com>
-[hreitz: Took commit message from v1]
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+Message-Id: <20211117151707.52549-2-hreitz@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
 ---
- block/vvfat.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/206     | 4 ++--
+ tests/qemu-iotests/206.out | 6 +++---
+ tests/qemu-iotests/210     | 4 ++--
+ tests/qemu-iotests/210.out | 6 +++---
+ 4 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/block/vvfat.c b/block/vvfat.c
-index 05e78e3c27..5dacc6cfac 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -1279,8 +1279,18 @@ static int vvfat_open(BlockDriverState *bs, QDict *options, int flags,
+diff --git a/tests/qemu-iotests/206 b/tests/qemu-iotests/206
+index c3cdad4ce4..10eff343f7 100755
+--- a/tests/qemu-iotests/206
++++ b/tests/qemu-iotests/206
+@@ -162,8 +162,8 @@ with iotests.FilePath('t.qcow2') as disk_path, \
+                          'encrypt': {
+                              'format': 'luks',
+                              'key-secret': 'keysec0',
+-                             'cipher-alg': 'twofish-128',
+-                             'cipher-mode': 'ctr',
++                             'cipher-alg': 'aes-128',
++                             'cipher-mode': 'cbc',
+                              'ivgen-alg': 'plain64',
+                              'ivgen-hash-alg': 'md5',
+                              'hash-alg': 'sha1',
+diff --git a/tests/qemu-iotests/206.out b/tests/qemu-iotests/206.out
+index 3593e8e9c2..80cd274223 100644
+--- a/tests/qemu-iotests/206.out
++++ b/tests/qemu-iotests/206.out
+@@ -97,7 +97,7 @@ Format specific information:
  
-     qemu_co_mutex_init(&s->lock);
+ === Successful image creation (encrypted) ===
  
--    ret = 0;
-+    qemu_opts_del(opts);
-+
-+    return 0;
-+
- fail:
-+    g_free(s->qcow_filename);
-+    s->qcow_filename = NULL;
-+    g_free(s->cluster_buffer);
-+    s->cluster_buffer = NULL;
-+    g_free(s->used_clusters);
-+    s->used_clusters = NULL;
-+
-     qemu_opts_del(opts);
-     return ret;
- }
-@@ -3118,7 +3128,7 @@ static int enable_write_target(BlockDriverState *bs, Error **errp)
-     int size = sector2cluster(s, s->sector_count);
-     QDict *options;
+-{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "qcow2", "encrypt": {"cipher-alg": "twofish-128", "cipher-mode": "ctr", "format": "luks", "hash-alg": "sha1", "iter-time": 10, "ivgen-alg": "plain64", "ivgen-hash-alg": "md5", "key-secret": "keysec0"}, "file": {"driver": "file", "filename": "TEST_DIR/PID-t.qcow2"}, "size": 33554432}}}
++{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "qcow2", "encrypt": {"cipher-alg": "aes-128", "cipher-mode": "cbc", "format": "luks", "hash-alg": "sha1", "iter-time": 10, "ivgen-alg": "plain64", "ivgen-hash-alg": "md5", "key-secret": "keysec0"}, "file": {"driver": "file", "filename": "TEST_DIR/PID-t.qcow2"}, "size": 33554432}}}
+ {"return": {}}
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
+@@ -115,10 +115,10 @@ Format specific information:
+     encrypt:
+         ivgen alg: plain64
+         hash alg: sha1
+-        cipher alg: twofish-128
++        cipher alg: aes-128
+         uuid: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+         format: luks
+-        cipher mode: ctr
++        cipher mode: cbc
+         slots:
+             [0]:
+                 active: true
+diff --git a/tests/qemu-iotests/210 b/tests/qemu-iotests/210
+index 5a62ed4dd1..a4dcc5fe59 100755
+--- a/tests/qemu-iotests/210
++++ b/tests/qemu-iotests/210
+@@ -83,8 +83,8 @@ with iotests.FilePath('t.luks') as disk_path, \
+                          },
+                          'size': size,
+                          'key-secret': 'keysec0',
+-                         'cipher-alg': 'twofish-128',
+-                         'cipher-mode': 'ctr',
++                         'cipher-alg': 'aes-128',
++                         'cipher-mode': 'cbc',
+                          'ivgen-alg': 'plain64',
+                          'ivgen-hash-alg': 'md5',
+                          'hash-alg': 'sha1',
+diff --git a/tests/qemu-iotests/210.out b/tests/qemu-iotests/210.out
+index 55c0844370..96d9f749dd 100644
+--- a/tests/qemu-iotests/210.out
++++ b/tests/qemu-iotests/210.out
+@@ -59,7 +59,7 @@ Format specific information:
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
  
--    s->used_clusters = calloc(size, 1);
-+    s->used_clusters = g_malloc0(size);
- 
-     array_init(&(s->commits), sizeof(commit_t));
- 
-@@ -3166,8 +3176,6 @@ static int enable_write_target(BlockDriverState *bs, Error **errp)
-     return 0;
- 
- err:
--    g_free(s->qcow_filename);
--    s->qcow_filename = NULL;
-     return ret;
- }
- 
+-{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"cipher-alg": "twofish-128", "cipher-mode": "ctr", "driver": "luks", "file": {"driver": "file", "filename": "TEST_DIR/PID-t.luks"}, "hash-alg": "sha1", "iter-time": 10, "ivgen-alg": "plain64", "ivgen-hash-alg": "md5", "key-secret": "keysec0", "size": 67108864}}}
++{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"cipher-alg": "aes-128", "cipher-mode": "cbc", "driver": "luks", "file": {"driver": "file", "filename": "TEST_DIR/PID-t.luks"}, "hash-alg": "sha1", "iter-time": 10, "ivgen-alg": "plain64", "ivgen-hash-alg": "md5", "key-secret": "keysec0", "size": 67108864}}}
+ {"return": {}}
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
+@@ -71,9 +71,9 @@ encrypted: yes
+ Format specific information:
+     ivgen alg: plain64
+     hash alg: sha1
+-    cipher alg: twofish-128
++    cipher alg: aes-128
+     uuid: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+-    cipher mode: ctr
++    cipher mode: cbc
+     slots:
+         [0]:
+             active: true
 -- 
 2.33.1
 
