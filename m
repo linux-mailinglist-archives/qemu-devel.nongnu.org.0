@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07E145AA4A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 18:44:44 +0100 (CET)
-Received: from localhost ([::1]:49478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0CD45AA2A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 18:39:59 +0100 (CET)
+Received: from localhost ([::1]:33018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpZqV-0000wV-Uk
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 12:44:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52234)
+	id 1mpZlu-0006sv-QZ
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 12:39:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpZkC-00042W-FN
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:38:12 -0500
-Received: from [2a00:1450:4864:20::331] (port=33729
- helo=mail-wm1-x331.google.com)
+ id 1mpZkE-00047B-T1
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:38:14 -0500
+Received: from [2a00:1450:4864:20::333] (port=35761
+ helo=mail-wm1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpZkA-0004zp-RM
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:38:12 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- r9-20020a7bc089000000b00332f4abf43fso2439600wmh.0
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 09:38:10 -0800 (PST)
+ id 1mpZkD-000502-CO
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:38:14 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ 77-20020a1c0450000000b0033123de3425so3045067wme.0
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 09:38:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N7ifV7lHO8lRE2Wpho0vLQOIlb6dvWhebWkO0CZFmhw=;
- b=OlXCwYDhzfokR1zsTCPF+AICPDesNr1MJNBDIYnUqFS7iiwhrfMgDXiyQbk7bYrpE0
- Qi4HxbciewP96tgbAPM6PE17226wPbfZML8tR09TBeI6hC7JuB6tnSNz3S/MQlbqRNnw
- 31bApKF7fRLy1T1UNfS+EsOrwft88NisEXU0lKKyakU2xKUaDr3RWdm5+QEKhNN1Wka/
- 8hr30bDDANekcM4F3WJYvPiNgvDUgZvWX7sj5ntUmjFcu3VRnOHjXt0LAb1sjatJnA8a
- Iiii5VvfdPCvsDJaJ5l6wcOdmlW+2neyRsGtOkxl8/txxv/+SqSapxymwbsHAsKkIfcu
- FHog==
+ bh=mT+zuzmDZjEjStGuNXpCAnb7RPXTMmCHpcEJ6vHxP1Y=;
+ b=F0wzx/rHfAA1ekdil+cTekIST8Uv3FZ7jxcs0MO1ApCXuwwotMxuLjfHEsTKkI5Paw
+ jWUwqvi5a3xMei6u/OJIeHraHA5hmVdflUKhV+DC+5FnsHSUU2x/4A+SEaxJoDjUtRjo
+ 6nf7x7qSwX72gjUIMsAXecpHjMmgIhHzb0g97ts7Mc916jJ6qjhgLtd60a/N3DNwGYzJ
+ R924MPpnN8kdCp1oFigw3o72elKMnjIqNtKyZZls2pnlm77s36Z4aU8OwymnRhOsKGuZ
+ I7KphvepL1FACEpL+ewGX3xyU3SHgKWhq9sNhs5ohRMXlykTgYu6RVGnEJI5s3FSRft3
+ /7Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N7ifV7lHO8lRE2Wpho0vLQOIlb6dvWhebWkO0CZFmhw=;
- b=sGl7cbfRe5pYcNIcuXAb8+c8IHmYkEbA8rx8H6pIqdWRcZtKJJc5nzhHMDhR2pEgvC
- BQq4AxPydVn7nQikkOgyEv5CeKt3b5wFX5ewsl+uONYsxCp/hC5HDprjpvKHIf3Mo53D
- ce5Cg31VNj4NLbR41GtTsKHKNpfV98dICWSfQBNoSFS1iMSW2Zy2tQhrJl6emjQWJhXQ
- whSIYr/FPxwGEyWsdrVJb7GCJ6fDSuqbUYMu4ioA10UwwJHSC7bhBOzVQhdmry9aLb3D
- 9QQQlww9R3876XSBD+C2BXl6rso9uD7GQzWL6YgPw9mv2xgwqMR2xYPr3tCqIJNZocOZ
- nqAQ==
-X-Gm-Message-State: AOAM532gBLyqTK63ogTVOPBZTOgK1hI6daiLhFGzFDy6ay8fG7huv6R6
- em5CkZtnDEFMEd5licbPk0SXDkyE+MlmZ7UDncw=
-X-Google-Smtp-Source: ABdhPJx/vuw+OziEBc6mcaCRyqBj2zKukL7riAGiwKjFP/9yidX4ZRPc0tfKf7PSMrD2ZlB5vuA/AQ==
-X-Received: by 2002:a05:600c:6016:: with SMTP id
- az22mr5385546wmb.11.1637689089443; 
- Tue, 23 Nov 2021 09:38:09 -0800 (PST)
+ bh=mT+zuzmDZjEjStGuNXpCAnb7RPXTMmCHpcEJ6vHxP1Y=;
+ b=v3pf5YoSJyeXKS5EWGJviTvPxacgu1zIBy6jJ2y/T6i38rMyp1HPvSybHpvrh3GTDd
+ QFMYFPZyPVIbHyU575NG6RKkzonrlbE8MulzirRshOGX5L5aBonlSj61uASfsZaSvmSQ
+ WFBa2YuF42WObKSiV01yjiLiys6i3jybH7GrZBiz0R/73YeMX3vY4zrmvPYCqu/OC5KZ
+ fsZixwRy2x00A0SK9739KSU7xy0axfwn+VjpqRqhfT3tgZpHWwIRIAY8dsOqDiVVvfvQ
+ RrE+m28c5K3dhq/4cXLQgUWh1ENgNDkckAEwdLVebQJdVLAUkA7ABcpD+5FS/9KFR2QX
+ /fBw==
+X-Gm-Message-State: AOAM531cGFp/+I1r2FUFBipHzIxMQOyirQTZ4BF6gbk6Uxwb/uoEobgV
+ ryfYT+BbWofZgHEIcjVN7ZSpqg+rVZGFmPc782E=
+X-Google-Smtp-Source: ABdhPJzfDkdDyNmfefuMotX2eN5bmkOB6Y8710lSND6l6g7+bYjMCCZ8judHrLcl3eFvCMQnE0PSVA==
+X-Received: by 2002:a05:600c:2308:: with SMTP id
+ 8mr5037876wmo.179.1637689090938; 
+ Tue, 23 Nov 2021 09:38:10 -0800 (PST)
 Received: from cloudburst.home (149.164.14.37.dynamic.jazztel.es.
  [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id n13sm13054883wrt.44.2021.11.23.09.38.08
+ by smtp.gmail.com with ESMTPSA id n13sm13054883wrt.44.2021.11.23.09.38.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 09:38:08 -0800 (PST)
+ Tue, 23 Nov 2021 09:38:10 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 04/16] linux-user/host/mips: Add safe-syscall.inc.S
-Date: Tue, 23 Nov 2021 18:37:47 +0100
-Message-Id: <20211123173759.1383510-5-richard.henderson@linaro.org>
+Subject: [PATCH v6 05/16] linux-user/host/sparc64: Add safe-syscall.inc.S
+Date: Tue, 23 Nov 2021 18:37:48 +0100
+Message-Id: <20211123173759.1383510-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211123173759.1383510-1-richard.henderson@linaro.org>
 References: <20211123173759.1383510-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -94,52 +94,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/host/mips/hostdep.h          |   3 +
- linux-user/host/mips/safe-syscall.inc.S | 123 ++++++++++++++++++++++++
- 2 files changed, 126 insertions(+)
- create mode 100644 linux-user/host/mips/safe-syscall.inc.S
+ linux-user/host/sparc64/hostdep.h          |  3 +
+ linux-user/host/sparc64/safe-syscall.inc.S | 89 ++++++++++++++++++++++
+ 2 files changed, 92 insertions(+)
+ create mode 100644 linux-user/host/sparc64/safe-syscall.inc.S
 
-diff --git a/linux-user/host/mips/hostdep.h b/linux-user/host/mips/hostdep.h
-index ba111d75c3..d9e90a096b 100644
---- a/linux-user/host/mips/hostdep.h
-+++ b/linux-user/host/mips/hostdep.h
+diff --git a/linux-user/host/sparc64/hostdep.h b/linux-user/host/sparc64/hostdep.h
+index ce3968fca0..d832868cb1 100644
+--- a/linux-user/host/sparc64/hostdep.h
++++ b/linux-user/host/sparc64/hostdep.h
 @@ -12,4 +12,7 @@
- #ifndef MIPS_HOSTDEP_H
- #define MIPS_HOSTDEP_H
+ #ifndef SPARC64_HOSTDEP_H
+ #define SPARC64_HOSTDEP_H
  
 +/* We have a safe-syscall.inc.S */
 +#define HAVE_SAFE_SYSCALL
 +
  #endif
-diff --git a/linux-user/host/mips/safe-syscall.inc.S b/linux-user/host/mips/safe-syscall.inc.S
+diff --git a/linux-user/host/sparc64/safe-syscall.inc.S b/linux-user/host/sparc64/safe-syscall.inc.S
 new file mode 100644
-index 0000000000..c6dd726001
+index 0000000000..bb35c64cfc
 --- /dev/null
-+++ b/linux-user/host/mips/safe-syscall.inc.S
-@@ -0,0 +1,123 @@
++++ b/linux-user/host/sparc64/safe-syscall.inc.S
+@@ -0,0 +1,89 @@
 +/*
 + * safe-syscall.inc.S : host-specific assembly fragment
 + * to handle signals occurring at the same time as system calls.
 + * This is intended to be included by linux-user/safe-syscall.S
 + *
 + * Written by Richard Henderson <richard.henderson@linaro.org>
-+ * Copyright (C) 2021 Linaro, Inc.
++ * Copyright (C) 2021 Red Hat, Inc.
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + */
 +
-+#include "sys/regdef.h"
-+#include "sys/asm.h"
-+
 +        .text
-+        .set    nomips16
-+        .set    reorder
++        .balign 4
 +
++        .register %g2, #scratch
++        .register %g3, #scratch
++
++        .global safe_syscall_base
 +        .global safe_syscall_start
 +        .global safe_syscall_end
++        .type   safe_syscall_base, @function
 +        .type   safe_syscall_start, @function
 +        .type   safe_syscall_end, @function
++
++#define STACK_BIAS  2047
++#define PARAM(N)    STACK_BIAS + N*8
 +
 +        /*
 +         * This is the entry point for making a system call. The calling
@@ -148,58 +152,28 @@ index 0000000000..c6dd726001
 +         * second one the system call number (as a 'long'), and all further
 +         * arguments being syscall arguments (also 'long').
 +         */
-+
-+LEAF(safe_syscall_base)
++safe_syscall_base:
 +        .cfi_startproc
-+#if _MIPS_SIM == _ABIO32
 +        /*
-+         * The syscall calling convention is nearly the same as C:
-+         * we enter with a0 == &signal_pending
-+         *               a1 == syscall number
-+         *               a2, a3, stack == syscall arguments
-+         *               and return the result in a0
++         * The syscall calling convention isn't the same as the C one:
++         * we enter with o0 == &signal_pending
++         *               o1 == syscall number
++         *               o2 ... o5, (stack) == syscall arguments
++         *               and return the result in x0
 +         * and the syscall instruction needs
-+         *               v0 == syscall number
-+         *               a0 ... a3, stack == syscall arguments
-+         *               and returns the result in v0
++         *               g1 == syscall number
++         *               o0 ... o5 == syscall arguments
++         *               and returns the result in o0
 +         * Shuffle everything around appropriately.
 +         */
-+        move    t0, a0          /* signal_pending pointer */
-+        move    v0, a1          /* syscall number */
-+        move    a0, a2          /* syscall arguments */
-+        move    a1, a3
-+        lw      a2, 16(sp)
-+        lw      a3, 20(sp)
-+        lw      t4, 24(sp)
-+        lw      t5, 28(sp)
-+        lw      t6, 32(sp)
-+        lw      t7, 40(sp)
-+        sw      t4, 16(sp)
-+        sw      t5, 20(sp)
-+        sw      t6, 24(sp)
-+        sw      t7, 28(sp)
-+#else
-+        /*
-+         * The syscall calling convention is nearly the same as C:
-+         * we enter with a0 == &signal_pending
-+         *               a1 == syscall number
-+         *               a2 ... a7 == syscall arguments
-+         *               and return the result in a0
-+         * and the syscall instruction needs
-+         *               v0 == syscall number
-+         *               a0 ... a5 == syscall arguments
-+         *               and returns the result in v0
-+         * Shuffle everything around appropriately.
-+         */
-+        move    t0, a0          /* signal_pending pointer */
-+        move    v0, a1          /* syscall number */
-+        move    a0, a2          /* syscall arguments */
-+        move    a1, a3
-+        move    a2, a4
-+        move    a3, a5
-+        move    a4, a6
-+        move    a5, a7
-+#endif
++        mov     %o0, %g2                /* signal_pending pointer */
++        mov     %o1, %g1                /* syscall number */
++        mov     %o2, %o0                /* syscall arguments */
++        mov     %o3, %o1
++        mov     %o4, %o2
++        mov     %o5, %o3
++        ldx     [%sp + PARAM(6)], %o4
++        ldx     [%sp + PARAM(7)], %o5
 +
 +        /*
 +         * This next sequence of code works in conjunction with the
@@ -210,36 +184,28 @@ index 0000000000..c6dd726001
 +         * the syscall instruction must be the final one in the sequence.
 +         */
 +safe_syscall_start:
-+        /* If signal_pending is non-zero, don't do the call */
-+        lw      t1, 0(t0)
-+        bnez    t1, 2f
-+        syscall
++        /* if signal_pending is non-zero, don't do the call */
++        lduw    [%g2], %g3
++        brnz,pn %g3, 2f
++         nop
++        ta      0x6d
 +safe_syscall_end:
-+
 +        /* code path for having successfully executed the syscall */
-+        bnez    a3, 1f
-+        jr      ra
++        bcs,pn  %xcc, 1f
++         nop
++        ret
++         nop
 +
 +        /* code path when we didn't execute the syscall */
-+2:      li      v0, TARGET_ERESTARTSYS
++2:      set     TARGET_ERESTARTSYS, %o0
 +
 +        /* code path setting errno */
-+        /*
-+         * We didn't setup GP on entry, optimistic of the syscall success.
-+         * We must do so now to load the address of the helper, as required
-+         * by the ABI, into t9.
-+         *
-+         * Note that SETUP_GPX and SETUP_GPX64 are themselves conditional,
-+         * so we can simply let the one that's not empty succeed.
-+         */
-+1:      USE_ALT_CP(t0)
-+        SETUP_GPX(t1)
-+        SETUP_GPX64(t0, t1)
-+        PTR_LA  t9, safe_syscall_set_errno_tail
-+        jr      t9
++1:      mov     %o7, %g1
++        call    safe_syscall_set_errno_tail
++         mov    %g1, %o7
 +
 +        .cfi_endproc
-+END(safe_syscall_base)
++        .size   safe_syscall_base, .-safe_syscall_base
 -- 
 2.25.1
 
