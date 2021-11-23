@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB55345A9E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 18:20:45 +0100 (CET)
-Received: from localhost ([::1]:47868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A3B45AA28
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 18:39:52 +0100 (CET)
+Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpZTG-00057l-NG
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 12:20:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46048)
+	id 1mpZlm-0006QT-MZ
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 12:39:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@ziepe.ca>) id 1mpZQ9-0002Ia-Tf
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:17:29 -0500
-Received: from [2607:f8b0:4864:20::f2a] (port=38437
- helo=mail-qv1-xf2a.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpZk7-0003xk-Vm
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:38:08 -0500
+Received: from [2a00:1450:4864:20::42a] (port=39434
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jgg@ziepe.ca>) id 1mpZQ7-0001tS-1i
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:17:29 -0500
-Received: by mail-qv1-xf2a.google.com with SMTP id a24so15467455qvb.5
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 09:17:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=dC7uVzt5MrM2Gpk9LsKlRUHiHwvI+5kbQiNrhRQEF6A=;
- b=HM1ELBL6+qrvalddZKiZw/V6FXnHcMyFZLZfs67w7amsPIslJxelFU4TMjYnUqS5mW
- 8NGMFJ7vfDrM/iIXSd6jsaSLlTg0VQj+QMdCvE41WvkoCQBAGaDgpZRmoNmqkXvsB1cJ
- QgaGAk/Av+gjr7UM7Zq7HZnZkL2lyALAZbInsSeNoJir4dw7UbP1UIjcPig45faa/64/
- jvC+pTThM3ceUYvLfwJ1+QSyuWBdAknmdurKpKyDdLKAg+5N3alo4Ec3Wbpm2S8/Uv2w
- AYnn8nIrJjy1LY7CJh3Z1dDw4IS8yETG0cN3IlthsDTwSlINDkSJBQLctYDFC3FUmN8E
- 3+mw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpZk5-0004zC-MW
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:38:07 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id a18so3729872wrn.6
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 09:38:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cR+Fdb2K9lDpbOs/M6ixeY8dHtzDbo6/dWUebLM9KRA=;
+ b=hPMlErbDwezC6zH+NQzCVL3suY/pcOiehlssuicn3NOFxlR/SShur7vnX34K1RYi12
+ PrLbHz538MDVf4jKUfi3gpBaKWBptbRCZUZBx+Dyd/1D9o60fqBXxYjkcYVlZjXxwTdi
+ iQGivqLWMNDJsVFMk0AqpGEDewF21zo3Yvg4UrDZAkxKvxcXQPgqIUmR4NEt8VT9x1Mq
+ 1NMD7h70PEt3yzHCVogs4QQORtQR7kbBsxoJCkhFVPm4ciUDKqvv9w707NhyWzZbsMAa
+ oprjCXl8Iu6SCGvS61ATQU4shfTO5Dupw1kBpI+JrbxZDBWyrZYMf56mjK5zGwYCm5vo
+ /XLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dC7uVzt5MrM2Gpk9LsKlRUHiHwvI+5kbQiNrhRQEF6A=;
- b=2ikHE7KDznm4Kvd4Y7kDpsLV2A/Jgh6KKxc+GE5254qbw8i3PDXRlGXyDnaraF6GfM
- v3ffxTt3gcQeU9UgEJe7fzLbdIJltvIcuUCEmZoTA6Ne5YJarKzxL4o+quWe2mdCgaii
- Javz9tnjCmpfi/yrNnvoZp04HxyPWetXJFBmXTsdDFoOoVn8CWi9zBr1dnlo6JQkr1mg
- a2wOgxrAzc7rzDHMItrkExAjAuLigvzlwHy1cBQXYbYtIhUA+PXTAxmsnUHwHIR0cj3a
- l8hqnz91fjZYYyIKIET3CGJ1GST8g0bj7b2bartsR8aiTGwLw6JbUwKNdLOGZSEsOyuq
- CZbg==
-X-Gm-Message-State: AOAM532S7lynGDCXEpwWKQGTR5eaIYAPQPwVNX/AvWxPWhspWI4QaeLM
- /xcjJx9gqdtp5T9DGwEk55zR5w==
-X-Google-Smtp-Source: ABdhPJxtD1ArRYMjSPPd0YoD13PmNVq/BXBvjflzk5qi5Q9ez9zBHlK3Jkepb5uP7WHDg9Rr2wTk4Q==
-X-Received: by 2002:a05:6214:246e:: with SMTP id
- im14mr8350503qvb.14.1637687844906; 
- Tue, 23 Nov 2021 09:17:24 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.113.129])
- by smtp.gmail.com with ESMTPSA id x21sm6354233qkf.77.2021.11.23.09.17.23
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cR+Fdb2K9lDpbOs/M6ixeY8dHtzDbo6/dWUebLM9KRA=;
+ b=dmlzwtkmJTF8u+QFHiLHyzidZ4A2g4cov/Ob1EC6C0hzMUGtFcLOTYqu+4yIAf23go
+ AiX8LoxoFaWWsqxxXpMmGm4CdRgPFfQzUnw9QqgQ/soAgA1bFABnbAKHW8ljXerSdDn9
+ cTtFd1QeLMeLuG6Ik1c/5Tr/F4zSfCc+lT+1lVd4Lyokooz4XeXOc2NU+0QHPAzZme2e
+ 61mRCWSlv6dnfEa3ogksNyJBexCO1YvO939B3aDjpMJT02ZjDtAhCwZVYwl8pnC5YgmK
+ hx/FdbU1lE1aeSJcKhjI8HmgH8rxoWyDZautzeB988osF+SLYylGAETJ231WMtEDGy43
+ Su1A==
+X-Gm-Message-State: AOAM533w+XV4LNQSNp++WSk20LuMO1UuHMYgdHHzRIjaOrGJ9tKNS2iJ
+ 9Ur4tObCJRHLogNDy3rtF4dAsKIDCMkb4H88Ccc=
+X-Google-Smtp-Source: ABdhPJymg5xOoAed+ziaqwu1sivZDrYId0YQ7nZJb4mImDfai2RVMXh8X0jE6hiZ8V2SBUQ8dv1k8w==
+X-Received: by 2002:a5d:6244:: with SMTP id m4mr9290200wrv.186.1637689083300; 
+ Tue, 23 Nov 2021 09:38:03 -0800 (PST)
+Received: from cloudburst.home (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id n13sm13054883wrt.44.2021.11.23.09.38.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 09:17:23 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1mpZQ3-000Dij-2a; Tue, 23 Nov 2021 13:17:23 -0400
-Date: Tue, 23 Nov 2021 13:17:23 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC v2 PATCH 01/13] mm/shmem: Introduce F_SEAL_GUEST
-Message-ID: <20211123171723.GD5112@ziepe.ca>
-References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
- <20211119134739.20218-2-chao.p.peng@linux.intel.com>
- <20211119151943.GH876299@ziepe.ca>
- <df11d753-6242-8f7c-cb04-c095f68b41fa@redhat.com>
- <6de78894-8269-ea3a-b4ee-a5cc4dad827e@redhat.com>
+ Tue, 23 Nov 2021 09:38:02 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-7.0 v6 00/16] linux-user: simplify safe signal handling
+Date: Tue, 23 Nov 2021 18:37:43 +0100
+Message-Id: <20211123173759.1383510-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6de78894-8269-ea3a-b4ee-a5cc4dad827e@redhat.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f2a
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a; envelope-from=jgg@ziepe.ca;
- helo=mail-qv1-xf2a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,39 +85,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, "J . Bruce Fields" <bfields@fieldses.org>,
- linux-mm@kvack.org, "H . Peter Anvin" <hpa@zytor.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
- susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
- linux-kernel@vger.kernel.org, john.ji@intel.com,
- Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: laurent@vivier.eu, imp@bsdimp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 23, 2021 at 10:06:02AM +0100, Paolo Bonzini wrote:
+Changes for v6:
+  * Re-order patches so that the move to common happens after
+    all of the changes to linux-user.  Seems less confusing
+    this way.  As a consequence, the meson.build changes for
+    common-user have to happen at the same time, lest we get
+    meson configure errors for missing directories.
+  * Use a helper, safe_syscall_set_errno_tail, to set errno
+    instead of passing in &errno to safe_syscall_base.
+    This avoids the aligned register pairs problem that Peter
+    mentioned, as well as being more efficient in the common
+    case of syscall success.  As a consequence, some R-B have
+    been dropped.
+  * New untabify patch (peter).
+  * PPC64 cleanup split out of larger change.
 
-> I think it's great that memfd hooks are usable by more than one subsystem,
-> OTOH it's fair that whoever needs it does the work---and VFIO does not need
-> it for confidential VMs, yet, so it should be fine for now to have a single
-> user.
+Changes for v5:
+  * Fix safe-syscall.S FreeBSD typos.
+  * Rename special TARGET_EFOO to QEMU_EFOO.
+  * Create *-user/special-errno.h.
+  * Build safe-syscall.o only once.
+  * meson.build cleanups.
+  * bsd-user builds without modification on master.
 
-I think adding a new interface to a core kernel subsystem should come
-with a greater requirement to work out something generally useful and
-not be overly wedded to a single use case (eg F_SEAL_GUEST)
+Changes for v4:
+  * Move errno handling into the assembly.  While returning the
+    raw -errno is handy for x86 linux (and a few others), it is
+    in fact more complex for other hosts that return a separate
+    error indicator.  At which point we wind up jumping through
+    hoops to return -errno, only to have the caller put it right
+    back into +errno with -1 result, just like syscall(3).
+    Pass in &errno, because the method of calculating this
+    varies wildly between glibc, musl, etc.  This means that
+    the assembly need only store to a provided pointer.
+  * Add mips and sparc safe-syscall implementations.
+    Both of which, btw, have separate error indicators.  ;-)
+  * All hosts now have it, so remove HAVE_SAFE_SYSCALL.
+  * Add meson.build rules for common-user/safe-syscall.S, so
+    that we don't have to have weird includes from *-user.
 
-Especially if something like 'single user' is not just a small
-implementation artifact but a key design tennant of the whole eventual
-solution.
+Warner's v3:
+  https://patchew.org/QEMU/20211113045603.60391-1-imp@bsdimp.com/
 
-Jason
+Patches needing review:
+  01-linux-user-Untabify-all-safe-syscall.inc.S.patch
+  02-linux-user-host-ppc64-Use-r11-for-signal_pending-.patch
+  03-linux-user-Move-syscall-error-detection-into-safe.patch
+  04-linux-user-host-mips-Add-safe-syscall.inc.S.patch
+  05-linux-user-host-sparc64-Add-safe-syscall.inc.S.patch
+
+
+r~
+
+
+Richard Henderson (16):
+  linux-user: Untabify all safe-syscall.inc.S
+  linux-user/host/ppc64: Use r11 for signal_pending address
+  linux-user: Move syscall error detection into safe_syscall_base
+  linux-user/host/mips: Add safe-syscall.inc.S
+  linux-user/host/sparc64: Add safe-syscall.inc.S
+  linux-user: Remove HAVE_SAFE_SYSCALL and hostdep.h
+  linux-user: Rename TARGET_ERESTARTSYS to QEMU_ERESTARTSYS
+  bsd-user: Rename TARGET_ERESTARTSYS to QEMU_ERESTARTSYS
+  linux-user: Rename TARGET_QEMU_ESIGRETURN to QEMU_ESIGRETURN
+  linux-user: Create special-errno.h
+  bsd-user: Create special-errno.h
+  common-user: Move safe-syscall.* from linux-user
+  common-user: Adjust system call return on FreeBSD
+  linux-user: Move thunk.c from top-level
+  meson: Move linux_user_ss to linux-user/
+  meson: Move bsd_user_ss to bsd-user/
+
+ meson.build                                   |  23 +++-
+ bsd-user/errno_defs.h                         |   6 +-
+ bsd-user/special-errno.h                      |  24 ++++
+ {linux-user => include/user}/safe-syscall.h   |  37 ++---
+ linux-user/cpu_loop-common.h                  |   1 +
+ linux-user/generic/target_errno_defs.h        |  17 ---
+ linux-user/host/aarch64/hostdep.h             |  18 ---
+ linux-user/host/arm/hostdep.h                 |  18 ---
+ linux-user/host/i386/hostdep.h                |  18 ---
+ linux-user/host/ia64/hostdep.h                |  15 ---
+ linux-user/host/mips/hostdep.h                |  15 ---
+ linux-user/host/ppc/hostdep.h                 |  15 ---
+ linux-user/host/ppc64/hostdep.h               |  18 ---
+ linux-user/host/riscv/hostdep.h               |  14 --
+ linux-user/host/s390/hostdep.h                |  15 ---
+ linux-user/host/s390x/hostdep.h               |  18 ---
+ linux-user/host/sparc/hostdep.h               |  15 ---
+ linux-user/host/sparc64/hostdep.h             |  15 ---
+ linux-user/host/x32/hostdep.h                 |  15 ---
+ linux-user/host/x86_64/hostdep.h              |  18 ---
+ linux-user/signal-common.h                    |   4 +-
+ linux-user/special-errno.h                    |  32 +++++
+ linux-user/user-internals.h                   |   1 -
+ common-user/safe-syscall-error.c              |  25 ++++
+ linux-user/aarch64/cpu_loop.c                 |   4 +-
+ linux-user/aarch64/signal.c                   |   4 +-
+ linux-user/alpha/cpu_loop.c                   |   4 +-
+ linux-user/alpha/signal.c                     |   8 +-
+ linux-user/arm/cpu_loop.c                     |   4 +-
+ linux-user/arm/signal.c                       |   8 +-
+ linux-user/cris/cpu_loop.c                    |   4 +-
+ linux-user/cris/signal.c                      |   4 +-
+ linux-user/hexagon/cpu_loop.c                 |   4 +-
+ linux-user/hexagon/signal.c                   |   2 +-
+ linux-user/hppa/cpu_loop.c                    |   4 +-
+ linux-user/hppa/signal.c                      |   4 +-
+ linux-user/i386/cpu_loop.c                    |  12 +-
+ linux-user/i386/signal.c                      |   8 +-
+ linux-user/m68k/cpu_loop.c                    |   4 +-
+ linux-user/m68k/signal.c                      |   8 +-
+ linux-user/microblaze/cpu_loop.c              |   4 +-
+ linux-user/microblaze/signal.c                |   4 +-
+ linux-user/mips/cpu_loop.c                    |   4 +-
+ linux-user/mips/signal.c                      |   8 +-
+ linux-user/openrisc/cpu_loop.c                |   4 +-
+ linux-user/ppc/cpu_loop.c                     |   4 +-
+ linux-user/ppc/signal.c                       |  10 +-
+ linux-user/riscv/cpu_loop.c                   |   4 +-
+ linux-user/riscv/signal.c                     |   2 +-
+ linux-user/s390x/cpu_loop.c                   |   4 +-
+ linux-user/s390x/signal.c                     |   8 +-
+ linux-user/sh4/cpu_loop.c                     |   4 +-
+ linux-user/sh4/signal.c                       |   8 +-
+ linux-user/signal.c                           |  10 +-
+ linux-user/sparc/cpu_loop.c                   |   2 +-
+ linux-user/sparc/signal.c                     |   8 +-
+ linux-user/syscall.c                          |  21 +--
+ thunk.c => linux-user/thunk.c                 |   0
+ linux-user/xtensa/cpu_loop.c                  |   4 +-
+ linux-user/xtensa/signal.c                    |   4 +-
+ MAINTAINERS                                   |   3 +-
+ bsd-user/meson.build                          |   6 +
+ common-user/host/aarch64/safe-syscall.inc.S   |  88 ++++++++++++
+ common-user/host/arm/safe-syscall.inc.S       | 108 +++++++++++++++
+ common-user/host/i386/safe-syscall.inc.S      | 126 ++++++++++++++++++
+ common-user/host/mips/safe-syscall.inc.S      | 123 +++++++++++++++++
+ common-user/host/ppc64/safe-syscall.inc.S     |  90 +++++++++++++
+ common-user/host/riscv/safe-syscall.inc.S     |  79 +++++++++++
+ common-user/host/s390x/safe-syscall.inc.S     |  98 ++++++++++++++
+ common-user/host/sparc64/safe-syscall.inc.S   |  89 +++++++++++++
+ .../host/x86_64/safe-syscall.inc.S            |  44 +++---
+ common-user/meson.build                       |   6 +
+ {linux-user => common-user}/safe-syscall.S    |   5 +-
+ linux-user/host/aarch64/safe-syscall.inc.S    |  75 -----------
+ linux-user/host/arm/safe-syscall.inc.S        |  90 -------------
+ linux-user/host/i386/safe-syscall.inc.S       | 100 --------------
+ linux-user/host/ppc64/safe-syscall.inc.S      |  96 -------------
+ linux-user/host/riscv/safe-syscall.inc.S      |  77 -----------
+ linux-user/host/s390x/safe-syscall.inc.S      |  90 -------------
+ linux-user/meson.build                        |   9 +-
+ 80 files changed, 1070 insertions(+), 932 deletions(-)
+ create mode 100644 bsd-user/special-errno.h
+ rename {linux-user => include/user}/safe-syscall.h (83%)
+ delete mode 100644 linux-user/host/aarch64/hostdep.h
+ delete mode 100644 linux-user/host/arm/hostdep.h
+ delete mode 100644 linux-user/host/i386/hostdep.h
+ delete mode 100644 linux-user/host/ia64/hostdep.h
+ delete mode 100644 linux-user/host/mips/hostdep.h
+ delete mode 100644 linux-user/host/ppc/hostdep.h
+ delete mode 100644 linux-user/host/ppc64/hostdep.h
+ delete mode 100644 linux-user/host/riscv/hostdep.h
+ delete mode 100644 linux-user/host/s390/hostdep.h
+ delete mode 100644 linux-user/host/s390x/hostdep.h
+ delete mode 100644 linux-user/host/sparc/hostdep.h
+ delete mode 100644 linux-user/host/sparc64/hostdep.h
+ delete mode 100644 linux-user/host/x32/hostdep.h
+ delete mode 100644 linux-user/host/x86_64/hostdep.h
+ create mode 100644 linux-user/special-errno.h
+ create mode 100644 common-user/safe-syscall-error.c
+ rename thunk.c => linux-user/thunk.c (100%)
+ create mode 100644 common-user/host/aarch64/safe-syscall.inc.S
+ create mode 100644 common-user/host/arm/safe-syscall.inc.S
+ create mode 100644 common-user/host/i386/safe-syscall.inc.S
+ create mode 100644 common-user/host/mips/safe-syscall.inc.S
+ create mode 100644 common-user/host/ppc64/safe-syscall.inc.S
+ create mode 100644 common-user/host/riscv/safe-syscall.inc.S
+ create mode 100644 common-user/host/s390x/safe-syscall.inc.S
+ create mode 100644 common-user/host/sparc64/safe-syscall.inc.S
+ rename {linux-user => common-user}/host/x86_64/safe-syscall.inc.S (81%)
+ create mode 100644 common-user/meson.build
+ rename {linux-user => common-user}/safe-syscall.S (91%)
+ delete mode 100644 linux-user/host/aarch64/safe-syscall.inc.S
+ delete mode 100644 linux-user/host/arm/safe-syscall.inc.S
+ delete mode 100644 linux-user/host/i386/safe-syscall.inc.S
+ delete mode 100644 linux-user/host/ppc64/safe-syscall.inc.S
+ delete mode 100644 linux-user/host/riscv/safe-syscall.inc.S
+ delete mode 100644 linux-user/host/s390x/safe-syscall.inc.S
+
+-- 
+2.25.1
+
 
