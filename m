@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4735245AA3A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 18:42:02 +0100 (CET)
-Received: from localhost ([::1]:40940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D07E145AA4A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 18:44:44 +0100 (CET)
+Received: from localhost ([::1]:49478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpZnt-0003kZ-CF
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 12:42:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52232)
+	id 1mpZqV-0000wV-Uk
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 12:44:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpZkC-00041D-33
+ id 1mpZkC-00042W-FN
  for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:38:12 -0500
-Received: from [2a00:1450:4864:20::42a] (port=38878
- helo=mail-wr1-x42a.google.com)
+Received: from [2a00:1450:4864:20::331] (port=33729
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpZk9-0004zf-IW
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:38:11 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id u18so40326997wrg.5
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 09:38:09 -0800 (PST)
+ id 1mpZkA-0004zp-RM
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:38:12 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ r9-20020a7bc089000000b00332f4abf43fso2439600wmh.0
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 09:38:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IgYh2+9rVmSXjGt9XblY+eDpWS5IBmxZWOswHrBkaug=;
- b=LJ1Zn+Qi9v89JwP568rHHXwPmhWpLa2sqh3TO2HMOons397qsxEv//wgV8dQeSUSX9
- 9Z6/DP03jnVfZKAqFaqlwCw6N4UYq0OSLj8NhDmS1EDYf2ExIOGYLa+2EhEUPSzWSmnA
- p1uC9RrNjP/kEtE9yQxKSJW1XGI304U4IML+3VrQaFLdrTt1Ym7fllJ17Z5iBNbk4/GS
- frIUNtcK3D+b+8Cn8rjX1o8mKo8N0QEu0YsBvH3n6IgE/5VR2UhltibMlPQkHemYAJ//
- U7erCIoj9n+Hg2eQeMs/x3Q/g2ASH6gcrGu417WG/9x0hZ2sMVMB+tg+xHr+hjwrKwyJ
- mVpQ==
+ bh=N7ifV7lHO8lRE2Wpho0vLQOIlb6dvWhebWkO0CZFmhw=;
+ b=OlXCwYDhzfokR1zsTCPF+AICPDesNr1MJNBDIYnUqFS7iiwhrfMgDXiyQbk7bYrpE0
+ Qi4HxbciewP96tgbAPM6PE17226wPbfZML8tR09TBeI6hC7JuB6tnSNz3S/MQlbqRNnw
+ 31bApKF7fRLy1T1UNfS+EsOrwft88NisEXU0lKKyakU2xKUaDr3RWdm5+QEKhNN1Wka/
+ 8hr30bDDANekcM4F3WJYvPiNgvDUgZvWX7sj5ntUmjFcu3VRnOHjXt0LAb1sjatJnA8a
+ Iiii5VvfdPCvsDJaJ5l6wcOdmlW+2neyRsGtOkxl8/txxv/+SqSapxymwbsHAsKkIfcu
+ FHog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IgYh2+9rVmSXjGt9XblY+eDpWS5IBmxZWOswHrBkaug=;
- b=2g2ILAhfZzegmMv7FublchHLh/KRlACV6C4Df3l/ewhMaXbR2orAHaxSoSp952abqx
- 8NfM2shHAL7pxyw9yxJxf9nXaUh8u5gqp2ZPr6m+1JV2zD/h0VdzfPLZtIak2xWjlEgp
- BmBumkEgARHBXCJEBGv1uLy6R7oMgd7eSRKyKjQX0W7snQOXDy5u5EfYvohigmx/V99R
- bZO6lhGKrHVqh4nXelVvf6D5iUsIRxd6DMDyaYJ9IV9hUuCApGe7OTLiDpWZMkb+AWEL
- u0lJnjkNnKazy6aFqEvR0NMRlGVBpOPU+5dsor7ovOjuFjGgSLtTUyrhEH8ZtNMWwXPq
- k2Aw==
-X-Gm-Message-State: AOAM533/dg9UxFlAC9EtvkDwhDgcYlAaU6YFbJ02AyiGQzplIxYhUz/Y
- XuUtPjP+BOWvUNF7he8LJDVVYBXMmpnZxiF98Ts=
-X-Google-Smtp-Source: ABdhPJyzyEp/VlTK+ZbmBIt6PUV1+aow9TjdEY82RTMpDG6aC7GUo2KoHS59rBbeH4ylMHuriZbf0w==
-X-Received: by 2002:a5d:4a0b:: with SMTP id m11mr9321855wrq.120.1637689088104; 
- Tue, 23 Nov 2021 09:38:08 -0800 (PST)
+ bh=N7ifV7lHO8lRE2Wpho0vLQOIlb6dvWhebWkO0CZFmhw=;
+ b=sGl7cbfRe5pYcNIcuXAb8+c8IHmYkEbA8rx8H6pIqdWRcZtKJJc5nzhHMDhR2pEgvC
+ BQq4AxPydVn7nQikkOgyEv5CeKt3b5wFX5ewsl+uONYsxCp/hC5HDprjpvKHIf3Mo53D
+ ce5Cg31VNj4NLbR41GtTsKHKNpfV98dICWSfQBNoSFS1iMSW2Zy2tQhrJl6emjQWJhXQ
+ whSIYr/FPxwGEyWsdrVJb7GCJ6fDSuqbUYMu4ioA10UwwJHSC7bhBOzVQhdmry9aLb3D
+ 9QQQlww9R3876XSBD+C2BXl6rso9uD7GQzWL6YgPw9mv2xgwqMR2xYPr3tCqIJNZocOZ
+ nqAQ==
+X-Gm-Message-State: AOAM532gBLyqTK63ogTVOPBZTOgK1hI6daiLhFGzFDy6ay8fG7huv6R6
+ em5CkZtnDEFMEd5licbPk0SXDkyE+MlmZ7UDncw=
+X-Google-Smtp-Source: ABdhPJx/vuw+OziEBc6mcaCRyqBj2zKukL7riAGiwKjFP/9yidX4ZRPc0tfKf7PSMrD2ZlB5vuA/AQ==
+X-Received: by 2002:a05:600c:6016:: with SMTP id
+ az22mr5385546wmb.11.1637689089443; 
+ Tue, 23 Nov 2021 09:38:09 -0800 (PST)
 Received: from cloudburst.home (149.164.14.37.dynamic.jazztel.es.
  [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id n13sm13054883wrt.44.2021.11.23.09.38.06
+ by smtp.gmail.com with ESMTPSA id n13sm13054883wrt.44.2021.11.23.09.38.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 09:38:07 -0800 (PST)
+ Tue, 23 Nov 2021 09:38:08 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 03/16] linux-user: Move syscall error detection into
- safe_syscall_base
-Date: Tue, 23 Nov 2021 18:37:46 +0100
-Message-Id: <20211123173759.1383510-4-richard.henderson@linaro.org>
+Subject: [PATCH v6 04/16] linux-user/host/mips: Add safe-syscall.inc.S
+Date: Tue, 23 Nov 2021 18:37:47 +0100
+Message-Id: <20211123173759.1383510-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211123173759.1383510-1-richard.henderson@linaro.org>
 References: <20211123173759.1383510-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,512 +92,154 @@ Cc: laurent@vivier.eu, imp@bsdimp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current api from safe_syscall_base() is to return -errno, which is
-the interface provided by *some* linux kernel abis.  The wrapper macro,
-safe_syscall(), detects error, stores into errno, and returns -1, to
-match the api of the system syscall().
-
-For those kernel abis that do not return -errno natively, this leads
-to double syscall error detection.  E.g. Linux ppc64, which sets the
-SO flag for error.
-
-Simplify the usage from C by moving the error detection into assembly,
-and usage from assembly by providing a C helper with which to set errno.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/safe-syscall.h                  | 16 +++-------
- linux-user/safe-syscall-error.c            | 28 ++++++++++++++++
- linux-user/host/aarch64/safe-syscall.inc.S | 20 ++++++------
- linux-user/host/arm/safe-syscall.inc.S     | 27 ++++++++++------
- linux-user/host/i386/safe-syscall.inc.S    | 37 +++++++++++++++-------
- linux-user/host/ppc64/safe-syscall.inc.S   | 20 ++++++------
- linux-user/host/riscv/safe-syscall.inc.S   | 20 ++++++------
- linux-user/host/s390x/safe-syscall.inc.S   | 32 ++++++++++++-------
- linux-user/host/x86_64/safe-syscall.inc.S  | 29 +++++++++--------
- linux-user/meson.build                     |  1 +
- 10 files changed, 145 insertions(+), 85 deletions(-)
- create mode 100644 linux-user/safe-syscall-error.c
+ linux-user/host/mips/hostdep.h          |   3 +
+ linux-user/host/mips/safe-syscall.inc.S | 123 ++++++++++++++++++++++++
+ 2 files changed, 126 insertions(+)
+ create mode 100644 linux-user/host/mips/safe-syscall.inc.S
 
-diff --git a/linux-user/safe-syscall.h b/linux-user/safe-syscall.h
-index aaa9ffc0e2..97837faddb 100644
---- a/linux-user/safe-syscall.h
-+++ b/linux-user/safe-syscall.h
-@@ -127,21 +127,15 @@
- #ifdef HAVE_SAFE_SYSCALL
- /* The core part of this function is implemented in assembly */
- extern long safe_syscall_base(int *pending, long number, ...);
-+extern long safe_syscall_set_errno_tail(int value);
+diff --git a/linux-user/host/mips/hostdep.h b/linux-user/host/mips/hostdep.h
+index ba111d75c3..d9e90a096b 100644
+--- a/linux-user/host/mips/hostdep.h
++++ b/linux-user/host/mips/hostdep.h
+@@ -12,4 +12,7 @@
+ #ifndef MIPS_HOSTDEP_H
+ #define MIPS_HOSTDEP_H
+ 
++/* We have a safe-syscall.inc.S */
++#define HAVE_SAFE_SYSCALL
 +
- /* These are defined by the safe-syscall.inc.S file */
- extern char safe_syscall_start[];
- extern char safe_syscall_end[];
- 
--#define safe_syscall(...)                                               \
--    ({                                                                  \
--        long ret_;                                                      \
--        int *psp_ = &((TaskState *)thread_cpu->opaque)->signal_pending; \
--        ret_ = safe_syscall_base(psp_, __VA_ARGS__);                    \
--        if (is_error(ret_)) {                                           \
--            errno = -ret_;                                              \
--            ret_ = -1;                                                  \
--        }                                                               \
--        ret_;                                                           \
--    })
-+#define safe_syscall(...)                                                 \
-+    safe_syscall_base(&((TaskState *)thread_cpu->opaque)->signal_pending, \
-+                      __VA_ARGS__)
- 
- #else
- 
-diff --git a/linux-user/safe-syscall-error.c b/linux-user/safe-syscall-error.c
+ #endif
+diff --git a/linux-user/host/mips/safe-syscall.inc.S b/linux-user/host/mips/safe-syscall.inc.S
 new file mode 100644
-index 0000000000..d7e2700f81
+index 0000000000..c6dd726001
 --- /dev/null
-+++ b/linux-user/safe-syscall-error.c
-@@ -0,0 +1,28 @@
++++ b/linux-user/host/mips/safe-syscall.inc.S
+@@ -0,0 +1,123 @@
 +/*
-+ * safe-syscall-error.c: errno setting fragment
-+ * This is intended to be invoked by safe-syscall.S
++ * safe-syscall.inc.S : host-specific assembly fragment
++ * to handle signals occurring at the same time as system calls.
++ * This is intended to be included by linux-user/safe-syscall.S
 + *
-+ * Written by Richard Henderson <rth@twiddle.net>
-+ * Copyright (C) 2021 Red Hat, Inc.
++ * Written by Richard Henderson <richard.henderson@linaro.org>
++ * Copyright (C) 2021 Linaro, Inc.
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + */
 +
-+#include "qemu/osdep.h"
-+#include "hostdep.h"
-+#include "safe-syscall.h"
++#include "sys/regdef.h"
++#include "sys/asm.h"
 +
-+#ifdef HAVE_SAFE_SYSCALL
-+/*
-+ * This is intended to be invoked via tail-call on the error path
-+ * from the assembly in host/arch/safe-syscall.inc.S.  This takes
-+ * care of the host specific addressing of errno.
-+ * Return -1 to finalize the return value for safe_syscall_base.
-+ */
-+long safe_syscall_set_errno_tail(int value)
-+{
-+    errno = value;
-+    return -1;
-+}
-+#endif
-diff --git a/linux-user/host/aarch64/safe-syscall.inc.S b/linux-user/host/aarch64/safe-syscall.inc.S
-index e2e726ef55..76a0a18a6c 100644
---- a/linux-user/host/aarch64/safe-syscall.inc.S
-+++ b/linux-user/host/aarch64/safe-syscall.inc.S
-@@ -22,15 +22,12 @@
-          * first argument an 'int *' to the signal_pending flag, the
-          * second one the system call number (as a 'long'), and all further
-          * arguments being syscall arguments (also 'long').
--         * We return a long which is the syscall's return value, which
--         * may be negative-errno on failure. Conversion to the
--         * -1-and-errno-set convention is done by the calling wrapper.
-          */
- safe_syscall_base:
-         .cfi_startproc
-         /* The syscall calling convention isn't the same as the
-          * C one:
--         * we enter with x0 == *signal_pending
-+         * we enter with x0 == &signal_pending
-          *               x1 == syscall number
-          *               x2 ... x7, (stack) == syscall arguments
-          *               and return the result in x0
-@@ -60,16 +57,21 @@ safe_syscall_base:
- safe_syscall_start:
-         /* if signal_pending is non-zero, don't do the call */
-         ldr     w10, [x9]
--        cbnz    w10, 0f
-+        cbnz    w10, 2f
-         svc     0x0
- safe_syscall_end:
-         /* code path for having successfully executed the syscall */
-+        cmp     x0, #-4096
-+        b.hi    0f
-         ret
- 
--0:
-+        /* code path setting errno */
-+0:      neg     w0, w0
-+        b       safe_syscall_set_errno_tail
++        .text
++        .set    nomips16
++        .set    reorder
 +
-         /* code path when we didn't execute the syscall */
--        mov     x0, #-TARGET_ERESTARTSYS
--        ret
--        .cfi_endproc
-+2:      mov     w0, #TARGET_ERESTARTSYS
-+        b       safe_syscall_set_errno_tail
- 
-+        .cfi_endproc
-         .size   safe_syscall_base, .-safe_syscall_base
-diff --git a/linux-user/host/arm/safe-syscall.inc.S b/linux-user/host/arm/safe-syscall.inc.S
-index 1f1ee8327b..618112c6bf 100644
---- a/linux-user/host/arm/safe-syscall.inc.S
-+++ b/linux-user/host/arm/safe-syscall.inc.S
-@@ -27,9 +27,6 @@
-          * first argument an 'int *' to the signal_pending flag, the
-          * second one the system call number (as a 'long'), and all further
-          * arguments being syscall arguments (also 'long').
--         * We return a long which is the syscall's return value, which
--         * may be negative-errno on failure. Conversion to the
--         * -1-and-errno-set convention is done by the calling wrapper.
-          */
- safe_syscall_base:
-         .fnstart
-@@ -46,7 +43,7 @@ safe_syscall_base:
-         .cfi_rel_offset lr, 20
- 
-         /* The syscall calling convention isn't the same as the C one:
--         * we enter with r0 == *signal_pending
-+         * we enter with r0 == &signal_pending
-          *               r1 == syscall number
-          *               r2, r3, [sp+0] ... [sp+12] == syscall arguments
-          *               and return the result in r0
-@@ -74,17 +71,29 @@ safe_syscall_start:
-         /* if signal_pending is non-zero, don't do the call */
-         ldr     r12, [r8]               /* signal_pending */
-         tst     r12, r12
--        bne     1f
-+        bne     2f
-         swi     0
- safe_syscall_end:
-         /* code path for having successfully executed the syscall */
-+        cmp     r0, #-4096
-+        neghi   r0, r0
-+        bhi     1f
-         pop     { r4, r5, r6, r7, r8, pc }
- 
--1:
-         /* code path when we didn't execute the syscall */
--        ldr     r0, =-TARGET_ERESTARTSYS
--        pop     { r4, r5, r6, r7, r8, pc }
-+2:      mov     r0, #TARGET_ERESTARTSYS
++        .global safe_syscall_start
++        .global safe_syscall_end
++        .type   safe_syscall_start, @function
++        .type   safe_syscall_end, @function
 +
-+        /* code path setting errno */
-+1:      pop     { r4, r5, r6, r7, r8, lr }
-+        .cfi_adjust_cfa_offset -24
-+        .cfi_restore r4
-+        .cfi_restore r5
-+        .cfi_restore r6
-+        .cfi_restore r7
-+        .cfi_restore r8
-+        .cfi_restore lr
-+        b       safe_syscall_set_errno_tail
++        /*
++         * This is the entry point for making a system call. The calling
++         * convention here is that of a C varargs function with the
++         * first argument an 'int *' to the signal_pending flag, the
++         * second one the system call number (as a 'long'), and all further
++         * arguments being syscall arguments (also 'long').
++         */
 +
-         .fnend
-         .cfi_endproc
--
-         .size   safe_syscall_base, .-safe_syscall_base
-diff --git a/linux-user/host/i386/safe-syscall.inc.S b/linux-user/host/i386/safe-syscall.inc.S
-index e425aa54d8..f5883234bb 100644
---- a/linux-user/host/i386/safe-syscall.inc.S
-+++ b/linux-user/host/i386/safe-syscall.inc.S
-@@ -20,9 +20,6 @@
-          * first argument an 'int *' to the signal_pending flag, the
-          * second one the system call number (as a 'long'), and all further
-          * arguments being syscall arguments (also 'long').
--         * We return a long which is the syscall's return value, which
--         * may be negative-errno on failure. Conversion to the
--         * -1-and-errno-set convention is done by the calling wrapper.
-          */
- safe_syscall_base:
-         .cfi_startproc
-@@ -41,7 +38,7 @@ safe_syscall_base:
- 
-         /* The syscall calling convention isn't the same as the C one:
-          * we enter with 0(%esp) == return address
--         *               4(%esp) == *signal_pending
-+         *               4(%esp) == &signal_pending
-          *               8(%esp) == syscall number
-          *               12(%esp) ... 32(%esp) == syscall arguments
-          *               and return the result in eax
-@@ -70,11 +67,13 @@ safe_syscall_start:
-         /* if signal_pending is non-zero, don't do the call */
-         mov     4+16(%esp), %eax        /* signal_pending */
-         cmpl    $0, (%eax)
--        jnz     1f
-+        jnz     2f
-         mov     8+16(%esp), %eax        /* syscall number */
-         int     $0x80
- safe_syscall_end:
-         /* code path for having successfully executed the syscall */
-+        cmp     $-4095, %eax
-+        jae     0f
-         pop     %ebx
-         .cfi_remember_state
-         .cfi_adjust_cfa_offset -4
-@@ -89,12 +88,28 @@ safe_syscall_end:
-         .cfi_adjust_cfa_offset -4
-         .cfi_restore ebp
-         ret
--
--1:
--        /* code path when we didn't execute the syscall */
-         .cfi_restore_state
--        mov     $-TARGET_ERESTARTSYS, %eax
--        jmp     safe_syscall_end
--        .cfi_endproc
- 
-+0:      neg     %eax
-+        jmp     1f
-+
-+        /* code path when we didn't execute the syscall */
-+2:      mov     $TARGET_ERESTARTSYS, %eax
-+
-+        /* code path setting errno */
-+1:      pop     %ebx
-+        .cfi_adjust_cfa_offset -4
-+        .cfi_restore ebx
-+        pop     %edi
-+        .cfi_adjust_cfa_offset -4
-+        .cfi_restore edi
-+        pop     %esi
-+        .cfi_adjust_cfa_offset -4
-+        .cfi_restore esi
-+        pop     %ebp
-+        .cfi_adjust_cfa_offset -4
-+        .cfi_restore ebp
-+        jmp     safe_syscall_set_errno_tail
-+
-+        .cfi_endproc
-         .size   safe_syscall_base, .-safe_syscall_base
-diff --git a/linux-user/host/ppc64/safe-syscall.inc.S b/linux-user/host/ppc64/safe-syscall.inc.S
-index 5f19cd193c..b370889480 100644
---- a/linux-user/host/ppc64/safe-syscall.inc.S
-+++ b/linux-user/host/ppc64/safe-syscall.inc.S
-@@ -22,9 +22,6 @@
-          * first argument an 'int *' to the signal_pending flag, the
-          * second one the system call number (as a 'long'), and all further
-          * arguments being syscall arguments (also 'long').
--         * We return a long which is the syscall's return value, which
--         * may be negative-errno on failure. Conversion to the
--         * -1-and-errno-set convention is done by the calling wrapper.
-          */
- #if _CALL_ELF == 2
- safe_syscall_base:
-@@ -39,7 +36,7 @@ safe_syscall_base:
- .L.safe_syscall_base:
-         .cfi_startproc
- #endif
--        /* We enter with r3 == *signal_pending
-+        /* We enter with r3 == &signal_pending
-          *               r4 == syscall number
-          *               r5 ... r10 == syscall arguments
-          *               and return the result in r3
-@@ -69,19 +66,20 @@ safe_syscall_start:
-         /* if signal_pending is non-zero, don't do the call */
-         lwz     12, 0(11)
-         cmpwi   0, 12, 0
--        bne-    0f
-+        bne-    2f
-         sc
- safe_syscall_end:
-         /* code path when we did execute the syscall */
--        bnslr+
--
--        /* syscall failed; return negative errno */
--        neg     3, 3
-+        bso-    1f
-         blr
- 
-         /* code path when we didn't execute the syscall */
--0:      addi    3, 0, -TARGET_ERESTARTSYS
--        blr
-+2:      addi    3, 0, TARGET_ERESTARTSYS
-+
-+        /* code path setting errno */
-+1:      b       safe_syscall_set_errno_tail
-+        nop     /* per abi, for the linker to modify */
-+
-         .cfi_endproc
- 
- #if _CALL_ELF == 2
-diff --git a/linux-user/host/riscv/safe-syscall.inc.S b/linux-user/host/riscv/safe-syscall.inc.S
-index 95c4832de2..54c2e23f75 100644
---- a/linux-user/host/riscv/safe-syscall.inc.S
-+++ b/linux-user/host/riscv/safe-syscall.inc.S
-@@ -23,15 +23,12 @@
-          * first argument an 'int *' to the signal_pending flag, the
-          * second one the system call number (as a 'long'), and all further
-          * arguments being syscall arguments (also 'long').
--         * We return a long which is the syscall's return value, which
--         * may be negative-errno on failure. Conversion to the
--         * -1-and-errno-set convention is done by the calling wrapper.
-          */
- safe_syscall_base:
-         .cfi_startproc
-         /*
-          * The syscall calling convention is nearly the same as C:
--         * we enter with a0 == *signal_pending
++LEAF(safe_syscall_base)
++        .cfi_startproc
++#if _MIPS_SIM == _ABIO32
++        /*
++         * The syscall calling convention is nearly the same as C:
 +         * we enter with a0 == &signal_pending
-          *               a1 == syscall number
-          *               a2 ... a7 == syscall arguments
-          *               and return the result in a0
-@@ -62,16 +59,21 @@ safe_syscall_base:
- safe_syscall_start:
-         /* If signal_pending is non-zero, don't do the call */
-         lw      t1, 0(t0)
--        bnez    t1, 0f
++         *               a1 == syscall number
++         *               a2, a3, stack == syscall arguments
++         *               and return the result in a0
++         * and the syscall instruction needs
++         *               v0 == syscall number
++         *               a0 ... a3, stack == syscall arguments
++         *               and returns the result in v0
++         * Shuffle everything around appropriately.
++         */
++        move    t0, a0          /* signal_pending pointer */
++        move    v0, a1          /* syscall number */
++        move    a0, a2          /* syscall arguments */
++        move    a1, a3
++        lw      a2, 16(sp)
++        lw      a3, 20(sp)
++        lw      t4, 24(sp)
++        lw      t5, 28(sp)
++        lw      t6, 32(sp)
++        lw      t7, 40(sp)
++        sw      t4, 16(sp)
++        sw      t5, 20(sp)
++        sw      t6, 24(sp)
++        sw      t7, 28(sp)
++#else
++        /*
++         * The syscall calling convention is nearly the same as C:
++         * we enter with a0 == &signal_pending
++         *               a1 == syscall number
++         *               a2 ... a7 == syscall arguments
++         *               and return the result in a0
++         * and the syscall instruction needs
++         *               v0 == syscall number
++         *               a0 ... a5 == syscall arguments
++         *               and returns the result in v0
++         * Shuffle everything around appropriately.
++         */
++        move    t0, a0          /* signal_pending pointer */
++        move    v0, a1          /* syscall number */
++        move    a0, a2          /* syscall arguments */
++        move    a1, a3
++        move    a2, a4
++        move    a3, a5
++        move    a4, a6
++        move    a5, a7
++#endif
++
++        /*
++         * This next sequence of code works in conjunction with the
++         * rewind_if_safe_syscall_function(). If a signal is taken
++         * and the interrupted PC is anywhere between 'safe_syscall_start'
++         * and 'safe_syscall_end' then we rewind it to 'safe_syscall_start'.
++         * The code sequence must therefore be able to cope with this, and
++         * the syscall instruction must be the final one in the sequence.
++         */
++safe_syscall_start:
++        /* If signal_pending is non-zero, don't do the call */
++        lw      t1, 0(t0)
 +        bnez    t1, 2f
-         scall
- safe_syscall_end:
-         /* code path for having successfully executed the syscall */
-+        li      t2, -4096
-+        bgtu    a0, t2, 0f
-         ret
- 
--0:
-+        /* code path setting errno */
-+0:      neg     a0, a0
-+        j       safe_syscall_set_errno_tail
++        syscall
++safe_syscall_end:
 +
-         /* code path when we didn't execute the syscall */
--        li      a0, -TARGET_ERESTARTSYS
--        ret
--        .cfi_endproc
-+2:      li      a0, TARGET_ERESTARTSYS
-+        j       safe_syscall_set_errno_tail
- 
-+        .cfi_endproc
-         .size   safe_syscall_base, .-safe_syscall_base
-diff --git a/linux-user/host/s390x/safe-syscall.inc.S b/linux-user/host/s390x/safe-syscall.inc.S
-index d97d27458e..899dab39e9 100644
---- a/linux-user/host/s390x/safe-syscall.inc.S
-+++ b/linux-user/host/s390x/safe-syscall.inc.S
-@@ -20,9 +20,6 @@
-          * first argument an 'int *' to the signal_pending flag, the
-          * second one the system call number (as a 'long'), and all further
-          * arguments being syscall arguments (also 'long').
--         * We return a long which is the syscall's return value, which
--         * may be negative-errno on failure. Conversion to the
--         * -1-and-errno-set convention is done by the calling wrapper.
-          */
- safe_syscall_base:
-         .cfi_startproc
-@@ -44,9 +41,9 @@ safe_syscall_base:
-         stg     %r1,0(%r15)             /* store back chain */
-         stg     %r0,8(%r15)             /* store eos */
- 
--        /* The syscall calling convention isn't the same as the
--         * C one:
--         * we enter with r2 == *signal_pending
-+        /*
-+         * The syscall calling convention isn't the same as the C one:
-+         * we enter with r2 == &signal_pending
-          *               r3 == syscall number
-          *               r4, r5, r6, (stack) == syscall arguments
-          *               and return the result in r2
-@@ -77,14 +74,25 @@ safe_syscall_start:
-         svc     0
- safe_syscall_end:
- 
--1:      lg      %r15,0(%r15)            /* load back chain */
 +        /* code path for having successfully executed the syscall */
-+        lg      %r15,0(%r15)            /* load back chain */
-         .cfi_remember_state
-         .cfi_adjust_cfa_offset -160
-         lmg     %r6,%r15,48(%r15)       /* load saved registers */
--        br      %r14
--        .cfi_restore_state
--2:      lghi    %r2, -TARGET_ERESTARTSYS
--        j       1b
--        .cfi_endproc
- 
-+        lghi    %r0, -4095              /* check for syscall error */
-+        clgr    %r2, %r0
-+        blr     %r14                    /* return on success */
-+        lcr     %r2, %r2                /* create positive errno */
-+        jg      safe_syscall_set_errno_tail
-+        .cfi_restore_state
++        bnez    a3, 1f
++        jr      ra
 +
 +        /* code path when we didn't execute the syscall */
-+2:      lg      %r15,0(%r15)            /* load back chain */
-+        .cfi_adjust_cfa_offset -160
-+        lmg     %r6,%r15,48(%r15)       /* load saved registers */
-+        lghi    %r2, TARGET_ERESTARTSYS
-+        jg      safe_syscall_set_errno_tail
-+
-+        .cfi_endproc
-         .size   safe_syscall_base, .-safe_syscall_base
-diff --git a/linux-user/host/x86_64/safe-syscall.inc.S b/linux-user/host/x86_64/safe-syscall.inc.S
-index 158225553e..39b64250c3 100644
---- a/linux-user/host/x86_64/safe-syscall.inc.S
-+++ b/linux-user/host/x86_64/safe-syscall.inc.S
-@@ -19,9 +19,6 @@
-          * first argument an 'int *' to the signal_pending flag, the
-          * second one the system call number (as a 'long'), and all further
-          * arguments being syscall arguments (also 'long').
--         * We return a long which is the syscall's return value, which
--         * may be negative-errno on failure. Conversion to the
--         * -1-and-errno-set convention is done by the calling wrapper.
-          */
- safe_syscall_base:
-         .cfi_startproc
-@@ -35,9 +32,9 @@ safe_syscall_base:
-         .cfi_adjust_cfa_offset 8
-         .cfi_rel_offset rbp, 0
- 
--        /* The syscall calling convention isn't the same as the
--         * C one:
--         * we enter with rdi == *signal_pending
-+        /*
-+         * The syscall calling convention isn't the same as the C one:
-+         * we enter with rdi == &signal_pending
-          *               rsi == syscall number
-          *               rdx, rcx, r8, r9, (stack), (stack) == syscall arguments
-          *               and return the result in rax
-@@ -68,24 +65,30 @@ safe_syscall_base:
- safe_syscall_start:
-         /* if signal_pending is non-zero, don't do the call */
-         cmpl    $0, (%rbp)
--        jnz     1f
-+        jnz     2f
-         syscall
- safe_syscall_end:
-         /* code path for having successfully executed the syscall */
-+        cmp     $-4095, %rax
-+        jae     0f
-         pop     %rbp
-         .cfi_remember_state
-         .cfi_def_cfa_offset 8
-         .cfi_restore rbp
-         ret
--
--1:
--        /* code path when we didn't execute the syscall */
-         .cfi_restore_state
--        mov     $-TARGET_ERESTARTSYS, %rax
--        pop     %rbp
-+
-+0:      neg     %eax
-+        jmp     1f
-+
-+        /* code path when we didn't execute the syscall */
-+2:      mov     $TARGET_ERESTARTSYS, %eax
++2:      li      v0, TARGET_ERESTARTSYS
 +
 +        /* code path setting errno */
-+1:      pop     %rbp
-         .cfi_def_cfa_offset 8
-         .cfi_restore rbp
--        ret
-+        jmp     safe_syscall_set_errno_tail
-         .cfi_endproc
- 
-         .size   safe_syscall_base, .-safe_syscall_base
-diff --git a/linux-user/meson.build b/linux-user/meson.build
-index bf62c13e37..94ac3c58ce 100644
---- a/linux-user/meson.build
-+++ b/linux-user/meson.build
-@@ -10,6 +10,7 @@ linux_user_ss.add(files(
-   'main.c',
-   'mmap.c',
-   'safe-syscall.S',
-+  'safe-syscall-error.c',
-   'signal.c',
-   'strace.c',
-   'syscall.c',
++        /*
++         * We didn't setup GP on entry, optimistic of the syscall success.
++         * We must do so now to load the address of the helper, as required
++         * by the ABI, into t9.
++         *
++         * Note that SETUP_GPX and SETUP_GPX64 are themselves conditional,
++         * so we can simply let the one that's not empty succeed.
++         */
++1:      USE_ALT_CP(t0)
++        SETUP_GPX(t1)
++        SETUP_GPX64(t0, t1)
++        PTR_LA  t9, safe_syscall_set_errno_tail
++        jr      t9
++
++        .cfi_endproc
++END(safe_syscall_base)
 -- 
 2.25.1
 
