@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B7A7459C29
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 07:06:41 +0100 (CET)
-Received: from localhost ([::1]:58326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B88459C2A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 07:09:07 +0100 (CET)
+Received: from localhost ([::1]:60724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpOwy-00041r-65
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 01:06:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49050)
+	id 1mpOzK-0005r3-Ok
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 01:09:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mpOtH-0002xr-Kg
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 01:02:51 -0500
-Received: from [2607:f8b0:4864:20::134] (port=41833
- helo=mail-il1-x134.google.com)
+ id 1mpOvq-0004Dc-Ge; Tue, 23 Nov 2021 01:05:34 -0500
+Received: from [2607:f8b0:4864:20::d2f] (port=45828
+ helo=mail-io1-xd2f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mpOtF-0004ZK-Ou
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 01:02:51 -0500
-Received: by mail-il1-x134.google.com with SMTP id t8so10671734ilu.8
- for <qemu-devel@nongnu.org>; Mon, 22 Nov 2021 22:02:48 -0800 (PST)
+ id 1mpOvk-0004va-Am; Tue, 23 Nov 2021 01:05:26 -0500
+Received: by mail-io1-xd2f.google.com with SMTP id v23so26482939iom.12;
+ Mon, 22 Nov 2021 22:05:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=ABxeR2qu+jzu5+xwA6ffSXuTycA3waFZmGruKNWf05U=;
- b=S9j3GVad3JFUG+2a6HuWlFB7hbjcCLj3Y+uhiS+YFI6Ps9gqkn1pqyk+HVZWOkdVmR
- +tEhmlKWAmNxLq2RUU9OVDwy8vLrlz7hj4mcP4jpFEyzPupjCSbi9c/52OHUdBPgux4B
- 5fA8t3SavzSbVQYqCyPKnPj6nfkiusr1qfliOxwe2K5qz4KDC61Ub5uZeg1Op5vUeDU3
- 4xD/J+YldC37vKnXkF2TXB2ms7mRwPoxfGjgHAhI1nRiuGifoyxzsuYae5VHpsJf1Ty/
- WvOHH45b7ZiVS/81Ve3YlfBItgrQIMaBpjAGy4BU2PfI0M0LOdV2Js6OH4Qqr5CSV6Rc
- Vjhw==
+ bh=4kINVuWnDNEG139KzrNWOcNZrtZ1ghbF+Sou7XJu3Os=;
+ b=OOC33y+Kh+vhKgxEOv0UJDxpQRxtVu6sRu03kzLUnydIkb3qc10kcdHgT1iyrUI3OF
+ hZw2dnADPK9Tdj3oXcqKt+F/pVIGFnrZvcWwvlaON0h+yH0uFeuXDHxXQchprCF5BzgJ
+ 3Oy/6FvHZw18tDS0Saj15RpEKc9va6bhDskKpwqIu4UlQq1yx2vc/vdTwi6/VVFjvVrp
+ Q24DWvFDsfySKFtJG2tRmBAhPw7VAnDIndbj38+v1pHxusWuzozKtsPTlDKmoaPTqi1A
+ QgyEylkJdDgrB9mBzYKFq4uVGTK2QZEKcDKwScikWbqWBW1k3ZratUjIV6Y0d4DJ/nmz
+ 4L6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=ABxeR2qu+jzu5+xwA6ffSXuTycA3waFZmGruKNWf05U=;
- b=CmIb+3tuL1FL5TfIqE3QOifxhjeSL31sXSF9eDG053PKlnpu/Yq628TASAGE1L728g
- n+IBeIMCoo2Ppz76o3Q1qM4aAQIaMlbEUzfGu2cbbF0zv+c5qv8GlCKUJxZpV/Gr5Klr
- dI2AjWebcEqDGkAg0n6DZYqZVzep6z9Lf7yEcfJcvouYWx5O/mhOnlNZ31neaZ/H+x7U
- 3FGV6jlGDHwC6Ka0lCwmEg9oKek93Ux9FZeBKpPFgOsRwipGbqp8xHbV/E1z7mwmAKiY
- 84mid+h9WEZhK9si34SPtYQsJn7Xf7R46V8SrwzKODdajJtgWh7p5xrBe4iyY9ffRdwE
- HhiA==
-X-Gm-Message-State: AOAM532jceNFL7Ud+FyGuqyp98BDDLO0vfqntxxL6spbCqQiS+5YSuqI
- S1Ox2gUJJflp6vDeXdzYjY9JNQWSOunVS9epOtc=
-X-Google-Smtp-Source: ABdhPJz3GPeBk26thoS5QS+ala6/R52RqssQ9VgV4WwsWkMX/yADBNo5+HHFrKY/grBLBM/XMGAEXC5ojDkPm5FfuUg=
-X-Received: by 2002:a05:6e02:1b08:: with SMTP id
- i8mr2584169ilv.74.1637647368014; 
- Mon, 22 Nov 2021 22:02:48 -0800 (PST)
+ bh=4kINVuWnDNEG139KzrNWOcNZrtZ1ghbF+Sou7XJu3Os=;
+ b=HVrChrYo1GbToUbL9Nso8V1UF99GrIfYa/ARjqVwlNOc20SvOc6ivWNKwp5KZEmDFF
+ x9d/pazirBjn3iV7zGrPaC+GNAqaBhlP1/G+U28Gf75RIn2+wjD+3mgRTsZwG1p2JHO6
+ VN6CLnAbDljWgwTEDlabsefz+Km2D0p6BoMYzKZFoSOyzi1VIeYsw08joz+LXH04CbMI
+ F2DJhVMXKoSRXZ3oQLpfjVqUsg2r1V9NMdD5hOYYqBlSUHxhy2WEohVNVdRUKKNIYvz7
+ bRcx2YmkcJ3OohB4YRnuZaEEChB+8V3Sx9ERaqc7xKj3XestHy6lH5uqGRaK2Yh/5a2h
+ S/pQ==
+X-Gm-Message-State: AOAM532YbBZYw5G0jzboXUPCiLYr3xgJmogceXVzC1O9Z0qs7QVGYVqU
+ 2psGDm/3uJW1ng++CpvEolbuUvMyIJm6WbY8OME=
+X-Google-Smtp-Source: ABdhPJwCzj49FJ4gFTaezKZf4y7qMkCnOnoFr1pPbDkBCuaskMGgeZq+ub3zhmVFBycdtg3A0MC7csrYAshIUFr3wW8=
+X-Received: by 2002:a6b:6802:: with SMTP id d2mr3206391ioc.187.1637647522111; 
+ Mon, 22 Nov 2021 22:05:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20211118122912.4051779-1-philmd@redhat.com>
- <02e7e56e-f80d-1e9c-13ec-0ddbe3b5b360@redhat.com>
-In-Reply-To: <02e7e56e-f80d-1e9c-13ec-0ddbe3b5b360@redhat.com>
+References: <20211112145902.205131-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20211112145902.205131-4-frederic.petrot@univ-grenoble-alpes.fr>
+In-Reply-To: <20211112145902.205131-4-frederic.petrot@univ-grenoble-alpes.fr>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 23 Nov 2021 16:02:21 +1000
-Message-ID: <CAKmqyKPZiRxY5aFuKyQP4vh287F63-BcDhpT7E35w+BKd43FxA@mail.gmail.com>
-Subject: Re: [qemu-web PATCH v2] Add Sponsors page
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Tue, 23 Nov 2021 16:04:55 +1000
+Message-ID: <CAKmqyKPdRpyYa=gBowqOu65vOP_guhKEFRm001qmVdE-WGtyFw@mail.gmail.com>
+Subject: Re: [PATCH v5 03/18] qemu/int128: addition of div/rem 128-bit
+ operations
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::134
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::134;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x134.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -84,61 +83,223 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Thomas Markey <admin@fosshost.org>,
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+ Alistair Francis <alistair.francis@wdc.com>,
+ Fabien Portas <fabien.portas@grenoble-inp.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 19, 2021 at 12:12 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Sat, Nov 13, 2021 at 1:06 AM Fr=C3=A9d=C3=A9ric P=C3=A9trot
+<frederic.petrot@univ-grenoble-alpes.fr> wrote:
 >
-> Cc'ing Alistair regarding the RISC-V foundation help:
-> https://www.cnx-software.com/2021/05/03/the-risc-v-foundation-to-give-awa=
-y-1000-risc-v-development-boards/
+> Addition of div and rem on 128-bit integers, using the 128/64->128 divu a=
+nd
+> 64x64->128 mulu in host-utils.
+> These operations will be used within div/rem helpers in the 128-bit riscv
+> target.
+>
+> Signed-off-by: Fr=C3=A9d=C3=A9ric P=C3=A9trot <frederic.petrot@univ-greno=
+ble-alpes.fr>
+> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
 
-Thanks!
-
-We have access to RISC-V boards for QEMU tests from the PLCT Lab
-(https://github.com/plctlab)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
+> ---
+>  include/qemu/int128.h |   6 ++
+>  util/int128.c         | 145 ++++++++++++++++++++++++++++++++++++++++++
+>  util/meson.build      |   1 +
+>  3 files changed, 152 insertions(+)
+>  create mode 100644 util/int128.c
 >
-> On 11/18/21 13:29, Philippe Mathieu-Daud=C3=A9 wrote:
-> > Add a page listing QEMU sponsors.
-> >
-> > For now, only mention Fosshost which requested to be listed:
-> > https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg05381.html
-> >
-> > Cc: Thomas Markey <admin@fosshost.org>
-> > Resolves: https://gitlab.com/qemu-project/qemu-web/-/issues/2
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > ---
-> > Since v1:
-> > - move to footer (Daniel)
-> > - only list sponsor who asked to be listed (Stefan)
-> > ---
+> diff --git a/include/qemu/int128.h b/include/qemu/int128.h
+> index b6d517aea4..ef41892dac 100644
+> --- a/include/qemu/int128.h
+> +++ b/include/qemu/int128.h
+> @@ -386,4 +386,10 @@ static inline void bswap128s(Int128 *s)
+>      *s =3D bswap128(*s);
+>  }
 >
-> > diff --git a/sponsors.md b/sponsors.md
-> > new file mode 100644
-> > index 0000000..1c097c8
-> > --- /dev/null
-> > +++ b/sponsors.md
-> > @@ -0,0 +1,9 @@
-> > +---
-> > +title: QEMU sponsors
-> > +permalink: /sponsors/
-> > +---
-> > +
-> > +QEMU has sponsors!
-> > +
-> > +For continuous integration and testing, hardware is provided by:
-> > +- [Fosshost](https://fosshost.org/)
-> >
+> +#define UINT128_MAX int128_make128(~0LL, ~0LL)
+> +Int128 int128_divu(Int128, Int128);
+> +Int128 int128_remu(Int128, Int128);
+> +Int128 int128_divs(Int128, Int128);
+> +Int128 int128_rems(Int128, Int128);
+> +
+>  #endif /* INT128_H */
+> diff --git a/util/int128.c b/util/int128.c
+> new file mode 100644
+> index 0000000000..c2ddf197e1
+> --- /dev/null
+> +++ b/util/int128.c
+> @@ -0,0 +1,145 @@
+> +#include "qemu/osdep.h"
+> +#include "qemu/host-utils.h"
+> +#include "qemu/int128.h"
+> +
+> +#ifdef CONFIG_INT128
+> +
+> +Int128 int128_divu(Int128 a, Int128 b)
+> +{
+> +    return (__uint128_t)a / (__uint128_t)b;
+> +}
+> +
+> +Int128 int128_remu(Int128 a, Int128 b)
+> +{
+> +    return (__uint128_t)a % (__uint128_t)b;
+> +}
+> +
+> +Int128 int128_divs(Int128 a, Int128 b)
+> +{
+> +    return a / b;
+> +}
+> +
+> +Int128 int128_rems(Int128 a, Int128 b)
+> +{
+> +    return a % b;
+> +}
+> +
+> +#else
+> +
+> +/*
+> + * Division and remainder algorithms for 128-bit due to Stefan Kanthak,
+> + * https://skanthak.homepage.t-online.de/integer.html#udivmodti4
+> + * Preconditions:
+> + *     - function should never be called with v equals to 0, it has to
+> + *       be dealt with beforehand
+> + *     - quotien pointer must be valid
+> + */
+> +static Int128 divrem128(Int128 u, Int128 v, Int128 *q)
+> +{
+> +    Int128 qq;
+> +    uint64_t hi, lo, tmp;
+> +    int s;
+> +
+> +    if ((s =3D clz64(v.hi)) =3D=3D 64) {
+> +        /* we have uu=C3=B70v =3D> let's use divu128 */
+> +        hi =3D u.hi;
+> +        lo =3D u.lo;
+> +        tmp =3D divu128(&lo, &hi, v.lo);
+> +        *q =3D int128_make128(lo, hi);
+> +        return int128_make128(tmp, 0);
+> +    } else {
+> +        hi =3D int128_gethi(int128_lshift(v, s));
+> +
+> +        if (hi > u.hi) {
+> +            lo =3D u.lo;
+> +            tmp =3D u.hi;
+> +            divu128(&lo, &tmp, hi);
+> +            lo =3D int128_gethi(int128_lshift(int128_make128(lo, 0), s))=
+;
+> +        } else { /* prevent overflow */
+> +            lo =3D u.lo;
+> +            tmp =3D u.hi - hi;
+> +            divu128(&lo, &tmp, hi);
+> +            lo =3D int128_gethi(int128_lshift(int128_make128(lo, 1), s))=
+;
+> +        }
+> +
+> +        qq =3D int128_make64(lo);
+> +
+> +        tmp =3D lo * v.hi;
+> +        mulu64(&lo, &hi, lo, v.lo);
+> +        hi +=3D tmp;
+> +
+> +        if (hi < tmp     /* quotient * divisor >=3D 2**128 > dividend */
+> +            || hi > u.hi /* quotient * divisor > dividend */
+> +            || (hi =3D=3D u.hi && lo > u.lo)) {
+> +            qq.lo -=3D 1;
+> +            mulu64(&lo, &hi, qq.lo, v.lo);
+> +            hi +=3D qq.lo * v.hi;
+> +        }
+> +
+> +        *q =3D qq;
+> +        u.hi -=3D hi + (u.lo < lo);
+> +        u.lo -=3D lo;
+> +        return u;
+> +    }
+> +}
+> +
+> +Int128 int128_divu(Int128 a, Int128 b)
+> +{
+> +    Int128 q;
+> +    divrem128(a, b, &q);
+> +    return q;
+> +}
+> +
+> +Int128 int128_remu(Int128 a, Int128 b)
+> +{
+> +    Int128 q;
+> +    return divrem128(a, b, &q);
+> +}
+> +
+> +Int128 int128_divs(Int128 a, Int128 b)
+> +{
+> +    Int128 q;
+> +    bool sgna =3D !int128_nonneg(a);
+> +    bool sgnb =3D !int128_nonneg(b);
+> +
+> +    if (sgna) {
+> +        a =3D int128_neg(a);
+> +    }
+> +
+> +    if (sgnb) {
+> +        b =3D int128_neg(b);
+> +    }
+> +
+> +    divrem128(a, b, &q);
+> +
+> +    if (sgna !=3D sgnb) {
+> +        q =3D int128_neg(q);
+> +    }
+> +
+> +    return q;
+> +}
+> +
+> +Int128 int128_rems(Int128 a, Int128 b)
+> +{
+> +    Int128 q, r;
+> +    bool sgna =3D !int128_nonneg(a);
+> +    bool sgnb =3D !int128_nonneg(b);
+> +
+> +    if (sgna) {
+> +        a =3D int128_neg(a);
+> +    }
+> +
+> +    if (sgnb) {
+> +        b =3D int128_neg(b);
+> +    }
+> +
+> +    r =3D divrem128(a, b, &q);
+> +
+> +    if (sgna) {
+> +        r =3D int128_neg(r);
+> +    }
+> +
+> +    return r;
+> +}
+> +
+> +#endif
+> diff --git a/util/meson.build b/util/meson.build
+> index 05b593055a..e676b2f6c6 100644
+> --- a/util/meson.build
+> +++ b/util/meson.build
+> @@ -48,6 +48,7 @@ util_ss.add(files('transactions.c'))
+>  util_ss.add(when: 'CONFIG_POSIX', if_true: files('drm.c'))
+>  util_ss.add(files('guest-random.c'))
+>  util_ss.add(files('yank.c'))
+> +util_ss.add(files('int128.c'))
+>
+>  if have_user
+>    util_ss.add(files('selfmap.c'))
+> --
+> 2.33.1
 >
 >
 
