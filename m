@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3DE845AAEE
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 19:09:24 +0100 (CET)
-Received: from localhost ([::1]:33422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C2E45AB3F
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 19:29:32 +0100 (CET)
+Received: from localhost ([::1]:43620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpaEN-0006DF-QR
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 13:09:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56560)
+	id 1mpaXq-0005cm-DX
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 13:29:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpa47-0005wk-J2
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:58:47 -0500
-Received: from [2a00:1450:4864:20::336] (port=54950
- helo=mail-wm1-x336.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mpaWo-0004iD-AA
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 13:28:26 -0500
+Received: from [2a00:1450:4864:20::32e] (port=46783
+ helo=mail-wm1-x32e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpa45-0007he-G2
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:58:47 -0500
-Received: by mail-wm1-x336.google.com with SMTP id i12so19511661wmq.4
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 09:58:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mpaWl-0003YB-EF
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 13:28:26 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ c6-20020a05600c0ac600b0033c3aedd30aso2377024wmr.5
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 10:28:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VMDbr+zLpSGJ4P0XgNCYipvJzdbIuR1bCTTFcvqUyLE=;
- b=TipLIoykw/erJ5RgDK4rH4/m7JdGgCiHZtlzEV5AciFwmLv5ec3Aj8H56Dx9ePrl0A
- LQqqn6cKLA4yCU+dMpqw5CQMlwSvKV68i/rnLprtJ4qLObZM6+jrhp4XB1WfUaXorHrh
- crPr8Ib/6iX4ZkOyfarpBE3Dbsolt8In8zYMhGQ2Im1/4yvcFCelawVsdHWagJcWFMGe
- 254BLEeT3TdQEjODpr5Rrmu+QBf9SuMgm7cCf3QmDb9EGqNfpv3n0RERCFHNT6m/vGSG
- +UwtoUrV73Mf9Dj8j24ERQs598CLUlz06VwbKmDBoZiCCuZeSVxc1gfLVmIlDh6oo3ZA
- nd9Q==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=gFBviJkf2gsFfb5wTFhl30BpsexzhR+TsOcfDO3dXL0=;
+ b=YXirgU0/ou0RUS7/LnvoKSDJdX90L+FUozkH3HXDV4EIPqQsx5GhLKGxXidjnIX/PD
+ rgYXIlXYRlfkW75FZ5VOaqsmFWuc+q3vpKfNXERiNC3XMPcf3kWRvxdFjXh79t1GkOcV
+ kr2RL1sZiPONWEDe3NOrAPaOt3RSwWRkpI0k+AfZbo+hMuOfTrhgTfSl9KHJkoI5tS3c
+ YXON/+w80qmxQKO2WJ6xDN5Nli2m3NT/Y6LsQMlqFugcLRCjpoSCsSiks/8Qa9rk3cE5
+ wIuarDmdpG/sxipE2xKgFfKa7I22ht133YILiwDcwHpNzKqiRPozbOKpjpW3Gc4EriOB
+ BnSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VMDbr+zLpSGJ4P0XgNCYipvJzdbIuR1bCTTFcvqUyLE=;
- b=52Oj9NDxKFmjWJUUo/OR9MO8cOCivXB2O6RsSDRihgQjd+FwB3TmnIq2H3sAtE4wYs
- ni/VCu4IHMmZqfoMMOfcq7AwBNMEGUtL9BDw9GGif6QGLe6HMMsIkuZqIJ/KSx1Oijkt
- 7O8+CLeZDiLf6HsGGdG337eJhd9QmKrS9hXwCADkU2hoKDmoGgTVMNbl6T50AWqFPwU9
- pOthx1C1WTwblMRgw2euzBrTJ0gC5Ch6OD/RfI2G6cFBemPw2lcwDMlf2d+tAM9eta1g
- IwapKaOgirkACA7gVyj6c/Me745POAu7QM82Qcqb+bd1VV5faJUHG2imnAGR0L5qi73C
- NibA==
-X-Gm-Message-State: AOAM5320nIimaeKEsmjXcCrr7YsbcafucvrR/et3vNMemAkfe3TK4DB8
- oJqLaUXpOVHzVExwLzx32Aq56A==
-X-Google-Smtp-Source: ABdhPJz7XnnELFPQJPRlqI2IUBF0ny1qK8/FqGXN62ZLgsPb5mtHLtKVGuOAzAPjZIjqyuKkAyATGQ==
-X-Received: by 2002:a1c:4e04:: with SMTP id g4mr5361863wmh.15.1637690322301;
- Tue, 23 Nov 2021 09:58:42 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id a10sm2036836wmq.27.2021.11.23.09.58.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Nov 2021 09:58:41 -0800 (PST)
-Subject: Re: [PULL 0/3] Block patches
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-References: <20211123155909.717547-1-hreitz@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e334083b-d995-b113-08e1-08dc4b3ac74d@linaro.org>
-Date: Tue, 23 Nov 2021 18:58:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=gFBviJkf2gsFfb5wTFhl30BpsexzhR+TsOcfDO3dXL0=;
+ b=C0uVF8bMZoaz9co149VcYgFpkY2J3a3duBW6Y4CYryQ/bWX8CPPMBaeVmNgsDysJGB
+ E0rpVfvco6S56jI3mW/sqGewMmGO0EZp4F0wWoKUil6Y+hXKrc7qkQjeO7FeMxxp4oyg
+ v3KQL8+UbkJmqblzlMeG7/MouQOrv/ECz5t5BfDLBH4dTShRdsn+uOrn0mRW+61qFOYx
+ Q8CKYgO/tlnHMi+okxGViIYP4gAaY5uGLut2I2L053+MjO4iBsX9oJpE10hex39KG+V0
+ 1lTqS7VHIRLrrfszt902qn/gBxw5URxPnyukDvC5OOpGzkN7Z45NvZeVziafptlZWPcQ
+ XQkw==
+X-Gm-Message-State: AOAM532VVoPXXWLDjvIzjOSRLnvfRvPtc93OAmpAC6S628kABLaRsH1O
+ CUTjhjVEGpCdEuxGtbOUFfYv1A==
+X-Google-Smtp-Source: ABdhPJyKmc/kV2pN6mgAFr6GtFuDCOdyzblDPeLPB2G6qBVNAOyBLjjKCPODKcxdgxd3sdRykTZFGQ==
+X-Received: by 2002:a7b:ce16:: with SMTP id m22mr5711815wmc.137.1637692101373; 
+ Tue, 23 Nov 2021 10:28:21 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a22sm1893612wme.19.2021.11.23.10.28.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Nov 2021 10:28:20 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7CC541FF96;
+ Tue, 23 Nov 2021 18:28:19 +0000 (GMT)
+References: <20211123171031.975367-1-peter.maydell@linaro.org>
+ <CAFEAcA8XMtAHKY=saAajLc2b03_PHGi+G=iioEpeetuS3Hh5yg@mail.gmail.com>
+User-agent: mu4e 1.7.5; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [for-6.2] hw/intc/arm_gicv3: Update cached state after
+ acknowledging LPI
+Date: Tue, 23 Nov 2021 18:27:56 +0000
+In-reply-to: <CAFEAcA8XMtAHKY=saAajLc2b03_PHGi+G=iioEpeetuS3Hh5yg@mail.gmail.com>
+Message-ID: <87k0gyg20s.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20211123155909.717547-1-hreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.515,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,47 +92,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/23/21 4:59 PM, Hanna Reitz wrote:
-> The following changes since commit 73e0f70e097b7c92a5ce16ee35b53afe119b20d7:
-> 
->    Merge tag 'pull-lu-20211123' of https://gitlab.com/rth7680/qemu into staging (2021-11-23 11:33:14 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/hreitz/qemu.git tags/pull-block-2021-11-23
-> 
-> for you to fetch changes up to 4dd218fd0717ed3cddb69c01eeb9da630107d89d:
-> 
->    iotests/149: Skip on unsupported ciphers (2021-11-23 15:39:12 +0100)
-> 
-> ----------------------------------------------------------------
-> Block patches for 6.2-rc2:
-> - Fix memory leak in vvfat when vvfat_open() fails
-> - iotest fixes for the gnutls crypto backend
-> 
-> ----------------------------------------------------------------
-> Daniella Lee (1):
->    block/vvfat.c fix leak when failure occurs
-> 
-> Hanna Reitz (2):
->    iotests: Use aes-128-cbc
->    iotests/149: Skip on unsupported ciphers
-> 
->   block/vvfat.c              | 16 ++++++++++++----
->   tests/qemu-iotests/149     | 23 ++++++++++++++++++-----
->   tests/qemu-iotests/206     |  4 ++--
->   tests/qemu-iotests/206.out |  6 +++---
->   tests/qemu-iotests/210     |  4 ++--
->   tests/qemu-iotests/210.out |  6 +++---
->   6 files changed, 40 insertions(+), 19 deletions(-)
 
-Applied, thanks.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-r~
+> On Tue, 23 Nov 2021 at 17:10, Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+>>
+>> In gicv3_redist_lpi_pending() we update cs->hpplpi to indicate the
+>> new highest priority pending LPI after changing the requested LPI
+>> pending bit.  However the overall highest priority pending interrupt
+>> information won't be updated unless we call gicv3_redist_update().
+>> We do that from the callsite in gicv3-redist_process_lpi(), but not
+>> from the callsite in icc_activate_irq().  The effect is that when the
+>> guest acknowledges an LPI by reading ICC_IAR1_EL1, we mark it as not
+>> pending in the data structure but still leave it in cs->hppi so will
+>> offer it to the guest again.
+>>
+>> The effect is that if we are using an emulated GICv3 and ITS and
+>> using devices which use LPIs (ie PCI devices) then Linux will
+>> complain "irq 54: nobody cared" and then hang (probably because the
+>> stale bogus interrupt info meant we never tried to deliver some other
+>> real interrupt).
+>
+> Hmm; this is definitely a bug, but maybe it's not the cause of
+> the symptoms listed above -- I've just seen them again even
+> with this fix. I'll keep digging...
 
+Hmm interesting - does this affect the kvm-unit-tests for GICv3?
+
+>
+> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
 
