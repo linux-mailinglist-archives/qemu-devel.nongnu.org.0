@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8296445AA9F
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 18:56:07 +0100 (CET)
-Received: from localhost ([::1]:53774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D796E45AAB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 19:01:51 +0100 (CET)
+Received: from localhost ([::1]:42330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpa1W-0006PJ-Ij
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 12:56:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55184)
+	id 1mpa74-0001fT-V0
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 13:01:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mpZx1-0006Ri-RQ
+ id 1mpZx2-0006Rh-CL
  for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:51:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36045)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20163)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mpZwz-0006lX-B1
+ id 1mpZx0-0006ls-DP
  for qemu-devel@nongnu.org; Tue, 23 Nov 2021 12:51:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637689884;
+ s=mimecast20190719; t=1637689885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iPYxMrCOWugGC2Ig3skogvxaOmXOSxKYsh8Dbjvo4MY=;
- b=XpH6uC169fid0BszWJqEgkES8T3lWLBTEag8X3Z4Qw9VCaJWWgZ4Ys4B90OiBlKL1XeNW5
- AfZiXRPL/zCzBg1O0CDV+heB32q9PSSrGAWwJXsXqXfWgae4978k4Znew/lY5XS/SU9n3q
- 0bK6oKaSATKYyWsEc/DsmFQkSnqw7Jw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4wKjbCKx6KWbCQkGZiOp80kwA296KWgFK4fMiq7yOmg=;
+ b=UkyrijqRiQz4rqDl1W9FIC+cRhllZG1DGg+1Wfq0LZSaPNI7LPxYvuSLfolt4wn9G9z6Ei
+ mcepK3FRc40txhjgW7SnImrSR7WYqkcnkZLMVsddqVXnn0upvZPCgNYYmzMrmlRd1BpOos
+ l2rzrR/nzdai2zox4OQlp+AQp75oRCM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-394-NNj82MPeMjWwlqyj8PrIHA-1; Tue, 23 Nov 2021 12:51:23 -0500
-X-MC-Unique: NNj82MPeMjWwlqyj8PrIHA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k25-20020a05600c1c9900b00332f798ba1dso1570304wms.4
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 09:51:23 -0800 (PST)
+ us-mta-256-RUCTHVUjMFWREHZShd9qIg-1; Tue, 23 Nov 2021 12:51:24 -0500
+X-MC-Unique: RUCTHVUjMFWREHZShd9qIg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ l4-20020a05600c1d0400b00332f47a0fa3so1916880wms.8
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 09:51:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iPYxMrCOWugGC2Ig3skogvxaOmXOSxKYsh8Dbjvo4MY=;
- b=40+e1ZJu+6KGKGwZefSVxxw2R3jM4Sj/4yTaSEW98JNend8WWOY69u8e3LkZFjz1Ko
- T5Vp23PW9CbNp1+l2eghVWi5ZeDdeuJH+DfuWuWcrQgHqPILlmetSPD/oXffgHznEMex
- SL/cHYdGeo649Brs1khC+Y+8MDqdRhJ3LbusWLxlYmuKfOf/L6VtoVj21cY/XDRhToD4
- xNFSNF7qDlI4Ou+viWziuJvZXeKo972uTQgnrEmss2pMXqgO7jarQbZFCpHx8Mrrv497
- uh+nZG7pzDka1kLRdx7VRouW64KRfFOAT8VRRDQA0HgcQwYkug86C6QmIwwmytqbDPrr
- 1nMw==
-X-Gm-Message-State: AOAM533q+VcassOw8yrNNcif0nXlmglwjxt1lNzQlPZ1eoeEnHEPY7vN
- NZSo4IWk89XuJR4AlxdpIho1cHXEtaLcfX4DRJR4d/oxWj4FvwGCWCh5sNea929x3gQfbRt5vmN
- o5ykhEq0v6swdyL6P8/SR8hM7Hxqjh82Sm7isx1BVmFIecTOWfOL67zCTWT4mJj4WbUU=
-X-Received: by 2002:a05:600c:1e87:: with SMTP id
- be7mr5363529wmb.182.1637689881850; 
- Tue, 23 Nov 2021 09:51:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyNJ8VmPilnB28Oy8aQoqMQJThw8B5FmxDrK78cQJtsLdauXbLgiuKu0VhAIDXLicAzPz3zIQ==
-X-Received: by 2002:a05:600c:1e87:: with SMTP id
- be7mr5363495wmb.182.1637689881640; 
- Tue, 23 Nov 2021 09:51:21 -0800 (PST)
+ bh=4wKjbCKx6KWbCQkGZiOp80kwA296KWgFK4fMiq7yOmg=;
+ b=a1DJYLe1XJDRhyimIv5ia9n4QX/t5QDuMrEVgEZp2pBhSICz+JGmTYgNeyTS324VMf
+ vRwUSgj81SFi//WE4X0J8mvPqiGqp9qonOB2zPUNVlWSoIQKnGiXzgbTaLQfik+r0OiF
+ R4gWd9sGQ0afaDcD2cruxPYk9a9tOboOG0iKsWUpH/M8BpPw13Qu676vGQ0dvPwnbLX6
+ 0SZ3P5zJ1bBj25cbYcxkYOLh0zX2knxsGWaw1udf10ATC1qH2+UirDmI3x+8a92Hl9p0
+ /hiaTyJjn4sV02nUqRFKfZbRXe6Z34vvK7RTZ8enIQnY+mFcYO3Deu3i+bVaiKAD/xhR
+ paHQ==
+X-Gm-Message-State: AOAM5323x6pdauO6zijq+9YQtuGDrKZvk//zqXkk2125v/lC0CIKNHx8
+ 9HWlQ2g6v5bM2st9Z90TKTwrGz4+HnEq/ZuDnWHbVoVTeSSNLItAXoZomOHuK4Wof9BbSvbijD2
+ mgNFFS6h9G71tysDJyf9WgzMne/wJeoRK0ZpK9nRg3OKiYerrkZCStQiyjHCIFS/a+YQ=
+X-Received: by 2002:a05:600c:3510:: with SMTP id
+ h16mr5399389wmq.144.1637689883282; 
+ Tue, 23 Nov 2021 09:51:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJybd0/UmKx0Kwutp45VjDe7rHNvSs2L66P3hVWEBTC1Hkqn3ASGVoJTOvvtp9nJgpESdHmOSQ==
+X-Received: by 2002:a05:600c:3510:: with SMTP id
+ h16mr5399355wmq.144.1637689883076; 
+ Tue, 23 Nov 2021 09:51:23 -0800 (PST)
 Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
  [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id l18sm12852378wrt.81.2021.11.23.09.51.20
+ by smtp.gmail.com with ESMTPSA id f13sm2250599wmq.29.2021.11.23.09.51.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 09:51:21 -0800 (PST)
+ Tue, 23 Nov 2021 09:51:22 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/23] multifd: Add missing documention
-Date: Tue, 23 Nov 2021 18:50:54 +0100
-Message-Id: <20211123175113.35569-5-quintela@redhat.com>
+Subject: [PATCH 05/23] multifd: The variable is only used inside the loop
+Date: Tue, 23 Nov 2021 18:50:55 +0100
+Message-Id: <20211123175113.35569-6-quintela@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211123175113.35569-1-quintela@redhat.com>
 References: <20211123175113.35569-1-quintela@redhat.com>
@@ -107,63 +107,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd-zlib.c | 2 ++
- migration/multifd-zstd.c | 2 ++
- migration/multifd.c      | 1 +
- 3 files changed, 5 insertions(+)
+ migration/multifd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-index 3fc7813b44..d0437cce2a 100644
---- a/migration/multifd-zlib.c
-+++ b/migration/multifd-zlib.c
-@@ -72,6 +72,7 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
-  * Close the channel and return memory.
-  *
-  * @p: Params for the channel that we are using
-+ * @errp: pointer to an error
-  */
- static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
- {
-@@ -94,6 +95,7 @@ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
-  *
-  * @p: Params for the channel that we are using
-  * @used: number of pages used
-+ * @errp: pointer to an error
-  */
- static int zlib_send_prepare(MultiFDSendParams *p, uint32_t used, Error **errp)
- {
-diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-index cc3b8869c0..09ae1cf91a 100644
---- a/migration/multifd-zstd.c
-+++ b/migration/multifd-zstd.c
-@@ -84,6 +84,7 @@ static int zstd_send_setup(MultiFDSendParams *p, Error **errp)
-  * Close the channel and return memory.
-  *
-  * @p: Params for the channel that we are using
-+ * @errp: pointer to an error
-  */
- static void zstd_send_cleanup(MultiFDSendParams *p, Error **errp)
- {
-@@ -107,6 +108,7 @@ static void zstd_send_cleanup(MultiFDSendParams *p, Error **errp)
-  *
-  * @p: Params for the channel that we are using
-  * @used: number of pages used
-+ * @errp: pointer to an error
-  */
- static int zstd_send_prepare(MultiFDSendParams *p, uint32_t used, Error **errp)
- {
 diff --git a/migration/multifd.c b/migration/multifd.c
-index 8ea86d81dc..cdeffdc4c5 100644
+index cdeffdc4c5..ce7101cf9d 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -66,6 +66,7 @@ static int nocomp_send_setup(MultiFDSendParams *p, Error **errp)
-  * For no compression this function does nothing.
-  *
-  * @p: Params for the channel that we are using
-+ * @errp: pointer to an error
-  */
- static void nocomp_send_cleanup(MultiFDSendParams *p, Error **errp)
- {
+@@ -629,7 +629,6 @@ static void *multifd_send_thread(void *opaque)
+     MultiFDSendParams *p = opaque;
+     Error *local_err = NULL;
+     int ret = 0;
+-    uint32_t flags = 0;
+ 
+     trace_multifd_send_thread_start(p->id);
+     rcu_register_thread();
+@@ -652,7 +651,7 @@ static void *multifd_send_thread(void *opaque)
+         if (p->pending_job) {
+             uint32_t used = p->pages->num;
+             uint64_t packet_num = p->packet_num;
+-            flags = p->flags;
++            uint32_t flags = p->flags;
+ 
+             if (used) {
+                 ret = multifd_send_state->ops->send_prepare(p, used,
 -- 
 2.33.1
 
