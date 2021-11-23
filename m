@@ -2,47 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C22459EEE
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 10:11:18 +0100 (CET)
-Received: from localhost ([::1]:36176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D944459EF4
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 10:11:34 +0100 (CET)
+Received: from localhost ([::1]:37186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpRpd-0000Vb-Re
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 04:11:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40886)
+	id 1mpRpt-0001HK-FL
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 04:11:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mpRnj-0007nc-79; Tue, 23 Nov 2021 04:09:19 -0500
-Received: from out28-147.mail.aliyun.com ([115.124.28.147]:51144)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mpRnf-0005fZ-CV; Tue, 23 Nov 2021 04:09:18 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436284|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.00560002-0.000126515-0.994273;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047207; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.Lxh9Ptu_1637658548; 
-Received: from roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.Lxh9Ptu_1637658548)
- by smtp.aliyun-inc.com(10.147.41.121);
- Tue, 23 Nov 2021 17:09:09 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v3 1/1] target/riscv: Fix PMP propagation for tlb
-Date: Tue, 23 Nov 2021 17:09:02 +0800
-Message-Id: <20211123090902.23321-1-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mpRoG-0008CI-6u
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 04:09:52 -0500
+Received: from [2a00:1450:4864:20::430] (port=40950
+ helo=mail-wr1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mpRo8-0005mR-5g
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 04:09:48 -0500
+Received: by mail-wr1-x430.google.com with SMTP id r8so37621778wra.7
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 01:09:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:content-language:to
+ :cc:references:from:subject:in-reply-to:content-transfer-encoding;
+ bh=EXjLq27uLPPwTfA6AVps4YfQwfYtoD5QB3WDXMP9avc=;
+ b=VQpajBwcKuhcQjhlfCRYaCEPr3KvnCcA5Ih+sgVXncsJXlKSw74iRRii+5fS6bli2l
+ KtFWmUca+J/l9XwEvj7CkfYgyJs/PbK/88dBzW5Sr4vYLhsZ/P6dRWsSV0dA4LjrNZNR
+ AQIuw4Y3+tsAsszXSUvHAxpHcOYNKQ0kNly3sRhn9vI7re6S+hXr2Qf/O1X5o2b+lcT8
+ i7mNaroeCwT3gqv//CO6AYxwGlqY2w1f7EHxgi+skJRyuy22XRWLdvPuULUgRIxg1H4D
+ V0Bw9p2jST4AMgrnxUOgMvXrRE5FcT7pUEuY9kQ1AfBLuz8mSasigRr6uPlCUcvE4jCk
+ RVdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=EXjLq27uLPPwTfA6AVps4YfQwfYtoD5QB3WDXMP9avc=;
+ b=gepr7IKB762uQHj2VvxXJPhZ+dUzlnrmKtlFn2Fzs6l05hRRvSYAriNh/zcetEUGJP
+ xbod0LELKubbAGPJQ5YBYZ9nbCY0t4lK9HXymbLR+SRL666fKqUQCBrjOo8spZPoZxVS
+ lz9EglREJZjxfZrE2LWOFm8L0Ilt5BqGb46KXP7I6H26tbEC2+Afypzl8DL17EAcqJan
+ CX3Uns1nP7zL2tEhfUYuQ5GqisZG5REMQBPvccA8hyyHmA57QfYhjKdGmhss+RtrqiDN
+ x3utU8nST94qNKVIaRUZkJUZ+qUP9UTB8noG/XEz+ewchN5UhkUbaBUn5SG085phgD05
+ FLpg==
+X-Gm-Message-State: AOAM5312m18wl10MuVlppxwhsh0a9haKZ715sXvgxzLcK9+EtWyUzE0x
+ 83KbjPC7bqbjEtDWmwlPnIo=
+X-Google-Smtp-Source: ABdhPJwy1AzQRo/b3ioO4YgKfTSHULKRa4G3QiCYJTl72yZ7edFn0WP/0Q5lVgW3dJZi8IC+A1P4hA==
+X-Received: by 2002:a5d:6da2:: with SMTP id u2mr4870376wrs.273.1637658581691; 
+ Tue, 23 Nov 2021 01:09:41 -0800 (PST)
+Received: from ?IPV6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
+ ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
+ by smtp.googlemail.com with ESMTPSA id m36sm522420wms.25.2021.11.23.01.09.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Nov 2021 01:09:41 -0800 (PST)
+Message-ID: <2f3e9d7e-ce15-e47b-54c6-3ca3d7195d70@redhat.com>
+Date: Tue, 23 Nov 2021 10:09:28 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=115.124.28.147; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-147.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Content-Language: en-US
+To: Chao Peng <chao.p.peng@linux.intel.com>,
+ "Kirill A. Shutemov" <kirill@shutemov.name>
+References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
+ <20211119134739.20218-14-chao.p.peng@linux.intel.com>
+ <20211122141647.3pcsywilrzcoqvbf@box.shutemov.name>
+ <20211123010639.GA32088@chaop.bj.intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC v2 PATCH 13/13] KVM: Enable memfd based page
+ invalidation/fallocate
+In-Reply-To: <20211123010639.GA32088@chaop.bj.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-3.515,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,201 +96,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, dave.hansen@intel.com,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ linux-mm@kvack.org, Sean Christopherson <seanjc@google.com>,
+ susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
+ linux-kernel@vger.kernel.org, john.ji@intel.com,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only the pmp index that be checked by pmp_hart_has_privs can be used
-by pmp_get_tlb_size to avoid an error pmp index.
+On 11/23/21 02:06, Chao Peng wrote:
+>> Maybe the kvm has to be tagged with a sequential id that incremented every
+>> allocation. This id can be checked here.
+> Sounds like a sequential id will be needed, no existing fields in struct
+> kvm can work for this.
 
-Before modification, we may use an error pmp index. For example,
-we check address 0x4fc, and the size 0x4 in pmp_hart_has_privs. If there
-is an pmp rule, valid range is [0x4fc, 0x500), then pmp_hart_has_privs
-will return true;
+There's no need to new concepts when there's a perfectly usable 
+reference count. :)
 
-However, this checked pmp index is discarded as pmp_hart_has_privs
-return bool value. In pmp_is_range_in_tlb, it will traverse all pmp
-rules. The tlb_sa will be 0x0, and tlb_ea will be 0x4fff. If there is
-a pmp rule [0x10, 0x4]. It will be misused as it is legal in
-pmp_get_tlb_size.
-
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
----
- target/riscv/cpu_helper.c | 16 ++++++-----
- target/riscv/pmp.c        | 56 +++++++++++++--------------------------
- target/riscv/pmp.h        |  6 ++---
- 3 files changed, 31 insertions(+), 47 deletions(-)
-
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 9eeed38c7e..4239bd2ca5 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -362,24 +362,26 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
-                                     int mode)
- {
-     pmp_priv_t pmp_priv;
--    target_ulong tlb_size_pmp = 0;
-+    int pmp_index = -1;
- 
-     if (!riscv_feature(env, RISCV_FEATURE_PMP)) {
-         *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-         return TRANSLATE_SUCCESS;
-     }
- 
--    if (!pmp_hart_has_privs(env, addr, size, 1 << access_type, &pmp_priv,
--                            mode)) {
-+    pmp_index = pmp_hart_has_privs(env, addr, size, 1 << access_type,
-+                                   &pmp_priv, mode);
-+    if (pmp_index < 0) {
-         *prot = 0;
-         return TRANSLATE_PMP_FAIL;
-     }
- 
-     *prot = pmp_priv_to_page_prot(pmp_priv);
--    if (tlb_size != NULL) {
--        if (pmp_is_range_in_tlb(env, addr & ~(*tlb_size - 1), &tlb_size_pmp)) {
--            *tlb_size = tlb_size_pmp;
--        }
-+    if ((tlb_size != NULL) && pmp_index != MAX_RISCV_PMPS) {
-+        target_ulong tlb_sa = addr & ~(*tlb_size - 1);
-+        target_ulong tlb_ea = tlb_sa + *tlb_size - 1;
-+
-+        *tlb_size = pmp_get_tlb_size(env, pmp_index, tlb_sa, tlb_ea);
-     }
- 
-     return TRANSLATE_SUCCESS;
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 54abf42583..1172142e34 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -297,8 +297,11 @@ static bool pmp_hart_has_privs_default(CPURISCVState *env, target_ulong addr,
- 
- /*
-  * Check if the address has required RWX privs to complete desired operation
-+ * Return PMP rule index if a pmp rule match
-+ * Return MAX_RISCV_PMPS if default match
-+ * Return negtive value if no match
-  */
--bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-+int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-     target_ulong size, pmp_priv_t privs, pmp_priv_t *allowed_privs,
-     target_ulong mode)
- {
-@@ -310,8 +313,10 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
- 
-     /* Short cut if no rules */
-     if (0 == pmp_get_num_rules(env)) {
--        return pmp_hart_has_privs_default(env, addr, size, privs,
--                                          allowed_privs, mode);
-+        if (pmp_hart_has_privs_default(env, addr, size, privs,
-+                                       allowed_privs, mode)) {
-+            ret = MAX_RISCV_PMPS;
-+        }
-     }
- 
-     if (size == 0) {
-@@ -338,7 +343,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-         if ((s + e) == 1) {
-             qemu_log_mask(LOG_GUEST_ERROR,
-                           "pmp violation - access is partially inside\n");
--            ret = 0;
-+            ret = -1;
-             break;
-         }
- 
-@@ -441,18 +446,22 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-                 }
-             }
- 
--            ret = ((privs & *allowed_privs) == privs);
-+            if ((privs & *allowed_privs) == privs) {
-+                ret = i;
-+            }
-             break;
-         }
-     }
- 
-     /* No rule matched */
-     if (ret == -1) {
--        return pmp_hart_has_privs_default(env, addr, size, privs,
--                                          allowed_privs, mode);
-+        if (pmp_hart_has_privs_default(env, addr, size, privs,
-+                                       allowed_privs, mode)) {
-+            ret = MAX_RISCV_PMPS;
-+        }
-     }
- 
--    return ret == 1 ? true : false;
-+    return ret;
- }
- 
- /*
-@@ -595,8 +604,8 @@ target_ulong mseccfg_csr_read(CPURISCVState *env)
-  * Calculate the TLB size if the start address or the end address of
-  * PMP entry is presented in the TLB page.
-  */
--static target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
--                                     target_ulong tlb_sa, target_ulong tlb_ea)
-+target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
-+                              target_ulong tlb_sa, target_ulong tlb_ea)
- {
-     target_ulong pmp_sa = env->pmp_state.addr[pmp_index].sa;
-     target_ulong pmp_ea = env->pmp_state.addr[pmp_index].ea;
-@@ -616,33 +625,6 @@ static target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
-     return 0;
- }
- 
--/*
-- * Check is there a PMP entry which range covers this page. If so,
-- * try to find the minimum granularity for the TLB size.
-- */
--bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
--                         target_ulong *tlb_size)
--{
--    int i;
--    target_ulong val;
--    target_ulong tlb_ea = (tlb_sa + TARGET_PAGE_SIZE - 1);
--
--    for (i = 0; i < MAX_RISCV_PMPS; i++) {
--        val = pmp_get_tlb_size(env, i, tlb_sa, tlb_ea);
--        if (val) {
--            if (*tlb_size == 0 || *tlb_size > val) {
--                *tlb_size = val;
--            }
--        }
--    }
--
--    if (*tlb_size != 0) {
--        return true;
--    }
--
--    return false;
--}
--
- /*
-  * Convert PMP privilege to TLB page privilege.
-  */
-diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-index a9a0b363a7..94c0b960fb 100644
---- a/target/riscv/pmp.h
-+++ b/target/riscv/pmp.h
-@@ -68,11 +68,11 @@ target_ulong mseccfg_csr_read(CPURISCVState *env);
- void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
-     target_ulong val);
- target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
--bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-+int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-     target_ulong size, pmp_priv_t privs, pmp_priv_t *allowed_privs,
-     target_ulong mode);
--bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
--                         target_ulong *tlb_size);
-+target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
-+                              target_ulong tlb_sa, target_ulong tlb_ea);
- void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
- void pmp_update_rule_nums(CPURISCVState *env);
- uint32_t pmp_get_num_rules(CPURISCVState *env);
--- 
-2.25.1
-
+Paolo
 
