@@ -2,48 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86F38459FD7
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 11:14:27 +0100 (CET)
-Received: from localhost ([::1]:44412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37936459FE8
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 11:16:35 +0100 (CET)
+Received: from localhost ([::1]:47076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpSok-0002mp-3r
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 05:14:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55878)
+	id 1mpSqo-0004aj-3M
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 05:16:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1mpSnS-0001tj-GF; Tue, 23 Nov 2021 05:13:06 -0500
-Received: from mga07.intel.com ([134.134.136.100]:11547)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mpSob-0003AU-B6; Tue, 23 Nov 2021 05:14:17 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34990
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1mpSnQ-0006HL-3C; Tue, 23 Nov 2021 05:13:06 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10176"; a="298405372"
-X-IronPort-AV: E=Sophos;i="5.87,257,1631602800"; d="scan'208";a="298405372"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2021 02:12:59 -0800
-X-IronPort-AV: E=Sophos;i="5.87,257,1631602800"; d="scan'208";a="650022959"
-Received: from lmaniak-dev.igk.intel.com ([10.55.249.72])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2021 02:12:56 -0800
-Date: Tue, 23 Nov 2021 11:11:37 +0100
-From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-To: Naveen <naveen.n1@samsung.com>
-Subject: Re: [RFC PATCH v3] hw/nvme:Adding Support for namespace management
-Message-ID: <20211123101126.GA1012589@lmaniak-dev.igk.intel.com>
-References: <CGME20211110112647epcas5p1946f1543392f3b9563d6766fcda5c392@epcas5p1.samsung.com>
- <1636543589-32333-1-git-send-email-naveen.n1@samsung.com>
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mpSoY-0006Va-Fv; Tue, 23 Nov 2021 05:14:17 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AN9kmD1026739; 
+ Tue, 23 Nov 2021 10:14:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=Dlb+HgXaQDGOB0Q1JR3u2ljrxedMirwed5tW5g5c5hg=;
+ b=PJUwqZZhNv/6RpvqOoCdrOik/K4earbmokJ5hiKD4TSAMHwCHW3pYdtcHiZTq5K3Vy30
+ b58O2LuZBzT4cO4SaVDLUjRQX0/bT6ZrfCFca7WCflroft3kjhIbyKBX15p1XHib5oMD
+ 4nvtVS3wEyZqJZ4J/8MoZ6gSaUbVqttM4XNH+aL58SuoN8hlE34bX4nrrN1exRseq7LG
+ mIB/meOJYMPvbdSA4u6EW7cnKJIsffgVSuiZb7oVbfugNAEPwbeKmPz2SQp4bEeQoQFM
+ gMeP3xOwdsf/QibSxSH4Qdn+bDJ0vdXKBfZkxzdc1iRrwmde9Va+IbEE+7/W2GHxWuxF 7g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cgwyhrg0s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Nov 2021 10:14:11 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AN9tGuI025668;
+ Tue, 23 Nov 2021 10:14:10 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cgwyhrg0g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Nov 2021 10:14:10 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1ANAD2hO019830;
+ Tue, 23 Nov 2021 10:14:09 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06ams.nl.ibm.com with ESMTP id 3cer9jpgdn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Nov 2021 10:14:08 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1ANA6vf163832382
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 23 Nov 2021 10:06:57 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C1F7711C054;
+ Tue, 23 Nov 2021 10:14:05 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4BC8A11C05B;
+ Tue, 23 Nov 2021 10:14:05 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.0.71])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue, 23 Nov 2021 10:14:05 +0000 (GMT)
+Date: Tue, 23 Nov 2021 11:14:03 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Christian Borntraeger <borntraeger@linux.ibm.com>
+Subject: Re: [PATCH 1/1] MAINTAINERS: update email address of Christian
+ Borntraeger
+Message-ID: <20211123111403.7e9aac7b.pasic@linux.ibm.com>
+In-Reply-To: <20211123095511.132810-1-borntraeger@linux.ibm.com>
+References: <20211123095511.132810-1-borntraeger@linux.ibm.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: MV6SbCFTWOLu84wtKkCH_TRouKnK0hbi
+X-Proofpoint-ORIG-GUID: EKrK5KTQhej706VJLK0e0zcIQ2xJ0Cbe
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1636543589-32333-1-git-send-email-naveen.n1@samsung.com>
-Received-SPF: none client-ip=134.134.136.100;
- envelope-from=lukasz.maniak@linux.intel.com; helo=mga07.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-23_03,2021-11-23_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=966
+ priorityscore=1501 lowpriorityscore=0 suspectscore=0 clxscore=1015
+ spamscore=0 impostorscore=0 bulkscore=0 malwarescore=0 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111230055
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,161 +113,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, anuj.singh@samsung.com,
- jg123.choi@samsung.com, qemu-block@nongnu.org,
- =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
- d.palani@samsung.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- kbusch@kernel.org, anshul@samsung.com, stefanha@redhat.com, its@irrelevant.dk,
- raphel.david@samsung.com, p.kalghatgi@samsung.com
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 10, 2021 at 04:56:29PM +0530, Naveen wrote:
-> From: Naveen Nagar <naveen.n1@samsung.com>
+On Tue, 23 Nov 2021 10:55:11 +0100
+Christian Borntraeger <borntraeger@linux.ibm.com> wrote:
+
+> My borntraeger@de.ibm.com email is just a forwarder to the
+> linux.ibm.com address. Let us remove the extra hop to avoid
+> a potential source of errors.
 > 
-> This patch supports namespace management : create and delete operations
-> This patch has been tested with the following command and size of image
-> file for unallocated namespaces is taken as 0GB. ns_create will look into
-> the list of unallocated namespaces and it will initialize the same and 
-> return the nsid of the same. A new mandatory field has been added called
-> tnvmcap and we have ensured that the total capacity of namespace created
-> does not exceed tnvmcap
+> While at it, add the relevant email addresses to mailmap.
 > 
-> -device nvme-subsys,id=subsys0,tnvmcap=8
-> -device nvme,serial=foo,id=nvme0,subsys=subsys0
-> -device nvme,serial=bar,id=nvme1,subsys=subsys0
+> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+
+Acked-by: Halil Pasic <pasic@linux.ibm.com>
+
+> ---
+>  .mailmap    | 1 +
+>  MAINTAINERS | 6 +++---
+>  2 files changed, 4 insertions(+), 3 deletions(-)
 > 
-> -drive id=ns1,file=ns1.img,if=none
-> -device nvme-ns,drive=ns1,bus=nvme0,nsid=1,zoned=false,shared=true
-> -drive id=ns2,file=ns2.img,if=none
-> -device nvme-ns,drive=ns2,bus=nvme0,nsid=2,zoned=false,shared=true
-> -drive id=ns3,file=ns3.img,if=none
-> -device nvme-ns,drive=ns3,bus=nvme0,nsid=3,zoned=false,shared=true
-> -drive id=ns4,file=ns4.img,if=none
-> -device nvme-ns,drive=ns4,bus=nvme0,nsid=4,zoned=false,shared=true
-> 
-> Please review and suggest if any changes are required.
-> 
-> Signed-off-by: Naveen Nagar <naveen.n1@samsung.com>
-> 
-> Since v2:
-> -Lukasz Maniak found a bug in namespace attachment and proposed 
->  solution is added
-> 
-
-Hi Naveen,
-
-The current implementation is inconsistent and thus has a bug related to
-unvmcap support.
-
-Namespaces are pre-allocated after boot, and the initial namespace size
-is the size of the associated blockdev. If the blockdevs are non-zero
-sized then the first deletion of the namespaces associated with them
-will increment unvmcap by their size. This will make unvmcap greater
-than tnvmcap.
-
-While the easiest way would be to prohibit the use of non-zero sized
-blockdev with namespace management, doing so would limit the
-functionality of the namespaces itself, which we would like to avoid.
-
-This fix below addresses issues related to unvmcap and non-zero block
-devices. The unvmcap value will be properly updated on both the first
-and subsequent controllers added to the subsystem regardless of the
-order in which nvme-ns is defined on the command line before or after
-the controller definition. Additionally, if the block device size of any
-namespace causes the unvmcap to be exceeded, an error will be returned
-at the namespace definition point.
-
-The fix is based on v3 based on v6.1.0, as v3 does not apply to master.
-
----
- hw/nvme/ctrl.c |  7 +++++++
- hw/nvme/ns.c   | 23 ++++++++++++++++++++---
- 2 files changed, 27 insertions(+), 3 deletions(-)
-
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 63ea2fcb14..dc0ad4155b 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -6594,6 +6594,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     NvmeIdCtrl *id = &n->id_ctrl;
-     uint8_t *pci_conf = pci_dev->config;
-     uint64_t cap = ldq_le_p(&n->bar.cap);
-+    int i;
- 
-     id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
-     id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
-@@ -6672,6 +6673,12 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-         id->cmic |= NVME_CMIC_MULTI_CTRL;
-         id->tnvmcap = n->subsys->params.tnvmcap * GiB;
-         id->unvmcap = n->subsys->params.tnvmcap * GiB;
-+
-+        for (i = 0; i < ARRAY_SIZE(n->subsys->namespaces); i++) {
-+            if (n->subsys->namespaces[i]) {
-+                id->unvmcap -= le64_to_cpu(n->subsys->namespaces[i]->size);
-+            }
-+        }
-     }
- 
-     NVME_CAP_SET_MQES(cap, 0x7ff);
-diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index f62a695132..c87d7f5bd6 100644
---- a/hw/nvme/ns.c
-+++ b/hw/nvme/ns.c
-@@ -140,9 +140,12 @@ lbaf_found:
-     return 0;
- }
- 
--static int nvme_ns_init_blk(NvmeNamespace *ns, Error **errp)
-+static int nvme_ns_init_blk(NvmeNamespace *ns, NvmeSubsystem *subsys,
-+                            Error **errp)
- {
-     bool read_only;
-+    NvmeCtrl *ctrl;
-+    int i;
- 
-     if (!blkconf_blocksizes(&ns->blkconf, errp)) {
-         return -1;
-@@ -164,6 +167,21 @@ static int nvme_ns_init_blk(NvmeNamespace *ns, Error **errp)
-         return -1;
-     }
- 
-+    if (subsys) {
-+        for (i = 0; i < ARRAY_SIZE(subsys->ctrls); i++) {
-+            ctrl = nvme_subsys_ctrl(subsys, i);
-+
-+            if (ctrl) {
-+                if (ctrl->id_ctrl.unvmcap < le64_to_cpu(ns->size)) {
-+                    error_setg(errp, "blockdev size %ld exceeds subsystem's "
-+                                     "unallocated capacity", ns->size);
-+                } else {
-+                    ctrl->id_ctrl.unvmcap -= le64_to_cpu(ns->size);
-+                }
-+            }
-+        }
-+    }
-+
-     return 0;
- }
- 
-@@ -480,7 +498,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
-         }
-     }
- 
--    if (nvme_ns_init_blk(ns, errp)) {
-+    if (nvme_ns_init_blk(ns, subsys, errp)) {
-         return;
-     }
- 
-@@ -527,7 +545,6 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
- 
-                 if (ctrl) {
-                     nvme_attach_ns(ctrl, ns);
--                    ctrl->id_ctrl.unvmcap -= le64_to_cpu(ns->size);
-                 }
-             }
- 
--- 
-2.25.1
+> diff --git a/.mailmap b/.mailmap
+> index 8beb2f95ae28..c45d1c530144 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -50,6 +50,7 @@ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
+>  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
+>  Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
+>  Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
+> +Christian Borntraeger <borntraeger@linux.ibm.com> <borntraeger@de.ibm.com>
+>  Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+>  Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
+>  Greg Kurz <groug@kaod.org> <gkurz@linux.vnet.ibm.com>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d3879aa3c12c..e19d88ca9960 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -393,7 +393,7 @@ F: target/ppc/kvm.c
+>  
+>  S390 KVM CPUs
+>  M: Halil Pasic <pasic@linux.ibm.com>
+> -M: Christian Borntraeger <borntraeger@de.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+>  S: Supported
+>  F: target/s390x/kvm/
+>  F: target/s390x/ioinst.[ch]
+> @@ -1527,7 +1527,7 @@ S390 Machines
+>  -------------
+>  S390 Virtio-ccw
+>  M: Halil Pasic <pasic@linux.ibm.com>
+> -M: Christian Borntraeger <borntraeger@de.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+>  S: Supported
+>  F: hw/char/sclp*.[hc]
+>  F: hw/char/terminal3270.c
+> @@ -1541,7 +1541,7 @@ T: git https://github.com/borntraeger/qemu.git s390-next
+>  L: qemu-s390x@nongnu.org
+>  
+>  S390-ccw boot
+> -M: Christian Borntraeger <borntraeger@de.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+>  M: Thomas Huth <thuth@redhat.com>
+>  S: Supported
+>  F: hw/s390x/ipl.*
 
 
