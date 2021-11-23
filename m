@@ -2,86 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07EC645A428
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 14:54:41 +0100 (CET)
-Received: from localhost ([::1]:46208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A7945A445
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 14:59:38 +0100 (CET)
+Received: from localhost ([::1]:49232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpWFs-0005qg-5g
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 08:54:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48892)
+	id 1mpWKf-0008A3-To
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 08:59:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpWCb-0002J1-Kl
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 08:51:17 -0500
-Received: from [2a00:1450:4864:20::32c] (port=39443
- helo=mail-wm1-x32c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpWCM-00050V-UZ
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 08:51:17 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- n33-20020a05600c502100b0032fb900951eso2309371wmr.4
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 05:51:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=T4ghj0CJQ+lzr5lD8+C1cz7/BRbzYhxY6UpTaDjeAUQ=;
- b=hFpQx8jNhofmluwMHjIn6pV58XbEsztKnJQsGnnNNdgpp0H/2d8cQ1mKhcnOcuRU9+
- mK6/tn0s59l9vy2MC73qKZAcPepn/DQ88AzH12OfZMzs8jQb16PEevnfHK6YUtzDt8tq
- ry19zWYHFrvjt/YqYkZG6wfWw0rNHJGdHBMeKdATzd9Trz5eSynW6NuEXDNaWLz3UZiR
- oYt6/qPP+CD4wuA4DNnu2tQl8CZvfNZb117fOVkwFKuLrGQqxyVfh9n2sJn+D8PYcNbQ
- UEeQDRolAdYUXx/zzik48rBveAWq8+dA6/K3rdWLz+wDXGxQeCxSQltrCQWcBKlB/D1a
- yW3w==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpWIz-00072I-TX
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 08:57:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38865)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpWIu-0005x1-5q
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 08:57:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637675865;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ekJ+Ytt7dbTKeAGjTnW54K3FrMtFbGxKe4kB2YlgvxM=;
+ b=WnEmVM4hTGazRze4htUMtSIyZgy4Y1w+YjHFLBAPTC2lyB0RtVW7qAFEwqqt9+ozXCqBrr
+ SKYWa/hOPEJcH077hO1cH5xg7vy1jZi0lSQF+dCJ/++293MlQ3L3qpZ6XN3J5Bp4dLccmb
+ jG0j2jryJVsHnscz9BV3wLDsnvOfVsA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-76-tqrXoVu6O6CrBz0cC5HQpQ-1; Tue, 23 Nov 2021 08:57:42 -0500
+X-MC-Unique: tqrXoVu6O6CrBz0cC5HQpQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ c8-20020a7bc848000000b0033bf856f0easo1279824wml.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 05:57:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=T4ghj0CJQ+lzr5lD8+C1cz7/BRbzYhxY6UpTaDjeAUQ=;
- b=21T8V0l9u0qlPLZpfNtqzQ9sJMqjc6yjvRh2Z2YL+4sbie1JAfgpOxi86QEh3oAR86
- XFww3fwcaZawMNlJb0vEskP5aD4Gdg/BmT7V37XpJf9aIEg9UgG/uVryFHpG4MxsTo8z
- f85pbchirmM+bZTBm0rTxC7hkoMBqXvrq/9+J8GGiyGIGzHlgqMSFgd346AFRuDZygbF
- z+C155qwNaptvMikXhBdKSZdOINSMyy4PWum31qiRkV/zcwXqLxxHUlOe8A6DubprQdm
- x7BsGIFGLiuWSSgxh11TpUJj7rwES+tpy/bVxwRj0WqMOpc290Ty9QUg5zDinVJr+kTb
- NfEw==
-X-Gm-Message-State: AOAM530ryw422E70omdEp9PFuPx+7Vd6sicB3eliCnct+sbqxn/A9ba1
- +E6tK6+EDBGMI/hTZKv1p6b2A1XTeYfN9vdTqNA=
-X-Google-Smtp-Source: ABdhPJxQbqRZ67wNHn/eXFrcjEpnEQPO6PDURCXIKSol6o+7sXlE4UmnjoL//wyr179Vw+ajhl8dbA==
-X-Received: by 2002:a7b:c10a:: with SMTP id w10mr3229272wmi.183.1637675461320; 
- Tue, 23 Nov 2021 05:51:01 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id d6sm12003833wrx.60.2021.11.23.05.50.59
+ bh=ekJ+Ytt7dbTKeAGjTnW54K3FrMtFbGxKe4kB2YlgvxM=;
+ b=5/KPW/LoNYtx7BhObA3PoHf1SpWUasA0+JGfCwWOWYFfVDIyermWE6Sy8AGjn74+2p
+ rE74YZZfLKHdo4Qz7+SHehmojGPwuhlz+ovvhjFtIgA1fmi0d2pVoH3f/ZHBoqANl/ss
+ cdmqb6dwmcLgYTYr5AvrU5NSKSCKTSrLYOXqNO+HvAdE5TSFDtWePA6POfFbsIqGlYA5
+ +A0/GNsPlIGTqNBnQUoWktQsxwatsjxscBBKK3HiFHuWUQIueisyd5xykR7idW3WyRhB
+ hOnXlfKnha8IVVVvIL/9CHvT55DwS+WDgwVvSBxEFSxjlsqUzTyfVT4jtJIQHItH6rX2
+ K8ug==
+X-Gm-Message-State: AOAM5322Vo/ZHUFqubqnLc6VqFpvSA5r1eJlOIYzyUMQsKGFIqdSjE1T
+ KLRWNQvBmPdF8K//JDr2848TsXI+L7mU7XewB9c1Xu/FF8dSgKyS8z1sJ1hsjELRHiVJ2U48GQ0
+ salvLmnUSj8NSdvQ=
+X-Received: by 2002:a05:600c:1c20:: with SMTP id
+ j32mr3294595wms.1.1637675861530; 
+ Tue, 23 Nov 2021 05:57:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxoZyb6eECiTZ8MnWKCBB4+ixLdQRajUFV14OrBf/dXEYLCEnqMrJujMZoILUpzWe/dHjRoiQ==
+X-Received: by 2002:a05:600c:1c20:: with SMTP id
+ j32mr3294551wms.1.1637675861263; 
+ Tue, 23 Nov 2021 05:57:41 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id w17sm12317450wrp.79.2021.11.23.05.57.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Nov 2021 05:51:00 -0800 (PST)
-Subject: Re: [PATCH 1/2] ui: avoid compiler warnings from unused clipboard
- info variable
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211123134302.45741-1-berrange@redhat.com>
- <20211123134302.45741-2-berrange@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <06d7e1c4-d267-04c7-35ca-18f677d1ac3c@linaro.org>
-Date: Tue, 23 Nov 2021 14:50:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Tue, 23 Nov 2021 05:57:40 -0800 (PST)
+Message-ID: <e7dea0a6-b01e-74bf-6c0c-4d378140c629@redhat.com>
+Date: Tue, 23 Nov 2021 14:57:39 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211123134302.45741-2-berrange@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH-for-6.2 v3 1/2] hw/block/fdc: Kludge missing floppy drive
+ to fix CVE-2021-20196
+To: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20211118120635.4043197-1-philmd@redhat.com>
+ <20211118120635.4043197-2-philmd@redhat.com>
+ <f01963c1-9445-1d0d-ae8e-6649d8397934@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <f01963c1-9445-1d0d-ae8e-6649d8397934@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.515,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.515, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,51 +103,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
+ qemu-block@nongnu.org, Darren Kenny <darren.kenny@oracle.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-stable@nongnu.org,
+ Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gaoning Pan <pgn@zju.edu.cn>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/23/21 2:43 PM, Daniel P. Berrangé wrote:
-> With latest clang 13.0.0 we get
+On 11/23/21 14:33, Hanna Reitz wrote:
+> On 18.11.21 13:06, Philippe Mathieu-Daudé wrote:
+>> Guest might select another drive on the bus by setting the
+>> DRIVE_SEL bit of the DIGITAL OUTPUT REGISTER (DOR).
+>> The current controller model doesn't expect a BlockBackend
+>> to be NULL. A simple way to fix CVE-2021-20196 is to create
+>> an empty BlockBackend when it is missing. All further
+>> accesses will be safely handled, and the controller state
+>> machines keep behaving correctly.
+>>
+>> Cc: qemu-stable@nongnu.org
+>> Fixes: CVE-2021-20196
+>> Reported-by: Gaoning Pan (Ant Security Light-Year Lab) <pgn@zju.edu.cn>
+>> BugLink: https://bugs.launchpad.net/qemu/+bug/1912780
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/338
+>> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>   hw/block/fdc.c | 14 +++++++++++++-
+>>   1 file changed, 13 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+>> index d21b717b7d6..6f94b6a6daa 100644
+>> --- a/hw/block/fdc.c
+>> +++ b/hw/block/fdc.c
+>> @@ -1161,7 +1161,19 @@ static FDrive *get_drv(FDCtrl *fdctrl, int unit)
+>>     static FDrive *get_cur_drv(FDCtrl *fdctrl)
+>>   {
+>> -    return get_drv(fdctrl, fdctrl->cur_drv);
+>> +    FDrive *cur_drv = get_drv(fdctrl, fdctrl->cur_drv);
+>> +
+>> +    if (!cur_drv->blk) {
+>> +        /*
+>> +         * Kludge: empty drive line selected. Create an anonymous
+>> +         * BlockBackend to avoid NULL deref with various BlockBackend
+>> +         * API calls within this model (CVE-2021-20196).
+>> +         * Due to the controller QOM model limitations, we don't
+>> +         * attach the created to the controller device.
+>> +         */
+>> +        cur_drv->blk = blk_new(qemu_get_aio_context(), 0, BLK_PERM_ALL);
 > 
-> ../ui/clipboard.c:47:34: error: variable 'old' set but not used [-Werror,-Wunused-but-set-variable]
->      g_autoptr(QemuClipboardInfo) old = NULL;
->                                   ^
-> 
-> The compiler can't tell that we only declared this variable in
-> order to get the side effect of free'ing it when out of scope.
-> 
-> This pattern is a little dubious for a use of g_autoptr, so
-> rewrite the code to avoid it.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   ui/clipboard.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+> So to me this looks basically like a mini version of
+> floppy_drive_realize(), and I was wondering what else we might want to
+> use from that function.  fd_init() and fd_revalidate() look interesting,
+> but it appears that fdctrl_realize_common() already did that for all
+> drives so we should be good.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+How the controller / bus / floppy / drive are connected is a bit
+confusing. Did you ever try to hot-remove the magnetic medium from
+the floppy plastic enclosure while the controller rotates it?
 
-r~
+> Then again, fd_revalidate() behaves differently for the initial drv->blk
+> == NULL (drv->drive is set to TYPE_NONE, and last_sect and max_track are
+> set to 0) and for then later !blk_is_inserted() (drv->drive not changed
+> (so I guess it stays TYPE_NONE?), but last_sect and max_track are set to
+> 0xff).  Not sure if that’s a problem.  Probably not, given that I think
+> drv->disk and drv->drive both stay TYPE_NONE.
 
-> 
-> diff --git a/ui/clipboard.c b/ui/clipboard.c
-> index d7b008d62a..7672058e84 100644
-> --- a/ui/clipboard.c
-> +++ b/ui/clipboard.c
-> @@ -44,12 +44,11 @@ void qemu_clipboard_peer_release(QemuClipboardPeer *peer,
->   
->   void qemu_clipboard_update(QemuClipboardInfo *info)
->   {
-> -    g_autoptr(QemuClipboardInfo) old = NULL;
->       assert(info->selection < QEMU_CLIPBOARD_SELECTION__COUNT);
->   
->       notifier_list_notify(&clipboard_notifiers, info);
->   
-> -    old = cbinfo[info->selection];
-> +    qemu_clipboard_info_unref(cbinfo[info->selection]);
->       cbinfo[info->selection] = qemu_clipboard_info_ref(info);
->   }
->   
-> 
+I'm not sure about the future plans for this device model...
+
+> Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+
+Thanks!
 
 
