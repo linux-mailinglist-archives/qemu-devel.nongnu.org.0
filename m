@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD5945ADB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 21:59:37 +0100 (CET)
-Received: from localhost ([::1]:35890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D36C45ADB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 22:00:09 +0100 (CET)
+Received: from localhost ([::1]:36892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpct6-0004SF-Cx
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 15:59:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40526)
+	id 1mpctc-00059a-9Q
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 16:00:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mpcr9-0001up-RI
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 15:57:35 -0500
-Received: from [2a00:1450:4864:20::32a] (port=46596
- helo=mail-wm1-x32a.google.com)
+ id 1mpcrI-0002Je-V9
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 15:57:44 -0500
+Received: from [2a00:1450:4864:20::42b] (port=42617
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mpcr7-0006LM-LF
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 15:57:35 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- c6-20020a05600c0ac600b0033c3aedd30aso244088wmr.5
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 12:57:33 -0800 (PST)
+ id 1mpcrG-0006OE-T2
+ for qemu-devel@nongnu.org; Tue, 23 Nov 2021 15:57:44 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id c4so173794wrd.9
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 12:57:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YmANYK88aPtNwGm4O/0eNlrDR7OUnbvfD2pP6xbhw2g=;
- b=VfB/tJuwYmg2pfvAon0sRPac9bt2MqUyzl6ij/tMXSfuaCcC79AU67a838nZFMh9/x
- 5f4YMx4d8SmhfsIPv77fzSmrPTvpPMDoEAtPv6Biu3Ep/kjGWMa7VTx+r0nAhOkp5nZ+
- 5p3ci0UENAPJcVLYXxOQEPZ4KeyYC9tONzqZTOaKm4f3NknWOs4EGl3bxDOU1li1/1Co
- zpnYbnLeJJsA2X84oowlN8aGMd0kjQyxYOkDMau1cEfBKxi9ocUOuiUkyXZ+cD5kDE2L
- cMPvsXi+1dmUuTB+LLfNdNX+UHiNmJYMUtGO3BiufDaAZcrE2iTTnBfnXZEcfiWs4qVR
- BOhw==
+ bh=tVBYX0xCVJBO6/TWHd6rZqnYoCc7L/iFtDi/gZndAeI=;
+ b=K2rd8A+Fy4kiHDbFxPcg44AivZnyFa0NI+yCg+1qEyLBwoMoBvMi8X/6wuEz/8dMI7
+ RBZea6gSQBOdtnELgEpA+mREH7wvlpDrvzO0n+cRnBgFCa7Fi1ZjGHejmXMydnfPInt+
+ CVF17/2jg6VhR210d1yTLvpzskO5JQQ8z530AYzFopEGbzOn6wRDCRQTXtcu4mJwEIPD
+ ChJ53FwFiSnTL1l6jyfLAOUpyfnwMbpbTUIrEqN8+MQnOf+eXyfjLRkN8FJcRPZ8Jege
+ DXo9kIJX5JUURd+1ZJuTSALYiklwd7nW57Kmv1AbCGzoCk92mSWA1oajeIFScAobIPmw
+ T2ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YmANYK88aPtNwGm4O/0eNlrDR7OUnbvfD2pP6xbhw2g=;
- b=SzM4JPt6uMtO+sHaDdV/C6o5kTMceyfKFQQiGExJBadKdG2CYIa+N/uDhrWf7v1oVU
- g82y7Y3RqfU389rbdH8oWCOocnQwiXhBL5Q61KO/gYDMEYzzYtiPXRrR9YaxeXFBHOkl
- VnjVKkRQsyy6l8c/JOfeejsbwS0t3E2wHOIxonv7PUvG/C0PzTG43hcWst3DxIt6Nvc9
- jXWYChsx3FRAtbP41bGElwE9ICmV5F0oPO3/1xaqf9bKCMOVI2L9/j4LvQ126Zb7Ucr0
- RheADGxxIBeCFUMciLxLJMAlWuQfqiK8WN2J/EPtnC6YNEyfPutPkwEWQwtaSK1rRS2y
- AS2A==
-X-Gm-Message-State: AOAM533cYsgP2C89d6xQzUoA5vl+wNTncvjNjVWeID8qUy+oLzV1xdip
- d+nZza0k1iRdSod78/1E0mP/+A==
-X-Google-Smtp-Source: ABdhPJxO+mNPN25SyqXrecdo0w9Ah0plAEWdNk6fHuihXBIc267nJ7GPOGC1h4/XbChdPDadW3PeSw==
-X-Received: by 2002:a7b:c207:: with SMTP id x7mr7255368wmi.108.1637701052131; 
- Tue, 23 Nov 2021 12:57:32 -0800 (PST)
+ bh=tVBYX0xCVJBO6/TWHd6rZqnYoCc7L/iFtDi/gZndAeI=;
+ b=6tA29arcll9hcyYQiQto/m6EVWlZ6MsY9t2H1iEVKxtNwW14E2DO4l35t2/Q7xo4bY
+ jVPaR0YV/J70juLt+z60qBusntb5i32ESb6JVj+ou5IsrYRWqevBcGCS7x+Mw93EzKJK
+ xLzWuai834M6V0PUkP9AJzcmOOx8LQY4y4rYhyvVP0ghk5tdB6sKCt0DIKNwMi4CATP5
+ Mo6UodX9wDhRNuhopge4OIRRH8D0eeJrWV6EMJ4i1f2PA/pG/BqnYJLsUpDQ8ur1cDNF
+ cCmXxRHXJHgJkPy+gjOMZZ+93wS9IMh1UGBqWwzSo1u0dQ1JbDZbIatVdauAfh9pV9xP
+ 4jWQ==
+X-Gm-Message-State: AOAM5331s2mvCb8nkVKL+xrIKuZE7NNe/hAaqjMSoGpcD5Po6ubrA3Ii
+ a6ej3vh61/kGdpE4roDtoS+NvQ==
+X-Google-Smtp-Source: ABdhPJw5rNZsDK23WH8F57i5t9cGL7xzZrjdgB15K9wVDtYxqNZS62pefo6jywv34fNRbm6iI4JTvQ==
+X-Received: by 2002:a5d:5850:: with SMTP id i16mr10906620wrf.197.1637701061607; 
+ Tue, 23 Nov 2021 12:57:41 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t8sm2778157wmq.32.2021.11.23.12.57.30
+ by smtp.gmail.com with ESMTPSA id y6sm2187526wma.37.2021.11.23.12.57.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Nov 2021 12:57:30 -0800 (PST)
+ Tue, 23 Nov 2021 12:57:37 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6F8AD1FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id 8FB861FF9D;
  Tue, 23 Nov 2021 20:57:29 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 4/7] plugins/meson.build: fix linker issue with weird paths
-Date: Tue, 23 Nov 2021 20:57:26 +0000
-Message-Id: <20211123205729.2205806-5-alex.bennee@linaro.org>
+Subject: [PATCH v1 6/7] MAINTAINERS: Remove me as a reviewer for the build and
+ test/avocado
+Date: Tue, 23 Nov 2021 20:57:28 +0000
+Message-Id: <20211123205729.2205806-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211123205729.2205806-1-alex.bennee@linaro.org>
 References: <20211123205729.2205806-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,35 +90,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, Stefan Weil <sw@weilnetz.de>,
- f4bug@amsat.org, stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- Mahmoud Mandour <ma.mandourr@gmail.com>, Alexandre Iooss <erdnaxe@crans.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: fam@euphon.net, berrange@redhat.com, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, f4bug@amsat.org,
+ Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Willian Rampazzo <willianr@redhat.com>
+
+Remove me as a reviewer for the Build and test automation and the
+Integration Testing with the Avocado Framework and add Beraldo
+Leal.
+
+Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
+Message-Id: <20211122191124.31620-1-willianr@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Stefan Weil <sw@weilnetz.de>
-Fixes: https://gitlab.com/qemu-project/qemu/-/issues/712
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- plugins/meson.build | 4 ++--
+ MAINTAINERS | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/plugins/meson.build b/plugins/meson.build
-index aeb386ebae..b3de57853b 100644
---- a/plugins/meson.build
-+++ b/plugins/meson.build
-@@ -2,9 +2,9 @@ plugin_ldflags = []
- # Modules need more symbols than just those in plugins/qemu-plugins.symbols
- if not enable_modules
-   if 'CONFIG_HAS_LD_DYNAMIC_LIST' in config_host
--    plugin_ldflags = ['-Wl,--dynamic-list=' + (meson.project_build_root() / 'qemu-plugins-ld.symbols')]
-+    plugin_ldflags = ['-Wl,--dynamic-list=qemu-plugins-ld.symbols']
-   elif 'CONFIG_HAS_LD_EXPORTED_SYMBOLS_LIST' in config_host
--    plugin_ldflags = ['-Wl,-exported_symbols_list,' + (meson.project_build_root() / 'qemu-plugins-ld64.symbols')]
-+    plugin_ldflags = ['-Wl,-exported_symbols_list,qemu-plugins-ld64.symbols']
-   endif
- endif
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d3879aa3c1..8f5156bfa7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3469,7 +3469,7 @@ M: Alex Bennée <alex.bennee@linaro.org>
+ M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ M: Thomas Huth <thuth@redhat.com>
+ R: Wainer dos Santos Moschetta <wainersm@redhat.com>
+-R: Willian Rampazzo <willianr@redhat.com>
++R: Beraldo Leal <bleal@redhat.com>
+ S: Maintained
+ F: .github/lockdown.yml
+ F: .gitlab-ci.yml
+@@ -3507,7 +3507,7 @@ W: https://trello.com/b/6Qi1pxVn/avocado-qemu
+ R: Cleber Rosa <crosa@redhat.com>
+ R: Philippe Mathieu-Daudé <philmd@redhat.com>
+ R: Wainer dos Santos Moschetta <wainersm@redhat.com>
+-R: Willian Rampazzo <willianr@redhat.com>
++R: Beraldo Leal <bleal@redhat.com>
+ S: Odd Fixes
+ F: tests/avocado/
  
 -- 
 2.30.2
