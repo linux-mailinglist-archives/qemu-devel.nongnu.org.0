@@ -2,93 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B29245A61E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 15:58:26 +0100 (CET)
-Received: from localhost ([::1]:48696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5255E45A64B
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Nov 2021 16:13:07 +0100 (CET)
+Received: from localhost ([::1]:57978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpXFZ-0007IQ-9d
-	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 09:58:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36780)
+	id 1mpXTm-0005oi-0G
+	for lists+qemu-devel@lfdr.de; Tue, 23 Nov 2021 10:13:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpXE3-0005cD-Sk
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 09:56:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46639)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1mpSWJ-0002Vx-Ls; Tue, 23 Nov 2021 04:55:23 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33430
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpXE0-0006MZ-6L
- for qemu-devel@nongnu.org; Tue, 23 Nov 2021 09:56:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637679407;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1wXlIKnqrZwNrEiUdfo6CLqBcjscZ2oVONL8lUtzIpI=;
- b=PEKBbVpWAK80ZlyY9mjMQqOr6Gt5Cc95xFwSGw5fX3ZM+T8wlcCmcQrI08nkgM4teDHUQY
- Fg+M1f7FvSXnD79oCAPALYqcmv28Mwpe5/Z4ZUm18TApEx9a2U5tj36qn+T6O5BES1YqEF
- McZ9qbmoK6SUbkav021A/J/pvmHwppg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-j0OfErjmPTqk3cOKojGtOQ-1; Tue, 23 Nov 2021 09:56:44 -0500
-X-MC-Unique: j0OfErjmPTqk3cOKojGtOQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- h13-20020adfa4cd000000b001883fd029e8so3785521wrb.11
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 06:56:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=1wXlIKnqrZwNrEiUdfo6CLqBcjscZ2oVONL8lUtzIpI=;
- b=eILYsDMq/+HZuBOfomPXa192Bc2B4w7MFzcjlY/mPlTmb/LdZHoDAXGOD+sVcIPo3Y
- e3jLfcgpqveFHdnkzChY3W8uodPVZhqIHbbRgna6Vvf3TsKOOrVoBAa0NI1V6lHmSEm1
- XuvYQMSageG9MTxtvDZXQl8HnlZccKuAiCl84XO9rxnad1ghMuZ3fRMWmUJslcZxN8ct
- JKWEPbV2f1/6ERdpCObOB3UVE5v68MnczQFygS7QHaHFN2kYgZnJWt6oo2iqJF6MEFGq
- LwJluJq5E+qQQY5kcPKr8Ahlb6woRTDsKX1Hyjobfd2YQGNAE1GQLF0QNQ9oqirch5e3
- LiTg==
-X-Gm-Message-State: AOAM532Wf6doPgR034v72O1qFLwm7svZRRzlc550taRSM/D5O2ZZXBdi
- NEfqL1xZ4hbUjTXKQYki3is0y2qjkM9wDjkZ3sp6vGCdRABYbkQ/fjv7U+Cj5+gMod2mvFHy0Zb
- bJvBe29T+1fk55b4=
-X-Received: by 2002:a5d:6d41:: with SMTP id k1mr7885221wri.134.1637679403237; 
- Tue, 23 Nov 2021 06:56:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy7iR/C8zT6WsNfehUUIXkbpc/8gqPewOARvVTmL0X5UcEkuos3Cae5FHAQ4eoYQrdVQRQKeA==
-X-Received: by 2002:a5d:6d41:: with SMTP id k1mr7885181wri.134.1637679402976; 
- Tue, 23 Nov 2021 06:56:42 -0800 (PST)
-Received: from [192.168.8.100] (tmo-097-143.customers.d1-online.com.
- [80.187.97.143])
- by smtp.gmail.com with ESMTPSA id l4sm12139853wrv.94.2021.11.23.06.56.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Nov 2021 06:56:42 -0800 (PST)
-Message-ID: <23f3d0e5-55a7-03d2-4163-5046d0517204@redhat.com>
-Date: Tue, 23 Nov 2021 15:56:40 +0100
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1mpSWH-0003hx-Gd; Tue, 23 Nov 2021 04:55:23 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AN9ki5j005076; 
+ Tue, 23 Nov 2021 09:55:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=bk3x2Rj4pkly00IgyqN0DC4lkiFQKUZn5oo1jyCl8UI=;
+ b=h4g6/dNU1O51MVxHdXPc1C9icS4eleoCeJJqvEZeLXyIBqQ4BOIzszvgZ80KJHLyFvEz
+ +hjXn2EA+LZ/1In9Eg4wk3L6Bcl8/suNxCfY7NToRKNlD0yyxej7+6Ok198uuNz41eLs
+ jUZxNke5Y9CI21PqpdyY1whRUC6EdDiaxAee1p/Kr4JadLwlUOuS6VFJCFjpvh8y1fLT
+ AWCA2ST+IVjxaINmIvyYgSs5Gg1tzzBXCILyRIPn9P85yIeW3mSaRVxpGG+rmsADewKN
+ HalCwShpUS5VWr7xs4BZubqPavXnwUMD0IzNTMw2vPscPWHAKdxrua1wLofGAzG3z3fE Sw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cgwyg84uf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Nov 2021 09:55:17 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AN9lkPw008579;
+ Tue, 23 Nov 2021 09:55:17 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cgwyg84u1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Nov 2021 09:55:17 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AN9r0uv015857;
+ Tue, 23 Nov 2021 09:55:15 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06ams.nl.ibm.com with ESMTP id 3cer9jp8pn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Nov 2021 09:55:15 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1AN9tCRp17301962
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 23 Nov 2021 09:55:12 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 61B9911C06F;
+ Tue, 23 Nov 2021 09:55:12 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 592B511C064;
+ Tue, 23 Nov 2021 09:55:12 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Tue, 23 Nov 2021 09:55:12 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
+ id 05867E06BB; Tue, 23 Nov 2021 10:55:12 +0100 (CET)
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: [PATCH 1/1] MAINTAINERS: update email address of Christian Borntraeger
+Date: Tue, 23 Nov 2021 10:55:11 +0100
+Message-Id: <20211123095511.132810-1-borntraeger@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: XbregDYREHwdbARFdQa6V4Jhj5ekSOZF
+X-Proofpoint-GUID: 7qWOLOvNsoAbnyRutRcCc1SDvjGSi44Z
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20211028144822.jjbw7ypkkman7sow@mozz.bu.edu>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: Possible reward for fuzzer bug fixes? Secure Open Source Rewards
- Program
-In-Reply-To: <20211028144822.jjbw7ypkkman7sow@mozz.bu.edu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.515, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-23_03,2021-11-22_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ malwarescore=0 mlxlogscore=797 suspectscore=0 bulkscore=0 phishscore=0
+ mlxscore=0 spamscore=0 lowpriorityscore=0 clxscore=1011 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111230051
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 23 Nov 2021 10:11:23 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,52 +110,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Bandan Das <bsd@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>
+Cc: Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/10/2021 16.48, Alexander Bulekov wrote:
-> Recently a pilot for the Secure Open Source Rewards program was
-> announced [1]. Currently this program is run by the Linux Foundation and
-> sponsored by the Google Open Source Security Team.
-> 
-> The page mentions that patches for issues discovered by OSS-Fuzz may be
-> eligible for rewards. This seems like it could be a good incentive for
-> fixing fuzzer bugs.
-> 
-> A couple notes:
->   * The program also rewards contributions besides fuzzer-bug fixes.
->     Check out the page for full details.
->   * It seems that QEMU would qualify for this program. The page mentions
->     that the project should have a greater than 0.6 OpenSSF Criticality
->     Score [2]. This score factors in statistics collected from github
->     (sic!). QEMU's score is currently 0.81078
->   * Not limited to individual contributors. Vendors can also qualify for
->     rewards.
->   * Work completed before Oct 1, 2021 does not qualify.
->   * Individuals in some sanctioned countries are not eligible.
->   * The process seems to be:
->      1. Send a fix upstream
->      2. Get it accepted
->      3. Fill out a form to apply for a reward
-> 
-> Any thoughts about this? Should this be something we document/advertise
-> somewhere, so developers are aware of this opportunity?
+My borntraeger@de.ibm.com email is just a forwarder to the
+linux.ibm.com address. Let us remove the extra hop to avoid
+a potential source of errors.
 
-Sorry for the late reply ... That sounds interesting, indeed!
+While at it, add the relevant email addresses to mailmap.
 
-Would it make sense to publish this as a blog entry on www.qemu.org? ... it 
-would then get automatically mirrored to https://planet.virt-tools.org/ , too.
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+---
+ .mailmap    | 1 +
+ MAINTAINERS | 6 +++---
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-I think most issues are tagged with "fuzzer" in the issue tracker already, 
-so it should be possible to easily find the issue to work on.
-
-So if you like, clone https://gitlab.com/qemu-project/qemu-web.git and add a 
-new entry in the _posts directory. Once done send the patch for review to 
-qemu-devel with Paolo and myself on CC:
-
-  Thomas
+diff --git a/.mailmap b/.mailmap
+index 8beb2f95ae28..c45d1c530144 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -50,6 +50,7 @@ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
+ Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
++Christian Borntraeger <borntraeger@linux.ibm.com> <borntraeger@de.ibm.com>
+ Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+ Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
+ Greg Kurz <groug@kaod.org> <gkurz@linux.vnet.ibm.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d3879aa3c12c..e19d88ca9960 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -393,7 +393,7 @@ F: target/ppc/kvm.c
+ 
+ S390 KVM CPUs
+ M: Halil Pasic <pasic@linux.ibm.com>
+-M: Christian Borntraeger <borntraeger@de.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
+ S: Supported
+ F: target/s390x/kvm/
+ F: target/s390x/ioinst.[ch]
+@@ -1527,7 +1527,7 @@ S390 Machines
+ -------------
+ S390 Virtio-ccw
+ M: Halil Pasic <pasic@linux.ibm.com>
+-M: Christian Borntraeger <borntraeger@de.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
+ S: Supported
+ F: hw/char/sclp*.[hc]
+ F: hw/char/terminal3270.c
+@@ -1541,7 +1541,7 @@ T: git https://github.com/borntraeger/qemu.git s390-next
+ L: qemu-s390x@nongnu.org
+ 
+ S390-ccw boot
+-M: Christian Borntraeger <borntraeger@de.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
+ M: Thomas Huth <thuth@redhat.com>
+ S: Supported
+ F: hw/s390x/ipl.*
+-- 
+2.31.1
 
 
