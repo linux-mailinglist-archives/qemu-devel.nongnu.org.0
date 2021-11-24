@@ -2,59 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2604B45C919
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 16:45:28 +0100 (CET)
-Received: from localhost ([::1]:45892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7803245C921
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 16:47:45 +0100 (CET)
+Received: from localhost ([::1]:48090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpuSd-0002q2-9c
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 10:45:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58310)
+	id 1mpuUq-0004Sy-A4
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 10:47:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mpuRM-000265-88
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 10:44:09 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:43389)
+ (Exim 4.90_1) (envelope-from <reactorcontrol@icloud.com>)
+ id 1mpuT4-0003ew-1L
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 10:45:59 -0500
+Received: from st43p00im-ztdg10071801.me.com ([17.58.63.171]:53067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mpuRK-0004Oo-6y
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 10:44:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=k2OFWj8M9PVq413mcPHbmRbnb6Bv2WOV2VgdOW9EE1Q=; b=YYodKEbK7/OjlDE4xKNSuQ2XHu
- HkoTjr3Dy2o5R64HxOBr4w8Zqd5Ml/DC8P6PsN4fe8kcWYMkio3vSXOAKh+uNoJyLUHbW7Of2C4G/
- 8zRhjX24mUZc4M8g9NkefBmcV3DE0IH3PuiV4tV5xIXpc9JGETQmPj8L28K6wkicOa24o9PWcNruc
- g84a09WdIktvC+bC1xN0FHmVqr5F6eVQgRkUzoTjW40clNOUwVXP3Fna0zk13vPf9lWVTpmqE8rEj
- Kk6RRhJ93Q087MTOcfBxpFXkgZiC2NOeNAMNjFXYQpu4BUQYMKuHPLCaK81ZhPY0RuD3/FIsw3W0e
- MPo/i79SUMfbzSU4SF8/2Hgt6g661S4c5hV+5YaafBEIV60CFzagXGRLw9iXaiNSc6/ZClM9USGDY
- 0iumWJE9/GMS4kQbVyTNM3sQxNmC6ecpL24urfCjvGYbdsFNMG1XrBL1RMIw47LE3zCZFI/6ihTuB
- ECsOeTv39MFI6zp+Vm86HYdM+BQgm+SvaEgsCDpgrXWBfC+vUjxFqhD/HorwfdzsoxruYtMcDDcRB
- Q93IyJm7+YsVmo7xeSxZzImE9bvTzS97MT3bZi+y83OiNEOGm8mV1s2ZIaY+tKVcoq2RgyOcAqCZ0
- 1OaIZ/4k/VQbw6X2Fq2kQXvAS/C34YntVoa5sM3dQ=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Will Cohen <wwcohen@gmail.com>, Keno Fischer <keno@juliacomputing.com>,
- Greg Kurz <groug@kaod.org>, hi@alyssa.is,
- Michael Roitzsch <reactorcontrol@icloud.com>
-Subject: Re: [PATCH v2 06/11] 9p: darwin: Compatibility defn for XATTR_SIZE_MAX
-Date: Wed, 24 Nov 2021 16:44:02 +0100
-Message-ID: <1678058.28b0zsHzDf@silver>
-In-Reply-To: <20211122004913.20052-7-wwcohen@gmail.com>
+ (Exim 4.90_1) (envelope-from <reactorcontrol@icloud.com>)
+ id 1mpuT2-0004gK-HO
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 10:45:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+ s=1a1hai; t=1637768735;
+ bh=SfSy6BptLMtxdfdqlPw/dJora6ks4N1j9vjUKPiuZa0=;
+ h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
+ b=W1QZ9jWTZiddnkX2fB9iIxUxJl5Mih0x/WkYpLi2xUAgUhSC4mfd7ReYTNJUvXms7
+ XtvxgltCYYDLQTq/0XgTvyh81Qh/xNW+zhkux/YniDqVOFnmm4uX3xS2I+5L64CPzD
+ CjyhQ3tjI8fpBZYh+rVMj+tuFSHNwKG7F3DKXeavEPBh+bTsg2cXD6AttOEOUXXRQ0
+ u3H1nZ2guAY6P/po2VrR7+w/Q919798gL+nF1Hm0kTZTNg25scz/zmd192p2/cQ2Uq
+ aLA02mQHcWwN1Q6t84Qi+TrBksx2C+EvsLlZLGZcuD+ktS53EIuuPov9VkfT+8wDIc
+ EXEz5vs7GD6fg==
+Received: from smtpclient.apple (p5b2f2493.dip0.t-ipconnect.de [91.47.36.147])
+ by st43p00im-ztdg10071801.me.com (Postfix) with ESMTPSA id
+ 4C12454006F; Wed, 24 Nov 2021 15:45:33 +0000 (UTC)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.40.0.1.62\))
+Subject: Re: [PATCH v2 04/11] 9p: darwin: Handle struct dirent differences
+From: Michael Roitzsch <reactorcontrol@icloud.com>
+In-Reply-To: <60659730.p4icJFLGV9@silver>
+Date: Wed, 24 Nov 2021 16:45:30 +0100
+Cc: qemu-devel@nongnu.org, Will Cohen <wwcohen@gmail.com>,
+ Keno Fischer <keno@juliacomputing.com>, Greg Kurz <groug@kaod.org>,
+ hi@alyssa.is
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <2B4D46DD-074E-4070-BAF0-AADAD1183B33@icloud.com>
 References: <20211122004913.20052-1-wwcohen@gmail.com>
- <20211122004913.20052-7-wwcohen@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ <20211122004913.20052-5-wwcohen@gmail.com> <60659730.p4icJFLGV9@silver>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+X-Mailer: Apple Mail (2.3693.40.0.1.62)
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.790,17.0.607.475.0000000_definitions?=
+ =?UTF-8?Q?=3D2021-11-24=5F04:2021-11-24=5F01,2021-11-24=5F04,2020-04-07?=
+ =?UTF-8?Q?=5F01_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxscore=0 phishscore=0
+ mlxlogscore=971 adultscore=0 spamscore=0 clxscore=1011 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2111240087
+Received-SPF: pass client-ip=17.58.63.171;
+ envelope-from=reactorcontrol@icloud.com; helo=st43p00im-ztdg10071801.me.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,49 +81,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 22. November 2021 01:49:08 CET Will Cohen wrote:
-> From: Keno Fischer <keno@juliacomputing.com>
-> 
-> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-> [Will Cohen: - Adjust coding style]
-> Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> ---
->  hw/9pfs/9p.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index c941b46f60..d671995aa4 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -3943,6 +3943,14 @@ out_nofid:
->      v9fs_string_free(&name);
->  }
-> 
-> +#if defined(CONFIG_DARWIN) && !defined(XATTR_SIZE_MAX)
-> +/*
-> + * Darwin doesn't seem to define a maximum xattr size in its user
-> + * space header, but looking at the kernel source, HFS supports
-> + *  up to INT32_MAX, so use that as the maximum.
-> + */
-> +#define XATTR_SIZE_MAX INT32_MAX
-> +#endif
->  static void coroutine_fn v9fs_xattrcreate(void *opaque)
->  {
->      int flags, rflags = 0;
+Hi,
 
-That would be 2 GB.
+> Are you sure d_seekoff doesn't work on macOS?
 
-v9fs_xattrcreate() [9p.c] calls g_malloc0(size), if that fails it would
-terminate QEMU.
+I just tried on an APFS volume on macOS Monterey and d_seekoff is always =
+0, while telldir() outputs useful values.
 
-I think it would make sense to simply set this to a reasonable small value for
-macOS for now as well. The intended supported scenario for 9p currently is
-macOS being host and Linux being guest. So the limitations of Linux would
-apply anyway ATM.
+> Because using telldir() instead
+> is not the same thing. Accessing d_*off is just POD access, whereas =
+telldir()
+> is a syscall.
 
-Once we have macOS guest support, we can still work on a refinement to support
-larger attributes IMO.
+I am not sure this is the case. I have tried a quick test program:
 
+#include <dirent.h>
+
+int main(void)
+{
+	int result =3D 0;
+	DIR *dir =3D opendir(".");
+	while (readdir(dir)) {
+		result +=3D telldir(dir);
+	}
+	closedir(dir);
+	return result;
+}
+
+I ran it with 'sudo dtruss ./test', which should give me a trace of the =
+system calls. The relevant portion is:
+
+open_nocancel(".\0", 0x1100004, 0x0)		 =3D 3 0
+sysctlbyname(kern.secure_kernel, 0x12, 0x7FF7BE49810C, 0x7FF7BE498110, =
+0x0)		 =3D 0 0
+fstatfs64(0x3, 0x7FF7BE498110, 0x0)		 =3D 0 0
+getdirentries64(0x3, 0x7FF4A5808A00, 0x2000)		 =3D 1472 0
+close_nocancel(0x3)		 =3D 0 0
+
+The directory has more than 30 entries, but the loop does not appear to =
+cause individual system calls. Instead, readdir() and telldir() appear =
+to be library functions powered by this getdirentries64 syscall.
+
+This is on Monterey. Unfortunately I cannot test if older versions of =
+macOS are different.
+
+Michael
 
 
