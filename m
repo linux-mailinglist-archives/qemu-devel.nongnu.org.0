@@ -2,53 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8434C45C750
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 15:28:21 +0100 (CET)
-Received: from localhost ([::1]:51526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9C3545C752
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 15:29:15 +0100 (CET)
+Received: from localhost ([::1]:55284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mptG0-00044v-Jp
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 09:28:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36884)
+	id 1mptGt-0006jB-0I
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 09:29:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
- id 1mptEO-0003DM-N2; Wed, 24 Nov 2021 09:26:40 -0500
-Received: from mga12.intel.com ([192.55.52.136]:30976)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1mptFT-0004CT-Ly
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 09:27:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
- id 1mptEM-0005yO-Rx; Wed, 24 Nov 2021 09:26:40 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10177"; a="215312963"
-X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; d="scan'208";a="215312963"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2021 06:26:36 -0800
-X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; d="scan'208";a="509890940"
-Received: from lgieryk-mobl1.ger.corp.intel.com (HELO lgieryk-VirtualBox)
- ([10.252.34.117])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2021 06:26:33 -0800
-Date: Wed, 24 Nov 2021 15:26:30 +0100
-From: =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH v2 12/15] hw/nvme: Initialize capability structures for
- primary/secondary controllers
-Message-ID: <20211124142630.GB25350@lgieryk-VirtualBox>
-References: <20211116153446.317143-1-lukasz.gieryk@linux.intel.com>
- <20211116153446.317143-13-lukasz.gieryk@linux.intel.com>
- <YZ3yD+GDf3SQSE+l@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1mptFQ-000632-RJ
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 09:27:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637764063;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TBBPluFoWvCiU0FYxkN5Hb05Z5dpqmRH1BKV/6OsAAo=;
+ b=NQ+q6mRe5glA1V677H+aGhWSsJ+KUwm9YJyHEjmkVTx/cCM7aVD6iZv180y2nyrGYG9bHu
+ IBP2/mmBqBJ9QsnU0B/AqSM5UlgeD2HtYfXF6T265kVtBB1LqNECmFpvqeOwbJjRea0VvW
+ itX7BL+FJrUcsOWWbja2j8og0BVhjfY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-464-271-C4iQNFyUWMZud-tQvQ-1; Wed, 24 Nov 2021 09:27:38 -0500
+X-MC-Unique: 271-C4iQNFyUWMZud-tQvQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96605835E23;
+ Wed, 24 Nov 2021 14:27:37 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.195.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3FAC360843;
+ Wed, 24 Nov 2021 14:27:32 +0000 (UTC)
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] rSTify 'report-a-bug' and 'security-process';
+ move them to QEMU Git
+Date: Wed, 24 Nov 2021 15:27:26 +0100
+Message-Id: <20211124142728.1221817-1-kchamart@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YZ3yD+GDf3SQSE+l@apples.localdomain>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=192.55.52.136;
- envelope-from=lukasz.gieryk@linux.intel.com; helo=mga12.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,81 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Lukasz Maniak <lukasz.maniak@linux.intel.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com,
+ Kashyap Chamarthy <kchamart@redhat.com>, eblake@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 24, 2021 at 09:04:31AM +0100, Klaus Jensen wrote:
-> On Nov 16 16:34, Łukasz Gieryk wrote:
-> > With four new properties:
-> >  - sriov_v{i,q}_flexible,
-> >  - sriov_max_v{i,q}_per_vf,
-> > one can configure the number of available flexible resources, as well as
-> > the limits. The primary and secondary controller capability structures
-> > are initialized accordingly.
-> > 
-> > Since the number of available queues (interrupts) now varies between
-> > VF/PF, BAR size calculation is also adjusted.
-> > 
-> > Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
-> > ---
-> >  hw/nvme/ctrl.c       | 138 ++++++++++++++++++++++++++++++++++++++++---
-> >  hw/nvme/nvme.h       |   4 ++
-> >  include/block/nvme.h |   5 ++
-> >  3 files changed, 140 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> > index f8f5dfe204..f589ffde59 100644
-> > --- a/hw/nvme/ctrl.c
-> > +++ b/hw/nvme/ctrl.c
-> > @@ -6358,13 +6444,40 @@ static void nvme_init_state(NvmeCtrl *n)
-> >      n->starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
-> >      n->aer_reqs = g_new0(NvmeRequest *, n->params.aerl + 1);
-> >  
-> > -    list->numcntl = cpu_to_le16(n->params.sriov_max_vfs);
-> > -    for (i = 0; i < n->params.sriov_max_vfs; i++) {
-> > +    list->numcntl = cpu_to_le16(max_vfs);
-> > +    for (i = 0; i < max_vfs; i++) {
-> >          sctrl = &list->sec[i];
-> >          sctrl->pcid = cpu_to_le16(n->cntlid);
-> >      }
-> >  
-> >      cap->cntlid = cpu_to_le16(n->cntlid);
-> > +    cap->crt = NVME_CRT_VQ | NVME_CRT_VI;
-> > +
-> > +    if (pci_is_vf(&n->parent_obj)) {
-> > +        cap->vqprt = cpu_to_le16(1 + n->conf_ioqpairs);
-> > +    } else {
-> > +        cap->vqprt = cpu_to_le16(1 + n->params.max_ioqpairs -
-> > +                                 n->params.sriov_vq_flexible);
-> > +        cap->vqfrt = cpu_to_le32(n->params.sriov_vq_flexible);
-> > +        cap->vqrfap = cap->vqfrt;
-> > +        cap->vqgran = cpu_to_le16(NVME_VF_RES_GRANULARITY);
-> > +        cap->vqfrsm = n->params.sriov_max_vq_per_vf ?
-> > +                        cpu_to_le16(n->params.sriov_max_vq_per_vf) :
-> > +                        cap->vqprt;
-> 
-> That this defaults to VQPRT doesn't seem right. It should default to
-> VQFRT. Does not make sense to report a maximum number of assignable
-> flexible resources that are bigger than the number of flexible resources
-> available.
-
-I’ve explained in on of v1 threads why I think using the current default
-is better than VQPRT.
-
-What you’ve noticed is indeed an inconvenience, but it’s – at least in
-my opinion – part of the design. What matters is the current number of
-unassigned flexible resources. It may be lower than VQFRSM due to
-multiple reasons:
- 1) resources are bound to PF, 
- 2) resources are bound to other VFs,
- 3) resources simply don’t exist (not baked in silicone: VQFRT < VQFRSM).
-
-If 1) and 2) are allowed to happen, and the user must be aware of that,
-then why 3) shouldn’t?
+This series rSTifies the said web pages[1][2] from the QEMU web and=0D
+moves them to docs/devel/ in QEMU Git.  This is based on Paolo's=0D
+feedback here[3].=0D
+=0D
+The rename to 'reporting-a-bug' is done to be consistent with the other=0D
+in-tree docs.  And I put 'security-process' first because, we refer to=0D
+it from 'reporting-a-bug'.  (If we reverse the order, the build fails --=0D
+correctly so.)=0D
+=0D
+[1] https://www.qemu.org/contribute/report-a-bug/=0D
+[2] https://www.qemu.org/contribute/security-process=0D
+[3] https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg04002.html=
+=0D
+=0D
+Kashyap Chamarthy (2):=0D
+  docs: rSTify "security-process" page; move it to QEMU Git=0D
+  docs: rSTify "report-a-bug" page; move it to QEMU Git=0D
+=0D
+ docs/devel/index.rst            |   9 +-=0D
+ docs/devel/reporting-a-bug.rst  |  37 +++++++=0D
+ docs/devel/security-process.rst | 190 ++++++++++++++++++++++++++++++++=0D
+ 3 files changed, 233 insertions(+), 3 deletions(-)=0D
+ create mode 100644 docs/devel/reporting-a-bug.rst=0D
+ create mode 100644 docs/devel/security-process.rst=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
