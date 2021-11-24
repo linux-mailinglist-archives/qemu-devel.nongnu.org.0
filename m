@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A11545CB0E
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 18:31:05 +0100 (CET)
-Received: from localhost ([::1]:47544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E622245CB3C
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 18:39:15 +0100 (CET)
+Received: from localhost ([::1]:36244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpw6q-0005UO-HW
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 12:31:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58952)
+	id 1mpwEk-0000fv-Hj
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 12:39:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1mpw2h-0000p9-4E; Wed, 24 Nov 2021 12:26:47 -0500
+ id 1mpw2k-0000zM-8u; Wed, 24 Nov 2021 12:26:50 -0500
 Received: from [201.28.113.2] (port=53237 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1mpw2f-0008FR-KO; Wed, 24 Nov 2021 12:26:46 -0500
+ id 1mpw2i-0008FR-6K; Wed, 24 Nov 2021 12:26:50 -0500
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 24 Nov 2021 14:25:30 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Wed, 24 Nov 2021 14:25:31 -0300
 Received: from eldorado.org.br (unknown [10.10.71.29])
- by power9a (Postfix) with ESMTP id B4F33800A92;
- Wed, 24 Nov 2021 14:25:30 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 6A899800A92;
+ Wed, 24 Nov 2021 14:25:31 -0300 (-03)
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 2/3] test/tcg/ppc64le: test mtfsf
-Date: Wed, 24 Nov 2021 14:25:22 -0300
-Message-Id: <20211124172523.3598396-3-lucas.araujo@eldorado.org.br>
+Subject: [PATCH v3 3/3] target/ppc: ppc_store_fpscr doesn't update bits 0 to
+ 28 and 52
+Date: Wed, 24 Nov 2021 14:25:23 -0300
+Message-Id: <20211124172523.3598396-4-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211124172523.3598396-1-lucas.araujo@eldorado.org.br>
 References: <20211124172523.3598396-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 24 Nov 2021 17:25:30.0838 (UTC)
- FILETIME=[47C7FF60:01D7E158]
+X-OriginalArrivalTime: 24 Nov 2021 17:25:31.0557 (UTC)
+ FILETIME=[4835B550:01D7E158]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,108 +65,57 @@ Cc: richard.henderson@linaro.org, danielhb413@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added tests for the mtfsf to check if FI bit of FPSCR is being set
-and if exception calls are being made correctly.
+This commit fixes the difference reported in the bug in the reserved
+bit 52, it does this by adding this bit to the mask of bits to not be
+directly altered in the ppc_store_fpscr function (the hardware used to
+compare to QEMU was a Power9).
 
+The bits 0 to 27 were also added to the mask, as they are marked as
+reserved in the PowerISA and bit 28 is a reserved extension of the DRN
+field (bits 29:31) but can't be set using mtfsfi, while the other DRN
+bits may be set using mtfsfi instruction, so bit 28 was also added to
+the mask.
+
+Although this is a difference reported in the bug, since it's a reserved
+bit it may be a "don't care" case, as put in the bug report. Looking at
+the ISA it doesn't explicitly mentions this bit can't be set, like it
+does for FEX and VX, so I'm unsure if this is necessary.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/266
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 ---
- tests/tcg/ppc64/Makefile.target   |  1 +
- tests/tcg/ppc64le/Makefile.target |  1 +
- tests/tcg/ppc64le/mtfsf.c         | 61 +++++++++++++++++++++++++++++++
- 3 files changed, 63 insertions(+)
- create mode 100644 tests/tcg/ppc64le/mtfsf.c
+ target/ppc/cpu.c | 2 +-
+ target/ppc/cpu.h | 4 ++++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
-index 6ab7934fdf..8f4c7ac4ed 100644
---- a/tests/tcg/ppc64/Makefile.target
-+++ b/tests/tcg/ppc64/Makefile.target
-@@ -11,6 +11,7 @@ endif
- bcdsub: CFLAGS += -mpower8-vector
+diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+index f933d9f2bd..d7b42bae52 100644
+--- a/target/ppc/cpu.c
++++ b/target/ppc/cpu.c
+@@ -112,7 +112,7 @@ static inline void fpscr_set_rounding_mode(CPUPPCState *env)
  
- PPC64_TESTS += byte_reverse
-+PPC64_TESTS += mtfsf
- ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
- run-byte_reverse: QEMU_OPTS+=-cpu POWER10
- run-plugin-byte_reverse-with-%: QEMU_OPTS+=-cpu POWER10
-diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
-index 5e65b1590d..b8cd9bf73a 100644
---- a/tests/tcg/ppc64le/Makefile.target
-+++ b/tests/tcg/ppc64le/Makefile.target
-@@ -10,6 +10,7 @@ endif
- bcdsub: CFLAGS += -mpower8-vector
+ void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
+ {
+-    val &= ~(FP_VX | FP_FEX);
++    val &= FPSCR_MTFS_MASK;
+     if (val & FPSCR_IX) {
+         val |= FP_VX;
+     }
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index e946da5f3a..441d3dce19 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -759,6 +759,10 @@ enum {
+                           FP_VXZDZ  | FP_VXIMZ  | FP_VXVC   | FP_VXSOFT | \
+                           FP_VXSQRT | FP_VXCVI)
  
- PPC64LE_TESTS += byte_reverse
-+PPC64LE_TESTS += mtfsf
- ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
- run-byte_reverse: QEMU_OPTS+=-cpu POWER10
- run-plugin-byte_reverse-with-%: QEMU_OPTS+=-cpu POWER10
-diff --git a/tests/tcg/ppc64le/mtfsf.c b/tests/tcg/ppc64le/mtfsf.c
-new file mode 100644
-index 0000000000..b3d31f3637
---- /dev/null
-+++ b/tests/tcg/ppc64le/mtfsf.c
-@@ -0,0 +1,61 @@
-+#include <stdlib.h>
-+#include <assert.h>
-+#include <signal.h>
-+#include <sys/prctl.h>
++/* FPSCR bits that can be set by mtfsf, mtfsfi and mtfsb1 */
++#define FPSCR_MTFS_MASK (~(MAKE_64BIT_MASK(36, 28) | PPC_BIT(28) |        \
++                           FP_FEX | FP_VX | PPC_BIT(52)))
 +
-+#define FPSCR_VE     7  /* Floating-point invalid operation exception enable */
-+#define FPSCR_VXSOFT 10 /* Floating-point invalid operation exception (soft) */
-+#define FPSCR_FI     17 /* Floating-point fraction inexact                   */
-+
-+#define FP_VE           (1ull << FPSCR_VE)
-+#define FP_VXSOFT       (1ull << FPSCR_VXSOFT)
-+#define FP_FI           (1ull << FPSCR_FI)
-+
-+void sigfpe_handler(int sig, siginfo_t *si, void *ucontext)
-+{
-+    if (si->si_code == FPE_FLTINV) {
-+        exit(0);
-+    }
-+    exit(1);
-+}
-+
-+int main(void)
-+{
-+    union {
-+        double d;
-+        long long ll;
-+    } fpscr;
-+
-+    struct sigaction sa = {
-+        .sa_sigaction = sigfpe_handler,
-+        .sa_flags = SA_SIGINFO
-+    };
-+
-+    /*
-+     * Enable the MSR bits F0 and F1 to enable exceptions.
-+     * This shouldn't be needed in linux-user as these bits are enabled by
-+     * default, but this allows to execute either in a VM or a real machine
-+     * to compare the behaviors.
-+     */
-+    prctl(PR_SET_FPEXC, PR_FP_EXC_PRECISE);
-+
-+    /* First test if the FI bit is being set correctly */
-+    fpscr.ll = FP_FI;
-+    __builtin_mtfsf(0b11111111, fpscr.d);
-+    fpscr.d = __builtin_mffs();
-+    assert((fpscr.ll & FP_FI) != 0);
-+
-+    /* Then test if the deferred exception is being called correctly */
-+    sigaction(SIGFPE, &sa, NULL);
-+
-+    /*
-+     * Although the VXSOFT exception has been chosen, based on test in a Power9
-+     * any combination of exception bit + its enabling bit should work.
-+     * But if a different exception is chosen si_code check should
-+     * change accordingly.
-+     */
-+    fpscr.ll = FP_VE | FP_VXSOFT;
-+    __builtin_mtfsf(0b11111111, fpscr.d);
-+
-+    return 1;
-+}
+ /*****************************************************************************/
+ /* Vector status and control register */
+ #define VSCR_NJ         16 /* Vector non-java */
 -- 
 2.31.1
 
