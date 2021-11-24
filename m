@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3BF45C5CB
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 14:59:30 +0100 (CET)
-Received: from localhost ([::1]:40486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BB245C570
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 14:55:49 +0100 (CET)
+Received: from localhost ([::1]:59558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpso5-0001bA-9b
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 08:59:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49194)
+	id 1mpskW-0003aE-8P
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 08:55:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mpsVc-0004gP-EL; Wed, 24 Nov 2021 08:40:24 -0500
-Received: from [2607:f8b0:4864:20::a2a] (port=44612
- helo=mail-vk1-xa2a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mpsVa-0002Ng-B7; Wed, 24 Nov 2021 08:40:24 -0500
-Received: by mail-vk1-xa2a.google.com with SMTP id u68so1507364vke.11;
- Wed, 24 Nov 2021 05:40:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=zIOhxdgObhI/lSelV1pZWAKRNcjuTnEXIOjjyfzlYPA=;
- b=FxLTH7Vbl3uCxcfMS7Ic73uALLc39VmjNu5rdpBbvXyJdvb31lWxtJSvXg1sue4Cq0
- pcgVWjs8oY1UhhhKRqavGTjXHyCGRR6s+3hOAVY1BVKYinOp5HY3c9mvZY9n99/p0aPX
- fXbJ0v+VF87QbSKJ1A3T61S7H2aYbkkllPZpN1SrirSpkQfF+KYZLNrU4z1Kt5aOYQAH
- 9i9JZKGPe70moJNjJ2kAZlWwtt1ARVagXPywn+t4ImhMu0N9VJmQmUoFHtJ6Sr/sXIs/
- 0kXzg2cJkXYozjvSV5waLIxkC8i4htdYz6DQ6eKU+Qvu+AvqjecFiGXDO8l3apD4nWNT
- nQGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=zIOhxdgObhI/lSelV1pZWAKRNcjuTnEXIOjjyfzlYPA=;
- b=3IxWwWhgg+Al6jU8166BMaaAgMIKKg7468MflVxHn9geZjv+/WQVfF5D4kQueu1Hes
- 0Och9nDTAF1L5J7st7MRutMny9rH7b0eC7r1bkEGCe2hUIFDFLrULyGVi2sS3z8WPZsw
- 5uSnGHeq3e+nH2iYqnpsdJEFeZxIA0R1bPLaH1bX1JEhx8A4puBMvfo5iGWQtLXdNWQy
- l4JX54bJdKv9L9JAJ8azBSIAyUbMdb/JuTDt2Pizafxu6/boDSoHPonC/497O83SfyXZ
- eYbLM4TovYGOJmS1snyGqwVOf00ddHNBxt3+ubSKeb/SoG+I3yxvgtJarret+lZyD15t
- CUWA==
-X-Gm-Message-State: AOAM531DQYIIF/FnJsaoGa+935/sWpcTmLWXr0Q3+SPqK1RNRnC+2Js2
- USOoCNcHhQhq9P3hXn99NxI=
-X-Google-Smtp-Source: ABdhPJyK2GBCXWcP/eTNxCChS0UNxCJuLvQ2cMaisNDRYuyn4Z0jqswt+c4AgeGGWTSS0R+eEvGdwQ==
-X-Received: by 2002:a1f:3853:: with SMTP id f80mr26533505vka.0.1637761220781; 
- Wed, 24 Nov 2021 05:40:20 -0800 (PST)
-Received: from [192.168.10.222] ([191.19.215.188])
- by smtp.gmail.com with ESMTPSA id g28sm7810741vkl.16.2021.11.24.05.40.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 05:40:20 -0800 (PST)
-Message-ID: <00546896-2466-007f-b73c-fe4f889fac2f@gmail.com>
-Date: Wed, 24 Nov 2021 10:40:17 -0300
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mpsXv-0000VB-5F
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:42:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25186)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mpsXr-0003Jv-05
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:42:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637761361;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2W+AiDBYREYi8GxmAPATNcqIkvGsVylJ4V5ckzsYDsA=;
+ b=IfguHzV/iJ7PR2sy2EbZMSityqlgzi2AhYTnNspdreX1lSKxL0dL5DxH9pUMEkbMULIRYo
+ kwB4LUnm/Am0oCXWPDPpEMJT1CWUYirE2usmO6CVIxhv1kjAQSy3HC8CGG/CFyaEsvcYpA
+ Ebtu3y5FQbGfUElUerX5OyGfxxt4BXI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-549-endaiw0xPp-opRfvdlU_Uw-1; Wed, 24 Nov 2021 08:42:26 -0500
+X-MC-Unique: endaiw0xPp-opRfvdlU_Uw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 928271023F51;
+ Wed, 24 Nov 2021 13:42:24 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 228C960C05;
+ Wed, 24 Nov 2021 13:42:06 +0000 (UTC)
+Date: Wed, 24 Nov 2021 13:42:04 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v4 04/18] ui: avoid warnings about directdb on Alpine /
+ musl libc
+Message-ID: <YZ5BLGegxcbFmEpo@redhat.com>
+References: <20211124130150.268230-1-berrange@redhat.com>
+ <20211124130150.268230-5-berrange@redhat.com>
+ <b1babd61-02f9-8083-cda0-99d69839b10e@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] target/ppc: fix Hash64 MMU update of PTE bit R
-Content-Language: en-US
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20211124120046.6831-1-leandro.lupori@eldorado.org.br>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20211124120046.6831-1-leandro.lupori@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a2a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2a;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa2a.google.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-4.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <b1babd61-02f9-8083-cda0-99d69839b10e@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,64 +85,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, clg@kaod.org, david@gibson.dropbear.id.au
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 11/24/21 09:00, Leandro Lupori wrote:
-> When updating the R bit of a PTE, the Hash64 MMU was using a wrong byte
-> offset, causing the first byte of the adjacent PTE to be corrupted.
-> This caused a panic when booting FreeBSD, using the Hash MMU.
-
-If you add a "Fixes:" tag with the commit that introduced the code you're
-fixing, we can push it right away as a bug fix in 6.2 (assuming it doesn't
-break anything else, of course).
-
-The commit to be fixed in the case seems to be a2dd4e83e76b ("ppc/hash64:
-Rework R and C bit updates")
-
-One more comment below:
-
+On Wed, Nov 24, 2021 at 02:32:56PM +0100, Thomas Huth wrote:
+> On 24/11/2021 14.01, Daniel P. Berrangé wrote:
+> > On Alpine, SDL is built with directfb support and this triggers warnings
+> > during QEMU build
+> > 
+> > In file included from /usr/include/directfb/direct/thread.h:38,
+> >                   from /usr/include/directfb/direct/debug.h:43,
+> >                   from /usr/include/directfb/direct/interface.h:36,
+> >                   from /usr/include/directfb/directfb.h:49,
+> >                   from /usr/include/SDL2/SDL_syswm.h:80,
+> >                   from /builds/berrange/qemu/include/ui/sdl2.h:8,
+> >                   from ../ui/sdl2-gl.c:31:
+> > /usr/include/directfb/direct/os/waitqueue.h:41:25: error: redundant redeclaration of 'direct_waitqueue_init' [-Werror=redundant-decls]
+> >     41 | DirectResult DIRECT_API direct_waitqueue_init        ( DirectWaitQueue *queue );
+> >        |                         ^~~~~~~~~~~~~~~~~~~~~
 > 
-> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
-> ---
->   target/ppc/mmu-hash64.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-> index 19832c4b46..f165ac691a 100644
-> --- a/target/ppc/mmu-hash64.c
-> +++ b/target/ppc/mmu-hash64.c
-> @@ -786,7 +786,7 @@ static void ppc_hash64_set_dsi(CPUState *cs, int mmu_idx, uint64_t dar, uint64_t
->   
->   static void ppc_hash64_set_r(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
->   {
-> -    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + 16;
-> +    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + 14;
+> I think that's a bug in the SDL2 package of Alpine. I've had trouble with
+> that one in the past already ... so not sure whether it's our job now to
+> work around bugs in that crappy Alpine package... I'd prefer if we simply do
+> not compile-test SDL on Alpine instead.
 
-Instead of adding a '14' you should add a new #define in mmu-hash64.h with this
-value, something like "HPTE64_R_R_SHIFT". This will avoid hardcoding literals
-around the code and forcing us to go to the ISA every time we wonder what's
-an apparently random number represents. There's also a "HPTE64_R_R" defined
-there but I'm not sure if it's usable here, so feel free to create a new
-macro if needed.
+It is a harmless bug in directfb headers, which has no ill
+effects other than producing a warning when some app uses
+-Wredundant-decls.  Of course Alpine would ideally get this
+patched, but at the same time it is reasonable for Alpine
+users to want SDL and if someone has this package installed
+already we don't want QEMU build to break due to -Werror.
 
-In that note, the original commit that added this code also added a lot of
-hardcoded "15" values for the C bit update in spapr_hpte_set_c() and
-ppc_hash64_set_c(), and a "14" value like you're changing here in spapr_hpte_set_r().
-If you're feeling generous I believe that another patch replacing these hardcoded values
-with bit shift macros is warranted as well.
+Case in point, as we auto-generate dockerfiles to ensure
+all pre-requisites are installed in all dockerfiles,  the
+Alpine dockerfile gains SDL and exposes this bug. We could
+turn off -Werror but that's a overly big hammer compared
+to this targetted fix.
 
-
-Thanks,
-
-
+Regards,
 Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
->   
->       if (cpu->vhyp) {
->           PPCVirtualHypervisorClass *vhc =
-> 
 
