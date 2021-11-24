@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E9D45B63C
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 09:08:45 +0100 (CET)
-Received: from localhost ([::1]:46028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E5745B664
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 09:21:34 +0100 (CET)
+Received: from localhost ([::1]:32768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpnKe-0000W8-Fb
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 03:08:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53564)
+	id 1mpnX2-0002at-HO
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 03:21:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpnHa-0006rM-PJ
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 03:05:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21798)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mpnIV-0007ro-H4; Wed, 24 Nov 2021 03:06:32 -0500
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:36419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpnHW-0002dZ-H7
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 03:05:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637741129;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=CY9ZfBfA1w6FqFdaa+IFUgc8lXx8HEclLb0W1gqff1E=;
- b=MmvZlKmBksmHytfDlavtc23jZXmr2AWAHsFlBaOYlyZbud9il7LL0SWQ93MTU1Qb/CRecz
- pr5DPuXuXOSqPcis24VXORW02VFyStAfq3/5KWPCbCHOch9RgMC/F7DRnkC6LiwWEpKWoH
- SfYhlNmg4QK7FuY894ON4jcJyOliHTI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-492-Of8hNPIkNQyIch5Rsu44Jg-1; Wed, 24 Nov 2021 03:05:23 -0500
-X-MC-Unique: Of8hNPIkNQyIch5Rsu44Jg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m14-20020a05600c3b0e00b0033308dcc933so967735wms.7
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 00:05:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CY9ZfBfA1w6FqFdaa+IFUgc8lXx8HEclLb0W1gqff1E=;
- b=Dw3/MkLKh0FVZ0YewypN8GYx5K5o9fu8mofEPeIpxpikRjMeKFmUo/Iqa6tWxULwoc
- 6zLHY52Niix96XymA2AyFYJUCVWT4skcyK+wGGv6t4z8qUJUB7XzcuZJT9PQHKn/s/QE
- TkSnShuKNCWx7s8SLppIg6YO1l/LXZ8Rb6FxKtOgIUrTf68zc6C/ww4ZoCvzOQBIy0A5
- pY5V7K6rwIcNVZttKMh+yNijmelNn1YvyBVAlt2gBfs+hwW1Jejoq2U1m7fFF7Rn4HGt
- 3ys3ub3VQ9AK/czLuhctQ+1kGZ3GJn34F5Wg+Kut2O+0lFqXsFzHJ8v1xWMk21yPsmwS
- i/1g==
-X-Gm-Message-State: AOAM532o4ZZpyxxrGKgtSYMHr/k50vOtTrMmUUAUbSxQBavKbZAdvxbJ
- qLVWGm7ZQQA0fovqlXNC8Nk1p/hFWKngKst/VUtbHEGB4S4Xj3EspGB5DysL0so7ZGcuwNwT/qc
- TIrnmm0RMOQIPTqBizAQ3T/w3++yVKEiqGdTwLby4vgpcYB//UqX0j0UhKKFgaAaf
-X-Received: by 2002:a05:6000:1a48:: with SMTP id
- t8mr16282294wry.66.1637741122378; 
- Wed, 24 Nov 2021 00:05:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx4EeL6L83lZhiAJk59rlcz2fn/ytdjYqsTDj/gyv78dMA3afhELnRUCIHoIfQPLDK98To1yw==
-X-Received: by 2002:a05:6000:1a48:: with SMTP id
- t8mr16282225wry.66.1637741121976; 
- Wed, 24 Nov 2021 00:05:21 -0800 (PST)
-Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id e12sm17642741wrq.20.2021.11.24.00.05.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 00:05:21 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [qemu-web PATCH v3] Add Sponsors page
-Date: Wed, 24 Nov 2021 09:05:19 +0100
-Message-Id: <20211124080519.440677-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.33.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mpnIT-0002lI-VZ; Wed, 24 Nov 2021 03:06:31 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id D1FCB2B011CB;
+ Wed, 24 Nov 2021 03:06:27 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Wed, 24 Nov 2021 03:06:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=vUB6TIzG/8D9PmJQvilwp5A74iR
+ nACUf1cg4XsZEvgU=; b=MlwYgYSK85zl7hnImSYvLXN/qtDgnzYp3QYzr+vv9rR
+ hMhttfNuTyw901iXdqw99Br6kMV1fqY/eRnr9ufLYt7aLDvVki0Jk7UUmB4ylLVx
+ OBkLzb5Cm8KlnCU670zTBVO4bIP2H1vuHvvOjAkAkhpHIRTD2J4e+5L3p6ITaV2U
+ +dR4m7lyixk8KJEku9WKBio3EDnMJfUGDMFwDe15geN9sfkbrIM+fcXI5mQoLbwQ
+ M7xSwOUuD4mVC3LXV4B45meX/qDSlg9SCOtCLIdKLBFGSatxw/uY9k85WMQoeG3A
+ HlR+I5WCdKykiYrHXXD+AuB20v4bTN4vWGR0mpL9laQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=vUB6TI
+ zG/8D9PmJQvilwp5A74iRnACUf1cg4XsZEvgU=; b=YpOqn+ob47gR3Kdd4xqv94
+ pyvHxeZwiXGknurz12/hpTOAYPful2rrjstTOHQjpn0EjfCmLddRjJQ/vmjAm2D8
+ cwXACB4iPiu4ApA6yp4RbYmijsIsuS6EDwj+WD6441NNp23LMOalRUS8n1Tjvf+m
+ PhCAzyiq6hZb7K9ByBAM9zN6lCr53TUF/8M43XC0O1SHQec8H09LqsD8nDLbB4ks
+ 1nW+ibuf+EnzlMIAxrP001vd/fSv4xLcKnZjjfDfDdcrfFAq5kWD/sH48UVnlICG
+ vEb0F3krFZ3jYKMDtHgndcJZy+/F/kCnPV+GQ6qu05ih9O1YmzSkPpDM8um+tGsw
+ ==
+X-ME-Sender: <xms:gvKdYQPxI10rOb3rBqHotvAdEi6O17hyZ_nweN-4IizxhZw4dCO9ig>
+ <xme:gvKdYW9skAO_-Df33sey9TcpaILRp-M8RZbKEUzAqWgHI_8Z6hpI7RkOwuErQcxuz
+ Y8SVCiQlLtX49v03F4>
+X-ME-Received: <xmr:gvKdYXQ9nnUonXWiVcn1RwOkMNqoqEKPExeguZ-voZQk0jnCKLrSBcPSckS5UtuM5-YWjCEeDhnD_QFsNveu-Py1NTsx7SDr_rq5bO8R_hRt2Lwv4g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeejgdduudejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:gvKdYYvOacPx-S3CgzlnoOoyGattX854xJsEdNm3JuQcmslVgVlR3A>
+ <xmx:gvKdYYeXBXK2IL4nmVAtLaEw0RMA0cANWmGTS8vZsiIpa6v-tR7wDA>
+ <xmx:gvKdYc1q39W5wK3061UJdJaTJZN8ETdTyEwFwAWFzht3ZdJr8V2ETg>
+ <xmx:g_KdYQ6oi0XbkTO2cV56kxNYk4PN4oFhZ93Pe19cTi1Rc4e_X2xQ6Ai02zs>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 24 Nov 2021 03:06:25 -0500 (EST)
+Date: Wed, 24 Nov 2021 09:06:23 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>
+Subject: Re: [PATCH v2 13/15] hw/nvme: Add support for the Virtualization
+ Management command
+Message-ID: <YZ3yf8RvlZREFF4B@apples.localdomain>
+References: <20211116153446.317143-1-lukasz.gieryk@linux.intel.com>
+ <20211116153446.317143-14-lukasz.gieryk@linux.intel.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7JqYoPjSHU6xZEHT"
+Content-Disposition: inline
+In-Reply-To: <20211116153446.317143-14-lukasz.gieryk@linux.intel.com>
+Received-SPF: pass client-ip=64.147.123.27; envelope-from=its@irrelevant.dk;
+ helo=wnew2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,104 +94,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
- Thomas Markey <admin@fosshost.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Alistair Francis <alistair23@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Lukasz Maniak <lukasz.maniak@linux.intel.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a page listing QEMU sponsors.
 
-For now, only mention Fosshost which requested to be listed:
-https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg05381.html
+--7JqYoPjSHU6xZEHT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cc: Thomas Markey <admin@fosshost.org>
-Resolves: https://gitlab.com/qemu-project/qemu-web/-/issues/2
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-Since v2:
-- don't explicitly state /what/ we're using the resource for,
-  just that we've been granted it (danpb)
-- list Azure Cloud credits (Daniel)
-- list PLCT Lab (Paolo)
-- list Wow/CIP United again, since other are listed (Phil)
-  therefore do not include Stefan R-b tag.
----
- _includes/footer.html |  3 +++
- assets/css/style.css  |  6 +++++-
- sponsors.md           | 21 +++++++++++++++++++++
- 3 files changed, 29 insertions(+), 1 deletion(-)
- create mode 100644 sponsors.md
+On Nov 16 16:34, =C5=81ukasz Gieryk wrote:
+> With the new Virtualization Management command one can:
+>  - assign flexible resources (queues, interrupts) to primary and
+>    secondary controllers,
+>  - toggle the online/offline state of given controller.
+>=20
+> Signed-off-by: =C5=81ukasz Gieryk <lukasz.gieryk@linux.intel.com>
+> ---
+>  hw/nvme/ctrl.c       | 204 +++++++++++++++++++++++++++++++++++++++++++
+>  hw/nvme/nvme.h       |  16 ++++
+>  hw/nvme/trace-events |   3 +
+>  include/block/nvme.h |  17 ++++
+>  4 files changed, 240 insertions(+)
+>=20
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index f589ffde59..9d0432a2e5 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
 
-diff --git a/_includes/footer.html b/_includes/footer.html
-index 1a0b960..b1f3f0c 100644
---- a/_includes/footer.html
-+++ b/_includes/footer.html
-@@ -15,6 +15,9 @@
- 	<div id="conservancy">
- 		QEMU is a member of <a href="{{ relative_root }}/conservancy/">Software Freedom Conservancy</a>
- 	</div>
-+	<div id="sponsors">
-+		QEMU has <a href="{{ relative_root }}/sponsors/">sponsors</a>
-+	</div>
- 	<div id="licenses">
- 		<a href="{{ relative_root }}/license.html">Website licenses</a>
- 	</div>
-diff --git a/assets/css/style.css b/assets/css/style.css
-index 88f7e85..aede79a 100644
---- a/assets/css/style.css
-+++ b/assets/css/style.css
-@@ -533,7 +533,7 @@
- 		padding-left: 1em;
- 	}
- 
--	#licenses, #conservancy, #edit-page {
-+	#licenses, #conservancy, #sponsors, #edit-page {
- 		padding: 0em;
- 		padding-left: 1em;
- 		padding-right: 1em;
-@@ -552,6 +552,10 @@
- 		float: left;
- 	}
- 
-+	#sponsors {
-+		float: left;
-+	}
-+
- 	#edit-page a {
- 		overflow: hidden;
- 		background: url(../images/edit-page.png);
-diff --git a/sponsors.md b/sponsors.md
-new file mode 100644
-index 0000000..29ce66c
---- /dev/null
-+++ b/sponsors.md
-@@ -0,0 +1,21 @@
-+---
-+title: QEMU sponsors
-+permalink: /sponsors/
-+---
-+
-+QEMU has sponsors!
-+
-+[Works on Arm](https://developer.arm.com/solutions/infrastructure/works-on-arm)
-+has provided QEMU access to a dedicated physical compute host.
-+
-+[Fosshost](https://fosshost.org/) has provided QEMU access to a dedicated
-+physical compute host.
-+
-+[CIP United](https://www.cipunited.com/) has provided QEMU access to a
-+dedicated physical compute host.
-+
-+[PLCT Lab](https://github.com/plctlab) has provided QEMU access to RISC-V
-+boards.
-+
-+[Microsoft](https://microsoft.com) has provided QEMU credits for use on Azure
-+Cloud.
--- 
-2.33.1
+[... snip]
 
+> +static uint16_t nvme_assign_virt_res_to_sec(NvmeCtrl *n, NvmeRequest *re=
+q,
+> +                                            uint16_t cntlid, uint8_t rt,=
+ int nr)
+> +{
+> +    int limit =3D rt ? n->params.sriov_max_vi_per_vf :
+> +                     n->params.sriov_max_vq_per_vf;
+
+If these parameters are left at the default, limit is 0 and the check
+below fails.
+
+[... snip]
+
+> +    if (nr > limit) {
+> +        return NVME_INVALID_NUM_RESOURCES | NVME_DNR;
+> +    }
+
+--7JqYoPjSHU6xZEHT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmGd8n4ACgkQTeGvMW1P
+Dek6iggApoCYa1OT9MKvhfNl1aGKJzZM1dytBFbbWiXb4N4ucYnNDMRc6AF3oXUj
+6WvwlI3OuzxQ6Xsjf8kHeLeX6TidC3tJRSqEqmF1q0DJEoROd9gzAOmnHGxt8U5a
+VDpL0eeSe7g9rUbtW1wqw+1JPNz1vAYKNZjP1H4KFIBS/uuombsKPqXM9UlN9ALZ
+fUEfnTDs3kG9OrHovtBNWC9uKuTs6yNK1m6IgYPUn2OBdBvwMWfZkaz8WHylpoWW
+wDPAL2EsCEfr7AoQCBhDb029VamU3joaKO13/DbIcCkkpUkcoBkz4XYWrd964Kua
+TgqHse83v2CW1Dua1h2OYdo5h/rKnQ==
+=+nl/
+-----END PGP SIGNATURE-----
+
+--7JqYoPjSHU6xZEHT--
 
