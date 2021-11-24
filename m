@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 933E345B6EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 09:49:14 +0100 (CET)
-Received: from localhost ([::1]:38212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAA2145B6F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 09:54:29 +0100 (CET)
+Received: from localhost ([::1]:41202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpnxp-0006Bj-Mj
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 03:49:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39112)
+	id 1mpo2u-0008OE-8B
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 03:54:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mpnvN-0003rx-Fk
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 03:46:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48080)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mpo1F-0007Ra-SG
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 03:52:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22260)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mpnvJ-0007In-Qo
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 03:46:40 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mpo1D-0000pi-1h
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 03:52:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637743590;
+ s=mimecast20190719; t=1637743961;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2/N7NtGBMsHkhn1bLurz1TVeOeMMlygLS6qYaTC5SJI=;
- b=Bc3dAwpxrKnnnfvBBMMdUEPvdbItJ+8UkZcrubf8k0OCyr0CNVcvAOxMwpD0nGxDCjM0qF
- zqxDPBetAy8Y9HSAURIl/GdKvpLTvNG62jrMqyPR4RmT0Hbg2ZsTIqZt5qwC/ZKXp23O6/
- GjZhTrDh0lPZzQ5ylmShW4CN+wDSURw=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=SCJ8YtUaP9wtaoB/vW4HFXbFq1NWYHr5T60kYETZFZ8=;
+ b=VMjqdwSvcchy+zciDUJ/8ij3j983WofIZNzXOY5hZ55MpdKlyQF5R0xIh7VOYxKOGdt2v/
+ Bf6p2BGdwxgcYqiTbX0UiURmMbGDluOkbCmR12fj0us6inQ0XoKccn0+QXaIIu/87PJ/eU
+ 40/mtoBTYphJ2uiSy3F9LO0prMkiLZ0=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-146-ddOybAkEO6WJl-cvqHtHiA-1; Wed, 24 Nov 2021 03:46:28 -0500
-X-MC-Unique: ddOybAkEO6WJl-cvqHtHiA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- eg20-20020a056402289400b003eb56fcf6easo1569336edb.20
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 00:46:28 -0800 (PST)
+ us-mta-182-R-7e2UjVPIe6wRt9tlEm6Q-1; Wed, 24 Nov 2021 03:52:40 -0500
+X-MC-Unique: R-7e2UjVPIe6wRt9tlEm6Q-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ d7-20020a17090a7bc700b001a6ebe3f9cbso1806761pjl.0
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 00:52:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2/N7NtGBMsHkhn1bLurz1TVeOeMMlygLS6qYaTC5SJI=;
- b=NPeYNBPzuJdYEk8AOrKDk4P5vtzhi3t1zk6b1TVVjNixHeN1oyNFb5J3/FM5QoWcYZ
- Am6dCzOmbNiBR7w5rOXSVuB9iBg/Av50O2+QTJ0vOmwbVEa67ydtAIK62mHz+iEIu94r
- Br7clihnstUeDpr/CYUwFVomV4g/CCHc9eE2ISDFRScuNWlspIglCq3CwahPaX9GVieG
- 2TKgyYaH0QKhtLFgOQPlOpguliLWIZbYuPgevlGpds3sLwlTjjqAX3911b966RXh6fy5
- xukr42ltzwIyhHJg/QsMH2l1d4eUzANsxFJxHwOgMSm7SwPKs4m6I3t8hE2VrZgHQsqP
- 0AXA==
-X-Gm-Message-State: AOAM530NGmFzM8DmLBYsAq6ou+D10vxNeKUDPv6k7JYo77PwTEzEkTMF
- 5/7wScmPn1L6POp0qM49s4n559ykbgU1rW0koRRl2rfWGFbFGNFkuv7yIzanWf3LUgSVb9O3Ane
- hGrARw/4p1YzCAgk=
-X-Received: by 2002:a05:6402:4312:: with SMTP id
- m18mr21204656edc.273.1637743587564; 
- Wed, 24 Nov 2021 00:46:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJym4f5QFYycufycluM4LcyVbmBxLvFVRObhtEyWOX5VzRN+saxW7OeY86dhSBLhQMfHH3gnMg==
-X-Received: by 2002:a05:6402:4312:: with SMTP id
- m18mr21204625edc.273.1637743587389; 
- Wed, 24 Nov 2021 00:46:27 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id gt18sm6546556ejc.88.2021.11.24.00.46.26
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=SCJ8YtUaP9wtaoB/vW4HFXbFq1NWYHr5T60kYETZFZ8=;
+ b=0Ku1xzOAFv0RbSFJHOQCImK460Fn5xr86JMLjB4EoRPi940eZa3bWtJRe8X6aDqA9+
+ 9LC9Ykv20LfIkAZIgZ8WWwog9bEH1tARR8HEPr85O5gd/rL3d4Gf1hs9E6KGhVOkskWH
+ n3mEPCMZR7/XryuELhRzbS0964/kHSVIANdteWDfn83vqOjJV+e3v98/wbDhf4SBm6N9
+ tXvAD5UDExcEZ6IRj14nXzP7K0WyGtQfMM57wsCt1NOnrVrt7B+Ext0qhdlFDsdJcFGT
+ 60aPusm8HNcm8fPN39Z0rJsXl+mZMuh/Wby6dLWLHNs3f3MIIdZn6ElQcz8IXI51089E
+ XdCQ==
+X-Gm-Message-State: AOAM5326m233krokAGhB0eYrCmDpx88mdRc/7+1v7jYsqjlVwoAxP18S
+ h2fBDj3sLkMRuKPUdIEQCOc/x5cSKFtUKt+X5t0TFXZosoWtiP2VXGO2AwzVyrwZN/pRVVTrQbs
+ ci+6MqITR1QiStwk=
+X-Received: by 2002:a17:90b:4a4d:: with SMTP id
+ lb13mr12990441pjb.97.1637743958873; 
+ Wed, 24 Nov 2021 00:52:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyoLbqM0hgdwY0jBz1FeVLcXMPpWrdfQy7IThpHV5xtV4Lpx/VT93gqUlN5DZXHjpmjXSwYDQ==
+X-Received: by 2002:a17:90b:4a4d:: with SMTP id
+ lb13mr12990379pjb.97.1637743958404; 
+ Wed, 24 Nov 2021 00:52:38 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.150])
+ by smtp.gmail.com with ESMTPSA id j6sm15980533pfu.205.2021.11.24.00.52.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 00:46:27 -0800 (PST)
-Date: Wed, 24 Nov 2021 09:46:26 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-6.2] qom/object: Ignore global properties with empty
- name
-Message-ID: <20211124094626.6fb9c2cb@redhat.com>
-In-Reply-To: <20211119113229.350338-1-philmd@redhat.com>
-References: <20211119113229.350338-1-philmd@redhat.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ Wed, 24 Nov 2021 00:52:37 -0800 (PST)
+Date: Wed, 24 Nov 2021 16:52:33 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH] intel-iommu: ignore SNP bit in scalable mode
+Message-ID: <YZ39USAfW7i1oAOO@xz-m1.local>
+References: <20211124060309.6872-1-jasowang@redhat.com>
+ <YZ3wXo5XueDtuk8c@xz-m1.local>
+ <CACGkMEvLAThn7VFtB2xeaP+bzPtnVwj0Orzpt=nK5Bg2h6QZow@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CACGkMEvLAThn7VFtB2xeaP+bzPtnVwj0Orzpt=nK5Bg2h6QZow@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -99,90 +96,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: "Liu, Yi L" <yi.l.liu@intel.com>, yi.y.sun@linux.intel.com,
+ qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Nov 2021 12:32:29 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+On Wed, Nov 24, 2021 at 04:28:52PM +0800, Jason Wang wrote:
+> On Wed, Nov 24, 2021 at 3:57 PM Peter Xu <peterx@redhat.com> wrote:
+> >
+> > On Wed, Nov 24, 2021 at 02:03:09PM +0800, Jason Wang wrote:
+> > > When booting with scalable mode, I hit this error:
+> > >
+> > > qemu-system-x86_64: vtd_iova_to_slpte: detected splte reserve non-zero iova=0xfffff002, level=0x1slpte=0x102681803)
+> > > qemu-system-x86_64: vtd_iommu_translate: detected translation failure (dev=01:00:00, iova=0xfffff002)
+> > > qemu-system-x86_64: New fault is not recorded due to compression of faults
+> > >
+> > > This is because the SNP bit is set since Linux kernel commit
+> > > 6c00612d0cba1 ("iommu/vt-d: Report right snoop capability when using
+> > > FL for IOVA") where SNP bit is set if scalable mode is on though this
+> > > seems to be an violation on the spec which said the SNP bit is
+> > > considered to be reserved if SC is not supported.
+> >
+> > When I was reading that commit, I was actually confused by this change:
+> >
+> > ---8<---
+> > diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> > index 956a02eb40b4..0ee5f1bd8af2 100644
+> > --- a/drivers/iommu/intel/iommu.c
+> > +++ b/drivers/iommu/intel/iommu.c
+> > @@ -658,7 +658,14 @@ static int domain_update_iommu_snooping(struct intel_iommu *skip)
+> >         rcu_read_lock();
+> >         for_each_active_iommu(iommu, drhd) {
+> >                 if (iommu != skip) {
+> > -                       if (!ecap_sc_support(iommu->ecap)) {
+> > +                       /*
+> > +                        * If the hardware is operating in the scalable mode,
+> > +                        * the snooping control is always supported since we
+> > +                        * always set PASID-table-entry.PGSNP bit if the domain
+> > +                        * is managed outside (UNMANAGED).
+> > +                        */
+> > +                       if (!sm_supported(iommu) &&
+> > +                           !ecap_sc_support(iommu->ecap)) {
+> >                                 ret = 0;
+> >                                 break;
+> >                         }
+> > ---8<---
+> >
+> > Does it mean that for some hardwares that has sm_supported()==true, it'll have
+> > SC bit cleared in ecap register?
+> 
+> I guess not, so it's probably only the problem of vIOMMU.
 
-> When using -global, properties might have empty name/value.
->=20
-> This fixes this legitimate use case:
->=20
->   $ qemu-system-x86_64 -global driver=3Disa-fdc
->   qemu-system-x86_64: ../../devel/qemu/qapi/string-input-visitor.c:394:
->   string_input_visitor_new: Assertion `str' failed.
->   Aborted (core dumped)
+But then what does the code mean above?
 
-why ignore instead of printing error message and exiting?
-it never worked before, and I don't see a reason to let QEMU startup fine
-with nonsense CLI.
+If SC is required for scalable mode, ecap_sc_support()==false already implies
+sm_supported()==false too.  Then that check seems redundant.
 
->=20
->   (gdb) bt
->   #4  0x0000555555f6b8d5 in string_input_visitor_new (str=3D0x0) at qapi/=
-string-input-visitor.c:394
->   #5  0x0000555555dd0f8d in object_property_parse (obj=3D0x555556f33400, =
-name=3D0x0, string=3D0x0, errp=3D0x7fffffffc9c8) at qom/object.c:1641
->   #6  0x0000555555dce131 in object_apply_global_props (obj=3D0x555556f334=
-00, props=3D0x555556737360, errp=3D0x555556611760 <error_fatal>) at qom/obj=
-ect.c:411
->   #7  0x0000555555dc5ee2 in qdev_prop_set_globals (dev=3D0x555556f33400) =
-at hw/core/qdev-properties.c:790
->   #8  0x0000555555dc89e8 in device_post_init (obj=3D0x555556f33400) at hw=
-/core/qdev.c:697
->   #9  0x0000555555dce02b in object_post_init_with_type (obj=3D0x555556f33=
-400, ti=3D0x55555672bd20) at qom/object.c:383
->   #10 0x0000555555dce059 in object_post_init_with_type (obj=3D0x555556f33=
-400, ti=3D0x5555566e9090) at qom/object.c:387
->   #11 0x0000555555dce059 in object_post_init_with_type (obj=3D0x555556f33=
-400, ti=3D0x5555566df730) at qom/object.c:387
->   #12 0x0000555555dce566 in object_initialize_with_type (obj=3D0x555556f3=
-3400, size=3D848, type=3D0x5555566df730) at qom/object.c:519
->   #13 0x0000555555dcec78 in object_new_with_type (type=3D0x5555566df730) =
-at qom/object.c:733
->   #14 0x0000555555dceccf in object_new (typename=3D0x5555560fcf81 "isa-fd=
-c") at qom/object.c:748
->   #15 0x0000555555dc75fe in qdev_new (name=3D0x5555560fcf81 "isa-fdc") at=
- hw/core/qdev.c:153
->   #16 0x00005555559eec58 in isa_new (name=3D0x5555560fcf81 "isa-fdc") at =
-hw/isa/isa-bus.c:166
->   #17 0x0000555555bd3607 in pc_superio_init (isa_bus=3D0x5555566b42e0, cr=
-eate_fdctrl=3Dtrue, no_vmport=3Dfalse) at hw/i386/pc.c:1026
->   (gdb) fr 6
->   #6  0x0000555555dce131 in object_apply_global_props (obj=3D0x555556f334=
-00, props=3D0x555556737360, errp=3D0x555556611760 <error_fatal>) at qom/obj=
-ect.c:411
->   411             if (!object_property_parse(obj, p->property, p->value, =
-&err)) {
->   (gdb) p *p
->   $1 =3D {driver =3D 0x555556738250 "isa-fdc", property =3D 0x0, value =
-=3D 0x0, used =3D true, optional =3D false}
->=20
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/604
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  qom/object.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/qom/object.c b/qom/object.c
-> index 4f0677cca9e..45fa8561df6 100644
-> --- a/qom/object.c
-> +++ b/qom/object.c
-> @@ -401,6 +401,9 @@ bool object_apply_global_props(Object *obj, const GPt=
-rArray *props,
->          GlobalProperty *p =3D g_ptr_array_index(props, i);
->          Error *err =3D NULL;
-> =20
-> +        if (!p->property) {
-> +            continue;
-> +        }
->          if (object_dynamic_cast(obj, p->driver) =3D=3D NULL) {
->              continue;
->          }
+> 
+> > That sounds odd, and not sure why.  Maybe Yi
+> > Liu or Yi Sun may know?
+> 
+> Another interesting point is that, it looks to me after that commit
+> SNP is used for the domain that is not UNMANAGED even if PGSNP is not
+> set.
+> 
+> 
+> >
+> > >
+> > > To unbreak the guest, ignore the SNP bit for scalable mode first. In
+> > > the future we may consider to add SC support.
+> >
+> > Oh yes, I remembered the last time we discussed this.  Could you remind me
+> > what's missing for us to support SC?
+> 
+> Exactly what you described below.
+> 
+> >
+> > IIUC, for common device emulations we can just declare SC==1, right?
+> 
+> Strictly speaking, only safe for the datapath that is running in the
+> Qemu. For things like vhost-user, I'm not sure it can check CC when
+> using VFIO.
+
+Hmm yeah.. though I'll just call those vhost-user backends to fall into below
+"device assignment" category too.  Great to know we're on the same page here.
+
+> 
+> >  As all
+> > the DMAs (including kernel accels like vhost) will be from host processors so
+> > there're no coherent issues with guest vcpu threads.
+> >
+> > If that's correct, the only challenge is device assignment in any form (I am
+> > not familiar with vdpa; so perhaps that includes vfio, vpda and any other kind
+> > of assigning host devices to guest?), then we'll try to detect IOMMU_CACHE
+> > capability from the host iommu groups that covers the assigned devices, and we
+> > only set SC==1 if we have cache coherency on all the devices?
+> 
+> For VFIO yes, and we should prevent VFIO without CC to be plugged if
+> SC is advertised.
+> 
+> For vDPA, we don't need to worry about it at all, kernel vDPA forces
+> IOMMU_CACHE now.
+> 
+> vhost_vdpa_alloc_domain():
+> 
+>         if (!iommu_capable(bus, IOMMU_CAP_CACHE_COHERENCY))
+>                 return -ENOTSUPP;
+> 
+> (For device with on-chip IOMMU, it's the parent and device that
+> guarantees the CC)
+
+Ah right, yes you mentioned it and I forgot..  Though I'm not sure we'd simply
+double-check again here (if we'll support vfio anyway, then we'll need to be
+able to read those out from IOMMU groups), because we shouldn't rely on that
+fact which is an implementation detail of vdpa, imho (say, when vdpa starts to
+support !SC someday).
+
+PS: I have other comments below in previous reply - please have a look too! :-D
+
+> 
+> Thanks
+> 
+> 
+> >
+> > >
+> > > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > > ---
+> > >  hw/i386/intel_iommu.c          | 18 ++++++++++++------
+> > >  hw/i386/intel_iommu_internal.h |  2 ++
+> > >  2 files changed, 14 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> > > index 294499ee20..3bcac56c3e 100644
+> > > --- a/hw/i386/intel_iommu.c
+> > > +++ b/hw/i386/intel_iommu.c
+> > > @@ -969,7 +969,8 @@ static dma_addr_t vtd_get_iova_pgtbl_base(IntelIOMMUState *s,
+> > >  static uint64_t vtd_spte_rsvd[5];
+> > >  static uint64_t vtd_spte_rsvd_large[5];
+> > >
+> > > -static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, uint32_t level)
+> > > +static bool vtd_slpte_nonzero_rsvd(IntelIOMMUState *s,
+> > > +                                   uint64_t slpte, uint32_t level)
+> > >  {
+> > >      uint64_t rsvd_mask = vtd_spte_rsvd[level];
+> > >
+> > > @@ -979,6 +980,10 @@ static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, uint32_t level)
+> > >          rsvd_mask = vtd_spte_rsvd_large[level];
+> > >      }
+> > >
+> > > +    if (s->scalable_mode) {
+> > > +        rsvd_mask &= ~VTD_SPTE_SNP;
+> > > +    }
+> >
+> > IMHO what we want to do is only to skip the leaves of pgtables on SNP, so maybe
+> > we still want to keep checking the bit 11 reserved for e.g. common pgtable dir
+> > entries?
+> >
+> > To do so, how about directly modifying the vtd_spte_rsvd* fields in vtd_init()?
+> > I think we only need to modify 4k/2m/1g entries to mask bit 11, they're:
+> >
+> >   - vtd_spte_rsvd[1] (4K)
+> >   - vtd_spte_rsvd_large[2] (2M)
+> >   - vtd_spte_rsvd_large[3] (1G)
+> >
+> > What do you think?  Then we avoid passing IntelIOMMUState* all over too.
+
+[Here]
+
+> >
+> > > +
+> > >      return slpte & rsvd_mask;
+> > >  }
+> > >
+> > > @@ -1054,7 +1059,7 @@ static int vtd_iova_to_slpte(IntelIOMMUState *s, VTDContextEntry *ce,
+> > >                                iova, level, slpte, is_write);
+> > >              return is_write ? -VTD_FR_WRITE : -VTD_FR_READ;
+> > >          }
+> > > -        if (vtd_slpte_nonzero_rsvd(slpte, level)) {
+> > > +        if (vtd_slpte_nonzero_rsvd(s, slpte, level)) {
+> > >              error_report_once("%s: detected splte reserve non-zero "
+> > >                                "iova=0x%" PRIx64 ", level=0x%" PRIx32
+> > >                                "slpte=0x%" PRIx64 ")", __func__, iova,
+> > > @@ -1185,7 +1190,8 @@ static int vtd_page_walk_one(IOMMUTLBEvent *event, vtd_page_walk_info *info)
+> > >   * @write: whether parent level has write permission
+> > >   * @info: constant information for the page walk
+> > >   */
+> > > -static int vtd_page_walk_level(dma_addr_t addr, uint64_t start,
+> > > +static int vtd_page_walk_level(IntelIOMMUState *s,
+> > > +                               dma_addr_t addr, uint64_t start,
+> > >                                 uint64_t end, uint32_t level, bool read,
+> > >                                 bool write, vtd_page_walk_info *info)
+> > >  {
+> > > @@ -1214,7 +1220,7 @@ static int vtd_page_walk_level(dma_addr_t addr, uint64_t start,
+> > >              goto next;
+> > >          }
+> > >
+> > > -        if (vtd_slpte_nonzero_rsvd(slpte, level)) {
+> > > +        if (vtd_slpte_nonzero_rsvd(s, slpte, level)) {
+> > >              trace_vtd_page_walk_skip_reserve(iova, iova_next);
+> > >              goto next;
+> > >          }
+> > > @@ -1235,7 +1241,7 @@ static int vtd_page_walk_level(dma_addr_t addr, uint64_t start,
+> > >               * This is a valid PDE (or even bigger than PDE).  We need
+> > >               * to walk one further level.
+> > >               */
+> > > -            ret = vtd_page_walk_level(vtd_get_slpte_addr(slpte, info->aw),
+> > > +            ret = vtd_page_walk_level(s, vtd_get_slpte_addr(slpte, info->aw),
+> > >                                        iova, MIN(iova_next, end), level - 1,
+> > >                                        read_cur, write_cur, info);
+> > >          } else {
+> > > @@ -1294,7 +1300,7 @@ static int vtd_page_walk(IntelIOMMUState *s, VTDContextEntry *ce,
+> > >          end = vtd_iova_limit(s, ce, info->aw);
+> > >      }
+> > >
+> > > -    return vtd_page_walk_level(addr, start, end, level, true, true, info);
+> > > +    return vtd_page_walk_level(s, addr, start, end, level, true, true, info);
+> > >  }
+> > >
+> > >  static int vtd_root_entry_rsvd_bits_check(IntelIOMMUState *s,
+> > > diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
+> > > index 3d5487fe2c..a6c788049b 100644
+> > > --- a/hw/i386/intel_iommu_internal.h
+> > > +++ b/hw/i386/intel_iommu_internal.h
+> > > @@ -388,6 +388,8 @@ typedef union VTDInvDesc VTDInvDesc;
+> > >  #define VTD_INV_DESC_DEVICE_IOTLB_RSVD_LO 0xffff0000ffe0fff8
+> > >
+> > >  /* Rsvd field masks for spte */
+> > > +#define VTD_SPTE_SNP 0x800ULL
+> > > +
+> > >  #define VTD_SPTE_PAGE_L1_RSVD_MASK(aw, dt_supported) \
+> > >          dt_supported ? \
+> > >          (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
+> > > --
+> > > 2.25.1
+> > >
+> >
+> > --
+> > Peter Xu
+> >
+> 
+
+-- 
+Peter Xu
 
 
