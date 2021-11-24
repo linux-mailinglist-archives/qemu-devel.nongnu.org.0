@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC13D45B475
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 07:46:49 +0100 (CET)
-Received: from localhost ([::1]:60818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D037B45B470
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 07:44:29 +0100 (CET)
+Received: from localhost ([::1]:59366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpm3M-0003KN-Dw
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 01:46:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57582)
+	id 1mpm16-0002Ja-Df
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 01:44:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mpltn-0008Ec-Kx
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 01:36:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40713)
+ id 1mpltp-0008I4-Gl
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 01:36:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mpltm-0007dA-95
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 01:36:55 -0500
+ id 1mpltn-0007db-DO
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 01:36:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637735813;
+ s=mimecast20190719; t=1637735814;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0cG8kycpocBRwVuiOdo+NfBXow4b/L3w+5AZ5Ch3DTM=;
- b=Gh4rsVHVyRZFDYL6qZ2aPuuzLJgIgOdFEXk10mnA1UoOPD8YiBw4Q1TkH7+JLdGz3peoU3
- vvoaGDu6/Xtc13wA1jFsdn9v69SVYcZdrbfLttVioE0WZvYVJy+gekrdHLZRLj+qACbshY
- twQCpH43JLgkE4Z/jy8umY1buq43/uw=
+ bh=xWPVOqX47JZkNlJazBDCDv77dr17FjSiIT76Vd4ex6Y=;
+ b=gVuO3o+qieqYblDbTSiCuwZsuWHPJWtmhC4pMWpDLYR+KnvxvPo4NcieFeWjaBxidxe1kG
+ GreFD6IxDvOwI3gKS7+FuMip685vLor0/kAAvxomnYGK0GEb+VS4Lg+LYWfGvl3WcRqiY8
+ lwzQ6oXWl6EnbnmDpwnt98heNprNMSk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-521-e-pVEVM9O2GZFdFxjPF42Q-1; Wed, 24 Nov 2021 01:36:50 -0500
-X-MC-Unique: e-pVEVM9O2GZFdFxjPF42Q-1
+ us-mta-573-FvqvCttJPayRHUAmsJfF2Q-1; Wed, 24 Nov 2021 01:36:51 -0500
+X-MC-Unique: FvqvCttJPayRHUAmsJfF2Q-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA329102CB2A;
- Wed, 24 Nov 2021 06:36:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79D951DDEB;
+ Wed, 24 Nov 2021 06:36:50 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B26F1001F50;
- Wed, 24 Nov 2021 06:36:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4669100EBBF;
+ Wed, 24 Nov 2021 06:36:49 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/4] block_int: make bdrv_backing_overridden static
-Date: Wed, 24 Nov 2021 01:36:37 -0500
-Message-Id: <20211124063640.3118897-2-eesposit@redhat.com>
+Subject: [PATCH 2/4] include/sysemu/blockdev.h: rename if_name in block_if_name
+Date: Wed, 24 Nov 2021 01:36:38 -0500
+Message-Id: <20211124063640.3118897-3-eesposit@redhat.com>
 In-Reply-To: <20211124063640.3118897-1-eesposit@redhat.com>
 References: <20211124063640.3118897-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -88,51 +88,76 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_backing_overridden is only used in block.c, so there is
-no need to leave it in block_int.h
+In preparation to next patch, where we export it to be used
+also in softmmu/vlc.c
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- include/block/block_int.h | 3 ---
- block.c                   | 4 +++-
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ blockdev.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index f4c75e8ba9..27008cfb22 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1122,9 +1122,6 @@ BlockDriver *bdrv_probe_all(const uint8_t *buf, int buf_size,
- void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
-                                       QDict *options);
+diff --git a/blockdev.c b/blockdev.c
+index b35072644e..1b6ffbbc73 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -71,7 +71,7 @@ void bdrv_set_monitor_owned(BlockDriverState *bs)
+     QTAILQ_INSERT_TAIL(&monitor_bdrv_states, bs, monitor_list);
+ }
  
--bool bdrv_backing_overridden(BlockDriverState *bs);
--
--
- /**
-  * bdrv_add_aio_context_notifier:
-  *
-diff --git a/block.c b/block.c
-index 0ac5b163d2..10346b5011 100644
---- a/block.c
-+++ b/block.c
-@@ -103,6 +103,8 @@ static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
- static void bdrv_reopen_commit(BDRVReopenState *reopen_state);
- static void bdrv_reopen_abort(BDRVReopenState *reopen_state);
- 
-+static bool bdrv_backing_overridden(BlockDriverState *bs);
-+
- /* If non-zero, use only whitelisted block drivers */
- static int use_bdrv_whitelist;
- 
-@@ -7475,7 +7477,7 @@ static bool append_strong_runtime_options(QDict *d, BlockDriverState *bs)
- /* Note: This function may return false positives; it may return true
-  * even if opening the backing file specified by bs's image header
-  * would result in exactly bs->backing. */
--bool bdrv_backing_overridden(BlockDriverState *bs)
-+static bool bdrv_backing_overridden(BlockDriverState *bs)
- {
-     if (bs->backing) {
-         return strcmp(bs->auto_backing_file,
+-static const char *const if_name[IF_COUNT] = {
++static const char *const block_if_name[IF_COUNT] = {
+     [IF_NONE] = "none",
+     [IF_IDE] = "ide",
+     [IF_SCSI] = "scsi",
+@@ -120,7 +120,7 @@ void override_max_devs(BlockInterfaceType type, int max_devs)
+         if (dinfo->type == type) {
+             fprintf(stderr, "Cannot override units-per-bus property of"
+                     " the %s interface, because a drive of that type has"
+-                    " already been added.\n", if_name[type]);
++                    " already been added.\n", block_if_name[type]);
+             g_assert_not_reached();
+         }
+     }
+@@ -212,7 +212,7 @@ QemuOpts *drive_add(BlockInterfaceType type, int index, const char *file,
+         return NULL;
+     }
+     if (type != IF_DEFAULT) {
+-        qemu_opt_set(opts, "if", if_name[type], &error_abort);
++        qemu_opt_set(opts, "if", block_if_name[type], &error_abort);
+     }
+     if (index >= 0) {
+         qemu_opt_set_number(opts, "index", index, &error_abort);
+@@ -269,7 +269,7 @@ void drive_check_orphaned(void)
+             qemu_opts_loc_restore(dinfo->opts);
+             error_report("machine type does not support"
+                          " if=%s,bus=%d,unit=%d",
+-                         if_name[dinfo->type], dinfo->bus, dinfo->unit);
++                         block_if_name[dinfo->type], dinfo->bus, dinfo->unit);
+             loc_pop(&loc);
+             orphans = true;
+         }
+@@ -887,7 +887,7 @@ DriveInfo *drive_new(QemuOpts *all_opts, BlockInterfaceType block_default_type,
+     value = qemu_opt_get(legacy_opts, "if");
+     if (value) {
+         for (type = 0;
+-             type < IF_COUNT && strcmp(value, if_name[type]);
++             type < IF_COUNT && strcmp(value, block_if_name[type]);
+              type++) {
+         }
+         if (type == IF_COUNT) {
+@@ -945,10 +945,10 @@ DriveInfo *drive_new(QemuOpts *all_opts, BlockInterfaceType block_default_type,
+             mediastr = (media == MEDIA_CDROM) ? "-cd" : "-hd";
+         }
+         if (max_devs) {
+-            new_id = g_strdup_printf("%s%i%s%i", if_name[type], bus_id,
++            new_id = g_strdup_printf("%s%i%s%i", block_if_name[type], bus_id,
+                                      mediastr, unit_id);
+         } else {
+-            new_id = g_strdup_printf("%s%s%i", if_name[type],
++            new_id = g_strdup_printf("%s%s%i", block_if_name[type],
+                                      mediastr, unit_id);
+         }
+         qdict_put_str(bs_opts, "id", new_id);
 -- 
 2.27.0
 
