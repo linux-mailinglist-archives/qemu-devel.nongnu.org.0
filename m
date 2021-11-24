@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480D945CC99
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 19:58:22 +0100 (CET)
-Received: from localhost ([::1]:38752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E950445CC93
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 19:56:50 +0100 (CET)
+Received: from localhost ([::1]:59844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpxTJ-00077C-7U
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 13:58:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49102)
+	id 1mpxRp-0002JO-Sp
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 13:56:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mpx5q-0007Z0-L9
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mpx5p-0007Xx-7K
  for qemu-devel@nongnu.org; Wed, 24 Nov 2021 13:34:06 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:43588
+Received: from mail.xen0n.name ([115.28.160.31]:43586
  helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mpx5n-0004nN-3h
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 13:34:06 -0500
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mpx5m-0004nK-W7
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 13:34:04 -0500
 Received: from ld50.lan (unknown [101.88.31.179])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 6590260B07;
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id A835960B08;
  Thu, 25 Nov 2021 02:33:32 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1637778812; bh=/783yYOHmRfWNoNL/gGH2F0LYZ9v7h7HgCt+aKpg8vQ=;
+ t=1637778812; bh=0S75J+cBZrNx26SJ3Rct7gS6NMslAX7edmTqlr+spkc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hgZ3xVsC3NOon3abyPusnCBRtPIZb5NdoruQC4xz10Fc0qoDqZavAV5F+P1kidcfX
- SBt5pamRG7Jpo68zz4lhKW6cz5K0zIhoNmO1eziNTZg+kMVYTLyH7vUHLlKuLfy8p+
- tyKUtMhSCo/RKuPTQNPe2XKY28QAuc58Ch4YYrDk=
+ b=fZOjqTPmXKb35DwditqyO5k85gK5Ar/oJmvrdpOC6mn45n+O3lsf6JQ2ehrlWGNgp
+ xpRwBhZpR9azUrxE48pqj5JctGK7ybJqApeGDlGoZolkrMicsIHuz5GSRIt/oIlU61
+ wz3mfojLZIsc5qZkP/QoOztXmCU2YbMB9GiCN0Ao=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.0 v8 29/31] linux-user: Implement CPU-specific signal
- handler for loongarch64 hosts
-Date: Thu, 25 Nov 2021 02:32:29 +0800
-Message-Id: <20211124183231.1503090-30-git@xen0n.name>
+Subject: [PATCH for-7.0 v8 30/31] configure,
+ meson.build: Mark support for loongarch64 hosts
+Date: Thu, 25 Nov 2021 02:32:30 +0800
+Message-Id: <20211124183231.1503090-31-git@xen0n.name>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211124183231.1503090-1-git@xen0n.name>
 References: <20211124183231.1503090-1-git@xen0n.name>
@@ -71,107 +71,72 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Example output of `uname -a` on an initial Gentoo LA64 port, running
+the upstream submission version of Linux (with some very minor patches
+not influencing output here):
+
+> Linux <hostname> 5.14.0-10342-g37a00851b145 #5 SMP PREEMPT Tue Aug 10 12:56:24 PM CST 2021 loongarch64 GNU/Linux
+
+And the same on the vendor-supplied Loongnix 20 system, with an early
+in-house port of Linux, and using the old-world ABI:
+
+> Linux <hostname> 4.19.167-rc5.lnd.1-loongson-3 #1 SMP Sat Apr 17 07:32:32 UTC 2021 loongarch64 loongarch64 loongarch64 GNU/Linux
+
+So a name of "loongarch64" matches both, fortunately.
+
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- linux-user/host/loongarch64/host-signal.h | 87 +++++++++++++++++++++++
- 1 file changed, 87 insertions(+)
- create mode 100644 linux-user/host/loongarch64/host-signal.h
+ configure   | 7 ++++++-
+ meson.build | 2 +-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/host/loongarch64/host-signal.h b/linux-user/host/loongarch64/host-signal.h
-new file mode 100644
-index 0000000000..05e2c82371
---- /dev/null
-+++ b/linux-user/host/loongarch64/host-signal.h
-@@ -0,0 +1,87 @@
-+/*
-+ * host-signal.h: signal info dependent on the host architecture
-+ *
-+ * Copyright (c) 2003-2005 Fabrice Bellard
-+ * Copyright (c) 2021 WANG Xuerui <git@xen0n.name>
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef LOONGARCH64_HOST_SIGNAL_H
-+#define LOONGARCH64_HOST_SIGNAL_H
-+
-+static inline uintptr_t host_signal_pc(ucontext_t *uc)
-+{
-+    return uc->uc_mcontext.__pc;
-+}
-+
-+static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-+{
-+    uc->uc_mcontext.__pc = pc;
-+}
-+
-+static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
-+{
-+    const uint32_t *pinsn = (const uint32_t *)host_signal_pc(uc);
-+    uint32_t insn = pinsn[0];
-+
-+    /* Detect store by reading the instruction at the program counter.  */
-+    switch ((insn >> 26) & 0b111111) {
-+    case 0b001000: /* {ll,sc}.[wd] */
-+        switch ((insn >> 24) & 0b11) {
-+        case 0b01: /* sc.w */
-+        case 0b11: /* sc.d */
-+            return true;
-+        }
-+        break;
-+    case 0b001001: /* {ld,st}ox4.[wd] ({ld,st}ptr.[wd]) */
-+        switch ((insn >> 24) & 0b11) {
-+        case 0b01: /* stox4.w (stptr.w) */
-+        case 0b11: /* stox4.d (stptr.d) */
-+            return true;
-+        }
-+        break;
-+    case 0b001010: /* {ld,st}.* family */
-+        switch ((insn >> 22) & 0b1111) {
-+        case 0b0100: /* st.b */
-+        case 0b0101: /* st.h */
-+        case 0b0110: /* st.w */
-+        case 0b0111: /* st.d */
-+        case 0b1101: /* fst.s */
-+        case 0b1111: /* fst.d */
-+            return true;
-+        }
-+        break;
-+    case 0b001110: /* indexed, atomic, bounds-checking memory operations */
-+        uint32_t sel = (insn >> 15) & 0b11111111111;
-+
-+        switch (sel) {
-+        case 0b00000100000: /* stx.b */
-+        case 0b00000101000: /* stx.h */
-+        case 0b00000110000: /* stx.w */
-+        case 0b00000111000: /* stx.d */
-+        case 0b00001110000: /* fstx.s */
-+        case 0b00001111000: /* fstx.d */
-+        case 0b00011101100: /* fstgt.s */
-+        case 0b00011101101: /* fstgt.d */
-+        case 0b00011101110: /* fstle.s */
-+        case 0b00011101111: /* fstle.d */
-+        case 0b00011111000: /* stgt.b */
-+        case 0b00011111001: /* stgt.h */
-+        case 0b00011111010: /* stgt.w */
-+        case 0b00011111011: /* stgt.d */
-+        case 0b00011111100: /* stle.b */
-+        case 0b00011111101: /* stle.h */
-+        case 0b00011111110: /* stle.w */
-+        case 0b00011111111: /* stle.d */
-+        case 0b00011000000 ... 0b00011100011: /* am* insns */
-+            return true;
-+        }
-+        break;
-+    }
-+
-+    return false;
-+}
-+
-+#endif
+diff --git a/configure b/configure
+index 48c21775f3..23c366a69a 100755
+--- a/configure
++++ b/configure
+@@ -581,6 +581,8 @@ elif check_define __arm__ ; then
+   cpu="arm"
+ elif check_define __aarch64__ ; then
+   cpu="aarch64"
++elif check_define __loongarch64 ; then
++  cpu="loongarch64"
+ else
+   cpu=$(uname -m)
+ fi
+@@ -589,7 +591,7 @@ ARCH=
+ # Normalise host CPU name and set ARCH.
+ # Note that this case should only have supported host CPUs, not guests.
+ case "$cpu" in
+-  ppc|ppc64|s390x|sparc64|x32|riscv)
++  ppc|ppc64|s390x|sparc64|x32|riscv|loongarch64)
+   ;;
+   ppc64le)
+     ARCH="ppc64"
+@@ -3770,6 +3772,9 @@ if test "$linux" = "yes" ; then
+   aarch64)
+     linux_arch=arm64
+     ;;
++  loongarch*)
++    linux_arch=loongarch
++    ;;
+   mips64)
+     linux_arch=mips
+     ;;
+diff --git a/meson.build b/meson.build
+index 96de1a6ef9..a6fa0d879e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -56,7 +56,7 @@ python = import('python').find_installation()
+ 
+ supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
+ supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv', 'x86', 'x86_64',
+-  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
++  'arm', 'aarch64', 'loongarch64', 'mips', 'mips64', 'sparc', 'sparc64']
+ 
+ cpu = host_machine.cpu_family()
+ 
 -- 
 2.34.0
 
