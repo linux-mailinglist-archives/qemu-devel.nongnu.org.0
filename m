@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1983945B812
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 11:09:48 +0100 (CET)
-Received: from localhost ([::1]:58226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BAB245B807
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 11:07:11 +0100 (CET)
+Received: from localhost ([::1]:49560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mppDn-0003dh-7t
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 05:09:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37980)
+	id 1mppBG-00068G-Ca
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 05:07:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mpp0R-0003Xz-BP
+ id 1mpp0R-0003Y0-BL
  for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:56:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54897)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mpp0N-0004tm-LA
+ id 1mpp0O-0004u1-SE
  for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:55:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637747755;
+ s=mimecast20190719; t=1637747756;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UNFcFs+Y30M5WFnFRQOUK5vwTxuvNJYNEc1+Ka4Kfmg=;
- b=XGPRHpBjOlpyqhWfldMjF+4tAastTP27BlSGgrFikyrVnOJoDLOa/Hdw94Tu5ZQMDJY51e
- 7lKf8pdsvZ0HCpWX5OFvcP/55lIMmVq3SXyac9MyU38JzEpbbdWnrp/rrQq9MJy0/LVVup
- QDK9SXFbuTYFqtNpGjBC6M3z2i5QfYE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JCdDh3ludzQAxMfzS4ktrQ1Cbf8eu31L+AmHakZVN3Q=;
+ b=bq9L8h5KyhLYV2XHz2twZ1l+jsAVZcDog8gT8ogCjyOl/79ThLuK0qHw2mm4b3Bw4XbDTg
+ 0B3ditwOClhPMNejyEj29fJ38bsd76Ovt/RPbQcQ9lnxdBH4MQjUOLKvsLAQx/alTgeRDQ
+ cDQKyv+XLjfs8acRQA/EMLddC2sx85I=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-62-ZDBKwtsoNIWgD54XIBFZJQ-1; Wed, 24 Nov 2021 04:55:53 -0500
-X-MC-Unique: ZDBKwtsoNIWgD54XIBFZJQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 187-20020a1c02c4000000b003335872db8dso1066480wmc.2
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 01:55:53 -0800 (PST)
+ us-mta-96-wRVQRn10PtGZjawlcl9F1Q-1; Wed, 24 Nov 2021 04:55:55 -0500
+X-MC-Unique: wRVQRn10PtGZjawlcl9F1Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g81-20020a1c9d54000000b003330e488323so1499487wme.0
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 01:55:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UNFcFs+Y30M5WFnFRQOUK5vwTxuvNJYNEc1+Ka4Kfmg=;
- b=0KT53jgW8z/0sWH6AAl71AxiGg+OUvhusEZBxQKedURFJRbHrxp/9Sapl0waWr2G9j
- Qec6CBK2NpZ30aGEcpfgpbVXrJL9lhl5kRFpwsy8omv98xs9qr8qtGH4U+ZmbBta+6xK
- ff1+WZr399DDuVbVZEb3UXu8/4nVQmzDCY7UOt73Kg74grGAE0VT0OgIFkRPTmCAiLDp
- 4aY3NeCQRnZJEmmk5C9UkFDca0GUmrxTPRGHtmMhR0cJMp+ZJKPL0DR7Jshv8PIX+qt3
- iCl0cEJszepMYk21KTnnPU1wUic3L3rvqJtrk4R2ODsgprsWsUCj9J3sxwsmbVdoDEuL
- rfGw==
-X-Gm-Message-State: AOAM530xRNsDM4FIuFvAHZXuBAddxojA4l+Z/U7eik91RD0jaCTxJxrA
- bBrJl/JylHuC8NgzNP+6gBFJtU2Aay1nLR1SF5gsJrsznbYjIGDbaZFfRlRS9SJLTm8vHMdot5G
- j/q287n0cQBuv8QJ4mVdflXQnxqqQoonKxhaAunNEZ08kvdhEGMDtIeoEfOi5XHa/g+s=
-X-Received: by 2002:a05:600c:34c2:: with SMTP id
- d2mr13627643wmq.102.1637747751982; 
- Wed, 24 Nov 2021 01:55:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwDhRuhMc4WIYFhSqbBfsekoYw1+ijPGGBRR+XXW3jTTW97dtiFYCHfFV/qyshmV66Q6+niGw==
-X-Received: by 2002:a05:600c:34c2:: with SMTP id
- d2mr13627613wmq.102.1637747751793; 
- Wed, 24 Nov 2021 01:55:51 -0800 (PST)
+ bh=JCdDh3ludzQAxMfzS4ktrQ1Cbf8eu31L+AmHakZVN3Q=;
+ b=pJB5sOtF5J2LBk/4+0ISH75cXNBlGWalkGmM2/3t9/uo984rE8OFsP//yQagUK2rJt
+ PJvYri4/uE2W/spLvLaExf/fm7wJ0yPtdiP3UVOy2e/lCJgdMOQxRZgy31z1ku4X36aB
+ AiG414YCxVi1C6DQs1PDuxhUuPSIpDUVGpoyxDVsolUb3nWs2x0XxLPbB/JDd29Hdw5X
+ TBxMjVAFypD7zFJe/EEBtl0it3yM7EBJMkHrJKQDe63P2QVcY4X6wn3Al9NAEMgYFko0
+ XgjIEXkZ5tuyneCth1s5LP8alKBeMWdy+eyV93k3GsJ6dwzVq0g8uyymwMkTUkfYyVkb
+ 9ixw==
+X-Gm-Message-State: AOAM530Z87LyApw5ZEhrJ0bmPBAVHYMzoghQMmKINaoiWFRPWEKdc6QX
+ Lhdgev3mxKOYnh/fgvkLYx6aRh0BA4LVQxkuiJeltw6ssQGewRjlIccoNvZQsEdUkO3LfHMDtKy
+ NWZolkJ9DT8F1KhToNd0Q8oVsZ82fyyRSr0TwbUFxPFdpgOxIaTLyRXAyCSZSx8KJah0=
+X-Received: by 2002:a5d:4843:: with SMTP id n3mr16063147wrs.335.1637747753865; 
+ Wed, 24 Nov 2021 01:55:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwZjF9RWki0dFc8P54NwkGz0Umpbl5APS3FLloFIl9J5HYgmVwenZMXut0FGApPbkwBHbDxCg==
+X-Received: by 2002:a5d:4843:: with SMTP id n3mr16063109wrs.335.1637747753603; 
+ Wed, 24 Nov 2021 01:55:53 -0800 (PST)
 Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
  [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id o12sm4871684wmq.12.2021.11.24.01.55.51
+ by smtp.gmail.com with ESMTPSA id bg12sm5568100wmb.5.2021.11.24.01.55.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 01:55:51 -0800 (PST)
+ Wed, 24 Nov 2021 01:55:53 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/23] multifd: Fill offset and block for reception
-Date: Wed, 24 Nov 2021 10:54:45 +0100
-Message-Id: <20211124095500.42078-9-quintela@redhat.com>
+Subject: [PATCH v2 09/23] multifd: Make zstd compression method not use iovs
+Date: Wed, 24 Nov 2021 10:54:46 +0100
+Message-Id: <20211124095500.42078-10-quintela@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211124095500.42078-1-quintela@redhat.com>
 References: <20211124095500.42078-1-quintela@redhat.com>
@@ -105,34 +103,78 @@ Cc: Leonardo Bras <leobras@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We were using the iov directly, but we will need this info on the
-following patch.
-
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd.c | 2 ++
- 1 file changed, 2 insertions(+)
+ migration/multifd-zstd.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 55d99a8232..0533da154a 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -354,6 +354,7 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
-         return -1;
-     }
+diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
+index a8b104f4ee..2d5b61106c 100644
+--- a/migration/multifd-zstd.c
++++ b/migration/multifd-zstd.c
+@@ -13,6 +13,7 @@
+ #include "qemu/osdep.h"
+ #include <zstd.h>
+ #include "qemu/rcu.h"
++#include "exec/ramblock.h"
+ #include "exec/target_page.h"
+ #include "qapi/error.h"
+ #include "migration.h"
+@@ -111,8 +112,8 @@ static void zstd_send_cleanup(MultiFDSendParams *p, Error **errp)
+  */
+ static int zstd_send_prepare(MultiFDSendParams *p, Error **errp)
+ {
+-    struct iovec *iov = p->pages->iov;
+     struct zstd_data *z = p->data;
++    size_t page_size = qemu_target_page_size();
+     int ret;
+     uint32_t i;
  
-+    p->pages->block = block;
-     for (i = 0; i < p->pages->num; i++) {
-         uint64_t offset = be64_to_cpu(packet->offset[i]);
- 
-@@ -363,6 +364,7 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
-                        offset, block->used_length);
-             return -1;
+@@ -126,8 +127,8 @@ static int zstd_send_prepare(MultiFDSendParams *p, Error **errp)
+         if (i == p->pages->num - 1) {
+             flush = ZSTD_e_flush;
          }
-+        p->pages->offset[i] = offset;
-         p->pages->iov[i].iov_base = block->host + offset;
-         p->pages->iov[i].iov_len = page_size;
-     }
+-        z->in.src = iov[i].iov_base;
+-        z->in.size = iov[i].iov_len;
++        z->in.src = p->pages->block->host + p->pages->offset[i];
++        z->in.size = page_size;
+         z->in.pos = 0;
+ 
+         /*
+@@ -256,7 +257,8 @@ static int zstd_recv_pages(MultiFDRecvParams *p, Error **errp)
+ {
+     uint32_t in_size = p->next_packet_size;
+     uint32_t out_size = 0;
+-    uint32_t expected_size = p->pages->num * qemu_target_page_size();
++    size_t page_size = qemu_target_page_size();
++    uint32_t expected_size = p->pages->num * page_size;
+     uint32_t flags = p->flags & MULTIFD_FLAG_COMPRESSION_MASK;
+     struct zstd_data *z = p->data;
+     int ret;
+@@ -278,10 +280,8 @@ static int zstd_recv_pages(MultiFDRecvParams *p, Error **errp)
+     z->in.pos = 0;
+ 
+     for (i = 0; i < p->pages->num; i++) {
+-        struct iovec *iov = &p->pages->iov[i];
+-
+-        z->out.dst = iov->iov_base;
+-        z->out.size = iov->iov_len;
++        z->out.dst = p->pages->block->host + p->pages->offset[i];
++        z->out.size = page_size;
+         z->out.pos = 0;
+ 
+         /*
+@@ -295,8 +295,8 @@ static int zstd_recv_pages(MultiFDRecvParams *p, Error **errp)
+         do {
+             ret = ZSTD_decompressStream(z->zds, &z->out, &z->in);
+         } while (ret > 0 && (z->in.size - z->in.pos > 0)
+-                         && (z->out.pos < iov->iov_len));
+-        if (ret > 0 && (z->out.pos < iov->iov_len)) {
++                         && (z->out.pos < page_size));
++        if (ret > 0 && (z->out.pos < page_size)) {
+             error_setg(errp, "multifd %d: decompressStream buffer too small",
+                        p->id);
+             return -1;
 -- 
 2.33.1
 
