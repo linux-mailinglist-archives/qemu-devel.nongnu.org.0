@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4066545B749
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 10:20:39 +0100 (CET)
-Received: from localhost ([::1]:60790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D3645B75A
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 10:23:08 +0100 (CET)
+Received: from localhost ([::1]:36348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpoSD-0005pp-D1
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 04:20:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50344)
+	id 1mpoUd-0008To-Mc
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 04:23:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mpoP9-0002wH-M7
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:17:27 -0500
-Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192]:47423)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mpoP7-0002yH-6N
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:17:27 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.68])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 6BC092009E;
- Wed, 24 Nov 2021 09:17:22 +0000 (UTC)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 24 Nov
- 2021 10:17:21 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003df09a814-94db-4c56-8fc0-38e78abb91bb,
- 91DCD1862618CD88E95BCEF119A98FE4AA8C2BE1) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <85b4d164-548c-a411-0dbc-d06b842a8baf@kaod.org>
-Date: Wed, 24 Nov 2021 10:17:21 +0100
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mpoTE-0007Ns-5e; Wed, 24 Nov 2021 04:21:40 -0500
+Received: from [2607:f8b0:4864:20::936] (port=43579
+ helo=mail-ua1-x936.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mpoTC-0004W9-5F; Wed, 24 Nov 2021 04:21:39 -0500
+Received: by mail-ua1-x936.google.com with SMTP id j14so3625739uan.10;
+ Wed, 24 Nov 2021 01:21:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=cZ3DvjGclI0r4OMOm/tV9FHMFK007Sbtm7RZ4vM5o8k=;
+ b=hp+UcqiVl36KGbUpKNm8Wsh+dui0rwQ/g67mP0XFEwHdm2LVWSvxtFAezcT3FTRtpM
+ 3qdWD9+VU0hcF/lne7soc0tMfeCdFIbABGAAKg8O13GrGGr35gIugq3m48f/tHt2TEXg
+ 9tMYGr3rdOyoaiz8O+cew/21nFJtyF2Wae2E0y+yfZ8dip61hTPJBFpr3kNop8hZJyyg
+ DV6gj11/ZDAbnjAkwz0iSX8wraej0+XqgDJyW00k7co/nXrxh2rRQZcEFgGXR1ltdtl3
+ T2o8JeC5ii25AwEyO2kz+JOT+zSCF+YwNZ3fBOZuIXocgpWb01DF09gy2AIFYtn6Lblf
+ mFeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=cZ3DvjGclI0r4OMOm/tV9FHMFK007Sbtm7RZ4vM5o8k=;
+ b=Ee8qZ89naSPbqEHWjupi2whoL04OntlgHqVBDH4Ia7AbWCt+8UAhFgT6k2U33fbupf
+ R1EbGdr1wJlH/AVJXr65plZ7+BH+qXl4ss2QQWM0+lXyV5uYoa5InpWgOGOrne4R7TKf
+ P7BbImaVDxPoPQ2mbQDJ9RLrYGrecEUFMhUyxCWWZDhXkABVPTeLVBV/gFku/IHMKS/q
+ gH9N8GmNhX3ABTYGlJ+YBUu4eO/ez2ZTZihF76ZHf+JeZL4maQJOR3jzKcFiGdIH9JRP
+ DpnJNi+jARyRIQzN4SU5VcMZ5yYp6xuiap2qHGU9EyZrleDBqWtZagwq95vRw3sUghNk
+ aABQ==
+X-Gm-Message-State: AOAM531seCxWQAaZWT8gFWvzgQaYleYYaHbwNVUbqwyMSwy8K0g9hoAB
+ Rj9GT+slZwEq4nCcXMFj97k=
+X-Google-Smtp-Source: ABdhPJzYJzMY1JHjUkQvSP8971S+NxAwuKL9dFVZ7GLSR7zyyOiRcHJCbz3FSaKfluxCtiYsk2NCIQ==
+X-Received: by 2002:a67:df90:: with SMTP id x16mr20439426vsk.52.1637745695970; 
+ Wed, 24 Nov 2021 01:21:35 -0800 (PST)
+Received: from [192.168.10.222] ([191.19.215.188])
+ by smtp.gmail.com with ESMTPSA id f132sm7736046vkf.18.2021.11.24.01.21.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Nov 2021 01:21:35 -0800 (PST)
+Message-ID: <3c073b3c-a8eb-2e6d-7e2d-4808774e2c74@gmail.com>
+Date: Wed, 24 Nov 2021 06:21:33 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 35/35] test/tcg/ppc64le: Add float reference files
+Subject: Re: [PATCH 0/2] change IVSHMEM endianess to LITTLE_ENDIAN
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, <qemu-devel@nongnu.org>
-References: <20211119160502.17432-1-richard.henderson@linaro.org>
- <20211119160502.17432-36-richard.henderson@linaro.org>
- <41eda524-8e61-88e6-71ff-757fae97bc9b@kaod.org>
- <0e4d4227-4a67-7a6e-4f45-6416faebbc93@linaro.org>
- <45a736de-efe4-1638-65c7-28764c93248a@linaro.org>
- <673145cf-f64c-2520-3ed5-dae2a16704e7@kaod.org>
- <333b8968-bdfd-bd79-51d7-edaba09e5e92@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <333b8968-bdfd-bd79-51d7-edaba09e5e92@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+References: <20211123211932.284043-1-danielhb413@gmail.com>
+ <a6b4bfd8-099c-9e7a-0492-6df404167367@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <a6b4bfd8-099c-9e7a-0492-6df404167367@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 852db89d-85b3-4df3-b9f0-c5a24d93d917
-X-Ovh-Tracer-Id: 225742932629687203
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrgeekgddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
- helo=3.mo552.mail-out.ovh.net
-X-Spam_score_int: -59
-X-Spam_score: -6.0
-X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.1,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::936
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::936;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x936.google.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-4.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,53 +89,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, alex.bennee@linaro.org
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/22/21 14:14, Richard Henderson wrote:
-> On 11/22/21 2:04 PM, Cédric Le Goater wrote:
->>> But this alone of course causes other "failures", because we've got some incorrect reference files.
+
+
+On 11/23/21 20:22, Cédric Le Goater wrote:
+> On 11/23/21 22:19, Daniel Henrique Barboza wrote:
+>> Hi,
 >>
->> Looks fine. Will you send this patch independently ?
+>> This small series fixes an issue reported in Gitlab [1] that
+>> affects PowerPC big-endian and little-endian and probably all
+>> other big-endians in the wild that might use 'ivshmem'.
+>>
+>> It's not clear to me who is the maintainer/responsible for this device
+>> (MAINTAINERS doesn't seem to have any 'ivhshmem' entries nor someone
+>> that looks upon all hw/misc/* files) so I didn't add any CC in that
+>> regard. 'qemu-ppc' is being copied for awareness since they are the
+>> folks that are most likely being impacted by the bug.
+>>
+>> [1] https://gitlab.com/qemu-project/qemu/-/issues/168
 > 
-> Yes.
-> 
->> The patchset doesn't seem to break anything.
-> 
-> You may not have docker cross-compilers enabled.
-> The hexagon reference files have incorrect contents.
-> I'll pursue an update with Taylor.
+> Do we want these fixes for 6.2 ?
 
 
-I do now. That was not an easy task. All seem fine with a x86/RH9
-but I am having issues building the images on power9/ubuntu21.10.
+No, I don't think it's necessary. Changing endianess is something that I'd rather
+do in the start of the 7.0 cycle. This bug has been around for years at this
+point. It can wait a couple of months.
 
-centos8 fails with :
-   #6 41.69 Error: Unable to find a match: libpmem-devel spice-server-devel
+I'll re-send these with Thomas' Ack and corrections and with a "for-7.0" subject
+for extra clarity.
 
-and some others with :
-
-   #5 3.433  builddeps:qemu : Depends: gcc-s390x-linux-gnu but it is not installable
-   #5 3.433                   Depends: gcc-alpha-linux-gnu but it is not installable
-   #5 3.256 E: Unable to locate package gcc-hppa-linux-gnu
-
-Is that expected ?
-
-
-Also I am seeing this issue on RH9 when running gdb tests :
-
-   TEST    basic gdbstub support
-warning: Remote gdbserver does not support determining executable automatically.
-RHEL <=6.8 and <=7.2 versions of gdbserver do not support such automatic executable detection.
-The following versions of gdbserver support it:
-- Upstream version of gdbserver (unsupported) 7.10 or later
-- Red Hat Developer Toolset (DTS) version of gdbserver from DTS 4.0 or later (only on x86_64)
-- RHEL-7.3 versions of gdbserver (on any architecture)
-
-I will dig that one. May be it's from the gdb of RH.
 
 Thanks,
 
-C.
+
+Daniel
+
+
+
+> 
+> Thanks,
+> 
+> C.
+> 
+>>
+>> Daniel Henrique Barboza (2):
+>>    ivshmem.c: change endianness to LITTLE_ENDIAN
+>>    ivshmem-test.c: enable test_ivshmem_server for ppc64 arch
+>>
+>>   hw/misc/ivshmem.c          | 2 +-
+>>   tests/qtest/ivshmem-test.c | 5 +----
+>>   2 files changed, 2 insertions(+), 5 deletions(-)
+>>
+> 
 
