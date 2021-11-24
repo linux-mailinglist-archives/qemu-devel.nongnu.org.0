@@ -2,55 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929C245C36C
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 14:36:02 +0100 (CET)
-Received: from localhost ([::1]:41680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD2945C4DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 14:49:44 +0100 (CET)
+Received: from localhost ([::1]:43168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpsRN-0005T5-LH
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 08:36:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42862)
+	id 1mpsed-0000jw-8I
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 08:49:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1mpsA1-0001vO-Gi
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:18:05 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:32925
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1mps9y-0006gW-U9
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:18:05 -0500
-HMM_SOURCE_IP: 172.18.0.48:53158.378074456
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id AD8CD280098;
- Wed, 24 Nov 2021 21:17:52 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id aa07c931bf5a4ab9b493d56eb0db8899 for
- qemu-devel@nongnu.org; Wed, 24 Nov 2021 21:17:59 CST
-X-Transaction-ID: aa07c931bf5a4ab9b493d56eb0db8899
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v5 3/3] cpus-common: implement dirty limit on vCPU
-Date: Wed, 24 Nov 2021 21:17:13 +0800
-Message-Id: <5b05962093b000b2e9d417d9de41d2cd6f272073.1637759139.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1637759139.git.huangy81@chinatelecom.cn>
-References: <cover.1637759139.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1637759139.git.huangy81@chinatelecom.cn>
-References: <cover.1637759139.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpsOY-00033g-2L
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:33:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22455)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpsOU-00011z-CZ
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:33:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637760781;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bxOpWE4LPwuXaLqpkPLmvJ4NrXNsZIPog+TN8WO+JJg=;
+ b=L6gfn55SwmlOJrQUn92n+WbzXhCyZYKtalo8mrbRQtROthBqpKOlyv5VWcXy4WibFRNK49
+ MkV7nC+XAwwBxxiCZin7jySKQFV/ft/1ljn6GT3RCprwNAwpgcCURH/3LcwlAzSmsf1zYt
+ aflR4tiKPf0TMz9MbFaV2wljEQSEZhU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-256-SymbSoB5MvCSWpKYq-K6nw-1; Wed, 24 Nov 2021 08:32:59 -0500
+X-MC-Unique: SymbSoB5MvCSWpKYq-K6nw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ h13-20020adfa4cd000000b001883fd029e8so500804wrb.11
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 05:32:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=bxOpWE4LPwuXaLqpkPLmvJ4NrXNsZIPog+TN8WO+JJg=;
+ b=jSpPW1mhi9FLuYKmqUQJb9Ls2nuq1uDl8AVRkliFQnm7os95p6sHV9rjvc4lmgZyz7
+ GC5Vg+yizHlAsrbg5t+6V9GW6vUd1faWwuhRaep9XMGmagJQItwtxpXN2ITzCBsVU+IJ
+ sZfsbHJLfOtkIi5jBul4W6VgbONamtwK/QerPePt0yaWewP33ToTw+56MwdJPHfrMwKS
+ gg9BFWScEraZnpx+R2zgXxnzik3cwxD6u7ADZAmDe+DceKqUr9FW6zoY7j6ARJVLb4tG
+ QI8/NxTVUJN6COkpgWyWRwx77NQfa0RwplC2TOjR7IXS8nF30wfVV8W+SmTfy/FoWrzU
+ /zRQ==
+X-Gm-Message-State: AOAM531CKUE9NT/dZW7sZVmMEndFS9HaDutInQWh0RNUusVr3oH7EiSP
+ r8YOJRin8wkvBT4Glmgf5WDMSXy7lvfeqUkdDs4HpGS3ZH+kHHH02wzpiE8Qz1m6DLXGy9jP4vG
+ Mw81KxBMWAtKIo5o=
+X-Received: by 2002:a5d:6dab:: with SMTP id u11mr18302574wrs.46.1637760778608; 
+ Wed, 24 Nov 2021 05:32:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzmopWKJqX1/RwZrHPDtuFXcpsyzF7EKMtxznQQiMFZMc77cWCgjv9uQQLIZrL+s3dlvTCN+A==
+X-Received: by 2002:a5d:6dab:: with SMTP id u11mr18302535wrs.46.1637760778392; 
+ Wed, 24 Nov 2021 05:32:58 -0800 (PST)
+Received: from [192.168.8.100] (tmo-097-143.customers.d1-online.com.
+ [80.187.97.143])
+ by smtp.gmail.com with ESMTPSA id l7sm18925122wry.86.2021.11.24.05.32.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Nov 2021 05:32:57 -0800 (PST)
+Message-ID: <b1babd61-02f9-8083-cda0-99d69839b10e@redhat.com>
+Date: Wed, 24 Nov 2021 14:32:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v4 04/18] ui: avoid warnings about directdb on Alpine /
+ musl libc
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211124130150.268230-1-berrange@redhat.com>
+ <20211124130150.268230-5-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20211124130150.268230-5-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.220;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -60
+X-Spam_score: -6.1
+X-Spam_bar: ------
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,175 +102,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On 24/11/2021 14.01, Daniel P. Berrangé wrote:
+> On Alpine, SDL is built with directfb support and this triggers warnings
+> during QEMU build
+> 
+> In file included from /usr/include/directfb/direct/thread.h:38,
+>                   from /usr/include/directfb/direct/debug.h:43,
+>                   from /usr/include/directfb/direct/interface.h:36,
+>                   from /usr/include/directfb/directfb.h:49,
+>                   from /usr/include/SDL2/SDL_syswm.h:80,
+>                   from /builds/berrange/qemu/include/ui/sdl2.h:8,
+>                   from ../ui/sdl2-gl.c:31:
+> /usr/include/directfb/direct/os/waitqueue.h:41:25: error: redundant redeclaration of 'direct_waitqueue_init' [-Werror=redundant-decls]
+>     41 | DirectResult DIRECT_API direct_waitqueue_init        ( DirectWaitQueue *queue );
+>        |                         ^~~~~~~~~~~~~~~~~~~~~
 
-Implement dirtyrate calculation periodically basing on
-dirty-ring and throttle vCPU until it reachs the quota
-dirtyrate given by user.
+I think that's a bug in the SDL2 package of Alpine. I've had trouble with 
+that one in the past already ... so not sure whether it's our job now to 
+work around bugs in that crappy Alpine package... I'd prefer if we simply do 
+not compile-test SDL on Alpine instead.
 
-Introduce qmp commands set-dirty-limit/cancel-dirty-limit to
-set/cancel dirty limit on vCPU.
-
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- cpus-common.c         | 41 +++++++++++++++++++++++++++++++++++++++++
- include/hw/core/cpu.h |  9 +++++++++
- qapi/migration.json   | 43 +++++++++++++++++++++++++++++++++++++++++++
- softmmu/vl.c          |  1 +
- 4 files changed, 94 insertions(+)
-
-diff --git a/cpus-common.c b/cpus-common.c
-index 6e73d3e..43b0078 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -23,6 +23,11 @@
- #include "hw/core/cpu.h"
- #include "sysemu/cpus.h"
- #include "qemu/lockable.h"
-+#include "sysemu/dirtylimit.h"
-+#include "sysemu/cpu-throttle.h"
-+#include "sysemu/kvm.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-migration.h"
- 
- static QemuMutex qemu_cpu_list_lock;
- static QemuCond exclusive_cond;
-@@ -352,3 +357,39 @@ void process_queued_cpu_work(CPUState *cpu)
-     qemu_mutex_unlock(&cpu->work_mutex);
-     qemu_cond_broadcast(&qemu_work_cond);
- }
-+
-+void qmp_set_dirty_limit(int64_t idx,
-+                         uint64_t dirtyrate,
-+                         Error **errp)
-+{
-+    if (!kvm_dirty_ring_enabled()) {
-+        error_setg(errp, "dirty ring not enable, needed by dirty restraint!");
-+        return;
-+    }
-+
-+    dirtylimit_calc();
-+    dirtylimit_vcpu(idx, dirtyrate);
-+}
-+
-+void qmp_cancel_dirty_limit(int64_t idx,
-+                            Error **errp)
-+{
-+    if (!kvm_dirty_ring_enabled()) {
-+        error_setg(errp, "dirty ring not enable, needed by dirty restraint!");
-+        return;
-+    }
-+
-+    if (unlikely(!dirtylimit_cancel_vcpu(idx))) {
-+        dirtylimit_calc_quit();
-+    }
-+}
-+
-+void dirtylimit_setup(int max_cpus)
-+{
-+    if (!kvm_dirty_ring_enabled()) {
-+        return;
-+    }
-+
-+    dirtylimit_calc_state_init(max_cpus);
-+    dirtylimit_state_init(max_cpus);
-+}
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index e948e81..11df012 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -881,6 +881,15 @@ void end_exclusive(void);
-  */
- void qemu_init_vcpu(CPUState *cpu);
- 
-+/**
-+ * dirtylimit_setup:
-+ *
-+ * Initializes the global state of dirtylimit calculation and
-+ * dirtylimit itself. This is prepared for vCPU dirtylimit which
-+ * could be triggered during vm lifecycle.
-+ */
-+void dirtylimit_setup(int max_cpus);
-+
- #define SSTEP_ENABLE  0x1  /* Enable simulated HW single stepping */
- #define SSTEP_NOIRQ   0x2  /* Do not use IRQ while single stepping */
- #define SSTEP_NOTIMER 0x4  /* Do not Timers while single stepping */
-diff --git a/qapi/migration.json b/qapi/migration.json
-index bbfd48c..42b260e 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1850,6 +1850,49 @@
- { 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
- 
- ##
-+# @set-dirty-limit:
-+#
-+# Set the upper limit of dirty page rate for the interested vCPU.
-+#
-+# This command could be used to cap the vCPU memory load, which is also
-+# refered as "dirty page rate". Users can use set-dirty-limit unconditionally,
-+# but if one want to know which vCPU is in high memory load and which vCPU
-+# should be limited, "calc-dirty-rate" with "dirty-ring" mode maybe an
-+# availiable method.
-+#
-+# @idx: vCPU index to set dirtylimit.
-+#
-+# @dirtyrate: upper limit for the specified vCPU's dirty page rate (MB/s)
-+#
-+# Since: 6.3
-+#
-+# Example:
-+#   {"execute": "set-dirty-limit"}
-+#    "arguments": { "idx": 0,
-+#                   "dirtyrate": 200 } }
-+#
-+##
-+{ 'command': 'set-dirty-limit',
-+  'data': { 'idx': 'int', 'dirtyrate': 'uint64' } }
-+
-+##
-+# @cancel-dirty-limit:
-+#
-+# Cancel the dirtylimit for the vCPU which has been set with set-dirty-limit.
-+#
-+# @idx: vCPU index to canceled the dirtylimit
-+#
-+# Since: 6.3
-+#
-+# Example:
-+#   {"execute": "cancel-dirty-limit"}
-+#    "arguments": { "idx": 0 } }
-+#
-+##
-+{ 'command': 'cancel-dirty-limit',
-+  'data': { 'idx': 'int' } }
-+
-+##
- # @snapshot-save:
- #
- # Save a VM snapshot
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 620a1f1..0f83ce3 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3777,5 +3777,6 @@ void qemu_init(int argc, char **argv, char **envp)
-     qemu_init_displays();
-     accel_setup_post(current_machine);
-     os_setup_post();
-+    dirtylimit_setup(current_machine->smp.max_cpus);
-     resume_mux_open();
- }
--- 
-1.8.3.1
+  Thomas
 
 
