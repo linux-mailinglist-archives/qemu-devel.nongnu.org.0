@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA5645C27B
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 14:27:07 +0100 (CET)
-Received: from localhost ([::1]:53912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE51445C0E1
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 14:09:24 +0100 (CET)
+Received: from localhost ([::1]:57808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpsIk-0001O5-R6
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 08:27:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38480)
+	id 1mps1b-0000sq-3W
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 08:09:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mprvV-0006NB-C6
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:03:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55436)
+ id 1mprvW-0006Os-0T
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:03:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mprvS-0005v9-FN
+ id 1mprvT-0005vy-Em
  for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:03:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637758981;
+ s=mimecast20190719; t=1637758982;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OXgOaq/Yf6CDCcw4jDKdRSltF1R8pnxiBqeSni54oVc=;
- b=N6U9K+w57pICixfRxpLu7xbAKndRG29Fkgbvc6fdsZjzNw4wrOHIDy/TKjshaPADttOBTo
- AG/aDxxCZoa27GM012V8wyGoeoQ8HS7Htu3xCsfjL5WPAbD98gc2C+hpMfMjmrP2iK9CnN
- QvbuQPs3p2mMXgnK2t61Ggh5BZ+GFTc=
+ bh=zkl6a9OPKocPqSXaQZH5gLgC00tV5yU/6F6cnMET9CY=;
+ b=XmI45Xod1VX5R84iuIFQagnvGl62MG6DOTDVaLIFzqw5t4TL7Ap2fnFe7RCzTWQEQNu81z
+ lgskF+NeNWiE9QiSw64x2INpu1A+EFupHGFRMd7909vWDHd1sa4XwEW/MRppD6Egmno76j
+ YmL31//xeEaOsxOaWMURHKDyNCaByHw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-565-9Lzu-4QtO0mdk74tLV9iIQ-1; Wed, 24 Nov 2021 08:02:57 -0500
-X-MC-Unique: 9Lzu-4QtO0mdk74tLV9iIQ-1
+ us-mta-11-2jIVx3eSPYy4biR5pm0xKA-1; Wed, 24 Nov 2021 08:02:59 -0500
+X-MC-Unique: 2jIVx3eSPYy4biR5pm0xKA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DB1718C9F44;
- Wed, 24 Nov 2021 13:02:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AD5684B9A1;
+ Wed, 24 Nov 2021 13:02:58 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.199])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 842F879454;
- Wed, 24 Nov 2021 13:02:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B0A7279454;
+ Wed, 24 Nov 2021 13:02:56 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 09/18] tests/docker: auto-generate fedora.docker with
+Subject: [PATCH v4 10/18] tests/docker: auto-generate ubuntu1804.docker with
  lcitool
-Date: Wed, 24 Nov 2021 13:01:41 +0000
-Message-Id: <20211124130150.268230-10-berrange@redhat.com>
+Date: Wed, 24 Nov 2021 13:01:42 +0000
+Message-Id: <20211124130150.268230-11-berrange@redhat.com>
 In-Reply-To: <20211124130150.268230-1-berrange@redhat.com>
 References: <20211124130150.268230-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -96,287 +96,292 @@ This commit is best examined using the "-b" option to diff.
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/dockerfiles/fedora.docker | 260 ++++++++++++++-----------
- tests/lcitool/refresh                  |   1 +
- 2 files changed, 146 insertions(+), 115 deletions(-)
+ tests/docker/dockerfiles/ubuntu1804.docker | 255 ++++++++++++---------
+ tests/lcitool/refresh                      |   7 +
+ 2 files changed, 149 insertions(+), 113 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 855aefaac5..6784878b56 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -1,118 +1,148 @@
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index 450fd06d0d..0ffa3c4d4b 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -1,117 +1,146 @@
 +# THIS FILE WAS AUTO-GENERATED
 +#
-+#  $ lcitool dockerfile fedora-35 qemu
++#  $ lcitool dockerfile ubuntu-1804 qemu
 +#
 +# https://gitlab.com/libvirt/libvirt-ci
 +
- FROM registry.fedoraproject.org/fedora:35
- 
--# Please keep this list sorted alphabetically
+ FROM docker.io/library/ubuntu:18.04
 -ENV PACKAGES \
--    SDL2-devel \
--    SDL2_image-devel \
--    alsa-lib-devel \
 -    bc \
--    brlapi-devel \
+-    bsdmainutils \
 -    bzip2 \
--    bzip2-devel \
 -    ca-certificates \
--    capstone-devel \
 -    ccache \
 -    clang \
--    ctags \
--    cyrus-sasl-devel \
--    daxctl-devel \
--    dbus-daemon \
--    device-mapper-multipath-devel \
+-    dbus \
+-    debianutils \
 -    diffutils \
+-    exuberant-ctags \
 -    findutils \
+-    g++ \
 -    gcc \
--    gcc-c++ \
 -    gcovr \
 -    genisoimage \
 -    gettext \
 -    git \
--    glib2-devel \
--    glibc-langpack-en \
--    glibc-static \
--    glusterfs-api-devel \
--    gnutls-devel \
--    gtk3-devel \
+-    glusterfs-common \
 -    hostname \
--    jemalloc-devel \
--    libaio-devel \
--    libasan \
--    libattr-devel \
--    libbpf-devel \
--    libcacard-devel \
--    libcap-ng-devel \
--    libcurl-devel \
--    libdrm-devel \
--    libepoxy-devel \
--    libfdt-devel \
--    libffi-devel \
--    libgcrypt-devel \
--    libiscsi-devel \
--    libjpeg-devel \
--    libnfs-devel \
--    libpmem-devel \
--    libpng-devel \
--    librbd-devel \
--    libseccomp-devel \
--    libselinux-devel \
--    libslirp-devel \
--    libssh-devel \
--    libtasn1-devel \
--    libubsan \
--    libudev-devel \
--    liburing-devel \
--    libusbx-devel \
--    libxml2-devel \
--    libzstd-devel \
+-    libaio-dev \
+-    libasan5 \
+-    libasound2-dev \
+-    libattr1-dev \
+-    libbrlapi-dev \
+-    libbz2-dev \
+-    libc6-dev \
+-    libcacard-dev \
+-    libcap-ng-dev \
+-    libcapstone-dev \
+-    libcurl4-gnutls-dev \
+-    libdaxctl-dev \
+-    libdrm-dev \
+-    libepoxy-dev \
+-    libfdt-dev \
+-    libffi-dev \
+-    libgbm-dev \
+-    libgcrypt20-dev \
+-    libglib2.0-dev \
+-    libgnutls28-dev \
+-    libgtk-3-dev \
+-    libibverbs-dev \
+-    libiscsi-dev \
+-    libjemalloc-dev \
+-    libjpeg-turbo8-dev \
+-    liblttng-ust-dev \
+-    liblzo2-dev \
+-    libncursesw5-dev \
+-    libnfs-dev \
+-    libnuma-dev \
+-    libpam0g-dev \
+-    libpixman-1-dev \
+-    libpmem-dev \
+-    libpng-dev \
+-    libpulse-dev \
+-    librbd-dev \
+-    librdmacm-dev \
+-    libsasl2-dev \
+-    libsdl2-dev \
+-    libsdl2-image-dev \
+-    libseccomp-dev \
+-    libselinux-dev \
+-    libsnappy-dev \
+-    libspice-protocol-dev \
+-    libspice-server-dev \
+-    libssh-dev \
+-    libsystemd-dev \
+-    libtasn1-6-dev \
+-    libtest-harness-perl \
+-    libubsan1 \
+-    libudev-dev \
+-    libusb-1.0-0-dev \
+-    libusbredirhost-dev \
+-    libvdeplug-dev \
+-    libvirglrenderer-dev \
+-    libvte-2.91-dev \
+-    libxen-dev \
+-    libxml2-dev \
+-    libzstd-dev \
 -    llvm \
--    lttng-ust-devel \
--    lzo-devel \
+-    locales \
 -    make \
--    mesa-libgbm-devel \
--    meson \
--    ncurses-devel \
--    nettle-devel \
+-    multipath-tools \
+-    netcat-openbsd \
+-    nettle-dev \
 -    ninja-build \
--    nmap-ncat \
--    numactl-devel \
--    openssh-clients \
--    pam-devel \
--    perl-Test-Harness \
+-    openssh-client \
 -    perl-base \
--    pixman-devel \
--    pkgconfig \
--    pulseaudio-libs-devel \
+-    pkgconf \
 -    python3 \
--    python3-PyYAML \
 -    python3-numpy \
 -    python3-opencv \
 -    python3-pillow \
 -    python3-pip \
+-    python3-setuptools \
 -    python3-sphinx \
--    python3-sphinx_rtd_theme \
--    python3-virtualenv \
--    rdma-core-devel \
--    rpm \
+-    python3-sphinx-rtd-theme \
+-    python3-venv \
+-    python3-wheel \
+-    python3-yaml \
+-    rpm2cpio \
 -    sed \
--    snappy-devel \
 -    sparse \
--    spice-protocol \
--    spice-server-devel \
--    systemd-devel \
--    systemtap-sdt-devel \
+-    systemtap-sdt-dev \
 -    tar \
--    tesseract \
--    tesseract-langpack-eng \
+-    tesseract-ocr \
+-    tesseract-ocr-eng \
 -    texinfo \
--    usbredir-devel \
--    util-linux \
--    virglrenderer-devel \
--    vte291-devel \
--    which \
--    xen-devel \
--    xfsprogs-devel \
--    zlib-devel
--ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
-+RUN dnf install -y nosync && \
-+    echo -e '#!/bin/sh\n\
-+if test -d /usr/lib64\n\
-+then\n\
-+    export LD_PRELOAD=/usr/lib64/nosync/nosync.so\n\
-+else\n\
-+    export LD_PRELOAD=/usr/lib/nosync/nosync.so\n\
-+fi\n\
-+exec "$@"' > /usr/bin/nosync && \
-+    chmod +x /usr/bin/nosync && \
-+    nosync dnf update -y && \
-+    nosync dnf install -y \
-+        SDL2-devel \
-+        SDL2_image-devel \
-+        alsa-lib-devel \
-+        bash \
-+        bc \
-+        brlapi-devel \
-+        bzip2 \
-+        bzip2-devel \
-+        ca-certificates \
-+        capstone-devel \
-+        ccache \
-+        clang \
-+        ctags \
-+        cyrus-sasl-devel \
-+        daxctl-devel \
-+        dbus-daemon \
-+        device-mapper-multipath-devel \
-+        diffutils \
-+        findutils \
-+        gcc \
-+        gcc-c++ \
-+        gcovr \
-+        genisoimage \
-+        gettext \
-+        git \
-+        glib2-devel \
-+        glib2-static \
-+        glibc-langpack-en \
-+        glibc-static \
-+        glusterfs-api-devel \
-+        gnutls-devel \
-+        gtk3-devel \
-+        hostname \
-+        jemalloc-devel \
-+        libaio-devel \
-+        libasan \
-+        libattr-devel \
-+        libbpf-devel \
-+        libcacard-devel \
-+        libcap-ng-devel \
-+        libcurl-devel \
-+        libdrm-devel \
-+        libepoxy-devel \
-+        libfdt-devel \
-+        libffi-devel \
-+        libgcrypt-devel \
-+        libiscsi-devel \
-+        libjpeg-devel \
-+        libnfs-devel \
-+        libpmem-devel \
-+        libpng-devel \
-+        librbd-devel \
-+        libseccomp-devel \
-+        libselinux-devel \
-+        libslirp-devel \
-+        libssh-devel \
-+        libtasn1-devel \
-+        libubsan \
-+        libudev-devel \
-+        liburing-devel \
-+        libusbx-devel \
-+        libxml2-devel \
-+        libzstd-devel \
-+        llvm \
-+        lttng-ust-devel \
-+        lzo-devel \
-+        make \
-+        mesa-libgbm-devel \
-+        meson \
-+        ncurses-devel \
-+        nettle-devel \
-+        ninja-build \
-+        nmap-ncat \
-+        numactl-devel \
-+        openssh-clients \
-+        pam-devel \
-+        pcre-static \
-+        perl-Test-Harness \
-+        perl-base \
-+        pixman-devel \
-+        pkgconfig \
-+        pulseaudio-libs-devel \
-+        python3 \
-+        python3-PyYAML \
-+        python3-numpy \
-+        python3-opencv \
-+        python3-pillow \
-+        python3-pip \
-+        python3-sphinx \
-+        python3-sphinx_rtd_theme \
-+        python3-virtualenv \
-+        rdma-core-devel \
-+        rpm \
-+        sed \
-+        snappy-devel \
-+        sparse \
-+        spice-protocol \
-+        spice-server-devel \
-+        systemd-devel \
-+        systemtap-sdt-devel \
-+        tar \
-+        tesseract \
-+        tesseract-langpack-eng \
-+        texinfo \
-+        usbredir-devel \
-+        util-linux \
-+        virglrenderer-devel \
-+        vte291-devel \
-+        which \
-+        xen-devel \
-+        xfsprogs-devel \
-+        zlib-devel \
-+        zlib-static && \
-+    nosync dnf autoremove -y && \
-+    nosync dnf clean all -y && \
-+    rpm -qa | sort > /packages.txt && \
+-    xfslibs-dev \
+-    zlib1g-dev
+-RUN apt-get update && \
+-    DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+-RUN dpkg -l $PACKAGES | sort > /packages.txt
+ 
++RUN export DEBIAN_FRONTEND=noninteractive && \
++    apt-get update && \
++    apt-get install -y eatmydata && \
++    eatmydata apt-get dist-upgrade -y && \
++    eatmydata apt-get install --no-install-recommends -y \
++            bash \
++            bc \
++            bsdmainutils \
++            bzip2 \
++            ca-certificates \
++            ccache \
++            clang \
++            dbus \
++            debianutils \
++            diffutils \
++            exuberant-ctags \
++            findutils \
++            g++ \
++            gcc \
++            gcovr \
++            genisoimage \
++            gettext \
++            git \
++            glusterfs-common \
++            hostname \
++            libaio-dev \
++            libasan5 \
++            libasound2-dev \
++            libattr1-dev \
++            libbrlapi-dev \
++            libbz2-dev \
++            libc6-dev \
++            libcacard-dev \
++            libcap-ng-dev \
++            libcapstone-dev \
++            libcurl4-gnutls-dev \
++            libdaxctl-dev \
++            libdrm-dev \
++            libepoxy-dev \
++            libfdt-dev \
++            libffi-dev \
++            libgbm-dev \
++            libgcrypt20-dev \
++            libglib2.0-dev \
++            libgnutls28-dev \
++            libgtk-3-dev \
++            libibverbs-dev \
++            libiscsi-dev \
++            libjemalloc-dev \
++            libjpeg-turbo8-dev \
++            liblttng-ust-dev \
++            liblzo2-dev \
++            libncursesw5-dev \
++            libnfs-dev \
++            libnuma-dev \
++            libpam0g-dev \
++            libpcre2-dev \
++            libpixman-1-dev \
++            libpmem-dev \
++            libpng-dev \
++            libpulse-dev \
++            librbd-dev \
++            librdmacm-dev \
++            libsasl2-dev \
++            libsdl2-dev \
++            libsdl2-image-dev \
++            libseccomp-dev \
++            libselinux1-dev \
++            libsnappy-dev \
++            libspice-protocol-dev \
++            libspice-server-dev \
++            libssh-dev \
++            libsystemd-dev \
++            libtasn1-6-dev \
++            libtest-harness-perl \
++            libubsan1 \
++            libudev-dev \
++            libusb-1.0-0-dev \
++            libusbredirhost-dev \
++            libvdeplug-dev \
++            libvirglrenderer-dev \
++            libvte-2.91-dev \
++            libxen-dev \
++            libxml2-dev \
++            libzstd-dev \
++            llvm \
++            locales \
++            make \
++            multipath-tools \
++            netcat-openbsd \
++            nettle-dev \
++            ninja-build \
++            openssh-client \
++            perl-base \
++            pkgconf \
++            python3 \
++            python3-numpy \
++            python3-opencv \
++            python3-pillow \
++            python3-pip \
++            python3-setuptools \
++            python3-sphinx \
++            python3-sphinx-rtd-theme \
++            python3-venv \
++            python3-wheel \
++            python3-yaml \
++            rpm2cpio \
++            sed \
++            sparse \
++            systemtap-sdt-dev \
++            tar \
++            tesseract-ocr \
++            tesseract-ocr-eng \
++            texinfo \
++            xfslibs-dev \
++            zlib1g-dev && \
++    eatmydata apt-get autoremove -y && \
++    eatmydata apt-get autoclean -y && \
++    sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
++    dpkg-reconfigure locales && \
++    dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
 +    mkdir -p /usr/libexec/ccache-wrappers && \
 +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
 +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
 +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/clang && \
 +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
 +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
- 
--RUN dnf install -y $PACKAGES
--RUN rpm -q $PACKAGES | sort > /packages.txt
--ENV PATH $PATH:/usr/libexec/python3-sphinx/
++
++RUN pip3 install \
++         meson==0.56.0
++
 +ENV LANG "en_US.UTF-8"
 +ENV MAKE "/usr/bin/make"
 +ENV NINJA "/usr/bin/ninja"
 +ENV PYTHON "/usr/bin/python3"
 +ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
+ # https://bugs.launchpad.net/qemu/+bug/1838763
+ ENV QEMU_CONFIGURE_OPTS --disable-libssh
 diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index 824b1c0ef2..d79d2b8c06 100755
+index d79d2b8c06..1e30674d67 100755
 --- a/tests/lcitool/refresh
 +++ b/tests/lcitool/refresh
-@@ -62,6 +62,7 @@ def generate_dockerfile(host, target, cross=None, trailer=None):
+@@ -60,9 +60,16 @@ def generate_dockerfile(host, target, cross=None, trailer=None):
+    cmd.extend([target, "qemu"])
+    generate(filename, cmd, trailer)
  
++ubuntu1804_skipssh = [
++   "# https://bugs.launchpad.net/qemu/+bug/1838763\n",
++   "ENV QEMU_CONFIGURE_OPTS --disable-libssh\n"
++]
++
  try:
     generate_dockerfile("centos8", "centos-8")
-+   generate_dockerfile("fedora", "fedora-35")
+    generate_dockerfile("fedora", "fedora-35")
++   generate_dockerfile("ubuntu1804", "ubuntu-1804",
++                       trailer="".join(ubuntu1804_skipssh))
  
     sys.exit(0)
  except Exception as ex:
