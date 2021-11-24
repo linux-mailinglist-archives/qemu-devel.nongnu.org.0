@@ -2,85 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8EC45B5E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 08:49:39 +0100 (CET)
-Received: from localhost ([::1]:59212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5672B45B5F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 08:53:10 +0100 (CET)
+Received: from localhost ([::1]:39870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpn2A-0005I1-QJ
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 02:49:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42460)
+	id 1mpn5Z-0002wo-6H
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 02:53:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpmrr-0007rg-B3
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 02:38:59 -0500
-Received: from [2a00:1450:4864:20::42f] (port=46607
- helo=mail-wr1-x42f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mpmrp-0000aO-La
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 02:38:59 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id u1so2420811wru.13
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 23:38:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8X3HbWaR2KUqqwL64nz7JydjqbYGEg72Tggke7hO2VI=;
- b=EdQsPDjUR5ev5hTj58X+rpCuRR6vjz5Q8+/FQAbPjpf5JrhEtLyeu1lrV4nT/fzJw1
- pIwTRLLI2s245swO2rRjjhgF60zYlDQkNWmxjiUahM2L/KLqjTCjETNgTdvrW209wDWo
- psAzbft71KrdA48/RfzBEQdK4qGR3JUjnK7zjtlanP5feyodev/BdUnMXf2f3j0lHyvW
- CcaIRj8LddEGT1Et5Ir3H5Ho+OExtDNhZDark1IBTABxpP65A8YMxxdRcDpP1VtZbkqm
- Nn03gztnVtqLpJP8ptjrWv8vbXqnyLiaI5zoiDC577nALHlo5ry4giCEyZUVVnY8NJie
- A/3g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpmtN-0002qM-Iu
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 02:40:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42727)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpmtK-0000nw-Ni
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 02:40:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637739630;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PFRzki4tyQyMnmEB1X7V0+VFnBmeqb2eAhcEce8eKM4=;
+ b=gVeiXO40OxTqCT0G2AMNbP632SOcmaP3gxhnUGsLqS2vjNVxovUW2exWZE81xRwHlhVTyr
+ g7AOCbqd/Yd3JlxIUENVhmvCJKj5cEqOH/YpCa3zMN7UNVWTkb9UFV3pUA79j55gx4149z
+ vRWPzUjTRGeFwmHj6FcTxK4+OF/4ONU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-601-Ko-8qTAaPQ-x2d0VLkAWBQ-1; Wed, 24 Nov 2021 02:40:28 -0500
+X-MC-Unique: Ko-8qTAaPQ-x2d0VLkAWBQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g81-20020a1c9d54000000b003330e488323so1386644wme.0
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 23:40:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=8X3HbWaR2KUqqwL64nz7JydjqbYGEg72Tggke7hO2VI=;
- b=C+aKgayjDULvUyzzzas7yWQRuj1zAC0Hu+nP24oEhc7D7MZTSE9SOakMh94xazP5I8
- ERM8jUQMl6nlt+8f2IprNoU3Xl4OS/x5Y226RYozBj/3OQJPf5OW5BAHJwyXcMyCBhe4
- Z0OgNqpXuwL+s5ChudP0xYLQWSI0uUwqAtvG6JJ580B1HABVJ0p81x9vAr0N9f0WPIAg
- rkgxzXB1eNOLFQkhKylNk6To6LN7vkGum4i+qjCe1GDOVfrsBGeEF0byYLY0LYioyPrb
- PtVhzsF/2sJwnCHCca6AQft/aPLGjVbQxCBYrSHm4ZL9ellusLsQW3NXUOuVjunRWVQ1
- UNZA==
-X-Gm-Message-State: AOAM530uFOxsz9wwXVjQUGgEqFz/952Z6dJqA2I2XE2krViSjiaMffYN
- ROgX2UMHv8+DeD6imPXs2zWl8Q==
-X-Google-Smtp-Source: ABdhPJxGlIz1rkGa35lseuYavbykQc2zvPpY6DQlWejQQKu7U0uqVUIr/6+CY7A8v15rb0IoeJikFw==
-X-Received: by 2002:a05:6000:1889:: with SMTP id
- a9mr16955485wri.68.1637739535671; 
- Tue, 23 Nov 2021 23:38:55 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id u23sm15360921wru.21.2021.11.23.23.38.54
+ bh=PFRzki4tyQyMnmEB1X7V0+VFnBmeqb2eAhcEce8eKM4=;
+ b=5WSuAJG0mCIxclixHy+RUdK04dzCi3pyyjv9lv6OgeUp4ADhnZ5pgX62KosUzI97xk
+ T5uEtateZ6GTzHIQRbnwWTVCWMVplwa4ne1xXW1CesqZoFP1dQ+ph5BK93RUjrKECPYf
+ d5xVLfbEK+79b4Od4SlDeeKwb5lF2YdE//4wGt1rVPIllMu/+ZWxpaZPU97DkeV+yDvn
+ 6//omUSEGlzTBLpHyqvXsMWdYehl7r/vKeNmPnJ3etko1KnK4q6wExGcPjxScRNv1B/q
+ y/3LbsaVD1UUChnronguO7CzEClCQ6HlWLEfaTReMkIdeBeW/S5u/dxCTZC7OV3Kksg6
+ BHnQ==
+X-Gm-Message-State: AOAM530WXhhgO1kbJcis0558EQSiq37FWWj99vp4QkblnsYTnj4bfSft
+ bCPTeyzd2ZlG8Oi/bg7CarHHEeO1tUZVRl4OtvNMdS8FMAle/9wOiTnOmsht9Vb0UVmQgJQmjNH
+ 1GY/c2Ui+hApWi2Q=
+X-Received: by 2002:a7b:c1cb:: with SMTP id a11mr12644726wmj.30.1637739627102; 
+ Tue, 23 Nov 2021 23:40:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwKWKvbwdTupw2DeLXp3kPoP23PH2TOrXtIxcygkHx7DLHqFAKSnOkPEk/9pyf64oMgfTbuEg==
+X-Received: by 2002:a7b:c1cb:: with SMTP id a11mr12644641wmj.30.1637739626497; 
+ Tue, 23 Nov 2021 23:40:26 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id n32sm5040324wms.1.2021.11.23.23.40.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Nov 2021 23:38:55 -0800 (PST)
-Subject: Re: [PATCH v1 1/7] softmmu: fix watchpoint-interrupt races
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20211123205729.2205806-1-alex.bennee@linaro.org>
- <20211123205729.2205806-2-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <65658e1d-43cf-d61b-3064-32cf670d903e@linaro.org>
-Date: Wed, 24 Nov 2021 08:38:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Tue, 23 Nov 2021 23:40:25 -0800 (PST)
+Message-ID: <ea0c858a-1db1-3fb4-1964-2441e4d64678@redhat.com>
+Date: Wed, 24 Nov 2021 08:40:24 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211123205729.2205806-2-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 4/4] include/sysemu/blockdev.h: remove drive_get_max_devs
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
+References: <20211124063640.3118897-1-eesposit@redhat.com>
+ <20211124063640.3118897-5-eesposit@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211124063640.3118897-5-eesposit@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -75
+X-Spam_score: -7.6
+X-Spam_bar: -------
+X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,48 +101,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, David Hildenbrand <david@redhat.com>,
- f4bug@amsat.org, stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, aurelien@aurel32.net
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/23/21 9:57 PM, Alex Bennée wrote:
-> From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-> 
-> Watchpoint may be processed in two phases. First one is detecting
-> the instruction with target memory access. And the second one is
-> executing only one instruction and setting the debug interrupt flag.
-> Hardware interrupts can break this sequence when they happen after
-> the first watchpoint phase.
-> This patch postpones the interrupt request until watchpoint is
-> processed.
-> 
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> Message-Id: <163662451431.125458.14945698834107669531.stgit@pasha-ThinkPad-X280>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+On 11/24/21 07:36, Emanuele Giuseppe Esposito wrote:
+> Remove drive_get_max_devs, as it is not used by anyone.
+
+Maybe complete:
+
+  Last use was removed in commit 8f2d75e81d5
+  ("hw: Drop superfluous special checks for orphaned -drive").
+
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
->   accel/tcg/cpu-exec.c | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index 2d14d02f6c..9cb892e326 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -742,6 +742,11 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
->               qemu_mutex_unlock_iothread();
->               return true;
->           }
-> +        /* Process watchpoints first, or interrupts will ruin everything */
-> +        if (cpu->watchpoint_hit) {
-> +            qemu_mutex_unlock_iothread();
-> +            return false;
-> +        }
+>  include/sysemu/blockdev.h |  1 -
+>  blockdev.c                | 17 -----------------
+>  2 files changed, 18 deletions(-)
 
-I think this is redundant with the next patch.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-
-r~
 
