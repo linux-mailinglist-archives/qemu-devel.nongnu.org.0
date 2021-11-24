@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E048145B7EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 11:00:41 +0100 (CET)
-Received: from localhost ([::1]:58008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319B845B7F9
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 11:02:41 +0100 (CET)
+Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpp4y-000178-0p
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 05:00:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37716)
+	id 1mpp6u-0006sJ-93
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 05:02:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mpozd-00023s-FT
+ id 1mpozd-00023u-Ki
  for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:55:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41820)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mpoza-0004ND-Tr
+ id 1mpozb-0004NM-KL
  for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:55:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637747706;
+ s=mimecast20190719; t=1637747707;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YoCZGdg8jPnZ4FJ9H5tQajzuxhFrzLy+nqeqCxQdqEQ=;
- b=SOOHmfspkf8NnTXLQMRXz6GRh0xymul3H7OqGWhO1ql8VFBzQRmZgPJ5vk94buOyhOl11m
- r6C0qIjqg6pLtDZEqN7Eeb27Ca7HzlqkSRKu+5sH9ccYxtjaolOlnflD/Rh21OCF8lU5nl
- D+x9OSwdYeijqGBlwSxxtsXdYVnXq1c=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HWvUReG9PBYfl0CBgjMfHAgClU2nxHR6oMGRiZua6v4=;
+ b=dw3B6+QnOaE2mFDVkymPrE9xb6SoePKQkoWWS3TasBHPErL4UUze/Hr86QRX2EyngvA1bk
+ MYc7vrPfXXw0SBMUYQGEp7N0Pq/ue/L1OyKLfOhMHOM5PxyQzU5oC6ToWLULReLlimWykg
+ J5wmWawqMZykYqGEgniDlhdbsefHPHg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-198-4vvFi_EPNpWfwj9VpF0a6g-1; Wed, 24 Nov 2021 04:55:05 -0500
-X-MC-Unique: 4vvFi_EPNpWfwj9VpF0a6g-1
-Received: by mail-wr1-f71.google.com with SMTP id
- q17-20020adfcd91000000b0017bcb12ad4fso356417wrj.12
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 01:55:04 -0800 (PST)
+ us-mta-457-IyJeh3KfNJ-BrRTAxwOaLA-1; Wed, 24 Nov 2021 04:55:06 -0500
+X-MC-Unique: IyJeh3KfNJ-BrRTAxwOaLA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 201-20020a1c04d2000000b003335bf8075fso1083198wme.0
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 01:55:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YoCZGdg8jPnZ4FJ9H5tQajzuxhFrzLy+nqeqCxQdqEQ=;
- b=u1ZT75CD+BkLHj7XZuZ9fueahadrriwf1hr1td0S9jKP6HnqKzwakSEzHkzVIxCDJV
- cu4tFVNilH64CCJtehNn+oGvc7TjAonbmd1ZenIcgwgXqGRWdt2uXSHf/arthlJCtxXx
- uK2SXRNpEgOjK4IS0JADGsifbVQegIWUhlZxdOWz+aHvPYO0B0Rb5s1Mpl+Wo3HgGCjQ
- mOiVhrNKwjHBh4PLm/8uClNrbCOzzgCNjWOstWL+Tc2ikr/Ghl7zRUOwsbHLVAqfodh4
- XVOiWkcQxgY3X2/Ko+egrjWzLBFeHpYGJD0uWKPK0Q+oCHIM/Ta4mgrCZ2PRbx5lzbKZ
- dfmg==
-X-Gm-Message-State: AOAM530hl24Z5cOA+o6EUuwkOveEblyBYSLlEKLRTWzJsBMMvpWRp/Tn
- Pz+ZBayoOUhAtP+Y/1wn7PPyOCP6mlvjZNqgp+TfpjG5XPHnEZ7wHOjC2aH/GgVt7zuJwBEloWz
- 1rxfCDnUfcANPJhMc264Q6ZCfJ5vVJ40wZvTJ8hJHN5WkUQkxj2HbzxTClNQZxTdfbyg=
-X-Received: by 2002:a05:6000:1a8b:: with SMTP id
- f11mr16760091wry.409.1637747703366; 
- Wed, 24 Nov 2021 01:55:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwUP4JyXTugvQbAM9ogj/ClFjrrTtXRThk8x++ZRxD27vWQ4QJ6pcjeFOB4MmlaVzYAAE4uag==
-X-Received: by 2002:a05:6000:1a8b:: with SMTP id
- f11mr16760026wry.409.1637747702976; 
- Wed, 24 Nov 2021 01:55:02 -0800 (PST)
+ bh=HWvUReG9PBYfl0CBgjMfHAgClU2nxHR6oMGRiZua6v4=;
+ b=pnTbUgWIVirjsi0LWAcUZeDOS1QEKYQ9DrpoQkZ4aaqy57bvRFDFihM0cz/0Cdfasx
+ VZSpSoep2ooT17k0NWei/CPqCzbCZg8bHqSnnvt7JRr3QjfylHXpt21kvMGAhtfDoJdD
+ q7Ip1XuEwH5iFN5REpxev+z52JCspijL6y5V3VZrLhCnn4zFVsRm29Tfe2MdMOr0RYj8
+ WZRqsVuBjHO0KJ8oXtBeiG6LT5f7++k6TTtv8IgyFcF8/lV+pDGdZ2yIEsiVd/QXMnMI
+ KcjW77pc3MyVD1Q4JL56LUfwMu3lFYEw5OmVTcbNoVB9XsXmJBhFKPY17wRr20PJ2euy
+ A1hA==
+X-Gm-Message-State: AOAM531oj5fCTooGkLjr4sjdzCehEpZ+UmF0FMXW0fBucRfdr2sffOGM
+ mjH7VSeHByK4oKrm2u57GsZPRcNCjASivwP5zaleeeOGsa9oGq3wTevtthUy3D89JovK3Yf8wKD
+ Lr4XXq+6mVpubt0PFNVfjdluSugtcR0zY7Mw3TJPPNb4wsZrbuOmr8IZwDQT7rDYTFI8=
+X-Received: by 2002:a1c:208b:: with SMTP id
+ g133mr13328466wmg.128.1637747704400; 
+ Wed, 24 Nov 2021 01:55:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJye0ntqHd3u1zR7KX4vq2NfzRS0eMe5jyocR2+CCyXWRiWpfwLyN5YKOPw0cKdg4NYFwYJR+w==
+X-Received: by 2002:a1c:208b:: with SMTP id
+ g133mr13328425wmg.128.1637747704130; 
+ Wed, 24 Nov 2021 01:55:04 -0800 (PST)
 Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
  [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id az4sm4113645wmb.20.2021.11.24.01.55.02
+ by smtp.gmail.com with ESMTPSA id j8sm14280778wrh.16.2021.11.24.01.55.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 01:55:02 -0800 (PST)
+ Wed, 24 Nov 2021 01:55:03 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/23] multifd: Delete useless operation
-Date: Wed, 24 Nov 2021 10:54:38 +0100
-Message-Id: <20211124095500.42078-2-quintela@redhat.com>
+Subject: [PATCH v2 02/23] migration: Never call twice qemu_target_page_size()
+Date: Wed, 24 Nov 2021 10:54:39 +0100
+Message-Id: <20211124095500.42078-3-quintela@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211124095500.42078-1-quintela@redhat.com>
 References: <20211124095500.42078-1-quintela@redhat.com>
@@ -78,15 +78,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,105 +105,100 @@ Cc: Leonardo Bras <leobras@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are divining by page_size to multiply again in the only use.
-Once there, impreve the comments.
-
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd-zlib.c | 13 ++++---------
- migration/multifd-zstd.c | 13 ++++---------
- 2 files changed, 8 insertions(+), 18 deletions(-)
+ migration/migration.c | 7 ++++---
+ migration/multifd.c   | 7 ++++---
+ migration/savevm.c    | 5 +++--
+ 3 files changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-index ab4ba75d75..3fc7813b44 100644
---- a/migration/multifd-zlib.c
-+++ b/migration/multifd-zlib.c
-@@ -42,7 +42,6 @@ struct zlib_data {
-  */
- static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
- {
--    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
-     struct zlib_data *z = g_malloc0(sizeof(struct zlib_data));
-     z_stream *zs = &z->zs;
+diff --git a/migration/migration.c b/migration/migration.c
+index 2c1edb2cb9..3de11ae921 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -996,6 +996,8 @@ static void populate_time_info(MigrationInfo *info, MigrationState *s)
  
-@@ -54,9 +53,8 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
-         error_setg(errp, "multifd %d: deflate init failed", p->id);
-         return -1;
-     }
--    /* We will never have more than page_count pages */
--    z->zbuff_len = page_count * qemu_target_page_size();
--    z->zbuff_len *= 2;
-+    /* To be safe, we reserve twice the size of the packet */
-+    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
-     z->zbuff = g_try_malloc(z->zbuff_len);
-     if (!z->zbuff) {
-         deflateEnd(&z->zs);
-@@ -180,7 +178,6 @@ static int zlib_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
-  */
- static int zlib_recv_setup(MultiFDRecvParams *p, Error **errp)
+ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
  {
--    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
-     struct zlib_data *z = g_malloc0(sizeof(struct zlib_data));
-     z_stream *zs = &z->zs;
++    size_t page_size = qemu_target_page_size();
++
+     info->has_ram = true;
+     info->ram = g_malloc0(sizeof(*info->ram));
+     info->ram->transferred = ram_counters.transferred;
+@@ -1004,12 +1006,11 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
+     /* legacy value.  It is not used anymore */
+     info->ram->skipped = 0;
+     info->ram->normal = ram_counters.normal;
+-    info->ram->normal_bytes = ram_counters.normal *
+-        qemu_target_page_size();
++    info->ram->normal_bytes = ram_counters.normal * page_size;
+     info->ram->mbps = s->mbps;
+     info->ram->dirty_sync_count = ram_counters.dirty_sync_count;
+     info->ram->postcopy_requests = ram_counters.postcopy_requests;
+-    info->ram->page_size = qemu_target_page_size();
++    info->ram->page_size = page_size;
+     info->ram->multifd_bytes = ram_counters.multifd_bytes;
+     info->ram->pages_per_second = s->pages_per_second;
  
-@@ -194,10 +191,8 @@ static int zlib_recv_setup(MultiFDRecvParams *p, Error **errp)
-         error_setg(errp, "multifd %d: inflate init failed", p->id);
-         return -1;
-     }
--    /* We will never have more than page_count pages */
--    z->zbuff_len = page_count * qemu_target_page_size();
--    /* We know compression "could" use more space */
--    z->zbuff_len *= 2;
-+    /* To be safe, we reserve twice the size of the packet */
-+    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
-     z->zbuff = g_try_malloc(z->zbuff_len);
-     if (!z->zbuff) {
-         inflateEnd(zs);
-diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-index 693bddf8c9..cc3b8869c0 100644
---- a/migration/multifd-zstd.c
-+++ b/migration/multifd-zstd.c
-@@ -47,7 +47,6 @@ struct zstd_data {
-  */
- static int zstd_send_setup(MultiFDSendParams *p, Error **errp)
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 7c9deb1921..8125d0015c 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -289,7 +289,8 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
+ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
  {
--    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
-     struct zstd_data *z = g_new0(struct zstd_data, 1);
-     int res;
+     MultiFDPacket_t *packet = p->packet;
+-    uint32_t pages_max = MULTIFD_PACKET_SIZE / qemu_target_page_size();
++    size_t page_size = qemu_target_page_size();
++    uint32_t pages_max = MULTIFD_PACKET_SIZE / page_size;
+     RAMBlock *block;
+     int i;
  
-@@ -67,9 +66,8 @@ static int zstd_send_setup(MultiFDSendParams *p, Error **errp)
-                    p->id, ZSTD_getErrorName(res));
-         return -1;
-     }
--    /* We will never have more than page_count pages */
--    z->zbuff_len = page_count * qemu_target_page_size();
--    z->zbuff_len *= 2;
-+    /* To be safe, we reserve twice the size of the packet */
-+    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
-     z->zbuff = g_try_malloc(z->zbuff_len);
-     if (!z->zbuff) {
-         ZSTD_freeCStream(z->zcs);
-@@ -191,7 +189,6 @@ static int zstd_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
-  */
- static int zstd_recv_setup(MultiFDRecvParams *p, Error **errp)
- {
--    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
-     struct zstd_data *z = g_new0(struct zstd_data, 1);
-     int ret;
+@@ -358,14 +359,14 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
+     for (i = 0; i < p->pages->used; i++) {
+         uint64_t offset = be64_to_cpu(packet->offset[i]);
  
-@@ -212,10 +209,8 @@ static int zstd_recv_setup(MultiFDRecvParams *p, Error **errp)
-         return -1;
+-        if (offset > (block->used_length - qemu_target_page_size())) {
++        if (offset > (block->used_length - page_size)) {
+             error_setg(errp, "multifd: offset too long %" PRIu64
+                        " (max " RAM_ADDR_FMT ")",
+                        offset, block->used_length);
+             return -1;
+         }
+         p->pages->iov[i].iov_base = block->host + offset;
+-        p->pages->iov[i].iov_len = qemu_target_page_size();
++        p->pages->iov[i].iov_len = page_size;
      }
  
--    /* We will never have more than page_count pages */
--    z->zbuff_len = page_count * qemu_target_page_size();
--    /* We know compression "could" use more space */
--    z->zbuff_len *= 2;
-+    /* To be safe, we reserve twice the size of the packet */
-+    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
-     z->zbuff = g_try_malloc(z->zbuff_len);
-     if (!z->zbuff) {
-         ZSTD_freeDStream(z->zds);
+     return 0;
+diff --git a/migration/savevm.c b/migration/savevm.c
+index d59e976d50..0bef031acb 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1685,6 +1685,7 @@ static int loadvm_postcopy_handle_advise(MigrationIncomingState *mis,
+ {
+     PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_ADVISE);
+     uint64_t remote_pagesize_summary, local_pagesize_summary, remote_tps;
++    size_t page_size = qemu_target_page_size();
+     Error *local_err = NULL;
+ 
+     trace_loadvm_postcopy_handle_advise();
+@@ -1741,13 +1742,13 @@ static int loadvm_postcopy_handle_advise(MigrationIncomingState *mis,
+     }
+ 
+     remote_tps = qemu_get_be64(mis->from_src_file);
+-    if (remote_tps != qemu_target_page_size()) {
++    if (remote_tps != page_size) {
+         /*
+          * Again, some differences could be dealt with, but for now keep it
+          * simple.
+          */
+         error_report("Postcopy needs matching target page sizes (s=%d d=%zd)",
+-                     (int)remote_tps, qemu_target_page_size());
++                     (int)remote_tps, page_size);
+         return -1;
+     }
+ 
 -- 
 2.33.1
 
