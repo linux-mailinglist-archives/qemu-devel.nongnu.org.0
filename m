@@ -2,80 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C56C45CB61
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 18:51:14 +0100 (CET)
-Received: from localhost ([::1]:50556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB1C45CBB1
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 18:59:49 +0100 (CET)
+Received: from localhost ([::1]:34684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpwQK-0002do-P6
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 12:51:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38078)
+	id 1mpwYd-000356-U4
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 12:59:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mpwP8-0001sZ-1v
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 12:49:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46555)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mpwWN-0008Fm-E6
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 12:57:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mpwP4-0000q2-Hn
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 12:49:56 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mpwWJ-0002Dc-TI
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 12:57:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637776193;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZK+9Orb7fUwvKvi5uLwvORbbZi/VUhl2aMCKnlB8SPA=;
- b=e/zt+SEMdozgJ9kqM6H5RMPlF0fptamw+I5L5vyeydwsFPtpmxg3rlib0jJBktGsTP+lKu
- YJtx0Leuj10PlO0GP7bVEUrhGuFkNylsfmJ7p+mNr5RmJLraQx5jD5d7fWcnkBQuCVl5hU
- rr53MPx5ycfs5FbNQSPTBZ8Pqa2oQvI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1637776642;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=xgrwY3EFaJ8SCSjz/NQ5Wh/uHsMp5G3K1CXWMKPk5S4=;
+ b=Ace/kUkd9uHbfsgvdeBhK4SE8rMWqSagc+nCHY74GlQasBNpYXvbYS8M6sEamT+aldhgmf
+ p/EkHH4uyrPICp1SZdxvbiWs62U+6f4/i7aCluKt8qYtlOBWLebVXYe1LrqQ8PsPi9RhNe
+ f4puCudeYx/KlDz2YYmyzQy16fToWLI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-tf8-AdPFMdqexeM1kPSd4w-1; Wed, 24 Nov 2021 12:49:51 -0500
-X-MC-Unique: tf8-AdPFMdqexeM1kPSd4w-1
-Received: by mail-wr1-f69.google.com with SMTP id
- k15-20020adfe8cf000000b00198d48342f9so676161wrn.0
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 09:49:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ZK+9Orb7fUwvKvi5uLwvORbbZi/VUhl2aMCKnlB8SPA=;
- b=fizTnF7ZVvHJy7OPrvblb8DocHIkAwnyiwaD+EmyPRzOYBh0PWtDgKLn6a9R88atY5
- m1fbSu2iteYptob6vW4NbhfLZvA8zREo+5rAsZHbAli/BD1wDbIilk3R1jF/wdqYdW6s
- 4Jbm+F+7cPIxX+IjnEonL1UGjqzLjmFTD4ij/XfJRvrZIrzFNQHRyGtiqTMUNmZgVeru
- P4xhKbBvd9BaWdwxcwizEiIV2U+HwgijMGdyrZsrviVXsNR18MJ2SCYP8OVsRNkRzgLH
- L7SB7n7y6+uBYGN0RG83EDgyvTcepy6S6tP2MPnN1kGAE6ozlSUR2Wz1vTVKdGDFsC2R
- aASw==
-X-Gm-Message-State: AOAM533v3nUOUSM54KSJ0ukl0yg8hLxp4xsVHdD8TcZD0jpTVBWqPFYn
- uJhzEwWHuiqHmGYg036I522kDuuMMipAeP7GcLQConIA09IcVNEUQuHiW15HWTNL9fxiR7KX86F
- wusrYF4575ciUmHs=
-X-Received: by 2002:a5d:548b:: with SMTP id h11mr17696629wrv.200.1637776190650; 
- Wed, 24 Nov 2021 09:49:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzoIY6kg7MBmMK2tv8ZFHPwEpj9VpEUAgy3STSPVTGcWZFxLybcQIiFtJUboAZwDh6QyMe16Q==
-X-Received: by 2002:a5d:548b:: with SMTP id h11mr17696597wrv.200.1637776190413; 
- Wed, 24 Nov 2021 09:49:50 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id y12sm461272wrn.73.2021.11.24.09.49.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 09:49:49 -0800 (PST)
-Date: Wed, 24 Nov 2021 17:49:47 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Tyler Fanelli <tfanelli@redhat.com>, dovmurik@linux.ibm.com
+ us-mta-394-72Krb9BzMwyNLzB0cwrhww-1; Wed, 24 Nov 2021 12:57:17 -0500
+X-MC-Unique: 72Krb9BzMwyNLzB0cwrhww-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD25383DCC9
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 17:57:16 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA5B81B4B8;
+ Wed, 24 Nov 2021 17:57:15 +0000 (UTC)
+Date: Wed, 24 Nov 2021 17:57:13 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Tyler Fanelli <tfanelli@redhat.com>
 Subject: Re: SEV guest attestation
-Message-ID: <YZ57O1d+0IPl3DS/@work-vm>
+Message-ID: <YZ58+T04uVXaO2Ab@redhat.com>
 References: <8b0c6f36-8a11-eeff-8bab-68c47fe95fbe@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <8b0c6f36-8a11-eeff-8bab-68c47fe95fbe@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -96,12 +79,13 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Ferlan <jferlan@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: John Ferlan <jferlan@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Tyler Fanelli (tfanelli@redhat.com) wrote:
+On Wed, Nov 24, 2021 at 11:34:16AM -0500, Tyler Fanelli wrote:
 > Hi,
 > 
 > We recently discussed a way for remote SEV guest attestation through QEMU.
@@ -117,27 +101,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > cloud, and a guest owner would like to perform attestation via QMP (a likely
 > scenario), yet a cloud provider cannot simply let anyone pass arbitrary QMP
 > commands, as this could be an issue.
-> 
+
+As a general point, QMP is a low level QEMU implementation detail,
+which is generally expected to be consumed exclusively on the host
+by a privileged mgmt layer, which will in turn expose its own higher
+level APIs to users or other apps. I would not expect to see QMP
+exposed to anything outside of the privileged host layer.
+
+We also use the QAPI protocol for QEMU guest agent commmunication,
+however, that is a distinct service from QMP on the host. It shares
+most infra with QMP but has a completely diffent command set. On the
+host it is not consumed inside QEMU, but instead consumed by a
+mgmt app like libvirt. 
+
 > So I ask, does anyone involved in QEMU's SEV implementation have any input
 > on a quality way to perform guest attestation? If so, I'd be interested.
-> Thanks.
 
-QMP is the right way to talk to QEMU; the question is whether something
-sits between qemu and the attestation program - e.g. libvirt or possibly
-subsequently something even higher level.
+I think what's missing is some clearer illustrations of how this
+feature is expected to be consumed in some real world application
+and the use cases we're trying to solve.
 
-Can we start by you putting down what your interfaces look like at the
-moment?
+I'd like to understand how it should fit in with common libvirt
+applications across the different virtualization management
+scenarios - eg virsh (command line),  virt-manger (local desktop
+GUI), cockpit (single host web mgmt), OpenStack (cloud mgmt), etc.
+And of course any non-traditional virt use cases that might be
+relevant such as Kata.
 
-Dave
-
-> 
-> Tyler.
-> 
-> -- 
-> Tyler Fanelli (tfanelli)
-> 
+Regards,
+Daniel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
