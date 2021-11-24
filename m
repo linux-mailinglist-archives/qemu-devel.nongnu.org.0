@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6290E45B5EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 08:50:57 +0100 (CET)
-Received: from localhost ([::1]:33996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D149145B542
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 08:22:02 +0100 (CET)
+Received: from localhost ([::1]:32964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpn3Q-0007K4-Dv
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 02:50:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60266)
+	id 1mpmbR-000170-VY
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 02:22:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mpm3b-0005hi-Ts
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 01:47:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48245)
+ id 1mpm3c-0005hy-G7
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 01:47:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mpm3Z-0005Gt-7a
+ id 1mpm3a-0005HL-FW
  for qemu-devel@nongnu.org; Wed, 24 Nov 2021 01:47:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637736420;
+ s=mimecast20190719; t=1637736421;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5TZ4B9vgqjozeQi0aZftOEUaftScXZmdfoUaQoaeBfc=;
- b=QR2730BOT5ms2t30a4R8OGZm567QlvJh2V54Hl0uAFRkAsCML7WmOdw+DN7zNdW7inRwx4
- 3xa6bQpbA+xrmaCb//uFb6KI554Yw4lyFAquQv1aV3Bjhusnj8ubBOY/kdcRbu46pbbg6h
- J8h4PUJP52nN2eP9dzYEtF3zhw+vXKk=
+ bh=iSOqCLMO+aHeGD+8Mr1igEix9uoxDGST7t6WvYYSr3s=;
+ b=RLJ3zf9tAQjxM1DgaTeO1CMrPWQsJTjsThcbBk1xSSfNWsV0PDKLpAdFdAvMiLSOObLgGM
+ 0jyuK+EZ3UICTidhgJiaUClBnF7PL0EtgQ8xH2sUsoFgp5LfAEaxShNEotw5whHmg0ocMa
+ zOtx7P7/ImumUg4z8LogCRMH7eDZ2qM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-481-SOFueCHfPxuL9bg8GP2HlQ-1; Wed, 24 Nov 2021 01:46:57 -0500
-X-MC-Unique: SOFueCHfPxuL9bg8GP2HlQ-1
+ us-mta-226-LmkqR2_zP8-ZgpoylCAXtw-1; Wed, 24 Nov 2021 01:46:58 -0500
+X-MC-Unique: LmkqR2_zP8-ZgpoylCAXtw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B69083DD20;
- Wed, 24 Nov 2021 06:46:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBA381DDE6;
+ Wed, 24 Nov 2021 06:46:57 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53529694BD;
- Wed, 24 Nov 2021 06:46:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 948D060843;
+ Wed, 24 Nov 2021 06:46:56 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 28/31] block.c: assert BQL lock held in
- bdrv_co_invalidate_cache
-Date: Wed, 24 Nov 2021 01:44:15 -0500
-Message-Id: <20211124064418.3120601-29-eesposit@redhat.com>
+Subject: [PATCH v5 29/31] jobs: introduce pre_run function in JobDriver
+Date: Wed, 24 Nov 2021 01:44:16 -0500
+Message-Id: <20211124064418.3120601-30-eesposit@redhat.com>
 In-Reply-To: <20211124064418.3120601-1-eesposit@redhat.com>
 References: <20211124064418.3120601-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -60,15 +59,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,63 +94,65 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_co_invalidate_cache is special: it is an I/O function,
-but uses the block layer permission API, which is GS.
-
-Because of this, we can assert that either the function is
-being called with BQL held, and thus can use the permission API,
-or make sure that the permission API is not used, by ensuring that
-bs (and parents) .open_flags does not contain BDRV_O_INACTIVE.
+.pre_run takes care of doing some initial job setup just before
+the job is run inside the coroutine. Doing so can be useful
+to invoke GS functions that require the BQL held.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ include/qemu/job.h |  9 +++++++++
+ job.c              | 13 +++++++++++++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/block.c b/block.c
-index a0309f827d..805974676b 100644
---- a/block.c
-+++ b/block.c
-@@ -6574,6 +6574,26 @@ void bdrv_init_with_whitelist(void)
-     bdrv_init();
+diff --git a/include/qemu/job.h b/include/qemu/job.h
+index 4ea7a4a0cd..915ceff425 100644
+--- a/include/qemu/job.h
++++ b/include/qemu/job.h
+@@ -223,6 +223,15 @@ struct JobDriver {
+      * the GS API.
+      */
+ 
++    /**
++     * Called in the Main Loop context, before the job coroutine
++     * is started in the job aiocontext. Useful to perform operations
++     * that needs to be done under BQL (like permissions setup).
++     * On success, it returns 0. Otherwise the job failed to initialize
++     * and won't start.
++     */
++    int (*pre_run)(Job *job, Error **errp);
++
+     /**
+      * Called when the job is resumed by the user (i.e. user_paused becomes
+      * false). .user_resume is called before .resume.
+diff --git a/job.c b/job.c
+index bb57ec6887..e048037099 100644
+--- a/job.c
++++ b/job.c
+@@ -967,11 +967,24 @@ static void coroutine_fn job_co_entry(void *opaque)
+     aio_bh_schedule_oneshot(qemu_get_aio_context(), job_exit, job);
  }
  
-+static bool bdrv_is_active(BlockDriverState *bs)
++static int job_pre_run(Job *job)
 +{
-+    BdrvChild *parent;
-+
-+    if (bs->open_flags & BDRV_O_INACTIVE) {
-+        return false;
++    assert(qemu_in_main_thread());
++    if (job->driver->pre_run) {
++        return job->driver->pre_run(job, &job->err);
 +    }
 +
-+    QLIST_FOREACH(parent, &bs->parents, next_parent) {
-+        if (parent->klass->parent_is_bds) {
-+            BlockDriverState *parent_bs = parent->opaque;
-+            if (!bdrv_is_active(parent_bs)) {
-+                return false;
-+            }
-+        }
-+    }
-+
-+   return true;
++    return 0;
 +}
 +
- int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
+ void job_start(Job *job)
  {
-     BdrvChild *child, *parent;
-@@ -6585,6 +6605,12 @@ int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
-         return -ENOMEDIUM;
-     }
- 
-+    /*
-+     * No need to muck with permissions if bs is active.
-+     * TODO: should activation be a separate function?
-+     */
-+    assert(qemu_in_main_thread() || bdrv_is_active(bs));
-+
-     QLIST_FOREACH(child, &bs->children, next) {
-         bdrv_co_invalidate_cache(child->bs, &local_err);
-         if (local_err) {
+     assert(job && !job_started(job) && job->paused &&
+            job->driver && job->driver->run);
+     job->co = qemu_coroutine_create(job_co_entry, job);
++    if (job_pre_run(job)) {
++        return;
++    }
+     job->pause_count--;
+     job->busy = true;
+     job->paused = false;
 -- 
 2.27.0
 
