@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5350B45B541
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 08:20:54 +0100 (CET)
-Received: from localhost ([::1]:59094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CD745B510
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 08:13:42 +0100 (CET)
+Received: from localhost ([::1]:49900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpmaL-00084M-Cz
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 02:20:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59918)
+	id 1mpmTM-0001lb-7I
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 02:13:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mpm3K-0005Pd-RP
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 01:46:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43696)
+ id 1mpm3L-0005Q3-SZ
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 01:46:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mpm3J-0005Bc-C1
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 01:46:46 -0500
+ id 1mpm3K-0005Bw-7V
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 01:46:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637736404;
+ s=mimecast20190719; t=1637736405;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bdcAPbgEkrEfQWk3868wWkAC6AxcfZlphXdju4XwYEs=;
- b=Mpo4QzOiMBZ21EMIJiBu1Afaq2bq1yDBeEJEw0h0NeaQTxhGejUPykQg4dxWDn3sNhMije
- PdJFTp2n4/kWDuGMW8fyfJOAKsTQZYbcdkde6plPDJrwzIAc5NV0aEL5XwGeupfE9Ubv3X
- J5s9jpdrOAQZQOOVqAFo832NVFqigVg=
+ bh=PFje0L5qWjlDHU4tJ8RAu2VBxap0qb7E+kqJWatXX9c=;
+ b=GsbYtm4xSv/D9VndVI2DaBz/I0n5bnu7ANYuB/D1gNGsyYkLdVE1lesW+puuqYxgrlNFsw
+ DZhPSBJIS5/16eSNn3FyRHAoKjSEYoenGNA9Q1RUexC+GSPEAw1FtDB8rVwYHi/ObRuz2S
+ xnQWNtWs9zB+wd7Hj7dg1bbxJGLdbDY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-12-oYrY6LfdMBeaxFlu9pz4rQ-1; Wed, 24 Nov 2021 01:46:43 -0500
-X-MC-Unique: oYrY6LfdMBeaxFlu9pz4rQ-1
+ us-mta-188-RMBNf8AfNfqebVM4suQn7g-1; Wed, 24 Nov 2021 01:46:44 -0500
+X-MC-Unique: RMBNf8AfNfqebVM4suQn7g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 495AE1DDE6;
- Wed, 24 Nov 2021 06:46:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89E671DDE3;
+ Wed, 24 Nov 2021 06:46:43 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1544C60843;
- Wed, 24 Nov 2021 06:46:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 62E9A60843;
+ Wed, 24 Nov 2021 06:46:42 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 19/31] block/copy-before-write.h: global state API +
- assertions
-Date: Wed, 24 Nov 2021 01:44:06 -0500
-Message-Id: <20211124064418.3120601-20-eesposit@redhat.com>
+Subject: [PATCH v5 20/31] block/coroutines: I/O API
+Date: Wed, 24 Nov 2021 01:44:07 -0500
+Message-Id: <20211124064418.3120601-21-eesposit@redhat.com>
 In-Reply-To: <20211124064418.3120601-1-eesposit@redhat.com>
 References: <20211124064418.3120601-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -95,54 +94,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-copy-before-write functions always run under BQL lock.
+block coroutines functions run in different aiocontext, and are
+not protected by the BQL. Therefore are I/O.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/copy-before-write.h | 7 +++++++
- block/copy-before-write.c | 2 ++
- 2 files changed, 9 insertions(+)
+ block/coroutines.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/block/copy-before-write.h b/block/copy-before-write.h
-index 51847e711a..9a45de2fce 100644
---- a/block/copy-before-write.h
-+++ b/block/copy-before-write.h
-@@ -29,6 +29,13 @@
- #include "block/block_int.h"
- #include "block/block-copy.h"
+diff --git a/block/coroutines.h b/block/coroutines.h
+index c8c14a29c8..c61abd271a 100644
+--- a/block/coroutines.h
++++ b/block/coroutines.h
+@@ -29,6 +29,12 @@
  
+ /* For blk_bs() in generated block/block-gen.c */
+ #include "sysemu/block-backend.h"
 +/*
-+ * Global state (GS) API. These functions run under the BQL lock.
++ * I/O API functions. These functions are thread-safe.
 + *
-+ * See include/block/block-global-state.h for more information about
-+ * the GS API.
++ * See include/block/block-io.h for more information about
++ * the I/O API.
 + */
-+
- BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
-                                   BlockDriverState *target,
-                                   const char *filter_node_name,
-diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index c30a5ff8de..36a8d7ba52 100644
---- a/block/copy-before-write.c
-+++ b/block/copy-before-write.c
-@@ -223,6 +223,7 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
-     QDict *opts;
  
-     assert(source->total_sectors == target->total_sectors);
-+    assert(qemu_in_main_thread());
- 
-     opts = qdict_new();
-     qdict_put_str(opts, "driver", "copy-before-write");
-@@ -245,6 +246,7 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
- 
- void bdrv_cbw_drop(BlockDriverState *bs)
- {
-+    assert(qemu_in_main_thread());
-     bdrv_drop_filter(bs, &error_abort);
-     bdrv_unref(bs);
- }
+ int coroutine_fn bdrv_co_check(BlockDriverState *bs,
+                                BdrvCheckResult *res, BdrvCheckMode fix);
 -- 
 2.27.0
 
