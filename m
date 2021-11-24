@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CAE45B68D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 09:30:53 +0100 (CET)
-Received: from localhost ([::1]:48178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5AA345B697
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 09:33:51 +0100 (CET)
+Received: from localhost ([::1]:51352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpng4-0004IM-Ux
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 03:30:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33656)
+	id 1mpniw-0006JV-Nm
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 03:33:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mpneQ-0003T0-Kn
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 03:29:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36570)
+ id 1mpnhW-0005TO-D8
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 03:32:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mpneN-0003R3-KV
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 03:29:09 -0500
+ id 1mpnhU-0003za-RM
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 03:32:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637742547;
+ s=mimecast20190719; t=1637742740;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4tJqwogvlYepBOeDi+mr3XmI4phAc8kIeSHxjwb3pno=;
- b=W4C0wTeOzMyfLQzCzL5q6Y0Fn0BzqLCmRO+eoD43txRpmbh3kA7NJLMKR2YL3vl78UnadQ
- D1PGVTvh2izgq6fRFDc4pXg21y19DHnfyb5eMChAVzNHYtlHDFYLughu0vZBa5PRcjXGFL
- k8WTYSBX/8mumSB0H92XfK3fUG5Vbcg=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4s/8FqHwkWavN9oCkdXiV1XpPXfPfq5lgxa86btWeYo=;
+ b=aewyNK2Tdy1NkUaW6/Yrt1oR6lEY4iq+R0IpAs8WcDzCiZPU6Dugxk+pugflLmVvfxHWzY
+ rti9qJrNDuPZlHN4ROSiAj+3lzP9xT2rT233T4ePGuKNMJNYkSNMM4TKjZ3UXChycmO1T7
+ u4PitNBuapu6CU4RtZx4qtdDDvyv3T8=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-412-MK5xY1R_OgGbK2lwZCReGg-1; Wed, 24 Nov 2021 03:29:05 -0500
-X-MC-Unique: MK5xY1R_OgGbK2lwZCReGg-1
-Received: by mail-lf1-f70.google.com with SMTP id
- m2-20020a056512014200b0041042b64791so1049101lfo.6
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 00:29:05 -0800 (PST)
+ us-mta-490-FkraZztJMISo6GYHBDleMw-1; Wed, 24 Nov 2021 03:32:19 -0500
+X-MC-Unique: FkraZztJMISo6GYHBDleMw-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ k5-20020a05651210c500b0040934a07fbdso1029800lfg.22
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 00:32:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=4tJqwogvlYepBOeDi+mr3XmI4phAc8kIeSHxjwb3pno=;
- b=Pd+rRzTCHJYq0BH2s9A1KCdJa8edJQEroaEnz8FsxgRNK6HCyWteQxhn2oZas752jA
- QffsTUdUDg5nNzWhxk5at6l/CWpromplSCUZyEcw2wMnVLSkoc1WZeFvsOUxqLaxnN6Y
- ExQ/wRHJ2VOQS9CmaVRnF4F8jyfwxR2zoMV+wZfD528rswfWxT3C8Yvt1YuPRpYL6AAj
- ClsOUjcBSJ252Ojf8y/YjZjkiqQEo5Mts2TCH+H4a7iV1Ox5bcAenLrkLNBma0TI+FOH
- IVQXEVHoYVP6ryEJH2sQ4ZTgVryrlLkDexpWUPqsLoUCsv3quxqRPewwPPZ9LtmOt0hk
- /avg==
-X-Gm-Message-State: AOAM532wfbTuILUltKh2O7C9roBoWPf+lTaJX6CXxzuP+QmGFUJr9xMd
- liACOajNIineyUjWGCcMNgfFSwmwqbE8wFZuGBhamKJVGz1iqFvjZylKQLs+k3nhanAFloid8XZ
- mZ26dTBi3XRwJLEvmwoGPornPq8vt07s=
-X-Received: by 2002:a05:6512:685:: with SMTP id
- t5mr12525838lfe.84.1637742544247; 
- Wed, 24 Nov 2021 00:29:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz9iiskTzRe1zcZIpp8ePpR1M5Cs2xhRYcYHnmqKDiqK6sSI6zhGO7M5zMu59nS8eXBm5g+OWqJ2bjuai+hxiA=
-X-Received: by 2002:a05:6512:685:: with SMTP id
- t5mr12525795lfe.84.1637742543858; 
- Wed, 24 Nov 2021 00:29:03 -0800 (PST)
+ bh=4s/8FqHwkWavN9oCkdXiV1XpPXfPfq5lgxa86btWeYo=;
+ b=06EsDD7MdeKSyQDLgHwE2OWQ93103An3g3Xlr2hrP/x1b51591/Wcv9zTmlWZM0906
+ IjSNYzzJf+Ru5hLq0OcUSqQFbDDJiezLMZfMJoinM5WWqFxP5vbE/z3GuH3U6LgWyb2L
+ Il65bZ9rKcLOhzS1Gq+4iyAjMdNVYYwwcCA8+/ldNZB4nRqPkW+GH0k6pFUeWaQXqPIF
+ 4xZsa6hcaGajDSwkTe0G3eeJX4IDMpx20FfpMloA1FWzUZDo+/C8rel+UuuZhT+p8+hu
+ UZGhDihie0cj5FiHfPw1IaKJVHgXI/qKzKh5EeCu9YYAo02vlFiWTm8LbM7G7IV7k7Is
+ nNZQ==
+X-Gm-Message-State: AOAM533BufrHwG1y+oleSWFPyDyVv0Ei+RDsqnPvBzm2dIknZstNyPmt
+ 0Yhz+t1cVLHA4kBiKLRFJnX38VCS8OlgVnd4DhoF91hmefucgDer1bwyDkbHkqYSV5pFdEWTjzP
+ FPj3ETXIVp/YSoxPQeCuCEKeFCJjzBTY=
+X-Received: by 2002:a2e:b88d:: with SMTP id r13mr12990951ljp.362.1637742737444; 
+ Wed, 24 Nov 2021 00:32:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwUmDysWcdnCGgTU36RMjkFbh9lelpxQKSDTcpdusIIR4IMs+FA9Q+qig3J3z940ga45Hiri2VEHNRvT++yfls=
+X-Received: by 2002:a2e:b88d:: with SMTP id r13mr12990919ljp.362.1637742737236; 
+ Wed, 24 Nov 2021 00:32:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20211124060309.6872-1-jasowang@redhat.com>
- <YZ3wXo5XueDtuk8c@xz-m1.local>
-In-Reply-To: <YZ3wXo5XueDtuk8c@xz-m1.local>
+References: <20211124043255.6050-1-jasowang@redhat.com>
+ <20211124020118-mutt-send-email-mst@kernel.org>
+ <CACGkMEsGX6y9cppLoGGsNtoJvbw4TLBVo2V0TFLOGr-JybXA-w@mail.gmail.com>
+ <20211124032456-mutt-send-email-mst@kernel.org>
+ <CACGkMEuHkM7DDN=xoJ=WHki+6SyB_cUfMr7q0yawYucvf3yBWQ@mail.gmail.com>
+In-Reply-To: <CACGkMEuHkM7DDN=xoJ=WHki+6SyB_cUfMr7q0yawYucvf3yBWQ@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 24 Nov 2021 16:28:52 +0800
-Message-ID: <CACGkMEvLAThn7VFtB2xeaP+bzPtnVwj0Orzpt=nK5Bg2h6QZow@mail.gmail.com>
-Subject: Re: [PATCH] intel-iommu: ignore SNP bit in scalable mode
-To: Peter Xu <peterx@redhat.com>
+Date: Wed, 24 Nov 2021 16:32:06 +0800
+Message-ID: <CACGkMEuiUj_d31fcQxKW0MBZQm7sDsYGZw2c5zo6Pt9cVTZWRA@mail.gmail.com>
+Subject: Re: [PATCH] virtio-balloon: correct used length
+To: "Michael S. Tsirkin" <mst@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,220 +93,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Yi L" <yi.l.liu@intel.com>, yi.y.sun@linux.intel.com,
- qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>, qemu-devel <qemu-devel@nongnu.org>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 24, 2021 at 3:57 PM Peter Xu <peterx@redhat.com> wrote:
+On Wed, Nov 24, 2021 at 4:28 PM Jason Wang <jasowang@redhat.com> wrote:
 >
-> On Wed, Nov 24, 2021 at 02:03:09PM +0800, Jason Wang wrote:
-> > When booting with scalable mode, I hit this error:
+> On Wed, Nov 24, 2021 at 4:25 PM Michael S. Tsirkin <mst@redhat.com> wrote:
 > >
-> > qemu-system-x86_64: vtd_iova_to_slpte: detected splte reserve non-zero iova=0xfffff002, level=0x1slpte=0x102681803)
-> > qemu-system-x86_64: vtd_iommu_translate: detected translation failure (dev=01:00:00, iova=0xfffff002)
-> > qemu-system-x86_64: New fault is not recorded due to compression of faults
+> > On Wed, Nov 24, 2021 at 03:58:22PM +0800, Jason Wang wrote:
+> > > On Wed, Nov 24, 2021 at 3:03 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > On Wed, Nov 24, 2021 at 12:32:55PM +0800, Jason Wang wrote:
+> > > > > Spec said:
+> > > > >
+> > > > > "and len the total of bytes written into the buffer."
+> > > > >
+> > > > > For inflateq, deflateq and statsq, we don't process in_sg so the used
+> > > > > length should be zero. For free_page_vq, though the free pages are
+> > > > > supplied via in_sgs, zero used length should still be fine since
+> > > > > anyway driver is expected to use the length in this case and it
+> > > > > simplifies the error handling path.
+> > > > >
+> > > > > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > > >
+> > > > I think for free page vq the point is that the pages are
+> > > > zeroed by hypervisor, so we must set used len accordingly. No?
+> > >
+> > > I may miss something, I think it is used for clearing the dirty
+> > > bitmaps to avoid migrating unused pages, the zeroing is not needed.
+> > >
+> > > Thanks
 > >
-> > This is because the SNP bit is set since Linux kernel commit
-> > 6c00612d0cba1 ("iommu/vt-d: Report right snoop capability when using
-> > FL for IOVA") where SNP bit is set if scalable mode is on though this
-> > seems to be an violation on the spec which said the SNP bit is
-> > considered to be reserved if SC is not supported.
+> > And, once the page is migrated, it's value on destination may differ
+> > from one on source.
 >
-> When I was reading that commit, I was actually confused by this change:
+> Right, I will fix this in the next version.
 >
-> ---8<---
-> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-> index 956a02eb40b4..0ee5f1bd8af2 100644
-> --- a/drivers/iommu/intel/iommu.c
-> +++ b/drivers/iommu/intel/iommu.c
-> @@ -658,7 +658,14 @@ static int domain_update_iommu_snooping(struct intel_iommu *skip)
->         rcu_read_lock();
->         for_each_active_iommu(iommu, drhd) {
->                 if (iommu != skip) {
-> -                       if (!ecap_sc_support(iommu->ecap)) {
-> +                       /*
-> +                        * If the hardware is operating in the scalable mode,
-> +                        * the snooping control is always supported since we
-> +                        * always set PASID-table-entry.PGSNP bit if the domain
-> +                        * is managed outside (UNMANAGED).
-> +                        */
-> +                       if (!sm_supported(iommu) &&
-> +                           !ecap_sc_support(iommu->ecap)) {
->                                 ret = 0;
->                                 break;
->                         }
-> ---8<---
->
-> Does it mean that for some hardwares that has sm_supported()==true, it'll have
-> SC bit cleared in ecap register?
+> Thanks
 
-I guess not, so it's probably only the problem of vIOMMU.
+Btw in the get_free_page_hints() I see this:
 
-> That sounds odd, and not sure why.  Maybe Yi
-> Liu or Yi Sun may know?
+    if (elem->in_num && dev->free_page_hint_status == FREE_PAGE_HINT_S_START) {
+qemu_guest_free_page_hint(elem->in_sg[0].iov_base,
+                                  elem->in_sg[0].iov_len);
+    }
 
-Another interesting point is that, it looks to me after that commit
-SNP is used for the domain that is not UNMANAGED even if PGSNP is not
-set.
-
-
->
-> >
-> > To unbreak the guest, ignore the SNP bit for scalable mode first. In
-> > the future we may consider to add SC support.
->
-> Oh yes, I remembered the last time we discussed this.  Could you remind me
-> what's missing for us to support SC?
-
-Exactly what you described below.
-
->
-> IIUC, for common device emulations we can just declare SC==1, right?
-
-Strictly speaking, only safe for the datapath that is running in the
-Qemu. For things like vhost-user, I'm not sure it can check CC when
-using VFIO.
-
->  As all
-> the DMAs (including kernel accels like vhost) will be from host processors so
-> there're no coherent issues with guest vcpu threads.
->
-> If that's correct, the only challenge is device assignment in any form (I am
-> not familiar with vdpa; so perhaps that includes vfio, vpda and any other kind
-> of assigning host devices to guest?), then we'll try to detect IOMMU_CACHE
-> capability from the host iommu groups that covers the assigned devices, and we
-> only set SC==1 if we have cache coherency on all the devices?
-
-For VFIO yes, and we should prevent VFIO without CC to be plugged if
-SC is advertised.
-
-For vDPA, we don't need to worry about it at all, kernel vDPA forces
-IOMMU_CACHE now.
-
-vhost_vdpa_alloc_domain():
-
-        if (!iommu_capable(bus, IOMMU_CAP_CACHE_COHERENCY))
-                return -ENOTSUPP;
-
-(For device with on-chip IOMMU, it's the parent and device that
-guarantees the CC)
+It looks like only the first in sg is used, it looks like a bug?
 
 Thanks
 
-
+>
 >
 > >
-> > Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > ---
-> >  hw/i386/intel_iommu.c          | 18 ++++++++++++------
-> >  hw/i386/intel_iommu_internal.h |  2 ++
-> >  2 files changed, 14 insertions(+), 6 deletions(-)
+> > > >
+> > > > > ---
+> > > > >  hw/virtio/virtio-balloon.c | 6 +++---
+> > > > >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > > > >
+> > > > > diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> > > > > index c6962fcbfe..3e52daa793 100644
+> > > > > --- a/hw/virtio/virtio-balloon.c
+> > > > > +++ b/hw/virtio/virtio-balloon.c
+> > > > > @@ -231,7 +231,7 @@ static void balloon_stats_poll_cb(void *opaque)
+> > > > >          return;
+> > > > >      }
+> > > > >
+> > > > > -    virtqueue_push(s->svq, s->stats_vq_elem, s->stats_vq_offset);
+> > > > > +    virtqueue_push(s->svq, s->stats_vq_elem, 0);
+> > > > >      virtio_notify(vdev, s->svq);
+> > > > >      g_free(s->stats_vq_elem);
+> > > > >      s->stats_vq_elem = NULL;
+> > > > > @@ -438,7 +438,7 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+> > > > >              memory_region_unref(section.mr);
+> > > > >          }
+> > > > >
+> > > > > -        virtqueue_push(vq, elem, offset);
+> > > > > +        virtqueue_push(vq, elem, 0);
+> > > > >          virtio_notify(vdev, vq);
+> > > > >          g_free(elem);
+> > > > >          virtio_balloon_pbp_free(&pbp);
+> > > > > @@ -549,7 +549,7 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
+> > > > >      }
+> > > > >
+> > > > >  out:
+> > > > > -    virtqueue_push(vq, elem, 1);
+> > > > > +    virtqueue_push(vq, elem, 0);
+> > > > >      g_free(elem);
+> > > > >      return ret;
+> > > > >  }
+> > > > > --
+> > > > > 2.25.1
+> > > >
 > >
-> > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> > index 294499ee20..3bcac56c3e 100644
-> > --- a/hw/i386/intel_iommu.c
-> > +++ b/hw/i386/intel_iommu.c
-> > @@ -969,7 +969,8 @@ static dma_addr_t vtd_get_iova_pgtbl_base(IntelIOMMUState *s,
-> >  static uint64_t vtd_spte_rsvd[5];
-> >  static uint64_t vtd_spte_rsvd_large[5];
-> >
-> > -static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, uint32_t level)
-> > +static bool vtd_slpte_nonzero_rsvd(IntelIOMMUState *s,
-> > +                                   uint64_t slpte, uint32_t level)
-> >  {
-> >      uint64_t rsvd_mask = vtd_spte_rsvd[level];
-> >
-> > @@ -979,6 +980,10 @@ static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, uint32_t level)
-> >          rsvd_mask = vtd_spte_rsvd_large[level];
-> >      }
-> >
-> > +    if (s->scalable_mode) {
-> > +        rsvd_mask &= ~VTD_SPTE_SNP;
-> > +    }
->
-> IMHO what we want to do is only to skip the leaves of pgtables on SNP, so maybe
-> we still want to keep checking the bit 11 reserved for e.g. common pgtable dir
-> entries?
->
-> To do so, how about directly modifying the vtd_spte_rsvd* fields in vtd_init()?
-> I think we only need to modify 4k/2m/1g entries to mask bit 11, they're:
->
->   - vtd_spte_rsvd[1] (4K)
->   - vtd_spte_rsvd_large[2] (2M)
->   - vtd_spte_rsvd_large[3] (1G)
->
-> What do you think?  Then we avoid passing IntelIOMMUState* all over too.
->
-> > +
-> >      return slpte & rsvd_mask;
-> >  }
-> >
-> > @@ -1054,7 +1059,7 @@ static int vtd_iova_to_slpte(IntelIOMMUState *s, VTDContextEntry *ce,
-> >                                iova, level, slpte, is_write);
-> >              return is_write ? -VTD_FR_WRITE : -VTD_FR_READ;
-> >          }
-> > -        if (vtd_slpte_nonzero_rsvd(slpte, level)) {
-> > +        if (vtd_slpte_nonzero_rsvd(s, slpte, level)) {
-> >              error_report_once("%s: detected splte reserve non-zero "
-> >                                "iova=0x%" PRIx64 ", level=0x%" PRIx32
-> >                                "slpte=0x%" PRIx64 ")", __func__, iova,
-> > @@ -1185,7 +1190,8 @@ static int vtd_page_walk_one(IOMMUTLBEvent *event, vtd_page_walk_info *info)
-> >   * @write: whether parent level has write permission
-> >   * @info: constant information for the page walk
-> >   */
-> > -static int vtd_page_walk_level(dma_addr_t addr, uint64_t start,
-> > +static int vtd_page_walk_level(IntelIOMMUState *s,
-> > +                               dma_addr_t addr, uint64_t start,
-> >                                 uint64_t end, uint32_t level, bool read,
-> >                                 bool write, vtd_page_walk_info *info)
-> >  {
-> > @@ -1214,7 +1220,7 @@ static int vtd_page_walk_level(dma_addr_t addr, uint64_t start,
-> >              goto next;
-> >          }
-> >
-> > -        if (vtd_slpte_nonzero_rsvd(slpte, level)) {
-> > +        if (vtd_slpte_nonzero_rsvd(s, slpte, level)) {
-> >              trace_vtd_page_walk_skip_reserve(iova, iova_next);
-> >              goto next;
-> >          }
-> > @@ -1235,7 +1241,7 @@ static int vtd_page_walk_level(dma_addr_t addr, uint64_t start,
-> >               * This is a valid PDE (or even bigger than PDE).  We need
-> >               * to walk one further level.
-> >               */
-> > -            ret = vtd_page_walk_level(vtd_get_slpte_addr(slpte, info->aw),
-> > +            ret = vtd_page_walk_level(s, vtd_get_slpte_addr(slpte, info->aw),
-> >                                        iova, MIN(iova_next, end), level - 1,
-> >                                        read_cur, write_cur, info);
-> >          } else {
-> > @@ -1294,7 +1300,7 @@ static int vtd_page_walk(IntelIOMMUState *s, VTDContextEntry *ce,
-> >          end = vtd_iova_limit(s, ce, info->aw);
-> >      }
-> >
-> > -    return vtd_page_walk_level(addr, start, end, level, true, true, info);
-> > +    return vtd_page_walk_level(s, addr, start, end, level, true, true, info);
-> >  }
-> >
-> >  static int vtd_root_entry_rsvd_bits_check(IntelIOMMUState *s,
-> > diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-> > index 3d5487fe2c..a6c788049b 100644
-> > --- a/hw/i386/intel_iommu_internal.h
-> > +++ b/hw/i386/intel_iommu_internal.h
-> > @@ -388,6 +388,8 @@ typedef union VTDInvDesc VTDInvDesc;
-> >  #define VTD_INV_DESC_DEVICE_IOTLB_RSVD_LO 0xffff0000ffe0fff8
-> >
-> >  /* Rsvd field masks for spte */
-> > +#define VTD_SPTE_SNP 0x800ULL
-> > +
-> >  #define VTD_SPTE_PAGE_L1_RSVD_MASK(aw, dt_supported) \
-> >          dt_supported ? \
-> >          (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
-> > --
-> > 2.25.1
-> >
->
-> --
-> Peter Xu
->
 
 
