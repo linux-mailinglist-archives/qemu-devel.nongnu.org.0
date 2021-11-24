@@ -2,75 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165B345CAB3
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 18:12:03 +0100 (CET)
-Received: from localhost ([::1]:44214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D6D45CAC9
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 18:22:37 +0100 (CET)
+Received: from localhost ([::1]:33758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpvoP-0000PJ-PX
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 12:12:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54718)
+	id 1mpvye-0004Fy-Fh
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 12:22:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mpvmh-0005uf-Ud
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 12:10:16 -0500
-Received: from [2a00:1450:4864:20::434] (port=34398
- helo=mail-wr1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mpvmd-0008M1-L3
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 12:10:15 -0500
-Received: by mail-wr1-x434.google.com with SMTP id j3so5511510wrp.1
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 09:10:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lUgGk4Y9SUXNaFFkMjbf7Vqvt0fKzJOmKbaBE7oKM/Y=;
- b=izxyB96QZlXb1bVnPQG4S0OTyE9FR1Iz3rJmEtKxhuryNiJxQxEu2MccLd7jy29T1G
- ygfja0JXXq7wK4Onyx+/0Y/S4kqRabhLoYoYKcIo9ka/cUiFbBxfTS1u+gmpHpJJde8E
- 0K8TA6YZrV/lPCnVLBTGVL/dCqeXCOYW7cQ4C4sIEcrV2Ot1xrRJK4EyuefPqZNa9rSM
- oSrVEMT1chhtBsNol98ZkxzXLFr/G8+GGrb4GXLmt7zozVfTRGSyxXwg5rnqzvc2bUyc
- 3cp5yb0fNgxb2680Z8KQGQCCIWtiVw2OkMC///rwa5CwAHwQZ/7Srihv4T7C4g4AU2WC
- GUFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lUgGk4Y9SUXNaFFkMjbf7Vqvt0fKzJOmKbaBE7oKM/Y=;
- b=gYd1uUnLPEiwYfW2bym1d5jecn8T+k7QLybBnfLWl0Wn7bRYTvYpQeJZRc0jVBnVSX
- s0bAyKb10HyI92iCvkgBx+Z9ZYXUP7pKiw9k/RMjR2YigbsHWw+M9iEYorbJmcOjgALJ
- mEVY9fVdgOfZ9mbENtc6zDACOVVwViwi4yGc2sGWg9RFyua9qIzFxG/Xeuf3S4tPJzjU
- UCKyNdNFK5XKcN+2AouzXx7d3BvtEqgOWwCci5Y0GpdpnjA9ZzruZKb7+ItmJ1iqfK1U
- 1FpZZtNVXj87ZGjzfS9qaSgVthBcMoUnlBsLfhyss1Pr9JIF+QqAPq07maQZ6qdVdT+C
- jIvg==
-X-Gm-Message-State: AOAM531p6MCLOi4bORUoCtcAGD4aeFNMBstSO6VKNI0gBvfUaRCp0ODs
- vDi8+7SmY8SRP7n8qWZwnJ7IdOWq8p4Fk6ModS1qIg==
-X-Google-Smtp-Source: ABdhPJwP4j6L3/EFJJZpn+IPs4Iy+4t9E47aUqOxz6EfZ15gU9OcALYo+tQcKBpa670YRnpWJY4L2PUWWST+PJ7xess=
-X-Received: by 2002:a05:6000:381:: with SMTP id
- u1mr21382830wrf.302.1637773810027; 
- Wed, 24 Nov 2021 09:10:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mpvwt-00037P-Vv
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 12:20:48 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:49155)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mpvwr-00061v-H6
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 12:20:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=D1wiAW11ZfIg03zPQw1H/lRjsAa8E9/8zx14C6Ksva0=; b=OfUGb0oMb7PHSrTuswCHy/h7K4
+ awtlAhi3KHwIj9f6+12weE6pqevCOTWRA2M+ZsJ1Tmpz9IJt3qB249rhuavLkyEaRMorfvv9sOLKs
+ LBnmRyDaACXkO2NPLqu/LvQ3t1rX2MNUP5gQVY+xjAwjsDi/oci+BIO24GwhaATLRoh/p/PA14bsV
+ 1dZ4wjsmGvzIUJvC1OIwOOSW3BW7UX26eBVgWzbHbjp+9GnxsUAzfYFl6TI7YHBtUnQBXOFowQ959
+ RZL+BNG3GSXcvZ7Ahs24BPI4YgOtq4xqxsY/q8Gs9Em30urORslY2nZNnGSizu78HSq6edGJnpL00
+ W9VTIzZ8eY3LYh2O809J/VvG/PNkj/fgrHVL1Ykp5Nu2PfD0cXMHT5MZkrbQ/hXr6Gg2C9ovgC7wl
+ Nc3nZi+12801aRaO1ulMpW/6+YzmQY0wLSBi+f+CfIBcFZ8fqACDJF1d9y3wdTi6vMyIQZPiae8+l
+ 9iS8oHFdlPpvzvpi7/exmPx3fnLhlrSOqg4GCUIpArUcoh0F0Ct/u6LzUvx2fkQRGK5nMYoyu1pdK
+ RjCDi4WwuPSySzGH/5DRdfqcdTjKYLqtbfckZ5oXyInxvrPywNNVJeynC2/9091cEuFgDNj0iWTQG
+ dMoZb8nxre8uX6fZZ3Z707bXmPlGc82SDm+fqttnY=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Will Cohen <wwcohen@gmail.com>, Keno Fischer <keno@juliacomputing.com>,
+ Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>
+Subject: Re: [PATCH v2 10/11] 9p: darwin: Implement compatibility for mknodat
+Date: Wed, 24 Nov 2021 18:20:42 +0100
+Message-ID: <3039867.d4g7DdiYNH@silver>
+In-Reply-To: <20211122004913.20052-11-wwcohen@gmail.com>
+References: <20211122004913.20052-1-wwcohen@gmail.com>
+ <20211122004913.20052-11-wwcohen@gmail.com>
 MIME-Version: 1.0
-References: <20211123171031.975367-1-peter.maydell@linaro.org>
- <CAFEAcA8XMtAHKY=saAajLc2b03_PHGi+G=iioEpeetuS3Hh5yg@mail.gmail.com>
- <233AD939-3A37-4075-8430-8FFBC6A04836@hxcore.ol>
-In-Reply-To: <233AD939-3A37-4075-8430-8FFBC6A04836@hxcore.ol>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 24 Nov 2021 17:09:58 +0000
-Message-ID: <CAFEAcA_dnt5bSzdkhR99JHVKXL48KqMJDQg7uN6-cyypLfzj7w@mail.gmail.com>
-Subject: Re: [for-6.2] hw/intc/arm_gicv3: Update cached state after
- acknowledging LPI
-To: Shashi Mallela <shashi.mallela@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,42 +67,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Nov 2021 at 19:22, Shashi Mallela <shashi.mallela@linaro.org> wrote:
->
-> Since LPIs do not have an active or active and pending state,the current implementation only clears the LPI pending state from the pending table once ICC_IAR1_EL1 acknowledges the interrupt.
->
-> But, as part of gicv3_lpi_pending() processing, cs->hpplpi is updated with the next best priotiy lpi (only if the current acknowledged irq was best priority irq).
+On Montag, 22. November 2021 01:49:12 CET Will Cohen wrote:
+> From: Keno Fischer <keno@juliacomputing.com>
+> 
+> Darwin does not support mknodat. However, to avoid race conditions
+> with later setting the permissions, we must avoid using mknod on
+> the full path instead. We could try to fchdir, but that would cause
+> problems if multiple threads try to call mknodat at the same time.
+> However, luckily there is a solution: Darwin as an (unexposed in the
+> C library) system call that sets the cwd for the current thread only.
+> This should suffice to use mknod safely.
+> 
+> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> [Will Cohen: - Adjust coding style]
+> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> ---
+>  hw/9pfs/9p-local.c       |  5 +++--
+>  hw/9pfs/9p-util-darwin.c | 33 +++++++++++++++++++++++++++++++++
+>  hw/9pfs/9p-util-linux.c  |  5 +++++
+>  hw/9pfs/9p-util.h        |  2 ++
+>  4 files changed, 43 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> index 4268703d05..42b65e143b 100644
+> --- a/hw/9pfs/9p-local.c
+> +++ b/hw/9pfs/9p-local.c
+> @@ -673,7 +673,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
+> *dir_path,
+> 
+>      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
+>          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+> -        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+> +        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+>          if (err == -1) {
+>              goto out;
+>          }
+> @@ -688,7 +688,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
+> *dir_path, }
+>      } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
+>                 fs_ctx->export_flags & V9FS_SM_NONE) {
+> -        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
+> +        err = qemu_mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
+>          if (err == -1) {
+>              goto out;
+>          }
+> @@ -701,6 +701,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
+> *dir_path,
+> 
+>  err_end:
+>      unlinkat_preserve_errno(dirfd, name, 0);
+> +
+>  out:
+>      close_preserve_errno(dirfd);
+>      return err;
+> diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+> index ac414bcbfd..25e67d5067 100644
+> --- a/hw/9pfs/9p-util-darwin.c
+> +++ b/hw/9pfs/9p-util-darwin.c
+> @@ -158,3 +158,36 @@ done:
+>      close_preserve_errno(fd);
+>      return ret;
+>  }
+> +
+> +#ifndef SYS___pthread_fchdir
+> +# define SYS___pthread_fchdir 349
+> +#endif
+> +
+> +/*
+> + * This is an undocumented OS X syscall. It would be best to avoid it,
+> + * but there doesn't seem to be another safe way to implement mknodat.
+> + * Dear Apple, please implement mknodat before you remove this syscall.
+> + */
+> +static int fchdir_thread_local(int fd)
 
-Yes. But we don't update cs->hppi there, and the GIC code assumes
-that that cs->hppi always indicates the highest priority pending
-interrupt, so leaving it stale will break things.
+Hooo, that's a brave move. Shouldn't its future and likely becoming absence be 
+guarded "somehow"? :)
 
-> By calling gicv3_redist_update() in icc_activate_irq(), we are
-> re-initiating high priority irqs scan in redistributor and if
-> applicable trigger of next best pending lpi from the latest
-> cs->hpplpi info (which otherwise would have happened on next
-> irq trigger from source).
+BTW it might make sense to file a report instead of hoping Apple will just 
+read this comment: ;-)
+https://feedbackassistant.apple.com/
 
-We will figure out which the next best pending interrupt is
-(which might be an LPI or might be some other interrupt).
-But we won't actually trigger it, because it must be lower
-priority than the LPI that we are activating.
+> +{
+> +#pragma clang diagnostic push
+> +#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+> +    return syscall(SYS___pthread_fchdir, fd);
+> +#pragma clang diagnostic pop
+> +}
 
-(The way this works is that activating the LPI in icc_activate_irq()
-writes into the Active Priority Registers to indicate the priority
-of the current active interrupt. When gicv3_cpuif_update() is
-deciding whether to set IRQ/FIQ to tell the CPU it has an interrupt
-it calls icc_hppi_can_preempt(), which checks the priority of the
-pending interrupt recorded in cs->hppi against the priority
-of the active interrupt as calculated by icc_highest_active_prio().
-So we won't take another interrupt until either (a) this one is
-deactivated or (b) a fresh one arrives at a higher priority.)
+Consider s/clang/GCC/ then it would also work with GCC. In the end most people 
+probably just use clang on macOS anyway, but just saying.
 
--- PMM
+> +
+> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+> +{
+> +    int preserved_errno, err;
+> +    if (fchdir_thread_local(dirfd) < 0) {
+> +        return -1;
+> +    }
+> +    err = mknod(filename, mode, dev);
+> +    preserved_errno = errno;
+> +    /* Stop using the thread-local cwd */
+> +    fchdir_thread_local(-1);
+> +    if (err < 0) {
+> +        errno = preserved_errno;
+> +    }
+> +    return err;
+> +}
+> diff --git a/hw/9pfs/9p-util-linux.c b/hw/9pfs/9p-util-linux.c
+> index d54bf57a59..4f57d8c047 100644
+> --- a/hw/9pfs/9p-util-linux.c
+> +++ b/hw/9pfs/9p-util-linux.c
+> @@ -68,3 +68,8 @@ int utimensat_nofollow(int dirfd, const char *filename,
+>  {
+>      return utimensat(dirfd, filename, times, AT_SYMLINK_NOFOLLOW);
+>  }
+> +
+> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+> +{
+> +    return mknodat(dirfd, filename, mode, dev);
+> +}
+> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> index 1c477a0e66..cac682d335 100644
+> --- a/hw/9pfs/9p-util.h
+> +++ b/hw/9pfs/9p-util.h
+> @@ -105,4 +105,6 @@ ssize_t fremovexattrat_nofollow(int dirfd, const char
+> *filename, int utimensat_nofollow(int dirfd, const char *filename,
+>                         const struct timespec times[2]);
+> 
+> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev);
+> +
+>  #endif
+
+
 
