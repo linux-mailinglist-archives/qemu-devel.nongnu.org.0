@@ -2,86 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683F245C403
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 14:43:25 +0100 (CET)
-Received: from localhost ([::1]:57372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B748945C347
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 14:34:08 +0100 (CET)
+Received: from localhost ([::1]:38240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpsYV-0007pT-Hr
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 08:43:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40836)
+	id 1mpsPX-0002nP-MX
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 08:34:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mps2B-0003Xj-8B; Wed, 24 Nov 2021 08:09:59 -0500
-Received: from [2607:f8b0:4864:20::929] (port=41975
- helo=mail-ua1-x929.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mps27-0007yi-GT; Wed, 24 Nov 2021 08:09:56 -0500
-Received: by mail-ua1-x929.google.com with SMTP id p37so4940454uae.8;
- Wed, 24 Nov 2021 05:09:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=zRVsjmQa6gV8sHyGVx4OooHBV+LFb06gDpK50XnMUjE=;
- b=XQTQKtFzhaDsKa9M68TjdsOjcmztIQ7tTJtrAASH3uEVVM6l1LUMLaYwA0QHGZpIkK
- uorqnuGRGeFtIWf63hFDbFngDhvejVjjg4tc44Y/dX821g8Bol1+M9a1KDy4RYzUGZB5
- y81nPF18ghuGJBEjwrW9Sopr9wEWOHHw0ojF8XbVN0LLACAj7pkwbWfJgEcvhAh4QH8g
- unj3B4my2gXDcRMJhpr8+fwuVPKm07mJXnhVJpfzYGv3NTG9aFHNgNphTZs3u3LsERg+
- A1zT1wGq1CCrOLp5hQHDyDdmTChrs2gZjTONoYcv8lA1VNvJcl/UWFFBBComgb7myB+S
- oJpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=zRVsjmQa6gV8sHyGVx4OooHBV+LFb06gDpK50XnMUjE=;
- b=TX2FjGUX+SLnm1BlCRaBVczuL8V7NMPweqYfTp8Li6bLj1xpHbTVT0ettuUCdqMBW1
- 7YqwAp7xLyMUHyeyRex5er3PoLF5LXbl8q98864loAEABenH2RuEZ6xGlo3CUEeRyL39
- EYgAy8aX2Z4k/j7drDAK+WUZ+56K25Nrdbien6THb+wJ96FiNNOlfpUvrmfB6hlMzwqY
- ex2bYys4FeBwvqGj/2pVZk4qTL6YlY5LvsPzrbBdMGKtD9QLvGmDnzJZVCF69hD2DT4K
- JKhE5ggYdmAjrCpdMDwFLEvyFSAxK+QI/rMjuH2Mb++3NP3P+4loM3dorWjzcdGzRrFy
- /wjg==
-X-Gm-Message-State: AOAM532Df4rpZbkgdjQSI2nb/SyN2WqygmWa5i61YovRzv3kFNbIfe/Y
- 2q2PytHdMzTE5UrYK35Taio=
-X-Google-Smtp-Source: ABdhPJwhkoD+pVoqDP8LeJHqxJWWqKSG0IqAp/Z0HV1qLEfnKaqzdhN+BhI5yVzBdGvs+jWlDBamzg==
-X-Received: by 2002:a05:6102:3a6d:: with SMTP id
- bf13mr23097067vsb.3.1637759394189; 
- Wed, 24 Nov 2021 05:09:54 -0800 (PST)
-Received: from [192.168.10.222] ([191.19.215.188])
- by smtp.gmail.com with ESMTPSA id u14sm7785052vkk.12.2021.11.24.05.09.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 05:09:53 -0800 (PST)
-Message-ID: <7f5efc59-f097-9752-c4a0-3b7724e6f215@gmail.com>
-Date: Wed, 24 Nov 2021 10:09:51 -0300
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1mps9v-0001sq-Ln
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:18:03 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:32865
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1mps9r-0006eA-5z
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:17:59 -0500
+HMM_SOURCE_IP: 172.18.0.48:53158.378074456
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 5761D280088;
+ Wed, 24 Nov 2021 21:17:36 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id 791aa67a48bb4d1e99c12d382b5d4e15 for
+ qemu-devel@nongnu.org; Wed, 24 Nov 2021 21:17:46 CST
+X-Transaction-ID: 791aa67a48bb4d1e99c12d382b5d4e15
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH v5 0/3] support dirty restraint on vCPU 
+Date: Wed, 24 Nov 2021 21:17:10 +0800
+Message-Id: <cover.1637759139.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH for-7.0 v2 1/2] ivshmem.c: change endianness to
- LITTLE_ENDIAN
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20211124092948.335389-1-danielhb413@gmail.com>
- <20211124092948.335389-2-danielhb413@gmail.com>
- <7d312ca5-82d1-ba63-535d-8024f2033215@redhat.com>
- <87lf1dyaqa.fsf@dusky.pond.sub.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <87lf1dyaqa.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x929.google.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-4.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=42.123.76.220;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,48 +60,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-devel@nongnu.org, clg@kaod.org, qemu-ppc@nongnu.org,
- Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- david@gibson.dropbear.id.au
+Cc: David Hildenbrand <david@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
+v5:
+- rebase on master
+- adjust the throttle algorithm by removing the tuning in 
+  RESTRAINT_RATIO case so that dirty page rate could reachs the quota
+  more quickly.
+- fix percentage update in throttle iteration.
 
-On 11/24/21 09:55, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
-> 
->> On 11/24/21 10:29, Daniel Henrique Barboza wrote:
->>> The ivshmem device, as with most PCI devices, uses little endian byte
->>> order. However, the endianness of its mmio_ops is marked as
->>> DEVICE_NATIVE_ENDIAN. This presents not only the usual problems with big
->>> endian hosts but also with PowerPC little endian hosts as well, since
->>> the Power architecture in QEMU uses big endian hardware (XIVE controller,
->>> PCI Host Bridges, etc) even if the host is in little endian byte order.
->>
->> Maybe mention commit f7a199b2b44 ("ivshmem: use little-endian
->> int64_t for the protocol")?
-> 
-> "The protocol" is the interface between ivshmem-doorbell device (client)
-> and ivshmem server.  This commit is about the interface between
-> ivshmem-* device and the guest.  The two interfaces are about as related
-> as SSH and DNS: software exists that uses both.
-> 
+v4:
+- rebase on master
+- modify the following points according to the advice given by Markus
+  1. move the defination into migration.json
+  2. polish the comments of set-dirty-limit
+  3. do the syntax check and change dirty rate to dirty page rate
 
-Yeah, I was about to reply asking what's the relevance of how client-server
-communicates and the problem I'm trying to fix. It really seems a problem
-with the commit I mentioned in the "Fixes" tag that introduced the memory API
-with native endian instead of little endian.
+Thanks for the carefule reviews made by Markus.
 
-Let's keep the commit msg as is. Thanks,
+Please review, thanks!
 
+v3:
+- rebase on master
+- modify the following points according to the advice given by Markus
+  1. remove the DirtyRateQuotaVcpu and use its field as option directly
+  2. add comments to show details of what dirtylimit setup do
+  3. explain how to use dirtylimit in combination with existing qmp
+     commands "calc-dirty-rate" and "query-dirty-rate" in documentation.
 
-Daniel
+Thanks for the carefule reviews made by Markus.
 
+Please review, thanks!
 
-> Mentioning f7a199b2b44 feels superfluous to me.
-> 
-> [...]
-> 
+Hyman
+
+v2:
+- rebase on master
+- modify the following points according to the advices given by Juan
+  1. rename dirtyrestraint to dirtylimit
+  2. implement the full lifecyle function of dirtylimit_calc, include
+     dirtylimit_calc and dirtylimit_calc_quit
+  3. introduce 'quit' field in dirtylimit_calc_state to implement the
+     dirtylimit_calc_quit
+  4. remove the ready_cond and ready_mtx since it may not be suitable
+  5. put the 'record_dirtypage' function code at the beggining of the
+     file
+  6. remove the unnecesary return;
+- other modifications has been made after code review
+  1. introduce 'bmap' and 'nr' field in dirtylimit_state to record the
+     number of running thread forked by dirtylimit
+  2. stop the dirtyrate calculation thread if all the dirtylimit thread
+     are stopped
+  3. do some renaming works
+     dirtyrate calulation thread -> dirtylimit-calc
+     dirtylimit thread -> dirtylimit-{cpu_index}
+     function name do_dirtyrestraint -> dirtylimit_check
+     qmp command dirty-restraint -> set-drity-limit
+     qmp command dirty-restraint-cancel -> cancel-dirty-limit
+     header file dirtyrestraint.h -> dirtylimit.h
+
+Please review, thanks !
+
+thanks for the accurate and timely advices given by Juan. we really
+appreciate it if corrections and suggetions about this patchset are
+proposed.
+
+Best Regards !
+
+Hyman
+
+v1:
+this patchset introduce a mechanism to impose dirty restraint
+on vCPU, aiming to keep the vCPU running in a certain dirtyrate
+given by user. dirty restraint on vCPU maybe an alternative
+method to implement convergence logic for live migration,
+which could improve guest memory performance during migration
+compared with traditional method in theory.
+
+For the current live migration implementation, the convergence
+logic throttles all vCPUs of the VM, which has some side effects.
+-'read processes' on vCPU will be unnecessarily penalized
+- throttle increase percentage step by step, which seems
+  struggling to find the optimal throttle percentage when
+  dirtyrate is high.
+- hard to predict the remaining time of migration if the
+  throttling percentage reachs 99%
+
+to a certain extent, the dirty restraint machnism can fix these
+effects by throttling at vCPU granularity during migration.
+
+the implementation is rather straightforward, we calculate
+vCPU dirtyrate via the Dirty Ring mechanism periodically
+as the commit 0e21bf246 "implement dirty-ring dirtyrate calculation"
+does, for vCPU that be specified to impose dirty restraint,
+we throttle it periodically as the auto-converge does, once after
+throttling, we compare the quota dirtyrate with current dirtyrate,
+if current dirtyrate is not under the quota, increase the throttling
+percentage until current dirtyrate is under the quota.
+
+this patchset is the basis of implmenting a new auto-converge method
+for live migration, we introduce two qmp commands for impose/cancel
+the dirty restraint on specified vCPU, so it also can be an independent
+api to supply the upper app such as libvirt, which can use it to
+implement the convergence logic during live migration, supplemented
+with the qmp 'calc-dirty-rate' command or whatever.
+
+we post this patchset for RFC and any corrections and suggetions about
+the implementation, api, throttleing algorithm or whatever are very
+appreciated!
+
+Please review, thanks !
+
+Best Regards !
+
+Hyman Huang (3):
+  migration/dirtyrate: implement vCPU dirtyrate calculation periodically
+  cpu-throttle: implement vCPU throttle
+  cpus-common: implement dirty limit on vCPU
+
+ cpus-common.c                 |  41 ++++++
+ include/exec/memory.h         |   5 +-
+ include/hw/core/cpu.h         |   9 ++
+ include/sysemu/cpu-throttle.h |  23 +++
+ include/sysemu/dirtylimit.h   |  44 ++++++
+ migration/dirtyrate.c         | 139 +++++++++++++++++--
+ migration/dirtyrate.h         |   2 +
+ qapi/migration.json           |  43 ++++++
+ softmmu/cpu-throttle.c        | 316 ++++++++++++++++++++++++++++++++++++++++++
+ softmmu/trace-events          |   5 +
+ softmmu/vl.c                  |   1 +
+ 11 files changed, 617 insertions(+), 11 deletions(-)
+ create mode 100644 include/sysemu/dirtylimit.h
+
+-- 
+1.8.3.1
+
 
