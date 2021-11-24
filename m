@@ -2,93 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB0D45B5C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 08:45:45 +0100 (CET)
-Received: from localhost ([::1]:50434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8EC45B5E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 08:49:39 +0100 (CET)
+Received: from localhost ([::1]:59212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpmyO-0007iI-6P
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 02:45:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42312)
+	id 1mpn2A-0005I1-QJ
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 02:49:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpmrA-0006MU-Dz
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 02:38:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpmr8-0000Vk-Df
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 02:38:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637739493;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QnVhXUPjA+bkB7M3BZvc8hAI7CJgQ3Y+s7ikfvEylPI=;
- b=hRNRDPuxRcgSGw5kGRQ4CdxHP2OMqUxcJE0qlGUu56IbgZtwnhSQBJTNPYBqoP1ha8tE6D
- KAC4ZiTu0CjaMFqImRIy2Gbjwse7EgD7c1/ftMk7zhZBB7ldiV66tH7c3dD5sWA3v/7SV6
- WMQp9gpzTU3pKWMqV7WYCdJEIDwTNj0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-427-Q9eClW1uN6i2THKXxn38OA-1; Wed, 24 Nov 2021 02:38:12 -0500
-X-MC-Unique: Q9eClW1uN6i2THKXxn38OA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- u4-20020a5d4684000000b0017c8c1de97dso230426wrq.16
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 23:38:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpmrr-0007rg-B3
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 02:38:59 -0500
+Received: from [2a00:1450:4864:20::42f] (port=46607
+ helo=mail-wr1-x42f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpmrp-0000aO-La
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 02:38:59 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id u1so2420811wru.13
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 23:38:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8X3HbWaR2KUqqwL64nz7JydjqbYGEg72Tggke7hO2VI=;
+ b=EdQsPDjUR5ev5hTj58X+rpCuRR6vjz5Q8+/FQAbPjpf5JrhEtLyeu1lrV4nT/fzJw1
+ pIwTRLLI2s245swO2rRjjhgF60zYlDQkNWmxjiUahM2L/KLqjTCjETNgTdvrW209wDWo
+ psAzbft71KrdA48/RfzBEQdK4qGR3JUjnK7zjtlanP5feyodev/BdUnMXf2f3j0lHyvW
+ CcaIRj8LddEGT1Et5Ir3H5Ho+OExtDNhZDark1IBTABxpP65A8YMxxdRcDpP1VtZbkqm
+ Nn03gztnVtqLpJP8ptjrWv8vbXqnyLiaI5zoiDC577nALHlo5ry4giCEyZUVVnY8NJie
+ A/3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=QnVhXUPjA+bkB7M3BZvc8hAI7CJgQ3Y+s7ikfvEylPI=;
- b=v6hKONd2mfE2WF73s2VBbXCy3m1lHAgs/hiD8iIlgXsVBfvOarV8Ugu2YXqBKELkvV
- 9Oiba/DrZv160/ALi2JrFLKWxpTiSiSRjO5hB/hUPTXbyutWOyXeBPqg8iCadVM7LT9g
- rtw88Y4l6TIIGbu7ohl7yiXwlav4AAdhzjcav8V5PUiqC5Ao3XcfSUJyrVjnsh3g456/
- R7aA0dHrhX/hBuZBQKrJ13U72ZUJGS8CzuQiYp4BaCXzU+qOeX4BRx9RBGR4eI/LvE7i
- lrba2UW7HoWh0PuXxmC4+QN0O4s4JJvi1RtK17Xe5J3jXMgVnycwFCLuPsRD1GTvyFp1
- pItw==
-X-Gm-Message-State: AOAM530n7UoG6sTLHkqFK1m/gdVeJqJ4ZQnKeDZrP/hp3+RkL9QU4bcg
- 0jKfkMkFKhBHeeOFacP+8GcoGSjAozdENEDCnP6XJztWki16nXC2+11AHEIqpSLXRY1In1AL9SJ
- kl24TgVlYx4I5l20=
-X-Received: by 2002:a5d:6dc1:: with SMTP id d1mr15873241wrz.282.1637739491041; 
- Tue, 23 Nov 2021 23:38:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyUN5a71HNGsKj5rJIHiySJiZXuaC28NTsH/HMPr+yXNaRAjOPUNJ2G5ODTzlUg/WdK349oQw==
-X-Received: by 2002:a5d:6dc1:: with SMTP id d1mr15873212wrz.282.1637739490886; 
- Tue, 23 Nov 2021 23:38:10 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id g124sm3561363wme.28.2021.11.23.23.38.09
+ bh=8X3HbWaR2KUqqwL64nz7JydjqbYGEg72Tggke7hO2VI=;
+ b=C+aKgayjDULvUyzzzas7yWQRuj1zAC0Hu+nP24oEhc7D7MZTSE9SOakMh94xazP5I8
+ ERM8jUQMl6nlt+8f2IprNoU3Xl4OS/x5Y226RYozBj/3OQJPf5OW5BAHJwyXcMyCBhe4
+ Z0OgNqpXuwL+s5ChudP0xYLQWSI0uUwqAtvG6JJ580B1HABVJ0p81x9vAr0N9f0WPIAg
+ rkgxzXB1eNOLFQkhKylNk6To6LN7vkGum4i+qjCe1GDOVfrsBGeEF0byYLY0LYioyPrb
+ PtVhzsF/2sJwnCHCca6AQft/aPLGjVbQxCBYrSHm4ZL9ellusLsQW3NXUOuVjunRWVQ1
+ UNZA==
+X-Gm-Message-State: AOAM530uFOxsz9wwXVjQUGgEqFz/952Z6dJqA2I2XE2krViSjiaMffYN
+ ROgX2UMHv8+DeD6imPXs2zWl8Q==
+X-Google-Smtp-Source: ABdhPJxGlIz1rkGa35lseuYavbykQc2zvPpY6DQlWejQQKu7U0uqVUIr/6+CY7A8v15rb0IoeJikFw==
+X-Received: by 2002:a05:6000:1889:: with SMTP id
+ a9mr16955485wri.68.1637739535671; 
+ Tue, 23 Nov 2021 23:38:55 -0800 (PST)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id u23sm15360921wru.21.2021.11.23.23.38.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Nov 2021 23:38:10 -0800 (PST)
-Message-ID: <fe462ea9-03ec-37e1-1eba-7d6d2f736deb@redhat.com>
-Date: Wed, 24 Nov 2021 08:38:09 +0100
+ Tue, 23 Nov 2021 23:38:55 -0800 (PST)
+Subject: Re: [PATCH v1 1/7] softmmu: fix watchpoint-interrupt races
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20211123205729.2205806-1-alex.bennee@linaro.org>
+ <20211123205729.2205806-2-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <65658e1d-43cf-d61b-3064-32cf670d903e@linaro.org>
+Date: Wed, 24 Nov 2021 08:38:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 3/4] include/sysemu/blockdev.h: move drive_add and inline
- drive_def
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20211124063640.3118897-1-eesposit@redhat.com>
- <20211124063640.3118897-4-eesposit@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211124063640.3118897-4-eesposit@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211123205729.2205806-2-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -75
-X-Spam_score: -7.6
-X-Spam_bar: -------
-X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,41 +93,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com, David Hildenbrand <david@redhat.com>,
+ f4bug@amsat.org, stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/24/21 07:36, Emanuele Giuseppe Esposito wrote:
-> drive_add is only used in softmmu/vl.c, so it can be a static
-> function there, and drive_def is only a particular use case of
-> qemu_opts_parse_noisily, so it can be inlined.
+On 11/23/21 9:57 PM, Alex Bennée wrote:
+> From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 > 
-> Also remove drive_mark_claimed_by_board, as it is only defined
-> but not implemented (nor used) anywhere.
+> Watchpoint may be processed in two phases. First one is detecting
+> the instruction with target memory access. And the second one is
+> executing only one instruction and setting the debug interrupt flag.
+> Hardware interrupts can break this sequence when they happen after
+> the first watchpoint phase.
+> This patch postpones the interrupt request until watchpoint is
+> processed.
 > 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> Message-Id: <163662451431.125458.14945698834107669531.stgit@pasha-ThinkPad-X280>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  include/sysemu/blockdev.h      |  6 ++----
->  block/monitor/block-hmp-cmds.c |  2 +-
->  blockdev.c                     | 27 +--------------------------
->  softmmu/vl.c                   | 25 ++++++++++++++++++++++++-
->  4 files changed, 28 insertions(+), 32 deletions(-)
+>   accel/tcg/cpu-exec.c | 5 +++++
+>   1 file changed, 5 insertions(+)
 > 
-> diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
-> index 32c2d6023c..aacc587a33 100644
-> --- a/include/sysemu/blockdev.h
-> +++ b/include/sysemu/blockdev.h
-> @@ -27,6 +27,8 @@ typedef enum {
->      IF_COUNT
->  } BlockInterfaceType;
->  
-> +extern const char *const block_if_name[];
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index 2d14d02f6c..9cb892e326 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -742,6 +742,11 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
+>               qemu_mutex_unlock_iothread();
+>               return true;
+>           }
+> +        /* Process watchpoints first, or interrupts will ruin everything */
+> +        if (cpu->watchpoint_hit) {
+> +            qemu_mutex_unlock_iothread();
+> +            return false;
+> +        }
 
-Maybe a cleaner alternative is to ignore the previous patch,
-and add a new public method:
+I think this is redundant with the next patch.
 
-  const char *block_if_name(BlockInterfaceType iface);
 
+r~
 
