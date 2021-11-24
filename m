@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E559645C0D7
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 14:08:59 +0100 (CET)
-Received: from localhost ([::1]:56732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3309F45C1CB
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 14:19:29 +0100 (CET)
+Received: from localhost ([::1]:43238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mps1C-00009Z-V3
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 08:08:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38234)
+	id 1mpsBM-0002BJ-3H
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 08:19:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mprvK-0005q7-Jp
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:02:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26694)
+ id 1mprvM-0005vb-6Z
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:02:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mprvE-0005mD-Js
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:02:54 -0500
+ id 1mprvI-0005nW-CP
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:02:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637758967;
+ s=mimecast20190719; t=1637758971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wsFY/0q5F9tQW7ROicgTgyYA19ve6U8YhIMCSRPor/4=;
- b=ASDk+WhydHAOHWTqpG2i09qWrYOwddR3YDWpzWy4l/g8qnbZ0WDUPwATaQw+cz98RGzdcw
- Je85FVfA2sel0uJp05608ji2nIfy/iN8AQwlTh2PF3/EKKYZlEZ5XZ6q3e9SJBQMKDYMqD
- qLj0CdPyno9sxjmLsud4FQiyIZJ09xo=
+ bh=AUuhquTu0k+WVsjRxMRjQAZfi0OrLKkBcikGYacuqX0=;
+ b=a2urS097/dgpLh5AI7anOl6BrG7ymf4+1M5vTvfc1NI+oZ5VKdNP5PhpTVa6/THM7oLudq
+ +GtzMqtONqafGfOEYlhUU9X9rieHwuW39I9HQnXUnKjz54HAJLcA27w+pW9FvYOwxkD3A1
+ 4y8wvx8r1kvRSeF5zAfm6EcXzd2Mul0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-252-0Afz9ZcUN827pSj3f6IqzA-1; Wed, 24 Nov 2021 08:02:46 -0500
-X-MC-Unique: 0Afz9ZcUN827pSj3f6IqzA-1
+ us-mta-564-JA3wxpngPFahVyznX0mwUg-1; Wed, 24 Nov 2021 08:02:48 -0500
+X-MC-Unique: JA3wxpngPFahVyznX0mwUg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8440883DD20;
- Wed, 24 Nov 2021 13:02:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0B8518A0F27;
+ Wed, 24 Nov 2021 13:02:47 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.199])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F816794A2;
- Wed, 24 Nov 2021 13:02:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C723F79454;
+ Wed, 24 Nov 2021 13:02:45 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 04/18] ui: avoid warnings about directdb on Alpine / musl
- libc
-Date: Wed, 24 Nov 2021 13:01:36 +0000
-Message-Id: <20211124130150.268230-5-berrange@redhat.com>
+Subject: [PATCH v4 05/18] ci: explicitly skip I/O tests on alpine
+Date: Wed, 24 Nov 2021 13:01:37 +0000
+Message-Id: <20211124130150.268230-6-berrange@redhat.com>
 In-Reply-To: <20211124130150.268230-1-berrange@redhat.com>
 References: <20211124130150.268230-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -91,48 +90,43 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Alpine, SDL is built with directfb support and this triggers warnings
-during QEMU build
+The block I/O tests don't work on Alpine because their alternative libc
+impl emits different strings for errnos, which breaks the expected
+output matching. e.g.
 
-In file included from /usr/include/directfb/direct/thread.h:38,
-                 from /usr/include/directfb/direct/debug.h:43,
-                 from /usr/include/directfb/direct/interface.h:36,
-                 from /usr/include/directfb/directfb.h:49,
-                 from /usr/include/SDL2/SDL_syswm.h:80,
-                 from /builds/berrange/qemu/include/ui/sdl2.h:8,
-                 from ../ui/sdl2-gl.c:31:
-/usr/include/directfb/direct/os/waitqueue.h:41:25: error: redundant redeclaration of 'direct_waitqueue_init' [-Werror=redundant-decls]
-   41 | DirectResult DIRECT_API direct_waitqueue_init        ( DirectWaitQueue *queue );
-      |                         ^~~~~~~~~~~~~~~~~~~~~
+=== IO: pattern 102
+ wrote 512/512 bytes at offset 512
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-qemu-img: Error while reading offset 0 of blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: Input/output error
++qemu-img: Error while reading offset 0 of blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: I/O error
+ 4
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1073741824
+ Formatting 'TEST_DIR/t.IMGFMT.2', fmt=IMGFMT size=0
+
+Currently the I/O tests are skipped as a side effect of the Alpine image
+containing a minimal busybox 'sed' binary, rather than GNU Sed. This is
+a fragile assumption that will be invalidated when the dockerfile is
+changed to be autogenerated from a standardized package list that
+includes GNU Sed.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- include/ui/sdl2.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ .gitlab-ci.d/buildtest.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/ui/sdl2.h b/include/ui/sdl2.h
-index f85c117a78..0330978df8 100644
---- a/include/ui/sdl2.h
-+++ b/include/ui/sdl2.h
-@@ -5,7 +5,18 @@
- #undef WIN32_LEAN_AND_MEAN
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 71d0f407ad..e1fe37e563 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -24,7 +24,7 @@ check-system-alpine:
+       artifacts: true
+   variables:
+     IMAGE: alpine
+-    MAKE_CHECK_ARGS: check
++    MAKE_CHECK_ARGS: check-unit check-qtest
  
- #include <SDL.h>
-+
-+/* with Alpine / muslc SDL headers pull in directfb headers
-+ * which in turn trigger warning about redundant decls for
-+ * direct_waitqueue_deinit.
-+ */
-+#pragma GCC diagnostic push
-+#pragma GCC diagnostic ignored "-Wredundant-decls"
-+
- #include <SDL_syswm.h>
-+
-+#pragma GCC diagnostic pop
-+
- #ifdef CONFIG_SDL_IMAGE
- # include <SDL_image.h>
- #endif
+ avocado-system-alpine:
+   extends: .avocado_test_job_template
 -- 
 2.33.1
 
