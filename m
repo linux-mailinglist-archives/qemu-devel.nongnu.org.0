@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D331A45B861
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 11:31:14 +0100 (CET)
-Received: from localhost ([::1]:55730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F8B45B8B0
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 11:53:21 +0100 (CET)
+Received: from localhost ([::1]:37726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mppYX-0007Dj-Vu
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 05:31:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44872)
+	id 1mpptw-00007m-VH
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 05:53:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1mppK6-0001RS-0S
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 05:16:18 -0500
-Received: from mail-dm6nam08on2081.outbound.protection.outlook.com
- ([40.107.102.81]:4320 helo=NAM04-DM6-obe.outbound.protection.outlook.com)
+ id 1mppKM-0002OH-Ds
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 05:16:34 -0500
+Received: from mail-dm6nam10on2070.outbound.protection.outlook.com
+ ([40.107.93.70]:40897 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1mppK3-0002eQ-Ua
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 05:16:17 -0500
+ id 1mppKK-0003E8-PI
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 05:16:34 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aZfxNnMX1X9FsMpEYxPmn8K/fB00c/nPXASFQaUCnpfb5h2aJFrKDMQwOzYmCa5WXnTwcFDB85Mzerl7OoUTvkTPEkxyq/zrqDVvYjicrJ0BBqinXvDYEO67x0vX1OAqs66rUPHPodUYOE0oJaETlQvsEMUEL6TLBpboQuZxXf15G+dAItWSTlLE4zmiRpNr1LUbcJM/VGJvAn+ko3WnA+IBESxy2x6MMosiqtFROcmeN0DxEoDZWw7hQwQow0y2jWP8C8Yt9kB21Yr3ZkioAfX3wJ56LVehvnoERkSpq11uqkPqff578M/MJYi2ErE15tFdkUuaxx+wgs+nQj6hFQ==
+ b=NyQowNa4FGZtUt4IVjhpRQt9S1cg5euRrH+zyE7u3lnP72//Ra0pvwprHNUxfmxHKzcnxWTbLXCqvFl4RSnWInC3xiSivc0TGPVwM7x9k7b5KmR0ZXZFT+PBUTUbl0wo0EG5ltDtty07cgEZLkj1I9t8Y7J9NNSSmov8iUG2hPLL74bgIvt+O6Wq5ZGmIKUC6EFhSTRB6ENvW6q/cVmK/XPhZHiw84Tp1Rys58PnbX8BASebNQhPAL/5bSij0jOLj+Yd+u4kI4tsvjKeahzemeYedccDxe8oGrqCr3RyYTsjtXJis7hYWowCNohzK3wtlg401bG9dsd+FP6JAGA9cQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NXWcAGpGYTM1GyWLMa074F/PLliQUrToa7R+JYIFycM=;
- b=XnrIuOzyFGyPe5uVJIaaLTN5NM+9fu4BvTsjeQdyxbhtPB7NPOdIU6NolWnxwZxH+cG3iidIcsnHtwuahh8CdEK9a7x2jM23J15vd46eEJVfX3fE1LfoLnfssCkv17s8MC5EEp/yD+//4KH2tTGjMCBMdg4asyleHAStrMgxhwuYPv5IzKRQTdavwJGkttUora1BvMIY77W7IK5dZibI4jnvoEA4XrHzz8ibT2iFJlLnwaEwQBg2VQD5+cbaa8+/1izzDP4ANF4UvTCFBSngufYKhpgGqDyTxBarlWLaWM50Q4kyLyet8NNH9nFHyq4hX9QB+ps1ftCYeahwSQ831A==
+ bh=aZJy76dPPLI+AR/ScLpnGxlxF3mNIXGV8Let227PGe0=;
+ b=Nvt/SRDmFln3XS+W4TX1vWnsw3MOh0inJwATQYKbnnQ1ig+riXyxxZVmWXz949IBIySRn+q/4IyX12wT+WnG1KeaTORZgXtyx3Wci2NncbpjgI2m6m5U2wFfLnd6WYH9sFIooWyFPABFWVIbWfrd5GASrhZ22Nqv4kKuxlQmWqQrOID4eY/0C3TX+vn7hPtVxpcR5ybN7CcGhj9Cg2J22oryjE8r55cXyDkJRVzSeUJ0xq/A3nkhFc2s7z/qHhg2AVDVDUppAJtKuGwje+IIak/Yu9AZ2X0ucU4BtXZsIqvOQmyv1cjrnR4EN1lrGRJuprHo6p0uzK+TqlBVExFNLQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
@@ -34,45 +34,44 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NXWcAGpGYTM1GyWLMa074F/PLliQUrToa7R+JYIFycM=;
- b=YhKMtdCxbyfRHekkDBx4Fq/6K4FZ9IQqQWwW32uxDpfhuo9Sprw9YJuzUjrJRZvIjlntf4LlvgbvpC0xvUx3BgQE9mw7xZdFxfduWCb5AdsHW6XUBdOSTYzDO86hYvq1CTGqqLwjQtGywuMd5X0tjY0PrgUS+m8um/oJxDPLm14=
-Received: from DM6PR10CA0028.namprd10.prod.outlook.com (2603:10b6:5:60::41) by
- DM5PR02MB2524.namprd02.prod.outlook.com (2603:10b6:3:3a::21) with
- Microsoft
+ bh=aZJy76dPPLI+AR/ScLpnGxlxF3mNIXGV8Let227PGe0=;
+ b=l0y8QBIuHKdxLqQ5zGVzbwMBEaaTvK0Z68C7UOy1JYY6bMnMGV8qxZeLLK4NA8ru0/0k8tO+WVoW4I7iNl6HntYTzukSxI0jufBeAN7+R6hsiI4tgF6kHA8O9TDOfUF4WRh9ZtoMk9+w21bnWM7wphDgvW5oooO5BRlNyWTrQX4=
+Received: from SN6PR01CA0023.prod.exchangelabs.com (2603:10b6:805:b6::36) by
+ CH2PR02MB6293.namprd02.prod.outlook.com (2603:10b6:610:11::20) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4713.22; Wed, 24 Nov 2021 10:16:13 +0000
-Received: from DM3NAM02FT012.eop-nam02.prod.protection.outlook.com
- (2603:10b6:5:60:cafe::43) by DM6PR10CA0028.outlook.office365.com
- (2603:10b6:5:60::41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.19 via Frontend
- Transport; Wed, 24 Nov 2021 10:16:13 +0000
+ 15.20.4713.22; Wed, 24 Nov 2021 10:16:29 +0000
+Received: from SN1NAM02FT0051.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:805:b6:cafe::27) by SN6PR01CA0023.outlook.office365.com
+ (2603:10b6:805:b6::36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend
+ Transport; Wed, 24 Nov 2021 10:16:29 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=xilinx.com;
 Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- DM3NAM02FT012.mail.protection.outlook.com (10.13.5.125) with Microsoft SMTP
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ SN1NAM02FT0051.mail.protection.outlook.com (10.97.5.34) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4713.19 via Frontend Transport; Wed, 24 Nov 2021 10:16:13 +0000
+ 15.20.4713.19 via Frontend Transport; Wed, 24 Nov 2021 10:16:29 +0000
 Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Wed, 24 Nov 2021 02:16:13 -0800
+ 15.1.2176.14; Wed, 24 Nov 2021 02:16:15 -0800
 Received: from smtp.xilinx.com (172.19.127.96) by
  xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Wed, 24 Nov 2021 02:16:13 -0800
+ 15.1.2176.14 via Frontend Transport; Wed, 24 Nov 2021 02:16:15 -0800
 Received: from [10.23.121.192] (port=50645 helo=debian.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.90)
  (envelope-from <francisco.iglesias@xilinx.com>)
- id 1mppK0-00036z-VK; Wed, 24 Nov 2021 02:16:13 -0800
+ id 1mppK2-00036z-OF; Wed, 24 Nov 2021 02:16:14 -0800
 From: Francisco Iglesias <francisco.iglesias@xilinx.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v3 08/10] hw/block/m25p80: Add support for Micron Xccela flash
- mt35xu01g
-Date: Wed, 24 Nov 2021 10:15:53 +0000
-Message-ID: <20211124101555.1410-9-francisco.iglesias@xilinx.com>
+Subject: [PATCH v3 09/10] hw/arm/xlnx-versal-virt: Connect mt35xu01g flashes
+ to the OSPI
+Date: Wed, 24 Nov 2021 10:15:54 +0000
+Message-ID: <20211124101555.1410-10-francisco.iglesias@xilinx.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20211124101555.1410-1-francisco.iglesias@xilinx.com>
 References: <20211124101555.1410-1-francisco.iglesias@xilinx.com>
@@ -80,32 +79,32 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6980eb8c-380a-4767-3463-08d9af3371d4
-X-MS-TrafficTypeDiagnostic: DM5PR02MB2524:
-X-Microsoft-Antispam-PRVS: <DM5PR02MB2524997814B178140AAEDB17AD619@DM5PR02MB2524.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 3ad61e16-9648-4882-ee6b-08d9af337b2b
+X-MS-TrafficTypeDiagnostic: CH2PR02MB6293:
+X-Microsoft-Antispam-PRVS: <CH2PR02MB62932821E540C7F448D117C6AD619@CH2PR02MB6293.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
+X-MS-Oob-TLC-OOBClassifiers: OLM:130;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GosNczGgBkS0JO0Jc2+7R273XfqlOb61AenZQPLEzn1AviB4QCCbjSWja66PS1dYyXz6SsteY6bh0al3OxFpdBUceQ7Yf2T37ms/8j+U8O77zuPfCQ/rUv7IKTu70x+4Dag6mGl4AcVLCfWe0EEy/URGAW1jOuTNZTI3V/bP41D41N1UuX6ujJHp5+dJ3W3xe00PgauTYa1oEmXWSMTTNlUG0barKxz8Ivm6VKqJUyx5mVA32fDOMepb4QIT2gJxkfc4zBvkXfPjFgTMZ/hhCbFVWc/QHX1u9eM7RTZzqEVMrRkROAsqcwsUZyEJV7YY//ncUYVDB1MK1PX9CF9emQ/o97KWS3gncq/toHjZA12g6+EVzj2uYDnx78BvX9CcBnuFVSv7+Sk2k33IY4V7OYZiN4vV7+3VbLmUYZIDemau8vsIiCSgwxPb/HwhUCtAJPH+pWofVLisf7mq/dm+Qmp+xxFV20gWsVCVMBASqeNIcIy0bH9MCjoQh/cW1AfT3D8zjaRk0lN6suir1aJtqBBdx6jQzhvJf2l8OV/Vtyfe+ctYkT86aaaAGVAQ368PHSi42/jXikufc9WsBui+wiq8GxilNkgGFhOwVLhKaIxTZ5WYeGHZehOlsN8MT/VlhIJFP3NMzfhz/4rG+gdG///7ibN9n8LYlc9v2GcaEU8TPQEzMnQku+K06AyvVQWqv6VNRf1FvdXqk7bTLcFTUnN0bnCIHG3pKBP4olt/FI4=
+X-Microsoft-Antispam-Message-Info: 3kjBJkw6FCyUTrHCzddet4IGU1hWSC6/QdLm3tK9OWOrxh/Hw1vX10xXuPwAaNUOjARaEaGwPiixfP/4evTpCIyHnAvfYEug8c/hexWNGuaJZ+Sg2y8TrUVm6aWpQlmBi8uYdHIK4QscMWjiv9oBsUO5cRZkRmvRsFGrcB5DAF+oRCuqzPKqGkMe1jeAXmR2DuZPFTBLo2gqJ13Zzv7wO9u0MWYMyfamEcsRke9LUphOPqfY/YGO3JcXwpbA7yQjyIKpBv00hgOAYsp4zRYcLk3WOdkHQeXYYHxu6jzsJA8+bzceUfAva++Pd3SLFkezJ4kGHXQQuLOXq3+WnrRCPNPDFGlyCqZsyz6/0BUTNSLb5iCKturG56Yzm45tqPjcrSHGccnM8UQgiqHfeOUInLBqrPXPJdET7j+2H7FnMAcDmCHXwKS0IE0A7OSAT1r0n41B0DfuCvn9J/hkUejlm2cvL4rYNlrAwPEjIWzwr8xB5UY5LAayF/a4qlTSck9xUW2AAthWk9Uwm1jnOvquT563S8Qt2ds41jyYzOA6pxRh4ak2tx8qjNHZ9Sf6ydhzkyLNsaqbsWTLTuoO/+AlfhlY+S6H2hBUgT11wM1BCSg13AGrwKpEXM0vRhkoSajdmLlRO+9F6i7B0bqF1LH2L24a0LGItvi6cEkNmHyUUv3bmPJHRD6OcZZGVm7NNyBr0X9T+G24fZapxaMQESOUzESkXIqh5NxJOV6N4VjgaEM=
 X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
  PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(46966006)(36840700001)(47076005)(508600001)(6666004)(5660300002)(336012)(70586007)(7696005)(356005)(4744005)(186003)(1076003)(54906003)(70206006)(7636003)(36860700001)(2616005)(26005)(426003)(82310400004)(2906002)(8676002)(4326008)(83380400001)(36756003)(6916009)(44832011)(9786002)(8936002)(316002)(102446001);
+ SFS:(46966006)(36840700001)(70206006)(83380400001)(2616005)(7696005)(9786002)(6916009)(2906002)(26005)(186003)(82310400004)(336012)(426003)(70586007)(4326008)(1076003)(47076005)(44832011)(316002)(36860700001)(8936002)(8676002)(6666004)(7636003)(54906003)(508600001)(36756003)(356005)(5660300002)(102446001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2021 10:16:13.6631 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6980eb8c-380a-4767-3463-08d9af3371d4
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2021 10:16:29.3415 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ad61e16-9648-4882-ee6b-08d9af337b2b
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM3NAM02FT012.eop-nam02.prod.protection.outlook.com
+ Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0051.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB2524
-Received-SPF: pass client-ip=40.107.102.81; envelope-from=figlesia@xilinx.com;
- helo=NAM04-DM6-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6293
+Received-SPF: pass client-ip=40.107.93.70; envelope-from=figlesia@xilinx.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -130,27 +129,56 @@ Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for Micron Xccela flash mt35xu01g.
+Connect Micron Xccela mt35xu01g flashes to the OSPI flash memory
+controller.
 
 Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- hw/block/m25p80.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/arm/xlnx-versal-virt.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index b77503dc84..c6bf3c6bfa 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -255,6 +255,8 @@ static const FlashPartInfo known_devices[] = {
-     { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
-     { INFO("n25q512ax3",  0x20ba20,  0x1000,  64 << 10, 1024, ER_4K) },
-     { INFO("mt25ql512ab", 0x20ba20, 0x1044, 64 << 10, 1024, ER_4K | ER_32K) },
-+    { INFO_STACKED("mt35xu01g", 0x2c5b1b, 0x104100, 128 << 10, 1024,
-+                   ER_4K | ER_32K, 2) },
-     { INFO_STACKED("n25q00",    0x20ba21, 0x1000, 64 << 10, 2048, ER_4K, 4) },
-     { INFO_STACKED("n25q00a",   0x20bb21, 0x1000, 64 << 10, 2048, ER_4K, 4) },
-     { INFO_STACKED("mt25ql01g", 0x20ba21, 0x1040, 64 << 10, 2048, ER_4K, 2) },
+diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+index d2f55e29b6..47f5914e5d 100644
+--- a/hw/arm/xlnx-versal-virt.c
++++ b/hw/arm/xlnx-versal-virt.c
+@@ -25,6 +25,8 @@
+ #define TYPE_XLNX_VERSAL_VIRT_MACHINE MACHINE_TYPE_NAME("xlnx-versal-virt")
+ OBJECT_DECLARE_SIMPLE_TYPE(VersalVirt, XLNX_VERSAL_VIRT_MACHINE)
+ 
++#define XLNX_VERSAL_NUM_OSPI_FLASH 4
++
+ struct VersalVirt {
+     MachineState parent_obj;
+ 
+@@ -690,6 +692,27 @@ static void versal_virt_init(MachineState *machine)
+             exit(EXIT_FAILURE);
+         }
+     }
++
++    for (i = 0; i < XLNX_VERSAL_NUM_OSPI_FLASH; i++) {
++        BusState *spi_bus;
++        DeviceState *flash_dev;
++        qemu_irq cs_line;
++        DriveInfo *dinfo = drive_get(IF_MTD, 0, i);
++
++        spi_bus = qdev_get_child_bus(DEVICE(&s->soc.pmc.iou.ospi), "spi0");
++
++        flash_dev = qdev_new("mt35xu01g");
++        if (dinfo) {
++            qdev_prop_set_drive_err(flash_dev, "drive",
++                                    blk_by_legacy_dinfo(dinfo), &error_fatal);
++        }
++        qdev_realize_and_unref(flash_dev, spi_bus, &error_fatal);
++
++        cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
++
++        sysbus_connect_irq(SYS_BUS_DEVICE(&s->soc.pmc.iou.ospi),
++                           i + 1, cs_line);
++    }
+ }
+ 
+ static void versal_virt_machine_instance_init(Object *obj)
 -- 
 2.11.0
 
