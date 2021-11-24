@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098CA45B856
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 11:25:46 +0100 (CET)
-Received: from localhost ([::1]:43316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1356645B84A
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 11:22:07 +0100 (CET)
+Received: from localhost ([::1]:37308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mppTF-00072b-1i
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 05:25:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41392)
+	id 1mppPi-0002pg-5w
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 05:22:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mppAq-0007hB-9e
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 05:06:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45979)
+ id 1mppAq-0007hF-AR
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 05:06:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42228)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mppAb-0006hD-EH
+ id 1mppAc-0006hV-7u
  for qemu-devel@nongnu.org; Wed, 24 Nov 2021 05:06:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637748387;
+ s=mimecast20190719; t=1637748389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I5yl7RraBVeWxI7Mcwgc7ke4eCRwkzgx0TzpPRkGWrQ=;
- b=F4jaQejQG+8Y1nTmyGgeAJJE4w0oyolPKNDfSMQAgcW37VuoPgKK0RO5veLM/goZ5jPVjU
- 7AhZ34pKDW0gjjMhRi0Pf1MOQ4OH+iuDS+yLRqDknvqebN+i8BFzzsbLud4WWsswrs+kDt
- Dk4Rq0ZMBwhnIYkxQw4Gl5Bg8RUR87A=
+ bh=iPYxMrCOWugGC2Ig3skogvxaOmXOSxKYsh8Dbjvo4MY=;
+ b=cXn0NFL2VLBUZQYueuKrteEAQC437k487w0UfmTzYvOD0C7e8UvDJd/9nuSYD4KwslFGKb
+ bdQicqaGUJR3iw8Jn+SOn6izenhkff20r3jdt53Oo/BUQzacoJghVchm3GbkWIPD75x7pf
+ Uvlb7l4ZDZ6G/KWj0zRERoa33zGFByc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-212-iVQ4MlHSOAO0_dV_eAmLbA-1; Wed, 24 Nov 2021 05:06:26 -0500
-X-MC-Unique: iVQ4MlHSOAO0_dV_eAmLbA-1
+ us-mta-483-tu9JHYPJOgeaslc3hIJmhQ-1; Wed, 24 Nov 2021 05:06:28 -0500
+X-MC-Unique: tu9JHYPJOgeaslc3hIJmhQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73A1881EE60
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 10:06:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BECB83DD2D
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 10:06:27 +0000 (UTC)
 Received: from redhat.mitica.com (unknown [10.39.193.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 242F160843;
- Wed, 24 Nov 2021 10:06:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C985314104;
+ Wed, 24 Nov 2021 10:06:25 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 03/23] multifd: Rename used field to num
-Date: Wed, 24 Nov 2021 11:05:57 +0100
-Message-Id: <20211124100617.19786-4-quintela@redhat.com>
+Subject: [PATCH v3 04/23] multifd: Add missing documention
+Date: Wed, 24 Nov 2021 11:05:58 +0100
+Message-Id: <20211124100617.19786-5-quintela@redhat.com>
 In-Reply-To: <20211124100617.19786-1-quintela@redhat.com>
 References: <20211124100617.19786-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -58,15 +58,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,161 +85,65 @@ Cc: Leonardo Bras <leobras@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will need to split it later in zero_num (number of zero pages) and
-normal_num (number of normal pages).  This name is better.
-
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd.h |  2 +-
- migration/multifd.c | 38 +++++++++++++++++++-------------------
- 2 files changed, 20 insertions(+), 20 deletions(-)
+ migration/multifd-zlib.c | 2 ++
+ migration/multifd-zstd.c | 2 ++
+ migration/multifd.c      | 1 +
+ 3 files changed, 5 insertions(+)
 
-diff --git a/migration/multifd.h b/migration/multifd.h
-index 15c50ca0b2..86820dd028 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -55,7 +55,7 @@ typedef struct {
- 
- typedef struct {
-     /* number of used pages */
--    uint32_t used;
-+    uint32_t num;
-     /* number of allocated pages */
-     uint32_t allocated;
-     /* global number of generated multifd packets */
+diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
+index 3fc7813b44..d0437cce2a 100644
+--- a/migration/multifd-zlib.c
++++ b/migration/multifd-zlib.c
+@@ -72,6 +72,7 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
+  * Close the channel and return memory.
+  *
+  * @p: Params for the channel that we are using
++ * @errp: pointer to an error
+  */
+ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
+ {
+@@ -94,6 +95,7 @@ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
+  *
+  * @p: Params for the channel that we are using
+  * @used: number of pages used
++ * @errp: pointer to an error
+  */
+ static int zlib_send_prepare(MultiFDSendParams *p, uint32_t used, Error **errp)
+ {
+diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
+index cc3b8869c0..09ae1cf91a 100644
+--- a/migration/multifd-zstd.c
++++ b/migration/multifd-zstd.c
+@@ -84,6 +84,7 @@ static int zstd_send_setup(MultiFDSendParams *p, Error **errp)
+  * Close the channel and return memory.
+  *
+  * @p: Params for the channel that we are using
++ * @errp: pointer to an error
+  */
+ static void zstd_send_cleanup(MultiFDSendParams *p, Error **errp)
+ {
+@@ -107,6 +108,7 @@ static void zstd_send_cleanup(MultiFDSendParams *p, Error **errp)
+  *
+  * @p: Params for the channel that we are using
+  * @used: number of pages used
++ * @errp: pointer to an error
+  */
+ static int zstd_send_prepare(MultiFDSendParams *p, uint32_t used, Error **errp)
+ {
 diff --git a/migration/multifd.c b/migration/multifd.c
-index 8125d0015c..8ea86d81dc 100644
+index 8ea86d81dc..cdeffdc4c5 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -252,7 +252,7 @@ static MultiFDPages_t *multifd_pages_init(size_t size)
- 
- static void multifd_pages_clear(MultiFDPages_t *pages)
+@@ -66,6 +66,7 @@ static int nocomp_send_setup(MultiFDSendParams *p, Error **errp)
+  * For no compression this function does nothing.
+  *
+  * @p: Params for the channel that we are using
++ * @errp: pointer to an error
+  */
+ static void nocomp_send_cleanup(MultiFDSendParams *p, Error **errp)
  {
--    pages->used = 0;
-+    pages->num = 0;
-     pages->allocated = 0;
-     pages->packet_num = 0;
-     pages->block = NULL;
-@@ -270,7 +270,7 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
- 
-     packet->flags = cpu_to_be32(p->flags);
-     packet->pages_alloc = cpu_to_be32(p->pages->allocated);
--    packet->pages_used = cpu_to_be32(p->pages->used);
-+    packet->pages_used = cpu_to_be32(p->pages->num);
-     packet->next_packet_size = cpu_to_be32(p->next_packet_size);
-     packet->packet_num = cpu_to_be64(p->packet_num);
- 
-@@ -278,7 +278,7 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
-         strncpy(packet->ramblock, p->pages->block->idstr, 256);
-     }
- 
--    for (i = 0; i < p->pages->used; i++) {
-+    for (i = 0; i < p->pages->num; i++) {
-         /* there are architectures where ram_addr_t is 32 bit */
-         uint64_t temp = p->pages->offset[i];
- 
-@@ -332,18 +332,18 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
-         p->pages = multifd_pages_init(packet->pages_alloc);
-     }
- 
--    p->pages->used = be32_to_cpu(packet->pages_used);
--    if (p->pages->used > packet->pages_alloc) {
-+    p->pages->num = be32_to_cpu(packet->pages_used);
-+    if (p->pages->num > packet->pages_alloc) {
-         error_setg(errp, "multifd: received packet "
-                    "with %d pages and expected maximum pages are %d",
--                   p->pages->used, packet->pages_alloc) ;
-+                   p->pages->num, packet->pages_alloc) ;
-         return -1;
-     }
- 
-     p->next_packet_size = be32_to_cpu(packet->next_packet_size);
-     p->packet_num = be64_to_cpu(packet->packet_num);
- 
--    if (p->pages->used == 0) {
-+    if (p->pages->num == 0) {
-         return 0;
-     }
- 
-@@ -356,7 +356,7 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
-         return -1;
-     }
- 
--    for (i = 0; i < p->pages->used; i++) {
-+    for (i = 0; i < p->pages->num; i++) {
-         uint64_t offset = be64_to_cpu(packet->offset[i]);
- 
-         if (offset > (block->used_length - page_size)) {
-@@ -443,13 +443,13 @@ static int multifd_send_pages(QEMUFile *f)
-         }
-         qemu_mutex_unlock(&p->mutex);
-     }
--    assert(!p->pages->used);
-+    assert(!p->pages->num);
-     assert(!p->pages->block);
- 
-     p->packet_num = multifd_send_state->packet_num++;
-     multifd_send_state->pages = p->pages;
-     p->pages = pages;
--    transferred = ((uint64_t) pages->used) * qemu_target_page_size()
-+    transferred = ((uint64_t) pages->num) * qemu_target_page_size()
-                 + p->packet_len;
-     qemu_file_update_transfer(f, transferred);
-     ram_counters.multifd_bytes += transferred;
-@@ -469,12 +469,12 @@ int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset)
-     }
- 
-     if (pages->block == block) {
--        pages->offset[pages->used] = offset;
--        pages->iov[pages->used].iov_base = block->host + offset;
--        pages->iov[pages->used].iov_len = qemu_target_page_size();
--        pages->used++;
-+        pages->offset[pages->num] = offset;
-+        pages->iov[pages->num].iov_base = block->host + offset;
-+        pages->iov[pages->num].iov_len = qemu_target_page_size();
-+        pages->num++;
- 
--        if (pages->used < pages->allocated) {
-+        if (pages->num < pages->allocated) {
-             return 1;
-         }
-     }
-@@ -586,7 +586,7 @@ void multifd_send_sync_main(QEMUFile *f)
-     if (!migrate_use_multifd()) {
-         return;
-     }
--    if (multifd_send_state->pages->used) {
-+    if (multifd_send_state->pages->num) {
-         if (multifd_send_pages(f) < 0) {
-             error_report("%s: multifd_send_pages fail", __func__);
-             return;
-@@ -649,7 +649,7 @@ static void *multifd_send_thread(void *opaque)
-         qemu_mutex_lock(&p->mutex);
- 
-         if (p->pending_job) {
--            uint32_t used = p->pages->used;
-+            uint32_t used = p->pages->num;
-             uint64_t packet_num = p->packet_num;
-             flags = p->flags;
- 
-@@ -665,7 +665,7 @@ static void *multifd_send_thread(void *opaque)
-             p->flags = 0;
-             p->num_packets++;
-             p->num_pages += used;
--            p->pages->used = 0;
-+            p->pages->num = 0;
-             p->pages->block = NULL;
-             qemu_mutex_unlock(&p->mutex);
- 
-@@ -1091,7 +1091,7 @@ static void *multifd_recv_thread(void *opaque)
-             break;
-         }
- 
--        used = p->pages->used;
-+        used = p->pages->num;
-         flags = p->flags;
-         /* recv methods don't know how to handle the SYNC flag */
-         p->flags &= ~MULTIFD_FLAG_SYNC;
 -- 
 2.33.1
 
