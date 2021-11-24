@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDEB645B91A
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 12:32:48 +0100 (CET)
-Received: from localhost ([::1]:56026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A787D45B918
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 12:32:32 +0100 (CET)
+Received: from localhost ([::1]:55120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpqW7-0005lG-U2
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 06:32:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40628)
+	id 1mpqVr-00058N-QE
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 06:32:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpqTC-0001bo-Gn
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 06:29:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27677)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpqU6-0002qc-J6
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 06:30:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpqTA-00074t-UT
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 06:29:46 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpqU4-0007Hi-KJ
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 06:30:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637753384;
+ s=mimecast20190719; t=1637753440;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ipVe2ec8Gv/RnabjcRjn6IiSFr34EhswfI7Zt5rybGQ=;
- b=OrjS8xNKNB+L7TkPfBWhCna6SzVHaUpFXZwy7qeClB5gEKxNaTQA5pEnKsxoeO8HkaKuM2
- zacAGVBORmOURRekFLYzcgdzEMw1rl12Z158s8Hkfp0pMhhl6RxktlwvmnlqFPdQWXLNUY
- Y9hV4la67bKDD0lpwCpdLdfFLwh7CMU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ChIwTeAJv3A7skgm6MjqdS5ug74mRdoaZK0PsPh5E+I=;
+ b=REUadb4XVuy5gT56j8CiauCsJgv6qGC1xXUCFr1eoSojGJje8fgAKzZ+cojGIsdhgYOwGA
+ oEf8X1gs3MtD/w8HYnr/IF3NaeCSuWVkMYqcn8JTS292qJxcLsN/7CPflNls1XdO096kjT
+ SNJtr2gqKTgiA4kc7cqYv514WmJ10dg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-S45En8s3P9WH3i2ifpZJyg-1; Wed, 24 Nov 2021 06:29:41 -0500
-X-MC-Unique: S45En8s3P9WH3i2ifpZJyg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m18-20020a05600c3b1200b0033283ea5facso1597560wms.1
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 03:29:40 -0800 (PST)
+ us-mta-313-SErruZcsNYOrN8S4_Szjhw-1; Wed, 24 Nov 2021 06:30:36 -0500
+X-MC-Unique: SErruZcsNYOrN8S4_Szjhw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j193-20020a1c23ca000000b003306ae8bfb7so1175564wmj.7
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 03:30:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ipVe2ec8Gv/RnabjcRjn6IiSFr34EhswfI7Zt5rybGQ=;
- b=2nM3EooyGp9uQrEgNAT4jGWwZ9r1Bo6zOR6QWMfV8z1w+jrmRmISxXAd2NHEzffn8D
- 5JQ5xNLqOp1Wp5UpUf3T5Aiv82WEGQzZ2sBhuio1pZYE3YWUh+Q86woH63iBXmnH6/Dj
- BqbF/mkljfrXDgWDDK7EVXylCUogu2IjzovcvDqfJh2+U5MqLOFpw0XdlpdyBhzqJS2a
- f5Ur59YV6uAPF9N2meQE0gKL7zVZA7DbjZgYreMRkD7ZNzLQjcqk1PY3O2CgDPwY1p4x
- R+h3BsL+VKsYlijvgHyXsHWsrvEo0VV5ZUtyxC/74hHbwF1jAmZyLbOBSTjPbwWhyGtQ
- krDg==
-X-Gm-Message-State: AOAM530oe64fbl4j5Vmvc6oQlHhMHEzMhl/Ux5RB3rT/WbHYptQH22Ba
- sEGYUK9bsxUHVQJo2pVlzS8RBCfW7MI3z5xlSc+z2Tl+CXz3rJV7rzh6HQoCt531deEWVCqHdUQ
- iJ27gNWTWoLYsfvA=
-X-Received: by 2002:a5d:4704:: with SMTP id y4mr17187349wrq.85.1637753379958; 
- Wed, 24 Nov 2021 03:29:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzvw93uDEuH3pzGgArr+8Z/L2zeAD76UwMztqfpWZ5DpXjIdx3PgzvO66aJ3T9zPms0PmNwcA==
-X-Received: by 2002:a5d:4704:: with SMTP id y4mr17187320wrq.85.1637753379774; 
- Wed, 24 Nov 2021 03:29:39 -0800 (PST)
+ bh=ChIwTeAJv3A7skgm6MjqdS5ug74mRdoaZK0PsPh5E+I=;
+ b=0ZMg1qEHSvbwpEEP9D62/9Bpysf4geaBuHMYgwOtujmPIA1f0MKdvroYeXdM68RxHt
+ AG+cQj6aVPi5iIIVjB2/7j8x8JG0qKc/QQll3jP1pO9REvqhLbjHCsgUIYi7ygSHikEz
+ JfZDVu4RwO1U3+uTYIQncR/yoFa72SfBjuKNEA1tWI1Q6ufn0FGALPEZaWbtlKVZXftg
+ jVIjRLJCTtZsYgt3QguecmQ3nCEjPVFtST/TpX98V9I4O8X3Nq9eEJhuhnfCC3GfjA7/
+ QhdNHslNLVOqfcoWlEKi/WRzjbL04s3WI7F3L2eHNffut1BS49/Fmem82PAFAqAWLPeb
+ JyyA==
+X-Gm-Message-State: AOAM532nlEELIW4incpA0O+BEuICLay5pWkFjJ0TFgg6mNWqGjyDfN+K
+ Bvm+RLyEjPS1DlaEqKpSu/HOUZY5qONImm6Im1gmAIUU+unCGQs9XvtZwSDND5fA25YWFad8EPT
+ TaoOsbQm7DGjNbjM=
+X-Received: by 2002:adf:fe4b:: with SMTP id m11mr17352210wrs.136.1637753435618; 
+ Wed, 24 Nov 2021 03:30:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxl8hjRGQny8JIUTIeIWH6tR+SFGMOaW0htII5bMHqW91+lyINpn3i27YPntU+wDB5D1U1qpA==
+X-Received: by 2002:adf:fe4b:: with SMTP id m11mr17352179wrs.136.1637753435473; 
+ Wed, 24 Nov 2021 03:30:35 -0800 (PST)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id l5sm18430303wrs.59.2021.11.24.03.29.38
+ by smtp.gmail.com with ESMTPSA id u15sm4967213wmq.13.2021.11.24.03.30.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 03:29:39 -0800 (PST)
-Message-ID: <f61f2958-8418-9045-7345-6d2d5dcde590@redhat.com>
-Date: Wed, 24 Nov 2021 12:29:38 +0100
+ Wed, 24 Nov 2021 03:30:35 -0800 (PST)
+Message-ID: <b6cd20fa-4d38-2c9f-e5e1-eb891d1b935d@redhat.com>
+Date: Wed, 24 Nov 2021 12:30:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
 Subject: Re: [qemu-web PATCH v3] Add Sponsors page
-To: Stefan Hajnoczi <stefanha@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211124080519.440677-1-philmd@redhat.com>
- <YZ4PyT26uHZiUgjk@stefanha-x1.localdomain>
+ <cb04d11f-cfe4-5de3-6e46-345f2fafaad3@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <YZ4PyT26uHZiUgjk@stefanha-x1.localdomain>
+In-Reply-To: <cb04d11f-cfe4-5de3-6e46-345f2fafaad3@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,15 +78,16 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -75
 X-Spam_score: -7.6
 X-Spam_bar: -------
 X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,29 +100,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
- Thomas Markey <admin@fosshost.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Alistair Francis <alistair23@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Markey <admin@fosshost.org>, Alistair Francis <alistair23@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/24/21 11:11, Stefan Hajnoczi wrote:
-> On Wed, Nov 24, 2021 at 09:05:19AM +0100, Philippe Mathieu-Daudé wrote:
+On 11/24/21 10:42, Richard Henderson wrote:
+> On 11/24/21 9:05 AM, Philippe Mathieu-Daudé wrote:
 >> Add a page listing QEMU sponsors.
 >>
 >> For now, only mention Fosshost which requested to be listed:
+> 
+> This...
+> 
 >> https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg05381.html
+>>
+>> Cc: Thomas Markey <admin@fosshost.org>
+>> Resolves: https://gitlab.com/qemu-project/qemu-web/-/issues/2
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> Since v2:
+>> - don't explicitly state /what/ we're using the resource for,
+>>    just that we've been granted it (danpb)
+>> - list Azure Cloud credits (Daniel)
+>> - list PLCT Lab (Paolo)
+>> - list Wow/CIP United again, since other are listed (Phil)
+>>    therefore do not include Stefan R-b tag.
 > 
-> I don't know if Azure Cloud, PLCT, CIP United, and ARM wanted QEMU to
-> list them as sponsors. Sometimes organizations do not want others to
-> claim an association with them. Are there links to email threads or
-> pages where they asked to be listed or gave permission?
-> 
-> Without that info reviewers don't know whether it is appropriate to list
-> these sponsors.
+> ... no longer matches this.
 
-Alright, v4 sent.
+Yes sorry. Posted v4 based on v2 so the desc is still accurate.
 
 
