@@ -2,115 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D95A45B8AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 11:50:45 +0100 (CET)
-Received: from localhost ([::1]:35250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5FC845B8B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 11:55:04 +0100 (CET)
+Received: from localhost ([::1]:39926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpprQ-0006lt-DC
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 05:50:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44896)
+	id 1mppvc-0001g5-3P
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 05:55:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1mppKC-0001tZ-Ir
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 05:16:24 -0500
-Received: from mail-mw2nam10on2086.outbound.protection.outlook.com
- ([40.107.94.86]:10304 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1mppKA-0002iB-F2
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 05:16:24 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EABDDGLd5EhfsgZGaHXUw/FB9q6l6NLbMKzKnL+41dFNvm76ubG5wmK02vfds7EuTp9QdO+u3HhXypAyMZ67WB3AiqoGk4WaVwvvwKzaivMCGvkooor3LepZ7lPa9MWXNGc3Bm3yPMtrYTnp74jLs7eNUxau+Vx7Sx/iRijxUeS7l5yKwQQ57PE2l38cedCxuGCa3w0E/7eTmOdbyoVjkg9P+xBKXb87D07W9hrCqA7hDWLXoKMEQkwAZ1YAXyGifvekdja5hXXCbP1AM1C2F27goCxUAxV3NEATNwbun5cu7Z8JX/vZkvLTvoP8RSbua5+C2+E8xe9v+fIwDw9r5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HXfbDhx0Q6+Rogs0BnanHUPRlPrCapthIIq5RaBFgWI=;
- b=iRjQ8FGcR/RQfdQo8HGQjPNJhgN5013shpyRnUzh6aiT1m4+B6ZsyfqonOReoQACuRtdfwgUSjigHUUWxKcYI3YEyS217o6h2YU22SmT9Ka5nQesYuiDnA9ObyV7+ImZBSsyMs4+EM2QdNZW+ApDkgwNKtX30WCcjrT/e9U9LkJ1AjEsRoInlkfVSy/tAvXX2NVe20m/yQaEkRwSDj263cCEujWLpL7viUZSgxk1NKGwXTYpaOxrD1m7vpuwCoIWGc9vwhOn/F+wpJUjbTydb987gDP5zsm/cw0BciyHnRf8wMPef53JUztTSOJqsllI5UgDAbD4HwqIFPBZsGFNQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HXfbDhx0Q6+Rogs0BnanHUPRlPrCapthIIq5RaBFgWI=;
- b=TAYq69B+yoV85A7fvh4/wNC0le6S0bxSC0QJEeaj7EsNKSZNLadi1ylLFOJ1FEpS3lD/Z6YI/Hf1fy6INOdRdtJiBn6dhc48IWL5eeUScCj6h17TNhTSR0Foa8JbQniU/i3TpFSOn1TiZ8IO2fIKZ6rB+vlRfF7wnsew3WlSra4=
-Received: from DM5PR16CA0029.namprd16.prod.outlook.com (2603:10b6:4:15::15) by
- CY4PR02MB2248.namprd02.prod.outlook.com (2603:10b6:903:d::17) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4713.22; Wed, 24 Nov 2021 10:16:19 +0000
-Received: from DM3NAM02FT040.eop-nam02.prod.protection.outlook.com
- (2603:10b6:4:15:cafe::d1) by DM5PR16CA0029.outlook.office365.com
- (2603:10b6:4:15::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.21 via Frontend
- Transport; Wed, 24 Nov 2021 10:16:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- DM3NAM02FT040.mail.protection.outlook.com (10.13.5.132) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4713.19 via Frontend Transport; Wed, 24 Nov 2021 10:16:19 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Wed, 24 Nov 2021 02:16:16 -0800
-Received: from smtp.xilinx.com (172.19.127.96) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Wed, 24 Nov 2021 02:16:16 -0800
-Received: from [10.23.121.192] (port=50645 helo=debian.xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <francisco.iglesias@xilinx.com>)
- id 1mppK4-00036z-Ih; Wed, 24 Nov 2021 02:16:16 -0800
-From: Francisco Iglesias <francisco.iglesias@xilinx.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v3 10/10] MAINTAINERS: Add an entry for Xilinx Versal OSPI
-Date: Wed, 24 Nov 2021 10:15:55 +0000
-Message-ID: <20211124101555.1410-11-francisco.iglesias@xilinx.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20211124101555.1410-1-francisco.iglesias@xilinx.com>
-References: <20211124101555.1410-1-francisco.iglesias@xilinx.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mppQR-00057O-9S
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 05:22:51 -0500
+Received: from [2a00:1450:4864:20::335] (port=55217
+ helo=mail-wm1-x335.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mppQN-0007IA-Sx
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 05:22:49 -0500
+Received: by mail-wm1-x335.google.com with SMTP id i12so1778841wmq.4
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 02:22:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=qR80y/50OyxC6iRdQUFHCvdzVQLVh70IWwyXSzldhLA=;
+ b=dqsmN9piCTMXkvhlNz9I8GAYYThKvShTVGAELaXGpea5heuVDtZtGCxKg3byFvruF9
+ oxE4YlHmoVZNXq4hpKyImnVCdeawb5vjam13BHwmXGWqVJEVKRpHGk0zbo4iVxwk34Eq
+ fBtSyTjOm5hjHpTXVjeSwFRp/drAhZLwzhNnP9oZUY4aOFFb8eZUffLuolGfRW3AihpP
+ 35AoAyFKNRhyDbqoq66WFEQThI/6KSRaOoqN8ZkksgEMYpQt6C1jM0HdGFrrVxsuErEe
+ mW8imRHjtT9igPAYmuzqoflSU0m4ce0OPMrFSb/0EpYOfRdXAapz5nFbooHNQu6O1IIY
+ RNfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=qR80y/50OyxC6iRdQUFHCvdzVQLVh70IWwyXSzldhLA=;
+ b=CyzsvJHl5QZE0DcWRcL9zZJ2xcCtwnMsaTObr3bRAWF+rsafovVyq8Ru3QvVJAOGHI
+ 2ygF6Qajs0TySNc/9uFP5z1KXRJzjqDfq7cipCIUHIkoTJPtN3Gp4rZQ6zqa7eBSJFdQ
+ 8TAksKxWFqrlO4HBeEu+dIvzjtSkOK2gGwcisWVanUmGGHgO0MqgUXaqR2icIJeVJLRO
+ ddj608fbQ7pAOWqWzBfGgKUrBF2iSEanHpTVWVzlgiWKPMaWgR9JmO4zUQkfbBK0NTHK
+ FeZmybEAGboETLUc0OhIW2yofqxZZWfCdH476miMXadc1I5JIfSeoFp7bt1989c4lKZw
+ z7Hw==
+X-Gm-Message-State: AOAM533Xb1r/ZsiJ2GUeX8Pr1NTEO2d1CuzYM8vu5nwBUq9bKRupco8U
+ CTKQnDBFHp6VYLtBWIq+nMiM0w==
+X-Google-Smtp-Source: ABdhPJy/9xqTmtgLTh/xz3qJZxmYM8byhuYrtEypHt4oQfYirDGE63brjLQwXgvAQBF7yAqT/BQSvQ==
+X-Received: by 2002:a7b:c2f7:: with SMTP id e23mr13725000wmk.92.1637749365580; 
+ Wed, 24 Nov 2021 02:22:45 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 10sm19483900wrb.75.2021.11.24.02.22.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Nov 2021 02:22:44 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C93121FF96;
+ Wed, 24 Nov 2021 10:22:43 +0000 (GMT)
+References: <20211123205729.2205806-1-alex.bennee@linaro.org>
+ <20211123205729.2205806-2-alex.bennee@linaro.org>
+ <65658e1d-43cf-d61b-3064-32cf670d903e@linaro.org>
+User-agent: mu4e 1.7.5; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v1 1/7] softmmu: fix watchpoint-interrupt races
+Date: Wed, 24 Nov 2021 10:22:08 +0000
+In-reply-to: <65658e1d-43cf-d61b-3064-32cf670d903e@linaro.org>
+Message-ID: <87bl29j1jg.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ac5adb69-a44c-4e6b-a170-08d9af33756d
-X-MS-TrafficTypeDiagnostic: CY4PR02MB2248:
-X-Microsoft-Antispam-PRVS: <CY4PR02MB2248EFD447BA0A46B9F4C353AD619@CY4PR02MB2248.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 05MxGjRlBvU9683f0YgL6p5STjwrC6pWeysQCac6XGKMOQiZPiY0Qv+iOlj/ZE0WTEOnIPkGVg/7mGG/Kbj6pQeuu1GZxg/4uYXS8lWS+qELBC/wChiKVlA/+MvRwLmLE6/BuSpZwuo7P/sEtFGN3V9JrDza0QknfYoIzMbOU+GTGRu7ge+x+EhCp9Wq7xFVYsM0MCHjnD7HbcKcqdoPZNqOe7lGkRdnHMDOdgcujenN2rO9zoycFL/6sXeH9Dr5EgSvKK7bCXgmsR18vnUKLywMzbfjM/aw9Cc/n/l1uq1CySxqsER3qwXaN4s9fNsuyyzHac2cGLxo01hBNo02XAkCEyATLcGQeYqsm7ozylMe+bFTcACfxZqO2uobBejLxn6oPtYxPJ9K2G/3FBJjMDEg4OddHjnpJs3ppry5lSQjoYvIJkEKya4j7fdAQam1kiV9MkpuJ+Ad/ikxex65Hm16T2kSsBnYJkkQ7LM1EtuyNx7ctTs4XrhEnv1FlZhaA3l4oHlNs8Hvx10uA4eINzlBBNNRmNS/vS81xQ/RxLN26JaWvbKyHtRDxENzBtOoZwW/dSukZIQrQ2xq2Jc/vjuEVv4XIx2m6y0to1ecDqCrirCOMDKUR4NHu9bEO5dUatWFxoyVMn3cgeKPK22QtR5OpWZTWWVGSzTkKajOUCnc3Z354gJ1q3QlICW5c2ceuYw6wgl9PyDLEorr1Oz4RWEzPpCHbV2KPVyQy2LQNzE=
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(36840700001)(46966006)(36860700001)(4326008)(9786002)(70586007)(356005)(47076005)(44832011)(2616005)(4744005)(186003)(316002)(36756003)(1076003)(7696005)(508600001)(54906003)(26005)(336012)(426003)(70206006)(7636003)(8676002)(5660300002)(82310400004)(8936002)(6666004)(6916009)(2906002)(102446001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2021 10:16:19.7028 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac5adb69-a44c-4e6b-a170-08d9af33756d
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM3NAM02FT040.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB2248
-Received-SPF: pass client-ip=40.107.94.86; envelope-from=figlesia@xilinx.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -123,38 +91,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
- frasse.iglesias@gmail.com, alistair@alistair23.me, alistair23@gmail.com,
- philmd@redhat.com
+Cc: fam@euphon.net, berrange@redhat.com, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, f4bug@amsat.org, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-List myself as maintainer for the Xilinx Versal OSPI controller.
 
-Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d3879aa3c1..8c2b01a282 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -963,6 +963,12 @@ F: hw/display/dpcd.c
- F: include/hw/display/dpcd.h
- F: docs/system/arm/xlnx-versal-virt.rst
- 
-+Xilinx Versal OSPI
-+M: Francisco Iglesias <francisco.iglesias@xilinx.com>
-+S: Maintained
-+F: hw/ssi/xlnx-versal-ospi.c
-+F: include/hw/ssi/xlnx-versal-ospi.h
-+
- ARM ACPI Subsystem
- M: Shannon Zhao <shannon.zhaosl@gmail.com>
- L: qemu-arm@nongnu.org
--- 
-2.11.0
+> On 11/23/21 9:57 PM, Alex Benn=C3=A9e wrote:
+>> From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+>> Watchpoint may be processed in two phases. First one is detecting
+>> the instruction with target memory access. And the second one is
+>> executing only one instruction and setting the debug interrupt flag.
+>> Hardware interrupts can break this sequence when they happen after
+>> the first watchpoint phase.
+>> This patch postpones the interrupt request until watchpoint is
+>> processed.
+>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Reviewed-by: David Hildenbrand <david@redhat.com>
+>> Message-Id: <163662451431.125458.14945698834107669531.stgit@pasha-ThinkP=
+ad-X280>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>   accel/tcg/cpu-exec.c | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+>> index 2d14d02f6c..9cb892e326 100644
+>> --- a/accel/tcg/cpu-exec.c
+>> +++ b/accel/tcg/cpu-exec.c
+>> @@ -742,6 +742,11 @@ static inline bool cpu_handle_interrupt(CPUState *c=
+pu,
+>>               qemu_mutex_unlock_iothread();
+>>               return true;
+>>           }
+>> +        /* Process watchpoints first, or interrupts will ruin everythin=
+g */
+>> +        if (cpu->watchpoint_hit) {
+>> +            qemu_mutex_unlock_iothread();
+>> +            return false;
+>> +        }
+>
+> I think this is redundant with the next patch.
 
+OK I'll drop it. The function is getting messy anyway.
+
+--=20
+Alex Benn=C3=A9e
 
