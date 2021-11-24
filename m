@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F204145CD6F
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 20:43:42 +0100 (CET)
-Received: from localhost ([::1]:41180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E88F445CD81
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 20:47:11 +0100 (CET)
+Received: from localhost ([::1]:49566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpyBB-0008UU-Sl
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 14:43:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35680)
+	id 1mpyEZ-0005jV-23
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 14:47:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mpxv9-0003S6-0F
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 14:27:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55689)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mpxvB-0003TD-4g
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 14:27:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mpxv7-0007cK-A4
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 14:27:06 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mpxv8-0007cq-JY
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 14:27:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637782024;
+ s=mimecast20190719; t=1637782025;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X4ZiRgWWEWlRgT9nSkzfENvUilfS82DKfyqj+wTJiw4=;
- b=EseOZozBLkalVJhHLLbHfpBsmKh7N9vtIPFc3vK9BMXAcESMq0mTIDGEHvKfoYfRMo9clH
- 52ZMSAxUIZEMPu+C9uHw7DvDNQ61XczEvunJ9CLE25KFc+7aS4QdmYi1jbnmMvd/B9Jjv8
- DKXoDwg5WNA0X0Kcs41A4NmqsqaZQsE=
+ bh=7nu3wISZgyH4rIz4CD8Pwamst4jQqGzOKhrf8q9W8DY=;
+ b=JAINeoLUcz6mSQp+b7+BWcyHuzaPvPkCA3ySshpLuhJNCvrx1zmwU+Bwr6la9kO1gdWoT1
+ HzLwAaHmVmDXRqJcTa9Rz7+PYbaa7cPMaMQV1KRxboca9SbCp6o9XBUoRH9Kec75GdDHj3
+ HrhSfVMLPmHAgHdFpdapCzKV3gEBhM0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-287-h1mwpDSPNWGNmQhXEJ9MWA-1; Wed, 24 Nov 2021 14:27:01 -0500
-X-MC-Unique: h1mwpDSPNWGNmQhXEJ9MWA-1
+ us-mta-558-xMFC7Ao6NLGSf26F70qGJg-1; Wed, 24 Nov 2021 14:27:02 -0500
+X-MC-Unique: xMFC7Ao6NLGSf26F70qGJg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A9F7185302D;
- Wed, 24 Nov 2021 19:26:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A6B080F051;
+ Wed, 24 Nov 2021 19:26:56 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5BA657E409;
- Wed, 24 Nov 2021 19:26:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7F0252B178;
+ Wed, 24 Nov 2021 19:26:55 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/23] python/qmp: switch qom tools to AQMP
-Date: Wed, 24 Nov 2021 14:26:01 -0500
-Message-Id: <20211124192617.3396403-8-jsnow@redhat.com>
+Subject: [PATCH 08/23] python/qmp: switch qmp-shell to AQMP
+Date: Wed, 24 Nov 2021 14:26:02 -0500
+Message-Id: <20211124192617.3396403-9-jsnow@redhat.com>
 In-Reply-To: <20211124192617.3396403-1-jsnow@redhat.com>
 References: <20211124192617.3396403-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,15 +56,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,118 +86,119 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We have a replacement for async QMP, but it doesn't have feature parity
+yet. For now, then, port the old tool onto the new backend.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/qmp/qom.py        |  5 +++--
- python/qemu/qmp/qom_common.py |  7 ++++---
- python/qemu/qmp/qom_fuse.py   | 11 ++++++-----
- 3 files changed, 13 insertions(+), 10 deletions(-)
+ python/qemu/aqmp/legacy.py   |  3 +++
+ python/qemu/qmp/qmp_shell.py | 31 +++++++++++++++++--------------
+ 2 files changed, 20 insertions(+), 14 deletions(-)
 
-diff --git a/python/qemu/qmp/qom.py b/python/qemu/qmp/qom.py
-index 8ff28a8343..bb5d1a78f5 100644
---- a/python/qemu/qmp/qom.py
-+++ b/python/qemu/qmp/qom.py
-@@ -32,7 +32,8 @@
+diff --git a/python/qemu/aqmp/legacy.py b/python/qemu/aqmp/legacy.py
+index 9431fe9330..5d358d63db 100644
+--- a/python/qemu/aqmp/legacy.py
++++ b/python/qemu/aqmp/legacy.py
+@@ -22,6 +22,9 @@
+ from .qmp_client import QMPClient
  
- import argparse
  
--from . import QMPResponseError
-+from qemu.aqmp import ExecuteError
++# (Temporarily) Re-export QMPBadPortError
++QMPBadPortError = qemu.qmp.QMPBadPortError
 +
- from .qom_common import QOMCommand
+ #: QMPMessage is an entire QMP message of any kind.
+ QMPMessage = Dict[str, Any]
  
- 
-@@ -233,7 +234,7 @@ def _list_node(self, path: str) -> None:
-                 rsp = self.qmp.command('qom-get', path=path,
-                                        property=item.name)
-                 print(f"  {item.name}: {rsp} ({item.type})")
--            except QMPResponseError as err:
-+            except ExecuteError as err:
-                 print(f"  {item.name}: <EXCEPTION: {err!s}> ({item.type})")
-         print('')
-         for item in items:
-diff --git a/python/qemu/qmp/qom_common.py b/python/qemu/qmp/qom_common.py
-index a59ae1a2a1..b145157258 100644
---- a/python/qemu/qmp/qom_common.py
-+++ b/python/qemu/qmp/qom_common.py
-@@ -27,7 +27,8 @@
-     TypeVar,
+diff --git a/python/qemu/qmp/qmp_shell.py b/python/qemu/qmp/qmp_shell.py
+index e7d7eb18f1..2260ae016e 100644
+--- a/python/qemu/qmp/qmp_shell.py
++++ b/python/qemu/qmp/qmp_shell.py
+@@ -95,8 +95,13 @@
+     Sequence,
  )
  
--from . import QEMUMonitorProtocol, QMPError
-+from qemu.aqmp import AQMPError
-+from qemu.aqmp.legacy import QEMUMonitorProtocol
+-from qemu import qmp
+-from qemu.qmp import QMPMessage
++from qemu.aqmp import AQMPError, ConnectError, SocketAddrT
++from qemu.aqmp.legacy import (
++    QEMUMonitorProtocol,
++    QMPBadPortError,
++    QMPMessage,
++    QMPObject,
++)
  
  
- # The following is needed only for a type alias.
-@@ -82,7 +83,7 @@ class QOMCommand:
+ LOG = logging.getLogger(__name__)
+@@ -125,7 +130,7 @@ def complete(self, text: str, state: int) -> Optional[str]:
+         return None
  
-     def __init__(self, args: argparse.Namespace):
-         if args.socket is None:
--            raise QMPError("No QMP socket path or address given")
-+            raise AQMPError("No QMP socket path or address given")
-         self.qmp = QEMUMonitorProtocol(
-             QEMUMonitorProtocol.parse_address(args.socket)
-         )
-@@ -161,7 +162,7 @@ def command_runner(
+ 
+-class QMPShellError(qmp.QMPError):
++class QMPShellError(AQMPError):
+     """
+     QMP Shell Base error class.
+     """
+@@ -153,7 +158,7 @@ def visit_Name(cls,  # pylint: disable=invalid-name
+         return node
+ 
+ 
+-class QMPShell(qmp.QEMUMonitorProtocol):
++class QMPShell(QEMUMonitorProtocol):
+     """
+     QMPShell provides a basic readline-based QMP shell.
+ 
+@@ -161,7 +166,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+     :param pretty: Pretty-print QMP messages.
+     :param verbose: Echo outgoing QMP messages to console.
+     """
+-    def __init__(self, address: qmp.SocketAddrT,
++    def __init__(self, address: SocketAddrT,
+                  pretty: bool = False, verbose: bool = False):
+         super().__init__(address)
+         self._greeting: Optional[QMPMessage] = None
+@@ -237,7 +242,7 @@ def _parse_value(cls, val: str) -> object:
+ 
+     def _cli_expr(self,
+                   tokens: Sequence[str],
+-                  parent: qmp.QMPObject) -> None:
++                  parent: QMPObject) -> None:
+         for arg in tokens:
+             (key, sep, val) = arg.partition('=')
+             if sep != '=':
+@@ -403,7 +408,7 @@ class HMPShell(QMPShell):
+     :param pretty: Pretty-print QMP messages.
+     :param verbose: Echo outgoing QMP messages to console.
+     """
+-    def __init__(self, address: qmp.SocketAddrT,
++    def __init__(self, address: SocketAddrT,
+                  pretty: bool = False, verbose: bool = False):
+         super().__init__(address, pretty, verbose)
+         self._cpu_index = 0
+@@ -512,19 +517,17 @@ def main() -> None:
+ 
+     try:
+         address = shell_class.parse_address(args.qmp_server)
+-    except qmp.QMPBadPortError:
++    except QMPBadPortError:
+         parser.error(f"Bad port number: {args.qmp_server}")
+         return  # pycharm doesn't know error() is noreturn
+ 
+     with shell_class(address, args.pretty, args.verbose) as qemu:
          try:
-             cmd = cls(args)
-             return cmd.run()
--        except QMPError as err:
-+        except AQMPError as err:
-             print(f"{type(err).__name__}: {err!s}", file=sys.stderr)
-             return -1
+             qemu.connect(negotiate=not args.skip_negotiation)
+-        except qmp.QMPConnectError:
+-            die("Didn't get QMP greeting message")
+-        except qmp.QMPCapabilitiesError:
+-            die("Couldn't negotiate capabilities")
+-        except OSError as err:
+-            die(f"Couldn't connect to {args.qmp_server}: {err!s}")
++        except ConnectError as err:
++            if isinstance(err.exc, OSError):
++                die(f"Couldn't connect to {args.qmp_server}: {err!s}")
++            die(str(err))
  
-diff --git a/python/qemu/qmp/qom_fuse.py b/python/qemu/qmp/qom_fuse.py
-index 43f4671fdb..653a76b93b 100644
---- a/python/qemu/qmp/qom_fuse.py
-+++ b/python/qemu/qmp/qom_fuse.py
-@@ -48,7 +48,8 @@
- import fuse
- from fuse import FUSE, FuseOSError, Operations
- 
--from . import QMPResponseError
-+from qemu.aqmp import ExecuteError
-+
- from .qom_common import QOMCommand
- 
- 
-@@ -99,7 +100,7 @@ def is_object(self, path: str) -> bool:
-         try:
-             self.qom_list(path)
-             return True
--        except QMPResponseError:
-+        except ExecuteError:
-             return False
- 
-     def is_property(self, path: str) -> bool:
-@@ -112,7 +113,7 @@ def is_property(self, path: str) -> bool:
-                 if item.name == prop:
-                     return True
-             return False
--        except QMPResponseError:
-+        except ExecuteError:
-             return False
- 
-     def is_link(self, path: str) -> bool:
-@@ -125,7 +126,7 @@ def is_link(self, path: str) -> bool:
-                 if item.name == prop and item.link:
-                     return True
-             return False
--        except QMPResponseError:
-+        except ExecuteError:
-             return False
- 
-     def read(self, path: str, size: int, offset: int, fh: IO[bytes]) -> bytes:
-@@ -138,7 +139,7 @@ def read(self, path: str, size: int, offset: int, fh: IO[bytes]) -> bytes:
-         try:
-             data = str(self.qmp.command('qom-get', path=path, property=prop))
-             data += '\n'  # make values shell friendly
--        except QMPResponseError as err:
-+        except ExecuteError as err:
-             raise FuseOSError(EPERM) from err
- 
-         if offset > len(data):
+         for _ in qemu.repl():
+             pass
 -- 
 2.31.1
 
