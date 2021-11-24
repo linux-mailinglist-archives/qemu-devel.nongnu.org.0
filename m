@@ -2,82 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D8245B763
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 10:25:26 +0100 (CET)
-Received: from localhost ([::1]:40140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D68445B76D
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 10:29:57 +0100 (CET)
+Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpoWr-0002bR-A9
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 04:25:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51976)
+	id 1mpobD-0006uc-MJ
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 04:29:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mpoV9-00018W-0G
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:23:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22650)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mpoVC-0001BD-Di
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:23:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mpoV1-0004i3-4F
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:23:37 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mpoV4-0004iS-JZ
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:23:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637745809;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1637745813;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c8TYxznOzbnJXlD0WmUiFgP9e1uj1Fz4AH4UgFxAb3Q=;
- b=ADEkfluqqpKVKE6mckkLpP2fGFM9Oh0UiK6hMg5K7oBnZhEpCsEfMnimihtT0vVWTtpSy7
- 3hyHG5u1exKNgMzYS9FvUBJfBxtOebNXe0C6H7y7/H2tX5S2Bfm7cWOT54Mnel8aIUKvb6
- 4ruSDNLC1qJsVvzLvwMxwDZxM20mxqE=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=op9l1houTh0AyZsl7B2PXM1vJGxkSjd2K5RbuoSzYhQ=;
+ b=gpS1tI88ryhmMYhKnopL3Gn6F/9BzGSRP76ibJaTpWul+zGQSLhrRrl9qip6eA/dJJInwO
+ ydD8bT5rnhEqTmnmvIly9NwHTEh/+4kbA9fIVkhnOKWWZRffaVr29jEwe1V32MUTlupZcC
+ wM+ySL7Rc7ooTT6Pe2WLeDmqp/mZfjw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-kZk1wT41P2KWEnZcN8LYcA-1; Wed, 24 Nov 2021 04:23:28 -0500
-X-MC-Unique: kZk1wT41P2KWEnZcN8LYcA-1
-Received: by mail-pj1-f71.google.com with SMTP id
- p12-20020a17090b010c00b001a65bfe8054so1304177pjz.8
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 01:23:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=c8TYxznOzbnJXlD0WmUiFgP9e1uj1Fz4AH4UgFxAb3Q=;
- b=WVvpu9Q4A4Ib9zGy1agyP/QlPDNbly1yrR4C/5djahm2FnoZnrCfNM2PitJdxhCZ1F
- toPTWW3Euxb+lwlV/6TcKjOjlThRCtSYOiWUx9pz1cLyFu1GqhO0xdkHlpq54NNApRO/
- iayFDF06h1PBeYG260YO4tIJE3oZ5JS1kS2czusxbyfAtgFuAQqU1oUsnrnuQ1ksvbyg
- NdYslam35CJlHG5Kja0gUcaHczXnemH+v6bSXrzIF9aRxSN1nj6unThGKbRPSNaMyBWo
- sNkR3mOkO/aMw4ps8gcPXYzf2KIMQVRtAP9r/5me9DaTE7CJQ92fr4OytdCLZLiUypSl
- eExA==
-X-Gm-Message-State: AOAM533rxu82iNXuvWnzR9aDiWhZnHUhXhl6w/Pwu77ol6ps+iro/p1T
- mCOphFTemjfUHcmdHuIGnWaS6yzGeS6lml9KzY0j6rKxPAXJZDAZtcy5EOq3Y4uomVYznYSSWoy
- 9lX/6pG0LK7X+0P8=
-X-Received: by 2002:aa7:98dd:0:b0:49f:bab8:3b67 with SMTP id
- e29-20020aa798dd000000b0049fbab83b67mr4606895pfm.86.1637745807643; 
- Wed, 24 Nov 2021 01:23:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyymJs9T/RmXQW4CMv39ykl2KxhONiEZYALUbsbCylii/hZrLaITY7uj8ZJni+xK54MQyGbAQ==
-X-Received: by 2002:aa7:98dd:0:b0:49f:bab8:3b67 with SMTP id
- e29-20020aa798dd000000b0049fbab83b67mr4606871pfm.86.1637745807352; 
- Wed, 24 Nov 2021 01:23:27 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.150])
- by smtp.gmail.com with ESMTPSA id j1sm13081397pfe.158.2021.11.24.01.23.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 01:23:26 -0800 (PST)
-Date: Wed, 24 Nov 2021 17:23:22 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH] intel-iommu: ignore SNP bit in scalable mode
-Message-ID: <YZ4EioUDRAygL61n@xz-m1.local>
-References: <20211124060309.6872-1-jasowang@redhat.com>
- <YZ3wXo5XueDtuk8c@xz-m1.local>
- <CACGkMEvLAThn7VFtB2xeaP+bzPtnVwj0Orzpt=nK5Bg2h6QZow@mail.gmail.com>
- <YZ39USAfW7i1oAOO@xz-m1.local>
- <CACGkMEsohbTvbFhMaZ_aAHpyJdbB4xcp6zRzaVYZXAZzCN7Vyw@mail.gmail.com>
+ us-mta-345-0ilK4vYOOO6ytKFW8o1HZQ-1; Wed, 24 Nov 2021 04:23:30 -0500
+X-MC-Unique: 0ilK4vYOOO6ytKFW8o1HZQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41F0AEC1C1;
+ Wed, 24 Nov 2021 09:23:26 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 72A98418E;
+ Wed, 24 Nov 2021 09:23:25 +0000 (UTC)
+Date: Wed, 24 Nov 2021 09:23:23 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH] qga: replace "blacklist" with "blocklist"
+Message-ID: <YZ4Ei1AWr6LeZA+d@redhat.com>
+References: <20211124090937.293966-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEsohbTvbFhMaZ_aAHpyJdbB4xcp6zRzaVYZXAZzCN7Vyw@mail.gmail.com>
+In-Reply-To: <20211124090937.293966-1-marcandre.lureau@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -98,69 +82,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Yi L" <yi.l.liu@intel.com>, yi.y.sun@linux.intel.com,
- qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: michael.roth@amd.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 24, 2021 at 05:01:42PM +0800, Jason Wang wrote:
-> > > > > -static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, uint32_t level)
-> > > > > +static bool vtd_slpte_nonzero_rsvd(IntelIOMMUState *s,
-> > > > > +                                   uint64_t slpte, uint32_t level)
-> > > > >  {
-> > > > >      uint64_t rsvd_mask = vtd_spte_rsvd[level];
-> > > > >
-> > > > > @@ -979,6 +980,10 @@ static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, uint32_t level)
-> > > > >          rsvd_mask = vtd_spte_rsvd_large[level];
-> > > > >      }
-> > > > >
-> > > > > +    if (s->scalable_mode) {
-> > > > > +        rsvd_mask &= ~VTD_SPTE_SNP;
-> > > > > +    }
-> > > >
-> > > > IMHO what we want to do is only to skip the leaves of pgtables on SNP, so maybe
-> > > > we still want to keep checking the bit 11 reserved for e.g. common pgtable dir
-> > > > entries?
+On Wed, Nov 24, 2021 at 01:09:37PM +0400, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Maybe, but it's probably a question that can only be answered by
-> Intel. I can change it for the next version if you stick.
-
-I'm reading vtd spec v3.1 (June 2019) here, and chap 9.8 told me they're
-reserved bits for pgdir entries, as no SNP bit defined on pgdir entries.
-
+> Let's use a more neutral language for that option.
 > 
-> > > >
-> > > > To do so, how about directly modifying the vtd_spte_rsvd* fields in vtd_init()?
-> > > > I think we only need to modify 4k/2m/1g entries to mask bit 11, they're:
-> > > >
-> > > >   - vtd_spte_rsvd[1] (4K)
-> > > >   - vtd_spte_rsvd_large[2] (2M)
-> > > >   - vtd_spte_rsvd_large[3] (1G)
-> > > >
-> > > > What do you think?  Then we avoid passing IntelIOMMUState* all over too.
+> "blacklist" is still silently accepted for compatibility reasons.
 > 
-> I started a version like that:), it should work, I will change that if
-> it was agreed by everyone.
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>  docs/interop/qemu-ga.rst   |  4 ++--
+>  qga/guest-agent-core.h     |  2 +-
+>  qga/commands-posix.c       | 14 ++++++------
+>  qga/commands-win32.c       | 10 ++++----
+>  qga/main.c                 | 47 ++++++++++++++++++++++----------------
+>  tests/unit/test-qga.c      |  8 +++----
+>  tests/data/test-qga-config |  2 +-
+>  7 files changed, 47 insertions(+), 40 deletions(-)
 > 
-> The reason that I changed to pass IntelIOMMUState is that it results
-> in a smaller changeset. The reason is that I tend to introduce new
-> rsvd bits for SM mode since after checking vtd 3.3 it looks have
-> different reserved bit requirement than before (at least 1.2)
+> diff --git a/docs/interop/qemu-ga.rst b/docs/interop/qemu-ga.rst
+> index 3063357bb5d6..706c7b189b0e 100644
+> --- a/docs/interop/qemu-ga.rst
+> +++ b/docs/interop/qemu-ga.rst
+> @@ -79,7 +79,7 @@ Options
+>  
+>    Daemonize after startup (detach from terminal).
+>  
+> -.. option:: -b, --blacklist=LIST
+> +.. option:: -b, --blocklist=LIST
+>  
+>    Comma-separated list of RPCs to disable (no spaces, ``?`` to list
+>    available RPCs).
 
-Oh I thought changing vtd_spte_rsvd* should have smaller changeset instead,
-hmm? :)
+IMHO, neither is especially informative because they don't
+express what is being disabled. What about.
 
-IMHO it'll be:
+   -f, --command-filter=LIST
 
-  if (s->scalable_mode) {
-        vtd_spte_rsvd[1] &= ~BIT(11);
-        vtd_spte_rsvd_large[2] &= ~BIT(11);
-        vtd_spte_rsvd_large[3] &= ~BIT(11);
-  }
+   Comma-separate list of command names to disable.
+   No spaces, use ``help`` to list available commands.
 
-Would that work?  Thanks,
 
+> diff --git a/qga/main.c b/qga/main.c
+> index 15fd3a4149f4..016e3f160570 100644
+> --- a/qga/main.c
+> +++ b/qga/main.c
+> @@ -88,7 +88,7 @@ struct GAState {
+>  #endif
+>      bool delimit_response;
+>      bool frozen;
+> -    GList *blacklist;
+> +    GList *blocklist;
+>      char *state_filepath_isfrozen;
+>      struct {
+>          const char *log_filepath;
+> @@ -257,7 +257,7 @@ QEMU_COPYRIGHT "\n"
+>  #ifdef _WIN32
+>  "  -s, --service     service commands: install, uninstall, vss-install, vss-uninstall\n"
+>  #endif
+> -"  -b, --blacklist   comma-separated list of RPCs to disable (no spaces, \"?\"\n"
+> +"  -b, --blocklist   comma-separated list of RPCs to disable (no spaces, \"?\"\n"
+>  "                    to list available RPCs)\n"
+>  "  -D, --dump-conf   dump a qemu-ga config file based on current config\n"
+>  "                    options / command-line parameters to stdout\n"
+> @@ -379,13 +379,13 @@ static void ga_disable_non_whitelisted(const QmpCommand *cmd, void *opaque)
+>      }
+>  }
+>  
+> -/* [re-]enable all commands, except those explicitly blacklisted by user */
+> -static void ga_enable_non_blacklisted(const QmpCommand *cmd, void *opaque)
+> +/* [re-]enable all commands, except those explicitly blocklisted by user */
+> +static void ga_enable_non_blocklisted(const QmpCommand *cmd, void *opaque)
+>  {
+> -    GList *blacklist = opaque;
+> +    GList *blocklist = opaque;
+>      const char *name = qmp_command_name(cmd);
+>  
+> -    if (g_list_find_custom(blacklist, name, ga_strcmp) == NULL &&
+> +    if (g_list_find_custom(blocklist, name, ga_strcmp) == NULL &&
+>          !qmp_command_is_enabled(cmd)) {
+>          g_debug("enabling command: %s", name);
+>          qmp_enable_command(&ga_commands, name);
+> @@ -463,8 +463,8 @@ void ga_unset_frozen(GAState *s)
+>          s->deferred_options.pid_filepath = NULL;
+>      }
+>  
+> -    /* enable all disabled, non-blacklisted commands */
+> -    qmp_for_each_command(&ga_commands, ga_enable_non_blacklisted, s->blacklist);
+> +    /* enable all disabled, non-blocklisted commands */
+> +    qmp_for_each_command(&ga_commands, ga_enable_non_blocklisted, s->blocklist);
+>      s->frozen = false;
+>      if (!ga_delete_file(s->state_filepath_isfrozen)) {
+>          g_warning("unable to delete %s, fsfreeze may not function properly",
+> @@ -894,7 +894,7 @@ int64_t ga_get_fd_handle(GAState *s, Error **errp)
+>      int64_t handle;
+>  
+>      g_assert(s->pstate_filepath);
+> -    /* we blacklist commands and avoid operations that potentially require
+> +    /* we blocklist commands and avoid operations that potentially require
+>       * writing to disk when we're in a frozen state. this includes opening
+>       * new files, so we should never get here in that situation
+>       */
+> @@ -948,8 +948,8 @@ struct GAConfig {
+>  #ifdef _WIN32
+>      const char *service;
+>  #endif
+> -    gchar *bliststr; /* blacklist may point to this string */
+> -    GList *blacklist;
+> +    gchar *bliststr; /* blocklist may point to this string */
+> +    GList *blocklist;
+>      int daemonize;
+>      GLogLevelFlags log_level;
+>      int dumpconf;
+> @@ -1007,10 +1007,16 @@ static void config_load(GAConfig *config)
+>          config->retry_path =
+>              g_key_file_get_boolean(keyfile, "general", "retry-path", &gerr);
+>      }
+> +    if (g_key_file_has_key(keyfile, "general", "blocklist", NULL)) {
+> +        config->bliststr =
+> +            g_key_file_get_string(keyfile, "general", "blocklist", &gerr);
+> +        config->blocklist = g_list_concat(config->blocklist,
+> +                                          split_list(config->bliststr, ","));
+> +    }
+>      if (g_key_file_has_key(keyfile, "general", "blacklist", NULL)) {
+>          config->bliststr =
+>              g_key_file_get_string(keyfile, "general", "blacklist", &gerr);
+> -        config->blacklist = g_list_concat(config->blacklist,
+> +        config->blocklist = g_list_concat(config->blocklist,
+>                                            split_list(config->bliststr, ","));
+>      }
+
+This needs to print a deprecation warning.
+
+
+We also need to update the QEMU deprecations documentation.
+
+
+Regards,
+Daniel
 -- 
-Peter Xu
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
