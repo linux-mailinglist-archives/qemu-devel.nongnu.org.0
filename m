@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3010D45B808
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 11:07:26 +0100 (CET)
-Received: from localhost ([::1]:50586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD1045B801
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 11:06:37 +0100 (CET)
+Received: from localhost ([::1]:48510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mppBV-0006qO-AF
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 05:07:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38174)
+	id 1mppAf-0005NM-8k
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 05:06:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mpp0r-0003xF-Mz
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:56:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38199)
+ id 1mpp3i-0000b2-2r
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:59:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mpp0p-0004x6-9y
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:56:25 -0500
+ id 1mpp3f-0005M3-Vb
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:59:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637747782;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ffZrQjVgGHNgunaflrengDVoG/ghaT4oQPjHYo/PfYo=;
- b=XFKPgqt2xvSej/jPaYxmlsVqvRH6ju9Q2dovVP/CbcpsMkAzVZRU5okNuAVgcwPoD8m0Ae
- nGMWuplkw9Vs/Gp9EJFYTPlOia7zjpZrAY3Ne5GVZvjmDflhpgeSafSFWlzGsAtXgc6e0i
- rWRbEnQu08EjmW0SvzN6WIlknNorRmM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1637747959;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=qlv5q1keHcGL7Kcv1EyXUpKb8gb7nHBrKvPQDJ9NEuw=;
+ b=hCYWxd+QO8WzZpZ6je5GXEiO2/nMatVqtHmWDaQnwybejp581QW3K3Yv/2xGxn5oKSCSE4
+ glWA0rvR6+UCqSKNX0g7RcXB2/fBUldChoimpNGVfyRvf2Hh5zVEcnWwOlMZu0n1+KzvIi
+ 4CT40YelYvjcor3wy/rbO+LTeY94zEg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-259-YjrM8EwLOtq2uKioI4RyUA-1; Wed, 24 Nov 2021 04:56:21 -0500
-X-MC-Unique: YjrM8EwLOtq2uKioI4RyUA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j25-20020a05600c1c1900b00332372c252dso1142777wms.1
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 01:56:21 -0800 (PST)
+ us-mta-395-crKj8vVYMa-wmPqkhsvvVA-1; Wed, 24 Nov 2021 04:59:18 -0500
+X-MC-Unique: crKj8vVYMa-wmPqkhsvvVA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 69-20020a1c0148000000b0033214e5b021so1066579wmb.3
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 01:59:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ffZrQjVgGHNgunaflrengDVoG/ghaT4oQPjHYo/PfYo=;
- b=bIK08+xaqGlyNfPZc1Ig+00UrDalmOHArN4FbFjMc78nc8NuLKkueY1qowvBVAwL4T
- x4Rex20hK0PX+gBj1fBMt73jqXDfxzhpzat8rsl+6XesFrNgzTKG1kM8uxO/llpf9kgN
- uGu260WY4kCyMBMuOGAF+Y34uZs0om3rlJ7ataCxYzvK+8V882oMdEoKxlA1rak+Onxn
- dAybi5vo8RZQOZc35D1Edl0KvJ5blEL2VcHN4VZ30MKUCuTvlubZ/66VIh+Jd9WDd3S9
- uS98S16vweqcjGsTiSPYe73XvHIcDqs2+iisSd1YTGXHnhxoJfDaNRp1nq3Wzmr0XQcL
- ynmw==
-X-Gm-Message-State: AOAM531lUBCzOVMAj7MmwyvHTADNBVySPZaVFJeUeqfVb2XqbwxYnw4B
- TX2s/rbp5Kx/W/4qkqE/m5n2YwnGWeuDHsi8Mn8hzDXOvqOb2ekUSrtRq4Zm0ZFhU3rp+Qy+JnK
- N2QwHwKatfAizt/Fd3tNTSuC3RNrUmS9qT9OobduJo+ygeVUq+8kt7KCmfA5pa8slS8I=
-X-Received: by 2002:a5d:550c:: with SMTP id b12mr17013810wrv.427.1637747779734; 
- Wed, 24 Nov 2021 01:56:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwIBbGNqiqAQxc8hhYG18iwhQsO9vPvEjsd86gCxBnxtM/lvnQT07ysSEl530zerqZJLep0Sg==
-X-Received: by 2002:a5d:550c:: with SMTP id b12mr17013765wrv.427.1637747779450; 
- Wed, 24 Nov 2021 01:56:19 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=qlv5q1keHcGL7Kcv1EyXUpKb8gb7nHBrKvPQDJ9NEuw=;
+ b=GFYzn28R0LefzTcewxXkYjphRT6zr6xI1x4IfLbcmifHQfN0wOU6rn5Ovt4yNhLVgb
+ 3xZCZpOAunF+3D1SdyssJY0i9v+p2ytVz1er6W/VwFCxqYA/hIsrg0mcHkgqLT9hyllM
+ nY6+f5QtP+NcyppB+S0XYAD3OekRu2f+7G6ztNpi4D53IT9GokFoq2WyEBH9Uqs4+Yvx
+ cEBUb3r6U4pNaumDi2gBw+smARF0leWOsOT5cex4E2/k90l+LC+usbI5M4NMfbruiisb
+ 8yz4oTnTBCRbFWmW8zOltwUdfxiit8uTUaZTbXonjuvXv6lIV+q470rot/htUaGq/eri
+ L75w==
+X-Gm-Message-State: AOAM53044AxIPFIRJitwt49ZFtM/PgMjTZdyhHhKp79D2Q25Mvp/SXX0
+ id3hSp32O01GzGlQFBzUoHEFQwczd5hTVv9XkJctR2yCaDq4A6XwwTH4Mdep+1beEHav6qsQdKW
+ KIKAv9VQhpZcMU5rSJQedD+34KwUrdKdBK5eGUhOzO4mEm2XC7jC4tq4C14tcz478cXM=
+X-Received: by 2002:a05:6000:18a3:: with SMTP id
+ b3mr17137281wri.343.1637747957056; 
+ Wed, 24 Nov 2021 01:59:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyDrmXwD7dOFQyNzrLpfaLcw2BNKzSy27ME/owcTaI13glKt6KkQKinJqxRFFnrqbQan08igw==
+X-Received: by 2002:a05:6000:18a3:: with SMTP id
+ b3mr17137248wri.343.1637747956797; 
+ Wed, 24 Nov 2021 01:59:16 -0800 (PST)
 Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
  [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id p62sm4010126wmp.10.2021.11.24.01.56.18
+ by smtp.gmail.com with ESMTPSA id f19sm5220099wmq.34.2021.11.24.01.59.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 01:56:19 -0800 (PST)
+ Wed, 24 Nov 2021 01:59:16 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/23] multifd: Remove send_write() method
-Date: Wed, 24 Nov 2021 10:54:51 +0100
-Message-Id: <20211124095500.42078-15-quintela@redhat.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211124095500.42078-1-quintela@redhat.com>
-References: <20211124095500.42078-1-quintela@redhat.com>
+Subject: Re: [PATCH 00/23] Migration: Transmit and detect zero pages in the
+ multifd threads
+In-Reply-To: <20211123175113.35569-1-quintela@redhat.com> (Juan Quintela's
+ message of "Tue, 23 Nov 2021 18:50:50 +0100")
+References: <20211123175113.35569-1-quintela@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Wed, 24 Nov 2021 10:59:15 +0100
+Message-ID: <875yshho24.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -97,151 +99,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Reply-To: quintela@redhat.com
+Cc: Leonardo Bras <leobras@redhat.com>, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Everything use now iov's.
+Juan Quintela <quintela@redhat.com> wrote:
+> Hi
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/multifd.h      |  2 --
- migration/multifd-zlib.c | 17 -----------------
- migration/multifd-zstd.c | 17 -----------------
- migration/multifd.c      | 20 ++------------------
- 4 files changed, 2 insertions(+), 54 deletions(-)
+Nack myself.
 
-diff --git a/migration/multifd.h b/migration/multifd.h
-index c3f18af364..7496f951a7 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -164,8 +164,6 @@ typedef struct {
-     void (*send_cleanup)(MultiFDSendParams *p, Error **errp);
-     /* Prepare the send packet */
-     int (*send_prepare)(MultiFDSendParams *p, Error **errp);
--    /* Write the send packet */
--    int (*send_write)(MultiFDSendParams *p, uint32_t used, Error **errp);
-     /* Setup for receiving side */
-     int (*recv_setup)(MultiFDRecvParams *p, Error **errp);
-     /* Cleanup for receiving side */
-diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-index 478a4af115..f65159392a 100644
---- a/migration/multifd-zlib.c
-+++ b/migration/multifd-zlib.c
-@@ -152,22 +152,6 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
-     return 0;
- }
- 
--/**
-- * zlib_send_write: do the actual write of the data
-- *
-- * Do the actual write of the comprresed buffer.
-- *
-- * Returns 0 for success or -1 for error
-- *
-- * @p: Params for the channel that we are using
-- * @used: number of pages used
-- * @errp: pointer to an error
-- */
--static int zlib_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
--{
--    return qio_channel_writev_all(p->c, p->iov, p->iovs_num, errp);
--}
--
- /**
-  * zlib_recv_setup: setup receive side
-  *
-@@ -307,7 +291,6 @@ static MultiFDMethods multifd_zlib_ops = {
-     .send_setup = zlib_send_setup,
-     .send_cleanup = zlib_send_cleanup,
-     .send_prepare = zlib_send_prepare,
--    .send_write = zlib_send_write,
-     .recv_setup = zlib_recv_setup,
-     .recv_cleanup = zlib_recv_cleanup,
-     .recv_pages = zlib_recv_pages
-diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-index 259277dc42..6933ba622a 100644
---- a/migration/multifd-zstd.c
-+++ b/migration/multifd-zstd.c
-@@ -163,22 +163,6 @@ static int zstd_send_prepare(MultiFDSendParams *p, Error **errp)
-     return 0;
- }
- 
--/**
-- * zstd_send_write: do the actual write of the data
-- *
-- * Do the actual write of the comprresed buffer.
-- *
-- * Returns 0 for success or -1 for error
-- *
-- * @p: Params for the channel that we are using
-- * @used: number of pages used
-- * @errp: pointer to an error
-- */
--static int zstd_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
--{
--    return qio_channel_writev_all(p->c, p->iov, p->iovs_num, errp);
--}
--
- /**
-  * zstd_recv_setup: setup receive side
-  *
-@@ -320,7 +304,6 @@ static MultiFDMethods multifd_zstd_ops = {
-     .send_setup = zstd_send_setup,
-     .send_cleanup = zstd_send_cleanup,
-     .send_prepare = zstd_send_prepare,
--    .send_write = zstd_send_write,
-     .recv_setup = zstd_recv_setup,
-     .recv_cleanup = zstd_recv_cleanup,
-     .recv_pages = zstd_recv_pages
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 37487fd01c..71bdef068e 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -100,22 +100,6 @@ static int nocomp_send_prepare(MultiFDSendParams *p, Error **errp)
-     return 0;
- }
- 
--/**
-- * nocomp_send_write: do the actual write of the data
-- *
-- * For no compression we just have to write the data.
-- *
-- * Returns 0 for success or -1 for error
-- *
-- * @p: Params for the channel that we are using
-- * @used: number of pages used
-- * @errp: pointer to an error
-- */
--static int nocomp_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
--{
--    return qio_channel_writev_all(p->c, p->iov, p->iovs_num, errp);
--}
--
- /**
-  * nocomp_recv_setup: setup receive side
-  *
-@@ -173,7 +157,6 @@ static MultiFDMethods multifd_nocomp_ops = {
-     .send_setup = nocomp_send_setup,
-     .send_cleanup = nocomp_send_cleanup,
-     .send_prepare = nocomp_send_prepare,
--    .send_write = nocomp_send_write,
-     .recv_setup = nocomp_recv_setup,
-     .recv_cleanup = nocomp_recv_cleanup,
-     .recv_pages = nocomp_recv_pages
-@@ -687,7 +670,8 @@ static void *multifd_send_thread(void *opaque)
-             }
- 
-             if (used) {
--                ret = multifd_send_state->ops->send_write(p, used, &local_err);
-+                ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
-+                                             &local_err);
-                 if (ret != 0) {
-                     break;
-                 }
--- 
-2.33.1
+For some reasons my mail server decided to only sent part of the series.
+
+Sorry, Juan.
+
+
+>
+> Since Friday version:
+> - More cleanups on the code
+> - Remove repeated calls to qemu_target_page_size()
+> - Establish normal pages and zero pages
+> - detect zero pages on the multifd threads
+> - send zero pages through the multifd channels.
+> - reviews by Richard addressed.
+>
+> It pases migration-test, so it should be perfect O:+)
+>
+> ToDo for next version:
+> - check the version changes
+>   I need that 6.2 is out to check for 7.0.
+>   This code don't exist at all due to that reason.
+> - Send measurements of the differences
+>
+> Please, review.
+>
+> [
+>
+> Friday version that just created a single writev instead of
+> write+writev.
+>
+> ]
+>
+> Right now, multifd does a write() for the header and a writev() for
+> each group of pages.  Simplify it so we send the header as another
+> member of the IOV.
+>
+> Once there, I got several simplifications:
+> * is_zero_range() was used only once, just use its body.
+> * same with is_zero_page().
+> * Be consintent and use offset insed the ramblock everywhere.
+> * Now that we have the offsets of the ramblock, we can drop the iov.
+> * Now that nothing uses iov's except NOCOMP method, move the iovs
+>   from pages to methods.
+> * Now we can use iov's with a single field for zlib/zstd.
+> * send_write() method is the same in all the implementaitons, so use
+>   it directly.
+> * Now, we can use a single writev() to write everything.
+>
+> ToDo: Move zero page detection to the multifd thrteads.
+>
+> With RAM in the Terabytes size, the detection of the zero page takes
+> too much time on the main thread.
+>
+> Last patch on the series removes the detection of zero pages in the
+> main thread for multifd.  In the next series post, I will add how to
+> detect the zero pages and send them on multifd channels.
+>
+> Please review.
+>
+> Later, Juan.
+>
+> Juan Quintela (23):
+>   multifd: Delete useless operation
+>   migration: Never call twice qemu_target_page_size()
+>   multifd: Rename used field to num
+>   multifd: Add missing documention
+>   multifd: The variable is only used inside the loop
+>   multifd: remove used parameter from send_prepare() method
+>   multifd: remove used parameter from send_recv_pages() method
+>   multifd: Fill offset and block for reception
+>   multifd: Make zstd compression method not use iovs
+>   multifd: Make zlib compression method not use iovs
+>   multifd: Move iov from pages to params
+>   multifd: Make zlib use iov's
+>   multifd: Make zstd use iov's
+>   multifd: Remove send_write() method
+>   multifd: Use a single writev on the send side
+>   multifd: Unfold "used" variable by its value
+>   multifd: Use normal pages array on the send side
+>   multifd: Use normal pages array on the recv side
+>   multifd: recv side only needs the RAMBlock host address
+>   multifd: Rename pages_used to normal_pages
+>   multifd: Support for zero pages transmission
+>   multifd: Zero pages transmission
+>   migration: Use multifd before we check for the zero page
+>
+>  migration/multifd.h      |  52 +++++++---
+>  migration/migration.c    |   7 +-
+>  migration/multifd-zlib.c |  71 +++++--------
+>  migration/multifd-zstd.c |  70 +++++--------
+>  migration/multifd.c      | 214 +++++++++++++++++++++++----------------
+>  migration/ram.c          |  22 ++--
+>  migration/savevm.c       |   5 +-
+>  migration/trace-events   |   4 +-
+>  8 files changed, 231 insertions(+), 214 deletions(-)
 
 
