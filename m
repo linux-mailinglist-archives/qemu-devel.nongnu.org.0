@@ -2,95 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6B045C86A
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 16:17:10 +0100 (CET)
-Received: from localhost ([::1]:51318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB7AD45C893
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 16:23:57 +0100 (CET)
+Received: from localhost ([::1]:54834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpu1F-0002oY-J6
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 10:17:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51624)
+	id 1mpu7o-0005Y5-IU
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 10:23:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1mpu0L-0001ii-5p
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 10:16:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52212)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1mpu0G-0005dD-Rs
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 10:16:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637766967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1DyiEafrPKTan+hsnDjZLhzDtXLsEEkjaVRtiuuI3Vs=;
- b=fR39wT6bSGPIQnaTa6WAkSL2Bl/u6HDtRbbBMfZeC2hmnVJh7OAmgl5Dcm7gQ/sT9AagIv
- niVyKv/lV3lvvlpIMCA35OmBh1iH/AMe5dPxOUM9n5nOvtrFTZ/Pqy11oiRcIy4nBB1fmq
- qwd7+Sm7o/yZh4gBQqVsPBrrCjeCpao=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-445-ti9fl9B_OyuiiAk2sDpSGg-1; Wed, 24 Nov 2021 10:16:02 -0500
-X-MC-Unique: ti9fl9B_OyuiiAk2sDpSGg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j25-20020a05600c1c1900b00332372c252dso1637316wms.1
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 07:16:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mpu6K-0004sQ-Te
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 10:22:24 -0500
+Received: from [2a00:1450:4864:20::32f] (port=52878
+ helo=mail-wm1-x32f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mpu6J-0000YL-3O
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 10:22:24 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id o29so2747581wms.2
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 07:22:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QOEklZUlrfY8LiT9MIfgYYguKnmxNB4ekChqdD7A9Ls=;
+ b=eOrFe7IljdPBLLkdipBbwrVGeUTzANbmuozEePqRykyTeqyaRkRwN0TB0+HAIAuEEJ
+ nu23Gpos8Z7DStuLTs4IHyqmRh0qDnNf5RprfyyqtsFCIeN3pzYIN0BnScBZwsPn8Okw
+ f8wSsOYPlQUutgn1TDathprFDKAWOnokhOTVHUpIXX731PVtAZdPwc8CwPKuNKtlDKLQ
+ ozNWxF+qW6DPm9H6XTFdFX0VEk3jWX81L+nZsuz4cQcY+xKEXBdfDfEOsRFIYstGQaoS
+ aAgPDPwT7BxYl9lk9v7aB2ldTRbBZF/F/NU4lW3tHO0xH0dYhh1OKV5Hv1h4A+Tyfz44
+ PWUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1DyiEafrPKTan+hsnDjZLhzDtXLsEEkjaVRtiuuI3Vs=;
- b=h24/PhS5UVgH817XbsdZf0Vv0G3fnX5aQA1Y35S3dBB+GuJDo1WkspFMSz/H/om9cV
- R3Kapql4WUG8erGC6f9HmlzLwHfiXr4wLeNgZWLjnCqBs7lTSWIXzvTbO0AHkr1ZHveZ
- XF2ag5SJmiuaikkoYuYxj7YUwE8HJOIASTqHdb8FJj6/ZTAfh8CECkFB/JxFnfm+6kSj
- w43LW8NWTVC17xrPLuXxEg24Vlu0lUcjRw1+gcK5Krh4MjVr0YYbeT0nF1wik1CyE2CC
- 3fD25WxDMJgDx/q0HbEtlyyzOHclxW6DbuMBCgUN97TAf8YohJ9zYJrRFKvI5AuWep29
- FdzQ==
-X-Gm-Message-State: AOAM533+0lmcdEtqojSMqqYtTm0lDZSKmWNG1/G3lsMXYGII+fLNH+FE
- +bIBb5i+4L9KyIOC1vhBsI4DK/cSHBPI7/b0VWeWqsiamLTAvJ9DUrE9pyKpwYv/+pNY0dsOgBz
- Wjv2ybO60xFbQZiY=
-X-Received: by 2002:a05:600c:ce:: with SMTP id
- u14mr15846920wmm.83.1637766960861; 
- Wed, 24 Nov 2021 07:16:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJymBO6izBrnExaGXrT4LeeWaoB6/NNRE5XqR/O76tnLiaAhEdL6Eefgy9PU18LJD7sV1i7NwA==
-X-Received: by 2002:a05:600c:ce:: with SMTP id
- u14mr15846867wmm.83.1637766960629; 
- Wed, 24 Nov 2021 07:16:00 -0800 (PST)
-Received: from [10.34.245.34] (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id e12sm177749wrq.20.2021.11.24.07.15.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 07:16:00 -0800 (PST)
-Message-ID: <052bedf2-e48e-2fe7-9376-eb943923b7cd@redhat.com>
-Date: Wed, 24 Nov 2021 16:15:59 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QOEklZUlrfY8LiT9MIfgYYguKnmxNB4ekChqdD7A9Ls=;
+ b=ZdiWSLZ2BS4Hlp/LfcMgjSpQOMQoOk/bZ1wgfRMNc6zcexC1/bmyiJ6eFmtG4hef5z
+ gfJj0YpPijKm78rU8R65raRwXxtlpZoEl5yfKiWHkkYJEKViW4dO+7S2CjYmVijjTPUT
+ XhxpuErV/90LU1VstK6BHLJX7hMYDow6hljFICcyBpFnvbJQyuflZZV2kpWRd4pHJXAt
+ s63l11LoYgwW+wMefWOOs3FPSK0Nsb1+4cMGfiXfIGfvGnbufi0SJ3cyCF6yUaiL4wUZ
+ Shn6AclZ5MF0/7YV0nTi86VfrWN49KTrOxh7k5wryrr/TZ8+Zi3Q9N9LcHpIvYb5lz2m
+ f9Iw==
+X-Gm-Message-State: AOAM533kVl7KoTzdGWz3hTDe96rP9ZtO4Jk4nPCS0M9D5AGicKi2wdSx
+ LuqUat1PEaR9zVMuNJFNRLMozc9tarlSibdhojicUg==
+X-Google-Smtp-Source: ABdhPJwpZWkVul/YAUh2rEmIxbvrloXfwS0Xd+OLWTYvsZ1zHaGMeXjY7qszSUwOuvmOguzaX6TVQKbBnE/pzeDgHYM=
+X-Received: by 2002:a05:600c:1993:: with SMTP id
+ t19mr16564461wmq.21.1637767341209; 
+ Wed, 24 Nov 2021 07:22:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: RFC: extending QGA guest-network-get-interfaces
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>
-References: <CAJ+F1C+HXNBbfROqQBU1Wrt5fiVa9xrSpgg9ymSO2wR+WPRqBA@mail.gmail.com>
-From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
-In-Reply-To: <CAJ+F1C+HXNBbfROqQBU1Wrt5fiVa9xrSpgg9ymSO2wR+WPRqBA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -75
-X-Spam_score: -7.6
-X-Spam_bar: -------
-X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <ba2e8c4b-5e68-af08-bbe6-fef29d3177d1@linaro.org>
+In-Reply-To: <ba2e8c4b-5e68-af08-bbe6-fef29d3177d1@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 24 Nov 2021 15:22:10 +0000
+Message-ID: <CAFEAcA829qfgog8o35OLNsXnZ3WX1smGjfY_hJiTWXv20-3Jdg@mail.gmail.com>
+Subject: Re: Delay rc2 until 24 Nov
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,38 +80,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: oshoval@redhat.com, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/24/21 15:00, Marc-André Lureau wrote:
-> Hi
-> 
-> Or Shoval filed two RFE for guest-network-get-interfaces:
-> - "Guest agent should report the interface Permanent address"
-> https://bugzilla.redhat.com/show_bug.cgi?id=2025303
-> <https://bugzilla.redhat.com/show_bug.cgi?id=2025303>
+On Tue, 23 Nov 2021 at 22:25, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> I'm going to delay rc2 from tonight until tomorrow.
+> Hoping for a resolution to the gicv3 issue.
 
-As I've replied in the BZ, this is something that Libvirt can improve
-on. What happens when guest changes a MAC address is that
-NIC_RX_FILTER_CHANGED event is emitted and libvirt processes it (mostly
-to update guest XML, but not limited only to that). But, Libvirt does
-not forward this event further to users. Therefore, if a mgmt app on the
-top of Libvirt wants to keep track of MAC addresses, it can't do that
-simply.
+You won't get one today because I don't work Wednesdays.
+I'm hoping to have a look Thursday, maybe patch by the
+end of the week.
 
-> - "Guest agent should report interfaces from non root network
-> namespaces"  https://bugzilla.redhat.com/show_bug.cgi?id=2025296
-> <https://bugzilla.redhat.com/show_bug.cgi?id=2025296>
-
-This is a bit tricky to achieve. There's no easy way to list all nsids
-(they don't form a hierarchy like other NSs). We could traverse all
-mount points (be aware of mount namespaces), all PIDs (be aware of PID
-namespaces) and hope we covered all net NSs (a net namespace can have no
-nsid).
-
-IOW, network NSs behave different to other namespaces.
-
-Michal
-
+-- PMM
 
