@@ -2,83 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6AA45C824
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 15:58:20 +0100 (CET)
-Received: from localhost ([::1]:38244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4267E45C82A
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 15:59:53 +0100 (CET)
+Received: from localhost ([::1]:40766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mptj0-0001HE-UF
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 09:58:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45814)
+	id 1mptkW-00038S-4d
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 09:59:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpthh-0008H3-7a
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 09:56:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59421)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mptjP-0002NJ-Uf
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 09:58:46 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:38357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpthf-0004Yu-LL
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 09:56:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637765814;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1ILnbQN5Gqw2aJngQMnTYrClWCn8EmfDis6qMjgpm+0=;
- b=FOrhtEKmvzfvXSLWoD/YCehzwYhjT7oc/AzXjDxJLRknn89BVeX1pgb7Clu9GZB3lvcV14
- Kb9Bxi//hdyv1OMFLPe78xt7NdXka4R/pPBGyMgqd0dlemvSYvPvl7D+fEdNBzy8prLTLR
- mbMwb8LwhMlW+NWvhrM1EIh+Ud/9rbg=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-516-mz7YIJnFP4qSAmsZTQDUhA-1; Wed, 24 Nov 2021 09:56:52 -0500
-X-MC-Unique: mz7YIJnFP4qSAmsZTQDUhA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- m17-20020aa7d351000000b003e7c0bc8523so2614031edr.1
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 06:56:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1ILnbQN5Gqw2aJngQMnTYrClWCn8EmfDis6qMjgpm+0=;
- b=NHw8jcXTXoJFwGKYRcQZUEJYLNE1nXx26+sZlxXvIUhYK7CT9a8do8d642SUke4Z8m
- 7VQ/sGzbOUMb3p3zKtqxnTh+QZ2SWMacmtKUT4GbCsAvHK/YUS6k+TjreXtK16HMY7xx
- h+4myQZRHP5DkzgZkYvwyOVeNIY4zpDpx6tpkcqGoV/P/r22fWAa6sphIYEWayrzZsRh
- rwnXmjSaGJH73PANo+Fftmi4YkUVSZ/NRFD4qr0wTH4KO4IgHxWKqD4sW3ze1Ml72o/6
- Ioxl7PhjOrYXaBYSOACl0gXmEyeQzJU5WHBnVL0pJHb3meNh/GH4KNvDBnnj7EYb77TT
- ZZ6w==
-X-Gm-Message-State: AOAM532b5Bas5YqxKb3sH/4EyYVX+AR/H107WfTDpS/3vLQ3kwz99k+S
- DqgMdDzsoypMsuOwPvi1hPgYWcjl3JonIhrY3qP9oZVE3/7ULuWZEq3EcPhAosDjyHoOw7WXMli
- ntb2TsVqiHB6hJFuelXrqmJtPAskEmr8=
-X-Received: by 2002:a17:906:31c2:: with SMTP id
- f2mr21092866ejf.341.1637765811529; 
- Wed, 24 Nov 2021 06:56:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwooDLsdiWO/AkK6e7zxCey6SyOUPMpn2K2M2GhU+YBu4Uzi1r2C3r58g4md7J09iakWjMgOj7BNlJqD1axBEY=
-X-Received: by 2002:a17:906:31c2:: with SMTP id
- f2mr21092826ejf.341.1637765811267; 
- Wed, 24 Nov 2021 06:56:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mptjM-0005fq-Ro
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 09:58:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=BUYhaGkcWBUPxUQUI3EHJG0Ge4NBW83R5USiupxB324=; b=mgOPcAG1REEt8vgekQkFdzbNoH
+ +J5fKUSjQzk+xOiiSRFUMmGhmNwoIIWFdURHDqxr+d3lhgxQ5RHrpl/WIbZotwlAngAhUzg8r5eEX
+ Yydqriw/YDMdsI+mwMHschwaQSBhW1FDJ2Chi61UcgIQk2J9ziiZDamp93N7A5jHwOlMokurd8WMe
+ 4c1i4YaZSBA01cJgnVr8dm5iV8F+m7c+OUkH1eLvMGH+bnE59lEt7RhyIdY6l2+T9EC4p+jZun2yh
+ K33n1AaNBOaS7CZa0jX+zF8BNFsesbW1aDWQSk1Y3HU+TI9vdMxBWMCuVWsspjXt6vZj4jGF35U0s
+ Z1KBWDcUENWtPQHFcadItqAb1UCNEjmAVTQdgJ+ijI84nAjGFL9RhzYyHae6T8TZr14BXAc4lPa28
+ /PRmw4YWSG1A9tOfkE4zakMLmRyJY/K8p+CUYVe5wTMXAglH6VDNMh/rvQkb8/F77kNTIbc6EOEnV
+ ySJrF7b7zLktv7Z2u7upw7Xt4KwXvoDzVYeOUPGqgOMBdbXV0N3oEPUAPq2Ug6aB424PHiUSqLItW
+ fe1XMzqjaU6ntmDQlNAeLxJACVdm6C+uq28qZKUkQplflRsuy6Riuq5wbrKDU7nMhZve8oOkVqBNS
+ sSY2aUlJ5o+IU8zWbGtGuz5AUB9i8A/QUqlyumpLw=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Will Cohen <wwcohen@gmail.com>, Keno Fischer <keno@juliacomputing.com>,
+ Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>
+Subject: Re: [PATCH v2 04/11] 9p: darwin: Handle struct dirent differences
+Date: Wed, 24 Nov 2021 15:58:38 +0100
+Message-ID: <60659730.p4icJFLGV9@silver>
+In-Reply-To: <20211122004913.20052-5-wwcohen@gmail.com>
+References: <20211122004913.20052-1-wwcohen@gmail.com>
+ <20211122004913.20052-5-wwcohen@gmail.com>
 MIME-Version: 1.0
-References: <CA+bd_6JS0t_COHiw2Y3Ej1gAeOGVTScNoS-=Seo+7udAe5wqZw@mail.gmail.com>
- <cc136013-2632-c149-d258-e2e7f964b07f@redhat.com>
-In-Reply-To: <cc136013-2632-c149-d258-e2e7f964b07f@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Wed, 24 Nov 2021 15:56:40 +0100
-Message-ID: <CAP+75-VUKeuUo7a9bscEOqX+q_-qE7PbOb3GJb29Te21r_AOJg@mail.gmail.com>
-Subject: Re: Give the fosshost.org VM a purpose or a retirement
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,36 +67,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 24, 2021 at 3:55 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
-> On 11/24/21 15:16, Cleber Rosa wrote:
-> > Hi,
-> >
-> > Fosshost.org was kind enough to supply the QEMU project with a public
-> > VM hosted by them.  The original use case we anticipated was to set up
-> > a GitLab CI runner, because we assumed the VM was KVM capable, but
-> > that turned out not to be the case.
-> >
-> > So, at this point, adding it as a GitLab CI runner would not add any
-> > significant improvement over the shared runners already provided, and
-> > it would require more maintenance effort.
-> >
-> > If there are any ideas for making use of this resource, and volunteers
-> > to configure and maintain it, please let me know.
-> >
-> > Otherwise, it seems fair to relinquish the resource back to Fosshost.or=
-g.
->
-> Cc'ing Warner, since for FreeBSD testing we use Cirrus-CI (via
-> libvirt-ci and have sometime hit GitLab timeout). Series [*]
-> provides most of what is required to register a FreeBSD runner.
-> It could be useful to run the user-mode tests.
+On Montag, 22. November 2021 01:49:06 CET Will Cohen wrote:
+> From: Keno Fischer <keno@juliacomputing.com>
+> 
+> On darwin d_seekoff exists, but is optional and does not seem to
+> be commonly used by file systems. Use `telldir` instead to obtain
+> the seek offset.
 
-[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg805902.html
+Are you sure d_seekoff doesn't work on macOS? Because using telldir() instead
+is not the same thing. Accessing d_*off is just POD access, whereas telldir()
+is a syscall. What you are trying in this patch with telldir() easily gets
+hairy.
+
+AFAIK there was d_off in previous versions of macOS, which was then replaced
+by d_seekof in macOS 11.1, no?
+
+> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> [Michael Roitzsch: - Rebase for NixOS]
+> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> ---
+>  hw/9pfs/9p-synth.c |  2 ++
+>  hw/9pfs/9p.c       | 33 +++++++++++++++++++++++++++++++--
+>  hw/9pfs/codir.c    |  4 ++++
+>  3 files changed, 37 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+> index 4a4a776d06..09b9c25288 100644
+> --- a/hw/9pfs/9p-synth.c
+> +++ b/hw/9pfs/9p-synth.c
+> @@ -222,7 +222,9 @@ static void synth_direntry(V9fsSynthNode *node,
+>  {
+>      strcpy(entry->d_name, node->name);
+>      entry->d_ino = node->attr->inode;
+> +#ifndef CONFIG_DARWIN
+>      entry->d_off = off + 1;
+> +#endif
+>  }
+
+^ That doesn't look like it would work. Compiling sure.
+
+Have you tried running the test cases?
+https://wiki.qemu.org/Documentation/9p#Test_Cases
+
+>  static struct dirent *synth_get_dentry(V9fsSynthNode *dir,
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index f4f0c200c7..c06e8a85a0 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -2218,6 +2218,25 @@ static int v9fs_xattr_read(V9fsState *s, V9fsPDU
+> *pdu, V9fsFidState *fidp, return offset;
+>  }
+> 
+> +/**
+> + * Get the seek offset of a dirent. If not available from the structure
+> itself, + * obtain it by calling telldir.
+> + */
+> +static int v9fs_dent_telldir(V9fsPDU *pdu, V9fsFidState *fidp,
+> +                             struct dirent *dent)
+> +{
+> +#ifdef CONFIG_DARWIN
+> +    /*
+> +     * Darwin has d_seekoff, which appears to function similarly to d_off.
+> +     * However, it does not appear to be supported on all file systems,
+> +     * so use telldir for correctness.
+> +     */
+> +    return telldir(fidp->fs.dir.stream);
+> +#else
+> +    return dent->d_off;
+> +#endif
+
+The thing here is, we usually run fs syscalls as coroutines on a worker thread
+as they might block for a long time, and in the meantime 9p server's main
+thread could handle other tasks. Plus if a fs syscall gets stuck, we can abort
+the request, which is not possible if its called directly from main thread.
+
+https://wiki.qemu.org/Documentation/9p#Threads_and_Coroutines
+
+dent->d_off is just POD access, so it is instantanious. But that does not mean
+you should wrap that telldir() call now to be a background task, because that
+will add other implications. I would rather prefer to clarify first whether
+d_*off is really not working on macOS to avoid all the foreseeable trouble.
+
+> +}
+> +
+>  static int coroutine_fn v9fs_do_readdir_with_stat(V9fsPDU *pdu,
+>                                                    V9fsFidState *fidp,
+>                                                    uint32_t max_count)
+> @@ -2281,7 +2300,11 @@ static int coroutine_fn
+> v9fs_do_readdir_with_stat(V9fsPDU *pdu, count += len;
+>          v9fs_stat_free(&v9stat);
+>          v9fs_path_free(&path);
+> -        saved_dir_pos = dent->d_off;
+> +        saved_dir_pos = v9fs_dent_telldir(pdu, fidp, dent);
+> +        if (saved_dir_pos < 0) {
+> +            err = saved_dir_pos;
+> +            break;
+> +        }
+>      }
+> 
+>      v9fs_readdir_unlock(&fidp->fs.dir);
+> @@ -2420,6 +2443,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu,
+> V9fsFidState *fidp, V9fsString name;
+>      int len, err = 0;
+>      int32_t count = 0;
+> +    off_t off;
+>      struct dirent *dent;
+>      struct stat *st;
+>      struct V9fsDirEnt *entries = NULL;
+> @@ -2480,12 +2504,17 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU
+> *pdu, V9fsFidState *fidp, qid.version = 0;
+>          }
+> 
+> +        off = v9fs_dent_telldir(pdu, fidp, dent);
+> +        if (off < 0) {
+> +            err = off;
+> +            break;
+> +        }
+>          v9fs_string_init(&name);
+>          v9fs_string_sprintf(&name, "%s", dent->d_name);
+> 
+>          /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
+>          len = pdu_marshal(pdu, 11 + count, "Qqbs",
+> -                          &qid, dent->d_off,
+> +                          &qid, off,
+>                            dent->d_type, &name);
+> 
+>          v9fs_string_free(&name);
+> diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+> index 032cce04c4..78aca1d98b 100644
+> --- a/hw/9pfs/codir.c
+> +++ b/hw/9pfs/codir.c
+> @@ -167,7 +167,11 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState
+> *fidp, }
+> 
+>          size += len;
+> +#ifdef CONFIG_DARWIN
+> +        saved_dir_pos = telldir(fidp->fs.dir.stream);
+> +#else
+>          saved_dir_pos = dent->d_off;
+> +#endif
+>      }
+> 
+>      /* restore (last) saved position */
+
 
 
