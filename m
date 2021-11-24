@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFB9945B790
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 10:34:18 +0100 (CET)
-Received: from localhost ([::1]:52204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFED345B796
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 10:37:26 +0100 (CET)
+Received: from localhost ([::1]:59094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpofR-0002cm-R8
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 04:34:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56462)
+	id 1mpoiT-0007Np-So
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 04:37:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mpobM-0000Dt-32; Wed, 24 Nov 2021 04:30:04 -0500
-Received: from [2607:f8b0:4864:20::92f] (port=33580
- helo=mail-ua1-x92f.google.com)
+ id 1mpobM-0000F8-RJ; Wed, 24 Nov 2021 04:30:04 -0500
+Received: from [2607:f8b0:4864:20::a32] (port=42503
+ helo=mail-vk1-xa32.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mpobH-0006gi-5k; Wed, 24 Nov 2021 04:30:03 -0500
-Received: by mail-ua1-x92f.google.com with SMTP id a14so3842033uak.0;
- Wed, 24 Nov 2021 01:29:58 -0800 (PST)
+ id 1mpobJ-0006hk-Ie; Wed, 24 Nov 2021 04:30:04 -0500
+Received: by mail-vk1-xa32.google.com with SMTP id b125so1063472vkb.9;
+ Wed, 24 Nov 2021 01:30:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sJs4I3htJkxHOVTBverQr6ho5EG3Q5K0eis/iQn5AbQ=;
- b=Kboo8Dbo6d+NHBWVo9BO1M+IOVLJt5f5NpDFbE864pADxZVzwBKaCDkU78jwH7c/Tn
- EgR5GoUo7zX8MeDZX3fxozKCt/FxIaBfOO/GTNFmkZoaMVXA664PmGYSR9FMT4GeGNqJ
- i1X+EyJJE7/kZHlM1dOWatM3lw593zZbxh60v0xRV8T6pULRNzWa44xdXjuzG5YWcA7z
- a9lno2YPwFnqcnaSRC86aVgJ3TxkYKTHnyaihgSqupS2gCT/PjJoak/B1Y7ljfOn4PCK
- +VTGj1uQSl5plJvCYn7SUbNeAOJOCZKBOu3ClcjJ1T67oXeapyEIpSJoWLddqBOAF4U1
- Duyw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=INU73d/uF2ivB+x0H+8RzqTTu5ZxmTrDWSWRgnsrDZ8=;
+ b=pC7eNY14KmCFvYlVefZsflmXdIsSTetzO11hgRgp5xwTL7+czIgeRoMyVFgg/lK1EL
+ w05OgqIxgs2RhnBYjZ54/lZ7ZMyUm1qfeubPgu05L5G/0R87pWaqCjW8Zz/AbFseJ3eI
+ D2pJALY4Om7Q8Bbd+I4gi/3DCC6vtEjC/2ZBF64y4aCcvL52Te3OoZcVKGpFiCflnfXi
+ z0UYYyYWdsAdP0U167hqW/FrGpX7L1aHS/MUPrU20Z2/sRtlq+Np1PDb6WsUhR7EttFl
+ xRJd3D8z2jjjfcFf7VMrQF0jSLqFC+Fiqj2FdjcXi/wml+USUEjDXMjlMDgP9b2cwHIk
+ AxBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sJs4I3htJkxHOVTBverQr6ho5EG3Q5K0eis/iQn5AbQ=;
- b=iGZDGRDBFMULDtqG+8bQ1FvzUino4BLRCcdX8ms/AXc5WzbaT03+dCh6GMjAApN3NV
- xBI1j/GgdrEh0+NhnTqw3AGNQ3670jLcAGJzOm8Dx9h88GZ9/pGeRxfWyZ0ZIcT3rjNF
- bkAkbdBQeqCzwXvWD9eKiHIjpphHTe1PgbrRu6m/qEdfD9oeY7XpdE6yOoxrZxVoENN4
- 6/ezYFXGIsyouRelv+oTg9oPtv4ujpDOwuZWz6i5jf2zqJBglNdEwuqUvEiUxPqqitdK
- 0rln2BTHSXEp7xwTtSpzxFS9vH1OAUxqoSc6ecYk+GTai+FsT2dcWA9WSw50ye+Kaavr
- 2eKA==
-X-Gm-Message-State: AOAM530PRWgv1zOHWr0NvciZTiqVpeBciIVWFFyT+qPZfSEceqWexZOa
- acxvjayfRuegdWEhGZ+hJZ9S7JauQ90=
-X-Google-Smtp-Source: ABdhPJyyyVl0cAXsuInLApscGTLjkC0ZZCXhNu4tjqZXAUumbIvPbPLpL0g84YW+tjDbwMcBslhpTg==
-X-Received: by 2002:ab0:6f0a:: with SMTP id r10mr8149462uah.106.1637746197678; 
- Wed, 24 Nov 2021 01:29:57 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=INU73d/uF2ivB+x0H+8RzqTTu5ZxmTrDWSWRgnsrDZ8=;
+ b=2DPwjoL26WD7O2bYQWFKWxmyu7kuAKFJ2SCAsHOz4cTBhOgV4Cvra5tlVDcDsn7LuF
+ fwqGIopHlKGX+PN1ESmUlCDBUDBu4Q7tTwhprAWYR1D2MeJ6oZvY9ii4w4qJCq/4doac
+ WoH+wHqny/m8mEM97No3Y0KosKGuCcRYR9HhOwC1tXzui0TtQ9lAoQk8aenS0fmLb9dn
+ J/TJ/V/cvIP3Kz0xadodYTHDj+PjnK125GT3yYrztrZfAcfodbMjW7zMQtHHjqJVHYkl
+ teuIa5R+W83bCaioOhB1d6hEZLBe/wfeo6vZo0qcYZn619oFUlk+2JXTPjXvu8olN4At
+ tf2Q==
+X-Gm-Message-State: AOAM531eX3CrUFKA8LnjyRaaNu4NC3AtPoFxDj0edic7ZnoHyu1NfLxw
+ YwciP9BlyqQ8obdXUpGSPVCbxaQDGe4=
+X-Google-Smtp-Source: ABdhPJzYYVi+9koubxZ0cjUCwOHOf5akj7rRGIisn7zh92bydH7DJ1Kl8nwG5fBHr7URvthKxwHacA==
+X-Received: by 2002:a05:6122:114c:: with SMTP id
+ p12mr24105499vko.21.1637746199618; 
+ Wed, 24 Nov 2021 01:29:59 -0800 (PST)
 Received: from rekt.ibmuc.com ([191.19.215.188])
- by smtp.gmail.com with ESMTPSA id m15sm7682583vkl.40.2021.11.24.01.29.55
+ by smtp.gmail.com with ESMTPSA id m15sm7682583vkl.40.2021.11.24.01.29.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 01:29:57 -0800 (PST)
+ Wed, 24 Nov 2021 01:29:59 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.0 v2 0/2] change ivshmem endianness to LITTLE_ENDIAN
-Date: Wed, 24 Nov 2021 06:29:46 -0300
-Message-Id: <20211124092948.335389-1-danielhb413@gmail.com>
+Subject: [PATCH for-7.0 v2 1/2] ivshmem.c: change endianness to LITTLE_ENDIAN
+Date: Wed, 24 Nov 2021 06:29:47 -0300
+Message-Id: <20211124092948.335389-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211124092948.335389-1-danielhb413@gmail.com>
+References: <20211124092948.335389-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a32
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92f;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a32;
+ envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa32.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -87,35 +90,45 @@ Cc: thuth@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The ivshmem device, as with most PCI devices, uses little endian byte
+order. However, the endianness of its mmio_ops is marked as
+DEVICE_NATIVE_ENDIAN. This presents not only the usual problems with big
+endian hosts but also with PowerPC little endian hosts as well, since
+the Power architecture in QEMU uses big endian hardware (XIVE controller,
+PCI Host Bridges, etc) even if the host is in little endian byte order.
 
-This small series fixes an issue reported in Gitlab [1] that
-affects PowerPC big-endian and little-endian and probably all
-other big-endians in the wild that might use 'ivshmem'.
+As it is today, the IVPosition of the device will be byte swapped when
+running in Power BE and LE. This can be seen by changing the existing
+qtest 'ivshmem-test' to run in ppc64 hosts and printing the IVPOSITION
+regs in test_ivshmem_server() right after the VM ids assert. For x86_64
+the VM id values read are '0' and '1', for ppc64 (tested in a Power8
+RHEL 7.9 BE server) and ppc64le (tested in a Power9 RHEL 8.6 LE server)
+the ids will be '0' and '0x1000000'.
 
-It's not clear to me who is the maintainer/responsible for this device
-(MAINTAINERS doesn't seem to have any 'ivhshmem' entries nor someone
-that looks upon all hw/misc/* files) so I didn't add any CC in that
-regard. 'qemu-ppc' is being copied for awareness since they are the
-folks that are most likely being impacted by the bug.
+Change this device to LITTLE_ENDIAN fixes the issue for Power hosts of
+both endianness, and every other big-endian architecture that might use
+this device, without impacting x86 users.
 
-[1] https://gitlab.com/qemu-project/qemu/-/issues/168
+Fixes: cb06608e17f8 ("ivshmem: convert to memory API")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/168
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/misc/ivshmem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v2:
-- fixed 'endianess' occurrences to 'endianness' in patch 1
-- fixed spell errors and added Thomas' ack in patch 2
-- added a "for-7.0" marker in the subject
-- v1 link: https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg04716.html
-
-
-Daniel Henrique Barboza (2):
-  ivshmem.c: change endianness to LITTLE_ENDIAN
-  ivshmem-test.c: enable test_ivshmem_server for ppc64 arch
-
- hw/misc/ivshmem.c          | 2 +-
- tests/qtest/ivshmem-test.c | 5 +----
- 2 files changed, 2 insertions(+), 5 deletions(-)
-
+diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
+index 1ba4a98377..299837e5c1 100644
+--- a/hw/misc/ivshmem.c
++++ b/hw/misc/ivshmem.c
+@@ -243,7 +243,7 @@ static uint64_t ivshmem_io_read(void *opaque, hwaddr addr,
+ static const MemoryRegionOps ivshmem_mmio_ops = {
+     .read = ivshmem_io_read,
+     .write = ivshmem_io_write,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
++    .endianness = DEVICE_LITTLE_ENDIAN,
+     .impl = {
+         .min_access_size = 4,
+         .max_access_size = 4,
 -- 
 2.31.1
 
