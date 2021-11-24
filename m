@@ -2,89 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D02F45CCBB
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 20:10:12 +0100 (CET)
-Received: from localhost ([::1]:46594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5A445CCB3
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 20:08:14 +0100 (CET)
+Received: from localhost ([::1]:42880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpxel-0006Ru-9V
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 14:10:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52142)
+	id 1mpxcq-0003wF-Vw
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 14:08:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mpxKB-0007UH-5Q
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 13:48:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mpxK3-0000rT-OL
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 13:48:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637779726;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cCA+vMBLJcLlRFhvF0lAEZ9zDvfxeGbpwUCYXpaXY6o=;
- b=ANrXKNp/SzU53jJqwORkuYsHwnDanvwRQ9a0+qP4nEmvLSX9206LZ2pMltVatVz+mh9DwC
- jOnB5U8MtR/MSOk/rp7D9a6WYpk71aCYNAQykkhCie4X8GPjn2ZCSCUKl0bQRSME4bJJow
- cJFclT2Q5ZKk4dL1YLyF08sGVl5D4Aw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-240-R5QCuJ3XPlaOSB_QKL2yrA-1; Wed, 24 Nov 2021 13:48:44 -0500
-X-MC-Unique: R5QCuJ3XPlaOSB_QKL2yrA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d7-20020a5d6447000000b00186a113463dso713497wrw.10
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 10:48:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mpxXI-0003fO-LQ; Wed, 24 Nov 2021 14:02:28 -0500
+Received: from [2607:f8b0:4864:20::92a] (port=45570
+ helo=mail-ua1-x92a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mpxXD-00067g-CJ; Wed, 24 Nov 2021 14:02:24 -0500
+Received: by mail-ua1-x92a.google.com with SMTP id ay21so7150222uab.12;
+ Wed, 24 Nov 2021 11:02:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=J606178CwOo8uxDpNQ009utwbqmRaZLeUycOjx41qEM=;
+ b=gMSMZCoNv7fz48Oxt7YdIBidaawQDqb9b/a7+Z6xh0BoyQmtloftwBtTtxAX5YQGF1
+ 28y8I5ofknI6PKaDnd0nxC32XXP7MfRLhBpbwCXBUUQl/5c+az8Th2pQux5JP9OiFe98
+ A8beuY82UxfkzWYWIqB2sIbqO1wwaFTh6mnKUkn9PPCCGmbVFJ8fcfrpUfJDC//AqUF3
+ 6rS4HrAPAMed1w2g4tR0zMQGJYeC56znxerL7BujOgVMV4bpcPBt1/69laHa2/f9ZNVQ
+ v38ZFJYTOC66tCwIIuT0bJm76/ODwsCSMguGtM+bRSeZb/gOtpWyIwVI+6u0u2NZPT7Z
+ 0umA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=cCA+vMBLJcLlRFhvF0lAEZ9zDvfxeGbpwUCYXpaXY6o=;
- b=2GLEViSNM1EFDhDVW4R3SAqXavcfZioCOVRdmQDYe/anbmtz6defhER0FwMzeaomQQ
- b2o3Z15gDVI3amQHWj05XCdbHHqH0tNyghgu5/QwRk/zxaSlDBP+KiXYxGV4UZKxHGnS
- 95OVwQ/tjOSIYZobZM9jt6W4JWdHo3CAL9g1AqP1PH8zhUaDVnxrSCcgLtueZYn1245p
- sW/h/eMqi1X7aVVAep9lffhSnWtO5ahkSWN/dC4kCxL1q0KPO/vXW5TcdUVGYVVIxZIw
- /aEePWAZbetPBg4pEOO7nic9v4zYFjXHZukch/2Fwpqin43XTvTWU4Ik3zYI2EOG0RkY
- Hkjw==
-X-Gm-Message-State: AOAM531C4whlQcRAwNu1Pk9ZUEpBJOYN0zsBcd1jlg2G1NJ4kyKi+kdm
- fVZkvlo05jUNo5r8oDCgZQv6aF0JhJM0689JU/tSy+d939AAO7fnjcuoxTIGV4ww/ejoXR56lmB
- I1TJhpvFSdQfLWNU=
-X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr22809869wrz.211.1637779723735; 
- Wed, 24 Nov 2021 10:48:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzVSrqo9Aa6MzLBwO8iPy9+g4Bq8jsVsCiYMd+n2aKPAAduM8s9B5LFp0lPj/CF/1Ath7AkOQ==
-X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr22809836wrz.211.1637779723501; 
- Wed, 24 Nov 2021 10:48:43 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id h204sm595944wmh.33.2021.11.24.10.48.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 10:48:42 -0800 (PST)
-Date: Wed, 24 Nov 2021 18:48:40 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v3 01/23] multifd: Delete useless operation
-Message-ID: <YZ6JCNdj0G4r3igs@work-vm>
-References: <20211124100617.19786-1-quintela@redhat.com>
- <20211124100617.19786-2-quintela@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=J606178CwOo8uxDpNQ009utwbqmRaZLeUycOjx41qEM=;
+ b=DOuaoKDMyyQx92sfbuzd/j0MYrrsT7aauKFjxiJ+pAGQ9w311fe1JMIMl1+lo/pA7o
+ 3pscRnRTNz8aVclStF5sjXD4ecyVvGyv4eMo2VW5cdJDPwFU5g2qoFaVQc5ETMzZNh76
+ GImSgqW7GBeoDYvNzOVUxdVQhCiRB/3lOIp0OX4aTGRbQ6bNL3QUVEBdp83TFEW9TzxQ
+ NzCtQIfTQY03uJqV1LVkYXmHYc5gl5fXPFgQcXBD/UK0AYjJ8QS3wmrKY7GGqvVbaXKi
+ Dofmz9wcj4WjYOV4gcKS0pv6VHjRD3r+3levir68Qjw4ynjT7CMjKaWVfzs2LImJ/AAV
+ C86Q==
+X-Gm-Message-State: AOAM532UJjrwG9DMB3927WLAg2isDaCXQ4Rte1gHwLBGIUUQA5JX/Pkf
+ V0RNCrIzSFB6BKo2GQ9ZKCk=
+X-Google-Smtp-Source: ABdhPJx4Oly5B+qq3bh2Veemsw8JcLscBN3QvkTQMa2eOyQ+yAVm/mfQR42yAih3m0qFpva7Dmae1w==
+X-Received: by 2002:a67:c79a:: with SMTP id t26mr27590487vsk.37.1637780542007; 
+ Wed, 24 Nov 2021 11:02:22 -0800 (PST)
+Received: from [192.168.10.222] ([191.19.215.188])
+ by smtp.gmail.com with ESMTPSA id w11sm353175vkm.14.2021.11.24.11.02.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Nov 2021 11:02:21 -0800 (PST)
+Message-ID: <2a1818d7-1dc9-f7f5-7a7e-aba2b61989a8@gmail.com>
+Date: Wed, 24 Nov 2021 16:02:18 -0300
 MIME-Version: 1.0
-In-Reply-To: <20211124100617.19786-2-quintela@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] target/ppc: fix Hash64 MMU update of PTE bit R
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20211124120046.6831-1-leandro.lupori@eldorado.org.br>
+ <00546896-2466-007f-b73c-fe4f889fac2f@gmail.com>
+ <1dae4d80-6b0b-5542-b783-7a3bb434bc16@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <1dae4d80-6b0b-5542-b783-7a3bb434bc16@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92a;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92a.google.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-4.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,127 +92,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>
+Cc: groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> We are divining by page_size to multiply again in the only use.
-             ^--- typo
-> Once there, impreve the comments.
-                  ^--- typo
+
+
+On 11/24/21 15:42, Cédric Le Goater wrote:
+> On 11/24/21 14:40, Daniel Henrique Barboza wrote:
+>>
+>>
+>> On 11/24/21 09:00, Leandro Lupori wrote:
+>>> When updating the R bit of a PTE, the Hash64 MMU was using a wrong byte
+>>> offset, causing the first byte of the adjacent PTE to be corrupted.
+>>> This caused a panic when booting FreeBSD, using the Hash MMU.
 > 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-
-OK, with the typo's fixed:
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-but, could you also explain the  x 2 (that's no worse than the current
-code); is this defined somewhere in zlib?  I thought there was a routine
-that told you the worst case?
-
-Dave
-> ---
->  migration/multifd-zlib.c | 13 ++++---------
->  migration/multifd-zstd.c | 13 ++++---------
->  2 files changed, 8 insertions(+), 18 deletions(-)
+> I wonder how we never hit this issue before. Are you testing PowerNV
+> and/or pSeries  ?
 > 
-> diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-> index ab4ba75d75..3fc7813b44 100644
-> --- a/migration/multifd-zlib.c
-> +++ b/migration/multifd-zlib.c
-> @@ -42,7 +42,6 @@ struct zlib_data {
->   */
->  static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
->  {
-> -    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
->      struct zlib_data *z = g_malloc0(sizeof(struct zlib_data));
->      z_stream *zs = &z->zs;
->  
-> @@ -54,9 +53,8 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
->          error_setg(errp, "multifd %d: deflate init failed", p->id);
->          return -1;
->      }
-> -    /* We will never have more than page_count pages */
-> -    z->zbuff_len = page_count * qemu_target_page_size();
-> -    z->zbuff_len *= 2;
-> +    /* To be safe, we reserve twice the size of the packet */
-> +    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
->      z->zbuff = g_try_malloc(z->zbuff_len);
->      if (!z->zbuff) {
->          deflateEnd(&z->zs);
-> @@ -180,7 +178,6 @@ static int zlib_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
->   */
->  static int zlib_recv_setup(MultiFDRecvParams *p, Error **errp)
->  {
-> -    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
->      struct zlib_data *z = g_malloc0(sizeof(struct zlib_data));
->      z_stream *zs = &z->zs;
->  
-> @@ -194,10 +191,8 @@ static int zlib_recv_setup(MultiFDRecvParams *p, Error **errp)
->          error_setg(errp, "multifd %d: inflate init failed", p->id);
->          return -1;
->      }
-> -    /* We will never have more than page_count pages */
-> -    z->zbuff_len = page_count * qemu_target_page_size();
-> -    /* We know compression "could" use more space */
-> -    z->zbuff_len *= 2;
-> +    /* To be safe, we reserve twice the size of the packet */
-> +    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
->      z->zbuff = g_try_malloc(z->zbuff_len);
->      if (!z->zbuff) {
->          inflateEnd(zs);
-> diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-> index 693bddf8c9..cc3b8869c0 100644
-> --- a/migration/multifd-zstd.c
-> +++ b/migration/multifd-zstd.c
-> @@ -47,7 +47,6 @@ struct zstd_data {
->   */
->  static int zstd_send_setup(MultiFDSendParams *p, Error **errp)
->  {
-> -    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
->      struct zstd_data *z = g_new0(struct zstd_data, 1);
->      int res;
->  
-> @@ -67,9 +66,8 @@ static int zstd_send_setup(MultiFDSendParams *p, Error **errp)
->                     p->id, ZSTD_getErrorName(res));
->          return -1;
->      }
-> -    /* We will never have more than page_count pages */
-> -    z->zbuff_len = page_count * qemu_target_page_size();
-> -    z->zbuff_len *= 2;
-> +    /* To be safe, we reserve twice the size of the packet */
-> +    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
->      z->zbuff = g_try_malloc(z->zbuff_len);
->      if (!z->zbuff) {
->          ZSTD_freeCStream(z->zcs);
-> @@ -191,7 +189,6 @@ static int zstd_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
->   */
->  static int zstd_recv_setup(MultiFDRecvParams *p, Error **errp)
->  {
-> -    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
->      struct zstd_data *z = g_new0(struct zstd_data, 1);
->      int ret;
->  
-> @@ -212,10 +209,8 @@ static int zstd_recv_setup(MultiFDRecvParams *p, Error **errp)
->          return -1;
->      }
->  
-> -    /* We will never have more than page_count pages */
-> -    z->zbuff_len = page_count * qemu_target_page_size();
-> -    /* We know compression "could" use more space */
-> -    z->zbuff_len *= 2;
-> +    /* To be safe, we reserve twice the size of the packet */
-> +    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
->      z->zbuff = g_try_malloc(z->zbuff_len);
->      if (!z->zbuff) {
->          ZSTD_freeDStream(z->zds);
-> -- 
-> 2.33.1
+> Could you share a FreeBDS image with us ?
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>> If you add a "Fixes:" tag with the commit that introduced the code you're
+>> fixing, we can push it right away as a bug fix in 6.2 (assuming it doesn't
+>> break anything else, of course).
+>>
+>> The commit to be fixed in the case seems to be a2dd4e83e76b ("ppc/hash64:
+>> Rework R and C bit updates")
+> 
+> Indeed.
+> 
+>> One more comment below:
+>>
+>>>
+>>> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+>>> ---
+>>>   target/ppc/mmu-hash64.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+>>> index 19832c4b46..f165ac691a 100644
+>>> --- a/target/ppc/mmu-hash64.c
+>>> +++ b/target/ppc/mmu-hash64.c
+>>> @@ -786,7 +786,7 @@ static void ppc_hash64_set_dsi(CPUState *cs, int mmu_idx, uint64_t dar, uint64_t
+>>>   static void ppc_hash64_set_r(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
+>>>   {
+>>> -    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + 16;
+>>> +    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + 14;
+>>
+>> Instead of adding a '14' you should add a new #define in mmu-hash64.h with this
+>> value, something like "HPTE64_R_R_SHIFT". This will avoid hardcoding literals
+>> around the code and forcing us to go to the ISA every time we wonder what's
+>> an apparently random number represents. There's also a "HPTE64_R_R" defined
+>> there but I'm not sure if it's usable here, so feel free to create a new
+>> macro if needed.
+>>
+>> In that note, the original commit that added this code also added a lot of
+>> hardcoded "15" values for the C bit update in spapr_hpte_set_c() and
+>> ppc_hash64_set_c(), and a "14" value like you're changing here in spapr_hpte_set_r().
+>> If you're feeling generous I believe that another patch replacing these hardcoded values
+>> with bit shift macros is warranted as well.
+> 
+> May be for 7.0 though ?
 
+
+Yeah, this extra cleanup I proposed can be postponed to 7.0 in case someone wants
+to give it a go.
+
+
+Daniel
+
+
+
+> 
+> Thanks,
+> 
+> C.
+> 
 
