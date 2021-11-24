@@ -2,82 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9FEF45B7AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 10:44:06 +0100 (CET)
-Received: from localhost ([::1]:43002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58AB745B7C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 10:49:33 +0100 (CET)
+Received: from localhost ([::1]:45704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpoov-0007Gx-SL
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 04:44:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34600)
+	id 1mpouC-0000rZ-82
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 04:49:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mponX-0006Xg-Dx
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:42:39 -0500
-Received: from [2a00:1450:4864:20::42f] (port=35502
- helo=mail-wr1-x42f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mponV-0001q4-Gg
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:42:39 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id i5so3078497wrb.2
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 01:42:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sVnao8EeZ5rpEmACAUIi9fLp//PJPqmHzM58lBz9cuU=;
- b=qZHN5Q1OVsSYMqT7uZByw81H3noDZAdMqZecBOvTmDyr/Q6D1rtIBKraxp1Yy/DUKe
- hR2eQh0WRWhPRYQu0KibWBC58IginC6cF5pBdmRF1KHyezGJHQyjLxXLs4lon1u7M1Er
- vZJNimoONXEYCjJ0bu9AcNTVNYKtk+27VsO3nNkC1FXVgFPo/ObQ3i3PKqwi2eN7lEJG
- JF+UwKNXAcmC51DG78t+kGrAzYP2pFvMUJVnoP6EJMU5V9vCNj/Wnen082DanjXw0cFB
- QNtCw+B6wbkxwVBLGBQBSsVv+WldCWT7ytvHtkPYEPE5j60Zps/Asg8iDxtlXhL5aCbN
- FT8g==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mpotF-0000Cp-4F
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:48:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41407)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mpotC-0003G8-76
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:48:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637747308;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OvaTkZvRGUydUITfcQURRFV1NKG+AlafrsBPhrOnY+c=;
+ b=EGcu9cehRRSojeCN0z1pIfyGgYB3lXVPyAyd/rwKmN08BgOffn9H6OtQ1BtHjJLhhKxC1d
+ m2dYPHT7iMj9kKnXOqgHgT+puvfFD//oyJ7UoQQzragde97+SLxo1aLt90gattdzZ0MqjR
+ oxhGG/fW0RdFQL1cma6XR5hBDuHyyzM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-553-tgEcsc8wMyeTguzAAVGdow-1; Wed, 24 Nov 2021 04:48:25 -0500
+X-MC-Unique: tgEcsc8wMyeTguzAAVGdow-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ w4-20020aa7cb44000000b003e7c0f7cfffso1806518edt.2
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 01:48:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sVnao8EeZ5rpEmACAUIi9fLp//PJPqmHzM58lBz9cuU=;
- b=DBjKGn8s0HZE3gKIz/VHXkRv0eLwJKJdWyXS3Ek5E/+wXSVodjfWtdjA3ocJz01yA9
- YZL7mY1o/dVHh1rbUScflC6jd9cW08PIc1tTfYVwWDqhX18tsfcdIis/F9AIPNe7lxJW
- MLmQm+4FmkTY8s9hUG+6hp57rS3IKmzP0isYx5U22b4yszUroAh77m3ySpDWLHRShKQC
- +3YRg6RJVlPUXHp6hejWGTDgeoSllifkxYTBQCjkzNh66kOjpOn384bLIFsmNV56f1Cl
- 5pucKjPxzPk2nvo4e9hQtWb455Ufj41MlCjD14Z5RKXtEiLSsvxBtQnCrBoWmd8mKdjR
- 1n0w==
-X-Gm-Message-State: AOAM530ewGsdF32maMfbSl1t+0eLDWRClCO6Re00eMuUIzcNxTVgbZfr
- wtc77KpTDiVRPp5M9sbYarbjlg==
-X-Google-Smtp-Source: ABdhPJwnlrMV2+osKLO6XERU97sGSuHnpmyhYUTlL79AA2yiDPLZXq3uAQkunnevcQUN5zSlxbQsfw==
-X-Received: by 2002:adf:b1cc:: with SMTP id r12mr13661214wra.217.1637746954755; 
- Wed, 24 Nov 2021 01:42:34 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id h15sm4864931wmq.32.2021.11.24.01.42.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 01:42:34 -0800 (PST)
-Subject: Re: [qemu-web PATCH v3] Add Sponsors page
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211124080519.440677-1-philmd@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <cb04d11f-cfe4-5de3-6e46-345f2fafaad3@linaro.org>
-Date: Wed, 24 Nov 2021 10:42:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OvaTkZvRGUydUITfcQURRFV1NKG+AlafrsBPhrOnY+c=;
+ b=ihY4SSUAl/zYPMN5d8OidEBPppBcHayawRqtm7wgte6Q5bsOleW4aGltpN7Z3YOlZl
+ 4hPoTnfbk6iATZdCx3QPMuaHLUmvQPd8CiEKMec/9sjuIftw2CDupWZ+ycgq1eFnXuAT
+ gLixdtf7K4UwNg6n2J44cnd99EK3AzOomjp1Hqtd+RKqTHmvLavK8DprztJEVk0bDPBF
+ SkHbFe1deYBbBbc0V20CCSpemKaY2ajKc/tYipW0ufDwDPL6vUQzHm/X6y3tjK23rwIB
+ mG2olNMDoAjMUCb6rp7jDPrTjG+eboPEONiJUI/I+vdFBhu2Klp4ftjfdPLZvR1hxf51
+ MXZg==
+X-Gm-Message-State: AOAM533skqhtFpZ7juEWrY4w27wWbnQKRLj9djriup0LFXjLhjx3F6yH
+ y6aTlItxpNpa4wNOni0DViRJRpIWe/ChWp+mropBu76bdTYi5mFEn+KTWAFn+dFIpQceh7l42M0
+ JkJbLDXFPzhr6MIk=
+X-Received: by 2002:a17:906:f44:: with SMTP id
+ h4mr18800639ejj.113.1637747304313; 
+ Wed, 24 Nov 2021 01:48:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx3AiHgeoI0JJmVvQR0YbcVnfm2nJk53JpWkuoN+JPy7qRYA/M4BoFrZGcGtsQCp06CcFMUxg==
+X-Received: by 2002:a17:906:f44:: with SMTP id
+ h4mr18800605ejj.113.1637747304138; 
+ Wed, 24 Nov 2021 01:48:24 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id gz10sm6405777ejc.38.2021.11.24.01.48.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Nov 2021 01:48:23 -0800 (PST)
+Date: Wed, 24 Nov 2021 10:48:22 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2] microvm: use MachineState->dumpdtb
+Message-ID: <20211124104822.0f87dff3@redhat.com>
+In-Reply-To: <20211124081637.525180-1-kraxel@redhat.com>
+References: <20211124081637.525180-1-kraxel@redhat.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20211124080519.440677-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,37 +98,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Markey <admin@fosshost.org>, Alistair Francis <alistair23@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/24/21 9:05 AM, Philippe Mathieu-Daudé wrote:
-> Add a page listing QEMU sponsors.
-> 
-> For now, only mention Fosshost which requested to be listed:
+On Wed, 24 Nov 2021 09:16:37 +0100
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-This...
+> There already is a machine property to dump the device tree for
+> debugging purposes, and the helper function qemu_fdt_dumpdtb()
+> implementing the dumping.  Make microvm use it for consistency.
+>=20
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-> https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg05381.html
-> 
-> Cc: Thomas Markey <admin@fosshost.org>
-> Resolves: https://gitlab.com/qemu-project/qemu-web/-/issues/2
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
 > ---
-> Since v2:
-> - don't explicitly state /what/ we're using the resource for,
->    just that we've been granted it (danpb)
-> - list Azure Cloud credits (Daniel)
-> - list PLCT Lab (Paolo)
-> - list Wow/CIP United again, since other are listed (Phil)
->    therefore do not include Stefan R-b tag.
+>  hw/i386/microvm-dt.c | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
+>=20
+> diff --git a/hw/i386/microvm-dt.c b/hw/i386/microvm-dt.c
+> index 875ba9196394..e6f5a90209c5 100644
+> --- a/hw/i386/microvm-dt.c
+> +++ b/hw/i386/microvm-dt.c
+> @@ -330,12 +330,5 @@ void dt_setup_microvm(MicrovmMachineState *mms)
+>      fprintf(stderr, "%s: add etc/fdt to fw_cfg\n", __func__);
+>      fw_cfg_add_file(x86ms->fw_cfg, "etc/fdt", mms->fdt, size);
+> =20
+> -    if (debug) {
+> -        fprintf(stderr, "%s: writing microvm.fdt\n", __func__);
+> -        g_file_set_contents("microvm.fdt", mms->fdt, size, NULL);
+> -        int ret =3D system("dtc -I dtb -O dts microvm.fdt");
+> -        if (ret !=3D 0) {
+> -            fprintf(stderr, "%s: oops, dtc not installed?\n", __func__);
+> -        }
+> -    }
+> +    qemu_fdt_dumpdtb(mms->fdt, size);
+>  }
 
-... no longer matches this.
-
-
-r~
 
