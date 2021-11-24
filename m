@@ -2,90 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B147D45C9C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 17:20:43 +0100 (CET)
-Received: from localhost ([::1]:55518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC1A45C9E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 17:23:31 +0100 (CET)
+Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpv0k-0007CK-Lc
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 11:20:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38368)
+	id 1mpv3S-000257-JI
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 11:23:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpuwC-000184-5K
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 11:16:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32059)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mpv0w-0008K4-Ep
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 11:20:55 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:51061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpuw9-0005Sf-OY
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 11:15:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637770557;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zOmniXP9kECuj+4xZCjgmlfWEZPERWHw8eGdEQjANt4=;
- b=Kp7dozvlU1tkbI/rWTgK+Yb/GYX/9vbQ75Y5l6OC9KmuCxU4riUAR9eG4jfiqWyuXmfbHC
- 7yMYdR470W3Xp8/haXImepCVqCw6VV6z09OyhHocWHcrigquVIR6OeV2cATUEUV4rAkPBr
- 4OT2FQpvji+36I2JxiG/zWpmi+kldCE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-377-zG9yyS7pOrOfrZFYP9kMWw-1; Wed, 24 Nov 2021 11:15:56 -0500
-X-MC-Unique: zG9yyS7pOrOfrZFYP9kMWw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- v17-20020adfedd1000000b0017c5e737b02so617383wro.18
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 08:15:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zOmniXP9kECuj+4xZCjgmlfWEZPERWHw8eGdEQjANt4=;
- b=1HcAyb2IMIijm2ytoil/73bKUiLn90YdxVLtR5vrEq/LXMTz92AuhRtUmWVar2gPPo
- SqtziQQQ3Os4ppc5G/Nawoa+GNflMF5kpcImu/Bs4J4BlamDDJPkF0riE/O+d5ENu+F/
- pYyz/gwYDidh8MzLzTa74uayYcIxNlr7f5tC+GjazBMua3PtP77wRWvRVQHyFHKmwYGB
- 9V9iVnhWTVUg18Y2tLu2DZpRPwS5lDSoiFHCRexoRrUWWcXFbnbBedPGiuC4f2WIZnzj
- aKY8F0sXI7T1red/4JTVMFzLj6C9lHZ/7qC1tTYuUEIPSfc01vwj+Xp8sJ6CBF3apYou
- WFkw==
-X-Gm-Message-State: AOAM531y1ajf9LyK8rXZ7Ef9WPm3Vtqzlk+P1iKeMQsUq4f1JgEwIrk/
- 0VrXZTchSLqOqim8V1h/VBdyPuT6UXsI6eghqB5rKLk394zkoSt/LNhxNFttO7s2Pk5l/5qfi2k
- IgWYiR4afqXGAuE/vx/kyFAyCDkrH3jzMJxfl/CG5W8Z018w3y3stcDTMjfFEpJBZ
-X-Received: by 2002:a05:600c:4f87:: with SMTP id
- n7mr16705909wmq.63.1637770554672; 
- Wed, 24 Nov 2021 08:15:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxT+NPiV38nxAR+CDUuMQ+dNp39joX1ZHPVoTiVVZ+s5jJuW5fc0L+g+XlYDRuHZYrR7mSKaA==
-X-Received: by 2002:a05:600c:4f87:: with SMTP id
- n7mr16705842wmq.63.1637770554343; 
- Wed, 24 Nov 2021 08:15:54 -0800 (PST)
-Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id x21sm4812146wmc.14.2021.11.24.08.15.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 08:15:53 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mpv0s-0006IY-Em
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 11:20:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=XY6cd4+mxTD1f0VXw9jh/SOo5ekhM6oRBUJs18xb76k=; b=T0Dt/qzze53EaG5k+DkM7lLHEe
+ TPblNOSgGox+xQ/ZNAoYDeMciXDh119pxxCZJ6g3HuH2baBVnBXw9AUMuotv1shR/OiOSFdEBR9kZ
+ 6z8XuBykzX5cjCrJxBczu3473PvbzQJZcLIt7zo2i+mAg7kgxLbD6WL1nZTOyX7a7mtsUZWAmvHIx
+ XXst+ndhBHVL5153gyCm3H+YPgkRSHoNGDc2hlhvwx/VlkOjU1xMCWJwMJ3OQ5Oxz1rhd9Pgw7axv
+ 5TN+cvyi5B/X7wJZpA7YPwp4Lj6cA98KvA8FdshqX8CP1bm5TOkXo/9WTbjQqqS7PndUgR+KLF4PP
+ u1OYJ6aJ2uWNnqf8pFZwgLYE5qMBIdsm2BThlvYGFMPOMutkeWKYB1/RHDSDTBxRfCNXRKxUv1HTa
+ ktn1np6IBuDjGuvOwj3fSKFDX/wvue/KTZVYFZWxtsCuQuYKkd4mRHsXGRWgqEXuaCKKTlKtKujJr
+ ya64jHE/HJoIKVmZuKDAS9lfLiEZuph2rtL1nzV+gIDTitqc8mwFLlP3BIarLB7WEgFaLatAOye9b
+ tFe6t0KUJE0CRFQamlbUlkO5JQrfHpQMmjnukdJe7G3hje5hWA2fDDQHNdrbmoZaVEKl//vHRbCAd
+ mpW7csAmb56r7jTwgzR35fqHxEuzeg1w+mE5RgxWw=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/3] tests/qtest/fdc-test: Add a regression test for
- CVE-2021-20196
-Date: Wed, 24 Nov 2021 17:15:36 +0100
-Message-Id: <20211124161536.631563-4-philmd@redhat.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211124161536.631563-1-philmd@redhat.com>
-References: <20211124161536.631563-1-philmd@redhat.com>
+Cc: Will Cohen <wwcohen@gmail.com>, Keno Fischer <keno@juliacomputing.com>,
+ Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>
+Subject: Re: [PATCH v2 08/11] 9p: darwin: Compatibility for f/l*xattr
+Date: Wed, 24 Nov 2021 17:20:47 +0100
+Message-ID: <2301973.IoarFkLyKX@silver>
+In-Reply-To: <20211122004913.20052-9-wwcohen@gmail.com>
+References: <20211122004913.20052-1-wwcohen@gmail.com>
+ <20211122004913.20052-9-wwcohen@gmail.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,103 +67,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Darren Kenny <darren.kenny@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Without the previous commit, when running 'make check-qtest-i386'
-with QEMU configured with '--enable-sanitizers' we get:
+On Montag, 22. November 2021 01:49:10 CET Will Cohen wrote:
+> From: Keno Fischer <keno@juliacomputing.com>
+> 
+> On darwin `fgetxattr` takes two extra optional arguments,
+> and the l* variants are not defined (in favor of an extra
+> flag to the regular variants.
+> 
+> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> [Michael Roitzsch: - Rebase for NixOS]
+> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> ---
+>  hw/9pfs/9p-local.c | 12 ++++++++----
+>  hw/9pfs/9p-util.h  | 17 +++++++++++++++++
+>  2 files changed, 25 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> index 1a5e3eed73..2bfff79b12 100644
+> --- a/hw/9pfs/9p-local.c
+> +++ b/hw/9pfs/9p-local.c
+> @@ -781,16 +781,20 @@ static int local_fstat(FsContext *fs_ctx, int
+> fid_type, mode_t tmp_mode;
+>          dev_t tmp_dev;
+> 
+> -        if (fgetxattr(fd, "user.virtfs.uid", &tmp_uid, sizeof(uid_t)) > 0)
+> { +        if (qemu_fgetxattr(fd, "user.virtfs.uid",
+> +                           &tmp_uid, sizeof(uid_t)) > 0) {
+>              stbuf->st_uid = le32_to_cpu(tmp_uid);
+>          }
+> -        if (fgetxattr(fd, "user.virtfs.gid", &tmp_gid, sizeof(gid_t)) > 0)
+> { +        if (qemu_fgetxattr(fd, "user.virtfs.gid",
+> +                           &tmp_gid, sizeof(gid_t)) > 0) {
+>              stbuf->st_gid = le32_to_cpu(tmp_gid);
+>          }
+> -        if (fgetxattr(fd, "user.virtfs.mode", &tmp_mode, sizeof(mode_t)) >
+> 0) { +        if (qemu_fgetxattr(fd, "user.virtfs.mode",
+> +                           &tmp_mode, sizeof(mode_t)) > 0) {
+>              stbuf->st_mode = le32_to_cpu(tmp_mode);
+>          }
+> -        if (fgetxattr(fd, "user.virtfs.rdev", &tmp_dev, sizeof(dev_t)) > 0)
+> { +        if (qemu_fgetxattr(fd, "user.virtfs.rdev",
+> +                           &tmp_dev, sizeof(dev_t)) > 0) {
+>              stbuf->st_rdev = le64_to_cpu(tmp_dev);
+>          }
+>      } else if (fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> index 627baebaba..38ef8b289d 100644
+> --- a/hw/9pfs/9p-util.h
+> +++ b/hw/9pfs/9p-util.h
+> @@ -19,6 +19,23 @@
+>  #define O_PATH_9P_UTIL 0
+>  #endif
+> 
+> +#ifdef CONFIG_DARWIN
+> +#define qemu_fgetxattr(...) fgetxattr(__VA_ARGS__, 0, 0)
 
-  AddressSanitizer:DEADLYSIGNAL
-  =================================================================
-  ==287878==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000344
-  ==287878==The signal is caused by a WRITE memory access.
-  ==287878==Hint: address points to the zero page.
-      #0 0x564b2e5bac27 in blk_inc_in_flight block/block-backend.c:1346:5
-      #1 0x564b2e5bb228 in blk_pwritev_part block/block-backend.c:1317:5
-      #2 0x564b2e5bcd57 in blk_pwrite block/block-backend.c:1498:11
-      #3 0x564b2ca1cdd3 in fdctrl_write_data hw/block/fdc.c:2221:17
-      #4 0x564b2ca1b2f7 in fdctrl_write hw/block/fdc.c:829:9
-      #5 0x564b2dc49503 in portio_write softmmu/ioport.c:201:9
+Why does this not have XATTR_NOFOLLOW and the others do? -^
 
-Add the reproducer for CVE-2021-20196.
+> +#define qemu_lgetxattr(...) getxattr(__VA_ARGS__, 0, XATTR_NOFOLLOW)
+> +#define qemu_llistxattr(...) listxattr(__VA_ARGS__, XATTR_NOFOLLOW)
+> +#define qemu_lremovexattr(...) removexattr(__VA_ARGS__, XATTR_NOFOLLOW)
+> +static inline int qemu_lsetxattr(const char *path, const char *name,
+> +                                 const void *value, size_t size, int flags)
+> { +    return setxattr(path, name, value, size, 0, flags | XATTR_NOFOLLOW);
+> +}
+> +#else
+> +#define qemu_fgetxattr fgetxattr
+> +#define qemu_lgetxattr lgetxattr
+> +#define qemu_llistxattr llistxattr
+> +#define qemu_lremovexattr lremovexattr
+> +#define qemu_lsetxattr lsetxattr
+> +#endif
+> +
+>  static inline void close_preserve_errno(int fd)
+>  {
+>      int serrno = errno;
 
-Suggested-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- tests/qtest/fdc-test.c | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+Hmm, so we would have two different behaviours for Linux vs. macOS here.
 
-diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
-index 26b69f7c5cd..8f6eee84a47 100644
---- a/tests/qtest/fdc-test.c
-+++ b/tests/qtest/fdc-test.c
-@@ -32,6 +32,9 @@
- /* TODO actually test the results and get rid of this */
- #define qmp_discard_response(...) qobject_unref(qmp(__VA_ARGS__))
- 
-+#define DRIVE_FLOPPY_BLANK \
-+    "-drive if=floppy,file=null-co://,file.read-zeroes=on,format=raw,size=1440k"
-+
- #define TEST_IMAGE_SIZE 1440 * 1024
- 
- #define FLOPPY_BASE 0x3f0
-@@ -546,6 +549,40 @@ static void fuzz_registers(void)
-     }
- }
- 
-+static bool qtest_check_clang_sanitizer(void)
-+{
-+#if defined(__SANITIZE_ADDRESS__) || __has_feature(address_sanitizer)
-+    return true;
-+#else
-+    g_test_skip("QEMU not configured using --enable-sanitizers");
-+    return false;
-+#endif
-+}
-+static void test_cve_2021_20196(void)
-+{
-+    QTestState *s;
-+
-+    if (!qtest_check_clang_sanitizer()) {
-+        return;
-+    }
-+
-+    s = qtest_initf("-nographic -m 32M -nodefaults " DRIVE_FLOPPY_BLANK);
-+
-+    qtest_outw(s, 0x3f4, 0x0500);
-+    qtest_outb(s, 0x3f5, 0x00);
-+    qtest_outb(s, 0x3f5, 0x00);
-+    qtest_outw(s, 0x3f4, 0x0000);
-+    qtest_outb(s, 0x3f5, 0x00);
-+    qtest_outw(s, 0x3f1, 0x0400);
-+    qtest_outw(s, 0x3f4, 0x0000);
-+    qtest_outw(s, 0x3f4, 0x0000);
-+    qtest_outb(s, 0x3f5, 0x00);
-+    qtest_outb(s, 0x3f5, 0x01);
-+    qtest_outw(s, 0x3f1, 0x0500);
-+    qtest_outb(s, 0x3f5, 0x00);
-+    qtest_quit(s);
-+}
-+
- int main(int argc, char **argv)
- {
-     int fd;
-@@ -576,6 +613,7 @@ int main(int argc, char **argv)
-     qtest_add_func("/fdc/read_no_dma_18", test_read_no_dma_18);
-     qtest_add_func("/fdc/read_no_dma_19", test_read_no_dma_19);
-     qtest_add_func("/fdc/fuzz-registers", fuzz_registers);
-+    qtest_add_func("/fdc/fuzz/cve_2021_20196", test_cve_2021_20196);
- 
-     ret = g_test_run();
- 
--- 
-2.33.1
+If there is a symbolic link on host, Linux currently applies the permission
+map as xattrs to the destination of the symlink, whereas macOS would map the
+permissions as xattrs to the symbolic link itself.
+
+Who is right?
+
 
 
