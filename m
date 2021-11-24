@@ -2,92 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B0C45BD65
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 13:35:58 +0100 (CET)
-Received: from localhost ([::1]:57322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D41745BE65
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 13:44:49 +0100 (CET)
+Received: from localhost ([::1]:34050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mprVE-0004wG-W9
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 07:35:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59762)
+	id 1mprdm-0000Fn-Pc
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 07:44:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mprTh-00046x-C1
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 07:34:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38463)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mpraq-0007J6-4X
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 07:41:44 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:43689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mprTd-0004SZ-S5
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 07:34:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637757256;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=26o6tM9xdbm8zSQR0ezUDBpaqzth2vRh4Od9mRx1fS8=;
- b=TyhqgCIOPfuE32Jaxw58eVltOj5zTIrVkLQhmV4942Bx2H0G55daSNapDVNRIXAkQRF7s5
- gHfQedtk515Et8a12B259K5/kfuxNY7ILBdCQIsZBk5tUiqRgk2hSeBlU9zhfkS1QHWESC
- Pik5E4jIXgCYJ3b7JOd5yoBBkWCa40Q=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-310-5h23HkPXNP66-T2hn53DdA-1; Wed, 24 Nov 2021 07:34:15 -0500
-X-MC-Unique: 5h23HkPXNP66-T2hn53DdA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- ay34-20020a05600c1e2200b00337fd217772so1364938wmb.4
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 04:34:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=26o6tM9xdbm8zSQR0ezUDBpaqzth2vRh4Od9mRx1fS8=;
- b=gU1sHDq3teWvpo8SQD91QFngkby8hybkdRLd/ntNRLikZInCyn76qdgAOUruKPszIp
- ziHZWKxQx5G1J0DGV76QNrR+ZpAh3vx1+zookEHevGwglyRbFc6wIWgtsihYxLCd9s5V
- UQPJLv2dwacYTckdoThChtoKRwFXCXLdcl9GZaRRu9s89lFTQIdml1wzPZEM/HFDEoOp
- 1AKL6X9wBmEms8ADrWBXQSDJRo3sr3/qxlGTEDr5vVXd/JUdnpquPOx30OlQPkqQ6NSo
- DG47dRkT75sBaFjjPt2xTCbLuB0dI3cllAM+05UGgtPi2x3bBvcuppvfD+XI6PcBvAOm
- P/FQ==
-X-Gm-Message-State: AOAM533yP953Wx6EUGlsuPYUk7h3khrTxKoD+kET72I+ILsEMqgMI9tJ
- /UObQFi+gRF8cypQtdZ/TF28GwTqKTF5cUvpuaxWmsKru7JILOqyQCP4K9rBX30VIIeKFVc7nHK
- SnOXY4TIUInYzn4U=
-X-Received: by 2002:a7b:cbc3:: with SMTP id n3mr14880194wmi.90.1637757254065; 
- Wed, 24 Nov 2021 04:34:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwe5c8HW/nRXclpoi/XasEyxhKEaX+kPUxlL5yFl5nMdiEWFOe8D3y+XbyDJnKt6m3a38do+Q==
-X-Received: by 2002:a7b:cbc3:: with SMTP id n3mr14880134wmi.90.1637757253790; 
- Wed, 24 Nov 2021 04:34:13 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id c4sm15157824wrr.37.2021.11.24.04.34.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 04:34:13 -0800 (PST)
-Message-ID: <9fa0d8bb-9f64-539f-c579-f26d6013207e@redhat.com>
-Date: Wed, 24 Nov 2021 13:34:11 +0100
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mpran-0005tK-8i
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 07:41:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=KkTIk2JJM8V86732W//HRS1R9POlugfJU5gFrMUS1T8=; b=qvFKca0tGjmH9Mqsze55t7fM7+
+ i8AzYk8DpNRwYMijpDJ1XX9/YuucsBsO+SXPztdYSoxmKgrqDIm2o2tv77jO2DQEAxkqzZdlk+ApV
+ JTwEfnvO5ImpYNA1B8k5AsrJANOD3E6fattvhsf+0tjdBnA65v8Y/+4Wu423qE6KnHSdAQdiOAlQW
+ uu34jsh5XM1S140fi/FdkkEZks4EaDOopsLDIJaJIy1lvaYyy2hxFU9HdVMBHy/zYiBPw+ClpAzM1
+ gTk2zHanZPB8h7t91aZyR4/gloDhPcDg+0JOvdZ3RiizeqkXYDuefs2ZzR+ZJ00xsNRwWeacTQany
+ s5dRRLCWpB30ox4UEv0gHA5SbKReqcZXvCTAF2rM1i4gwmjQPUKNyxOIdlzVyWDHerC34FIY0WjkN
+ vkCN7qkb3vb3FKqHEH+pz1DOeiyfYFcztoV3thocymuQY6uMkbHMV9PMMbMTIEU5uEWC+BUvUJalH
+ 2ObhnIV/hfQLkdKoSlvK7ATDCFP5tSfz+92TNDVnZ3tv2bSZbzAZt5G/E8QwbD0Uq4bmZ5h0Tqa1g
+ z3C6wIHDUYuHHlaSU0uKXjPFAf64GShI29QdfsrRpHnldvCB5AbMg+WToyGOLkgjut4wU7jtOd+7j
+ BQDqr2qECS3p1LKZwE/vfnMkMeVM2BZ+WuQr/iyvg=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Will Cohen <wwcohen@gmail.com>, Keno Fischer <keno@juliacomputing.com>,
+ Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Keno Fischer <keno@alumni.harvard.edu>
+Subject: Re: [PATCH v2 01/11] 9p: linux: Fix a couple Linux assumptions
+Date: Wed, 24 Nov 2021 13:41:34 +0100
+Message-ID: <15166157.SjrypyALAi@silver>
+In-Reply-To: <20211122004913.20052-2-wwcohen@gmail.com>
+References: <20211122004913.20052-1-wwcohen@gmail.com>
+ <20211122004913.20052-2-wwcohen@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 0/6] tests/docker: Update Fedora containers
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Alexander Bulekov <alxndr@redhat.com>
-References: <20211103144844.1285634-1-jsnow@redhat.com>
- <YZ4tuO2tJKdT7FP3@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <YZ4tuO2tJKdT7FP3@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -75
-X-Spam_score: -7.6
-X-Spam_bar: -------
-X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,35 +68,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Alex.
+On Montag, 22. November 2021 01:49:03 CET Will Cohen wrote:
+> From: Keno Fischer <keno@alumni.harvard.edu>
+> 
+>  - Guard Linux only headers.
+>  - Add qemu/statfs.h header to abstract over the which
+>    headers are needed for struct statfs
+>  - Define `ENOATTR` only if not only defined
+>    (it's defined in system headers on Darwin).
+> 
+> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> [Michael Roitzsch: - Rebase for NixOS]
+> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> [Will Cohen: - Fix headers for Alpine]
+> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> ---
+>  fsdev/file-op-9p.h    |  2 +-
+>  hw/9pfs/9p-local.c    |  2 ++
+>  hw/9pfs/9p.c          |  4 ++++
+>  include/qemu/statfs.h | 19 +++++++++++++++++++
+>  include/qemu/xattr.h  |  4 +++-
+>  5 files changed, 29 insertions(+), 2 deletions(-)
+>  create mode 100644 include/qemu/statfs.h
+> 
+> diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
+> index 8fd89f0447..16c1a9d9fe 100644
+> --- a/fsdev/file-op-9p.h
+> +++ b/fsdev/file-op-9p.h
+> @@ -16,7 +16,7 @@
+> 
+>  #include <dirent.h>
+>  #include <utime.h>
+> -#include <sys/vfs.h>
+> +#include "qemu/statfs.h"
+>  #include "qemu-fsdev-throttle.h"
+>  #include "p9array.h"
+> 
+> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> index 210d9e7705..1a5e3eed73 100644
+> --- a/hw/9pfs/9p-local.c
+> +++ b/hw/9pfs/9p-local.c
+> @@ -32,10 +32,12 @@
+>  #include "qemu/error-report.h"
+>  #include "qemu/option.h"
+>  #include <libgen.h>
+> +#ifdef CONFIG_LINUX
+>  #include <linux/fs.h>
+>  #ifdef CONFIG_LINUX_MAGIC_H
+>  #include <linux/magic.h>
+>  #endif
+> +#endif
+>  #include <sys/ioctl.h>
+> 
+>  #ifndef XFS_SUPER_MAGIC
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 15b3f4d385..9c63e14b28 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -32,7 +32,11 @@
+>  #include "migration/blocker.h"
+>  #include "qemu/xxhash.h"
+>  #include <math.h>
+> +#ifdef CONFIG_LINUX
+>  #include <linux/limits.h>
+> +#else
+> +#include <limits.h>
+> +#endif
+> 
+>  int open_fd_hw;
+>  int total_open_fd;
+> diff --git a/include/qemu/statfs.h b/include/qemu/statfs.h
+> new file mode 100644
+> index 0000000000..dde289f9bb
+> --- /dev/null
+> +++ b/include/qemu/statfs.h
+> @@ -0,0 +1,19 @@
+> +/*
+> + * Host statfs header abstraction
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2, or any
+> + * later version.  See the COPYING file in the top-level directory.
+> + *
+> + */
+> +#ifndef QEMU_STATFS_H
+> +#define QEMU_STATFS_H
+> +
+> +#ifdef CONFIG_LINUX
+> +# include <sys/vfs.h>
+> +#endif
+> +#ifdef CONFIG_DARWIN
+> +# include <sys/param.h>
+> +# include <sys/mount.h>
+> +#endif
+> +
+> +#endif
 
-On 11/24/21 13:19, Daniel P. Berrangé wrote:
-> On Wed, Nov 03, 2021 at 10:48:38AM -0400, John Snow wrote:
->> Fedora 33 will be EOL before 6.2 ships; Fedora 35 was just
->> released. Update our various containers to test on F34 and F35.
->>
->> Fix a minor code warning issue that surfaces in a new version of Clang,
->> and fix a small deprecation issue for the latest version of spice.
->>
->> In testing, I found that oss-fuzz was more likely to time out on GitLab;
->> it's unclear if this is a performance regression or just getting unlucky
->> with when I test.
-> 
-> For me it times out every time on Fedora 35. In fact if I run it
-> locally, it doesnn't even finish after 24 hours ! There's a real
-> bug in there somewhere.
-> 
-> 
-> Regards,
-> Daniel
-> 
+I wonder whether adding a separate header file statfs.h just for this isn't 
+overkill, as this is only included once. OTOH there is already xattr.h in 
+QEMU:
+
+> diff --git a/include/qemu/xattr.h b/include/qemu/xattr.h
+> index a83fe8e749..f1d0f7be74 100644
+> --- a/include/qemu/xattr.h
+> +++ b/include/qemu/xattr.h
+> @@ -22,7 +22,9 @@
+>  #ifdef CONFIG_LIBATTR
+>  #  include <attr/xattr.h>
+>  #else
+> -#  define ENOATTR ENODATA
+> +#  if !defined(ENOATTR)
+> +#    define ENOATTR ENODATA
+> +#  endif
+>  #  include <sys/xattr.h>
+>  #endif
+
 
 
