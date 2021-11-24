@@ -2,73 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D68445B76D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 10:29:57 +0100 (CET)
-Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1DDE45B78C
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 10:33:28 +0100 (CET)
+Received: from localhost ([::1]:51248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpobD-0006uc-MJ
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 04:29:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52058)
+	id 1mpoeZ-0001sz-Kz
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 04:33:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mpoVC-0001BD-Di
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:23:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29939)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mpoV4-0004iS-JZ
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:23:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637745813;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=op9l1houTh0AyZsl7B2PXM1vJGxkSjd2K5RbuoSzYhQ=;
- b=gpS1tI88ryhmMYhKnopL3Gn6F/9BzGSRP76ibJaTpWul+zGQSLhrRrl9qip6eA/dJJInwO
- ydD8bT5rnhEqTmnmvIly9NwHTEh/+4kbA9fIVkhnOKWWZRffaVr29jEwe1V32MUTlupZcC
- wM+ySL7Rc7ooTT6Pe2WLeDmqp/mZfjw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-345-0ilK4vYOOO6ytKFW8o1HZQ-1; Wed, 24 Nov 2021 04:23:30 -0500
-X-MC-Unique: 0ilK4vYOOO6ytKFW8o1HZQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41F0AEC1C1;
- Wed, 24 Nov 2021 09:23:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.199])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 72A98418E;
- Wed, 24 Nov 2021 09:23:25 +0000 (UTC)
-Date: Wed, 24 Nov 2021 09:23:23 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH] qga: replace "blacklist" with "blocklist"
-Message-ID: <YZ4Ei1AWr6LeZA+d@redhat.com>
-References: <20211124090937.293966-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpoYl-0005uD-FA
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:27:23 -0500
+Received: from [2a00:1450:4864:20::434] (port=37721
+ helo=mail-wr1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mpoYj-0006J5-ES
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:27:23 -0500
+Received: by mail-wr1-x434.google.com with SMTP id b12so3001344wrh.4
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 01:27:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vYecEut8V/hMyFR1xvCsqX5oeOPzSa62aJgOqPVJriI=;
+ b=PTxdRqM8l4qUybk29H1sMlCju7JJ1v65x2/auwBAzMFmvRv/rT51y+AX1V8KLb0sFQ
+ IlPCrD/2SuwafMAKGmhcoKhikzEitWxvBa+Sd+98GXLCyDyJD56InhTr7cOzuktj8GFx
+ MKjw71snN1qMEJCWnzeJV82mC7hMrZ3UiGL7Lv+RXV+fNj8vBG5pZyJ7BCFRCLoc8C3m
+ nU1oNP/EM5PSK1qFT06emrrxdsa4ddWpZ4OaiW3K32/pcr8jzusQfku3u3ceol8WsEww
+ yh6unEkVCKE8LJcRHSnxgLWALnfpVG3tczzkXQ4hw5aicVWMfha+Oy60SO5qL/LX/4yH
+ oaBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vYecEut8V/hMyFR1xvCsqX5oeOPzSa62aJgOqPVJriI=;
+ b=lnnOHieH4Y45h0nMnpYqcVTpbFK0xc6bvB09fT41gry16/ARjTxFtwWnn7ydiaaF/4
+ 5shFKCTh4X4lh7qPTKTZMsvPuzJ9QCUF1C9RlrHjdgxUs7341vpS3m9pcYyTS9sM8e0r
+ lxAHTIn5wVyTLm3OSgJ2YjiSGjl20t1qvoWIs/n3n51eU3omVRkUxzOuJ+C0/tjRmsrV
+ a1XHxOKQbmYSYFuIRZhkr+C4vHHVsejvB+BJYIxK5PsTPQ+vTGgFf9UnX9HtYuaxK+y2
+ 2v2FdL49EM/WL0tPHfPDLA3haLSB6wjvrTgbmnt48r+bOnis8+nVJsfLlJwxbNL5n70w
+ rPsw==
+X-Gm-Message-State: AOAM532c8gLv30FkT32CRuPkQVjNCOZGiIj/MKMJHY2uOcNuIz7qDanT
+ ChG7UFUz3oQweCi3kAN5P1yuVg==
+X-Google-Smtp-Source: ABdhPJwXyUApF6llCgnOLJh5EVWcwuUceJgND+oRinjowQMHlU9PCMYyzAu2tFwE5y4ngSjamDsHPA==
+X-Received: by 2002:a5d:48cf:: with SMTP id p15mr16722284wrs.277.1637746039645; 
+ Wed, 24 Nov 2021 01:27:19 -0800 (PST)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id f7sm4941811wmg.6.2021.11.24.01.27.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Nov 2021 01:27:19 -0800 (PST)
+Subject: Re: [PATCH 35/35] test/tcg/ppc64le: Add float reference files
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+References: <20211119160502.17432-1-richard.henderson@linaro.org>
+ <20211119160502.17432-36-richard.henderson@linaro.org>
+ <41eda524-8e61-88e6-71ff-757fae97bc9b@kaod.org>
+ <0e4d4227-4a67-7a6e-4f45-6416faebbc93@linaro.org>
+ <45a736de-efe4-1638-65c7-28764c93248a@linaro.org>
+ <673145cf-f64c-2520-3ed5-dae2a16704e7@kaod.org>
+ <333b8968-bdfd-bd79-51d7-edaba09e5e92@linaro.org>
+ <85b4d164-548c-a411-0dbc-d06b842a8baf@kaod.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7e4853b3-5b1d-c868-971f-10777efb1d32@linaro.org>
+Date: Wed, 24 Nov 2021 10:27:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211124090937.293966-1-marcandre.lureau@redhat.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <85b4d164-548c-a411-0dbc-d06b842a8baf@kaod.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,152 +97,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: michael.roth@amd.com, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 24, 2021 at 01:09:37PM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 11/24/21 10:17 AM, Cédric Le Goater wrote:
+> I do now. That was not an easy task. All seem fine with a x86/RH9
+> but I am having issues building the images on power9/ubuntu21.10.
 > 
-> Let's use a more neutral language for that option.
+> centos8 fails with :
+>    #6 41.69 Error: Unable to find a match: libpmem-devel spice-server-devel
 > 
-> "blacklist" is still silently accepted for compatibility reasons.
+> and some others with :
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  docs/interop/qemu-ga.rst   |  4 ++--
->  qga/guest-agent-core.h     |  2 +-
->  qga/commands-posix.c       | 14 ++++++------
->  qga/commands-win32.c       | 10 ++++----
->  qga/main.c                 | 47 ++++++++++++++++++++++----------------
->  tests/unit/test-qga.c      |  8 +++----
->  tests/data/test-qga-config |  2 +-
->  7 files changed, 47 insertions(+), 40 deletions(-)
+>    #5 3.433  builddeps:qemu : Depends: gcc-s390x-linux-gnu but it is not installable
+>    #5 3.433                   Depends: gcc-alpha-linux-gnu but it is not installable
+>    #5 3.256 E: Unable to locate package gcc-hppa-linux-gnu
 > 
-> diff --git a/docs/interop/qemu-ga.rst b/docs/interop/qemu-ga.rst
-> index 3063357bb5d6..706c7b189b0e 100644
-> --- a/docs/interop/qemu-ga.rst
-> +++ b/docs/interop/qemu-ga.rst
-> @@ -79,7 +79,7 @@ Options
->  
->    Daemonize after startup (detach from terminal).
->  
-> -.. option:: -b, --blacklist=LIST
-> +.. option:: -b, --blocklist=LIST
->  
->    Comma-separated list of RPCs to disable (no spaces, ``?`` to list
->    available RPCs).
+> Is that expected ?
 
-IMHO, neither is especially informative because they don't
-express what is being disabled. What about.
+Yes, most docker images are x86_64 only.  Alex knows more about trying to sort this out 
+for aarch64, but mostly the cross-build packages are simply not available for other hosts.
 
-   -f, --command-filter=LIST
+> Also I am seeing this issue on RH9 when running gdb tests :
+> 
+>    TEST    basic gdbstub support
+> warning: Remote gdbserver does not support determining executable automatically.
+> RHEL <=6.8 and <=7.2 versions of gdbserver do not support such automatic executable 
+> detection.
+> The following versions of gdbserver support it:
+> - Upstream version of gdbserver (unsupported) 7.10 or later
+> - Red Hat Developer Toolset (DTS) version of gdbserver from DTS 4.0 or later (only on x86_64)
+> - RHEL-7.3 versions of gdbserver (on any architecture)
+> 
+> I will dig that one. May be it's from the gdb of RH.
 
-   Comma-separate list of command names to disable.
-   No spaces, use ``help`` to list available commands.
+I've never seen this one.
 
 
-> diff --git a/qga/main.c b/qga/main.c
-> index 15fd3a4149f4..016e3f160570 100644
-> --- a/qga/main.c
-> +++ b/qga/main.c
-> @@ -88,7 +88,7 @@ struct GAState {
->  #endif
->      bool delimit_response;
->      bool frozen;
-> -    GList *blacklist;
-> +    GList *blocklist;
->      char *state_filepath_isfrozen;
->      struct {
->          const char *log_filepath;
-> @@ -257,7 +257,7 @@ QEMU_COPYRIGHT "\n"
->  #ifdef _WIN32
->  "  -s, --service     service commands: install, uninstall, vss-install, vss-uninstall\n"
->  #endif
-> -"  -b, --blacklist   comma-separated list of RPCs to disable (no spaces, \"?\"\n"
-> +"  -b, --blocklist   comma-separated list of RPCs to disable (no spaces, \"?\"\n"
->  "                    to list available RPCs)\n"
->  "  -D, --dump-conf   dump a qemu-ga config file based on current config\n"
->  "                    options / command-line parameters to stdout\n"
-> @@ -379,13 +379,13 @@ static void ga_disable_non_whitelisted(const QmpCommand *cmd, void *opaque)
->      }
->  }
->  
-> -/* [re-]enable all commands, except those explicitly blacklisted by user */
-> -static void ga_enable_non_blacklisted(const QmpCommand *cmd, void *opaque)
-> +/* [re-]enable all commands, except those explicitly blocklisted by user */
-> +static void ga_enable_non_blocklisted(const QmpCommand *cmd, void *opaque)
->  {
-> -    GList *blacklist = opaque;
-> +    GList *blocklist = opaque;
->      const char *name = qmp_command_name(cmd);
->  
-> -    if (g_list_find_custom(blacklist, name, ga_strcmp) == NULL &&
-> +    if (g_list_find_custom(blocklist, name, ga_strcmp) == NULL &&
->          !qmp_command_is_enabled(cmd)) {
->          g_debug("enabling command: %s", name);
->          qmp_enable_command(&ga_commands, name);
-> @@ -463,8 +463,8 @@ void ga_unset_frozen(GAState *s)
->          s->deferred_options.pid_filepath = NULL;
->      }
->  
-> -    /* enable all disabled, non-blacklisted commands */
-> -    qmp_for_each_command(&ga_commands, ga_enable_non_blacklisted, s->blacklist);
-> +    /* enable all disabled, non-blocklisted commands */
-> +    qmp_for_each_command(&ga_commands, ga_enable_non_blocklisted, s->blocklist);
->      s->frozen = false;
->      if (!ga_delete_file(s->state_filepath_isfrozen)) {
->          g_warning("unable to delete %s, fsfreeze may not function properly",
-> @@ -894,7 +894,7 @@ int64_t ga_get_fd_handle(GAState *s, Error **errp)
->      int64_t handle;
->  
->      g_assert(s->pstate_filepath);
-> -    /* we blacklist commands and avoid operations that potentially require
-> +    /* we blocklist commands and avoid operations that potentially require
->       * writing to disk when we're in a frozen state. this includes opening
->       * new files, so we should never get here in that situation
->       */
-> @@ -948,8 +948,8 @@ struct GAConfig {
->  #ifdef _WIN32
->      const char *service;
->  #endif
-> -    gchar *bliststr; /* blacklist may point to this string */
-> -    GList *blacklist;
-> +    gchar *bliststr; /* blocklist may point to this string */
-> +    GList *blocklist;
->      int daemonize;
->      GLogLevelFlags log_level;
->      int dumpconf;
-> @@ -1007,10 +1007,16 @@ static void config_load(GAConfig *config)
->          config->retry_path =
->              g_key_file_get_boolean(keyfile, "general", "retry-path", &gerr);
->      }
-> +    if (g_key_file_has_key(keyfile, "general", "blocklist", NULL)) {
-> +        config->bliststr =
-> +            g_key_file_get_string(keyfile, "general", "blocklist", &gerr);
-> +        config->blocklist = g_list_concat(config->blocklist,
-> +                                          split_list(config->bliststr, ","));
-> +    }
->      if (g_key_file_has_key(keyfile, "general", "blacklist", NULL)) {
->          config->bliststr =
->              g_key_file_get_string(keyfile, "general", "blacklist", &gerr);
-> -        config->blacklist = g_list_concat(config->blacklist,
-> +        config->blocklist = g_list_concat(config->blocklist,
->                                            split_list(config->bliststr, ","));
->      }
-
-This needs to print a deprecation warning.
-
-
-We also need to update the QEMU deprecations documentation.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+r~
 
