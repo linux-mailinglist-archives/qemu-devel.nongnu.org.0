@@ -2,70 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165CC45B5F1
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 08:52:06 +0100 (CET)
-Received: from localhost ([::1]:36216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5469645B63A
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 09:08:25 +0100 (CET)
+Received: from localhost ([::1]:44810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpn4X-0000Mc-6c
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 02:52:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41178)
+	id 1mpnKK-00085e-8f
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 03:08:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1mpmoP-0002ZV-47
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 02:35:25 -0500
-Received: from [2607:f8b0:4864:20::930] (port=35594
- helo=mail-ua1-x930.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1mpmoL-00083I-Oa
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 02:35:24 -0500
-Received: by mail-ua1-x930.google.com with SMTP id l24so3230711uak.2
- for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 23:35:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:reply-to:from:date:message-id:subject:to;
- bh=Wq+rSosmNl4J12gPZdqAUHheo525to32vY3OUyX6Cr8=;
- b=Ir6arotudV5XEzojXreDx9M9sQEz5EtL4vHT/+H/Eotitfyko9mGQrTILiXRn8ll9L
- 40QBmj3/AMvSkU3PahGF3kC0r/S41Y6EcqHtcY5za70ggZVb2igQA9b2z9kW70zTwZEu
- e4PFA4ytfeF2OFvL61LmJKfPzxZkBVuS9m0OyaW7u3vHHmCpTiT0T3n5f3ogxZi3xVgU
- 5b+BtJQYLlV7ZNhlnLwcrBEnG3JtdM5hp7EH/5nCBpC/k6vvfxgN1oZVNGOjlMz4dGcz
- 03aSHqrFkhO5GMbO2AVMrRwM6+VWQhSRBXJQSbiyCQSDBjyhIrScEE7xrj1X8/yfJ0CC
- JmJw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpmod-0002nP-Im
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 02:35:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23604)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mpmob-0008B3-2G
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 02:35:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637739335;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xnI9nWUaOp+naT9JETyuSRGMu6xg50n9FhqC3CSDZy0=;
+ b=P0CpswA21PUgYJEXzeKYZ6COegQhXa3lGDOx3JLLgNuuFt3vcZWk/+0eO/MUMT9hfQ4R6W
+ Mjq53MczCaptps/Mwa+OZUYnAyCTUC+q8vbiriHGSb/nv2Lby9wbDEwT9ytFqWZtVa61WC
+ 7UaO7oKtRO4sqr0C5DAdIoPFFzr2XmE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-549-6so3yQbOMnO2Ht-ihVL0Qw-1; Wed, 24 Nov 2021 02:35:34 -0500
+X-MC-Unique: 6so3yQbOMnO2Ht-ihVL0Qw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ p12-20020a05600c1d8c00b0033a22e48203so930955wms.6
+ for <qemu-devel@nongnu.org>; Tue, 23 Nov 2021 23:35:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:reply-to:from:date:message-id
- :subject:to;
- bh=Wq+rSosmNl4J12gPZdqAUHheo525to32vY3OUyX6Cr8=;
- b=k5h0mOyGb9mPKZLZ0u/G2oK+BJG1WBJMBquInhcsxuIsye8FNBd9etjGaVqjsPbJ2O
- YvIe7t33NQOje6zQdVbZIEPprpp0r6/Rx7A0BamdT24IYYTcIMqEmviN7L/Z3JQOy95L
- baKizOe+ZTdPG2MnJeIODWmfQoyDEVzgN8o5RMV10u0BkharLQK/WaSxOH6kvCziOsqM
- Q8EL7f+hBfJeLwJkzz/BpapcSeSim7fwH4lpupWlpLD1NEKQiteceqPm1n8cEnFLv48f
- LgpVgKJ2b3bP3GHWI5tNI3tD/mkxebCjPJGrxYNmeJyEK8U0E9V7XViQziZRunUB4Ukf
- tyng==
-X-Gm-Message-State: AOAM531HKKM7vYY8GrCcWtpb6x2FI36bSivl3ipCIUaVZUsIiLhfKdxG
- VaERYL7XjXlVq3Q2RaJcPvYIcyNeiIuiUV26jFWhzhizN9jrmw==
-X-Google-Smtp-Source: ABdhPJwOiwih51DlMpx2d5Hmk14KB83WW79FGkB8ZISPNG0nniwIxoOg/nSeXY4DwfILpX0imlYx0UW/RuuSMdH++B0=
-X-Received: by 2002:ab0:70cd:: with SMTP id r13mr6785566ual.99.1637739317666; 
- Tue, 23 Nov 2021 23:35:17 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=xnI9nWUaOp+naT9JETyuSRGMu6xg50n9FhqC3CSDZy0=;
+ b=SLVuVYwuiKAmP3G+0dU2ifDquQr8mBCYvkHzWE13lZp8OjX7/MHdZWtCll+EeKxJNf
+ Ty3zKQjw2l55sZg/blxRiC436w747RNO8UJXAwvgQDi7wJb0ytez/0XytDtiWzTOGPNh
+ H3ERgKy+2VYCa8aJLikZITfb98lSIFLq7J9TE9woZUNX5Ra+KOx/scQmgwVQ+EzAfUOJ
+ ww5e2sjHQaDeOCWLgrhOQFsXyUMKoyO783uLFcfqhIb1nmoNcxIJQtIaiV8PquUxZuHA
+ l62pV89wXtJDVgoIDG+bhirNwllttSwjEUMUVzk4027Yzivp7zCDJeOu7Erb7ai8WdbX
+ jhcw==
+X-Gm-Message-State: AOAM53262DHOm30HETHmT/aioYNu62Zf7MutgglyCHM2IpPRq1HgDVvS
+ GMKFbv37t4zYGPjhC3cODDYK+lD84NB4p80mTI7lZaTeGvzDx4m0UgX9rmdCh7HylqmwV6vEZhs
+ R0rfa592tcLsvSto=
+X-Received: by 2002:a05:600c:3b83:: with SMTP id
+ n3mr11981699wms.116.1637739333411; 
+ Tue, 23 Nov 2021 23:35:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyDF4r5lirgB6Mi6NuKicAq6ET8z8wGRNLCjZpUwGPWiNhD9GQ6+NudcNnM/kGSmq3h/+OefQ==
+X-Received: by 2002:a05:600c:3b83:: with SMTP id
+ n3mr11981680wms.116.1637739333226; 
+ Tue, 23 Nov 2021 23:35:33 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id ay21sm3491174wmb.7.2021.11.23.23.35.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Nov 2021 23:35:32 -0800 (PST)
+Message-ID: <129d4b5b-6118-239b-d1ed-c32f5193cc0f@redhat.com>
+Date: Wed, 24 Nov 2021 08:35:31 +0100
 MIME-Version: 1.0
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Wed, 24 Nov 2021 15:35:07 +0800
-Message-ID: <CAE2XoE-RgL3762rVVjCmTajrPea2-5kcOaSj=qWsa3oHiEP+jw@mail.gmail.com>
-Subject: How to enable virgl in headless mode?
-To: qemu-level <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000043a80f05d183e679"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::930
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::930;
- envelope-from=luoyonggang@gmail.com; helo=mail-ua1-x930.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, NUMERIC_HTTP_ADDR=1.242, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, WEIRD_PORT=0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 2/2] ivshmem-test.c: enable test_ivshmem_server for ppc64
+ arch
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+References: <20211123211932.284043-1-danielhb413@gmail.com>
+ <20211123211932.284043-3-danielhb413@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20211123211932.284043-3-danielhb413@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -75
+X-Spam_score: -7.6
+X-Spam_bar: -------
+X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,60 +102,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000043a80f05d183e679
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 23/11/2021 22.19, Daniel Henrique Barboza wrote:
+> This test, if enabled by hand, was failing when the ivhsmem device was
+> being declared as DEVICE_NATIVE_ENDIAN with the following error:
+> 
+> /ppc64/ivshmem/pair: OK
+> /ppc64/ivshmem/server:
+> **
+> ERROR:/home/danielhb/qemu/tests/qtest/ivshmem-test.c:367:test_ivshmem_server:
+> assertion failed (ret != 0): (0 != 0)
+> Aborted
+> 
+> After the endianess change done in the previous patch, we can verify in
 
-Here is my command line
-```
-qemu-system-arm ^
- -monitor telnet:127.0.0.1:5318,server=3Don,wait=3Doff,nodelay=3Don ^
- -serial telnet:127.0.0.1:5319,server=3Don,wait=3Don,nodelay=3Don ^
- -parallel none ^
- -cpu cortex-a15 -smp 4 -M virt -m 2G ^
- -kernel armhf-installed/vmlinuz ^
- -initrd armhf-installed/initrd.img ^
- -vnc :1,websocket=3D5701 ^
- -nographic ^
- -append "root=3D/dev/vda2 console=3DttyAMA0" ^
- -device virtio-gpu-gl-device ^
- -device virtio-blk-device,drive=3Dhd -drive
-file=3Darmhf-installed/debian_11.img,if=3Dnone,id=3Dhd ^
- -device virtio-net-device,netdev=3Dnet0 -netdev
-user,hostfwd=3Dtcp::2222-:22,id=3Dnet0
-```
---=20
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+s/endianess/endianness/
 
---00000000000043a80f05d183e679
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> both a a Power 9 little-endian host and in a Power 8 big-endian host
+> that this test is now passing:
+> 
+> $ QTEST_QEMU_BINARY=./ppc64-softmmu/qemu-system-ppc64 ./tests/qtest/ivshmem-test -m slow
+> /ppc64/ivshmem/single: OK
+> /ppc64/ivshmem/hotplug: OK
+> /ppc64/ivshmem/memdev: OK
+> /ppc64/ivshmem/pair: OK
+> /ppc64/ivshmem/server: OK
+> 
+> Let's keep it that way by officialy enabling it for ppc64.
 
-<div dir=3D"ltr">Here is my command line<br clear=3D"all"><div>```</div><di=
-v>qemu-system-arm ^<br>=C2=A0-monitor telnet:<a href=3D"http://127.0.0.1:53=
-18">127.0.0.1:5318</a>,server=3Don,wait=3Doff,nodelay=3Don ^<br>=C2=A0-seri=
-al telnet:<a href=3D"http://127.0.0.1:5319">127.0.0.1:5319</a>,server=3Don,=
-wait=3Don,nodelay=3Don ^<br>=C2=A0-parallel none ^<br>=C2=A0-cpu cortex-a15=
- -smp 4 -M virt -m 2G ^<br>=C2=A0-kernel armhf-installed/vmlinuz ^<br>=C2=
-=A0-initrd armhf-installed/initrd.img ^<br>=C2=A0-vnc :1,websocket=3D5701 ^=
-<br>=C2=A0-nographic ^<br>=C2=A0-append &quot;root=3D/dev/vda2 console=3Dtt=
-yAMA0&quot; ^<br>=C2=A0-device virtio-gpu-gl-device ^<br>=C2=A0-device virt=
-io-blk-device,drive=3Dhd -drive file=3Darmhf-installed/debian_11.img,if=3Dn=
-one,id=3Dhd ^<br>=C2=A0-device virtio-net-device,netdev=3Dnet0 -netdev user=
-,hostfwd=3Dtcp::2222-:22,id=3Dnet0<br></div><div>```</div>-- <br><div dir=
-=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature">=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=
-=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo<br>=
-</div></div>
+s/officialy/officially/
 
---00000000000043a80f05d183e679--
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>   tests/qtest/ivshmem-test.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/tests/qtest/ivshmem-test.c b/tests/qtest/ivshmem-test.c
+> index dfa69424ed..fe94dd3b96 100644
+> --- a/tests/qtest/ivshmem-test.c
+> +++ b/tests/qtest/ivshmem-test.c
+> @@ -463,7 +463,6 @@ static gchar *mktempshm(int size, int *fd)
+>   int main(int argc, char **argv)
+>   {
+>       int ret, fd;
+> -    const char *arch = qtest_get_arch();
+>       gchar dir[] = "/tmp/ivshmem-test.XXXXXX";
+>   
+>       g_test_init(&argc, &argv, NULL);
+> @@ -488,9 +487,7 @@ int main(int argc, char **argv)
+>       qtest_add_func("/ivshmem/memdev", test_ivshmem_memdev);
+>       if (g_test_slow()) {
+>           qtest_add_func("/ivshmem/pair", test_ivshmem_pair);
+> -        if (strcmp(arch, "ppc64") != 0) {
+> -            qtest_add_func("/ivshmem/server", test_ivshmem_server);
+> -        }
+> +        qtest_add_func("/ivshmem/server", test_ivshmem_server);
+>       }
+
+Acked-by: Thomas Huth <thuth@redhat.com>
+
 
