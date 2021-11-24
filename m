@@ -2,96 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF96945C632
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 15:03:01 +0100 (CET)
-Received: from localhost ([::1]:48588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3957A45C6DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 15:10:10 +0100 (CET)
+Received: from localhost ([::1]:56734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpsrU-0007Ed-VP
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 09:03:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56408)
+	id 1mpsyO-0004Xo-RU
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 09:10:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mpspF-0004Qs-Nh
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 09:00:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25963)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mpsx2-0003pl-1a
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 09:08:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mpspC-0001ZU-H2
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 09:00:40 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mpswy-0005Dh-Ux
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 09:08:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637762436;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cNh7pF0IWQqR8NGvbxWFHZ7EEKbhUo0IABnKL/4xTDU=;
- b=BOupxxaw9wJeK77R0c/XRolyNAzWOHWAsT0vdIWeP9LsoUfigv1sItFaefHxehI/uQY9o0
- uoBFfZOeAkpH3ROYY4DKskXEug6kyt2sSDXttr50vbAZAB7ih5xH2eLLVEQgEoTbwG1OTF
- nIjLfMVJWfevag3IbZcNvkIuajV04zw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1637762920;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=mnkGoQDi3iNlPdqhxZvttm1cnEr+OPyJeZeoPYTzbD4=;
+ b=OEYPa3GzYy/jgW4ohf5JmZ/TokhmQvOnmL+zcW6d3POLSEzl5htwc7BXddaJqFownPGYLP
+ cXdvjrVFfqjxvet1G+sP/MveKxtLSUvbcs2FalxnpF6e1gSZA1QGzOY7c+HBJhH0tkWGeN
+ 7SEEaJ2Ys0SwVsJZoovggDHXtB8G2Bc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-480-VeKLF4f3MTKpML9uI86Vbg-1; Wed, 24 Nov 2021 09:00:34 -0500
-X-MC-Unique: VeKLF4f3MTKpML9uI86Vbg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- q7-20020adff507000000b0017d160d35a8so513362wro.4
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 06:00:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=cNh7pF0IWQqR8NGvbxWFHZ7EEKbhUo0IABnKL/4xTDU=;
- b=rx8jodRAfhfFtujb/NvHjvg72ZrbU8f3mZCztQTL/aK8MXMxqHfBH0ifbzx2kvEXGV
- srzjZFgJHge8QpLN4f4qQ+zo+CiJrlSuR07OENkwPaa5/ogRaDvs7cQkXfQD3YDfWCSq
- 0EGTytAm3GtQglGYfArqNCY/cdivA/W4QFUl8xZFpUGJeq3MeaV6Y+9QclYqEPePECHc
- Fe+hPaBC7QnsxeINLVuyAtMPNLlahRgR+NbnJ/nn5JdTZUKc7xn5ekE45rMee2DX7cuh
- rNKE6h+1A2v9vLzyCSm2HKmabyuMrBdgxzsg4Dcu9KJvGhvHYEL7ZdLBNM2rdsostH+y
- 9gaA==
-X-Gm-Message-State: AOAM532y5N6CdiPa4hqQYkx40RbdrVvSfcrfQef5rea5Vt7zbPv0RHMj
- /2qOq+mGyBpClQCXvA7qA/0RxDzJlY6VcUvshmJV7aqmgGBMsFWHvZztJ1TPyeBDwZxC2MDgQeq
- FXjQ8HQcTYnpNM+g=
-X-Received: by 2002:a7b:ce01:: with SMTP id m1mr15751730wmc.187.1637762433567; 
- Wed, 24 Nov 2021 06:00:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwYitFt0/k/7ivZMnncQ1Adpu2KL9ePQiVV+JcW0oecf58KUqqDfy8UMWD3PG+w+AU78v51Mw==
-X-Received: by 2002:a7b:ce01:: with SMTP id m1mr15751660wmc.187.1637762433273; 
- Wed, 24 Nov 2021 06:00:33 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id s24sm4443172wmj.26.2021.11.24.06.00.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 06:00:32 -0800 (PST)
-Message-ID: <e6dad060-48eb-e188-4c68-e83865072e90@redhat.com>
-Date: Wed, 24 Nov 2021 15:00:32 +0100
+ us-mta-525-a4e1PcV4O12cJi5NFYwexA-1; Wed, 24 Nov 2021 09:08:31 -0500
+X-MC-Unique: a4e1PcV4O12cJi5NFYwexA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 741A684B9A7;
+ Wed, 24 Nov 2021 14:08:29 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 54FC5694BF;
+ Wed, 24 Nov 2021 14:07:33 +0000 (UTC)
+Date: Wed, 24 Nov 2021 14:07:31 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [RFC PATCH v3 0/5] QMP support for cold-plugging devices
+Message-ID: <YZ5HI0ms/sd4gEIS@redhat.com>
+References: <20211117144703.16305-1-damien.hedde@greensocs.com>
+ <87y25jw69i.fsf@dusky.pond.sub.org>
+ <d3ae2bea-7d60-a714-100c-40b31fd19725@greensocs.com>
+ <87lf1dwtm4.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH-for-6.2 v3 2/2] tests/qtest/fdc-test: Add a regression
- test for CVE-2021-20196
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211118120635.4043197-1-philmd@redhat.com>
- <20211118120635.4043197-3-philmd@redhat.com>
- <1cca5391-18e9-8e29-9c8b-0d44010cdecd@redhat.com>
- <e4e69416-35f4-c9d7-1628-a9e45c64b4c6@redhat.com>
- <fa59fbf0-2b2c-a336-4cc0-7b08fe81cd00@redhat.com>
- <464fbe60-4b22-86bc-902c-ac003d22803a@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <464fbe60-4b22-86bc-902c-ac003d22803a@redhat.com>
+In-Reply-To: <87lf1dwtm4.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -75
-X-Spam_score: -7.6
-X-Spam_bar: -------
-X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,85 +82,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
- qemu-block@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
- Markus Armbruster <armbru@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Gaoning Pan <pgn@zju.edu.cn>,
- John Snow <jsnow@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, edgar.iglesias@xilinx.com,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Mark Burton <mark.burton@greensocs.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.11.21 13:50, Philippe Mathieu-Daudé wrote:
-> On 11/23/21 15:14, Hanna Reitz wrote:
->> On 23.11.21 14:49, Philippe Mathieu-Daudé wrote:
->>> On 11/23/21 14:42, Hanna Reitz wrote:
->>>> On 18.11.21 13:06, Philippe Mathieu-Daudé wrote:
->>>>> From: Alexander Bulekov <alxndr@bu.edu>
->>>>>
->>>>> Without the previous commit, when running 'make check-qtest-i386'
->>>>> with QEMU configured with '--enable-sanitizers' we get:
->>>>>
->>>>>      AddressSanitizer:DEADLYSIGNAL
->>>>>      =================================================================
->>>>>      ==287878==ERROR: AddressSanitizer: SEGV on unknown address
->>>>> 0x000000000344
->>>>>      ==287878==The signal is caused by a WRITE memory access.
->>>>>      ==287878==Hint: address points to the zero page.
->>>>>          #0 0x564b2e5bac27 in blk_inc_in_flight
->>>>> block/block-backend.c:1346:5
->>>>>          #1 0x564b2e5bb228 in blk_pwritev_part
->>>>> block/block-backend.c:1317:5
->>>>>          #2 0x564b2e5bcd57 in blk_pwrite block/block-backend.c:1498:11
->>>>>          #3 0x564b2ca1cdd3 in fdctrl_write_data hw/block/fdc.c:2221:17
->>>>>          #4 0x564b2ca1b2f7 in fdctrl_write hw/block/fdc.c:829:9
->>>>>          #5 0x564b2dc49503 in portio_write softmmu/ioport.c:201:9
->>>>>
->>>>> Add the reproducer for CVE-2021-20196.
->>>>>
->>>>> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
->>>>> Message-Id: <20210319050906.14875-2-alxndr@bu.edu>
->>>>> [PMD: Rebased, use global test_image]
->>>>> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
->>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>>> ---
->>>>>     tests/qtest/fdc-test.c | 21 +++++++++++++++++++++
->>>>>     1 file changed, 21 insertions(+)
->>>> Not sure if I’m doing something wrong, but:
->>>>
->>>> Using the global test_image brings a problem, namely that this test
->>>> fails unconditionally (for me at least...?), with the reason being that
->>>> the global QEMU instance (launched by qtest_start(), quit by
->>>> qtest_end()) still has that image open, so by launching a second
->>>> instance concurrently, I get this:
->>>>
->>>> qemu-system-x86_64: Failed to get "write" lock
->>>> Is another process using the image [/tmp/qtest.xV4IxX]?
->>> Hmm I had too many odd problems running qtests in parallel so I
->>> switched to 'make check-qtest -j1' more than 1 year ago, which
->>> is probably why I haven't noticed that issue.
->> I’ve run the test with
->>
->> QTEST_QEMU_BINARY=$PWD/qemu-system-x86_64 tests/qtest/fdc-test
->>
->> so there definitely weren’t any other tests running at the same time.  I
->> don’t know why you don’t encounter this problem, but it’s caused by the
->> concurrent QEMU instance launched in the very same test (qtest_start()
->> in main(), and cleaned up by qtest_end() after g_test_run()).
-> I run all my qtests on top of this patch, otherwise I can't
-> get any coredump:
-> https://lore.kernel.org/qemu-devel/20200707031920.17428-1-f4bug@amsat.org/
-> But I don't think it mattered here...
+On Wed, Nov 24, 2021 at 02:50:11PM +0100, Markus Armbruster wrote:
+> Damien Hedde <damien.hedde@greensocs.com> writes:
+> 
+> > The biggest difference is the fw_cfg option I think: it is related
+> > with the rom_set_order_override()/rom_reset_order_override() (line 17
+> > and 25). There is also the usb devices parts in between. I lack the 
+> > knowledge about fw_cfg/usb to tell if it is important or not.
+> >
+> > What I wanted to say is I don't know if the difference is
+> > acceptable. If we want device_add to support all -device use cases, it
+> > is not. In that case we need to stop either in the middle of this
+> > function (line 15) or at the end (better with your sketch in mind).
+> >
+> > Note that rom_set_order_override()/rom_reset_order_override() only
+> > set/reset a switch variable that changes how fw_cfg files are
+> > sorted. It could be integrated into device_add code (and removed from
+> > the above function) without changing the behavior.
+> 
+> For me, the part that puts me off is interleaving CLI and QMP.
+> 
+> We process the CLI in an order few people understand, and only while
+> staring at the code.  That's bad.
+> 
+> Injecting QMP at certain points in that sequence can only make it worse.
 
-I can give that a try, but since I use coredumpctl, I generally don’t 
-have a problem with one coredump overwriting another (only that I need 
-to give a PID to `coredumpctl gdb` to load not the latest coredump (the 
-qtest) but the one before (qemu)).
+Yep, I share your unease here.. especially wrt this quoted text
+from later:
 
-Hm, perhaps the problem is that I never applied the other series before 
-this one.  Also one thing that remains to be tested...
+  > >> Users can do as much or as little with the CLI as they want.  You'd
+  > >> probably want to set up a QMP monitor and no more.
 
-Hanna
+I would say that is a case of overkill. It can only make our
+lives harder as maintainers in the long term, if we have to
+worry about such arbitrary mixing of QMP and CLI. This is
+also why I'm pretty uneasy about the 'preconfig' stuff as
+implemented today in general.
+
+It is a half-way house that doesn't really give mgmt apps
+what they want, which is a 100% QAPI-only config. If mgmt
+apps start using preconfig, it won't make life any better
+for them and will also lock QEMU maintainers into supporting
+this half-way house.
+
+We have a bit of a track record with QEMU of introducing
+partial solutions and never quite finishing the job. There's
+little strong incentive to ever finish it, if you can freely
+mix both old and new style forever, and thus maintainers are
+burdened forever with both.
+
+IMHO, we should only try to support the non-mixed scenarios
+
+  - 100% of hardware configured via CLI args
+  - 100% of hardware configured via QAPI (whether live in
+    QMP, or fed in via a QAPI based JSON/YAML config file)
+
+so that we only have two clear cases we need to worry about
+dealing with.
+
+Focus our efforts 100% of the 100% QAPI scenario and don't
+divert energy into short term hybrid solutions.
+
+
+> >> Let me quote the sketch I posted to the "Stabilize preconfig" thread:
+> >> 
+> >> 1. Start event loop
+> >> 
+> >> 2. Feed it CLI left to right.  Each option runs a handler just like each
+> >>     QMP command does.
+> >> 
+> >>     Options that read a configuration file inject the file into the feed.
+> >> 
+> >>     Options that create a monitor create it suspended.
+> >> 
+> >>     Options may advance the phase / run state, and they may require
+> >>     certain phase(s).
+> >> 
+> >> 3. When we're done with CLI, resume any monitors we created.
+> >> 
+> >> 4. Monitors now feed commands to the event loop.  Commands may advance
+> >>     the phase / run state, and they may require certain phase(s).
+> >> 
+> >> Users can do as much or as little with the CLI as they want.  You'd
+> >> probably want to set up a QMP monitor and no more.
+> >> 
+> >> device_add becomes possible at a certain state of the phase / run state
+> >> machine.  It changes from cold to hot plug at a certain later state.
+> >> 
+> >>> [1]: https://lore.kernel.org/qemu-devel/b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com
+> >>>
+> >>> Thanks for your feedback.
+> >> 
+> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
