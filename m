@@ -2,49 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D44445CCAC
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 20:02:36 +0100 (CET)
-Received: from localhost ([::1]:56252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D02F45CCBB
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 20:10:12 +0100 (CET)
+Received: from localhost ([::1]:46594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpxXP-0002A4-0k
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 14:02:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51970)
+	id 1mpxel-0006Ru-9V
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 14:10:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1mpxJP-0006M2-FX; Wed, 24 Nov 2021 13:48:07 -0500
-Received: from mga07.intel.com ([134.134.136.100]:44071)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mpxKB-0007UH-5Q
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 13:48:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1mpxJN-00008y-1Q; Wed, 24 Nov 2021 13:48:07 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="298752681"
-X-IronPort-AV: E=Sophos;i="5.87,261,1631602800"; d="scan'208";a="298752681"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2021 10:48:01 -0800
-X-IronPort-AV: E=Sophos;i="5.87,261,1631602800"; d="scan'208";a="509986910"
-Received: from lmaniak-dev.igk.intel.com ([10.55.249.72])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2021 10:47:57 -0800
-Date: Wed, 24 Nov 2021 19:46:38 +0100
-From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-To: Naveen <naveen.n1@samsung.com>
-Subject: Re: [RFC PATCH v3] hw/nvme:Adding Support for namespace management
-Message-ID: <20211124184638.GB1012589@lmaniak-dev.igk.intel.com>
-References: <CGME20211110112647epcas5p1946f1543392f3b9563d6766fcda5c392@epcas5p1.samsung.com>
- <1636543589-32333-1-git-send-email-naveen.n1@samsung.com>
- <20211123101126.GA1012589@lmaniak-dev.igk.intel.com>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mpxK3-0000rT-OL
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 13:48:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637779726;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cCA+vMBLJcLlRFhvF0lAEZ9zDvfxeGbpwUCYXpaXY6o=;
+ b=ANrXKNp/SzU53jJqwORkuYsHwnDanvwRQ9a0+qP4nEmvLSX9206LZ2pMltVatVz+mh9DwC
+ jOnB5U8MtR/MSOk/rp7D9a6WYpk71aCYNAQykkhCie4X8GPjn2ZCSCUKl0bQRSME4bJJow
+ cJFclT2Q5ZKk4dL1YLyF08sGVl5D4Aw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-240-R5QCuJ3XPlaOSB_QKL2yrA-1; Wed, 24 Nov 2021 13:48:44 -0500
+X-MC-Unique: R5QCuJ3XPlaOSB_QKL2yrA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d7-20020a5d6447000000b00186a113463dso713497wrw.10
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 10:48:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=cCA+vMBLJcLlRFhvF0lAEZ9zDvfxeGbpwUCYXpaXY6o=;
+ b=2GLEViSNM1EFDhDVW4R3SAqXavcfZioCOVRdmQDYe/anbmtz6defhER0FwMzeaomQQ
+ b2o3Z15gDVI3amQHWj05XCdbHHqH0tNyghgu5/QwRk/zxaSlDBP+KiXYxGV4UZKxHGnS
+ 95OVwQ/tjOSIYZobZM9jt6W4JWdHo3CAL9g1AqP1PH8zhUaDVnxrSCcgLtueZYn1245p
+ sW/h/eMqi1X7aVVAep9lffhSnWtO5ahkSWN/dC4kCxL1q0KPO/vXW5TcdUVGYVVIxZIw
+ /aEePWAZbetPBg4pEOO7nic9v4zYFjXHZukch/2Fwpqin43XTvTWU4Ik3zYI2EOG0RkY
+ Hkjw==
+X-Gm-Message-State: AOAM531C4whlQcRAwNu1Pk9ZUEpBJOYN0zsBcd1jlg2G1NJ4kyKi+kdm
+ fVZkvlo05jUNo5r8oDCgZQv6aF0JhJM0689JU/tSy+d939AAO7fnjcuoxTIGV4ww/ejoXR56lmB
+ I1TJhpvFSdQfLWNU=
+X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr22809869wrz.211.1637779723735; 
+ Wed, 24 Nov 2021 10:48:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzVSrqo9Aa6MzLBwO8iPy9+g4Bq8jsVsCiYMd+n2aKPAAduM8s9B5LFp0lPj/CF/1Ath7AkOQ==
+X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr22809836wrz.211.1637779723501; 
+ Wed, 24 Nov 2021 10:48:43 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id h204sm595944wmh.33.2021.11.24.10.48.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Nov 2021 10:48:42 -0800 (PST)
+Date: Wed, 24 Nov 2021 18:48:40 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v3 01/23] multifd: Delete useless operation
+Message-ID: <YZ6JCNdj0G4r3igs@work-vm>
+References: <20211124100617.19786-1-quintela@redhat.com>
+ <20211124100617.19786-2-quintela@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20211124100617.19786-2-quintela@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211123101126.GA1012589@lmaniak-dev.igk.intel.com>
-Received-SPF: none client-ip=134.134.136.100;
- envelope-from=lukasz.maniak@linux.intel.com; helo=mga07.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,201 +97,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, anuj.singh@samsung.com,
- jg123.choi@samsung.com, qemu-block@nongnu.org,
- =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
- d.palani@samsung.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- kbusch@kernel.org, anshul@samsung.com, stefanha@redhat.com, its@irrelevant.dk,
- raphel.david@samsung.com, p.kalghatgi@samsung.com
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 23, 2021 at 11:11:37AM +0100, Lukasz Maniak wrote:
-> On Wed, Nov 10, 2021 at 04:56:29PM +0530, Naveen wrote:
-> > From: Naveen Nagar <naveen.n1@samsung.com>
-> > 
-> > This patch supports namespace management : create and delete operations
-> > This patch has been tested with the following command and size of image
-> > file for unallocated namespaces is taken as 0GB. ns_create will look into
-> > the list of unallocated namespaces and it will initialize the same and 
-> > return the nsid of the same. A new mandatory field has been added called
-> > tnvmcap and we have ensured that the total capacity of namespace created
-> > does not exceed tnvmcap
-> > 
-> > -device nvme-subsys,id=subsys0,tnvmcap=8
-> > -device nvme,serial=foo,id=nvme0,subsys=subsys0
-> > -device nvme,serial=bar,id=nvme1,subsys=subsys0
-> > 
-> > -drive id=ns1,file=ns1.img,if=none
-> > -device nvme-ns,drive=ns1,bus=nvme0,nsid=1,zoned=false,shared=true
-> > -drive id=ns2,file=ns2.img,if=none
-> > -device nvme-ns,drive=ns2,bus=nvme0,nsid=2,zoned=false,shared=true
-> > -drive id=ns3,file=ns3.img,if=none
-> > -device nvme-ns,drive=ns3,bus=nvme0,nsid=3,zoned=false,shared=true
-> > -drive id=ns4,file=ns4.img,if=none
-> > -device nvme-ns,drive=ns4,bus=nvme0,nsid=4,zoned=false,shared=true
-> > 
-> > Please review and suggest if any changes are required.
-> > 
-> > Signed-off-by: Naveen Nagar <naveen.n1@samsung.com>
-> > 
-> > Since v2:
-> > -Lukasz Maniak found a bug in namespace attachment and proposed 
-> >  solution is added
-> > 
+* Juan Quintela (quintela@redhat.com) wrote:
+> We are divining by page_size to multiply again in the only use.
+             ^--- typo
+> Once there, impreve the comments.
+                  ^--- typo
 > 
-> Hi Naveen,
-> 
-> The current implementation is inconsistent and thus has a bug related to
-> unvmcap support.
-> 
-> Namespaces are pre-allocated after boot, and the initial namespace size
-> is the size of the associated blockdev. If the blockdevs are non-zero
-> sized then the first deletion of the namespaces associated with them
-> will increment unvmcap by their size. This will make unvmcap greater
-> than tnvmcap.
-> 
-> While the easiest way would be to prohibit the use of non-zero sized
-> blockdev with namespace management, doing so would limit the
-> functionality of the namespaces itself, which we would like to avoid.
-> 
-> This fix below addresses issues related to unvmcap and non-zero block
-> devices. The unvmcap value will be properly updated on both the first
-> and subsequent controllers added to the subsystem regardless of the
-> order in which nvme-ns is defined on the command line before or after
-> the controller definition. Additionally, if the block device size of any
-> namespace causes the unvmcap to be exceeded, an error will be returned
-> at the namespace definition point.
-> 
-> The fix is based on v3 based on v6.1.0, as v3 does not apply to master.
-> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+
+OK, with the typo's fixed:
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+but, could you also explain the  x 2 (that's no worse than the current
+code); is this defined somewhere in zlib?  I thought there was a routine
+that told you the worst case?
+
+Dave
 > ---
->  hw/nvme/ctrl.c |  7 +++++++
->  hw/nvme/ns.c   | 23 ++++++++++++++++++++---
->  2 files changed, 27 insertions(+), 3 deletions(-)
+>  migration/multifd-zlib.c | 13 ++++---------
+>  migration/multifd-zstd.c | 13 ++++---------
+>  2 files changed, 8 insertions(+), 18 deletions(-)
 > 
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 63ea2fcb14..dc0ad4155b 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -6594,6 +6594,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
->      NvmeIdCtrl *id = &n->id_ctrl;
->      uint8_t *pci_conf = pci_dev->config;
->      uint64_t cap = ldq_le_p(&n->bar.cap);
-> +    int i;
->  
->      id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
->      id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
-> @@ -6672,6 +6673,12 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
->          id->cmic |= NVME_CMIC_MULTI_CTRL;
->          id->tnvmcap = n->subsys->params.tnvmcap * GiB;
->          id->unvmcap = n->subsys->params.tnvmcap * GiB;
-> +
-> +        for (i = 0; i < ARRAY_SIZE(n->subsys->namespaces); i++) {
-> +            if (n->subsys->namespaces[i]) {
-> +                id->unvmcap -= le64_to_cpu(n->subsys->namespaces[i]->size);
-> +            }
-> +        }
->      }
->  
->      NVME_CAP_SET_MQES(cap, 0x7ff);
-> diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-> index f62a695132..c87d7f5bd6 100644
-> --- a/hw/nvme/ns.c
-> +++ b/hw/nvme/ns.c
-> @@ -140,9 +140,12 @@ lbaf_found:
->      return 0;
->  }
->  
-> -static int nvme_ns_init_blk(NvmeNamespace *ns, Error **errp)
-> +static int nvme_ns_init_blk(NvmeNamespace *ns, NvmeSubsystem *subsys,
-> +                            Error **errp)
+> diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
+> index ab4ba75d75..3fc7813b44 100644
+> --- a/migration/multifd-zlib.c
+> +++ b/migration/multifd-zlib.c
+> @@ -42,7 +42,6 @@ struct zlib_data {
+>   */
+>  static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
 >  {
->      bool read_only;
-> +    NvmeCtrl *ctrl;
-> +    int i;
+> -    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
+>      struct zlib_data *z = g_malloc0(sizeof(struct zlib_data));
+>      z_stream *zs = &z->zs;
 >  
->      if (!blkconf_blocksizes(&ns->blkconf, errp)) {
+> @@ -54,9 +53,8 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
+>          error_setg(errp, "multifd %d: deflate init failed", p->id);
 >          return -1;
-> @@ -164,6 +167,21 @@ static int nvme_ns_init_blk(NvmeNamespace *ns, Error **errp)
+>      }
+> -    /* We will never have more than page_count pages */
+> -    z->zbuff_len = page_count * qemu_target_page_size();
+> -    z->zbuff_len *= 2;
+> +    /* To be safe, we reserve twice the size of the packet */
+> +    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
+>      z->zbuff = g_try_malloc(z->zbuff_len);
+>      if (!z->zbuff) {
+>          deflateEnd(&z->zs);
+> @@ -180,7 +178,6 @@ static int zlib_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
+>   */
+>  static int zlib_recv_setup(MultiFDRecvParams *p, Error **errp)
+>  {
+> -    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
+>      struct zlib_data *z = g_malloc0(sizeof(struct zlib_data));
+>      z_stream *zs = &z->zs;
+>  
+> @@ -194,10 +191,8 @@ static int zlib_recv_setup(MultiFDRecvParams *p, Error **errp)
+>          error_setg(errp, "multifd %d: inflate init failed", p->id);
+>          return -1;
+>      }
+> -    /* We will never have more than page_count pages */
+> -    z->zbuff_len = page_count * qemu_target_page_size();
+> -    /* We know compression "could" use more space */
+> -    z->zbuff_len *= 2;
+> +    /* To be safe, we reserve twice the size of the packet */
+> +    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
+>      z->zbuff = g_try_malloc(z->zbuff_len);
+>      if (!z->zbuff) {
+>          inflateEnd(zs);
+> diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
+> index 693bddf8c9..cc3b8869c0 100644
+> --- a/migration/multifd-zstd.c
+> +++ b/migration/multifd-zstd.c
+> @@ -47,7 +47,6 @@ struct zstd_data {
+>   */
+>  static int zstd_send_setup(MultiFDSendParams *p, Error **errp)
+>  {
+> -    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
+>      struct zstd_data *z = g_new0(struct zstd_data, 1);
+>      int res;
+>  
+> @@ -67,9 +66,8 @@ static int zstd_send_setup(MultiFDSendParams *p, Error **errp)
+>                     p->id, ZSTD_getErrorName(res));
+>          return -1;
+>      }
+> -    /* We will never have more than page_count pages */
+> -    z->zbuff_len = page_count * qemu_target_page_size();
+> -    z->zbuff_len *= 2;
+> +    /* To be safe, we reserve twice the size of the packet */
+> +    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
+>      z->zbuff = g_try_malloc(z->zbuff_len);
+>      if (!z->zbuff) {
+>          ZSTD_freeCStream(z->zcs);
+> @@ -191,7 +189,6 @@ static int zstd_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
+>   */
+>  static int zstd_recv_setup(MultiFDRecvParams *p, Error **errp)
+>  {
+> -    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
+>      struct zstd_data *z = g_new0(struct zstd_data, 1);
+>      int ret;
+>  
+> @@ -212,10 +209,8 @@ static int zstd_recv_setup(MultiFDRecvParams *p, Error **errp)
 >          return -1;
 >      }
 >  
-> +    if (subsys) {
-> +        for (i = 0; i < ARRAY_SIZE(subsys->ctrls); i++) {
-> +            ctrl = nvme_subsys_ctrl(subsys, i);
-> +
-> +            if (ctrl) {
-> +                if (ctrl->id_ctrl.unvmcap < le64_to_cpu(ns->size)) {
-> +                    error_setg(errp, "blockdev size %ld exceeds subsystem's "
-> +                                     "unallocated capacity", ns->size);
-> +                } else {
-> +                    ctrl->id_ctrl.unvmcap -= le64_to_cpu(ns->size);
-> +                }
-> +            }
-> +        }
-> +    }
-> +
->      return 0;
->  }
->  
-> @@ -480,7 +498,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
->          }
->      }
->  
-> -    if (nvme_ns_init_blk(ns, errp)) {
-> +    if (nvme_ns_init_blk(ns, subsys, errp)) {
->          return;
->      }
->  
-> @@ -527,7 +545,6 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
->  
->                  if (ctrl) {
->                      nvme_attach_ns(ctrl, ns);
-> -                    ctrl->id_ctrl.unvmcap -= le64_to_cpu(ns->size);
->                  }
->              }
->  
+> -    /* We will never have more than page_count pages */
+> -    z->zbuff_len = page_count * qemu_target_page_size();
+> -    /* We know compression "could" use more space */
+> -    z->zbuff_len *= 2;
+> +    /* To be safe, we reserve twice the size of the packet */
+> +    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
+>      z->zbuff = g_try_malloc(z->zbuff_len);
+>      if (!z->zbuff) {
+>          ZSTD_freeDStream(z->zds);
 > -- 
-> 2.25.1
+> 2.33.1
 > 
-
-Fixing unvmcap support brought another concern to attention.
-
-Here is another little patch on top of the previous one to truncate the
-block device to 0 when the associated namespace is deleted.
-
-Instead, it may fail to re-launch QEMU with the blockdevs from the
-previous execution when the sum of the blockdev sizes after namespace
-management exceeds unvmcap.
-
----
- hw/nvme/ctrl.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index dc0ad4155b..f84f682d36 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -5320,6 +5320,7 @@ static void nvme_namespace_delete(NvmeCtrl *n, NvmeNamespace *ns, uint32_t nsid)
- {
-     NvmeCtrl *ctrl;
-     NvmeSubsystem *subsys = n->subsys;
-+    int ret;
- 
-     subsys->namespaces[nsid] = NULL;
-     QSLIST_INSERT_HEAD(&subsys->unallocated_namespaces, ns, entry);
-@@ -5334,6 +5335,9 @@ static void nvme_namespace_delete(NvmeCtrl *n, NvmeNamespace *ns, uint32_t nsid)
-             nvme_ns_attr_changed_aer(ctrl, nsid);
-         }
-     }
-+
-+    ret = nvme_blk_truncate(ns->blkconf.blk, 0, NULL);
-+    assert(!ret);
- }
- 
- static uint16_t nvme_ns_management(NvmeCtrl *n, NvmeRequest *req)
 -- 
-2.25.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
