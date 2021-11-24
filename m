@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A43C45B7ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 11:00:48 +0100 (CET)
-Received: from localhost ([::1]:58656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B233A45B7DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 10:58:20 +0100 (CET)
+Received: from localhost ([::1]:51844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpp55-0001Yi-9l
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 05:00:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37826)
+	id 1mpp2h-0005O0-Re
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 04:58:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mpozz-0002k9-W8
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:55:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38937)
+ id 1mpp01-0002nA-RJ
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:55:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mpozx-0004UI-QI
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:55:31 -0500
+ id 1mpozz-0004Us-78
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 04:55:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637747729;
+ s=mimecast20190719; t=1637747730;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iPYxMrCOWugGC2Ig3skogvxaOmXOSxKYsh8Dbjvo4MY=;
- b=GuY/ei5S9A6b5s6QjI0jQIfogYQBEOvZObD7uonGFFUyxziDIwmksloxU0rnsHgu4CjuP8
- BD3R8ppIf3jP4yT/oP73CeJhv7rAugXFNazV0KH3kIRrFZmJuR5RSYFCvMviDhF2SwkxJU
- EpXD2fiquumyyteRf3ic3Q9wYEs3XXE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4wKjbCKx6KWbCQkGZiOp80kwA296KWgFK4fMiq7yOmg=;
+ b=f0JxzKSfIgSRjn1b3jKlHiFBQQ3rfEZnj+tH9ViHJgYUib34qMo0+CjQS1d60BW3ar4PsZ
+ DSDpOe5JAgr7iaoEOR0xrOOA97OL23Cueu3lBx8oadgPJx+ZMr/lu+EhzbTQgxB6D+TnqX
+ fDuxRmNKfnmEiUP6dcehRjC4Shhxb5U=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-230-3zZeBZhEOCek_5YVci3T2A-1; Wed, 24 Nov 2021 04:55:28 -0500
-X-MC-Unique: 3zZeBZhEOCek_5YVci3T2A-1
-Received: by mail-wm1-f70.google.com with SMTP id
- y141-20020a1c7d93000000b0033c2ae3583fso1049767wmc.5
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 01:55:28 -0800 (PST)
+ us-mta-159-RQOgVIa8MEaQKBG7aEEZ4g-1; Wed, 24 Nov 2021 04:55:29 -0500
+X-MC-Unique: RQOgVIa8MEaQKBG7aEEZ4g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j193-20020a1c23ca000000b003306ae8bfb7so1047193wmj.7
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 01:55:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iPYxMrCOWugGC2Ig3skogvxaOmXOSxKYsh8Dbjvo4MY=;
- b=ut/788C9Dn31WfyuF31bEQ8D74A62lfbpglUmQLhXrBkK3DwKsW5UNJcM/nNKrFiLU
- l4rI/95KMVX9fcOu1gL50oEpLuGB+KfZjexMW+KFyUMNi9NSIvVU1yGuBUaAD3nzP77K
- Asc1C9FGF9KU/eeBPvrJUYL0A+OTLTxlHedDH5/WL7uQwLlSc3p6xb2mGWhgOgTHO2SK
- wmGfldcra6zLN+gBevomN1jXrnEExDMs95Al686HZhxbHZYfOVcDmLVFID0Se1bIzlqn
- ER1moXkJRoboSHw5MqmTqcIp53GqFAOYB+w8HsEkp0cev18QUYJO8tGrHF61z0NK/ofu
- mFyA==
-X-Gm-Message-State: AOAM533zfXrwnYOm8SvGar4QZngT8rbWVhHcn7iUzAhYlN5q6YBl5Z5G
- L28QRWDocBy7N6gzcmUj+L2vmQ9UxUsVA3jfgwHao+B33TmjyTaABrs4R4bq5fyK8kxnUkyYdmf
- Hbru9vuDYoEalAoR6ewcOUPQX9oO3tC4AiX/CdlvivMX2GbZ0exs+lvkB03jgbcTz130=
-X-Received: by 2002:a7b:c7cd:: with SMTP id z13mr12587769wmk.172.1637747726720; 
- Wed, 24 Nov 2021 01:55:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyWhrbYEVTBbciDpN7gSK8Hg70XcKFdhaFossBS5xYwAVlOUihH5pauNrPqYRB4T7n3ZokKyw==
-X-Received: by 2002:a7b:c7cd:: with SMTP id z13mr12587739wmk.172.1637747726509; 
- Wed, 24 Nov 2021 01:55:26 -0800 (PST)
+ bh=4wKjbCKx6KWbCQkGZiOp80kwA296KWgFK4fMiq7yOmg=;
+ b=xLJz36YyZiDydR/M+oM7usuLjgCi1dit+farDD5v76uPbP5Ae/nUrB9PF0x1rfSwVI
+ 8XlEXIMUPM5ifr74IfgjXmfMRRBKFQLiUOxgKuv2WQdYXYaHiZBXGxwG4TQAhX/s7Bse
+ gneUWMZXNXEDU+sL2p2RsR5Xpp2dBeoeFO/MpP03rlTwfLyjmIf1JLTyi/GMap9Lf6Qk
+ is6q9UIpiKacXeewUWpcjtpAVqAzsqEBwhjJPr/WfKnWatRtZmyLNNJshCMG+OXb/DMO
+ J9+Oa6LkVVRNDupzs2R2RKLFQUNwUF4tZaXIZE8Q73KObojXe2TU8nF4VNQKWJtSzmnn
+ 11yw==
+X-Gm-Message-State: AOAM532Nfs6aLlTk8e8mPuZIpoXgCH4000PwIKm0y9UEbd0MWoxA/l/y
+ 8FlkVYbJ55f5uvUORcjpqIIXa5YqvktuCb8zO05WWoP71fg6/izu09xDe8j3OlGzQBgOLHNFMxs
+ y6mzZvyM2etSvbwkWJM2IWLHt4TBGPQ9F4CABgpu6ne45nkvZd2leWHS4HUU3rZV2AR8=
+X-Received: by 2002:a1c:ed0a:: with SMTP id l10mr13370557wmh.140.1637747728172; 
+ Wed, 24 Nov 2021 01:55:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwRoQo694PydnmrV8dmdHDqhq5l2F4MJ+8Afc2W8QBGS5qWDaba7qhZfCxyuDAYq7c11ddQNw==
+X-Received: by 2002:a1c:ed0a:: with SMTP id l10mr13370519wmh.140.1637747727871; 
+ Wed, 24 Nov 2021 01:55:27 -0800 (PST)
 Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
  [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id g13sm20303994wrd.57.2021.11.24.01.55.25
+ by smtp.gmail.com with ESMTPSA id l3sm3830146wmq.46.2021.11.24.01.55.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 01:55:26 -0800 (PST)
+ Wed, 24 Nov 2021 01:55:27 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/23] multifd: Add missing documention
-Date: Wed, 24 Nov 2021 10:54:41 +0100
-Message-Id: <20211124095500.42078-5-quintela@redhat.com>
+Subject: [PATCH v2 05/23] multifd: The variable is only used inside the loop
+Date: Wed, 24 Nov 2021 10:54:42 +0100
+Message-Id: <20211124095500.42078-6-quintela@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211124095500.42078-1-quintela@redhat.com>
 References: <20211124095500.42078-1-quintela@redhat.com>
@@ -76,15 +76,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,63 +105,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd-zlib.c | 2 ++
- migration/multifd-zstd.c | 2 ++
- migration/multifd.c      | 1 +
- 3 files changed, 5 insertions(+)
+ migration/multifd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-index 3fc7813b44..d0437cce2a 100644
---- a/migration/multifd-zlib.c
-+++ b/migration/multifd-zlib.c
-@@ -72,6 +72,7 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
-  * Close the channel and return memory.
-  *
-  * @p: Params for the channel that we are using
-+ * @errp: pointer to an error
-  */
- static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
- {
-@@ -94,6 +95,7 @@ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
-  *
-  * @p: Params for the channel that we are using
-  * @used: number of pages used
-+ * @errp: pointer to an error
-  */
- static int zlib_send_prepare(MultiFDSendParams *p, uint32_t used, Error **errp)
- {
-diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-index cc3b8869c0..09ae1cf91a 100644
---- a/migration/multifd-zstd.c
-+++ b/migration/multifd-zstd.c
-@@ -84,6 +84,7 @@ static int zstd_send_setup(MultiFDSendParams *p, Error **errp)
-  * Close the channel and return memory.
-  *
-  * @p: Params for the channel that we are using
-+ * @errp: pointer to an error
-  */
- static void zstd_send_cleanup(MultiFDSendParams *p, Error **errp)
- {
-@@ -107,6 +108,7 @@ static void zstd_send_cleanup(MultiFDSendParams *p, Error **errp)
-  *
-  * @p: Params for the channel that we are using
-  * @used: number of pages used
-+ * @errp: pointer to an error
-  */
- static int zstd_send_prepare(MultiFDSendParams *p, uint32_t used, Error **errp)
- {
 diff --git a/migration/multifd.c b/migration/multifd.c
-index 8ea86d81dc..cdeffdc4c5 100644
+index cdeffdc4c5..ce7101cf9d 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -66,6 +66,7 @@ static int nocomp_send_setup(MultiFDSendParams *p, Error **errp)
-  * For no compression this function does nothing.
-  *
-  * @p: Params for the channel that we are using
-+ * @errp: pointer to an error
-  */
- static void nocomp_send_cleanup(MultiFDSendParams *p, Error **errp)
- {
+@@ -629,7 +629,6 @@ static void *multifd_send_thread(void *opaque)
+     MultiFDSendParams *p = opaque;
+     Error *local_err = NULL;
+     int ret = 0;
+-    uint32_t flags = 0;
+ 
+     trace_multifd_send_thread_start(p->id);
+     rcu_register_thread();
+@@ -652,7 +651,7 @@ static void *multifd_send_thread(void *opaque)
+         if (p->pending_job) {
+             uint32_t used = p->pages->num;
+             uint64_t packet_num = p->packet_num;
+-            flags = p->flags;
++            uint32_t flags = p->flags;
+ 
+             if (used) {
+                 ret = multifd_send_state->ops->send_prepare(p, used,
 -- 
 2.33.1
 
