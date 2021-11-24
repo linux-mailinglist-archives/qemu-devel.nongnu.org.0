@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE51445C0E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 14:09:24 +0100 (CET)
-Received: from localhost ([::1]:57808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95CAA45C2FE
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 14:31:48 +0100 (CET)
+Received: from localhost ([::1]:34058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mps1b-0000sq-3W
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 08:09:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38482)
+	id 1mpsNH-0007tm-NI
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 08:31:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mprvW-0006Os-0T
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:03:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42278)
+ id 1mprva-0006Tf-Qj
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:03:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mprvT-0005vy-Em
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:03:05 -0500
+ id 1mprvX-0005xY-Ve
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:03:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637758982;
+ s=mimecast20190719; t=1637758987;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zkl6a9OPKocPqSXaQZH5gLgC00tV5yU/6F6cnMET9CY=;
- b=XmI45Xod1VX5R84iuIFQagnvGl62MG6DOTDVaLIFzqw5t4TL7Ap2fnFe7RCzTWQEQNu81z
- lgskF+NeNWiE9QiSw64x2INpu1A+EFupHGFRMd7909vWDHd1sa4XwEW/MRppD6Egmno76j
- YmL31//xeEaOsxOaWMURHKDyNCaByHw=
+ bh=kXbjkd4hEp1kPk/sffs7IroP7suhEqbgS3CBXUdJ1Zo=;
+ b=dZWjnvnxCVPMzngyYv/GmYJWvrv7i+esKi8whQauSgYBoYe6l9+HLicBirXo///V5Ujz98
+ xw78CvLNLLUm8Cdnk9lrfAJ+uJUufdaNH5b5g1pM0BHzwTrjGK4Gqf6NQCvkyi1hOHiP6W
+ LABSYfU1GK7xdiE8i6paSTVhDASczsk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-11-2jIVx3eSPYy4biR5pm0xKA-1; Wed, 24 Nov 2021 08:02:59 -0500
-X-MC-Unique: 2jIVx3eSPYy4biR5pm0xKA-1
+ us-mta-472-fUp6ZhQNPfCLwJkJ3nFmFA-1; Wed, 24 Nov 2021 08:03:01 -0500
+X-MC-Unique: fUp6ZhQNPfCLwJkJ3nFmFA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AD5684B9A1;
- Wed, 24 Nov 2021 13:02:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA60F835E21;
+ Wed, 24 Nov 2021 13:03:00 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.199])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B0A7279454;
- Wed, 24 Nov 2021 13:02:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD21179454;
+ Wed, 24 Nov 2021 13:02:58 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/18] tests/docker: auto-generate ubuntu1804.docker with
+Subject: [PATCH v4 11/18] tests/docker: auto-generate ubuntu2004.docker with
  lcitool
-Date: Wed, 24 Nov 2021 13:01:42 +0000
-Message-Id: <20211124130150.268230-11-berrange@redhat.com>
+Date: Wed, 24 Nov 2021 13:01:43 +0000
+Message-Id: <20211124130150.268230-12-berrange@redhat.com>
 In-Reply-To: <20211124130150.268230-1-berrange@redhat.com>
 References: <20211124130150.268230-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -59,15 +59,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,22 +96,22 @@ This commit is best examined using the "-b" option to diff.
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/dockerfiles/ubuntu1804.docker | 255 ++++++++++++---------
- tests/lcitool/refresh                      |   7 +
- 2 files changed, 149 insertions(+), 113 deletions(-)
+ tests/docker/dockerfiles/ubuntu2004.docker | 257 ++++++++++++---------
+ tests/lcitool/refresh                      |   9 +-
+ 2 files changed, 151 insertions(+), 115 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index 450fd06d0d..0ffa3c4d4b 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -1,117 +1,146 @@
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 15a026be09..40402b91fe 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -1,119 +1,148 @@
 +# THIS FILE WAS AUTO-GENERATED
 +#
-+#  $ lcitool dockerfile ubuntu-1804 qemu
++#  $ lcitool dockerfile ubuntu-2004 qemu
 +#
 +# https://gitlab.com/libvirt/libvirt-ci
 +
- FROM docker.io/library/ubuntu:18.04
+ FROM docker.io/library/ubuntu:20.04
 -ENV PACKAGES \
 -    bc \
 -    bsdmainutils \
@@ -130,7 +130,6 @@ index 450fd06d0d..0ffa3c4d4b 100644
 -    genisoimage \
 -    gettext \
 -    git \
--    glusterfs-common \
 -    hostname \
 -    libaio-dev \
 -    libasan5 \
@@ -151,6 +150,7 @@ index 450fd06d0d..0ffa3c4d4b 100644
 -    libgbm-dev \
 -    libgcrypt20-dev \
 -    libglib2.0-dev \
+-    libglusterfs-dev \
 -    libgnutls28-dev \
 -    libgtk-3-dev \
 -    libibverbs-dev \
@@ -174,6 +174,7 @@ index 450fd06d0d..0ffa3c4d4b 100644
 -    libsdl2-image-dev \
 -    libseccomp-dev \
 -    libselinux-dev \
+-    libslirp-dev \
 -    libsnappy-dev \
 -    libspice-protocol-dev \
 -    libspice-server-dev \
@@ -195,7 +196,7 @@ index 450fd06d0d..0ffa3c4d4b 100644
 -    locales \
 -    make \
 -    multipath-tools \
--    netcat-openbsd \
+-    ncat \
 -    nettle-dev \
 -    ninja-build \
 -    openssh-client \
@@ -249,7 +250,6 @@ index 450fd06d0d..0ffa3c4d4b 100644
 +            genisoimage \
 +            gettext \
 +            git \
-+            glusterfs-common \
 +            hostname \
 +            libaio-dev \
 +            libasan5 \
@@ -270,6 +270,7 @@ index 450fd06d0d..0ffa3c4d4b 100644
 +            libgbm-dev \
 +            libgcrypt20-dev \
 +            libglib2.0-dev \
++            libglusterfs-dev \
 +            libgnutls28-dev \
 +            libgtk-3-dev \
 +            libibverbs-dev \
@@ -294,6 +295,7 @@ index 450fd06d0d..0ffa3c4d4b 100644
 +            libsdl2-image-dev \
 +            libseccomp-dev \
 +            libselinux1-dev \
++            libslirp-dev \
 +            libsnappy-dev \
 +            libspice-protocol-dev \
 +            libspice-server-dev \
@@ -315,7 +317,7 @@ index 450fd06d0d..0ffa3c4d4b 100644
 +            locales \
 +            make \
 +            multipath-tools \
-+            netcat-openbsd \
++            ncat \
 +            nettle-dev \
 +            ninja-build \
 +            openssh-client \
@@ -362,29 +364,34 @@ index 450fd06d0d..0ffa3c4d4b 100644
 +ENV NINJA "/usr/bin/ninja"
 +ENV PYTHON "/usr/bin/python3"
 +ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
- # https://bugs.launchpad.net/qemu/+bug/1838763
- ENV QEMU_CONFIGURE_OPTS --disable-libssh
+ # Apply patch https://reviews.llvm.org/D75820
+ # This is required for TSan in clang-10 to compile with QEMU.
+ RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h
 diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index d79d2b8c06..1e30674d67 100755
+index 1e30674d67..310bad1315 100755
 --- a/tests/lcitool/refresh
 +++ b/tests/lcitool/refresh
-@@ -60,9 +60,16 @@ def generate_dockerfile(host, target, cross=None, trailer=None):
-    cmd.extend([target, "qemu"])
-    generate(filename, cmd, trailer)
+@@ -65,12 +65,19 @@ ubuntu1804_skipssh = [
+    "ENV QEMU_CONFIGURE_OPTS --disable-libssh\n"
+ ]
  
-+ubuntu1804_skipssh = [
-+   "# https://bugs.launchpad.net/qemu/+bug/1838763\n",
-+   "ENV QEMU_CONFIGURE_OPTS --disable-libssh\n"
++ubuntu2004_tsanhack = [
++   "# Apply patch https://reviews.llvm.org/D75820\n",
++   "# This is required for TSan in clang-10 to compile with QEMU.\n",
++   "RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h\n"
 +]
 +
  try:
     generate_dockerfile("centos8", "centos-8")
     generate_dockerfile("fedora", "fedora-35")
-+   generate_dockerfile("ubuntu1804", "ubuntu-1804",
-+                       trailer="".join(ubuntu1804_skipssh))
- 
+    generate_dockerfile("ubuntu1804", "ubuntu-1804",
+                        trailer="".join(ubuntu1804_skipssh))
+-
++   generate_dockerfile("ubuntu2004", "ubuntu-2004",
++                       trailer="".join(ubuntu2004_tsanhack))
     sys.exit(0)
  except Exception as ex:
+    print(str(ex), file=sys.stderr)
 -- 
 2.33.1
 
