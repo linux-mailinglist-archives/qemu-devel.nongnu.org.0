@@ -2,84 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE0C45C7DA
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 15:43:56 +0100 (CET)
-Received: from localhost ([::1]:46866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 492B745C810
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 15:53:34 +0100 (CET)
+Received: from localhost ([::1]:59512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mptV4-0004F2-TH
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 09:43:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41466)
+	id 1mpteO-0004iF-Ur
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 09:53:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mptTh-0003Fv-TF
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 09:42:29 -0500
-Received: from [2a00:1450:4864:20::429] (port=37443
- helo=mail-wr1-x429.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mptTf-0000Te-Et
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 09:42:29 -0500
-Received: by mail-wr1-x429.google.com with SMTP id b12so4653760wrh.4
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 06:42:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wKm/iMfEWZbaJo1mhhwKk6ehOzJoJYMSsRo48IjVVOE=;
- b=jfTTsv2pbiEYaQK0vf7qeuPkX5aETpI5PMLB8RqbW79zikrPVFsigbEJIBkOLG1+dz
- ubANVs1j3ecy5Uu7hR7UbJPto0ls+4X8jNMGsVIi+lmKhSqvu2ATUWzxnwFDg27pSQQI
- gYCFSn+fzoAEM0LHmQA+tcKmtUaMNHQhftMGo+0WF3zw/eh6eKUz+X7RKcmeDokWdtm6
- 6X1VCMiHsmqP7wwiyrcMYaD9ng3LD8z5I8nKbmq+0Z6kL0DOlmobIlHQg41fQCalpkjg
- j3/FkXWI2cB1/HyRCTVGml7ZQAJ8N0p2FIFn7jLSrAsEMSf70hKYjmVec9f6YRlU0Eje
- rs7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wKm/iMfEWZbaJo1mhhwKk6ehOzJoJYMSsRo48IjVVOE=;
- b=TEP75NR0eTfbUWsdo7dh9EVt32aWpnnZHxbeDsN3+/dpDfTp6cVpJOU3k5LH632Z0l
- 5uuiBCuOIzUKx/Pb5RxVXr0XuW7+QBB0ZhGWZJ5zEKHJBa9oY+dS+UE2KVDJzpL3yMGU
- 9O8/K4bO2fWMkKqpz0p5Vx9FLqt43fp1k71wRQRqAAgjZ7kBlUqzdHPGevkBcwfVeuR+
- NqIbfk6Z6UKwsBPrpMtqOQCTr1GT9MNLAqc7s872dANRIRr9AB3A8TqR4IwH6zHW+miD
- nNIxmSv929HzCXdW0hrFSKmsNsy/dM5xQjgl9uqt/dAtABPtLFXe2JAR3uqs1Ef584Ju
- FiMg==
-X-Gm-Message-State: AOAM532OIjp+6QNBBPuzYrD8fxDUStV/hPopiUh0t2IIGxM9HKqinBr6
- 3pvlj500qTMuWveQz9MJEuEUAw==
-X-Google-Smtp-Source: ABdhPJwPLxDPJ1H6RGlHi9gT2NzRIhjfS3X1ph3EFns8jtpOvTLu/GNmf628he52NobY6/LzjWpMdw==
-X-Received: by 2002:a5d:5007:: with SMTP id e7mr15597557wrt.320.1637764945429; 
- Wed, 24 Nov 2021 06:42:25 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id n4sm27350wri.41.2021.11.24.06.42.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 06:42:24 -0800 (PST)
-Subject: Re: [PATCH v1 2/7] accel/tcg: suppress IRQ check for special TBs
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20211123205729.2205806-1-alex.bennee@linaro.org>
- <20211123205729.2205806-3-alex.bennee@linaro.org>
- <69ae3ca0-a485-d5ff-2508-5fcd13869498@linaro.org> <8735nliy2n.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3d48bf77-e8c0-d9ba-4b28-6b13e870f95a@linaro.org>
-Date: Wed, 24 Nov 2021 15:42:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mptdE-0003ym-7n
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 09:52:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45826)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mptdB-0002hm-2W
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 09:52:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637765536;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=h7wQf90aOHlheB1cAI6h4dZxwBpI/JkCbZA+tejMRMg=;
+ b=T65/pt7RCIj3uwOyuSaieGkvBi0HFPiZ613tIwl8a6k3eM8hpmSfZryvnzCa8Eu0DcyxwH
+ G8Jh8/8Zl6M1nNql+aaFlDHA1rTf5E9sIWv8I4CzdLme4Z9qlwTcBYa9d8/k5Bd34+1gbV
+ GEnD5LsyKF7+L8ABNT7H1WbF8AfY1lM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-474-_ScfbZR3P4qXwnFggXm7sQ-1; Wed, 24 Nov 2021 09:52:12 -0500
+X-MC-Unique: _ScfbZR3P4qXwnFggXm7sQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17F26185302E;
+ Wed, 24 Nov 2021 14:52:11 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4009860C05;
+ Wed, 24 Nov 2021 14:51:26 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B9DDA11380A7; Wed, 24 Nov 2021 15:51:23 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [RFC PATCH v3 0/5] QMP support for cold-plugging devices
+References: <20211117144703.16305-1-damien.hedde@greensocs.com>
+ <87y25jw69i.fsf@dusky.pond.sub.org>
+ <d3ae2bea-7d60-a714-100c-40b31fd19725@greensocs.com>
+ <87lf1dwtm4.fsf@dusky.pond.sub.org> <YZ5HI0ms/sd4gEIS@redhat.com>
+Date: Wed, 24 Nov 2021 15:51:23 +0100
+In-Reply-To: <YZ5HI0ms/sd4gEIS@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Wed, 24 Nov 2021 14:07:31 +0000")
+Message-ID: <87czmpvc7o.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <8735nliy2n.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,134 +85,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, aurelien@aurel32.net
+Cc: Damien Hedde <damien.hedde@greensocs.com>, edgar.iglesias@xilinx.com,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Mark Burton <mark.burton@greensocs.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/24/21 11:24 AM, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> On 11/23/21 9:57 PM, Alex Bennée wrote:
->>> Generally when we set cpu->cflags_next_tb it is because we want to
->>> carefully control the execution of the next TB. Currently there is a
->>> race that causes cflags_next_tb to get ignored if an IRQ is processed
->>> before we execute any actual instructions.
->>> To avoid this we introduce a new compiler flag: CF_NOIRQ to suppress
->>> this check in the generated code so we know we will definitely execute
->>> the next block.
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>> Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
->>> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/245
->>> ---
->>>    include/exec/exec-all.h   |  1 +
->>>    include/exec/gen-icount.h | 21 +++++++++++++++++----
->>>    accel/tcg/cpu-exec.c      | 14 ++++++++++++++
->>>    3 files changed, 32 insertions(+), 4 deletions(-)
->>> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
->>> index 6bb2a0f7ec..35d8e93976 100644
->>> --- a/include/exec/exec-all.h
->>> +++ b/include/exec/exec-all.h
->>> @@ -503,6 +503,7 @@ struct TranslationBlock {
->>>    #define CF_USE_ICOUNT    0x00020000
->>>    #define CF_INVALID       0x00040000 /* TB is stale. Set with @jmp_lock held */
->>>    #define CF_PARALLEL      0x00080000 /* Generate code for a parallel context */
->>> +#define CF_NOIRQ         0x00100000 /* Generate an uninterruptible TB */
->>>    #define CF_CLUSTER_MASK  0xff000000 /* Top 8 bits are cluster ID */
->>>    #define CF_CLUSTER_SHIFT 24
->>>    diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
->>> index 610cba58fe..c57204ddad 100644
->>> --- a/include/exec/gen-icount.h
->>> +++ b/include/exec/gen-icount.h
->>> @@ -21,7 +21,6 @@ static inline void gen_tb_start(const TranslationBlock *tb)
->>>    {
->>>        TCGv_i32 count;
->>>    -    tcg_ctx->exitreq_label = gen_new_label();
->>>        if (tb_cflags(tb) & CF_USE_ICOUNT) {
->>>            count = tcg_temp_local_new_i32();
->>>        } else {
->>> @@ -42,7 +41,19 @@ static inline void gen_tb_start(const TranslationBlock *tb)
->>>            icount_start_insn = tcg_last_op();
->>>        }
->>>    -    tcg_gen_brcondi_i32(TCG_COND_LT, count, 0,
->>> tcg_ctx->exitreq_label);
->>> +    /*
->>> +     * Emit the check against icount_decr.u32 to see if we should exit
->>> +     * unless we suppress the check with CF_NOIRQ. If we are using
->>> +     * icount and have suppressed interruption the higher level code
->>> +     * should have ensured we don't run more instructions than the
->>> +     * budget.
->>> +     */
->>> +    if (tb_cflags(tb) & CF_NOIRQ) {
->>> +        tcg_ctx->exitreq_label = NULL;
->>> +    } else {
->>> +        tcg_ctx->exitreq_label = gen_new_label();
->>> +        tcg_gen_brcondi_i32(TCG_COND_LT, count, 0, tcg_ctx->exitreq_label);
->>> +    }
->>>          if (tb_cflags(tb) & CF_USE_ICOUNT) {
->>>            tcg_gen_st16_i32(count, cpu_env,
->>> @@ -74,8 +85,10 @@ static inline void gen_tb_end(const TranslationBlock *tb, int num_insns)
->>>                               tcgv_i32_arg(tcg_constant_i32(num_insns)));
->>>        }
->>>    -    gen_set_label(tcg_ctx->exitreq_label);
->>> -    tcg_gen_exit_tb(tb, TB_EXIT_REQUESTED);
->>> +    if (tcg_ctx->exitreq_label) {
->>> +        gen_set_label(tcg_ctx->exitreq_label);
->>> +        tcg_gen_exit_tb(tb, TB_EXIT_REQUESTED);
->>> +    }
->>>    }
->>>      #endif
->>
->> Split patch here, I think.
-> 
-> Not including the header to cpu_handle_interrupt?
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Correct.  Introduce CF_NOIRQ without using it yet.
+> On Wed, Nov 24, 2021 at 02:50:11PM +0100, Markus Armbruster wrote:
+>> Damien Hedde <damien.hedde@greensocs.com> writes:
+>>=20
+>> > The biggest difference is the fw_cfg option I think: it is related
+>> > with the rom_set_order_override()/rom_reset_order_override() (line 17
+>> > and 25). There is also the usb devices parts in between. I lack the=20
+>> > knowledge about fw_cfg/usb to tell if it is important or not.
+>> >
+>> > What I wanted to say is I don't know if the difference is
+>> > acceptable. If we want device_add to support all -device use cases, it
+>> > is not. In that case we need to stop either in the middle of this
+>> > function (line 15) or at the end (better with your sketch in mind).
+>> >
+>> > Note that rom_set_order_override()/rom_reset_order_override() only
+>> > set/reset a switch variable that changes how fw_cfg files are
+>> > sorted. It could be integrated into device_add code (and removed from
+>> > the above function) without changing the behavior.
+>>=20
+>> For me, the part that puts me off is interleaving CLI and QMP.
+>>=20
+>> We process the CLI in an order few people understand, and only while
+>> staring at the code.  That's bad.
+>>=20
+>> Injecting QMP at certain points in that sequence can only make it worse.
+>
+> Yep, I share your unease here.. especially wrt this quoted text
+> from later:
+>
+>   > >> Users can do as much or as little with the CLI as they want.  You'=
+d
+>   > >> probably want to set up a QMP monitor and no more.
+>
+> I would say that is a case of overkill. It can only make our
+> lives harder as maintainers in the long term, if we have to
+> worry about such arbitrary mixing of QMP and CLI. This is
+> also why I'm pretty uneasy about the 'preconfig' stuff as
+> implemented today in general.
+>
+> It is a half-way house that doesn't really give mgmt apps
+> what they want, which is a 100% QAPI-only config. If mgmt
+> apps start using preconfig, it won't make life any better
+> for them and will also lock QEMU maintainers into supporting
+> this half-way house.
 
->> With icount, in cpu_loop_exec_tb, we have no idea what's coming; we
->> only know that we want no more than N insns to execute.
-> 
-> I think technically we do because all asynchronous interrupt are tied to
-> the icount (which is part of the budget calculation - icount_get_limit).
+Misunderstanding?  The paragraph you quoted is about this design:
 
-Are you sure that's plain icount and not replay?
-In icount_get_limit we talk about timers, not any other asynchronous interrupt, like a 
-keyboard press.
+    1. Start event loop
+   =20
+    2. Feed it CLI left to right.  Each option runs a handler just like eac=
+h
+        QMP command does.
+   =20
+        Options that read a configuration file inject the file into the fee=
+d.
+   =20
+        Options that create a monitor create it suspended.
+   =20
+        Options may advance the phase / run state, and they may require
+        certain phase(s).
+   =20
+    3. When we're done with CLI, resume any monitors we created.
+   =20
+    4. Monitors now feed commands to the event loop.  Commands may advance
+        the phase / run state, and they may require certain phase(s).
+   =20
+    Users can do as much or as little with the CLI as they want.  You'd
+    probably want to set up a QMP monitor and no more.
+   =20
+    device_add becomes possible at a certain state of the phase / run state
+    machine.  It changes from cold to hot plug at a certain later state.
 
-> In theory we could drop the interrupt check altogether in icount mode
-> because we should always end and exit to the outer loop when a timer is
-> going to expire.
+Certainly enables 100% QAPI-only config.  It just doesn't *force* you to
+100%.  Feature.
 
-But we know nothing about synchronous exceptions or anything else.
+> We have a bit of a track record with QEMU of introducing
+> partial solutions and never quite finishing the job. There's
+> little strong incentive to ever finish it, if you can freely
+> mix both old and new style forever, and thus maintainers are
+> burdened forever with both.
+>
+> IMHO, we should only try to support the non-mixed scenarios
+>
+>   - 100% of hardware configured via CLI args
+>   - 100% of hardware configured via QAPI (whether live in
+>     QMP, or fed in via a QAPI based JSON/YAML config file)
+>
+> so that we only have two clear cases we need to worry about
+> dealing with.
+>
+> Focus our efforts 100% of the 100% QAPI scenario and don't
+> divert energy into short term hybrid solutions.
 
-> I wonder what would happen if we checked u16.high in icount mode? No
-> timer should ever set it - although I guess it could get set during an
-> IO operation.
+The design above pretty much requires 100% QAPI.
 
-Uh, we do, via u32?  I'm not sure what you're saying here.
+It's based on the notion that there's no real difference between a CLI
+option and a QMP command that doesn't return a value.  So treat the CLI
+more like a monitor.
 
-> Perhaps really all icount exit checks should be done at the end of
-> blocks? I suspect that breaks too many assumptions in the rest of the
-> code.
+For sanity's sake, make it not race with the other monitors by starting
+them suspended.
 
-There are multiple exits at the end of the block, which is why we do the check at the 
-beginning of the next block.  Besides, we have to check that the block we're about to 
-execute is within budget.
+This design is arguably *less* hybrid than one that treats a (severely
+dumbed down) CLI unlike a monitor.
 
-> Are there cases of setting cpu->cflags_next_tb which we are happy to get
-> preempted by asynchronous events?
-
-Well, icount.
-
-> I guess in the SMC case it wouldn't
-> matter because when we get back from the IRQ things get reset?
-
-SMC probably would work with an interrupt, but we'd wind up having to repeat the process 
-of flushing all TBs on the page, so we might as well perform the one store and get it over 
-with.
-
-
-r~
 
