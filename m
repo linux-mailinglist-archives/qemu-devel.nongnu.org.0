@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9DCD45CD70
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 20:43:45 +0100 (CET)
-Received: from localhost ([::1]:41474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 346CF45CD84
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 20:49:45 +0100 (CET)
+Received: from localhost ([::1]:57138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpyBF-0000Ff-04
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 14:43:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35938)
+	id 1mpyH2-0002Pr-Ag
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 14:49:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mpxvF-0003ic-In
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 14:27:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37679)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mpxvG-0003mL-DH
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 14:27:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mpxvB-0007eR-QR
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 14:27:13 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mpxvC-0007eh-KS
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 14:27:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637782028;
+ s=mimecast20190719; t=1637782030;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZxlToBL8uM12CzsCFv+FxFOBKJYX2wgHcwzRPGN+2Go=;
- b=Cz1JsLlljOL8n1OM3ajCtTxkt9GhkeGkWr6yUJRPUb/QEE+KumTh7PoSYIqx8GAPDTE8KJ
- ibepaEpqyFX24N7h5SuV9s/jo7Dx145oeYWtiJvh4laV8b8Nmfl589kU8GEjt6djJ+YYY3
- PTwAWQDObKn3IPon4JFyaAxJBO8arZ0=
+ bh=39pJWh8RGfbFeVB98pUJd96r5gL4/HEBTqQOwDEQMzM=;
+ b=NxeyTFHukHg7RLIhvjmyi48GwB4+QQbtWh4L2tmlP2d8WNwKHap/qbWWpdftvckXzFZlVn
+ vWUzwj3O8QdzX6Sx7EGKfyDMYwUAFJ5oO6OGVLCwPmAalyfYV6R9Q7OolN+w/aPMsqAdwV
+ 5li7WwvMOvZK/nlUKtV+yx19akIf5Co=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-425-ZNTr0VP0OF2ipaXS_G8GIw-1; Wed, 24 Nov 2021 14:27:07 -0500
-X-MC-Unique: ZNTr0VP0OF2ipaXS_G8GIw-1
+ us-mta-523-u93TwnFcPB2Lillh9KLT7A-1; Wed, 24 Nov 2021 14:27:08 -0500
+X-MC-Unique: u93TwnFcPB2Lillh9KLT7A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEC27190A7D3;
- Wed, 24 Nov 2021 19:27:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D97C71054F91;
+ Wed, 24 Nov 2021 19:27:07 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C759E2B179;
- Wed, 24 Nov 2021 19:27:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E1B2C67840;
+ Wed, 24 Nov 2021 19:27:06 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/23] iotests: switch to AQMP
-Date: Wed, 24 Nov 2021 14:26:11 -0500
-Message-Id: <20211124192617.3396403-18-jsnow@redhat.com>
+Subject: [PATCH 18/23] python: temporarily silence pylint duplicate-code
+ warnings
+Date: Wed, 24 Nov 2021 14:26:12 -0500
+Message-Id: <20211124192617.3396403-19-jsnow@redhat.com>
 In-Reply-To: <20211124192617.3396403-1-jsnow@redhat.com>
 References: <20211124192617.3396403-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -86,26 +87,28 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simply import the type defition from the new location.
+The next several commits copy some code from qemu.qmp to qemu.aqmp, then
+delete qemu.qmp. In the interim, to prevent test failures, the duplicate
+code detection needs to be silenced to prevent bisect problems with CI
+testing.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ python/setup.cfg | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 83bfedb902..cb21aebe36 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -37,7 +37,7 @@
- from contextlib import contextmanager
+diff --git a/python/setup.cfg b/python/setup.cfg
+index 168a79c867..510df23698 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -115,6 +115,7 @@ ignore_missing_imports = True
+ disable=consider-using-f-string,
+         too-many-function-args,  # mypy handles this with less false positives.
+         no-member,  # mypy also handles this better.
++        duplicate-code,  # To be removed by the end of this patch series.
  
- from qemu.machine import qtest
--from qemu.qmp import QMPMessage
-+from qemu.aqmp.legacy import QMPMessage
- 
- # Use this logger for logging messages directly from the iotests module
- logger = logging.getLogger('qemu.iotests')
+ [pylint.basic]
+ # Good variable names which should always be accepted, separated by a comma.
 -- 
 2.31.1
 
