@@ -2,91 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C209645C404
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 14:43:36 +0100 (CET)
-Received: from localhost ([::1]:58164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 683F245C403
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 14:43:25 +0100 (CET)
+Received: from localhost ([::1]:57372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpsYh-0008OM-8I
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 08:43:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39922)
+	id 1mpsYV-0007pT-Hr
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 08:43:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mprzU-0001GG-D1
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:07:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38395)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mprzS-0007gx-7A
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 08:07:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637759228;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dptFLvsRdvRwk38ibI6FEBFEazfpFmsgFMnM6nh3+oE=;
- b=jBGldL9gLYBP2irvE/1+w2WLcv21gJEP92af+6/dDVH158pGsHgBmhkyRdVhmq7lPciBHp
- Rs7E7USKTzL9CB/e/hkp+GhWna3gZC8htQj5SJXGjFvYIdY9+2NlHLuoE5ZX8zF8dqMNqF
- 4V1tyHhQ6CWumpYHyQCx0ocv0qhEj70=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-58-_mWNOdsVPfu_DLaOggNI1g-1; Wed, 24 Nov 2021 08:07:07 -0500
-X-MC-Unique: _mWNOdsVPfu_DLaOggNI1g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v62-20020a1cac41000000b0033719a1a714so1309095wme.6
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 05:07:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mps2B-0003Xj-8B; Wed, 24 Nov 2021 08:09:59 -0500
+Received: from [2607:f8b0:4864:20::929] (port=41975
+ helo=mail-ua1-x929.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mps27-0007yi-GT; Wed, 24 Nov 2021 08:09:56 -0500
+Received: by mail-ua1-x929.google.com with SMTP id p37so4940454uae.8;
+ Wed, 24 Nov 2021 05:09:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=zRVsjmQa6gV8sHyGVx4OooHBV+LFb06gDpK50XnMUjE=;
+ b=XQTQKtFzhaDsKa9M68TjdsOjcmztIQ7tTJtrAASH3uEVVM6l1LUMLaYwA0QHGZpIkK
+ uorqnuGRGeFtIWf63hFDbFngDhvejVjjg4tc44Y/dX821g8Bol1+M9a1KDy4RYzUGZB5
+ y81nPF18ghuGJBEjwrW9Sopr9wEWOHHw0ojF8XbVN0LLACAj7pkwbWfJgEcvhAh4QH8g
+ unj3B4my2gXDcRMJhpr8+fwuVPKm07mJXnhVJpfzYGv3NTG9aFHNgNphTZs3u3LsERg+
+ A1zT1wGq1CCrOLp5hQHDyDdmTChrs2gZjTONoYcv8lA1VNvJcl/UWFFBBComgb7myB+S
+ oJpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=dptFLvsRdvRwk38ibI6FEBFEazfpFmsgFMnM6nh3+oE=;
- b=gPGS+HwheJCKRFt43cRNzmMOUxqBOBzMTOduGN67VgHqPmzLoQOIlaMY/dSqNTk5ST
- EgJSrWhu8NJhYgh1Sd+L4LCKm2Jb+amU9heamd/tZyTlSY9AkULpLtZXm7ruvb3u02FC
- OaRLZ/UExyHntUq7kgUZ7L7YlTiURBtJ032mU4ZOENPpuQUVc7ySxdovt/KsLPTQrKfk
- +YdtlPJ0difzzCE6N4d1bADgTk9N3aCnboMbqYmoyM5JSIHjlfNZfVbz3rsTWUE4NcsJ
- 8ISSjT28wPtNZWWtAv9UUrQCK+G4JT/BlT1H/OdIA+bWtofanGXQiQ977gFzfGNGwYdW
- GArQ==
-X-Gm-Message-State: AOAM5324DHBBec0x0NXn/c2hpIWnQ1q+I2n8YaB5ixPahNgenSCcjKes
- UhmsuoWa2pyz2KB3SlIhxJlHDnRVJFzHAEauqLP5iLMQHM6q2fjBHl4BQcFGu7BIFS18vSh5Wws
- MUgjwVXToRbQopU8=
-X-Received: by 2002:a5d:6447:: with SMTP id d7mr18948662wrw.118.1637759224662; 
- Wed, 24 Nov 2021 05:07:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyGPquWRpQ6+2uCXbI6pBfZrS1pv46lqJVP53gIjK2hQazjMvfJdTJPckiON8cjfcfVheRsAQ==
-X-Received: by 2002:a5d:6447:: with SMTP id d7mr18948359wrw.118.1637759222669; 
- Wed, 24 Nov 2021 05:07:02 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id f19sm5995701wmq.34.2021.11.24.05.07.02
+ bh=zRVsjmQa6gV8sHyGVx4OooHBV+LFb06gDpK50XnMUjE=;
+ b=TX2FjGUX+SLnm1BlCRaBVczuL8V7NMPweqYfTp8Li6bLj1xpHbTVT0ettuUCdqMBW1
+ 7YqwAp7xLyMUHyeyRex5er3PoLF5LXbl8q98864loAEABenH2RuEZ6xGlo3CUEeRyL39
+ EYgAy8aX2Z4k/j7drDAK+WUZ+56K25Nrdbien6THb+wJ96FiNNOlfpUvrmfB6hlMzwqY
+ ex2bYys4FeBwvqGj/2pVZk4qTL6YlY5LvsPzrbBdMGKtD9QLvGmDnzJZVCF69hD2DT4K
+ JKhE5ggYdmAjrCpdMDwFLEvyFSAxK+QI/rMjuH2Mb++3NP3P+4loM3dorWjzcdGzRrFy
+ /wjg==
+X-Gm-Message-State: AOAM532Df4rpZbkgdjQSI2nb/SyN2WqygmWa5i61YovRzv3kFNbIfe/Y
+ 2q2PytHdMzTE5UrYK35Taio=
+X-Google-Smtp-Source: ABdhPJwhkoD+pVoqDP8LeJHqxJWWqKSG0IqAp/Z0HV1qLEfnKaqzdhN+BhI5yVzBdGvs+jWlDBamzg==
+X-Received: by 2002:a05:6102:3a6d:: with SMTP id
+ bf13mr23097067vsb.3.1637759394189; 
+ Wed, 24 Nov 2021 05:09:54 -0800 (PST)
+Received: from [192.168.10.222] ([191.19.215.188])
+ by smtp.gmail.com with ESMTPSA id u14sm7785052vkk.12.2021.11.24.05.09.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 05:07:02 -0800 (PST)
-Message-ID: <84a64ab9-f874-2c30-9ed9-41b13a1c6c33@redhat.com>
-Date: Wed, 24 Nov 2021 14:07:01 +0100
+ Wed, 24 Nov 2021 05:09:53 -0800 (PST)
+Message-ID: <7f5efc59-f097-9752-c4a0-3b7724e6f215@gmail.com>
+Date: Wed, 24 Nov 2021 10:09:51 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 2/2] spice: Update QXLInterface for spice >= 0.15.0
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211123134302.45741-1-berrange@redhat.com>
- <20211123134302.45741-3-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211123134302.45741-3-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.2.0
+Subject: Re: [PATCH for-7.0 v2 1/2] ivshmem.c: change endianness to
+ LITTLE_ENDIAN
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20211124092948.335389-1-danielhb413@gmail.com>
+ <20211124092948.335389-2-danielhb413@gmail.com>
+ <7d312ca5-82d1-ba63-535d-8024f2033215@redhat.com>
+ <87lf1dyaqa.fsf@dusky.pond.sub.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <87lf1dyaqa.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -75
-X-Spam_score: -7.6
-X-Spam_bar: -------
-X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x929.google.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-4.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,30 +94,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: thuth@redhat.com, qemu-devel@nongnu.org, clg@kaod.org, qemu-ppc@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/23/21 14:43, Daniel P. Berrangé wrote:
-> From: John Snow <jsnow@redhat.com>
+
+
+On 11/24/21 09:55, Markus Armbruster wrote:
+> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
 > 
-> spice updated the spelling (and arguments) of "attache_worker" in
-> 0.15.0. Update QEMU to match, preventing -Wdeprecated-declarations
-> compilations from reporting build errors.
+>> On 11/24/21 10:29, Daniel Henrique Barboza wrote:
+>>> The ivshmem device, as with most PCI devices, uses little endian byte
+>>> order. However, the endianness of its mmio_ops is marked as
+>>> DEVICE_NATIVE_ENDIAN. This presents not only the usual problems with big
+>>> endian hosts but also with PowerPC little endian hosts as well, since
+>>> the Power architecture in QEMU uses big endian hardware (XIVE controller,
+>>> PCI Host Bridges, etc) even if the host is in little endian byte order.
+>>
+>> Maybe mention commit f7a199b2b44 ("ivshmem: use little-endian
+>> int64_t for the protocol")?
 > 
-> See also:
-> https://gitlab.freedesktop.org/spice/spice/-/commit/974692bda1e77af92b71ed43b022439448492cb9
+> "The protocol" is the interface between ivshmem-doorbell device (client)
+> and ivshmem server.  This commit is about the interface between
+> ivshmem-* device and the guest.  The two interfaces are about as related
+> as SSH and DNS: software exists that uses both.
 > 
-> Signed-off-by: John Snow <jsnow@redhat.com>
 
-?Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>?
+Yeah, I was about to reply asking what's the relevance of how client-server
+communicates and the problem I'm trying to fix. It really seems a problem
+with the commit I mentioned in the "Fixes" tag that introduced the memory API
+with native endian instead of little endian.
 
-> ---
->  hw/display/qxl.c        | 14 +++++++++++++-
->  include/ui/qemu-spice.h |  6 ++++++
->  ui/spice-display.c      | 11 +++++++++++
->  3 files changed, 30 insertions(+), 1 deletion(-)
+Let's keep the commit msg as is. Thanks,
 
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+Daniel
+
+
+> Mentioning f7a199b2b44 feels superfluous to me.
+> 
+> [...]
+> 
 
