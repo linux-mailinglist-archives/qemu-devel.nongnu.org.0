@@ -2,57 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA1945B5D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 08:48:14 +0100 (CET)
-Received: from localhost ([::1]:55384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E494E45B5B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 08:40:30 +0100 (CET)
+Received: from localhost ([::1]:39912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpn0n-0002cc-9w
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 02:48:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39894)
+	id 1mpmtJ-0000SB-IB
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 02:40:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1mpmka-00057L-Vb
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 02:31:29 -0500
-Received: from mga02.intel.com ([134.134.136.20]:9141)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1mpmkX-0006Pu-A7
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 02:31:28 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10177"; a="222444855"
-X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; d="scan'208";a="222444855"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2021 23:31:20 -0800
-X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; d="scan'208";a="509771296"
-Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.255.29.159])
- ([10.255.29.159])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2021 23:31:16 -0800
-Message-ID: <03aaab8b-0a50-6b56-2891-ccd58235ad83@intel.com>
-Date: Wed, 24 Nov 2021 15:31:13 +0800
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mpmmo-0007K7-TP; Wed, 24 Nov 2021 02:33:46 -0500
+Received: from [2a00:1450:4864:20::331] (port=41754
+ helo=mail-wm1-x331.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mpmmn-0007lI-8y; Wed, 24 Nov 2021 02:33:46 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ az34-20020a05600c602200b0033bf8662572so1277844wmb.0; 
+ Tue, 23 Nov 2021 23:33:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=TS7LMyK35o1thp0kPBFG4FRYc4y/FXL9a7x1qt5b2hY=;
+ b=ACa4+1PnMj7zdUGJh/svDIDI5rUPI/uHLF1O1gRbU25aoz1LHXZYYXtSHQeAfCkapV
+ zKYUidZ3O+mNZyF/pFjlJx55XbWhkTG1quKKhAeFsWINK7d6eyWOFzRscvsWPACjrNZT
+ jvhTcGltPUZZVql721Sna10OyEpArUD6UuYPOwBP3b61kFWCNDtmERdk1/+D/AID0bTI
+ PONBRikC+Zljs6emWU6fRQJDFswYtF0X9LhfwdpBsXms18gQFJpe7k+2nqTU+xl2Rbri
+ FiAN0C6VUpzjwmXisWJgrQhG24Nx7EFGYToEowP0ibvtX9vVWVX2STSN6FMZ18Cdh6uG
+ lz1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=TS7LMyK35o1thp0kPBFG4FRYc4y/FXL9a7x1qt5b2hY=;
+ b=N6cYtCnSF/+u4/330gMenDcY061zPZ7WzNlYnjz8PpYARwuayYq29XQNhHwlkU3u5Y
+ nz+Ms77ITGhGfNB6gzSw2NRX2FlvJ1KEAWrucPj472ofDBxkt3YzCz0a2Hh9wqJ/wo0H
+ 3nj/SRogZLD8JQoQDvST7pa+yRQOYCMYgWP5xqclHu19BhCaP3C5+xRE0IyOXBHbsjY4
+ tCpxX2bG5NSH6yREVMoQ39fHNhvU6hGzWxL72QXOQDSVIpp+iaW4fgg86p+9vPlCVX6r
+ 3TpSDEsrZ6DpaT/EWKQ1m9ZATKKQCbTMStqC5tOXspO8H85qWzbAajmqKHJB4TQMzd9V
+ 3skA==
+X-Gm-Message-State: AOAM530muyQVSOOfmK09eNWzGcwBW4uy3KPnJNUi6b5t5qJm8YEPrf1u
+ iKpRmllXTGoSS4MX0HiGbSo=
+X-Google-Smtp-Source: ABdhPJwsIj9jPS4AOVpRZ606ch20tq17HtcCJAhyxEQtBQ6Wo6Ji1A1bMaRMvTJUBjvb7qAjUN4YiA==
+X-Received: by 2002:a05:600c:1c13:: with SMTP id
+ j19mr12247739wms.175.1637739222380; 
+ Tue, 23 Nov 2021 23:33:42 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id g13sm3690594wmk.37.2021.11.23.23.33.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Nov 2021 23:33:41 -0800 (PST)
+Message-ID: <88c5fc89-49a3-0dd3-87bb-287ba590f915@amsat.org>
+Date: Wed, 24 Nov 2021 08:33:40 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.3.1
-Subject: Re: [RFC PATCH v2 06/44] hw/i386: Introduce kvm-type for TDX guest
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v5 07/18] target/riscv: setup everything so that
+ riscv128-softmmu compiles
 Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>, isaku.yamahata@gmail.com
-References: <cover.1625704980.git.isaku.yamahata@intel.com>
- <04c08d0770736cfa2e3148489602bc42492c78f3.1625704980.git.isaku.yamahata@intel.com>
- <20210826102212.gykq2z4fb2iszb2k@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20210826102212.gykq2z4fb2iszb2k@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.20; envelope-from=xiaoyao.li@intel.com;
- helo=mga02.intel.com
-X-Spam_score_int: -72
-X-Spam_score: -7.3
-X-Spam_bar: -------
-X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.998, NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>,
+ Alistair Francis <alistair23@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20211112145902.205131-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20211112145902.205131-8-frederic.petrot@univ-grenoble-alpes.fr>
+ <CAKmqyKM_6QH40iesGaCYLxWHzRyfoFACEH+eiOY-_YQTpeo=nw@mail.gmail.com>
+ <a68d73ec-bde8-5869-842f-e45bbdbdc5ed@univ-grenoble-alpes.fr>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <a68d73ec-bde8-5869-842f-e45bbdbdc5ed@univ-grenoble-alpes.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-4.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,59 +99,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, cohuck@redhat.com, ehabkost@redhat.com,
- kvm@vger.kernel.org, mst@redhat.com, seanjc@google.com, alistair@alistair23.me,
- qemu-devel@nongnu.org, mtosatti@redhat.com, erdemaktas@google.com,
- pbonzini@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Fabien Portas <fabien.portas@grenoble-inp.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/26/2021 6:22 PM, Gerd Hoffmann wrote:
-> On Wed, Jul 07, 2021 at 05:54:36PM -0700, isaku.yamahata@gmail.com wrote:
->> From: Xiaoyao Li <xiaoyao.li@intel.com>
+Hi Frédéric,
+
+On 11/24/21 07:55, Frédéric Pétrot wrote:
+> On 24/11/2021 07:12, Alistair Francis wrote:
+>> On Sat, Nov 13, 2021 at 1:16 AM Frédéric Pétrot
+>> <frederic.petrot@univ-grenoble-alpes.fr> wrote:
+>>>
+>>> This patch is kind of a mess because several files have to be slightly
+>>> modified to allow for a new target. In the current status, we have done
+>>> our best to have RV64 and RV128 under the same RV64 umbrella, but there
+>>> is still work to do to have a single executable for both.
+>>> In particular, we have no atomic accesses for aligned 128-bit addresses.
+>>>
+>>> Once this patch applied, adding risc128-sofmmu to --target-list produces
+>>> a (no so useful yet) executable.
 >>
->> Introduce a machine property, kvm-type, to allow the user to create a
->> Trusted Domain eXtensions (TDX) VM, a.k.a. a Trusted Domain (TD), e.g.:
->>
->>   # $QEMU \
->> 	-machine ...,kvm-type=tdx \
->> 	...
-
-Sorry for the very late reply.
-
-> Can we align sev and tdx better than that?
+>> I can't remember if we discussed this before, but do we need the
+>> riscv128-sofmmu executable? Can we instead just use a riscv64-sofmmu
+>> executable?
 > 
-> SEV is enabled this way:
-> 
-> qemu -machine ...,confidential-guest-support=sev0 \
->       -object sev-guest,id=sev0,...
-> 
-> (see docs/amd-memory-encryption.txt for details).
-> 
-> tdx could likewise use a tdx-guest object (and both sev-guest and
-> tdx-guest should probably have a common parent object type) to enable
-> and configure tdx support.
+>   Hello Alistair,
+>   Richard was also advocating for a single executable, but pointed out that
+>   we need to disable mttcg because there is a need for specific tcg
+> support for
+>   128-bit aligned atomics.
+>   Given my understanding of that part of QEMU, I choose the easy way to
+> disable
+>   it once and for all at compile time until we have that.
 
-yes, sev only introduced a new object and passed it to 
-confidential-guest-support. This is because SEV doesn't require the new 
-type of VM.
-However, TDX does require a new type of VM.
 
-If we read KVM code, there is a parameter of CREATE_VM to pass the 
-vm_type, though x86 doesn't use this field so far. On QEMU side, it also 
-has the codes to pass/configure vm-type in command line. Of cousre, x86 
-arch doesn't implement it. With upcoming TDX, it will implement and use 
-vm type for TDX. That's the reason we wrote this patch to implement 
-kvm-type for x86, similar to other arches.
+In rv128_base_cpu_init():
 
-yes, of course we can infer the vm_type from "-object tdx-guest". But I 
-prefer to just use vm_type. Let's see others opinion.
+  if (qemu_tcg_mttcg_enabled) {
+      /* Missing 128-bit aligned atomics */
+      error_report("128-bit RISC-V currently does not work"
+                   " with Multi Threaded TCG. Please use:"
+                   " -accel tcg,thread=single");
+      exit(EXIT_FAILURE);
+  }
 
-thanks,
--Xiaoyao
+Regards,
 
-> take care,
->    Gerd
-> 
-
+Phil.
 
