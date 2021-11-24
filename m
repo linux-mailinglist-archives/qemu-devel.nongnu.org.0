@@ -2,92 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A787D45B918
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 12:32:32 +0100 (CET)
-Received: from localhost ([::1]:55120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 990DC45B923
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 12:35:32 +0100 (CET)
+Received: from localhost ([::1]:59410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpqVr-00058N-QE
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 06:32:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40766)
+	id 1mpqYl-0008Ai-Fu
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 06:35:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpqU6-0002qc-J6
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 06:30:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54801)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mpqU4-0007Hi-KJ
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 06:30:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637753440;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ChIwTeAJv3A7skgm6MjqdS5ug74mRdoaZK0PsPh5E+I=;
- b=REUadb4XVuy5gT56j8CiauCsJgv6qGC1xXUCFr1eoSojGJje8fgAKzZ+cojGIsdhgYOwGA
- oEf8X1gs3MtD/w8HYnr/IF3NaeCSuWVkMYqcn8JTS292qJxcLsN/7CPflNls1XdO096kjT
- SNJtr2gqKTgiA4kc7cqYv514WmJ10dg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-313-SErruZcsNYOrN8S4_Szjhw-1; Wed, 24 Nov 2021 06:30:36 -0500
-X-MC-Unique: SErruZcsNYOrN8S4_Szjhw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j193-20020a1c23ca000000b003306ae8bfb7so1175564wmj.7
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 03:30:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mpqWw-00076G-87; Wed, 24 Nov 2021 06:33:38 -0500
+Received: from [2607:f8b0:4864:20::834] (port=38489
+ helo=mail-qt1-x834.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mpqWu-0007eL-69; Wed, 24 Nov 2021 06:33:37 -0500
+Received: by mail-qt1-x834.google.com with SMTP id 8so2270703qtx.5;
+ Wed, 24 Nov 2021 03:33:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=nf7rqP02P6PGOgzRnrt7VRd+4/+2O+w/iykoQOZJQbI=;
+ b=FjUrtqqmxLdvNqRYcUTDI2R9h1j1iu/AoNk5raK/Xk7v8CHxhkq/k8H+t+Q5WefnCH
+ xRchm8jg63EJvwtT4f73pP3DprPtCn1128G3uhKgFk2BzxL2JI19/ZC69ct6jd8XgG/Y
+ C/1GVpwoh/CFMXCBIV6b1y0jn/UW5hTl3foKQaQW+F5mcvMEj2ZJU5K35cf0patl+1TO
+ yx+fopgmSLhxKYnVs97SFD7nBcRY3fLeX0LxKy8XRoTGYv1swcDcy7VoWxgwDXIZd3BP
+ FDOd3Zle6DrbhVNJIpy7LJcnU9bxOsMn/rW1zj4exBaXbLzpkf/igTw5dzISSLnSd9lb
+ I5Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ChIwTeAJv3A7skgm6MjqdS5ug74mRdoaZK0PsPh5E+I=;
- b=0ZMg1qEHSvbwpEEP9D62/9Bpysf4geaBuHMYgwOtujmPIA1f0MKdvroYeXdM68RxHt
- AG+cQj6aVPi5iIIVjB2/7j8x8JG0qKc/QQll3jP1pO9REvqhLbjHCsgUIYi7ygSHikEz
- JfZDVu4RwO1U3+uTYIQncR/yoFa72SfBjuKNEA1tWI1Q6ufn0FGALPEZaWbtlKVZXftg
- jVIjRLJCTtZsYgt3QguecmQ3nCEjPVFtST/TpX98V9I4O8X3Nq9eEJhuhnfCC3GfjA7/
- QhdNHslNLVOqfcoWlEKi/WRzjbL04s3WI7F3L2eHNffut1BS49/Fmem82PAFAqAWLPeb
- JyyA==
-X-Gm-Message-State: AOAM532nlEELIW4incpA0O+BEuICLay5pWkFjJ0TFgg6mNWqGjyDfN+K
- Bvm+RLyEjPS1DlaEqKpSu/HOUZY5qONImm6Im1gmAIUU+unCGQs9XvtZwSDND5fA25YWFad8EPT
- TaoOsbQm7DGjNbjM=
-X-Received: by 2002:adf:fe4b:: with SMTP id m11mr17352210wrs.136.1637753435618; 
- Wed, 24 Nov 2021 03:30:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxl8hjRGQny8JIUTIeIWH6tR+SFGMOaW0htII5bMHqW91+lyINpn3i27YPntU+wDB5D1U1qpA==
-X-Received: by 2002:adf:fe4b:: with SMTP id m11mr17352179wrs.136.1637753435473; 
- Wed, 24 Nov 2021 03:30:35 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id u15sm4967213wmq.13.2021.11.24.03.30.34
+ bh=nf7rqP02P6PGOgzRnrt7VRd+4/+2O+w/iykoQOZJQbI=;
+ b=PO4jwG+1yvF2kwNXx9KXcrtddsRZGzHje16d5zY/RR7yA7lBxqPLsy/BG6yLbulJ/v
+ NB0mi9EFJOT0KEZhoUw21iUoHoXC9TTVhmWHZ2tlETIA0xzTbAsSaz65boUzvAY5cqsA
+ PkUjiH4x0p3V18CfgtK2VIaoQv6eow2Xn4XBqk1N+an/B/K7VxEI2fGQ3DZDBScHzdlR
+ 6dSav/IhaxJcIZ9ddgra+JHOFMIeOzh1r5ab/N0AkY8x2rQz17MZ+lGY8MEa4Mt0S8Iz
+ WoHQfbx7mbYWK82Qu2JqWo2qNiDQ592+wRysOOn0Us4dIewGQteKIMRkImRCWBm3fVvO
+ 1OHA==
+X-Gm-Message-State: AOAM532xTNbZy0xr9i8n20tqnbRDADs+PU/Q7efCTX3a4JSXCWnPDX0y
+ 4cT4JguAtsSFq9CvUZ2RaX0=
+X-Google-Smtp-Source: ABdhPJxMST5fJ6MZPh3LQSEWaDFYdMwxJv2teiG7KZxkvVrLqJcot+fvB2DygXBhJfmrtoyaw9ZKTQ==
+X-Received: by 2002:a05:622a:1495:: with SMTP id
+ t21mr6469108qtx.152.1637753614834; 
+ Wed, 24 Nov 2021 03:33:34 -0800 (PST)
+Received: from [192.168.10.222] ([191.19.215.188])
+ by smtp.gmail.com with ESMTPSA id m15sm7819104qkp.76.2021.11.24.03.33.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 03:30:35 -0800 (PST)
-Message-ID: <b6cd20fa-4d38-2c9f-e5e1-eb891d1b935d@redhat.com>
-Date: Wed, 24 Nov 2021 12:30:34 +0100
+ Wed, 24 Nov 2021 03:33:34 -0800 (PST)
+Message-ID: <cf2cfec2-876c-1dc8-50f1-0a79b490527c@gmail.com>
+Date: Wed, 24 Nov 2021 08:33:31 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [qemu-web PATCH v3] Add Sponsors page
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211124080519.440677-1-philmd@redhat.com>
- <cb04d11f-cfe4-5de3-6e46-345f2fafaad3@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <cb04d11f-cfe4-5de3-6e46-345f2fafaad3@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.2.0
+Subject: Re: [PATCH for-7.0 v2 1/2] ivshmem.c: change endianness to
+ LITTLE_ENDIAN
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211124092948.335389-1-danielhb413@gmail.com>
+ <20211124092948.335389-2-danielhb413@gmail.com>
+ <7d312ca5-82d1-ba63-535d-8024f2033215@redhat.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <7d312ca5-82d1-ba63-535d-8024f2033215@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -75
-X-Spam_score: -7.6
-X-Spam_bar: -------
-X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::834
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x834.google.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-4.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,38 +93,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Markey <admin@fosshost.org>, Alistair Francis <alistair23@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: thuth@redhat.com, qemu-ppc@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ david@gibson.dropbear.id.au, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/24/21 10:42, Richard Henderson wrote:
-> On 11/24/21 9:05 AM, Philippe Mathieu-Daudé wrote:
->> Add a page listing QEMU sponsors.
->>
->> For now, only mention Fosshost which requested to be listed:
+
+
+On 11/24/21 08:28, Philippe Mathieu-Daudé wrote:
+> On 11/24/21 10:29, Daniel Henrique Barboza wrote:
+>> The ivshmem device, as with most PCI devices, uses little endian byte
+>> order. However, the endianness of its mmio_ops is marked as
+>> DEVICE_NATIVE_ENDIAN. This presents not only the usual problems with big
+>> endian hosts but also with PowerPC little endian hosts as well, since
+>> the Power architecture in QEMU uses big endian hardware (XIVE controller,
+>> PCI Host Bridges, etc) even if the host is in little endian byte order.
 > 
-> This...
+> Maybe mention commit f7a199b2b44 ("ivshmem: use little-endian
+> int64_t for the protocol")?
+
+
+Good point. I'll send a v3.
+
 > 
->> https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg05381.html
+>> As it is today, the IVPosition of the device will be byte swapped when
+>> running in Power BE and LE. This can be seen by changing the existing
+>> qtest 'ivshmem-test' to run in ppc64 hosts and printing the IVPOSITION
+>> regs in test_ivshmem_server() right after the VM ids assert. For x86_64
+>> the VM id values read are '0' and '1', for ppc64 (tested in a Power8
+>> RHEL 7.9 BE server) and ppc64le (tested in a Power9 RHEL 8.6 LE server)
+>> the ids will be '0' and '0x1000000'.
 >>
->> Cc: Thomas Markey <admin@fosshost.org>
->> Resolves: https://gitlab.com/qemu-project/qemu-web/-/issues/2
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Change this device to LITTLE_ENDIAN fixes the issue for Power hosts of
+>> both endianness, and every other big-endian architecture that might use
+>> this device, without impacting x86 users.
+>>
+>> Fixes: cb06608e17f8 ("ivshmem: convert to memory API")
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/168
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 >> ---
->> Since v2:
->> - don't explicitly state /what/ we're using the resource for,
->>    just that we've been granted it (danpb)
->> - list Azure Cloud credits (Daniel)
->> - list PLCT Lab (Paolo)
->> - list Wow/CIP United again, since other are listed (Phil)
->>    therefore do not include Stefan R-b tag.
+>>   hw/misc/ivshmem.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
+>> index 1ba4a98377..299837e5c1 100644
+>> --- a/hw/misc/ivshmem.c
+>> +++ b/hw/misc/ivshmem.c
+>> @@ -243,7 +243,7 @@ static uint64_t ivshmem_io_read(void *opaque, hwaddr addr,
+>>   static const MemoryRegionOps ivshmem_mmio_ops = {
+>>       .read = ivshmem_io_read,
+>>       .write = ivshmem_io_write,
+>> -    .endianness = DEVICE_NATIVE_ENDIAN,
+>> +    .endianness = DEVICE_LITTLE_ENDIAN,
+>>       .impl = {
+>>           .min_access_size = 4,
+>>           .max_access_size = 4,
+>>
 > 
-> ... no longer matches this.
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Yes sorry. Posted v4 based on v2 so the desc is still accurate.
 
+Thanks!
+
+
+Daniel
+
+> 
 
