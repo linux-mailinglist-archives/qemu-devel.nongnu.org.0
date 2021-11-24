@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EDC345B55C
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 08:29:25 +0100 (CET)
-Received: from localhost ([::1]:43988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79CD45B573
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Nov 2021 08:34:42 +0100 (CET)
+Received: from localhost ([::1]:54886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mpmia-0000Y4-JJ
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 02:29:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60322)
+	id 1mpmnh-0008GF-Ph
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 02:34:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mpm3f-0005jb-4Z
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 01:47:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51497)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mpmCD-0001Gj-N5; Wed, 24 Nov 2021 01:55:58 -0500
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:41408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mpm3d-0005I8-41
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 01:47:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637736424;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IBhxgowuQFcAUR58uqqa1WKNXK5w+PFAr5esLP1KKHs=;
- b=iIQN8DzNC4u7xIQWer7EONm2eQq2WKzKMt3C4YDPrilBH/vxFwPg18PaFQf9/LmlYItRYz
- 1pioDCLWcAqQIIKlfUesJysuJ7Q1HNVOeNV5F/RHL4NRNCapnwUPYrbxIVGfg0x1jD33ur
- eSLjlErTAqM6PnNOgPEN1vinburfdts=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-312-m3vw3HT2M9iC4dpragY7tA-1; Wed, 24 Nov 2021 01:47:01 -0500
-X-MC-Unique: m3vw3HT2M9iC4dpragY7tA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mpmCA-0006Ll-16; Wed, 24 Nov 2021 01:55:57 -0500
+Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 2D6914025C;
+ Wed, 24 Nov 2021 07:55:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=univ-grenoble-alpes.fr; s=2020; t=1637736951;
+ bh=pyp+RtQ61xUFRhrOt1nAfB1XoHR2SPuPFdScQpsBAbY=;
+ h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+ b=2VGeHAZyDEEYkL3D41FAsOYCme/CIsSe8XaMxxWARmbKVrEhU7oclcV4nhxV+Oz/a
+ PsYOz6n5Vz4l+ljGv3xvEK2CELiTAK5qk/Dm2McP08YPVs651yIeym+R06lsL/LWOz
+ pBQd4QHFCS/GHWNndVB4A7/JT03VmmvuRlJ0ffew69BIWWOu6AMl1MwvNsAQ2ISX9l
+ Tsz0rf8cLkG2FYFYwkf89sfY9+DRST5MrG3FMvNsRCRJ6b3bj7khUvddHDdtxAmfxm
+ lJw/gwbD85aqMMER3XvpXWV+jz01yN2ca723hDYJQlwgm6/NV3OMOpyD+Us2Nh+SO7
+ CiLlnqMmpN+qg==
+Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
+ by mailhost.u-ga.fr (Postfix) with ESMTP id 1B2E360094;
+ Wed, 24 Nov 2021 07:55:51 +0100 (CET)
+Received: from [147.171.132.208] (palmier.tima.u-ga.fr [147.171.132.208])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FAD51006AA1;
- Wed, 24 Nov 2021 06:47:00 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 221AB60843;
- Wed, 24 Nov 2021 06:46:59 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v5 31/31] block.c: assertions to the block layer permissions
- API
-Date: Wed, 24 Nov 2021 01:44:18 -0500
-Message-Id: <20211124064418.3120601-32-eesposit@redhat.com>
-In-Reply-To: <20211124064418.3120601-1-eesposit@redhat.com>
-References: <20211124064418.3120601-1-eesposit@redhat.com>
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 4581A14005C;
+ Wed, 24 Nov 2021 07:55:50 +0100 (CET)
+Message-ID: <a68d73ec-bde8-5869-842f-e45bbdbdc5ed@univ-grenoble-alpes.fr>
+Date: Wed, 24 Nov 2021 07:55:49 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Content-Language: en-US
+To: Alistair Francis <alistair23@gmail.com>
+References: <20211112145902.205131-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20211112145902.205131-8-frederic.petrot@univ-grenoble-alpes.fr>
+ <CAKmqyKM_6QH40iesGaCYLxWHzRyfoFACEH+eiOY-_YQTpeo=nw@mail.gmail.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Subject: Re: [PATCH v5 07/18] target/riscv: setup everything so that
+ riscv128-softmmu compiles
+In-Reply-To: <CAKmqyKM_6QH40iesGaCYLxWHzRyfoFACEH+eiOY-_YQTpeo=nw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (42)
+X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.1,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,124 +84,357 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Fabien Portas <fabien.portas@grenoble-inp.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we "covered" the three main cases where the
-permission API was being used under BQL (fuse,
-amend and invalidate_cache), we can safely assert for
-the permission functions implemented in block.c
+On 24/11/2021 07:12, Alistair Francis wrote:
+> On Sat, Nov 13, 2021 at 1:16 AM Frédéric Pétrot
+> <frederic.petrot@univ-grenoble-alpes.fr> wrote:
+>>
+>> This patch is kind of a mess because several files have to be slightly
+>> modified to allow for a new target. In the current status, we have done
+>> our best to have RV64 and RV128 under the same RV64 umbrella, but there
+>> is still work to do to have a single executable for both.
+>> In particular, we have no atomic accesses for aligned 128-bit addresses.
+>>
+>> Once this patch applied, adding risc128-sofmmu to --target-list produces
+>> a (no so useful yet) executable.
+> 
+> I can't remember if we discussed this before, but do we need the
+> riscv128-sofmmu executable? Can we instead just use a riscv64-sofmmu
+> executable?
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- block.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+   Hello Alistair,
+   Richard was also advocating for a single executable, but pointed out that
+   we need to disable mttcg because there is a need for specific tcg support for
+   128-bit aligned atomics.
+   Given my understanding of that part of QEMU, I choose the easy way to disable
+   it once and for all at compile time until we have that.
 
-diff --git a/block.c b/block.c
-index 805974676b..6056ec4bc5 100644
---- a/block.c
-+++ b/block.c
-@@ -2138,6 +2138,7 @@ static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
- 
-     assert(a->bs);
-     assert(a->bs == b->bs);
-+    assert(qemu_in_main_thread());
- 
-     if ((b->perm & a->shared_perm) == b->perm) {
-         return true;
-@@ -2161,6 +2162,7 @@ static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
- static bool bdrv_parent_perms_conflict(BlockDriverState *bs, Error **errp)
- {
-     BdrvChild *a, *b;
-+    assert(qemu_in_main_thread());
- 
-     /*
-      * During the loop we'll look at each pair twice. That's correct because
-@@ -2245,6 +2247,8 @@ static void bdrv_child_set_perm_abort(void *opaque)
- {
-     BdrvChildSetPermState *s = opaque;
- 
-+    assert(qemu_in_main_thread());
-+
-     s->child->perm = s->old_perm;
-     s->child->shared_perm = s->old_shared_perm;
- }
-@@ -2258,6 +2262,7 @@ static void bdrv_child_set_perm(BdrvChild *c, uint64_t perm,
-                                 uint64_t shared, Transaction *tran)
- {
-     BdrvChildSetPermState *s = g_new(BdrvChildSetPermState, 1);
-+    assert(qemu_in_main_thread());
- 
-     *s = (BdrvChildSetPermState) {
-         .child = c,
-@@ -2442,6 +2447,7 @@ static int bdrv_node_refresh_perm(BlockDriverState *bs, BlockReopenQueue *q,
-     BdrvChild *c;
-     int ret;
-     uint64_t cumulative_perms, cumulative_shared_perms;
-+    assert(qemu_in_main_thread());
- 
-     bdrv_get_cumulative_perm(bs, &cumulative_perms, &cumulative_shared_perms);
- 
-@@ -2510,6 +2516,7 @@ static int bdrv_list_refresh_perms(GSList *list, BlockReopenQueue *q,
- {
-     int ret;
-     BlockDriverState *bs;
-+    assert(qemu_in_main_thread());
- 
-     for ( ; list; list = list->next) {
-         bs = list->data;
-@@ -2582,6 +2589,7 @@ static int bdrv_refresh_perms(BlockDriverState *bs, Error **errp)
-     int ret;
-     Transaction *tran = tran_new();
-     g_autoptr(GSList) list = bdrv_topological_dfs(NULL, NULL, bs);
-+    assert(qemu_in_main_thread());
- 
-     ret = bdrv_list_refresh_perms(list, NULL, tran, errp);
-     tran_finalize(tran, ret);
-@@ -2648,6 +2656,7 @@ static void bdrv_filter_default_perms(BlockDriverState *bs, BdrvChild *c,
-                                       uint64_t perm, uint64_t shared,
-                                       uint64_t *nperm, uint64_t *nshared)
- {
-+    assert(qemu_in_main_thread());
-     *nperm = perm & DEFAULT_PERM_PASSTHROUGH;
-     *nshared = (shared & DEFAULT_PERM_PASSTHROUGH) | DEFAULT_PERM_UNCHANGED;
- }
-@@ -2659,6 +2668,7 @@ static void bdrv_default_perms_for_cow(BlockDriverState *bs, BdrvChild *c,
-                                        uint64_t *nperm, uint64_t *nshared)
- {
-     assert(role & BDRV_CHILD_COW);
-+    assert(qemu_in_main_thread());
- 
-     /*
-      * We want consistent read from backing files if the parent needs it.
-@@ -2696,6 +2706,7 @@ static void bdrv_default_perms_for_storage(BlockDriverState *bs, BdrvChild *c,
- {
-     int flags;
- 
-+    assert(qemu_in_main_thread());
-     assert(role & (BDRV_CHILD_METADATA | BDRV_CHILD_DATA));
- 
-     flags = bdrv_reopen_get_flags(reopen_queue, bs);
-@@ -6094,6 +6105,7 @@ static void xdbg_graph_add_edge(XDbgBlockGraphConstructor *gr, void *parent,
- {
-     BlockPermission qapi_perm;
-     XDbgBlockGraphEdge *edge;
-+    assert(qemu_in_main_thread());
- 
-     edge = g_new0(XDbgBlockGraphEdge, 1);
- 
+   Frédéric
+
+> 
+> Alistair
+> 
+>>
+>> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+>> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
+>> ---
+>>   configs/devices/riscv128-softmmu/default.mak | 17 +++++++++++++++
+>>   configs/targets/riscv128-softmmu.mak         |  6 ++++++
+>>   include/disas/dis-asm.h                      |  1 +
+>>   include/hw/riscv/sifive_cpu.h                |  3 +++
+>>   target/riscv/cpu-param.h                     |  5 +++++
+>>   target/riscv/cpu.h                           |  3 +++
+>>   disas/riscv.c                                |  5 +++++
+>>   target/riscv/cpu.c                           | 22 ++++++++++++++++++--
+>>   target/riscv/gdbstub.c                       |  8 +++++++
+>>   target/riscv/insn_trans/trans_rvd.c.inc      | 12 +++++------
+>>   target/riscv/insn_trans/trans_rvf.c.inc      |  6 +++---
+>>   target/riscv/Kconfig                         |  3 +++
+>>   12 files changed, 80 insertions(+), 11 deletions(-)
+>>   create mode 100644 configs/devices/riscv128-softmmu/default.mak
+>>   create mode 100644 configs/targets/riscv128-softmmu.mak
+>>
+>> diff --git a/configs/devices/riscv128-softmmu/default.mak b/configs/devices/riscv128-softmmu/default.mak
+>> new file mode 100644
+>> index 0000000000..e838f35785
+>> --- /dev/null
+>> +++ b/configs/devices/riscv128-softmmu/default.mak
+>> @@ -0,0 +1,17 @@
+>> +# Default configuration for riscv128-softmmu
+>> +
+>> +# Uncomment the following lines to disable these optional devices:
+>> +#
+>> +#CONFIG_PCI_DEVICES=n
+>> +# No does not seem to be an option for these two parameters
+>> +CONFIG_SEMIHOSTING=y
+>> +CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+>> +
+>> +# Boards:
+>> +#
+>> +CONFIG_SPIKE=n
+>> +CONFIG_SIFIVE_E=n
+>> +CONFIG_SIFIVE_U=n
+>> +CONFIG_RISCV_VIRT=y
+>> +CONFIG_MICROCHIP_PFSOC=n
+>> +CONFIG_SHAKTI_C=n
+>> diff --git a/configs/targets/riscv128-softmmu.mak b/configs/targets/riscv128-softmmu.mak
+>> new file mode 100644
+>> index 0000000000..d812cc1c80
+>> --- /dev/null
+>> +++ b/configs/targets/riscv128-softmmu.mak
+>> @@ -0,0 +1,6 @@
+>> +TARGET_ARCH=riscv128
+>> +TARGET_BASE_ARCH=riscv
+>> +# As long as we have no atomic accesses for aligned 128-bit addresses
+>> +TARGET_SUPPORTS_MTTCG=n
+>> +TARGET_XML_FILES=gdb-xml/riscv-64bit-cpu.xml gdb-xml/riscv-32bit-fpu.xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-64bit-virtual.xml
+>> +TARGET_NEED_FDT=y
+>> diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+>> index 08e1beec85..102a1e7f50 100644
+>> --- a/include/disas/dis-asm.h
+>> +++ b/include/disas/dis-asm.h
+>> @@ -459,6 +459,7 @@ int print_insn_nios2(bfd_vma, disassemble_info*);
+>>   int print_insn_xtensa           (bfd_vma, disassemble_info*);
+>>   int print_insn_riscv32          (bfd_vma, disassemble_info*);
+>>   int print_insn_riscv64          (bfd_vma, disassemble_info*);
+>> +int print_insn_riscv128         (bfd_vma, disassemble_info*);
+>>   int print_insn_rx(bfd_vma, disassemble_info *);
+>>   int print_insn_hexagon(bfd_vma, disassemble_info *);
+>>
+>> diff --git a/include/hw/riscv/sifive_cpu.h b/include/hw/riscv/sifive_cpu.h
+>> index 136799633a..64078feba8 100644
+>> --- a/include/hw/riscv/sifive_cpu.h
+>> +++ b/include/hw/riscv/sifive_cpu.h
+>> @@ -26,6 +26,9 @@
+>>   #elif defined(TARGET_RISCV64)
+>>   #define SIFIVE_E_CPU TYPE_RISCV_CPU_SIFIVE_E51
+>>   #define SIFIVE_U_CPU TYPE_RISCV_CPU_SIFIVE_U54
+>> +#else
+>> +#define SIFIVE_E_CPU TYPE_RISCV_CPU_SIFIVE_E51
+>> +#define SIFIVE_U_CPU TYPE_RISCV_CPU_SIFIVE_U54
+>>   #endif
+>>
+>>   #endif /* HW_SIFIVE_CPU_H */
+>> diff --git a/target/riscv/cpu-param.h b/target/riscv/cpu-param.h
+>> index 80eb615f93..c10459b56f 100644
+>> --- a/target/riscv/cpu-param.h
+>> +++ b/target/riscv/cpu-param.h
+>> @@ -16,6 +16,11 @@
+>>   # define TARGET_LONG_BITS 32
+>>   # define TARGET_PHYS_ADDR_SPACE_BITS 34 /* 22-bit PPN */
+>>   # define TARGET_VIRT_ADDR_SPACE_BITS 32 /* sv32 */
+>> +#else
+>> +/* 64-bit target, since QEMU isn't built to have TARGET_LONG_BITS over 64 */
+>> +# define TARGET_LONG_BITS 64
+>> +# define TARGET_PHYS_ADDR_SPACE_BITS 56 /* 44-bit PPN */
+>> +# define TARGET_VIRT_ADDR_SPACE_BITS 48 /* sv48 */
+>>   #endif
+>>   #define TARGET_PAGE_BITS 12 /* 4 KiB Pages */
+>>   /*
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index 53a295efb7..8ff5b08d15 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -38,6 +38,7 @@
+>>   #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
+>>   #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
+>>   #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
+>> +#define TYPE_RISCV_CPU_BASE128          RISCV_CPU_TYPE_NAME("rv128")
+>>   #define TYPE_RISCV_CPU_IBEX             RISCV_CPU_TYPE_NAME("lowrisc-ibex")
+>>   #define TYPE_RISCV_CPU_SHAKTI_C         RISCV_CPU_TYPE_NAME("shakti-c")
+>>   #define TYPE_RISCV_CPU_SIFIVE_E31       RISCV_CPU_TYPE_NAME("sifive-e31")
+>> @@ -50,6 +51,8 @@
+>>   # define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE32
+>>   #elif defined(TARGET_RISCV64)
+>>   # define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE64
+>> +#else
+>> +# define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE128
+>>   #endif
+>>
+>>   #define RV(x) ((target_ulong)1 << (x - 'A'))
+>> diff --git a/disas/riscv.c b/disas/riscv.c
+>> index 793ad14c27..03c8dc9961 100644
+>> --- a/disas/riscv.c
+>> +++ b/disas/riscv.c
+>> @@ -3090,3 +3090,8 @@ int print_insn_riscv64(bfd_vma memaddr, struct disassemble_info *info)
+>>   {
+>>       return print_insn_riscv(memaddr, info, rv64);
+>>   }
+>> +
+>> +int print_insn_riscv128(bfd_vma memaddr, struct disassemble_info *info)
+>> +{
+>> +    return print_insn_riscv(memaddr, info, rv128);
+>> +}
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 364140f5ff..292c916f46 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -152,6 +152,8 @@ static void riscv_any_cpu_init(Object *obj)
+>>       set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+>>   #elif defined(TARGET_RISCV64)
+>>       set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+>> +#else
+>> +    set_misa(env, MXL_RV128, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+>>   #endif
+>>       set_priv_version(env, PRIV_VERSION_1_11_0);
+>>   }
+>> @@ -178,7 +180,7 @@ static void rv64_sifive_e_cpu_init(Object *obj)
+>>       set_priv_version(env, PRIV_VERSION_1_10_0);
+>>       qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+>>   }
+>> -#else
+>> +#elif defined(TARGET_RISCV32)
+>>   static void rv32_base_cpu_init(Object *obj)
+>>   {
+>>       CPURISCVState *env = &RISCV_CPU(obj)->env;
+>> @@ -218,6 +220,13 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
+>>       set_resetvec(env, DEFAULT_RSTVEC);
+>>       qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+>>   }
+>> +#else
+>> +static void rv128_base_cpu_init(Object *obj)
+>> +{
+>> +    CPURISCVState *env = &RISCV_CPU(obj)->env;
+>> +    /* We set this in the realise function */
+>> +    set_misa(env, MXL_RV128, 0);
+>> +}
+>>   #endif
+>>
+>>   static ObjectClass *riscv_cpu_class_by_name(const char *cpu_model)
+>> @@ -402,6 +411,9 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+>>       case MXL_RV64:
+>>           info->print_insn = print_insn_riscv64;
+>>           break;
+>> +    case MXL_RV128:
+>> +        info->print_insn = print_insn_riscv128;
+>> +        break;
+>>       default:
+>>           g_assert_not_reached();
+>>       }
+>> @@ -464,6 +476,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>>   #ifdef TARGET_RISCV64
+>>       case MXL_RV64:
+>>           break;
+>> +#elif !defined(TARGET_RISCV32)
+>> +    case MXL_RV128:
+>> +        break;
+>>   #endif
+>>       case MXL_RV32:
+>>           break;
+>> @@ -670,6 +685,7 @@ static gchar *riscv_gdb_arch_name(CPUState *cs)
+>>       case MXL_RV32:
+>>           return g_strdup("riscv:rv32");
+>>       case MXL_RV64:
+>> +    case MXL_RV128:
+>>           return g_strdup("riscv:rv64");
+>>       default:
+>>           g_assert_not_reached();
+>> @@ -733,7 +749,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+>>       cc->gdb_num_core_regs = 33;
+>>   #if defined(TARGET_RISCV32)
+>>       cc->gdb_core_xml_file = "riscv-32bit-cpu.xml";
+>> -#elif defined(TARGET_RISCV64)
+>> +#else
+>>       cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
+>>   #endif
+>>       cc->gdb_stop_before_watchpoint = true;
+>> @@ -822,6 +838,8 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+>>       DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
+>>       DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
+>>       DEFINE_CPU(TYPE_RISCV_CPU_SHAKTI_C,         rv64_sifive_u_cpu_init),
+>> +#else
+>> +    DEFINE_CPU(TYPE_RISCV_CPU_BASE128,          rv128_base_cpu_init),
+>>   #endif
+>>   };
+>>
+>> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+>> index 23429179e2..7672ae123f 100644
+>> --- a/target/riscv/gdbstub.c
+>> +++ b/target/riscv/gdbstub.c
+>> @@ -164,6 +164,11 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
+>>       int bitsize = 16 << env->misa_mxl_max;
+>>       int i;
+>>
+>> +    /* Until gdb knows about 128-bit registers */
+>> +    if (bitsize > 64) {
+>> +        bitsize = 64;
+>> +    }
+>> +
+>>       g_string_printf(s, "<?xml version=\"1.0\"?>");
+>>       g_string_append_printf(s, "<!DOCTYPE feature SYSTEM \"gdb-target.dtd\">");
+>>       g_string_append_printf(s, "<feature name=\"org.gnu.gdb.riscv.csr\">");
+>> @@ -204,6 +209,9 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+>>   #elif defined(TARGET_RISCV64)
+>>       gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
+>>                                1, "riscv-64bit-virtual.xml", 0);
+>> +#else
+>> +    gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
+>> +                             1, "riscv-64bit-virtual.xml", 0);
+>>   #endif
+>>
+>>       gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
+>> diff --git a/target/riscv/insn_trans/trans_rvd.c.inc b/target/riscv/insn_trans/trans_rvd.c.inc
+>> index ed444b042a..c8848bf300 100644
+>> --- a/target/riscv/insn_trans/trans_rvd.c.inc
+>> +++ b/target/riscv/insn_trans/trans_rvd.c.inc
+>> @@ -395,11 +395,11 @@ static bool trans_fmv_x_d(DisasContext *ctx, arg_fmv_x_d *a)
+>>       REQUIRE_FPU;
+>>       REQUIRE_EXT(ctx, RVD);
+>>
+>> -#ifdef TARGET_RISCV64
+>> +#ifdef TARGET_RISCV32
+>> +    qemu_build_not_reached();
+>> +#else
+>>       gen_set_gpr(ctx, a->rd, cpu_fpr[a->rs1]);
+>>       return true;
+>> -#else
+>> -    qemu_build_not_reached();
+>>   #endif
+>>   }
+>>
+>> @@ -439,11 +439,11 @@ static bool trans_fmv_d_x(DisasContext *ctx, arg_fmv_d_x *a)
+>>       REQUIRE_FPU;
+>>       REQUIRE_EXT(ctx, RVD);
+>>
+>> -#ifdef TARGET_RISCV64
+>> +#ifdef TARGET_RISCV32
+>> +    qemu_build_not_reached();
+>> +#else
+>>       tcg_gen_mov_tl(cpu_fpr[a->rd], get_gpr(ctx, a->rs1, EXT_NONE));
+>>       mark_fs_dirty(ctx);
+>>       return true;
+>> -#else
+>> -    qemu_build_not_reached();
+>>   #endif
+>>   }
+>> diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
+>> index b5459249c4..fa4681fb21 100644
+>> --- a/target/riscv/insn_trans/trans_rvf.c.inc
+>> +++ b/target/riscv/insn_trans/trans_rvf.c.inc
+>> @@ -313,10 +313,10 @@ static bool trans_fmv_x_w(DisasContext *ctx, arg_fmv_x_w *a)
+>>
+>>       TCGv dest = dest_gpr(ctx, a->rd);
+>>
+>> -#if defined(TARGET_RISCV64)
+>> -    tcg_gen_ext32s_tl(dest, cpu_fpr[a->rs1]);
+>> -#else
+>> +#if defined(TARGET_RISCV32)
+>>       tcg_gen_extrl_i64_i32(dest, cpu_fpr[a->rs1]);
+>> +#else
+>> +    tcg_gen_ext32s_tl(dest, cpu_fpr[a->rs1]);
+>>   #endif
+>>
+>>       gen_set_gpr(ctx, a->rd, dest);
+>> diff --git a/target/riscv/Kconfig b/target/riscv/Kconfig
+>> index b9e5932f13..f9ea52a59a 100644
+>> --- a/target/riscv/Kconfig
+>> +++ b/target/riscv/Kconfig
+>> @@ -3,3 +3,6 @@ config RISCV32
+>>
+>>   config RISCV64
+>>       bool
+>> +
+>> +config RISCV128
+>> +    bool
+>> --
+>> 2.33.1
+>>
+>>
+
 -- 
-2.27.0
-
++---------------------------------------------------------------------------+
+| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
+| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
+| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
++---------------------------------------------------------------------------+
 
