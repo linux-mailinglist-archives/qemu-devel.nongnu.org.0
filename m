@@ -2,98 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F1445D4CD
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 07:29:17 +0100 (CET)
-Received: from localhost ([::1]:44176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C364545D534
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 08:11:54 +0100 (CET)
+Received: from localhost ([::1]:49358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mq8Fw-0001Xm-99
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 01:29:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44124)
+	id 1mq8vA-0007yb-IH
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 02:11:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1mq8DX-0007uW-2Y
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 01:26:47 -0500
-Received: from [2607:f8b0:4864:20::332] (port=37744
- helo=mail-ot1-x332.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1mq8DV-0007oA-2V
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 01:26:46 -0500
-Received: by mail-ot1-x332.google.com with SMTP id
- h19-20020a9d3e53000000b0056547b797b2so8007054otg.4
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 22:26:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=landley-net.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/ZqZmF+q1iwRbg9wNdhq1jqh+3PguSzbZtWn7yBzt60=;
- b=VXJK1TU4jtMYNycpca5aWKzvU2ukuz5F3VcffWGQ35/7f5+0a5nkSfmje3P5MmNNEh
- Nk1NVVjwGiXgvwlILu4bS1RdSTlwvfUCho51xcj5F7NATF1zXfminVNZVln4nVrlDs7P
- MUMjgTdSUmhvorKebKb5NeZO3Yic2TdikmqGtQ30C/jKg1mbAd41pTbJgEIdLLxeLc+/
- q9dcj67TjFjA7DVwJLcBAK226K07md0+lMmDnKmsJLNTfRu7zGptcMHukdZ4yqcvvcOz
- LthwSHLoLRB7GZCwDqpzfGgzlbVWO83k4/tModrYJzr9eQ5qCwWYJDxZWxmiC9EkxvWz
- QfsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/ZqZmF+q1iwRbg9wNdhq1jqh+3PguSzbZtWn7yBzt60=;
- b=uyj3yfsMkAZXG/ua5HSXUTd6vDt6ff73kBnVw7HYIdIk6R0DmJNOu7emsVi3c1yTyl
- bXqgY6CK3l++q9A5gxFjeKy1ZxmaKwYRUcW4243jAOunIYtqAulrn6cOPMoG4z459jXA
- Bab9knLSy4ozhi++Fpm/BIuP/e7slZ5V8fUrcegR+xpM+M3rpd+cCYmM8giLYc7Gsrmx
- FZfAGfzGkkjtNbtGHSjCabBss7kYZzZrS8XuM4sGlvhLoozLXW2gFcjJgyX89RZCCpFk
- yymqFLaDSdU0kk9aO2Xt8Yk+bGKSjSze8KDNqE9YmTCvDdxOxqvPI0efrDGEUEqd/pSE
- jdGA==
-X-Gm-Message-State: AOAM530yQ4ryKMgKQNoU3ZQVWOHPpHQ/u4wOQjA93jPsrh2Egfc5guNo
- PH0qK6N2a+2VeD3VEQsFjXnPqQ==
-X-Google-Smtp-Source: ABdhPJwxe15CfBYTPAm6MvjSJ3XBxtkRHNRT2cSEX8f+3r5Z3D0Uy6nf6uzlcL/4gtVAALCKD2n8Vg==
-X-Received: by 2002:a05:6830:1008:: with SMTP id
- a8mr19252926otp.373.1637821603040; 
- Wed, 24 Nov 2021 22:26:43 -0800 (PST)
-Received: from [192.168.86.163] ([136.62.4.88])
- by smtp.gmail.com with ESMTPSA id n6sm392870otj.78.2021.11.24.22.26.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Nov 2021 22:26:42 -0800 (PST)
-Subject: Re: [PATCH 01/20] Hexagon HVX (target/hexagon) README
-To: Taylor Simpson <tsimpson@quicinc.com>, Sid Manning <sidneym@quicinc.com>, 
- Brian Cain <bcain@quicinc.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>,
- "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>
-References: <1625528074-19440-1-git-send-email-tsimpson@quicinc.com>
- <1625528074-19440-2-git-send-email-tsimpson@quicinc.com>
- <1b632e88-43d4-3034-cf7b-d42be056d842@landley.net>
- <SN6PR02MB42054B50C60ABA378256492DB8159@SN6PR02MB4205.namprd02.prod.outlook.com>
- <553c32e8-188c-5b2c-2f4a-a8cfd7b903a9@landley.net>
- <BN7PR02MB4194007550E66EBE877625A6B8E19@BN7PR02MB4194.namprd02.prod.outlook.com>
- <BYAPR02MB55091DE5B976956075B46FADBEE19@BYAPR02MB5509.namprd02.prod.outlook.com>
- <8845de00-ddc7-86a3-600f-6ede81e168c2@landley.net>
- <8192e9bb-a0de-1b2a-271c-ac7323be8244@landley.net>
- <BYAPR02MB48863186EDD71439C60792A0DEE89@BYAPR02MB4886.namprd02.prod.outlook.com>
-From: Rob Landley <rob@landley.net>
-Message-ID: <ee0ee7c5-22e5-2c79-695d-e66ae39bb5fb@landley.net>
-Date: Thu, 25 Nov 2021 00:26:58 -0600
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1mq8sy-0006xO-AR
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 02:09:36 -0500
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:53494)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1mq8su-0001AA-2P
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 02:09:34 -0500
+Received: from iva8-c5ee4261001e.qloud-c.yandex.net
+ (iva8-c5ee4261001e.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:a8a6:0:640:c5ee:4261])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 3BC112E0D82;
+ Thu, 25 Nov 2021 10:09:25 +0300 (MSK)
+Received: from iva8-3a65cceff156.qloud-c.yandex.net
+ (iva8-3a65cceff156.qloud-c.yandex.net [2a02:6b8:c0c:2d80:0:640:3a65:ccef])
+ by iva8-c5ee4261001e.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ fgQ5plfsOQ-9MsiRKhb; Thu, 25 Nov 2021 10:09:25 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1637824165; bh=HrIbQHrvgYOLL8b8xiEj8fWjdgG+9WlEvL8y+803dJ0=;
+ h=In-Reply-To:Date:References:To:From:Subject:Message-ID:Cc;
+ b=OoTyUmmTKFha4AsTzixQdc5+au0D/g7pIW+hjiWr7RcxNyfF20LQKyGHDpyTol+La
+ 3fKTyUVUWDFl8i0zwcEWp6UnLq7SZ2eivShP/5tqIogYYuRlBNb15bNxCrVBrNBTRU
+ oYejeZUlXaHn4lo8npq65AHsvcliNYgAag19Fp8o=
+Authentication-Results: iva8-c5ee4261001e.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPv6:2a02:6b8:b081:8015::1:29] (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:8015::1:29])
+ by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 7fJFcJLt7y-9Mw8wR03; Thu, 25 Nov 2021 10:09:22 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 2
+Subject: [PING][Ping] [PATCH v1 0/2] vl: flush all task from rcu queue before
+ exiting
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+References: <20211115094143.157399-1-den-plotnikov@yandex-team.ru>
+ <6d2b4b4f-707f-9d5b-7ffe-c6d8d05ffb06@yandex-team.ru>
+Message-ID: <9c80d44e-3d51-7209-d037-e96deb4ca2bc@yandex-team.ru>
+Date: Thu, 25 Nov 2021 10:09:21 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <BYAPR02MB48863186EDD71439C60792A0DEE89@BYAPR02MB4886.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <6d2b4b4f-707f-9d5b-7ffe-c6d8d05ffb06@yandex-team.ru>
+Content-Type: multipart/alternative;
+ boundary="------------39283D931D4A7AF6F5D6AC0B"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::332
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::332;
- envelope-from=rob@landley.net; helo=mail-ot1-x332.google.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-4.1, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=77.88.29.217;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -102,22 +79,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ale@rev.ng" <ale@rev.ng>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "philmd@redhat.com" <philmd@redhat.com>
+Cc: pbonzini@redhat.com, dgilbert@redhat.com, yc-core@yandex-team.ru,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/26/21 8:59 AM, Taylor Simpson wrote:
-> We're working on system mode support for Hexagon, and we plan to upstream it when it is ready.
-> 
-> Thanks,
-> Taylor
+This is a multi-part message in MIME format.
+--------------39283D931D4A7AF6F5D6AC0B
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Any progress on this? (Is there a way for outsiders to track the status?)
+ping ping
 
-Thanks,
+On 19.11.2021 12:42, Denis Plotnikov wrote:
+>
+> Ping!
+>
+> On 15.11.2021 12:41, Denis Plotnikov wrote:
+>> v1 -> v0:
+>>   * move monitor cleanup to the very end of qemu cleanup [Paolo]
+>>
+>> The goal is to notify management layer about device destruction on qemu shutdown.
+>> Without this series DEVICE_DELETED event may not be sent because of stuck tasks
+>> in the rcu thread. The rcu tasks may stuck on qemu shutdown because the rcu
+>> not always have enough time to run them.
+>>
+>>
+>> Denis Plotnikov (2):
+>>    monitor: move monitor destruction to the very end of qemu cleanup
+>>    vl: flush all task from rcu queue before exiting
+>>
+>>   include/qemu/rcu.h |  1 +
+>>   monitor/monitor.c  |  6 ++++++
+>>   softmmu/runstate.c |  4 +++-
+>>   util/rcu.c         | 12 ++++++++++++
+>>   4 files changed, 22 insertions(+), 1 deletion(-)
+>>
 
-Rob
+--------------39283D931D4A7AF6F5D6AC0B
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><font size="+1"><font face="monospace">ping ping</font></font><br>
+    </p>
+    <div class="moz-cite-prefix">On 19.11.2021 12:42, Denis Plotnikov
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:6d2b4b4f-707f-9d5b-7ffe-c6d8d05ffb06@yandex-team.ru">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <p><font size="+1"><font face="monospace">Ping!</font></font><br>
+      </p>
+      <div class="moz-cite-prefix">On 15.11.2021 12:41, Denis Plotnikov
+        wrote:<br>
+      </div>
+      <blockquote type="cite"
+        cite="mid:20211115094143.157399-1-den-plotnikov@yandex-team.ru">
+        <pre class="moz-quote-pre" wrap="">v1 -&gt; v0:
+ * move monitor cleanup to the very end of qemu cleanup [Paolo]
+
+The goal is to notify management layer about device destruction on qemu shutdown.
+Without this series DEVICE_DELETED event may not be sent because of stuck tasks
+in the rcu thread. The rcu tasks may stuck on qemu shutdown because the rcu
+not always have enough time to run them. 
+
+
+Denis Plotnikov (2):
+  monitor: move monitor destruction to the very end of qemu cleanup
+  vl: flush all task from rcu queue before exiting
+
+ include/qemu/rcu.h |  1 +
+ monitor/monitor.c  |  6 ++++++
+ softmmu/runstate.c |  4 +++-
+ util/rcu.c         | 12 ++++++++++++
+ 4 files changed, 22 insertions(+), 1 deletion(-)
+
+</pre>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
+
+--------------39283D931D4A7AF6F5D6AC0B--
 
