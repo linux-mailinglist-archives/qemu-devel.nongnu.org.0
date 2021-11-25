@@ -2,51 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA7945DEDA
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 17:57:34 +0100 (CET)
-Received: from localhost ([::1]:60714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD4C45E091
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 19:32:08 +0100 (CET)
+Received: from localhost ([::1]:47524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqI3x-0007oh-53
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 11:57:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39920)
+	id 1mqJXT-0004WM-AE
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 13:32:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1mqI2V-0006JB-6w
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 11:56:03 -0500
-Received: from foss.arm.com ([217.140.110.172]:45886)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1mqI2S-00055K-Kz
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 11:56:02 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 065761042;
- Thu, 25 Nov 2021 08:55:58 -0800 (PST)
-Received: from [10.57.29.213] (unknown [10.57.29.213])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1C75C3F73B;
- Thu, 25 Nov 2021 08:55:53 -0800 (PST)
-Subject: Re: [RFC v2 PATCH 06/13] KVM: Register/unregister memfd backed memslot
-To: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
-References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
- <20211119134739.20218-7-chao.p.peng@linux.intel.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <aff496f2-da53-87ec-0b86-199445bb5159@arm.com>
-Date: Thu, 25 Nov 2021 16:55:52 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mqJWW-0003pU-89
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 13:31:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31499)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mqJWS-0004EQ-7A
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 13:31:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637865062;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7PAXH3PJhPNZATgy1ArrtX9g4dCv5DZC4d03wq6RtQk=;
+ b=cNvdhdI2ndyDPWPPWLAXwx9hQJW/VUKgMkacAAOgaew81oP65ErZyIIASfE8oo0Us7vEUj
+ 0BFcmO+GS6eQDZyBTGdgaMDr9Sig6r2oej5FvnkL1VKUte14RyHSTtRfvq3YZNa5+gAHK9
+ YzBuH+ujhqFWpRz1s3TggV5tfeJ8wlw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-344-fbukpeiKMPKr5Btf4QLPDA-1; Thu, 25 Nov 2021 13:31:01 -0500
+X-MC-Unique: fbukpeiKMPKr5Btf4QLPDA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ p12-20020a05600c1d8c00b0033a22e48203so3915535wms.6
+ for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 10:31:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=7PAXH3PJhPNZATgy1ArrtX9g4dCv5DZC4d03wq6RtQk=;
+ b=jlETkgKgpnG7MFblPN5MgR+wF1ttr61houcdi9PUXRXhwezJZIKf+pyDz2Jvvz+nKV
+ zROh0aztYgt+UISJhg9VNUTxWCDeIkZOvUeKAs7lCeMUyLK5MTE1tlf1++GVUu+ET2bg
+ uQTDQKCkkHslTgDb1cFXXJf0WexF7h6m7rzU2ROQ+MvLiNZ908xYfUFWUEL19zXxwXNP
+ +u21RwfU5qUgKXUa1y8zOWbaCCi62JXjbY0TIKk2PNOdz0q1e1BsVtL/8R7ph5YqtK3V
+ NGva+VR36DYXX8wxozp0WlVoLAB7NLnPK0dEi9Cmk8KomZ3Lzrj839T9TXnZjpBoj86D
+ 2yXg==
+X-Gm-Message-State: AOAM533NDnxAXq2m9s5evVlyi1wbWguZOU9fOWEDp0yjVKfYb1JOEox6
+ BvuDn07CnyBnZfKA7ro8NlmGt1rdHHtZdj1j3bHla/nl/ixaBa+D1vO4u0kRINqROGRBcmlj2Xe
+ LNa2Vr0wM/ghzPno=
+X-Received: by 2002:a05:600c:4e91:: with SMTP id
+ f17mr10004579wmq.195.1637865060160; 
+ Thu, 25 Nov 2021 10:31:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzeipSvXUXftQOkkMRPUbyKphqD+npEz2XYAKl8UMGR100GY60HEq1mBkwQavLM+62f4e1HZg==
+X-Received: by 2002:a05:600c:4e91:: with SMTP id
+ f17mr10004524wmq.195.1637865059887; 
+ Thu, 25 Nov 2021 10:30:59 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id s8sm3562200wro.19.2021.11.25.10.30.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Nov 2021 10:30:59 -0800 (PST)
+Date: Thu, 25 Nov 2021 18:30:57 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v3 03/23] multifd: Rename used field to num
+Message-ID: <YZ/WYX7ss1mcZTAs@work-vm>
+References: <20211124100617.19786-1-quintela@redhat.com>
+ <20211124100617.19786-4-quintela@redhat.com>
+ <YZ6Ug+P2YjHndWKK@work-vm> <87a6hsg0d3.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <20211119134739.20218-7-chao.p.peng@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -109
-X-Spam_score: -11.0
-X-Spam_bar: -----------
-X-Spam_report: (-11.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+In-Reply-To: <87a6hsg0d3.fsf@secure.mitica>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,99 +100,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, luto@kernel.org, david@redhat.com,
- "J . Bruce Fields" <bfields@fieldses.org>, dave.hansen@intel.com,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- jun.nakajima@intel.com, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
- Jeff Layton <jlayton@kernel.org>, john.ji@intel.com,
- Yu Zhang <yu.c.zhang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/11/2021 13:47, Chao Peng wrote:
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  virt/kvm/kvm_main.c | 23 +++++++++++++++++++----
->  1 file changed, 19 insertions(+), 4 deletions(-)
+* Juan Quintela (quintela@redhat.com) wrote:
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > * Juan Quintela (quintela@redhat.com) wrote:
+> >> We will need to split it later in zero_num (number of zero pages) and
+> >> normal_num (number of normal pages).  This name is better.
+> >> 
+> >> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> >> ---
+> >>  migration/multifd.h |  2 +-
+> >>  migration/multifd.c | 38 +++++++++++++++++++-------------------
+> >>  2 files changed, 20 insertions(+), 20 deletions(-)
+> >> 
+> >> diff --git a/migration/multifd.h b/migration/multifd.h
+> >> index 15c50ca0b2..86820dd028 100644
+> >> --- a/migration/multifd.h
+> >> +++ b/migration/multifd.h
+> >> @@ -55,7 +55,7 @@ typedef struct {
+> >>  
+> >>  typedef struct {
+> >>      /* number of used pages */
+> >> -    uint32_t used;
+> >> +    uint32_t num;
+> >
+> > What does 'used' actually mean here?
 > 
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 271cef8d1cd0..b8673490d301 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -1426,7 +1426,7 @@ static void update_memslots(struct kvm_memslots *slots,
->  static int check_memory_region_flags(struct kvm *kvm,
->  			     const struct kvm_userspace_memory_region_ext *mem)
->  {
-> -	u32 valid_flags = 0;
-> +	u32 valid_flags = KVM_MEM_FD;
->  
->  	if (!kvm->dirty_log_unsupported)
->  		valid_flags |= KVM_MEM_LOG_DIRTY_PAGES;
-> @@ -1604,10 +1604,20 @@ static int kvm_set_memslot(struct kvm *kvm,
->  		kvm_copy_memslots(slots, __kvm_memslots(kvm, as_id));
->  	}
->  
-> +	if (mem->flags & KVM_MEM_FD && change == KVM_MR_CREATE) {
-> +		r = kvm_memfd_register(kvm, mem, new);
-> +		if (r)
-> +			goto out_slots;
-> +	}
-> +
->  	r = kvm_arch_prepare_memory_region(kvm, new, mem, change);
->  	if (r)
->  		goto out_slots;
->  
-> +	if (mem->flags & KVM_MEM_FD && (r || change == KVM_MR_DELETE)) {
-                                        ^
-r will never be non-zero as the 'if' above will catch that case and jump
-to out_slots.
-
-I *think* the intention was that the "if (r)" code should be after this
-check to clean up in the case of error from
-kvm_arch_prepare_memory_region() (as well as an explicit MR_DELETE).
-
-Steve
-
-> +		kvm_memfd_unregister(kvm, new);
-> +	}
-> +
->  	update_memslots(slots, new, change);
->  	slots = install_new_memslots(kvm, as_id, slots);
->  
-> @@ -1683,10 +1693,12 @@ int __kvm_set_memory_region(struct kvm *kvm,
->  		return -EINVAL;
->  	if (mem->guest_phys_addr & (PAGE_SIZE - 1))
->  		return -EINVAL;
-> -	/* We can read the guest memory with __xxx_user() later on. */
->  	if ((mem->userspace_addr & (PAGE_SIZE - 1)) ||
-> -	    (mem->userspace_addr != untagged_addr(mem->userspace_addr)) ||
-> -	     !access_ok((void __user *)(unsigned long)mem->userspace_addr,
-> +	    (mem->userspace_addr != untagged_addr(mem->userspace_addr)))
-> +		return -EINVAL;
-> +	/* We can read the guest memory with __xxx_user() later on. */
-> +	if (!(mem->flags & KVM_MEM_FD) &&
-> +	    !access_ok((void __user *)(unsigned long)mem->userspace_addr,
->  			mem->memory_size))
->  		return -EINVAL;
->  	if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
-> @@ -1727,6 +1739,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
->  		new.dirty_bitmap = NULL;
->  		memset(&new.arch, 0, sizeof(new.arch));
->  	} else { /* Modify an existing slot. */
-> +		/* Private memslots are immutable, they can only be deleted. */
-> +		if (mem->flags & KVM_MEM_FD && mem->private_fd >= 0)
-> +			return -EINVAL;
->  		if ((new.userspace_addr != old.userspace_addr) ||
->  		    (new.npages != old.npages) ||
->  		    ((new.flags ^ old.flags) & KVM_MEM_READONLY))
+> We allocate 128 pages for each "packet".
+> But we can ben handled less than that (we are at the end of one
+> iteration, the end of a ramblock, ...).
+> That is what used mean.
 > 
+> But later on the series, we enter with normal pages, and zero pages, and
+> naming get really confusing.  So, I moved to use *_num for everything.
+> 
+> Even after all the series, I didn't rename everything on multifd, only
+> the fields that I have to use sooner or later.
+
+Hmm OK, I'm not sure 'num' is much better than used, but OK
+
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> Later, Juan.
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
