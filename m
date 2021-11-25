@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5F545D79F
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 10:50:45 +0100 (CET)
-Received: from localhost ([::1]:46492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5236845D7AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 10:52:31 +0100 (CET)
+Received: from localhost ([::1]:48652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqBOu-0003Ry-HW
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 04:50:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60380)
+	id 1mqBQc-0004yj-2f
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 04:52:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mqBNb-0002k7-5A
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 04:49:23 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:47067)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mqBOu-0003wr-2N
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 04:50:44 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:36439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mqBNZ-0002ph-6J
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 04:49:22 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mqBOs-00036S-3p
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 04:50:43 -0500
 Received: from [192.168.100.1] ([82.142.2.234]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mt6x5-1mWAeE3yf3-00tR5I; Thu, 25 Nov 2021 10:49:04 +0100
-Message-ID: <bf77336d-c839-0284-356e-cf314f8e2e48@vivier.eu>
-Date: Thu, 25 Nov 2021 10:49:01 +0100
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MLhsE-1n7iFV1Xyy-00Hiiz; Thu, 25 Nov 2021 10:50:33 +0100
+Message-ID: <5daa4045-60ee-26af-148e-dabe0fd16cb2@vivier.eu>
+Date: Thu, 25 Nov 2021 10:50:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH] linux-user: move target_signal.h generic definitions to
- generic/signal.h
+Subject: Re: [PATCH] linux-user: target_syscall.h remove definition
+ TARGET_MINSIGSTKSZ
 Content-Language: fr
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1637830541-3222-1-git-send-email-gaosong@loongson.cn>
+References: <1637830681-4343-1-git-send-email-gaosong@loongson.cn>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <1637830541-3222-1-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <1637830681-4343-1-git-send-email-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:PUz5yKPWotjo/4UaWEefB15oQctI3qRgzalBdvaC1izxxLJbAoy
- VO1iZhUIoa3S64UjsrYs7fn77t20tESdVR229DJJmIT9vqdzYAMP4zVXWCqTf6Jf7roCMQP
- ApMNxW6heQLKNT9b1h32hDTw2szDN8GOFXJoiwLU7ifa9oGFkZt37MRfpBU8PbTK4wTEcdS
- Seiaqxs8ocGVaQdLbBscQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:znoaL8kxfX8=:YbhRvOlsUJw0LkJyQ9P4qz
- 8OX+8K0fFpIdLvsDBNZiqJf3pY18gLEbnUferQfnpx7iJENlKBQV6b8MZ1sGdwfjtgY47qLWk
- Q421G4geBEDjlm5CGOVbWtVB+sc1kNwjgN3ihzuREOyCsZbzEnI57NDbzIy7bxBPLBeolPGBX
- lhMjPmKBS+NBpcIurSz6lmOW+0tMkYFQXl0mOghsbx3AfmFNHM2RkeMwSUQYmZnZWk0fxeIsB
- IXBmovWRxMYJGkfI/j/BQXHSDCk3Fp9t9V8Y4pNGU76YiDggikB5+5v8ANd9jfT0YCle/UZfb
- GEveghj3kpf2DETItN31I6+e2ulrXk5bRO1mTEN0cj+t4Ec+6v8z+cgKVNobJQ0SzA0vvqKNm
- 1acHE5ockzUpVDQ5HMJz7I+67Os/wQ3OaCOFTvIPo6MizS3cNtj2uhd2zPTwV+5gJ+0AUaGBM
- twnldvxEWgxsG3LVSX9zloxR6mq/cgleuZhmg5Zg/i9jU7HkJ3p2YYCXSnQk52tQnc7gmjJnx
- 1avdKrFk/fnP7G6SKJ6rGY/OaaXYF52gThT9LDZwzkGTZEcNsuRpOYVrMlLu3xYOmtM2+TUmp
- Jhgl5iKsWbWmpGwBDYN2Dt16NdMpaQfDEMAZ+7+QcHNiDkzhl7lFQZ9SUxzfKcae/IpBzTtmu
- IqzKAblGGlt37jZHCe2t6zPEPae3bx91L4+zaqUwEVkJhqWppgmYcG+1uwYYnr2F7RKc=
+X-Provags-ID: V03:K1:w7QY8s2RDOlH1IWEjjTxZhEZoJRZWyagvQe4bkkNlVt2QpJ41LN
+ a2rAYelo00zD7MlGzo5UFs7dz1TrsQ/MgLT48tasuxAOY7azyiHJvig4Cio7URom3OszG9b
+ 8qBIz/uXVzxqwd0+as+VYKQcmR66v5xkaUHQnQv70oz2eM03RsQRvbMsoEaQmGt5WDGmc8a
+ YrGjnPY0wwaReBJIB5JLg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2VVQtdX1I40=:RwDSD4rLZxLRuIYkgHShTW
+ oiMSgNyXUYNgbW8oXcYpJvDhkJasb6SGKNHGCBQNuH14lpz7iOdFou5/VavXcYyrQE9hPdJT+
+ yOjZdmusHKp9p1Ed9kIM/3yw08FdW1L799R2aIyNJu/VJB0vb2SNiayD+III3kn+PkYWof/4K
+ yMMc6nYCFfu3NiRX4VG6EL9vnZ+pS8f37ZEdR83rRKijF26ACYZrODXan66d7+z4bq02vGUxD
+ 7qogB/IA+tkn0oQ13a9VyfFA/tRvUYQnTtPpXxZN/kX3Uf+omhSNVPwWGUSMf4oaIExmT4URq
+ zkUF5HeaJwPSD8W67IflgzBa47BbBnFPlSNZQwLNqNg4V6Hn8LV4A0Oryrm8R97f517n7TVDk
+ kmejBw3OLI8mON1Mw6jRiA7v4o+PieRuSNaGm+zzQ/z5U6KlS4LSinZOMxpoPkSSO5N1u8zP/
+ lL9704d9VMlZoLgY8qL5jC4hHN+//1NNNXwm31oqDlY2p/7TyFt5B/DepqOOM2dLXDUkdBFfG
+ fpl6eAFkgZOFKz1n3urYBkBzg+jqpeVv9lPW+tvlh4QgyqVsqP2Q1JMwObFtEoXZWyv3Kmsi+
+ CblC1FML8V+dElDUfeDscqNhg4rFmNgdzBGlEDur3XDkBplI0zzCfiM6XTKl9eyFoAQmpLMPT
+ U56cRXoAEmx4e3USI8o8lFezdHU/Hg6og+zvZby2JzbqmzDmW3W1/B4ge+aFSEBwN0ao=
 Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -59
@@ -73,29 +73,31 @@ Cc: alex.bennee@linaro.org, richard.henderson@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 25/11/2021 à 09:55, Song Gao a écrit :
-> No code change
+Le 25/11/2021 à 09:58, Song Gao a écrit :
+> TARGET_MINSIGSTKSZ has been defined in generic/signal.h
+> or target_signal.h, We don't need to define it again.
 > 
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Song Gao <gaosong@loongson.cn>
 > ---
->   linux-user/aarch64/target_signal.h    | 18 ------------------
->   linux-user/arm/target_signal.h        | 18 ------------------
->   linux-user/cris/target_signal.h       | 18 ------------------
->   linux-user/generic/signal.h           | 16 ++++++++++++++++
->   linux-user/hexagon/target_signal.h    | 11 -----------
->   linux-user/i386/target_signal.h       | 18 ------------------
->   linux-user/m68k/target_signal.h       | 18 ------------------
->   linux-user/microblaze/target_signal.h | 18 ------------------
->   linux-user/nios2/target_signal.h      | 16 ----------------
->   linux-user/openrisc/target_signal.h   | 23 -----------------------
->   linux-user/ppc/target_signal.h        | 18 ------------------
->   linux-user/riscv/target_signal.h      | 12 ------------
->   linux-user/s390x/target_signal.h      | 15 ---------------
->   linux-user/sh4/target_signal.h        | 18 ------------------
->   linux-user/x86_64/target_signal.h     | 18 ------------------
->   linux-user/xtensa/target_signal.h     | 17 -----------------
->   16 files changed, 16 insertions(+), 256 deletions(-)
+>   linux-user/aarch64/target_syscall.h    | 1 -
+>   linux-user/alpha/target_syscall.h      | 1 -
+>   linux-user/arm/target_syscall.h        | 1 -
+>   linux-user/cris/target_syscall.h       | 1 -
+>   linux-user/hppa/target_syscall.h       | 1 -
+>   linux-user/i386/target_syscall.h       | 1 -
+>   linux-user/m68k/target_syscall.h       | 1 -
+>   linux-user/microblaze/target_syscall.h | 1 -
+>   linux-user/mips/target_syscall.h       | 1 -
+>   linux-user/mips64/target_syscall.h     | 1 -
+>   linux-user/nios2/target_syscall.h      | 1 -
+>   linux-user/openrisc/target_syscall.h   | 1 -
+>   linux-user/ppc/target_syscall.h        | 1 -
+>   linux-user/riscv/target_syscall.h      | 1 -
+>   linux-user/s390x/target_syscall.h      | 1 -
+>   linux-user/sh4/target_syscall.h        | 1 -
+>   linux-user/sparc/target_syscall.h      | 1 -
+>   linux-user/x86_64/target_syscall.h     | 1 -
+>   18 files changed, 18 deletions(-)
 > 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
