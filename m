@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F6E45D557
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 08:21:38 +0100 (CET)
-Received: from localhost ([::1]:57994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87DB945D56F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 08:28:29 +0100 (CET)
+Received: from localhost ([::1]:36788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mq94a-00060W-U7
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 02:21:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54470)
+	id 1mq9BE-0002hm-DI
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 02:28:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mq92c-0005De-0N
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 02:19:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57497)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mq975-0008Us-F5
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 02:24:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mq92Z-0004Ru-Ib
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 02:19:32 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mq973-00070y-1d
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 02:24:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637824770;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ahp98zngdgfwuMEqlaRNu+dLNucZb/CbY2LAAAOplMY=;
- b=BmO+aSoEj3laPAtmMSHJorzMDOoOHC3vi/3G1MoH7XkPeIQQh0Se8KCMwoI2qKOheI93B2
- 03Wy7AbjiLyzuc9kV+cNXu8aL6pG3tCfMoMdlcNu2E006Wx0WzRPBJzZqvKck9850yyH75
- wx2rolgVU7P/6CtREIUxBisCaNVy+Kw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1637825047;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=neM2EVsggLDQxwbswzVUVzh6kv3qJKCLce+jBgJrbYI=;
+ b=QA4E3WI0R0rnS9lCzzxLz7FDccVNMOOWK8Oq9SEZdmCu90K6rotXNC9CXslsr9+3JMLIkB
+ pBcPwgpuk9gVHEM1m0f5heOg9pFQ4Prplerr48mzD+y55Vd5+iOG7zKYBOKfrkNufBm+AH
+ /fijklUqn0On2nrwgkctPcladHGnzFc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-53--Qacp3dPNNiW6uHLPTtRdQ-1; Thu, 25 Nov 2021 02:19:29 -0500
-X-MC-Unique: -Qacp3dPNNiW6uHLPTtRdQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r129-20020a1c4487000000b00333629ed22dso4430691wma.6
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 23:19:28 -0800 (PST)
+ us-mta-494-Wnxki7k6Nh-Ev9_MghMARQ-1; Thu, 25 Nov 2021 02:24:06 -0500
+X-MC-Unique: Wnxki7k6Nh-Ev9_MghMARQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m18-20020a05600c3b1200b0033283ea5facso2354919wms.1
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 23:24:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ahp98zngdgfwuMEqlaRNu+dLNucZb/CbY2LAAAOplMY=;
- b=Ma4sJ5XghIThsZj9Y/egBG81urMgNGeBHayrf8lqxUOVZIuKhn/p8S2p7bcqicrbq1
- uKr9WO2acJ0MA9ratk1T+qju/Ie1r9UeULNAlbr4jE1uYQw5kuc5OpCBypoErjdIJK+5
- PwPNp3kXfMxtZMy3tEsOsOyvYEdcQFVqVpIQP01/i+TG27Miy/y1Z1Lfz206VYYhDJId
- b2EfejnrmIYD7vF8AvS22w2zw9ljFnJlCPDTqluoZ/llrrLvDcH8p0/4U4Y62DvuJ98V
- AgYZZeWiziv2JDjdTjqi6GeXUrPlpwuvoLfb7Uta/s61hElZpoOUVZwI6bWuvjcx70Kj
- Iz6Q==
-X-Gm-Message-State: AOAM530llbU3ZJqf4QhUE/C3c8BATIzIJBgk44SanVFKpaCSWkzfTdq2
- 5OQ8168shzbVku7QM1DRdSB561CkUMv9ohxHPDrpM1dbAavsQS6OH5Q1yKOdo96dtytB9K/Ma7h
- sMo5xmbJOA5N1V5E=
-X-Received: by 2002:a5d:66c5:: with SMTP id k5mr4175787wrw.621.1637824768055; 
- Wed, 24 Nov 2021 23:19:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx30R776NB9B+KfHtrtjiuD7nRzTgY32tBZlgGercV8UaYhuUXPvfoXRlmV/jc1AtIHcp4XFQ==
-X-Received: by 2002:a5d:66c5:: with SMTP id k5mr4175766wrw.621.1637824767862; 
- Wed, 24 Nov 2021 23:19:27 -0800 (PST)
-Received: from redhat.com ([45.15.18.67])
- by smtp.gmail.com with ESMTPSA id z5sm9135804wmp.26.2021.11.24.23.19.24
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=neM2EVsggLDQxwbswzVUVzh6kv3qJKCLce+jBgJrbYI=;
+ b=DWqUtmzYgZMNO2GHkIFSWjEJDDOgT8hiZscV8wRwY/D/nqHsBreSClEAJM9FJlec6q
+ ZgTOOxK1p9mTb5efop++TmfRgskHMRfoxEf8inxtOFARpelNGnQ3GUCbv0bDFvE2tPh3
+ SlEWA035hYdESvf0yQSJ65EqG1oDbgRQRMJdCrPfwjdCfYgiwCiX5yD/YzqZCdFWtWOV
+ EG1986mdDvxhY/Jt0oPgw8oBzgIkvRYLLyQGZEn9e5LGoPwegrJoWIDlEVOpLuVj2+gf
+ n0WtF9K6CV5ragN1NEogzGsxva2BsjCGFMsA7FUVNHzce60BlGXDuON3Aem8L2EDxp54
+ cZ7g==
+X-Gm-Message-State: AOAM530q3pustY7lMCym55K6nVhgW0jb6XanUWY+SYC85eE/Un2h6T8i
+ djo5idFGGkn57FgD8Zh1sRjmBEydRO+OTfcDXq7HnGzyjLYTJWTFYDGAfruUzUr/XBYeY20SNMO
+ ZJbKTAEZqavhLvWA=
+X-Received: by 2002:adf:fe4b:: with SMTP id m11mr4281971wrs.136.1637825045254; 
+ Wed, 24 Nov 2021 23:24:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxyy536Vj41geEdmXSB89MMCDnqGaRqmWZOv1AREotV5wBUbJsCdv9YuLnTNTrT4eL1JocGvw==
+X-Received: by 2002:adf:fe4b:: with SMTP id m11mr4281955wrs.136.1637825045097; 
+ Wed, 24 Nov 2021 23:24:05 -0800 (PST)
+Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
+ [188.86.86.233])
+ by smtp.gmail.com with ESMTPSA id d6sm1962242wrx.60.2021.11.24.23.24.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 23:19:27 -0800 (PST)
-Date: Thu, 25 Nov 2021 02:19:21 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 2/2] hw/i386: Rename default_bus_bypass_iommu
-Message-ID: <20211125021619-mutt-send-email-mst@kernel.org>
-References: <20210811085842.2511545-1-jean-philippe@linaro.org>
- <20210811085842.2511545-2-jean-philippe@linaro.org>
- <87tug0pv3a.fsf@dusky.pond.sub.org>
+ Wed, 24 Nov 2021 23:24:04 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v3 01/23] multifd: Delete useless operation
+In-Reply-To: <YZ6JCNdj0G4r3igs@work-vm> (David Alan Gilbert's message of "Wed, 
+ 24 Nov 2021 18:48:40 +0000")
+References: <20211124100617.19786-1-quintela@redhat.com>
+ <20211124100617.19786-2-quintela@redhat.com>
+ <YZ6JCNdj0G4r3igs@work-vm>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Thu, 25 Nov 2021 08:24:03 +0100
+Message-ID: <87ilwgg0ks.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <87tug0pv3a.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,63 +98,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Reply-To: quintela@redhat.com
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 25, 2021 at 08:12:25AM +0100, Markus Armbruster wrote:
-> Michael & Marcel, this patch fixes a bug that became a regression when
-> the fix missed 6.1.  It's been stuck on the list since August.  Please
-> have a look, and if it's good, get it merged.
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> * Juan Quintela (quintela@redhat.com) wrote:
+>> We are divining by page_size to multiply again in the only use.
+>              ^--- typo
+>> Once there, impreve the comments.
+>                   ^--- typo
+>> 
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>
+> OK, with the typo's fixed:
 
+Thanks.
 
-Thanks for the reminder. Jean-Philippe, Cc maintainers
-will help patches get merged in a timely manner in the future.
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>
+> but, could you also explain the  x 2 (that's no worse than the current
+> code); is this defined somewhere in zlib?  I thought there was a routine
+> that told you the worst case?
 
->  I just asked the arm/virt
-> maintainer to do the same for PATCH 1.
+Nowhere.
 
-Some questions below.
+There are pathological cases where it can be worse.  Not clear at all
+how much (ok, for zlib it appears that it is on the order of dozen of
+bytes, because it marks it as uncompressed on the worst possible case),
+For zstd, there is not a clear/fast answer when you google.
 
-> Jean-Philippe Brucker <jean-philippe@linaro.org> writes:
-> 
-> > Since commit d8fb7d0969d5 ("vl: switch -M parsing to keyval"), machine
-> > parameter definitions cannot use underscores, because keyval_dashify()
-> > transforms them to dashes and the parser doesn't find the parameter.
-> >
-> > This affects option default_bus_bypass_iommu which was introduced in the
-> > same release:
-> >
-> > $ qemu-system-x86_64 -M q35,default_bus_bypass_iommu=on
-> > qemu-system-x86_64: Property 'pc-q35-6.1-machine.default-bus-bypass-iommu' not found
+As this buffer is held for the whole migration, it is one for thread,
+this looked safe to me.  Notice that we are compressing 128 pages at a
+time, so for it not to compress anything looks very pathological.
 
-I don't see this behaviour. What did I miss?
+But as one says, better safe than sorry.
 
+If anyone that knows more about zlib/zstd give me different values, I
+will change that in an additional patch.
 
-> > Rename the parameter to "default-bus-bypass-iommu". Passing
-> > "default_bus_bypass_iommu" is still valid since the underscore are
-> > transformed automatically.
-> >
-> > Fixes: c9e96b04fc19 ("hw/i386: Add a default_bus_bypass_iommu pc machine option")
-> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > ---
-> >  hw/i386/pc.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> > index fb24f000e7..ce4756ad59 100644
-> > --- a/hw/i386/pc.c
-> > +++ b/hw/i386/pc.c
-> > @@ -1779,7 +1779,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-> >      object_class_property_add_bool(oc, "hpet",
-> >          pc_machine_get_hpet, pc_machine_set_hpet);
-> >  
-> > -    object_class_property_add_bool(oc, "default_bus_bypass_iommu",
-> > +    object_class_property_add_bool(oc, "default-bus-bypass-iommu",
-> >          pc_machine_get_default_bus_bypass_iommu,
-> >          pc_machine_set_default_bus_bypass_iommu);
-> 
-> 
-> 
+Later, Juan.
 
 
