@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9F345D5C9
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 08:53:58 +0100 (CET)
-Received: from localhost ([::1]:34226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7FC845D5C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 08:53:20 +0100 (CET)
+Received: from localhost ([::1]:33486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mq9Zt-0004nd-Bm
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 02:53:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58796)
+	id 1mq9ZI-0004Hl-10
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 02:53:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mq9N3-0001TW-1p; Thu, 25 Nov 2021 02:40:41 -0500
-Received: from out28-51.mail.aliyun.com ([115.124.28.51]:42729)
+ id 1mq9NW-0001ms-1B; Thu, 25 Nov 2021 02:41:10 -0500
+Received: from out28-1.mail.aliyun.com ([115.124.28.1]:49523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mq9N0-0000rJ-1d; Thu, 25 Nov 2021 02:40:40 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07596586|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.193991-0.000184048-0.805825;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047198; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.LyzEfjn_1637826030; 
+ id 1mq9NT-0000we-5d; Thu, 25 Nov 2021 02:41:09 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07449654|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.0106131-0.000399075-0.988988;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047187; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=8; RT=7; SR=0; TI=SMTPD_---.LyzsCDX_1637826061; 
 Received: from roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.LyzEfjn_1637826030)
- by smtp.aliyun-inc.com(10.147.40.44); Thu, 25 Nov 2021 15:40:31 +0800
+ fp:SMTPD_---.LyzsCDX_1637826061)
+ by smtp.aliyun-inc.com(10.147.43.95); Thu, 25 Nov 2021 15:41:02 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v5 01/22] target/riscv: Adjust pmpcfg access with mxl
-Date: Thu, 25 Nov 2021 15:39:30 +0800
-Message-Id: <20211125073951.57678-2-zhiwei_liu@c-sky.com>
+Subject: [PATCH v5 02/22] target/riscv: Don't save pc when exception return
+Date: Thu, 25 Nov 2021 15:39:31 +0800
+Message-Id: <20211125073951.57678-3-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211125073951.57678-1-zhiwei_liu@c-sky.com>
 References: <20211125073951.57678-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=115.124.28.51; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-51.mail.aliyun.com
+Received-SPF: none client-ip=115.124.28.1; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-1.mail.aliyun.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -55,91 +55,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair.Francis@wdc.com, bin.meng@windriver.com,
+Cc: Alistair Francis <alistair.francis@wdc.com>, bin.meng@windriver.com,
  richard.henderson@linaro.org, palmer@dabbelt.com,
  LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
----
- target/riscv/csr.c | 18 ++++++++++++++++++
- target/riscv/pmp.c | 12 ++++--------
- 2 files changed, 22 insertions(+), 8 deletions(-)
+As pc will be written by the xepc in exception return, just ignore
+pc in translation.
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 9f41954894..ce20c3a970 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1407,9 +1407,22 @@ static RISCVException write_mseccfg(CPURISCVState *env, int csrno,
-     return RISCV_EXCP_NONE;
- }
- 
-+static bool check_pmp_reg_index(CPURISCVState *env, uint32_t reg_index)
-+{
-+    if ((reg_index & 1) && (riscv_cpu_mxl(env) == MXL_RV64)) {
-+        return false;
-+    }
-+    return true;
-+}
-+
- static RISCVException read_pmpcfg(CPURISCVState *env, int csrno,
-                                   target_ulong *val)
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/helper.h                          | 4 ++--
+ target/riscv/insn_trans/trans_privileged.c.inc | 7 ++-----
+ target/riscv/op_helper.c                       | 4 ++--
+ 3 files changed, 6 insertions(+), 9 deletions(-)
+
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index c7a5376227..c5098380dd 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -67,8 +67,8 @@ DEF_HELPER_2(csrr, tl, env, int)
+ DEF_HELPER_3(csrw, void, env, int, tl)
+ DEF_HELPER_4(csrrw, tl, env, int, tl, tl)
+ #ifndef CONFIG_USER_ONLY
+-DEF_HELPER_2(sret, tl, env, tl)
+-DEF_HELPER_2(mret, tl, env, tl)
++DEF_HELPER_1(sret, tl, env)
++DEF_HELPER_1(mret, tl, env)
+ DEF_HELPER_1(wfi, void, env)
+ DEF_HELPER_1(tlb_flush, void, env)
+ #endif
+diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
+index 75c6ef80a6..6077bbbf11 100644
+--- a/target/riscv/insn_trans/trans_privileged.c.inc
++++ b/target/riscv/insn_trans/trans_privileged.c.inc
+@@ -74,10 +74,8 @@ static bool trans_uret(DisasContext *ctx, arg_uret *a)
+ static bool trans_sret(DisasContext *ctx, arg_sret *a)
  {
-+    uint32_t reg_index = csrno - CSR_PMPCFG0;
-+
-+    if (!check_pmp_reg_index(env, reg_index)) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-     *val = pmpcfg_csr_read(env, csrno - CSR_PMPCFG0);
-     return RISCV_EXCP_NONE;
- }
-@@ -1417,6 +1430,11 @@ static RISCVException read_pmpcfg(CPURISCVState *env, int csrno,
- static RISCVException write_pmpcfg(CPURISCVState *env, int csrno,
-                                    target_ulong val)
- {
-+    uint32_t reg_index = csrno - CSR_PMPCFG0;
-+
-+    if (!check_pmp_reg_index(env, reg_index)) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-     pmpcfg_csr_write(env, csrno - CSR_PMPCFG0, val);
-     return RISCV_EXCP_NONE;
- }
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 54abf42583..81b61bb65c 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -463,16 +463,11 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
- {
-     int i;
-     uint8_t cfg_val;
-+    int pmpcfg_nums = 2 << riscv_cpu_mxl(env);
- 
-     trace_pmpcfg_csr_write(env->mhartid, reg_index, val);
- 
--    if ((reg_index & 1) && (sizeof(target_ulong) == 8)) {
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "ignoring pmpcfg write - incorrect address\n");
--        return;
--    }
+ #ifndef CONFIG_USER_ONLY
+-    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
 -
--    for (i = 0; i < sizeof(target_ulong); i++) {
-+    for (i = 0; i < pmpcfg_nums; i++) {
-         cfg_val = (val >> 8 * i)  & 0xff;
-         pmp_write_cfg(env, (reg_index * 4) + i, cfg_val);
-     }
-@@ -490,8 +485,9 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index)
-     int i;
-     target_ulong cfg_val = 0;
-     target_ulong val = 0;
-+    int pmpcfg_nums = 2 << riscv_cpu_mxl(env);
+     if (has_ext(ctx, RVS)) {
+-        gen_helper_sret(cpu_pc, cpu_env, cpu_pc);
++        gen_helper_sret(cpu_pc, cpu_env);
+         tcg_gen_exit_tb(NULL, 0); /* no chaining */
+         ctx->base.is_jmp = DISAS_NORETURN;
+     } else {
+@@ -92,8 +90,7 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
+ static bool trans_mret(DisasContext *ctx, arg_mret *a)
+ {
+ #ifndef CONFIG_USER_ONLY
+-    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
+-    gen_helper_mret(cpu_pc, cpu_env, cpu_pc);
++    gen_helper_mret(cpu_pc, cpu_env);
+     tcg_gen_exit_tb(NULL, 0); /* no chaining */
+     ctx->base.is_jmp = DISAS_NORETURN;
+     return true;
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index ee7c24efe7..095d39671b 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -71,7 +71,7 @@ target_ulong helper_csrrw(CPURISCVState *env, int csr,
  
--    for (i = 0; i < sizeof(target_ulong); i++) {
-+    for (i = 0; i < pmpcfg_nums; i++) {
-         val = pmp_read_cfg(env, (reg_index * 4) + i);
-         cfg_val |= (val << (i * 8));
-     }
+ #ifndef CONFIG_USER_ONLY
+ 
+-target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
++target_ulong helper_sret(CPURISCVState *env)
+ {
+     uint64_t mstatus;
+     target_ulong prev_priv, prev_virt;
+@@ -132,7 +132,7 @@ target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
+     return retpc;
+ }
+ 
+-target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
++target_ulong helper_mret(CPURISCVState *env)
+ {
+     if (!(env->priv >= PRV_M)) {
+         riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
 -- 
 2.25.1
 
