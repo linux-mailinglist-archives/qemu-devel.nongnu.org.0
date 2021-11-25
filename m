@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949B045D23C
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 01:50:44 +0100 (CET)
-Received: from localhost ([::1]:52988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F166245D23F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 01:54:42 +0100 (CET)
+Received: from localhost ([::1]:57362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mq2yJ-0002xs-NX
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 19:50:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49848)
+	id 1mq32A-00063y-4P
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 19:54:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mq2xS-00029T-Oe
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 19:49:50 -0500
-Received: from [2001:738:2001:2001::2001] (port=18453 helo=zero.eik.bme.hu)
+ id 1mq31A-0005E9-Uo; Wed, 24 Nov 2021 19:53:40 -0500
+Received: from [2001:738:2001:2001::2001] (port=21779 helo=zero.eik.bme.hu)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mq2xQ-0006lr-4A
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 19:49:50 -0500
+ id 1mq318-0008PP-Rv; Wed, 24 Nov 2021 19:53:40 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A4B40748F58;
- Thu, 25 Nov 2021 01:49:46 +0100 (CET)
+ by localhost (Postfix) with SMTP id 27ECB7475FA;
+ Thu, 25 Nov 2021 01:53:37 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 688A7748F57; Thu, 25 Nov 2021 01:49:46 +0100 (CET)
+ id 03386746353; Thu, 25 Nov 2021 01:53:37 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 67689748F53;
- Thu, 25 Nov 2021 01:49:46 +0100 (CET)
-Date: Thu, 25 Nov 2021 01:49:46 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 0144C7462D3;
+ Thu, 25 Nov 2021 01:53:36 +0100 (CET)
+Date: Thu, 25 Nov 2021 01:53:36 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-Subject: Re: [PATCH v3 1/3] target/ppc: Fixed call to deferred exception
-In-Reply-To: <20211124172523.3598396-2-lucas.araujo@eldorado.org.br>
-Message-ID: <ad28911-f3e6-a95b-2541-4cacc1a3626e@eik.bme.hu>
+Subject: Re: [PATCH v3 3/3] target/ppc: ppc_store_fpscr doesn't update bits
+ 0 to 28 and 52
+In-Reply-To: <20211124172523.3598396-4-lucas.araujo@eldorado.org.br>
+Message-ID: <dde8d40-7ac9-86b-3a33-334345262aee@eik.bme.hu>
 References: <20211124172523.3598396-1-lucas.araujo@eldorado.org.br>
- <20211124172523.3598396-2-lucas.araujo@eldorado.org.br>
+ <20211124172523.3598396-4-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-Spam-Probability: 8%
@@ -67,167 +66,62 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 24 Nov 2021, Lucas Mateus Castro (alqotel) wrote:
-> mtfsf, mtfsfi and mtfsb1 instructions call helper_float_check_status
-> after updating the value of FPSCR, but helper_float_check_status
-> checks fp_status and fp_status isn't updated based on FPSCR and
-> since the value of fp_status is reset earlier in the instruction,
-> it's always 0.
+> This commit fixes the difference reported in the bug in the reserved
+> bit 52, it does this by adding this bit to the mask of bits to not be
+> directly altered in the ppc_store_fpscr function (the hardware used to
+> compare to QEMU was a Power9).
 >
-> Because of this helper_float_check_status would change the FI bit to 0
-> as this bit checks if the last operation was inexact and
-> float_flag_inexact is always 0.
+> The bits 0 to 27 were also added to the mask, as they are marked as
+> reserved in the PowerISA and bit 28 is a reserved extension of the DRN
+> field (bits 29:31) but can't be set using mtfsfi, while the other DRN
+> bits may be set using mtfsfi instruction, so bit 28 was also added to
+> the mask.
 >
-> These instructions also don't throw exceptions correctly since
-> helper_float_check_status throw exceptions based on fp_status.
->
-> This commit created a new helper, helper_fpscr_check_status that checks
-> FPSCR value instead of fp_status and checks for a larger variety of
-> exceptions than do_float_check_status.
->
-> Since fp_status isn't used, gen_reset_fpstatus() was removed.
->
-> The hardware used to compare QEMU's behavior to was a Power9.
->
-> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-> ---
-> target/ppc/fpu_helper.c            | 48 ++++++++++++++++++++++++++++++
-> target/ppc/helper.h                |  1 +
-> target/ppc/translate/fp-impl.c.inc |  9 ++----
-> 3 files changed, 52 insertions(+), 6 deletions(-)
->
-> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-> index c4896cecc8..bb72715827 100644
-> --- a/target/ppc/fpu_helper.c
-> +++ b/target/ppc/fpu_helper.c
-> @@ -414,6 +414,54 @@ void helper_store_fpscr(CPUPPCState *env, uint64_t val, uint32_t nibbles)
->     ppc_store_fpscr(env, val);
-> }
->
-> +void helper_fpscr_check_status(CPUPPCState *env)
-> +{
-> +    CPUState *cs = env_cpu(env);
-> +    target_ulong fpscr = env->fpscr;
-> +    int error = 0;
-> +
-> +    if ((fpscr & FP_OX) && (fpscr & FP_OE)) {
-> +        error = POWERPC_EXCP_FP_OX;
-> +    } else if ((fpscr & FP_UX) && (fpscr & FP_UE)) {
-> +        error = POWERPC_EXCP_FP_UX;
-> +    } else if ((fpscr & FP_XX) && (fpscr & FP_XE)) {
-> +        error = POWERPC_EXCP_FP_XX;
-> +    } else if ((fpscr & FP_ZX) && (fpscr & FP_ZE)) {
+> Although this is a difference reported in the bug, since it's a reserved
+> bit it may be a "don't care" case, as put in the bug report. Looking at
+> the ISA it doesn't explicitly mentions this bit can't be set, like it
 
-I wonder if these tests could be simplified by combining the masks if you 
-want to test for both bits set so e.g. fpscr & (FP_ZX | FP_ZE) should be 
-the same, shouldn't it?
+doesn't explicitly mention (no s needed)
 
 Regards,
 BALATON Zoltan
 
-> +        error = POWERPC_EXCP_FP_ZX;
-> +    } else if (fpscr & FP_VE) {
-> +        if (fpscr & FP_VXSOFT) {
-> +            error = POWERPC_EXCP_FP_VXSOFT;
-> +        } else if (fpscr & FP_VXSNAN) {
-> +            error = POWERPC_EXCP_FP_VXSNAN;
-> +        } else if (fpscr & FP_VXISI) {
-> +            error = POWERPC_EXCP_FP_VXISI;
-> +        } else if (fpscr & FP_VXIDI) {
-> +            error = POWERPC_EXCP_FP_VXIDI;
-> +        } else if (fpscr & FP_VXZDZ) {
-> +            error = POWERPC_EXCP_FP_VXZDZ;
-> +        } else if (fpscr & FP_VXIMZ) {
-> +            error = POWERPC_EXCP_FP_VXIMZ;
-> +        } else if (fpscr & FP_VXVC) {
-> +            error = POWERPC_EXCP_FP_VXVC;
-> +        } else if (fpscr & FP_VXSQRT) {
-> +            error = POWERPC_EXCP_FP_VXSQRT;
-> +        } else if (fpscr & FP_VXCVI) {
-> +            error = POWERPC_EXCP_FP_VXCVI;
-> +        } else {
-> +            return;
-> +        }
-> +    } else {
-> +        return;
-> +    }
-> +    cs->exception_index = POWERPC_EXCP_PROGRAM;
-> +    env->error_code = error | POWERPC_EXCP_FP;
-> +    /* Deferred floating-point exception after target FPSCR update */
-> +    if (fp_exceptions_enabled(env)) {
-> +        raise_exception_err_ra(env, cs->exception_index,
-> +                               env->error_code, GETPC());
-> +    }
-> +}
-> +
-> static void do_float_check_status(CPUPPCState *env, uintptr_t raddr)
+> does for FEX and VX, so I'm unsure if this is necessary.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/266
+> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+> ---
+> target/ppc/cpu.c | 2 +-
+> target/ppc/cpu.h | 4 ++++
+> 2 files changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+> index f933d9f2bd..d7b42bae52 100644
+> --- a/target/ppc/cpu.c
+> +++ b/target/ppc/cpu.c
+> @@ -112,7 +112,7 @@ static inline void fpscr_set_rounding_mode(CPUPPCState *env)
+>
+> void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
 > {
->     CPUState *cs = env_cpu(env);
-> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index 627811cefc..632a81c676 100644
-> --- a/target/ppc/helper.h
-> +++ b/target/ppc/helper.h
-> @@ -63,6 +63,7 @@ DEF_HELPER_FLAGS_1(cntlzw32, TCG_CALL_NO_RWG_SE, i32, i32)
-> DEF_HELPER_FLAGS_2(brinc, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+> -    val &= ~(FP_VX | FP_FEX);
+> +    val &= FPSCR_MTFS_MASK;
+>     if (val & FPSCR_IX) {
+>         val |= FP_VX;
+>     }
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index e946da5f3a..441d3dce19 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -759,6 +759,10 @@ enum {
+>                           FP_VXZDZ  | FP_VXIMZ  | FP_VXVC   | FP_VXSOFT | \
+>                           FP_VXSQRT | FP_VXCVI)
 >
-> DEF_HELPER_1(float_check_status, void, env)
-> +DEF_HELPER_1(fpscr_check_status, void, env)
-> DEF_HELPER_1(reset_fpstatus, void, env)
-> DEF_HELPER_2(compute_fprf_float64, void, env, i64)
-> DEF_HELPER_3(store_fpscr, void, env, i64, i32)
-> diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-> index d1dbb1b96b..ca195fd9d2 100644
-> --- a/target/ppc/translate/fp-impl.c.inc
-> +++ b/target/ppc/translate/fp-impl.c.inc
-> @@ -769,7 +769,6 @@ static void gen_mtfsb1(DisasContext *ctx)
->         return;
->     }
->     crb = 31 - crbD(ctx->opcode);
-> -    gen_reset_fpstatus();
->     /* XXX: we pretend we can only do IEEE floating-point computations */
->     if (likely(crb != FPSCR_FEX && crb != FPSCR_VX && crb != FPSCR_NI)) {
->         TCGv_i32 t0;
-> @@ -782,7 +781,7 @@ static void gen_mtfsb1(DisasContext *ctx)
->         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
->     }
->     /* We can raise a deferred exception */
-> -    gen_helper_float_check_status(cpu_env);
-> +    gen_helper_fpscr_check_status(cpu_env);
-> }
->
-> /* mtfsf */
-> @@ -803,7 +802,6 @@ static void gen_mtfsf(DisasContext *ctx)
->         gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);
->         return;
->     }
-> -    gen_reset_fpstatus();
->     if (l) {
->         t0 = tcg_const_i32((ctx->insns_flags2 & PPC2_ISA205) ? 0xffff : 0xff);
->     } else {
-> @@ -818,7 +816,7 @@ static void gen_mtfsf(DisasContext *ctx)
->         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
->     }
->     /* We can raise a deferred exception */
-> -    gen_helper_float_check_status(cpu_env);
-> +    gen_helper_fpscr_check_status(cpu_env);
->     tcg_temp_free_i64(t1);
-> }
->
-> @@ -840,7 +838,6 @@ static void gen_mtfsfi(DisasContext *ctx)
->         return;
->     }
->     sh = (8 * w) + 7 - bf;
-> -    gen_reset_fpstatus();
->     t0 = tcg_const_i64(((uint64_t)FPIMM(ctx->opcode)) << (4 * sh));
->     t1 = tcg_const_i32(1 << sh);
->     gen_helper_store_fpscr(cpu_env, t0, t1);
-> @@ -851,7 +848,7 @@ static void gen_mtfsfi(DisasContext *ctx)
->         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
->     }
->     /* We can raise a deferred exception */
-> -    gen_helper_float_check_status(cpu_env);
-> +    gen_helper_fpscr_check_status(cpu_env);
-> }
->
-> static void gen_qemu_ld32fs(DisasContext *ctx, TCGv_i64 dest, TCGv addr)
+> +/* FPSCR bits that can be set by mtfsf, mtfsfi and mtfsb1 */
+> +#define FPSCR_MTFS_MASK (~(MAKE_64BIT_MASK(36, 28) | PPC_BIT(28) |        \
+> +                           FP_FEX | FP_VX | PPC_BIT(52)))
+> +
+> /*****************************************************************************/
+> /* Vector status and control register */
+> #define VSCR_NJ         16 /* Vector non-java */
 >
 
