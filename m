@@ -2,106 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F5E45DBCA
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 15:00:18 +0100 (CET)
-Received: from localhost ([::1]:47218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5121445DBDC
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 15:04:29 +0100 (CET)
+Received: from localhost ([::1]:54748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqFIP-00054y-0d
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 09:00:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46694)
+	id 1mqFMS-000204-38
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 09:04:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mqFEI-00074N-JI
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 08:56:06 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55466)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mqFFz-0001uv-F6
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 08:57:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mqFEG-0000wZ-Nr
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 08:56:02 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1APDaVoA004735
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 13:55:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=pbKEjwcg4wM+uxpWIvPqbXmNelqq/Szt6MM8lo3/wrA=;
- b=KOgfQXAlKsSrWbDlhAy+HdLq8na8PwKQMFA2kfeGsXJ+JI1CjMbPo1A2jh6okhjGrICi
- ubIy31TDqEx/qZh9Le85/3mB7NLmUe/GvAi12MXENLOUiY9TpJl7FtzDI0OTkWch1F1b
- 6ejD8r4IoCfQuKsnxxekTdaBD1ewfIXestpjHqCOX2h8Tn0g50J5VcrPtCywfJjYx1lS
- +tUCg5TXAOBC+ACi02aE9PIKcFL/yc9m4JEQvPUEQLcjBG4p7FLSYx870Dn23HyoTy9W
- 67Nt2ZeahpSRqJfs0ln8QLzojbBvVioihRKAbPFtdV2xby0Jq2Km7Xx4i7gWzbctoeWy Ig== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cj2vqjyv8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 13:55:58 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1APDoTsD012630
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 13:55:58 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cj2vqjyuw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Nov 2021 13:55:58 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1APDr5R9003232;
- Thu, 25 Nov 2021 13:55:57 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma04wdc.us.ibm.com with ESMTP id 3cernc6k6q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Nov 2021 13:55:57 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1APDttiI19596014
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 25 Nov 2021 13:55:55 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D68AB28065;
- Thu, 25 Nov 2021 13:55:55 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 54C8428064;
- Thu, 25 Nov 2021 13:55:51 +0000 (GMT)
-Received: from [9.65.80.116] (unknown [9.65.80.116])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 25 Nov 2021 13:55:50 +0000 (GMT)
-Message-ID: <7094b418-356f-5cb4-c4d8-745dbe0ca97c@linux.ibm.com>
-Date: Thu, 25 Nov 2021 15:55:46 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mqFFx-00018P-Hq
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 08:57:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637848664;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0PdKLQgjpEyuaIfLcRaBORP/LudCwrOPgMJNcfEB26Y=;
+ b=WKiBNsMupmZQBiIpYRIWNUQxbxeJjIn+90ZJDiAlA3KhMMAp7KN49Gxh7k1/mpGxRvq+Fw
+ U8CgnxB8HSAJzBeA92cX0o7DP/dRswimuvMUzhouseDl3edQ68YXWXYjK7KyWEQQBmYz5+
+ YYl3kpr/yVXTsEnKb0DFhavEx6ptvUw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-559-3Q9NmTOvOBKXwXFgTLG7EQ-1; Thu, 25 Nov 2021 08:57:41 -0500
+X-MC-Unique: 3Q9NmTOvOBKXwXFgTLG7EQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93BCE102CC42;
+ Thu, 25 Nov 2021 13:57:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 09369694D8;
+ Thu, 25 Nov 2021 13:56:50 +0000 (UTC)
+Date: Thu, 25 Nov 2021 13:56:47 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Dov Murik <dovmurik@linux.ibm.com>
 Subject: Re: SEV guest attestation
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Sergio Lopez <slp@redhat.com>
+Message-ID: <YZ+WH9NxgucH4hoO@redhat.com>
 References: <YZ58+T04uVXaO2Ab@redhat.com> <YZ6Ec0yG82nhbN+B@work-vm>
- <20211125071428.dpnavgxd3w4bzktr@mhamilton> <YZ+VAotzIOwUjMc8@redhat.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-In-Reply-To: <YZ+VAotzIOwUjMc8@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+ <YZ+PNJRcyPGX4KAM@redhat.com>
+ <9c4fe1fe-cdb5-d991-439f-393e9a6f66bd@linux.ibm.com>
+MIME-Version: 1.0
+In-Reply-To: <9c4fe1fe-cdb5-d991-439f-393e9a6f66bd@linux.ibm.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: fGVL9R3IuoxH2o3rkvSfGxo27bQTlJwj
-X-Proofpoint-ORIG-GUID: yldm0pcPn7s7F6PgIeD6NUFd1HUh793T
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-25_05,2021-11-25_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 adultscore=0
- phishscore=0 lowpriorityscore=0 priorityscore=1501 impostorscore=0
- malwarescore=0 bulkscore=0 clxscore=1015 mlxscore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111250074
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.1,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,62 +84,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: afrosi@redhat.com, James Bottomley <jejb@linux.ibm.com>,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: slp@redhat.com, afrosi@redhat.com,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Dov Murik <dovmurik@linux.ibm.com>, Tyler Fanelli <tfanelli@redhat.com>,
- dinechin@redhat.com, John Ferlan <jferlan@redhat.com>
+ Tyler Fanelli <tfanelli@redhat.com>, dinechin@redhat.com,
+ John Ferlan <jferlan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Nov 25, 2021 at 03:50:46PM +0200, Dov Murik wrote:
+> 
+> 
+> On 25/11/2021 15:27, Daniel P. Berrangé wrote:
+> > On Wed, Nov 24, 2021 at 06:29:07PM +0000, Dr. David Alan Gilbert wrote:
+> >> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> >>> On Wed, Nov 24, 2021 at 11:34:16AM -0500, Tyler Fanelli wrote:
+> >>>> Hi,
+> >>>>
+> >>>> We recently discussed a way for remote SEV guest attestation through QEMU.
+> >>>> My initial approach was to get data needed for attestation through different
+> >>>> QMP commands (all of which are already available, so no changes required
+> >>>> there), deriving hashes and certificate data; and collecting all of this
+> >>>> into a new QMP struct (SevLaunchStart, which would include the VM's policy,
+> >>>> secret, and GPA) which would need to be upstreamed into QEMU. Once this is
+> >>>> provided, QEMU would then need to have support for attestation before a VM
+> >>>> is started. Upon speaking to Dave about this proposal, he mentioned that
+> >>>> this may not be the best approach, as some situations would render the
+> >>>> attestation unavailable, such as the instance where a VM is running in a
+> >>>> cloud, and a guest owner would like to perform attestation via QMP (a likely
+> >>>> scenario), yet a cloud provider cannot simply let anyone pass arbitrary QMP
+> >>>> commands, as this could be an issue.
+> >>>
+> >>> As a general point, QMP is a low level QEMU implementation detail,
+> >>> which is generally expected to be consumed exclusively on the host
+> >>> by a privileged mgmt layer, which will in turn expose its own higher
+> >>> level APIs to users or other apps. I would not expect to see QMP
+> >>> exposed to anything outside of the privileged host layer.
+> >>>
+> >>> We also use the QAPI protocol for QEMU guest agent commmunication,
+> >>> however, that is a distinct service from QMP on the host. It shares
+> >>> most infra with QMP but has a completely diffent command set. On the
+> >>> host it is not consumed inside QEMU, but instead consumed by a
+> >>> mgmt app like libvirt. 
+> >>>
+> >>>> So I ask, does anyone involved in QEMU's SEV implementation have any input
+> >>>> on a quality way to perform guest attestation? If so, I'd be interested.
+> >>>
+> >>> I think what's missing is some clearer illustrations of how this
+> >>> feature is expected to be consumed in some real world application
+> >>> and the use cases we're trying to solve.
+> >>>
+> >>> I'd like to understand how it should fit in with common libvirt
+> >>> applications across the different virtualization management
+> >>> scenarios - eg virsh (command line),  virt-manger (local desktop
+> >>> GUI), cockpit (single host web mgmt), OpenStack (cloud mgmt), etc.
+> >>> And of course any non-traditional virt use cases that might be
+> >>> relevant such as Kata.
+> >>
+> >> That's still not that clear; I know Alice and Sergio have some ideas
+> >> (cc'd).
+> >> There's also some standardisation efforts (e.g. https://www.potaroo.net/ietf/html/ids-wg-rats.html 
+> >> and https://www.ietf.org/archive/id/draft-ietf-rats-architecture-00.html
+> >> ) - that I can't claim to fully understand.
+> >> However, there are some themes that are emerging:
+> >>
+> >>   a) One use is to only allow a VM to access some private data once we
+> >> prove it's the VM we expect running in a secure/confidential system
+> >>   b) (a) normally involves requesting some proof from the VM and then
+> >> providing it some confidential data/a key if it's OK
+> > 
+> > I guess I'm wondering what the threat we're protecting against is,
+> > and / or which pieces of the stack we can trust ?
+> > 
+> > eg, if the host has 2 VMs running, we verify the 1st and provide
+> > its confidental data back to the host, what stops the host giving
+> > that dat to the 2nd non-verified VM ? 
+> 
+> The host can't read the injected secret: It is encrypted with a key that
+> is available only to the PSP.  The PSP receives it and writes it in a
+> guest-encrypted memory (which the host also cannot read; for the guest
+> it's a simple memory access with C-bit=1).  So it's a per-vm-invocation
+> secret.
 
+Is there some way the PSP verifies which VM is supposed to receive
+the injected data. ie the host can't read it, but it can tell the
+PSP to inject it to VM B instead of VM A.
 
-On 25/11/2021 15:52, Daniel P. Berrangé wrote:
-> On Thu, Nov 25, 2021 at 08:14:28AM +0100, Sergio Lopez wrote:
->> For SEV-SNP, this is pretty much the end of the story, because the
->> attestation exchange is driven by an agent inside the guest. Well,
->> there's also the need to have in the VM a well-known vNIC bridged to a
->> network that's routed to the Attestation Server, that everyone seems
->> to consider a given, but to me, from a CSP perspective, looks like
->> quite a headache. In fact, I'd go as far as to suggest this
->> communication should happen through an alternative channel, such as
->> vsock, having a proxy on the Host, but I guess that depends on the CSP
->> infrastructure.
+> > Presumably the data has to be encrypted with a key that is uniquely
+> > tied to this specific boot attempt of the verified VM, and not
+> > accessible to any other VM, or to future boots of this VM ?
 > 
-> Allowing network connections from inside the VM, to any kind
-> of host side mgmt LAN services is a big no for some cloud hosts.
-> 
-> They usually desire for any guest network connectivity to be
-> associated with a VLAN/network segment that is strictly isolated
-> from any host mgmt LAN.
-> 
-> OpenStack provides a virtual CCDROM for injecting cloud-init
-> metadata as an alternative to the network based metadata REST
-> service, since they latter often isn't deployed.
-> 
-> Similarly for virtual filesystems, we've designed virtiofs,
-> rather than relying on a 2nd NIC combined with NFS.
-> 
-> We cannot assume availability of a real network device for the
-> attestation. If one does exist fine, but there needs to be an
-> alternative option that can be used.
-> 
-> 
-> On a slightly different topic - if the attestation is driven
-> from an agent inside the guest, this seems to imply we let the
-> guest vCPUs start beforre attestation is done. Contrary to
-> the SEV/SEV-ES where we seem to be wanting vCPUs to remain
-> in the stopped state until attestation is complete & secrets
-> provided.  If the vCPUs are started, is there some mechanism
-> to restrict what can be done  before attestation is complete?
+> Yes, launch blob, which (if I recall correctly) the Guest Owner should
+> generate and give to the Cloud Provider so it can start a VM with it
+> (this is one of the options on the sev-guest object).
 
-The only mechanism is to design the workload in the Guest in a way that
-it can't do anything meaningful until the secret is injected, and the
-Attestation Server will release the secret only if a proper attestation
-report is presented.
+Does something stop the host from booting a 2nd VM on the side with
+the same launch blob, and thus be able to also tell the PSP to inject
+the secret data into this 2nd VM later too ?
 
-James (cc'd) wants to move this attestation check as early as possible
---> "to restrict what can be done before attestation is complete".
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-
--Dov
 
