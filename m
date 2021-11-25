@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D5045DCFA
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 16:11:15 +0100 (CET)
-Received: from localhost ([::1]:45020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA18945DD12
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 16:14:40 +0100 (CET)
+Received: from localhost ([::1]:53686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqGP4-00060u-KG
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 10:11:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37278)
+	id 1mqGSM-0003TA-VF
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 10:14:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mqGMV-0002di-8y; Thu, 25 Nov 2021 10:08:35 -0500
-Received: from [2607:f8b0:4864:20::929] (port=38436
- helo=mail-ua1-x929.google.com)
+ id 1mqGMX-0002kc-V2; Thu, 25 Nov 2021 10:08:37 -0500
+Received: from [2607:f8b0:4864:20::92d] (port=41578
+ helo=mail-ua1-x92d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mqGMT-00020v-92; Thu, 25 Nov 2021 10:08:35 -0500
-Received: by mail-ua1-x929.google.com with SMTP id w23so12927156uao.5;
- Thu, 25 Nov 2021 07:08:32 -0800 (PST)
+ id 1mqGMV-00021E-36; Thu, 25 Nov 2021 10:08:37 -0500
+Received: by mail-ua1-x92d.google.com with SMTP id p37so12907286uae.8;
+ Thu, 25 Nov 2021 07:08:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1jT+EAhjZBgR8sNMY7uDNM+3Z55BOM4YqtCLLIcWG9o=;
- b=cBoikFpWZOtIZlq1ofnJCEwfYq4LfS3irMzVQa4WG+Bg27wp/Vx69dDtEMgz9gDMCU
- h+LU+ON0GxUVAhT5jGpzGFzmEwZaHHBH6ISsAWElPAwT5O/PaVXUyHUZmC3DNfxxXflA
- aUD2PVX7GYsqpGUD2qAwVKaXvKhieIf6hTLsynYoO2KSP3Ws7yyxobEkhndwi+znJ7p/
- 20+QxDtb76kmSQ3GRN++2h8IHs9UH7nDbMAwRx6I5e41Gstb2EDPnpCBOsbaZGbyg6n0
- 7dXkp/Bo1bxXS4qAgKG6qLBt/66zIpTt0Qd0hIYg8qB/OJH4/zlPDPZ8bun8YH7chJ/m
- nU8Q==
+ bh=JJp0Tq3btpoN+1I5qz1E8NsCamjwSSIbZkAE2qBHSuM=;
+ b=L+WvbzUw5UkvlZMryBTmC5LLZq+R9gWmkeoul/vzF5ZpWhgKLEisPYnsrnCeG23hYU
+ 3t0p5liRAjjcpFfJ8l5F+aptHHsPoFbVf8SDm0w4bgX1CK3p2sSugFFt6mLN7WM13L2r
+ lDY5Iq5qPGetC9WIuxB2O1sfqofVORp/sgmMJyQTaNRdY/Un6J5Jja+ylvtDXcieULhf
+ 4um28OUovLlf6vTK7gyXkgAM+K7SRGto2XwjGDI9hRG+p7beRbSjOHrjLc7ICVGEjoSJ
+ nlwuvH7vhsJFAGbmAykpm5uPszEWMjDrujs58/sbmtTjybxdMj3qw/nyLGSOfjmRJOv9
+ YmLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1jT+EAhjZBgR8sNMY7uDNM+3Z55BOM4YqtCLLIcWG9o=;
- b=OuPLyuZjTeErPdlB+fBmSpRCW4NzcsZGboIhI2rtxrQvKKqlQFMjvQvOz+OeyOuXrf
- SWlhho3WSDCZjvKa21oS2ZFmYnTSZajMLPSnmGHQmdtWbDrkrfrNNsW+ewkS4C+7KQ4A
- xglViCIsh79Nx9ZUH1I9pCMsfH0dK1hEOlAxunE851yAXef+Mwvp08gtkKRaA3sIS2uA
- B4jTU2umxeHK9D/KgPkRLtxsSIgsA536TSdF9FoD8OIq81H1e5dI/VbYne2wYYxajp3g
- 333y7JIUMaMQh5g5htgsCZdbRo/Bb/pcQOnCijQhyehRGATw9ZyZctRfIQ6d1jhYmGWI
- KCFQ==
-X-Gm-Message-State: AOAM530odRV1718PX3FU58mOZakUmsXDqi+srGNY1ysx3F6U6VyohvDQ
- cgw8JZrVdMgqKuMt5LNfVYgvVP4aD04=
-X-Google-Smtp-Source: ABdhPJwN3caJh4koejbQdtfIV7cI/Au7WWeR5v+oNgFdEN2lkubPKTSgymv0itOPdZlzm7RHifhHZQ==
-X-Received: by 2002:a05:6102:358b:: with SMTP id
- h11mr10073559vsu.24.1637852911809; 
- Thu, 25 Nov 2021 07:08:31 -0800 (PST)
+ bh=JJp0Tq3btpoN+1I5qz1E8NsCamjwSSIbZkAE2qBHSuM=;
+ b=g2HJMDFKTw7PyQciJafnZbcLaOSrv8HG/XpeMP3hhuJxpyB3RUVctrdRwYALh+uY6m
+ ZP7Ok3f1zVpZMLu6Uv/27IPeVIRIX9lu7tHKMhuCHynLkL+YXwyF8bZXaLTVBTx9tHGt
+ qqxzUW5CadTQsTeZWc8O1O7/C0Q3GzAdmAOasNWpLTVDo60Tlrt7eKBG7Z0D5nZB5lyK
+ 9TUx/ZF4vg0v/gMApfPeY0/jJ60YyQmwwqfrDr4901s/5mQSS/5FUJtIly8UL+MFNHGj
+ cfABKyKy8Kdn3qXbEybAwihJf11x3lA3vQNYWrIAsKopIrQZTooRxdDVt9AxXvwh1tI8
+ Fkyg==
+X-Gm-Message-State: AOAM5337mqATFploa116OaaweXsdGaFe21sVzA3K9UgKb6kR+nEzJs0Q
+ OjaeQsnQIPKpE/j/56If/9TE8ugR6J4=
+X-Google-Smtp-Source: ABdhPJyoPQb9TC3iWOER3ls3TbgDwzgJFYDdlGP2ZkMVY11Ywojenbrgv+tEtX8kX+AItB1DsazNwQ==
+X-Received: by 2002:a67:e44e:: with SMTP id n14mr10250479vsm.55.1637852913834; 
+ Thu, 25 Nov 2021 07:08:33 -0800 (PST)
 Received: from rekt.ibmuc.com ([191.19.215.188])
- by smtp.gmail.com with ESMTPSA id i27sm2081057uab.8.2021.11.25.07.08.29
+ by smtp.gmail.com with ESMTPSA id i27sm2081057uab.8.2021.11.25.07.08.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Nov 2021 07:08:31 -0800 (PST)
+ Thu, 25 Nov 2021 07:08:33 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 02/10] target/ppc: PMU basic cycle count for pseries TCG
-Date: Thu, 25 Nov 2021 12:08:09 -0300
-Message-Id: <20211125150817.573204-3-danielhb413@gmail.com>
+Subject: [PATCH v8 03/10] target/ppc: PMU: update counters on PMCs r/w
+Date: Thu, 25 Nov 2021 12:08:10 -0300
+Message-Id: <20211125150817.573204-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211125150817.573204-1-danielhb413@gmail.com>
 References: <20211125150817.573204-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x929.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92d;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92d.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -91,326 +90,183 @@ Cc: richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds the barebones of the PMU logic by enabling cycle
-counting. The overall logic goes as follows:
+Calling pmu_update_cycles() on every PMC read/write operation ensures
+that the values being fetched are up to date with the current PMU state.
 
-- MMCR0 reg initial value is set to 0x80000000 (MMCR0_FC set) to avoid
-having to spin the PMU right at system init;
-
-- to retrieve the events that are being profiled, pmc_get_event() will
-check the current MMCR0 and MMCR1 value and return the appropriate
-PMUEventType. For PMCs 1-4, event 0x2 is the implementation dependent
-value of PMU_EVENT_INSTRUCTIONS and event 0x1E is the implementation
-dependent value of PMU_EVENT_CYCLES. These events are supported by IBM
-Power chips since Power8, at least, and the Linux Perf driver makes use
-of these events until kernel v5.15. For PMC1, event 0xF0 is the
-architected PowerISA event for cycles. Event 0xFE is the architected
-PowerISA event for instructions;
-
-- if the counter is frozen, either via the global MMCR0_FC bit or its
-individual frozen counter bit, PMU_EVENT_INACTIVE is returned;
-
-- pmu_update_cycles() will go through each counter and update the
-values of all PMCs that are counting cycles. This function will be
-called every time a MMCR0 update is done to keep counters values
-up to date. Upcoming patches will use this function to allow the
-counters to be properly updated during read/write of the PMCs
-and MMCR1 writes.
-
-Given that the base CPU frequency is fixed at 1Ghz for both powernv and
-pseries clock, cycle calculation assumes that 1 nanosecond equals 1 CPU
-cycle. Cycle value is then calculated by adding the elapsed time, in
-nanoseconds, of the last cycle update done via pmu_update_cycles().
+In theory we can get away by just trapping PMCs reads, but we're going
+to trap PMC writes to deal with counter overflow logic later on.  Let's
+put the required wiring for that and make our lives a bit easier in the
+next patches.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h                 |  20 +++++
- target/ppc/cpu_init.c            |   6 +-
- target/ppc/helper.h              |   1 +
- target/ppc/power8-pmu-regs.c.inc |  23 +++++-
- target/ppc/power8-pmu.c          | 122 +++++++++++++++++++++++++++++++
- target/ppc/spr_tcg.h             |   1 +
- 6 files changed, 169 insertions(+), 4 deletions(-)
+ target/ppc/cpu_init.c            | 12 ++++++------
+ target/ppc/helper.h              |  2 ++
+ target/ppc/power8-pmu-regs.c.inc | 29 +++++++++++++++++++++++++++--
+ target/ppc/power8-pmu.c          | 14 ++++++++++++++
+ target/ppc/spr_tcg.h             |  2 ++
+ 5 files changed, 51 insertions(+), 8 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 2ad47b06d0..9c732953f0 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -361,6 +361,9 @@ typedef enum {
- #define MMCR0_FCECE  PPC_BIT(38)         /* FC on Enabled Cond or Event */
- #define MMCR0_PMCC0  PPC_BIT(44)         /* PMC Control bit 0 */
- #define MMCR0_PMCC1  PPC_BIT(45)         /* PMC Control bit 1 */
-+#define MMCR0_PMCC   PPC_BITMASK(44, 45) /* PMC Control */
-+#define MMCR0_FC14   PPC_BIT(58)         /* PMC Freeze Counters 1-4 bit */
-+#define MMCR0_FC56   PPC_BIT(59)         /* PMC Freeze Counters 5-6 bit */
- /* MMCR0 userspace r/w mask */
- #define MMCR0_UREG_MASK (MMCR0_FC | MMCR0_PMAO | MMCR0_PMAE)
- /* MMCR2 userspace r/w mask */
-@@ -373,6 +376,17 @@ typedef enum {
- #define MMCR2_UREG_MASK (MMCR2_FC1P0 | MMCR2_FC2P0 | MMCR2_FC3P0 | \
-                          MMCR2_FC4P0 | MMCR2_FC5P0 | MMCR2_FC6P0)
- 
-+#define MMCR1_EVT_SIZE 8
-+/* extract64() does a right shift before extracting */
-+#define MMCR1_PMC1SEL_START 32
-+#define MMCR1_PMC1EVT_EXTR (64 - MMCR1_PMC1SEL_START - MMCR1_EVT_SIZE)
-+#define MMCR1_PMC2SEL_START 40
-+#define MMCR1_PMC2EVT_EXTR (64 - MMCR1_PMC2SEL_START - MMCR1_EVT_SIZE)
-+#define MMCR1_PMC3SEL_START 48
-+#define MMCR1_PMC3EVT_EXTR (64 - MMCR1_PMC3SEL_START - MMCR1_EVT_SIZE)
-+#define MMCR1_PMC4SEL_START 56
-+#define MMCR1_PMC4EVT_EXTR (64 - MMCR1_PMC4SEL_START - MMCR1_EVT_SIZE)
-+
- /* LPCR bits */
- #define LPCR_VPM0         PPC_BIT(0)
- #define LPCR_VPM1         PPC_BIT(1)
-@@ -1207,6 +1221,12 @@ struct CPUPPCState {
-      * when counting cycles.
-      */
-     QEMUTimer *pmu_cyc_overflow_timers[PMU_TIMERS_NUM];
-+
-+    /*
-+     * PMU base time value used by the PMU to calculate
-+     * running cycles.
-+     */
-+    uint64_t pmu_base_time;
- };
- 
- #define SET_FIT_PERIOD(a_, b_, c_, d_)          \
 diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 9610e65c76..e0b6fe4057 100644
+index e0b6fe4057..a7f47ec322 100644
 --- a/target/ppc/cpu_init.c
 +++ b/target/ppc/cpu_init.c
-@@ -6821,8 +6821,8 @@ static void register_book3s_pmu_sup_sprs(CPUPPCState *env)
- {
-     spr_register_kvm(env, SPR_POWER_MMCR0, "MMCR0",
+@@ -6833,27 +6833,27 @@ static void register_book3s_pmu_sup_sprs(CPUPPCState *env)
+                      KVM_REG_PPC_MMCRA, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_PMC1, "PMC1",
                       SPR_NOACCESS, SPR_NOACCESS,
 -                     &spr_read_generic, &spr_write_generic,
--                     KVM_REG_PPC_MMCR0, 0x00000000);
-+                     &spr_read_generic, &spr_write_MMCR0,
-+                     KVM_REG_PPC_MMCR0, 0x80000000);
-     spr_register_kvm(env, SPR_POWER_MMCR1, "MMCR1",
++                     &spr_read_PMC, &spr_write_PMC,
+                      KVM_REG_PPC_PMC1, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_PMC2, "PMC2",
                       SPR_NOACCESS, SPR_NOACCESS,
-                      &spr_read_generic, &spr_write_generic,
-@@ -6870,7 +6870,7 @@ static void register_book3s_pmu_user_sprs(CPUPPCState *env)
-     spr_register(env, SPR_POWER_UMMCR0, "UMMCR0",
-                  &spr_read_MMCR0_ureg, &spr_write_MMCR0_ureg,
-                  &spr_read_ureg, &spr_write_ureg,
--                 0x00000000);
-+                 0x80000000);
-     spr_register(env, SPR_POWER_UMMCR1, "UMMCR1",
-                  &spr_read_ureg, SPR_NOACCESS,
-                  &spr_read_ureg, &spr_write_ureg,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_PMC, &spr_write_PMC,
+                      KVM_REG_PPC_PMC2, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_PMC3, "PMC3",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_PMC, &spr_write_PMC,
+                      KVM_REG_PPC_PMC3, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_PMC4, "PMC4",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_PMC, &spr_write_PMC,
+                      KVM_REG_PPC_PMC4, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_PMC5, "PMC5",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_PMC, &spr_write_PMC,
+                      KVM_REG_PPC_PMC5, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_PMC6, "PMC6",
+                      SPR_NOACCESS, SPR_NOACCESS,
+-                     &spr_read_generic, &spr_write_generic,
++                     &spr_read_PMC, &spr_write_PMC,
+                      KVM_REG_PPC_PMC6, 0x00000000);
+     spr_register_kvm(env, SPR_POWER_SIAR, "SIAR",
+                      SPR_NOACCESS, SPR_NOACCESS,
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 627811cefc..ea60a7493c 100644
+index ea60a7493c..d7567f75b4 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -20,6 +20,7 @@ DEF_HELPER_1(rfscv, void, env)
- DEF_HELPER_1(hrfid, void, env)
+@@ -21,6 +21,8 @@ DEF_HELPER_1(hrfid, void, env)
  DEF_HELPER_2(store_lpcr, void, env, tl)
  DEF_HELPER_2(store_pcr, void, env, tl)
-+DEF_HELPER_2(store_mmcr0, void, env, tl)
+ DEF_HELPER_2(store_mmcr0, void, env, tl)
++DEF_HELPER_3(store_pmc, void, env, i32, i64)
++DEF_HELPER_2(read_pmc, tl, env, i32)
  #endif
  DEF_HELPER_1(check_tlb_flush_local, void, env)
  DEF_HELPER_1(check_tlb_flush_global, void, env)
 diff --git a/target/ppc/power8-pmu-regs.c.inc b/target/ppc/power8-pmu-regs.c.inc
-index 7391851238..fbb8977641 100644
+index fbb8977641..f0c9cc343b 100644
 --- a/target/ppc/power8-pmu-regs.c.inc
 +++ b/target/ppc/power8-pmu-regs.c.inc
-@@ -104,6 +104,17 @@ void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn)
-     tcg_temp_free(t0);
- }
- 
-+static void write_MMCR0_common(DisasContext *ctx, TCGv val)
-+{
-+    /*
-+     * helper_store_mmcr0 will make clock based operations that
-+     * will cause 'bad icount read' errors if we do not execute
-+     * gen_icount_io_start() beforehand.
-+     */
-+    gen_icount_io_start(ctx);
-+    gen_helper_store_mmcr0(cpu_env, val);
-+}
-+
- void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
- {
-     TCGv masked_gprn;
-@@ -119,7 +130,7 @@ void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
-      */
-     masked_gprn = masked_gprn_for_spr_write(gprn, SPR_POWER_MMCR0,
-                                             MMCR0_UREG_MASK);
--    gen_store_spr(SPR_POWER_MMCR0, masked_gprn);
-+    write_MMCR0_common(ctx, masked_gprn);
- 
+@@ -181,13 +181,23 @@ void spr_write_MMCR2_ureg(DisasContext *ctx, int sprn, int gprn)
      tcg_temp_free(masked_gprn);
  }
-@@ -219,6 +230,11 @@ void spr_write_PMC56_ureg(DisasContext *ctx, int sprn, int gprn)
-     /* The remaining steps are similar to PMCs 1-4 userspace write */
-     spr_write_PMC14_ureg(ctx, sprn, gprn);
- }
-+
-+void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
+ 
++void spr_read_PMC(DisasContext *ctx, int gprn, int sprn)
 +{
-+    write_MMCR0_common(ctx, cpu_gpr[gprn]);
++    TCGv_i32 t_sprn = tcg_const_i32(sprn);
++
++    gen_icount_io_start(ctx);
++    gen_helper_read_pmc(cpu_gpr[gprn], cpu_env, t_sprn);
++
++    tcg_temp_free_i32(t_sprn);
 +}
- #else
- void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn)
++
+ void spr_read_PMC14_ureg(DisasContext *ctx, int gprn, int sprn)
  {
-@@ -259,4 +275,9 @@ void spr_write_PMC56_ureg(DisasContext *ctx, int sprn, int gprn)
+     if (!spr_groupA_read_allowed(ctx)) {
+         return;
+     }
+ 
+-    spr_read_ureg(ctx, gprn, sprn);
++    spr_read_PMC(ctx, gprn, sprn + 0x10);
+ }
+ 
+ void spr_read_PMC56_ureg(DisasContext *ctx, int gprn, int sprn)
+@@ -206,13 +216,23 @@ void spr_read_PMC56_ureg(DisasContext *ctx, int gprn, int sprn)
+     spr_read_PMC14_ureg(ctx, gprn, sprn);
+ }
+ 
++void spr_write_PMC(DisasContext *ctx, int sprn, int gprn)
++{
++    TCGv_i32 t_sprn = tcg_const_i32(sprn);
++
++    gen_icount_io_start(ctx);
++    gen_helper_store_pmc(cpu_env, t_sprn, cpu_gpr[gprn]);
++
++    tcg_temp_free_i32(t_sprn);
++}
++
+ void spr_write_PMC14_ureg(DisasContext *ctx, int sprn, int gprn)
  {
-     spr_noaccess(ctx, gprn, sprn);
+     if (!spr_groupA_write_allowed(ctx)) {
+         return;
+     }
+ 
+-    spr_write_ureg(ctx, sprn, gprn);
++    spr_write_PMC(ctx, sprn + 0x10, gprn);
+ }
+ 
+ void spr_write_PMC56_ureg(DisasContext *ctx, int sprn, int gprn)
+@@ -280,4 +300,9 @@ void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
+ {
+     spr_write_generic(ctx, sprn, gprn);
  }
 +
-+void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
++void spr_write_PMC(DisasContext *ctx, int sprn, int gprn)
 +{
 +    spr_write_generic(ctx, sprn, gprn);
 +}
  #endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
 diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-index e66c152eb5..47932ded4f 100644
+index 47932ded4f..5f2623aa25 100644
 --- a/target/ppc/power8-pmu.c
 +++ b/target/ppc/power8-pmu.c
-@@ -23,6 +23,128 @@
+@@ -145,6 +145,20 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
+     }
+ }
  
- #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
- 
-+static bool pmc_is_inactive(CPUPPCState *env, int sprn)
++target_ulong helper_read_pmc(CPUPPCState *env, uint32_t sprn)
 +{
-+    if (env->spr[SPR_POWER_MMCR0] & MMCR0_FC) {
-+        return true;
-+    }
-+
-+    if (sprn < SPR_POWER_PMC5) {
-+        return env->spr[SPR_POWER_MMCR0] & MMCR0_FC14;
-+    }
-+
-+    return env->spr[SPR_POWER_MMCR0] & MMCR0_FC56;
-+}
-+
-+/*
-+ * For PMCs 1-4, IBM POWER chips has support for an implementation
-+ * dependent event, 0x1E, that enables cycle counting. The Linux kernel
-+ * makes extensive use of 0x1E, so let's also support it.
-+ *
-+ * Likewise, event 0x2 is an implementation-dependent event that IBM
-+ * POWER chips implement (at least since POWER8) that is equivalent to
-+ * PM_INST_CMPL. Let's support this event on PMCs 1-4 as well.
-+ */
-+static PMUEventType pmc_get_event(CPUPPCState *env, int sprn)
-+{
-+    uint8_t mmcr1_evt_extr[] = { MMCR1_PMC1EVT_EXTR, MMCR1_PMC2EVT_EXTR,
-+                                 MMCR1_PMC3EVT_EXTR, MMCR1_PMC4EVT_EXTR };
-+    PMUEventType evt_type = PMU_EVENT_INVALID;
-+    uint8_t pmcsel;
-+    int i;
-+
-+    if (pmc_is_inactive(env, sprn)) {
-+        return PMU_EVENT_INACTIVE;
-+    }
-+
-+    if (sprn == SPR_POWER_PMC5) {
-+        return PMU_EVENT_INSTRUCTIONS;
-+    }
-+
-+    if (sprn == SPR_POWER_PMC6) {
-+        return PMU_EVENT_CYCLES;
-+    }
-+
-+    i = sprn - SPR_POWER_PMC1;
-+    pmcsel = extract64(env->spr[SPR_POWER_MMCR1], mmcr1_evt_extr[i],
-+                       MMCR1_EVT_SIZE);
-+
-+    switch (pmcsel) {
-+    case 0x2:
-+        evt_type = PMU_EVENT_INSTRUCTIONS;
-+        break;
-+    case 0x1E:
-+        evt_type = PMU_EVENT_CYCLES;
-+        break;
-+    case 0xF0:
-+        /*
-+         * PMC1SEL = 0xF0 is the architected PowerISA v3.1
-+         * event that counts cycles using PMC1.
-+         */
-+        if (sprn == SPR_POWER_PMC1) {
-+            evt_type = PMU_EVENT_CYCLES;
-+        }
-+        break;
-+    case 0xFE:
-+        /*
-+         * PMC1SEL = 0xFE is the architected PowerISA v3.1
-+         * event to sample instructions using PMC1.
-+         */
-+        if (sprn == SPR_POWER_PMC1) {
-+            evt_type = PMU_EVENT_INSTRUCTIONS;
-+        }
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    return evt_type;
-+}
-+
-+static void pmu_update_cycles(CPUPPCState *env)
-+{
-+    uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    uint64_t time_delta = now - env->pmu_base_time;
-+    int sprn;
-+
-+    for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC6; sprn++) {
-+        if (pmc_get_event(env, sprn) != PMU_EVENT_CYCLES) {
-+            continue;
-+        }
-+
-+        /*
-+         * The pseries and powernv clock runs at 1Ghz, meaning
-+         * that 1 nanosec equals 1 cycle.
-+         */
-+        env->spr[sprn] += time_delta;
-+    }
-+
-+    /* Update base_time for future calculations */
-+    env->pmu_base_time = now;
-+}
-+
-+void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
-+{
-+    target_ulong curr_value = env->spr[SPR_POWER_MMCR0];
-+    bool curr_FC = curr_value & MMCR0_FC;
-+    bool new_FC = value & MMCR0_FC;
-+
 +    pmu_update_cycles(env);
 +
-+    env->spr[SPR_POWER_MMCR0] = value;
++    return env->spr[sprn];
++}
 +
-+    /*
-+     * MMCR0 writes can change HFLAGS_PMCCCLEAR and HFLAGS_MMCR0FC.
-+     * hreg_compute_hflags() does too much stuff to be called
-+     * needlessly, so check beforehand if we really need a hflags
-+     * update.
-+     */
-+    if (((curr_value & MMCR0_PMCC) != (value & MMCR0_PMCC)) ||
-+        (curr_FC != new_FC)) {
-+        hreg_compute_hflags(env);
-+    }
++void helper_store_pmc(CPUPPCState *env, uint32_t sprn, uint64_t value)
++{
++    pmu_update_cycles(env);
++
++    env->spr[sprn] = value;
 +}
 +
  static void fire_PMC_interrupt(PowerPCCPU *cpu)
  {
      CPUPPCState *env = &cpu->env;
 diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
-index 520f1ef233..eb1d0c2bf0 100644
+index eb1d0c2bf0..1e79a0522a 100644
 --- a/target/ppc/spr_tcg.h
 +++ b/target/ppc/spr_tcg.h
-@@ -25,6 +25,7 @@
- void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
+@@ -26,6 +26,7 @@ void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
  void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
  void spr_write_generic(DisasContext *ctx, int sprn, int gprn);
-+void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn);
+ void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn);
++void spr_write_PMC(DisasContext *ctx, int sprn, int gprn);
  void spr_read_xer(DisasContext *ctx, int gprn, int sprn);
  void spr_write_xer(DisasContext *ctx, int sprn, int gprn);
  void spr_read_lr(DisasContext *ctx, int gprn, int sprn);
+@@ -35,6 +36,7 @@ void spr_write_ctr(DisasContext *ctx, int sprn, int gprn);
+ void spr_read_ureg(DisasContext *ctx, int gprn, int sprn);
+ void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn);
+ void spr_read_MMCR2_ureg(DisasContext *ctx, int gprn, int sprn);
++void spr_read_PMC(DisasContext *ctx, int gprn, int sprn);
+ void spr_read_PMC14_ureg(DisasContext *ctx, int gprn, int sprn);
+ void spr_read_PMC56_ureg(DisasContext *ctx, int gprn, int sprn);
+ void spr_read_tbl(DisasContext *ctx, int gprn, int sprn);
 -- 
 2.31.1
 
