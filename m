@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098AC45D82E
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 11:23:29 +0100 (CET)
-Received: from localhost ([::1]:35410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94DB245D835
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 11:25:01 +0100 (CET)
+Received: from localhost ([::1]:38246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqBua-0003Nl-3u
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 05:23:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39434)
+	id 1mqBw4-0005Gj-ND
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 05:25:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mqBpg-0003tQ-RQ
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 05:18:24 -0500
-Received: from [2a00:1450:4864:20::334] (port=45797
- helo=mail-wm1-x334.google.com)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mqBu0-0003AF-5y
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 05:22:53 -0500
+Received: from [2607:f8b0:4864:20::92b] (port=38543
+ helo=mail-ua1-x92b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mqBpe-0000nO-Un
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 05:18:24 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- g191-20020a1c9dc8000000b0032fbf912885so4284369wme.4
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 02:18:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wQ2PRfrEbcJ2rvNHpVQMfeN9N3iHqQVNKFvQhIu7xZo=;
- b=mxiFPONwC1fJ6axoe+Kf9aaFFWkTSI0pk6Xo6I+pl6GmUWa7ac19UZ2vQkBfjdOk9F
- VPUG5sZrpLIgD8mfLKFzUGl7q190rSE9XuMTswxivNCY4rNINg79nb4b+3k2cWmbDesm
- CmGS3J8ts4UhV321XDAuW1ZO26FEYUh2bL0cQHS21KgjvpGzDqOTZmIinu+pdqu0hnWi
- XySMJwTqe+iglVDlEHC7ONYgLpjyd8gI/qFx8njh2AwAVoKxrbi1ugNMWOZCq/THRkYN
- OoOwFoUlfJRlbTsdxtdfOs+S7rgZTgAVH1UupNKu/TuMi4R/IOAo2Y0d/VDYifmTAmUT
- m3aA==
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mqBtu-0002cl-V7
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 05:22:51 -0500
+Received: by mail-ua1-x92b.google.com with SMTP id w23so11229795uao.5
+ for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 02:22:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BkfpLrtAOBQfNy2VITJw3WTE1hwZwISdKCvUHwLewbw=;
+ b=Xu5uRVYEt+Vcq2TyBqs6lgQnHGNYoqnyb3U7fcSq3rtUlfo2qTDLxUFM5HH3uvUq/P
+ djvEuZF4hVvVI7zJVfagacdNS/psLbyZskTO5Ecm3URJ/8e+DTWQtwBdgwd/gl0wSRih
+ PNXQ9kW/r5Ge9iFJHpAEysli9w/JW2f6EfUH+UszasRigf/YUophZBpV9FLZfEbqjYds
+ nyE1v3sYIkestd40CH1UxLbGRvE+G7Zh38XkRjpnM3JJaifKJECdLoP2L0lm1OOsoqXn
+ VFRcS5pnP7wHMHalnXhgKezgbzA6Nx0qVuUzoaD1s81h6u54LoV+R+mxBu+3pVStB2LA
+ iupw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wQ2PRfrEbcJ2rvNHpVQMfeN9N3iHqQVNKFvQhIu7xZo=;
- b=CL+qai8FVUM6xSzJMrY1cFLLzAHLOuXxpCxbkgXu8B1Ce7T/4mwXIaT4lqjjrglFRp
- dKVuWprVNczOSiCdLdUMzoPnSyQGInuB9xov3c1ReH3b8PRRB7YmPpq4OHJpjQJAZxSN
- ThX51fNANvBSI7hvPgthk4HARsd6m/lNVW75A+ma9VXdWKoKrehEW/JKj6GB+xTW7iOR
- /gj1IPAHoSwWiFYwpOGOUyhpDreRO8BYdmC+bA/fm38dyBd3qEpL1r68AXUJ6ipELEMZ
- e9iaD5/1I9C8PgjualIdkLqlAWRAP2Gm4SWT6rDbcclZCW+rde0qISI+s7etAIjGh+ml
- 3G7w==
-X-Gm-Message-State: AOAM532iIfMuDPCuS7qQyypzab5Rd7xA1hSOwY1RDMbT9+2/GKNwwZkf
- 0yS8NfWy5+9+u8SIPqc55Q3M8g==
-X-Google-Smtp-Source: ABdhPJw8NVEEeh19htJpXRf+TvUKx38bgqnotHyuqxjxTtq9kodZOSBt4MIHFJb+z3YeRvVel+sX2Q==
-X-Received: by 2002:a1c:f018:: with SMTP id a24mr5806900wmb.51.1637835500354; 
- Thu, 25 Nov 2021 02:18:20 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id f7sm2886550wri.74.2021.11.25.02.18.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Nov 2021 02:18:19 -0800 (PST)
-Subject: Re: [PATCH v3 2/3] test/tcg/ppc64le: test mtfsf
-To: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20211124172523.3598396-1-lucas.araujo@eldorado.org.br>
- <20211124172523.3598396-3-lucas.araujo@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <86e222a8-82a7-90dd-e03d-d402b90314c4@linaro.org>
-Date: Thu, 25 Nov 2021 11:18:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BkfpLrtAOBQfNy2VITJw3WTE1hwZwISdKCvUHwLewbw=;
+ b=4W8WsBnScm2y5lZn15CflCHzTVEUtyJ3lTWr0W+sDK2d9R5c8mvcYSmq8wqKobziMw
+ +FeMgh90nJp3rdrYMLuofMzH9Q5tHKFYRj+ew4sTn3otLNs8caJmBKiHlgcx60kuvKc7
+ G33phj/LdSpDQWdpjuZcTNxVF2NAR7E+m0sPAb7utLKBQKetN5pf4ej/AUGZ54ulHzLE
+ +zQHV+VePMnSnazlCnp42LQo7B1ItRT0ix/yVq42vlXPgBFPxKAyaCSVBmI2nEbhhZVe
+ FlykhHxIINQqI0lpJpFdjnKvNULJuxJYkFBRVln5sWlyWckx7HEn0a8qtk8E3y4dr7BR
+ CEvQ==
+X-Gm-Message-State: AOAM5330+0IE6UILHh2NOHBYxjq/sGrJnmHY8cmURE8Udpwxy5i/3tM9
+ JLe4iDK2yL8S9BTWueepyWlvi4g/NtZ4lqxWmJXh1A==
+X-Google-Smtp-Source: ABdhPJzp9DbmaXxhCUpFa/fv+LpB2b5KONkm245YUlNjScXbwgjmxha+ZEz9LT1DgxpLchyDv4B+d1LAdVeMT8Aki2g=
+X-Received: by 2002:a9f:2383:: with SMTP id 3mr23434990uao.77.1637835764462;
+ Thu, 25 Nov 2021 02:22:44 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211124172523.3598396-3-lucas.araujo@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+References: <20211123173759.1383510-1-richard.henderson@linaro.org>
+ <20211123173759.1383510-5-richard.henderson@linaro.org>
+In-Reply-To: <20211123173759.1383510-5-richard.henderson@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Thu, 25 Nov 2021 03:22:33 -0700
+Message-ID: <CANCZdfo=F+y+5LzFYam-hALzP_-ToN-eAVQm4_dinTCA07BD4Q@mail.gmail.com>
+Subject: Re: [PATCH v6 04/16] linux-user/host/mips: Add safe-syscall.inc.S
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000f10be905d19a5aa9"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::92b;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92b.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,24 +79,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, mark.cave-ayland@ilande.co.uk, pc@us.ibm.com,
- david@gibson.dropbear.id.au, matheus.ferst@eldorado.org.br, clg@kaod.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/24/21 6:25 PM, Lucas Mateus Castro (alqotel) wrote:
-> Added tests for the mtfsf to check if FI bit of FPSCR is being set
-> and if exception calls are being made correctly.
-> 
-> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+--000000000000f10be905d19a5aa9
+Content-Type: text/plain; charset="UTF-8"
+
+On Tue, Nov 23, 2021 at 10:38 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
+
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   tests/tcg/ppc64/Makefile.target   |  1 +
->   tests/tcg/ppc64le/Makefile.target |  1 +
->   tests/tcg/ppc64le/mtfsf.c         | 61 +++++++++++++++++++++++++++++++
->   3 files changed, 63 insertions(+)
->   create mode 100644 tests/tcg/ppc64le/mtfsf.c
+>  linux-user/host/mips/hostdep.h          |   3 +
+>  linux-user/host/mips/safe-syscall.inc.S | 123 ++++++++++++++++++++++++
+>  2 files changed, 126 insertions(+)
+>  create mode 100644 linux-user/host/mips/safe-syscall.inc.S
+>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Warner Losh <imp@bsdimp.com>
 
-r~
+--000000000000f10be905d19a5aa9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 23, 2021 at 10:38 AM Rich=
+ard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.h=
+enderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:r=
+ichard.henderson@linaro.org" target=3D"_blank">richard.henderson@linaro.org=
+</a>&gt;<br>
+---<br>
+=C2=A0linux-user/host/mips/hostdep.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A03 +<br>
+=C2=A0linux-user/host/mips/safe-syscall.inc.S | 123 +++++++++++++++++++++++=
++<br>
+=C2=A02 files changed, 126 insertions(+)<br>
+=C2=A0create mode 100644 linux-user/host/mips/safe-syscall.inc.S<br></block=
+quote><div><br></div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:im=
+p@bsdimp.com">imp@bsdimp.com</a>&gt;</div><div><br></div></div></div>
+
+--000000000000f10be905d19a5aa9--
 
