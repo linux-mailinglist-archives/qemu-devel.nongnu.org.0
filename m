@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB22245E119
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 20:43:19 +0100 (CET)
-Received: from localhost ([::1]:47684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4A545E129
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 20:47:54 +0100 (CET)
+Received: from localhost ([::1]:52152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqKeG-0004tC-9j
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 14:43:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49518)
+	id 1mqKin-00083T-D0
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 14:47:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mqKcU-00042u-V3
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 14:41:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27813)
+ id 1mqKhe-0007N1-79
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 14:46:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mqKcR-0002Op-5D
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 14:41:21 -0500
+ id 1mqKha-00049D-Tw
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 14:46:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637869276;
+ s=mimecast20190719; t=1637869597;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=evqjXThHOwHzjwJ++v4v5Tt3mDYmiU7q8nNFa7mORjQ=;
- b=OR+U/jSW48DBROAz+AqGCnva5z7ZhML9fJdgQU6QAJb5Yn8rQudQ/ngy2YpZJtCTywVMv/
- JPzacPf2FaGwTv/neZtqKF34xLWwQBxVgS4F3uc3PqSitEkUMZbofHAcYKKZXH//xKHZbG
- JhTWzj1bmNHMpT3sbdddaW67usEq4XY=
+ bh=et8cy/gg9Wrw05E4gC3Mb913nsWArxVcB9K+pxBNHOE=;
+ b=feHegr4heblSaAG3G+TQzso9hDjeKHturalaAfyHcm+yUPF+rVx5R3UEtdzhA3ICCUGiwi
+ 8M4zCUO8pWRQOuLUBSWOY97D/1JmFVG/TiqjZnqvWbpa7ar58j9fHpSa/7x4KI2IsJHbPj
+ cf9KZhB4IJAJSUTkMZOrDo8Zvdr2e04=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-282-ohuemYjUOqOfQ0Nw1G6rEw-1; Thu, 25 Nov 2021 14:41:15 -0500
-X-MC-Unique: ohuemYjUOqOfQ0Nw1G6rEw-1
+ us-mta-317-Zfkede4iOuuK844cO83afg-1; Thu, 25 Nov 2021 14:46:36 -0500
+X-MC-Unique: Zfkede4iOuuK844cO83afg-1
 Received: by mail-wm1-f69.google.com with SMTP id
- n41-20020a05600c502900b003335ab97f41so4018881wmr.3
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 11:41:15 -0800 (PST)
+ a85-20020a1c7f58000000b0033ddc0eacc8so3597162wmd.9
+ for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 11:46:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=evqjXThHOwHzjwJ++v4v5Tt3mDYmiU7q8nNFa7mORjQ=;
- b=1Z02cEWMacGGORIGTiXs3BA/0vfhpf5xEyx0EdQyaig/ljWVNBgM+0Na18lWxZZl03
- SmWVtq1DCyExmmFMx1w2ySNB4RLPD5vMUTU+urogqbLZyikoeOhq/tb+E6HPWO4nTpZ7
- Uw2bPdbDqpYMgY7k57ajFEgj1vS5jD06ZhGxYSB6mc0asUWt3n8hwoRTRRaVsp7EsAsq
- sDDBLtwJ2KMRgAkvxwlmYnkUF09UJwknQZxRa7x+NQQ38G8XGrPyDpE9Zr+KwxiI07fB
- HVHnu/OQlzMestENkiZjCmRuQcM68wndDdlso/bZaSjshHw3ZErJZdEaerZyGX8wQHU7
- MIEw==
-X-Gm-Message-State: AOAM530l4SH31G/umWKsKgO8JsWdA5T0IJ47hzKzJUMY96NFHk3Qa9Qz
- RHJoi1igFNKMiRtiUVKliUG9eGQ/DU2sHMUPAOwMg1f6PKFxI8cicoA2OhWAOhbV9noPYfeHE1d
- OuypLA5SgXntjBDU=
-X-Received: by 2002:a5d:59a2:: with SMTP id p2mr9441141wrr.252.1637869273566; 
- Thu, 25 Nov 2021 11:41:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxJwBfDGEl54yGLZciG67fW0eSTZbpcPSIJMWe+tLFpIjI31mTTncvaeXq+tvCi0gkCY2j/DA==
-X-Received: by 2002:a5d:59a2:: with SMTP id p2mr9441117wrr.252.1637869273357; 
- Thu, 25 Nov 2021 11:41:13 -0800 (PST)
+ bh=et8cy/gg9Wrw05E4gC3Mb913nsWArxVcB9K+pxBNHOE=;
+ b=YYl7FUiQlj6sPjN+HipWKut5ioa7Zh4LYVJeexg0ceGSEkWfI51ttHM17I3FejiR2Y
+ EpaL7cmYMdQWhBGAgjf/B7sSiwAtdNSPuL+Kh0EWUhgFsAwZUaKLguwPcJ+csJW/ligg
+ w2/ATNcn+YPu3/HIQXX4BzBX42dn9KBQdslDTWEGJRjhhtNuTMFO9xk+Ekis2DjCR+U+
+ jef8nv70xSJFReOWry/qzz25TZ+K0NUoV2syzB+s1aqOhB1Cpqfw8MmjitQeEljKcc6j
+ WPksbS6Rm+vHLwU0c92JKm2bCHHgpLhRQ80h7T5Celqzpsduqibt2IjrY6fSyFdhSZ/Y
+ 5+Hw==
+X-Gm-Message-State: AOAM531obpHuEkt5rPbRxXPiMG4KTc6FCBkBHvIQwauyWFpIUa8wKJAo
+ kL/Kq0cG+sZlGXbun2g2qAGld/eF3+hDI6sVg6fvdeL6XLzTv+TSQDk+kXgf368v4tKQjLfC2ez
+ NaJhIB3OTsbrfxP8=
+X-Received: by 2002:a7b:c770:: with SMTP id x16mr3958550wmk.66.1637869590438; 
+ Thu, 25 Nov 2021 11:46:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxK948lP3FQ1IcIQmr852FKzIyoAxt2JHszT58mEmS/5LYyWBQg3BXWqzJt+J22oVNbIrQKLA==
+X-Received: by 2002:a7b:c770:: with SMTP id x16mr3957680wmk.66.1637869576249; 
+ Thu, 25 Nov 2021 11:46:16 -0800 (PST)
 Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
  [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id z14sm4035664wrp.70.2021.11.25.11.41.12
+ by smtp.gmail.com with ESMTPSA id y142sm3914369wmc.40.2021.11.25.11.46.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Nov 2021 11:41:12 -0800 (PST)
-Date: Thu, 25 Nov 2021 19:41:10 +0000
+ Thu, 25 Nov 2021 11:46:15 -0800 (PST)
+Date: Thu, 25 Nov 2021 19:46:13 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v3 08/23] multifd: Fill offset and block for reception
-Message-ID: <YZ/m1vur4fvGzMg2@work-vm>
+Subject: Re: [PATCH v3 01/23] multifd: Delete useless operation
+Message-ID: <YZ/oBfd2TT3pGc1u@work-vm>
 References: <20211124100617.19786-1-quintela@redhat.com>
- <20211124100617.19786-9-quintela@redhat.com>
+ <20211124100617.19786-2-quintela@redhat.com>
+ <YZ6JCNdj0G4r3igs@work-vm> <87ilwgg0ks.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <20211124100617.19786-9-quintela@redhat.com>
+In-Reply-To: <87ilwgg0ks.fsf@secure.mitica>
 User-Agent: Mutt/2.1.3 (2021-09-10)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
@@ -76,15 +77,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,43 +104,55 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Juan Quintela (quintela@redhat.com) wrote:
-> We were using the iov directly, but we will need this info on the
-> following patch.
-
-Yes I think so;  have you considered that really need to check the
-fields of MultiFD*Params to see which fields you're actually using?
-
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
->  migration/multifd.c | 2 ++
->  1 file changed, 2 insertions(+)
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > * Juan Quintela (quintela@redhat.com) wrote:
+> >> We are divining by page_size to multiply again in the only use.
+> >              ^--- typo
+> >> Once there, impreve the comments.
+> >                   ^--- typo
+> >> 
+> >> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> >
+> > OK, with the typo's fixed:
 > 
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 55d99a8232..0533da154a 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -354,6 +354,7 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->          return -1;
->      }
->  
-> +    p->pages->block = block;
->      for (i = 0; i < p->pages->num; i++) {
->          uint64_t offset = be64_to_cpu(packet->offset[i]);
->  
-> @@ -363,6 +364,7 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->                         offset, block->used_length);
->              return -1;
->          }
-> +        p->pages->offset[i] = offset;
->          p->pages->iov[i].iov_base = block->host + offset;
->          p->pages->iov[i].iov_len = page_size;
->      }
-> -- 
-> 2.33.1
+> Thanks.
+> 
+> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> >
+> > but, could you also explain the  x 2 (that's no worse than the current
+> > code); is this defined somewhere in zlib?  I thought there was a routine
+> > that told you the worst case?
+> 
+> Nowhere.
+> 
+> There are pathological cases where it can be worse.  Not clear at all
+> how much (ok, for zlib it appears that it is on the order of dozen of
+> bytes, because it marks it as uncompressed on the worst possible case),
+> For zstd, there is not a clear/fast answer when you google.
+
+For zlib:
+
+ZEXTERN uLong ZEXPORT compressBound OF((uLong sourceLen));
+/*
+     compressBound() returns an upper bound on the compressed size after
+   compress() or compress2() on sourceLen bytes.  It would be used before a
+   compress() or compress2() call to allocate the destination buffer.
+*/
+
+> As this buffer is held for the whole migration, it is one for thread,
+> this looked safe to me.  Notice that we are compressing 128 pages at a
+> time, so for it not to compress anything looks very pathological.
+> 
+> But as one says, better safe than sorry.
+
+Yeh.
+
+Dave
+
+> If anyone that knows more about zlib/zstd give me different values, I
+> will change that in an additional patch.
+> 
+> Later, Juan.
 > 
 -- 
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
