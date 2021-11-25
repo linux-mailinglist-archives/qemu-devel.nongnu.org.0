@@ -2,93 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 582E445D4A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 07:17:04 +0100 (CET)
-Received: from localhost ([::1]:39740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95F1445D4CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 07:29:17 +0100 (CET)
+Received: from localhost ([::1]:44176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mq847-0005b5-2y
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 01:17:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42436)
+	id 1mq8Fw-0001Xm-99
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 01:29:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mq818-0004et-G4
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 01:13:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32585)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mq80t-0002yt-Fy
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 01:13:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637820821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YVc3ABzFYZFBOuvOOzBJmjCfM3s55Am3AsaZe/S/8bQ=;
- b=HKJBtAuB9Eg6LwRZfNvPIpSMG24TTPcyveLvH/tr9xujCHbDDO5HvyzSM3f6HD4e89XT0r
- uG1LL7CPv7/StwG0xiNhgc0Ped4I0m1chPyutOMklA4T1+LncZyOq13ofsNuihNzKh+7Kw
- MM1BfbQ8cLyLXSBReHPjoOs07UgvMu0=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-376-DWe3_OM8NHmkwKfOqFMc9g-1; Thu, 25 Nov 2021 01:13:40 -0500
-X-MC-Unique: DWe3_OM8NHmkwKfOqFMc9g-1
-Received: by mail-pf1-f200.google.com with SMTP id
- y124-20020a623282000000b0047a09271e49so2915985pfy.16
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 22:13:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1mq8DX-0007uW-2Y
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 01:26:47 -0500
+Received: from [2607:f8b0:4864:20::332] (port=37744
+ helo=mail-ot1-x332.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1mq8DV-0007oA-2V
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 01:26:46 -0500
+Received: by mail-ot1-x332.google.com with SMTP id
+ h19-20020a9d3e53000000b0056547b797b2so8007054otg.4
+ for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 22:26:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=landley-net.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=/ZqZmF+q1iwRbg9wNdhq1jqh+3PguSzbZtWn7yBzt60=;
+ b=VXJK1TU4jtMYNycpca5aWKzvU2ukuz5F3VcffWGQ35/7f5+0a5nkSfmje3P5MmNNEh
+ Nk1NVVjwGiXgvwlILu4bS1RdSTlwvfUCho51xcj5F7NATF1zXfminVNZVln4nVrlDs7P
+ MUMjgTdSUmhvorKebKb5NeZO3Yic2TdikmqGtQ30C/jKg1mbAd41pTbJgEIdLLxeLc+/
+ q9dcj67TjFjA7DVwJLcBAK226K07md0+lMmDnKmsJLNTfRu7zGptcMHukdZ4yqcvvcOz
+ LthwSHLoLRB7GZCwDqpzfGgzlbVWO83k4/tModrYJzr9eQ5qCwWYJDxZWxmiC9EkxvWz
+ QfsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=YVc3ABzFYZFBOuvOOzBJmjCfM3s55Am3AsaZe/S/8bQ=;
- b=HvFMStI4RoQb7AKa644v22RjMlCZ2YZm+4buXNf/OIgHdcLl1IQ5x7Vv27wy7ZLJds
- ww6sxlWs6xkK6ihGli3BBER/9I8d7sjnvjhZ1Deb10F97fjzJIdgi/x+d0N4XD087DbM
- Cv1cssxSD9ViSx+FUT5kOp16W2436vKxl1BjYVQPdcRguDc7OEHbflRXLTeeiPIc027L
- W/5C/c1ikBEXWjtv1kotc9QERVxSRrDh5df6OSHJ0jo00Rc2+ptn9tRJ6ZFX3O3bj7i0
- PmML8Lh/8BzChL0QFAn8+hYXgqq0PRCSt7Ic8cLOJhXWd9bGXeyQ47mhzhwf+fpkFaUH
- DcvQ==
-X-Gm-Message-State: AOAM533Vjrt9YvOfccvaoPwheZ9CJ+CSWzyzbiaqVFRql9ShpdRFlXQD
- LxgSePmHtuXYrAiCNO5NTmd91kh7Su3cwSeVeOnx7DJcW4ZYyCxi8XnilbsudCSGcuVqqegQ5d4
- wq9MZh6SDfVRoDSQ=
-X-Received: by 2002:a17:90b:4f83:: with SMTP id
- qe3mr4284088pjb.56.1637820819259; 
- Wed, 24 Nov 2021 22:13:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJygVxa+7FWJCxMq2go6HjRbgTvoZPLY8I4c9ht9TakmNd4I81v/Xiy37pkG+/Zx+n+7uPKv0g==
-X-Received: by 2002:a17:90b:4f83:: with SMTP id
- qe3mr4284046pjb.56.1637820818908; 
- Wed, 24 Nov 2021 22:13:38 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.150])
- by smtp.gmail.com with ESMTPSA id v63sm1204959pgv.71.2021.11.24.22.13.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 22:13:38 -0800 (PST)
-Date: Thu, 25 Nov 2021 14:13:31 +0800
-From: Peter Xu <peterx@redhat.com>
-To: "Liu, Yi L" <yi.l.liu@intel.com>
-Subject: Re: [PATCH] intel-iommu: ignore SNP bit in scalable mode
-Message-ID: <YZ8pi2ty2Z8wjt9u@xz-m1.local>
-References: <20211124060309.6872-1-jasowang@redhat.com>
- <YZ3wXo5XueDtuk8c@xz-m1.local>
- <PH0PR11MB56583B1E05F83EB56C28730BC3629@PH0PR11MB5658.namprd11.prod.outlook.com>
- <YZ8RfrbwXEB2fcJv@xz-m1.local>
- <PH0PR11MB5658E15F420BCBAD2AA58E23C3629@PH0PR11MB5658.namprd11.prod.outlook.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/ZqZmF+q1iwRbg9wNdhq1jqh+3PguSzbZtWn7yBzt60=;
+ b=uyj3yfsMkAZXG/ua5HSXUTd6vDt6ff73kBnVw7HYIdIk6R0DmJNOu7emsVi3c1yTyl
+ bXqgY6CK3l++q9A5gxFjeKy1ZxmaKwYRUcW4243jAOunIYtqAulrn6cOPMoG4z459jXA
+ Bab9knLSy4ozhi++Fpm/BIuP/e7slZ5V8fUrcegR+xpM+M3rpd+cCYmM8giLYc7Gsrmx
+ FZfAGfzGkkjtNbtGHSjCabBss7kYZzZrS8XuM4sGlvhLoozLXW2gFcjJgyX89RZCCpFk
+ yymqFLaDSdU0kk9aO2Xt8Yk+bGKSjSze8KDNqE9YmTCvDdxOxqvPI0efrDGEUEqd/pSE
+ jdGA==
+X-Gm-Message-State: AOAM530yQ4ryKMgKQNoU3ZQVWOHPpHQ/u4wOQjA93jPsrh2Egfc5guNo
+ PH0qK6N2a+2VeD3VEQsFjXnPqQ==
+X-Google-Smtp-Source: ABdhPJwxe15CfBYTPAm6MvjSJ3XBxtkRHNRT2cSEX8f+3r5Z3D0Uy6nf6uzlcL/4gtVAALCKD2n8Vg==
+X-Received: by 2002:a05:6830:1008:: with SMTP id
+ a8mr19252926otp.373.1637821603040; 
+ Wed, 24 Nov 2021 22:26:43 -0800 (PST)
+Received: from [192.168.86.163] ([136.62.4.88])
+ by smtp.gmail.com with ESMTPSA id n6sm392870otj.78.2021.11.24.22.26.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Nov 2021 22:26:42 -0800 (PST)
+Subject: Re: [PATCH 01/20] Hexagon HVX (target/hexagon) README
+To: Taylor Simpson <tsimpson@quicinc.com>, Sid Manning <sidneym@quicinc.com>, 
+ Brian Cain <bcain@quicinc.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>,
+ "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>
+References: <1625528074-19440-1-git-send-email-tsimpson@quicinc.com>
+ <1625528074-19440-2-git-send-email-tsimpson@quicinc.com>
+ <1b632e88-43d4-3034-cf7b-d42be056d842@landley.net>
+ <SN6PR02MB42054B50C60ABA378256492DB8159@SN6PR02MB4205.namprd02.prod.outlook.com>
+ <553c32e8-188c-5b2c-2f4a-a8cfd7b903a9@landley.net>
+ <BN7PR02MB4194007550E66EBE877625A6B8E19@BN7PR02MB4194.namprd02.prod.outlook.com>
+ <BYAPR02MB55091DE5B976956075B46FADBEE19@BYAPR02MB5509.namprd02.prod.outlook.com>
+ <8845de00-ddc7-86a3-600f-6ede81e168c2@landley.net>
+ <8192e9bb-a0de-1b2a-271c-ac7323be8244@landley.net>
+ <BYAPR02MB48863186EDD71439C60792A0DEE89@BYAPR02MB4886.namprd02.prod.outlook.com>
+From: Rob Landley <rob@landley.net>
+Message-ID: <ee0ee7c5-22e5-2c79-695d-e66ae39bb5fb@landley.net>
+Date: Thu, 25 Nov 2021 00:26:58 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <PH0PR11MB5658E15F420BCBAD2AA58E23C3629@PH0PR11MB5658.namprd11.prod.outlook.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <BYAPR02MB48863186EDD71439C60792A0DEE89@BYAPR02MB4886.namprd02.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::332
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::332;
+ envelope-from=rob@landley.net; helo=mail-ot1-x332.google.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-4.1, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,129 +102,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "yi.y.sun@linux.intel.com" <yi.y.sun@linux.intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Lu Baolu <baolu.lu@linux.intel.com>
+Cc: "ale@rev.ng" <ale@rev.ng>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 25, 2021 at 05:49:38AM +0000, Liu, Yi L wrote:
-> > From: Peter Xu <peterx@redhat.com>
-> > Sent: Thursday, November 25, 2021 12:31 PM
-> > 
-> > On Thu, Nov 25, 2021 at 04:03:34AM +0000, Liu, Yi L wrote:
-> > > > From: Peter Xu <peterx@redhat.com>
-> > > > Sent: Wednesday, November 24, 2021 3:57 PM
-> > > >
-> > > > On Wed, Nov 24, 2021 at 02:03:09PM +0800, Jason Wang wrote:
-> > > > > When booting with scalable mode, I hit this error:
-> > > > >
-> > > > > qemu-system-x86_64: vtd_iova_to_slpte: detected splte reserve non-
-> > > > zero iova=0xfffff002, level=0x1slpte=0x102681803)
-> > > > > qemu-system-x86_64: vtd_iommu_translate: detected translation
-> > failure
-> > > > (dev=01:00:00, iova=0xfffff002)
-> > > > > qemu-system-x86_64: New fault is not recorded due to compression
-> > of
-> > > > faults
-> > > > >
-> > > > > This is because the SNP bit is set since Linux kernel commit
-> > > > > 6c00612d0cba1 ("iommu/vt-d: Report right snoop capability when
-> > using
-> > > > > FL for IOVA") where SNP bit is set if scalable mode is on though this
-> > > > > seems to be an violation on the spec which said the SNP bit is
-> > > > > considered to be reserved if SC is not supported.
-> > > >
-> > > > When I was reading that commit, I was actually confused by this change:
-> > > >
-> > > > ---8<---
-> > > > diff --git a/drivers/iommu/intel/iommu.c
-> > b/drivers/iommu/intel/iommu.c
-> > > > index 956a02eb40b4..0ee5f1bd8af2 100644
-> > > > --- a/drivers/iommu/intel/iommu.c
-> > > > +++ b/drivers/iommu/intel/iommu.c
-> > > > @@ -658,7 +658,14 @@ static int
-> > domain_update_iommu_snooping(struct
-> > > > intel_iommu *skip)
-> > > >         rcu_read_lock();
-> > > >         for_each_active_iommu(iommu, drhd) {
-> > > >                 if (iommu != skip) {
-> > > > -                       if (!ecap_sc_support(iommu->ecap)) {
-> > > > +                       /*
-> > > > +                        * If the hardware is operating in the scalable mode,
-> > > > +                        * the snooping control is always supported since we
-> > > > +                        * always set PASID-table-entry.PGSNP bit if the domain
-> > > > +                        * is managed outside (UNMANAGED).
-> > > > +                        */
-> > > > +                       if (!sm_supported(iommu) &&
-> > > > +                           !ecap_sc_support(iommu->ecap)) {
-> > > >                                 ret = 0;
-> > > >                                 break;
-> > > >                         }
-> > > > ---8<---
-> > > >
-> > > > Does it mean that for some hardwares that has sm_supported()==true,
-> > it'll
-> > > > have  SC bit cleared in ecap register?  That sounds odd, and not sure why.
-> > Maybe
-> > > > Yi Liu or Yi Sun may know?
-> > >
-> > > scalable mode has no dependency on SC, so it's possible.
-> > 
-> > I see; thanks, Yi.
-> > 
-> > However then OTOH I don't understand above comment
-> > 
-> >   "If the hardware is operating in the scalable mode, the snooping control is
-> >    always supported since... "
-> > 
-> > Because the current qemu vt-d emulation should fall into the case that Yi
-> > mentioned - we support initial scalable mode but no SC yet..
+On 7/26/21 8:59 AM, Taylor Simpson wrote:
+> We're working on system mode support for Hexagon, and we plan to upstream it when it is ready.
 > 
-> chapter 3.9 of 3.2 spec says below.
-> 
-> “If the remapping hardware is setup in scalable-mode (RTADDR_REG.TTM=01b)
-> and the Page Snoop (PGSNP) field in PASID-table entry is Set, access to the
-> final page is snooped.”
-> 
-> It means the PGSNP field is available under scalable mode. And spec also
-> says below in chapter 96. of 3.2 spec.
-> 
-> "Requests snoop processor caches irrespective of, other attributes in the
-> request or other fields in paging structure entries used to translate the
-> request."
-> 
-> It means the PGSNP field of PASID table entry is the first class control
-> of the snoop behaviour. Also it means the scalable mode has the snoop
-> control by default. ^_^. So the comment in the above commit is correct
-> since the policy of intel iommu driver is always setting the PGSNP bit.
+> Thanks,
+> Taylor
 
-I see.  Setting PGSNP bit in the pasid entry looks fine to me.
-
-However IIUC what's triggering the crash (that Jason is fixing) is the guest
-iommu driver "thinks" SC is supported since scalable is enabled (even if qemu
-vIOMMU has declared ECAP.SC==0 there), then it'll update iommu_snooping bit,
-then it'll try to attach the SNP bit in the 2nd level pgtable (intel_iommu_map):
-
-	if ((iommu_prot & IOMMU_CACHE) && dmar_domain->iommu_snooping)
-		prot |= DMA_PTE_SNP;
-
-So what I'm wondering is: whether the kernel should _not_ set SNP bit in the
-2nd level pgtable, even if we set PGSNP in the pasid entry.. because as you
-mentioned, the hardware (here the emulated vIOMMU) is allowed to have both
-scalable==1 but sc==0 so it may recognize PGSNP in pasid entry but not the SNP
-bit in pgtables.
-
-If we'll skip pgtable SNP bit anyway for scalable mode, it looks weird to
-explicitly set it too.
-
-I think it's fine for Jason's solution to just skip checking SNP bit so we
-ignore it in qemu, however just to double check we're on the same page.
+Any progress on this? (Is there a way for outsiders to track the status?)
 
 Thanks,
 
--- 
-Peter Xu
-
+Rob
 
