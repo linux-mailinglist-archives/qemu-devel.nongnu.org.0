@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22AB845D5B8
+	by mail.lfdr.de (Postfix) with ESMTPS id C4BAE45D5B9
 	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 08:46:06 +0100 (CET)
-Received: from localhost ([::1]:47860 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:47944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mq9SG-0002gR-H1
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 02:46:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58140)
+	id 1mq9SH-0002kD-OY
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 02:46:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mq9KA-0007ke-Rn; Thu, 25 Nov 2021 02:37:42 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:32787)
+ id 1mq9KC-0007ku-0l; Thu, 25 Nov 2021 02:37:44 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:49045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mq9K8-0000Vh-Pd; Thu, 25 Nov 2021 02:37:42 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 3AC0D5C019E;
- Thu, 25 Nov 2021 02:37:39 -0500 (EST)
+ id 1mq9KA-0000Vs-Du; Thu, 25 Nov 2021 02:37:43 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 55E1C5C01A8;
+ Thu, 25 Nov 2021 02:37:41 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 25 Nov 2021 02:37:39 -0500
+ by compute5.internal (MEProxy); Thu, 25 Nov 2021 02:37:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm1; bh=z365vtZJco6hBLo8Kyay+Khn0J
- CKwAMvlBSTXbnaGS8=; b=PggkAFXqUEWpAow4FjsMts0CpEL5nEw7TEXLIJBkMI
- vPZvtuDUh4rsymVD8cSlXayqYIyfRuUJ9ylVuJUuk7KtEM4xZIaM3yeLRUesWkJV
- rw+2lAxOTn1w0q+OgPiI0orp8SsMlyStm9u7PnEbKGHixOuFLZQd+191/tFoJSQV
- qEb+3p0nW2pu3BwDeTocBDkpo3VNfAyVo8NMCqltdi20DVCWFqnNJk4t0fWlPo2v
- nFrNK4EXrNKXI8qso7R8fQEk+HgD+uui25pQOK2C9kX940GNuYQ+22+/k7q+mhEC
- vwrVyJ+C5zyoJwVl5clgjAIFI2tIWpooopwW/5P7WCFg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=JrWb3UuoCg2iu
+ wQY6MWzFJnuH+rEfBZLhpbZba1Wb5A=; b=MMpvK9K111KdLpPKhicI2cUzeD6RI
+ UFR3JmqBEzSimeg/RzOfOMJLjL1E6PD+D+3m6ZYm1OgLWWQnwXpno/FqhUzcKXfd
+ kHg6hMYwXRSD3DvFQR76kLqX/vbHK2Mcv62idvSJxCxqz3UFj4/JVTQfm5lwYPl/
+ kormEX4Z2Iz3hBaDxUh+0Mu3rGtjsNpm0x6MEO1BXbKYaFT5VZhdZdAg3KzpoVk9
+ VQCAJg4Dw0Abzvf6vnSY3rJdMKmZtAahlSRAvLsxUg+NsI9sC/WJP2y+nxLhdpgz
+ xvz6mdly3b9SzUag3fPbIchzcp9Qh7ivDL0bGz0yNWRuQ0Ej7sPSm4WlA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=z365vt
- ZJco6hBLo8Kyay+Khn0JCKwAMvlBSTXbnaGS8=; b=dJho7Z/7n6bcR8pNueX9GY
- FK0VT8B5FusQ7G5JNZEw0xGIgHsYJNCVMxfLR++44F2jvEEhMYLmYv2ZLwWSdzpa
- MmlWU1TIYthC8imCk/2+2lM8aYo6bZ5igiVa6PUBpa0R9J8PHfvg4lP1J0GSNkK7
- 1XPcUTsg+kFGOWtqRKx9y+Ap2zRqU6CKY3zWiGNvNbmmaRPjTaz4oqLmGMeMYd0H
- cpYwNpUEgTDbnNU3/8kdHytpk9ZlDEELeFJoXg6tlUo+O9ALmp2kWzvsP6VQ9A7M
- 4hLUWF/O3YJJGLoqdvN1lXIV1/Kf5YY+/NcHDSGTFmtLAjW4s2YVOnfe/cbQg55w
- ==
-X-ME-Sender: <xms:Qj2fYc-dSt_v8p7bhWrslcngUJ9_xHVZ9EYiAfcVQLsPfZgWdv_JbA>
- <xme:Qj2fYUtHV2HKAdzx7x13ax32HEbYgTTJklgEZ1ewdgSvkqM4Dd34MR5MMnFbBzG3t
- HDrFvz52AbJu5i3b7Y>
-X-ME-Received: <xmr:Qj2fYSAVu5aTczSlnKqR69idNaXlWK_KZ1epawdSWJuVaTR4ilvAETCZaFJg6E5nvcebsRmWISN6gbiCFK3bkQQARpK_WQoiO01NpIiZNQ>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=JrWb3UuoCg2iuwQY6MWzFJnuH+rEfBZLhpbZba1Wb5A=; b=R1xK22Ct
+ LqnvvCO6alk36UMj5Osj456kXmkO8/jGU62ZFD/u0YAe/sYueTREy8Kxo50ILK9F
+ FhPNW2vWfKRkwRbS0oVg00uSqQwNYLTyW9jMHr6IpOKcCIGGhDToX9dyJeb5RzCa
+ DiD1816cgUhnGvDqflPfbSju3dvI6ItDOHyzBn/Vc9QHyFyVaBFvLu4WkL/Z4HdQ
+ j9HHhNvV+6Ru/OL6PilZHE3tBWBhl/eDGPbK7fvWzudf/4L9smfU4ahuqpncqn03
+ WBm662BDinoWO/77brK+ZoPV4PJ++CGe89lhp+t9buNLpwX7ItSaQ/FtQYS0ihKd
+ Mf9Z3EgvDhMDWQ==
+X-ME-Sender: <xms:RD2fYb1xmCC2Bx05PFWjH30lFFSW5yo2Q-6ynv78N0InpBsO-EEzZg>
+ <xme:RD2fYaFXSt_Ja6R7Fyod5merU9ercWTNkd5vaGIsXImw8jJ5vkGeHN_CqbyDFSNqO
+ kJ2p6B0CLrAYI_hbTA>
+X-ME-Received: <xmr:RD2fYb5NLjtyOWJiPXt8wC5Z6uTSjcuIGZMYrv5oJ3NtjnJ_p5GuXaP2L2o29CRD8D3W3c6y5bUHhxntHLx0kcb8xHQN4Yr0V4Wec7IfTA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeelgddutdeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhephfegveekiefgkeevvdetjeejkeekudfgvdehieejfffgkeffvdevlefftedvgefh
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
- esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:Qj2fYccqBsG427hYYwoEO9s5wxJGaImBO9pVCsmcEpuklubsYA-a7A>
- <xmx:Qj2fYRPFxvcW8_UEGWMXWr3v2-h4F6N3x-1FwNZp_XL6VQq0slVTqg>
- <xmx:Qj2fYWmXG72t05ao9arRDtbYzCji6MlMX8p4-CKj9PexASEDeXi3Cg>
- <xmx:Qz2fYaiF2YXqjkc7HlvbJFANChdGbk0CuCD3TGfxF95qhGwJtwGS9A>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:RD2fYQ06m4Ac2ADytAUjNUlfbfz_mSt4X3wbs2L7D5of1qfwQ006vg>
+ <xmx:RD2fYeEpfz47riv-JFH6DZcIkECwpgRjwK7KsqfOe1sXJAEJq6r_eg>
+ <xmx:RD2fYR-XFxZUK8kjgmbvY9NRu0PRxF2yDctFu1E5oqx0F50RsJ6Z_A>
+ <xmx:RT2fYcYhJBVmU4PnGiSsmbiMIHp9Olr4l8zoMj4GoAHitIC68wWQag>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Nov 2021 02:37:36 -0500 (EST)
+ 25 Nov 2021 02:37:39 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH for-7.0 0/4] hw/nvme: zoned random write area
-Date: Thu, 25 Nov 2021 08:37:31 +0100
-Message-Id: <20211125073735.248403-1-its@irrelevant.dk>
+Subject: [PATCH for-7.0 1/4] hw/nvme: add struct for zone management send
+Date: Thu, 25 Nov 2021 08:37:32 +0100
+Message-Id: <20211125073735.248403-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.34.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20211125073735.248403-1-its@irrelevant.dk>
+References: <20211125073735.248403-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
  helo=out2-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -99,25 +100,89 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-This series adds support for a zoned random write area as standardized=0D
-in TP 4076 ("Zoned Random Write Area").=0D
-=0D
-Klaus Jensen (4):=0D
-  hw/nvme: add struct for zone management send=0D
-  hw/nvme: add zone attribute get/set helpers=0D
-  hw/nvme: add ozcs enum=0D
-  hw/nvme: add support for zoned random write area=0D
-=0D
- hw/nvme/ctrl.c       | 185 ++++++++++++++++++++++++++++++++++++-------=0D
- hw/nvme/ns.c         |  61 +++++++++++++-=0D
- hw/nvme/nvme.h       |  10 +++=0D
- hw/nvme/trace-events |   1 +=0D
- include/block/nvme.h |  43 +++++++++-=0D
- 5 files changed, 271 insertions(+), 29 deletions(-)=0D
-=0D
--- =0D
-2.34.0=0D
-=0D
+Add struct for Zone Management Send in preparation for more zone send
+flags.
+
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c       | 10 ++++------
+ include/block/nvme.h | 18 ++++++++++++++++++
+ 2 files changed, 22 insertions(+), 6 deletions(-)
+
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 5f573c417b3d..489d586ab9d7 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -3593,26 +3593,24 @@ done:
+ 
+ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
+ {
+-    NvmeCmd *cmd = (NvmeCmd *)&req->cmd;
++    NvmeZoneSendCmd *cmd = (NvmeZoneSendCmd *)&req->cmd;
+     NvmeNamespace *ns = req->ns;
+     NvmeZone *zone;
+     NvmeZoneResetAIOCB *iocb;
+     uint8_t *zd_ext;
+-    uint32_t dw13 = le32_to_cpu(cmd->cdw13);
+     uint64_t slba = 0;
+     uint32_t zone_idx = 0;
+     uint16_t status;
+-    uint8_t action;
++    uint8_t action = cmd->zsa;
+     bool all;
+     enum NvmeZoneProcessingMask proc_mask = NVME_PROC_CURRENT_ZONE;
+ 
+-    action = dw13 & 0xff;
+-    all = !!(dw13 & 0x100);
++    all = cmd->zsflags[0] & NVME_ZSFLAG_SELECT_ALL;
+ 
+     req->status = NVME_SUCCESS;
+ 
+     if (!all) {
+-        status = nvme_get_mgmt_zone_slba_idx(ns, cmd, &slba, &zone_idx);
++        status = nvme_get_mgmt_zone_slba_idx(ns, &req->cmd, &slba, &zone_idx);
+         if (status) {
+             return status;
+         }
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index e3bd47bf76ab..2ee227760265 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -1433,6 +1433,20 @@ enum NvmeZoneType {
+     NVME_ZONE_TYPE_SEQ_WRITE         = 0x02,
+ };
+ 
++typedef struct QEMU_PACKED NvmeZoneSendCmd {
++    uint8_t     opcode;
++    uint8_t     flags;
++    uint16_t    cid;
++    uint32_t    nsid;
++    uint32_t    rsvd2[4];
++    NvmeCmdDptr dptr;
++    uint64_t    slba;
++    uint32_t    rsvd12;
++    uint8_t     zsa;
++    uint8_t     zsflags[3];
++    uint32_t    rsvd14[2];
++} NvmeZoneSendCmd;
++
+ enum NvmeZoneSendAction {
+     NVME_ZONE_ACTION_RSD             = 0x00,
+     NVME_ZONE_ACTION_CLOSE           = 0x01,
+@@ -1443,6 +1457,10 @@ enum NvmeZoneSendAction {
+     NVME_ZONE_ACTION_SET_ZD_EXT      = 0x10,
+ };
+ 
++enum {
++    NVME_ZSFLAG_SELECT_ALL = 1 << 0,
++};
++
+ typedef struct QEMU_PACKED NvmeZoneDescr {
+     uint8_t     zt;
+     uint8_t     zs;
+-- 
+2.34.0
+
 
