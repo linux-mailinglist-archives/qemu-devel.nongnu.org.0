@@ -2,58 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B81D45DA1E
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 13:33:06 +0100 (CET)
-Received: from localhost ([::1]:44764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7440C45DA74
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 13:52:47 +0100 (CET)
+Received: from localhost ([::1]:35372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqDw1-0006oA-2r
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 07:33:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52126)
+	id 1mqEF4-0003lV-3j
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 07:52:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1mqDuZ-0005Nv-AU
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 07:31:35 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:43462
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1mqDuV-000186-8v
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 07:31:34 -0500
-HMM_SOURCE_IP: 172.18.0.188:39780.153161248
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 5349628008E;
- Thu, 25 Nov 2021 20:31:09 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.188])
- by app0023 with ESMTP id e807c88ea7ad4c46acf3c2d43885832b for
- armbru@redhat.com; Thu, 25 Nov 2021 20:31:19 CST
-X-Transaction-ID: e807c88ea7ad4c46acf3c2d43885832b
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.188
-X-MEDUSA-Status: 0
-Message-ID: <6d07f6a4-8ec8-706c-45b1-35aefabb7ad3@chinatelecom.cn>
-Date: Thu, 25 Nov 2021 20:31:11 +0800
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mqE5X-0003Ot-Mq
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 07:42:55 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:48432)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mqE5U-0003E3-L0
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 07:42:55 -0500
+Received: from [192.168.12.10] (unknown [195.68.53.70])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 75CC020782;
+ Thu, 25 Nov 2021 12:42:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1637844166;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1zBOkLcaO0nQMJq9eDlK0vIVPZ7jNPqr+pnMvSWGm9M=;
+ b=4KAYkM0isi6xQeqDBRK05Gmn3cPyD5WmDQ7B0mCvfsQhFE+gOOVqnk5uMYZPOiLsK1/Ant
+ pXPBWhzznEYOkGXQ6uRnJDZ3Dk3VkgslaG1HAYIHqM3vJGOMwNss8M2BFkdCGc7SM4pFk/
+ lYevBJYh8T9kv5wLc1tAMq4s5aCkpAg=
+Message-ID: <ecf32268-00e5-3990-56b1-c54ff4a59733@greensocs.com>
+Date: Thu, 25 Nov 2021 13:42:45 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 3/3] cpus-common: implement dirty limit on vCPU
-To: Markus Armbruster <armbru@redhat.com>
-References: <cover.1637759139.git.huangy81@chinatelecom.cn>
- <cover.1637759139.git.huangy81@chinatelecom.cn>
- <5b05962093b000b2e9d417d9de41d2cd6f272073.1637759139.git.huangy81@chinatelecom.cn>
- <87r1b5tvom.fsf@dusky.pond.sub.org>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <87r1b5tvom.fsf@dusky.pond.sub.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [RFC PATCH v3 0/5] QMP support for cold-plugging devices
+Content-Language: en-US-large
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20211117144703.16305-1-damien.hedde@greensocs.com>
+ <87y25jw69i.fsf@dusky.pond.sub.org>
+ <d3ae2bea-7d60-a714-100c-40b31fd19725@greensocs.com>
+ <87lf1dwtm4.fsf@dusky.pond.sub.org> <YZ5HI0ms/sd4gEIS@redhat.com>
+ <87czmpvc7o.fsf@dusky.pond.sub.org>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <87czmpvc7o.fsf@dusky.pond.sub.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.219;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -59
-X-Spam_score: -6.0
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -61
+X-Spam_score: -6.2
 X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,10 +70,13 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+Cc: edgar.iglesias@xilinx.com, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Mark Burton <mark.burton@greensocs.com>, qemu-devel@nongnu.org,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -77,219 +84,149 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-在 2021/11/24 23:33, Markus Armbruster 写道:
-> huangy81@chinatelecom.cn writes:
+On 11/24/21 15:51, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
 > 
->> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>> On Wed, Nov 24, 2021 at 02:50:11PM +0100, Markus Armbruster wrote:
+>>> Damien Hedde <damien.hedde@greensocs.com> writes:
+>>>
+>>>> The biggest difference is the fw_cfg option I think: it is related
+>>>> with the rom_set_order_override()/rom_reset_order_override() (line 17
+>>>> and 25). There is also the usb devices parts in between. I lack the
+>>>> knowledge about fw_cfg/usb to tell if it is important or not.
+>>>>
+>>>> What I wanted to say is I don't know if the difference is
+>>>> acceptable. If we want device_add to support all -device use cases, it
+>>>> is not. In that case we need to stop either in the middle of this
+>>>> function (line 15) or at the end (better with your sketch in mind).
+>>>>
+>>>> Note that rom_set_order_override()/rom_reset_order_override() only
+>>>> set/reset a switch variable that changes how fw_cfg files are
+>>>> sorted. It could be integrated into device_add code (and removed from
+>>>> the above function) without changing the behavior.
+>>>
+>>> For me, the part that puts me off is interleaving CLI and QMP.
+>>>
+>>> We process the CLI in an order few people understand, and only while
+>>> staring at the code.  That's bad.
+>>>
+>>> Injecting QMP at certain points in that sequence can only make it worse.
 >>
->> Implement dirtyrate calculation periodically basing on
->> dirty-ring and throttle vCPU until it reachs the quota
->> dirtyrate given by user.
+>> Yep, I share your unease here.. especially wrt this quoted text
+>> from later:
 >>
->> Introduce qmp commands set-dirty-limit/cancel-dirty-limit to
->> set/cancel dirty limit on vCPU.
+>>    > >> Users can do as much or as little with the CLI as they want.  You'd
+>>    > >> probably want to set up a QMP monitor and no more.
 >>
->> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->> ---
->>   cpus-common.c         | 41 +++++++++++++++++++++++++++++++++++++++++
->>   include/hw/core/cpu.h |  9 +++++++++
->>   qapi/migration.json   | 43 +++++++++++++++++++++++++++++++++++++++++++
->>   softmmu/vl.c          |  1 +
->>   4 files changed, 94 insertions(+)
+>> I would say that is a case of overkill. It can only make our
+>> lives harder as maintainers in the long term, if we have to
+>> worry about such arbitrary mixing of QMP and CLI. This is
+>> also why I'm pretty uneasy about the 'preconfig' stuff as
+>> implemented today in general.
 >>
->> diff --git a/cpus-common.c b/cpus-common.c
->> index 6e73d3e..43b0078 100644
->> --- a/cpus-common.c
->> +++ b/cpus-common.c
->> @@ -23,6 +23,11 @@
->>   #include "hw/core/cpu.h"
->>   #include "sysemu/cpus.h"
->>   #include "qemu/lockable.h"
->> +#include "sysemu/dirtylimit.h"
->> +#include "sysemu/cpu-throttle.h"
->> +#include "sysemu/kvm.h"
->> +#include "qapi/error.h"
->> +#include "qapi/qapi-commands-migration.h"
->>   
->>   static QemuMutex qemu_cpu_list_lock;
->>   static QemuCond exclusive_cond;
->> @@ -352,3 +357,39 @@ void process_queued_cpu_work(CPUState *cpu)
->>       qemu_mutex_unlock(&cpu->work_mutex);
->>       qemu_cond_broadcast(&qemu_work_cond);
->>   }
->> +
->> +void qmp_set_dirty_limit(int64_t idx,
->> +                         uint64_t dirtyrate,
->> +                         Error **errp)
->> +{
->> +    if (!kvm_dirty_ring_enabled()) {
->> +        error_setg(errp, "dirty ring not enable, needed by dirty restraint!");
+>> It is a half-way house that doesn't really give mgmt apps
+>> what they want, which is a 100% QAPI-only config. If mgmt
+>> apps start using preconfig, it won't make life any better
+>> for them and will also lock QEMU maintainers into supporting
+>> this half-way house.
 > 
-> "not enabled"
+> Misunderstanding?  The paragraph you quoted is about this design:
 > 
-> What is a "dirty restraint"?
+>      1. Start event loop
+>      
+>      2. Feed it CLI left to right.  Each option runs a handler just like each
+>          QMP command does.
+>      
+>          Options that read a configuration file inject the file into the feed.
+>      
+>          Options that create a monitor create it suspended.
+>      
+>          Options may advance the phase / run state, and they may require
+>          certain phase(s).
+>      
+>      3. When we're done with CLI, resume any monitors we created.
+>      
+>      4. Monitors now feed commands to the event loop.  Commands may advance
+>          the phase / run state, and they may require certain phase(s).
+>      
+>      Users can do as much or as little with the CLI as they want.  You'd
+>      probably want to set up a QMP monitor and no more.
+>      
+>      device_add becomes possible at a certain state of the phase / run state
+>      machine.  It changes from cold to hot plug at a certain later state.
 > 
-> Drop the exclamation point, please.  See error.h:
+> Certainly enables 100% QAPI-only config.  It just doesn't *force* you to
+> 100%.  Feature.
 > 
->   * The resulting message should be a single phrase, with no newline or
->   * trailing punctuation.
+>> We have a bit of a track record with QEMU of introducing
+>> partial solutions and never quite finishing the job. There's
+>> little strong incentive to ever finish it, if you can freely
+>> mix both old and new style forever, and thus maintainers are
+>> burdened forever with both.
+>>
+>> IMHO, we should only try to support the non-mixed scenarios
+>>
+>>    - 100% of hardware configured via CLI args
+>>    - 100% of hardware configured via QAPI (whether live in
+>>      QMP, or fed in via a QAPI based JSON/YAML config file)
+>>
+>> so that we only have two clear cases we need to worry about
+>> dealing with.
+>>
+>> Focus our efforts 100% of the 100% QAPI scenario and don't
+>> divert energy into short term hybrid solutions.
 > 
-> What about "setting a dirty page limit requires ...".
-Ok, sound good
+> The design above pretty much requires 100% QAPI.
 > 
->> +        return;
->> +    }
->> +
->> +    dirtylimit_calc();
->> +    dirtylimit_vcpu(idx, dirtyrate);
->> +}
->> +
->> +void qmp_cancel_dirty_limit(int64_t idx,
->> +                            Error **errp)
->> +{
->> +    if (!kvm_dirty_ring_enabled()) {
->> +        error_setg(errp, "dirty ring not enable, needed by dirty restraint!");
->> +        return;
->> +    }
->> +
->> +    if (unlikely(!dirtylimit_cancel_vcpu(idx))) {
->> +        dirtylimit_calc_quit();
->> +    }
->> +}
->> +
->> +void dirtylimit_setup(int max_cpus)
->> +{
->> +    if (!kvm_dirty_ring_enabled()) {
+> It's based on the notion that there's no real difference between a CLI
+> option and a QMP command that doesn't return a value.  So treat the CLI
+> more like a monitor.
 > 
-> This crashes unless the accelerator is kvm.  Reproducer:
+> For sanity's sake, make it not race with the other monitors by starting
+> them suspended.
 > 
->      $ qemu-system-x86_64 -display none -accel tcg
->      Segmentation fault (core dumped)
+> This design is arguably *less* hybrid than one that treats a (severely
+> dumbed down) CLI unlike a monitor.
 >
-Thanks very much for finding this issue, i'll fix it next version
 
->> +        return;
->> +    }
->> +
->> +    dirtylimit_calc_state_init(max_cpus);
->> +    dirtylimit_state_init(max_cpus);
->> +}
->> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
->> index e948e81..11df012 100644
->> --- a/include/hw/core/cpu.h
->> +++ b/include/hw/core/cpu.h
->> @@ -881,6 +881,15 @@ void end_exclusive(void);
->>    */
->>   void qemu_init_vcpu(CPUState *cpu);
->>   
->> +/**
->> + * dirtylimit_setup:
->> + *
->> + * Initializes the global state of dirtylimit calculation and
->> + * dirtylimit itself. This is prepared for vCPU dirtylimit which
->> + * could be triggered during vm lifecycle.
->> + */
->> +void dirtylimit_setup(int max_cpus);
->> +
->>   #define SSTEP_ENABLE  0x1  /* Enable simulated HW single stepping */
->>   #define SSTEP_NOIRQ   0x2  /* Do not use IRQ while single stepping */
->>   #define SSTEP_NOTIMER 0x4  /* Do not Timers while single stepping */
->> diff --git a/qapi/migration.json b/qapi/migration.json
->> index bbfd48c..42b260e 100644
->> --- a/qapi/migration.json
->> +++ b/qapi/migration.json
->> @@ -1850,6 +1850,49 @@
->>   { 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
->>   
->>   ##
->> +# @set-dirty-limit:
->> +#
->> +# Set the upper limit of dirty page rate for the interested vCPU.
-> 
-> "for a vCPU"
-> 
->> +#
->> +# This command could be used to cap the vCPU memory load, which is also
->> +# refered as "dirty page rate". Users can use set-dirty-limit unconditionally,
->> +# but if one want to know which vCPU is in high memory load and which vCPU
->> +# should be limited, "calc-dirty-rate" with "dirty-ring" mode maybe an
->> +# availiable method.
-> 
-> I think you should mention that the command fails unless dirty ring is
-> enabled, and a pointer to its documentation.
-> 
-Emm, it seems that there's no documentation about dirty ring in qemu，
-should i metion the commit b4420f19 "KVM: Dirty ring support" for 
-dirty-ring?
->> +#
->> +# @idx: vCPU index to set dirtylimit.
-> 
-> Please rename to @cpu-index for consistency with query-cpus-fast.  Same
-> for cancel-dirty-limit below.
-> 
->> +#
->> +# @dirtyrate: upper limit for the specified vCPU's dirty page rate (MB/s)
-> 
-> In QMP, we separate words with hyphens, like @dirty-rate.  Please
-> rename.
-> 
->> +#
->> +# Since: 6.3
-> 
-> 7.0
-> 
->> +#
->> +# Example:
->> +#   {"execute": "set-dirty-limit"}
->> +#    "arguments": { "idx": 0,
->> +#                   "dirtyrate": 200 } }
->> +#
->> +##
->> +{ 'command': 'set-dirty-limit',
->> +  'data': { 'idx': 'int', 'dirtyrate': 'uint64' } }
->> +
->> +##
->> +# @cancel-dirty-limit:
->> +#
->> +# Cancel the dirtylimit for the vCPU which has been set with set-dirty-limit.
-> 
-> "the dirty page limit"
-> 
->> +#
->> +# @idx: vCPU index to canceled the dirtylimit
->> +#
->> +# Since: 6.3
-> 
-> 7.0
-> 
->> +#
->> +# Example:
->> +#   {"execute": "cancel-dirty-limit"}
->> +#    "arguments": { "idx": 0 } }
->> +#
->> +##
->> +{ 'command': 'cancel-dirty-limit',
->> +  'data': { 'idx': 'int' } }
->> +
->> +##
->>   # @snapshot-save:
->>   #
->>   # Save a VM snapshot
->> diff --git a/softmmu/vl.c b/softmmu/vl.c
->> index 620a1f1..0f83ce3 100644
->> --- a/softmmu/vl.c
->> +++ b/softmmu/vl.c
->> @@ -3777,5 +3777,6 @@ void qemu_init(int argc, char **argv, char **envp)
->>       qemu_init_displays();
->>       accel_setup_post(current_machine);
->>       os_setup_post();
->> +    dirtylimit_setup(current_machine->smp.max_cpus);
->>       resume_mux_open();
->>   }
-> 
+It seems there is a big gap from where we are now to a full QAPI startup 
+support.
+Could we adopt a plan which would allow us to progress from where we are 
+to full QAPI support in small steps ?
 
--- 
-Best regard
+For example, the following:
 
-Hyman Huang(黄勇)
+  1. CLI/QMP interleaving seems to be big issue right now. We could 
+solve this by making -preconfig stop only after all CLI options are 
+"consumed".
+For example if you give -preconfig and some -device, qemu won't stop 
+before having created the devices.
+
+Meaning you would do
+$qemu [out-of-order CLI with -preconfig] then jump into the monitors.
+
+Depending on your use case, you would have to give a few CLI options so 
+that -preconfig stops early enough.
+
+  2. Then we can enable QMP commands one by one corresponding to 
+unsupported and needed/cleaned up CLI options. They will check and/or 
+advance the phase/runstate.
+
+Basically this would mean we have to first convert CLI options that are 
+used last in the startup procedure.
+Along the road we will be able to make -preconfig stop earlier and earlier.
+
+You could do a ~0% CLI startup at any point during the development
+$qemu -monitor... --preconfig
+but you would have a reduced set of configuration possibilities due the 
+lack of QAPI support.
+
+In addition, optionally, if we want to go with the left-to-right CLI 
+parsing and reading a CLI script file like Markus proposed, we could 
+have something like:
+$qemu [out-of-order CLI] --preconfig [in-order CLI]
+with [in-order CLI] being a 1:1 equivalent of QMP commands. [in-order 
+CLI] will still be parsed and executed before jumping in the monitors.
+
+Damien
 
