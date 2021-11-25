@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B17F45DA77
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 13:54:19 +0100 (CET)
-Received: from localhost ([::1]:39008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3678645DA8F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 13:59:01 +0100 (CET)
+Received: from localhost ([::1]:46278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqEGY-0006R2-MF
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 07:54:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57528)
+	id 1mqEL5-00035N-PS
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 07:58:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mqEFC-0005VU-J9
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 07:52:54 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:58752 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mqEF9-0006dz-4d
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 07:52:54 -0500
-Received: from [10.20.42.193] (unknown [10.20.42.193])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxKNIeh59hNl8BAA--.3433S3;
- Thu, 25 Nov 2021 20:52:46 +0800 (CST)
-Subject: Re: [PATCH] linux-user: move target_signal.h generic definitions to
- generic/signal.h
-To: WANG Xuerui <i.qemu@xen0n.name>
-References: <1637830541-3222-1-git-send-email-gaosong@loongson.cn>
- <f53f4fef-2ed9-3e9f-3104-ac4780819115@xen0n.name>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <01e80f0e-035d-8352-b225-d6dce9d943d0@loongson.cn>
-Date: Thu, 25 Nov 2021 20:52:46 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mqEIw-0001ZN-Gi
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 07:56:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26905)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mqEIr-0007v7-D2
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 07:56:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637845000;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=creLitvWwjjA6BEclFBbXMYDOZtrW4S/EO1tU6mFnTU=;
+ b=WcPVfktDayR0qsBThqc87a35Et5EGgIGxCbe5/LeWtSiKGwfqC23PeL2IcUOO7fUq0vJYM
+ 63Mdo4pltKsgI+9mCpV/r9Swz/fCEmGVCqa/7t+vXEQY8T64p5DmT+iVDzC4OWIw2wWS58
+ tLPDvpSICf2MlRGkBulRLXg1U94rRYY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-108-6Hl7CtbzMaeywHmCEF1dbg-1; Thu, 25 Nov 2021 07:56:27 -0500
+X-MC-Unique: 6Hl7CtbzMaeywHmCEF1dbg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 520CA802926;
+ Thu, 25 Nov 2021 12:56:26 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E7D37C5FD;
+ Thu, 25 Nov 2021 12:55:30 +0000 (UTC)
+Date: Thu, 25 Nov 2021 12:55:28 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [RFC PATCH v3 0/5] QMP support for cold-plugging devices
+Message-ID: <YZ+HwDmzHTjBkJo9@redhat.com>
+References: <20211117144703.16305-1-damien.hedde@greensocs.com>
+ <87y25jw69i.fsf@dusky.pond.sub.org>
+ <d3ae2bea-7d60-a714-100c-40b31fd19725@greensocs.com>
+ <87lf1dwtm4.fsf@dusky.pond.sub.org> <YZ5HI0ms/sd4gEIS@redhat.com>
+ <87czmpvc7o.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <f53f4fef-2ed9-3e9f-3104-ac4780819115@xen0n.name>
-Content-Type: multipart/alternative;
- boundary="------------5C444E79B968161A95881B59"
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9DxKNIeh59hNl8BAA--.3433S3
-X-Coremail-Antispam: 1UD129KBjvdXoWrZrW5ZFWfZw43Zry8AF15CFg_yoWfJrb_Cr
- 9a93y7Ww1UWay8Jw4jyr45Zr95KFWq9w18A398KwsFyrWrKrWkJws5GrZ7W34fZw48Crna
- vwsYvana9r1I9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbsxYjsxI4VWkCwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
- s7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4
- kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_
- Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxV
- W0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv20xvE14v26r1j6r18McIj
- 6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l7480Y4
- vEI4kI2Ix0rVAqx4xJMxk0xIA0c2IEe2xFo4CEbIxvr21lc2xSY4AK6svPMxAIw28IcxkI
- 7VAKI48JMxAIw28IcVCjz48v1sIEY20_XrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI
- 8I3I0E5I8CrVAFwI0_JrI_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
- xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
- 8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E
- 87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0x
- ZFpf9x07UiL05UUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -59
-X-Spam_score: -6.0
-X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-4.1, SPF_HELO_PASS=-0.001,
+In-Reply-To: <87czmpvc7o.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,97 +86,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, f4bug@amsat.org, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, laurent@vivier.eu
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, edgar.iglesias@xilinx.com,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Mark Burton <mark.burton@greensocs.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------5C444E79B968161A95881B59
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Wed, Nov 24, 2021 at 03:51:23PM +0100, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
+> 
+> > On Wed, Nov 24, 2021 at 02:50:11PM +0100, Markus Armbruster wrote:
+> >> Damien Hedde <damien.hedde@greensocs.com> writes:
+> >> 
+> >> > The biggest difference is the fw_cfg option I think: it is related
+> >> > with the rom_set_order_override()/rom_reset_order_override() (line 17
+> >> > and 25). There is also the usb devices parts in between. I lack the 
+> >> > knowledge about fw_cfg/usb to tell if it is important or not.
+> >> >
+> >> > What I wanted to say is I don't know if the difference is
+> >> > acceptable. If we want device_add to support all -device use cases, it
+> >> > is not. In that case we need to stop either in the middle of this
+> >> > function (line 15) or at the end (better with your sketch in mind).
+> >> >
+> >> > Note that rom_set_order_override()/rom_reset_order_override() only
+> >> > set/reset a switch variable that changes how fw_cfg files are
+> >> > sorted. It could be integrated into device_add code (and removed from
+> >> > the above function) without changing the behavior.
+> >> 
+> >> For me, the part that puts me off is interleaving CLI and QMP.
+> >> 
+> >> We process the CLI in an order few people understand, and only while
+> >> staring at the code.  That's bad.
+> >> 
+> >> Injecting QMP at certain points in that sequence can only make it worse.
+> >
+> > Yep, I share your unease here.. especially wrt this quoted text
+> > from later:
+> >
+> >   > >> Users can do as much or as little with the CLI as they want.  You'd
+> >   > >> probably want to set up a QMP monitor and no more.
+> >
+> > I would say that is a case of overkill. It can only make our
+> > lives harder as maintainers in the long term, if we have to
+> > worry about such arbitrary mixing of QMP and CLI. This is
+> > also why I'm pretty uneasy about the 'preconfig' stuff as
+> > implemented today in general.
+> >
+> > It is a half-way house that doesn't really give mgmt apps
+> > what they want, which is a 100% QAPI-only config. If mgmt
+> > apps start using preconfig, it won't make life any better
+> > for them and will also lock QEMU maintainers into supporting
+> > this half-way house.
+> 
+> Misunderstanding?  The paragraph you quoted is about this design:
+> 
+>     1. Start event loop
+>     
+>     2. Feed it CLI left to right.  Each option runs a handler just like each
+>         QMP command does.
+>     
+>         Options that read a configuration file inject the file into the feed.
+>     
+>         Options that create a monitor create it suspended.
+>     
+>         Options may advance the phase / run state, and they may require
+>         certain phase(s).
+>     
+>     3. When we're done with CLI, resume any monitors we created.
+>     
+>     4. Monitors now feed commands to the event loop.  Commands may advance
+>         the phase / run state, and they may require certain phase(s).
+>     
+>     Users can do as much or as little with the CLI as they want.  You'd
+>     probably want to set up a QMP monitor and no more.
+>     
+>     device_add becomes possible at a certain state of the phase / run state
+>     machine.  It changes from cold to hot plug at a certain later state.
+> 
+> Certainly enables 100% QAPI-only config.  It just doesn't *force* you to
+> 100%.  Feature.
 
-Hi,
-On 2021/11/25 下午6:08, WANG Xuerui wrote:
->> +
->> +#define TARGET_MINSIGSTKSZ     2048
-> While all the architectures you de-duplicated here have
-> TARGET_MINSIGSTACKSZ as 2048, some others specify a different value
-> (mostly 4096, e.g. alpha), as can be seen in your next patch (which
-> should belong to this series, btw).
-Surely   I 'll add a patch to delete TARGET_SIGSTKSZ.
->   Do you mean to change semantics
-> here? Or you might have to allow arches to override this value.
->
->
-mips64, sparc, alpha, mips, hppa, their signal definitions are defined 
-in /linux-user/XXX/target_signal.h,
-but their target_signal.h don't include generic/signal.h.  they don't 
-use generic/signal.h at all.
-It's hard to move their some generic definitions to generic/signal.h,  
-because their definitions are too defferent with generic.
+This is far away from how our CLI handling works today, since we don't
+require left-to-right args. Converting existing binaries to this
+approach is going to be hard with a high risk of regressions. This
+is especiall true if we try todo an incremental conversion, of
+different pieces of the CLI and allow arbitrary mixing of CLI and
+QMP throughout.
 
-Thanks
-Song Gao
+IMHO a pre-requisite for changing CLI arg processing ordering, is
+a fresh binary that leaves QemuOpts behind for its CLI, so any
+usage is consistent with QAPI. 
 
+> > We have a bit of a track record with QEMU of introducing
+> > partial solutions and never quite finishing the job. There's
+> > little strong incentive to ever finish it, if you can freely
+> > mix both old and new style forever, and thus maintainers are
+> > burdened forever with both.
+> >
+> > IMHO, we should only try to support the non-mixed scenarios
+> >
+> >   - 100% of hardware configured via CLI args
+> >   - 100% of hardware configured via QAPI (whether live in
+> >     QMP, or fed in via a QAPI based JSON/YAML config file)
+> >
+> > so that we only have two clear cases we need to worry about
+> > dealing with.
+> >
+> > Focus our efforts 100% of the 100% QAPI scenario and don't
+> > divert energy into short term hybrid solutions.
+> 
+> The design above pretty much requires 100% QAPI.
+> 
+> It's based on the notion that there's no real difference between a CLI
+> option and a QMP command that doesn't return a value.  So treat the CLI
+> more like a monitor.
+> 
+> For sanity's sake, make it not race with the other monitors by starting
+> them suspended.
+> 
+> This design is arguably *less* hybrid than one that treats a (severely
+> dumbed down) CLI unlike a monitor.
 
+Yes, my concern is more about how that gets introduced into the code
+for the existing binaries, vs having a clean break where we're 100%
+QAPI and no back compat CLI options exist.
 
-
-
-
---------------5C444E79B968161A95881B59
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    Hi,<br>
-    <div class="moz-cite-prefix">On 2021/11/25 下午6:08, WANG Xuerui
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:f53f4fef-2ed9-3e9f-3104-ac4780819115@xen0n.name">
-      <blockquote type="cite" style="color: #000000;">
-        <pre class="moz-quote-pre" wrap="">+
-+#define TARGET_MINSIGSTKSZ     2048
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">While all the architectures you de-duplicated here have
-TARGET_MINSIGSTACKSZ as 2048, some others specify a different value
-(mostly 4096, e.g. alpha), as can be seen in your next patch (which
-should belong to this series, btw). </pre>
-    </blockquote>
-    Surely   I 'll add a patch to delete TARGET_SIGSTKSZ.
-    <blockquote type="cite"
-      cite="mid:f53f4fef-2ed9-3e9f-3104-ac4780819115@xen0n.name">
-      <pre class="moz-quote-pre" wrap=""> Do you mean to change semantics
-here? Or you might have to allow arches to override this value.
-
-
-</pre>
-    </blockquote>
-    mips64, sparc, alpha, mips, hppa, their signal definitions are
-    defined in /linux-user/XXX/target_signal.h, <br>
-    but their target_signal.h don't include generic/signal.h.  they
-    don't use generic/signal.h at all.  <br>
-    It's hard to move their some generic definitions to
-    generic/signal.h,  because their definitions are too defferent with
-    generic.<br>
-      <br>
-    Thanks<br>
-    Song Gao<br>
-    <p><br>
-    </p>
-    <p><br>
-      <br>
-    </p>
-    <br>
-  </body>
-</html>
-
---------------5C444E79B968161A95881B59--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
