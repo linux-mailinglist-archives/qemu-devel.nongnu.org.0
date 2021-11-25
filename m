@@ -2,90 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2D645DC08
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 15:09:53 +0100 (CET)
-Received: from localhost ([::1]:41376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D4845DC2C
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 15:18:00 +0100 (CET)
+Received: from localhost ([::1]:52968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqFRg-0003ef-DE
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 09:09:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48966)
+	id 1mqFZX-0003eX-Cj
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 09:17:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mqFMc-0003zK-Uy
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 09:04:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21419)
+ (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
+ id 1mqFXX-0002AY-Fr; Thu, 25 Nov 2021 09:15:57 -0500
+Received: from mga03.intel.com ([134.134.136.65]:19917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mqFMV-00027f-1O
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 09:04:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637849069;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vTSMbbzRWzP6aBRL6yW6cZh21SmMXZ0BtqacAGfmlGc=;
- b=aXpMOmrjzi0Uqiu+Iczz7My/IqVRADEiqPRYXD6S2E1isPAzrOwHakY6IPUBwBzRW5MPN3
- VuHCIzmoUJOkFsGa6EA0cb2yqGzwBTrzNTeZC1gEozErU09jXRiwKOYJWg5iyvr5Dh2Yh2
- /kyuK+6BCoT+wplZyYUxzn7a2v0jFeM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-240-KBc2tmNIMY2dgTPGrAR5RA-1; Thu, 25 Nov 2021 09:04:28 -0500
-X-MC-Unique: KBc2tmNIMY2dgTPGrAR5RA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o18-20020a05600c511200b00332fa17a02eso3587087wms.5
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 06:04:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vTSMbbzRWzP6aBRL6yW6cZh21SmMXZ0BtqacAGfmlGc=;
- b=CQkbl7Llj4ps6AaszQ4j9H/sg0eFnf0GutUPw8DDaQP72tBwKJZ5KQhJaH86kp1XCF
- DMtV5O9I8y6fn9qPJm8nU4cI7s9VUozR2xgxiDx2nFnE5hp3/8m8cV9RQm3SWRgA2snL
- Lc1Ypic8PfTqJ44n9RyeXKfaWRC9ktpatDb2KfyYiz2Iu2yylr6mZAMuorZ7ZSoVVeHj
- BR6hVlYcUSlefaGU24UNEDtxIK9eF0Q/ohz2Y0yyNkypB6mG1zl1V3BYyX2bn3EAmAhn
- 80CHEBNZbR4Erjhi6znBl2hbm6LwowLaAmSazAU7mF+pxlMGc1W+07Us+veaIie9ra4F
- oQvA==
-X-Gm-Message-State: AOAM533dVFRkYm6pgeO510RYfMXntZYPvAx6FwCRiQSQnj0dnycnIxVR
- 6gbACxoY+Z6uESaCtPW/mgNVyPU2jiHfwHMAiziWLF8gYe4aep9zK/DCRlHkyaL1Cslhtg3Inss
- pDnO+PL+Cey9NOQ4=
-X-Received: by 2002:a5d:60d0:: with SMTP id x16mr7130115wrt.103.1637849067160; 
- Thu, 25 Nov 2021 06:04:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwWzUnSwO3KrrCXFElWpcY1PC8zpCXx2xhjH84iLfc0tQ7xA3YeKWhCZMegsKQ0Ji2yVXH5zw==
-X-Received: by 2002:a5d:60d0:: with SMTP id x16mr7129914wrt.103.1637849065940; 
- Thu, 25 Nov 2021 06:04:25 -0800 (PST)
-Received: from [10.201.33.14] ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id l3sm3676819wmq.46.2021.11.25.06.04.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Nov 2021 06:04:25 -0800 (PST)
-Message-ID: <c211e4ed-e953-03ea-4b17-f1743928c3f3@redhat.com>
-Date: Thu, 25 Nov 2021 15:04:22 +0100
+ (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
+ id 1mqFXV-00063M-CL; Thu, 25 Nov 2021 09:15:55 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="235461715"
+X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; d="scan'208";a="235461715"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2021 06:15:44 -0800
+X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; d="scan'208";a="510320564"
+Received: from lgieryk-mobl1.ger.corp.intel.com (HELO lgieryk-VirtualBox)
+ ([10.249.32.225])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2021 06:15:43 -0800
+Date: Thu, 25 Nov 2021 15:15:34 +0100
+From: =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v2 00/15] hw/nvme: SR-IOV with Virtualization Enhancements
+Message-ID: <20211125141534.GA28269@lgieryk-VirtualBox>
+References: <20211116153446.317143-1-lukasz.gieryk@linux.intel.com>
+ <YZ3xurkIxozrTbqu@apples.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 1/2] block-backend: Retain permissions after migration
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-References: <20211125135317.186576-1-hreitz@redhat.com>
- <20211125135317.186576-2-hreitz@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211125135317.186576-2-hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -75
-X-Spam_score: -7.6
-X-Spam_bar: -------
-X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <YZ3xurkIxozrTbqu@apples.localdomain>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=134.134.136.65;
+ envelope-from=lukasz.gieryk@linux.intel.com; helo=mga03.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,36 +59,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peng Liang <liangpeng10@huawei.com>,
- qemu-devel@nongnu.org
+Cc: kbusch@kernel.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Lukasz Maniak <lukasz.maniak@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/25/21 14:53, Hanna Reitz wrote:
-> After migration, the permissions the guest device wants to impose on its
-> BlockBackend are stored in blk->perm and blk->shared_perm.  In
-> blk_root_activate(), we take our permissions, but keep all shared
-> permissions open by calling `blk_set_perm(blk->perm, BLK_PERM_ALL)`.
+On Wed, Nov 24, 2021 at 09:03:06AM +0100, Klaus Jensen wrote:
+> Hi Lukasz,
 > 
-> Only afterwards (immediately or later, depending on the runstate) do we
-> restrict the shared permissions by calling
-> `blk_set_perm(blk->perm, blk->shared_perm)`.  Unfortunately, our first
-> call with shared_perm=BLK_PERM_ALL has overwritten blk->shared_perm to
-> be BLK_PERM_ALL, so this is a no-op and the set of shared permissions is
-> not restricted.
-> 
-> Fix this bug by saving the set of shared permissions before invoking
-> blk_set_perm() with BLK_PERM_ALL and restoring it afterwards.
-> 
-> Fixes: 5f7772c4d0cf32f4e779fcd5a69ae4dae24aeebf
->        ("block-backend: Defer shared_perm tightening migration
->        completion")
-> Reported-by: Peng Liang <liangpeng10@huawei.com>
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> ---
->  block/block-backend.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+> I've been through this. I have a couple of review comments, but overall
+> looks good for inclusion in nvme-next. Would be nice to get this in
+> early in the cycle so it can mature there for 7.0.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+We (I’m speaking on behalf of the other Lukasz) are really happy to
+read that. We will do our best to make it happen.
+
+> 
+> I'd like that we mark this support experimental, so we can easily do
+> some changes to how parameters work since I'm not sure we completely
+> agree on that yet.
+> 
+> By the way, in the future, please add me and Keith as CCs on the entire
+> series so we get CC'ed on replies to the cover-letter ;)
+> 
+
+> > List of known gaps and nice-to-haves:
+> > 
+> > 1) Interaction of secondary controllers with namespaces is not 100%
+> > following the spec
+> > 
+> > The limitation: VF has to be visible on the PCI bus first, and only then
+> > such VF can have a namespace attached.
+> > 
+> 
+> Looking at the spec I'm not even sure what the expected behavior is
+> supposed to be, can you elaborate? I rebased this on latest, and with
+> Hannes changes, shared namespaces will be attached by default, which
+> seems to be reasonable.
+
+An example flow:
+
+# Release flexible resources from PF (assuming it’s /dev/nvme0)
+nvme virt-mgmt -c 0 -r 0 -n 0 -a 1 /dev/nvme0
+nvme virt-mgmt -c 0 -r 1 -n 0 -a 1 /dev/nvme0
+echo 1 > /sys/class/nvme/nvme0/reset_controller
+# Bind sane minimums to VF1 (cntlid=1) and set it online
+nvme virt-mgmt -c 1 -r 0 -n 5 -a 8 /dev/nvme0
+nvme virt-mgmt -c 1 -r 1 -n 5 -a 8 /dev/nvme0
+nvme virt-mgmt -c 1 -a 9 /dev/nvme0
+# Enable 2 VFs
+echo 2 > /sys/bus/pci/devices/<PF’s id>/sriov_numvfs
+# PF, VF1 and VF2 are visible on PCI
+lspci | grep Non-Volatile
+# The NVMe driver is bound to PF and VF1 (the only online VF)
+nvme list -v
+# VFs shall eventually not support Ns Management/Attachment commands,
+# and namespaces should be attached to VFs (i.e., their secondary
+# controllers) through the PF.
+# A namespace can be attached to VF1, VF2
+nvme attach-ns /dev/nvme0 -c 1 -n X
+nvme attach-ns /dev/nvme0 -c 2 -n X
+# According to the spec this should also succeed, but today it won’t
+nvme attach-ns /dev/nvme0 -c 3 -n X
+
+VF3’s NvmeCtrl object is not yet allocated, so today there’s nothing
+for nvme_subsys_ctrl() to return for cntlid=3, besides NULL (the
+current behavior) or SUBSYS_SLOT_RSVD.
+
+Relevant use cases:
+ - admin can configure disabled VFs,
+ - information about attached ns persists when VFs are disabled,
+are not that critical, but of course it’s a discrepancy from what a
+real device can handle.
+
+In my opinion, to handle the cases correctly, information about attached
+namespaces could be moved to subsystem. Could you share your thoughts
+whether such approach would make sense?
 
 
