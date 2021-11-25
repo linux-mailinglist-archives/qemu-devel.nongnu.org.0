@@ -2,81 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2CE845DD3E
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 16:22:13 +0100 (CET)
-Received: from localhost ([::1]:44600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C85D45DD38
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 16:21:36 +0100 (CET)
+Received: from localhost ([::1]:42754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqGZg-00084u-Oh
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 10:22:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41246)
+	id 1mqGZ4-0006jo-Eb
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 10:21:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mqGXV-0005aG-Bo
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 10:19:58 -0500
-Received: from [2a00:1450:4864:20::42d] (port=45627
- helo=mail-wr1-x42d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mqGXT-0006Z5-AL
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 10:19:57 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id o13so12346387wrs.12
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 07:19:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=p1gck3gBX86/0ejR2FzhHQNW+IwlcQxuWkiRN1EdISM=;
- b=GVcnjSBWcZDPau66VFzsZhpOAZMA2o8PJp8XwVC1G6pXB7tcemxlJZMb7F8xNe6u1m
- phjZR6BNJH0kZoS+cmpL2TofK9IMyNkDMIt3KPlrSZ9pICjbVjujAyYVLleghiRFd5pP
- rVF8nGw1uWWFibJvdToza8K3iwXex/BWtCLD+xt6WAlkR6HuinPNRr5Wq8+WEzSc1jYy
- ysKbpY3o539Xx4KHtxeK3FsWLAKvx8u93cbHSwQRjdw9LEaZiPx6qtLpUhBa7ZGh17+h
- TXFGKCFHAUHu59QAbnrAdPiDPsso7iKVtflfjKhvOl9EotZCSnSih0f7PCSlVMabyNWV
- vJiA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mqGWs-0004JS-Kf
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 10:19:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49167)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mqGWn-0006QG-4o
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 10:19:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637853551;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uzUWktIogEvCDubNfZig+mmkgKwE+ToURJPUV+NJhGk=;
+ b=FvnvBKJ11lMd9iYrlIp2raO5k64SF6L7v0QNvhLXh2s5pBIQQkNSug7z8cSMTJqjRNttd+
+ xII6N8E5U3dtBYbmgPB48cJxLqnL3ZtAs6UnoVWua+O8LsET9TfK7nHe9zVJMbZY81cTVE
+ P+BUbkB54pZ/HxRRA7fa+hYL+DQJHPk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-496-g0E6d2KcML-0LIoPjP4o3A-1; Thu, 25 Nov 2021 10:19:08 -0500
+X-MC-Unique: g0E6d2KcML-0LIoPjP4o3A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l6-20020a05600c4f0600b0033321934a39so3669467wmq.9
+ for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 07:19:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=p1gck3gBX86/0ejR2FzhHQNW+IwlcQxuWkiRN1EdISM=;
- b=vTCblY8SKhj1OJ31eWF6Vs8bEpwLv7wmegUFPO6vGv+wPdxPrIkiAZdjzeJqj0gn2Z
- 6TrgvLClTmsus6ZvDBeYmXajoyMwSpgvr6Hs3sGU2ymA/10cmtU85HrjG3NCh1Qb2Nal
- J6SZK+9Req9/jYBFKFUUoJkxNG1DNDmS7hjw/Vay2t3LKH6y68/38tXeJRr4U2DdAQRy
- F3E4gCiWCc14ldbcPfjUqaZS1OEH2SRIhrMp2zwAZDdut8xUR7c7iSgnHiVnY4oe3Mde
- rX0nQZeI2rJMR+d/QF2CsFJg+YyWobmSeyEi/r7sDygwz9levv8RtQ7pnARDOl9IpJOH
- +UrA==
-X-Gm-Message-State: AOAM531QmFE36F61gktCJyyFr/ky+TR5mABpf6DcTpXr9jsg8lCGUVxv
- j6TAE/uVCxMnaD5T7Vr1ps1nDg==
-X-Google-Smtp-Source: ABdhPJw3Ixe/3HNTVicsRMBewcAJipjv0+0uzdSvXWhy3LSkF632SNERHSHr6mLLXsMGekS2zyS6qw==
-X-Received: by 2002:a5d:47c7:: with SMTP id o7mr7212772wrc.204.1637853593154; 
- Thu, 25 Nov 2021 07:19:53 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h16sm3223873wrm.27.2021.11.25.07.19.52
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=uzUWktIogEvCDubNfZig+mmkgKwE+ToURJPUV+NJhGk=;
+ b=LfqZRbqzszT0RqoUxF0E1EIO+hlRDijBwaIn2Zc6HF13ulDPm81k0G5g0f5w1qrawR
+ Y3wJnlXW7l/fTwyEiRa2b3tjdGJXgn6VCuqIVIYDOmZxPbaq43Z+gBXBQQNz6HCQ4LdE
+ 7mLEaNpRkbqKEsLHoWhmQXG4xenCdM1EqJZ5/TuKl6HWL8d9Jp9bPonaPzPd5IAcIVTS
+ zbVcnJKDs9cH1ZL0BxYWnwsAckbJ1yDp9AhhUAV3Qbobk4HWvoLDQI2XKs7mu/48OLIg
+ wtbpIwPiieWF6qkT8zMXVYP7cvIqvTBXZHM7Riy+LMh/g4CGmbbdsKVwSjD1Yj7QXS70
+ NNVQ==
+X-Gm-Message-State: AOAM5328zWkCqqpn8NjqHFURZXWc8/NAP6asHL4aMtScVMTeQdW/llIs
+ x68mgc17t7LNNkjncklFjEAWuWVBOA6sXYaUa3XHOAapjGQ/SiFs2it75lyMqLthoV6grjuvqnJ
+ VCOrXfeY50Dim0uw=
+X-Received: by 2002:a5d:40c8:: with SMTP id b8mr7380663wrq.610.1637853546773; 
+ Thu, 25 Nov 2021 07:19:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVHQfmQVfIicCeEIRR1tKQTLmzsZ2mGbCeKQLvScaAUyoOeik34Udun/GzmbJQEqmJTSl7yQ==
+X-Received: by 2002:a5d:40c8:: with SMTP id b8mr7380607wrq.610.1637853546442; 
+ Thu, 25 Nov 2021 07:19:06 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id z7sm7938340wmi.33.2021.11.25.07.19.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Nov 2021 07:19:52 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 849ED1FF96;
- Thu, 25 Nov 2021 15:19:51 +0000 (GMT)
-References: <20211124182246.67691-1-shashi.mallela@linaro.org>
-User-agent: mu4e 1.7.5; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Shashi Mallela <shashi.mallela@linaro.org>
-Subject: Re: [PATCH] hw/intc: cannot clear GICv3 ITS CTLR[Enabled] bit
-Date: Thu, 25 Nov 2021 15:18:45 +0000
-In-reply-to: <20211124182246.67691-1-shashi.mallela@linaro.org>
-Message-ID: <87v90gfejs.fsf@linaro.org>
+ Thu, 25 Nov 2021 07:19:05 -0800 (PST)
+Date: Thu, 25 Nov 2021 15:19:03 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: SEV guest attestation
+Message-ID: <YZ+pZ0diEsYMPj7W@work-vm>
+References: <YZ58+T04uVXaO2Ab@redhat.com> <YZ6Ec0yG82nhbN+B@work-vm>
+ <YZ+PNJRcyPGX4KAM@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <YZ+PNJRcyPGX4KAM@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,57 +100,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, leif@nuviainc.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, rad@semihalf.com
+Cc: slp@redhat.com, afrosi@redhat.com, qemu-devel@nongnu.org,
+ dovmurik@linux.ibm.com, Tyler Fanelli <tfanelli@redhat.com>,
+ dinechin@redhat.com, John Ferlan <jferlan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> On Wed, Nov 24, 2021 at 06:29:07PM +0000, Dr. David Alan Gilbert wrote:
+> > * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > > On Wed, Nov 24, 2021 at 11:34:16AM -0500, Tyler Fanelli wrote:
+> > > > Hi,
+> > > > 
+> > > > We recently discussed a way for remote SEV guest attestation through QEMU.
+> > > > My initial approach was to get data needed for attestation through different
+> > > > QMP commands (all of which are already available, so no changes required
+> > > > there), deriving hashes and certificate data; and collecting all of this
+> > > > into a new QMP struct (SevLaunchStart, which would include the VM's policy,
+> > > > secret, and GPA) which would need to be upstreamed into QEMU. Once this is
+> > > > provided, QEMU would then need to have support for attestation before a VM
+> > > > is started. Upon speaking to Dave about this proposal, he mentioned that
+> > > > this may not be the best approach, as some situations would render the
+> > > > attestation unavailable, such as the instance where a VM is running in a
+> > > > cloud, and a guest owner would like to perform attestation via QMP (a likely
+> > > > scenario), yet a cloud provider cannot simply let anyone pass arbitrary QMP
+> > > > commands, as this could be an issue.
+> > > 
+> > > As a general point, QMP is a low level QEMU implementation detail,
+> > > which is generally expected to be consumed exclusively on the host
+> > > by a privileged mgmt layer, which will in turn expose its own higher
+> > > level APIs to users or other apps. I would not expect to see QMP
+> > > exposed to anything outside of the privileged host layer.
+> > > 
+> > > We also use the QAPI protocol for QEMU guest agent commmunication,
+> > > however, that is a distinct service from QMP on the host. It shares
+> > > most infra with QMP but has a completely diffent command set. On the
+> > > host it is not consumed inside QEMU, but instead consumed by a
+> > > mgmt app like libvirt. 
+> > > 
+> > > > So I ask, does anyone involved in QEMU's SEV implementation have any input
+> > > > on a quality way to perform guest attestation? If so, I'd be interested.
+> > > 
+> > > I think what's missing is some clearer illustrations of how this
+> > > feature is expected to be consumed in some real world application
+> > > and the use cases we're trying to solve.
+> > > 
+> > > I'd like to understand how it should fit in with common libvirt
+> > > applications across the different virtualization management
+> > > scenarios - eg virsh (command line),  virt-manger (local desktop
+> > > GUI), cockpit (single host web mgmt), OpenStack (cloud mgmt), etc.
+> > > And of course any non-traditional virt use cases that might be
+> > > relevant such as Kata.
+> > 
+> > That's still not that clear; I know Alice and Sergio have some ideas
+> > (cc'd).
+> > There's also some standardisation efforts (e.g. https://www.potaroo.net/ietf/html/ids-wg-rats.html 
+> > and https://www.ietf.org/archive/id/draft-ietf-rats-architecture-00.html
+> > ) - that I can't claim to fully understand.
+> > However, there are some themes that are emerging:
+> > 
+> >   a) One use is to only allow a VM to access some private data once we
+> > prove it's the VM we expect running in a secure/confidential system
+> >   b) (a) normally involves requesting some proof from the VM and then
+> > providing it some confidential data/a key if it's OK
+> 
+> I guess I'm wondering what the threat we're protecting against is,
+> and / or which pieces of the stack we can trust ?
 
-Shashi Mallela <shashi.mallela@linaro.org> writes:
+Yeh and that varies depending who you speak to.
 
-> When Enabled bit is cleared in GITS_CTLR,ITS feature continues
-> to be enabled.This patch fixes the issue.
->
-> Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
+> eg, if the host has 2 VMs running, we verify the 1st and provide
+> its confidental data back to the host, what stops the host giving
+> that dat to the 2nd non-verified VM ? 
+> 
+> Presumably the data has to be encrypted with a key that is uniquely
+> tied to this specific boot attempt of the verified VM, and not
+> accessible to any other VM, or to future boots of this VM ?
 
+In the SEV/-ES case the attestation is uniquefied by a Nonce I think
+and there's sometype of session key used (can't remember the details)
+and the returning of the key to the VM is encrypted through that same
+channel; so you know you're giving the key to the thing you attested.
 
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+However, since in SEV/ES you only measure the firmware (and number of
+CPUs) all VMs look pretty much identical at that point - distinguishing
+them relies either on:
+  a) In the GRUB/OVMF case you are relying on the key you return to the
+VM succesfully decrypting the disk and the embedded Grub being able to
+load the kernel/initrd (You attested the embedded Grub, so you trust
+it to do that)
+  b) In the separate kernel/initrd case you do have the kernel command
+line measured as well.
 
-in so far as it doesn't break the kvm-unit-tests but it also doesn't
-solve the:
+> >   c) RATs splits the problem up:
+> >     https://www.ietf.org/archive/id/draft-ietf-rats-architecture-00.html#name-architectural-overview
+> >     I don't fully understand the split yet, but in principal there are
+> > at least a few different things:
+> > 
+> >   d) The comms layer
+> >   e) Something that validates the attestation message (i.e. the
+> > signatures are valid, the hashes all add up etc)
+> >   f) Something that knows what hashes to expect (i.e. oh that's a RHEL
+> > 8.4 kernel, or that's a valid kernel command line)
+> >   g) Something that holds some secrets that can be handed out if e & f
+> > are happy.
+> > 
+> >   There have also been proposals (e.g. Intel HTTPA) for an attestable
+> > connection after a VM is running; that's probably quite different from
+> > (g) but still involves (e) & (f).
+> > 
+> > In the simpler setups d,e,f,g probably live in one place; but it's not
+> > clear where they live - for example one scenario says that your cloud
+> > management layer holds some of them, another says you don't trust your
+> > cloud management layer and you keep them separate.
+> 
+> Yep, again I'm wondering what the specific threats are that we're
+> trying to mitigate. Whether we trust the cloud mgmt APIs, but don't
+> trust the compute hosts, or whether we trust neither the cloud
+> mgmt APIs or the compute hosts.
+> 
+> If we don't trust the compute hosts, does that include the part
+> of the cloud mgmt API that is  running on the compute host, or
+> does that just mean the execution environment of the VM, or something
+> else?
 
-  irq 55: nobody cared (try booting with the "irqpoll" option)
-  CPU: 0 PID: 9 Comm: ksoftirqd/0 Not tainted 5.15.1-ajb #67
-  Hardware name: linux,dummy-virt (DT)
-  Call trace:
-   dump_backtrace+0x0/0x1ac
-   show_stack+0x18/0x24
-   dump_stack_lvl+0x68/0x84
-   dump_stack+0x18/0x34
-   __report_bad_irq+0x4c/0x168
-   note_interrupt+0x278/0x420
-   handle_irq_event+0x84/0x1a0
-   handle_fasteoi_irq+0x148/0x214
-   handle_domain_irq+0x60/0x90
-   gic_handle_irq+0xb0/0x120
-   call_on_irq_stack+0x2c/0x5c
-   do_interrupt_handler+0x40/0x58
-   el1_interrupt+0x30/0x50
-   el1h_64_irq_handler+0x18/0x24
-   el1h_64_irq+0x78/0x7c
-   finish_task_switch.isra.0+0x174/0x290
-   __schedule+0x5e0/0x674
-   __cond_resched+0x24/0x50
-   run_ksoftirqd+0x44/0x5c
-   smpboot_thread_fn+0x154/0x180
-   kthread+0x118/0x130
-   ret_from_fork+0x10/0x20
-  handlers:
-  [<0000000050cdc74a>] vring_interrupt
-  Disabling IRQ #55
+I think there's pretty good consensus you don't trust the compute host
+at all.  How much of the rest of the cloud you trust varies
+depending on who you ask.  Some suggest trusting one small part of the
+cloud (some highly secure apparently trusted attestation box).
+Some would rather not trust the cloud at all, so would want to do
+attestation to do their own system;  the problem there is you have to do
+an off-site attestation every time your VMs start.
+Personally I think maybe a 2 level system would work;  you boot one [set
+of ] VMs in the cloud that's attested to your offsite - and they then
+run the attestation service for all your VMs in the cloud.
 
-that is being seen on newer kernels.
+> > So I think all we're actually interested in at the moment, is (d) and
+> > (e) and the way for (g) to get the secret back to the guest.
+> > 
+> > Unfortunately the comms and the contents of them varies heavily with
+> > technology; in some you're talking to the qemu/hypervisor (SEV/SEV-ES)
+> > while in some you're talking to the guest after boot (SEV-SNP/TDX maybe
+> > SEV-ES in some cases).
+> > 
+> > So my expectation at the moment is libvirt needs to provide a transport
+> > layer for the comms, to enable an external validator to retrieve the
+> > measurements from the guest/hypervisor and provide data back if
+> > necessary.  Once this shakes out a bit, we might want libvirt to be
+> > able to invoke the validator; however I expect (f) and (g) to be much
+> > more complex things that don't feel like they belong in libvirt.
+> 
+> Yep, I don't think (f) & (g) belong in libvirt, since libvirt is
+> deployed per compute host, while (f) / (g) are something that is
+> likely to be deployed in a separate trusted host, at least for
+> data center / cloud deployments. May be there's a case where they
+> can all be same-host for more specialized use cases.
 
---=20
-Alex Benn=C3=A9e
+Or even less specialised;  the easiest setup is where you run an
+attestation server that does all this on your site, and then put the
+compute nodes in a cloud somewhere.
+
+Dave
+
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
