@@ -2,75 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5EA45D852
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 11:36:50 +0100 (CET)
-Received: from localhost ([::1]:51536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A5445D97F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 12:45:41 +0100 (CET)
+Received: from localhost ([::1]:37206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqC7T-0006Tr-RD
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 05:36:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43330)
+	id 1mqDC8-0003i4-H9
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 06:45:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mqC6A-0005Ej-5P
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 05:35:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23349)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mqDAR-0002sm-Ft
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 06:43:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mqC66-00082r-FJ
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 05:35:24 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mqDAN-00042W-KS
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 06:43:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637836521;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1637840629;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TK2JpcWns58A6yWrRp26bGJJbhzAefmKKmgJOE4MwQY=;
- b=bZQXGjwuF8LTvgQb3P0ldq4QH71xC62ZuLhuKXXBt+g5uQKMoZhmymdPcGXUdvlbsWADSb
- 6BMI5qGmeF+c7rJGgZcIQ22s5DooFSPJahHeutbuh25Nl06Hc8gefXYHw/SB3RO95GSaJN
- VgRYZOxZjjARMWwvXoIuTqIATbDU28I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=U/p46qaiRCL6v0vPqrEm9Ph6fS/l2rWJAIrDP2WBQQQ=;
+ b=Ql3oL9YlhQ0BD+mK+wo/Kv0sFIrSjFMNBGASqn7FnvXqDLT72KCncHYmccWuHHXzkiqs7r
+ +xbG5XoTbNry3Yt+MTIQvs3bjHw8oYaOm+gVmpBfvhfRHO6mRTaxzK5d4iSiC2wsTOiHUS
+ PsXi1gG38OAU7sEymyz8cP4+DfRgKvY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-560-DdUpU0Q6NnSUATTqzT5G3w-1; Thu, 25 Nov 2021 05:35:14 -0500
-X-MC-Unique: DdUpU0Q6NnSUATTqzT5G3w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B63661800D41;
- Thu, 25 Nov 2021 10:35:13 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46CBA79446;
- Thu, 25 Nov 2021 10:35:11 +0000 (UTC)
-Date: Thu, 25 Nov 2021 10:35:08 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: Give the fosshost.org VM a purpose or a retirement
-Message-ID: <YZ9m3Fx2ufyGIEG8@redhat.com>
-References: <CA+bd_6JS0t_COHiw2Y3Ej1gAeOGVTScNoS-=Seo+7udAe5wqZw@mail.gmail.com>
- <cc136013-2632-c149-d258-e2e7f964b07f@redhat.com>
+ us-mta-431-pO2RqRkWNGGM5-sg8TqLSA-1; Thu, 25 Nov 2021 06:43:46 -0500
+X-MC-Unique: pO2RqRkWNGGM5-sg8TqLSA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ bg20-20020a05600c3c9400b0033a9300b44bso3376103wmb.2
+ for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 03:43:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=U/p46qaiRCL6v0vPqrEm9Ph6fS/l2rWJAIrDP2WBQQQ=;
+ b=kYbvy5jz11Yqdmui9PGzO8rgmiuv+LoGvwBER7goUT61LMWekSlCo11jNk7WlDCHyK
+ UQswLu1YZCAKm6Ae7hqT8nw0+RYG/1cF6pk8cStvJSQI1K8HDFDa4nsb23ONbrpW4Qt+
+ aoBc6YYujs8MTD+mte24wCEqalu9r//ebckeeM2aA+hKM1cvFAsT/1F9aaOy5F/KCpQt
+ L2bMDwHSY9au9EdudG6a/tNiBXsEO6AdPQCre1hUy+zxDmsFsXev0t5TZmTaQn0oDb7C
+ ZgM0V+2xzdO2rAYlS1LlLyy6WeicEiqUhhkvhcoyRqbk7UXSMpJUc0AKwzw9iLuk3DQx
+ 6Ycw==
+X-Gm-Message-State: AOAM532UyT3oWoSlCA0zeCg5rJ7oLwLDv7Mg7AR5Lv5vC+VPxNhn1MWg
+ a2qXjmv8nSSLALhXimEYeXh5PbGQTTheKDMOEfHnsBk3ppdSV2Ap8tVZATZEfyKmXpcRsctkc+H
+ l/GnzqSsGdpoxr14=
+X-Received: by 2002:a5d:4b41:: with SMTP id w1mr5739356wrs.537.1637840625128; 
+ Thu, 25 Nov 2021 03:43:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwmTZDElejf4P62uF0uYeGkKa07tV/LSUT3VUeobMKeDiOqMSMsy6YEoScm61nm0ZMq3U2i0g==
+X-Received: by 2002:a5d:4b41:: with SMTP id w1mr5739330wrs.537.1637840624953; 
+ Thu, 25 Nov 2021 03:43:44 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id l4sm2554580wrv.94.2021.11.25.03.43.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Nov 2021 03:43:44 -0800 (PST)
+Message-ID: <17d3593c-c800-d56a-9b6e-4752201f4b5d@redhat.com>
+Date: Thu, 25 Nov 2021 12:43:43 +0100
 MIME-Version: 1.0
-In-Reply-To: <cc136013-2632-c149-d258-e2e7f964b07f@redhat.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v4 1/3] hw/block/fdc: Extract blk_create_empty_drive()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211124161536.631563-1-philmd@redhat.com>
+ <20211124161536.631563-2-philmd@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211124161536.631563-2-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -75
+X-Spam_score: -7.6
+X-Spam_bar: -------
+X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,42 +101,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Warner Losh <imp@bsdimp.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 24, 2021 at 03:55:55PM +0100, Philippe Mathieu-Daudé wrote:
-> On 11/24/21 15:16, Cleber Rosa wrote:
-> > Hi,
-> > 
-> > Fosshost.org was kind enough to supply the QEMU project with a public
-> > VM hosted by them.  The original use case we anticipated was to set up
-> > a GitLab CI runner, because we assumed the VM was KVM capable, but
-> > that turned out not to be the case.
-> > 
-> > So, at this point, adding it as a GitLab CI runner would not add any
-> > significant improvement over the shared runners already provided, and
-> > it would require more maintenance effort.
-> > 
-> > If there are any ideas for making use of this resource, and volunteers
-> > to configure and maintain it, please let me know.
-> > 
-> > Otherwise, it seems fair to relinquish the resource back to Fosshost.org.
-> 
-> Cc'ing Warner, since for FreeBSD testing we use Cirrus-CI (via
-> libvirt-ci and have sometime hit GitLab timeout)
+On 24.11.21 17:15, Philippe Mathieu-Daudé wrote:
+> We are going to re-use this code in the next commit,
+> so extract it as a new blk_create_empty_drive() function.
+>
+> Inspired-by: Hanna Reitz <hreitz@redhat.com>
 
-We're not seeing timeouts since we dropped the redundant jobs that
-were running on master.
+:)
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   hw/block/fdc.c | 9 +++++++--
+>   1 file changed, 7 insertions(+), 2 deletions(-)
+
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
