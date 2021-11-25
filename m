@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B8645D5D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 08:55:59 +0100 (CET)
-Received: from localhost ([::1]:33190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB44645D5BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 08:48:31 +0100 (CET)
+Received: from localhost ([::1]:50190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mq9bq-00043A-4w
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 02:55:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58168)
+	id 1mq9Uc-0004PD-L1
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 02:48:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mq9KD-0007nS-PX; Thu, 25 Nov 2021 02:37:45 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:55243)
+ id 1mq9KF-0007rZ-Oe; Thu, 25 Nov 2021 02:37:47 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:45987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mq9KC-0000W5-1m; Thu, 25 Nov 2021 02:37:45 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 57B735C01B4;
- Thu, 25 Nov 2021 02:37:43 -0500 (EST)
+ id 1mq9KE-0000WN-B5; Thu, 25 Nov 2021 02:37:47 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 271D25C0109;
+ Thu, 25 Nov 2021 02:37:45 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 25 Nov 2021 02:37:43 -0500
+ by compute6.internal (MEProxy); Thu, 25 Nov 2021 02:37:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=dubePG3IYWBn5
- PpSnm2cVUSzv0Simk3Rk9Oi/pWAjGg=; b=B3fIcLWIdoLjpKbYJa3kM6osG0vYk
- H0AU/UEMC4AoHcuw5D0HY21KIHwQtucFApMip68gDdIqJtlbmAAL7TzYzusMAD0f
- k2IFYv1OnbWJWArLwvopiMHKc2go4uS7p5CfJPoinbipkrfknE/Uer8oG61lYMY2
- s0FbikUOAfLizHY/okFZti9HZlwMj0555LcvudFSUvzRZhg6mXhLWi4gg4KrTP/J
- TroRBWFcFam3Omc+1kwyxZ/I2viKw/2JU+1BZIqrv0+OGBpcxeg7JOmibnTJGGBq
- h3wqtvSlPfQ2zRuumvLDVflgtbobY1Audf8qUNEMynj3BBq4nlWYIVztA==
+ :mime-version:content-transfer-encoding; s=fm1; bh=qGBD61aZ0WTI0
+ 2c3CREOvlqAz4JE8ofVhaVhtFAyq5U=; b=QsTz+aqlOQcnpbB1TFMVyvgPX7iO5
+ wdWrGPW3tN49zuYl1fiK0iXG0Yp6GAkNZ4lwL88bV5wYSVAD5nlYBzqSAshM1Qvc
+ ibWrR43ViqefZMIijg07CmbOVMmnGPcBVBKXSJkLrZxNHZfvzulTBbXeiGGZMciD
+ N/3gPesUNBNmYNunWsLJitGl69RtPIw2yuSZcGkbhoWxQH5Jz9m8ylvKIqeVhfu3
+ f3QvhN9nsKLZfa6Ln0Wqi2vkEm28O5BTlhd90naga7W+b3AS7wV4ta58y6Ms/Cew
+ lkKLEimwwh0/2qUeyXg20eGasIcPoN4wlWyuzCQ/IoETBkCPL+bAJ1KMQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=dubePG3IYWBn5PpSnm2cVUSzv0Simk3Rk9Oi/pWAjGg=; b=E1DysK9T
- ZH5YIKPci62rEbTtuSVbMgdwjyFmmaydJNWoy35WmMZGoMyp+GrQl9tQHNRIUoBk
- LJqnsvEKcttO3XOi0/UXRQ3k5RYMVEWQBjlvvhlHzu7jAWceH0mcUknv0ITNXJJf
- eucPSxooxsxC4SDtCOx2XmK1qwtgAN2VTk9NI8r+3CS1ODdJDwvF9GnpCQoUjBy2
- Huu463X+pVxqZLGVQpeYma62/6wz94fQGN+buesKzMTGiE/lAuoFfF3pSrzhjB1w
- Zm0+CYOtP3gakZUm8Fw61j3EzrOjH9AacJj3isqhgX2iVdVxy+MJ8JXxmNQRXdaF
- IZGpW9MEXXjeCw==
-X-ME-Sender: <xms:Rj2fYVTLMkL-VYXX74-3hjYcWNHLdjUpS2-4E8MvO0B0lW3cezhX7g>
- <xme:Rj2fYewmtGOo3xDjNwS1R_OX8qcmfVZrmr_VtmjFjodc5CeQGkTjvuC5eHKdFB0sH
- 2tju9lwZMv1_B6DZ_Y>
-X-ME-Received: <xmr:Rj2fYa3ynM8u2pE8eD4DfnKUZS0xtnWEOpM2wiTA-u0JGlVTGfrZZj-_EW8UzFAWB2ZXsOWhUNgkLVG-Ks8LL4zsshssKrPuGRQp5k1exg>
+ fm1; bh=qGBD61aZ0WTI02c3CREOvlqAz4JE8ofVhaVhtFAyq5U=; b=W+2jQX2z
+ gOKTyhWi8BdCnPBOthE7mIDydUzajjuiepaW7MAL3ZoLsE6g27q0yhsHYfaBCp8O
+ BS/RwF79gGyrq2l5ztAQhiY+ERlaRrO6o3KVx1WPCubqew5NckBQlvVRuUd/3/RT
+ JJS99LiHy6yvy7Xsc9QJ2RC3Nn19Mz/jYkFpbO+238LzzTOKgfs7Z8gxCUYbKRqo
+ 4F71A/ReIYWt5sfgieQoljG2bYoKuFZVtThr8rQUAd78h8SLdVH/J0EmaCoAvX0o
+ jxa56CkyJ7tqqigTQOC6Ihmi+LJj6w7ViFlH8YvmIPpE5IutnWsKgjtNwE3iS8Dx
+ /4bOdPCxVXz8CQ==
+X-ME-Sender: <xms:SD2fYbsK0EvXqDgk11eJ8C1SBew6chgbOSZhzOqpCo8DxDbp6oTHcA>
+ <xme:SD2fYcevkocnfG4_mvbvNOSyqAMsyjxToS7AiR2ygi6PBjIXa-BtYF8vbF8ajID0V
+ tmLUfSQguNXEyCAM6E>
+X-ME-Received: <xmr:SD2fYez5NRhiCHEN6xSkerKLVu6lXY7v8mwJ7ygqa1X_w6oI2GCUCqWZfIPsVVKm6fZhjjaIn13xhPgDobor1aDNTYnAJ5pA2gxM3Bo6dQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeelgddutdeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -54,18 +54,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeelgddutdeiucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:Rj2fYdAtOmp5b83wd4-fV4JoJ1V-AXeqBLPIRA1sIyk99fKZ1zqzzg>
- <xmx:Rj2fYegl8le1GytkjZE9AhNgcXgiyRnac3F8t0WcOLo5qG3-9KxKEg>
- <xmx:Rj2fYRow76Ivk7I_vCOARBlJn1FoLD8ElmirH6oDtqB8hdFTR7TuHw>
- <xmx:Rz2fYXXg0f7Rv-hHHq8p6tquaOJDOY3lHQvCZziuJPEc6zu2Jhmu4A>
+X-ME-Proxy: <xmx:SD2fYaPd-B_kjwOiH2nKnE42TirfQYTLv4V3bzGY1vPkPeMXaNRSaA>
+ <xmx:SD2fYb-Unhxx6hDg3Lbbw-xfMBV0gF-nnUTNM8RWkqGQ5rRN8WZxow>
+ <xmx:SD2fYaWLI-z3NtbBd_Wj69eC4Io0AwQZB590rC3I0RSCN79OCilGHw>
+ <xmx:ST2fYXQ1R4hjKPcBKaq-b8Rw62AVePtpXuiTnxoYSK0YLAYvHT5gcQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Nov 2021 02:37:41 -0500 (EST)
+ 25 Nov 2021 02:37:43 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH for-7.0 2/4] hw/nvme: add zone attribute get/set helpers
-Date: Thu, 25 Nov 2021 08:37:33 +0100
-Message-Id: <20211125073735.248403-3-its@irrelevant.dk>
+Subject: [PATCH for-7.0 3/4] hw/nvme: add ozcs enum
+Date: Thu, 25 Nov 2021 08:37:34 +0100
+Message-Id: <20211125073735.248403-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211125073735.248403-1-its@irrelevant.dk>
 References: <20211125073735.248403-1-its@irrelevant.dk>
@@ -102,51 +102,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add some get/set helpers for zone attributes.
+Add enumeration for OZCS values.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c       | 4 ++--
+ hw/nvme/ns.c         | 3 ++-
  include/block/nvme.h | 4 ++++
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 489d586ab9d7..7ac6ec50a0d1 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -295,7 +295,7 @@ static void nvme_assign_zone_state(NvmeNamespace *ns, NvmeZone *zone,
-     case NVME_ZONE_STATE_READ_ONLY:
-         break;
-     default:
--        zone->d.za = 0;
-+        NVME_ZA_CLEAR_ALL(zone->d.za);
-     }
- }
+diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+index 8b5f98c76180..356b6c1c2f14 100644
+--- a/hw/nvme/ns.c
++++ b/hw/nvme/ns.c
+@@ -266,7 +266,8 @@ static void nvme_ns_init_zoned(NvmeNamespace *ns)
+     id_ns_z->mar = cpu_to_le32(ns->params.max_active_zones - 1);
+     id_ns_z->mor = cpu_to_le32(ns->params.max_open_zones - 1);
+     id_ns_z->zoc = 0;
+-    id_ns_z->ozcs = ns->params.cross_zone_read ? 0x01 : 0x00;
++    id_ns_z->ozcs = ns->params.cross_zone_read ?
++        NVME_ID_NS_ZONED_OZCS_RAZB : 0x00;
  
-@@ -3356,7 +3356,7 @@ static uint16_t nvme_set_zd_ext(NvmeNamespace *ns, NvmeZone *zone)
-             return status;
-         }
-         nvme_aor_inc_active(ns);
--        zone->d.za |= NVME_ZA_ZD_EXT_VALID;
-+        NVME_ZA_SET(zone->d.za, NVME_ZA_ZD_EXT_VALID);
-         nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_CLOSED);
-         return NVME_SUCCESS;
-     }
+     for (i = 0; i <= ns->id_ns.nlbaf; i++) {
+         id_ns_z->lbafe[i].zsze = cpu_to_le64(ns->zone_size);
 diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 2ee227760265..2b8b906466ab 100644
+index 2b8b906466ab..d33ff2c184cf 100644
 --- a/include/block/nvme.h
 +++ b/include/block/nvme.h
-@@ -1407,6 +1407,10 @@ enum NvmeZoneAttr {
-     NVME_ZA_ZD_EXT_VALID             = 1 << 7,
- };
+@@ -1351,6 +1351,10 @@ typedef struct QEMU_PACKED NvmeIdNsZoned {
+     uint8_t     vs[256];
+ } NvmeIdNsZoned;
  
-+#define NVME_ZA_SET(za, attrs)   ((za) |= (attrs))
-+#define NVME_ZA_CLEAR(za, attrs) ((za) &= ~(attrs))
-+#define NVME_ZA_CLEAR_ALL(za)    ((za) = 0x0)
++enum NvmeIdNsZonedOzcs {
++    NVME_ID_NS_ZONED_OZCS_RAZB    = 1 << 0,
++};
 +
- typedef struct QEMU_PACKED NvmeZoneReportHeader {
-     uint64_t    nr_zones;
-     uint8_t     rsvd[56];
+ /*Deallocate Logical Block Features*/
+ #define NVME_ID_NS_DLFEAT_GUARD_CRC(dlfeat)       ((dlfeat) & 0x10)
+ #define NVME_ID_NS_DLFEAT_WRITE_ZEROES(dlfeat)    ((dlfeat) & 0x08)
 -- 
 2.34.0
 
