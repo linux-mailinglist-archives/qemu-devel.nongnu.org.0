@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA5045E0C2
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 19:54:10 +0100 (CET)
-Received: from localhost ([::1]:47510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 530E445E0EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 20:19:43 +0100 (CET)
+Received: from localhost ([::1]:38224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqJsn-0007bA-Ay
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 13:54:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39988)
+	id 1mqKHV-0005H4-QF
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 14:19:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mqJrt-0006tI-Hg
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 13:53:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33547)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mqJrq-0000ur-SY
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 13:53:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637866386;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UG+vF1lhOUC0N4clRz7TfuTxt+rYv7gEWrlVHgk9/xU=;
- b=Fw0d1FjvO68P6PAF/NDzCqtT3kgygCWUpAOXgnkDaZ1JAFRno9MiVdjP0uPk3qef9n9iq9
- 1m8nqSs7KuGbcmzDL8dq8WqBzDtJyC44tjkKo9mqkDUwWgEbWd7BswGpkmoP9cRcBEiHjG
- xKb4es5jaf7sZOxYjtQQojkwnOND9fU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-248-l9PscGUMPY2bSlHMrszM8g-1; Thu, 25 Nov 2021 13:53:05 -0500
-X-MC-Unique: l9PscGUMPY2bSlHMrszM8g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- z138-20020a1c7e90000000b003319c5f9164so5406283wmc.7
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 10:53:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mqKG0-0004P4-VX; Thu, 25 Nov 2021 14:18:08 -0500
+Received: from [2607:f8b0:4864:20::a2d] (port=35650
+ helo=mail-vk1-xa2d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mqKFz-0005te-7t; Thu, 25 Nov 2021 14:18:08 -0500
+Received: by mail-vk1-xa2d.google.com with SMTP id q21so4548562vkn.2;
+ Thu, 25 Nov 2021 11:18:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=hkIyIM0jeHEXHnmYPlBIe59+HxuuTIYXfLPRP195iQ8=;
+ b=Vh+RFsY8I638MbIMCAvxOFH34YLmcoN4WIKuKZDn8gw2rCsAw5rTsW0IA3/6eXu1NZ
+ lN9PbqBkKUqeRl69FZAji2sIcxwd24ubJWEFBwhDMJJU3IPrwGb5GZ3XbRh4Z9UClUAJ
+ yqJY26et/q25/U9RhuVTRPpQOE9zyRWCjDRG62vFcmwmIIWkkRGDqLp8rDEH89kg2xiv
+ n/mkfOc3ALPb7jsWcDBsXY7bmzSzhIpNPv75U5lzrcdOa8ZtX6R/GQ/b1vvQtqYYaT2r
+ TiVuNKlUaye3m7xM9aiWrHiooXgoIRZNiYOIGYvyV/sRI+98PqbPrvRhC0Ij1eWMFzMz
+ P72Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=UG+vF1lhOUC0N4clRz7TfuTxt+rYv7gEWrlVHgk9/xU=;
- b=p7eHZrClCWcFoggblVBO3day6AKGNy5s7zHkYynMEdgssCZkb+loLIiPPOYwjL1UC0
- 355PiKqGn5WZbi/WMVNnWvECRYgSjOo/uSd7o2/TaaCEfAg6HDq2U7FSpUSkAbyvU/bi
- B8ecBjYL2tucsFPt2XeB0beovM7po1Na2V/A05UsFZdoEbRzimyCSDtSL/WhK1+R2E0t
- uFRUzIHDPUvXajQA8WtIflIGIUYYCHD8IAytf432kZhkgIZyzDm9EEb/7pZAGoYgrEDD
- O822cCtJ/pNHQJS34nYCvP2kh124uepPibObd9F9l5h2UdR5wLsQBnBioP7gDrmVvYKR
- 8hCQ==
-X-Gm-Message-State: AOAM533dceVHRacFN1tqxGsQO959cPfNHXo+ObBy8KIAgZshzy/2d4Rf
- ybnDfWPufAaqrO2kIrkKyhHk7JHqxQ9QAA451u+E5YtVtRQJ1k8iM7YDcfMTWwglourkNVzsrIt
- mGJFPxDtvr48uXD8=
-X-Received: by 2002:a7b:c257:: with SMTP id b23mr10023114wmj.67.1637866383866; 
- Thu, 25 Nov 2021 10:53:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwaOddHWmPfk91g6VznpFwb3zjdGPBZjyqji8y5Q21l13DaN6FJmHSioX8fFPszXsGl4lAuig==
-X-Received: by 2002:a7b:c257:: with SMTP id b23mr10023090wmj.67.1637866383707; 
- Thu, 25 Nov 2021 10:53:03 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id z6sm5452323wmp.9.2021.11.25.10.53.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Nov 2021 10:53:03 -0800 (PST)
-Date: Thu, 25 Nov 2021 18:53:01 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v3 07/23] multifd: remove used parameter from
- send_recv_pages() method
-Message-ID: <YZ/bjZvZlPIq0tzh@work-vm>
-References: <20211124100617.19786-1-quintela@redhat.com>
- <20211124100617.19786-8-quintela@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hkIyIM0jeHEXHnmYPlBIe59+HxuuTIYXfLPRP195iQ8=;
+ b=k0sCsjEU0rP/HSSBLuliXq+oxiWIKzn/f2ZadRCK5wKWUQNHGsroAsR/9LggQ8ekjH
+ OXfrN/cryO7B6rlQZV1ZpAWak3ZLl8nROR907aHrVcW+c3kEjbFwRLvWNzkbo0M1iEFd
+ 6s7L2AWYLCwsPo3wWrxgpeb2Ttf3XsbhIKbEZmrNXdHJnQmen5mtPURx42F1eNbBRngu
+ qtiveVmvzWJR/c0llS4sBtXUwLu/sldftdYEB70bYkOufcg6u9StxdIys49ocOu9SsyU
+ i8mqjgmRlwSZiKFtD19b1Tw8ql1TxiQs1x2i+jBI4XP4aOm3lVeZf9tfOIhLvBQ8+BDP
+ YpoA==
+X-Gm-Message-State: AOAM532mWLDzP0BWOjgeS2FSydqbj0EnOIwdF9hyON+ciqIQKAHyUxkT
+ NDyVS9UjpykI6UqqDdr56QU=
+X-Google-Smtp-Source: ABdhPJy7CIFHTKRtXkCYGfNGKFkY0QjFOkhq5Q4fbxnzPHesyLwOGEalobQUMQvuvzlpLXWTVgLGIg==
+X-Received: by 2002:a1f:298b:: with SMTP id p133mr14526139vkp.29.1637867885598; 
+ Thu, 25 Nov 2021 11:18:05 -0800 (PST)
+Received: from [192.168.10.222] ([191.19.215.188])
+ by smtp.gmail.com with ESMTPSA id n10sm2528027uaj.20.2021.11.25.11.18.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Nov 2021 11:18:05 -0800 (PST)
+Message-ID: <ba1b72df-29e4-3a13-5cfc-be02f2b13b4a@gmail.com>
+Date: Thu, 25 Nov 2021 16:18:01 -0300
 MIME-Version: 1.0
-In-Reply-To: <20211124100617.19786-8-quintela@redhat.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2] target/ppc: fix Hash64 MMU update of PTE bit R
+Content-Language: en-US
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20211125183322.47230-1-leandro.lupori@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20211125183322.47230-1-leandro.lupori@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a2d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2d;
+ envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa2d.google.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-4.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,145 +89,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>
+Cc: groug@kaod.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> It is already there as p->pages->num.
+
+
+On 11/25/21 15:33, Leandro Lupori wrote:
+> When updating the R bit of a PTE, the Hash64 MMU was using a wrong byte
+> offset, causing the first byte of the adjacent PTE to be corrupted.
+> This caused a panic when booting FreeBSD, using the Hash MMU.
 > 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+> Fixes: a2dd4e83e76b ("ppc/hash64: Rework R and C bit updates")
+> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
 > ---
->  migration/multifd.h      | 2 +-
->  migration/multifd-zlib.c | 9 ++++-----
->  migration/multifd-zstd.c | 7 +++----
->  migration/multifd.c      | 7 +++----
->  4 files changed, 11 insertions(+), 14 deletions(-)
-> 
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 7968cc5c20..e57adc783b 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -167,7 +167,7 @@ typedef struct {
->      /* Cleanup for receiving side */
->      void (*recv_cleanup)(MultiFDRecvParams *p);
->      /* Read all pages */
-> -    int (*recv_pages)(MultiFDRecvParams *p, uint32_t used, Error **errp);
-> +    int (*recv_pages)(MultiFDRecvParams *p, Error **errp);
->  } MultiFDMethods;
->  
->  void multifd_register_ops(int method, MultiFDMethods *ops);
-> diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-> index 28f0ed933b..e85ef8824d 100644
-> --- a/migration/multifd-zlib.c
-> +++ b/migration/multifd-zlib.c
-> @@ -230,17 +230,16 @@ static void zlib_recv_cleanup(MultiFDRecvParams *p)
->   * Returns 0 for success or -1 for error
->   *
->   * @p: Params for the channel that we are using
-> - * @used: number of pages used
->   * @errp: pointer to an error
->   */
-> -static int zlib_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **errp)
-> +static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
->  {
->      struct zlib_data *z = p->data;
->      z_stream *zs = &z->zs;
->      uint32_t in_size = p->next_packet_size;
->      /* we measure the change of total_out */
->      uint32_t out_size = zs->total_out;
-> -    uint32_t expected_size = used * qemu_target_page_size();
-> +    uint32_t expected_size = p->pages->num * qemu_target_page_size();
->      uint32_t flags = p->flags & MULTIFD_FLAG_COMPRESSION_MASK;
->      int ret;
->      int i;
-> @@ -259,12 +258,12 @@ static int zlib_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **errp)
->      zs->avail_in = in_size;
->      zs->next_in = z->zbuff;
->  
-> -    for (i = 0; i < used; i++) {
-> +    for (i = 0; i < p->pages->num; i++) {
->          struct iovec *iov = &p->pages->iov[i];
->          int flush = Z_NO_FLUSH;
->          unsigned long start = zs->total_out;
->  
-> -        if (i == used - 1) {
-> +        if (i == p->pages->num - 1) {
->              flush = Z_SYNC_FLUSH;
->          }
->  
-> diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-> index 4a71e96e06..a8b104f4ee 100644
-> --- a/migration/multifd-zstd.c
-> +++ b/migration/multifd-zstd.c
-> @@ -250,14 +250,13 @@ static void zstd_recv_cleanup(MultiFDRecvParams *p)
->   * Returns 0 for success or -1 for error
->   *
->   * @p: Params for the channel that we are using
-> - * @used: number of pages used
->   * @errp: pointer to an error
->   */
-> -static int zstd_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **errp)
-> +static int zstd_recv_pages(MultiFDRecvParams *p, Error **errp)
->  {
->      uint32_t in_size = p->next_packet_size;
->      uint32_t out_size = 0;
-> -    uint32_t expected_size = used * qemu_target_page_size();
-> +    uint32_t expected_size = p->pages->num * qemu_target_page_size();
->      uint32_t flags = p->flags & MULTIFD_FLAG_COMPRESSION_MASK;
->      struct zstd_data *z = p->data;
->      int ret;
-> @@ -278,7 +277,7 @@ static int zstd_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **errp)
->      z->in.size = in_size;
->      z->in.pos = 0;
->  
-> -    for (i = 0; i < used; i++) {
-> +    for (i = 0; i < p->pages->num; i++) {
->          struct iovec *iov = &p->pages->iov[i];
->  
->          z->out.dst = iov->iov_base;
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 098ef8842c..55d99a8232 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -141,10 +141,9 @@ static void nocomp_recv_cleanup(MultiFDRecvParams *p)
->   * Returns 0 for success or -1 for error
->   *
->   * @p: Params for the channel that we are using
-> - * @used: number of pages used
->   * @errp: pointer to an error
->   */
-> -static int nocomp_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **errp)
-> +static int nocomp_recv_pages(MultiFDRecvParams *p, Error **errp)
->  {
->      uint32_t flags = p->flags & MULTIFD_FLAG_COMPRESSION_MASK;
->  
-> @@ -153,7 +152,7 @@ static int nocomp_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **errp)
->                     p->id, flags, MULTIFD_FLAG_NOCOMP);
->          return -1;
->      }
-> -    return qio_channel_readv_all(p->c, p->pages->iov, used, errp);
-> +    return qio_channel_readv_all(p->c, p->pages->iov, p->pages->num, errp);
->  }
->  
->  static MultiFDMethods multifd_nocomp_ops = {
-> @@ -1099,7 +1098,7 @@ static void *multifd_recv_thread(void *opaque)
->          qemu_mutex_unlock(&p->mutex);
->  
->          if (used) {
-> -            ret = multifd_recv_state->ops->recv_pages(p, used, &local_err);
-> +            ret = multifd_recv_state->ops->recv_pages(p, &local_err);
->              if (ret != 0) {
->                  break;
->              }
-> -- 
-> 2.33.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+> Changes from v1:
+> - Add and use a new define for the byte offset of PTE bit R
+> ---
+>   target/ppc/mmu-hash64.c | 2 +-
+>   target/ppc/mmu-hash64.h | 3 +++
+>   2 files changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index 19832c4b46..0968927744 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -786,7 +786,7 @@ static void ppc_hash64_set_dsi(CPUState *cs, int mmu_idx, uint64_t dar, uint64_t
+>   
+>   static void ppc_hash64_set_r(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
+>   {
+> -    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + 16;
+> +    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + HPTE64_R_R_BYTE_OFFSET;
+>   
+>       if (cpu->vhyp) {
+>           PPCVirtualHypervisorClass *vhc =
+> diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
+> index c5b2f97ff7..40bb901262 100644
+> --- a/target/ppc/mmu-hash64.h
+> +++ b/target/ppc/mmu-hash64.h
+> @@ -97,6 +97,9 @@ void ppc_hash64_finalize(PowerPCCPU *cpu);
+>   #define HPTE64_V_1TB_SEG        0x4000000000000000ULL
+>   #define HPTE64_V_VRMA_MASK      0x4001ffffff000000ULL
+>   
+> +/* PTE byte offsets */
+> +#define HPTE64_R_R_BYTE_OFFSET  14
+> +
+>   /* Format changes for ARCH v3 */
+>   #define HPTE64_V_COMMON_BITS    0x000fffffffffffffULL
+>   #define HPTE64_R_3_0_SSIZE_SHIFT 58
+> 
 
