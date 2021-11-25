@@ -2,79 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B3845D5C2
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 08:51:09 +0100 (CET)
-Received: from localhost ([::1]:55948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F32F45D5D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 08:56:40 +0100 (CET)
+Received: from localhost ([::1]:41044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mq9XA-0000Iv-4d
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 02:51:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58620)
+	id 1mq9cV-0001Az-MO
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 02:56:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mq9MK-00012o-3O
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 02:39:56 -0500
-Received: from [2a00:1450:4864:20::42b] (port=43767
- helo=mail-wr1-x42b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mq9MH-0000kw-UL
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 02:39:55 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id v11so9529399wrw.10
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 23:39:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=DEo42kCve3jWadnShqYqN47WLK+6/+0ZGU8QVou7LZA=;
- b=kD759+PX2g/dkkhvjXYMRfFYVoCRgjqseyJJKQpRYDqb2ZGsnXqXs5CDcNYyhwxtfw
- QBgbPRzQemGxG2VUmmt4fFW/11lLnFung/t7BSfhaqqHPeHSOns1LoUq+AHntbnpnajO
- U/p4KBZIA/aXk7rAAYpKFGFFle0kEchUgc/9XLePaXazgB4r4yBm1hurNXZWkZ4+/gxS
- lJuVoPMpPiJ6oROhlt06gjzznbI4Ei7KLIBPzs5If6K99kehFsmIkZNrd6XwvzrHJ5Q4
- k+TWNDlyc+0aUtV9YK5FI8CHnzzmwWfdjCnHMaAdt3i1LLzz06QmDunnuPRl6hJP4BWr
- rhjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DEo42kCve3jWadnShqYqN47WLK+6/+0ZGU8QVou7LZA=;
- b=gki0Svnsvtt87n2WhfpF882dcPDk9NLjBjqHFK/WTdcHfkc5FoP/YqF2yQBFc0YblO
- HHnUKR8FQzYFCIq6hU9bubta2YTrRi8uChItAQo6fLHcodsBFE9c6sSzm9zMy1a/eMnn
- XAO+59x8v9scb18bGEwDQcm9ftU/0fpS74iwpjnpKxwJNRH+u++2lrOP6WUvMfOUX3Ai
- ImhQD2fIupQ5oLLjazfvlmgP42pePINYGx51fJmPf9skvwR7q5R6uN9cIEulnirfO1ae
- R9Yy8L8CPA8dLNq0AzXecggjDsAd0xZM6iVg84vA+8RH52rP1qJs5e3W7lcBn5+9ySjj
- t6pw==
-X-Gm-Message-State: AOAM532A6ttk0O7phySACbjMeGyUZvVhJ4HXTM+nR82ekWxccY+Y5HW7
- R8c/k9Sym7c4gPFD1/hc1bnRVw==
-X-Google-Smtp-Source: ABdhPJztJDK8kRDgZOqBaBMFVY5EkDU3LbGH2PrN9zZuXPtOGSknH8L9FFLXbZZHeevuaIn4X+mHbg==
-X-Received: by 2002:adf:f206:: with SMTP id p6mr4186658wro.509.1637825990264; 
- Wed, 24 Nov 2021 23:39:50 -0800 (PST)
-Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
- [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id n1sm2393687wmq.6.2021.11.24.23.39.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Nov 2021 23:39:49 -0800 (PST)
-Date: Thu, 25 Nov 2021 07:39:28 +0000
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 1/2] hw/arm/virt: Rename default_bus_bypass_iommu
-Message-ID: <YZ89sF2J2oujHeyQ@myrica>
-References: <20210811085842.2511545-1-jean-philippe@linaro.org>
- <871r34r9pz.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mq9NN-0001hi-T5; Thu, 25 Nov 2021 02:41:02 -0500
+Received: from out28-74.mail.aliyun.com ([115.124.28.74]:42015)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mq9NK-0000mR-AZ; Thu, 25 Nov 2021 02:41:01 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0765151|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0303652-0.000424616-0.96921;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047202; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.Lyzljf9_1637825998; 
+Received: from roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Lyzljf9_1637825998)
+ by smtp.aliyun-inc.com(10.147.44.145);
+ Thu, 25 Nov 2021 15:39:59 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v5 00/22] Support UXL filed in xstatus
+Date: Thu, 25 Nov 2021 15:39:29 +0800
+Message-Id: <20211125073951.57678-1-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <871r34r9pz.fsf@dusky.pond.sub.org>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=115.124.28.74; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-74.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,62 +54,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- pbonzini@redhat.com
+Cc: Alistair.Francis@wdc.com, bin.meng@windriver.com,
+ richard.henderson@linaro.org, palmer@dabbelt.com,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Markus,
+In this patch set, we process the pc reigsters writes,
+gdb reads and writes, and address calculation under
+different UXLEN settings.
 
-On Thu, Nov 25, 2021 at 08:11:04AM +0100, Markus Armbruster wrote:
-> Peter, this patch fixes a bug that became a regression when the fix
-> missed 6.1.  It's been stuck on the list since August.  Please have a
-> look, and if it's good, get it merged.  I'll ask the i386/pc maintainers
-> to do the same for PATCH 2.
+The patch set v5 fix an error in v4: miss to select gdb core xml according
+to mxl. Besides, add xl field in CPURISCVState, so that we can remove many
+redundant riscv_cpu_xl calls. It will also benefit other extensions.
+The last new change is to calculate the number of PMP configuration in
+one pmpcfgx CSR according to mxl.
 
-Both fixes have been merged in v6.2 (9dad363a223d and 739b38630c45)
+Patch 1, 4, 21, have not been reviewed. Others have been reviewed or acked.
 
-Thanks,
-Jean
+v5:
+  Add xl field in env to clear up redundant riscv_cpu_xl
+  Adjust pmpcfg access with mxl
+  Select gdb core xml according to mxl 
 
-> 
-> Jean-Philippe Brucker <jean-philippe@linaro.org> writes:
-> 
-> > Since commit d8fb7d0969d5 ("vl: switch -M parsing to keyval"), machine
-> > parameter definitions cannot use underscores, because keyval_dashify()
-> > transforms them to dashes and the parser doesn't find the parameter.
-> >
-> > This affects option default_bus_bypass_iommu which was introduced in the
-> > same release:
-> >
-> > $ qemu-system-aarch64 -M virt,default_bus_bypass_iommu=on
-> > qemu-system-aarch64: Property 'virt-6.1-machine.default-bus-bypass-iommu' not found
-> >
-> > Rename the parameter to "default-bus-bypass-iommu". Passing
-> > "default_bus_bypass_iommu" is still valid since the underscore are
-> > transformed automatically.
-> >
-> > Fixes: 6d7a85483a06 ("hw/arm/virt: Add default_bus_bypass_iommu machine option")
-> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > ---
-> >  hw/arm/virt.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> > index b4598d3fe6..7075cdc15e 100644
-> > --- a/hw/arm/virt.c
-> > +++ b/hw/arm/virt.c
-> > @@ -2671,10 +2671,10 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-> >                                            "Set the IOMMU type. "
-> >                                            "Valid values are none and smmuv3");
-> >  
-> > -    object_class_property_add_bool(oc, "default_bus_bypass_iommu",
-> > +    object_class_property_add_bool(oc, "default-bus-bypass-iommu",
-> >                                     virt_get_default_bus_bypass_iommu,
-> >                                     virt_set_default_bus_bypass_iommu);
-> > -    object_class_property_set_description(oc, "default_bus_bypass_iommu",
-> > +    object_class_property_set_description(oc, "default-bus-bypass-iommu",
-> >                                            "Set on/off to enable/disable "
-> >                                            "bypass_iommu for default root bus");
-> 
+v4:
+  Support SSTATUS64_UXL write
+  Bump vmstate version for vill split
+
+v3:
+  Merge gen_pm_adjust_address into a canonical address function
+  Adjust address for RVA with XLEN
+  Split pm_enabled into pm_mask_enabled and pm_base_enabled
+  Replace array of pm tcg globals with one scalar tcg global
+  Split and change patch sequence
+
+v2:
+  Split out vill from vtype
+  Remove context switch when xlen changes at exception
+  Use XL instead of OL in many places
+  Use pointer masking and XLEN for vector address
+  Define an common fuction to calculate address for lds
+
+
+LIU Zhiwei (22):
+  target/riscv: Adjust pmpcfg access with mxl
+  target/riscv: Don't save pc when exception return
+  target/riscv: Sign extend pc for different XLEN
+  target/riscv: Create xl field in env
+  target/riscv: Ignore the pc bits above XLEN
+  target/riscv: Extend pc for runtime pc write
+  target/riscv: Use gdb xml according to max mxlen
+  target/riscv: Relax debug check for pm write
+  target/riscv: Adjust csr write mask with XLEN
+  target/riscv: Create current pm fields in env
+  target/riscv: Alloc tcg global for cur_pm[mask|base]
+  target/riscv: Calculate address according to XLEN
+  target/riscv: Split pm_enabled into mask and base
+  target/riscv: Split out the vill from vtype
+  target/riscv: Fix RESERVED field length in VTYPE
+  target/riscv: Adjust vsetvl according to XLEN
+  target/riscv: Remove VILL field in VTYPE
+  target/riscv: Ajdust vector atomic check with XLEN
+  target/riscv: Fix check range for first fault only
+  target/riscv: Adjust vector address with mask
+  target/riscv: Adjust scalar reg in vector with XLEN
+  target/riscv: Enable uxl field write
+
+ target/riscv/cpu.c                            | 27 ++++++-
+ target/riscv/cpu.h                            | 19 ++++-
+ target/riscv/cpu_bits.h                       |  2 +
+ target/riscv/cpu_helper.c                     | 65 ++++++++++++----
+ target/riscv/csr.c                            | 63 ++++++++++++++-
+ target/riscv/gdbstub.c                        | 71 ++++++++++++-----
+ target/riscv/helper.h                         |  4 +-
+ .../riscv/insn_trans/trans_privileged.c.inc   |  7 +-
+ target/riscv/insn_trans/trans_rva.c.inc       |  9 +--
+ target/riscv/insn_trans/trans_rvd.c.inc       | 19 +----
+ target/riscv/insn_trans/trans_rvf.c.inc       | 19 +----
+ target/riscv/insn_trans/trans_rvi.c.inc       | 22 +-----
+ target/riscv/insn_trans/trans_rvv.c.inc       | 47 +++++++----
+ target/riscv/machine.c                        | 20 ++++-
+ target/riscv/op_helper.c                      |  7 +-
+ target/riscv/pmp.c                            | 12 +--
+ target/riscv/translate.c                      | 77 +++++++++----------
+ target/riscv/vector_helper.c                  | 37 +++++----
+ 18 files changed, 333 insertions(+), 194 deletions(-)
+
+-- 
+2.25.1
+
 
