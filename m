@@ -2,55 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B7945D374
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 04:10:12 +0100 (CET)
-Received: from localhost ([::1]:57820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A4845D368
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 04:04:45 +0100 (CET)
+Received: from localhost ([::1]:53894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mq59G-0000uf-WF
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 22:10:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42898)
+	id 1mq540-0006OW-8R
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 22:04:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mq56i-0007dS-WB; Wed, 24 Nov 2021 22:07:33 -0500
-Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=39525
- helo=gandalf.ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mq56g-0003ZG-7w; Wed, 24 Nov 2021 22:07:32 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4J02qD6R4vz4xcM; Thu, 25 Nov 2021 14:07:20 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1637809640;
- bh=lruCAk1ia2Bx64u2IlwhSSr7mz0u3H8/GFiLT6DlgNA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZmYUN8dh0ypuCX9gNl/tMPiM/JzylrC7sAhkMaT1SBFSCmdoLO56UI3u507LT+SAO
- i3vKNumS1G/wG8kykvz8aqtsRXm1cCzXn0JDkVgkLFzJQlXaFusKzrTyfVx7cUg5Fd
- VzIFo727GRkBEBI/c4XQgTdcWlBJ6Jpkq8UwOUNM=
-Date: Thu, 25 Nov 2021 13:59:57 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH v3 1/3] target/ppc: Fixed call to deferred exception
-Message-ID: <YZ78LSQVRU7YqAvu@yekko>
-References: <20211124172523.3598396-1-lucas.araujo@eldorado.org.br>
- <20211124172523.3598396-2-lucas.araujo@eldorado.org.br>
- <ad28911-f3e6-a95b-2541-4cacc1a3626e@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1mq536-0005jM-Ct
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 22:03:48 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:40774 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1mq533-00030H-T4
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 22:03:48 -0500
+Received: from [10.20.42.193] (unknown [10.20.42.193])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxWNII_Z5hbDkBAA--.2895S3;
+ Thu, 25 Nov 2021 11:03:36 +0800 (CST)
+Subject: Re: [PATCH v11 19/26] linux-user: Add LoongArch signal support
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
+ <1637302410-24632-20-git-send-email-gaosong@loongson.cn>
+ <9195824d-31d2-f2e8-610b-f8f86d687707@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <510493a2-cc80-428c-4fae-43988a1e0fd1@loongson.cn>
+Date: Thu, 25 Nov 2021 11:03:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mMO3M2H9IKELHFo2"
-Content-Disposition: inline
-In-Reply-To: <ad28911-f3e6-a95b-2541-4cacc1a3626e@eik.bme.hu>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for
- 2404:9400:2:0:216:3eff:fee2:21ea (failed)
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <9195824d-31d2-f2e8-610b-f8f86d687707@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------57F38286BEBC658FA075A9AC"
+Content-Language: en-US
+X-CM-TRANSID: AQAAf9DxWNII_Z5hbDkBAA--.2895S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7JrykCw15ZF43tFW5urW5GFg_yoWxAFc_uF
+ 42vr1UWr1UGFZ5G3ykC3yrXFWUJr1xKr18JFWY9r4jyr1UtrZ8Zwn5ZrZ3XFn8K3y3Xr17
+ J348KF4S9F12gjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbVAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+ wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+ vE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280
+ aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcV
+ Aq07x20xvEncxIr21lYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4U
+ McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I
+ 1l7480Y4vEI4kI2Ix0rVAqx4xJMxk0xIA0c2IEe2xFo4CEbIxvr21lc2xSY4AK6svPMxAI
+ w28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_XrWUJr1UMxC20s026xCaFVCjc4AY6r
+ 1j6r4UMI8I3I0E5I8CrVAFwI0_JrI_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+ b7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+ vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI
+ 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxh
+ VjvjDU0xZFpf9x0JUtkuxUUUUU=
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -59
+X-Spam_score: -6.0
+X-Spam_bar: ------
+X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-4.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,107 +74,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, danielhb413@gmail.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org,
- "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>,
- qemu-ppc@nongnu.org, pc@us.ibm.com, matheus.ferst@eldorado.org.br,
- clg@kaod.org
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org,
+ laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is a multi-part message in MIME format.
+--------------57F38286BEBC658FA075A9AC
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
---mMO3M2H9IKELHFo2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi  Richard,
+On 2021/11/20 下午6:33, Richard Henderson wrote:
+>> +/* this struct defines a stack used during syscall handling */
+>> +typedef struct target_sigaltstack {
+>> +        abi_long ss_sp;
+>> +        abi_int ss_flags;
+>> +        abi_ulong ss_size;
+>> +} target_stack_t;
+>> +
+>> +/*
+>> + * sigaltstack controls
+>> + */
+>> +#define TARGET_SS_ONSTACK     1
+>> +#define TARGET_SS_DISABLE     2
+>> +
+>> +#define TARGET_MINSIGSTKSZ    2048
+>> +#define TARGET_SIGSTKSZ       8192
+>
+> We should move these to generic/signal.h. 
+Yes.
+I also see that TARGET_SIGSTKSZ is not used.  I think  we should delete it.
 
-On Thu, Nov 25, 2021 at 01:49:46AM +0100, BALATON Zoltan wrote:
-> On Wed, 24 Nov 2021, Lucas Mateus Castro (alqotel) wrote:
-> > mtfsf, mtfsfi and mtfsb1 instructions call helper_float_check_status
-> > after updating the value of FPSCR, but helper_float_check_status
-> > checks fp_status and fp_status isn't updated based on FPSCR and
-> > since the value of fp_status is reset earlier in the instruction,
-> > it's always 0.
-> >=20
-> > Because of this helper_float_check_status would change the FI bit to 0
-> > as this bit checks if the last operation was inexact and
-> > float_flag_inexact is always 0.
-> >=20
-> > These instructions also don't throw exceptions correctly since
-> > helper_float_check_status throw exceptions based on fp_status.
-> >=20
-> > This commit created a new helper, helper_fpscr_check_status that checks
-> > FPSCR value instead of fp_status and checks for a larger variety of
-> > exceptions than do_float_check_status.
-> >=20
-> > Since fp_status isn't used, gen_reset_fpstatus() was removed.
-> >=20
-> > The hardware used to compare QEMU's behavior to was a Power9.
-> >=20
-> > Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org=
-=2Ebr>
-> > ---
-> > target/ppc/fpu_helper.c            | 48 ++++++++++++++++++++++++++++++
-> > target/ppc/helper.h                |  1 +
-> > target/ppc/translate/fp-impl.c.inc |  9 ++----
-> > 3 files changed, 52 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-> > index c4896cecc8..bb72715827 100644
-> > --- a/target/ppc/fpu_helper.c
-> > +++ b/target/ppc/fpu_helper.c
-> > @@ -414,6 +414,54 @@ void helper_store_fpscr(CPUPPCState *env, uint64_t=
- val, uint32_t nibbles)
-> >     ppc_store_fpscr(env, val);
-> > }
-> >=20
-> > +void helper_fpscr_check_status(CPUPPCState *env)
-> > +{
-> > +    CPUState *cs =3D env_cpu(env);
-> > +    target_ulong fpscr =3D env->fpscr;
-> > +    int error =3D 0;
-> > +
-> > +    if ((fpscr & FP_OX) && (fpscr & FP_OE)) {
-> > +        error =3D POWERPC_EXCP_FP_OX;
-> > +    } else if ((fpscr & FP_UX) && (fpscr & FP_UE)) {
-> > +        error =3D POWERPC_EXCP_FP_UX;
-> > +    } else if ((fpscr & FP_XX) && (fpscr & FP_XE)) {
-> > +        error =3D POWERPC_EXCP_FP_XX;
-> > +    } else if ((fpscr & FP_ZX) && (fpscr & FP_ZE)) {
->=20
-> I wonder if these tests could be simplified by combining the masks if you
-> want to test for both bits set so e.g. fpscr & (FP_ZX | FP_ZE) should be =
-the
-> same, shouldn't it?
+Thanks
+Song Gao
 
-No, it's not.  In fact your version is equivalent as a boolean to
-	((fpscr & FP_ZX) || (fpscr & FP_ZE))
+--------------57F38286BEBC658FA075A9AC
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    Hi  Richard,<br>
+    <div class="moz-cite-prefix">On 2021/11/20 下午6:33, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:9195824d-31d2-f2e8-610b-f8f86d687707@linaro.org">
+      <blockquote type="cite" style="color: #000000;">+/* this struct
+        defines a stack used during syscall handling */
+        <br>
+        +typedef struct target_sigaltstack {
+        <br>
+        +        abi_long ss_sp;
+        <br>
+        +        abi_int ss_flags;
+        <br>
+        +        abi_ulong ss_size;
+        <br>
+        +} target_stack_t;
+        <br>
+        +
+        <br>
+        +/*
+        <br>
+        + * sigaltstack controls
+        <br>
+        + */
+        <br>
+        +#define TARGET_SS_ONSTACK     1
+        <br>
+        +#define TARGET_SS_DISABLE     2
+        <br>
+        +
+        <br>
+        +#define TARGET_MINSIGSTKSZ    2048
+        <br>
+        +#define TARGET_SIGSTKSZ       8192
+        <br>
+      </blockquote>
+      <br>
+      We should move these to generic/signal.h.
+    </blockquote>
+    Yes.<br>
+    I also see that TARGET_SIGSTKSZ is not used.  I think  we should 
+    delete it. <br>
+    <br>
+    Thanks<br>
+    Song Gao<br>
+  </body>
+</html>
 
---mMO3M2H9IKELHFo2
-Content-Type: application/pgp-signature; name="signature.asc"
+--------------57F38286BEBC658FA075A9AC--
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGe/CgACgkQbDjKyiDZ
-s5I4tg//fimK0FJKQQScLiV3A/q7b/LStb0klwlLa1usdoqQmJIb6u6uRz2L6LFp
-bD1EGkDLKr79J5O+4HPyBeAyeZSSMbZEeIhYAqOe+WMv+jcYOZO0h1g+aocawXUz
-qyINO+D/TkJ/o/nKqmBC297WaXZkODo6NlTmV+FG3X4CftJaeSRrp+HchMPUkQN/
-wkw3NogaV6lzZBPj20XwDplyS/a66+n93+AM0jzMscWuhDz0yA//tiqC5CYs/i8g
-eWFXU86OxqjApHgCFQxE5KdRsgcByQobSI/dkdKdqz4UY3flYDNwVYJ354G741yu
-W6FsELFCdPjfcfZKKE2gh3x56Jc4QejLD4X8dO28t6fRbxknDZ9O7T10gHzUDCa7
-MMPWjeVF/r4K2U6BpJHWUENkt0PmPakBPB4aAEtjhwYZPWPos/EoBWkCOAomdKJ9
-u/ZYpF8bdQsGCfnh7XR8t+nENJckx9Lvf2TuIYg9Q8/ZhoR72GW421RmytHX4zL6
-MBJ0c7CGHVgzibmWzZn0icmSTvtHchGdtOGoUIWbhGkDK5m9u1E3u7y6ANslXxMf
-lVz2iklMf1/FnCGvVLcuWz/bCnLaIyTsZwdt4NXF869YDm2+KWiBlCabdbplW9ov
-4g3HaRd4ifQ1y2s7CCPLUqEDk2lvFzikDC34F2VZ2E/Mnd6DZRA=
-=/YD1
------END PGP SIGNATURE-----
-
---mMO3M2H9IKELHFo2--
 
