@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7354C45D80A
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 11:13:16 +0100 (CET)
-Received: from localhost ([::1]:42504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA8C45D818
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 11:18:37 +0100 (CET)
+Received: from localhost ([::1]:49896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqBkh-0005YW-94
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 05:13:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37692)
+	id 1mqBps-0002O9-6D
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 05:18:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mqBig-00049u-VJ
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 05:11:11 -0500
-Received: from [2a00:1450:4864:20::332] (port=44855
- helo=mail-wm1-x332.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mqBid-0007IR-1j
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 05:11:10 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- p27-20020a05600c1d9b00b0033bf8532855so4271173wms.3
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 02:11:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JjBfRvRd5OuquW7gnGSF3kSf1xNKTr/zovsdKMb0xIs=;
- b=TZw9aANqaanXeXBsy1iV6dC1pLV9eMLaXxKPPChssvpF5Gao1ZVehz6FhcjKMq9gOA
- BwP2G9KHBNsTqUFZHnn6yTU9UA6geDskbRNeqpM6lDQld8gEod+dKqKpS4mZRcToBIZu
- 0wLWZCIGu0kBAiVwnrbB/bKyWzGVBKj96F8udKOzeRGJvFIzwDhz9AqVS3PzuUrEKHdN
- 8v9W96qhunf46PsyIj5u9rk9dxthlnq+jNcuCTtRVqmrHv++77THw684Ip7PWx65VkrP
- WfsFJu3FtkhJIr+rLM1tnM2GyGwDtZEcMWoY7xQ6cRQo/155rxQuVnwEY1m6E18PWe0c
- AoYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JjBfRvRd5OuquW7gnGSF3kSf1xNKTr/zovsdKMb0xIs=;
- b=4QyMrWhgomoLoCpBN7KpmJxZZ8xrMPEeoowCOz8zwEQkgxS7wX2CCaD+O3TjK6GIdq
- TMQDH0vsgX+jTyuK+nfHVHTVTYuKr1i5AtG2WI2MxclR2JdpR7/ovSeC7c7+BSLHaq9l
- UizFxmpv6/gIBU8Z5Z+mZ7w/aORRVJL1wu22GJ7ZsE+gYVfnVxy+frCZbunZqwmiWmc+
- 1mDPn1o5jpVQe7DUEFvQe30Onz/FWZubIgTvw+x7b6qFR1V/GCmaPud7+44alAda6xJ0
- fpPcaotjjsL7lZfh5FpxMWh83sYD89ZBoJnBYFGCWhFPGJEXfgR3xDBCBP2o+kd9gQOo
- 3ziw==
-X-Gm-Message-State: AOAM532a6YtJTIPvPdkubfSGv8ef1c8gmYfcEdWV6sM70vlphEsU2TZ6
- UeyPID0FmMH+B8tQ0gTcThtyCA==
-X-Google-Smtp-Source: ABdhPJyL9C1IbZVCDCB/jg0sspeMp1TYuWz0H2gePYeMtS4ZhPpMrwiaMkNrQlInxfPbxIki5QxWTg==
-X-Received: by 2002:a05:600c:6025:: with SMTP id
- az37mr5769973wmb.194.1637835064765; 
- Thu, 25 Nov 2021 02:11:04 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id r8sm3165923wrz.43.2021.11.25.02.11.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Nov 2021 02:11:04 -0800 (PST)
-Subject: Re: [PATCH v11 19/26] linux-user: Add LoongArch signal support
-To: gaosong <gaosong@loongson.cn>
-References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
- <1637302410-24632-20-git-send-email-gaosong@loongson.cn>
- <9195824d-31d2-f2e8-610b-f8f86d687707@linaro.org>
- <510493a2-cc80-428c-4fae-43988a1e0fd1@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <62de0456-bbdc-4c48-027b-56f7ed79adc9@linaro.org>
-Date: Thu, 25 Nov 2021 11:11:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mqBo0-0000W9-LU
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 05:16:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26125)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mqBno-0000SY-A8
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 05:16:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637835385;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JqGpDUOtCBmVP3DZmadrFNpM6A4drV6H0kNtP7vtk3Y=;
+ b=Ia7JXBNl59AmmlpG+Uu5VjHMW6+ZatCNZkYn4aB+dbx9SKqugLunkp3S4u4r9TVOfIu1YP
+ tyeGctgWTZPaM76Dk2R42W8M9VvVZSJ0637kFjv/jDNDEH7gN8Zb5iPkPgaHK5OFQitBQN
+ cHZKiUIU503Cm/L9yUhliyKnda1mLDs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-33-kq-0PVSKPAGD0qvU0U96tQ-1; Thu, 25 Nov 2021 05:16:23 -0500
+X-MC-Unique: kq-0PVSKPAGD0qvU0U96tQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC9451006AA1;
+ Thu, 25 Nov 2021 10:16:22 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9274B7E205;
+ Thu, 25 Nov 2021 10:16:18 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] vdpa: Fix SIGSEGV on failed vdpa devices
+Date: Thu, 25 Nov 2021 11:16:12 +0100
+Message-Id: <20211125101614.76927-1-eperezma@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <510493a2-cc80-428c-4fae-43988a1e0fd1@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,16 +76,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org,
- laurent@vivier.eu
+Cc: Laurent Vivier <lvivier@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-stable@nongnu.org, Cindy Lu <lulu@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/25/21 4:03 AM, gaosong wrote:
-> I also see that TARGET_SIGSTKSZ is not used.  I think  we should delete it.
+Qemu falls back on userland handlers even if vhost-user and vhost-vdpa=0D
+cases. These assumes a tap device can handle the packets.=0D
+=0D
+If a vdpa device fail to start, it can trigger a sigsegv because of=0D
+that. Add dummy receivers that return no progress so it can keep=0D
+running.=0D
+=0D
+Tested with a modified version of vp_vdpa to fail negotiation.=0D
+=0D
+v2:=0D
+* Replace dummy receive_{iov,raw} with receive callback.=0D
+* Delete fix indentation commit, we don't touch that code anymore.=0D
+=0D
+Eugenio P=C3=A9rez (2):=0D
+  vdpa: Add dummy receive callback=0D
+  virtio-net: Fix log message=0D
+=0D
+ hw/net/virtio-net.c | 11 ++++++-----=0D
+ net/vhost-vdpa.c    |  8 ++++++++=0D
+ 2 files changed, 14 insertions(+), 5 deletions(-)=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
-Agreed.  This constant will have been baked into the guest executable.
-
-
-r~
 
