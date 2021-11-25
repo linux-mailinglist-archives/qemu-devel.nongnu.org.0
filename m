@@ -2,69 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF6C45DEA3
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 17:35:59 +0100 (CET)
-Received: from localhost ([::1]:55904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA7945DEDA
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 17:57:34 +0100 (CET)
+Received: from localhost ([::1]:60714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqHj4-0000dO-BA
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 11:35:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60334)
+	id 1mqI3x-0007oh-53
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 11:57:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mqHhG-0008Ab-ER
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 11:34:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52680)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mqHhC-0006yR-VN
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 11:34:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637858041;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=crUZ3WvHS/+1ixt8DqE1aPbXxgkGK6WVsm8yIMICTs4=;
- b=AEN8nYqXXKSdgo2n2flf73GvmGfQ6tqJOFDy+R7TCqkIP222ZkEgXtQbO2SMwB/T+nriJd
- SMGxIowrF8lJY67/A9hR3x0LPwqHQhiRhYrt+qvTh5jJiG5Y1zm0UbnVnBFWQvr/IkUbC6
- 8rjs+n34EyHCp4W8GeELU8mjgJNqpe0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-386-xRzkCA0iPKuteHmLGhoxaw-1; Thu, 25 Nov 2021 11:33:58 -0500
-X-MC-Unique: xRzkCA0iPKuteHmLGhoxaw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83223835B47;
- Thu, 25 Nov 2021 16:33:57 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 648AE60BF4;
- Thu, 25 Nov 2021 16:33:54 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Yishai Hadas <yishaih@nvidia.com>, alex.williamson@redhat.com
-Subject: Re: [PATCH] vfio/migration: Improve to read/write full migration
- region per chunk
-In-Reply-To: <20211111095040.183977-1-yishaih@nvidia.com>
-Organization: Red Hat GmbH
-References: <20211111095040.183977-1-yishaih@nvidia.com>
-User-Agent: Notmuch/0.33.1 (https://notmuchmail.org)
-Date: Thu, 25 Nov 2021 17:33:52 +0100
-Message-ID: <871r34jitr.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1mqI2V-0006JB-6w
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 11:56:03 -0500
+Received: from foss.arm.com ([217.140.110.172]:45886)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1mqI2S-00055K-Kz
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 11:56:02 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 065761042;
+ Thu, 25 Nov 2021 08:55:58 -0800 (PST)
+Received: from [10.57.29.213] (unknown [10.57.29.213])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1C75C3F73B;
+ Thu, 25 Nov 2021 08:55:53 -0800 (PST)
+Subject: Re: [RFC v2 PATCH 06/13] KVM: Register/unregister memfd backed memslot
+To: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
+References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
+ <20211119134739.20218-7-chao.p.peng@linux.intel.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <aff496f2-da53-87ec-0b86-199445bb5159@arm.com>
+Date: Thu, 25 Nov 2021 16:55:52 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211119134739.20218-7-chao.p.peng@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -109
+X-Spam_score: -11.0
+X-Spam_bar: -----------
+X-Spam_report: (-11.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,84 +60,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwankhede@nvidia.com, yishaih@nvidia.com, maorg@nvidia.com,
- qemu-devel@nongnu.org, jgg@nvidia.com
+Cc: Wanpeng Li <wanpengli@tencent.com>, luto@kernel.org, david@redhat.com,
+ "J . Bruce Fields" <bfields@fieldses.org>, dave.hansen@intel.com,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ jun.nakajima@intel.com, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
+ Jeff Layton <jlayton@kernel.org>, john.ji@intel.com,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 11 2021, Yishai Hadas <yishaih@nvidia.com> wrote:
-
-> Upon reading/writing the migration data there is no real reason to limit
-> the read/write system call from the file to be 8 bytes.
->
-> In addition, there is no reason to depend on the file offset alignment.
-> The offset is just some logical value which depends also on the region
-> index and has nothing to do with the amount of data that can be
-> accessed.
->
-> Move to read/write the full region size per chunk, this reduces
-> dramatically the number of the systems calls that are needed and improve
-> performance.
->
-> Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
+On 19/11/2021 13:47, Chao Peng wrote:
+> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 > ---
->  hw/vfio/migration.c | 36 ++----------------------------------
->  1 file changed, 2 insertions(+), 34 deletions(-)
->
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index ff6b45de6b5..b5f310bb831 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -62,40 +62,8 @@ static inline int vfio_mig_access(VFIODevice *vbasedev, void *val, int count,
->      return 0;
->  }
+>  virt/kvm/kvm_main.c | 23 +++++++++++++++++++----
+>  1 file changed, 19 insertions(+), 4 deletions(-)
+> 
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index 271cef8d1cd0..b8673490d301 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -1426,7 +1426,7 @@ static void update_memslots(struct kvm_memslots *slots,
+>  static int check_memory_region_flags(struct kvm *kvm,
+>  			     const struct kvm_userspace_memory_region_ext *mem)
+>  {
+> -	u32 valid_flags = 0;
+> +	u32 valid_flags = KVM_MEM_FD;
 >  
-> -static int vfio_mig_rw(VFIODevice *vbasedev, __u8 *buf, size_t count,
-> -                       off_t off, bool iswrite)
-> -{
-> -    int ret, done = 0;
-> -    __u8 *tbuf = buf;
-> -
-> -    while (count) {
-> -        int bytes = 0;
-> -
-> -        if (count >= 8 && !(off % 8)) {
-> -            bytes = 8;
-> -        } else if (count >= 4 && !(off % 4)) {
-> -            bytes = 4;
-> -        } else if (count >= 2 && !(off % 2)) {
-> -            bytes = 2;
-> -        } else {
-> -            bytes = 1;
-> -        }
-> -
-> -        ret = vfio_mig_access(vbasedev, tbuf, bytes, off, iswrite);
-> -        if (ret) {
-> -            return ret;
-> -        }
-> -
-> -        count -= bytes;
-> -        done += bytes;
-> -        off += bytes;
-> -        tbuf += bytes;
-> -    }
-> -    return done;
-> -}
-> -
-> -#define vfio_mig_read(f, v, c, o)       vfio_mig_rw(f, (__u8 *)v, c, o, false)
-> -#define vfio_mig_write(f, v, c, o)      vfio_mig_rw(f, (__u8 *)v, c, o, true)
-> +#define vfio_mig_read(f, v, c, o)       vfio_mig_access(f, (__u8 *)v, c, o, false)
-> +#define vfio_mig_write(f, v, c, o)      vfio_mig_access(f, (__u8 *)v, c, o, true)
+>  	if (!kvm->dirty_log_unsupported)
+>  		valid_flags |= KVM_MEM_LOG_DIRTY_PAGES;
+> @@ -1604,10 +1604,20 @@ static int kvm_set_memslot(struct kvm *kvm,
+>  		kvm_copy_memslots(slots, __kvm_memslots(kvm, as_id));
+>  	}
 >  
->  #define VFIO_MIG_STRUCT_OFFSET(f)       \
->                                   offsetof(struct vfio_device_migration_info, f)
+> +	if (mem->flags & KVM_MEM_FD && change == KVM_MR_CREATE) {
+> +		r = kvm_memfd_register(kvm, mem, new);
+> +		if (r)
+> +			goto out_slots;
+> +	}
+> +
+>  	r = kvm_arch_prepare_memory_region(kvm, new, mem, change);
+>  	if (r)
+>  		goto out_slots;
+>  
+> +	if (mem->flags & KVM_MEM_FD && (r || change == KVM_MR_DELETE)) {
+                                        ^
+r will never be non-zero as the 'if' above will catch that case and jump
+to out_slots.
 
-I've been looking at this patch and it doesn't look wrong to me in any
-obvious way. The question is: why had it been done like that in the
-first place?
+I *think* the intention was that the "if (r)" code should be after this
+check to clean up in the case of error from
+kvm_arch_prepare_memory_region() (as well as an explicit MR_DELETE).
 
-I dug through the old mailing list discussions, and it seems it had been
-introduced in v26, but I don't see any explanation for that. Kirti, do
-you remember why you added this?
+Steve
+
+> +		kvm_memfd_unregister(kvm, new);
+> +	}
+> +
+>  	update_memslots(slots, new, change);
+>  	slots = install_new_memslots(kvm, as_id, slots);
+>  
+> @@ -1683,10 +1693,12 @@ int __kvm_set_memory_region(struct kvm *kvm,
+>  		return -EINVAL;
+>  	if (mem->guest_phys_addr & (PAGE_SIZE - 1))
+>  		return -EINVAL;
+> -	/* We can read the guest memory with __xxx_user() later on. */
+>  	if ((mem->userspace_addr & (PAGE_SIZE - 1)) ||
+> -	    (mem->userspace_addr != untagged_addr(mem->userspace_addr)) ||
+> -	     !access_ok((void __user *)(unsigned long)mem->userspace_addr,
+> +	    (mem->userspace_addr != untagged_addr(mem->userspace_addr)))
+> +		return -EINVAL;
+> +	/* We can read the guest memory with __xxx_user() later on. */
+> +	if (!(mem->flags & KVM_MEM_FD) &&
+> +	    !access_ok((void __user *)(unsigned long)mem->userspace_addr,
+>  			mem->memory_size))
+>  		return -EINVAL;
+>  	if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
+> @@ -1727,6 +1739,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
+>  		new.dirty_bitmap = NULL;
+>  		memset(&new.arch, 0, sizeof(new.arch));
+>  	} else { /* Modify an existing slot. */
+> +		/* Private memslots are immutable, they can only be deleted. */
+> +		if (mem->flags & KVM_MEM_FD && mem->private_fd >= 0)
+> +			return -EINVAL;
+>  		if ((new.userspace_addr != old.userspace_addr) ||
+>  		    (new.npages != old.npages) ||
+>  		    ((new.flags ^ old.flags) & KVM_MEM_READONLY))
+> 
 
 
