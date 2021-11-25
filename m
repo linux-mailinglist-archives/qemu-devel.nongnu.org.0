@@ -2,78 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03CFB45D98B
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 12:48:51 +0100 (CET)
-Received: from localhost ([::1]:40444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A11BD45D9A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 12:59:58 +0100 (CET)
+Received: from localhost ([::1]:47996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqDFC-00069y-3d
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 06:48:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39514)
+	id 1mqDPx-0003l4-9o
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 06:59:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mqDEL-0004vm-NU; Thu, 25 Nov 2021 06:47:57 -0500
-Received: from [2607:f8b0:4864:20::136] (port=41655
- helo=mail-il1-x136.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mqDEK-0005Dp-8h; Thu, 25 Nov 2021 06:47:57 -0500
-Received: by mail-il1-x136.google.com with SMTP id t8so5566157ilu.8;
- Thu, 25 Nov 2021 03:47:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zSn9MQDIR2joyDoDlFHP8quwHvY0EI42m5U2g2WalAg=;
- b=CFzjYMbVzoO+DsNQ9RbmvD1p5TtEhGWE1iCy6lI9ET/daZmb2U3fHpRpQ5bqaIVXKK
- 29ow1AA8mVouEQdFTlpzyxWjFw8HsMjBYf9IIO7cTN4YeohXUN5RS/bCbRHcryx0p+kA
- 2q8Hbs+SgHiBhXOMC2+xMReK950w8NgeMtYLKjzqKWOukYPdYhG2ewlHITya+LcUpTor
- xlGrLOjy1W1TOziVhnF0Bb3mpQ+HBLDKFVSa/6WGPY7kHG6IL5iLYLftzPFhbnMS8oek
- 7nJzC37HxZAyjX804eGyRWP/qknQHipruaHkd26RVJmR+rF1V0guaUK71xTbfQFf2dTb
- 2xvQ==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mqDNj-0002gO-3l
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 06:57:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28300)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mqDNh-0007u7-Ia
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 06:57:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637841456;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iE6hK1jYtROmVu8CDrFG/B/8sv8e2Q2HIPbTudj3CHc=;
+ b=FNpdy4apDCrO0EHzs5PioX8Z0ObaYzjQ99/kK76NQ9ke2uk9nQB6IG4lK79Iq4vB8cgoMI
+ ZGJ9Pp47D8CtBRit3HQieE2P3WlS0V2L7Y2mkDJsEAgcIzOYnwpIgZc1qQIAC5CSpkDs1S
+ DM1dVjJZBsjeKEhYagy4/eR0FFkr/VA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-479-u1a8GJ2gOT-kM1JsEvOQXA-1; Thu, 25 Nov 2021 06:57:33 -0500
+X-MC-Unique: u1a8GJ2gOT-kM1JsEvOQXA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v62-20020a1cac41000000b0033719a1a714so3107276wme.6
+ for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 03:57:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zSn9MQDIR2joyDoDlFHP8quwHvY0EI42m5U2g2WalAg=;
- b=bR8cV/1z05qj6YAnDEL0LLosZCN0PTnCbNol5vZHzwukuoLEnptR6erNOXDjd6Wt7o
- BJug+3B+sNQgV20awJgWDA4fh0LpcgVDqn+YtY2gqU95MWWgEHRngQ+k0xm4TPpJyYzY
- bxuKzD7naiSPbYHL6BChAsNnJy6xF4XfIr17aiDt7ppnz07fdD/iXpp0XZZGGLcouHq5
- MG5oC/19tORfQYTxV7twmOBXRaD07kpk+oGBV+aKBXOpCak3HoUhjbEIKKy1Bh34rsft
- JvH2op6+WbRJJ4PKH/j/Ee3AQe1HHdpi/4HxbiLb0MZWlnGm463z/hoGeaWQ1PkWq/iY
- kLnw==
-X-Gm-Message-State: AOAM532UuiuKT6Xj0fczR5ceGyAxMuQUJUww/aTsCck957uTRftmSxAP
- TdCU5j5ASyYkw3Hlo5h5SOP2UFvAtdCGnxeDJRw=
-X-Google-Smtp-Source: ABdhPJwPNx2BqY9RoyElpaulVrSX6bg7QQncC/E6r9XiHVxvp286MHMUN9eCd1QfWOlrHUxMpPVZ7Opnf7MLipKiguU=
-X-Received: by 2002:a05:6e02:1b08:: with SMTP id
- i8mr18466393ilv.74.1637840874632; 
- Thu, 25 Nov 2021 03:47:54 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iE6hK1jYtROmVu8CDrFG/B/8sv8e2Q2HIPbTudj3CHc=;
+ b=pWh8m61zRCc7FW3CpGMxMdXgI68XINJKXIpUEhWKt4zoKO2C4p7Wubqkd95q/dyi7p
+ 131SODXK7B9eTZMKdRDSvuJOELDI9wV0iZ9lu+6y9vqV/fihb8FKSRh0yr4eHdhsE9+S
+ YcL4TYWhuiJKWZlLp5vkLarez+HgfyHWa23ubeH19a/vV5QYW7sGl6YL7NkXxjZRW1d2
+ /HzumOpTmBGDIE7/7xALKpFYHuokv0ZjuegC5/2WMy2/IKCCP1bQBiDDsHTlG2YDi72r
+ zsHmUU5T3FrEPf3DyUyoAEu/Fo63//xzYtsB1frWc5v2DiM/CdBAPDm665HIAcNIEXzr
+ kmJg==
+X-Gm-Message-State: AOAM532eT6jISKox57KWZXM22pNMdoE8nitJ1G9xliLZ55g4HJh+A1oX
+ 4uEHSCtWYj8z+pRLhUH9sWzwRxXoV5oC431ym9aome2rRaZ30o7o89Vi7gozG/mMl5R69wq/Lez
+ zoQ/pzWqBXjRrr0c=
+X-Received: by 2002:a7b:c7cb:: with SMTP id z11mr6444642wmk.152.1637841451805; 
+ Thu, 25 Nov 2021 03:57:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyZj8Atu6MR6G9hFFygOjsVGvzfH15Sw+91m3W2RAEdpqu3rVtdQwMmaO2f7B8bR07mjlpewQ==
+X-Received: by 2002:a7b:c7cb:: with SMTP id z11mr6444604wmk.152.1637841451580; 
+ Thu, 25 Nov 2021 03:57:31 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id r11sm2602025wrw.5.2021.11.25.03.57.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Nov 2021 03:57:31 -0800 (PST)
+Message-ID: <ba0a545d-4877-20f9-e5fb-39d730bf8c90@redhat.com>
+Date: Thu, 25 Nov 2021 12:57:30 +0100
 MIME-Version: 1.0
-References: <20211112145902.205131-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211112145902.205131-8-frederic.petrot@univ-grenoble-alpes.fr>
- <CAKmqyKM_6QH40iesGaCYLxWHzRyfoFACEH+eiOY-_YQTpeo=nw@mail.gmail.com>
- <a68d73ec-bde8-5869-842f-e45bbdbdc5ed@univ-grenoble-alpes.fr>
- <88c5fc89-49a3-0dd3-87bb-287ba590f915@amsat.org>
-In-Reply-To: <88c5fc89-49a3-0dd3-87bb-287ba590f915@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 25 Nov 2021 21:47:28 +1000
-Message-ID: <CAKmqyKN69JDsRfFvuJGaDxyP+LS+90PGjD-ACtFhdGmnBguApg@mail.gmail.com>
-Subject: Re: [PATCH v5 07/18] target/riscv: setup everything so that
- riscv128-softmmu compiles
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::136
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::136;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x136.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v4 3/3] tests/qtest/fdc-test: Add a regression test for
+ CVE-2021-20196
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211124161536.631563-1-philmd@redhat.com>
+ <20211124161536.631563-4-philmd@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211124161536.631563-4-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -75
+X-Spam_score: -7.6
+X-Spam_bar: -------
+X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,78 +102,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Fabien Portas <fabien.portas@grenoble-inp.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?= <frederic.petrot@univ-grenoble-alpes.fr>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 24, 2021 at 5:33 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
+On 24.11.21 17:15, Philippe Mathieu-Daudé wrote:
+> Without the previous commit, when running 'make check-qtest-i386'
+> with QEMU configured with '--enable-sanitizers' we get:
 >
-> Hi Fr=C3=A9d=C3=A9ric,
+>    AddressSanitizer:DEADLYSIGNAL
+>    =================================================================
+>    ==287878==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000344
+>    ==287878==The signal is caused by a WRITE memory access.
+>    ==287878==Hint: address points to the zero page.
+>        #0 0x564b2e5bac27 in blk_inc_in_flight block/block-backend.c:1346:5
+>        #1 0x564b2e5bb228 in blk_pwritev_part block/block-backend.c:1317:5
+>        #2 0x564b2e5bcd57 in blk_pwrite block/block-backend.c:1498:11
+>        #3 0x564b2ca1cdd3 in fdctrl_write_data hw/block/fdc.c:2221:17
+>        #4 0x564b2ca1b2f7 in fdctrl_write hw/block/fdc.c:829:9
+>        #5 0x564b2dc49503 in portio_write softmmu/ioport.c:201:9
 >
-> On 11/24/21 07:55, Fr=C3=A9d=C3=A9ric P=C3=A9trot wrote:
-> > On 24/11/2021 07:12, Alistair Francis wrote:
-> >> On Sat, Nov 13, 2021 at 1:16 AM Fr=C3=A9d=C3=A9ric P=C3=A9trot
-> >> <frederic.petrot@univ-grenoble-alpes.fr> wrote:
-> >>>
-> >>> This patch is kind of a mess because several files have to be slightl=
-y
-> >>> modified to allow for a new target. In the current status, we have do=
-ne
-> >>> our best to have RV64 and RV128 under the same RV64 umbrella, but the=
-re
-> >>> is still work to do to have a single executable for both.
-> >>> In particular, we have no atomic accesses for aligned 128-bit address=
-es.
-> >>>
-> >>> Once this patch applied, adding risc128-sofmmu to --target-list produ=
-ces
-> >>> a (no so useful yet) executable.
-> >>
-> >> I can't remember if we discussed this before, but do we need the
-> >> riscv128-sofmmu executable? Can we instead just use a riscv64-sofmmu
-> >> executable?
-> >
-> >   Hello Alistair,
-> >   Richard was also advocating for a single executable, but pointed out =
-that
-> >   we need to disable mttcg because there is a need for specific tcg
-> > support for
-> >   128-bit aligned atomics.
-> >   Given my understanding of that part of QEMU, I choose the easy way to
-> > disable
-> >   it once and for all at compile time until we have that.
+> Add the reproducer for CVE-2021-20196.
 >
+> Suggested-by: Alexander Bulekov <alxndr@bu.edu>
+> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   tests/qtest/fdc-test.c | 38 ++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 38 insertions(+)
 >
-> In rv128_base_cpu_init():
->
->   if (qemu_tcg_mttcg_enabled) {
->       /* Missing 128-bit aligned atomics */
->       error_report("128-bit RISC-V currently does not work"
->                    " with Multi Threaded TCG. Please use:"
->                    " -accel tcg,thread=3Dsingle");
->       exit(EXIT_FAILURE);
+> diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
+> index 26b69f7c5cd..8f6eee84a47 100644
+> --- a/tests/qtest/fdc-test.c
+> +++ b/tests/qtest/fdc-test.c
+> @@ -32,6 +32,9 @@
+>   /* TODO actually test the results and get rid of this */
+>   #define qmp_discard_response(...) qobject_unref(qmp(__VA_ARGS__))
+>   
+> +#define DRIVE_FLOPPY_BLANK \
+> +    "-drive if=floppy,file=null-co://,file.read-zeroes=on,format=raw,size=1440k"
+> +
+>   #define TEST_IMAGE_SIZE 1440 * 1024
+>   
+>   #define FLOPPY_BASE 0x3f0
+> @@ -546,6 +549,40 @@ static void fuzz_registers(void)
+>       }
 >   }
+>   
+> +static bool qtest_check_clang_sanitizer(void)
+> +{
+> +#if defined(__SANITIZE_ADDRESS__) || __has_feature(address_sanitizer)
+> +    return true;
+> +#else
+> +    g_test_skip("QEMU not configured using --enable-sanitizers");
+> +    return false;
+> +#endif
+> +}
+> +static void test_cve_2021_20196(void)
+> +{
+> +    QTestState *s;
+> +
+> +    if (!qtest_check_clang_sanitizer()) {
+> +        return;
+> +    }
+> +
+> +    s = qtest_initf("-nographic -m 32M -nodefaults " DRIVE_FLOPPY_BLANK);
+> +
+> +    qtest_outw(s, 0x3f4, 0x0500);
+> +    qtest_outb(s, 0x3f5, 0x00);
+> +    qtest_outb(s, 0x3f5, 0x00);
+> +    qtest_outw(s, 0x3f4, 0x0000);
+> +    qtest_outb(s, 0x3f5, 0x00);
+> +    qtest_outw(s, 0x3f1, 0x0400);
+> +    qtest_outw(s, 0x3f4, 0x0000);
+> +    qtest_outw(s, 0x3f4, 0x0000);
+> +    qtest_outb(s, 0x3f5, 0x00);
+> +    qtest_outb(s, 0x3f5, 0x01);
+> +    qtest_outw(s, 0x3f1, 0x0500);
+> +    qtest_outb(s, 0x3f5, 0x00);
+> +    qtest_quit(s);
+> +}
+> +
 
-That seems like a good option! I think we could add this to the CPU
-realise function.
+Now this works as a reproducer for me, but... this is a completely 
+different I/O sequence now, right?
 
-The problem with a riscv128-sofmmu executable is that it's hard to get
-rid of in the future. We are very slowly moving towards a single
-executable and adding a new one means we are stuck with it for a
-while.
+Can’t complain, though, I didn’t understand the previous one, I can’t 
+claim I need to understand this one or why they’re different.
 
-Alistair
+All the rest looks good to me, so all in all:
 
->
-> Regards,
->
-> Phil.
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+
 
