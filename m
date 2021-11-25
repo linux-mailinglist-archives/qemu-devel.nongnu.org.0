@@ -2,90 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 816DD45D333
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 03:36:19 +0100 (CET)
-Received: from localhost ([::1]:50318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B7945D374
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 04:10:12 +0100 (CET)
+Received: from localhost ([::1]:57820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mq4cU-00024d-5a
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 21:36:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38078)
+	id 1mq59G-0000uf-WF
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 22:10:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mq4bH-0001Ob-Jo
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 21:35:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23411)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mq56i-0007dS-WB; Wed, 24 Nov 2021 22:07:33 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=39525
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mq4bF-0003FH-0O
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 21:35:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637807700;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GUKRIXHszaeVwpbnnWHe1jcHGMiyEXW5NpTD1pICm7Y=;
- b=Tb4mCIaY2f9qefReMVFH2V8QCJchLtg0t8Al50eCnPIpM/5BQGEnmUALa+2kSeS0Ymh8uw
- 3kj+n0DGzLnAdmv3SJuPZ8xARu+heQllUKJK2wEVYv/ghe6uDAWTlbs0txVeOE3LrT7RLs
- XuMY+OhqHBJlZC8uLJHXZIgrZC4rGlI=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-254-Fm8mGNiMMpWo91PF4VVyZQ-1; Wed, 24 Nov 2021 21:34:59 -0500
-X-MC-Unique: Fm8mGNiMMpWo91PF4VVyZQ-1
-Received: by mail-lf1-f72.google.com with SMTP id
- c14-20020a056512104e00b004036d17f91bso2384740lfb.17
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 18:34:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GUKRIXHszaeVwpbnnWHe1jcHGMiyEXW5NpTD1pICm7Y=;
- b=Sr7CXHWiFTlNQWhJCDWIF8fVB5TdARrwEP3nmempcjjlWR7k9XXNqzWzWuesHnCGLu
- 0DMgHO4abuWDEb7LWxAaeqJ7CrizRNAqSfX4LM/LIaBlVoZLX0/XQIG2KOJKrn1jt9DR
- NPNIFDDjc3ko0X6rYafB3rNGvl7YVKFxPdWXdWF/ohm2gVCwNxsF47gtPTnpJ1wKpC+D
- h7sahZtKyBTRFqXdiALqxvpTMxR5ZK9O/km7wiCwi0i7UU8jdz5taKfRcUuFupX9OOZ7
- GkwaOF1aIG3aK/lOdApeIJKOCwSBDAJ66RJE4nDKtC6BmflJvaCjXj8Afy5M7T3sUv4s
- n1Fw==
-X-Gm-Message-State: AOAM5332T+zNVPKozAxUUhrDmlkKL6DZ92hWkTLAmHXHqAv6oHt3S5Kf
- qIB4Wk1N/gJoMHzzvR8XUTiMTGuAlC0j7mnStXch6vi2uobTErFnkp8e2aiMMOjn/EiEJLpCyCV
- DJifA3Nf5BDmMoYnEcmSPGITPQlslwjI=
-X-Received: by 2002:a2e:2ac1:: with SMTP id
- q184mr21475503ljq.420.1637807697522; 
- Wed, 24 Nov 2021 18:34:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxbSDwPFo6sIO8LYclWw9xQ6biLFqcCT7bw8x7kdKSi59zKF5bl1ndFNJd26LMTK0iwjSsTzLi6MwdqF3Tuavg=
-X-Received: by 2002:a2e:2ac1:: with SMTP id
- q184mr21475469ljq.420.1637807697215; 
- Wed, 24 Nov 2021 18:34:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mq56g-0003ZG-7w; Wed, 24 Nov 2021 22:07:32 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4J02qD6R4vz4xcM; Thu, 25 Nov 2021 14:07:20 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1637809640;
+ bh=lruCAk1ia2Bx64u2IlwhSSr7mz0u3H8/GFiLT6DlgNA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZmYUN8dh0ypuCX9gNl/tMPiM/JzylrC7sAhkMaT1SBFSCmdoLO56UI3u507LT+SAO
+ i3vKNumS1G/wG8kykvz8aqtsRXm1cCzXn0JDkVgkLFzJQlXaFusKzrTyfVx7cUg5Fd
+ VzIFo727GRkBEBI/c4XQgTdcWlBJ6Jpkq8UwOUNM=
+Date: Thu, 25 Nov 2021 13:59:57 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH v3 1/3] target/ppc: Fixed call to deferred exception
+Message-ID: <YZ78LSQVRU7YqAvu@yekko>
+References: <20211124172523.3598396-1-lucas.araujo@eldorado.org.br>
+ <20211124172523.3598396-2-lucas.araujo@eldorado.org.br>
+ <ad28911-f3e6-a95b-2541-4cacc1a3626e@eik.bme.hu>
 MIME-Version: 1.0
-References: <20211124060309.6872-1-jasowang@redhat.com>
- <YZ3wXo5XueDtuk8c@xz-m1.local>
- <CACGkMEvLAThn7VFtB2xeaP+bzPtnVwj0Orzpt=nK5Bg2h6QZow@mail.gmail.com>
- <YZ39USAfW7i1oAOO@xz-m1.local>
- <CACGkMEsohbTvbFhMaZ_aAHpyJdbB4xcp6zRzaVYZXAZzCN7Vyw@mail.gmail.com>
- <YZ4EioUDRAygL61n@xz-m1.local>
- <CACGkMEvDjMA87yRxW1dNcA-L7RtrvcqtTqn3sCOF7Yudd=YWpg@mail.gmail.com>
- <YZ4Pmf/dKkGirW95@xz-m1.local>
-In-Reply-To: <YZ4Pmf/dKkGirW95@xz-m1.local>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 25 Nov 2021 10:34:46 +0800
-Message-ID: <CACGkMEt7KncnYMnhM19-zH-sDfrJYchvRnfHT6G6Jbsk9Kvq1Q@mail.gmail.com>
-Subject: Re: [PATCH] intel-iommu: ignore SNP bit in scalable mode
-To: Peter Xu <peterx@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="mMO3M2H9IKELHFo2"
+Content-Disposition: inline
+In-Reply-To: <ad28911-f3e6-a95b-2541-4cacc1a3626e@eik.bme.hu>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for
+ 2404:9400:2:0:216:3eff:fee2:21ea (failed)
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,117 +63,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Yi L" <yi.l.liu@intel.com>, yi.y.sun@linux.intel.com,
- qemu-devel <qemu-devel@nongnu.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- mst <mst@redhat.com>
+Cc: mark.cave-ayland@ilande.co.uk, danielhb413@gmail.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>,
+ qemu-ppc@nongnu.org, pc@us.ibm.com, matheus.ferst@eldorado.org.br,
+ clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 24, 2021 at 6:10 PM Peter Xu <peterx@redhat.com> wrote:
->
-> On Wed, Nov 24, 2021 at 05:35:18PM +0800, Jason Wang wrote:
-> > On Wed, Nov 24, 2021 at 5:23 PM Peter Xu <peterx@redhat.com> wrote:
-> > >
-> > > On Wed, Nov 24, 2021 at 05:01:42PM +0800, Jason Wang wrote:
-> > > > > > > > -static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, uint32_t level)
-> > > > > > > > +static bool vtd_slpte_nonzero_rsvd(IntelIOMMUState *s,
-> > > > > > > > +                                   uint64_t slpte, uint32_t level)
-> > > > > > > >  {
-> > > > > > > >      uint64_t rsvd_mask = vtd_spte_rsvd[level];
-> > > > > > > >
-> > > > > > > > @@ -979,6 +980,10 @@ static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, uint32_t level)
-> > > > > > > >          rsvd_mask = vtd_spte_rsvd_large[level];
-> > > > > > > >      }
-> > > > > > > >
-> > > > > > > > +    if (s->scalable_mode) {
-> > > > > > > > +        rsvd_mask &= ~VTD_SPTE_SNP;
-> > > > > > > > +    }
-> > > > > > >
-> > > > > > > IMHO what we want to do is only to skip the leaves of pgtables on SNP, so maybe
-> > > > > > > we still want to keep checking the bit 11 reserved for e.g. common pgtable dir
-> > > > > > > entries?
-> > > >
-> > > > Maybe, but it's probably a question that can only be answered by
-> > > > Intel. I can change it for the next version if you stick.
-> > >
-> > > I'm reading vtd spec v3.1 (June 2019) here, and chap 9.8 told me they're
-> > > reserved bits for pgdir entries, as no SNP bit defined on pgdir entries.
-> >
-> > Yes, you're right.
-> >
-> > >
-> > > >
-> > > > > > >
-> > > > > > > To do so, how about directly modifying the vtd_spte_rsvd* fields in vtd_init()?
-> > > > > > > I think we only need to modify 4k/2m/1g entries to mask bit 11, they're:
-> > > > > > >
-> > > > > > >   - vtd_spte_rsvd[1] (4K)
-> > > > > > >   - vtd_spte_rsvd_large[2] (2M)
-> > > > > > >   - vtd_spte_rsvd_large[3] (1G)
-> > > > > > >
-> > > > > > > What do you think?  Then we avoid passing IntelIOMMUState* all over too.
-> > > >
-> > > > I started a version like that:), it should work, I will change that if
-> > > > it was agreed by everyone.
-> > > >
-> > > > The reason that I changed to pass IntelIOMMUState is that it results
-> > > > in a smaller changeset. The reason is that I tend to introduce new
-> > > > rsvd bits for SM mode since after checking vtd 3.3 it looks have
-> > > > different reserved bit requirement than before (at least 1.2)
-> > >
-> > > Oh I thought changing vtd_spte_rsvd* should have smaller changeset instead,
-> > > hmm? :)
-> > >
-> > > IMHO it'll be:
-> > >
-> > >   if (s->scalable_mode) {
-> > >         vtd_spte_rsvd[1] &= ~BIT(11);
-> > >         vtd_spte_rsvd_large[2] &= ~BIT(11);
-> > >         vtd_spte_rsvd_large[3] &= ~BIT(11);
-> > >   }
-> > >
-> > > Would that work?  Thanks,
-> >
-> > Works for sure, if we just want to fix the SNP bit.
-> >
-> > (I actually have a version like this as well). I can go this way
->
-> Sounds good at least to me.  Thanks!
->
-> >
-> > The reason why I had another big changset is to align the reserved
-> > bits to vtd 3.3. E.g it equires e.g bit 62 to be reserved 63 to be
-> > ignored which seems not as strict as VTD_SL_IGN_COM. But it can be
-> > addressed in the future.
->
-> Ah I see.  We can do that later, or if the patch is ready anway IMHO we can
-> have them fixed altogether too.
->
-> It's weird that VT-d spec seems to be very prone to changes.. that's rare as a
-> spec, and it even happened multiple times.
 
-A side-effect is to bring troubles for the migration compatibility :(
+--mMO3M2H9IKELHFo2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->
-> Another trivial thing: for that SNP bit code change, shall we also reference
-> the Linux commit 6c00612d0cba ("iommu/vt-d: Report right snoop capability when
-> using FL for IOVA", 2021-04-07) directly in the code as comment?  Just want to
-> make sure we'll never forget why we added it as no one will be able to find a
-> clue in the spec, meanwhile that explicit hint let us remember when we added SC
-> support we can drop it.
+On Thu, Nov 25, 2021 at 01:49:46AM +0100, BALATON Zoltan wrote:
+> On Wed, 24 Nov 2021, Lucas Mateus Castro (alqotel) wrote:
+> > mtfsf, mtfsfi and mtfsb1 instructions call helper_float_check_status
+> > after updating the value of FPSCR, but helper_float_check_status
+> > checks fp_status and fp_status isn't updated based on FPSCR and
+> > since the value of fp_status is reset earlier in the instruction,
+> > it's always 0.
+> >=20
+> > Because of this helper_float_check_status would change the FI bit to 0
+> > as this bit checks if the last operation was inexact and
+> > float_flag_inexact is always 0.
+> >=20
+> > These instructions also don't throw exceptions correctly since
+> > helper_float_check_status throw exceptions based on fp_status.
+> >=20
+> > This commit created a new helper, helper_fpscr_check_status that checks
+> > FPSCR value instead of fp_status and checks for a larger variety of
+> > exceptions than do_float_check_status.
+> >=20
+> > Since fp_status isn't used, gen_reset_fpstatus() was removed.
+> >=20
+> > The hardware used to compare QEMU's behavior to was a Power9.
+> >=20
+> > Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org=
+=2Ebr>
+> > ---
+> > target/ppc/fpu_helper.c            | 48 ++++++++++++++++++++++++++++++
+> > target/ppc/helper.h                |  1 +
+> > target/ppc/translate/fp-impl.c.inc |  9 ++----
+> > 3 files changed, 52 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+> > index c4896cecc8..bb72715827 100644
+> > --- a/target/ppc/fpu_helper.c
+> > +++ b/target/ppc/fpu_helper.c
+> > @@ -414,6 +414,54 @@ void helper_store_fpscr(CPUPPCState *env, uint64_t=
+ val, uint32_t nibbles)
+> >     ppc_store_fpscr(env, val);
+> > }
+> >=20
+> > +void helper_fpscr_check_status(CPUPPCState *env)
+> > +{
+> > +    CPUState *cs =3D env_cpu(env);
+> > +    target_ulong fpscr =3D env->fpscr;
+> > +    int error =3D 0;
+> > +
+> > +    if ((fpscr & FP_OX) && (fpscr & FP_OE)) {
+> > +        error =3D POWERPC_EXCP_FP_OX;
+> > +    } else if ((fpscr & FP_UX) && (fpscr & FP_UE)) {
+> > +        error =3D POWERPC_EXCP_FP_UX;
+> > +    } else if ((fpscr & FP_XX) && (fpscr & FP_XE)) {
+> > +        error =3D POWERPC_EXCP_FP_XX;
+> > +    } else if ((fpscr & FP_ZX) && (fpscr & FP_ZE)) {
+>=20
+> I wonder if these tests could be simplified by combining the masks if you
+> want to test for both bits set so e.g. fpscr & (FP_ZX | FP_ZE) should be =
+the
+> same, shouldn't it?
 
-Adding BaoLu.
+No, it's not.  In fact your version is equivalent as a boolean to
+	((fpscr & FP_ZX) || (fpscr & FP_ZE))
 
-As discussed, according to my test with vIOMMU, there are side effect
-of that commit which uses SNP even for the second level page table for
-domains that is not IOMMU_DOMAIN_UNMANAGED. If I was wrong, we can
-refer to that in the code.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Thanks
+--mMO3M2H9IKELHFo2
+Content-Type: application/pgp-signature; name="signature.asc"
 
->
-> --
-> Peter Xu
->
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGe/CgACgkQbDjKyiDZ
+s5I4tg//fimK0FJKQQScLiV3A/q7b/LStb0klwlLa1usdoqQmJIb6u6uRz2L6LFp
+bD1EGkDLKr79J5O+4HPyBeAyeZSSMbZEeIhYAqOe+WMv+jcYOZO0h1g+aocawXUz
+qyINO+D/TkJ/o/nKqmBC297WaXZkODo6NlTmV+FG3X4CftJaeSRrp+HchMPUkQN/
+wkw3NogaV6lzZBPj20XwDplyS/a66+n93+AM0jzMscWuhDz0yA//tiqC5CYs/i8g
+eWFXU86OxqjApHgCFQxE5KdRsgcByQobSI/dkdKdqz4UY3flYDNwVYJ354G741yu
+W6FsELFCdPjfcfZKKE2gh3x56Jc4QejLD4X8dO28t6fRbxknDZ9O7T10gHzUDCa7
+MMPWjeVF/r4K2U6BpJHWUENkt0PmPakBPB4aAEtjhwYZPWPos/EoBWkCOAomdKJ9
+u/ZYpF8bdQsGCfnh7XR8t+nENJckx9Lvf2TuIYg9Q8/ZhoR72GW421RmytHX4zL6
+MBJ0c7CGHVgzibmWzZn0icmSTvtHchGdtOGoUIWbhGkDK5m9u1E3u7y6ANslXxMf
+lVz2iklMf1/FnCGvVLcuWz/bCnLaIyTsZwdt4NXF869YDm2+KWiBlCabdbplW9ov
+4g3HaRd4ifQ1y2s7CCPLUqEDk2lvFzikDC34F2VZ2E/Mnd6DZRA=
+=/YD1
+-----END PGP SIGNATURE-----
+
+--mMO3M2H9IKELHFo2--
 
