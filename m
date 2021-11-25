@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4A545E129
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 20:47:54 +0100 (CET)
-Received: from localhost ([::1]:52152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700BC45E1D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 21:51:12 +0100 (CET)
+Received: from localhost ([::1]:49264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqKin-00083T-D0
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 14:47:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50244)
+	id 1mqLi3-0003nd-1g
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 15:51:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mqKhe-0007N1-79
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 14:46:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59440)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mqLgz-00031i-Vc
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 15:50:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mqKha-00049D-Tw
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 14:46:40 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mqLgt-0008Pq-NT
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 15:50:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637869597;
+ s=mimecast20190719; t=1637873397;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=et8cy/gg9Wrw05E4gC3Mb913nsWArxVcB9K+pxBNHOE=;
- b=feHegr4heblSaAG3G+TQzso9hDjeKHturalaAfyHcm+yUPF+rVx5R3UEtdzhA3ICCUGiwi
- 8M4zCUO8pWRQOuLUBSWOY97D/1JmFVG/TiqjZnqvWbpa7ar58j9fHpSa/7x4KI2IsJHbPj
- cf9KZhB4IJAJSUTkMZOrDo8Zvdr2e04=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=20Ifpa+X5UBOBL4Mf4expTrLucx2wPZ6xW8+89va9bY=;
+ b=IQPQ/71p22kyLSvrwPGnWhjr3L6Na2uu8vuTBW9UPJrmGq/a0XzDRtfnI5iTWkTzlijsuy
+ gRwreQNGuCARLSvgG22t2x62CMiitns3zOQpV2BGk25f3xzvy0CZgBdFqgHe33esUvj1rg
+ ijKNFK9THreEspyqK6KighRg0I7tPRE=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-317-Zfkede4iOuuK844cO83afg-1; Thu, 25 Nov 2021 14:46:36 -0500
-X-MC-Unique: Zfkede4iOuuK844cO83afg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- a85-20020a1c7f58000000b0033ddc0eacc8so3597162wmd.9
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 11:46:35 -0800 (PST)
+ us-mta-105-Awgit_nbMjO9QrSB7YXFSA-1; Thu, 25 Nov 2021 15:49:56 -0500
+X-MC-Unique: Awgit_nbMjO9QrSB7YXFSA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ d13-20020a056402516d00b003e7e67a8f93so6298075ede.0
+ for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 12:49:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=et8cy/gg9Wrw05E4gC3Mb913nsWArxVcB9K+pxBNHOE=;
- b=YYl7FUiQlj6sPjN+HipWKut5ioa7Zh4LYVJeexg0ceGSEkWfI51ttHM17I3FejiR2Y
- EpaL7cmYMdQWhBGAgjf/B7sSiwAtdNSPuL+Kh0EWUhgFsAwZUaKLguwPcJ+csJW/ligg
- w2/ATNcn+YPu3/HIQXX4BzBX42dn9KBQdslDTWEGJRjhhtNuTMFO9xk+Ekis2DjCR+U+
- jef8nv70xSJFReOWry/qzz25TZ+K0NUoV2syzB+s1aqOhB1Cpqfw8MmjitQeEljKcc6j
- WPksbS6Rm+vHLwU0c92JKm2bCHHgpLhRQ80h7T5Celqzpsduqibt2IjrY6fSyFdhSZ/Y
- 5+Hw==
-X-Gm-Message-State: AOAM531obpHuEkt5rPbRxXPiMG4KTc6FCBkBHvIQwauyWFpIUa8wKJAo
- kL/Kq0cG+sZlGXbun2g2qAGld/eF3+hDI6sVg6fvdeL6XLzTv+TSQDk+kXgf368v4tKQjLfC2ez
- NaJhIB3OTsbrfxP8=
-X-Received: by 2002:a7b:c770:: with SMTP id x16mr3958550wmk.66.1637869590438; 
- Thu, 25 Nov 2021 11:46:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxK948lP3FQ1IcIQmr852FKzIyoAxt2JHszT58mEmS/5LYyWBQg3BXWqzJt+J22oVNbIrQKLA==
-X-Received: by 2002:a7b:c770:: with SMTP id x16mr3957680wmk.66.1637869576249; 
- Thu, 25 Nov 2021 11:46:16 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id y142sm3914369wmc.40.2021.11.25.11.46.15
+ :mime-version:content-disposition:in-reply-to;
+ bh=20Ifpa+X5UBOBL4Mf4expTrLucx2wPZ6xW8+89va9bY=;
+ b=7luDrtGIdTZrQVK6pnVfOdvgvSOaLzHLA+5QkuGEQ/gj30wutrhSkp/WwEs4V+0Y7d
+ BzvP72ZJ7h6XzNTrkajd+zv6VzQ9Fwp23fHOYmfZvzMwuMAiw3VacwAx7h2jerYN7Kqv
+ VoEGJEmGvLP0zyr4uBw+0/9Jk0xBSXtFJeT/MsYIX7cyLp3TNnjFOHrXLzd1Gk1rvesv
+ qj1kk7QQlU9zvkiAxF8ulOmkoV2f/irO3hFZo1CZZC/vOSwjbNLvCQEodpHg37bRX4Nj
+ LFMf4EwwQlUpiJqypKo6v8YKQZ7t7soRc9b0Kjd9c74eYFJRqfVOd6mXE6DlP+Fd/KY/
+ Kzaw==
+X-Gm-Message-State: AOAM533CwGk6nFCRnk9ZfkJPncGwGqLs1B/FQYqraNbo5acDgD43VBgn
+ F7m+OAhGnywfiZqlbX6x0tO3djnrPM/z47WXq5/ZCdRHG8Yd4SoCvWawInHWm1hBRe1oLdybo9F
+ uA9mHwLxP8DF3ydk=
+X-Received: by 2002:a17:907:d22:: with SMTP id
+ gn34mr34423918ejc.195.1637873394869; 
+ Thu, 25 Nov 2021 12:49:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy6Go3CJ9gM9C/NdDwbwqYk/tCIDqptOu6nlb1WRBW4fYwgwgRwlkAVCgqUNSo8BWliHo+FgQ==
+X-Received: by 2002:a17:907:d22:: with SMTP id
+ gn34mr34423895ejc.195.1637873394643; 
+ Thu, 25 Nov 2021 12:49:54 -0800 (PST)
+Received: from redhat.com ([2a03:c5c0:207e:e87:2d40:4ed4:5676:5c1a])
+ by smtp.gmail.com with ESMTPSA id d3sm2584936edx.79.2021.11.25.12.49.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Nov 2021 11:46:15 -0800 (PST)
-Date: Thu, 25 Nov 2021 19:46:13 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v3 01/23] multifd: Delete useless operation
-Message-ID: <YZ/oBfd2TT3pGc1u@work-vm>
-References: <20211124100617.19786-1-quintela@redhat.com>
- <20211124100617.19786-2-quintela@redhat.com>
- <YZ6JCNdj0G4r3igs@work-vm> <87ilwgg0ks.fsf@secure.mitica>
+ Thu, 25 Nov 2021 12:49:54 -0800 (PST)
+Date: Thu, 25 Nov 2021 15:49:50 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH-for-6.2] docs: add a word of caution on x-native-hotplug
+ property for pcie-root-ports
+Message-ID: <20211125154927-mutt-send-email-mst@kernel.org>
+References: <20211125120629.187014-1-ani@anisinha.ca>
 MIME-Version: 1.0
-In-Reply-To: <87ilwgg0ks.fsf@secure.mitica>
-User-Agent: Mutt/2.1.3 (2021-09-10)
+In-Reply-To: <20211125120629.187014-1-ani@anisinha.ca>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -98,63 +95,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>
+Cc: imammedo@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > * Juan Quintela (quintela@redhat.com) wrote:
-> >> We are divining by page_size to multiply again in the only use.
-> >              ^--- typo
-> >> Once there, impreve the comments.
-> >                   ^--- typo
-> >> 
-> >> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> >
-> > OK, with the typo's fixed:
+On Thu, Nov 25, 2021 at 05:36:29PM +0530, Ani Sinha wrote:
+> x-native-hotplug property, when used in order to disable HPC bit on the PCIE
+> root ports, can lead to unexpected results from the guest operating system.
+> Users are strongly advised not to touch this property in order to manipulte the
+> HPC bit. Add a word of caution in the pcie.txt doc file to document this.
 > 
-> Thanks.
-> 
-> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >
-> > but, could you also explain the  x 2 (that's no worse than the current
-> > code); is this defined somewhere in zlib?  I thought there was a routine
-> > that told you the worst case?
-> 
-> Nowhere.
-> 
-> There are pathological cases where it can be worse.  Not clear at all
-> how much (ok, for zlib it appears that it is on the order of dozen of
-> bytes, because it marks it as uncompressed on the worst possible case),
-> For zstd, there is not a clear/fast answer when you google.
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
 
-For zlib:
+Do we want to generally document this for all "x-" options?
 
-ZEXTERN uLong ZEXPORT compressBound OF((uLong sourceLen));
-/*
-     compressBound() returns an upper bound on the compressed size after
-   compress() or compress2() on sourceLen bytes.  It would be used before a
-   compress() or compress2() call to allocate the destination buffer.
-*/
-
-> As this buffer is held for the whole migration, it is one for thread,
-> this looked safe to me.  Notice that we are compressing 128 pages at a
-> time, so for it not to compress anything looks very pathological.
+> ---
+>  docs/pcie.txt | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
 > 
-> But as one says, better safe than sorry.
-
-Yeh.
-
-Dave
-
-> If anyone that knows more about zlib/zstd give me different values, I
-> will change that in an additional patch.
-> 
-> Later, Juan.
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> diff --git a/docs/pcie.txt b/docs/pcie.txt
+> index 89e3502075..e1f99f725f 100644
+> --- a/docs/pcie.txt
+> +++ b/docs/pcie.txt
+> @@ -262,11 +262,26 @@ PCI Express Root Ports (and PCI Express Downstream Ports).
+>          Port, which may come handy for hot-plugging another device.
+>  
+>  
+> -5.3 Hot-plug example:
+> +5.2 Hot-plug example:
+>  Using HMP: (add -monitor stdio to QEMU command line)
+>    device_add <dev>,id=<id>,bus=<PCI Express Root Port Id/PCI Express Downstream Port Id/PCI-PCI Bridge Id/>
+>  
+>  
+> +5.3 A word of caution using hotplug on PCI Express Root Ports:
+> +Starting Qemu version 6.2, PCI Express Root ports have a property
+> +"x-native-hotplug" ("native-hotplug" for Qemu version 6.1), that can be used to
+> +enable or disable hotplug on that port. For example:
+> +
+> +-device pcie-root-port,x-native-hotplug=off,... etc.
+> +
+> +The "x-" prefix indicates that this property is highly experimental and can
+> +lead to unexpected results from the guest operating system if users try to use
+> +it to alter the native hotplug on the port. It also means that the property
+> +name and its behavior is liable to change in the future and is not expected to
+> +be stable across Qemu versions. Therefore, end users are advised not to change
+> +the value of this option from its default set value or use it in the Qemu
+> +command line.
+> +
+>  6. Device assignment
+>  ====================
+>  Host devices are mostly PCI Express and should be plugged only into
+> -- 
+> 2.25.1
 
 
