@@ -2,94 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11BD45D9A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 12:59:58 +0100 (CET)
-Received: from localhost ([::1]:47996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC23E45D9B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 13:05:01 +0100 (CET)
+Received: from localhost ([::1]:52524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqDPx-0003l4-9o
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 06:59:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41924)
+	id 1mqDUq-0007Jq-Ge
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 07:05:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mqDNj-0002gO-3l
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 06:57:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28300)
+ (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
+ id 1mqDT8-0005ig-Bx; Thu, 25 Nov 2021 07:03:15 -0500
+Received: from mga07.intel.com ([134.134.136.100]:59242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mqDNh-0007u7-Ia
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 06:57:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637841456;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iE6hK1jYtROmVu8CDrFG/B/8sv8e2Q2HIPbTudj3CHc=;
- b=FNpdy4apDCrO0EHzs5PioX8Z0ObaYzjQ99/kK76NQ9ke2uk9nQB6IG4lK79Iq4vB8cgoMI
- ZGJ9Pp47D8CtBRit3HQieE2P3WlS0V2L7Y2mkDJsEAgcIzOYnwpIgZc1qQIAC5CSpkDs1S
- DM1dVjJZBsjeKEhYagy4/eR0FFkr/VA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-u1a8GJ2gOT-kM1JsEvOQXA-1; Thu, 25 Nov 2021 06:57:33 -0500
-X-MC-Unique: u1a8GJ2gOT-kM1JsEvOQXA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v62-20020a1cac41000000b0033719a1a714so3107276wme.6
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 03:57:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iE6hK1jYtROmVu8CDrFG/B/8sv8e2Q2HIPbTudj3CHc=;
- b=pWh8m61zRCc7FW3CpGMxMdXgI68XINJKXIpUEhWKt4zoKO2C4p7Wubqkd95q/dyi7p
- 131SODXK7B9eTZMKdRDSvuJOELDI9wV0iZ9lu+6y9vqV/fihb8FKSRh0yr4eHdhsE9+S
- YcL4TYWhuiJKWZlLp5vkLarez+HgfyHWa23ubeH19a/vV5QYW7sGl6YL7NkXxjZRW1d2
- /HzumOpTmBGDIE7/7xALKpFYHuokv0ZjuegC5/2WMy2/IKCCP1bQBiDDsHTlG2YDi72r
- zsHmUU5T3FrEPf3DyUyoAEu/Fo63//xzYtsB1frWc5v2DiM/CdBAPDm665HIAcNIEXzr
- kmJg==
-X-Gm-Message-State: AOAM532eT6jISKox57KWZXM22pNMdoE8nitJ1G9xliLZ55g4HJh+A1oX
- 4uEHSCtWYj8z+pRLhUH9sWzwRxXoV5oC431ym9aome2rRaZ30o7o89Vi7gozG/mMl5R69wq/Lez
- zoQ/pzWqBXjRrr0c=
-X-Received: by 2002:a7b:c7cb:: with SMTP id z11mr6444642wmk.152.1637841451805; 
- Thu, 25 Nov 2021 03:57:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyZj8Atu6MR6G9hFFygOjsVGvzfH15Sw+91m3W2RAEdpqu3rVtdQwMmaO2f7B8bR07mjlpewQ==
-X-Received: by 2002:a7b:c7cb:: with SMTP id z11mr6444604wmk.152.1637841451580; 
- Thu, 25 Nov 2021 03:57:31 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id r11sm2602025wrw.5.2021.11.25.03.57.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Nov 2021 03:57:31 -0800 (PST)
-Message-ID: <ba0a545d-4877-20f9-e5fb-39d730bf8c90@redhat.com>
-Date: Thu, 25 Nov 2021 12:57:30 +0100
+ (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
+ id 1mqDSs-0000Sv-Ml; Thu, 25 Nov 2021 07:03:14 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="298909858"
+X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; d="scan'208";a="298909858"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2021 04:02:44 -0800
+X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; d="scan'208";a="498063692"
+Received: from lgieryk-mobl1.ger.corp.intel.com (HELO lgieryk-VirtualBox)
+ ([10.249.32.225])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2021 04:02:40 -0800
+Date: Thu, 25 Nov 2021 13:02:33 +0100
+From: =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v2 12/15] hw/nvme: Initialize capability structures for
+ primary/secondary controllers
+Message-ID: <20211125120233.GA27945@lgieryk-VirtualBox>
+References: <20211116153446.317143-1-lukasz.gieryk@linux.intel.com>
+ <20211116153446.317143-13-lukasz.gieryk@linux.intel.com>
+ <YZ3yD+GDf3SQSE+l@apples.localdomain>
+ <20211124142630.GB25350@lgieryk-VirtualBox>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v4 3/3] tests/qtest/fdc-test: Add a regression test for
- CVE-2021-20196
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211124161536.631563-1-philmd@redhat.com>
- <20211124161536.631563-4-philmd@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211124161536.631563-4-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -75
-X-Spam_score: -7.6
-X-Spam_bar: -------
-X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20211124142630.GB25350@lgieryk-VirtualBox>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=134.134.136.100;
+ envelope-from=lukasz.gieryk@linux.intel.com; helo=mga07.intel.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,99 +62,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov <alxndr@bu.edu>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Lukasz Maniak <lukasz.maniak@linux.intel.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.11.21 17:15, Philippe Mathieu-Daudé wrote:
-> Without the previous commit, when running 'make check-qtest-i386'
-> with QEMU configured with '--enable-sanitizers' we get:
->
->    AddressSanitizer:DEADLYSIGNAL
->    =================================================================
->    ==287878==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000344
->    ==287878==The signal is caused by a WRITE memory access.
->    ==287878==Hint: address points to the zero page.
->        #0 0x564b2e5bac27 in blk_inc_in_flight block/block-backend.c:1346:5
->        #1 0x564b2e5bb228 in blk_pwritev_part block/block-backend.c:1317:5
->        #2 0x564b2e5bcd57 in blk_pwrite block/block-backend.c:1498:11
->        #3 0x564b2ca1cdd3 in fdctrl_write_data hw/block/fdc.c:2221:17
->        #4 0x564b2ca1b2f7 in fdctrl_write hw/block/fdc.c:829:9
->        #5 0x564b2dc49503 in portio_write softmmu/ioport.c:201:9
->
-> Add the reproducer for CVE-2021-20196.
->
-> Suggested-by: Alexander Bulekov <alxndr@bu.edu>
-> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->   tests/qtest/fdc-test.c | 38 ++++++++++++++++++++++++++++++++++++++
->   1 file changed, 38 insertions(+)
->
-> diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
-> index 26b69f7c5cd..8f6eee84a47 100644
-> --- a/tests/qtest/fdc-test.c
-> +++ b/tests/qtest/fdc-test.c
-> @@ -32,6 +32,9 @@
->   /* TODO actually test the results and get rid of this */
->   #define qmp_discard_response(...) qobject_unref(qmp(__VA_ARGS__))
->   
-> +#define DRIVE_FLOPPY_BLANK \
-> +    "-drive if=floppy,file=null-co://,file.read-zeroes=on,format=raw,size=1440k"
-> +
->   #define TEST_IMAGE_SIZE 1440 * 1024
->   
->   #define FLOPPY_BASE 0x3f0
-> @@ -546,6 +549,40 @@ static void fuzz_registers(void)
->       }
->   }
->   
-> +static bool qtest_check_clang_sanitizer(void)
-> +{
-> +#if defined(__SANITIZE_ADDRESS__) || __has_feature(address_sanitizer)
-> +    return true;
-> +#else
-> +    g_test_skip("QEMU not configured using --enable-sanitizers");
-> +    return false;
-> +#endif
-> +}
-> +static void test_cve_2021_20196(void)
-> +{
-> +    QTestState *s;
-> +
-> +    if (!qtest_check_clang_sanitizer()) {
-> +        return;
-> +    }
-> +
-> +    s = qtest_initf("-nographic -m 32M -nodefaults " DRIVE_FLOPPY_BLANK);
-> +
-> +    qtest_outw(s, 0x3f4, 0x0500);
-> +    qtest_outb(s, 0x3f5, 0x00);
-> +    qtest_outb(s, 0x3f5, 0x00);
-> +    qtest_outw(s, 0x3f4, 0x0000);
-> +    qtest_outb(s, 0x3f5, 0x00);
-> +    qtest_outw(s, 0x3f1, 0x0400);
-> +    qtest_outw(s, 0x3f4, 0x0000);
-> +    qtest_outw(s, 0x3f4, 0x0000);
-> +    qtest_outb(s, 0x3f5, 0x00);
-> +    qtest_outb(s, 0x3f5, 0x01);
-> +    qtest_outw(s, 0x3f1, 0x0500);
-> +    qtest_outb(s, 0x3f5, 0x00);
-> +    qtest_quit(s);
-> +}
-> +
+On Wed, Nov 24, 2021 at 03:26:30PM +0100, Łukasz Gieryk wrote:
+> On Wed, Nov 24, 2021 at 09:04:31AM +0100, Klaus Jensen wrote:
+> > On Nov 16 16:34, Łukasz Gieryk wrote:
+> > > With four new properties:
+> > >  - sriov_v{i,q}_flexible,
+> > >  - sriov_max_v{i,q}_per_vf,
+> > > one can configure the number of available flexible resources, as well as
+> > > the limits. The primary and secondary controller capability structures
+> > > are initialized accordingly.
+> > > 
+> > > Since the number of available queues (interrupts) now varies between
+> > > VF/PF, BAR size calculation is also adjusted.
+> > > 
+> > > Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
+> > > ---
+> > >  hw/nvme/ctrl.c       | 138 ++++++++++++++++++++++++++++++++++++++++---
+> > >  hw/nvme/nvme.h       |   4 ++
+> > >  include/block/nvme.h |   5 ++
+> > >  3 files changed, 140 insertions(+), 7 deletions(-)
+> > > 
+> > > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> > > index f8f5dfe204..f589ffde59 100644
+> > > --- a/hw/nvme/ctrl.c
+> > > +++ b/hw/nvme/ctrl.c
+> > > @@ -6358,13 +6444,40 @@ static void nvme_init_state(NvmeCtrl *n)
+> > >      n->starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
+> > >      n->aer_reqs = g_new0(NvmeRequest *, n->params.aerl + 1);
+> > >  
+> > > -    list->numcntl = cpu_to_le16(n->params.sriov_max_vfs);
+> > > -    for (i = 0; i < n->params.sriov_max_vfs; i++) {
+> > > +    list->numcntl = cpu_to_le16(max_vfs);
+> > > +    for (i = 0; i < max_vfs; i++) {
+> > >          sctrl = &list->sec[i];
+> > >          sctrl->pcid = cpu_to_le16(n->cntlid);
+> > >      }
+> > >  
+> > >      cap->cntlid = cpu_to_le16(n->cntlid);
+> > > +    cap->crt = NVME_CRT_VQ | NVME_CRT_VI;
+> > > +
+> > > +    if (pci_is_vf(&n->parent_obj)) {
+> > > +        cap->vqprt = cpu_to_le16(1 + n->conf_ioqpairs);
+> > > +    } else {
+> > > +        cap->vqprt = cpu_to_le16(1 + n->params.max_ioqpairs -
+> > > +                                 n->params.sriov_vq_flexible);
+> > > +        cap->vqfrt = cpu_to_le32(n->params.sriov_vq_flexible);
+> > > +        cap->vqrfap = cap->vqfrt;
+> > > +        cap->vqgran = cpu_to_le16(NVME_VF_RES_GRANULARITY);
+> > > +        cap->vqfrsm = n->params.sriov_max_vq_per_vf ?
+> > > +                        cpu_to_le16(n->params.sriov_max_vq_per_vf) :
+> > > +                        cap->vqprt;
+> > 
+> > That this defaults to VQPRT doesn't seem right. It should default to
+> > VQFRT. Does not make sense to report a maximum number of assignable
+> > flexible resources that are bigger than the number of flexible resources
+> > available.
+> 
+> I’ve explained in on of v1 threads why I think using the current default
+> is better than VQPRT.
+> 
+> What you’ve noticed is indeed an inconvenience, but it’s – at least in
+> my opinion – part of the design. What matters is the current number of
+> unassigned flexible resources. It may be lower than VQFRSM due to
+> multiple reasons:
+>  1) resources are bound to PF, 
+>  2) resources are bound to other VFs,
+>  3) resources simply don’t exist (not baked in silicone: VQFRT < VQFRSM).
+> 
+> If 1) and 2) are allowed to happen, and the user must be aware of that,
+> then why 3) shouldn’t?
+> 
 
-Now this works as a reproducer for me, but... this is a completely 
-different I/O sequence now, right?
+I’ve done some more thinking, and now I’m not happy with my version, nor
+the suggested VQPRT.
 
-Can’t complain, though, I didn’t understand the previous one, I can’t 
-claim I need to understand this one or why they’re different.
+How about using this formula instead?:
 
-All the rest looks good to me, so all in all:
+v{q,i}frsm = sriov_max_v{I,q}_per_vf ? sriov_max_v{I,q}_per_vf :
+             floor(sriov_v{i,q}_flexible / sriov_max_vfs)
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+v{q,i}frsm would end up with values similar/proportional to those
+reported by and actual SR-IOV-capable device available on the market.
 
 
