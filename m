@@ -2,85 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D8A45D134
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 00:28:48 +0100 (CET)
-Received: from localhost ([::1]:36504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E532E45D239
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 01:47:23 +0100 (CET)
+Received: from localhost ([::1]:49940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mq1h0-0003DR-Sg
-	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 18:28:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35816)
+	id 1mq2v4-0000p5-Kp
+	for lists+qemu-devel@lfdr.de; Wed, 24 Nov 2021 19:47:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mq1fm-0002Ow-C5
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 18:27:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51245)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mq2sy-0007zc-AZ
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 19:45:12 -0500
+Received: from [2001:738:2001:2001::2001] (port=52805 helo=zero.eik.bme.hu)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mq1fj-0000wJ-3s
- for qemu-devel@nongnu.org; Wed, 24 Nov 2021 18:27:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637796446;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uZpAi/NIITeoJ5o5f+iDb6ae+69l89YUbhMR3QCkWiQ=;
- b=OPTckSc//CZ33h+Xd26/64J/tbhu/MR7Iwn8VxaDMuO7w/KtCZ14M2nQJzOaJZnq6KP00B
- yQDi2zQAalceJS4T1AYoHVoA4tRqgQvnVaoJMrFT+DTqMvefaX1eVfZ17P1qN4yccSzDKV
- 96QMcb/zkM5x3Hm7Le7VU4mXhWfFH8M=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-45-BsiGfZQtNSeoTe8qDq48tA-1; Wed, 24 Nov 2021 18:27:24 -0500
-X-MC-Unique: BsiGfZQtNSeoTe8qDq48tA-1
-Received: by mail-ua1-f69.google.com with SMTP id
- h6-20020a9f3006000000b002e6e81fda51so3093512uab.4
- for <qemu-devel@nongnu.org>; Wed, 24 Nov 2021 15:27:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uZpAi/NIITeoJ5o5f+iDb6ae+69l89YUbhMR3QCkWiQ=;
- b=JFeuHGACVtNPU1w1UgGn0aSawvkE6k3V3Jid4vXk3UNZQiBeG5OI1QWl9wqBAeULQi
- oCTXN854Z1/7pwpjGNpT5edJKtOQq3OfB/CHMJCntkf5VF6Je7gMR5ch/rBSE5JCK8uR
- 8yBhz/XGrbLv7WYRdNgsYTQwHpMSlIoQL3VctCG+ITa2r9GsrrOVTHaJf++AKalJi0kP
- pMHYeZWYD6XHBq+QpGsh8nxTNDDjEUjE6ynwF47ndg5OHpuu2RmMRmNF2iEIVRYeP+vy
- x1cUMq61EVd4EOMGRInsyXhZmWJctQnj5+JJk/oqGFBXDF5rkPM0d1GhRM3NbAMNh9Rs
- 2O6w==
-X-Gm-Message-State: AOAM532Mq1EJAX3Tl3cJv7Qwe8Pkw2fMq/f4CVPxcy20yEKexEpK2SX+
- G9ZcLd3BLyexVdZF9/O0fzWaJNsBtsMXgiaLHysvrsiSXZmFkTVW5A8epOwRiVPvx/6Z3HNz5pZ
- mXbyr0UK0NyYeax7nmc1byqxDoO5Xx1Y=
-X-Received: by 2002:a05:6102:1ca:: with SMTP id
- s10mr1821908vsq.61.1637796443845; 
- Wed, 24 Nov 2021 15:27:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzM3wmi83JTViiIJ2Pd4bLS1LObx5WnGjJub77RzeBrcSc6p8vQ5owhbHDRuVEuZSfQDWLUTxzUXhV14b03o8k=
-X-Received: by 2002:a05:6102:1ca:: with SMTP id
- s10mr1821845vsq.61.1637796443613; 
- Wed, 24 Nov 2021 15:27:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mq2st-0005lj-Kn
+ for qemu-devel@nongnu.org; Wed, 24 Nov 2021 19:45:12 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id B74F5748F53;
+ Thu, 25 Nov 2021 01:45:00 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 28C1C746353; Thu, 25 Nov 2021 01:45:00 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 27A807462D3;
+ Thu, 25 Nov 2021 01:45:00 +0100 (CET)
+Date: Thu, 25 Nov 2021 01:45:00 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Fabiano Rosas <farosas@linux.ibm.com>
+Subject: Re: [RFC PATCH 0/2] QEMU/openbios: PPC Software TLB support in the
+ G4 family
+In-Reply-To: <87pmqpqknn.fsf@linux.ibm.com>
+Message-ID: <48c4262-ff7d-2897-9764-cadd98683e97@eik.bme.hu>
+References: <20211119134431.406753-1-farosas@linux.ibm.com>
+ <87pmqpqknn.fsf@linux.ibm.com>
 MIME-Version: 1.0
-References: <20211118115733.4038610-1-philmd@redhat.com>
- <20211118115733.4038610-3-philmd@redhat.com>
- <bb1c8fac-544f-bd5f-ed41-2b40439276a8@redhat.com>
-In-Reply-To: <bb1c8fac-544f-bd5f-ed41-2b40439276a8@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 24 Nov 2021 18:27:13 -0500
-Message-ID: <CAFn=p-Yy0dtWp4n+uG0xi=iehQCt-hOk0czqa7b6aSt4d6JNsg@mail.gmail.com>
-Subject: Re: [PATCH-for-6.2 2/2] tests/qtest/fdc-test: Add a regression test
- for CVE-2021-3507
-To: Hanna Reitz <hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000003c86a305d19133bd"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 8%
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
+ (failed)
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,312 +60,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
- Qemu-block <qemu-block@nongnu.org>, Darren Kenny <darren.kenny@oracle.com>,
- qemu-devel <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ clg@kaod.org, openbios@openbios.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003c86a305d19133bd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Nov 23, 2021 at 11:08 AM Hanna Reitz <hreitz@redhat.com> wrote:
-
-> On 18.11.21 12:57, Philippe Mathieu-Daud=C3=A9 wrote:
-> > Add the reproducer from
-> https://gitlab.com/qemu-project/qemu/-/issues/339
-> >
-> > Without the previous commit, when running 'make check-qtest-i386'
-> > with QEMU configured with '--enable-sanitizers' we get:
-> >
-> >    =3D=3D4028352=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on =
-address
-> 0x619000062a00 at pc 0x5626d03c491a bp 0x7ffdb4199410 sp 0x7ffdb4198bc0
-> >    READ of size 786432 at 0x619000062a00 thread T0
-> >        #0 0x5626d03c4919 in __asan_memcpy (qemu-system-i386+0x1e65919)
-> >        #1 0x5626d1c023cc in flatview_write_continue
-> softmmu/physmem.c:2787:13
-> >        #2 0x5626d1bf0c0f in flatview_write softmmu/physmem.c:2822:14
-> >        #3 0x5626d1bf0798 in address_space_write softmmu/physmem.c:2914:=
-18
-> >        #4 0x5626d1bf0f37 in address_space_rw softmmu/physmem.c:2924:16
-> >        #5 0x5626d1bf14c8 in cpu_physical_memory_rw
-> softmmu/physmem.c:2933:5
-> >        #6 0x5626d0bd5649 in cpu_physical_memory_write
-> include/exec/cpu-common.h:82:5
-> >        #7 0x5626d0bd0a07 in i8257_dma_write_memory hw/dma/i8257.c:452:9
-> >        #8 0x5626d09f825d in fdctrl_transfer_handler
-> hw/block/fdc.c:1616:13
-> >        #9 0x5626d0a048b4 in fdctrl_start_transfer hw/block/fdc.c:1539:1=
-3
-> >        #10 0x5626d09f4c3e in fdctrl_write_data hw/block/fdc.c:2266:13
-> >        #11 0x5626d09f22f7 in fdctrl_write hw/block/fdc.c:829:9
-> >        #12 0x5626d1c20bc5 in portio_write softmmu/ioport.c:207:17
-> >
-> >    0x619000062a00 is located 0 bytes to the right of 512-byte region
-> [0x619000062800,0x619000062a00)
-> >    allocated by thread T0 here:
-> >        #0 0x5626d03c66ec in posix_memalign (qemu-system-i386+0x1e676ec)
-> >        #1 0x5626d2b988d4 in qemu_try_memalign util/oslib-posix.c:210:11
-> >        #2 0x5626d2b98b0c in qemu_memalign util/oslib-posix.c:226:27
-> >        #3 0x5626d09fbaf0 in fdctrl_realize_common hw/block/fdc.c:2341:2=
-0
-> >        #4 0x5626d0a150ed in isabus_fdc_realize hw/block/fdc-isa.c:113:5
-> >        #5 0x5626d2367935 in device_set_realized hw/core/qdev.c:531:13
-> >
-> >    SUMMARY: AddressSanitizer: heap-buffer-overflow
-> (qemu-system-i386+0x1e65919) in __asan_memcpy
-> >    Shadow bytes around the buggy address:
-> >      0x0c32800044f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-> >      0x0c3280004500: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >      0x0c3280004510: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >      0x0c3280004520: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >      0x0c3280004530: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >    =3D>0x0c3280004540:[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-> >      0x0c3280004550: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-> >      0x0c3280004560: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-> >      0x0c3280004570: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-> >      0x0c3280004580: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-> >      0x0c3280004590: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-> >    Shadow byte legend (one shadow byte represents 8 application bytes):
-> >      Addressable:           00
-> >      Heap left redzone:       fa
-> >      Freed heap region:       fd
-> >    =3D=3D4028352=3D=3DABORTING
-> >
-> > Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > ---
-> >   tests/qtest/fdc-test.c | 20 ++++++++++++++++++++
-> >   1 file changed, 20 insertions(+)
-> >
-> > diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
-> > index 26b69f7c5cd..f164d972d10 100644
-> > --- a/tests/qtest/fdc-test.c
-> > +++ b/tests/qtest/fdc-test.c
-> > @@ -546,6 +546,25 @@ static void fuzz_registers(void)
-> >       }
-> >   }
-> >
-> > +static void test_cve_2021_3507(void)
-> > +{
-> > +    QTestState *s;
-> > +
-> > +    s =3D qtest_initf("-nographic -m 32M -nodefaults "
-> > +                    "-drive file=3D%s,format=3Draw,if=3Dfloppy", test_=
-image);
-> > +    qtest_outl(s, 0x9, 0x0a0206);
-> > +    qtest_outw(s, 0x3f4, 0x1600);
-> > +    qtest_outw(s, 0x3f4, 0x0000);
-> > +    qtest_outw(s, 0x3f4, 0x0000);
-> > +    qtest_outw(s, 0x3f4, 0x0000);
-> > +    qtest_outw(s, 0x3f4, 0x0200);
-> > +    qtest_outw(s, 0x3f4, 0x0200);
-> > +    qtest_outw(s, 0x3f4, 0x0000);
-> > +    qtest_outw(s, 0x3f4, 0x0000);
-> > +    qtest_outw(s, 0x3f4, 0x0000);
+On Wed, 24 Nov 2021, Fabiano Rosas wrote:
+> Fabiano Rosas <farosas@linux.ibm.com> writes:
 >
-> No idea what this does (looks like a 256-byte sector read read from
-> sector 2 with EOT=3D0), but hits the problem and reproduces for me.
->
-> Unfortunately, I have the exact same problem with test_image as I did in
-> the other series.
->
-> Hanna
->
-> > +    qtest_quit(s);
-> > +}
-> > +
-> >   int main(int argc, char **argv)
-> >   {
-> >       int fd;
-> > @@ -576,6 +595,7 @@ int main(int argc, char **argv)
-> >       qtest_add_func("/fdc/read_no_dma_18", test_read_no_dma_18);
-> >       qtest_add_func("/fdc/read_no_dma_19", test_read_no_dma_19);
-> >       qtest_add_func("/fdc/fuzz-registers", fuzz_registers);
-> > +    qtest_add_func("/fdc/fuzz/cve_2021_3507", test_cve_2021_3507);
-> >
-> >       ret =3D g_test_run();
-> >
->
+>> Hi all,
+>>
+>> We have this bug in QEMU which indicates that we haven't been able to
+>> run openbios on a 7450 cpu for quite a long time:
+>>
+>> https://gitlab.com/qemu-project/qemu/-/issues/86
+>>
+>> OK:
+>>   $ ./qemu-system-ppc -serial mon:stdio -nographic -cpu 7410
+>>
+>>  >> =============================================================
+>>  >> OpenBIOS 1.1 [Nov 1 2021 20:36]
+>>   ...
+>>
+>> NOK:
+>>   $ ./qemu-system-ppc -serial mon:stdio -nographic -cpu 7450 -d int
 
-OK, I won't pull this one if there's a question over the suitability of the
-test. I'm going to be away for the holiday until Monday, though. If the two
-of you can agree that the fix and the test are good, though, I definitely
-won't care if someone sends a PR for it.
+This CPU appears in PowerMac G4 so maybe better use -machine mac99,via=pmu 
+with it as it's strange to put it in a g3beige but that may not matter for 
+reproducing the problem.
 
---0000000000003c86a305d19133bd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+As for guests, those running on the said PowerMac G4 should have support 
+for these CPUs so maybe you can try some Mac OS X versions (or maybe 
+MorphOS but that is not the best for debugging as there's no source 
+available nor any help from its owners but just to see if it boots it may 
+be sufficient, it should work on real PowerMac G4). According to 
+<https://en.wikipedia.org/wiki/PowerPC_G4#PowerPC_7450> this CPU was used 
+in <https://en.wikipedia.org/wiki/Power_Mac_G4#Digital_Audio/Quicksilver> 
+and it runs up to Mac OS 10.4.11. (Although OpenBIOS sets the device tree 
+according to a PowerMac3,1 so not sure it's entirely correct for the 
+PowerMac3,5 that has a 7450 CPU and if it matters for Mac OS X.)
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 23, 2021 at 11:08 AM Hann=
-a Reitz &lt;<a href=3D"mailto:hreitz@redhat.com">hreitz@redhat.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 18.11.=
-21 12:57, Philippe Mathieu-Daud=C3=A9 wrote:<br>
-&gt; Add the reproducer from <a href=3D"https://gitlab.com/qemu-project/qem=
-u/-/issues/339" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qem=
-u-project/qemu/-/issues/339</a><br>
-&gt;<br>
-&gt; Without the previous commit, when running &#39;make check-qtest-i386&#=
-39;<br>
-&gt; with QEMU configured with &#39;--enable-sanitizers&#39; we get:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =3D=3D4028352=3D=3DERROR: AddressSanitizer: heap-buffer-o=
-verflow on address 0x619000062a00 at pc 0x5626d03c491a bp 0x7ffdb4199410 sp=
- 0x7ffdb4198bc0<br>
-&gt;=C2=A0 =C2=A0 READ of size 786432 at 0x619000062a00 thread T0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #0 0x5626d03c4919 in __asan_memcpy (qemu-sy=
-stem-i386+0x1e65919)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #1 0x5626d1c023cc in flatview_write_continu=
-e softmmu/physmem.c:2787:13<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #2 0x5626d1bf0c0f in flatview_write softmmu=
-/physmem.c:2822:14<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #3 0x5626d1bf0798 in address_space_write so=
-ftmmu/physmem.c:2914:18<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #4 0x5626d1bf0f37 in address_space_rw softm=
-mu/physmem.c:2924:16<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #5 0x5626d1bf14c8 in cpu_physical_memory_rw=
- softmmu/physmem.c:2933:5<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #6 0x5626d0bd5649 in cpu_physical_memory_wr=
-ite include/exec/cpu-common.h:82:5<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #7 0x5626d0bd0a07 in i8257_dma_write_memory=
- hw/dma/i8257.c:452:9<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #8 0x5626d09f825d in fdctrl_transfer_handle=
-r hw/block/fdc.c:1616:13<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #9 0x5626d0a048b4 in fdctrl_start_transfer =
-hw/block/fdc.c:1539:13<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #10 0x5626d09f4c3e in fdctrl_write_data hw/=
-block/fdc.c:2266:13<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #11 0x5626d09f22f7 in fdctrl_write hw/block=
-/fdc.c:829:9<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #12 0x5626d1c20bc5 in portio_write softmmu/=
-ioport.c:207:17<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 0x619000062a00 is located 0 bytes to the right of 512-byt=
-e region [0x619000062800,0x619000062a00)<br>
-&gt;=C2=A0 =C2=A0 allocated by thread T0 here:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #0 0x5626d03c66ec in posix_memalign (qemu-s=
-ystem-i386+0x1e676ec)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #1 0x5626d2b988d4 in qemu_try_memalign util=
-/oslib-posix.c:210:11<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #2 0x5626d2b98b0c in qemu_memalign util/osl=
-ib-posix.c:226:27<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #3 0x5626d09fbaf0 in fdctrl_realize_common =
-hw/block/fdc.c:2341:20<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #4 0x5626d0a150ed in isabus_fdc_realize hw/=
-block/fdc-isa.c:113:5<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 #5 0x5626d2367935 in device_set_realized hw=
-/core/qdev.c:531:13<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 SUMMARY: AddressSanitizer: heap-buffer-overflow (qemu-sys=
-tem-i386+0x1e65919) in __asan_memcpy<br>
-&gt;=C2=A0 =C2=A0 Shadow bytes around the buggy address:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0x0c32800044f0: fa fa fa fa fa fa fa fa fa fa fa f=
-a fa fa fa fa<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0x0c3280004500: 00 00 00 00 00 00 00 00 00 00 00 0=
-0 00 00 00 00<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0x0c3280004510: 00 00 00 00 00 00 00 00 00 00 00 0=
-0 00 00 00 00<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0x0c3280004520: 00 00 00 00 00 00 00 00 00 00 00 0=
-0 00 00 00 00<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0x0c3280004530: 00 00 00 00 00 00 00 00 00 00 00 0=
-0 00 00 00 00<br>
-&gt;=C2=A0 =C2=A0 =3D&gt;0x0c3280004540:[fa]fa fa fa fa fa fa fa fa fa fa f=
-a fa fa fa fa<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0x0c3280004550: fa fa fa fa fa fa fa fa fa fa fa f=
-a fa fa fa fa<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0x0c3280004560: fa fa fa fa fa fa fa fa fa fa fa f=
-a fa fa fa fa<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0x0c3280004570: fa fa fa fa fa fa fa fa fa fa fa f=
-a fa fa fa fa<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0x0c3280004580: fa fa fa fa fa fa fa fa fa fa fa f=
-a fa fa fa fa<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0x0c3280004590: fd fd fd fd fd fd fd fd fd fd fd f=
-d fd fd fd fd<br>
-&gt;=C2=A0 =C2=A0 Shadow byte legend (one shadow byte represents 8 applicat=
-ion bytes):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 Addressable:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A000<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 Heap left redzone:=C2=A0 =C2=A0 =C2=A0 =C2=A0fa<br=
+I asked about this before but got no reply back then:
+https://lists.nongnu.org/archive/html/qemu-ppc/2020-03/msg00292.html
+
+This was because pegasos2 should have 7447 but it did not work so 
+currently I've set it to 7400 which also works. The original board 
+firmware had some problem detecting it but I think that only results in 
+wrong CPU speed shown which is only a cosmetic problem, otherwise it seems 
+to work. Since pegasos2 does not use OpenBIOS but either VOF or the 
+board's original firmware it may be an alternative way to test at least 
+7447 which the firmware and guests running on that board should work with. 
+At least Debian 8.11 powerpc version had support for pegasos2 and should 
+boot, I'm not sure newer versions still work. More info on pegasos2 can be 
+found at:
+http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos 
+and
+https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+
+I don't remember what problem I had with 7447 but if it does not work with 
+pegasos2 then maybe there's some other problem with it too. I think it was 
+maybe related to TLBs but I don't know and had no time to try again so I 
+could be entirely wrong about this.
+
+Regards,
+BALATON Zoltan
+
+>>   Raise exception at fff08cc4 => 0000004e (00)
+>>   QEMU: Terminated
+>>
+>> The actual issue is straightforward. There is a non-architected
+>> feature that QEMU has enabled by default that openbios doesn't know
+>> about. From the user manual:
+>>
+>> "The MPC7540 has a set of implementation-specific registers,
+>> exceptions, and instructions that facilitate very efficient software
+>> searching of the page tables in memory for when software table
+>> searching is enabled (HID0[STEN] = 1). This section describes those
+>> resources and provides three example code sequences that can be used
+>> in a MPC7540 system for an efficient search of the translation tables
+>> in software. These three code sequences can be used as handlers for
+>> the three exceptions requiring access to the PTEs in the page tables
+>> in memory in this case-instruction TLB miss, data TLB miss on load,
+>> and data TLB miss on store exceptions."
+>>
+>> The current state:
+>>
+>> 1) QEMU does not check HID0[STEN] and makes the feature always enabled
+>> by setting these cpus with the POWERPC_MMU_SOFT_74xx MMU model,
+>> instead of the generic POWERPC_MMU_32B.
+>>
+>> 2) openbios does not recognize the PVRs for those cpus and also does
+>> not have any handlers for the software TLB exceptions (vectors 0x1000,
+>> 0x1100, 0x1200).
+>>
+>> Some assumptions (correct me if I'm wrong please):
+>>
+>> - openbios is the only firmware we use for the following cpus: 7441,
+>> 7445, 7450, 7451, 7455, 7457, 7447, 7447a, 7448.
+>> - without openbios, we cannot have a guest running on these cpus.
+>>
+>> So to bring 7450 back to life we would need to either:
+>>
+>> a) find another firmware/guest OS code that supports the feature;
+>>
+>> b) implement the switching of the feature in QEMU and have the guest
+>> code enable it only when supported. That would take some fiddling with
+>> the MMU code to: merge POWERPC_MMU_SOFT_74xx into POWERPC_MMU_32B,
+>> check the HID0[STEN] bit, figure out how to switch from HW TLB miss to
+>> SW TLB miss on demand, block access to the TLBMISS register (and
+>> others) when the feature is off, and so on;
+>>
+>> c) leave the feature enabled in QEMU and implement the software TLB
+>> miss handlers in openbios. The UM provides sample code, so this is
+>> easy;
+>>
+>> d) remove support for software TLB search for the 7450 family and
+>> switch the cpus to the POWERPC_MMU_32B model. This is by far the
+>> easiest solution, but could cause problems for any (which?) guest OS
+>> code that actually uses the feature. All of the existing code for the
+>> POWERPC_MMU_SOFT_74xx MMU model would probably be removed since it
+>> would be dead code then;
+>>
+>> Option (c) seemed to me like a good compromise so this is a patch
+>> series for openbios doing that and also adding the necessary PVRs so
+>> we can get a working guest with these cpus without too much effort.
+>>
+>> I have also a patch for QEMU adding basic sanity check tests for the
+>> 7400 and 7450 families. I'll send that separately to the QEMU ml.
+>>
+>> Fabiano Rosas (2):
+>>   ppc: Add support for MPC7450 software TLB miss interrupts
+>>   ppc: Add PVRs for the MPC7450 family
+>>
+>>  arch/ppc/qemu/init.c  |  52 ++++++++++
+>>  arch/ppc/qemu/start.S | 236 +++++++++++++++++++++++++++++++++++++++++-
+>>  2 files changed, 285 insertions(+), 3 deletions(-)
 >
-&gt;=C2=A0 =C2=A0 =C2=A0 Freed heap region:=C2=A0 =C2=A0 =C2=A0 =C2=A0fd<br=
+> (Adding Mark because his email got somehow dropped from the original
+> message)
 >
-&gt;=C2=A0 =C2=A0 =3D=3D4028352=3D=3DABORTING<br>
-&gt;<br>
-&gt; Reported-by: Alexander Bulekov &lt;<a href=3D"mailto:alxndr@bu.edu" ta=
-rget=3D"_blank">alxndr@bu.edu</a>&gt;<br>
-&gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philm=
-d@redhat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0tests/qtest/fdc-test.c | 20 ++++++++++++++++++++<br>
-&gt;=C2=A0 =C2=A01 file changed, 20 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c<br>
-&gt; index 26b69f7c5cd..f164d972d10 100644<br>
-&gt; --- a/tests/qtest/fdc-test.c<br>
-&gt; +++ b/tests/qtest/fdc-test.c<br>
-&gt; @@ -546,6 +546,25 @@ static void fuzz_registers(void)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +static void test_cve_2021_3507(void)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 QTestState *s;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 s =3D qtest_initf(&quot;-nographic -m 32M -nodefaults &=
-quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- &quot;-drive file=3D%s,format=3Draw,if=3Dfloppy&quot;, test_image);<br>
-&gt; +=C2=A0 =C2=A0 qtest_outl(s, 0x9, 0x0a0206);<br>
-&gt; +=C2=A0 =C2=A0 qtest_outw(s, 0x3f4, 0x1600);<br>
-&gt; +=C2=A0 =C2=A0 qtest_outw(s, 0x3f4, 0x0000);<br>
-&gt; +=C2=A0 =C2=A0 qtest_outw(s, 0x3f4, 0x0000);<br>
-&gt; +=C2=A0 =C2=A0 qtest_outw(s, 0x3f4, 0x0000);<br>
-&gt; +=C2=A0 =C2=A0 qtest_outw(s, 0x3f4, 0x0200);<br>
-&gt; +=C2=A0 =C2=A0 qtest_outw(s, 0x3f4, 0x0200);<br>
-&gt; +=C2=A0 =C2=A0 qtest_outw(s, 0x3f4, 0x0000);<br>
-&gt; +=C2=A0 =C2=A0 qtest_outw(s, 0x3f4, 0x0000);<br>
-&gt; +=C2=A0 =C2=A0 qtest_outw(s, 0x3f4, 0x0000);<br>
-<br>
-No idea what this does (looks like a 256-byte sector read read from <br>
-sector 2 with EOT=3D0), but hits the problem and reproduces for me.<br>
-<br>
-Unfortunately, I have the exact same problem with test_image as I did in <b=
-r>
-the other series.<br>
-<br>
-Hanna<br>
-<br>
-&gt; +=C2=A0 =C2=A0 qtest_quit(s);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0int main(int argc, char **argv)<br>
-&gt;=C2=A0 =C2=A0{<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0int fd;<br>
-&gt; @@ -576,6 +595,7 @@ int main(int argc, char **argv)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qtest_add_func(&quot;/fdc/read_no_dma_18&quo=
-t;, test_read_no_dma_18);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qtest_add_func(&quot;/fdc/read_no_dma_19&quo=
-t;, test_read_no_dma_19);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qtest_add_func(&quot;/fdc/fuzz-registers&quo=
-t;, fuzz_registers);<br>
-&gt; +=C2=A0 =C2=A0 qtest_add_func(&quot;/fdc/fuzz/cve_2021_3507&quot;, tes=
-t_cve_2021_3507);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D g_test_run();<br>
-&gt;=C2=A0 =C2=A0<br></blockquote><div><br></div><div>OK, I won&#39;t pull =
-this one if there&#39;s a question over the suitability of the test. I&#39;=
-m going to be away for the holiday until Monday, though. If the two of you =
-can agree that the fix and the test are good, though, I definitely won&#39;=
-t care if someone sends a PR for it.<br></div></div></div>
-
---0000000000003c86a305d19133bd--
-
+> So with these patches in OpenBIOS we could get a bit further and call
+> into the Linux kernel using the same image as the one used for the
+> 7400. However there seems to be no support for the 7450 software TLB in
+> the kernel. There are only handlers for the 4xx, 8xx and 603 which are
+> different code altogether. There's no mention of the TLBMISS and
+> PTEHI/LO registers in the code as well.
+>
+> Do we know of any guest OS that implements the 7450 software TLB at
+> vectors 0x1000, 0x1100 and 0x1200? Otherwise replacing the
+> POWERPC_MMU_SOFT_74xx model with POWERPC_MMU_32B might be the only way
+> of getting an OS to run in the 7450 family.
+>
+>
 
