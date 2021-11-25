@@ -2,87 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD1345DE81
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 17:16:49 +0100 (CET)
-Received: from localhost ([::1]:33112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8815245DE9C
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 17:30:14 +0100 (CET)
+Received: from localhost ([::1]:44546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqHQW-0001Dr-2S
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 11:16:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55410)
+	id 1mqHdV-00019y-5q
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 11:30:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mqHOi-0000Ur-Oa
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 11:14:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29199)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mqHOe-0001jF-9X
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 11:14:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637856891;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gRPCG75xApNRqzb6F4GpIESoFZ+00g7Q5E5pjjxv3QI=;
- b=eu1NKnZqP7nHa3MlGw51jjwnNMhJBnzXgQJnv+lXhxNQYJm4DF0MBNNsSABB2znhagRa1A
- 2SrNGXBFv077N8nNTpguf2OW/6T5xV2nPDa1afGgOfjVBEDB4Moq6F6zu2vMcV4GvDGsN8
- 3U0lDST+zcdDkMUYl359n7uZPFSkH7A=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-3-OpjPAlfLOjWm0RRtL2OOjg-1; Thu, 25 Nov 2021 11:14:49 -0500
-X-MC-Unique: OpjPAlfLOjWm0RRtL2OOjg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- r16-20020a056402019000b003e6cbb77ed2so5850596edv.10
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 08:14:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=gRPCG75xApNRqzb6F4GpIESoFZ+00g7Q5E5pjjxv3QI=;
- b=etmKcVKxzTqVz7eG3aesWluBOnLCmL2507yMxX9ensMoeRFfNzfespLGRbzTAt9baT
- Dv7cEHb9lYU/sQI/ArpginG5Koltg3nSYfP53kr2ME/ck3OMIyOwEmuBoa+sDdgsKUL/
- 23h36bz8MBQHGzpO16Pc0AdXmf4N1q0YO3O+yWIz9182oOtRQxrhdbRmQGyuld4Ff/99
- lpelU5NDQX/UNDwDO5vUsNX0xZmTDRWaPiPz5mBQcX6G6GzgC0wwEkVZYEp8mmkH7igt
- P8Avy8y1ZQhrATQ0E+f3O8jSgQPeUdmezg9TjzSYzvyHgAv6GclII/C4koGH2wXGDIRZ
- xyqw==
-X-Gm-Message-State: AOAM530YRKLjVV92vSynCENHmTxz3nEXKy1Xw1fn8UhTY8zS5xA2JwG8
- 0SJGL3IeojFQ3wbu5s7YoMYA+i46TnKreKSaC825+B7aHgUk1RB/ocoWoTJ+UDMCvhz3JRzDwgr
- zRg2coCFPVaOFHZ0=
-X-Received: by 2002:a17:907:7e8e:: with SMTP id
- qb14mr31811730ejc.562.1637856887800; 
- Thu, 25 Nov 2021 08:14:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyFdIqL9tN4HovdR6iVDMP4SHbVShH1zISY458Rq+A9TSb/QA3KtJe9cCpIJ7G0J5pfgix/+g==
-X-Received: by 2002:a17:907:7e8e:: with SMTP id
- qb14mr31811679ejc.562.1637856887490; 
- Thu, 25 Nov 2021 08:14:47 -0800 (PST)
-Received: from redhat.com ([176.12.197.47])
- by smtp.gmail.com with ESMTPSA id qf8sm1826485ejc.8.2021.11.25.08.14.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Nov 2021 08:14:46 -0800 (PST)
-Date: Thu, 25 Nov 2021 11:14:42 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 2/2] virtio-balloon: correct used length
-Message-ID: <20211125111055-mutt-send-email-mst@kernel.org>
-References: <20211125022046.10433-1-jasowang@redhat.com>
- <20211125022046.10433-2-jasowang@redhat.com>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1mqHbX-0007fl-Sx
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 11:28:11 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:41499
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1mqHbV-0005xV-Bb
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 11:28:11 -0500
+HMM_SOURCE_IP: 172.18.0.188:42636.659795330
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-171.223.98.21 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id A9655280096;
+ Fri, 26 Nov 2021 00:27:53 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.188])
+ by app0023 with ESMTP id 4a82f9639ca1424c8090017630d4dc2a for
+ qemu-devel@nongnu.org; Fri, 26 Nov 2021 00:28:00 CST
+X-Transaction-ID: 4a82f9639ca1424c8090017630d4dc2a
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.188
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH v6 0/3] support dirty restraint on vCPU  
+Date: Fri, 26 Nov 2021 00:27:49 +0800
+Message-Id: <cover.1637856472.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20211125022046.10433-2-jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.219;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,89 +60,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mpe@ellerman.id.au, qemu-devel@nongnu.org, david@redhat.com
+Cc: Juan Quintela <quintela@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus ArmBruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 25, 2021 at 10:20:46AM +0800, Jason Wang wrote:
-> Spec said:
-> 
-> "and len the total of bytes written into the buffer."
-> 
-> For inflateq, deflateq and statsq, we don't process in_sg so the used
-> length should be zero. For free_page_vq, since the pages could be
-> changed in the destination, we should make all pages used for safety.
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Yea, about that, I know I said it, but I was wrong, sorry.
+v6:
+- rebase on master
+- fix dirtylimit setup crash found by Markus
+- polish the comments according to the advice given by Markus
+- adjust the qemu qmp command tag to 7.0
 
-Spec says this:
+v5:
+- rebase on master
+- adjust the throttle algorithm by removing the tuning in 
+  RESTRAINT_RATIO case so that dirty page rate could reachs the quota
+  more quickly.
+- fix percentage update in throttle iteration.
 
-	\field{len} is particularly useful
-	for drivers using untrusted buffers: if a driver does not know exactly
-	how much has been written by the device, the driver would have to zero
-	the buffer in advance to ensure no data leakage occurs.
+v4:
+- rebase on master
+- modify the following points according to the advice given by Markus
+  1. move the defination into migration.json
+  2. polish the comments of set-dirty-limit
+  3. do the syntax check and change dirty rate to dirty page rate
 
-	For example, a network driver may hand a received buffer directly to
-	an unprivileged userspace application.  If the network device has not
-	overwritten the bytes which were in that buffer, this could leak the
-	contents of freed memory from other processes to the application.
+Thanks for the carefule reviews made by Markus.
 
+Please review, thanks!
 
-In other words, device must guarantee that used length was
-written into. Since we don't know that, we really should
-write 0 there, and the fact we don't is a spec violation.
+v3:
+- rebase on master
+- modify the following points according to the advice given by Markus
+  1. remove the DirtyRateQuotaVcpu and use its field as option directly
+  2. add comments to show details of what dirtylimit setup do
+  3. explain how to use dirtylimit in combination with existing qmp
+     commands "calc-dirty-rate" and "query-dirty-rate" in documentation.
 
+Thanks for the carefule reviews made by Markus.
 
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
-> ---
->  hw/virtio/virtio-balloon.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-> index 17de2558cb..fb4426ac0c 100644
-> --- a/hw/virtio/virtio-balloon.c
-> +++ b/hw/virtio/virtio-balloon.c
-> @@ -231,7 +231,7 @@ static void balloon_stats_poll_cb(void *opaque)
->          return;
->      }
->  
-> -    virtqueue_push(s->svq, s->stats_vq_elem, s->stats_vq_offset);
-> +    virtqueue_push(s->svq, s->stats_vq_elem, 0);
->      virtio_notify(vdev, s->svq);
->      g_free(s->stats_vq_elem);
->      s->stats_vq_elem = NULL;
-> @@ -438,7 +438,7 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
->              memory_region_unref(section.mr);
->          }
->  
-> -        virtqueue_push(vq, elem, offset);
-> +        virtqueue_push(vq, elem, 0);
->          virtio_notify(vdev, vq);
->          g_free(elem);
->          virtio_balloon_pbp_free(&pbp);
-> @@ -510,6 +510,7 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
->      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
->      VirtQueue *vq = dev->free_page_vq;
->      bool ret = true;
-> +    size_t used = 0;
->      int i;
->  
->      while (dev->block_iothread) {
-> @@ -548,11 +549,12 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
->          for (i = 0; i < elem->in_num; i++) {
->              qemu_guest_free_page_hint(elem->in_sg[i].iov_base,
->                                        elem->in_sg[i].iov_len);
-> +            used += elem->in_sg[i].iov_len;
->          }
->      }
->  
->  out:
-> -    virtqueue_push(vq, elem, 1);
-> +    virtqueue_push(vq, elem, used);
->      g_free(elem);
->      return ret;
->  }
-> -- 
-> 2.25.1
+Please review, thanks!
+
+Hyman
+
+v2:
+- rebase on master
+- modify the following points according to the advices given by Juan
+  1. rename dirtyrestraint to dirtylimit
+  2. implement the full lifecyle function of dirtylimit_calc, include
+     dirtylimit_calc and dirtylimit_calc_quit
+  3. introduce 'quit' field in dirtylimit_calc_state to implement the
+     dirtylimit_calc_quit
+  4. remove the ready_cond and ready_mtx since it may not be suitable
+  5. put the 'record_dirtypage' function code at the beggining of the
+     file
+  6. remove the unnecesary return;
+- other modifications has been made after code review
+  1. introduce 'bmap' and 'nr' field in dirtylimit_state to record the
+     number of running thread forked by dirtylimit
+  2. stop the dirtyrate calculation thread if all the dirtylimit thread
+     are stopped
+  3. do some renaming works
+     dirtyrate calulation thread -> dirtylimit-calc
+     dirtylimit thread -> dirtylimit-{cpu_index}
+     function name do_dirtyrestraint -> dirtylimit_check
+     qmp command dirty-restraint -> set-drity-limit
+     qmp command dirty-restraint-cancel -> cancel-dirty-limit
+     header file dirtyrestraint.h -> dirtylimit.h
+
+Please review, thanks !
+
+thanks for the accurate and timely advices given by Juan. we really
+appreciate it if corrections and suggetions about this patchset are
+proposed.
+
+Best Regards !
+
+Hyman
+
+v1:
+this patchset introduce a mechanism to impose dirty restraint
+on vCPU, aiming to keep the vCPU running in a certain dirtyrate
+given by user. dirty restraint on vCPU maybe an alternative
+method to implement convergence logic for live migration,
+which could improve guest memory performance during migration
+compared with traditional method in theory.
+
+For the current live migration implementation, the convergence
+logic throttles all vCPUs of the VM, which has some side effects.
+-'read processes' on vCPU will be unnecessarily penalized
+- throttle increase percentage step by step, which seems
+  struggling to find the optimal throttle percentage when
+  dirtyrate is high.
+- hard to predict the remaining time of migration if the
+  throttling percentage reachs 99%
+
+to a certain extent, the dirty restraint machnism can fix these
+effects by throttling at vCPU granularity during migration.
+
+the implementation is rather straightforward, we calculate
+vCPU dirtyrate via the Dirty Ring mechanism periodically
+as the commit 0e21bf246 "implement dirty-ring dirtyrate calculation"
+does, for vCPU that be specified to impose dirty restraint,
+we throttle it periodically as the auto-converge does, once after
+throttling, we compare the quota dirtyrate with current dirtyrate,
+if current dirtyrate is not under the quota, increase the throttling
+percentage until current dirtyrate is under the quota.
+
+this patchset is the basis of implmenting a new auto-converge method
+for live migration, we introduce two qmp commands for impose/cancel
+the dirty restraint on specified vCPU, so it also can be an independent
+api to supply the upper app such as libvirt, which can use it to
+implement the convergence logic during live migration, supplemented
+with the qmp 'calc-dirty-rate' command or whatever.
+
+we post this patchset for RFC and any corrections and suggetions about
+the implementation, api, throttleing algorithm or whatever are very
+appreciated!
+
+Please review, thanks !
+
+Best Regards !
+
+Hyman Huang (3):
+  migration/dirtyrate: implement vCPU dirtyrate calculation periodically
+  cpu-throttle: implement vCPU throttle
+  cpus-common: implement dirty limit on vCPU
+
+ cpus-common.c                 |  41 ++++++
+ include/exec/memory.h         |   5 +-
+ include/hw/core/cpu.h         |   9 ++
+ include/sysemu/cpu-throttle.h |  23 +++
+ include/sysemu/dirtylimit.h   |  44 ++++++
+ migration/dirtyrate.c         | 139 +++++++++++++++++--
+ migration/dirtyrate.h         |   2 +
+ qapi/migration.json           |  47 +++++++
+ softmmu/cpu-throttle.c        | 316 ++++++++++++++++++++++++++++++++++++++++++
+ softmmu/trace-events          |   5 +
+ softmmu/vl.c                  |   1 +
+ 11 files changed, 621 insertions(+), 11 deletions(-)
+ create mode 100644 include/sysemu/dirtylimit.h
+
+-- 
+1.8.3.1
 
 
