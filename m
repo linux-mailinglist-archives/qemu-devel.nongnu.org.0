@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13DD445EC52
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 12:16:53 +0100 (CET)
-Received: from localhost ([::1]:58238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C630D45EC3E
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 12:12:12 +0100 (CET)
+Received: from localhost ([::1]:53840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqZDn-0002Cg-U3
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 06:16:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48052)
+	id 1mqZ9G-0007I2-Kk
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 06:12:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mqZ4B-0005Vp-Ka; Fri, 26 Nov 2021 06:06:55 -0500
-Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=54257
+ id 1mqZ4B-0005VU-4X; Fri, 26 Nov 2021 06:06:55 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=59495
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mqZ47-0000f0-Gq; Fri, 26 Nov 2021 06:06:55 -0500
+ id 1mqZ47-0000f1-Gy; Fri, 26 Nov 2021 06:06:54 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4J0sPt5nY7z4xZ5; Fri, 26 Nov 2021 22:06:42 +1100 (AEDT)
+ id 4J0sPt5yKlz4xcs; Fri, 26 Nov 2021 22:06:42 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1637924802;
- bh=uVboOZ2ltXskLaONknL4yjn+WfkRbZ6ouOPxgYtcawI=;
+ bh=pjHLqugrCcJ3g+xD0aYYS+NhDHYCxS04nXh1tlp9/9M=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EKtVelc+qKIlDCdjxrJ0JDj5XY5sJbd9HLyBzdBBVRcDQQ+nFO+wKWNrYxooZe3Rr
- Ag2BrUOnmK1VtlLoekRXLhBe0REBHXBAMwGTFIT04jkDKG0+ZYcpd2M3L8HgK+umsT
- chzjebrk7PCH+KGM2n6yZbyslsxDXNFPYsHJ4Tck=
-Date: Fri, 26 Nov 2021 13:24:00 +1100
+ b=J6RT+9nxvkiYF+KN+zjbR7WbCKmg3NZOtnAfiV3Dc2vYdhWquqmRg9BietRfJ0STA
+ 1wvagfjDcicmZi4UbRtyxFTOmqBnaGq8LW5TXNtn5YugWbycre1VlU8PS70SMA/iGd
+ 8QyGY303xceIKz4hGLSasRSfodf0/eUdJe2EyFJQ=
+Date: Fri, 26 Nov 2021 13:24:48 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v8 03/10] target/ppc: PMU: update counters on PMCs r/w
-Message-ID: <YaBFQGHNpesVcIti@yekko>
+Subject: Re: [PATCH v8 04/10] target/ppc: PMU: update counters on MMCR1 write
+Message-ID: <YaBFcHCbj8C2CXKT@yekko>
 References: <20211125150817.573204-1-danielhb413@gmail.com>
- <20211125150817.573204-4-danielhb413@gmail.com>
+ <20211125150817.573204-5-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Y9Xe7sPbb6LRrnrc"
+ protocol="application/pgp-signature"; boundary="zd/Qqvw0izrF+EGj"
 Content-Disposition: inline
-In-Reply-To: <20211125150817.573204-4-danielhb413@gmail.com>
+In-Reply-To: <20211125150817.573204-5-danielhb413@gmail.com>
 X-Host-Lookup-Failed: Reverse DNS lookup failed for
  2404:9400:2:0:216:3eff:fee2:21ea (failed)
 Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
@@ -68,180 +68,113 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Y9Xe7sPbb6LRrnrc
+--zd/Qqvw0izrF+EGj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 25, 2021 at 12:08:10PM -0300, Daniel Henrique Barboza wrote:
-> Calling pmu_update_cycles() on every PMC read/write operation ensures
-> that the values being fetched are up to date with the current PMU state.
+On Thu, Nov 25, 2021 at 12:08:11PM -0300, Daniel Henrique Barboza wrote:
+> MMCR1 determines the events to be sampled by the PMU. Updating the
+> counters at every MMCR1 write ensures that we're not sampling more
+> or less events by looking only at MMCR0 and the PMCs.
 >=20
-> In theory we can get away by just trapping PMCs reads, but we're going
-> to trap PMC writes to deal with counter overflow logic later on.  Let's
-> put the required wiring for that and make our lives a bit easier in the
-> next patches.
+> It is worth noticing that both the Book3S PowerPC PMU, and this IBM
+> Power8+ PMU that we're modeling, also uses MMCRA, MMCR2 and MMCR3 to
+> control the PMU. These three registers aren't being handled in this
+> initial implementation, so for now we're controlling all the PMU
+> aspects using MMCR0, MMCR1 and the PMCs.
 >=20
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  target/ppc/cpu_init.c            | 12 ++++++------
->  target/ppc/helper.h              |  2 ++
->  target/ppc/power8-pmu-regs.c.inc | 29 +++++++++++++++++++++++++++--
->  target/ppc/power8-pmu.c          | 14 ++++++++++++++
->  target/ppc/spr_tcg.h             |  2 ++
->  5 files changed, 51 insertions(+), 8 deletions(-)
+>  target/ppc/cpu_init.c            |  2 +-
+>  target/ppc/helper.h              |  1 +
+>  target/ppc/power8-pmu-regs.c.inc | 11 +++++++++++
+>  target/ppc/power8-pmu.c          |  7 +++++++
+>  target/ppc/spr_tcg.h             |  1 +
+>  5 files changed, 21 insertions(+), 1 deletion(-)
 >=20
 > diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index e0b6fe4057..a7f47ec322 100644
+> index a7f47ec322..2d72dde26d 100644
 > --- a/target/ppc/cpu_init.c
 > +++ b/target/ppc/cpu_init.c
-> @@ -6833,27 +6833,27 @@ static void register_book3s_pmu_sup_sprs(CPUPPCSt=
-ate *env)
->                       KVM_REG_PPC_MMCRA, 0x00000000);
->      spr_register_kvm(env, SPR_POWER_PMC1, "PMC1",
+> @@ -6825,7 +6825,7 @@ static void register_book3s_pmu_sup_sprs(CPUPPCStat=
+e *env)
+>                       KVM_REG_PPC_MMCR0, 0x80000000);
+>      spr_register_kvm(env, SPR_POWER_MMCR1, "MMCR1",
 >                       SPR_NOACCESS, SPR_NOACCESS,
 > -                     &spr_read_generic, &spr_write_generic,
-> +                     &spr_read_PMC, &spr_write_PMC,
->                       KVM_REG_PPC_PMC1, 0x00000000);
->      spr_register_kvm(env, SPR_POWER_PMC2, "PMC2",
->                       SPR_NOACCESS, SPR_NOACCESS,
-> -                     &spr_read_generic, &spr_write_generic,
-> +                     &spr_read_PMC, &spr_write_PMC,
->                       KVM_REG_PPC_PMC2, 0x00000000);
->      spr_register_kvm(env, SPR_POWER_PMC3, "PMC3",
->                       SPR_NOACCESS, SPR_NOACCESS,
-> -                     &spr_read_generic, &spr_write_generic,
-> +                     &spr_read_PMC, &spr_write_PMC,
->                       KVM_REG_PPC_PMC3, 0x00000000);
->      spr_register_kvm(env, SPR_POWER_PMC4, "PMC4",
->                       SPR_NOACCESS, SPR_NOACCESS,
-> -                     &spr_read_generic, &spr_write_generic,
-> +                     &spr_read_PMC, &spr_write_PMC,
->                       KVM_REG_PPC_PMC4, 0x00000000);
->      spr_register_kvm(env, SPR_POWER_PMC5, "PMC5",
->                       SPR_NOACCESS, SPR_NOACCESS,
-> -                     &spr_read_generic, &spr_write_generic,
-> +                     &spr_read_PMC, &spr_write_PMC,
->                       KVM_REG_PPC_PMC5, 0x00000000);
->      spr_register_kvm(env, SPR_POWER_PMC6, "PMC6",
->                       SPR_NOACCESS, SPR_NOACCESS,
-> -                     &spr_read_generic, &spr_write_generic,
-> +                     &spr_read_PMC, &spr_write_PMC,
->                       KVM_REG_PPC_PMC6, 0x00000000);
->      spr_register_kvm(env, SPR_POWER_SIAR, "SIAR",
+> +                     &spr_read_generic, &spr_write_MMCR1,
+>                       KVM_REG_PPC_MMCR1, 0x00000000);
+>      spr_register_kvm(env, SPR_POWER_MMCRA, "MMCRA",
 >                       SPR_NOACCESS, SPR_NOACCESS,
 > diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index ea60a7493c..d7567f75b4 100644
+> index d7567f75b4..94b4690375 100644
 > --- a/target/ppc/helper.h
 > +++ b/target/ppc/helper.h
-> @@ -21,6 +21,8 @@ DEF_HELPER_1(hrfid, void, env)
+> @@ -21,6 +21,7 @@ DEF_HELPER_1(hrfid, void, env)
 >  DEF_HELPER_2(store_lpcr, void, env, tl)
 >  DEF_HELPER_2(store_pcr, void, env, tl)
 >  DEF_HELPER_2(store_mmcr0, void, env, tl)
-> +DEF_HELPER_3(store_pmc, void, env, i32, i64)
-> +DEF_HELPER_2(read_pmc, tl, env, i32)
+> +DEF_HELPER_2(store_mmcr1, void, env, tl)
+>  DEF_HELPER_3(store_pmc, void, env, i32, i64)
+>  DEF_HELPER_2(read_pmc, tl, env, i32)
 >  #endif
->  DEF_HELPER_1(check_tlb_flush_local, void, env)
->  DEF_HELPER_1(check_tlb_flush_global, void, env)
 > diff --git a/target/ppc/power8-pmu-regs.c.inc b/target/ppc/power8-pmu-reg=
 s.c.inc
-> index fbb8977641..f0c9cc343b 100644
+> index f0c9cc343b..25b13ad564 100644
 > --- a/target/ppc/power8-pmu-regs.c.inc
 > +++ b/target/ppc/power8-pmu-regs.c.inc
-> @@ -181,13 +181,23 @@ void spr_write_MMCR2_ureg(DisasContext *ctx, int sp=
-rn, int gprn)
->      tcg_temp_free(masked_gprn);
+> @@ -255,6 +255,12 @@ void spr_write_MMCR0(DisasContext *ctx, int sprn, in=
+t gprn)
+>  {
+>      write_MMCR0_common(ctx, cpu_gpr[gprn]);
 >  }
-> =20
-> +void spr_read_PMC(DisasContext *ctx, int gprn, int sprn)
+> +
+> +void spr_write_MMCR1(DisasContext *ctx, int sprn, int gprn)
 > +{
-> +    TCGv_i32 t_sprn =3D tcg_const_i32(sprn);
-> +
 > +    gen_icount_io_start(ctx);
-> +    gen_helper_read_pmc(cpu_gpr[gprn], cpu_env, t_sprn);
-> +
-> +    tcg_temp_free_i32(t_sprn);
+> +    gen_helper_store_mmcr1(cpu_env, cpu_gpr[gprn]);
 > +}
-> +
->  void spr_read_PMC14_ureg(DisasContext *ctx, int gprn, int sprn)
+>  #else
+>  void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn)
 >  {
->      if (!spr_groupA_read_allowed(ctx)) {
->          return;
->      }
-> =20
-> -    spr_read_ureg(ctx, gprn, sprn);
-> +    spr_read_PMC(ctx, gprn, sprn + 0x10);
->  }
-> =20
->  void spr_read_PMC56_ureg(DisasContext *ctx, int gprn, int sprn)
-> @@ -206,13 +216,23 @@ void spr_read_PMC56_ureg(DisasContext *ctx, int gpr=
-n, int sprn)
->      spr_read_PMC14_ureg(ctx, gprn, sprn);
->  }
-> =20
-> +void spr_write_PMC(DisasContext *ctx, int sprn, int gprn)
-> +{
-> +    TCGv_i32 t_sprn =3D tcg_const_i32(sprn);
-> +
-> +    gen_icount_io_start(ctx);
-> +    gen_helper_store_pmc(cpu_env, t_sprn, cpu_gpr[gprn]);
-> +
-> +    tcg_temp_free_i32(t_sprn);
-> +}
-> +
->  void spr_write_PMC14_ureg(DisasContext *ctx, int sprn, int gprn)
->  {
->      if (!spr_groupA_write_allowed(ctx)) {
->          return;
->      }
-> =20
-> -    spr_write_ureg(ctx, sprn, gprn);
-> +    spr_write_PMC(ctx, sprn + 0x10, gprn);
->  }
-> =20
->  void spr_write_PMC56_ureg(DisasContext *ctx, int sprn, int gprn)
-> @@ -280,4 +300,9 @@ void spr_write_MMCR0(DisasContext *ctx, int sprn, int=
- gprn)
->  {
+> @@ -301,6 +307,11 @@ void spr_write_MMCR0(DisasContext *ctx, int sprn, in=
+t gprn)
 >      spr_write_generic(ctx, sprn, gprn);
 >  }
-> +
-> +void spr_write_PMC(DisasContext *ctx, int sprn, int gprn)
+> =20
+> +void spr_write_MMCR1(DisasContext *ctx, int sprn, int gprn)
 > +{
 > +    spr_write_generic(ctx, sprn, gprn);
 > +}
->  #endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
+> +
+>  void spr_write_PMC(DisasContext *ctx, int sprn, int gprn)
+>  {
+>      spr_write_generic(ctx, sprn, gprn);
 > diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-> index 47932ded4f..5f2623aa25 100644
+> index 5f2623aa25..acdaee7459 100644
 > --- a/target/ppc/power8-pmu.c
 > +++ b/target/ppc/power8-pmu.c
-> @@ -145,6 +145,20 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulo=
+> @@ -145,6 +145,13 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulo=
 ng value)
 >      }
 >  }
 > =20
-> +target_ulong helper_read_pmc(CPUPPCState *env, uint32_t sprn)
+> +void helper_store_mmcr1(CPUPPCState *env, uint64_t value)
 > +{
 > +    pmu_update_cycles(env);
 > +
-> +    return env->spr[sprn];
+> +    env->spr[SPR_POWER_MMCR1] =3D value;
 > +}
 > +
-> +void helper_store_pmc(CPUPPCState *env, uint32_t sprn, uint64_t value)
-> +{
-> +    pmu_update_cycles(env);
-> +
-> +    env->spr[sprn] =3D value;
-> +}
-> +
->  static void fire_PMC_interrupt(PowerPCCPU *cpu)
+>  target_ulong helper_read_pmc(CPUPPCState *env, uint32_t sprn)
 >  {
->      CPUPPCState *env =3D &cpu->env;
+>      pmu_update_cycles(env);
 > diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
-> index eb1d0c2bf0..1e79a0522a 100644
+> index 1e79a0522a..1d6521eedc 100644
 > --- a/target/ppc/spr_tcg.h
 > +++ b/target/ppc/spr_tcg.h
 > @@ -26,6 +26,7 @@ void spr_noaccess(DisasContext *ctx, int gprn, int sprn=
@@ -249,19 +182,10 @@ ng value)
 >  void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
 >  void spr_write_generic(DisasContext *ctx, int sprn, int gprn);
 >  void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn);
-> +void spr_write_PMC(DisasContext *ctx, int sprn, int gprn);
+> +void spr_write_MMCR1(DisasContext *ctx, int sprn, int gprn);
+>  void spr_write_PMC(DisasContext *ctx, int sprn, int gprn);
 >  void spr_read_xer(DisasContext *ctx, int gprn, int sprn);
 >  void spr_write_xer(DisasContext *ctx, int sprn, int gprn);
->  void spr_read_lr(DisasContext *ctx, int gprn, int sprn);
-> @@ -35,6 +36,7 @@ void spr_write_ctr(DisasContext *ctx, int sprn, int gpr=
-n);
->  void spr_read_ureg(DisasContext *ctx, int gprn, int sprn);
->  void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn);
->  void spr_read_MMCR2_ureg(DisasContext *ctx, int gprn, int sprn);
-> +void spr_read_PMC(DisasContext *ctx, int gprn, int sprn);
->  void spr_read_PMC14_ureg(DisasContext *ctx, int gprn, int sprn);
->  void spr_read_PMC56_ureg(DisasContext *ctx, int gprn, int sprn);
->  void spr_read_tbl(DisasContext *ctx, int gprn, int sprn);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -269,25 +193,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Y9Xe7sPbb6LRrnrc
+--zd/Qqvw0izrF+EGj
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGgRUAACgkQbDjKyiDZ
-s5J19Q//VyZiMjgyIMwuDkwficANZgA9SZvqvzDgTtUXV9lrPO+NRnPrT+gF6ZTf
-/DX/XxG8MZSHPX/I1b9RNQdrqC9OQ8o61O8BAEP6e3mMYtjTrX10KS+rotYvKYUA
-wB8lb4DDZB7vJDevWty0JZ6pn0gpRpIUZYDbsyZj1Lolrycen0rIpHrtxbigGSWd
-t0aTCDfXBVkbgI6ksmHqKYVLtQsk0aBgu1qLzP7Cb8806pZ9IOZ8VJ8rlpNpYw9A
-A207zJcLAShsQ+L2UToFur0klsNz9h/zOFOKF2k0zICtTcqQA38gYPvnFHMGuge7
-i80arep4fktEXluY+klWvF4wQdZNXs7DbjED9/QNE8JKVSPeM/AVailGVlIaTuC7
-Vq82g3auPwXizql1q8rS/xCscfztU+r2lFRpGLYkoOuiUzNswxBUF/8bVxWgu5OB
-39m916pv7QP3boj2YKfgxlB68OJLxJyJrgGt95DBAZQhCYhhsuLcfc50az7G7BUI
-FhHA4bNEJ+8kG3YsrguwCNfXjZnaNAoapexQzz0jXNtZtRwA53C3hVOu7+A/Xoyn
-ESm96nFyQtL/TDSdlauV6yiaDXWYTlyqIJ5jyWX4utk8Y+uztX8DqE1xD3VtxB6A
-/gOR5GA5xYNQ6K3VhKOTIQDNuXeCoskky7Y14UyuTdixvmMf49k=
-=ZQFC
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGgRXAACgkQbDjKyiDZ
+s5JZ8g//Uj3I2JeY5i2RQizm1Y1+ibdLnPEVxY9pIpojjJDWntQw3+5xw4exyg8q
+bsXlU7PMn6tc2pnjjjDFH9RuCY984KMKUalWRuWhKAMWwQko9+zcRcxNMyfszhuW
+DBVxzbZhgDQF99PsdKLUqkcb6/zqv+QJqhSH0NglYZ/MPbS5vxMKKSok7yhymkOI
+trb6VB28A6WsP9pSSkAkqkyPGeYved2JnMJaym0rLZGWpPpGs1AcDgRre4bWXQRy
+jf6dccASPo/RjoMlCY2glD4VVyEcObbxoIdkUt+nxaPR7R5EhMxZRtEnjY4p/2br
+C02TS1uAzI6CvqrKjPRmThqn28/7hWHmGT1AhTm7h5713fGogIi1MxIWKA7pCPW6
+Dpd3bicHpMHDPm1ERCLbSFDlGpiwWEKANJskxkdj5Do4AvnakcHp6VWk8Fw+W87h
+F4xm3BXoEKBj+fLr4cBDYpCgbEQklkbgtCkn0iiP/qraTex2XzAwydr87YSJonk7
+obcRGdoAunp231GM+fbd0Nwx551qtxV2koWnOJZcNO/mixg8c7NFIcwouzogMqLC
+MJ+hc0JI3ZjluoQVs1edKqugYZnaajO/Ra06wgbM3UriUegj9sXCz1ZfBgW1tJ8Q
+frXWE4wgw7zlVLn2MeuomwhCMqj+J2bC9A37jbjN+LoKqaonMBI=
+=Bw+S
 -----END PGP SIGNATURE-----
 
---Y9Xe7sPbb6LRrnrc--
+--zd/Qqvw0izrF+EGj--
 
