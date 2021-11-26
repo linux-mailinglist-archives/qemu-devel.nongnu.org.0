@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EC445EDC5
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 13:19:04 +0100 (CET)
-Received: from localhost ([::1]:38248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 801EF45ED9E
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 13:10:47 +0100 (CET)
+Received: from localhost ([::1]:45692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqaBz-0001eP-IM
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 07:19:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59680)
+	id 1mqa3y-0003sg-Hb
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 07:10:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZo2-0003Y1-Oe
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZo2-0003Xz-OB
  for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:19 -0500
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:57077)
+Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:52555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZnm-0007UP-1J
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:09 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.15])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id DC21CCE26F1E;
- Fri, 26 Nov 2021 12:54:00 +0100 (CET)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZno-0007Ua-Dn
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:11 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.149])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5F35322453;
+ Fri, 26 Nov 2021 11:54:01 +0000 (UTC)
 Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 26 Nov
  2021 12:54:00 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006126c8d8b-1f35-46f0-a6d0-ab3911199c7f,
+ (GARM-105G006a2af2be1-f4e2-498c-b589-486777ecb743,
  B8303126CBA279BD35B7DF0844B381DDFAFB7782) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH v3 14/18] ppc/pnv: add XIVE Gen2 TIMA support
-Date: Fri, 26 Nov 2021 12:53:45 +0100
-Message-ID: <20211126115349.2737605-15-clg@kaod.org>
+Subject: [PATCH v3 15/18] pnv/xive2: Add support XIVE2 P9-compat mode (or Gen1)
+Date: Fri, 26 Nov 2021 12:53:46 +0100
+Message-ID: <20211126115349.2737605-16-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211126115349.2737605-1-clg@kaod.org>
 References: <20211126115349.2737605-1-clg@kaod.org>
@@ -42,18 +42,19 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.105]
 X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 62706084-e105-40da-9c22-afe7015f993e
-X-Ovh-Tracer-Id: 14616432591104936812
+X-Ovh-Tracer-GUID: d1b68f73-5af6-4511-a972-a541fd361bc8
+X-Ovh-Tracer-Id: 14616714069455309676
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
+ helo=7.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,196 +75,104 @@ Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only the CAM line updates done by the hypervisor are specific to
-POWER10. Instead of duplicating the TM ops table, we handle these
-commands locally under the PowerNV XIVE2 model.
+The thread interrupt management area (TIMA) is a set of pages mapped
+in the Hypervisor and in the guest OS address space giving access to
+the interrupt thread context registers for interrupt management, ACK,
+EOI, CPPR, etc.
+
+XIVE2 changes slightly the TIMA layout with extra bits for the new
+features, larger CAM lines and the controller provides configuration
+switches for backward compatibility. This is called the XIVE2
+P9-compat mode, of Gen1 TIMA. It impacts the layout of the TIMA and
+the availability of the internal features associated with it,
+Automatic Save & Restore for instance. Using a P9 layout also means
+setting the controller in such a mode at init time.
+
+As the OPAL driver initializes the XIVE2 controller with a XIVE2/P10
+TIMA directly, the XIVE2 model only has a simple support for the
+compat mode in the OS TIMA.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/xive2.h |  8 ++++
- hw/intc/pnv_xive2.c    | 27 +++++++++++-
- hw/intc/xive2.c        | 95 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 128 insertions(+), 2 deletions(-)
+ hw/intc/pnv_xive2_regs.h |  6 ++++++
+ hw/intc/pnv_xive2.c      | 22 +++++++++++++++++-----
+ 2 files changed, 23 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/ppc/xive2.h b/include/hw/ppc/xive2.h
-index 9222b5b36979..cf6211a0ecb9 100644
---- a/include/hw/ppc/xive2.h
-+++ b/include/hw/ppc/xive2.h
-@@ -87,5 +87,13 @@ typedef struct Xive2EndSource {
-     Xive2Router     *xrtr;
- } Xive2EndSource;
+diff --git a/hw/intc/pnv_xive2_regs.h b/hw/intc/pnv_xive2_regs.h
+index 46d4fb378135..902220e6be69 100644
+--- a/hw/intc/pnv_xive2_regs.h
++++ b/hw/intc/pnv_xive2_regs.h
+@@ -60,6 +60,12 @@
+ #define    CQ_XIVE_CFG_HYP_HARD_BLKID_OVERRIDE  PPC_BIT(16)
+ #define    CQ_XIVE_CFG_HYP_HARD_BLOCK_ID        PPC_BITMASK(17, 23)
  
-+/*
-+ * XIVE2 Thread Interrupt Management Area (POWER10)
-+ */
++#define    CQ_XIVE_CFG_GEN1_TIMA_OS             PPC_BIT(24)
++#define    CQ_XIVE_CFG_GEN1_TIMA_HYP            PPC_BIT(25)
++#define    CQ_XIVE_CFG_GEN1_TIMA_HYP_BLK0       PPC_BIT(26) /* 0 if bit[25]=0 */
++#define    CQ_XIVE_CFG_GEN1_TIMA_CROWD_DIS      PPC_BIT(27) /* 0 if bit[25]=0 */
++#define    CQ_XIVE_CFG_GEN1_END_ESX             PPC_BIT(28)
 +
-+void xive2_tm_push_os_ctx(XivePresenter *xptr, XiveTCTX *tctx, hwaddr offset,
-+                           uint64_t value, unsigned size);
-+uint64_t xive2_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
-+                               hwaddr offset, unsigned size);
- 
- #endif /* PPC_XIVE2_H */
+ /* Interrupt Controller Base Address Register - 512 pages (32M) */
+ #define X_CQ_IC_BAR                             0x08
+ #define CQ_IC_BAR                               0x040
 diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
-index cb12cea14fc6..4a2649893232 100644
+index 4a2649893232..b364ee3b306b 100644
 --- a/hw/intc/pnv_xive2.c
 +++ b/hw/intc/pnv_xive2.c
-@@ -1610,15 +1610,32 @@ static const MemoryRegionOps pnv_xive2_ic_tm_indirect_ops = {
-  * TIMA ops
-  */
+@@ -444,6 +444,8 @@ static int pnv_xive2_match_nvt(XivePresenter *xptr, uint8_t format,
+     PnvChip *chip = xive->chip;
+     int count = 0;
+     int i, j;
++    bool gen1_tima_os =
++        xive->cq_regs[CQ_XIVE_CFG >> 3] & CQ_XIVE_CFG_GEN1_TIMA_OS;
  
-+/*
-+ * Special TIMA offsets to handle accesses in a POWER10 way.
-+ *
-+ * Only the CAM line updates done by the hypervisor should be handled
-+ * specifically.
-+ */
-+#define HV_PAGE_OFFSET         (XIVE_TM_HV_PAGE << TM_SHIFT)
-+#define HV_PUSH_OS_CTX_OFFSET  (HV_PAGE_OFFSET | (TM_QW1_OS + TM_WORD2))
-+#define HV_PULL_OS_CTX_OFFSET  (HV_PAGE_OFFSET | TM_SPC_PULL_OS_CTX)
-+
- static void pnv_xive2_tm_write(void *opaque, hwaddr offset,
-                                uint64_t value, unsigned size)
- {
-     PowerPCCPU *cpu = POWERPC_CPU(current_cpu);
+     for (i = 0; i < chip->nr_cores; i++) {
+         PnvCore *pc = chip->cores[i];
+@@ -460,9 +462,15 @@ static int pnv_xive2_match_nvt(XivePresenter *xptr, uint8_t format,
+ 
+             tctx = XIVE_TCTX(pnv_cpu_state(cpu)->intc);
+ 
+-            ring = xive2_presenter_tctx_match(xptr, tctx, format, nvt_blk,
+-                                              nvt_idx, cam_ignore,
+-                                              logic_serv);
++            if (gen1_tima_os) {
++                ring = xive_presenter_tctx_match(xptr, tctx, format, nvt_blk,
++                                                 nvt_idx, cam_ignore,
++                                                 logic_serv);
++            } else {
++                ring = xive2_presenter_tctx_match(xptr, tctx, format, nvt_blk,
++                                                   nvt_idx, cam_ignore,
++                                                   logic_serv);
++            }
+ 
+             /*
+              * Save the context and follow on to catch duplicates,
+@@ -1627,9 +1635,11 @@ static void pnv_xive2_tm_write(void *opaque, hwaddr offset,
      PnvXive2 *xive = pnv_xive2_tm_get_xive(cpu);
      XiveTCTX *tctx = XIVE_TCTX(pnv_cpu_state(cpu)->intc);
-+    XivePresenter *xptr = XIVE_PRESENTER(xive);
-+
-+    /* TODO: should we switch the TM ops table instead ? */
-+    if (offset == HV_PUSH_OS_CTX_OFFSET) {
-+        xive2_tm_push_os_ctx(xptr, tctx, offset, value, size);
-+        return;
-+    }
+     XivePresenter *xptr = XIVE_PRESENTER(xive);
++    bool gen1_tima_os =
++        xive->cq_regs[CQ_XIVE_CFG >> 3] & CQ_XIVE_CFG_GEN1_TIMA_OS;
  
-     /* Other TM ops are the same as XIVE1 */
--    xive_tctx_tm_write(XIVE_PRESENTER(xive), tctx, offset, value, size);
-+    xive_tctx_tm_write(xptr, tctx, offset, value, size);
- }
- 
- static uint64_t pnv_xive2_tm_read(void *opaque, hwaddr offset, unsigned size)
-@@ -1626,9 +1643,15 @@ static uint64_t pnv_xive2_tm_read(void *opaque, hwaddr offset, unsigned size)
-     PowerPCCPU *cpu = POWERPC_CPU(current_cpu);
-     PnvXive2 *xive = pnv_xive2_tm_get_xive(cpu);
-     XiveTCTX *tctx = XIVE_TCTX(pnv_cpu_state(cpu)->intc);
-+    XivePresenter *xptr = XIVE_PRESENTER(xive);
-+
-+    /* TODO: should we switch the TM ops table instead ? */
-+    if (offset == HV_PULL_OS_CTX_OFFSET) {
-+        return xive2_tm_pull_os_ctx(xptr, tctx, offset, size);
-+    }
- 
-     /* Other TM ops are the same as XIVE1 */
--    return xive_tctx_tm_read(XIVE_PRESENTER(xive), tctx, offset, size);
-+    return xive_tctx_tm_read(xptr, tctx, offset, size);
- }
- 
- static const MemoryRegionOps pnv_xive2_tm_ops = {
-diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
-index 26af08a5de07..e31037e1f030 100644
---- a/hw/intc/xive2.c
-+++ b/hw/intc/xive2.c
-@@ -158,6 +158,101 @@ static void xive2_end_enqueue(Xive2End *end, uint32_t data)
+     /* TODO: should we switch the TM ops table instead ? */
+-    if (offset == HV_PUSH_OS_CTX_OFFSET) {
++    if (!gen1_tima_os && offset == HV_PUSH_OS_CTX_OFFSET) {
+         xive2_tm_push_os_ctx(xptr, tctx, offset, value, size);
+         return;
      }
-     end->w1 = xive_set_field32(END2_W1_PAGE_OFF, end->w1, qindex);
- }
-+
-+/*
-+ * XIVE Thread Interrupt Management Area (TIMA) - Gen2 mode
-+ */
-+
-+static void xive2_os_cam_decode(uint32_t cam, uint8_t *nvp_blk,
-+                                uint32_t *nvp_idx, bool *vo)
-+{
-+    *nvp_blk = xive2_nvp_blk(cam);
-+    *nvp_idx = xive2_nvp_idx(cam);
-+    *vo = !!(cam & TM2_QW1W2_VO);
-+}
-+
-+uint64_t xive2_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
-+                              hwaddr offset, unsigned size)
-+{
-+    uint32_t qw1w2 = xive_tctx_word2(&tctx->regs[TM_QW1_OS]);
-+    uint32_t qw1w2_new;
-+    uint32_t cam = be32_to_cpu(qw1w2);
-+    uint8_t nvp_blk;
-+    uint32_t nvp_idx;
-+    bool vo;
-+
-+    xive2_os_cam_decode(cam, &nvp_blk, &nvp_idx, &vo);
-+
-+    if (!vo) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: pulling invalid NVP %x/%x !?\n",
-+                      nvp_blk, nvp_idx);
-+    }
-+
-+    /* Invalidate CAM line */
-+    qw1w2_new = xive_set_field32(TM2_QW1W2_VO, qw1w2, 0);
-+    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2_new, 4);
-+
-+    return qw1w2;
-+}
-+
-+static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
-+                                   uint8_t nvp_blk, uint32_t nvp_idx)
-+{
-+    Xive2Nvp nvp;
-+    uint8_t ipb;
-+    uint8_t cppr = 0;
-+
-+    /*
-+     * Grab the associated thread interrupt context registers in the
-+     * associated NVP
-+     */
-+    if (xive2_router_get_nvp(xrtr, nvp_blk, nvp_idx, &nvp)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: No NVP %x/%x\n",
-+                      nvp_blk, nvp_idx);
-+        return;
-+    }
-+
-+    if (!xive2_nvp_is_valid(&nvp)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid NVP %x/%x\n",
-+                      nvp_blk, nvp_idx);
-+        return;
-+    }
-+
-+    ipb = xive_get_field32(NVP2_W2_IPB, nvp.w2);
-+    if (ipb) {
-+        nvp.w2 = xive_set_field32(NVP2_W2_IPB, nvp.w2, 0);
-+        xive2_router_write_nvp(xrtr, nvp_blk, nvp_idx, &nvp, 2);
-+    }
-+
-+    /* An IPB or CPPR change can trigger a resend */
-+    if (ipb || cppr) {
-+        xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
-+    }
-+}
-+
-+/*
-+ * Updating the OS CAM line can trigger a resend of interrupt
-+ */
-+void xive2_tm_push_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
-+                          hwaddr offset, uint64_t value, unsigned size)
-+{
-+    uint32_t cam = value;
-+    uint32_t qw1w2 = cpu_to_be32(cam);
-+    uint8_t nvp_blk;
-+    uint32_t nvp_idx;
-+    bool vo;
-+
-+    xive2_os_cam_decode(cam, &nvp_blk, &nvp_idx, &vo);
-+
-+    /* First update the thead context */
-+    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
-+
-+    /* Check the interrupt pending bits */
-+    if (vo) {
-+        xive2_tctx_need_resend(XIVE2_ROUTER(xptr), tctx, nvp_blk, nvp_idx);
-+    }
-+}
-+
- /*
-  * XIVE Router (aka. Virtualization Controller or IVRE)
-  */
+@@ -1644,9 +1654,11 @@ static uint64_t pnv_xive2_tm_read(void *opaque, hwaddr offset, unsigned size)
+     PnvXive2 *xive = pnv_xive2_tm_get_xive(cpu);
+     XiveTCTX *tctx = XIVE_TCTX(pnv_cpu_state(cpu)->intc);
+     XivePresenter *xptr = XIVE_PRESENTER(xive);
++    bool gen1_tima_os =
++        xive->cq_regs[CQ_XIVE_CFG >> 3] & CQ_XIVE_CFG_GEN1_TIMA_OS;
+ 
+     /* TODO: should we switch the TM ops table instead ? */
+-    if (offset == HV_PULL_OS_CTX_OFFSET) {
++    if (!gen1_tima_os && offset == HV_PULL_OS_CTX_OFFSET) {
+         return xive2_tm_pull_os_ctx(xptr, tctx, offset, size);
+     }
+ 
 -- 
 2.31.1
 
