@@ -2,93 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E75345F551
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 20:40:32 +0100 (CET)
-Received: from localhost ([::1]:59494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E3445F55D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 20:45:01 +0100 (CET)
+Received: from localhost ([::1]:38018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqh5A-0006f2-To
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 14:40:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51564)
+	id 1mqh9Y-0002vy-H6
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 14:45:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mqh3N-0005z7-Gv
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 14:38:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35917)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mqh3K-00021S-4U
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 14:38:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637955512;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dR6DoYpTCx5qfCJK6174O9u+8iNtV309PgvgZ/gnUFQ=;
- b=WHxFVk4thn8PSjOHhwLFhexsfWFTrSkU1TtVigYm/ebbCUtRZBhh2VbkakG6FoMBTgTh9O
- erpI4VuUkoGjatpEmhfKDkK7A0HDjMl1FOhoWqKGYgX6JVQre3V5+jSCfzOZZ7SPUd7tTs
- aX3YqceR0F35F0vIhOj36fzAKJYXgxc=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-46-ePmYFndBOEKA7jaFS2iG-Q-1; Fri, 26 Nov 2021 14:38:29 -0500
-X-MC-Unique: ePmYFndBOEKA7jaFS2iG-Q-1
-Received: by mail-ed1-f69.google.com with SMTP id
- t9-20020aa7d709000000b003e83403a5cbso8711156edq.19
- for <qemu-devel@nongnu.org>; Fri, 26 Nov 2021 11:38:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dR6DoYpTCx5qfCJK6174O9u+8iNtV309PgvgZ/gnUFQ=;
- b=eb9B5NhR9PkJ/Bv8ZuklYNEnlmaX7rmkyaqJhNQOb37UAI7d9FZr+sDkmOHBRKLKcQ
- /+nNQx+rHSgPb8vBIXGBjXCXoHvhAGyq6QkAcFdi9jbFxoJ/VUXw6JHjA0ZvIsLtv+Pp
- 32/vGjg7Y1tS741vAQxcMDMRkv0lB2rhwq+40grKT0Oq1jGC8uG4w9Hmqdk6q6NMS2pY
- Yvmenj/u23hRDRKf0sqW0GPYDxR52CLqBIoOe0a4oIIO43pwgWmHnfnn/0C8mf83mQit
- KT+/JxiaM7wQNIRWFzaUNmN5EgQkifgxzMwAb/0eH10af/GnEzjh1Deq4kQWH1XtRgwf
- EiBg==
-X-Gm-Message-State: AOAM532YvBaHS0J1JcgiYjB33e04plgcYTUE4SezjthHR8zVQoI2gs8A
- ObxrJnhhOuuOkVfQekApRnu2+Jg6BXki29GSg/UyXl26ObTRJDYXb2V1tvxWEyV1ck7aE0XAcqo
- eD3k428xYYvWF5KM=
-X-Received: by 2002:a17:907:a40c:: with SMTP id
- sg12mr40287500ejc.408.1637955508458; 
- Fri, 26 Nov 2021 11:38:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzLAZOikHTS1tJCfXZkVr0r/7LWNv61ss6aOJbG24MGsIoMgHWlNpcrnYGXLfYAOH3EA9HEqw==
-X-Received: by 2002:a17:907:a40c:: with SMTP id
- sg12mr40287478ejc.408.1637955508222; 
- Fri, 26 Nov 2021 11:38:28 -0800 (PST)
-Received: from localhost ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id hz15sm3481533ejc.63.2021.11.26.11.38.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Nov 2021 11:38:27 -0800 (PST)
-Date: Fri, 26 Nov 2021 20:38:26 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH-for-6.2] docs: add a word of caution on x-native-hotplug
- property for pcie-root-ports
-Message-ID: <20211126203826.3aac3461@redhat.com>
-In-Reply-To: <alpine.DEB.2.22.394.2111261104070.223522@anisinha-lenovo>
-References: <20211125120629.187014-1-ani@anisinha.ca>
- <20211125154927-mutt-send-email-mst@kernel.org>
- <alpine.DEB.2.22.394.2111261104070.223522@anisinha-lenovo>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
+ id 1mqh5y-0008BW-Ay; Fri, 26 Nov 2021 14:41:18 -0500
+Received: from [201.28.113.2] (port=26909 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <leandro.lupori@eldorado.org.br>)
+ id 1mqh5v-0002PV-RB; Fri, 26 Nov 2021 14:41:18 -0500
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 26 Nov 2021 16:40:02 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 5F9FC800CFF;
+ Fri, 26 Nov 2021 16:40:02 -0300 (-03)
+From: Leandro Lupori <leandro.lupori@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v3] target/ppc: fix Hash64 MMU update of PTE bit R
+Date: Fri, 26 Nov 2021 16:39:40 -0300
+Message-Id: <20211126193940.52513-2-leandro.lupori@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 26 Nov 2021 19:40:02.0696 (UTC)
+ FILETIME=[67CF4880:01D7E2FD]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,91 +54,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: groug@kaod.org, danielhb413@gmail.com,
+ Leandro Lupori <leandro.lupori@eldorado.org.br>, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's hardly 6.2 material
+When updating the R bit of a PTE, the Hash64 MMU was using a wrong byte
+offset, causing the first byte of the adjacent PTE to be corrupted.
+This caused a panic when booting FreeBSD, using the Hash MMU.
 
-On Fri, 26 Nov 2021 11:12:55 +0530 (IST)
-Ani Sinha <ani@anisinha.ca> wrote:
+Fixes: a2dd4e83e76b ("ppc/hash64: Rework R and C bit updates")
+Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+---
+Changes from v2:
+- Add new defines for the byte offset of PTE bit C and
+  HASH_PTE_SIZE_64 / 2 (pte1)
+- Use new defines in hash64 and spapr code
+---
+ hw/ppc/spapr.c          | 8 ++++----
+ hw/ppc/spapr_softmmu.c  | 2 +-
+ target/ppc/mmu-hash64.c | 4 ++--
+ target/ppc/mmu-hash64.h | 5 +++++
+ 4 files changed, 12 insertions(+), 7 deletions(-)
 
-> On Thu, 25 Nov 2021, Michael S. Tsirkin wrote:
-> 
-> > On Thu, Nov 25, 2021 at 05:36:29PM +0530, Ani Sinha wrote:  
-> > > x-native-hotplug property, when used in order to disable HPC bit on the PCIE
-> > > root ports, can lead to unexpected results from the guest operating system.
-> > > Users are strongly advised not to touch this property in order to manipulte the
-> > > HPC bit. Add a word of caution in the pcie.txt doc file to document this.
-> > >
-> > > Signed-off-by: Ani Sinha <ani@anisinha.ca>  
-> >
-> > Do we want to generally document this for all "x-" options?  
-> 
-> Yes igor suggested it but I sent this one for two reasons:
-> (a) I could not find a place to document this for properties without
-> adding a new file. This sounded too bigger a hammer at the present. If you
-> can suggest an existing place for documenting this for the property names,
-> I will go and add this info there as well.
-> 
-> (b) I think we need to document this experimental property here regardless
-> because this doc deals with hotplug and pcie ports and we had too much of
-> a mess with this acpi/pci native switch.
-> 
-> When things stabilize a bit, Igor suggested elsewhere that we start a
-> separate doc just for hotplug and various options we have and at
-> that point we can move this info in this new doc.
-> 
-> https://www.mail-archive.com/libvir-list@redhat.com/msg221746.html
-
-I'd rather put a blanket statement somewhere, like:
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 163c90388a..8ebf85bad8 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1414,7 +1414,7 @@ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+         kvmppc_write_hpte(ptex, pte0, pte1);
+     } else {
+         if (pte0 & HPTE64_V_VALID) {
+-            stq_p(spapr->htab + offset + HASH_PTE_SIZE_64 / 2, pte1);
++            stq_p(spapr->htab + offset + HPTE64_R_BYTE_OFFSET, pte1);
+             /*
+              * When setting valid, we write PTE1 first. This ensures
+              * proper synchronization with the reading code in
+@@ -1430,7 +1430,7 @@ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+              * ppc_hash64_pteg_search()
+              */
+             smp_wmb();
+-            stq_p(spapr->htab + offset + HASH_PTE_SIZE_64 / 2, pte1);
++            stq_p(spapr->htab + offset + HPTE64_R_BYTE_OFFSET, pte1);
+         }
+     }
+ }
+@@ -1438,7 +1438,7 @@ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+ static void spapr_hpte_set_c(PPCVirtualHypervisor *vhyp, hwaddr ptex,
+                              uint64_t pte1)
+ {
+-    hwaddr offset = ptex * HASH_PTE_SIZE_64 + 15;
++    hwaddr offset = ptex * HASH_PTE_SIZE_64 + HPTE64_R_C_BYTE_OFFSET;
+     SpaprMachineState *spapr = SPAPR_MACHINE(vhyp);
  
-"x-" prefixed properties are experimental, unstable, internal and
-are subject to change/go away without prior notice.
-Such properties are not meant for use by users unless explicitly
-documented otherwise.
-
-> >  
-> > > ---
-> > >  docs/pcie.txt | 17 ++++++++++++++++-
-> > >  1 file changed, 16 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/docs/pcie.txt b/docs/pcie.txt
-> > > index 89e3502075..e1f99f725f 100644
-> > > --- a/docs/pcie.txt
-> > > +++ b/docs/pcie.txt
-> > > @@ -262,11 +262,26 @@ PCI Express Root Ports (and PCI Express Downstream Ports).
-> > >          Port, which may come handy for hot-plugging another device.
-> > >
-> > >
-> > > -5.3 Hot-plug example:
-> > > +5.2 Hot-plug example:
-> > >  Using HMP: (add -monitor stdio to QEMU command line)
-> > >    device_add <dev>,id=<id>,bus=<PCI Express Root Port Id/PCI Express Downstream Port Id/PCI-PCI Bridge Id/>
-> > >
-> > >
-> > > +5.3 A word of caution using hotplug on PCI Express Root Ports:
-> > > +Starting Qemu version 6.2, PCI Express Root ports have a property
-> > > +"x-native-hotplug" ("native-hotplug" for Qemu version 6.1), that can be used to
-> > > +enable or disable hotplug on that port. For example:
-> > > +
-> > > +-device pcie-root-port,x-native-hotplug=off,... etc.
-> > > +
-> > > +The "x-" prefix indicates that this property is highly experimental and can
-> > > +lead to unexpected results from the guest operating system if users try to use
-> > > +it to alter the native hotplug on the port. It also means that the property
-> > > +name and its behavior is liable to change in the future and is not expected to
-> > > +be stable across Qemu versions. Therefore, end users are advised not to change
-> > > +the value of this option from its default set value or use it in the Qemu
-> > > +command line.
-> > > +
-> > >  6. Device assignment
-> > >  ====================
-> > >  Host devices are mostly PCI Express and should be plugged only into
-> > > --
-> > > 2.25.1  
-> >
-> >  
-> 
+     if (!spapr->htab) {
+@@ -1454,7 +1454,7 @@ static void spapr_hpte_set_c(PPCVirtualHypervisor *vhyp, hwaddr ptex,
+ static void spapr_hpte_set_r(PPCVirtualHypervisor *vhyp, hwaddr ptex,
+                              uint64_t pte1)
+ {
+-    hwaddr offset = ptex * HASH_PTE_SIZE_64 + 14;
++    hwaddr offset = ptex * HASH_PTE_SIZE_64 + HPTE64_R_R_BYTE_OFFSET;
+     SpaprMachineState *spapr = SPAPR_MACHINE(vhyp);
+ 
+     if (!spapr->htab) {
+diff --git a/hw/ppc/spapr_softmmu.c b/hw/ppc/spapr_softmmu.c
+index f8924270ef..03676c4448 100644
+--- a/hw/ppc/spapr_softmmu.c
++++ b/hw/ppc/spapr_softmmu.c
+@@ -426,7 +426,7 @@ static void new_hpte_store(void *htab, uint64_t pteg, int slot,
+     addr += slot * HASH_PTE_SIZE_64;
+ 
+     stq_p(addr, pte0);
+-    stq_p(addr + HASH_PTE_SIZE_64 / 2, pte1);
++    stq_p(addr + HPTE64_R_BYTE_OFFSET, pte1);
+ }
+ 
+ static int rehash_hpte(PowerPCCPU *cpu,
+diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+index 19832c4b46..168d397c26 100644
+--- a/target/ppc/mmu-hash64.c
++++ b/target/ppc/mmu-hash64.c
+@@ -786,7 +786,7 @@ static void ppc_hash64_set_dsi(CPUState *cs, int mmu_idx, uint64_t dar, uint64_t
+ 
+ static void ppc_hash64_set_r(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
+ {
+-    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + 16;
++    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + HPTE64_R_R_BYTE_OFFSET;
+ 
+     if (cpu->vhyp) {
+         PPCVirtualHypervisorClass *vhc =
+@@ -803,7 +803,7 @@ static void ppc_hash64_set_r(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
+ 
+ static void ppc_hash64_set_c(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
+ {
+-    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + 15;
++    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + HPTE64_R_C_BYTE_OFFSET;
+ 
+     if (cpu->vhyp) {
+         PPCVirtualHypervisorClass *vhc =
+diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
+index c5b2f97ff7..2a46763f70 100644
+--- a/target/ppc/mmu-hash64.h
++++ b/target/ppc/mmu-hash64.h
+@@ -97,6 +97,11 @@ void ppc_hash64_finalize(PowerPCCPU *cpu);
+ #define HPTE64_V_1TB_SEG        0x4000000000000000ULL
+ #define HPTE64_V_VRMA_MASK      0x4001ffffff000000ULL
+ 
++/* PTE byte offsets */
++#define HPTE64_R_R_BYTE_OFFSET  14
++#define HPTE64_R_C_BYTE_OFFSET  15
++#define HPTE64_R_BYTE_OFFSET    (HASH_PTE_SIZE_64 / 2)
++
+ /* Format changes for ARCH v3 */
+ #define HPTE64_V_COMMON_BITS    0x000fffffffffffffULL
+ #define HPTE64_R_3_0_SSIZE_SHIFT 58
+-- 
+2.25.1
 
 
