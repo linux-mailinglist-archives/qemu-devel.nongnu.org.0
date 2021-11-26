@@ -2,156 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F4545EFC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 15:18:01 +0100 (CET)
-Received: from localhost ([::1]:58806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A882345F020
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 15:48:35 +0100 (CET)
+Received: from localhost ([::1]:42476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqc35-0005ds-GA
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 09:17:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51184)
+	id 1mqcWg-0007H3-BF
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 09:48:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <priyankar.jain@nutanix.com>)
- id 1mqc0p-0004Gc-IT
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 09:15:40 -0500
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:2374)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mqcVC-0006AF-Pv; Fri, 26 Nov 2021 09:47:04 -0500
+Received: from [2001:738:2001:2001::2001] (port=53274 helo=zero.eik.bme.hu)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <priyankar.jain@nutanix.com>)
- id 1mqc0h-0000DS-BA
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 09:15:38 -0500
-Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AQE9pjq007740;
- Fri, 26 Nov 2021 06:15:29 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=proofpoint20171006;
- bh=j/i3dtnaKFJe9LDjxs+hhTWvzmO/fJd4w5YBpccswbQ=;
- b=N7RMXXLvIQT4AUP3MJl+lMCdZ9tr3sm3DB++sd2+WaP386HpAXUfLP27jZHXO9VPjfiy
- Oh+H706u1mJ5Fs9Rsu7cQ7fapV9VmUJ4l4r5849h5xExAkvFA5/JZ2i/meEG+PwjvS/l
- ADLmXYkhBk6MS20cvTfypjuorXSo9XcmmcP4eaNLOA6kSI05VimVA8zXwfbnIz+9JplP
- s0qStL5f/CCPH5+qOPo9Pe0STiBov+wmP8A1/DMf3ezjR4JNZ5cLEIkHReURt7+qGqVP
- qAvqOqqQzf4z7g3rglp/vyEAnqK34PxJPen++dq63mPzl85pXKt7+lBx7aqz27dDuPWI sw== 
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2048.outbound.protection.outlook.com [104.47.66.48])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3cjpw5gycf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Nov 2021 06:15:29 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LRSZsQyuxNYJTcD3s/imnKKcwKEyTMg5W8N3BvmbpLG2YxKfOwYrdaYgYAnszuLxPtk4PyfBFPN1XbBQxViMolfhtCLWlRUbcspPdKNl1QOF6CObl6dd4w0OkYcsEc36i2b7KRDJmPqbue3dZG3QPr9Z5SmeOGWc+T16Cw3hoUanMITnflbJF3I4nhvW6QJHhN2q+pl5or1J514wWAzKOGj/cPmGLn/PF/ERUM1LuCaxjHPryZRqxAgX8yFmEMkz2sZ51auw/JhZ5aIBbKyof/Jl5CvBey7RfGofaNP3Onxv3/mq0ez5BvkiIxYD1SIgH9ie3UIpUQVvo76eQSwPHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j/i3dtnaKFJe9LDjxs+hhTWvzmO/fJd4w5YBpccswbQ=;
- b=FV+titrauoA8crZqa0XYJgxKe/ZUYS6ooka0O7NvVmdbQMP32GC/HrBMRUjuwC7RPBcteot+3ORRYrRtNnKcQZht/ePMP/1vnvZ5QoyW1uuD4b/NS+LoejPO3KouuW6X87G+Z+qMTmj134KevHWluduuiS1Gr1k0SSV7gKdiuc7oz7wlXYplqZIXIXK666ukT+ZZBMB5HXlroJLzUGRZAa/L09/YKf0/G4EUR6IZjXI5EJSn/3T9b/EssuLElAEh1NKNBlwtIfVI31dawfqf+Ly6wKZMyg5f54cM8VaUV2F+9E8I5cZbbq8aTwjCPSfCXjPS0vZYBxMoep3CTb5M2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from PH0PR02MB7496.namprd02.prod.outlook.com (2603:10b6:510:16::12)
- by PH0PR02MB7430.namprd02.prod.outlook.com (2603:10b6:510:b::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22; Fri, 26 Nov
- 2021 14:15:26 +0000
-Received: from PH0PR02MB7496.namprd02.prod.outlook.com
- ([fe80::f9e3:ac9c:d609:691d]) by PH0PR02MB7496.namprd02.prod.outlook.com
- ([fe80::f9e3:ac9c:d609:691d%9]) with mapi id 15.20.4734.023; Fri, 26 Nov 2021
- 14:15:26 +0000
-From: Priyankar Jain <priyankar.jain@nutanix.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] dbus-vmstate: Restrict error checks to registered proxies
- in dbus_get_proxies
-Date: Fri, 26 Nov 2021 14:15:17 +0000
-Message-Id: <1637936117-37977-1-git-send-email-priyankar.jain@nutanix.com>
-X-Mailer: git-send-email 1.8.3.1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0089.namprd03.prod.outlook.com
- (2603:10b6:a03:331::34) To PH0PR02MB7496.namprd02.prod.outlook.com
- (2603:10b6:510:16::12)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mqcV7-0005mg-Fn; Fri, 26 Nov 2021 09:47:01 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 4F2D8756025;
+ Fri, 26 Nov 2021 15:46:50 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 0F84A748F5A; Fri, 26 Nov 2021 15:46:50 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 0D465748F54;
+ Fri, 26 Nov 2021 15:46:50 +0100 (CET)
+Date: Fri, 26 Nov 2021 15:46:50 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Fabiano Rosas <farosas@linux.ibm.com>
+Subject: Re: [RFC PATCH 0/2] QEMU/openbios: PPC Software TLB support in the
+ G4 family
+In-Reply-To: <87fsrjqe8t.fsf@linux.ibm.com>
+Message-ID: <775ec48-ffab-122f-57b6-fa2e89801164@eik.bme.hu>
+References: <20211119134431.406753-1-farosas@linux.ibm.com>
+ <87pmqpqknn.fsf@linux.ibm.com>
+ <48c4262-ff7d-2897-9764-cadd98683e97@eik.bme.hu>
+ <87fsrjqe8t.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Received: from priyankar-jain.dev.nutanix.com (192.146.154.242) by
- SJ0PR03CA0089.namprd03.prod.outlook.com (2603:10b6:a03:331::34) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.21 via Frontend
- Transport; Fri, 26 Nov 2021 14:15:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: be609a45-cc85-4510-e117-08d9b0e73173
-X-MS-TrafficTypeDiagnostic: PH0PR02MB7430:
-X-Microsoft-Antispam-PRVS: <PH0PR02MB74305E441A51BC8CE1B917B283639@PH0PR02MB7430.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-X-MS-Oob-TLC-OOBClassifiers: OLM:199;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: r+NpXDImBaP/rG/2iP+4NhgNPEpC1vEianMd/FycTA9BBMLig1pYHycDv3ATkmfEcBru6CyN9hskel9SHrgw+UXXPcJV1hT9sxdCQQiHTIYZziKT+Pv4HdIYSjM2Jz5+HJg/B9E59dpH8UssozDbv2/5eWGAjWLRtAz35FmK4Qf3eaX2fXMofRPZDO6nxE2XRuQrCZzilbigCm5aEn13EURl6GsCeAz9lM1Xld1EMX+hDqDglj/FBvtfNqUt1E3eSKSadhOvwiJ9zbO+KPueIJu1zQWGBbd514KxjaK+RG1RFMoNTODusiOwFMYoodiYhWD5qdKKW2yrL2B/IOLdNExoh4ghGLIg684nkmuunoD6gebu/6ZYzR15qNkeMdSJPvLo0xf1b3tvsZg5DqgWwrMJvw74m24mMBQ92pClJEJP95/uzBwbggsOgo+oaBjyYkZsFiYQ0j7pV6xyZnboRmoBF1xTzF0N2DeIJY1l2xiYwhJQ/T25V6/CAWXP2LE0bVWShRVAZvMB0fadZ/L/Fy98+b99aJmzcNk3Nke0VL3ZVe9pEyNHtYLJDInNlV8lcpKgodK3e3PpQaf1iDskQ3U1tXglWty+Yk1udX69Pb2R6GisdVcsbDQ8oT3nDZmYU0KCH72pWlc+mamuVlRb0Fc2ginhC8HgaaDyckwkJ/F0MvOJsR0iterjJMPlLUdZydrbXpir/ttMijbD0w8oiA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR02MB7496.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(54906003)(36756003)(4326008)(44832011)(2906002)(2616005)(38100700002)(38350700002)(508600001)(7696005)(52116002)(186003)(83380400001)(66946007)(66556008)(66476007)(6666004)(5660300002)(8936002)(956004)(316002)(86362001)(8676002)(6486002)(26005)(6916009);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UG9mNXFZRWt3RzVhRzJyN1FVY3E4YXlKR1N3ZXlPT2tZZ0t4M1hYSU5oMHNM?=
- =?utf-8?B?UVdRQWYySmhVQ3EzQlVDcW10VzVTWVppeFdKOUkzd3k0azJDc0RpdmdROTBk?=
- =?utf-8?B?Zmd5T1FpMlQxME91NHhyRUp2T2pkU3pONmphS2R2anUwenZyazhrWktKaWNW?=
- =?utf-8?B?VjZWTmd3TFR3S3FVL05tUDI3SmowamRCZytGV3MwUW0zYS9XV2NicTErYWVD?=
- =?utf-8?B?ZVBpZ3NHOVhqQWRZSmlxM3ZBUkRMaFArbXRGSmdHSEtONFBCa1dacXNWSnF5?=
- =?utf-8?B?U09QeUE1RE5VNkFlU2JydXgvRGpYYjY0Q0xKbXdoU0RLRzVmQnRIMGh1OS81?=
- =?utf-8?B?dlNqYTJMQkRHRmRYTkt0YXdsV0EwSld5eHRTdjZ5L0NEWW9uRG0wNVNacmtm?=
- =?utf-8?B?MkI2a2JmbE5Kb1puV2YwTWJiQ1J1LzJDLzN6TUVwRHF3RE1XOTNrTkluSGMx?=
- =?utf-8?B?SThpRzZkLythelR2czJxQzdOWUdrajY2bVRoVWk4YkdmbFRlSm9QZm9zMDQ5?=
- =?utf-8?B?S25Va0FTbjdHTDJTWklDQkFOVUdWNzVOVVBNSHVmb2tNUmpzS3lhYWZGRGg5?=
- =?utf-8?B?bkx6b01hOGZhYVAvemdWVnRma0NkTGtlU0FuQXpSbThUTWJnaHNURHZUY3RZ?=
- =?utf-8?B?bDFsYTJ0SWFtK0xyTWVlY1FIQndJa2ZnamF5SU9xYWVGYjdjcnl4Q1I5dU40?=
- =?utf-8?B?VTg3cXN0RmQyc2piNXlYaC9PbFNudFIrN2ZLWS9Yd0FoR2JoNlhDeUQ4b1dY?=
- =?utf-8?B?ZWFaTEdXaEJGWWxRV0RQWjhMeVowSUVvSUNVTHAxRjJuNnM0Yzl5dFZ4MkZj?=
- =?utf-8?B?Q3FCUHVpMXlrTzU3VjV2UHYwdkcyQUx1MWgvK3VJMXNqZS9GYjhJa1R6KzF6?=
- =?utf-8?B?bTBRU2xRdklwbGgyVEZRa2RrRGhJNGlidmdUbkdhS3JvNy9Td2JRRUlQTFlB?=
- =?utf-8?B?WWpubHBnL1llZXVtcjkvc3Z2LzNQUjhNNExlcVNYUml1TE4vQWZxeHJBeDQ0?=
- =?utf-8?B?MmtFTVN6Y01BR21EcHlJak5MTlF2R2NQbmpxY1J1T3ZaK25tOXdpYUtjK1BZ?=
- =?utf-8?B?dmxEM3VhVVVVS20xNXAwL1NhNklMOWxqNUc0M1hHczlZak54ZmZyM1BBbnZw?=
- =?utf-8?B?dWJxeGxvZnZNcjNlMjc0dVZqb0h3bjV0ZUFsZHMxdjFkamJTOTZYRHpzYWxW?=
- =?utf-8?B?Rnc0Y2txMzlCc0pZZGt2VzZUekh1UnJZWE1WL1drUHZ0YTc2RGIvRnpDanBo?=
- =?utf-8?B?bGJEWld6MFNkOGt4R05oSUN1cWJjekhDNmkyMW43WE9ReVhva0xYZ0VvS3pC?=
- =?utf-8?B?aDFOV09NMHFlOEFER0tRVkE3RHFrNDVmYVpEZmpzRjlkUitudzJ6WWN0aCtD?=
- =?utf-8?B?b0ZFK2FxY202a2NWaHJPZVc1ZWdncCtvVFYvWXpUNzBvQ2k5SVZzWlc3OWlv?=
- =?utf-8?B?ZGhzUTVmSHlRblYrakszR2VueWMrVko1MEhJNSt5a25qbzB6dWJRdVFpZXI2?=
- =?utf-8?B?S1M1dndtSlZQNDd4VG9YbFQrdjJvVnVPek55clBMUmxUMmVyZ2dNMHlxSjh0?=
- =?utf-8?B?Y0dRcUY5QkZTRWswZ05FZHVxQ0MzNHZjdlRVa3lzeURuSVRHbWdIK205dkhF?=
- =?utf-8?B?SE13NXFhaitONE04WmdROFdaeERxNVJEQ281SVRPaXhtRCtEWjFidlJzaU1Q?=
- =?utf-8?B?aHZ3Wmd5VXVqSWZlNWhYYzJNNXc4Z3pManVTQWRpM0x0bkhiaHY5UGpmZ3lD?=
- =?utf-8?B?MFJPTi81bENzbWpWUDJ2bWt1QytON0FVbGVveWdrSnlrSUlQYmdqZTE2bW43?=
- =?utf-8?B?Wm1pc0ZQT0lObGlOamJzNFZHanJDbWxhZnVpYVBSZTNYR2N6S1ZGTFVFeTNs?=
- =?utf-8?B?dE5sb010cW1YelpLTko1NXNSZlR0aE0wVkZBSGZOMC9HUXo0dTk1bFUzc08r?=
- =?utf-8?B?Ulg3ZG1nQzh0TUNKVFk0SnplMi9ieWY5cW5lZm1HY3V3WnhFTEtqU2RHdlhu?=
- =?utf-8?B?NWtNYU9mVllRend3cUxFS2FCNkJqNm13VlQyTnJBcldpYWJFSW9xNzJkOHNR?=
- =?utf-8?B?RDlrbTFzYnVxM0EvZytCeDFwVm92ZG1UQjJrcm56Y1oyaHJqWmh2Nk5zQkIv?=
- =?utf-8?B?Q2xKY3krcEVWVFN3NEo3K1Rwd1pCMitaV2FnNGpURDBjNmYwZ0hxRjhxQkZI?=
- =?utf-8?B?L1cwdDlQN1ZkTlREd1pOSFhRNDRvSzFsaFJoMDBENlpKVktJaytDMmNoeEQ3?=
- =?utf-8?Q?FFh7rPL4eZyiDRNCRnRRO2+G0ngyDab0wvx9liaNrA=3D?=
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: be609a45-cc85-4510-e117-08d9b0e73173
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR02MB7496.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2021 14:15:26.4751 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aDWGWytqhrD2NvSiwEdtXf7hbDlbC4WhvJIQuDgEqmIG4R6Wl6BJ3YIu+n7ivF/3u39Br0Jx5P+FEXjUiOqMok5lI/xkjlwXP6LtEr2MbMg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7430
-X-Proofpoint-GUID: neLmXSDvfJpFys1VKgOI8FanWKe2L6JO
-X-Proofpoint-ORIG-GUID: neLmXSDvfJpFys1VKgOI8FanWKe2L6JO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-26_04,2021-11-25_02,2020-04-07_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=priyankar.jain@nutanix.com; helo=mx0b-002c1b01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
+ (failed)
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -164,61 +60,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Priyankar Jain <priyankar.jain@nutanix.com>
+Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ clg@kaod.org, openbios@openbios.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The purpose of dbus_get_proxies to construct the proxies corresponding to the
-IDs registered to dbus-vmstate.
+On Fri, 26 Nov 2021, Fabiano Rosas wrote:
+> BALATON Zoltan <balaton@eik.bme.hu> writes:
+>
+>> On Wed, 24 Nov 2021, Fabiano Rosas wrote:
+>>> Fabiano Rosas <farosas@linux.ibm.com> writes:
+>>>
+>>>> Hi all,
+>>>>
+>>>> We have this bug in QEMU which indicates that we haven't been able to
+>>>> run openbios on a 7450 cpu for quite a long time:
+>>>>
+>>>> https://gitlab.com/qemu-project/qemu/-/issues/86
+>>>>
+>>>> OK:
+>>>>   $ ./qemu-system-ppc -serial mon:stdio -nographic -cpu 7410
+>>>>
+>>>> >> =============================================================
+>>>> >> OpenBIOS 1.1 [Nov 1 2021 20:36]
+>>>>   ...
+>>>>
+>>>> NOK:
+>>>>   $ ./qemu-system-ppc -serial mon:stdio -nographic -cpu 7450 -d int
+>>
+>> This CPU appears in PowerMac G4 so maybe better use -machine mac99,via=pmu
+>> with it as it's strange to put it in a g3beige but that may not matter for
+>> reproducing the problem.
+>>
+>> As for guests, those running on the said PowerMac G4 should have support
+>> for these CPUs so maybe you can try some Mac OS X versions (or maybe
+>> MorphOS but that is not the best for debugging as there's no source
+>> available nor any help from its owners but just to see if it boots it may
+>> be sufficient, it should work on real PowerMac G4). According to
+>> <https://en.wikipedia.org/wiki/PowerPC_G4#PowerPC_7450> this CPU was used
+>> in <https://en.wikipedia.org/wiki/Power_Mac_G4#Digital_Audio/Quicksilver>
+>> and it runs up to Mac OS 10.4.11. (Although OpenBIOS sets the device tree
+>> according to a PowerMac3,1 so not sure it's entirely correct for the
+>> PowerMac3,5 that has a 7450 CPU and if it matters for Mac OS X.)
+>>
+>> I asked about this before but got no reply back then:
+>> https://lists.nongnu.org/archive/html/qemu-ppc/2020-03/msg00292.html
+>>
+>> This was because pegasos2 should have 7447 but it did not work so
+>> currently I've set it to 7400 which also works. The original board
+>> firmware had some problem detecting it but I think that only results in
+>> wrong CPU speed shown which is only a cosmetic problem, otherwise it seems
+>> to work. Since pegasos2 does not use OpenBIOS but either VOF or the
+>> board's original firmware it may be an alternative way to test at least
+>> 7447 which the firmware and guests running on that board should work with.
+>> At least Debian 8.11 powerpc version had support for pegasos2 and should
+>> boot, I'm not sure newer versions still work. More info on pegasos2 can be
+>> found at:
+>> http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos
+>> and
+>> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+>>
+>> I don't remember what problem I had with 7447 but if it does not work with
+>> pegasos2 then maybe there's some other problem with it too. I think it was
+>> maybe related to TLBs but I don't know and had no time to try again so I
+>> could be entirely wrong about this.
+>
+> So yesterday I tested these:
+>
+> * all with my patched OpenBIOS
+> ** all of them work fine with the 7400 CPU
+>
+> - macos9 w/ -M mac99 and -cpu 7450
+>
+> OS starts and then freezes. Upon further inspection I see that it has
+> the 0x1000, 0x1100 and 0x1200 vectors implemented, but not the 7450
+> ones. It implements the 6xx SW TLB handler, i.e. it accesses SPR 976
+> instead of 980.
+>
+> - macosx10 w/ -M mac99 and -cpu 7450
+>
+> Shows the apple logo and then spins. Looking at the asm I don't see
+> anything resembling the 7450 software TLB code. I'm calling it unsupported.
+>
+> - debian 10 w/ -M mac99 and -cpu 7450
 
-Currenty, this function returns an error in case there is any failure
-while instantiating proxy for "all" the names on dbus.
+Bevare that -M mac99 is not matching the device tree as it has ADB instead 
+of USB but claims to be PowerMac3,1 nevertheless. This is a silly default 
+preserved for compatibility with some older OS X versions but to avoid 
+problems it's better to always use -M mac99,via=pmu which is the closest 
+to a real PowerMac3,1. There is some info on this and which option to use 
+with which version at 
+https://www.emaculation.com/doku.php/ppc-osx-on-qemu-for-osx
 
-Ideally this function should error out only if it is not able to find and
-validate the proxies registered to the backend otherwise any offending
-process(for eg: the process purposefully may not export its Id property on
-the dbus) may connect to the dbus and can lead to migration failures.
+> Boots linux and then spins. It has the vectors implemented, but it also
+> uses different SPRs. The data misses come via 976, which is different
+> from 7450, which uses only 980 (tlbmiss) for instruction and data.
+>
+> - morphos w/ -M pegasos2 and -cpu 7447|7450
+>
+> Hangs. It also has a different software TLB model implemented:
+> Trying to read invalid spr 978 (0x3d2) at 00001100
+> Trying to read invalid spr 977 (0x3d1) at 0000110c
+> Trying to read invalid spr 979 (0x3d3) at 0000115c
+> Trying to read invalid spr 976 (0x3d0) at 00001188
+>
+> So my initial impression that no OS supports the 7450 software TLB seems
+> to match these findings and what people have said elsewhere in the
+> thread.
 
-This commit ensures that dbus_get_proxies returns an error if it is not
-able to find and validate the proxies of interest(the IDs registered
-during the dbus-vmstate instantiation).
+I'm getting this with MorphOS on pegasos2:
 
-Signed-off-by: Priyankar Jain <priyankar.jain@nutanix.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- backends/dbus-vmstate.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+$ qemu-system-ppc -M pegasos2 -device ati-vga,romfile="" -kernel boot.img 
+-cdrom morphos-3.15.iso -serial stdio -d unimp,guest_errors,int 2>&1 | 
+grep --line-buffered -v '^Invalid read\|^hypercall\|^syscall\|^Raise exception.*0000000[48a]'
 
-diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c
-index 9cfd758c42..57369ec0f2 100644
---- a/backends/dbus-vmstate.c
-+++ b/backends/dbus-vmstate.c
-@@ -114,14 +114,19 @@ dbus_get_proxies(DBusVMState *self, GError **err)
-                     "org.qemu.VMState1",
-                     NULL, err);
-         if (!proxy) {
--            return NULL;
-+            if (err != NULL && *err != NULL) {
-+                warn_report("%s: Failed to create proxy: %s",
-+                            __func__, (*err)->message);
-+                g_clear_error(err);
-+            }
-+            continue;
-         }
- 
-         result = g_dbus_proxy_get_cached_property(proxy, "Id");
-         if (!result) {
--            g_set_error_literal(err, G_IO_ERROR, G_IO_ERROR_FAILED,
--                                "VMState Id property is missing.");
--            return NULL;
-+            warn_report("%s: VMState Id property is missing.", __func__);
-+            g_clear_object(&proxy);
-+            continue;
-         }
- 
-         id = g_variant_dup_string(result, &size);
--- 
-2.30.1 (Apple Git-130)
+Memory used before SYS_Init: 9MB
+i8259: level sensitive irq not supported
+i8259: level sensitive irq not supported
 
+
+unsupported keyboard cmd=0xaf
+PCI ATA/ATAPI Driver@2: PIO Mode 4
+PCI ATA/ATAPI Driver@2: UDMA Mode 5
+ide.device@2: QEMU     QEMU DVD-ROM     <CDROM>
+
+and it boots with the default 7400 CPU but with -cpu 7447 I get:
+
+Memory used before SYS_Init: 9MB
+i8259: level sensitive irq not supported
+i8259: level sensitive irq not supported
+Raise exception at 00051500 => 0000004f (00)
+Trying to read invalid spr 978 (0x3d2) at 00001100
+Trying to read invalid spr 977 (0x3d1) at 0000110c
+Trying to read invalid spr 979 (0x3d3) at 0000115c
+Trying to read invalid spr 976 (0x3d0) at 00001188
+
+
+------------------------------------------------------------------------------
+ExceptionThread: Exception Thread 0xbc8030 <System Init>
+ExceptionThread: Type 0x3 <Data Access>
+ExceptionThread: Illegal Data Access at 0x40000000 DSISR 0x40000000 <Read Access to a not existing Page>
+PC(SRR0) 0x00051500 MSR(SRR1) 0x0000b030
+  CR 00000884 XER 20000000 LR 0002166c CTR 0001a880
+General Register Dump:
+GPR[0] 00021000 40000000 0000b030 0200b030 008a1c9c 1fc59000 00000000 00000000
+GPR[8] 00be8718 00000000 00000000 00053e3c 0200b030 0d0d0d0d 0e0e0e0e 0f0f0f0f
+GPR[16] 10101010 11111111 12121212 13131313 14141414 15151515 16161616 00000002
+GPR[24] 0081c1d0 00000000 10020010 00000000 10000013 00000004 00030000 00000001
+FPSCR 00000000
+FPECR 00000000
+FPR[0] 0x0000000020000002 0x0000000000000000 0x0000000000000000 0x0000000000000000
+FPR[4] 0x0000000000000000 0x0000000000000000 0x0000000000000000 0x0000000000000000
+FPR[8] 0x0000000000000000 0x0000000000000000 0x0000000000000000 0x0000000000000000
+FPR[12] 0x0000000000000000 0x0000000000000000 0x0000000000000000 0x0000000000000000
+FPR[16] 0x0000000000000000 0x0000000000000000 0x0000000000000000 0x0000000000000000
+FPR[20] 0x0000000000000000 0x0000000000000000 0x0000000000000000 0x0000000000000000
+FPR[24] 0x0000000000000000 0x0000000000000000 0x0000000000000000 0x0000000000000000
+FPR[28] 0x0000000000000000 0x0000000000000000 0x0000000000000000 0x0000000000000000
+Special Register Dump:
+   IABR 00000000  DABR 00000000
+   PCM1 00000000  PMC2 00000000 PMC3 00000000 PMC4 00000000
+OS Register Dump:
+  SysCall_SRR0 00053e3c SysCall_SRR1 0200b030 SysCall_GPR2 008a17b0 SysCall_LR 0d0d0d0d SysCall_CR 00052624
+  SRR0[] 00000000 00000000 00000000 00000000
+------------------------------------------------------------------------------
+
+StackFrame History:
+Stack 0x40000000 StackEnd 0xbc7030 LR 0x2166c
+
+Exception 4f seems to be POWERPC_EXCP_DLTLB which does not seem to happen 
+with 7400 CPU, neither the SPR reads so there is some difference with 7447 
+but not sure what do these mean, I don't know much about these CPUs and 
+did not read the docs. There is some debug code that can be enabled with 
+DEBUG_SOFTWARE_TLB in target/ppc/excp_helper.c to get more info but I 
+haven't tried that, looks like MorphOS is not expecting these so normally 
+would not use it.
+
+The pegasos2 firmware seems to work but detects the CPU differently. With 
+7400:
+
+SmartFirmware:
+cpu0: PowerPC,G4 CPUClock 599 Mhz BUSClock 133 Mhz (Version 0x000C,0x0209)
+
+The 600 Mhz CPU clock is wrong but since the only two CPUs available were 
+a 600 MHz G3 or a 1GHz 7447 it probably thinks anything not the 7447 or 
+newer is a G3 that was running at 600 MHz. But with the 7447 it's also 
+wrong:
+
+cpu0: PowerPC,74x7 CPUClock 1533 Mhz BUSClock 133 Mhz (Version 0x8002,0x0101)
+
+which should be 1 GHz (or 999 MHz), maybe the clock multiplier is not set 
+correctly but not sure where it gets that from. Otherwise the firmware 
+seems to work with 7447 CPU as well and get the same exception as above 
+when tring boot MorphOS.
+
+Regards,
+BALATON Zoltan
 
