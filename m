@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D5A45ED43
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 12:58:54 +0100 (CET)
-Received: from localhost ([::1]:50000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71DCA45ED48
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 13:00:33 +0100 (CET)
+Received: from localhost ([::1]:55612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqZsT-0003cc-Ms
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 06:58:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59454)
+	id 1mqZu4-0007Nh-GR
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 07:00:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZnp-0003Rh-4Z
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZnq-0003Rl-MR
  for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:06 -0500
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:54411)
+Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:33791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZnh-0007Sb-9H
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:03 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.13])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id DE97921195;
- Fri, 26 Nov 2021 11:53:55 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZni-0007Sl-Ix
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:04 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 549662240C;
+ Fri, 26 Nov 2021 11:53:56 +0000 (UTC)
 Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 26 Nov
  2021 12:53:55 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-105G0065fd7e54d-aed3-4aaf-a1ca-5bb5f1ec0bf2,
+ (GARM-105G006d5d745e1-9a84-40f7-ab4f-50c8e5903bb4,
  B8303126CBA279BD35B7DF0844B381DDFAFB7782) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH v3 07/18] ppc/pnv: Add a HOMER model to POWER10
-Date: Fri, 26 Nov 2021 12:53:38 +0100
-Message-ID: <20211126115349.2737605-8-clg@kaod.org>
+Subject: [PATCH v3 08/18] ppc/psi: Add support for StoreEOI and 64k ESB pages
+ (POWER10)
+Date: Fri, 26 Nov 2021 12:53:39 +0100
+Message-ID: <20211126115349.2737605-9-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211126115349.2737605-1-clg@kaod.org>
 References: <20211126115349.2737605-1-clg@kaod.org>
@@ -42,13 +43,13 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.105]
 X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 4046ad03-db89-4900-a564-f0ae577ff6b6
-X-Ovh-Tracer-Id: 14615025217313213292
+X-Ovh-Tracer-GUID: 5271db7c-852d-4728-a9b9-4fa94cb547d2
+X-Ovh-Tracer-Id: 14615306694962350956
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -75,190 +76,121 @@ Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+POWER10 adds support for StoreEOI operation and 64K ESB pages on PSIHB
+to be consistent with the other interrupt sources of the system.
+
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/pnv.h       | 10 ++++++
- include/hw/ppc/pnv_homer.h |  3 ++
- include/hw/ppc/pnv_xscom.h |  3 ++
- hw/ppc/pnv.c               | 20 ++++++++++++
- hw/ppc/pnv_homer.c         | 64 ++++++++++++++++++++++++++++++++++++++
- 5 files changed, 100 insertions(+)
+ hw/ppc/pnv.c     |  6 ++++++
+ hw/ppc/pnv_psi.c | 30 ++++++++++++++++++++++++------
+ 2 files changed, 30 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index f44b9947d00e..3ea2d798eed1 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -128,6 +128,7 @@ struct Pnv10Chip {
-     Pnv9Psi      psi;
-     PnvLpcController lpc;
-     PnvOCC       occ;
-+    PnvHomer     homer;
- 
-     uint32_t     nr_quads;
-     PnvQuad      *quads;
-@@ -358,4 +359,13 @@ void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor);
- #define PNV10_XIVE2_END_SIZE        0x0000020000000000ull
- #define PNV10_XIVE2_END_BASE(chip)  PNV10_CHIP_BASE(chip, 0x0006060000000000ull)
- 
-+#define PNV10_OCC_COMMON_AREA_SIZE  0x0000000000800000ull
-+#define PNV10_OCC_COMMON_AREA_BASE  0x300fff800000ull
-+#define PNV10_OCC_SENSOR_BASE(chip) (PNV10_OCC_COMMON_AREA_BASE +       \
-+    PNV_OCC_SENSOR_DATA_BLOCK_BASE((chip)->chip_id))
-+
-+#define PNV10_HOMER_SIZE              0x0000000000400000ull
-+#define PNV10_HOMER_BASE(chip)                                           \
-+    (0x300ffd800000ll + ((uint64_t)(chip)->chip_id) * PNV10_HOMER_SIZE)
-+
- #endif /* PPC_PNV_H */
-diff --git a/include/hw/ppc/pnv_homer.h b/include/hw/ppc/pnv_homer.h
-index 1889e3083c57..07e8b193116e 100644
---- a/include/hw/ppc/pnv_homer.h
-+++ b/include/hw/ppc/pnv_homer.h
-@@ -32,6 +32,9 @@ DECLARE_INSTANCE_CHECKER(PnvHomer, PNV8_HOMER,
- #define TYPE_PNV9_HOMER TYPE_PNV_HOMER "-POWER9"
- DECLARE_INSTANCE_CHECKER(PnvHomer, PNV9_HOMER,
-                          TYPE_PNV9_HOMER)
-+#define TYPE_PNV10_HOMER TYPE_PNV_HOMER "-POWER10"
-+DECLARE_INSTANCE_CHECKER(PnvHomer, PNV10_HOMER,
-+                         TYPE_PNV10_HOMER)
- 
- struct PnvHomer {
-     DeviceState parent;
-diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
-index 75db33d46af6..7c7440de0c40 100644
---- a/include/hw/ppc/pnv_xscom.h
-+++ b/include/hw/ppc/pnv_xscom.h
-@@ -134,6 +134,9 @@ struct PnvXScomInterfaceClass {
- #define PNV10_XSCOM_OCC_BASE       PNV9_XSCOM_OCC_BASE
- #define PNV10_XSCOM_OCC_SIZE       PNV9_XSCOM_OCC_SIZE
- 
-+#define PNV10_XSCOM_PBA_BASE       0x01010CDA
-+#define PNV10_XSCOM_PBA_SIZE       0x40
-+
- #define PNV10_XSCOM_XIVE2_BASE     0x2010800
- #define PNV10_XSCOM_XIVE2_SIZE     0x400
- 
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 0de3027b7122..d510d2e1d917 100644
+index d510d2e1d917..96c908c753cb 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -1621,6 +1621,7 @@ static void pnv_chip_power10_instance_init(Object *obj)
-     object_initialize_child(obj, "psi", &chip10->psi, TYPE_PNV10_PSI);
-     object_initialize_child(obj, "lpc", &chip10->lpc, TYPE_PNV10_LPC);
-     object_initialize_child(obj, "occ",  &chip10->occ, TYPE_PNV10_OCC);
-+    object_initialize_child(obj, "homer", &chip10->homer, TYPE_PNV10_HOMER);
+@@ -1526,6 +1526,9 @@ static void pnv_chip_power9_realize(DeviceState *dev, Error **errp)
+     /* Processor Service Interface (PSI) Host Bridge */
+     object_property_set_int(OBJECT(&chip9->psi), "bar", PNV9_PSIHB_BASE(chip),
+                             &error_fatal);
++    /* This is the only device with 4k ESB pages */
++    object_property_set_int(OBJECT(&chip9->psi), "shift", XIVE_ESB_4K,
++                            &error_fatal);
+     if (!qdev_realize(DEVICE(&chip9->psi), NULL, errp)) {
+         return;
+     }
+@@ -1768,6 +1771,9 @@ static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
+     /* Processor Service Interface (PSI) Host Bridge */
+     object_property_set_int(OBJECT(&chip10->psi), "bar",
+                             PNV10_PSIHB_BASE(chip), &error_fatal);
++    /* PSI can now be configured to use 64k ESB pages on POWER10 */
++    object_property_set_int(OBJECT(&chip10->psi), "shift", XIVE_ESB_64K,
++                            &error_fatal);
+     if (!qdev_realize(DEVICE(&chip10->psi), NULL, errp)) {
+         return;
+     }
+diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
+index cd9a2c5952a6..737486046d5a 100644
+--- a/hw/ppc/pnv_psi.c
++++ b/hw/ppc/pnv_psi.c
+@@ -601,7 +601,6 @@ static const TypeInfo pnv_psi_power8_info = {
+ #define   PSIHB9_IRQ_METHOD             PPC_BIT(0)
+ #define   PSIHB9_IRQ_RESET              PPC_BIT(1)
+ #define PSIHB9_ESB_CI_BASE              0x60
+-#define   PSIHB9_ESB_CI_64K             PPC_BIT(1)
+ #define   PSIHB9_ESB_CI_ADDR_MASK       PPC_BITMASK(8, 47)
+ #define   PSIHB9_ESB_CI_VALID           PPC_BIT(63)
+ #define PSIHB9_ESB_NOTIF_ADDR           0x68
+@@ -646,6 +645,14 @@ static const TypeInfo pnv_psi_power8_info = {
+ #define   PSIHB9_IRQ_STAT_DIO           PPC_BIT(12)
+ #define   PSIHB9_IRQ_STAT_PSU           PPC_BIT(13)
  
-     for (i = 0; i < PNV10_CHIP_MAX_PEC; i++) {
-         object_initialize_child(obj, "pec[*]", &chip10->pecs[i],
-@@ -1795,6 +1796,25 @@ static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
-     pnv_xscom_add_subregion(chip, PNV10_XSCOM_OCC_BASE,
-                             &chip10->occ.xscom_regs);
- 
-+    /* OCC SRAM model */
-+    memory_region_add_subregion(get_system_memory(),
-+                                PNV10_OCC_SENSOR_BASE(chip),
-+                                &chip10->occ.sram_regs);
++/* P10 register extensions */
 +
-+    /* HOMER */
-+    object_property_set_link(OBJECT(&chip10->homer), "chip", OBJECT(chip),
-+                             &error_abort);
-+    if (!qdev_realize(DEVICE(&chip10->homer), NULL, errp)) {
-+        return;
-+    }
-+    /* Homer Xscom region */
-+    pnv_xscom_add_subregion(chip, PNV10_XSCOM_PBA_BASE,
-+                            &chip10->homer.pba_regs);
++#define PSIHB10_CR                       PSIHB9_CR
++#define    PSIHB10_CR_STORE_EOI          PPC_BIT(12)
 +
-+    /* Homer mmio region */
-+    memory_region_add_subregion(get_system_memory(), PNV10_HOMER_BASE(chip),
-+                                &chip10->homer.regs);
++#define PSIHB10_ESB_CI_BASE              PSIHB9_ESB_CI_BASE
++#define   PSIHB10_ESB_CI_64K             PPC_BIT(1)
 +
-     /* PHBs */
-     pnv_chip_power10_phb_realize(chip, &local_err);
-     if (local_err) {
-diff --git a/hw/ppc/pnv_homer.c b/hw/ppc/pnv_homer.c
-index 9a262629b73a..ea73919e54ca 100644
---- a/hw/ppc/pnv_homer.c
-+++ b/hw/ppc/pnv_homer.c
-@@ -332,6 +332,69 @@ static const TypeInfo pnv_homer_power9_type_info = {
-     .class_init    = pnv_homer_power9_class_init,
- };
- 
-+static uint64_t pnv_homer_power10_pba_read(void *opaque, hwaddr addr,
-+                                          unsigned size)
-+{
-+    PnvHomer *homer = PNV_HOMER(opaque);
-+    PnvChip *chip = homer->chip;
-+    uint32_t reg = addr >> 3;
-+    uint64_t val = 0;
-+
-+    switch (reg) {
-+    case PBA_BAR0:
-+        val = PNV10_HOMER_BASE(chip);
-+        break;
-+    case PBA_BARMASK0: /* P10 homer region mask */
-+        val = (PNV10_HOMER_SIZE - 1) & 0x300000;
-+        break;
-+    case PBA_BAR2: /* P10 occ common area */
-+        val = PNV10_OCC_COMMON_AREA_BASE;
-+        break;
-+    case PBA_BARMASK2: /* P10 occ common area size */
-+        val = (PNV10_OCC_COMMON_AREA_SIZE - 1) & 0x700000;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "PBA: read to unimplemented register: Ox%"
-+                      HWADDR_PRIx "\n", addr >> 3);
-+    }
-+    return val;
-+}
-+
-+static void pnv_homer_power10_pba_write(void *opaque, hwaddr addr,
-+                                         uint64_t val, unsigned size)
-+{
-+    qemu_log_mask(LOG_UNIMP, "PBA: write to unimplemented register: Ox%"
-+                  HWADDR_PRIx "\n", addr >> 3);
-+}
-+
-+static const MemoryRegionOps pnv_homer_power10_pba_ops = {
-+    .read = pnv_homer_power10_pba_read,
-+    .write = pnv_homer_power10_pba_write,
-+    .valid.min_access_size = 8,
-+    .valid.max_access_size = 8,
-+    .impl.min_access_size = 8,
-+    .impl.max_access_size = 8,
-+    .endianness = DEVICE_BIG_ENDIAN,
-+};
-+
-+static void pnv_homer_power10_class_init(ObjectClass *klass, void *data)
-+{
-+    PnvHomerClass *homer = PNV_HOMER_CLASS(klass);
-+
-+    homer->pba_size = PNV10_XSCOM_PBA_SIZE;
-+    homer->pba_ops = &pnv_homer_power10_pba_ops;
-+    homer->homer_size = PNV10_HOMER_SIZE;
-+    homer->homer_ops = &pnv_power9_homer_ops; /* TODO */
-+    homer->core_max_base = PNV9_CORE_MAX_BASE;
-+}
-+
-+static const TypeInfo pnv_homer_power10_type_info = {
-+    .name          = TYPE_PNV10_HOMER,
-+    .parent        = TYPE_PNV_HOMER,
-+    .instance_size = sizeof(PnvHomer),
-+    .class_init    = pnv_homer_power10_class_init,
-+};
-+
- static void pnv_homer_realize(DeviceState *dev, Error **errp)
+ static void pnv_psi_notify(XiveNotifier *xf, uint32_t srcno)
  {
-     PnvHomer *homer = PNV_HOMER(dev);
-@@ -377,6 +440,7 @@ static void pnv_homer_register_types(void)
-     type_register_static(&pnv_homer_type_info);
-     type_register_static(&pnv_homer_power8_type_info);
-     type_register_static(&pnv_homer_power9_type_info);
-+    type_register_static(&pnv_homer_power10_type_info);
+     PnvPsi *psi = PNV_PSI(xf);
+@@ -704,6 +711,13 @@ static void pnv_psi_p9_mmio_write(void *opaque, hwaddr addr,
+ 
+     switch (addr) {
+     case PSIHB9_CR:
++        if (val & PSIHB10_CR_STORE_EOI) {
++            psi9->source.esb_flags |= XIVE_SRC_STORE_EOI;
++        } else {
++            psi9->source.esb_flags &= ~XIVE_SRC_STORE_EOI;
++        }
++        break;
++
+     case PSIHB9_SEMR:
+         /* FSP stuff */
+         break;
+@@ -715,15 +729,20 @@ static void pnv_psi_p9_mmio_write(void *opaque, hwaddr addr,
+         break;
+ 
+     case PSIHB9_ESB_CI_BASE:
++        if (val & PSIHB10_ESB_CI_64K) {
++            psi9->source.esb_shift = XIVE_ESB_64K;
++        } else {
++            psi9->source.esb_shift = XIVE_ESB_4K;
++        }
+         if (!(val & PSIHB9_ESB_CI_VALID)) {
+             if (psi->regs[reg] & PSIHB9_ESB_CI_VALID) {
+                 memory_region_del_subregion(sysmem, &psi9->source.esb_mmio);
+             }
+         } else {
+             if (!(psi->regs[reg] & PSIHB9_ESB_CI_VALID)) {
+-                memory_region_add_subregion(sysmem,
+-                                        val & ~PSIHB9_ESB_CI_VALID,
+-                                        &psi9->source.esb_mmio);
++                hwaddr addr = val & ~(PSIHB9_ESB_CI_VALID | PSIHB10_ESB_CI_64K);
++                memory_region_add_subregion(sysmem, addr,
++                                            &psi9->source.esb_mmio);
+             }
+         }
+         psi->regs[reg] = val;
+@@ -831,6 +850,7 @@ static void pnv_psi_power9_instance_init(Object *obj)
+     Pnv9Psi *psi = PNV9_PSI(obj);
+ 
+     object_initialize_child(obj, "source", &psi->source, TYPE_XIVE_SOURCE);
++    object_property_add_alias(obj, "shift", OBJECT(&psi->source), "shift");
  }
  
- type_init(pnv_homer_register_types);
+ static void pnv_psi_power9_realize(DeviceState *dev, Error **errp)
+@@ -839,8 +859,6 @@ static void pnv_psi_power9_realize(DeviceState *dev, Error **errp)
+     XiveSource *xsrc = &PNV9_PSI(psi)->source;
+     int i;
+ 
+-    /* This is the only device with 4k ESB pages */
+-    object_property_set_int(OBJECT(xsrc), "shift", XIVE_ESB_4K, &error_fatal);
+     object_property_set_int(OBJECT(xsrc), "nr-irqs", PSIHB9_NUM_IRQS,
+                             &error_fatal);
+     object_property_set_link(OBJECT(xsrc), "xive", OBJECT(psi), &error_abort);
 -- 
 2.31.1
 
