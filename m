@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF2345F283
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 17:54:17 +0100 (CET)
-Received: from localhost ([::1]:58838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2402745F28C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 17:56:30 +0100 (CET)
+Received: from localhost ([::1]:34334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqeUK-0007DP-EE
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 11:54:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40170)
+	id 1mqeWS-0001RX-UM
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 11:56:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mqeTD-00069g-4I
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 11:53:07 -0500
-Received: from [2a00:1450:4864:20::32b] (port=36750
- helo=mail-wm1-x32b.google.com)
+ id 1mqeUz-000896-HC
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 11:54:57 -0500
+Received: from [2a00:1450:4864:20::429] (port=36360
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mqeTB-0005y4-EK
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 11:53:06 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- i8-20020a7bc948000000b0030db7b70b6bso11140489wml.1
- for <qemu-devel@nongnu.org>; Fri, 26 Nov 2021 08:53:04 -0800 (PST)
+ id 1mqeUy-000674-1x
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 11:54:57 -0500
+Received: by mail-wr1-x429.google.com with SMTP id s13so19992355wrb.3
+ for <qemu-devel@nongnu.org>; Fri, 26 Nov 2021 08:54:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=H/c4Lfwu289fdqtW7jGN350pH2xZCNFAPPkgTLrF72g=;
- b=nUfL7tj6WuX8DqN3WbRiUYfikLpmq29JssEBwlYRnKQHgCmClIboRVgp2Ow8Uhxcjo
- 9YdT1EDJHE8YXP8Lys/GhMrWVo01d5kVZ9m1/nJWKNAwfwSRIKDOr7PAC6c08vskkeks
- 7A/WmY4z1W8doNkDFswQmATKv33l9bif5V748Q8ckXci3hCZ2E4OBiof1T7J+kaKKNva
- dmA/dcR9ojMfZ5XXjDrXZ0jovCXcEv2fzYjVEj/0Xc9hFfHjNDLvCMv9ip8ledrmUJIM
- WoIsPPkyH/KRnVF31Dc2yv/xVyOFJ10e4bjrGkhN2a9q3/2IDZZetl/qGx2hN5j4dB+M
- qXQA==
+ :cc; bh=GMdirr5DOzumIV9LVk4HRmSZnV6fmeYKr179wY1h48o=;
+ b=vMsMG1zAtNKTIFraA3M3tWFlu1pE8sFoOceJMCoSzvbxpW8PWlBmaDDgwkEDwsRNa1
+ RLXdYXtjpJ98pynWpIHGLpqZClexZfAwkUgnYKmzBrXDoWx1pIMbXVjhPv+pOIiR4DXn
+ LC+lp+VJXwDXPEGztgRqrrtgyc2pEa0Bk7rG8i2iR4aUq4R4tbqKKn1sbLm3H7hJpspg
+ Z+vvx2V6FpWMMzSBjBBSEsMlIre/sOxxgdUthtqZo0HhmSLF1glGUpgky5vDuFj/67P5
+ Gd5xJPb1T2+Nwiwjhhv1GZGCR3QxUSjX1Cc59/l7i/eclayFZvqENIEGKfCx9TNF/Hzx
+ QG5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=H/c4Lfwu289fdqtW7jGN350pH2xZCNFAPPkgTLrF72g=;
- b=ylyiNG5ubRDismIBIR1alJOvrMSBYJlkIeEaLKMnhYKo/4XcLhIAHDZ0+9Sg2fCtAv
- 2FjTWL9bn86rAOvi85cs0OJGf2YLApbjeElU1Cd1l9iHIvy1W/QggJhwlwPnpRdOG1Ik
- T9XUEeP5fm8/bgmNK0Ff8NqCfflZMPUCyfRncJYWBke9Wb1fMeWd26AZ+6F6HUSg2b3i
- +793VNV8MXj44KOPZLrSisk66sScHLKvFWGeEhUBofRe+WGIzC9SBuhkrJR54i8TNZVb
- zWm1h5QGPxj7zi00HaJ1UJAzBNceRA5nwa72IRnEzFApCN632EA6bp762fdgXtP1TMr9
- 5Nbg==
-X-Gm-Message-State: AOAM532QEW/Vfw6JaembjhmSMvLozhZpx0f11iYCf48mZMJbddgEk2we
- CyNZREogNU3RbYAP+/FP8bppIt2Tjl7ihPksAYCNeQ==
-X-Google-Smtp-Source: ABdhPJwP9eqrWt39so7h6rCQcnLsCq7Vs+FrhosaCd1wSYVF2hFlnoTgYlpwoLi+/s/8IqV80bdOL4xQJeWLid6/gHc=
-X-Received: by 2002:a05:600c:22d0:: with SMTP id
- 16mr16785796wmg.37.1637945583837; 
- Fri, 26 Nov 2021 08:53:03 -0800 (PST)
+ bh=GMdirr5DOzumIV9LVk4HRmSZnV6fmeYKr179wY1h48o=;
+ b=wy9nkKdnHLUvSpH6CTlVCNz7XFQ93KUNjFwPqwchkg6IkP6ODf6aLr/uJ99MRpLrYG
+ fKyqDEp76tSJZzBVGSxrepAi6fbXq6tJGJP5Qcj6JhMFHoNGs9sZrCUAokX1WX8tRYFs
+ XhW5wX7NYfCXLEgkdzFDEAa1gx0Ydhski1xZT4Dn6zEj+az1zYa4sQUOVZ71Pv+5Bl1l
+ 9lfPcTr0uW8UYzUq+UPeYgsdqK6rENgt0Y5tvOTl/eGkPcIkNIzW7M5GQDVfxWaFpaiA
+ kV50yWQOTuO8m/I8ReA9+60M0OCTKgfUduRipaL1QXWQiLdsr2Nkmvov6JkXNDdyI7Bt
+ eHvw==
+X-Gm-Message-State: AOAM530xhlWcPI04zAeiA0bSq1yyVh3QZOHV9he2vvDNUGFCn6JrzAP2
+ /xo5hzcbSTbTKRlBnHMME7mXKBized/M6v+P0k8ojQ==
+X-Google-Smtp-Source: ABdhPJw85+2vFyj7k/JTTp6phtGR6QzstSdMd/enXDCGeMz5RlMCKOJPvCNEb9NQjKLM3Q5NrXY5d/g4INvPYPlF8aU=
+X-Received: by 2002:adf:ef42:: with SMTP id c2mr14814790wrp.528.1637945694797; 
+ Fri, 26 Nov 2021 08:54:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20211123122859.22452-1-agraf@csgraf.de>
- <CAFEAcA9ceorf5YK+yKS8KGfHPgFDTxWkLyfva0NDmkrHV5zz2A@mail.gmail.com>
- <5c36aaa3-158b-815f-3e71-badfe2d12632@csgraf.de>
-In-Reply-To: <5c36aaa3-158b-815f-3e71-badfe2d12632@csgraf.de>
+References: <20211124182246.67691-1-shashi.mallela@linaro.org>
+ <CAFEAcA-spJc2Dg=D=9=XgPYxdzi_d4sJh27BRDW_DD9y_+O0JQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA-spJc2Dg=D=9=XgPYxdzi_d4sJh27BRDW_DD9y_+O0JQ@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 26 Nov 2021 16:52:52 +0000
-Message-ID: <CAFEAcA8Mb7tFw4pvG3td4G2w83Q-O6RP2X102b5CHp-PhFzJ+Q@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/virt: Extend nested and mte checks to hvf
-To: Alexander Graf <agraf@csgraf.de>
+Date: Fri, 26 Nov 2021 16:54:43 +0000
+Message-ID: <CAFEAcA-xOJL52QqyTVx3UOu5-LdV251GbNgb9+saDC4Tdr8S_w@mail.gmail.com>
+Subject: Re: [PATCH] hw/intc: cannot clear GICv3 ITS CTLR[Enabled] bit
+To: Shashi Mallela <shashi.mallela@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -83,35 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- saar amar <saaramar5@gmail.com>
+Cc: leif@nuviainc.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ rad@semihalf.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Nov 2021 at 14:00, Alexander Graf <agraf@csgraf.de> wrote:
+On Thu, 25 Nov 2021 at 15:47, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
+> On Wed, 24 Nov 2021 at 18:22, Shashi Mallela <shashi.mallela@linaro.org> wrote:
+> >
+> > When Enabled bit is cleared in GITS_CTLR,ITS feature continues
+> > to be enabled.This patch fixes the issue.
+> >
+> > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
+> > ---
+> >  hw/intc/arm_gicv3_its.c | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+> > index 84bcbb5f56..c929a9cb5c 100644
+> > --- a/hw/intc/arm_gicv3_its.c
+> > +++ b/hw/intc/arm_gicv3_its.c
+> > @@ -896,13 +896,14 @@ static bool its_writel(GICv3ITSState *s, hwaddr offset,
+> >
+> >      switch (offset) {
+> >      case GITS_CTLR:
+> > -        s->ctlr |= (value & ~(s->ctlr));
+> > -
+> > -        if (s->ctlr & ITS_CTLR_ENABLED) {
+> > +        if (value & R_GITS_CTLR_ENABLED_MASK) {
+> > +            s->ctlr |= ITS_CTLR_ENABLED;
+> >              extract_table_params(s);
+> >              extract_cmdq_params(s);
+> >              s->creadr = 0;
+> >              process_cmdq(s);
+> > +        } else {
+> > +            s->ctlr &= ~ITS_CTLR_ENABLED;
+> >          }
+> >          break;
+> >      case GITS_CBASER:
 >
-> On 23.11.21 13:34, Peter Maydell wrote:
-> > On Tue, 23 Nov 2021 at 12:29, Alexander Graf <agraf@csgraf.de> wrote:
-> >> The virt machine has properties to enable MTE and Nested Virtualization
-> >> support. However, its check to ensure the backing accel implementation
-> >> supports it today only looks for KVM and bails out if it finds it.
-> >>
-> >> Extend the checks to HVF as well as it does not support either today.
-> >>
-> >> Reported-by: saar amar <saaramar5@gmail.com>
-> >> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> > Without this check, what happens if you try to enable
-> > both eg virtualization and hvf? Crash, unhelpful error
-> > message, something else?
+> The code looks fine, so in that sense
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 >
->
-> The guest just never gets either feature enabled. No crash, no error
-> message.
+> It seems odd that we have two different #defines for the
+> same bit, though (ITS_CTLR_ENABLED and R_GITS_CTLR_ENABLED_MASK).
+> We should probably standardize on the latter and drop the
+> former.
 
-Thanks; I've added that info to the commit message and applied this
-to target-arm.next for 6.2.
+Applied this version to target-arm.next for 6.2, anyway.
 
 -- PMM
 
