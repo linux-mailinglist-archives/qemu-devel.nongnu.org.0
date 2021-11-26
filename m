@@ -2,106 +2,145 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F2B45EE8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 14:05:54 +0100 (CET)
-Received: from localhost ([::1]:46296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9126745EF4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 14:41:10 +0100 (CET)
+Received: from localhost ([::1]:35676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqavH-0005nm-CS
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 08:05:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51684)
+	id 1mqbTP-000393-DT
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 08:41:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1mqasg-0003X5-8B; Fri, 26 Nov 2021 08:03:10 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34650)
+ (Exim 4.90_1) (envelope-from <priyankar.jain@nutanix.com>)
+ id 1mqbRG-0001zU-3T
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 08:38:54 -0500
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:29586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1mqasd-0003Hq-MO; Fri, 26 Nov 2021 08:03:09 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AQCkQQB004622; 
- Fri, 26 Nov 2021 13:02:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=miBLs+YIglFn0XVMUjCL0uVAHcjku1QqOD029z1xMW8=;
- b=aw2I1v1kkpF9+ctAbsCvVxZnVxhwIOqghaud9mLeUrxnRc9StwwxFv4KhxsNqEkCjO/V
- Z2w0NtFE1YhTM71GmnjlnJ91ptcIH4P0tIIgv0dwghIdkRH+VvsNMaUwTyLFK5OuOCF+
- yvz83K9ymKq+LYdjFRq6c2xFYvjv+zCQG2p8XuQYW9u6k41tcyzGbmHmjqx6KXUxs03U
- +mGjH8pywmDdN8RLevL0O2l9jAB3KcTnbUcFCob+dKJsRmNb6e99HMLBAq/MJvgA/lVP
- MP10hJ5Vm0PLzfK4ehPCMoODEagUmFzlH8qKpoTAGiQOhtgh8wQNV8hrAiMX1zBWb/yI ZQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cjyvqrb2b-1
+ (Exim 4.90_1) (envelope-from <priyankar.jain@nutanix.com>)
+ id 1mqbRD-00010k-Mt
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 08:38:53 -0500
+Received: from pps.filterd (m0127840.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AQC1A8d022240;
+ Fri, 26 Nov 2021 05:38:49 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : mime-version;
+ s=proofpoint20171006; bh=4CBmETv2ouhNLRFnf4zZZl/nDKPQVezKLsP9yD9ZI00=;
+ b=fe1muU5ki5000+VysUaScxUXLNv/xT/SpR3KYc9FhBFq7lFxxmR7WU5cA6MUqEGISVB6
+ XV9IvFb/QbCKyi+Z84btqrtJY58O9xquSlKjXiVqDbLABJoEJ3AamSkq72Sk4+uC/WTi
+ FwQWTHHsfnkk/HqsUO7TenaAoyKVneFCrniM0CheeBiHCdVcaXXqJJzUSm1+XnmV14vA
+ nuu/BAOSFW2fcddI5Qd5qkZMxD5UDccpCj5iHKPoJm1cOFlA2ywjfwtRfL34ApcqrY3C
+ CNJRYe/sSaUFjA9ZEwYD2fAgPFNOn9D5huIlcVcSDD7AO4/fbpBGVFFXs9a6heMEs5Xp LA== 
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2174.outbound.protection.outlook.com [104.47.58.174])
+ by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3cjkcnh65h-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Nov 2021 13:02:57 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AQCu2wd013216;
- Fri, 26 Nov 2021 13:02:56 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cjyvqrb26-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Nov 2021 13:02:56 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AQCrBa1011553;
- Fri, 26 Nov 2021 13:02:55 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma03dal.us.ibm.com with ESMTP id 3ch1ndm7e7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Nov 2021 13:02:55 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1AQD2scM35062262
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 26 Nov 2021 13:02:54 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C889EAE05C;
- Fri, 26 Nov 2021 13:02:54 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0E4B5AE05F;
- Fri, 26 Nov 2021 13:02:54 +0000 (GMT)
-Received: from localhost (unknown [9.211.89.149])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
- Fri, 26 Nov 2021 13:02:53 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, Segher Boessenkool
- <segher@kernel.crashing.org>
-Subject: Re: [OpenBIOS] Re: [RFC PATCH 0/2] QEMU/openbios: PPC Software TLB
- support in the G4 family
-In-Reply-To: <37135ecd-dec9-860f-69b7-cffe97b0ee8a@kaod.org>
-References: <20211119134431.406753-1-farosas@linux.ibm.com>
- <87pmqpqknn.fsf@linux.ibm.com>
- <48c4262-ff7d-2897-9764-cadd98683e97@eik.bme.hu>
- <20211125093801.GM614@gate.crashing.org>
- <484dc989-71db-6273-e868-efaf2ad29fcf@kaod.org>
- <20211126103732.GP614@gate.crashing.org> <87lf1bqflu.fsf@linux.ibm.com>
- <37135ecd-dec9-860f-69b7-cffe97b0ee8a@kaod.org>
-Date: Fri, 26 Nov 2021 10:02:51 -0300
-Message-ID: <87czmnqdc4.fsf@linux.ibm.com>
+ Fri, 26 Nov 2021 05:38:49 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QSNv7f2cNJFhc/kz4Nxuz+yGSv5ucdaljIXgHhr7TZC+/2r6dJ8vDIFgGBLKLDH83j8Lo/546wrIpaiCihbo01gdPwGoBjq81tRXUAbnEEdWX6glzLWdVJ8PwyHbtrnCUjjclh/4VvPPf2BlzQ3/kkxnl7SFUBRip1zbfCtUrfY4AZjQCBOGcb3TrHNaxCWP0fQCfgNF/H6GDpA1bcuTLSacDTwaKA1E/DkqGZnzhLYFaEFazO/yTPmBrCLO+8jvlkRmL266ytqSgu2PHgOema5EBIabIeSZ0gIPMvZ+Hc8b9QuXQlsloOPMT5fhGJY+lqSL5nNd6vIOzlhio8Lguw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4CBmETv2ouhNLRFnf4zZZl/nDKPQVezKLsP9yD9ZI00=;
+ b=DKzbqNusCNDQT3ZjYmJUGLjHKy7ORum4G0D/Onjj6yn2HfKMu/QErFvzGjSXRkmnmfiQW7AApldDF2KZwou/8rYE00BAT8SGQK9Wt6JZDPu7LnqbTfUWEUcS1hamGMeLd0PpbbjsxT5eIVrGnSdHThMFzhUzQ02/v1rmeTaDiKUqpJlw1v5tI37I/p9HsL1nA2BLZpwDHi/iDae6VVmBYFFRltlAlu3PKEC/Zcv33FNjOTVgf0UaB5yqryNkBRlO8wdrDDvPkPjBwWOivuJd7/rLWNUKci9pOkwf6HeB0PA7Yq72ogU4myexW3G/xM6ReidfBbD7qbu7ZCFZb5Mcag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from PH0PR02MB7496.namprd02.prod.outlook.com (2603:10b6:510:16::12)
+ by PH0PR02MB7815.namprd02.prod.outlook.com (2603:10b6:510:54::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Fri, 26 Nov
+ 2021 13:38:46 +0000
+Received: from PH0PR02MB7496.namprd02.prod.outlook.com
+ ([fe80::f9e3:ac9c:d609:691d]) by PH0PR02MB7496.namprd02.prod.outlook.com
+ ([fe80::f9e3:ac9c:d609:691d%9]) with mapi id 15.20.4734.023; Fri, 26 Nov 2021
+ 13:38:46 +0000
+From: Priyankar Jain <priyankar.jain@nutanix.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] dbus-vmstate: Restrict error checks to registered proxies
+ in dbus_get_proxies
+Date: Fri, 26 Nov 2021 13:38:31 +0000
+Message-Id: <1637933911-37482-1-git-send-email-priyankar.jain@nutanix.com>
+X-Mailer: git-send-email 1.8.3.1
+Content-Type: text/plain
+X-ClientProxiedBy: BY5PR13CA0025.namprd13.prod.outlook.com
+ (2603:10b6:a03:180::38) To PH0PR02MB7496.namprd02.prod.outlook.com
+ (2603:10b6:510:16::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 6mvkn4iBWLNQ0tFdF7DPLdH3-rRjt8ps
-X-Proofpoint-GUID: 97B79pQDsjRn2yqUMgPKsW6Vipc5r-oL
+Received: from priyankar-jain.dev.nutanix.com (192.146.154.242) by
+ BY5PR13CA0025.namprd13.prod.outlook.com (2603:10b6:a03:180::38) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.9 via Frontend
+ Transport; Fri, 26 Nov 2021 13:38:46 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4d97cd1c-9243-4b17-dfc8-08d9b0e2123c
+X-MS-TrafficTypeDiagnostic: PH0PR02MB7815:
+X-Microsoft-Antispam-PRVS: <PH0PR02MB7815C3E12697D4DFBFDA4E7483639@PH0PR02MB7815.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:199;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4QrVl2U3fR3dkTdc+zusL/CHDNC7i87wLB9MvC0835LVAcADv4r308+OQC0nhg2++n8B7KysjpABwvlBSigvp9pt1rNxz+/62Hc5zRYqel416QqPgN3D/mv4Xc9mnmUDI9q18cdc6dKdzkoEYuF4T4Yf7MRQMwYg8kT+pB2QFxmxMULB62oey/WxDFoK1PGVkTl5WCn98chM/QPd7DpEeCs/veek1KuTAk4VMkTTbOCoZ1fmnC6XLTWTnVwdEr2Pg1+1V1VHBlL0hOQ6GHbHhB3lCAU+D+EeBVlgUE9VAxubGIfE+pl4SCzHn9pHR8aGZ8S2tkIgZQrx4JcHq3Sor2FkUZv/rTNCRLzZW92Uff2AL+zJwtgb/5XeYw4+2AiHlZu8erRwUVBBLWM/1ip43YMgoYNyLcdl3++NWz/0y1mJLdyavY4Gj80BXWLZPAxDJFSOyowCY8Nqdr37SJLXHmWsCd2fiiIXqWlxN1CNzyVZl4rtwAJJivfWVKH0LdpS8IZRXjt/C+NVUUf6BLjhp96nWLbLDsIcr/S7l4GdQ1F2WpFHa1m7+HvCGd/KQBtuDRnIFJhMVRh01iL67bERHcEfjCphWlmWD26lm0YJUWvxSqf3EX1gCtsvFpaZSJ0iLHBQ3HfpbYUUfqCPNmbJuv/UinXS5/qzGmQFeZ6hDDAvYtNumt06vO1jLvQT56N6SX9FXrVsPdWphEGtTEwMjA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR02MB7496.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(44832011)(36756003)(508600001)(8936002)(54906003)(6666004)(86362001)(2906002)(38100700002)(83380400001)(38350700002)(5660300002)(6916009)(8676002)(2616005)(316002)(7696005)(956004)(4326008)(52116002)(66476007)(66946007)(66556008)(6486002)(26005)(186003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?oSFv9wxC0Via7OakT8zYscQA3rUY+2kVDCTIN5MVarPse09km2ivP712HLRU?=
+ =?us-ascii?Q?g7d7elURc61TsGOZRMDxal9zTdTG5Xo2wY1p3rGasSozH2RieG4u0tcmDE7Z?=
+ =?us-ascii?Q?baYZxkl7mVKOAs7Jq/9m6DOtH+Rk9TbpNOPvBxaEzzxBC0TYOGUCYZkjW7DT?=
+ =?us-ascii?Q?HcNI9UNaoDyBDXHI9OdK0XPFf8ah0KVhYHTJUV9DANNGUJoGOUmJf7yN6UGj?=
+ =?us-ascii?Q?rFDTm+vcMw0/32ABLi4+EdGdAxiCAq0jHUzfsGOgFFR51sRk1jHR546BHPjY?=
+ =?us-ascii?Q?5XRCZTad/iin4IVLQCEqil9mCVtYoPxMDmt126TkbXhSS2RPyMGymWQjPkxj?=
+ =?us-ascii?Q?WGVWBJfQ/hangkFNhFN2jPWX1qoupZDYTO5yiS3D2FZwD37K/sF7HOMB2TKV?=
+ =?us-ascii?Q?Tf2vgkOPNbA7x1ja8WDtUnN4R6V110NzJtZtBVIOcgoufHIZ22VNcrRXoABk?=
+ =?us-ascii?Q?GbSgp2hdzvVPX52E7sbPZut95cQiqn0NhDRdcQnLwokjrObvQooeRHxq+ks9?=
+ =?us-ascii?Q?sNTgR3cINZQbMDSw0h3x+tW4WCYe4zkWycczaisLthKtz7UqF7Pd1x0qgCXX?=
+ =?us-ascii?Q?H/VGVQfdAC0atswVCbYRmpGX/sJWBla/hkndlERwqwt9ZJpuqRxmKbGRi9NX?=
+ =?us-ascii?Q?ZGAqHySzIvG/A6tHxMAGpKZdpa9+hZll+VXhspY5qs88y2u78EbduU2DJNX/?=
+ =?us-ascii?Q?7A82RSzPy0iZC2EqIig5xln+3PVZB+oCtXqCzOO+FbpOSmTvRrfDK6+E5S5p?=
+ =?us-ascii?Q?I35nE7YJn13TNUpJuf9KP9vSWEnkl6zpyw3iGPWnMpHmdCTxuIwALZ0Kb2Vo?=
+ =?us-ascii?Q?WSvgJL9qO9knj7VwLXTjJQT+ddRa8+LMBjXty8gBq6Jt+cpKNnjThIQHpmN9?=
+ =?us-ascii?Q?16pX7KnIDZplCpAPT766TLFXkdsHEuvM4i700PoYytaUVxWiUBNkW5WxAHf8?=
+ =?us-ascii?Q?kMJo4CdEyqMgkcJ/wa/CvTozsQB09ZgX8XS1lMxnlkA/3ml4ex2TNQRXnwEk?=
+ =?us-ascii?Q?x11yiO9z3ahVIvkJdft0BMn4231xpKBBCKAbRKxPQOv1pwTcMBSFKkNBRo1n?=
+ =?us-ascii?Q?uNg3ZicpzXdbZyFgAb1wECBWC1jK009hucCGN+jLHhNANfia1lp0NvN/GdAV?=
+ =?us-ascii?Q?xoC3y6LiznImTprxB8AVmk7JdPONvSgoc8lEr2WL5WhX0eFeUud0HCkVYYXp?=
+ =?us-ascii?Q?LDLgUmLN19XXAQsuVBYI0+WAqTmhFe3DOjJ0eX59as1AwSpP+f4ZzdzNinXS?=
+ =?us-ascii?Q?+vaX600tFx6hRfN8mQOR7tC41RM0gvQhwYZgAavBSvpx9SIYsz2N2ksZvRby?=
+ =?us-ascii?Q?VUxWg+dTQyFqfgsgrY/sQMnHREr5lu/oF0HvK6DiXIScO1ANfsruvanDk/FX?=
+ =?us-ascii?Q?CzEKFKfBbwszxhRsj/nJ3sIvKGoeuj4zuh3FQCeH3DJjzNR2YNsts1fkYrLI?=
+ =?us-ascii?Q?s+33liuKshkd2bSAu6mCMzM2jqYc2nsl+Pc1uC66aYWTiwrzp/gGFNw6uwgf?=
+ =?us-ascii?Q?iAOetBxId3SCmSbVOV5EmeY+qMyhKn3wxXZDg3MZKDcEvjp6NHxXernFFAw2?=
+ =?us-ascii?Q?j0exBhsQYMSF6DsOG+f0DBt3A7AySujl9zcO7QwOTI96+1gstOoU9CvCKlz8?=
+ =?us-ascii?Q?KsMKDtlzGIO0ZucsleytL0pUjdVRRqEMy68Aqt8Orav0joXZOwgLPpsqqlM3?=
+ =?us-ascii?Q?Bc3iQ2PlNeh0XtoXsAk4vGtfroQ=3D?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d97cd1c-9243-4b17-dfc8-08d9b0e2123c
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR02MB7496.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2021 13:38:46.7062 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Nero0Rd5HeRYJCVfAWWL0ddg3qvdZHnVpgIxQ/wDJcUUyLyihsGCuiiSNSg2p+FFhVQIAo904sWPMG6oGSfyvx0G3MAtTJ8lMjy4N5ei3ho=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7815
+X-Proofpoint-ORIG-GUID: Z7zXaxwcgpBUXUz5rM9riSYOfE4cOhIl
+X-Proofpoint-GUID: Z7zXaxwcgpBUXUz5rM9riSYOfE4cOhIl
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
  definitions=2021-11-26_03,2021-11-25_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0
- adultscore=0 priorityscore=1501 spamscore=0 mlxscore=0 malwarescore=0
- phishscore=0 impostorscore=0 lowpriorityscore=0 mlxlogscore=766
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111260077
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=priyankar.jain@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,60 +153,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- openbios@openbios.org, david@gibson.dropbear.id.au
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Priyankar Jain <priyankar.jain@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-C=C3=A9dric Le Goater <clg@kaod.org> writes:
+The purpose of dbus_get_proxies to construct the proxies corresponding to the
+IDs registered to dbus-vmstate.
 
-> On 11/26/21 13:13, Fabiano Rosas wrote:
->> Segher Boessenkool <segher@kernel.crashing.org> writes:
->>=20
->>> Hi!
->>>
->>> On Fri, Nov 26, 2021 at 09:34:44AM +0100, C=C3=A9dric Le Goater wrote:
->>>> On 11/25/21 10:38, Segher Boessenkool wrote:
->>>>> On Thu, Nov 25, 2021 at 01:45:00AM +0100, BALATON Zoltan wrote:
->>>>>> As for guests, those running on the said PowerMac G4 should have sup=
-port
->>>>>> for these CPUs so maybe you can try some Mac OS X versions (or maybe
->>>>>
->>>>> OSX uses hardware pagetables.
->>>>>
->>>>>> MorphOS but that is not the best for debugging as there's no source
->>>>>> available nor any help from its owners but just to see if it boots i=
-t may
->>>>>> be sufficient, it should work on real PowerMac G4).
->>>>>
->>>>> I have no idea what MorphOS uses, but I bet HPT as well.  That is
->>>>> because HPT is fastest in general.  Software TLB reloads are good in
->>>>> special cases only; the most common is real-time OSes, which can use =
-its
->>>>> lower guaranteed latency for some special address spaces (and can hav=
-e a
->>>>> simpler address map in general).
->>>>
->>>> The support was added to QEMU knowing that Linux didn't handle soft TL=
-Bs.
->>>> And the commit says that it was kept disabled initially. I guess that =
-was
->>>> broken these last years.
->>>
->>> Ah :-)  So when was it enabled, do you know?
->>=20
->> Hm.. That commit message does not match the code. They simply added the
->> software TLB implementation to an already existing SOFT_74xx MMU
->> model. I don't see anything that would keep it disabled at that time.
->>=20
->
-> because most of the cpu definitions in ppc_defs[] are protected by a :
->
-> #if defined (TODO)
->
-> See below. commit 8ca3f6c3824c ("Allow selection of all defined PowerPC
-> 74xx (aka G4) CPUs.") removed the TODO without a reason :/ This is old,
-> when SVN was in used.
+Currenty, this function returns an error in case there is any failure
+while instantiating proxy for "all" the names on dbus.
 
-Ah nice catch!
+Ideally this function should error out only if it is not able to find and
+validate the proxies registered to the backend otherwise any offending
+process(for eg: the process purposefully may not export its Id property on
+the dbus) may connect to the dbus and can lead to migration failures.
+
+This commit ensures that dbus_get_proxies returns an error if it is not
+able to find and validate the proxies of interest(the IDs registered
+during the dbus-vmstate instantiation).
+
+Signed-off-by: Priyankar Jain <priyankar.jain@nutanix.com>
+---
+ backends/dbus-vmstate.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c
+index 9cfd758c42..57369ec0f2 100644
+--- a/backends/dbus-vmstate.c
++++ b/backends/dbus-vmstate.c
+@@ -114,14 +114,19 @@ dbus_get_proxies(DBusVMState *self, GError **err)
+                     "org.qemu.VMState1",
+                     NULL, err);
+         if (!proxy) {
+-            return NULL;
++            if (err != NULL && *err != NULL) {
++                warn_report("%s: Failed to create proxy: %s",
++                            __func__, (*err)->message);
++                g_clear_error(err);
++            }
++            continue;
+         }
+ 
+         result = g_dbus_proxy_get_cached_property(proxy, "Id");
+         if (!result) {
+-            g_set_error_literal(err, G_IO_ERROR, G_IO_ERROR_FAILED,
+-                                "VMState Id property is missing.");
+-            return NULL;
++            warn_report("%s: VMState Id property is missing.", __func__);
++            g_clear_object(&proxy);
++            continue;
+         }
+ 
+         id = g_variant_dup_string(result, &size);
+-- 
+2.30.1 (Apple Git-130)
+
 
