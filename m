@@ -2,92 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E0145F201
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 17:35:30 +0100 (CET)
-Received: from localhost ([::1]:38526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9CC45F24E
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 17:40:49 +0100 (CET)
+Received: from localhost ([::1]:42802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqeC9-00011C-3E
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 11:35:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35968)
+	id 1mqeHI-0004G3-Bc
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 11:40:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mqeAm-00084b-53
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 11:34:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31910)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mqeAk-0003cA-2f
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 11:34:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637944441;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=qR/fm602x24+O0EJ8E7U+7hcqOjVXddLCJ/PSwfCMTM=;
- b=eVshk6QTsUxZL2ouwXzrooP/nOAZNSoz3GbK++kyNsG98oU6voiQxbEI+p0xX2ZKsn6Vud
- 1urvLAokL2nbkZ3f8cRCGgiSYolbHEDs79Q55MXCxoyyeHLg08ADnM2g4KkVoSvN25uhOs
- zMsECq0a8Uu0tfm1/y4QtjzxtUBFzew=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-550-gyl89Mq9M6CuE0V5V-XmDA-1; Fri, 26 Nov 2021 11:34:00 -0500
-X-MC-Unique: gyl89Mq9M6CuE0V5V-XmDA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c8-20020a7bc848000000b0033bf856f0easo7140824wml.1
- for <qemu-devel@nongnu.org>; Fri, 26 Nov 2021 08:33:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mqeFt-0002MK-KM
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 11:39:21 -0500
+Received: from [2a00:1450:4864:20::435] (port=39831
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mqeFr-000452-BE
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 11:39:21 -0500
+Received: by mail-wr1-x435.google.com with SMTP id a18so19847817wrn.6
+ for <qemu-devel@nongnu.org>; Fri, 26 Nov 2021 08:39:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ne0ZZY7CP8ngWRBKnIGwHYwnzIuCtxGGrO8uqvdjtxw=;
+ b=eF0XzSoeavTbETYE9iCoeSz7UkGjztWGq4gF6e6hSce56oifStDRExf07oXqJtI30w
+ SdnrIxptygV6D+L5CP6E/NdHa3w5x3fjNuE2R42nbXOI/DOORYANBZEsAnyayXS4VhcA
+ njiincXZDOA15Q7G0j33yKKjBTHZ4Iglm21kdE8lF6PKQDQJJ4MY03kUfivtjvm3oeCD
+ jQo3XySYQy32De3BWObd2YFwF1d/3P9pO6KU3FHylxal8MQMmka6y+C0qGOm7UZoNTYb
+ 3zXPlUgcUJMlqa2AljTBH4pnOL5Xq7Qi6MOpSlIkh2AcAslceRG8gkWOZ8qn+mqhLORR
+ UpuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=qR/fm602x24+O0EJ8E7U+7hcqOjVXddLCJ/PSwfCMTM=;
- b=POBHql6sz5tOrJvfkDur+DICEnNXhqMnZ8Lq8CO7dwalsZ8ns/Acowa+Tpq4rKQGQt
- nFOivQ10nrMe4xRD6A8jEP4Fn6nlMB6198B5UNvKrMYj5KbrqUlgXgho0CuHNqdZ1O1X
- kZ0R4pburRAkAtQzPF6NA0s1qEQ69V5bpqYFOPU4OYM0O9AZ0vPtK/mz1DZYhuOU990w
- rX8hH4PzhnkaXWq0jtSveLjp9s6V0gUNTY3jo/KtJSSiPv7wnFlrY/55OyTM9qmOl4P3
- Cr6+p1vpUmHlofypTeS4IYnHQn7uM99YtmMiUcxEy75UhnwFob/PYxbMhbhb+JZk8UPB
- bLNA==
-X-Gm-Message-State: AOAM531TGKJyWOp/9Y7vxB1ANydaRGOg5X9HTg7UB8HKYkjdFl1GOWuF
- wPyXdK43xTkgAvzSUhYp7bBRasYfW8UKfhG6Wj6nCyvCLOBIlgKSLP1yOcCOOgubIImgKrcYQa7
- 5f+awVErnhVP47lU=
-X-Received: by 2002:a05:600c:4e91:: with SMTP id
- f17mr16934106wmq.195.1637944438053; 
- Fri, 26 Nov 2021 08:33:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzD1UzJj2Ptv502GWtvRyZOqKBONJIJvyERYxfaHoohxIOYTUIdx0zwmmRMd780JyvTrLwWGA==
-X-Received: by 2002:a05:600c:4e91:: with SMTP id
- f17mr16934071wmq.195.1637944437796; 
- Fri, 26 Nov 2021 08:33:57 -0800 (PST)
-Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
- [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id a1sm8120418wri.89.2021.11.26.08.33.57
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ne0ZZY7CP8ngWRBKnIGwHYwnzIuCtxGGrO8uqvdjtxw=;
+ b=f31jANDjzEzdcorkkGV8tV7hsNPaWeHaYqqsF+dme1pnwRlFxAh+nz4dFKUAQBloZi
+ E5JiXzQ/j4cd1U9EBkNwuMo5ktGhmmGWA0wuyNNI57IbhMtdWxuFcfUsWlm7cOwdSwQN
+ SIRqS5BY7NjOQ64BFJ0DucBFk6bBhIbghuJ9O3KvK2XDpJ+Doh/6y62SsYx2eBQNWFKW
+ 2u5GWYduOsX7lvVWpGSzSmlpdkAdTzG3KaRh3S/C7h4bJrRU7aa55qSRpizA2gme2v7p
+ GGtJPwomxIc8OpQFAVxKAmmf1ZQuSWYZQxwQrXj1whd4/E1tlEfAnjBdBtYXxWOhmKm+
+ bVTw==
+X-Gm-Message-State: AOAM530wBTnxIvHRidCW+CgtJIoMhOwfPWzBRYp4GITlBSSnm6bMfVie
+ KNh3iB/lkVv0UPOo/39lomT4sw==
+X-Google-Smtp-Source: ABdhPJwlh4ENSg/Y7dYXg0LqmYaz/1iSUoGhic4SmfWu7Qtft0WRaUhBFLNAU5A4zamPNGOgqHQrtw==
+X-Received: by 2002:a5d:47a1:: with SMTP id 1mr15105533wrb.436.1637944756975; 
+ Fri, 26 Nov 2021 08:39:16 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id b14sm7837698wrd.24.2021.11.26.08.39.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Nov 2021 08:33:57 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Li Zhang <lizhang@suse.de>
-Subject: Re: [PATCH 1/2] multifd: use qemu_sem_timedwait in
- multifd_recv_thread to avoid waiting forever
-In-Reply-To: <20211126153154.25424-2-lizhang@suse.de> (Li Zhang's message of
- "Fri, 26 Nov 2021 16:31:53 +0100")
-References: <20211126153154.25424-1-lizhang@suse.de>
- <20211126153154.25424-2-lizhang@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Fri, 26 Nov 2021 17:33:56 +0100
-Message-ID: <87ee72g9l7.fsf@secure.mitica>
+ Fri, 26 Nov 2021 08:39:16 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH for-6.2? 0/2] arm_gicv3: Fix handling of LPIs in list registers
+Date: Fri, 26 Nov 2021 16:39:13 +0000
+Message-Id: <20211126163915.1048353-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,79 +84,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, cfontana@suse.de
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Shashi Mallela <shashi.mallela@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Marc Zyngier <maz@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Li Zhang <lizhang@suse.de> wrote:
-> When doing live migration with multifd channels 8, 16 or larger number,
-> the guest hangs in the presence of the network errors such as missing TCP ACKs.
->
-> At sender's side:
-> The main thread is blocked on qemu_thread_join, migration_fd_cleanup
-> is called because one thread fails on qio_channel_write_all when
-> the network problem happens and other send threads are blocked on sendmsg.
-> They could not be terminated. So the main thread is blocked on qemu_thread_join
-> to wait for the threads terminated.
->
-> (gdb) bt
-> 0  0x00007f30c8dcffc0 in __pthread_clockjoin_ex () at /lib64/libpthread.so.0
-> 1  0x000055cbb716084b in qemu_thread_join (thread=0x55cbb881f418) at ../util/qemu-thread-posix.c:627
-> 2  0x000055cbb6b54e40 in multifd_save_cleanup () at ../migration/multifd.c:542
-> 3  0x000055cbb6b4de06 in migrate_fd_cleanup (s=0x55cbb8024000) at ../migration/migration.c:1808
-> 4  0x000055cbb6b4dfb4 in migrate_fd_cleanup_bh (opaque=0x55cbb8024000) at ../migration/migration.c:1850
-> 5  0x000055cbb7173ac1 in aio_bh_call (bh=0x55cbb7eb98e0) at ../util/async.c:141
-> 6  0x000055cbb7173bcb in aio_bh_poll (ctx=0x55cbb7ebba80) at ../util/async.c:169
-> 7  0x000055cbb715ba4b in aio_dispatch (ctx=0x55cbb7ebba80) at ../util/aio-posix.c:381
-> 8  0x000055cbb7173ffe in aio_ctx_dispatch (source=0x55cbb7ebba80, callback=0x0, user_data=0x0) at ../util/async.c:311
-> 9  0x00007f30c9c8cdf4 in g_main_context_dispatch () at /usr/lib64/libglib-2.0.so.0
-> 10 0x000055cbb71851a2 in glib_pollfds_poll () at ../util/main-loop.c:232
-> 11 0x000055cbb718521c in os_host_main_loop_wait (timeout=42251070366) at ../util/main-loop.c:255
-> 12 0x000055cbb7185321 in main_loop_wait (nonblocking=0) at ../util/main-loop.c:531
-> 13 0x000055cbb6e6ba27 in qemu_main_loop () at ../softmmu/runstate.c:726
-> 14 0x000055cbb6ad6fd7 in main (argc=68, argv=0x7ffc0c578888, envp=0x7ffc0c578ab0) at ../softmmu/main.c:50
->
-> At receiver's side:
-> Several receive threads are not created successfully and the receive threads
-> which have been created are blocked on qemu_sem_wait. No semaphores are posted
-> because migration is not started if not all the receive threads are created
-> successfully and multifd_recv_sync_main is not called which posts the semaphore
-> to receive threads. So the receive threads are waiting on the semaphore and
-> never return. It shouldn't wait for the semaphore forever.
-> Use qemu_sem_timedwait to wait for a while, then return and close the channels.
-> So the guest doesn't hang anymore.
->
-> (gdb) bt
-> 0  0x00007fd61c43f064 in do_futex_wait.constprop () at /lib64/libpthread.so.0
-> 1  0x00007fd61c43f158 in __new_sem_wait_slow.constprop.0 () at /lib64/libpthread.so.0
-> 2  0x000056075916014a in qemu_sem_wait (sem=0x56075b6515f0) at ../util/qemu-thread-posix.c:358
-> 3  0x0000560758b56643 in multifd_recv_thread (opaque=0x56075b651550) at ../migration/multifd.c:1112
-> 4  0x0000560759160598 in qemu_thread_start (args=0x56075befad00) at ../util/qemu-thread-posix.c:556
-> 5  0x00007fd61c43594a in start_thread () at /lib64/libpthread.so.0
-> 6  0x00007fd61c158d0f in clone () at /lib64/libc.so.6
->
-> Signed-off-by: Li Zhang <lizhang@suse.de>
-> ---
->  migration/multifd.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 7c9deb1921..656239ca2a 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -1109,7 +1109,7 @@ static void *multifd_recv_thread(void *opaque)
->  
->          if (flags & MULTIFD_FLAG_SYNC) {
->              qemu_sem_post(&multifd_recv_state->sem_sync);
-> -            qemu_sem_wait(&p->sem_sync);
-> +            qemu_sem_timedwait(&p->sem_sync, 1000);
->          }
->      }
+(Marc: cc'd you on this one in case you're still using QEMU
+to test KVM stuff with, in which case you might have run into
+the bug this is fixing.)
 
-Problem happens here, but I think that the solution is not worng.  We
-are returning from the semaphore without given a single error message.
+It is valid for an OS to put virtual interrupt ID values into the
+list registers ICH_LR<n> which are greater than 1023.  This
+corresponds to (for example) KVM running as an L1 guest inside
+emulated QEMU and using the in-kernel emulated ITS to give a (nested)
+L2 guest an ITS.  LPIs are delivered by the L1 kernel to the L2 guest
+via the list registers in the same way as non-LPI interrupts.
+    
+QEMU's code for handling writes to ICV_IARn (which happen when the L2
+guest acknowledges an interrupt) and to ICV_EOIRn (which happen at
+the end of the interrupt) did not consider LPIs, so it would
+incorrectly treat interrupt IDs above 1023 as invalid, with the
+effect that a read to ICV_IARn would return the correct interrupt ID
+number but not actually mark the interrupt active or set the CPU
+priority accordingly, and a write to ICV_EOIRn would do nothing.
 
-Later, Juan.
+This bug doesn't seem to have any visible effect on Linux L2 guests
+most of the time, because the two bugs cancel each other out: we
+neither mark the interrupt active nor deactivate it.  However it does
+mean that the L2 vCPU priority while the LPI handler is running will
+not be correct, so the interrupt handler could be unexpectedly
+interrupted by a different interrupt.  (I haven't observed this; I
+found the ICV_IARn bug by code inspection, and then the ICV_EOIRn bug
+by figuring out why fixing ICV_IARn broke L2 guests :-))
+    
+This isn't a regression -- we've behaved like this since the GICv3
+support for virtualization was first implemented. I'm tempted to
+put it into 6.2 anyway, though.
+
+Patch 1 abstracts out the test we were using already elsewhere
+in the code into its own function, and patch 2 uses it to fix
+the EOIR and IAR behaviour.
+
+Based-on: 20211124202005.989935-1-peter.maydell@linaro.org
+("[PATCH v2] hw/intc/arm_gicv3: Update cached state after LPI state changes")
+
+Peter Maydell (2):
+  hw/intc/arm_gicv3: Add new gicv3_intid_is_special() function
+  hw/intc/arm_gicv3: fix handling of LPIs in list registers
+
+ hw/intc/gicv3_internal.h  | 13 +++++++++++++
+ hw/intc/arm_gicv3_cpuif.c |  9 ++++-----
+ 2 files changed, 17 insertions(+), 5 deletions(-)
+
+-- 
+2.25.1
 
 
