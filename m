@@ -2,86 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D6445E585
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 03:55:49 +0100 (CET)
-Received: from localhost ([::1]:53590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D77245E784
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 06:44:40 +0100 (CET)
+Received: from localhost ([::1]:50856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqROu-000553-B8
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 21:55:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42164)
+	id 1mqU2I-0008Kc-IJ
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 00:44:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mqRNv-0003i6-Nm
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 21:54:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24455)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mqRNu-0005CN-4l
- for qemu-devel@nongnu.org; Thu, 25 Nov 2021 21:54:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637895285;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mxHJr++OTzgz21WpbLtpuzlWLo5jxoJweB5eCk77olA=;
- b=AYFF0YV79ayRSrPQvMY8lOE+bclglDuEgdCj42UdBeAFTBddQXZhlqMU6iohqli8jPz50R
- stXADlT5VCCBX7Ixgln6pQbxUfnvypxPgke2l777YfDddh10zO8ukn/U/B6lMHK75dIgb4
- EdxB7FNNlyFBkfgpANohopK/aMM4utY=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-74xS7D_gNemiuHzb3vUR8A-1; Thu, 25 Nov 2021 21:54:44 -0500
-X-MC-Unique: 74xS7D_gNemiuHzb3vUR8A-1
-Received: by mail-lj1-f199.google.com with SMTP id
- p1-20020a2e7401000000b00218d0d11e91so2568706ljc.15
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 18:54:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mqU0w-0007bj-VZ
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 00:43:15 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=53795
+ helo=mail-pj1-x1033.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mqU0l-0005Oi-BX
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 00:43:14 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id iq11so6492735pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 21:43:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=lFuqun1WDlFMmimEYKlVL47JetRq7eMGgB6DquNFwag=;
+ b=IInZ04Q1sK7NlhCcxQVB/ys3cwfgkZ2G3DHAgexCky5NxFtsygoNaLTBa7o06s1Cyg
+ c2MgIFdZjLFiIbvF2yaSYehMCJvEab8ca1VpbFKiBy2HiC5oXg8EOvlFPMfIaQpgE1go
+ hp4R6AlY6uM3BfPQ+YZ6vj6TGL2XftJwDEY/42Cp8uaaIUScGCdHtpE/VoEhTbXoymAk
+ ORp0Gyhp0gh1cqcxhcmkgj2h2CepVLPVXggJjKw319LWO5lyWfIRXl88q6+nsZiXMiDg
+ 80Qlsf38niziBejDouSgwB0L9e41yO101Z9T2hnQjKG40V9Ur5mHdKmLKSKhrY6Yvtp+
+ Vulw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mxHJr++OTzgz21WpbLtpuzlWLo5jxoJweB5eCk77olA=;
- b=Ddp5UZjd8sN/ealyD6QrVmNYTy4Qchwheu3ecZBTD9BvS8D2GRiLyjL/86uzmUqIVK
- 3hDGnmfvbDKpd6X4Srgs9be9+8K0oIQG5gtSIIA1dRBF7TqHTbkkqvp9mJ9QqSOw96Z0
- kTKuxEzcjEoa5FcACmX/pwBFk+RWNRWbt56uZ36BlFTrNLgiq/Qb/1fWg2kvG87ATMXM
- TnHPkkhmzML1279gSUfIv9DnH7U+lLaio3W3qCq0j7XDrfv1cHwlur/8Z6QnJPHlzsqt
- GEiCRW1Cm1+c93aWwaMD5xFwtzRoKEzB/e3gSh5Qpe5kIzhxC9l0gDCq8uUaZWIsAieU
- +3WA==
-X-Gm-Message-State: AOAM530OF5jtky03gF3FmQde0Q0OEq0olyLJ/j5+lku8z9Nuks8zOtas
- dv+INcPneTkgdsT7fisFOHZ7SxT+wBp3U+ZddipMJoe50eu20mxem4X9qURIieLZx8UtFaywlKf
- a3PqVsQCs/8KEUWaJLIzT6EcrmS6kqSs=
-X-Received: by 2002:a05:6512:2081:: with SMTP id
- t1mr27888061lfr.348.1637895283016; 
- Thu, 25 Nov 2021 18:54:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxG6q3lEF6Am13nVq1Oh6DUUgb+fXj4OlWPbT/NEbgqTT+u1Kjm2g7i7AbDI9tep3o7SDYkRDS+xyIgXhoSziU=
-X-Received: by 2002:a05:6512:2081:: with SMTP id
- t1mr27888047lfr.348.1637895282831; 
- Thu, 25 Nov 2021 18:54:42 -0800 (PST)
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=lFuqun1WDlFMmimEYKlVL47JetRq7eMGgB6DquNFwag=;
+ b=hm30XdyQZOCJNCxF7nz01DoFOGFreeEK5iBvFc0GLIVqPTV915R6znRAOht9hLxFxa
+ pINVXJP3ztkUtwoqlY/mZFt5OCFl8ogZoypEAUpCvUIsEqRidsPrQ3HSfMVvG7Px5B4F
+ g4jKx2N6S7X1bZtO2lj6d4svkcppHAz0yhw4T6iTp88F+/lEEVlZoS0yZUadRnCUlAnq
+ t1jmOEbWmqTEtOAH1EM8z4pDLKPK7ekTGV2N0Uw1BsLDdp1BPYQQIXQZqIVtBLZEEqoB
+ dmIRFHaxEZFfmlH3Tmido/dTK2T73+Fsjsk2xkscKgall1s7DqwUxC5zIiyibgyJKqU9
+ YpMQ==
+X-Gm-Message-State: AOAM533aNV2TV+JrxZB1w31PEtmKwfu7lfcoqcxXlQjSqZ6F67XFZD5V
+ 1t5jCWupYesXHZYXSLtH6+gQEA==
+X-Google-Smtp-Source: ABdhPJzTBZxh1nREFpUk0XSAI0nw6IUjmMZBobmzTtVySPmJqBhTxysQdVXxALrRFzMglT59seaBIA==
+X-Received: by 2002:a17:902:9684:b0:143:cc70:6472 with SMTP id
+ n4-20020a170902968400b00143cc706472mr35747712plp.70.1637905381541; 
+ Thu, 25 Nov 2021 21:43:01 -0800 (PST)
+Received: from anisinha-lenovo ([49.207.198.191])
+ by smtp.googlemail.com with ESMTPSA id q10sm9813710pjd.0.2021.11.25.21.42.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Nov 2021 21:43:00 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Fri, 26 Nov 2021 11:12:55 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH-for-6.2] docs: add a word of caution on x-native-hotplug
+ property for pcie-root-ports
+In-Reply-To: <20211125154927-mutt-send-email-mst@kernel.org>
+Message-ID: <alpine.DEB.2.22.394.2111261104070.223522@anisinha-lenovo>
+References: <20211125120629.187014-1-ani@anisinha.ca>
+ <20211125154927-mutt-send-email-mst@kernel.org>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-References: <20211125101614.76927-1-eperezma@redhat.com>
- <20211125101614.76927-3-eperezma@redhat.com>
-In-Reply-To: <20211125101614.76927-3-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 26 Nov 2021 10:54:32 +0800
-Message-ID: <CACGkMEubkMz-BGxQ3zX__-gmweAvEid=CQxLaRXVDEnCHDoE=A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] virtio-net: Fix log message
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,70 +89,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
- qemu-stable@nongnu.org
+Cc: Ani Sinha <ani@anisinha.ca>, imammedo@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 25, 2021 at 6:16 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
-ote:
->
-> The message has never been true in the case of non tap networking, so
-> only tell that userland networking will be used if possible.
->
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 
-Acked-by: Jason Wang <jasowang@redhat.com>
 
-> ---
->  hw/net/virtio-net.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index f2014d5ea0..d6c98c3c2d 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -245,6 +245,7 @@ static void virtio_net_vhost_status(VirtIONet *n, uin=
-t8_t status)
->      NetClientState *nc =3D qemu_get_queue(n->nic);
->      int queue_pairs =3D n->multiqueue ? n->max_queue_pairs : 1;
->      int cvq =3D n->max_ncs - n->max_queue_pairs;
-> +    bool tap_backend =3D nc->peer->info->type =3D=3D NET_CLIENT_DRIVER_T=
-AP;
->
->      if (!get_vhost_net(nc->peer)) {
->          return;
-> @@ -258,9 +259,9 @@ static void virtio_net_vhost_status(VirtIONet *n, uin=
-t8_t status)
->          int r, i;
->
->          if (n->needs_vnet_hdr_swap) {
-> -            error_report("backend does not support %s vnet headers; "
-> -                         "falling back on userspace virtio",
-> -                         virtio_is_big_endian(vdev) ? "BE" : "LE");
-> +            error_report("backend does not support %s vnet headers%s",
-> +                    virtio_is_big_endian(vdev) ? "BE" : "LE",
-> +                    tap_backend ? "; falling back on userspace virtio" :=
- "");
->              return;
->          }
->
-> @@ -288,8 +289,8 @@ static void virtio_net_vhost_status(VirtIONet *n, uin=
-t8_t status)
->          n->vhost_started =3D 1;
->          r =3D vhost_net_start(vdev, n->nic->ncs, queue_pairs, cvq);
->          if (r < 0) {
-> -            error_report("unable to start vhost net: %d: "
-> -                         "falling back on userspace virtio", -r);
-> +            error_report("unable to start vhost net: %d%s", -r,
-> +                       tap_backend ? " falling back on userspace virtio"=
- : "");
->              n->vhost_started =3D 0;
->          }
->      } else {
-> --
-> 2.27.0
->
+On Thu, 25 Nov 2021, Michael S. Tsirkin wrote:
 
+> On Thu, Nov 25, 2021 at 05:36:29PM +0530, Ani Sinha wrote:
+> > x-native-hotplug property, when used in order to disable HPC bit on the PCIE
+> > root ports, can lead to unexpected results from the guest operating system.
+> > Users are strongly advised not to touch this property in order to manipulte the
+> > HPC bit. Add a word of caution in the pcie.txt doc file to document this.
+> >
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+>
+> Do we want to generally document this for all "x-" options?
+
+Yes igor suggested it but I sent this one for two reasons:
+(a) I could not find a place to document this for properties without
+adding a new file. This sounded too bigger a hammer at the present. If you
+can suggest an existing place for documenting this for the property names,
+I will go and add this info there as well.
+
+(b) I think we need to document this experimental property here regardless
+because this doc deals with hotplug and pcie ports and we had too much of
+a mess with this acpi/pci native switch.
+
+When things stabilize a bit, Igor suggested elsewhere that we start a
+separate doc just for hotplug and various options we have and at
+that point we can move this info in this new doc.
+
+https://www.mail-archive.com/libvir-list@redhat.com/msg221746.html
+
+
+>
+> > ---
+> >  docs/pcie.txt | 17 ++++++++++++++++-
+> >  1 file changed, 16 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/docs/pcie.txt b/docs/pcie.txt
+> > index 89e3502075..e1f99f725f 100644
+> > --- a/docs/pcie.txt
+> > +++ b/docs/pcie.txt
+> > @@ -262,11 +262,26 @@ PCI Express Root Ports (and PCI Express Downstream Ports).
+> >          Port, which may come handy for hot-plugging another device.
+> >
+> >
+> > -5.3 Hot-plug example:
+> > +5.2 Hot-plug example:
+> >  Using HMP: (add -monitor stdio to QEMU command line)
+> >    device_add <dev>,id=<id>,bus=<PCI Express Root Port Id/PCI Express Downstream Port Id/PCI-PCI Bridge Id/>
+> >
+> >
+> > +5.3 A word of caution using hotplug on PCI Express Root Ports:
+> > +Starting Qemu version 6.2, PCI Express Root ports have a property
+> > +"x-native-hotplug" ("native-hotplug" for Qemu version 6.1), that can be used to
+> > +enable or disable hotplug on that port. For example:
+> > +
+> > +-device pcie-root-port,x-native-hotplug=off,... etc.
+> > +
+> > +The "x-" prefix indicates that this property is highly experimental and can
+> > +lead to unexpected results from the guest operating system if users try to use
+> > +it to alter the native hotplug on the port. It also means that the property
+> > +name and its behavior is liable to change in the future and is not expected to
+> > +be stable across Qemu versions. Therefore, end users are advised not to change
+> > +the value of this option from its default set value or use it in the Qemu
+> > +command line.
+> > +
+> >  6. Device assignment
+> >  ====================
+> >  Host devices are mostly PCI Express and should be plugged only into
+> > --
+> > 2.25.1
+>
+>
 
