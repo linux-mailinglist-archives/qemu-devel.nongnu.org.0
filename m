@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B3145ED1B
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 12:56:19 +0100 (CET)
-Received: from localhost ([::1]:40404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C4045ED4C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 13:02:17 +0100 (CET)
+Received: from localhost ([::1]:57732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqZpy-0005W5-Vh
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 06:56:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58768)
+	id 1mqZvg-0000QM-H6
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 07:02:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZlz-00016L-AE
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:52:11 -0500
-Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229]:57181)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZn7-0002N1-3j
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:53:21 -0500
+Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233]:58467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZlv-0007Bm-CX
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:52:10 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.210])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id ECB2D21048;
- Fri, 26 Nov 2021 11:52:00 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZn4-0007LN-VY
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:53:20 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.132])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 95B3722404;
+ Fri, 26 Nov 2021 11:53:16 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 26 Nov
- 2021 12:52:00 +0100
+ 2021 12:53:15 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005785dcbd0-25ba-46b8-8947-f9d2da20c848,
+ (GARM-101G00445b6efbb-17ba-409b-9db5-b223690ae903,
  B8303126CBA279BD35B7DF0844B381DDFAFB7782) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PULL for-6.2 2/2] tests/tcg/ppc64le: Fix compile flags for
- byte_reverse
-Date: Fri, 26 Nov 2021 12:51:57 +0100
-Message-ID: <20211126115157.2737402-3-clg@kaod.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211126115157.2737402-1-clg@kaod.org>
-References: <20211126115157.2737402-1-clg@kaod.org>
+Message-ID: <54858eaa-388e-1651-9903-87bcf0737e1f@kaod.org>
+Date: Fri, 26 Nov 2021 12:53:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PULL for-6.2 0/2] ppc queue
+Content-Language: en-US
+To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20211126115157.2737402-1-clg@kaod.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211126115157.2737402-1-clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 3f167950-3369-400d-8a16-05fabb7825d4
-X-Ovh-Tracer-Id: 14582655594083617583
+X-Ovh-Tracer-GUID: 4e72f06e-92d4-41e5-b656-9e8a709a5132
+X-Ovh-Tracer-Id: 14604047693692046185
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
- helo=4.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuveelvdejteegteefieevfeetffefvddvieekteevleefgeelgfeutedvfedvfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
+ helo=2.mo552.mail-out.ovh.net
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.993,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,59 +70,47 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Frederic Barrat <fbarrat@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Oops forget this email. I got the directory wrong on my command line.
 
-With a host compiler new enough to recognize power10 insns,
-CROSS_CC_HAS_POWER10 is true, but we do not supply the -cpu
-option to the compiler, resulting in
+Sorry for the noise.
 
-/tmp/ccAVdYJd.s: Assembler messages:
-/tmp/ccAVdYJd.s:49: Error: unrecognized opcode: `brh'
-/tmp/ccAVdYJd.s:78: Error: unrecognized opcode: `brw'
-/tmp/ccAVdYJd.s:107: Error: unrecognized opcode: `brd'
-make[2]: *** [byte_reverse] Error 1
+C.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- tests/tcg/ppc64le/Makefile.target | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
-
-diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
-index 5e65b1590dba..ba2fde5ff1c3 100644
---- a/tests/tcg/ppc64le/Makefile.target
-+++ b/tests/tcg/ppc64le/Makefile.target
-@@ -9,18 +9,12 @@ PPC64LE_TESTS=bcdsub
- endif
- bcdsub: CFLAGS += -mpower8-vector
- 
--PPC64LE_TESTS += byte_reverse
- ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
-+PPC64LE_TESTS += byte_reverse
-+endif
-+byte_reverse: CFLAGS += -mcpu=power10
- run-byte_reverse: QEMU_OPTS+=-cpu POWER10
- run-plugin-byte_reverse-with-%: QEMU_OPTS+=-cpu POWER10
--else
--byte_reverse:
--	$(call skip-test, "BUILD of $@", "missing compiler support")
--run-byte_reverse:
--	$(call skip-test, "RUN of byte_reverse", "not built")
--run-plugin-byte_reverse-with-%:
--	$(call skip-test, "RUN of byte_reverse ($*)", "not built")
--endif
- 
- PPC64LE_TESTS += signal_save_restore_xer
- 
--- 
-2.31.1
+On 11/26/21 12:51, Cédric Le Goater wrote:
+> The following changes since commit 67f9968ce3f0847ffddb6ee2837a3641acd92abf:
+> 
+>    Update version for v6.2.0-rc1 release (2021-11-16 21:07:31 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/legoater/qemu/ tags/pull-ppc-20211119
+> 
+> for you to fetch changes up to a443d55c3f7cafa3d5dfb7fe2b5c3cd9d671b61d:
+> 
+>    tests/tcg/ppc64le: Fix compile flags for byte_reverse (2021-11-17 19:10:44 +0100)
+> 
+> ----------------------------------------------------------------
+> ppc 6.2 queue:
+> 
+> * fix pmu vmstate
+> * Fix compile of byte_reverse on new compilers
+> 
+> ----------------------------------------------------------------
+> Laurent Vivier (1):
+>        pmu: fix pmu vmstate subsection list
+> 
+> Richard Henderson (1):
+>        tests/tcg/ppc64le: Fix compile flags for byte_reverse
+> 
+>   hw/misc/macio/pmu.c               |  1 +
+>   tests/tcg/ppc64le/Makefile.target | 12 +++---------
+>   2 files changed, 4 insertions(+), 9 deletions(-)
+> 
 
 
