@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71DCA45ED48
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 13:00:33 +0100 (CET)
-Received: from localhost ([::1]:55612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A18BF45ED5D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 13:06:23 +0100 (CET)
+Received: from localhost ([::1]:35978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqZu4-0007Nh-GR
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 07:00:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59502)
+	id 1mqZzi-00059I-No
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 07:06:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZnq-0003Rl-MR
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:06 -0500
-Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:33791)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZnq-0003Rp-Q6
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:08 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:60791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZni-0007Sl-Ix
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZni-0007T8-Jo
  for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:04 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 549662240C;
- Fri, 26 Nov 2021 11:53:56 +0000 (UTC)
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.2])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id C6F8ACE26F07;
+ Fri, 26 Nov 2021 12:53:56 +0100 (CET)
 Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 26 Nov
- 2021 12:53:55 +0100
+ 2021 12:53:56 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006d5d745e1-9a84-40f7-ab4f-50c8e5903bb4,
+ (GARM-105G00672324542-314b-4d07-a91e-ab5f5cf809f4,
  B8303126CBA279BD35B7DF0844B381DDFAFB7782) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH v3 08/18] ppc/psi: Add support for StoreEOI and 64k ESB pages
- (POWER10)
-Date: Fri, 26 Nov 2021 12:53:39 +0100
-Message-ID: <20211126115349.2737605-9-clg@kaod.org>
+Subject: [PATCH v3 09/18] ppc/xive2: Add support for notification injection on
+ ESB pages
+Date: Fri, 26 Nov 2021 12:53:40 +0100
+Message-ID: <20211126115349.2737605-10-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211126115349.2737605-1-clg@kaod.org>
 References: <20211126115349.2737605-1-clg@kaod.org>
@@ -43,19 +43,18 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.105]
 X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 5271db7c-852d-4728-a9b9-4fa94cb547d2
-X-Ovh-Tracer-Id: 14615306694962350956
+X-Ovh-Tracer-GUID: 6a290eef-d4e2-47ea-91ff-be0ac7c28132
+X-Ovh-Tracer-Id: 14615306691671264108
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
- helo=9.mo552.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,121 +75,70 @@ Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-POWER10 adds support for StoreEOI operation and 64K ESB pages on PSIHB
-to be consistent with the other interrupt sources of the system.
+This is an internal offset used to inject triggers when the PQ state
+bits are not controlled locally. Such as for LSIs when the PHB5 are
+using the Address-Based Interrupt Trigger mode and on the END.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ppc/pnv.c     |  6 ++++++
- hw/ppc/pnv_psi.c | 30 ++++++++++++++++++++++++------
- 2 files changed, 30 insertions(+), 6 deletions(-)
+ include/hw/ppc/xive.h |  1 +
+ hw/intc/xive.c        |  9 +++++++++
+ hw/intc/xive2.c       | 10 ++++++++++
+ 3 files changed, 20 insertions(+)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index d510d2e1d917..96c908c753cb 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1526,6 +1526,9 @@ static void pnv_chip_power9_realize(DeviceState *dev, Error **errp)
-     /* Processor Service Interface (PSI) Host Bridge */
-     object_property_set_int(OBJECT(&chip9->psi), "bar", PNV9_PSIHB_BASE(chip),
-                             &error_fatal);
-+    /* This is the only device with 4k ESB pages */
-+    object_property_set_int(OBJECT(&chip9->psi), "shift", XIVE_ESB_4K,
-+                            &error_fatal);
-     if (!qdev_realize(DEVICE(&chip9->psi), NULL, errp)) {
-         return;
-     }
-@@ -1768,6 +1771,9 @@ static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
-     /* Processor Service Interface (PSI) Host Bridge */
-     object_property_set_int(OBJECT(&chip10->psi), "bar",
-                             PNV10_PSIHB_BASE(chip), &error_fatal);
-+    /* PSI can now be configured to use 64k ESB pages on POWER10 */
-+    object_property_set_int(OBJECT(&chip10->psi), "shift", XIVE_ESB_64K,
-+                            &error_fatal);
-     if (!qdev_realize(DEVICE(&chip10->psi), NULL, errp)) {
-         return;
-     }
-diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-index cd9a2c5952a6..737486046d5a 100644
---- a/hw/ppc/pnv_psi.c
-+++ b/hw/ppc/pnv_psi.c
-@@ -601,7 +601,6 @@ static const TypeInfo pnv_psi_power8_info = {
- #define   PSIHB9_IRQ_METHOD             PPC_BIT(0)
- #define   PSIHB9_IRQ_RESET              PPC_BIT(1)
- #define PSIHB9_ESB_CI_BASE              0x60
--#define   PSIHB9_ESB_CI_64K             PPC_BIT(1)
- #define   PSIHB9_ESB_CI_ADDR_MASK       PPC_BITMASK(8, 47)
- #define   PSIHB9_ESB_CI_VALID           PPC_BIT(63)
- #define PSIHB9_ESB_NOTIF_ADDR           0x68
-@@ -646,6 +645,14 @@ static const TypeInfo pnv_psi_power8_info = {
- #define   PSIHB9_IRQ_STAT_DIO           PPC_BIT(12)
- #define   PSIHB9_IRQ_STAT_PSU           PPC_BIT(13)
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index b8ab0bf7490f..875c7f639689 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -278,6 +278,7 @@ uint8_t xive_esb_set(uint8_t *pq, uint8_t value);
+ #define XIVE_ESB_STORE_EOI      0x400 /* Store */
+ #define XIVE_ESB_LOAD_EOI       0x000 /* Load */
+ #define XIVE_ESB_GET            0x800 /* Load */
++#define XIVE_ESB_INJECT         0x800 /* Store */
+ #define XIVE_ESB_SET_PQ_00      0xc00 /* Load */
+ #define XIVE_ESB_SET_PQ_01      0xd00 /* Load */
+ #define XIVE_ESB_SET_PQ_10      0xe00 /* Load */
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 190194d27f84..2c73ab5ca9d6 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1061,6 +1061,15 @@ static void xive_source_esb_write(void *opaque, hwaddr addr,
+         notify = xive_source_esb_eoi(xsrc, srcno);
+         break;
  
-+/* P10 register extensions */
-+
-+#define PSIHB10_CR                       PSIHB9_CR
-+#define    PSIHB10_CR_STORE_EOI          PPC_BIT(12)
-+
-+#define PSIHB10_ESB_CI_BASE              PSIHB9_ESB_CI_BASE
-+#define   PSIHB10_ESB_CI_64K             PPC_BIT(1)
-+
- static void pnv_psi_notify(XiveNotifier *xf, uint32_t srcno)
- {
-     PnvPsi *psi = PNV_PSI(xf);
-@@ -704,6 +711,13 @@ static void pnv_psi_p9_mmio_write(void *opaque, hwaddr addr,
- 
-     switch (addr) {
-     case PSIHB9_CR:
-+        if (val & PSIHB10_CR_STORE_EOI) {
-+            psi9->source.esb_flags |= XIVE_SRC_STORE_EOI;
-+        } else {
-+            psi9->source.esb_flags &= ~XIVE_SRC_STORE_EOI;
-+        }
++    /*
++     * This is an internal offset used to inject triggers when the PQ
++     * state bits are not controlled locally. Such as for LSIs when
++     * under ABT mode.
++     */
++    case XIVE_ESB_INJECT ... XIVE_ESB_INJECT + 0x3FF:
++        notify = true;
 +        break;
 +
-     case PSIHB9_SEMR:
-         /* FSP stuff */
-         break;
-@@ -715,15 +729,20 @@ static void pnv_psi_p9_mmio_write(void *opaque, hwaddr addr,
+     case XIVE_ESB_SET_PQ_00 ... XIVE_ESB_SET_PQ_00 + 0x0FF:
+     case XIVE_ESB_SET_PQ_01 ... XIVE_ESB_SET_PQ_01 + 0x0FF:
+     case XIVE_ESB_SET_PQ_10 ... XIVE_ESB_SET_PQ_10 + 0x0FF:
+diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
+index 9e186bbb6cd9..d474476b5a55 100644
+--- a/hw/intc/xive2.c
++++ b/hw/intc/xive2.c
+@@ -658,6 +658,16 @@ static void xive2_end_source_write(void *opaque, hwaddr addr,
+         notify = xive_esb_eoi(&pq);
          break;
  
-     case PSIHB9_ESB_CI_BASE:
-+        if (val & PSIHB10_ESB_CI_64K) {
-+            psi9->source.esb_shift = XIVE_ESB_64K;
-+        } else {
-+            psi9->source.esb_shift = XIVE_ESB_4K;
++    case XIVE_ESB_INJECT ... XIVE_ESB_INJECT + 0x3FF:
++        if (end_esmask == END2_W1_ESe) {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "XIVE: END %x/%x can not EQ inject on ESe\n",
++                           end_blk, end_idx);
++            return;
 +        }
-         if (!(val & PSIHB9_ESB_CI_VALID)) {
-             if (psi->regs[reg] & PSIHB9_ESB_CI_VALID) {
-                 memory_region_del_subregion(sysmem, &psi9->source.esb_mmio);
-             }
-         } else {
-             if (!(psi->regs[reg] & PSIHB9_ESB_CI_VALID)) {
--                memory_region_add_subregion(sysmem,
--                                        val & ~PSIHB9_ESB_CI_VALID,
--                                        &psi9->source.esb_mmio);
-+                hwaddr addr = val & ~(PSIHB9_ESB_CI_VALID | PSIHB10_ESB_CI_64K);
-+                memory_region_add_subregion(sysmem, addr,
-+                                            &psi9->source.esb_mmio);
-             }
-         }
-         psi->regs[reg] = val;
-@@ -831,6 +850,7 @@ static void pnv_psi_power9_instance_init(Object *obj)
-     Pnv9Psi *psi = PNV9_PSI(obj);
- 
-     object_initialize_child(obj, "source", &psi->source, TYPE_XIVE_SOURCE);
-+    object_property_add_alias(obj, "shift", OBJECT(&psi->source), "shift");
- }
- 
- static void pnv_psi_power9_realize(DeviceState *dev, Error **errp)
-@@ -839,8 +859,6 @@ static void pnv_psi_power9_realize(DeviceState *dev, Error **errp)
-     XiveSource *xsrc = &PNV9_PSI(psi)->source;
-     int i;
- 
--    /* This is the only device with 4k ESB pages */
--    object_property_set_int(OBJECT(xsrc), "shift", XIVE_ESB_4K, &error_fatal);
-     object_property_set_int(OBJECT(xsrc), "nr-irqs", PSIHB9_NUM_IRQS,
-                             &error_fatal);
-     object_property_set_link(OBJECT(xsrc), "xive", OBJECT(psi), &error_abort);
++        notify = true;
++        break;
++
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid END ESB write addr %d\n",
+                       offset);
 -- 
 2.31.1
 
