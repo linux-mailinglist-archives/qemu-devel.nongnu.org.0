@@ -2,49 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D263F45E44A
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 03:17:15 +0100 (CET)
-Received: from localhost ([::1]:44954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75ADE45E3F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 02:23:14 +0100 (CET)
+Received: from localhost ([::1]:35114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqQna-0003NA-Am
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 21:17:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36538)
+	id 1mqPxJ-0001mB-3e
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 20:23:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mqQjs-0002UM-7e; Thu, 25 Nov 2021 21:13:24 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:52879)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1mqPw7-0000Yh-1y
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 20:21:59 -0500
+Received: from mga18.intel.com ([134.134.136.126]:28028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mqQjo-0006rh-Os; Thu, 25 Nov 2021 21:13:24 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4J0dZL4t3tz4xcK; Fri, 26 Nov 2021 13:13:14 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1637892794;
- bh=6g2i3vCmNVuTYelBtr9R6f5dubJSJFmywIkLHgZ6OdM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LygPrD0ojx05OufYaM4TihHonYF8q7/HVGS/5Ci+QxHhIgoQMTeZaKYfRCVyqPoG9
- SzfgxeDpW9U4G9L8PThmjueYHayywmcYMTpWoUONTLlBbrFJngu8qiszoiYH6oPRvw
- p1JQ3oKrpWsupQCzN3KiK7pFNLSxMTcFouoRF9VA=
-Date: Fri, 26 Nov 2021 12:13:02 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>
-Subject: Re: [PATCH v2] target/ppc: fix Hash64 MMU update of PTE bit R
-Message-ID: <YaA0nkWqcGdZ7jM2@yekko>
-References: <20211125183322.47230-1-leandro.lupori@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1mqPw4-0007q6-2N
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 20:21:58 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="222457972"
+X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; d="scan'208";a="222457972"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2021 17:21:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; d="scan'208";a="475758542"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga002.jf.intel.com with ESMTP; 25 Nov 2021 17:21:49 -0800
+Received: from shsmsx603.ccr.corp.intel.com (10.109.6.143) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 25 Nov 2021 17:21:48 -0800
+Received: from shsmsx601.ccr.corp.intel.com (10.109.6.141) by
+ SHSMSX603.ccr.corp.intel.com (10.109.6.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 26 Nov 2021 09:21:46 +0800
+Received: from shsmsx601.ccr.corp.intel.com ([10.109.6.141]) by
+ SHSMSX601.ccr.corp.intel.com ([10.109.6.141]) with mapi id 15.01.2242.012;
+ Fri, 26 Nov 2021 09:21:46 +0800
+From: "Wang, Wei W" <wei.w.wang@intel.com>
+To: David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: RE: [PATCH 1/2] virito-balloon: process all in sgs for free_page_vq
+Thread-Topic: [PATCH 1/2] virito-balloon: process all in sgs for free_page_vq
+Thread-Index: AQHX4aM373Nsl56tkkG+6+cIJtb0FKwTY5qAgACAqgCAAABxgIABFUCQ
+Date: Fri, 26 Nov 2021 01:21:46 +0000
+Message-ID: <b8d226cb51d04484861f1e1809043c1d@intel.com>
+References: <20211125022046.10433-1-jasowang@redhat.com>
+ <f4ae1d19-1409-7250-5149-8831b2cfa1d2@redhat.com>
+ <20211125110724-mutt-send-email-mst@kernel.org>
+ <d162f85f-214b-3d4b-c860-47b3367e7099@redhat.com>
+In-Reply-To: <d162f85f-214b-3d4b-c860-47b3367e7099@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.200.16
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wiKuDAs6Y/VTvSrg"
-Content-Disposition: inline
-In-Reply-To: <20211125183322.47230-1-leandro.lupori@eldorado.org.br>
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=134.134.136.126;
+ envelope-from=wei.w.wang@intel.com; helo=mga18.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,91 +81,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, clg@kaod.org
+Cc: "mpe@ellerman.id.au" <mpe@ellerman.id.au>, Jason Wang <jasowang@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alexander Duyck <alexander.duyck@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---wiKuDAs6Y/VTvSrg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Nov 25, 2021 at 03:33:22PM -0300, Leandro Lupori wrote:
-> When updating the R bit of a PTE, the Hash64 MMU was using a wrong byte
-> offset, causing the first byte of the adjacent PTE to be corrupted.
-> This caused a panic when booting FreeBSD, using the Hash MMU.
->=20
-> Fixes: a2dd4e83e76b ("ppc/hash64: Rework R and C bit updates")
-> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
-
-If you're introducing the constant, it would make sense to also use it
-in spapr_hpte_set_r().
-
-> ---
-> Changes from v1:
-> - Add and use a new define for the byte offset of PTE bit R
-> ---
->  target/ppc/mmu-hash64.c | 2 +-
->  target/ppc/mmu-hash64.h | 3 +++
->  2 files changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-> index 19832c4b46..0968927744 100644
-> --- a/target/ppc/mmu-hash64.c
-> +++ b/target/ppc/mmu-hash64.c
-> @@ -786,7 +786,7 @@ static void ppc_hash64_set_dsi(CPUState *cs, int mmu_=
-idx, uint64_t dar, uint64_t
-> =20
->  static void ppc_hash64_set_r(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
->  {
-> -    hwaddr base, offset =3D ptex * HASH_PTE_SIZE_64 + 16;
-> +    hwaddr base, offset =3D ptex * HASH_PTE_SIZE_64 + HPTE64_R_R_BYTE_OF=
-FSET;
-> =20
->      if (cpu->vhyp) {
->          PPCVirtualHypervisorClass *vhc =3D
-> diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
-> index c5b2f97ff7..40bb901262 100644
-> --- a/target/ppc/mmu-hash64.h
-> +++ b/target/ppc/mmu-hash64.h
-> @@ -97,6 +97,9 @@ void ppc_hash64_finalize(PowerPCCPU *cpu);
->  #define HPTE64_V_1TB_SEG        0x4000000000000000ULL
->  #define HPTE64_V_VRMA_MASK      0x4001ffffff000000ULL
-> =20
-> +/* PTE byte offsets */
-> +#define HPTE64_R_R_BYTE_OFFSET  14
-> +
->  /* Format changes for ARCH v3 */
->  #define HPTE64_V_COMMON_BITS    0x000fffffffffffffULL
->  #define HPTE64_R_3_0_SSIZE_SHIFT 58
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---wiKuDAs6Y/VTvSrg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGgNJ4ACgkQbDjKyiDZ
-s5IqVg//S3e5WchJLRK+Hf8T/2XHaJVQRW95F/T9yJ8zf8zffw3LFRoigsFs6ztK
-yu//NbR7XW0Yz1QPDfKcJy7pLnCQUTtkE4jXTR1a2RdZwEXhyrmGTHlyagST9MS/
-xR9IU6+LYRm2mINU3YmmWrVL2ALu63eTgKwQlBZX94NXj6SdNqgH1lbQ19hcuSPJ
-Cb70BlhxT4ZALa2NLu6Lu67ANeV+FzfNUxDu2kFJ0qJsQ4BHzVDSnuzEW6WQ6s9x
-2rlzXsKmiqyDpMP2USuy1CGkSW6S4NawLSBAaa7pGBlyOYSICicGtTXI3dRfUUBR
-Z73LPYVfdaY6ezRyHlsaW/jTD5PKXWFcVKRCsStFWEi32zWk1VvX3jbwpQtyNS+H
-1etfHBmeKYVSsjTTY3FwYk6JW/+fPD2+76jGF3taLpVZ6OujJqsm+A+MS+bKTlGt
-LebjB2OCqAfgLjjP+YBf9FYc9wfuP+11IAAJVc7Ba2yrR3PuTjTSJbTHZg5JuxnW
-g/s/vB3iloDytY7t2+bRMb54hEjuBLGC3+p8AExZqz5HcMLcoQIKZI7sfTk2t6iY
-jYJX4jUo8tPw3MBYGU6W2D6HdUV2kpQ5XNOEcpkdoDR+aR7ZWif599eufB9O7yTE
-WBAPjrWCYBjy0/e5zEdcJf3fjVdVI2tWDFdTVIftfCEyu6QOixo=
-=+MHS
------END PGP SIGNATURE-----
-
---wiKuDAs6Y/VTvSrg--
+T24gRnJpZGF5LCBOb3ZlbWJlciAyNiwgMjAyMSAxMjoxMSBBTSwgRGF2aWQgSGlsZGVuYnJhbmQg
+d3JvdGU6DQo+IE9uIDI1LjExLjIxIDE3OjA5LCBNaWNoYWVsIFMuIFRzaXJraW4gd3JvdGU6DQo+
+ID4gT24gVGh1LCBOb3YgMjUsIDIwMjEgYXQgMDk6Mjg6NTlBTSArMDEwMCwgRGF2aWQgSGlsZGVu
+YnJhbmQgd3JvdGU6DQo+ID4+IE9uIDI1LjExLjIxIDAzOjIwLCBKYXNvbiBXYW5nIHdyb3RlOg0K
+PiA+Pj4gV2Ugb25seSBwcm9jZXNzIHRoZSBmaXJzdCBpbiBzZyB3aGljaCBtYXkgbGVhZCB0byB0
+aGUgYml0bWFwIG9mIHRoZQ0KPiA+Pj4gcGFnZXMgYmVsb25ncyB0byBmb2xsb3dpbmcgc2dzIHdl
+cmUgbm90IGNsZWFyZWQuIFRoaXMgbWF5IHJlc3VsdA0KPiA+Pj4gbW9yZSBwYWdlcyB0byBiZSBt
+aWdyYXRlZC4gRml4aW5nIHRoaXMgYnkgcHJvY2VzcyBhbGwgaW4gc2dzIGZvcg0KPiA+Pj4gZnJl
+ZV9wYWdlX3ZxLg0KPiA+Pj4NCj4gPj4+IFNpZ25lZC1vZmYtYnk6IEphc29uIFdhbmcgPGphc293
+YW5nQHJlZGhhdC5jb20+DQo+ID4+PiAtLS0NCj4gPj4+ICBody92aXJ0aW8vdmlydGlvLWJhbGxv
+b24uYyB8IDcgKysrKystLQ0KPiA+Pj4gIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyks
+IDIgZGVsZXRpb25zKC0pDQo+ID4+Pg0KPiA+Pj4gZGlmZiAtLWdpdCBhL2h3L3ZpcnRpby92aXJ0
+aW8tYmFsbG9vbi5jIGIvaHcvdmlydGlvL3ZpcnRpby1iYWxsb29uLmMNCj4gPj4+IGluZGV4IGM2
+OTYyZmNiZmUuLjE3ZGUyNTU4Y2IgMTAwNjQ0DQo+ID4+PiAtLS0gYS9ody92aXJ0aW8vdmlydGlv
+LWJhbGxvb24uYw0KPiA+Pj4gKysrIGIvaHcvdmlydGlvL3ZpcnRpby1iYWxsb29uLmMNCj4gPj4+
+IEBAIC01MTAsNiArNTEwLDcgQEAgc3RhdGljIGJvb2wgZ2V0X2ZyZWVfcGFnZV9oaW50cyhWaXJ0
+SU9CYWxsb29uDQo+ICpkZXYpDQo+ID4+PiAgICAgIFZpcnRJT0RldmljZSAqdmRldiA9IFZJUlRJ
+T19ERVZJQ0UoZGV2KTsNCj4gPj4+ICAgICAgVmlydFF1ZXVlICp2cSA9IGRldi0+ZnJlZV9wYWdl
+X3ZxOw0KPiA+Pj4gICAgICBib29sIHJldCA9IHRydWU7DQo+ID4+PiArICAgIGludCBpOw0KPiA+
+Pj4NCj4gPj4+ICAgICAgd2hpbGUgKGRldi0+YmxvY2tfaW90aHJlYWQpIHsNCj4gPj4+ICAgICAg
+ICAgIHFlbXVfY29uZF93YWl0KCZkZXYtPmZyZWVfcGFnZV9jb25kLA0KPiAmZGV2LT5mcmVlX3Bh
+Z2VfbG9jayk7DQo+ID4+PiBAQCAtNTQ0LDggKzU0NSwxMCBAQCBzdGF0aWMgYm9vbCBnZXRfZnJl
+ZV9wYWdlX2hpbnRzKFZpcnRJT0JhbGxvb24NCj4gKmRldikNCj4gPj4+ICAgICAgfQ0KPiA+Pj4N
+Cj4gPj4+ICAgICAgaWYgKGVsZW0tPmluX251bSAmJiBkZXYtPmZyZWVfcGFnZV9oaW50X3N0YXR1
+cyA9PQ0KPiBGUkVFX1BBR0VfSElOVF9TX1NUQVJUKSB7DQo+ID4+PiAtICAgICAgICBxZW11X2d1
+ZXN0X2ZyZWVfcGFnZV9oaW50KGVsZW0tPmluX3NnWzBdLmlvdl9iYXNlLA0KPiA+Pj4gLSAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbGVtLT5pbl9zZ1swXS5pb3ZfbGVuKTsNCj4g
+Pj4+ICsgICAgICAgIGZvciAoaSA9IDA7IGkgPCBlbGVtLT5pbl9udW07IGkrKykgew0KPiA+Pj4g
+KyAgICAgICAgICAgIHFlbXVfZ3Vlc3RfZnJlZV9wYWdlX2hpbnQoZWxlbS0+aW5fc2dbaV0uaW92
+X2Jhc2UsDQo+ID4+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbGVt
+LT5pbl9zZ1tpXS5pb3ZfbGVuKTsNCj4gPj4+ICsgICAgICAgIH0NCj4gPj4+ICAgICAgfQ0KPiA+
+Pj4NCj4gPj4+ICBvdXQ6DQo+ID4+Pg0KPiA+Pg0KPiA+PiBZZXMsIGJ1dDoNCj4gPj4NCj4gPj4g
+MS4gTGludXggbmV2ZXIgdXNlZCBtb3JlIHRoYW4gb25lDQo+ID4+IDIuIFFFTVUgbmV2ZXIgY29u
+c3VtZWQgbW9yZSB0aGFuIG9uZQ0KDQpZZXMsIGl0IHdvcmtzIGJhc2VkIG9uIHRoZSBmYWN0IHRo
+YXQgTGludXggb25seSBzZW5kcyBvbmUgaGludCBlYWNoIHRpbWUuDQoNCj4gPj4NCj4gPj4gVGhl
+IHNwZWMgc3RhdGVzOg0KPiA+Pg0KPiA+PiAiKGIpIFRoZSBkcml2ZXIgbWFwcyBhIHNlcmllcyBv
+ZiBwYWdlcyBhbmQgYWRkcyB0aGVtIHRvIHRoZQ0KPiA+PiBmcmVlX3BhZ2VfdnEgYXMgaW5kaXZp
+ZHVhbCBzY2F0dGVyLWdhdGhlciBpbnB1dCBidWZmZXIgZW50cmllcy4iDQo+ID4+DQo+ID4+IEhv
+d2V2ZXIsIHRoZSBzcGVjIHdhcyB3cml0dGVuIGJ5IHNvbWVvbmUgZWxzZSAoQWxleCkgYXMgdGhl
+IGNvZGUgd2FzDQo+ID4+IChXZWkpLiBUaGUgY29kZSB3YXMgdGhlcmUgZmlyc3QuDQo+ID4+DQo+
+ID4+IEkgZG9uJ3QgcGFydGljdWxhcmx5IGNhcmUgd2hhdCB0byBhZGp1c3QgKGNvZGUgb3Igc3Bl
+YykuIEhvd2V2ZXIsIHRvDQo+ID4+IG1lIGl0IGZlZWxzIG1vcmUgbGlrZSB0aGUgc3BlYyBpcyBz
+bGlnaHRseSB3cm9uZyBhbmQgaXQgd2FzIGludGVuZGVkDQo+ID4+IGxpa2UgdGhlIGNvZGUgaXMg
+YnkgdGhlIG9yaWdpbmFsIGNvZGUgYXV0aG9yLg0KPiA+Pg0KPiA+PiBCdXQgdGhlbiBhZ2Fpbiwg
+SSBkb24ndCBwYXJ0aWN1bGFybHkgY2FyZSA6KQ0KPiA+DQo+ID4gT3JpZ2luYWwgUUVNVSBzaWRl
+IGNvZGUgaGFkIHNldmVyYWwgYnVncyBzbywgdGhhdCdzIGFub3RoZXIgb25lLg0KPiA+IEdpdmVu
+IG5vdGhpbmcgdG9vIGJhZCBoYXBwZW5zIGlmIGd1ZXN0IHN1Ym1pdHMgdG9vIG1hbnkgUy9Hcywg
+YW5kDQo+ID4gZ2l2ZW4gdGhlIHNwZWMgYWxzbyBoYXMgYSBnZW5lcmFsIGNoYXB0ZXIgc3VnZ2Vz
+dGluZyBkZXZpY2VzIGFyZQ0KPiA+IGZsZXhpYmxlIGluIGFjY2VwdGluZyBhIHNpbmdsZSBidWZm
+ZXIgc3BsaXQgdG8gbXVsdGlwbGUgUy9HcywgSSdtDQo+ID4gaW5jbGluZWQgdG8gYWNjZXB0IHRo
+ZSBwYXRjaC4NCj4gDQo+IFllYWgsIGFzIEkgc2FpZCwgSSBkb24ndCBwYXJ0aWN1bGFybHkgY2Fy
+ZS4gSXQncyBjZXJ0YWlubHkgYW4gImVhc3kgY2hhbmdlIi4NCj4gDQo+IEFja2VkLWJ5OiBEYXZp
+ZCBIaWxkZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT4NCj4gDQoNCkRvbuKAmXQgb2JqZWN0IHRo
+ZSBjaGFuZ2UuDQpKdXN0IGluIGNhc2Ugc29tZXRoaW5nIHVuZXhwZWN0ZWQsIGl0IHdvdWxkIGJl
+IGJldHRlciBpZiBzb21lb25lIGNvdWxkIGhlbHAgZG8gYSB0ZXN0Lg0KDQpUaGFua3MsDQpXZWkN
+Cg==
 
