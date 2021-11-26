@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9ACE45E452
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 03:21:02 +0100 (CET)
-Received: from localhost ([::1]:47100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D263F45E44A
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 03:17:15 +0100 (CET)
+Received: from localhost ([::1]:44954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqQrE-00053q-FP
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 21:21:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36536)
+	id 1mqQna-0003NA-Am
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 21:17:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mqQjr-0002UK-Ps; Thu, 25 Nov 2021 21:13:24 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:50577)
+ id 1mqQjs-0002UM-7e; Thu, 25 Nov 2021 21:13:24 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:52879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mqQjo-0006rg-LB; Thu, 25 Nov 2021 21:13:23 -0500
+ id 1mqQjo-0006rh-Os; Thu, 25 Nov 2021 21:13:24 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4J0dZL4dGHz4xbs; Fri, 26 Nov 2021 13:13:14 +1100 (AEDT)
+ id 4J0dZL4t3tz4xcK; Fri, 26 Nov 2021 13:13:14 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1637892794;
- bh=Ug1KbDPv7fKwOB7mlcNB6lGkzRtuQF5xwT+SQKxk5aE=;
+ bh=6g2i3vCmNVuTYelBtr9R6f5dubJSJFmywIkLHgZ6OdM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aMVlqobNAfwCh+m9srFKLO9+Sp11BNkrWjzLZZ0io+LLDRBiuJw6ehwag7xOY0vh6
- r+d3bgEb327S2gmDvASoU9lfLpdM91HdQufS+Wa0lR7I+Pdx696a6obQchRMycWRTC
- lwyro6NVedgIploeAKY7EmjLMxm8vbrxfRKRcX6g=
-Date: Fri, 26 Nov 2021 12:11:36 +1100
+ b=LygPrD0ojx05OufYaM4TihHonYF8q7/HVGS/5Ci+QxHhIgoQMTeZaKYfRCVyqPoG9
+ SzfgxeDpW9U4G9L8PThmjueYHayywmcYMTpWoUONTLlBbrFJngu8qiszoiYH6oPRvw
+ p1JQ3oKrpWsupQCzN3KiK7pFNLSxMTcFouoRF9VA=
+Date: Fri, 26 Nov 2021 12:13:02 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 1/1] ppc/pnv.c: add a friendly warning when accel=kvm is
- used
-Message-ID: <YaA0SIVnltlrarQZ@yekko>
-References: <20211125224202.632658-1-danielhb413@gmail.com>
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>
+Subject: Re: [PATCH v2] target/ppc: fix Hash64 MMU update of PTE bit R
+Message-ID: <YaA0nkWqcGdZ7jM2@yekko>
+References: <20211125183322.47230-1-leandro.lupori@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VisctKliHs4J2dS0"
+ protocol="application/pgp-signature"; boundary="wiKuDAs6Y/VTvSrg"
 Content-Disposition: inline
-In-Reply-To: <20211125224202.632658-1-danielhb413@gmail.com>
+In-Reply-To: <20211125183322.47230-1-leandro.lupori@eldorado.org.br>
 Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
@@ -58,69 +57,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
+Cc: groug@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---VisctKliHs4J2dS0
+--wiKuDAs6Y/VTvSrg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 25, 2021 at 07:42:02PM -0300, Daniel Henrique Barboza wrote:
-> If one tries to use -machine powernv9,accel=3Dkvm in a Power9 host, a
-> cryptic error will be shown:
+On Thu, Nov 25, 2021 at 03:33:22PM -0300, Leandro Lupori wrote:
+> When updating the R bit of a PTE, the Hash64 MMU was using a wrong byte
+> offset, causing the first byte of the adjacent PTE to be corrupted.
+> This caused a panic when booting FreeBSD, using the Hash MMU.
 >=20
-> qemu-system-ppc64: Register sync failed... If you're using kvm-hv.ko, onl=
-y "-cpu host" is possible
-> qemu-system-ppc64: kvm_init_vcpu: kvm_arch_init_vcpu failed (0): Invalid =
-argument
->=20
-> Appending '-cpu host' will throw another error:
->=20
-> qemu-system-ppc64: invalid chip model 'host' for powernv9 machine
->=20
-> The root cause is that in IBM PowerPC we have different specs for the bar=
-e-metal
-> and the guests. The bare-metal follows OPAL, the guests follow PAPR. The =
-kernel
-> KVM modules presented in the ppc kernels implements PAPR. This means that=
- we
-> can't use KVM accel when using the powernv machine, which is the emulatio=
-n of
-> the bare-metal host.
->=20
-> All that said, let's give a more informative error in this case.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Fixes: a2dd4e83e76b ("ppc/hash64: Rework R and C bit updates")
+> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+
+If you're introducing the constant, it would make sense to also use it
+in spapr_hpte_set_r().
+
 > ---
->  hw/ppc/pnv.c | 5 +++++
->  1 file changed, 5 insertions(+)
+> Changes from v1:
+> - Add and use a new define for the byte offset of PTE bit R
+> ---
+>  target/ppc/mmu-hash64.c | 2 +-
+>  target/ppc/mmu-hash64.h | 3 +++
+>  2 files changed, 4 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 71e45515f1..e5b87e8730 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -742,6 +742,11 @@ static void pnv_init(MachineState *machine)
->      DriveInfo *pnor =3D drive_get(IF_MTD, 0, 0);
->      DeviceState *dev;
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index 19832c4b46..0968927744 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -786,7 +786,7 @@ static void ppc_hash64_set_dsi(CPUState *cs, int mmu_=
+idx, uint64_t dar, uint64_t
 > =20
-> +    if (kvm_enabled()) {
-> +        error_report("The powernv machine does not work with KVM acceler=
-ation");
-> +        exit(EXIT_FAILURE);
-> +    }
-
-
-Hmm.. my only concern here is that powernv could, at least
-theoretically, work with KVM PR.  I don't think it does right now,
-though.
-
+>  static void ppc_hash64_set_r(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
+>  {
+> -    hwaddr base, offset =3D ptex * HASH_PTE_SIZE_64 + 16;
+> +    hwaddr base, offset =3D ptex * HASH_PTE_SIZE_64 + HPTE64_R_R_BYTE_OF=
+FSET;
+> =20
+>      if (cpu->vhyp) {
+>          PPCVirtualHypervisorClass *vhc =3D
+> diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
+> index c5b2f97ff7..40bb901262 100644
+> --- a/target/ppc/mmu-hash64.h
+> +++ b/target/ppc/mmu-hash64.h
+> @@ -97,6 +97,9 @@ void ppc_hash64_finalize(PowerPCCPU *cpu);
+>  #define HPTE64_V_1TB_SEG        0x4000000000000000ULL
+>  #define HPTE64_V_VRMA_MASK      0x4001ffffff000000ULL
+> =20
+> +/* PTE byte offsets */
+> +#define HPTE64_R_R_BYTE_OFFSET  14
 > +
->      /* allocate RAM */
->      if (machine->ram_size < mc->default_ram_size) {
->          char *sz =3D size_to_str(mc->default_ram_size);
+>  /* Format changes for ARCH v3 */
+>  #define HPTE64_V_COMMON_BITS    0x000fffffffffffffULL
+>  #define HPTE64_R_3_0_SSIZE_SHIFT 58
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -128,25 +123,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---VisctKliHs4J2dS0
+--wiKuDAs6Y/VTvSrg
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGgNEcACgkQbDjKyiDZ
-s5LgSg//aSjzY0pNBTrMUFon6xF1CAQ2V6oVbuuThM2zS6VprwxPm4A8Q0IUEBxI
-/CEaAocITbDdcoWQ66dDrky1V7ldZC0YjooMf2oTdPd1EdCtsrwzMRNh+Ed4sS3O
-r6PZXmTLx2nEEYg9NP+z1Q3BdGRZb0CtxwVkLpgbFwZ00OUqIIwmZjOV/+o40uDh
-eW723MX0jixROhDxubS6N89Qc5w5K9b+02gt6JGlYhGFM3Vcc8x/vt8cboRlHvN3
-uGOWX67z3Bxy4Qi23a/YRevlMl8qDLR/+0eKCnlavxOjqT7EDeLW+ARJNWbuaoE+
-o5YYkbnAXtNdrIRty080viA88gV/TYXWMG+OqDFovWrh8XJYPyPxWhB0S+y3l6oQ
-PQ6Q7zgghygoEcY8OR3yfIzVjYPnfP/+OFlGQtSkjL+u6v1UiTWp8F46+1XOg4YI
-gb9cyZgJNsejcWxV+DwdxDDFJ/tCtqB/uNW0GKDRMwaZH376HTUCnunzdoJYlnLc
-92BPdQ2fxwjKJJgrB6QSi29WoYwSRvHZRBUB673V/mnV0IS13E1jnnZgNVsfTl7B
-OcBXAvncea82ZDKMVxxASQ4cf+Yzr61kM9MxOkE+oxEXsG+OPOzjofaJyqbuLdwK
-76ovKZ3OrK/YIT3aBQFb+zHuoWPny643Pz3uwKyyDClHsn7CH4w=
-=3M49
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGgNJ4ACgkQbDjKyiDZ
+s5IqVg//S3e5WchJLRK+Hf8T/2XHaJVQRW95F/T9yJ8zf8zffw3LFRoigsFs6ztK
+yu//NbR7XW0Yz1QPDfKcJy7pLnCQUTtkE4jXTR1a2RdZwEXhyrmGTHlyagST9MS/
+xR9IU6+LYRm2mINU3YmmWrVL2ALu63eTgKwQlBZX94NXj6SdNqgH1lbQ19hcuSPJ
+Cb70BlhxT4ZALa2NLu6Lu67ANeV+FzfNUxDu2kFJ0qJsQ4BHzVDSnuzEW6WQ6s9x
+2rlzXsKmiqyDpMP2USuy1CGkSW6S4NawLSBAaa7pGBlyOYSICicGtTXI3dRfUUBR
+Z73LPYVfdaY6ezRyHlsaW/jTD5PKXWFcVKRCsStFWEi32zWk1VvX3jbwpQtyNS+H
+1etfHBmeKYVSsjTTY3FwYk6JW/+fPD2+76jGF3taLpVZ6OujJqsm+A+MS+bKTlGt
+LebjB2OCqAfgLjjP+YBf9FYc9wfuP+11IAAJVc7Ba2yrR3PuTjTSJbTHZg5JuxnW
+g/s/vB3iloDytY7t2+bRMb54hEjuBLGC3+p8AExZqz5HcMLcoQIKZI7sfTk2t6iY
+jYJX4jUo8tPw3MBYGU6W2D6HdUV2kpQ5XNOEcpkdoDR+aR7ZWif599eufB9O7yTE
+WBAPjrWCYBjy0/e5zEdcJf3fjVdVI2tWDFdTVIftfCEyu6QOixo=
+=+MHS
 -----END PGP SIGNATURE-----
 
---VisctKliHs4J2dS0--
+--wiKuDAs6Y/VTvSrg--
 
