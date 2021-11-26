@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD0F645EC78
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 12:21:55 +0100 (CET)
-Received: from localhost ([::1]:36930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 638DE45ECA1
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 12:28:48 +0100 (CET)
+Received: from localhost ([::1]:42516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqZIg-0007Iz-IZ
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 06:21:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50586)
+	id 1mqZPK-0003N8-M2
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 06:28:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mqZGr-0005qO-D5
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:20:01 -0500
-Received: from [2a00:1450:4864:20::42f] (port=37449
- helo=mail-wr1-x42f.google.com)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mqZMa-0001PY-54
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:25:59 -0500
+Received: from [2a00:1450:4864:20::435] (port=46634
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mqZGp-0002Jv-JC
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:20:00 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id b12so17912089wrh.4
- for <qemu-devel@nongnu.org>; Fri, 26 Nov 2021 03:19:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4OKl01bOGIbyp4u55BVn47b+llH5FbyfeHC/mYV2utY=;
- b=pA4tL6ot7juJ73bNX4Eua4dP9n+bB9A9rPDljbkrw+80ZxgSthUXc2wIGOl2/oRoih
- Ahs2u/y9r13PVjVVxHac+z7ZpTH5ZGSUGoRWkIlWjNdpyzNVgqf+7F8gj6DmhLRKFxSQ
- O0HSqTejOrWjgPey502tKnx6qgTCEJPTNyn+X/vm5131Qv14DfKrIE5k4DnjOvdl3HWE
- Wwu2od0J/U2eHKBJ1Dn6rRuIjVu8e3G3fT65fOyB3O33voFu+yfFRzLzajWWhIOH58Bk
- bvgRvBlL0ujk8TT0jwEFbxQFb4mfG87RnBl6cuztRPdu8MZZD8wCpHOphQ4v2tZHcnuY
- A7Hg==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mqZMV-0003JC-LA
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:25:54 -0500
+Received: by mail-wr1-x435.google.com with SMTP id u1so17864431wru.13
+ for <qemu-devel@nongnu.org>; Fri, 26 Nov 2021 03:25:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hQ3scX0EVY1Vn7ArySsY6WW2BycDOb0gkp9IlD/3+DM=;
+ b=pMR/qkD/8wWUL1OOQcuA63a3LqIKW7p6txyc3EQUYE3+9lSGUZJwYQOLDXrfmgyEgN
+ kjhH1Hb+/FrvBxOYTfVr+Xa5MmNZ0Knvi1JKbm1/R5SpgvWJ1WtTUPeopvDqGRKLDyUD
+ MrmGY/qomrksswU6KloV/aNUvxvWfL9QhDow7dhi1+7QR6q2ZAKmc0F4BX5QIzgfEa4I
+ IVCowJ6pJqhyp569qg+Zp0JJhiCWT/O8QsiL1qO1f2Rv3ttNXPwJjO7EtHdJFgv2Pebs
+ xl88DbrGRGdNmLmoHUO2tMtjqcvMrvTenjE+Jw3NGGyRr2RyjDxmd5in0tzswUMY8Ucb
+ vbGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4OKl01bOGIbyp4u55BVn47b+llH5FbyfeHC/mYV2utY=;
- b=O+5sxYuUU9XDgkY98cE2ZYvW45ORLC4H3xcRYiDpG/CPPWo0CKcfF8pbUxP3S2+YF/
- T0sYJRe26axlBx1U+lRM1fvEsO4nuN93Vj36Kro2Q3EpHiVMQwjJE+j8yN+0w8TgOaY/
- /ZXtK/DP4LViDs06Bn94WObvIghIevgoNp+77wqHm48hLhWE72om3RiWCQ/nufsLPmOb
- lVzbRdecSkbJw1VaB+dwFoX19XSIvMM/U1sOv1J3HO6GA6mh1f/+IKqu0vVito7UxFU1
- dr1rElP1RbINxAFk71icTNTUxpoQ6xeekHWI0iE8pewPt/Nrn7dEwU0meLQQkrPtLDNs
- eh3w==
-X-Gm-Message-State: AOAM533uAC27BElb+YDNpBwZPhfjc0SwiudKwDs1JncLDha0vWD/3L68
- cml3+OC5JUlZY2AYXdQzFhOktg==
-X-Google-Smtp-Source: ABdhPJwD3tq41JZ+aG6Ej3Uw5EZvyM/RkjAcWHGLlcqLhR8MgphUjDWUoKBAd/Xy2l1LoTEUiyUlOw==
-X-Received: by 2002:a5d:452c:: with SMTP id j12mr13129504wra.430.1637925598107; 
- Fri, 26 Nov 2021 03:19:58 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id d9sm5253075wre.52.2021.11.26.03.19.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Nov 2021 03:19:57 -0800 (PST)
-Subject: Re: [PATCH v5 01/22] target/riscv: Adjust pmpcfg access with mxl
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211125073951.57678-1-zhiwei_liu@c-sky.com>
- <20211125073951.57678-2-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e0f578f7-63b3-691c-582b-0f79c5efba70@linaro.org>
-Date: Fri, 26 Nov 2021 12:19:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hQ3scX0EVY1Vn7ArySsY6WW2BycDOb0gkp9IlD/3+DM=;
+ b=QzX7M7PgHYDNeL+Svqzeg2c4S5Pg3dIaE553iprt8NsMHdEf112RDyyM0XNidy5tKD
+ CYGAiJfZCycr1inUEC8858NOrr4a6wZFDMSLQuQq9vWZvBJJqAfUj8cXnA0D6I6Sxv/E
+ RPQQ7fCOtRclmP97tZ0k5UZS/X6FOKNVfbEpnU5yqrEMGyWX4pLR6DPpIQPl/p97Gxm2
+ TIucUOmNQnBlDTGg4dOOPZ65S530pIE8utMkHq6KICUckyj40hdDWgL0yq6LVjPppktE
+ Ell9ZWoh4R2nXrVmNMQbGOFfiT3mr4g00AQqBkLYX7ZUMdMe/DfK5qrKnFiEM0jJpZO6
+ sGMg==
+X-Gm-Message-State: AOAM5312G30ChsllK1Mj8WHUHYMHgM1lbC6vsW0yacj6ajrcg6S4WMes
+ rAWog/zvngI1rzWtO4ARO5f2Aa9nGVpT4uBS+b0=
+X-Google-Smtp-Source: ABdhPJxsNgB0RnznxdRDPRZwrIIbiH3ekxTRqCMp15Nn9tFqqW9JAh9ZMXSw3rJPjTGDokcNNfm2DNAJ7z+lSwnxfso=
+X-Received: by 2002:a5d:6085:: with SMTP id w5mr13997847wrt.122.1637925944968; 
+ Fri, 26 Nov 2021 03:25:44 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211125073951.57678-2-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+References: <1637908114-29133-1-git-send-email-priyankar.jain@nutanix.com>
+In-Reply-To: <1637908114-29133-1-git-send-email-priyankar.jain@nutanix.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 26 Nov 2021 15:25:31 +0400
+Message-ID: <CAJ+F1CJsJuDfExMM2fOCzXgqXmTZCSvLBG6EWR6v8jkO-8dn6A@mail.gmail.com>
+Subject: Re: [PATCH] dbus-vmstate: Restrict error checks to registered proxies
+ in dbus_get_proxies
+To: Priyankar Jain <priyankar.jain@nutanix.com>
+Content-Type: multipart/alternative; boundary="0000000000001e49f205d1af5a62"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.993,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,21 +81,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/25/21 8:39 AM, LIU Zhiwei wrote:
-> +static bool check_pmp_reg_index(CPURISCVState *env, uint32_t reg_index)
-> +{
-> +    if ((reg_index & 1) && (riscv_cpu_mxl(env) == MXL_RV64)) {
+--0000000000001e49f205d1af5a62
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Let's make this != MXL_RV32.  I suppose real RV128 will extend this restriction to mod 4, 
-but that is not yet documented.
+Hi
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Fri, Nov 26, 2021 at 10:49 AM Priyankar Jain <priyankar.jain@nutanix.com=
+>
+wrote:
+
+> The purpose of dbus_get_proxies to construct the proxies corresponding to
+> the
+> IDs registered to dbus-vmstate.
+>
+> Currenty, this function returns an error in case there is any failure
+> while instantiating proxy for "all" the names on dbus.
+>
+> Ideally this function should error out only if it is not able to find and
+> validate the proxies registered to the backend otherwise any offending
+> process(for eg: the process purposefully may not export its Id property o=
+n
+> the dbus) may connect to the dbus and can lead to migration failures.
+>
+
+ok
 
 
-r~
+> This commit ensures that dbus_get_proxies returns an error if it is not
+> able to find and validate the proxies of interest(the IDs registered
+> during the dbus-vmstate instantiation).
+>
+> Signed-off-by: Priyankar Jain <priyankar.jain@nutanix.com>
+> ---
+>  backends/dbus-vmstate.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>
+> diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c
+> index 9cfd758c42..ec86b5bac2 100644
+> --- a/backends/dbus-vmstate.c
+> +++ b/backends/dbus-vmstate.c
+> @@ -114,14 +114,13 @@ dbus_get_proxies(DBusVMState *self, GError **err)
+>                      "org.qemu.VMState1",
+>                      NULL, err);
+>          if (!proxy) {
+> -            return NULL;
+>
+
+This would leak "err", you would need to pass NULL instead. Imho we need to
+report a warning anyway with "err".
+
+
+> +            continue;
+>          }
+>
+>          result =3D g_dbus_proxy_get_cached_property(proxy, "Id");
+>          if (!result) {
+> -            g_set_error_literal(err, G_IO_ERROR, G_IO_ERROR_FAILED,
+> -                                "VMState Id property is missing.");
+> -            return NULL;
+>
+
+Similarly, report a warning.
+
+
+> +            g_clear_object(&proxy);
+> +            continue;
+>          }
+>
+>          id =3D g_variant_dup_string(result, &size);
+> --
+> 2.30.1 (Apple Git-130)
+>
+>
+>
+thanks
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000001e49f205d1af5a62
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Nov 26, 2021 at 10:49 AM Pr=
+iyankar Jain &lt;<a href=3D"mailto:priyankar.jain@nutanix.com">priyankar.ja=
+in@nutanix.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">The purpose of dbus_get_proxies to construct the proxies corr=
+esponding to the<br>
+IDs registered to dbus-vmstate.<br>
+<br>
+Currenty, this function returns an error in case there is any failure<br>
+while instantiating proxy for &quot;all&quot; the names on dbus.<br>
+<br>
+Ideally this function should error out only if it is not able to find and<b=
+r>
+validate the proxies registered to the backend otherwise any offending<br>
+process(for eg: the process purposefully may not export its Id property on<=
+br>
+the dbus) may connect to the dbus and can lead to migration failures.<br></=
+blockquote><div><br></div><div>ok</div><div> <br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">
+<br>
+This commit ensures that dbus_get_proxies returns an error if it is not<br>
+able to find and validate the proxies of interest(the IDs registered<br>
+during the dbus-vmstate instantiation).<br>
+<br>
+Signed-off-by: Priyankar Jain &lt;<a href=3D"mailto:priyankar.jain@nutanix.=
+com" target=3D"_blank">priyankar.jain@nutanix.com</a>&gt;<br>
+---<br>
+=C2=A0backends/dbus-vmstate.c | 7 +++----<br>
+=C2=A01 file changed, 3 insertions(+), 4 deletions(-)<br>
+<br>
+diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c<br>
+index 9cfd758c42..ec86b5bac2 100644<br>
+--- a/backends/dbus-vmstate.c<br>
++++ b/backends/dbus-vmstate.c<br>
+@@ -114,14 +114,13 @@ dbus_get_proxies(DBusVMState *self, GError **err)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0&quot;org.qemu.VMState1&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0NULL, err);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!proxy) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+</blockquote><div><br></div><div>This would leak &quot;err&quot;, you would=
+ need to pass NULL instead. Imho we need to report a warning anyway with &q=
+uot;err&quot;.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0result =3D g_dbus_proxy_get_cached_proper=
+ty(proxy, &quot;Id&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!result) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_set_error_literal(err, G_IO_ER=
+ROR, G_IO_ERROR_FAILED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;VMState Id property is missing=
+.&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+</blockquote><div><br></div><div>Similarly, report a warning.<br></div><div=
+>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">+=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_clear_object(&amp;proxy);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0id =3D g_variant_dup_string(result, &amp;=
+size);<br>
+-- <br>
+2.30.1 (Apple Git-130)<br>
+<br>
+<br>
+</blockquote></div><div><br></div><div>thanks<br></div><br>-- <br><div dir=
+=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000001e49f205d1af5a62--
 
