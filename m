@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E053C45E9BC
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 09:57:33 +0100 (CET)
-Received: from localhost ([::1]:55984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C8B145EA01
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 10:10:29 +0100 (CET)
+Received: from localhost ([::1]:59498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqX2y-0004sD-L9
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 03:57:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51400)
+	id 1mqXFT-0007oV-Gn
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 04:10:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mqX22-000406-L8; Fri, 26 Nov 2021 03:56:34 -0500
-Received: from [2001:41c9:1:41f::167] (port=53556
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mqXEH-0006xG-UM; Fri, 26 Nov 2021 04:09:15 -0500
+Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:35831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mqX1z-0000vr-Sy; Fri, 26 Nov 2021 03:56:33 -0500
-Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mqX1m-00038Y-Hr; Fri, 26 Nov 2021 08:56:19 +0000
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20211119134431.406753-1-farosas@linux.ibm.com>
- <87pmqpqknn.fsf@linux.ibm.com>
- <4fe55b44-6549-04d7-b381-aee88499d6a3@ilande.co.uk>
- <115484b4-63ff-a40f-050a-931ba988688e@kaod.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <c60ce410-d9d2-c245-ab19-1af638babd63@ilande.co.uk>
-Date: Fri, 26 Nov 2021 08:56:23 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mqXEE-0002Pg-MW; Fri, 26 Nov 2021 04:09:12 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.27])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 181B2CE19F76;
+ Fri, 26 Nov 2021 10:09:07 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 26 Nov
+ 2021 10:09:06 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0025e86d260-3275-495d-94e1-1f85c8506c17,
+ B8303126CBA279BD35B7DF0844B381DDFAFB7782) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <427ef2ee-6871-0d27-f485-90ad142f6266@kaod.org>
+Date: Fri, 26 Nov 2021 10:09:05 +0100
 MIME-Version: 1.0
-In-Reply-To: <115484b4-63ff-a40f-050a-931ba988688e@kaod.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 1/3] ppc/pnv: Tune the POWER9 PCIe Host bridge model
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH 0/2] QEMU/openbios: PPC Software TLB support in the G4
- family
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
- (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+To: Frederic Barrat <fbarrat@linux.ibm.com>, <mst@redhat.com>,
+ <marcel.apfelbaum@gmail.com>, <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>, 
+ Leandro Lupori <leandro.lupori@eldorado.org.br>
+References: <20211116170133.724751-1-fbarrat@linux.ibm.com>
+ <20211116170133.724751-2-fbarrat@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211116170133.724751-2-fbarrat@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: e854d08c-e288-4ff4-bfdd-4e568c0004fe
+X-Ovh-Tracer-Id: 11831519171239185190
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepudeulefhtddttdeffeduteeuleegfeduheehhfehueehgedtgefhhfefveegffegnecuffhomhgrihhnpehfrhgvvggsshgurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehlvggrnhgurhhordhluhhpohhrihesvghlughorhgrughordhorhhgrdgsrh
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
+ helo=smtpout4.mo529.mail-out.ovh.net
+X-Spam_score_int: -38
+X-Spam_score: -3.9
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.993,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.993,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,144 +72,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, openbios@openbios.org, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/11/2021 08:40, Cédric Le Goater wrote:
-
-> On 11/26/21 09:01, Mark Cave-Ayland wrote:
->> On 24/11/2021 22:00, Fabiano Rosas wrote:
->>
->>> Fabiano Rosas <farosas@linux.ibm.com> writes:
->>>
->>>> Hi all,
->>>>
->>>> We have this bug in QEMU which indicates that we haven't been able to
->>>> run openbios on a 7450 cpu for quite a long time:
->>>>
->>>> https://gitlab.com/qemu-project/qemu/-/issues/86
->>>>
->>>> OK:
->>>>    $ ./qemu-system-ppc -serial mon:stdio -nographic -cpu 7410
->>>>
->>>>    >> =============================================================
->>>>    >> OpenBIOS 1.1 [Nov 1 2021 20:36]
->>>>    ...
->>>>
->>>> NOK:
->>>>    $ ./qemu-system-ppc -serial mon:stdio -nographic -cpu 7450 -d int
->>>>    Raise exception at fff08cc4 => 0000004e (00)
->>>>    QEMU: Terminated
->>>>
->>>> The actual issue is straightforward. There is a non-architected
->>>> feature that QEMU has enabled by default that openbios doesn't know
->>>> about. From the user manual:
->>>>
->>>> "The MPC7540 has a set of implementation-specific registers,
->>>> exceptions, and instructions that facilitate very efficient software
->>>> searching of the page tables in memory for when software table
->>>> searching is enabled (HID0[STEN] = 1). This section describes those
->>>> resources and provides three example code sequences that can be used
->>>> in a MPC7540 system for an efficient search of the translation tables
->>>> in software. These three code sequences can be used as handlers for
->>>> the three exceptions requiring access to the PTEs in the page tables
->>>> in memory in this case-instruction TLB miss, data TLB miss on load,
->>>> and data TLB miss on store exceptions."
->>>>
->>>> The current state:
->>>>
->>>> 1) QEMU does not check HID0[STEN] and makes the feature always enabled
->>>> by setting these cpus with the POWERPC_MMU_SOFT_74xx MMU model,
->>>> instead of the generic POWERPC_MMU_32B.
->>>>
->>>> 2) openbios does not recognize the PVRs for those cpus and also does
->>>> not have any handlers for the software TLB exceptions (vectors 0x1000,
->>>> 0x1100, 0x1200).
->>>>
->>>> Some assumptions (correct me if I'm wrong please):
->>>>
->>>> - openbios is the only firmware we use for the following cpus: 7441,
->>>> 7445, 7450, 7451, 7455, 7457, 7447, 7447a, 7448.
->>>> - without openbios, we cannot have a guest running on these cpus.
->>>>
->>>> So to bring 7450 back to life we would need to either:
->>>>
->>>> a) find another firmware/guest OS code that supports the feature;
->>>>
->>>> b) implement the switching of the feature in QEMU and have the guest
->>>> code enable it only when supported. That would take some fiddling with
->>>> the MMU code to: merge POWERPC_MMU_SOFT_74xx into POWERPC_MMU_32B,
->>>> check the HID0[STEN] bit, figure out how to switch from HW TLB miss to
->>>> SW TLB miss on demand, block access to the TLBMISS register (and
->>>> others) when the feature is off, and so on;
->>>>
->>>> c) leave the feature enabled in QEMU and implement the software TLB
->>>> miss handlers in openbios. The UM provides sample code, so this is
->>>> easy;
->>>>
->>>> d) remove support for software TLB search for the 7450 family and
->>>> switch the cpus to the POWERPC_MMU_32B model. This is by far the
->>>> easiest solution, but could cause problems for any (which?) guest OS
->>>> code that actually uses the feature. All of the existing code for the
->>>> POWERPC_MMU_SOFT_74xx MMU model would probably be removed since it
->>>> would be dead code then;
->>>>
->>>> Option (c) seemed to me like a good compromise so this is a patch
->>>> series for openbios doing that and also adding the necessary PVRs so
->>>> we can get a working guest with these cpus without too much effort.
->>>>
->>>> I have also a patch for QEMU adding basic sanity check tests for the
->>>> 7400 and 7450 families. I'll send that separately to the QEMU ml.
->>>>
->>>> Fabiano Rosas (2):
->>>>    ppc: Add support for MPC7450 software TLB miss interrupts
->>>>    ppc: Add PVRs for the MPC7450 family
->>>>
->>>>   arch/ppc/qemu/init.c  |  52 ++++++++++
->>>>   arch/ppc/qemu/start.S | 236 +++++++++++++++++++++++++++++++++++++++++-
->>>>   2 files changed, 285 insertions(+), 3 deletions(-)
->>>
->>> (Adding Mark because his email got somehow dropped from the original
->>> message)
->>
->>> So with these patches in OpenBIOS we could get a bit further and call
->>> into the Linux kernel using the same image as the one used for the
->>> 7400. However there seems to be no support for the 7450 software TLB in
->>> the kernel. There are only handlers for the 4xx, 8xx and 603 which are
->>> different code altogether. There's no mention of the TLBMISS and
->>> PTEHI/LO registers in the code as well.
->>>
->>> Do we know of any guest OS that implements the 7450 software TLB at
->>> vectors 0x1000, 0x1100 and 0x1200? Otherwise replacing the
->>> POWERPC_MMU_SOFT_74xx model with POWERPC_MMU_32B might be the only way
->>> of getting an OS to run in the 7450 family.
->>
->> My experience of anything other than the default CPUs used on the PPC Mac machines 
->> is basically zero, so you're certainly in new territory :)
->>
->> I could live with your proposed solution c) although it would be nice to guard the 
->> extra vectors so that they remain uninitialised for the non-7450 CPUs. My main 
->> question is if the kernel itself doesn't support software TLBs then does adding the 
->> new code help at all? 
+On 11/16/21 18:01, Frederic Barrat wrote:
+> The PHB v4 found on POWER9 doesn't request any LSI, so let's clear the
+> Interrupt Pin register in the config space so that the model matches
+> the hardware.
 > 
-> yes, it helps to boot Linux and MacOS (9 and 10) on those CPUs but you still
-> need to replace the mmu model to POWERPC_MMU_32B in QEMU.
+> If we don't, then we inherit from the default pcie root bridge, which
+> requests a LSI. And because we don't map it correctly in the device
+> tree, all PHBs allocate the same bogus hw interrupt. We end up with
+> inconsistent interrupt controller (xive) data. The problem goes away
+> if we don't allocate the LSI in the first place.
 > 
->> Or are you eventually planning for solution b) to improve QEMU's 7450 CPU emulation 
->> for developers without real hardware?
+> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+> ---
+>   hw/pci-host/pnv_phb4.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> b) would be nice to have but since we don't have any images using it, may
-> be it's time to drop support from QEMU.
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index 5c375a9f28..1659d55b4f 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -1234,10 +1234,13 @@ static void pnv_phb4_reset(DeviceState *dev)
+>       PCIDevice *root_dev = PCI_DEVICE(&phb->root);
+>   
+>       /*
+> -     * Configure PCI device id at reset using a property.
+> +     * Configure the PCI device at reset:
+> +     *   - set the Vendor and Device ID to for the root bridge
+> +     *   - no LSI
+>        */
+>       pci_config_set_vendor_id(root_dev->config, PCI_VENDOR_ID_IBM);
+>       pci_config_set_device_id(root_dev->config, phb->device_id);
+> +    pci_config_set_interrupt_pin(root_dev->config, 0);
+>   }
+>   
+>   static const char *pnv_phb4_root_bus_path(PCIHostState *host_bridge,
+> 
 
-Right. If we're doing this to say "I can boot a kernel with a 7450 cpu in QEMU" but 
-the implementation is different from real hardware, then I'm not sure what the real 
-value is. That effectively leaves option b) if someone is willing to do the work, or 
-as you say to simply remove the code from QEMU.
+FYI, I am seeing an issue with FreeBSD when booting from iso :
+
+   https://download.freebsd.org/ftp/snapshots/powerpc/powerpc64/ISO-IMAGES/14.0/FreeBSD-14.0-CURRENT-powerpc-powerpc64-20211028-4827bf76bce-250301-disc1.iso.xz
+
+Thanks,
+
+C.
+
+SIGTERM received, booting...
+KDB: debugger backends: ddb
+KDB: current backend: ddb
+---<<BOOT>>---
+Copyright (c) 1992-2021 The FreeBSD Project.
+Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+	The Regents of the University of California. All rights reserved.
+FreeBSD is a registered trademark of The FreeBSD Foundation.
+FreeBSD 14.0-CURRENT #0 main-n250301-4827bf76bce: Thu Oct 28 06:53:58 UTC 2021
+     root@releng1.nyi.freebsd.org:/usr/obj/usr/src/powerpc.powerpc64/sys/GENERIC64 powerpc
+FreeBSD clang version 12.0.1 (git@github.com:llvm/llvm-project.git llvmorg-12.0.1-0-gfed41342a82f)
+WARNING: WITNESS option enabled, expect reduced performance.
+VT: init without driver.
+ofw_initrd: initrd loaded at 0x28000000-0x28c7928c
+cpu0: IBM POWER9 revision 2.0, 1000.00 MHz
+cpu0: Features dc007182<PPC32,PPC64,ALTIVEC,FPU,MMU,SMT,ISNOOP,ARCH205,ARCH206,VSX,TRUELE>
+cpu0: Features2 bee00000<ARCH207,DSCR,ISEL,TAR,VCRYPTO,ARCH300,IEEE128,DARN>
+real memory  = 1014484992 (967 MB)
+avail memory = 117903360 (112 MB)
+random: registering fast source PowerISA DARN random number generator
+random: fast provider: "PowerISA DARN random number generator"
+arc4random: WARNING: initial seeding bypassed the cryptographic random device because it was not yet seeded and the knob 'bypass_before_seeding' was enabled.
+random: entropy device external interface
+kbd0 at kbdmux0
+ofwbus0: <Open Firmware Device Tree> on nexus0
+opal0: <OPAL Abstraction Firmware> irq 1048560,1048561,1048562,1048563,1048564,1048565,1048566,1048567,1048568,1048569,1048570,1048571,1048572,1048573 on ofwbus0
+opal0: registered as a time-of-day clock, resolution 0.002000s
+simplebus0: <Flattened device tree simple bus> mem 0x6030000000000-0x60300ffffffff on ofwbus0
+pcib0: <OPAL Host-PCI bridge> mem 0x600c3c0000000-0x600c3c0000fff,0x600c300000000-0x600c30fffffff on ofwbus0
+pci0: <OFW PCI bus> numa-domain 0 on pcib0
+qemu-system-ppc64: ../hw/pci/pci.c:1487: pci_irq_handler: Assertion `0 <= irq_num && irq_num < PCI_NUM_PINS' failed.
 
 
-ATB,
-
-Mark.
 
