@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253E845ED87
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 13:08:28 +0100 (CET)
-Received: from localhost ([::1]:39838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057D945EDB8
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 13:14:29 +0100 (CET)
+Received: from localhost ([::1]:57068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqa1j-0007vk-76
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 07:08:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59526)
+	id 1mqa7Y-0003bN-3h
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 07:14:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZnr-0003S6-12
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:08 -0500
-Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:39579)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZo2-0003Xx-O0
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:19 -0500
+Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:46379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZnk-0007To-Kb
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:06 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.72])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 6E9A62058F;
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZnl-0007Tu-3e
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:07 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.174])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id EAC4C22488;
  Fri, 26 Nov 2021 11:53:59 +0000 (UTC)
 Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 26 Nov
- 2021 12:53:57 +0100
+ 2021 12:53:59 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-105G0066f68db99-bbb0-4c3e-bf72-7501addb8a16,
+ (GARM-105G006ee523682-b972-4d91-bbaf-7dc592553c37,
  B8303126CBA279BD35B7DF0844B381DDFAFB7782) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH v3 11/18] ppc/pnv: Add support for PQ offload on PHB5
-Date: Fri, 26 Nov 2021 12:53:42 +0100
-Message-ID: <20211126115349.2737605-12-clg@kaod.org>
+Subject: [PATCH v3 12/18] ppc/pnv: Add support for PHB5 "Address-based
+ trigger" mode
+Date: Fri, 26 Nov 2021 12:53:43 +0100
+Message-ID: <20211126115349.2737605-13-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211126115349.2737605-1-clg@kaod.org>
 References: <20211126115349.2737605-1-clg@kaod.org>
@@ -42,19 +43,19 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.105]
 X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 4502c139-47f2-4b23-9f96-0802032878d1
-X-Ovh-Tracer-Id: 14616151117569624940
+X-Ovh-Tracer-GUID: 4e7ff592-a90b-4277-8444-8c00cdbc205a
+X-Ovh-Tracer-Id: 14616151118242548588
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
- helo=1.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,126 +76,155 @@ Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PQ_disable configuration bit disables the check done on the PQ
-state bits when processing new MSI interrupts. When bit 9 is enabled,
-the PHB forwards any MSI trigger to the XIVE interrupt controller
-without checking the PQ state bits. The XIVE IC knows from the trigger
-message that the PQ bits have not been checked and performs the check
-locally.
-
-This configuration bit only applies to MSIs and LSIs are still checked
-on the PHB to handle the assertion level.
-
-PQ_disable enablement is a requirement for StoreEOI.
+When the Address-Based Interrupt Trigger mode is activated, the PHB
+maps the interrupt source number into the interrupt command address.
+The PHB directly triggers the IC ESB page of the interrupt number and
+not the notify page of the IC anymore.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/pci-host/pnv_phb4_regs.h |  1 +
- include/hw/ppc/xive.h               |  1 +
- hw/intc/xive.c                      | 22 +++++++++++++++++++++-
- hw/pci-host/pnv_phb4.c              |  9 +++++++++
- 4 files changed, 32 insertions(+), 1 deletion(-)
+ include/hw/pci-host/pnv_phb4_regs.h |  2 +
+ hw/pci-host/pnv_phb4.c              | 73 ++++++++++++++++++++++++++---
+ hw/pci-host/trace-events            |  2 +
+ 3 files changed, 71 insertions(+), 6 deletions(-)
 
 diff --git a/include/hw/pci-host/pnv_phb4_regs.h b/include/hw/pci-host/pnv_phb4_regs.h
-index 55df2c3e5ece..64f326b7158e 100644
+index 64f326b7158e..4a0d3b28efb3 100644
 --- a/include/hw/pci-host/pnv_phb4_regs.h
 +++ b/include/hw/pci-host/pnv_phb4_regs.h
-@@ -225,6 +225,7 @@
+@@ -220,12 +220,14 @@
+ #define   PHB_PAPR_ERR_INJ_MASK_MMIO            PPC_BITMASK(16, 63)
+ #define PHB_ETU_ERR_SUMMARY             0x2c8
+ #define PHB_INT_NOTIFY_ADDR             0x300
++#define   PHB_INT_NOTIFY_ADDR_64K       PPC_BIT(1)   /* P10 */
+ #define PHB_INT_NOTIFY_INDEX            0x308
+ 
  /* Fundamental register set B */
  #define PHB_VERSION                     0x800
  #define PHB_CTRLR                       0x810
-+#define   PHB_CTRLR_IRQ_PQ_DISABLE      PPC_BIT(9)   /* P10 */
+ #define   PHB_CTRLR_IRQ_PQ_DISABLE      PPC_BIT(9)   /* P10 */
++#define   PHB_CTRLR_IRQ_ABT_MODE        PPC_BIT(10)  /* P10 */
  #define   PHB_CTRLR_IRQ_PGSZ_64K        PPC_BIT(11)
  #define   PHB_CTRLR_IRQ_STORE_EOI       PPC_BIT(12)
  #define   PHB_CTRLR_MMIO_RD_STRICT      PPC_BIT(13)
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 649b58a08f0c..126e4e2c3a17 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -176,6 +176,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XiveSource, XIVE_SOURCE)
-  */
- #define XIVE_SRC_H_INT_ESB     0x1 /* ESB managed with hcall H_INT_ESB */
- #define XIVE_SRC_STORE_EOI     0x2 /* Store EOI supported */
-+#define XIVE_SRC_PQ_DISABLE    0x4 /* Disable check on the PQ state bits */
- 
- struct XiveSource {
-     DeviceState parent;
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 3cc439a84655..4f3d67f246b5 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -886,6 +886,16 @@ static bool xive_source_lsi_trigger(XiveSource *xsrc, uint32_t srcno)
-     }
- }
- 
-+/*
-+ * Sources can be configured with PQ offloading in which case the check
-+ * on the PQ state bits of MSIs is disabled
-+ */
-+static bool xive_source_esb_disabled(XiveSource *xsrc, uint32_t srcno)
-+{
-+    return (xsrc->esb_flags & XIVE_SRC_PQ_DISABLE) &&
-+        !xive_source_irq_is_lsi(xsrc, srcno);
-+}
-+
- /*
-  * Returns whether the event notification should be forwarded.
-  */
-@@ -895,6 +905,10 @@ static bool xive_source_esb_trigger(XiveSource *xsrc, uint32_t srcno)
- 
-     assert(srcno < xsrc->nr_irqs);
- 
-+    if (xive_source_esb_disabled(xsrc, srcno)) {
-+        return true;
-+    }
-+
-     ret = xive_esb_trigger(&xsrc->status[srcno]);
- 
-     if (xive_source_irq_is_lsi(xsrc, srcno) &&
-@@ -915,6 +929,11 @@ static bool xive_source_esb_eoi(XiveSource *xsrc, uint32_t srcno)
- 
-     assert(srcno < xsrc->nr_irqs);
- 
-+    if (xive_source_esb_disabled(xsrc, srcno)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid EOI for IRQ %d\n", srcno);
-+        return false;
-+    }
-+
-     ret = xive_esb_eoi(&xsrc->status[srcno]);
- 
-     /*
-@@ -936,9 +955,10 @@ static bool xive_source_esb_eoi(XiveSource *xsrc, uint32_t srcno)
- static void xive_source_notify(XiveSource *xsrc, int srcno)
- {
-     XiveNotifierClass *xnc = XIVE_NOTIFIER_GET_CLASS(xsrc->xive);
-+    bool pq_checked = !xive_source_esb_disabled(xsrc, srcno);
- 
-     if (xnc->notify) {
--        xnc->notify(xsrc->xive, srcno, true);
-+        xnc->notify(xsrc->xive, srcno, pq_checked);
-     }
- }
- 
 diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 3edd5845ebde..cf506d1623c3 100644
+index cf506d1623c3..353ce6617743 100644
 --- a/hw/pci-host/pnv_phb4.c
 +++ b/hw/pci-host/pnv_phb4.c
-@@ -475,6 +475,15 @@ static void pnv_phb4_update_xsrc(PnvPHB4 *phb)
-         flags = 0;
-     }
+@@ -1259,10 +1259,54 @@ static const char *pnv_phb4_root_bus_path(PCIHostState *host_bridge,
+     return phb->bus_path;
+ }
  
-+    /*
-+     * When the PQ disable configuration bit is set, the check on the
-+     * PQ state bits is disabled on the PHB side (for MSI only) and it
-+     * is performed on the IC side instead.
-+     */
-+    if (phb->regs[PHB_CTRLR >> 3] & PHB_CTRLR_IRQ_PQ_DISABLE) {
-+        flags |= XIVE_SRC_PQ_DISABLE;
+-static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno,
+-                                 bool pq_checked)
++/*
++ * Address base trigger mode (POWER10)
++ *
++ * Trigger directly the IC ESB page
++ */
++static void pnv_phb4_xive_notify_abt(PnvPHB4 *phb, uint32_t srcno,
++                                     bool pq_checked)
++{
++    uint64_t notif_port = phb->regs[PHB_INT_NOTIFY_ADDR >> 3];
++    uint64_t data = 0; /* trigger data : don't care */
++    hwaddr addr;
++    MemTxResult result;
++    int esb_shift;
++
++    if (notif_port & PHB_INT_NOTIFY_ADDR_64K) {
++        esb_shift = 16;
++    } else {
++        esb_shift = 12;
 +    }
 +
-     phb->xsrc.esb_shift = shift;
-     phb->xsrc.esb_flags = flags;
++    /* Compute the address of the IC ESB management page */
++    addr = (notif_port & ~PHB_INT_NOTIFY_ADDR_64K);
++    addr |= (1ull << (esb_shift + 1)) * srcno;
++    addr |= (1ull << esb_shift);
++
++    /*
++     * When the PQ state bits are checked on the PHB, the associated
++     * PQ state bits on the IC should be ignored. Use the unconditional
++     * trigger offset to inject a trigger on the IC. This is always
++     * the case for LSIs
++     */
++    if (pq_checked) {
++        addr |= XIVE_ESB_INJECT;
++    }
++
++    trace_pnv_phb4_xive_notify_ic(addr, data);
++
++    address_space_stq_be(&address_space_memory, addr, data,
++                         MEMTXATTRS_UNSPECIFIED, &result);
++    if (result != MEMTX_OK) {
++        phb_error(phb, "trigger failed @%"HWADDR_PRIx "\n", addr);
++        return;
++    }
++}
++
++static void pnv_phb4_xive_notify_ic(PnvPHB4 *phb, uint32_t srcno,
++                                    bool pq_checked)
+ {
+-    PnvPHB4 *phb = PNV_PHB4(xf);
+     uint64_t notif_port = phb->regs[PHB_INT_NOTIFY_ADDR >> 3];
+     uint32_t offset = phb->regs[PHB_INT_NOTIFY_INDEX >> 3];
+     uint64_t data = offset | srcno;
+@@ -1272,7 +1316,7 @@ static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno,
+         data |= XIVE_TRIGGER_PQ;
+     }
  
+-    trace_pnv_phb4_xive_notify(notif_port, data);
++    trace_pnv_phb4_xive_notify_ic(notif_port, data);
+ 
+     address_space_stq_be(&address_space_memory, notif_port, data,
+                          MEMTXATTRS_UNSPECIFIED, &result);
+@@ -1282,6 +1326,18 @@ static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno,
+     }
+ }
+ 
++static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno,
++                                 bool pq_checked)
++{
++    PnvPHB4 *phb = PNV_PHB4(xf);
++
++    if (phb->regs[PHB_CTRLR >> 3] & PHB_CTRLR_IRQ_ABT_MODE) {
++        pnv_phb4_xive_notify_abt(phb, srcno, pq_checked);
++    } else {
++        pnv_phb4_xive_notify_ic(phb, srcno, pq_checked);
++    }
++}
++
+ static Property pnv_phb4_properties[] = {
+         DEFINE_PROP_UINT32("index", PnvPHB4, phb_id, 0),
+         DEFINE_PROP_UINT32("chip-id", PnvPHB4, chip_id, 0),
+@@ -1442,10 +1498,15 @@ void pnv_phb4_update_regions(PnvPhb4PecStack *stack)
+ 
+ void pnv_phb4_pic_print_info(PnvPHB4 *phb, Monitor *mon)
+ {
++    uint64_t notif_port =
++        phb->regs[PHB_INT_NOTIFY_ADDR >> 3] & ~PHB_INT_NOTIFY_ADDR_64K;
+     uint32_t offset = phb->regs[PHB_INT_NOTIFY_INDEX >> 3];
++    bool abt = !!(phb->regs[PHB_CTRLR >> 3] & PHB_CTRLR_IRQ_ABT_MODE);
+ 
+-    monitor_printf(mon, "PHB4[%x:%x] Source %08x .. %08x\n",
++    monitor_printf(mon, "PHB4[%x:%x] Source %08x .. %08x %s @%"HWADDR_PRIx"\n",
+                    phb->chip_id, phb->phb_id,
+-                   offset, offset + phb->xsrc.nr_irqs - 1);
++                   offset, offset + phb->xsrc.nr_irqs - 1,
++                   abt ? "ABT" : "",
++                   notif_port);
+     xive_source_pic_print_info(&phb->xsrc, 0, mon);
+ }
+diff --git a/hw/pci-host/trace-events b/hw/pci-host/trace-events
+index 630e9fcc5e77..6e5d8d335525 100644
+--- a/hw/pci-host/trace-events
++++ b/hw/pci-host/trace-events
+@@ -32,3 +32,5 @@ unin_read(uint64_t addr, uint64_t value) "addr=0x%" PRIx64 " val=0x%"PRIx64
+ 
+ # pnv_phb4.c
+ pnv_phb4_xive_notify(uint64_t notif_port, uint64_t data) "notif=@0x%"PRIx64" data=0x%"PRIx64
++pnv_phb4_xive_notify_ic(uint64_t addr, uint64_t data) "addr=@0x%"PRIx64" data=0x%"PRIx64
++pnv_phb4_xive_notify_abt(uint64_t notif_port, uint64_t data) "notif=@0x%"PRIx64" data=0x%"PRIx64
 -- 
 2.31.1
 
