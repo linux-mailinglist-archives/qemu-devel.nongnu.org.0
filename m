@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D77245E784
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 06:44:40 +0100 (CET)
-Received: from localhost ([::1]:50856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2634345E7C3
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 07:15:30 +0100 (CET)
+Received: from localhost ([::1]:60778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqU2I-0008Kc-IJ
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 00:44:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40926)
+	id 1mqUW8-0008Ob-NM
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 01:15:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mqU0w-0007bj-VZ
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 00:43:15 -0500
-Received: from [2607:f8b0:4864:20::1033] (port=53795
- helo=mail-pj1-x1033.google.com)
+ (Exim 4.90_1) (envelope-from <daniellalee111@gmail.com>)
+ id 1mqUUH-0007cb-0X
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 01:13:33 -0500
+Received: from [2607:f8b0:4864:20::42c] (port=33786
+ helo=mail-pf1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mqU0l-0005Oi-BX
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 00:43:14 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id iq11so6492735pjb.3
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 21:43:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=lFuqun1WDlFMmimEYKlVL47JetRq7eMGgB6DquNFwag=;
- b=IInZ04Q1sK7NlhCcxQVB/ys3cwfgkZ2G3DHAgexCky5NxFtsygoNaLTBa7o06s1Cyg
- c2MgIFdZjLFiIbvF2yaSYehMCJvEab8ca1VpbFKiBy2HiC5oXg8EOvlFPMfIaQpgE1go
- hp4R6AlY6uM3BfPQ+YZ6vj6TGL2XftJwDEY/42Cp8uaaIUScGCdHtpE/VoEhTbXoymAk
- ORp0Gyhp0gh1cqcxhcmkgj2h2CepVLPVXggJjKw319LWO5lyWfIRXl88q6+nsZiXMiDg
- 80Qlsf38niziBejDouSgwB0L9e41yO101Z9T2hnQjKG40V9Ur5mHdKmLKSKhrY6Yvtp+
- Vulw==
+ (Exim 4.90_1) (envelope-from <daniellalee111@gmail.com>)
+ id 1mqUUF-0001wu-7p
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 01:13:32 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id x5so7969939pfr.0
+ for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 22:13:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zvcnpOJ0Nh7LZoeqZf395ut1xmfr/mZ35GZQBM+RIJA=;
+ b=ljXpZFabpPig26CCl+pob6oT1HWmSCS/2b2gJ1ci6DyHkf02GeCjpKCb9FUIoLAFDx
+ Wvo/FK4IY1ryjnuwPrG/N7/xPcaiP2xp9fLVy+kSTSzvPVcUiOL2dciXs7/1kF3yompV
+ BXuKVZ1c1Pl2IRDx3SZMCZBeJAB5l7z1wjodUbK8EYg3EddRsu0tR7f8cGMbfNFobSfr
+ p5cNJOS6oXNfzmTgCbTKuo9NXQrEPw9yf4lo6DE8PUEuDg3loHWYGaSbQTISjhI+anzV
+ zjn/MTWnMckyvuj7mXuWb/DPMGmSVxplGvXHoLBtjNR11/YI3TFkFvvZ581ckjOU2doP
+ rdJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=lFuqun1WDlFMmimEYKlVL47JetRq7eMGgB6DquNFwag=;
- b=hm30XdyQZOCJNCxF7nz01DoFOGFreeEK5iBvFc0GLIVqPTV915R6znRAOht9hLxFxa
- pINVXJP3ztkUtwoqlY/mZFt5OCFl8ogZoypEAUpCvUIsEqRidsPrQ3HSfMVvG7Px5B4F
- g4jKx2N6S7X1bZtO2lj6d4svkcppHAz0yhw4T6iTp88F+/lEEVlZoS0yZUadRnCUlAnq
- t1jmOEbWmqTEtOAH1EM8z4pDLKPK7ekTGV2N0Uw1BsLDdp1BPYQQIXQZqIVtBLZEEqoB
- dmIRFHaxEZFfmlH3Tmido/dTK2T73+Fsjsk2xkscKgall1s7DqwUxC5zIiyibgyJKqU9
- YpMQ==
-X-Gm-Message-State: AOAM533aNV2TV+JrxZB1w31PEtmKwfu7lfcoqcxXlQjSqZ6F67XFZD5V
- 1t5jCWupYesXHZYXSLtH6+gQEA==
-X-Google-Smtp-Source: ABdhPJzTBZxh1nREFpUk0XSAI0nw6IUjmMZBobmzTtVySPmJqBhTxysQdVXxALrRFzMglT59seaBIA==
-X-Received: by 2002:a17:902:9684:b0:143:cc70:6472 with SMTP id
- n4-20020a170902968400b00143cc706472mr35747712plp.70.1637905381541; 
- Thu, 25 Nov 2021 21:43:01 -0800 (PST)
-Received: from anisinha-lenovo ([49.207.198.191])
- by smtp.googlemail.com with ESMTPSA id q10sm9813710pjd.0.2021.11.25.21.42.58
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zvcnpOJ0Nh7LZoeqZf395ut1xmfr/mZ35GZQBM+RIJA=;
+ b=tnr4CknhCtH1MPoD8Eo8G5GdOUvDfLPumZ37ZcO7OUhtLZ86nGY6FQjezNIlQwBacQ
+ GbDpD5QWpkn+ruyliIkpO0AE34D3fQ+eWGfALMcCLomtlGC74clLdhLg9YQqERBq4nrj
+ 4Q6QjS//5rylvqoFLUVFWGR73OAXOrkmTbh2WQAsgXLpiOYomelS9CNby2nap8wSHBkc
+ gIIIuQcEKiLktH2GHhcT4Yw2YPVc0c5aZ21ZUD9SfFq2rJbmlblpB83UziIMfUYkiZP1
+ k+M/dhKKeu6ayzv0Gkp38Y/dWw2ahRRkqjAenGkoC1O1qtqAxl2M2EhfzNi3MvOHbN0S
+ hfdg==
+X-Gm-Message-State: AOAM533AXDlXeBPNYfLHWQGdRdOfNqi8WkKhOu4LR7mxheXg6pSO8NZJ
+ 4dD3wRxp0Gu+11atkMgLSmo=
+X-Google-Smtp-Source: ABdhPJyfVEyuASfmPOVOvLJZ1PksenUUHPgW/2GhPOEJnSA5mY1B78twn4f7b24R7WZJRbT2iI4VTw==
+X-Received: by 2002:a05:6a00:b8a:b0:49f:ed97:16be with SMTP id
+ g10-20020a056a000b8a00b0049fed9716bemr19453080pfj.16.1637907209498; 
+ Thu, 25 Nov 2021 22:13:29 -0800 (PST)
+Received: from localhost.localdomain ([106.52.23.176])
+ by smtp.googlemail.com with ESMTPSA id a18sm5127576pfn.185.2021.11.25.22.13.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Nov 2021 21:43:00 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Fri, 26 Nov 2021 11:12:55 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH-for-6.2] docs: add a word of caution on x-native-hotplug
- property for pcie-root-ports
-In-Reply-To: <20211125154927-mutt-send-email-mst@kernel.org>
-Message-ID: <alpine.DEB.2.22.394.2111261104070.223522@anisinha-lenovo>
-References: <20211125120629.187014-1-ani@anisinha.ca>
- <20211125154927-mutt-send-email-mst@kernel.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ Thu, 25 Nov 2021 22:13:29 -0800 (PST)
+From: Daniella Lee <daniellalee111@gmail.com>
+To: mst@redhat.com,
+	marcel.apfelbaum@gmail.com,
+	qemu-devel@nongnu.org
+Subject: [PATCH] Fix bad overflow check in hw/pci/pcie.c
+Date: Fri, 26 Nov 2021 14:13:24 +0800
+Message-Id: <20211126061324.47331-1-daniellalee111@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::1033;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=daniellalee111@gmail.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
 X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,80 +87,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, imammedo@redhat.com, qemu-devel@nongnu.org
+Cc: Daniella Lee <daniellalee111@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Orginal qemu commit hash:14d02cfbe4adaeebe7cb833a8cc71191352cf03b 
+
+In function pcie_add_capability, an assert contains the 
+"offset < offset + size" expression. 
+Both variable offset and variable size are uint16_t, 
+the comparison is always true due to type promotion. 
+The next expression may be the same.
+
+It might be like this:
+Thread 1 "qemu-system-x86" hit Breakpoint 1, pcie_add_capability (
+    dev=0x555557ce5f10, cap_id=1, cap_ver=2 '\002', offset=256, size=72)
+    at ../hw/pci/pcie.c:930
+930	{
+(gdb) n
+931	    assert(offset >= PCI_CONFIG_SPACE_SIZE);
+(gdb) n
+932	    assert(offset < offset + size);
+(gdb) p offset
+$1 = 256
+(gdb) p offset < offset + size
+$2 = 1
+(gdb) set offset=65533
+(gdb) p offset < offset + size
+$3 = 1
+(gdb) p offset < (uint16_t)(offset + size)
+$4 = 0
 
 
-On Thu, 25 Nov 2021, Michael S. Tsirkin wrote:
+Signed-off-by: Daniella Lee <daniellalee111@gmail.com>
+---
+ hw/pci/pcie.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> On Thu, Nov 25, 2021 at 05:36:29PM +0530, Ani Sinha wrote:
-> > x-native-hotplug property, when used in order to disable HPC bit on the PCIE
-> > root ports, can lead to unexpected results from the guest operating system.
-> > Users are strongly advised not to touch this property in order to manipulte the
-> > HPC bit. Add a word of caution in the pcie.txt doc file to document this.
-> >
-> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
->
-> Do we want to generally document this for all "x-" options?
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index c5ed266337..d7d73a31e4 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -929,8 +929,8 @@ void pcie_add_capability(PCIDevice *dev,
+                          uint16_t offset, uint16_t size)
+ {
+     assert(offset >= PCI_CONFIG_SPACE_SIZE);
+-    assert(offset < offset + size);
+-    assert(offset + size <= PCIE_CONFIG_SPACE_SIZE);
++    assert(offset < (uint16_t)(offset + size));
++    assert((uint16_t)(offset + size) <= PCIE_CONFIG_SPACE_SIZE);
+     assert(size >= 8);
+     assert(pci_is_express(dev));
+ 
+-- 
+2.27.0
 
-Yes igor suggested it but I sent this one for two reasons:
-(a) I could not find a place to document this for properties without
-adding a new file. This sounded too bigger a hammer at the present. If you
-can suggest an existing place for documenting this for the property names,
-I will go and add this info there as well.
-
-(b) I think we need to document this experimental property here regardless
-because this doc deals with hotplug and pcie ports and we had too much of
-a mess with this acpi/pci native switch.
-
-When things stabilize a bit, Igor suggested elsewhere that we start a
-separate doc just for hotplug and various options we have and at
-that point we can move this info in this new doc.
-
-https://www.mail-archive.com/libvir-list@redhat.com/msg221746.html
-
-
->
-> > ---
-> >  docs/pcie.txt | 17 ++++++++++++++++-
-> >  1 file changed, 16 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/docs/pcie.txt b/docs/pcie.txt
-> > index 89e3502075..e1f99f725f 100644
-> > --- a/docs/pcie.txt
-> > +++ b/docs/pcie.txt
-> > @@ -262,11 +262,26 @@ PCI Express Root Ports (and PCI Express Downstream Ports).
-> >          Port, which may come handy for hot-plugging another device.
-> >
-> >
-> > -5.3 Hot-plug example:
-> > +5.2 Hot-plug example:
-> >  Using HMP: (add -monitor stdio to QEMU command line)
-> >    device_add <dev>,id=<id>,bus=<PCI Express Root Port Id/PCI Express Downstream Port Id/PCI-PCI Bridge Id/>
-> >
-> >
-> > +5.3 A word of caution using hotplug on PCI Express Root Ports:
-> > +Starting Qemu version 6.2, PCI Express Root ports have a property
-> > +"x-native-hotplug" ("native-hotplug" for Qemu version 6.1), that can be used to
-> > +enable or disable hotplug on that port. For example:
-> > +
-> > +-device pcie-root-port,x-native-hotplug=off,... etc.
-> > +
-> > +The "x-" prefix indicates that this property is highly experimental and can
-> > +lead to unexpected results from the guest operating system if users try to use
-> > +it to alter the native hotplug on the port. It also means that the property
-> > +name and its behavior is liable to change in the future and is not expected to
-> > +be stable across Qemu versions. Therefore, end users are advised not to change
-> > +the value of this option from its default set value or use it in the Qemu
-> > +command line.
-> > +
-> >  6. Device assignment
-> >  ====================
-> >  Host devices are mostly PCI Express and should be plugged only into
-> > --
-> > 2.25.1
->
->
 
