@@ -2,74 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D32245E312
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Nov 2021 23:43:44 +0100 (CET)
-Received: from localhost ([::1]:57528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9ACE45E452
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 03:21:02 +0100 (CET)
+Received: from localhost ([::1]:47100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqNSw-0002es-NY
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 17:43:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56836)
+	id 1mqQrE-00053q-FP
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 21:21:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mqNRm-0001oN-HD; Thu, 25 Nov 2021 17:42:30 -0500
-Received: from [2607:f8b0:4864:20::930] (port=36645
- helo=mail-ua1-x930.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mqNRX-0004Ce-7X; Thu, 25 Nov 2021 17:42:30 -0500
-Received: by mail-ua1-x930.google.com with SMTP id r15so15132776uao.3;
- Thu, 25 Nov 2021 14:42:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8D6yTxUQLUa8/CJyWSPpmSVpmr3xI3g8G7rxNU+5T+k=;
- b=h5EGOCgZQ5Ujs3//Z+paQaTShqn/DLxHZnNatZS0z39jWMiKkQJ0+Z4bo5emoKmMdM
- ysKQ1NQaLfCP4mg4HgIGEKt9besn1aYSfxZnlsfKLK2IwdmgVBYqAUI49pweGQgbS2On
- LaF5HpN4TmRQjEhQwbAsgDGQZgdICuIacorVpjyOHqVfKUhJF/SgyNA0WcCcCtjwRwig
- oFh2qb+lGIqQ5R/ZgiGrjZItcTbCW312JPqSZLFOKvf32erOtDVyv4ASeHtmzawAaFji
- cWWSQzSTqPtkXJ3W70bxGo8gbwvrSBht/ufZMu1x0eeTi/N5297JOy7x8kMc4EQs9iCr
- gS7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8D6yTxUQLUa8/CJyWSPpmSVpmr3xI3g8G7rxNU+5T+k=;
- b=qVZi/YwBvumd+/HPNZ+X6O+RZFPQFXl5hcHfXrngZ1Y7LOOTBtcp+dF/6ay+MmXifd
- YGN8WEq6p3BCqgDY03Tt/+hsmwVk6ORf1InD3KW6mRtz9o2k9DHUM/kIfCSdcjnyK0e0
- 5xNNzeNJFepYSz/3+qxPX1dTxSaj/9eL2ak1PBrB2r2rqfeM8RIW7aMuP5Aomuqwcw5w
- D+jZJRoY4tHaQQ3c6A6y17ZMNI6PLkg4DjbGZmvOL1pZ+EJYDlLJ7lO7DbH6dO8c0ZgL
- kf2Go3JXTB2ZY3mZcY7791nYJtqpmQ21vmfLok8isju85qMGS0REd3K5zbKf71dHYXib
- Em+w==
-X-Gm-Message-State: AOAM531pHc6PZT56je/+wgIj4ph1IyMWXj+0PGM4MH7uVAsd04511VDm
- 0iJlRR2k/eiCPX6QBg9aAoPCU1H6wew=
-X-Google-Smtp-Source: ABdhPJypq7ZEilkonHKm/RpzJf5fVXb+vX7SiEb6VfcrKy1D5P9g4e3JfA/hTyo97j1vcYm5EGacTw==
-X-Received: by 2002:ab0:4465:: with SMTP id m92mr31213110uam.47.1637880133714; 
- Thu, 25 Nov 2021 14:42:13 -0800 (PST)
-Received: from rekt.ibmuc.com ([191.19.215.188])
- by smtp.gmail.com with ESMTPSA id g187sm2683721vsc.10.2021.11.25.14.42.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Nov 2021 14:42:13 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] ppc/pnv.c: add a friendly warning when accel=kvm is used
-Date: Thu, 25 Nov 2021 19:42:02 -0300
-Message-Id: <20211125224202.632658-1-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mqQjr-0002UK-Ps; Thu, 25 Nov 2021 21:13:24 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:50577)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mqQjo-0006rg-LB; Thu, 25 Nov 2021 21:13:23 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4J0dZL4dGHz4xbs; Fri, 26 Nov 2021 13:13:14 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1637892794;
+ bh=Ug1KbDPv7fKwOB7mlcNB6lGkzRtuQF5xwT+SQKxk5aE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=aMVlqobNAfwCh+m9srFKLO9+Sp11BNkrWjzLZZ0io+LLDRBiuJw6ehwag7xOY0vh6
+ r+d3bgEb327S2gmDvASoU9lfLpdM91HdQufS+Wa0lR7I+Pdx696a6obQchRMycWRTC
+ lwyro6NVedgIploeAKY7EmjLMxm8vbrxfRKRcX6g=
+Date: Fri, 26 Nov 2021 12:11:36 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 1/1] ppc/pnv.c: add a friendly warning when accel=kvm is
+ used
+Message-ID: <YaA0SIVnltlrarQZ@yekko>
+References: <20211125224202.632658-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::930
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::930;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x930.google.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="VisctKliHs4J2dS0"
+Content-Disposition: inline
+In-Reply-To: <20211125224202.632658-1-danielhb413@gmail.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,51 +58,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If one tries to use -machine powernv9,accel=kvm in a Power9 host, a
-cryptic error will be shown:
 
-qemu-system-ppc64: Register sync failed... If you're using kvm-hv.ko, only "-cpu host" is possible
-qemu-system-ppc64: kvm_init_vcpu: kvm_arch_init_vcpu failed (0): Invalid argument
+--VisctKliHs4J2dS0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Appending '-cpu host' will throw another error:
+On Thu, Nov 25, 2021 at 07:42:02PM -0300, Daniel Henrique Barboza wrote:
+> If one tries to use -machine powernv9,accel=3Dkvm in a Power9 host, a
+> cryptic error will be shown:
+>=20
+> qemu-system-ppc64: Register sync failed... If you're using kvm-hv.ko, onl=
+y "-cpu host" is possible
+> qemu-system-ppc64: kvm_init_vcpu: kvm_arch_init_vcpu failed (0): Invalid =
+argument
+>=20
+> Appending '-cpu host' will throw another error:
+>=20
+> qemu-system-ppc64: invalid chip model 'host' for powernv9 machine
+>=20
+> The root cause is that in IBM PowerPC we have different specs for the bar=
+e-metal
+> and the guests. The bare-metal follows OPAL, the guests follow PAPR. The =
+kernel
+> KVM modules presented in the ppc kernels implements PAPR. This means that=
+ we
+> can't use KVM accel when using the powernv machine, which is the emulatio=
+n of
+> the bare-metal host.
+>=20
+> All that said, let's give a more informative error in this case.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>  hw/ppc/pnv.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 71e45515f1..e5b87e8730 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -742,6 +742,11 @@ static void pnv_init(MachineState *machine)
+>      DriveInfo *pnor =3D drive_get(IF_MTD, 0, 0);
+>      DeviceState *dev;
+> =20
+> +    if (kvm_enabled()) {
+> +        error_report("The powernv machine does not work with KVM acceler=
+ation");
+> +        exit(EXIT_FAILURE);
+> +    }
 
-qemu-system-ppc64: invalid chip model 'host' for powernv9 machine
 
-The root cause is that in IBM PowerPC we have different specs for the bare-metal
-and the guests. The bare-metal follows OPAL, the guests follow PAPR. The kernel
-KVM modules presented in the ppc kernels implements PAPR. This means that we
-can't use KVM accel when using the powernv machine, which is the emulation of
-the bare-metal host.
+Hmm.. my only concern here is that powernv could, at least
+theoretically, work with KVM PR.  I don't think it does right now,
+though.
 
-All that said, let's give a more informative error in this case.
+> +
+>      /* allocate RAM */
+>      if (machine->ram_size < mc->default_ram_size) {
+>          char *sz =3D size_to_str(mc->default_ram_size);
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/pnv.c | 5 +++++
- 1 file changed, 5 insertions(+)
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 71e45515f1..e5b87e8730 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -742,6 +742,11 @@ static void pnv_init(MachineState *machine)
-     DriveInfo *pnor = drive_get(IF_MTD, 0, 0);
-     DeviceState *dev;
- 
-+    if (kvm_enabled()) {
-+        error_report("The powernv machine does not work with KVM acceleration");
-+        exit(EXIT_FAILURE);
-+    }
-+
-     /* allocate RAM */
-     if (machine->ram_size < mc->default_ram_size) {
-         char *sz = size_to_str(mc->default_ram_size);
--- 
-2.31.1
+--VisctKliHs4J2dS0
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGgNEcACgkQbDjKyiDZ
+s5LgSg//aSjzY0pNBTrMUFon6xF1CAQ2V6oVbuuThM2zS6VprwxPm4A8Q0IUEBxI
+/CEaAocITbDdcoWQ66dDrky1V7ldZC0YjooMf2oTdPd1EdCtsrwzMRNh+Ed4sS3O
+r6PZXmTLx2nEEYg9NP+z1Q3BdGRZb0CtxwVkLpgbFwZ00OUqIIwmZjOV/+o40uDh
+eW723MX0jixROhDxubS6N89Qc5w5K9b+02gt6JGlYhGFM3Vcc8x/vt8cboRlHvN3
+uGOWX67z3Bxy4Qi23a/YRevlMl8qDLR/+0eKCnlavxOjqT7EDeLW+ARJNWbuaoE+
+o5YYkbnAXtNdrIRty080viA88gV/TYXWMG+OqDFovWrh8XJYPyPxWhB0S+y3l6oQ
+PQ6Q7zgghygoEcY8OR3yfIzVjYPnfP/+OFlGQtSkjL+u6v1UiTWp8F46+1XOg4YI
+gb9cyZgJNsejcWxV+DwdxDDFJ/tCtqB/uNW0GKDRMwaZH376HTUCnunzdoJYlnLc
+92BPdQ2fxwjKJJgrB6QSi29WoYwSRvHZRBUB673V/mnV0IS13E1jnnZgNVsfTl7B
+OcBXAvncea82ZDKMVxxASQ4cf+Yzr61kM9MxOkE+oxEXsG+OPOzjofaJyqbuLdwK
+76ovKZ3OrK/YIT3aBQFb+zHuoWPny643Pz3uwKyyDClHsn7CH4w=
+=3M49
+-----END PGP SIGNATURE-----
+
+--VisctKliHs4J2dS0--
 
