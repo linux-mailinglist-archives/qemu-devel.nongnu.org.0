@@ -2,84 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A906E45ECBC
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 12:35:00 +0100 (CET)
-Received: from localhost ([::1]:54048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDAAA45ED01
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 12:53:35 +0100 (CET)
+Received: from localhost ([::1]:35676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqZVL-00037i-Dy
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 06:34:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54150)
+	id 1mqZnK-00027T-Cy
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 06:53:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mqZUQ-0002MP-Sl
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:34:02 -0500
-Received: from [2a00:1450:4864:20::436] (port=38856
- helo=mail-wr1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mqZUP-0004Q8-FT
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:34:02 -0500
-Received: by mail-wr1-x436.google.com with SMTP id u18so17978787wrg.5
- for <qemu-devel@nongnu.org>; Fri, 26 Nov 2021 03:34:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dC0SNsEJG4l0DyToYMaI6r7Kwjn1uoWFJ8AMkKO6juM=;
- b=DBspQZ9/ZMUnCjKx0g5CPahBR8B0DW+1gg3UF/XWUfYyxtZEU6xZ77kHLVWSvCf3kI
- B2KmLb5JrJ1ryAVMa6k+ZDiEjjKuiylXx5L33MD05VLUWxzVXKdiJqRKDdItnece4y9P
- 1+TdcXVvyt+YJH7fbA3gkA86wyvzRpjZUBjdaDqMoG56xq/A53khpWjHltBZwJMb5ChS
- VDfSBIzsi4yhVNRZE5TxaolU1GzNssJewMIqbsYVpzFrJ+wFFQEajf1lAt9L1Lym/cUT
- OA53SpSZLpKjcX8aAscCysjxHgrN+R/D5yUs2NOha3r5u1fCWrvdwUg7xXwWToNjmoLE
- r/KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dC0SNsEJG4l0DyToYMaI6r7Kwjn1uoWFJ8AMkKO6juM=;
- b=I0jzywv8D3Gwi6BZ6ycAT8evIN7hjQmXwNLJENIbKt7+KbOYKfL4r++bhAqAKqS3xA
- Oc/Mz6GVHDZVl+XsVDoutFjF2fu/EztbZodySRbS9EEoL9Lv38lHKt8UkFseGKrSu9jX
- t097Z8kPsFk8Cd9tLFC0NfLkJvQumPkjg49T5nKu68MbY5Kn/qzTEFODyABQ9yCxWQAE
- oYxjBnuRkapgY7lEV975oJUqE+2me9aG1sVIAxBpYlGYBE3L7T34J5ueNs5cJW9727tV
- oGaFNN+PelZWe5Zn7Qeh/7CrwASorEBCS+IG13cHw7xdN0vZdaTtsDWJiqx8xqXbqPbw
- 9oYw==
-X-Gm-Message-State: AOAM533K3QdlwfXfvlDqBOoUVFda0mfo1ek9dADc19ZZQVHCvU6YrF5y
- eHm+RpTfcTE4xAbcRNcGHGi5x5xGFmMW/cfkunU=
-X-Google-Smtp-Source: ABdhPJwQi5KLkkupYir4j6r8WVXtVsoVHdimpC6kh7yBHbu8ZkTSnEM7TK1aV0yx2PEcYE7xnEQjbg==
-X-Received: by 2002:adf:e482:: with SMTP id i2mr13577560wrm.284.1637926439973; 
- Fri, 26 Nov 2021 03:33:59 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id y12sm5359243wrn.73.2021.11.26.03.33.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Nov 2021 03:33:59 -0800 (PST)
-Subject: Re: [PATCH v5 20/22] target/riscv: Adjust vector address with mask
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211125073951.57678-1-zhiwei_liu@c-sky.com>
- <20211125073951.57678-21-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <25c85dc9-3798-9cb8-6fea-6b5bd49e8530@linaro.org>
-Date: Fri, 26 Nov 2021 12:33:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZlx-00016G-CU
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:52:11 -0500
+Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:45337)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZls-0007Bc-Dk
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:52:08 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.210])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 1FF4F2036B;
+ Fri, 26 Nov 2021 11:51:59 +0000 (UTC)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 26 Nov
+ 2021 12:51:59 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G0051f18eb2b-47b5-43c4-8ef0-0a3ebb6d37fd,
+ B8303126CBA279BD35B7DF0844B381DDFAFB7782) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
+Subject: [PULL for-6.2 0/2] ppc queue
+Date: Fri, 26 Nov 2021 12:51:55 +0100
+Message-ID: <20211126115157.2737402-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20211125073951.57678-21-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.993,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: b42aa8f9-ccc9-472a-a630-bc847b2bcbfe
+X-Ovh-Tracer-Id: 14582374119283198828
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeutdeikeeklefguddvieejueejhfehfeejtdelgedtheetjeetuddutdejfeejkeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
+ helo=6.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,21 +65,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Frederic Barrat <fbarrat@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/25/21 8:39 AM, LIU Zhiwei wrote:
-> The mask comes from the pointer masking extension, or the max value
-> corresponding to XLEN bits.
-> 
-> Signed-off-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
-> Acked-by: Alistair Francis<alistair.francis@wdc.com>
-> ---
->   target/riscv/vector_helper.c | 23 ++++++++++++++---------
->   1 file changed, 14 insertions(+), 9 deletions(-)
+The following changes since commit 67f9968ce3f0847ffddb6ee2837a3641acd92abf:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+  Update version for v6.2.0-rc1 release (2021-11-16 21:07:31 +0100)
 
-r~
+are available in the Git repository at:
+
+  https://github.com/legoater/qemu/ tags/pull-ppc-20211119
+
+for you to fetch changes up to a443d55c3f7cafa3d5dfb7fe2b5c3cd9d671b61d:
+
+  tests/tcg/ppc64le: Fix compile flags for byte_reverse (2021-11-17 19:10:44 +0100)
+
+----------------------------------------------------------------
+ppc 6.2 queue:
+
+* fix pmu vmstate
+* Fix compile of byte_reverse on new compilers
+
+----------------------------------------------------------------
+Laurent Vivier (1):
+      pmu: fix pmu vmstate subsection list
+
+Richard Henderson (1):
+      tests/tcg/ppc64le: Fix compile flags for byte_reverse
+
+ hw/misc/macio/pmu.c               |  1 +
+ tests/tcg/ppc64le/Makefile.target | 12 +++---------
+ 2 files changed, 4 insertions(+), 9 deletions(-)
 
