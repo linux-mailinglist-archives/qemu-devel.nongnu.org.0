@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C051745ED53
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 13:03:33 +0100 (CET)
-Received: from localhost ([::1]:58580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 253E845ED87
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 13:08:28 +0100 (CET)
+Received: from localhost ([::1]:39838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqZwy-0000zt-JD
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 07:03:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59512)
+	id 1mqa1j-0007vk-76
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 07:08:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZnq-0003Ro-PN
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZnr-0003S6-12
  for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:08 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:39201)
+Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:39579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZnj-0007TO-2b
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqZnk-0007To-Kb
  for qemu-devel@nongnu.org; Fri, 26 Nov 2021 06:54:06 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.98])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 7C744CE26F09;
- Fri, 26 Nov 2021 12:53:57 +0100 (CET)
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.72])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 6E9A62058F;
+ Fri, 26 Nov 2021 11:53:59 +0000 (UTC)
 Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 26 Nov
- 2021 12:53:56 +0100
+ 2021 12:53:57 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-105G0069182db2c-3b1c-4620-948e-bf96c87a154a,
+ (GARM-105G0066f68db99-bbb0-4c3e-bf72-7501addb8a16,
  B8303126CBA279BD35B7DF0844B381DDFAFB7782) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH v3 10/18] ppc/xive: Add support for PQ state bits offload
-Date: Fri, 26 Nov 2021 12:53:41 +0100
-Message-ID: <20211126115349.2737605-11-clg@kaod.org>
+Subject: [PATCH v3 11/18] ppc/pnv: Add support for PQ offload on PHB5
+Date: Fri, 26 Nov 2021 12:53:42 +0100
+Message-ID: <20211126115349.2737605-12-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211126115349.2737605-1-clg@kaod.org>
 References: <20211126115349.2737605-1-clg@kaod.org>
@@ -42,19 +42,19 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.105]
 X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: b8ee750a-923a-4a5e-ac7f-efc470fdae3d
-X-Ovh-Tracer-Id: 14615588167642614636
+X-Ovh-Tracer-GUID: 4502c139-47f2-4b23-9f96-0802032878d1
+X-Ovh-Tracer-Id: 14616151117569624940
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
+ helo=1.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,477 +75,126 @@ Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The trigger message coming from a HW source contains a special bit
-informing the XIVE interrupt controller that the PQ bits have been
-checked at the source or not. Depending on the value, the IC can
-perform the check and the state transition locally using its own PQ
-state bits.
+The PQ_disable configuration bit disables the check done on the PQ
+state bits when processing new MSI interrupts. When bit 9 is enabled,
+the PHB forwards any MSI trigger to the XIVE interrupt controller
+without checking the PQ state bits. The XIVE IC knows from the trigger
+message that the PQ bits have not been checked and performs the check
+locally.
 
-The following changes add new accessors to the XiveRouter required to
-query and update the PQ state bits. This only applies to the PowerNV
-machine. sPAPR accessors are provided but the pSeries machine should
-not be concerned by such complex configuration for the moment.
+This configuration bit only applies to MSIs and LSIs are still checked
+on the PHB to handle the assertion level.
+
+PQ_disable enablement is a requirement for StoreEOI.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/xive.h  |  8 +++++--
- include/hw/ppc/xive2.h |  6 +++++-
- hw/intc/pnv_xive.c     | 37 +++++++++++++++++++++++++++++---
- hw/intc/pnv_xive2.c    | 37 +++++++++++++++++++++++++++++---
- hw/intc/spapr_xive.c   | 25 ++++++++++++++++++++++
- hw/intc/xive.c         | 48 ++++++++++++++++++++++++++++++++++++------
- hw/intc/xive2.c        | 42 +++++++++++++++++++++++++++++++++++-
- hw/pci-host/pnv_phb4.c |  9 ++++++--
- hw/ppc/pnv_psi.c       |  8 +++++--
- 9 files changed, 199 insertions(+), 21 deletions(-)
+ include/hw/pci-host/pnv_phb4_regs.h |  1 +
+ include/hw/ppc/xive.h               |  1 +
+ hw/intc/xive.c                      | 22 +++++++++++++++++++++-
+ hw/pci-host/pnv_phb4.c              |  9 +++++++++
+ 4 files changed, 32 insertions(+), 1 deletion(-)
 
+diff --git a/include/hw/pci-host/pnv_phb4_regs.h b/include/hw/pci-host/pnv_phb4_regs.h
+index 55df2c3e5ece..64f326b7158e 100644
+--- a/include/hw/pci-host/pnv_phb4_regs.h
++++ b/include/hw/pci-host/pnv_phb4_regs.h
+@@ -225,6 +225,7 @@
+ /* Fundamental register set B */
+ #define PHB_VERSION                     0x800
+ #define PHB_CTRLR                       0x810
++#define   PHB_CTRLR_IRQ_PQ_DISABLE      PPC_BIT(9)   /* P10 */
+ #define   PHB_CTRLR_IRQ_PGSZ_64K        PPC_BIT(11)
+ #define   PHB_CTRLR_IRQ_STORE_EOI       PPC_BIT(12)
+ #define   PHB_CTRLR_MMIO_RD_STRICT      PPC_BIT(13)
 diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 875c7f639689..649b58a08f0c 100644
+index 649b58a08f0c..126e4e2c3a17 100644
 --- a/include/hw/ppc/xive.h
 +++ b/include/hw/ppc/xive.h
-@@ -160,7 +160,7 @@ DECLARE_CLASS_CHECKERS(XiveNotifierClass, XIVE_NOTIFIER,
- 
- struct XiveNotifierClass {
-     InterfaceClass parent;
--    void (*notify)(XiveNotifier *xn, uint32_t lisn);
-+    void (*notify)(XiveNotifier *xn, uint32_t lisn, bool pq_checked);
- };
- 
- /*
-@@ -386,6 +386,10 @@ struct XiveRouterClass {
-     /* XIVE table accessors */
-     int (*get_eas)(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-                    XiveEAS *eas);
-+    int (*get_pq)(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-+                  uint8_t *pq);
-+    int (*set_pq)(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-+                  uint8_t *pq);
-     int (*get_end)(XiveRouter *xrtr, uint8_t end_blk, uint32_t end_idx,
-                    XiveEND *end);
-     int (*write_end)(XiveRouter *xrtr, uint8_t end_blk, uint32_t end_idx,
-@@ -407,7 +411,7 @@ int xive_router_get_nvt(XiveRouter *xrtr, uint8_t nvt_blk, uint32_t nvt_idx,
-                         XiveNVT *nvt);
- int xive_router_write_nvt(XiveRouter *xrtr, uint8_t nvt_blk, uint32_t nvt_idx,
-                           XiveNVT *nvt, uint8_t word_number);
--void xive_router_notify(XiveNotifier *xn, uint32_t lisn);
-+void xive_router_notify(XiveNotifier *xn, uint32_t lisn, bool pq_checked);
- 
- /*
-  * XIVE Presenter
-diff --git a/include/hw/ppc/xive2.h b/include/hw/ppc/xive2.h
-index e881c039d9c0..9222b5b36979 100644
---- a/include/hw/ppc/xive2.h
-+++ b/include/hw/ppc/xive2.h
-@@ -31,6 +31,10 @@ typedef struct Xive2RouterClass {
-     /* XIVE table accessors */
-     int (*get_eas)(Xive2Router *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-                    Xive2Eas *eas);
-+    int (*get_pq)(Xive2Router *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-+                  uint8_t *pq);
-+    int (*set_pq)(Xive2Router *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-+                  uint8_t *pq);
-     int (*get_end)(Xive2Router *xrtr, uint8_t end_blk, uint32_t end_idx,
-                    Xive2End *end);
-     int (*write_end)(Xive2Router *xrtr, uint8_t end_blk, uint32_t end_idx,
-@@ -53,7 +57,7 @@ int xive2_router_get_nvp(Xive2Router *xrtr, uint8_t nvp_blk, uint32_t nvp_idx,
- int xive2_router_write_nvp(Xive2Router *xrtr, uint8_t nvp_blk, uint32_t nvp_idx,
-                           Xive2Nvp *nvp, uint8_t word_number);
- 
--void xive2_router_notify(XiveNotifier *xn, uint32_t lisn);
-+void xive2_router_notify(XiveNotifier *xn, uint32_t lisn, bool pq_checked);
- 
- /*
-  * XIVE2 Presenter (POWER10)
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index ad43483612e5..5022f85350f4 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -393,6 +393,34 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_t blk, uint32_t idx,
-     return pnv_xive_vst_read(xive, VST_TSEL_IVT, blk, idx, eas);
- }
- 
-+static int pnv_xive_get_pq(XiveRouter *xrtr, uint8_t blk, uint32_t idx,
-+                           uint8_t *pq)
-+{
-+    PnvXive *xive = PNV_XIVE(xrtr);
-+
-+    if (pnv_xive_block_id(xive) != blk) {
-+        xive_error(xive, "VST: EAS %x is remote !?", XIVE_EAS(blk, idx));
-+        return -1;
-+    }
-+
-+    *pq = xive_source_esb_get(&xive->ipi_source, idx);
-+    return 0;
-+}
-+
-+static int pnv_xive_set_pq(XiveRouter *xrtr, uint8_t blk, uint32_t idx,
-+                           uint8_t *pq)
-+{
-+    PnvXive *xive = PNV_XIVE(xrtr);
-+
-+    if (pnv_xive_block_id(xive) != blk) {
-+        xive_error(xive, "VST: EAS %x is remote !?", XIVE_EAS(blk, idx));
-+        return -1;
-+    }
-+
-+    *pq = xive_source_esb_set(&xive->ipi_source, idx, *pq);
-+    return 0;
-+}
-+
- /*
-  * One bit per thread id. The first register PC_THREAD_EN_REG0 covers
-  * the first cores 0-15 (normal) of the chip or 0-7 (fused). The
-@@ -489,12 +517,12 @@ static PnvXive *pnv_xive_tm_get_xive(PowerPCCPU *cpu)
-  * event notification to the Router. This is required on a multichip
-  * system.
+@@ -176,6 +176,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XiveSource, XIVE_SOURCE)
   */
--static void pnv_xive_notify(XiveNotifier *xn, uint32_t srcno)
-+static void pnv_xive_notify(XiveNotifier *xn, uint32_t srcno, bool pq_checked)
- {
-     PnvXive *xive = PNV_XIVE(xn);
-     uint8_t blk = pnv_xive_block_id(xive);
+ #define XIVE_SRC_H_INT_ESB     0x1 /* ESB managed with hcall H_INT_ESB */
+ #define XIVE_SRC_STORE_EOI     0x2 /* Store EOI supported */
++#define XIVE_SRC_PQ_DISABLE    0x4 /* Disable check on the PQ state bits */
  
--    xive_router_notify(xn, XIVE_EAS(blk, srcno));
-+    xive_router_notify(xn, XIVE_EAS(blk, srcno), pq_checked);
- }
- 
- /*
-@@ -1336,7 +1364,8 @@ static void pnv_xive_ic_hw_trigger(PnvXive *xive, hwaddr addr, uint64_t val)
-     blk = XIVE_EAS_BLOCK(val);
-     idx = XIVE_EAS_INDEX(val);
- 
--    xive_router_notify(XIVE_NOTIFIER(xive), XIVE_EAS(blk, idx));
-+    xive_router_notify(XIVE_NOTIFIER(xive), XIVE_EAS(blk, idx),
-+                       !!(val & XIVE_TRIGGER_PQ));
- }
- 
- static void pnv_xive_ic_notify_write(void *opaque, hwaddr addr, uint64_t val,
-@@ -1956,6 +1985,8 @@ static void pnv_xive_class_init(ObjectClass *klass, void *data)
-     device_class_set_props(dc, pnv_xive_properties);
- 
-     xrc->get_eas = pnv_xive_get_eas;
-+    xrc->get_pq = pnv_xive_get_pq;
-+    xrc->set_pq = pnv_xive_set_pq;
-     xrc->get_end = pnv_xive_get_end;
-     xrc->write_end = pnv_xive_write_end;
-     xrc->get_nvt = pnv_xive_get_nvt;
-diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
-index b9abd022cf08..186ab66e105d 100644
---- a/hw/intc/pnv_xive2.c
-+++ b/hw/intc/pnv_xive2.c
-@@ -284,6 +284,34 @@ static int pnv_xive2_vst_write(PnvXive2 *xive, uint32_t type, uint8_t blk,
-     return 0;
- }
- 
-+static int pnv_xive2_get_pq(Xive2Router *xrtr, uint8_t blk, uint32_t idx,
-+                             uint8_t *pq)
-+{
-+    PnvXive2 *xive = PNV_XIVE2(xrtr);
-+
-+    if (pnv_xive2_block_id(xive) != blk) {
-+        xive2_error(xive, "VST: EAS %x is remote !?", XIVE_EAS(blk, idx));
-+        return -1;
-+    }
-+
-+    *pq = xive_source_esb_get(&xive->ipi_source, idx);
-+    return 0;
-+}
-+
-+static int pnv_xive2_set_pq(Xive2Router *xrtr, uint8_t blk, uint32_t idx,
-+                             uint8_t *pq)
-+{
-+    PnvXive2 *xive = PNV_XIVE2(xrtr);
-+
-+    if (pnv_xive2_block_id(xive) != blk) {
-+        xive2_error(xive, "VST: EAS %x is remote !?", XIVE_EAS(blk, idx));
-+        return -1;
-+    }
-+
-+    *pq = xive_source_esb_set(&xive->ipi_source, idx, *pq);
-+    return 0;
-+}
-+
- static int pnv_xive2_get_end(Xive2Router *xrtr, uint8_t blk, uint32_t idx,
-                              Xive2End *end)
- {
-@@ -486,12 +514,12 @@ static PnvXive2 *pnv_xive2_tm_get_xive(PowerPCCPU *cpu)
-  * source interrupt number before forwarding the source event
-  * notification to the Router. This is required on a multichip system.
-  */
--static void pnv_xive2_notify(XiveNotifier *xn, uint32_t srcno)
-+static void pnv_xive2_notify(XiveNotifier *xn, uint32_t srcno, bool pq_checked)
- {
-     PnvXive2 *xive = PNV_XIVE2(xn);
-     uint8_t blk = pnv_xive2_block_id(xive);
- 
--    xive2_router_notify(xn, XIVE_EAS(blk, srcno));
-+    xive2_router_notify(xn, XIVE_EAS(blk, srcno), pq_checked);
- }
- 
- /*
-@@ -1380,7 +1408,8 @@ static void pnv_xive2_ic_hw_trigger(PnvXive2 *xive, hwaddr addr,
-     blk = XIVE_EAS_BLOCK(val);
-     idx = XIVE_EAS_INDEX(val);
- 
--    xive2_router_notify(XIVE_NOTIFIER(xive), XIVE_EAS(blk, idx));
-+    xive2_router_notify(XIVE_NOTIFIER(xive), XIVE_EAS(blk, idx),
-+                         !!(val & XIVE_TRIGGER_PQ));
- }
- 
- static void pnv_xive2_ic_notify_write(void *opaque, hwaddr offset,
-@@ -1879,6 +1908,8 @@ static void pnv_xive2_class_init(ObjectClass *klass, void *data)
-     device_class_set_props(dc, pnv_xive2_properties);
- 
-     xrc->get_eas   = pnv_xive2_get_eas;
-+    xrc->get_pq    = pnv_xive2_get_pq;
-+    xrc->set_pq    = pnv_xive2_set_pq;
-     xrc->get_end   = pnv_xive2_get_end;
-     xrc->write_end = pnv_xive2_write_end;
-     xrc->get_nvp   = pnv_xive2_get_nvp;
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 4ec659b93e13..9ea7c83f3cc3 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -480,6 +480,29 @@ static uint8_t spapr_xive_get_block_id(XiveRouter *xrtr)
-     return SPAPR_XIVE_BLOCK_ID;
- }
- 
-+static int spapr_xive_get_pq(XiveRouter *xrtr, uint8_t blk, uint32_t idx,
-+                             uint8_t *pq)
-+{
-+    SpaprXive *xive = SPAPR_XIVE(xrtr);
-+
-+    assert(SPAPR_XIVE_BLOCK_ID == blk);
-+
-+    *pq = xive_source_esb_get(&xive->source, idx);
-+    return 0;
-+}
-+
-+static int spapr_xive_set_pq(XiveRouter *xrtr, uint8_t blk, uint32_t idx,
-+                             uint8_t *pq)
-+{
-+    SpaprXive *xive = SPAPR_XIVE(xrtr);
-+
-+    assert(SPAPR_XIVE_BLOCK_ID == blk);
-+
-+    *pq = xive_source_esb_set(&xive->source, idx, *pq);
-+    return 0;
-+}
-+
-+
- static const VMStateDescription vmstate_spapr_xive_end = {
-     .name = TYPE_SPAPR_XIVE "/end",
-     .version_id = 1,
-@@ -788,6 +811,8 @@ static void spapr_xive_class_init(ObjectClass *klass, void *data)
-     dc->vmsd    = &vmstate_spapr_xive;
- 
-     xrc->get_eas = spapr_xive_get_eas;
-+    xrc->get_pq  = spapr_xive_get_pq;
-+    xrc->set_pq  = spapr_xive_set_pq;
-     xrc->get_end = spapr_xive_get_end;
-     xrc->write_end = spapr_xive_write_end;
-     xrc->get_nvt = spapr_xive_get_nvt;
+ struct XiveSource {
+     DeviceState parent;
 diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 2c73ab5ca9d6..3cc439a84655 100644
+index 3cc439a84655..4f3d67f246b5 100644
 --- a/hw/intc/xive.c
 +++ b/hw/intc/xive.c
-@@ -938,7 +938,7 @@ static void xive_source_notify(XiveSource *xsrc, int srcno)
+@@ -886,6 +886,16 @@ static bool xive_source_lsi_trigger(XiveSource *xsrc, uint32_t srcno)
+     }
+ }
+ 
++/*
++ * Sources can be configured with PQ offloading in which case the check
++ * on the PQ state bits of MSIs is disabled
++ */
++static bool xive_source_esb_disabled(XiveSource *xsrc, uint32_t srcno)
++{
++    return (xsrc->esb_flags & XIVE_SRC_PQ_DISABLE) &&
++        !xive_source_irq_is_lsi(xsrc, srcno);
++}
++
+ /*
+  * Returns whether the event notification should be forwarded.
+  */
+@@ -895,6 +905,10 @@ static bool xive_source_esb_trigger(XiveSource *xsrc, uint32_t srcno)
+ 
+     assert(srcno < xsrc->nr_irqs);
+ 
++    if (xive_source_esb_disabled(xsrc, srcno)) {
++        return true;
++    }
++
+     ret = xive_esb_trigger(&xsrc->status[srcno]);
+ 
+     if (xive_source_irq_is_lsi(xsrc, srcno) &&
+@@ -915,6 +929,11 @@ static bool xive_source_esb_eoi(XiveSource *xsrc, uint32_t srcno)
+ 
+     assert(srcno < xsrc->nr_irqs);
+ 
++    if (xive_source_esb_disabled(xsrc, srcno)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid EOI for IRQ %d\n", srcno);
++        return false;
++    }
++
+     ret = xive_esb_eoi(&xsrc->status[srcno]);
+ 
+     /*
+@@ -936,9 +955,10 @@ static bool xive_source_esb_eoi(XiveSource *xsrc, uint32_t srcno)
+ static void xive_source_notify(XiveSource *xsrc, int srcno)
+ {
      XiveNotifierClass *xnc = XIVE_NOTIFIER_GET_CLASS(xsrc->xive);
++    bool pq_checked = !xive_source_esb_disabled(xsrc, srcno);
  
      if (xnc->notify) {
--        xnc->notify(xsrc->xive, srcno);
-+        xnc->notify(xsrc->xive, srcno, true);
+-        xnc->notify(xsrc->xive, srcno, true);
++        xnc->notify(xsrc->xive, srcno, pq_checked);
      }
  }
  
-@@ -1369,6 +1369,24 @@ int xive_router_get_eas(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-     return xrc->get_eas(xrtr, eas_blk, eas_idx, eas);
- }
- 
-+static
-+int xive_router_get_pq(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-+                       uint8_t *pq)
-+{
-+    XiveRouterClass *xrc = XIVE_ROUTER_GET_CLASS(xrtr);
-+
-+    return xrc->get_pq(xrtr, eas_blk, eas_idx, pq);
-+}
-+
-+static
-+int xive_router_set_pq(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-+                       uint8_t *pq)
-+{
-+    XiveRouterClass *xrc = XIVE_ROUTER_GET_CLASS(xrtr);
-+
-+    return xrc->set_pq(xrtr, eas_blk, eas_idx, pq);
-+}
-+
- int xive_router_get_end(XiveRouter *xrtr, uint8_t end_blk, uint32_t end_idx,
-                         XiveEND *end)
- {
-@@ -1720,7 +1738,7 @@ do_escalation:
-                            xive_get_field32(END_W5_ESC_END_DATA,  end.w5));
- }
- 
--void xive_router_notify(XiveNotifier *xn, uint32_t lisn)
-+void xive_router_notify(XiveNotifier *xn, uint32_t lisn, bool pq_checked)
- {
-     XiveRouter *xrtr = XIVE_ROUTER(xn);
-     uint8_t eas_blk = XIVE_EAS_BLOCK(lisn);
-@@ -1733,11 +1751,27 @@ void xive_router_notify(XiveNotifier *xn, uint32_t lisn)
-         return;
-     }
- 
--    /*
--     * The IVRE checks the State Bit Cache at this point. We skip the
--     * SBC lookup because the state bits of the sources are modeled
--     * internally in QEMU.
--     */
-+    if (!pq_checked) {
-+        bool notify;
-+        uint8_t pq;
-+
-+        /* PQ cache lookup */
-+        if (xive_router_get_pq(xrtr, eas_blk, eas_idx, &pq)) {
-+            /* Set FIR */
-+            g_assert_not_reached();
-+        }
-+
-+        notify = xive_esb_trigger(&pq);
-+
-+        if (xive_router_set_pq(xrtr, eas_blk, eas_idx, &pq)) {
-+            /* Set FIR */
-+            g_assert_not_reached();
-+        }
-+
-+        if (!notify) {
-+            return;
-+        }
-+    }
- 
-     if (!xive_eas_is_valid(&eas)) {
-         qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid LISN %x\n", lisn);
-diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
-index d474476b5a55..26af08a5de07 100644
---- a/hw/intc/xive2.c
-+++ b/hw/intc/xive2.c
-@@ -170,6 +170,24 @@ int xive2_router_get_eas(Xive2Router *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-     return xrc->get_eas(xrtr, eas_blk, eas_idx, eas);
- }
- 
-+static
-+int xive2_router_get_pq(Xive2Router *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-+                       uint8_t *pq)
-+{
-+    Xive2RouterClass *xrc = XIVE2_ROUTER_GET_CLASS(xrtr);
-+
-+    return xrc->get_pq(xrtr, eas_blk, eas_idx, pq);
-+}
-+
-+static
-+int xive2_router_set_pq(Xive2Router *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-+                       uint8_t *pq)
-+{
-+    Xive2RouterClass *xrc = XIVE2_ROUTER_GET_CLASS(xrtr);
-+
-+    return xrc->set_pq(xrtr, eas_blk, eas_idx, pq);
-+}
-+
- int xive2_router_get_end(Xive2Router *xrtr, uint8_t end_blk, uint32_t end_idx,
-                          Xive2End *end)
- {
-@@ -479,7 +497,7 @@ do_escalation:
-                            xive_get_field32(END2_W5_ESC_END_DATA,  end.w5));
- }
- 
--void xive2_router_notify(XiveNotifier *xn, uint32_t lisn)
-+void xive2_router_notify(XiveNotifier *xn, uint32_t lisn, bool pq_checked)
- {
-     Xive2Router *xrtr = XIVE2_ROUTER(xn);
-     uint8_t eas_blk = XIVE_EAS_BLOCK(lisn);
-@@ -492,6 +510,28 @@ void xive2_router_notify(XiveNotifier *xn, uint32_t lisn)
-         return;
-     }
- 
-+    if (!pq_checked) {
-+        bool notify;
-+        uint8_t pq;
-+
-+        /* PQ cache lookup */
-+        if (xive2_router_get_pq(xrtr, eas_blk, eas_idx, &pq)) {
-+            /* Set FIR */
-+            g_assert_not_reached();
-+        }
-+
-+        notify = xive_esb_trigger(&pq);
-+
-+        if (xive2_router_set_pq(xrtr, eas_blk, eas_idx, &pq)) {
-+            /* Set FIR */
-+            g_assert_not_reached();
-+        }
-+
-+        if (!notify) {
-+            return;
-+        }
-+    }
-+
-     if (!xive2_eas_is_valid(&eas)) {
-         qemu_log_mask(LOG_GUEST_ERROR, "XIVE: Invalid LISN %x\n", lisn);
-         return;
 diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 5c375a9f285d..3edd5845ebde 100644
+index 3edd5845ebde..cf506d1623c3 100644
 --- a/hw/pci-host/pnv_phb4.c
 +++ b/hw/pci-host/pnv_phb4.c
-@@ -1250,14 +1250,19 @@ static const char *pnv_phb4_root_bus_path(PCIHostState *host_bridge,
-     return phb->bus_path;
- }
- 
--static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno)
-+static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno,
-+                                 bool pq_checked)
- {
-     PnvPHB4 *phb = PNV_PHB4(xf);
-     uint64_t notif_port = phb->regs[PHB_INT_NOTIFY_ADDR >> 3];
-     uint32_t offset = phb->regs[PHB_INT_NOTIFY_INDEX >> 3];
--    uint64_t data = XIVE_TRIGGER_PQ | offset | srcno;
-+    uint64_t data = offset | srcno;
-     MemTxResult result;
- 
-+    if (pq_checked) {
-+        data |= XIVE_TRIGGER_PQ;
-+    }
-+
-     trace_pnv_phb4_xive_notify(notif_port, data);
- 
-     address_space_stq_be(&address_space_memory, notif_port, data,
-diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-index 737486046d5a..466fb7979887 100644
---- a/hw/ppc/pnv_psi.c
-+++ b/hw/ppc/pnv_psi.c
-@@ -653,7 +653,7 @@ static const TypeInfo pnv_psi_power8_info = {
- #define PSIHB10_ESB_CI_BASE              PSIHB9_ESB_CI_BASE
- #define   PSIHB10_ESB_CI_64K             PPC_BIT(1)
- 
--static void pnv_psi_notify(XiveNotifier *xf, uint32_t srcno)
-+static void pnv_psi_notify(XiveNotifier *xf, uint32_t srcno, bool pq_checked)
- {
-     PnvPsi *psi = PNV_PSI(xf);
-     uint64_t notif_port = psi->regs[PSIHB_REG(PSIHB9_ESB_NOTIF_ADDR)];
-@@ -662,9 +662,13 @@ static void pnv_psi_notify(XiveNotifier *xf, uint32_t srcno)
- 
-     uint32_t offset =
-         (psi->regs[PSIHB_REG(PSIHB9_IVT_OFFSET)] >> PSIHB9_IVT_OFF_SHIFT);
--    uint64_t data = XIVE_TRIGGER_PQ | offset | srcno;
-+    uint64_t data = offset | srcno;
-     MemTxResult result;
- 
-+    if (pq_checked) {
-+        data |= XIVE_TRIGGER_PQ;
-+    }
-+
-     if (!valid) {
-         return;
+@@ -475,6 +475,15 @@ static void pnv_phb4_update_xsrc(PnvPHB4 *phb)
+         flags = 0;
      }
+ 
++    /*
++     * When the PQ disable configuration bit is set, the check on the
++     * PQ state bits is disabled on the PHB side (for MSI only) and it
++     * is performed on the IC side instead.
++     */
++    if (phb->regs[PHB_CTRLR >> 3] & PHB_CTRLR_IRQ_PQ_DISABLE) {
++        flags |= XIVE_SRC_PQ_DISABLE;
++    }
++
+     phb->xsrc.esb_shift = shift;
+     phb->xsrc.esb_flags = flags;
+ 
 -- 
 2.31.1
 
