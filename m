@@ -2,83 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A53545EA9F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 10:44:00 +0100 (CET)
-Received: from localhost ([::1]:47360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DBB845EB79
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 11:26:51 +0100 (CET)
+Received: from localhost ([::1]:57712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqXlv-00042f-B8
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 04:43:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60238)
+	id 1mqYRN-0005Ne-Li
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 05:26:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mqXkq-0003Ds-8R
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 04:42:52 -0500
-Received: from [2a00:1450:4864:20::433] (port=33468
- helo=mail-wr1-x433.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mqXkd-0006qO-AT
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 04:42:51 -0500
-Received: by mail-wr1-x433.google.com with SMTP id d24so17421060wra.0
- for <qemu-devel@nongnu.org>; Fri, 26 Nov 2021 01:42:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rdML5j+T+1ub0Gdh+FkJpaKi7HYHUehIgZXhTrliCS0=;
- b=lgIeW8Ota/iXEDWa6P6ltB3JSkUtCBJ4COwZHCFfzwUacrhiwWkQ0rRlnv9Q9WXDEf
- jEBVmpMbfXCBNVNNxWu9NG5eHtCNE+kY7umoz8wI3g2jp6tU5ldprCrownoTDKh2OA+i
- WrCu1LyGGkONwctu2I05bbdxBrRveaWACLuQ72iEAUR4J7bWev836WiZwviwU5v2C5ae
- D4UshFrkX5jcZ13JKRuwnDZlgl3XLVseo35LHQGNSEgTmypD0ZTtnWgaa6kp2PGHRtEK
- xbIIWdfMZ+1l/N0opsyoV6KPRv0xHn1Hx1A7GRVi6hB50Oc8d2DfAobZ93oQs2cFSYz0
- NaZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rdML5j+T+1ub0Gdh+FkJpaKi7HYHUehIgZXhTrliCS0=;
- b=QDZK/XRXkwpAwOeBLjxjlQStKuOkGIODo5ixIwV+HlDbD+mbI1dtf0EYEB94YV8qRy
- EeD6vrNPc9PnDsbBwCuvtjHWIURvl5+7wFNnfgvL9vwK7DO8bEHekvN0njxX/vTVNrtG
- h8M56VhGom35RzewDPRtpqE0HG03euER0PqDqPn1RJkHu187v3JUE5KAZFuaZP1BBNf7
- HYs7pzgVyX96H+Q3cy7+hxYvLLfMfyMO4zdvkslDvEXe8kNr81g7T+pndPhX78+cVGHR
- JOPWJMBL3TGyDr8oE7dnwZW4dhfRyseqnybYV8+pKWLkLgxBVLSxNnkKhLV8+1DM4GIX
- mqug==
-X-Gm-Message-State: AOAM531BySvCFyoJZg5yGAIK1z073dtJzHP0SKIIfPklDxTK8a655OpS
- ZZjqckSsE/7al+Xq+SHoM7i9tw==
-X-Google-Smtp-Source: ABdhPJw++K0VXZKA78xEcR8CB6P6/BaRuCtNbQVVjmk4g1gXeqs3vdGZdCfNqxHjcD7jzBF35NTELQ==
-X-Received: by 2002:a5d:480c:: with SMTP id l12mr13192531wrq.518.1637919757527; 
- Fri, 26 Nov 2021 01:42:37 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id z14sm5574215wrp.70.2021.11.26.01.42.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Nov 2021 01:42:36 -0800 (PST)
-Subject: Re: [PATCH v2 1/7] accel/tcg: introduce CF_NOIRQ
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20211125154144.2904741-1-alex.bennee@linaro.org>
- <20211125154144.2904741-2-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <13383bda-3854-8133-44f0-754952bfc552@linaro.org>
-Date: Fri, 26 Nov 2021 10:42:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <20211125154144.2904741-2-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1mqYPf-0004XF-DX; Fri, 26 Nov 2021 05:25:03 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:27630
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1mqYPd-00043I-FX; Fri, 26 Nov 2021 05:25:03 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AQ9aFV5021487; 
+ Fri, 26 Nov 2021 10:24:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=2zQpEvRzM1W/HN3DIJyJixhxqisQXLdGgtkTrqZ5Kp4=;
+ b=WFL4dgR/+Hc7Dgf1zACXAm/yC9sUH3OEIF4oE0VOt8cfxVVvwtY7CtWYcKczH1QQxq4E
+ yQceRxkkeD0Dbox6BMEH3MGRXGvM2z9oP7K9+sqDnkK62XnRUESSXSWQcsHEGrdccOKm
+ 3rrY8AuQOlDIslMKzIo8ZUJ0ohcvD3r3zF8cZ2d5pfRvh+Ctf4g3auVT+ctILoyqflTz
+ y8LiIEETpzAHYiosSNTWtJMgjYBFPMx/oXOy4+n3hIK3eSA+Q/iBE0ChKiH2mXqcvgMh
+ XTPRKq7N6NKq1UOcRsv20aoOgNyijhc21vFrovNLCM5lrMCRKphNqFr8temUFUgNbiVT Ew== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cjmwj1tuq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 26 Nov 2021 10:24:57 +0000
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AQAD3a7028078;
+ Fri, 26 Nov 2021 10:24:56 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cjmwj1tua-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 26 Nov 2021 10:24:56 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AQADTwl001005;
+ Fri, 26 Nov 2021 10:24:54 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04ams.nl.ibm.com with ESMTP id 3cernbhwt6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 26 Nov 2021 10:24:54 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1AQAOoG855902664
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 26 Nov 2021 10:24:50 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 998A552067;
+ Fri, 26 Nov 2021 10:24:50 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 886BB5205F;
+ Fri, 26 Nov 2021 10:24:50 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
+ id 3F97DE11C1; Fri, 26 Nov 2021 11:24:50 +0100 (CET)
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v2 1/1] MAINTAINERS: update email address of Christian
+ Borntraeger
+Date: Fri, 26 Nov 2021 11:24:49 +0100
+Message-Id: <20211126102449.287524-1-borntraeger@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: r_85d8CEN0gmhLEAjLavrSna_koZoqBF
+X-Proofpoint-ORIG-GUID: e-Xp79uvFOT1XZ7ZwqaZNKizxv9PtOyu
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.993,
- PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-26_03,2021-11-25_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015
+ impostorscore=0 priorityscore=1501 malwarescore=0 mlxscore=0 adultscore=0
+ mlxlogscore=786 lowpriorityscore=0 phishscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111260059
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,29 +107,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/25/21 4:41 PM, Alex Bennée wrote:
-> Here we introduce a new compiler flag to disable the checking of exit
-> request (icount_decr.u32). This is useful when we want to ensure the
-> next block cannot be preempted by an asynchronous event.
-> 
-> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> 
-> ---
-> v2
->    - split from larger patch
->    - reword the check in cpu_handle_interrupt and scope to CF_NOIRQ only
-> ---
->   include/exec/exec-all.h   |  1 +
->   include/exec/gen-icount.h | 21 +++++++++++++++++----
->   2 files changed, 18 insertions(+), 4 deletions(-)
+My borntraeger@de.ibm.com email is just a forwarder to the
+linux.ibm.com address. Let us remove the extra hop to avoid
+a potential source of errors.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+While at it, add the relevant email addresses to mailmap.
 
-r~
+Signed-off-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+---
+ .mailmap    | 1 +
+ MAINTAINERS | 6 +++---
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/.mailmap b/.mailmap
+index 8beb2f95ae28..c45d1c530144 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -50,6 +50,7 @@ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
+ Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
++Christian Borntraeger <borntraeger@linux.ibm.com> <borntraeger@de.ibm.com>
+ Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+ Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
+ Greg Kurz <groug@kaod.org> <gkurz@linux.vnet.ibm.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d3879aa3c12c..e19d88ca9960 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -393,7 +393,7 @@ F: target/ppc/kvm.c
+ 
+ S390 KVM CPUs
+ M: Halil Pasic <pasic@linux.ibm.com>
+-M: Christian Borntraeger <borntraeger@de.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
+ S: Supported
+ F: target/s390x/kvm/
+ F: target/s390x/ioinst.[ch]
+@@ -1527,7 +1527,7 @@ S390 Machines
+ -------------
+ S390 Virtio-ccw
+ M: Halil Pasic <pasic@linux.ibm.com>
+-M: Christian Borntraeger <borntraeger@de.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
+ S: Supported
+ F: hw/char/sclp*.[hc]
+ F: hw/char/terminal3270.c
+@@ -1541,7 +1541,7 @@ T: git https://github.com/borntraeger/qemu.git s390-next
+ L: qemu-s390x@nongnu.org
+ 
+ S390-ccw boot
+-M: Christian Borntraeger <borntraeger@de.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
+ M: Thomas Huth <thuth@redhat.com>
+ S: Supported
+ F: hw/s390x/ipl.*
+-- 
+2.31.1
+
 
