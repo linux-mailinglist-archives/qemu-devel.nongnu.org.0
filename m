@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06A545E581
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 03:45:22 +0100 (CET)
-Received: from localhost ([::1]:45440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B4C45E464
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 03:25:47 +0100 (CET)
+Received: from localhost ([::1]:52990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqREm-0007Uv-Fw
-	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 21:45:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40548)
+	id 1mqQvp-0000pQ-Ux
+	for lists+qemu-devel@lfdr.de; Thu, 25 Nov 2021 21:25:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andy.pei@intel.com>)
- id 1mqRDh-0005jm-6q; Thu, 25 Nov 2021 21:44:13 -0500
-Received: from mga09.intel.com ([134.134.136.24]:23132)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andy.pei@intel.com>)
- id 1mqRDe-0002ut-R1; Thu, 25 Nov 2021 21:44:12 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="235418676"
-X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; d="scan'208";a="235418676"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2021 18:44:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; d="scan'208";a="607710459"
-Received: from dpdk-dipei.sh.intel.com ([10.67.111.91])
- by orsmga004.jf.intel.com with ESMTP; 25 Nov 2021 18:44:05 -0800
-From: Andy Pei <andy.pei@intel.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1mqQte-0007FE-1B
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 21:23:31 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:40388 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1mqQtN-0000U1-Ge
+ for qemu-devel@nongnu.org; Thu, 25 Nov 2021 21:23:15 -0500
+Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxT8sNRaBhLQAAAA--.8S2;
+ Fri, 26 Nov 2021 10:23:09 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/vhost-user-blk: turn on VIRTIO_BLK_F_SIZE_MAX feature for
- virtio blk device
-Date: Fri, 26 Nov 2021 10:00:18 +0800
-Message-Id: <1637892018-89555-1-git-send-email-andy.pei@intel.com>
+Subject: [PATCH v2 0/3] Move target_signal.h generic definitions to
+ generic/signal.h
+Date: Fri, 26 Nov 2021 10:23:05 +0800
+Message-Id: <1637893388-10282-1-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
-Received-SPF: pass client-ip=134.134.136.24; envelope-from=andy.pei@intel.com;
- helo=mga09.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxT8sNRaBhLQAAAA--.8S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CFyUKr4rGF1DuFyxWF45KFg_yoW5JrW5pa
+ yfJ3s7Jr1xJrW8G347Jw17Xa48Xa4UGr1DC3Zaq34kJ34SvFWrWw1DCF4rG345XF95GFs0
+ gFWDAr1DKrWUWFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,31 +56,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, mst@redhat.com, mreitz@redhat.com,
- raphael.norwitz@nutanix.com, changpeng.liu@intel.com
+Cc: alex.bennee@linaro.org, richard.henderson@linaro.org, laurent@vivier.eu,
+ f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Turn on pre-defined feature VIRTIO_BLK_F_SIZE_MAX virtio blk device
-to avoid guest DMA request size is too large to exceed hardware spec.
+Hi all,
 
-Signed-off-by: Andy Pei <andy.pei@intel.com>
----
- hw/block/vhost-user-blk.c | 1 +
- 1 file changed, 1 insertion(+)
+This seris:
+ - Move target_signal.h generic defintions to generic/signal.h, 
+ - target_syscall.h remove TARGET_MINSIGSTKSZ
+ - Remove unused definitions TARGET_SIGSTKSZ.
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index ba13cb8..eb1264a 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -252,6 +252,7 @@ static uint64_t vhost_user_blk_get_features(VirtIODevice *vdev,
-     VHostUserBlk *s = VHOST_USER_BLK(vdev);
- 
-     /* Turn on pre-defined features */
-+    virtio_add_feature(&features, VIRTIO_BLK_F_SIZE_MAX);
-     virtio_add_feature(&features, VIRTIO_BLK_F_SEG_MAX);
-     virtio_add_feature(&features, VIRTIO_BLK_F_GEOMETRY);
-     virtio_add_feature(&features, VIRTIO_BLK_F_TOPOLOGY);
+Song Gao (3):
+  linux-user: Move target_signal.h generic definitions to
+    generic/signal.h
+  linux-user: target_syscall.h remove definition TARGET_MINSIGSTKSZ
+  linux-user: Remove TARGET_SIGSTKSZ
+
+ linux-user/aarch64/target_signal.h     | 18 ------------------
+ linux-user/aarch64/target_syscall.h    |  1 -
+ linux-user/alpha/target_signal.h       |  1 -
+ linux-user/alpha/target_syscall.h      |  1 -
+ linux-user/arm/target_signal.h         | 18 ------------------
+ linux-user/arm/target_syscall.h        |  1 -
+ linux-user/cris/target_signal.h        | 18 ------------------
+ linux-user/cris/target_syscall.h       |  1 -
+ linux-user/generic/signal.h            | 15 +++++++++++++++
+ linux-user/hexagon/target_signal.h     | 11 -----------
+ linux-user/hppa/target_signal.h        |  1 -
+ linux-user/hppa/target_syscall.h       |  1 -
+ linux-user/i386/target_signal.h        | 18 ------------------
+ linux-user/i386/target_syscall.h       |  1 -
+ linux-user/m68k/target_signal.h        | 18 ------------------
+ linux-user/m68k/target_syscall.h       |  1 -
+ linux-user/microblaze/target_signal.h  | 18 ------------------
+ linux-user/microblaze/target_syscall.h |  1 -
+ linux-user/mips/target_signal.h        |  1 -
+ linux-user/mips/target_syscall.h       |  1 -
+ linux-user/mips64/target_signal.h      |  1 -
+ linux-user/mips64/target_syscall.h     |  1 -
+ linux-user/nios2/target_signal.h       | 16 ----------------
+ linux-user/nios2/target_syscall.h      |  1 -
+ linux-user/openrisc/target_signal.h    | 23 -----------------------
+ linux-user/openrisc/target_syscall.h   |  1 -
+ linux-user/ppc/target_signal.h         | 18 ------------------
+ linux-user/ppc/target_syscall.h        |  1 -
+ linux-user/riscv/target_signal.h       | 12 ------------
+ linux-user/riscv/target_syscall.h      |  1 -
+ linux-user/s390x/target_signal.h       | 15 ---------------
+ linux-user/s390x/target_syscall.h      |  1 -
+ linux-user/sh4/target_signal.h         | 18 ------------------
+ linux-user/sh4/target_syscall.h        |  1 -
+ linux-user/sparc/target_signal.h       |  1 -
+ linux-user/sparc/target_syscall.h      |  1 -
+ linux-user/x86_64/target_signal.h      | 18 ------------------
+ linux-user/x86_64/target_syscall.h     |  1 -
+ linux-user/xtensa/target_signal.h      | 17 -----------------
+ 39 files changed, 15 insertions(+), 279 deletions(-)
+
 -- 
 1.8.3.1
 
