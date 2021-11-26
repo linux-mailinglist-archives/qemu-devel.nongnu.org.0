@@ -2,86 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D93345E88B
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 08:38:42 +0100 (CET)
-Received: from localhost ([::1]:42522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E04D45E8F8
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 09:04:26 +0100 (CET)
+Received: from localhost ([::1]:49822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqVof-0005L3-2V
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 02:38:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34328)
+	id 1mqWDZ-0004Et-1J
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 03:04:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mqVnA-0004bc-Tk
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 02:37:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40182)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mqWB0-0002be-QU; Fri, 26 Nov 2021 03:01:46 -0500
+Received: from [2001:41c9:1:41f::167] (port=53496
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mqVn7-0006L3-Ns
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 02:37:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637912224;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1MqstZiR7ySAKBnQzIXm/glLHDcxXRNoDLjpayvbW5E=;
- b=agOhGmNT5jEZCqrAObZMgJPD7iltklzrubvk7cXZBEWiLBPy7qZBEWJeGg49tp4i1bz5cB
- PchksASLG035lVNDrdoj8yR6KvYfg1bKAuIGixwbsSl0PmqhIi3CeYNvU8sJg9v3HIEzw+
- cYrWV3pO8oL25qv8Pzx5JabL72qoh+o=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-316-sADCuDTXOQSJt-C5L4zkEw-1; Fri, 26 Nov 2021 02:37:01 -0500
-X-MC-Unique: sADCuDTXOQSJt-C5L4zkEw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- d13-20020a056402516d00b003e7e67a8f93so7327075ede.0
- for <qemu-devel@nongnu.org>; Thu, 25 Nov 2021 23:37:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1MqstZiR7ySAKBnQzIXm/glLHDcxXRNoDLjpayvbW5E=;
- b=dVhMG5V6JYc05qN+h1yhO1c3uhEsjGsTyAyyOEVyBGlN+WuukEzwQuuTaES2UKs77E
- x0rKTynRv38ur8bLXoMt69H1nWiUr8yW6AamrktKjP0euJ+W3bXpa9hx5qcFi7N9LC7M
- fM2Rghta6vsxzG16uSz1K4cdJFCNl7c3GzI718tSyQ6sEp8gF1+Q0EwtnsRLgtVPZJr+
- CszknCCMQZBLaQqBzJsaiNXurR2wip+SvFOBL39E7I7W1kOGdezbZ2Dl6EQLaswIb5Vh
- vECtsx/auUOQM+UFSUVlrxlhnkZY3vFloMSKb2ucDs+fGsEJas4HbFj9iEzViACL9rXD
- UP/g==
-X-Gm-Message-State: AOAM532skqoWlLczLSAfYOHMeYXI8FKbDRJQvERbO6SmoLys7rXSTPsQ
- 9vvWax0miJ2q+MRGZu/p1WKh4Y2T/KArUg3ZT2c4aKSnOVtinA6ZUsw1iBBYl0O/XAx2DoVnGAZ
- JIegF3efug+kwPGE=
-X-Received: by 2002:a50:fc10:: with SMTP id i16mr46612754edr.84.1637912219869; 
- Thu, 25 Nov 2021 23:36:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzeEH/Q0z9qG0wDIc6G8VZZo2orMPcZgLv0hIH3VfSQw9Cgf8QAJ12v+2JMPKJKO+/seAXI+A==
-X-Received: by 2002:a50:fc10:: with SMTP id i16mr46612730edr.84.1637912219588; 
- Thu, 25 Nov 2021 23:36:59 -0800 (PST)
-Received: from redhat.com ([176.12.226.108])
- by smtp.gmail.com with ESMTPSA id jy28sm2590611ejc.118.2021.11.25.23.36.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Nov 2021 23:36:59 -0800 (PST)
-Date: Fri, 26 Nov 2021 02:36:55 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 2/2] virtio-balloon: correct used length
-Message-ID: <20211126023424-mutt-send-email-mst@kernel.org>
-References: <20211125022046.10433-1-jasowang@redhat.com>
- <20211125022046.10433-2-jasowang@redhat.com>
- <20211125111055-mutt-send-email-mst@kernel.org>
- <CACGkMEsXRQm-vssQD0Cp1R-00B1G-XvdMFv1PX07qZqYPxH71A@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mqWAw-0001X7-Li; Fri, 26 Nov 2021 03:01:44 -0500
+Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mqWAY-0002xD-8H; Fri, 26 Nov 2021 08:01:21 +0000
+To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20211119134431.406753-1-farosas@linux.ibm.com>
+ <87pmqpqknn.fsf@linux.ibm.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <4fe55b44-6549-04d7-b381-aee88499d6a3@ilande.co.uk>
+Date: Fri, 26 Nov 2021 08:01:21 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEsXRQm-vssQD0Cp1R-00B1G-XvdMFv1PX07qZqYPxH71A@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+In-Reply-To: <87pmqpqknn.fsf@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH 0/2] QEMU/openbios: PPC Software TLB support in the G4
+ family
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.993,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,108 +65,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Ellerman <mpe@ellerman.id.au>, qemu-devel <qemu-devel@nongnu.org>,
- David Hildenbrand <david@redhat.com>
+Cc: openbios@openbios.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 26, 2021 at 10:45:43AM +0800, Jason Wang wrote:
-> On Fri, Nov 26, 2021 at 12:14 AM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Thu, Nov 25, 2021 at 10:20:46AM +0800, Jason Wang wrote:
-> > > Spec said:
-> > >
-> > > "and len the total of bytes written into the buffer."
-> > >
-> > > For inflateq, deflateq and statsq, we don't process in_sg so the used
-> > > length should be zero. For free_page_vq, since the pages could be
-> > > changed in the destination, we should make all pages used for safety.
-> >
-> > Yea, about that, I know I said it, but I was wrong, sorry.
-> >
-> > Spec says this:
-> >
-> >         \field{len} is particularly useful
-> >         for drivers using untrusted buffers: if a driver does not know exactly
-> >         how much has been written by the device, the driver would have to zero
-> >         the buffer in advance to ensure no data leakage occurs.
-> >
-> >         For example, a network driver may hand a received buffer directly to
-> >         an unprivileged userspace application.  If the network device has not
-> >         overwritten the bytes which were in that buffer, this could leak the
-> >         contents of freed memory from other processes to the application.
-> >
-> >
-> > In other words, device must guarantee that used length was
-> > written into. Since we don't know that, we really should
-> > write 0 there, and the fact we don't is a spec violation.
+On 24/11/2021 22:00, Fabiano Rosas wrote:
+
+> Fabiano Rosas <farosas@linux.ibm.com> writes:
 > 
-> The problem is, if we write 0, the driver may assume there's no change
-> on those pages?
+>> Hi all,
+>>
+>> We have this bug in QEMU which indicates that we haven't been able to
+>> run openbios on a 7450 cpu for quite a long time:
+>>
+>> https://gitlab.com/qemu-project/qemu/-/issues/86
+>>
+>> OK:
+>>    $ ./qemu-system-ppc -serial mon:stdio -nographic -cpu 7410
+>>
+>>    >> =============================================================
+>>    >> OpenBIOS 1.1 [Nov 1 2021 20:36]
+>>    ...
+>>
+>> NOK:
+>>    $ ./qemu-system-ppc -serial mon:stdio -nographic -cpu 7450 -d int
+>>    Raise exception at fff08cc4 => 0000004e (00)
+>>    QEMU: Terminated
+>>
+>> The actual issue is straightforward. There is a non-architected
+>> feature that QEMU has enabled by default that openbios doesn't know
+>> about. From the user manual:
+>>
+>> "The MPC7540 has a set of implementation-specific registers,
+>> exceptions, and instructions that facilitate very efficient software
+>> searching of the page tables in memory for when software table
+>> searching is enabled (HID0[STEN] = 1). This section describes those
+>> resources and provides three example code sequences that can be used
+>> in a MPC7540 system for an efficient search of the translation tables
+>> in software. These three code sequences can be used as handlers for
+>> the three exceptions requiring access to the PTEs in the page tables
+>> in memory in this case-instruction TLB miss, data TLB miss on load,
+>> and data TLB miss on store exceptions."
+>>
+>> The current state:
+>>
+>> 1) QEMU does not check HID0[STEN] and makes the feature always enabled
+>> by setting these cpus with the POWERPC_MMU_SOFT_74xx MMU model,
+>> instead of the generic POWERPC_MMU_32B.
+>>
+>> 2) openbios does not recognize the PVRs for those cpus and also does
+>> not have any handlers for the software TLB exceptions (vectors 0x1000,
+>> 0x1100, 0x1200).
+>>
+>> Some assumptions (correct me if I'm wrong please):
+>>
+>> - openbios is the only firmware we use for the following cpus: 7441,
+>> 7445, 7450, 7451, 7455, 7457, 7447, 7447a, 7448.
+>> - without openbios, we cannot have a guest running on these cpus.
+>>
+>> So to bring 7450 back to life we would need to either:
+>>
+>> a) find another firmware/guest OS code that supports the feature;
+>>
+>> b) implement the switching of the feature in QEMU and have the guest
+>> code enable it only when supported. That would take some fiddling with
+>> the MMU code to: merge POWERPC_MMU_SOFT_74xx into POWERPC_MMU_32B,
+>> check the HID0[STEN] bit, figure out how to switch from HW TLB miss to
+>> SW TLB miss on demand, block access to the TLBMISS register (and
+>> others) when the feature is off, and so on;
+>>
+>> c) leave the feature enabled in QEMU and implement the software TLB
+>> miss handlers in openbios. The UM provides sample code, so this is
+>> easy;
+>>
+>> d) remove support for software TLB search for the 7450 family and
+>> switch the cpus to the POWERPC_MMU_32B model. This is by far the
+>> easiest solution, but could cause problems for any (which?) guest OS
+>> code that actually uses the feature. All of the existing code for the
+>> POWERPC_MMU_SOFT_74xx MMU model would probably be removed since it
+>> would be dead code then;
+>>
+>> Option (c) seemed to me like a good compromise so this is a patch
+>> series for openbios doing that and also adding the necessary PVRs so
+>> we can get a working guest with these cpus without too much effort.
+>>
+>> I have also a patch for QEMU adding basic sanity check tests for the
+>> 7400 and 7450 families. I'll send that separately to the QEMU ml.
+>>
+>> Fabiano Rosas (2):
+>>    ppc: Add support for MPC7450 software TLB miss interrupts
+>>    ppc: Add PVRs for the MPC7450 family
+>>
+>>   arch/ppc/qemu/init.c  |  52 ++++++++++
+>>   arch/ppc/qemu/start.S | 236 +++++++++++++++++++++++++++++++++++++++++-
+>>   2 files changed, 285 insertions(+), 3 deletions(-)
 > 
-> Thanks
+> (Adding Mark because his email got somehow dropped from the original
+> message)
 
-No:
+> So with these patches in OpenBIOS we could get a bit further and call
+> into the Linux kernel using the same image as the one used for the
+> 7400. However there seems to be no support for the 7450 software TLB in
+> the kernel. There are only handlers for the 4xx, 8xx and 603 which are
+> different code altogether. There's no mention of the TLBMISS and
+> PTEHI/LO registers in the code as well.
+> 
+> Do we know of any guest OS that implements the 7450 software TLB at
+> vectors 0x1000, 0x1100 and 0x1200? Otherwise replacing the
+> POWERPC_MMU_SOFT_74xx model with POWERPC_MMU_32B might be the only way
+> of getting an OS to run in the 7450 family.
+
+My experience of anything other than the default CPUs used on the PPC Mac machines is 
+basically zero, so you're certainly in new territory :)
+
+I could live with your proposed solution c) although it would be nice to guard the 
+extra vectors so that they remain uninitialised for the non-7450 CPUs. My main 
+question is if the kernel itself doesn't support software TLBs then does adding the 
+new code help at all? Or are you eventually planning for solution b) to improve 
+QEMU's 7450 CPU emulation for developers without real hardware?
 
 
-The driver MUST NOT make assumptions about data in device-writable buffers
-beyond the first \field{len} bytes, and SHOULD ignore this data.
+ATB,
 
-
-
-> >
-> >
-> > > Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > > ---
-> > >  hw/virtio/virtio-balloon.c | 8 +++++---
-> > >  1 file changed, 5 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-> > > index 17de2558cb..fb4426ac0c 100644
-> > > --- a/hw/virtio/virtio-balloon.c
-> > > +++ b/hw/virtio/virtio-balloon.c
-> > > @@ -231,7 +231,7 @@ static void balloon_stats_poll_cb(void *opaque)
-> > >          return;
-> > >      }
-> > >
-> > > -    virtqueue_push(s->svq, s->stats_vq_elem, s->stats_vq_offset);
-> > > +    virtqueue_push(s->svq, s->stats_vq_elem, 0);
-> > >      virtio_notify(vdev, s->svq);
-> > >      g_free(s->stats_vq_elem);
-> > >      s->stats_vq_elem = NULL;
-> > > @@ -438,7 +438,7 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-> > >              memory_region_unref(section.mr);
-> > >          }
-> > >
-> > > -        virtqueue_push(vq, elem, offset);
-> > > +        virtqueue_push(vq, elem, 0);
-> > >          virtio_notify(vdev, vq);
-> > >          g_free(elem);
-> > >          virtio_balloon_pbp_free(&pbp);
-> > > @@ -510,6 +510,7 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
-> > >      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-> > >      VirtQueue *vq = dev->free_page_vq;
-> > >      bool ret = true;
-> > > +    size_t used = 0;
-> > >      int i;
-> > >
-> > >      while (dev->block_iothread) {
-> > > @@ -548,11 +549,12 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
-> > >          for (i = 0; i < elem->in_num; i++) {
-> > >              qemu_guest_free_page_hint(elem->in_sg[i].iov_base,
-> > >                                        elem->in_sg[i].iov_len);
-> > > +            used += elem->in_sg[i].iov_len;
-> > >          }
-> > >      }
-> > >
-> > >  out:
-> > > -    virtqueue_push(vq, elem, 1);
-> > > +    virtqueue_push(vq, elem, used);
-> > >      g_free(elem);
-> > >      return ret;
-> > >  }
-> > > --
-> > > 2.25.1
-> >
-
+Mark.
 
