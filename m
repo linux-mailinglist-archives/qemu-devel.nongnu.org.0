@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C8B145EA01
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 10:10:29 +0100 (CET)
-Received: from localhost ([::1]:59498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F7645EA36
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 10:19:34 +0100 (CET)
+Received: from localhost ([::1]:34016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqXFT-0007oV-Gn
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 04:10:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53918)
+	id 1mqXOG-0001rJ-BW
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 04:19:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mqXEH-0006xG-UM; Fri, 26 Nov 2021 04:09:15 -0500
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:35831)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqXNC-0000yc-J9
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 04:18:26 -0500
+Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:57173)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mqXEE-0002Pg-MW; Fri, 26 Nov 2021 04:09:12 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.27])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 181B2CE19F76;
- Fri, 26 Nov 2021 10:09:07 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqXNA-0003kx-Bz
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 04:18:26 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.109])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id E217ECE1AC83;
+ Fri, 26 Nov 2021 10:18:21 +0100 (CET)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 26 Nov
- 2021 10:09:06 +0100
+ 2021 10:18:21 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-97G0025e86d260-3275-495d-94e1-1f85c8506c17,
+ (GARM-100R003906d8683-c0da-4438-a9f8-653f5c17d4b8,
  B8303126CBA279BD35B7DF0844B381DDFAFB7782) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <427ef2ee-6871-0d27-f485-90ad142f6266@kaod.org>
-Date: Fri, 26 Nov 2021 10:09:05 +0100
+Message-ID: <96b6e427-e9e6-5f09-2858-a203bf6b44be@kaod.org>
+Date: Fri, 26 Nov 2021 10:18:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 1/3] ppc/pnv: Tune the POWER9 PCIe Host bridge model
+Subject: Re: [PATCH v2] target/ppc: fix Hash64 MMU update of PTE bit R
 Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, <mst@redhat.com>,
- <marcel.apfelbaum@gmail.com>, <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>, 
- Leandro Lupori <leandro.lupori@eldorado.org.br>
-References: <20211116170133.724751-1-fbarrat@linux.ibm.com>
- <20211116170133.724751-2-fbarrat@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>, Leandro Lupori
+ <leandro.lupori@eldorado.org.br>
+References: <20211125183322.47230-1-leandro.lupori@eldorado.org.br>
+ <YaA0nkWqcGdZ7jM2@yekko>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20211116170133.724751-2-fbarrat@linux.ibm.com>
+In-Reply-To: <YaA0nkWqcGdZ7jM2@yekko>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: e854d08c-e288-4ff4-bfdd-4e568c0004fe
-X-Ovh-Tracer-Id: 11831519171239185190
+X-Ovh-Tracer-GUID: 51cccd4a-c15d-43b5-a6fc-2c7c2e55b467
+X-Ovh-Tracer-Id: 11987737786106088230
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepudeulefhtddttdeffeduteeuleegfeduheehhfehueehgedtgefhhfefveegffegnecuffhomhgrihhnpehfrhgvvggsshgurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehlvggrnhgurhhordhluhhpohhrihesvghlughorhgrughordhorhhgrdgsrh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
 Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
  helo=smtpout4.mo529.mail-out.ovh.net
 X-Spam_score_int: -38
@@ -59,7 +58,7 @@ X-Spam_score: -3.9
 X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.993,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,85 +71,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/16/21 18:01, Frederic Barrat wrote:
-> The PHB v4 found on POWER9 doesn't request any LSI, so let's clear the
-> Interrupt Pin register in the config space so that the model matches
-> the hardware.
-> 
-> If we don't, then we inherit from the default pcie root bridge, which
-> requests a LSI. And because we don't map it correctly in the device
-> tree, all PHBs allocate the same bogus hw interrupt. We end up with
-> inconsistent interrupt controller (xive) data. The problem goes away
-> if we don't allocate the LSI in the first place.
-> 
-> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
-> ---
->   hw/pci-host/pnv_phb4.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index 5c375a9f28..1659d55b4f 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -1234,10 +1234,13 @@ static void pnv_phb4_reset(DeviceState *dev)
->       PCIDevice *root_dev = PCI_DEVICE(&phb->root);
->   
->       /*
-> -     * Configure PCI device id at reset using a property.
-> +     * Configure the PCI device at reset:
-> +     *   - set the Vendor and Device ID to for the root bridge
-> +     *   - no LSI
->        */
->       pci_config_set_vendor_id(root_dev->config, PCI_VENDOR_ID_IBM);
->       pci_config_set_device_id(root_dev->config, phb->device_id);
-> +    pci_config_set_interrupt_pin(root_dev->config, 0);
->   }
->   
->   static const char *pnv_phb4_root_bus_path(PCIHostState *host_bridge,
-> 
+Hello,
 
-FYI, I am seeing an issue with FreeBSD when booting from iso :
+Curiously, I didn't get the v2 email.
 
-   https://download.freebsd.org/ftp/snapshots/powerpc/powerpc64/ISO-IMAGES/14.0/FreeBSD-14.0-CURRENT-powerpc-powerpc64-20211028-4827bf76bce-250301-disc1.iso.xz
+On 11/26/21 02:13, David Gibson wrote:
+> On Thu, Nov 25, 2021 at 03:33:22PM -0300, Leandro Lupori wrote:
+>> When updating the R bit of a PTE, the Hash64 MMU was using a wrong byte
+>> offset, causing the first byte of the adjacent PTE to be corrupted.
+>> This caused a panic when booting FreeBSD, using the Hash MMU.
+>>
+>> Fixes: a2dd4e83e76b ("ppc/hash64: Rework R and C bit updates")
+>> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+> 
+> If you're introducing the constant, it would make sense to also use it
+> in spapr_hpte_set_r().
+
+I agree and please add one for the C bit also since it's the same
+kind of twiddling.
 
 Thanks,
 
 C.
 
-SIGTERM received, booting...
-KDB: debugger backends: ddb
-KDB: current backend: ddb
----<<BOOT>>---
-Copyright (c) 1992-2021 The FreeBSD Project.
-Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
-	The Regents of the University of California. All rights reserved.
-FreeBSD is a registered trademark of The FreeBSD Foundation.
-FreeBSD 14.0-CURRENT #0 main-n250301-4827bf76bce: Thu Oct 28 06:53:58 UTC 2021
-     root@releng1.nyi.freebsd.org:/usr/obj/usr/src/powerpc.powerpc64/sys/GENERIC64 powerpc
-FreeBSD clang version 12.0.1 (git@github.com:llvm/llvm-project.git llvmorg-12.0.1-0-gfed41342a82f)
-WARNING: WITNESS option enabled, expect reduced performance.
-VT: init without driver.
-ofw_initrd: initrd loaded at 0x28000000-0x28c7928c
-cpu0: IBM POWER9 revision 2.0, 1000.00 MHz
-cpu0: Features dc007182<PPC32,PPC64,ALTIVEC,FPU,MMU,SMT,ISNOOP,ARCH205,ARCH206,VSX,TRUELE>
-cpu0: Features2 bee00000<ARCH207,DSCR,ISEL,TAR,VCRYPTO,ARCH300,IEEE128,DARN>
-real memory  = 1014484992 (967 MB)
-avail memory = 117903360 (112 MB)
-random: registering fast source PowerISA DARN random number generator
-random: fast provider: "PowerISA DARN random number generator"
-arc4random: WARNING: initial seeding bypassed the cryptographic random device because it was not yet seeded and the knob 'bypass_before_seeding' was enabled.
-random: entropy device external interface
-kbd0 at kbdmux0
-ofwbus0: <Open Firmware Device Tree> on nexus0
-opal0: <OPAL Abstraction Firmware> irq 1048560,1048561,1048562,1048563,1048564,1048565,1048566,1048567,1048568,1048569,1048570,1048571,1048572,1048573 on ofwbus0
-opal0: registered as a time-of-day clock, resolution 0.002000s
-simplebus0: <Flattened device tree simple bus> mem 0x6030000000000-0x60300ffffffff on ofwbus0
-pcib0: <OPAL Host-PCI bridge> mem 0x600c3c0000000-0x600c3c0000fff,0x600c300000000-0x600c30fffffff on ofwbus0
-pci0: <OFW PCI bus> numa-domain 0 on pcib0
-qemu-system-ppc64: ../hw/pci/pci.c:1487: pci_irq_handler: Assertion `0 <= irq_num && irq_num < PCI_NUM_PINS' failed.
 
+>> ---
+>> Changes from v1:
+>> - Add and use a new define for the byte offset of PTE bit R
+>> ---
+>>   target/ppc/mmu-hash64.c | 2 +-
+>>   target/ppc/mmu-hash64.h | 3 +++
+>>   2 files changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+>> index 19832c4b46..0968927744 100644
+>> --- a/target/ppc/mmu-hash64.c
+>> +++ b/target/ppc/mmu-hash64.c
+>> @@ -786,7 +786,7 @@ static void ppc_hash64_set_dsi(CPUState *cs, int mmu_idx, uint64_t dar, uint64_t
+>>   
+>>   static void ppc_hash64_set_r(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
+>>   {
+>> -    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + 16;
+>> +    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + HPTE64_R_R_BYTE_OFFSET;
+>>   
+>>       if (cpu->vhyp) {
+>>           PPCVirtualHypervisorClass *vhc =
+>> diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
+>> index c5b2f97ff7..40bb901262 100644
+>> --- a/target/ppc/mmu-hash64.h
+>> +++ b/target/ppc/mmu-hash64.h
+>> @@ -97,6 +97,9 @@ void ppc_hash64_finalize(PowerPCCPU *cpu);
+>>   #define HPTE64_V_1TB_SEG        0x4000000000000000ULL
+>>   #define HPTE64_V_VRMA_MASK      0x4001ffffff000000ULL
+>>   
+>> +/* PTE byte offsets */
+>> +#define HPTE64_R_R_BYTE_OFFSET  14>> +
+>>   /* Format changes for ARCH v3 */
+>>   #define HPTE64_V_COMMON_BITS    0x000fffffffffffffULL
+>>   #define HPTE64_R_3_0_SSIZE_SHIFT 58
+> 
 
 
