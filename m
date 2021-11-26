@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B06345EF7A
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 14:55:28 +0100 (CET)
-Received: from localhost ([::1]:50800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B4645EF92
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 15:07:18 +0100 (CET)
+Received: from localhost ([::1]:53856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqbhG-0006Dr-OT
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 08:55:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39304)
+	id 1mqbsi-0001KD-5c
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 09:07:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqbfn-0005Cx-Pz
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 08:53:55 -0500
-Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222]:46011)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mqbrF-0000cz-OI
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 09:05:46 -0500
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:34450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqbfk-0003SE-OI
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 08:53:55 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.235])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id D4689222AE;
- Fri, 26 Nov 2021 13:53:49 +0000 (UTC)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 26 Nov
- 2021 14:53:49 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R0052344bacb-c978-4493-8dd1-024b322b0380,
- B8303126CBA279BD35B7DF0844B381DDFAFB7782) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <095292e8-f715-309d-67dc-3dc290a59d95@kaod.org>
-Date: Fri, 26 Nov 2021 14:53:46 +0100
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mqbrD-0006pD-0x
+ for qemu-devel@nongnu.org; Fri, 26 Nov 2021 09:05:45 -0500
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id BA70242CEF
+ for <qemu-devel@nongnu.org>; Fri, 26 Nov 2021 14:05:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1637935538;
+ bh=B3m/bBArq0anQ2oSMVBFnOsTRSp7er8jlNnBV1Hzato=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=MYWU8GSD9QFyKf8VLMIf8FPdcbmdRrJda/o6qA3X5J6TNs3yytiFLxB/v4AQvgzrv
+ KjYqfHIMbGKeN2khbXoUWgGtgacXs0rwyTfKUxOkA3Vn71kpT3Hl7jhUB3zxg3uz74
+ FXaVx8rB3awARRGHBwKmwWvej3dH/zh0gQZqvdUVDzM/cpq+8VBFELoUbwUF7W79cr
+ NHrKM5+oEemxLCTv1l72spdkb4vr3W0Qvnvifu8GPOxkoGosMkgwO4p8/4g0Tz2yRn
+ s6NyVktvDVDwrkHcbc6j0sN6GmKqvAsNEGXU93f9jvgym7VxQHL/ARnN+JsM2m4XuN
+ 5c+j1CDmrSH7w==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B0EB82E8198
+ for <qemu-devel@nongnu.org>; Fri, 26 Nov 2021 14:05:37 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Subject: Re: [RFC PATCH 0/2] QEMU/openbios: PPC Software TLB support in the G4
- family
-To: Fabiano Rosas <farosas@linux.ibm.com>, Mark Cave-Ayland
- <mark.cave-ayland@ilande.co.uk>, <qemu-devel@nongnu.org>
-References: <20211119134431.406753-1-farosas@linux.ibm.com>
- <87pmqpqknn.fsf@linux.ibm.com>
- <4fe55b44-6549-04d7-b381-aee88499d6a3@ilande.co.uk>
- <115484b4-63ff-a40f-050a-931ba988688e@kaod.org>
- <c60ce410-d9d2-c245-ab19-1af638babd63@ilande.co.uk>
- <87ilwfqesw.fsf@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <87ilwfqesw.fsf@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 4c31839c-9cf1-4db3-9d48-285f2cd5b7e6
-X-Ovh-Tracer-Id: 16639956198417664873
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdehiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuffevfedvleeuheettedvtedvieehheeuffeugfeijeeugedvkeduheelteejffenucffohhmrghinhepfhhrvggvsghsugdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
- helo=6.mo552.mail-out.ovh.net
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.993,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 26 Nov 2021 13:58:55 -0000
+From: Paride Legovini <1952448@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Triaged; importance=High; assignee=paride.legovini@canonical.com; 
+X-Launchpad-Bug-Tags: server-next transition-openssl3-jj
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: paelzer paride
+X-Launchpad-Bug-Reporter: Paride Legovini (paride)
+X-Launchpad-Bug-Modifier: Paride Legovini (paride)
+References: <163793031756.14602.3125281839568911014.malonedeb@gac.canonical.com>
+Message-Id: <163793513595.21528.6466058208218711637.launchpad@soybean.canonical.com>
+Subject: [Bug 1952448] Re: qemu 1:6.0+dfsg-2expubuntu2: Fail to build against
+ OpenSSL 3.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="78346d219e01c6c7b1bfd882aa0bbcbb42d4e568"; Instance="production"
+X-Launchpad-Hash: 4d0dc7eba6943f1720e092a15080c5429ee2d05b
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,61 +85,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: openbios@openbios.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+Reply-To: Bug 1952448 <1952448@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> Right. If we're doing this to say "I can boot a kernel with a 7450 cpu in QEMU" but
->> the implementation is different from real hardware, then I'm not sure what the real
->> value is. That effectively leaves option b) if someone is willing to do the work, or
->> as you say to simply remove the code from QEMU.
-> 
-> Yeah, that is a good point. Although the software TLB is well contained,
-> so we could certainly document that our 7450s don't have that feature
-> and call it a day. Does QEMU have any policy on how much of a machine is
-> required to be implemented?
-> 
-> I am more inclined to apply c) for now as I said, just to have some code
-> running on the CPU and maybe document in a gitlab issue that we're
-> lacking the runtime switch and eventually implement that. It's not like
-> this is high traffic code anyway. It has been broken for 10+ years.
-> 
-> That said, if Cédric and Daniel see more value in moving the 7450s to
-> the POWERPC_MMU_32B I won't oppose.
+** Also affects: qemu
+   Importance: Undecided
+       Status: New
 
-I am in favor of dropping unused code in QEMU and keeping the CPUs for
-which we have support in Linux using the POWERPC_MMU_32B in QEMU and the
-openbios patch. If we need SoftTLB support for the 74x CPUs in QEMU, we
-can always dig in the history.
+** No longer affects: qemu
 
-We can give FreeBSB a try also since they had support for the G4 :
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1952448
 
-   https://people.freebsd.org/~arved/stuff/minimac
+Title:
+  qemu 1:6.0+dfsg-2expubuntu2: Fail to build against OpenSSL 3.0
 
+Status in qemu package in Ubuntu:
+  Triaged
 
-With the openbios patch, Linux boots fine under 7450, 7455, 7447 CPUs.
+Bug description:
+  Issue discovered after doing a "No-change rebuild" upload to Jammy
+  while working at the liburing2 migration (LP: #1944037).
 
-Under 7448, it drops in xmon with a :
-  
-kernel tried to execute exec-protected page (c07fdd98) - exploit attempt? (uid: 0)
-BUG: Unable to handle kernel instruction fetch
-Faulting instruction address: 0xc07fdd98
-Vector: 400 (Instruction Access) at [f1019d30]
-     pc: c07fdd98: __do_softirq+0x0/0x2f0
-     lr: c00516a4: irq_exit+0xbc/0xf8
-     sp: f1019df0
-    msr: 10001032
-   current = 0xc0d00000
-     pid   = 1, comm = swapper
+  Full build log:
 
+  https://launchpadlibrarian.net/570888790/buildlog_ubuntu-jammy-
+  amd64.qemu_1%3A6.0+dfsg-2expubuntu3_BUILDING.txt.gz
 
-This should be fixable.
+  Failure mode:
 
-Thanks,
+  /<<BUILDDIR>>/qemu-6.0+dfsg/roms/skiboot/libstb/create-container.c: In fu=
+nction =E2=80=98getPublicKeyRaw=E2=80=99:
+  /<<BUILDDIR>>/qemu-6.0+dfsg/roms/skiboot/libstb/create-container.c:85:17:=
+ error: =E2=80=98EVP_PKEY_get1_EC_KEY=E2=80=99 is deprecated: Since OpenSSL=
+ 3.0 [-Werror=3Ddeprecated-declarations]
 
-C.
+  Also note that:
 
+  cc1: all warnings being treated as errors
 
+  Upstream skiboot [1] still uses EVP_PKEY_get1_EC_KEY in master, and
+  don't have an open issue about this. To be filed once we setup a
+  reproducer that builds skiboot "standalone", outside of the qemu
+  source tree.
+
+  For the moment we have to relax the severity of that deprecation
+  error, likely appending a -Wno-deprecated-declarations somewhere in
+  d/rules.
+
+ =20
+  [1] https://github.com/open-power/skiboot
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1952448/+subscriptions
 
 
