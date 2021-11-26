@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E04D45E8F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 09:04:26 +0100 (CET)
-Received: from localhost ([::1]:49822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A7945E92B
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 09:20:16 +0100 (CET)
+Received: from localhost ([::1]:33250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqWDZ-0004Et-1J
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 03:04:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39814)
+	id 1mqWSs-0004H7-U7
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 03:20:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mqWB0-0002be-QU; Fri, 26 Nov 2021 03:01:46 -0500
-Received: from [2001:41c9:1:41f::167] (port=53496
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1mqWRU-0002ur-3B; Fri, 26 Nov 2021 03:18:48 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mqWAw-0001X7-Li; Fri, 26 Nov 2021 03:01:44 -0500
-Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mqWAY-0002xD-8H; Fri, 26 Nov 2021 08:01:21 +0000
-To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20211119134431.406753-1-farosas@linux.ibm.com>
- <87pmqpqknn.fsf@linux.ibm.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <4fe55b44-6549-04d7-b381-aee88499d6a3@ilande.co.uk>
-Date: Fri, 26 Nov 2021 08:01:21 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1mqWRO-0003wo-I7; Fri, 26 Nov 2021 03:18:47 -0500
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4J0ncn6cw0z1DJZ6;
+ Fri, 26 Nov 2021 16:15:53 +0800 (CST)
+Received: from kwepemm600002.china.huawei.com (7.193.23.29) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Fri, 26 Nov 2021 16:18:28 +0800
+Received: from [10.174.185.187] (10.174.185.187) by
+ kwepemm600002.china.huawei.com (7.193.23.29) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.20; Fri, 26 Nov 2021 16:18:27 +0800
+Message-ID: <77d40088-e542-0245-458f-7372dfdd5026@huawei.com>
+Date: Fri, 26 Nov 2021 16:18:26 +0800
 MIME-Version: 1.0
-In-Reply-To: <87pmqpqknn.fsf@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 1/2] block-backend: Retain permissions after migration
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH 0/2] QEMU/openbios: PPC Software TLB support in the G4
- family
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
- (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.993,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: Hanna Reitz <hreitz@redhat.com>, <qemu-block@nongnu.org>
+CC: <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>
+References: <20211125135317.186576-1-hreitz@redhat.com>
+ <20211125135317.186576-2-hreitz@redhat.com>
+In-Reply-To: <20211125135317.186576-2-hreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.185.187]
+X-ClientProxiedBy: dggeme709-chm.china.huawei.com (10.1.199.105) To
+ kwepemm600002.china.huawei.com (7.193.23.29)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=liangpeng10@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.993,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,128 +66,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: openbios@openbios.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Peng Liang <liangpeng10@huawei.com>
+From:  Peng Liang via <qemu-devel@nongnu.org>
 
-On 24/11/2021 22:00, Fabiano Rosas wrote:
-
-> Fabiano Rosas <farosas@linux.ibm.com> writes:
+On 11/25/2021 9:53 PM, Hanna Reitz wrote:
+> After migration, the permissions the guest device wants to impose on its
+> BlockBackend are stored in blk->perm and blk->shared_perm.  In
+> blk_root_activate(), we take our permissions, but keep all shared
+> permissions open by calling `blk_set_perm(blk->perm, BLK_PERM_ALL)`.
 > 
->> Hi all,
->>
->> We have this bug in QEMU which indicates that we haven't been able to
->> run openbios on a 7450 cpu for quite a long time:
->>
->> https://gitlab.com/qemu-project/qemu/-/issues/86
->>
->> OK:
->>    $ ./qemu-system-ppc -serial mon:stdio -nographic -cpu 7410
->>
->>    >> =============================================================
->>    >> OpenBIOS 1.1 [Nov 1 2021 20:36]
->>    ...
->>
->> NOK:
->>    $ ./qemu-system-ppc -serial mon:stdio -nographic -cpu 7450 -d int
->>    Raise exception at fff08cc4 => 0000004e (00)
->>    QEMU: Terminated
->>
->> The actual issue is straightforward. There is a non-architected
->> feature that QEMU has enabled by default that openbios doesn't know
->> about. From the user manual:
->>
->> "The MPC7540 has a set of implementation-specific registers,
->> exceptions, and instructions that facilitate very efficient software
->> searching of the page tables in memory for when software table
->> searching is enabled (HID0[STEN] = 1). This section describes those
->> resources and provides three example code sequences that can be used
->> in a MPC7540 system for an efficient search of the translation tables
->> in software. These three code sequences can be used as handlers for
->> the three exceptions requiring access to the PTEs in the page tables
->> in memory in this case-instruction TLB miss, data TLB miss on load,
->> and data TLB miss on store exceptions."
->>
->> The current state:
->>
->> 1) QEMU does not check HID0[STEN] and makes the feature always enabled
->> by setting these cpus with the POWERPC_MMU_SOFT_74xx MMU model,
->> instead of the generic POWERPC_MMU_32B.
->>
->> 2) openbios does not recognize the PVRs for those cpus and also does
->> not have any handlers for the software TLB exceptions (vectors 0x1000,
->> 0x1100, 0x1200).
->>
->> Some assumptions (correct me if I'm wrong please):
->>
->> - openbios is the only firmware we use for the following cpus: 7441,
->> 7445, 7450, 7451, 7455, 7457, 7447, 7447a, 7448.
->> - without openbios, we cannot have a guest running on these cpus.
->>
->> So to bring 7450 back to life we would need to either:
->>
->> a) find another firmware/guest OS code that supports the feature;
->>
->> b) implement the switching of the feature in QEMU and have the guest
->> code enable it only when supported. That would take some fiddling with
->> the MMU code to: merge POWERPC_MMU_SOFT_74xx into POWERPC_MMU_32B,
->> check the HID0[STEN] bit, figure out how to switch from HW TLB miss to
->> SW TLB miss on demand, block access to the TLBMISS register (and
->> others) when the feature is off, and so on;
->>
->> c) leave the feature enabled in QEMU and implement the software TLB
->> miss handlers in openbios. The UM provides sample code, so this is
->> easy;
->>
->> d) remove support for software TLB search for the 7450 family and
->> switch the cpus to the POWERPC_MMU_32B model. This is by far the
->> easiest solution, but could cause problems for any (which?) guest OS
->> code that actually uses the feature. All of the existing code for the
->> POWERPC_MMU_SOFT_74xx MMU model would probably be removed since it
->> would be dead code then;
->>
->> Option (c) seemed to me like a good compromise so this is a patch
->> series for openbios doing that and also adding the necessary PVRs so
->> we can get a working guest with these cpus without too much effort.
->>
->> I have also a patch for QEMU adding basic sanity check tests for the
->> 7400 and 7450 families. I'll send that separately to the QEMU ml.
->>
->> Fabiano Rosas (2):
->>    ppc: Add support for MPC7450 software TLB miss interrupts
->>    ppc: Add PVRs for the MPC7450 family
->>
->>   arch/ppc/qemu/init.c  |  52 ++++++++++
->>   arch/ppc/qemu/start.S | 236 +++++++++++++++++++++++++++++++++++++++++-
->>   2 files changed, 285 insertions(+), 3 deletions(-)
+> Only afterwards (immediately or later, depending on the runstate) do we
+> restrict the shared permissions by calling
+> `blk_set_perm(blk->perm, blk->shared_perm)`.  Unfortunately, our first
+> call with shared_perm=BLK_PERM_ALL has overwritten blk->shared_perm to
+> be BLK_PERM_ALL, so this is a no-op and the set of shared permissions is
+> not restricted.
 > 
-> (Adding Mark because his email got somehow dropped from the original
-> message)
-
-> So with these patches in OpenBIOS we could get a bit further and call
-> into the Linux kernel using the same image as the one used for the
-> 7400. However there seems to be no support for the 7450 software TLB in
-> the kernel. There are only handlers for the 4xx, 8xx and 603 which are
-> different code altogether. There's no mention of the TLBMISS and
-> PTEHI/LO registers in the code as well.
+> Fix this bug by saving the set of shared permissions before invoking
+> blk_set_perm() with BLK_PERM_ALL and restoring it afterwards.
 > 
-> Do we know of any guest OS that implements the 7450 software TLB at
-> vectors 0x1000, 0x1100 and 0x1200? Otherwise replacing the
-> POWERPC_MMU_SOFT_74xx model with POWERPC_MMU_32B might be the only way
-> of getting an OS to run in the 7450 family.
+> Fixes: 5f7772c4d0cf32f4e779fcd5a69ae4dae24aeebf
+>        ("block-backend: Defer shared_perm tightening migration
+>        completion")
+> Reported-by: Peng Liang <liangpeng10@huawei.com>
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+>  block/block-backend.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
 
-My experience of anything other than the default CPUs used on the PPC Mac machines is 
-basically zero, so you're certainly in new territory :)
+Thanks for your patch!
 
-I could live with your proposed solution c) although it would be nice to guard the 
-extra vectors so that they remain uninitialised for the non-7450 CPUs. My main 
-question is if the kernel itself doesn't support software TLBs then does adding the 
-new code help at all? Or are you eventually planning for solution b) to improve 
-QEMU's 7450 CPU emulation for developers without real hardware?
+Tested-by: Peng Liang <liangpeng10@huawei.com>
 
-
-ATB,
-
-Mark.
 
