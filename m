@@ -2,93 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC8245F6D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Nov 2021 23:26:42 +0100 (CET)
-Received: from localhost ([::1]:42496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E4045FC43
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Nov 2021 04:05:54 +0100 (CET)
+Received: from localhost ([::1]:57734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqjg1-0001mU-0A
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 17:26:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52028)
+	id 1mqo2C-0007Re-UD
+	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 22:05:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mqjeX-00016G-04
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 17:25:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32752)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mqnxX-0005Oj-36; Fri, 26 Nov 2021 22:01:05 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:55295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mqjeT-0005Fm-6f
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 17:25:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637965503;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E4EBiyuTgm6HDKDWrZDhmRLuzmTS4sveRfXtyNYkWPI=;
- b=Gs7uiBWkoc5JS8GuXQEYGr+XXezJUkv32KzpglZ13EK9li4PNIgEOQEctNfG/ZtHbulfOv
- tlGvu4Kuku47kTtoelTXVxEPyIliEgGed9GZFhl0GLQoW+GKKBoNSad/eEpXdU51Ti5jxC
- oFtmBXWa24QKvT1nqSR21E9gLrlNhlM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-485-bFD2FBdvNZuuP0s5rg7riQ-1; Fri, 26 Nov 2021 17:25:02 -0500
-X-MC-Unique: bFD2FBdvNZuuP0s5rg7riQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 205-20020a1c00d6000000b003335d1384f1so7586333wma.3
- for <qemu-devel@nongnu.org>; Fri, 26 Nov 2021 14:25:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=E4EBiyuTgm6HDKDWrZDhmRLuzmTS4sveRfXtyNYkWPI=;
- b=4CWY2DvrCrndjDr7b5cnowTiOM9yP5wiSCtuUzF3Ann5xRmcHTMpq3Y/LZw2XSQgvt
- 8/VhHiYzDf9QE0/uqPHtFehc7G7Slt9K4I2bS02DKizkaYxRqlXQ1L0haEa2rV9yYn46
- 5ZHHbm0awpKDuXyE+EmQik2g8BS4nCptuqEmWumqwTS6n3J2ezgkp9cvnFlfHQikKLTH
- u2CE2sknz/5hdbrfbpUUKXClPROiF4oos/u7CSoiSebe9T/E6baD/c9QLOleHoMGebpL
- goeYth+r1hlnPP0WSIp0XQAGE7kW6Sj1Qkh24gsVWxEw30A1XjwqnjT7V3QJFxSbMOYl
- 4s1A==
-X-Gm-Message-State: AOAM5313dyKaeBuWd6ZRS/X7KycWybj2sdmrITO6+ihWvAtlp1MEDQi8
- PP4HTbXTLcvzeJP70jyoClY0gA9+L6rD/+ssfpSHLOqohDI0smDkQNtmUI6qU+aHCeOn645me8V
- DkrPLeWxESQdNM24=
-X-Received: by 2002:adf:a404:: with SMTP id d4mr17273944wra.556.1637965501211; 
- Fri, 26 Nov 2021 14:25:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwlDMN5wPeA9lZ0lh0pFnV2Fb8G5rFNx3ZHwyV2PWNZxIraA2o6OxmWidmfewvqfeN2dsJBPg==
-X-Received: by 2002:adf:a404:: with SMTP id d4mr17273923wra.556.1637965501030; 
- Fri, 26 Nov 2021 14:25:01 -0800 (PST)
-Received: from [192.168.1.36] (217.red-83-50-76.dynamicip.rima-tde.net.
- [83.50.76.217])
- by smtp.gmail.com with ESMTPSA id 9sm8743564wry.0.2021.11.26.14.25.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Nov 2021 14:25:00 -0800 (PST)
-Message-ID: <11405d5b-3fd3-4e52-e4bc-bc2a353e36ae@redhat.com>
-Date: Fri, 26 Nov 2021 23:24:59 +0100
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mqnxT-00069d-5w; Fri, 26 Nov 2021 22:01:02 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4J1GZr6Mq4z4xbs; Sat, 27 Nov 2021 14:00:52 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1637982052;
+ bh=tO1kEbCK7FRIYtMKnNIaBdrQC3J8R77bm92R6BXXbV8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pByOqdjt9Xcdtm4r9nvi5FfIdKui18pvOfD4tLWOZ25ruHbB/t4vjtqjB8XA9Xt0n
+ BwIdmrxjIuBM0RkdabDdprt2XXX4Ri3n5Ge+IjF8Z0hbHdaSHpyfqoGddYVJFRGvNs
+ /aqscN0jMBVT18DqDAkaymuE7g7pTQOrFUU9YRMs=
+Date: Sat, 27 Nov 2021 14:00:47 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>
+Subject: Re: [PATCH v3] target/ppc: fix Hash64 MMU update of PTE bit R
+Message-ID: <YaGfX6iiNqtO8qb4@yekko>
+References: <20211126193940.52513-2-leandro.lupori@eldorado.org.br>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] gitlab-ci.d/buildtest: Add jobs that run the
- device-crash-test
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20211126162724.1162049-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211126162724.1162049-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.993, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="oaTz/iaxXSqJmion"
+Content-Disposition: inline
+In-Reply-To: <20211126193940.52513-2-leandro.lupori@eldorado.org.br>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,22 +57,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, John Snow <jsnow@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: groug@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/26/21 17:27, Thomas Huth wrote:
-> The device-crash-test script has been quite neglected in the past,
-> so that it bit-rot quite often. Let's add CI jobs that run this
-> script for at least some targets, so that this script does not
-> regress that easily anymore.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+
+--oaTz/iaxXSqJmion
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Nov 26, 2021 at 04:39:40PM -0300, Leandro Lupori wrote:
+> When updating the R bit of a PTE, the Hash64 MMU was using a wrong byte
+> offset, causing the first byte of the adjacent PTE to be corrupted.
+> This caused a panic when booting FreeBSD, using the Hash MMU.
+>=20
+> Fixes: a2dd4e83e76b ("ppc/hash64: Rework R and C bit updates")
+> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
 > ---
->  .gitlab-ci.d/buildtest.yml | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
+> Changes from v2:
+> - Add new defines for the byte offset of PTE bit C and
+>   HASH_PTE_SIZE_64 / 2 (pte1)
+> - Use new defines in hash64 and spapr code
+> ---
+>  hw/ppc/spapr.c          | 8 ++++----
+>  hw/ppc/spapr_softmmu.c  | 2 +-
+>  target/ppc/mmu-hash64.c | 4 ++--
+>  target/ppc/mmu-hash64.h | 5 +++++
+>  4 files changed, 12 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 163c90388a..8ebf85bad8 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1414,7 +1414,7 @@ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>          kvmppc_write_hpte(ptex, pte0, pte1);
+>      } else {
+>          if (pte0 & HPTE64_V_VALID) {
+> -            stq_p(spapr->htab + offset + HASH_PTE_SIZE_64 / 2, pte1);
+> +            stq_p(spapr->htab + offset + HPTE64_R_BYTE_OFFSET, pte1);
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Urgh.. so, initially I thought this was wrong because I was confusing
+HPTE64_R_BYTE_OFFSET with HPTE64_R_R_BYTE_OFFSET.  I doubt I'd be the
+only one.
 
+Calling something a BYTE_OFFSET then doing an stq to it is pretty
+misleading I think.  WORD1_OFFSET or R_WORD_OFFSET might be better?
+
+Or you could change these writebacks to byte writes, as powernv has
+already been changed.  I'm not sure if that's necessary in the case of
+pseries - since in that case the HPT doesn't exist within the guest's
+address space.
+
+>              /*
+>               * When setting valid, we write PTE1 first. This ensures
+>               * proper synchronization with the reading code in
+> @@ -1430,7 +1430,7 @@ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>               * ppc_hash64_pteg_search()
+>               */
+>              smp_wmb();
+> -            stq_p(spapr->htab + offset + HASH_PTE_SIZE_64 / 2, pte1);
+> +            stq_p(spapr->htab + offset + HPTE64_R_BYTE_OFFSET, pte1);
+>          }
+>      }
+>  }
+> @@ -1438,7 +1438,7 @@ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>  static void spapr_hpte_set_c(PPCVirtualHypervisor *vhyp, hwaddr ptex,
+>                               uint64_t pte1)
+>  {
+> -    hwaddr offset =3D ptex * HASH_PTE_SIZE_64 + 15;
+> +    hwaddr offset =3D ptex * HASH_PTE_SIZE_64 + HPTE64_R_C_BYTE_OFFSET;
+>      SpaprMachineState *spapr =3D SPAPR_MACHINE(vhyp);
+> =20
+>      if (!spapr->htab) {
+> @@ -1454,7 +1454,7 @@ static void spapr_hpte_set_c(PPCVirtualHypervisor *=
+vhyp, hwaddr ptex,
+>  static void spapr_hpte_set_r(PPCVirtualHypervisor *vhyp, hwaddr ptex,
+>                               uint64_t pte1)
+>  {
+> -    hwaddr offset =3D ptex * HASH_PTE_SIZE_64 + 14;
+> +    hwaddr offset =3D ptex * HASH_PTE_SIZE_64 + HPTE64_R_R_BYTE_OFFSET;
+>      SpaprMachineState *spapr =3D SPAPR_MACHINE(vhyp);
+> =20
+>      if (!spapr->htab) {
+> diff --git a/hw/ppc/spapr_softmmu.c b/hw/ppc/spapr_softmmu.c
+> index f8924270ef..03676c4448 100644
+> --- a/hw/ppc/spapr_softmmu.c
+> +++ b/hw/ppc/spapr_softmmu.c
+> @@ -426,7 +426,7 @@ static void new_hpte_store(void *htab, uint64_t pteg,=
+ int slot,
+>      addr +=3D slot * HASH_PTE_SIZE_64;
+> =20
+>      stq_p(addr, pte0);
+> -    stq_p(addr + HASH_PTE_SIZE_64 / 2, pte1);
+> +    stq_p(addr + HPTE64_R_BYTE_OFFSET, pte1);
+>  }
+> =20
+>  static int rehash_hpte(PowerPCCPU *cpu,
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index 19832c4b46..168d397c26 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -786,7 +786,7 @@ static void ppc_hash64_set_dsi(CPUState *cs, int mmu_=
+idx, uint64_t dar, uint64_t
+> =20
+>  static void ppc_hash64_set_r(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
+>  {
+> -    hwaddr base, offset =3D ptex * HASH_PTE_SIZE_64 + 16;
+> +    hwaddr base, offset =3D ptex * HASH_PTE_SIZE_64 + HPTE64_R_R_BYTE_OF=
+FSET;
+> =20
+>      if (cpu->vhyp) {
+>          PPCVirtualHypervisorClass *vhc =3D
+> @@ -803,7 +803,7 @@ static void ppc_hash64_set_r(PowerPCCPU *cpu, hwaddr =
+ptex, uint64_t pte1)
+> =20
+>  static void ppc_hash64_set_c(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
+>  {
+> -    hwaddr base, offset =3D ptex * HASH_PTE_SIZE_64 + 15;
+> +    hwaddr base, offset =3D ptex * HASH_PTE_SIZE_64 + HPTE64_R_C_BYTE_OF=
+FSET;
+> =20
+>      if (cpu->vhyp) {
+>          PPCVirtualHypervisorClass *vhc =3D
+> diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
+> index c5b2f97ff7..2a46763f70 100644
+> --- a/target/ppc/mmu-hash64.h
+> +++ b/target/ppc/mmu-hash64.h
+> @@ -97,6 +97,11 @@ void ppc_hash64_finalize(PowerPCCPU *cpu);
+>  #define HPTE64_V_1TB_SEG        0x4000000000000000ULL
+>  #define HPTE64_V_VRMA_MASK      0x4001ffffff000000ULL
+> =20
+> +/* PTE byte offsets */
+> +#define HPTE64_R_R_BYTE_OFFSET  14
+> +#define HPTE64_R_C_BYTE_OFFSET  15
+> +#define HPTE64_R_BYTE_OFFSET    (HASH_PTE_SIZE_64 / 2)
+> +
+>  /* Format changes for ARCH v3 */
+>  #define HPTE64_V_COMMON_BITS    0x000fffffffffffffULL
+>  #define HPTE64_R_3_0_SSIZE_SHIFT 58
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--oaTz/iaxXSqJmion
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGhn18ACgkQbDjKyiDZ
+s5IPzhAAuU6JApuLp46I/OV0VqI80svowUH3cBRjjvKyncXnzSzz13CjkjZ0JI+g
+YUzTdtawQmTYNTOGqsfgPjLuNiRgvPucZcaxlsBcVA/tvJZigq6Sl3qEJDqe1yjq
+QbbZisVFOa/tRIb3Atf4IemkWHE63cL+CppqfxCYR3bk2HmwcEgEK1R17HDY4ZRj
+tkHIyrRLqA/I938TWdqJnBDzcTtqF5UpYOV0speVk14nVOrEkqwgEHgGIGJZak5+
+yEuosgTN3UfSnEB52R2Z1bJxn4tF/B29AoOey2RlGg96a6ibcHq+kM4D3sHsxxqS
+QekHrrzt37QC5KYUfY/cqfphSGd3FTTlInDRTCO2H6iNi6+cy60fF8MGBoUjg34p
+hCU30lbJKAtR+gEwA+lBSmJw/yUzj05qfbN6FEmSoIouGKV97LpheOM3J+8DnmHQ
+L7G99JebJ3CNdamvsrlyo62if20APCvbu7y7LSHDIET8ljFMQAK+VKifLBbmVslm
+51SPPd24IDCyXxs16wIUHTlIAJ1YfcChNBv52RY2bN91a6DMjf/jFjZrXr1IjSl+
+o+h7nF9N8zqAtxNEC/UJYTaTNNbnK9cFMsb/QdNU0DTYM2onxhkM8QA8ZAULAv/b
+T0Lvsqqg6MY50bxqxzvhX4ZidIvfTPEN2Lfwnifs8pRsTSld+dM=
+=elRf
+-----END PGP SIGNATURE-----
+
+--oaTz/iaxXSqJmion--
 
