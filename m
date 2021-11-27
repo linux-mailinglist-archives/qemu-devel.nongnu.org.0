@@ -2,106 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553C145FC89
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Nov 2021 05:16:56 +0100 (CET)
-Received: from localhost ([::1]:47796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B86F245FD1C
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Nov 2021 07:30:02 +0100 (CET)
+Received: from localhost ([::1]:45442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqp8w-0007ZQ-UR
-	for lists+qemu-devel@lfdr.de; Fri, 26 Nov 2021 23:16:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56826)
+	id 1mqrDl-0008FN-4l
+	for lists+qemu-devel@lfdr.de; Sat, 27 Nov 2021 01:30:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1mqp7r-0006oW-Dk
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 23:15:47 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29142
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mqr9G-0006iT-25; Sat, 27 Nov 2021 01:25:22 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:48135)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1mqp7p-00068r-Pv
- for qemu-devel@nongnu.org; Fri, 26 Nov 2021 23:15:47 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AR41wPL025279
- for <qemu-devel@nongnu.org>; Sat, 27 Nov 2021 04:15:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=zK1za/pu1aXG6PRSHlsaw72vsYJtbpVGcdDg1lbNp8M=;
- b=bcMinZjbG3c2z8t5YIBbbIpb+YdhHlaYsLeiEIjA5lmnH3i30hWZ61a8gWjlO2OaovwX
- 8lfho3ivjZsXfF1WJ65YM1LzZ3evlicveEibf7OHsftt5RhfaykVmNprf2a00a2HE9Xe
- 6L437RUz2yKJqz/WAFeCExz/4MybnL9PMjN+yz/HAXzFkDV79jMkL45uKX2wQ+4pKc5l
- SH8GdMkyDxrdFnOBsaU3eKkDk5IohVz9n/lA4H95G9eEvklwazP2IEHuTe1l81PNhjO7
- zpaZp48DGz56YgLcB6pHDPxWiVRNkW4HaBjmz0g3ewT5fFMP4to0XmLcvi+aubODjynA gA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ckd9v854k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Sat, 27 Nov 2021 04:15:42 +0000
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AR48Um6014181
- for <qemu-devel@nongnu.org>; Sat, 27 Nov 2021 04:15:41 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ckd9v854e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 27 Nov 2021 04:15:41 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AR4DGj9023222;
- Sat, 27 Nov 2021 04:15:41 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma04wdc.us.ibm.com with ESMTP id 3ckca9gm3j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 27 Nov 2021 04:15:41 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1AR4Fe9556361424
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 27 Nov 2021 04:15:40 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 831512805C;
- Sat, 27 Nov 2021 04:15:40 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 652282805A;
- Sat, 27 Nov 2021 04:15:40 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Sat, 27 Nov 2021 04:15:40 +0000 (GMT)
-Message-ID: <f100e9ad-d55d-0d8b-83b2-3420beb5e892@linux.ibm.com>
-Date: Fri, 26 Nov 2021 23:15:40 -0500
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mqr9B-0003Pd-RL; Sat, 27 Nov 2021 01:25:21 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4J1M6b4bLvz4xcv; Sat, 27 Nov 2021 17:25:11 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1637994311;
+ bh=ICCyBx64EocI6mwWs58Xd1wyFvD7uKP0ToDo0b5GqJw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=T0Pmia01SIQ1f1HD4UDeQzPlYUZfoMZhplXSqcI8FDeEhBGyDqBVKrxEt0vHkgMoh
+ eia28Was/8M0++6K57uyaOpO2dihVu3qV1f9pJd3BFF1hYq8H2gXJn+GKq1kGNYL3d
+ ksTFn3yVFQ316QzK/2u/jMyj8r+NXXGrulOiAQdw=
+Date: Sat, 27 Nov 2021 16:14:33 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 1/1] ppc/pnv.c: add a friendly warning when accel=kvm is
+ used
+Message-ID: <YaG+ue4IWkXpu0oJ@yekko>
+References: <20211125224202.632658-1-danielhb413@gmail.com>
+ <YaA0SIVnltlrarQZ@yekko>
+ <077efeac-3672-8b8f-dbe4-901c47c23eda@kaod.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 0/3] tpm: Add missing ACPI device identification objects
-Content-Language: en-US
-To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
-References: <20211110133559.3370990-1-stefanb@linux.ibm.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20211110133559.3370990-1-stefanb@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: CD38hUSdUKcpFM1BWEMRmd0vwOL82L-z
-X-Proofpoint-ORIG-GUID: Vhd3_TLPtt6ivUhpk6I7x9int9CVBoxS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-27_01,2021-11-25_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- mlxlogscore=999 impostorscore=0 spamscore=0 clxscore=1015 phishscore=0
- suspectscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111270021
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.993,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="qXZ8/X/IL+U3T0zq"
+Content-Disposition: inline
+In-Reply-To: <077efeac-3672-8b8f-dbe4-901c47c23eda@kaod.org>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,32 +60,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Is this series now acceptable for 'after 6.2'?
 
+--qXZ8/X/IL+U3T0zq
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 11/10/21 08:35, Stefan Berger wrote:
-> This series of patches adds missing ACPI device identification objects _STR
-> and _UID to TPM 1.2 and TPM 2 ACPI tables.
->
->     Stefan
->
-> v3:
->   - Dropped replacement of ACPI tables with empty files in 1/3.
->   - Reduced ignored files
->
-> Stefan Berger (3):
->    tests: acpi: prepare for updated TPM related tables
->    acpi: tpm: Add missing device identification objects
->    tests: acpi: Add updated TPM related tables
->
->   hw/arm/virt-acpi-build.c           |   1 +
->   hw/i386/acpi-build.c               |   8 ++++++++
->   tests/data/acpi/q35/DSDT.tis.tpm12 | Bin 8894 -> 8900 bytes
->   tests/data/acpi/q35/DSDT.tis.tpm2  | Bin 8894 -> 8921 bytes
->   4 files changed, 9 insertions(+)
->
+On Fri, Nov 26, 2021 at 06:51:38PM +0100, C=E9dric le Goater wrote:
+> On 11/26/21 02:11, David Gibson wrote:
+> > On Thu, Nov 25, 2021 at 07:42:02PM -0300, Daniel Henrique Barboza wrote:
+> > > If one tries to use -machine powernv9,accel=3Dkvm in a Power9 host, a
+> > > cryptic error will be shown:
+> > >=20
+> > > qemu-system-ppc64: Register sync failed... If you're using kvm-hv.ko,=
+ only "-cpu host" is possible
+> > > qemu-system-ppc64: kvm_init_vcpu: kvm_arch_init_vcpu failed (0): Inva=
+lid argument
+> > >=20
+> > > Appending '-cpu host' will throw another error:
+> > >=20
+> > > qemu-system-ppc64: invalid chip model 'host' for powernv9 machine
+> > >=20
+> > > The root cause is that in IBM PowerPC we have different specs for the=
+ bare-metal
+> > > and the guests. The bare-metal follows OPAL, the guests follow PAPR. =
+The kernel
+> > > KVM modules presented in the ppc kernels implements PAPR. This means =
+that we
+> > > can't use KVM accel when using the powernv machine, which is the emul=
+ation of
+> > > the bare-metal host.
+> > >=20
+> > > All that said, let's give a more informative error in this case.
+> > >=20
+> > > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> > > ---
+> > >   hw/ppc/pnv.c | 5 +++++
+> > >   1 file changed, 5 insertions(+)
+> > >=20
+> > > diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> > > index 71e45515f1..e5b87e8730 100644
+> > > --- a/hw/ppc/pnv.c
+> > > +++ b/hw/ppc/pnv.c
+> > > @@ -742,6 +742,11 @@ static void pnv_init(MachineState *machine)
+> > >       DriveInfo *pnor =3D drive_get(IF_MTD, 0, 0);
+> > >       DeviceState *dev;
+> > > +    if (kvm_enabled()) {
+> > > +        error_report("The powernv machine does not work with KVM acc=
+eleration");
+> > > +        exit(EXIT_FAILURE);
+> > > +    }
+> >=20
+> >=20
+> > Hmm.. my only concern here is that powernv could, at least
+> > theoretically, work with KVM PR.  I don't think it does right now,
+> > though.
+>=20
+> At the same time, it is nice to not let the user think that it could work
+> in its current state. Don't you think so ?
+
+Right, I'm thinking of the implication if you have an old qemu but a
+new KVM which let it work.  Chances of KVM actually implementing this
+probably aren't good though, so requiring the qemu update if we ever
+do is probably the better deal.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--qXZ8/X/IL+U3T0zq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGhvrcACgkQbDjKyiDZ
+s5KC+hAAjk2AbXbO9uO+qZr85kI75t2ITmjKelqkpR0oWIWmAn6J1JjONUHljsG/
+hSXqVD+PMtxPJt2IE/Dlk29k7JNvZvSYkcPSyVpQoKww1x/qomr1rXvn0GQFllgT
+4yqFcxEGIoYs1ugSHRr8/0geOWS39lKky2xIsd8pMWeKgo76hNrWW2H0CXvKTgXK
++6Mh5P9a7kcAn3e7IGtHv0BtX97B1o3s7JRvuBszahmrC0kLcjySO+PFPM2Bu0aH
+SJ4a4VKCCgePDpg9DQV470i+MVpVBTPYeZlumFDNSWr66hHMRQDruLMQELWRsQOD
+flDL0gU829jzlLBM2ML0hIc7OMQFPiymjb+xzCynMwSHCQ/7AR6fATL2b4dR4Mpq
+ZFU1Oec7+6LFHs4YD4nLA66INMW/HQ6nM21NotCg34mKoDNwRohl0LpfA94Yyx8d
+j4wdznq0dcn1Nt0kI0x7ATWyeE6OkWCffGF7odjtdtU6j3H2gRh0N0GONSUMMQFk
+UxUO6Cf7wa6Os+0ER1ORKF5GrNN+IOMFGmqJzItjIEug9BRKqf+l/Crg5Yx8GW7b
+yVQY7Euta/jSgYPZ7sYtiSc7UGp0Qqwr3bZtfsJUPM4YlO0Qz5WPG74/zHerq6l/
+Wy0FL9rG/Pc4hLMfRS/yzeaWYR8JzExw7AvUQKAFb11zY2uJJNQ=
+=dAON
+-----END PGP SIGNATURE-----
+
+--qXZ8/X/IL+U3T0zq--
 
