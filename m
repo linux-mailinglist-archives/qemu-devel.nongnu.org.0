@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E1546016F
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Nov 2021 21:24:34 +0100 (CET)
-Received: from localhost ([::1]:43078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424A5460171
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Nov 2021 21:25:51 +0100 (CET)
+Received: from localhost ([::1]:46270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mr4FN-0001je-8C
-	for lists+qemu-devel@lfdr.de; Sat, 27 Nov 2021 15:24:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56318)
+	id 1mr4GX-0003vF-Se
+	for lists+qemu-devel@lfdr.de; Sat, 27 Nov 2021 15:25:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mr4Ag-0003oK-7u
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mr4Ag-0003p1-Sz
  for qemu-devel@nongnu.org; Sat, 27 Nov 2021 15:19:42 -0500
-Received: from [2607:f8b0:4864:20::12f] (port=46683
- helo=mail-il1-x12f.google.com)
+Received: from [2607:f8b0:4864:20::132] (port=39573
+ helo=mail-il1-x132.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mr4Ae-0004u5-Bf
- for qemu-devel@nongnu.org; Sat, 27 Nov 2021 15:19:41 -0500
-Received: by mail-il1-x12f.google.com with SMTP id j7so12631166ilk.13
- for <qemu-devel@nongnu.org>; Sat, 27 Nov 2021 12:19:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mr4Af-0004uL-It
+ for qemu-devel@nongnu.org; Sat, 27 Nov 2021 15:19:42 -0500
+Received: by mail-il1-x132.google.com with SMTP id a11so12394356ilj.6
+ for <qemu-devel@nongnu.org>; Sat, 27 Nov 2021 12:19:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=18nG1RiOQQDpk4JlKalLlRbugb78uilgZdJRzkAfZlM=;
- b=rk7KN4YpniH8nK8f6371T3eBKVCZ5uuCLe2p/s/s1UaXCWFc7QcS2ttQvkI4N5iHq9
- NHVXvYtrink5ehcWHsusehjMMwHzmLisOmHCB6R9J2IpGaIU14LA/+R3sAqKc6cgxXry
- NqYIUd9Aw/0nkgzqYVnSYc7c7Ptrz9+ohdBEtm3xBU/fQ5L1LJInfS/kU5xBZGcguyMe
- OoMumIQmOoCeyLuJyenqg44JTljyifZhijXRjiMOAAqVdMuBzOCvwiq8v+AtkX6CH28G
- hWwVuE2r9ksmpb8v1S0Uow6lge1J2iG6fpTfipSHZc4Skpc8LYjofYhxwjpUaqO2bSQ4
- /Ugg==
+ bh=eam3w9LXPfpndp7R0xNZyvXloRay7O+0JeoCABaTlpc=;
+ b=yQQlkAminKrQHJOm6nO+jNBtiaE4WVysjOgY5c/dxicc9KIJ7XBqxPDlLv/H8Nwpw0
+ yEu/ZjUZox2+P20nMCoCgrh1oHjotmh7K+kLdY8oaVdo1nSiEVjdMrzoj5UkpaTk5pxK
+ iBIOer7QbdkXJgBYIWv4DmVlCYOCPnhE2dzjMsFojRsZJSryTBDmWSmuOe+QH+/jP07J
+ khgAfTnvJ+2UFKb6q5poiUfjVf7SUswGM4mxk1tjS4nn5MGheW96hR5sJRVqazmS7T1n
+ fOz5NT3TKRZJK8zUeqx4PprPzr6vfC0/djcQYa6D1Ksk23mFLVn8oTx1/BNNgqJzUn7G
+ MAIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=18nG1RiOQQDpk4JlKalLlRbugb78uilgZdJRzkAfZlM=;
- b=TwwR/q6gcXLxWGnKokNZ32RDBCYujypXua1cAk6GIEw38VRP0rKxehrf7LBK5fToBE
- 3S9VRpKtUVedkYvOtemPaoG7tTqvVtnB0MfymNaWESdmdfD53+PAIZr9ME0AFWi+6Gpp
- JBK4SxrKbkVJ6fuxlbwdbsWq6ZWP5rkO2EuG33O1G+3c/WatDPexcSf/VQUVYQSz1YMe
- +j4WKs/t4sCN9cmF9LaHYkb0aytdFglnJ+/nqNRrQaaFZRDTN+I/bGYNY4X/GehCh3bi
- kMfkHkc0IA01qWG/Th/qoiuMSwAVeWnDZZiQjrniQMXRgVPZGWhBfUDpUe9VC4CkqCLL
- 6pbw==
-X-Gm-Message-State: AOAM530A9/6kLcTxdyzDWOTVw4WXQOPApuS8SXr6EWnhNXeLBj7jgcir
- xRVk25pTch9axpYnHSVWXmxNy6y7GIBEZ5Ze
-X-Google-Smtp-Source: ABdhPJyf6V3vvq17qBwC1oNpEe3HjZz/Kqb5Ci+wJ6h9rcOVFE1KQ5Bvk7YRPhXQ5+LiDIqtZfVZkg==
-X-Received: by 2002:a92:7d11:: with SMTP id y17mr37372864ilc.223.1638044379135; 
- Sat, 27 Nov 2021 12:19:39 -0800 (PST)
+ bh=eam3w9LXPfpndp7R0xNZyvXloRay7O+0JeoCABaTlpc=;
+ b=1BMGp7IAB5n0mMn2VgiFtYtByIHkGTiJ99SFNXmLvBdy4c0lNC8JaXv9adkkl6WyCf
+ ++upLSmknVQdesQOeZYdGj2y6EC+74IOstbSV5VHcoe3l0jwovfYXT1FQwJzJl9g6gxs
+ FykAq+u8eNbtq8RzB3+mniPln3I5+ZvEoeJznPPYpozgcz3HetTDxbmqFM11jFUhQ0sS
+ BUEGOiRiEcd5BUzIue4D5zwpVTc/UFM03zBOPvHJksmUw//qC5kCbTS2/wui8+DSZgiA
+ ykaVDx3c72flMyHhE4ZWAMqu3aET+RtpqZuhuNviyy7ECrxihB1aHkmHFsyBeMBg+s/L
+ 3jug==
+X-Gm-Message-State: AOAM530OdnyhhYmc6664x79NpqzYwWUJr36se0MyjUgnrlcPUlVNgp3o
+ 3aEb44f9YW/fF5IkVTv8Wv+dU2Db+mFI0yCb
+X-Google-Smtp-Source: ABdhPJyiXeX8r5IKzWzThWc62auuYi54xY0JecD2OPa1qEZDJPzxHh97JHeBlDxUwlV1OdtBViA+Ng==
+X-Received: by 2002:a05:6e02:188a:: with SMTP id
+ o10mr47292032ilu.296.1638044380272; 
+ Sat, 27 Nov 2021 12:19:40 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id h12sm3091632ila.81.2021.11.27.12.19.38
+ by smtp.gmail.com with ESMTPSA id h12sm3091632ila.81.2021.11.27.12.19.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 27 Nov 2021 12:19:38 -0800 (PST)
+ Sat, 27 Nov 2021 12:19:39 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for 7.0 3/5] h.amd64: Simple hello-world test for x86_64
-Date: Sat, 27 Nov 2021 13:18:44 -0700
-Message-Id: <20211127201846.64187-4-imp@bsdimp.com>
+Subject: [PATCH for 7.0 4/5] smoke-bsd-user: A test script to run all the
+ FreeBSD binaries
+Date: Sat, 27 Nov 2021 13:18:45 -0700
+Message-Id: <20211127201846.64187-5-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211127201846.64187-1-imp@bsdimp.com>
 References: <20211127201846.64187-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::132
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::12f;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12f.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::132;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x132.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -90,52 +92,45 @@ Cc: arrowd@freebsd.org, kevans@freebsd.org, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A simple, tiny, statically linked 64-bit x86 'hello world' test. It uses
-two system calls (write and exit) and provides a basic sanity check to
-make sure that the arm bsd-user binary can interpret FreeBSD 64-bit
-amd64 binaries. Please note: it's named amd64 because that's the target
-name for FreeBSD's clang and it simplifies building a little.
+Simple shell script to iterate through all the FreeBSD binaries running
+qemu-$binary to ensure that we have minimal functionality for each
+platform. When more of the bsd-user fork has been upstreamed, this
+will be replaced by more extensive regresion tests.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- tests/bsd-user-smoke/h.amd64.S | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
- create mode 100644 tests/bsd-user-smoke/h.amd64.S
+ tests/bsd-user-smoke/smoke-bsd-user | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 tests/bsd-user-smoke/smoke-bsd-user
 
-diff --git a/tests/bsd-user-smoke/h.amd64.S b/tests/bsd-user-smoke/h.amd64.S
+diff --git a/tests/bsd-user-smoke/smoke-bsd-user b/tests/bsd-user-smoke/smoke-bsd-user
 new file mode 100644
-index 00000000000..a769e59beb8
+index 00000000000..20818fdf918
 --- /dev/null
-+++ b/tests/bsd-user-smoke/h.amd64.S
-@@ -0,0 +1,28 @@
-+# Copyright (c) 2021 Warner Losh
-+# SPDX-License-Identifier: BSD-2-Clause
++++ b/tests/bsd-user-smoke/smoke-bsd-user
+@@ -0,0 +1,22 @@
++#!/bin/sh
 +
-+#include <sys/syscall.h>
-+#define STDOUT_FILENO	1
++build=$1
++testing=$2
 +
-+	.text
-+	.globl	qemu_start
-+	.p2align	4, 0x90
-+qemu_start:
++smoke_one() {
++	local a=$1 q=$2
 +
-+	# write(1, .L.str, sizeof(.L.str) - 1)
-+	movq	$.L.str, %rsi
-+	movl	$STDOUT_FILENO, %edi
-+	movl	$len, %edx
-+	movl	$SYS_write, %eax
-+	syscall
++	echo Hello World > foo1
++	$build/qemu-$q $testing/h.$a > foo2 || die "cmd failed: $build/qemu-$q $testing/h.$a"
++	cmp foo1 foo2 || die "Hello World expected"
++	rm foo1 foo2
++}
 +
-+	# _exit(0)
-+	xorl	%edi, %edi
-+	movl	$SYS_exit, %eax
-+	syscall
++die() {
++	echo $1
++	exit 1
++}
 +
-+	.section	.rodata.str1.1,"aMS",@progbits,1
-+.L.str:
-+	.asciz	"Hello World\n"
-+.L.strEnd:
-+len=.L.strEnd - .L.str - 1
++smoke_one amd64 x86_64
++smoke_one armv7 arm
++smoke_one i386 i386
 -- 
 2.33.0
 
