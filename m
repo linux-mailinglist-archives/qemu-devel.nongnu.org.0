@@ -2,97 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92FF245FD4F
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Nov 2021 08:52:57 +0100 (CET)
-Received: from localhost ([::1]:52312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA6F45FD7D
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Nov 2021 10:06:28 +0100 (CET)
+Received: from localhost ([::1]:50482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mqsW0-0003ac-6B
-	for lists+qemu-devel@lfdr.de; Sat, 27 Nov 2021 02:52:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53098)
+	id 1mqtf9-00015y-Fb
+	for lists+qemu-devel@lfdr.de; Sat, 27 Nov 2021 04:06:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mqsTk-0002aO-IZ
- for qemu-devel@nongnu.org; Sat, 27 Nov 2021 02:50:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25814)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqteF-0000Hn-RK
+ for qemu-devel@nongnu.org; Sat, 27 Nov 2021 04:05:31 -0500
+Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:50629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mqsTi-0004RX-4Q
- for qemu-devel@nongnu.org; Sat, 27 Nov 2021 02:50:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637999432;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=r0b3UeNvMCqIBRkOJXrz12zbTCMKb0bYedR2Od9qu/E=;
- b=LV7A2dvzV8YFd8b1fRxpKylvLz1K3TXpG91CeG69uHoONwkFG73c44qydxw+hI0NBySBLz
- nouvjIVHwXHZBHzcHaAhXIJUhuS6bZWAlq94HyMByV4bACx8VaoL/sPEo5yIsto26wuj9H
- qXoKGxCZ15IzVtmXpT4nxKyJePHKDJI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-56-BjUfq54BM0S_utDxs-1wxw-1; Sat, 27 Nov 2021 02:50:31 -0500
-X-MC-Unique: BjUfq54BM0S_utDxs-1wxw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 144-20020a1c0496000000b003305ac0e03aso8262775wme.8
- for <qemu-devel@nongnu.org>; Fri, 26 Nov 2021 23:50:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=r0b3UeNvMCqIBRkOJXrz12zbTCMKb0bYedR2Od9qu/E=;
- b=r+fHNsSPuIe6tGcOY8TO4t22x/apHuDOF2FA5X3zZfMB1WBVpTIUvIjhFFkPfuKxRM
- mk5QB5DEu3fYsYFC2dqpZJIw1pY9lEMyAYiHFoqzXtLRskC7rrFFa8dsnX0xcxHaK6L/
- v/JA+EUoBOErnKhrKD9XfMME8cIPrQ9aaycAfgjf6sFSRQvxu2nTrmktyV64v+01qzCe
- dO40WA47qok7DEd3yomJ1Ny0zBzyujX5yvHluyM0Z6694EeF3SlI+51A1aNiw+e5lFPm
- QMuRNuow4PRVjHL8BHVYWIsEBx/a5dQxqRXXBYpZ6Z40ceUrGjFXOZPCTLsvrdaOyZ97
- KjFw==
-X-Gm-Message-State: AOAM533vtsgz4w11El0as0RO0eEifObeOn6SG/P6eUSs+aPA9Pgigjqv
- rxeXOleb1UGfPbYtRtt+D76qlqthM+CgvzUArAwFZnDmLGlzOnd0xw0RkDgGB9bzuxPu3JxOqDj
- 55riQ4Mj+5WioTHw=
-X-Received: by 2002:a05:600c:358a:: with SMTP id
- p10mr20502675wmq.180.1637999429957; 
- Fri, 26 Nov 2021 23:50:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwE+ihXawLRztxBIznus4jvTzpQwRuhm0VkS+gSqbLyHWQR9mjJaaUg8q0RUK0v/XqzPMWapA==
-X-Received: by 2002:a05:600c:358a:: with SMTP id
- p10mr20502641wmq.180.1637999429587; 
- Fri, 26 Nov 2021 23:50:29 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id o1sm7654513wrn.63.2021.11.26.23.50.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Nov 2021 23:50:28 -0800 (PST)
-Subject: Re: [PATCH v6 1/4] virtio-iommu: Remove set_config callback
-To: eric.auger.pro@gmail.com, thuth@redhat.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, jean-philippe@linaro.org, peter.maydell@linaro.org
-References: <20211127072910.1261824-1-eric.auger@redhat.com>
- <20211127072910.1261824-2-eric.auger@redhat.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <638d96d9-a580-ab29-5fc1-48909a524c2a@redhat.com>
-Date: Sat, 27 Nov 2021 08:50:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mqteD-0004pJ-QP
+ for qemu-devel@nongnu.org; Sat, 27 Nov 2021 04:05:31 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.5])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 72E9C225B3;
+ Sat, 27 Nov 2021 09:05:19 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Sat, 27 Nov
+ 2021 10:05:18 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002f1601f4d-bacc-47ae-a1e8-dbf0d16d6827,
+ 23F0445A5176931D62B90D96737809E45416768A) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <8ca89779-3af1-8761-3062-5bf3b4d150ec@kaod.org>
+Date: Sat, 27 Nov 2021 10:05:18 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211127072910.1261824-2-eric.auger@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v3] target/ppc: fix Hash64 MMU update of PTE bit R
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.09, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: David Gibson <david@gibson.dropbear.id.au>, Leandro Lupori
+ <leandro.lupori@eldorado.org.br>
+References: <20211126193940.52513-2-leandro.lupori@eldorado.org.br>
+ <YaGfX6iiNqtO8qb4@yekko>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <YaGfX6iiNqtO8qb4@yekko>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 4c60d923-2516-45ea-87c6-05818208c82a
+X-Ovh-Tracer-Id: 17640036791085271846
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrheefgdduvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
+ helo=7.mo552.mail-out.ovh.net
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,75 +71,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: lvivier@redhat.com, pbonzini@redhat.com
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-On 11/27/21 8:29 AM, Eric Auger wrote:
-> The spec says "the driver must not write to device configuration
-> fields". So remove the set_config() callback which anyway did
-> not do anything.
-Forgot to mention that with the advent of  VIRTIO_IOMMU_F_BYPASS_CONFIG
-feature and bypass field in struct virtio_iommu_config coming, this will
-change soon. Only the bypass field will be settable. But this is not yet
-available in the imported linux header.
+On 11/27/21 04:00, David Gibson wrote:
+> On Fri, Nov 26, 2021 at 04:39:40PM -0300, Leandro Lupori wrote:
+>> When updating the R bit of a PTE, the Hash64 MMU was using a wrong byte
+>> offset, causing the first byte of the adjacent PTE to be corrupted.
+>> This caused a panic when booting FreeBSD, using the Hash MMU.
+>>
+>> Fixes: a2dd4e83e76b ("ppc/hash64: Rework R and C bit updates")
+>> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+>> ---
+>> Changes from v2:
+>> - Add new defines for the byte offset of PTE bit C and
+>>    HASH_PTE_SIZE_64 / 2 (pte1)
+>> - Use new defines in hash64 and spapr code
+>> ---
+>>   hw/ppc/spapr.c          | 8 ++++----
+>>   hw/ppc/spapr_softmmu.c  | 2 +-
+>>   target/ppc/mmu-hash64.c | 4 ++--
+>>   target/ppc/mmu-hash64.h | 5 +++++
+>>   4 files changed, 12 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>> index 163c90388a..8ebf85bad8 100644
+>> --- a/hw/ppc/spapr.c
+>> +++ b/hw/ppc/spapr.c
+>> @@ -1414,7 +1414,7 @@ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>>           kvmppc_write_hpte(ptex, pte0, pte1);
+>>       } else {
+>>           if (pte0 & HPTE64_V_VALID) {
+>> -            stq_p(spapr->htab + offset + HASH_PTE_SIZE_64 / 2, pte1);
+>> +            stq_p(spapr->htab + offset + HPTE64_R_BYTE_OFFSET, pte1);
+> 
+> Urgh.. so, initially I thought this was wrong because I was confusing
+> HPTE64_R_BYTE_OFFSET with HPTE64_R_R_BYTE_OFFSET.  I doubt I'd be the
+> only one.
+> 
+> Calling something a BYTE_OFFSET then doing an stq to it is pretty
+> misleading I think.  WORD1_OFFSET or R_WORD_OFFSET might be better?
 
-Thanks
+How about (inspired from XIVE) :
 
-Eric
+  #define HPTE64_W1    (HASH_PTE_SIZE_64 / 2)
+  #define HPTE64_W1_R  14 // or HPTE64_W1 + 6
+  #define HPTE64_W1_C  15 // or HPTE64_W1 + 7
 
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> ---
->  hw/virtio/trace-events   |  1 -
->  hw/virtio/virtio-iommu.c | 14 --------------
->  2 files changed, 15 deletions(-)
->
-> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> index 650e521e351..54bd7da00c8 100644
-> --- a/hw/virtio/trace-events
-> +++ b/hw/virtio/trace-events
-> @@ -92,7 +92,6 @@ virtio_iommu_device_reset(void) "reset!"
->  virtio_iommu_get_features(uint64_t features) "device supports features=0x%"PRIx64
->  virtio_iommu_device_status(uint8_t status) "driver status = %d"
->  virtio_iommu_get_config(uint64_t page_size_mask, uint64_t start, uint64_t end, uint32_t domain_range, uint32_t probe_size) "page_size_mask=0x%"PRIx64" start=0x%"PRIx64" end=0x%"PRIx64" domain_range=%d probe_size=0x%x"
-> -virtio_iommu_set_config(uint64_t page_size_mask, uint64_t start, uint64_t end, uint32_t domain_range, uint32_t probe_size) "page_size_mask=0x%"PRIx64" start=0x%"PRIx64" end=0x%"PRIx64" domain_bits=%d probe_size=0x%x"
->  virtio_iommu_attach(uint32_t domain_id, uint32_t ep_id) "domain=%d endpoint=%d"
->  virtio_iommu_detach(uint32_t domain_id, uint32_t ep_id) "domain=%d endpoint=%d"
->  virtio_iommu_map(uint32_t domain_id, uint64_t virt_start, uint64_t virt_end, uint64_t phys_start, uint32_t flags) "domain=%d virt_start=0x%"PRIx64" virt_end=0x%"PRIx64 " phys_start=0x%"PRIx64" flags=%d"
-> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-> index 1b23e8e18c7..645c0aa3997 100644
-> --- a/hw/virtio/virtio-iommu.c
-> +++ b/hw/virtio/virtio-iommu.c
-> @@ -832,19 +832,6 @@ static void virtio_iommu_get_config(VirtIODevice *vdev, uint8_t *config_data)
->      memcpy(config_data, &dev->config, sizeof(struct virtio_iommu_config));
->  }
->  
-> -static void virtio_iommu_set_config(VirtIODevice *vdev,
-> -                                      const uint8_t *config_data)
-> -{
-> -    struct virtio_iommu_config config;
-> -
-> -    memcpy(&config, config_data, sizeof(struct virtio_iommu_config));
-> -    trace_virtio_iommu_set_config(config.page_size_mask,
-> -                                  config.input_range.start,
-> -                                  config.input_range.end,
-> -                                  config.domain_range.end,
-> -                                  config.probe_size);
-> -}
-> -
->  static uint64_t virtio_iommu_get_features(VirtIODevice *vdev, uint64_t f,
->                                            Error **errp)
->  {
-> @@ -1185,7 +1172,6 @@ static void virtio_iommu_class_init(ObjectClass *klass, void *data)
->      vdc->unrealize = virtio_iommu_device_unrealize;
->      vdc->reset = virtio_iommu_device_reset;
->      vdc->get_config = virtio_iommu_get_config;
-> -    vdc->set_config = virtio_iommu_set_config;
->      vdc->get_features = virtio_iommu_get_features;
->      vdc->set_status = virtio_iommu_set_status;
->      vdc->vmsd = &vmstate_virtio_iommu_device;
+
+Really these should be bitfields describing both words like we have
+for XIVE. See include/hw/ppc/xive_regs.h. Is there a reason why ?
+  
+> Or you could change these writebacks to byte writes, as powernv has
+> already been changed.  
+
+That's a bigger change. It depends if we want this fix for 6.2 or 7.0.
+
+Thanks,
+
+C.
+
+
+> I'm not sure if that's necessary in the case of
+> pseries - since in that case the HPT doesn't exist within the guest's
+> address space.
+> 
+>>               /*
+>>                * When setting valid, we write PTE1 first. This ensures
+>>                * proper synchronization with the reading code in
+>> @@ -1430,7 +1430,7 @@ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>>                * ppc_hash64_pteg_search()
+>>                */
+>>               smp_wmb();
+>> -            stq_p(spapr->htab + offset + HASH_PTE_SIZE_64 / 2, pte1);
+>> +            stq_p(spapr->htab + offset + HPTE64_R_BYTE_OFFSET, pte1);
+>>           }
+>>       }
+>>   }
+>> @@ -1438,7 +1438,7 @@ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>>   static void spapr_hpte_set_c(PPCVirtualHypervisor *vhyp, hwaddr ptex,
+>>                                uint64_t pte1)
+>>   {
+>> -    hwaddr offset = ptex * HASH_PTE_SIZE_64 + 15;
+>> +    hwaddr offset = ptex * HASH_PTE_SIZE_64 + HPTE64_R_C_BYTE_OFFSET;
+>>       SpaprMachineState *spapr = SPAPR_MACHINE(vhyp);
+>>   
+>>       if (!spapr->htab) {
+>> @@ -1454,7 +1454,7 @@ static void spapr_hpte_set_c(PPCVirtualHypervisor *vhyp, hwaddr ptex,
+>>   static void spapr_hpte_set_r(PPCVirtualHypervisor *vhyp, hwaddr ptex,
+>>                                uint64_t pte1)
+>>   {
+>> -    hwaddr offset = ptex * HASH_PTE_SIZE_64 + 14;
+>> +    hwaddr offset = ptex * HASH_PTE_SIZE_64 + HPTE64_R_R_BYTE_OFFSET;
+>>       SpaprMachineState *spapr = SPAPR_MACHINE(vhyp);
+>>   
+>>       if (!spapr->htab) {
+>> diff --git a/hw/ppc/spapr_softmmu.c b/hw/ppc/spapr_softmmu.c
+>> index f8924270ef..03676c4448 100644
+>> --- a/hw/ppc/spapr_softmmu.c
+>> +++ b/hw/ppc/spapr_softmmu.c
+>> @@ -426,7 +426,7 @@ static void new_hpte_store(void *htab, uint64_t pteg, int slot,
+>>       addr += slot * HASH_PTE_SIZE_64;
+>>   
+>>       stq_p(addr, pte0);
+>> -    stq_p(addr + HASH_PTE_SIZE_64 / 2, pte1);
+>> +    stq_p(addr + HPTE64_R_BYTE_OFFSET, pte1);
+>>   }
+>>   
+>>   static int rehash_hpte(PowerPCCPU *cpu,
+>> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+>> index 19832c4b46..168d397c26 100644
+>> --- a/target/ppc/mmu-hash64.c
+>> +++ b/target/ppc/mmu-hash64.c
+>> @@ -786,7 +786,7 @@ static void ppc_hash64_set_dsi(CPUState *cs, int mmu_idx, uint64_t dar, uint64_t
+>>   
+>>   static void ppc_hash64_set_r(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
+>>   {
+>> -    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + 16;
+>> +    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + HPTE64_R_R_BYTE_OFFSET;
+>>   
+>>       if (cpu->vhyp) {
+>>           PPCVirtualHypervisorClass *vhc =
+>> @@ -803,7 +803,7 @@ static void ppc_hash64_set_r(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
+>>   
+>>   static void ppc_hash64_set_c(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
+>>   {
+>> -    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + 15;
+>> +    hwaddr base, offset = ptex * HASH_PTE_SIZE_64 + HPTE64_R_C_BYTE_OFFSET;
+>>   
+>>       if (cpu->vhyp) {
+>>           PPCVirtualHypervisorClass *vhc =
+>> diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
+>> index c5b2f97ff7..2a46763f70 100644
+>> --- a/target/ppc/mmu-hash64.h
+>> +++ b/target/ppc/mmu-hash64.h
+>> @@ -97,6 +97,11 @@ void ppc_hash64_finalize(PowerPCCPU *cpu);
+>>   #define HPTE64_V_1TB_SEG        0x4000000000000000ULL
+>>   #define HPTE64_V_VRMA_MASK      0x4001ffffff000000ULL
+>>   
+>> +/* PTE byte offsets */
+>> +#define HPTE64_R_R_BYTE_OFFSET  14
+>> +#define HPTE64_R_C_BYTE_OFFSET  15
+>> +#define HPTE64_R_BYTE_OFFSET    (HASH_PTE_SIZE_64 / 2)
+>> +
+>>   /* Format changes for ARCH v3 */
+>>   #define HPTE64_V_COMMON_BITS    0x000fffffffffffffULL
+>>   #define HPTE64_R_3_0_SSIZE_SHIFT 58
+> 
 
 
