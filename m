@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910BD4606B8
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Nov 2021 15:13:22 +0100 (CET)
-Received: from localhost ([::1]:51926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 824EE4606B2
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Nov 2021 15:09:46 +0100 (CET)
+Received: from localhost ([::1]:42462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrKvh-0002BO-7F
-	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 09:13:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45716)
+	id 1mrKsD-00049k-6Z
+	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 09:09:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mrKgj-0005vm-Qh; Sun, 28 Nov 2021 08:57:57 -0500
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:34278)
+ id 1mrKgl-0005vz-Fb; Sun, 28 Nov 2021 08:57:58 -0500
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:34504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mrKgh-0004eJ-5d; Sun, 28 Nov 2021 08:57:53 -0500
-Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 9D04240291;
+ id 1mrKgj-0004ey-QM; Sun, 28 Nov 2021 08:57:55 -0500
+Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id D227E40295;
  Sun, 28 Nov 2021 14:57:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=univ-grenoble-alpes.fr; s=2020; t=1638107867;
- bh=YzmsrreUvLP0sRCYbZs6n4p+IgPxW/b5EsoH0fjVkCk=;
+ bh=G5nSnw6CD8mMQHK/Zspn4gt2zNHVDUCWa9jP+MMJL8k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JWpwhhOFKSLkhmzXHQAHFjztr6UZ1KkQ1qA0gKMwejZk589dcUssg5WwNixCo5rko
- xRb+aRoHcUnQgEMtRrkBA4IgCImEwnAmPEUy4F1lmPFIPVSZXuSl8R4TgGDf8cJRJA
- XpENsI+FEDxtM3YfzOMTFo8vcBF6sy0DnmZ7R26Pnsce4a+vCJlxd4TJ3Sz89wqfAR
- ibhaAFoHlm3tsR1UaLowxEqST7Kp5V73yGOFzGWHSZ0iuWchx5vZE8uDXqJq+lbOJG
- KcTB3Bf3gAee4AfUzjEhIWy0YryyPNWEnUy3I9KfmuZK4dgGXlDBTKYO6LqZE8Nfr7
- WQMZC1bJeLdMA==
+ b=Ibc8RsZrY+ZdscnDqTP1BHRL92WdnodLgyziuJUTXyyqHpVrpy3lpCr+SP5aFyfD9
+ mi5C93LdUOiqs7wcoRf4xc8Qp6foJ5ZIaOa8v+FpZrulWqci1OLqA+niMWaV4qxIqZ
+ r+L7vahXYxXvoMtzaXaqxEUAz/mMWrv+N/VD/WAmF7ZjPiXw8NoaybEBUbTLPVsF/r
+ msk6BrAy3fzWPcyhjWSvZIudovD8BxFHuNP1aQ9iEuBumyZlM8L691znaPSsVxa5+K
+ EEvWlFoIQLKYuxc5/F8SL/ReswuRtFwvcuWpMM/5z3pgs9XG1IOza7a7jlTpftvkv2
+ nhj5SnL6peVVw==
 Received: from smtps.univ-grenoble-alpes.fr (smtps3.u-ga.fr [195.83.24.62])
- by mailhost.u-ga.fr (Postfix) with ESMTP id 858A660066;
+ by mailhost.u-ga.fr (Postfix) with ESMTP id BB6DB60067;
  Sun, 28 Nov 2021 14:57:47 +0100 (CET)
 Received: from palmier.tima.u-ga.fr (35.201.90.79.rev.sfr.net [79.90.201.35])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 5700E40069;
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 8DB024006D;
  Sun, 28 Nov 2021 14:57:47 +0100 (CET)
 From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
  <frederic.petrot@univ-grenoble-alpes.fr>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v6 04/18] target/riscv: additional macros to check instruction
- support
-Date: Sun, 28 Nov 2021 14:57:05 +0100
-Message-Id: <20211128135719.50444-5-frederic.petrot@univ-grenoble-alpes.fr>
+Subject: [PATCH v6 05/18] target/riscv: separation of bitwise logic and
+ arithmetic helpers
+Date: Sun, 28 Nov 2021 14:57:06 +0100
+Message-Id: <20211128135719.50444-6-frederic.petrot@univ-grenoble-alpes.fr>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
 References: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
@@ -88,52 +88,134 @@ Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Given that the 128-bit version of the riscv spec adds new instructions, and
-that some instructions that were previously only available in 64-bit mode
-are now available for both 64-bit and 128-bit, we added new macros to check
-for the processor mode during translation.
-Although RV128 is a superset of RV64, we keep for now the RV64 only tests
-for extensions other than RVI and RVM.
+Introduction of a gen_logic function for bitwise logic to implement
+instructions in which no propagation of information occurs between bits and
+use of this function on the bitwise instructions.
 
 Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
 Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/translate.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ target/riscv/translate.c                | 27 +++++++++++++++++++++++++
+ target/riscv/insn_trans/trans_rvb.c.inc |  6 +++---
+ target/riscv/insn_trans/trans_rvi.c.inc | 12 +++++------
+ 3 files changed, 36 insertions(+), 9 deletions(-)
 
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 1d57bc97b5..2718ff15a1 100644
+index 2718ff15a1..9d102f21ee 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -368,10 +368,22 @@ EX_SH(12)
-     }                              \
- } while (0)
+@@ -400,6 +400,33 @@ static int ex_rvc_shifti(DisasContext *ctx, int imm)
+ /* Include the auto-generated decoder for 32 bit insn */
+ #include "decode-insn32.c.inc"
  
--#define REQUIRE_64BIT(ctx) do {    \
--    if (get_xl(ctx) < MXL_RV64) {  \
--        return false;              \
--    }                              \
-+#define REQUIRE_64BIT(ctx) do {     \
-+    if (get_xl(ctx) != MXL_RV64) {  \
-+        return false;               \
-+    }                               \
-+} while (0)
++static bool gen_logic_imm_fn(DisasContext *ctx, arg_i *a,
++                             void (*func)(TCGv, TCGv, target_long))
++{
++    TCGv dest = dest_gpr(ctx, a->rd);
++    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
 +
-+#define REQUIRE_128BIT(ctx) do {    \
-+    if (get_xl(ctx) != MXL_RV128) { \
-+        return false;               \
-+    }                               \
-+} while (0)
++    func(dest, src1, a->imm);
 +
-+#define REQUIRE_64_OR_128BIT(ctx) do { \
-+    if (get_xl(ctx) == MXL_RV32) {     \
-+        return false;                  \
-+    }                                  \
- } while (0)
++    gen_set_gpr(ctx, a->rd, dest);
++
++    return true;
++}
++
++static bool gen_logic(DisasContext *ctx, arg_r *a,
++                      void (*func)(TCGv, TCGv, TCGv))
++{
++    TCGv dest = dest_gpr(ctx, a->rd);
++    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
++    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
++
++    func(dest, src1, src2);
++
++    gen_set_gpr(ctx, a->rd, dest);
++
++    return true;
++}
++
+ static bool gen_arith_imm_fn(DisasContext *ctx, arg_i *a, DisasExtend ext,
+                              void (*func)(TCGv, TCGv, target_long))
+ {
+diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
+index c8d31907c5..de2cd613b1 100644
+--- a/target/riscv/insn_trans/trans_rvb.c.inc
++++ b/target/riscv/insn_trans/trans_rvb.c.inc
+@@ -86,19 +86,19 @@ static bool trans_cpop(DisasContext *ctx, arg_cpop *a)
+ static bool trans_andn(DisasContext *ctx, arg_andn *a)
+ {
+     REQUIRE_ZBB(ctx);
+-    return gen_arith(ctx, a, EXT_NONE, tcg_gen_andc_tl);
++    return gen_logic(ctx, a, tcg_gen_andc_tl);
+ }
  
- static int ex_rvc_register(DisasContext *ctx, int reg)
+ static bool trans_orn(DisasContext *ctx, arg_orn *a)
+ {
+     REQUIRE_ZBB(ctx);
+-    return gen_arith(ctx, a, EXT_NONE, tcg_gen_orc_tl);
++    return gen_logic(ctx, a, tcg_gen_orc_tl);
+ }
+ 
+ static bool trans_xnor(DisasContext *ctx, arg_xnor *a)
+ {
+     REQUIRE_ZBB(ctx);
+-    return gen_arith(ctx, a, EXT_NONE, tcg_gen_eqv_tl);
++    return gen_logic(ctx, a, tcg_gen_eqv_tl);
+ }
+ 
+ static bool trans_min(DisasContext *ctx, arg_min *a)
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index 4a2aefe3a5..51607b3d40 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -252,17 +252,17 @@ static bool trans_sltiu(DisasContext *ctx, arg_sltiu *a)
+ 
+ static bool trans_xori(DisasContext *ctx, arg_xori *a)
+ {
+-    return gen_arith_imm_fn(ctx, a, EXT_NONE, tcg_gen_xori_tl);
++    return gen_logic_imm_fn(ctx, a, tcg_gen_xori_tl);
+ }
+ 
+ static bool trans_ori(DisasContext *ctx, arg_ori *a)
+ {
+-    return gen_arith_imm_fn(ctx, a, EXT_NONE, tcg_gen_ori_tl);
++    return gen_logic_imm_fn(ctx, a, tcg_gen_ori_tl);
+ }
+ 
+ static bool trans_andi(DisasContext *ctx, arg_andi *a)
+ {
+-    return gen_arith_imm_fn(ctx, a, EXT_NONE, tcg_gen_andi_tl);
++    return gen_logic_imm_fn(ctx, a, tcg_gen_andi_tl);
+ }
+ 
+ static bool trans_slli(DisasContext *ctx, arg_slli *a)
+@@ -319,7 +319,7 @@ static bool trans_sltu(DisasContext *ctx, arg_sltu *a)
+ 
+ static bool trans_xor(DisasContext *ctx, arg_xor *a)
+ {
+-    return gen_arith(ctx, a, EXT_NONE, tcg_gen_xor_tl);
++    return gen_logic(ctx, a, tcg_gen_xor_tl);
+ }
+ 
+ static bool trans_srl(DisasContext *ctx, arg_srl *a)
+@@ -334,12 +334,12 @@ static bool trans_sra(DisasContext *ctx, arg_sra *a)
+ 
+ static bool trans_or(DisasContext *ctx, arg_or *a)
+ {
+-    return gen_arith(ctx, a, EXT_NONE, tcg_gen_or_tl);
++    return gen_logic(ctx, a, tcg_gen_or_tl);
+ }
+ 
+ static bool trans_and(DisasContext *ctx, arg_and *a)
+ {
+-    return gen_arith(ctx, a, EXT_NONE, tcg_gen_and_tl);
++    return gen_logic(ctx, a, tcg_gen_and_tl);
+ }
+ 
+ static bool trans_addiw(DisasContext *ctx, arg_addiw *a)
 -- 
 2.34.0
 
