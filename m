@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB0D460789
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Nov 2021 17:31:49 +0100 (CET)
-Received: from localhost ([::1]:60510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4A6460A64
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Nov 2021 22:49:02 +0100 (CET)
+Received: from localhost ([::1]:48690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrN5e-0003pf-DP
-	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 11:31:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47924)
+	id 1mrS2f-0006Gr-6p
+	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 16:49:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mrN45-0002dx-A1
- for qemu-devel@nongnu.org; Sun, 28 Nov 2021 11:30:09 -0500
-Received: from [2a00:1450:4864:20::435] (port=44859
- helo=mail-wr1-x435.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mrN43-0006r4-Du
- for qemu-devel@nongnu.org; Sun, 28 Nov 2021 11:30:08 -0500
-Received: by mail-wr1-x435.google.com with SMTP id l16so31214416wrp.11
- for <qemu-devel@nongnu.org>; Sun, 28 Nov 2021 08:30:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=tIJ6hqvcjOOAgOZR7b10feFNyLctFJ6i34H9MmOTaVA=;
- b=JWFbte9+qMYx9Q4m44IMn2J1yrgxkLB5i/XxTWp91SzLZ6w1VeRyN18mmPi3wgtiP4
- YxDe7kuHmA8fKwez1G+bocsMsGXaVkoiTvjbXhQ7ub4F9XPIQ5Z5cGh7kWEEwGmZsNvk
- KV/K+oxrcOf+64lhxESGpfNXUgITCQyc52JzwukBprQByny1qs4rDGer5iQCCSmBtVE1
- dY19x7PtrnDOcSaMs+E3t5Z1lKiPfvJnHRZyRLaaFyajbFToxl3FhDb9DMZc27q6XHmF
- JBK1IdKQKZO0RhrwmGkps39knnZ9AfIhfLi8VOiEvULR/Gh/z4VwMANJ4RhvIa7EmMW9
- WnhQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mrS1G-0005Sk-OF
+ for qemu-devel@nongnu.org; Sun, 28 Nov 2021 16:47:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mrS1D-0003BX-CW
+ for qemu-devel@nongnu.org; Sun, 28 Nov 2021 16:47:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638136049;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=63k0Tr1PVQkYSrQioNfLzfQtm3O2PuFgip8yW4dEQDI=;
+ b=FFauwNZ10oDACmjX0/8H7rKcj6/0LzlqCxrigTq3Dc69xM9jOi+2ZRpK7dmsrpWuoUgUY3
+ rYmr/6CN7yTMja2i4AkkuTgj6ly1Bb4gaOZGlrCmFIPbLdxOFebgpARVuPM7D89sXRznzV
+ CqFBWF+W7rlSRv9fW8m2hHzDes02KZc=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-567-9qeZG-VON_eVNfXSXlRDqg-1; Sun, 28 Nov 2021 16:47:28 -0500
+X-MC-Unique: 9qeZG-VON_eVNfXSXlRDqg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ y9-20020aa7c249000000b003e7bf7a1579so11931351edo.5
+ for <qemu-devel@nongnu.org>; Sun, 28 Nov 2021 13:47:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=tIJ6hqvcjOOAgOZR7b10feFNyLctFJ6i34H9MmOTaVA=;
- b=Rz9kXtK8GLsl2OoGL40ELjtz8imH4WhJ7d7hseDcPD3SQUgIRjvsCChpCVkCCqM8pl
- 4jL0pCVyBrncEvJjQoQZdDsxXqZbUjRpdhiTeUawtUAd3oRERmDcMwi3ULXkC99xczBY
- 0Ge4gXiRI3Jo0NRr73XrWpt/gRkr0ouyxpzrvQUYkRsrigCt/SVlEFEu2IEYcI07bhRc
- rQXieDF1J17zaR4NfDqVPuANPjcbLtUxzvIOgJNuKmaZem0RqWgVN6oAHspeFzfXI0NC
- 7smxc4fzsUJruVO9BsFW5D44tr8dZbe78pmdE7HWuOM7kNf1TG64FZgSLTubxyHm9XM5
- cLXQ==
-X-Gm-Message-State: AOAM533R2yaYidTY89ROwxdpZ45PBWgkA3royXsbwfKOtBfoWoIjsCHr
- QX1SoZLZGcSUB5qvv1EMkmMCFg==
-X-Google-Smtp-Source: ABdhPJz41O6B7+RtBrRlLQMyXglVubdMMO7iM8N2RJWe0JzahC6k9bYUsAkUdptVUKTyLBfCeFefvA==
-X-Received: by 2002:a5d:6781:: with SMTP id v1mr27505851wru.239.1638117005020; 
- Sun, 28 Nov 2021 08:30:05 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 21sm11701738wmj.18.2021.11.28.08.30.03
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=63k0Tr1PVQkYSrQioNfLzfQtm3O2PuFgip8yW4dEQDI=;
+ b=XudFSRK2hi36UrcSyzDLlZjwe16PHMuoCVyQ6zp3Xer4umD1XpASgJQu4OFYSQ6Gfo
+ slg3r/oXVCkOBGLlhrNUuTSlWDbcuoRJZurDzs1okS7an5PAnYsvRKDUvNEwZOWqb6Bl
+ hP6IqKO83effC+uGos5MwY34x3NJEqcpu41ajBS6lG8djNCrM3er94KScpYkkRsKHL+g
+ 2uS385Ens3s0LgHFEj3Q35TF65ADsj8EtH9j1iAcccb/gCFsgfb2dsdJxuHb+EbEJo+O
+ ANFiW/O4gp0y/RPaUQotE5akozzJrj2zQ4CkzTbI4uXqitJLb5Bmzx7w2TMOBfFMaKfV
+ lPwA==
+X-Gm-Message-State: AOAM531VZZT2iazSfUyR7BjxtIkRo6R0h0vhHLSry44Mt408x2WU0g8T
+ 643gfQFeBHFuPnxjCM+ZtrpGr9UgoVesdOsaTMD2pbToBjyz7MTk4+BXPXHxvGEs4opsRZnw31T
+ JEvN9ChtncVWxLYU=
+X-Received: by 2002:a50:fe1a:: with SMTP id f26mr67534686edt.132.1638136047278; 
+ Sun, 28 Nov 2021 13:47:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzktKAjw4kzUVuc3lBA84DnUTBSW2LgDSu+n86WH1hWio/6baZkI0fGUZmhO658pm3BNv8mMA==
+X-Received: by 2002:a50:fe1a:: with SMTP id f26mr67534643edt.132.1638136046914; 
+ Sun, 28 Nov 2021 13:47:26 -0800 (PST)
+Received: from redhat.com ([45.15.19.35])
+ by smtp.gmail.com with ESMTPSA id e19sm7640432edu.47.2021.11.28.13.47.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Nov 2021 08:30:03 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2492E1FF96;
- Sun, 28 Nov 2021 16:30:03 +0000 (GMT)
-References: <20211126163915.1048353-1-peter.maydell@linaro.org>
- <20211126163915.1048353-2-peter.maydell@linaro.org>
-User-agent: mu4e 1.7.5; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH for-6.2? 1/2] hw/intc/arm_gicv3: Add new
- gicv3_intid_is_special() function
-Date: Sun, 28 Nov 2021 16:29:58 +0000
-In-reply-to: <20211126163915.1048353-2-peter.maydell@linaro.org>
-Message-ID: <875yscnsz8.fsf@linaro.org>
+ Sun, 28 Nov 2021 13:47:25 -0800 (PST)
+Date: Sun, 28 Nov 2021 16:47:20 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Roman Kagan <rvkagan@yandex-team.ru>
+Subject: Re: [PATCH 00/10] vhost: stick to -errno error return convention
+Message-ID: <20211128164607-mutt-send-email-mst@kernel.org>
+References: <20211111153354.18807-1-rvkagan@yandex-team.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211111153354.18807-1-rvkagan@yandex-team.ru>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,24 +92,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marc Zyngier <maz@kernel.org>, Shashi Mallela <shashi.mallela@linaro.org>,
- qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, Hanna Reitz <hreitz@redhat.com>,
+ yc-core@yandex-team.ru,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Nov 11, 2021 at 06:33:44PM +0300, Roman Kagan wrote:
+> Error propagation between the generic vhost code and the specific backends is
+> not quite consistent: some places follow "return -1 and set errno" convention,
+> while others assume "return negated errno".  Furthermore, not enough care is
+> taken not to clobber errno.
+> 
+> As a result, on certain code paths the errno resulting from a failure may get
+> overridden by another function call, and then that zero errno inidicating
+> success is propagated up the stack, leading to failures being lost.  In
+> particular, we've seen errors in the communication with a vhost-user-blk slave
+> not trigger an immediate connection drop and reconnection, leaving it in a
+> broken state.
+> 
+> Rework error propagation to always return negated errno on errors and
+> correctly pass it up the stack.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Hi Roman,
+if there are bugfixes here I'll be happy to take them right now.
+The wholesale rework seems inappropriate for 6.2, I'll be
+happy to tag it for after 6.2. Pls ping me aftre release to help
+make sure it's not lost.
 
-> The GICv3/v4 pseudocode has a function IsSpecial() which returns true
-> if passed a "special" interrupt ID number (anything between 1020 and
-> 1023 inclusive).  We open-code this condition in a couple of places,
-> so abstract it out into a new function gicv3_intid_is_special().
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Roman Kagan (10):
+>   vhost-user-blk: reconnect on any error during realize
+>   chardev/char-socket: tcp_chr_recv: don't clobber errno
+>   chardev/char-socket: tcp_chr_sync_read: don't clobber errno
+>   chardev/char-fe: don't allow EAGAIN from blocking read
+>   vhost-backend: avoid overflow on memslots_limit
+>   vhost-backend: stick to -errno error return convention
+>   vhost-vdpa: stick to -errno error return convention
+>   vhost-user: stick to -errno error return convention
+>   vhost: stick to -errno error return convention
+>   vhost-user-blk: propagate error return from generic vhost
+> 
+>  chardev/char-fe.c         |   7 +-
+>  chardev/char-socket.c     |  17 +-
+>  hw/block/vhost-user-blk.c |   4 +-
+>  hw/virtio/vhost-backend.c |   4 +-
+>  hw/virtio/vhost-user.c    | 401 +++++++++++++++++++++-----------------
+>  hw/virtio/vhost-vdpa.c    |  37 ++--
+>  hw/virtio/vhost.c         |  98 +++++-----
+>  7 files changed, 307 insertions(+), 261 deletions(-)
+> 
+> -- 
+> 2.33.1
+> 
 
---=20
-Alex Benn=C3=A9e
 
