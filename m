@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D5A4606B3
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Nov 2021 15:10:11 +0100 (CET)
-Received: from localhost ([::1]:43402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88CF24606A9
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Nov 2021 15:06:00 +0100 (CET)
+Received: from localhost ([::1]:33934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrKsb-0004nU-TZ
-	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 09:10:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45804)
+	id 1mrKoZ-0006mc-47
+	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 09:05:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mrKgm-0005w6-SL; Sun, 28 Nov 2021 08:57:59 -0500
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:34520)
+ id 1mrKgm-0005w4-K1; Sun, 28 Nov 2021 08:57:59 -0500
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:34522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mrKgk-0004fE-LP; Sun, 28 Nov 2021 08:57:56 -0500
-Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 4C1F44029C;
+ id 1mrKgk-0004fF-Jd; Sun, 28 Nov 2021 08:57:56 -0500
+Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 85CDD4029D;
  Sun, 28 Nov 2021 14:57:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=univ-grenoble-alpes.fr; s=2020; t=1638107868;
- bh=9lY2FGIpf15sOncuwIUpWSAkivmFPP7hbITPcjGi58c=;
+ bh=nHJqAgL17DDkpMiqCCJ0hOlhaw6jj82jEOT7dj3zJHI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VHYyT6YtsR2JHewwEF5ufp8I3LEqCHcS5ihoU91mDLgkKNnfziigS9hqB+OPB+/ae
- AHhgKW3SQ4YTwyZSbo1KR1E7vjMyBbsEKn8/6wjrHP/zsrcV37QubUVyq7A0+CCIai
- 1dnKc6cpxadFgVXvCwKCZRFz2p1CwoPxzyfeTy/4g/rJpGVan1Jvd99TL2EzAmpqmw
- uX2JNLomJRGij2L5ghJFe7Ub28ZOw19PFJfYI3jsYUK2lYOc33+UypfOK7QIb5WXcg
- FwjwWdph6oKudEGTMHG+uwOQhdfUTc0Uy0DKEKHMwV1w4Lc7K3X/ERX1/PJlxr94LT
- XC5ZspsHGHHMA==
+ b=Qotl3E2XHCsmBI01NB3U4kIvcASCQB09e83CtdqxyzqSWifk4ThMsVGJ2xeHtXrgU
+ Z8LMsBJpWY1S0NPO5yJgzTi8AnZnrOIF0UOWttfhb6Z3wAadWD3uLOPVmdxNx8ChkM
+ 9OwmSQqmFTLif+91CTh8ALp3A2AjOe52SxAdAHm8Ucq1B2/R6oyh2bA/9x+gQKmMhw
+ G15P4WawbdolOjuCImYEj7pYDDoXm+fKSL8eoBYCwoj6ZbF8R5vdUl05rgzH5pNiG/
+ 0dWpCEgoGFn/CNvvnMAH/DS7p+k3GvpLJJdLQBph5+22xgaqPHpFAxIjpTCKxP1kR2
+ +ATRWxklOIwRQ==
 Received: from smtps.univ-grenoble-alpes.fr (smtps3.u-ga.fr [195.83.24.62])
- by mailhost.u-ga.fr (Postfix) with ESMTP id 329D960066;
+ by mailhost.u-ga.fr (Postfix) with ESMTP id 6D04D60067;
  Sun, 28 Nov 2021 14:57:48 +0100 (CET)
 Received: from palmier.tima.u-ga.fr (35.201.90.79.rev.sfr.net [79.90.201.35])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 014AD4006D;
- Sun, 28 Nov 2021 14:57:47 +0100 (CET)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 39CD640069;
+ Sun, 28 Nov 2021 14:57:48 +0100 (CET)
 From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
  <frederic.petrot@univ-grenoble-alpes.fr>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v6 07/18] target/riscv: setup everything for rv64 to support
- rv128 execution
-Date: Sun, 28 Nov 2021 14:57:08 +0100
-Message-Id: <20211128135719.50444-8-frederic.petrot@univ-grenoble-alpes.fr>
+Subject: [PATCH v6 08/18] target/riscv: moving some insns close to similar
+ insns
+Date: Sun, 28 Nov 2021 14:57:09 +0100
+Message-Id: <20211128135719.50444-9-frederic.petrot@univ-grenoble-alpes.fr>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
 References: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
@@ -82,140 +82,94 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  alistair.francis@wdc.com, fabien.portas@grenoble-inp.org, palmer@dabbelt.com,
  =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
  <frederic.petrot@univ-grenoble-alpes.fr>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds the support of the '-cpu rv128' option to
-qemu-system-riscv64 so that we can indicate that we want to run rv128
-executables.
-Still, there is no support for 128-bit insns at that stage so qemu fails
-miserably (as expected) if launched with this option.
+lwu and ld are functionally close to the other loads, but were after the
+stores in the source file.
+Similarly, xor was away from or and and by two arithmetic functions, while
+the immediate versions were nicely put together.
+This patch moves the aforementioned loads after lhu, and xor above or,
+where they more logically belong.
 
 Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
 Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/disas/dis-asm.h |  1 +
- target/riscv/cpu.h      |  1 +
- disas/riscv.c           |  5 +++++
- target/riscv/cpu.c      | 20 ++++++++++++++++++++
- target/riscv/gdbstub.c  |  5 +++++
- 5 files changed, 32 insertions(+)
+ target/riscv/insn_trans/trans_rvi.c.inc | 34 ++++++++++++-------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index 08e1beec85..102a1e7f50 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -459,6 +459,7 @@ int print_insn_nios2(bfd_vma, disassemble_info*);
- int print_insn_xtensa           (bfd_vma, disassemble_info*);
- int print_insn_riscv32          (bfd_vma, disassemble_info*);
- int print_insn_riscv64          (bfd_vma, disassemble_info*);
-+int print_insn_riscv128         (bfd_vma, disassemble_info*);
- int print_insn_rx(bfd_vma, disassemble_info *);
- int print_insn_hexagon(bfd_vma, disassemble_info *);
- 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 53a295efb7..cbd4daa6d9 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -38,6 +38,7 @@
- #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
- #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
- #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
-+#define TYPE_RISCV_CPU_BASE128          RISCV_CPU_TYPE_NAME("rv128")
- #define TYPE_RISCV_CPU_IBEX             RISCV_CPU_TYPE_NAME("lowrisc-ibex")
- #define TYPE_RISCV_CPU_SHAKTI_C         RISCV_CPU_TYPE_NAME("shakti-c")
- #define TYPE_RISCV_CPU_SIFIVE_E31       RISCV_CPU_TYPE_NAME("sifive-e31")
-diff --git a/disas/riscv.c b/disas/riscv.c
-index 793ad14c27..03c8dc9961 100644
---- a/disas/riscv.c
-+++ b/disas/riscv.c
-@@ -3090,3 +3090,8 @@ int print_insn_riscv64(bfd_vma memaddr, struct disassemble_info *info)
- {
-     return print_insn_riscv(memaddr, info, rv64);
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index 51607b3d40..710f5e6a85 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -176,6 +176,18 @@ static bool trans_lhu(DisasContext *ctx, arg_lhu *a)
+     return gen_load(ctx, a, MO_TEUW);
  }
-+
-+int print_insn_riscv128(bfd_vma memaddr, struct disassemble_info *info)
+ 
++static bool trans_lwu(DisasContext *ctx, arg_lwu *a)
 +{
-+    return print_insn_riscv(memaddr, info, rv128);
++    REQUIRE_64BIT(ctx);
++    return gen_load(ctx, a, MO_TEUL);
 +}
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 364140f5ff..7f5370f2b2 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -178,6 +178,19 @@ static void rv64_sifive_e_cpu_init(Object *obj)
-     set_priv_version(env, PRIV_VERSION_1_10_0);
-     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
- }
 +
-+static void rv128_base_cpu_init(Object *obj)
++static bool trans_ld(DisasContext *ctx, arg_ld *a)
 +{
-+    if (qemu_tcg_mttcg_enabled()) {
-+        /* Missing 128-bit aligned atomics */
-+        error_report("128-bit RISC-V currently does not work with Multi "
-+                     "Threaded TCG. Please use: -accel tcg,thread=single");
-+        exit(EXIT_FAILURE);
-+    }
-+    CPURISCVState *env = &RISCV_CPU(obj)->env;
-+    /* We set this in the realise function */
-+    set_misa(env, MXL_RV128, 0);
++    REQUIRE_64BIT(ctx);
++    return gen_load(ctx, a, MO_TEUQ);
 +}
- #else
- static void rv32_base_cpu_init(Object *obj)
++
+ static bool gen_store(DisasContext *ctx, arg_sb *a, MemOp memop)
  {
-@@ -402,6 +415,9 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
-     case MXL_RV64:
-         info->print_insn = print_insn_riscv64;
-         break;
-+    case MXL_RV128:
-+        info->print_insn = print_insn_riscv128;
-+        break;
-     default:
-         g_assert_not_reached();
-     }
-@@ -464,6 +480,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
- #ifdef TARGET_RISCV64
-     case MXL_RV64:
-         break;
-+    case MXL_RV128:
-+        break;
- #endif
-     case MXL_RV32:
-         break;
-@@ -670,6 +688,7 @@ static gchar *riscv_gdb_arch_name(CPUState *cs)
-     case MXL_RV32:
-         return g_strdup("riscv:rv32");
-     case MXL_RV64:
-+    case MXL_RV128:
-         return g_strdup("riscv:rv64");
-     default:
-         g_assert_not_reached();
-@@ -822,6 +841,7 @@ static const TypeInfo riscv_cpu_type_infos[] = {
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SHAKTI_C,         rv64_sifive_u_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_BASE128,          rv128_base_cpu_init),
- #endif
- };
+     TCGv addr = get_gpr(ctx, a->rs1, EXT_NONE);
+@@ -207,18 +219,6 @@ static bool trans_sw(DisasContext *ctx, arg_sw *a)
+     return gen_store(ctx, a, MO_TESL);
+ }
  
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index 23429179e2..2fbdcc5879 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -164,6 +164,11 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
-     int bitsize = 16 << env->misa_mxl_max;
-     int i;
+-static bool trans_lwu(DisasContext *ctx, arg_lwu *a)
+-{
+-    REQUIRE_64BIT(ctx);
+-    return gen_load(ctx, a, MO_TEUL);
+-}
+-
+-static bool trans_ld(DisasContext *ctx, arg_ld *a)
+-{
+-    REQUIRE_64BIT(ctx);
+-    return gen_load(ctx, a, MO_TEUQ);
+-}
+-
+ static bool trans_sd(DisasContext *ctx, arg_sd *a)
+ {
+     REQUIRE_64BIT(ctx);
+@@ -317,11 +317,6 @@ static bool trans_sltu(DisasContext *ctx, arg_sltu *a)
+     return gen_arith(ctx, a, EXT_SIGN, gen_sltu);
+ }
  
-+    /* Until gdb knows about 128-bit registers */
-+    if (bitsize > 64) {
-+        bitsize = 64;
-+    }
+-static bool trans_xor(DisasContext *ctx, arg_xor *a)
+-{
+-    return gen_logic(ctx, a, tcg_gen_xor_tl);
+-}
+-
+ static bool trans_srl(DisasContext *ctx, arg_srl *a)
+ {
+     return gen_shift(ctx, a, EXT_ZERO, tcg_gen_shr_tl);
+@@ -332,6 +327,11 @@ static bool trans_sra(DisasContext *ctx, arg_sra *a)
+     return gen_shift(ctx, a, EXT_SIGN, tcg_gen_sar_tl);
+ }
+ 
++static bool trans_xor(DisasContext *ctx, arg_xor *a)
++{
++    return gen_logic(ctx, a, tcg_gen_xor_tl);
++}
 +
-     g_string_printf(s, "<?xml version=\"1.0\"?>");
-     g_string_append_printf(s, "<!DOCTYPE feature SYSTEM \"gdb-target.dtd\">");
-     g_string_append_printf(s, "<feature name=\"org.gnu.gdb.riscv.csr\">");
+ static bool trans_or(DisasContext *ctx, arg_or *a)
+ {
+     return gen_logic(ctx, a, tcg_gen_or_tl);
 -- 
 2.34.0
 
