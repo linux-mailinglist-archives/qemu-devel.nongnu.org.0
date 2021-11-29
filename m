@@ -2,44 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86AA1461BB3
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 17:20:30 +0100 (CET)
-Received: from localhost ([::1]:50548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE918461BBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 17:28:24 +0100 (CET)
+Received: from localhost ([::1]:32924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrjOH-0006qd-Ls
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 11:20:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42508)
+	id 1mrjVv-00060b-Fb
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 11:28:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1mrjMZ-0005MT-C7
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 11:18:43 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:45218
+ id 1mrjUc-0005K6-3E
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 11:27:03 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:45588
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1mrjMR-0002GY-4W
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 11:18:42 -0500
-HMM_SOURCE_IP: 172.18.0.218:43104.1259492098
+ (envelope-from <huangy81@chinatelecom.cn>) id 1mrjUR-0003Po-BO
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 11:27:01 -0500
+HMM_SOURCE_IP: 172.18.0.218:47794.1234783482
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-118.116.19.33 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id B95312800C0;
- Tue, 30 Nov 2021 00:18:20 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id C28DF280079;
+ Tue, 30 Nov 2021 00:26:09 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 63b8d6eafdc94845af483e62d2a0f795 for
- qemu-devel@nongnu.org; Tue, 30 Nov 2021 00:18:26 CST
-X-Transaction-ID: 63b8d6eafdc94845af483e62d2a0f795
+ by app0025 with ESMTP id 88031bd5a5ae46f9abc9ed19304d697e for
+ qemu-devel@nongnu.org; Tue, 30 Nov 2021 00:26:16 CST
+X-Transaction-ID: 88031bd5a5ae46f9abc9ed19304d697e
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.218
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel <qemu-devel@nongnu.org>
 Subject: [PATCH v7 2/3] cpu-throttle: implement vCPU throttle
-Date: Tue, 30 Nov 2021 00:18:00 +0800
+Date: Tue, 30 Nov 2021 00:26:11 +0800
 Message-Id: <5f6382c1ca862e7c00f90e7ec8260de711717fa1.1638202004.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1638202004.git.huangy81@chinatelecom.cn>
-References: <cover.1638202004.git.huangy81@chinatelecom.cn>
 In-Reply-To: <cover.1638202004.git.huangy81@chinatelecom.cn>
 References: <cover.1638202004.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
@@ -47,12 +45,11 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=42.123.76.223;
  envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, FORGED_SPF_HELO=1,
- KHOP_HELO_FCRDNS=0.398, SPF_HELO_PASS=-0.001,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
