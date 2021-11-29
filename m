@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC8B461756
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:01:06 +0100 (CET)
-Received: from localhost ([::1]:45610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A29346176E
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:04:03 +0100 (CET)
+Received: from localhost ([::1]:51950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrhDM-0002i4-RK
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:01:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49598)
+	id 1mrhGE-0007HO-H3
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:04:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mrh46-0003g8-PK
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:51:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36686)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mrh4N-0003oQ-5L
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:51:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45575)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mrh42-00031K-QV
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:51:28 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mrh48-00033I-DQ
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:51:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638193885;
+ s=mimecast20190719; t=1638193890;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=LVLwpiU67LdLjERzs2TvjGxNupilX2wDR1L6Rld+HNM=;
- b=DFhAPJ21K599KOtNDfVzyHECs3SKvnoQnI3/lM4vGzmJ0fjlHyZzskcXwTWL3Yz7eaEf0p
- aa4v3u/cpK3r0U2KFg2F+BBHxiz2nfNnpvV2HakCkFvI6iNsYYlMLufrL5nXfWshnERlAZ
- aYxo4yQLHloJ08VRhT8cHp7G3JPugSk=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gmN91jDcIZU9UtpuPrQVYTn7kPEJb0WLyI2q45YuAMw=;
+ b=EuYJH8eTzwT8ekezP/kqIBc9NrmoXxTLDFNCs9xSL4VpTJ1Y6yzwlfT7RjI6p/tpSZI1ra
+ lPP7AQCj4e+f4GE9YiaUXiUgNUv6HehGP1Bq3GUIUnxnA9JdrwO7cFsqR9rMyqkGUklaqe
+ HuR91yMQ1idxAtfyJnsoYfL7PtSRZLE=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-436-JC9zig1lP8azrROHiNvrXQ-1; Mon, 29 Nov 2021 08:51:23 -0500
-X-MC-Unique: JC9zig1lP8azrROHiNvrXQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- m12-20020a056402430c00b003e9f10bbb7dso13749473edc.18
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 05:51:23 -0800 (PST)
+ us-mta-372-jdgSMOYfOfS41T5yjutcWw-1; Mon, 29 Nov 2021 08:51:27 -0500
+X-MC-Unique: jdgSMOYfOfS41T5yjutcWw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ k7-20020aa7c387000000b003e7ed87fb31so13874384edq.3
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 05:51:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=LVLwpiU67LdLjERzs2TvjGxNupilX2wDR1L6Rld+HNM=;
- b=uv+Iz11eB1GX9ABG2xBmlV2yWReCQ6eLQ4uW8SGeEWGyoZ+nnooealDxtIArQawiux
- VPhY3l5M5VRQERelVujLm2UPsTGnX6YA3ip0Z5QBe2EGzoF9PDGscfsPIo3T1LOe2GnP
- 97vSs9+aZ3x0vHZ1TnWrU8IP3UtZz95Yc+l7Q2W1Zbv7tXWN/kpYWZYdTRYJUiAgycuH
- 1BYW4sgmeUM1DLLhzfALal6eQ2QTV0aTjMpoOJVPGw79JNu7353vmFkF2ZxvBQBlcmQv
- 8u3x8oaXpak6AournxyU/xwiCbdDc5OW4M97lP4xg+RDT2+gdOgUsdGvl5fCJsDkzfm3
- 9oDQ==
-X-Gm-Message-State: AOAM530w++ivE4fToC7tPwi5T+RewIBbq+bPRVhmPQ4I4IEfVhcjfjVU
- EbMrBanoTc7scpq/wpGyq6MHvz2pB5U9kh8mCPcLkmIdVlk5e1lVltA0WsmdHqxMS6KCRjZaagt
- /d+ctytPqOLwZV4ia5tErx2vPszYtpgxjDcv3pVwiXfg/uRtCph8ADSnnPNSm
-X-Received: by 2002:a05:6402:268e:: with SMTP id
- w14mr74523036edd.48.1638193882239; 
- Mon, 29 Nov 2021 05:51:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxBxhuEs9BCa5i6xnr43doK12VIxHW7paqq/mrxBikhH4Y1vwNPjd9V0Ja3gup2uyG0PvnW2Q==
-X-Received: by 2002:a05:6402:268e:: with SMTP id
- w14mr74523007edd.48.1638193882093; 
- Mon, 29 Nov 2021 05:51:22 -0800 (PST)
+ bh=gmN91jDcIZU9UtpuPrQVYTn7kPEJb0WLyI2q45YuAMw=;
+ b=W+fVWtUIBUZqsPRper6vyClLaQf77ohQGKUdNkqbIXjIUhKrhXQW5DxHPBZBLo4F8L
+ HSQamKfdwEXVQn1APiVmhmKBpJ7X0RvQ8Uz6VRoDgPtTkIbALq1DNhKVSe8d5nbqYZFV
+ DjcNPztOjPjl0KHDQznWw+psDBFN2FtSTCcKWxBc1Lk4++WsyXCgQXvSpngkWbCxcqHd
+ fFq5MvzKGZKIwBnR87TBaM55VF+SIpSXtnAZrF+xxtJlDizk5bgdBJthcPNNPlQgCxQm
+ 4tdIx1LORuHctW4kIn1LmVX0CxSxuOINviA/joj5eEF2/5kEk9/2Qpiy3WvByczjfAPq
+ TYCQ==
+X-Gm-Message-State: AOAM531CoFpHsTLvVlOFFn4Hws+qzRT03q3ugMIUqK7ScNNYIModFLkW
+ 5bjrDvHDC3bG5y336kBAye4uaVO7D2kOv0i2dptBvrFeqA4MfiSJr164ufjsv2CTin5PZa5hUy4
+ +fM0vwTZJeTf2L9ezPDk8nM2+tRvjittQrlQ8XYjDKfdHrqCExzt6skj7o8BK
+X-Received: by 2002:aa7:c783:: with SMTP id n3mr74937302eds.121.1638193885987; 
+ Mon, 29 Nov 2021 05:51:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwSvgTLFa+cYcVGIz+FfzFIF+ao6OdcPem63+tMn+WTpej1J5PwUvrHYCaPdFt2o2mXkGbdfQ==
+X-Received: by 2002:aa7:c783:: with SMTP id n3mr74937280eds.121.1638193885814; 
+ Mon, 29 Nov 2021 05:51:25 -0800 (PST)
 Received: from redhat.com ([45.15.19.35])
- by smtp.gmail.com with ESMTPSA id sa17sm7888222ejc.123.2021.11.29.05.51.20
+ by smtp.gmail.com with ESMTPSA id i8sm10534211edc.12.2021.11.29.05.51.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 05:51:21 -0800 (PST)
-Date: Mon, 29 Nov 2021 08:51:18 -0500
+ Mon, 29 Nov 2021 05:51:25 -0800 (PST)
+Date: Mon, 29 Nov 2021 08:51:22 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/7] virtio-balloon: process all in sgs for free_page_vq
-Message-ID: <20211129135053.560225-5-mst@redhat.com>
+Subject: [PULL 5/7] virtio-balloon: correct used length
+Message-ID: <20211129135053.560225-6-mst@redhat.com>
 References: <20211129135053.560225-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211129135053.560225-1-mst@redhat.com>
@@ -77,13 +75,12 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,45 +100,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jason Wang <jasowang@redhat.com>
 
-We only process the first in sg which may lead to the bitmap of the
-pages belongs to following sgs were not cleared. This may result more
-pages to be migrated. Fixing this by process all in sgs for
-free_page_vq.
+Spec said:
 
-Acked-by: David Hildenbrand <david@redhat.com>
+"and len the total of bytes written into the buffer."
+
+For inflateq, deflateq and statsq, we don't process in_sg so the used
+length should be zero. For free_page_vq, tough the pages could be
+changed by the device (in the destination), spec said:
+
+"Note: len is particularly useful for drivers using untrusted buffers:
+if a driver does not know exactly how much has been written by the
+device, the driver would have to zero the buffer in advance to ensure
+no data leakage occurs."
+
+So 0 should be used as well here.
+
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20211129030841.3611-1-jasowang@redhat.com>
+Message-Id: <20211129030841.3611-2-jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- hw/virtio/virtio-balloon.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ hw/virtio/virtio-balloon.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index c6962fcbfe..17de2558cb 100644
+index 17de2558cb..9a4f491b54 100644
 --- a/hw/virtio/virtio-balloon.c
 +++ b/hw/virtio/virtio-balloon.c
-@@ -510,6 +510,7 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VirtQueue *vq = dev->free_page_vq;
-     bool ret = true;
-+    int i;
- 
-     while (dev->block_iothread) {
-         qemu_cond_wait(&dev->free_page_cond, &dev->free_page_lock);
-@@ -544,8 +545,10 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
+@@ -231,7 +231,7 @@ static void balloon_stats_poll_cb(void *opaque)
+         return;
      }
  
-     if (elem->in_num && dev->free_page_hint_status == FREE_PAGE_HINT_S_START) {
--        qemu_guest_free_page_hint(elem->in_sg[0].iov_base,
--                                  elem->in_sg[0].iov_len);
-+        for (i = 0; i < elem->in_num; i++) {
-+            qemu_guest_free_page_hint(elem->in_sg[i].iov_base,
-+                                      elem->in_sg[i].iov_len);
-+        }
+-    virtqueue_push(s->svq, s->stats_vq_elem, s->stats_vq_offset);
++    virtqueue_push(s->svq, s->stats_vq_elem, 0);
+     virtio_notify(vdev, s->svq);
+     g_free(s->stats_vq_elem);
+     s->stats_vq_elem = NULL;
+@@ -438,7 +438,7 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+             memory_region_unref(section.mr);
+         }
+ 
+-        virtqueue_push(vq, elem, offset);
++        virtqueue_push(vq, elem, 0);
+         virtio_notify(vdev, vq);
+         g_free(elem);
+         virtio_balloon_pbp_free(&pbp);
+@@ -552,7 +552,7 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
      }
  
  out:
+-    virtqueue_push(vq, elem, 1);
++    virtqueue_push(vq, elem, 0);
+     g_free(elem);
+     return ret;
+ }
 -- 
 MST
 
