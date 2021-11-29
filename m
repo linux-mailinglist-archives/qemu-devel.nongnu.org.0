@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D0E4618C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:30:52 +0100 (CET)
-Received: from localhost ([::1]:57956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 296A6461817
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:25:09 +0100 (CET)
+Received: from localhost ([::1]:41716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrhgA-0008Hy-54
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:30:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56416)
+	id 1mrhae-0005LT-89
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:25:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mrhLn-0001Ob-4b
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:09:47 -0500
-Received: from [2a00:1450:4864:20::433] (port=40941
- helo=mail-wr1-x433.google.com)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mrhPy-0007y6-R9
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:14:06 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:49616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mrhLk-0006WE-Gn
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:09:46 -0500
-Received: by mail-wr1-x433.google.com with SMTP id t9so20123351wrx.7
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 06:09:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=bE1boPVSofZsVRYk/2tnKXg+GDOQQWyCjSc44kFDB+A=;
- b=HZWYqXh8i9QQU+OkMcfBc7J52UYZqVbXSj4nI2M5iaw1x3oz9UfzAx0nEUT5Iskt79
- NJ779y0QLEjB4PtzWSYqn8hvarUFisVDRR7aD84UnwzzPhlFE5r+MDcQQ8uXr+jJ8VTD
- uP6ngFRTq7YmuIMJOFCHvfKhoYSpo+OFgXcgl+SAvJf+NwKgWYC38P9Y67C5PeFMbYcj
- shs4UQ73p4MNSDLxwE3gfZkLoTaVl8fiMjD7ACmjfNGM72Lk7iLzmTAHok+gVqQd6p1J
- iEHWifRXgCB1TAuviMmWwBBN7DtXl9ZVndBfUKWG41A4HYt/FEmjg9BCI+eCDdzG7bCa
- 76CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=bE1boPVSofZsVRYk/2tnKXg+GDOQQWyCjSc44kFDB+A=;
- b=FLKn15qgbxwuf3vrZoJV16rsnSUtnP6yPzFLfpP98hcnDXE3cOo9Kw8l7MJM1Rgmxn
- jff9M67IlWWdWcKRprt2qRNimmHaTp8bQSe1i+D8KwVoLuM/QGg1sW/qccXmvPKpGVQ3
- JmzBda6h4yxZNkianb7xunoVfDydEuLJcJ38rSORGrN09j8swDQTsIr/wHhK/37VSFeQ
- K0yfrQmlTmGgIVp5f16ZXItZ/9eklC6ayRLlZcpcPmgVlmjMPVDusqcmjChyTrb+shgW
- qSGO9QA+ebu4kdzjtBomkj53QNNiXXxC5VEvY8JxnttB53efEWqbC+KjRlHYqenLpWZG
- d/XQ==
-X-Gm-Message-State: AOAM533EZsBS+Qe/ZUYrMl3CiZVn//DMEMVnCl2V5y6oXLBAi2DcX9a5
- ApaVhaduG8Dc+EUHgRSPoQEFNQ==
-X-Google-Smtp-Source: ABdhPJwW5trdXzFhLjB7OVnwYe6ApnBTfMMRSoqcTwqUI5mauZ+2OkJuXeuDcCif5T7W9XUNF5ONYg==
-X-Received: by 2002:a05:6000:18a3:: with SMTP id
- b3mr34450461wri.343.1638194983187; 
- Mon, 29 Nov 2021 06:09:43 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 138sm19954070wma.17.2021.11.29.06.09.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 06:09:39 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 913041FF9F;
- Mon, 29 Nov 2021 14:09:33 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 8/8] tests/plugin/syscall.c: fix compiler warnings
-Date: Mon, 29 Nov 2021 14:09:32 +0000
-Message-Id: <20211129140932.4115115-9-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211129140932.4115115-1-alex.bennee@linaro.org>
-References: <20211129140932.4115115-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mrhPw-0007hP-E5
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:14:06 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C7EB11FD38;
+ Mon, 29 Nov 2021 14:14:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1638195240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2iXo39bChFl5npJThOyDDIDxAfrgLTITMG1RHc78tVo=;
+ b=OhLG1RXs/vev8egmfOt2UHNk6uWo7P07nWpzdCsX2t+WXNKQFmU3Ltph2c8//A0RrZjuUq
+ HluovUaI6hHWqYe+iojOy3SRpGMWB+iu/JJcfzrZvY7SYDBfh2tuFxpwtLUSeFjSWiYd+1
+ g0YrP0lykNXXMgnVCrfFh7Hi09PDAVc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1638195240;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2iXo39bChFl5npJThOyDDIDxAfrgLTITMG1RHc78tVo=;
+ b=YpvRkL4yAq/Nao2JUO9rUCKoPDfH3a+XMWRX8LYi+oU4e/mIgUH6qmgF5RgQYpneE2nDZe
+ Eih3HtB9tuL0M7BQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7DE7A13B15;
+ Mon, 29 Nov 2021 14:14:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id v//nHCjgpGGjeAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Mon, 29 Nov 2021 14:14:00 +0000
+Subject: Re: [PATCH for-6.1 v2] i386: do not call cpudef-only models functions
+ for max, host, base
+To: "Woodhouse, David" <dwmw@amazon.co.uk>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
+References: <20210723112921.12637-1-cfontana@suse.de>
+ <1102c315addf2f2fffc49222ab5be118e7ae9b0f.camel@amazon.co.uk>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <f5910284-14ca-8796-4e64-38fef246bd19@suse.de>
+Date: Mon, 29 Nov 2021 15:14:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <1102c315addf2f2fffc49222ab5be118e7ae9b0f.camel@amazon.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.317,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,76 +88,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- Juro Bystricky <juro.bystricky@intel.com>, f4bug@amsat.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- Mahmoud Mandour <ma.mandourr@gmail.com>, Alexandre Iooss <erdnaxe@crans.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "alxndr@bu.edu" <alxndr@bu.edu>, "philmd@redhat.com" <philmd@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "lovemrd@gmail.com" <lovemrd@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Juro Bystricky <juro.bystricky@intel.com>
+On 11/29/21 12:39 PM, Woodhouse, David wrote:
+> On Fri, 2021-07-23 at 13:29 +0200, Claudio Fontana wrote:
+>>  static void kvm_cpu_instance_init(CPUState *cs)
+>>  {
+>>      X86CPU *cpu = X86_CPU(cs);
+>> +    X86CPUClass *xcc = X86_CPU_GET_CLASS(cpu);
+>>  
+>>      host_cpu_instance_init(cpu);
+>>  
+>> -    if (!kvm_irqchip_in_kernel()) {
+>> -        x86_cpu_change_kvm_default("x2apic", "off");
+>> -    } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
+>> -        x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
+>> -    }
+>> -
+>> -    /* Special cases not set in the X86CPUDefinition structs: */
+>> +    if (xcc->model) {
+>> +        /* only applies to builtin_x86_defs cpus */
+>> +        if (!kvm_irqchip_in_kernel()) {
+>> +            x86_cpu_change_kvm_default("x2apic", "off");
+>> +        } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
+>> +            x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
+>> +        }
+>>  
+>> -    x86_cpu_apply_props(cpu, kvm_default_props);
+>> +        /* Special cases not set in the X86CPUDefinition structs: */
+>> +        x86_cpu_apply_props(cpu, kvm_default_props);
+>> +    }
+>>  
+> 
+> I think this causes a regression in x2apic and kvm-msi-ext-dest-id
+> support. If you start qemu thus:
 
-Fix compiler warnings. The warnings can result in a broken build.
-This patch fixes warnings such as:
+If I recall correctly, this change just tries to restore the behavior prior to  
+commit f5cc5a5c168674f84bf061cdb307c2d25fba5448 ,
 
-In file included from /usr/include/glib-2.0/glib.h:111,
-                 from ../tests/plugin/syscall.c:13:
-../tests/plugin/syscall.c: In function ‘print_entry’:
-/usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘out’ may be
-       used uninitialized in this function [-Werror=maybe-uninitialized]
-   g_free (*pp);
-   ^~~~~~~~~~~~
-../tests/plugin/syscall.c:82:23: note: ‘out’ was declared here
-     g_autofree gchar *out;
-                       ^~~
-In file included from /usr/include/glib-2.0/glib.h:111,
-                 from ../tests/plugin/syscall.c:13:
-../tests/plugin/syscall.c: In function ‘vcpu_syscall_ret’:
-/usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘out’ may be
-        used uninitialized in this function [-Werror=maybe-uninitialized]
-   g_free (*pp);
-   ^~~~~~~~~~~~
-../tests/plugin/syscall.c:73:27: note: ‘out’ was declared here
-         g_autofree gchar *out;
-                           ^~~
-cc1: all warnings being treated as errors
+fixing the issue introduced with the refactoring at that time.
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20211128011551.2115468-1-juro.bystricky@intel.com>
----
- tests/plugin/syscall.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Can you try bisecting prior to f5cc5a5c168674f84bf061cdb307c2d25fba5448 , to see if the actual breakage comes from somewhere else?
 
-diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c
-index 484b48de49..96040c578f 100644
---- a/tests/plugin/syscall.c
-+++ b/tests/plugin/syscall.c
-@@ -70,19 +70,17 @@ static void vcpu_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_idx,
-         }
-         g_mutex_unlock(&lock);
-     } else {
--        g_autofree gchar *out;
--        out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64 "\n",
--                num, ret);
-+        g_autofree gchar *out = g_strdup_printf(
-+             "syscall #%" PRIi64 " returned -> %" PRIi64 "\n", num, ret);
-         qemu_plugin_outs(out);
-     }
- }
- 
- static void print_entry(gpointer val, gpointer user_data)
- {
--    g_autofree gchar *out;
-     SyscallStats *entry = (SyscallStats *) val;
-     int64_t syscall_num = entry->num;
--    out = g_strdup_printf(
-+    g_autofree gchar *out = g_strdup_printf(
-         "%-13" PRIi64 "%-6" PRIi64 " %" PRIi64 "\n",
-         syscall_num, entry->calls, entry->errors);
-     qemu_plugin_outs(out);
--- 
-2.30.2
+> 
+> qemu-system-x86_64 -machine q35,accel=kvm,usb=off,kernel_irqchip=split -cpu host -smp 288,sockets=9,cores=16,threads=2
+> 
+> The guest now sees those features, but we don't actually call
+> kvm_enable_x2apic() so the APIC broadcast quirk doesn't get disabled,
+> and interrupts targeted at APIC ID 255 are interpreted as broadcasts:
+> 
+> [ 73.198504] __common_interrupt: 0.34 No irq handler for vector
+> [ 73.198515] __common_interrupt: 11.34 No irq handler for vector
+> [ 73.198517] __common_interrupt: 12.34 No irq handler for vector
+> [ 73.198521] __common_interrupt: 15.34 No irq handler for vector
+> [ 73.198524] __common_interrupt: 17.34 No irq handler for vector
+> [ 73.198528] __common_interrupt: 34.34 No irq handler for vector
+> [ 73.198529] __common_interrupt: 20.34 No irq handler for vector
+> [ 73.198533] __common_interrupt: 41.34 No irq handler for vector
+> [ 73.198539] __common_interrupt: 27.34 No irq handler for vector
+> [ 73.198542] __common_interrupt: 28.34 No irq handler for vector
+> 
+> 
 
+Any image to specifically test out? Would an actual 9 sockets machine be required to reproduce this?
+
+Thanks,
+
+Claudio
 
