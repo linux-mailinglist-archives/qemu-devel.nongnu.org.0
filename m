@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54030460CF1
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 04:06:37 +0100 (CET)
-Received: from localhost ([::1]:50310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5F2460CF8
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 04:08:09 +0100 (CET)
+Received: from localhost ([::1]:56520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrX00-0003mb-DK
-	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 22:06:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43286)
+	id 1mrX1U-00080k-1U
+	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 22:08:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mrWxc-0000Ts-EU
- for qemu-devel@nongnu.org; Sun, 28 Nov 2021 22:04:08 -0500
-Received: from [2607:f8b0:4864:20::52c] (port=36646
- helo=mail-pg1-x52c.google.com)
+ id 1mrWxe-0000Wx-7s
+ for qemu-devel@nongnu.org; Sun, 28 Nov 2021 22:04:11 -0500
+Received: from [2607:f8b0:4864:20::62d] (port=35649
+ helo=mail-pl1-x62d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mrWxa-0008N1-2l
- for qemu-devel@nongnu.org; Sun, 28 Nov 2021 22:04:07 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id 137so7426700pgg.3
- for <qemu-devel@nongnu.org>; Sun, 28 Nov 2021 19:04:03 -0800 (PST)
+ id 1mrWxb-0008NM-RB
+ for qemu-devel@nongnu.org; Sun, 28 Nov 2021 22:04:09 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id b13so11005088plg.2
+ for <qemu-devel@nongnu.org>; Sun, 28 Nov 2021 19:04:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UToNhrOkdLW/O50mnkSNHsTzkmzprqfEOkoEklS/wLk=;
- b=SFzYI19JtQ057ioLvci5cJ1RaX/sJOpM7iDmgm53Zv3ng5mJqfVL39kD/Zs6mfQPhh
- kwhRBkwNbUZUPGg/uan0xrrqKtRdqdEdeSigC0eFPgrxos6AxbeeaE/uqVo/JnlFC1sD
- crGtLO/r2uo6+Qc53APzHhj/bFTJuNsvYvnH17cplEYWpq0s7ZR+CYQK67YJsRM0vwjp
- /vPa09AsSYiwOzlAQQq2CxFlC60DY6pL68P8rwb0nX9m9yuSGRbkRto7araWbU5iOd+H
- v30bhv6ck6CcbJPfBD9Gnfkk+6MuOJHt5iMBRI99KkCtBPL/0Hw9/kg57qvb7O1MFLF4
- MG3w==
+ bh=75FqHO76p3wvGuD/DvwG2bgRfjy9Isc5XCefh375Zng=;
+ b=NmCBxCKGGPCiNJRa1OSrtBOs2OGCQQCcRhvtS2Wa6Qx95boG+ZAmwJAhDy2RlNKyhY
+ Tkx/Mj+dl5ohEtT8FSGiPWnCznX83SOqJZKajz3EnwcMbwTFyfSzsEhi72RQl55uJD/Q
+ a5QQ/pnIRgChdKYLMQTwDZd8xdR4S6h3zGzeEt85Sjf3oR7IVX+oYVDlT6O9xJk1DKVC
+ Mv8gU4LVfLWQKgsM0olvs5ptDBIhtPhKJ8Vxlm0yAKrsCvGd62TGYeOcGyxMpdCTr576
+ pQcM1gqIo6aktdI7IauoMKlzKdGLVvD3QFvB4z+9uE/GDQ9VwW4QjvT7eqGTw5v5c79f
+ VuVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UToNhrOkdLW/O50mnkSNHsTzkmzprqfEOkoEklS/wLk=;
- b=O35I9Ab88AYT7ta+buXXiY03zFndIU8Jl0uY4i5r3gtePvyifKVpOWcnqo6JHIh+Ef
- qWgVgBz9Xd+9RzqBjBrBtBNWAxX8CJf/4rB0iFJxXrN5i9V0yaTOKTydIhZ8YD/qyAvj
- 1dhBY25lHNZBUtQuDxkZE2lhK9p4IqA659Jm3VvM8r2+Js95MByvZuoBa+sEBLenFf0j
- zmS38atMGgPgyJSwPMiBvUp9gL8jb59RW/Q2XSKCPdltOfiuFKXcG6nujvr5gpSK2zWP
- Vcz0SkSfHjw/PIsqLFO5LFYcIeaQ1ZOAiNBwnmVPaD+PknpYIy180CEo3RAySnqiiw5C
- QVvw==
-X-Gm-Message-State: AOAM533pfhFXgfVlCmfGzhapJM5OT22G/010cGcBiQ8TZqJoeXEj384E
- 5nGoboMQXwcez++HEupT/jQlASwS3yOihlGr
-X-Google-Smtp-Source: ABdhPJyeZ7yNQtq5qu/aMgvcIs1CB1TyOTuC4ReLwaCiUKpw2Iy88JScsJGgikcYo4SRs+v57mzCSQ==
-X-Received: by 2002:a63:2245:: with SMTP id t5mr33107761pgm.436.1638155042692; 
- Sun, 28 Nov 2021 19:04:02 -0800 (PST)
+ bh=75FqHO76p3wvGuD/DvwG2bgRfjy9Isc5XCefh375Zng=;
+ b=HR8bmxeTn5yXRCWtlMDxkK3ezB1ZQd8GSxRtfJPI+aF6y//v1VhN7WdsGk1S2DoHqk
+ EzV7/M6XMah9l/69ShffY71mdgnOj2b2H6ui9/etnHvShVjtfkRgeinXOyU2LqfdaaEn
+ c8lLZx9WJKUnogTJoVbAU+HBsUkrz0URIywnPuCYgejQg52mMAh5f3FPWdMCSpsjMCTo
+ jpnf4IyH77+jd7pbpg+ZCmWMWGeUmbUY1cGlVoF15xlqx/Rlbq9BbQC0LiRz1GcMpJ3R
+ eInzehqpKDk8+8Z5ZvMKD82n9/pCmItPCTBc7otTnfaQF8dd15foayKMiGn0terMBSEt
+ qc2A==
+X-Gm-Message-State: AOAM531tbu54P/zpwjlKUdOChhjXSLslyiw1vkG/9WEIicpFeQmSQW/U
+ DTzPDiDa4lsOPokV77V4QGM+jAv+VLVDvo5M
+X-Google-Smtp-Source: ABdhPJyqkdyfEdFD4cvJk+YfRbmdz/770PbEOSDlBk3YyQ3WG8gkwgIQkKets4kU/TFpobhu6gSgVQ==
+X-Received: by 2002:a17:90b:4a05:: with SMTP id
+ kk5mr35282478pjb.232.1638155046473; 
+ Sun, 28 Nov 2021 19:04:06 -0800 (PST)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id oj11sm17904040pjb.46.2021.11.28.19.04.00
+ by smtp.gmail.com with ESMTPSA id oj11sm17904040pjb.46.2021.11.28.19.04.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Nov 2021 19:04:02 -0800 (PST)
+ Sun, 28 Nov 2021 19:04:06 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 03/77] target/riscv: rvv-1.0: add mstatus VS field
-Date: Mon, 29 Nov 2021 11:02:23 +0800
-Message-Id: <20211129030340.429689-4-frank.chang@sifive.com>
+Subject: [PATCH v10 04/77] target/riscv: rvv-1.0: set mstatus.SD bit if
+ mstatus.VS is dirty
+Date: Mon, 29 Nov 2021 11:02:24 +0800
+Message-Id: <20211129030340.429689-5-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211129030340.429689-1-frank.chang@sifive.com>
 References: <20211129030340.429689-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,154 +92,30 @@ Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
  Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+From: Frank Chang <frank.chang@sifive.com>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h        |  2 ++
- target/riscv/cpu_bits.h   |  1 +
- target/riscv/cpu_helper.c | 20 +++++++++++++++++++-
- target/riscv/csr.c        | 12 +++++++++++-
- 4 files changed, 33 insertions(+), 2 deletions(-)
+ target/riscv/csr.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 5ea2004ae02..48b8f612109 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -352,6 +352,7 @@ int riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
- int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- bool riscv_cpu_fp_enabled(CPURISCVState *env);
-+bool riscv_cpu_vector_enabled(CPURISCVState *env);
- bool riscv_cpu_virt_enabled(CPURISCVState *env);
- void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
- bool riscv_cpu_two_stage_lookup(int mmu_idx);
-@@ -395,6 +396,7 @@ void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
- #define TB_FLAGS_PRIV_MMU_MASK                3
- #define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
- #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
-+#define TB_FLAGS_MSTATUS_VS MSTATUS_VS
- 
- typedef CPURISCVState CPUArchState;
- typedef RISCVCPU ArchCPU;
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 9913fa9f778..72a716c9990 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -375,6 +375,7 @@
- #define MSTATUS_UBE         0x00000040
- #define MSTATUS_MPIE        0x00000080
- #define MSTATUS_SPP         0x00000100
-+#define MSTATUS_VS          0x00000600
- #define MSTATUS_MPP         0x00001800
- #define MSTATUS_FS          0x00006000
- #define MSTATUS_XS          0x00018000
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index f30ff672f8c..5789c2e9690 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -90,12 +90,17 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
- 
- #ifdef CONFIG_USER_ONLY
-     flags |= TB_FLAGS_MSTATUS_FS;
-+    flags |= TB_FLAGS_MSTATUS_VS;
- #else
-     flags |= cpu_mmu_index(env, 0);
-     if (riscv_cpu_fp_enabled(env)) {
-         flags |= env->mstatus & MSTATUS_FS;
-     }
- 
-+    if (riscv_cpu_vector_enabled(env)) {
-+        flags |= env->mstatus & MSTATUS_VS;
-+    }
-+
-     if (riscv_has_ext(env, RVH)) {
-         if (env->priv == PRV_M ||
-             (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
-@@ -189,11 +194,24 @@ bool riscv_cpu_fp_enabled(CPURISCVState *env)
-     return false;
- }
- 
-+/* Return true is vector support is currently enabled */
-+bool riscv_cpu_vector_enabled(CPURISCVState *env)
-+{
-+    if (env->mstatus & MSTATUS_VS) {
-+        if (riscv_cpu_virt_enabled(env) && !(env->mstatus_hs & MSTATUS_VS)) {
-+            return false;
-+        }
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
- void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env)
- {
-     uint64_t mstatus_mask = MSTATUS_MXR | MSTATUS_SUM | MSTATUS_FS |
-                             MSTATUS_SPP | MSTATUS_SPIE | MSTATUS_SIE |
--                            MSTATUS64_UXL;
-+                            MSTATUS64_UXL | MSTATUS_VS;
-     bool current_virt = riscv_cpu_virt_enabled(env);
- 
-     g_assert(riscv_has_ext(env, RVH));
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 9f41954894d..9b5bd5d7b49 100644
+index 9b5bd5d7b49..bb500afdeb5 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -273,6 +273,7 @@ static RISCVException write_fcsr(CPURISCVState *env, int csrno,
+@@ -502,6 +502,7 @@ static RISCVException read_mhartid(CPURISCVState *env, int csrno,
+ static uint64_t add_status_sd(RISCVMXL xl, uint64_t status)
  {
- #if !defined(CONFIG_USER_ONLY)
-     env->mstatus |= MSTATUS_FS;
-+    env->mstatus |= MSTATUS_VS;
- #endif
-     env->frm = (val & FSR_RD) >> FSR_RD_SHIFT;
-     if (vs(env, csrno) >= 0) {
-@@ -307,6 +308,9 @@ static RISCVException read_vxrm(CPURISCVState *env, int csrno,
- static RISCVException write_vxrm(CPURISCVState *env, int csrno,
-                                  target_ulong val)
- {
-+#if !defined(CONFIG_USER_ONLY)
-+    env->mstatus |= MSTATUS_VS;
-+#endif
-     env->vxrm = val;
-     return RISCV_EXCP_NONE;
- }
-@@ -321,6 +325,9 @@ static RISCVException read_vxsat(CPURISCVState *env, int csrno,
- static RISCVException write_vxsat(CPURISCVState *env, int csrno,
-                                   target_ulong val)
- {
-+#if !defined(CONFIG_USER_ONLY)
-+    env->mstatus |= MSTATUS_VS;
-+#endif
-     env->vxsat = val;
-     return RISCV_EXCP_NONE;
- }
-@@ -335,6 +342,9 @@ static RISCVException read_vstart(CPURISCVState *env, int csrno,
- static RISCVException write_vstart(CPURISCVState *env, int csrno,
-                                    target_ulong val)
- {
-+#if !defined(CONFIG_USER_ONLY)
-+    env->mstatus |= MSTATUS_VS;
-+#endif
-     env->vstart = val;
-     return RISCV_EXCP_NONE;
- }
-@@ -535,7 +545,7 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
-     mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
-         MSTATUS_SPP | MSTATUS_FS | MSTATUS_MPRV | MSTATUS_SUM |
-         MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
--        MSTATUS_TW;
-+        MSTATUS_TW | MSTATUS_VS;
- 
-     if (riscv_cpu_mxl(env) != MXL_RV32) {
-         /*
+     if ((status & MSTATUS_FS) == MSTATUS_FS ||
++        (status & MSTATUS_VS) == MSTATUS_VS ||
+         (status & MSTATUS_XS) == MSTATUS_XS) {
+         switch (xl) {
+         case MXL_RV32:
 -- 
 2.25.1
 
