@@ -2,148 +2,149 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB75E4624B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 23:22:36 +0100 (CET)
-Received: from localhost ([::1]:39316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5544625AA
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 23:39:14 +0100 (CET)
+Received: from localhost ([::1]:45492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrp2h-0007iv-90
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 17:22:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50264)
+	id 1mrpIn-0004NO-7B
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 17:39:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1mroxr-0003Kn-0M; Mon, 29 Nov 2021 17:17:35 -0500
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:41840)
+ id 1mrpHE-0003RU-FL; Mon, 29 Nov 2021 17:37:36 -0500
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:21404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1mroxo-0003EH-MV; Mon, 29 Nov 2021 17:17:34 -0500
-Received: from pps.filterd (m0127841.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1ATJ796o005935;
- Mon, 29 Nov 2021 14:17:31 -0800
+ id 1mrpHC-0005zl-Of; Mon, 29 Nov 2021 17:37:36 -0500
+Received: from pps.filterd (m0127837.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1ATJlPi3014803;
+ Mon, 29 Nov 2021 14:37:31 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  h=from : to : cc :
  subject : date : message-id : references : in-reply-to : content-type :
  content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=4MGwldYynxqH0I774ziMyVkp8huzsK8um2Ms+C9hIig=;
- b=SXRiiTtb9I5W9CgvibMwzX2fRRuE5iLQijaFlTvr4u7+QbZljIYUnQdYywC54RUwClOI
- 3y7lQ+YaYUFAqJa19U3OaOnY3TsecnTgU/3pbh6CPC6GrPZ4IAVRhywaArqFxQIIcK0l
- cLLvkeBbH9AFNazK8/EspdrpDddvwlN9+Mkc/dMh0lGrVGajmj7UCIU4bs2BZ7aT/+Sy
- 8LMArUGaMHpJjFVkse8Aw/o+rKsMvzq0/RWWxWg5yExMvO8e42QgTU1PNMe3Aol2oX6F
- HfnSsrmizQxpSp1m9y3hujLGj1DQOO0ZsMJGKMDv1vAwrsq/jghTEYVb/LOSOQ1yugDl lg== 
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3cmnt4a0v2-1
+ s=proofpoint20171006; bh=oMYUKzMf3AqjZw2OTiLdgWwS4bklURhRRHqnzKqGOwg=;
+ b=vSEHTTTux891GyoSPKx50UN5LlEddkJFrHobJPah+kkC+0FdcYRs4fXgbq5GeKFZfJzu
+ 2rfJdWn7GpJw6kv0nfAnqWkO+rCkbBipTvu+QoCPVCIpz95UlhIeBmediTz+plAvCXL8
+ 9PdBwy0sxolRbOlJm2dwhSFtNK+lA0feAgnd7TLoVOq1YJA1rq1uRPXj2ZVlgVRmdQxC
+ NI4aEOjLp3Q/8LGzzthb5v3wwp+ITZdDDp3M6Iff2heKnwNvkupxb024zKe9q503jrBs
+ O2+dof2adWbzgmnlg91DH/BKYVVKV2lswWk1TnHtflFPXaj1yIi1629vQClFQiHLFTH0 kg== 
+Received: from nam02-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02lp2046.outbound.protection.outlook.com [104.47.57.46])
+ by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3cmppx9ydd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Nov 2021 14:17:30 -0800
+ Mon, 29 Nov 2021 14:37:31 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ymp5wXuq//LInvjHTCDYxO4YA5yZPoT9yVwXUTiuyzOkUF5KXA3cGV62UY9/C6MWrt0610WiafxZulY5O/YhGusW11vV4RCLFP03blXcmEa3fCy/LpYmeey87QeKTKbjsDhwfZ9EKCKyhDDYrmkUXRPCxwldNlvKocDAC8YbwIEVhL812X4ndfBnHwWoxLGxay1Dy+0yN93EHG9V4jfBRYShbsLn7uncLopzT59z7EdKtzLn5bevBzTuc/1P8GX6F08bKH6uVE9CD+EH122JWu1mR7/q6PVeIj7RSysegXoOK2sFyYcAKtXfiWAD/liGR4Aomq/hC8Xh5jRZe1nAdQ==
+ b=iwxjofLJkA4BJ+Qipsh4pW8R9++RVXGUhFCcUf4xEvz053jE4JXB26WBaxx7XF2zMOzO2S49tzy04fbeDXBRcpEWFP6Yr+30n4hk9K7LlCCNJBqeQ8BFvqjPpNX8KuAxZwe6pbmjqM1oFYzZ/v8sNatEMXY758B+VpDwd0WYu2ueazUMZwbz92qsmko6g1IQC0gBihymeTx5IfCMHbuN0KuEZynGXAyk0q2klSwajShzzBbOpGps5U03yFltMzoxMga0OqnWnaHQVjNznX3+Fbtdazgv+R6wxT6s2L/ZTyLkR6A47Ou5bfUcTi/2yOGGlkupMGAFbZuZlbzrJrSB6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4MGwldYynxqH0I774ziMyVkp8huzsK8um2Ms+C9hIig=;
- b=ixOQGcIIgUOHeA9jJmY8FppvAb3AxmAJMb7fhI3sFDU5MAsPq1fqeVbIJiiKvkTq4KKBbd8slxCL9yYSX7Oyy1uOI5BBt2R/Nl2Kjud4pIuvU4OcQIzFUmJYcpIHRo+0gUbp2ZBGaZ7XUZD9b1xfyW1MQfYzYUEc2QaME29eAA709fEz0VdYTKDqZmf6vSU1wbRKMd/QM41yLh9unDGSYjEtXPpfZylmULfM/lEmEhER4S0x8ohQVRdhonKxfRKq4oWBeARfCDLWwJ4TCwhtf7AMm2elKPLqtkC3Vx6IqWK3KDvuR/jAPWDcfZRHl4zBStjXC3DwpAHSxboVL/0Aiw==
+ bh=oMYUKzMf3AqjZw2OTiLdgWwS4bklURhRRHqnzKqGOwg=;
+ b=a6Usv5CNynTsvj9T9eZ47VvuT+qVe7Vz2pc7vfxQ5RAExMw6TD0BrJ/lAml0uS7nQES6jCQ32Jy8j/uaZ8MOJDp6wYR08YCmphd/1j4+Gqu9vE/6cerjp5qSZIp74lM491GMIpBENMlvESnXbwoj3TrLaAOmX8jjGh4XLHHCBmGMohbwdQdWxZpRVIZi8xUUn9TNSV1kSMMOkyS9Lm/RufSHhrvkstlPbQui43mHpfR19nXgRzPXjwOLhrIVf+niJveRs+fBrCdtnKsP6SLatPm0132dxL/ZFt4lCm/GycRrSz54F67lvZnBFfF2hkfEt1hm717De0anGhe+gILwSg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
  dkim=pass header.d=nutanix.com; arc=none
 Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
- by BL0PR02MB4417.namprd02.prod.outlook.com (2603:10b6:208:45::18)
+ by MN2PR02MB6173.namprd02.prod.outlook.com (2603:10b6:208:1bd::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20; Mon, 29 Nov
- 2021 22:17:29 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22; Mon, 29 Nov
+ 2021 22:37:29 +0000
 Received: from BL3PR02MB7938.namprd02.prod.outlook.com
  ([fe80::25f1:c1cf:5f90:35af]) by BL3PR02MB7938.namprd02.prod.outlook.com
  ([fe80::25f1:c1cf:5f90:35af%7]) with mapi id 15.20.4713.027; Mon, 29 Nov 2021
- 22:17:29 +0000
+ 22:37:29 +0000
 From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 To: Roman Kagan <rvkagan@yandex-team.ru>
-Subject: Re: [PATCH 01/10] vhost-user-blk: reconnect on any error during
- realize
-Thread-Topic: [PATCH 01/10] vhost-user-blk: reconnect on any error during
- realize
-Thread-Index: AQHX1xGQdhZ+wK2bK0CvUd5YwJAwxqwbL6WA
-Date: Mon, 29 Nov 2021 22:17:29 +0000
-Message-ID: <20211129221727.GC5722@raphael-debian-dev>
+Subject: Re: [PATCH 10/10] vhost-user-blk: propagate error return from generic
+ vhost
+Thread-Topic: [PATCH 10/10] vhost-user-blk: propagate error return from
+ generic vhost
+Thread-Index: AQHX1xGUcdj1I5MsdESBlX2+NqH3i6wbNTuA
+Date: Mon, 29 Nov 2021 22:37:29 +0000
+Message-ID: <20211129223727.GD5722@raphael-debian-dev>
 References: <20211111153354.18807-1-rvkagan@yandex-team.ru>
- <20211111153354.18807-2-rvkagan@yandex-team.ru>
-In-Reply-To: <20211111153354.18807-2-rvkagan@yandex-team.ru>
+ <20211111153354.18807-11-rvkagan@yandex-team.ru>
+In-Reply-To: <20211111153354.18807-11-rvkagan@yandex-team.ru>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 user-agent: Mutt/1.10.1 (2018-07-13)
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: fd8d87ff-4589-4207-ac29-08d9b386081e
-x-ms-traffictypediagnostic: BL0PR02MB4417:
-x-microsoft-antispam-prvs: <BL0PR02MB4417B008FC4E6ED4A8D8683DEA669@BL0PR02MB4417.namprd02.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 2977eb0c-7b00-4e45-5dce-08d9b388d3b5
+x-ms-traffictypediagnostic: MN2PR02MB6173:
+x-microsoft-antispam-prvs: <MN2PR02MB6173FD14027C549A44F96EB0EA669@MN2PR02MB6173.namprd02.prod.outlook.com>
 x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5wCSQ6I5dKwQjoFRqWNxMN+RmwbmVLKENwyrXCa8zzCKi+wpukpyvJ6IPbZC1HMoMWBUY0uqVwg6yttAi4nPGW1TN2OVaGPW7pYg7TqB/sbl3pAqiONbzrIrNX71zEp78wkSDNKSBjyms1UgQPdzYEtH9GbIcXAxbIDQ0OSyGZBagSIWd6x4uUYj3bNYGslwrJb7IulEVXj42Rs5y6IG7K4Q8DHZlBIeR57NdaWwkhyfOT6KX5gUvmiJKcHbkCH8TUSlNShPdHl8AxAcQ57WlP/Wr58viZHpxwFZ824aqwJglWl11JdBAW3Gg7ghV1X0sp3t9P4+U+GTuMH5WjhVHIcL0iKa2J2+X5uw4K4ivCiWD9m7Cy/5J/zqELoc81rZIYtDKTlEcmmf4Ol3vT9qXfg8n17Ev2Lm+1lYQfJe8pZZ5AbTUsuhQC4wcFWlKf6YZbTgpnsdWMdwNQUlvsWdOQYKAjJ9AHSCgk/W/108doS87/UDlc9APHBUtj53dUoNsZppz3eB5FJSySJ1cUO9RhOoUxE2FIoidG9XP9uL4lM2EYhJC6TaWq4RjX5k2tl03c2/4ZfiOtPrmLAibcfveMNPhngksob+xy9RGUMMJeWM1lIboBSZBrfRfrc0itUHLaWBJQ2omviX4211xRhPMDS4Fr2+nvhBGXxJ+Hvyul/oWESS4AH69jC3akFSm4YIT5Ir3wBiUrihoSGNLmyAhw==
+x-microsoft-antispam-message-info: KtC+Zh6AsKgX4NI/Rlh4uHz0das1m0IXmZpjrPJ9tGhDZI/IkmGFwrDTxXOkOj3X7fbLXW/AZIEr55FGbTPbwcUBA/1BBV/XHQQu+1UXdYJbnV9xVvIgck0bpSkzrKdukpzkasXGTf22q7ODEOuZpEK8O8iR4TsrL/u8HbnAmyUT+iQHMHFqd/sWvz5OrgBTVSz6RRBsMkAFmJxMNFjr7TF8MX7yiqwQUkG3ebGZydJXnBDs016puvlZLob+4ChBX6lRmGka78uKqRWISUSBmJ61TixgTwvBEGfngvlY98is40xGnC30AaZAHgdGhn2Yzgk9LVQ5DoNUoB6V5QRg61f3mj6wqeHh6f0lrmm/F7SW3mxCFYpYfU2a1EwrNMMOuvruTBm4cpKaZPf2ZcEyToLCs0Xgox9oEF7ZG8FBuIvPQjhw56mjGCOwrflIJsHzbCg1ILAiQgBlcDHD4dwDfgasJUSVIx90WLxrcaW93B3RMNboQJzmqnxme0vYEQ8gKVdXSIwRDmG3hMiA0t2I/z290TiNeqelLWcH70WA78tnff2fIEsh6Cg91VSryV9W8ikk5TxGUQix9MAffAn0KcmHLifEzfosH6esODt6duFHSbc4hqqIU7YDgcZTDYJD0P0d39E4uEkPfUjo1g5V7Wj+/OQpDK2qK+2d8NAdAyu4KuQsAFk3f3DMIhnkmCUJFNV3c6bVTCL2rCEnumrQrVEQXbqYALWLDA/yFNCd0Hg=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(366004)(33716001)(122000001)(86362001)(508600001)(54906003)(5660300002)(64756008)(66446008)(66556008)(66476007)(91956017)(1076003)(76116006)(66946007)(9686003)(6512007)(8936002)(186003)(38100700002)(4326008)(6916009)(2906002)(6486002)(71200400001)(26005)(44832011)(33656002)(6506007)(83380400001)(8676002)(316002)(38070700005);
+ SFS:(7916004)(366004)(186003)(38070700005)(508600001)(33656002)(4326008)(71200400001)(44832011)(76116006)(8676002)(122000001)(66556008)(91956017)(1076003)(66446008)(64756008)(66946007)(86362001)(316002)(66476007)(54906003)(83380400001)(2906002)(33716001)(9686003)(6512007)(38100700002)(26005)(6486002)(6916009)(4744005)(6506007)(8936002)(5660300002)(41533002);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?ASKSvl1ikfb8IaQwF4UC/OxH2uAHFZ7xfeEvIN2tGSL6euPMWqvNrQaENq?=
- =?iso-8859-1?Q?vlkDapdZWI3cwQQrAc3QcwvGHbpB8H1DdaNz9KxzK/q+UCWfAM65S8nUUE?=
- =?iso-8859-1?Q?oYe1gFttBYzBepoka1hzHQ8t7cALkrsmc4eKsGMkPimgRleOL7MVJCZyf2?=
- =?iso-8859-1?Q?yeS8ztLow97N8XTIEQhR5iFYtWtpZLd2qB15/CQYKcta7ZFxJNE6D+uN+r?=
- =?iso-8859-1?Q?iHWa/JqsIoFpPyeINrdr3yTH/ktUq6bYAij2TCJ2zhJzAyTpyq0E6mAC6W?=
- =?iso-8859-1?Q?LofhIda6zbGU0epkn1AJ68F4cpsp6e3wepjSkzk5IFKL6cxGWIqM1RKTyW?=
- =?iso-8859-1?Q?9GmsOHjVOySiJkyyUfHRlQBMIT8wjr+sf7FMjIgPdd6UQIpDZ4l+20JOy3?=
- =?iso-8859-1?Q?fi49kCaVBCybub8ADQZM3x+QJIQCC27xgLm+el+FVZS9Jt5fY2v7RDZBuR?=
- =?iso-8859-1?Q?/NUfqcl45m4UKR6/HBQoA+8N4NzB3/uecWJmuNFUHnSJ0VrVe+JPj3ssgK?=
- =?iso-8859-1?Q?aGaU/zzTPEIRNzUXGnDlyQEH96TIAAJo+e5xo/VG1jRn8Wur2IXZpEp7Gz?=
- =?iso-8859-1?Q?2XiKeudzSrQ73voDIJx48eMPZqHx6Lb80Gh6R5CdKtDvmPlvZ+eRCsIhiZ?=
- =?iso-8859-1?Q?8ncfH6xFoml1iDOMr0VLzSPSkqV/NnLd7f2UCHdWsuEJ9zdurr5RZ5ruIM?=
- =?iso-8859-1?Q?IUNVHOLKk0E4dWAq846eDEFjMO1chT7CbKKQ+zV6x0qcPAqAhbq4AcnMAF?=
- =?iso-8859-1?Q?0tR8yjUdURFsUUQrDNDBM5h20pExrqwxvDDAD1dicHNfC0FH1sMVxrjBsL?=
- =?iso-8859-1?Q?24+FbEN7oEBxBY+sSKbF9thjkFzvi3r6uO2sQR351ySThqjkXFjGabtGjm?=
- =?iso-8859-1?Q?ZgF6WwgdIQjLVWiiSNcqF3dHouWvFcPxg619h3nbEucpnCHponBACdfMjM?=
- =?iso-8859-1?Q?W7mTuRC6ofTXw2lOxc08+SRQqMWvZzV9vvm9E5u29xyAozZ3KwCPMyet4F?=
- =?iso-8859-1?Q?NL/7eDnLakgYETxpadcojD70M16C5q1AA3McrkHAHuT+xvvabyX54WGmaJ?=
- =?iso-8859-1?Q?2uTCrfPs/w0nfGVrFwG+NT7b8Oi2d4Ies5LwJlgQipP5Bx1V2SYSbP2m3u?=
- =?iso-8859-1?Q?LfqiUQDBMfkOrOQh6e/UAsCzAFkQ0dCuy53AmmQukTJ93xdUuXmWgPw03y?=
- =?iso-8859-1?Q?Wkq2OMpE483AlIHUNga88NFwc9oC1vgKKmc7PVUlyOwq9LYel1he4+B3NF?=
- =?iso-8859-1?Q?l/W6mDIao95TTj8iECnnueH/8MU3CTRWCNFZteyTzTAYeKHa+UmdvdnogT?=
- =?iso-8859-1?Q?82NsHJMuCLfQ9R5fNw+lb24cw/zb3T79FZsAgbJ+pAwV9Q16Qhe5/9fijq?=
- =?iso-8859-1?Q?aog1k9LoSrWYR50UD/3MEVXiVpQ+otoYVzDskLODvAQtv/65BvVlGmIgt3?=
- =?iso-8859-1?Q?uOlWG7MTvnH4BiVy/nA36SY6pttgWXCpKGEPxgVhYJbzMurNmT/abmckf/?=
- =?iso-8859-1?Q?hsJR78UqCJn5p515sn0n1mQJnBWSL3Q4rHNrGrMVptGIELtaYYVI2/eoNE?=
- =?iso-8859-1?Q?o7JBXbj5rJt6xJgM44QBijjNAP7sImZqGChbppzkGJCqG1D177thj0Pnvv?=
- =?iso-8859-1?Q?yynN8x7x1A6nouSpKYQ8WQ6+vY2JN1FFS61hlr0xBbLmghvLRaj6oLYSUv?=
- =?iso-8859-1?Q?fvVzlRoPgiHZsT0OCyiOz2L2WAOtnqoK7kPCaU6e6Y+iQ1Tbe8yRNWgeYu?=
- =?iso-8859-1?Q?KrmU/mzG0Flebc21BncZg5PrA=3D?=
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?OUtSorVRmAOetvuBsUI/naGi6qNsDL0lZBz8cSIGfaBJ3/QQ5gEQ9Azve8?=
+ =?iso-8859-1?Q?SxYP4CRPp8LZIU8EPMf+Yxwp6TbZAhyecT2JoTyZKAzd9bZ2cz4F0Ai3u3?=
+ =?iso-8859-1?Q?zSr1FxqM/Yfm6WXrfnB3TlbJaoPjR3+ab1R1NdRv3WGtd0+7JnyKbkXqEX?=
+ =?iso-8859-1?Q?y/4uYDM0WARbgVxymGwZgc+BnIIWoFvoqqlOvhWRqsWw4geEcIMlXFz9r+?=
+ =?iso-8859-1?Q?+idSqZwf+GNlVbil6ynWhuPLUK65tN/xnt9LLWHydMEJODJvRA7hcCMeWH?=
+ =?iso-8859-1?Q?bAOaMiKw649Wtal8Jz0n/86IL2SmrQ3Cv04qNlLsCyWStqdX0mfhWzckzi?=
+ =?iso-8859-1?Q?pO0vDSP8v0nxke69Z11Ys5GSenmvMeCnVYbCGNjkAy3OMsvU+oN94N9vHo?=
+ =?iso-8859-1?Q?wmtWbgSfqEJE2jBKQXS8HFj2fVuaRRp/m7KlY/iOOgHcT6/xbpQFXlNhsX?=
+ =?iso-8859-1?Q?9qrFiFY+KBx5Lwy/mVzur4v5gAQlmU5zDvgxfZhvjM+DGlRkduRixf6csV?=
+ =?iso-8859-1?Q?JsmmsCsr+rufrp1FvSEg1VbgTAHUJmvg+noqlh8hF9jh6DK2cDgNcCA9qI?=
+ =?iso-8859-1?Q?VESipDlL9sZcXO3hc1PX4/VL6Iq14dCKr7vfuygRixJT8aDJ4WybjY1nrc?=
+ =?iso-8859-1?Q?ExlJbfZuPK6m9HhlJvYbJJQJmY8zTTSK2FT5XuYtUZx2aWBO6b/r63MzP+?=
+ =?iso-8859-1?Q?8XGFnyBxXLhR0EUgvKzs7eH/9QMBL2r6oh3gAXJ/6Ck3tfGLttD0DH2wvC?=
+ =?iso-8859-1?Q?z+OY0Nb8EvTEvARnFVEqPn9X5rhS1Y5M/6ya2BfaSUyKMHciigHJW2S5z4?=
+ =?iso-8859-1?Q?ENxoqTivj0vwAxBBByD+8PYkzIs9/rK5tpoHROPN8sQnbT95fUl02Rh3qw?=
+ =?iso-8859-1?Q?kRw6YbLl0HlapdzFwGuQYEGly38+2pzLRqREyyBv4n91i9yfMG3HaHLmaI?=
+ =?iso-8859-1?Q?7zZTVmLA1ZYwwMQf1lsU1j8oFj1MysEkQZA2/ipF7hNuW7f7Ls6p4EJkef?=
+ =?iso-8859-1?Q?Sag7UfuCF/IPeTbFCK8VNbk5+JsFtd50maa6+Ku7G00WHE6MB33o6FgEhH?=
+ =?iso-8859-1?Q?m39kPaJPDQNiPzNLdi6G9xj5Dy6x/85hEUqFPrMoQWLfVGPPCnNVdUjeQv?=
+ =?iso-8859-1?Q?IdHnQs2fF68wnxYMiif36LAdkQ4REEqJmY7BuzDdsIpC28MqCyamARLLn3?=
+ =?iso-8859-1?Q?6KrFUQYcOHeEDOAs3luwjhCMCsC57dFAzpMy/HvcSveGQ32CXLEvtAP3UC?=
+ =?iso-8859-1?Q?I6SRw3isd2Xnkvkua4YahGrQgn78HamAi26L+EKNS0CxiOXwZZ203Rnbyu?=
+ =?iso-8859-1?Q?l+/624JQOTqgY6Zslai1BgqRiNno6ZwJJFnu22nyJMmlYu2RczQQrwISjb?=
+ =?iso-8859-1?Q?gRDh/aaYuKATjgckPBBWTq5T1fms3V9K77/4HV4EsnKeqT0wy5wErjsXPy?=
+ =?iso-8859-1?Q?lxb6f4hCQqsaQA3QwuED6G4rOBe5SdIdoBG7mdnw2JcOTW1t/n3x9py+j3?=
+ =?iso-8859-1?Q?GURI7Ikfq8TuHap9O/IrHvrAKIunsU+Hy7UaVU+oGHxGQkefaL1kmBrapr?=
+ =?iso-8859-1?Q?0mhW+sdKTO2bNsF476+HfyhG8DSGdbTl/oiRBNup6+LS8NBNFFt/5OsoZ1?=
+ =?iso-8859-1?Q?lHd03JDivgAc42okXFFASIUQulDBZqnjMAxNjTSaZse/mW0OWD/WxLM8Ow?=
+ =?iso-8859-1?Q?ezCTqug2TZ5w4md30vQgWw709TmjYTXrtlSUCYLIpBKd7uFZW1NB3zqW1x?=
+ =?iso-8859-1?Q?J3xGVYmGExKRTVoPRuLKLtiUs=3D?=
 Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <28E307AEC34B6A498A74444A8A9FDC0E@namprd02.prod.outlook.com>
+Content-ID: <F9220CDB2103E543B0E579D12F935FE3@namprd02.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: nutanix.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fd8d87ff-4589-4207-ac29-08d9b386081e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2021 22:17:29.1907 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2977eb0c-7b00-4e45-5dce-08d9b388d3b5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2021 22:37:29.8139 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aYx9a9yABqH3Bq6cgmmaUvumPpH67ZKaWfBDYpKmmNKrtpljwZXHXF9+GbswQ6diFsTRvf8OCQuzfWp+cfwDmIBmj3+o2rv259b34oO2aZE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB4417
-X-Proofpoint-GUID: b7pR3Oq3Zp0iz06B5HpQSQvpCHzUP1zI
-X-Proofpoint-ORIG-GUID: b7pR3Oq3Zp0iz06B5HpQSQvpCHzUP1zI
+X-MS-Exchange-CrossTenant-userprincipalname: xetljeTE8gCaGfsbJ/UYirhSRMYuRDJdGEMkaCJE6PL243JkbiLn9ws5s94I1iDvjYy640w1V05cVvFBbE29Fu6CEMWdBh+ybm0er9EhDjA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6173
+X-Proofpoint-GUID: mq3DZmWvW2WTFnTMrvMKkBJXMSuNTp8e
+X-Proofpoint-ORIG-GUID: mq3DZmWvW2WTFnTMrvMKkBJXMSuNTp8e
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
  definitions=2021-11-29_11,2021-11-28_01,2020-04-07_01
 X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=raphael.norwitz@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=raphael.norwitz@nutanix.com; helo=mx0a-002c1b01.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -167,49 +168,40 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As mst said, not for 6.2.
+Ditto - not for 6.2.
 
-On Thu, Nov 11, 2021 at 06:33:45PM +0300, Roman Kagan wrote:
-> vhost-user-blk realize only attempts to reconnect if the previous
-> connection attempt failed on "a problem with the connection and not an
-> error related to the content (which would fail again the same way in the
-> next attempt)".
->=20
-> However this distinction is very subtle, and may be inadvertently broken
-> if the code changes somewhere deep down the stack and a new error gets
-> propagated up to here.
->=20
-> OTOH now that the number of reconnection attempts is limited it seems
-> harmless to try reconnecting on any error.
->=20
-> So relax the condition of whether to retry connecting to check for any
-> error.
->=20
-> This patch amends a527e312b5 "vhost-user-blk: Implement reconnection
-> during realize".
+I'm happy with this once the vhost and vhost-user patches go in.
+
+Looks like vhost-user-vgpu, vhost-user-input and vhost-user-vsock also
+return -1 on vhost_user_*_handle_config_change, so presumably those
+should be fixed too.
+
+On Thu, Nov 11, 2021 at 06:33:54PM +0300, Roman Kagan wrote:
+> Fix the only callsite that doesn't propagate the error code from the
+> generic vhost code.
 >=20
 > Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+> ---
 
 Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-> ---
 >  hw/block/vhost-user-blk.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
 > diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index ba13cb87e5..f9b17f6813 100644
+> index f9b17f6813..ab11ce8252 100644
 > --- a/hw/block/vhost-user-blk.c
 > +++ b/hw/block/vhost-user-blk.c
-> @@ -511,7 +511,7 @@ static void vhost_user_blk_device_realize(DeviceState=
- *dev, Error **errp)
->              *errp =3D NULL;
->          }
->          ret =3D vhost_user_blk_realize_connect(s, errp);
-> -    } while (ret =3D=3D -EPROTO && retries--);
-> +    } while (ret < 0 && retries--);
-> =20
+> @@ -100,7 +100,7 @@ static int vhost_user_blk_handle_config_change(struct=
+ vhost_dev *dev)
+>                                 &local_err);
 >      if (ret < 0) {
->          goto virtio_err;
+>          error_report_err(local_err);
+> -        return -1;
+> +        return ret;
+>      }
+> =20
+>      /* valid for resize only */
 > --=20
 > 2.33.1
 > =
