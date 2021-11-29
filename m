@@ -2,132 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0548C4623CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 22:54:30 +0100 (CET)
-Received: from localhost ([::1]:47778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1634623DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 22:59:26 +0100 (CET)
+Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrobU-0001id-IR
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 16:54:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44858)
+	id 1mrogH-0003aW-Cs
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 16:59:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mroaW-0000ts-7T; Mon, 29 Nov 2021 16:53:28 -0500
-Received: from mail-eopbgr80120.outbound.protection.outlook.com
- ([40.107.8.120]:53988 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1mroej-0002kR-Hg; Mon, 29 Nov 2021 16:57:49 -0500
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:2106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mroaT-0007t8-BG; Mon, 29 Nov 2021 16:53:27 -0500
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1mroeh-00007l-28; Mon, 29 Nov 2021 16:57:48 -0500
+Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1ATJb3Ag004540;
+ Mon, 29 Nov 2021 13:57:42 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=OJkEyKac6VjtPgI6xUI0pQHmtIcKn9OpywBR89YiClo=;
+ b=wxyQTAuissxM4tmm8A95wg7GUnXLiL9n5iHO2sLpjUlJxdXn31CUKea2YqsASHvmEZo5
+ ooXU+18Ksm/JaMNYMQDOE7rCb/rT6AGnxyXwlez82w5Ex6kdQKpNLrCyZ6QwaQPUtmkR
+ z5CVDCY4Ul9vJsRTtja6UqEc3OtIdt0E9QtoNz1XI0578B9MhVK/8bCJ7EZ0BBsauHqC
+ ch9HbZOShd646226AEZKR1CjMfxWJq2G5+8vEE04XWuw+T0D6LTuz734Dqm2xPtYqcI0
+ 375Ex9dozYm4OkjT+FuVmFjNYJiQcs2/643AGmLu5MPzzrRj6RH+wnFF66ZPQEJFa82m BQ== 
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3cmrbw9ta1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Nov 2021 13:57:42 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IufFCzEEhcmeD0ngZy4DWCFg0rI0FdCDR83vAitpWriY0tc30gEMFU3Jt60BsTkLwAhh9rmrHBZrWmF8kRq0AuGyfE080RK9pFBoE8g3J/pplLAtWBJDUVoAkhvcLmPxAn2fL55uil0R4B5Ph6IEOK/bSWTbGWvHYGjSQX3bgRdeosEPqJ5NAYDadAaZBYq5Yux0xnsl+tFmaQNsCjeGVGe9VQqP+WnegfbvATpMQBB3en3phwvagC8NjGuAmsSMgncAO68Y1UuiMlh6mguPrXVuB/oBp9qGJmAP8hN6cd3SVan+7nkBTuBuYrglZRtHAesWaifGY62MOqGw4TAsDA==
+ b=RjbGpb6J5U4nmHqBWVu9lDNX96NDaeliEtIy4DTGYdJz0/CyfRjxZRNKHUTTvnBXA38/zkzpSz3QUk3k6wLLKPl64nEFRe4MZ8Tw3Mq8plYZe2SzrJzi9kyk19NvviyTQNTowuMjmoiR7RyU5a2FhscelRFl4Uux1EyZerWPUnK9gOpNgRrgtifS6qZ2b8NPG9YSlOlq7jpqWGsrHsIB3pSi0KqJ/zKqiz4naDAGDkSFJP20YJV2bV/g8vinr/jO5CJhQ79dvplewB/mhlILNj3BeuAUiaJy/0HmiCBlttMw0IFLHbkt2OKZXlKUMao+lCcW52blMUDOfyJjXw++dw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3EChBBtlu+qK8/A9GEZZdnMH/f2HAvaoaV82ntI+q5M=;
- b=bfpyIgnoVPVN3C5rwaLekKstLJYOQbvD9jGmLuMziOk9p3S1viTXVg03EBchnF7hlezH6SfL8T2BtNQ0hoI3MmrQlGDqaA1z0L/fRNqkINPxBn6x6Wev8WOZnjjkm8otT/yVp27F39cawTSrTyGlGTDYlHOMWlTpEsVqa23wY4VEeyaCN1GfgofNmJeAGiomuOQXI4HLFS8FacmyRYFpzIw78KmooOwJifQHue5dycC8WzjtKLtFPA3bRISyZVlFngyf046kG+wuzSJBQcDzBsgRkXNitjTipNjYNBEkfuF9HWZbayCRlKNR17LoQzfOCuACROFo/jPkbCtazXhE4g==
+ bh=OJkEyKac6VjtPgI6xUI0pQHmtIcKn9OpywBR89YiClo=;
+ b=Uec1AHi8vZm1Jh0K9vaEf6kSgLIdRoSbWTaF4cYGrXugvDjlNVmojZLYlHYvArGOo2pu4SYgAkZqEuOv+uhNZq5DVBK4IbUCUWk6xM0b5LVxF4b93oMUCkz7/G39qMsUj1pujn9HQ8M0r1YrxZQ1a7lPxq7TA2P6Nr+wVRpvcWb0/6sxYTlfTl+reQhVYJkyImaIf0dOZuKfgaHkKNTdFIyY89cjCd4bvB9ZDPQxkreAqADoR+NxNt8/NpdbL80dXRA0xG1yJHU6wN7IdOLQ1iQKOPn9gYcEuWN/v8dEXyItMvSn/cUMeZr+iXiMu5TArCGS1sAlgISB8Jn9N0Bbbg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3EChBBtlu+qK8/A9GEZZdnMH/f2HAvaoaV82ntI+q5M=;
- b=A9wzTMEJB+qaEmSMd8hJO8Osp0d3Til7s2X6opkwf1UlQTNFMb46+6pN6015vjAl+Rl/p7JZhqiuChi/Tyn9dcLswETmNOd7VfgxSq9IT85rSO2qhSPbMmYeNAQcxS24EOb+n+Kfhvx/41IUnxUL8v6IM0HNv3QVyIScpmnbkwk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM8PR08MB5747.eurprd08.prod.outlook.com (2603:10a6:20b:1c7::21)
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
+ by BL0PR02MB5380.namprd02.prod.outlook.com (2603:10b6:208:36::27)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20; Mon, 29 Nov
- 2021 21:53:21 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Mon, 29 Nov 2021
- 21:53:21 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
- vsementsov@virtuozzo.com, eblake@redhat.com
-Subject: [PATCH for-6.2 v2] block/nbd: forbid incompatible change of server
- options on reconnect
-Date: Mon, 29 Nov 2021 22:53:00 +0100
-Message-Id: <20211129215300.1468291-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.31.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AS9PR06CA0246.eurprd06.prod.outlook.com
- (2603:10a6:20b:45f::12) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
-MIME-Version: 1.0
-Received: from kvm.ch-qa.sw.ru (130.117.225.5) by
- AS9PR06CA0246.eurprd06.prod.outlook.com (2603:10a6:20b:45f::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.21 via Frontend
- Transport; Mon, 29 Nov 2021 21:53:21 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5ad524fc-dacf-4319-6aa0-08d9b382a907
-X-MS-TrafficTypeDiagnostic: AM8PR08MB5747:
-X-Microsoft-Antispam-PRVS: <AM8PR08MB57471BDB07ED61257635DFE4C1669@AM8PR08MB5747.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: morUMRDvx41VetoSmjdOezhot5cKZ7tJr4pJyHZsegIg/ARpeQSMVWlN8WSq1Zf/Bsry0MHOCAB98XnA7++cYgCR/iqi7UM+AEYPwVn/EloWusd32avoqTWwzGXdtVreZbHPsUe7zsFXJwSQUiCrrBHh4QMgoq/FnLsdHcxg2qNgu5IB9iCtXmScs9iF/qF6m7KKeWlCgOUAH8HCXfkItRQ3I9MKu9nkFydQ7B5gEvcVQKHpvSSu2U5uBKDvz4kJLiAKmcV6ci4mFFdKh6Cm2FnKdD/cZ0iZ2tJmgr+1nmKXES8ECVTUwd2raCj+VHAJfjxbnbKpCuTtsyWlivtl06d6h2nTE7VmcSOEB/+nTSR8lS8oAzrWJ+3QJWSyZCiAMEn4m9FWtcJXxLcIW1px+BhMakotanUcbwY1WTE1Vf6BvD7fK8KmjqPdio48Y4FTKfFpbLJnHwWzqRLBz9KTxdJsaSY4Gkac9wEnlvuHgwfSQiZ6aUMTaV6pDDJ6pmQjhhGiMLF6QW9PPewWfVDjsP3RVLiFacZsj0eQT2unpDz//aR7c3jke5ddYxH5nWr6hJE245l9hmgx/6nYnuIWKnW3V43YGORAj/C6rl1VHPWUok6ntYxobFQkgrPPiTRNVU99sJCJ69QuG/LiAlvQng9yensAdY+KvkYKKqqENY1aZfj9/EaDPkHW0lTwpm8oxJ/QmjMof3bhy7GPnVzqzw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6486002)(66946007)(66476007)(66556008)(8936002)(4326008)(8676002)(6916009)(26005)(83380400001)(5660300002)(316002)(186003)(38100700002)(52116002)(38350700002)(2906002)(36756003)(6666004)(6506007)(2616005)(6512007)(86362001)(956004)(508600001)(1076003);
+ 2021 21:57:40 +0000
+Received: from BL3PR02MB7938.namprd02.prod.outlook.com
+ ([fe80::25f1:c1cf:5f90:35af]) by BL3PR02MB7938.namprd02.prod.outlook.com
+ ([fe80::25f1:c1cf:5f90:35af%7]) with mapi id 15.20.4713.027; Mon, 29 Nov 2021
+ 21:57:40 +0000
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+To: Andy Pei <andy.pei@intel.com>
+Subject: Re: [PATCH] hw/vhost-user-blk: turn on VIRTIO_BLK_F_SIZE_MAX feature
+ for virtio blk device
+Thread-Topic: [PATCH] hw/vhost-user-blk: turn on VIRTIO_BLK_F_SIZE_MAX feature
+ for virtio blk device
+Thread-Index: AQHX4m9+IYUGhcVMdU2sZbuldi6YsawbE1kA
+Date: Mon, 29 Nov 2021 21:57:40 +0000
+Message-ID: <20211129215732.GA5722@raphael-debian-dev>
+References: <1637892018-89555-1-git-send-email-andy.pei@intel.com>
+In-Reply-To: <1637892018-89555-1-git-send-email-andy.pei@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mutt/1.10.1 (2018-07-13)
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 1cfb273c-016c-462c-6897-08d9b38343a7
+x-ms-traffictypediagnostic: BL0PR02MB5380:
+x-microsoft-antispam-prvs: <BL0PR02MB538019E8B7E71CDA09518B2DEA669@BL0PR02MB5380.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:270;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: B4iXZMAAsMfrK/SI4S0zZGXte9Q3ELbmbw076YSMPfk8EnXvolRAEs7yjuhbJPD7kV+QB5Eo46T5HRTcYMynSzBLBSs76HDmtxjvh059Cugor+1eJLngtje2ruBhPABgphf0YW/oatksglboZPQTdGeXpN0VBEgjh+gvkknJwISZLvecQwg9UoeLpXO0cW5AvB/Nl33OUcuc8RUxcQa5K+5EEZ6jPWVcPDjAoy71emTyZBBBTxLTNI0fv/UX9On3lP7Hs5ntWCMAYKoRc9Zr/PDyNxCt9u+6XBCgVA3kpfhfAyNxSjDDKNndcZg+d8QZq6hS58SVnHvuB1BDOj6QVgtFAI+M9JBPyAdf8thzGh+dT/jvQKrAoV2ThQHs2VGseUhAK64EjGu2Gb3YQuFZoG2JtwvtGvYxtmsXRkMMOHAAPlPgbJeF3UPj5NsttfsnEH87m66u5bm/+jxg5hORRdpkmw1HfTGwpjotWkJ1nKKiQN9U13t2QRRcKs7SKtRoJczCW7KKzSapwXkw0T4GMjieN/asTup3iKUasNOkWia0rAmNmg6B3dVPe2+UpCMTbfNyE//X1uykX7fCW/8+mJm1SFwnSvAtCsvjanpy5dl2y5QC30ldbPurw2MSOWHezWmz2JrWHE6PnkIZ9E5l5tOqZaFBwsbMujpgJS9GLnmKWJ9HMpZdlEhFYeZOg3mDgwRUKokipMonn+MGFa+Vpg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(7916004)(366004)(8676002)(44832011)(33716001)(5660300002)(2906002)(316002)(91956017)(6916009)(76116006)(54906003)(6486002)(26005)(186003)(8936002)(38070700005)(38100700002)(66446008)(66556008)(508600001)(4326008)(33656002)(71200400001)(66946007)(66476007)(6506007)(83380400001)(6512007)(64756008)(86362001)(9686003)(1076003)(122000001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?M0J8RuKlo7Na2VqurCE9gmkN9IPcwIn4oKY0aKk87KttmsuV6424usVunCLz?=
- =?us-ascii?Q?sfZIKzYLz2cncH1Mc1voN/eoegtHnfx0zzlmZehKZibLVRptxzyO92mCTq2r?=
- =?us-ascii?Q?3jvs8mRRL4qeaPyEXj8yQ29VEKE5iguu8NolXREQEmIEiJK0Pdsme5yR7Xbg?=
- =?us-ascii?Q?xisDN9WlBIcd1ZOs4egufgis7IASj6kuRedFusohv10s+4DwiHf8RA9J6NsO?=
- =?us-ascii?Q?pW2+CdrndFKXiExZzI5DGlQDViwGgvRnKWcJz/gWZwpVLlWZCWaLa5ijdAiF?=
- =?us-ascii?Q?30PJtL7NNgDrqODU61oWztu7pzU/gY68CpHm8vG24xDWADOeVRgkFVbj30Um?=
- =?us-ascii?Q?IGAiI3uqxutLS4j04diSjd/aU9/dH4Tl6HoRt1N/9sNw95iWWqk+pnfzgwKT?=
- =?us-ascii?Q?1K4DLjlBbsFjeFE/s3x26HrpyKHyRPhSudl7Mm2wthI2ZAwVdy96cdCx2Y0b?=
- =?us-ascii?Q?fpLSAW2dW56uwq88tuTJ1hGtRJmc30oIQdVfwaN5ul7RnJy04P7Z7eJHrGky?=
- =?us-ascii?Q?FRZHdO13Ye+M+zPBobUwOn8YN8A+UGPY1ewJvqpAG0p/hYx8wr0jO8JEM1Zg?=
- =?us-ascii?Q?u+LqnFnPbZXHR3v4Dhge2vs4gtiNyoddAX39XvMn9RXPcysFwg63IY413wvk?=
- =?us-ascii?Q?r1YVuNEDIkL/h4NaeFZtjBgCdHntOPAoj+cPfnlWRKkd2neSe4za6SZHg4g3?=
- =?us-ascii?Q?xyNrYGb9oECcfOKTBKAWJG58E8eR7pjEu32bzp249OC6y2yGoamX3mlVLxEW?=
- =?us-ascii?Q?n8jG+gDZSPHV42PHqVHKnDZmldxK1NTgOJznVoxXZUpG900dOum/YliNtVJw?=
- =?us-ascii?Q?lM69HWLIdMoWzyC5FI+UOFLkpeBrRi5GFRBsVIaWQ2nAd+EY381XoKZdymLf?=
- =?us-ascii?Q?yUzefQL2MMtgJFH6qpYLR7drv6vQ55uWGFSIO/WhL1/WdvqcmMuVAkjwWvU7?=
- =?us-ascii?Q?lA8e2k4esRWcAXWsOjSZhVClbME/il/RG8rU/7z3ij505Mw8tU7GQWTp/+09?=
- =?us-ascii?Q?4feEnASoM25a1Z0od+zjf3nSbs7TqQKdNs8jLDQcwIwlB9RejyyTEsUUsvnO?=
- =?us-ascii?Q?77Ul23BAnkw8gqu8wT4T9Mfy63FhLZGOe+ZLoMnFJ5YUO11geJQL/+fJCnsL?=
- =?us-ascii?Q?mxIqF1ETTKehAD+N64m7IFjN7WrccN5rpkc2ziW05kaCz3bJGIQeJ6M+uEDA?=
- =?us-ascii?Q?YHvos2wheo/dYxOltSHXRuK/5M4S+Yf63Z1+n5d7iYk3j5ftfqbgE79/YvkV?=
- =?us-ascii?Q?eh3Z6KWeE5KeOQJY84IuHfrEYA1lYSIdWmAyy1eMBOSmBm1EXlJc1OmOdqdo?=
- =?us-ascii?Q?BkYVvRPY9Qt/pDoWWreCQC3eYpOH9MGzGmDNzO4OrTHCWmnvGFJZO9aMI2bA?=
- =?us-ascii?Q?eyENiGEecW0iKQ5WWetb4RkUVtDVw7+3TIeQSEdbgs7YKTaZCmNDzFM+5myr?=
- =?us-ascii?Q?2JAzSxAXYqNV3vG312ZwZWI6g7B6toSMw7uokT0UEjC9B9+CImYHJVNfDXkV?=
- =?us-ascii?Q?D0ma6hzRrpuzEM/blHrvfBw9Uh7Vt/CkIPJ/8Negrej13tsclXMCJMSD3nCX?=
- =?us-ascii?Q?GEnBSMrbnlOrctjiyPyomW4W6tmOs5k+9uW1VhFSRDCeAGzxYDcGe0KyWA4x?=
- =?us-ascii?Q?cA6Rc9s4w24DTNx5fj5CBlUzuBj6UpFvqHMjFh0EvdKKj6MzwJVMD5IuorKn?=
- =?us-ascii?Q?0HDQDdKasIqoQED2yNknGqPzB7E=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ad524fc-dacf-4319-6aa0-08d9b382a907
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?83sW07en/z9mRwFvmZqxeRGiKRnf+hF3snlW/Wp6My6DINto+zl3+csUNIU7?=
+ =?us-ascii?Q?NOrgmtcuxkP4uxtICeB1d5lyyqW5SkGIwop+hLlF5889W/lyj20ik8p3B2DP?=
+ =?us-ascii?Q?IHHYp/IQ3yxReKVGn4zehPc3Uga+dmZmGvmaRLvYDOJeM5hpptuQ9uyAmpNs?=
+ =?us-ascii?Q?8ElFy9YGD+f34wGglRFQSvMDAUSX5opZMWB7DnYxv+HWKqrsWaq9XLZXG2mG?=
+ =?us-ascii?Q?xKJMbuQbPSLM0IyiSSg7vAh9GdPPOc9xdFuc9bAOaDE1Ml8Ob9rJsy9Yp0jP?=
+ =?us-ascii?Q?emmQksQP/hANqytRwoRs+GbytoKkZeTfhYDrR41jy7cEMh1QWKOE5b0i/PyX?=
+ =?us-ascii?Q?AugylJxXQ93o9ooiCZvAndaiY6cvITr1IINei6P5sPtbQdCDhq4LCro3+RKb?=
+ =?us-ascii?Q?MGYGC96lLu7As3VbLSqLwBTdmvfe1l4h0GXrMiE65ZWT6q+i8zJ2c92k9fZ5?=
+ =?us-ascii?Q?yhFIMYnlZP1chdw+P8lGzD5QPu5xOK2bUPNBbpWFtFmMUtusAV6c44CDDJSS?=
+ =?us-ascii?Q?1GR0+3SoDXzGpF8ayKoMLYEEEiZLp5H8LDt1yE8wiM1219Xe4WDUhbpTI6H5?=
+ =?us-ascii?Q?N0EiDuechJrkeBRuYA3Ir7UXgLyg38Ikv6m/WjTg4188piyN95WEEFS7Kr4V?=
+ =?us-ascii?Q?f6P4nK98zeaI92SgNjzgZ/lYHjaPuFWhkGtKrv78X55DMBt1wzKx6T7Rhr9B?=
+ =?us-ascii?Q?1ahQpFeC1nHpqDiArU0H7eg9TQKhLw5KBBgiGS8FRnr4USvc1gvFjsQzgnYD?=
+ =?us-ascii?Q?T822jJH1P1IZpkgghnR3BsJcXP1oyScIJAerF/V4CYvVB3cWxujd8Mwmp1Mm?=
+ =?us-ascii?Q?t0AeJiPgwPBEPVaNjU7apTcYSu8lPFePtJByJdCmnGdV2HF9TvQLgopL1Lk2?=
+ =?us-ascii?Q?hQjuSYtKA9CkH0e37M1epVaH/LKP0u90UAe/QvzGItGYgJ4IXv+pFOvWWAiY?=
+ =?us-ascii?Q?lCPh9x9wxE3fIeYGfvlas44cq4o6Pzo0cNPnoJUat3TNU/6Ylu9DHtScVvxd?=
+ =?us-ascii?Q?xN0lptgL62SpZVaCaMSNKf24OGhVGIlvo98JLEIvhlcGi/gsIvC2unw8teVq?=
+ =?us-ascii?Q?GRNE+/1LwPqU2dMBO/8nvwwOREuwHbKdMGv6+8WZIf2hOhczMz5yjPEzH2S5?=
+ =?us-ascii?Q?tqaLzLwmzdJWLfBE8XHi8QHQOZyLy9KS8gf+uTs0mFe4vCGTClBJhb6JV1dj?=
+ =?us-ascii?Q?jIketKHBDE8lBSLwK4SksheYxkfu22wrSeoygFwRAVTCoEEqQMOs6tiIiQUG?=
+ =?us-ascii?Q?lXlBdDrFqSRdoA5dToPbx+t9xLGLk7WxBTa/87XcKKXyKNXlSV9BQH7RQvX3?=
+ =?us-ascii?Q?IDEw0WdOek052Ra5zTkFsoKQpwGoydO31hPkvw4j0phz7MjC+2JcuzFLIkGu?=
+ =?us-ascii?Q?fZ5RbLrMW9aYBcGIBXQoASLQacEI8F2nQM+OB5SH8INW13fGQrv1lmeQSrZb?=
+ =?us-ascii?Q?wWQ9c49hL5E4+IA+99SrY9T+ZXFUpdbqTR8M9aa4SC0ggQcN4qqqqGWuXXdA?=
+ =?us-ascii?Q?92Btt41VxkZKIVSuBOAoSDypzICGPekAT8NjZuGCKJ14Ox3ahaOqmZU/GqZG?=
+ =?us-ascii?Q?8JGKl7153BH/W5r1O5LU+ei6j8GQ11fJ3H5//0MDbfgBvkxxJBge3glORS2b?=
+ =?us-ascii?Q?XPAZtxqRTjB7pE7i7k7bMEeXraoSE44zB/2rUwmcJsaqLGsdwlO2rnWOmuC2?=
+ =?us-ascii?Q?4qJh5R7umhGJ6C2YykpVsrH0oA8=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <770ECE79724B454BADD31BB825C3DFBD@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2021 21:53:21.4115 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9r7uCc8jjVzhcnGZBXVg6i9QkZ8g2oCV9EAhY6IJW62dXcyqUKo8R7BRvySgDOxDBTu7IvDK2EQrRiWT1MotIUmfz4d8Ojw1yGOfUFqtWso=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5747
-Received-SPF: pass client-ip=40.107.8.120;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1cfb273c-016c-462c-6897-08d9b38343a7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2021 21:57:40.5603 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2iVMYb3ssPJWgcAjlqNALnOe2DLTtcIZlc0SAV+nnKCfSjBtVia3sSX6Z9060viunFpsS/wq/CkdFLMld1VlyY0+6s/N3lXL9LWdhdm/kOY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB5380
+X-Proofpoint-GUID: VRDI03sbNmbjeH92s97Z0ldI_AQqAWd7
+X-Proofpoint-ORIG-GUID: VRDI03sbNmbjeH92s97Z0ldI_AQqAWd7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-29_11,2021-11-28_01,2020-04-07_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=raphael.norwitz@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -140,174 +154,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "changpeng.liu@intel.com" <changpeng.liu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reconnect feature was never prepared to handle server options changed
-on reconnect. Let's be stricter and check what exactly is changed. If
-server capabilities just got richer don't worry. Otherwise fail and
-drop the established connection.
+Just a commit message nit. Otherwise I'm happy with this. OFC should not
+be queued for 6.2.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
+On Fri, Nov 26, 2021 at 10:00:18AM +0800, Andy Pei wrote:
+> Turn on pre-defined feature VIRTIO_BLK_F_SIZE_MAX virtio blk device
+> to avoid guest DMA request size is too large to exceed hardware spec.
 
-v2: by Eric's comments:
- - drop extra check about old->min_block % new->min_block
- - make context_id check conditional itself
- - don't handle READ_ONLY flag here (see comment in code)
- - wording
+Grammar here. Should be something like "...DMA request sizes which are
+to large for the hardware spec".
 
- Code seems quite obvious, but honestly I still didn't test that it does
- what it should :( And I'm afraid, Qemu actually doesn't provide good
- possibility to do so.
+>=20
+> Signed-off-by: Andy Pei <andy.pei@intel.com>
 
- Eric, may be you know some simple way to test it with nbdkit?
+Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
- include/block/nbd.h     |  9 +++++
- nbd/client-connection.c | 88 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 97 insertions(+)
-
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index 78d101b774..9e1943d24c 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -157,6 +157,10 @@ enum {
- #define NBD_FLAG_SEND_RESIZE       (1 << NBD_FLAG_SEND_RESIZE_BIT)
- #define NBD_FLAG_SEND_CACHE        (1 << NBD_FLAG_SEND_CACHE_BIT)
- #define NBD_FLAG_SEND_FAST_ZERO    (1 << NBD_FLAG_SEND_FAST_ZERO_BIT)
-+/*
-+ * WARNING! If you add any new NBD_FLAG_ flag, check that logic in
-+ * nbd_is_new_info_compatible() is still good about handling flags.
-+ */
- 
- /* New-style handshake (global) flags, sent from server to client, and
-    control what will happen during handshake phase. */
-@@ -305,6 +309,11 @@ struct NBDExportInfo {
- 
-     uint32_t context_id;
- 
-+    /*
-+     * WARNING! When adding any new field to the structure, don't forget
-+     * to check and update the nbd_is_new_info_compatible() function.
-+     */
-+
-     /* Set by server results during nbd_receive_export_list() */
-     char *description;
-     int n_contexts;
-diff --git a/nbd/client-connection.c b/nbd/client-connection.c
-index 695f855754..d50c187482 100644
---- a/nbd/client-connection.c
-+++ b/nbd/client-connection.c
-@@ -37,6 +37,10 @@ struct NBDClientConnection {
-     bool do_negotiation;
-     bool do_retry;
- 
-+    /* Used only by connection thread, does not need mutex protection */
-+    bool has_prev_info;
-+    NBDExportInfo prev_info;
-+
-     QemuMutex mutex;
- 
-     /*
-@@ -160,6 +164,69 @@ static int nbd_connect(QIOChannelSocket *sioc, SocketAddress *addr,
-     return 0;
- }
- 
-+static bool nbd_is_new_info_compatible(NBDExportInfo *old, NBDExportInfo *new,
-+                                       Error **errp)
-+{
-+    uint32_t dropped_flags;
-+
-+    if (old->structured_reply && !new->structured_reply) {
-+        error_setg(errp, "Server options degraded after reconnect: "
-+                   "structured_reply is not supported anymore");
-+        return false;
-+    }
-+
-+    if (old->base_allocation) {
-+        if (!new->base_allocation) {
-+            error_setg(errp, "Server options degraded after reconnect: "
-+                       "base_allocation is not supported anymore");
-+            return false;
-+        }
-+
-+        if (old->context_id != new->context_id) {
-+            error_setg(errp, "Meta context id changed after reconnect");
-+            return false;
-+        }
-+    }
-+
-+    if (old->size != new->size) {
-+        error_setg(errp, "NBD export size changed after reconnect");
-+        return false;
-+    }
-+
-+    /*
-+     * No worry if rotational status changed.
-+     *
-+     * Also, we can't handle NBD_FLAG_READ_ONLY properly at this level: we don't
-+     * actually know, does our client need write access or not. So, it's handled
-+     * in block layer in nbd_handle_updated_info().
-+     *
-+     * All other flags are feature flags, they should not degrade.
-+     */
-+    dropped_flags = (old->flags & ~new->flags) &
-+        ~(NBD_FLAG_ROTATIONAL | NBD_FLAG_READ_ONLY);
-+    if (dropped_flags) {
-+        error_setg(errp, "Server options degraded after reconnect: flags 0x%"
-+                   PRIx32 " are not reported anymore", dropped_flags);
-+        return false;
-+    }
-+
-+    if (new->min_block > old->min_block) {
-+        error_setg(errp, "Server requires more strict min_block after "
-+                   "reconnect: %" PRIu32 " instead of %" PRIu32,
-+                   new->min_block, old->min_block);
-+        return false;
-+    }
-+
-+    if (new->max_block < old->max_block) {
-+        error_setg(errp, "Server requires more strict max_block after "
-+                   "reconnect: %" PRIu32 " instead of %" PRIu32,
-+                   new->max_block, old->max_block);
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
- static void *connect_thread_func(void *opaque)
- {
-     NBDClientConnection *conn = opaque;
-@@ -183,6 +250,27 @@ static void *connect_thread_func(void *opaque)
-                           conn->do_negotiation ? &conn->updated_info : NULL,
-                           conn->tlscreds, &conn->ioc, &conn->err);
- 
-+        if (ret == 0) {
-+            if (conn->has_prev_info &&
-+                !nbd_is_new_info_compatible(&conn->prev_info,
-+                                            &conn->updated_info, &conn->err))
-+            {
-+                NBDRequest request = { .type = NBD_CMD_DISC };
-+                QIOChannel *ioc = conn->ioc ?: QIO_CHANNEL(conn->sioc);
-+
-+                nbd_send_request(ioc, &request);
-+                qio_channel_close(ioc, NULL);
-+
-+                object_unref(OBJECT(conn->ioc));
-+                conn->ioc = NULL;
-+
-+                ret = -EINVAL;
-+            } else {
-+                conn->prev_info = conn->updated_info;
-+                conn->has_prev_info = true;
-+            }
-+        }
-+
-         /*
-          * conn->updated_info will finally be returned to the user. Clear the
-          * pointers to our internally allocated strings, which are IN parameters
--- 
-2.31.1
-
+> ---
+>  hw/block/vhost-user-blk.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> index ba13cb8..eb1264a 100644
+> --- a/hw/block/vhost-user-blk.c
+> +++ b/hw/block/vhost-user-blk.c
+> @@ -252,6 +252,7 @@ static uint64_t vhost_user_blk_get_features(VirtIODev=
+ice *vdev,
+>      VHostUserBlk *s =3D VHOST_USER_BLK(vdev);
+> =20
+>      /* Turn on pre-defined features */
+> +    virtio_add_feature(&features, VIRTIO_BLK_F_SIZE_MAX);
+>      virtio_add_feature(&features, VIRTIO_BLK_F_SEG_MAX);
+>      virtio_add_feature(&features, VIRTIO_BLK_F_GEOMETRY);
+>      virtio_add_feature(&features, VIRTIO_BLK_F_TOPOLOGY);
+> --=20
+> 1.8.3.1
+> =
 
