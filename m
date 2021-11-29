@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36064619BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:38:28 +0100 (CET)
-Received: from localhost ([::1]:48686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA485461952
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:35:18 +0100 (CET)
+Received: from localhost ([::1]:39948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrhnX-0004e6-I9
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:38:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35046)
+	id 1mrhkT-00073w-Tv
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:35:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mrhfW-0000Rb-Ep
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:30:10 -0500
-Received: from [2a00:1450:4864:20::336] (port=43652
- helo=mail-wm1-x336.google.com)
+ id 1mrhhv-0004oJ-JN
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:32:41 -0500
+Received: from [2a00:1450:4864:20::435] (port=37854
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mrhfU-0001oN-5a
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:30:10 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- o19-20020a1c7513000000b0033a93202467so12568466wmc.2
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 06:30:07 -0800 (PST)
+ id 1mrhht-0002Pm-RQ
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:32:39 -0500
+Received: by mail-wr1-x435.google.com with SMTP id d9so16374708wrw.4
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 06:32:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XGfAidO6YxExLHor8ECO/OFmYgrEFhToxkbk7RYwfAU=;
- b=K16vR/xt33U0/E6mfIGFGQ9JXJQTAyDvzNXV3RLvj7HQore7eQkFqsYqjceT8aJRQz
- gK1EIUI3JeauEpT37xc5u/y7T3f/XLXO8UN3FAAS2/8WJ6t6ZqBP8lfclDx+8hZF0uJY
- ez1zpnVT0VxQj1tvnbkqvd3+0cFPPzxrDuakIxMmGMoS8f9ZBeLjKDX5W8Qk5bsFxhOf
- 9SZOm3+7Ytcv7RDjAMkMkAMjptMwmsIenZ5l+dxeQMxfLXHzD7vpE+znjClSMOSbU6UA
- VcIdFGF/dUG4QODwWgSw4qyI4R6FTWoMJnyvG3/gIgoePnCbGBBL6KMbsgxZ8E4b84LZ
- yVAg==
+ bh=2kWOaeQU2gOFroViOcRLn1Idd6hJNVxLXcc0K+4vlXo=;
+ b=qfv51a0k0Av0ryTqraPOczbyIdkNIhq8LYmpSaniLNhneCChulFiV2l69/zYy4cO+G
+ 3YTIISHk73oIdw+4legD2Ls8FLh6aeOgiX9feQP1X1kMj+H2dVvwbv5Qvqvy/qfQ6pem
+ Sy0AtJ2+Qdz/K3UdudF1BbUy/eX0JnBexTM7QQQeWye3EwKPFIwp8pAZ1P+mHlhPOd3r
+ Y0cWRPxQMXYlKbINQEnWHvMKXyx8KkpFROkAGBb3kEeG2DHcyubS6sIBdB4POWyLNZXj
+ /BYPuJyjP2y0CmKczzDZbdoIdVqf/sq2FTVQCIDH9P2pU6NKJ9blkzjg1ec42md+FuIJ
+ EH8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=XGfAidO6YxExLHor8ECO/OFmYgrEFhToxkbk7RYwfAU=;
- b=vutCogeV4Wphh3Io8FQS6xLcN/LIawr/7Cq4N+VB/ViMfmUPavy7TGUywg/P+XHLGL
- kZq4yXFIKRV+8gZNx7qKExr+xwb/bbL5kaMa8odjjScelPm7WyWRhvIWp/zxwT3R2Fbt
- BVcM3268otZyN6ItrGzytx6qv+kMfGMmjUnVHRem+vrXnybDY3AmmSHMPuwIXkjzwVU5
- /bB3VZi8bk86gGsROiDSRf9wqIorIdLprSzGMTOFau0qRtXkROooWkp+jWGbzg5+Ir0Z
- gyFORKthWw5qgeg8UBXK3nwxrDrMDvoQ0A0B33OAvRg/1u98hfuoUTAcyW3nQrGHQ78N
- NFIQ==
-X-Gm-Message-State: AOAM5337HQsL9TH0NZK/ZJ5dHg4FHSuFLGj1XwpiV7x2MDYd0u+f1d3d
- GITyeYbk07vw4A/6T4mrhJbcaw==
-X-Google-Smtp-Source: ABdhPJxNS3+n4zhn0IavWp3DPk/cWxrYsxEAtWOXRZ/8WrhECEkJDEVbq8/qGcOFXrSG6KhgYYH6gw==
-X-Received: by 2002:a05:600c:35d4:: with SMTP id
- r20mr37725760wmq.76.1638196206643; 
- Mon, 29 Nov 2021 06:30:06 -0800 (PST)
+ bh=2kWOaeQU2gOFroViOcRLn1Idd6hJNVxLXcc0K+4vlXo=;
+ b=OEJxqwZWn+0g0WJTP6XIR7cUlVmfVKNlgvxLRP3upwbhfCsgDikSSZskqQxGfW3RyB
+ vLp6yNmazp0UhUg4f3m5TimmMeuFfzVWh7jS9WXR6cvIP+kwKkZPAcmCnej04Bvu9kBQ
+ bmuJjNNba5J5eMimteGPoCUTXnPFnBTVw1GenpUk0bbc2ztyO67dg9d2hmGZmSGHskfK
+ welp0skNENK9vcGA0Cb9POteWi73FRKh5LkHsKfkLhnB5mj54tY7K0DJD3qNNv0eBwjK
+ vPo1Q7NdAKt+Itld5IxsqP6ICdKr5sSI7YBqNwr+WYGJBpTbhvE+wgDCOUsmORM21x0J
+ AyaA==
+X-Gm-Message-State: AOAM531FwJUL72Td6E4zpltXVHn+BQ5WGy6ucNXKG+DMGv8gnaOVdrag
+ H2oaLHyvo6WYU93yr3GFUrsnFA==
+X-Google-Smtp-Source: ABdhPJyOPLLM9NdzYaGIQEKQYl2phLJTqmhB+orOFGP/JEZXJPBdfDPlkMpDP+/pLM0uQiQ2NPmvjA==
+X-Received: by 2002:a5d:62c5:: with SMTP id o5mr34302815wrv.408.1638196351749; 
+ Mon, 29 Nov 2021 06:32:31 -0800 (PST)
 Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
  [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id l3sm17289903wmq.46.2021.11.29.06.30.05
+ by smtp.gmail.com with ESMTPSA id z5sm24925889wmp.26.2021.11.29.06.32.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Nov 2021 06:30:06 -0800 (PST)
-Subject: Re: [PATCH v6 02/16] linux-user/host/ppc64: Use r11 for
- signal_pending address
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20211123173759.1383510-1-richard.henderson@linaro.org>
- <20211123173759.1383510-3-richard.henderson@linaro.org>
- <CAFEAcA-x6Q_mXbFLzr=7ALGkqijj=gM5DRu_TRMAkFSm8XiZGQ@mail.gmail.com>
+ Mon, 29 Nov 2021 06:32:31 -0800 (PST)
+Subject: Re: [PATCH v6 03/18] qemu/int128: addition of div/rem 128-bit
+ operations
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20211128135719.50444-4-frederic.petrot@univ-grenoble-alpes.fr>
+ <a37bf796-567e-2331-be42-38f756b105cd@linaro.org>
+ <2e6d2c92-3374-0400-9bf5-128c3c1d2132@univ-grenoble-alpes.fr>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <72a69c85-8a99-bf06-8baf-f6dbf8f49ada@linaro.org>
-Date: Mon, 29 Nov 2021 15:30:03 +0100
+Message-ID: <38367ef1-8994-95b7-592c-85aa8d8eb4bb@linaro.org>
+Date: Mon, 29 Nov 2021 15:32:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-x6Q_mXbFLzr=7ALGkqijj=gM5DRu_TRMAkFSm8XiZGQ@mail.gmail.com>
+In-Reply-To: <2e6d2c92-3374-0400-9bf5-128c3c1d2132@univ-grenoble-alpes.fr>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -95,32 +96,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, imp@bsdimp.com, Laurent@vivier.eu
+Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
+ palmer@dabbelt.com, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/29/21 12:01 PM, Peter Maydell wrote:
-> On Tue, 23 Nov 2021 at 17:40, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
+On 11/29/21 3:27 PM, Frédéric Pétrot wrote:
+> On 29/11/2021 11:07, Richard Henderson wrote:
+>> On 11/28/21 2:57 PM, Frédéric Pétrot wrote:
+>>> --- /dev/null
+>>> +++ b/util/int128.c
+>>> @@ -0,0 +1,145 @@
+>>> +#include "qemu/osdep.h"
+>>> +#include "qemu/host-utils.h"
+>>> +#include "qemu/int128.h"
 >>
->> We don't need a register that can live across the syscall;
->> we only need a register that can live until the syscall.
+>> Missing file header and copyright boilerplate.
+>>
+>>> +#ifdef CONFIG_INT128
+>>> +
+>>> +Int128 int128_divu(Int128 a, Int128 b)
+>>> +{
+>>> +    return (__uint128_t)a / (__uint128_t)b;
+>>> +}
+>>> +
+>>> +Int128 int128_remu(Int128 a, Int128 b)
+>>> +{
+>>> +    return (__uint128_t)a % (__uint128_t)b;
+>>> +}
+>>> +
+>>> +Int128 int128_divs(Int128 a, Int128 b)
+>>> +{
+>>> +    return a / b;
+>>> +}
+>>> +
+>>> +Int128 int128_rems(Int128 a, Int128 b)
+>>> +{
+>>> +    return a % b;
+>>> +}
+>>
+>> I think we should simply expose these inline, and let the compiler call its runtime 
+>> function directly.
 > 
-> What about the case where:
->   * we execute the sc instruction (r11 trashed)
->   * the syscall is one that from the host kernel point of
->     view is restartable
->   * the kernel arranges to restart the syscall by rewinding the
->     PC to point to the start of the 'sc' instruction
->   * our rewind_if_in_safe_syscall() rewinds PC further to
->     point at safe_syscall_start
->   * we want to use r11 again, but it was trashed in step 1
-> ?
-> 
-> Put another way, this patch is effectively a revert of
-> commit 5d9f3ea081721, which was a fix to an observed bug.
+>    Thanks.
+>    Ok, I'll drop that and handle the CONFIG_INT128 directly in the rv128
+>    div/rem helpers then.
 
-Whoops.  I forgot about that (a mere 3 years ago).
+No, that's not what I meant.  Copy these directly into include/qemu/int128.h and add 
+static inline, within the existing CONFIG_INT128 block.
+
 
 r~
 
