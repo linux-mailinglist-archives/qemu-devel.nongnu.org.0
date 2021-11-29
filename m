@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBFE94612C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 11:44:08 +0100 (CET)
-Received: from localhost ([::1]:40570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E14244612DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 11:48:37 +0100 (CET)
+Received: from localhost ([::1]:44560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mre8m-0001fX-1E
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 05:44:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49580)
+	id 1mreD7-0004VR-1A
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 05:48:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mre4B-0002OP-DS
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:39:23 -0500
-Received: from [2a00:1450:4864:20::42b] (port=37472
- helo=mail-wr1-x42b.google.com)
+ id 1mreBW-0003OK-MO
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:46:58 -0500
+Received: from [2a00:1450:4864:20::434] (port=37582
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mre49-0004n6-GO
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:39:23 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id d9so14818069wrw.4
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 02:39:21 -0800 (PST)
+ id 1mreBU-0006CQ-O2
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:46:58 -0500
+Received: by mail-wr1-x434.google.com with SMTP id d9so14866175wrw.4
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 02:46:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=OjFLH2BFS+yCBbLcJauIqCZyc8Dqk6KrwSVe0yu3cfA=;
- b=NXANIftrw3uInIBAD1R0OaYw2tWvSd9V42K+gxpQw9e6lj0IG5FIEe7FVV6OQ+ZPqg
- lUehKs3kKrccq2S9ndKvJA/6eSt8ZNADAKczz6sIceBGvoHZlAl3YbuXCNpGcSVF2NbW
- RduR63oXxGWuw0iSLU6ynVZZEsbWFu18TOjNLuw4kngoT7g6SJRtsVKNKIN567iB4sWf
- 2/btmxchs4AM2eimh3aMyLPLVP8SvI6CMxx9bGdaoN3InB7/5kIOExS3z2SaT0ffkLvS
- 1wliglJycSuMrIJsd7L2+GqaXMQEZS+2vu1Mz5UebOwwaJ/b+ACdjSV0RfROEzHXUvOi
- ttFw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ftbifqO8h+JkhOkmRmSz/Nzuup+KQ/16UkpK5dR7o18=;
+ b=aMwc1U2N/ltUJlLM/HufN/05RaEkRfrUg7gOZ+6miA6yun3FqAZlEJ/Bm9bQ2cg7KL
+ MTk0lxWfol2mbh3L/Vqrie+QohLZT5RlUz0yOsOj0tTRXMp+uRhoKugKZbknBnqj7l4V
+ 3Ibd7v3cly/k3ZVeP/LpkrftBgbJTroJe3TblDrR9q3rt//isnhlTO/NmSXxCR3n+clt
+ FVvNG7TxbDcTYj47PLUNO51QBehsFprKqngwRfun8VVZaeUVPr24rXwp+AnPNUf2n7na
+ 9trDvwFSGkGdmhT4z6VWPoMTegGNtt/p/kah4qMKH3C4ppjvWlSfZ5dWEYIavU6x7nTk
+ 4pgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=OjFLH2BFS+yCBbLcJauIqCZyc8Dqk6KrwSVe0yu3cfA=;
- b=muksfQ9+08QoGeRjbjYwlCnPbSDTCEIAIBHt2PN2cENXtXjeySoriWg+WnYXXex34O
- H5R78RvZZ8dRuybzCE4RzvU73o260EXUkjRT5smCiQWvvXrA7FvHAEs3xnau8e7Lv+tb
- 8i9hawL2nNS59QPpxGwcoRunlJ2zMEAsXZt0E5Yf3cNQ35sBujmZnYTK+iUrAi+FiYhQ
- npmBZguejXTrIQDeYEKcJm0nKfG4Ng/7kdhlcRmbc88uYqMl3xy8Y7bZyFj0yA0C3nIL
- 4PD/qPHKIep1G1/YZhFUWDeN2Oy/cbv7v9htHdn+7TOvZUDimmNlqFSUZViu67S5RHP7
- f/SQ==
-X-Gm-Message-State: AOAM53269jFrrZ4HUkIr+ku68wpdF+UXn6EkQTz3Kvjn5B0xr3nhjpPi
- fYR7DgcoGyWrCmlm/v3PU/jOtfIPIjUx+w==
-X-Google-Smtp-Source: ABdhPJzWfTdnqrCqhPY4sgpajujtncgsSYtvpSeX+gwBuQuZM3TSd+6TNwmcjtv4lMTDhoFX1dVJAg==
-X-Received: by 2002:a5d:4b45:: with SMTP id w5mr33316013wrs.272.1638182360215; 
- Mon, 29 Nov 2021 02:39:20 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id t17sm18810912wmq.15.2021.11.29.02.39.19
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 02:39:20 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] hw/intc/arm_gicv3: fix handling of LPIs in list registers
-Date: Mon, 29 Nov 2021 10:39:15 +0000
-Message-Id: <20211129103915.1162989-6-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211129103915.1162989-1-peter.maydell@linaro.org>
-References: <20211129103915.1162989-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ftbifqO8h+JkhOkmRmSz/Nzuup+KQ/16UkpK5dR7o18=;
+ b=VvHsfISzSvaZ/Y4JyullSQke+KtE5JBieI9iVeTvZN/abxJ9a5Eg7V+6/ON5vgo8mp
+ VdnouTeA4PbYXonF/K0WP6yO6KOea1goiuh7/15EE88/Xu3lcu8lqVs9WSYdoR/085WV
+ fgh1IfCp88gCTGXE0gj/dNkj1wIOxJ+Av8uYoq8V2nc++gaq7i28zq/J7tAqXCMJ2djo
+ I5tDchtqULrODa68AzQCHwARq49XsJGrPOFIuh8N2nUsjRfjPM+YCvcLzQDl3lbAX/j0
+ cfBtRVOVfReB8j73ZcnmO5tVLZt4jN+ruQ5r1BV4aqG3wDPs+OuEdfDn/XH0RV4TRuAq
+ LYIg==
+X-Gm-Message-State: AOAM5336AXuhKk3OpBMrvNhzDrf2pdUV1fAVJDcuCembG/50IKfJRKNn
+ VH8wV/AuwY7emy8/HKcMtgCy5T4iY7p0COmJRpd+wA==
+X-Google-Smtp-Source: ABdhPJyOEGCY4Jt/1lWUIUX+2jaZaCBCx6Z+wIJysMdzYFYu1ay4CDPDdLWNaCx7Ka9bquzcQ4RyiZalNDrol6nuqhk=
+X-Received: by 2002:adf:f64b:: with SMTP id x11mr33953498wrp.4.1638182815219; 
+ Mon, 29 Nov 2021 02:46:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+References: <20211128120723.4053-1-olivier.heriveaux@ledger.fr>
+In-Reply-To: <20211128120723.4053-1-olivier.heriveaux@ledger.fr>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 29 Nov 2021 10:46:43 +0000
+Message-ID: <CAFEAcA8WBZPBoMDBcfv05p-EZOFCUGZkVt5aZJrYAtfCviryjA@mail.gmail.com>
+Subject: Re: [PATCH] Fix STM32F2XX USART data register readout
+To: =?UTF-8?Q?Olivier_H=C3=A9riveaux?= <olivier.heriveaux@ledger.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -86,72 +81,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, alistair@alistair23.me, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is valid for an OS to put virtual interrupt ID values into the
-list registers ICH_LR<n> which are greater than 1023.  This
-corresponds to (for example) KVM using the in-kernel emulated ITS to
-give a (nested) guest an ITS.  LPIs are delivered by the L1 kernel to
-the L2 guest via the list registers in the same way as non-LPI
-interrupts.
+On Sun, 28 Nov 2021 at 12:07, Olivier H=C3=A9riveaux
+<olivier.heriveaux@ledger.fr> wrote:
+>
+> Fix issue where the data register may be overwritten by next character
+> reception before being read and returned.
+>
+> Signed-off-by: Olivier H=C3=A9riveaux <olivier.heriveaux@ledger.fr>
+> ---
+>  hw/char/stm32f2xx_usart.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/char/stm32f2xx_usart.c b/hw/char/stm32f2xx_usart.c
+> index 8df0832424..fde67f4f03 100644
+> --- a/hw/char/stm32f2xx_usart.c
+> +++ b/hw/char/stm32f2xx_usart.c
+> @@ -103,10 +103,11 @@ static uint64_t stm32f2xx_usart_read(void *opaque, =
+hwaddr addr,
+>          return retvalue;
+>      case USART_DR:
+>          DB_PRINT("Value: 0x%" PRIx32 ", %c\n", s->usart_dr, (char) s->us=
+art_dr);
+> +        retvalue =3D s->usart_dr & 0x3FF;
+>          s->usart_sr &=3D ~USART_SR_RXNE;
+>          qemu_chr_fe_accept_input(&s->chr);
+>          qemu_set_irq(s->irq, 0);
+> -        return s->usart_dr & 0x3FF;
+> +        return retvalue;
+>      case USART_BRR:
+>          return s->usart_brr;
+>      case USART_CR1:
+> --
+> 2.17.1
 
-QEMU's code for handling writes to ICV_IARn (which happen when the L2
-guest acknowledges an interrupt) and to ICV_EOIRn (which happen at
-the end of the interrupt) did not consider LPIs, so it would
-incorrectly treat interrupt IDs above 1023 as invalid.  Fix this by
-using the correct condition, which is gicv3_intid_is_special().
+The bug happens because qemu_chr_fe_accept_input() can cause
+stm32f2xx_usart_receive() to be called, right ?
 
-Note that the condition in icv_dir_write() is correct -- LPIs
-are not valid there and so we want to ignore both "special" ID
-values and LPIs.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-(In the pseudocode this logic is in:
- - VirtualReadIAR0(), VirtualReadIAR1(), which call IsSpecial()
- - VirtualWriteEOIR0(), VirtualWriteEOIR1(), which call
-     VirtualIdentifierValid(data, TRUE) meaning "LPIs OK"
- - VirtualWriteDIR(), which calls VirtualIdentifierValid(data, FALSE)
-     meaning "LPIs not OK")
+I'll put this in my list of patches to take via target-arm.next for the
+7.0 release.
 
-This bug doesn't seem to have any visible effect on Linux L2 guests
-most of the time, because the two bugs cancel each other out: we
-neither mark the interrupt active nor deactivate it.  However it does
-mean that the L2 vCPU priority while the LPI handler is running will
-not be correct, so the interrupt handler could be unexpectedly
-interrupted by a different interrupt.
-
-(NB: this has nothing to do with using QEMU's emulated ITS.)
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Marc Zyngier <maz@kernel.org>
----
- hw/intc/arm_gicv3_cpuif.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index 7fbc36ff41b..7fba9314508 100644
---- a/hw/intc/arm_gicv3_cpuif.c
-+++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -653,7 +653,7 @@ static uint64_t icv_iar_read(CPUARMState *env, const ARMCPRegInfo *ri)
- 
-         if (thisgrp == grp && icv_hppi_can_preempt(cs, lr)) {
-             intid = ich_lr_vintid(lr);
--            if (intid < INTID_SECURE) {
-+            if (!gicv3_intid_is_special(intid)) {
-                 icv_activate_irq(cs, idx, grp);
-             } else {
-                 /* Interrupt goes from Pending to Invalid */
-@@ -1265,8 +1265,7 @@ static void icv_eoir_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     trace_gicv3_icv_eoir_write(ri->crm == 8 ? 0 : 1,
-                                gicv3_redist_affid(cs), value);
- 
--    if (irq >= GICV3_MAXIRQ) {
--        /* Also catches special interrupt numbers and LPIs */
-+    if (gicv3_intid_is_special(irq)) {
-         return;
-     }
- 
--- 
-2.25.1
-
+thanks
+-- PMM
 
