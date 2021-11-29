@@ -2,85 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918FB4615A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 13:59:55 +0100 (CET)
-Received: from localhost ([::1]:36682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 341A446181A
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:25:28 +0100 (CET)
+Received: from localhost ([::1]:42840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrgGA-00036b-4o
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 07:59:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34370)
+	id 1mrhax-0006BI-AE
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:25:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mrgEf-0002Lu-5u
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 07:58:21 -0500
-Received: from [2a00:1450:4864:20::434] (port=39801
- helo=mail-wr1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mrgEd-0002Hs-RR
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 07:58:20 -0500
-Received: by mail-wr1-x434.google.com with SMTP id a18so36620635wrn.6
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 04:58:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Bzwx2VMVMxASXARypUNNpeqqL7YlsGByLkHj+hW/F6k=;
- b=GvK+GXOf/PMSqMf0p8Adax/X6OwJvk2jT9prTaSC4NIcgYlOoxGe9E8qB7mLWS9pjj
- 71cf1vu+0sPZ4zLk7WQi7L45DTqPsqiujuqunovAlruktJ0/CNzcje95/PHxfRVS5rph
- tCcqaCIyeMWldyZIIgAPsTbtn/il21HoDNB6qVfx5/gByBolk/T3YAarmvr+Bbwfr77C
- 0ahS33HV6WQ7Yn0zOPw2HDddjgrKY9tFoWl00Ds9EPIc1XN6r3+sUWke3xziF0ufU4wT
- B3tnlplYUD/otkwJ/V6O/KIIBDUNBBN2GjFJZx6zKCGofhXnyvPsPO+vBZZUvmUZYXam
- BJ+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Bzwx2VMVMxASXARypUNNpeqqL7YlsGByLkHj+hW/F6k=;
- b=OdgGEzyo5Dn8RoSNG3s4R/9u0xiyZ0vzSnwG7PVn4F9eMb6BkP6FWLE4HaZGNlsHKz
- KHBUYvpKw7ItNZzZ2uXMPVYs+tOwD7j37a0oqJCKlpHd5iaK6KdU2c8aXPHOPO0Z5dVD
- i5Z49sjZk4e6njLQF10Qc03psyKOczi3joYI3iYeVdtMmo4nydOucuVoJYsTIv/bUi4d
- nzUvc2u8CJWkYkENXGHUODnQsX0HLNvF5bB+nM3awq1eW+e26y78ujb0jVUg7+3hQ46n
- 6bpj4QiFFd/WFuS2VLwUheQ1avDw7TSuMipclJqCEWgogVVRshuvKoqVWV+t8oqkpWP/
- lqaQ==
-X-Gm-Message-State: AOAM531vUsF4wqrV49Ta649pi6Jv/DEIzNpWK80UqIx8QuxTV0UBJXOO
- q0DAX548d8F8frzmEvV2TMt9yg==
-X-Google-Smtp-Source: ABdhPJz0Ru6iVc4aQS89nfzPgb4N6iHdb9iBfkWmgImSKPoBlwiJ+hBTBdOvs/bokNv85nC+bay2HA==
-X-Received: by 2002:adf:cc91:: with SMTP id p17mr33566493wrj.589.1638190698434; 
- Mon, 29 Nov 2021 04:58:18 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h18sm15088933wre.46.2021.11.29.04.58.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 04:58:17 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2CE481FF96;
- Mon, 29 Nov 2021 12:58:15 +0000 (GMT)
-References: <20211128011551.2115468-1-juro.bystricky@intel.com>
-User-agent: mu4e 1.7.5; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Juro Bystricky <juro.bystricky@intel.com>
-Subject: Re: [PATCH] tests/plugin/syscall.c: fix compiler warnings
-Date: Mon, 29 Nov 2021 12:58:09 +0000
-In-reply-to: <20211128011551.2115468-1-juro.bystricky@intel.com>
-Message-ID: <87r1azyv88.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <prvs=960286616=dwmw@amazon.co.uk>)
+ id 1mrf1G-0004yv-P9
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 06:40:26 -0500
+Received: from smtp-fw-80007.amazon.com ([99.78.197.218]:19060)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=960286616=dwmw@amazon.co.uk>)
+ id 1mrf1E-0005KR-LJ
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 06:40:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
+ s=amazon201209; t=1638186025; x=1669722025;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:mime-version: content-transfer-encoding;
+ bh=/4yJ31W3adfSv2cvVa7Z8ElXShDQ/bIpRciTbAjSXF4=;
+ b=BWbZrFmR0+S78YHNCgEYmTYD1Gh8X8Xnp98kex9/NdfIzbkMP3An7s5m
+ uI/hIMUqS1XCLjrWENCiedN9pW2W7MDCkUXbKobpefGA/UkkOiAGraCEs
+ lMVbrnhfH89jKNfhXVzJ7bzCl6HiGWhUgC/lbHATB+luj/x6aRNVtYS8Y s=;
+X-IronPort-AV: E=Sophos;i="5.87,273,1631577600"; d="scan'208";a="44775324"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO
+ email-inbound-relay-pdx-2b-5a09360d.us-west-2.amazon.com) ([10.25.36.210])
+ by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP;
+ 29 Nov 2021 11:39:58 +0000
+Received: from EX13MTAUEE002.ant.amazon.com
+ (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+ by email-inbound-relay-pdx-2b-5a09360d.us-west-2.amazon.com (Postfix) with
+ ESMTPS id 97D4741B24; Mon, 29 Nov 2021 11:39:57 +0000 (UTC)
+Received: from EX13D08UEE003.ant.amazon.com (10.43.62.118) by
+ EX13MTAUEE002.ant.amazon.com (10.43.62.24) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.26; Mon, 29 Nov 2021 11:39:57 +0000
+Received: from EX13D08UEE001.ant.amazon.com (10.43.62.126) by
+ EX13D08UEE003.ant.amazon.com (10.43.62.118) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.26; Mon, 29 Nov 2021 11:39:57 +0000
+Received: from EX13D08UEE001.ant.amazon.com ([10.43.62.126]) by
+ EX13D08UEE001.ant.amazon.com ([10.43.62.126]) with mapi id 15.00.1497.026;
+ Mon, 29 Nov 2021 11:39:57 +0000
+From: "Woodhouse, David" <dwmw@amazon.co.uk>
+To: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "cfontana@suse.de"
+ <cfontana@suse.de>
+CC: "ehabkost@redhat.com" <ehabkost@redhat.com>, "philmd@redhat.com"
+ <philmd@redhat.com>, "lovemrd@gmail.com" <lovemrd@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "alxndr@bu.edu"
+ <alxndr@bu.edu>
+Subject: Re: [PATCH for-6.1 v2] i386: do not call cpudef-only models functions
+ for max, host, base
+Thread-Topic: [PATCH for-6.1 v2] i386: do not call cpudef-only models
+ functions for max, host, base
+Thread-Index: AQHX5RXVX9dvsEIxYEWjOesqaqmDHg==
+Date: Mon, 29 Nov 2021 11:39:57 +0000
+Message-ID: <1102c315addf2f2fffc49222ab5be118e7ae9b0f.camel@amazon.co.uk>
+References: <20210723112921.12637-1-cfontana@suse.de>
+In-Reply-To: <20210723112921.12637-1-cfontana@suse.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.43.60.124]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FBF7C44602CF0B4A8EA181E93DD015CC@amazon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Precedence: Bulk
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=99.78.197.218;
+ envelope-from=prvs=960286616=dwmw@amazon.co.uk; helo=smtp-fw-80007.amazon.com
+X-Spam_score_int: -125
+X-Spam_score: -12.6
+X-Spam_bar: ------------
+X-Spam_report: (-12.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 29 Nov 2021 09:08:37 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,19 +97,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, erdnaxe@crans.org, ma.mandourr@gmail.com,
- qemu-devel@nongnu.org, jurobystricky@hotmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+T24gRnJpLCAyMDIxLTA3LTIzIGF0IDEzOjI5ICswMjAwLCBDbGF1ZGlvIEZvbnRhbmEgd3JvdGU6
+DQo+ICBzdGF0aWMgdm9pZCBrdm1fY3B1X2luc3RhbmNlX2luaXQoQ1BVU3RhdGUgKmNzKQ0KPiAg
+ew0KPiAgICAgIFg4NkNQVSAqY3B1ID0gWDg2X0NQVShjcyk7DQo+ICsgICAgWDg2Q1BVQ2xhc3Mg
+KnhjYyA9IFg4Nl9DUFVfR0VUX0NMQVNTKGNwdSk7DQo+ICANCj4gICAgICBob3N0X2NwdV9pbnN0
+YW5jZV9pbml0KGNwdSk7DQo+ICANCj4gLSAgICBpZiAoIWt2bV9pcnFjaGlwX2luX2tlcm5lbCgp
+KSB7DQo+IC0gICAgICAgIHg4Nl9jcHVfY2hhbmdlX2t2bV9kZWZhdWx0KCJ4MmFwaWMiLCAib2Zm
+Iik7DQo+IC0gICAgfSBlbHNlIGlmIChrdm1faXJxY2hpcF9pc19zcGxpdCgpICYmIGt2bV9lbmFi
+bGVfeDJhcGljKCkpIHsNCj4gLSAgICAgICAgeDg2X2NwdV9jaGFuZ2Vfa3ZtX2RlZmF1bHQoImt2
+bS1tc2ktZXh0LWRlc3QtaWQiLCAib24iKTsNCj4gLSAgICB9DQo+IC0NCj4gLSAgICAvKiBTcGVj
+aWFsIGNhc2VzIG5vdCBzZXQgaW4gdGhlIFg4NkNQVURlZmluaXRpb24gc3RydWN0czogKi8NCj4g
+KyAgICBpZiAoeGNjLT5tb2RlbCkgew0KPiArICAgICAgICAvKiBvbmx5IGFwcGxpZXMgdG8gYnVp
+bHRpbl94ODZfZGVmcyBjcHVzICovDQo+ICsgICAgICAgIGlmICgha3ZtX2lycWNoaXBfaW5fa2Vy
+bmVsKCkpIHsNCj4gKyAgICAgICAgICAgIHg4Nl9jcHVfY2hhbmdlX2t2bV9kZWZhdWx0KCJ4MmFw
+aWMiLCAib2ZmIik7DQo+ICsgICAgICAgIH0gZWxzZSBpZiAoa3ZtX2lycWNoaXBfaXNfc3BsaXQo
+KSAmJiBrdm1fZW5hYmxlX3gyYXBpYygpKSB7DQo+ICsgICAgICAgICAgICB4ODZfY3B1X2NoYW5n
+ZV9rdm1fZGVmYXVsdCgia3ZtLW1zaS1leHQtZGVzdC1pZCIsICJvbiIpOw0KPiArICAgICAgICB9
+DQo+ICANCj4gLSAgICB4ODZfY3B1X2FwcGx5X3Byb3BzKGNwdSwga3ZtX2RlZmF1bHRfcHJvcHMp
+Ow0KPiArICAgICAgICAvKiBTcGVjaWFsIGNhc2VzIG5vdCBzZXQgaW4gdGhlIFg4NkNQVURlZmlu
+aXRpb24gc3RydWN0czogKi8NCj4gKyAgICAgICAgeDg2X2NwdV9hcHBseV9wcm9wcyhjcHUsIGt2
+bV9kZWZhdWx0X3Byb3BzKTsNCj4gKyAgICB9DQo+ICANCg0KSSB0aGluayB0aGlzIGNhdXNlcyBh
+IHJlZ3Jlc3Npb24gaW4geDJhcGljIGFuZCBrdm0tbXNpLWV4dC1kZXN0LWlkDQpzdXBwb3J0LiBJ
+ZiB5b3Ugc3RhcnQgcWVtdSB0aHVzOg0KDQpxZW11LXN5c3RlbS14ODZfNjQgLW1hY2hpbmUgcTM1
+LGFjY2VsPWt2bSx1c2I9b2ZmLGtlcm5lbF9pcnFjaGlwPXNwbGl0IC1jcHUgaG9zdCAtc21wIDI4
+OCxzb2NrZXRzPTksY29yZXM9MTYsdGhyZWFkcz0yDQoNClRoZSBndWVzdCBub3cgc2VlcyB0aG9z
+ZSBmZWF0dXJlcywgYnV0IHdlIGRvbid0IGFjdHVhbGx5IGNhbGwNCmt2bV9lbmFibGVfeDJhcGlj
+KCkgc28gdGhlIEFQSUMgYnJvYWRjYXN0IHF1aXJrIGRvZXNuJ3QgZ2V0IGRpc2FibGVkLA0KYW5k
+IGludGVycnVwdHMgdGFyZ2V0ZWQgYXQgQVBJQyBJRCAyNTUgYXJlIGludGVycHJldGVkIGFzIGJy
+b2FkY2FzdHM6DQoNClsgNzMuMTk4NTA0XSBfX2NvbW1vbl9pbnRlcnJ1cHQ6IDAuMzQgTm8gaXJx
+IGhhbmRsZXIgZm9yIHZlY3Rvcg0KWyA3My4xOTg1MTVdIF9fY29tbW9uX2ludGVycnVwdDogMTEu
+MzQgTm8gaXJxIGhhbmRsZXIgZm9yIHZlY3Rvcg0KWyA3My4xOTg1MTddIF9fY29tbW9uX2ludGVy
+cnVwdDogMTIuMzQgTm8gaXJxIGhhbmRsZXIgZm9yIHZlY3Rvcg0KWyA3My4xOTg1MjFdIF9fY29t
+bW9uX2ludGVycnVwdDogMTUuMzQgTm8gaXJxIGhhbmRsZXIgZm9yIHZlY3Rvcg0KWyA3My4xOTg1
+MjRdIF9fY29tbW9uX2ludGVycnVwdDogMTcuMzQgTm8gaXJxIGhhbmRsZXIgZm9yIHZlY3Rvcg0K
+WyA3My4xOTg1MjhdIF9fY29tbW9uX2ludGVycnVwdDogMzQuMzQgTm8gaXJxIGhhbmRsZXIgZm9y
+IHZlY3Rvcg0KWyA3My4xOTg1MjldIF9fY29tbW9uX2ludGVycnVwdDogMjAuMzQgTm8gaXJxIGhh
+bmRsZXIgZm9yIHZlY3Rvcg0KWyA3My4xOTg1MzNdIF9fY29tbW9uX2ludGVycnVwdDogNDEuMzQg
+Tm8gaXJxIGhhbmRsZXIgZm9yIHZlY3Rvcg0KWyA3My4xOTg1MzldIF9fY29tbW9uX2ludGVycnVw
+dDogMjcuMzQgTm8gaXJxIGhhbmRsZXIgZm9yIHZlY3Rvcg0KWyA3My4xOTg1NDJdIF9fY29tbW9u
+X2ludGVycnVwdDogMjguMzQgTm8gaXJxIGhhbmRsZXIgZm9yIHZlY3Rvcg0KCgoKQW1hem9uIERl
+dmVsb3BtZW50IENlbnRyZSAoTG9uZG9uKSBMdGQuIFJlZ2lzdGVyZWQgaW4gRW5nbGFuZCBhbmQg
+V2FsZXMgd2l0aCByZWdpc3RyYXRpb24gbnVtYmVyIDA0NTQzMjMyIHdpdGggaXRzIHJlZ2lzdGVy
+ZWQgb2ZmaWNlIGF0IDEgUHJpbmNpcGFsIFBsYWNlLCBXb3JzaGlwIFN0cmVldCwgTG9uZG9uIEVD
+MkEgMkZBLCBVbml0ZWQgS2luZ2RvbS4KCgo=
 
-Juro Bystricky <juro.bystricky@intel.com> writes:
-
-> Fix compiler warnings. The warnings can result in a broken build.
-> This patch fixes warnings such as:
-
-Queued to for-6.2/more-misc-fixes, thanks.
-
---=20
-Alex Benn=C3=A9e
 
