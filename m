@@ -2,90 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0585B461CB4
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:27:25 +0100 (CET)
-Received: from localhost ([::1]:40830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3122461CC5
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:33:04 +0100 (CET)
+Received: from localhost ([::1]:49150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrkR2-0001XP-5I
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:27:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57442)
+	id 1mrkWV-0006Uv-Pw
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:33:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mrkGT-0003y1-Mf
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:16:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60369)
+ (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
+ id 1mrkTM-0004WK-E4
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:29:48 -0500
+Received: from mga01.intel.com ([192.55.52.88]:13834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mrkGQ-0001mG-Rg
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:16:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638206185;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hY1fUPtq/x7/ArKHgRYrlSSue/8Q1jQNIbPBPHrbrj4=;
- b=JjlQ4XR6+6GPLIg9ZUodtevJuaNE7mTsa6PQAZItnkgXJCd4pgI+UWyF/fWCBAP7VKpcsb
- epRGmdYrMfwS2cLATUFR/OKJI27AhZdoMERW4L4sjYJiCk/TcXR+PyoxzhNFQvqdkBfDnW
- +UoG8Gw4qK9PQZ8Bh2muKz+Tkpvl+IE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-67-heYnscWgMQqq-hVke-WOgQ-1; Mon, 29 Nov 2021 12:16:24 -0500
-X-MC-Unique: heYnscWgMQqq-hVke-WOgQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- y141-20020a1c7d93000000b0033c2ae3583fso8929796wmc.5
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 09:16:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=hY1fUPtq/x7/ArKHgRYrlSSue/8Q1jQNIbPBPHrbrj4=;
- b=w31PIAB+qF8AMzcLP1Re7hzXVqZZRg9VZYyp1edj7wVLYjwnti7B9IExdgi61DwecU
- 4DYFnuUYzGhanynNNHaGOwnm4uALDLVXQLWkhDkir0aBkb+N1NWP47BufRvzAqwOKExU
- ZUP6o20erSfO3tSj+dE3Qzd9OvYusiiPcVwPmrricxt7VNn6IXrQXuYs3jR+pM99zYPJ
- W0N3z7qH2+IxHruoMF4L5bYARPDoh1A+wEWaRginYTDy80ThuHFbB7rEpMK1E7Es4uRY
- voT40HVVEFwqQ1gAXsDmxXfszEp3X3sl1ZcnjhIRvoRltF7n7wnwPmqUhiugoBp3diA7
- Qtcg==
-X-Gm-Message-State: AOAM531f9sMOndNM/C1rykcC+Fc/2Mhg3unslGKuJb9fcwvnP19wyNdp
- +8d3SAbgKn+s/2TfNsgJtY2dNF5IJqhKd6dljzSpC8+yyuOANcliZCHTUqckj6vgTcpQuAO74cp
- ZrJBbBR/g7DzbOTU=
-X-Received: by 2002:a1c:7405:: with SMTP id p5mr36896555wmc.152.1638206183384; 
- Mon, 29 Nov 2021 09:16:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxptFZS17kozaQMb7zsC7xE2N9F6oynVXD2UapL6IoN86yIiPZYKQVqJ86Zqa8YTkGkFBH5PQ==
-X-Received: by 2002:a1c:7405:: with SMTP id p5mr36896525wmc.152.1638206183191; 
- Mon, 29 Nov 2021 09:16:23 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id a198sm228649wme.1.2021.11.29.09.16.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 09:16:22 -0800 (PST)
-Date: Mon, 29 Nov 2021 17:16:20 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v3 09/23] multifd: Make zstd compression method not use
- iovs
-Message-ID: <YaUK5C7AnOPtisLJ@work-vm>
-References: <20211124100617.19786-1-quintela@redhat.com>
- <20211124100617.19786-10-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
+ id 1mrkTJ-0003S8-Hd
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:29:47 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="259954283"
+X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; d="scan'208";a="259954283"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2021 09:16:34 -0800
+X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; d="scan'208";a="600267741"
+Received: from dsshah-mobl2.amr.corp.intel.com (HELO intel.com)
+ ([10.252.141.244])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2021 09:16:33 -0800
+Date: Mon, 29 Nov 2021 09:16:31 -0800
+From: Ben Widawsky <ben.widawsky@intel.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: Follow-up on the CXL discussion at OFTC
+Message-ID: <20211129171631.ytixckw2gz3rya25@intel.com>
+References: <OF255704A1.78FEF164-ON0025878E.00821084-0025878F.00015560@ibm.com>
+ <20211117165719.pqig62t5z2grgjvv@intel.com>
+ <20211117173201.00002513@Huawei.com>
+ <OF164E5BA6.E927FE73-ON00258791.0078E206-88258791.007ABBAD@ibm.com>
+ <BY5PR12MB4179A47F68A9A15E5888D074E89B9@BY5PR12MB4179.namprd12.prod.outlook.com>
+ <20211119014822.j247ayrsdve4yxyu@intel.com>
+ <BY5PR12MB4179AA1B062AEA75098E15D8E89C9@BY5PR12MB4179.namprd12.prod.outlook.com>
+ <20211119032541.gr6berwu2ve4tkax@intel.com>
+ <8735njf6f7.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20211124100617.19786-10-quintela@redhat.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8735njf6f7.fsf@linaro.org>
+Received-SPF: pass client-ip=192.55.52.88; envelope-from=ben.widawsky@intel.com;
+ helo=mga01.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,91 +68,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Saransh Gupta1 <saransh@ibm.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Shreyas Shah <shreyas.shah@elastics.cloud>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> ---
->  migration/multifd-zstd.c | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
+On 21-11-26 12:08:08, Alex Bennée wrote:
 > 
-> diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-> index a8b104f4ee..2d5b61106c 100644
-> --- a/migration/multifd-zstd.c
-> +++ b/migration/multifd-zstd.c
-> @@ -13,6 +13,7 @@
->  #include "qemu/osdep.h"
->  #include <zstd.h>
->  #include "qemu/rcu.h"
-> +#include "exec/ramblock.h"
->  #include "exec/target_page.h"
->  #include "qapi/error.h"
->  #include "migration.h"
-> @@ -111,8 +112,8 @@ static void zstd_send_cleanup(MultiFDSendParams *p, Error **errp)
->   */
->  static int zstd_send_prepare(MultiFDSendParams *p, Error **errp)
->  {
-> -    struct iovec *iov = p->pages->iov;
->      struct zstd_data *z = p->data;
-> +    size_t page_size = qemu_target_page_size();
->      int ret;
->      uint32_t i;
->  
-> @@ -126,8 +127,8 @@ static int zstd_send_prepare(MultiFDSendParams *p, Error **errp)
->          if (i == p->pages->num - 1) {
->              flush = ZSTD_e_flush;
->          }
-> -        z->in.src = iov[i].iov_base;
-> -        z->in.size = iov[i].iov_len;
-> +        z->in.src = p->pages->block->host + p->pages->offset[i];
-> +        z->in.size = page_size;
->          z->in.pos = 0;
->  
->          /*
-> @@ -256,7 +257,8 @@ static int zstd_recv_pages(MultiFDRecvParams *p, Error **errp)
->  {
->      uint32_t in_size = p->next_packet_size;
->      uint32_t out_size = 0;
-> -    uint32_t expected_size = p->pages->num * qemu_target_page_size();
-> +    size_t page_size = qemu_target_page_size();
-> +    uint32_t expected_size = p->pages->num * page_size;
->      uint32_t flags = p->flags & MULTIFD_FLAG_COMPRESSION_MASK;
->      struct zstd_data *z = p->data;
->      int ret;
-> @@ -278,10 +280,8 @@ static int zstd_recv_pages(MultiFDRecvParams *p, Error **errp)
->      z->in.pos = 0;
->  
->      for (i = 0; i < p->pages->num; i++) {
-> -        struct iovec *iov = &p->pages->iov[i];
-> -
-> -        z->out.dst = iov->iov_base;
-> -        z->out.size = iov->iov_len;
-> +        z->out.dst = p->pages->block->host + p->pages->offset[i];
-> +        z->out.size = page_size;
->          z->out.pos = 0;
->  
->          /*
-> @@ -295,8 +295,8 @@ static int zstd_recv_pages(MultiFDRecvParams *p, Error **errp)
->          do {
->              ret = ZSTD_decompressStream(z->zds, &z->out, &z->in);
->          } while (ret > 0 && (z->in.size - z->in.pos > 0)
-> -                         && (z->out.pos < iov->iov_len));
-> -        if (ret > 0 && (z->out.pos < iov->iov_len)) {
-> +                         && (z->out.pos < page_size));
-> +        if (ret > 0 && (z->out.pos < page_size)) {
->              error_setg(errp, "multifd %d: decompressStream buffer too small",
->                         p->id);
->              return -1;
-> -- 
-> 2.33.1
+> Ben Widawsky <ben.widawsky@intel.com> writes:
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > On 21-11-19 02:29:51, Shreyas Shah wrote:
+> >> Hi Ben
+> >> 
+> >> Are you planning to add the CXL2.0 switch inside QEMU or already added in one of the version? 
+> >>  
+> >
+> > From me, there are no plans for QEMU anything until/unless upstream thinks it
+> > will merge the existing patches, or provide feedback as to what it would take to
+> > get them merged. If upstream doesn't see a point in these patches, then I really
+> > don't see much value in continuing to further them. Once hardware comes out, the
+> > value proposition is certainly less.
+> 
+> I take it:
+> 
+>   Subject: [RFC PATCH v3 00/31] CXL 2.0 Support
+>   Date: Mon,  1 Feb 2021 16:59:17 -0800
+>   Message-Id: <20210202005948.241655-1-ben.widawsky@intel.com>
+> 
+> is the current state of the support? I saw there was a fair amount of
+> discussion on the thread so assumed there would be a v4 forthcoming at
+> some point.
 
+Hi Alex,
+
+There is a v4, however, we never really had a solid plan for the primary issue
+which was around handling CXL memory expander devices properly (both from an
+interleaving standpoint as well as having a device which hosts multiple memory
+capacities, persistent and volatile). I didn't feel it was worth sending a v4
+unless someone could say
+1. we will merge what's there and fix later, or
+2. you must have a more perfect emulation in place, or
+3. we want to see usages for a real guest
+
+I had hoped we could merge what was there mostly as is and fix it up as we go.
+It's useful in the state it is now, and as time goes on, we find more usecases
+for it in a VMM, and not just driver development.
+
+> 
+> Adding new subsystems to QEMU does seem to be a pain point for new
+> contributors. Patches tend to fall through the cracks of existing
+> maintainers who spend most of their time looking at stuff that directly
+> touches their files. There is also a reluctance to merge large chunks of
+> functionality without an identified maintainer (and maybe reviewers) who
+> can be the contact point for new patches. So in short you need:
+> 
+>  - Maintainer Reviewed-by/Acked-by on patches that touch other sub-systems
+
+This is the challenging one. I have Cc'd the relevant maintainers (hw/pci and
+hw/mem are the two) in the past, but I think there interest is lacking (and
+reasonably so, it is an entirely different subsystem).
+
+>  - Reviewed-by tags on the new sub-system patches from anyone who understands CXL
+
+I have/had those from Jonathan.
+
+>  - Some* in-tree testing (so it doesn't quietly bitrot)
+
+We had this, but it's stale now. We can bring this back up.
+
+>  - A patch adding the sub-system to MAINTAINERS with identified people
+
+That was there too. Since the original posting, I'd be happy to sign Jonathan up
+to this if he's willing.
+
+> 
+> * Some means at least ensuring qtest can instantiate the device and not
+>   fall over. Obviously more testing is better but it can always be
+>   expanded on in later series.
+
+This was in the patch series. It could use more testing for sure, but I had
+basic functional testing in place via qtest.
+
+> 
+> Is that the feedback you were looking for?
+
+You validated my assumptions as to what's needed, but your first bullet is the
+one I can't seem to pin down.
+
+Thanks.
+Ben
 
