@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E0A461CD1
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:37:06 +0100 (CET)
-Received: from localhost ([::1]:57268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB798461CCB
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:34:26 +0100 (CET)
+Received: from localhost ([::1]:52364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrkaP-0002z1-BA
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:37:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33136)
+	id 1mrkXp-0008Pc-RC
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:34:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mrkVn-0006Ag-GO
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:32:20 -0500
-Received: from [2a00:1450:4864:20::32a] (port=38686
- helo=mail-wm1-x32a.google.com)
+ id 1mrkWH-0006k4-Ov
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:32:49 -0500
+Received: from [2a00:1450:4864:20::335] (port=39680
+ helo=mail-wm1-x335.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mrkVl-0003rC-9I
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:32:18 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- p3-20020a05600c1d8300b003334fab53afso17467596wms.3
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 09:32:14 -0800 (PST)
+ id 1mrkWC-0003t6-02
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:32:48 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ n33-20020a05600c502100b0032fb900951eso17468263wmr.4
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 09:32:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zpQZIk99e68CYyjW+SZDaB5VOfkE4l0inE85JEVtozs=;
- b=lgMqV9WaMFzFA5PLWR79Wz24QC7sP1CPqtHEBUJiOY+S8P0S6TnxQMlPO8uMIFnTGT
- mJH+EC7qE1R9sFsvjQeB4mcV13djnGOqbR65p+2UonvkqqXmV4PABo5vmZq07OPTLBmb
- mFSKj+G2XwSD9N/uREmcfZXZ4GTnoXSlnZsJKgjBLCcYJsPcqAP+7uwNVDVauGGezuCl
- gzljEfm5QQsS/AA7i1BFF9FIq8FH3ES6VbyLm52v/nBxVYaY9ypBA4Pha47bW+ZkjcLE
- oYwzyqRkOVdMFW6BfzQ9e7U1DiiFhBSJMd+Scy/iFWsXavkyWcpb5yReGflbNuAOij70
- 5j5Q==
+ :cc; bh=a6ImCOaMArxpEVStOWwYyDE0BzPvQca3TOOo8Ib/jzU=;
+ b=ARWoYbQuaBSeNEko7yAbUug0EWQd34ELQoIKK37d8f9sRdcW7gRnEm21JhvwfrQIBB
+ oHedIE4QuzTZMqhpAM8zJhucEN5hkqlbv+sR58ozGiU2ARocDesJQ9XNoYqN5Nf+auD9
+ 7xoquRuhpCvSzOCVM4KmK3diVSp14tIgdENwEIcwQTjpEIxR/tl4y9fI7z5EhlMDyiEl
+ X5niS7YwZqQiNlAV8Geml4BnQpf+h7glQWGZ9LX1mj7KHeosiG58xXt/QJT69NYCVTcu
+ c0OEWSgFAeCMxegi2M8TcpIWiyyUAd3vPg09iD1NsM63btY34Uz+ajR2R4YoMaysAbri
+ TGCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zpQZIk99e68CYyjW+SZDaB5VOfkE4l0inE85JEVtozs=;
- b=kbadk2A7w6wCAts2t4hFdaY7A9r0wkdwWPBD89ccQ/cE/Re65+vevvRb6D6K/ikoj4
- UFl3h7KVEPB3oVluwuz9UZiMwPFHUxiZiWY7oXWU2y2K1x4+3Ph9uSWI/dCvnrXG11Ku
- TjlkucB3VZlDPYZTC+xLanmBT6Od/G3THqyiJgA95pOL129Bab6YxO1MvjBvD46bFY5N
- X/VivIZKpDZeDjX/nOiZ2RMjwB2ApwCZQL4tA31wx5LlqU0vFTKVAE9WW5PKwKHEyD8X
- aNqKz0EcquoCNFaZDST5conHL9wNp9Vw6sUdfLYE/8846pBs11WDhj0SqSrxt+J/0CeR
- TFFA==
-X-Gm-Message-State: AOAM53371CX6zGC0bVxSLHJSsJ+E75JF85cVpCbq3phve1xWB+jD0S9K
- IB2DTXFpD687iS6FWY0JOyXuJxjm7v1u4TTiqp4xIg==
-X-Google-Smtp-Source: ABdhPJz5G4cNlwJWcysdwYI0QHoEdIN7ftIYD6lv7AZs1ovzNn88nFiT0HCm7iBhysKFb/YF4QWd4S+EkiCuzjPvPq0=
-X-Received: by 2002:a1c:96:: with SMTP id 144mr38727496wma.126.1638207133474; 
- Mon, 29 Nov 2021 09:32:13 -0800 (PST)
+ bh=a6ImCOaMArxpEVStOWwYyDE0BzPvQca3TOOo8Ib/jzU=;
+ b=yK8mcUoliaodHaCVHg/3y8u+X6ZWYg+R9CHhcaRxUACWTS8W1nTGidk21vuXry1L5D
+ ViNs7TRnZhsYoinBO3EXJXT2/vLP12m3rwRnwaNldciKZcAjRsmGmIv0865YF9p41ILW
+ MJAf1wY/OU6k5VbTGmOoIdSHykKKXqppNbrxBWEBKeacq/ecn1BrtfaKsf+09l6LnyDF
+ cBy+4sxt+TB2xfemnJnOjXkhaK1+99xvxF3p38sjSW5C/1fbttPMr0pAkC7ngrhWW3bS
+ +wV9kbOAFGkz31QFmTb9VPQ7BJ/vERmuFd7yD28qy+ra/MXlxVHlQV2hs7gQ3l+R4n03
+ 9QcQ==
+X-Gm-Message-State: AOAM532+EH7nggaHyhR4+xIz7iyNuBdMPi5mTfYGW7dQAtIYJ7OOHrt4
+ icnXykZSITrPAEAtP0KO0X8dGcGzXg0Dymr0WMH/0A==
+X-Google-Smtp-Source: ABdhPJyaYUwphiaQewYP95X/NwFgj5cN0KxtvB0aEEs3XbrRSMnMKQGIelap1FmeM47tE5g3VeoDTvXI2pJvV3L4Atc=
+X-Received: by 2002:a05:600c:22d0:: with SMTP id
+ 16mr38246701wmg.37.1638207162495; 
+ Mon, 29 Nov 2021 09:32:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20211124101555.1410-1-francisco.iglesias@xilinx.com>
- <20211124101555.1410-3-francisco.iglesias@xilinx.com>
-In-Reply-To: <20211124101555.1410-3-francisco.iglesias@xilinx.com>
+ <20211124101555.1410-4-francisco.iglesias@xilinx.com>
+In-Reply-To: <20211124101555.1410-4-francisco.iglesias@xilinx.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 29 Nov 2021 17:32:02 +0000
-Message-ID: <CAFEAcA-a-DrpaC9Cw6S0+8+pceW1mL6GZTf_k1-0-6OP0huCDg@mail.gmail.com>
-Subject: Re: [PATCH v3 02/10] hw/arm/xlnx-versal: Connect Versal's PMC SLCR
+Date: Mon, 29 Nov 2021 17:32:31 +0000
+Message-ID: <CAFEAcA9kEjDb8K0oERvPrFAzyN8d213PC6g2aT1fnMiuCnkvrw@mail.gmail.com>
+Subject: Re: [PATCH v3 03/10] include/hw/dma/xlnx_csu_dma: Add in missing
+ includes in the header
 To: Francisco Iglesias <francisco.iglesias@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -8
 X-Spam_score: -0.9
 X-Spam_bar: /
@@ -69,7 +71,7 @@ X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_XBL=0.375,
  RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,39 +93,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, 24 Nov 2021 at 10:16, Francisco Iglesias
 <francisco.iglesias@xilinx.com> wrote:
 >
-> Connect Versal's PMC SLCR (system-level control registers) model.
+> Add in the missing includes in the header for being able to build the DMA
+> model when reusing it.
 >
 > Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 > ---
->  hw/arm/xlnx-versal.c         | 18 ++++++++++++++++++
->  include/hw/arm/xlnx-versal.h |  6 ++++++
->  2 files changed, 24 insertions(+)
+>  include/hw/dma/xlnx_csu_dma.h | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
-> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-> index b2705b6925..08e250945f 100644
-> --- a/hw/arm/xlnx-versal.c
-> +++ b/hw/arm/xlnx-versal.c
-> @@ -369,6 +369,23 @@ static void versal_create_efuse(Versal *s, qemu_irq *pic)
->      sysbus_connect_irq(SYS_BUS_DEVICE(ctrl), 0, pic[VERSAL_EFUSE_IRQ]);
->  }
+> diff --git a/include/hw/dma/xlnx_csu_dma.h b/include/hw/dma/xlnx_csu_dma.h
+> index 9e9dc551e9..28806628b1 100644
+> --- a/include/hw/dma/xlnx_csu_dma.h
+> +++ b/include/hw/dma/xlnx_csu_dma.h
+> @@ -21,6 +21,11 @@
+>  #ifndef XLNX_CSU_DMA_H
+>  #define XLNX_CSU_DMA_H
 >
-> +static void versal_create_pmc_iou_slcr(Versal *s, qemu_irq *pic)
-> +{
-> +    SysBusDevice *sbd;
+> +#include "hw/sysbus.h"
+> +#include "hw/register.h"
+> +#include "hw/ptimer.h"
+> +#include "hw/stream.h"
 > +
-> +    object_initialize_child(OBJECT(s), "versal-pmc-iou-slcr", &s->pmc.iou.slcr,
-> +                            TYPE_XILINX_VERSAL_PMC_IOU_SLCR);
-> +
-> +    sbd = SYS_BUS_DEVICE(&s->pmc.iou.slcr);
-> +    sysbus_realize(sbd, &error_fatal);
-> +
-> +    memory_region_add_subregion(&s->mr_ps, MM_PMC_PMC_IOU_SLCR,
-> +        sysbus_mmio_get_region(sbd, 0));
+>  #define TYPE_XLNX_CSU_DMA "xlnx.csu_dma"
+>
+>  #define XLNX_CSU_DMA_R_MAX (0x2c / 4)
+> --
+> 2.11.0
 
-Nit: the indent here is wrong.
-
-Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
