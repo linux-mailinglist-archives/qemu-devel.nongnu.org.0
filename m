@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B3E46174E
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 14:59:54 +0100 (CET)
-Received: from localhost ([::1]:41810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 563C1461750
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:00:39 +0100 (CET)
+Received: from localhost ([::1]:44070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrhCD-0008UU-5Y
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 08:59:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49658)
+	id 1mrhCw-0001cw-Da
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:00:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mrh4J-0003nb-9v
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:51:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20927)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mrh4N-0003oS-6H
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:51:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mrh4A-00033c-B3
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:51:35 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mrh4F-00036n-Dn
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:51:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638193893;
+ s=mimecast20190719; t=1638193898;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=dNA74JogDW+OTgGs6tOWW2D5DT75AYZMnUaKYfmi5IQ=;
- b=MJBrjY3/Nd+ufiQh2I2DvCtNBGgJui5AnV09DupnerN9R1NE3XPNYJU8fR+2fyKdnhBrvL
- X+jkf2mMPeBmH2unLZRSTsWlwe49JzKeG1KkcPZFjHHfHzzral/7WouyLQFNtmjPfG7bsw
- 3VvLwftnMmuRn94Ajiphxx9en3TPW+A=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Bxt+L8k1GZjsKtb7c8tzi14JSMlMCVQgRMRp4CiqFKo=;
+ b=UP9gEC9QHJknW+cBBqReiA+4ypj5IEiCyhwFCpnqK8VuJeJYCa2/EhbzaQPHdtJlsoM2lA
+ 5hqseIIpjzOc+UUK+7OFGB5hcPmWUkO/UnRsHR2if7VYOHR96nZfDJfwBJn2dbyoqJE27i
+ PsrBXf4w4Sft+LRVJyuEK2YqZI9en5g=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-DAJ0-QPIP528ufTiJvhjKQ-1; Mon, 29 Nov 2021 08:51:32 -0500
-X-MC-Unique: DAJ0-QPIP528ufTiJvhjKQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- bx28-20020a0564020b5c00b003e7c42443dbso13727360edb.15
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 05:51:32 -0800 (PST)
+ us-mta-283-79Ut3w_kPASTPoXriqsD9w-1; Mon, 29 Nov 2021 08:51:36 -0500
+X-MC-Unique: 79Ut3w_kPASTPoXriqsD9w-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ eg20-20020a056402289400b003eb56fcf6easo13702896edb.20
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 05:51:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=dNA74JogDW+OTgGs6tOWW2D5DT75AYZMnUaKYfmi5IQ=;
- b=iFy4B0gJJfo0t3nuR/mU8ZpkeapYpWzA6fSmoN+u/5hQvWFa3HBTb6hm+0NrAb7Mx/
- HYGGphBHZNs6PfFsnxQahJs8/XZ/1jbnSEIs8Q2SIyDEQlP16/9S9md3agoJgmc09fgh
- 8fQ9O9XhvhR+vfA9EzLM9e85MMP98ZAvEWTbgz0Q8F3tFK9U1irzbjhwY5cU6hHPdijl
- WwAz0EwhH/pbpLbSfY52RRAUmyyX9MZyyvsRbTcWp2HIv7SrXqJbIf7PaGkkhAIcpNdT
- ocFGmxv7fpSUDzMoz1TvffLCb1HRTKBBnZeAwD7HtNiyv7lbvRt9uwO/BInWr8B85w+J
- lq0Q==
-X-Gm-Message-State: AOAM532VY+hZGrHkdPyoeHz2Y3ICbBvjosldK8wWG3/d311X4ViBHRZK
- hpROxXFwBGxg8LBzO9WlhApkl9QqbGX43/IKvDxAQOWagb3Ag2wLUqc//IVI66TOTtJmMIZ7veM
- X+PYSVutH8l4nTOY88OearsF9s3bD9TQZA5LxizGtPpYe8zNHFnpKWrVgOoaM
-X-Received: by 2002:aa7:c783:: with SMTP id n3mr74937960eds.121.1638193891228; 
- Mon, 29 Nov 2021 05:51:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw6JUTvAWr8SJ8MnVNvB5CIDwffDRfMI0mrZR5ZC0RpkqQSqzXD798XXP5DSsey1I6jYZdwmw==
-X-Received: by 2002:aa7:c783:: with SMTP id n3mr74937920eds.121.1638193890993; 
- Mon, 29 Nov 2021 05:51:30 -0800 (PST)
+ bh=Bxt+L8k1GZjsKtb7c8tzi14JSMlMCVQgRMRp4CiqFKo=;
+ b=buBXgFdZ2P4azrpAtElZwjykreqlkwpEH08HLkF1j4GYZh1/fIccvYGsHkeQDp7X7W
+ KYc8eI67eLIB9APBIfA4SDe9gWBfWxJpSqF+G8ps05Z5Vkd/XEMyYP4DOu3sJxUgst9r
+ GWNqRIAr3sQqto41kGnf7/ZtkK5fAuPzKXoomE77YiMjjzj7meC2oY0auS8xtli89GC5
+ b1OQ1f0r4eqnWHaQjeOFU1IaQaQu3kGR+Qyt3QSmsr8JqmmJgMyiwy6Q0hGimhcnwegQ
+ usa+7ZG0yZTyIQyG24sOeaDGLww8VFW+X0kF70dAJ7IjxPDnh2vW3tn650iRcsPz9CFP
+ GYhQ==
+X-Gm-Message-State: AOAM533ymPq84v9MLwMSv65NwjgCzBkSZ2YaCTZ0vrCs+fe18SIPPZsE
+ yzcRZrfezeYcF6U+iyN498q+QQl9W9Pj7YVbRxgRH+9TZEjjrhJcbe9xI8NgKOvSo+z12HEFRzE
+ jVRARUS0VMCAR1zdFVm5LWLd3EaD6LyTaua/Pt2wV3DZysShkLDys+jhoiIik
+X-Received: by 2002:aa7:ca46:: with SMTP id j6mr31327335edt.234.1638193895318; 
+ Mon, 29 Nov 2021 05:51:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzdU7ye2ncZAocRyq4VF3avfUtGtkN9CAGlPFLRTNajwzKT6Zom4wsbykJfPBcSL8OULs5MCg==
+X-Received: by 2002:aa7:ca46:: with SMTP id j6mr31327308edt.234.1638193895123; 
+ Mon, 29 Nov 2021 05:51:35 -0800 (PST)
 Received: from redhat.com ([45.15.19.35])
- by smtp.gmail.com with ESMTPSA id s16sm9127972edt.30.2021.11.29.05.51.28
+ by smtp.gmail.com with ESMTPSA id w18sm9189169edx.55.2021.11.29.05.51.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 05:51:30 -0800 (PST)
-Date: Mon, 29 Nov 2021 08:51:26 -0500
+ Mon, 29 Nov 2021 05:51:34 -0800 (PST)
+Date: Mon, 29 Nov 2021 08:51:31 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/7] intel-iommu: ignore leaf SNP bit in scalable mode
-Message-ID: <20211129135053.560225-7-mst@redhat.com>
+Subject: [PULL 7/7] Fix bad overflow check in hw/pci/pcie.c
+Message-ID: <20211129135053.560225-8-mst@redhat.com>
 References: <20211129135053.560225-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211129135053.560225-1-mst@redhat.com>
@@ -95,68 +95,62 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Daniella Lee <daniellalee111@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+From: Daniella Lee <daniellalee111@gmail.com>
 
-When booting with scalable mode, I hit this error:
+Orginal qemu commit hash:14d02cfbe4adaeebe7cb833a8cc71191352cf03b
 
-qemu-system-x86_64: vtd_iova_to_slpte: detected splte reserve non-zero iova=0xfffff002, level=0x1slpte=0x102681803)
-qemu-system-x86_64: vtd_iommu_translate: detected translation failure (dev=01:00:00, iova=0xfffff002)
-qemu-system-x86_64: New fault is not recorded due to compression of faults
+In function pcie_add_capability, an assert contains the
+"offset < offset + size" expression.
+Both variable offset and variable size are uint16_t,
+the comparison is always true due to type promotion.
+The next expression may be the same.
 
-This is because the SNP bit is set for second level page table since
-Linux kernel commit 6c00612d0cba1 ("iommu/vt-d: Report right snoop
-capability when using FL for IOVA") even if SC is not supported by the
-hardware.
+It might be like this:
+Thread 1 "qemu-system-x86" hit Breakpoint 1, pcie_add_capability (
+    dev=0x555557ce5f10, cap_id=1, cap_ver=2 '\002', offset=256, size=72)
+    at ../hw/pci/pcie.c:930
+930	{
+(gdb) n
+931	    assert(offset >= PCI_CONFIG_SPACE_SIZE);
+(gdb) n
+932	    assert(offset < offset + size);
+(gdb) p offset
+$1 = 256
+(gdb) p offset < offset + size
+$2 = 1
+(gdb) set offset=65533
+(gdb) p offset < offset + size
+$3 = 1
+(gdb) p offset < (uint16_t)(offset + size)
+$4 = 0
 
-To unbreak the guest, ignore the leaf SNP bit for scalable mode
-first. In the future we may consider to add SC support.
-
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20211129033618.3857-1-jasowang@redhat.com>
+Signed-off-by: Daniella Lee <daniellalee111@gmail.com>
+Message-Id: <20211126061324.47331-1-daniellalee111@gmail.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
 ---
- hw/i386/intel_iommu_internal.h | 2 ++
- hw/i386/intel_iommu.c          | 6 ++++++
- 2 files changed, 8 insertions(+)
+ hw/pci/pcie.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index 3d5487fe2c..a6c788049b 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -388,6 +388,8 @@ typedef union VTDInvDesc VTDInvDesc;
- #define VTD_INV_DESC_DEVICE_IOTLB_RSVD_LO 0xffff0000ffe0fff8
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index c5ed266337..d7d73a31e4 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -929,8 +929,8 @@ void pcie_add_capability(PCIDevice *dev,
+                          uint16_t offset, uint16_t size)
+ {
+     assert(offset >= PCI_CONFIG_SPACE_SIZE);
+-    assert(offset < offset + size);
+-    assert(offset + size <= PCIE_CONFIG_SPACE_SIZE);
++    assert(offset < (uint16_t)(offset + size));
++    assert((uint16_t)(offset + size) <= PCIE_CONFIG_SPACE_SIZE);
+     assert(size >= 8);
+     assert(pci_is_express(dev));
  
- /* Rsvd field masks for spte */
-+#define VTD_SPTE_SNP 0x800ULL
-+
- #define VTD_SPTE_PAGE_L1_RSVD_MASK(aw, dt_supported) \
-         dt_supported ? \
-         (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 294499ee20..f584449d8d 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3629,6 +3629,12 @@ static void vtd_init(IntelIOMMUState *s)
-     vtd_spte_rsvd_large[3] = VTD_SPTE_LPAGE_L3_RSVD_MASK(s->aw_bits,
-                                                          x86_iommu->dt_supported);
- 
-+    if (s->scalable_mode) {
-+        vtd_spte_rsvd[1] &= ~VTD_SPTE_SNP;
-+        vtd_spte_rsvd_large[2] &= ~VTD_SPTE_SNP;
-+        vtd_spte_rsvd_large[3] &= ~VTD_SPTE_SNP;
-+    }
-+
-     if (x86_iommu_ir_supported(x86_iommu)) {
-         s->ecap |= VTD_ECAP_IR | VTD_ECAP_MHMV;
-         if (s->intr_eim == ON_OFF_AUTO_ON) {
 -- 
 MST
 
