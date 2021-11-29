@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E8454616E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 14:44:42 +0100 (CET)
-Received: from localhost ([::1]:60090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369E44616F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 14:47:28 +0100 (CET)
+Received: from localhost ([::1]:38334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrgxV-0007JB-94
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 08:44:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44876)
+	id 1mrh0B-0003Ja-80
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 08:47:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mrgoY-0004Ys-9n
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:35:27 -0500
-Received: from [2a00:1450:4864:20::42e] (port=33741
- helo=mail-wr1-x42e.google.com)
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1mrgqd-0007K4-Bg
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:37:36 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:45808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mrgoV-0000Qn-Ra
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:35:26 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id d24so36922737wra.0
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 05:35:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k0KQTzCa7c4J1rHU9JGHeW7S9pJ4QB9yMciEz7+x4no=;
- b=HX3X3HZyK1x018BA5s0x9SZgTGTafq+yx4ILup1DGThuZDzPFugNGccrUDVz8hBIIr
- BI4QS0v1VuaODxtrLVPnLlg01OikY9hPBxlf9mO9sMZCShBAOq74rhkFPVsUaq70ljRh
- aE7PhF+nLpOAjd/4tsdzqncZ49ao8qtJnX0LQZgKMhd32h80kVdhfdv/KQ6/Tn9UZKfw
- CQgB4kL721lDKP/X8ailFega6FgTFxphDEqE9JYG2ivVAkHx3Di+nD89Z0pIXAzGhJRZ
- oFFVEZ276Zn8jOEf047QS1CcTtVqIN+WgxywjnkuUVK3FcktG7KYVFJ1XP1Op5BfVycQ
- kOOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=k0KQTzCa7c4J1rHU9JGHeW7S9pJ4QB9yMciEz7+x4no=;
- b=kmrP2yq04CMsJsOVbBaQZwusIMb2J4o30DS/HnEcm0XjtLkenZJ6a2P+n2dXbtZl2/
- S8SydjsdfeTjjg9nQfAu8mHJ+fiFruc94TywLGQWCzmtkU+rzPmJBUABjsmgc0V0eezZ
- 5KrJofxnbx/xI01xz8QxI1+narHm0wTJzGOrzn32GZ7pKFczddnO4iA+TUpV8PDHgB2L
- II6EFpEeEOQAeJdg//zS23C2iHktLOVtsdlfYCkJeSN1aK6vetMiSz5lbkOW1fAQlI8C
- ATqP++lBwo+1XatmjUnuebmTl+N51OzDieNz3crEgCGSxAEryVWwDU1uZ+R4TZtShjBN
- mK5w==
-X-Gm-Message-State: AOAM533Byeke1lioKizueeFnvbd/RGnqV6lRWDacLTMsVwl+JjHR4+sP
- jwA7ujLmT3yD6vv4raFD1+yhoGKS+w3Doh3qRq8zvw==
-X-Google-Smtp-Source: ABdhPJx7TW9R6XlwJipAvh2HbZG+IcN8fKKSnW4xCsbRjEBTHXLiF6Nj053MnseiKmtK64R0l7pQ0bT5Ujdpt2u/gcs=
-X-Received: by 2002:a05:6000:156a:: with SMTP id
- 10mr33968359wrz.87.1638192922280; 
- Mon, 29 Nov 2021 05:35:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1mrgqb-0000ks-4Q
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:37:35 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4FE6D212CB;
+ Mon, 29 Nov 2021 13:37:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1638193050; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HxFFSInpBiQTrbuTvEdXQnA0RWzVo480lEjOkvDFuG4=;
+ b=Xrz2K1AGqO/Wuh8AJcCCOoBQbBAKSBMwsu/1wqffGXVdHjh/E852TQEFIT8MpzixoDSdMf
+ G9Ik9jX19uIvwHFvCLHbwXv+dmbo/lvQ9WsHBQl5AICgWtgmVDfwohhL421wLXeTCRjE21
+ 2I1ObV4Bd0WUFg8TCTpXbnjdKHq/MX4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1638193050;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HxFFSInpBiQTrbuTvEdXQnA0RWzVo480lEjOkvDFuG4=;
+ b=PKsyaIod57wyJVfhzvpozvteofDvxrl+MmuPwhUYyB33IkzWydEYM8J3Zegk6R3W7VgkxB
+ 9miODmyL+PfQnBCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1CCF413AA5;
+ Mon, 29 Nov 2021 13:37:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id W92yBZrXpGGRZQAAMHmgww
+ (envelope-from <lizhang@suse.de>); Mon, 29 Nov 2021 13:37:30 +0000
+Subject: Re: [PATCH 1/2] multifd: use qemu_sem_timedwait in
+ multifd_recv_thread to avoid waiting forever
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20211126153154.25424-1-lizhang@suse.de>
+ <20211126153154.25424-2-lizhang@suse.de> <YaECIGJAPAtB+n8/@redhat.com>
+ <YaS3aKW6AWH4JAeR@work-vm>
+From: Li Zhang <lizhang@suse.de>
+Message-ID: <50dbb2b9-152e-f97a-d82e-0b6613e54085@suse.de>
+Date: Mon, 29 Nov 2021 14:37:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211124142728.1221817-1-kchamart@redhat.com>
- <20211124142728.1221817-3-kchamart@redhat.com>
-In-Reply-To: <20211124142728.1221817-3-kchamart@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 29 Nov 2021 13:35:11 +0000
-Message-ID: <CAFEAcA-8uAu5nsyFCG6zo9+sFrywJxgeuUdgFzmdKx3wREUFrw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] docs: rSTify "report-a-bug" page; move it to QEMU Git
-To: Kashyap Chamarthy <kchamart@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <YaS3aKW6AWH4JAeR@work-vm>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=lizhang@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.317,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,46 +88,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, thuth@redhat.com, eblake@redhat.com,
- qemu-devel@nongnu.org
+Cc: quintela@redhat.com, qemu-devel@nongnu.org, cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 24 Nov 2021 at 14:27, Kashyap Chamarthy <kchamart@redhat.com> wrote:
->
-> This is also based on Paolo's suggestion[1] of "report-a-bug" page[2]
-> from the QEMU website being a candidate for docs/devel.
->
-> Converted from Markdown to rST using:
->
->     $> pandoc -f markdown -t rst report-a-bug.md \
->             -o reporting-a-bug.rst
->
-> Modifications:
->
-> - Rename this from "report-a-bug" page to "reporting-a-bug" to be
->   consistent with existing in-tree docs.
->
-> - Use internal rST reference to "submitting-a-patch.rst"; and slightly
->   tweak the sentence where this is referenced.
->
-> - Also tweak the description at the top of the 'index.rst' to to reflect
->   that the manual also documents some of QEMU's development processes.
->
-> [1] https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg04002.html
-> [2] https://www.qemu.org/contribute/report-a-bug/
->
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-> ---
->  docs/devel/index.rst           |  8 +++++---
->  docs/devel/reporting-a-bug.rst | 37 ++++++++++++++++++++++++++++++++++
->  2 files changed, 42 insertions(+), 3 deletions(-)
->  create mode 100644 docs/devel/reporting-a-bug.rst
 
-I don't think the bug-reporting instructions really belong in 'devel',
-because we would like all users to report bugs, not just developers.
-I think the /about/ section would be a better home for this file.
+On 11/29/21 12:20 PM, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+>> On Fri, Nov 26, 2021 at 04:31:53PM +0100, Li Zhang wrote:
+>>> When doing live migration with multifd channels 8, 16 or larger number,
+>>> the guest hangs in the presence of the network errors such as missing TCP ACKs.
+>>>
+>>> At sender's side:
+>>> The main thread is blocked on qemu_thread_join, migration_fd_cleanup
+>>> is called because one thread fails on qio_channel_write_all when
+>>> the network problem happens and other send threads are blocked on sendmsg.
+>>> They could not be terminated. So the main thread is blocked on qemu_thread_join
+>>> to wait for the threads terminated.
+>> Isn't the right answer here to ensure we've called 'shutdown' on
+>> all the FDs, so that the threads get kicked out of sendmsg, before
+>> trying to join the thread ?
+> I agree a timeout is wrong here; there is no way to get a good timeout
+> value.
+> However, I'm a bit confused - we should be able to try a shutdown on the
+> receive side using the 'yank' command. - that's what it's there for; Li
+> does this solve your problem?
 
--- PMM
+No, I tried to register 'yank' on the receive side, the receive threads 
+are still waiting there.
+
+It seems that on send side, 'yank' doesn't work either when the send 
+threads are blocked.
+
+This may be not the case to call yank. I am not quite sure about it.
+
+>
+> multifd_load_cleanup already kicks sem_sync before trying to do a
+> thread_join - so have we managed to trigger that on the receive side?
+
+There is no problem with sem_sync in function multifd_load_cleanup.
+
+But it is not called in my case, because no errors are detected on the 
+receive side.
+
+The problem is here:
+
+void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+{
+     MigrationIncomingState *mis = migration_incoming_get_current();
+     Error *local_err = NULL;
+     bool start_migration;
+
+    ...
+
+     if (!mis->from_src_file) {
+
+     ...
+
+      } else {
+         /* Multiple connections */
+         assert(migrate_use_multifd());
+         start_migration = multifd_recv_new_channel(ioc, &local_err);
+         if (local_err) {
+             error_propagate(errp, local_err);
+             return;
+         }
+     }
+    if (start_migration) {
+         migration_incoming_process();
+     }
+}
+
+start_migration is always 0, and migration is not started because some 
+receive threads are not created.
+
+No errors are detected here and the main process works well but receive 
+threads are all waiting for semaphore.
+
+It's hard to know if the receive threads are not created. If we can find 
+a way to check if any receive threads
+
+are not created, we can kick the sem_sync and do cleanup.
+
+ From the source code, the thread will be created when QIO channel 
+detects something by GIO watch if I understand correctly.
+
+If nothing is detected, socket_accept_icoming_migration won't be called, 
+the thread will not be created.
+
+socket_start_incoming_migration_internal ->
+
+     qio_net_listener_set_client_func_full(listener,
+socket_accept_incoming_migration,
+                                           NULL, NULL,
+g_main_context_get_thread_default());
+
+    qio_net_listener_set_client_func_full ->
+
+                qio_channel_add_watch_source(
+                 QIO_CHANNEL(listener->sioc[i]), G_IO_IN,
+                 qio_net_listener_channel_func,
+                 listener, (GDestroyNotify)object_unref, context);
+
+   socket_accept_incoming_migration ->
+
+        migration_channel_process_incoming ->
+
+                migration_ioc_process_incoming ->
+
+                      multifd_recv_new_channel ->
+
+                             qemu_thread_create(&p->thread, p->name, 
+multifd_recv_thread, p,
+QEMU_THREAD_JOINABLE);
+
+>
+> Dave
+>
+>> Regards,
+>> Daniel
+>> -- 
+>> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+>> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+>> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>>
 
