@@ -2,94 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001274613C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 12:21:59 +0100 (CET)
-Received: from localhost ([::1]:58700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAA44613EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 12:34:13 +0100 (CET)
+Received: from localhost ([::1]:36528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrejO-0007DB-Ll
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 06:21:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33032)
+	id 1mrevE-0003ST-47
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 06:34:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mreht-0006QH-3q
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 06:20:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25966)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mrehp-0002V8-Ay
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 06:20:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638184819;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s1ia0dHFRDo8DJlvLL4lCSMg8Jds3RdjvgxBE949ZYM=;
- b=GdWmMDm4zG2SxzjE9GmEkAeBnfgJ23Af+9f8wME295yUOCXF6dnUzKrMUn0LeJwjl5dZZ3
- TPRglsB8b4DwWpj4iDhgwp5lbOeVu3+tGfhAOSKkQ3f7V/aYFFXHGA/WJQHjUUsFDdPW2i
- y4eTT5ucrNJfi3Z8KcPIWQyho+8wUxc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-490-CkP19RrGPMWtY7K9J25SnQ-1; Mon, 29 Nov 2021 06:20:12 -0500
-X-MC-Unique: CkP19RrGPMWtY7K9J25SnQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- q5-20020a5d5745000000b00178abb72486so2724275wrw.9
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 03:20:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mreuT-0002mf-E6
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 06:33:25 -0500
+Received: from [2a00:1450:4864:20::435] (port=40679
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mreuR-0004Vx-QX
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 06:33:25 -0500
+Received: by mail-wr1-x435.google.com with SMTP id t9so19072048wrx.7
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 03:33:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=LSJT9fWHIrYPCSKVv1+CbxWLaZzp4ErT9bjHuWZcsVY=;
+ b=fr2r2oSNmxu+poy0ir2iNiHb1d9nf0M1zZY9Me9Gz1MApPlvz5gU0XC2CEdzgsUKrf
+ UKVFwvUMmIDiQ0MACxtPCzjdrv+C1hrGvNoyrgLH0IgyJ3zshE+zoe4ldtEhBej1SWOB
+ dpjNSikqE7gju3GOslB1AxFrXQG4PUrjC5dnYouqGDLsQERY83Qk01Tg4sSRuxbOX8kK
+ fSjyBhXBWM882uMRNIha/BA06bq5lytg6goV8H34hcjRBxKKkmz76Ei/qP/YZYJFFDcs
+ Fa/EW+0NT7+SDju74tBMQ/dEKieoB9FXEduqHjdhSWrkl9Rh8GOHhzSwXqXusSwrgBxc
+ yzRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=s1ia0dHFRDo8DJlvLL4lCSMg8Jds3RdjvgxBE949ZYM=;
- b=kKfJ86hdR0Xgh5bFMUA73h4id2bjVku/0OitI5rtVDJdm0t8vuPM9VxhvHPunNSJVy
- fzrs+xhaxiMX5vdWbXW6So3HlFstabzsYfxprjT58iP9eWpOf2Nt0+KWLouI9BBNUsfo
- G7/55Dp04Mhg+e12FIo9c70l5n8usanWCEwnf+2Lbnfw1OZ3bPBZeJ5JOKiLw2n7npYo
- 41KIrbU2FyowMous9y0JjdKBRqdMWGgX0pfNRGdQ3wpbBOUQ1hYezjqHdP+/6nXImgvT
- fZkF2zxvszQEBOuJjGlMwXxjQajmXxOWc2R7fxmF6pbnGm1jYkYtaFWI3i2NnzKn9F9n
- LsZA==
-X-Gm-Message-State: AOAM533c6MbcysVneKJ4Oq9d5eWTSGPdogSomgkAs6PW2me0XndMIE0c
- 2d7+ZDd2T/qAsnESyk7ICBY2ROfoVpCVOWg0ZyxTMduhnZdFY8qwAGCWe5LYWgvHuULC5TFjyK5
- 4VKSdLGK0NeeeEAU=
-X-Received: by 2002:a5d:6dc3:: with SMTP id d3mr33451847wrz.159.1638184811112; 
- Mon, 29 Nov 2021 03:20:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw3tvMmUV5xACERkxkaI7UXKKwJiO3svwoTKzAlRFCRHn4d+TU0g+79lCB3ocXLlhvU5SN5Jw==
-X-Received: by 2002:a5d:6dc3:: with SMTP id d3mr33451825wrz.159.1638184810924; 
- Mon, 29 Nov 2021 03:20:10 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id n184sm18223217wme.2.2021.11.29.03.20.10
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=LSJT9fWHIrYPCSKVv1+CbxWLaZzp4ErT9bjHuWZcsVY=;
+ b=vMezNDSU6CbE34sNl358YQQ7w3faFJ767MSHZuBRIO2LR44TYyatwPR/rOsmMwW+3z
+ FvUgzX1JWZTaOJLL83QR3FU7T9lhrvYOPXcdjwgHsKqEqCSnTxnYw+5tAPASCyZQcEd/
+ zFuMWJtlADxMfI8ZS17zALdaZp38k69GRAEcFOOSPUpJBLxUeD6NRaA8Yth6mmyWJ40C
+ qp4c1iTmMSauEacN6NbjpYEpdPVZlNQPAf8Vx4UyPRLFVjlmYDTnP6IDc2+4LYb/ZhhV
+ 7VtV2QxrzlFPKJdMsiODUGqhWCckBvixItdtNXm60PmhDcTypnDmoBeT2GZqJJGLZjKt
+ aE8Q==
+X-Gm-Message-State: AOAM530qoCdQTSp6nP8SbXOzZyR03zNCaksuKMQN2evkyBJscSI6D35D
+ Tf/c+1iFnNsGNtbm5QaVtG3eTw==
+X-Google-Smtp-Source: ABdhPJwpGgLwXr3TBB0HvGxRafyGAqSzAxJHesTGs4UfZpAk9U8JMlZ6WhPwlfXMKsS3ubksakvXlA==
+X-Received: by 2002:a5d:5385:: with SMTP id d5mr32201902wrv.132.1638185602152; 
+ Mon, 29 Nov 2021 03:33:22 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s63sm15461808wme.22.2021.11.29.03.33.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 03:20:10 -0800 (PST)
-Date: Mon, 29 Nov 2021 11:20:08 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 1/2] multifd: use qemu_sem_timedwait in
- multifd_recv_thread to avoid waiting forever
-Message-ID: <YaS3aKW6AWH4JAeR@work-vm>
-References: <20211126153154.25424-1-lizhang@suse.de>
- <20211126153154.25424-2-lizhang@suse.de>
- <YaECIGJAPAtB+n8/@redhat.com>
+ Mon, 29 Nov 2021 03:33:21 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C06171FF96;
+ Mon, 29 Nov 2021 11:33:20 +0000 (GMT)
+References: <20211125154144.2904741-1-alex.bennee@linaro.org>
+ <20211125154144.2904741-3-alex.bennee@linaro.org>
+ <5c283ce4-1583-5f40-3468-f818b909f210@linaro.org>
+User-agent: mu4e 1.7.5; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 2/7] accel/tcg: suppress IRQ check for special TBs
+Date: Mon, 29 Nov 2021 11:33:01 +0000
+In-reply-to: <5c283ce4-1583-5f40-3468-f818b909f210@linaro.org>
+Message-ID: <87v90byz5r.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <YaECIGJAPAtB+n8/@redhat.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,47 +91,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Li Zhang <lizhang@suse.de>, cfontana@suse.de,
- quintela@redhat.com
+Cc: fam@euphon.net, berrange@redhat.com, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, f4bug@amsat.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Fri, Nov 26, 2021 at 04:31:53PM +0100, Li Zhang wrote:
-> > When doing live migration with multifd channels 8, 16 or larger number,
-> > the guest hangs in the presence of the network errors such as missing TCP ACKs.
-> > 
-> > At sender's side:
-> > The main thread is blocked on qemu_thread_join, migration_fd_cleanup
-> > is called because one thread fails on qio_channel_write_all when
-> > the network problem happens and other send threads are blocked on sendmsg.
-> > They could not be terminated. So the main thread is blocked on qemu_thread_join
-> > to wait for the threads terminated.
-> 
-> Isn't the right answer here to ensure we've called 'shutdown' on
-> all the FDs, so that the threads get kicked out of sendmsg, before
-> trying to join the thread ?
 
-I agree a timeout is wrong here; there is no way to get a good timeout
-value.
-However, I'm a bit confused - we should be able to try a shutdown on the
-receive side using the 'yank' command. - that's what it's there for; Li
-does this solve your problem?
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-multifd_load_cleanup already kicks sem_sync before trying to do a
-thread_join - so have we managed to trigger that on the receive side?
+> On 11/25/21 4:41 PM, Alex Benn=C3=A9e wrote:
+>> @@ -1738,7 +1738,7 @@ tb_invalidate_phys_page_range__locked(struct page_=
+collection *pages,
+>>       if (current_tb_modified) {
+>>           page_collection_unlock(pages);
+>>           /* Force execution of one insn next time.  */
+>> -        cpu->cflags_next_tb =3D 1 | curr_cflags(cpu);
+>> +        cpu->cflags_next_tb =3D 1 | CF_NOIRQ | curr_cflags(cpu);
+>>           mmap_unlock();
+>>           cpu_loop_exit_noexc(cpu);
+>>       }
+>
+> There's another instance in tb_invalidate_phys_page.
+>
+>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+>> index 314f8b439c..b43f92e900 100644
+>> --- a/softmmu/physmem.c
+>> +++ b/softmmu/physmem.c
+>> @@ -946,7 +946,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr,=
+ vaddr len,
+>>                   cpu_loop_exit(cpu);
+>>               } else {
+>>                   /* Force execution of one insn next time.  */
+>> -                cpu->cflags_next_tb =3D 1 | CF_LAST_IO | curr_cflags(cp=
+u);
+>> +                cpu->cflags_next_tb =3D 1 | CF_LAST_IO | CF_NOIRQ | cur=
+r_cflags(cpu);
+>>                   mmap_unlock();
+>>                   cpu_loop_exit_noexc(cpu);
+>>               }
+>
+> And a second instance in this function.
 
-Dave
+I had skipped this one as icount was in effect but I guess it can't hurt.
 
-> 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+--=20
+Alex Benn=C3=A9e
 
