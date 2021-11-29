@@ -2,95 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BD0461A56
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:52:31 +0100 (CET)
-Received: from localhost ([::1]:50304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04FA3461A86
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:59:33 +0100 (CET)
+Received: from localhost ([::1]:58828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mri18-000050-Nv
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:52:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41970)
+	id 1mri7v-0006C9-No
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:59:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mrhzK-0006py-SB
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:50:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20802)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mri5C-0004nv-Sw
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:56:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mrhzH-0005NV-35
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:50:37 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mri5A-0006IE-2H
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:56:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638197432;
+ s=mimecast20190719; t=1638197798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7Sd/72eQx7R2KMpi98cAeE99jmGywA4L3qVGT3Ht984=;
- b=A+Q7mcFRS/7ehSjGDnhLUBxYzP8A01x0LFETjMGynOjYtL/mwzBcLq/mwEeDd/z1k2eNyk
- +suXJyt/zMuFetrjUrcpuIl6vePc7h+V0Ik1wV2uLpSAA9cI261PtIxYjyoRahgfoo3CGV
- hPTamB0eCjY2BR57mbGAWlqkeV9IDqw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=yG/K5abKIWovr0m/hnD7Y2sx0coWGLJLa4Vcz7RYYpc=;
+ b=O85kLtQnloVKXNWhmKSNgZ2aGE5MpBHh602Yfk27jTEjk9LFTTJBKt4sPd7gVWSYk/QYUF
+ YzsLTez3ICDfTf3aQmhZRa8N0eCFXOMv0UC32BwIq0/Hb1b9GFo9owtkpaHgCbBrkkSNJQ
+ nLa7T4cenDm2Tr0XA/CumG4rI5O3npo=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-568-179kMn1OPRGYnq-93jLUaw-1; Mon, 29 Nov 2021 09:50:25 -0500
-X-MC-Unique: 179kMn1OPRGYnq-93jLUaw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m14-20020a05600c3b0e00b0033308dcc933so10966393wms.7
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 06:50:25 -0800 (PST)
+ us-mta-401-8e4oSW65Pb2bjpZvo-METQ-1; Mon, 29 Nov 2021 09:56:37 -0500
+X-MC-Unique: 8e4oSW65Pb2bjpZvo-METQ-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ fw10-20020a056214238a00b003c05d328ad2so25447608qvb.2
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 06:56:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=7Sd/72eQx7R2KMpi98cAeE99jmGywA4L3qVGT3Ht984=;
- b=xS/CQPUusiAPnu5q/qKHLU3c88ox1EPiBF5qR8P7X0ji5aXE3beRroXGapqG+GHXEw
- kAV72ypjYdDZ+nWIf+i2dxO76/05W5iVl+akixIYz80aeSx55cFxi6SP0FB9IO/7xO1R
- zt1nM/VR4getyPGtDoq1A4Ep8uEHdmPoQ9z4UD5rSSvJhNcTh0GQ0NDZ69cYpFQxUxaB
- YSNcvzt32upV8rNrdpopkmcwbriiUZwXyHFwV/dUYmOYYVAAIMhVToXY9ScH48o1iGe1
- rWYRki/a72vcvXJYpwm7ED/1l6PdwNRborp1GKpckmrQ85Kngg7/i0b7SX1kQJQg8ebc
- WElQ==
-X-Gm-Message-State: AOAM533kCkZgd376zqAs7YhJQRuWebWAs3sTHcnd07sBfTny1CiPGwi3
- m9v9eL28CbfSSvbXo4P215vUJvWsQFQybzZ0q/OWNwM3E1vVQW7rWEdYUdgemHW/zK6yueqk+eb
- vmh6LSJSJiM6atoo=
-X-Received: by 2002:a1c:7f56:: with SMTP id a83mr37261923wmd.32.1638197424284; 
- Mon, 29 Nov 2021 06:50:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxsyeV96tP/M/au906kc7nDK/ajaj97w/vbfOeYLkCl7CPAj1z1cVARuRqkqJdGtmlkc+y6OA==
-X-Received: by 2002:a1c:7f56:: with SMTP id a83mr37261886wmd.32.1638197423991; 
- Mon, 29 Nov 2021 06:50:23 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id bd18sm14472816wmb.43.2021.11.29.06.50.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 06:50:23 -0800 (PST)
-Date: Mon, 29 Nov 2021 14:50:21 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Li Zhang <lizhang@suse.de>
-Subject: Re: [PATCH 1/2] multifd: use qemu_sem_timedwait in
- multifd_recv_thread to avoid waiting forever
-Message-ID: <YaTorUbhzjFhvBl5@work-vm>
-References: <20211126153154.25424-1-lizhang@suse.de>
- <20211126153154.25424-2-lizhang@suse.de>
- <YaECIGJAPAtB+n8/@redhat.com> <YaS3aKW6AWH4JAeR@work-vm>
- <50dbb2b9-152e-f97a-d82e-0b6613e54085@suse.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yG/K5abKIWovr0m/hnD7Y2sx0coWGLJLa4Vcz7RYYpc=;
+ b=iPCRUa7TokHjGb5nPqayXacJDfDl/5prnkHTitJKXM1Ac4XDENkthrk3HyewjZuB+I
+ dNQao7B7tSMTEptkx1+OgqzbvlIB1LF/7h9y/bjq3ppipBWdWw2tfcpPjwDZCkTB5x+r
+ mpJZDPIiM35s3A29CYFuopZwcaSy2gLOCCBde0e2ClyELVqn+IEkJn/I2+D59H+cshcZ
+ BgfKLELo47P2Qz7Y5gANSWyOxFtRZl/GMTIhFwQkLOvgzIaZrkvJ7UnB6U2R3gwDVcoH
+ VHj8jNgQ34jlHTFsYqnm7onUHVQPEpTwZiGYFhF7Etk9dDlcWtPPvZrqG6L96L7jMYeg
+ WmFQ==
+X-Gm-Message-State: AOAM530n/LEO2vvYF639lYzMMw98pFxbkGMVDzl4EBGwvR432EfJXSjy
+ 5wYHq3gn7DGJj5PzCVt9J14wKMuvEMN5ViBsj7t8kDTzRZgnsRlv3N4sxLXkpCZpZatC9VCH5mU
+ ZsMMsvJazyhtdfTu3+whXAmSPYKeqbgo=
+X-Received: by 2002:a05:6214:234f:: with SMTP id
+ hu15mr43568101qvb.26.1638197797064; 
+ Mon, 29 Nov 2021 06:56:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwUXPnHOEfpqtDU7ZemDlOGxU1+PgybQriSlhoHPBhAt6uCW1bzXcDNKx4j4f7X05mhPx+CCcVidbEASdoKPuM=
+X-Received: by 2002:a05:6214:234f:: with SMTP id
+ hu15mr43568061qvb.26.1638197796781; 
+ Mon, 29 Nov 2021 06:56:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <50dbb2b9-152e-f97a-d82e-0b6613e54085@suse.de>
-User-Agent: Mutt/2.1.3 (2021-09-10)
+References: <20211125101614.76927-1-eperezma@redhat.com>
+ <20211125101614.76927-3-eperezma@redhat.com>
+ <CACGkMEubkMz-BGxQ3zX__-gmweAvEid=CQxLaRXVDEnCHDoE=A@mail.gmail.com>
+ <20211129084249-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20211129084249-mutt-send-email-mst@kernel.org>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 29 Nov 2021 15:56:00 +0100
+Message-ID: <CAJaqyWejCiv3qc5KdB4FH+z-98nbLviQEzmneuYz0=ZYgV+tJw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] virtio-net: Fix log message
+To: "Michael S. Tsirkin" <mst@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,146 +96,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, cfontana@suse.de
+Cc: Laurent Vivier <lvivier@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Li Zhang (lizhang@suse.de) wrote:
-> 
-> On 11/29/21 12:20 PM, Dr. David Alan Gilbert wrote:
-> > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > > On Fri, Nov 26, 2021 at 04:31:53PM +0100, Li Zhang wrote:
-> > > > When doing live migration with multifd channels 8, 16 or larger number,
-> > > > the guest hangs in the presence of the network errors such as missing TCP ACKs.
-> > > > 
-> > > > At sender's side:
-> > > > The main thread is blocked on qemu_thread_join, migration_fd_cleanup
-> > > > is called because one thread fails on qio_channel_write_all when
-> > > > the network problem happens and other send threads are blocked on sendmsg.
-> > > > They could not be terminated. So the main thread is blocked on qemu_thread_join
-> > > > to wait for the threads terminated.
-> > > Isn't the right answer here to ensure we've called 'shutdown' on
-> > > all the FDs, so that the threads get kicked out of sendmsg, before
-> > > trying to join the thread ?
-> > I agree a timeout is wrong here; there is no way to get a good timeout
-> > value.
-> > However, I'm a bit confused - we should be able to try a shutdown on the
-> > receive side using the 'yank' command. - that's what it's there for; Li
-> > does this solve your problem?
-> 
-> No, I tried to register 'yank' on the receive side, the receive threads are
-> still waiting there.
-> 
-> It seems that on send side, 'yank' doesn't work either when the send threads
-> are blocked.
-> 
-> This may be not the case to call yank. I am not quite sure about it.
+On Mon, Nov 29, 2021 at 2:43 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Fri, Nov 26, 2021 at 10:54:32AM +0800, Jason Wang wrote:
+> > On Thu, Nov 25, 2021 at 6:16 PM Eugenio P=C3=A9rez <eperezma@redhat.com=
+> wrote:
+> > >
+> > > The message has never been true in the case of non tap networking, so
+> > > only tell that userland networking will be used if possible.
+> > >
+> > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >
+> > Acked-by: Jason Wang <jasowang@redhat.com>
+>
+> Breaks make check. I suspect it's called without a peer or something.
+>
 
-We need to fix that; 'yank' should be able to recover from any network
-issue.  If it's not working we need to understand why.
+You're right, sending it as a separate patch since I saw the other one
+made it into the pull request.
 
-> > 
-> > multifd_load_cleanup already kicks sem_sync before trying to do a
-> > thread_join - so have we managed to trigger that on the receive side?
-> 
-> There is no problem with sem_sync in function multifd_load_cleanup.
-> 
-> But it is not called in my case, because no errors are detected on the
-> receive side.
+Thanks!
 
-If you're getting TCP errors why aren't you seeing any errors on the
-receive side?
-
-> The problem is here:
-> 
-> void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
-> {
->     MigrationIncomingState *mis = migration_incoming_get_current();
->     Error *local_err = NULL;
->     bool start_migration;
-> 
->    ...
-> 
->     if (!mis->from_src_file) {
-> 
->     ...
-> 
->      } else {
->         /* Multiple connections */
->         assert(migrate_use_multifd());
->         start_migration = multifd_recv_new_channel(ioc, &local_err);
->         if (local_err) {
->             error_propagate(errp, local_err);
->             return;
->         }
->     }
->    if (start_migration) {
->         migration_incoming_process();
->     }
-> }
-> 
-> start_migration is always 0, and migration is not started because some
-> receive threads are not created.
-> 
-> No errors are detected here and the main process works well but receive
-> threads are all waiting for semaphore.
-> 
-> It's hard to know if the receive threads are not created. If we can find a
-> way to check if any receive threads
-
-So is this only a problem for network issues that happen during startup,
-before all the threads have been created?
-
-Dave
-
-> are not created, we can kick the sem_sync and do cleanup.
-> 
-> From the source code, the thread will be created when QIO channel detects
-> something by GIO watch if I understand correctly.
-> 
-> If nothing is detected, socket_accept_icoming_migration won't be called, the
-> thread will not be created.
-> 
-> socket_start_incoming_migration_internal ->
-> 
->     qio_net_listener_set_client_func_full(listener,
-> socket_accept_incoming_migration,
->                                           NULL, NULL,
-> g_main_context_get_thread_default());
-> 
->    qio_net_listener_set_client_func_full ->
-> 
->                qio_channel_add_watch_source(
->                 QIO_CHANNEL(listener->sioc[i]), G_IO_IN,
->                 qio_net_listener_channel_func,
->                 listener, (GDestroyNotify)object_unref, context);
-> 
->   socket_accept_incoming_migration ->
-> 
->        migration_channel_process_incoming ->
-> 
->                migration_ioc_process_incoming ->
-> 
->                      multifd_recv_new_channel ->
-> 
->                             qemu_thread_create(&p->thread, p->name,
-> multifd_recv_thread, p,
-> QEMU_THREAD_JOINABLE);
-> 
-> > 
-> > Dave
-> > 
-> > > Regards,
-> > > Daniel
-> > > -- 
-> > > |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> > > |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> > > |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> > > 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> Dropped for 6.2.
+>
+> > > ---
+> > >  hw/net/virtio-net.c | 11 ++++++-----
+> > >  1 file changed, 6 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > > index f2014d5ea0..d6c98c3c2d 100644
+> > > --- a/hw/net/virtio-net.c
+> > > +++ b/hw/net/virtio-net.c
+> > > @@ -245,6 +245,7 @@ static void virtio_net_vhost_status(VirtIONet *n,=
+ uint8_t status)
+> > >      NetClientState *nc =3D qemu_get_queue(n->nic);
+> > >      int queue_pairs =3D n->multiqueue ? n->max_queue_pairs : 1;
+> > >      int cvq =3D n->max_ncs - n->max_queue_pairs;
+> > > +    bool tap_backend =3D nc->peer->info->type =3D=3D NET_CLIENT_DRIV=
+ER_TAP;
+> > >
+> > >      if (!get_vhost_net(nc->peer)) {
+> > >          return;
+> > > @@ -258,9 +259,9 @@ static void virtio_net_vhost_status(VirtIONet *n,=
+ uint8_t status)
+> > >          int r, i;
+> > >
+> > >          if (n->needs_vnet_hdr_swap) {
+> > > -            error_report("backend does not support %s vnet headers; =
+"
+> > > -                         "falling back on userspace virtio",
+> > > -                         virtio_is_big_endian(vdev) ? "BE" : "LE");
+> > > +            error_report("backend does not support %s vnet headers%s=
+",
+> > > +                    virtio_is_big_endian(vdev) ? "BE" : "LE",
+> > > +                    tap_backend ? "; falling back on userspace virti=
+o" : "");
+> > >              return;
+> > >          }
+> > >
+> > > @@ -288,8 +289,8 @@ static void virtio_net_vhost_status(VirtIONet *n,=
+ uint8_t status)
+> > >          n->vhost_started =3D 1;
+> > >          r =3D vhost_net_start(vdev, n->nic->ncs, queue_pairs, cvq);
+> > >          if (r < 0) {
+> > > -            error_report("unable to start vhost net: %d: "
+> > > -                         "falling back on userspace virtio", -r);
+> > > +            error_report("unable to start vhost net: %d%s", -r,
+> > > +                       tap_backend ? " falling back on userspace vir=
+tio" : "");
+> > >              n->vhost_started =3D 0;
+> > >          }
+> > >      } else {
+> > > --
+> > > 2.27.0
+> > >
+>
 
 
