@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF61461D3F
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:59:53 +0100 (CET)
-Received: from localhost ([::1]:51328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 786C4461CEE
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:44:35 +0100 (CET)
+Received: from localhost ([::1]:35142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrkwS-0007kc-0O
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:59:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33558)
+	id 1mrkhd-0006Kz-5T
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:44:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mrkY9-0001VO-Gv
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:34:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39975)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mrkfJ-0005ZB-Vu
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:42:09 -0500
+Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201]:56437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mrkY4-0003zz-6L
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:34:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638207279;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yeJSM7T9e5mLW7nyektXyoqEXeYAR5bMg/aHQGKoqLk=;
- b=giFrlwxhpAa+qmiNxP977cGg1b1rUubTXcqYds9lfCqrWpO2z30FMgenGfyCV8A1gixMyq
- NdUTJxlKumppKt1tDmX3fOtj0LNPQ8ACWXF88mfOBYuBf3iD/DXBDu33dzZTzQxxmuvN+w
- SSTXR6o/JyfuNhapb0moGSsgKusbOiA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-123-r3O9zOLwPi2fs-UVbN_zCw-1; Mon, 29 Nov 2021 12:34:36 -0500
-X-MC-Unique: r3O9zOLwPi2fs-UVbN_zCw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AED3264083;
- Mon, 29 Nov 2021 17:34:34 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DBB5A60622;
- Mon, 29 Nov 2021 17:34:30 +0000 (UTC)
-Date: Mon, 29 Nov 2021 11:34:28 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [RFC for-6.2] block/nbd: forbid incompatible change of server
- options on reconnect
-Message-ID: <20211129173428.fqpcxd4ipjwrsr6u@redhat.com>
-References: <20211124140951.439684-1-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mrkfH-0004y7-J4
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:42:09 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.11])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 03961204A6;
+ Mon, 29 Nov 2021 17:41:59 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Mon, 29 Nov
+ 2021 18:41:59 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R0046ebc8cb6-f0cf-4956-b61a-b319979f575d,
+ 3279756C2EB34864E332BB908A933B747C53BE44) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.11.56.15
+Message-ID: <6cb13d9c-bb31-c177-c914-33b182b35894@kaod.org>
+Date: Mon, 29 Nov 2021 18:41:58 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211124140951.439684-1-vsementsov@virtuozzo.com>
-User-Agent: NeoMutt/20211029-26-f6989f
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: SME : Please review and merge : hw/arm/aspeed: Added eMMC boot
+ support for AST2600 image.
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, Shitalkumar Gandhi
+ <shital_909@yahoo.com>
+References: <253794259.1853610.1636478714403.ref@mail.yahoo.com>
+ <253794259.1853610.1636478714403@mail.yahoo.com>
+ <CAFEAcA-0KLYpEVzaok77kyzq2BGfXtzTSrH3JFcTU_gKvFnQ5w@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CAFEAcA-0KLYpEVzaok77kyzq2BGfXtzTSrH3JFcTU_gKvFnQ5w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: fa295525-d59c-47fb-af65-7e0378a31715
+X-Ovh-Tracer-Id: 1217942226335861667
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrheelgddutdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeefiedukefhueejteffvedthffhkeehhefhtdejkeefheeifeejvdfgfffgieefnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruh
+Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
+ helo=4.mo552.mail-out.ovh.net
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.317,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,227 +73,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, hreitz@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Andrew Jeffery <andrew@aj.id.au>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 24, 2021 at 03:09:51PM +0100, Vladimir Sementsov-Ogievskiy wrote:
-> Reconnect feature was never prepared to handle server options changed
-> on reconnect. Let's be stricter and check what exactly is changed. If
-> server capabilities just got richer don't worry. Otherwise fail and
-> drop the established connection.
+Hello,
+
+On 11/29/21 18:20, Peter Maydell wrote:
+> On Tue, 9 Nov 2021 at 18:04, Shitalkumar Gandhi <shital_909@yahoo.com> wrote:
+>>
+>> Hi SME's,
+>>
+>> Please see the attached patch, which has been added to the boot eMMC image for AST2600 machine on QEMU.
+>>
+>> qemu should be run as follows:
+>>
+>> ./qemu-system-arm -m 1G -M ast2600-evb -nographic -drive
+>> file=mmc-evb-ast2600.img,format=raw,if=sd,index=2
+>>
+>> Tested: Booted AST2600 eMMC image on QEMU.
+>>
+>> Suggested-by: Troy Lee leetroy@gmail.com
+>> Reviewed-by: Troy Lee leetroy@gmail.com
+>> Reviewed-by: Andrew Jeffery andrew@aj.id.au
+>> Signed-off-by: Shitalkumar Gandhi shitalkumar.gandhi@seagate.com
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
+> Hi; thanks for this patch.
 > 
-> Hi all! The patch is probably good for 6.2. It's an RFC because I didn't
-> test it yet) But I want to early send, so that my proposed design be
-> available for discussion.
+> Fishing the patch out of the attachment, the diff is:
 
-We're cutting it awfully close.  My justification for including it in
--rc3 (if we like it) is that it is a lot easier to audit that we
-reject server downgrades than it is to audit whether we have a CVE
-because of a server downgrade across a reconnect.  But it is not a new
-regression to 6.2, so slipping it to 7.0 (if we don't feel comfortable
-with the current iteration of the patch) is okay on that front.
+Yes. A pull request was sent here also :
+  
+   https://github.com/openbmc/qemu/pull/35
+
+The patch is based on the OpenBMC QEMU branch which includes a large
+change adding eMMC support to the SD model. But without the eMMC
+model upstream, it's pointless, we can only boot from flash.
+
+For the time being, a "boot-emmc" machine option to set/unset the emmc
+boot should be enough. It's all in my branch. I think the right approach
+would be to use the boot index of the device on the command line to
+change the hw strapping.
+
+Thanks,
+
+C.
+
 
 > 
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index ba5f1dc5af..6a890adb83 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -148,7 +148,7 @@ struct AspeedMachineState {
+>           SCU_AST2400_HW_STRAP_BOOT_MODE(AST2400_SPI_BOOT))
 > 
->  include/block/nbd.h     |  9 +++++
->  nbd/client-connection.c | 86 +++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 95 insertions(+)
+>   /* AST2600 evb hardware value */
+> -#define AST2600_EVB_HW_STRAP1 0x000000C0
+> +#define AST2600_EVB_HW_STRAP1 (0x000000C0 | AST26500_HW_STRAP_BOOT_SRC_EMMC)
+>   #define AST2600_EVB_HW_STRAP2 0x00000003
 > 
-> diff --git a/include/block/nbd.h b/include/block/nbd.h
-> index 78d101b774..3d379b5539 100644
-> --- a/include/block/nbd.h
-> +++ b/include/block/nbd.h
-> @@ -157,6 +157,10 @@ enum {
->  #define NBD_FLAG_SEND_RESIZE       (1 << NBD_FLAG_SEND_RESIZE_BIT)
->  #define NBD_FLAG_SEND_CACHE        (1 << NBD_FLAG_SEND_CACHE_BIT)
->  #define NBD_FLAG_SEND_FAST_ZERO    (1 << NBD_FLAG_SEND_FAST_ZERO_BIT)
-> +/*
-> + * If you add any new NBD_FLAG_ flag, check that logic in
-> + * nbd_is_new_info_compatible() is still good about handling flags.
-> + */
->  
->  /* New-style handshake (global) flags, sent from server to client, and
->     control what will happen during handshake phase. */
-> @@ -305,6 +309,11 @@ struct NBDExportInfo {
->  
->      uint32_t context_id;
->  
-> +    /*
-> +     * WARNING! when add any new field to the structure, don't forget to check
-
-adding
-
-> +     * and updated nbd_is_new_info_compatible() function.
-
-update the
-
-> +     */
-
-Odd that one comment has WARNING! and the other does not.
-
-> +
->      /* Set by server results during nbd_receive_export_list() */
->      char *description;
->      int n_contexts;
-> diff --git a/nbd/client-connection.c b/nbd/client-connection.c
-> index 695f855754..2d66993632 100644
-> --- a/nbd/client-connection.c
-> +++ b/nbd/client-connection.c
-> @@ -37,6 +37,10 @@ struct NBDClientConnection {
->      bool do_negotiation;
->      bool do_retry;
->  
-> +    /* Used only by connection thread, no need in locking the mutex */
-
-s/no need in locking the mutex/does not need mutex protection/
-
-> +    bool has_prev_info;
-> +    NBDExportInfo prev_info;
-> +
->      QemuMutex mutex;
->  
->      /*
-> @@ -160,6 +164,67 @@ static int nbd_connect(QIOChannelSocket *sioc, SocketAddress *addr,
->      return 0;
->  }
->  
-> +static bool nbd_is_new_info_compatible(NBDExportInfo *old, NBDExportInfo *new,
-> +                                       Error **errp)
-> +{
-> +    uint32_t dropped_flags;
-> +
-> +    if (old->structured_reply && !new->structured_reply) {
-> +        error_setg(errp, "Server options degrade after reconnect: "
-
-degraded
-
-> +                   "structured_reply is not supported anymore");
-> +        return false;
-> +    }
-> +
-> +    if (old->base_allocation && !new->base_allocation) {
-> +        error_setg(errp, "Server options degrade after reconnect: "
-
-degraded
-
-> +                   "base_allocation is not supported anymore");
-> +        return false;
-> +    }
-
-Do we also need to insist that the context id value be identical, or
-can our code gracefully deal with it being different?  We don't ever
-send the context id, so even if we retry a CMD_BLOCK_STATUS, our real
-risk is whether we will reject the new server's reply because it used
-a different id than we were expecting.
-
-> +
-> +    if (old->size != new->size) {
-> +        error_setg(errp, "NBD export size changed after reconnect");
-> +        return false;
-> +    }
-> +
-> +    /*
-> +     * No worry if rotational status changed. But other flags are feature flags,
-> +     * they should not degrade.
-> +     */
-> +    dropped_flags = (old->flags & ~new->flags) & ~NBD_FLAG_ROTATIONAL;
-> +    if (dropped_flags) {
-> +        error_setg(errp, "Server options degrade after reconnect: flags 0x%"
-
-degraded
-
-> +                   PRIx32 " are not reported anymore", dropped_flags);
-> +        return false;
-> +    }
-> +
-> +    if (new->min_block > old->min_block) {
-> +        error_setg(errp, "Server requires more strict min_block after "
-> +                   "reconnect: %" PRIu32 " instead of %" PRIu32,
-> +                   new->min_block, old->min_block);
-> +        return false;
-> +    }
-
-Good...
-
-> +    if (new->min_block && (old->min_block % new->min_block)) {
-> +        error_setg(errp, "Server requires new min_block %" PRIu32
-> +                   " after reconnect, incompatible with old one %" PRIu32,
-> +                   new->min_block, old->min_block);
-> +        return false;
-> +    }
-
-...but why is this one necessary?  Since min_block has to be a power
-of 2, and you just proved that new->min_block <= old->min_block above,
-this condition will always be false.
-
-> +
-> +    if (new->max_block < old->max_block) {
-> +        error_setg(errp, "Server requires more strict max_block after "
-> +                   "reconnect: %" PRIu32 " instead of %" PRIu32,
-> +                   new->max_block, old->max_block);
-> +        return false;
-> +    }
-> +
-> +    if (old->context_id != new->context_id) {
-> +        error_setg(errp, "Meta context id changed after reconnect");
-> +        return false;
-> +    }
-
-Oh, this answers my question above. We should put this near where we
-check above.  And this check should only be performed if
-base_allocation was supported in the old server (if the old server
-lacks it and the new server supports it, the ids may be differ, but
-that's an upgrade, not a downgrade, and we don't care).
-
-> +
-> +    return true;
-> +}
-> +
->  static void *connect_thread_func(void *opaque)
->  {
->      NBDClientConnection *conn = opaque;
-> @@ -183,6 +248,27 @@ static void *connect_thread_func(void *opaque)
->                            conn->do_negotiation ? &conn->updated_info : NULL,
->                            conn->tlscreds, &conn->ioc, &conn->err);
->  
-> +        if (ret == 0) {
-> +            if (conn->has_prev_info &&
-> +                !nbd_is_new_info_compatible(&conn->prev_info,
-> +                                            &conn->updated_info, &conn->err))
-> +            {
-> +                NBDRequest request = { .type = NBD_CMD_DISC };
-> +                QIOChannel *ioc = conn->ioc ?: QIO_CHANNEL(conn->sioc);
-> +
-> +                nbd_send_request(ioc, &request);
-> +                qio_channel_close(ioc, NULL);
-> +
-> +                object_unref(OBJECT(conn->ioc));
-> +                conn->ioc = NULL;
-> +
-> +                ret = -EINVAL;
-> +            } else {
-> +                conn->prev_info = conn->updated_info;
-> +                conn->has_prev_info = true;
-> +            }
-> +        }
-> +
->          /*
->           * conn->updated_info will finally be returned to the user. Clear the
->           * pointers to our internally allocated strings, which are IN parameters
-> -- 
-> 2.31.1
->
-
-Looks like it is on the right track.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+>   /* Tacoma hardware value */
+> 
 
 
