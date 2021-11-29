@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7469F46186C
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:28:10 +0100 (CET)
-Received: from localhost ([::1]:51348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D0C461804
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:24:14 +0100 (CET)
+Received: from localhost ([::1]:40286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrhdZ-0003eo-IW
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:28:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56364)
+	id 1mrhZl-0004MK-Pv
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:24:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mrhLk-0001GV-EY
+ id 1mrhLk-0001Hc-Fi
  for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:09:44 -0500
-Received: from [2a00:1450:4864:20::330] (port=54026
- helo=mail-wm1-x330.google.com)
+Received: from [2a00:1450:4864:20::32c] (port=38840
+ helo=mail-wm1-x32c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mrhLg-0006UH-Ut
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:09:43 -0500
-Received: by mail-wm1-x330.google.com with SMTP id y196so14717240wmc.3
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 06:09:38 -0800 (PST)
+ id 1mrhLh-0006UV-2a
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:09:44 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ p3-20020a05600c1d8300b003334fab53afso16924038wms.3
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 06:09:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LlhZwpKu414qJjgz6hLLraIgHgqCtfsJisAg9+N5jK4=;
- b=OLwx4sjA/j7DFPqmSLfmbswiuHGD7oRD2oFnlk84GP0iKlCif3nKCnUpCQ2LJUyEaU
- +btb+Jam5gGNPZTT8FENuNPKlPedGMBe5VYEKAfKcUcPCB6UNIw8zqFx1vYePcfXAlwS
- kMiC4D2h8gV9oYi2FczCsstL7NyY14IbffYIYUymf3LpSWBF96cjkuOTaylXgzl/dqlN
- pZAY2wEycWrUxi77uMbB5a9JpTQ9X2ng6U/NH2ILUsqL+HbKwTPFtpnr+htqB+zBVeNt
- dlE3sjJUmDqz1obuTUqb8/JgtCV07d/bTvVtjh2FGOu+JRIvZshkkNagHZhV7ci98yOE
- q27g==
+ bh=ouEp36joxnPAP6ToPpz7+NhGlX24uSLIBMD0iYKDcl0=;
+ b=kYQG87QHMlgrKeUfuE59nUCz0/d/vQyrkkFElPWhW1yUCLwtnGwjHKVprUpZKQWqp1
+ dUmCd48nyt7P0lERtCw9MP07OKxJLeT9NToKjLr1XkGIhzcn0fTW6ra1OWfUhByT5jtI
+ 1cYEOaqEzA/czAgGHTAPrjcije0y8sqfoQhc84E3ZqWj5SLkglcyPROyFXjqmUCGsG8V
+ w35rc7h2ChfnZbpUt5OmIDzhDIZIDFnq/XrgmivGFESJlPVeZKFH/BWrIxQXnBQ/fbBx
+ SqAH3t+dc8J5lHi9ijGDXg2KYnu754iLXDccm4bwKu+hvN0LnDcl8z6puFYcXysI4roB
+ dcvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LlhZwpKu414qJjgz6hLLraIgHgqCtfsJisAg9+N5jK4=;
- b=EA9m+6yXC8IePo1wmDAXTZF6+WiqTqD/H3KK7cMXjy7O7bgPVmUcBSY0wzwY5Bdc8V
- MYqo4bK8BwWsmUDctpq7IroF05g7nqYfYvBM99GAbi0Rn+GaW8Uv8un1HkjWhW4pJTFB
- zJPJLDFyDgUwKa0tytOHRAUoTfoPe36a9UMn+tWkr41Y+5Ww7N7m/DqzKSuMNN3vh4H9
- IL7RqfeNl3NYlwPKuPmcJDkzgEx2ULUnfNcLTiGEDhUImVDjaPFo1Mkm7FQsQHWhcXJl
- CnwND2obfR0ZVRjMJIUteOICvQfH00PqUzRhUrHvFNILg0DXEDkAwln9WN+Rzy8vOoXG
- 7cwQ==
-X-Gm-Message-State: AOAM530sqzqtZVdZFEEsLuWTfKOnYZFJv3jt/BSEAP5XZLqz6xuvlvfB
- QzFNg+5Erq1wlS+cgJ2S6LrUCw==
-X-Google-Smtp-Source: ABdhPJyaVxR7rE/TymKJl93phAjnRnkXwy+xvX8t6E/N/ZEq6NEXWXXict4cI4CvmkRFE1ye9C+WfA==
-X-Received: by 2002:a1c:4d15:: with SMTP id o21mr36414545wmh.171.1638194977979; 
- Mon, 29 Nov 2021 06:09:37 -0800 (PST)
+ bh=ouEp36joxnPAP6ToPpz7+NhGlX24uSLIBMD0iYKDcl0=;
+ b=nEX3SoppvmLi5ggm08PqUMz8j/vw8YgBKoZNYH8HrDBeUGx/adT7o5dA0QTfOx5X82
+ 9OMjRltKLS6lSXHKt3kv399T0yFUiYPJRtnzTmWPFGEvAwMzmW+f8/Nk27PRtg8NH2MH
+ Z/Qt7VkpbJ86RFy4T+A7eSOVyC0w2S+wBrgO6MGbiTAkYAxlVTgfTN/BxvpVCsBGw4Df
+ XmTIPQ8HoVW9zH3CcrY8nPqzaT+Dme9DXrBmY/mpQgBwaWMS3TP4BEQZRK9EvEVaVnxT
+ aaplZxY4St1neyX6ra9OxoK+fWU1mal0qQeE8pB7eU5ygu0olDKaw7BMcIm/eqTKYqus
+ o1pQ==
+X-Gm-Message-State: AOAM532d6J012i42DimmfqABjemPSfmvzOV7TLpOtNM15zRN7Zv4+vZ8
+ svcP9WUY2DOchAX1+PEfWFr5Gg==
+X-Google-Smtp-Source: ABdhPJxF8RYdZRo+FTnHzyp1+NvWWpI3+hK0EYkvnyYETKodHytyiF69FMah+yB9exxYTs+5EKyW+g==
+X-Received: by 2002:a1c:770e:: with SMTP id t14mr35829986wmi.173.1638194979787; 
+ Mon, 29 Nov 2021 06:09:39 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 38sm14401536wrc.1.2021.11.29.06.09.33
+ by smtp.gmail.com with ESMTPSA id m20sm22730587wmq.11.2021.11.29.06.09.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 29 Nov 2021 06:09:34 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 190571FF99;
+ by zen.linaroharston (Postfix) with ESMTP id 32BF01FF9A;
  Mon, 29 Nov 2021 14:09:33 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 2/8] accel/tcg: suppress IRQ check for special TBs
-Date: Mon, 29 Nov 2021 14:09:26 +0000
-Message-Id: <20211129140932.4115115-3-alex.bennee@linaro.org>
+Subject: [PATCH  v3 3/8] tests/avocado: fix tcg_plugin mem access count test
+Date: Mon, 29 Nov 2021 14:09:27 +0000
+Message-Id: <20211129140932.4115115-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211129140932.4115115-1-alex.bennee@linaro.org>
 References: <20211129140932.4115115-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -89,106 +90,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, David Hildenbrand <david@redhat.com>,
+Cc: fam@euphon.net, berrange@redhat.com, Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, f4bug@amsat.org,
- Peter Xu <peterx@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Alexandre Iooss <erdnaxe@crans.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we set cpu->cflags_next_tb it is because we want to carefully
-control the execution of the next TB. Currently there is a race that
-causes the second stage of watchpoint handling to get ignored if an
-IRQ is processed before we finish executing the instruction that
-triggers the watchpoint. Use the new CF_NOIRQ facility to avoid the
-race.
+When we cleaned up argument handling the test was missed.
 
-We also suppress IRQs when handling precise self modifying code to
-avoid unnecessary bouncing.
-
+Fixes: 5ae589faad ("tests/plugins/mem: introduce "track" arg and make args not positional")
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Fixes: https://gitlab.com/qemu-project/qemu/-/issues/245
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20211123205729.2205806-4-alex.bennee@linaro.org>
 ---
-v2
-  - split the CF_NOIRQ implementation
-  - only apply CF_NOIRQ for watchpoints/SMC handling
-  - minor reword of commit
-v3
-  - add additional two cases of | CF_NOIRQ
----
- accel/tcg/cpu-exec.c      | 9 +++++++++
- accel/tcg/translate-all.c | 4 ++--
- softmmu/physmem.c         | 4 ++--
- 3 files changed, 13 insertions(+), 4 deletions(-)
+ tests/avocado/tcg_plugins.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 2d14d02f6c..409ec8c38c 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -721,6 +721,15 @@ static inline bool need_replay_interrupt(int interrupt_request)
- static inline bool cpu_handle_interrupt(CPUState *cpu,
-                                         TranslationBlock **last_tb)
- {
-+    /*
-+     * If we have requested custom cflags with CF_NOIRQ we should
-+     * skip checking here. Any pending interrupts will get picked up
-+     * by the next TB we execute under normal cflags.
-+     */
-+    if (cpu->cflags_next_tb != -1 && cpu->cflags_next_tb & CF_NOIRQ) {
-+        return false;
-+    }
-+
-     /* Clear the interrupt flag now since we're processing
-      * cpu->interrupt_request and cpu->exit_request.
-      * Ensure zeroing happens before reading cpu->exit_request or
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index bd0bb81d08..bd71db59a9 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1738,7 +1738,7 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
-     if (current_tb_modified) {
-         page_collection_unlock(pages);
-         /* Force execution of one insn next time.  */
--        cpu->cflags_next_tb = 1 | curr_cflags(cpu);
-+        cpu->cflags_next_tb = 1 | CF_NOIRQ | curr_cflags(cpu);
-         mmap_unlock();
-         cpu_loop_exit_noexc(cpu);
-     }
-@@ -1906,7 +1906,7 @@ static bool tb_invalidate_phys_page(tb_page_addr_t addr, uintptr_t pc)
- #ifdef TARGET_HAS_PRECISE_SMC
-     if (current_tb_modified) {
-         /* Force execution of one insn next time.  */
--        cpu->cflags_next_tb = 1 | curr_cflags(cpu);
-+        cpu->cflags_next_tb = 1 | CF_NOIRQ | curr_cflags(cpu);
-         return true;
-     }
- #endif
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 314f8b439c..3524c04c2a 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -912,7 +912,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-                  */
-                 if (!cpu->can_do_io) {
-                     /* Force execution of one insn next time.  */
--                    cpu->cflags_next_tb = 1 | CF_LAST_IO | curr_cflags(cpu);
-+                    cpu->cflags_next_tb = 1 | CF_LAST_IO | CF_NOIRQ | curr_cflags(cpu);
-                     cpu_loop_exit_restore(cpu, ra);
-                 }
-                 /*
-@@ -946,7 +946,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-                 cpu_loop_exit(cpu);
-             } else {
-                 /* Force execution of one insn next time.  */
--                cpu->cflags_next_tb = 1 | CF_LAST_IO | curr_cflags(cpu);
-+                cpu->cflags_next_tb = 1 | CF_LAST_IO | CF_NOIRQ | curr_cflags(cpu);
-                 mmap_unlock();
-                 cpu_loop_exit_noexc(cpu);
-             }
+diff --git a/tests/avocado/tcg_plugins.py b/tests/avocado/tcg_plugins.py
+index 9ca1515c3b..642d2e49e3 100644
+--- a/tests/avocado/tcg_plugins.py
++++ b/tests/avocado/tcg_plugins.py
+@@ -131,7 +131,7 @@ def test_aarch64_virt_mem_icount(self):
+                                                  suffix=".log")
+ 
+         self.run_vm(kernel_path, kernel_command_line,
+-                    "tests/plugin/libmem.so,arg=both", plugin_log.name,
++                    "tests/plugin/libmem.so,inline=true,callback=true", plugin_log.name,
+                     console_pattern,
+                     args=('-icount', 'shift=1'))
+ 
 -- 
 2.30.2
 
