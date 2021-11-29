@@ -2,90 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0587461CCE
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:35:08 +0100 (CET)
-Received: from localhost ([::1]:53518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E0A461CD1
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:37:06 +0100 (CET)
+Received: from localhost ([::1]:57268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrkYV-0000hS-IV
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:35:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60970)
+	id 1mrkaP-0002z1-BA
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:37:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mrkTp-0004rj-0T
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:30:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46190)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mrkTf-0003Vq-8D
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:30:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638207006;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=i4oF+O6Fi0sY4RbnqqhaXV27cQRz04zxLCT0bBUKHew=;
- b=Xcx1EFyfV/RxZB9+jnoaVIG4eBdhKyH5N6sx96lW0B2HWKSnIVBZwkkqtQCCDzWcl5HIAq
- 16jXMf76dwUi9NUzoMecULKARR3lUuHB3WiMfiwe3k6hMAyj5utkXv93FNc+w0Y4PmCBzA
- eclU+uQ/xy1gvu0/eX36BIVwk6QMlSw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-598-hutXIIk9O6GBZa2j2Y82gA-1; Mon, 29 Nov 2021 12:30:04 -0500
-X-MC-Unique: hutXIIk9O6GBZa2j2Y82gA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- p17-20020adff211000000b0017b902a7701so3056008wro.19
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 09:30:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mrkVn-0006Ag-GO
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:32:20 -0500
+Received: from [2a00:1450:4864:20::32a] (port=38686
+ helo=mail-wm1-x32a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mrkVl-0003rC-9I
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:32:18 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ p3-20020a05600c1d8300b003334fab53afso17467596wms.3
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 09:32:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zpQZIk99e68CYyjW+SZDaB5VOfkE4l0inE85JEVtozs=;
+ b=lgMqV9WaMFzFA5PLWR79Wz24QC7sP1CPqtHEBUJiOY+S8P0S6TnxQMlPO8uMIFnTGT
+ mJH+EC7qE1R9sFsvjQeB4mcV13djnGOqbR65p+2UonvkqqXmV4PABo5vmZq07OPTLBmb
+ mFSKj+G2XwSD9N/uREmcfZXZ4GTnoXSlnZsJKgjBLCcYJsPcqAP+7uwNVDVauGGezuCl
+ gzljEfm5QQsS/AA7i1BFF9FIq8FH3ES6VbyLm52v/nBxVYaY9ypBA4Pha47bW+ZkjcLE
+ oYwzyqRkOVdMFW6BfzQ9e7U1DiiFhBSJMd+Scy/iFWsXavkyWcpb5yReGflbNuAOij70
+ 5j5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=i4oF+O6Fi0sY4RbnqqhaXV27cQRz04zxLCT0bBUKHew=;
- b=7otdgJeH6PD6yjHPPSY/G7L5JIrEtNUbLUBaXiRnlUCKZwCgerUYKdVttyJNmTFUL2
- xvqwNOMXrNtNOWFyxw8oR+sJ5a6WSrAfrVSWlsRvEurvKbdCMEjEJd8KWa8K1tjJEjL9
- QJwgGBi8EkSq9yuiYUSWHniK2t9YFZYa/0aPbstZfBDRUWzb7zZwwHvfGiq0OYrjuMZU
- n3Kh4VJ/TBZlytPFjxy3Ns/R+Pp6AJHeDitZAO9+UTeLLbGLj2JOecNBQU/BHfuDKwmZ
- oq2fuFfGMr+c5iWor3W3wjM9nuIxcotSvZembrcK80C/x3kcYBxjFNhfpuHfgAn/5FUP
- eEOw==
-X-Gm-Message-State: AOAM530m8Myh20yI4WOVm97H6iMfhwOwSPAc+AutiEH1HuXwyi9ynQ6+
- q2NT5WsqX54W3jYbZskkJ+/oi9++S8JAEY+nxNG1v6ziV7Bj6ebCnzmLtT/yhlD/qUvgC662Lte
- 15il5ub8upcoVjJ4=
-X-Received: by 2002:adf:e9c5:: with SMTP id l5mr34730484wrn.218.1638207003620; 
- Mon, 29 Nov 2021 09:30:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwqMG0G5LHqUZeRJkFTK/HqWEKdx4ncvxIdOWauMhHG6xP5+3wnbNe1EwU9ySS08fDvwxvZXw==
-X-Received: by 2002:adf:e9c5:: with SMTP id l5mr34730462wrn.218.1638207003398; 
- Mon, 29 Nov 2021 09:30:03 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id l4sm14077636wrv.94.2021.11.29.09.30.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 09:30:02 -0800 (PST)
-Date: Mon, 29 Nov 2021 17:30:00 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v3 10/23] multifd: Make zlib compression method not use
- iovs
-Message-ID: <YaUOGC2BuBwoA7h+@work-vm>
-References: <20211124100617.19786-1-quintela@redhat.com>
- <20211124100617.19786-11-quintela@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zpQZIk99e68CYyjW+SZDaB5VOfkE4l0inE85JEVtozs=;
+ b=kbadk2A7w6wCAts2t4hFdaY7A9r0wkdwWPBD89ccQ/cE/Re65+vevvRb6D6K/ikoj4
+ UFl3h7KVEPB3oVluwuz9UZiMwPFHUxiZiWY7oXWU2y2K1x4+3Ph9uSWI/dCvnrXG11Ku
+ TjlkucB3VZlDPYZTC+xLanmBT6Od/G3THqyiJgA95pOL129Bab6YxO1MvjBvD46bFY5N
+ X/VivIZKpDZeDjX/nOiZ2RMjwB2ApwCZQL4tA31wx5LlqU0vFTKVAE9WW5PKwKHEyD8X
+ aNqKz0EcquoCNFaZDST5conHL9wNp9Vw6sUdfLYE/8846pBs11WDhj0SqSrxt+J/0CeR
+ TFFA==
+X-Gm-Message-State: AOAM53371CX6zGC0bVxSLHJSsJ+E75JF85cVpCbq3phve1xWB+jD0S9K
+ IB2DTXFpD687iS6FWY0JOyXuJxjm7v1u4TTiqp4xIg==
+X-Google-Smtp-Source: ABdhPJz5G4cNlwJWcysdwYI0QHoEdIN7ftIYD6lv7AZs1ovzNn88nFiT0HCm7iBhysKFb/YF4QWd4S+EkiCuzjPvPq0=
+X-Received: by 2002:a1c:96:: with SMTP id 144mr38727496wma.126.1638207133474; 
+ Mon, 29 Nov 2021 09:32:13 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211124100617.19786-11-quintela@redhat.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211124101555.1410-1-francisco.iglesias@xilinx.com>
+ <20211124101555.1410-3-francisco.iglesias@xilinx.com>
+In-Reply-To: <20211124101555.1410-3-francisco.iglesias@xilinx.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 29 Nov 2021 17:32:02 +0000
+Message-ID: <CAFEAcA-a-DrpaC9Cw6S0+8+pceW1mL6GZTf_k1-0-6OP0huCDg@mail.gmail.com>
+Subject: Re: [PATCH v3 02/10] hw/arm/xlnx-versal: Connect Versal's PMC SLCR
+To: Francisco Iglesias <francisco.iglesias@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_XBL=0.375,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,95 +82,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>
+Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
+ alistair@alistair23.me, qemu-devel@nongnu.org, alistair23@gmail.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+On Wed, 24 Nov 2021 at 10:16, Francisco Iglesias
+<francisco.iglesias@xilinx.com> wrote:
+>
+> Connect Versal's PMC SLCR (system-level control registers) model.
+>
+> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 > ---
->  migration/multifd-zlib.c | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
-> 
-> diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-> index e85ef8824d..da6201704c 100644
-> --- a/migration/multifd-zlib.c
-> +++ b/migration/multifd-zlib.c
-> @@ -13,6 +13,7 @@
->  #include "qemu/osdep.h"
->  #include <zlib.h>
->  #include "qemu/rcu.h"
-> +#include "exec/ramblock.h"
->  #include "exec/target_page.h"
->  #include "qapi/error.h"
->  #include "migration.h"
-> @@ -98,8 +99,8 @@ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
->   */
->  static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
->  {
-> -    struct iovec *iov = p->pages->iov;
->      struct zlib_data *z = p->data;
-> +    size_t page_size = qemu_target_page_size();
->      z_stream *zs = &z->zs;
->      uint32_t out_size = 0;
->      int ret;
-> @@ -113,8 +114,8 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
->              flush = Z_SYNC_FLUSH;
->          }
->  
-> -        zs->avail_in = iov[i].iov_len;
-> -        zs->next_in = iov[i].iov_base;
-> +        zs->avail_in = page_size;
-> +        zs->next_in = p->pages->block->host + p->pages->offset[i];
->  
->          zs->avail_out = available;
->          zs->next_out = z->zbuff + out_size;
-> @@ -235,6 +236,7 @@ static void zlib_recv_cleanup(MultiFDRecvParams *p)
->  static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
->  {
->      struct zlib_data *z = p->data;
-> +    size_t page_size = qemu_target_page_size();
->      z_stream *zs = &z->zs;
->      uint32_t in_size = p->next_packet_size;
->      /* we measure the change of total_out */
-> @@ -259,7 +261,6 @@ static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
->      zs->next_in = z->zbuff;
->  
->      for (i = 0; i < p->pages->num; i++) {
-> -        struct iovec *iov = &p->pages->iov[i];
->          int flush = Z_NO_FLUSH;
->          unsigned long start = zs->total_out;
->  
-> @@ -267,8 +268,8 @@ static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
->              flush = Z_SYNC_FLUSH;
->          }
->  
-> -        zs->avail_out = iov->iov_len;
-> -        zs->next_out = iov->iov_base;
-> +        zs->avail_out = page_size;
-> +        zs->next_out = p->pages->block->host + p->pages->offset[i];
->  
->          /*
->           * Welcome to inflate semantics
-> @@ -281,8 +282,8 @@ static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
->          do {
->              ret = inflate(zs, flush);
->          } while (ret == Z_OK && zs->avail_in
-> -                             && (zs->total_out - start) < iov->iov_len);
-> -        if (ret == Z_OK && (zs->total_out - start) < iov->iov_len) {
-> +                             && (zs->total_out - start) < page_size);
-> +        if (ret == Z_OK && (zs->total_out - start) < page_size) {
->              error_setg(errp, "multifd %d: inflate generated too few output",
->                         p->id);
->              return -1;
-> -- 
-> 2.33.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>  hw/arm/xlnx-versal.c         | 18 ++++++++++++++++++
+>  include/hw/arm/xlnx-versal.h |  6 ++++++
+>  2 files changed, 24 insertions(+)
+>
+> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+> index b2705b6925..08e250945f 100644
+> --- a/hw/arm/xlnx-versal.c
+> +++ b/hw/arm/xlnx-versal.c
+> @@ -369,6 +369,23 @@ static void versal_create_efuse(Versal *s, qemu_irq *pic)
+>      sysbus_connect_irq(SYS_BUS_DEVICE(ctrl), 0, pic[VERSAL_EFUSE_IRQ]);
+>  }
+>
+> +static void versal_create_pmc_iou_slcr(Versal *s, qemu_irq *pic)
+> +{
+> +    SysBusDevice *sbd;
+> +
+> +    object_initialize_child(OBJECT(s), "versal-pmc-iou-slcr", &s->pmc.iou.slcr,
+> +                            TYPE_XILINX_VERSAL_PMC_IOU_SLCR);
+> +
+> +    sbd = SYS_BUS_DEVICE(&s->pmc.iou.slcr);
+> +    sysbus_realize(sbd, &error_fatal);
+> +
+> +    memory_region_add_subregion(&s->mr_ps, MM_PMC_PMC_IOU_SLCR,
+> +        sysbus_mmio_get_region(sbd, 0));
 
+Nit: the indent here is wrong.
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
