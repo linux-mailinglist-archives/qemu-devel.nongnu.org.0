@@ -2,92 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D290461062
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 09:44:36 +0100 (CET)
-Received: from localhost ([::1]:45112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7D54610FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 10:21:24 +0100 (CET)
+Received: from localhost ([::1]:57752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrcH5-0004Ye-8Y
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 03:44:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43638)
+	id 1mrcqg-0005Tm-5Z
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 04:21:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mrcG7-0003u9-HN
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 03:43:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27183)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1mrcpH-000429-D2; Mon, 29 Nov 2021 04:19:57 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:44108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mrcG4-0003Wx-AO
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 03:43:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638175403;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gBaXAB76thCFCgY3j60LFR7CNY/1oNyGRi1jYqKFybk=;
- b=bWQ0Nef4waJq5TtLR7Jx4vCuECtQ6giRSXa/XgFhMmIb4IG0XdOtO7gGpM6LZAvPOhqqAB
- +AEdjURLp9/a0FFAoOeqLqu5p57jcN4Smw5WLsHY0KFTG9uV1Z1kIMmkUVrtcpeL1Ita2m
- 0hEysHlrrVQITnelN1O2G6JqLb9NrMk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-243-_96vGbQGMq25FQ2I9DaMCw-1; Mon, 29 Nov 2021 03:43:19 -0500
-X-MC-Unique: _96vGbQGMq25FQ2I9DaMCw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- r2-20020adfe682000000b00198af042b0dso2568154wrm.23
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 00:43:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=gBaXAB76thCFCgY3j60LFR7CNY/1oNyGRi1jYqKFybk=;
- b=RU/95DvZt886h9rQbfaWkNUVLbdBBK8G19jFbrDhpyXi5QgdTT2pXvqlOrB4d82LKj
- m6wCGhnT8Yeh4GdsZMBPv7/BspDKgW9UwqzvJVtK5SHqX4CFgEpHoewtmRO4oDCg3kH5
- vqOdzlPQorhzBo9Q0ubOWRCz7Y1pZUs6Cichn39P1wpE1mOGM9A3FccNXRw1JjuoxCZ1
- sftnk7KdNDvgXPUPU4a6XPhquOYrsjOgFOnyUnNhCwF4U/bi1DYyqVWSUXyTpwhsTQDs
- qBGEm3DfcvltZwRnfyouD96Tl4u/oyd1N+zDz79VdoMDxcVDeuhmcoMCs52qsJWa4Bl6
- 5Ukw==
-X-Gm-Message-State: AOAM532AK+nCoDZxGbwV0xz+xeJ4b+dldAFCghdDQaaZriMb0HWf0H6Z
- okBHxWLSyYp50EC73x8MmrLipWwYm6Oe0wCXWLkeI36d2WzpyfgmJGml6VZDodtWw52rxeoEqdS
- NXLu7i9cU2bMfCJg=
-X-Received: by 2002:a7b:c452:: with SMTP id l18mr35168733wmi.46.1638175398688; 
- Mon, 29 Nov 2021 00:43:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyvexjMj5PCO1GtnHdUYocw4PW4M6utnxlr1s/g1ypyTMiSDF5xtSGDVWPCUtf8nDXS+O9yrQ==
-X-Received: by 2002:a7b:c452:: with SMTP id l18mr35168716wmi.46.1638175398488; 
- Mon, 29 Nov 2021 00:43:18 -0800 (PST)
-Received: from [192.168.3.132] (p5b0c6664.dip0.t-ipconnect.de. [91.12.102.100])
- by smtp.gmail.com with ESMTPSA id p62sm13893075wmp.10.2021.11.29.00.43.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Nov 2021 00:43:18 -0800 (PST)
-Message-ID: <d01469aa-a39c-38ad-ea17-892483355ac9@redhat.com>
-Date: Mon, 29 Nov 2021 09:43:17 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH V2 2/2] virtio-balloon: correct used length
-To: Jason Wang <jasowang@redhat.com>, mst@redhat.com
-References: <20211129030841.3611-1-jasowang@redhat.com>
- <20211129030841.3611-2-jasowang@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20211129030841.3611-2-jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1mrcpF-0000He-6O; Mon, 29 Nov 2021 04:19:55 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 83F43611F9;
+ Mon, 29 Nov 2021 09:19:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAB61C004E1;
+ Mon, 29 Nov 2021 09:19:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1638177583;
+ bh=Nt1W7Smat1fUpYIQt6EYKDfPMsXrSZ/yrbGkUkAu7EY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=H2NDpVnbfnplod5AzC9w0pq0PUmV3pU5rxGrqmBLJPopJcZEg8gu5fbX6yY8DR4NM
+ yFuDdtjMwY5NoU3q6/4ESHkiAw7tdtc5o1DDN9PsBRUNS7UV+r76qXNVt4JJo7AfTD
+ WhOmTd7TBUDe/PO5GYR9lhoVBr8093Qj532QMb6OIvUH2H+fy2FvbBPGP6vzzEF/4k
+ hbwSa2ei+cIKY/xhx+JpT43X0FR6+fl8qruqxUiZ9S1wt1xmWWndD9k3i/Q9EhNFOU
+ Rr3j/UcSm4LtIQ1ewQ0LvxBykClK8l6ItlF4K4H1gc2wr5rM/xuOx1SDoMtwAXomzS
+ LovjdA6Wv10gg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1mrcp2-008Yv8-IS; Mon, 29 Nov 2021 09:19:40 +0000
+Date: Mon, 29 Nov 2021 09:19:33 +0000
+Message-ID: <87v90bmi8q.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH for-6.2? 0/2] arm_gicv3: Fix handling of LPIs in list
+ registers
+In-Reply-To: <20211126163915.1048353-1-peter.maydell@linaro.org>
+References: <20211126163915.1048353-1-peter.maydell@linaro.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, alex.bennee@linaro.org, richard.henderson@linaro.org,
+ shashi.mallela@linaro.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=maz@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.317, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,76 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wei.w.wang@intel.com, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm@nongnu.org,
+ Alex =?UTF-8?B?QmVubsOp?= =?UTF-8?B?ZQ==?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29.11.21 04:08, Jason Wang wrote:
-> Spec said:
-> 
-> "and len the total of bytes written into the buffer."
-> 
-> For inflateq, deflateq and statsq, we don't process in_sg so the used
-> length should be zero. For free_page_vq, tough the pages could be
+Hi Peter,
 
-s/tough/though/
+On Fri, 26 Nov 2021 16:39:13 +0000,
+Peter Maydell <peter.maydell@linaro.org> wrote:
+> 
+> (Marc: cc'd you on this one in case you're still using QEMU
+> to test KVM stuff with, in which case you might have run into
+> the bug this is fixing.)
 
-> changed by the device (in the destination), spec said:
-> 
-> "Note: len is particularly useful for drivers using untrusted buffers:
-> if a driver does not know exactly how much has been written by the
-> device, the driver would have to zero the buffer in advance to ensure
-> no data leakage occurs."
-> 
-> So 0 should be used as well here.
-> 
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
-> ---
-> Changes since V1:
-> - use 0 as used length for free_page_vq
-> ---
->  hw/virtio/virtio-balloon.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-> index 17de2558cb..9a4f491b54 100644
-> --- a/hw/virtio/virtio-balloon.c
-> +++ b/hw/virtio/virtio-balloon.c
-> @@ -231,7 +231,7 @@ static void balloon_stats_poll_cb(void *opaque)
->          return;
->      }
->  
-> -    virtqueue_push(s->svq, s->stats_vq_elem, s->stats_vq_offset);
-> +    virtqueue_push(s->svq, s->stats_vq_elem, 0);
->      virtio_notify(vdev, s->svq);
->      g_free(s->stats_vq_elem);
->      s->stats_vq_elem = NULL;
-> @@ -438,7 +438,7 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
->              memory_region_unref(section.mr);
->          }
->  
-> -        virtqueue_push(vq, elem, offset);
-> +        virtqueue_push(vq, elem, 0);
->          virtio_notify(vdev, vq);
->          g_free(elem);
->          virtio_balloon_pbp_free(&pbp);
-> @@ -552,7 +552,7 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
->      }
->  
->  out:
-> -    virtqueue_push(vq, elem, 1);
-> +    virtqueue_push(vq, elem, 0);
->      g_free(elem);
->      return ret;
->  }
-> 
+Amusingly enough, I have recently fixed [1] a very similar issue with
+the ICV_*_EL1 emulation that KVM uses when dealing with sub-par HW
+(ThunderX and M1).
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+When writing this a very long while ago, I modelled it so that LPIs
+wouldn't have an Active state, similar to bare metal. As it turns out,
+the pseudocode actually treats LPIs almost like any other interrupt,
+and is quite happy to carry an active bit that eventually gets exposed
+to the hypervisor.
 
+I don't think this ever caused any issue, but I'd be pretty happy to
+see the QEMU implementation fixed.
 
--- 
+For the whole series:
+
+Reviewed-by: Marc Zyngier <maz@kernel.org>
+
 Thanks,
 
-David / dhildenb
+	M.
 
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/arch/arm64/kvm/hyp/vgic-v3-sr.c?id=9d449c71bd8f74282e84213c8f0b8328293ab0a7
+
+-- 
+Without deviation from the norm, progress is not possible.
 
