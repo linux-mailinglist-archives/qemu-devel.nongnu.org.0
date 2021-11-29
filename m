@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19794461655
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 14:27:36 +0100 (CET)
-Received: from localhost ([::1]:56674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B48461686
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 14:33:56 +0100 (CET)
+Received: from localhost ([::1]:38458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrggw-0001h2-CT
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 08:27:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41574)
+	id 1mrgn5-0000jy-Vr
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 08:33:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mrgc0-0005nG-S9
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:22:33 -0500
-Received: from [2a00:1450:4864:20::42d] (port=38755
- helo=mail-wr1-x42d.google.com)
+ id 1mrgce-00060r-PN
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:23:09 -0500
+Received: from [2a00:1450:4864:20::434] (port=43629
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mrgby-0006MY-7z
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:22:28 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id q3so13913344wru.5
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 05:22:25 -0800 (PST)
+ id 1mrgcb-0006Rx-V7
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:23:08 -0500
+Received: by mail-wr1-x434.google.com with SMTP id v11so36759779wrw.10
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 05:23:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PFyULRHpYd0FmPcXLPQ/nW2Rj2+83bM1gAMptq4u+6E=;
- b=hJPTdMgnDgJ4PjKbRNZpHX5HpKEjNfCLdjCAOVehQkPI8XrWhMV44LE1KMm2JRKOHr
- DZVN6fpfdlSnRPsJhvzf4iO4+4Qf4NRT/o1GbfPWn6oFqEUzNN5r+UgMi8GQCp5deqLy
- 4ASBOEGQrfdSIrRhGWiF6RF0PleboPVwzagf1Hd4NyKbcj10Er08geKQccdYLBpU7R8L
- S5aPSC6nDbr3nFvKPIZccqyiFU1aKJOtA+CzZJysbfYphmFeOMT+dV0Y2Gdi4pfjwgBN
- rsBdNWlBxHd2/OGCv5OvgkQvh4vXB92zXxXPdR2JfoerfDMpBTo1pO/pD2EptzfwkcKk
- E0DA==
+ :cc; bh=am/rBPgdiqjACXbdhmAI6DImIEUyhaAKNXARnrWXYok=;
+ b=Rwpv8//dPHzD0FOZ5fN+TQF+Z2gXNdW1km6J/L2MbRespAcNxYpCLDfnI01YUY5/YJ
+ ZHGNFSlZ+r+qfIU54GJBarEwgQNjZJ6j4VM4IPXa0KVuxV1c7kfhRSq6HC00V8dqod8e
+ w5xa8fhIAs8GuB5aApTJkWpp3uLfBd65XwYokzNBgMc+V8gnZDXgT9gx/AHFpLS1OKxi
+ AoJ8PrvrkiRH5t/VvoKAyL4h4KhlztE5mpltjHJ2YuNL9EkDpO1UXoKV5Qf1yMOq2+D7
+ s+R5HEEONDuPrh+HJC8VV7b/+35l+7W0M3zXQwFZCo9fUayUHAu2yr3phCk1rEVDP+o3
+ QWeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=PFyULRHpYd0FmPcXLPQ/nW2Rj2+83bM1gAMptq4u+6E=;
- b=FeHIlcbk4d+SZvwaUcTkRsSS8nXSt3Mgbxx8EJzgbmWhnX+vfwq/80dlv+E+Dq1Gs5
- atEnZQ0vSykhXXcdjI8Dl/euxtPqeaIELcTMahT7ZuIeuJU+iKfHQdHlmPdUDSM7Dy8r
- 4tus0oCyjEiF3Iu96n2OKZoraPhW3j4USQGWbz6dx6Plr5QUyK/ihGUMkqHfYbPjGqfl
- g4BWzgyr+3jHM4qKaf4zMXWfJPLFc3dcfH8NEQUx80/1A+IaHbPfpCVRG1hJTssP9DRQ
- T3p9Y1AIFqLL4JBJnzDgx4Qsd1T1UO/K4pxMij1GwXOvfpXLqN1Q9JliEAbrprylMq/5
- +9Mg==
-X-Gm-Message-State: AOAM531zzim5VrJA0WvWJa8uqbPljTHY1IDw+gjV4cx5kTZ+Zwu+TqHL
- 23b4ULhE+Ciec8eSLCErtcrJ6NAKFrCz11+vJXUrEg==
-X-Google-Smtp-Source: ABdhPJziZI4vCbx/v0UohAoZa3TrjubTqLdjnR4MRKgrXPNhyi1Nm4JNkiOmXMrt9VJgCOdOcQx+Gfs6foYxgZ6nGWU=
-X-Received: by 2002:adf:f64b:: with SMTP id x11mr34955403wrp.4.1638192144888; 
- Mon, 29 Nov 2021 05:22:24 -0800 (PST)
+ bh=am/rBPgdiqjACXbdhmAI6DImIEUyhaAKNXARnrWXYok=;
+ b=vzud1Q7dF6smy67lbvkfNIcpqs1oBbrdrlYhCRWaNzPiM9iriVrJ0tDdUnwqE26a5Y
+ PpFpl38DLXzKvGt9cT8/KVM6sxPjXTY17CMJh0FETzaGO9tjIdBgJQShWjZFAJQRqQDV
+ v4GiAhoJdY+gjKmf+HVrwMbxGrgt7qsUnRaw8EziM4grsr3lnLtGrbB03O8cx9nsCijY
+ IiDm+nxzJBf2P6SVkZwB2LI4XVQYDLys9nA/U7nQ2kZsBcWjiGYDvhIHC/dpUHdC7BHJ
+ g7e7XTWeooStj4kxgL3LKTS0KsBNvlzxhSGl7wr1GyI5xNBv7TIuyKzgJ5gxXAwuDDTZ
+ hWhQ==
+X-Gm-Message-State: AOAM533tZHrNMl7vHA3YaNC4sPXMMv3iVQPXsM21o5cXVJO5PgXdquZs
+ bIA1cGK5O+cHy6X8GhH1p/xNiX6lsxvbgWaIzMt4WSKsj84=
+X-Google-Smtp-Source: ABdhPJzT7uQyH6f7KLayq3rZqnkY01WxqXYjgQdQ4ie/GfwPK9uHY0Vulj/W613qzBzkcdTOhZhBlG0NGMXG129Kf2c=
+X-Received: by 2002:adf:ef42:: with SMTP id c2mr32987086wrp.528.1638192182402; 
+ Mon, 29 Nov 2021 05:23:02 -0800 (PST)
 MIME-Version: 1.0
 References: <20211117163409.3587705-1-armbru@redhat.com>
- <20211117163409.3587705-6-armbru@redhat.com>
-In-Reply-To: <20211117163409.3587705-6-armbru@redhat.com>
+ <20211117163409.3587705-7-armbru@redhat.com>
+In-Reply-To: <20211117163409.3587705-7-armbru@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 29 Nov 2021 13:22:13 +0000
-Message-ID: <CAFEAcA9ueuFJUvSTT9B8YYwCe22Ue7vMFQ8Dp3UoFwLQSC5FRA@mail.gmail.com>
-Subject: Re: [PATCH v2 05/13] hw/arm/imx25_pdk: Replace drive_get_next() by
+Date: Mon, 29 Nov 2021 13:22:51 +0000
+Message-ID: <CAFEAcA9kFEWFdL2TnPPY8Z0aFmKx4miSGqxLBxq6ix6DAVamJQ@mail.gmail.com>
+Subject: Re: [PATCH v2 06/13] hw/arm/mcimx6ul-evk: Replace drive_get_next() by
  drive_get()
 To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -96,7 +96,7 @@ On Wed, 17 Nov 2021 at 16:34, Markus Armbruster <armbru@redhat.com> wrote:
 > order changes, or new calls appear "in the middle", unit numbers change.
 > ABI break.  Hard to spot in review.
 >
-> Machine "imx25-pdk" connects backends with drive_get_next() in a
+> Machine "mcimx6ul-evk" connects backends with drive_get_next() in a
 > counting loop.  Change it to use drive_get() directly.  This makes the
 > unit numbers explicit in the code.
 >
@@ -104,6 +104,7 @@ On Wed, 17 Nov 2021 at 16:34, Markus Armbruster <armbru@redhat.com> wrote:
 > Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
 > Cc: qemu-arm@nongnu.org
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
