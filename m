@@ -2,87 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A95460CD1
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 03:51:17 +0100 (CET)
-Received: from localhost ([::1]:38286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF652460CEF
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 04:06:19 +0100 (CET)
+Received: from localhost ([::1]:49268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrWl9-0003VK-PT
-	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 21:51:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36610)
+	id 1mrWzi-00035E-EH
+	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 22:06:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mrWj3-0002Kc-Uf
- for qemu-devel@nongnu.org; Sun, 28 Nov 2021 21:49:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23231)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mrWih-0005Qg-Ng
- for qemu-devel@nongnu.org; Sun, 28 Nov 2021 21:49:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638154122;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Wempz6DRlw0cpoIyu7qQuKWIPg1EIiV75aywNzB5YGg=;
- b=ImoDJYHy5ca80zigcvYfW3kRfseR43Aa93Wr5XSRdVfeC3RfNEcSrPoeoBQdHBFfeZPb2+
- 8RXAfxBf0Vgih4dCoBUf/w4TFSojjt2DAY0NQ5GDv3bv9KvIGVN43j4gq+P1lXZQS1u2s6
- RdG0yKUZoQXHozsj22X+7Dr6+eTCbqo=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-94-otnBmC4JMW2prCCLFvX8Xw-1; Sun, 28 Nov 2021 21:48:38 -0500
-X-MC-Unique: otnBmC4JMW2prCCLFvX8Xw-1
-Received: by mail-lf1-f70.google.com with SMTP id
- 24-20020ac25f58000000b0041799ebf529so5035754lfz.1
- for <qemu-devel@nongnu.org>; Sun, 28 Nov 2021 18:48:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mrWxL-0000BX-4l
+ for qemu-devel@nongnu.org; Sun, 28 Nov 2021 22:03:52 -0500
+Received: from [2607:f8b0:4864:20::430] (port=34356
+ helo=mail-pf1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mrWxI-0008JO-3N
+ for qemu-devel@nongnu.org; Sun, 28 Nov 2021 22:03:50 -0500
+Received: by mail-pf1-x430.google.com with SMTP id r130so15339067pfc.1
+ for <qemu-devel@nongnu.org>; Sun, 28 Nov 2021 19:03:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+Djtk7MO02/6vQwaS5Jddg5et6k9rh0KiNtGBda+diQ=;
+ b=QJDrQKxL4LeThPzeob4iCXAIqJ1bvxP57fdsxuu3B0W/aBiGJnS4qq3vbxZF0muS29
+ +Xg18sgwUupu88lWoiAtOtKXMRmo0kNiddmgLqTrVtMOI/SYqttpQ4kx4au31MM6G8FZ
+ 8YSOPTVkou2/KipHstWFnPYX1a3PDhmLe9xV9thIAtxhvLdvue7PTpbC9KXCaikkfbMR
+ 43EogAYK7ELz5Kx4gTnDy/8yQpMfJFpZsQCceSLjMl0Nonb4bNYA2dNLhi8XkzRj9PSW
+ nP/4E5ZZw3PTpxIDswKPu98Dxa6MSYD7f7HpCgufFvc4ZQdL4XBWmihartQ8pAmTRtT4
+ 8TaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Wempz6DRlw0cpoIyu7qQuKWIPg1EIiV75aywNzB5YGg=;
- b=iTSd3chG7+Susp8jsKNfjmeB+mA86zJhLFs5gsNqi5YvRZYhuxT3dyOeScLw9x4H86
- 5VfnZEnXncaBNDg0mNzwSQb6JgqR+oeXu5CNu3sWqvYOoPNGOxfSzZ70lDHsVgdr3Z3r
- i5Q4s4qFLteqNAGL/ubKJBSJB7A+7BK+l3mnKItqLOYiEgfWxLBRBKjNaOTschpp4p+/
- B/hGA5i/F3yCmUQzV99+Sxtp73w1eMMEQ2KLGE3xY/asu3njRvSF+j8jNMgjHpb0y4Db
- 9td8nDcAcFmD8rJrDeZkxybSoCodGS27NQXS+O5pTSGBRtGTHpUPNecnVMPsYkrnCPpM
- Qhng==
-X-Gm-Message-State: AOAM5303Lv6VvR7l0l9EoQFaikDLaskpJY5vd3w1zcry1oAE4A9+8C5O
- 8aePt7y2UFYgYKfetWfbSN0Ss0ksJr800RGaaWFxuhoUFqr2zd1Xc3uZN1Qk7Xnub8JOA80jKNd
- LS/DYck7W4b9MmmqgiWU3m9qho/K+dXc=
-X-Received: by 2002:a05:6512:685:: with SMTP id
- t5mr45139859lfe.84.1638154116489; 
- Sun, 28 Nov 2021 18:48:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwnFw4mXt6T1o5q2qt7k8fINeTf/++OwbZgtsqAhy5pnJlZmyT1dBl0KL0vVxDTAlx1XwJaNi05O8aXvqPnbHo=
-X-Received: by 2002:a05:6512:685:: with SMTP id
- t5mr45139833lfe.84.1638154116234; 
- Sun, 28 Nov 2021 18:48:36 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+Djtk7MO02/6vQwaS5Jddg5et6k9rh0KiNtGBda+diQ=;
+ b=g+O5F+uKisy3q8faTufpdIqKOw///Fs+BZPldPTVlVKOXZWBOgHwAkyxrPGAfjvN0p
+ UsEYpFJmRs9eWth3trHyhwjbBIW1rECiApzrm/16E6UhttS0KUrhUzsJEpOO4oQLMVy2
+ 73JLRoSb83uNAeHO45tCBW7mf9yVO4K2hC+PUws53aUKwYb+BkNIOUc7uu5+tvG8bTGr
+ XuZHQ+tYGCRiqNeX26yG11FiYKFiC4BBScIpYE8vhkz7Wc2YYIhcpUxy25gIOWxwPaRy
+ sFYoAbRXJjnr5sB9uyTNY8+0BzcvwS0e5y40ameKucSjoAWm3uWYICv/Bg3j8pGlgcag
+ /Ogg==
+X-Gm-Message-State: AOAM530rAn+LOusPeoToRUXUS6j3SK8pUdVeuVEMofwdz5HkqFCux+oH
+ qHniE9UBjRhzh+LYFHtB7FBfba858HEN/NbW
+X-Google-Smtp-Source: ABdhPJwfhYAmDvNyRkAsoSqZObVRbcz8YPwelKR3pWAgF3olMTToOrCVgqkQPlsVKRCaM2elOMd3bQ==
+X-Received: by 2002:a05:6a00:2311:b0:431:c19f:2a93 with SMTP id
+ h17-20020a056a00231100b00431c19f2a93mr36671021pfh.11.1638155025034; 
+ Sun, 28 Nov 2021 19:03:45 -0800 (PST)
+Received: from frankchang-ThinkPad-T490.internal.sifive.com
+ (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
+ by smtp.gmail.com with ESMTPSA id oj11sm17904040pjb.46.2021.11.28.19.03.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 28 Nov 2021 19:03:44 -0800 (PST)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v10 00/77] support vector extension v1.0
+Date: Mon, 29 Nov 2021 11:02:20 +0800
+Message-Id: <20211129030340.429689-1-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211125022046.10433-1-jasowang@redhat.com>
- <20211125022046.10433-2-jasowang@redhat.com>
- <20211125111055-mutt-send-email-mst@kernel.org>
- <CACGkMEsXRQm-vssQD0Cp1R-00B1G-XvdMFv1PX07qZqYPxH71A@mail.gmail.com>
- <20211126023424-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20211126023424-mutt-send-email-mst@kernel.org>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 29 Nov 2021 10:48:25 +0800
-Message-ID: <CACGkMEuPtm5DTUQGHUf6RN2g88vmNEU63eWf7YnShU+s1QcsQg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] virtio-balloon: correct used length
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,116 +85,214 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Ellerman <mpe@ellerman.id.au>, qemu-devel <qemu-devel@nongnu.org>,
- David Hildenbrand <david@redhat.com>
+Cc: Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 26, 2021 at 3:37 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Fri, Nov 26, 2021 at 10:45:43AM +0800, Jason Wang wrote:
-> > On Fri, Nov 26, 2021 at 12:14 AM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > On Thu, Nov 25, 2021 at 10:20:46AM +0800, Jason Wang wrote:
-> > > > Spec said:
-> > > >
-> > > > "and len the total of bytes written into the buffer."
-> > > >
-> > > > For inflateq, deflateq and statsq, we don't process in_sg so the used
-> > > > length should be zero. For free_page_vq, since the pages could be
-> > > > changed in the destination, we should make all pages used for safety.
-> > >
-> > > Yea, about that, I know I said it, but I was wrong, sorry.
-> > >
-> > > Spec says this:
-> > >
-> > >         \field{len} is particularly useful
-> > >         for drivers using untrusted buffers: if a driver does not know exactly
-> > >         how much has been written by the device, the driver would have to zero
-> > >         the buffer in advance to ensure no data leakage occurs.
-> > >
-> > >         For example, a network driver may hand a received buffer directly to
-> > >         an unprivileged userspace application.  If the network device has not
-> > >         overwritten the bytes which were in that buffer, this could leak the
-> > >         contents of freed memory from other processes to the application.
-> > >
-> > >
-> > > In other words, device must guarantee that used length was
-> > > written into. Since we don't know that, we really should
-> > > write 0 there, and the fact we don't is a spec violation.
-> >
-> > The problem is, if we write 0, the driver may assume there's no change
-> > on those pages?
-> >
-> > Thanks
->
-> No:
->
->
-> The driver MUST NOT make assumptions about data in device-writable buffers
-> beyond the first \field{len} bytes, and SHOULD ignore this data.
+From: Frank Chang <frank.chang@sifive.com>
 
-Good to know this. Will fix it in V2.
+This patchset implements the vector extension v1.0 for RISC-V on QEMU.
 
-Thanks
+RVV v1.0 spec is now fronzen for public review:
+https://github.com/riscv/riscv-v-spec/releases/tag/v1.0
 
->
->
->
-> > >
-> > >
-> > > > Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > > > ---
-> > > >  hw/virtio/virtio-balloon.c | 8 +++++---
-> > > >  1 file changed, 5 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-> > > > index 17de2558cb..fb4426ac0c 100644
-> > > > --- a/hw/virtio/virtio-balloon.c
-> > > > +++ b/hw/virtio/virtio-balloon.c
-> > > > @@ -231,7 +231,7 @@ static void balloon_stats_poll_cb(void *opaque)
-> > > >          return;
-> > > >      }
-> > > >
-> > > > -    virtqueue_push(s->svq, s->stats_vq_elem, s->stats_vq_offset);
-> > > > +    virtqueue_push(s->svq, s->stats_vq_elem, 0);
-> > > >      virtio_notify(vdev, s->svq);
-> > > >      g_free(s->stats_vq_elem);
-> > > >      s->stats_vq_elem = NULL;
-> > > > @@ -438,7 +438,7 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-> > > >              memory_region_unref(section.mr);
-> > > >          }
-> > > >
-> > > > -        virtqueue_push(vq, elem, offset);
-> > > > +        virtqueue_push(vq, elem, 0);
-> > > >          virtio_notify(vdev, vq);
-> > > >          g_free(elem);
-> > > >          virtio_balloon_pbp_free(&pbp);
-> > > > @@ -510,6 +510,7 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
-> > > >      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-> > > >      VirtQueue *vq = dev->free_page_vq;
-> > > >      bool ret = true;
-> > > > +    size_t used = 0;
-> > > >      int i;
-> > > >
-> > > >      while (dev->block_iothread) {
-> > > > @@ -548,11 +549,12 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
-> > > >          for (i = 0; i < elem->in_num; i++) {
-> > > >              qemu_guest_free_page_hint(elem->in_sg[i].iov_base,
-> > > >                                        elem->in_sg[i].iov_len);
-> > > > +            used += elem->in_sg[i].iov_len;
-> > > >          }
-> > > >      }
-> > > >
-> > > >  out:
-> > > > -    virtqueue_push(vq, elem, 1);
-> > > > +    virtqueue_push(vq, elem, used);
-> > > >      g_free(elem);
-> > > >      return ret;
-> > > >  }
-> > > > --
-> > > > 2.25.1
-> > >
->
+The port is available here:
+https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v10
+
+RVV v1.0 can be enabled with -cpu option: v=true and specify vext_spec
+option to v1.0 (i.e. vext_spec=v1.0)
+
+Note: This patchset depends on other patchsets listed in Based-on
+      section below so it is not able to be built unless those patchsets
+      are applied.
+
+Changelog:
+
+v10
+  * Add ELEN checks for widening and narrowing instructions.
+
+v9
+  * Remove explicitly set mstatus.SD patches as mstatus.SD is now
+    set in add_status_sd().
+  * Rebase on riscv-to-apply.next branch.
+
+v8
+  * Use {get,dest}_gpr APIs.
+  * remove vector AMO instructions.
+  * rename vpopc.m to vcpop.m.
+  * rename vle1.v and vse1.v to vlm.v and vsm.v.
+  * rename vmandnot.mm and vmornot.mm to vmandn.mm and vmorn.mm.
+
+v7
+  * remove hardcoded GDB vector registers list.
+  * add vsetivli instruction.
+  * add vle1.v and vse1.v instructions.
+
+v6
+  * add vector floating-point reciprocal estimate instruction.
+  * add vector floating-point reciprocal square-root estimate instruction.
+  * update check rules for segment register groups, each segment register
+    group has to follow overlap rules.
+  * update viota.m instruction check rules.
+
+v5
+  * refactor RVV v1.0 check functions.
+    (Thanks to Richard Henderson's bitwise tricks.)
+  * relax RV_VLEN_MAX to 1024-bits.
+  * implement vstart CSR's behaviors.
+  * trigger illegal instruction exception if frm is not valid for
+    vector floating-point instructions.
+  * rebase on riscv-to-apply.next.
+
+v4
+  * remove explicit float flmul variable in DisasContext.
+  * replace floating-point calculations with shift operations to
+    improve performance.
+  * relax RV_VLEN_MAX to 512-bits.
+
+v3
+  * apply nan-box helpers from Richard Henderson.
+  * remove fp16 api changes as they are sent independently in another
+    pathcset by Chih-Min Chao.
+  * remove all tail elements clear functions as tail elements can
+    retain unchanged for either VTA set to undisturbed or agnostic.
+  * add fp16 nan-box check generator function.
+  * add floating-point rounding mode enum.
+  * replace flmul arithmetic with shifts to avoid floating-point
+    conversions.
+  * add Zvqmac extension.
+  * replace gdbstub vector register xml files with dynamic generator.
+  * bumped to RVV v1.0.
+  * RVV v1.0 related changes:
+    * add vl<nf>re<eew>.v and vs<nf>r.v vector whole register
+      load/store instructions
+    * add vrgatherei16 instruction.
+    * rearranged bits in vtype to make vlmul bits into a contiguous
+      field.
+
+v2
+  * drop v0.7.1 support.
+  * replace invisible return check macros with functions.
+  * move mark_vs_dirty() to translators.
+  * add SSTATUS_VS flag for s-mode.
+  * nan-box scalar fp register for floating-point operations.
+  * add gdbstub files for vector registers to allow system-mode
+    debugging with GDB.
+
+Based-on: <20211021160847.2748577-1-frank.chang@sifive.com>
+Based-on: <20211021162956.2772656-1-frank.chang@sifive.com>
+
+Frank Chang (72):
+  target/riscv: drop vector 0.7.1 and add 1.0 support
+  target/riscv: Use FIELD_EX32() to extract wd field
+  target/riscv: rvv-1.0: set mstatus.SD bit if mstatus.VS is dirty
+  target/riscv: rvv-1.0: introduce writable misa.v field
+  target/riscv: rvv-1.0: add translation-time vector context status
+  target/riscv: rvv-1.0: remove rvv related codes from fcsr registers
+  target/riscv: rvv-1.0: check MSTATUS_VS when accessing vector csr
+    registers
+  target/riscv: rvv-1.0: remove MLEN calculations
+  target/riscv: rvv-1.0: add fractional LMUL
+  target/riscv: rvv-1.0: add VMA and VTA
+  target/riscv: rvv-1.0: update check functions
+  target/riscv: introduce more imm value modes in translator functions
+  target/riscv: rvv:1.0: add translation-time nan-box helper function
+  target/riscv: rvv-1.0: remove amo operations instructions
+  target/riscv: rvv-1.0: configure instructions
+  target/riscv: rvv-1.0: stride load and store instructions
+  target/riscv: rvv-1.0: index load and store instructions
+  target/riscv: rvv-1.0: fix address index overflow bug of indexed
+    load/store insns
+  target/riscv: rvv-1.0: fault-only-first unit stride load
+  target/riscv: rvv-1.0: load/store whole register instructions
+  target/riscv: rvv-1.0: update vext_max_elems() for load/store insns
+  target/riscv: rvv-1.0: take fractional LMUL into vector max elements
+    calculation
+  target/riscv: rvv-1.0: floating-point square-root instruction
+  target/riscv: rvv-1.0: floating-point classify instructions
+  target/riscv: rvv-1.0: count population in mask instruction
+  target/riscv: rvv-1.0: find-first-set mask bit instruction
+  target/riscv: rvv-1.0: set-X-first mask bit instructions
+  target/riscv: rvv-1.0: iota instruction
+  target/riscv: rvv-1.0: element index instruction
+  target/riscv: rvv-1.0: allow load element with sign-extended
+  target/riscv: rvv-1.0: register gather instructions
+  target/riscv: rvv-1.0: integer scalar move instructions
+  target/riscv: rvv-1.0: floating-point move instruction
+  target/riscv: rvv-1.0: floating-point scalar move instructions
+  target/riscv: rvv-1.0: whole register move instructions
+  target/riscv: rvv-1.0: integer extension instructions
+  target/riscv: rvv-1.0: single-width averaging add and subtract
+    instructions
+  target/riscv: rvv-1.0: single-width bit shift instructions
+  target/riscv: rvv-1.0: integer add-with-carry/subtract-with-borrow
+  target/riscv: rvv-1.0: narrowing integer right shift instructions
+  target/riscv: rvv-1.0: widening integer multiply-add instructions
+  target/riscv: rvv-1.0: single-width saturating add and subtract
+    instructions
+  target/riscv: rvv-1.0: integer comparison instructions
+  target/riscv: rvv-1.0: floating-point compare instructions
+  target/riscv: rvv-1.0: mask-register logical instructions
+  target/riscv: rvv-1.0: slide instructions
+  target/riscv: rvv-1.0: floating-point slide instructions
+  target/riscv: rvv-1.0: narrowing fixed-point clip instructions
+  target/riscv: rvv-1.0: single-width floating-point reduction
+  target/riscv: rvv-1.0: widening floating-point reduction instructions
+  target/riscv: rvv-1.0: single-width scaling shift instructions
+  target/riscv: rvv-1.0: remove widening saturating scaled multiply-add
+  target/riscv: rvv-1.0: remove vmford.vv and vmford.vf
+  target/riscv: rvv-1.0: remove integer extract instruction
+  target/riscv: rvv-1.0: floating-point min/max instructions
+  target/riscv: introduce floating-point rounding mode enum
+  target/riscv: rvv-1.0: floating-point/integer type-convert
+    instructions
+  target/riscv: rvv-1.0: widening floating-point/integer type-convert
+  target/riscv: add "set round to odd" rounding mode helper function
+  target/riscv: rvv-1.0: narrowing floating-point/integer type-convert
+  target/riscv: rvv-1.0: relax RV_VLEN_MAX to 1024-bits
+  target/riscv: rvv-1.0: implement vstart CSR
+  target/riscv: rvv-1.0: trigger illegal instruction exception if frm is
+    not valid
+  target/riscv: rvv-1.0: floating-point reciprocal square-root estimate
+    instruction
+  target/riscv: rvv-1.0: floating-point reciprocal estimate instruction
+  target/riscv: rvv-1.0: rename r2_zimm to r2_zimm11
+  target/riscv: rvv-1.0: add vsetivli instruction
+  target/riscv: rvv-1.0: add evl parameter to vext_ldst_us()
+  target/riscv: rvv-1.0: add vector unit-stride mask load/store insns
+  target/riscv: rvv-1.0: rename vmandnot.mm and vmornot.mm to vmandn.mm
+    and vmorn.mm
+  target/riscv: rvv-1.0: update opivv_vadc_check() comment
+  target/riscv: rvv-1.0: Add ELEN checks for widening and narrowing
+    instructions
+
+Greentime Hu (1):
+  target/riscv: rvv-1.0: add vlenb register
+
+Hsiangkai Wang (1):
+  target/riscv: gdb: support vector registers for rv64 & rv32
+
+LIU Zhiwei (3):
+  target/riscv: rvv-1.0: add mstatus VS field
+  target/riscv: rvv-1.0: add sstatus VS field
+  target/riscv: rvv-1.0: add vcsr register
+
+ target/riscv/cpu.c                      |   18 +-
+ target/riscv/cpu.h                      |   61 +-
+ target/riscv/cpu_bits.h                 |   10 +
+ target/riscv/cpu_helper.c               |   39 +-
+ target/riscv/csr.c                      |   63 +-
+ target/riscv/fpu_helper.c               |   17 +-
+ target/riscv/gdbstub.c                  |  184 ++
+ target/riscv/helper.h                   |  435 ++-
+ target/riscv/insn32.decode              |  294 +-
+ target/riscv/insn_trans/trans_rvv.c.inc | 2429 +++++++++------
+ target/riscv/internals.h                |   24 +-
+ target/riscv/translate.c                |   73 +-
+ target/riscv/vector_helper.c            | 3601 ++++++++++++-----------
+ 13 files changed, 4157 insertions(+), 3091 deletions(-)
+
+--
+2.25.1
 
 
