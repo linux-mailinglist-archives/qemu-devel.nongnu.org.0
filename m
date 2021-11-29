@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC454612EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 11:52:03 +0100 (CET)
-Received: from localhost ([::1]:51238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15869461308
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 12:03:33 +0100 (CET)
+Received: from localhost ([::1]:54586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mreGP-0000fJ-4H
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 05:52:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52560)
+	id 1mreRX-0003Un-Mo
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 06:03:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1mreEy-0007xQ-JD
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:50:34 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=42993
- helo=mail-pj1-x1030.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mrePo-0002nG-GF
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 06:01:44 -0500
+Received: from [2a00:1450:4864:20::430] (port=45941
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1mreEw-0006aK-E7
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:50:32 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- fv9-20020a17090b0e8900b001a6a5ab1392so13831260pjb.1
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 02:50:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=gStws1BsQA7ChV+ZSOVJ9jMVkmG66GOwFLh7gMjyE60=;
- b=eFKqu69J/Xgt/F4Of/guUi6aEe+helelYIpfX+KeICrG5Rzdt8j+JFGrckSGfKG7iE
- hiSL6y4lrUxN2EaYjWpezUfjBviv9HrdLyI90giBnknKV0ftt6PyVGxpcwdDm1nIqxRI
- uyXgfysMboWLQEqnOf+FHDm8pkBKAJFXAndwBkhJFMR9Zc4gvvL4A8h6LTe/4p1rb9sS
- R0Rnxn4c+ub0ZdNoBPpyIzlZFEpXJmVpNAQY5l5TIkydTk4hXvGjzFX5CHREJy03x6jF
- JpQaDL3q/YWUymDyinOcTVmYfXub5uyx6uLyszaTsuzY2fhqiSYfQFWjKrPJVeyhjYG8
- 7PAw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mrePm-0008Dg-Gb
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 06:01:44 -0500
+Received: by mail-wr1-x430.google.com with SMTP id o13so35732122wrs.12
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 03:01:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Sbtw2mWpxy+bZDm245niaW6/zc1hiOKoZljjl8ATvY4=;
+ b=hg18W78FGorooOvuSZXtLyqh6fOYO3x6juKFfMey46DVjMtku3ue/sNm81xhrWXVpz
+ S+w9JnuFFnj7ZhNnB0CbIliJRRaoYe5WwtP1moXgiTC64K1CQDDI/I84/pi3fUR4TMEK
+ wEvvyyXq3e+X7FfvdPgCnOJi/TYK/1mMkkEnLPQlLljs8EY4Hm2LYrwq88gDlHNRw8E5
+ Wfb533dtu9hXfr2d3+U5mrXXT4BMxhG9CM86ajA+xkDaiJvG1kjDZoJxZDqlG/mk9VF1
+ f+xLXTQk4j39eA2iL5VA5qzUs8kHiu0ma9muipZP0Z/66NrJNK8T/MaUCkyUQi3I1OIg
+ KpmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=gStws1BsQA7ChV+ZSOVJ9jMVkmG66GOwFLh7gMjyE60=;
- b=sfWV0uMuICpPrkXHPvgCNnza4KixOPELYfxw9xVw+15vpuEMnWVwiSSEU+dprlqB7K
- J5rIAyZea0WrMeF/aVadFpMGL7Pt23Zd3E6UdpHqhUrh8lBba74FQvi8lOeDtJ7Vta1P
- HmlQVaYjf0aRpiv1///Afu6Y4HD5aaclU4smR1/9pZeqUPssAcCm+MXXKM/PBpMzJkFn
- zor5sYcBttC5lId0Ba5/0ST2IvVZIVfaWx5Y2Z694D9myF4ER9lwF6d7IW3bnjLaaWoH
- BgajFZytT+11OR3T15rN6OIqYv8vg92gjFM3EVOhQXzklq38QFBSNmST1fCCezJOPZHw
- l6yg==
-X-Gm-Message-State: AOAM532IcwAn0YamAtSR1W7yyZTGQNTDYXAR7q2/+zYSWbplDDiG0iTR
- HRzhY059jPP4frgp/9g8FxpbOPtvw38cq5mBbcjUFuCLnDrpSw==
-X-Google-Smtp-Source: ABdhPJyLpiR54bj8wEc5kd9QSP7ECQOnGRiHdUENcm6EwCf3Iqcexd5Y0gvCXhvAnpEEHG4be4ZYB+UN0h3MfIaDqdE=
-X-Received: by 2002:a17:902:c20d:b0:142:21e:b1e8 with SMTP id
- 13-20020a170902c20d00b00142021eb1e8mr57188517pll.27.1638183028486; Mon, 29
- Nov 2021 02:50:28 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Sbtw2mWpxy+bZDm245niaW6/zc1hiOKoZljjl8ATvY4=;
+ b=cK0CE/oF2SXmb0RwVK0XN1qLqQZKiU6HishWVBdAR9NYLuvY7zgVSLai8rVYs6C96f
+ S/2yQBG4NNkkEUFCDF0Ls5Z0M3oTXqQYW0Uyd9tDZPHKIvtohaVj298J+Jd99MfxPkSP
+ nFeF3dd3+ES7r77BN5/9ByrFoelTD8wti8AyM0vpIer/HC/M0QMiKa5qVyTjN2ofRIqb
+ b75soM8vtXuXIoS9WbC4VZBTwgmAc1OrNZIwuXlw/LD6esul7Mkl3kNx8U38F8xDWVgD
+ UW+OlaTlgnQXZLHdE8i0D+Ivg+9MNhhMqoVSVNpVLZHDxODX+zii1jPJ3X4aksaSR4Jl
+ bNfw==
+X-Gm-Message-State: AOAM53155Vrv0fyV3VNLTQtbvDVsZj2jO9BPnLwBFkgCurgsppIP4vjY
+ CTn/djBAOuhTOmt7HOgoT73DQdfSOswEcJMOukrwQg==
+X-Google-Smtp-Source: ABdhPJxq77s7wHVjkTvJFD+Ua7u4K38GAaPeSAVxDhvTHskW+fqy6jMpO1h2tTk562azATzn2m8ABkVr+4w/Lhc7mSc=
+X-Received: by 2002:a05:6000:156a:: with SMTP id
+ 10mr32999323wrz.87.1638183700779; 
+ Mon, 29 Nov 2021 03:01:40 -0800 (PST)
 MIME-Version: 1.0
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 29 Nov 2021 10:50:17 +0000
-Message-ID: <CAJSP0QWB=-CaLHFz_0qxrQpkAKgXVoki=bHjpWcFSR-bunqXSw@mail.gmail.com>
-Subject: FOSDEM 2022 call for participation
-To: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>
+References: <20211123173759.1383510-1-richard.henderson@linaro.org>
+ <20211123173759.1383510-3-richard.henderson@linaro.org>
+In-Reply-To: <20211123173759.1383510-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 29 Nov 2021 11:01:29 +0000
+Message-ID: <CAFEAcA-x6Q_mXbFLzr=7ALGkqijj=gM5DRu_TRMAkFSm8XiZGQ@mail.gmail.com>
+Subject: Re: [PATCH v6 02/16] linux-user/host/ppc64: Use r11 for
+ signal_pending address
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=stefanha@gmail.com; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -78,38 +82,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, imp@bsdimp.com, Laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dear QEMU and KVM community,
-The FOSDEM free and open source software conference takes place on 5 &
-6 February, 2022. It is free to attend and will be a virtual
-conference.
+On Tue, 23 Nov 2021 at 17:40, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> We don't need a register that can live across the syscall;
+> we only need a register that can live until the syscall.
 
-You can now propose talks about QEMU or KVM at
-https://penta.fosdem.org/submission/FOSDEM22. The deadline is December
-28th.
+What about the case where:
+ * we execute the sc instruction (r11 trashed)
+ * the syscall is one that from the host kernel point of
+   view is restartable
+ * the kernel arranges to restart the syscall by rewinding the
+   PC to point to the start of the 'sc' instruction
+ * our rewind_if_in_safe_syscall() rewinds PC further to
+   point at safe_syscall_start
+ * we want to use r11 again, but it was trashed in step 1
+?
 
-If you have something fun or interesting to share, please go ahead and
-submit a talk! Don't worry if this is your first talk or you are not a
-regular contributor. If you still have doubts, email me and I can help
-you with your proposal.
+Put another way, this patch is effectively a revert of
+commit 5d9f3ea081721, which was a fix to an observed bug.
 
-You may be interested in the following devrooms:
-
-Emulator Development:
-https://lists.fosdem.org/pipermail/fosdem/2021q4/003293.html
-
-Virtualization and IaaS:
-https://fosdem.org/2022/schedule/track/virtualization_and_iaas/
-
-Retrocomputing:
-https://fosdem.org/2022/schedule/track/retrocomputing/
-
-FOSDEM website:
-https://fosdem.org/2022/
-
-I hope to see you at FOSDEM!
-
-Stefan
+-- PMM
 
