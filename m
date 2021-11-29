@@ -2,86 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C514611DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 11:09:53 +0100 (CET)
-Received: from localhost ([::1]:45450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4B94611DE
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 11:10:05 +0100 (CET)
+Received: from localhost ([::1]:46032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrdbb-0001D0-O7
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 05:09:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39046)
+	id 1mrdbo-0001dP-CV
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 05:10:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mrdZm-0008N8-Eq
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:07:58 -0500
-Received: from [2a00:1450:4864:20::42b] (port=38453
- helo=mail-wr1-x42b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mrdZh-00083E-Hi
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:07:58 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id q3so12643328wru.5
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 02:07:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EXfVJfqK3e3pqraXoVewEdOYrWyulMFLMp70dCoJZNs=;
- b=nLSxsceTCvosd9bo85tU2/xJeJt3iMdsKim65cylSgnWasR04kAWbYTnstWCAuRqSZ
- 4vwgHhEDvoj7atBMrjulqx+1FNEs2oZNd9Ym4IisPdipzi0Aua4KmUV0N/O+ajI5a4oU
- ssVzDZfTgUqjUrkZR4uKGgBHkelCStbXwo74lkDaG+AK3qKT1NwaSj4qNI08vxQqr75o
- RRQpW39pVlR/zcHiwtFZSW0ks6kTmevUH+EdeMzq5a5yesKX56gDHb1QsiFYey0jadWa
- veFFfQoqYyglRG5PrJGqQc1E/wzLaQsTvnlpPbIvQDzxAuyB6bNrT5BCIwykoUc+tC8v
- zKdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EXfVJfqK3e3pqraXoVewEdOYrWyulMFLMp70dCoJZNs=;
- b=3Je9/WtT0JAIiauEQL53vkpkrjmIboPSH2jWhvGN3g78XYsXggl7s3583S6XH35QwE
- Y8UAPzIXXDBIp1RJcV7gu4yZ+Y4i9UuiSyXXvarLP3X0XWYWcZCRqJiXtW1Up+wMrnne
- KJSBGCxJ8IZJLfuJMANHRVkOa/9iYZR2WyF0hOwZ8/PUSOvUUdyBxjYSFTLATrlERcsQ
- stIRsWIHxNY8yIXR+y3r8xu+5q6zjpA+zKLAkDFGqMmy94VExnnHtSejMzJ6pwV+aNdA
- hXUtwiOxX3utCcI2QsEncjd4W0VwFzzD6ZBrQF0lrzoRq8AGtAJsfkec6M1gultv6cOc
- HSCg==
-X-Gm-Message-State: AOAM533q3yL047EbExSHuc7y6VGSonsrdfqL1D/L6om3x2NgvqU2cH2h
- pmMif9RI3G/QpaJVqoc/Svting==
-X-Google-Smtp-Source: ABdhPJxUaWkKJZmZJ8H1LjG4D5Jp2GGIJlwoPAOuoMsLQQXmnuDx01TrDqLhnCiYDtt3Ie+LnGLUiw==
-X-Received: by 2002:a5d:4d51:: with SMTP id a17mr30903499wru.384.1638180471641; 
- Mon, 29 Nov 2021 02:07:51 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id j18sm1585507wmq.44.2021.11.29.02.07.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Nov 2021 02:07:50 -0800 (PST)
-Subject: Re: [PATCH v6 03/18] qemu/int128: addition of div/rem 128-bit
- operations
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211128135719.50444-4-frederic.petrot@univ-grenoble-alpes.fr>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a37bf796-567e-2331-be42-38f756b105cd@linaro.org>
-Date: Mon, 29 Nov 2021 11:07:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mrda1-0000FA-Su
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:08:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25493)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mrdZx-00085e-3S
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:08:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638180487;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=fywTo/8p1SkacWjAxY/z/Rprzyh2OT5CIvf5HYDLxI4=;
+ b=P9BeSrPPYbvQSqbnA1vG0nNRRCTgXPhnF/hpd8ZPvzuhL1sjCFwfWr0sP327G9TRoEAfbG
+ nQmgtFyl0NGSeUSRnEMtQVcoc/K9QWVXKKioWbmQiRtOP5HnEMhZcvg0iLiqwk1kCBn974
+ 9wLg9uuw2G11/l9A5H7U/rQx6z0i1UI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-32-V-5VILwBMYi0kf6nUDuJUw-1; Mon, 29 Nov 2021 05:07:57 -0500
+X-MC-Unique: V-5VILwBMYi0kf6nUDuJUw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 296241019982;
+ Mon, 29 Nov 2021 10:07:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8420067843;
+ Mon, 29 Nov 2021 10:07:54 +0000 (UTC)
+Date: Mon, 29 Nov 2021 10:07:52 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] gitlab-ci.d/buildtest: Add jobs that run the
+ device-crash-test
+Message-ID: <YaSmeFqGGFlty75h@redhat.com>
+References: <20211126162724.1162049-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211128135719.50444-4-frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.317,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20211126162724.1162049-1-thuth@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,46 +80,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/28/21 2:57 PM, Frédéric Pétrot wrote:
-> --- /dev/null
-> +++ b/util/int128.c
-> @@ -0,0 +1,145 @@
-> +#include "qemu/osdep.h"
-> +#include "qemu/host-utils.h"
-> +#include "qemu/int128.h"
-
-Missing file header and copyright boilerplate.
-
-> +#ifdef CONFIG_INT128
+On Fri, Nov 26, 2021 at 05:27:24PM +0100, Thomas Huth wrote:
+> The device-crash-test script has been quite neglected in the past,
+> so that it bit-rot quite often. Let's add CI jobs that run this
+> script for at least some targets, so that this script does not
+> regress that easily anymore.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  .gitlab-ci.d/buildtest.yml | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+> 
+> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+> index 71d0f407ad..7e1cb0b3c2 100644
+> --- a/.gitlab-ci.d/buildtest.yml
+> +++ b/.gitlab-ci.d/buildtest.yml
+> @@ -100,6 +100,17 @@ avocado-system-debian:
+>      IMAGE: debian-amd64
+>      MAKE_CHECK_ARGS: check-avocado
+>  
+> +crash-test-debian:
+> +  extends: .native_test_job_template
+> +  needs:
+> +    - job: build-system-debian
+> +      artifacts: true
+> +  variables:
+> +    IMAGE: debian-amd64
+> +  script:
+> +    - cd build
+> +    - scripts/device-crash-test -q ./qemu-system-i386
 > +
-> +Int128 int128_divu(Int128 a, Int128 b)
-> +{
-> +    return (__uint128_t)a / (__uint128_t)b;
-> +}
-> +
-> +Int128 int128_remu(Int128 a, Int128 b)
-> +{
-> +    return (__uint128_t)a % (__uint128_t)b;
-> +}
-> +
-> +Int128 int128_divs(Int128 a, Int128 b)
-> +{
-> +    return a / b;
-> +}
-> +
-> +Int128 int128_rems(Int128 a, Int128 b)
-> +{
-> +    return a % b;
-> +}
+>  build-system-fedora:
+>    extends: .native_build_job_template
+>    needs:
+> @@ -134,6 +145,18 @@ avocado-system-fedora:
+>      IMAGE: fedora
+>      MAKE_CHECK_ARGS: check-avocado
+>  
+> +crash-test-fedora:
+> +  extends: .native_test_job_template
+> +  needs:
+> +    - job: build-system-fedora
+> +      artifacts: true
+> +  variables:
+> +    IMAGE: fedora
+> +  script:
+> +    - cd build
+> +    - scripts/device-crash-test -q ./qemu-system-ppc
+> +    - scripts/device-crash-test -q ./qemu-system-riscv32
 
-I think we should simply expose these inline, and let the compiler call its runtime 
-function directly.
+I'm curious why you picked all the 32-bit architecture targets to test
+this for, since 95% of usage these days will be on the 64-bit targets ?
 
+I guess both 32-bit & 64-bit targets probably have the same set of
+devices built mostly, but still wondering if there was a reason for
+your choice.
 
-r~
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
