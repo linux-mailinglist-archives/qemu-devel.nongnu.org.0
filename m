@@ -2,75 +2,145 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C70D46228E
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 21:51:29 +0100 (CET)
-Received: from localhost ([::1]:39888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93990462282
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 21:49:57 +0100 (CET)
+Received: from localhost ([::1]:44590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrncU-00066E-9f
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 15:51:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51962)
+	id 1mrnb2-0008HK-9c
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 15:49:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+a33c26fee4c87d252def+6672+infradead.org+dwmw2@bombadil.srs.infradead.org>)
- id 1mrnHW-0001Ds-2d
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 15:29:46 -0500
-Received: from [2607:7c80:54:e::133] (port=34308 helo=bombadil.infradead.org)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mrnZ6-0007Lg-8o; Mon, 29 Nov 2021 15:47:56 -0500
+Received: from mail-am6eur05on2117.outbound.protection.outlook.com
+ ([40.107.22.117]:34347 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+a33c26fee4c87d252def+6672+infradead.org+dwmw2@bombadil.srs.infradead.org>)
- id 1mrnHT-0003M7-C4
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 15:29:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=uNlYefzfPEv1wMBp7Vt2G6P+/jfhZCYx26rSQc0/DVE=; b=z+rDAyp3/shk3CdpEwtwHNbKpw
- aoBT/A1rtpSTYvDhNYZ2UispJmTpPBcuvTtYKmki7fUaSNy9JGNkMH9/nFGRAiUhG5XxY/mTNtA8K
- G9vmRH8zcEedq2K+SDNaa+SjvQdkEWvdoG0JEPPEWu8JRIKhrz7gQq0B3oEFY1RJzr7njrHqZ6kcd
- d4/pjAh0q8BpvFAt4aCZ9eI9cXDqXmQBQu5DZUbhVHaisc2TTBq3BEn+Cg/0f8pFVBuTeWwlYeIeF
- r1C4Bh/Sf09PNBZVTC7CP1hGo6lWBupUwzY3ZKufAbZzW3e0qaWEkZR1FX65U6QhCX9KM6ZO3SX7o
- KoSCYjbg==;
-Received: from 54-240-197-230.amazon.com ([54.240.197.230]
- helo=u3832b3a9db3152.ant.amazon.com)
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mrnHL-002Nlm-6R; Mon, 29 Nov 2021 20:29:35 +0000
-Message-ID: <d437972602decfeb392b08563589952358bdd510.camel@infradead.org>
-Subject: Re: [PATCH for-6.1 v2] i386: do not call cpudef-only models
- functions for max, host, base
-From: David Woodhouse <dwmw2@infradead.org>
-To: Claudio Fontana <cfontana@suse.de>, "peter.maydell@linaro.org"
- <peter.maydell@linaro.org>, "pbonzini@redhat.com" <pbonzini@redhat.com>
-Date: Mon, 29 Nov 2021 20:29:32 +0000
-In-Reply-To: <93efa230-fb6b-fdc7-a696-c555676da2b4@suse.de>
-References: <20210723112921.12637-1-cfontana@suse.de>
- <1102c315addf2f2fffc49222ab5be118e7ae9b0f.camel@amazon.co.uk>
- <f5910284-14ca-8796-4e64-38fef246bd19@suse.de>
- <e57e2119df69ac190cdd763b7ac8d5894b110839.camel@infradead.org>
- <b613015e-3285-8d30-292f-6bf9816b1912@suse.de>
- <d579bf46d0babc9eece1dc3e8ec63c43b311b022.camel@infradead.org>
- <483ebe21-2972-90c0-bc9a-ce922518632d@suse.de>
- <bdd861f68aa1533b2ea752c6509c03ca7b9f0279.camel@infradead.org>
- <93efa230-fb6b-fdc7-a696-c555676da2b4@suse.de>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-WQHnI0eoqZQb7UGKg8Qv"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mrnYy-0005tN-H7; Mon, 29 Nov 2021 15:47:51 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cRyhDxcBB+MPUeBhQpWup4YFIVx6C5540wUcQhnJ0cXI6q1A/YWd3ceZJbCt9fRK72LZv8Tl3iv9dYnUWzvTiNh4SPf0zFHHxrUzjvkHGPSUaRUtmz1u3Wg7JtIANewsUHC0vUKyvbnwz5eVgy05pe/bqiEaWUmiTVXjCp9JX+UoH2r4xNBi/gwFiPn2wgjvs1fTMV8cZ0hOG+kqsJb2wUoKgeePU9DPvy/rF1Y5sxZDmdQdj/+tPESIVCACTxLa8EcuVlrlMCtLBbMb6JVxlkQxL6Ho7Q76IBf0yn3pyoO1TjY/HflqjqpQimBGCzCGbbgmOC4C7HKXfR3QdV79BA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=svjiV7ikmX/t8wsG3b0M6UA3BbwStmW8VV+5KOv62rw=;
+ b=XaW05477dhB+sgvafzPqOL9ZaMUIet7PbJq0c9NV3FY0QtAAD5w7lyTm4iO+gX3X8FD7NsiYACvguvMdswRUmCJ03kUZkpPGzjrL7jBBO19YZr+ntUFYCrwIuGn4mpjS9z92jgpfm6CBGTKR3p6T23Rlu2uih2FZu+njhti2Hm/ueEGTKY8ArDJopPT6L3+F8h4SPdfWnudgmf4XE2VUw4fWW5f7Tr8UcHsyoDHQ84fZtYw+U5M2uCi+yDaFqkqaWSrlLkTAnftkn5OF+4IirfNE2d8bYsv2dzmUMb7SUhll7p07CoIAa8LJRRzaOylvrsb7cTiXZnmI1Eo/YSiLyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=svjiV7ikmX/t8wsG3b0M6UA3BbwStmW8VV+5KOv62rw=;
+ b=KOpRlz1kwoe5GoShHs13NcX56NZZyY7p+g+41nCJDW9lY5wvYJEWnEqOa8+3GDJ7XvkfulAOzhCs2BOe05ANMN45C+i7qFhkp7imz2rlLf+a8DNTOVv7nV1LOgOLmbkCbWEy93p8IT6DfRUe2Z/Vj19Qt3Hjmmkuyg6NqudqnyY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by AM0PR08MB5043.eurprd08.prod.outlook.com (2603:10a6:208:166::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20; Mon, 29 Nov
+ 2021 20:47:43 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Mon, 29 Nov 2021
+ 20:47:43 +0000
+Message-ID: <e8605a29-6a11-8bee-9734-14571b0826df@virtuozzo.com>
+Date: Mon, 29 Nov 2021 23:47:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [RFC for-6.2] block/nbd: forbid incompatible change of server
+ options on reconnect
+Content-Language: en-US
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, hreitz@redhat.com,
+ kwolf@redhat.com
+References: <20211124140951.439684-1-vsementsov@virtuozzo.com>
+ <20211129173428.fqpcxd4ipjwrsr6u@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <20211129173428.fqpcxd4ipjwrsr6u@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM6PR10CA0019.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:209:89::32) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:7c80:54:e::133
- (failed)
-Received-SPF: none client-ip=2607:7c80:54:e::133;
- envelope-from=BATV+a33c26fee4c87d252def+6672+infradead.org+dwmw2@bombadil.srs.infradead.org;
- helo=bombadil.infradead.org
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+Received: from [192.168.100.10] (185.215.60.234) by
+ AM6PR10CA0019.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:89::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4734.22 via Frontend Transport; Mon, 29 Nov 2021 20:47:42 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 807fe330-fc49-45dc-f435-08d9b3797d66
+X-MS-TrafficTypeDiagnostic: AM0PR08MB5043:
+X-Microsoft-Antispam-PRVS: <AM0PR08MB5043EA46983D04D3B89DF709C1669@AM0PR08MB5043.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3cbiVgdT1P/uFbohQXLZ63PbGtiD4VIMoCWcrPJagsA4XVBeZmN5EK7LXZukPq6UfmPArQc/3bRCgSglujXUDusI1zki10MST+IBAOkWlRjsq9tBlx6RNA+nkRpm7y9TR/DIslhJgSO0AaEglik65BX0VXaftH30HIccZq9/+Bc7O/sXLAomcVhP/xII5P/C5kZ/HRmo2TOUakaO+/+0xzpW4/9uX0inJBiPFnGckDfX1t8RgzvumQjZb6Kbag1kEw1/mkzDQQ7DWEU1zpA+OFRlKguQUP2Jzd4RfEkESnDonC3Cd5lyBO00SxJSDEDa6d5IszU53cry0bWconhEGzekn4P0yb6B/YjSX/UqoKgLrbuTCU72Ij8bJibmxPYs8JrtegJ62JN0FlhhuySw07WKdIp3cwhV1nhfWemCXpSdNQx7WNdussIIPYus67oOwZNhPg2a332gwjMyOZ5Pe6B2iIL2ABuL9MbrQc6du40rxvDSSdKkF41Fe1CRmI5Dv337qS0RfbgAAHs9OH0LpbrA728R1ZOo5ZGiJjRcADiMxkHB0Zqf65u9kjMygB3n0aEA6k4BPg23Ll0WWXHhNCqicUXqfZvo0cHtiQK2NT58dW6rukw3Z0kShg61oUIXWZ2RgD6r3z8sS7me2lrJ7I//xQG0qmW+oajhhDLQJjZJTsiAd8YzpL6AtrnneM2/ni6qfucMsrCsGMuRh7RrwzFN4yAuYEn+gPLaVs8XntA1xftbgOjYpv0JIQvnttfr79Nihs5KgII9Iny66GCsKA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(86362001)(52116002)(316002)(16576012)(83380400001)(38350700002)(8676002)(38100700002)(2906002)(31696002)(6916009)(508600001)(26005)(8936002)(6486002)(66476007)(66556008)(66946007)(2616005)(956004)(31686004)(4326008)(186003)(36756003)(5660300002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M2VyNG0vR0pVY0xjaG03b01LNHNNVDM5SG9Fb3Z0MzJoc29vK2thWlpGVVI2?=
+ =?utf-8?B?dEcyTlNydTU3T0QvYkNISEh3SnFUOERaNDRXZlErMDBmUXE1UU1YRlNtUEds?=
+ =?utf-8?B?NTRzT2VVWjJ1QWs1TUl0eEJNd0xLN3lhQzk4clIrQ0NxWjAvb09sbW1sdGhB?=
+ =?utf-8?B?Sm9xc1RzVlpMNWFnYTJWQ010VndIQkpQNmtrVkF5aWl5RjF3aUtCS2JZQ2RE?=
+ =?utf-8?B?ZjVCME1BQXRacHZyTDV2dzVPWmpyM0E3NHhUOUY2MDdlc1F2MUVUWVM5Uklk?=
+ =?utf-8?B?WXFZbWxTU3ozUUllR3NITXFsY0lmWjQzZU5JMHNEL2kwTVlXNG9GVCttY2tJ?=
+ =?utf-8?B?M2R4b05Rdzd3YlVQUWRBVGRaTkhNYzE2aDRtUFZtOTVrSFFsQXc1Y3BtL3FV?=
+ =?utf-8?B?TnNyNDVXekxMNU9RKzlHa2JBOWxtUStmME90a1l1NmhhSWpiczJJcmhzQWRi?=
+ =?utf-8?B?MklVYWc3c3BXdGNnM1ZjaC9pL0pDSUZ0V2tpYUo4U3dQV3FaWVJSbHBteWt0?=
+ =?utf-8?B?MGJ4Q3lSY1VvcVo1Uy8xQ3JsbG1lQkQ0Z1FQaFN4RnZ4bnlId3RnZE9Pa25l?=
+ =?utf-8?B?LzlLaFhiSmJad0lPZXJpMC92alphZXhUV0FMNW9IUkhDSGlFM2ZTNDFpNTBZ?=
+ =?utf-8?B?Vng0L052OGI5L0FqM3BFZlQ5WEpsblhpVEQ3LzIyVm4vbDVLUVVnR2IvbjVV?=
+ =?utf-8?B?bjdCRU9wZUZEeDhQY3RUd2puV2Y3MVVScmlmN0FJRDlmMjNNS2JoSWhjYktR?=
+ =?utf-8?B?dlh6NmFyTE1TZVUxWDlRK05XaHpiazFJTHZXaFN6VXhGa3V6ZWJxMXYwelJx?=
+ =?utf-8?B?bk00VGxPN0NUVW4zMm93UVlXOFkxSGNWWFdUbi8yM3JLS2h6MXRRZjJyNkY2?=
+ =?utf-8?B?K1g1TjBjYkIrYlV6ZzdLMmlMY0poNUlKWHNidVpUUkh1VmloRG1zZFl3NXFn?=
+ =?utf-8?B?Y3c1RXZWdE1TSXJYdmFzQVJVTW1LUFlyam9LcGVwY3hPQUhEVXBhakc3cHc0?=
+ =?utf-8?B?VDdaMUJwSFZWYUtkNjBmelJvRk4raFVFWDRBRkFTODdNOW1INUZHWkp4OVpX?=
+ =?utf-8?B?L21xVG9SWlE4cXdBTkQwTnEzUXpJOUxCMzEvVk9ZZVdYMjAyL1ZIbWU1MUZw?=
+ =?utf-8?B?cWFSQVp0amZzK28xUWpMNjY0K0hOOHQ3RWg3cENEcVBiOEdkbzhqYyt0cDY3?=
+ =?utf-8?B?M2hvRnNTalV0ci9iMjdnRytrSGhxWnRjOWFnYlY5LzB5bTRkMDlSQUF5Vysv?=
+ =?utf-8?B?OVdEYXZaNTB4QzZhUWNGME81L3dKMUtIa3VWT3N5Z2FYZVJwOWhnWTZmMlhq?=
+ =?utf-8?B?RzZXdFpQQ1M0K0hWaHpDdHA1RzRlTTArU2dLcHYwc3ZhTFB0N1F1Tm5vaWFN?=
+ =?utf-8?B?V0Z5cGF4RHp0SDRRU3RmQmZPVi9TS2haT212dUlyWVJXVnpHcm9iSHRENVh6?=
+ =?utf-8?B?YUpiVEVvVjFOVEVXeHh2bmxsbFA2MjZ0cDBPWTVFQ0tCSTg0MkFaZlFCRlo1?=
+ =?utf-8?B?ZURXRE5JanF1STQrN2pUczhqV1ZjM25VTWhhSjVLZHZXRlgzNmVMTkhNQ05q?=
+ =?utf-8?B?SjdzR2FFSTdGbHNTTGV5dGV4MVJCdzZKZS9JL1ViVDg5TFdEbzlVRzlaV2dh?=
+ =?utf-8?B?TDRkc1luYUpjTzFiYVlkanVudFQxVXdjTktYczMvRlZDOE4razd6R1NKOS93?=
+ =?utf-8?B?S1ZiMzJvNXV2dzgwNXphMXdrZ1phUkNSaVY5NU5wR2VHOE5VTTVjQ2g3ZmhI?=
+ =?utf-8?B?dUZYTDlrNytkNzZVcFB5WXZmUmdIeUVmNXdDUnAwM2J2Q09JS2NUYWRINFV0?=
+ =?utf-8?B?Wjg3WTk5RlBlUnZ3bjBYbUI1SEVhNlQzUXM5MWQ3RDF6Njl0bXJPUDNjY29o?=
+ =?utf-8?B?dTFLWDlZZTN4S0lqbnJySU13MlRYOWF2YW9xUmtDRXRGRGVJNFQwd0hHTXlr?=
+ =?utf-8?B?Vnk3S1RqUTIxeURkYmd4a2hGRlZMVXd3aDJxb0dUVmFaSitsWVRGMHNhS2Fi?=
+ =?utf-8?B?a0l0RDdYWXRadGVXOUVINGVDUXFLR0pkZmdCU0oyQVh3Wk9McGF2QjNVa0pp?=
+ =?utf-8?B?a205NUh0YzhWUFR1RU5GWENFelc1dkR3UlFmU3l3RE5pSUllNTJSd1Q4RVJG?=
+ =?utf-8?B?bjg2VkhDOU9GVjEzV0RTQjFyOUxENWpCdEM4VzZlRVFCc1g4eW91Q1BjVGdp?=
+ =?utf-8?B?aDdOajF1Vml6TnFESjV3QjlkeSt1WDZNTThNV2VHOERubDJBeUJPRFNSZzBW?=
+ =?utf-8?Q?ss0s+u3RkVSQG5NZLv9N+27kLGT20Y9sWpDcynDtds=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 807fe330-fc49-45dc-f435-08d9b3797d66
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2021 20:47:42.8996 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C162IUvUXfYs1p/osugN2VrTUwtEYx/x+lCuFs3cr5a03+xT4V6+zyY+faKL8LY5x3IvAMnwYrZwNrWEAdgWB0yj4ugfWuvYs1mYKFkC1uY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5043
+Received-SPF: pass client-ip=40.107.22.117;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.317, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,227 +153,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "alxndr@bu.edu" <alxndr@bu.edu>, "philmd@redhat.com" <philmd@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "lovemrd@gmail.com" <lovemrd@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+29.11.2021 20:34, Eric Blake wrote:
+> On Wed, Nov 24, 2021 at 03:09:51PM +0100, Vladimir Sementsov-Ogievskiy wrote:
+>> Reconnect feature was never prepared to handle server options changed
+>> on reconnect. Let's be stricter and check what exactly is changed. If
+>> server capabilities just got richer don't worry. Otherwise fail and
+>> drop the established connection.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>
+>> Hi all! The patch is probably good for 6.2. It's an RFC because I didn't
+>> test it yet) But I want to early send, so that my proposed design be
+>> available for discussion.
+> 
+> We're cutting it awfully close.  My justification for including it in
+> -rc3 (if we like it) is that it is a lot easier to audit that we
+> reject server downgrades than it is to audit whether we have a CVE
+> because of a server downgrade across a reconnect.  But it is not a new
+> regression to 6.2, so slipping it to 7.0 (if we don't feel comfortable
+> with the current iteration of the patch) is okay on that front.
+> 
+>>
+>>
+>>   include/block/nbd.h     |  9 +++++
+>>   nbd/client-connection.c | 86 +++++++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 95 insertions(+)
+>>
+>> diff --git a/include/block/nbd.h b/include/block/nbd.h
+>> index 78d101b774..3d379b5539 100644
+>> --- a/include/block/nbd.h
+>> +++ b/include/block/nbd.h
+>> @@ -157,6 +157,10 @@ enum {
+>>   #define NBD_FLAG_SEND_RESIZE       (1 << NBD_FLAG_SEND_RESIZE_BIT)
+>>   #define NBD_FLAG_SEND_CACHE        (1 << NBD_FLAG_SEND_CACHE_BIT)
+>>   #define NBD_FLAG_SEND_FAST_ZERO    (1 << NBD_FLAG_SEND_FAST_ZERO_BIT)
+>> +/*
+>> + * If you add any new NBD_FLAG_ flag, check that logic in
+>> + * nbd_is_new_info_compatible() is still good about handling flags.
+>> + */
+>>   
+>>   /* New-style handshake (global) flags, sent from server to client, and
+>>      control what will happen during handshake phase. */
+>> @@ -305,6 +309,11 @@ struct NBDExportInfo {
+>>   
+>>       uint32_t context_id;
+>>   
+>> +    /*
+>> +     * WARNING! when add any new field to the structure, don't forget to check
+> 
+> adding
+> 
+>> +     * and updated nbd_is_new_info_compatible() function.
+> 
+> update the
+> 
+>> +     */
+> 
+> Odd that one comment has WARNING! and the other does not.
+> 
+>> +
+>>       /* Set by server results during nbd_receive_export_list() */
+>>       char *description;
+>>       int n_contexts;
+>> diff --git a/nbd/client-connection.c b/nbd/client-connection.c
+>> index 695f855754..2d66993632 100644
+>> --- a/nbd/client-connection.c
+>> +++ b/nbd/client-connection.c
+>> @@ -37,6 +37,10 @@ struct NBDClientConnection {
+>>       bool do_negotiation;
+>>       bool do_retry;
+>>   
+>> +    /* Used only by connection thread, no need in locking the mutex */
+> 
+> s/no need in locking the mutex/does not need mutex protection/
+> 
+>> +    bool has_prev_info;
+>> +    NBDExportInfo prev_info;
+>> +
+>>       QemuMutex mutex;
+>>   
+>>       /*
+>> @@ -160,6 +164,67 @@ static int nbd_connect(QIOChannelSocket *sioc, SocketAddress *addr,
+>>       return 0;
+>>   }
+>>   
+>> +static bool nbd_is_new_info_compatible(NBDExportInfo *old, NBDExportInfo *new,
+>> +                                       Error **errp)
+>> +{
+>> +    uint32_t dropped_flags;
+>> +
+>> +    if (old->structured_reply && !new->structured_reply) {
+>> +        error_setg(errp, "Server options degrade after reconnect: "
+> 
+> degraded
+> 
+>> +                   "structured_reply is not supported anymore");
+>> +        return false;
+>> +    }
+>> +
+>> +    if (old->base_allocation && !new->base_allocation) {
+>> +        error_setg(errp, "Server options degrade after reconnect: "
+> 
+> degraded
+> 
+>> +                   "base_allocation is not supported anymore");
+>> +        return false;
+>> +    }
+> 
+> Do we also need to insist that the context id value be identical, or
+> can our code gracefully deal with it being different?  We don't ever
+> send the context id, so even if we retry a CMD_BLOCK_STATUS, our real
+> risk is whether we will reject the new server's reply because it used
+> a different id than we were expecting.
+> 
+>> +
+>> +    if (old->size != new->size) {
+>> +        error_setg(errp, "NBD export size changed after reconnect");
+>> +        return false;
+>> +    }
+>> +
+>> +    /*
+>> +     * No worry if rotational status changed. But other flags are feature flags,
+>> +     * they should not degrade.
+>> +     */
+>> +    dropped_flags = (old->flags & ~new->flags) & ~NBD_FLAG_ROTATIONAL;
+>> +    if (dropped_flags) {
+>> +        error_setg(errp, "Server options degrade after reconnect: flags 0x%"
+> 
+> degraded
+> 
+>> +                   PRIx32 " are not reported anymore", dropped_flags);
+>> +        return false;
+>> +    }
+>> +
+>> +    if (new->min_block > old->min_block) {
+>> +        error_setg(errp, "Server requires more strict min_block after "
+>> +                   "reconnect: %" PRIu32 " instead of %" PRIu32,
+>> +                   new->min_block, old->min_block);
+>> +        return false;
+>> +    }
+> 
+> Good...
+> 
+>> +    if (new->min_block && (old->min_block % new->min_block)) {
+>> +        error_setg(errp, "Server requires new min_block %" PRIu32
+>> +                   " after reconnect, incompatible with old one %" PRIu32,
+>> +                   new->min_block, old->min_block);
+>> +        return false;
+>> +    }
+> 
+> ...but why is this one necessary?  Since min_block has to be a power
+> of 2, and you just proved that new->min_block <= old->min_block above,
+> this condition will always be false.
 
---=-WQHnI0eoqZQb7UGKg8Qv
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Ah yes, if they all are power of two, than that's an extra check.
 
-On Mon, 2021-11-29 at 20:55 +0100, Claudio Fontana wrote:
-> On 11/29/21 8:19 PM, David Woodhouse wrote:
-> > On Mon, 2021-11-29 at 20:10 +0100, Claudio Fontana wrote:
-> > >=20
-> > > Hmm I thought what you actually care for, for cpu "host", is just the=
- kvm_enable_x2apic() call, not the kvm_default_props.
-> > >=20
-> > >=20
-> > >=20
-> > > Do you also expect the kvm_default_prop "kvm-msi-ext-dest-id" to be s=
-witch to "on" and applied?
-> >=20
-> > It's already on today. It just isn't *true* because QEMU never called
-> > kvm_enable_x2apic().
->=20
->=20
-> property should be on, but not by setting in kvm_default_prop / applied v=
-ia kvm_default_prop, that mechanism is for the versioned cpu models,
-> which use X86CPUModel / X86CPUDefinition , and "host" isn't one of them.
->=20
-> Out of curiosity, does my previous snippet actually work? Not that I am s=
-ure it is the best solution,
-> just for my understanding. It would be surprising to me that the need to =
-actually manually apply "kvm-msi-ext-dest-id" to "on" there.
->=20
+> 
+>> +
+>> +    if (new->max_block < old->max_block) {
+>> +        error_setg(errp, "Server requires more strict max_block after "
+>> +                   "reconnect: %" PRIu32 " instead of %" PRIu32,
+>> +                   new->max_block, old->max_block);
+>> +        return false;
+>> +    }
+>> +
+>> +    if (old->context_id != new->context_id) {
+>> +        error_setg(errp, "Meta context id changed after reconnect");
+>> +        return false;
+>> +    }
+> 
+> Oh, this answers my question above. We should put this near where we
+> check above.  And this check should only be performed if
+> base_allocation was supported in the old server (if the old server
+> lacks it and the new server supports it, the ids may be differ, but
+> that's an upgrade, not a downgrade, and we don't care).
 
-This one?
+OK. I think, I tried to follow ordering of fields in the structure, but logic is more important of course.
 
---- a/target/i386/kvm/kvm-cpu.c
-+++ b/target/i386/kvm/kvm-cpu.c
-@@ -161,14 +161,14 @@ static void kvm_cpu_instance_init(CPUState *cs)
-=20
-     host_cpu_instance_init(cpu);
-=20
--    if (xcc->model) {
-         /* only applies to builtin_x86_defs cpus */
-         if (!kvm_irqchip_in_kernel()) {
-             x86_cpu_change_kvm_default("x2apic", "off");
-         } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
--            x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
-+               x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
-         }
-=20
-+    if (xcc->model) {
-         /* Special cases not set in the X86CPUDefinition structs: */
-         x86_cpu_apply_props(cpu, kvm_default_props);
-     }
-
-Note that in today's HEAD we already advertise X2APIC and ext-dest-id
-to the '-cpu host' guest; it's just not *true* because we never call
-kvm_enable_x2apic().
-
-So yes, the above works on a modern kernel where kvm_enable_x2apic()
-succeeds. But that's the easy case.
-
-Where your snippet *won't* work is in the case of running on an old
-kernel where kvm_enable_x2apic() fails.
-
-In that case it needs to turn x2apic support *off*. But simply calling
-(or not calling) x86_cpu_change_kvm_default() makes absolutely no
-difference unless those defaults are *applied* by calling
-x86_cpu_apply_props() or making the same change by some other means.
-
-
-> > So what I care about (in case =E2=88=83 APIC IDs >=3D 255) is two thing=
-s:
-> >=20
-> >  1. Qemu needs to call kvm_enable_x2apic().
-> >  2. If that *fails* qemu needs to *stop* advertising X2APIC and ext-des=
-t-id.
-> >=20
-> >=20
-> > That last patch snippet in pc_machine_done() should suffice to achieve
-> > that, I think. Because if kvm_enable_x2apic() fails and qemu has been
-> > asked for that many CPUs, it aborts completely. Which seems right.
-> >=20
->=20
-> seems right to abort if requesting > 255 APIC IDs cannot be satisfied, I =
-agree.
->=20
-> So I think in the end, we want to:
->=20
-> 1) make sure that when accel=3Dkvm and smp > 255 for i386, using cpu "hos=
-t", kvm_enable_x2apic() is called and successful.
->=20
-> 2) in addressing requirement 1), we do not break something else (other ma=
-chines, other cpu classes/models, TCG, ...).
->=20
-> 3) as a plus we might want to cleanup and determine once and for all wher=
-e kvm_enable_x2apic() should be called:
->    we have calls in intel_iommu.c and in the kvm cpu class instance initi=
-alization here in kvm-cpu.c today:
->    before adding a third call we should really ask ourselves where the pr=
-oper initialization of this should happen.
->=20
-
-I think the existing two calls to kvm_enable_x2apic() become mostly
-redundant. Because in fact the vtd_decide_config() and
-kvm_cpu_instance_init() callers would both by perfectly OK without
-kvm_enable_x2apic() if there isn't a CPU with an APIC ID >=3D 255
-anyway.=20
-
-And that means that with my patch, pc_machine_done() will have
-*aborted* if their conditions aren't met.
-
-But then again, if since kvm_enable_x2apic() is both the initial
-initialisation *and* a cached sanity check that it has indeed been
-enabled successfully, there perhaps isn't any *harm* in having them do
-the check for themselves?
+> 
+>> +
+>> +    return true;
+>> +}
+>> +
+>>   static void *connect_thread_func(void *opaque)
+>>   {
+>>       NBDClientConnection *conn = opaque;
+>> @@ -183,6 +248,27 @@ static void *connect_thread_func(void *opaque)
+>>                             conn->do_negotiation ? &conn->updated_info : NULL,
+>>                             conn->tlscreds, &conn->ioc, &conn->err);
+>>   
+>> +        if (ret == 0) {
+>> +            if (conn->has_prev_info &&
+>> +                !nbd_is_new_info_compatible(&conn->prev_info,
+>> +                                            &conn->updated_info, &conn->err))
+>> +            {
+>> +                NBDRequest request = { .type = NBD_CMD_DISC };
+>> +                QIOChannel *ioc = conn->ioc ?: QIO_CHANNEL(conn->sioc);
+>> +
+>> +                nbd_send_request(ioc, &request);
+>> +                qio_channel_close(ioc, NULL);
+>> +
+>> +                object_unref(OBJECT(conn->ioc));
+>> +                conn->ioc = NULL;
+>> +
+>> +                ret = -EINVAL;
+>> +            } else {
+>> +                conn->prev_info = conn->updated_info;
+>> +                conn->has_prev_info = true;
+>> +            }
+>> +        }
+>> +
+>>           /*
+>>            * conn->updated_info will finally be returned to the user. Clear the
+>>            * pointers to our internally allocated strings, which are IN parameters
+>> -- 
+>> 2.31.1
+>>
+> 
+> Looks like it is on the right track.
+> 
 
 
---=-WQHnI0eoqZQb7UGKg8Qv
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCECow
-ggUcMIIEBKADAgECAhEA4rtJSHkq7AnpxKUY8ZlYZjANBgkqhkiG9w0BAQsFADCBlzELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
-A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
-bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0EwHhcNMTkwMTAyMDAwMDAwWhcNMjIwMTAxMjM1
-OTU5WjAkMSIwIAYJKoZIhvcNAQkBFhNkd213MkBpbmZyYWRlYWQub3JnMIIBIjANBgkqhkiG9w0B
-AQEFAAOCAQ8AMIIBCgKCAQEAsv3wObLTCbUA7GJqKj9vHGf+Fa+tpkO+ZRVve9EpNsMsfXhvFpb8
-RgL8vD+L133wK6csYoDU7zKiAo92FMUWaY1Hy6HqvVr9oevfTV3xhB5rQO1RHJoAfkvhy+wpjo7Q
-cXuzkOpibq2YurVStHAiGqAOMGMXhcVGqPuGhcVcVzVUjsvEzAV9Po9K2rpZ52FE4rDkpDK1pBK+
-uOAyOkgIg/cD8Kugav5tyapydeWMZRJQH1vMQ6OVT24CyAn2yXm2NgTQMS1mpzStP2ioPtTnszIQ
-Ih7ASVzhV6csHb8Yrkx8mgllOyrt9Y2kWRRJFm/FPRNEurOeNV6lnYAXOymVJwIDAQABo4IB0zCC
-Ac8wHwYDVR0jBBgwFoAUgq9sjPjF/pZhfOgfPStxSF7Ei8AwHQYDVR0OBBYEFLfuNf820LvaT4AK
-xrGK3EKx1DE7MA4GA1UdDwEB/wQEAwIFoDAMBgNVHRMBAf8EAjAAMB0GA1UdJQQWMBQGCCsGAQUF
-BwMEBggrBgEFBQcDAjBGBgNVHSAEPzA9MDsGDCsGAQQBsjEBAgEDBTArMCkGCCsGAQUFBwIBFh1o
-dHRwczovL3NlY3VyZS5jb21vZG8ubmV0L0NQUzBaBgNVHR8EUzBRME+gTaBLhklodHRwOi8vY3Js
-LmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWls
-Q0EuY3JsMIGLBggrBgEFBQcBAQR/MH0wVQYIKwYBBQUHMAKGSWh0dHA6Ly9jcnQuY29tb2RvY2Eu
-Y29tL0NPTU9ET1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcnQwJAYI
-KwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmNvbW9kb2NhLmNvbTAeBgNVHREEFzAVgRNkd213MkBpbmZy
-YWRlYWQub3JnMA0GCSqGSIb3DQEBCwUAA4IBAQALbSykFusvvVkSIWttcEeifOGGKs7Wx2f5f45b
-nv2ghcxK5URjUvCnJhg+soxOMoQLG6+nbhzzb2rLTdRVGbvjZH0fOOzq0LShq0EXsqnJbbuwJhK+
-PnBtqX5O23PMHutP1l88AtVN+Rb72oSvnD+dK6708JqqUx2MAFLMevrhJRXLjKb2Mm+/8XBpEw+B
-7DisN4TMlLB/d55WnT9UPNHmQ+3KFL7QrTO8hYExkU849g58Dn3Nw3oCbMUgny81ocrLlB2Z5fFG
-Qu1AdNiBA+kg/UxzyJZpFbKfCITd5yX49bOriL692aMVDyqUvh8fP+T99PqorH4cIJP6OxSTdxKM
-MIIFHDCCBASgAwIBAgIRAOK7SUh5KuwJ6cSlGPGZWGYwDQYJKoZIhvcNAQELBQAwgZcxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
-ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTE5MDEwMjAwMDAwMFoXDTIyMDEwMTIz
-NTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCASIwDQYJKoZIhvcN
-AQEBBQADggEPADCCAQoCggEBALL98Dmy0wm1AOxiaio/bxxn/hWvraZDvmUVb3vRKTbDLH14bxaW
-/EYC/Lw/i9d98CunLGKA1O8yogKPdhTFFmmNR8uh6r1a/aHr301d8YQea0DtURyaAH5L4cvsKY6O
-0HF7s5DqYm6tmLq1UrRwIhqgDjBjF4XFRqj7hoXFXFc1VI7LxMwFfT6PStq6WedhROKw5KQytaQS
-vrjgMjpICIP3A/CroGr+bcmqcnXljGUSUB9bzEOjlU9uAsgJ9sl5tjYE0DEtZqc0rT9oqD7U57My
-ECIewElc4VenLB2/GK5MfJoJZTsq7fWNpFkUSRZvxT0TRLqznjVepZ2AFzsplScCAwEAAaOCAdMw
-ggHPMB8GA1UdIwQYMBaAFIKvbIz4xf6WYXzoHz0rcUhexIvAMB0GA1UdDgQWBBS37jX/NtC72k+A
-CsaxitxCsdQxOzAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNVHSUEFjAUBggrBgEF
-BQcDBAYIKwYBBQUHAwIwRgYDVR0gBD8wPTA7BgwrBgEEAbIxAQIBAwUwKzApBggrBgEFBQcCARYd
-aHR0cHM6Ly9zZWN1cmUuY29tb2RvLm5ldC9DUFMwWgYDVR0fBFMwUTBPoE2gS4ZJaHR0cDovL2Ny
-bC5jb21vZG9jYS5jb20vQ09NT0RPUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFp
-bENBLmNybDCBiwYIKwYBBQUHAQEEfzB9MFUGCCsGAQUFBzAChklodHRwOi8vY3J0LmNvbW9kb2Nh
-LmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWlsQ0EuY3J0MCQG
-CCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAC20spBbrL71ZEiFrbXBHonzhhirO1sdn+X+O
-W579oIXMSuVEY1LwpyYYPrKMTjKECxuvp24c829qy03UVRm742R9Hzjs6tC0oatBF7KpyW27sCYS
-vj5wbal+TttzzB7rT9ZfPALVTfkW+9qEr5w/nSuu9PCaqlMdjABSzHr64SUVy4ym9jJvv/FwaRMP
-gew4rDeEzJSwf3eeVp0/VDzR5kPtyhS+0K0zvIWBMZFPOPYOfA59zcN6AmzFIJ8vNaHKy5QdmeXx
-RkLtQHTYgQPpIP1Mc8iWaRWynwiE3ecl+PWzq4i+vdmjFQ8qlL4fHz/k/fT6qKx+HCCT+jsUk3cS
-jDCCBeYwggPOoAMCAQICEGqb4Tg7/ytrnwHV2binUlYwDQYJKoZIhvcNAQEMBQAwgYUxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMSswKQYDVQQDEyJDT01PRE8gUlNBIENlcnRpZmljYXRp
-b24gQXV0aG9yaXR5MB4XDTEzMDExMDAwMDAwMFoXDTI4MDEwOTIzNTk1OVowgZcxCzAJBgNVBAYT
-AkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAYBgNV
-BAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAvrOeV6wodnVAFsc4A5jTxhh2IVDzJXkLTLWg0X06WD6cpzEup/Y0dtmEatrQPTRI5Or1u6zf
-+bGBSyD9aH95dDSmeny1nxdlYCeXIoymMv6pQHJGNcIDpFDIMypVpVSRsivlJTRENf+RKwrB6vcf
-WlP8dSsE3Rfywq09N0ZfxcBa39V0wsGtkGWC+eQKiz4pBZYKjrc5NOpG9qrxpZxyb4o4yNNwTqza
-aPpGRqXB7IMjtf7tTmU2jqPMLxFNe1VXj9XB1rHvbRikw8lBoNoSWY66nJN/VCJv5ym6Q0mdCbDK
-CMPybTjoNCQuelc0IAaO4nLUXk0BOSxSxt8kCvsUtQIDAQABo4IBPDCCATgwHwYDVR0jBBgwFoAU
-u69+Aj36pvE8hI6t7jiY7NkyMtQwHQYDVR0OBBYEFIKvbIz4xf6WYXzoHz0rcUhexIvAMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMBEGA1UdIAQKMAgwBgYEVR0gADBMBgNVHR8E
-RTBDMEGgP6A9hjtodHRwOi8vY3JsLmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDZXJ0aWZpY2F0aW9u
-QXV0aG9yaXR5LmNybDBxBggrBgEFBQcBAQRlMGMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9jcnQuY29t
-b2RvY2EuY29tL0NPTU9ET1JTQUFkZFRydXN0Q0EuY3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2Nz
-cC5jb21vZG9jYS5jb20wDQYJKoZIhvcNAQEMBQADggIBAHhcsoEoNE887l9Wzp+XVuyPomsX9vP2
-SQgG1NgvNc3fQP7TcePo7EIMERoh42awGGsma65u/ITse2hKZHzT0CBxhuhb6txM1n/y78e/4ZOs
-0j8CGpfb+SJA3GaBQ+394k+z3ZByWPQedXLL1OdK8aRINTsjk/H5Ns77zwbjOKkDamxlpZ4TKSDM
-KVmU/PUWNMKSTvtlenlxBhh7ETrN543j/Q6qqgCWgWuMAXijnRglp9fyadqGOncjZjaaSOGTTFB+
-E2pvOUtY+hPebuPtTbq7vODqzCM6ryEhNhzf+enm0zlpXK7q332nXttNtjv7VFNYG+I31gnMrwfH
-M5tdhYF/8v5UY5g2xANPECTQdu9vWPoqNSGDt87b3gXb1AiGGaI06vzgkejL580ul+9hz9D0S0U4
-jkhJiA7EuTecP/CFtR72uYRBcunwwH3fciPjviDDAI9SnC/2aPY8ydehzuZutLbZdRJ5PDEJM/1t
-yZR2niOYihZ+FCbtf3D9mB12D4ln9icgc7CwaxpNSCPt8i/GqK2HsOgkL3VYnwtx7cJUmpvVdZ4o
-gnzgXtgtdk3ShrtOS1iAN2ZBXFiRmjVzmehoMof06r1xub+85hFQzVxZx5/bRaTKTlL8YXLI8nAb
-R9HWdFqzcOoB/hxfEyIQpx9/s81rgzdEZOofSlZHynoSMYIDyjCCA8YCAQEwga0wgZcxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
-ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA4rtJSHkq7AnpxKUY8ZlYZjANBglghkgB
-ZQMEAgEFAKCCAe0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjEx
-MTI5MjAyOTMyWjAvBgkqhkiG9w0BCQQxIgQgRCaKmarQdZdFcNAKxFgCMK63IskS/hZkctBACw/Z
-s10wgb4GCSsGAQQBgjcQBDGBsDCBrTCBlzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIg
-TWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQx
-PTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1h
-aWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMIHABgsqhkiG9w0BCRACCzGBsKCBrTCBlzELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
-A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
-bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMA0GCSqGSIb3
-DQEBAQUABIIBAD9CsC+x5mEE3yt31GWjEh4vZbPsxYZUjC2lgHr5tL3KuuUM1p2orXZfVo8b/ka4
-fIaN/fQ301r0Kj8YnIeawIT6Bgihaoe4IM6AQPRxnq6QX+ZtTkmhab7wfoCTRIoSeOuEeJ/GiUPr
-9pUAXh/TYo3zC0ImhENdtgh2BjRHrx1cDWqR9AiljczLo6+jDD/xg/ePB6tByfL1psGaoY05n+sf
-rrs0cdIzfXg+EGzTQGLPjN/Nl/t66FAy1gvSd7+qB+HONx9tIifAwHI8bxGiFLXUunHt4R1oi5EF
-tpkBUsTBYPLfX328R156ztoyL1TZlYBMeOf8Z/tSdXTfULWrKfoAAAAAAAA=
-
-
---=-WQHnI0eoqZQb7UGKg8Qv--
-
+-- 
+Best regards,
+Vladimir
 
