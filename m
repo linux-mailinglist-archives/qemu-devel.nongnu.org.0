@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA51460D53
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 04:36:15 +0100 (CET)
-Received: from localhost ([::1]:41534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C823460DFA
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 05:10:33 +0100 (CET)
+Received: from localhost ([::1]:54770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrXSg-00080J-OZ
-	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 22:36:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45186)
+	id 1mrXzs-00070i-KA
+	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 23:10:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mrX0x-0000Ca-Nl
- for qemu-devel@nongnu.org; Sun, 28 Nov 2021 22:07:35 -0500
-Received: from [2607:f8b0:4864:20::62d] (port=40588
- helo=mail-pl1-x62d.google.com)
+ id 1mrX7o-0008JP-Sh
+ for qemu-devel@nongnu.org; Sun, 28 Nov 2021 22:14:40 -0500
+Received: from [2607:f8b0:4864:20::229] (port=38451
+ helo=mail-oi1-x229.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mrX0w-0000fd-1S
- for qemu-devel@nongnu.org; Sun, 28 Nov 2021 22:07:35 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id v19so10976526plo.7
- for <qemu-devel@nongnu.org>; Sun, 28 Nov 2021 19:07:33 -0800 (PST)
+ id 1mrX7n-0001aP-G8
+ for qemu-devel@nongnu.org; Sun, 28 Nov 2021 22:14:40 -0500
+Received: by mail-oi1-x229.google.com with SMTP id r26so31931852oiw.5
+ for <qemu-devel@nongnu.org>; Sun, 28 Nov 2021 19:14:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ua5QPNKI3+mtdWrr6duWB6GbsCIKbt2CcILxnbVK4gk=;
- b=HlW/WA3XYokhRjJsyoK1G/zilWhPT/7eEnIvI8FmBhoMr+0DhZIKCmQX+OG4zJDh7E
- WA9Hkn974susPJuF8mpdm2ryKBOQp0baYmA4QvwujSzZxd0JuvsSg9sPYVX4FSQCxbJL
- cU2hOiYgRjDuG/WSFiKIG9Q+trCRb18KIrxk2acC9uYQytS4eJW2fIw3mcr8jh1IT2wz
- VEz/QFKyQ/7C9+3BGk7eznJpYJi+Wv896NprcMAZM4k/SNUdubHfvit5B+qYFObjKlGZ
- sb4K6fTQHJ+BNvTSEBSKIMPX+t5xJosK+BYtvuMf2ESrtnmsDeSYMTLG7J06nS4Jas6g
- UMjA==
+ bh=9kvvvHxXjQ2XDAckOwgHwYb7RgcvEtihb3X2Pk2Ob7E=;
+ b=KtUjJ81PqQbQE54IzZYMEXHqjnnFyTfngncmoc3pEcPxVxpIYHutFp9Mg3SrxaZTXc
+ q/rj9UvRgLiPDUTzR6TZkzQxi1nGDKT4IJ0tKQixWj7Q4vNN3c9b2nsnqzds2GuRGd5X
+ vyNA9bir97ll58ZjJYu0CjqimsIYsOhV3ovSUi11hRaY6PFeXPjEw3qLPZ+LjlE0Fukm
+ BGol9doUNXMK1mR+lNuZzhHsS8oGBteEj91X8nVqN6ZofPDgmK7d9uxRkIfaZBvupL/C
+ /r7DWQ2/2vE32db2Y57ljwm4s40Q4mgN2GAfQK1dICUjLGMH2AFJ98XiJs4+fmf5mdJb
+ /D5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ua5QPNKI3+mtdWrr6duWB6GbsCIKbt2CcILxnbVK4gk=;
- b=n1LAVc6qiCPeHpIc1mHHZjmIEFsYI7lZtl4zzFNjhCscumsg+TWZePsZ0APSMk7xE5
- dvMOdCpw4awXh2i6o56AQCgcroPp2bnkf8zWrALQRXlsHjTnmJaY30uX0+ANtBxVK/PM
- SRcXGBSSCUjc1dZS9dnabDy5f39fyLpMED/E5kRskd1rvu/oVj413dz1NfeQj23KiE18
- 6N5tM/bGQTJBaDuptY87THvufbQYvsT1kEVJkYOq58p9bMHDxTMCCOhmpO9g6zFCFpSu
- VZIiAQbfm9mezFeK6ABBCBKlm04NQzcSIUl+iq4q/7CmS8TmVGhhEsFfD/rx/SLyIqVV
- jQ5w==
-X-Gm-Message-State: AOAM530ZvaYpgSDPLpi7ezrrvn7zGV0E5GXVL79t4znrno4mV6cYFVrp
- TGSFzRihnSVfdr41fqtMHLEJQnWPwN0QgEFO
-X-Google-Smtp-Source: ABdhPJwq5VWbOEnTgQWJzS5Kos8qkeIlLRGxbhtDAZlMWj8DmsoLxlGKIs/bPOgy18aveACadcYPpQ==
-X-Received: by 2002:a17:90a:8049:: with SMTP id
- e9mr34728111pjw.229.1638155252791; 
- Sun, 28 Nov 2021 19:07:32 -0800 (PST)
+ bh=9kvvvHxXjQ2XDAckOwgHwYb7RgcvEtihb3X2Pk2Ob7E=;
+ b=s+YGVRtxmiErKdouBqaXRV3EwTVKItoOfm/aJzL4P09BjUX4mKoygp87Jr6TfxzdVD
+ d5w7iX6Ewkc+mHwkkkR/iRgnKVYPFfKPcUr+wSfP9uQdMrmEmzzP1cgZOZMr//wKdndX
+ X3JzoNPUlTNLpkDhtip0TxIceaOV/huLlYlxWBW0aSC3qtPPbqc4E8um9EKSzdNu6fzZ
+ mR089qzIakER//mijJsuBeupM4kfMgwBhOt+W2TWdpjiXiHO9WWYpDc0ZTrypAAxDSSs
+ fbkXDkiDKeiHCH+KDqPSH2kqyigjCoAlvdRwm10JqjjsWjucxql245y/0nxcVmQ4+eAi
+ p18Q==
+X-Gm-Message-State: AOAM532T7FwwzfJV2foC58Rv2rhqIEz91lM3wYDA6WaJR80sOcxggZa0
+ oPxLn0JV+LAJt66rqGDsysawMsiKdxPIWlp/
+X-Google-Smtp-Source: ABdhPJzx/i/L2ux5Dc/JOU9nPt1e8VpTz01jFTUIeDhb3guKcWqVju4g9FVjxredm5tjiVDJRQoKHg==
+X-Received: by 2002:a17:90b:1e06:: with SMTP id
+ pg6mr36279846pjb.137.1638155257946; 
+ Sun, 28 Nov 2021 19:07:37 -0800 (PST)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id oj11sm17904040pjb.46.2021.11.28.19.07.30
+ by smtp.gmail.com with ESMTPSA id oj11sm17904040pjb.46.2021.11.28.19.07.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Nov 2021 19:07:32 -0800 (PST)
+ Sun, 28 Nov 2021 19:07:37 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 45/77] target/riscv: rvv-1.0: widening integer
- multiply-add instructions
-Date: Mon, 29 Nov 2021 11:03:05 +0800
-Message-Id: <20211129030340.429689-46-frank.chang@sifive.com>
+Subject: [PATCH v10 46/77] target/riscv: rvv-1.0: single-width saturating add
+ and subtract instructions
+Date: Mon, 29 Nov 2021 11:03:06 +0800
+Message-Id: <20211129030340.429689-47-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211129030340.429689-1-frank.chang@sifive.com>
 References: <20211129030340.429689-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::229
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
+ envelope-from=frank.chang@sifive.com; helo=mail-oi1-x229.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,35 +92,33 @@ Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
  Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+ Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
+Sign-extend vsaddu.vi immediate value.
+
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/insn32.decode | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/riscv/insn_trans/trans_rvv.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index a3f1101cd63..7548b71efdb 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -474,9 +474,9 @@ vwmaccu_vv      111100 . ..... ..... 010 ..... 1010111 @r_vm
- vwmaccu_vx      111100 . ..... ..... 110 ..... 1010111 @r_vm
- vwmacc_vv       111101 . ..... ..... 010 ..... 1010111 @r_vm
- vwmacc_vx       111101 . ..... ..... 110 ..... 1010111 @r_vm
--vwmaccsu_vv     111110 . ..... ..... 010 ..... 1010111 @r_vm
--vwmaccsu_vx     111110 . ..... ..... 110 ..... 1010111 @r_vm
--vwmaccus_vx     111111 . ..... ..... 110 ..... 1010111 @r_vm
-+vwmaccsu_vv     111111 . ..... ..... 010 ..... 1010111 @r_vm
-+vwmaccsu_vx     111111 . ..... ..... 110 ..... 1010111 @r_vm
-+vwmaccus_vx     111110 . ..... ..... 110 ..... 1010111 @r_vm
- vmv_v_v         010111 1 00000 ..... 000 ..... 1010111 @r2
- vmv_v_x         010111 1 00000 ..... 100 ..... 1010111 @r2
- vmv_v_i         010111 1 00000 ..... 011 ..... 1010111 @r2
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+index f6202835ff4..ed4554b6a1d 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -1999,7 +1999,7 @@ GEN_OPIVX_TRANS(vsaddu_vx,  opivx_check)
+ GEN_OPIVX_TRANS(vsadd_vx,  opivx_check)
+ GEN_OPIVX_TRANS(vssubu_vx,  opivx_check)
+ GEN_OPIVX_TRANS(vssub_vx,  opivx_check)
+-GEN_OPIVI_TRANS(vsaddu_vi, IMM_ZX, vsaddu_vx, opivx_check)
++GEN_OPIVI_TRANS(vsaddu_vi, IMM_SX, vsaddu_vx, opivx_check)
+ GEN_OPIVI_TRANS(vsadd_vi, IMM_SX, vsadd_vx, opivx_check)
+ 
+ /* Vector Single-Width Averaging Add and Subtract */
 -- 
 2.25.1
 
