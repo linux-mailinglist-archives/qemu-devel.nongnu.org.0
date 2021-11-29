@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10174617AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:13:13 +0100 (CET)
-Received: from localhost ([::1]:43298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7068F4617C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:15:12 +0100 (CET)
+Received: from localhost ([::1]:49176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrhP6-00040E-ER
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:13:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55458)
+	id 1mrhR1-0007vq-GI
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:15:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mrhIh-0003rL-Aw
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:06:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37203)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mrhIe-0005pu-VE
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:06:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638194790;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=J2Jdyjvjgm8MtLVRtygX+OslmLpjwUmz7adKNiEBuyk=;
- b=CsurcsHjOjxlmXOyANFEpm6EvM12xpmqFJCgzzgAhVqNEZ+QFIwgVPyuyFalLFeaaWRX+R
- 6Mr6tNLxeuCYFYuiKo+zEP6mjw9NnpnI2FcItJ0DaKPPLgks9+kgU/oPDrBOoOrKkIW0W+
- JZQ8Vk2hDyk2yXiWRzFzMw9z0uRP7Eg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-30-XZXDq0I2P5GdS1-sy-LyfQ-1; Mon, 29 Nov 2021 09:05:43 -0500
-X-MC-Unique: XZXDq0I2P5GdS1-sy-LyfQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5124B1093D76
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 14:05:11 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.39.195.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44AD419724;
- Mon, 29 Nov 2021 14:05:10 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mrhLi-0001BX-PJ
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:09:42 -0500
+Received: from [2a00:1450:4864:20::330] (port=33347
+ helo=mail-wm1-x330.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mrhLg-0006UC-Uw
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:09:42 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ r9-20020a7bc089000000b00332f4abf43fso11023531wmh.0
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 06:09:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=G4oFQXcKYo2o98r+NeoUx3AdzYgCvRjhTAswdB5RUo0=;
+ b=y6LUIMAb3ZYF6D+9HB1ndjq9vHG0R1qYYSOCwXUSPE9aLECvNYkH2QxQBoc3j7PloT
+ k4zJd9HaFzrrgXGyWbaBGKArTA8SYjvdzxoim0E058d8wAaqFZjYD6eSBYAg9fE91guu
+ ZzI8lgs50TQckkNC5/3KHGX2wJLsaK2xWgSjq/wmOQrpXYOLed3WmFAN3UXAfpnQ68Zi
+ DhyJe0NVn5Q9JfX1OHLZySgYdZeBIYDR0owLbstMxTdr1v3l4+DfkqHbfndkladQmeij
+ xfLRac5wsRn9Y9rDf6vr8wG/CF11Zfp6FdYfWKhRXQ5fAarTBviB4VZvX6Tqd6oBQcr/
+ /DhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=G4oFQXcKYo2o98r+NeoUx3AdzYgCvRjhTAswdB5RUo0=;
+ b=hAq/IjqZmRCXJvsDEuWS4fgA5OvpSs8S1zd1lipRKPOTymdI7w/euBVGSZq+YSekp6
+ yIZl4MVA6y/76wVTygjjJVOiF0IyiAxiwVBdEVDZVGbw6uV73myxTTd1RVr7F3QUooJi
+ M5+vRxrJoApvvowVoSpGR7hSwWuEtUEM9pKwh4rWGoVaHp8p93cFm+HQQjkFltTKwGWe
+ 8EF/uHhmB5Y2R2+izrPvxW36NuoMqz67YG0S0uiJJ5xaXter2INBThEcaKeEVfMrsY9U
+ fkIb43tqAqgqCGvyIm+Ff9Oay/ZORb7LAR2y4aRHpprmMnNsfBGhDhbw7Katvv95d1CV
+ gy+w==
+X-Gm-Message-State: AOAM5310KWSgNXVatVd/dfozmH4/Yrt6iHYFFiq6alTChPdVD4uKQllh
+ ZW8U1E6NicA8gvP3GpRCeKujxg==
+X-Google-Smtp-Source: ABdhPJyImeWU96maE3XG2AtxI7KW93XNgU33JQbNinyX//EjW8wmSFl8+JkbQuQ39ADRso0/A9DdbQ==
+X-Received: by 2002:a05:600c:3c8a:: with SMTP id
+ bg10mr37383090wmb.106.1638194977153; 
+ Mon, 29 Nov 2021 06:09:37 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n15sm20980668wmq.38.2021.11.29.06.09.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Nov 2021 06:09:34 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E44C91FF96;
+ Mon, 29 Nov 2021 14:09:32 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] edid: set default resolution to 1280x800 (WXGA)
-Date: Mon, 29 Nov 2021 14:05:08 +0000
-Message-Id: <20211129140508.1745130-1-berrange@redhat.com>
+Subject: [PATCH for 6.2 v3 0/8] more tcg, plugin, test and build fixes (pre-PR)
+Date: Mon, 29 Nov 2021 14:09:24 +0000
+Message-Id: <20211129140932.4115115-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,109 +89,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently QEMU defaults to a resolution of 1024x768 when exposing EDID
-info to the guest OS. The EDID default info is important as this will
-influence what resolution many guest OS will configure the screen with
-on boot. It can also potentially influence what resolution the firmware
-will configure the screen with, though until very recently EDK2 would
-not handle EDID info.
+Hi,
 
-One important thing to bear in mind is that the default graphics card
-driver provided by Windows will leave the display set to whatever
-resolution was enabled by the firmware on boot. Even if sufficient
-VRAM is available, the resolution can't be changed without installing
-new drivers. IOW, the default resolution choice is quite important
-for usability of Windows.
+As the release process rolls on here if the current state of my
+for-6.2 tree. There are fixes for TCG, plugins, build and test. I;m
+going to declare this a pre-PR series so I can roll it as soon as the
+final review comes in.
 
-Modern real world monitor hardware for desktop/laptop has supported
-resolutions higher than 1024x768 for a long time now, perhaps as long
-as 15+ years. There are quite a wide variety of native resolutions in
-use today, however, and in wide screen form factors the height may not
-be all that tall.
+Only a single change for v3 (accel/tcg: suppress IRQ check for special
+TBs) to cover more cases. I've also slotted in simple warning cleanup
+for the syscalls plugin.
 
-None the less, it is considered that there is scope for making the
-QEMU default resolution slightly larger.
+The following still need review:
 
-In considering what possible new default could be suitable, choices
-considered were 1280x720 (720p), 1280x800 (WXGA) and 1280x1024 (SXGA).
+ - accel/tcg: suppress IRQ check for special TBs
 
-In many ways, vertical space is the most important, and so 720p was
-discarded due to loosing vertical space, despite being 25% wider.
+Alex Bennée (5):
+  accel/tcg: introduce CF_NOIRQ
+  accel/tcg: suppress IRQ check for special TBs
+  tests/avocado: fix tcg_plugin mem access count test
+  plugins/meson.build: fix linker issue with weird paths
+  gdbstub: handle a potentially racing TaskState
 
-The SXGA resolution would be good, but when taking into account
-window titlebars/toolbars and window manager desktop UI, this might
-be a little too tall for some users to fit the guest on their physical
-montior.
+Juro Bystricky (1):
+  tests/plugin/syscall.c: fix compiler warnings
 
-This patch thus suggests a modest change to 1280x800 (WXGA). This
-only consumes 1 MB per colour channel, allowing double buffered
-framebuffer in 8 MB of VRAM. Width wise this is 25% larger than
-QEMU's current default, but height wise this only adds 5%, so the
-difference isn't massive on the QEMU side.
+Philippe Mathieu-Daudé (1):
+  MAINTAINERS: Add section for Aarch64 GitLab custom runner
 
-Overall there doesn't appear to be a compelling reason to stick
-with 1024x768 resolution.
+Willian Rampazzo (1):
+  MAINTAINERS: Remove me as a reviewer for the build and test/avocado
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- hw/display/edid-generate.c     | 4 ++--
- include/hw/virtio/virtio-gpu.h | 4 ++--
- qemu-edid.c                    | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ include/exec/exec-all.h      |  1 +
+ include/exec/gen-icount.h    | 21 +++++++++++++++++----
+ accel/tcg/cpu-exec.c         |  9 +++++++++
+ accel/tcg/translate-all.c    |  4 ++--
+ gdbstub.c                    |  2 +-
+ softmmu/physmem.c            |  4 ++--
+ tests/plugin/syscall.c       |  8 +++-----
+ MAINTAINERS                  | 10 ++++++++--
+ plugins/meson.build          |  4 ++--
+ tests/avocado/tcg_plugins.py |  2 +-
+ 10 files changed, 46 insertions(+), 19 deletions(-)
 
-diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
-index f2b874d5e3..6f5ac6a38a 100644
---- a/hw/display/edid-generate.c
-+++ b/hw/display/edid-generate.c
-@@ -401,10 +401,10 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
-         info->name = "QEMU Monitor";
-     }
-     if (!info->prefx) {
--        info->prefx = 1024;
-+        info->prefx = 1280;
-     }
-     if (!info->prefy) {
--        info->prefy = 768;
-+        info->prefy = 800;
-     }
-     if (info->prefx >= 4096 || info->prefy >= 4096) {
-         large_screen = 1;
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index acfba7c76c..2179b75703 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -147,8 +147,8 @@ struct VirtIOGPUBaseClass {
-     DEFINE_PROP_UINT32("max_outputs", _state, _conf.max_outputs, 1),    \
-     DEFINE_PROP_BIT("edid", _state, _conf.flags, \
-                     VIRTIO_GPU_FLAG_EDID_ENABLED, true), \
--    DEFINE_PROP_UINT32("xres", _state, _conf.xres, 1024), \
--    DEFINE_PROP_UINT32("yres", _state, _conf.yres, 768)
-+    DEFINE_PROP_UINT32("xres", _state, _conf.xres, 1280), \
-+    DEFINE_PROP_UINT32("yres", _state, _conf.yres, 800)
- 
- typedef struct VGPUDMABuf {
-     QemuDmaBuf buf;
-diff --git a/qemu-edid.c b/qemu-edid.c
-index c3a9fba10d..20c958d9c7 100644
---- a/qemu-edid.c
-+++ b/qemu-edid.c
-@@ -10,8 +10,8 @@
- #include "hw/display/edid.h"
- 
- static qemu_edid_info info = {
--    .prefx = 1024,
--    .prefy = 768,
-+    .prefx = 1280,
-+    .prefy = 800,
- };
- 
- static void usage(FILE *out)
 -- 
-2.33.1
+2.30.2
 
 
