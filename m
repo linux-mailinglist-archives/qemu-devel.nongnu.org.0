@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961564614C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 13:09:45 +0100 (CET)
-Received: from localhost ([::1]:54422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9764614D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 13:15:06 +0100 (CET)
+Received: from localhost ([::1]:56874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrfTc-00013Q-8B
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 07:09:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45074)
+	id 1mrfYn-000394-5f
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 07:15:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mrfRf-0007om-W5; Mon, 29 Nov 2021 07:07:47 -0500
-Received: from [2607:f8b0:4864:20::d33] (port=45892
- helo=mail-io1-xd33.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mrfXD-0002KO-LZ
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 07:13:29 -0500
+Received: from [2a00:1450:4864:20::42b] (port=35329
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mrfRS-00019a-JC; Mon, 29 Nov 2021 07:07:38 -0500
-Received: by mail-io1-xd33.google.com with SMTP id v23so21077293iom.12;
- Mon, 29 Nov 2021 04:07:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=EAUl3DWQfAzDG/HNvrOgxJKxeenx2rv5J5ybj2Yz3eY=;
- b=DTSI3m+8rjuv8gergmV3GkvXlGe4Zd3IxEJu3Y0LWwKBp8qP+y9eZxG8FiqDRQJ5IJ
- 7hkLJfwRSOb9usOhMdTYq5IySJMtV19YkciXnU7mno8jeMWg212Oc4mcbWg8dOpDfUgz
- 4FFG9rgsQZSheEmsSF1QSBptq3DYQ0nHYrzZrvNUAYyCDOgdydLuiwquK5Db3WGd7dS/
- mTO1XlRdck5gBik5nTe6SiB+rdYn+IuCRrfuf+90qpK1p9cwu6aO6MS+SnR4H0G68psy
- KognJhbCxhujgSDrgFpLqB4Ivfqfdp1rArfjEXmst0k7Kkildf2ZieB/bnenGGLqnfep
- Q6AA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mrfXC-0002e9-4Q
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 07:13:27 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id i5so36324179wrb.2
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 04:13:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=q2iLRW6/V9IC7Gx1sMGhj5oAqklwg0plEmvLNv8FcAM=;
+ b=EnFXv3q9TgPIY2vT28EUhSa4gTOyY1BK+W6yHmxcilZELTY92L1MyEL1I6pRX6ZaAT
+ RAqhkZ7SITXk1zrBY6+snFb2TFGkrqUu75GbCIad4sa2zm6DL6NkKLf75wsDcyUCH967
+ huJQvP1Dmr+K12T9FgjZWoR7V9rq4vkwLvo7GcLffGAhkyLydJILViw6cQ0gDeJOTFHU
+ 53x3HdV2GA4XGdYDHurHr/nmkexef1Mw9zl3DHpBQP2QRoJcxlGYiIfULqtMx99mi6Z8
+ N55OWKPr1HDknZ8TFRXI4pSqLmG1qagFk26a7TCrJdzhcTC9WD00A74p6o3PhrII0+0N
+ PrJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=EAUl3DWQfAzDG/HNvrOgxJKxeenx2rv5J5ybj2Yz3eY=;
- b=4pcBhw0fPTGV8Hp3/JivJKCzOOJWzXlNTXeQhFGfTXzux82mVoeNhVFbnGwu38x+BA
- ndiMG0A1Hcf5bLtweD+psBpjSGHJ+edfJCJiPXcYAn2d4B5Zbcr3c4dC1CVtKVYd6h8c
- P9nlSccmUY27PMIrbwiKh9QBIe7wl+VkrWeWlFD6Xv/lPJ745aL818hcplwpzFod34qH
- DZD7yJUWBUPOnpH0qBO3cUt7NDqoEHkvA17kPTbA9T0m5kxkoya+Ad4hbpKNNl2hPoHn
- 5SpK3SdGU1ScQYBm1rB5XAXxlj/y+MnpwW/9GK+nk5nBleUn/8EXXFnO7oonHsQFhSc7
- sKZw==
-X-Gm-Message-State: AOAM533EfhtWWN3oocfIQJbluSGaZAUW42CHEZSMv4NKoIKSpzZmXMp7
- NjBVZ6/+GUmhR3iNTxEQ6LecGmhIYPjAyn6/JHg=
-X-Google-Smtp-Source: ABdhPJwnaR25OHKpFwosDoSjahM8JJL/qU9kOt2NfJEoXV51V1Y24TI6+HPDQWS3rpLd2PXxBWG+qGMZqZS9f0s8quQ=
-X-Received: by 2002:a05:6638:d84:: with SMTP id
- l4mr67754870jaj.18.1638187648611; 
- Mon, 29 Nov 2021 04:07:28 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=q2iLRW6/V9IC7Gx1sMGhj5oAqklwg0plEmvLNv8FcAM=;
+ b=mwNTEgYK6JMExVT+ZeDpZ86g0fhZTkHSVSYCQm7DmsYgZt0MHhvrFpI5mgnF7DA21K
+ g5O3YFVfS5j2PWQUrkPXpCoUIbMu0n/8gBy06fx2c2nih9YqDt2rsRzEQdgwSGayMREY
+ lKZpHJXTXnUq31LiVSfkGCWh3/nB7imS0LCDRWaffzcolG4SvY6ihAL0FEQakZNY2IZv
+ tDX+eB8pKaGoU0PveCsbQQJGjGPKXiaKACZ/tDclhL2ASYpgz5CfdfdFF1wUOPlXrxQ8
+ lUec9pcHijcv11D+Zxvr2z8BM817GDva5tQC+Znm5FrwPsrn2VMRchJ0iZNihxsM0l4y
+ rUtw==
+X-Gm-Message-State: AOAM531eElBtEw7swvMUqPTLOh20CCq3lgKC2YsiJmex/XAzwWhx2Vba
+ zSQGcX7Ga0tL8zLbsH9ksWvibg==
+X-Google-Smtp-Source: ABdhPJyPVHB06K2aHBrwaVsXtq6Ww3f+cNh4qWMa+XtGSS060hfw7vUHcE6jD7/5BU0UiynTfltnMw==
+X-Received: by 2002:adf:ef4f:: with SMTP id c15mr34612379wrp.226.1638188004502; 
+ Mon, 29 Nov 2021 04:13:24 -0800 (PST)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id l22sm13840256wmp.34.2021.11.29.04.13.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 Nov 2021 04:13:23 -0800 (PST)
+Subject: Re: [PATCH v6 00/18] Adding partial support for 128-bit riscv target
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4fceecbf-7424-3a0d-d350-fb677f6b1104@linaro.org>
+Date: Mon, 29 Nov 2021 13:13:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211128120723.4053-1-olivier.heriveaux@ledger.fr>
-In-Reply-To: <20211128120723.4053-1-olivier.heriveaux@ledger.fr>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 29 Nov 2021 22:07:02 +1000
-Message-ID: <CAKmqyKP47GoL+m6PHW6ijCTK1rowgRf=du5=JXOYEtwHCTK=Fw@mail.gmail.com>
-Subject: Re: [PATCH] Fix STM32F2XX USART data register readout
-To: =?UTF-8?Q?Olivier_H=C3=A9riveaux?= <olivier.heriveaux@ledger.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d33
+In-Reply-To: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.317,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,81 +92,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
+ palmer@dabbelt.com, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 29, 2021 at 12:46 AM Olivier H=C3=A9riveaux
-<olivier.heriveaux@ledger.fr> wrote:
->
-> Fix issue where the data register may be overwritten by next character
-> reception before being read and returned.
->
-> Signed-off-by: Olivier H=C3=A9riveaux <olivier.heriveaux@ledger.fr>
+On 11/28/21 2:57 PM, Frédéric Pétrot wrote:
+> This series of patches provides partial 128-bit support for the riscv
+> target architecture, namely RVI and RVM, with minimal csr support.
+> 
+> Thanks again for the reviews and suggestions.
+> 
+> v6:
+> - support for '-cpu rv128' in qemu-system-riscv64 to handle 128-bit
+>    executables (no more qemu-system-riscv128)
+> - remove useless (and buggy) big-endian support in lq/sq
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+This also fails make check.  With
 
-Alistair
+   ../qemu/configure --enable-debug 
+--target-list=riscv64-linux-user,riscv64-softmmu,riscv32-softmmu,riscv32-linux-user
 
-> ---
->  hw/char/stm32f2xx_usart.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/char/stm32f2xx_usart.c b/hw/char/stm32f2xx_usart.c
-> index 8df0832424..fde67f4f03 100644
-> --- a/hw/char/stm32f2xx_usart.c
-> +++ b/hw/char/stm32f2xx_usart.c
-> @@ -103,10 +103,11 @@ static uint64_t stm32f2xx_usart_read(void *opaque, =
-hwaddr addr,
->          return retvalue;
->      case USART_DR:
->          DB_PRINT("Value: 0x%" PRIx32 ", %c\n", s->usart_dr, (char) s->us=
-art_dr);
-> +        retvalue =3D s->usart_dr & 0x3FF;
->          s->usart_sr &=3D ~USART_SR_RXNE;
->          qemu_chr_fe_accept_input(&s->chr);
->          qemu_set_irq(s->irq, 0);
-> -        return s->usart_dr & 0x3FF;
-> +        return retvalue;
->      case USART_BRR:
->          return s->usart_brr;
->      case USART_CR1:
-> --
-> 2.17.1
->
->
-> --
->
-> Les informations contenues dans ce message =C3=A9lectronique ainsi que ce=
-lles
-> contenues dans les documents attach=C3=A9s sont strictement confidentiell=
-es et
-> sont destin=C3=A9es =C3=A0 l'usage exclusif du (des) destinataire(s) nomm=
-=C3=A9(s).
-> Toute
-> divulgation, distribution ou reproduction, m=C3=AAme partielle, en est
-> strictement interdite sauf autorisation =C3=A9crite et expresse de l=E2=
-=80=99=C3=A9metteur.
-> Si vous recevez ce message par erreur, veuillez le notifier imm=C3=A9diat=
-ement =C3=A0
-> son =C3=A9metteur par retour, et le d=C3=A9truire ainsi que tous les docu=
-ments qui y
-> sont attach=C3=A9s.
->
->
-> The information contained in this email and in any
-> document enclosed is strictly confidential and is intended solely for the
-> use of the individual or entity to which it is addressed.
-> Partial or total
-> disclosure, distribution or reproduction of its contents is strictly
-> prohibited unless expressly approved in writing by the sender.
-> If you have
-> received this communication in error, please notify us immediately by
-> responding to this email, and then delete the message and its attached
-> files from your system.
->
->
+watch qemu-iotest 040 fail.
+
+
+r~
 
