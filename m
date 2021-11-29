@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48118461CA0
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:20:51 +0100 (CET)
-Received: from localhost ([::1]:55102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16FD0461C98
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:18:59 +0100 (CET)
+Received: from localhost ([::1]:49122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrkKg-0000EZ-35
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:20:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57036)
+	id 1mrkIr-0004V3-Lb
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:18:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mrkF1-0002Qe-T6
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:14:59 -0500
-Received: from [2a00:1450:4864:20::42d] (port=39531
- helo=mail-wr1-x42d.google.com)
+ id 1mrkEx-0002QJ-Sa
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:14:55 -0500
+Received: from [2a00:1450:4864:20::42f] (port=39533
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mrkEw-0001Ta-B4
+ id 1mrkEw-0001Tc-B0
  for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:14:55 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id a18so38434926wrn.6
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 09:14:52 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id a18so38434963wrn.6
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 09:14:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Uhhpo5yfNOPVDeE9x9mlPzmR8YX0tmaiA+JvfvZRrUo=;
- b=Hgr9aE8UrvNQt1YH/HjSxfp6eqrVZb4DlS8lI0adFX5ZGdXH8wlUx+3VOEVPUUCLfB
- rqfHnT7VcNLjBTlnYXxmxQfnVs5sEOJy4nDzDtDX+FfGo0lWm5jPKPQdBfW7YqmKeQFx
- W96YrZp5p6Y8NcLGAeqyPD9vZBdlwpj9En6gevQP+Xo1KFQWu8wE7k7J3apprbA6H95G
- dtbHfflqa717byzWNidX9luTvOYjqWIXYKLayxeiVTZ3H/n9C+PRn0YCoK/G/xEuobG4
- j++mHNmJSkYPc1Okd2g6VyT9Sr8Ybi7L1itzaBevEmQaNvWxaDn1qX6gm97ttntYt1b4
- hMWQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=lyxCRPNO6Jc52Ko0I+nv2kkDmAau474j9b256EDB6Mw=;
+ b=JChVEm8T2v7horwNGPkAAZNNKFmrTVI8fCjrWDE832Y79cT0LaXj8/UTX7EzeHj5g4
+ Qyn5N3ZKGtcmVqfnEoAW9kDc9LyUjVWeDTmE+AGaIDznPSacHh8lCwGIZSLRyANY4QaM
+ yJ1UQvnXUwiADtf97AO4F2UwZDlvD68xNnl/tzKur3abKivMFM4lbcltk9hWwLqs+0ZL
+ Cp23g8ox3IpxwnOQfjm3vvTFfzLrPu9tadL9y1GUhYu1Gv60Yum1UKRrTGeOdYKWYqWT
+ e3eNhYj/BQph9sbReW3gZPJmLYHdEWg8ZTE9cVqNb4FkU4QlkAOIxKtAnopxqUs8tsRi
+ 3Z6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Uhhpo5yfNOPVDeE9x9mlPzmR8YX0tmaiA+JvfvZRrUo=;
- b=RpREeaD55vkMNTv7BdEsO+u5HEAD7ojgep4mmRJFmu3J1xoFVt4ucLX8G/6ULK2fr6
- +Xp/Ysr/O8IKHvRrxz1WXSCnecT84crS1zlf4UBOheNe7xGmFaKoIPO3LR5HZy6W4ydt
- DzJZWJ9peK3UeMgVKFUG9RhWsWL4F5HXBaeq8fkWZexcp/gbY0Z5EKXNE+ZMmZUR6nK4
- 65FsmlzABnsnODWIOEr0tZ6wGHrhdNJOf6RgitKz99I9UtL3KxfFc2M8Iu/dq1spV/uJ
- iQG4bO5kMU+Ot7Oc/vfw7c/WkL0fJsscBE//JFWmsedTHRHFjUh0q1qsCVc2Rs9zXMF4
- ecqA==
-X-Gm-Message-State: AOAM533gu2E/HcLRvTJGxPN++Gg6Q9ChgMaybhsl+kWR08cYzfvpsCu+
- ZvSPcxnlgYMid0kHIbQmkLTjSg==
-X-Google-Smtp-Source: ABdhPJyOvjOTDKMJ2N34CjSYP5a67MbVtFAmUsiq2rzMolv6Gz4Xaj03GufB+w2qh0qXzzjDTbr83w==
-X-Received: by 2002:adf:82d3:: with SMTP id 77mr35590650wrc.377.1638206091397; 
- Mon, 29 Nov 2021 09:14:51 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=lyxCRPNO6Jc52Ko0I+nv2kkDmAau474j9b256EDB6Mw=;
+ b=TQT3DbD69i8ePCGpebS6zA2TqCy2Sa2Y/2r2s1L8Oq4vgduR5Ld49K+gXHif/+q8kP
+ zJmSs3wh5/x/ZbOUvLsDW+yfAqTlkIaIsMhs32w3wl0TxDY1GzkTyxNzPnO+UzdGGYed
+ 6qRv84qIlyA6wNhcDwgnmOy1KoXXdOpxM/0kPD3kCMTjbAolslNaTB5ZLU1GC45O9IqG
+ Fha/YV+BjbN+bFkD7Mmr1p2ZbHNHZtnuwubJNuSyVLmdYJHb5mHm/SEzd3GsnEgQcV/Q
+ ouv1raq2pqA3Hdc6d7xmboM3nCOQOQaDbw0uvC+skip2hX2E9Yx4euh2qREfPX9w4vCP
+ eVbg==
+X-Gm-Message-State: AOAM532xIaYuE4SK5EVSVC1Rc4ThVimSHWGV5iZ4gs28ZzJa8eJluJMl
+ 5PAg4BCdmKBiMJCF3mRSkZ64xQ==
+X-Google-Smtp-Source: ABdhPJzi9DVl2p/zLGRMU5AiSal0wZIyF31qVKPlTYzoqYaxWt2US2PwzYLMsVusXY/W6mD1el9MXA==
+X-Received: by 2002:a5d:5272:: with SMTP id l18mr35642566wrc.208.1638206092006; 
+ Mon, 29 Nov 2021 09:14:52 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z14sm15257327wrp.70.2021.11.29.09.14.50
+ by smtp.gmail.com with ESMTPSA id 38sm14823247wrc.1.2021.11.29.09.14.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 29 Nov 2021 09:14:50 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C9C281FF96;
+ by zen.linaroharston (Postfix) with ESMTP id D7A3B1FF98;
  Mon, 29 Nov 2021 17:14:49 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: richard.henderson@linaro.org,
 	peter.maydell@linaro.org
-Subject: [PULL for 6.2 0/8] more tcg, plugin, test and build fixes
-Date: Mon, 29 Nov 2021 17:14:41 +0000
-Message-Id: <20211129171449.4176301-1-alex.bennee@linaro.org>
+Subject: [PULL 1/8] accel/tcg: introduce CF_NOIRQ
+Date: Mon, 29 Nov 2021 17:14:42 +0000
+Message-Id: <20211129171449.4176301-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211129171449.4176301-1-alex.bennee@linaro.org>
+References: <20211129171449.4176301-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -88,62 +90,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit e750c10167fa8ad3fcc98236a474c46e52e7c18c:
+Here we introduce a new compiler flag to disable the checking of exit
+request (icount_decr.u32). This is useful when we want to ensure the
+next block cannot be preempted by an asynchronous event.
 
-  Merge tag 'pull-target-arm-20211129' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2021-11-29 11:56:07 +0100)
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20211129140932.4115115-2-alex.bennee@linaro.org>
 
-are available in the Git repository at:
-
-  https://github.com/stsquad/qemu.git tags/pull-for-6.2-291121-1
-
-for you to fetch changes up to d5615bbf9103f01911df683cc3e4e85c49a92593:
-
-  tests/plugin/syscall.c: fix compiler warnings (2021-11-29 15:13:22 +0000)
-
-----------------------------------------------------------------
-TCG, plugin and build fixes:
-
-  - introduce CF_NOIRQ to avoid watchpoint race
-  - fix avocado plugin test
-  - fix linker issue with weird paths
-  - band-aid for gdbstub race
-  - updates for MAINTAINERS
-  - fix some compiler warning in example plugin
-
-----------------------------------------------------------------
-Alex Bennée (5):
-      accel/tcg: introduce CF_NOIRQ
-      accel/tcg: suppress IRQ check for special TBs
-      tests/avocado: fix tcg_plugin mem access count test
-      plugins/meson.build: fix linker issue with weird paths
-      gdbstub: handle a potentially racing TaskState
-
-Juro Bystricky (1):
-      tests/plugin/syscall.c: fix compiler warnings
-
-Philippe Mathieu-Daudé (1):
-      MAINTAINERS: Add section for Aarch64 GitLab custom runner
-
-Willian Rampazzo (1):
-      MAINTAINERS: Remove me as a reviewer for the build and test/avocado
-
- include/exec/exec-all.h      |  1 +
- include/exec/gen-icount.h    | 21 +++++++++++++++++----
- accel/tcg/cpu-exec.c         |  9 +++++++++
- accel/tcg/translate-all.c    |  4 ++--
- gdbstub.c                    |  2 +-
- softmmu/physmem.c            |  4 ++--
- tests/plugin/syscall.c       |  8 +++-----
- MAINTAINERS                  | 10 ++++++++--
- plugins/meson.build          |  4 ++--
- tests/avocado/tcg_plugins.py |  2 +-
- 10 files changed, 46 insertions(+), 19 deletions(-)
-
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 6bb2a0f7ec..35d8e93976 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -503,6 +503,7 @@ struct TranslationBlock {
+ #define CF_USE_ICOUNT    0x00020000
+ #define CF_INVALID       0x00040000 /* TB is stale. Set with @jmp_lock held */
+ #define CF_PARALLEL      0x00080000 /* Generate code for a parallel context */
++#define CF_NOIRQ         0x00100000 /* Generate an uninterruptible TB */
+ #define CF_CLUSTER_MASK  0xff000000 /* Top 8 bits are cluster ID */
+ #define CF_CLUSTER_SHIFT 24
+ 
+diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
+index 610cba58fe..c57204ddad 100644
+--- a/include/exec/gen-icount.h
++++ b/include/exec/gen-icount.h
+@@ -21,7 +21,6 @@ static inline void gen_tb_start(const TranslationBlock *tb)
+ {
+     TCGv_i32 count;
+ 
+-    tcg_ctx->exitreq_label = gen_new_label();
+     if (tb_cflags(tb) & CF_USE_ICOUNT) {
+         count = tcg_temp_local_new_i32();
+     } else {
+@@ -42,7 +41,19 @@ static inline void gen_tb_start(const TranslationBlock *tb)
+         icount_start_insn = tcg_last_op();
+     }
+ 
+-    tcg_gen_brcondi_i32(TCG_COND_LT, count, 0, tcg_ctx->exitreq_label);
++    /*
++     * Emit the check against icount_decr.u32 to see if we should exit
++     * unless we suppress the check with CF_NOIRQ. If we are using
++     * icount and have suppressed interruption the higher level code
++     * should have ensured we don't run more instructions than the
++     * budget.
++     */
++    if (tb_cflags(tb) & CF_NOIRQ) {
++        tcg_ctx->exitreq_label = NULL;
++    } else {
++        tcg_ctx->exitreq_label = gen_new_label();
++        tcg_gen_brcondi_i32(TCG_COND_LT, count, 0, tcg_ctx->exitreq_label);
++    }
+ 
+     if (tb_cflags(tb) & CF_USE_ICOUNT) {
+         tcg_gen_st16_i32(count, cpu_env,
+@@ -74,8 +85,10 @@ static inline void gen_tb_end(const TranslationBlock *tb, int num_insns)
+                            tcgv_i32_arg(tcg_constant_i32(num_insns)));
+     }
+ 
+-    gen_set_label(tcg_ctx->exitreq_label);
+-    tcg_gen_exit_tb(tb, TB_EXIT_REQUESTED);
++    if (tcg_ctx->exitreq_label) {
++        gen_set_label(tcg_ctx->exitreq_label);
++        tcg_gen_exit_tb(tb, TB_EXIT_REQUESTED);
++    }
+ }
+ 
+ #endif
 -- 
 2.30.2
 
