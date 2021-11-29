@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E2174621B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 21:08:58 +0100 (CET)
-Received: from localhost ([::1]:42710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A794621BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 21:09:37 +0100 (CET)
+Received: from localhost ([::1]:43602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrmxM-0006Iz-Pq
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 15:08:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45626)
+	id 1mrmy0-0006us-ED
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 15:09:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mrmu0-0003Ov-3F
+ id 1mrmty-0003Oq-W8
  for qemu-devel@nongnu.org; Mon, 29 Nov 2021 15:05:28 -0500
-Received: from [2a00:1450:4864:20::32d] (port=55988
- helo=mail-wm1-x32d.google.com)
+Received: from [2a00:1450:4864:20::331] (port=55074
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mrmtq-0008Ce-Ht
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 15:05:27 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id p18so15622601wmq.5
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 12:05:15 -0800 (PST)
+ id 1mrmtq-0008Co-Bi
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 15:05:26 -0500
+Received: by mail-wm1-x331.google.com with SMTP id i12so15638636wmq.4
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 12:05:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UnmMe2XVlfepy+SM6SWY8AYsfzJiHx81z75dkAVJ9Po=;
- b=hVFWrzAG6sPmitcIJZiRpD4zOIr/efmL+IgPmctw3dF6NV+XjHw56FsW/6b+ZmfcbC
- 1aqoyiikKJTM9BHIEsUFQcueUepxNeWWwzuQT5WGaiDJNoZL0HYIq/LJaD2Y03e5/k63
- csGbmSZ8q86yYTswSviFjcg9VGDG3VnDU43bB38zdY1Kp0AIWj2mLBwAw+AXSMhaEG4P
- 55zzkgxedoJ/AOGgpznc2fdPmYSg2Ww9HDXEfi7lPDsN6LQEdVbJg+wB+EKNRIjoQEO1
- I7VpIWJjzG19s7wrd4GGyJRU0kN6mf/P2msta0jHcYx4kPrs3P1L7uYClYnsbWxjIlq0
- 9s7g==
+ bh=qTo77hPRZPJCGOc5lQV7xcrmA1XxlNOYWfSFKOfnGds=;
+ b=aAzoGrNoqXqMNypiP5U/kE0CsU0QtfRtwkYpevgOcyzVCTVlv2cxqxXzo68x9rFerP
+ LDOc0klBji4OqtegXIQpC25bULBnOXLZ+21TdLWCXLghRpzFWTIcAKDHaVpof9MYya2b
+ 9C4DgLLCZPj/QYW14QLkeUUEnJzt2QuX7MSSyEqnB8SmlaNlQcmbIlphAPT4mEuzGKtg
+ EXHjj42xnl9OS+3hFFteS+XQ1C8kOvhIA183CUP2MdB8t3H27qe9BlrhTHwMXzxuOzRf
+ Ih6qPkfn3hCzFDWBGmnw/3wMNZgW4kZKunOu1IEiG2jFUjWXS3zzkcdaTBkrwFHJpK0w
+ FOWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UnmMe2XVlfepy+SM6SWY8AYsfzJiHx81z75dkAVJ9Po=;
- b=xWkjjd23S6aspXGzCtgASspb5fC6Jl19jIWz4ZaRANvdP2lfAgg7bCeEgXNYfJcdPG
- YrZ2nvZVJ9Jr8eUIINKwbuGwfFWh/GiwC41KWE1xRKlWHrye1bkzrB4SWRQ1DpiBhnKO
- cE8wD+gRydW8Gesu2WKAxKoGJiB5PyAIzczh8uVc02xAMDoyeOiNBH8CitwIwxoh4IKh
- f2XM7WYw1NC0jfjvrqAsSaWKEa73JKzzDBdTt9JAa8vC8YswDfKOgN+ZQ5BPD30nP9rs
- KPtzWJzRKN6i3h4IApHznwC8nP5ali395jWdXzutIaFffqzU74lcAeGyIq+5xVhgSmbP
- fYtw==
-X-Gm-Message-State: AOAM530oqjYGqA74+fNgqzNq7tc/ihB6TwA9spactlY4LWJI5/jGn5Yb
- uiC8KtjZrwBemdrCvbBtM0v/hg==
-X-Google-Smtp-Source: ABdhPJzkhmPjCushDNseY3lcnz+A4WcsEb7BxZmd2xA3VOJ9dr8EJZkGnw5ItFXFPMyGwJ6MH8uYBw==
-X-Received: by 2002:a1c:7f56:: with SMTP id a83mr225953wmd.32.1638216314846;
- Mon, 29 Nov 2021 12:05:14 -0800 (PST)
+ bh=qTo77hPRZPJCGOc5lQV7xcrmA1XxlNOYWfSFKOfnGds=;
+ b=ldXPXIIGaSeGrKl89yNmQvYZqPgzxXA5g4SmeXu6b5zAwuZw89od8FN3oV2XCP5aGj
+ 1A5SgrBaknVBIsUrPj3RerjYhqhZqFkRZFIJtgsy2NYDZ0GBcba1bGOV987O+zfM3aOB
+ qoXeFfvAytoDY3X3brPXPzgFXJeieFHsBLs0cpnUk0ZmG3jzMv2FTC1xnpxRNt2wKnZ9
+ 44ZFzrmlRBA01ZqO8HpCJn+aqOmzpynAMGSH3OqCfrll/67Z+Wqo1X52BoV6b7cbbAHx
+ q7+WLscqlQ8Dl1w3vpYDxRT94cwI/1FueWhPYpcRiO05rGICoEQsNsfPlKS6z91kaiJn
+ PYGg==
+X-Gm-Message-State: AOAM530kdPgLGhLXpuZe7xslc5OKiifUdGChzsqZeGsSoEzHHtFDgTeq
+ bnyumfydJACS8TdEaK8RSoydFQ==
+X-Google-Smtp-Source: ABdhPJzhxN1TjkT5GjrpIiZ7vZrdv5AbQa1QF+p5SIVCkg7XmUEf3BQD/qeNWo7bLeckArD9JWziYQ==
+X-Received: by 2002:a05:600c:3494:: with SMTP id
+ a20mr163020wmq.195.1638216315776; 
+ Mon, 29 Nov 2021 12:05:15 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id v15sm14678863wro.35.2021.11.29.12.05.14
+ by smtp.gmail.com with ESMTPSA id v15sm14678863wro.35.2021.11.29.12.05.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 12:05:14 -0800 (PST)
+ Mon, 29 Nov 2021 12:05:15 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-7.0 2/4] target/hexagon/cpu.h: don't include qemu-common.h
-Date: Mon, 29 Nov 2021 20:05:08 +0000
-Message-Id: <20211129200510.1233037-3-peter.maydell@linaro.org>
+Subject: [PATCH for-7.0 3/4] target/rx/cpu.h: Don't include qemu-common.h
+Date: Mon, 29 Nov 2021 20:05:09 +0000
+Message-Id: <20211129200510.1233037-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211129200510.1233037-1-peter.maydell@linaro.org>
 References: <20211129200510.1233037-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -95,39 +96,26 @@ The qemu-common.h header is not supposed to be included from any
 other header files, only from .c files (as documented in a comment at
 the start of it).
 
-Move the include to linux-user/hexagon/cpu_loop.c, which needs it for
-the declaration of cpu_exec_step_atomic().
+Nothing actually relies on target/rx/cpu.h including it, so we can
+just drop the include.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/hexagon/cpu.h          | 1 -
- linux-user/hexagon/cpu_loop.c | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ target/rx/cpu.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/target/hexagon/cpu.h b/target/hexagon/cpu.h
-index de121d950f2..58a0d3870bb 100644
---- a/target/hexagon/cpu.h
-+++ b/target/hexagon/cpu.h
-@@ -23,7 +23,6 @@ typedef struct CPUHexagonState CPUHexagonState;
+diff --git a/target/rx/cpu.h b/target/rx/cpu.h
+index 4ac71aec370..657db84ef0a 100644
+--- a/target/rx/cpu.h
++++ b/target/rx/cpu.h
+@@ -20,7 +20,6 @@
+ #define RX_CPU_H
  
- #include "fpu/softfloat-types.h"
- 
+ #include "qemu/bitops.h"
 -#include "qemu-common.h"
- #include "exec/cpu-defs.h"
- #include "hex_regs.h"
- #include "mmvec/mmvec.h"
-diff --git a/linux-user/hexagon/cpu_loop.c b/linux-user/hexagon/cpu_loop.c
-index 6b24cbaba93..e47f8348d56 100644
---- a/linux-user/hexagon/cpu_loop.c
-+++ b/linux-user/hexagon/cpu_loop.c
-@@ -19,6 +19,7 @@
-  */
+ #include "hw/registerfields.h"
+ #include "cpu-qom.h"
  
- #include "qemu/osdep.h"
-+#include "qemu-common.h"
- #include "qemu.h"
- #include "user-internals.h"
- #include "cpu_loop-common.h"
 -- 
 2.25.1
 
