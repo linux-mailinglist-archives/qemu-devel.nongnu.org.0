@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 216EA461FF4
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 20:13:50 +0100 (CET)
-Received: from localhost ([::1]:32844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24CC6462033
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 20:17:25 +0100 (CET)
+Received: from localhost ([::1]:37500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrm5w-0005D6-Re
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 14:13:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58842)
+	id 1mrm9T-0008NJ-Vt
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 14:17:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mrm3G-0003Ks-6w
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 14:10:58 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:36330)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mrm55-0005oc-Rz
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 14:12:51 -0500
+Received: from [2a00:1450:4864:20::42d] (port=36480
+ helo=mail-wr1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mrm3E-0000Y9-9d
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 14:10:57 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 816EF2171F;
- Mon, 29 Nov 2021 19:10:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638213054; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T7rlzFFmUlKNJzvWxk6L/I+ZrTYniuVxJqbk6KWeVmQ=;
- b=WdGBr0i0sCZeTkizLgaFz2Tn23OBjLFrbHFbs5wFiNf9FjD9hieYJ58JpRS66ghSJjExaq
- TTHpQubFrlya+pD1fvaNXpvQKnhVWfGAAbLl7CfnMg6/CpPZ2+S52Oi5ATnhOYmuIidlYY
- 4Zmgv2lT/cvqwdNVsN7ZJ1N6ysxSn/Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638213054;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T7rlzFFmUlKNJzvWxk6L/I+ZrTYniuVxJqbk6KWeVmQ=;
- b=B/5cGiry3CzfO3JdDfN2zNoNxQngOyxMeqsodfA8MOEtxHDyd3uX76ye4j93+a8QL7QLQk
- UPXeZ1M/wNlFdxAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3901413BB8;
- Mon, 29 Nov 2021 19:10:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id p2pgDL4lpWG+CAAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 29 Nov 2021 19:10:54 +0000
-Subject: Re: [PATCH for-6.1 v2] i386: do not call cpudef-only models functions
- for max, host, base
-To: David Woodhouse <dwmw2@infradead.org>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
-References: <20210723112921.12637-1-cfontana@suse.de>
- <1102c315addf2f2fffc49222ab5be118e7ae9b0f.camel@amazon.co.uk>
- <f5910284-14ca-8796-4e64-38fef246bd19@suse.de>
- <e57e2119df69ac190cdd763b7ac8d5894b110839.camel@infradead.org>
- <b613015e-3285-8d30-292f-6bf9816b1912@suse.de>
- <d579bf46d0babc9eece1dc3e8ec63c43b311b022.camel@infradead.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <483ebe21-2972-90c0-bc9a-ce922518632d@suse.de>
-Date: Mon, 29 Nov 2021 20:10:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mrm54-0000nt-D2
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 14:12:51 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id s13so39158905wrb.3
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 11:12:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=VM06La+s5knpETvIftGngzAapB5VSNhHkJN6TLThw1w=;
+ b=ZCguBFfgjxj4Ot2JN3BDdhVA3HtjLDcEqk0rUrApwasHqX58CucS91bq7undOCtNEd
+ f2gb+F4+rFV3kEPckVg4QoZWXr3XbxD51R9zmG+lYQU1YGhePKR7TQFhM0kIfUshN3eQ
+ dQufpgsoPc5s2ystdGxtt2XwRd4wCSaRn/F/t2m0kqavY7135bFFuvNEjz2+x3u6eMqx
+ G3nPDNKGFCkM2yZaqtCAfljeHn9rh1GPmgDzvR8EXPc9BnZU+vwZFc7SdX34axfk2xwM
+ 33RDmu40U4aDVxcJYJ6f7zZ/VRS2dAzAF8/tSpQ9QiAGvlAjC5zM11S7nSJveHI0Vw9D
+ GQGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VM06La+s5knpETvIftGngzAapB5VSNhHkJN6TLThw1w=;
+ b=ff5WGNQBRXXHMA+LQsiTGifYMcSmoeivP3yYfeMuh9xkAImO1LbrT62WBx9gSVmPFR
+ fDhwfx+fmz76/1s7PnEg/G9hof5tDBalygC8R+mRG05oPzhZ5rzthydz1w+aPPflcW8O
+ CIcVJd0bpE9x7dTA6NH+nHDj4dTIU2JjMzdDaP7XKp6kJQup1ayd7sTJOxTe6plwN0B1
+ Y9B8QPObZIFJEQB8FOeDPBsHXWu+lrYT5dDgFc5/JUPSxA5s7HkqRnp7OHQruG1Nfh8u
+ F49Cvp9qKa/5AmHa3F8Vn3fMeBJYVAUW8SJ+9qN2nB0e41WqKaGMC8NyBsarMx7KiyZa
+ 5NnA==
+X-Gm-Message-State: AOAM531HrWYiJvy2NS8xJvNCsVasDjh7LdNIxXvCt6cV7Rl+tTk+qucX
+ vGjGh4Budb797zCFd3U7kA/v/A==
+X-Google-Smtp-Source: ABdhPJxAJkBkSellGHmePYF3nXG+OKFqQ56M9gD5x0nhACbXTbJMDdW81Nv4US7wRzO1DWUeGiRAPQ==
+X-Received: by 2002:adf:f542:: with SMTP id j2mr35506201wrp.616.1638213169203; 
+ Mon, 29 Nov 2021 11:12:49 -0800 (PST)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168])
+ by smtp.gmail.com with ESMTPSA id s8sm14646788wro.19.2021.11.29.11.12.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Nov 2021 11:12:48 -0800 (PST)
+Date: Mon, 29 Nov 2021 19:12:26 +0000
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v6 3/4] virtio-iommu: Fix the domain_range end
+Message-ID: <YaUmGvfuOFbIDlUp@myrica>
+References: <20211127072910.1261824-1-eric.auger@redhat.com>
+ <20211127072910.1261824-4-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <d579bf46d0babc9eece1dc3e8ec63c43b311b022.camel@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.317,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211127072910.1261824-4-eric.auger@redhat.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,148 +87,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "alxndr@bu.edu" <alxndr@bu.edu>, "philmd@redhat.com" <philmd@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "lovemrd@gmail.com" <lovemrd@gmail.com>
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, pbonzini@redhat.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/29/21 6:17 PM, David Woodhouse wrote:
-> On Mon, 2021-11-29 at 17:57 +0100, Claudio Fontana wrote:
->> On 11/29/21 4:11 PM, David Woodhouse wrote:
->>> On Mon, 2021-11-29 at 15:14 +0100, Claudio Fontana wrote:
->>>> On 11/29/21 12:39 PM, Woodhouse, David wrote:
->>>>> On Fri, 2021-07-23 at 13:29 +0200, Claudio Fontana wrote:
->>>>>>  static void kvm_cpu_instance_init(CPUState *cs)
->>>>>>  {
->>>>>>      X86CPU *cpu = X86_CPU(cs);
->>>>>> +    X86CPUClass *xcc = X86_CPU_GET_CLASS(cpu);
->>>>>>
->>>>>>      host_cpu_instance_init(cpu);
->>>>>>
->>>>>> -    if (!kvm_irqchip_in_kernel()) {
->>>>>> -        x86_cpu_change_kvm_default("x2apic", "off");
->>>>>> -    } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
->>>>>> -        x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
->>>>>> -    }
->>>>>> -
->>>>>> -    /* Special cases not set in the X86CPUDefinition structs: */
->>>>>> +    if (xcc->model) {
->>>>>> +        /* only applies to builtin_x86_defs cpus */
->>>>>> +        if (!kvm_irqchip_in_kernel()) {
->>>>>> +            x86_cpu_change_kvm_default("x2apic", "off");
->>>>>> +        } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
->>>>>> +            x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
->>>>>> +        }
->>>>>>
->>>>>> -    x86_cpu_apply_props(cpu, kvm_default_props);
->>>>>> +        /* Special cases not set in the X86CPUDefinition structs: */
->>>>>> +        x86_cpu_apply_props(cpu, kvm_default_props);
->>>>>> +    }
->>>>>>
->>>>>
->>>>> I think this causes a regression in x2apic and kvm-msi-ext-dest-id
->>>>> support. If you start qemu thus:
->>>>
->>>> If I recall correctly, this change just tries to restore the behavior prior to
->>>> commit f5cc5a5c168674f84bf061cdb307c2d25fba5448 ,
->>>>
->>>> fixing the issue introduced with the refactoring at that time.
->>>>
->>>> Can you try bisecting prior to
->>>> f5cc5a5c168674f84bf061cdb307c2d25fba5448 , to see if the actual
->>>> breakage comes from somewhere else?
->>>
->>> Hm, so it looks like it never worked for '-cpu host' *until* commit
->>> f5cc5a5c16.
->>
->> Right, so here we are talking about properly supporting this for the first time.
->>
->> The fact that it works with f5cc5a5c16 is more an accident than anything else, that commit was clearly broken
->> (exemplified by reports of failed boots).
->>
->> So we need to find the proper solution, ie, exactly which features should be enabled for which cpu classes and models.
->>
->>>
->>> It didn't matter before c1bb5418e3 because you couldn't enable that
->>> many vCPUs without an IOMMU, and the *IOMMU* setup would call
->>> kvm_enable_x2apic().
->>>
->>> But after that, nothing ever called kvm_enable_x2apic() in the '-cpu
->>> host' case until commit f5cc5a5c16, which fixed it... until you
->>> restored the previous behaviour :)
->>>
->>> This "works" to fix this case, but presumably isn't correct:
->>
->> Right, we cannot just enable all this code, or the original refactor would have been right.
->>
->> These kvm default properties have been as far as I know intended for the cpu actual models (builtin_x86_defs),
->> and not for the special cpu classes max, host and base. This is what the revert addresses.
->>
->> I suspect what we actually need here is to review exactly in which specific cases kvm_enable_x2apic() should be called in the end.
->>
->> The code there is mixing changes to the kvm_default_props that are then applied using x86_cpu_apply_props (and that part should be only for xcc->model != NULL),
->> with the actual enablement of the kvm x2apic using kvm_vm_enable_cap(s, KVM_CAP_X2APIC_API, 0, flags) via kvm_enable_x2apic().
->>
->> One way is to ignore this detail and just move out those checks, since changes to kvm_default_props are harmless once we skip the x86_cpu_apply_props call,
->> as such: 
->>
->> ------
->>
->> static void kvm_cpu_instance_init(CPUState *cs)
->> {
->>     X86CPU *cpu = X86_CPU(cs);
->>     X86CPUClass *xcc = X86_CPU_GET_CLASS(cpu);
->>
->>     host_cpu_instance_init(cpu);
->>
->>     /* only applies to builtin_x86_defs cpus */
->>     if (!kvm_irqchip_in_kernel()) {
->>         x86_cpu_change_kvm_default("x2apic", "off");
->>     } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
->>         x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
->>     }
->>
->>     if (xcc->model) {
->>         /* Special cases not set in the X86CPUDefinition structs: */
->>         x86_cpu_apply_props(cpu, kvm_default_props);
->>     }
->>
+On Sat, Nov 27, 2021 at 08:29:09AM +0100, Eric Auger wrote:
+> in old times the domain range was defined by a domain_bits le32.
+> This was then converted into a domain_range struct. During the
+> upgrade the original value of '32' (bits) has been kept while
+> the end field now is the max value of the domain id (UINT32_MAX).
+> Fix that and also use UINT64_MAX for the input_range.end.
 > 
-> I don't believe that works in the case when kvm_enable_x2apic() fails
-> on an older kernel. Although it sets the defaults, it still doesn't
-> then *apply* them so it makes no difference.
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reported-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-Hmm I thought what you actually care for, for cpu "host", is just the kvm_enable_x2apic() call, not the kvm_default_props.
+Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-Do you also expect the kvm_default_prop "kvm-msi-ext-dest-id" to be switch to "on" and applied?
-
-kvm_default_props were never applied to cpus without an x86 model definition (except for that brief time when I did it by mistake).
-
-
+> ---
+>  hw/virtio/virtio-iommu.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> How about this:
-> 
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -739,9 +739,9 @@ void pc_machine_done(Notifier *notifier, void *data)
+> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+> index 30ee09187b8..aa9c16a17b1 100644
+> --- a/hw/virtio/virtio-iommu.c
+> +++ b/hw/virtio/virtio-iommu.c
+> @@ -978,8 +978,8 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+>      s->event_vq = virtio_add_queue(vdev, VIOMMU_DEFAULT_QUEUE_SIZE, NULL);
 >  
+>      s->config.page_size_mask = TARGET_PAGE_MASK;
+> -    s->config.input_range.end = -1UL;
+> -    s->config.domain_range.end = 32;
+> +    s->config.input_range.end = UINT64_MAX;
+> +    s->config.domain_range.end = UINT32_MAX;
+>      s->config.probe_size = VIOMMU_PROBE_SIZE;
 >  
->      if (x86ms->apic_id_limit > 255 && !xen_enabled() &&
-> -        !kvm_irqchip_in_kernel()) {
-> +        (!kvm_irqchip_in_kernel() || !kvm_enable_x2apic())) {
->          error_report("current -smp configuration requires kernel "
-> -                     "irqchip support.");
-> +                     "irqchip and X2APIC API support.");
->          exit(EXIT_FAILURE);
->      }
->  }
+>      virtio_add_feature(&s->features, VIRTIO_RING_F_EVENT_IDX);
+> -- 
+> 2.26.3
 > 
-
-Interesting. This would leave things like microvm out right? But maybe it's ok?
-
-Ciao,
-
-Claudio
 
