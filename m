@@ -2,78 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C986462158
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 21:03:03 +0100 (CET)
-Received: from localhost ([::1]:34654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973A4462130
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 20:58:23 +0100 (CET)
+Received: from localhost ([::1]:53522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrmre-0000fa-94
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 15:03:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40078)
+	id 1mrmn8-0002X2-9n
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 14:58:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mrmYH-0002Ba-IZ
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 14:43:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49387)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mrmYE-0005Q0-64
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 14:43:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638214975;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type;
- bh=pG53GZexgUNACumkQeOEDtUYFWvJ6t7miATlqcklwmg=;
- b=gpk2A1KiKRWOztrTt2IeLtN0CG6SHAlLAD4DBv+erSQjGu8NBiDGod9JQXfcs2zE1ch4Va
- pXWu1ZQMQu8Y3Y+FzWiULrxePfuZ4RtyzTUyHYZ5lmnoqjMR0W7uqP2lh38JsplJOY3VW8
- KH3+qv2EjDbfE+8C6wOv4CPsPRhOAg4=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-387-UI4TICQ3PzOSsYmOqbtslw-1; Mon, 29 Nov 2021 14:42:53 -0500
-X-MC-Unique: UI4TICQ3PzOSsYmOqbtslw-1
-Received: by mail-vk1-f200.google.com with SMTP id
- m25-20020a056122215900b002fac70f81c1so9590977vkd.5
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 11:42:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=pG53GZexgUNACumkQeOEDtUYFWvJ6t7miATlqcklwmg=;
- b=EVQv9HtG/l7nXjf3bMWXPOvsFdhvgDO5hPga4SzFbneU6XKihpVFeszE7ftXvTnUo6
- 1mILQp7+Ig2HOAgqiSjIehc0tSZDIvwuUbSh60vTncGBXKh0kG+l4neLV+fsuELaRvJ+
- UaWZ00L5l0KF3ekCFn82PiVhQmfViJUFRT2eWyhQgMGEO76RoFxguAPK60gBM5UJchke
- 7JAlhJFF/hdGYShBkgEnNNqQUvbq6F8d8RQnUdAujk0s6/UJOhB6g7Sg60tBdcaYCAAa
- 9AI8Bi+a4xgu+9Nivsb/6xt6jH9abylAshQVHjum33E04QrcG2Y07vyhbowWLnym68KT
- n6LQ==
-X-Gm-Message-State: AOAM532XmN6OPtfr/CNdQOlw5D3nV6i/nG3F0dezv/up69DEHp1TlF49
- jgsZBk/XrXhne3cgrTfMGcDwXE+Tr6BHzpoVkn00UmftrpiQxbU95i18C6gTxFr2dfjiot+Wkwt
- EJTcM66W4wQ3Rm14cyN26JC6aotIoJ8I=
-X-Received: by 2002:a05:6122:790:: with SMTP id
- k16mr39506845vkr.26.1638214973227; 
- Mon, 29 Nov 2021 11:42:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyxVjcz4rL/1lCM5xLTQ0YLi1U83pvMPn+oj3uMkYmdkzxk1Y6MIOQdxbOEr913VrDYDwMKcg0Nyhw0cGc1WKQ=
-X-Received: by 2002:a05:6122:790:: with SMTP id
- k16mr39506808vkr.26.1638214972951; 
- Mon, 29 Nov 2021 11:42:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mrmkT-0008FI-I7
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 14:55:38 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:39170)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mrmkP-0006tM-Lq
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 14:55:37 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8A16D1FD2F;
+ Mon, 29 Nov 2021 19:55:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1638215728; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=va/BV8h3MsNvE3GVoY40i40lWbA2Kf3kvQ5eAx1XH4o=;
+ b=ypvwzCy2yibqGNTYBb8XfQH+9y0PCuaC0P3A2nNzF57aNEuvqTWKp/s1G3sDId1Q8AyWJL
+ 6ZD9wjanBC+6t0I4EuGm8/g8mmiD/elCci7LkEIyfjmPPmY63MD49zjNc8avazk78f9UZ+
+ BHa7DI4yR7J5j2IwqglcIyFqHJXUabI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1638215728;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=va/BV8h3MsNvE3GVoY40i40lWbA2Kf3kvQ5eAx1XH4o=;
+ b=InDUlg8kMYvaYYH3yNVOg65HHHlKVt3gsoQ6wBiFmuZH15BjRYVYUeH1cuJlQynqzv6JYL
+ hQtdWAwy7RbcAVAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4151F13BC9;
+ Mon, 29 Nov 2021 19:55:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8bbzDTAwpWHHGQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Mon, 29 Nov 2021 19:55:28 +0000
+Subject: Re: [PATCH for-6.1 v2] i386: do not call cpudef-only models functions
+ for max, host, base
+To: David Woodhouse <dwmw2@infradead.org>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
+References: <20210723112921.12637-1-cfontana@suse.de>
+ <1102c315addf2f2fffc49222ab5be118e7ae9b0f.camel@amazon.co.uk>
+ <f5910284-14ca-8796-4e64-38fef246bd19@suse.de>
+ <e57e2119df69ac190cdd763b7ac8d5894b110839.camel@infradead.org>
+ <b613015e-3285-8d30-292f-6bf9816b1912@suse.de>
+ <d579bf46d0babc9eece1dc3e8ec63c43b311b022.camel@infradead.org>
+ <483ebe21-2972-90c0-bc9a-ce922518632d@suse.de>
+ <bdd861f68aa1533b2ea752c6509c03ca7b9f0279.camel@infradead.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <93efa230-fb6b-fdc7-a696-c555676da2b4@suse.de>
+Date: Mon, 29 Nov 2021 20:55:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 29 Nov 2021 14:42:42 -0500
-Message-ID: <CAFn=p-YJPcq0VyQNE-sfEsOVhWGxWOgwAXRz=bwQrLUHyiA1NQ@mail.gmail.com>
-Subject: Observing VM Status Changes
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000876aa505d1f2a52e"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <bdd861f68aa1533b2ea752c6509c03ca7b9f0279.camel@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.317,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,67 +94,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "alxndr@bu.edu" <alxndr@bu.edu>, "philmd@redhat.com" <philmd@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "lovemrd@gmail.com" <lovemrd@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000876aa505d1f2a52e
-Content-Type: text/plain; charset="UTF-8"
+On 11/29/21 8:19 PM, David Woodhouse wrote:
+> On Mon, 2021-11-29 at 20:10 +0100, Claudio Fontana wrote:
+>>
+>> Hmm I thought what you actually care for, for cpu "host", is just the kvm_enable_x2apic() call, not the kvm_default_props.
+>>
+>>
+>>
+>> Do you also expect the kvm_default_prop "kvm-msi-ext-dest-id" to be switch to "on" and applied?
+> 
+> It's already on today. It just isn't *true* because QEMU never called
+> kvm_enable_x2apic().
 
-Is there a generic event for observing VM state changes? I see we have a
-lot of bespoke events like "STOP", "RESUME", "SHUTDOWN" and so forth, but I
-can't quickly and at a glance determine if we have a 1:1 correlation for
-every QAPI RunState to a QMP Event announcing that state.
 
-I'm looking at e.g. the PAUSED runstate and I can see it set in several
-places:
+property should be on, but not by setting in kvm_default_prop / applied via kvm_default_prop, that mechanism is for the versioned cpu models,
+which use X86CPUModel / X86CPUDefinition , and "host" isn't one of them.
 
-migration/migration.c:            runstate_set(RUN_STATE_PAUSED);
-migration/savevm.c:        runstate_set(RUN_STATE_PAUSED);
+Out of curiosity, does my previous snippet actually work? Not that I am sure it is the best solution,
+just for my understanding. It would be surprising to me that the need to actually manually apply "kvm-msi-ext-dest-id" to "on" there.
+ 
+> 
+> So what I care about (in case ∃ APIC IDs >= 255) is two things:
+> 
+>  1. Qemu needs to call kvm_enable_x2apic().
+>  2. If that *fails* qemu needs to *stop* advertising X2APIC and ext-dest-id.
+> 
+> 
+> That last patch snippet in pc_machine_done() should suffice to achieve
+> that, I think. Because if kvm_enable_x2apic() fails and qemu has been
+> asked for that many CPUs, it aborts completely. Which seems right.
+> 
 
-but for, say, the migration/savevm.c route, it doesn't look like it's
-accompanied by a QMP event -- that appears to only be emitted by
-softmmu/cpus.c -- and only when the vcpus were already running. In this
-case, the savevm route only occurs before we've started the vCPUs.
+seems right to abort if requesting > 255 APIC IDs cannot be satisfied, I agree.
 
-So as far as I can tell, there's really no well-defined relationship
-between the various events in qapi/run-state.json and the RunState
-enumeration. This would make it hard for a client to keep track of the VM
-state without having to re-query it a lot. Am I mistaken?
+So I think in the end, we want to:
 
-(I was looking into adding VM state into the qmp-shell tool such that it
-spied on QMP events and updated a toolbar accordingly. However, not every
-state seems to be preceded by an event, and not every event gives a strong
-indication of what the resulting VM state would actually be. Some runstate
-changes don't appear to be announced by any event at all.)
+1) make sure that when accel=kvm and smp > 255 for i386, using cpu "host", kvm_enable_x2apic() is called and successful.
 
---000000000000876aa505d1f2a52e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+2) in addressing requirement 1), we do not break something else (other machines, other cpu classes/models, TCG, ...).
 
-<div dir=3D"ltr"><div>Is there a generic event for observing VM state chang=
-es? I see we have a lot of bespoke events like &quot;STOP&quot;, &quot;RESU=
-ME&quot;, &quot;SHUTDOWN&quot; and so forth, but I can&#39;t quickly and at=
- a glance determine if we have a 1:1 correlation for every QAPI RunState to=
- a QMP Event announcing that state.</div><div><br></div><div>I&#39;m lookin=
-g at e.g. the PAUSED runstate and I can see it set in several places:</div>=
-<div><br></div><div>migration/migration.c: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0runstate_set(RUN_STATE_PAUSED);</div><div>migration/savevm.c: =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0runstate_set(RUN_STATE_PAUSED);</div><div><br></div=
-><div>but for, say, the migration/savevm.c route, it doesn&#39;t look like =
-it&#39;s accompanied by a QMP event -- that appears to only be emitted by s=
-oftmmu/cpus.c -- and only when the vcpus were already running. In this case=
-, the savevm route only occurs before we&#39;ve started the vCPUs.</div><di=
-v><br></div><div>So as far as I can tell, there&#39;s really no well-define=
-d relationship between the various events in qapi/run-state.json and the Ru=
-nState enumeration. This would make it hard for a client to keep track of t=
-he VM state without having to re-query it a lot. Am I mistaken?</div><div><=
-br></div><div>(I was looking into adding VM state into the qmp-shell tool s=
-uch that it spied on QMP events and updated a toolbar accordingly. However,=
- not every state seems to be preceded by an event, and not every event give=
-s a strong indication of what the resulting VM state would actually be. Som=
-e runstate changes don&#39;t appear to be announced by any event at all.)<b=
-r></div></div>
+3) as a plus we might want to cleanup and determine once and for all where kvm_enable_x2apic() should be called:
+   we have calls in intel_iommu.c and in the kvm cpu class instance initialization here in kvm-cpu.c today:
+   before adding a third call we should really ask ourselves where the proper initialization of this should happen.
 
---000000000000876aa505d1f2a52e--
+Let me know about the previous snippet, and I'd really look for other comments from Eduardo or Paolo at this point, regarding the "what should be" question.
 
+
+Ciao,
+
+Claudio
 
