@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98EC460E09
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 05:29:35 +0100 (CET)
-Received: from localhost ([::1]:37664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4775D460E18
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 05:39:30 +0100 (CET)
+Received: from localhost ([::1]:40604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrYII-0007Lh-D6
-	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 23:29:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57776)
+	id 1mrYRt-0001Mp-Ap
+	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 23:39:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mrYFU-00068S-Cz; Sun, 28 Nov 2021 23:26:40 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:34403)
+ id 1mrYP5-0000ZM-Ln; Sun, 28 Nov 2021 23:36:35 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=33925
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mrYFO-0001fD-Ul; Sun, 28 Nov 2021 23:26:40 -0500
+ id 1mrYP3-0002bL-72; Sun, 28 Nov 2021 23:36:35 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4J2XNb52Vnz4xR7; Mon, 29 Nov 2021 15:26:23 +1100 (AEDT)
+ id 4J2XcC2T1yz4xR7; Mon, 29 Nov 2021 15:36:27 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1638159983;
- bh=Y3EEP5exZ4HS+owIr9dQxBC2p74839ntkwDbsKhc3/M=;
+ d=gibson.dropbear.id.au; s=201602; t=1638160587;
+ bh=Z0JUPa3Ttx4y2nmIj/JOhU6P/HY+ItwqPUiDIh1waho=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LRNNc6yTNLahwsbUjQl/MRxnFI4y6h1kpC5jCUAdWCrKpu3qUaAfLA8fP9YBRgOiB
- hhgHJdUDi68f+lxyWTK6RODsZV2i8JOfuLUBZRD4Yrynuq5F2p7EwC1zelJeSDd3Iu
- LzDoZYN2ODmQY1OU7dRF4+GpgpeHff/bAvkNfRyA=
-Date: Mon, 29 Nov 2021 14:41:36 +1100
+ b=hOH+UiMuFjKz0GawyNtBNA5QtJ2iEeg6QtdsRozVWeBswl9VnpfeQ6yvp81ukSvg0
+ qwtz4mUmn6dO7DDv2Sd7bpnqvzchpfukCLJVVmkhLM0Q5UwblQVQkbyJsr2JEqLoEw
+ THJqaylVHgJy6D1754IesEdMjgfv5pzh+/QPvytU=
+Date: Mon, 29 Nov 2021 15:36:18 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v8 05/10] target/ppc: enable PMU counter overflow with
- cycle events
-Message-ID: <YaRL8OEPdjVyed2t@yekko>
+Subject: Re: [PATCH v8 06/10] target/ppc: enable PMU instruction count
+Message-ID: <YaRYwiSLgVW38EKj@yekko>
 References: <20211125150817.573204-1-danielhb413@gmail.com>
- <20211125150817.573204-6-danielhb413@gmail.com>
+ <20211125150817.573204-7-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4hXvwZmkbwxushKA"
+ protocol="application/pgp-signature"; boundary="5aJ4T0whzu+YMz5W"
 Content-Disposition: inline
-In-Reply-To: <20211125150817.573204-6-danielhb413@gmail.com>
-Received-SPF: pass client-ip=150.107.74.76;
+In-Reply-To: <20211125150817.573204-7-danielhb413@gmail.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for
+ 2404:9400:2:0:216:3eff:fee2:21ea (failed)
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,189 +68,285 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---4hXvwZmkbwxushKA
+--5aJ4T0whzu+YMz5W
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 25, 2021 at 12:08:12PM -0300, Daniel Henrique Barboza wrote:
-65;6601;1c> The PowerISA v3.1 defines that if the proper bits are set (MMCR=
-0_PMC1CE
-> for PMC1 and MMCR0_PMCjCE for the remaining PMCs), counter negative
-> conditions are enabled. This means that if the counter value overflows
-> (i.e. exceeds 0x80000000) a performance monitor alert will occur. This al=
-ert
-> can trigger an event-based exception (to be implemented in the next patch=
-es)
-> if the MMCR0_EBE bit is set.
+On Thu, Nov 25, 2021 at 12:08:13PM -0300, Daniel Henrique Barboza wrote:
+> The PMU is already counting cycles by calculating time elapsed in
+> nanoseconds. Counting instructions is a different matter and requires
+> another approach.
 >=20
-> For now, overflowing the counter when the PMC is counting cycles will
-> just trigger a performance monitor alert. This is done by starting the
-> overflow timer to expire in the moment the overflow would be occuring. The
-> timer will call fire_PMC_interrupt() (via cpu_ppc_pmu_timer_cb) which will
-> trigger the PMU alert and, if the conditions are met, an EBB exception.
+> This patch adds the capability of counting completed instructions
+> (Perf event PM_INST_CMPL) by counting the amount of instructions
+> translated in each translation block right before exiting it.
+>=20
+> A new pmu_count_insns() helper in translation.c was added to do that.
+> After verifying that the PMU is running (MMCR0_FC bit not set), call
+> helper_insns_inc(). This new helper from power8-pmu.c will add the
+> instructions to the relevant counters. It'll also be responsible for
+> triggering counter negative overflows as it is already being done with
+> cycles.
 >=20
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
-A couple of minor nits noted below, though.
-
 > ---
->  target/ppc/cpu.h        |  2 ++
->  target/ppc/power8-pmu.c | 80 +++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 82 insertions(+)
+>  target/ppc/cpu.h                 |  1 +
+>  target/ppc/helper.h              |  1 +
+>  target/ppc/helper_regs.c         |  4 +++
+>  target/ppc/power8-pmu-regs.c.inc |  6 +++++
+>  target/ppc/power8-pmu.c          | 38 ++++++++++++++++++++++++++
+>  target/ppc/translate.c           | 46 ++++++++++++++++++++++++++++++++
+>  6 files changed, 96 insertions(+)
 >=20
 > diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 9c732953f0..9b41b022e2 100644
+> index 9b41b022e2..38cd2b5c43 100644
 > --- a/target/ppc/cpu.h
 > +++ b/target/ppc/cpu.h
-> @@ -364,6 +364,8 @@ typedef enum {
->  #define MMCR0_PMCC   PPC_BITMASK(44, 45) /* PMC Control */
->  #define MMCR0_FC14   PPC_BIT(58)         /* PMC Freeze Counters 1-4 bit =
-*/
->  #define MMCR0_FC56   PPC_BIT(59)         /* PMC Freeze Counters 5-6 bit =
-*/
-> +#define MMCR0_PMC1CE PPC_BIT(48)         /* MMCR0 PMC1 Condition Enabled=
- */
-> +#define MMCR0_PMCjCE PPC_BIT(49)         /* MMCR0 PMCj Condition Enabled=
- */
->  /* MMCR0 userspace r/w mask */
->  #define MMCR0_UREG_MASK (MMCR0_FC | MMCR0_PMAO | MMCR0_PMAE)
->  /* MMCR2 userspace r/w mask */
+> @@ -656,6 +656,7 @@ enum {
+>      HFLAGS_PR =3D 14,  /* MSR_PR */
+>      HFLAGS_PMCC0 =3D 15,  /* MMCR0 PMCC bit 0 */
+>      HFLAGS_PMCC1 =3D 16,  /* MMCR0 PMCC bit 1 */
+> +    HFLAGS_MMCR0FC =3D 17, /* MMCR0 FC bit */
+
+Now that the event stuff is a bit more refined, you could narrow this
+down to specifically marking if any counters are actively counting
+instructions (not frozen by MMCR0[FC] and not frozen by
+MMCR0[FC14|FC56] *and* have the right event selected).
+
+Since I suspect the instruction counting instrumentation could be
+quite expensive (helper call on every tb), that might be worthwhile.
+
+>      HFLAGS_VSX =3D 23, /* MSR_VSX if cpu has VSX */
+>      HFLAGS_VR =3D 25,  /* MSR_VR if cpu has VRE */
+> =20
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index 94b4690375..d8a23e054a 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -24,6 +24,7 @@ DEF_HELPER_2(store_mmcr0, void, env, tl)
+>  DEF_HELPER_2(store_mmcr1, void, env, tl)
+>  DEF_HELPER_3(store_pmc, void, env, i32, i64)
+>  DEF_HELPER_2(read_pmc, tl, env, i32)
+> +DEF_HELPER_2(insns_inc, void, env, i32)
+>  #endif
+>  DEF_HELPER_1(check_tlb_flush_local, void, env)
+>  DEF_HELPER_1(check_tlb_flush_global, void, env)
+> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+> index 99562edd57..875c2fdfc6 100644
+> --- a/target/ppc/helper_regs.c
+> +++ b/target/ppc/helper_regs.c
+> @@ -115,6 +115,10 @@ static uint32_t hreg_compute_hflags_value(CPUPPCStat=
+e *env)
+>      if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMCC1) {
+>          hflags |=3D 1 << HFLAGS_PMCC1;
+>      }
+> +    if (env->spr[SPR_POWER_MMCR0] & MMCR0_FC) {
+> +        hflags |=3D 1 << HFLAGS_MMCR0FC;
+> +    }
+> +
+> =20
+>  #ifndef CONFIG_USER_ONLY
+>      if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
+> diff --git a/target/ppc/power8-pmu-regs.c.inc b/target/ppc/power8-pmu-reg=
+s.c.inc
+> index 25b13ad564..580e4e41b2 100644
+> --- a/target/ppc/power8-pmu-regs.c.inc
+> +++ b/target/ppc/power8-pmu-regs.c.inc
+> @@ -113,6 +113,12 @@ static void write_MMCR0_common(DisasContext *ctx, TC=
+Gv val)
+>       */
+>      gen_icount_io_start(ctx);
+>      gen_helper_store_mmcr0(cpu_env, val);
+> +
+> +    /*
+> +     * End the translation block because MMCR0 writes can change
+> +     * ctx->pmu_frozen.
+> +     */
+> +    ctx->base.is_jmp =3D DISAS_EXIT_UPDATE;
+>  }
+> =20
+>  void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
 > diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-> index acdaee7459..01e0b9b8fc 100644
+> index 01e0b9b8fc..59d0def79d 100644
 > --- a/target/ppc/power8-pmu.c
 > +++ b/target/ppc/power8-pmu.c
-> @@ -23,6 +23,8 @@
-> =20
->  #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
-> =20
-> +#define PMC_COUNTER_NEGATIVE_VAL 0x80000000UL
-> +
->  static bool pmc_is_inactive(CPUPPCState *env, int sprn)
->  {
->      if (env->spr[SPR_POWER_MMCR0] & MMCR0_FC) {
-> @@ -36,6 +38,15 @@ static bool pmc_is_inactive(CPUPPCState *env, int sprn)
->      return env->spr[SPR_POWER_MMCR0] & MMCR0_FC56;
+> @@ -112,6 +112,30 @@ static PMUEventType pmc_get_event(CPUPPCState *env, =
+int sprn)
+>      return evt_type;
 >  }
 > =20
-> +static bool pmc_has_overflow_enabled(CPUPPCState *env, int sprn)
+> +static bool pmu_increment_insns(CPUPPCState *env, uint32_t num_insns)
 > +{
-> +    if (sprn =3D=3D SPR_POWER_PMC1) {
-> +        return env->spr[SPR_POWER_MMCR0] & MMCR0_PMC1CE;
-> +    }
-> +
-> +    return env->spr[SPR_POWER_MMCR0] & MMCR0_PMCjCE;
-> +}
-> +
->  /*
->   * For PMCs 1-4, IBM POWER chips has support for an implementation
->   * dependent event, 0x1E, that enables cycle counting. The Linux kernel
-> @@ -123,6 +134,70 @@ static void pmu_update_cycles(CPUPPCState *env)
->      env->pmu_base_time =3D now;
->  }
-> =20
-> +/*
-> + * Helper function to retrieve the cycle overflow timer of the
-> + * 'sprn' counter. Given that PMC5 doesn't have a timer, the
-> + * amount of timers is less than the total counters and the PMC6
-> + * timer is the last of the array.
-> + */
-> +static QEMUTimer *get_cyc_overflow_timer(CPUPPCState *env, int sprn)
-> +{
-> +    if (sprn =3D=3D SPR_POWER_PMC5) {
-> +        return NULL;
-
-Given that the entries in the pmu_cyc_overflow_timers are just
-pointers, it would probably be slightly cheaper in terms of both time
-and space to just have an always-NULL entry for PMC5, rather than
-having to special case it.
-
-> +    }
-> +
-> +    if (sprn =3D=3D SPR_POWER_PMC6) {
-> +        return env->pmu_cyc_overflow_timers[PMU_TIMERS_NUM - 1];
-> +    }
-> +
-> +    return env->pmu_cyc_overflow_timers[sprn - SPR_POWER_PMC1];
-> +}
-> +
-> +static void pmc_update_overflow_timer(CPUPPCState *env, int sprn)
-> +{
-> +    QEMUTimer *pmc_overflow_timer;
-> +    int64_t timeout;
-> +
-> +    /* PMC5 does not have an overflow timer */
-> +    if (sprn =3D=3D SPR_POWER_PMC5) {
-> +        return;
-
-Since you've already handled the PMC5 case in
-get_cyc_overflow_timer(), you could replace this handling with just an
-if (!pmc_overflow_timer) {return;}
-
-> +    }
-> +
-> +    pmc_overflow_timer =3D get_cyc_overflow_timer(env, sprn);
-> +
-> +    if (pmc_get_event(env, sprn) !=3D PMU_EVENT_CYCLES ||
-> +        !pmc_has_overflow_enabled(env, sprn)) {
-> +        /* Overflow timer is not needed for this counter */
-> +        timer_del(pmc_overflow_timer);
-> +        return;
-> +    }
-> +
-> +    if (env->spr[sprn] >=3D PMC_COUNTER_NEGATIVE_VAL) {
-> +        timeout =3D  0;
-> +    } else {
-> +        timeout =3D PMC_COUNTER_NEGATIVE_VAL - env->spr[sprn];
-> +    }
-> +
-> +    /*
-> +     * Use timer_mod_anticipate() because an overflow timer might
-> +     * be already running for this PMC.
-> +     */
-> +    timer_mod_anticipate(pmc_overflow_timer, env->pmu_base_time + timeou=
-t);
-> +}
-> +
-> +static void pmu_update_overflow_timers(CPUPPCState *env)
-> +{
+> +    bool overflow_triggered =3D false;
 > +    int sprn;
 > +
-> +    /*
-> +     * Scroll through all PMCs and start counter overflow timers for
-> +     * PM_CYC events, if needed.
-> +     */
-> +    for (sprn =3D SPR_POWER_PMC1; sprn <=3D SPR_POWER_PMC6; sprn++) {
-> +        pmc_update_overflow_timer(env, sprn);
+> +    /* PMC6 never counts instructions */
+> +    for (sprn =3D SPR_POWER_PMC1; sprn <=3D SPR_POWER_PMC5; sprn++) {
+> +        if (pmc_get_event(env, sprn) !=3D PMU_EVENT_INSTRUCTIONS) {
+> +            continue;
+> +        }
+> +
+> +        env->spr[sprn] +=3D num_insns;
+> +
+> +        if (env->spr[sprn] >=3D PMC_COUNTER_NEGATIVE_VAL &&
+> +            pmc_has_overflow_enabled(env, sprn)) {
+> +
+> +            overflow_triggered =3D true;
+> +            env->spr[sprn] =3D PMC_COUNTER_NEGATIVE_VAL;
+
+Does the hardware PMU actually guarantee that the event will happen
+exactly on the overflow?  Or could you count a few into the negative
+zone before the event is delivered?
+
+> +        }
+> +    }
+> +
+> +    return overflow_triggered;
+> +}
+> +
+>  static void pmu_update_cycles(CPUPPCState *env)
+>  {
+>      uint64_t now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> @@ -258,6 +282,20 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
+>      return;
+>  }
+> =20
+> +/* This helper assumes that the PMC is running. */
+> +void helper_insns_inc(CPUPPCState *env, uint32_t num_insns)
+> +{
+> +    bool overflow_triggered;
+> +    PowerPCCPU *cpu;
+> +
+> +    overflow_triggered =3D pmu_increment_insns(env, num_insns);
+> +
+> +    if (overflow_triggered) {
+> +        cpu =3D env_archcpu(env);
+> +        fire_PMC_interrupt(cpu);
 > +    }
 > +}
 > +
->  void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
+>  static void cpu_ppc_pmu_timer_cb(void *opaque)
 >  {
->      target_ulong curr_value =3D env->spr[SPR_POWER_MMCR0];
-> @@ -143,6 +218,9 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulon=
-g value)
->          (curr_FC !=3D new_FC)) {
->          hreg_compute_hflags(env);
+>      PowerPCCPU *cpu =3D opaque;
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 9960df6e18..ccc83d0603 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -177,6 +177,7 @@ struct DisasContext {
+>      bool hr;
+>      bool mmcr0_pmcc0;
+>      bool mmcr0_pmcc1;
+> +    bool pmu_frozen;
+>      ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
+>      int singlestep_enabled;
+>      uint32_t flags;
+> @@ -4170,6 +4171,31 @@ static inline void gen_update_cfar(DisasContext *c=
+tx, target_ulong nip)
+>  #endif
+>  }
+> =20
+> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+
+Should this actually be !CONFIG_USER_ONLY?  IIUC there are
+circumstances where userspace could access the PMU, including
+instruction counting.
+
+> +static void pmu_count_insns(DisasContext *ctx)
+> +{
+> +    /* Do not bother calling the helper if the PMU is frozen */
+> +    if (ctx->pmu_frozen) {
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * The PMU insns_inc() helper stops the internal PMU timer if a
+> +     * counter overflows happens. In that case, if the guest is
+> +     * running with icount and we do not handle it beforehand,
+> +     * the helper can trigger a 'bad icount read'.
+> +     */
+> +    gen_icount_io_start(ctx);
+> +
+> +    gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
+> +}
+> +#else
+> +static void pmu_count_insns(DisasContext *ctx)
+> +{
+> +    return;
+> +}
+> +#endif
+> +
+>  static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
+>  {
+>      return translator_use_goto_tb(&ctx->base, dest);
+> @@ -4180,6 +4206,14 @@ static void gen_lookup_and_goto_ptr(DisasContext *=
+ctx)
+>      if (unlikely(ctx->singlestep_enabled)) {
+>          gen_debug_exception(ctx);
+>      } else {
+> +        /*
+> +         * tcg_gen_lookup_and_goto_ptr will exit the TB if
+> +         * CF_NO_GOTO_PTR is set. Count insns now.
+> +         */
+> +        if (ctx->base.tb->flags & CF_NO_GOTO_PTR) {
+> +            pmu_count_insns(ctx);
+> +        }
+> +
+>          tcg_gen_lookup_and_goto_ptr();
 >      }
-> +
-> +    /* Update cycle overflow timers with the current MMCR0 state */
-> +    pmu_update_overflow_timers(env);
 >  }
+> @@ -4191,6 +4225,7 @@ static void gen_goto_tb(DisasContext *ctx, int n, t=
+arget_ulong dest)
+>          dest =3D (uint32_t) dest;
+>      }
+>      if (use_goto_tb(ctx, dest)) {
+> +        pmu_count_insns(ctx);
+>          tcg_gen_goto_tb(n);
+>          tcg_gen_movi_tl(cpu_nip, dest & ~3);
+>          tcg_gen_exit_tb(ctx->base.tb, n);
+> @@ -8458,6 +8493,7 @@ static void ppc_tr_init_disas_context(DisasContextB=
+ase *dcbase, CPUState *cs)
+>      ctx->hr =3D (hflags >> HFLAGS_HR) & 1;
+>      ctx->mmcr0_pmcc0 =3D (hflags >> HFLAGS_PMCC0) & 1;
+>      ctx->mmcr0_pmcc1 =3D (hflags >> HFLAGS_PMCC1) & 1;
+> +    ctx->pmu_frozen =3D (hflags >> HFLAGS_MMCR0FC) & 1;
 > =20
->  void helper_store_mmcr1(CPUPPCState *env, uint64_t value)
-> @@ -164,6 +242,8 @@ void helper_store_pmc(CPUPPCState *env, uint32_t sprn=
-, uint64_t value)
->      pmu_update_cycles(env);
-> =20
->      env->spr[sprn] =3D value;
+>      ctx->singlestep_enabled =3D 0;
+>      if ((hflags >> HFLAGS_SE) & 1) {
+> @@ -8564,6 +8600,7 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase=
+, CPUState *cs)
+>      switch (is_jmp) {
+>      case DISAS_TOO_MANY:
+>          if (use_goto_tb(ctx, nip)) {
+> +            pmu_count_insns(ctx);
+>              tcg_gen_goto_tb(0);
+>              gen_update_nip(ctx, nip);
+>              tcg_gen_exit_tb(ctx->base.tb, 0);
+> @@ -8574,6 +8611,14 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbas=
+e, CPUState *cs)
+>          gen_update_nip(ctx, nip);
+>          /* fall through */
+>      case DISAS_CHAIN:
+> +        /*
+> +         * tcg_gen_lookup_and_goto_ptr will exit the TB if
+> +         * CF_NO_GOTO_PTR is set. Count insns now.
+> +         */
+> +        if (ctx->base.tb->flags & CF_NO_GOTO_PTR) {
+> +            pmu_count_insns(ctx);
+> +        }
 > +
-> +    pmc_update_overflow_timer(env, sprn);
->  }
+>          tcg_gen_lookup_and_goto_ptr();
+>          break;
 > =20
->  static void fire_PMC_interrupt(PowerPCCPU *cpu)
+> @@ -8581,6 +8626,7 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase=
+, CPUState *cs)
+>          gen_update_nip(ctx, nip);
+>          /* fall through */
+>      case DISAS_EXIT:
+> +        pmu_count_insns(ctx);
+>          tcg_gen_exit_tb(NULL, 0);
+>          break;
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -255,25 +354,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---4hXvwZmkbwxushKA
+--5aJ4T0whzu+YMz5W
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGkS+4ACgkQbDjKyiDZ
-s5KB+w//daQKvetcrxGM5xD+uI+C9FzzzY/OMmNH8l26aAeO17yCCdTaol1ZU+i9
-ZlX6SPzKpczg3pZ9+MbfJsUJbUPTAGjMaRgDNcmdiX1pEeABtIF7F3vsYnbjSAtJ
-i2yDPNmNq13nriz3zk84UShL1ZdsNEdJ2I7ylC7z0KxGtlIkiFwQvRXQbG4GTgk+
-oxNJSmmLIlavSbL8owTs4VwMTYX6QVs9W4+axCDkD0KcsiJ8D+tecM+zw3sooSVG
-FJeehHRlJaDhyR2kSInC8zQinUJT56BgF4Voj+oDxTn9gOyszu383+p1yceY4Jpu
-K1F8Ycg5vC+9VdEa/hC311COfsKIgpGR9zbCnH2kBFKZK0YpcaKcx3H1+6i0Egdq
-OcubqtMObU4dGfpFwbheQJBt4o9Bj8WZAbRrsCPIq690q/6ZhCt+UNcWP4PGv0Iz
-INC2Gf15UW9S63Lho9uLolDpzOESmTZ4r2kXPqpMK1eNtmUYDC98IajKjXvn/SSZ
-9Y0v+h+x+09TKSTXF5taFnAYu8TKA+hrquOD/C5LMEn7LBvHJmKo/qEZIHND2JXW
-EK0YDhj7ExihOs4DINxR+wUImJlg0jlV0MiErhBsX/6fk6+somRvFkRF81Qeo7rA
-eLhoWsJgprZpP5VmFFWUtV3U2UMKWKcATvISJimOuvimLJKEdlM=
-=cxqt
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGkWMAACgkQbDjKyiDZ
+s5J76xAA5ssQXSkb2VTOOXaAd1XbggU+rCpWE9HCFyqMIXN9JcmXexLO6XTqkkGU
+BJCdauj58pFYT75K+xDNASOLQxN8eAKiPe1dnphJvUuTaSKIwlIiuhJ2KKAxzDCU
+1Oo6LhW0/bkAICyYc5bo66e1GIUN91gOkazbOJcAKicBz6Uqa0DE8Qf49r5XtyLM
+4NyiTRDdH8U47hwIJ0twx/HPHhUwVn74svwDc6CFCn5IykQfmNq/AJoqXWp3kiwV
+6qIDhL3mLhQn8nL2iVFaXdIfiToTZ0HxHnWfi0BE5b3hn75Y2mPzZrXRJW6R2Dd5
+ayal5ApduMGkVDe0T1bhqnBYjlTWADmChBQDz5ccF39j2PecyZNND1wAP0gM8Pou
+PhAUeIeHHh4W45prAqMxFhs0l2u+vTxnR87KyAOYpN03q7enKsbUJ58UrnTzwL4U
+cOxleaG+hSxlCX52FWeTBDXNo6WM/rmIxhdsLa+9YgId+St5JKLdCqMNYRDlUUep
+MMU8aS/rNiIaXEnzT9cjBMA6/hSnBwGuex2XwC52BnHRxCbFKnXfOAXrx2Va4Tc9
+YyAJES2LLCZSjJg9maJETTMioYZoIEFBzwA2WYvX73Obh6VBpnVezbiD9HiiKDfy
+UuMkcBF84ZzOvnOlX89IyhpfRlp6TZ2+CRfx4LcacwR0L25Vq6I=
+=99oK
 -----END PGP SIGNATURE-----
 
---4hXvwZmkbwxushKA--
+--5aJ4T0whzu+YMz5W--
 
