@@ -2,57 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2155246178B
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:07:50 +0100 (CET)
-Received: from localhost ([::1]:60130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B10174617AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:13:13 +0100 (CET)
+Received: from localhost ([::1]:43298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrhJs-0004WG-MS
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:07:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54854)
+	id 1mrhP6-00040E-ER
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:13:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mrhHK-0001ds-D4
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:05:10 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:35437)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mrhIh-0003rL-Aw
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:06:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37203)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mrhHC-0005TG-E6
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:05:09 -0500
-Received: from quad ([82.142.5.50]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MPosX-1nEQxd1ypH-00MuyU; Mon, 29
- Nov 2021 15:04:58 +0100
-From: Laurent Vivier <laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mrhIe-0005pu-VE
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:06:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638194790;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=J2Jdyjvjgm8MtLVRtygX+OslmLpjwUmz7adKNiEBuyk=;
+ b=CsurcsHjOjxlmXOyANFEpm6EvM12xpmqFJCgzzgAhVqNEZ+QFIwgVPyuyFalLFeaaWRX+R
+ 6Mr6tNLxeuCYFYuiKo+zEP6mjw9NnpnI2FcItJ0DaKPPLgks9+kgU/oPDrBOoOrKkIW0W+
+ JZQ8Vk2hDyk2yXiWRzFzMw9z0uRP7Eg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-30-XZXDq0I2P5GdS1-sy-LyfQ-1; Mon, 29 Nov 2021 09:05:43 -0500
+X-MC-Unique: XZXDq0I2P5GdS1-sy-LyfQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5124B1093D76
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 14:05:11 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.195.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 44AD419724;
+ Mon, 29 Nov 2021 14:05:10 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] linux-user: implement more loop ioctls
-Date: Mon, 29 Nov 2021 15:04:56 +0100
-Message-Id: <20211129140456.604255-2-laurent@vivier.eu>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211129140456.604255-1-laurent@vivier.eu>
-References: <20211129140456.604255-1-laurent@vivier.eu>
+Subject: [PATCH] edid: set default resolution to 1280x800 (WXGA)
+Date: Mon, 29 Nov 2021 14:05:08 +0000
+Message-Id: <20211129140508.1745130-1-berrange@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:afm6a/KH+0nFX1fnMjTMWv9X5bwRZSAk5KgLwdZL2lo7DV3HISk
- n/+vmKi8AgLGZET7XSZJrQnNW7gQPhTOkkIH44lGhiinbkbztMELvf8pQFvMPRlEyCx6yhd
- Y/jCDfDkQzCV4s5qO0BAhxNPVEcw9TaYibNGbNX62NpALc1XkY6TAUuLV9qVcLqQGnJlWBh
- ubwAeKpN3/jzDGO4wJBlg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9RBGuViiog0=:Ugr5UwihO0G7hob/4lOvH/
- aYirLU60l+3apNhSVV18f3JZYF0fUQ9XmoUVSTuTt1L0JkUBrCfbFysOea26cBxSkuKxVnAn5
- JLoIH5P3mzLKCLYxJL2PIyDzNLKAD32JHpMMpQha+0Pc5H7C9EsYAxb8jxvTNm3ttopPl9M7h
- xPLykyfhggBk8eCIrvtcmgpDWK4OkChphS67CyIxntJqRV5wqIY4917IqgGilkvMMEl0qZpP1
- xddspe9y4D0PRXEvADc6sNi3iGpxNL+czj5FzZPX/lM0dtKNT8tXqiYDQRGdau+mgWw3vKlXS
- wJISd4s6YBZWtGgyWbE6OSC6IzQsyCrhKc9J6B8w08Opk+XbQXF76HEGs6l7jQSmc3wxTs2zR
- OwZLO7QUu6JiAOtaztOd8lF8a1Y0Q/JVkXTnkHX93bAiCk0+JNikoJRKq1JzL1I28Ha1XfFoX
- 9Gbl6gi1BKJ/Z3AVtcIp8tXX8F/2A0N9M+pMYayCG3QJ3rNGRVlTWtD+DPwP+YWd7v1mnEcO9
- LBvvX1ye/iSBsGY5mTrbprqxIUnY42oP/gJQc5GelBOKNtQmtrgj+CFhLh2Uven/uCCLS5bmf
- hCZDSb3KBZ7mR2wgcS/ACrNFB4Xk4ySSrALTSplKw6enXVTxvZ9F38Lb5r9gGtsvx2BEpksJC
- J8ZcZn0QK7TndjHguR7h3+0VaZTuLo1gaIsgPeociOWtFsNrPWbRYT1ezBG53IRkDsOE=
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,86 +76,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andreas Schwab <schwab@suse.de>, Laurent Vivier <laurent@vivier.eu>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andreas Schwab <schwab@suse.de>
+Currently QEMU defaults to a resolution of 1024x768 when exposing EDID
+info to the guest OS. The EDID default info is important as this will
+influence what resolution many guest OS will configure the screen with
+on boot. It can also potentially influence what resolution the firmware
+will configure the screen with, though until very recently EDK2 would
+not handle EDID info.
 
-LOOP_CONFIGURE is now used by losetup, and it cannot cope with ENOSYS.
+One important thing to bear in mind is that the default graphics card
+driver provided by Windows will leave the display set to whatever
+resolution was enabled by the firmware on boot. Even if sufficient
+VRAM is available, the resolution can't be changed without installing
+new drivers. IOW, the default resolution choice is quite important
+for usability of Windows.
 
-Signed-off-by: Andreas Schwab <schwab@suse.de>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <mvmtug4mbfx.fsf_-_@suse.de>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Modern real world monitor hardware for desktop/laptop has supported
+resolutions higher than 1024x768 for a long time now, perhaps as long
+as 15+ years. There are quite a wide variety of native resolutions in
+use today, however, and in wide screen form factors the height may not
+be all that tall.
+
+None the less, it is considered that there is scope for making the
+QEMU default resolution slightly larger.
+
+In considering what possible new default could be suitable, choices
+considered were 1280x720 (720p), 1280x800 (WXGA) and 1280x1024 (SXGA).
+
+In many ways, vertical space is the most important, and so 720p was
+discarded due to loosing vertical space, despite being 25% wider.
+
+The SXGA resolution would be good, but when taking into account
+window titlebars/toolbars and window manager desktop UI, this might
+be a little too tall for some users to fit the guest on their physical
+montior.
+
+This patch thus suggests a modest change to 1280x800 (WXGA). This
+only consumes 1 MB per colour channel, allowing double buffered
+framebuffer in 8 MB of VRAM. Width wise this is 25% larger than
+QEMU's current default, but height wise this only adds 5%, so the
+difference isn't massive on the QEMU side.
+
+Overall there doesn't appear to be a compelling reason to stick
+with 1024x768 resolution.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- linux-user/ioctls.h        | 4 ++++
- linux-user/linux_loop.h    | 2 ++
- linux-user/syscall_defs.h  | 4 ++++
- linux-user/syscall_types.h | 6 ++++++
- 4 files changed, 16 insertions(+)
+ hw/display/edid-generate.c     | 4 ++--
+ include/hw/virtio/virtio-gpu.h | 4 ++--
+ qemu-edid.c                    | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 7193c3b2269a..f182d40190ed 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -637,6 +637,10 @@
-   IOCTL(LOOP_SET_STATUS64, IOC_W, MK_PTR(MK_STRUCT(STRUCT_loop_info64)))
-   IOCTL(LOOP_GET_STATUS64, IOC_R, MK_PTR(MK_STRUCT(STRUCT_loop_info64)))
-   IOCTL(LOOP_CHANGE_FD, 0, TYPE_INT)
-+  IOCTL(LOOP_SET_CAPACITY, 0, TYPE_INT)
-+  IOCTL(LOOP_SET_DIRECT_IO, 0, TYPE_INT)
-+  IOCTL(LOOP_SET_BLOCK_SIZE, 0, TYPE_INT)
-+  IOCTL(LOOP_CONFIGURE, IOC_W, MK_PTR(MK_STRUCT(STRUCT_loop_config)))
+diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
+index f2b874d5e3..6f5ac6a38a 100644
+--- a/hw/display/edid-generate.c
++++ b/hw/display/edid-generate.c
+@@ -401,10 +401,10 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
+         info->name = "QEMU Monitor";
+     }
+     if (!info->prefx) {
+-        info->prefx = 1024;
++        info->prefx = 1280;
+     }
+     if (!info->prefy) {
+-        info->prefy = 768;
++        info->prefy = 800;
+     }
+     if (info->prefx >= 4096 || info->prefy >= 4096) {
+         large_screen = 1;
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index acfba7c76c..2179b75703 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -147,8 +147,8 @@ struct VirtIOGPUBaseClass {
+     DEFINE_PROP_UINT32("max_outputs", _state, _conf.max_outputs, 1),    \
+     DEFINE_PROP_BIT("edid", _state, _conf.flags, \
+                     VIRTIO_GPU_FLAG_EDID_ENABLED, true), \
+-    DEFINE_PROP_UINT32("xres", _state, _conf.xres, 1024), \
+-    DEFINE_PROP_UINT32("yres", _state, _conf.yres, 768)
++    DEFINE_PROP_UINT32("xres", _state, _conf.xres, 1280), \
++    DEFINE_PROP_UINT32("yres", _state, _conf.yres, 800)
  
-   IOCTL(LOOP_CTL_ADD, 0, TYPE_INT)
-   IOCTL(LOOP_CTL_REMOVE, 0, TYPE_INT)
-diff --git a/linux-user/linux_loop.h b/linux-user/linux_loop.h
-index c69fea11e4e1..f80b96f1ff92 100644
---- a/linux-user/linux_loop.h
-+++ b/linux-user/linux_loop.h
-@@ -96,6 +96,8 @@ struct loop_info64 {
- #define LOOP_CHANGE_FD		0x4C06
- #define LOOP_SET_CAPACITY       0x4C07
- #define LOOP_SET_DIRECT_IO      0x4C08
-+#define LOOP_SET_BLOCK_SIZE     0x4C09
-+#define LOOP_CONFIGURE          0x4C0A
+ typedef struct VGPUDMABuf {
+     QemuDmaBuf buf;
+diff --git a/qemu-edid.c b/qemu-edid.c
+index c3a9fba10d..20c958d9c7 100644
+--- a/qemu-edid.c
++++ b/qemu-edid.c
+@@ -10,8 +10,8 @@
+ #include "hw/display/edid.h"
  
- /* /dev/loop-control interface */
- #define LOOP_CTL_ADD            0x4C80
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 41aaafbac12c..0b139759377b 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -1219,6 +1219,10 @@ struct target_rtc_pll_info {
- #define TARGET_LOOP_SET_STATUS64      0x4C04
- #define TARGET_LOOP_GET_STATUS64      0x4C05
- #define TARGET_LOOP_CHANGE_FD         0x4C06
-+#define TARGET_LOOP_SET_CAPACITY      0x4C07
-+#define TARGET_LOOP_SET_DIRECT_IO     0x4C08
-+#define TARGET_LOOP_SET_BLOCK_SIZE    0x4C09
-+#define TARGET_LOOP_CONFIGURE         0x4C0A
+ static qemu_edid_info info = {
+-    .prefx = 1024,
+-    .prefy = 768,
++    .prefx = 1280,
++    .prefy = 800,
+ };
  
- #define TARGET_LOOP_CTL_ADD           0x4C80
- #define TARGET_LOOP_CTL_REMOVE        0x4C81
-diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-index ba2c1518eb5c..c3b43f80223a 100644
---- a/linux-user/syscall_types.h
-+++ b/linux-user/syscall_types.h
-@@ -201,6 +201,12 @@ STRUCT(loop_info64,
-        MK_ARRAY(TYPE_CHAR, 32),  /* lo_encrypt_key */
-        MK_ARRAY(TYPE_ULONGLONG, 2))  /* lo_init */
- 
-+STRUCT(loop_config,
-+       TYPE_INT,                 /* fd */
-+       TYPE_INT,                 /* block_size */
-+       MK_STRUCT(STRUCT_loop_info64), /* info */
-+       MK_ARRAY(TYPE_ULONGLONG, 8)) /* __reserved */
-+
- /* mag tape ioctls */
- STRUCT(mtop, TYPE_SHORT, TYPE_INT)
- STRUCT(mtget, TYPE_LONG, TYPE_LONG, TYPE_LONG, TYPE_LONG, TYPE_LONG,
+ static void usage(FILE *out)
 -- 
-2.31.1
+2.33.1
 
 
