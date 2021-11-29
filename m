@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 296A6461817
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:25:09 +0100 (CET)
-Received: from localhost ([::1]:41716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40605461922
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:34:05 +0100 (CET)
+Received: from localhost ([::1]:37336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrhae-0005LT-89
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:25:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58072)
+	id 1mrhjH-00058T-Tz
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:34:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mrhPy-0007y6-R9
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:14:06 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:49616)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mrhPw-0007hP-E5
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:14:06 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mrhd0-0004Nx-Cl; Mon, 29 Nov 2021 09:27:34 -0500
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:36830)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mrhcr-0001LS-M5; Mon, 29 Nov 2021 09:27:34 -0500
+Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 1285E4035F;
+ Mon, 29 Nov 2021 15:27:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=univ-grenoble-alpes.fr; s=2020; t=1638196038;
+ bh=T9/4HLvwPIW+zb/rCES44C4+xHGatVwg8z2JAbgbfeI=;
+ h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+ b=HHwZK6L7US/OIxsHODwcvq63OBC/Dr5chnPw0VCBMDf9o/PiqWNOKYyMgjVNDFPnF
+ mB+gtNPVqMpGnDWgiUi2t62MIknBOJ7PscX89ugZ5WR/fHDhEJVQtfPNWpSBf17IL7
+ dNVnSkDUy/m0d68XBAWbNu1Ew/x73ZpsWJz4/Gi+ipo5PmUKpLJUMBA0f0TqwJ+7ND
+ eZ4aaQKaMu8s6npqU0C7flgpns2RuDaFQSqk1YPabT2yek7Lcg2VSzBGMTBs+4uJut
+ WYkK2lbw4Q1EfCmT9HGWMHLpTkX3olG5sXMIElFNPHqLB5RWUQVQQqzxqeRFUh0tq6
+ J3fED2SmRDLsg==
+Received: from smtps.univ-grenoble-alpes.fr (smtps3.u-ga.fr [195.83.24.62])
+ by mailhost.u-ga.fr (Postfix) with ESMTP id C034360074;
+ Mon, 29 Nov 2021 15:27:17 +0100 (CET)
+Received: from [192.168.1.64] (35.201.90.79.rev.sfr.net [79.90.201.35])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C7EB11FD38;
- Mon, 29 Nov 2021 14:14:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638195240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2iXo39bChFl5npJThOyDDIDxAfrgLTITMG1RHc78tVo=;
- b=OhLG1RXs/vev8egmfOt2UHNk6uWo7P07nWpzdCsX2t+WXNKQFmU3Ltph2c8//A0RrZjuUq
- HluovUaI6hHWqYe+iojOy3SRpGMWB+iu/JJcfzrZvY7SYDBfh2tuFxpwtLUSeFjSWiYd+1
- g0YrP0lykNXXMgnVCrfFh7Hi09PDAVc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638195240;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2iXo39bChFl5npJThOyDDIDxAfrgLTITMG1RHc78tVo=;
- b=YpvRkL4yAq/Nao2JUO9rUCKoPDfH3a+XMWRX8LYi+oU4e/mIgUH6qmgF5RgQYpneE2nDZe
- Eih3HtB9tuL0M7BQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7DE7A13B15;
- Mon, 29 Nov 2021 14:14:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id v//nHCjgpGGjeAAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 29 Nov 2021 14:14:00 +0000
-Subject: Re: [PATCH for-6.1 v2] i386: do not call cpudef-only models functions
- for max, host, base
-To: "Woodhouse, David" <dwmw@amazon.co.uk>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
-References: <20210723112921.12637-1-cfontana@suse.de>
- <1102c315addf2f2fffc49222ab5be118e7ae9b0f.camel@amazon.co.uk>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <f5910284-14ca-8796-4e64-38fef246bd19@suse.de>
-Date: Mon, 29 Nov 2021 15:14:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 2B65C40069;
+ Mon, 29 Nov 2021 15:27:17 +0100 (CET)
+Message-ID: <2e6d2c92-3374-0400-9bf5-128c3c1d2132@univ-grenoble-alpes.fr>
+Date: Mon, 29 Nov 2021 15:27:16 +0100
 MIME-Version: 1.0
-In-Reply-To: <1102c315addf2f2fffc49222ab5be118e7ae9b0f.camel@amazon.co.uk>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20211128135719.50444-4-frederic.petrot@univ-grenoble-alpes.fr>
+ <a37bf796-567e-2331-be42-38f756b105cd@linaro.org>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Subject: Re: [PATCH v6 03/18] qemu/int128: addition of div/rem 128-bit
+ operations
+In-Reply-To: <a37bf796-567e-2331-be42-38f756b105cd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (41)
+X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 195.83.24.62
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.317,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,76 +85,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "alxndr@bu.edu" <alxndr@bu.edu>, "philmd@redhat.com" <philmd@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "lovemrd@gmail.com" <lovemrd@gmail.com>
+Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
+ palmer@dabbelt.com, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/29/21 12:39 PM, Woodhouse, David wrote:
-> On Fri, 2021-07-23 at 13:29 +0200, Claudio Fontana wrote:
->>  static void kvm_cpu_instance_init(CPUState *cs)
->>  {
->>      X86CPU *cpu = X86_CPU(cs);
->> +    X86CPUClass *xcc = X86_CPU_GET_CLASS(cpu);
->>  
->>      host_cpu_instance_init(cpu);
->>  
->> -    if (!kvm_irqchip_in_kernel()) {
->> -        x86_cpu_change_kvm_default("x2apic", "off");
->> -    } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
->> -        x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
->> -    }
->> -
->> -    /* Special cases not set in the X86CPUDefinition structs: */
->> +    if (xcc->model) {
->> +        /* only applies to builtin_x86_defs cpus */
->> +        if (!kvm_irqchip_in_kernel()) {
->> +            x86_cpu_change_kvm_default("x2apic", "off");
->> +        } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
->> +            x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
->> +        }
->>  
->> -    x86_cpu_apply_props(cpu, kvm_default_props);
->> +        /* Special cases not set in the X86CPUDefinition structs: */
->> +        x86_cpu_apply_props(cpu, kvm_default_props);
->> +    }
->>  
+On 29/11/2021 11:07, Richard Henderson wrote:
+> On 11/28/21 2:57 PM, Frédéric Pétrot wrote:
+>> --- /dev/null
+>> +++ b/util/int128.c
+>> @@ -0,0 +1,145 @@
+>> +#include "qemu/osdep.h"
+>> +#include "qemu/host-utils.h"
+>> +#include "qemu/int128.h"
 > 
-> I think this causes a regression in x2apic and kvm-msi-ext-dest-id
-> support. If you start qemu thus:
-
-If I recall correctly, this change just tries to restore the behavior prior to  
-commit f5cc5a5c168674f84bf061cdb307c2d25fba5448 ,
-
-fixing the issue introduced with the refactoring at that time.
-
-Can you try bisecting prior to f5cc5a5c168674f84bf061cdb307c2d25fba5448 , to see if the actual breakage comes from somewhere else?
-
+> Missing file header and copyright boilerplate.
 > 
-> qemu-system-x86_64 -machine q35,accel=kvm,usb=off,kernel_irqchip=split -cpu host -smp 288,sockets=9,cores=16,threads=2
+>> +#ifdef CONFIG_INT128
+>> +
+>> +Int128 int128_divu(Int128 a, Int128 b)
+>> +{
+>> +    return (__uint128_t)a / (__uint128_t)b;
+>> +}
+>> +
+>> +Int128 int128_remu(Int128 a, Int128 b)
+>> +{
+>> +    return (__uint128_t)a % (__uint128_t)b;
+>> +}
+>> +
+>> +Int128 int128_divs(Int128 a, Int128 b)
+>> +{
+>> +    return a / b;
+>> +}
+>> +
+>> +Int128 int128_rems(Int128 a, Int128 b)
+>> +{
+>> +    return a % b;
+>> +}
 > 
-> The guest now sees those features, but we don't actually call
-> kvm_enable_x2apic() so the APIC broadcast quirk doesn't get disabled,
-> and interrupts targeted at APIC ID 255 are interpreted as broadcasts:
-> 
-> [ 73.198504] __common_interrupt: 0.34 No irq handler for vector
-> [ 73.198515] __common_interrupt: 11.34 No irq handler for vector
-> [ 73.198517] __common_interrupt: 12.34 No irq handler for vector
-> [ 73.198521] __common_interrupt: 15.34 No irq handler for vector
-> [ 73.198524] __common_interrupt: 17.34 No irq handler for vector
-> [ 73.198528] __common_interrupt: 34.34 No irq handler for vector
-> [ 73.198529] __common_interrupt: 20.34 No irq handler for vector
-> [ 73.198533] __common_interrupt: 41.34 No irq handler for vector
-> [ 73.198539] __common_interrupt: 27.34 No irq handler for vector
-> [ 73.198542] __common_interrupt: 28.34 No irq handler for vector
+> I think we should simply expose these inline, and let the compiler call its 
+> runtime function directly.
+
+   Thanks.
+   Ok, I'll drop that and handle the CONFIG_INT128 directly in the rv128
+   div/rem helpers then.
+   Frédéric
 > 
 > 
+> r~
 
-Any image to specifically test out? Would an actual 9 sockets machine be required to reproduce this?
-
-Thanks,
-
-Claudio
+-- 
++---------------------------------------------------------------------------+
+| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
+| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
+| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
++---------------------------------------------------------------------------+
 
