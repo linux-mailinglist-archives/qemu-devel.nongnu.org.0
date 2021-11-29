@@ -2,42 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA80461BB4
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 17:21:35 +0100 (CET)
-Received: from localhost ([::1]:54222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7170A461BB2
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 17:20:08 +0100 (CET)
+Received: from localhost ([::1]:50258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrjPK-000139-NZ
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 11:21:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42536)
+	id 1mrjNu-0006eR-VX
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 11:20:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1mrjMe-0005XT-1x
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 11:18:48 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:45208
+ id 1mrjMV-0005JM-4v
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 11:18:39 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:45213
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1mrjMR-0002GE-8V
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 11:18:47 -0500
+ (envelope-from <huangy81@chinatelecom.cn>) id 1mrjMR-0002GR-46
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 11:18:37 -0500
 HMM_SOURCE_IP: 172.18.0.218:43104.1259492098
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-118.116.19.33 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id C17A82800BC;
- Tue, 30 Nov 2021 00:18:13 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id C06FF2800B3;
+ Tue, 30 Nov 2021 00:18:17 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.218])
- by app0025 with ESMTP id a308c12c74964e4eade076407185a8ee for
- qemu-devel@nongnu.org; Tue, 30 Nov 2021 00:18:20 CST
-X-Transaction-ID: a308c12c74964e4eade076407185a8ee
+ by app0025 with ESMTP id 9e8eab97391b43de9aa9f94a9a99a91b for
+ qemu-devel@nongnu.org; Tue, 30 Nov 2021 00:18:23 CST
+X-Transaction-ID: 9e8eab97391b43de9aa9f94a9a99a91b
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.218
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v7 0/3] support dirty restraint on vCPU  
-Date: Tue, 30 Nov 2021 00:17:58 +0800
-Message-Id: <cover.1638202004.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v7 1/3] migration/dirtyrate: implement vCPU dirtyrate
+ calculation periodically
+Date: Tue, 30 Nov 2021 00:17:59 +0800
+Message-Id: <d7fbcc438d315c72227da309a00f13444d0dd718.1638202004.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1638202004.git.huangy81@chinatelecom.cn>
+References: <cover.1638202004.git.huangy81@chinatelecom.cn>
+In-Reply-To: <cover.1638202004.git.huangy81@chinatelecom.cn>
+References: <cover.1638202004.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -72,154 +77,267 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-The patch [2/3] has not been touched so far. Any corrections and
-suggetions are welcome. 
+Introduce the third method GLOBAL_DIRTY_LIMIT of dirty
+tracking for calculate dirtyrate periodly for dirty restraint.
 
-Please review, thanks!
+Implement thread for calculate dirtyrate periodly, which will
+be used for dirty restraint.
 
-v7:
-- rebase on master
-- polish the comments and error message according to the
-  advices given by Markus
-- introduce dirtylimit_enabled function to pre-check if dirty
-  page limit is enabled before canceling.
+Add dirtylimit.h to introduce the util function for dirty
+limit implementation.
 
-v6:
-- rebase on master
-- fix dirtylimit setup crash found by Markus
-- polish the comments according to the advice given by Markus
-- adjust the qemu qmp command tag to 7.0
-
-v5:
-- rebase on master
-- adjust the throttle algorithm by removing the tuning in 
-  RESTRAINT_RATIO case so that dirty page rate could reachs the quota
-  more quickly.
-- fix percentage update in throttle iteration.
-
-v4:
-- rebase on master
-- modify the following points according to the advice given by Markus
-  1. move the defination into migration.json
-  2. polish the comments of set-dirty-limit
-  3. do the syntax check and change dirty rate to dirty page rate
-
-Thanks for the carefule reviews made by Markus.
-
-Please review, thanks!
-
-v3:
-- rebase on master
-- modify the following points according to the advice given by Markus
-  1. remove the DirtyRateQuotaVcpu and use its field as option directly
-  2. add comments to show details of what dirtylimit setup do
-  3. explain how to use dirtylimit in combination with existing qmp
-     commands "calc-dirty-rate" and "query-dirty-rate" in documentation.
-
-Thanks for the carefule reviews made by Markus.
-
-Please review, thanks!
-
-Hyman
-
-v2:
-- rebase on master
-- modify the following points according to the advices given by Juan
-  1. rename dirtyrestraint to dirtylimit
-  2. implement the full lifecyle function of dirtylimit_calc, include
-     dirtylimit_calc and dirtylimit_calc_quit
-  3. introduce 'quit' field in dirtylimit_calc_state to implement the
-     dirtylimit_calc_quit
-  4. remove the ready_cond and ready_mtx since it may not be suitable
-  5. put the 'record_dirtypage' function code at the beggining of the
-     file
-  6. remove the unnecesary return;
-- other modifications has been made after code review
-  1. introduce 'bmap' and 'nr' field in dirtylimit_state to record the
-     number of running thread forked by dirtylimit
-  2. stop the dirtyrate calculation thread if all the dirtylimit thread
-     are stopped
-  3. do some renaming works
-     dirtyrate calulation thread -> dirtylimit-calc
-     dirtylimit thread -> dirtylimit-{cpu_index}
-     function name do_dirtyrestraint -> dirtylimit_check
-     qmp command dirty-restraint -> set-drity-limit
-     qmp command dirty-restraint-cancel -> cancel-dirty-limit
-     header file dirtyrestraint.h -> dirtylimit.h
-
-Please review, thanks !
-
-thanks for the accurate and timely advices given by Juan. we really
-appreciate it if corrections and suggetions about this patchset are
-proposed.
-
-Best Regards !
-
-Hyman
-
-v1:
-this patchset introduce a mechanism to impose dirty restraint
-on vCPU, aiming to keep the vCPU running in a certain dirtyrate
-given by user. dirty restraint on vCPU maybe an alternative
-method to implement convergence logic for live migration,
-which could improve guest memory performance during migration
-compared with traditional method in theory.
-
-For the current live migration implementation, the convergence
-logic throttles all vCPUs of the VM, which has some side effects.
--'read processes' on vCPU will be unnecessarily penalized
-- throttle increase percentage step by step, which seems
-  struggling to find the optimal throttle percentage when
-  dirtyrate is high.
-- hard to predict the remaining time of migration if the
-  throttling percentage reachs 99%
-
-to a certain extent, the dirty restraint machnism can fix these
-effects by throttling at vCPU granularity during migration.
-
-the implementation is rather straightforward, we calculate
-vCPU dirtyrate via the Dirty Ring mechanism periodically
-as the commit 0e21bf246 "implement dirty-ring dirtyrate calculation"
-does, for vCPU that be specified to impose dirty restraint,
-we throttle it periodically as the auto-converge does, once after
-throttling, we compare the quota dirtyrate with current dirtyrate,
-if current dirtyrate is not under the quota, increase the throttling
-percentage until current dirtyrate is under the quota.
-
-this patchset is the basis of implmenting a new auto-converge method
-for live migration, we introduce two qmp commands for impose/cancel
-the dirty restraint on specified vCPU, so it also can be an independent
-api to supply the upper app such as libvirt, which can use it to
-implement the convergence logic during live migration, supplemented
-with the qmp 'calc-dirty-rate' command or whatever.
-
-we post this patchset for RFC and any corrections and suggetions about
-the implementation, api, throttleing algorithm or whatever are very
-appreciated!
-
-Please review, thanks !
-
-Best Regards !
-
-Hyman Huang (3):
-  migration/dirtyrate: implement vCPU dirtyrate calculation periodically
-  cpu-throttle: implement vCPU throttle
-  cpus-common: implement dirty page limit on vCPU
-
- cpus-common.c                 |  48 +++++++
- include/exec/memory.h         |   5 +-
- include/hw/core/cpu.h         |   9 ++
- include/sysemu/cpu-throttle.h |  30 ++++
- include/sysemu/dirtylimit.h   |  44 ++++++
- migration/dirtyrate.c         | 139 +++++++++++++++++--
- migration/dirtyrate.h         |   2 +
- qapi/migration.json           |  43 ++++++
- softmmu/cpu-throttle.c        | 316 ++++++++++++++++++++++++++++++++++++++++++
- softmmu/trace-events          |   5 +
- softmmu/vl.c                  |   1 +
- 11 files changed, 631 insertions(+), 11 deletions(-)
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+---
+ include/exec/memory.h       |   5 +-
+ include/sysemu/dirtylimit.h |  44 ++++++++++++++
+ migration/dirtyrate.c       | 139 ++++++++++++++++++++++++++++++++++++++++----
+ migration/dirtyrate.h       |   2 +
+ 4 files changed, 179 insertions(+), 11 deletions(-)
  create mode 100644 include/sysemu/dirtylimit.h
 
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 20f1b27..606bec8 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -69,7 +69,10 @@ static inline void fuzz_dma_read_cb(size_t addr,
+ /* Dirty tracking enabled because measuring dirty rate */
+ #define GLOBAL_DIRTY_DIRTY_RATE (1U << 1)
+ 
+-#define GLOBAL_DIRTY_MASK  (0x3)
++/* Dirty tracking enabled because dirty limit */
++#define GLOBAL_DIRTY_LIMIT      (1U << 2)
++
++#define GLOBAL_DIRTY_MASK  (0x7)
+ 
+ extern unsigned int global_dirty_tracking;
+ 
+diff --git a/include/sysemu/dirtylimit.h b/include/sysemu/dirtylimit.h
+new file mode 100644
+index 0000000..49298a2
+--- /dev/null
++++ b/include/sysemu/dirtylimit.h
+@@ -0,0 +1,44 @@
++/*
++ * dirty limit helper functions
++ *
++ * Copyright (c) 2021 CHINA TELECOM CO.,LTD.
++ *
++ * Authors:
++ *  Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++#ifndef QEMU_DIRTYRLIMIT_H
++#define QEMU_DIRTYRLIMIT_H
++
++#define DIRTYLIMIT_CALC_PERIOD_TIME_S   15      /* 15s */
++
++/**
++ * dirtylimit_calc_current:
++ *
++ * get current dirty page rate for specified vCPU.
++ */
++int64_t dirtylimit_calc_current(int cpu_index);
++
++/**
++ * dirtylimit_calc:
++ *
++ * start dirty page rate calculation thread.
++ */
++void dirtylimit_calc(void);
++
++/**
++ * dirtylimit_calc_quit:
++ *
++ * quit dirty page rate calculation thread.
++ */
++void dirtylimit_calc_quit(void);
++
++/**
++ * dirtylimit_calc_state_init:
++ *
++ * initialize dirty page rate calculation state.
++ */
++void dirtylimit_calc_state_init(int max_cpus);
++#endif
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index d65e744..d370a21 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -27,6 +27,7 @@
+ #include "qapi/qmp/qdict.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/runstate.h"
++#include "sysemu/dirtylimit.h"
+ #include "exec/memory.h"
+ 
+ /*
+@@ -46,6 +47,134 @@ static struct DirtyRateStat DirtyStat;
+ static DirtyRateMeasureMode dirtyrate_mode =
+                 DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
+ 
++#define DIRTYLIMIT_CALC_TIME_MS         1000    /* 1000ms */
++
++struct {
++    DirtyRatesData data;
++    int64_t period;
++    bool quit;
++} *dirtylimit_calc_state;
++
++static void dirtylimit_global_dirty_log_start(void)
++{
++    qemu_mutex_lock_iothread();
++    memory_global_dirty_log_start(GLOBAL_DIRTY_LIMIT);
++    qemu_mutex_unlock_iothread();
++}
++
++static void dirtylimit_global_dirty_log_stop(void)
++{
++    qemu_mutex_lock_iothread();
++    memory_global_dirty_log_sync();
++    memory_global_dirty_log_stop(GLOBAL_DIRTY_LIMIT);
++    qemu_mutex_unlock_iothread();
++}
++
++static inline void record_dirtypages(DirtyPageRecord *dirty_pages,
++                                     CPUState *cpu, bool start)
++{
++    if (start) {
++        dirty_pages[cpu->cpu_index].start_pages = cpu->dirty_pages;
++    } else {
++        dirty_pages[cpu->cpu_index].end_pages = cpu->dirty_pages;
++    }
++}
++
++static void dirtylimit_calc_func(void)
++{
++    CPUState *cpu;
++    DirtyPageRecord *dirty_pages;
++    int64_t start_time, end_time, calc_time;
++    DirtyRateVcpu rate;
++    int i = 0;
++
++    dirty_pages = g_malloc0(sizeof(*dirty_pages) *
++        dirtylimit_calc_state->data.nvcpu);
++
++    dirtylimit_global_dirty_log_start();
++
++    CPU_FOREACH(cpu) {
++        record_dirtypages(dirty_pages, cpu, true);
++    }
++
++    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++    g_usleep(DIRTYLIMIT_CALC_TIME_MS * 1000);
++    end_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++    calc_time = end_time - start_time;
++
++    dirtylimit_global_dirty_log_stop();
++
++    CPU_FOREACH(cpu) {
++        record_dirtypages(dirty_pages, cpu, false);
++    }
++
++    for (i = 0; i < dirtylimit_calc_state->data.nvcpu; i++) {
++        uint64_t increased_dirty_pages =
++            dirty_pages[i].end_pages - dirty_pages[i].start_pages;
++        uint64_t memory_size_MB =
++            (increased_dirty_pages * TARGET_PAGE_SIZE) >> 20;
++        int64_t dirtyrate = (memory_size_MB * 1000) / calc_time;
++
++        rate.id = i;
++        rate.dirty_rate  = dirtyrate;
++        dirtylimit_calc_state->data.rates[i] = rate;
++
++        trace_dirtyrate_do_calculate_vcpu(i,
++            dirtylimit_calc_state->data.rates[i].dirty_rate);
++    }
++}
++
++static void *dirtylimit_calc_thread(void *opaque)
++{
++    rcu_register_thread();
++
++    while (!qatomic_read(&dirtylimit_calc_state->quit)) {
++        dirtylimit_calc_func();
++        sleep(dirtylimit_calc_state->period);
++    }
++
++    rcu_unregister_thread();
++    return NULL;
++}
++
++int64_t dirtylimit_calc_current(int cpu_index)
++{
++    DirtyRateVcpu *rates = dirtylimit_calc_state->data.rates;
++
++    return qatomic_read(&rates[cpu_index].dirty_rate);
++}
++
++void dirtylimit_calc(void)
++{
++    if (unlikely(qatomic_read(&dirtylimit_calc_state->quit))) {
++        qatomic_set(&dirtylimit_calc_state->quit, 0);
++        QemuThread thread;
++        qemu_thread_create(&thread, "dirtylimit-calc",
++            dirtylimit_calc_thread,
++            NULL, QEMU_THREAD_DETACHED);
++    }
++}
++
++void dirtylimit_calc_quit(void)
++{
++    qatomic_set(&dirtylimit_calc_state->quit, 1);
++}
++
++void dirtylimit_calc_state_init(int max_cpus)
++{
++    dirtylimit_calc_state =
++        g_malloc0(sizeof(*dirtylimit_calc_state));
++
++    dirtylimit_calc_state->data.nvcpu = max_cpus;
++    dirtylimit_calc_state->data.rates =
++        g_malloc0(sizeof(DirtyRateVcpu) * max_cpus);
++
++    dirtylimit_calc_state->period =
++        DIRTYLIMIT_CALC_PERIOD_TIME_S;
++
++    dirtylimit_calc_state->quit = true;
++}
++
+ static int64_t set_sample_page_period(int64_t msec, int64_t initial_time)
+ {
+     int64_t current_time;
+@@ -396,16 +525,6 @@ static bool compare_page_hash_info(struct RamblockDirtyInfo *info,
+     return true;
+ }
+ 
+-static inline void record_dirtypages(DirtyPageRecord *dirty_pages,
+-                                     CPUState *cpu, bool start)
+-{
+-    if (start) {
+-        dirty_pages[cpu->cpu_index].start_pages = cpu->dirty_pages;
+-    } else {
+-        dirty_pages[cpu->cpu_index].end_pages = cpu->dirty_pages;
+-    }
+-}
+-
+ static void dirtyrate_global_dirty_log_start(void)
+ {
+     qemu_mutex_lock_iothread();
+diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+index 69d4c5b..e96acdc 100644
+--- a/migration/dirtyrate.h
++++ b/migration/dirtyrate.h
+@@ -70,6 +70,8 @@ typedef struct VcpuStat {
+     DirtyRateVcpu *rates; /* array of dirty rate for each vcpu */
+ } VcpuStat;
+ 
++typedef struct VcpuStat DirtyRatesData;
++
+ /*
+  * Store calculation statistics for each measure.
+  */
 -- 
 1.8.3.1
 
