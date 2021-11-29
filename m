@@ -2,103 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E122461CBE
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:30:56 +0100 (CET)
-Received: from localhost ([::1]:46050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0587461CCE
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:35:08 +0100 (CET)
+Received: from localhost ([::1]:53518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrkUR-0004c4-LU
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:30:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60590)
+	id 1mrkYV-0000hS-IV
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:35:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1mrkSe-0003PH-0l; Mon, 29 Nov 2021 12:29:04 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15772
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mrkTp-0004rj-0T
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:30:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1mrkSa-0003MU-W6; Mon, 29 Nov 2021 12:29:03 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1ATHIQl5031094; 
- Mon, 29 Nov 2021 17:28:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=+k9seSMnOC/i+5BMZf5madGnHhUTDOh3coH8rWAZiq4=;
- b=c07T8zEMpniF8hXsGFMYEDYy5h5Qg4owFb4SD3D/AY+beylle+kFaJNvH2OeeApv9Je+
- JjhLGdarqfcF2s1tfetCtamReeQG0+tjXDkhhQsy3S6lLvWBX958FGgykry737qPeggv
- D+oAsaB8P74g9z1YEH6s68mFHhpfekB7hm6wzvIcra3wlLGSBOe3rsgEK7wbwWh8f4HJ
- pFQBgLQzrPHH5XvgCuukoJ/U4d+mrqhHCCqnsnSMnJudL0rgAeFfX09vVB4VSaobL3P1
- 5W8QFVIgxcimz8Qs0965liv5n9MXMocI/fAfEFJWdhyKvYU0vDln+dNXDt2zafPoL8W1 OA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cn34xr6vd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Nov 2021 17:28:58 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1ATHJsVh005598;
- Mon, 29 Nov 2021 17:28:57 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cn34xr6v1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Nov 2021 17:28:57 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1ATHIFHL015015;
- Mon, 29 Nov 2021 17:28:56 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06ams.nl.ibm.com with ESMTP id 3ckbxjqa0s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Nov 2021 17:28:55 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1ATHSqTa24379742
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 29 Nov 2021 17:28:52 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B97A5AE045;
- Mon, 29 Nov 2021 17:28:52 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 71BD9AE051;
- Mon, 29 Nov 2021 17:28:52 +0000 (GMT)
-Received: from [9.171.89.183] (unknown [9.171.89.183])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 29 Nov 2021 17:28:52 +0000 (GMT)
-Message-ID: <1430526c-823a-bd3f-4750-c121c3bc7434@de.ibm.com>
-Date: Mon, 29 Nov 2021 18:28:52 +0100
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mrkTf-0003Vq-8D
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:30:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638207006;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=i4oF+O6Fi0sY4RbnqqhaXV27cQRz04zxLCT0bBUKHew=;
+ b=Xcx1EFyfV/RxZB9+jnoaVIG4eBdhKyH5N6sx96lW0B2HWKSnIVBZwkkqtQCCDzWcl5HIAq
+ 16jXMf76dwUi9NUzoMecULKARR3lUuHB3WiMfiwe3k6hMAyj5utkXv93FNc+w0Y4PmCBzA
+ eclU+uQ/xy1gvu0/eX36BIVwk6QMlSw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-598-hutXIIk9O6GBZa2j2Y82gA-1; Mon, 29 Nov 2021 12:30:04 -0500
+X-MC-Unique: hutXIIk9O6GBZa2j2Y82gA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ p17-20020adff211000000b0017b902a7701so3056008wro.19
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 09:30:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=i4oF+O6Fi0sY4RbnqqhaXV27cQRz04zxLCT0bBUKHew=;
+ b=7otdgJeH6PD6yjHPPSY/G7L5JIrEtNUbLUBaXiRnlUCKZwCgerUYKdVttyJNmTFUL2
+ xvqwNOMXrNtNOWFyxw8oR+sJ5a6WSrAfrVSWlsRvEurvKbdCMEjEJd8KWa8K1tjJEjL9
+ QJwgGBi8EkSq9yuiYUSWHniK2t9YFZYa/0aPbstZfBDRUWzb7zZwwHvfGiq0OYrjuMZU
+ n3Kh4VJ/TBZlytPFjxy3Ns/R+Pp6AJHeDitZAO9+UTeLLbGLj2JOecNBQU/BHfuDKwmZ
+ oq2fuFfGMr+c5iWor3W3wjM9nuIxcotSvZembrcK80C/x3kcYBxjFNhfpuHfgAn/5FUP
+ eEOw==
+X-Gm-Message-State: AOAM530m8Myh20yI4WOVm97H6iMfhwOwSPAc+AutiEH1HuXwyi9ynQ6+
+ q2NT5WsqX54W3jYbZskkJ+/oi9++S8JAEY+nxNG1v6ziV7Bj6ebCnzmLtT/yhlD/qUvgC662Lte
+ 15il5ub8upcoVjJ4=
+X-Received: by 2002:adf:e9c5:: with SMTP id l5mr34730484wrn.218.1638207003620; 
+ Mon, 29 Nov 2021 09:30:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwqMG0G5LHqUZeRJkFTK/HqWEKdx4ncvxIdOWauMhHG6xP5+3wnbNe1EwU9ySS08fDvwxvZXw==
+X-Received: by 2002:adf:e9c5:: with SMTP id l5mr34730462wrn.218.1638207003398; 
+ Mon, 29 Nov 2021 09:30:03 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id l4sm14077636wrv.94.2021.11.29.09.30.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Nov 2021 09:30:02 -0800 (PST)
+Date: Mon, 29 Nov 2021 17:30:00 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v3 10/23] multifd: Make zlib compression method not use
+ iovs
+Message-ID: <YaUOGC2BuBwoA7h+@work-vm>
+References: <20211124100617.19786-1-quintela@redhat.com>
+ <20211124100617.19786-11-quintela@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] s390x/ipl: support extended kernel command line size
-Content-Language: en-US
-To: Marc Hartmayer <mhartmay@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20211122112909.18138-1-mhartmay@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-In-Reply-To: <20211122112909.18138-1-mhartmay@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Uy_7XkiLpoDJEZ0dpm-tqV__a6-ILKfT
-X-Proofpoint-ORIG-GUID: PBniApupmzLK636z-Vwe7KQC3fZiZozz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-29_10,2021-11-28_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- phishscore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
- mlxlogscore=999 spamscore=0 bulkscore=0 malwarescore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111290081
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+In-Reply-To: <20211124100617.19786-11-quintela@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.317,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,79 +98,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x <qemu-s390x@nongnu.org>,
- Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Juan Quintela (quintela@redhat.com) wrote:
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
 
-
-Am 22.11.21 um 12:29 schrieb Marc Hartmayer:
-> In the past s390 used a fixed command line length of 896 bytes. This has changed
-> with the Linux commit 5ecb2da660ab ("s390: support command lines longer than 896
-> bytes"). There is now a parm area indicating the maximum command line size. This
-> parm area has always been initialized to zero, so with older kernels this field
-> would read zero and we must then assume that only 896 bytes are available.
-> 
-> Acked-by: Viktor Mihajlovski <mihajlov@de.ibm.com>
-> Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
-
-Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
 > ---
->   hw/s390x/ipl.c | 23 ++++++++++++++++++++---
->   1 file changed, 20 insertions(+), 3 deletions(-)
+>  migration/multifd-zlib.c | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
 > 
-> diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
-> index 7ddca0127fc2..092c66b3f9f1 100644
-> --- a/hw/s390x/ipl.c
-> +++ b/hw/s390x/ipl.c
-> @@ -37,8 +37,9 @@
->   
->   #define KERN_IMAGE_START                0x010000UL
->   #define LINUX_MAGIC_ADDR                0x010008UL
-> +#define KERN_PARM_AREA_SIZE_ADDR        0x010430UL
->   #define KERN_PARM_AREA                  0x010480UL
-> -#define KERN_PARM_AREA_SIZE             0x000380UL
-> +#define LEGACY_KERN_PARM_AREA_SIZE      0x000380UL
->   #define INITRD_START                    0x800000UL
->   #define INITRD_PARM_START               0x010408UL
->   #define PARMFILE_START                  0x001000UL
-> @@ -110,6 +111,21 @@ static uint64_t bios_translate_addr(void *opaque, uint64_t srcaddr)
->       return srcaddr + dstaddr;
->   }
->   
-> +static uint64_t get_max_kernel_cmdline_size(void)
-> +{
-> +    uint64_t *size_ptr = rom_ptr(KERN_PARM_AREA_SIZE_ADDR, sizeof(*size_ptr));
-> +
-> +    if (size_ptr) {
-> +        uint64_t size;
-> +
-> +        size = be64_to_cpu(*size_ptr);
-> +        if (size != 0) {
-> +            return size;
-> +        }
-> +    }
-> +    return LEGACY_KERN_PARM_AREA_SIZE;
-> +}
-> +
->   static void s390_ipl_realize(DeviceState *dev, Error **errp)
->   {
->       MachineState *ms = MACHINE(qdev_get_machine());
-> @@ -197,10 +213,11 @@ static void s390_ipl_realize(DeviceState *dev, Error **errp)
->               ipl->start_addr = KERN_IMAGE_START;
->               /* Overwrite parameters in the kernel image, which are "rom" */
->               if (parm_area) {
-> -                if (cmdline_size > KERN_PARM_AREA_SIZE) {
-> +                uint64_t max_cmdline_size = get_max_kernel_cmdline_size();
-> +                if (cmdline_size > max_cmdline_size) {
->                       error_setg(errp,
->                                  "kernel command line exceeds maximum size: %zu > %lu",
-> -                               cmdline_size, KERN_PARM_AREA_SIZE);
-> +                               cmdline_size, max_cmdline_size);
->                       return;
->                   }
->   
+> diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
+> index e85ef8824d..da6201704c 100644
+> --- a/migration/multifd-zlib.c
+> +++ b/migration/multifd-zlib.c
+> @@ -13,6 +13,7 @@
+>  #include "qemu/osdep.h"
+>  #include <zlib.h>
+>  #include "qemu/rcu.h"
+> +#include "exec/ramblock.h"
+>  #include "exec/target_page.h"
+>  #include "qapi/error.h"
+>  #include "migration.h"
+> @@ -98,8 +99,8 @@ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
+>   */
+>  static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
+>  {
+> -    struct iovec *iov = p->pages->iov;
+>      struct zlib_data *z = p->data;
+> +    size_t page_size = qemu_target_page_size();
+>      z_stream *zs = &z->zs;
+>      uint32_t out_size = 0;
+>      int ret;
+> @@ -113,8 +114,8 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
+>              flush = Z_SYNC_FLUSH;
+>          }
+>  
+> -        zs->avail_in = iov[i].iov_len;
+> -        zs->next_in = iov[i].iov_base;
+> +        zs->avail_in = page_size;
+> +        zs->next_in = p->pages->block->host + p->pages->offset[i];
+>  
+>          zs->avail_out = available;
+>          zs->next_out = z->zbuff + out_size;
+> @@ -235,6 +236,7 @@ static void zlib_recv_cleanup(MultiFDRecvParams *p)
+>  static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
+>  {
+>      struct zlib_data *z = p->data;
+> +    size_t page_size = qemu_target_page_size();
+>      z_stream *zs = &z->zs;
+>      uint32_t in_size = p->next_packet_size;
+>      /* we measure the change of total_out */
+> @@ -259,7 +261,6 @@ static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
+>      zs->next_in = z->zbuff;
+>  
+>      for (i = 0; i < p->pages->num; i++) {
+> -        struct iovec *iov = &p->pages->iov[i];
+>          int flush = Z_NO_FLUSH;
+>          unsigned long start = zs->total_out;
+>  
+> @@ -267,8 +268,8 @@ static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
+>              flush = Z_SYNC_FLUSH;
+>          }
+>  
+> -        zs->avail_out = iov->iov_len;
+> -        zs->next_out = iov->iov_base;
+> +        zs->avail_out = page_size;
+> +        zs->next_out = p->pages->block->host + p->pages->offset[i];
+>  
+>          /*
+>           * Welcome to inflate semantics
+> @@ -281,8 +282,8 @@ static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
+>          do {
+>              ret = inflate(zs, flush);
+>          } while (ret == Z_OK && zs->avail_in
+> -                             && (zs->total_out - start) < iov->iov_len);
+> -        if (ret == Z_OK && (zs->total_out - start) < iov->iov_len) {
+> +                             && (zs->total_out - start) < page_size);
+> +        if (ret == Z_OK && (zs->total_out - start) < page_size) {
+>              error_setg(errp, "multifd %d: inflate generated too few output",
+>                         p->id);
+>              return -1;
+> -- 
+> 2.33.1
 > 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
