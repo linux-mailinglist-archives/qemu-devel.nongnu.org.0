@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A144617EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:23:00 +0100 (CET)
-Received: from localhost ([::1]:37232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D0E4618C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 15:30:52 +0100 (CET)
+Received: from localhost ([::1]:57956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrhYZ-0002Cf-6J
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:22:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56402)
+	id 1mrhgA-0008Hy-54
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 09:30:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mrhLl-0001MN-QU
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:09:45 -0500
-Received: from [2a00:1450:4864:20::42b] (port=43808
- helo=mail-wr1-x42b.google.com)
+ id 1mrhLn-0001Ob-4b
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:09:47 -0500
+Received: from [2a00:1450:4864:20::433] (port=40941
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mrhLj-0006W2-LV
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:09:45 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id v11so37084200wrw.10
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 06:09:43 -0800 (PST)
+ id 1mrhLk-0006WE-Gn
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 09:09:46 -0500
+Received: by mail-wr1-x433.google.com with SMTP id t9so20123351wrx.7
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 06:09:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RyIHG7rbgW4Ax4rztavLtHw3c5eLl5GAByR6z8d2y5A=;
- b=PlfctvyAuSm/NmQ03mobkKCoMnJVg+7DfPA0Pp6KIEaM8hsDBm0x3+81xh2X6SRq/W
- yfZMWjbba04U2X3C+UdB5KycwWaMjdUhL2aTSlsR0fHAAC0eD4oWiKe2ZPp7pr49aDQ6
- 8NZtWsmsdZOX0wX088spbq+lWnexhZeUTP1gFfl9Wu2SuEL2A/ZEtFvWI2CWpk1IXR+L
- jUTv1Ohiaux7M5ojo1B+FbnrJdxRSLcTWSBW0Tl1z8MSPNfyCEh6cdQ30f+qdZjJ/0J2
- jysTsPuQyAD1ojaq/33wSDv8qXq177KS7t9PwsjhSeOc53gspC21sPtOxFrdR3LDLX8a
- XDhg==
+ bh=bE1boPVSofZsVRYk/2tnKXg+GDOQQWyCjSc44kFDB+A=;
+ b=HZWYqXh8i9QQU+OkMcfBc7J52UYZqVbXSj4nI2M5iaw1x3oz9UfzAx0nEUT5Iskt79
+ NJ779y0QLEjB4PtzWSYqn8hvarUFisVDRR7aD84UnwzzPhlFE5r+MDcQQ8uXr+jJ8VTD
+ uP6ngFRTq7YmuIMJOFCHvfKhoYSpo+OFgXcgl+SAvJf+NwKgWYC38P9Y67C5PeFMbYcj
+ shs4UQ73p4MNSDLxwE3gfZkLoTaVl8fiMjD7ACmjfNGM72Lk7iLzmTAHok+gVqQd6p1J
+ iEHWifRXgCB1TAuviMmWwBBN7DtXl9ZVndBfUKWG41A4HYt/FEmjg9BCI+eCDdzG7bCa
+ 76CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RyIHG7rbgW4Ax4rztavLtHw3c5eLl5GAByR6z8d2y5A=;
- b=olqlWWG+DbVhfBjmROSR/AtQi29Ijv8QrTis2GqwcqkvtQcud26MQR808ArsTFYDI7
- Y5PS8+cUMaaZ4lwmn+kD66+y1h27iZoLd5S2lLlCyiym6DU4lUxVYVdz5X/hA2ko04fA
- tSRZm1liWeWu/EvvHUuwOm7YcdrpiS90/KJhmwV/W5IvSQhIXpqE8jMC2BY9oLeQZaGS
- N6te1uRvcztHFhOXETHawnoRaAXVzxNsOgZJ9fmpuIOBeNTwHUmJbY7y2N6GI89/2WcK
- L3XhOZTR7FliXdRkcp+er2rtNzaTpjFvNXd9gpLCxvHkbsOWQ2wBuLRT86exZazwx05v
- JmBw==
-X-Gm-Message-State: AOAM532sP7PJjz/RWutCpimBLDPXT2LdX28GyjlxO/3QjnI2CHjQBxwP
- Q+7XjNQ2dd5vhzImzL68ex+dfQ==
-X-Google-Smtp-Source: ABdhPJxMijliy5TF1HjZQVgItOk1ShpyUwe/SomF1kKjkKmb3X3ugvegOFNuG2AfpUWG3VqZ45iFyg==
-X-Received: by 2002:a5d:658c:: with SMTP id q12mr34347340wru.34.1638194982055; 
- Mon, 29 Nov 2021 06:09:42 -0800 (PST)
+ bh=bE1boPVSofZsVRYk/2tnKXg+GDOQQWyCjSc44kFDB+A=;
+ b=FLKn15qgbxwuf3vrZoJV16rsnSUtnP6yPzFLfpP98hcnDXE3cOo9Kw8l7MJM1Rgmxn
+ jff9M67IlWWdWcKRprt2qRNimmHaTp8bQSe1i+D8KwVoLuM/QGg1sW/qccXmvPKpGVQ3
+ JmzBda6h4yxZNkianb7xunoVfDydEuLJcJ38rSORGrN09j8swDQTsIr/wHhK/37VSFeQ
+ K0yfrQmlTmGgIVp5f16ZXItZ/9eklC6ayRLlZcpcPmgVlmjMPVDusqcmjChyTrb+shgW
+ qSGO9QA+ebu4kdzjtBomkj53QNNiXXxC5VEvY8JxnttB53efEWqbC+KjRlHYqenLpWZG
+ d/XQ==
+X-Gm-Message-State: AOAM533EZsBS+Qe/ZUYrMl3CiZVn//DMEMVnCl2V5y6oXLBAi2DcX9a5
+ ApaVhaduG8Dc+EUHgRSPoQEFNQ==
+X-Google-Smtp-Source: ABdhPJwW5trdXzFhLjB7OVnwYe6ApnBTfMMRSoqcTwqUI5mauZ+2OkJuXeuDcCif5T7W9XUNF5ONYg==
+X-Received: by 2002:a05:6000:18a3:: with SMTP id
+ b3mr34450461wri.343.1638194983187; 
+ Mon, 29 Nov 2021 06:09:43 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b13sm10506316wrh.32.2021.11.29.06.09.36
+ by smtp.gmail.com with ESMTPSA id 138sm19954070wma.17.2021.11.29.06.09.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 29 Nov 2021 06:09:39 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 84A701FF9E;
+ by zen.linaroharston (Postfix) with ESMTP id 913041FF9F;
  Mon, 29 Nov 2021 14:09:33 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 7/8] MAINTAINERS: Add section for Aarch64 GitLab custom
- runner
-Date: Mon, 29 Nov 2021 14:09:31 +0000
-Message-Id: <20211129140932.4115115-8-alex.bennee@linaro.org>
+Subject: [PATCH  v3 8/8] tests/plugin/syscall.c: fix compiler warnings
+Date: Mon, 29 Nov 2021 14:09:32 +0000
+Message-Id: <20211129140932.4115115-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211129140932.4115115-1-alex.bennee@linaro.org>
 References: <20211129140932.4115115-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,46 +90,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- f4bug@amsat.org, stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+Cc: fam@euphon.net, berrange@redhat.com,
+ Juro Bystricky <juro.bystricky@intel.com>, f4bug@amsat.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ Mahmoud Mandour <ma.mandourr@gmail.com>, Alexandre Iooss <erdnaxe@crans.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Juro Bystricky <juro.bystricky@intel.com>
 
-Add a MAINTAINERS section to cover the GitLab YAML config file
-containing the jobs run on the custom runner sponsored by the
-Works On Arm project [*].
+Fix compiler warnings. The warnings can result in a broken build.
+This patch fixes warnings such as:
 
-[*] https://developer.arm.com/solutions/infrastructure/works-on-arm
+In file included from /usr/include/glib-2.0/glib.h:111,
+                 from ../tests/plugin/syscall.c:13:
+../tests/plugin/syscall.c: In function ‘print_entry’:
+/usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘out’ may be
+       used uninitialized in this function [-Werror=maybe-uninitialized]
+   g_free (*pp);
+   ^~~~~~~~~~~~
+../tests/plugin/syscall.c:82:23: note: ‘out’ was declared here
+     g_autofree gchar *out;
+                       ^~~
+In file included from /usr/include/glib-2.0/glib.h:111,
+                 from ../tests/plugin/syscall.c:13:
+../tests/plugin/syscall.c: In function ‘vcpu_syscall_ret’:
+/usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘out’ may be
+        used uninitialized in this function [-Werror=maybe-uninitialized]
+   g_free (*pp);
+   ^~~~~~~~~~~~
+../tests/plugin/syscall.c:73:27: note: ‘out’ was declared here
+         g_autofree gchar *out;
+                           ^~~
+cc1: all warnings being treated as errors
 
-Suggested-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20211116163226.2719320-1-f4bug@amsat.org>
-Message-Id: <20211123205729.2205806-8-alex.bennee@linaro.org>
+Message-Id: <20211128011551.2115468-1-juro.bystricky@intel.com>
 ---
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/plugin/syscall.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8f5156bfa7..006a2293ba 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3511,6 +3511,12 @@ R: Beraldo Leal <bleal@redhat.com>
- S: Odd Fixes
- F: tests/avocado/
+diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c
+index 484b48de49..96040c578f 100644
+--- a/tests/plugin/syscall.c
++++ b/tests/plugin/syscall.c
+@@ -70,19 +70,17 @@ static void vcpu_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_idx,
+         }
+         g_mutex_unlock(&lock);
+     } else {
+-        g_autofree gchar *out;
+-        out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64 "\n",
+-                num, ret);
++        g_autofree gchar *out = g_strdup_printf(
++             "syscall #%" PRIi64 " returned -> %" PRIi64 "\n", num, ret);
+         qemu_plugin_outs(out);
+     }
+ }
  
-+GitLab custom runner (Works On Arm Sponsored)
-+M: Alex Bennée <alex.bennee@linaro.org>
-+M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+S: Maintained
-+F: .gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-+
- Documentation
- -------------
- Build system architecture
+ static void print_entry(gpointer val, gpointer user_data)
+ {
+-    g_autofree gchar *out;
+     SyscallStats *entry = (SyscallStats *) val;
+     int64_t syscall_num = entry->num;
+-    out = g_strdup_printf(
++    g_autofree gchar *out = g_strdup_printf(
+         "%-13" PRIi64 "%-6" PRIi64 " %" PRIi64 "\n",
+         syscall_num, entry->calls, entry->errors);
+     qemu_plugin_outs(out);
 -- 
 2.30.2
 
