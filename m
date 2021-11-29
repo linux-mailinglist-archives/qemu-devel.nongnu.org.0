@@ -2,89 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 911634616F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 14:47:25 +0100 (CET)
-Received: from localhost ([::1]:37790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD5146171C
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 14:56:32 +0100 (CET)
+Received: from localhost ([::1]:34204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrh07-0002xW-Dk
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 08:47:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46954)
+	id 1mrh8x-000325-Nu
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 08:56:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mrgxO-0008UE-6Z
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:44:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23740)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mrgxL-0001ik-Um
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:44:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638193470;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KAYh8y7YFjNrhFGGh4mY3eAImWZrEQ39cOSgeekO/+o=;
- b=A4PYAFIBVYafnLLo927j2hP1OHa4Ol8lZGp+tBBsDu0z4eoSl9phJtreO23XlhHTZ/uB+a
- suhP069YfiHxHD9d2pe8Oov6vH7jl6trbOrXbYUQJ3KXGWYLv/8CuKqn5d3XXEVrfhXhgW
- XePMjePsbRl+qTVnOMOFM8DH9QC0dtg=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-278-DL_GRnVINd-Zk_Te36qlTg-1; Mon, 29 Nov 2021 08:44:29 -0500
-X-MC-Unique: DL_GRnVINd-Zk_Te36qlTg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- t9-20020aa7d709000000b003e83403a5cbso13771198edq.19
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 05:44:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KAYh8y7YFjNrhFGGh4mY3eAImWZrEQ39cOSgeekO/+o=;
- b=aGnytnOFqI+SPvqdrQyRKZOkUYO4RlvS5xlbblvlFXInOMoJUVY1CtfkGAN4Ts0Tgw
- vrFCRuaIEfwcJUQqlhqnBofbei3k37FvkKv5VMMhu/OW4h4anZxmttZzSwnJ5ND6ui3h
- j1ETpfRIBvyUoB2VX7A5/leHSxUU4dBIQOrfDMECPoDug/FhQe14Cv9/+PoI/LOoa41m
- GUn18jbbODr7Ml3ltfOgAq7B/3Wt5Fi7Joe+6RGDlCBb4244kSJfgSmPST/GUADLLVaS
- sGJz/ZMclhuG49iCMx0RuLINsLl3deIFu/W61f/khVuD4W1rTQHt9TozheP9QbxEpe0Z
- ZIdQ==
-X-Gm-Message-State: AOAM530SV9UxygkexlKdHrEyPseJho0Q3x8EJqQvrksv0RpGAVAPtRS5
- aIV9dbBxMlXevXOaFCOsVh5jOF9BED9b269huYh54jVNa6g9sBaspc9y28rL56O9ehm4bN9xaYN
- jI/2lsstKmvrtjeU=
-X-Received: by 2002:a05:6402:516c:: with SMTP id
- d12mr74126079ede.391.1638193468514; 
- Mon, 29 Nov 2021 05:44:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw60q/4u+z3atJmMZWDJi5BhZ9twh9P20EQzXP4D9bDN97B4WZHG54GaPojXL+hBSHZmomOtA==
-X-Received: by 2002:a05:6402:516c:: with SMTP id
- d12mr74126033ede.391.1638193468274; 
- Mon, 29 Nov 2021 05:44:28 -0800 (PST)
-Received: from steredhat (host-79-46-195-175.retail.telecomitalia.it.
- [79.46.195.175])
- by smtp.gmail.com with ESMTPSA id w7sm9150250ede.66.2021.11.29.05.44.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 05:44:28 -0800 (PST)
-Date: Mon, 29 Nov 2021 14:44:26 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Daniil Tatianin <d-tatianin@yandex-team.ru>
-Subject: Re: [PATCH v1] virtio/vhost-vsock: don't double close vhostfd,
- remove redundant cleanup
-Message-ID: <20211129134426.26d7r4xxfrolpfb2@steredhat>
-References: <20211129125204.1108088-1-d-tatianin@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <mwilck@suse.com>) id 1mrh49-0003hI-Aj
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:51:34 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:47498)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mwilck@suse.com>) id 1mrh44-000318-Lb
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 08:51:31 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E01131FCA1;
+ Mon, 29 Nov 2021 13:51:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1638193882; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=iqpoKazBX1gxmupYcru93ar2fqVBSeGBPM/7KOmzjIw=;
+ b=E6Rur0oW+ounVmN/zRt1RRz7VXVgC2Yf4trQK82D6+Tr2vARyE+kCi25cf8ayotx4ShQfB
+ FoTRPTb0N3Yvmo1hByhv4sf375hpfkV1ZOMK1YTpwaWzjh0M/YrCru3WX3BwPKA8i8jJbd
+ q36awKtCrAbSpFqw5h73uwwiA4aVgiA=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9B5FF13B08;
+ Mon, 29 Nov 2021 13:51:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id yiUFJNrapGHCbAAAMHmgww
+ (envelope-from <mwilck@suse.com>); Mon, 29 Nov 2021 13:51:22 +0000
+From: mwilck@suse.com
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?q?Jos=C3=A9=20Ricardo=20Ziviani?= <jose.ziviani@suse.com>,
+ Claudio Fontana <claudio.fontana@suse.com>, Martin Wilck <mwilck@suse.com>
+Subject: [PATCH resend v2] qemu-binfmt-conf.sh: fix -F option
+Date: Mon, 29 Nov 2021 14:51:00 +0100
+Message-Id: <20211129135100.3934-1-mwilck@suse.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <20211129125204.1108088-1-d-tatianin@yandex-team.ru>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=mwilck@suse.com;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,59 +71,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 29, 2021 at 03:52:04PM +0300, Daniil Tatianin wrote:
->In case of an error during initialization in vhost_dev_init, vhostfd is
->closed in vhost_dev_cleanup. Remove close from err_virtio as it's both
->redundant and causes a double close on vhostfd.
->
->Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
->---
-> hw/virtio/vhost-vsock.c | 11 +++++------
-> 1 file changed, 5 insertions(+), 6 deletions(-)
->
->diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
->index 478c0c9a87..433d42d897 100644
->--- a/hw/virtio/vhost-vsock.c
->+++ b/hw/virtio/vhost-vsock.c
->@@ -171,6 +171,10 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
->     ret = vhost_dev_init(&vvc->vhost_dev, (void *)(uintptr_t)vhostfd,
->                          VHOST_BACKEND_TYPE_KERNEL, 0, errp);
->     if (ret < 0) {
->+        /*
->+         * vhostfd is closed by vhost_dev_cleanup, which is called
->+         * by vhost_dev_init on initialization error.
->+         */
->         goto err_virtio;
->     }
->
->@@ -183,15 +187,10 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
->     return;
->
-> err_vhost_dev:
->-    vhost_dev_cleanup(&vvc->vhost_dev);
->     /* vhost_dev_cleanup() closes the vhostfd passed to vhost_dev_init() */
->-    vhostfd = -1;
->+    vhost_dev_cleanup(&vvc->vhost_dev);
-> err_virtio:
->     vhost_vsock_common_unrealize(vdev);
->-    if (vhostfd >= 0) {
->-        close(vhostfd);
->-    }
->-    return;
-> }
->
-> static void vhost_vsock_device_unrealize(DeviceState *dev)
->-- 
->2.25.1
->
->
+From: Martin Wilck <mwilck@suse.com>
 
-Thanks for this patch. It LGTM:
+qemu-binfmt-conf.sh should use "-F" as short option for "--qemu-suffix".
+Fix the getopt call to make this work.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Martin Wilck <mwilck@suse.com>
+---
+previous: https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg03132.html
+ref: https://bugzilla.opensuse.org/show_bug.cgi?id=1186256
+---
+ scripts/qemu-binfmt-conf.sh | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+index 7de996d536..e9bfeb94d3 100755
+--- a/scripts/qemu-binfmt-conf.sh
++++ b/scripts/qemu-binfmt-conf.sh
+@@ -340,7 +340,9 @@ PERSISTENT=no
+ PRESERVE_ARG0=no
+ QEMU_SUFFIX=""
+ 
+-options=$(getopt -o ds:Q:S:e:hc:p:g: -l debian,systemd:,qemu-path:,qemu-suffix:,exportdir:,help,credential:,persistent:,preserve-argv0: -- "$@")
++_longopts="debian,systemd:,qemu-path:,qemu-suffix:,exportdir:,help,credential:,\
++persistent:,preserve-argv0:"
++options=$(getopt -o ds:Q:S:e:hc:p:g:F: -l ${_longopts} -- "$@")
+ eval set -- "$options"
+ 
+ while true ; do
+-- 
+2.33.1
 
 
