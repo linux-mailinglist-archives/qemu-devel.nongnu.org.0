@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E27F2461C99
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:19:01 +0100 (CET)
-Received: from localhost ([::1]:49412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93ECC461C9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:19:06 +0100 (CET)
+Received: from localhost ([::1]:49592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrkIu-0004hE-O5
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:19:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57106)
+	id 1mrkIz-0004pS-MS
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:19:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mrkF4-0002UO-Ig
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:15:02 -0500
-Received: from [2a00:1450:4864:20::333] (port=34451
- helo=mail-wm1-x333.google.com)
+ id 1mrkF6-0002Y8-IG
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:15:04 -0500
+Received: from [2a00:1450:4864:20::42a] (port=44914
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mrkF2-0001UA-2r
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:15:02 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- m25-20020a7bcb99000000b0033aa12cdd33so6308984wmi.1
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 09:14:59 -0800 (PST)
+ id 1mrkF4-0001Ub-2Y
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:15:04 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id l16so38397943wrp.11
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 09:15:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=x+l21wdy++j9QmwvxPd2IqpwqliVMr1XUKlqo6h12D4=;
- b=DRQn2yd5NGsW0YIqsADrsxZlhGReayCc+sMSS6Vwo1t4//eNJa6hianzHRF6QSM5E1
- WL7ru5ouYW3EWvHO1pb/yvqP+irqS6dPL4Ji5hXzleecsVFP3j6C5dwn3TXNY17ZwmDu
- v1mHxQaC+/gQTzqt8IVBEgej6r63dWlHJFQoUQVRII5ii+kdFcs81J+/BhWGLuu7z9b2
- LAvhNJ6D6puYt9l0cZyLTEUj/MlsaesM54hHJee1Bpm1l9gZW+DzKczw+dRFqlSSeihX
- 2dMw4JilL/87tK+sNnnrh4xho50sQy9BLp8NRnCwrmJBcsAYY5zH09QGq+Yq7m2Q4tTX
- TR/Q==
+ bh=bhQs6QxD/f/fgQr3W8xnrVDVaMbkSmn+kxyq8ZZ62CM=;
+ b=VZWWUylMr+WZhjlKnpL/ra2kh3wSKBPpatUPDrmZ6lZB5tynzTiJVwRfEihvFRkVHv
+ +VjEviTDHNoOc1NY7rXiIAW3ZRVMv5pKj2Fz0ZN6cL/iEri+pf87cEimo9li5uAPK+Zr
+ MLl1SLaJ+flE4RAS9LYGJOyaK4qnJPsJ49HyxHCv2Wm/dnuuNGHBJ+w8pnkOQRXUZS7D
+ pbyJMaHObhXykrl+yt5a1wFWzI9OEdjxZoEwqJzb/bg3o9l97LZ7v3wnbq0iAuyUJCBf
+ L6Ba6VxBiYd4ewNbUORmlrmMd6mpjfSjeQRVRLtLjAgzZZFRvAjI0EfkkHu8OAlV1AkF
+ 450A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=x+l21wdy++j9QmwvxPd2IqpwqliVMr1XUKlqo6h12D4=;
- b=IHzeZeLXsbgxFK0808GtSzl1X+R3+kA7Rd7bLxjQCC8pZ4iGIQMsTIimQ9GZn//tGO
- DZBQUlojLziPuYHVWggwbYSHWo08ApMnhhGHfRdGhnMJb67wLoWAXuQ7RDQ9GWX7wk8/
- qFCV9PWRS929Hebx0LiQzOv+eJ+a0xsezUDd+0scIaFwrNjb4nMrBG43zV3bzRVydE+u
- xuzm9SlHizUflTgGLth2+khPvnEcSCfY6LBP2qpS56gTGYhi6GZfeZ1sbru/xvUER4eS
- IWbJb4G3to0j8la2GnnBffYXwgxMJILBzBWpkRBVUOOhNKVXQe9Zr7afJPApXl3Zw33E
- aWew==
-X-Gm-Message-State: AOAM533pA90XBPh4ae5D4MpETlODyijJAqeO1KeCPI24xFXaZR2UHYVh
- vdHmQS+3BPtBH9u7uQpquSiZ5Q==
-X-Google-Smtp-Source: ABdhPJwQHbevS0FPib5ZdUmWJQn7bZfecONQzInAks6GDe19XFuFhbOaR13amsFD9p7/MjwWhBleQw==
-X-Received: by 2002:a1c:a58d:: with SMTP id o135mr37524229wme.93.1638206098815; 
- Mon, 29 Nov 2021 09:14:58 -0800 (PST)
+ bh=bhQs6QxD/f/fgQr3W8xnrVDVaMbkSmn+kxyq8ZZ62CM=;
+ b=un7z3ygR7Y+RK5m6/Fv7/48DpNmhm2j7PFObK7P8WF2beqymykGkEQFh7ekcLjnkeP
+ 032Op2nWMGTBlFD6TyXmrp1bOtxyWP9vrKFVeGDEaktiiU7VCrtVGMN9XldLuirFrdHm
+ 9S124owXGqf7nibhcEbqBfsfTRs1LBMYSWFMKCHcAwIukAPU9mQaVDVML0poCv88+1MT
+ SxYwT33qKQxr/dv66IjplnVdRqq+ttE2d/b9jSB7UfQGHnt+KICrrvVu94GYmJ7VjUMM
+ c0eEIEi7iCvxf2jrgqXhE2R7sJD+f65F1eqjRQx5XPBVOAfHnsrok9z/ELTkfVDQ18sh
+ zCsQ==
+X-Gm-Message-State: AOAM531sXAX2j/HNdVn3Y2pDbVB9bfiXIn8E49VwVG0hnY+xzrlGgkIm
+ p/ZUOOXVLadnu17stFRuNd3dFg==
+X-Google-Smtp-Source: ABdhPJw2TxkNRAknLxatUrHxqwp4NlGaKdJamfIsZoZHiwf5djiU6NK2kis2tTdyQu92NrPwj/55Cw==
+X-Received: by 2002:adf:82f7:: with SMTP id 110mr35464667wrc.111.1638206100736; 
+ Mon, 29 Nov 2021 09:15:00 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t8sm17726614wmq.32.2021.11.29.09.14.51
+ by smtp.gmail.com with ESMTPSA id v15sm14323079wro.35.2021.11.29.09.14.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 29 Nov 2021 09:14:55 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 38DC01FF9C;
+ by zen.linaroharston (Postfix) with ESMTP id 439B61FF9D;
  Mon, 29 Nov 2021 17:14:50 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: richard.henderson@linaro.org,
 	peter.maydell@linaro.org
-Subject: [PULL 5/8] gdbstub: handle a potentially racing TaskState
-Date: Mon, 29 Nov 2021 17:14:46 +0000
-Message-Id: <20211129171449.4176301-6-alex.bennee@linaro.org>
+Subject: [PULL 6/8] MAINTAINERS: Remove me as a reviewer for the build and
+ test/avocado
+Date: Mon, 29 Nov 2021 17:14:47 +0000
+Message-Id: <20211129171449.4176301-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211129171449.4176301-1-alex.bennee@linaro.org>
 References: <20211129171449.4176301-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,47 +91,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When dealing with multi-threaded userspace programs there is a race
-condition with the addition of cpu->opaque (aka TaskState). This is
-due to cpu_copy calling cpu_create which updates the global vCPU list.
-However the task state isn't set until later. This shouldn't be a
-problem because the new thread can't have executed anything yet but
-the gdbstub code does liberally iterate through the CPU list in
-various places.
+From: Willian Rampazzo <willianr@redhat.com>
 
-This sticking plaster ensure the not yet fully realized vCPU is given
-an pid of -1 which should be enough to ensure it doesn't show up
-anywhere else.
+Remove me as a reviewer for the Build and test automation and the
+Integration Testing with the Avocado Framework and add Beraldo
+Leal.
 
-In the longer term I think the code that manages the association
-between vCPUs and attached GDB processes could do with a clean-up and
-re-factor.
-
+Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
+Message-Id: <20211122191124.31620-1-willianr@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/730
-Message-Id: <20211129140932.4115115-6-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20211129140932.4115115-7-alex.bennee@linaro.org>
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 23baaef40e..141d7bc4ec 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -94,7 +94,7 @@ static inline int cpu_gdb_index(CPUState *cpu)
- {
- #if defined(CONFIG_USER_ONLY)
-     TaskState *ts = (TaskState *) cpu->opaque;
--    return ts->ts_tid;
-+    return ts ? ts->ts_tid : -1;
- #else
-     return cpu->cpu_index + 1;
- #endif
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d3879aa3c1..8f5156bfa7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3469,7 +3469,7 @@ M: Alex Bennée <alex.bennee@linaro.org>
+ M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ M: Thomas Huth <thuth@redhat.com>
+ R: Wainer dos Santos Moschetta <wainersm@redhat.com>
+-R: Willian Rampazzo <willianr@redhat.com>
++R: Beraldo Leal <bleal@redhat.com>
+ S: Maintained
+ F: .github/lockdown.yml
+ F: .gitlab-ci.yml
+@@ -3507,7 +3507,7 @@ W: https://trello.com/b/6Qi1pxVn/avocado-qemu
+ R: Cleber Rosa <crosa@redhat.com>
+ R: Philippe Mathieu-Daudé <philmd@redhat.com>
+ R: Wainer dos Santos Moschetta <wainersm@redhat.com>
+-R: Willian Rampazzo <willianr@redhat.com>
++R: Beraldo Leal <bleal@redhat.com>
+ S: Odd Fixes
+ F: tests/avocado/
+ 
 -- 
 2.30.2
 
