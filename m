@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9474612B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 11:42:21 +0100 (CET)
-Received: from localhost ([::1]:33284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBFE94612C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 11:44:08 +0100 (CET)
+Received: from localhost ([::1]:40570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mre71-0005GU-V7
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 05:42:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49574)
+	id 1mre8m-0001fX-1E
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 05:44:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mre4B-0002OD-6Z
+ id 1mre4B-0002OP-DS
  for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:39:23 -0500
-Received: from [2a00:1450:4864:20::431] (port=33690
- helo=mail-wr1-x431.google.com)
+Received: from [2a00:1450:4864:20::42b] (port=37472
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mre48-0004n1-V4
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:39:22 -0500
-Received: by mail-wr1-x431.google.com with SMTP id d24so35765598wra.0
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 02:39:20 -0800 (PST)
+ id 1mre49-0004n6-GO
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:39:23 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id d9so14818069wrw.4
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 02:39:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9VVdwPMx3U1bUUTF2DIPsdquwWCg5tAFq2w0+RD0yNQ=;
- b=Q8C6YpWbnBnzVsHhlgmeK8/AI1M9QdoyNJL/ME+603di3XWA2sC1vTrs9whARvooJT
- UEEEppNLGrM9h6JxKxrKf1HNvE8TauycgY9cMfSA1Rkuw9sADa0RrYaxxQgJpwheQIM3
- yAIihbu5rQ0ad6LJYoT/w9Y64StG/pLozI1QSGCxh7WM0WvTYU/WODNofVGwhg8SR621
- t1bL6tTH5KLcu3VPcEj8dBbDRRcBbbmy02kyOfVSvtTTXDqfVGRir0oeHuKEn/bb3I4k
- unO//6ssKkfnpHudgXu/1HBLkqIA4vIbrdXf1iCUhVjKouQVeYqZQs5isyo6hiCthoym
- tipQ==
+ bh=OjFLH2BFS+yCBbLcJauIqCZyc8Dqk6KrwSVe0yu3cfA=;
+ b=NXANIftrw3uInIBAD1R0OaYw2tWvSd9V42K+gxpQw9e6lj0IG5FIEe7FVV6OQ+ZPqg
+ lUehKs3kKrccq2S9ndKvJA/6eSt8ZNADAKczz6sIceBGvoHZlAl3YbuXCNpGcSVF2NbW
+ RduR63oXxGWuw0iSLU6ynVZZEsbWFu18TOjNLuw4kngoT7g6SJRtsVKNKIN567iB4sWf
+ 2/btmxchs4AM2eimh3aMyLPLVP8SvI6CMxx9bGdaoN3InB7/5kIOExS3z2SaT0ffkLvS
+ 1wliglJycSuMrIJsd7L2+GqaXMQEZS+2vu1Mz5UebOwwaJ/b+ACdjSV0RfROEzHXUvOi
+ ttFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9VVdwPMx3U1bUUTF2DIPsdquwWCg5tAFq2w0+RD0yNQ=;
- b=vlh9FIzVkxfu8/Ix1kO76EEdZpt5iP7IGm+poHgA/EV1XDg1iz+t+dBz23Ko8XRopf
- 47CH6e0ecLeE2+5QgfIlAq10c+A9z9rsTocDqxDK8ICfsXQ0Rdg7YkeFJD0c1Q8hsvBW
- HQeE5y6sVn8H5mpK7a3CbquYcoGK1aNeQJlU59K86dTsJGPwc2+QHHpJ+01+2iiNYIJh
- XSighzTuEgsloRtBzlZ5U7khSSwQFNNyc1EiawD97jx2JKT54xdsKzpXKzgGZrnCsKqm
- Ci+jgXWF4O0yPj+GAWWbl3QcUcjb3jIWgZiZ3lDYOM3qNmY7l+ExBZu1BGeZdm7jxaDW
- TQAg==
-X-Gm-Message-State: AOAM531owky3jje3OqYIJAeEr3wgB951IMR2Du12OprFAscRPxHzR+3D
- kDiWO1s5Gj1sDvNQDidmzQxD3pDqnHSfyA==
-X-Google-Smtp-Source: ABdhPJyH/i6raiL+Cty4gu9QYtiQFm3jNZANoM4B2jxtFfGrztAvpoy7mEGMw4/yPhwCSr2BUL00vw==
-X-Received: by 2002:a5d:4843:: with SMTP id n3mr31867555wrs.335.1638182359696; 
- Mon, 29 Nov 2021 02:39:19 -0800 (PST)
+ bh=OjFLH2BFS+yCBbLcJauIqCZyc8Dqk6KrwSVe0yu3cfA=;
+ b=muksfQ9+08QoGeRjbjYwlCnPbSDTCEIAIBHt2PN2cENXtXjeySoriWg+WnYXXex34O
+ H5R78RvZZ8dRuybzCE4RzvU73o260EXUkjRT5smCiQWvvXrA7FvHAEs3xnau8e7Lv+tb
+ 8i9hawL2nNS59QPpxGwcoRunlJ2zMEAsXZt0E5Yf3cNQ35sBujmZnYTK+iUrAi+FiYhQ
+ npmBZguejXTrIQDeYEKcJm0nKfG4Ng/7kdhlcRmbc88uYqMl3xy8Y7bZyFj0yA0C3nIL
+ 4PD/qPHKIep1G1/YZhFUWDeN2Oy/cbv7v9htHdn+7TOvZUDimmNlqFSUZViu67S5RHP7
+ f/SQ==
+X-Gm-Message-State: AOAM53269jFrrZ4HUkIr+ku68wpdF+UXn6EkQTz3Kvjn5B0xr3nhjpPi
+ fYR7DgcoGyWrCmlm/v3PU/jOtfIPIjUx+w==
+X-Google-Smtp-Source: ABdhPJzWfTdnqrCqhPY4sgpajujtncgsSYtvpSeX+gwBuQuZM3TSd+6TNwmcjtv4lMTDhoFX1dVJAg==
+X-Received: by 2002:a5d:4b45:: with SMTP id w5mr33316013wrs.272.1638182360215; 
+ Mon, 29 Nov 2021 02:39:20 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id t17sm18810912wmq.15.2021.11.29.02.39.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 02:39:19 -0800 (PST)
+ Mon, 29 Nov 2021 02:39:20 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] hw/intc/arm_gicv3: Add new gicv3_intid_is_special()
- function
-Date: Mon, 29 Nov 2021 10:39:14 +0000
-Message-Id: <20211129103915.1162989-5-peter.maydell@linaro.org>
+Subject: [PULL 5/5] hw/intc/arm_gicv3: fix handling of LPIs in list registers
+Date: Mon, 29 Nov 2021 10:39:15 +0000
+Message-Id: <20211129103915.1162989-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211129103915.1162989-1-peter.maydell@linaro.org>
 References: <20211129103915.1162989-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,63 +89,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GICv3/v4 pseudocode has a function IsSpecial() which returns true
-if passed a "special" interrupt ID number (anything between 1020 and
-1023 inclusive).  We open-code this condition in a couple of places,
-so abstract it out into a new function gicv3_intid_is_special().
+It is valid for an OS to put virtual interrupt ID values into the
+list registers ICH_LR<n> which are greater than 1023.  This
+corresponds to (for example) KVM using the in-kernel emulated ITS to
+give a (nested) guest an ITS.  LPIs are delivered by the L1 kernel to
+the L2 guest via the list registers in the same way as non-LPI
+interrupts.
+
+QEMU's code for handling writes to ICV_IARn (which happen when the L2
+guest acknowledges an interrupt) and to ICV_EOIRn (which happen at
+the end of the interrupt) did not consider LPIs, so it would
+incorrectly treat interrupt IDs above 1023 as invalid.  Fix this by
+using the correct condition, which is gicv3_intid_is_special().
+
+Note that the condition in icv_dir_write() is correct -- LPIs
+are not valid there and so we want to ignore both "special" ID
+values and LPIs.
+
+(In the pseudocode this logic is in:
+ - VirtualReadIAR0(), VirtualReadIAR1(), which call IsSpecial()
+ - VirtualWriteEOIR0(), VirtualWriteEOIR1(), which call
+     VirtualIdentifierValid(data, TRUE) meaning "LPIs OK"
+ - VirtualWriteDIR(), which calls VirtualIdentifierValid(data, FALSE)
+     meaning "LPIs not OK")
+
+This bug doesn't seem to have any visible effect on Linux L2 guests
+most of the time, because the two bugs cancel each other out: we
+neither mark the interrupt active nor deactivate it.  However it does
+mean that the L2 vCPU priority while the LPI handler is running will
+not be correct, so the interrupt handler could be unexpectedly
+interrupted by a different interrupt.
+
+(NB: this has nothing to do with using QEMU's emulated ITS.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Marc Zyngier <maz@kernel.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/intc/gicv3_internal.h  | 13 +++++++++++++
- hw/intc/arm_gicv3_cpuif.c |  4 ++--
- 2 files changed, 15 insertions(+), 2 deletions(-)
+ hw/intc/arm_gicv3_cpuif.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-index 70f34ee4955..b9c37453b04 100644
---- a/hw/intc/gicv3_internal.h
-+++ b/hw/intc/gicv3_internal.h
-@@ -411,6 +411,19 @@ FIELD(MAPC, RDBASE, 16, 32)
- 
- /* Functions internal to the emulated GICv3 */
- 
-+/**
-+ * gicv3_intid_is_special:
-+ * @intid: interrupt ID
-+ *
-+ * Return true if @intid is a special interrupt ID (1020 to
-+ * 1023 inclusive). This corresponds to the GIC spec pseudocode
-+ * IsSpecial() function.
-+ */
-+static inline bool gicv3_intid_is_special(int intid)
-+{
-+    return intid >= INTID_SECURE && intid <= INTID_SPURIOUS;
-+}
-+
- /**
-  * gicv3_redist_update:
-  * @cs: GICv3CPUState for this redistributor
 diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index 3fe5de8ad7d..7fbc36ff41b 100644
+index 7fbc36ff41b..7fba9314508 100644
 --- a/hw/intc/arm_gicv3_cpuif.c
 +++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -997,7 +997,7 @@ static uint64_t icc_iar0_read(CPUARMState *env, const ARMCPRegInfo *ri)
-         intid = icc_hppir0_value(cs, env);
-     }
+@@ -653,7 +653,7 @@ static uint64_t icv_iar_read(CPUARMState *env, const ARMCPRegInfo *ri)
  
--    if (!(intid >= INTID_SECURE && intid <= INTID_SPURIOUS)) {
-+    if (!gicv3_intid_is_special(intid)) {
-         icc_activate_irq(cs, intid);
-     }
+         if (thisgrp == grp && icv_hppi_can_preempt(cs, lr)) {
+             intid = ich_lr_vintid(lr);
+-            if (intid < INTID_SECURE) {
++            if (!gicv3_intid_is_special(intid)) {
+                 icv_activate_irq(cs, idx, grp);
+             } else {
+                 /* Interrupt goes from Pending to Invalid */
+@@ -1265,8 +1265,7 @@ static void icv_eoir_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     trace_gicv3_icv_eoir_write(ri->crm == 8 ? 0 : 1,
+                                gicv3_redist_affid(cs), value);
  
-@@ -1020,7 +1020,7 @@ static uint64_t icc_iar1_read(CPUARMState *env, const ARMCPRegInfo *ri)
-         intid = icc_hppir1_value(cs, env);
-     }
- 
--    if (!(intid >= INTID_SECURE && intid <= INTID_SPURIOUS)) {
-+    if (!gicv3_intid_is_special(intid)) {
-         icc_activate_irq(cs, intid);
+-    if (irq >= GICV3_MAXIRQ) {
+-        /* Also catches special interrupt numbers and LPIs */
++    if (gicv3_intid_is_special(irq)) {
+         return;
      }
  
 -- 
