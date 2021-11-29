@@ -2,88 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9764614D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 13:15:06 +0100 (CET)
-Received: from localhost ([::1]:56874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FAD746158C
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 13:53:40 +0100 (CET)
+Received: from localhost ([::1]:56598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrfYn-000394-5f
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 07:15:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46754)
+	id 1mrgA7-0005fD-6l
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 07:53:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mrfXD-0002KO-LZ
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 07:13:29 -0500
-Received: from [2a00:1450:4864:20::42b] (port=35329
- helo=mail-wr1-x42b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mrfXC-0002e9-4Q
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 07:13:27 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id i5so36324179wrb.2
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 04:13:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=q2iLRW6/V9IC7Gx1sMGhj5oAqklwg0plEmvLNv8FcAM=;
- b=EnFXv3q9TgPIY2vT28EUhSa4gTOyY1BK+W6yHmxcilZELTY92L1MyEL1I6pRX6ZaAT
- RAqhkZ7SITXk1zrBY6+snFb2TFGkrqUu75GbCIad4sa2zm6DL6NkKLf75wsDcyUCH967
- huJQvP1Dmr+K12T9FgjZWoR7V9rq4vkwLvo7GcLffGAhkyLydJILViw6cQ0gDeJOTFHU
- 53x3HdV2GA4XGdYDHurHr/nmkexef1Mw9zl3DHpBQP2QRoJcxlGYiIfULqtMx99mi6Z8
- N55OWKPr1HDknZ8TFRXI4pSqLmG1qagFk26a7TCrJdzhcTC9WD00A74p6o3PhrII0+0N
- PrJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=q2iLRW6/V9IC7Gx1sMGhj5oAqklwg0plEmvLNv8FcAM=;
- b=mwNTEgYK6JMExVT+ZeDpZ86g0fhZTkHSVSYCQm7DmsYgZt0MHhvrFpI5mgnF7DA21K
- g5O3YFVfS5j2PWQUrkPXpCoUIbMu0n/8gBy06fx2c2nih9YqDt2rsRzEQdgwSGayMREY
- lKZpHJXTXnUq31LiVSfkGCWh3/nB7imS0LCDRWaffzcolG4SvY6ihAL0FEQakZNY2IZv
- tDX+eB8pKaGoU0PveCsbQQJGjGPKXiaKACZ/tDclhL2ASYpgz5CfdfdFF1wUOPlXrxQ8
- lUec9pcHijcv11D+Zxvr2z8BM817GDva5tQC+Znm5FrwPsrn2VMRchJ0iZNihxsM0l4y
- rUtw==
-X-Gm-Message-State: AOAM531eElBtEw7swvMUqPTLOh20CCq3lgKC2YsiJmex/XAzwWhx2Vba
- zSQGcX7Ga0tL8zLbsH9ksWvibg==
-X-Google-Smtp-Source: ABdhPJyPVHB06K2aHBrwaVsXtq6Ww3f+cNh4qWMa+XtGSS060hfw7vUHcE6jD7/5BU0UiynTfltnMw==
-X-Received: by 2002:adf:ef4f:: with SMTP id c15mr34612379wrp.226.1638188004502; 
- Mon, 29 Nov 2021 04:13:24 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id l22sm13840256wmp.34.2021.11.29.04.13.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Nov 2021 04:13:23 -0800 (PST)
-Subject: Re: [PATCH v6 00/18] Adding partial support for 128-bit riscv target
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4fceecbf-7424-3a0d-d350-fb677f6b1104@linaro.org>
-Date: Mon, 29 Nov 2021 13:13:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1mrg8s-00047Y-JJ
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 07:52:22 -0500
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:32776)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1mrg8n-0000lR-Vu
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 07:52:20 -0500
+Received: from myt5-23f0be3aa648.qloud-c.yandex.net
+ (myt5-23f0be3aa648.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 019E12E137F;
+ Mon, 29 Nov 2021 15:52:10 +0300 (MSK)
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ pxfBpztvKs-q9s4j4qP; Mon, 29 Nov 2021 15:52:09 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1638190329; bh=5BIuo744LL/YmD3zadXnCCh1FhdUOI1/vMwfxTDTUW0=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=WJsAzfHzTT+MbbqOEM2qWeFm1Dn7iZYc+1QKoxpviWNPpL7+0Gti1TZDKc5qnarNi
+ CdX1vITNbR52rDkrRM1m7khJz/Q/LcES/pN7hXDNsXBqFkVDX3IpLK2pYh63lWZm6o
+ CbWJGjibt0LtNQEIXvZUC6E1jjiUvlni9fKjJHXs=
+Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from d-tatianin-nix.yandex-team.ru (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:1216::1:11])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 5suqrE3mlG-q9wOjTeg; Mon, 29 Nov 2021 15:52:09 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 2
+From: Daniil Tatianin <d-tatianin@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1] virtio/vhost-vsock: don't double close vhostfd,
+ remove redundant cleanup
+Date: Mon, 29 Nov 2021 15:52:04 +0300
+Message-Id: <20211129125204.1108088-1-d-tatianin@yandex-team.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.317,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,29 +74,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Cc: yc-core@yandex-team.ru, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/28/21 2:57 PM, Frédéric Pétrot wrote:
-> This series of patches provides partial 128-bit support for the riscv
-> target architecture, namely RVI and RVM, with minimal csr support.
-> 
-> Thanks again for the reviews and suggestions.
-> 
-> v6:
-> - support for '-cpu rv128' in qemu-system-riscv64 to handle 128-bit
->    executables (no more qemu-system-riscv128)
-> - remove useless (and buggy) big-endian support in lq/sq
+In case of an error during initialization in vhost_dev_init, vhostfd is
+closed in vhost_dev_cleanup. Remove close from err_virtio as it's both
+redundant and causes a double close on vhostfd.
 
-This also fails make check.  With
+Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
+---
+ hw/virtio/vhost-vsock.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-   ../qemu/configure --enable-debug 
---target-list=riscv64-linux-user,riscv64-softmmu,riscv32-softmmu,riscv32-linux-user
+diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
+index 478c0c9a87..433d42d897 100644
+--- a/hw/virtio/vhost-vsock.c
++++ b/hw/virtio/vhost-vsock.c
+@@ -171,6 +171,10 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
+     ret = vhost_dev_init(&vvc->vhost_dev, (void *)(uintptr_t)vhostfd,
+                          VHOST_BACKEND_TYPE_KERNEL, 0, errp);
+     if (ret < 0) {
++        /*
++         * vhostfd is closed by vhost_dev_cleanup, which is called
++         * by vhost_dev_init on initialization error.
++         */
+         goto err_virtio;
+     }
+ 
+@@ -183,15 +187,10 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
+     return;
+ 
+ err_vhost_dev:
+-    vhost_dev_cleanup(&vvc->vhost_dev);
+     /* vhost_dev_cleanup() closes the vhostfd passed to vhost_dev_init() */
+-    vhostfd = -1;
++    vhost_dev_cleanup(&vvc->vhost_dev);
+ err_virtio:
+     vhost_vsock_common_unrealize(vdev);
+-    if (vhostfd >= 0) {
+-        close(vhostfd);
+-    }
+-    return;
+ }
+ 
+ static void vhost_vsock_device_unrealize(DeviceState *dev)
+-- 
+2.25.1
 
-watch qemu-iotest 040 fail.
-
-
-r~
 
