@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDE44612E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 11:48:48 +0100 (CET)
-Received: from localhost ([::1]:45312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC454612EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 11:52:03 +0100 (CET)
+Received: from localhost ([::1]:51238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mreDH-00050Z-22
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 05:48:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51794)
+	id 1mreGP-0000fJ-4H
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 05:52:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mreBv-0003cX-Va
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:47:23 -0500
-Received: from [2a00:1450:4864:20::32d] (port=40558
- helo=mail-wm1-x32d.google.com)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1mreEy-0007xQ-JD
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:50:34 -0500
+Received: from [2607:f8b0:4864:20::1030] (port=42993
+ helo=mail-pj1-x1030.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mreBu-0006EA-60
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:47:23 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- j140-20020a1c2392000000b003399ae48f58so16411666wmj.5
- for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 02:47:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=o2wHHfe0vGINK7x8GzGCiuiv2CBDTcXn6oevB8Zcspw=;
- b=jqWOqOL+xzOlP34eio9WukXgsxmHbyXPdCj7g2tqgBepfWVfEkD+w0RXDNV3665hlo
- ijRWtm7Uxz1fpsdHKYRzp2cdtx5N5dQn8H/7flwUfsFw31gIsoa94ikdBd8zyz7ShRdr
- QPMUtKdqRMpF3o+93LgWktn03fx+fSpEydKUU3DojRdeoyspxuzMhF9LaO4c/vzl/HOT
- yBjtyl2lCbl5zkH26Txyh1QCRcZH9lPFQPdT57ZmQ9XIHYi+mue/QF9Bf5q6+RvujSu2
- BK00lMSKwGg6kmN4aJvZNAIZCcrV+pSR5ol8R2BiMGrkvlnmZ4INW/FPuCFV2nidLuyT
- T+sQ==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1mreEw-0006aK-E7
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 05:50:32 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ fv9-20020a17090b0e8900b001a6a5ab1392so13831260pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 02:50:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=gStws1BsQA7ChV+ZSOVJ9jMVkmG66GOwFLh7gMjyE60=;
+ b=eFKqu69J/Xgt/F4Of/guUi6aEe+helelYIpfX+KeICrG5Rzdt8j+JFGrckSGfKG7iE
+ hiSL6y4lrUxN2EaYjWpezUfjBviv9HrdLyI90giBnknKV0ftt6PyVGxpcwdDm1nIqxRI
+ uyXgfysMboWLQEqnOf+FHDm8pkBKAJFXAndwBkhJFMR9Zc4gvvL4A8h6LTe/4p1rb9sS
+ R0Rnxn4c+ub0ZdNoBPpyIzlZFEpXJmVpNAQY5l5TIkydTk4hXvGjzFX5CHREJy03x6jF
+ JpQaDL3q/YWUymDyinOcTVmYfXub5uyx6uLyszaTsuzY2fhqiSYfQFWjKrPJVeyhjYG8
+ 7PAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=o2wHHfe0vGINK7x8GzGCiuiv2CBDTcXn6oevB8Zcspw=;
- b=mesZkf+OuCdhi90mNJppCU5De441IXZbsAQiKgkSuefUy7xGnvimlWFHHPFxUHgE+Y
- DCeM3vM4Mi+D3B3DB/Bj0si6UODyZwfJ3d+JOMJ3e108Uy88n4msl74prLOfLxClxod9
- s40x4PihG7o4BKzTtBM6X2U2QFt1iKUaQsL6DHQuMzKvtlhfteaSPQXVohUam1P3+lDI
- RTgyu+99iATgPN15QWZuoFdH8MMIum7vPX0TXUupsKA+RNZwjJ0QgEK1j6sXe6TKEqqY
- K92pbB3ld9ng0UwOXIEAi2Nahhv2/A0Miphf4BkCGSf7jV18jVAedEBGkpyvnIInBYIx
- FMaQ==
-X-Gm-Message-State: AOAM530vZ5GACSskUkTuYzaxLEVjnxnsZZldz/ZP6fr2etVRiwLu/kEO
- wyifIyt8mzD0xdig33JX7wS0oA==
-X-Google-Smtp-Source: ABdhPJx11muBPrqqSGxD/YWpctvnkMx75uWVjbParE+Xy3unb3B1w0nA9m6OrQP6EsQl8HS0niNLZA==
-X-Received: by 2002:a7b:c844:: with SMTP id c4mr35002939wml.148.1638182840771; 
- Mon, 29 Nov 2021 02:47:20 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id k37sm16236627wms.21.2021.11.29.02.47.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Nov 2021 02:47:20 -0800 (PST)
-Subject: Re: [PATCH v6 00/18] Adding partial support for 128-bit riscv target
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <cd23bbf0-fef2-4665-4e70-820b1b787f46@linaro.org>
-Date: Mon, 29 Nov 2021 11:47:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=gStws1BsQA7ChV+ZSOVJ9jMVkmG66GOwFLh7gMjyE60=;
+ b=sfWV0uMuICpPrkXHPvgCNnza4KixOPELYfxw9xVw+15vpuEMnWVwiSSEU+dprlqB7K
+ J5rIAyZea0WrMeF/aVadFpMGL7Pt23Zd3E6UdpHqhUrh8lBba74FQvi8lOeDtJ7Vta1P
+ HmlQVaYjf0aRpiv1///Afu6Y4HD5aaclU4smR1/9pZeqUPssAcCm+MXXKM/PBpMzJkFn
+ zor5sYcBttC5lId0Ba5/0ST2IvVZIVfaWx5Y2Z694D9myF4ER9lwF6d7IW3bnjLaaWoH
+ BgajFZytT+11OR3T15rN6OIqYv8vg92gjFM3EVOhQXzklq38QFBSNmST1fCCezJOPZHw
+ l6yg==
+X-Gm-Message-State: AOAM532IcwAn0YamAtSR1W7yyZTGQNTDYXAR7q2/+zYSWbplDDiG0iTR
+ HRzhY059jPP4frgp/9g8FxpbOPtvw38cq5mBbcjUFuCLnDrpSw==
+X-Google-Smtp-Source: ABdhPJyLpiR54bj8wEc5kd9QSP7ECQOnGRiHdUENcm6EwCf3Iqcexd5Y0gvCXhvAnpEEHG4be4ZYB+UN0h3MfIaDqdE=
+X-Received: by 2002:a17:902:c20d:b0:142:21e:b1e8 with SMTP id
+ 13-20020a170902c20d00b00142021eb1e8mr57188517pll.27.1638183028486; Mon, 29
+ Nov 2021 02:50:28 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 29 Nov 2021 10:50:17 +0000
+Message-ID: <CAJSP0QWB=-CaLHFz_0qxrQpkAKgXVoki=bHjpWcFSR-bunqXSw@mail.gmail.com>
+Subject: FOSDEM 2022 call for participation
+To: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.317,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=stefanha@gmail.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,50 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/28/21 2:57 PM, Frédéric Pétrot wrote:
-> This series of patches provides partial 128-bit support for the riscv
-> target architecture, namely RVI and RVM, with minimal csr support.
-> 
-> Thanks again for the reviews and suggestions.
-> 
-> v6:
-> - support for '-cpu rv128' in qemu-system-riscv64 to handle 128-bit
->    executables (no more qemu-system-riscv128)
-> - remove useless (and buggy) big-endian support in lq/sq
+Dear QEMU and KVM community,
+The FOSDEM free and open source software conference takes place on 5 &
+6 February, 2022. It is free to attend and will be a virtual
+conference.
 
-It seems like you haven't tested this with linux-user?
-There are build problems:
+You can now propose talks about QEMU or KVM at
+https://penta.fosdem.org/submission/FOSDEM22. The deadline is December
+28th.
 
-In file included from /home/rth/qemu/qemu/include/semihosting/console.h:12,
-                  from ../qemu/linux-user/semihost.c:14:
-../qemu/target/riscv/cpu.h:485:33: error: unknown type name ‘Int128’
-   485 |                                 Int128 *ret_value,
-       |                                 ^~~~~~
-../qemu/target/riscv/cpu.h:486:33: error: unknown type name ‘Int128’
-   486 |                                 Int128 new_value, Int128 write_mask);
-       |                                 ^~~~~~
-../qemu/target/riscv/cpu.h:486:51: error: unknown type name ‘Int128’
-   486 |                                 Int128 new_value, Int128 write_mask);
-       |                                                   ^~~~~~
-../qemu/target/riscv/cpu.h:489:48: error: unknown type name ‘Int128’
-   489 |                                                Int128 *ret_value);
-       |                                                ^~~~~~
-../qemu/target/riscv/cpu.h:491:46: error: unknown type name ‘Int128’
-   491 |                                              Int128 new_value);
-       |                                              ^~~~~~
-../qemu/target/riscv/cpu.h:499:5: error: unknown type name ‘riscv_csr_read128_fn’
-   499 |     riscv_csr_read128_fn read128;
-       |     ^~~~~~~~~~~~~~~~~~~~
-../qemu/target/riscv/cpu.h:500:5: error: unknown type name ‘riscv_csr_write128_fn’
-   500 |     riscv_csr_write128_fn write128;
-       |     ^~~~~~~~~~~~~~~~~~~~~
-ninja: build stopped: subcommand failed.
+If you have something fun or interesting to share, please go ahead and
+submit a talk! Don't worry if this is your first talk or you are not a
+regular contributor. If you still have doubts, email me and I can help
+you with your proposal.
 
+You may be interested in the following devrooms:
 
-r~
+Emulator Development:
+https://lists.fosdem.org/pipermail/fosdem/2021q4/003293.html
+
+Virtualization and IaaS:
+https://fosdem.org/2022/schedule/track/virtualization_and_iaas/
+
+Retrocomputing:
+https://fosdem.org/2022/schedule/track/retrocomputing/
+
+FOSDEM website:
+https://fosdem.org/2022/
+
+I hope to see you at FOSDEM!
+
+Stefan
 
