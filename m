@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C63C460DE3
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 05:00:08 +0100 (CET)
-Received: from localhost ([::1]:36834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4122D460D66
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 04:42:35 +0100 (CET)
+Received: from localhost ([::1]:33646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrXpn-00039e-Bw
-	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 23:00:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46276)
+	id 1mrXYo-0004v3-Aj
+	for lists+qemu-devel@lfdr.de; Sun, 28 Nov 2021 22:42:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mrX3Q-0005xQ-NL
- for qemu-devel@nongnu.org; Sun, 28 Nov 2021 22:10:08 -0500
-Received: from [2607:f8b0:4864:20::632] (port=42896
- helo=mail-pl1-x632.google.com)
+ id 1mrX3V-0006B0-6K
+ for qemu-devel@nongnu.org; Sun, 28 Nov 2021 22:10:13 -0500
+Received: from [2607:f8b0:4864:20::102c] (port=42896
+ helo=mail-pj1-x102c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mrX3O-0000y2-HC
- for qemu-devel@nongnu.org; Sun, 28 Nov 2021 22:10:08 -0500
-Received: by mail-pl1-x632.google.com with SMTP id u17so10987781plg.9
- for <qemu-devel@nongnu.org>; Sun, 28 Nov 2021 19:10:06 -0800 (PST)
+ id 1mrX3S-0000yg-RH
+ for qemu-devel@nongnu.org; Sun, 28 Nov 2021 22:10:12 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ fv9-20020a17090b0e8900b001a6a5ab1392so12849023pjb.1
+ for <qemu-devel@nongnu.org>; Sun, 28 Nov 2021 19:10:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rtlL/BWHCU9umxSh60qbvU+RiGFMjvlSCAGcAmnUDro=;
- b=EPdmlBn36CZlHvyyFwz3W143ZOdbXjYyQ4rtbHWSrQJ1NhtdkCTBAHY+IA9J/VuZ3+
- J547TJDF7zcKEEM2V35pqdVlEMKb5aBWa8CN8hq5xd2MR5Pt5iujXHsLlOhLID2BOK+1
- FM79cN+270XponHQoqAt3Wi79vmwohPvLItZ8xDuETQLV1yyZ9q9DXa0Fl1pOSV0PBEV
- 4qjw4oXWZIzu4N540OzgVRtJ8JGiuQLWmeDEdYdBtUnIwRmSCqkZ8Cq+k913ZKWX0QEa
- lFTdnpyWq84WUv19P4cXeq3vh8cOmdw0F1Vy8hjwCzYh8VvgKuh76XjSMybjQImBw8Zx
- 6ytg==
+ bh=uNKLb1QcQ6ASiCSf4LOijmdkFNA5PCo15wSKt6nPlVw=;
+ b=PzVFS2bFQr6HA0SH6uHvIkuHYkpeHtgEfwPqa87WRzRFVFLTo2cU5a8KCcQnuNQJum
+ I5sydKyXykkkA+hY/6tBF7MhuAq2/fl4lN0JGBvcabKr5d7H9l+MkFHw7hHAP38zDRVn
+ NYC3PQ7C+gLYxFG66ZNkySNUgYCKqUupsjcJWd8KTYbrZ/iMSvIfpCSrE56JwoEj67XP
+ LMuByCeARoCqJFCni015zvDmFlv8Ulup4yhQL0ltM8g8uRk6qYYxFN1Yp5dnU+kLHPo+
+ jfUDuQ5aEAa4IkEEHvgGuv4vmHKNhtG+vDlb+jm/hu6q6Gl8eFn6B63kXeN/fMuIsCyj
+ BLFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rtlL/BWHCU9umxSh60qbvU+RiGFMjvlSCAGcAmnUDro=;
- b=b2O4R0yUzHTD/AEuQpX1Ajb4mecoB68HFUt2ET4YGh6hepT7PTICXGNpHM+2Pjtipd
- XmwVfQ44ZQiB9+kz/p0Q7ZKDa5yg4kvnEwLeGhJEAAYoXTM4LNimQvmMZZR+60CRdrgL
- Nz5JzljwUjYfVjtNgl1duO3KjU2wZ1AZ3wMBCIBpKg19SBxhYoZWag+Y7PStLn6WJwea
- by2AzMteZpM1J3UtZhln6b1Hx47c6p3rB9mjh0TEO8DetZT/d5vODrHOcRDe7rLIYNoA
- /d6+xjIAExb/I3smg0IZZKhlrwL8gjzzUhuEN10Jr9Fu+cJ9KPErhH0qivV3nlXzlO2S
- 2YzA==
-X-Gm-Message-State: AOAM531kl1y95XIXhHcnNK5rtFRiDFYMVUpvZCalCZ7NMCMay9u3lf7b
- Sfo1JvYxJAO9deQQDRahrH8vcP1m0eubw0Mz
-X-Google-Smtp-Source: ABdhPJyq6RBzb0lWX6UGKAVPW+KIYCcKTa/eNf7xIYJerayicN62MEWjvajnC7AAfcUROwHLdmrawQ==
-X-Received: by 2002:a17:902:be12:b0:142:431f:3d1c with SMTP id
- r18-20020a170902be1200b00142431f3d1cmr56865300pls.32.1638155405111; 
- Sun, 28 Nov 2021 19:10:05 -0800 (PST)
+ bh=uNKLb1QcQ6ASiCSf4LOijmdkFNA5PCo15wSKt6nPlVw=;
+ b=K96mLli1ZzRag7D/w+5hqkIuz/o1E70zMj5C19OdoBXjMGtC7O4ECZJ6IR5qJ94edj
+ UsvdlYDSDA7Th0HqYxl7WkW9kAPFj1UvfJPZJhRuBOY7E7hNKVX+DfeUJrLnvSuaMcL0
+ rbU78HwsyoonkaEC6BDbzWSpncPVnSuWI4q65HWDDAHUrSirgrkOSc5bPwlDEK6Drc8D
+ MIaDqdNhtYe6pCfBuMwzJ2FRHTHcEQrBjiyn+N8/VQZ008nEb/l0BH+TNuYizXH+K3Tz
+ 8f8fBOF/7DJ3ATlxHkN+0pDzIWz/Jf6ATaHLyfE463gLYd9n//9Yl6EX7zC2BEBwr1p/
+ aKcw==
+X-Gm-Message-State: AOAM5320TmuU2B/dyigbTIdEIU1+PXK7G0PptYDVtRb8+cTAk4lin9d5
+ Ifck5ZzSxeOJfHv/GN7G17qf/0/u+6oRx7VC
+X-Google-Smtp-Source: ABdhPJw5TjmwZ3w4OF1xblX311os/XweY8CCCdnt3muebgVmQ1nIhp5LVdaxJb6oYZPrA8VdHTcFdQ==
+X-Received: by 2002:a17:90a:7e10:: with SMTP id
+ i16mr34588788pjl.185.1638155408118; 
+ Sun, 28 Nov 2021 19:10:08 -0800 (PST)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id oj11sm17904040pjb.46.2021.11.28.19.10.02
+ by smtp.gmail.com with ESMTPSA id oj11sm17904040pjb.46.2021.11.28.19.10.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Nov 2021 19:10:04 -0800 (PST)
+ Sun, 28 Nov 2021 19:10:07 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 70/77] target/riscv: rvv-1.0: floating-point reciprocal
- estimate instruction
-Date: Mon, 29 Nov 2021 11:03:30 +0800
-Message-Id: <20211129030340.429689-71-frank.chang@sifive.com>
+Subject: [PATCH v10 71/77] target/riscv: rvv-1.0: rename r2_zimm to r2_zimm11
+Date: Mon, 29 Nov 2021 11:03:31 +0800
+Message-Id: <20211129030340.429689-72-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211129030340.429689-1-frank.chang@sifive.com>
 References: <20211129030340.429689-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -88,267 +88,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Frank Chang <frank.chang@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Implement the floating-point reciprocal estimate to 7 bits instruction.
+Rename r2_zimm to r2_zimm11 for the upcoming vsetivli instruction.
+vsetivli has 10-bits of zimm but vsetvli has 11-bits of zimm.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/helper.h                   |   4 +
- target/riscv/insn32.decode              |   1 +
- target/riscv/insn_trans/trans_rvv.c.inc |   1 +
- target/riscv/vector_helper.c            | 191 ++++++++++++++++++++++++
- 4 files changed, 197 insertions(+)
+ target/riscv/insn32.decode | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index bdf06dfb24d..ab283d12b79 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -845,6 +845,10 @@ DEF_HELPER_5(vfrsqrt7_v_h, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(vfrsqrt7_v_w, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(vfrsqrt7_v_d, void, ptr, ptr, ptr, env, i32)
- 
-+DEF_HELPER_5(vfrec7_v_h, void, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_5(vfrec7_v_w, void, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_5(vfrec7_v_d, void, ptr, ptr, ptr, env, i32)
-+
- DEF_HELPER_6(vfmin_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfmin_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfmin_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 6e5f288943a..952768f8ded 100644
+index 952768f8ded..d7c6bc9af26 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -561,6 +561,7 @@ vfwnmsac_vv     111111 . ..... ..... 001 ..... 1010111 @r_vm
- vfwnmsac_vf     111111 . ..... ..... 101 ..... 1010111 @r_vm
- vfsqrt_v        010011 . ..... 00000 001 ..... 1010111 @r2_vm
- vfrsqrt7_v      010011 . ..... 00100 001 ..... 1010111 @r2_vm
-+vfrec7_v        010011 . ..... 00101 001 ..... 1010111 @r2_vm
- vfmin_vv        000100 . ..... ..... 001 ..... 1010111 @r_vm
- vfmin_vf        000100 . ..... ..... 101 ..... 1010111 @r_vm
- vfmax_vv        000110 . ..... ..... 001 ..... 1010111 @r_vm
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 8fe718610a9..ff8f6df8f7b 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2408,6 +2408,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)  \
+@@ -78,7 +78,7 @@
+ @r_vm    ...... vm:1 ..... ..... ... ..... ....... &rmrr %rs2 %rs1 %rd
+ @r_vm_1  ...... . ..... ..... ... ..... .......    &rmrr vm=1 %rs2 %rs1 %rd
+ @r_vm_0  ...... . ..... ..... ... ..... .......    &rmrr vm=0 %rs2 %rs1 %rd
+-@r2_zimm . zimm:11  ..... ... ..... ....... %rs1 %rd
++@r2_zimm11 . zimm:11  ..... ... ..... ....... %rs1 %rd
+ @r2_s    .......   ..... ..... ... ..... ....... %rs2 %rs1
  
- GEN_OPFV_TRANS(vfsqrt_v, opfv_check, RISCV_FRM_DYN)
- GEN_OPFV_TRANS(vfrsqrt7_v, opfv_check, RISCV_FRM_DYN)
-+GEN_OPFV_TRANS(vfrec7_v, opfv_check, RISCV_FRM_DYN)
+ @hfence_gvma ....... ..... .....   ... ..... ....... %rs2 %rs1
+@@ -671,7 +671,7 @@ vsext_vf2       010010 . ..... 00111 010 ..... 1010111 @r2_vm
+ vsext_vf4       010010 . ..... 00101 010 ..... 1010111 @r2_vm
+ vsext_vf8       010010 . ..... 00011 010 ..... 1010111 @r2_vm
  
- /* Vector Floating-Point MIN/MAX Instructions */
- GEN_OPFVV_TRANS(vfmin_vv, opfvv_check)
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index d5f3229bcb4..946dca53ffd 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -3587,6 +3587,197 @@ GEN_VEXT_V_ENV(vfrsqrt7_v_h, 2, 2)
- GEN_VEXT_V_ENV(vfrsqrt7_v_w, 4, 4)
- GEN_VEXT_V_ENV(vfrsqrt7_v_d, 8, 8)
+-vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
++vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm11
+ vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
  
-+/*
-+ * Vector Floating-Point Reciprocal Estimate Instruction
-+ *
-+ * Adapted from riscv-v-spec recip.c:
-+ * https://github.com/riscv/riscv-v-spec/blob/master/recip.c
-+ */
-+static uint64_t frec7(uint64_t f, int exp_size, int frac_size,
-+                      float_status *s)
-+{
-+    uint64_t sign = extract64(f, frac_size + exp_size, 1);
-+    uint64_t exp = extract64(f, frac_size, exp_size);
-+    uint64_t frac = extract64(f, 0, frac_size);
-+
-+    const uint8_t lookup_table[] = {
-+        127, 125, 123, 121, 119, 117, 116, 114,
-+        112, 110, 109, 107, 105, 104, 102, 100,
-+        99, 97, 96, 94, 93, 91, 90, 88,
-+        87, 85, 84, 83, 81, 80, 79, 77,
-+        76, 75, 74, 72, 71, 70, 69, 68,
-+        66, 65, 64, 63, 62, 61, 60, 59,
-+        58, 57, 56, 55, 54, 53, 52, 51,
-+        50, 49, 48, 47, 46, 45, 44, 43,
-+        42, 41, 40, 40, 39, 38, 37, 36,
-+        35, 35, 34, 33, 32, 31, 31, 30,
-+        29, 28, 28, 27, 26, 25, 25, 24,
-+        23, 23, 22, 21, 21, 20, 19, 19,
-+        18, 17, 17, 16, 15, 15, 14, 14,
-+        13, 12, 12, 11, 11, 10, 9, 9,
-+        8, 8, 7, 7, 6, 5, 5, 4,
-+        4, 3, 3, 2, 2, 1, 1, 0
-+    };
-+    const int precision = 7;
-+
-+    if (exp == 0 && frac != 0) { /* subnormal */
-+        /* Normalize the subnormal. */
-+        while (extract64(frac, frac_size - 1, 1) == 0) {
-+            exp--;
-+            frac <<= 1;
-+        }
-+
-+        frac = (frac << 1) & MAKE_64BIT_MASK(0, frac_size);
-+
-+        if (exp != 0 && exp != UINT64_MAX) {
-+            /*
-+             * Overflow to inf or max value of same sign,
-+             * depending on sign and rounding mode.
-+             */
-+            s->float_exception_flags |= (float_flag_inexact |
-+                                         float_flag_overflow);
-+
-+            if ((s->float_rounding_mode == float_round_to_zero) ||
-+                ((s->float_rounding_mode == float_round_down) && !sign) ||
-+                ((s->float_rounding_mode == float_round_up) && sign)) {
-+                /* Return greatest/negative finite value. */
-+                return (sign << (exp_size + frac_size)) |
-+                    (MAKE_64BIT_MASK(frac_size, exp_size) - 1);
-+            } else {
-+                /* Return +-inf. */
-+                return (sign << (exp_size + frac_size)) |
-+                    MAKE_64BIT_MASK(frac_size, exp_size);
-+            }
-+        }
-+    }
-+
-+    int idx = frac >> (frac_size - precision);
-+    uint64_t out_frac = (uint64_t)(lookup_table[idx]) <<
-+                            (frac_size - precision);
-+    uint64_t out_exp = 2 * MAKE_64BIT_MASK(0, exp_size - 1) + ~exp;
-+
-+    if (out_exp == 0 || out_exp == UINT64_MAX) {
-+        /*
-+         * The result is subnormal, but don't raise the underflow exception,
-+         * because there's no additional loss of precision.
-+         */
-+        out_frac = (out_frac >> 1) | MAKE_64BIT_MASK(frac_size - 1, 1);
-+        if (out_exp == UINT64_MAX) {
-+            out_frac >>= 1;
-+            out_exp = 0;
-+        }
-+    }
-+
-+    uint64_t val = 0;
-+    val = deposit64(val, 0, frac_size, out_frac);
-+    val = deposit64(val, frac_size, exp_size, out_exp);
-+    val = deposit64(val, frac_size + exp_size, 1, sign);
-+    return val;
-+}
-+
-+static float16 frec7_h(float16 f, float_status *s)
-+{
-+    int exp_size = 5, frac_size = 10;
-+    bool sign = float16_is_neg(f);
-+
-+    /* frec7(+-inf) = +-0 */
-+    if (float16_is_infinity(f)) {
-+        return float16_set_sign(float16_zero, sign);
-+    }
-+
-+    /* frec7(+-0) = +-inf */
-+    if (float16_is_zero(f)) {
-+        s->float_exception_flags |= float_flag_divbyzero;
-+        return float16_set_sign(float16_infinity, sign);
-+    }
-+
-+    /* frec7(sNaN) = canonical NaN */
-+    if (float16_is_signaling_nan(f, s)) {
-+        s->float_exception_flags |= float_flag_invalid;
-+        return float16_default_nan(s);
-+    }
-+
-+    /* frec7(qNaN) = canonical NaN */
-+    if (float16_is_quiet_nan(f, s)) {
-+        return float16_default_nan(s);
-+    }
-+
-+    /* +-normal, +-subnormal */
-+    uint64_t val = frec7(f, exp_size, frac_size, s);
-+    return make_float16(val);
-+}
-+
-+static float32 frec7_s(float32 f, float_status *s)
-+{
-+    int exp_size = 8, frac_size = 23;
-+    bool sign = float32_is_neg(f);
-+
-+    /* frec7(+-inf) = +-0 */
-+    if (float32_is_infinity(f)) {
-+        return float32_set_sign(float32_zero, sign);
-+    }
-+
-+    /* frec7(+-0) = +-inf */
-+    if (float32_is_zero(f)) {
-+        s->float_exception_flags |= float_flag_divbyzero;
-+        return float32_set_sign(float32_infinity, sign);
-+    }
-+
-+    /* frec7(sNaN) = canonical NaN */
-+    if (float32_is_signaling_nan(f, s)) {
-+        s->float_exception_flags |= float_flag_invalid;
-+        return float32_default_nan(s);
-+    }
-+
-+    /* frec7(qNaN) = canonical NaN */
-+    if (float32_is_quiet_nan(f, s)) {
-+        return float32_default_nan(s);
-+    }
-+
-+    /* +-normal, +-subnormal */
-+    uint64_t val = frec7(f, exp_size, frac_size, s);
-+    return make_float32(val);
-+}
-+
-+static float64 frec7_d(float64 f, float_status *s)
-+{
-+    int exp_size = 11, frac_size = 52;
-+    bool sign = float64_is_neg(f);
-+
-+    /* frec7(+-inf) = +-0 */
-+    if (float64_is_infinity(f)) {
-+        return float64_set_sign(float64_zero, sign);
-+    }
-+
-+    /* frec7(+-0) = +-inf */
-+    if (float64_is_zero(f)) {
-+        s->float_exception_flags |= float_flag_divbyzero;
-+        return float64_set_sign(float64_infinity, sign);
-+    }
-+
-+    /* frec7(sNaN) = canonical NaN */
-+    if (float64_is_signaling_nan(f, s)) {
-+        s->float_exception_flags |= float_flag_invalid;
-+        return float64_default_nan(s);
-+    }
-+
-+    /* frec7(qNaN) = canonical NaN */
-+    if (float64_is_quiet_nan(f, s)) {
-+        return float64_default_nan(s);
-+    }
-+
-+    /* +-normal, +-subnormal */
-+    uint64_t val = frec7(f, exp_size, frac_size, s);
-+    return make_float64(val);
-+}
-+
-+RVVCALL(OPFVV1, vfrec7_v_h, OP_UU_H, H2, H2, frec7_h)
-+RVVCALL(OPFVV1, vfrec7_v_w, OP_UU_W, H4, H4, frec7_s)
-+RVVCALL(OPFVV1, vfrec7_v_d, OP_UU_D, H8, H8, frec7_d)
-+GEN_VEXT_V_ENV(vfrec7_v_h, 2, 2)
-+GEN_VEXT_V_ENV(vfrec7_v_w, 4, 4)
-+GEN_VEXT_V_ENV(vfrec7_v_d, 8, 8)
-+
- /* Vector Floating-Point MIN/MAX Instructions */
- RVVCALL(OPFVV2, vfmin_vv_h, OP_UUU_H, H2, H2, H2, float16_minimum_number)
- RVVCALL(OPFVV2, vfmin_vv_w, OP_UUU_W, H4, H4, H4, float32_minimum_number)
+ # *** RV32 Zba Standard Extension ***
 -- 
 2.25.1
 
