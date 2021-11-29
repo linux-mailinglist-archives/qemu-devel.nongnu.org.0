@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CEFD461C78
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:08:02 +0100 (CET)
-Received: from localhost ([::1]:39620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48118461CA0
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Nov 2021 18:20:51 +0100 (CET)
+Received: from localhost ([::1]:55102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrk8H-00060i-6p
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:08:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54416)
+	id 1mrkKg-0000EZ-35
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 12:20:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mrk3w-0008Sl-NH
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:03:32 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:59832)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mrkF1-0002Qe-T6
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:14:59 -0500
+Received: from [2a00:1450:4864:20::42d] (port=39531
+ helo=mail-wr1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mrk3t-0008GH-Sv
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:03:32 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AE76D2171F;
- Mon, 29 Nov 2021 17:03:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638205405; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+J+5WeOHDg3lt1/iRK7Mjg4coQX3VyN0IQVgiA1k6bM=;
- b=uikoFRcya63koJVnbYO0G4xfznI4fzx2prsGYBR+BrzWVtG/cRy3hm2rwfZJAFJFn+Dx04
- yMC3ETQNWQYkbnYCIJxzZhUjuJF+GTQ4K4rI3GS/q9vyO4baD+FTb7s5pvwJoy68vE+f1u
- yeaVOz2VJB8h30Po3GSOcQwFzJpw2Q4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638205405;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+J+5WeOHDg3lt1/iRK7Mjg4coQX3VyN0IQVgiA1k6bM=;
- b=jAE1OvwJ8AzOOgDTDiZ3sZa6l3UVATbFPqwGX6vNjn8IrBqKdZUc07JyDRMh1fZDeyTxXW
- 8JXx62p4dQ3y8WCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6956113B7D;
- Mon, 29 Nov 2021 17:03:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 9SEZGN0HpWFqUgAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 29 Nov 2021 17:03:25 +0000
-Subject: Re: [PATCH for-6.1 v2] i386: do not call cpudef-only models functions
- for max, host, base
-From: Claudio Fontana <cfontana@suse.de>
-To: David Woodhouse <dwmw2@infradead.org>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
-References: <20210723112921.12637-1-cfontana@suse.de>
- <1102c315addf2f2fffc49222ab5be118e7ae9b0f.camel@amazon.co.uk>
- <f5910284-14ca-8796-4e64-38fef246bd19@suse.de>
- <e57e2119df69ac190cdd763b7ac8d5894b110839.camel@infradead.org>
- <b613015e-3285-8d30-292f-6bf9816b1912@suse.de>
-Message-ID: <69ba096b-2cec-1928-8ce8-20c1acc14128@suse.de>
-Date: Mon, 29 Nov 2021 18:03:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mrkEw-0001Ta-B4
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 12:14:55 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id a18so38434926wrn.6
+ for <qemu-devel@nongnu.org>; Mon, 29 Nov 2021 09:14:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Uhhpo5yfNOPVDeE9x9mlPzmR8YX0tmaiA+JvfvZRrUo=;
+ b=Hgr9aE8UrvNQt1YH/HjSxfp6eqrVZb4DlS8lI0adFX5ZGdXH8wlUx+3VOEVPUUCLfB
+ rqfHnT7VcNLjBTlnYXxmxQfnVs5sEOJy4nDzDtDX+FfGo0lWm5jPKPQdBfW7YqmKeQFx
+ W96YrZp5p6Y8NcLGAeqyPD9vZBdlwpj9En6gevQP+Xo1KFQWu8wE7k7J3apprbA6H95G
+ dtbHfflqa717byzWNidX9luTvOYjqWIXYKLayxeiVTZ3H/n9C+PRn0YCoK/G/xEuobG4
+ j++mHNmJSkYPc1Okd2g6VyT9Sr8Ybi7L1itzaBevEmQaNvWxaDn1qX6gm97ttntYt1b4
+ hMWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Uhhpo5yfNOPVDeE9x9mlPzmR8YX0tmaiA+JvfvZRrUo=;
+ b=RpREeaD55vkMNTv7BdEsO+u5HEAD7ojgep4mmRJFmu3J1xoFVt4ucLX8G/6ULK2fr6
+ +Xp/Ysr/O8IKHvRrxz1WXSCnecT84crS1zlf4UBOheNe7xGmFaKoIPO3LR5HZy6W4ydt
+ DzJZWJ9peK3UeMgVKFUG9RhWsWL4F5HXBaeq8fkWZexcp/gbY0Z5EKXNE+ZMmZUR6nK4
+ 65FsmlzABnsnODWIOEr0tZ6wGHrhdNJOf6RgitKz99I9UtL3KxfFc2M8Iu/dq1spV/uJ
+ iQG4bO5kMU+Ot7Oc/vfw7c/WkL0fJsscBE//JFWmsedTHRHFjUh0q1qsCVc2Rs9zXMF4
+ ecqA==
+X-Gm-Message-State: AOAM533gu2E/HcLRvTJGxPN++Gg6Q9ChgMaybhsl+kWR08cYzfvpsCu+
+ ZvSPcxnlgYMid0kHIbQmkLTjSg==
+X-Google-Smtp-Source: ABdhPJyOvjOTDKMJ2N34CjSYP5a67MbVtFAmUsiq2rzMolv6Gz4Xaj03GufB+w2qh0qXzzjDTbr83w==
+X-Received: by 2002:adf:82d3:: with SMTP id 77mr35590650wrc.377.1638206091397; 
+ Mon, 29 Nov 2021 09:14:51 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z14sm15257327wrp.70.2021.11.29.09.14.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Nov 2021 09:14:50 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C9C281FF96;
+ Mon, 29 Nov 2021 17:14:49 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: richard.henderson@linaro.org,
+	peter.maydell@linaro.org
+Subject: [PULL for 6.2 0/8] more tcg, plugin, test and build fixes
+Date: Mon, 29 Nov 2021 17:14:41 +0000
+Message-Id: <20211129171449.4176301-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <b613015e-3285-8d30-292f-6bf9816b1912@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.317,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,249 +88,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "alxndr@bu.edu" <alxndr@bu.edu>, "philmd@redhat.com" <philmd@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "lovemrd@gmail.com" <lovemrd@gmail.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/29/21 5:57 PM, Claudio Fontana wrote:
-> On 11/29/21 4:11 PM, David Woodhouse wrote:
->> On Mon, 2021-11-29 at 15:14 +0100, Claudio Fontana wrote:
->>> On 11/29/21 12:39 PM, Woodhouse, David wrote:
->>>> On Fri, 2021-07-23 at 13:29 +0200, Claudio Fontana wrote:
->>>>>  static void kvm_cpu_instance_init(CPUState *cs)
->>>>>  {
->>>>>      X86CPU *cpu = X86_CPU(cs);
->>>>> +    X86CPUClass *xcc = X86_CPU_GET_CLASS(cpu);
->>>>>
->>>>>      host_cpu_instance_init(cpu);
->>>>>
->>>>> -    if (!kvm_irqchip_in_kernel()) {
->>>>> -        x86_cpu_change_kvm_default("x2apic", "off");
->>>>> -    } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
->>>>> -        x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
->>>>> -    }
->>>>> -
->>>>> -    /* Special cases not set in the X86CPUDefinition structs: */
->>>>> +    if (xcc->model) {
->>>>> +        /* only applies to builtin_x86_defs cpus */
->>>>> +        if (!kvm_irqchip_in_kernel()) {
->>>>> +            x86_cpu_change_kvm_default("x2apic", "off");
->>>>> +        } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
->>>>> +            x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
->>>>> +        }
->>>>>
->>>>> -    x86_cpu_apply_props(cpu, kvm_default_props);
->>>>> +        /* Special cases not set in the X86CPUDefinition structs: */
->>>>> +        x86_cpu_apply_props(cpu, kvm_default_props);
->>>>> +    }
->>>>>
->>>>
->>>> I think this causes a regression in x2apic and kvm-msi-ext-dest-id
->>>> support. If you start qemu thus:
->>>
->>> If I recall correctly, this change just tries to restore the behavior prior to
->>> commit f5cc5a5c168674f84bf061cdb307c2d25fba5448 ,
->>>
->>> fixing the issue introduced with the refactoring at that time.
->>>
->>> Can you try bisecting prior to
->>> f5cc5a5c168674f84bf061cdb307c2d25fba5448 , to see if the actual
->>> breakage comes from somewhere else?
->>
->> Hm, so it looks like it never worked for '-cpu host' *until* commit
->> f5cc5a5c16.
-> 
-> Right, so here we are talking about properly supporting this for the first time.
-> 
-> The fact that it works with f5cc5a5c16 is more an accident than anything else, that commit was clearly broken
-> (exemplified by reports of failed boots).
-> 
-> So we need to find the proper solution, ie, exactly which features should be enabled for which cpu classes and models.
-> 
->>
->> It didn't matter before c1bb5418e3 because you couldn't enable that
->> many vCPUs without an IOMMU, and the *IOMMU* setup would call
->> kvm_enable_x2apic().
->>
->> But after that, nothing ever called kvm_enable_x2apic() in the '-cpu
->> host' case until commit f5cc5a5c16, which fixed it... until you
->> restored the previous behaviour :)
->>
->> This "works" to fix this case, but presumably isn't correct:
-> 
-> Right, we cannot just enable all this code, or the original refactor would have been right.
-> 
-> These kvm default properties have been as far as I know intended for the cpu actual models (builtin_x86_defs),
-> and not for the special cpu classes max, host and base. This is what the revert addresses.
-> 
-> I suspect what we actually need here is to review exactly in which specific cases kvm_enable_x2apic() should be called in the end.
-> 
-> The code there is mixing changes to the kvm_default_props that are then applied using x86_cpu_apply_props (and that part should be only for xcc->model != NULL),
-> with the actual enablement of the kvm x2apic using kvm_vm_enable_cap(s, KVM_CAP_X2APIC_API, 0, flags) via kvm_enable_x2apic().
-> 
-> One way is to ignore this detail and just move out those checks, since changes to kvm_default_props are harmless once we skip the x86_cpu_apply_props call,
-> as such: 
-> 
-> ------
-> 
-> static void kvm_cpu_instance_init(CPUState *cs)
-> {
->     X86CPU *cpu = X86_CPU(cs);
->     X86CPUClass *xcc = X86_CPU_GET_CLASS(cpu);
-> 
->     host_cpu_instance_init(cpu);
-> 
->     /* only applies to builtin_x86_defs cpus */
->     if (!kvm_irqchip_in_kernel()) {
->         x86_cpu_change_kvm_default("x2apic", "off");
->     } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
->         x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
->     }
-> 
->     if (xcc->model) {
->         /* Special cases not set in the X86CPUDefinition structs: */
->         x86_cpu_apply_props(cpu, kvm_default_props);
->     }
-> 
->     if (cpu->max_features) {
->         kvm_cpu_max_instance_init(cpu);
->     }
-> 
->     kvm_cpu_xsave_init();
-> }
-> 
-> ------
-> 
-> this might however cause further confusion later on, and I wonder if this is actually correct, should we _always_ enable x2apic when kvm_irqchip_is_split() returns true?
+The following changes since commit e750c10167fa8ad3fcc98236a474c46e52e7c18c:
 
-... and only when kvm_irqchip_is_split() ?
+  Merge tag 'pull-target-arm-20211129' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2021-11-29 11:56:07 +0100)
 
-> Even for cpu class "base"? I am not too sure.
-> 
-> Another option that comes to mind is to add a call to enable x2apic for max features cpus only ("host", "max") and not for base.
-> 
-> Thoughts? Paolo, Edoardo, anything comes to mind from your side?
-> 
-> Ciao,
-> 
-> Claudio
-> 
-> 
->>
->> --- a/target/i386/kvm/kvm-cpu.c
->> +++ b/target/i386/kvm/kvm-cpu.c
->> @@ -161,7 +161,7 @@ static void kvm_cpu_instance_init(CPUState *cs)
->>  
->>      host_cpu_instance_init(cpu);
->>  
->> -    if (xcc->model) {
->> +    if (1 || xcc->model) {
->>          /* only applies to builtin_x86_defs cpus */
->>          if (!kvm_irqchip_in_kernel()) {
->>              x86_cpu_change_kvm_default("x2apic", "off");
->>
->>
->>>> Any image to specifically test out? Would an actual 9 sockets machine be required to reproduce this?
->>
->> No, but the more CPUs you have in the host the less you have to wait
->> for 288 vCPUs to spin up :)
->>
->> My test is:
->>
->> ./qemu-system-x86_64 -machine q35,accel=kvm,usb=off,kernel_irqchip=split -cpu host -m 2G -smp sockets=9,cores=16,threads=2 -drive file=/var/lib/libvirt/images/fedora.qcow2,if=virtio -serial mon:stdio -display none  -kernel ~/git/linux/arch/x86/boot/bzImage  -append "console=ttyS0,115200 root=/dev/vda1" 
->>
->>
->> I then play with the affinity of the AHCI MSI. Pointing it at CPU 255
->> should show the problem. 
->>
->> [root@localhost ~]# cd /proc/irq/313
->> [root@localhost 313]# echo 255 > smp_affinity_list 
->> [root@localhost 313]#
->> [   65.365821] Composed MSI for APIC 255 vector 0x22: 0/feeff000 22
->> [root@localhost 313]# grep ahci /proc/interrupts 
->>
->>
->> I also added some debugging into host and guest kernels to be a little
->> more explicit:
->>
->> diff --git a/arch/x86/kernel/apic/apic.c b/arch/x86/kernel/apic/apic.c
->> index b70344bf6600..53191db5145d 100644
->> --- a/arch/x86/kernel/apic/apic.c
->> +++ b/arch/x86/kernel/apic/apic.c
->> @@ -1866,6 +1866,7 @@ static __init void try_to_enable_x2apic(int remap_mode)
->>  		 * used for non-remapped IRQ domains.
->>  		 */
->>  		if (x86_init.hyper.msi_ext_dest_id()) {
->> +			pr_info("x2apic: support extended destination ID\n");
->>  			virt_ext_dest_id = 1;
->>  			apic_limit = 32767;
->>  		}
->> @@ -2539,6 +2540,7 @@ void __irq_msi_compose_msg(struct irq_cfg *cfg, struct msi_msg *msg,
->>  		msg->arch_addr_lo.virt_destid_8_14 = cfg->dest_apicid >> 8;
->>  	else
->>  		WARN_ON_ONCE(cfg->dest_apicid > 0xFF);
->> +	printk("Composed MSI for APIC %d vector 0x%x: %x/%x %x\n", cfg->dest_apicid, cfg->vector, msg->address_hi, msg->address_lo, msg->data);
->>  }
->>  
->>  u32 x86_msi_msg_get_destid(struct msi_msg *msg, bool extid)
->> diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
->> index 59abbdad7729..f0a7715763a2 100644
->> --- a/arch/x86/kernel/kvm.c
->> +++ b/arch/x86/kernel/kvm.c
->> @@ -856,6 +856,8 @@ static void __init kvm_apic_init(void)
->>  
->>  static bool __init kvm_msi_ext_dest_id(void)
->>  {
->> +	printk("dest id? %d (%x)\n", kvm_para_has_feature(KVM_FEATURE_MSI_EXT_DEST_ID),
->> +	       kvm_arch_para_features());
->>  	return kvm_para_has_feature(KVM_FEATURE_MSI_EXT_DEST_ID);
->>  }
->>  
->> diff --git a/arch/x86/kvm/lapic.c b/arch/x86/kvm/lapic.c
->> index 759952dd1222..defe6a843780 100644
->> --- a/arch/x86/kvm/lapic.c
->> +++ b/arch/x86/kvm/lapic.c
->> @@ -894,15 +894,21 @@ static bool kvm_apic_is_broadcast_dest(struct kvm *kvm, struct kvm_lapic **src,
->>  {
->>  	if (kvm->arch.x2apic_broadcast_quirk_disabled) {
->>  		if ((irq->dest_id == APIC_BROADCAST &&
->> -				map->mode != KVM_APIC_MODE_X2APIC))
->> +		     map->mode != KVM_APIC_MODE_X2APIC)) {
->> +			printk("dest %d mode %d makes bcast\n", irq->dest_id, map->mode);
->>  			return true;
->> -		if (irq->dest_id == X2APIC_BROADCAST)
->> +		}
->> +		if (irq->dest_id == X2APIC_BROADCAST)  {
->> +			printk("Sent to X2APIC bcast\n");
->>  			return true;
->> +		}
->>  	} else {
->>  		bool x2apic_ipi = src && *src && apic_x2apic_mode(*src);
->>  		if (irq->dest_id == (x2apic_ipi ?
->> -		                     X2APIC_BROADCAST : APIC_BROADCAST))
->> +		                     X2APIC_BROADCAST : APIC_BROADCAST)) {
->> +			printk("no quirk dest %x\n", irq->dest_id);
->>  			return true;
->> +		}
->>  	}
->>  
->>  	return false;
->> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
->> index d8f1d2169b45..5b0fd6d37a7e 100644
->> --- a/arch/x86/kvm/x86.c
->> +++ b/arch/x86/kvm/x86.c
->> @@ -5714,6 +5714,7 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
->>  		if (cap->args[0] & KVM_X2APIC_API_DISABLE_BROADCAST_QUIRK)
->>  			kvm->arch.x2apic_broadcast_quirk_disabled = true;
->>  
->> +		printk("X2APIC API: %x\n", cap->args[0]);
->>  		r = 0;
->>  		break;
->>  	case KVM_CAP_X86_DISABLE_EXITS:
->>
-> 
+are available in the Git repository at:
+
+  https://github.com/stsquad/qemu.git tags/pull-for-6.2-291121-1
+
+for you to fetch changes up to d5615bbf9103f01911df683cc3e4e85c49a92593:
+
+  tests/plugin/syscall.c: fix compiler warnings (2021-11-29 15:13:22 +0000)
+
+----------------------------------------------------------------
+TCG, plugin and build fixes:
+
+  - introduce CF_NOIRQ to avoid watchpoint race
+  - fix avocado plugin test
+  - fix linker issue with weird paths
+  - band-aid for gdbstub race
+  - updates for MAINTAINERS
+  - fix some compiler warning in example plugin
+
+----------------------------------------------------------------
+Alex Bennée (5):
+      accel/tcg: introduce CF_NOIRQ
+      accel/tcg: suppress IRQ check for special TBs
+      tests/avocado: fix tcg_plugin mem access count test
+      plugins/meson.build: fix linker issue with weird paths
+      gdbstub: handle a potentially racing TaskState
+
+Juro Bystricky (1):
+      tests/plugin/syscall.c: fix compiler warnings
+
+Philippe Mathieu-Daudé (1):
+      MAINTAINERS: Add section for Aarch64 GitLab custom runner
+
+Willian Rampazzo (1):
+      MAINTAINERS: Remove me as a reviewer for the build and test/avocado
+
+ include/exec/exec-all.h      |  1 +
+ include/exec/gen-icount.h    | 21 +++++++++++++++++----
+ accel/tcg/cpu-exec.c         |  9 +++++++++
+ accel/tcg/translate-all.c    |  4 ++--
+ gdbstub.c                    |  2 +-
+ softmmu/physmem.c            |  4 ++--
+ tests/plugin/syscall.c       |  8 +++-----
+ MAINTAINERS                  | 10 ++++++++--
+ plugins/meson.build          |  4 ++--
+ tests/avocado/tcg_plugins.py |  2 +-
+ 10 files changed, 46 insertions(+), 19 deletions(-)
+
+-- 
+2.30.2
 
 
