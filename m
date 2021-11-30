@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 038E2462E3B
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 09:07:15 +0100 (CET)
-Received: from localhost ([::1]:43544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 764EA462E76
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 09:25:01 +0100 (CET)
+Received: from localhost ([::1]:47978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mryAR-0008EV-PV
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 03:07:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39930)
+	id 1mryRg-0003as-5U
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 03:25:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mry7T-0007EM-Hi
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 03:04:07 -0500
-Received: from [2a00:1450:4864:20::32a] (port=46624
- helo=mail-wm1-x32a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mry7R-0006UQ-Kv
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 03:04:07 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- c6-20020a05600c0ac600b0033c3aedd30aso14109271wmr.5
- for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 00:04:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=L6OnWMfI5c4phPxCdXbCTwl7f4OnocpSWH+Ro5Mp1TY=;
- b=W/nRR7WUNMS2ole6gpJe86XqxIGYuEwqzZd0CBXvSzNx4XKsXZ9rOVqmCxYb+igqQI
- qGvhYNb2GPs9wfKunc+wQRuoa9FIrkrg4QZ5moQ9gaKRJEs18C71PL/77gmmQejmBPUC
- VX42khbgYwORi9XkssWVaPtBew/M+cYHw3jsES5Gi63qFC/j5ItwSGDgasyBPIDR/9oJ
- AzwVAHoIbwQiHs5DXg8om0/TO4I2wg73jDVb631I+Je2HeoQwbuQcL19m+bvTCKxyFiZ
- /3Aowqmm4LJOmYFUBD9ona+Xcitm+DMuugSYnrVxqqwlcG1qlQzZCsRD/f1xqP4/o6Z7
- 1a4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=L6OnWMfI5c4phPxCdXbCTwl7f4OnocpSWH+Ro5Mp1TY=;
- b=mrgCUW+1e6B04s3OAiJ8ayTVpvGTYEzi44zfo2BlZCvZGZnxbaTgZV1g0/BHPV0Jqq
- NRnA2cTYiCbic36b5wpij0S27kmqmoU4pvKGHI3GgJfcegj+b4x8jlk4ClC7DYkjtTwu
- /YxLjAHT/66WrKuQ7oRCicOFyfmhXXhUSxGBJHDQarMU6z4vLU4RXC+6kotO9WIVi+hM
- F5+MgwGzeK7xbmxFtcJe8tmoflJFKaD3tYZMA5M8y3Bw4fpBEH3jW+lIbcBdCYOH9sAQ
- ekPYBxexKSI6ds6IHimRNajCVA350vAvQFJpSiRjn4I8Pk8LdC06XU18M8MHX57FJqkK
- FHaw==
-X-Gm-Message-State: AOAM531S75qs1tS9Dvc+kHE981m32TzCtKATpLiTh2Q8BRWpc71QixIP
- 7NFSduWmCrbZt8dIDU6wrl+aDA==
-X-Google-Smtp-Source: ABdhPJxMtW5ZmcamoRONANXf6Jf987Llr5gnXeZKfs/Jb7oU3gFKLxEyDzQbdhbip8sSbGllduhgVg==
-X-Received: by 2002:a7b:c763:: with SMTP id x3mr3166452wmk.31.1638259443223;
- Tue, 30 Nov 2021 00:04:03 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id a198sm1663212wme.1.2021.11.30.00.04.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Nov 2021 00:04:02 -0800 (PST)
-Subject: Re: [PULL 0/1] ppc queue
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211129205327.489558-1-clg@kaod.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <15ac9ce1-a725-edd8-444e-6794cf8457fc@linaro.org>
-Date: Tue, 30 Nov 2021 09:04:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1mryPa-0002t1-1d
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 03:22:53 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:36822 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1mryPX-0000fa-LR
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 03:22:49 -0500
+Received: from [10.20.42.193] (unknown [10.20.42.193])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxashK36VhlLUBAA--.3301S3;
+ Tue, 30 Nov 2021 16:22:35 +0800 (CST)
+Subject: Re: [PATCH v11 11/26] target/loongarch: Add floating point comparison
+ instruction translation
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
+ <1637302410-24632-12-git-send-email-gaosong@loongson.cn>
+ <c9c08d6d-e193-969c-f82a-fc36ecff196a@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <58f22862-7fad-d9bb-e712-2d915d944a7f@loongson.cn>
+Date: Tue, 30 Nov 2021 16:22:34 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20211129205327.489558-1-clg@kaod.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <c9c08d6d-e193-969c-f82a-fc36ecff196a@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------B6579E2A26E3788EDF5C6B0E"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.211,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-CM-TRANSID: AQAAf9AxashK36VhlLUBAA--.3301S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7AF4DGFW7ury8WFW8Kr13CFg_yoW5Jryxpr
+ 18Ar17Cry8JF1rJr4jqr1UtryUJr4DJw15Cr1UXFWUJF1UJr1jqr1UXr1j9r1DXr4xAryU
+ JF1UtFn8Zrs8XrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvE1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
+ z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzx
+ vE52x082IY62kv0487McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8
+ JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYx
+ C7Mx8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487MxkIecxEwVCm-wCF
+ 04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26ryrJr1UJwCFx2IqxVCFs4IE7xkEbV
+ WUJVW8JwC20s026c02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
+ 67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
+ IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1l
+ IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWI
+ evJa73UjIFyTuYvjfUwYFCUUUUU
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-2.211, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,40 +75,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org,
+ laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/29/21 9:53 PM, Cédric Le Goater wrote:
-> The following changes since commit a0fd8a5492240379a07c0b39c8dae3b8341b458f:
-> 
->    Merge tag 'pull-for-6.2-291121-1' of https://github.com/stsquad/qemu into staging (2021-11-29 18:58:06 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/legoater/qemu/ tags/pull-ppc-20211129
-> 
-> for you to fetch changes up to 7bf00dfb51566070960e0b7977e41abba96c130e:
-> 
->    target/ppc: fix Hash64 MMU update of PTE bit R (2021-11-29 21:00:08 +0100)
-> 
-> ----------------------------------------------------------------
-> ppc 6.2 queue:
-> 
-> * Hash64 MMU fix for FreeBSD installer
-> 
-> ----------------------------------------------------------------
-> Leandro Lupori (1):
->        target/ppc: fix Hash64 MMU update of PTE bit R
-> 
->   target/ppc/mmu-hash64.h | 5 +++++
->   hw/ppc/spapr.c          | 8 ++++----
->   hw/ppc/spapr_softmmu.c  | 2 +-
->   target/ppc/mmu-hash64.c | 4 ++--
->   4 files changed, 12 insertions(+), 7 deletions(-)
+This is a multi-part message in MIME format.
+--------------B6579E2A26E3788EDF5C6B0E
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Applied, thanks.
+Hi Richard,
 
-r~
+On 2021/11/20 下午5:02, Richard Henderson wrote:
+>
+>> +#define FCMP_LT 0x0001  /* fp0 < fp1 */
+>> +#define FCMP_EQ   0x0010  /* fp0 = fp1 */
+>> +#define FCMP_UN   0x0100  /* unordered */
+>> +#define FCMP_GT   0x1000  /* fp0 > fp1 */
+>
+> Any reason why these bits are not sequential? 
+I think this is consistent with the description in Table 9,  and the 
+FCMP_GT is need 0x7.
+In  get_fcmp_flags(int cond)  the param 'cond' is table 9  COND >> 1,
+table 9
+COND          True Condition
+0x2              LT
+0x4              EQ
+0x6              EQ  LT
+0x8              UN
+0x10            GT LT
+...
+COND >> 1   Flags
+0x1              FCMP_LT                            FCMP_LT    0x1
+0x2              FCMP_EQ                           FCMP_EQ    0x2
+0x3              FCMP_EQ  |  FCMP_LT
+0x4              FCMP_UN                          FCMP_UN   0x4
+0x8              FCMP_GT |  FCMP_LT          FCMP_GT    0x7
+...
+so our definitions :
+#define FCMP_LT    0x1  /* fp0 < fp1 */
+#define FCMP_EQ   0x2  /* fp0 = fp1 */
+#define FCMP_UN   0x4  /* unordered */
+#define FCMP_GT   0x7  /* fp0 > fp1 */
+
+get_fcmp_flags:
+/* bit0(signaling/quiet) bit1(lt) bit2(eq) bit3(un) bit4(neq) */
+static uint32_t get_fcmp_flags(int cond)
+{
+     uint32_t flags = 0;
+
+     if (cond & 0x1) {
+         flags |= FCMP_LT;
+     }
+     if (cond & 0x2) {
+         flags |= FCMP_EQ;
+     }
+     if (cond & 0x4) {
+         flags |= FCMP_UN;
+     }
+     if (cond & 0x8) {
+         flags |= FCMP_GT | FCMP_LT;
+     }
+     return flags;
+}
+
+If not .
+
+We should like:
+
+#define FCMP_LT    0x1  /* fp0 < fp1 */
+#define FCMP_EQ   0x2  /* fp0 = fp1 */
+#define FCMP_UN   0x3  /* unordered */
+#define FCMP_GT   0x4  /* fp0 > fp1 */
+
+static uint32_t get_fcmp_flags(int cond)
+{
+     uint32_t flags = 0;
+
+     if (cond & 0x1) {
+         flags |= FCMP_LT;
+     }
+     if (cond & 0x2) {
+         flags |= FCMP_EQ;
+     }
+     if (cond & 0x3) {
+         flags |= FCMP_UN;
+     }
+     if (cond & 0x4) {
+         flags |= FCMP_GT;
+     }
+     return flags;
+}
+
+Is this right?
+
+Thanks
+Song Gao
+
+--------------B6579E2A26E3788EDF5C6B0E
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi Richard,<br>
+    </p>
+    <div class="moz-cite-prefix">On 2021/11/20 下午5:02, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:c9c08d6d-e193-969c-f82a-fc36ecff196a@linaro.org"><br>
+      <blockquote type="cite" style="color: #000000;">+#define FCMP_LT  
+        0x0001  /* fp0 &lt; fp1 */
+        <br>
+        +#define FCMP_EQ   0x0010  /* fp0 = fp1 */
+        <br>
+        +#define FCMP_UN   0x0100  /* unordered */
+        <br>
+        +#define FCMP_GT   0x1000  /* fp0 &gt; fp1 */
+        <br>
+      </blockquote>
+      <br>
+      Any reason why these bits are not sequential?
+    </blockquote>
+    I think this is consistent with the description in Table 9,  and the
+    FCMP_GT is need 0x7.<br>
+    In  get_fcmp_flags(int cond)  the param 'cond' is table 9  COND
+    &gt;&gt; 1, <span style="color: rgb(57, 115, 0); font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: pre-wrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;"></span> 
+    <br>
+    table 9<br>
+    COND          True Condition<br>
+    0x2              LT<br>
+    0x4              EQ<br>
+    0x6              EQ  LT<br>
+    0x8              UN<br>
+    0x10            GT LT<br>
+    ...<br>
+    COND &gt;&gt; 1   Flags<br>
+    0x1              FCMP_LT                            FCMP_LT    0x1 <br>
+    0x2              FCMP_EQ                           FCMP_EQ    0x2<br>
+    0x3              FCMP_EQ  |  FCMP_LT         <br>
+    0x4              FCMP_UN                          FCMP_UN   0x4<br>
+    0x8              FCMP_GT |  FCMP_LT          FCMP_GT    0x7<br>
+    ...<br>
+    so our definitions :<br>
+    #define FCMP_LT    0x1  /* fp0 &lt; fp1 */<br>
+    #define FCMP_EQ   0x2  /* fp0 = fp1 */<br>
+    #define FCMP_UN   0x4  /* unordered */<br>
+    #define FCMP_GT   0x7  /* fp0 &gt; fp1 */<br>
+    <br>
+    get_fcmp_flags:<br>
+    /* bit0(signaling/quiet) bit1(lt) bit2(eq) bit3(un) bit4(neq) */<br>
+    static uint32_t get_fcmp_flags(int cond)<br>
+    {<br>
+        uint32_t flags = 0;<br>
+    <br>
+        if (cond &amp; 0x1) {<br>
+            flags |= FCMP_LT;<br>
+        }<br>
+        if (cond &amp; 0x2) {<br>
+            flags |= FCMP_EQ;<br>
+        }<br>
+        if (cond &amp; 0x4) {<br>
+            flags |= FCMP_UN;<br>
+        }<br>
+        if (cond &amp; 0x8) {<br>
+            flags |= FCMP_GT | FCMP_LT;<br>
+        }<br>
+        return flags;<br>
+    }<br>
+    <p>If not .<br>
+    </p>
+    <p>We should like:</p>
+    <p>#define FCMP_LT    0x1  /* fp0 &lt; fp1 */<br>
+      #define FCMP_EQ   0x2  /* fp0 = fp1 */<br>
+      #define FCMP_UN   0x3  /* unordered */<br>
+      #define FCMP_GT   0x4  /* fp0 &gt; fp1 */</p>
+    <p>static uint32_t get_fcmp_flags(int cond)<br>
+      {<br>
+          uint32_t flags = 0;<br>
+      <br>
+          if (cond &amp; 0x1) {<br>
+              flags |= FCMP_LT;<br>
+          }<br>
+          if (cond &amp; 0x2) {<br>
+              flags |= FCMP_EQ;<br>
+          }<br>
+          if (cond &amp; 0x3) {<br>
+              flags |= FCMP_UN;<br>
+          }<br>
+          if (cond &amp; 0x4) {<br>
+              flags |= FCMP_GT;<br>
+          }<br>
+          return flags;<br>
+      }</p>
+    <p>Is this right?<br>
+    </p>
+    Thanks<br>
+    Song Gao<br>
+  </body>
+</html>
+
+--------------B6579E2A26E3788EDF5C6B0E--
 
 
