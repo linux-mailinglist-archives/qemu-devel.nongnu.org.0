@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D16462F8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 10:27:31 +0100 (CET)
-Received: from localhost ([::1]:54964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4100F462FC7
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 10:34:48 +0100 (CET)
+Received: from localhost ([::1]:37706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrzQ9-0004kK-Lp
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 04:27:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57362)
+	id 1mrzXD-0003uj-AX
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 04:34:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mrzOX-00043a-Mr
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 04:25:49 -0500
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:40554)
+ id 1mrzTm-0008V9-5z
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 04:31:15 -0500
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:42194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mrzOU-0008Vg-I0
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 04:25:49 -0500
+ id 1mrzTd-0000pq-G4
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 04:31:07 -0500
 Received: from loganberry.canonical.com (loganberry.canonical.com
  [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id D8E7543CF4
- for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 09:25:43 +0000 (UTC)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 6741443D07
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 09:31:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1638264343;
- bh=usPHfXIIf+71Wj546eRdLVNDyFaGysxULomwyqwTScQ=;
+ s=20210803; t=1638264662;
+ bh=G5W7rif5ihr9MZgEoFHP/+Q69z2vDQl48eSoEKtt9xY=;
  h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
  Message-Id:Subject;
- b=saj8dg9dnrXL6hEDNaHQzTNWt2Wj+sPS4Xw+FF2D99r8vQUFC9QWfrpLk48TW8sNO
- 5iiwiH7Dz7rnIAKKCxoOPJBmCVRN5Rs9kbKAPJ0iygr6Sd03x/1bswqcDNhytuqd0z
- P+mBTr4Kjb6YAHASd7H1csh4+uHGeFw0fUykF758WKRxcssY4tikpeVnCGT01Z9MoX
- B2xkx7qrg602VJlXWza25ZiuQCZ2WbC1yDuLHGpzT88sj9Y0XcOGQ++lRGn1/snv1D
- 0nrYeYg6EZvwapf3uui8kU9r1OGA51ads2wBytBjGkQ7DiwF9MwR2neLCx+NUhy8LW
- hQlUflimMwrjw==
+ b=TytMSy1j5kD9bFn+Hfgl97N9xzVEBJdS179BlPYhRwcibcDBUgZZhwlVKNHXxEaRs
+ Ad3hNdcnfhZF8Uey1ZlGB3XZHG371w076P4Vp5Lmq1ALOHQyo3FS3ZjBy66VXbZTqB
+ AT4mz9EfwAapcgNClxFJXevYSwbna7VbFDA7FaxNSOLQJRPc3D1aFK1OZRR6FnzHhK
+ U7iZipaeSBleyPChfAokniumq1snTa04nIKfbvsEHTc8aevYsq+CSlgowU3ulReu/v
+ ct6j+K4Gc0MGtJA3sRHq5hyfwRVkqDYbKrKKcQLamMr2cipQNyRK2FTzF6PIVu3ZIa
+ sDUbMfFpB6Q6w==
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AEED02E8181
- for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 09:25:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 964922E8194
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 09:31:01 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 30 Nov 2021 09:20:18 -0000
+Date: Tue, 30 Nov 2021 09:25:18 -0000
 From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1749393@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -62,7 +62,7 @@ X-Launchpad-Bug-Commenters: doko gerard-f-vidal-4 hertzog janitor komainu8
 X-Launchpad-Bug-Reporter: =?utf-8?q?Rapha=C3=ABl_Hertzog_=28hertzog=29?=
 X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer=29?=
 References: <151859702399.9461.6832978283203997178.malonedeb@chaenomeles.canonical.com>
-Message-Id: <163826401816.15705.7244854723927275213.malone@gac.canonical.com>
+Message-Id: <163826431948.23793.10989375664888481329.launchpad@chaenomeles.canonical.com>
 Subject: [Bug 1749393] Re: sbrk() not working under qemu-user with a
  PIE-compiled binary?
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -70,7 +70,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="78346d219e01c6c7b1bfd882aa0bbcbb42d4e568"; Instance="production"
-X-Launchpad-Hash: 4770fc8765f30e7441d0f18c81b87be0315c5bf9
+X-Launchpad-Hash: 80540e5b27f0c4f03819e41b8b6cd197f644debd
 Received-SPF: pass client-ip=185.125.188.251;
  envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
 X-Spam_score_int: -42
@@ -95,10 +95,11 @@ Reply-To: Bug 1749393 <1749393@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SRU template updated, PPA rebuilt, Merge requests updated.
-Also bundled another bug fix.
+** Changed in: qemu (Ubuntu Focal)
+       Status: Triaged =3D> In Progress
 
-Waiting for MR review now.
+** Changed in: qemu (Ubuntu Focal)
+     Assignee: (unassigned) =3D> Christian Ehrhardt =EE=83=BF (paelzer)
 
 --=20
 You received this bug notification because you are a member of qemu-
