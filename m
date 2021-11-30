@@ -2,66 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96FEC462EE9
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 09:52:08 +0100 (CET)
-Received: from localhost ([::1]:40262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87640462F27
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 10:01:54 +0100 (CET)
+Received: from localhost ([::1]:46292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mryrv-0001jB-P2
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 03:52:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49108)
+	id 1mrz1N-0006Hj-Df
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 04:01:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mryqn-00012i-NY
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 03:50:57 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:43488 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mryql-00042c-24
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 03:50:57 -0500
-Received: from [10.20.42.193] (unknown [10.20.42.193])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxX8vn5aVhg7cBAA--.4073S3;
- Tue, 30 Nov 2021 16:50:48 +0800 (CST)
-Subject: Re: [PATCH v11 11/26] target/loongarch: Add floating point comparison
- instruction translation
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
- <1637302410-24632-12-git-send-email-gaosong@loongson.cn>
- <c9c08d6d-e193-969c-f82a-fc36ecff196a@linaro.org>
- <58f22862-7fad-d9bb-e712-2d915d944a7f@loongson.cn>
- <97db0ee8-6f0e-1855-8182-e0fe37f2b022@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <f5c8f692-664f-287f-85bb-1694e658767f@loongson.cn>
-Date: Tue, 30 Nov 2021 16:50:47 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mryzx-00052M-VB
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 04:00:27 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:58918)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mryzs-0005VC-96
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 04:00:25 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A29E31FD2F;
+ Tue, 30 Nov 2021 09:00:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1638262818; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7YYmui0fVM8YrgM53fD8wEeDFGODF3K+FAEA3+2MLJs=;
+ b=bce7kmUC/IOUeNS3qNUgvYy3Ud16YPaDk4Mi53XYV3GKy8yaBNXy1jFUfCLs7EUtokXxAa
+ 00qG4DB3pcE/8AvVHSfKdVffJY8GdT6UwLHdTVaGuVZiUlyXxg7spiIgG7vJrkTnJIJYbt
+ sOAe1n7TEkmA9ki37dgvFWjtfr0/zTI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1638262818;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7YYmui0fVM8YrgM53fD8wEeDFGODF3K+FAEA3+2MLJs=;
+ b=J3EM8M9ur2jI1j5v7ZbB66NyLnKP0iKe5ibo0QNMCiYODp9AG9kapDX1DZxnm1NpaRLbVc
+ 0YtSS/NztnCEyaDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5643513C3D;
+ Tue, 30 Nov 2021 09:00:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 5WS+EiLopWHyCwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Tue, 30 Nov 2021 09:00:18 +0000
+Subject: Re: [PATCH for-6.1 v2] i386: do not call cpudef-only models functions
+ for max, host, base
+To: David Woodhouse <dwmw2@infradead.org>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
+References: <20210723112921.12637-1-cfontana@suse.de>
+ <1102c315addf2f2fffc49222ab5be118e7ae9b0f.camel@amazon.co.uk>
+ <f5910284-14ca-8796-4e64-38fef246bd19@suse.de>
+ <e57e2119df69ac190cdd763b7ac8d5894b110839.camel@infradead.org>
+ <b613015e-3285-8d30-292f-6bf9816b1912@suse.de>
+ <d579bf46d0babc9eece1dc3e8ec63c43b311b022.camel@infradead.org>
+ <483ebe21-2972-90c0-bc9a-ce922518632d@suse.de>
+ <bdd861f68aa1533b2ea752c6509c03ca7b9f0279.camel@infradead.org>
+ <93efa230-fb6b-fdc7-a696-c555676da2b4@suse.de>
+ <d437972602decfeb392b08563589952358bdd510.camel@infradead.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <9990ade1-ccfa-a712-94c0-1667f5b3094f@suse.de>
+Date: Tue, 30 Nov 2021 10:00:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <97db0ee8-6f0e-1855-8182-e0fe37f2b022@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------B14D835619B524B1B25B3DE9"
+In-Reply-To: <d437972602decfeb392b08563589952358bdd510.camel@infradead.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-CM-TRANSID: AQAAf9DxX8vn5aVhg7cBAA--.4073S3
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
- VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYD7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
- 6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2
- z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67
- IIx4CEVc8vx2IErcIFxwCjr7xvwVCIw2I0I7xG6c02F41lc7I2V7IY0VAS07AlzVAYIcxG
- 8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW5Wr1UJr1l4I
- 8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUGVWUWwC20s026x8GjcxK67AK
- xVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
- AFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8I
- cIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
- v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUtkuxUUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-2.211, SPF_HELO_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.211,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,81 +96,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org,
- laurent@vivier.eu
+Cc: "lovemrd@gmail.com" <lovemrd@gmail.com>, "alxndr@bu.edu" <alxndr@bu.edu>,
+ "philmd@redhat.com" <philmd@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------B14D835619B524B1B25B3DE9
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 11/29/21 9:29 PM, David Woodhouse wrote:
+> On Mon, 2021-11-29 at 20:55 +0100, Claudio Fontana wrote:
+>> On 11/29/21 8:19 PM, David Woodhouse wrote:
+>>> On Mon, 2021-11-29 at 20:10 +0100, Claudio Fontana wrote:
+>>>>
+>>>> Hmm I thought what you actually care for, for cpu "host", is just the kvm_enable_x2apic() call, not the kvm_default_props.
+>>>>
+>>>>
+>>>>
+>>>> Do you also expect the kvm_default_prop "kvm-msi-ext-dest-id" to be switch to "on" and applied?
+>>>
+>>> It's already on today. It just isn't *true* because QEMU never called
+>>> kvm_enable_x2apic().
+>>
+>>
+>> property should be on, but not by setting in kvm_default_prop / applied via kvm_default_prop, that mechanism is for the versioned cpu models,
+>> which use X86CPUModel / X86CPUDefinition , and "host" isn't one of them.
+>>
+>> Out of curiosity, does my previous snippet actually work? Not that I am sure it is the best solution,
+>> just for my understanding. It would be surprising to me that the need to actually manually apply "kvm-msi-ext-dest-id" to "on" there.
+>>
+> 
+> This one?
+> 
+> --- a/target/i386/kvm/kvm-cpu.c
+> +++ b/target/i386/kvm/kvm-cpu.c
+> @@ -161,14 +161,14 @@ static void kvm_cpu_instance_init(CPUState *cs)
+>  
+>      host_cpu_instance_init(cpu);
+>  
+> -    if (xcc->model) {
+>          /* only applies to builtin_x86_defs cpus */
+>          if (!kvm_irqchip_in_kernel()) {
+>              x86_cpu_change_kvm_default("x2apic", "off");
+>          } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
+> -            x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
+> +               x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
+>          }
+>  
+> +    if (xcc->model) {
+>          /* Special cases not set in the X86CPUDefinition structs: */
+>          x86_cpu_apply_props(cpu, kvm_default_props);
+>      }
+> 
+> Note that in today's HEAD we already advertise X2APIC and ext-dest-id
+> to the '-cpu host' guest; it's just not *true* because we never call
+> kvm_enable_x2apic().
 
-Hi Richard.
+This is clear to me. The move of the code there is simply to:
 
-On 2021/11/30 下午4:37, Richard Henderson wrote:
->
-> I think you should simply replace "0x" with "0b" so that the bits of 
-> FCMP are more compact.  I assume that's what you were originally 
-> thinking.
-Ooh,  suddenly become clear-minded.
+1) make sure that, for non-host, versioned cpu models, we continue to set the kvm_default_props and apply them in the same way.
 
-Thanks
-Song Gao
+2) for the host cpu, make sure that kvm_enable_x2apic() is called. x86_cpu_change_kvm_default is completely irrelevant for host cpu, as you have noted.
+
+You are right that we continue to not handle the error path correctly on kvm_enable_x2apic failure, for both smp > 255 and <= 255.  
+
+> 
+> So yes, the above works on a modern kernel where kvm_enable_x2apic()
+> succeeds. But that's the easy case.
+> 
+> Where your snippet *won't* work is in the case of running on an old
+> kernel where kvm_enable_x2apic() fails.
 
 
---------------B14D835619B524B1B25B3DE9
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+I tend to agree that what we want if kvm_enable_x2apic fails is to abort QEMU if we have been requesting smp > 255,
+and if we did not request smp > 255 cpus, we want to not advertise the feature.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    Hi Richard.<br>
-    <br>
-    <div class="moz-cite-prefix">On 2021/11/30 下午4:37, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:97db0ee8-6f0e-1855-8182-e0fe37f2b022@linaro.org"><br>
-      I think you should simply replace "0x" with "0b" so that the bits
-      of FCMP are more compact.  I assume that's what you were
-      originally thinking.
-      <br>
-    </blockquote>
-    Ooh,  suddenly become clear-minded.
-    <p>Thanks<br>
-      Song Gao<br>
-    </p>
-    <span style="color: rgb(51, 51, 51); font-family: Arial,
-      &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, STHeiti,
-      &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;,
-      sans-serif; font-size: 14px; font-style: normal;
-      font-variant-ligatures: normal; font-variant-caps: normal;
-      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
-      start; text-indent: 0px; text-transform: none; white-space:
-      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
-      0px; background-color: rgb(249, 249, 249);
-      text-decoration-thickness: initial; text-decoration-style:
-      initial; text-decoration-color: initial; display: inline
-      !important; float: none;"></span>
-    <p><span style="color: rgb(51, 51, 51); font-family: Arial,
-        &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, STHeiti,
-        &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;,
-        sans-serif; font-size: 14px; font-style: normal;
-        font-variant-ligatures: normal; font-variant-caps: normal;
-        font-weight: 400; letter-spacing: normal; orphans: 2;
-        text-align: start; text-indent: 0px; text-transform: none;
-        white-space: normal; widows: 2; word-spacing: 0px;
-        -webkit-text-stroke-width: 0px; background-color: rgb(249, 249,
-        249); text-decoration-thickness: initial; text-decoration-style:
-        initial; text-decoration-color: initial; display: inline
-        !important; float: none;"></span></p>
-  </body>
-</html>
+This is not accomplished, neither by my snippet above, not by the existing code at any point in git history, and not by yours in itself.
 
---------------B14D835619B524B1B25B3DE9--
+Your change seems to accomplish the call to kvm_enable_x2apic, and abort if requested smp > 255,
+but it does not stop advertising X2APIC and ext-dest-id on kvm_enable_x2apic failure for the case < 255, so we'd need to add that.
+
+Do I understand it right? Do we need to wrap all of this logic in a if (kvm_enabled()) ?
+
+> 
+> In that case it needs to turn x2apic support *off*. But simply calling
+> (or not calling) x86_cpu_change_kvm_default() makes absolutely no
+> difference unless those defaults are *applied* by calling
+> x86_cpu_apply_props()
+
+right, it makes absolutely no difference, and we cannot use kvm_default_props, as they are for something else entirely.
+
+> or making the same change by some other means.
+
+right, we need to change it by other means.
+
+It is still unclear to me for which cpu classes and versioned models we should behave like this. Thoughts?
+
+"max"? "base"? versioned models: depending on the model features?
+
+> 
+> 
+>>> So what I care about (in case ∃ APIC IDs >= 255) is two things:
+>>>
+>>>  1. Qemu needs to call kvm_enable_x2apic().
+>>>  2. If that *fails* qemu needs to *stop* advertising X2APIC and ext-dest-id.
+
+Understand. We also need though:
+
+3. Not call kvm_enable_x2apic() when it should not be called (non-KVM accelerator, which cpu classes and models)
+4. Not stop advertising X2APIC and ext-dest-id when we shouldn't stop advertising it.
+
+>>>
+>>>
+>>> That last patch snippet in pc_machine_done() should suffice to achieve
+>>> that, I think. Because if kvm_enable_x2apic() fails and qemu has been
+>>> asked for that many CPUs, it aborts completely. Which seems right.
+
+see comments above, and should we limit that code to when kvm is enabled?
+
+>>>
+>>
+>> seems right to abort if requesting > 255 APIC IDs cannot be satisfied, I agree.
+>>
+>> So I think in the end, we want to:
+>>
+>> 1) make sure that when accel=kvm and smp > 255 for i386, using cpu "host", kvm_enable_x2apic() is called and successful.
+>>
+>> 2) in addressing requirement 1), we do not break something else (other machines, other cpu classes/models, TCG, ...).
+>>
+>> 3) as a plus we might want to cleanup and determine once and for all where kvm_enable_x2apic() should be called:
+>>    we have calls in intel_iommu.c and in the kvm cpu class instance initialization here in kvm-cpu.c today:
+>>    before adding a third call we should really ask ourselves where the proper initialization of this should happen.
+>>
+> 
+> I think the existing two calls to kvm_enable_x2apic() become mostly
+> redundant. Because in fact the vtd_decide_config() and
+> kvm_cpu_instance_init() callers would both by perfectly OK without
+> kvm_enable_x2apic() if there isn't a CPU with an APIC ID >= 255
+> anyway. 
+> 
+> And that means that with my patch, pc_machine_done() will have
+> *aborted* if their conditions aren't met.
+
+I think it is good to abort early if we figure out that the user request of APIC ID >= 255 cannot be satisfied. 
+
+> 
+> But then again, if since kvm_enable_x2apic() is both the initial
+> initialisation *and* a cached sanity check that it has indeed been
+> enabled successfully, there perhaps isn't any *harm* in having them do
+> the check for themselves?
+> 
+
+Well the harm in my mind is, do we need to handle the error condition correctly at each single place? 
+Do we risk slightly different behavior and advertised features depending on where the call happens?
+
+Seems that we can reduce the complexity and long term risk by handling things in one single place, if we definitely find what that place should be.
+
+Thanks,
+
+Claudio
 
 
