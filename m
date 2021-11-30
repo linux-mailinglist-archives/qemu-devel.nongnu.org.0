@@ -2,87 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 884A3463A4C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 16:41:11 +0100 (CET)
-Received: from localhost ([::1]:57470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED48463AB4
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 16:55:22 +0100 (CET)
+Received: from localhost ([::1]:39792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ms5Fm-0008Le-5C
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 10:41:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33970)
+	id 1ms5TV-0007Wq-2v
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 10:55:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jamie@nuviainc.com>)
- id 1ms5D9-0007XS-Ja
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 10:38:27 -0500
-Received: from [2a00:1450:4864:20::532] (port=44581
- helo=mail-ed1-x532.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jamie@nuviainc.com>)
- id 1ms5D7-00040K-AF
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 10:38:27 -0500
-Received: by mail-ed1-x532.google.com with SMTP id l25so88279729eda.11
- for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 07:38:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Qf584jFjWNb07yDBC2ZkXE9VxW+y18ZBj1K8J2mx0SI=;
- b=hBTWGDqFElYA+fJL9KbcBdnwRXEMiLCq9l6vvTVSC8moIeaiFZFKT+cq8SfmG3ryqC
- 26JaCyzHSJaiHBAToxdJDnbpxaaukuc+4g9daecc/bj9XP6WHZqxzcklAVVH0RO3znWh
- zjOk/saHU4ZflRgr66jfdIdLi8W82YIJSgmcMoR5S+A5lIglCgUDmOf4ta3la/JIbMDi
- Oy7waflkLP3hJdSDzEpbLwXstwUO0ykYeRH7DwC9Wc+z1NI/B1P81Co5tewd5EulEkJZ
- ya7SJ5sw3z2/bz4kfQO/uscPO4QF5N0TffaV7knIdCBiqdpviAguHgjE2M/AUvReGzrO
- Xuhw==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ms5Ro-0006Lr-8N
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 10:53:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38950)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ms5Rk-0006Ax-W4
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 10:53:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638287611;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zESi2Re1SYT/7eKwc4OfnN1zo/5beYa91KkxTCsGPRo=;
+ b=auUtT9R2nprZ2bV9uyyBHbE2rRrzRRssckgdRcOvqr6CdVoyC9Y/MLYGWPHRpttyxIBAI6
+ Wu4UDqAutJt1YjftmpYc3UtSkOez1PumpS8TwxMsNVBTxeFe/18EL13InjUmY44Y8QOxEb
+ BDbpMTRwH9HAMFoogU2Hqb8xjt7Nkmw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-453-CV6qjeEOMPySg3Oxzx_feA-1; Tue, 30 Nov 2021 10:53:30 -0500
+X-MC-Unique: CV6qjeEOMPySg3Oxzx_feA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m14-20020a05600c3b0e00b0033308dcc933so13113496wms.7
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 07:53:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Qf584jFjWNb07yDBC2ZkXE9VxW+y18ZBj1K8J2mx0SI=;
- b=ayy0GyKnxg25Qt7TDLHyCJx76Lcw+zVtWvuOgvk1OT5HHxTt0rWVcJ1RdDwri6mMdk
- cok2J9KEvBKjZ0ZzCAnF/dYotBfQvMwNvswHx0lLIBOdZtwq0wEayt4kfoZ7PmfFXAU1
- a952D8uKSefD7dG/OC2NzYHEYwBVlVKz8ld6D5Af5qTVUIpULDbopmJXZNWQ9IZQUCw/
- 6mPA0HEcYw6Mzihm6szzh6EcPuKMcaUrdUMAVF30ZrSSAnhKR8jQb7QPlhqhqEOg10Br
- 9CdAwoxSSE0o4hgfSyw2HqED7JxXv4O9inONa73Gk+blCwJtNfONaW8g8CEs8JRgY5ZC
- rCKg==
-X-Gm-Message-State: AOAM533dJkW44uN9nBd1CrHmpSpB2pWI4BnYMPJn6EDSgJEn6PYU6q4p
- L+HjXNYXNEoPjQ3zyL3vzCFzGw==
-X-Google-Smtp-Source: ABdhPJwcOwxnC+/M6QSo/iW+sKropBlJunmYeJviqEZ3FmmkDe4vSV8br73cyei9xru0XWKCaf3luQ==
-X-Received: by 2002:a05:6402:42d5:: with SMTP id
- i21mr83263432edc.373.1638286702888; 
- Tue, 30 Nov 2021 07:38:22 -0800 (PST)
-Received: from localhost ([82.44.17.50])
- by smtp.gmail.com with ESMTPSA id go10sm9475317ejc.115.2021.11.30.07.38.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Nov 2021 07:38:22 -0800 (PST)
-Date: Tue, 30 Nov 2021 15:38:21 +0000
-From: Jamie Iles <jamie@nuviainc.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 2/2] hw/core/loader: workaround read() size limit.
-Message-ID: <YaZFbVv5pOO/P9S7@hazel>
-References: <20211111141141.3295094-1-jamie@nuviainc.com>
- <20211111141141.3295094-3-jamie@nuviainc.com>
- <c9950c92-86c5-ce0d-054e-357db1de851c@redhat.com>
- <YY04ioqviteeKy0c@hazel>
- <bd0f1a0a-1b5e-9800-069c-764cb9cfb5e1@redhat.com>
- <7e490883-b723-1ff6-9191-6ef0c91ccd25@redhat.com>
- <YY1NOIdBgzJLYEiv@hazel>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=zESi2Re1SYT/7eKwc4OfnN1zo/5beYa91KkxTCsGPRo=;
+ b=cDbon3BdGnerc78go2Brnxw1UlC6WI5HCLx0HQmBneWrA9ar769AGCAYRd84oIIzPe
+ tPiC2zKaIVsqOvl9s3VNwZdK4jV1ME6HCO1wc1yg/qlofusaxupGryBqdn1xha3UJ/wf
+ gCZ6OIu2Na+b4l8C85IhHXoJQbvjhdzwDue4mWv6Fw3cD4do/+fGEvwY/ot7DOjLgngY
+ SqvmzQRIz+zuP5eMpmM2DL7M7EKVgj0srAMEbiTwfdMv/eEmUQ5EQowALzRI7g5U4aVS
+ 4cFc5XdVjUIlZeTOepPB457EzM+e2yC3mFjGZzbZ5a0beuVv0mAfNoFzsztSK5nfDeWR
+ J0Mg==
+X-Gm-Message-State: AOAM532EBsHdztgO1j3lbgXrzVEeIxplcx4Qb2zQTD4AjahwjQ66Pzym
+ ClyGIvRfJnSinFmh1pYLzLQ27/YXy2g4sPbE4xuT5Rnl/K+WUXAgIj1Twy4V6JQAwWRDBX6utAX
+ rcwGDjW8Hb8PdWIw=
+X-Received: by 2002:adf:e843:: with SMTP id d3mr40539884wrn.452.1638287609557; 
+ Tue, 30 Nov 2021 07:53:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVektt6gJ9sR4hL+wgfAT4JVAWmDV5JaWfYqyhMx+82Spbj31oxUn5VXs4LpghUmOLAu2dTg==
+X-Received: by 2002:adf:e843:: with SMTP id d3mr40539846wrn.452.1638287609317; 
+ Tue, 30 Nov 2021 07:53:29 -0800 (PST)
+Received: from [192.168.3.132] (p5b0c68ec.dip0.t-ipconnect.de. [91.12.104.236])
+ by smtp.gmail.com with ESMTPSA id w22sm2596684wmi.27.2021.11.30.07.53.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Nov 2021 07:53:28 -0800 (PST)
+Message-ID: <d29d921b-b865-6e9c-f1ac-0f15d973998a@redhat.com>
+Date: Tue, 30 Nov 2021 16:53:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v1 3/3] virtio-mem: Set "unplugged-inaccessible=auto" for
+ the 6.2 machine on x86
+To: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211130092838.24224-1-david@redhat.com>
+ <20211130092838.24224-4-david@redhat.com>
+ <318c242c-e0c5-09e2-6749-9d366cddafa0@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <318c242c-e0c5-09e2-6749-9d366cddafa0@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YY1NOIdBgzJLYEiv@hazel>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=jamie@nuviainc.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.211, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,122 +103,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, lmichel@kalray.eu
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Gavin Shan <gshan@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Hui Zhu <teawater@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
-
-On Thu, Nov 11, 2021 at 05:04:56PM +0000, Jamie Iles wrote:
-> On Thu, Nov 11, 2021 at 04:55:35PM +0100, Philippe Mathieu-Daudé wrote:
-> > On 11/11/21 16:43, Philippe Mathieu-Daudé wrote:
-> > > On 11/11/21 16:36, Jamie Iles wrote:
-> > >> Hi Philippe,
-> > >>
-> > >> On Thu, Nov 11, 2021 at 03:55:48PM +0100, Philippe Mathieu-Daudé wrote:
-> > >>> Hi Jamie,
-> > >>>
-> > >>> On 11/11/21 15:11, Jamie Iles wrote:
-> > >>>> On Linux, read() will only ever read a maximum of 0x7ffff000 bytes
-> > >>>> regardless of what is asked.  If the file is larger than 0x7ffff000
-> > >>>> bytes the read will need to be broken up into multiple chunks.
-> > >>>>
-> > >>>> Cc: Luc Michel <lmichel@kalray.eu>
-> > >>>> Signed-off-by: Jamie Iles <jamie@nuviainc.com>
-> > >>>> ---
-> > >>>>  hw/core/loader.c | 40 ++++++++++++++++++++++++++++++++++------
-> > >>>>  1 file changed, 34 insertions(+), 6 deletions(-)
-> > >>>>
-> > >>>> diff --git a/hw/core/loader.c b/hw/core/loader.c
-> > >>>> index 348bbf535bd9..16ca9b99cf0f 100644
-> > >>>> --- a/hw/core/loader.c
-> > >>>> +++ b/hw/core/loader.c
-> > >>>> @@ -80,6 +80,34 @@ int64_t get_image_size(const char *filename)
-> > >>>>      return size;
-> > >>>>  }
-> > >>>>  
-> > >>>> +static ssize_t read_large(int fd, void *dst, size_t len)
-> > >>>> +{
-> > >>>> +    /*
-> > >>>> +     * man 2 read says:
-> > >>>> +     *
-> > >>>> +     * On Linux, read() (and similar system calls) will transfer at most
-> > >>>> +     * 0x7ffff000 (2,147,479,552) bytes, returning the number of bytes
-> > >>>
-> > >>> Could you mention MAX_RW_COUNT from linux/fs.h?
-> > >>>
-> > >>>> +     * actually transferred.  (This is true on both 32-bit and 64-bit
-> > >>>> +     * systems.)
-> > >>>
-> > >>> Maybe "This is true for both ILP32 and LP64 data models used by Linux"?
-> > >>> (because that would not be the case for the ILP64 model).
-> > >>>
-> > >>> Otherwise s/systems/Linux variants/?
-> > >>>
-> > >>>> +     *
-> > >>>> +     * So read in chunks no larger than 0x7ffff000 bytes.
-> > >>>> +     */
-> > >>>> +    size_t max_chunk_size = 0x7ffff000;
-> > >>>
-> > >>> We can declare it static const.
-> > >>
-> > >> Ack, can fix all of those up.
-> > >>
-> > >>>> +    size_t offset = 0;
-> > >>>> +
-> > >>>> +    while (offset < len) {
-> > >>>> +        size_t chunk_len = MIN(max_chunk_size, len - offset);
-> > >>>> +        ssize_t br = read(fd, dst + offset, chunk_len);
-> > >>>> +
-> > >>>> +        if (br < 0) {
-> > >>>> +            return br;
-> > >>>> +        }
-> > >>>> +        offset += br;
-> > >>>> +    }
-> > >>>> +
-> > >>>> +    return (ssize_t)len;
-> > >>>> +}
-> > >>>
-> > >>> I see other read()/pread() calls:
-> > >>>
-> > >>> hw/9pfs/9p-local.c:472:            tsize = read(fd, (void *)buf, bufsz);
-> > >>> hw/vfio/common.c:269:    if (pread(vbasedev->fd, &buf, size,
-> > >>> region->fd_offset + addr) != size) {
-> > >>> ...
-> > >>>
-> > >>> Maybe the read_large() belongs to "sysemu/os-xxx.h"?
-> > >>
-> > >> I think util/osdep.c would be a good fit for this.  To make sure we're 
-> > > 
-> > > Yes.
-> > > 
-> > >> on the same page though are you proposing converting all pread/read 
-> > >> calls to a qemu variant or auditing for ones that could potentially take 
-> > >> a larger size?
-> > > 
-> > > Yes, I took some time wondering beside loading blob in guest memory,
-> > > what would be the other issues you might encounter. I couldn't find
-> > > many cases. Eventually hw/vfio/. I haven't audit much, only noticed
-> > > hw/9pfs/9p-local.c and qga/commands-*.c (not sure if relevant), but
-> > > since we want to fix this, I'd rather try to fix it globally.
-> > 
-> > Actually what you suggest is simpler, add qemu_read() / qemu_pread()
-> > in util/osdep.c, convert all uses without caring about any audit.
+On 30.11.21 16:34, Michal PrÃ­voznÃ­k wrote:
+> On 11/30/21 10:28, David Hildenbrand wrote:
+>> Set the new default to "auto", keeping it set to "on" for compat
 > 
-> Okay, this hasn't worked out too badly - I'll do the same for 
-> write/pwrite too and then switch all of the callers over with a 
-> coccinelle patch so it'll be a fairly large diff but simple.
-> 
-> We could elect to keep any calls with a compile-time constant length 
-> with the unwrapped variants but I think that's probably more confusing 
-> in the long-run.
+> I believe you wanted to say: keeping it set to "off", because that's
+> what the patch does.
 
-Coming back to this I think this is probably a non-starter because of 
-non-blocking file descriptors.  There is already a qemu_write_full so 
-I'm inclined to add qemu_read_full following the same pattern and then 
-convert all of the read calls in the loader to use that.
+Right, I switched semantics from a "legacy-guest-support=on/off/auto" to
+"unplugged-inaccessible=on/off/auto"
 
+Thanks a lot for the fast review!!!
+
+-- 
 Thanks,
 
-Jamie
+David / dhildenb
+
 
