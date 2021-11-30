@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60EA462A16
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 03:01:40 +0100 (CET)
-Received: from localhost ([::1]:57254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83EB8462A17
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 03:02:21 +0100 (CET)
+Received: from localhost ([::1]:57688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrsSh-0001rv-9q
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 21:01:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39216)
+	id 1mrsTM-00029h-7t
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 21:02:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mrsNg-00089w-Ix; Mon, 29 Nov 2021 20:56:28 -0500
-Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=54875
+ id 1mrsNg-0008A3-T4; Mon, 29 Nov 2021 20:56:28 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=49307
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mrsNd-0006b1-Or; Mon, 29 Nov 2021 20:56:28 -0500
+ id 1mrsNd-0006b0-OW; Mon, 29 Nov 2021 20:56:28 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4J35101Vbxz4xRB; Tue, 30 Nov 2021 12:56:20 +1100 (AEDT)
+ id 4J35101gBYz4xRC; Tue, 30 Nov 2021 12:56:20 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1638237380;
- bh=JnQnrzo7VA+lsllUOt3nBabJa9ScdflGyDQYICaBPTs=;
+ bh=OjiEacMQ1qLAmBbbjnIMivXANnlVWRuZiSHVgP1Xdvc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AEJtQV6fraPtF9B1Vxj/IchbbLWpYyAS/IDRRYX3fkPaZSJ3lxvHuyvl8rVznP+t3
- h2hJII7lYrN7UpZRHnZvC4iROfhECQd63FSYL0ypMyg4S7uiDbqtpGGQrnvn5YbQc/
- m+YrsEfSYNgtjFkwAyJOI78mOdSLxu3fwdheo7CM=
-Date: Tue, 30 Nov 2021 11:30:52 +1100
+ b=ZQ370fRXxPk8QQP0RD0W6VZ8w/+BtDJFuf2E0ZnkypsccGFMMSC6scIoBzeo6b1rB
+ GYpRL2rJ4i9ITaaPcD5kLPLPXwiDzxdsoIwH9KfUuym7IUqnEv7ScfM3rUYMvPiAlk
+ hPhz40hdzFyWZcie3lE5qLzYIQ+un6C9tdU7HK6M=
+Date: Tue, 30 Nov 2021 11:33:45 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>
-Subject: Re: [PATCH v4] target/ppc: fix Hash64 MMU update of PTE bit R
-Message-ID: <YaVwvAyhyhlIYhV5@yekko>
-References: <20211129185751.25355-1-leandro.lupori@eldorado.org.br>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v8 07/10] target/ppc/power8-pmu.c: add PM_RUN_INST_CMPL
+ (0xFA) event
+Message-ID: <YaVxaQYFkvqfms08@yekko>
+References: <20211125150817.573204-1-danielhb413@gmail.com>
+ <20211125150817.573204-8-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tZ7zIIgy7HAJXbfD"
+ protocol="application/pgp-signature"; boundary="MFumB8Pyfkp4LQi8"
 Content-Disposition: inline
-In-Reply-To: <20211129185751.25355-1-leandro.lupori@eldorado.org.br>
+In-Reply-To: <20211125150817.573204-8-danielhb413@gmail.com>
 X-Host-Lookup-Failed: Reverse DNS lookup failed for
  2404:9400:2:0:216:3eff:fee2:21ea (failed)
 Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
@@ -61,134 +63,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, clg@kaod.org
+Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---tZ7zIIgy7HAJXbfD
+--MFumB8Pyfkp4LQi8
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 29, 2021 at 03:57:51PM -0300, Leandro Lupori wrote:
-> When updating the R bit of a PTE, the Hash64 MMU was using a wrong byte
-> offset, causing the first byte of the adjacent PTE to be corrupted.
-> This caused a panic when booting FreeBSD, using the Hash MMU.
+On Thu, Nov 25, 2021 at 12:08:14PM -0300, Daniel Henrique Barboza wrote:
+> PM_RUN_INST_CMPL, instructions completed with the run latch set, is
+> the architected PowerISA v3.1 event defined with PMC4SEL =3D 0xFA.
 >=20
-> Fixes: a2dd4e83e76b ("ppc/hash64: Rework R and C bit updates")
-> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+> Implement it by checking for the CTRL RUN bit before incrementing the
+> counter. To make this work properly we also need to force a new
+> translation block each time SPR_CTRL is written. A small tweak in
+> pmu_increment_insns() is then needed to only increment this event
+> if the thread has the run latch.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
-Thanks for your patience with our nitpicking :).
+Obviously, it would also be possible to treat the runlatch
+instructions event like the all-instructions event but force an update
+on runlatch changes.  Having to incoporate CTRL into the active
+counter logic as well as the other stuff seems like it might make
+things messier that way overall though.
 
 > ---
-> Changes from v3:
-> - rename defines
-> ---
->  hw/ppc/spapr.c          | 8 ++++----
->  hw/ppc/spapr_softmmu.c  | 2 +-
->  target/ppc/mmu-hash64.c | 4 ++--
->  target/ppc/mmu-hash64.h | 5 +++++
->  4 files changed, 12 insertions(+), 7 deletions(-)
+>  target/ppc/cpu.h        |  4 ++++
+>  target/ppc/cpu_init.c   |  2 +-
+>  target/ppc/power8-pmu.c | 24 ++++++++++++++++++++++--
+>  target/ppc/spr_tcg.h    |  1 +
+>  target/ppc/translate.c  | 12 ++++++++++++
+>  5 files changed, 40 insertions(+), 3 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 163c90388a..3b5fd749be 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1414,7 +1414,7 @@ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
->          kvmppc_write_hpte(ptex, pte0, pte1);
->      } else {
->          if (pte0 & HPTE64_V_VALID) {
-> -            stq_p(spapr->htab + offset + HASH_PTE_SIZE_64 / 2, pte1);
-> +            stq_p(spapr->htab + offset + HPTE64_DW1, pte1);
->              /*
->               * When setting valid, we write PTE1 first. This ensures
->               * proper synchronization with the reading code in
-> @@ -1430,7 +1430,7 @@ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
->               * ppc_hash64_pteg_search()
->               */
->              smp_wmb();
-> -            stq_p(spapr->htab + offset + HASH_PTE_SIZE_64 / 2, pte1);
-> +            stq_p(spapr->htab + offset + HPTE64_DW1, pte1);
->          }
->      }
->  }
-> @@ -1438,7 +1438,7 @@ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
->  static void spapr_hpte_set_c(PPCVirtualHypervisor *vhyp, hwaddr ptex,
->                               uint64_t pte1)
->  {
-> -    hwaddr offset =3D ptex * HASH_PTE_SIZE_64 + 15;
-> +    hwaddr offset =3D ptex * HASH_PTE_SIZE_64 + HPTE64_DW1_C;
->      SpaprMachineState *spapr =3D SPAPR_MACHINE(vhyp);
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 38cd2b5c43..993884164f 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -304,6 +304,7 @@ typedef enum {
+>      PMU_EVENT_INACTIVE,
+>      PMU_EVENT_CYCLES,
+>      PMU_EVENT_INSTRUCTIONS,
+> +    PMU_EVENT_INSN_RUN_LATCH,
+>  } PMUEventType;
 > =20
->      if (!spapr->htab) {
-> @@ -1454,7 +1454,7 @@ static void spapr_hpte_set_c(PPCVirtualHypervisor *=
-vhyp, hwaddr ptex,
->  static void spapr_hpte_set_r(PPCVirtualHypervisor *vhyp, hwaddr ptex,
->                               uint64_t pte1)
->  {
-> -    hwaddr offset =3D ptex * HASH_PTE_SIZE_64 + 14;
-> +    hwaddr offset =3D ptex * HASH_PTE_SIZE_64 + HPTE64_DW1_R;
->      SpaprMachineState *spapr =3D SPAPR_MACHINE(vhyp);
+>  /***********************************************************************=
+******/
+> @@ -389,6 +390,9 @@ typedef enum {
+>  #define MMCR1_PMC4SEL_START 56
+>  #define MMCR1_PMC4EVT_EXTR (64 - MMCR1_PMC4SEL_START - MMCR1_EVT_SIZE)
 > =20
->      if (!spapr->htab) {
-> diff --git a/hw/ppc/spapr_softmmu.c b/hw/ppc/spapr_softmmu.c
-> index f8924270ef..4ee03c83e4 100644
-> --- a/hw/ppc/spapr_softmmu.c
-> +++ b/hw/ppc/spapr_softmmu.c
-> @@ -426,7 +426,7 @@ static void new_hpte_store(void *htab, uint64_t pteg,=
- int slot,
->      addr +=3D slot * HASH_PTE_SIZE_64;
-> =20
->      stq_p(addr, pte0);
-> -    stq_p(addr + HASH_PTE_SIZE_64 / 2, pte1);
-> +    stq_p(addr + HPTE64_DW1, pte1);
->  }
-> =20
->  static int rehash_hpte(PowerPCCPU *cpu,
-> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-> index 19832c4b46..da9fe99ff8 100644
-> --- a/target/ppc/mmu-hash64.c
-> +++ b/target/ppc/mmu-hash64.c
-> @@ -786,7 +786,7 @@ static void ppc_hash64_set_dsi(CPUState *cs, int mmu_=
-idx, uint64_t dar, uint64_t
-> =20
->  static void ppc_hash64_set_r(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
->  {
-> -    hwaddr base, offset =3D ptex * HASH_PTE_SIZE_64 + 16;
-> +    hwaddr base, offset =3D ptex * HASH_PTE_SIZE_64 + HPTE64_DW1_R;
-> =20
->      if (cpu->vhyp) {
->          PPCVirtualHypervisorClass *vhc =3D
-> @@ -803,7 +803,7 @@ static void ppc_hash64_set_r(PowerPCCPU *cpu, hwaddr =
-ptex, uint64_t pte1)
-> =20
->  static void ppc_hash64_set_c(PowerPCCPU *cpu, hwaddr ptex, uint64_t pte1)
->  {
-> -    hwaddr base, offset =3D ptex * HASH_PTE_SIZE_64 + 15;
-> +    hwaddr base, offset =3D ptex * HASH_PTE_SIZE_64 + HPTE64_DW1_C;
-> =20
->      if (cpu->vhyp) {
->          PPCVirtualHypervisorClass *vhc =3D
-> diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
-> index c5b2f97ff7..1496955d38 100644
-> --- a/target/ppc/mmu-hash64.h
-> +++ b/target/ppc/mmu-hash64.h
-> @@ -97,6 +97,11 @@ void ppc_hash64_finalize(PowerPCCPU *cpu);
->  #define HPTE64_V_1TB_SEG        0x4000000000000000ULL
->  #define HPTE64_V_VRMA_MASK      0x4001ffffff000000ULL
-> =20
-> +/* PTE offsets */
-> +#define HPTE64_DW1              (HASH_PTE_SIZE_64 / 2)
-> +#define HPTE64_DW1_R            (HPTE64_DW1 + 6)
-> +#define HPTE64_DW1_C            (HPTE64_DW1 + 7)
+> +/* PMU uses CTRL_RUN to sample PM_RUN_INST_CMPL */
+> +#define CTRL_RUN PPC_BIT(63)
 > +
->  /* Format changes for ARCH v3 */
->  #define HPTE64_V_COMMON_BITS    0x000fffffffffffffULL
->  #define HPTE64_R_3_0_SSIZE_SHIFT 58
+>  /* LPCR bits */
+>  #define LPCR_VPM0         PPC_BIT(0)
+>  #define LPCR_VPM1         PPC_BIT(1)
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index 2d72dde26d..ecce4c7c1e 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -6749,7 +6749,7 @@ static void register_book3s_ctrl_sprs(CPUPPCState *=
+env)
+>  {
+>      spr_register(env, SPR_CTRL, "SPR_CTRL",
+>                   SPR_NOACCESS, SPR_NOACCESS,
+> -                 SPR_NOACCESS, &spr_write_generic,
+> +                 SPR_NOACCESS, &spr_write_CTRL,
+>                   0x00000000);
+>      spr_register(env, SPR_UCTRL, "SPR_UCTRL",
+>                   &spr_read_ureg, SPR_NOACCESS,
+> diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+> index 59d0def79d..98797f0b2f 100644
+> --- a/target/ppc/power8-pmu.c
+> +++ b/target/ppc/power8-pmu.c
+> @@ -96,6 +96,15 @@ static PMUEventType pmc_get_event(CPUPPCState *env, in=
+t sprn)
+>              evt_type =3D PMU_EVENT_CYCLES;
+>          }
+>          break;
+> +    case 0xFA:
+> +        /*
+> +         * PMC4SEL =3D 0xFA is the "instructions completed
+> +         * with run latch set" event.
+> +         */
+> +        if (sprn =3D=3D SPR_POWER_PMC4) {
+> +            evt_type =3D PMU_EVENT_INSN_RUN_LATCH;
+> +        }
+> +        break;
+>      case 0xFE:
+>          /*
+>           * PMC1SEL =3D 0xFE is the architected PowerISA v3.1
+> @@ -119,11 +128,22 @@ static bool pmu_increment_insns(CPUPPCState *env, u=
+int32_t num_insns)
+> =20
+>      /* PMC6 never counts instructions */
+>      for (sprn =3D SPR_POWER_PMC1; sprn <=3D SPR_POWER_PMC5; sprn++) {
+> -        if (pmc_get_event(env, sprn) !=3D PMU_EVENT_INSTRUCTIONS) {
+> +        PMUEventType evt_type =3D pmc_get_event(env, sprn);
+> +        bool insn_event =3D evt_type =3D=3D PMU_EVENT_INSTRUCTIONS ||
+> +                          evt_type =3D=3D PMU_EVENT_INSN_RUN_LATCH;
+> +
+> +        if (pmc_is_inactive(env, sprn) || !insn_event) {
+>              continue;
+>          }
+> =20
+> -        env->spr[sprn] +=3D num_insns;
+> +        if (evt_type =3D=3D PMU_EVENT_INSTRUCTIONS) {
+> +            env->spr[sprn] +=3D num_insns;
+> +        }
+> +
+> +        if (evt_type =3D=3D PMU_EVENT_INSN_RUN_LATCH &&
+> +            env->spr[SPR_CTRL] & CTRL_RUN) {
+> +            env->spr[sprn] +=3D num_insns;
+> +        }
+> =20
+>          if (env->spr[sprn] >=3D PMC_COUNTER_NEGATIVE_VAL &&
+>              pmc_has_overflow_enabled(env, sprn)) {
+> diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
+> index 1d6521eedc..f98d97c0ba 100644
+> --- a/target/ppc/spr_tcg.h
+> +++ b/target/ppc/spr_tcg.h
+> @@ -28,6 +28,7 @@ void spr_write_generic(DisasContext *ctx, int sprn, int=
+ gprn);
+>  void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn);
+>  void spr_write_MMCR1(DisasContext *ctx, int sprn, int gprn);
+>  void spr_write_PMC(DisasContext *ctx, int sprn, int gprn);
+> +void spr_write_CTRL(DisasContext *ctx, int sprn, int gprn);
+>  void spr_read_xer(DisasContext *ctx, int gprn, int sprn);
+>  void spr_write_xer(DisasContext *ctx, int sprn, int gprn);
+>  void spr_read_lr(DisasContext *ctx, int gprn, int sprn);
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index ccc83d0603..d0e361a9d1 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -403,6 +403,18 @@ void spr_write_generic(DisasContext *ctx, int sprn, =
+int gprn)
+>      spr_store_dump_spr(sprn);
+>  }
+> =20
+> +void spr_write_CTRL(DisasContext *ctx, int sprn, int gprn)
+> +{
+> +    spr_write_generic(ctx, sprn, gprn);
+> +
+> +    /*
+> +     * SPR_CTRL writes must force a new translation block,
+> +     * allowing the PMU to calculate the run latch events with
+> +     * more accuracy.
+> +     */
+> +    ctx->base.is_jmp =3D DISAS_EXIT_UPDATE;
+> +}
+> +
+>  #if !defined(CONFIG_USER_ONLY)
+>  void spr_write_generic32(DisasContext *ctx, int sprn, int gprn)
+>  {
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -196,25 +230,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---tZ7zIIgy7HAJXbfD
+--MFumB8Pyfkp4LQi8
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGlcLoACgkQbDjKyiDZ
-s5LIgw//RhsKTptuDSH/UXHAmvU6uzmREIbBgMZwDS1bbzLk37Oz2ZP0wRfJcsqL
-Ni+5pheLD7JH2r2aMUzfsQbuvWCnnoOZuwzP3UMeU1hjKH3xMssp+jCAC6AdqqWb
-C/rtwLLx4mGOLubUj689T/bHVx2mK3HfxYGsN3SvteAu5XtqADXi4I8H8U1a1Y1+
-TqpQtXM9r5tFkNThWXjxBeW4eLTmJnJy2fX6DcW2SRKDwyJlMnVHvAJzoS0YMfaA
-eXzZwHTbcrWp6Ukbk51X7FrvTMaT0/3+D+hLnP8nbbVM8BQJxwalRjiVL150pjr1
-7dhiW4VjsmcJVCBHpNL0Gy/TbAr7Zhe6Y6JrvQTuNh0/NHBzN2DB4HQi2GKQV22K
-YuuWjWw9/3XKRP86dmf0OMYFiJapy3DH2clQ2CYHp5+4wNJ8URy6HcxrecglMXt8
-eaVWefu1aiW8I3izQ3swyJl7SfbtJ91HKwi1Ao/jXV8CIl5vMNSo5mg8EzAsEpir
-lt8lGw+6xeHd8Q8mH1EuyEm54swoNYSNm9GJxnqceCRn+pidNyi1RrD6vukMte6O
-m4BDZA9JrGdQ5lo+2rddIAYe+IRvrgfDGhBmqObJW2oKnrHjZjr3psumeMr7DBLm
-GqvicrOmKab8u4fKqgcxg248hXbcD+Mb5TVhsK2JL4Mrjc174jk=
-=vDyI
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGlcWkACgkQbDjKyiDZ
+s5LC7xAAjL6Ko6muRNJfJJjrTEv9VQDewgvivWAtAbGw6IcGRl6qtmT9i6Qnln6h
+Uje6e3T2SCZVauAUvEQ+MEFg+1zn0l8vmBffe8ybMLpwbkM0lxMTtbRfVHeDc0/f
+4ET8YODcFBnXvvVpAiB+qlmb0LZ4VO8h3elhGMTMMxIhF7i9v36/to5uGGSOc1oz
+PqZfY3TiaQ0Dne3xchqF/npVP1dBurHsgLejT1jNiHbPkQfHolxsaqI+8kZgRfAr
+6r7WQq009nJDs+KY8+AImeDZe65rNeLQDKKX+hEEueePtb+4Gcvscz1hIhZEWY45
+u7PkMyXlnkOa/fGaFYmqU/cZ/LbobBROXk6G4rtZiMKIccBReFRllqPsOuk/S9m+
+KnmgA0x3WUjrwGpcq0l4TFdfZzZa5Tf+GomMn59o2sUVHuapPRbERo60ajsHjc2R
+r6fNeQ1iDhKdpyKvC0NDL8X6Kpm7WHwpQVSae2itmQlss3wc46fk4A1t3ktvjL2s
+3SNWFaYCrJ3bdpLWDumCfrRc4w/mpOmNOaAEE6Jmhs+M3mXeMD0nH6MCA9B8GUWc
+UuaYJTo5hPxSxQu3Pi2BTqr2n1h3wzXJBziWmq3e9xedXDhaNu5FH4Kl+Rc8y/Rz
+prC8JLtgSqixXSuCBDDAUT5EKl4C4GHKslKFZuRy3v+iKV2QaD4=
+=FM2I
 -----END PGP SIGNATURE-----
 
---tZ7zIIgy7HAJXbfD--
+--MFumB8Pyfkp4LQi8--
 
