@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8AD7463FCA
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 22:18:58 +0100 (CET)
-Received: from localhost ([::1]:40406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A46463FCC
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 22:19:21 +0100 (CET)
+Received: from localhost ([::1]:40894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msAWe-0005Cb-Rc
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 16:18:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43008)
+	id 1msAX2-0005W8-86
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 16:19:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1msAVM-0003oy-PB
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 16:17:36 -0500
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:59969)
+ id 1msAVN-0003q2-DQ
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 16:17:37 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:41101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1msAVK-0003l5-LC
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 16:17:36 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 6B0405C0114;
- Tue, 30 Nov 2021 16:17:32 -0500 (EST)
+ id 1msAVL-0003lC-FX
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 16:17:37 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id B2DF55C00F4;
+ Tue, 30 Nov 2021 16:17:33 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Tue, 30 Nov 2021 16:17:32 -0500
+ by compute1.internal (MEProxy); Tue, 30 Nov 2021 16:17:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- from:to:cc:subject:date:message-id; s=fm3; bh=qxiaGQ8PMrZRJlNS7j
- 01DgqxWd8+eZHYMv/YbF5tBow=; b=IEAzbE5ShOQXzORnJIPBTh0z960a3xV2bn
- EdllBWwGAib++BD2m4la762HHlc4xAs093wPFNlmXPCAN5olV3OXdbCdvj769yaI
- qRShaqhD/oZ08o37APgcjF2bwsYf5Nd8TOM98P9lz/wGO3N3pJuobfUBESmbaM8w
- FrCbl8Rhf3FFEt87An9rfM2c8SEKLsLHVjjb+rZWCx8YN1PTKRpHfFMybPeVSrUN
- kQepZ/GM6uPN2xszEQXtL8jdGSPZrlwMfFY79PUtzeTJoZwKOf49TOzFunZwWg9X
- Dx6czRcOClQMNhC7wc5x7FpPxqD22RzqT7um+KiWKu1nY8iEueZg==
+ from:to:cc:subject:date:message-id:in-reply-to:references; s=
+ fm3; bh=fmtfmTe7flwZ7Dsu10dFozw3xNvOHB49G1+Edt1rdm8=; b=jK9QzWzI
+ Nx6iuCSQfrhYq60P0PF9BOco9mDFqK4AIc23YIjocRTsqehLDKHph/fwAhUXUXB/
+ A7S7wp/6amY7Xg19HXxjWIAxA8//ZsLRXX7pEQJ6gtebviamEIzVNOkR6CzK4V3q
+ 6q2CJpIXy4L+BwtA8LjJGn+FvI5HlZVzUUejAYAosABxFQ8IKQmVzveyyfBXlX/O
+ lP+3xKFhxDYZjuAB4YJU2M59EUfLqf4ih74cxC3EDJDpUBOs0MtOXmgcJ6EHSr07
+ Qoijhr9wuxJDVqUqMYBvWiFOyLCAKXtXrKekWGYBnGdPoo9ENMddR6WMVQbCWmLM
+ 3vZSoTvCv4AGDg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:date:from:message-id:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=qxiaGQ8PMrZRJlNS7j01DgqxWd8+eZHYMv/YbF5tBow=; b=M3bc76YQ
- Y2+I9lb+8ZULYpKIFmAQEiGhO9Xe9icsEj/PKAwnyHPUB3iGbGbqnL2XZqssE+Tx
- NP+xycGCMjF9PXSCwAPCjN1rZtYkEouK24tw5NmnGVTWNtV+OxFm1lfLUnKv22bi
- Ln6yT81PJ8HD/E31RR+joWlz7z4WBB35zZEa/x1IqOF1eyBH5U7+YqX7/hM6LJ8c
- NeniVvbdW+M+HWS0pi6ns6LETi+X+rTZyZSupkwxq6eK2lnSfjLRh635VR+xoALG
- pfuXqsofwbxHpOjQYMrZ7IVGnQOKQJ2tw8WeE+wkWiZeCt5tTxZx9CoUbzT+YNPX
- i5laTOYpphF7Dg==
-X-ME-Sender: <xms:7JSmYfDQ0KMFQWzBrg0DS0nABFurp9Bkj265KobiKTcW9YMn0oEVDg>
- <xme:7JSmYViy1mCFr4sO4F-hx0MTovHq6Gk_a8lovP_Qoho1h22dspDytHxf3lHOkTgA1
- JcZ3aDS9AouQ-5KQgQ>
-X-ME-Received: <xmr:7JSmYalXJdAnlbdghUqU_VAOOKu-ebsRGWm9o6HxwWHNG2s7snnzHaRA1bc9aXYgSQ>
+ messagingengine.com; h=cc:date:from:in-reply-to:message-id
+ :references:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm1; bh=fmtfmTe7flwZ7Dsu10dFozw3xNvOH
+ B49G1+Edt1rdm8=; b=Jwkh0f9wdWqcgaXsqKaXXik8okXnVFsz6amYdeqjhXykj
+ oB6MFx7O33uyZvrmJm1yf7wfTFvKvgBBBy3WSO4io+5KDaq1APda3pynXRlFZ+p2
+ GY4BlapOmhYYYnCe45cWaISzXS1uX9yYGUwUyBttGxPUVvIUSayY+WGAoCFMCBxa
+ pfhICg4vtLVtSHcOuprsbCw76dYsT0uEUUzb9kPyh535rYrlqKk1lAcRPzMOAmwh
+ NOnqMFqgBWmvK8oqGFQFApMpK0xI8QStFtldouQu4D0b+07TTZ23HYN0GdosO/eB
+ YwaO62A7dh+ouAVhWZire9C6o9oHIvdmGf1yYGzXQ==
+X-ME-Sender: <xms:7ZSmYZ2uNIK1B_SREMkNX910Q5wnXHyhMRauP5loF01caQ4s0p9w4Q>
+ <xme:7ZSmYQGDASz8HLN3-cOtGjsPZjE5CYdgjYb0USUCMWhuKa_mxxhdHG35XRipbkKBi
+ tA9r7xlbTfdiLPQEug>
+X-ME-Received: <xmr:7ZSmYZ4FpLLgcz1ESZ6kgsrYXs_OXBrutHOnL_JGq2WRJtTSDS0KGa_xAEQY-NATxw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddriedugddugeekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofestddtredtredttd
- enucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhih
- ghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpedvhfdtkedvuddukeekueelteeuke
- ekhfffudegjeekudetleefudegvddvledvueenucevlhhushhtvghrufhiiigvpedtnecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrd
- gtohhm
-X-ME-Proxy: <xmx:7JSmYRyVV8-6jSR0gvNy3jlnXsmeFnwuEtzoW5uQ34cAesugyNiYiA>
- <xmx:7JSmYURpVfIKfwDPU1PwSqrG9vSDJ_Rwt96z0mezqeCAho9OWEIxwQ>
- <xmx:7JSmYUaGh26VNfeiPH3rvYhMgScH_rr-0JknTPtFzJvzbhfEmSNRxw>
- <xmx:7JSmYfKnSSxnw1quXqj_6O_TD3RhwPstT8RH8bqs_kea_y-8-p5HPQ>
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhestddtredtre
+ dttdenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehf
+ lhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpeefvdehkeeugeffhfejteduhf
+ duudeltdegtdfgheekudelhedtudfhudfgleevveenucevlhhushhtvghrufhiiigvpedt
+ necurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorg
+ htrdgtohhm
+X-ME-Proxy: <xmx:7ZSmYW3EbeMBGgz3lZwqYWbaMSIYcvDYy2PhNS5-amx4pvmznYfewQ>
+ <xmx:7ZSmYcFU9krWqvPebEZbwAkGGWTHldEbUw2m1ve1GmcBnn-wWXN7WQ>
+ <xmx:7ZSmYX8Y2jv32Aqs9XEISZfo11Qz5kCQwJ_EthrJ3C-hG7QtP37dXg>
+ <xmx:7ZSmYWMQPrBUcWT-XfAYJfsxZrmwhqkiATdM6WaPWkEP02qeLXpzKg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 30 Nov 2021 16:17:31 -0500 (EST)
+ 30 Nov 2021 16:17:32 -0500 (EST)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] MIPS misc fixes
-Date: Tue, 30 Nov 2021 21:17:27 +0000
-Message-Id: <20211130211729.7116-1-jiaxun.yang@flygoat.com>
+Subject: [PATCH 1/2] hw/mips: bootloader: Fix write_ulong
+Date: Tue, 30 Nov 2021 21:17:28 +0000
+Message-Id: <20211130211729.7116-2-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20211130211729.7116-1-jiaxun.yang@flygoat.com>
+References: <20211130211729.7116-1-jiaxun.yang@flygoat.com>
 Received-SPF: pass client-ip=66.111.4.27; envelope-from=jiaxun.yang@flygoat.com;
  helo=out3-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -91,16 +94,36 @@ Cc: f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Two problems caught when I was trying to add CI job for various configurations.
+bl_gen_write_ulong uses sd for both 32 and 64 bit CPU,
+while sd is illegal on 32 bit CPUs.
 
-Jiaxun Yang (2):
-  hw/mips: bootloader: Fix write_ulong
-  hw/mips/boston: Fix elf_load error detection
+Replace sd with sw on 32bit CPUs.
 
+Fixes: 3ebbf86 ("hw/mips: Add a bootloader helper")
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+Should be backported to 6.0 onwards.
+---
  hw/mips/bootloader.c | 6 +++++-
- hw/mips/boston.c     | 5 +++--
- 2 files changed, 8 insertions(+), 3 deletions(-)
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
+diff --git a/hw/mips/bootloader.c b/hw/mips/bootloader.c
+index 6ec8314490..99991f8b2b 100644
+--- a/hw/mips/bootloader.c
++++ b/hw/mips/bootloader.c
+@@ -182,7 +182,11 @@ void bl_gen_write_ulong(uint32_t **p, target_ulong addr, target_ulong val)
+ {
+     bl_gen_load_ulong(p, BL_REG_K0, val);
+     bl_gen_load_ulong(p, BL_REG_K1, addr);
+-    bl_gen_sd(p, BL_REG_K0, BL_REG_K1, 0x0);
++    if (bootcpu_supports_isa(ISA_MIPS3)) {
++        bl_gen_sd(p, BL_REG_K0, BL_REG_K1, 0x0);
++    } else {
++        bl_gen_sw(p, BL_REG_K0, BL_REG_K1, 0x0);
++    }
+ }
+ 
+ void bl_gen_write_u32(uint32_t **p, target_ulong addr, uint32_t val)
 -- 
 2.11.0
 
