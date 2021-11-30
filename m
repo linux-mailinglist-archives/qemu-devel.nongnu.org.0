@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24011463624
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 15:08:05 +0100 (CET)
-Received: from localhost ([::1]:47708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA748463620
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 15:07:23 +0100 (CET)
+Received: from localhost ([::1]:47664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ms3nd-0003IT-9n
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 09:08:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56788)
+	id 1ms3my-0003HU-Fz
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 09:07:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+3d53dfa5199d6a29bf1d+6673+infradead.org+dwmw2@bombadil.srs.infradead.org>)
- id 1ms3P2-0007ae-Ap
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 08:42:36 -0500
-Received: from [2607:7c80:54:e::133] (port=35972 helo=bombadil.infradead.org)
+ id 1ms3P5-0007bD-9t
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 08:42:39 -0500
+Received: from [2607:7c80:54:e::133] (port=35974 helo=bombadil.infradead.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+3d53dfa5199d6a29bf1d+6673+infradead.org+dwmw2@bombadil.srs.infradead.org>)
- id 1ms3Oy-0002ke-GF
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 08:42:36 -0500
+ id 1ms3P2-0002mb-SL
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 08:42:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=MIME-Version:Content-Type:References:
  In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=7hcgYWMR3MkB8+ukK2xR4RyZNhmUMDTZrKRYFFYNDX0=; b=mD5uZpqJspwU3NFtuz5+FFS2WC
- ju+rbIQ+/KYp+UVaBMH95aNGCC3ZbQ/QNpfqbwdnxcYk5oofG4KCIkeCNKrQN691Vq+l0YqMX51z4
- VwJ66gwJHzbQFU71F2bOsikl2JXov+PjrUAPJ88/y2hK6oZ6y4GNog3Cwc8K0zcrh7D/bhe77uvd7
- C4AHki4wD5v6N0Vw0ZKvUd1kw8/KyafH/w5J3p9I9eLUkY4X+HRO4J/ybu6LKyGIINjKYRzgP+a4m
- qO6K4FHTMFJRuAKMm4Hz+rYwz+Hz/GkUCEAD3199Qkks/6BhruHgBSZBaEOhgBlbGUMRQbwq1kNqG
- YoIeGhGA==;
+ bh=MAFvzvm9yPzRbdbUhmI26AoKprJGkAW3fVX8qCPQWkg=; b=0kkd6n7a5RqHhesfC0FHUDrkzD
+ aZ8/yplmPD83ZVCQeGJPBIt1fKRY3Oi+jFlkD6l5P+lFIhVENSEkcAPKkoPCkXzo5WrNb43NZzVrA
+ W26OceKMSt+3DGQRKMrQmww1deI/XTXtJO8boNf7J2sWLoIpxVrquiH+diI2B02hWqiCKgXyGqFkT
+ 7TtFA4oG+Brf299CC9ggrSd6wbD3aRIzm8/hvHCTTdpVa+vpDSN7VazXV5h1i0issnsOWm2Kfcktu
+ OXMQst5llSmkzVOExaiBlxpnS/uAkfX/mozxKcTMnUrHDxg/6vfaUUyKCfYWPzWfyv+lLnYTzYjLG
+ U3BG17bA==;
 Received: from 54-240-197-235.amazon.com ([54.240.197.235]
  helo=freeip.amazon.com)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ms3Op-005NWg-LT; Tue, 30 Nov 2021 13:42:24 +0000
-Message-ID: <194bfe3eec78527c4ee916028586371bd143d2dc.camel@infradead.org>
-Subject: [PATCH 1/2] target/i386: Fix sanity check on max APIC ID / X2APIC
- enablement
+ id 1ms3Ox-005NYH-Rz; Tue, 30 Nov 2021 13:42:32 +0000
+Message-ID: <26e2621ab6cef4d8c3e944dc9ebb6d2d0d5e9d2d.camel@infradead.org>
+Subject: [PATCH 2/2] intel_iommu: Fix irqchip / X2APIC configuration checks
 From: David Woodhouse <dwmw2@infradead.org>
 To: Claudio Fontana <cfontana@suse.de>, "peter.maydell@linaro.org"
  <peter.maydell@linaro.org>, "pbonzini@redhat.com" <pbonzini@redhat.com>
-Date: Tue, 30 Nov 2021 13:42:20 +0000
+Date: Tue, 30 Nov 2021 13:42:29 +0000
 In-Reply-To: <41878a65209a3e1fc00bdafd216004c9f71b90fa.camel@infradead.org>
 References: <20210723112921.12637-1-cfontana@suse.de>
  <1102c315addf2f2fffc49222ab5be118e7ae9b0f.camel@amazon.co.uk>
@@ -57,7 +56,7 @@ References: <20210723112921.12637-1-cfontana@suse.de>
  <41878a65209a3e1fc00bdafd216004c9f71b90fa.camel@infradead.org>
 Content-Type: multipart/signed; micalg="sha-256";
  protocol="application/pkcs7-signature"; 
- boundary="=-6dDmiAjBbtqNTWUVtG3t"
+ boundary="=-lV0Pg7q7EHXLxH+XbK8c"
 User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
@@ -94,102 +93,55 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---=-6dDmiAjBbtqNTWUVtG3t
+--=-lV0Pg7q7EHXLxH+XbK8c
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-The check on x86ms->apic_id_limit in pc_machine_done() had two problems.
+We don't need to check kvm_enable_x2apic(). It's perfectly OK to support
+interrupt remapping even if we can't address CPUs above 254. Kind of
+pointless, but still functional.
 
-Firstly, we need KVM to support the X2APIC API in order to allow IRQ
-delivery to APICs >=3D 255. So we need to call/check kvm_enable_x2apic(),
-which was done elsewhere in *some* cases but not all.
+The check on kvm_enable_x2apic() needs to happen *anyway* in order to
+allow CPUs above 254 even without an IOMMU, so allow that to happen
+elsewhere.
 
-Secondly, microvm needs the same check. So move it from pc_machine_done()
-to x86_cpus_init() where it will work for both.
-
-The check in kvm_cpu_instance_init() is now redundant and can be dropped.
+However, we do require the *split* irqchip in order to rewrite I/OAPIC
+destinations. So fix that check while we're here.
 
 Signed-off-by: David Woodhouse <dwmw2@infradead.org>
 ---
- hw/i386/pc.c              |  8 --------
- hw/i386/x86.c             | 16 ++++++++++++++++
- target/i386/kvm/kvm-cpu.c |  2 +-
- 3 files changed, 17 insertions(+), 9 deletions(-)
+ hw/i386/intel_iommu.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index a2ef40ecbc..9959f93216 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -736,14 +736,6 @@ void pc_machine_done(Notifier *notifier, void *data)
-         /* update FW_CFG_NB_CPUS to account for -device added CPUs */
-         fw_cfg_modify_i16(x86ms->fw_cfg, FW_CFG_NB_CPUS, x86ms->boot_cpus)=
-;
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 294499ee20..b0439d0fbf 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -3746,15 +3746,10 @@ static bool vtd_decide_config(IntelIOMMUState *s, E=
+rror **errp)
+                                               ON_OFF_AUTO_ON : ON_OFF_AUTO=
+_OFF;
      }
--
--
--    if (x86ms->apic_id_limit > 255 && !xen_enabled() &&
--        !kvm_irqchip_in_kernel()) {
--        error_report("current -smp configuration requires kernel "
--                     "irqchip support.");
--        exit(EXIT_FAILURE);
--    }
- }
-=20
- void pc_guest_info_init(PCMachineState *pcms)
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index b84840a1bb..660e9413f5 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -39,6 +39,7 @@
- #include "sysemu/replay.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/cpu-timers.h"
-+#include "sysemu/xen.h"
- #include "trace.h"
-=20
- #include "hw/i386/x86.h"
-@@ -136,6 +137,21 @@ void x86_cpus_init(X86MachineState *x86ms, int default=
-_cpu_version)
-      */
-     x86ms->apic_id_limit =3D x86_cpu_apic_id_from_index(x86ms,
-                                                       ms->smp.max_cpus - 1=
-) + 1;
-+
-+    /*
-+     * Can we support APIC ID 255 or higher?
-+     *
-+     * Under Xen: yes.
-+     * With userspace emulated lapic: no
-+     * With KVM's in-kernel lapic: only if X2APIC API is enabled.
-+     */
-+    if (x86ms->apic_id_limit > 255 && !xen_enabled() &&
-+        (!kvm_irqchip_in_kernel() || !kvm_enable_x2apic())) {
-+        error_report("current -smp configuration requires kernel "
-+                     "irqchip and X2APIC API support.");
-+        exit(EXIT_FAILURE);
-+    }
-+
-     possible_cpus =3D mc->possible_cpu_arch_ids(ms);
-     for (i =3D 0; i < ms->smp.cpus; i++) {
-         x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
-diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-index d95028018e..c60cb2dafb 100644
---- a/target/i386/kvm/kvm-cpu.c
-+++ b/target/i386/kvm/kvm-cpu.c
-@@ -165,7 +165,7 @@ static void kvm_cpu_instance_init(CPUState *cs)
-         /* only applies to builtin_x86_defs cpus */
-         if (!kvm_irqchip_in_kernel()) {
-             x86_cpu_change_kvm_default("x2apic", "off");
--        } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
-+        } else if (kvm_irqchip_is_split()) {
-             x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
+     if (s->intr_eim =3D=3D ON_OFF_AUTO_ON && !s->buggy_eim) {
+-        if (!kvm_irqchip_in_kernel()) {
++        if (!kvm_irqchip_is_split()) {
+             error_setg(errp, "eim=3Don requires accel=3Dkvm,kernel-irqchip=
+=3Dsplit");
+             return false;
          }
+-        if (!kvm_enable_x2apic()) {
+-            error_setg(errp, "eim=3Don requires support on the KVM side"
+-                             "(X2APIC_API, first shipped in v4.7)");
+-            return false;
+-        }
+     }
 =20
+     /* Currently only address widths supported are 39 and 48 bits */
 --=20
 2.31.1
 
 
---=-6dDmiAjBbtqNTWUVtG3t
+--=-lV0Pg7q7EHXLxH+XbK8c
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -272,21 +224,21 @@ BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
 BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
 ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA4rtJSHkq7AnpxKUY8ZlYZjANBglghkgB
 ZQMEAgEFAKCCAe0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjEx
-MTMwMTM0MjIwWjAvBgkqhkiG9w0BCQQxIgQgfIgndzGTOaiYH0VOsEkp7pAot/NRaA/n4gdAUOBo
-1f8wgb4GCSsGAQQBgjcQBDGBsDCBrTCBlzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIg
+MTMwMTM0MjI5WjAvBgkqhkiG9w0BCQQxIgQgNrFdXvkOR9nDW3EbDK9OOXdfi/YlK4ytP9dWWOio
+g7Uwgb4GCSsGAQQBgjcQBDGBsDCBrTCBlzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIg
 TWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQx
 PTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1h
 aWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMIHABgsqhkiG9w0BCRACCzGBsKCBrTCBlzELMAkGA1UE
 BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
 A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
 bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMA0GCSqGSIb3
-DQEBAQUABIIBAJE82eb9CkCt/2Ikbkp5I7n5cbGur9mSXye1P/xMbYZkFPfMSyRT0v290Jn1pi3X
-qTuimP1k3Mmpbf2wpEz2ZUvESdXg2pMYLXasmmQzxL1cw0zkpZB817vQtOWvtoC7ICutGy82W9DS
-ytMtXQHOrUhwSgenIuoYTCWVLGnTmU8FY1fuOVpBB21TWdS44BpGngSpov03djVbUyi4NLVxRF6E
-Zal8xEoewTTNaz/uPaDp6DntG9Jh6HSSeoFSX5UKofmc0BjFsqd3p470h/Y0pwZQ2gbaYulFMAUQ
-jTu7At9l1hNs2J9UC4sT49AG4HS5ZTfcbLcQSzSwWtEIAZsixD0AAAAAAAA=
+DQEBAQUABIIBABfexM9siyX4MbonqxTZo4UmtCBLk2cyKIpHRxjNjrQ3S6wl8W+Ct+VoAyKDFTqJ
+Pe07f/dRhX+EbOKewztti+o88bhf10D6qM2LUgVvWN+RuzrCor3xqVpffHEGRGLBcwSYS4PVg4NX
+EbWvBkxP571p8dBwpRgYfEwwoqWXuhWTMjjZ9i4WLs8PmA6juGffQ0Ju3YQLdWc91CT19XkWNgfi
+trr0YxWkoVUGOeoQTcRl1NLGKPPrBfgOTl9fAylgzOAhW0XoVa2dqzJZOA0O0S+U1xUH/lYoz0BF
+/X/yLuWJuyT1C0xxzvy9YBc9ywlGViJnHKQJ8Wi+bLto6JYcaP0AAAAAAAA=
 
 
---=-6dDmiAjBbtqNTWUVtG3t--
+--=-lV0Pg7q7EHXLxH+XbK8c--
 
 
