@@ -2,61 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A943C4633B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 12:59:04 +0100 (CET)
-Received: from localhost ([::1]:58972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E844633CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 13:05:14 +0100 (CET)
+Received: from localhost ([::1]:39250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ms1mp-0004G3-A0
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 06:59:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60212)
+	id 1ms1sm-0001T8-Cj
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 07:05:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ms1l8-0003Mc-QG
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 06:57:18 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:38845)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ms1pA-0007Uh-ID
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 07:01:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ms1l6-0002Yv-4F
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 06:57:18 -0500
-Received: from [192.168.100.1] ([82.142.5.50]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MYNW8-1n4lUR0PGk-00VPbA; Tue, 30 Nov 2021 12:57:13 +0100
-Message-ID: <0c97b116-4f8a-de89-e656-1630470046ac@vivier.eu>
-Date: Tue, 30 Nov 2021 12:57:12 +0100
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ms1p3-0002yi-Ai
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 07:01:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638273674;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ynipGi1VIKYxAplT/ixwe2z25x6wfv3w8qUSxP26EzI=;
+ b=cY/TDAPUGO3od+183cUYZpWXmJCU+1MfW1Y7pfy3Oue285dmBaMXbuVrk2pGRvRUBDIllz
+ mVyXvkB7uFeMuC7I5f+ECuW++1mdH9j6pngHonpNI/JvyiAQQ1KVAJ60jpbySCEq76Asl8
+ dRbhyQYvywm174KPx4jmracjY6noJ7w=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-78-nVu8b4KiOcu3_37EK5alGw-1; Tue, 30 Nov 2021 07:01:12 -0500
+X-MC-Unique: nVu8b4KiOcu3_37EK5alGw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ z138-20020a1c7e90000000b003319c5f9164so13624804wmc.7
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 04:01:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=ynipGi1VIKYxAplT/ixwe2z25x6wfv3w8qUSxP26EzI=;
+ b=H3FuZfg2GOhpCneo4YwwfYkrIsGGNHAkqPv4aO1XU3vhLbIzSGNoeveoAh/dtZ61zC
+ 1Y5JCSVQwlGgZDuxfMIGKrBOnOgq+ioljIkqvLtTbnjtte2KlgRiH3N9PdZ0kRIDb6Kf
+ rl/xurhFZCpnZ0wkaRa97M68CPmcuBOgO5VbRhbadGhH6elMXQixDFHzWt+OiGaU5+sY
+ +sA/usD/XAjb08FVc4ce/TsSlXT39FWgV+lC6cUL1wdTFTo5e6xa5LDlbtQJeF/2wmji
+ WiCexIjXIQ7+PynWomkDYP3/RqNQmvUSh/mnz5rqBF6Th72OEdpgA7iOC9l2/Cxl01oe
+ qMyA==
+X-Gm-Message-State: AOAM5303nl/H8JDuoedZ6ctDe7XHt+a01qtddZUvKq9OmMB5riBb1uLc
+ NeOT3/AdmY99qoU9JSfawblw5LtguGikVZZZSfwciTAZoZ1OnhXGVuzZz8FdoPa/Vo/n56My+Vj
+ RyMHhT7unq1aoDPw=
+X-Received: by 2002:a5d:650f:: with SMTP id x15mr39680510wru.201.1638273671718; 
+ Tue, 30 Nov 2021 04:01:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyu1yBYnAqi3+dkIoyZVWnP9zaAthDvBubG8d7fWLEt9af5QEVLfnvlNpKl1mh8yhXrb2r+hQ==
+X-Received: by 2002:a5d:650f:: with SMTP id x15mr39680485wru.201.1638273671524; 
+ Tue, 30 Nov 2021 04:01:11 -0800 (PST)
+Received: from localhost (static-168-39-62-95.ipcom.comunitel.net.
+ [95.62.39.168])
+ by smtp.gmail.com with ESMTPSA id h3sm15751964wrv.69.2021.11.30.04.01.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Nov 2021 04:01:10 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v3 17/23] multifd: Use normal pages array on the send side
+In-Reply-To: <YaYB7sSHKoVZgJ6q@work-vm> (David Alan Gilbert's message of "Tue, 
+ 30 Nov 2021 10:50:22 +0000")
+References: <20211124100617.19786-1-quintela@redhat.com>
+ <20211124100617.19786-18-quintela@redhat.com>
+ <YaYB7sSHKoVZgJ6q@work-vm>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 30 Nov 2021 13:01:10 +0100
+Message-ID: <87czmhhmyh.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH 2/3] target/m68k: Implement TRAPcc
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <20211130103752.72099-1-richard.henderson@linaro.org>
- <20211130103752.72099-3-richard.henderson@linaro.org>
-Content-Language: fr
-In-Reply-To: <20211130103752.72099-3-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:46Yq8LxH+FJjzHLx54Q4XJMvN0lB6uYxhoNGMlj3usm0veKxHWd
- 6JmESnfUKO4XXN9m/jOWusmWGHOtfbq3uwz4AlmnKrDNCs3FLp2UHRHP/ZJCCtiRp3fVdBx
- m46OSI42gCpePT5PPJCSqejDPEty30z3rHQFuqQ7N/wK0nLR/MoG7vuzFoUnh7W2Yl3uwrE
- 36fVjXjuQyvJ6kbdWHCzA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:w1uT2tjk0QA=:nXwRXjcfc9Omx4fPO71TL4
- YahOU7bMTSqE+7SUqyjnpHZPj4EF3iwBuXBZ1A0ka8QU20Mhw5khlw1jvcRZRx3R9F7WnnSua
- V27P3nsrfY1m1pKGaTRQHXr8Dp1ZMq6ZSyGUoUttQmX2ZqEWhTSCpdSPyevfFuXgOC31Gz8rf
- baeZjZQk+b3s1bnG9oRyH5GyKTyqVBLrLsCfhiFno+jtrgkw3g/M34kVWe5YSbvsaWT6IEdCn
- HuEP5xOJO/M/PLOSyWA4AcWxBQV/MZqvtgduz8ShHhHnsYmko04N91IKMx84LvELI3yU2JbAx
- 9CK2SW4ljsroD5hg+urEBs425w+TYLSGFI5BESIVss9IwJ4vg60QoIBBLDe+geLix/l1TgKWe
- WBDzsoQYmPggavc3S0UNMvcYs0xHtEeDw2zaLMmaVpdVlg4ywmuyPnyzRHFXNB21d1QDJNNjR
- H7x6zGiBGPH4z/Z5SB51ooNLXGLKbnGYXUB8NKhs88bRrI1+7lkUCQlpiF42ysWNP72GD+1xi
- R0yuBSKejkgrv+gdnkO6W9Oyb3DgSibdkcSSSJLDhlpWHdm7fcGGU2ACuEE25iUNG/1lMt0nN
- RB7BCdlB/c3xOyobUfGSoDqN+271DGmKjmVwU9C1YRe0CIhMb3jguW/8wGeO+u5Sf/eIVae3z
- YiLNhvkWI/KKosjJFkoM/Ggr/OBV2amPva3zE4+eVzjqVoowNGKboUtz4l4dy0dfHBfc=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.211,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,108 +98,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: quintela@redhat.com
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 30/11/2021 à 11:37, Richard Henderson a écrit :
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/754
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/m68k/cpu.h       |  2 ++
->   target/m68k/cpu.c       |  1 +
->   target/m68k/translate.c | 21 +++++++++++++++++++++
->   3 files changed, 24 insertions(+)
-> 
-> diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-> index a3423729ef..03f600f7e7 100644
-> --- a/target/m68k/cpu.h
-> +++ b/target/m68k/cpu.h
-> @@ -527,6 +527,8 @@ enum m68k_features {
->       M68K_FEATURE_MOVEC,
->       /* Unaligned data accesses (680[2346]0) */
->       M68K_FEATURE_UNALIGNED_DATA,
-> +    /* TRAPCC insn. (680[2346]0, and CPU32) */
-> +    M68K_FEATURE_TRAPCC,
->   };
->   
->   static inline int m68k_feature(CPUM68KState *env, int feature)
-> diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-> index c7aeb7da9c..5f778773d1 100644
-> --- a/target/m68k/cpu.c
-> +++ b/target/m68k/cpu.c
-> @@ -162,6 +162,7 @@ static void m68020_cpu_initfn(Object *obj)
->       m68k_set_feature(env, M68K_FEATURE_CHK2);
->       m68k_set_feature(env, M68K_FEATURE_MSP);
->       m68k_set_feature(env, M68K_FEATURE_UNALIGNED_DATA);
-> +    m68k_set_feature(env, M68K_FEATURE_TRAPCC);
->   }
->   
->   /*
-> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-> index 858ba761fc..cf29f35d91 100644
-> --- a/target/m68k/translate.c
-> +++ b/target/m68k/translate.c
-> @@ -4879,6 +4879,26 @@ DISAS_INSN(trapv)
->       do_trapcc(s, 9); /* VS */
->   }
->   
-> +DISAS_INSN(trapcc)
-> +{
-> +    /* Consume and discard the immediate operand. */
-> +    switch (extract32(insn, 0, 3)) {
-> +    case 2: /* trapcc.w */
-> +        (void)read_im16(env, s);
-> +        break;
-> +    case 3: /* trapcc.l */
-> +        (void)read_im32(env, s);
-> +        break;
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> * Juan Quintela (quintela@redhat.com) wrote:
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>
+> Can you explain a bit more what's going on here?
 
-Do we need to actually read the memory to trigger a fault if needed or can we only increase the PC?
+Sorry.
 
-Normally these values are for the trap handler.
+Until patch 20, we have what we had always have:
 
-> +    case 4: /* trapcc (no operand) */
-> +        break;
-> +    default:
-> +        /* Illegal insn */
-> +        disas_undef(env, s, insn);
-> +        return;
-> +    }
-> +    do_trapcc(s, extract32(insn, 8, 4));
-> +}
+pages that are sent through multifd (non zero pages).  We are going to
+call it normal pages.  So right now, we use the array of pages that we
+are passed in directly on the multifd send methods.
 
-Do we need to change something in m68k_interrupt_all()?
+But when we introduce zero pages handling around patch 20, we end having
+two types of pages sent through multifd:
+- normal pages (a.k.a. non-zero pages)
+- zero pages
 
-     if (!is_hw) {
-         switch (cs->exception_index) {
-         case EXCP_RTE:
-             /* Return from an exception.  */
-             m68k_rte(env);
-             return;
-         case EXCP_TRAP0 ...  EXCP_TRAP15:
-             /* Move the PC after the trap instruction.  */
-             retaddr += 2;
-             break;
-         }
-     }
+So the options are:
+- we rename the fields before we introduce the zero page code, and then
+  we introduce the zero page code.
+- we rename at the same time that we introduce the zero page code.
 
-Thanks,
-Laurent
+I decided to go with the 1st option.
 
-> +
->   static void gen_load_fcr(DisasContext *s, TCGv res, int reg)
->   {
->       switch (reg) {
-> @@ -6051,6 +6071,7 @@ void register_m68k_insns (CPUM68KState *env)
->       INSN(scc,       50c0, f0f8, CF_ISA_A); /* Scc.B Dx   */
->       INSN(scc,       50c0, f0c0, M68000);   /* Scc.B <EA> */
->       INSN(dbcc,      50c8, f0f8, M68000);
-> +    INSN(trapcc,    50f8, f0f8, TRAPCC);
->       INSN(tpf,       51f8, fff8, CF_ISA_A);
->   
->       /* Branch instructions.  */
-> 
+The other thing that we do here is that we introduce the normal array
+pages, so right now we do:
 
+for (i = 0; i < pages->num; i++) {
+    p->narmal[p->normal_num] = pages->offset[i];
+    p->normal_num++:
+}
+
+
+Why?
+
+Because then patch 20 becomes:
+
+for (i = 0; i < pages->num; i++) {
+    if (buffer_is_zero(page->offset[i])) {
+        p->zerol[p->zero_num] = pages->offset[i];
+        p->zeronum++:
+    } else {
+        p->narmal[p->normal_num] = pages->offset[i];
+        p->normal_num++:
+    }
+}
+
+i.e. don't have to touch the handling of normal pages at all, only this
+for loop.
+
+As an added benefit, after this patch, multifd methods don't need to
+know about the pages array, only about the params array (that will allow
+me to drop the locking earlier).
+
+I hope this helps.
+
+Later, Juan.
 
 
