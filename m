@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3753B463987
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 16:12:40 +0100 (CET)
-Received: from localhost ([::1]:37956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8A1463A03
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 16:27:06 +0100 (CET)
+Received: from localhost ([::1]:45374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ms4oA-0002Kj-6J
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 10:12:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54958)
+	id 1ms528-0007zu-KA
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 10:27:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1ms4mX-0001fq-I3
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 10:10:57 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:34824
+ id 1ms50V-0006Y9-HL
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 10:25:24 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:53329
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1ms4mN-0000Cq-6W
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 10:10:57 -0500
-HMM_SOURCE_IP: 172.18.0.48:35862.1922239739
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ms50R-0002Kn-Ig
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 10:25:23 -0500
+HMM_SOURCE_IP: 172.18.0.48:53176.1422368689
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-118.116.19.33 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id B804D2800A0;
- Tue, 30 Nov 2021 23:10:29 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 8281F2800B1;
+ Tue, 30 Nov 2021 23:25:05 +0800 (CST)
 X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
 Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 1cb4555beecd4497aeb9aa94546f3fe8 for
- peterx@redhat.com; Tue, 30 Nov 2021 23:10:35 CST
-X-Transaction-ID: 1cb4555beecd4497aeb9aa94546f3fe8
+ by app0024 with ESMTP id 47ddbf9112324645a0ceac08bd5f9147 for
+ peterx@redhat.com; Tue, 30 Nov 2021 23:25:11 CST
+X-Transaction-ID: 47ddbf9112324645a0ceac08bd5f9147
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.48
 X-MEDUSA-Status: 0
-Message-ID: <b4f91603-1897-33e3-92da-04183a75910f@chinatelecom.cn>
-Date: Tue, 30 Nov 2021 23:10:30 +0800
+Message-ID: <269159ed-569b-4b73-8cc0-e944dc75cd11@chinatelecom.cn>
+Date: Tue, 30 Nov 2021 23:25:07 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v7 1/3] migration/dirtyrate: implement vCPU dirtyrate
- calculation periodically
+Subject: Re: [PATCH v7 3/3] cpus-common: implement dirty page limit on vCPU
 Content-Language: en-US
 To: Peter Xu <peterx@redhat.com>
 References: <cover.1638267948.git.huangy81@chinatelecom.cn>
- <d7fbcc438d315c72227da309a00f13444d0dd718.1638267948.git.huangy81@chinatelecom.cn>
- <YaYhZP7y/Q8aFv6B@xz-m1.local>
+ <692eeb1960338ff0ae027a42192e264d55342e7b.1638267948.git.huangy81@chinatelecom.cn>
+ <YaYldsdDa6ENmSF1@xz-m1.local>
 From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <YaYhZP7y/Q8aFv6B@xz-m1.local>
+In-Reply-To: <YaYldsdDa6ENmSF1@xz-m1.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.220;
+Received-SPF: pass client-ip=42.123.76.222;
  envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -67,62 +66,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Markus ArmBruster <armbru@redhat.com>,
- David Hildenbrand <david@redhat.com>,
+Cc: Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus ArmBruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 11/30/21 21:04, Peter Xu wrote:
-> On Tue, Nov 30, 2021 at 06:28:11PM +0800, huangy81@chinatelecom.cn wrote:
->> +static void dirtylimit_calc_func(void)
->> +{
->> +    CPUState *cpu;
->> +    DirtyPageRecord *dirty_pages;
->> +    int64_t start_time, end_time, calc_time;
->> +    DirtyRateVcpu rate;
->> +    int i = 0;
+On 11/30/21 21:21, Peter Xu wrote:
+> On Tue, Nov 30, 2021 at 06:28:13PM +0800, huangy81@chinatelecom.cn wrote:
+>>   ##
+>> +# @set-dirty-limit:
+>> +#
+>> +# Set the upper limit of dirty page rate for a virtual CPU.
+>> +#
+>> +# Requires KVM with accelerator property "dirty-ring-size" set.
+>> +# A virtual CPU's dirty page rate is a measure of its memory load.
+>> +# To observe dirty page rates, use @calc-dirty-rate.
+>> +#
+>> +# @cpu-index: index of the virtual CPU.
+>> +#
+>> +# @dirty-rate: upper limit for the specified vCPU's dirty page rate (MB/s)
+>> +#
+>> +# Since: 7.0
+>> +#
+>> +# Example:
+>> +#   {"execute": "set-dirty-limit"}
+>> +#    "arguments": { "cpu-index": 0,
+>> +#                   "dirty-rate": 200 } }
+>> +#
+>> +##
+>> +{ 'command': 'set-dirty-limit',
+>> +  'data': { 'cpu-index': 'int', 'dirty-rate': 'uint64' } }
 >> +
->> +    dirty_pages = g_malloc0(sizeof(*dirty_pages) *
->> +        dirtylimit_calc_state->data.nvcpu);
->> +
->> +    dirtylimit_global_dirty_log_start();
->> +
->> +    CPU_FOREACH(cpu) {
->> +        record_dirtypages(dirty_pages, cpu, true);
->> +    }
->> +
->> +    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
->> +    g_usleep(DIRTYLIMIT_CALC_TIME_MS * 1000);
->> +    end_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
->> +    calc_time = end_time - start_time;
->> +
->> +    dirtylimit_global_dirty_log_stop();
+>> +##
+>> +# @cancel-dirty-limit:
+>> +#
+>> +# Cancel the dirty page limit for the vCPU which has been set with
+>> +# set-dirty-limit command. Note that this command requires support from
+>> +# dirty ring, same as the "set-dirty-limit" command.
+>> +#
+>> +# @cpu-index: index of the virtual CPU to cancel the dirty page limit
+>> +#
+>> +# Since: 7.0
+>> +#
+>> +# Example:
+>> +#   {"execute": "cancel-dirty-limit"}
+>> +#    "arguments": { "cpu-index": 0 } }
+>> +#
+>> +##
+>> +{ 'command': 'cancel-dirty-limit',
+>> +  'data': { 'cpu-index': 'int' } }
 > 
-> I haven't looked into the details, but..  I'm wondering whether we should just
-> keep the dirty ring enabled during the whole process of throttling.
+> This seems to be overloaded to be a standalone cmd..
 > 
-> start/stop can be expensive, especially when huge pages are used, start dirty
-> tracking will start to do huge page split. While right after the "stop" all the
-> huge pages will need to be rebuild again.
+> How about:
 > 
-> David from Google is even proposing a kernel change to eagerly splitting huge
-> pages when dirty tracking is enabled.
+>    { "cmd": "vcpu-dirty-limit",
+>      "arguments": {
+>        "cpu": $cpu,
+>        "enable": true/false,
+>        "dirty-rate": 100,
+>      }
+>    }
 > 
-> So I think we can keep the dirty tracking enabled until all the vcpu throttles
-> are stopped.
-Yes, it's a good idea and i'll try this out next version.
+> If "enable"==false, then "dirty-rate" can be ignored and it'll shut down the
+> throttling on vcpu N.  Then this command will literally merge the two you
+> proposed.
 > 
->> +
->> +    CPU_FOREACH(cpu) {
->> +        record_dirtypages(dirty_pages, cpu, false);
->> +    }
+> It'll be nice if we provide yet another command:
+> 
+>    { "cmd": "query-vcpu-dirty-limit",
+>      "arguments": {
+>        "*cpu": $cpu,
+>      }
+>    }
+> 
+> When $cpu is specified, we return (cpu=$cpu, real_dirty_rate,
+> target_dirty_rate) for this vcpu.  When $cpu is not specified, we return an
+> array of that containing all the vcpus.
+> 
+> It'll be nicer to enhance the output of the query command to e.g. have a global
+> "enabled"=true/false as long as any vcpu has throttle enabled then the global
+> throttle is enabled.  I didn't think more than that, but how's that sound so
+> far?
+Soud good, it makes the command easier for programmers to use and 
+understand, i'll try this out next version.
+> 
+> Thanks,
 > 
 
 -- 
