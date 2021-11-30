@@ -2,143 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B985463558
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 14:23:54 +0100 (CET)
-Received: from localhost ([::1]:43062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22541463569
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 14:25:58 +0100 (CET)
+Received: from localhost ([::1]:46176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ms36u-0007Qo-Jz
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 08:23:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51056)
+	id 1ms38v-0001Ak-9S
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 08:25:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ms32p-0005o4-IK; Tue, 30 Nov 2021 08:19:39 -0500
-Received: from mail-am6eur05on2122.outbound.protection.outlook.com
- ([40.107.22.122]:59744 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ms35I-0007Wx-5T
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 08:22:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ms32l-00072t-1J; Tue, 30 Nov 2021 08:19:38 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HCBqzyn3nDr1t0BNSEAzM/SS5CkdRB9yTtNLdmqF+r+Ncgw0iCv9d5crT3RJklVu/bEfEMgpGr1UNmT28ppBMbc8zHehZT7wgHV8EHGgONQSHAPecVRjHfDSqsAi7e6JEoQ//xygJ4KkeCtzR58enQQen+dHzfl42AZ8CF/fVRjLS8SWBucNQOuo/pQO8iy91TJjEGKdL7IhA/ye4ER6fmAVymc1SlQatUU0aG7geB7jg11U1eRVdFeKiTuLyCftMKnjNeqQy1eZfP4xaj+/ziU2iT7jyuOJgvNJhzEkTJV7g+lwtvGiFzzNYR3thGzCX481uTUAT854852PCMg2HA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DXTs/0L0EC9Xeoz0EkQ1RA7T85SO0k612MI0vZvD5Jk=;
- b=gyQ7b9wQlrTjLxnpM3sRIXejqyCBW1WtuGmR+c/5Fw5rN2S72WU70Po9Khj8aw/RgeUBHMxnulXBNiUWURZ6SO49EpsiGmubxPb0GqP0rg+bnD0QUl+SVsiQ4Wfqb9dJ2aF5pMlRcrPs5GOorBHsBo/fUPgUpTSJhsIErc2F+hy6B8uDLVUPc8O8Ie5yz7VDvX2iX+kkRzEOlR5EgE75tqON+YDdXUKa3U1eyH4LcweirFHXoVTE8u18uK37BhFPR0L6+td0V2urpfdPG/U838v9NkD5byPnvUzIQHLICeet/FUGQH1eqgQgfbe6j8uDDZqUHUjZyakfqcPsoHBC7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DXTs/0L0EC9Xeoz0EkQ1RA7T85SO0k612MI0vZvD5Jk=;
- b=t4neBmg7XIiaAoFxDds23Y7c+SuampVMVLkKx41Zi9AyCvOg6MpP7EsFhKKxNPGNJ/hCmjlp/XNfCIWodvTK1dP2DdHrsgfreufhKBWJ9opHcP3dzKV3rg11Si8/8ZvizxV1KSup2DzW1AQIYSR/4GyIO3Cc77ClUBst1oKxwuE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM0PR08MB4514.eurprd08.prod.outlook.com (2603:10a6:208:13a::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Tue, 30 Nov
- 2021 13:19:31 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Tue, 30 Nov 2021
- 13:19:31 +0000
-Message-ID: <3d382d7e-696a-82f3-75ec-62d257fdc869@virtuozzo.com>
-Date: Tue, 30 Nov 2021 16:19:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH for-6.2 v2] block/nbd: forbid incompatible change of
- server options on reconnect
-Content-Language: en-US
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
- eblake@redhat.com
-References: <20211129215300.1468291-1-vsementsov@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <20211129215300.1468291-1-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM6PR02CA0021.eurprd02.prod.outlook.com
- (2603:10a6:20b:6e::34) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ms35F-0007Tj-6j
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 08:22:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638278528;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=y2Wi8PAXdAU9R5cY6k8W+/3v4mO5deS8maGc/G+6gik=;
+ b=a8beKNC0pGQF3G/ytvo8+88++DvptyqqPpcEIjxxODQHIJ19uu+Mk+w4qI622J3dLhmAjS
+ DlbvVZKig1tsYhS48puGwrTsUowZ+ugFW3wuUSYHTLobN1nuMmUELUiM230d1ErQfj1Hgj
+ BOpGXCnlgIacKDAeGWBOWztkQnzcKlg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-520-In3Ll8xLOtGXKN-dXNv87A-1; Tue, 30 Nov 2021 08:22:06 -0500
+X-MC-Unique: In3Ll8xLOtGXKN-dXNv87A-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k25-20020a05600c1c9900b00332f798ba1dso13742535wms.4
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 05:22:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=y2Wi8PAXdAU9R5cY6k8W+/3v4mO5deS8maGc/G+6gik=;
+ b=oIB6kyKS+yAoLESMIOWNP/9AjMOb1XV9wCWq8a+HgSRMRQ9m1/cqzoApXwk4MPPJQ/
+ /TqPnCD9hP5ZQkqA7dhE5HXy8xTYZwws0+K4hHuZAL3UEP0yccZSAlJKpYRqoqkIN5oT
+ SorKq21AZpYGQBZreBihidClVdTNPvclzhftccAmbdt2HRBPEWISVS6pPJdOHlYjhtpl
+ 9IaTaPEpNOT10vuMlOWCZT/WCIMBegB3kOwSzghzI4sf02+R3XiX1IWgimFv/S2nA2gd
+ CIDhQCX3VtN/VBSb+JU2xOEN28/lEa1JjJTARbrNbe8ySHsuyPwoui2sb7j5l3YerabQ
+ M9zA==
+X-Gm-Message-State: AOAM532P3zK0Gpv/HoU7nDugFd9E4j7Zuq+NT72VDhf8BiRB1LXx6MbM
+ bFGkU32azzlv+CJ+5irKlHM18mA4Rjatfp/Ot3EO54yEpLYHcNSBy1wJOjHwD+sY3K37CoRoudE
+ fU2B/FhDk9iabLqI=
+X-Received: by 2002:a5d:58fb:: with SMTP id f27mr40954760wrd.10.1638278525057; 
+ Tue, 30 Nov 2021 05:22:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyZ4qaVSXGzkjDi+J5qd5FztSwEPCEHNw9JRAKvI4Cvp5I73jesBFufojmVGVQWZZDkjCpk8A==
+X-Received: by 2002:a5d:58fb:: with SMTP id f27mr40954722wrd.10.1638278524824; 
+ Tue, 30 Nov 2021 05:22:04 -0800 (PST)
+Received: from xz-m1.local ([85.203.46.194])
+ by smtp.gmail.com with ESMTPSA id g5sm21788565wri.45.2021.11.30.05.22.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Nov 2021 05:22:04 -0800 (PST)
+Date: Tue, 30 Nov 2021 21:21:58 +0800
+From: Peter Xu <peterx@redhat.com>
+To: huangy81@chinatelecom.cn
+Subject: Re: [PATCH v7 3/3] cpus-common: implement dirty page limit on vCPU
+Message-ID: <YaYldsdDa6ENmSF1@xz-m1.local>
+References: <cover.1638267948.git.huangy81@chinatelecom.cn>
+ <692eeb1960338ff0ae027a42192e264d55342e7b.1638267948.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-Received: from [192.168.100.10] (185.215.60.234) by
- AM6PR02CA0021.eurprd02.prod.outlook.com (2603:10a6:20b:6e::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4734.22 via Frontend Transport; Tue, 30 Nov 2021 13:19:30 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 99733925-2cd9-4299-034b-08d9b4040b38
-X-MS-TrafficTypeDiagnostic: AM0PR08MB4514:
-X-Microsoft-Antispam-PRVS: <AM0PR08MB451495D0FAD2B4AC14DA2C10C1679@AM0PR08MB4514.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EE3+vPjsUCtaoQWpAaTGn8t0ACIMhtHcE2HvFY3L02wMFAnidATXlVBjYCy9XcfCM5W7uVheAm4mG2wg5ybuHOO5IPnuEmPD8xgG++KcWVapEjvZSiVYlK2mP07I2aYwjaEagr8C+NxTXVlpYiPPcFZbsvCSCYJIFEjFYhLEOWWr+jI0cw1555VvEQ70cemSqzrhfjBux59QTgAN1aEFhZ9PV/2MIjB2zS18eNmEhb4uH1pOUtJR0b6dDtBTjo8pAa9pWEJrk8tXIJEucPHD/ZDNFTcLa+0eECTBHGLB5g+U12vigVKngHxGqJc+S7DHwA9cIdkKhbxUuk8w/iNuAdUqcgpqH32AqSkhfJ5K6GlW7lvJ/zOFO8mUHGKX16gk/LvSat0Ri37hOgTz1/U/9G6EFcsvUE5/mMii9b67tSEn/it/y0M0dHiPZxprC+urada4ZwCSu+cKqNw0FnllJvN91wMULRmErulepsb3jK3KYUWxoXx8lajH5EUqHDZNivgZ9UOcBsHty0NXmFlCzllDoN6NSdGgQWKcnoJLYCgDPs4V/hdgMPsvsFU+CdXMTMbQlboKAPj6sGFuXYWpdFCz7G3OSfaXhuHmRpk/pUHm+ocIBYvtofU//VPthr4NVwkxk7GmzDvyCuO7f3qhWmZfAn/rghdTBBVtDvTUPl7VuAVJBYOgPRcaQzkIvodVln0h75qS4Y9FQAs0OpANo6dI0AmG0cqM/KY//bbpzj5NIpR4aFObvCoTXsZoIdHtqrjUaLjuYf2cx09d0AlMPQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(83380400001)(31686004)(956004)(2616005)(8676002)(86362001)(66556008)(66476007)(38350700002)(38100700002)(6916009)(31696002)(66946007)(2906002)(52116002)(36756003)(4326008)(5660300002)(186003)(6486002)(8936002)(508600001)(26005)(16576012)(316002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bzRucU0rc3V4UkhCQzNrR2ZBQW9UZ3VLN2Nxb1NxN01vblRHSi9EZUdnZUs2?=
- =?utf-8?B?OThiMlZlVkdYdXd6SHk5bkVtMjQzODdXaEhQVTQyMFV6aGhZblZ1MzU1M3U1?=
- =?utf-8?B?Sm5vc001R0MyMDFxNmQ1N1VWaDNiZzBWS0F1MzVpK3VCWllNTEVOWXFMMVhH?=
- =?utf-8?B?RDV6dzUrZ2Zha1l4b1VTaEtac2lZVXhKNUNZdmVFWmt3dXhaVTR3ZnRDU2Fk?=
- =?utf-8?B?eVpTZmZzOFNhV1NoMGhqeEF0dm9mMVBuYkxFL2ZQa3I3VTlEMUlQaTdkK012?=
- =?utf-8?B?VC9vSVdWd2QweEVZZ1FEaDVka202MmpRdnFWb2o1SExyZDdBQmZxSkJGTVZ0?=
- =?utf-8?B?Rjk3ZGM3QVZMR1pRY0tmb1JTZFAxRkRZUkora21QTlpFZE9Rbm5IeXo3S3lq?=
- =?utf-8?B?U3ZOdTBTK0JiTUkwL04zbTNmT0tzOUZLdXNyM0FnbVl5L2p1QmluVEFyaWh5?=
- =?utf-8?B?RFVKOHZCS0ljelJwMVM2WHBSWlplVFNManlCNzMrVXZWNlYxT0lFTlU4RDdl?=
- =?utf-8?B?dG1POXNyZHJ0U2p2QWFwZ1dBOWxERUhHM042VXk2ZS9hVUxrVDE4SXZWM0pN?=
- =?utf-8?B?aWkyV1drNlV1QkYyTGtZeDNyNklDNUxpZm5tS3R4c1ZBRjkrRVIrd3k2ZXNj?=
- =?utf-8?B?SU1Xa1VKL1NHNFlVYnlJa0gwSzMzZWZSNjRtb1pYY0QzOU4xMzRjOHgwbktV?=
- =?utf-8?B?THlFZWY2WmExVG4rU1lyVmF2eVJENGpzaENmQ05CNjEwa01ZbWFPV2E5V21I?=
- =?utf-8?B?OWoxMlQzOEJ2ZmtMLzE3UUl5OFFIOG5IMld2UkNtd1gwSjNMZERybkhsSGVZ?=
- =?utf-8?B?YUlwSkRwLzlyWUdGZ3ZSeXpCTVoyK21UY1NNUEpXeDFzSGlLQmJnU25CaHo4?=
- =?utf-8?B?Sy9NczhwelRIV2FYWmdEdytmTjhlaWd3TEVrMkNrQXplRzVjakV5UytkdUhy?=
- =?utf-8?B?aXl4bFEyczhjcmZ6bkt5Mm00cHJSRXlVWVdrRDhGOEIyeVhUUnBqcEJxL1Iy?=
- =?utf-8?B?ckpWOWcvbDNVblhzVDIyTllXMW9yWVZIREsrcFdRQmsrWmw5TUJ5c2hLRGhH?=
- =?utf-8?B?LzQyZmtGc1BWd0ViZzd6YjdSVEE4MjgzQTZJb3JBdGhnNGJveFpxeFNVRjdm?=
- =?utf-8?B?V05senhIMllVcEk5RlplZzNrc3lHem5KRXJjQWRPSUJudk5ORGgxS0Zsbng2?=
- =?utf-8?B?cXE2SVMwMTRuYVJOOWEzY3Q5UWFNRnVmTVBLYUJRdHB3dmdJQWk5M21rWm8x?=
- =?utf-8?B?UGVCa0FiZDQ3MXZ4aDhMaXhESFJCUjdMTGZhVzZrcU9UbWNGUjRYeGJUZ3Rp?=
- =?utf-8?B?SnJrT2IvV0VYbmpPMTVpaHlYcjByMENGMWN6bTl0QkpuVlVPdHRvRnZ5Mm54?=
- =?utf-8?B?NldGZUx3bGZQNXNpdUdwVUUzZzNxT0o0TnFUbDdJRmRIdXpaemhDbEdFL3N5?=
- =?utf-8?B?emhBZGlVRzJxaDRZSUVVL05XaUtDaUE3QnBwMUdidndkbG9hK0JreXh1WDMv?=
- =?utf-8?B?V2EzRXdVc092Y2NlN1hHbjRmWFJrZVlEbXY3cURKYjY5c3dZVzZTNEFWM2RN?=
- =?utf-8?B?OHg4eVl5SVFFMWczc01ieEdRNnR3ME45VUZkSnFBcFgxQTl0NVJ0ZGJsazlK?=
- =?utf-8?B?V0ZvUEVMMGJGYlZlT3ltUWRQcGxjRk10YjFWOGtrOVRVVEFFbXJqL2Y1SCtn?=
- =?utf-8?B?VzM1ZVVNNmI1eFBtUlRoZlZQbm1QS3k1UGhuekNvK1BTbUt5TVB2TlRsMWxl?=
- =?utf-8?B?cTcyVERHTHpLMWRVdUY1cmdFUTJqVmYrRHMvejJEbStDM0E5bW1Ed0pMS3RS?=
- =?utf-8?B?Z0NjZXQ5U0FPRDRMZEZGVW94TTRzZEpLMGlZK0VabXI4MUtjbjh1VEFVbUQx?=
- =?utf-8?B?TTBXU2liT0JjRHA3STFoRCtKRHVIemdlYWo0cmtyc0Fqa2daK0pJbVZFTjN6?=
- =?utf-8?B?azV6Z0MzalZwTHN5OEoxZmxJU2V5SUhnSHFtc1I4SG92M1l6ZDAwNWg4MEpT?=
- =?utf-8?B?QTFWcUFVT2xkeml5UEJtMVlzaEhlb1k3UUh1V3BLK1FlU3NtcFZlMVFXUmtF?=
- =?utf-8?B?MDlFNHhobXNndERCMk0walBuY3NyZ2NUMC9EYnpkNlk0Z1Jkc2s3aFlBTFc4?=
- =?utf-8?B?SlBZQkp4UVVJMkZEendTQk01UXIwSWNDTFR2T1dncTBXakN5Y0JYNlNTbi94?=
- =?utf-8?B?U3Y5ZzVYOUEvaEliS0t4Y2djRTMwalpzaG9ZaU55WjJPdGw5YjE2aWJsV2c2?=
- =?utf-8?Q?3AILtiQtqCQfrV8iacUqR026pJAO2kM/vzoz8qzWNk=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99733925-2cd9-4299-034b-08d9b4040b38
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2021 13:19:31.2029 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XPC2GAvOPHg4vML6enzrDMA396gnVdEZBbAbkSX57xudHb+H8MpFcx+kV1awo1aiIUh+Dp5QiecQkvBgsto0H3XUfXkeYazqPaKONpAqTnM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4514
-Received-SPF: pass client-ip=40.107.22.122;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.211, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <692eeb1960338ff0ae027a42192e264d55342e7b.1638267948.git.huangy81@chinatelecom.cn>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -152,213 +93,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus ArmBruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-30.11.2021 00:53, Vladimir Sementsov-Ogievskiy wrote:
-> Reconnect feature was never prepared to handle server options changed
-> on reconnect. Let's be stricter and check what exactly is changed. If
-> server capabilities just got richer don't worry. Otherwise fail and
-> drop the established connection.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
-> 
-> v2: by Eric's comments:
->   - drop extra check about old->min_block % new->min_block
->   - make context_id check conditional itself
->   - don't handle READ_ONLY flag here (see comment in code)
->   - wording
-> 
->   Code seems quite obvious, but honestly I still didn't test that it does
->   what it should :( And I'm afraid, Qemu actually doesn't provide good
->   possibility to do so.
-> 
->   Eric, may be you know some simple way to test it with nbdkit?
-
-
-Ok, a simple test I can do:
-
-qemu-img create -f qcow2 a 10M
-qemu-img create -f qcow2 b 20M
-qemu-nbd b
-
-
-then in parallel:
-
-./qemu-io --image-opts driver=nbd,host=localhost,reconnect-delay=5
-
-check that it works:
-qemu-io> write 10M 1M
-wrote 1048576/1048576 bytes at offset 10485760
-
-Now, kill nbd server
-
-try again
-
-qemu-io> write 10M 1M
-
-- it will wait up to 5 seconds for reconnection
-
-Now start nbd server with shorter file
-
-qemu-nbd a
-
-
-Prepatch, qemu-io will successfully  connect, request will fail with "Invalid argument".
-
-Afterpatch, qemu-io will refuse to connect to shorter export, write will fail with "Input/output error".
-
-
-> 
->   include/block/nbd.h     |  9 +++++
->   nbd/client-connection.c | 88 +++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 97 insertions(+)
-> 
-> diff --git a/include/block/nbd.h b/include/block/nbd.h
-> index 78d101b774..9e1943d24c 100644
-> --- a/include/block/nbd.h
-> +++ b/include/block/nbd.h
-> @@ -157,6 +157,10 @@ enum {
->   #define NBD_FLAG_SEND_RESIZE       (1 << NBD_FLAG_SEND_RESIZE_BIT)
->   #define NBD_FLAG_SEND_CACHE        (1 << NBD_FLAG_SEND_CACHE_BIT)
->   #define NBD_FLAG_SEND_FAST_ZERO    (1 << NBD_FLAG_SEND_FAST_ZERO_BIT)
-> +/*
-> + * WARNING! If you add any new NBD_FLAG_ flag, check that logic in
-> + * nbd_is_new_info_compatible() is still good about handling flags.
-> + */
->   
->   /* New-style handshake (global) flags, sent from server to client, and
->      control what will happen during handshake phase. */
-> @@ -305,6 +309,11 @@ struct NBDExportInfo {
->   
->       uint32_t context_id;
->   
-> +    /*
-> +     * WARNING! When adding any new field to the structure, don't forget
-> +     * to check and update the nbd_is_new_info_compatible() function.
-> +     */
+On Tue, Nov 30, 2021 at 06:28:13PM +0800, huangy81@chinatelecom.cn wrote:
+>  ##
+> +# @set-dirty-limit:
+> +#
+> +# Set the upper limit of dirty page rate for a virtual CPU.
+> +#
+> +# Requires KVM with accelerator property "dirty-ring-size" set.
+> +# A virtual CPU's dirty page rate is a measure of its memory load.
+> +# To observe dirty page rates, use @calc-dirty-rate.
+> +#
+> +# @cpu-index: index of the virtual CPU.
+> +#
+> +# @dirty-rate: upper limit for the specified vCPU's dirty page rate (MB/s)
+> +#
+> +# Since: 7.0
+> +#
+> +# Example:
+> +#   {"execute": "set-dirty-limit"}
+> +#    "arguments": { "cpu-index": 0,
+> +#                   "dirty-rate": 200 } }
+> +#
+> +##
+> +{ 'command': 'set-dirty-limit',
+> +  'data': { 'cpu-index': 'int', 'dirty-rate': 'uint64' } }
 > +
->       /* Set by server results during nbd_receive_export_list() */
->       char *description;
->       int n_contexts;
-> diff --git a/nbd/client-connection.c b/nbd/client-connection.c
-> index 695f855754..d50c187482 100644
-> --- a/nbd/client-connection.c
-> +++ b/nbd/client-connection.c
-> @@ -37,6 +37,10 @@ struct NBDClientConnection {
->       bool do_negotiation;
->       bool do_retry;
->   
-> +    /* Used only by connection thread, does not need mutex protection */
-> +    bool has_prev_info;
-> +    NBDExportInfo prev_info;
-> +
->       QemuMutex mutex;
->   
->       /*
-> @@ -160,6 +164,69 @@ static int nbd_connect(QIOChannelSocket *sioc, SocketAddress *addr,
->       return 0;
->   }
->   
-> +static bool nbd_is_new_info_compatible(NBDExportInfo *old, NBDExportInfo *new,
-> +                                       Error **errp)
-> +{
-> +    uint32_t dropped_flags;
-> +
-> +    if (old->structured_reply && !new->structured_reply) {
-> +        error_setg(errp, "Server options degraded after reconnect: "
-> +                   "structured_reply is not supported anymore");
-> +        return false;
-> +    }
-> +
-> +    if (old->base_allocation) {
-> +        if (!new->base_allocation) {
-> +            error_setg(errp, "Server options degraded after reconnect: "
-> +                       "base_allocation is not supported anymore");
-> +            return false;
-> +        }
-> +
-> +        if (old->context_id != new->context_id) {
-> +            error_setg(errp, "Meta context id changed after reconnect");
-> +            return false;
-> +        }
-> +    }
-> +
-> +    if (old->size != new->size) {
-> +        error_setg(errp, "NBD export size changed after reconnect");
-> +        return false;
-> +    }
-> +
-> +    /*
-> +     * No worry if rotational status changed.
-> +     *
-> +     * Also, we can't handle NBD_FLAG_READ_ONLY properly at this level: we don't
-> +     * actually know, does our client need write access or not. So, it's handled
-> +     * in block layer in nbd_handle_updated_info().
-> +     *
-> +     * All other flags are feature flags, they should not degrade.
-> +     */
-> +    dropped_flags = (old->flags & ~new->flags) &
-> +        ~(NBD_FLAG_ROTATIONAL | NBD_FLAG_READ_ONLY);
-> +    if (dropped_flags) {
-> +        error_setg(errp, "Server options degraded after reconnect: flags 0x%"
-> +                   PRIx32 " are not reported anymore", dropped_flags);
-> +        return false;
-> +    }
-> +
-> +    if (new->min_block > old->min_block) {
-> +        error_setg(errp, "Server requires more strict min_block after "
-> +                   "reconnect: %" PRIu32 " instead of %" PRIu32,
-> +                   new->min_block, old->min_block);
-> +        return false;
-> +    }
-> +
-> +    if (new->max_block < old->max_block) {
-> +        error_setg(errp, "Server requires more strict max_block after "
-> +                   "reconnect: %" PRIu32 " instead of %" PRIu32,
-> +                   new->max_block, old->max_block);
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +
->   static void *connect_thread_func(void *opaque)
->   {
->       NBDClientConnection *conn = opaque;
-> @@ -183,6 +250,27 @@ static void *connect_thread_func(void *opaque)
->                             conn->do_negotiation ? &conn->updated_info : NULL,
->                             conn->tlscreds, &conn->ioc, &conn->err);
->   
-> +        if (ret == 0) {
-> +            if (conn->has_prev_info &&
-> +                !nbd_is_new_info_compatible(&conn->prev_info,
-> +                                            &conn->updated_info, &conn->err))
-> +            {
-> +                NBDRequest request = { .type = NBD_CMD_DISC };
-> +                QIOChannel *ioc = conn->ioc ?: QIO_CHANNEL(conn->sioc);
-> +
-> +                nbd_send_request(ioc, &request);
-> +                qio_channel_close(ioc, NULL);
-> +
-> +                object_unref(OBJECT(conn->ioc));
-> +                conn->ioc = NULL;
-> +
-> +                ret = -EINVAL;
-> +            } else {
-> +                conn->prev_info = conn->updated_info;
-> +                conn->has_prev_info = true;
-> +            }
-> +        }
-> +
->           /*
->            * conn->updated_info will finally be returned to the user. Clear the
->            * pointers to our internally allocated strings, which are IN parameters
-> 
+> +##
+> +# @cancel-dirty-limit:
+> +#
+> +# Cancel the dirty page limit for the vCPU which has been set with
+> +# set-dirty-limit command. Note that this command requires support from
+> +# dirty ring, same as the "set-dirty-limit" command.
+> +#
+> +# @cpu-index: index of the virtual CPU to cancel the dirty page limit
+> +#
+> +# Since: 7.0
+> +#
+> +# Example:
+> +#   {"execute": "cancel-dirty-limit"}
+> +#    "arguments": { "cpu-index": 0 } }
+> +#
+> +##
+> +{ 'command': 'cancel-dirty-limit',
+> +  'data': { 'cpu-index': 'int' } }
 
+This seems to be overloaded to be a standalone cmd..
+
+How about:
+
+  { "cmd": "vcpu-dirty-limit",
+    "arguments": {
+      "cpu": $cpu,
+      "enable": true/false,
+      "dirty-rate": 100,
+    }
+  }
+
+If "enable"==false, then "dirty-rate" can be ignored and it'll shut down the
+throttling on vcpu N.  Then this command will literally merge the two you
+proposed.
+
+It'll be nice if we provide yet another command:
+
+  { "cmd": "query-vcpu-dirty-limit",
+    "arguments": {
+      "*cpu": $cpu,
+    }
+  }
+
+When $cpu is specified, we return (cpu=$cpu, real_dirty_rate,
+target_dirty_rate) for this vcpu.  When $cpu is not specified, we return an
+array of that containing all the vcpus.
+
+It'll be nicer to enhance the output of the query command to e.g. have a global
+"enabled"=true/false as long as any vcpu has throttle enabled then the global
+throttle is enabled.  I didn't think more than that, but how's that sound so
+far?
+
+Thanks,
 
 -- 
-Best regards,
-Vladimir
+Peter Xu
+
 
