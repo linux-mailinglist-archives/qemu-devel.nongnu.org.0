@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72877463F0C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 21:12:28 +0100 (CET)
-Received: from localhost ([::1]:60142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8AD7463FCA
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 22:18:58 +0100 (CET)
+Received: from localhost ([::1]:40406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ms9U8-0002x5-11
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 15:12:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55892)
+	id 1msAWe-0005Cb-Rc
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 16:18:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ms9T5-00024F-PD
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 15:11:11 -0500
-Received: from [2a00:1450:4864:20::433] (port=42800
- helo=mail-wr1-x433.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ms9T4-0002tg-At
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 15:11:11 -0500
-Received: by mail-wr1-x433.google.com with SMTP id c4so46990653wrd.9
- for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 12:11:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=wOZnwCXj2X0NlgAjT7KD5YOlXXtDNKmnw7TIGPoePbU=;
- b=Q1wvA2fFL772mvpGcvXFob7dtxshQe8xH1GGD82EgFYt2AlB2YQvvMy2OZT0ZZMXPq
- 8WKxK/rR6d/+Pm9BUe/l75Lj6F9bKbVtoALhmEWdZWebisAuky0k06TT9i1CeW4bNodD
- q968RQ3wsxM4A5pgR1ggjL0VLQoAA+3/KdTQgMRW/xzNGmpFzDyRYPdPoF9/SsgKMGDC
- QkgtZ2Obngd1fluLv8THXAFB93MUvpttwN9kNsaRITyUZG4Bjmgcg4hj63jpW99Pr8aH
- WoKGClSaPuqGgoWiGk5UGLO/eW8W00epQSgDr8ENHeVw1D+D5STlYVlGoGnZlyeEKy0A
- 392w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=wOZnwCXj2X0NlgAjT7KD5YOlXXtDNKmnw7TIGPoePbU=;
- b=LJ69eJt1IP2fPHJWcrc0M/WJ0JiK7cYCdctObDqpcmKseIP4Oaw2ArRXCtNB85fbIb
- yPNLqbk9cxDHvKAv8ms/VOMRVIR7m8eoXTpsE55pzHt0b+x00lRzBrIm+WpWMCQUzDJ/
- DYezIGH9GoncKKlgcE2REv6A8X8jiIMHVdep/+9wkwcehLHdpTIqhC4y5AqU+KSzGJMA
- ZoufGt537fH4Y/Ck/EZPxld+3JmkPAoJw3CoqrQWm5L2MB/Syjf52niQvhwRbiu/dOOI
- qOfWGJIHhpvbfrTsIiTQSI79XmoRMmO0EoBAANWO3NSOs6vwybDTUHe2mRk3UaG4TRvk
- bCMg==
-X-Gm-Message-State: AOAM531PAVSNiVgD5lQ+UB0l5wdFFZOEyAVIAY0yHbMVLKx/RJEmd5V+
- DZQiCJwHB1LpUSxaJXnmi3qDww==
-X-Google-Smtp-Source: ABdhPJyHjmfGABbU4RYo4LAWF0EruSuL9/f9QbexH0Dqg9HtxA3KqAU7oljqqoXeHjNXjqGGl77roA==
-X-Received: by 2002:adf:d1c2:: with SMTP id b2mr1186845wrd.369.1638303067677; 
- Tue, 30 Nov 2021 12:11:07 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g124sm3070135wme.28.2021.11.30.12.11.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Nov 2021 12:11:06 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 872F91FF96;
- Tue, 30 Nov 2021 20:11:05 +0000 (GMT)
-References: <20211130173257.1274194-1-peter.maydell@linaro.org>
-User-agent: mu4e 1.7.5; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] target/arm: Correct calculation of tlb range invalidate
- length
-Date: Tue, 30 Nov 2021 20:10:28 +0000
-In-reply-to: <20211130173257.1274194-1-peter.maydell@linaro.org>
-Message-ID: <875ys9z9nq.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1msAVM-0003oy-PB
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 16:17:36 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:59969)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1msAVK-0003l5-LC
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 16:17:36 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6B0405C0114;
+ Tue, 30 Nov 2021 16:17:32 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Tue, 30 Nov 2021 16:17:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ from:to:cc:subject:date:message-id; s=fm3; bh=qxiaGQ8PMrZRJlNS7j
+ 01DgqxWd8+eZHYMv/YbF5tBow=; b=IEAzbE5ShOQXzORnJIPBTh0z960a3xV2bn
+ EdllBWwGAib++BD2m4la762HHlc4xAs093wPFNlmXPCAN5olV3OXdbCdvj769yaI
+ qRShaqhD/oZ08o37APgcjF2bwsYf5Nd8TOM98P9lz/wGO3N3pJuobfUBESmbaM8w
+ FrCbl8Rhf3FFEt87An9rfM2c8SEKLsLHVjjb+rZWCx8YN1PTKRpHfFMybPeVSrUN
+ kQepZ/GM6uPN2xszEQXtL8jdGSPZrlwMfFY79PUtzeTJoZwKOf49TOzFunZwWg9X
+ Dx6czRcOClQMNhC7wc5x7FpPxqD22RzqT7um+KiWKu1nY8iEueZg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:date:from:message-id:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=qxiaGQ8PMrZRJlNS7j01DgqxWd8+eZHYMv/YbF5tBow=; b=M3bc76YQ
+ Y2+I9lb+8ZULYpKIFmAQEiGhO9Xe9icsEj/PKAwnyHPUB3iGbGbqnL2XZqssE+Tx
+ NP+xycGCMjF9PXSCwAPCjN1rZtYkEouK24tw5NmnGVTWNtV+OxFm1lfLUnKv22bi
+ Ln6yT81PJ8HD/E31RR+joWlz7z4WBB35zZEa/x1IqOF1eyBH5U7+YqX7/hM6LJ8c
+ NeniVvbdW+M+HWS0pi6ns6LETi+X+rTZyZSupkwxq6eK2lnSfjLRh635VR+xoALG
+ pfuXqsofwbxHpOjQYMrZ7IVGnQOKQJ2tw8WeE+wkWiZeCt5tTxZx9CoUbzT+YNPX
+ i5laTOYpphF7Dg==
+X-ME-Sender: <xms:7JSmYfDQ0KMFQWzBrg0DS0nABFurp9Bkj265KobiKTcW9YMn0oEVDg>
+ <xme:7JSmYViy1mCFr4sO4F-hx0MTovHq6Gk_a8lovP_Qoho1h22dspDytHxf3lHOkTgA1
+ JcZ3aDS9AouQ-5KQgQ>
+X-ME-Received: <xmr:7JSmYalXJdAnlbdghUqU_VAOOKu-ebsRGWm9o6HxwWHNG2s7snnzHaRA1bc9aXYgSQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddriedugddugeekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofestddtredtredttd
+ enucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhih
+ ghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpedvhfdtkedvuddukeekueelteeuke
+ ekhfffudegjeekudetleefudegvddvledvueenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrd
+ gtohhm
+X-ME-Proxy: <xmx:7JSmYRyVV8-6jSR0gvNy3jlnXsmeFnwuEtzoW5uQ34cAesugyNiYiA>
+ <xmx:7JSmYURpVfIKfwDPU1PwSqrG9vSDJ_Rwt96z0mezqeCAho9OWEIxwQ>
+ <xmx:7JSmYUaGh26VNfeiPH3rvYhMgScH_rr-0JknTPtFzJvzbhfEmSNRxw>
+ <xmx:7JSmYfKnSSxnw1quXqj_6O_TD3RhwPstT8RH8bqs_kea_y-8-p5HPQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 30 Nov 2021 16:17:31 -0500 (EST)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] MIPS misc fixes
+Date: Tue, 30 Nov 2021 21:17:27 +0000
+Message-Id: <20211130211729.7116-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.11.0
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=jiaxun.yang@flygoat.com;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,35 +87,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Rebecca Cran <rebecca@nuviainc.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
+Cc: f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Two problems caught when I was trying to add CI job for various configurations.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Jiaxun Yang (2):
+  hw/mips: bootloader: Fix write_ulong
+  hw/mips/boston: Fix elf_load error detection
 
-> The calculation of the length of TLB range invalidate operations
-> in tlbi_aa64_range_get_length() is incorrect in two ways:
->  * the NUM field is 5 bits, but we read only 4 bits
->  * we miscalculate the page_shift value, because of an
->    off-by-one error:
->     TG 0b00 is invalid
->     TG 0b01 is 4K granule size =3D=3D 4096 =3D=3D 2^12
->     TG 0b10 is 16K granule size =3D=3D 16384 =3D=3D 2^14
->     TG 0b11 is 64K granule size =3D=3D 65536 =3D=3D 2^16
->    so page_shift should be (TG - 1) * 2 + 12
->
-> Thanks to the bug report submitter Cha HyunSoo for identifying
-> both these errors.
->
-> Fixes: 84940ed82552d3c
+ hw/mips/bootloader.c | 6 +++++-
+ hw/mips/boston.c     | 5 +++--
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-Fixes: 84940ed825 (target/arm: Add support for FEAT_TLBIRANGE)
+-- 
+2.11.0
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
