@@ -2,67 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017DF46364C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 15:15:03 +0100 (CET)
-Received: from localhost ([::1]:39450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45ACC4636C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 15:33:15 +0100 (CET)
+Received: from localhost ([::1]:39776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ms3uP-0004bo-Hv
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 09:15:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57596)
+	id 1ms4C2-0007lP-0Z
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 09:33:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ms3Sg-0000yN-C3
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 08:46:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25189)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ms3SN-0003OG-UU
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 08:46:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638279963;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NNMhrC17Nc4UiLsjmwAwkFTZ+u+tqHjg0AYCS9rxQQs=;
- b=Cp372UxtX9y+VJaF7hgeXU18dnnATl+xy3yRICIoXYH7XRvr34iWtbVrYkBF34eV9ISnfJ
- O/KAf+vKbolv28PezOn03CVB8BG0JjxUEqQMe4bCEFkqoo/YclIHZ+HKFtV7ozgFtTjNI9
- nfGxjZgHak0EKbJyAL7MEaz+95HiD+Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-52-Q1tfJCT_OtGghvl6daiXag-1; Tue, 30 Nov 2021 08:46:01 -0500
-X-MC-Unique: Q1tfJCT_OtGghvl6daiXag-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ms4Ag-000745-PP
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 09:31:50 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:49758)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ms4Af-0002tb-9T
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 09:31:50 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C73D61B2C993;
- Tue, 30 Nov 2021 13:46:00 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D252210016FE;
- Tue, 30 Nov 2021 13:45:11 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] virtio: signal after wrapping packed used_idx
-Date: Tue, 30 Nov 2021 13:45:10 +0000
-Message-Id: <20211130134510.267382-1-stefanha@redhat.com>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BAFAA21891;
+ Tue, 30 Nov 2021 14:31:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1638282706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YVtoXBVkQ9Xw+ey2nMV2LfetsgCvTR/zMDM+QqN30p8=;
+ b=RdCi7RE+jEq0f4OgOLiJKX8p7R17BH08oNr4aDCuMjKISfRR9oftQ3/rkDmZLcyJxT7KrF
+ w/8cH4jXgL9rBvaqILk8BES7z+aLRix1loRILK+5a+lXzIpigaFeOCKVO6/93c4UaDBILl
+ 8ptmEOY7VevkDRFXCO66g8eGPxs91Ik=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1638282706;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YVtoXBVkQ9Xw+ey2nMV2LfetsgCvTR/zMDM+QqN30p8=;
+ b=+lqnKHWnmeDIh5Y7LMyV1I9MPnd5eiLQNgZy6+2gYNeqiHx6clViRLsodo7HTnyHLziCWW
+ tL/OI4wCTFuAkiCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 68E9E13D4E;
+ Tue, 30 Nov 2021 14:31:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id v3i4F9I1pmHLOQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Tue, 30 Nov 2021 14:31:46 +0000
+Subject: Re: [PATCH 2/2] intel_iommu: Fix irqchip / X2APIC configuration checks
+To: David Woodhouse <dwmw2@infradead.org>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
+References: <20210723112921.12637-1-cfontana@suse.de>
+ <1102c315addf2f2fffc49222ab5be118e7ae9b0f.camel@amazon.co.uk>
+ <f5910284-14ca-8796-4e64-38fef246bd19@suse.de>
+ <e57e2119df69ac190cdd763b7ac8d5894b110839.camel@infradead.org>
+ <b613015e-3285-8d30-292f-6bf9816b1912@suse.de>
+ <d579bf46d0babc9eece1dc3e8ec63c43b311b022.camel@infradead.org>
+ <483ebe21-2972-90c0-bc9a-ce922518632d@suse.de>
+ <bdd861f68aa1533b2ea752c6509c03ca7b9f0279.camel@infradead.org>
+ <93efa230-fb6b-fdc7-a696-c555676da2b4@suse.de>
+ <d437972602decfeb392b08563589952358bdd510.camel@infradead.org>
+ <9990ade1-ccfa-a712-94c0-1667f5b3094f@suse.de>
+ <41878a65209a3e1fc00bdafd216004c9f71b90fa.camel@infradead.org>
+ <26e2621ab6cef4d8c3e944dc9ebb6d2d0d5e9d2d.camel@infradead.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <0d92bf34-1025-ad91-ae02-7417fe9fa284@suse.de>
+Date: Tue, 30 Nov 2021 15:31:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <26e2621ab6cef4d8c3e944dc9ebb6d2d0d5e9d2d.camel@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.211,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,52 +98,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Tiwei Bie <tiwei.bie@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "alxndr@bu.edu" <alxndr@bu.edu>, "philmd@redhat.com" <philmd@redhat.com>,
+ "lovemrd@gmail.com" <lovemrd@gmail.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Packed Virtqueues wrap used_idx instead of letting it run freely like
-Split Virtqueues do. If the used ring wraps more than once there is no
-way to compare vq->signalled_used and vq->used_idx in
-virtio_packed_should_notify() since they are modulo vq->vring.num.
+Acked-by: Claudio Fontana <cfontana@suse.de>
 
-This causes the device to stop sending used buffer notifications when
-when virtio_packed_should_notify() is called less than once each time
-around the used ring.
+I'll try to find time tonight to give you a tested by.
 
-It is possible to trigger this with virtio-blk's dataplane
-notify_guest_bh() irq coalescing optimization. The call to
-virtio_notify_irqfd() (and virtio_packed_should_notify()) is deferred to
-a BH. If the guest driver is polling it can complete and submit more
-requests before the BH executes, causing the used ring to wrap more than
-once. The result is that the virtio-blk device ceases to raise
-interrupts and I/O hangs.
+Ciao,
 
-Cc: Tiwei Bie <tiwei.bie@intel.com>
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
-Smarter solutions welcome, but I think notifying once per vq->vring.num
-is acceptable.
----
- hw/virtio/virtio.c | 1 +
- 1 file changed, 1 insertion(+)
+Claudio
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index ea7c079fb0..f7851c2750 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -885,6 +885,7 @@ static void virtqueue_packed_flush(VirtQueue *vq, unsigned int count)
-     if (vq->used_idx >= vq->vring.num) {
-         vq->used_idx -= vq->vring.num;
-         vq->used_wrap_counter ^= 1;
-+        vq->signalled_used_valid = false;
-     }
- }
- 
--- 
-2.33.1
+On 11/30/21 2:42 PM, David Woodhouse wrote:
+> We don't need to check kvm_enable_x2apic(). It's perfectly OK to support
+> interrupt remapping even if we can't address CPUs above 254. Kind of
+> pointless, but still functional.
+> 
+> The check on kvm_enable_x2apic() needs to happen *anyway* in order to
+> allow CPUs above 254 even without an IOMMU, so allow that to happen
+> elsewhere.
+> 
+> However, we do require the *split* irqchip in order to rewrite I/OAPIC
+> destinations. So fix that check while we're here.
+> 
+> Signed-off-by: David Woodhouse <dwmw2@infradead.org>
+> ---
+>  hw/i386/intel_iommu.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index 294499ee20..b0439d0fbf 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -3746,15 +3746,10 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
+>                                                ON_OFF_AUTO_ON : ON_OFF_AUTO_OFF;
+>      }
+>      if (s->intr_eim == ON_OFF_AUTO_ON && !s->buggy_eim) {
+> -        if (!kvm_irqchip_in_kernel()) {
+> +        if (!kvm_irqchip_is_split()) {
+>              error_setg(errp, "eim=on requires accel=kvm,kernel-irqchip=split");
+>              return false;
+>          }
+> -        if (!kvm_enable_x2apic()) {
+> -            error_setg(errp, "eim=on requires support on the KVM side"
+> -                             "(X2APIC_API, first shipped in v4.7)");
+> -            return false;
+> -        }
+>      }
+>  
+>      /* Currently only address widths supported are 39 and 48 bits */
+> 
 
 
