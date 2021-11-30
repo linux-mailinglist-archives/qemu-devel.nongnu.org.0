@@ -2,68 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC724636D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 15:35:12 +0100 (CET)
-Received: from localhost ([::1]:42234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 558F4463878
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 16:00:19 +0100 (CET)
+Received: from localhost ([::1]:56222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ms4Dv-00015j-5l
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 09:35:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42818)
+	id 1ms4cD-0003QL-Ip
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 10:00:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ms4Bs-0008Bd-0V
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 09:33:04 -0500
-Received: from [2a00:1450:4864:20::42f] (port=36805
- helo=mail-wr1-x42f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ms4Bq-0002yv-J9
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 09:33:03 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id s13so44933844wrb.3
- for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 06:33:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=V6Gf+qT0tjJ3Ej94H47FEmAmgR9MXVQtNynUfameEr8=;
- b=JpstAXZfeBngJrwQf3Acaz7Nutz+9C0/RKojvhP2FwnF+gluPpN6I5vqfMQmSJDtw5
- OOWXMqGY1sFQmkccQKh/aQFlRgZuXDWHDYZBchnK96Ju3q/KsFW7IzVH6rw96AxLysKA
- +u2zA6OZsaLBjOTqdgtiCr5TcZSMcSZNEl315lIrOaQD4jxZ7QXbbNYn8FirWCd4Gn1m
- VR6XQXvHuNM8mEgX75tRkXmMHxhHlVeyIa8UdaRIZGmVa7l4LQZEIPTFabZsyHSUIobw
- xqcOQ8lBpX4QBu82QQkvBHbf6L/NkR3MGBSW9Wp5+87qj6SBtu80vxusXXRHDmedhdFs
- 103A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=V6Gf+qT0tjJ3Ej94H47FEmAmgR9MXVQtNynUfameEr8=;
- b=IcfM+mvtRWsd+zW6XVktZrFZs79Xi6rUBMItrOfsobqmmADd+0a9oujdWEhizwh9xf
- +aGDfVi3Vz+ExhjMyu1F/DP3nfbxWgh84P2xaKul3t8Nc+25X3OpmrB9zZtPWo4HmDny
- tzkw0/pu9szdPJVLjVTQo2LwTAkNL970T+Sx+ridfJRnE1s71NspT/XoIVuEA78LVEUo
- /oFKn5TC3j3vQ5A8higW1D+HnpqzYrRJG3kGySAg5uCou2RcN0ew1aoCbPugZu20Ftt2
- +oKXTAXZIjRDNLorafIEGwY6GK7vKB3AgJHjfmuYDEZei34YS445/ai7mZ4cZcijBcwb
- DB+Q==
-X-Gm-Message-State: AOAM530wv7j/6QQdj16DOYn3Oq4mHteIvsH+zRVB6WtzgUuMFbEh9VJj
- nCCAsoU3et9MPJI/jCXn/shCq4xtteLR7IpA6ZA5dMT9X6Q=
-X-Google-Smtp-Source: ABdhPJx9yF+/Ue64lTnTR9KmWWYKwzElssvzEgm5qs3ZRnpCC4paMcQ9l2tx/mOPEDGDnmBsYBb5zvn1B+rU2eW3Wqk=
-X-Received: by 2002:adf:f0c5:: with SMTP id x5mr39024870wro.484.1638282780425; 
- Tue, 30 Nov 2021 06:33:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1ms4Zh-0001vq-2G
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 09:57:41 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:50053
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ms4Zd-0006Zj-V0
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 09:57:40 -0500
+HMM_SOURCE_IP: 172.18.0.48:34892.1711462346
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-118.116.19.33 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 9A2DA2800CE;
+ Tue, 30 Nov 2021 22:57:15 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id aff64e805ce44eb09df437336d2a28e8 for
+ peterx@redhat.com; Tue, 30 Nov 2021 22:57:21 CST
+X-Transaction-ID: aff64e805ce44eb09df437336d2a28e8
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+Message-ID: <3118d065-2af5-bbc8-50d6-061a40308de5@chinatelecom.cn>
+Date: Tue, 30 Nov 2021 22:57:17 +0800
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 30 Nov 2021 14:32:49 +0000
-Message-ID: <CAFEAcA-Fb15x7hAe-g8hP8HL1xB14iGnYi5=ZJM=0G0_hbBjTw@mail.gmail.com>
-Subject: why is iommu_platform set to off by default?
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v7 0/3] support dirty restraint on vCPU
+Content-Language: en-US
+To: Peter Xu <peterx@redhat.com>
+References: <cover.1638267778.git.huangy81@chinatelecom.cn>
+ <YaYfy7YqZpOopold@xz-m1.local>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <YaYfy7YqZpOopold@xz-m1.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.222;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.211,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,23 +65,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, Markus ArmBruster <armbru@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've just spent a day or so trying to track down why PCI passthrough
-of a virtio-blk-pci device wasn't working. The problem turns out to be
-that by default virtio pci devices don't use the IOMMU, even when the
-machine model has created an IOMMU and arranged for the PCI bus to
-be underneath it. So when the L2 guest tries to program the virtio device,
-the virtio device treats the IPAs it writes as if they were PAs and
-of course the data structures it's looking for aren't there.
+1.
+Start vm with kernel+initrd.img with qemu command line as following:
 
-Why do we default this to 'off'? It seems pretty unhelpful not to
-honour the existence of the IOMMU, and the failure mode is pretty
-opaque (L2 guest just hangs)...
+[root@Hyman_server1 fast_qemu]# cat vm.sh
+#!/bin/bash
+/usr/bin/qemu-system-x86_64 \
+     -display none -vga none \
+     -name guest=simple_vm,debug-threads=on \
+     -monitor stdio \
+     -machine pc-i440fx-2.12 \
+     -accel kvm,dirty-ring-size=65536 -cpu host \
+     -kernel /home/work/fast_qemu/vmlinuz-5.13.0-rc4+ \
+     -initrd /home/work/fast_qemu/initrd-stress.img \
+     -append "noapic edd=off printk.time=1 noreplace-smp 
+cgroup_disable=memory pci=noearly console=ttyS0 debug ramsize=1500 
+ratio=1 sleep=1" \
+     -chardev file,id=charserial0,path=/var/log/vm_console.log \
+     -serial chardev:charserial0 \
+     -qmp unix:/tmp/qmp-sock,server,nowait \
+     -D /var/log/vm.log \
+     --trace events=/home/work/fast_qemu/events \
+     -m 4096 -smp 2 -device sga
 
-thanks
--- PMM
+2.
+Enable the dirtylimit trace event which will output to /var/log/vm.log
+[root@Hyman_server1 fast_qemu]# cat /home/work/fast_qemu/events
+dirtylimit_state_init
+dirtylimit_vcpu
+dirtylimit_impose
+dirtyrate_do_calculate_vcpu
+
+
+3.
+Connect the qmp server with low level qmp client and set-dirty-limit
+
+[root@Hyman_server1 my_qemu]# python3.6 ./scripts/qmp/qmp-shell -v -p 
+/tmp/qmp-sock 
+ 
+
+Welcome to the QMP low-level shell!
+Connected to QEMU 6.1.92
+
+(QEMU) set-dirty-limit cpu-index=1 dirty-rate=400 
+ 
+ 
+
+{
+     "arguments": {
+         "cpu-index": 1,
+         "dirty-rate": 400
+     },
+     "execute": "set-dirty-limit"
+}
+
+4.
+observe the vcpu current dirty rate and quota dirty rate...
+
+[root@Hyman_server1 ~]# tail -f /var/log/vm.log
+dirtylimit_state_init dirtylimit state init: max cpus 2
+dirtylimit_vcpu CPU[1] set quota dirtylimit 400
+dirtylimit_impose CPU[1] impose dirtylimit: quota 400, current 0, 
+percentage 0
+dirtyrate_do_calculate_vcpu vcpu[0]: 1075 MB/s
+dirtyrate_do_calculate_vcpu vcpu[1]: 1061 MB/s
+dirtylimit_impose CPU[1] impose dirtylimit: quota 400, current 1061, 
+percentage 62
+dirtyrate_do_calculate_vcpu vcpu[0]: 1133 MB/s
+dirtyrate_do_calculate_vcpu vcpu[1]: 380 MB/s
+dirtylimit_impose CPU[1] impose dirtylimit: quota 400, current 380, 
+percentage 57
+dirtyrate_do_calculate_vcpu vcpu[0]: 1227 MB/s
+dirtyrate_do_calculate_vcpu vcpu[1]: 464 MB/s
+
+We can observe that vcpu-1's dirtyrate is about 400MB/s with dirty page 
+limit set and the vcpu-0 is not affected.
+
+5.
+observe the vm stress info...
+[root@Hyman_server1 fast_qemu]# tail -f /var/log/vm_console.log
+[    0.838051] Run /init as init process
+[    0.839216]   with arguments:
+[    0.840153]     /init
+[    0.840882]   with environment:
+[    0.841884]     HOME=/
+[    0.842649]     TERM=linux
+[    0.843478]     edd=off
+[    0.844233]     ramsize=1500
+[    0.845079]     ratio=1
+[    0.845829]     sleep=1
+/init (00001): INFO: RAM 1500 MiB across 2 CPUs, ratio 1, sleep 1 us
+[    1.158011] random: init: uninitialized urandom read (4096 bytes read)
+[    1.448205] random: init: uninitialized urandom read (4096 bytes read)
+/init (00001): INFO: 1638282593684ms copied 1 GB in 00729ms
+/init (00110): INFO: 1638282593964ms copied 1 GB in 00719ms
+/init (00001): INFO: 1638282594405ms copied 1 GB in 00719ms
+/init (00110): INFO: 1638282594677ms copied 1 GB in 00713ms
+/init (00001): INFO: 1638282595093ms copied 1 GB in 00686ms
+/init (00110): INFO: 1638282595339ms copied 1 GB in 00662ms
+/init (00001): INFO: 1638282595764ms copied 1 GB in 00670m
+
+PS: the kernel and initrd images comes from:
+
+kernel image: vmlinuz-5.13.0-rc4+, normal centos vmlinuz copied from 
+/boot directory
+
+initrd.img: initrd-stress.img, only contains a stress binary, which 
+compiled from qemu source tests/migration/stress.c and run as init
+in vm.
+
+you can view README.md file of my project 
+"met"(https://github.com/newfriday/met) to compile the initrd-stress.img. :)
+
+On 11/30/21 20:57, Peter Xu wrote:
+> On Tue, Nov 30, 2021 at 06:28:10PM +0800, huangy81@chinatelecom.cn wrote:
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>
+>> The patch [2/3] has not been touched so far. Any corrections and
+>> suggetions are welcome.
+> 
+> I played with it today, but the vcpu didn't got throttled as expected.
+> 
+> What I did was starting two workload with 500mb/s, each pinned on one vcpu
+> thread:
+> 
+> [root@fedora ~]# pgrep -fa mig_mon
+> 595 ./mig_mon mm_dirty 1000 500 sequential
+> 604 ./mig_mon mm_dirty 1000 500 sequential
+> [root@fedora ~]# taskset -pc 595
+> pid 595's current affinity list: 2
+> [root@fedora ~]# taskset -pc 604
+> pid 604's current affinity list: 3
+> 
+> Then start throttle with 100mb/s:
+> 
+> (QEMU) set-dirty-limit cpu-index=3 dirty-rate=100
+> {"return": {}}
+> (QEMU) set-dirty-limit cpu-index=2 dirty-rate=100
+> {"return": {}}
+> 
+> I can see the workload dropped a tiny little bit (perhaps 500mb -> 499mb), then
+> it keeps going..
+> 
+> Further throttle won't work too:
+> 
+> (QEMU) set-dirty-limit cpu-index=2 dirty-rate=10
+> {"return": {}}
+> 
+> Funnily, the ssh client got slowed down instead... :(
+> 
+> Yong, how did you test it?
+> 
+
+-- 
+Best Regards
+Hyman Huang(黄勇)
 
