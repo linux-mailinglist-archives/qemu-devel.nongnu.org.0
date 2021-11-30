@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BE8462EC7
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 09:46:01 +0100 (CET)
-Received: from localhost ([::1]:38102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75AA8462F16
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 09:57:01 +0100 (CET)
+Received: from localhost ([::1]:42486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrym0-0008Oz-B7
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 03:46:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48142)
+	id 1mrywe-0003Su-9w
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 03:57:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mryl7-0007VF-3A
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 03:45:07 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:55837)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mryvY-0002o3-5X
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 03:55:52 -0500
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:39394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mryl5-0003RC-2l
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 03:45:04 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.92])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 4D8BCCED5942;
- Tue, 30 Nov 2021 09:44:59 +0100 (CET)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 30 Nov
- 2021 09:44:59 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001ab988999-8866-440e-870a-547945c6612a,
- 913BE361125CD990369DD0E14659C4214E2DD476) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.11.56.15
-Message-ID: <62188dd4-c6ea-4c3e-b444-585319818b4f@kaod.org>
-Date: Tue, 30 Nov 2021 09:44:58 +0100
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mryvU-0004sj-VT
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 03:55:51 -0500
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 207564385E
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 08:55:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1638262542;
+ bh=0JbzDzqgz7aGp+H83Ha5XkS1iW5X5doog3CIp8x54/w=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=w9fXAa4DpuDX0qv4bxH3fsvVGGCEcMboJMg5lJFklEzwwQg2IaFGpJFZN2KpZTiyT
+ PlweAk7XNqcPByhIWC3PSis5+ZJK6qh2RbJbNhPuEZ1wSEo6xut/E54uauuZPGjBRy
+ gyQviBtvrb6w5slrMlp7BDihXoQfPuqwAmcbWefh1gfO4dk2QtT/hKnEndZZxfGXpp
+ MHa3ZrtbFa64rIBUAPZTv6m+jinr9tcMwCWHBKDtFCYLjR1sJoYhSN9FryEnvD0HVH
+ iDJtzVD42oWidBxGJnYmLDgxGUL6wqXB4IJ386fv+LpqtkXZhwkRl8BS8O3I6qm8PI
+ lOqUzy10zz4Zg==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A36A42E816A
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 08:55:41 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v4] target/ppc: fix Hash64 MMU update of PTE bit R
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>, Leandro Lupori
- <leandro.lupori@eldorado.org.br>
-References: <20211129185751.25355-1-leandro.lupori@eldorado.org.br>
- <YaVwvAyhyhlIYhV5@yekko>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <YaVwvAyhyhlIYhV5@yekko>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: c47f57a1-2ebb-46bf-85d9-b9279396eb3a
-X-Ovh-Tracer-Id: 16468256464132672294
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddriedtgdduvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgfdthedvjeekhfduveekkeffkeelteeffedtkeduleeiudejfedtieekffevgfefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -40
-X-Spam_score: -4.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 30 Nov 2021 08:44:58 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1749393@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu;
+ component=main; status=Triaged; importance=Medium; assignee=None; 
+X-Launchpad-Bug-Tags: arm linux-user qemu-20.10 server-next
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: doko gerard-f-vidal-4 hertzog janitor komainu8
+ laurent-vivier paelzer peterogden pmaydell racb rth sebunger44
+X-Launchpad-Bug-Reporter: =?utf-8?q?Rapha=C3=ABl_Hertzog_=28hertzog=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer=29?=
+References: <151859702399.9461.6832978283203997178.malonedeb@chaenomeles.canonical.com>
+Message-Id: <163826189830.11231.16433768243585875753.malone@soybean.canonical.com>
+Subject: [Bug 1749393] Re: sbrk() not working under qemu-user with a
+ PIE-compiled binary?
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="78346d219e01c6c7b1bfd882aa0bbcbb42d4e568"; Instance="production"
+X-Launchpad-Hash: 6ce25291493a66684d1d4c576d19dad415e86d67
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.211,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,38 +90,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- groug@kaod.org
+Reply-To: Bug 1749393 <1749393@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/30/21 01:30, David Gibson wrote:
-> On Mon, Nov 29, 2021 at 03:57:51PM -0300, Leandro Lupori wrote:
->> When updating the R bit of a PTE, the Hash64 MMU was using a wrong byte
->> offset, causing the first byte of the adjacent PTE to be corrupted.
->> This caused a panic when booting FreeBSD, using the Hash MMU.
->>
->> Fixes: a2dd4e83e76b ("ppc/hash64: Rework R and C bit updates")
->> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
-> 
-> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Hi,
+sorry this has fallen through the cracks, but bug 1928075 made me re-discov=
+er it and it is time finally to complete that.
 
-Sorry, I didn't wait for your Rb because the patch was a good candidate
-for -rc3. It is merged now.
+** Tags added: server-next
 
-> Thanks for your patience with our nitpicking :).
+** Description changed:
 
-Yes,
+  [Impact]
+ =20
+-  * The current space reserved can be too small and we can end up
+-    with no space at all for BRK. It can happen to any case, but is
+-    much more likely with the now common PIE binaries.
++ =C2=A0* The current space reserved can be too small and we can end up
++ =C2=A0=C2=A0=C2=A0with no space at all for BRK. It can happen to any case=
+, but is
++ =C2=A0=C2=A0=C2=A0much more likely with the now common PIE binaries.
+ =20
+-  * Backport the upstream fix which reserves a bit more space while loading
+-    and giving it back after interpreter and stack is loaded.
++ =C2=A0* Backport the upstream fix which reserves a bit more space while l=
+oading
++ =C2=A0=C2=A0=C2=A0and giving it back after interpreter and stack is loade=
+d.
+ =20
+  [Test Plan]
+ =20
+-  * On x86 run:
++ =C2=A0* On x86 run:
+  sudo apt install -y qemu-user-static docker.io
+  sudo docker run --rm arm64v8/debian:bullseye bash -c 'apt update && apt i=
+nstall -y wget'
+  ...
+  Running hooks in /etc/ca-certificates/update.d...
+  done.
+  Errors were encountered while processing:
+-  libc-bin
++ =C2=A0libc-bin
+  E: Sub-process /usr/bin/dpkg returned an error code (1)
+ =20
+ =20
++ Second test from bug 1928075
++=20
++ $ sudo qemu-debootstrap --arch=3Darm64 bullseye bullseye-arm64
++ http://ftp.debian.org/debian
++=20
++ In the bad case this is failing like
++ W: Failure trying to run: /sbin/ldconfig
++ W: See //debootstrap/debootstrap.log for detail
++=20
++ And in that log file you'll see the segfault
++ $ tail -n 2 bullseye-arm64/debootstrap/debootstrap.log
++ qemu: uncaught target signal 11 (Segmentation fault) - core dumped
++ Segmentation fault (core dumped)
++=20
+  [Where problems could occur]
+ =20
+-  * Regressions would be around use-cases of linux-user that is
+-    emulation not of a system but of binaries.
+-    Commonly uses for cross-tests and cross-builds so that is the
+-    space to watch for regressions
++ =C2=A0* Regressions would be around use-cases of linux-user that is
++ =C2=A0=C2=A0=C2=A0emulation not of a system but of binaries.
++ =C2=A0=C2=A0=C2=A0Commonly uses for cross-tests and cross-builds so that =
+is the
++ =C2=A0=C2=A0=C2=A0space to watch for regressions
+ =20
+  [Other Info]
+- =20
+-  * n/a
+ =20
++ =C2=A0* n/a
+ =20
+  ---
+ =20
+  In Debian unstable, we recently switched bash to be a PIE-compiled
+  binary (for hardening). Unfortunately this resulted in bash being broken
+  when run under qemu-user (for all target architectures, host being amd64
+  for me).
+ =20
+  $ sudo chroot /srv/chroots/sid-i386/ qemu-i386-static /bin/bash
+  bash: xmalloc: .././shell.c:1709: cannot allocate 10 bytes (0 bytes alloc=
+ated)
+ =20
+  bash has its own malloc implementation based on sbrk():
+  https://git.savannah.gnu.org/cgit/bash.git/tree/lib/malloc/malloc.c
+ =20
+  When we disable this internal implementation and rely on glibc's malloc,
+  then everything is fine. But it might be that glibc has a fallback when
+  sbrk() is not working properly and it might hide the underlying problem
+  in qemu-user.
+ =20
+  This issue has also been reported to the bash upstream author and he sugg=
+ested that the issue might be in qemu-user so I'm opening a ticket here. He=
+re's the discussion with the bash upstream author:
+  https://lists.gnu.org/archive/html/bug-bash/2018-02/threads.html#00080
+ =20
+  You can find the problematic bash binary in that .deb file:
+  http://snapshot.debian.org/archive/debian/20180206T154716Z/pool/main/b/ba=
+sh/bash_4.4.18-1_i386.deb
+ =20
+  The version of qemu I have been using is 2.11 (Debian package qemu-user-
+  static version 1:2.11+dfsg-1) but I have had reports that the problem is
+  reproducible with older versions (back to 2.8 at least).
+ =20
+  Here are the related Debian bug reports:
+  https://bugs.debian.org/889869
+  https://bugs.debian.org/865599
+ =20
+  It's worth noting that bash used to have this problem (when compiled as a=
+ PIE binary) even when run directly but then something got fixed in the ker=
+nel and now the problem only appears when run under qemu-user:
+  https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1518483
 
-Here is another QEMU bug found by FreeBSD :
-  
-https://lore.kernel.org/qemu-devel/427ef2ee-6871-0d27-f485-90ad142f6266@kaod.org/
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1749393
 
-It would be interesting to boot directly the PowerNV machine from a
-FreeBSB kernel and a minimum inirtd without using the skiroot images
-and an iso. Are images available ?
+Title:
+  sbrk() not working under qemu-user with a PIE-compiled binary?
 
-Thanks.
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Focal:
+  Triaged
 
-C.
+Bug description:
+  [Impact]
+
+  =C2=A0* The current space reserved can be too small and we can end up
+  =C2=A0=C2=A0=C2=A0with no space at all for BRK. It can happen to any case=
+, but is
+  =C2=A0=C2=A0=C2=A0much more likely with the now common PIE binaries.
+
+  =C2=A0* Backport the upstream fix which reserves a bit more space while l=
+oading
+  =C2=A0=C2=A0=C2=A0and giving it back after interpreter and stack is loade=
+d.
+
+  [Test Plan]
+
+  =C2=A0* On x86 run:
+  sudo apt install -y qemu-user-static docker.io
+  sudo docker run --rm arm64v8/debian:bullseye bash -c 'apt update && apt i=
+nstall -y wget'
+  ...
+  Running hooks in /etc/ca-certificates/update.d...
+  done.
+  Errors were encountered while processing:
+  =C2=A0libc-bin
+  E: Sub-process /usr/bin/dpkg returned an error code (1)
+
+ =20
+  Second test from bug 1928075
+
+  $ sudo qemu-debootstrap --arch=3Darm64 bullseye bullseye-arm64
+  http://ftp.debian.org/debian
+
+  In the bad case this is failing like
+  W: Failure trying to run: /sbin/ldconfig
+  W: See //debootstrap/debootstrap.log for detail
+
+  And in that log file you'll see the segfault
+  $ tail -n 2 bullseye-arm64/debootstrap/debootstrap.log
+  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+  Segmentation fault (core dumped)
+
+  [Where problems could occur]
+
+  =C2=A0* Regressions would be around use-cases of linux-user that is
+  =C2=A0=C2=A0=C2=A0emulation not of a system but of binaries.
+  =C2=A0=C2=A0=C2=A0Commonly uses for cross-tests and cross-builds so that =
+is the
+  =C2=A0=C2=A0=C2=A0space to watch for regressions
+
+  [Other Info]
+
+  =C2=A0* n/a
+
+  ---
+
+  In Debian unstable, we recently switched bash to be a PIE-compiled
+  binary (for hardening). Unfortunately this resulted in bash being
+  broken when run under qemu-user (for all target architectures, host
+  being amd64 for me).
+
+  $ sudo chroot /srv/chroots/sid-i386/ qemu-i386-static /bin/bash
+  bash: xmalloc: .././shell.c:1709: cannot allocate 10 bytes (0 bytes alloc=
+ated)
+
+  bash has its own malloc implementation based on sbrk():
+  https://git.savannah.gnu.org/cgit/bash.git/tree/lib/malloc/malloc.c
+
+  When we disable this internal implementation and rely on glibc's
+  malloc, then everything is fine. But it might be that glibc has a
+  fallback when sbrk() is not working properly and it might hide the
+  underlying problem in qemu-user.
+
+  This issue has also been reported to the bash upstream author and he sugg=
+ested that the issue might be in qemu-user so I'm opening a ticket here. He=
+re's the discussion with the bash upstream author:
+  https://lists.gnu.org/archive/html/bug-bash/2018-02/threads.html#00080
+
+  You can find the problematic bash binary in that .deb file:
+  http://snapshot.debian.org/archive/debian/20180206T154716Z/pool/main/b/ba=
+sh/bash_4.4.18-1_i386.deb
+
+  The version of qemu I have been using is 2.11 (Debian package qemu-
+  user-static version 1:2.11+dfsg-1) but I have had reports that the
+  problem is reproducible with older versions (back to 2.8 at least).
+
+  Here are the related Debian bug reports:
+  https://bugs.debian.org/889869
+  https://bugs.debian.org/865599
+
+  It's worth noting that bash used to have this problem (when compiled as a=
+ PIE binary) even when run directly but then something got fixed in the ker=
+nel and now the problem only appears when run under qemu-user:
+  https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1518483
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1749393/+subscriptions
+
 
