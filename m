@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F21464399
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 00:45:21 +0100 (CET)
-Received: from localhost ([::1]:40324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E1C46439A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 00:47:14 +0100 (CET)
+Received: from localhost ([::1]:42832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msCoK-0007P5-Lh
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 18:45:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45334)
+	id 1msCq9-0000lF-2O
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 18:47:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1msCnD-0006jx-R1
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 18:44:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39676)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1msCoX-0008Dj-Av
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 18:45:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1msCnA-0005eh-Sn
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 18:44:10 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1msCoV-0005m7-6q
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 18:45:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638315847;
+ s=mimecast20190719; t=1638315930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=F4BwN45ejS6jyx4B0LGyNo2LPSTUoZg6cxYKKBRBS/c=;
- b=bUAJx0Q7LJuCbyvVxYs9OHJyx2ueNpDSHae4z0RPa6JVe3mqNMranjV7y3SL0ReTFR2EHx
- 1Ap80l2LKwLgaKfcZFdeoI1p+QyMtQWUcInAw6gmEG3nxmhGZGhIHKm5VxEjfodM7Bqp7a
- Gal0+69xKsy4nI8ND9LrWW80N4oE3P0=
+ bh=J5qy4cFVCjmBCSzOuEYu+nDb7tsUlajOQc5wr2Rq+Vg=;
+ b=eVBQA+rqlUtI19SnvIoE70Yl2iOWGdEjIIR838It3MbpNiDpBupc6VZdUFfEL7uFi1igBr
+ JQqNb+WoC3pXlSc5cMMOzZrw7ykgddPM9IusLSYsRePsspNoLDoaH5mirZ0qCBVlb73Lz7
+ 44J2wzKsFdLgDtQzhQHpYBmjt9SQ/Tk=
 Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
  [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-148-XMQ4NpDCPvWgYb9f45JW3Q-1; Tue, 30 Nov 2021 18:44:05 -0500
-X-MC-Unique: XMQ4NpDCPvWgYb9f45JW3Q-1
+ us-mta-232-aAUjRwSNM4CmepXWzCPFpg-1; Tue, 30 Nov 2021 18:45:27 -0500
+X-MC-Unique: aAUjRwSNM4CmepXWzCPFpg-1
 Received: by mail-ed1-f70.google.com with SMTP id
- i19-20020a05640242d300b003e7d13ebeedso18391534edc.7
- for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 15:44:05 -0800 (PST)
+ eg20-20020a056402289400b003eb56fcf6easo18329465edb.20
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 15:45:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=F4BwN45ejS6jyx4B0LGyNo2LPSTUoZg6cxYKKBRBS/c=;
- b=3gIaiMli4DhPdgSQi2IGmOBeGUPO4HFE204uaLrTqSnMqVIUmSS38PEByn4J+G3UdK
- ZZc47ipf8Vt1Hh9MZ/CSU4DKwJhOlsu1pZ2yAiy9H981cQcZdgylCkh7AB2TIAbDtu72
- 6SET1XtjJIRnD/COwMX2r3tkSn8P7dorWA9jvdoY71chSRRlu7UGs+CJWOBN98ueIDc4
- N+TTthjcxVbbRQHzR9lvKCXkJ6/mLCW5/csDjiXDGtRsZ6qWHRBQpgI3CeqGZo4ZNK75
- jT9pzFFyMjlWXQXSGcRVWb1rcfk6HMzSlnqSnV2liIRXiRDMLJlIEpVc8TmOol7LZQEL
- gVQw==
-X-Gm-Message-State: AOAM530bFHO2i/ZOFMPmaIxVfeIyhqeNCiCtNOPFXgw31WGkiW8rqwWu
- TLiPy000puzNHZbVQ6NSiqICwTOul17wRerl/WtJIuCcBjQXdiZkyjHkDRAYRLeQVQjBw9j2HVq
- oYq0TAA5cR7U+7vU=
-X-Received: by 2002:a17:907:7ea4:: with SMTP id
- qb36mr2771613ejc.146.1638315844567; 
- Tue, 30 Nov 2021 15:44:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzLdio0tKF3ZTnZbyh4nO/MrMQ3bl4DEdCaWiwnz+jG16OkWpQeS9ULjLK/sC2UqHCF5oCR3w==
-X-Received: by 2002:a17:907:7ea4:: with SMTP id
- qb36mr2771586ejc.146.1638315844376; 
- Tue, 30 Nov 2021 15:44:04 -0800 (PST)
+ bh=J5qy4cFVCjmBCSzOuEYu+nDb7tsUlajOQc5wr2Rq+Vg=;
+ b=d7QwekqxfU6ip2u/DcPsSGo7hjv2BA3KebdufJGPPvF/Z8OL5kK57D8mXpSyggqA/L
+ YT3jz3hzqf7ItgXapwBAZAFWaCjqeIZFUHS9Btvhf3lB86jJTKwD816EHVEZx/GxfUAy
+ WfKEn4JeKhS7eQr0WPRtfFTHJLBUyRni3CJHg8j2QM3T8Ydb2THS0O9DcT55l3PwwYWq
+ cDHOkiRiAe6s9VZlJnJKyNA1laW+9Nmhl8sbjyaZAY/x9jdVlWrgVXgJDoIflJVLJkNS
+ m3861n0ofvHpV05SYjuEaXXh1YXcZpXRmaZO3LiC3xUgh5Hr2kjRFi3XaM787ct8sR1/
+ Ff7Q==
+X-Gm-Message-State: AOAM530zePsoz4n1nLamDi5EZ3r7aoEVqESeeL4KPJXpt6xa6NivhzzI
+ N/ZWmpg2OMuw5tPenBFeyZ5XJKLp6bH72yxyhxS9L6Kh475i8Tbfp4z7hF+0MygnA5uCim103Fu
+ 1KHh7H82X2VKaKzg=
+X-Received: by 2002:a50:ee96:: with SMTP id f22mr3244402edr.77.1638315926073; 
+ Tue, 30 Nov 2021 15:45:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxigDwR4s92qkLrwzzn9Qn6EJhDEFUVz2Ct9l6jJWlNAgzaZ1rWOAtbLh9cjtZF2V2ivh3bhg==
+X-Received: by 2002:a50:ee96:: with SMTP id f22mr3244317edr.77.1638315925473; 
+ Tue, 30 Nov 2021 15:45:25 -0800 (PST)
 Received: from redhat.com ([2.53.15.215])
- by smtp.gmail.com with ESMTPSA id sb19sm10421807ejc.120.2021.11.30.15.44.03
+ by smtp.gmail.com with ESMTPSA id c8sm11715371edu.60.2021.11.30.15.45.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Nov 2021 15:44:03 -0800 (PST)
-Date: Tue, 30 Nov 2021 18:44:01 -0500
+ Tue, 30 Nov 2021 15:45:25 -0800 (PST)
+Date: Tue, 30 Nov 2021 18:45:21 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: why is iommu_platform set to off by default?
-Message-ID: <20211130184126-mutt-send-email-mst@kernel.org>
-References: <CAFEAcA-Fb15x7hAe-g8hP8HL1xB14iGnYi5=ZJM=0G0_hbBjTw@mail.gmail.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1 1/3] linux-headers: sync
+ VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE
+Message-ID: <20211130184501-mutt-send-email-mst@kernel.org>
+References: <20211130092838.24224-1-david@redhat.com>
+ <20211130092838.24224-2-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-Fb15x7hAe-g8hP8HL1xB14iGnYi5=ZJM=0G0_hbBjTw@mail.gmail.com>
+In-Reply-To: <20211130092838.24224-2-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -94,36 +94,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Gavin Shan <gshan@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Hui Zhu <teawater@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 30, 2021 at 02:32:49PM +0000, Peter Maydell wrote:
-> I've just spent a day or so trying to track down why PCI passthrough
-> of a virtio-blk-pci device wasn't working. The problem turns out to be
-> that by default virtio pci devices don't use the IOMMU, even when the
-> machine model has created an IOMMU and arranged for the PCI bus to
-> be underneath it. So when the L2 guest tries to program the virtio device,
-> the virtio device treats the IPAs it writes as if they were PAs and
-> of course the data structures it's looking for aren't there.
+On Tue, Nov 30, 2021 at 10:28:36AM +0100, David Hildenbrand wrote:
+> TODO: replace by a proper header sync.
 
-Because this is what legacy guests expect, and legacy configs are
-much more common than nested.
+what's the plan for this patchset then?
 
-> Why do we default this to 'off'? It seems pretty unhelpful not to
-> honour the existence of the IOMMU, and the failure mode is pretty
-> opaque (L2 guest just hangs)...
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  include/standard-headers/linux/virtio_mem.h | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 > 
-> thanks
-> -- PMM
-
-This should be handled by VFIO in L1 really, it can check for a
-device quirk and refuse binding if the feature bit
-is disabled.
-
-
--- 
-MST
+> diff --git a/include/standard-headers/linux/virtio_mem.h b/include/standard-headers/linux/virtio_mem.h
+> index 05e5ade75d..18c74c527c 100644
+> --- a/include/standard-headers/linux/virtio_mem.h
+> +++ b/include/standard-headers/linux/virtio_mem.h
+> @@ -68,9 +68,10 @@
+>   * explicitly triggered (VIRTIO_MEM_REQ_UNPLUG).
+>   *
+>   * There are no guarantees what will happen if unplugged memory is
+> - * read/written. Such memory should, in general, not be touched. E.g.,
+> - * even writing might succeed, but the values will simply be discarded at
+> - * random points in time.
+> + * read/written. In general, unplugged memory should not be touched, because
+> + * the resulting action is undefined. There is one exception: without
+> + * VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE, unplugged memory inside the usable
+> + * region can be read, to simplify creation of memory dumps.
+>   *
+>   * It can happen that the device cannot process a request, because it is
+>   * busy. The device driver has to retry later.
+> @@ -87,6 +88,8 @@
+>  
+>  /* node_id is an ACPI PXM and is valid */
+>  #define VIRTIO_MEM_F_ACPI_PXM		0
+> +/* unplugged memory must not be accessed */
+> +#define VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE	1
+>  
+>  
+>  /* --- virtio-mem: guest -> host requests --- */
+> -- 
+> 2.31.1
 
 
