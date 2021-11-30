@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7592D4634B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 13:43:32 +0100 (CET)
-Received: from localhost ([::1]:36416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A21D5463505
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 13:59:08 +0100 (CET)
+Received: from localhost ([::1]:54894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ms2Tr-00008p-AB
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 07:43:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40024)
+	id 1ms2ix-0003QB-Bi
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 07:59:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ms2Kp-0005qi-5Z
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 07:34:11 -0500
-Received: from [2a00:1450:4864:20::333] (port=55024
- helo=mail-wm1-x333.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ms2Kn-0008Vt-JE
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 07:34:10 -0500
-Received: by mail-wm1-x333.google.com with SMTP id i12so17310800wmq.4
- for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 04:34:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vO3xPDR65R6x6kIivbXPFF3P4OPh3bgRlcJDnY1SeFQ=;
- b=VyzoCY278IbjdmtBu2wK1Bj5cOMkWwIqCFGdjUKbwBIRRgH9AnXNe9yCGEUC1GxFlo
- +NrRAtYmVyVQy4Ge5NnjX9iZWjvM9Lw2XIxs5/M2SZwhC/uRP8HqquFfdrm0frig3ag+
- Y7mJBkHuT+Rnh2ZWejt2bmf4MfKLbr42LtZFzshOILfwkupiaE7wlIAWIsM0/9oX94pY
- l7nZORQN1ibG92Wreel/afHnKA0mSa7xlfqEJJZejM637sMAhdj8+vDvlIPIwlcBSUX9
- 00w/ToIjjMPf96RFw+CduC6cBfn0YJENrHpnhQn5W83JsySR6m6lwlf2Y1fV24ROpbwL
- mDfw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ms2hv-0002gt-QC
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 07:58:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51955)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ms2hs-0003NG-0N
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 07:58:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638277078;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/fyt3+fj2tcovLtmwq5G7EYqQGa7ZtLjYN+hmJMF2hg=;
+ b=KgFL+9/LDqivSyVMv5OcZFavTohH3WBwA7ZQyRiefjLyYVdtIZnyGNA+SjxKI6mZOsff6c
+ Kf+D4xxyXnWEDbs1yJt4hxioAWnmImhW2CmMBAeoeF85+a/fdNnzDyRqp7Js6dNeypO9HZ
+ 2a1TK+pXnRSTR0AQj3khZAusc9klU3M=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-153-QNIiFdRWN26sQxbtx9-DBQ-1; Tue, 30 Nov 2021 07:57:56 -0500
+X-MC-Unique: QNIiFdRWN26sQxbtx9-DBQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 138-20020a1c0090000000b00338bb803204so10386999wma.1
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 04:57:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vO3xPDR65R6x6kIivbXPFF3P4OPh3bgRlcJDnY1SeFQ=;
- b=IkGyTME/ufWkWWKSqJy0VpEHfXC9XFvJ/P2yEJhfwdRZCXYOdpWv2T5wwbHVvARpTw
- wONR1GT7Cdrz0bo+XNGEGLtLobz5TiK98zB9YsI/VSkU3Rp8hpikkNwsXCRLqxaL3yKm
- DCe/FOry5Atr0kHt019s8Hc7l9+7htp0Rz1BVRR2OTihtN6kR+FEWKX1xoar9uBQkZe9
- odxgKPqNx2gapk3VWeX1KyjWllHzgB4pG1g3v/kd6fb1odMZZUc7zwvSzdh4ywHh4tnn
- 0e3lXWeVf5ngyhKTprt6Qnp3IkqomDUohvK8fDVE22PF4hge5h9SxQMs7wHMVtHG/DVV
- OBpw==
-X-Gm-Message-State: AOAM530TxuX38CE5TUm70Ypr2WK8+NCKyQ0M9ELTBUg+bNx1cHbzK3FK
- zN5TtKChoH9/9U4J2zO9QWGC4t5wnOPNulcv0D4=
-X-Google-Smtp-Source: ABdhPJy2YXQq2f2mql2jZdN+JIClckXD8XJrLoVGE/21OFABsvnZF3jBeT6xlIqq24i4lXDckAf/Uw==
-X-Received: by 2002:a05:600c:34d6:: with SMTP id
- d22mr4688772wmq.111.1638275648002; 
- Tue, 30 Nov 2021 04:34:08 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id d9sm16253556wre.52.2021.11.30.04.34.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Nov 2021 04:34:07 -0800 (PST)
-Subject: Re: [PATCH 2/3] target/m68k: Implement TRAPcc
-To: Laurent Vivier <laurent@vivier.eu>
-References: <20211130103752.72099-1-richard.henderson@linaro.org>
- <20211130103752.72099-3-richard.henderson@linaro.org>
- <0c97b116-4f8a-de89-e656-1630470046ac@vivier.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6c1495bf-83f8-c64c-4ae6-ab2e7830b5b2@linaro.org>
-Date: Tue, 30 Nov 2021 13:34:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=/fyt3+fj2tcovLtmwq5G7EYqQGa7ZtLjYN+hmJMF2hg=;
+ b=YFVO7zGcM41OcII8ht3GJSePIBTCNu4J00ePxkqmJWbOaZPN3x5E7b6WuAd++ywKzq
+ XylQhcVlO+z2jEc+MAvuchHvmTf9x6oTo15GlWdxf8sFolxeRxkJ4CLKn21pWcYR8V8e
+ ntZcquh+fXtQBk9GZDUJvd9A7ORtgW9hfmqLrv2Lulip7TuLTIZMxqEn1Dff6Or5szd/
+ blV28Yhjf/NabKJYDNDY5ectx3TowUD4wM2a+wbv8mKMlFxrRAD0a4NCBid38pkvn7Ae
+ iLrwEndSrLQtwjX3LchRuiG4rNn3qfRGNRHgT80XjyWCXBCkU0plWk2I/SB6fYg3pOqO
+ o29Q==
+X-Gm-Message-State: AOAM532vkgendh7V1dYEZG0xVqjy24ZPlo5X7vqK05DyEU65ArziNoJI
+ yhORQgyvFmwGoUcjNkw+VM1LOERHnfQ2Oun8UWtLYqUdsB/mZHShf1VSydjeXAN/gIW6AwFsjj1
+ Ikz2aw8+qh7qUnPw=
+X-Received: by 2002:a5d:68d2:: with SMTP id p18mr40528935wrw.21.1638277075259; 
+ Tue, 30 Nov 2021 04:57:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxrHnzVWXZEpEmqcaMydxZ27rB+RVsp5isjb0UeVx2aQaHt2O4QmG1mgrJnmh+4pPVIZbEnEA==
+X-Received: by 2002:a5d:68d2:: with SMTP id p18mr40528912wrw.21.1638277075032; 
+ Tue, 30 Nov 2021 04:57:55 -0800 (PST)
+Received: from xz-m1.local ([85.203.46.194])
+ by smtp.gmail.com with ESMTPSA id q26sm16717582wrc.39.2021.11.30.04.57.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Nov 2021 04:57:54 -0800 (PST)
+Date: Tue, 30 Nov 2021 20:57:47 +0800
+From: Peter Xu <peterx@redhat.com>
+To: huangy81@chinatelecom.cn
+Subject: Re: [PATCH v7 0/3] support dirty restraint on vCPU
+Message-ID: <YaYfy7YqZpOopold@xz-m1.local>
+References: <cover.1638267778.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <0c97b116-4f8a-de89-e656-1630470046ac@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <cover.1638267778.git.huangy81@chinatelecom.cn>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.211,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,41 +95,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Juan Quintela <quintela@redhat.com>, Markus ArmBruster <armbru@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/30/21 12:57 PM, Laurent Vivier wrote:
->> +DISAS_INSN(trapcc)
->> +{
->> +    /* Consume and discard the immediate operand. */
->> +    switch (extract32(insn, 0, 3)) {
->> +    case 2: /* trapcc.w */
->> +        (void)read_im16(env, s);
->> +        break;
->> +    case 3: /* trapcc.l */
->> +        (void)read_im32(env, s);
->> +        break;
+On Tue, Nov 30, 2021 at 06:28:10PM +0800, huangy81@chinatelecom.cn wrote:
+> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 > 
-> Do we need to actually read the memory to trigger a fault if needed or can we only 
-> increase the PC?
+> The patch [2/3] has not been touched so far. Any corrections and
+> suggetions are welcome. 
 
-Yes, and to pass the entire instruction to plugins.
+I played with it today, but the vcpu didn't got throttled as expected.
 
->> +    case 4: /* trapcc (no operand) */
->> +        break;
->> +    default:
->> +        /* Illegal insn */
->> +        disas_undef(env, s, insn);
->> +        return;
->> +    }
->> +    do_trapcc(s, extract32(insn, 8, 4));
->> +}
-> 
-> Do we need to change something in m68k_interrupt_all()?
+What I did was starting two workload with 500mb/s, each pinned on one vcpu
+thread:
 
-Yes, and cpu_loop.  Thanks,
+[root@fedora ~]# pgrep -fa mig_mon
+595 ./mig_mon mm_dirty 1000 500 sequential
+604 ./mig_mon mm_dirty 1000 500 sequential
+[root@fedora ~]# taskset -pc 595
+pid 595's current affinity list: 2
+[root@fedora ~]# taskset -pc 604
+pid 604's current affinity list: 3
 
+Then start throttle with 100mb/s:
 
-r~
+(QEMU) set-dirty-limit cpu-index=3 dirty-rate=100
+{"return": {}}
+(QEMU) set-dirty-limit cpu-index=2 dirty-rate=100
+{"return": {}}
+
+I can see the workload dropped a tiny little bit (perhaps 500mb -> 499mb), then
+it keeps going..
+
+Further throttle won't work too:
+
+(QEMU) set-dirty-limit cpu-index=2 dirty-rate=10
+{"return": {}}
+
+Funnily, the ssh client got slowed down instead... :(
+
+Yong, how did you test it?
+
+-- 
+Peter Xu
+
 
