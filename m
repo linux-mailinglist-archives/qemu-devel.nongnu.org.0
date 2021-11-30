@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87640462F27
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 10:01:54 +0100 (CET)
-Received: from localhost ([::1]:46292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D16462F8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 10:27:31 +0100 (CET)
+Received: from localhost ([::1]:54964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrz1N-0006Hj-Df
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 04:01:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52248)
+	id 1mrzQ9-0004kK-Lp
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 04:27:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mryzx-00052M-VB
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 04:00:27 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:58918)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mryzs-0005VC-96
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 04:00:25 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mrzOX-00043a-Mr
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 04:25:49 -0500
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:40554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mrzOU-0008Vg-I0
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 04:25:49 -0500
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A29E31FD2F;
- Tue, 30 Nov 2021 09:00:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638262818; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7YYmui0fVM8YrgM53fD8wEeDFGODF3K+FAEA3+2MLJs=;
- b=bce7kmUC/IOUeNS3qNUgvYy3Ud16YPaDk4Mi53XYV3GKy8yaBNXy1jFUfCLs7EUtokXxAa
- 00qG4DB3pcE/8AvVHSfKdVffJY8GdT6UwLHdTVaGuVZiUlyXxg7spiIgG7vJrkTnJIJYbt
- sOAe1n7TEkmA9ki37dgvFWjtfr0/zTI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638262818;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7YYmui0fVM8YrgM53fD8wEeDFGODF3K+FAEA3+2MLJs=;
- b=J3EM8M9ur2jI1j5v7ZbB66NyLnKP0iKe5ibo0QNMCiYODp9AG9kapDX1DZxnm1NpaRLbVc
- 0YtSS/NztnCEyaDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5643513C3D;
- Tue, 30 Nov 2021 09:00:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 5WS+EiLopWHyCwAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 30 Nov 2021 09:00:18 +0000
-Subject: Re: [PATCH for-6.1 v2] i386: do not call cpudef-only models functions
- for max, host, base
-To: David Woodhouse <dwmw2@infradead.org>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
-References: <20210723112921.12637-1-cfontana@suse.de>
- <1102c315addf2f2fffc49222ab5be118e7ae9b0f.camel@amazon.co.uk>
- <f5910284-14ca-8796-4e64-38fef246bd19@suse.de>
- <e57e2119df69ac190cdd763b7ac8d5894b110839.camel@infradead.org>
- <b613015e-3285-8d30-292f-6bf9816b1912@suse.de>
- <d579bf46d0babc9eece1dc3e8ec63c43b311b022.camel@infradead.org>
- <483ebe21-2972-90c0-bc9a-ce922518632d@suse.de>
- <bdd861f68aa1533b2ea752c6509c03ca7b9f0279.camel@infradead.org>
- <93efa230-fb6b-fdc7-a696-c555676da2b4@suse.de>
- <d437972602decfeb392b08563589952358bdd510.camel@infradead.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <9990ade1-ccfa-a712-94c0-1667f5b3094f@suse.de>
-Date: Tue, 30 Nov 2021 10:00:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id D8E7543CF4
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 09:25:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1638264343;
+ bh=usPHfXIIf+71Wj546eRdLVNDyFaGysxULomwyqwTScQ=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=saj8dg9dnrXL6hEDNaHQzTNWt2Wj+sPS4Xw+FF2D99r8vQUFC9QWfrpLk48TW8sNO
+ 5iiwiH7Dz7rnIAKKCxoOPJBmCVRN5Rs9kbKAPJ0iygr6Sd03x/1bswqcDNhytuqd0z
+ P+mBTr4Kjb6YAHASd7H1csh4+uHGeFw0fUykF758WKRxcssY4tikpeVnCGT01Z9MoX
+ B2xkx7qrg602VJlXWza25ZiuQCZ2WbC1yDuLHGpzT88sj9Y0XcOGQ++lRGn1/snv1D
+ 0nrYeYg6EZvwapf3uui8kU9r1OGA51ads2wBytBjGkQ7DiwF9MwR2neLCx+NUhy8LW
+ hQlUflimMwrjw==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AEED02E8181
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 09:25:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <d437972602decfeb392b08563589952358bdd510.camel@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.211,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 30 Nov 2021 09:20:18 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1749393@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu;
+ component=main; status=In Progress; importance=Medium;
+ assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug-Tags: arm linux-user qemu-20.10 server-next
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: doko gerard-f-vidal-4 hertzog janitor komainu8
+ laurent-vivier paelzer peterogden pmaydell racb rth sebunger44
+X-Launchpad-Bug-Reporter: =?utf-8?q?Rapha=C3=ABl_Hertzog_=28hertzog=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer=29?=
+References: <151859702399.9461.6832978283203997178.malonedeb@chaenomeles.canonical.com>
+Message-Id: <163826401816.15705.7244854723927275213.malone@gac.canonical.com>
+Subject: [Bug 1749393] Re: sbrk() not working under qemu-user with a
+ PIE-compiled binary?
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="78346d219e01c6c7b1bfd882aa0bbcbb42d4e568"; Instance="production"
+X-Launchpad-Hash: 4770fc8765f30e7441d0f18c81b87be0315c5bf9
+Received-SPF: pass client-ip=185.125.188.251;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -96,163 +91,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lovemrd@gmail.com" <lovemrd@gmail.com>, "alxndr@bu.edu" <alxndr@bu.edu>,
- "philmd@redhat.com" <philmd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>
+Reply-To: Bug 1749393 <1749393@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/29/21 9:29 PM, David Woodhouse wrote:
-> On Mon, 2021-11-29 at 20:55 +0100, Claudio Fontana wrote:
->> On 11/29/21 8:19 PM, David Woodhouse wrote:
->>> On Mon, 2021-11-29 at 20:10 +0100, Claudio Fontana wrote:
->>>>
->>>> Hmm I thought what you actually care for, for cpu "host", is just the kvm_enable_x2apic() call, not the kvm_default_props.
->>>>
->>>>
->>>>
->>>> Do you also expect the kvm_default_prop "kvm-msi-ext-dest-id" to be switch to "on" and applied?
->>>
->>> It's already on today. It just isn't *true* because QEMU never called
->>> kvm_enable_x2apic().
->>
->>
->> property should be on, but not by setting in kvm_default_prop / applied via kvm_default_prop, that mechanism is for the versioned cpu models,
->> which use X86CPUModel / X86CPUDefinition , and "host" isn't one of them.
->>
->> Out of curiosity, does my previous snippet actually work? Not that I am sure it is the best solution,
->> just for my understanding. It would be surprising to me that the need to actually manually apply "kvm-msi-ext-dest-id" to "on" there.
->>
-> 
-> This one?
-> 
-> --- a/target/i386/kvm/kvm-cpu.c
-> +++ b/target/i386/kvm/kvm-cpu.c
-> @@ -161,14 +161,14 @@ static void kvm_cpu_instance_init(CPUState *cs)
->  
->      host_cpu_instance_init(cpu);
->  
-> -    if (xcc->model) {
->          /* only applies to builtin_x86_defs cpus */
->          if (!kvm_irqchip_in_kernel()) {
->              x86_cpu_change_kvm_default("x2apic", "off");
->          } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
-> -            x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
-> +               x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
->          }
->  
-> +    if (xcc->model) {
->          /* Special cases not set in the X86CPUDefinition structs: */
->          x86_cpu_apply_props(cpu, kvm_default_props);
->      }
-> 
-> Note that in today's HEAD we already advertise X2APIC and ext-dest-id
-> to the '-cpu host' guest; it's just not *true* because we never call
-> kvm_enable_x2apic().
+SRU template updated, PPA rebuilt, Merge requests updated.
+Also bundled another bug fix.
 
-This is clear to me. The move of the code there is simply to:
+Waiting for MR review now.
 
-1) make sure that, for non-host, versioned cpu models, we continue to set the kvm_default_props and apply them in the same way.
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1749393
 
-2) for the host cpu, make sure that kvm_enable_x2apic() is called. x86_cpu_change_kvm_default is completely irrelevant for host cpu, as you have noted.
+Title:
+  sbrk() not working under qemu-user with a PIE-compiled binary?
 
-You are right that we continue to not handle the error path correctly on kvm_enable_x2apic failure, for both smp > 255 and <= 255.  
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Focal:
+  In Progress
 
-> 
-> So yes, the above works on a modern kernel where kvm_enable_x2apic()
-> succeeds. But that's the easy case.
-> 
-> Where your snippet *won't* work is in the case of running on an old
-> kernel where kvm_enable_x2apic() fails.
+Bug description:
+  [Impact]
 
+  =C2=A0* The current space reserved can be too small and we can end up
+  =C2=A0=C2=A0=C2=A0with no space at all for BRK. It can happen to any case=
+, but is
+  =C2=A0=C2=A0=C2=A0much more likely with the now common PIE binaries.
 
-I tend to agree that what we want if kvm_enable_x2apic fails is to abort QEMU if we have been requesting smp > 255,
-and if we did not request smp > 255 cpus, we want to not advertise the feature.
+  =C2=A0* Backport the upstream fix which reserves a bit more space while l=
+oading
+  =C2=A0=C2=A0=C2=A0and giving it back after interpreter and stack is loade=
+d.
 
-This is not accomplished, neither by my snippet above, not by the existing code at any point in git history, and not by yours in itself.
+  [Test Plan]
 
-Your change seems to accomplish the call to kvm_enable_x2apic, and abort if requested smp > 255,
-but it does not stop advertising X2APIC and ext-dest-id on kvm_enable_x2apic failure for the case < 255, so we'd need to add that.
+  =C2=A0* On x86 run:
+  sudo apt install -y qemu-user-static docker.io
+  sudo docker run --rm arm64v8/debian:bullseye bash -c 'apt update && apt i=
+nstall -y wget'
+  ...
+  Running hooks in /etc/ca-certificates/update.d...
+  done.
+  Errors were encountered while processing:
+  =C2=A0libc-bin
+  E: Sub-process /usr/bin/dpkg returned an error code (1)
 
-Do I understand it right? Do we need to wrap all of this logic in a if (kvm_enabled()) ?
+ =20
+  Second test from bug 1928075
 
-> 
-> In that case it needs to turn x2apic support *off*. But simply calling
-> (or not calling) x86_cpu_change_kvm_default() makes absolutely no
-> difference unless those defaults are *applied* by calling
-> x86_cpu_apply_props()
+  $ sudo qemu-debootstrap --arch=3Darm64 bullseye bullseye-arm64
+  http://ftp.debian.org/debian
 
-right, it makes absolutely no difference, and we cannot use kvm_default_props, as they are for something else entirely.
+  In the bad case this is failing like
+  W: Failure trying to run: /sbin/ldconfig
+  W: See //debootstrap/debootstrap.log for detail
 
-> or making the same change by some other means.
+  And in that log file you'll see the segfault
+  $ tail -n 2 bullseye-arm64/debootstrap/debootstrap.log
+  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+  Segmentation fault (core dumped)
 
-right, we need to change it by other means.
+  [Where problems could occur]
 
-It is still unclear to me for which cpu classes and versioned models we should behave like this. Thoughts?
+  =C2=A0* Regressions would be around use-cases of linux-user that is
+  =C2=A0=C2=A0=C2=A0emulation not of a system but of binaries.
+  =C2=A0=C2=A0=C2=A0Commonly uses for cross-tests and cross-builds so that =
+is the
+  =C2=A0=C2=A0=C2=A0space to watch for regressions
 
-"max"? "base"? versioned models: depending on the model features?
+  [Other Info]
 
-> 
-> 
->>> So what I care about (in case ∃ APIC IDs >= 255) is two things:
->>>
->>>  1. Qemu needs to call kvm_enable_x2apic().
->>>  2. If that *fails* qemu needs to *stop* advertising X2APIC and ext-dest-id.
+  =C2=A0* n/a
 
-Understand. We also need though:
+  ---
 
-3. Not call kvm_enable_x2apic() when it should not be called (non-KVM accelerator, which cpu classes and models)
-4. Not stop advertising X2APIC and ext-dest-id when we shouldn't stop advertising it.
+  In Debian unstable, we recently switched bash to be a PIE-compiled
+  binary (for hardening). Unfortunately this resulted in bash being
+  broken when run under qemu-user (for all target architectures, host
+  being amd64 for me).
 
->>>
->>>
->>> That last patch snippet in pc_machine_done() should suffice to achieve
->>> that, I think. Because if kvm_enable_x2apic() fails and qemu has been
->>> asked for that many CPUs, it aborts completely. Which seems right.
+  $ sudo chroot /srv/chroots/sid-i386/ qemu-i386-static /bin/bash
+  bash: xmalloc: .././shell.c:1709: cannot allocate 10 bytes (0 bytes alloc=
+ated)
 
-see comments above, and should we limit that code to when kvm is enabled?
+  bash has its own malloc implementation based on sbrk():
+  https://git.savannah.gnu.org/cgit/bash.git/tree/lib/malloc/malloc.c
 
->>>
->>
->> seems right to abort if requesting > 255 APIC IDs cannot be satisfied, I agree.
->>
->> So I think in the end, we want to:
->>
->> 1) make sure that when accel=kvm and smp > 255 for i386, using cpu "host", kvm_enable_x2apic() is called and successful.
->>
->> 2) in addressing requirement 1), we do not break something else (other machines, other cpu classes/models, TCG, ...).
->>
->> 3) as a plus we might want to cleanup and determine once and for all where kvm_enable_x2apic() should be called:
->>    we have calls in intel_iommu.c and in the kvm cpu class instance initialization here in kvm-cpu.c today:
->>    before adding a third call we should really ask ourselves where the proper initialization of this should happen.
->>
-> 
-> I think the existing two calls to kvm_enable_x2apic() become mostly
-> redundant. Because in fact the vtd_decide_config() and
-> kvm_cpu_instance_init() callers would both by perfectly OK without
-> kvm_enable_x2apic() if there isn't a CPU with an APIC ID >= 255
-> anyway. 
-> 
-> And that means that with my patch, pc_machine_done() will have
-> *aborted* if their conditions aren't met.
+  When we disable this internal implementation and rely on glibc's
+  malloc, then everything is fine. But it might be that glibc has a
+  fallback when sbrk() is not working properly and it might hide the
+  underlying problem in qemu-user.
 
-I think it is good to abort early if we figure out that the user request of APIC ID >= 255 cannot be satisfied. 
+  This issue has also been reported to the bash upstream author and he sugg=
+ested that the issue might be in qemu-user so I'm opening a ticket here. He=
+re's the discussion with the bash upstream author:
+  https://lists.gnu.org/archive/html/bug-bash/2018-02/threads.html#00080
 
-> 
-> But then again, if since kvm_enable_x2apic() is both the initial
-> initialisation *and* a cached sanity check that it has indeed been
-> enabled successfully, there perhaps isn't any *harm* in having them do
-> the check for themselves?
-> 
+  You can find the problematic bash binary in that .deb file:
+  http://snapshot.debian.org/archive/debian/20180206T154716Z/pool/main/b/ba=
+sh/bash_4.4.18-1_i386.deb
 
-Well the harm in my mind is, do we need to handle the error condition correctly at each single place? 
-Do we risk slightly different behavior and advertised features depending on where the call happens?
+  The version of qemu I have been using is 2.11 (Debian package qemu-
+  user-static version 1:2.11+dfsg-1) but I have had reports that the
+  problem is reproducible with older versions (back to 2.8 at least).
 
-Seems that we can reduce the complexity and long term risk by handling things in one single place, if we definitely find what that place should be.
+  Here are the related Debian bug reports:
+  https://bugs.debian.org/889869
+  https://bugs.debian.org/865599
 
-Thanks,
+  It's worth noting that bash used to have this problem (when compiled as a=
+ PIE binary) even when run directly but then something got fixed in the ker=
+nel and now the problem only appears when run under qemu-user:
+  https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1518483
 
-Claudio
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1749393/+subscriptions
 
 
