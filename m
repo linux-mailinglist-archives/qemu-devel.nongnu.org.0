@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54CE46292A
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 01:35:35 +0100 (CET)
-Received: from localhost ([::1]:59660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8E346292D
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 01:36:03 +0100 (CET)
+Received: from localhost ([::1]:60746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrr7O-0005Qm-ES
-	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 19:35:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50908)
+	id 1mrr7q-00069f-4j
+	for lists+qemu-devel@lfdr.de; Mon, 29 Nov 2021 19:36:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mrr60-0003GS-Bw
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 19:34:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50862)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mrr69-0003Rb-9e
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 19:34:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mrr5x-0003dO-63
- for qemu-devel@nongnu.org; Mon, 29 Nov 2021 19:34:06 -0500
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mrr67-0003fS-4p
+ for qemu-devel@nongnu.org; Mon, 29 Nov 2021 19:34:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638232444;
+ s=mimecast20190719; t=1638232450;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Mgo4l8HJBZsEfg87QT1IbD0RhLZsHe2QCguxWCiMWUI=;
- b=LxLKcc9b7patxAvO6+ReZ6/059Y0sXPd9rFIoQsbd0lI0Fnk0R+oHmEunE5xx5UIw1si9o
- sUPVMZ8pbzg1aSO6VvdtLTMtUEGrZogHWcmD2JljlwTvKnrco1N+FyK56m0WRMYEkUKoAM
- ZtRxzRmE9GjwJe0RYn3OGuDaVfiglsQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nC3mfJ5oVUj9JEJZH+tZKTCaQeELDm28rmT6POUfRRo=;
+ b=XvK+/ibbpFZMtnkNK2qHfPXREzmPs1e29hHMuWtftDcQo7BCx8qgIU4n1s2b6U9EubB1Dw
+ VGFkqpLdkDwl9RoqS0l7DjfCKBQf5dAfrZ+hvyT2hQ/kdus8rUlkxSimu/umukQ6SOIe+y
+ 2mAIGONi2SKeKhGXp6xeEtdhkUoXMkA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-237-OAZ0d0vsMZyguOOu_9hIOw-1; Mon, 29 Nov 2021 19:34:02 -0500
-X-MC-Unique: OAZ0d0vsMZyguOOu_9hIOw-1
+ us-mta-251-cXxSxErDOJ-l_f0KmOP6OQ-1; Mon, 29 Nov 2021 19:34:07 -0500
+X-MC-Unique: cXxSxErDOJ-l_f0KmOP6OQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51FA180F041;
- Tue, 30 Nov 2021 00:34:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47D2F80F041;
+ Tue, 30 Nov 2021 00:34:06 +0000 (UTC)
 Received: from gshan.redhat.com (vpn2-54-223.bne.redhat.com [10.64.54.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64BEB5C232;
- Tue, 30 Nov 2021 00:33:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 01A595C232;
+ Tue, 30 Nov 2021 00:34:01 +0000 (UTC)
 From: Gavin Shan <gshan@redhat.com>
 To: qemu-arm@nongnu.org
-Subject: [PATCH 0/1] hw/arm/virt: Support for virtio-mem-pci
-Date: Tue, 30 Nov 2021 08:33:27 +0800
-Message-Id: <20211130003328.201270-1-gshan@redhat.com>
+Subject: [PATCH 1/1] hw/arm/virt: Support for virtio-mem-pci
+Date: Tue, 30 Nov 2021 08:33:28 +0800
+Message-Id: <20211130003328.201270-2-gshan@redhat.com>
+In-Reply-To: <20211130003328.201270-1-gshan@redhat.com>
+References: <20211130003328.201270-1-gshan@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
@@ -61,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,88 +83,172 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series supports virtio-mem-pci device, by simply following the
-implementation on x86. The exception is the block size is 1GB on ARM64
-instead of 128MB on x86.
+This supports virtio-mem-pci device on "virt" platform, by simply
+following the implementation on x86.
 
-The work was done by David Hildenbrand and then Jonathan Cameron. I'm
-taking the patch and putting more efforts, which is all about testing
-to me at current stage.
+   * The patch was written by David Hildenbrand <david@redhat.com>
+     modified by Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Testing
-=======
+   * This implements the hotplug handlers to support virtio-mem-pci
+     device hot-add, while the hot-remove isn't supported as we have
+     on x86.
 
-The upstream linux kernel (v5.16.rc3) is used on host/guest during
-the testing. The guest kernel includes changes to enable virtio-mem
-driver, which is simply to enable CONFIG_VIRTIO_MEM on ARM64.
+   * The block size is 1GB on ARM64 instead of 128MB on x86.
 
-Mutiple combinations like page sizes on host/guest, memory backend
-device etc are covered in the testing. Besides, migration is also
-tested. The following command lines are used for VM or virtio-mem-pci
-device hot-add. It's notable that virtio-mem-pci device hot-remove
-isn't supported, similar to what we have on x86. 
+   * It has been passing the tests with various combinations like 64KB
+     and 4KB page sizes on host and guest, different memory device
+     backends like normal, transparent huge page and HugeTLB, plus
+     migration.
 
-  host.pgsize  guest.pgsize  backend    hot-add  hot-remove  migration
-  ---------------------------------------------------------------------
-   4KB         4KB           normal     ok       ok          ok
-                             THP        ok       ok          ok
-                             hugeTLB    ok       ok          ok
-   4KB         64KB          normal     ok       ok          ok
-                             THP        ok       ok          ok
-                             hugeTLB    ok       ok          ok
-  64KB         4KB           normal     ok       ok          ok
-                             THP        ok       ok          ok
-                             hugeTLB    ok       ok          ok
-  64KB         64KB          normal     ok       ok          ok
-                             THP        ok       ok          ok
-                             hugeTLB    ok       ok          ok
-
-The command lines are used for VM. When hugeTLBfs is used, all memory
-backend objects are popuated on /dev/hugepages-2048kB or
-/dev/hugepages-524288kB, depending on the host page sizes.
-
-  /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64                       \
-  -accel kvm -machine virt,gic-version=host                                     \
-  -cpu host -smp 4,sockets=2,cores=2,threads=1                                  \
-  -m 1024M,slots=16,maxmem=64G                                                  \
-  -object memory-backend-ram,id=mem0,size=512M                                  \
-  -object memory-backend-ram,id=mem1,size=512M                                  \
-  -numa node,nodeid=0,cpus=0-1,memdev=mem0                                      \
-  -numa node,nodeid=1,cpus=2-3,memdev=mem1                                      \
-     :
-  -kernel /home/gavin/sandbox/linux.guest/arch/arm64/boot/Image                 \
-  -initrd /home/gavin/sandbox/images/rootfs.cpio.xz                             \
-  -append earlycon=pl011,mmio,0x9000000                                         \
-  -device pcie-root-port,bus=pcie.0,chassis=1,id=pcie.1                         \
-  -device pcie-root-port,bus=pcie.0,chassis=2,id=pcie.2                         \
-  -device pcie-root-port,bus=pcie.0,chassis=3,id=pcie.3                         \
-  -object memory-backend-ram,id=vmem0,size=512M                                 \
-  -device virtio-mem-pci,id=vm0,bus=pcie.1,memdev=vmem0,node=0,requested-size=0 \
-  -object memory-backend-ram,id=vmem1,size=512M                                 \
-  -device virtio-mem-pci,id=vm1,bus=pcie.2,memdev=vmem1,node=1,requested-size=0 
-
-Command lines used for memory hot-add and hot-remove:
-
-  (qemu) qom-set vm1 requested-size 512M
-  (qemu) qom-set vm1 requested-size 0
-  (qemu) qom-set vm1 requested-size 512M
-
-Command lines used for virtio-mem-pci device hot-add:
-
-  (qemu) object_add memory-backend-ram,id=hp-mem1,size=512M
-  (qemu) device_add virtio-mem-pci,id=hp-vm1,bus=pcie.3,memdev=hp-mem1,node=1
-  (qemu) qom-set hp-vm1 requested-size 512M
-  (qemu) qom-set hp-vm1 requested-size 0
-  (qemu) qom-set hp-vm1 requested-size 512M
-
-Gavin Shan (1):
-  hw/arm/virt: Support for virtio-mem-pci
-
+Signed-off-by: Gavin Shan <gshan@redhat.com>
+---
  hw/arm/Kconfig         |  1 +
  hw/arm/virt.c          | 68 +++++++++++++++++++++++++++++++++++++++++-
  hw/virtio/virtio-mem.c |  2 ++
  3 files changed, 70 insertions(+), 1 deletion(-)
 
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 2d37d29f02..15aff8efb8 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -27,6 +27,7 @@ config ARM_VIRT
+     select DIMM
+     select ACPI_HW_REDUCED
+     select ACPI_APEI
++    select VIRTIO_MEM_SUPPORTED
+ 
+ config CHEETAH
+     bool
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 369552ad45..f4599a5ef0 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -71,9 +71,11 @@
+ #include "hw/arm/smmuv3.h"
+ #include "hw/acpi/acpi.h"
+ #include "target/arm/internals.h"
++#include "hw/mem/memory-device.h"
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/mem/nvdimm.h"
+ #include "hw/acpi/generic_event_device.h"
++#include "hw/virtio/virtio-mem-pci.h"
+ #include "hw/virtio/virtio-iommu.h"
+ #include "hw/char/pl011.h"
+ #include "qemu/guest-random.h"
+@@ -2480,6 +2482,63 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
+                          dev, &error_abort);
+ }
+ 
++static void virt_virtio_md_pci_pre_plug(HotplugHandler *hotplug_dev,
++                                        DeviceState *dev, Error **errp)
++{
++    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
++    Error *local_err = NULL;
++
++    if (!hotplug_dev2 && dev->hotplugged) {
++        /*
++         * Without a bus hotplug handler, we cannot control the plug/unplug
++         * order. We should never reach this point when hotplugging on x86,
++         * however, better add a safety net.
++         */
++        error_setg(errp, "hotplug of virtio based memory devices not supported"
++                   " on this bus.");
++        return;
++    }
++    /*
++     * First, see if we can plug this memory device at all. If that
++     * succeeds, branch of to the actual hotplug handler.
++     */
++    memory_device_pre_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev), NULL,
++                           &local_err);
++    if (!local_err && hotplug_dev2) {
++        hotplug_handler_pre_plug(hotplug_dev2, dev, &local_err);
++    }
++    error_propagate(errp, local_err);
++}
++
++static void virt_virtio_md_pci_plug(HotplugHandler *hotplug_dev,
++                                    DeviceState *dev, Error **errp)
++{
++    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
++    Error *local_err = NULL;
++
++    /*
++     * Plug the memory device first and then branch off to the actual
++     * hotplug handler. If that one fails, we can easily undo the memory
++     * device bits.
++     */
++    memory_device_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
++    if (hotplug_dev2) {
++        hotplug_handler_plug(hotplug_dev2, dev, &local_err);
++        if (local_err) {
++            memory_device_unplug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
++        }
++    }
++    error_propagate(errp, local_err);
++}
++
++static void virt_virtio_md_pci_unplug_request(HotplugHandler *hotplug_dev,
++                                              DeviceState *dev, Error **errp)
++{
++    /* We don't support hot unplug of virtio based memory devices */
++    error_setg(errp, "virtio based memory devices cannot be unplugged.");
++}
++
++
+ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+                                             DeviceState *dev, Error **errp)
+ {
+@@ -2513,6 +2572,8 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+         qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
+         qdev_prop_set_string(dev, "reserved-regions[0]", resv_prop_str);
+         g_free(resv_prop_str);
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
++        virt_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);
+     }
+ }
+ 
+@@ -2538,6 +2599,8 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+         vms->iommu = VIRT_IOMMU_VIRTIO;
+         vms->virtio_iommu_bdf = pci_get_bdf(pdev);
+         create_virtio_iommu_dt_bindings(vms);
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
++        virt_virtio_md_pci_plug(hotplug_dev, dev, errp);
+     }
+ }
+ 
+@@ -2588,6 +2651,8 @@ static void virt_machine_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+ {
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+         virt_dimm_unplug_request(hotplug_dev, dev, errp);
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
++        virt_virtio_md_pci_unplug_request(hotplug_dev, dev, errp);
+     } else {
+         error_setg(errp, "device unplug request for unsupported device"
+                    " type: %s", object_get_typename(OBJECT(dev)));
+@@ -2611,7 +2676,8 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+ 
+     if (device_is_dynamic_sysbus(mc, dev) ||
+-       (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM))) {
++        object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
++        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
+         return HOTPLUG_HANDLER(machine);
+     }
+     if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index d5a578142b..3033692a83 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -126,6 +126,8 @@ static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
+  */
+ #if defined(TARGET_X86_64) || defined(TARGET_I386)
+ #define VIRTIO_MEM_USABLE_EXTENT (2 * (128 * MiB))
++#elif defined(TARGET_ARM)
++#define VIRTIO_MEM_USABLE_EXTENT (2 * (1024 * MiB))
+ #else
+ #error VIRTIO_MEM_USABLE_EXTENT not defined
+ #endif
 -- 
 2.23.0
 
