@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C032463045
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 10:51:25 +0100 (CET)
-Received: from localhost ([::1]:55378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B953463014
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 10:49:02 +0100 (CET)
+Received: from localhost ([::1]:49636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mrznI-00086M-Nw
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 04:51:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33278)
+	id 1mrzkx-00045X-Vg
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 04:49:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mrzir-0001t0-Je
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 04:46:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54445)
+ id 1mrzis-0001tv-Tt
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 04:46:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mrzip-0002y2-6M
+ id 1mrzip-0002y9-V4
  for qemu-devel@nongnu.org; Tue, 30 Nov 2021 04:46:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638265606;
+ s=mimecast20190719; t=1638265607;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wg85p4YpsagREVjYpi+5jooLA80+daO+GvOkZDwW4Y8=;
- b=Ss+LV1i7fc1R1nQblm/z5jfr/qIR2UxyCx19iy+U2vqlT1Vfasl4N/2y7x7mhLkQs14Btj
- JyqloQGk1x22EjFcpREB/lJvT4uJyQZyYLdA2ydI5rQAiGs3ZIJAUYjMgW/7R0Ayzd1fku
- T1Lm/tpaigUJ6pd+iVfzjWMyWYtQ8q0=
+ bh=zGLYYQN8VeLlSHmUD/3rhKQPqXGYxqvX1A3MXMcKCtQ=;
+ b=Z8kiscfmiMCzNTfwLtTCXT/wo/CSvNFm+HP+DxKIeXTVFUH2IKIOk/uQtZwAkn1kLp8VnE
+ vWEzs+g9MYuvqmC7feUpzZwpWp7RB4i8jXDBvqH6nJqZ/kCgG2pTklT7qmTR1V2FESYbLU
+ KeINLnaHJ7ng+rqywmYQwHhq/nfDSog=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-338-uLIFDL87NnuEObh-OTNFVw-1; Tue, 30 Nov 2021 04:46:43 -0500
-X-MC-Unique: uLIFDL87NnuEObh-OTNFVw-1
+ us-mta-370-NncoP7RyO1K_HJQRYTn2dg-1; Tue, 30 Nov 2021 04:46:44 -0500
+X-MC-Unique: NncoP7RyO1K_HJQRYTn2dg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DBF883DD21;
- Tue, 30 Nov 2021 09:46:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CE30835E25;
+ Tue, 30 Nov 2021 09:46:43 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC7AB67842;
- Tue, 30 Nov 2021 09:46:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 880C82B178;
+ Tue, 30 Nov 2021 09:46:42 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 1/4] block_int: make bdrv_backing_overridden static
-Date: Tue, 30 Nov 2021 04:46:30 -0500
-Message-Id: <20211130094633.277982-2-eesposit@redhat.com>
+Subject: [PATCH v2 2/4] include/sysemu/blockdev.c: introduce block_if_name
+Date: Tue, 30 Nov 2021 04:46:31 -0500
+Message-Id: <20211130094633.277982-3-eesposit@redhat.com>
 In-Reply-To: <20211130094633.277982-1-eesposit@redhat.com>
 References: <20211130094633.277982-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -67,7 +67,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,51 +89,43 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_backing_overridden is only used in block.c, so there is
-no need to leave it in block_int.h
+Add a getter function for the if_name array, so that also
+outside functions can access it.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block.c                   | 4 +++-
- include/block/block_int.h | 3 ---
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ blockdev.c                | 5 +++++
+ include/sysemu/blockdev.h | 1 +
+ 2 files changed, 6 insertions(+)
 
-diff --git a/block.c b/block.c
-index 0ac5b163d2..10346b5011 100644
---- a/block.c
-+++ b/block.c
-@@ -103,6 +103,8 @@ static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
- static void bdrv_reopen_commit(BDRVReopenState *reopen_state);
- static void bdrv_reopen_abort(BDRVReopenState *reopen_state);
+diff --git a/blockdev.c b/blockdev.c
+index b35072644e..1581f0d2f5 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -83,6 +83,11 @@ static const char *const if_name[IF_COUNT] = {
+     [IF_XEN] = "xen",
+ };
  
-+static bool bdrv_backing_overridden(BlockDriverState *bs);
++const char *block_if_name(BlockInterfaceType iface)
++{
++    return if_name[iface];
++}
 +
- /* If non-zero, use only whitelisted block drivers */
- static int use_bdrv_whitelist;
+ static int if_max_devs[IF_COUNT] = {
+     /*
+      * Do not change these numbers!  They govern how drive option
+diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
+index 32c2d6023c..b321286dee 100644
+--- a/include/sysemu/blockdev.h
++++ b/include/sysemu/blockdev.h
+@@ -42,6 +42,7 @@ DriveInfo *blk_legacy_dinfo(BlockBackend *blk);
+ DriveInfo *blk_set_legacy_dinfo(BlockBackend *blk, DriveInfo *dinfo);
+ BlockBackend *blk_by_legacy_dinfo(DriveInfo *dinfo);
  
-@@ -7475,7 +7477,7 @@ static bool append_strong_runtime_options(QDict *d, BlockDriverState *bs)
- /* Note: This function may return false positives; it may return true
-  * even if opening the backing file specified by bs's image header
-  * would result in exactly bs->backing. */
--bool bdrv_backing_overridden(BlockDriverState *bs)
-+static bool bdrv_backing_overridden(BlockDriverState *bs)
- {
-     if (bs->backing) {
-         return strcmp(bs->auto_backing_file,
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index f4c75e8ba9..27008cfb22 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1122,9 +1122,6 @@ BlockDriver *bdrv_probe_all(const uint8_t *buf, int buf_size,
- void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
-                                       QDict *options);
++const char *block_if_name(BlockInterfaceType iface);
+ void override_max_devs(BlockInterfaceType type, int max_devs);
  
--bool bdrv_backing_overridden(BlockDriverState *bs);
--
--
- /**
-  * bdrv_add_aio_context_notifier:
-  *
+ DriveInfo *drive_get(BlockInterfaceType type, int bus, int unit);
 -- 
 2.31.1
 
