@@ -2,53 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8538463455
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 13:32:39 +0100 (CET)
-Received: from localhost ([::1]:56848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7592D4634B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 13:43:32 +0100 (CET)
+Received: from localhost ([::1]:36416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ms2JK-0004lt-J3
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 07:32:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38966)
+	id 1ms2Tr-00008p-AB
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 07:43:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1ms2HZ-0003wu-6E
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 07:30:49 -0500
-Received: from mga09.intel.com ([134.134.136.24]:24857)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1ms2HW-000857-LT
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 07:30:48 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="236028054"
-X-IronPort-AV: E=Sophos;i="5.87,275,1631602800"; d="scan'208";a="236028054"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2021 04:30:24 -0800
-X-IronPort-AV: E=Sophos;i="5.87,275,1631602800"; d="scan'208";a="499749988"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.144.101])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 30 Nov 2021 04:30:23 -0800
-Date: Tue, 30 Nov 2021 20:15:36 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: qemu-devel@nongnu.org
-Subject: Re: unable to execute QEMU command 'qom-get': Property
- 'sgx-epc.unavailable-features' not found
-Message-ID: <20211130121536.GA32686@yangzhon-Virtual>
-References: <20211125124722.GA25401@yangzhon-Virtual>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ms2Kp-0005qi-5Z
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 07:34:11 -0500
+Received: from [2a00:1450:4864:20::333] (port=55024
+ helo=mail-wm1-x333.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ms2Kn-0008Vt-JE
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 07:34:10 -0500
+Received: by mail-wm1-x333.google.com with SMTP id i12so17310800wmq.4
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 04:34:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vO3xPDR65R6x6kIivbXPFF3P4OPh3bgRlcJDnY1SeFQ=;
+ b=VyzoCY278IbjdmtBu2wK1Bj5cOMkWwIqCFGdjUKbwBIRRgH9AnXNe9yCGEUC1GxFlo
+ +NrRAtYmVyVQy4Ge5NnjX9iZWjvM9Lw2XIxs5/M2SZwhC/uRP8HqquFfdrm0frig3ag+
+ Y7mJBkHuT+Rnh2ZWejt2bmf4MfKLbr42LtZFzshOILfwkupiaE7wlIAWIsM0/9oX94pY
+ l7nZORQN1ibG92Wreel/afHnKA0mSa7xlfqEJJZejM637sMAhdj8+vDvlIPIwlcBSUX9
+ 00w/ToIjjMPf96RFw+CduC6cBfn0YJENrHpnhQn5W83JsySR6m6lwlf2Y1fV24ROpbwL
+ mDfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vO3xPDR65R6x6kIivbXPFF3P4OPh3bgRlcJDnY1SeFQ=;
+ b=IkGyTME/ufWkWWKSqJy0VpEHfXC9XFvJ/P2yEJhfwdRZCXYOdpWv2T5wwbHVvARpTw
+ wONR1GT7Cdrz0bo+XNGEGLtLobz5TiK98zB9YsI/VSkU3Rp8hpikkNwsXCRLqxaL3yKm
+ DCe/FOry5Atr0kHt019s8Hc7l9+7htp0Rz1BVRR2OTihtN6kR+FEWKX1xoar9uBQkZe9
+ odxgKPqNx2gapk3VWeX1KyjWllHzgB4pG1g3v/kd6fb1odMZZUc7zwvSzdh4ywHh4tnn
+ 0e3lXWeVf5ngyhKTprt6Qnp3IkqomDUohvK8fDVE22PF4hge5h9SxQMs7wHMVtHG/DVV
+ OBpw==
+X-Gm-Message-State: AOAM530TxuX38CE5TUm70Ypr2WK8+NCKyQ0M9ELTBUg+bNx1cHbzK3FK
+ zN5TtKChoH9/9U4J2zO9QWGC4t5wnOPNulcv0D4=
+X-Google-Smtp-Source: ABdhPJy2YXQq2f2mql2jZdN+JIClckXD8XJrLoVGE/21OFABsvnZF3jBeT6xlIqq24i4lXDckAf/Uw==
+X-Received: by 2002:a05:600c:34d6:: with SMTP id
+ d22mr4688772wmq.111.1638275648002; 
+ Tue, 30 Nov 2021 04:34:08 -0800 (PST)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id d9sm16253556wre.52.2021.11.30.04.34.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Nov 2021 04:34:07 -0800 (PST)
+Subject: Re: [PATCH 2/3] target/m68k: Implement TRAPcc
+To: Laurent Vivier <laurent@vivier.eu>
+References: <20211130103752.72099-1-richard.henderson@linaro.org>
+ <20211130103752.72099-3-richard.henderson@linaro.org>
+ <0c97b116-4f8a-de89-e656-1630470046ac@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <6c1495bf-83f8-c64c-4ae6-ab2e7830b5b2@linaro.org>
+Date: Tue, 30 Nov 2021 13:34:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211125124722.GA25401@yangzhon-Virtual>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=134.134.136.24; envelope-from=yang.zhong@intel.com;
- helo=mga09.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <0c97b116-4f8a-de89-e656-1630470046ac@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.211,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,107 +93,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, pbonzini@redhat.com, eblake@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 25, 2021 at 08:47:22PM +0800, Yang Zhong wrote:
-> Hello Paolo,
+On 11/30/21 12:57 PM, Laurent Vivier wrote:
+>> +DISAS_INSN(trapcc)
+>> +{
+>> +    /* Consume and discard the immediate operand. */
+>> +    switch (extract32(insn, 0, 3)) {
+>> +    case 2: /* trapcc.w */
+>> +        (void)read_im16(env, s);
+>> +        break;
+>> +    case 3: /* trapcc.l */
+>> +        (void)read_im32(env, s);
+>> +        break;
 > 
-> Our customer used the Libvirt XML to start a SGX VM, but failed.
+> Do we need to actually read the memory to trigger a fault if needed or can we only 
+> increase the PC?
+
+Yes, and to pass the entire instruction to plugins.
+
+>> +    case 4: /* trapcc (no operand) */
+>> +        break;
+>> +    default:
+>> +        /* Illegal insn */
+>> +        disas_undef(env, s, insn);
+>> +        return;
+>> +    }
+>> +    do_trapcc(s, extract32(insn, 8, 4));
+>> +}
 > 
-> libvirt.libvirtError: internal error: unable to execute QEMU command 'qom-get': Property 'sgx-epc.unavailable-features' not found
-> 
-> The XML file,
-> <qemu:commandline>
->     <qemu:arg value="-cpu"/>
->     <qemu:arg value="host,+sgx,+sgx-debug,+sgx-exinfo,+sgx-kss,+sgx-mode64,+sgx-provisionkey,+sgx-tokenkey,+sgx1,+sgx2,+sgxlc"/>
->     <qemu:arg value="-object"/>
->     <qemu:arg value="memory-backend-epc,id=mem1,size=16M,prealloc=on"/>
->     <qemu:arg value="-M"/>
->     <qemu:arg value="sgx-epc.0.memdev=mem1"/>
->   </qemu:commandline>
-> 
-> The new compound property command should be located in /machine path,
-> which are different with old command '-sgx-epc id=epc1,memdev=mem1'.
-> 
-> I also tried this from Qemu monitor tool, 
-> (qemu) qom-list /machine
-> type (string)
-> kernel (string)
-> ......
-> sgx-epc (SgxEPC)
-> ......
-> sgx-epc[0] (child<memory-region>)
-> ......
-> 
-> We can find sgx-epc from /machine list.
-> 
+> Do we need to change something in m68k_interrupt_all()?
 
-  This issue is clear now, which is caused by Libvirt to get the CPU's unavailable-features by below command:
-  {"execute":"qom-get","arguments":{"path":"/machine/unattached/device[0]","property":"unavailable-features"}
-
-  but in SGX vm, since the sgx is initialized before VCPU because sgx need set the virtual EPC info in the cpuid.  
-
-  So the /machine/unattached/device[0] is occupied by sgx, which fail to get the unvailable-features from
-  /machine/unattached/device[0].
+Yes, and cpu_loop.  Thanks,
 
 
-  We need fix this issue, but this can be done in Qemu or Libvirt side.
-
-  1) Libvirt side
-     If the libvirt support SGX EPCs, libvirt can use /machine/unattached/device[n] to check "unavailable-features".
-     n is the next number of sgx's unattached_count.
-
-  2) Qemu side
-    
-     One temp patch to create one /sgx in the /machine in the device_set_realized() 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 84f3019440..4154eef0d8 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -497,7 +497,7 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
-     NamedClockList *ncl;
-     Error *local_err = NULL;
-     bool unattached_parent = false;
--    static int unattached_count;
-+    static int unattached_count, sgx_count;
-
-     if (dev->hotplugged && !dc->hotpluggable) {
-         error_setg(errp, QERR_DEVICE_NO_HOTPLUG, object_get_typename(obj));
-@@ -509,7 +509,15 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
-             goto fail;
-         }
-
--        if (!obj->parent) {
-+        if (!obj->parent && !strcmp(object_get_typename(obj), "sgx-epc")) {
-+            gchar *name = g_strdup_printf("device[%d]", sgx_count++);
-+
-+            object_property_add_child(container_get(qdev_get_machine(),
-+                                                    "/sgx"),
-+                                      name, obj);
-+            unattached_parent = true;
-+            g_free(name);
-+        } else if (!obj->parent) {
-             gchar *name = g_strdup_printf("device[%d]", unattached_count++);
-
-             object_property_add_child(container_get(qdev_get_machine()
-   
-    This patch can make sure vcpu is still /machine/unattached/device[0].
-
-
-    Which solution is best?  thanks!
-
-    Yang
-
-
-
-
-> I am not familiar with Libvirt side, would you please suggest how to implement
-> this compound command in the XML file?  thanks a lot!
-> 
-> Regards,
-> 
-> Yang  
-> 
+r~
 
