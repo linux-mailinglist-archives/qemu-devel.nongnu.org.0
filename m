@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A4F4635AB
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 14:41:49 +0100 (CET)
-Received: from localhost ([::1]:34294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9876946359D
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 14:37:54 +0100 (CET)
+Received: from localhost ([::1]:57538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ms3OD-0005b4-Rr
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 08:41:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54118)
+	id 1ms3KS-0001ZC-OS
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 08:37:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ms3Ex-0005jZ-8q; Tue, 30 Nov 2021 08:32:11 -0500
-Received: from [2607:f8b0:4864:20::92f] (port=42568
- helo=mail-ua1-x92f.google.com)
+ id 1ms3Ex-0005jX-8g; Tue, 30 Nov 2021 08:32:11 -0500
+Received: from [2607:f8b0:4864:20::92b] (port=39440
+ helo=mail-ua1-x92b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ms3Et-0000Oa-LK; Tue, 30 Nov 2021 08:32:09 -0500
-Received: by mail-ua1-x92f.google.com with SMTP id t13so41377926uad.9;
- Tue, 30 Nov 2021 05:32:05 -0800 (PST)
+ id 1ms3Et-0000Og-NM; Tue, 30 Nov 2021 08:32:09 -0500
+Received: by mail-ua1-x92b.google.com with SMTP id i6so41310290uae.6;
+ Tue, 30 Nov 2021 05:32:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8D6yTxUQLUa8/CJyWSPpmSVpmr3xI3g8G7rxNU+5T+k=;
- b=ddXc3vCSwUcE9ckXWiBC1GLpY8/sKtqxL6kGvFnhxt6WfCv4Fai0zpzXEDOGZVKiBy
- LsNsfO4XPtLcddcxXtgqjJc8wb3CTXropQhnqpmt1bwrpLiRTFZriHbOGR8DfeVRtxG1
- MRsl21E2cJOexPnYKZbzRhyOdfmEUe4D0A6YHZJvJdkdnj+7qpkglML95ckDi+5yX482
- 3RtxtTQSA47rCzyiuGskBsSlS+PXjpdhKKLANuT7/6KFcqEv4YwiHQ36GTQsu+0XX1ZB
- cyuzJzdhGj7LnkMa3ZjSqzmyu6m6Z7i0kz25qrAnAJRXIpbTS3glyola62N1Cfn9zmey
- 99/g==
+ bh=IYuTC43W2iZaFiptKigyn4rV0HBJzyK8EzcOeFqI8x4=;
+ b=jeMAELey2oZDTfHkTi4qkdeoq1RPZWLJCngHcY/iu1sVOvbGNT9NvxXlSL0j8xwrJx
+ Oaf6+pzLmBSF0/quwCmSWngewlvG+hC9M6TfWILNCaEAqHj9OGNdbPAxkfMjwpiutYPE
+ +wRBg8SI6nbQm6GUKdKEkNZekRRPYIgJhNDNBFbV1NAQyeHfnjl4SwBrYyt7AwZq2e7j
+ JFk92k5PJKnhF8xZR77sxT0KpvcepwAm8OUtt3Mm8+FwS+UcdWgsB+pPi4UBCb/LgGVg
+ E91WWBjDkiNPKApQSbyQPoCdf+YvImXJBe/HdP6vGuB0t6YSb8hw823Dw7e2YKDn6g6j
+ k/Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8D6yTxUQLUa8/CJyWSPpmSVpmr3xI3g8G7rxNU+5T+k=;
- b=Cp9XdOE34ErLUGEXxS7hV4Q3R0tovL3waQuwIx26PWMhMudl14mvR9XIm+7wSzcU90
- IYj07bUCxIwmj3i0ZHKxX5ctJI4SajeSDx6GZu4ZCVD3vLfoIr0/Tfjw3ig8/UN5xYnb
- GP1eZdKIDYpKyaBdF9hfKwA5Oh9VOSIrbQk/ukSnFUrqlCjwL5OaSGL0PMWgijMtene9
- M6trqusSfVC11ex9D4l6Bqqf2uk4Ulz3cSasEPuM45xSv4Q4EVxMtULskW9eAs8sdnyC
- Oeqi89lgOJ3xssQxdURBSadgQDlV7TZC6QWc6wUuY5pMN26rlagvohRi9c0gkhi/Orvk
- jthw==
-X-Gm-Message-State: AOAM533bQewK9bS27cY7lPx49rwrrk5b+QdFQrmdzpi5kp/QYI0f9pzJ
- A1xiR8O9UlWeGFdJ/IGT7mGnoOGryUo=
-X-Google-Smtp-Source: ABdhPJyAGvqOz2rloU5xUFkzCTC61U/yY2JcC03sp70MCGcGc/VJzqeWMvE13krJUsASuAaRlSGjTA==
-X-Received: by 2002:ab0:1d10:: with SMTP id j16mr57014916uak.40.1638279124536; 
- Tue, 30 Nov 2021 05:32:04 -0800 (PST)
+ bh=IYuTC43W2iZaFiptKigyn4rV0HBJzyK8EzcOeFqI8x4=;
+ b=lUsZMZGE3CE7H7jYgu3t1LjN5MX6fmocKOT9pRlJQA4wDXvZTValB7JXqIgISFYEEQ
+ 0Bw+Psf9ycSYKXbOnaOKVxgoI0oHIRO+LUHD2GI5V2ZwApU3O+VgAduysHtEvnBo3w0D
+ MeiA9OZ88xQ7/Ur03MuGP03oF6Ef8i9cyHGm/j9rgSSK1sGG37bCzpG49QvgG5Tctar4
+ WdVQngFt03vLiJ7SisZeSTb/FNS1QuOfgVlGsZZwd2um3g0b1xc6/9yJYoUDr7RnHCfI
+ Y4TAjipB8k7F6kEvbRUlfDXlImZAaIKqRyKJwNQicwHzBea9dGf1GCJTNclToWN75KpX
+ h5Pg==
+X-Gm-Message-State: AOAM533WCdFOkwMfqlIIGCXhhz8gLPuI6vMal1XRaGr1TLdCRPkMG8cH
+ /Bfqpgt1xP29p/0JlpOeYLYNg7dU2lg=
+X-Google-Smtp-Source: ABdhPJxlUTtaLS+4l+RwEm9UgPsoJ6BioH8Jx/gyl9UfaZ+4OUv5z1IIBjA+iXjl1FOQj6/ta/niDw==
+X-Received: by 2002:a67:a409:: with SMTP id n9mr40001547vse.74.1638279126353; 
+ Tue, 30 Nov 2021 05:32:06 -0800 (PST)
 Received: from rekt.COMFAST ([177.68.212.35])
- by smtp.gmail.com with ESMTPSA id h22sm2058071vsu.0.2021.11.30.05.32.03
+ by smtp.gmail.com with ESMTPSA id h22sm2058071vsu.0.2021.11.30.05.32.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Nov 2021 05:32:04 -0800 (PST)
+ Tue, 30 Nov 2021 05:32:06 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] ppc/pnv.c: add a friendly warning when accel=kvm is
- used
-Date: Tue, 30 Nov 2021 10:31:52 -0300
-Message-Id: <20211130133153.444601-2-danielhb413@gmail.com>
+Subject: [PATCH v2 2/2] docs/system/ppc/powernv.rst: document KVM support
+ status
+Date: Tue, 30 Nov 2021 10:31:53 -0300
+Message-Id: <20211130133153.444601-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211130133153.444601-1-danielhb413@gmail.com>
 References: <20211130133153.444601-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92f;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92b;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92b.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -90,45 +90,38 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If one tries to use -machine powernv9,accel=kvm in a Power9 host, a
-cryptic error will be shown:
-
-qemu-system-ppc64: Register sync failed... If you're using kvm-hv.ko, only "-cpu host" is possible
-qemu-system-ppc64: kvm_init_vcpu: kvm_arch_init_vcpu failed (0): Invalid argument
-
-Appending '-cpu host' will throw another error:
-
-qemu-system-ppc64: invalid chip model 'host' for powernv9 machine
-
-The root cause is that in IBM PowerPC we have different specs for the bare-metal
-and the guests. The bare-metal follows OPAL, the guests follow PAPR. The kernel
-KVM modules presented in the ppc kernels implements PAPR. This means that we
-can't use KVM accel when using the powernv machine, which is the emulation of
-the bare-metal host.
-
-All that said, let's give a more informative error in this case.
+Put in a more accessible place the reasoning behind our decision
+to officially drop KVM support in the powernv machine.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/pnv.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ docs/system/ppc/powernv.rst | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 71e45515f1..e5b87e8730 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -742,6 +742,11 @@ static void pnv_init(MachineState *machine)
-     DriveInfo *pnor = drive_get(IF_MTD, 0, 0);
-     DeviceState *dev;
+diff --git a/docs/system/ppc/powernv.rst b/docs/system/ppc/powernv.rst
+index 86186b7d2c..8304e85c51 100644
+--- a/docs/system/ppc/powernv.rst
++++ b/docs/system/ppc/powernv.rst
+@@ -58,6 +58,19 @@ Prebuilt images of ``skiboot`` and ``skiroot`` are made available on the `OpenPO
+ QEMU includes a prebuilt image of ``skiboot`` which is updated when a
+ more recent version is required by the models.
  
-+    if (kvm_enabled()) {
-+        error_report("The powernv machine does not work with KVM acceleration");
-+        exit(EXIT_FAILURE);
-+    }
++Current acceleration status
++---------------------------
 +
-     /* allocate RAM */
-     if (machine->ram_size < mc->default_ram_size) {
-         char *sz = size_to_str(mc->default_ram_size);
++KVM acceleration in Linux Power hosts is provided by the kvm-hv and
++kvm-pr modules. kvm-hv is adherent to PAPR and it's not compliant with
++powernv. kvm-pr in theory could be used as a valid accel option but
++this isn't supported by kvm-pr at this moment.
++
++To spare users from dealing with not so informative errors when attempting
++to use accel=kvm, the powernv machine will throw an error informing that
++KVM is not supported. This can be revisited in the future if kvm-pr (or
++any other KVM alternative) is usable as KVM accel for this machine.
++
+ Boot options
+ ------------
+ 
 -- 
 2.31.1
 
