@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E35D94644B8
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 03:03:42 +0100 (CET)
-Received: from localhost ([::1]:59730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0FB44644B5
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 03:02:06 +0100 (CET)
+Received: from localhost ([::1]:55334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msEyE-00035n-2O
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 21:03:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36290)
+	id 1msEwf-0008PM-Vq
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 21:02:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1msA2I-0001LN-AN
+ id 1msA2I-0001LP-Go
  for qemu-devel@nongnu.org; Tue, 30 Nov 2021 15:47:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40776)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1msA2F-00082E-RV
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 15:47:32 -0500
+ id 1msA2F-00082C-Ie
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 15:47:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638305250;
+ s=mimecast20190719; t=1638305249;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1wZjLGO31X6RoN2X0IUMQcy9VA4+g+I0xGeGDbtzH0k=;
- b=ddh8Tzd9Ft1z+v/C33rGzSnb8rhx8Tr7uI2X2glay/KL78g66uhE1++EK+LtrHgBFFD6ig
- 54F/XDZilccVW6GWkwReUE7pQz6u3svp8Vh5jTuXpRg5L4Xib763LK8TPZm9WBJz+h5Dvb
- GhJhGr+blYwFD66U0AcIcKPuTd7tkto=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EXR48lhPAGBkO3HrG/JQN/dF6su9RKWq9/wNF0CGpMI=;
+ b=B1LnAsq1Js092hcisGUMey2a3C2GGfWCYj51J1ayIb6/8roH5lmd5g11Kjp0x30kp6/vOn
+ Yl15Y7iKOqCtlmiO+hY3DGckhyTEICd+W51L8/1/32mBZu7R0aiT3AgWIzGkqH/XoVPufa
+ e6PIqXFMq4g5SgpM35Qy/Vm5jtNcz4U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-434-OLM7XCDQOR62vPA-Sd_lfQ-1; Tue, 30 Nov 2021 15:47:27 -0500
-X-MC-Unique: OLM7XCDQOR62vPA-Sd_lfQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-225-88vPRsGnPfGY08yVJux8yA-1; Tue, 30 Nov 2021 15:47:26 -0500
+X-MC-Unique: 88vPRsGnPfGY08yVJux8yA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F4AB425E8;
- Tue, 30 Nov 2021 20:47:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06DBA10151E4;
+ Tue, 30 Nov 2021 20:47:25 +0000 (UTC)
 Received: from localhost (unknown [10.22.32.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 90B635DF37;
- Tue, 30 Nov 2021 20:47:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B859B60C0F;
+ Tue, 30 Nov 2021 20:47:24 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 0/1] MAINTAINERS update
-Date: Tue, 30 Nov 2021 15:47:21 -0500
-Message-Id: <20211130204722.2732997-1-ehabkost@redhat.com>
+Subject: [PULL 1/1] MAINTAINERS: Change my email address
+Date: Tue, 30 Nov 2021 15:47:22 -0500
+Message-Id: <20211130204722.2732997-2-ehabkost@redhat.com>
+In-Reply-To: <20211130204722.2732997-1-ehabkost@redhat.com>
+References: <20211130204722.2732997-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Tue, 30 Nov 2021 20:58:51 -0500
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,14 +85,72 @@ Cc: Eduardo Habkost <eduardo@habkost.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* MAINTAINERS: Change my email address (Eduardo Habkost)
+The ehabkost@redhat.com email address will stop working on
+2021-12-01, change it to my personal email address.
 
-Eduardo Habkost (1):
-  MAINTAINERS: Change my email address
-
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20211129163053.2506734-1-ehabkost@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
  MAINTAINERS | 12 ++++++------
  1 file changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d3879aa3c12..7e8a586b2ae 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -324,7 +324,7 @@ F: disas/sparc.c
+ X86 TCG CPUs
+ M: Paolo Bonzini <pbonzini@redhat.com>
+ M: Richard Henderson <richard.henderson@linaro.org>
+-M: Eduardo Habkost <ehabkost@redhat.com>
++M: Eduardo Habkost <eduardo@habkost.net>
+ S: Maintained
+ F: target/i386/tcg/
+ F: tests/tcg/i386/
+@@ -1628,7 +1628,7 @@ F: include/hw/i386/microvm.h
+ F: pc-bios/bios-microvm.bin
+ 
+ Machine core
+-M: Eduardo Habkost <ehabkost@redhat.com>
++M: Eduardo Habkost <eduardo@habkost.net>
+ M: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+ R: Philippe Mathieu-Daudé <philmd@redhat.com>
+ S: Supported
+@@ -2648,13 +2648,13 @@ F: backends/cryptodev*.c
+ Python library
+ M: John Snow <jsnow@redhat.com>
+ M: Cleber Rosa <crosa@redhat.com>
+-R: Eduardo Habkost <ehabkost@redhat.com>
++R: Eduardo Habkost <eduardo@habkost.net>
+ S: Maintained
+ F: python/
+ T: git https://gitlab.com/jsnow/qemu.git python
+ 
+ Python scripts
+-M: Eduardo Habkost <ehabkost@redhat.com>
++M: Eduardo Habkost <eduardo@habkost.net>
+ M: Cleber Rosa <crosa@redhat.com>
+ S: Odd Fixes
+ F: scripts/*.py
+@@ -2730,7 +2730,7 @@ T: git https://github.com/mdroth/qemu.git qga
+ QOM
+ M: Paolo Bonzini <pbonzini@redhat.com>
+ R: Daniel P. Berrange <berrange@redhat.com>
+-R: Eduardo Habkost <ehabkost@redhat.com>
++R: Eduardo Habkost <eduardo@habkost.net>
+ S: Supported
+ F: docs/qdev-device-use.txt
+ F: hw/core/qdev*
+@@ -2750,7 +2750,7 @@ F: tests/unit/check-qom-proplist.c
+ F: tests/unit/test-qdev-global-props.c
+ 
+ QOM boilerplate conversion script
+-M: Eduardo Habkost <ehabkost@redhat.com>
++M: Eduardo Habkost <eduardo@habkost.net>
+ S: Maintained
+ F: scripts/codeconverter/
+ 
 -- 
 2.32.0
 
