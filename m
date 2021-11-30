@@ -2,99 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86414641F0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 00:05:13 +0100 (CET)
-Received: from localhost ([::1]:41814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F94464394
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 00:42:16 +0100 (CET)
+Received: from localhost ([::1]:36164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msCBV-0004zL-11
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 18:05:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37280)
+	id 1msClL-0004b4-Ky
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 18:42:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1msC8X-00012N-3j; Tue, 30 Nov 2021 18:02:09 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21726)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1msCk8-0003pK-Ru
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 18:41:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1msC8U-0000LM-Cm; Tue, 30 Nov 2021 18:02:08 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AUMmAcu013331; 
- Tue, 30 Nov 2021 23:01:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : content-transfer-encoding
- : mime-version; s=pp1; bh=dvIkuoJL1X4x3MsjypgJEe5b/KgqanenbyXzmn1n30A=;
- b=dogTDZWbQAT03b50GGD5tger9VjJx2aL3r6I0a0TSnZRGCeATZ4oHCBWcDL5Pn0OBpW2
- vuRBm6uOjb51biMem89XQbc4oONODTeg1tqxzJz5cIyjCz4ywrkzc5mNRnZ1VU0av9+W
- Zsa3pvcrXHAuiFTzvU5MDCqH5SZCFz/rThTQt0jOWvXegyppxFYkfZJBhVjbX1fh1zXk
- iTGv/f06mdfbCz521zBo7g9c3IZu0Q3VtYHusGDZA7ZbeIyn3mYkfd/jUNhnQig6MWyj
- VXCKDByT+LG2i15EjnAcl949RDgXYLP0MIEW2cEjV8kZ1Aqw+L7ZDDGPU4GcWRz8qFJT LA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cnw2fr87h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Nov 2021 23:01:47 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AUMpbMS030768;
- Tue, 30 Nov 2021 23:01:47 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cnw2fr872-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Nov 2021 23:01:47 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AUMmx02022563;
- Tue, 30 Nov 2021 23:01:46 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma02wdc.us.ibm.com with ESMTP id 3ckcabfd63-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Nov 2021 23:01:46 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1AUN1iTZ42533282
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 30 Nov 2021 23:01:44 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B7CABBE056;
- Tue, 30 Nov 2021 23:01:44 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 16150BE05A;
- Tue, 30 Nov 2021 23:01:42 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.211.34.87])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 30 Nov 2021 23:01:41 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 4/4] tests/avocado: ppc: Add smoke tests for MPC7400
- and MPC7450 families
-Date: Tue, 30 Nov 2021 20:01:23 -0300
-Message-Id: <20211130230123.781844-5-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211130230123.781844-1-farosas@linux.ibm.com>
-References: <20211130230123.781844-1-farosas@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: G344a_qA6WaFQ9UztuNHJ-Je6YFQPbYK
-X-Proofpoint-ORIG-GUID: xml3M0Fn6Mbm208hpFPSaCFpBPOQJnBJ
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1msCk5-00052h-9R
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 18:40:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638315655;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HJUs4sqYrfyvq90acWJLlrvnPGbWhOQNjHY8+nLJ0Zg=;
+ b=RG79CJQ9HIojPu5LABSnlq3X3BMTs6q0ayxhxW06qNEP+cGqhTC5cM1rlebKb1INb2dH93
+ 5y13MUp6ZRevVhRD6ijupjB2PwzmW9HbuWK/YJcczRbB7I2VGfz7CMZFi4z9sbb/lWydzz
+ MKTmQuCzFMjyeea5PhyPdWMtzP/aplU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-595-d1qMJWhvO-C1on6Ix6asKw-1; Tue, 30 Nov 2021 18:40:54 -0500
+X-MC-Unique: d1qMJWhvO-C1on6Ix6asKw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 30-20020a508e5e000000b003f02e458b17so11660437edx.17
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 15:40:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=HJUs4sqYrfyvq90acWJLlrvnPGbWhOQNjHY8+nLJ0Zg=;
+ b=7MU6wcz3k1tbmDgdCRbgGBc4+oX1pGDJzuPISyzAtMVPJAdBjhEG3s7apFSMHZGj1f
+ Vi+8ugiB2uaTOECsqut0VT3kHw4GoP10nSm3s/dBcDUpMEfq+Aqt4vLmfWDvlGSvwKg6
+ YLiO5NwpScoyPrfpslQeMwoctqyhgiNFr382VULZlJSRgARmuP9MwBYF4kApfiju6/3c
+ VZINpdHOPibF5piqfYZ1F7ovWXLGEtVZOF9+PCx2Ko93Je8c5ldnxiHfGoDienKUv11B
+ kMuDCtGju/b3H5pGVxzi0Nho0WjB8y/NiUrUxruEMR38gJ5wWvmN0sLpRf4TpW3j5+5S
+ 0xUw==
+X-Gm-Message-State: AOAM5331gDRhu53uKRsC8ATSeS6SuyxWzPJwi1CMYbEevKiap78Vmop0
+ m4rBTkahzhmKdN7giuoetnXenv+NN8hAn/W3/kcRmdpsXeH1o/vYgdYZlGnSTzGP6ytG6Pgl4Zh
+ 39m321dCSHCa1d0Y=
+X-Received: by 2002:aa7:c415:: with SMTP id j21mr3036470edq.289.1638315653400; 
+ Tue, 30 Nov 2021 15:40:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJynCeGAbrKrXCSiHmEWtO6rLayv5ox6lLqEvrtjUOQWdOIdrbXg7sscv6yygvXxJgZJMMMVCA==
+X-Received: by 2002:aa7:c415:: with SMTP id j21mr3036454edq.289.1638315653223; 
+ Tue, 30 Nov 2021 15:40:53 -0800 (PST)
+Received: from redhat.com ([2.53.15.215])
+ by smtp.gmail.com with ESMTPSA id ds1sm2440639edb.91.2021.11.30.15.40.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Nov 2021 15:40:52 -0800 (PST)
+Date: Tue, 30 Nov 2021 18:40:49 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] virtio: signal after wrapping packed used_idx
+Message-ID: <20211130184031-mutt-send-email-mst@kernel.org>
+References: <20211130134510.267382-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-30_10,2021-11-28_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=999 lowpriorityscore=0 adultscore=0 spamscore=0 suspectscore=0
- phishscore=0 priorityscore=1501 bulkscore=0 clxscore=1015 impostorscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111300112
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+In-Reply-To: <20211130134510.267382-1-stefanha@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,159 +92,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, danielhb413@gmail.com,
- mark.cave-ayland@ilande.co.uk, qemu-ppc@nongnu.org, clg@kaod.org,
- openbios@openbios.org, david@gibson.dropbear.id.au
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Tiwei Bie <tiwei.bie@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These tests ensure that our emulation for these cpus is not completely
-broken and we can at least run OpenBIOS on them.
+On Tue, Nov 30, 2021 at 01:45:10PM +0000, Stefan Hajnoczi wrote:
+> Packed Virtqueues wrap used_idx instead of letting it run freely like
+> Split Virtqueues do. If the used ring wraps more than once there is no
+> way to compare vq->signalled_used and vq->used_idx in
+> virtio_packed_should_notify() since they are modulo vq->vring.num.
+> 
+> This causes the device to stop sending used buffer notifications when
+> when virtio_packed_should_notify() is called less than once each time
+> around the used ring.
+> 
+> It is possible to trigger this with virtio-blk's dataplane
+> notify_guest_bh() irq coalescing optimization. The call to
+> virtio_notify_irqfd() (and virtio_packed_should_notify()) is deferred to
+> a BH. If the guest driver is polling it can complete and submit more
+> requests before the BH executes, causing the used ring to wrap more than
+> once. The result is that the virtio-blk device ceases to raise
+> interrupts and I/O hangs.
+> 
+> Cc: Tiwei Bie <tiwei.bie@intel.com>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-$ make check-avocado AVOCADO_TESTS=../tests/avocado/ppc_74xx.py
+Makes sense.  Fixes tag?
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
----
-Note that the 7450s depend on an OpenBIOS change adding support for
-their PVR:
-
-https://lists.nongnu.org/archive/html/qemu-ppc/2021-11/msg00290.html
----
- tests/avocado/ppc_74xx.py | 123 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 123 insertions(+)
- create mode 100644 tests/avocado/ppc_74xx.py
-
-diff --git a/tests/avocado/ppc_74xx.py b/tests/avocado/ppc_74xx.py
-new file mode 100644
-index 0000000000..556a9a7da9
---- /dev/null
-+++ b/tests/avocado/ppc_74xx.py
-@@ -0,0 +1,123 @@
-+# Smoke tests for 74xx cpus (aka G4).
-+#
-+# Copyright (c) 2021, IBM Corp.
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+from avocado_qemu import QemuSystemTest
-+from avocado_qemu import wait_for_console_pattern
-+
-+class ppc74xxCpu(QemuSystemTest):
-+    """
-+    :avocado: tags=arch:ppc
-+    """
-+    timeout = 5
-+
-+    def test_ppc_7400(self):
-+        """
-+        :avocado: tags=cpu:7400
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7410(self):
-+        """
-+        :avocado: tags=cpu:7410
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,74xx')
-+
-+    def test_ppc_7441(self):
-+        """
-+        :avocado: tags=cpu:7441
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7445(self):
-+        """
-+        :avocado: tags=cpu:7445
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7447(self):
-+        """
-+        :avocado: tags=cpu:7447
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7447a(self):
-+        """
-+        :avocado: tags=cpu:7447a
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7448(self):
-+        """
-+        :avocado: tags=cpu:7448
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,MPC86xx')
-+
-+    def test_ppc_7450(self):
-+        """
-+        :avocado: tags=cpu:7450
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7451(self):
-+        """
-+        :avocado: tags=cpu:7451
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7455(self):
-+        """
-+        :avocado: tags=cpu:7455
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7457(self):
-+        """
-+        :avocado: tags=cpu:7457
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7457a(self):
-+        """
-+        :avocado: tags=cpu:7457a
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
--- 
-2.33.1
+> ---
+> Smarter solutions welcome, but I think notifying once per vq->vring.num
+> is acceptable.
+> ---
+>  hw/virtio/virtio.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index ea7c079fb0..f7851c2750 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -885,6 +885,7 @@ static void virtqueue_packed_flush(VirtQueue *vq, unsigned int count)
+>      if (vq->used_idx >= vq->vring.num) {
+>          vq->used_idx -= vq->vring.num;
+>          vq->used_wrap_counter ^= 1;
+> +        vq->signalled_used_valid = false;
+>      }
+>  }
+>  
+> -- 
+> 2.33.1
 
 
