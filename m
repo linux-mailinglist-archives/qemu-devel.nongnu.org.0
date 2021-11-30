@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE69463142
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 11:41:00 +0100 (CET)
-Received: from localhost ([::1]:53374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3531463179
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 11:45:47 +0100 (CET)
+Received: from localhost ([::1]:41054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ms0ZH-00012W-Hm
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 05:40:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42732)
+	id 1ms0du-0003M8-I6
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 05:45:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ms0WO-0006mm-Bg
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 05:38:00 -0500
-Received: from [2a00:1450:4864:20::32a] (port=39626
- helo=mail-wm1-x32a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ms0WM-0000PE-L6
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 05:38:00 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- n33-20020a05600c502100b0032fb900951eso19125791wmr.4
- for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 02:37:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/v1m4qA4Gd41n8sF4rBW1hEMHXgoFCZFYmlKAxz/UNs=;
- b=Tab4pbilmwYerSq6cvH5M/W+1i9sgXxgXfNhfO7QeV3J+ZBQ7Uac5tjdOKBr4sfg3N
- DXBC2v1sPGXQHiI7bk3o9J8gVGpyw+bn9nq2GnEoSMWyRXnrGjzzypj5AS2PLh9ALsnn
- eHU67YLLoeXSQf+UqXcB9zvMraRQbMMb866eLLaBXmsAjASDcX5R8nejdNgeQ8d1LoSC
- crUeeMruXVqWYRwEQVovGCrAvS+iwdf5eu4U0qpk7HVpZScLEXTBoHY1CrSfrMtRFUkL
- ZTXsDlK8LyOd88mno5HVkKxZwYacUN9w9f/yph98IGvCYqlvFKQc9TnBIq85K3qaqXIz
- R5dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/v1m4qA4Gd41n8sF4rBW1hEMHXgoFCZFYmlKAxz/UNs=;
- b=RhwenKatN2s9iefxlgzS72m6TGAkYDaoyUQAZF6ogSmNrk6plkHgUJtH2NZWfOGjxA
- QcOIHdnDGZ1UgKR/I1lgtRWVYDTOeIMmeG9JYH8YAniWFZDd4+kuf8pk3/iHmdD2WDmh
- ppP4za/RdAF/hg8fzEx2oWlvpfZejQNK3f7hP2f1BxEWm74QuOr5pA+obRijKwIHdUhr
- UjN179Qa8iq5TSQnh+6jrrmyoKjSIVsRc8uCzvLuZPa6GfTfMtZla+1VssWguP7BHIxy
- GdJAPFIOXJQYwFj3weyI26B6XEdQcTgt79i1F1tgbe0SeIH/vcqvQnWIC/9IoVcUexhg
- vK+Q==
-X-Gm-Message-State: AOAM531wjB3TrLyw1EgfDPzgNZ2tW65Oo3yAX2pfsE3X6/HzmeISkOyo
- Hgm69kJsKK7OCzbpTNWo7s+3il7db1PE+8lFlSE=
-X-Google-Smtp-Source: ABdhPJwgLM/bQjGVBSWaXpesrnQogrFFwppPHcjB6InKVubqEqBie16p028h/kaxDFZP24zOSL8GrA==
-X-Received: by 2002:a1c:ed0a:: with SMTP id l10mr3964317wmh.104.1638268677160; 
- Tue, 30 Nov 2021 02:37:57 -0800 (PST)
-Received: from cloudburst.home (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id m21sm16311280wrb.2.2021.11.30.02.37.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Nov 2021 02:37:56 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ms0a7-0005Zv-Ct
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 05:41:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50340)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ms0a2-0000xd-T5
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 05:41:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638268904;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=44lt3tfKyJ4Nu/1TqxaL3VXi9xOmq6yMyFndRTyYdgk=;
+ b=PdZg13YdhqTcOLbAqDUm0bDgZT5hpSd9pqrqFqdqbIaeON9G+93AdcpvMN9SJXt0mJTWhG
+ CkwlvRHk9zbzmajPhVWrvxq1dH9tIyOIEWBh0avuQqmb9KK7HQIEu2Y7FROobY8ldkQ23/
+ UrWYDkg+LBvliZ8+16EMDTC5OlYBOkk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-574-l-bJhDEmNBWY88tnM6x42A-1; Tue, 30 Nov 2021 05:41:41 -0500
+X-MC-Unique: l-bJhDEmNBWY88tnM6x42A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FB71192CC40;
+ Tue, 30 Nov 2021 10:41:40 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.193.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5764E100EBB8;
+ Tue, 30 Nov 2021 10:41:37 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] target/m68k: Implement FTRAPcc
-Date: Tue, 30 Nov 2021 11:37:52 +0100
-Message-Id: <20211130103752.72099-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211130103752.72099-1-richard.henderson@linaro.org>
-References: <20211130103752.72099-1-richard.henderson@linaro.org>
+Subject: [PATCH v1 0/8] virtio-mem: Support "prealloc=on"
+Date: Tue, 30 Nov 2021 11:41:28 +0100
+Message-Id: <20211130104136.40927-1-david@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,72 +74,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Gavin Shan <gshan@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Michal=20Pr=C3=ADvozn=C3=ADk?= <mprivozn@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hui Zhu <teawater@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/m68k/translate.c | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+Based-on: <20211130092838.24224-1-david@redhat.com>
 
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index cf29f35d91..3c04f9d1a9 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -5547,6 +5547,43 @@ DISAS_INSN(fscc)
-     tcg_temp_free(tmp);
- }
- 
-+DISAS_INSN(ftrapcc)
-+{
-+    DisasCompare c;
-+    TCGLabel *over;
-+    uint16_t ext;
-+    int cond;
-+
-+    ext = read_im16(env, s);
-+    cond = ext & 0x3f;
-+
-+    /* Consume and discard the immediate operand. */
-+    switch (extract32(insn, 0, 3)) {
-+    case 2: /* ftrapcc.w */
-+        (void)read_im16(env, s);
-+        break;
-+    case 3: /* ftrapcc.l */
-+        (void)read_im32(env, s);
-+        break;
-+    case 4: /* ftrapcc (no operand) */
-+        break;
-+    default:
-+        /* Illegal insn */
-+        disas_undef(env, s, insn);
-+        return;
-+    }
-+
-+    /* Jump over if !cond. */
-+    gen_fcc_cond(&c, s, cond);
-+    update_cc_op(s);
-+    over = gen_new_label();
-+    tcg_gen_brcond_i32(tcg_invert_cond(c.tcond), c.v1, c.v2, over);
-+    free_cond(&c);
-+
-+    gen_exception(s, s->base.pc_next, EXCP_TRAPCC);
-+    gen_set_label(over);
-+}
-+
- #if defined(CONFIG_SOFTMMU)
- DISAS_INSN(frestore)
- {
-@@ -6170,6 +6207,7 @@ void register_m68k_insns (CPUM68KState *env)
-     INSN(fbcc,      f280, ffc0, CF_FPU);
-     INSN(fpu,       f200, ffc0, FPU);
-     INSN(fscc,      f240, ffc0, FPU);
-+    INSN(ftrapcc,   f278, ff80, FPU);
-     INSN(fbcc,      f280, ff80, FPU);
- #if defined(CONFIG_SOFTMMU)
-     INSN(frestore,  f340, ffc0, CF_FPU);
+Patch #1 - #7 are fully reviewed [1] but did not get picked up yet, so I'm
+sending them along here, as they are required to use os_mem_prealloc() in
+a safe way once the VM is running.
+
+Support preallocation of memory to make virtio-mem safe to use with
+scarce memory resources such as hugetlb. Before acknowledging a plug
+request from the guest, we'll try preallcoating memory. If that fails,
+we'll fail the request gracefully and warn the usr once.
+
+To fully support huge pages for shared memory, we'll have to adjust shared
+memory users, such as virtiofsd, to map guest memory via MAP_NORESERVE as
+well, because otherwise, they'll end up overwriting the "reserve=off"
+decision made by QEMU and try reserving huge pages for the sparse memory
+region.
+
+In the future, we might want to process guest requests, including
+preallocating memory, asynchronously via a dedicated iothread.
+
+[1] https://lkml.kernel.org/r/20211004120208.7409-1-david@redhat.com
+
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Gavin Shan <gshan@redhat.com>
+Cc: Hui Zhu <teawater@gmail.com>
+Cc: Sebastien Boeuf <sebastien.boeuf@intel.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Cc: Michal Prívozník <mprivozn@redhat.com>
+
+David Hildenbrand (8):
+  util/oslib-posix: Let touch_all_pages() return an error
+  util/oslib-posix: Support MADV_POPULATE_WRITE for os_mem_prealloc()
+  util/oslib-posix: Introduce and use MemsetContext for
+    touch_all_pages()
+  util/oslib-posix: Don't create too many threads with small memory or
+    little pages
+  util/oslib-posix: Avoid creating a single thread with
+    MADV_POPULATE_WRITE
+  util/oslib-posix: Support concurrent os_mem_prealloc() invocation
+  util/oslib-posix: Forward SIGBUS to MCE handler under Linux
+  virtio-mem: Support "prealloc=on" option
+
+ hw/virtio/virtio-mem.c         |  39 +++++-
+ include/hw/virtio/virtio-mem.h |   4 +
+ include/qemu/osdep.h           |   7 +
+ softmmu/cpus.c                 |   4 +
+ util/oslib-posix.c             | 231 +++++++++++++++++++++++++--------
+ 5 files changed, 226 insertions(+), 59 deletions(-)
+
 -- 
-2.25.1
+2.31.1
 
 
