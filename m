@@ -2,179 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9809463B67
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 17:13:33 +0100 (CET)
-Received: from localhost ([::1]:52254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5A6463BD3
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 17:33:59 +0100 (CET)
+Received: from localhost ([::1]:34834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ms5l6-0008MI-JG
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 11:13:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42322)
+	id 1ms64r-000819-GV
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 11:33:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1ms5k2-0007g4-KW
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 11:12:26 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:60234)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1ms63g-0006Rj-09
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 11:32:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1ms5k0-0000WC-98
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 11:12:26 -0500
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AUG41Zu012147; 
- Tue, 30 Nov 2021 16:12:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=rxeYS39AxI3Qph2TtZS1fwT67gHk2r04pVe9j18oqKc=;
- b=jvFRhIfWwHogg3os1l69U1h92dY0JJSpyd0LW9hKB/NaHokkPJmNb9+8QCFBUPQ3erou
- OVajoO7xDky0KIor3slNbc7+ruXIH320KKYPnNFmGVuBREdfSpBUbLKfh8PZpsT6LwHa
- 6kkuoEIT+Swh3orJ3SEJaS+VfiCELJhIg3TNn+S9cBxxgZ/tfC79KUCFEDOl0Px7s3jN
- rdw/kVa15jvzLDgaJ81Zg8y0totsraB5PPb/VlHvxDuHHNAnph6aumt+i5fZrwLr5TWb
- qYSXKcwmTXXXur6PbS+/nXH6b6MSAy5uU/ks61F5W4zbkwgQ0gdTITx3hlB6s9LclDIn wg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cmu1whpqq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 30 Nov 2021 16:12:05 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AUG1ehN114609;
- Tue, 30 Nov 2021 16:12:01 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2044.outbound.protection.outlook.com [104.47.66.44])
- by aserp3030.oracle.com with ESMTP id 3ckaqevu18-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 30 Nov 2021 16:12:01 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bWLR3C1zZdQlCXzdfQbIMf6zTAp5f+odz6AVb0bzrGczu/bdBtEh4h/58ettPKiP1cd7YTw675lI8lc7KBN0WJ1AxL85obSzu1ZUniG7ZB1YRQUE7s1kdvKZQYsRepAinWyojih6GE0ROVeh+IRd/xWL7eOT+uc8ScihzVv9EPcuI1nsT7V8rJBYLf455ODJcZ5NiL3Hux8ZBQuR85rFQbGU8hOtR+EL/KMxzvOFz8HV51kZKs+iN+zEVTrkL+BiY8o8CUcfUb8gRKq8kENclnfhB1Z18mSpsdHEjonNIrKhue01N7Ra4sfa0QYX8Iq//UyKxXtCxIokEeBPFgpoAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rxeYS39AxI3Qph2TtZS1fwT67gHk2r04pVe9j18oqKc=;
- b=gPXwAKzyIlxPrsG5mNDj6027ZdenEgRuCi5XSJFqY4h9j5hGRk6awMx55e31DtO+SZ2urW8Y2ovnsOj1nGcmfPF2U0/G7Et/a0D2e4+eP/vffuQKQ7egbKzud+VOZtOqoBmSibcH5SaD2jut3nYpZEHLTpQlpMhorqeabsIEMgwaqmPRdEUjwD3dQ/JgZyFFyBJAa/Qf6z0lw4ZBmWcC9dbGo/5mGCPudjyctE8KqzpxkqE4ydkUWXbSwn0Ux+aDlRGWMloUnUQruVYOIKHez6bYpqZsC6UrLRR1ykbsMaOIp3Kn7NM+OPATdGvGhCVC2+zfvTdurF9DiOt2NSBDdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rxeYS39AxI3Qph2TtZS1fwT67gHk2r04pVe9j18oqKc=;
- b=HxpxjHnQ4p4wVml21c1doKH4ql2yXDwlDkth4uu21BIB3RaJ4XjseDQyhhi1EgaOwNTT+zVgOxgIlwuMLNUJsa9GHrpLAqlcduhaH/vY+tlruU6lgBJ55uBgrhjYntwH8OaWQrzNNwCDhqveieJLaMtyKzG+KeTkAuxxmSkTNzg=
-Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
- by BY5PR10MB4195.namprd10.prod.outlook.com (2603:10b6:a03:201::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Tue, 30 Nov
- 2021 16:11:59 +0000
-Received: from BYAPR10MB3240.namprd10.prod.outlook.com
- ([fe80::b8d3:402a:4d8:139e]) by BYAPR10MB3240.namprd10.prod.outlook.com
- ([fe80::b8d3:402a:4d8:139e%3]) with mapi id 15.20.4734.024; Tue, 30 Nov 2021
- 16:11:59 +0000
-Message-ID: <59e9f793-667d-5fe1-bccf-9afef791a00e@oracle.com>
-Date: Tue, 30 Nov 2021 11:11:55 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH V6 19/27] vfio-pci: cpr part 1 (fd and dma)
-Content-Language: en-US
-To: Zheng Chuan <zhengchuan@huawei.com>,
- Alex Williamson <alex.williamson@redhat.com>
-References: <1628286241-217457-1-git-send-email-steven.sistare@oracle.com>
- <1628286241-217457-20-git-send-email-steven.sistare@oracle.com>
- <20210810110608.480af93b.alex.williamson@redhat.com>
- <803a8bee-ec82-a41b-38ad-57d7ef572019@huawei.com>
-From: Steven Sistare <steven.sistare@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <803a8bee-ec82-a41b-38ad-57d7ef572019@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR07CA0085.namprd07.prod.outlook.com
- (2603:10b6:a03:12b::26) To BYAPR10MB3240.namprd10.prod.outlook.com
- (2603:10b6:a03:155::17)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1ms63U-0003Gl-El
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 11:32:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638289950;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kPGA+S7vd5uHmYXX8OkntnVMgxfsFoGvSsPmCNe151Q=;
+ b=YsmxyKH9mRVMGbgDJGlHcV0gFmpe2fZsQePgLDotYRKZkFeoR4YgwI/BwbfUczT0JTQr5I
+ +37TJ2Ki4g+6lw8LYliQ8xVihYU9NubmGyVoAIaAp67KGquiNu9bBc4+Y6ni1tU7jCHkiq
+ gOzsA169tBNHYE8/4eJlyTIbscJLOIQ=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-88-MD0ACee0PlOLoP-i8Eqt7w-1; Tue, 30 Nov 2021 11:32:26 -0500
+X-MC-Unique: MD0ACee0PlOLoP-i8Eqt7w-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ n11-20020aa7c68b000000b003e7d68e9874so17454235edq.8
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 08:32:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=kPGA+S7vd5uHmYXX8OkntnVMgxfsFoGvSsPmCNe151Q=;
+ b=uOSftZfeTlKd+T4ml7dvktuJlqByMGKCMGYeYKIDbJkW1egxJZNSL7sD3VHCTbZ2HV
+ DZSQ017gheB/OQjyTwSVHgxaF0X9bBCDlSvjQclODZZC7P3LlYZfbwiE/d0IEAEzL/Xm
+ d5BiYtEqhZlpTU8t7NIlvmZTeuMJ5DgFiBp8Rb+w05trcuSCm3NeVX8EB6THIWSb1Dgn
+ cUEHraX4EEErJFZpWVxTQlRA1Stmuj8l3cV6tdADko8cbFFbncMZUsaaogo3lxCdvKmt
+ lRBQURU1EoHHcQrkp+qi8cLGyknVmFSLHuuzPAHduzgO1nPozmUZieSib7CgS0CDsEEo
+ avtg==
+X-Gm-Message-State: AOAM532mSPzjwVXhf/Psv8CYmXiD4ShyUSTYOmwqINUNSYz+T8kfNtfF
+ qbEYY8juhovOTPUVx0z6jNv4I0WdqLa956/73CuyW+CPPrjeoVCKRP8CrfgpkWk59RN5nFhZn6C
+ nWM0U36vJBlF6Jkw=
+X-Received: by 2002:a17:907:7f9e:: with SMTP id
+ qk30mr128939ejc.313.1638289945794; 
+ Tue, 30 Nov 2021 08:32:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwgcYPmekcMifXgWseKJqpaFmmX+MotErORBG22L2J/oggvkAtBuepIKMAkTH1Qdzj+FJSHmg==
+X-Received: by 2002:a17:907:7f9e:: with SMTP id
+ qk30mr128902ejc.313.1638289945581; 
+ Tue, 30 Nov 2021 08:32:25 -0800 (PST)
+Received: from [10.43.2.64] (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id go10sm9549354ejc.115.2021.11.30.08.32.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Nov 2021 08:32:25 -0800 (PST)
+Message-ID: <7e012038-b4f1-c914-795b-0650d9df60c2@redhat.com>
+Date: Tue, 30 Nov 2021 17:32:24 +0100
 MIME-Version: 1.0
-Received: from [10.39.225.242] (138.3.201.50) by
- BYAPR07CA0085.namprd07.prod.outlook.com (2603:10b6:a03:12b::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22 via Frontend
- Transport; Tue, 30 Nov 2021 16:11:56 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7be82e7b-e36a-4a85-b7f1-08d9b41c230e
-X-MS-TrafficTypeDiagnostic: BY5PR10MB4195:
-X-Microsoft-Antispam-PRVS: <BY5PR10MB41955F92EAEDA266A50B306FF9679@BY5PR10MB4195.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MDvM5mbT2+y7H8xxBH3zjXwzVV/1VTTM3vvQQvKos9bpKTYk5pGySHFcvV3YdKyThGJ/1KVziCJzW0p1q8jAbOQ7pGSKf+OwgvohvmaF5g8uNZdY3OxGq6hVEy9Hehu724BKX0uQEfFN2JxeLI+dcpCMAXzGx9NWXu79AmDNCXSqe7FPavMLYEsPF4U/MRMq5fkVqrKWG1XhqhOZy19d6CuryswCphahlOX6PpWrmFueGQk7i7yJrH/QCFjBtnPPRYBUrAv31o/309XDXid7XZXgpti3R+v8aHgkYOthp2D/zGFqtIrnx74huI8oBUbl/VCZzUBXpEBtd/NJCYSXkIC9eWYGwyYDTCjJo0xnXQV3psYktbYXvCYulxAkoU2FjaSn1riNA9YgDmZHgk59obBK74Hm1Hx41z01ElYcE0t77+EbI5yQIu0Nfjpt9yDP2q110Zw0rBR/+RHkuelkT4/vU8XyRm2IuotnywxWGcPUL9TsrP9s4gYwjb3OYEpMoOAugGBvukYe5l2Vic7wuXTxAmosYAK/imB6kOHW9mlR2qfOHoLkXaV8xOmDMj/tNT6Te8E0c3cboNTVFKXSyWMpuCk0MBuZrvkRAt67sTTulYn8cQgB+CgQn42Egwqjv7pWkPAPdxI/j8b9nSKYTXcbXv/0/3kVj1+6yN7Tb1/fRfHrO0gJMjO6lJ82PGw5p2iPVK6krZusspc6l25KXOHYkRypNImN/Rm2DS1dP38=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(316002)(44832011)(16576012)(31686004)(5660300002)(86362001)(186003)(2616005)(956004)(54906003)(4326008)(110136005)(38100700002)(66556008)(83380400001)(66476007)(53546011)(8936002)(2906002)(6486002)(66946007)(508600001)(7416002)(8676002)(36756003)(36916002)(31696002)(26005)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VVRvb0dvZmZ2NXFMR3FtYUZ3ODg0SUVYQ01xL2FOMmpIbWxIUEVWVUZoQmRP?=
- =?utf-8?B?ZlYrNGppSW1PZ0FBdk50WjN6SlVLejJVMHVQWThraVU0RytWYlVKc3B1TFhJ?=
- =?utf-8?B?Z3J5Q2lJaXV5cDBua2gzemhhQUxDelhnNlcxek5XSVR3clNKLzcyaTZpdUtX?=
- =?utf-8?B?bFplTEgxY0p3TjRBLzlRdzBab2NyZU1YOTg1RDBkVS9GOXd5UFhyN2ZvYnZ4?=
- =?utf-8?B?YmgwNEh4V3doWmhHUjB2TExVWFIxK0drK2IvK3BWRTducmxpcFVJaEV4NFZ6?=
- =?utf-8?B?cU5RU3JpUUNXUkJocWI4b090SmYyVDhaQjhSSXRBY1V2cVhodXhsS2F0RXRz?=
- =?utf-8?B?dm11QzVLcUllOHRRM2hMY00zZVNGOU0yUXExV1VwYlFXZ0tpY2FOVFBQSVdI?=
- =?utf-8?B?dWI1Q1AxOVoxRXNOekJWQXpUL0dPTGhpQnNQL2ErVmNkMDY1Tms3NkdCbElH?=
- =?utf-8?B?TGJPVHZEaVRIR1B1KzJsTzdpd1NKNG82WUJQWllwcHZGQjduelBBUmhyUitK?=
- =?utf-8?B?eUhkaDZQc1h5bWlvZFR1ejhLUlE4WlNlZTJMdzE0ejhWWjJRTDI4RmJCZDgw?=
- =?utf-8?B?eUd3cFdvdHpGZ0p6NTA4aW8wRmxnK29ibHBydmZCT0c3QStjSVZ1Z1YzZVBF?=
- =?utf-8?B?RHpoeTRZL0ZXTlc4TERSUy9pczBUdm84aFpkOWMyS2FwYkdNT2l5UW9tV2I2?=
- =?utf-8?B?RUlia2hmRTBVL1dyZ1EyekxyUGdlcndMWWtpbE4vWW9kVGZZMzJPVDVLODNi?=
- =?utf-8?B?N0FoM01SY1cvMEZHS0s0ZnRMOVh6RDdBR2E1dTVIYlFtZWNuTDZJeWYzWGd4?=
- =?utf-8?B?QW5DbXk4cW4rT0UzVWl5TmZvZENJZXpvTnRBTm50aTg3cTBvY0w3OTRQb0Nx?=
- =?utf-8?B?VUdMWGp2RlNJbU9BNXhLelI4aUZRK0Vyd08ra0loUjlPdEQraExHNG9GcU53?=
- =?utf-8?B?MERwMG9VaVFNcFVYbFlpVGM3VlBLZDE1UjY3ZVRLS2JhaUwzRGxlbHl4ZjFM?=
- =?utf-8?B?L2hZbHQyTXVRQTlHNVdlSjMrK2VERGgwMjQrMkRCeHRIR0taeHY5T1BFYVNr?=
- =?utf-8?B?a2w0V3puTnNQbUlrVXN3NU9EMVl2dGttNkVYWGE4OTVXTUdMYytFR0pKWWho?=
- =?utf-8?B?VkZZYXBicUJxbUJOdVluemZ1QlZZZ2pWNE95MnIySmZsRUl6SnJDNEp6akpQ?=
- =?utf-8?B?QTlqVnZyS2V1dG50WDk4akNaUEpZY2g5RUJYODNEVS9JWm0zWFJCa040REJm?=
- =?utf-8?B?c2R5UTFIVERhZXFoN1Rpd1IzOW52NGxHZGttQlh4b3Bmc2VXdDZuakZDMnVW?=
- =?utf-8?B?aGtsa2lVNXVNWlNCUENvMnF3OEx0dVJkZnBDbk83ekhKazlBSTlIODVvZmwx?=
- =?utf-8?B?WmtDU2ppbm40QWU2NGkyNmdBRnJRQkNtMlNXYmtTY21wLzZ3MXd0RElIMk5m?=
- =?utf-8?B?U2RyOGZFN0JFWDN3S0xHa0JUbmFyUVV2UC9FUU8zeGpjS01aRWFmT0NZZlRq?=
- =?utf-8?B?YVd1M0ZHZk9Zd3BQTXptd3dOV29MNkFtckZxZzFiSWZKVW9jb0VKUlJVWFc5?=
- =?utf-8?B?ZlE1SWlnOFJoSlpkN1FhWXZPdktmRGFaSVhUYmFhSG1GWGRTcUJ4MXBrL1RN?=
- =?utf-8?B?S0lwZzR3Vlp0S2UzRzVDVVh0S2N4SjRzdTNkUVd2dEpsWjRTK2lIQXRuRXZT?=
- =?utf-8?B?cmhsWGFjZWs2SGd6dS9Pbm01aENRdGUrcTA0SDVFZHRXSGd5QitIWWdHNHlD?=
- =?utf-8?B?N0thTDc3OGlUWlpsdmszODl5SzdMOU5jQXMyK0M1Y1V2cGtzOEs0QnRFak9y?=
- =?utf-8?B?cmxPVDdabHR4SVBLcm5QekZIeWsxMkRRRmlYN1N4UFFzd2dFRGY1UFRzTXV3?=
- =?utf-8?B?ZkpqWlF2RStVYUdUMVd4R284ZU5UMkNFbWk5ckw1N25IWFYyYXhCYnVqcytl?=
- =?utf-8?B?T0JtUEkwemkrTmdNTUNWQUg1b1VyU2oxb05zNW1YZ3NUL3cvS0ZFTFEwM29R?=
- =?utf-8?B?VHBPQndxczArdW5VVjlwbHpvSjlaNDJXUGJydnloTlFSTWFpUjgzVFIxTGM3?=
- =?utf-8?B?ZWhJb3kwaUhpd3l0OTFZSEFxOGk3VHE5NDJ2QS9iU1lGWXppWW1vcVNIVlNm?=
- =?utf-8?B?YlkwMGR3UzdGMkcrOE1nelBwSytWRnlUUVZEVDdaT0RZSktKVm1VSkVOdmNH?=
- =?utf-8?B?YXFjWXVQM2Z3L3JLWnZudmIyOXpYYkRTWFp3dTZjMGtSc3Bnb2dPbXNMTlBF?=
- =?utf-8?B?bFY2TFdhMFJlWDFzVStvb3U1cU93PT0=?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7be82e7b-e36a-4a85-b7f1-08d9b41c230e
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2021 16:11:59.2785 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4p2moV2BE/GY8tkbqzu/1FigWYHonA/HXz1Jzvik7j80QrgPoPENb2mAtJ390UWQejPKLKShFo4vmthwedpBG4qbkXNKJUn/+IClAWJBc+4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4195
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10183
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- malwarescore=0 mlxscore=0
- suspectscore=0 mlxlogscore=999 spamscore=0 phishscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111300084
-X-Proofpoint-GUID: t0jXsBm25jvLOHy5QVoyZpipbhMm2oGN
-X-Proofpoint-ORIG-GUID: t0jXsBm25jvLOHy5QVoyZpipbhMm2oGN
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH v1 0/8] virtio-mem: Support "prealloc=on"
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20211130104136.40927-1-david@redhat.com>
+From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
+In-Reply-To: <20211130104136.40927-1-david@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mprivozn@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -56
+X-Spam_score: -5.7
 X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.211, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.211, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -187,102 +101,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Xiexiangyou <xiexiangyou@huawei.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Gavin Shan <gshan@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hui Zhu <teawater@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/10/2021 2:48 AM, Zheng Chuan wrote:
+On 11/30/21 11:41, David Hildenbrand wrote:
+> Based-on: <20211130092838.24224-1-david@redhat.com>
 > 
-> Hi, steve
+> Patch #1 - #7 are fully reviewed [1] but did not get picked up yet, so I'm
+> sending them along here, as they are required to use os_mem_prealloc() in
+> a safe way once the VM is running.
 > 
-> On 2021/8/11 1:06, Alex Williamson wrote:
->> On Fri,  6 Aug 2021 14:43:53 -0700
->> Steve Sistare <steven.sistare@oracle.com> wrote:
->> [...]
->>> +static int
->>> +vfio_region_remap(MemoryRegionSection *section, void *handle, Error **errp)
->>> +{
->>> +    MemoryRegion *mr = section->mr;
->>> +    VFIOContainer *container = handle;
->>> +    const char *name = memory_region_name(mr);
->>> +    ram_addr_t size = int128_get64(section->size);
->>> +    hwaddr offset, iova, roundup;
->>> +    void *vaddr;
->>> +
->>> +    if (vfio_listener_skipped_section(section) || memory_region_is_iommu(mr)) {
->>> +        return 0;
->>> +    }
->>> +
->>> +    offset = section->offset_within_address_space;
->>> +    iova = REAL_HOST_PAGE_ALIGN(offset);
-> We should not do remap if it shares on host page with other structures.
-> I think a judgement like int128_ge((int128_make64(iova), llend)) in vfio_listener_region_add() should be also added here to check it,
-> otherwise it will remap no-exit dma which causes the live update failure.
-> diff --git a/hw/vfio/cpr.c b/hw/vfio/cpr.c
-> index 0981d31..d231841 100644
-> --- a/hw/vfio/cpr.c
-> +++ b/hw/vfio/cpr.c
-> @@ -58,13 +58,21 @@ vfio_region_remap(MemoryRegionSection *section, void *handle, Error **errp)
->      ram_addr_t size = int128_get64(section->size);
->      hwaddr offset, iova, roundup;
->      void *vaddr;
-> -
-> +    Int128 llend;
-> +
->      if (vfio_listener_skipped_section(section) || memory_region_is_iommu(mr)) {
->          return 0;
->      }
+> Support preallocation of memory to make virtio-mem safe to use with
+> scarce memory resources such as hugetlb. Before acknowledging a plug
+> request from the guest, we'll try preallcoating memory. If that fails,
+> we'll fail the request gracefully and warn the usr once.
 > 
->      offset = section->offset_within_address_space;
->      iova = REAL_HOST_PAGE_ALIGN(offset);
-> +    llend = int128_make64(section->offset_within_address_space);
-> +    llend = int128_add(llend, section->size);
-> +    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
-> +    if (int128_ge(int128_make64(iova), llend)) {
-> +        return 0;
-> +    }
-> +
->      roundup = iova - offset;
->      size -= roundup;
->      size = REAL_HOST_PAGE_ALIGN(size);
+> To fully support huge pages for shared memory, we'll have to adjust shared
+> memory users, such as virtiofsd, to map guest memory via MAP_NORESERVE as
+> well, because otherwise, they'll end up overwriting the "reserve=off"
+> decision made by QEMU and try reserving huge pages for the sparse memory
+> region.
 > 
->>> +    roundup = iova - offset;
->>> +    size -= roundup;
->>> +    size = REAL_HOST_PAGE_ALIGN(size);
->>> +    vaddr = memory_region_get_ram_ptr(mr) +
->>> +            section->offset_within_region + roundup;
->>> +
->>> +    trace_vfio_region_remap(name, container->fd, iova, iova + size - 1, vaddr);
->>> +    return vfio_dma_map_vaddr(container, iova, size, vaddr, errp);
->>> +}
+> In the future, we might want to process guest requests, including
+> preallocating memory, asynchronously via a dedicated iothread.
+> 
+> [1] https://lkml.kernel.org/r/20211004120208.7409-1-david@redhat.com
+> 
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> Cc: Gavin Shan <gshan@redhat.com>
+> Cc: Hui Zhu <teawater@gmail.com>
+> Cc: Sebastien Boeuf <sebastien.boeuf@intel.com>
+> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+> Cc: Michal Prívozník <mprivozn@redhat.com>
+> 
+> David Hildenbrand (8):
+>   util/oslib-posix: Let touch_all_pages() return an error
+>   util/oslib-posix: Support MADV_POPULATE_WRITE for os_mem_prealloc()
+>   util/oslib-posix: Introduce and use MemsetContext for
+>     touch_all_pages()
+>   util/oslib-posix: Don't create too many threads with small memory or
+>     little pages
+>   util/oslib-posix: Avoid creating a single thread with
+>     MADV_POPULATE_WRITE
+>   util/oslib-posix: Support concurrent os_mem_prealloc() invocation
+>   util/oslib-posix: Forward SIGBUS to MCE handler under Linux
+>   virtio-mem: Support "prealloc=on" option
+> 
+>  hw/virtio/virtio-mem.c         |  39 +++++-
+>  include/hw/virtio/virtio-mem.h |   4 +
+>  include/qemu/osdep.h           |   7 +
+>  softmmu/cpus.c                 |   4 +
+>  util/oslib-posix.c             | 231 +++++++++++++++++++++++++--------
+>  5 files changed, 226 insertions(+), 59 deletions(-)
+> 
 
-Thank you Zheng.  I intended to implement the logic you suggest, using 64-bit arithmetic,
-but I botched it.  This should do the trick:
+Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 
-diff --git a/hw/vfio/cpr.c b/hw/vfio/cpr.c
-index df334d9..bbdeaea 100644
---- a/hw/vfio/cpr.c
-+++ b/hw/vfio/cpr.c
-@@ -66,8 +66,8 @@ vfio_region_remap(MemoryRegionSection *section, void *handle,
-     offset = section->offset_within_address_space;
-     iova = REAL_HOST_PAGE_ALIGN(offset);
-     roundup = iova - offset;
--    size -= roundup;
--    size = REAL_HOST_PAGE_ALIGN(size);
-+    size -= roundup;                    /* adjust for starting alignment */
-+    size &= qemu_real_host_page_mask;   /* adjust for ending alignment */
-     end = iova + size;
-     if (iova >= end) {
-         return 0;
+Michal
 
-- Steve
 
