@@ -2,87 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894DD462EA3
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 09:38:46 +0100 (CET)
-Received: from localhost ([::1]:59046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DFBF462EA6
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Nov 2021 09:42:15 +0100 (CET)
+Received: from localhost ([::1]:33494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mryez-0003DM-Cl
-	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 03:38:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47000)
+	id 1mryiM-0005A6-JO
+	for lists+qemu-devel@lfdr.de; Tue, 30 Nov 2021 03:42:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mrye8-0002YU-DE
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 03:37:52 -0500
-Received: from [2a00:1450:4864:20::32e] (port=41961
- helo=mail-wm1-x32e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mrye6-0002UB-HG
- for qemu-devel@nongnu.org; Tue, 30 Nov 2021 03:37:52 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- az34-20020a05600c602200b0033bf8662572so14210695wmb.0
- for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 00:37:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+hovv3rA1pBvjOFwEazudHQx/039wAx5293TPsxZvYo=;
- b=Q+vZGsI22K9sfGrnkOOPd8Ow+EiMoMWbDa64gtFaTW/D0I1loMveFdPymQf5w2pHDV
- ObZlgWa+vYmq1f37FB37tOWTFoHMAB9S/F1rc1z6APKlI9Rky3ENhCd85BQVEleF9viU
- ZSsU0HwxfI0YbodrnsTYZfpvxzQ5KhlaxO7710ItSonupqARFkKvZgofI1Bn9UYjl3yL
- Ciu2OYZnRCBm4SzTu4RIQLXVzZc7gL3GXGqJBwqN2pd+nnW9xHDlgt3iMOtMpKFIq+8r
- 2oJa+KMk0QfVZT4py0MvQBpKLfPoA/iMFHfL1A9R0c6Dxyd8xiBj78ZcRVNgIf2Uf0mg
- NmwQ==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mrygJ-00044C-Bb
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 03:40:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25036)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mrygG-0002dy-2O
+ for qemu-devel@nongnu.org; Tue, 30 Nov 2021 03:40:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638261602;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=l0LCNsjCj67uOms6L+BtHmkfiPg+REgvbHOn4AysoNk=;
+ b=bVpR8ZvpfU6jvF7eXVgeGyWsDbLKdMcs78hE9dzDzYQpw6c8xH0goGmHN30FQy+bjAxl4j
+ Fc954GW0cqDLJKtNvSIZTDP21wHQXP6BMlw6HB2YqAuIQJzFvHBUbm/yDo24bVqlk7HPGx
+ yfkth27UlB98chS36BKXsC2kSYW8o5k=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-206-_wQHcbGsObmFkK2DYU8hEA-1; Tue, 30 Nov 2021 03:40:01 -0500
+X-MC-Unique: _wQHcbGsObmFkK2DYU8hEA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ i19-20020a05640242d300b003e7d13ebeedso16245589edc.7
+ for <qemu-devel@nongnu.org>; Tue, 30 Nov 2021 00:40:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+hovv3rA1pBvjOFwEazudHQx/039wAx5293TPsxZvYo=;
- b=ScBo1ojFmt8tQJV9KbdVuGKAIKBwrqQmJFDmmdwL0OZ9VQKudLza8x4YAWvTYBxcay
- 7ree/yxHo8Q10ZEV6RN+bkiZq/9IouHygjc3ZSrLCsekBydmI5V392rGEtO1sx+PkS0o
- ovSCpQC611IPDbojGsQ3PMWGDvTg2AR8b4T9JGkUAJNXh0aRTBHvK8jpoot8Pf8nmddh
- No1lO4LzqDNhvcEEqvY6CJiLRi1LxqOO40gJGBaNwm+JAeUaJfd4GxJx7YVfgUrGMZAr
- AoMokbtMTN/MjU5vUgH4OvAo6eWp7nrTlwsJtUKt77kuj8SROi+8bBaHSReeTta+LSp6
- ZGgA==
-X-Gm-Message-State: AOAM530Dsu5H/oIj3+7geTpWHE/57nGJxjl+M4W5qSCDWs+MbIXoRD5A
- LOucXcyrx/1gdmRYLQL00EA97w==
-X-Google-Smtp-Source: ABdhPJzQqC0nVrQvR/N3p9K/YZjTeIrN3Jrb+kzfOzy5bBJEWau3oYnloQHlWIuKj+wUAkjP92ZUrA==
-X-Received: by 2002:a7b:c407:: with SMTP id k7mr3311505wmi.35.1638261468371;
- Tue, 30 Nov 2021 00:37:48 -0800 (PST)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id x1sm15991559wru.40.2021.11.30.00.37.47
+ bh=l0LCNsjCj67uOms6L+BtHmkfiPg+REgvbHOn4AysoNk=;
+ b=TyB61TnhN5gwo45wh7GEHLzUbKND97y7tQ+h4sQp5EhLnjqt4flCTQVGWZH1YZeumi
+ hgcpLuGsyzxNlgyDSMEFtE1n11BAiXTrWGSv6rzbwQX4zHueoVRcPZoo0Ps8dcT8BFa6
+ KNTSymsD83L60Nd3b99917jeIg4E7th+kvu3XQ/Ft1d7y8fpcaLoq9nFp6XVE5DfDzZ3
+ ExJ+FdjPN/3PcXUHlIz8RgInSGWBJhCp69xEuGPtP4E+p4Spf/XZaOLrr3priK87hoTB
+ gGI0q/8F7fKKx58+xHsz6XLeKYVqyWWmt5E0VepDyWU3pXKugMPzky2sDCGfHUwGVAV5
+ fh6A==
+X-Gm-Message-State: AOAM532hXSIa70j3Mf4/0UbpyyAuI1Zg7Et6cPwxbXXiIlvrf+1dtp1F
+ qk+XlQ8yGMEULIqd17f5ircSNItoIBKp9nj3k4Lc/irymABMm/3vLY6/B3hTP3JvKi6d5XNbENg
+ aCkh1nT5elDMgXTw=
+X-Received: by 2002:a17:907:3f95:: with SMTP id
+ hr21mr67620141ejc.427.1638261600099; 
+ Tue, 30 Nov 2021 00:40:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyq8hj0i/xxCXNWs95hhJ5yWCFlesJyanazgDOTiTW4k84M1/EpHGP8VzEpXAyFfq1fuXuglg==
+X-Received: by 2002:a17:907:3f95:: with SMTP id
+ hr21mr67620094ejc.427.1638261599782; 
+ Tue, 30 Nov 2021 00:39:59 -0800 (PST)
+Received: from [192.168.149.186]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id ne33sm9058271ejc.6.2021.11.30.00.39.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Nov 2021 00:37:47 -0800 (PST)
-Subject: Re: [PATCH v11 11/26] target/loongarch: Add floating point comparison
- instruction translation
-To: gaosong <gaosong@loongson.cn>
-References: <1637302410-24632-1-git-send-email-gaosong@loongson.cn>
- <1637302410-24632-12-git-send-email-gaosong@loongson.cn>
- <c9c08d6d-e193-969c-f82a-fc36ecff196a@linaro.org>
- <58f22862-7fad-d9bb-e712-2d915d944a7f@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <97db0ee8-6f0e-1855-8182-e0fe37f2b022@linaro.org>
-Date: Tue, 30 Nov 2021 09:37:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Tue, 30 Nov 2021 00:39:59 -0800 (PST)
+Message-ID: <9e86e5fc-2d66-730e-8ad5-44112292a980@redhat.com>
+Date: Tue, 30 Nov 2021 09:39:57 +0100
 MIME-Version: 1.0
-In-Reply-To: <58f22862-7fad-d9bb-e712-2d915d944a7f@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v5 00/31] block layer: split block APIs in global state
+ and I/O
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20211124064418.3120601-1-eesposit@redhat.com>
+ <YaTWd2z4dua9Rtxu@stefanha-x1.localdomain>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <YaTWd2z4dua9Rtxu@stefanha-x1.localdomain>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.211,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.211, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,61 +104,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org,
- laurent@vivier.eu
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/30/21 9:22 AM, gaosong wrote:
-> On 2021/11/20 下午5:02, Richard Henderson wrote:
+
+
+On 29/11/2021 14:32, Stefan Hajnoczi wrote:
+> On Wed, Nov 24, 2021 at 01:43:47AM -0500, Emanuele Giuseppe Esposito wrote:
+>> v5 -> v6:
+>> * In short, apply all Hanna's comments. More in details,
+>>    the following functions in the following headers have been moved:
+>>    block-backend:
+>>      blk_replace_bs (to gs)
+>>      blk_nb_sectors (to io)
+>>      blk_name (to io)
+>>      blk_set_perm (to io)
+>>      blk_get_perm (to io)
+>>      blk_drain (to io)
+>>      blk_abort_aio_request (to io)
+>>      blk_make_empty (to gs)
+>>      blk_invalidate_cache (was in io, but had GS assertion)
+>>      blk_aio_cancel (to gs)
+>>    block:
+>>      bdrv_replace_child_bs (to gs)
+>>      bdrv_get_device_name (to io)
+>>      bdrv_get_device_or_node_name (to io)
+>>      bdrv_drained_end_no_poll (to io)
+>>      bdrv_block_status (was in io, but had GS assertion)
+>>      bdrv_drain (to io)
+>>      bdrv_co_drain (to io)
+>>      bdrv_make_zero (was in GS, but did not have the assertion)
+>>      bdrv_save_vmstate (to io)
+>>      bdrv_load_vmstate (to io)
+>>      bdrv_aio_cancel_async (to io)
+>>    block_int:
+>>      bdrv_get_parent_name (to io)
+>>      bdrv_apply_subtree_drain (to io)
+>>      bdrv_unapply_subtree_drain (to io)
+>>      bdrv_co_copy_range_from (was in io, but had GS assertion)
+>>      bdrv_co_copy_range_to (was in io, but had GS assertion)
+>>      ->bdrv_save_vmstate (to io)
+>>      ->bdrv_load_vmstate (to io)
 >>
->>> +#define FCMP_LT 0x0001  /* fp0 < fp1 */
->>> +#define FCMP_EQ   0x0010  /* fp0 = fp1 */
->>> +#define FCMP_UN   0x0100  /* unordered */
->>> +#define FCMP_GT   0x1000  /* fp0 > fp1 */
+>>    coding style (assertion after definitions):
+>>      bdrv_save_vmstate
+>>      bdrv_load_vmstate
+>>      block_job_next
+>>      block_job_get
 >>
->> Any reason why these bits are not sequential? 
-...
-> We should like:
+>>    new patches:
+>>      block.c: modify .attach and .detach callbacks of child_of_bds
+>>      introduce pre_run as JobDriver callback to handle
+>>        bdrv_co_amend usage of permission function
+>>      leave blk_set/get_perm as a TODO in fuse.c
+>>      make sure bdrv_co_invalidate_cache does not use permissions
+>>        if BQL is not held
+>>
+>>    minor changes:
+>>      put back TODO for include block/block.h in block-backend-common.h
+>>      rebase on kwolf/block branch
+>>      modify where are used assert_bdrv_graph_writable, due to rebase
 > 
-> #define FCMP_LT    0x1  /* fp0 < fp1 */
-> #define FCMP_EQ   0x2  /* fp0 = fp1 */
-> #define FCMP_UN   0x3  /* unordered */
-> #define FCMP_GT   0x4  /* fp0 > fp1 */
+> These changes sound fine to me. Hanna or Kevin can merge the series when
+> they are happy.
 > 
-> static uint32_t get_fcmp_flags(int cond)
-> {
->      uint32_t flags = 0;
-> 
->      if (cond & 0x1) {
->          flags |= FCMP_LT;
->      }
->      if (cond & 0x2) {
->          flags |= FCMP_EQ;
->      }
->      if (cond & 0x3) {
->          flags |= FCMP_UN;
->      }
->      if (cond & 0x4) {
->          flags |= FCMP_GT;
->      }
->      return flags;
-> }
-> 
-> Is this right?
 
-No.  You're not converting anything here.
+Just a tiny nitpick, I would just not merge patch 10: "block.c: modify 
+.attach and .detach callbacks of child_of_bds". It is not wrong and 
+should produce no side effect, but does not do what it was intended for 
+(ie using the drain to protect the bs's list of children). I will work 
+on that in a future serie. Apologies.
 
-I think you should simply replace "0x" with "0b" so that the bits of FCMP are more 
-compact.  I assume that's what you were originally thinking.
+Thank you,
+Emanuele
 
-#define FCMP_LT   0b0001  /* fp0 < fp1 */
-#define FCMP_EQ   0b0010  /* fp0 = fp1 */
-#define FCMP_UN   0b0100  /* unordered */
-#define FCMP_GT   0b1000  /* fp0 > fp1 */
-
-or identically with the form (1 << 0), (1 << 1), etc.
-
-
-r~
 
