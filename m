@@ -2,77 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A42D4464B3C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 11:09:03 +0100 (CET)
-Received: from localhost ([::1]:54850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55829464B4E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 11:11:22 +0100 (CET)
+Received: from localhost ([::1]:57526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msMXt-0007ad-GK
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 05:09:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41148)
+	id 1msMa7-00015o-TP
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 05:11:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1msMW3-00055M-B6
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 05:07:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43397)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1msMYV-0008Vk-To; Wed, 01 Dec 2021 05:09:40 -0500
+Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:50603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1msMVz-0005ix-8O
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 05:07:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638353219;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ES2cGSBQ8PcBHRs5Ab7+fEhM0cgYzcFU6VZ4fGJqSGo=;
- b=aguhycfXh7iLaJoQj9qVEYjGQ4G0TJGwV4WW04LjjxqdsYP0reW7aF9up/dYPAsLZiogb5
- oDFPBGn+ULn/E4Gym170W2lw8xe+Y5YcTo2acVCH7hw4DKgjr7SmwVZdqqQBGH5dIvFcQ0
- qX2+ZB8lboVIHOFlEY1CKyg4tci5k/w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-531-6iQwc7jRP6iWD10VzA9vFw-1; Wed, 01 Dec 2021 05:06:37 -0500
-X-MC-Unique: 6iQwc7jRP6iWD10VzA9vFw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4BC4104446E;
- Wed,  1 Dec 2021 10:06:35 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EC1445C23A;
- Wed,  1 Dec 2021 10:06:29 +0000 (UTC)
-Date: Wed, 1 Dec 2021 10:06:27 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Rao, Lei" <lei.rao@intel.com>
-Subject: Re: [PATCH] QIO: Add force_quit to the QIOChannel to ensure QIO
- exits cleanly in some corner case
-Message-ID: <YadJI0B4YrZTs3/m@redhat.com>
-References: <20211201075427.155702-1-lei.rao@intel.com>
- <Yac8B76dAulyx+2T@redhat.com>
- <DM8PR11MB5640D2F156E53A0CD644AC71FD689@DM8PR11MB5640.namprd11.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1msMYT-0005yN-NV; Wed, 01 Dec 2021 05:09:39 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.35])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id B658720182;
+ Wed,  1 Dec 2021 10:09:33 +0000 (UTC)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 1 Dec
+ 2021 11:09:32 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R00382ccb381-0a6f-4faa-a94e-8f4a64279aee,
+ A214034E9EDAB49BEA2160BF49F8C38F118F2259) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.11.56.15
+Message-ID: <721c3bea-4ab8-7cf2-0465-fc10b754f498@kaod.org>
+Date: Wed, 1 Dec 2021 11:09:31 +0100
 MIME-Version: 1.0
-In-Reply-To: <DM8PR11MB5640D2F156E53A0CD644AC71FD689@DM8PR11MB5640.namprd11.prod.outlook.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [RFC PATCH v2 4/4] tests/avocado: ppc: Add smoke tests for
+ MPC7400 and MPC7450 families
+Content-Language: en-US
+To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
+References: <20211130230123.781844-1-farosas@linux.ibm.com>
+ <20211130230123.781844-5-farosas@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211130230123.781844-5-farosas@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 9d4a0969-bc75-4716-802c-cf8017c62fc1
+X-Ovh-Tracer-Id: 5322410338632108847
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrieefgdduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhudevgeegudevgfelhfekkeehffeghfekjedvgeeuffdtkeeugfeghfefjeekudenucffohhmrghinhepnhhonhhgnhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhg
+Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
+ helo=1.mo548.mail-out.ovh.net
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.211,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,63 +71,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "vsementsov@virtuozzo.com" <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Zhang,
- Chen" <chen.zhang@intel.com>, "hreitz@redhat.com" <hreitz@redhat.com>,
- "eblake@redhat.com" <eblake@redhat.com>
+Cc: richard.henderson@linaro.org, danielhb413@gmail.com,
+ mark.cave-ayland@ilande.co.uk, qemu-ppc@nongnu.org, openbios@openbios.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 01, 2021 at 09:48:31AM +0000, Rao, Lei wrote:
+On 12/1/21 00:01, Fabiano Rosas wrote:
+> These tests ensure that our emulation for these cpus is not completely
+> broken and we can at least run OpenBIOS on them.
 > 
+> $ make check-avocado AVOCADO_TESTS=../tests/avocado/ppc_74xx.py
 > 
-> -----Original Message-----
-> From: Daniel P. Berrangé <berrange@redhat.com> 
-> Sent: Wednesday, December 1, 2021 5:11 PM
-> To: Rao, Lei <lei.rao@intel.com>
-> Cc: Zhang, Chen <chen.zhang@intel.com>; eblake@redhat.com; vsementsov@virtuozzo.com; kwolf@redhat.com; hreitz@redhat.com; qemu-block@nongnu.org; qemu-devel@nongnu.org
-> Subject: Re: [PATCH] QIO: Add force_quit to the QIOChannel to ensure QIO exits cleanly in some corner case
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> ---
+> Note that the 7450s depend on an OpenBIOS change adding support for
+> their PVR:
 > 
-> > 
-> > Signed-off-by: Lei Rao <lei.rao@intel.com>
-> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> > ---
-> >  block/nbd.c          |  5 +++++
-> >  include/io/channel.h | 19 +++++++++++++++++++
-> >  io/channel.c         | 22 ++++++++++++++++++++++
-> >  3 files changed, 46 insertions(+)
-> > 
-> > diff --git a/block/nbd.c b/block/nbd.c index 5ef462db1b..5ee4eaaf57 
-> > 100644
-> > --- a/block/nbd.c
-> > +++ b/block/nbd.c
-> > @@ -208,6 +208,8 @@ static void nbd_teardown_connection(BlockDriverState *bs)
-> >      assert(!s->in_flight);
-> >  
-> >      if (s->ioc) {
-> > +        qio_channel_set_force_quit(s->ioc, true);
-> > +        qio_channel_coroutines_wake(s->ioc);
-> >          qio_channel_shutdown(s->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, 
-> > NULL);
-> 
-> Calling shutdown here should already be causing the qio_chanel_readv_all to wakeup and break out of its
-> poll() loop. We shouldn't need to add a second way to break out of the poll().
-> 
-> Calling shutdown can wake up the coroutines which is polling. But I think it's not enough. I tried to forcibly wake up the NBD coroutine,
-> It may cause segment fault. The root cause is that it will continue to access ioc->xxx in qio_channel_yield(), but the ioc has been released and set it NULL such as in
-> nbd_co_do_establish_connection(); I think call shutdown will have the same result. So, I add the force_quit, once set it true, it will immediately exit without accessing IOC.
+> https://lists.nongnu.org/archive/html/qemu-ppc/2021-11/msg00290.html
 
-That's a bug in the NBD code then. NBD must not be freeing the IO channel
-object while it is performing read/write API calls on it.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+So we will have to merge the change in openbios first, and then update
+openbios in QEMU before merging this patch.
 
+These tests are really useful to track regression and it would be nice
+to have a kernel to run because some CPU flavors behave differently under
+Linux. It is good start anyhow.
+
+Thanks,
+
+C.
 
