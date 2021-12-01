@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C662D464C45
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 12:02:04 +0100 (CET)
-Received: from localhost ([::1]:52528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D798C464D5D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 12:57:10 +0100 (CET)
+Received: from localhost ([::1]:34208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msNND-0002S5-1v
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 06:02:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55250)
+	id 1msOEX-0003If-Ci
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 06:57:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1msNKU-0000x8-CG
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 05:59:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24926)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1msOD1-0002WU-3E
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 06:55:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1msNKM-0004mW-VS
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 05:59:13 -0500
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1msOCi-0005mx-Fs
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 06:55:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638356345;
+ s=mimecast20190719; t=1638359715;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/if6yi0WL+uHavZl4RTq/fuekfctUyfHo0gLcy6D0m4=;
- b=WrywV0XU4lu/jG4Nx8v8RqzYYr2zf/3p4Y/eIlBe43zi+bBwHH/HPt1vrrM2eAZXWZztVD
- Ultl4g/P5nx1/1JlubyoJipGWqTJpwT+Bnp0Kni1CdVzxz7dZj1a8UwQlXrF07G5JIywG4
- jmF93Z7V6i47I9tUKMV84LdDuBYEHxo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eC81eHTtO0d7fQ5Jvnctt7bYn2uoHuN7djfBbaVS/pM=;
+ b=EPulmpT5jNEEANhCUnnYxmwb+CK3HXY6ffMP2YfnNf9YpMt9FanAujB5OL/MD0G16t55Kt
+ XBcYv5r863shMbtwmkV2NR9a8ElG0JX2xChyzS2C3FxkiXHFw65he9lwcAj29DUvf0Qi7X
+ P639AlTGb2qn4dpDRmBMAUC9pC4rCq8=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-306-yWzt8HeVMYaYwu9LtOXUKQ-1; Wed, 01 Dec 2021 05:59:04 -0500
-X-MC-Unique: yWzt8HeVMYaYwu9LtOXUKQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c8-20020a7bc848000000b0033bf856f0easo15547123wml.1
- for <qemu-devel@nongnu.org>; Wed, 01 Dec 2021 02:59:04 -0800 (PST)
+ us-mta-508-oFeuFKHdMSWpd0ewX0FbYQ-1; Wed, 01 Dec 2021 06:55:14 -0500
+X-MC-Unique: oFeuFKHdMSWpd0ewX0FbYQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ m12-20020a056402430c00b003e9f10bbb7dso20043179edc.18
+ for <qemu-devel@nongnu.org>; Wed, 01 Dec 2021 03:55:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=/if6yi0WL+uHavZl4RTq/fuekfctUyfHo0gLcy6D0m4=;
- b=ZHAk3NaMME9jaWfLxYsXHP05Q7oCqU5C99Jjfs5GL2BvCh3kDE5GbUy4hPxDGMNPHM
- 5Bi6vZCGnzB6K0hg4iy1o6LAtFpjUktV8a9RDWyrs0Ad1SDPKIpnTp+1IeUjON7GSE28
- 1hmrnz6+w6ljEaisYff/HX9f5ZI3SbWvSmcwPDt+N0PE0rVvWrc19aiXIa4maJCntVFt
- CtSJTEL8ugxTbV5xJejoUsIatOXikRa6RTrChq8I7b5scbicZPEa55WfS44pQxSEl2Tq
- miGKHdFDUxG8PtJ4a5mG2fto25+WfUbBDTaDcvRMwYjGp+iuH2mvurny/BZqcCCi4aUb
- wL8g==
-X-Gm-Message-State: AOAM530TtJgvN2So42VlK2K54nQcCjNJhu2QoqlkC9ggeKBjXRn/a7ss
- 3wNfyYcqRirSgAB/sZV2QMGCCj05gCaQdd+og8XoX4R2uLX4PnpDX3fZY6/YaW56hEjjNbBH43R
- L58SZFV+PD5i8XZo=
-X-Received: by 2002:a05:600c:378b:: with SMTP id
- o11mr6124087wmr.157.1638356343325; 
- Wed, 01 Dec 2021 02:59:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwi07a1GpC8KGRCG791L4dm1tLD3cmuVTcR8hP0zQQW9ECeLYEPdrAOCgSyItYxUtXMWOL+GQ==
-X-Received: by 2002:a05:600c:378b:: with SMTP id
- o11mr6124046wmr.157.1638356343036; 
- Wed, 01 Dec 2021 02:59:03 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id o4sm771558wmq.31.2021.12.01.02.59.02
+ :mime-version:content-disposition:in-reply-to;
+ bh=eC81eHTtO0d7fQ5Jvnctt7bYn2uoHuN7djfBbaVS/pM=;
+ b=y/g9CVBDDohQ+lZIhY//R237GKZtp6fdrjzhj2SyiZSA4V+eyf2AlCJw6lrpdi1v4M
+ gKXRoY/Rh6Q7NSD7aMkmRgrgvXPGWgrEjhWC+bFCglB5smBNJJspDzn5T8mgKAPZ4Fh1
+ XAupFhLCrXmNh/dYzZ7TN1+04tVS0ksvscJIYYB/eb8rSw60tBDc+mpNx1wtOLFUpTZ4
+ 6Jv3VxvrMcvtdxg9ZrkNEktVpj+CQ0CyQWbdyujlcZFL6NpItVFVhMjPn/W/Maykejzx
+ t3aEkMbxFjpCb8eDWkNp/kuWOqtx2QSUE4hR2aCN5NF+wchGH31C90+vw9CLJJUeQ9QN
+ eJYw==
+X-Gm-Message-State: AOAM5318Or7LWtMOtJYEsFZ4tYT+iSV9Cm7xBRYsYWG5r+ImdE9y/PGW
+ XtY60qIPuZG38qDA4WRKBWMWd9gcSC7DP71PveqGt8WPmHRJChW53lkiCIyCUrTXjkND9gB3gu4
+ WBNx/+YnSes7Tmg8=
+X-Received: by 2002:a17:906:974a:: with SMTP id
+ o10mr6630731ejy.226.1638359712658; 
+ Wed, 01 Dec 2021 03:55:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyBJYO9rCO87SyMxIS704amnQJhKeQtnBkjq+ZbWmvKL9UzfMmlq0QTZuuzo7hBz0Q2rKm8vw==
+X-Received: by 2002:a17:906:974a:: with SMTP id
+ o10mr6630689ejy.226.1638359712224; 
+ Wed, 01 Dec 2021 03:55:12 -0800 (PST)
+Received: from steredhat (host-79-46-195-175.retail.telecomitalia.it.
+ [79.46.195.175])
+ by smtp.gmail.com with ESMTPSA id d3sm13444080edx.79.2021.12.01.03.55.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Dec 2021 02:59:02 -0800 (PST)
-Date: Wed, 1 Dec 2021 10:59:00 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v3 17/23] multifd: Use normal pages array on the send side
-Message-ID: <YadVdPNLr4gpbmXC@work-vm>
-References: <20211124100617.19786-1-quintela@redhat.com>
- <20211124100617.19786-18-quintela@redhat.com>
- <YaYB7sSHKoVZgJ6q@work-vm> <87czmhhmyh.fsf@secure.mitica>
+ Wed, 01 Dec 2021 03:55:11 -0800 (PST)
+Date: Wed, 1 Dec 2021 12:55:08 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] aio-posix: split poll check from ready handler
+Message-ID: <20211201115508.tjcwyft7bkfc2mbi@steredhat>
+References: <20211130112057.252679-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87czmhhmyh.fsf@secure.mitica>
-User-Agent: Mutt/2.1.3 (2021-09-10)
+In-Reply-To: <20211130112057.252679-1-stefanha@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -100,78 +97,847 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > * Juan Quintela (quintela@redhat.com) wrote:
-> >> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> >
-> > Can you explain a bit more what's going on here?
-> 
-> Sorry.
-> 
-> Until patch 20, we have what we had always have:
-> 
-> pages that are sent through multifd (non zero pages).  We are going to
-> call it normal pages.  So right now, we use the array of pages that we
-> are passed in directly on the multifd send methods.
-> 
-> But when we introduce zero pages handling around patch 20, we end having
-> two types of pages sent through multifd:
-> - normal pages (a.k.a. non-zero pages)
-> - zero pages
-> 
-> So the options are:
-> - we rename the fields before we introduce the zero page code, and then
->   we introduce the zero page code.
-> - we rename at the same time that we introduce the zero page code.
-> 
-> I decided to go with the 1st option.
-> 
-> The other thing that we do here is that we introduce the normal array
-> pages, so right now we do:
-> 
-> for (i = 0; i < pages->num; i++) {
->     p->narmal[p->normal_num] = pages->offset[i];
->     p->normal_num++:
+On Tue, Nov 30, 2021 at 11:20:57AM +0000, Stefan Hajnoczi wrote:
+>Adaptive polling measures the execution time of the polling check plus
+>handlers called when a polled event becomes ready. Handlers can take a
+>significant amount of time, making it look like polling was running for
+>a long time when in fact the event handler was running for a long time.
+>
+>For example, on Linux the io_submit(2) syscall invoked when a virtio-blk
+>device's virtqueue becomes ready can take 10s of microseconds. This
+>can exceed the default polling interval (32 microseconds) and cause
+>adaptive polling to stop polling.
+>
+>By excluding the handler's execution time from the polling check we make
+>the adaptive polling calculation more accurate. As a result, the event
+>loop now stays in polling mode where previously it would have fallen
+>back to file descriptor monitoring.
+>
+>The following data was collected with virtio-blk num-queues=2
+>event_idx=off using an IOThread. Before:
+>
+>168k IOPS, IOThread syscalls:
+>
+>  9837.115 ( 0.020 ms): IO iothread1/620155 io_submit(ctx_id: 140512552468480, nr: 16, iocbpp: 0x7fcb9f937db0)    = 16
+>  9837.158 ( 0.002 ms): IO iothread1/620155 write(fd: 103, buf: 0x556a2ef71b88, count: 8)                         = 8
+>  9837.161 ( 0.001 ms): IO iothread1/620155 write(fd: 104, buf: 0x556a2ef71b88, count: 8)                         = 8
+>  9837.163 ( 0.001 ms): IO iothread1/620155 ppoll(ufds: 0x7fcb90002800, nfds: 4, tsp: 0x7fcb9f1342d0, sigsetsize: 8) = 3
+>  9837.164 ( 0.001 ms): IO iothread1/620155 read(fd: 107, buf: 0x7fcb9f939cc0, count: 512)                        = 8
+>  9837.174 ( 0.001 ms): IO iothread1/620155 read(fd: 105, buf: 0x7fcb9f939cc0, count: 512)                        = 8
+>  9837.176 ( 0.001 ms): IO iothread1/620155 read(fd: 106, buf: 0x7fcb9f939cc0, count: 512)                        = 8
+>  9837.209 ( 0.035 ms): IO iothread1/620155 io_submit(ctx_id: 140512552468480, nr: 32, iocbpp: 0x7fca7d0cebe0)    = 32
+>
+>174k IOPS (+3.6%), IOThread syscalls:
+>
+>  9809.566 ( 0.036 ms): IO iothread1/623061 io_submit(ctx_id: 140539805028352, nr: 32, iocbpp: 0x7fd0cdd62be0)    = 32
+>  9809.625 ( 0.001 ms): IO iothread1/623061 write(fd: 103, buf: 0x5647cfba5f58, count: 8)                         = 8
+>  9809.627 ( 0.002 ms): IO iothread1/623061 write(fd: 104, buf: 0x5647cfba5f58, count: 8)                         = 8
+>  9809.663 ( 0.036 ms): IO iothread1/623061 io_submit(ctx_id: 140539805028352, nr: 32, iocbpp: 0x7fd0d0388b50)    = 32
+>
+>Notice that ppoll(2) and eventfd read(2) syscalls are eliminated because
+>the IOThread stays in polling mode instead of falling back to file
+>descriptor monitoring.
+>
+>As usual, polling is not implemented on Windows so this patch ignores
+>the new io_poll_read() callback in aio-win32.c.
+>
+>Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>---
+> include/block/aio.h      |  4 +-
+> util/aio-posix.h         |  1 +
+> block/curl.c             | 11 ++---
+> block/io_uring.c         | 19 +++++----
+> block/iscsi.c            |  4 +-
+> block/linux-aio.c        | 16 +++++---
+> block/nfs.c              |  6 +--
+> block/nvme.c             | 34 +++++++++++++---
+> block/ssh.c              |  4 +-
+> block/win32-aio.c        |  4 +-
+> hw/virtio/virtio.c       | 16 +++++---
+> hw/xen/xen-bus.c         |  6 +--
+> io/channel-command.c     |  6 ++-
+> io/channel-file.c        |  3 +-
+> io/channel-socket.c      |  3 +-
+> migration/rdma.c         |  8 ++--
+> tests/unit/test-aio.c    |  4 +-
+> util/aio-posix.c         | 88 ++++++++++++++++++++++++++++++----------
+> util/aio-win32.c         |  4 +-
+> util/async.c             | 10 ++++-
+> util/main-loop.c         |  4 +-
+> util/qemu-coroutine-io.c |  5 ++-
+> util/vhost-user-server.c | 11 ++---
+> 23 files changed, 184 insertions(+), 87 deletions(-)
+>
+>diff --git a/include/block/aio.h b/include/block/aio.h
+>index 47fbe9d81f..5634173b12 100644
+>--- a/include/block/aio.h
+>+++ b/include/block/aio.h
+>@@ -469,6 +469,7 @@ void aio_set_fd_handler(AioContext *ctx,
+>                         IOHandler *io_read,
+>                         IOHandler *io_write,
+>                         AioPollFn *io_poll,
+>+                        IOHandler *io_poll_ready,
+>                         void *opaque);
+>
+> /* Set polling begin/end callbacks for a file descriptor that has already been
+>@@ -490,7 +491,8 @@ void aio_set_event_notifier(AioContext *ctx,
+>                             EventNotifier *notifier,
+>                             bool is_external,
+>                             EventNotifierHandler *io_read,
+>-                            AioPollFn *io_poll);
+>+                            AioPollFn *io_poll,
+>+                            EventNotifierHandler *io_poll_ready);
+>
+> /* Set polling begin/end callbacks for an event notifier that has already been
+>  * registered with aio_set_event_notifier.  Do nothing if the event notifier is
+>diff --git a/util/aio-posix.h b/util/aio-posix.h
+>index c80c04506a..7f2c37a684 100644
+>--- a/util/aio-posix.h
+>+++ b/util/aio-posix.h
+>@@ -24,6 +24,7 @@ struct AioHandler {
+>     IOHandler *io_read;
+>     IOHandler *io_write;
+>     AioPollFn *io_poll;
+>+    IOHandler *io_poll_ready;
+>     IOHandler *io_poll_begin;
+>     IOHandler *io_poll_end;
+>     void *opaque;
+>diff --git a/block/curl.c b/block/curl.c
+>index 4a8ae2b269..6a6cd72975 100644
+>--- a/block/curl.c
+>+++ b/block/curl.c
+>@@ -125,7 +125,7 @@ static gboolean curl_drop_socket(void *key, void *value, void *opaque)
+>     BDRVCURLState *s = socket->s;
+>
+>     aio_set_fd_handler(s->aio_context, socket->fd, false,
+>-                       NULL, NULL, NULL, NULL);
+>+                       NULL, NULL, NULL, NULL, NULL);
+>     return true;
 > }
-> 
-> 
-> Why?
-> 
-> Because then patch 20 becomes:
-> 
-> for (i = 0; i < pages->num; i++) {
->     if (buffer_is_zero(page->offset[i])) {
->         p->zerol[p->zero_num] = pages->offset[i];
->         p->zeronum++:
+>
+>@@ -173,19 +173,20 @@ static int curl_sock_cb(CURL *curl, curl_socket_t fd, int action,
+>     switch (action) {
+>         case CURL_POLL_IN:
+>             aio_set_fd_handler(s->aio_context, fd, false,
+>-                               curl_multi_do, NULL, NULL, socket);
+>+                               curl_multi_do, NULL, NULL, NULL, socket);
+>             break;
+>         case CURL_POLL_OUT:
+>             aio_set_fd_handler(s->aio_context, fd, false,
+>-                               NULL, curl_multi_do, NULL, socket);
+>+                               NULL, curl_multi_do, NULL, NULL, socket);
+>             break;
+>         case CURL_POLL_INOUT:
+>             aio_set_fd_handler(s->aio_context, fd, false,
+>-                               curl_multi_do, curl_multi_do, NULL, socket);
+>+                               curl_multi_do, curl_multi_do,
+>+                               NULL, NULL, socket);
+>             break;
+>         case CURL_POLL_REMOVE:
+>             aio_set_fd_handler(s->aio_context, fd, false,
+>-                               NULL, NULL, NULL, NULL);
+>+                               NULL, NULL, NULL, NULL, NULL);
+>             break;
+>     }
+>
+>diff --git a/block/io_uring.c b/block/io_uring.c
+>index dfa475cc87..782afdb433 100644
+>--- a/block/io_uring.c
+>+++ b/block/io_uring.c
+>@@ -292,12 +292,14 @@ static bool qemu_luring_poll_cb(void *opaque)
+> {
+>     LuringState *s = opaque;
+>
+>-    if (io_uring_cq_ready(&s->ring)) {
+>-        luring_process_completions_and_submit(s);
+>-        return true;
+>-    }
+>+    return io_uring_cq_ready(&s->ring);
+>+}
+>
+>-    return false;
+>+static void qemu_luring_poll_ready(void *opaque)
+>+{
+>+    LuringState *s = opaque;
+>+
+>+    luring_process_completions_and_submit(s);
+> }
+>
+> static void ioq_init(LuringQueue *io_q)
+>@@ -402,8 +404,8 @@ int coroutine_fn luring_co_submit(BlockDriverState *bs, LuringState *s, int fd,
+>
+> void luring_detach_aio_context(LuringState *s, AioContext *old_context)
+> {
+>-    aio_set_fd_handler(old_context, s->ring.ring_fd, false, NULL, NULL, NULL,
+>-                       s);
+>+    aio_set_fd_handler(old_context, s->ring.ring_fd, false,
+>+                       NULL, NULL, NULL, NULL, s);
+>     qemu_bh_delete(s->completion_bh);
+>     s->aio_context = NULL;
+> }
+>@@ -413,7 +415,8 @@ void luring_attach_aio_context(LuringState *s, AioContext *new_context)
+>     s->aio_context = new_context;
+>     s->completion_bh = aio_bh_new(new_context, qemu_luring_completion_bh, s);
+>     aio_set_fd_handler(s->aio_context, s->ring.ring_fd, false,
+>-                       qemu_luring_completion_cb, NULL, qemu_luring_poll_cb, s);
+>+                       qemu_luring_completion_cb, NULL,
+>+                       qemu_luring_poll_cb, qemu_luring_poll_ready, s);
+> }
+>
+> LuringState *luring_init(Error **errp)
+>diff --git a/block/iscsi.c b/block/iscsi.c
+>index 57aa07a40d..51f2a5eeaa 100644
+>--- a/block/iscsi.c
+>+++ b/block/iscsi.c
+>@@ -363,7 +363,7 @@ iscsi_set_events(IscsiLun *iscsilun)
+>                            false,
+>                            (ev & POLLIN) ? iscsi_process_read : NULL,
+>                            (ev & POLLOUT) ? iscsi_process_write : NULL,
+>-                           NULL,
+>+                           NULL, NULL,
+>                            iscsilun);
+>         iscsilun->events = ev;
+>     }
+>@@ -1534,7 +1534,7 @@ static void iscsi_detach_aio_context(BlockDriverState *bs)
+>     IscsiLun *iscsilun = bs->opaque;
+>
+>     aio_set_fd_handler(iscsilun->aio_context, iscsi_get_fd(iscsilun->iscsi),
+>-                       false, NULL, NULL, NULL, NULL);
+>+                       false, NULL, NULL, NULL, NULL, NULL);
+>     iscsilun->events = 0;
+>
+>     if (iscsilun->nop_timer) {
+>diff --git a/block/linux-aio.c b/block/linux-aio.c
+>index f53ae72e21..4c423fcccf 100644
+>--- a/block/linux-aio.c
+>+++ b/block/linux-aio.c
+>@@ -263,12 +263,15 @@ static bool qemu_laio_poll_cb(void *opaque)
+>     LinuxAioState *s = container_of(e, LinuxAioState, e);
+>     struct io_event *events;
+>
+>-    if (!io_getevents_peek(s->ctx, &events)) {
+>-        return false;
+>-    }
+>+    return io_getevents_peek(s->ctx, &events);
+>+}
+>+
+>+static void qemu_laio_poll_ready(EventNotifier *opaque)
+>+{
+>+    EventNotifier *e = opaque;
+>+    LinuxAioState *s = container_of(e, LinuxAioState, e);
+>
+>     qemu_laio_process_completions_and_submit(s);
+>-    return true;
+> }
+>
+> static void ioq_init(LaioQueue *io_q)
+>@@ -427,7 +430,7 @@ int coroutine_fn laio_co_submit(BlockDriverState *bs, LinuxAioState *s, int fd,
+>
+> void laio_detach_aio_context(LinuxAioState *s, AioContext *old_context)
+> {
+>-    aio_set_event_notifier(old_context, &s->e, false, NULL, NULL);
+>+    aio_set_event_notifier(old_context, &s->e, false, NULL, NULL, NULL);
+>     qemu_bh_delete(s->completion_bh);
+>     s->aio_context = NULL;
+> }
+>@@ -438,7 +441,8 @@ void laio_attach_aio_context(LinuxAioState *s, AioContext *new_context)
+>     s->completion_bh = aio_bh_new(new_context, qemu_laio_completion_bh, s);
+>     aio_set_event_notifier(new_context, &s->e, false,
+>                            qemu_laio_completion_cb,
+>-                           qemu_laio_poll_cb);
+>+                           qemu_laio_poll_cb,
+>+                           qemu_laio_poll_ready);
+> }
+>
+> LinuxAioState *laio_init(Error **errp)
+>diff --git a/block/nfs.c b/block/nfs.c
+>index 577aea1d22..444c40b458 100644
+>--- a/block/nfs.c
+>+++ b/block/nfs.c
+>@@ -197,7 +197,7 @@ static void nfs_set_events(NFSClient *client)
+>                            false,
+>                            (ev & POLLIN) ? nfs_process_read : NULL,
+>                            (ev & POLLOUT) ? nfs_process_write : NULL,
+>-                           NULL, client);
+>+                           NULL, NULL, client);
+>
+>     }
+>     client->events = ev;
+>@@ -372,7 +372,7 @@ static void nfs_detach_aio_context(BlockDriverState *bs)
+>     NFSClient *client = bs->opaque;
+>
+>     aio_set_fd_handler(client->aio_context, nfs_get_fd(client->context),
+>-                       false, NULL, NULL, NULL, NULL);
+>+                       false, NULL, NULL, NULL, NULL, NULL);
+>     client->events = 0;
+> }
+>
+>@@ -390,7 +390,7 @@ static void nfs_client_close(NFSClient *client)
+>     if (client->context) {
+>         qemu_mutex_lock(&client->mutex);
+>         aio_set_fd_handler(client->aio_context, nfs_get_fd(client->context),
+>-                           false, NULL, NULL, NULL, NULL);
+>+                           false, NULL, NULL, NULL, NULL, NULL);
+>         qemu_mutex_unlock(&client->mutex);
+>         if (client->fh) {
+>             nfs_close(client->context, client->fh);
+>diff --git a/block/nvme.c b/block/nvme.c
+>index e4f336d79c..8d68c7e0c0 100644
+>--- a/block/nvme.c
+>+++ b/block/nvme.c
+>@@ -702,8 +702,30 @@ static bool nvme_poll_cb(void *opaque)
+>     EventNotifier *e = opaque;
+>     BDRVNVMeState *s = container_of(e, BDRVNVMeState,
+>                                     irq_notifier[MSIX_SHARED_IRQ_IDX]);
+>+    int i;
+>
+>-    return nvme_poll_queues(s);
+>+    for (i = 0; i < s->queue_count; i++) {
+>+        NVMeQueuePair *q = s->queues[i];
+>+        const size_t cqe_offset = q->cq.head * NVME_CQ_ENTRY_BYTES;
+>+        NvmeCqe *cqe = (NvmeCqe *)&q->cq.queue[cqe_offset];
+>+
+>+        /*
+>+         * q->lock isn't needed because nvme_process_completion() only runs in
+>+         * the event loop thread and cannot race with itself.
+>+         */
+>+        if ((le16_to_cpu(cqe->status) & 0x1) != q->cq_phase) {
+>+            return true;
+>+        }
+>+    }
+>+    return false;
+>+}
+>+
+>+static void nvme_poll_ready(EventNotifier *e)
+>+{
+>+    BDRVNVMeState *s = container_of(e, BDRVNVMeState,
+>+                                    irq_notifier[MSIX_SHARED_IRQ_IDX]);
+>+
+>+    nvme_poll_queues(s);
+
+After these changes the nvme_poll_queues() and nvme_poll_queue() return 
+values are not used anymore.
+
+What about making them void?
+
+> }
+>
+> static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+>@@ -838,7 +860,8 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+>     }
+>     aio_set_event_notifier(bdrv_get_aio_context(bs),
+>                            &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
+>-                           false, nvme_handle_event, nvme_poll_cb);
+>+                           false, nvme_handle_event, nvme_poll_cb,
+>+                           nvme_poll_ready);
+>
+>     if (!nvme_identify(bs, namespace, errp)) {
+>         ret = -EIO;
+>@@ -923,7 +946,7 @@ static void nvme_close(BlockDriverState *bs)
+>     g_free(s->queues);
+>     aio_set_event_notifier(bdrv_get_aio_context(bs),
+>                            &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
+>-                           false, NULL, NULL);
+>+                           false, NULL, NULL, NULL);
+>     event_notifier_cleanup(&s->irq_notifier[MSIX_SHARED_IRQ_IDX]);
+>     qemu_vfio_pci_unmap_bar(s->vfio, 0, s->bar0_wo_map,
+>                             0, sizeof(NvmeBar) + NVME_DOORBELL_SIZE);
+>@@ -1519,7 +1542,7 @@ static void nvme_detach_aio_context(BlockDriverState *bs)
+>
+>     aio_set_event_notifier(bdrv_get_aio_context(bs),
+>                            &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
+>-                           false, NULL, NULL);
+>+                           false, NULL, NULL, NULL);
+> }
+>
+> static void nvme_attach_aio_context(BlockDriverState *bs,
+>@@ -1529,7 +1552,8 @@ static void nvme_attach_aio_context(BlockDriverState *bs,
+>
+>     s->aio_context = new_context;
+>     aio_set_event_notifier(new_context, &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
+>-                           false, nvme_handle_event, nvme_poll_cb);
+>+                           false, nvme_handle_event, nvme_poll_cb,
+>+                           nvme_poll_ready);
+>
+>     for (unsigned i = 0; i < s->queue_count; i++) {
+>         NVMeQueuePair *q = s->queues[i];
+>diff --git a/block/ssh.c b/block/ssh.c
+>index e0fbb4934b..3b5bf34031 100644
+>--- a/block/ssh.c
+>+++ b/block/ssh.c
+>@@ -990,7 +990,7 @@ static void restart_coroutine(void *opaque)
+>     AioContext *ctx = bdrv_get_aio_context(bs);
+>
+>     trace_ssh_restart_coroutine(restart->co);
+>-    aio_set_fd_handler(ctx, s->sock, false, NULL, NULL, NULL, NULL);
+>+    aio_set_fd_handler(ctx, s->sock, false, NULL, NULL, NULL, NULL, NULL);
+>
+>     aio_co_wake(restart->co);
+> }
+>@@ -1020,7 +1020,7 @@ static coroutine_fn void co_yield(BDRVSSHState *s, BlockDriverState *bs)
+>     trace_ssh_co_yield(s->sock, rd_handler, wr_handler);
+>
+>     aio_set_fd_handler(bdrv_get_aio_context(bs), s->sock,
+>-                       false, rd_handler, wr_handler, NULL, &restart);
+>+                       false, rd_handler, wr_handler, NULL, NULL, &restart);
+>     qemu_coroutine_yield();
+>     trace_ssh_co_yield_back(s->sock);
+> }
+>diff --git a/block/win32-aio.c b/block/win32-aio.c
+>index b7221a272f..c57e10c997 100644
+>--- a/block/win32-aio.c
+>+++ b/block/win32-aio.c
+>@@ -172,7 +172,7 @@ int win32_aio_attach(QEMUWin32AIOState *aio, HANDLE hfile)
+> void win32_aio_detach_aio_context(QEMUWin32AIOState *aio,
+>                                   AioContext *old_context)
+> {
+>-    aio_set_event_notifier(old_context, &aio->e, false, NULL, NULL);
+>+    aio_set_event_notifier(old_context, &aio->e, false, NULL, NULL, NULL);
+>     aio->aio_ctx = NULL;
+> }
+>
+>@@ -181,7 +181,7 @@ void win32_aio_attach_aio_context(QEMUWin32AIOState *aio,
+> {
+>     aio->aio_ctx = new_context;
+>     aio_set_event_notifier(new_context, &aio->e, false,
+>-                           win32_aio_completion_cb, NULL);
+>+                           win32_aio_completion_cb, NULL, NULL);
+> }
+>
+> QEMUWin32AIOState *win32_aio_init(void)
+>diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+>index ea7c079fb0..0039e1c74c 100644
+>--- a/hw/virtio/virtio.c
+>+++ b/hw/virtio/virtio.c
+>@@ -3533,11 +3533,14 @@ static bool virtio_queue_host_notifier_aio_poll(void *opaque)
+>     EventNotifier *n = opaque;
+>     VirtQueue *vq = container_of(n, VirtQueue, host_notifier);
+>
+>-    if (!vq->vring.desc || virtio_queue_empty(vq)) {
+>-        return false;
+>-    }
+>+    return vq->vring.desc && !virtio_queue_empty(vq);
+>+}
+>
+>-    return virtio_queue_notify_aio_vq(vq);
+>+static void virtio_queue_host_notifier_aio_poll_ready(EventNotifier *n)
+>+{
+>+    VirtQueue *vq = container_of(n, VirtQueue, host_notifier);
+>+
+>+    virtio_queue_notify_aio_vq(vq);
+
+Same here for virtio_queue_notify_aio_vq(), maybe we can make it void.
+
+> }
+>
+> static void virtio_queue_host_notifier_aio_poll_end(EventNotifier *n)
+>@@ -3555,12 +3558,13 @@ void virtio_queue_aio_set_host_notifier_handler(VirtQueue *vq, AioContext *ctx,
+>         vq->handle_aio_output = handle_output;
+>         aio_set_event_notifier(ctx, &vq->host_notifier, true,
+>                                virtio_queue_host_notifier_aio_read,
+>-                               virtio_queue_host_notifier_aio_poll);
+>+                               virtio_queue_host_notifier_aio_poll,
+>+                               virtio_queue_host_notifier_aio_poll_ready);
+>         aio_set_event_notifier_poll(ctx, &vq->host_notifier,
+>                                     virtio_queue_host_notifier_aio_poll_begin,
+>                                     virtio_queue_host_notifier_aio_poll_end);
 >     } else {
->         p->narmal[p->normal_num] = pages->offset[i];
->         p->normal_num++:
+>-        aio_set_event_notifier(ctx, &vq->host_notifier, true, NULL, NULL);
+>+        aio_set_event_notifier(ctx, &vq->host_notifier, true, NULL, NULL, NULL);
+>         /* Test and clear notifier before after disabling event,
+>          * in case poll callback didn't have time to run. */
+>         virtio_queue_host_notifier_aio_read(&vq->host_notifier);
+>diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
+>index 416583f130..645a29a5a0 100644
+>--- a/hw/xen/xen-bus.c
+>+++ b/hw/xen/xen-bus.c
+>@@ -1115,11 +1115,11 @@ void xen_device_set_event_channel_context(XenDevice *xendev,
+>
+>     if (channel->ctx)
+>         aio_set_fd_handler(channel->ctx, xenevtchn_fd(channel->xeh), true,
+>-                           NULL, NULL, NULL, NULL);
+>+                           NULL, NULL, NULL, NULL, NULL);
+>
+>     channel->ctx = ctx;
+>     aio_set_fd_handler(channel->ctx, xenevtchn_fd(channel->xeh), true,
+>-                       xen_device_event, NULL, xen_device_poll, channel);
+>+                       xen_device_event, NULL, xen_device_poll, NULL, channel);
+> }
+>
+> XenEventChannel *xen_device_bind_event_channel(XenDevice *xendev,
+>@@ -1193,7 +1193,7 @@ void xen_device_unbind_event_channel(XenDevice *xendev,
+>     QLIST_REMOVE(channel, list);
+>
+>     aio_set_fd_handler(channel->ctx, xenevtchn_fd(channel->xeh), true,
+>-                       NULL, NULL, NULL, NULL);
+>+                       NULL, NULL, NULL, NULL, NULL);
+>
+>     if (xenevtchn_unbind(channel->xeh, channel->local_port) < 0) {
+>         error_setg_errno(errp, errno, "xenevtchn_unbind failed");
+>diff --git a/io/channel-command.c b/io/channel-command.c
+>index b2a9e27138..338da73ade 100644
+>--- a/io/channel-command.c
+>+++ b/io/channel-command.c
+>@@ -346,8 +346,10 @@ static void qio_channel_command_set_aio_fd_handler(QIOChannel *ioc,
+>                                                    void *opaque)
+> {
+>     QIOChannelCommand *cioc = QIO_CHANNEL_COMMAND(ioc);
+>-    aio_set_fd_handler(ctx, cioc->readfd, false, io_read, NULL, NULL, opaque);
+>-    aio_set_fd_handler(ctx, cioc->writefd, false, NULL, io_write, NULL, opaque);
+>+    aio_set_fd_handler(ctx, cioc->readfd, false,
+>+                       io_read, NULL, NULL, NULL, opaque);
+>+    aio_set_fd_handler(ctx, cioc->writefd, false,
+>+                       NULL, io_write, NULL, NULL, opaque);
+> }
+>
+>
+>diff --git a/io/channel-file.c b/io/channel-file.c
+>index c4bf799a80..d7cf6d278f 100644
+>--- a/io/channel-file.c
+>+++ b/io/channel-file.c
+>@@ -191,7 +191,8 @@ static void qio_channel_file_set_aio_fd_handler(QIOChannel *ioc,
+>                                                 void *opaque)
+> {
+>     QIOChannelFile *fioc = QIO_CHANNEL_FILE(ioc);
+>-    aio_set_fd_handler(ctx, fioc->fd, false, io_read, io_write, NULL, opaque);
+>+    aio_set_fd_handler(ctx, fioc->fd, false, io_read, io_write,
+>+                       NULL, NULL, opaque);
+> }
+>
+> static GSource *qio_channel_file_create_watch(QIOChannel *ioc,
+>diff --git a/io/channel-socket.c b/io/channel-socket.c
+>index 606ec97cf7..459922c874 100644
+>--- a/io/channel-socket.c
+>+++ b/io/channel-socket.c
+>@@ -761,7 +761,8 @@ static void qio_channel_socket_set_aio_fd_handler(QIOChannel *ioc,
+>                                                   void *opaque)
+> {
+>     QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
+>-    aio_set_fd_handler(ctx, sioc->fd, false, io_read, io_write, NULL, opaque);
+>+    aio_set_fd_handler(ctx, sioc->fd, false,
+>+                       io_read, io_write, NULL, NULL, opaque);
+> }
+>
+> static GSource *qio_channel_socket_create_watch(QIOChannel *ioc,
+>diff --git a/migration/rdma.c b/migration/rdma.c
+>index f5d3bbe7e9..c7c7a38487 100644
+>--- a/migration/rdma.c
+>+++ b/migration/rdma.c
+>@@ -3161,14 +3161,14 @@ static void qio_channel_rdma_set_aio_fd_handler(QIOChannel *ioc,
+>     QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(ioc);
+>     if (io_read) {
+>         aio_set_fd_handler(ctx, rioc->rdmain->recv_comp_channel->fd,
+>-                           false, io_read, io_write, NULL, opaque);
+>+                           false, io_read, io_write, NULL, NULL, opaque);
+>         aio_set_fd_handler(ctx, rioc->rdmain->send_comp_channel->fd,
+>-                           false, io_read, io_write, NULL, opaque);
+>+                           false, io_read, io_write, NULL, NULL, opaque);
+>     } else {
+>         aio_set_fd_handler(ctx, rioc->rdmaout->recv_comp_channel->fd,
+>-                           false, io_read, io_write, NULL, opaque);
+>+                           false, io_read, io_write, NULL, NULL, opaque);
+>         aio_set_fd_handler(ctx, rioc->rdmaout->send_comp_channel->fd,
+>-                           false, io_read, io_write, NULL, opaque);
+>+                           false, io_read, io_write, NULL, NULL, opaque);
 >     }
 > }
-> 
-> i.e. don't have to touch the handling of normal pages at all, only this
-> for loop.
-> 
-> As an added benefit, after this patch, multifd methods don't need to
-> know about the pages array, only about the params array (that will allow
-> me to drop the locking earlier).
-> 
-> I hope this helps.
+>
+>diff --git a/tests/unit/test-aio.c b/tests/unit/test-aio.c
+>index 6feeb9a4a9..178048d2f2 100644
+>--- a/tests/unit/test-aio.c
+>+++ b/tests/unit/test-aio.c
+>@@ -130,7 +130,7 @@ static void *test_acquire_thread(void *opaque)
+> static void set_event_notifier(AioContext *ctx, EventNotifier *notifier,
+>                                EventNotifierHandler *handler)
+> {
+>-    aio_set_event_notifier(ctx, notifier, false, handler, NULL);
+>+    aio_set_event_notifier(ctx, notifier, false, handler, NULL, NULL);
+> }
+>
+> static void dummy_notifier_read(EventNotifier *n)
+>@@ -390,7 +390,7 @@ static void test_aio_external_client(void)
+>     for (i = 1; i < 3; i++) {
+>         EventNotifierTestData data = { .n = 0, .active = 10, .auto_set = true };
+>         event_notifier_init(&data.e, false);
+>-        aio_set_event_notifier(ctx, &data.e, true, event_ready_cb, NULL);
+>+        aio_set_event_notifier(ctx, &data.e, true, event_ready_cb, NULL, NULL);
+>         event_notifier_set(&data.e);
+>         for (j = 0; j < i; j++) {
+>             aio_disable_external(ctx);
+>diff --git a/util/aio-posix.c b/util/aio-posix.c
+>index 2b86777e91..2ee290586f 100644
+>--- a/util/aio-posix.c
+>+++ b/util/aio-posix.c
+>@@ -23,6 +23,15 @@
+> #include "trace.h"
+> #include "aio-posix.h"
+>
+>+/*
+>+ * G_IO_IN and G_IO_OUT are not appropriate revents values for polling, since
+>+ * the handler may not need to access the file descriptor. For example, the
+>+ * handler doesn't need to read from an EventNotifier if it polled a memory
+>+ * location and a read syscall would be slow. Define our own unique revents
+>+ * value to indicate that polling determined this AioHandler is ready.
+>+ */
+>+#define REVENTS_POLL_READY 0
+>+
+> /* Stop userspace polling on a handler if it isn't active for some time */
+> #define POLL_IDLE_INTERVAL_NS (7 * NANOSECONDS_PER_SECOND)
+>
+>@@ -93,6 +102,7 @@ void aio_set_fd_handler(AioContext *ctx,
+>                         IOHandler *io_read,
+>                         IOHandler *io_write,
+>                         AioPollFn *io_poll,
+>+                        IOHandler *io_poll_ready,
+>                         void *opaque)
+> {
+>     AioHandler *node;
+>@@ -101,6 +111,10 @@ void aio_set_fd_handler(AioContext *ctx,
+>     bool deleted = false;
+>     int poll_disable_change;
+>
+>+    if (io_poll && !io_poll_ready) {
+>+        io_poll = NULL; /* polling only makes sense if there is a handler */
+>+    }
+>+
+>     qemu_lockcnt_lock(&ctx->list_lock);
+>
+>     node = find_aio_handler(ctx, fd);
+>@@ -127,6 +141,7 @@ void aio_set_fd_handler(AioContext *ctx,
+>         new_node->io_read = io_read;
+>         new_node->io_write = io_write;
+>         new_node->io_poll = io_poll;
+>+        new_node->io_poll_ready = io_poll_ready;
+>         new_node->opaque = opaque;
+>         new_node->is_external = is_external;
+>
+>@@ -182,10 +197,12 @@ void aio_set_event_notifier(AioContext *ctx,
+>                             EventNotifier *notifier,
+>                             bool is_external,
+>                             EventNotifierHandler *io_read,
+>-                            AioPollFn *io_poll)
+>+                            AioPollFn *io_poll,
+>+                            EventNotifierHandler *io_poll_ready)
+> {
+>     aio_set_fd_handler(ctx, event_notifier_get_fd(notifier), is_external,
+>-                       (IOHandler *)io_read, NULL, io_poll, notifier);
+>+                       (IOHandler *)io_read, NULL, io_poll,
+>+                       (IOHandler *)io_poll_ready, notifier);
+> }
+>
+> void aio_set_event_notifier_poll(AioContext *ctx,
+>@@ -198,7 +215,8 @@ void aio_set_event_notifier_poll(AioContext *ctx,
+>                     (IOHandler *)io_poll_end);
+> }
+>
+>-static bool poll_set_started(AioContext *ctx, bool started)
+>+static bool poll_set_started(AioContext *ctx, AioHandlerList *ready_list,
+>+                             bool started)
+> {
+>     AioHandler *node;
+>     bool progress = false;
+>@@ -228,8 +246,9 @@ static bool poll_set_started(AioContext *ctx, bool started)
+>         }
+>
+>         /* Poll one last time in case ->io_poll_end() raced with the event */
+>-        if (!started) {
+>-            progress = node->io_poll(node->opaque) || progress;
+>+        if (!started && node->io_poll(node->opaque)) {
+>+            aio_add_ready_handler(ready_list, node, REVENTS_POLL_READY);
+>+            progress = true;
+>         }
+>     }
+>     qemu_lockcnt_dec(&ctx->list_lock);
+>@@ -240,8 +259,11 @@ static bool poll_set_started(AioContext *ctx, bool started)
+>
+> bool aio_prepare(AioContext *ctx)
+> {
+>+    AioHandlerList ready_list = QLIST_HEAD_INITIALIZER(ready_list);
+>+
+>     /* Poll mode cannot be used with glib's event loop, disable it. */
+>-    poll_set_started(ctx, false);
+>+    poll_set_started(ctx, &ready_list, false);
+>+    /* TODO what to do with this list? */
+>
+>     return false;
+> }
+>@@ -321,6 +343,18 @@ static bool aio_dispatch_handler(AioContext *ctx, AioHandler *node)
+>         }
+>         QLIST_INSERT_HEAD(&ctx->poll_aio_handlers, node, node_poll);
+>     }
+>+    if (!QLIST_IS_INSERTED(node, node_deleted) &&
+>+        revents == 0 &&
+>+        aio_node_check(ctx, node->is_external) &&
+>+        node->io_poll_ready) {
+>+        node->io_poll_ready(node->opaque);
+>+
+>+        /*
+>+         * Return early since revents was zero. aio_notify() does not count as
+>+         * progress.
+>+         */
+>+        return node->opaque != &ctx->notifier;
+>+    }
+>
+>     if (!QLIST_IS_INSERTED(node, node_deleted) &&
+>         (revents & (G_IO_IN | G_IO_HUP | G_IO_ERR)) &&
+>@@ -387,6 +421,7 @@ void aio_dispatch(AioContext *ctx)
+> }
+>
+> static bool run_poll_handlers_once(AioContext *ctx,
+>+                                   AioHandlerList *ready_list,
+>                                    int64_t now,
+>                                    int64_t *timeout)
+> {
+>@@ -397,6 +432,8 @@ static bool run_poll_handlers_once(AioContext *ctx,
+>     QLIST_FOREACH_SAFE(node, &ctx->poll_aio_handlers, node_poll, tmp) {
+>         if (aio_node_check(ctx, node->is_external) &&
+>             node->io_poll(node->opaque)) {
+>+            aio_add_ready_handler(ready_list, node, REVENTS_POLL_READY);
+>+
+>             node->poll_idle_timeout = now + POLL_IDLE_INTERVAL_NS;
+>
+>             /*
+>@@ -420,7 +457,9 @@ static bool fdmon_supports_polling(AioContext *ctx)
+>     return ctx->fdmon_ops->need_wait != aio_poll_disabled;
+> }
+>
+>-static bool remove_idle_poll_handlers(AioContext *ctx, int64_t now)
+>+static bool remove_idle_poll_handlers(AioContext *ctx,
+>+                                      AioHandlerList *ready_list,
+>+                                      int64_t now)
+> {
+>     AioHandler *node;
+>     AioHandler *tmp;
+>@@ -451,7 +490,11 @@ static bool remove_idle_poll_handlers(AioContext *ctx, int64_t now)
+>                  * Nevermind about re-adding the handler in the rare case where
+>                  * this causes progress.
+>                  */
+>-                progress = node->io_poll(node->opaque) || progress;
+>+                if (node->io_poll(node->opaque)) {
+>+                    aio_add_ready_handler(ready_list, node,
+>+                                          REVENTS_POLL_READY);
+>+                    progress = true;
+>+                }
+>             }
+>         }
+>     }
+>@@ -461,6 +504,7 @@ static bool remove_idle_poll_handlers(AioContext *ctx, int64_t now)
+>
+> /* run_poll_handlers:
+>  * @ctx: the AioContext
+>+ * @ready_list: the list to place ready handlers on
+>  * @max_ns: maximum time to poll for, in nanoseconds
+>  *
+>  * Polls for a given time.
+>@@ -469,7 +513,8 @@ static bool remove_idle_poll_handlers(AioContext *ctx, int64_t now)
+>  *
+>  * Returns: true if progress was made, false otherwise
+>  */
+>-static bool run_poll_handlers(AioContext *ctx, int64_t max_ns, int64_t *timeout)
+>+static bool run_poll_handlers(AioContext *ctx, AioHandlerList *ready_list,
+>+                              int64_t max_ns, int64_t *timeout)
+> {
+>     bool progress;
+>     int64_t start_time, elapsed_time;
+>@@ -490,13 +535,15 @@ static bool run_poll_handlers(AioContext *ctx, int64_t max_ns, int64_t *timeout)
+>
+>     start_time = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
+>     do {
+>-        progress = run_poll_handlers_once(ctx, start_time, timeout);
+>+        progress = run_poll_handlers_once(ctx, ready_list,
+>+                                          start_time, timeout);
+>         elapsed_time = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) - start_time;
+>         max_ns = qemu_soonest_timeout(*timeout, max_ns);
+>         assert(!(max_ns && progress));
+>     } while (elapsed_time < max_ns && !ctx->fdmon_ops->need_wait(ctx));
+>
+>-    if (remove_idle_poll_handlers(ctx, start_time + elapsed_time)) {
+>+    if (remove_idle_poll_handlers(ctx, ready_list,
+>+                                  start_time + elapsed_time)) {
+>         *timeout = 0;
+>         progress = true;
+>     }
+>@@ -521,7 +568,8 @@ static bool run_poll_handlers(AioContext *ctx, int64_t max_ns, int64_t *timeout)
+>  *
+>  * Returns: true if progress was made, false otherwise
+>  */
+>-static bool try_poll_mode(AioContext *ctx, int64_t *timeout)
+>+static bool try_poll_mode(AioContext *ctx, AioHandlerList *ready_list,
 
-OK, so the code is OK, but it needs a commit message that explains all
-that a bit more concisely.
+Missing docs about the new `ready_list` parameter.
 
-Dave
+>+                          int64_t *timeout)
+> {
+>     int64_t max_ns;
+>
+>@@ -531,14 +579,14 @@ static bool try_poll_mode(AioContext *ctx, int64_t *timeout)
+>
+>     max_ns = qemu_soonest_timeout(*timeout, ctx->poll_ns);
+>     if (max_ns && !ctx->fdmon_ops->need_wait(ctx)) {
+>-        poll_set_started(ctx, true);
+>+        poll_set_started(ctx, ready_list, true);
+>
+>-        if (run_poll_handlers(ctx, max_ns, timeout)) {
+>+        if (run_poll_handlers(ctx, ready_list, max_ns, timeout)) {
+>             return true;
+>         }
+>     }
+>
+>-    if (poll_set_started(ctx, false)) {
+>+    if (poll_set_started(ctx, ready_list, false)) {
+>         *timeout = 0;
+>         return true;
+>     }
+>@@ -549,7 +597,6 @@ static bool try_poll_mode(AioContext *ctx, int64_t *timeout)
+> bool aio_poll(AioContext *ctx, bool blocking)
+> {
+>     AioHandlerList ready_list = QLIST_HEAD_INITIALIZER(ready_list);
+>-    int ret = 0;
+>     bool progress;
+>     bool use_notify_me;
+>     int64_t timeout;
+>@@ -574,7 +621,7 @@ bool aio_poll(AioContext *ctx, bool blocking)
+>     }
+>
+>     timeout = blocking ? aio_compute_timeout(ctx) : 0;
+>-    progress = try_poll_mode(ctx, &timeout);
+>+    progress = try_poll_mode(ctx, &ready_list, &timeout);
+>     assert(!(timeout && progress));
+>
+>     /*
+>@@ -604,7 +651,7 @@ bool aio_poll(AioContext *ctx, bool blocking)
+>      * system call---a single round of run_poll_handlers_once suffices.
+>      */
+>     if (timeout || ctx->fdmon_ops->need_wait(ctx)) {
+>-        ret = ctx->fdmon_ops->wait(ctx, &ready_list, timeout);
+>+        ctx->fdmon_ops->wait(ctx, &ready_list, timeout);
+>     }
+>
+>     if (use_notify_me) {
+>@@ -657,10 +704,7 @@ bool aio_poll(AioContext *ctx, bool blocking)
+>     }
+>
+>     progress |= aio_bh_poll(ctx);
+>-
+>-    if (ret > 0) {
+>-        progress |= aio_dispatch_ready_handlers(ctx, &ready_list);
+>-    }
+>+    progress |= aio_dispatch_ready_handlers(ctx, &ready_list);
 
-> Later, Juan.
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+I honestly don't know this code well, so this change isn't clear to me.
+
+IIUC this is necessary because we now use REVENTS_POLL_READY, so even if 
+`wait` is interrupted, we want to run the handlers ready so far.
+Or maybe is it an unrelated optimization?
+
+The rest LGTM.
+
+Thanks,
+Stefano
 
 
