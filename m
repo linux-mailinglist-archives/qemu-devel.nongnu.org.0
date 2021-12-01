@@ -2,89 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310C1465639
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 20:14:17 +0100 (CET)
-Received: from localhost ([::1]:38678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0C846583D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 22:16:24 +0100 (CET)
+Received: from localhost ([::1]:40054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msV3V-0008Oi-DS
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 14:14:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60828)
+	id 1msWxh-0000J5-5i
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 16:16:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1msUws-0006ZJ-IM
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 14:07:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37681)
+ (Exim 4.90_1) (envelope-from
+ <BATV+91c63c4280be7436ccc6+6674+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1msWZc-0003S8-5c
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 15:51:30 -0500
+Received: from casper.infradead.org ([90.155.50.34]:57788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1msUwp-0008IF-5I
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 14:07:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638385637;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3Cdmoi17sAnD1ngm1y+3xZ0gnfkJRbaPx+YMyNkrOAs=;
- b=NS0fsUU8rbpo9VvE+y6pUXKDV2wMfbfBg521VG5BHLeQAkzYPVFD+Xl1Xck9WnI+6OewXt
- vqU+H89fqN7gApwyGRzwUwD5qI8E1ItNSJvOM8LPh+JAY9GqSL+rHEkl5SRdacdofW+6AR
- 07KwvFTgfNuWZLmWHfxvG7wfA/hF/Uk=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-314-OtF8MaMUMSOKQIx3fbAzIA-1; Wed, 01 Dec 2021 14:07:14 -0500
-X-MC-Unique: OtF8MaMUMSOKQIx3fbAzIA-1
-Received: by mail-lf1-f72.google.com with SMTP id
- c15-20020a05651200cf00b0040524451deeso9898716lfp.20
- for <qemu-devel@nongnu.org>; Wed, 01 Dec 2021 11:07:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3Cdmoi17sAnD1ngm1y+3xZ0gnfkJRbaPx+YMyNkrOAs=;
- b=HpYaiSRTVYUK90weVYXWK1IbsWAilKs8c7y9kkMk7B8IE29fitij/EnklxCJW77aP+
- Yh5JKCljyVyUXqX9vTQBMQahhInRRls0eaHmODLvKu6E1bYDo0UuCTTPCFD3oYFIII0Y
- yXCwE4T6eEHKb3lIWstcEkK2DoawOeXEEnGVk4j+K1EpkBcFp93nHZ9uguj++6XLtfDp
- 9v6zteCV8h++iON4nV1IDQ+94FuwbmSNNDy5iRLqhxGgspnNbOCQ7S5gUH4I0O1MqSiV
- nI3jOlgKglcMQqVtJcHvRX4cqlMgjZyjIXhAUZGg2nlr6lcTTIzRJ+kQoFF7gOtFUcBm
- zTFg==
-X-Gm-Message-State: AOAM5303T1mY4eTbV/PsM8En7IBMesW3EPH0BwAZki5GpuB3YO6Q2FhJ
- VthKxW1ZLCZtL1rtI8EBEGxsr0Aq9MPhnmbx0eEZ4tHN53cC9REkjez8fcr/Kmn9K0fvv/QVd+7
- DdpXi8IJNoZtZ+FKemfiqZBAVLWkKdMA=
-X-Received: by 2002:a05:6512:158e:: with SMTP id
- bp14mr7731308lfb.630.1638385632645; 
- Wed, 01 Dec 2021 11:07:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy+W+yM61VtmpErWr2a2IcbQ3KF5bxD/xwvUzd5MN4b5oa7/TRnYHYFbeYNsK+y/LOhUjZrIdj9PxkerVaDCBA=
-X-Received: by 2002:a05:6512:158e:: with SMTP id
- bp14mr7731296lfb.630.1638385632461; 
- Wed, 01 Dec 2021 11:07:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from
+ <BATV+91c63c4280be7436ccc6+6674+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1msWZY-0000Rn-6E
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 15:51:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=4Wlf+rCDOKrtA5ncaXG8n3P6unqgFBcMJrGQNwuiDHI=; b=paSbXY9Rwv4SWjm/3bhyc8c/Ul
+ wb4TtzUob7tz1gezHKLhGRMaOcAPIxbQdIX8ALH7Q9/mP0lnm0Wv+vLyhHraFUmLYrZIj7xhoUNsr
+ C+1Udq9CApQvH+4P4tRW1VKPu9RhUio6YqOcd07gKqkFVnEk3yAtmwod/hBQj8caBwInSojTQtOYA
+ ZDoOiI219aql1vw3vkI16mjg+XtDWfbPpE4Jz/JMP1Zk1/C+jIVC4ZUT4Vem3dGi0XzYDOx31C5X5
+ tB53faeWr8k1ayttMCkFG1GXk1CHHcQ2RNZvnd29YYws5SykLnoWAza0VB2up7AQA7yplKwqCcJXm
+ u6kx5FiA==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1msWZN-000wRV-UI; Wed, 01 Dec 2021 20:51:14 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1msWZN-000Euw-CS; Wed, 01 Dec 2021 20:51:13 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] intel_iommu: Support IR-only mode without DMA translation
+Date: Wed,  1 Dec 2021 20:51:12 +0000
+Message-Id: <20211201205113.57299-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211112051040.923746-1-leobras@redhat.com>
- <20211112051040.923746-5-leobras@redhat.com>
- <87pmr5vdmm.fsf@secure.mitica> <YY5LFM6dAF/+enCP@redhat.com>
- <87a6i9h9eg.fsf@dusky.pond.sub.org>
-In-Reply-To: <87a6i9h9eg.fsf@dusky.pond.sub.org>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Wed, 1 Dec 2021 16:07:01 -0300
-Message-ID: <CAJ6HWG4JTkb_Z6E56jjK0+46XC6uUah18bjNTm22hpbtG+wM-Q@mail.gmail.com>
-Subject: Re: [PATCH v5 4/6] migration: Add zerocopy parameter for QMP/HMP for
- Linux
-To: Markus Armbruster <armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=90.155.50.34;
+ envelope-from=BATV+91c63c4280be7436ccc6+6674+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,102 +67,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Markus,
-Thanks for sharing this info!
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-Best regards,
-Leo
+By setting none of the SAGAW bits we can indicate to a guest that DMA
+translation isn't supported. Tested by booting Windows 10, as well as
+Linux guests with the fix at https://git.kernel.org/torvalds/c/c40aaaac10
 
-On Fri, Nov 12, 2021 at 8:59 AM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->
-> > On Fri, Nov 12, 2021 at 12:04:33PM +0100, Juan Quintela wrote:
-> >> Leonardo Bras <leobras@redhat.com> wrote:
->
-> [...]
->
-> >> > diff --git a/migration/migration.c b/migration/migration.c
-> >> > index abaf6f9e3d..add3dabc56 100644
-> >> > --- a/migration/migration.c
-> >> > +++ b/migration/migration.c
-> >> > @@ -886,6 +886,10 @@ MigrationParameters *qmp_query_migrate_paramete=
-rs(Error **errp)
-> >> >      params->multifd_zlib_level =3D s->parameters.multifd_zlib_level=
-;
-> >> >      params->has_multifd_zstd_level =3D true;
-> >> >      params->multifd_zstd_level =3D s->parameters.multifd_zstd_level=
-;
-> >> > +#ifdef CONFIG_LINUX
-> >> > +    params->has_zerocopy =3D true;
-> >> > +    params->zerocopy =3D s->parameters.zerocopy;
-> >> > +#endif
-> >> >      params->has_xbzrle_cache_size =3D true;
-> >> >      params->xbzrle_cache_size =3D s->parameters.xbzrle_cache_size;
-> >> >      params->has_max_postcopy_bandwidth =3D true;
-> >> > @@ -1538,6 +1542,11 @@ static void migrate_params_test_apply(Migrate=
-SetParameters *params,
-> >> >      if (params->has_multifd_compression) {
-> >> >          dest->multifd_compression =3D params->multifd_compression;
-> >> >      }
-> >> > +#ifdef CONFIG_LINUX
-> >> > +    if (params->has_zerocopy) {
-> >> > +        dest->zerocopy =3D params->zerocopy;
-> >> > +    }
-> >> > +#endif
-> >> >      if (params->has_xbzrle_cache_size) {
-> >> >          dest->xbzrle_cache_size =3D params->xbzrle_cache_size;
-> >> >      }
-> >> > @@ -1650,6 +1659,11 @@ static void migrate_params_apply(MigrateSetPa=
-rameters *params, Error **errp)
-> >> >      if (params->has_multifd_compression) {
-> >> >          s->parameters.multifd_compression =3D params->multifd_compr=
-ession;
-> >> >      }
-> >> > +#ifdef CONFIG_LINUX
-> >> > +    if (params->has_zerocopy) {
-> >> > +        s->parameters.zerocopy =3D params->zerocopy;
-> >> > +    }
-> >> > +#endif
-> >>
-> >> After seing all this CONFIG_LINUX mess, I am not sure that it is a goo=
-d
-> >> idea to add the parameter only for LINUX.  It appears that it is bette=
-r
-> >> to add it for all OS's and just not allow to set it to true there.
-> >>
-> >> But If QAPI/QOM people preffer that way, I am not going to get into th=
-e middle.
-> >
-> > I don't like all the conditionals either, but QAPI design wants the
-> > conditionals, as that allows mgmt apps to query whether the feature
-> > is supported in a build or not.
->
-> Specifically, the conditionals keep @zerocopy out of query-qmp-schema
-> (a.k.a. schema introspection) when it's not actually supported.
->
-> This lets management applications recognize zero-copy support.
->
-> Without conditionals, the only way to probe for it is trying to switch
-> it on.  This is inconvenient and error-prone.
->
-> Immature ideas to avoid conditionals:
->
-> 1. Make *values* conditional, i.e. unconditional false, but true only if
-> CONFIG_LINUX.  The QAPI schema language lets you do this for
-> enumerations today, but not for bool.
->
-> 2. A new kind of conditional that only applies to schema introspection,
-> so you can eat your introspection cake and keep the #ifdef-less code
-> cake (and the slight binary bloat that comes with it).
->
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+ hw/i386/intel_iommu.c         | 14 ++++++++++----
+ include/hw/i386/intel_iommu.h |  1 +
+ 2 files changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 294499ee20..ffc852d110 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -2202,7 +2202,7 @@ static void vtd_handle_gcmd_write(IntelIOMMUState *s)
+     uint32_t changed = status ^ val;
+ 
+     trace_vtd_reg_write_gcmd(status, val);
+-    if (changed & VTD_GCMD_TE) {
++    if ((changed & VTD_GCMD_TE) && s->dma_translation) {
+         /* Translation enable/disable */
+         vtd_handle_gcmd_te(s, val & VTD_GCMD_TE);
+     }
+@@ -3100,6 +3100,7 @@ static Property vtd_properties[] = {
+     DEFINE_PROP_BOOL("caching-mode", IntelIOMMUState, caching_mode, FALSE),
+     DEFINE_PROP_BOOL("x-scalable-mode", IntelIOMMUState, scalable_mode, FALSE),
+     DEFINE_PROP_BOOL("dma-drain", IntelIOMMUState, dma_drain, true),
++    DEFINE_PROP_BOOL("dma-translation", IntelIOMMUState, dma_translation, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -3605,12 +3606,17 @@ static void vtd_init(IntelIOMMUState *s)
+     s->next_frcd_reg = 0;
+     s->cap = VTD_CAP_FRO | VTD_CAP_NFR | VTD_CAP_ND |
+              VTD_CAP_MAMV | VTD_CAP_PSI | VTD_CAP_SLLPS |
+-             VTD_CAP_SAGAW_39bit | VTD_CAP_MGAW(s->aw_bits);
++             VTD_CAP_MGAW(s->aw_bits);
+     if (s->dma_drain) {
+         s->cap |= VTD_CAP_DRAIN;
+     }
+-    if (s->aw_bits == VTD_HOST_AW_48BIT) {
+-        s->cap |= VTD_CAP_SAGAW_48bit;
++    if (s->dma_translation) {
++            if (s->aw_bits >= VTD_HOST_AW_39BIT) {
++                    s->cap |= VTD_CAP_SAGAW_39bit;
++            }
++            if (s->aw_bits >= VTD_HOST_AW_48BIT) {
++                    s->cap |= VTD_CAP_SAGAW_48bit;
++            }
+     }
+     s->ecap = VTD_ECAP_QI | VTD_ECAP_IRO;
+ 
+diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
+index 41783ee46d..42d6a6a636 100644
+--- a/include/hw/i386/intel_iommu.h
++++ b/include/hw/i386/intel_iommu.h
+@@ -266,6 +266,7 @@ struct IntelIOMMUState {
+     bool buggy_eim;                 /* Force buggy EIM unless eim=off */
+     uint8_t aw_bits;                /* Host/IOVA address width (in bits) */
+     bool dma_drain;                 /* Whether DMA r/w draining enabled */
++    bool dma_translation;           /* Whether DMA translation supported */
+ 
+     /*
+      * Protects IOMMU states in general.  Currently it protects the
+-- 
+2.31.1
 
 
