@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BA146516B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 16:22:07 +0100 (CET)
-Received: from localhost ([::1]:37280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E59465187
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 16:25:56 +0100 (CET)
+Received: from localhost ([::1]:45930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msRQs-0002Ra-VJ
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 10:22:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40854)
+	id 1msRUY-0008I9-WB
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 10:25:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1msRN2-0006jn-I0; Wed, 01 Dec 2021 10:18:08 -0500
-Received: from [2607:f8b0:4864:20::934] (port=34547
- helo=mail-ua1-x934.google.com)
+ id 1msRN5-0006n0-45; Wed, 01 Dec 2021 10:18:11 -0500
+Received: from [2607:f8b0:4864:20::936] (port=41571
+ helo=mail-ua1-x936.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1msRN0-0003MT-Ho; Wed, 01 Dec 2021 10:18:08 -0500
-Received: by mail-ua1-x934.google.com with SMTP id n6so49826940uak.1;
- Wed, 01 Dec 2021 07:18:05 -0800 (PST)
+ id 1msRN2-0003Ml-QJ; Wed, 01 Dec 2021 10:18:10 -0500
+Received: by mail-ua1-x936.google.com with SMTP id p37so49709040uae.8;
+ Wed, 01 Dec 2021 07:18:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WVS3GAAoJjurl1YFSyMfRyqcO4teP2wEnanuIv/d8qw=;
- b=Sb3ErEYHtK2eyN1g77vgxjKhKhqDh28qGitAfcxeLcAQ+y/0sva0cSjRNZZH6RPvft
- 1JVzE9drmt1ue+8QTreyLXz9VJeVA98o1SCnLYuiftuIN8ITwMZCgJNg6zYHLlSwZQwl
- QEHenwRaWxmB1ZATqL9Q1i4iu3qj2NRiuTNeZ2IkmtUDDZuzO1XNlsiqsp/4kfL7HmZ7
- Qk3gRTX5tPrvd/ga9mey0AJ2O73Ptx2IZmnCXmlRPuevMbeiW7lBRhklcRZkmhKKksu1
- DNpPESqV1X/ioM6lLaAfvAq1Mq3Pa+abKhMvVjdwxd0MI+eeKKPu0Kpjcjv+q5RMmC8Q
- Aqbg==
+ bh=ipWXvFksqenflaCrbdn/f8uENlH6zG2iT1yHhTwtXUA=;
+ b=SeQFhyOfpNbFDmLc5QSRKF3kb4/e8oLurgwn0rB0HjVaexWFADpv9pt1FRVLBOOB6J
+ vaRQf3EOGUHDUczmLVzqrSL/0mhenpQp8VYgWEKMTIuL1aPTZMaqqoo1hiF8knd9r93Y
+ O5ddxufsDcVkaLytcX6HbcfSgyhS7zSrDnTRI4waMSHM01actT+Et/MeBc30Rou5lUmX
+ U/3H8bT0d7f4oGeMGd3APXQlpv9EeKSRSyCq4Eytb6QUMCvDHg+kJStubG2tJQ3YuvV0
+ 6+m6niAJ+yGOER8N8+P9jP51kkQ5ZjsZBj7PtbeaM2RtP+8K2cudach+5nYOMFUbF5Mx
+ DEOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WVS3GAAoJjurl1YFSyMfRyqcO4teP2wEnanuIv/d8qw=;
- b=bsajmQsVd9aZTnz4K7+zMmXAIunJLEYTS0OVAiTt5PtkJS7OLsgO1KhhLvCsBsTVJz
- vV/7mmmkzbVgpGCS58yvEWuSTxpBtFYJmjuAK1X12Jjzqmn5YX2X/uWB4UsTuyd/65qJ
- IvRGhcDWDU+gWPC65iAOMeQ41H/7trA+vPn09mnxUIqKMsuY9uh/VFSkW75Edny3Y1U5
- QiVNj6UcwexGg4oUQQarh1G50uyo7sPPr5d7irlYSW1f7zbE27sotdFQ9IJhdwyo70zE
- Uq/Y4/qg0bLKncOSmpRkik1uJF4fGFMx6SWYZmiiuuZWolVR+wsR1zbuUlgEv5AJF2D2
- hrlw==
-X-Gm-Message-State: AOAM531iQ2iIDcQKGByMmv2/F6bHIuvEImXR51AYroYMnoohXrzLzAIi
- UR/FMPKemg7j0GImClNdM+/3R0LaY5w=
-X-Google-Smtp-Source: ABdhPJwDd5uK5kCJN1rOZTA7r+LwL6nl08p5lEE3v+BA3fdT1Uvqh9AHjbB0MrNqZ6B7lRaSUv7B8g==
-X-Received: by 2002:a67:e054:: with SMTP id n20mr7804836vsl.83.1638371883178; 
- Wed, 01 Dec 2021 07:18:03 -0800 (PST)
+ bh=ipWXvFksqenflaCrbdn/f8uENlH6zG2iT1yHhTwtXUA=;
+ b=Qj36Qkr/TKlQsm+lZh30MFkvcVxMs4AdYP+xcH5QkIOgBfNzZwKSKcxZoFb5Y4Cwp/
+ 9bPB/QmT2L7gwKxFVDMxs+Gfcq0v2UFOByEEpxknuNUbDHSy4YwIWxR5b1O/d5jjOSdI
+ j7bBBTZbbzXTVo/LSQKJgh7ChI2BxQCLP6zaA3VxmaR7vaPgdVAIWTpvTNFicHiYGr5W
+ WtmMK0PDpSduDUID4c8KgyLinBpMS/KLyjObjKn2CgrNfNuepTMu4t3YivskCdjd7UFC
+ NVppmu8oO9CFQS+0gMn1ugQ93ojFV13ZhueRM5PFayPc/KVjzDb3If4W7cAgpi4kIUeN
+ owqQ==
+X-Gm-Message-State: AOAM530WY+JXM0MGxOy3p5lMUxW8MUPguBj9S6Da7cSwXzKX+eU7tHJ2
+ 0k73NE61x+CKJ6dn6W9vh/4T6XgD8Zc=
+X-Google-Smtp-Source: ABdhPJxK30b/xBARvlwHDhAt+pTBCUVG0o7k74HKZhnMVKkguDziyvZ+pEmneGik7pHgoo6BrnxQpQ==
+X-Received: by 2002:ab0:20d4:: with SMTP id z20mr8018636ual.23.1638371887475; 
+ Wed, 01 Dec 2021 07:18:07 -0800 (PST)
 Received: from rekt.COMFAST ([177.68.212.35])
- by smtp.gmail.com with ESMTPSA id q26sm109610vsp.23.2021.12.01.07.18.01
+ by smtp.gmail.com with ESMTPSA id q26sm109610vsp.23.2021.12.01.07.18.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Dec 2021 07:18:02 -0800 (PST)
+ Wed, 01 Dec 2021 07:18:07 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 07/10] target/ppc/power8-pmu.c: add PM_RUN_INST_CMPL (0xFA)
- event
-Date: Wed,  1 Dec 2021 12:17:31 -0300
-Message-Id: <20211201151734.654994-8-danielhb413@gmail.com>
+Subject: [PATCH v9 08/10] PPC64/TCG: Implement 'rfebb' instruction
+Date: Wed,  1 Dec 2021 12:17:32 -0300
+Message-Id: <20211201151734.654994-9-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211201151734.654994-1-danielhb413@gmail.com>
 References: <20211201151734.654994-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::934
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::936
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::934;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x934.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::936;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x936.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -85,156 +84,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ richard.henderson@linaro.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PM_RUN_INST_CMPL, instructions completed with the run latch set, is
-the architected PowerISA v3.1 event defined with PMC4SEL = 0xFA.
+An Event-Based Branch (EBB) allows applications to change the NIA when a
+event-based exception occurs. Event-based exceptions are enabled by
+setting the Branch Event Status and Control Register (BESCR). If the
+event-based exception is enabled when the exception occurs, an EBB
+happens.
 
-Implement it by checking for the CTRL RUN bit before incrementing the
-counter. To make this work properly we also need to force a new
-translation block each time SPR_CTRL is written. A small tweak in
-pmu_increment_insns() is then needed to only increment this event
-if the thread has the run latch.
+The following operations happens during an EBB:
+
+- Global Enable (GE) bit of BESCR is set to 0;
+- bits 0-61 of the Event-Based Branch Return Register (EBBRR) are set
+to the the effective address of the NIA that would have executed if the EBB
+didn't happen;
+- Instruction fetch and execution will continue in the effective address
+contained in the Event-Based Branch Handler Register (EBBHR).
+
+The EBB Handler will process the event and then execute the Return From
+Event-Based Branch (rfebb) instruction. rfebb sets BESCR_GE and then
+redirects execution to the address pointed in EBBRR. This process is
+described in the PowerISA v3.1, Book II, Chapter 6 [1].
+
+This patch implements the rfebb instruction. Descriptions of all
+relevant BESCR bits are also added - this patch is only using BESCR_GE,
+but the next patches will use the remaining bits.
+
+[1] https://wiki.raptorcs.com/w/images/f/f5/PowerISA_public.v3.1.pdf
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h        |  4 ++++
- target/ppc/cpu_init.c   |  2 +-
- target/ppc/power8-pmu.c | 27 ++++++++++++++++++++++++---
- target/ppc/spr_tcg.h    |  1 +
- target/ppc/translate.c  | 12 ++++++++++++
- 5 files changed, 42 insertions(+), 4 deletions(-)
+ target/ppc/cpu.h                       | 13 ++++++++++
+ target/ppc/excp_helper.c               | 31 ++++++++++++++++++++++++
+ target/ppc/helper.h                    |  1 +
+ target/ppc/insn32.decode               |  5 ++++
+ target/ppc/translate.c                 |  2 ++
+ target/ppc/translate/branch-impl.c.inc | 33 ++++++++++++++++++++++++++
+ 6 files changed, 85 insertions(+)
+ create mode 100644 target/ppc/translate/branch-impl.c.inc
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 28a185fb25..ac08e669ea 100644
+index ac08e669ea..741b8baf4c 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -303,6 +303,7 @@ typedef enum {
-     PMU_EVENT_INACTIVE,
-     PMU_EVENT_CYCLES,
-     PMU_EVENT_INSTRUCTIONS,
-+    PMU_EVENT_INSN_RUN_LATCH,
- } PMUEventType;
+@@ -392,6 +392,19 @@ typedef enum {
+ /* PMU uses CTRL_RUN to sample PM_RUN_INST_CMPL */
+ #define CTRL_RUN PPC_BIT(63)
  
- /*****************************************************************************/
-@@ -388,6 +389,9 @@ typedef enum {
- #define MMCR1_PMC4SEL_START 56
- #define MMCR1_PMC4EVT_EXTR (64 - MMCR1_PMC4SEL_START - MMCR1_EVT_SIZE)
- 
-+/* PMU uses CTRL_RUN to sample PM_RUN_INST_CMPL */
-+#define CTRL_RUN PPC_BIT(63)
++/* EBB/BESCR bits */
++/* Global Enable */
++#define BESCR_GE PPC_BIT(0)
++/* External Event-based Exception Enable */
++#define BESCR_EE PPC_BIT(30)
++/* Performance Monitor Event-based Exception Enable */
++#define BESCR_PME PPC_BIT(31)
++/* External Event-based Exception Occurred */
++#define BESCR_EEO PPC_BIT(62)
++/* Performance Monitor Event-based Exception Occurred */
++#define BESCR_PMEO PPC_BIT(63)
++#define BESCR_INVALID PPC_BITMASK(32, 33)
 +
  /* LPCR bits */
  #define LPCR_VPM0         PPC_BIT(0)
  #define LPCR_VPM1         PPC_BIT(1)
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 2d72dde26d..ecce4c7c1e 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -6749,7 +6749,7 @@ static void register_book3s_ctrl_sprs(CPUPPCState *env)
- {
-     spr_register(env, SPR_CTRL, "SPR_CTRL",
-                  SPR_NOACCESS, SPR_NOACCESS,
--                 SPR_NOACCESS, &spr_write_generic,
-+                 SPR_NOACCESS, &spr_write_CTRL,
-                  0x00000000);
-     spr_register(env, SPR_UCTRL, "SPR_UCTRL",
-                  &spr_read_ureg, SPR_NOACCESS,
-diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-index e163ba5640..08d1902cd5 100644
---- a/target/ppc/power8-pmu.c
-+++ b/target/ppc/power8-pmu.c
-@@ -96,6 +96,15 @@ static PMUEventType pmc_get_event(CPUPPCState *env, int sprn)
-             evt_type = PMU_EVENT_CYCLES;
-         }
-         break;
-+    case 0xFA:
-+        /*
-+         * PMC4SEL = 0xFA is the "instructions completed
-+         * with run latch set" event.
-+         */
-+        if (sprn == SPR_POWER_PMC4) {
-+            evt_type = PMU_EVENT_INSN_RUN_LATCH;
-+        }
-+        break;
-     case 0xFE:
-         /*
-          * PMC1SEL = 0xFE is the architected PowerISA v3.1
-@@ -117,7 +126,8 @@ bool pmu_insn_cnt_enabled(CPUPPCState *env)
-     int sprn;
- 
-     for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC5; sprn++) {
--        if (pmc_get_event(env, sprn) == PMU_EVENT_INSTRUCTIONS) {
-+        if (pmc_get_event(env, sprn) == PMU_EVENT_INSTRUCTIONS ||
-+            pmc_get_event(env, sprn) == PMU_EVENT_INSN_RUN_LATCH) {
-             return true;
-         }
-     }
-@@ -132,11 +142,22 @@ static bool pmu_increment_insns(CPUPPCState *env, uint32_t num_insns)
- 
-     /* PMC6 never counts instructions */
-     for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC5; sprn++) {
--        if (pmc_get_event(env, sprn) != PMU_EVENT_INSTRUCTIONS) {
-+        PMUEventType evt_type = pmc_get_event(env, sprn);
-+        bool insn_event = evt_type == PMU_EVENT_INSTRUCTIONS ||
-+                          evt_type == PMU_EVENT_INSN_RUN_LATCH;
-+
-+        if (pmc_is_inactive(env, sprn) || !insn_event) {
-             continue;
-         }
- 
--        env->spr[sprn] += num_insns;
-+        if (evt_type == PMU_EVENT_INSTRUCTIONS) {
-+            env->spr[sprn] += num_insns;
-+        }
-+
-+        if (evt_type == PMU_EVENT_INSN_RUN_LATCH &&
-+            env->spr[SPR_CTRL] & CTRL_RUN) {
-+            env->spr[sprn] += num_insns;
-+        }
- 
-         if (env->spr[sprn] >= PMC_COUNTER_NEGATIVE_VAL &&
-             pmc_has_overflow_enabled(env, sprn)) {
-diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
-index 1d6521eedc..f98d97c0ba 100644
---- a/target/ppc/spr_tcg.h
-+++ b/target/ppc/spr_tcg.h
-@@ -28,6 +28,7 @@ void spr_write_generic(DisasContext *ctx, int sprn, int gprn);
- void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn);
- void spr_write_MMCR1(DisasContext *ctx, int sprn, int gprn);
- void spr_write_PMC(DisasContext *ctx, int sprn, int gprn);
-+void spr_write_CTRL(DisasContext *ctx, int sprn, int gprn);
- void spr_read_xer(DisasContext *ctx, int gprn, int sprn);
- void spr_write_xer(DisasContext *ctx, int sprn, int gprn);
- void spr_read_lr(DisasContext *ctx, int gprn, int sprn);
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 896b916021..e1076e5f43 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -403,6 +403,18 @@ void spr_write_generic(DisasContext *ctx, int sprn, int gprn)
-     spr_store_dump_spr(sprn);
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 17607adbe4..7ead32279c 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -1250,6 +1250,37 @@ void helper_hrfid(CPUPPCState *env)
  }
+ #endif
  
-+void spr_write_CTRL(DisasContext *ctx, int sprn, int gprn)
++#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
++void helper_rfebb(CPUPPCState *env, target_ulong s)
 +{
-+    spr_write_generic(ctx, sprn, gprn);
++    target_ulong msr = env->msr;
 +
 +    /*
-+     * SPR_CTRL writes must force a new translation block,
-+     * allowing the PMU to calculate the run latch events with
-+     * more accuracy.
++     * Handling of BESCR bits 32:33 according to PowerISA v3.1:
++     *
++     * "If BESCR 32:33 != 0b00 the instruction is treated as if
++     *  the instruction form were invalid."
 +     */
-+    ctx->base.is_jmp = DISAS_EXIT_UPDATE;
-+}
++    if (env->spr[SPR_BESCR] & BESCR_INVALID) {
++        raise_exception_err(env, POWERPC_EXCP_PROGRAM,
++                            POWERPC_EXCP_INVAL | POWERPC_EXCP_INVAL_INVAL);
++    }
 +
- #if !defined(CONFIG_USER_ONLY)
- void spr_write_generic32(DisasContext *ctx, int sprn, int gprn)
++    env->nip = env->spr[SPR_EBBRR];
++
++    /* Switching to 32-bit ? Crop the nip */
++    if (!msr_is_64bit(env, msr)) {
++        env->nip = (uint32_t)env->spr[SPR_EBBRR];
++    }
++
++    if (s) {
++        env->spr[SPR_BESCR] |= BESCR_GE;
++    } else {
++        env->spr[SPR_BESCR] &= ~BESCR_GE;
++    }
++}
++#endif
++
+ /*****************************************************************************/
+ /* Embedded PowerPC specific helpers */
+ void helper_40x_rfci(CPUPPCState *env)
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index d8a23e054a..b0535b389b 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -18,6 +18,7 @@ DEF_HELPER_2(pminsn, void, env, i32)
+ DEF_HELPER_1(rfid, void, env)
+ DEF_HELPER_1(rfscv, void, env)
+ DEF_HELPER_1(hrfid, void, env)
++DEF_HELPER_2(rfebb, void, env, tl)
+ DEF_HELPER_2(store_lpcr, void, env, tl)
+ DEF_HELPER_2(store_pcr, void, env, tl)
+ DEF_HELPER_2(store_mmcr0, void, env, tl)
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index e135b8aba4..6cad783dde 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -427,3 +427,8 @@ XXSPLTW         111100 ..... ---.. ..... 010100100 . .  @XX2
+ ## VSX Vector Load Special Value Instruction
+ 
+ LXVKQ           111100 ..... 11111 ..... 0101101000 .   @X_uim5
++
++### rfebb
++&XL_s           s:uint8_t
++@XL_s           ......-------------- s:1 .......... -   &XL_s
++RFEBB           010011-------------- .   0010010010 -   @XL_s
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index e1076e5f43..6d2e7bf4de 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7485,6 +7485,8 @@ static bool resolve_PLS_D(DisasContext *ctx, arg_D *d, arg_PLS_D *a)
+ 
+ #include "translate/spe-impl.c.inc"
+ 
++#include "translate/branch-impl.c.inc"
++
+ /* Handles lfdp, lxsd, lxssp */
+ static void gen_dform39(DisasContext *ctx)
  {
+diff --git a/target/ppc/translate/branch-impl.c.inc b/target/ppc/translate/branch-impl.c.inc
+new file mode 100644
+index 0000000000..29cfa11854
+--- /dev/null
++++ b/target/ppc/translate/branch-impl.c.inc
+@@ -0,0 +1,33 @@
++/*
++ * Power ISA decode for branch instructions
++ *
++ *  Copyright IBM Corp. 2021
++ *
++ * Authors:
++ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
++
++static bool trans_RFEBB(DisasContext *ctx, arg_XL_s *arg)
++{
++    REQUIRE_INSNS_FLAGS2(ctx, ISA207S);
++
++    gen_icount_io_start(ctx);
++    gen_update_cfar(ctx, ctx->cia);
++    gen_helper_rfebb(cpu_env, cpu_gpr[arg->s]);
++
++    ctx->base.is_jmp = DISAS_CHAIN;
++
++    return true;
++}
++#else
++static bool trans_RFEBB(DisasContext *ctx, arg_XL_s *arg)
++{
++    gen_invalid(ctx);
++    return true;
++}
++#endif
 -- 
 2.31.1
 
