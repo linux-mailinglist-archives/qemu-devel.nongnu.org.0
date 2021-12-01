@@ -2,75 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0404464DF7
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 13:36:20 +0100 (CET)
-Received: from localhost ([::1]:36180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A618464E2F
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 13:48:19 +0100 (CET)
+Received: from localhost ([::1]:46204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msOqR-00089V-DY
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 07:36:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52748)
+	id 1msP1z-0006uW-Uh
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 07:48:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1msOoK-0006bk-SP; Wed, 01 Dec 2021 07:34:12 -0500
-Received: from [2607:f8b0:4864:20::d2e] (port=40511
- helo=mail-io1-xd2e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1msOoI-0006Bc-W3; Wed, 01 Dec 2021 07:34:08 -0500
-Received: by mail-io1-xd2e.google.com with SMTP id p23so30552875iod.7;
- Wed, 01 Dec 2021 04:34:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=D6o1Ji1HKAF6wrxPPDsvDiar7aiDkhu0lf67UxZYEjA=;
- b=SYPNNiJcuE2Is89gnyFqFDFuaaYTCnj6MC3MGeHOVG8zQ4SEYtgcR2ojiVpGPHxwJZ
- 3Jujcb+EH9PkGL9KnKFqgE1u2MXZwnS7o4mMu+rWAKbDdXDiD8gzZMzucEPWzOkWDIe1
- ECHwtdHtIVmdZzLVhNIwzd2UqXh2HzrMpdSeUF+Ss3svB/TGSuKvBWs1p+P1BOdn/YZk
- YNHEpD5Vv273AkvG8L2EWrtVvQswKNvpRyg9wO+7JvHi1mljI8o9k9TJ07cWgHxESQIB
- 16DsYIEtN7S5FOTnxqGbFfhGwn6GR3W/e5U4eo4wAQceQru7GHm3e37aWTJn4ZRhfpSp
- ZkDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=D6o1Ji1HKAF6wrxPPDsvDiar7aiDkhu0lf67UxZYEjA=;
- b=ez27zaL1hqjaDVKEROUMXO8kCnhNjw4j7tZn24qhg8/01bKfEXlI0SPhCk2U9k10+Y
- 0Jq7v/aaD42uCxyU3Gxb+v1/88voSLq9A+0XmpG/Brs5pVRaLUmOAP+Nm+6DgJhnSbKh
- oNw7m3gJO+9Q74B65PaeCshAKWS0t9B7RpqgSMEE6IV0oPR1TjkY1zp+rdpaDEf1NW2m
- 2Atr2CTwVRoF47QosRCP/8xTd9cTxtH8ED0nvzxqmz8ZAc/PIyHLp8v7lSKwU5r5R5Tj
- SnrOKLk51fb8s7l0P5wRCa4cjcZb6rk2FFSoaUUH+21upKyzhHWDy+WWzo50qqbOMPiO
- Facg==
-X-Gm-Message-State: AOAM531DRBUpio5iNfkO2GmZzPTeQL5mzXLUvO8YBRv2LmjLx8EdriWa
- 7AbB9YMtVJ9aJhZv8L6ByOFaKZyH0nW0md2MRbQ=
-X-Google-Smtp-Source: ABdhPJyT1OKa3/ZlrFKUpCs+YXCXnM0y3hXPrje+zra7SDxWChCHuWOO8jGfLNzCDjAnTw3GEXSe09WGgf4meRBywMU=
-X-Received: by 2002:a6b:6802:: with SMTP id d2mr7901599ioc.187.1638362044868; 
- Wed, 01 Dec 2021 04:34:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
+ id 1msOrL-0001HF-PH; Wed, 01 Dec 2021 07:37:17 -0500
+Received: from [201.28.113.2] (port=55116 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <leandro.lupori@eldorado.org.br>)
+ id 1msOrK-0006jX-Ev; Wed, 01 Dec 2021 07:37:15 -0500
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Wed, 1 Dec 2021 09:37:10 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTPS id 86CB0800CFF;
+ Wed,  1 Dec 2021 09:37:10 -0300 (-03)
+Subject: Re: [PATCH v4] target/ppc: fix Hash64 MMU update of PTE bit R
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20211129185751.25355-1-leandro.lupori@eldorado.org.br>
+ <YaVwvAyhyhlIYhV5@yekko> <62188dd4-c6ea-4c3e-b444-585319818b4f@kaod.org>
+ <59d0ebbd-d20c-9c9d-56f8-852adfb2af53@eldorado.org.br>
+ <11ff4352-c0db-70aa-9bc2-d2ab7ca6f45f@kaod.org>
+From: Leandro Lupori <leandro.lupori@eldorado.org.br>
+Message-ID: <140661ab-4c92-f0b8-2bb0-d402233984bb@eldorado.org.br>
+Date: Wed, 1 Dec 2021 09:37:10 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211128135719.50444-9-frederic.petrot@univ-grenoble-alpes.fr>
-In-Reply-To: <20211128135719.50444-9-frederic.petrot@univ-grenoble-alpes.fr>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 1 Dec 2021 22:33:39 +1000
-Message-ID: <CAKmqyKNWUqi3iV-CAC+zKsz+5As_9jdMmZGJf=bfsqfJLbrFLg@mail.gmail.com>
-Subject: Re: [PATCH v6 08/18] target/riscv: moving some insns close to similar
- insns
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2e.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <11ff4352-c0db-70aa-9bc2-d2ab7ca6f45f@kaod.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 01 Dec 2021 12:37:10.0888 (UTC)
+ FILETIME=[29195E80:01D7E6B0]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.211,
+ PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,113 +62,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Fabien Portas <fabien.portas@grenoble-inp.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, alfredo.junior@eldorado.org.br,
+ qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 29, 2021 at 12:05 AM Fr=C3=A9d=C3=A9ric P=C3=A9trot
-<frederic.petrot@univ-grenoble-alpes.fr> wrote:
->
-> lwu and ld are functionally close to the other loads, but were after the
-> stores in the source file.
-> Similarly, xor was away from or and and by two arithmetic functions, whil=
-e
-> the immediate versions were nicely put together.
-> This patch moves the aforementioned loads after lhu, and xor above or,
-> where they more logically belong.
->
-> Signed-off-by: Fr=C3=A9d=C3=A9ric P=C3=A9trot <frederic.petrot@univ-greno=
-ble-alpes.fr>
-> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On 01/12/2021 04:51, Cédric Le Goater wrote:
+> The ISO is too big for quick tests. Isn't there a minimum initrd ? can 
+> we build a
+> builroot-like image for FreeBSD ?
+> 
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+FreeBSD doesn't use initrd. Its bootloader loads kernel modules directly 
+from disk (unfortunately, it doesn't work on PowerNV).
 
-Alistair
-
-> ---
->  target/riscv/insn_trans/trans_rvi.c.inc | 34 ++++++++++++-------------
->  1 file changed, 17 insertions(+), 17 deletions(-)
->
-> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_=
-trans/trans_rvi.c.inc
-> index 51607b3d40..710f5e6a85 100644
-> --- a/target/riscv/insn_trans/trans_rvi.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
-> @@ -176,6 +176,18 @@ static bool trans_lhu(DisasContext *ctx, arg_lhu *a)
->      return gen_load(ctx, a, MO_TEUW);
->  }
->
-> +static bool trans_lwu(DisasContext *ctx, arg_lwu *a)
-> +{
-> +    REQUIRE_64BIT(ctx);
-> +    return gen_load(ctx, a, MO_TEUL);
-> +}
-> +
-> +static bool trans_ld(DisasContext *ctx, arg_ld *a)
-> +{
-> +    REQUIRE_64BIT(ctx);
-> +    return gen_load(ctx, a, MO_TEUQ);
-> +}
-> +
->  static bool gen_store(DisasContext *ctx, arg_sb *a, MemOp memop)
->  {
->      TCGv addr =3D get_gpr(ctx, a->rs1, EXT_NONE);
-> @@ -207,18 +219,6 @@ static bool trans_sw(DisasContext *ctx, arg_sw *a)
->      return gen_store(ctx, a, MO_TESL);
->  }
->
-> -static bool trans_lwu(DisasContext *ctx, arg_lwu *a)
-> -{
-> -    REQUIRE_64BIT(ctx);
-> -    return gen_load(ctx, a, MO_TEUL);
-> -}
-> -
-> -static bool trans_ld(DisasContext *ctx, arg_ld *a)
-> -{
-> -    REQUIRE_64BIT(ctx);
-> -    return gen_load(ctx, a, MO_TEUQ);
-> -}
-> -
->  static bool trans_sd(DisasContext *ctx, arg_sd *a)
->  {
->      REQUIRE_64BIT(ctx);
-> @@ -317,11 +317,6 @@ static bool trans_sltu(DisasContext *ctx, arg_sltu *=
-a)
->      return gen_arith(ctx, a, EXT_SIGN, gen_sltu);
->  }
->
-> -static bool trans_xor(DisasContext *ctx, arg_xor *a)
-> -{
-> -    return gen_logic(ctx, a, tcg_gen_xor_tl);
-> -}
-> -
->  static bool trans_srl(DisasContext *ctx, arg_srl *a)
->  {
->      return gen_shift(ctx, a, EXT_ZERO, tcg_gen_shr_tl);
-> @@ -332,6 +327,11 @@ static bool trans_sra(DisasContext *ctx, arg_sra *a)
->      return gen_shift(ctx, a, EXT_SIGN, tcg_gen_sar_tl);
->  }
->
-> +static bool trans_xor(DisasContext *ctx, arg_xor *a)
-> +{
-> +    return gen_logic(ctx, a, tcg_gen_xor_tl);
-> +}
-> +
->  static bool trans_or(DisasContext *ctx, arg_or *a)
->  {
->      return gen_logic(ctx, a, tcg_gen_or_tl);
-> --
-> 2.34.0
->
->
+But it's possible to build a minimum disk image and make FreeBSD load it 
+as a ramdisk, by passing it through QEMU's -initrd (even though it's not 
+an initrd). By default FreeBSD builds a program called rescue, that is 
+similar to busybox, that would help when building a minimum image.
 
