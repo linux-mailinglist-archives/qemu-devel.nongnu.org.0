@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE54464995
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 09:25:00 +0100 (CET)
-Received: from localhost ([::1]:52522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0080E4649B1
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 09:30:20 +0100 (CET)
+Received: from localhost ([::1]:39954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msKvD-0003E6-UW
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 03:24:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44990)
+	id 1msL0N-0005so-2l
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 03:30:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1msKne-0006MU-QJ
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 03:17:10 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:59384 helo=loongson.cn)
+ id 1msKsy-0006tp-DK
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 03:22:40 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:60672 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1msKnc-00085Y-EB
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 03:17:10 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1msKsv-0000SR-RZ
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 03:22:40 -0500
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxaslZL6dhBv8BAA--.4388S21; 
- Wed, 01 Dec 2021 16:16:52 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxaslZL6dhBv8BAA--.4388S22; 
+ Wed, 01 Dec 2021 16:16:53 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v12 19/26] linux-user: Add LoongArch signal support
-Date: Wed,  1 Dec 2021 16:16:18 +0800
-Message-Id: <1638346585-3436-20-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v12 20/26] linux-user: Add LoongArch elf support
+Date: Wed,  1 Dec 2021 16:16:19 +0800
+Message-Id: <1638346585-3436-21-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1638346585-3436-1-git-send-email-gaosong@loongson.cn>
 References: <1638346585-3436-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9AxaslZL6dhBv8BAA--.4388S21
-X-Coremail-Antispam: 1UD129KBjvJXoW3Xr4DZr47CFWkJryUCrW8Xrb_yoWxGF4UpF
- Wfuw1kG3yUJrWxu3s3G3WFqFyrWwn5GryUKFWxG3WFyws8J3yF9as7trZrtF1DAw17Grn0
- kF909a1YkF48WFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9AxaslZL6dhBv8BAA--.4388S22
+X-Coremail-Antispam: 1UD129KBjvJXoWxXrWUGr1kJw4UAw4kGrWUtwb_yoW5Cw4kpF
+ WUCay5GF4rtFZxKw1fKFyUWF15Xw48ur17C34xWFWrCwsxJ348Xr1kKrWqyFy3Za9Yga4j
+ vr90yw1jkr47XaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -61,236 +61,114 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/loongarch64/signal.c        | 198 +++++++++++++++++++++++++++++++++
- linux-user/loongarch64/target_signal.h |  13 +++
- 2 files changed, 211 insertions(+)
- create mode 100644 linux-user/loongarch64/signal.c
- create mode 100644 linux-user/loongarch64/target_signal.h
+ include/elf.h                       |  2 ++
+ linux-user/elfload.c                | 58 +++++++++++++++++++++++++++++++++++++
+ linux-user/loongarch64/target_elf.h | 12 ++++++++
+ 3 files changed, 72 insertions(+)
+ create mode 100644 linux-user/loongarch64/target_elf.h
 
-diff --git a/linux-user/loongarch64/signal.c b/linux-user/loongarch64/signal.c
+diff --git a/include/elf.h b/include/elf.h
+index 811bf4a..3a4bcb6 100644
+--- a/include/elf.h
++++ b/include/elf.h
+@@ -182,6 +182,8 @@ typedef struct mips_elf_abiflags_v0 {
+ 
+ #define EM_NANOMIPS     249     /* Wave Computing nanoMIPS */
+ 
++#define EM_LOONGARCH    258     /* LoongArch */
++
+ /*
+  * This is an interim value that we will use until the committee comes
+  * up with a final number.
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 767f54c..841ea18 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -914,6 +914,64 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUPPCState *en
+ 
+ #endif
+ 
++#ifdef TARGET_LOONGARCH64
++
++#define ELF_START_MMAP 0x80000000
++
++#define ELF_CLASS   ELFCLASS64
++#define ELF_ARCH    EM_LOONGARCH
++
++#define elf_check_arch(x) ((x) == EM_LOONGARCH)
++static inline void init_thread(struct target_pt_regs *regs,
++                               struct image_info *infop)
++{
++    regs->csr_crmd = 2 << 3;
++    regs->csr_era = infop->entry;
++    regs->regs[3] = infop->start_stack;
++}
++
++/* See linux kernel: arch/loongarch/include/asm/elf.h.  */
++#define ELF_NREG 45
++typedef target_elf_greg_t target_elf_gregset_t[ELF_NREG];
++
++/* See linux kernel: arch/loongarch/include/asm/reg.h.  */
++enum {
++    TARGET_EF_R0 = 0,
++    TARGET_EF_CSR_ERA = TARGET_EF_R0 + 32,
++    TARGET_EF_CSR_BADVADDR = TARGET_EF_R0 + 33,
++};
++
++/* See linux kernel: arch/loongarch/kernel/process.c:loongarch_dump_regs64. */
++static void elf_core_copy_regs(target_elf_gregset_t *regs,
++                               const CPULoongArchState *env)
++{
++    int i;
++
++    for (i = 0; i < TARGET_EF_R0; i++) {
++        (*regs)[i] = 0;
++    }
++    (*regs)[TARGET_EF_R0] = 0;
++
++    for (i = 1; i < ARRAY_SIZE(env->gpr); i++) {
++        (*regs)[TARGET_EF_R0 + i] = tswapreg(env->gpr[i]);
++    }
++
++    (*regs)[TARGET_EF_CSR_ERA] = tswapreg(env->pc);
++    (*regs)[TARGET_EF_CSR_BADVADDR] = tswapreg(env->badaddr);
++}
++
++#define USE_ELF_CORE_DUMP
++#define ELF_EXEC_PAGESIZE        4096
++
++#define ELF_HWCAP get_elf_hwcap()
++
++static uint32_t get_elf_hwcap(void)
++{
++    return 0;
++}
++
++#endif /* TARGET_LOONGARCH64 */
++
+ #ifdef TARGET_MIPS
+ 
+ #define ELF_START_MMAP 0x80000000
+diff --git a/linux-user/loongarch64/target_elf.h b/linux-user/loongarch64/target_elf.h
 new file mode 100644
-index 0000000..c7b07a9
+index 0000000..3c690bb
 --- /dev/null
-+++ b/linux-user/loongarch64/signal.c
-@@ -0,0 +1,198 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * LoongArch emulation of Linux signals
-+ *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu.h"
-+#include "signal-common.h"
-+#include "user-internals.h"
-+#include "linux-user/trace.h"
-+
-+#define FPU_REG_WIDTH 256
-+union fpureg {
-+    uint32_t val32[FPU_REG_WIDTH / 32];
-+    uint64_t val64[FPU_REG_WIDTH / 64];
-+};
-+
-+struct target_sigcontext {
-+    uint64_t sc_pc;
-+    uint64_t sc_regs[32];
-+    uint32_t sc_flags;
-+    uint32_t sc_fcsr;
-+    uint32_t sc_vcsr;
-+    uint64_t sc_fcc;
-+    uint64_t sc_scr[4];
-+    union fpureg sc_fpregs[32] __attribute__((aligned(32)));
-+    uint8_t sc_reserved[4096] __attribute__((aligned(16)));
-+};
-+
-+struct target_ucontext {
-+    target_ulong tuc_flags;
-+    struct target_ucontext *tuc_link;
-+    target_stack_t tuc_stack;
-+    target_sigset_t tuc_sigmask;
-+    uint8_t __unused[1024 / 8 - sizeof(target_sigset_t)];
-+    struct target_sigcontext tuc_mcontext;
-+};
-+
-+struct target_rt_sigframe {
-+    struct target_siginfo rs_info;
-+    struct target_ucontext rs_uc;
-+};
-+
-+static uint64_t read_all_fcc(CPULoongArchState *env)
-+{
-+    uint64_t ret = 0;
-+
-+    for (int i = 0; i < 8; ++i) {
-+        ret |= (uint64_t)env->cf[i] << (i * 8);
-+    }
-+
-+    return ret;
-+}
-+
-+static void write_all_fcc(CPULoongArchState *env, uint64_t val)
-+{
-+    for (int i = 0; i < 8; ++i) {
-+        env->cf[i] = (val >> (i * 8)) & 1;
-+    }
-+}
-+
-+static inline void setup_sigcontext(CPULoongArchState *env,
-+                                    struct target_sigcontext *sc)
-+{
-+    int i;
-+
-+    __put_user(env->pc, &sc->sc_pc);
-+    __put_user(0, &sc->sc_regs[0]);
-+    __put_user(env->fcsr0, &sc->sc_fcsr);
-+    __put_user(0, &sc->sc_vcsr);
-+    sc->sc_fcc = read_all_fcc(env);
-+
-+    for (i = 0; i < 4; ++i) {
-+        __put_user(0, &sc->sc_scr[i]);
-+    }
-+
-+    for (i = 1; i < 32; ++i) {
-+        __put_user(env->gpr[i], &sc->sc_regs[i]);
-+    }
-+
-+    for (i = 0; i < 32; ++i) {
-+        __put_user(env->fpr[i], &sc->sc_fpregs[i].val64[0]);
-+    }
-+}
-+
-+static inline void
-+restore_sigcontext(CPULoongArchState *env, struct target_sigcontext *sc)
-+{
-+    int i;
-+
-+    __get_user(env->pc, &sc->sc_pc);
-+    __get_user(env->fcsr0, &sc->sc_fcsr);
-+    write_all_fcc(env, sc->sc_fcc);
-+
-+    for (i = 1; i < 32; ++i) {
-+        __get_user(env->gpr[i], &sc->sc_regs[i]);
-+    }
-+
-+    for (i = 0; i < 32; ++i) {
-+        __get_user(env->fpr[i], &sc->sc_fpregs[i].val64[0]);
-+    }
-+}
-+
-+/*
-+ * Determine which stack to use..
-+ */
-+static inline abi_ulong
-+get_sigframe(struct target_sigaction *ka, CPULoongArchState *env,
-+             size_t frame_size)
-+{
-+    unsigned long sp;
-+
-+    sp = target_sigsp(get_sp_from_cpustate(env) - 32, ka);
-+
-+    return (sp - frame_size) & ~15;
-+}
-+
-+void setup_rt_frame(int sig, struct target_sigaction *ka,
-+                    target_siginfo_t *info,
-+                    target_sigset_t *set, CPULoongArchState *env)
-+{
-+    struct target_rt_sigframe *frame;
-+    abi_ulong frame_addr;
-+    int i;
-+
-+    frame_addr = get_sigframe(ka, env, sizeof(*frame));
-+    trace_user_setup_rt_frame(env, frame_addr);
-+    if (!lock_user_struct(VERIFY_WRITE, frame, frame_addr, 0)) {
-+        goto give_sigsegv;
-+    }
-+
-+    tswap_siginfo(&frame->rs_info, info);
-+
-+    __put_user(0, &frame->rs_uc.tuc_flags);
-+    __put_user(0, &frame->rs_uc.tuc_link);
-+    target_save_altstack(&frame->rs_uc.tuc_stack, env);
-+
-+    setup_sigcontext(env, &frame->rs_uc.tuc_mcontext);
-+
-+    for (i = 0; i < TARGET_NSIG_WORDS; i++) {
-+        __put_user(set->sig[i], &frame->rs_uc.tuc_sigmask.sig[i]);
-+    }
-+
-+    env->gpr[4] = sig;
-+    env->gpr[5] = frame_addr + offsetof(struct target_rt_sigframe, rs_info);
-+    env->gpr[6] = frame_addr + offsetof(struct target_rt_sigframe, rs_uc);
-+    env->gpr[3] = frame_addr;
-+    env->gpr[1] = default_rt_sigreturn;
-+
-+    env->pc = ka->_sa_handler;
-+    unlock_user_struct(frame, frame_addr, 1);
-+    return;
-+
-+give_sigsegv:
-+    unlock_user_struct(frame, frame_addr, 1);
-+    force_sigsegv(sig);
-+}
-+
-+long do_rt_sigreturn(CPULoongArchState *env)
-+{
-+    struct target_rt_sigframe *frame;
-+    abi_ulong frame_addr;
-+    sigset_t blocked;
-+
-+    frame_addr = env->gpr[3];
-+    trace_user_do_rt_sigreturn(env, frame_addr);
-+    if (!lock_user_struct(VERIFY_READ, frame, frame_addr, 1)) {
-+        goto badframe;
-+    }
-+
-+    target_to_host_sigset(&blocked, &frame->rs_uc.tuc_sigmask);
-+    set_sigmask(&blocked);
-+
-+    restore_sigcontext(env, &frame->rs_uc.tuc_mcontext);
-+    target_restore_altstack(&frame->rs_uc.tuc_stack, env);
-+
-+    unlock_user_struct(frame, frame_addr, 0);
-+    return -TARGET_QEMU_ESIGRETURN;
-+
-+badframe:
-+    unlock_user_struct(frame, frame_addr, 0);
-+    force_sig(TARGET_SIGSEGV);
-+    return -TARGET_QEMU_ESIGRETURN;
-+}
-+
-+void setup_sigtramp(abi_ulong sigtramp_page)
-+{
-+    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 8, 0);
-+    assert(tramp != NULL);
-+
-+    __put_user(0x03822c0b, tramp + 0);  /* ori     a7, zero, 0x8b */
-+    __put_user(0x002b0000, tramp + 1);  /* syscall 0 */
-+
-+    default_rt_sigreturn = sigtramp_page;
-+    unlock_user(tramp, sigtramp_page, 8);
-+}
-diff --git a/linux-user/loongarch64/target_signal.h b/linux-user/loongarch64/target_signal.h
-new file mode 100644
-index 0000000..ad3aaff
---- /dev/null
-+++ b/linux-user/loongarch64/target_signal.h
-@@ -0,0 +1,13 @@
++++ b/linux-user/loongarch64/target_elf.h
+@@ -0,0 +1,12 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + */
 +
-+#ifndef LOONGARCH_TARGET_SIGNAL_H
-+#define LOONGARCH_TARGET_SIGNAL_H
-+
-+#include "../generic/signal.h"
-+
-+#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
-+
-+#endif /* LOONGARCH_TARGET_SIGNAL_H */
++#ifndef LOONGARCH_TARGET_ELF_H
++#define LOONGARCH_TARGET_ELF_H
++static inline const char *cpu_get_model(uint32_t eflags)
++{
++    return "Loongson-3A5000";
++}
++#endif
 -- 
 1.8.3.1
 
