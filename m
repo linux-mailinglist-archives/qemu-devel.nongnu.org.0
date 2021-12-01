@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D884546531E
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 17:44:08 +0100 (CET)
-Received: from localhost ([::1]:33184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F04D4465356
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 17:49:24 +0100 (CET)
+Received: from localhost ([::1]:41080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msSiF-0002ON-Up
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 11:44:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40992)
+	id 1msSnK-0007nB-P7
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 11:49:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1msSdl-0008RJ-HG; Wed, 01 Dec 2021 11:39:29 -0500
+ id 1msSdo-00004z-NN; Wed, 01 Dec 2021 11:39:33 -0500
 Received: from [201.28.113.2] (port=20732 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1msSdj-0001L4-0M; Wed, 01 Dec 2021 11:39:29 -0500
+ id 1msSdm-0001L4-LF; Wed, 01 Dec 2021 11:39:32 -0500
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 1 Dec 2021 13:39:21 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Wed, 1 Dec 2021 13:39:23 -0300
 Received: from eldorado.org.br (unknown [10.10.71.29])
- by power9a (Postfix) with ESMTP id 91C23800CFF;
- Wed,  1 Dec 2021 13:39:21 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 5FC45800CFF;
+ Wed,  1 Dec 2021 13:39:23 -0300 (-03)
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 1/3] target/ppc: Fixed call to deferred exception
-Date: Wed,  1 Dec 2021 13:38:06 -0300
-Message-Id: <20211201163808.440385-2-lucas.araujo@eldorado.org.br>
+Subject: [PATCH v4 2/3] test/tcg/ppc64le: test mtfsf
+Date: Wed,  1 Dec 2021 13:38:07 -0300
+Message-Id: <20211201163808.440385-3-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211201163808.440385-1-lucas.araujo@eldorado.org.br>
 References: <20211201163808.440385-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 01 Dec 2021 16:39:21.0749 (UTC)
- FILETIME=[FE2ACC50:01D7E6D1]
+X-OriginalArrivalTime: 01 Dec 2021 16:39:23.0535 (UTC)
+ FILETIME=[FF3B51F0:01D7E6D1]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,160 +64,108 @@ Cc: richard.henderson@linaro.org, danielhb413@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mtfsf, mtfsfi and mtfsb1 instructions call helper_float_check_status
-after updating the value of FPSCR, but helper_float_check_status
-checks fp_status and fp_status isn't updated based on FPSCR and
-since the value of fp_status is reset earlier in the instruction,
-it's always 0.
-
-Because of this helper_float_check_status would change the FI bit to 0
-as this bit checks if the last operation was inexact and
-float_flag_inexact is always 0.
-
-These instructions also don't throw exceptions correctly since
-helper_float_check_status throw exceptions based on fp_status.
-
-This commit created a new helper, helper_fpscr_check_status that checks
-FPSCR value instead of fp_status and checks for a larger variety of
-exceptions than do_float_check_status.
-
-Since fp_status isn't used, gen_reset_fpstatus() was removed.
-
-The hardware used to compare QEMU's behavior to was a Power9.
+Added tests for the mtfsf to check if FI bit of FPSCR is being set
+and if exception calls are being made correctly.
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 ---
- target/ppc/fpu_helper.c            | 48 ++++++++++++++++++++++++++++++
- target/ppc/helper.h                |  1 +
- target/ppc/translate/fp-impl.c.inc |  9 ++----
- 3 files changed, 52 insertions(+), 6 deletions(-)
+ tests/tcg/ppc64/Makefile.target   |  1 +
+ tests/tcg/ppc64le/Makefile.target |  1 +
+ tests/tcg/ppc64le/mtfsf.c         | 61 +++++++++++++++++++++++++++++++
+ 3 files changed, 63 insertions(+)
+ create mode 100644 tests/tcg/ppc64le/mtfsf.c
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index c4896cecc8..bb72715827 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -414,6 +414,54 @@ void helper_store_fpscr(CPUPPCState *env, uint64_t val, uint32_t nibbles)
-     ppc_store_fpscr(env, val);
- }
+diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
+index 6ab7934fdf..8f4c7ac4ed 100644
+--- a/tests/tcg/ppc64/Makefile.target
++++ b/tests/tcg/ppc64/Makefile.target
+@@ -11,6 +11,7 @@ endif
+ bcdsub: CFLAGS += -mpower8-vector
  
-+void helper_fpscr_check_status(CPUPPCState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+    target_ulong fpscr = env->fpscr;
-+    int error = 0;
+ PPC64_TESTS += byte_reverse
++PPC64_TESTS += mtfsf
+ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
+ run-byte_reverse: QEMU_OPTS+=-cpu POWER10
+ run-plugin-byte_reverse-with-%: QEMU_OPTS+=-cpu POWER10
+diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
+index ba2fde5ff1..e031f65adc 100644
+--- a/tests/tcg/ppc64le/Makefile.target
++++ b/tests/tcg/ppc64le/Makefile.target
+@@ -16,6 +16,7 @@ byte_reverse: CFLAGS += -mcpu=power10
+ run-byte_reverse: QEMU_OPTS+=-cpu POWER10
+ run-plugin-byte_reverse-with-%: QEMU_OPTS+=-cpu POWER10
+ 
++PPC64LE_TESTS += mtfsf
+ PPC64LE_TESTS += signal_save_restore_xer
+ 
+ TESTS += $(PPC64LE_TESTS)
+diff --git a/tests/tcg/ppc64le/mtfsf.c b/tests/tcg/ppc64le/mtfsf.c
+new file mode 100644
+index 0000000000..b3d31f3637
+--- /dev/null
++++ b/tests/tcg/ppc64le/mtfsf.c
+@@ -0,0 +1,61 @@
++#include <stdlib.h>
++#include <assert.h>
++#include <signal.h>
++#include <sys/prctl.h>
 +
-+    if ((fpscr & FP_OX) && (fpscr & FP_OE)) {
-+        error = POWERPC_EXCP_FP_OX;
-+    } else if ((fpscr & FP_UX) && (fpscr & FP_UE)) {
-+        error = POWERPC_EXCP_FP_UX;
-+    } else if ((fpscr & FP_XX) && (fpscr & FP_XE)) {
-+        error = POWERPC_EXCP_FP_XX;
-+    } else if ((fpscr & FP_ZX) && (fpscr & FP_ZE)) {
-+        error = POWERPC_EXCP_FP_ZX;
-+    } else if (fpscr & FP_VE) {
-+        if (fpscr & FP_VXSOFT) {
-+            error = POWERPC_EXCP_FP_VXSOFT;
-+        } else if (fpscr & FP_VXSNAN) {
-+            error = POWERPC_EXCP_FP_VXSNAN;
-+        } else if (fpscr & FP_VXISI) {
-+            error = POWERPC_EXCP_FP_VXISI;
-+        } else if (fpscr & FP_VXIDI) {
-+            error = POWERPC_EXCP_FP_VXIDI;
-+        } else if (fpscr & FP_VXZDZ) {
-+            error = POWERPC_EXCP_FP_VXZDZ;
-+        } else if (fpscr & FP_VXIMZ) {
-+            error = POWERPC_EXCP_FP_VXIMZ;
-+        } else if (fpscr & FP_VXVC) {
-+            error = POWERPC_EXCP_FP_VXVC;
-+        } else if (fpscr & FP_VXSQRT) {
-+            error = POWERPC_EXCP_FP_VXSQRT;
-+        } else if (fpscr & FP_VXCVI) {
-+            error = POWERPC_EXCP_FP_VXCVI;
-+        } else {
-+            return;
-+        }
-+    } else {
-+        return;
++#define FPSCR_VE     7  /* Floating-point invalid operation exception enable */
++#define FPSCR_VXSOFT 10 /* Floating-point invalid operation exception (soft) */
++#define FPSCR_FI     17 /* Floating-point fraction inexact                   */
++
++#define FP_VE           (1ull << FPSCR_VE)
++#define FP_VXSOFT       (1ull << FPSCR_VXSOFT)
++#define FP_FI           (1ull << FPSCR_FI)
++
++void sigfpe_handler(int sig, siginfo_t *si, void *ucontext)
++{
++    if (si->si_code == FPE_FLTINV) {
++        exit(0);
 +    }
-+    cs->exception_index = POWERPC_EXCP_PROGRAM;
-+    env->error_code = error | POWERPC_EXCP_FP;
-+    /* Deferred floating-point exception after target FPSCR update */
-+    if (fp_exceptions_enabled(env)) {
-+        raise_exception_err_ra(env, cs->exception_index,
-+                               env->error_code, GETPC());
-+    }
++    exit(1);
 +}
 +
- static void do_float_check_status(CPUPPCState *env, uintptr_t raddr)
- {
-     CPUState *cs = env_cpu(env);
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 627811cefc..632a81c676 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -63,6 +63,7 @@ DEF_HELPER_FLAGS_1(cntlzw32, TCG_CALL_NO_RWG_SE, i32, i32)
- DEF_HELPER_FLAGS_2(brinc, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- 
- DEF_HELPER_1(float_check_status, void, env)
-+DEF_HELPER_1(fpscr_check_status, void, env)
- DEF_HELPER_1(reset_fpstatus, void, env)
- DEF_HELPER_2(compute_fprf_float64, void, env, i64)
- DEF_HELPER_3(store_fpscr, void, env, i64, i32)
-diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-index c9e05201d9..8afd6a087d 100644
---- a/target/ppc/translate/fp-impl.c.inc
-+++ b/target/ppc/translate/fp-impl.c.inc
-@@ -769,7 +769,6 @@ static void gen_mtfsb1(DisasContext *ctx)
-         return;
-     }
-     crb = 31 - crbD(ctx->opcode);
--    gen_reset_fpstatus();
-     /* XXX: we pretend we can only do IEEE floating-point computations */
-     if (likely(crb != FPSCR_FEX && crb != FPSCR_VX && crb != FPSCR_NI)) {
-         TCGv_i32 t0;
-@@ -782,7 +781,7 @@ static void gen_mtfsb1(DisasContext *ctx)
-         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
-     }
-     /* We can raise a deferred exception */
--    gen_helper_float_check_status(cpu_env);
-+    gen_helper_fpscr_check_status(cpu_env);
- }
- 
- /* mtfsf */
-@@ -803,7 +802,6 @@ static void gen_mtfsf(DisasContext *ctx)
-         gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);
-         return;
-     }
--    gen_reset_fpstatus();
-     if (l) {
-         t0 = tcg_const_i32((ctx->insns_flags2 & PPC2_ISA205) ? 0xffff : 0xff);
-     } else {
-@@ -818,7 +816,7 @@ static void gen_mtfsf(DisasContext *ctx)
-         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
-     }
-     /* We can raise a deferred exception */
--    gen_helper_float_check_status(cpu_env);
-+    gen_helper_fpscr_check_status(cpu_env);
-     tcg_temp_free_i64(t1);
- }
- 
-@@ -840,7 +838,6 @@ static void gen_mtfsfi(DisasContext *ctx)
-         return;
-     }
-     sh = (8 * w) + 7 - bf;
--    gen_reset_fpstatus();
-     t0 = tcg_const_i64(((uint64_t)FPIMM(ctx->opcode)) << (4 * sh));
-     t1 = tcg_const_i32(1 << sh);
-     gen_helper_store_fpscr(cpu_env, t0, t1);
-@@ -851,7 +848,7 @@ static void gen_mtfsfi(DisasContext *ctx)
-         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
-     }
-     /* We can raise a deferred exception */
--    gen_helper_float_check_status(cpu_env);
-+    gen_helper_fpscr_check_status(cpu_env);
- }
- 
- static void gen_qemu_ld32fs(DisasContext *ctx, TCGv_i64 dest, TCGv addr)
++int main(void)
++{
++    union {
++        double d;
++        long long ll;
++    } fpscr;
++
++    struct sigaction sa = {
++        .sa_sigaction = sigfpe_handler,
++        .sa_flags = SA_SIGINFO
++    };
++
++    /*
++     * Enable the MSR bits F0 and F1 to enable exceptions.
++     * This shouldn't be needed in linux-user as these bits are enabled by
++     * default, but this allows to execute either in a VM or a real machine
++     * to compare the behaviors.
++     */
++    prctl(PR_SET_FPEXC, PR_FP_EXC_PRECISE);
++
++    /* First test if the FI bit is being set correctly */
++    fpscr.ll = FP_FI;
++    __builtin_mtfsf(0b11111111, fpscr.d);
++    fpscr.d = __builtin_mffs();
++    assert((fpscr.ll & FP_FI) != 0);
++
++    /* Then test if the deferred exception is being called correctly */
++    sigaction(SIGFPE, &sa, NULL);
++
++    /*
++     * Although the VXSOFT exception has been chosen, based on test in a Power9
++     * any combination of exception bit + its enabling bit should work.
++     * But if a different exception is chosen si_code check should
++     * change accordingly.
++     */
++    fpscr.ll = FP_VE | FP_VXSOFT;
++    __builtin_mtfsf(0b11111111, fpscr.d);
++
++    return 1;
++}
 -- 
 2.31.1
 
