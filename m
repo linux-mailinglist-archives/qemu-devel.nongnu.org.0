@@ -2,82 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86703464EF8
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 14:45:38 +0100 (CET)
-Received: from localhost ([::1]:49908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05FEC464F9F
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 15:27:58 +0100 (CET)
+Received: from localhost ([::1]:35362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msPvV-0000NJ-4I
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 08:45:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47034)
+	id 1msQaS-0005nF-Js
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 09:27:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1msPs9-0004je-V4
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 08:42:10 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:48106)
+ (Exim 4.90_1) (envelope-from <ehabkost@habkost.com>)
+ id 1msPzt-0005xr-Vi
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 08:50:12 -0500
+Received: from [2607:f8b0:4864:20::335] (port=36512
+ helo=mail-ot1-x335.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1msPs7-0006Fu-Ft
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 08:42:09 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A4AC31FD5A;
- Wed,  1 Dec 2021 13:42:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638366125; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iExzsDOub34Dzxw2CXLhoMTtMTGlCZ/xJ/3DDc73Z/Y=;
- b=1NT+rsFchDzr4SckK+b7O6b2tCLlgD8MlsMgNiGl9VchL0x91rp1Z2Rq6Knud57luBQshi
- iuNAPgGo1kQSkI9vTZk4/1CNA1Nd5PuoZZCUBNiBOgAcjMal+mimZ3ic+T1fYPvqJaMzDj
- hpmAkxf5tblLfAlvwyarBzT8SdOMy/Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638366125;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iExzsDOub34Dzxw2CXLhoMTtMTGlCZ/xJ/3DDc73Z/Y=;
- b=4bF7+6cfOeMHAC79j02vYGoCW91w649dLYm0fWQjdLuoqhz+c4VQ9jRvQMWPTvJX5PKXE/
- cffvOFH5FmuZ7jAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7048913CE4;
- Wed,  1 Dec 2021 13:42:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Am3SGa17p2GMSQAAMHmgww
- (envelope-from <lizhang@suse.de>); Wed, 01 Dec 2021 13:42:05 +0000
-Subject: Re: [PATCH 1/2] multifd: use qemu_sem_timedwait in
- multifd_recv_thread to avoid waiting forever
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20211126153154.25424-1-lizhang@suse.de>
- <20211126153154.25424-2-lizhang@suse.de> <YaECIGJAPAtB+n8/@redhat.com>
- <YaS3aKW6AWH4JAeR@work-vm> <50dbb2b9-152e-f97a-d82e-0b6613e54085@suse.de>
- <YaTorUbhzjFhvBl5@work-vm> <9b20d47c-8b4e-b1b2-c0b9-1ec82dc775ff@suse.de>
- <YadpCGtNYfPOFgxO@redhat.com>
-From: Li Zhang <lizhang@suse.de>
-Message-ID: <f08dd91a-18e0-51dc-b48a-29473588bbce@suse.de>
-Date: Wed, 1 Dec 2021 14:42:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <ehabkost@habkost.com>)
+ id 1msPzp-0001tK-W3
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 08:50:08 -0500
+Received: by mail-ot1-x335.google.com with SMTP id
+ w6-20020a9d77c6000000b0055e804fa524so35190273otl.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Dec 2021 05:50:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=habkost-com.20210112.gappssmtp.com; s=20210112;
+ h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+ :cc; bh=HERcxf+JQbuJMOyTDwaCDCfeNDP+LLpXnFt8RmSbGAw=;
+ b=L/9Who9zZQ5FMQW31tYqTBDPwv8ueCSdbcHj/Ywasm3YgE6nytQ8rJ5bGesHeg6IsY
+ oTPSy12+v07PZk53O6NZ+FYfY4C9/KPVOWu5JR+DzuxDhp7Uz5cYAhAdRexkLsDS+LEg
+ 3/POr4RxbA+QeaOkPDVW2zzYXLMmI8hfacKo+UbacDgKQTXEZY9T2G3eAAeMz1xKhi4z
+ WM2W5iw6BpLqDlJpuzcyIyjCx7fWzAPUD1fZWE9VCEEucoxVYPPQBGQ18Wp2oWbRAvYn
+ nff9/rVMgUeCz7XBMJm3u0gqwk+82Ve2ePhxnay1ungTpMgIsB5WgtqXIrvvhMYhgEZq
+ gNkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+ :message-id:subject:to:cc;
+ bh=HERcxf+JQbuJMOyTDwaCDCfeNDP+LLpXnFt8RmSbGAw=;
+ b=tA5VRfLd2dsy+k9AkjYmJ9HbAiSHm39Spkuo5nYan9japFJlUKWWxjPgj8zkYU/oBs
+ auGCn0MoXaCYbLshT4VGGcaljjwW6McNSmiRvnyprgc1yg2wvxa5lEG6OGhHOWpf5xwR
+ wrPuoxaeFK1ZQ+BLqcMwrNZEYbiGuDgfEhRNPHH7sLP3aDvPUDabqmBdwZaYZzt8Mt8C
+ aIt+bM3lRvQ4lPEqAP1tjN4mur0ey5i00LTZpk2KeDprWKYV37L5v9Lqrlcznbxc8Im5
+ 5E7/6Eu8nMqi4qO8len44rwH4CD/ZozIyBGFNQX6LCNO+g+qzgEWZqeJA8JtEi/VQAeV
+ XVOg==
+X-Gm-Message-State: AOAM530VODiRG1RQe89ohJkm2GsdDs2WhBNo3wJcckpLU+WxAM22ipdk
+ l7lIFHoMBTNFECSdM74OvsiyItO5dXzZPcFb
+X-Google-Smtp-Source: ABdhPJz3hfblnZiVQLEzbA97bVhFBTr8hktfaIDIF3LkDmxrm1OQnQN0yG5BPujYT4qnIQB5ailJVA==
+X-Received: by 2002:a05:6830:44a4:: with SMTP id
+ r36mr5627719otv.365.1638366602716; 
+ Wed, 01 Dec 2021 05:50:02 -0800 (PST)
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com.
+ [209.85.167.170])
+ by smtp.gmail.com with ESMTPSA id r23sm3274204ooj.37.2021.12.01.05.50.00
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Dec 2021 05:50:01 -0800 (PST)
+From: Eduardo Habkost <ehabkost@habkost.com>
+X-Google-Original-From: Eduardo Habkost <eduardo@habkost.net>
+Received: by mail-oi1-f170.google.com with SMTP id o4so48609234oia.10
+ for <qemu-devel@nongnu.org>; Wed, 01 Dec 2021 05:50:00 -0800 (PST)
+X-Received: by 2002:aca:d0d:: with SMTP id 13mr5993767oin.107.1638366600137;
+ Wed, 01 Dec 2021 05:50:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YadpCGtNYfPOFgxO@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=lizhang@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.211,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211130204722.2732997-1-ehabkost@redhat.com>
+ <03cee1da-334b-bd1e-ff38-84b40f3077d9@linaro.org>
+In-Reply-To: <03cee1da-334b-bd1e-ff38-84b40f3077d9@linaro.org>
+Date: Wed, 1 Dec 2021 08:49:48 -0500
+X-Gmail-Original-Message-ID: <CAFszQJgdGo4QWOd-wL7UEc=UK=TAb_F5tkYdhNafCo4kBkFJmQ@mail.gmail.com>
+Message-ID: <CAFszQJgdGo4QWOd-wL7UEc=UK=TAb_F5tkYdhNafCo4kBkFJmQ@mail.gmail.com>
+Subject: Re: [PULL 0/1] MAINTAINERS update
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000036954705d215f346"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::335
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=ehabkost@habkost.com; helo=mail-ot1-x335.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 01 Dec 2021 09:25:31 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,81 +96,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, cfontana@suse.de,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, quintela@redhat.com
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000036954705d215f346
+Content-Type: text/plain; charset="UTF-8"
 
-On 12/1/21 1:22 PM, Daniel P. Berrangé wrote:
-> On Wed, Dec 01, 2021 at 01:11:13PM +0100, Li Zhang wrote:
->> On 11/29/21 3:50 PM, Dr. David Alan Gilbert wrote:
->>> * Li Zhang (lizhang@suse.de) wrote:
->>>> On 11/29/21 12:20 PM, Dr. David Alan Gilbert wrote:
->>>>> * Daniel P. Berrangé (berrange@redhat.com) wrote:
->>>>>> On Fri, Nov 26, 2021 at 04:31:53PM +0100, Li Zhang wrote:
->>>>>>> When doing live migration with multifd channels 8, 16 or larger number,
->>>>>>> the guest hangs in the presence of the network errors such as missing TCP ACKs.
->>>>>>>
->>>>>>> At sender's side:
->>>>>>> The main thread is blocked on qemu_thread_join, migration_fd_cleanup
->>>>>>> is called because one thread fails on qio_channel_write_all when
->>>>>>> the network problem happens and other send threads are blocked on sendmsg.
->>>>>>> They could not be terminated. So the main thread is blocked on qemu_thread_join
->>>>>>> to wait for the threads terminated.
->>>>>> Isn't the right answer here to ensure we've called 'shutdown' on
->>>>>> all the FDs, so that the threads get kicked out of sendmsg, before
->>>>>> trying to join the thread ?
->>>>> I agree a timeout is wrong here; there is no way to get a good timeout
->>>>> value.
->>>>> However, I'm a bit confused - we should be able to try a shutdown on the
->>>>> receive side using the 'yank' command. - that's what it's there for; Li
->>>>> does this solve your problem?
->>>> No, I tried to register 'yank' on the receive side, the receive threads are
->>>> still waiting there.
->>>>
->>>> It seems that on send side, 'yank' doesn't work either when the send threads
->>>> are blocked.
->>>>
->>>> This may be not the case to call yank. I am not quite sure about it.
->>> We need to fix that; 'yank' should be able to recover from any network
->>> issue.  If it's not working we need to understand why.
->> Hi Dr. David,
->>
->> On the receive side, I register 'yank' and it is called. But it is just to
->> shut down the channels,
->>
->> it couldn't fix the problem of the receive threads which are waiting for the
->> semaphore.
->>
->> So the receive threads are still waiting there.
->>
->> On the send side,  the main process is blocked on qemu_thread_join(), when I
->> tried the 'yank'
->>
->> command with QMP,  it is not handled. So the QMP doesn't work and yank
->> doesn't work.
-> IOW, there is a bug in QEMU on the send side. It should not be calling
-> qemu_thread_join() from the main thread, unless it is extremely
-> confident that the thread in question has already finished.
+On Wed, Dec 1, 2021 at 01:19 Richard Henderson <richard.henderson@linaro.org>
+wrote:
+
+> On 11/30/21 9:47 PM, Eduardo Habkost wrote:
+> > * MAINTAINERS: Change my email address (Eduardo Habkost)
+> >
+> > Eduardo Habkost (1):
+> >    MAINTAINERS: Change my email address
+> >
+> >   MAINTAINERS | 12 ++++++------
+> >   1 file changed, 6 insertions(+), 6 deletions(-)
+> >
 >
-> You seem to be showing that the thread(s) are still running, so we
-> need to understand why that is the case, and why the main thread
-> still decided to try to join these threads which haven't finished.
+> Not a pull request.  But since it's just one patch that needs no
+> regression testing, I
+> have applied it directly.
 
-Some threads are running. But there is one thread fails to 
-qio_channel_write_all.
 
-In migration_thread(), it detects an error here:
+Oops! I was in a hurry and used the wrong git-publish options, sorry about
+that, and thanks for applying it.
 
-    thr_error = migration_detect_error(s);
-         if (thr_error == MIG_THR_ERR_FATAL) {
-             /* Stop migration */
-             break;
+--00000000000036954705d215f346
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It will stop migration and cleanup.
-
+<div><div><div><div dir=3D"auto">On Wed, Dec 1, 2021 at 01:19 Richard Hende=
+rson &lt;<a href=3D"mailto:richard.henderson@linaro.org" target=3D"_blank">=
+richard.henderson@linaro.org</a>&gt; wrote:<br></div></div></div><div><div>=
+<div><div class=3D"gmail_quote"></div></div></div></div><div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px=
+;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204=
+)">On 11/30/21 9:47 PM, Eduardo Habkost wrote:<br>
+&gt; * MAINTAINERS: Change my email address (Eduardo Habkost)<br>
+&gt; <br>
+&gt; Eduardo Habkost (1):<br>
+&gt;=C2=A0 =C2=A0 MAINTAINERS: Change my email address<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0MAINTAINERS | 12 ++++++------<br>
+&gt;=C2=A0 =C2=A01 file changed, 6 insertions(+), 6 deletions(-)<br>
+&gt; <br>
+<br>
+Not a pull request.=C2=A0 But since it&#39;s just one patch that needs no r=
+egression testing, I <br>
+have applied it directly.</blockquote><div dir=3D"auto"><br></div></div></d=
+iv><div><div><div dir=3D"auto"><span style=3D"border-color:rgb(0,0,0);color=
+:rgb(0,0,0)">Oops! I was in a hurry and used the wrong git-publish options,=
+ sorry about that, and thanks for applying it.</span></div><div dir=3D"auto=
+"><span style=3D"border-color:rgb(0,0,0);color:rgb(0,0,0)"><br></span></div=
 >
-> Regards,
-> Daniel
+
+</div>
+</div>
+
+--00000000000036954705d215f346--
 
