@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B710465161
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 16:21:16 +0100 (CET)
-Received: from localhost ([::1]:34446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49290465162
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 16:21:19 +0100 (CET)
+Received: from localhost ([::1]:34664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msRQ3-0000YP-0H
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 10:21:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40596)
+	id 1msRQ6-0000h0-3d
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 10:21:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1msRMl-0006Hs-5M; Wed, 01 Dec 2021 10:17:51 -0500
-Received: from [2607:f8b0:4864:20::92d] (port=46053
+ id 1msRMo-0006Ih-Rb; Wed, 01 Dec 2021 10:17:54 -0500
+Received: from [2607:f8b0:4864:20::92d] (port=40815
  helo=mail-ua1-x92d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1msRMi-0003IR-FH; Wed, 01 Dec 2021 10:17:49 -0500
-Received: by mail-ua1-x92d.google.com with SMTP id ay21so49719099uab.12;
- Wed, 01 Dec 2021 07:17:47 -0800 (PST)
+ id 1msRMm-0003J2-IM; Wed, 01 Dec 2021 10:17:54 -0500
+Received: by mail-ua1-x92d.google.com with SMTP id y5so49720831ual.7;
+ Wed, 01 Dec 2021 07:17:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5sOEeO53erDUsRaTRSKcJLN6UTgERc36yywqIzYDFGU=;
- b=myE3nTcCmnPQGH9yJrUfp6STh0wTfN+hIyZWJu1kAQ8ZUnaULhIpJAdf/U7rfM62QU
- YzBuRxkBTxK8mKd/gjhsnI33vwFp50rywoTm6MZEHq5AzRKvSiQUdmWFnD5Jx8znOUU5
- cmKs1ZNQLyUOkv5eXFUV3xYcu6TllwfLjnlpF78GkvYspqUgOQvwTp9uZP7h9pelQBM0
- YylTyIFBVSTaM/rFfCfZOwc2QRn4k81+UidCCzcu3Gcl6HGUY3Dd5/TMc3UQ2cnDV0iO
- TiQsQR7Ndn03WiYXqabgxgfTGRNo7fnTobRyBiMSqHObFIC+yneLbE4HlPk5vKTsvMGY
- D0/Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uPnmRDkUpE/TAreZBWMM7oEdcyCEObi2vjfuN5yzgmM=;
+ b=SYhoURljGvw4h4uKY+jBuz7A70wNFs0gQZO/T6XH1TlRlgUlWR+xc85E9aAeMLIyUW
+ 6SHUvZvZFKgFu6npo/Kr3m2UBG3bOwAlHwvPJ6t7rtpK8eZtLukEqUc4slsvXR7/XwlZ
+ o87Dp3T6SuVu6svZ2WHtV1h4+qabXtvCxw/zVYXS6/1VifayyF74c4vVKs0Cm4O7dVNg
+ EV6V3kXLFQpPUPY+fcG5/DA/zuJVXv2IFAZirBqimyQeB6wDB0EuBhPn+p0MnmgfuUpT
+ RRRel9GyYk9qGOOC2HNs8prqza2k6qzDljcv2kz4yiZ9eLtEw0V/Q7Jp867Q416qZPy9
+ jDxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5sOEeO53erDUsRaTRSKcJLN6UTgERc36yywqIzYDFGU=;
- b=UiaTXowZyWDU5eJZxU2NBh32qZREQShL3bUb4RlsiKrLf19NpUtFEGZLHNcUSw57TC
- ubZngkG0IOxBu/RiyDEmp2iInVpyTKYCwFb95ZutdjW4+H3LDJy3BUyvXmhhxHiogKaC
- el0e9R+nMhwzU3gWYz6By8qy6df4Kc7Y/Ahq5Z0SPBi9kaOUqEVcWZD4cUu1kQOZ3UHu
- oQCdjWrgXoqQGSkeDugqhZ+Y3AujwfMgEp3pkeU2l4J0HhC5DS52huEO+8OcDe3JgxqG
- ye45ARdldO6n2x+1wu2UbdLk9TyKVsUCcFKGZP5eS6SD6SvffHUkJ7fLIShe3tPyIO98
- 1P5w==
-X-Gm-Message-State: AOAM533wJQ67hHGCeOF1T+IqmozxpJTn9MPgJb6pFTokFyBhXyL2c/pz
- G4LfRwKhXJkGZ2MwqveuLvx5PxcyZE0=
-X-Google-Smtp-Source: ABdhPJzD7gajT4lA6KurdzRvyE153qk/kf+tyq4EVB0B1XjhQnZ60KV3ldoXJFFrlcFsF0SgbfjNJg==
-X-Received: by 2002:ab0:7488:: with SMTP id n8mr8298572uap.64.1638371867114;
- Wed, 01 Dec 2021 07:17:47 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=uPnmRDkUpE/TAreZBWMM7oEdcyCEObi2vjfuN5yzgmM=;
+ b=Yu0ascVcORhTTr/B10KrFyY9183w7u9zdiEk886ZwpsVdmmFyjZCF1ATXc0sHfLmvd
+ a23r3BAUDXDXiI6Qs+YwpjqxYVlmQJB0ptLIkvuiXBnTy65miBh3VmVNtoUIchbViDa4
+ 3XJQYuWyB/nTsob2sUXxNnpKCxqTx+jmVdeQiRFhe3oM+R7WzRsSYfyRSb8XarZLcspB
+ UFGE557tJ0yOzHw9fenEiT3o+hH33Xu/8alZnPN9e0eeQv7FakQ1e0dB4nKpf4gSI+pW
+ RqsKNPsmiXQWC68gfR0T+qZLEfcPB0harsNyGustZf2nIaGEJUoR3OU3RlBeVRoLMNCl
+ UxUA==
+X-Gm-Message-State: AOAM531E/VuRv9+f3U4MfIjtGBPJuggEtoGs9of2oZvJNzXzpbfpgagB
+ VQGfBGrX4L5eifdrzj0hZhC6CzHuImA=
+X-Google-Smtp-Source: ABdhPJzPs2tEVtQuV/7bPRca8eFLhHHKpeGj2lR/GfOgvHEva6+KtXGaf3oq8ZNusr8Ed9Xf0J8DnQ==
+X-Received: by 2002:a9f:2c4a:: with SMTP id s10mr8196223uaj.50.1638371869142; 
+ Wed, 01 Dec 2021 07:17:49 -0800 (PST)
 Received: from rekt.COMFAST ([177.68.212.35])
- by smtp.gmail.com with ESMTPSA id q26sm109610vsp.23.2021.12.01.07.17.44
+ by smtp.gmail.com with ESMTPSA id q26sm109610vsp.23.2021.12.01.07.17.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Dec 2021 07:17:46 -0800 (PST)
+ Wed, 01 Dec 2021 07:17:48 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 00/10] PMU-EBB support for PPC64 TCG
-Date: Wed,  1 Dec 2021 12:17:24 -0300
-Message-Id: <20211201151734.654994-1-danielhb413@gmail.com>
+Subject: [PATCH v9 01/10] target/ppc: introduce PMUEventType and PMU overflow
+ timers
+Date: Wed,  1 Dec 2021 12:17:25 -0300
+Message-Id: <20211201151734.654994-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211201151734.654994-1-danielhb413@gmail.com>
+References: <20211201151734.654994-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92d
@@ -88,65 +91,257 @@ Cc: richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+This patch starts an IBM Power8+ compatible PMU implementation by adding
+the representation of PMU events that we are going to sample,
+PMUEventType. This enum represents a Perf event that is being sampled by
+a specific counter 'sprn'. Events that aren't available (i.e. no event
+was set in MMCR1) will be of type 'PMU_EVENT_INVALID'. Events that are
+inactive due to frozen counter bits state are of type
+'PMU_EVENT_INACTIVE'. Other types added in this patch are
+PMU_EVENT_CYCLES and PMU_EVENT_INSTRUCTIONS.  More types will be added
+later on.
 
-In this new version the most significant change is in patch 6,
-where a new hflag allows us to not call the instruction helper
-inside translate.c unless we're absolutely certain that there
-is an instruction count event being sampled and active in the
-PMU. This change turned out to be a big boost in performance
-in the PMU emulation overall, most notably when dealing with
-cycle events that were calling the helper needlessly. 
+Let's also add the required PMU cycle overflow timers. They will be used
+to trigger cycle overflows when cycle events are being sampled. This
+timer will call cpu_ppc_pmu_timer_cb(), which in turn calls
+fire_PMC_interrupt().  Both functions are stubs that will be implemented
+later on when EBB support is added.
 
-This and all other changes were suggested by David in his review
-of the previous version.
+Two new helper files are created to host this new logic.
+cpu_ppc_pmu_init() will init all overflow timers during CPU init time.
 
-
-Changes from v8:
-- patch 5:
-  * overflow timer of PMC5 is now marked as NULL instead of absent
-- patch 6:
-  * new hflags HFLAGS_INSN_CNT added to track instruction count state
-  * previous HFLAGS_MMCR0FC flag removed
-  * pmu_count_insns() now works partially with user mode
-- patch 9:
-  * fixed interrupt comment
-- v8 link: https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg05160.html
-
-
-Daniel Henrique Barboza (9):
-  target/ppc: introduce PMUEventType and PMU overflow timers
-  target/ppc: PMU basic cycle count for pseries TCG
-  target/ppc: PMU: update counters on PMCs r/w
-  target/ppc: PMU: update counters on MMCR1 write
-  target/ppc: enable PMU counter overflow with cycle events
-  target/ppc: enable PMU instruction count
-  target/ppc/power8-pmu.c: add PM_RUN_INST_CMPL (0xFA) event
-  PPC64/TCG: Implement 'rfebb' instruction
-  target/ppc/excp_helper.c: EBB handling adjustments
-
-Gustavo Romero (1):
-  target/ppc: PMU Event-Based exception support
-
- hw/ppc/spapr_cpu_core.c                |   1 +
- target/ppc/cpu.h                       |  60 +++-
- target/ppc/cpu_init.c                  |  46 ++-
- target/ppc/excp_helper.c               |  93 ++++++
- target/ppc/helper.h                    |   6 +
- target/ppc/helper_regs.c               |   7 +
- target/ppc/insn32.decode               |   5 +
- target/ppc/meson.build                 |   1 +
- target/ppc/power8-pmu-regs.c.inc       |  69 ++++-
- target/ppc/power8-pmu.c                | 386 +++++++++++++++++++++++++
- target/ppc/power8-pmu.h                |  26 ++
- target/ppc/spr_tcg.h                   |   5 +
- target/ppc/translate.c                 |  78 +++++
- target/ppc/translate/branch-impl.c.inc |  33 +++
- 14 files changed, 801 insertions(+), 15 deletions(-)
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr_cpu_core.c |  1 +
+ target/ppc/cpu.h        | 15 ++++++++++
+ target/ppc/cpu_init.c   | 24 ++++++++++++++++
+ target/ppc/meson.build  |  1 +
+ target/ppc/power8-pmu.c | 62 +++++++++++++++++++++++++++++++++++++++++
+ target/ppc/power8-pmu.h | 25 +++++++++++++++++
+ 6 files changed, 128 insertions(+)
  create mode 100644 target/ppc/power8-pmu.c
  create mode 100644 target/ppc/power8-pmu.h
- create mode 100644 target/ppc/translate/branch-impl.c.inc
 
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index 58e7341cb7..a57ba70a87 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -20,6 +20,7 @@
+ #include "target/ppc/kvm_ppc.h"
+ #include "hw/ppc/ppc.h"
+ #include "target/ppc/mmu-hash64.h"
++#include "target/ppc/power8-pmu.h"
+ #include "sysemu/numa.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/hw_accel.h"
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index e946da5f3a..6154f86a0a 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -296,6 +296,15 @@ typedef struct ppc_v3_pate_t {
+     uint64_t dw1;
+ } ppc_v3_pate_t;
+ 
++/* PMU related structs and defines */
++#define PMU_COUNTERS_NUM 6
++typedef enum {
++    PMU_EVENT_INVALID = 0,
++    PMU_EVENT_INACTIVE,
++    PMU_EVENT_CYCLES,
++    PMU_EVENT_INSTRUCTIONS,
++} PMUEventType;
++
+ /*****************************************************************************/
+ /* Machine state register bits definition                                    */
+ #define MSR_SF   63 /* Sixty-four-bit mode                            hflags */
+@@ -1191,6 +1200,12 @@ struct CPUPPCState {
+     uint32_t tm_vscr;
+     uint64_t tm_dscr;
+     uint64_t tm_tar;
++
++    /*
++     * Timers used to fire performance monitor alerts
++     * when counting cycles.
++     */
++    QEMUTimer *pmu_cyc_overflow_timers[PMU_COUNTERS_NUM];
+ };
+ 
+ #define SET_FIT_PERIOD(a_, b_, c_, d_)          \
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 6695985e9b..9610e65c76 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -45,6 +45,7 @@
+ #include "helper_regs.h"
+ #include "internal.h"
+ #include "spr_tcg.h"
++#include "power8-pmu.h"
+ 
+ /* #define PPC_DEBUG_SPR */
+ /* #define USE_APPLE_GDB */
+@@ -7377,6 +7378,20 @@ static void register_power9_mmu_sprs(CPUPPCState *env)
+ #endif
+ }
+ 
++/*
++ * Initialize PMU counter overflow timers for Power8 and
++ * newer Power chips when using TCG.
++ */
++static void init_tcg_pmu_power8(CPUPPCState *env)
++{
++#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
++    /* Init PMU overflow timers */
++    if (!kvm_enabled()) {
++        cpu_ppc_pmu_init(env);
++    }
++#endif
++}
++
+ static void init_proc_book3s_common(CPUPPCState *env)
+ {
+     register_ne_601_sprs(env);
+@@ -7694,6 +7709,9 @@ static void init_proc_POWER8(CPUPPCState *env)
+     register_sdr1_sprs(env);
+     register_book3s_207_dbg_sprs(env);
+ 
++    /* Common TCG PMU */
++    init_tcg_pmu_power8(env);
++
+     /* POWER8 Specific Registers */
+     register_book3s_ids_sprs(env);
+     register_rmor_sprs(env);
+@@ -7888,6 +7906,9 @@ static void init_proc_POWER9(CPUPPCState *env)
+     init_proc_book3s_common(env);
+     register_book3s_207_dbg_sprs(env);
+ 
++    /* Common TCG PMU */
++    init_tcg_pmu_power8(env);
++
+     /* POWER8 Specific Registers */
+     register_book3s_ids_sprs(env);
+     register_amr_sprs(env);
+@@ -8104,6 +8125,9 @@ static void init_proc_POWER10(CPUPPCState *env)
+     init_proc_book3s_common(env);
+     register_book3s_207_dbg_sprs(env);
+ 
++    /* Common TCG PMU */
++    init_tcg_pmu_power8(env);
++
+     /* POWER8 Specific Registers */
+     register_book3s_ids_sprs(env);
+     register_amr_sprs(env);
+diff --git a/target/ppc/meson.build b/target/ppc/meson.build
+index b85f295703..a49a8911e0 100644
+--- a/target/ppc/meson.build
++++ b/target/ppc/meson.build
+@@ -51,6 +51,7 @@ ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files(
+   'mmu-book3s-v3.c',
+   'mmu-hash64.c',
+   'mmu-radix64.c',
++  'power8-pmu.c',
+ ))
+ 
+ target_arch += {'ppc': ppc_ss}
+diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+new file mode 100644
+index 0000000000..d443bcb6c6
+--- /dev/null
++++ b/target/ppc/power8-pmu.c
+@@ -0,0 +1,62 @@
++/*
++ * PMU emulation helpers for TCG IBM POWER chips
++ *
++ *  Copyright IBM Corp. 2021
++ *
++ * Authors:
++ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++
++#include "power8-pmu.h"
++#include "cpu.h"
++#include "helper_regs.h"
++#include "exec/exec-all.h"
++#include "exec/helper-proto.h"
++#include "qemu/error-report.h"
++#include "qemu/main-loop.h"
++#include "hw/ppc/ppc.h"
++
++#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
++
++static void fire_PMC_interrupt(PowerPCCPU *cpu)
++{
++    CPUPPCState *env = &cpu->env;
++
++    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_EBE)) {
++        return;
++    }
++
++    /* PMC interrupt not implemented yet */
++    return;
++}
++
++static void cpu_ppc_pmu_timer_cb(void *opaque)
++{
++    PowerPCCPU *cpu = opaque;
++
++    fire_PMC_interrupt(cpu);
++}
++
++void cpu_ppc_pmu_init(CPUPPCState *env)
++{
++    PowerPCCPU *cpu = env_archcpu(env);
++    int i, sprn;
++
++    for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC6; sprn++) {
++        if (sprn == SPR_POWER_PMC5) {
++            continue;
++        }
++
++        i = sprn - SPR_POWER_PMC1;
++
++        env->pmu_cyc_overflow_timers[i] = timer_new_ns(QEMU_CLOCK_VIRTUAL,
++                                                       &cpu_ppc_pmu_timer_cb,
++                                                       cpu);
++    }
++}
++#endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
+diff --git a/target/ppc/power8-pmu.h b/target/ppc/power8-pmu.h
+new file mode 100644
+index 0000000000..49a813a443
+--- /dev/null
++++ b/target/ppc/power8-pmu.h
+@@ -0,0 +1,25 @@
++/*
++ * PMU emulation helpers for TCG IBM POWER chips
++ *
++ *  Copyright IBM Corp. 2021
++ *
++ * Authors:
++ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef POWER8_PMU
++#define POWER8_PMU
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "exec/exec-all.h"
++#include "exec/helper-proto.h"
++#include "qemu/error-report.h"
++#include "qemu/main-loop.h"
++
++void cpu_ppc_pmu_init(CPUPPCState *env);
++
++#endif
 -- 
 2.31.1
 
