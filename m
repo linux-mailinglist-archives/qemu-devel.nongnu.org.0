@@ -2,72 +2,160 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22944464A65
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 10:13:22 +0100 (CET)
-Received: from localhost ([::1]:45932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FD22464AE8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 10:50:26 +0100 (CET)
+Received: from localhost ([::1]:57580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msLg0-0006ft-RG
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 04:13:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57530)
+	id 1msMFp-0007h6-Aa
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 04:50:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1msLdf-0005UB-7J
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 04:10:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36282)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>)
+ id 1msMEF-0006N1-WB; Wed, 01 Dec 2021 04:48:44 -0500
+Received: from mga01.intel.com ([192.55.52.88]:44122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1msLdc-00071D-3B
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 04:10:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638349849;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=LO5jOahy4EpfFkFfilh65X1J8wun3R/1odDXHsSlNYs=;
- b=Trpf8zI8CPnC7Hl/D2+c8mwlcoTR03dnpJ0Da3ukw0XwyLAA/jWpi13SKsiZ7lBN4iek5E
- 9zvcFnONqOo4u3bBS+1TTb1KL+Gde0sUZ8jkrVVp/kES6OMQ3G+Db9xj3A/zzTc8gup+hR
- /8iuiElscxIAZXLKY01+MaAJXDaZctI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-291-xJwg-dW6MsaNL5HnZ1P4iQ-1; Wed, 01 Dec 2021 04:10:43 -0500
-X-MC-Unique: xJwg-dW6MsaNL5HnZ1P4iQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81078180FD62;
- Wed,  1 Dec 2021 09:10:41 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 762C760C05;
- Wed,  1 Dec 2021 09:10:33 +0000 (UTC)
-Date: Wed, 1 Dec 2021 09:10:31 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Rao, Lei" <lei.rao@intel.com>
-Subject: Re: [PATCH] QIO: Add force_quit to the QIOChannel to ensure QIO
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>)
+ id 1msMEB-00039e-Pf; Wed, 01 Dec 2021 04:48:43 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10184"; a="260399303"
+X-IronPort-AV: E=Sophos;i="5.87,278,1631602800"; d="scan'208";a="260399303"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2021 01:48:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,278,1631602800"; d="scan'208";a="477483427"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga002.jf.intel.com with ESMTP; 01 Dec 2021 01:48:34 -0800
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 1 Dec 2021 01:48:33 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Wed, 1 Dec 2021 01:48:33 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.103)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Wed, 1 Dec 2021 01:48:33 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=adGee/pOVlWAPBBjrjup9xtXVQyG5UMkbEetB9vYzXuW1WaIgVOJIsNXsdwXl6T2nG0YEB+g5JF1w6XKRvIYzczP02DvSsXz7uq/bT8WQX7VVtN0ZUAPBoObc0GtYsHNuxIEg+wodqEmegvXnUhRuPSBxMgUxsubYEvtUtuZQz7nJ6ge/oeQjRl9RYDl3m3iNub5riG3Y6DIEILhacw9tXib0tjUaLNRQxtQakyEfyHrEvK+L8wCIZz4fr9xZRKNsKGJUWGvMb+BJHVyTRRVPNDJapMsjO3UFKavYR1nxJmyF1wxPDsOba5rbT0WPB36fvbeO/fs3bSpugMIiNipgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HTdrbiFHEiUAe1qABdZTcx14D7w1gzlWiDtqsTYlstQ=;
+ b=fSTgc5oBOKlNKXkZVGjwEv0SYmXz6+UpBZxIzafqhKFgqRkD57CMKKfPoNXIORN8lrr+ZxQTlErnGq2eD3sCarNwWLSQwqFH4npCI02kOsRRFuI7qOkMPel+yIJrF10S573yF8Z9dbAUyM97bbkdNzzYyvZHkP8Uy8BbkA8T6mWFfM+DhnS7Fj8G+iRNvHjwYI7+dzQb+6kJ7QrRG4ioDbeFV6Po8Qd2dTQuRWmDN6Mjv5hOEMbP7iJNmjTtH5nH//FBZeyc6V8ge+WI1xEO91Fnd6u4yzKV/jfqfHy6OWNuOn7CRUzNaD+svrtQXhySAoNpbvzaA1Sk92woX/5KuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HTdrbiFHEiUAe1qABdZTcx14D7w1gzlWiDtqsTYlstQ=;
+ b=lDEQ6MOAvaCLYl1pLrWWK6nx7sIeUMLuHnfGLVa9AOt6of1bigJcCeyJSaCHxJ+1WkBiPW5TfC6SA3idonNfVwDR0tQpomij4f/3ytCDZDKOeOK9jn8MOcGcNUfCQv1yE4BJYDE8qY7XyWioClAeuqyvH1SkVVsHfkqME5vo6gA=
+Received: from DM8PR11MB5640.namprd11.prod.outlook.com (2603:10b6:8:3f::14) by
+ DM8PR11MB5656.namprd11.prod.outlook.com (2603:10b6:8:38::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4755.11; Wed, 1 Dec 2021 09:48:32 +0000
+Received: from DM8PR11MB5640.namprd11.prod.outlook.com
+ ([fe80::9c4d:5c63:9fdd:53da]) by DM8PR11MB5640.namprd11.prod.outlook.com
+ ([fe80::9c4d:5c63:9fdd:53da%3]) with mapi id 15.20.4755.015; Wed, 1 Dec 2021
+ 09:48:32 +0000
+From: "Rao, Lei" <lei.rao@intel.com>
+To: =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>
+Subject: RE: [PATCH] QIO: Add force_quit to the QIOChannel to ensure QIO exits
+ cleanly in some corner case
+Thread-Topic: [PATCH] QIO: Add force_quit to the QIOChannel to ensure QIO
  exits cleanly in some corner case
-Message-ID: <Yac8B76dAulyx+2T@redhat.com>
+Thread-Index: AQHX5ohAKgh3i8Qft0qPoitX2/ch4KwdWYOAgAAEvnA=
+Date: Wed, 1 Dec 2021 09:48:31 +0000
+Message-ID: <DM8PR11MB5640D2F156E53A0CD644AC71FD689@DM8PR11MB5640.namprd11.prod.outlook.com>
 References: <20211201075427.155702-1-lei.rao@intel.com>
+ <Yac8B76dAulyx+2T@redhat.com>
+In-Reply-To: <Yac8B76dAulyx+2T@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.6.200.16
+dlp-product: dlpe-windows
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2fedda32-ce61-43ed-7baf-08d9b4afbc41
+x-ms-traffictypediagnostic: DM8PR11MB5656:
+x-microsoft-antispam-prvs: <DM8PR11MB56564DF0B330B1C5073FFA8DFD689@DM8PR11MB5656.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: pOy4asvt0xV6qhqCL2KyG8NA40FFD2nOaDlOq+PSEUUUphKBWk1rdTCbiaWf0nDX9fhswZ3ol40gwuf6nnHOCFLR6rTQoDPgErLNI2og7IvO6M/7oi2HKukfTZy4o67RfDRhRKhua7emrVjW3muJm+7ArY4Xu/n6YQ+5m20p5D1URkc4m4WE3Oogzfu4iQB4HWpdY5aaTIFwo7L+JmWbjhmOqlCy5I0bAqAN+htSKHdgIcOwxNgOhoBGJVlqnefdAkt4InvDpshmuYZbYm6yD0KPJq0NMOkBuFZwdRLsBLVKwC3coSLdY8Xur169TfUJO8KRLHtF5osrRDPs0ukqZvnqvnA78K7LMoP1umxpXvFX08p9rKeiuwevWEbe3+yXr/75RBHpOY8ZrgHRC/0ydm4Nm0HWLBPjsESLGAhwbtP6L0b7WD9PvnOfvO6E0ZhoZzUDAvDWcRPLgTbkZ4N5qpZ565sBQkifmeUv1TYn/0B/qcNkZlimWmApXjaGFeEuRXcRxZsQKctnoyviql3txWo5SdQAKE5rLIqHhvtJa8HRbMC+t9xdvKuyzKOez2bE5aNIQtgMcT6vJ+e4r1UnWvf+vCJMnVWfHL1I6vxyJrSJu3xBS9s3iG7KO3wpPnncybwuNrFNN9aJFnu2DgfCjFMeh+ogEDZzpcKjfDWSb5mCDQLJChE0qNNcI3JSE5lTk61A7i72QvPVKI+nuLhmde4Dcn/UoPm1OCYH2Dw/KJnTX5XFJFDyPGWQrK85rE0cq0YaACa8r9eu+DR7JTUHVM/FMnfeUCeMxWySjw34Tz9R+hBN1oDpT58JqZoMXeYmxxbT9HE0ROYdQAoL+mhhkRxO/Hqy9E3hpPDqQlkc5cM=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR11MB5640.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(66556008)(2906002)(66946007)(316002)(76116006)(6916009)(66446008)(38100700002)(66476007)(64756008)(38070700005)(82960400001)(83380400001)(122000001)(9686003)(52536014)(966005)(71200400001)(8936002)(54906003)(55016003)(186003)(33656002)(86362001)(53546011)(4326008)(6506007)(8676002)(5660300002)(508600001)(30864003)(26005)(7696005)(21314003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OTloSnV1dGpWNURLejJLZlJvUFhhdERjSHRqS1VlZWQwU2xJVFpJcEoyWG9F?=
+ =?utf-8?B?OEs5cFpab1R5K1RzaTlCQXFCa0g1MmYweDVQTCsxM0pLbWVQRU5hcXpuTEc1?=
+ =?utf-8?B?aVlLQ1pUZndXM2FJMi9OYlJuL3BRTFZuKzAvdjFyWjl4eWVMMUNpUzFsZVZu?=
+ =?utf-8?B?RjY0bS9FcTgwald2SUY3RU1CQkFiR2xwTlFvM3N4NlRUYitQWjAxNTZ6NU1y?=
+ =?utf-8?B?UWxRK2hDQ01ZUm1CQmxUT3UyL3BpZ2hlYnc1c01FK3ZjS2ZwMmNhbWVLZ3ZC?=
+ =?utf-8?B?MFNkbjRBZ2VGL3BBeithVVpoL3NLazNzSG9KV2NSeG95UmE2Q1hvM3phQUFU?=
+ =?utf-8?B?RXJlRWxFaDd6RTlCME5iVHB4REtTVWs4NGZMOUgwMWY3U2l0MzJjaXFBVzE4?=
+ =?utf-8?B?b1dJUXBsSVRIYjcyeCtVc24vdmtRZkJtNjJyajBSbjA2RElnWFNkWDQ1TnVH?=
+ =?utf-8?B?UXZSMlBrSE82MStjOVc1TUg5SVo2WEcvWTV6SUN3cU9uQ0g1T1NTL3hyMFdL?=
+ =?utf-8?B?Y21XWTlZU2J4SzZxZHlONURJT1Y4S0MzSlk2VDEwdGw2bVdmaWFBQkpVcWhy?=
+ =?utf-8?B?WjdiUmJXS1RFU05ob2ZqSEdycTRGSEw1UnZEdWVOWkFkRnlqaGhjMXl2TXh0?=
+ =?utf-8?B?dlVaTWI0c0hXbzMwVTZlYkZRTjlOYW1Jd1dUZndsbFM4YnBxbVByWWM3N0tl?=
+ =?utf-8?B?akc3cGhqdHJMUkY5MTRDRERwNUhlV1FkeXN6OVlxa25DZTZRSklyVHg0MVVP?=
+ =?utf-8?B?dlpYMUNjTzVnNGR0MTU0d04rNzRCeHpKMWV1dDlBb3AvMG9KNi9ZVW5PY0dH?=
+ =?utf-8?B?RmNLc1ZqeDF2emd4a3ZmU2JON3RUbGlEWjF1WUZMaDVTVzdIWkhSeE1iYWlx?=
+ =?utf-8?B?NHVlNklQQSt5T2RkT1FBd1lqcytVTnQ3U1RRanJOUjdYREdURU1MQlpnbHFh?=
+ =?utf-8?B?RmV6UTArMC9KWDFHUi9TS01BcUo2cGdIR09OM2JsbThxSXJnL21nUUFYQlFE?=
+ =?utf-8?B?RktXVDNxVm45cjQ2Q3BHVEplS2Q1cVg0bXh0VnpsTkk2TkJSaDlIRnpReG1W?=
+ =?utf-8?B?eFhxVGRXdEdpTE5iM1NBVW84aHFJK0hPVnFuZEYwS2JJbkRsbTNtdThkZy9C?=
+ =?utf-8?B?Z2lhd3pBYTRpZkpWTnFvVkdRaE44bXNobGJYM3NBazFreEd2ZTl1U05Bd1Jn?=
+ =?utf-8?B?Z2g4MXVnNVc4WkZFSzNpYmtPb1R6K1Q2V2Z6VlBXT1pTRGJrMjJnMUdndjEy?=
+ =?utf-8?B?RjYvTGdyS1AwVTNhMTJWR1RPRHE3MUlvbm9YRDZzaktCYzRCMHc5WHZMbE9B?=
+ =?utf-8?B?VS82SlhOcXFDWVpPSlFYMGllOHk3ZGpGZzBTRW9YN0QyWFN1bWF1U21qN2Qy?=
+ =?utf-8?B?bDd3WXVCOURMQzR3ZmhRQ3hNVGlTTUVCM2pmd0pmQVJYVmVhdlRybEU5WDlu?=
+ =?utf-8?B?cndreFU3MGNNQmpSNldVdGwyemtoZE5SNFU2eUo5SkhGWkwyT3ZBcnhjUjdR?=
+ =?utf-8?B?a3NqR1JUYXBhRU5JQThyWEdxQzV4MzFnKzRYMFVVQklMS1ZIczFLZDF6Q1BZ?=
+ =?utf-8?B?a2hjVXF2WXhTREpiZlZXZStzdmVKRXc1WEdBU2hEaUU0WTZHbXlOV3psWExY?=
+ =?utf-8?B?c0xNT2w2OVQybGhERkk2UGY0c1FtMkRxOGhrZDBLM0JxU1o4K1FkenpSdldo?=
+ =?utf-8?B?RWVreUZYRjFibHhGdHZXMlVEVXlnSkxkejA5VzBYUCtLbDNtL0hhVFB4bGtX?=
+ =?utf-8?B?SnhMK1p0STZZSnlGbDE2TGdqNGo4dGRPUGh5YzQrU1lsd0lVeGlRZDhvT091?=
+ =?utf-8?B?dExLYloxUEFxbG5mWXBEK2JxWUMrd1BzUkVscUlISDdUMW9SZlBJdTJtVjJ1?=
+ =?utf-8?B?R0ljVWc0cU8zbStFQjZWVkZiQTdKV0Y4Szg3bEdMZ3BSM3p2cDI3aHJidGx4?=
+ =?utf-8?B?K2o2VFJTUHpJbGdDZ0lsTzFSWFNLcU0vNWhZV0RON1B4OE5sNHgzbVN3WWVF?=
+ =?utf-8?B?Wnh4N3g5SFZiNTdibE0zZHpRN1k2RnBTSWhxL21PSVlDSE5VVlJwRm9aa1BX?=
+ =?utf-8?B?OGxOaURvVElJbnhQSXNEaTkyVHgrUHdoTG1KWWZKbWY4bEwyTVUzSG1YdmM0?=
+ =?utf-8?B?Zmw0U0UzTmIrMVIzVURMcXBidDl4bGJ0Yko0dUZzQWtsUTlROGJPWHFndjlN?=
+ =?utf-8?B?OFE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20211201075427.155702-1-lei.rao@intel.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5640.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2fedda32-ce61-43ed-7baf-08d9b4afbc41
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2021 09:48:31.9573 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qfqyCx3OGjvcZ1B2e5R6+2bXXnSQKcspI+LbQ5s8zP7dhsjijzu0kgITgdhh8BYU2JSwUT9K2O696wZ5siULFg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5656
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.88; envelope-from=lei.rao@intel.com;
+ helo=mga01.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,244 +168,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, chen.zhang@intel.com, hreitz@redhat.com,
- eblake@redhat.com
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ "vsementsov@virtuozzo.com" <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Zhang,
+ Chen" <chen.zhang@intel.com>, "hreitz@redhat.com" <hreitz@redhat.com>,
+ "eblake@redhat.com" <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 01, 2021 at 03:54:27PM +0800, Rao, Lei wrote:
->     We found that the QIO channel coroutine could not be awakened in some corner cases during our stress test for COLO.
->     The patch fixes as follow:
->         #0  0x00007fad72e24bf6 in __ppoll (fds=0x5563d75861f0, nfds=1, timeout=<optimized out>, sigmask=0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
->         #1  0x00005563d6977c68 in qemu_poll_ns (fds=0x5563d75861f0, nfds=1, timeout=599999697630) at util/qemu-timer.c:348
->         #2  0x00005563d697ac44 in aio_poll (ctx=0x5563d755dfa0, blocking=true) at util/aio-posix.c:669
->         #3  0x00005563d68ba24f in bdrv_do_drained_begin (bs=0x5563d75ea0c0, recursive=false, parent=0x0, ignore_bds_parents=false, poll=true) at block/io.c:432
->         #4  0x00005563d68ba338 in bdrv_drained_begin (bs=0x5563d75ea0c0) at block/io.c:438
->         #5  0x00005563d689c6d2 in quorum_del_child (bs=0x5563d75ea0c0, child=0x5563d7908600, errp=0x7fff3cf5b960) at block/quorum.c:1063
->         #6  0x00005563d684328f in bdrv_del_child (parent_bs=0x5563d75ea0c0, child=0x5563d7908600, errp=0x7fff3cf5b960) at block.c:6568
->         #7  0x00005563d658499e in qmp_x_blockdev_change (parent=0x5563d80ec4c0 "colo-disk0", has_child=true, child=0x5563d7577d30 "children.1", has_node=false, node=0x0,errp=0x7fff3cf5b960) at blockdev.c:4494
->         #8  0x00005563d67e8b4e in qmp_marshal_x_blockdev_change (args=0x7fad6400ada0, ret=0x7fff3cf5b9f8, errp=0x7fff3cf5b9f0) at qapi/qapi-commands-block-core.c:1538
->         #9  0x00005563d691cd9e in do_qmp_dispatch (cmds=0x5563d719a4f0 <qmp_commands>, request=0x7fad64009d80, allow_oob=true, errp=0x7fff3cf5ba98)
->             at qapi/qmp-dispatch.c:132
->         #10 0x00005563d691cfab in qmp_dispatch (cmds=0x5563d719a4f0 <qmp_commands>, request=0x7fad64009d80, allow_oob=true) at qapi/qmp-dispatch.c:175
->         #11 0x00005563d67b7787 in monitor_qmp_dispatch (mon=0x5563d7605d40, req=0x7fad64009d80) at monitor/qmp.c:145
->         #12 0x00005563d67b7b24 in monitor_qmp_bh_dispatcher (data=0x0) at monitor/qmp.c:234
->         #13 0x00005563d69754c2 in aio_bh_call (bh=0x5563d7473230) at util/async.c:89
->         #14 0x00005563d697555e in aio_bh_poll (ctx=0x5563d7471da0) at util/async.c:117
->         #15 0x00005563d697a423 in aio_dispatch (ctx=0x5563d7471da0) at util/aio-posix.c:459
->         #16 0x00005563d6975917 in aio_ctx_dispatch (source=0x5563d7471da0, callback=0x0, user_data=0x0) at util/async.c:260
->         #17 0x00007fad730e1fbd in g_main_context_dispatch () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
->         #18 0x00005563d6978cda in glib_pollfds_poll () at util/main-loop.c:219
->         #19 0x00005563d6978d58 in os_host_main_loop_wait (timeout=977650) at util/main-loop.c:242
->         #20 0x00005563d6978e69 in main_loop_wait (nonblocking=0) at util/main-loop.c:518
->         #21 0x00005563d658f5ed in main_loop () at vl.c:1814
->         #22 0x00005563d6596bb7 in main (argc=61, argv=0x7fff3cf5c0c8, envp=0x7fff3cf5c2b8) at vl.c:450
-> 
->     From the call trace, we can see that the QEMU main thread is waiting for the in_flight return to zero. But the in_filght never reaches 0.
->     After analysis, the root cause is that the coroutine of NBD was not awakened. Although this bug was found in the COLO test, I think this is a
->     universal problem in the QIO module. This issue also affects other modules depending on QIO such as NBD. We dump the following data:
->     $2 = {
->       in_flight = 2,
->       state = NBD_CLIENT_QUIT,
->       connect_status = 0,
->       connect_err = 0x0,
->       wait_in_flight = false,
->       requests = {{
->           coroutine = 0x0,
->           offset = 273077071872,
->           receiving = false,
->         }, {
->           coroutine = 0x7f1164571df0,
->           offset = 498792529920,
->           receiving = false,
->         }, {
->           coroutine = 0x0,
->           offset = 500663590912,
->           receiving = false,
->         }, {
->           ...
->         } },
->       reply = {
->         simple = {
->           magic = 1732535960,
->           error = 0,
->           handle = 0
->         },
->         structured = {
->           magic = 1732535960,
->           flags = 0,
->           type = 0,
->           handle = 0,
->           length = 0
->         },
->         {
->           magic = 1732535960,
->           _skip = 0,
->           handle = 0
->         }
->       },
->       bs = 0x7f11640e2140,
->       reconnect_delay = 0,
->       saddr = 0x7f11640e1f80,
->       export = 0x7f11640dc560 "parent0",
->     }
->     From the data, we can see the coroutine of NBD does not exit normally when killing the NBD server(we kill the Secondary VM in the COLO stress test).
->     Then it will not execute in_flight--. So, the QEMU main thread will hang here. Further analysis, I found the coroutine of NBD will yield
->     in nbd_send_request() or qio_channel_write_all() in nbd_co_send_request. By the way, the yield is due to the kernel return EAGAIN(under the stress test).
->     However, NBD didn't know it would yield here. So, the nbd_recv_coroutines_wake won't wake it up because req->receiving is false. if the NBD server
->     is terminated abnormally at the same time. The G_IO_OUT will be invalid, the coroutine will never be awakened. In addition, the s->ioc will be released
->     immediately. if we force to wake up the coroutine of NBD, access to the ioc->xxx will cause segment fault. Finally, I add a state named force_quit to
->     the QIOChannel to ensure that QIO will exit immediately. And I add the function of qio_channel_coroutines_wake to wake it up.
-> 
-> Signed-off-by: Lei Rao <lei.rao@intel.com>
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> ---
->  block/nbd.c          |  5 +++++
->  include/io/channel.h | 19 +++++++++++++++++++
->  io/channel.c         | 22 ++++++++++++++++++++++
->  3 files changed, 46 insertions(+)
-> 
-> diff --git a/block/nbd.c b/block/nbd.c
-> index 5ef462db1b..5ee4eaaf57 100644
-> --- a/block/nbd.c
-> +++ b/block/nbd.c
-> @@ -208,6 +208,8 @@ static void nbd_teardown_connection(BlockDriverState *bs)
->      assert(!s->in_flight);
->  
->      if (s->ioc) {
-> +        qio_channel_set_force_quit(s->ioc, true);
-> +        qio_channel_coroutines_wake(s->ioc);
->          qio_channel_shutdown(s->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-
-Calling shutdown here should already be causing the
-qio_chanel_readv_all to wakeup and break out of its
-poll() loop. We shouldn't need to add a second way
-to break out of the poll().
-
->          yank_unregister_function(BLOCKDEV_YANK_INSTANCE(s->bs->node_name),
->                                   nbd_yank, s->bs);
-> @@ -315,6 +317,7 @@ int coroutine_fn nbd_co_do_establish_connection(BlockDriverState *bs,
->  
->      /* successfully connected */
->      s->state = NBD_CLIENT_CONNECTED;
-> +    qio_channel_set_force_quit(s->ioc, false);
->      qemu_co_queue_restart_all(&s->free_sema);
->  
->      return 0;
-> @@ -345,6 +348,8 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
->  
->      /* Finalize previous connection if any */
->      if (s->ioc) {
-> +        qio_channel_set_force_quit(s->ioc, true);
-> +        qio_channel_coroutines_wake(s->ioc);
-
-Isn't this code path just missing a qio_channel_shutdown call or
-a qio_channel_close call to make the socket trigger wakeup from
-poll.
-
->          qio_channel_detach_aio_context(QIO_CHANNEL(s->ioc));
->          yank_unregister_function(BLOCKDEV_YANK_INSTANCE(s->bs->node_name),
->                                   nbd_yank, s->bs);
-> diff --git a/include/io/channel.h b/include/io/channel.h
-> index 88988979f8..bc5af8cdd6 100644
-> --- a/include/io/channel.h
-> +++ b/include/io/channel.h
-> @@ -78,6 +78,7 @@ struct QIOChannel {
->      AioContext *ctx;
->      Coroutine *read_coroutine;
->      Coroutine *write_coroutine;
-> +    bool force_quit;
->  #ifdef _WIN32
->      HANDLE event; /* For use with GSource on Win32 */
->  #endif
-> @@ -484,6 +485,24 @@ int qio_channel_set_blocking(QIOChannel *ioc,
->                               bool enabled,
->                               Error **errp);
->  
-> +/**
-> + * qio_channel_force_quit:
-> + * @ioc: the channel object
-> + * @quit: the new flag state
-> + *
-> + * Set the new flag state
-> + */
-> +void qio_channel_set_force_quit(QIOChannel *ioc, bool quit);
-> +
-> +/**
-> + * qio_channel_coroutines_wake:
-> + * @ioc: the channel object
-> + *
-> + * Wake up the coroutines to ensure that they will exit normally
-> + * when the server terminated abnormally
-> + */
-> +void qio_channel_coroutines_wake(QIOChannel *ioc);
-> +
->  /**
->   * qio_channel_close:
->   * @ioc: the channel object
-> diff --git a/io/channel.c b/io/channel.c
-> index e8b019dc36..bc1a9e055c 100644
-> --- a/io/channel.c
-> +++ b/io/channel.c
-> @@ -136,6 +136,9 @@ int qio_channel_readv_full_all_eof(QIOChannel *ioc,
->          if (len == QIO_CHANNEL_ERR_BLOCK) {
->              if (qemu_in_coroutine()) {
->                  qio_channel_yield(ioc, G_IO_IN);
-> +                if (ioc->force_quit) {
-> +                    goto cleanup;
-> +                }
->              } else {
->                  qio_channel_wait(ioc, G_IO_IN);
->              }
-> @@ -242,6 +245,9 @@ int qio_channel_writev_full_all(QIOChannel *ioc,
->          if (len == QIO_CHANNEL_ERR_BLOCK) {
->              if (qemu_in_coroutine()) {
->                  qio_channel_yield(ioc, G_IO_OUT);
-> +                if (ioc->force_quit) {
-> +                    goto cleanup;
-> +                }
->              } else {
->                  qio_channel_wait(ioc, G_IO_OUT);
->              }
-> @@ -543,6 +549,9 @@ void coroutine_fn qio_channel_yield(QIOChannel *ioc,
->      }
->      qio_channel_set_aio_fd_handlers(ioc);
->      qemu_coroutine_yield();
-> +    if (ioc->force_quit) {
-> +        return;
-> +    }
->  
->      /* Allow interrupting the operation by reentering the coroutine other than
->       * through the aio_fd_handlers. */
-> @@ -555,6 +564,19 @@ void coroutine_fn qio_channel_yield(QIOChannel *ioc,
->      }
->  }
->  
-> +void qio_channel_set_force_quit(QIOChannel *ioc, bool quit)
-> +{
-> +    ioc->force_quit = quit;
-> +}
-> +
-> +void qio_channel_coroutines_wake(QIOChannel *ioc)
-> +{
-> +    if (ioc->read_coroutine) {
-> +        qio_channel_restart_read(ioc);
-> +    } else if (ioc->write_coroutine) {
-> +        qio_channel_restart_write(ioc);
-> +    }
-> +}
-
-None of this should be needed AFAICT, as the poll/coroutine code
-shuld already break out of poll if the socket is closed, or is
-marked shutdown.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+DQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBEYW5pZWwgUC4gQmVycmFuZ8Op
+IDxiZXJyYW5nZUByZWRoYXQuY29tPiANClNlbnQ6IFdlZG5lc2RheSwgRGVjZW1iZXIgMSwgMjAy
+MSA1OjExIFBNDQpUbzogUmFvLCBMZWkgPGxlaS5yYW9AaW50ZWwuY29tPg0KQ2M6IFpoYW5nLCBD
+aGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT47IGVibGFrZUByZWRoYXQuY29tOyB2c2VtZW50c292
+QHZpcnR1b3p6by5jb207IGt3b2xmQHJlZGhhdC5jb207IGhyZWl0ekByZWRoYXQuY29tOyBxZW11
+LWJsb2NrQG5vbmdudS5vcmc7IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0KU3ViamVjdDogUmU6IFtQ
+QVRDSF0gUUlPOiBBZGQgZm9yY2VfcXVpdCB0byB0aGUgUUlPQ2hhbm5lbCB0byBlbnN1cmUgUUlP
+IGV4aXRzIGNsZWFubHkgaW4gc29tZSBjb3JuZXIgY2FzZQ0KDQpPbiBXZWQsIERlYyAwMSwgMjAy
+MSBhdCAwMzo1NDoyN1BNICswODAwLCBSYW8sIExlaSB3cm90ZToNCj4gICAgIFdlIGZvdW5kIHRo
+YXQgdGhlIFFJTyBjaGFubmVsIGNvcm91dGluZSBjb3VsZCBub3QgYmUgYXdha2VuZWQgaW4gc29t
+ZSBjb3JuZXIgY2FzZXMgZHVyaW5nIG91ciBzdHJlc3MgdGVzdCBmb3IgQ09MTy4NCj4gICAgIFRo
+ZSBwYXRjaCBmaXhlcyBhcyBmb2xsb3c6DQo+ICAgICAgICAgIzAgIDB4MDAwMDdmYWQ3MmUyNGJm
+NiBpbiBfX3Bwb2xsIChmZHM9MHg1NTYzZDc1ODYxZjAsIG5mZHM9MSwgdGltZW91dD08b3B0aW1p
+emVkIG91dD4sIHNpZ21hc2s9MHgwKSBhdCAuLi9zeXNkZXBzL3VuaXgvc3lzdi9saW51eC9wcG9s
+bC5jOjQ0DQo+ICAgICAgICAgIzEgIDB4MDAwMDU1NjNkNjk3N2M2OCBpbiBxZW11X3BvbGxfbnMg
+KGZkcz0weDU1NjNkNzU4NjFmMCwgbmZkcz0xLCB0aW1lb3V0PTU5OTk5OTY5NzYzMCkgYXQgdXRp
+bC9xZW11LXRpbWVyLmM6MzQ4DQo+ICAgICAgICAgIzIgIDB4MDAwMDU1NjNkNjk3YWM0NCBpbiBh
+aW9fcG9sbCAoY3R4PTB4NTU2M2Q3NTVkZmEwLCBibG9ja2luZz10cnVlKSBhdCB1dGlsL2Fpby1w
+b3NpeC5jOjY2OQ0KPiAgICAgICAgICMzICAweDAwMDA1NTYzZDY4YmEyNGYgaW4gYmRydl9kb19k
+cmFpbmVkX2JlZ2luIChicz0weDU1NjNkNzVlYTBjMCwgcmVjdXJzaXZlPWZhbHNlLCBwYXJlbnQ9
+MHgwLCBpZ25vcmVfYmRzX3BhcmVudHM9ZmFsc2UsIHBvbGw9dHJ1ZSkgYXQgYmxvY2svaW8uYzo0
+MzINCj4gICAgICAgICAjNCAgMHgwMDAwNTU2M2Q2OGJhMzM4IGluIGJkcnZfZHJhaW5lZF9iZWdp
+biAoYnM9MHg1NTYzZDc1ZWEwYzApIGF0IGJsb2NrL2lvLmM6NDM4DQo+ICAgICAgICAgIzUgIDB4
+MDAwMDU1NjNkNjg5YzZkMiBpbiBxdW9ydW1fZGVsX2NoaWxkIChicz0weDU1NjNkNzVlYTBjMCwg
+Y2hpbGQ9MHg1NTYzZDc5MDg2MDAsIGVycnA9MHg3ZmZmM2NmNWI5NjApIGF0IGJsb2NrL3F1b3J1
+bS5jOjEwNjMNCj4gICAgICAgICAjNiAgMHgwMDAwNTU2M2Q2ODQzMjhmIGluIGJkcnZfZGVsX2No
+aWxkIChwYXJlbnRfYnM9MHg1NTYzZDc1ZWEwYzAsIGNoaWxkPTB4NTU2M2Q3OTA4NjAwLCBlcnJw
+PTB4N2ZmZjNjZjViOTYwKSBhdCBibG9jay5jOjY1NjgNCj4gICAgICAgICAjNyAgMHgwMDAwNTU2
+M2Q2NTg0OTllIGluIHFtcF94X2Jsb2NrZGV2X2NoYW5nZSAocGFyZW50PTB4NTU2M2Q4MGVjNGMw
+ICJjb2xvLWRpc2swIiwgaGFzX2NoaWxkPXRydWUsIGNoaWxkPTB4NTU2M2Q3NTc3ZDMwICJjaGls
+ZHJlbi4xIiwgaGFzX25vZGU9ZmFsc2UsIG5vZGU9MHgwLGVycnA9MHg3ZmZmM2NmNWI5NjApIGF0
+IGJsb2NrZGV2LmM6NDQ5NA0KPiAgICAgICAgICM4ICAweDAwMDA1NTYzZDY3ZThiNGUgaW4gcW1w
+X21hcnNoYWxfeF9ibG9ja2Rldl9jaGFuZ2UgKGFyZ3M9MHg3ZmFkNjQwMGFkYTAsIHJldD0weDdm
+ZmYzY2Y1YjlmOCwgZXJycD0weDdmZmYzY2Y1YjlmMCkgYXQgcWFwaS9xYXBpLWNvbW1hbmRzLWJs
+b2NrLWNvcmUuYzoxNTM4DQo+ICAgICAgICAgIzkgIDB4MDAwMDU1NjNkNjkxY2Q5ZSBpbiBkb19x
+bXBfZGlzcGF0Y2ggKGNtZHM9MHg1NTYzZDcxOWE0ZjAgPHFtcF9jb21tYW5kcz4sIHJlcXVlc3Q9
+MHg3ZmFkNjQwMDlkODAsIGFsbG93X29vYj10cnVlLCBlcnJwPTB4N2ZmZjNjZjViYTk4KQ0KPiAg
+ICAgICAgICAgICBhdCBxYXBpL3FtcC1kaXNwYXRjaC5jOjEzMg0KPiAgICAgICAgICMxMCAweDAw
+MDA1NTYzZDY5MWNmYWIgaW4gcW1wX2Rpc3BhdGNoIChjbWRzPTB4NTU2M2Q3MTlhNGYwIDxxbXBf
+Y29tbWFuZHM+LCByZXF1ZXN0PTB4N2ZhZDY0MDA5ZDgwLCBhbGxvd19vb2I9dHJ1ZSkgYXQgcWFw
+aS9xbXAtZGlzcGF0Y2guYzoxNzUNCj4gICAgICAgICAjMTEgMHgwMDAwNTU2M2Q2N2I3Nzg3IGlu
+IG1vbml0b3JfcW1wX2Rpc3BhdGNoIChtb249MHg1NTYzZDc2MDVkNDAsIHJlcT0weDdmYWQ2NDAw
+OWQ4MCkgYXQgbW9uaXRvci9xbXAuYzoxNDUNCj4gICAgICAgICAjMTIgMHgwMDAwNTU2M2Q2N2I3
+YjI0IGluIG1vbml0b3JfcW1wX2JoX2Rpc3BhdGNoZXIgKGRhdGE9MHgwKSBhdCBtb25pdG9yL3Ft
+cC5jOjIzNA0KPiAgICAgICAgICMxMyAweDAwMDA1NTYzZDY5NzU0YzIgaW4gYWlvX2JoX2NhbGwg
+KGJoPTB4NTU2M2Q3NDczMjMwKSBhdCB1dGlsL2FzeW5jLmM6ODkNCj4gICAgICAgICAjMTQgMHgw
+MDAwNTU2M2Q2OTc1NTVlIGluIGFpb19iaF9wb2xsIChjdHg9MHg1NTYzZDc0NzFkYTApIGF0IHV0
+aWwvYXN5bmMuYzoxMTcNCj4gICAgICAgICAjMTUgMHgwMDAwNTU2M2Q2OTdhNDIzIGluIGFpb19k
+aXNwYXRjaCAoY3R4PTB4NTU2M2Q3NDcxZGEwKSBhdCB1dGlsL2Fpby1wb3NpeC5jOjQ1OQ0KPiAg
+ICAgICAgICMxNiAweDAwMDA1NTYzZDY5NzU5MTcgaW4gYWlvX2N0eF9kaXNwYXRjaCAoc291cmNl
+PTB4NTU2M2Q3NDcxZGEwLCBjYWxsYmFjaz0weDAsIHVzZXJfZGF0YT0weDApIGF0IHV0aWwvYXN5
+bmMuYzoyNjANCj4gICAgICAgICAjMTcgMHgwMDAwN2ZhZDczMGUxZmJkIGluIGdfbWFpbl9jb250
+ZXh0X2Rpc3BhdGNoICgpIGZyb20gL2xpYi94ODZfNjQtbGludXgtZ251L2xpYmdsaWItMi4wLnNv
+LjANCj4gICAgICAgICAjMTggMHgwMDAwNTU2M2Q2OTc4Y2RhIGluIGdsaWJfcG9sbGZkc19wb2xs
+ICgpIGF0IHV0aWwvbWFpbi1sb29wLmM6MjE5DQo+ICAgICAgICAgIzE5IDB4MDAwMDU1NjNkNjk3
+OGQ1OCBpbiBvc19ob3N0X21haW5fbG9vcF93YWl0ICh0aW1lb3V0PTk3NzY1MCkgYXQgdXRpbC9t
+YWluLWxvb3AuYzoyNDINCj4gICAgICAgICAjMjAgMHgwMDAwNTU2M2Q2OTc4ZTY5IGluIG1haW5f
+bG9vcF93YWl0IChub25ibG9ja2luZz0wKSBhdCB1dGlsL21haW4tbG9vcC5jOjUxOA0KPiAgICAg
+ICAgICMyMSAweDAwMDA1NTYzZDY1OGY1ZWQgaW4gbWFpbl9sb29wICgpIGF0IHZsLmM6MTgxNA0K
+PiAgICAgICAgICMyMiAweDAwMDA1NTYzZDY1OTZiYjcgaW4gbWFpbiAoYXJnYz02MSwgYXJndj0w
+eDdmZmYzY2Y1YzBjOCwgDQo+IGVudnA9MHg3ZmZmM2NmNWMyYjgpIGF0IHZsLmM6NDUwDQo+IA0K
+PiAgICAgRnJvbSB0aGUgY2FsbCB0cmFjZSwgd2UgY2FuIHNlZSB0aGF0IHRoZSBRRU1VIG1haW4g
+dGhyZWFkIGlzIHdhaXRpbmcgZm9yIHRoZSBpbl9mbGlnaHQgcmV0dXJuIHRvIHplcm8uIEJ1dCB0
+aGUgaW5fZmlsZ2h0IG5ldmVyIHJlYWNoZXMgMC4NCj4gICAgIEFmdGVyIGFuYWx5c2lzLCB0aGUg
+cm9vdCBjYXVzZSBpcyB0aGF0IHRoZSBjb3JvdXRpbmUgb2YgTkJEIHdhcyBub3QgYXdha2VuZWQu
+IEFsdGhvdWdoIHRoaXMgYnVnIHdhcyBmb3VuZCBpbiB0aGUgQ09MTyB0ZXN0LCBJIHRoaW5rIHRo
+aXMgaXMgYQ0KPiAgICAgdW5pdmVyc2FsIHByb2JsZW0gaW4gdGhlIFFJTyBtb2R1bGUuIFRoaXMg
+aXNzdWUgYWxzbyBhZmZlY3RzIG90aGVyIG1vZHVsZXMgZGVwZW5kaW5nIG9uIFFJTyBzdWNoIGFz
+IE5CRC4gV2UgZHVtcCB0aGUgZm9sbG93aW5nIGRhdGE6DQo+ICAgICAkMiA9IHsNCj4gICAgICAg
+aW5fZmxpZ2h0ID0gMiwNCj4gICAgICAgc3RhdGUgPSBOQkRfQ0xJRU5UX1FVSVQsDQo+ICAgICAg
+IGNvbm5lY3Rfc3RhdHVzID0gMCwNCj4gICAgICAgY29ubmVjdF9lcnIgPSAweDAsDQo+ICAgICAg
+IHdhaXRfaW5fZmxpZ2h0ID0gZmFsc2UsDQo+ICAgICAgIHJlcXVlc3RzID0ge3sNCj4gICAgICAg
+ICAgIGNvcm91dGluZSA9IDB4MCwNCj4gICAgICAgICAgIG9mZnNldCA9IDI3MzA3NzA3MTg3MiwN
+Cj4gICAgICAgICAgIHJlY2VpdmluZyA9IGZhbHNlLA0KPiAgICAgICAgIH0sIHsNCj4gICAgICAg
+ICAgIGNvcm91dGluZSA9IDB4N2YxMTY0NTcxZGYwLA0KPiAgICAgICAgICAgb2Zmc2V0ID0gNDk4
+NzkyNTI5OTIwLA0KPiAgICAgICAgICAgcmVjZWl2aW5nID0gZmFsc2UsDQo+ICAgICAgICAgfSwg
+ew0KPiAgICAgICAgICAgY29yb3V0aW5lID0gMHgwLA0KPiAgICAgICAgICAgb2Zmc2V0ID0gNTAw
+NjYzNTkwOTEyLA0KPiAgICAgICAgICAgcmVjZWl2aW5nID0gZmFsc2UsDQo+ICAgICAgICAgfSwg
+ew0KPiAgICAgICAgICAgLi4uDQo+ICAgICAgICAgfSB9LA0KPiAgICAgICByZXBseSA9IHsNCj4g
+ICAgICAgICBzaW1wbGUgPSB7DQo+ICAgICAgICAgICBtYWdpYyA9IDE3MzI1MzU5NjAsDQo+ICAg
+ICAgICAgICBlcnJvciA9IDAsDQo+ICAgICAgICAgICBoYW5kbGUgPSAwDQo+ICAgICAgICAgfSwN
+Cj4gICAgICAgICBzdHJ1Y3R1cmVkID0gew0KPiAgICAgICAgICAgbWFnaWMgPSAxNzMyNTM1OTYw
+LA0KPiAgICAgICAgICAgZmxhZ3MgPSAwLA0KPiAgICAgICAgICAgdHlwZSA9IDAsDQo+ICAgICAg
+ICAgICBoYW5kbGUgPSAwLA0KPiAgICAgICAgICAgbGVuZ3RoID0gMA0KPiAgICAgICAgIH0sDQo+
+ICAgICAgICAgew0KPiAgICAgICAgICAgbWFnaWMgPSAxNzMyNTM1OTYwLA0KPiAgICAgICAgICAg
+X3NraXAgPSAwLA0KPiAgICAgICAgICAgaGFuZGxlID0gMA0KPiAgICAgICAgIH0NCj4gICAgICAg
+fSwNCj4gICAgICAgYnMgPSAweDdmMTE2NDBlMjE0MCwNCj4gICAgICAgcmVjb25uZWN0X2RlbGF5
+ID0gMCwNCj4gICAgICAgc2FkZHIgPSAweDdmMTE2NDBlMWY4MCwNCj4gICAgICAgZXhwb3J0ID0g
+MHg3ZjExNjQwZGM1NjAgInBhcmVudDAiLA0KPiAgICAgfQ0KPiAgICAgRnJvbSB0aGUgZGF0YSwg
+d2UgY2FuIHNlZSB0aGUgY29yb3V0aW5lIG9mIE5CRCBkb2VzIG5vdCBleGl0IG5vcm1hbGx5IHdo
+ZW4ga2lsbGluZyB0aGUgTkJEIHNlcnZlcih3ZSBraWxsIHRoZSBTZWNvbmRhcnkgVk0gaW4gdGhl
+IENPTE8gc3RyZXNzIHRlc3QpLg0KPiAgICAgVGhlbiBpdCB3aWxsIG5vdCBleGVjdXRlIGluX2Zs
+aWdodC0tLiBTbywgdGhlIFFFTVUgbWFpbiB0aHJlYWQgd2lsbCBoYW5nIGhlcmUuIEZ1cnRoZXIg
+YW5hbHlzaXMsIEkgZm91bmQgdGhlIGNvcm91dGluZSBvZiBOQkQgd2lsbCB5aWVsZA0KPiAgICAg
+aW4gbmJkX3NlbmRfcmVxdWVzdCgpIG9yIHFpb19jaGFubmVsX3dyaXRlX2FsbCgpIGluIG5iZF9j
+b19zZW5kX3JlcXVlc3QuIEJ5IHRoZSB3YXksIHRoZSB5aWVsZCBpcyBkdWUgdG8gdGhlIGtlcm5l
+bCByZXR1cm4gRUFHQUlOKHVuZGVyIHRoZSBzdHJlc3MgdGVzdCkuDQo+ICAgICBIb3dldmVyLCBO
+QkQgZGlkbid0IGtub3cgaXQgd291bGQgeWllbGQgaGVyZS4gU28sIHRoZSBuYmRfcmVjdl9jb3Jv
+dXRpbmVzX3dha2Ugd29uJ3Qgd2FrZSBpdCB1cCBiZWNhdXNlIHJlcS0+cmVjZWl2aW5nIGlzIGZh
+bHNlLiBpZiB0aGUgTkJEIHNlcnZlcg0KPiAgICAgaXMgdGVybWluYXRlZCBhYm5vcm1hbGx5IGF0
+IHRoZSBzYW1lIHRpbWUuIFRoZSBHX0lPX09VVCB3aWxsIGJlIGludmFsaWQsIHRoZSBjb3JvdXRp
+bmUgd2lsbCBuZXZlciBiZSBhd2FrZW5lZC4gSW4gYWRkaXRpb24sIHRoZSBzLT5pb2Mgd2lsbCBi
+ZSByZWxlYXNlZA0KPiAgICAgaW1tZWRpYXRlbHkuIGlmIHdlIGZvcmNlIHRvIHdha2UgdXAgdGhl
+IGNvcm91dGluZSBvZiBOQkQsIGFjY2VzcyB0byB0aGUgaW9jLT54eHggd2lsbCBjYXVzZSBzZWdt
+ZW50IGZhdWx0LiBGaW5hbGx5LCBJIGFkZCBhIHN0YXRlIG5hbWVkIGZvcmNlX3F1aXQgdG8NCj4g
+ICAgIHRoZSBRSU9DaGFubmVsIHRvIGVuc3VyZSB0aGF0IFFJTyB3aWxsIGV4aXQgaW1tZWRpYXRl
+bHkuIEFuZCBJIGFkZCB0aGUgZnVuY3Rpb24gb2YgcWlvX2NoYW5uZWxfY29yb3V0aW5lc193YWtl
+IHRvIHdha2UgaXQgdXAuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBMZWkgUmFvIDxsZWkucmFvQGlu
+dGVsLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogWmhhbmcgQ2hlbiA8Y2hlbi56aGFuZ0BpbnRlbC5j
+b20+DQo+IC0tLQ0KPiAgYmxvY2svbmJkLmMgICAgICAgICAgfCAgNSArKysrKw0KPiAgaW5jbHVk
+ZS9pby9jaGFubmVsLmggfCAxOSArKysrKysrKysrKysrKysrKysrDQo+ICBpby9jaGFubmVsLmMg
+ICAgICAgICB8IDIyICsrKysrKysrKysrKysrKysrKysrKysNCj4gIDMgZmlsZXMgY2hhbmdlZCwg
+NDYgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Jsb2NrL25iZC5jIGIvYmxvY2sv
+bmJkLmMgaW5kZXggNWVmNDYyZGIxYi4uNWVlNGVhYWY1NyANCj4gMTAwNjQ0DQo+IC0tLSBhL2Js
+b2NrL25iZC5jDQo+ICsrKyBiL2Jsb2NrL25iZC5jDQo+IEBAIC0yMDgsNiArMjA4LDggQEAgc3Rh
+dGljIHZvaWQgbmJkX3RlYXJkb3duX2Nvbm5lY3Rpb24oQmxvY2tEcml2ZXJTdGF0ZSAqYnMpDQo+
+ICAgICAgYXNzZXJ0KCFzLT5pbl9mbGlnaHQpOw0KPiAgDQo+ICAgICAgaWYgKHMtPmlvYykgew0K
+PiArICAgICAgICBxaW9fY2hhbm5lbF9zZXRfZm9yY2VfcXVpdChzLT5pb2MsIHRydWUpOw0KPiAr
+ICAgICAgICBxaW9fY2hhbm5lbF9jb3JvdXRpbmVzX3dha2Uocy0+aW9jKTsNCj4gICAgICAgICAg
+cWlvX2NoYW5uZWxfc2h1dGRvd24ocy0+aW9jLCBRSU9fQ0hBTk5FTF9TSFVURE9XTl9CT1RILCAN
+Cj4gTlVMTCk7DQoNCkNhbGxpbmcgc2h1dGRvd24gaGVyZSBzaG91bGQgYWxyZWFkeSBiZSBjYXVz
+aW5nIHRoZSBxaW9fY2hhbmVsX3JlYWR2X2FsbCB0byB3YWtldXAgYW5kIGJyZWFrIG91dCBvZiBp
+dHMNCnBvbGwoKSBsb29wLiBXZSBzaG91bGRuJ3QgbmVlZCB0byBhZGQgYSBzZWNvbmQgd2F5IHRv
+IGJyZWFrIG91dCBvZiB0aGUgcG9sbCgpLg0KDQpDYWxsaW5nIHNodXRkb3duIGNhbiB3YWtlIHVw
+IHRoZSBjb3JvdXRpbmVzIHdoaWNoIGlzIHBvbGxpbmcuIEJ1dCBJIHRoaW5rIGl0J3Mgbm90IGVu
+b3VnaC4gSSB0cmllZCB0byBmb3JjaWJseSB3YWtlIHVwIHRoZSBOQkQgY29yb3V0aW5lLA0KSXQg
+bWF5IGNhdXNlIHNlZ21lbnQgZmF1bHQuIFRoZSByb290IGNhdXNlIGlzIHRoYXQgaXQgd2lsbCBj
+b250aW51ZSB0byBhY2Nlc3MgaW9jLT54eHggaW4gcWlvX2NoYW5uZWxfeWllbGQoKSwgYnV0IHRo
+ZSBpb2MgaGFzIGJlZW4gcmVsZWFzZWQgYW5kIHNldCBpdCBOVUxMIHN1Y2ggYXMgaW4NCm5iZF9j
+b19kb19lc3RhYmxpc2hfY29ubmVjdGlvbigpOyBJIHRoaW5rIGNhbGwgc2h1dGRvd24gd2lsbCBo
+YXZlIHRoZSBzYW1lIHJlc3VsdC4gU28sIEkgYWRkIHRoZSBmb3JjZV9xdWl0LCBvbmNlIHNldCBp
+dCB0cnVlLCBpdCB3aWxsIGltbWVkaWF0ZWx5IGV4aXQgd2l0aG91dCBhY2Nlc3NpbmcgSU9DLg0K
+DQpUaGFua3MNCkxlaQ0KDQo+ICAgICAgICAgIHlhbmtfdW5yZWdpc3Rlcl9mdW5jdGlvbihCTE9D
+S0RFVl9ZQU5LX0lOU1RBTkNFKHMtPmJzLT5ub2RlX25hbWUpLA0KPiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgbmJkX3lhbmssIHMtPmJzKTsgQEAgLTMxNSw2ICszMTcsNyANCj4g
+QEAgaW50IGNvcm91dGluZV9mbiBuYmRfY29fZG9fZXN0YWJsaXNoX2Nvbm5lY3Rpb24oQmxvY2tE
+cml2ZXJTdGF0ZSANCj4gKmJzLA0KPiAgDQo+ICAgICAgLyogc3VjY2Vzc2Z1bGx5IGNvbm5lY3Rl
+ZCAqLw0KPiAgICAgIHMtPnN0YXRlID0gTkJEX0NMSUVOVF9DT05ORUNURUQ7DQo+ICsgICAgcWlv
+X2NoYW5uZWxfc2V0X2ZvcmNlX3F1aXQocy0+aW9jLCBmYWxzZSk7DQo+ICAgICAgcWVtdV9jb19x
+dWV1ZV9yZXN0YXJ0X2FsbCgmcy0+ZnJlZV9zZW1hKTsNCj4gIA0KPiAgICAgIHJldHVybiAwOw0K
+PiBAQCAtMzQ1LDYgKzM0OCw4IEBAIHN0YXRpYyBjb3JvdXRpbmVfZm4gdm9pZCANCj4gbmJkX3Jl
+Y29ubmVjdF9hdHRlbXB0KEJEUlZOQkRTdGF0ZSAqcykNCj4gIA0KPiAgICAgIC8qIEZpbmFsaXpl
+IHByZXZpb3VzIGNvbm5lY3Rpb24gaWYgYW55ICovDQo+ICAgICAgaWYgKHMtPmlvYykgew0KPiAr
+ICAgICAgICBxaW9fY2hhbm5lbF9zZXRfZm9yY2VfcXVpdChzLT5pb2MsIHRydWUpOw0KPiArICAg
+ICAgICBxaW9fY2hhbm5lbF9jb3JvdXRpbmVzX3dha2Uocy0+aW9jKTsNCg0KSXNuJ3QgdGhpcyBj
+b2RlIHBhdGgganVzdCBtaXNzaW5nIGEgcWlvX2NoYW5uZWxfc2h1dGRvd24gY2FsbCBvciBhIHFp
+b19jaGFubmVsX2Nsb3NlIGNhbGwgdG8gbWFrZSB0aGUgc29ja2V0IHRyaWdnZXIgd2FrZXVwIGZy
+b20gcG9sbC4NCg0KSSBkb24ndCB0aGluayBpdCBjYW4gc29sdmUgdGhlIGJ1ZyBldmVuIGlmIGl0
+IGlzIGFkZGVkLCB0aGUgcmVhc29uIGlzIGFzIGFib3ZlLg0KVGhhbmtzLA0KTGVpDQoNCj4gICAg
+ICAgICAgcWlvX2NoYW5uZWxfZGV0YWNoX2Fpb19jb250ZXh0KFFJT19DSEFOTkVMKHMtPmlvYykp
+Ow0KPiAgICAgICAgICB5YW5rX3VucmVnaXN0ZXJfZnVuY3Rpb24oQkxPQ0tERVZfWUFOS19JTlNU
+QU5DRShzLT5icy0+bm9kZV9uYW1lKSwNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIG5iZF95YW5rLCBzLT5icyk7IGRpZmYgLS1naXQgDQo+IGEvaW5jbHVkZS9pby9jaGFubmVs
+LmggYi9pbmNsdWRlL2lvL2NoYW5uZWwuaCBpbmRleCANCj4gODg5ODg5NzlmOC4uYmM1YWY4Y2Rk
+NiAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9pby9jaGFubmVsLmgNCj4gKysrIGIvaW5jbHVkZS9p
+by9jaGFubmVsLmgNCj4gQEAgLTc4LDYgKzc4LDcgQEAgc3RydWN0IFFJT0NoYW5uZWwgew0KPiAg
+ICAgIEFpb0NvbnRleHQgKmN0eDsNCj4gICAgICBDb3JvdXRpbmUgKnJlYWRfY29yb3V0aW5lOw0K
+PiAgICAgIENvcm91dGluZSAqd3JpdGVfY29yb3V0aW5lOw0KPiArICAgIGJvb2wgZm9yY2VfcXVp
+dDsNCj4gICNpZmRlZiBfV0lOMzINCj4gICAgICBIQU5ETEUgZXZlbnQ7IC8qIEZvciB1c2Ugd2l0
+aCBHU291cmNlIG9uIFdpbjMyICovICAjZW5kaWYgQEAgDQo+IC00ODQsNiArNDg1LDI0IEBAIGlu
+dCBxaW9fY2hhbm5lbF9zZXRfYmxvY2tpbmcoUUlPQ2hhbm5lbCAqaW9jLA0KPiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBib29sIGVuYWJsZWQsDQo+ICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIEVycm9yICoqZXJycCk7DQo+ICANCj4gKy8qKg0KPiArICogcWlvX2NoYW5uZWxf
+Zm9yY2VfcXVpdDoNCj4gKyAqIEBpb2M6IHRoZSBjaGFubmVsIG9iamVjdA0KPiArICogQHF1aXQ6
+IHRoZSBuZXcgZmxhZyBzdGF0ZQ0KPiArICoNCj4gKyAqIFNldCB0aGUgbmV3IGZsYWcgc3RhdGUN
+Cj4gKyAqLw0KPiArdm9pZCBxaW9fY2hhbm5lbF9zZXRfZm9yY2VfcXVpdChRSU9DaGFubmVsICpp
+b2MsIGJvb2wgcXVpdCk7DQo+ICsNCj4gKy8qKg0KPiArICogcWlvX2NoYW5uZWxfY29yb3V0aW5l
+c193YWtlOg0KPiArICogQGlvYzogdGhlIGNoYW5uZWwgb2JqZWN0DQo+ICsgKg0KPiArICogV2Fr
+ZSB1cCB0aGUgY29yb3V0aW5lcyB0byBlbnN1cmUgdGhhdCB0aGV5IHdpbGwgZXhpdCBub3JtYWxs
+eQ0KPiArICogd2hlbiB0aGUgc2VydmVyIHRlcm1pbmF0ZWQgYWJub3JtYWxseSAgKi8gdm9pZCAN
+Cj4gK3Fpb19jaGFubmVsX2Nvcm91dGluZXNfd2FrZShRSU9DaGFubmVsICppb2MpOw0KPiArDQo+
+ICAvKioNCj4gICAqIHFpb19jaGFubmVsX2Nsb3NlOg0KPiAgICogQGlvYzogdGhlIGNoYW5uZWwg
+b2JqZWN0DQo+IGRpZmYgLS1naXQgYS9pby9jaGFubmVsLmMgYi9pby9jaGFubmVsLmMgaW5kZXgg
+ZThiMDE5ZGMzNi4uYmMxYTllMDU1YyANCj4gMTAwNjQ0DQo+IC0tLSBhL2lvL2NoYW5uZWwuYw0K
+PiArKysgYi9pby9jaGFubmVsLmMNCj4gQEAgLTEzNiw2ICsxMzYsOSBAQCBpbnQgcWlvX2NoYW5u
+ZWxfcmVhZHZfZnVsbF9hbGxfZW9mKFFJT0NoYW5uZWwgKmlvYywNCj4gICAgICAgICAgaWYgKGxl
+biA9PSBRSU9fQ0hBTk5FTF9FUlJfQkxPQ0spIHsNCj4gICAgICAgICAgICAgIGlmIChxZW11X2lu
+X2Nvcm91dGluZSgpKSB7DQo+ICAgICAgICAgICAgICAgICAgcWlvX2NoYW5uZWxfeWllbGQoaW9j
+LCBHX0lPX0lOKTsNCj4gKyAgICAgICAgICAgICAgICBpZiAoaW9jLT5mb3JjZV9xdWl0KSB7DQo+
+ICsgICAgICAgICAgICAgICAgICAgIGdvdG8gY2xlYW51cDsNCj4gKyAgICAgICAgICAgICAgICB9
+DQo+ICAgICAgICAgICAgICB9IGVsc2Ugew0KPiAgICAgICAgICAgICAgICAgIHFpb19jaGFubmVs
+X3dhaXQoaW9jLCBHX0lPX0lOKTsNCj4gICAgICAgICAgICAgIH0NCj4gQEAgLTI0Miw2ICsyNDUs
+OSBAQCBpbnQgcWlvX2NoYW5uZWxfd3JpdGV2X2Z1bGxfYWxsKFFJT0NoYW5uZWwgKmlvYywNCj4g
+ICAgICAgICAgaWYgKGxlbiA9PSBRSU9fQ0hBTk5FTF9FUlJfQkxPQ0spIHsNCj4gICAgICAgICAg
+ICAgIGlmIChxZW11X2luX2Nvcm91dGluZSgpKSB7DQo+ICAgICAgICAgICAgICAgICAgcWlvX2No
+YW5uZWxfeWllbGQoaW9jLCBHX0lPX09VVCk7DQo+ICsgICAgICAgICAgICAgICAgaWYgKGlvYy0+
+Zm9yY2VfcXVpdCkgew0KPiArICAgICAgICAgICAgICAgICAgICBnb3RvIGNsZWFudXA7DQo+ICsg
+ICAgICAgICAgICAgICAgfQ0KPiAgICAgICAgICAgICAgfSBlbHNlIHsNCj4gICAgICAgICAgICAg
+ICAgICBxaW9fY2hhbm5lbF93YWl0KGlvYywgR19JT19PVVQpOw0KPiAgICAgICAgICAgICAgfQ0K
+PiBAQCAtNTQzLDYgKzU0OSw5IEBAIHZvaWQgY29yb3V0aW5lX2ZuIHFpb19jaGFubmVsX3lpZWxk
+KFFJT0NoYW5uZWwgKmlvYywNCj4gICAgICB9DQo+ICAgICAgcWlvX2NoYW5uZWxfc2V0X2Fpb19m
+ZF9oYW5kbGVycyhpb2MpOw0KPiAgICAgIHFlbXVfY29yb3V0aW5lX3lpZWxkKCk7DQo+ICsgICAg
+aWYgKGlvYy0+Zm9yY2VfcXVpdCkgew0KPiArICAgICAgICByZXR1cm47DQo+ICsgICAgfQ0KPiAg
+DQo+ICAgICAgLyogQWxsb3cgaW50ZXJydXB0aW5nIHRoZSBvcGVyYXRpb24gYnkgcmVlbnRlcmlu
+ZyB0aGUgY29yb3V0aW5lIG90aGVyIHRoYW4NCj4gICAgICAgKiB0aHJvdWdoIHRoZSBhaW9fZmRf
+aGFuZGxlcnMuICovIEBAIC01NTUsNiArNTY0LDE5IEBAIHZvaWQgDQo+IGNvcm91dGluZV9mbiBx
+aW9fY2hhbm5lbF95aWVsZChRSU9DaGFubmVsICppb2MsDQo+ICAgICAgfQ0KPiAgfQ0KPiAgDQo+
+ICt2b2lkIHFpb19jaGFubmVsX3NldF9mb3JjZV9xdWl0KFFJT0NoYW5uZWwgKmlvYywgYm9vbCBx
+dWl0KSB7DQo+ICsgICAgaW9jLT5mb3JjZV9xdWl0ID0gcXVpdDsNCj4gK30NCj4gKw0KPiArdm9p
+ZCBxaW9fY2hhbm5lbF9jb3JvdXRpbmVzX3dha2UoUUlPQ2hhbm5lbCAqaW9jKSB7DQo+ICsgICAg
+aWYgKGlvYy0+cmVhZF9jb3JvdXRpbmUpIHsNCj4gKyAgICAgICAgcWlvX2NoYW5uZWxfcmVzdGFy
+dF9yZWFkKGlvYyk7DQo+ICsgICAgfSBlbHNlIGlmIChpb2MtPndyaXRlX2Nvcm91dGluZSkgew0K
+PiArICAgICAgICBxaW9fY2hhbm5lbF9yZXN0YXJ0X3dyaXRlKGlvYyk7DQo+ICsgICAgfQ0KPiAr
+fQ0KDQpOb25lIG9mIHRoaXMgc2hvdWxkIGJlIG5lZWRlZCBBRkFJQ1QsIGFzIHRoZSBwb2xsL2Nv
+cm91dGluZSBjb2RlIHNodWxkIGFscmVhZHkgYnJlYWsgb3V0IG9mIHBvbGwgaWYgdGhlIHNvY2tl
+dCBpcyBjbG9zZWQsIG9yIGlzIG1hcmtlZCBzaHV0ZG93bi4NCg0KDQpSZWdhcmRzLA0KRGFuaWVs
+DQotLSANCnw6IGh0dHBzOi8vYmVycmFuZ2UuY29tICAgICAgLW8tICAgIGh0dHBzOi8vd3d3LmZs
+aWNrci5jb20vcGhvdG9zL2RiZXJyYW5nZSA6fA0KfDogaHR0cHM6Ly9saWJ2aXJ0Lm9yZyAgICAg
+ICAgIC1vLSAgICAgICAgICAgIGh0dHBzOi8vZnN0b3AxMzguYmVycmFuZ2UuY29tIDp8DQp8OiBo
+dHRwczovL2VudGFuZ2xlLXBob3RvLm9yZyAgICAtby0gICAgaHR0cHM6Ly93d3cuaW5zdGFncmFt
+LmNvbS9kYmVycmFuZ2UgOnwNCg0K
 
