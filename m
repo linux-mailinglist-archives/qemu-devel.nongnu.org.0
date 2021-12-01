@@ -2,104 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652374655CF
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 19:48:33 +0100 (CET)
-Received: from localhost ([::1]:36454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5BFD4655DB
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 19:52:47 +0100 (CET)
+Received: from localhost ([::1]:44964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msUed-0004Ei-Pq
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 13:48:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54096)
+	id 1msUik-0001d3-C5
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 13:52:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1msUbS-0002Xi-Pk; Wed, 01 Dec 2021 13:45:15 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63414
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1msUbQ-0000hY-RD; Wed, 01 Dec 2021 13:45:14 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B1Gpa1N004347; 
- Wed, 1 Dec 2021 18:45:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=KgcwAAg5dhUW9wVCGXcrJDe7EFsvmMCy4bLs6a4/91Y=;
- b=PR2ckTiRrA1bsMvUdgr4uzwx901P//+xFl46E3bbg1+Oepp8tSHE2ljB8cGtMoLsV9M2
- Wk3M69FXj6W4dB4DdrYGGg4GTkRh1PIO6qJ7n5+W5MLt36Kps9ODEZF+l9urOXCATlQC
- 2+xj5e1bLQTz+SpMivIc+4MILDk9G7C6ZcqL6cflbMxwi8mD1aYm6Ju8IOFt+/vhFAuG
- wQbI0DZrSr4JLSrizThF6t9owqk4yz+Fydedhe3PmEFub+7YJG7unTEsCuSEU2U+3nm0
- k5pqloLEyGSAftVnvKHqWJf2k2kw8Qj0PGPx9Gks2Pd4UGXrlrz84LGrPFOQeZaLexbc 8Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cpcxnaa5p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Dec 2021 18:45:06 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B1IGpLO022452;
- Wed, 1 Dec 2021 18:45:05 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cpcxnaa57-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Dec 2021 18:45:05 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B1IVhxw019421;
- Wed, 1 Dec 2021 18:45:05 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma01wdc.us.ibm.com with ESMTP id 3ckcabua0k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Dec 2021 18:45:05 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B1Ij3iv43647450
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 1 Dec 2021 18:45:03 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F2739B2068;
- Wed,  1 Dec 2021 18:45:02 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 145FFB2064;
- Wed,  1 Dec 2021 18:45:02 +0000 (GMT)
-Received: from [9.65.67.243] (unknown [9.65.67.243])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed,  1 Dec 2021 18:45:01 +0000 (GMT)
-Message-ID: <6befad1c-af14-8fe6-e3a6-a022b053f1c1@linux.ibm.com>
-Date: Wed, 1 Dec 2021 13:45:01 -0500
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1msUgq-00080y-1u
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 13:50:48 -0500
+Received: from [2607:f8b0:4864:20::92d] (port=42741
+ helo=mail-ua1-x92d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1msUgo-0003Go-Jg
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 13:50:47 -0500
+Received: by mail-ua1-x92d.google.com with SMTP id t13so51099615uad.9
+ for <qemu-devel@nongnu.org>; Wed, 01 Dec 2021 10:50:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=3+xSEUCaYMb3WQBYfduZ3A3xczttEM3qNhUWeCJ8YIg=;
+ b=Oj/kLDpH2p+78GVIQ2OkYVystUtwu+q2V4+5L0jOF2JHfbJ+yKtbm/gH4+HBwTzgpI
+ m76nkDEL6jvYREHPbKBJIKOncRM2PlkHGveDV5AwF9w2dtneTv0IFfskBE1i4epqTeCX
+ Cy8HmnLOxLY4LdXJx+5phAVi7xDsPKp6YLkhzP1k7zURFotWRT4WBp/24JDpH+bn7wnR
+ Kg4MDCspbLKWXcs1PvUjCKjP76+AmeDA+wAZNQMLWlFkSDPb63S6O5uRZz1vd5bpKc9Z
+ ySRm+YYJKauW9ET2ld/IsniGzREp1sxD0zCLV/Fk8MajyNYFtQ0akE8gq+8PXdvqZCUP
+ KfOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=3+xSEUCaYMb3WQBYfduZ3A3xczttEM3qNhUWeCJ8YIg=;
+ b=Ft4eyLsg6RGUyI66M0fFHp8Asz9x7QMyQWZtgtAfDyJ7lKL/QyFJ0+om5V5mrIBIJq
+ +VvXuG8AEQsdnY2fEWGuxWr2kus8MSFy1CXCL6FQOXUD/IWPJtViOgpZid1C25t2Kyb3
+ bu6gNYWkIlIv/RzDuHVaEQ7LTuN08E55AsjoZjH2Tjtr3ke+4gt80u+0YhDI1nP4flHu
+ SC3ewuwJU71fgCZuVqLRnfbonakky503px2EKT9FHu7OxUfx/fPlsfhlrtcZx22F88aB
+ b/tUzMqkVjYsw7+80fVzcbTbLwr1+SHEUu6Ykq7HRUpNo/DpHHLl8+tae1YJLYeQPkD+
+ NBFA==
+X-Gm-Message-State: AOAM533Vo/62jSJHMdjzsWTtfhEI5vN8RmV6WO5O6LhOFJJ07YdHIb81
+ VwXvS9yCKcYkUfPHVvb/qdqwY9aXLZgjGwQGQzc=
+X-Google-Smtp-Source: ABdhPJw9moQnVFf+iHE4LIzjBbCo+Z6Go4HOQYLJcooZIcJ9i/TSJG0hJOzTrOzoIXHC1XDledG/jFJJGRMeR4r2McQ=
+X-Received: by 2002:ab0:70ce:: with SMTP id r14mr9737712ual.76.1638384645319; 
+ Wed, 01 Dec 2021 10:50:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4] s390: kvm: adjust diag318 resets to retain data
-Content-Language: en-US
-From: Collin Walling <walling@linux.ibm.com>
-To: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, thuth@redhat.com,
- qemu-stable@nongnu.org
-References: <20211117152303.627969-1-walling@linux.ibm.com>
-In-Reply-To: <20211117152303.627969-1-walling@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Ozb9TACUws7ulAg-lUS-bXKfzWXC7gMt
-X-Proofpoint-GUID: Kx6JSFS2wm3e4XHj3_3NdG9bV_foRVfU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-30_10,2021-12-01_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxlogscore=777
- spamscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
- suspectscore=0 bulkscore=0 impostorscore=0 adultscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112010100
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=walling@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.211,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAE2XoE-RgL3762rVVjCmTajrPea2-5kcOaSj=qWsa3oHiEP+jw@mail.gmail.com>
+ <20211124110552.inssty5eki6v6ywn@sirius.home.kraxel.org>
+In-Reply-To: <20211124110552.inssty5eki6v6ywn@sirius.home.kraxel.org>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Thu, 2 Dec 2021 02:50:34 +0800
+Message-ID: <CAE2XoE8xKf-p3wZZYkXDEUNubQTR==4ukKSpcCzzo2uuwO0YBw@mail.gmail.com>
+Subject: Re: How to enable virgl in headless mode?
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000ca337805d21a2609"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92d;
+ envelope-from=luoyonggang@gmail.com; helo=mail-ua1-x92d.google.com
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) BAYES_05=-0.5, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,17 +82,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, cohuck@redhat.com, frankja@linux.ibm.com,
- david@redhat.com
+Reply-To: luoyonggang@gmail.com
+Cc: qemu-level <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Polite ping. I may have missed if this patch was picked already. Thanks!
+--000000000000ca337805d21a2609
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Nov 24, 2021 at 7:06 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> qemu -display egl-headless
+
+Thanks a lot, I tried this, and it's forced me to provide  rendernode
+option like this:
+```
+-display egl-headless,rendernode=3D/dev/dri/renderD128
+```
+My question is what I need to do to remove the need of rendernode, because
+I wanna getting egl-headless to be usable on Windows.
+
+>
+> take care,
+>   Gerd
+>
 
 
--- 
-Regards,
-Collin
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
-Stay safe and stay healthy
+--000000000000ca337805d21a2609
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Wed, Nov 24, 2021 at 7:06 PM Gerd Hoffmann &lt;=
+<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt; wrote:<br>&g=
+t;<br>&gt; qemu -display egl-headless<br><br>Thanks a lot, I tried this, an=
+d it&#39;s forced me to provide=C2=A0
+
+rendernode option like this:<div>```<br>-display egl-headless,rendernode=3D=
+/dev/dri/renderD128<br>```</div><div>My question is what I need to do to re=
+move the need of rendernode, because I wanna getting egl-headless to be usa=
+ble on Windows.<br><br>&gt;<br>&gt; take care,<br>&gt; =C2=A0 Gerd<br>&gt;<=
+br><br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=
+=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerel=
+y,<br>Yonggang Luo<br></div></div>
+
+--000000000000ca337805d21a2609--
 
