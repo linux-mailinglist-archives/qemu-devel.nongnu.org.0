@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0080E4649B1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 09:30:20 +0100 (CET)
-Received: from localhost ([::1]:39954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D13B4649A2
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 09:28:28 +0100 (CET)
+Received: from localhost ([::1]:60800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msL0N-0005so-2l
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 03:30:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46868)
+	id 1msKyZ-0000av-Mr
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 03:28:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1msKsy-0006tp-DK
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 03:22:40 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:60672 helo=loongson.cn)
+ id 1msKnh-0006VU-2A
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 03:17:13 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:59398 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1msKsv-0000SR-RZ
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 03:22:40 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1msKnc-00085c-82
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 03:17:12 -0500
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxaslZL6dhBv8BAA--.4388S22; 
- Wed, 01 Dec 2021 16:16:53 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxaslZL6dhBv8BAA--.4388S23; 
+ Wed, 01 Dec 2021 16:16:54 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v12 20/26] linux-user: Add LoongArch elf support
-Date: Wed,  1 Dec 2021 16:16:19 +0800
-Message-Id: <1638346585-3436-21-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v12 21/26] linux-user: Add LoongArch syscall support
+Date: Wed,  1 Dec 2021 16:16:20 +0800
+Message-Id: <1638346585-3436-22-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1638346585-3436-1-git-send-email-gaosong@loongson.cn>
 References: <1638346585-3436-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9AxaslZL6dhBv8BAA--.4388S22
-X-Coremail-Antispam: 1UD129KBjvJXoWxXrWUGr1kJw4UAw4kGrWUtwb_yoW5Cw4kpF
- WUCay5GF4rtFZxKw1fKFyUWF15Xw48ur17C34xWFWrCwsxJ348Xr1kKrWqyFy3Za9Yga4j
- vr90yw1jkr47XaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9AxaslZL6dhBv8BAA--.4388S23
+X-Coremail-Antispam: 1UD129KBjvAXoWfGw1xKw18AFyfAryrJFyxZrb_yoW8Xw48Ko
+ WxJF1aqwn7Jr1xua1kWw17Wr1UZF9rJr18Jr4UAFy8GFnFqr1DWr13tay8WFn5CrySgFy5
+ tFyjqr1qyFZ0yF1Dn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
@@ -59,116 +59,443 @@ Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We should disable '__BITS_PER_LONG' at [1] before run gensyscalls.sh
+
+ [1] arch/loongarch/include/uapi/asm/bitsperlong.h
+
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/elf.h                       |  2 ++
- linux-user/elfload.c                | 58 +++++++++++++++++++++++++++++++++++++
- linux-user/loongarch64/target_elf.h | 12 ++++++++
- 3 files changed, 72 insertions(+)
- create mode 100644 linux-user/loongarch64/target_elf.h
+ linux-user/loongarch64/syscall_nr.h     | 313 ++++++++++++++++++++++++++++++++
+ linux-user/loongarch64/target_syscall.h |  44 +++++
+ linux-user/syscall_defs.h               |  10 +-
+ scripts/gensyscalls.sh                  |   1 +
+ 4 files changed, 364 insertions(+), 4 deletions(-)
+ create mode 100644 linux-user/loongarch64/syscall_nr.h
+ create mode 100644 linux-user/loongarch64/target_syscall.h
 
-diff --git a/include/elf.h b/include/elf.h
-index 811bf4a..3a4bcb6 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -182,6 +182,8 @@ typedef struct mips_elf_abiflags_v0 {
- 
- #define EM_NANOMIPS     249     /* Wave Computing nanoMIPS */
- 
-+#define EM_LOONGARCH    258     /* LoongArch */
-+
- /*
-  * This is an interim value that we will use until the committee comes
-  * up with a final number.
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 767f54c..841ea18 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -914,6 +914,64 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUPPCState *en
- 
- #endif
- 
-+#ifdef TARGET_LOONGARCH64
-+
-+#define ELF_START_MMAP 0x80000000
-+
-+#define ELF_CLASS   ELFCLASS64
-+#define ELF_ARCH    EM_LOONGARCH
-+
-+#define elf_check_arch(x) ((x) == EM_LOONGARCH)
-+static inline void init_thread(struct target_pt_regs *regs,
-+                               struct image_info *infop)
-+{
-+    regs->csr_crmd = 2 << 3;
-+    regs->csr_era = infop->entry;
-+    regs->regs[3] = infop->start_stack;
-+}
-+
-+/* See linux kernel: arch/loongarch/include/asm/elf.h.  */
-+#define ELF_NREG 45
-+typedef target_elf_greg_t target_elf_gregset_t[ELF_NREG];
-+
-+/* See linux kernel: arch/loongarch/include/asm/reg.h.  */
-+enum {
-+    TARGET_EF_R0 = 0,
-+    TARGET_EF_CSR_ERA = TARGET_EF_R0 + 32,
-+    TARGET_EF_CSR_BADVADDR = TARGET_EF_R0 + 33,
-+};
-+
-+/* See linux kernel: arch/loongarch/kernel/process.c:loongarch_dump_regs64. */
-+static void elf_core_copy_regs(target_elf_gregset_t *regs,
-+                               const CPULoongArchState *env)
-+{
-+    int i;
-+
-+    for (i = 0; i < TARGET_EF_R0; i++) {
-+        (*regs)[i] = 0;
-+    }
-+    (*regs)[TARGET_EF_R0] = 0;
-+
-+    for (i = 1; i < ARRAY_SIZE(env->gpr); i++) {
-+        (*regs)[TARGET_EF_R0 + i] = tswapreg(env->gpr[i]);
-+    }
-+
-+    (*regs)[TARGET_EF_CSR_ERA] = tswapreg(env->pc);
-+    (*regs)[TARGET_EF_CSR_BADVADDR] = tswapreg(env->badaddr);
-+}
-+
-+#define USE_ELF_CORE_DUMP
-+#define ELF_EXEC_PAGESIZE        4096
-+
-+#define ELF_HWCAP get_elf_hwcap()
-+
-+static uint32_t get_elf_hwcap(void)
-+{
-+    return 0;
-+}
-+
-+#endif /* TARGET_LOONGARCH64 */
-+
- #ifdef TARGET_MIPS
- 
- #define ELF_START_MMAP 0x80000000
-diff --git a/linux-user/loongarch64/target_elf.h b/linux-user/loongarch64/target_elf.h
+diff --git a/linux-user/loongarch64/syscall_nr.h b/linux-user/loongarch64/syscall_nr.h
 new file mode 100644
-index 0000000..3c690bb
+index 0000000..713c824
 --- /dev/null
-+++ b/linux-user/loongarch64/target_elf.h
-@@ -0,0 +1,12 @@
++++ b/linux-user/loongarch64/syscall_nr.h
+@@ -0,0 +1,313 @@
++/*
++ * This file contains the system call numbers.
++ * Do not modify.
++ * This file is generated by scripts/gensyscalls.sh
++ */
++#ifndef LINUX_USER_LOONGARCH_SYSCALL_NR_H
++#define LINUX_USER_LOONGARCH_SYSCALL_NR_H
++
++#define TARGET_NR_io_setup 0
++#define TARGET_NR_io_destroy 1
++#define TARGET_NR_io_submit 2
++#define TARGET_NR_io_cancel 3
++#define TARGET_NR_io_getevents 4
++#define TARGET_NR_setxattr 5
++#define TARGET_NR_lsetxattr 6
++#define TARGET_NR_fsetxattr 7
++#define TARGET_NR_getxattr 8
++#define TARGET_NR_lgetxattr 9
++#define TARGET_NR_fgetxattr 10
++#define TARGET_NR_listxattr 11
++#define TARGET_NR_llistxattr 12
++#define TARGET_NR_flistxattr 13
++#define TARGET_NR_removexattr 14
++#define TARGET_NR_lremovexattr 15
++#define TARGET_NR_fremovexattr 16
++#define TARGET_NR_getcwd 17
++#define TARGET_NR_lookup_dcookie 18
++#define TARGET_NR_eventfd2 19
++#define TARGET_NR_epoll_create1 20
++#define TARGET_NR_epoll_ctl 21
++#define TARGET_NR_epoll_pwait 22
++#define TARGET_NR_dup 23
++#define TARGET_NR_dup3 24
++#define TARGET_NR_fcntl 25
++#define TARGET_NR_inotify_init1 26
++#define TARGET_NR_inotify_add_watch 27
++#define TARGET_NR_inotify_rm_watch 28
++#define TARGET_NR_ioctl 29
++#define TARGET_NR_ioprio_set 30
++#define TARGET_NR_ioprio_get 31
++#define TARGET_NR_flock 32
++#define TARGET_NR_mknodat 33
++#define TARGET_NR_mkdirat 34
++#define TARGET_NR_unlinkat 35
++#define TARGET_NR_symlinkat 36
++#define TARGET_NR_linkat 37
++#define TARGET_NR_umount2 39
++#define TARGET_NR_mount 40
++#define TARGET_NR_pivot_root 41
++#define TARGET_NR_nfsservctl 42
++#define TARGET_NR_statfs 43
++#define TARGET_NR_fstatfs 44
++#define TARGET_NR_truncate 45
++#define TARGET_NR_ftruncate 46
++#define TARGET_NR_fallocate 47
++#define TARGET_NR_faccessat 48
++#define TARGET_NR_chdir 49
++#define TARGET_NR_fchdir 50
++#define TARGET_NR_chroot 51
++#define TARGET_NR_fchmod 52
++#define TARGET_NR_fchmodat 53
++#define TARGET_NR_fchownat 54
++#define TARGET_NR_fchown 55
++#define TARGET_NR_openat 56
++#define TARGET_NR_close 57
++#define TARGET_NR_vhangup 58
++#define TARGET_NR_pipe2 59
++#define TARGET_NR_quotactl 60
++#define TARGET_NR_getdents64 61
++#define TARGET_NR_lseek 62
++#define TARGET_NR_read 63
++#define TARGET_NR_write 64
++#define TARGET_NR_readv 65
++#define TARGET_NR_writev 66
++#define TARGET_NR_pread64 67
++#define TARGET_NR_pwrite64 68
++#define TARGET_NR_preadv 69
++#define TARGET_NR_pwritev 70
++#define TARGET_NR_sendfile 71
++#define TARGET_NR_pselect6 72
++#define TARGET_NR_ppoll 73
++#define TARGET_NR_signalfd4 74
++#define TARGET_NR_vmsplice 75
++#define TARGET_NR_splice 76
++#define TARGET_NR_tee 77
++#define TARGET_NR_readlinkat 78
++#define TARGET_NR_newfstatat 79
++#define TARGET_NR_fstat 80
++#define TARGET_NR_sync 81
++#define TARGET_NR_fsync 82
++#define TARGET_NR_fdatasync 83
++#define TARGET_NR_sync_file_range 84
++#define TARGET_NR_timerfd_create 85
++#define TARGET_NR_timerfd_settime 86
++#define TARGET_NR_timerfd_gettime 87
++#define TARGET_NR_utimensat 88
++#define TARGET_NR_acct 89
++#define TARGET_NR_capget 90
++#define TARGET_NR_capset 91
++#define TARGET_NR_personality 92
++#define TARGET_NR_exit 93
++#define TARGET_NR_exit_group 94
++#define TARGET_NR_waitid 95
++#define TARGET_NR_set_tid_address 96
++#define TARGET_NR_unshare 97
++#define TARGET_NR_futex 98
++#define TARGET_NR_set_robust_list 99
++#define TARGET_NR_get_robust_list 100
++#define TARGET_NR_nanosleep 101
++#define TARGET_NR_getitimer 102
++#define TARGET_NR_setitimer 103
++#define TARGET_NR_kexec_load 104
++#define TARGET_NR_init_module 105
++#define TARGET_NR_delete_module 106
++#define TARGET_NR_timer_create 107
++#define TARGET_NR_timer_gettime 108
++#define TARGET_NR_timer_getoverrun 109
++#define TARGET_NR_timer_settime 110
++#define TARGET_NR_timer_delete 111
++#define TARGET_NR_clock_settime 112
++#define TARGET_NR_clock_gettime 113
++#define TARGET_NR_clock_getres 114
++#define TARGET_NR_clock_nanosleep 115
++#define TARGET_NR_syslog 116
++#define TARGET_NR_ptrace 117
++#define TARGET_NR_sched_setparam 118
++#define TARGET_NR_sched_setscheduler 119
++#define TARGET_NR_sched_getscheduler 120
++#define TARGET_NR_sched_getparam 121
++#define TARGET_NR_sched_setaffinity 122
++#define TARGET_NR_sched_getaffinity 123
++#define TARGET_NR_sched_yield 124
++#define TARGET_NR_sched_get_priority_max 125
++#define TARGET_NR_sched_get_priority_min 126
++#define TARGET_NR_sched_rr_get_interval 127
++#define TARGET_NR_restart_syscall 128
++#define TARGET_NR_kill 129
++#define TARGET_NR_tkill 130
++#define TARGET_NR_tgkill 131
++#define TARGET_NR_sigaltstack 132
++#define TARGET_NR_rt_sigsuspend 133
++#define TARGET_NR_rt_sigaction 134
++#define TARGET_NR_rt_sigprocmask 135
++#define TARGET_NR_rt_sigpending 136
++#define TARGET_NR_rt_sigtimedwait 137
++#define TARGET_NR_rt_sigqueueinfo 138
++#define TARGET_NR_rt_sigreturn 139
++#define TARGET_NR_setpriority 140
++#define TARGET_NR_getpriority 141
++#define TARGET_NR_reboot 142
++#define TARGET_NR_setregid 143
++#define TARGET_NR_setgid 144
++#define TARGET_NR_setreuid 145
++#define TARGET_NR_setuid 146
++#define TARGET_NR_setresuid 147
++#define TARGET_NR_getresuid 148
++#define TARGET_NR_setresgid 149
++#define TARGET_NR_getresgid 150
++#define TARGET_NR_setfsuid 151
++#define TARGET_NR_setfsgid 152
++#define TARGET_NR_times 153
++#define TARGET_NR_setpgid 154
++#define TARGET_NR_getpgid 155
++#define TARGET_NR_getsid 156
++#define TARGET_NR_setsid 157
++#define TARGET_NR_getgroups 158
++#define TARGET_NR_setgroups 159
++#define TARGET_NR_uname 160
++#define TARGET_NR_sethostname 161
++#define TARGET_NR_setdomainname 162
++#define TARGET_NR_getrusage 165
++#define TARGET_NR_umask 166
++#define TARGET_NR_prctl 167
++#define TARGET_NR_getcpu 168
++#define TARGET_NR_gettimeofday 169
++#define TARGET_NR_settimeofday 170
++#define TARGET_NR_adjtimex 171
++#define TARGET_NR_getpid 172
++#define TARGET_NR_getppid 173
++#define TARGET_NR_getuid 174
++#define TARGET_NR_geteuid 175
++#define TARGET_NR_getgid 176
++#define TARGET_NR_getegid 177
++#define TARGET_NR_gettid 178
++#define TARGET_NR_sysinfo 179
++#define TARGET_NR_mq_open 180
++#define TARGET_NR_mq_unlink 181
++#define TARGET_NR_mq_timedsend 182
++#define TARGET_NR_mq_timedreceive 183
++#define TARGET_NR_mq_notify 184
++#define TARGET_NR_mq_getsetattr 185
++#define TARGET_NR_msgget 186
++#define TARGET_NR_msgctl 187
++#define TARGET_NR_msgrcv 188
++#define TARGET_NR_msgsnd 189
++#define TARGET_NR_semget 190
++#define TARGET_NR_semctl 191
++#define TARGET_NR_semtimedop 192
++#define TARGET_NR_semop 193
++#define TARGET_NR_shmget 194
++#define TARGET_NR_shmctl 195
++#define TARGET_NR_shmat 196
++#define TARGET_NR_shmdt 197
++#define TARGET_NR_socket 198
++#define TARGET_NR_socketpair 199
++#define TARGET_NR_bind 200
++#define TARGET_NR_listen 201
++#define TARGET_NR_accept 202
++#define TARGET_NR_connect 203
++#define TARGET_NR_getsockname 204
++#define TARGET_NR_getpeername 205
++#define TARGET_NR_sendto 206
++#define TARGET_NR_recvfrom 207
++#define TARGET_NR_setsockopt 208
++#define TARGET_NR_getsockopt 209
++#define TARGET_NR_shutdown 210
++#define TARGET_NR_sendmsg 211
++#define TARGET_NR_recvmsg 212
++#define TARGET_NR_readahead 213
++#define TARGET_NR_brk 214
++#define TARGET_NR_munmap 215
++#define TARGET_NR_mremap 216
++#define TARGET_NR_add_key 217
++#define TARGET_NR_request_key 218
++#define TARGET_NR_keyctl 219
++#define TARGET_NR_clone 220
++#define TARGET_NR_execve 221
++#define TARGET_NR_mmap 222
++#define TARGET_NR_fadvise64 223
++#define TARGET_NR_swapon 224
++#define TARGET_NR_swapoff 225
++#define TARGET_NR_mprotect 226
++#define TARGET_NR_msync 227
++#define TARGET_NR_mlock 228
++#define TARGET_NR_munlock 229
++#define TARGET_NR_mlockall 230
++#define TARGET_NR_munlockall 231
++#define TARGET_NR_mincore 232
++#define TARGET_NR_madvise 233
++#define TARGET_NR_remap_file_pages 234
++#define TARGET_NR_mbind 235
++#define TARGET_NR_get_mempolicy 236
++#define TARGET_NR_set_mempolicy 237
++#define TARGET_NR_migrate_pages 238
++#define TARGET_NR_move_pages 239
++#define TARGET_NR_rt_tgsigqueueinfo 240
++#define TARGET_NR_perf_event_open 241
++#define TARGET_NR_accept4 242
++#define TARGET_NR_recvmmsg 243
++#define TARGET_NR_arch_specific_syscall 244
++#define TARGET_NR_wait4 260
++#define TARGET_NR_prlimit64 261
++#define TARGET_NR_fanotify_init 262
++#define TARGET_NR_fanotify_mark 263
++#define TARGET_NR_name_to_handle_at 264
++#define TARGET_NR_open_by_handle_at 265
++#define TARGET_NR_clock_adjtime 266
++#define TARGET_NR_syncfs 267
++#define TARGET_NR_setns 268
++#define TARGET_NR_sendmmsg 269
++#define TARGET_NR_process_vm_readv 270
++#define TARGET_NR_process_vm_writev 271
++#define TARGET_NR_kcmp 272
++#define TARGET_NR_finit_module 273
++#define TARGET_NR_sched_setattr 274
++#define TARGET_NR_sched_getattr 275
++#define TARGET_NR_renameat2 276
++#define TARGET_NR_seccomp 277
++#define TARGET_NR_getrandom 278
++#define TARGET_NR_memfd_create 279
++#define TARGET_NR_bpf 280
++#define TARGET_NR_execveat 281
++#define TARGET_NR_userfaultfd 282
++#define TARGET_NR_membarrier 283
++#define TARGET_NR_mlock2 284
++#define TARGET_NR_copy_file_range 285
++#define TARGET_NR_preadv2 286
++#define TARGET_NR_pwritev2 287
++#define TARGET_NR_pkey_mprotect 288
++#define TARGET_NR_pkey_alloc 289
++#define TARGET_NR_pkey_free 290
++#define TARGET_NR_statx 291
++#define TARGET_NR_io_pgetevents 292
++#define TARGET_NR_rseq 293
++#define TARGET_NR_kexec_file_load 294
++#define TARGET_NR_pidfd_send_signal 424
++#define TARGET_NR_io_uring_setup 425
++#define TARGET_NR_io_uring_enter 426
++#define TARGET_NR_io_uring_register 427
++#define TARGET_NR_open_tree 428
++#define TARGET_NR_move_mount 429
++#define TARGET_NR_fsopen 430
++#define TARGET_NR_fsconfig 431
++#define TARGET_NR_fsmount 432
++#define TARGET_NR_fspick 433
++#define TARGET_NR_pidfd_open 434
++#define TARGET_NR_clone3 435
++#define TARGET_NR_close_range 436
++#define TARGET_NR_openat2 437
++#define TARGET_NR_pidfd_getfd 438
++#define TARGET_NR_faccessat2 439
++#define TARGET_NR_process_madvise 440
++#define TARGET_NR_epoll_pwait2 441
++#define TARGET_NR_mount_setattr 442
++#define TARGET_NR_quotactl_fd 443
++#define TARGET_NR_landlock_create_ruleset 444
++#define TARGET_NR_landlock_add_rule 445
++#define TARGET_NR_landlock_restrict_self 446
++#define TARGET_NR_process_mrelease 448
++#define TARGET_NR_futex_waitv 449
++#define TARGET_NR_syscalls 450
++
++#endif /* LINUX_USER_LOONGARCH_SYSCALL_NR_H */
+diff --git a/linux-user/loongarch64/target_syscall.h b/linux-user/loongarch64/target_syscall.h
+new file mode 100644
+index 0000000..8f28b20
+--- /dev/null
++++ b/linux-user/loongarch64/target_syscall.h
+@@ -0,0 +1,44 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + */
 +
-+#ifndef LOONGARCH_TARGET_ELF_H
-+#define LOONGARCH_TARGET_ELF_H
-+static inline const char *cpu_get_model(uint32_t eflags)
++#ifndef LOONGARCH_TARGET_SYSCALL_H
++#define LOONGARCH_TARGET_SYSCALL_H
++
++/*
++ * this struct defines the way the registers are stored on the
++ * stack during a system call.
++ */
++
++struct target_pt_regs {
++    /* Saved main processor registers. */
++    target_ulong regs[32];
++
++    /* Saved special registers. */
++    target_ulong csr_crmd;
++    target_ulong csr_prmd;
++    target_ulong csr_euen;
++    target_ulong csr_ecfg;
++    target_ulong csr_estat;
++    target_ulong csr_era;
++    target_ulong csr_badvaddr;
++    target_ulong orig_a0;
++    target_ulong __last[0];
++};
++
++#define UNAME_MACHINE "loongarch64"
++#define UNAME_MINIMUM_RELEASE "5.16.0"
++
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
++
++#define TARGET_FORCE_SHMLBA
++
++static inline abi_ulong target_shmlba(CPULoongArchState *env)
 +{
-+    return "Loongson-3A5000";
++    return 0x10000;
 +}
++
 +#endif
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 0b13975..2a675bd 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -74,7 +74,7 @@
+     || defined(TARGET_M68K) || defined(TARGET_CRIS) \
+     || defined(TARGET_S390X) || defined(TARGET_OPENRISC) \
+     || defined(TARGET_NIOS2) || defined(TARGET_RISCV) \
+-    || defined(TARGET_XTENSA)
++    || defined(TARGET_XTENSA) || defined(TARGET_LOONGARCH64)
+ 
+ #define TARGET_IOC_SIZEBITS	14
+ #define TARGET_IOC_DIRBITS	2
+@@ -2133,7 +2133,8 @@ struct target_stat64  {
+     abi_ulong __unused5;
+ };
+ 
+-#elif defined(TARGET_OPENRISC) || defined(TARGET_NIOS2) || defined(TARGET_RISCV)
++#elif defined(TARGET_OPENRISC) || defined(TARGET_NIOS2) || \
++      defined(TARGET_RISCV) || defined(TARGET_LOONGARCH64)
+ 
+ /* These are the asm-generic versions of the stat and stat64 structures */
+ 
+@@ -2161,7 +2162,7 @@ struct target_stat {
+     unsigned int __unused5;
+ };
+ 
+-#if !defined(TARGET_RISCV64)
++#if !defined(TARGET_RISCV64) && !defined(TARGET_LOONGARCH64)
+ #define TARGET_HAS_STRUCT_STAT64
+ struct target_stat64 {
+     uint64_t st_dev;
+@@ -2331,7 +2332,8 @@ struct target_statfs64 {
+ };
+ #elif (defined(TARGET_PPC64) || defined(TARGET_X86_64) || \
+        defined(TARGET_SPARC64) || defined(TARGET_AARCH64) || \
+-       defined(TARGET_RISCV)) && !defined(TARGET_ABI32)
++       defined(TARGET_RISCV) || defined(TARGET_LOONGARCH64)) && \
++       !defined(TARGET_ABI32)
+ struct target_statfs {
+ 	abi_long f_type;
+ 	abi_long f_bsize;
+diff --git a/scripts/gensyscalls.sh b/scripts/gensyscalls.sh
+index 8fb450e..b69e193 100755
+--- a/scripts/gensyscalls.sh
++++ b/scripts/gensyscalls.sh
+@@ -99,4 +99,5 @@ generate_syscall_nr openrisc 32 "$output/linux-user/openrisc/syscall_nr.h"
+ generate_syscall_nr riscv 32 "$output/linux-user/riscv/syscall32_nr.h"
+ generate_syscall_nr riscv 64 "$output/linux-user/riscv/syscall64_nr.h"
+ generate_syscall_nr hexagon 32 "$output/linux-user/hexagon/syscall_nr.h"
++generate_syscall_nr loongarch 64 "$output/linux-user/loongarch64/syscall_nr.h"
+ rm -fr "$TMP"
 -- 
 1.8.3.1
 
