@@ -2,82 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197354651EF
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 16:43:55 +0100 (CET)
-Received: from localhost ([::1]:37482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C97CC465270
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 17:04:11 +0100 (CET)
+Received: from localhost ([::1]:52326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msRlx-0005Ks-MZ
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 10:43:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48680)
+	id 1msS5a-0001An-ED
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 11:04:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1msRii-0003C6-J2
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 10:40:32 -0500
-Received: from [2a00:1450:4864:20::22f] (port=41775
- helo=mail-lj1-x22f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1msRif-0008I4-6D
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 10:40:32 -0500
-Received: by mail-lj1-x22f.google.com with SMTP id d11so48966181ljg.8
- for <qemu-devel@nongnu.org>; Wed, 01 Dec 2021 07:40:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=9/vj/6dC6MdS0PoIUYxVSDftGsftYM/+3CN3L2issUY=;
- b=l2kG22A1hEiH6DC8fUBk3fWC3v0FudV2N6kPE2N52yNJ8pycYaeOS6VPmypt5KCort
- AhgC7JMBmNTHl2r4VkzCfUg1c0Pe+5/mazxX7Y4soQDRahJ8ZAiwMKL0BehEdaFfTUP5
- 9xfqIawDIUgecEg8tzCvZkbbm4vmbG+tLpSCeFUqbstIWGj9U5x4Rxq8mAsqe7cPT9sG
- nkDpRYFKKdtCtQLbjG+Iwv5fr2u3BAh8EsETnCz7spKTBv6qvtTSYz6qINiqCo86080O
- 7al4l97trPARWg17Aly1Y572CuS2h3Dnt41yXxM616ZUvxhuSupenzBQTheSfLiAVqRF
- LYvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=9/vj/6dC6MdS0PoIUYxVSDftGsftYM/+3CN3L2issUY=;
- b=drBlbwhBbAKTjHuTHqEae0lA1kPVZinInXOWWn+2GiODII29nn9Oe5MIumNrqwFgk3
- r9jf2UyBv/pDL2Xa5Mptctm/TzkoTrg8VI4jzEveGg3NW3jAkcGR4mD4f56FUUkZQAGO
- joCkvZGb8ptP0Dus87kGfsCpcIm8K/A4DhlM8Bli29+krX8IRWi/dXuN2okEzO/uVKoZ
- tMjfHgAXuy/+RRtVBZLJbP29S9lSOfMX040/0nbxjRftLIAR5X2qo0HgYuG5HS0cy2i2
- 4RkzRDVXCimekzZKsrF7GWIbDr4geiBLJlp1pZTthyVIIoaoUGfliV7bBAZt2qBOyg+d
- GBnA==
-X-Gm-Message-State: AOAM5301ru6K9zAjdxUZjBdC1bUfEDvSx4BjBB4bDmtnmavVOUe5LGB2
- HaAI0WmanqGMzKuQTC8P46Y=
-X-Google-Smtp-Source: ABdhPJzEL0j7dKtCOGYtb0ff0YGHl4VGPneiqxw9bPAHBDGmA+t3e3/ow1T5/e3faoEUcoo3FJX/2A==
-X-Received: by 2002:a2e:5712:: with SMTP id l18mr6063535ljb.268.1638373214638; 
- Wed, 01 Dec 2021 07:40:14 -0800 (PST)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- o17sm19106lfn.50.2021.12.01.07.40.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Dec 2021 07:40:14 -0800 (PST)
-Date: Wed, 1 Dec 2021 16:40:12 +0100
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 04/10] hw/dma: Add the DMA control interface
-Message-ID: <20211201154012.GA17765@fralle-msi>
-References: <20211124101555.1410-1-francisco.iglesias@xilinx.com>
- <20211124101555.1410-5-francisco.iglesias@xilinx.com>
- <CAFEAcA-=rEj586ogRYCDGBM-c+DSph3FMcMwFkF1RDm_kSRoKQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
+ id 1msS2r-0007f8-Hc
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 11:01:21 -0500
+Received: from mail-dm6nam12on2069.outbound.protection.outlook.com
+ ([40.107.243.69]:51040 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
+ id 1msS2o-0007mM-0x
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 11:01:20 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AUIxCxbThnKTggblFDwhhgsZ4iHQPW6vN+HEdvZ8k5t02WnYjCRqPnyBKCZTEhj4IKIwW0WbR2dBcRyhWDIwpW5pBNLIzDPHv/RDULIBUwXlj9jKis++SCRAB3hN8ldm3PF5yFgVSwnw9Ef2ozuirtO6vC5OPjl+2ZQp1JD5uolC46AygIe54VaMlM1KuwzJAIXLIGLBzJhTRwoaNMDxI23BSlOGlcAER9EmMWDf+HrhtO8KI46Zpqow1BIoRSbfyB/NoXHZ91YANYnePjczorKNPOKCdtwssZHn6XDrsKeR8Jvbfev2zWTAAZnxRW+sWk11TYT+MnGYj2G+1QP2YQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mBVDYfQOluj1pRojSLXg4TOWsICfTLqMd6+8HXLZA44=;
+ b=e7QXi3/UcRk94zAsQT9gtBYsju48VPYri7Njx0xl8s5hH7lcoPGw8cANUJ4RM7hh+IVG1+uFBgOln+JlqIp6CU1X+Nr3ER0SSxtK14DH67B5V5157z7WByiT5lyu0hZNk7CKpMROm6Qvmy2iWfz/itu+n0upNLDKPCyPmssJdOhYt9raXltAWhIr2lGIMpOtQ0Ase+yB1B1aDZ6TuVoQLOa307oY08Bamrlvq5siUEJjgRk/WT+0bhaPJIuaZD8u4+GFaG/Y1Teuzn7iCJHLIcY7QxoKPBOJDRZIwgaDFMs/ijWFAXq6OfrWpoaUcc7vEUgVH6WBx67qpO7sXGCisw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mBVDYfQOluj1pRojSLXg4TOWsICfTLqMd6+8HXLZA44=;
+ b=G/MMIO7JQtu/MRILVBPQ+GlDlDAYM1J4Wu9QLrxfaWzgc38zvPi2jr9SjTvi3r53OhCkmSDzsYqOrRTeaflw54F4FTjx9qVmEH5g84hf6+RjWlvAwp4ygHj2IRe7wuTo263Y3EhvXJDbiRlzNJn/LrHGfI7KtwMasxdm0x2AoLo=
+Received: from DM5PR07CA0041.namprd07.prod.outlook.com (2603:10b6:3:16::27) by
+ DM5PR0201MB3399.namprd02.prod.outlook.com (2603:10b6:4:76::12) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4734.23; Wed, 1 Dec 2021 15:40:27 +0000
+Received: from DM3NAM02FT008.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:3:16:cafe::1b) by DM5PR07CA0041.outlook.office365.com
+ (2603:10b6:3:16::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.24 via Frontend
+ Transport; Wed, 1 Dec 2021 15:40:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ DM3NAM02FT008.mail.protection.outlook.com (10.13.5.14) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4755.13 via Frontend Transport; Wed, 1 Dec 2021 15:40:27 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Wed, 1 Dec 2021 07:40:26 -0800
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2176.14 via Frontend Transport; Wed, 1 Dec 2021 07:40:26 -0800
+Received: from [10.23.121.245] (port=59039 helo=debian.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <francisco.iglesias@xilinx.com>)
+ id 1msRic-0002FY-4F; Wed, 01 Dec 2021 07:40:26 -0800
+From: Francisco Iglesias <francisco.iglesias@xilinx.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v4 00/11] Xilinx Versal's PMC SLCR and OSPI support
+Date: Wed, 1 Dec 2021 15:40:12 +0000
+Message-ID: <20211201154023.13931-1-francisco.iglesias@xilinx.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-=rEj586ogRYCDGBM-c+DSph3FMcMwFkF1RDm_kSRoKQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x22f.google.com
-X-Spam_score_int: -1012
-X-Spam_score: -101.3
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-101.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 57a352da-31d6-4b59-3f46-08d9b4e0e5d3
+X-MS-TrafficTypeDiagnostic: DM5PR0201MB3399:
+X-Microsoft-Antispam-PRVS: <DM5PR0201MB3399F56E7FAEF7D83CDA3333AD689@DM5PR0201MB3399.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NYDvdyVMffDfTlQY21YmD7GNSu3MiPgShbjRfeEJ/F99pm2ykJqIx4OkUWF3fzKc1Beh/dRrEguSusKId+pShHtcYkoDc6B6R8s2Zy77EAinNUj0EfzP0kPgFLjherZZ06tzhj7n0l1UhiZfyHjQYjtAjTpVkpkmAQCVC5d8dScRP8U09YkL9osDW5iDm0/MEYYyQWnudfV8ibX+F5Q4E9JSIwv4QCUAlAn4YuXxVkC9q3w+5TF2MvYiW6DcUzonJtLuperjsvdvS+E9S+ucGCwCAagXGOmIAyqkmyqgiymL3Ljk3hLjLxpQa9DQMTdP6r6DvsL+PR7YR3eiEdK1ZuRPCnbsLieGj7HyujJC6unmwRdsYQkYRNf82YkpEar342OHKiRePDK9OtFusxOOUaVf5WErP5yucadz1JMBL8+fWMjWhL/X3huvhmWXwR34Ztp3a3Ei3KH4qKH6DC2ZQ0ho52VcFhnvylxtcr6Jm34fv51DiUOBgSbaToKexE7TZCNe7xv/1dtIKtCacqPP3s6+QyVHfCeZXiKAY/7nNWy2f/7Vxmd2jO3sMDahfZSUfGtvKONJpq5pd8jWHVGBEZhmmegu+v/KfI9ROe1q9uH7VJyGiy5br7rqdZIM4a93u8ymhLUrNsgYQb6VPZ+OJFxPAQbrS6cqjn/Z+2KCGGlj86/ERSv7+fxB1GXRH046aA+MvZAv5uE+XAsCG+RzhJWOWXrSPmC5UFn3lT7Hf94=
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(36840700001)(46966006)(2906002)(54906003)(5660300002)(316002)(26005)(508600001)(36860700001)(8676002)(70586007)(1076003)(336012)(6666004)(426003)(8936002)(82310400004)(70206006)(4326008)(9786002)(186003)(47076005)(356005)(7636003)(36756003)(44832011)(6916009)(83380400001)(2616005)(7696005)(102446001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2021 15:40:27.0199 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57a352da-31d6-4b59-3f46-08d9b4e0e5d3
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM3NAM02FT008.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR0201MB3399
+Received-SPF: pass client-ip=40.107.243.69; envelope-from=figlesia@xilinx.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,286 +121,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, alistair@alistair23.me, qemu-devel@nongnu.org,
- Francisco Iglesias <francisco.iglesias@xilinx.com>, alistair23@gmail.com,
+Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org,
+ frasse.iglesias@gmail.com, alistair@alistair23.me, alistair23@gmail.com,
  philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On [2021 Nov 29] Mon 17:44:37, Peter Maydell wrote:
-> On Wed, 24 Nov 2021 at 10:16, Francisco Iglesias
-> <francisco.iglesias@xilinx.com> wrote:
-> >
-> > Add an interface for controlling DMA models that are reused with other
-> > models. This allows a controlling model to start transfers through the
-> > DMA while reusing the DMA's handling of transfer state and completion
-> > signaling.
-> >
-> > Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-> > Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> 
-> Could you give an expanded sketch of the design here, please?
-> What sort of objects would implement this new interface? Who
-> calls it? Should all new DMA engine devices consider implementing it?
-> 
-> If it's likely to be widely useful we should consider having
-> documentation under docs/devel for the API.
+Hi,
 
-Hi Peter,
+This series attempts to add support for Xilinx Versal's PMC SLCR
+(system-level control registers) and OSPI flash memory controller to
+Xilinx Versal virt machine.
 
-Thank you very much for reviewing! I think (and hope) that I got all the
-updates in the (next version) v4!
-
-About the questions above, I added a patch in v4 with documentation under
-docs/devel that hopefully helps clarifying the picture (I've pasted the
-begining below aswell for easy access!). The short answer is that the
-interface is useful when DMA engines are embedded and part of other
-models that also expect to be able to directly initiate transfers (through
-the embedded DMA engine), transfers that on HW would have been initiated
-through a custom HW DMA control interface.
-
-Thank you again!
+The series start with adding a model of Versal's PMC SLCR and connecting
+the model to the Versal virt machine. The series then adds a couple of
+headers into the xlnx_csu_dma.h needed for building and reusing it later
+with the OSPI. The series thereafter introduces a DMA control interface
+and implements the interface in the xlnx_csu_dma for being able to reuse
+and control the DMA with the OSPI controller. Thereafter a model of
+Versal's OSPI controller is added and connected to the Versal virt
+machine. The series then ends with adding initial support for the Micron
+Xccelera mt35xu01g flash and flashes of this type are connected to the
+OSPI in the Versal virt machine.
 
 Best regards,
-Francisco
+Francisco Iglesias
+
+Changelog:
+v3 -> v4
+  * Correct indentation (patch: "hw/arm/xlnx-versal: Connect Versal's PMC
+    SLCR")
+
+  * Rename to include "If" in names related to the DMA control interface
+  * In dma-ctrl-if.h:
+    - Don't include qemu-common.h
+    - Use DECLARE_CLASS_CHECKERS dma-ctrl.h
+  * Add a docs/devel documentation patch for the DMA control interface
+  * Improve git messages on the dma-ctrl-if patches
 
 
---- [From new docs/devel/dma-ctrl-if.rst in v4] ---
+v2 -> v3
+  * Correct and also include hw/sysbus.h and hw/register.h into
+    xlnx_csu_dma.h (patch: "include/hw/dma/xlnx_csu_dma: Add in missing
+    includes in the header")
 
-DMA control interface
-=====================
+v1 -> v2
+  * Correct the reset in the PMC SLCR model
+  * Create a sub structure for the OSPI in the Versal structure (in patch:
+    "hw/arm/xlnx-versal: Connect the OSPI flash memory controller model")
+  * Change to use 'drive_get' instead of 'drive_get_next' (in patch:
+    "hw/arm/xlnx-versal-virt: Connect mt35xu01g flashes to the OSPI")
+  * Add a maintainers patch and list myself as maintainer for the OSPI
+    controller
 
-About the DMA control interface
--------------------------------
 
-DMA engines embedded in peripherals can end up being controlled in
-different ways on real hardware. One possible way is to allow software
-drivers to access the DMA engine's register API and to allow the drivers
-to configure and control DMA transfers through the API. A model of a DMA
-engine in QEMU that is embedded and (re)used in this manner does not need
-to implement the DMA control interface.
+Francisco Iglesias (11):
+  hw/misc: Add a model of Versal's PMC SLCR
+  hw/arm/xlnx-versal: Connect Versal's PMC SLCR
+  include/hw/dma/xlnx_csu_dma: Add in missing includes in the header
+  hw/dma: Add the DMA control interface
+  hw/dma/xlnx_csu_dma: Implement the DMA control interface
+  hw/ssi: Add a model of Xilinx Versal's OSPI flash memory controller
+  hw/arm/xlnx-versal: Connect the OSPI flash memory controller model
+  hw/block/m25p80: Add support for Micron Xccela flash mt35xu01g
+  hw/arm/xlnx-versal-virt: Connect mt35xu01g flashes to the OSPI
+  MAINTAINERS: Add an entry for Xilinx Versal OSPI
+  docs/devel: Add documentation for the DMA control interface
 
-Another option on real hardware is to allow the peripheral embedding the
-DMA engine to control the engine through a custom hardware DMA control
-interface between the two. Software drivers in this scenario configure and
-trigger DMA operations through the controlling peripheral's register API
-(for example could writing a specific bit in a register propagate down to
-a transfer start signal on the DMA control interface). At the same time
-the status, result and interrupts for the transfer might still be intended
-to be read and catched through the DMA engine's register API (and
-signals).
+ MAINTAINERS                                |    7 +
+ docs/devel/dma-ctrl-if.rst                 |  320 +++++
+ docs/devel/index.rst                       |    1 +
+ hw/arm/xlnx-versal-virt.c                  |   23 +
+ hw/arm/xlnx-versal.c                       |  105 ++
+ hw/block/m25p80.c                          |    2 +
+ hw/dma/dma-ctrl-if.c                       |   31 +
+ hw/dma/meson.build                         |    1 +
+ hw/dma/xlnx_csu_dma.c                      |   32 +
+ hw/misc/meson.build                        |    5 +-
+ hw/misc/xlnx-versal-pmc-iou-slcr.c         | 1445 +++++++++++++++++++++
+ hw/ssi/meson.build                         |    1 +
+ hw/ssi/xlnx-versal-ospi.c                  | 1892 ++++++++++++++++++++++++++++
+ include/hw/arm/xlnx-versal.h               |   26 +
+ include/hw/dma/dma-ctrl-if.h               |   72 ++
+ include/hw/dma/xlnx_csu_dma.h              |    9 +
+ include/hw/misc/xlnx-versal-pmc-iou-slcr.h |   51 +
+ include/hw/ssi/xlnx-versal-ospi.h          |   86 ++
+ 18 files changed, 4108 insertions(+), 1 deletion(-)
+ create mode 100644 docs/devel/dma-ctrl-if.rst
+ create mode 100644 hw/dma/dma-ctrl-if.c
+ create mode 100644 hw/misc/xlnx-versal-pmc-iou-slcr.c
+ create mode 100644 hw/ssi/xlnx-versal-ospi.c
+ create mode 100644 include/hw/dma/dma-ctrl-if.h
+ create mode 100644 include/hw/misc/xlnx-versal-pmc-iou-slcr.h
+ create mode 100644 include/hw/ssi/xlnx-versal-ospi.h
 
-::
+-- 
+2.11.0
 
-    Hardware example
-                   +------------+
-                   |            |
-                   | Peripheral |
-                   |            |
-                   +------------+
-                        /\
-                        ||   DMA control IF (custom)
-                        \/
-                   +------------+
-                   | Peripheral |
-                   |    DMA     |
-                   +------------+
-
-Figure 1. A peripheral controlling it's embedded DMA engine through a
-custom DMA control interface
-
-Above scenario can be modelled in QEMU by implementing this DMA control
-interface in the DMA engine model. This will allow a peripheral embedding
-the DMA engine to initiate DMA transfers through the engine using the
-interface. At the same time the status, result and interrupts for the
-transfer can be read and catched through the DMA engine's register API and
-signals. An example implementation and usage of the DMA control interface
-can be found in the Xilinx CSU DMA model and Xilinx Versal's OSPI model.
-
-::
-
-    Memory address
-    (register API)
-      0xf1010000   +---------+
-                   |         |
-                   | Versal  |
-                   |  OSPI   |
-                   |         |
-                   +---------+
-                       /\
-                       ||  DMA control IF
-                       \/
-      0xf1011000   +---------+
-                   |         |
-                   | CSU DMA |
-                   |  (src)  |
-                   |         |
-                   +---------+
-
-Figure 2. Xilinx Versal's OSPI controls and initiates transfers on it's
-CSU source DMA through a DMA control interface
-
-> 
-> > ---
-> >  hw/dma/dma-ctrl.c         | 31 ++++++++++++++++++++
-> >  hw/dma/meson.build        |  1 +
-> >  include/hw/dma/dma-ctrl.h | 74 +++++++++++++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 106 insertions(+)
-> >  create mode 100644 hw/dma/dma-ctrl.c
-> >  create mode 100644 include/hw/dma/dma-ctrl.h
-> >
-> > diff --git a/hw/dma/dma-ctrl.c b/hw/dma/dma-ctrl.c
-> > new file mode 100644
-> > index 0000000000..4a9b68dac1
-> > --- /dev/null
-> > +++ b/hw/dma/dma-ctrl.c
-> > @@ -0,0 +1,31 @@
-> > +/*
-> > + * DMA control interface.
-> > + *
-> > + * Copyright (c) 2021 Xilinx Inc.
-> > + * Written by Francisco Iglesias <francisco.iglesias@xilinx.com>
-> > + *
-> > + * SPDX-License-Identifier: GPL-2.0-or-later
-> > + */
-> > +#include "qemu/osdep.h"
-> > +#include "exec/hwaddr.h"
-> > +#include "hw/dma/dma-ctrl.h"
-> > +
-> > +void dma_ctrl_read_with_notify(DmaCtrl *dma_ctrl, hwaddr addr, uint32_t len,
-> > +                               DmaCtrlNotify *notify, bool start_dma)
-> > +{
-> > +    DmaCtrlClass *dcc =  DMA_CTRL_GET_CLASS(dma_ctrl);
-> > +    dcc->read(dma_ctrl, addr, len, notify, start_dma);
-> > +}
-> > +
-> > +static const TypeInfo dma_ctrl_info = {
-> > +    .name          = TYPE_DMA_CTRL,
-> > +    .parent        = TYPE_INTERFACE,
-> > +    .class_size = sizeof(DmaCtrlClass),
-> > +};
-> > +
-> > +static void dma_ctrl_register_types(void)
-> > +{
-> > +    type_register_static(&dma_ctrl_info);
-> > +}
-> > +
-> > +type_init(dma_ctrl_register_types)
-> > diff --git a/hw/dma/meson.build b/hw/dma/meson.build
-> > index f3f0661bc3..c0bc134046 100644
-> > --- a/hw/dma/meson.build
-> > +++ b/hw/dma/meson.build
-> > @@ -14,3 +14,4 @@ softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_dma.c'))
-> >  softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_dma.c'))
-> >  softmmu_ss.add(when: 'CONFIG_SIFIVE_PDMA', if_true: files('sifive_pdma.c'))
-> >  softmmu_ss.add(when: 'CONFIG_XLNX_CSU_DMA', if_true: files('xlnx_csu_dma.c'))
-> > +common_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('dma-ctrl.c'))
-> > diff --git a/include/hw/dma/dma-ctrl.h b/include/hw/dma/dma-ctrl.h
-> > new file mode 100644
-> > index 0000000000..498469395f
-> > --- /dev/null
-> > +++ b/include/hw/dma/dma-ctrl.h
-> > @@ -0,0 +1,74 @@
-> > +/*
-> > + * DMA control interface.
-> > + *
-> > + * Copyright (c) 2021 Xilinx Inc.
-> > + * Written by Francisco Iglesias <francisco.iglesias@xilinx.com>
-> > + *
-> > + * SPDX-License-Identifier: GPL-2.0-or-later
-> > + */
-> > +#ifndef HW_DMA_CTRL_H
-> > +#define HW_DMA_CTRL_H
-> > +
-> > +#include "qemu-common.h"
-> 
-> Header files should not include qemu-common.h; the comment at the
-> top explains:
-> 
-> /*
->  * This file is supposed to be included only by .c files. No header file should
->  * depend on qemu-common.h, as this would easily lead to circular header
->  * dependencies.
->  *
->  * If a header file uses a definition from qemu-common.h, that definition
->  * must be moved to a separate header file, and the header that uses it
->  * must include that header.
->  */
-> 
-> > +#include "hw/hw.h"
-> > +#include "qom/object.h"
-> > +
-> > +#define TYPE_DMA_CTRL "dma-ctrl"
-> > +
-> > +#define DMA_CTRL_CLASS(klass) \
-> > +     OBJECT_CLASS_CHECK(DmaCtrlClass, (klass), TYPE_DMA_CTRL)
-> > +#define DMA_CTRL_GET_CLASS(obj) \
-> > +    OBJECT_GET_CLASS(DmaCtrlClass, (obj), TYPE_DMA_CTRL)
-> 
-> Use the DECLARE_CLASS_CHECKERS macro rather than hand-writing these.
-> 
-> > +#define DMA_CTRL(obj) \
-> > +     INTERFACE_CHECK(DmaCtrl, (obj), TYPE_DMA_CTRL)
-> > +
-> > +typedef void (*dmactrl_notify_fn)(void *opaque);
-> > +
-> > +typedef struct DmaCtrlNotify {
-> > +    void *opaque;
-> > +    dmactrl_notify_fn cb;
-> > +} DmaCtrlNotify;
-> > +
-> > +typedef struct DmaCtrl {
-> > +    Object Parent;
-> > +} DmaCtrl;
-> > +
-> > +typedef struct DmaCtrlClass {
-> 
-> Can you include either "If" or "Interface" in the class/struct names
-> of interfaces, please? (We have examples of both, eg ArmLinuxBootIf
-> and IDAUInterface.) I think it makes it clearer that this is an interface
-> and not a real object.
-> 
-> > +    InterfaceClass parent;
-> > +
-> > +    /*
-> > +     * read: Start a read transfer on the DMA implementing the DMA control
-> > +     * interface
-> > +     *
-> > +     * @dma_ctrl: the DMA implementing this interface
-> > +     * @addr: the address to read
-> > +     * @len: the amount of bytes to read at 'addr'
-> > +     * @notify: the structure containg a callback to call and opaque pointer
-> > +     * to pass the callback when the transfer has been completed
-> > +     * @start_dma: true for starting the DMA transfer and false for just
-> > +     * refilling and proceding an already started transfer
-> > +     */
-> > +    void (*read)(DmaCtrl *dma_ctrl, hwaddr addr, uint32_t len,
-> > +                 DmaCtrlNotify *notify, bool start_dma);
-> > +} DmaCtrlClass;
-> > +
-> > +/*
-> > + * Start a read transfer on a DMA implementing the DMA control interface.
-> > + * The DMA will notify the caller that 'len' bytes have been read at 'addr'
-> > + * through the callback in the DmaCtrlNotify structure. For allowing refilling
-> > + * an already started transfer the DMA notifies the caller before considering
-> > + * the transfer done (e.g. before setting done flags, generating IRQs and
-> > + * modifying other relevant internal device state).
-> > + *
-> > + * @dma_ctrl: the DMA implementing this interface
-> > + * @addr: the address to read
-> > + * @len: the amount of bytes to read at 'addr'
-> > + * @notify: the structure containing a callback to call and opaque pointer
-> > + * to pass the callback when the transfer has been completed
-> > + * @start_dma: true for starting the DMA transfer and false for just
-> > + * refilling and proceding an already started transfer
-> > + */
-> > +void dma_ctrl_read_with_notify(DmaCtrl *dma_ctrl, hwaddr addr, uint32_t len,
-> > +                   DmaCtrlNotify *notify, bool start_dma);
-> > +
-> > +#endif /* HW_DMA_CTRL_H */
-> > --
-> > 2.11.0
-> 
-> thanks
-> -- PMM
 
