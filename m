@@ -2,159 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD22464AE8
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 10:50:26 +0100 (CET)
-Received: from localhost ([::1]:57580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC66464B14
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 10:57:31 +0100 (CET)
+Received: from localhost ([::1]:33656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msMFp-0007h6-Aa
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 04:50:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37004)
+	id 1msMMk-0002WX-Ju
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 04:57:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>)
- id 1msMEF-0006N1-WB; Wed, 01 Dec 2021 04:48:44 -0500
-Received: from mga01.intel.com ([192.55.52.88]:44122)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1msML3-00015P-0M
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 04:55:45 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>)
- id 1msMEB-00039e-Pf; Wed, 01 Dec 2021 04:48:43 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10184"; a="260399303"
-X-IronPort-AV: E=Sophos;i="5.87,278,1631602800"; d="scan'208";a="260399303"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2021 01:48:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,278,1631602800"; d="scan'208";a="477483427"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga002.jf.intel.com with ESMTP; 01 Dec 2021 01:48:34 -0800
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 1 Dec 2021 01:48:33 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Wed, 1 Dec 2021 01:48:33 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.103)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Wed, 1 Dec 2021 01:48:33 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=adGee/pOVlWAPBBjrjup9xtXVQyG5UMkbEetB9vYzXuW1WaIgVOJIsNXsdwXl6T2nG0YEB+g5JF1w6XKRvIYzczP02DvSsXz7uq/bT8WQX7VVtN0ZUAPBoObc0GtYsHNuxIEg+wodqEmegvXnUhRuPSBxMgUxsubYEvtUtuZQz7nJ6ge/oeQjRl9RYDl3m3iNub5riG3Y6DIEILhacw9tXib0tjUaLNRQxtQakyEfyHrEvK+L8wCIZz4fr9xZRKNsKGJUWGvMb+BJHVyTRRVPNDJapMsjO3UFKavYR1nxJmyF1wxPDsOba5rbT0WPB36fvbeO/fs3bSpugMIiNipgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HTdrbiFHEiUAe1qABdZTcx14D7w1gzlWiDtqsTYlstQ=;
- b=fSTgc5oBOKlNKXkZVGjwEv0SYmXz6+UpBZxIzafqhKFgqRkD57CMKKfPoNXIORN8lrr+ZxQTlErnGq2eD3sCarNwWLSQwqFH4npCI02kOsRRFuI7qOkMPel+yIJrF10S573yF8Z9dbAUyM97bbkdNzzYyvZHkP8Uy8BbkA8T6mWFfM+DhnS7Fj8G+iRNvHjwYI7+dzQb+6kJ7QrRG4ioDbeFV6Po8Qd2dTQuRWmDN6Mjv5hOEMbP7iJNmjTtH5nH//FBZeyc6V8ge+WI1xEO91Fnd6u4yzKV/jfqfHy6OWNuOn7CRUzNaD+svrtQXhySAoNpbvzaA1Sk92woX/5KuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HTdrbiFHEiUAe1qABdZTcx14D7w1gzlWiDtqsTYlstQ=;
- b=lDEQ6MOAvaCLYl1pLrWWK6nx7sIeUMLuHnfGLVa9AOt6of1bigJcCeyJSaCHxJ+1WkBiPW5TfC6SA3idonNfVwDR0tQpomij4f/3ytCDZDKOeOK9jn8MOcGcNUfCQv1yE4BJYDE8qY7XyWioClAeuqyvH1SkVVsHfkqME5vo6gA=
-Received: from DM8PR11MB5640.namprd11.prod.outlook.com (2603:10b6:8:3f::14) by
- DM8PR11MB5656.namprd11.prod.outlook.com (2603:10b6:8:38::7) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4755.11; Wed, 1 Dec 2021 09:48:32 +0000
-Received: from DM8PR11MB5640.namprd11.prod.outlook.com
- ([fe80::9c4d:5c63:9fdd:53da]) by DM8PR11MB5640.namprd11.prod.outlook.com
- ([fe80::9c4d:5c63:9fdd:53da%3]) with mapi id 15.20.4755.015; Wed, 1 Dec 2021
- 09:48:32 +0000
-From: "Rao, Lei" <lei.rao@intel.com>
-To: =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>
-Subject: RE: [PATCH] QIO: Add force_quit to the QIOChannel to ensure QIO exits
- cleanly in some corner case
-Thread-Topic: [PATCH] QIO: Add force_quit to the QIOChannel to ensure QIO
- exits cleanly in some corner case
-Thread-Index: AQHX5ohAKgh3i8Qft0qPoitX2/ch4KwdWYOAgAAEvnA=
-Date: Wed, 1 Dec 2021 09:48:31 +0000
-Message-ID: <DM8PR11MB5640D2F156E53A0CD644AC71FD689@DM8PR11MB5640.namprd11.prod.outlook.com>
-References: <20211201075427.155702-1-lei.rao@intel.com>
- <Yac8B76dAulyx+2T@redhat.com>
-In-Reply-To: <Yac8B76dAulyx+2T@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.6.200.16
-dlp-product: dlpe-windows
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2fedda32-ce61-43ed-7baf-08d9b4afbc41
-x-ms-traffictypediagnostic: DM8PR11MB5656:
-x-microsoft-antispam-prvs: <DM8PR11MB56564DF0B330B1C5073FFA8DFD689@DM8PR11MB5656.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: pOy4asvt0xV6qhqCL2KyG8NA40FFD2nOaDlOq+PSEUUUphKBWk1rdTCbiaWf0nDX9fhswZ3ol40gwuf6nnHOCFLR6rTQoDPgErLNI2og7IvO6M/7oi2HKukfTZy4o67RfDRhRKhua7emrVjW3muJm+7ArY4Xu/n6YQ+5m20p5D1URkc4m4WE3Oogzfu4iQB4HWpdY5aaTIFwo7L+JmWbjhmOqlCy5I0bAqAN+htSKHdgIcOwxNgOhoBGJVlqnefdAkt4InvDpshmuYZbYm6yD0KPJq0NMOkBuFZwdRLsBLVKwC3coSLdY8Xur169TfUJO8KRLHtF5osrRDPs0ukqZvnqvnA78K7LMoP1umxpXvFX08p9rKeiuwevWEbe3+yXr/75RBHpOY8ZrgHRC/0ydm4Nm0HWLBPjsESLGAhwbtP6L0b7WD9PvnOfvO6E0ZhoZzUDAvDWcRPLgTbkZ4N5qpZ565sBQkifmeUv1TYn/0B/qcNkZlimWmApXjaGFeEuRXcRxZsQKctnoyviql3txWo5SdQAKE5rLIqHhvtJa8HRbMC+t9xdvKuyzKOez2bE5aNIQtgMcT6vJ+e4r1UnWvf+vCJMnVWfHL1I6vxyJrSJu3xBS9s3iG7KO3wpPnncybwuNrFNN9aJFnu2DgfCjFMeh+ogEDZzpcKjfDWSb5mCDQLJChE0qNNcI3JSE5lTk61A7i72QvPVKI+nuLhmde4Dcn/UoPm1OCYH2Dw/KJnTX5XFJFDyPGWQrK85rE0cq0YaACa8r9eu+DR7JTUHVM/FMnfeUCeMxWySjw34Tz9R+hBN1oDpT58JqZoMXeYmxxbT9HE0ROYdQAoL+mhhkRxO/Hqy9E3hpPDqQlkc5cM=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5640.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(66556008)(2906002)(66946007)(316002)(76116006)(6916009)(66446008)(38100700002)(66476007)(64756008)(38070700005)(82960400001)(83380400001)(122000001)(9686003)(52536014)(966005)(71200400001)(8936002)(54906003)(55016003)(186003)(33656002)(86362001)(53546011)(4326008)(6506007)(8676002)(5660300002)(508600001)(30864003)(26005)(7696005)(21314003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OTloSnV1dGpWNURLejJLZlJvUFhhdERjSHRqS1VlZWQwU2xJVFpJcEoyWG9F?=
- =?utf-8?B?OEs5cFpab1R5K1RzaTlCQXFCa0g1MmYweDVQTCsxM0pLbWVQRU5hcXpuTEc1?=
- =?utf-8?B?aVlLQ1pUZndXM2FJMi9OYlJuL3BRTFZuKzAvdjFyWjl4eWVMMUNpUzFsZVZu?=
- =?utf-8?B?RjY0bS9FcTgwald2SUY3RU1CQkFiR2xwTlFvM3N4NlRUYitQWjAxNTZ6NU1y?=
- =?utf-8?B?UWxRK2hDQ01ZUm1CQmxUT3UyL3BpZ2hlYnc1c01FK3ZjS2ZwMmNhbWVLZ3ZC?=
- =?utf-8?B?MFNkbjRBZ2VGL3BBeithVVpoL3NLazNzSG9KV2NSeG95UmE2Q1hvM3phQUFU?=
- =?utf-8?B?RXJlRWxFaDd6RTlCME5iVHB4REtTVWs4NGZMOUgwMWY3U2l0MzJjaXFBVzE4?=
- =?utf-8?B?b1dJUXBsSVRIYjcyeCtVc24vdmtRZkJtNjJyajBSbjA2RElnWFNkWDQ1TnVH?=
- =?utf-8?B?UXZSMlBrSE82MStjOVc1TUg5SVo2WEcvWTV6SUN3cU9uQ0g1T1NTL3hyMFdL?=
- =?utf-8?B?Y21XWTlZU2J4SzZxZHlONURJT1Y4S0MzSlk2VDEwdGw2bVdmaWFBQkpVcWhy?=
- =?utf-8?B?WjdiUmJXS1RFU05ob2ZqSEdycTRGSEw1UnZEdWVOWkFkRnlqaGhjMXl2TXh0?=
- =?utf-8?B?dlVaTWI0c0hXbzMwVTZlYkZRTjlOYW1Jd1dUZndsbFM4YnBxbVByWWM3N0tl?=
- =?utf-8?B?akc3cGhqdHJMUkY5MTRDRERwNUhlV1FkeXN6OVlxa25DZTZRSklyVHg0MVVP?=
- =?utf-8?B?dlpYMUNjTzVnNGR0MTU0d04rNzRCeHpKMWV1dDlBb3AvMG9KNi9ZVW5PY0dH?=
- =?utf-8?B?RmNLc1ZqeDF2emd4a3ZmU2JON3RUbGlEWjF1WUZMaDVTVzdIWkhSeE1iYWlx?=
- =?utf-8?B?NHVlNklQQSt5T2RkT1FBd1lqcytVTnQ3U1RRanJOUjdYREdURU1MQlpnbHFh?=
- =?utf-8?B?RmV6UTArMC9KWDFHUi9TS01BcUo2cGdIR09OM2JsbThxSXJnL21nUUFYQlFE?=
- =?utf-8?B?RktXVDNxVm45cjQ2Q3BHVEplS2Q1cVg0bXh0VnpsTkk2TkJSaDlIRnpReG1W?=
- =?utf-8?B?eFhxVGRXdEdpTE5iM1NBVW84aHFJK0hPVnFuZEYwS2JJbkRsbTNtdThkZy9C?=
- =?utf-8?B?Z2lhd3pBYTRpZkpWTnFvVkdRaE44bXNobGJYM3NBazFreEd2ZTl1U05Bd1Jn?=
- =?utf-8?B?Z2g4MXVnNVc4WkZFSzNpYmtPb1R6K1Q2V2Z6VlBXT1pTRGJrMjJnMUdndjEy?=
- =?utf-8?B?RjYvTGdyS1AwVTNhMTJWR1RPRHE3MUlvbm9YRDZzaktCYzRCMHc5WHZMbE9B?=
- =?utf-8?B?VS82SlhOcXFDWVpPSlFYMGllOHk3ZGpGZzBTRW9YN0QyWFN1bWF1U21qN2Qy?=
- =?utf-8?B?bDd3WXVCOURMQzR3ZmhRQ3hNVGlTTUVCM2pmd0pmQVJYVmVhdlRybEU5WDlu?=
- =?utf-8?B?cndreFU3MGNNQmpSNldVdGwyemtoZE5SNFU2eUo5SkhGWkwyT3ZBcnhjUjdR?=
- =?utf-8?B?a3NqR1JUYXBhRU5JQThyWEdxQzV4MzFnKzRYMFVVQklMS1ZIczFLZDF6Q1BZ?=
- =?utf-8?B?a2hjVXF2WXhTREpiZlZXZStzdmVKRXc1WEdBU2hEaUU0WTZHbXlOV3psWExY?=
- =?utf-8?B?c0xNT2w2OVQybGhERkk2UGY0c1FtMkRxOGhrZDBLM0JxU1o4K1FkenpSdldo?=
- =?utf-8?B?RWVreUZYRjFibHhGdHZXMlVEVXlnSkxkejA5VzBYUCtLbDNtL0hhVFB4bGtX?=
- =?utf-8?B?SnhMK1p0STZZSnlGbDE2TGdqNGo4dGRPUGh5YzQrU1lsd0lVeGlRZDhvT091?=
- =?utf-8?B?dExLYloxUEFxbG5mWXBEK2JxWUMrd1BzUkVscUlISDdUMW9SZlBJdTJtVjJ1?=
- =?utf-8?B?R0ljVWc0cU8zbStFQjZWVkZiQTdKV0Y4Szg3bEdMZ3BSM3p2cDI3aHJidGx4?=
- =?utf-8?B?K2o2VFJTUHpJbGdDZ0lsTzFSWFNLcU0vNWhZV0RON1B4OE5sNHgzbVN3WWVF?=
- =?utf-8?B?Wnh4N3g5SFZiNTdibE0zZHpRN1k2RnBTSWhxL21PSVlDSE5VVlJwRm9aa1BX?=
- =?utf-8?B?OGxOaURvVElJbnhQSXNEaTkyVHgrUHdoTG1KWWZKbWY4bEwyTVUzSG1YdmM0?=
- =?utf-8?B?Zmw0U0UzTmIrMVIzVURMcXBidDl4bGJ0Yko0dUZzQWtsUTlROGJPWHFndjlN?=
- =?utf-8?B?OFE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1msMKx-00041i-Mw
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 04:55:43 -0500
+Received: from fraeml702-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4J3vZZ1rcZz67gvx;
+ Wed,  1 Dec 2021 17:54:46 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml702-chm.china.huawei.com (10.206.15.51) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.20; Wed, 1 Dec 2021 10:55:35 +0100
+Received: from localhost (10.52.125.180) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 1 Dec
+ 2021 09:55:34 +0000
+Date: Wed, 1 Dec 2021 09:55:32 +0000
+To: Ben Widawsky <ben.widawsky@intel.com>
+CC: Peter Maydell <peter.maydell@linaro.org>, <qemu-devel@nongnu.org>,
+ "Saransh Gupta1" <saransh@ibm.com>, Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
+ <f4bug@amsat.org>, Shreyas Shah <shreyas.shah@elastics.cloud>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, Alex
+ =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ <shameerali.kolothum.thodi@huawei.com>
+Subject: Re: Follow-up on the CXL discussion at OFTC
+Message-ID: <20211201095532.000035d8@Huawei.com>
+In-Reply-To: <20211130172158.kzuptl2pxlcgvzft@intel.com>
+References: <20211117173201.00002513@Huawei.com>
+ <OF164E5BA6.E927FE73-ON00258791.0078E206-88258791.007ABBAD@ibm.com>
+ <BY5PR12MB4179A47F68A9A15E5888D074E89B9@BY5PR12MB4179.namprd12.prod.outlook.com>
+ <20211119014822.j247ayrsdve4yxyu@intel.com>
+ <BY5PR12MB4179AA1B062AEA75098E15D8E89C9@BY5PR12MB4179.namprd12.prod.outlook.com>
+ <20211119032541.gr6berwu2ve4tkax@intel.com>
+ <8735njf6f7.fsf@linaro.org>
+ <20211129171631.ytixckw2gz3rya25@intel.com>
+ <87mtlmzu3w.fsf@linaro.org> <20211130130956.00000ccd@Huawei.com>
+ <20211130172158.kzuptl2pxlcgvzft@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5640.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2fedda32-ce61-43ed-7baf-08d9b4afbc41
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2021 09:48:31.9573 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qfqyCx3OGjvcZ1B2e5R6+2bXXnSQKcspI+LbQ5s8zP7dhsjijzu0kgITgdhh8BYU2JSwUT9K2O696wZ5siULFg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5656
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=lei.rao@intel.com;
- helo=mga01.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.52.125.180]
+X-ClientProxiedBy: lhreml738-chm.china.huawei.com (10.201.108.188) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -168,224 +80,290 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "vsementsov@virtuozzo.com" <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Zhang,
- Chen" <chen.zhang@intel.com>, "hreitz@redhat.com" <hreitz@redhat.com>,
- "eblake@redhat.com" <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-DQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBEYW5pZWwgUC4gQmVycmFuZ8Op
-IDxiZXJyYW5nZUByZWRoYXQuY29tPiANClNlbnQ6IFdlZG5lc2RheSwgRGVjZW1iZXIgMSwgMjAy
-MSA1OjExIFBNDQpUbzogUmFvLCBMZWkgPGxlaS5yYW9AaW50ZWwuY29tPg0KQ2M6IFpoYW5nLCBD
-aGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT47IGVibGFrZUByZWRoYXQuY29tOyB2c2VtZW50c292
-QHZpcnR1b3p6by5jb207IGt3b2xmQHJlZGhhdC5jb207IGhyZWl0ekByZWRoYXQuY29tOyBxZW11
-LWJsb2NrQG5vbmdudS5vcmc7IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0KU3ViamVjdDogUmU6IFtQ
-QVRDSF0gUUlPOiBBZGQgZm9yY2VfcXVpdCB0byB0aGUgUUlPQ2hhbm5lbCB0byBlbnN1cmUgUUlP
-IGV4aXRzIGNsZWFubHkgaW4gc29tZSBjb3JuZXIgY2FzZQ0KDQpPbiBXZWQsIERlYyAwMSwgMjAy
-MSBhdCAwMzo1NDoyN1BNICswODAwLCBSYW8sIExlaSB3cm90ZToNCj4gICAgIFdlIGZvdW5kIHRo
-YXQgdGhlIFFJTyBjaGFubmVsIGNvcm91dGluZSBjb3VsZCBub3QgYmUgYXdha2VuZWQgaW4gc29t
-ZSBjb3JuZXIgY2FzZXMgZHVyaW5nIG91ciBzdHJlc3MgdGVzdCBmb3IgQ09MTy4NCj4gICAgIFRo
-ZSBwYXRjaCBmaXhlcyBhcyBmb2xsb3c6DQo+ICAgICAgICAgIzAgIDB4MDAwMDdmYWQ3MmUyNGJm
-NiBpbiBfX3Bwb2xsIChmZHM9MHg1NTYzZDc1ODYxZjAsIG5mZHM9MSwgdGltZW91dD08b3B0aW1p
-emVkIG91dD4sIHNpZ21hc2s9MHgwKSBhdCAuLi9zeXNkZXBzL3VuaXgvc3lzdi9saW51eC9wcG9s
-bC5jOjQ0DQo+ICAgICAgICAgIzEgIDB4MDAwMDU1NjNkNjk3N2M2OCBpbiBxZW11X3BvbGxfbnMg
-KGZkcz0weDU1NjNkNzU4NjFmMCwgbmZkcz0xLCB0aW1lb3V0PTU5OTk5OTY5NzYzMCkgYXQgdXRp
-bC9xZW11LXRpbWVyLmM6MzQ4DQo+ICAgICAgICAgIzIgIDB4MDAwMDU1NjNkNjk3YWM0NCBpbiBh
-aW9fcG9sbCAoY3R4PTB4NTU2M2Q3NTVkZmEwLCBibG9ja2luZz10cnVlKSBhdCB1dGlsL2Fpby1w
-b3NpeC5jOjY2OQ0KPiAgICAgICAgICMzICAweDAwMDA1NTYzZDY4YmEyNGYgaW4gYmRydl9kb19k
-cmFpbmVkX2JlZ2luIChicz0weDU1NjNkNzVlYTBjMCwgcmVjdXJzaXZlPWZhbHNlLCBwYXJlbnQ9
-MHgwLCBpZ25vcmVfYmRzX3BhcmVudHM9ZmFsc2UsIHBvbGw9dHJ1ZSkgYXQgYmxvY2svaW8uYzo0
-MzINCj4gICAgICAgICAjNCAgMHgwMDAwNTU2M2Q2OGJhMzM4IGluIGJkcnZfZHJhaW5lZF9iZWdp
-biAoYnM9MHg1NTYzZDc1ZWEwYzApIGF0IGJsb2NrL2lvLmM6NDM4DQo+ICAgICAgICAgIzUgIDB4
-MDAwMDU1NjNkNjg5YzZkMiBpbiBxdW9ydW1fZGVsX2NoaWxkIChicz0weDU1NjNkNzVlYTBjMCwg
-Y2hpbGQ9MHg1NTYzZDc5MDg2MDAsIGVycnA9MHg3ZmZmM2NmNWI5NjApIGF0IGJsb2NrL3F1b3J1
-bS5jOjEwNjMNCj4gICAgICAgICAjNiAgMHgwMDAwNTU2M2Q2ODQzMjhmIGluIGJkcnZfZGVsX2No
-aWxkIChwYXJlbnRfYnM9MHg1NTYzZDc1ZWEwYzAsIGNoaWxkPTB4NTU2M2Q3OTA4NjAwLCBlcnJw
-PTB4N2ZmZjNjZjViOTYwKSBhdCBibG9jay5jOjY1NjgNCj4gICAgICAgICAjNyAgMHgwMDAwNTU2
-M2Q2NTg0OTllIGluIHFtcF94X2Jsb2NrZGV2X2NoYW5nZSAocGFyZW50PTB4NTU2M2Q4MGVjNGMw
-ICJjb2xvLWRpc2swIiwgaGFzX2NoaWxkPXRydWUsIGNoaWxkPTB4NTU2M2Q3NTc3ZDMwICJjaGls
-ZHJlbi4xIiwgaGFzX25vZGU9ZmFsc2UsIG5vZGU9MHgwLGVycnA9MHg3ZmZmM2NmNWI5NjApIGF0
-IGJsb2NrZGV2LmM6NDQ5NA0KPiAgICAgICAgICM4ICAweDAwMDA1NTYzZDY3ZThiNGUgaW4gcW1w
-X21hcnNoYWxfeF9ibG9ja2Rldl9jaGFuZ2UgKGFyZ3M9MHg3ZmFkNjQwMGFkYTAsIHJldD0weDdm
-ZmYzY2Y1YjlmOCwgZXJycD0weDdmZmYzY2Y1YjlmMCkgYXQgcWFwaS9xYXBpLWNvbW1hbmRzLWJs
-b2NrLWNvcmUuYzoxNTM4DQo+ICAgICAgICAgIzkgIDB4MDAwMDU1NjNkNjkxY2Q5ZSBpbiBkb19x
-bXBfZGlzcGF0Y2ggKGNtZHM9MHg1NTYzZDcxOWE0ZjAgPHFtcF9jb21tYW5kcz4sIHJlcXVlc3Q9
-MHg3ZmFkNjQwMDlkODAsIGFsbG93X29vYj10cnVlLCBlcnJwPTB4N2ZmZjNjZjViYTk4KQ0KPiAg
-ICAgICAgICAgICBhdCBxYXBpL3FtcC1kaXNwYXRjaC5jOjEzMg0KPiAgICAgICAgICMxMCAweDAw
-MDA1NTYzZDY5MWNmYWIgaW4gcW1wX2Rpc3BhdGNoIChjbWRzPTB4NTU2M2Q3MTlhNGYwIDxxbXBf
-Y29tbWFuZHM+LCByZXF1ZXN0PTB4N2ZhZDY0MDA5ZDgwLCBhbGxvd19vb2I9dHJ1ZSkgYXQgcWFw
-aS9xbXAtZGlzcGF0Y2guYzoxNzUNCj4gICAgICAgICAjMTEgMHgwMDAwNTU2M2Q2N2I3Nzg3IGlu
-IG1vbml0b3JfcW1wX2Rpc3BhdGNoIChtb249MHg1NTYzZDc2MDVkNDAsIHJlcT0weDdmYWQ2NDAw
-OWQ4MCkgYXQgbW9uaXRvci9xbXAuYzoxNDUNCj4gICAgICAgICAjMTIgMHgwMDAwNTU2M2Q2N2I3
-YjI0IGluIG1vbml0b3JfcW1wX2JoX2Rpc3BhdGNoZXIgKGRhdGE9MHgwKSBhdCBtb25pdG9yL3Ft
-cC5jOjIzNA0KPiAgICAgICAgICMxMyAweDAwMDA1NTYzZDY5NzU0YzIgaW4gYWlvX2JoX2NhbGwg
-KGJoPTB4NTU2M2Q3NDczMjMwKSBhdCB1dGlsL2FzeW5jLmM6ODkNCj4gICAgICAgICAjMTQgMHgw
-MDAwNTU2M2Q2OTc1NTVlIGluIGFpb19iaF9wb2xsIChjdHg9MHg1NTYzZDc0NzFkYTApIGF0IHV0
-aWwvYXN5bmMuYzoxMTcNCj4gICAgICAgICAjMTUgMHgwMDAwNTU2M2Q2OTdhNDIzIGluIGFpb19k
-aXNwYXRjaCAoY3R4PTB4NTU2M2Q3NDcxZGEwKSBhdCB1dGlsL2Fpby1wb3NpeC5jOjQ1OQ0KPiAg
-ICAgICAgICMxNiAweDAwMDA1NTYzZDY5NzU5MTcgaW4gYWlvX2N0eF9kaXNwYXRjaCAoc291cmNl
-PTB4NTU2M2Q3NDcxZGEwLCBjYWxsYmFjaz0weDAsIHVzZXJfZGF0YT0weDApIGF0IHV0aWwvYXN5
-bmMuYzoyNjANCj4gICAgICAgICAjMTcgMHgwMDAwN2ZhZDczMGUxZmJkIGluIGdfbWFpbl9jb250
-ZXh0X2Rpc3BhdGNoICgpIGZyb20gL2xpYi94ODZfNjQtbGludXgtZ251L2xpYmdsaWItMi4wLnNv
-LjANCj4gICAgICAgICAjMTggMHgwMDAwNTU2M2Q2OTc4Y2RhIGluIGdsaWJfcG9sbGZkc19wb2xs
-ICgpIGF0IHV0aWwvbWFpbi1sb29wLmM6MjE5DQo+ICAgICAgICAgIzE5IDB4MDAwMDU1NjNkNjk3
-OGQ1OCBpbiBvc19ob3N0X21haW5fbG9vcF93YWl0ICh0aW1lb3V0PTk3NzY1MCkgYXQgdXRpbC9t
-YWluLWxvb3AuYzoyNDINCj4gICAgICAgICAjMjAgMHgwMDAwNTU2M2Q2OTc4ZTY5IGluIG1haW5f
-bG9vcF93YWl0IChub25ibG9ja2luZz0wKSBhdCB1dGlsL21haW4tbG9vcC5jOjUxOA0KPiAgICAg
-ICAgICMyMSAweDAwMDA1NTYzZDY1OGY1ZWQgaW4gbWFpbl9sb29wICgpIGF0IHZsLmM6MTgxNA0K
-PiAgICAgICAgICMyMiAweDAwMDA1NTYzZDY1OTZiYjcgaW4gbWFpbiAoYXJnYz02MSwgYXJndj0w
-eDdmZmYzY2Y1YzBjOCwgDQo+IGVudnA9MHg3ZmZmM2NmNWMyYjgpIGF0IHZsLmM6NDUwDQo+IA0K
-PiAgICAgRnJvbSB0aGUgY2FsbCB0cmFjZSwgd2UgY2FuIHNlZSB0aGF0IHRoZSBRRU1VIG1haW4g
-dGhyZWFkIGlzIHdhaXRpbmcgZm9yIHRoZSBpbl9mbGlnaHQgcmV0dXJuIHRvIHplcm8uIEJ1dCB0
-aGUgaW5fZmlsZ2h0IG5ldmVyIHJlYWNoZXMgMC4NCj4gICAgIEFmdGVyIGFuYWx5c2lzLCB0aGUg
-cm9vdCBjYXVzZSBpcyB0aGF0IHRoZSBjb3JvdXRpbmUgb2YgTkJEIHdhcyBub3QgYXdha2VuZWQu
-IEFsdGhvdWdoIHRoaXMgYnVnIHdhcyBmb3VuZCBpbiB0aGUgQ09MTyB0ZXN0LCBJIHRoaW5rIHRo
-aXMgaXMgYQ0KPiAgICAgdW5pdmVyc2FsIHByb2JsZW0gaW4gdGhlIFFJTyBtb2R1bGUuIFRoaXMg
-aXNzdWUgYWxzbyBhZmZlY3RzIG90aGVyIG1vZHVsZXMgZGVwZW5kaW5nIG9uIFFJTyBzdWNoIGFz
-IE5CRC4gV2UgZHVtcCB0aGUgZm9sbG93aW5nIGRhdGE6DQo+ICAgICAkMiA9IHsNCj4gICAgICAg
-aW5fZmxpZ2h0ID0gMiwNCj4gICAgICAgc3RhdGUgPSBOQkRfQ0xJRU5UX1FVSVQsDQo+ICAgICAg
-IGNvbm5lY3Rfc3RhdHVzID0gMCwNCj4gICAgICAgY29ubmVjdF9lcnIgPSAweDAsDQo+ICAgICAg
-IHdhaXRfaW5fZmxpZ2h0ID0gZmFsc2UsDQo+ICAgICAgIHJlcXVlc3RzID0ge3sNCj4gICAgICAg
-ICAgIGNvcm91dGluZSA9IDB4MCwNCj4gICAgICAgICAgIG9mZnNldCA9IDI3MzA3NzA3MTg3MiwN
-Cj4gICAgICAgICAgIHJlY2VpdmluZyA9IGZhbHNlLA0KPiAgICAgICAgIH0sIHsNCj4gICAgICAg
-ICAgIGNvcm91dGluZSA9IDB4N2YxMTY0NTcxZGYwLA0KPiAgICAgICAgICAgb2Zmc2V0ID0gNDk4
-NzkyNTI5OTIwLA0KPiAgICAgICAgICAgcmVjZWl2aW5nID0gZmFsc2UsDQo+ICAgICAgICAgfSwg
-ew0KPiAgICAgICAgICAgY29yb3V0aW5lID0gMHgwLA0KPiAgICAgICAgICAgb2Zmc2V0ID0gNTAw
-NjYzNTkwOTEyLA0KPiAgICAgICAgICAgcmVjZWl2aW5nID0gZmFsc2UsDQo+ICAgICAgICAgfSwg
-ew0KPiAgICAgICAgICAgLi4uDQo+ICAgICAgICAgfSB9LA0KPiAgICAgICByZXBseSA9IHsNCj4g
-ICAgICAgICBzaW1wbGUgPSB7DQo+ICAgICAgICAgICBtYWdpYyA9IDE3MzI1MzU5NjAsDQo+ICAg
-ICAgICAgICBlcnJvciA9IDAsDQo+ICAgICAgICAgICBoYW5kbGUgPSAwDQo+ICAgICAgICAgfSwN
-Cj4gICAgICAgICBzdHJ1Y3R1cmVkID0gew0KPiAgICAgICAgICAgbWFnaWMgPSAxNzMyNTM1OTYw
-LA0KPiAgICAgICAgICAgZmxhZ3MgPSAwLA0KPiAgICAgICAgICAgdHlwZSA9IDAsDQo+ICAgICAg
-ICAgICBoYW5kbGUgPSAwLA0KPiAgICAgICAgICAgbGVuZ3RoID0gMA0KPiAgICAgICAgIH0sDQo+
-ICAgICAgICAgew0KPiAgICAgICAgICAgbWFnaWMgPSAxNzMyNTM1OTYwLA0KPiAgICAgICAgICAg
-X3NraXAgPSAwLA0KPiAgICAgICAgICAgaGFuZGxlID0gMA0KPiAgICAgICAgIH0NCj4gICAgICAg
-fSwNCj4gICAgICAgYnMgPSAweDdmMTE2NDBlMjE0MCwNCj4gICAgICAgcmVjb25uZWN0X2RlbGF5
-ID0gMCwNCj4gICAgICAgc2FkZHIgPSAweDdmMTE2NDBlMWY4MCwNCj4gICAgICAgZXhwb3J0ID0g
-MHg3ZjExNjQwZGM1NjAgInBhcmVudDAiLA0KPiAgICAgfQ0KPiAgICAgRnJvbSB0aGUgZGF0YSwg
-d2UgY2FuIHNlZSB0aGUgY29yb3V0aW5lIG9mIE5CRCBkb2VzIG5vdCBleGl0IG5vcm1hbGx5IHdo
-ZW4ga2lsbGluZyB0aGUgTkJEIHNlcnZlcih3ZSBraWxsIHRoZSBTZWNvbmRhcnkgVk0gaW4gdGhl
-IENPTE8gc3RyZXNzIHRlc3QpLg0KPiAgICAgVGhlbiBpdCB3aWxsIG5vdCBleGVjdXRlIGluX2Zs
-aWdodC0tLiBTbywgdGhlIFFFTVUgbWFpbiB0aHJlYWQgd2lsbCBoYW5nIGhlcmUuIEZ1cnRoZXIg
-YW5hbHlzaXMsIEkgZm91bmQgdGhlIGNvcm91dGluZSBvZiBOQkQgd2lsbCB5aWVsZA0KPiAgICAg
-aW4gbmJkX3NlbmRfcmVxdWVzdCgpIG9yIHFpb19jaGFubmVsX3dyaXRlX2FsbCgpIGluIG5iZF9j
-b19zZW5kX3JlcXVlc3QuIEJ5IHRoZSB3YXksIHRoZSB5aWVsZCBpcyBkdWUgdG8gdGhlIGtlcm5l
-bCByZXR1cm4gRUFHQUlOKHVuZGVyIHRoZSBzdHJlc3MgdGVzdCkuDQo+ICAgICBIb3dldmVyLCBO
-QkQgZGlkbid0IGtub3cgaXQgd291bGQgeWllbGQgaGVyZS4gU28sIHRoZSBuYmRfcmVjdl9jb3Jv
-dXRpbmVzX3dha2Ugd29uJ3Qgd2FrZSBpdCB1cCBiZWNhdXNlIHJlcS0+cmVjZWl2aW5nIGlzIGZh
-bHNlLiBpZiB0aGUgTkJEIHNlcnZlcg0KPiAgICAgaXMgdGVybWluYXRlZCBhYm5vcm1hbGx5IGF0
-IHRoZSBzYW1lIHRpbWUuIFRoZSBHX0lPX09VVCB3aWxsIGJlIGludmFsaWQsIHRoZSBjb3JvdXRp
-bmUgd2lsbCBuZXZlciBiZSBhd2FrZW5lZC4gSW4gYWRkaXRpb24sIHRoZSBzLT5pb2Mgd2lsbCBi
-ZSByZWxlYXNlZA0KPiAgICAgaW1tZWRpYXRlbHkuIGlmIHdlIGZvcmNlIHRvIHdha2UgdXAgdGhl
-IGNvcm91dGluZSBvZiBOQkQsIGFjY2VzcyB0byB0aGUgaW9jLT54eHggd2lsbCBjYXVzZSBzZWdt
-ZW50IGZhdWx0LiBGaW5hbGx5LCBJIGFkZCBhIHN0YXRlIG5hbWVkIGZvcmNlX3F1aXQgdG8NCj4g
-ICAgIHRoZSBRSU9DaGFubmVsIHRvIGVuc3VyZSB0aGF0IFFJTyB3aWxsIGV4aXQgaW1tZWRpYXRl
-bHkuIEFuZCBJIGFkZCB0aGUgZnVuY3Rpb24gb2YgcWlvX2NoYW5uZWxfY29yb3V0aW5lc193YWtl
-IHRvIHdha2UgaXQgdXAuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBMZWkgUmFvIDxsZWkucmFvQGlu
-dGVsLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogWmhhbmcgQ2hlbiA8Y2hlbi56aGFuZ0BpbnRlbC5j
-b20+DQo+IC0tLQ0KPiAgYmxvY2svbmJkLmMgICAgICAgICAgfCAgNSArKysrKw0KPiAgaW5jbHVk
-ZS9pby9jaGFubmVsLmggfCAxOSArKysrKysrKysrKysrKysrKysrDQo+ICBpby9jaGFubmVsLmMg
-ICAgICAgICB8IDIyICsrKysrKysrKysrKysrKysrKysrKysNCj4gIDMgZmlsZXMgY2hhbmdlZCwg
-NDYgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Jsb2NrL25iZC5jIGIvYmxvY2sv
-bmJkLmMgaW5kZXggNWVmNDYyZGIxYi4uNWVlNGVhYWY1NyANCj4gMTAwNjQ0DQo+IC0tLSBhL2Js
-b2NrL25iZC5jDQo+ICsrKyBiL2Jsb2NrL25iZC5jDQo+IEBAIC0yMDgsNiArMjA4LDggQEAgc3Rh
-dGljIHZvaWQgbmJkX3RlYXJkb3duX2Nvbm5lY3Rpb24oQmxvY2tEcml2ZXJTdGF0ZSAqYnMpDQo+
-ICAgICAgYXNzZXJ0KCFzLT5pbl9mbGlnaHQpOw0KPiAgDQo+ICAgICAgaWYgKHMtPmlvYykgew0K
-PiArICAgICAgICBxaW9fY2hhbm5lbF9zZXRfZm9yY2VfcXVpdChzLT5pb2MsIHRydWUpOw0KPiAr
-ICAgICAgICBxaW9fY2hhbm5lbF9jb3JvdXRpbmVzX3dha2Uocy0+aW9jKTsNCj4gICAgICAgICAg
-cWlvX2NoYW5uZWxfc2h1dGRvd24ocy0+aW9jLCBRSU9fQ0hBTk5FTF9TSFVURE9XTl9CT1RILCAN
-Cj4gTlVMTCk7DQoNCkNhbGxpbmcgc2h1dGRvd24gaGVyZSBzaG91bGQgYWxyZWFkeSBiZSBjYXVz
-aW5nIHRoZSBxaW9fY2hhbmVsX3JlYWR2X2FsbCB0byB3YWtldXAgYW5kIGJyZWFrIG91dCBvZiBp
-dHMNCnBvbGwoKSBsb29wLiBXZSBzaG91bGRuJ3QgbmVlZCB0byBhZGQgYSBzZWNvbmQgd2F5IHRv
-IGJyZWFrIG91dCBvZiB0aGUgcG9sbCgpLg0KDQpDYWxsaW5nIHNodXRkb3duIGNhbiB3YWtlIHVw
-IHRoZSBjb3JvdXRpbmVzIHdoaWNoIGlzIHBvbGxpbmcuIEJ1dCBJIHRoaW5rIGl0J3Mgbm90IGVu
-b3VnaC4gSSB0cmllZCB0byBmb3JjaWJseSB3YWtlIHVwIHRoZSBOQkQgY29yb3V0aW5lLA0KSXQg
-bWF5IGNhdXNlIHNlZ21lbnQgZmF1bHQuIFRoZSByb290IGNhdXNlIGlzIHRoYXQgaXQgd2lsbCBj
-b250aW51ZSB0byBhY2Nlc3MgaW9jLT54eHggaW4gcWlvX2NoYW5uZWxfeWllbGQoKSwgYnV0IHRo
-ZSBpb2MgaGFzIGJlZW4gcmVsZWFzZWQgYW5kIHNldCBpdCBOVUxMIHN1Y2ggYXMgaW4NCm5iZF9j
-b19kb19lc3RhYmxpc2hfY29ubmVjdGlvbigpOyBJIHRoaW5rIGNhbGwgc2h1dGRvd24gd2lsbCBo
-YXZlIHRoZSBzYW1lIHJlc3VsdC4gU28sIEkgYWRkIHRoZSBmb3JjZV9xdWl0LCBvbmNlIHNldCBp
-dCB0cnVlLCBpdCB3aWxsIGltbWVkaWF0ZWx5IGV4aXQgd2l0aG91dCBhY2Nlc3NpbmcgSU9DLg0K
-DQpUaGFua3MNCkxlaQ0KDQo+ICAgICAgICAgIHlhbmtfdW5yZWdpc3Rlcl9mdW5jdGlvbihCTE9D
-S0RFVl9ZQU5LX0lOU1RBTkNFKHMtPmJzLT5ub2RlX25hbWUpLA0KPiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgbmJkX3lhbmssIHMtPmJzKTsgQEAgLTMxNSw2ICszMTcsNyANCj4g
-QEAgaW50IGNvcm91dGluZV9mbiBuYmRfY29fZG9fZXN0YWJsaXNoX2Nvbm5lY3Rpb24oQmxvY2tE
-cml2ZXJTdGF0ZSANCj4gKmJzLA0KPiAgDQo+ICAgICAgLyogc3VjY2Vzc2Z1bGx5IGNvbm5lY3Rl
-ZCAqLw0KPiAgICAgIHMtPnN0YXRlID0gTkJEX0NMSUVOVF9DT05ORUNURUQ7DQo+ICsgICAgcWlv
-X2NoYW5uZWxfc2V0X2ZvcmNlX3F1aXQocy0+aW9jLCBmYWxzZSk7DQo+ICAgICAgcWVtdV9jb19x
-dWV1ZV9yZXN0YXJ0X2FsbCgmcy0+ZnJlZV9zZW1hKTsNCj4gIA0KPiAgICAgIHJldHVybiAwOw0K
-PiBAQCAtMzQ1LDYgKzM0OCw4IEBAIHN0YXRpYyBjb3JvdXRpbmVfZm4gdm9pZCANCj4gbmJkX3Jl
-Y29ubmVjdF9hdHRlbXB0KEJEUlZOQkRTdGF0ZSAqcykNCj4gIA0KPiAgICAgIC8qIEZpbmFsaXpl
-IHByZXZpb3VzIGNvbm5lY3Rpb24gaWYgYW55ICovDQo+ICAgICAgaWYgKHMtPmlvYykgew0KPiAr
-ICAgICAgICBxaW9fY2hhbm5lbF9zZXRfZm9yY2VfcXVpdChzLT5pb2MsIHRydWUpOw0KPiArICAg
-ICAgICBxaW9fY2hhbm5lbF9jb3JvdXRpbmVzX3dha2Uocy0+aW9jKTsNCg0KSXNuJ3QgdGhpcyBj
-b2RlIHBhdGgganVzdCBtaXNzaW5nIGEgcWlvX2NoYW5uZWxfc2h1dGRvd24gY2FsbCBvciBhIHFp
-b19jaGFubmVsX2Nsb3NlIGNhbGwgdG8gbWFrZSB0aGUgc29ja2V0IHRyaWdnZXIgd2FrZXVwIGZy
-b20gcG9sbC4NCg0KSSBkb24ndCB0aGluayBpdCBjYW4gc29sdmUgdGhlIGJ1ZyBldmVuIGlmIGl0
-IGlzIGFkZGVkLCB0aGUgcmVhc29uIGlzIGFzIGFib3ZlLg0KVGhhbmtzLA0KTGVpDQoNCj4gICAg
-ICAgICAgcWlvX2NoYW5uZWxfZGV0YWNoX2Fpb19jb250ZXh0KFFJT19DSEFOTkVMKHMtPmlvYykp
-Ow0KPiAgICAgICAgICB5YW5rX3VucmVnaXN0ZXJfZnVuY3Rpb24oQkxPQ0tERVZfWUFOS19JTlNU
-QU5DRShzLT5icy0+bm9kZV9uYW1lKSwNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIG5iZF95YW5rLCBzLT5icyk7IGRpZmYgLS1naXQgDQo+IGEvaW5jbHVkZS9pby9jaGFubmVs
-LmggYi9pbmNsdWRlL2lvL2NoYW5uZWwuaCBpbmRleCANCj4gODg5ODg5NzlmOC4uYmM1YWY4Y2Rk
-NiAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9pby9jaGFubmVsLmgNCj4gKysrIGIvaW5jbHVkZS9p
-by9jaGFubmVsLmgNCj4gQEAgLTc4LDYgKzc4LDcgQEAgc3RydWN0IFFJT0NoYW5uZWwgew0KPiAg
-ICAgIEFpb0NvbnRleHQgKmN0eDsNCj4gICAgICBDb3JvdXRpbmUgKnJlYWRfY29yb3V0aW5lOw0K
-PiAgICAgIENvcm91dGluZSAqd3JpdGVfY29yb3V0aW5lOw0KPiArICAgIGJvb2wgZm9yY2VfcXVp
-dDsNCj4gICNpZmRlZiBfV0lOMzINCj4gICAgICBIQU5ETEUgZXZlbnQ7IC8qIEZvciB1c2Ugd2l0
-aCBHU291cmNlIG9uIFdpbjMyICovICAjZW5kaWYgQEAgDQo+IC00ODQsNiArNDg1LDI0IEBAIGlu
-dCBxaW9fY2hhbm5lbF9zZXRfYmxvY2tpbmcoUUlPQ2hhbm5lbCAqaW9jLA0KPiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBib29sIGVuYWJsZWQsDQo+ICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIEVycm9yICoqZXJycCk7DQo+ICANCj4gKy8qKg0KPiArICogcWlvX2NoYW5uZWxf
-Zm9yY2VfcXVpdDoNCj4gKyAqIEBpb2M6IHRoZSBjaGFubmVsIG9iamVjdA0KPiArICogQHF1aXQ6
-IHRoZSBuZXcgZmxhZyBzdGF0ZQ0KPiArICoNCj4gKyAqIFNldCB0aGUgbmV3IGZsYWcgc3RhdGUN
-Cj4gKyAqLw0KPiArdm9pZCBxaW9fY2hhbm5lbF9zZXRfZm9yY2VfcXVpdChRSU9DaGFubmVsICpp
-b2MsIGJvb2wgcXVpdCk7DQo+ICsNCj4gKy8qKg0KPiArICogcWlvX2NoYW5uZWxfY29yb3V0aW5l
-c193YWtlOg0KPiArICogQGlvYzogdGhlIGNoYW5uZWwgb2JqZWN0DQo+ICsgKg0KPiArICogV2Fr
-ZSB1cCB0aGUgY29yb3V0aW5lcyB0byBlbnN1cmUgdGhhdCB0aGV5IHdpbGwgZXhpdCBub3JtYWxs
-eQ0KPiArICogd2hlbiB0aGUgc2VydmVyIHRlcm1pbmF0ZWQgYWJub3JtYWxseSAgKi8gdm9pZCAN
-Cj4gK3Fpb19jaGFubmVsX2Nvcm91dGluZXNfd2FrZShRSU9DaGFubmVsICppb2MpOw0KPiArDQo+
-ICAvKioNCj4gICAqIHFpb19jaGFubmVsX2Nsb3NlOg0KPiAgICogQGlvYzogdGhlIGNoYW5uZWwg
-b2JqZWN0DQo+IGRpZmYgLS1naXQgYS9pby9jaGFubmVsLmMgYi9pby9jaGFubmVsLmMgaW5kZXgg
-ZThiMDE5ZGMzNi4uYmMxYTllMDU1YyANCj4gMTAwNjQ0DQo+IC0tLSBhL2lvL2NoYW5uZWwuYw0K
-PiArKysgYi9pby9jaGFubmVsLmMNCj4gQEAgLTEzNiw2ICsxMzYsOSBAQCBpbnQgcWlvX2NoYW5u
-ZWxfcmVhZHZfZnVsbF9hbGxfZW9mKFFJT0NoYW5uZWwgKmlvYywNCj4gICAgICAgICAgaWYgKGxl
-biA9PSBRSU9fQ0hBTk5FTF9FUlJfQkxPQ0spIHsNCj4gICAgICAgICAgICAgIGlmIChxZW11X2lu
-X2Nvcm91dGluZSgpKSB7DQo+ICAgICAgICAgICAgICAgICAgcWlvX2NoYW5uZWxfeWllbGQoaW9j
-LCBHX0lPX0lOKTsNCj4gKyAgICAgICAgICAgICAgICBpZiAoaW9jLT5mb3JjZV9xdWl0KSB7DQo+
-ICsgICAgICAgICAgICAgICAgICAgIGdvdG8gY2xlYW51cDsNCj4gKyAgICAgICAgICAgICAgICB9
-DQo+ICAgICAgICAgICAgICB9IGVsc2Ugew0KPiAgICAgICAgICAgICAgICAgIHFpb19jaGFubmVs
-X3dhaXQoaW9jLCBHX0lPX0lOKTsNCj4gICAgICAgICAgICAgIH0NCj4gQEAgLTI0Miw2ICsyNDUs
-OSBAQCBpbnQgcWlvX2NoYW5uZWxfd3JpdGV2X2Z1bGxfYWxsKFFJT0NoYW5uZWwgKmlvYywNCj4g
-ICAgICAgICAgaWYgKGxlbiA9PSBRSU9fQ0hBTk5FTF9FUlJfQkxPQ0spIHsNCj4gICAgICAgICAg
-ICAgIGlmIChxZW11X2luX2Nvcm91dGluZSgpKSB7DQo+ICAgICAgICAgICAgICAgICAgcWlvX2No
-YW5uZWxfeWllbGQoaW9jLCBHX0lPX09VVCk7DQo+ICsgICAgICAgICAgICAgICAgaWYgKGlvYy0+
-Zm9yY2VfcXVpdCkgew0KPiArICAgICAgICAgICAgICAgICAgICBnb3RvIGNsZWFudXA7DQo+ICsg
-ICAgICAgICAgICAgICAgfQ0KPiAgICAgICAgICAgICAgfSBlbHNlIHsNCj4gICAgICAgICAgICAg
-ICAgICBxaW9fY2hhbm5lbF93YWl0KGlvYywgR19JT19PVVQpOw0KPiAgICAgICAgICAgICAgfQ0K
-PiBAQCAtNTQzLDYgKzU0OSw5IEBAIHZvaWQgY29yb3V0aW5lX2ZuIHFpb19jaGFubmVsX3lpZWxk
-KFFJT0NoYW5uZWwgKmlvYywNCj4gICAgICB9DQo+ICAgICAgcWlvX2NoYW5uZWxfc2V0X2Fpb19m
-ZF9oYW5kbGVycyhpb2MpOw0KPiAgICAgIHFlbXVfY29yb3V0aW5lX3lpZWxkKCk7DQo+ICsgICAg
-aWYgKGlvYy0+Zm9yY2VfcXVpdCkgew0KPiArICAgICAgICByZXR1cm47DQo+ICsgICAgfQ0KPiAg
-DQo+ICAgICAgLyogQWxsb3cgaW50ZXJydXB0aW5nIHRoZSBvcGVyYXRpb24gYnkgcmVlbnRlcmlu
-ZyB0aGUgY29yb3V0aW5lIG90aGVyIHRoYW4NCj4gICAgICAgKiB0aHJvdWdoIHRoZSBhaW9fZmRf
-aGFuZGxlcnMuICovIEBAIC01NTUsNiArNTY0LDE5IEBAIHZvaWQgDQo+IGNvcm91dGluZV9mbiBx
-aW9fY2hhbm5lbF95aWVsZChRSU9DaGFubmVsICppb2MsDQo+ICAgICAgfQ0KPiAgfQ0KPiAgDQo+
-ICt2b2lkIHFpb19jaGFubmVsX3NldF9mb3JjZV9xdWl0KFFJT0NoYW5uZWwgKmlvYywgYm9vbCBx
-dWl0KSB7DQo+ICsgICAgaW9jLT5mb3JjZV9xdWl0ID0gcXVpdDsNCj4gK30NCj4gKw0KPiArdm9p
-ZCBxaW9fY2hhbm5lbF9jb3JvdXRpbmVzX3dha2UoUUlPQ2hhbm5lbCAqaW9jKSB7DQo+ICsgICAg
-aWYgKGlvYy0+cmVhZF9jb3JvdXRpbmUpIHsNCj4gKyAgICAgICAgcWlvX2NoYW5uZWxfcmVzdGFy
-dF9yZWFkKGlvYyk7DQo+ICsgICAgfSBlbHNlIGlmIChpb2MtPndyaXRlX2Nvcm91dGluZSkgew0K
-PiArICAgICAgICBxaW9fY2hhbm5lbF9yZXN0YXJ0X3dyaXRlKGlvYyk7DQo+ICsgICAgfQ0KPiAr
-fQ0KDQpOb25lIG9mIHRoaXMgc2hvdWxkIGJlIG5lZWRlZCBBRkFJQ1QsIGFzIHRoZSBwb2xsL2Nv
-cm91dGluZSBjb2RlIHNodWxkIGFscmVhZHkgYnJlYWsgb3V0IG9mIHBvbGwgaWYgdGhlIHNvY2tl
-dCBpcyBjbG9zZWQsIG9yIGlzIG1hcmtlZCBzaHV0ZG93bi4NCg0KDQpSZWdhcmRzLA0KRGFuaWVs
-DQotLSANCnw6IGh0dHBzOi8vYmVycmFuZ2UuY29tICAgICAgLW8tICAgIGh0dHBzOi8vd3d3LmZs
-aWNrci5jb20vcGhvdG9zL2RiZXJyYW5nZSA6fA0KfDogaHR0cHM6Ly9saWJ2aXJ0Lm9yZyAgICAg
-ICAgIC1vLSAgICAgICAgICAgIGh0dHBzOi8vZnN0b3AxMzguYmVycmFuZ2UuY29tIDp8DQp8OiBo
-dHRwczovL2VudGFuZ2xlLXBob3RvLm9yZyAgICAtby0gICAgaHR0cHM6Ly93d3cuaW5zdGFncmFt
-LmNvbS9kYmVycmFuZ2UgOnwNCg0K
+On Tue, 30 Nov 2021 09:21:58 -0800
+Ben Widawsky <ben.widawsky@intel.com> wrote:
+
+> On 21-11-30 13:09:56, Jonathan Cameron wrote:
+> > On Mon, 29 Nov 2021 18:28:43 +0000
+> > Alex Benn=E9e <alex.bennee@linaro.org> wrote:
+> >  =20
+> > > Ben Widawsky <ben.widawsky@intel.com> writes:
+> > >  =20
+> > > > On 21-11-26 12:08:08, Alex Benn=E9e wrote:   =20
+> > > >>=20
+> > > >> Ben Widawsky <ben.widawsky@intel.com> writes:
+> > > >>    =20
+> > > >> > On 21-11-19 02:29:51, Shreyas Shah wrote:   =20
+> > > >> >> Hi Ben
+> > > >> >>=20
+> > > >> >> Are you planning to add the CXL2.0 switch inside QEMU or alread=
+y added in one of the version?=20
+> > > >> >>     =20
+> > > >> >
+> > > >> > From me, there are no plans for QEMU anything until/unless upstr=
+eam thinks it
+> > > >> > will merge the existing patches, or provide feedback as to what =
+it would take to
+> > > >> > get them merged. If upstream doesn't see a point in these patche=
+s, then I really
+> > > >> > don't see much value in continuing to further them. Once hardwar=
+e comes out, the
+> > > >> > value proposition is certainly less.   =20
+> > > >>=20
+> > > >> I take it:
+> > > >>=20
+> > > >>   Subject: [RFC PATCH v3 00/31] CXL 2.0 Support
+> > > >>   Date: Mon,  1 Feb 2021 16:59:17 -0800
+> > > >>   Message-Id: <20210202005948.241655-1-ben.widawsky@intel.com>
+> > > >>=20
+> > > >> is the current state of the support? I saw there was a fair amount=
+ of
+> > > >> discussion on the thread so assumed there would be a v4 forthcomin=
+g at
+> > > >> some point.   =20
+> > > >
+> > > > Hi Alex,
+> > > >
+> > > > There is a v4, however, we never really had a solid plan for the pr=
+imary issue
+> > > > which was around handling CXL memory expander devices properly (bot=
+h from an
+> > > > interleaving standpoint as well as having a device which hosts mult=
+iple memory
+> > > > capacities, persistent and volatile). I didn't feel it was worth se=
+nding a v4
+> > > > unless someone could say
+> > > >
+> > > > 1. we will merge what's there and fix later, or
+> > > > 2. you must have a more perfect emulation in place, or
+> > > > 3. we want to see usages for a real guest   =20
+> > >=20
+> > > I think 1. is acceptable if the community is happy there will be ongo=
+ing
+> > > development and it's not just a code dump. Given it will have a
+> > > MAINTAINERS entry I think that is demonstrated. =20
+> >=20
+> > My thought is also 1.  There are a few hacks we need to clean out but
+> > nothing that should take too long.  I'm sure it'll take a rev or two mo=
+re.
+> > Right now for example, I've added support to arm-virt and maybe need to
+> > move that over to a different machine model...
+> >  =20
+>=20
+> The most annoying thing about rebasing it is passing the ACPI tests. They=
+ keep
+> changing upstream. Being able to at least merge up to there would be huge.
+
+Guess I really need to take a look at the tests :)  It went in clean so
+I didn't poke them. Maybe we were just lucky!  A bunch of ACPI infrastructu=
+re
+had changed which was the biggest update needed + amusingly x86 kernel code=
+ now
+triggers the issue around smaller writes than the implementation supports f=
+or
+the mailbox.  For now I've just added the implementations as that removes
+a blocker on this going upstream.
+
+>=20
+> > >=20
+> > > What's the current use case? Testing drivers before real HW comes out?
+> > > Will it still be useful after real HW comes out for people wanting to
+> > > debug things without HW? =20
+> >=20
+> > CXL is continuing to expand in scope and capabilities and I don't see t=
+hat
+> > reducing any time soon (My guess is 3 years+ to just catch up with what=
+ is
+> > under discussion today).  So I see two long term use cases:
+> >=20
+> > 1) Automated verification that we haven't broken things.  I suspect no
+> > one person is going to have a test farm covering all the corner cases.
+> > So we'll need emulation + firmware + kernel based testing.
+> >  =20
+>=20
+> Does this exist in other forms? AFAICT for x86, there isn't much example =
+of
+> this.
+
+We run a bunch of stuff internally on a CI farm, targetting various trees,
+though this is a complex case because of more elements than most hardware t=
+ests
+etc.  Our friends in openEuler run a bunch more stuff as well on a mixture =
+of
+physical and emulated machines on various architectures.  The other distros=
+ have
+similar setups though perhaps don't provide as much public info as our folk=
+s do.
+We are a bit early for CXL support so far so I don't think we have
+yet moved beyond manual testing.  It'll come though as it's vital once cust=
+omers
+start caring about the hardware they bought.
+
+Otherwise, if we contribute the resources there are various other orgs who
+run tests on stable / mainline and next + various vendor trees. That stuff =
+is
+a mixture of real and virtual hardware and is used to verify stable releases
+very quickly before Greg pushes them out.
+
+Emulation based testing is easier obviously and we do some of that + I know=
+ others
+do. Once the CXL support is upstream, adding all the tuning parameters to Q=
+EMU to
+start exercising corner cases will be needed to support this.=20
+
+>=20
+> > 2) New feature prove out.  We have already used it for some features th=
+at
+> > will appear in the next spec version. Obviously I can't say what or
+> > send that code out yet.  Its very useful and the spec draft has changed
+> > in various ways a result.  I can't commit others, but Huawei will be
+> > doing more of this going forwards.  For that we need a stable base to
+> > which we add the new stuff once spec publication allows it.
+> >  =20
+>=20
+> I can't commit for Intel but I will say there's more latitude now to work=
+ on
+> projects like this compared to when I first wrote the patches. I have
+> interesting in continuing to develop this as well. I'm very interested in
+> supporting interleave and hotplug specifically.
+
+Great.=20
+
+>=20
+> > >  =20
+> > > >
+> > > > I had hoped we could merge what was there mostly as is and fix it u=
+p as we go.
+> > > > It's useful in the state it is now, and as time goes on, we find mo=
+re usecases
+> > > > for it in a VMM, and not just driver development.
+> > > >   =20
+> > > >>=20
+> > > >> Adding new subsystems to QEMU does seem to be a pain point for new
+> > > >> contributors. Patches tend to fall through the cracks of existing
+> > > >> maintainers who spend most of their time looking at stuff that dir=
+ectly
+> > > >> touches their files. There is also a reluctance to merge large chu=
+nks of
+> > > >> functionality without an identified maintainer (and maybe reviewer=
+s) who
+> > > >> can be the contact point for new patches. So in short you need:
+> > > >>=20
+> > > >>  - Maintainer Reviewed-by/Acked-by on patches that touch other sub=
+-systems   =20
+> > > >
+> > > > This is the challenging one. I have Cc'd the relevant maintainers (=
+hw/pci and
+> > > > hw/mem are the two) in the past, but I think there interest is lack=
+ing (and
+> > > > reasonably so, it is an entirely different subsystem).   =20
+> > >=20
+> > > So the best approach to that is to leave a Cc: tag in the patch itself
+> > > on your next posting so we can see the maintainer did see it but didn=
+'t
+> > > contribute a review tag. This is also a good reason to keep Message-Id
+> > > tags in patches so we can go back to the original threads.
+> > >=20
+> > > So in my latest PR you'll see:
+> > >=20
+> > >   Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+> > >   Reviewed-by: Beraldo Leal <bleal@redhat.com>
+> > >   Message-Id: <20211122191124.31620-1-willianr@redhat.com>
+> > >   Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
+> > >   Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> > >   Message-Id: <20211129140932.4115115-7-alex.bennee@linaro.org>
+> > >=20
+> > > which shows the Message-Id from Willian's original posting and the
+> > > latest Message-Id from my posting of the maintainer tree (I trim off =
+my
+> > > old ones).
+> > >  =20
+> > > >>  - Reviewed-by tags on the new sub-system patches from anyone who =
+understands CXL   =20
+> > > >
+> > > > I have/had those from Jonathan.
+> > > >   =20
+> > > >>  - Some* in-tree testing (so it doesn't quietly bitrot)   =20
+> > > >
+> > > > We had this, but it's stale now. We can bring this back up.
+> > > >   =20
+> > > >>  - A patch adding the sub-system to MAINTAINERS with identified pe=
+ople   =20
+> > > >
+> > > > That was there too. Since the original posting, I'd be happy to sig=
+n Jonathan up
+> > > > to this if he's willing.   =20
+> > >=20
+> > > Sounds good to me. =20
+> >=20
+> > Sure that's fine with me.  Ben, I'm assuming you are fine with being jo=
+int maintainer?
+> >  =20
+>=20
+> Yes, I brought it up :D. Once I land the region creation patches I should=
+ have
+> more time for a bit to circle back to this, which I'd like to do. FOSDEM =
+CFP is
+> out again, perhaps I should advertise there.
+
+Great!
+
+>=20
+> > >  =20
+> > > >> * Some means at least ensuring qtest can instantiate the device an=
+d not
+> > > >>   fall over. Obviously more testing is better but it can always be
+> > > >>   expanded on in later series.   =20
+> > > >
+> > > > This was in the patch series. It could use more testing for sure, b=
+ut I had
+> > > > basic functional testing in place via qtest.   =20
+> > >=20
+> > > More is always better but the basic qtest does ensure a device doesn't
+> > > segfault if it's instantiated. =20
+> >=20
+> > I'll confess this is a bit I haven't looked at yet. Will get Shameer to=
+ give
+> > me a hand.
+> >=20
+> > Thanks =20
+>=20
+> I'd certainly feel better if we had more tests. I also suspect the qtest =
+I wrote
+> originally no longer works. The biggest challenge I had was getting gitla=
+b CI
+> working for me.
+
+Looks like it'll be tests that slow things down. *sigh*.
+
+Why are there not enough days in the week?
+
+Jonathan
+
+>=20
+> >=20
+> > Jonathan
+> >=20
+> >  =20
+> > >  =20
+> > > >   =20
+> > > >>=20
+> > > >> Is that the feedback you were looking for?   =20
+> > > >
+> > > > You validated my assumptions as to what's needed, but your first bu=
+llet is the
+> > > > one I can't seem to pin down.
+> > > >
+> > > > Thanks.
+> > > > Ben   =20
+> > >=20
+> > >  =20
+> >  =20
+>=20
+
 
