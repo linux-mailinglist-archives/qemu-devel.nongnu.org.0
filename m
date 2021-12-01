@@ -2,62 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B1F946583F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 22:16:39 +0100 (CET)
-Received: from localhost ([::1]:40828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF8F1465855
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 22:25:00 +0100 (CET)
+Received: from localhost ([::1]:34076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msWxw-0000kA-V7
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 16:16:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59904)
+	id 1msX63-00032O-A7
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 16:24:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+91c63c4280be7436ccc6+6674+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1msWZa-0003Rd-AQ
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 15:51:27 -0500
-Received: from casper.infradead.org ([90.155.50.34]:57786)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+91c63c4280be7436ccc6+6674+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1msWZY-0000Rm-6C
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 15:51:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description;
- bh=aVzaDM2UnW4cE1jWgxkpgoXKV4dI8NPpp1xVgqgehY8=; b=F3iPys7L38phlNITEcTZVAcb6A
- RYmyP5mSjMgCXAKmRB0zUoT2G2i/M9FndjAvt7haLfS7dPbRtNWC/xciklcBU2oD7OM+oNR5l0xVQ
- HuKJoFLyAxoqLul2axFSlQmCDW3PILchHwVIL3LFA0WRepjegcoxhZWUJZ+taNoe5tEpWj+cY1QRa
- hUyXPtOgUUv92ZBndhaVycG3WQOlfNUueAFUVH3NKkkCmLQndX5TAwQufXqk/OXppwnIWOwoJho9n
- Tg1FuxGdq+FKOy/fOW3QX010yUefNEaAzvn6ydjm5BoomD43n0FlqDHIF8p4I+r6Qte7uA/iWuIs7
- 4H4YygWQ==;
-Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1msWZN-000wRW-UH; Wed, 01 Dec 2021 20:51:14 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1msWZN-000Euz-EH; Wed, 01 Dec 2021 20:51:13 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] intel_iommu: Only allow interrupt remapping to be enabled
- if it's supported
-Date: Wed,  1 Dec 2021 20:51:13 +0000
-Message-Id: <20211201205113.57299-2-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211201205113.57299-1-dwmw2@infradead.org>
-References: <20211201205113.57299-1-dwmw2@infradead.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1msX3n-0001TX-7y
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 16:22:39 -0500
+Received: from [2607:f8b0:4864:20::f32] (port=46807
+ helo=mail-qv1-xf32.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1msX3l-000498-Hk
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 16:22:38 -0500
+Received: by mail-qv1-xf32.google.com with SMTP id jo22so23001945qvb.13
+ for <qemu-devel@nongnu.org>; Wed, 01 Dec 2021 13:22:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=edVIgieuBAjoStL17JiSVArn2QeRMkRRn9jr6qWevng=;
+ b=VR29z1HwJa49LUGOwSAJIpZ6BXy9R630lz5X5zpB1wUsfvH5CZyQXnKFf5jm7XJjka
+ K8OVT+CF4DFsMufx9gjRF4j2QY3j/Ldx7gP2wQ4cGNeQyM2xxxj9CAiGrQLtulgklZlB
+ 8tzr8leHEXjimzNGqDQNrWIQ603iGLDF3cwiXghVcNctsGSs7sle6ouhre6wLgfSGT0m
+ LSKuLNyOVWsPvlTYWm2KqqdJ/F/PaNpiQWWwps4s1tsaPQ0dE7GGlIrKsT8Qub69CcVS
+ PdgcwYuGnjLAlw3vtTdER4maR87LTedFZwkfL7kCenH12qIbFnPJJPXpBipx2W0NFzsg
+ FtJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=edVIgieuBAjoStL17JiSVArn2QeRMkRRn9jr6qWevng=;
+ b=L2lfyK6C1AUg8eJwnjyoNv+Ht3klk+3qYhq95dtE65JNgfg9sRSxFFGgBUayho7OLb
+ Q/L3V3UtsJd7kkb2z3v4mbeFsXJ6cZ2PAOSe8/UBbJd9S5EeVsfFIec+mM05OUCi2FGM
+ 7tLUQHnCEhasmdWKGeR94yWKF5iGoM1zRzh9yD8w9yQ6ybXIiBsN2SV7CgARn/ovJ2aq
+ bnXZ4FKUtMbmFAibuDulPJNeRa0tfCgIZ5xFe4hgDJYStl8N0lbzru+GzeZBOLTFEBXt
+ tmNbfUCTXr3UYmF+/GcsSwFq851Qb1GEy4jnayyp/Y0wOPlNXpprlA9EwiVIgk4lHZFe
+ GzUw==
+X-Gm-Message-State: AOAM531S7ZXwSZfSKmYXC64x2IIJs6IPt9oCjpTcSlCmovpA0qOQ/+bh
+ 3C8h9+P3QByalpOQEbrvkBAu5l4oxoR5NU5sOH4=
+X-Google-Smtp-Source: ABdhPJzP0GxSnBDZDgbwzhbGtSDFGZtqCLGqnXCk8MdqQ7vIUkeuwnz84HfuiuYlCmmdfjUcCNuBLA==
+X-Received: by 2002:a05:6214:d0e:: with SMTP id
+ 14mr9013197qvh.26.1638393755489; 
+ Wed, 01 Dec 2021 13:22:35 -0800 (PST)
+Received: from [172.20.1.209] ([12.86.33.50])
+ by smtp.gmail.com with ESMTPSA id o1sm507405qtw.1.2021.12.01.13.22.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Dec 2021 13:22:35 -0800 (PST)
+Subject: Re: [PATCH v12 08/26] target/loongarch: Add fixed point atomic
+ instruction translation
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <1638346585-3436-1-git-send-email-gaosong@loongson.cn>
+ <1638346585-3436-9-git-send-email-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <dc94d613-984c-4559-b1bf-4fe32fac513d@linaro.org>
+Date: Wed, 1 Dec 2021 16:22:32 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=90.155.50.34;
- envelope-from=BATV+91c63c4280be7436ccc6+6674+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1638346585-3436-9-git-send-email-gaosong@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f32
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f32;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf32.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.211,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,46 +92,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+On 12/1/21 3:16 AM, Song Gao wrote:
+> +static bool gen_am(DisasContext *ctx, arg_rrr *a,
+> +                   void (*func)(TCGv, TCGv, TCGv, TCGArg, MemOp),
+> +                   MemOp mop)
+> +{
+> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+> +    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
+> +    TCGv val = gpr_src(ctx, a->rk, EXT_NONE);
+> +
+> +    if (a->rd != 0 && (a->rj == a->rd || a->rk == a->rd)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "Warning: source register overlaps destination register"
+> +                      "in atomic insn at pc=0x" TARGET_FMT_lx "\n",
+> +                      ctx->base.pc_next - 4);
+> +        return false;
+> +    }
+> +
+> +    func(dest, addr, val, ctx->mem_idx, mop);
+> +    gen_set_gpr(a->rd, dest, EXT_NONE);
+> +
+> +    return true;
+> +}
+> +
+> +static bool gen_am_db(DisasContext *ctx, arg_rrr *a,
+> +                      void (*func)(TCGv, TCGv, TCGv, TCGArg, MemOp),
+> +                      MemOp mop)
+> +{
+> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+> +    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
+> +    TCGv val = gpr_src(ctx, a->rk, EXT_NONE);
+> +
+> +    if (a->rd != 0 && (a->rj == a->rd || a->rk == a->rd)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "Warning: source register overlaps destination register"
+> +                      "in atomic insn at pc=0x" TARGET_FMT_lx "\n",
+> +                      ctx->base.pc_next - 4);
+> +        return false;
+> +    }
+> +
+> +    func(dest, addr, val, ctx->mem_idx, mop);
+> +    gen_set_gpr(a->rd, dest, EXT_NONE);
+> +
+> +    return true;
+> +}
 
-We should probably check if we were meant to be exposing IR, before
-letting the guest turn the IRE bit on.
+As I said before, gen_am_db may be removed, as it is identical to gen_am.
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
----
- hw/i386/intel_iommu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index ffc852d110..297e1972f8 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -2197,6 +2197,7 @@ static void vtd_handle_gcmd_ire(IntelIOMMUState *s, bool en)
- /* Handle write to Global Command Register */
- static void vtd_handle_gcmd_write(IntelIOMMUState *s)
- {
-+    X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(s);
-     uint32_t status = vtd_get_long_raw(s, DMAR_GSTS_REG);
-     uint32_t val = vtd_get_long_raw(s, DMAR_GCMD_REG);
-     uint32_t changed = status ^ val;
-@@ -2218,7 +2219,8 @@ static void vtd_handle_gcmd_write(IntelIOMMUState *s)
-         /* Set/update the interrupt remapping root-table pointer */
-         vtd_handle_gcmd_sirtp(s);
-     }
--    if (changed & VTD_GCMD_IRE) {
-+    if ((changed & VTD_GCMD_IRE) &&
-+        x86_iommu_ir_supported(x86_iommu)) {
-         /* Interrupt remap enable/disable */
-         vtd_handle_gcmd_ire(s, val & VTD_GCMD_IRE);
-     }
--- 
-2.31.1
-
+r~
 
