@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61AFB464A29
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 09:47:59 +0100 (CET)
-Received: from localhost ([::1]:55358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E73A4464A54
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 10:04:55 +0100 (CET)
+Received: from localhost ([::1]:38820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msLHS-0001l4-Dn
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 03:47:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51076)
+	id 1msLXq-0001ga-Je
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 04:04:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1msLEl-0007wu-Hq
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 03:45:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41608)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1msLWG-0000mS-Gh
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 04:03:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1msLER-00036m-Re
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 03:45:07 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1msLWD-0005uj-73
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 04:03:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638348289;
+ s=mimecast20190719; t=1638349390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UWUv6IQJKoCsDcyl9Za2ZI+9JPTQe4JIVRaHfxBv9X0=;
- b=hyHPdUeK+wxUxja+k2kp56tHi/kx4QuVUoqZSeuOHNP6YchTVgmdZjdQW0wGd0ttoPQh2X
- levcl5OnWZBDpwkABUthR29fSsTiu/g9wA+Xe+4VGVxcoWlboVzrCIv+YVNDu02YzE0Loe
- 5UUrhjzXm+hARqQP9lFWv0Ty5x1F0VM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xbMJnhvL1QYwNCrrd5aJGVSZYEwV351P4+llJiVQ8PM=;
+ b=OwZmaJXfHIkgwmIUVIMnxiubhD2juyhYciLCQy8T95/qaGArbj2f7VtDoHVJWKefBNJhvu
+ lNyq66CuicrFFcZz5M9mhtIfYvBnYNUziLU/M1hL5GvjZ8aw4oYFHQCvgX/+3OtVSUZaQ3
+ 6m4c5u23/Oa40MryPIUiLBCAS9RHwKk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-sNZHviUXNb-2UkKWkV5izA-1; Wed, 01 Dec 2021 03:44:48 -0500
-X-MC-Unique: sNZHviUXNb-2UkKWkV5izA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d18-20020adfe852000000b001985d36817cso4071194wrn.13
- for <qemu-devel@nongnu.org>; Wed, 01 Dec 2021 00:44:48 -0800 (PST)
+ us-mta-521-z7dT6TVTNf6WBTLpKqZLoA-1; Wed, 01 Dec 2021 04:03:08 -0500
+X-MC-Unique: z7dT6TVTNf6WBTLpKqZLoA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ y141-20020a1c7d93000000b0033c2ae3583fso11889519wmc.5
+ for <qemu-devel@nongnu.org>; Wed, 01 Dec 2021 01:03:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=UWUv6IQJKoCsDcyl9Za2ZI+9JPTQe4JIVRaHfxBv9X0=;
- b=dMG4rCLmok7pB+1ErxddShi4cm0lbfcaPG0V6YSq53u8BtK87Xv/Je91x2w5W3Fluh
- 0UlM3VMaXzxjILWvsOcJfbnfsDl3kgyQsSGGhzgdSdAsHaVddQ3UaiU+43zGAscIzADL
- j4nfulSMzFFa9wWU3b38bO5jsJftyLWT80cDRQ5pAObgQNDmYoYxi858wnvB8w64hsyS
- AGQub0o6fmuFd8SjahsLoQRpU5OteikztJB+0FABGOo35ckR4J0TQYgBUMcXJ1eMYsSm
- zXB0q/qtCKuHWWxpy1BkRMxjEqXlxeKKZamL+trz2xjEvxbe5IUfdQiqtqwQv+jG6t7K
- 21GA==
-X-Gm-Message-State: AOAM531EpB9JBSVl5HMJV8nfFl/s8uZfdTayTt+kBrgUoN97hK+FMdBv
- KajLzMCt8rWoehEPshz1MOzvRkbZ6H6SzP1cmJnO7UxvaoxRqYTqMT++ydOk44CB6q2JdBGIhNG
- lfrKhCa/fWBHvI6A=
-X-Received: by 2002:adf:e84e:: with SMTP id d14mr4970472wrn.472.1638348287411; 
- Wed, 01 Dec 2021 00:44:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzYKafbwzfwV1/6SJG3ZB96CMsHRQyfLTFKHtJL4cTszHVWOQquhHKTw9UV3VvQEVKUbb4eaA==
-X-Received: by 2002:adf:e84e:: with SMTP id d14mr4970448wrn.472.1638348287182; 
- Wed, 01 Dec 2021 00:44:47 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id d6sm18977263wrn.53.2021.12.01.00.44.46
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=xbMJnhvL1QYwNCrrd5aJGVSZYEwV351P4+llJiVQ8PM=;
+ b=Ru8Y6nOBMIJiy5Ly13ipBKcjRmOKF3Cw9icBqFeV2eeGlQgh4cB+kGwtgA2Wys4BpO
+ ZK8ViJDs41PNSe9gnlaaSEFVfLK0yjcmhr4JYKf9//mF6pnfMApHkeGXfzfNyhMYaQT3
+ pR6zWI11G+jQBo/b73tpM+sViBZFTDoMF4D9PqXRMJS/ZqANOBw+QzHB7wVD4KHQPb/G
+ /1ejsaORr7mPMB1fmbwcgL3xGKn3M2i6p+MPZvnX4rpMn/y4U4qcV5bYhVj+385ib1Rg
+ xJPN2huSKK9ibKr8O097TX1D2FKHqN+noBoKjXp1iHMXTV4QqNfOTvS1AsGUFiS18Zah
+ upig==
+X-Gm-Message-State: AOAM531p1PHZlvEgjfXZ1YN46MS+As/TEEruYuCGkGdawST45Zi3xYhq
+ ZALXe04xkwmqZ6t9wp2kvU00oOOiMV3pmBoohBR5JpV5iqerr+Mr3CNFIhIgSUvlrKKs2XbDAb8
+ kGFBwpjgB3vr0zfs=
+X-Received: by 2002:adf:df89:: with SMTP id z9mr5083541wrl.336.1638349387281; 
+ Wed, 01 Dec 2021 01:03:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw8PcnWSsfmaNL5LWR8g+kUQWZbQvDeo3z7fTMy9KtXVSwKxAl844VKYIysh2mB8xP2+hvA3Q==
+X-Received: by 2002:adf:df89:: with SMTP id z9mr5083491wrl.336.1638349386853; 
+ Wed, 01 Dec 2021 01:03:06 -0800 (PST)
+Received: from [192.168.3.132] (p5b0c65f1.dip0.t-ipconnect.de. [91.12.101.241])
+ by smtp.gmail.com with ESMTPSA id z5sm498200wmp.26.2021.12.01.01.03.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Dec 2021 00:44:46 -0800 (PST)
-Message-ID: <a809bd28-2083-5677-be41-f64bd09f617c@redhat.com>
-Date: Wed, 1 Dec 2021 09:44:45 +0100
+ Wed, 01 Dec 2021 01:03:06 -0800 (PST)
+Message-ID: <1ae3f686-aaa9-4402-433e-325f422275df@redhat.com>
+Date: Wed, 1 Dec 2021 10:03:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20211126162724.1162049-1-thuth@redhat.com>
- <YaSmeFqGGFlty75h@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] gitlab-ci.d/buildtest: Add jobs that run the
- device-crash-test
-In-Reply-To: <YaSmeFqGGFlty75h@redhat.com>
+ Thunderbird/91.2.0
+To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
+References: <20211130003328.201270-1-gshan@redhat.com>
+ <20211130003328.201270-2-gshan@redhat.com>
+ <be174699-17d1-f033-2228-193d1c3fb631@redhat.com>
+ <c44a9072-0f21-9321-1828-23aadea5fea3@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH 1/1] hw/arm/virt: Support for virtio-mem-pci
+In-Reply-To: <c44a9072-0f21-9321-1828-23aadea5fea3@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
+X-Spam_score_int: -56
+X-Spam_score: -5.7
 X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.211, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-2.211, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,78 +102,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com,
+ Michal Privoznik <mprivozn@redhat.com>, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, eric.auger@redhat.com, shan.gavin@gmail.com,
+ Jonathan.Cameron@huawei.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/11/2021 11.07, Daniel P. Berrangé wrote:
-> On Fri, Nov 26, 2021 at 05:27:24PM +0100, Thomas Huth wrote:
->> The device-crash-test script has been quite neglected in the past,
->> so that it bit-rot quite often. Let's add CI jobs that run this
->> script for at least some targets, so that this script does not
->> regress that easily anymore.
+>>>
+>>>     * It has been passing the tests with various combinations like 64KB
+>>>       and 4KB page sizes on host and guest, different memory device
+>>>       backends like normal, transparent huge page and HugeTLB, plus
+>>>       migration.
 >>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   .gitlab-ci.d/buildtest.yml | 23 +++++++++++++++++++++++
->>   1 file changed, 23 insertions(+)
+>> Perfect. A note that hugetlbfs isn't fully supported/safe to use until
+>> we have preallocation support in QEMU (WIP).
 >>
->> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
->> index 71d0f407ad..7e1cb0b3c2 100644
->> --- a/.gitlab-ci.d/buildtest.yml
->> +++ b/.gitlab-ci.d/buildtest.yml
->> @@ -100,6 +100,17 @@ avocado-system-debian:
->>       IMAGE: debian-amd64
->>       MAKE_CHECK_ARGS: check-avocado
->>   
->> +crash-test-debian:
->> +  extends: .native_test_job_template
->> +  needs:
->> +    - job: build-system-debian
->> +      artifacts: true
->> +  variables:
->> +    IMAGE: debian-amd64
->> +  script:
->> +    - cd build
->> +    - scripts/device-crash-test -q ./qemu-system-i386
->> +
->>   build-system-fedora:
->>     extends: .native_build_job_template
->>     needs:
->> @@ -134,6 +145,18 @@ avocado-system-fedora:
->>       IMAGE: fedora
->>       MAKE_CHECK_ARGS: check-avocado
->>   
->> +crash-test-fedora:
->> +  extends: .native_test_job_template
->> +  needs:
->> +    - job: build-system-fedora
->> +      artifacts: true
->> +  variables:
->> +    IMAGE: fedora
->> +  script:
->> +    - cd build
->> +    - scripts/device-crash-test -q ./qemu-system-ppc
->> +    - scripts/device-crash-test -q ./qemu-system-riscv32
 > 
-> I'm curious why you picked all the 32-bit architecture targets to test
-> this for, since 95% of usage these days will be on the 64-bit targets ?
-> 
-> I guess both 32-bit & 64-bit targets probably have the same set of
-> devices built mostly, but still wondering if there was a reason for
-> your choice.
+> Yes, there is some warnings raised to enlarge 'request-size' on
+> host with 64KB page size. Note that the memory backends I used
+> in the testings always have "prealloc=on" property though.
 
-There haven't been any firm reasons, it's mostly simply because the distros 
-that I picked (Fedora and Debian) only offer the 32-bit versions here. I 
-used those two distros since I wanted to pick a distro with a recent Python, 
-and one with an older version of Python, so I first wanted to go with Fedora 
-and CentOS 8. But then I remembered that  CentOS 8 will soon be EOL, and we 
-haven't decided what to do here yet (I guess we should switch to CentOS 
-Stream?), so I used Debian instead.
+1. prealloc=on
 
-  Thomas
+"prealloc=on" on the memory backend won't get the job done, because the first
+thing virtio-mem does is discard all memory in the memory backend again when
+it initializes. So it's an expensive NOP :) See
+
+https://lkml.kernel.org/r/20211130104136.40927-9-david@redhat.com
+
+for the virtio-mem "prealloc=on" option that preallocates memory when
+exposing that memory to the VM.
+
+To use huge pages in a safe way with virtio-mem, we need "reserve=off" on the
+memory backend and "prealloc=on" on the virtio-mem device. (I'm in the process
+of documenting that on virtio-mem.gitlab.io/ to make it clearer)
+
+
+2. Warning on arm64 with 64k
+
+I assume the warning you're seeing is regarding the block-size:
+
+"Read unsupported THP size: ..." followed by
+"Could not detect THP size, falling back to ..."
+
+The right thing to do for now should be to remove that sanity check:
+
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index d5a578142b..33c32afeb1 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -78,11 +78,8 @@ static uint32_t virtio_mem_thp_size(void)
+     if (g_file_get_contents(HPAGE_PMD_SIZE_PATH, &content, NULL, NULL) &&
+         !qemu_strtou64(content, &endptr, 0, &tmp) &&
+         (!endptr || *endptr == '\n')) {
+-        /*
+-         * Sanity-check the value, if it's too big (e.g., aarch64 with 64k base
+-         * pages) or weird, fallback to something smaller.
+-         */
+-        if (!tmp || !is_power_of_2(tmp) || tmp > 16 * MiB) {
++        /* Sanity-check the value and fallback to something reasonable.  */
++        if (!tmp || !is_power_of_2(tmp)) {
+             warn_report("Read unsupported THP size: %" PRIx64, tmp);
+         } else {
+             thp_size = tmp;
+
+This will not affect setups we care about ( x86-64 KVM ).
+
+It will imply that with a arm64 64k host, we can only hot(un)plug in
+512 MiB granularity when not using hugetlb witht he default block-size.
+However, that is already the case with arm64 64k guests as well.
+The suggestion will be to use arm64 4k with virtio-mem in the host and
+the guest for increased flexibility -- fortunately most distros
+already have performed the switch to 4k on arm64, so we don't really
+care IMHO.
+
+To support block_size < THP size when not using hugetlb,
+we'll have to disable THP (via MADV_NOHUGEPAGE) permanently for the memory
+region, also making sure that e.g., postcopy won't re-enable it by adding
+a proper flag (RAM_NOHUGEPAGE) to the RAMBlock. Because the issue is that
+once the guest touches some memory, we might populate a THP that would cover
+plugged and unplugged memory, which is bad.
+
+Instead of warning in virtio_mem_device_realize() when
+	vmem->block_size < virtio_mem_default_block_size(rb)
+we'd have to disable THP.
+
+
+Further, we should fixup the default THP size on arm64 in case we're
+running on an older kernel where we cannot sense the THP size:
+
+
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index d5a578142b..371cee380a 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -38,13 +38,21 @@
+  */
+ #define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)(1 * MiB))
+ 
++static uint32_t virtio_mem_default_thp_size(void)
++{
++#if defined(__aarch64__)
++    if (qemu_real_host_page_size == 64 * KiB) {
++        return 512 * MiB;
++    }
++#endif
+ #if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
+     defined(__powerpc64__)
+-#define VIRTIO_MEM_DEFAULT_THP_SIZE ((uint32_t)(2 * MiB))
++    return 2 * MiB;
+ #else
+-        /* fallback to 1 MiB (e.g., the THP size on s390x) */
+-#define VIRTIO_MEM_DEFAULT_THP_SIZE VIRTIO_MEM_MIN_BLOCK_SIZE
++    /* fallback to 1 MiB (e.g., the THP size on s390x) */
++    return VIRTIO_MEM_MIN_BLOCK_SIZE;
+ #endif
++}
+ 
+ /*
+  * We want to have a reasonable default block size such that
+@@ -90,7 +98,7 @@ static uint32_t virtio_mem_thp_size(void)
+     }
+ 
+     if (!thp_size) {
+-        thp_size = VIRTIO_MEM_DEFAULT_THP_SIZE;
++        thp_size = virtio_mem_default_thp_size();
+         warn_report("Could not detect THP size, falling back to %" PRIx64
+                     "  MiB.", thp_size / MiB);
+     }
+
+
+
+In the context of proper arm64 support, adding the above two changes
+should be good enough. If you agree, can you include them in your v2
+series as a separate patch?
+
+Supporting block_size < thp_size when not using hugetlb is a different
+work IMHO, if someone ever cares about that.
+
+
+
+Thanks!
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
