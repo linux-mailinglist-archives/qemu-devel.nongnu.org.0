@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CCE7464BE3
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 11:46:46 +0100 (CET)
-Received: from localhost ([::1]:41978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF79D464BFC
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Dec 2021 11:49:29 +0100 (CET)
+Received: from localhost ([::1]:47712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msN8P-00039R-84
-	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 05:46:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50776)
+	id 1msNB2-000701-SN
+	for lists+qemu-devel@lfdr.de; Wed, 01 Dec 2021 05:49:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1msN6K-0000tt-85
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 05:44:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32771)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1msN6M-0000xh-6K
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 05:44:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24079)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1msN6I-0002kH-Ng
- for qemu-devel@nongnu.org; Wed, 01 Dec 2021 05:44:35 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1msN6K-0002kX-3d
+ for qemu-devel@nongnu.org; Wed, 01 Dec 2021 05:44:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638355474;
+ s=mimecast20190719; t=1638355475;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sLCmzWJ25CXm2hqeSRp1LrcW2G1es/xqYCUfpXyYATc=;
- b=Teh1cGEDWdzntUpEJYkkVaQC6KJOQkUsAaWk9VDVSdobeQ8/atLjFZmDQvZiV7ZHRMdoOp
- F+JahUPSK3VgqjJPxjwAQ1DD+q+NodMb4EIIerTeM+AGoTHQc+mtJ9z9QF/sxtim6a56Hz
- qyw1fRLdNa2q9grkGfh+DiGsv3gPEPU=
+ bh=oBAOhli/hKlKw80//urIaUW9H0ri0aupi5Ohlr/SuWg=;
+ b=GM9AQpfyYttIb6UXHHJ7/MEdf0b3UzbPzPKDbDCRl2N12ZWOdqY84XM371QqJya9jsBnZ0
+ 6Bwx4UeBQJHwzCA5YR1LUCnwGOUC6r9pXuw4kk5vxT9tGz4xz9aVqWCu2/75lVXxn8FPEs
+ W2DGpTVxKusKxpT808fIyYBOb8Uzuks=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-437-v3SgMjKEOXm0wo_gEQK5pg-1; Wed, 01 Dec 2021 05:44:33 -0500
-X-MC-Unique: v3SgMjKEOXm0wo_gEQK5pg-1
+ us-mta-191-EYEMYgZXNbCkezlkXwgEcA-1; Wed, 01 Dec 2021 05:44:34 -0500
+X-MC-Unique: EYEMYgZXNbCkezlkXwgEcA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C92083DD27
- for <qemu-devel@nongnu.org>; Wed,  1 Dec 2021 10:44:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 643231006AA3
+ for <qemu-devel@nongnu.org>; Wed,  1 Dec 2021 10:44:33 +0000 (UTC)
 Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C32E60C0F;
- Wed,  1 Dec 2021 10:44:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 738FC60C0F;
+ Wed,  1 Dec 2021 10:44:32 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH for-7.0 3/4] tests/qtest: Add a function that gets a list with
- available machine types
-Date: Wed,  1 Dec 2021 11:43:46 +0100
-Message-Id: <20211201104347.51922-4-thuth@redhat.com>
+Subject: [PATCH for-7.0 4/4] tests/qtest: Add a function to check whether a
+ machine is available
+Date: Wed,  1 Dec 2021 11:43:47 +0100
+Message-Id: <20211201104347.51922-5-thuth@redhat.com>
 In-Reply-To: <20211201104347.51922-1-thuth@redhat.com>
 References: <20211201104347.51922-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -83,96 +83,84 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the upcoming patches, we will need a way to gets a list with all
-available machine types. Refactor the qtest_cb_for_every_machine()
-to split the related code out into a separate new function, and
-gather the aliases of the various machine types, too.
+It is nowadays possible to build QEMU with a reduced set of machines
+in each binary. However, the qtests still hard-code the expected
+machines and fail if the binary does not feature the required machine.
+Let's get a little bit more flexible here: Add a function that can be
+used to query whether a certain machine is available or not, and use
+it in some tests as an example (more work has to be done in other
+tests which will follow later).
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/libqtest.c | 64 ++++++++++++++++++++++++++++++++++--------
- 1 file changed, 53 insertions(+), 11 deletions(-)
+ tests/qtest/boot-serial-test.c |  3 ++-
+ tests/qtest/cdrom-test.c       |  8 +++++---
+ tests/qtest/libqos/libqtest.h  |  8 ++++++++
+ tests/qtest/libqtest.c         | 17 +++++++++++++++++
+ tests/qtest/prom-env-test.c    |  8 +++++---
+ 5 files changed, 37 insertions(+), 7 deletions(-)
 
+diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
+index 83828ba270..4d8e1343bd 100644
+--- a/tests/qtest/boot-serial-test.c
++++ b/tests/qtest/boot-serial-test.c
+@@ -285,7 +285,8 @@ int main(int argc, char *argv[])
+     g_test_init(&argc, &argv, NULL);
+ 
+     for (i = 0; tests[i].arch != NULL; i++) {
+-        if (strcmp(arch, tests[i].arch) == 0) {
++        if (g_str_equal(arch, tests[i].arch) &&
++            qtest_has_machine(tests[i].machine)) {
+             char *name = g_strdup_printf("boot-serial/%s", tests[i].machine);
+             qtest_add_data_func(name, &tests[i], test_machine);
+             g_free(name);
+diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
+index 5af944a5fb..c1fcac5c45 100644
+--- a/tests/qtest/cdrom-test.c
++++ b/tests/qtest/cdrom-test.c
+@@ -109,9 +109,11 @@ static void test_cdrom_param(gconstpointer data)
+ static void add_cdrom_param_tests(const char **machines)
+ {
+     while (*machines) {
+-        char *testname = g_strdup_printf("cdrom/param/%s", *machines);
+-        qtest_add_data_func(testname, *machines, test_cdrom_param);
+-        g_free(testname);
++        if (qtest_has_machine(*machines)) {
++            char *testname = g_strdup_printf("cdrom/param/%s", *machines);
++            qtest_add_data_func(testname, *machines, test_cdrom_param);
++            g_free(testname);
++        }
+         machines++;
+     }
+ }
+diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
+index 59e9271195..dff6b31cf0 100644
+--- a/tests/qtest/libqos/libqtest.h
++++ b/tests/qtest/libqos/libqtest.h
+@@ -710,6 +710,14 @@ QDict *qmp_fd(int fd, const char *fmt, ...) GCC_FMT_ATTR(2, 3);
+ void qtest_cb_for_every_machine(void (*cb)(const char *machine),
+                                 bool skip_old_versioned);
+ 
++/**
++ * qtest_has_machine:
++ * @machine: The machine to look for
++ *
++ * Returns: true if the machine is available in the target binary.
++ */
++bool qtest_has_machine(const char *machine);
++
+ /**
+  * qtest_qmp_device_add_qdict:
+  * @qts: QTestState instance to operate on
 diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 25aeea385b..7ae2dc4e1d 100644
+index 7ae2dc4e1d..65ed949685 100644
 --- a/tests/qtest/libqtest.c
 +++ b/tests/qtest/libqtest.c
-@@ -1321,16 +1321,29 @@ static bool qtest_is_old_versioned_machine(const char *mname)
-     return res;
+@@ -1401,6 +1401,23 @@ void qtest_cb_for_every_machine(void (*cb)(const char *machine),
+     }
  }
  
--void qtest_cb_for_every_machine(void (*cb)(const char *machine),
--                                bool skip_old_versioned)
-+struct MachInfo {
-+    char *name;
-+    char *alias;
-+};
-+
-+/*
-+ * Returns an array with pointers to the available machine names.
-+ * The terminating entry has the name set to NULL.
-+ */
-+static struct MachInfo *qtest_get_machines(void)
- {
-+    static struct MachInfo *machines;
-     QDict *response, *minfo;
-     QList *list;
-     const QListEntry *p;
-     QObject *qobj;
-     QString *qstr;
--    const char *mname;
-     QTestState *qts;
-+    int idx;
-+
-+    if (machines) {
-+        return machines;
-+    }
- 
-     qts = qtest_init("-machine none");
-     response = qtest_qmp(qts, "{ 'execute': 'query-machines' }");
-@@ -1338,25 +1351,54 @@ void qtest_cb_for_every_machine(void (*cb)(const char *machine),
-     list = qdict_get_qlist(response, "return");
-     g_assert(list);
- 
--    for (p = qlist_first(list); p; p = qlist_next(p)) {
-+    machines = g_new(struct MachInfo, qlist_size(list) + 1);
-+
-+    for (p = qlist_first(list), idx = 0; p; p = qlist_next(p), idx++) {
-         minfo = qobject_to(QDict, qlist_entry_obj(p));
-         g_assert(minfo);
-+
-         qobj = qdict_get(minfo, "name");
-         g_assert(qobj);
-         qstr = qobject_to(QString, qobj);
-         g_assert(qstr);
--        mname = qstring_get_str(qstr);
--        /* Ignore machines that cannot be used for qtests */
--        if (!strncmp("xenfv", mname, 5) || g_str_equal("xenpv", mname)) {
--            continue;
--        }
--        if (!skip_old_versioned || !qtest_is_old_versioned_machine(mname)) {
--            cb(mname);
-+        machines[idx].name = g_strdup(qstring_get_str(qstr));
-+
-+        qobj = qdict_get(minfo, "alias");
-+        if (qobj) {                               /* The alias is optional */
-+            qstr = qobject_to(QString, qobj);
-+            g_assert(qstr);
-+            machines[idx].alias = g_strdup(qstring_get_str(qstr));
-+        } else {
-+            machines[idx].alias = NULL;
-         }
-     }
- 
-     qtest_quit(qts);
-     qobject_unref(response);
-+
-+    memset(&machines[idx], 0, sizeof(struct MachInfo)); /* Terminating entry */
-+    return machines;
-+}
-+
-+void qtest_cb_for_every_machine(void (*cb)(const char *machine),
-+                                bool skip_old_versioned)
++bool qtest_has_machine(const char *machine)
 +{
 +    struct MachInfo *machines;
 +    int i;
@@ -180,19 +168,37 @@ index 25aeea385b..7ae2dc4e1d 100644
 +    machines = qtest_get_machines();
 +
 +    for (i = 0; machines[i].name != NULL; i++) {
-+        /* Ignore machines that cannot be used for qtests */
-+        if (!strncmp("xenfv", machines[i].name, 5) ||
-+            g_str_equal("xenpv", machines[i].name)) {
-+            continue;
-+        }
-+        if (!skip_old_versioned ||
-+            !qtest_is_old_versioned_machine(machines[i].name)) {
-+            cb(machines[i].name);
++        if (g_str_equal(machine, machines[i].name) ||
++            (machines[i].alias && g_str_equal(machine, machines[i].alias))) {
++            return true;
 +        }
 +    }
++
++    return false;
++}
++
+ /*
+  * Generic hot-plugging test via the device_add QMP commands.
+  */
+diff --git a/tests/qtest/prom-env-test.c b/tests/qtest/prom-env-test.c
+index f41d80154a..bdbb01d8e5 100644
+--- a/tests/qtest/prom-env-test.c
++++ b/tests/qtest/prom-env-test.c
+@@ -71,9 +71,11 @@ static void add_tests(const char *machines[])
+     char *name;
+ 
+     for (i = 0; machines[i] != NULL; i++) {
+-        name = g_strdup_printf("prom-env/%s", machines[i]);
+-        qtest_add_data_func(name, machines[i], test_machine);
+-        g_free(name);
++        if (qtest_has_machine(machines[i])) {
++            name = g_strdup_printf("prom-env/%s", machines[i]);
++            qtest_add_data_func(name, machines[i], test_machine);
++            g_free(name);
++        }
+     }
  }
  
- /*
 -- 
 2.27.0
 
