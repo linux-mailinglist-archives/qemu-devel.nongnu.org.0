@@ -2,85 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B431F466997
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 19:05:00 +0100 (CET)
-Received: from localhost ([::1]:47904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D63E4669C8
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 19:22:34 +0100 (CET)
+Received: from localhost ([::1]:34668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msqS3-00032q-H5
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 13:04:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51746)
+	id 1msqj2-0005iI-Vy
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 13:22:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1msqPf-0001Vw-AF
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 13:02:31 -0500
-Received: from [2a00:1450:4864:20::434] (port=34796
- helo=mail-wr1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1msqPd-0006hq-SI
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 13:02:31 -0500
-Received: by mail-wr1-x434.google.com with SMTP id j3so542594wrp.1
- for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 10:02:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dX/wSXVTpZA1NxTy7+0R0Y79bRCIt+KDL2YR/nH8WpQ=;
- b=ItdGfoRit+b7cvqpCYai5Qs1kamlSo+Ijl0ePhxCR8/mvGdOJalTgn4yhAT+ByEnqe
- XhiKfRPn5ZCKgoFxcYd3ymovveA1/TH43pcpkOoHwCB8mewExuCnEfysRBNSwouAn2vF
- RfIM54dE1rVHantyPajC2jZJxH3fq7r/ncuMmlOx48mmkKsgNfyWbLhkNntpda60OKAn
- cjVv8WSdrBLciQTf9ci+BzwdYqUR9afe3RbK82OdxT0uLz3CuLjOmz2uOQ3eD5ZdYg5T
- /ykUMAxGkaSaQKurnEhhxbAZEMw0gsXTgATaJx5lTNOPwVpKDzQSfxH1jbD3QfOn5HvA
- PBHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dX/wSXVTpZA1NxTy7+0R0Y79bRCIt+KDL2YR/nH8WpQ=;
- b=ZhL6dnyXoSMaOG7WMyKXGIiZ/Egns0ujqj5WB8gqyEHGml9qVNL3foNZpA/kU8h83f
- RU5vnicBqlsA7q8IvIpZkFMJYsmA0IO0cuyRxJS98/un1V8+CX7ah9v8wssRy/vV2df7
- e8fC8yzJL6TG1b8rvMmZSruqIeQhwIOVtoTJgjoQCW0DCwpens5wc+rt3UiKr1vr1POF
- lYuF6jnSpySKg3rTcguvkHqUZa2iCG59Av1vLrG8IZvXQ0Ndtq2TjBJPMEdugIDjfj4a
- Okr48+FbjbyUgiejsV8YdY39t4wZXrUsAg5GXCp+f6pvaOae2PmE2djJV4bZQuRqRJKY
- kF6Q==
-X-Gm-Message-State: AOAM531/92q5PJGnk4Qk0tondMYIJRSOUGF2e1UD4TAO1zrgA309N7K4
- O+9MOUfswfDK+OG0ZbQEBF3OzGkwJbPf0w==
-X-Google-Smtp-Source: ABdhPJwERNchc9r8qE+RvI5hdbHZ7KeRov61sJ05AaJgXG0GdqFAZOCJv4zglr2AzhZ8TlhjIr5cKg==
-X-Received: by 2002:a05:6000:110a:: with SMTP id
- z10mr16762624wrw.396.1638468148432; 
- Thu, 02 Dec 2021 10:02:28 -0800 (PST)
-Received: from [192.168.1.34] (abayonne-654-1-79-213.w86-222.abo.wanadoo.fr.
- [86.222.222.213])
- by smtp.gmail.com with ESMTPSA id l26sm377221wms.15.2021.12.02.10.02.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Dec 2021 10:02:27 -0800 (PST)
-Message-ID: <d3cfcbf5-3763-288f-19a3-0c58399e4edd@amsat.org>
-Date: Thu, 2 Dec 2021 19:02:27 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1msqiA-00053L-SY
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 13:21:38 -0500
+Received: from [2001:41c9:1:41f::167] (port=60032
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1msqi9-0002yX-1I
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 13:21:38 -0500
+Received: from [2a00:23c4:8b9f:4900:2b16:6388:bafb:d365]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1msqhr-0003Fu-KF; Thu, 02 Dec 2021 18:21:23 +0000
+To: Cornelia Huck <cohuck@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20211202164929.1119036-1-alex.bennee@linaro.org>
+ <87r1avgc9o.fsf@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <d756e6f4-cabc-5384-fb73-08e498d49bfd@ilande.co.uk>
+Date: Thu, 2 Dec 2021 18:21:19 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 0/2] MIPS misc fixes
+In-Reply-To: <87r1avgc9o.fsf@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20211130211729.7116-1-jiaxun.yang@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211130211729.7116-1-jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9f:4900:2b16:6388:bafb:d365
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH for 6.2?] Revert "vga: don't abort when adding a duplicate
+ isa-vga device"
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-3.3,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.3,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,15 +68,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/30/21 22:17, Jiaxun Yang wrote:
-> Two problems caught when I was trying to add CI job for various configurations.
-> 
-> Jiaxun Yang (2):
->   hw/mips: bootloader: Fix write_ulong
->   hw/mips/boston: Fix elf_load error detection
+On 02/12/2021 17:14, Cornelia Huck wrote:
 
-Thanks, queued to mips-fixes.
+> On Thu, Dec 02 2021, Alex Bennée <alex.bennee@linaro.org> wrote:
+> 
+>> This reverts commit 7852a77f598635a67a222b6c1463c8b46098aed2.
+>>
+>> The check is bogus as it ends up finding itself and falling over.
+>>
+>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>> Resolves: https://gitlab.com/qemu-project/qemu.git/-/issues/733
+>> ---
+>>   hw/display/vga-isa.c | 10 ----------
+>>   1 file changed, 10 deletions(-)
+>>
+>> diff --git a/hw/display/vga-isa.c b/hw/display/vga-isa.c
+>> index 8cea84f2be..90851e730b 100644
+>> --- a/hw/display/vga-isa.c
+>> +++ b/hw/display/vga-isa.c
+>> @@ -33,7 +33,6 @@
+>>   #include "hw/loader.h"
+>>   #include "hw/qdev-properties.h"
+>>   #include "qom/object.h"
+>> -#include "qapi/error.h"
+>>   
+>>   #define TYPE_ISA_VGA "isa-vga"
+>>   OBJECT_DECLARE_SIMPLE_TYPE(ISAVGAState, ISA_VGA)
+>> @@ -62,15 +61,6 @@ static void vga_isa_realizefn(DeviceState *dev, Error **errp)
+>>       MemoryRegion *vga_io_memory;
+>>       const MemoryRegionPortio *vga_ports, *vbe_ports;
+>>   
+>> -    /*
+>> -     * make sure this device is not being added twice, if so
+>> -     * exit without crashing qemu
+>> -     */
+>> -    if (object_resolve_path_type("", TYPE_ISA_VGA, NULL)) {
+> 
+> Don't you simply need to invert the check? You should get NULL back if
+> there is another device already...
+
+Yes that's correct - the existing check is simply missing a ! at the front. For an 
+existing example take a look at the the fw_cfg device:
+
+https://gitlab.com/qemu-project/qemu/-/blob/master/hw/nvram/fw_cfg.c#L1228
+https://gitlab.com/qemu-project/qemu/-/blob/master/hw/nvram/fw_cfg.c#L1125
+
+Unfortunately it seems that I also missed this when I added my R-B tag :(
+
+
+ATB,
+
+Mark.
 
