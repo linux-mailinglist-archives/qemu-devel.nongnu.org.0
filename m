@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A1E46692D
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:31:43 +0100 (CET)
-Received: from localhost ([::1]:42994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E263E466934
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:32:39 +0100 (CET)
+Received: from localhost ([::1]:45368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mspvq-0002WX-JJ
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:31:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41896)
+	id 1mspwk-0004AI-UP
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:32:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mspu9-0001Ko-NP; Thu, 02 Dec 2021 12:29:57 -0500
-Received: from [2607:f8b0:4864:20::732] (port=41524
- helo=mail-qk1-x732.google.com)
+ id 1mspvV-0002eN-Oj; Thu, 02 Dec 2021 12:31:21 -0500
+Received: from [2607:f8b0:4864:20::82f] (port=36375
+ helo=mail-qt1-x82f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mspu7-0003xW-4T; Thu, 02 Dec 2021 12:29:56 -0500
-Received: by mail-qk1-x732.google.com with SMTP id t83so656942qke.8;
- Thu, 02 Dec 2021 09:29:53 -0800 (PST)
+ id 1mspvT-0004O2-Be; Thu, 02 Dec 2021 12:31:21 -0500
+Received: by mail-qt1-x82f.google.com with SMTP id t11so493264qtw.3;
+ Thu, 02 Dec 2021 09:31:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ZzVx5VWbQj1hhVAEyk0+Oey7GRoFbWjnpTzTqyf1lkQ=;
- b=at3LxkOH8ucdCYwyZ9T5Yl9i048zuiAuqV/xPLmmDAHkgw/fjeabzgigiuS4gleN6t
- FVdbyxN56pwefxiv8jiULaVj5KRGa9HvoLoOMu6twcAuriSdqNf1ewwu5mLZkFirRDnM
- lH0tXoiW404GcQYzVwsIQF32hvx4KRqIa/K8hU1iLn9YKFxCAE9adEuYB3ly1ci06AGI
- 7dFO2OJo78nzco5MZytdttHhItLVovuejlIVNh/LunZqnnIMkkfw4DXb/JjDgWyJ4bqD
- 0FI/ysZd/rIRAYTlzNFqErTQWtp6cIalkl9SFaUuxWzhUjeZhIe7K/ChViEDvP01Z65j
- JWMg==
+ bh=xEra1hhSEH3bx6AIZw9Ft6MqsJXyjyWQeHQQTyecQak=;
+ b=b7CoH0p2YnG2Hs5IXEoTrnSscU1sNPGsEbIy+J35EmGGr3BWc099iKWspyGN76yBVk
+ fXjCsQd3tQbqOsoCkHujYpD/jN3MyxHPAnD+Ol09WzRvrlTbV12ytIiI+h9mxF+dbBMq
+ G2MTQmHJ1npZDsasOcZSICq9NAxb65eFQJ26m3L6Z9vKu8+HT/+pBMvF2OOuaHBV2dAk
+ PxoG8NB9iqH2eb4NMF5PSeUH+KEqqf6chHN9mRgFdyLkTmL+BTUhQy9sVrG1BTr0oAn/
+ 1lLoYo9eCfOhw1RZmplohlxJZxlNsMcCTFVIODVB12Z+6mn9MOUlWEHC+e2TyMDmfl23
+ YTeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ZzVx5VWbQj1hhVAEyk0+Oey7GRoFbWjnpTzTqyf1lkQ=;
- b=CY/2ZIyVB3wP8srI1RyRS7wZHaYMYlaty9vwrJOWZQMtq1UkzoB5euyKsnVeKEF/7M
- C4UFilOAc9dQ3OxwA/eE1pTKxx4oO56kHhjpxfjUC2CHPTrrOEOcrl3Awc1EtgOntNCU
- fPU/askxs7hodUJ0omphZgOk832ly5kelGbhdapcn+xrL7mi0UblNWGU8rysxGPoDA0+
- BXw3SlDreyUfEO/K1U6GPNBZI3MOe1Nkm33SRFduXhn9bqj0LGjOERyM6W1Qj2BogH5U
- 3EFnf1EevSmi8Kkl+PoOer02OWw21ZX7Mt3YH/hdOdwQ4DLCl9pw+F2mNySeEI5c3ADN
- SCmA==
-X-Gm-Message-State: AOAM5314x+r3GdvRdeHndGuGLYHVPJeAh/pO6WD3zAKKRAd3TBmtNbuv
- izM7ftREDkhVusxu6Re/i2nuJuQy87I=
-X-Google-Smtp-Source: ABdhPJycxv3cimg5mLOqUujhCaH+bKqnijV/RwP0I8v3Sq6/5M9aWDiaUU3BDllHMhLXqMX62ytP8Q==
-X-Received: by 2002:a37:68ce:: with SMTP id
- d197mr13158587qkc.693.1638466193360; 
- Thu, 02 Dec 2021 09:29:53 -0800 (PST)
+ bh=xEra1hhSEH3bx6AIZw9Ft6MqsJXyjyWQeHQQTyecQak=;
+ b=499AHPo1c9OOn6KGwPrN7NcX4PxBekS3+uC3Ig3Lt91hMOhdtNXWofhInITxpTb1Bt
+ yTw1XIm05xwHbkGpmXmuRl9gYNnRI7LKNO9LswX7uKz5cBxE1haExpGSo8GdoMMzSMlD
+ 0vyPOrfVCoNm/Klt3+U6TScgGgIdr0Sqo87omqYzLNOSnO0Pbw1rJEs+w+K8fUUvp/St
+ 7VPNSqQz1zYJqk2HVgkw+giOn9IZWHo83ChbccGcHWKshO9/GKjy/o6jhP6wUxfHyghf
+ rSNBRH8oniXcVZk8ipMz/xfTFNGuGw7W/Bk9pM+P42U+lwP1m9fBcPxdnQok13AlshEz
+ upWA==
+X-Gm-Message-State: AOAM53183l2uqInLN7hDX2nI5p6PwCP49jI7g0wBt7GsYbp54GO36EPW
+ 5q3Zx6vGaMIUAuzLJRI4MPs=
+X-Google-Smtp-Source: ABdhPJxtqHq+RWxFOWdTyVelx/Wmup9MI7X4mlbl8chLjXok9GLrjUa2nRCTJHzf0gb7US7FQMHqyw==
+X-Received: by 2002:a05:622a:186:: with SMTP id
+ s6mr15679659qtw.477.1638466277049; 
+ Thu, 02 Dec 2021 09:31:17 -0800 (PST)
 Received: from [192.168.10.222] ([177.68.212.35])
- by smtp.gmail.com with ESMTPSA id g12sm246084qtk.69.2021.12.02.09.29.51
+ by smtp.gmail.com with ESMTPSA id h22sm262739qtb.86.2021.12.02.09.31.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Dec 2021 09:29:53 -0800 (PST)
-Message-ID: <7a4086bd-d8bd-d95b-ac96-f31eb3f6b3c7@gmail.com>
-Date: Thu, 2 Dec 2021 14:29:50 -0300
+ Thu, 02 Dec 2021 09:31:16 -0800 (PST)
+Message-ID: <29908948-a2aa-1456-92c3-27cfa7cac707@gmail.com>
+Date: Thu, 2 Dec 2021 14:31:13 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 03/14] ppc/pnv: Move mapping of the PHB3 CQ regions under
- pnv_pbcq_realize()
+Subject: Re: [PATCH 04/14] ppc/pnv: Introduce support for user created PHB3
+ devices
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211202144235.1276352-1-clg@kaod.org>
- <20211202144235.1276352-4-clg@kaod.org>
+ <20211202144235.1276352-5-clg@kaod.org>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20211202144235.1276352-4-clg@kaod.org>
+In-Reply-To: <20211202144235.1276352-5-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::732
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x732.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82f.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -99,107 +99,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 12/2/21 11:42, Cédric Le Goater wrote:
-> This requires a link to the chip to add the regions under the XSCOM
-> address space. This change will help us providing support for user
-> created PHB3 devices.
+> PHB3 devices and PCI devices can now be added to the powernv8 machine
+> using :
+> 
+>    -device pnv-phb3,chip-id=0,index=1 \
+>    -device nec-usb-xhci,bus=pci.1,addr=0x0
+> 
+> The 'index' property identifies the PHB3 in the chip. In case of user
+> created devices, a lookup on 'chip-id' is required to assign the
+> owning chip.
 > 
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
->   include/hw/pci-host/pnv_phb3.h |  3 +++
->   hw/pci-host/pnv_phb3.c         |  1 +
->   hw/pci-host/pnv_phb3_pbcq.c    | 11 +++++++++++
->   hw/ppc/pnv.c                   | 14 ++------------
->   4 files changed, 17 insertions(+), 12 deletions(-)
+>   include/hw/ppc/pnv.h   |  2 ++
+>   hw/pci-host/pnv_phb3.c | 11 ++++++++++-
+>   hw/ppc/pnv.c           | 23 ++++++++++++++++++-----
+>   3 files changed, 30 insertions(+), 6 deletions(-)
 > 
-> diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
-> index e2a2e3624532..e9c13e6bd821 100644
-> --- a/include/hw/pci-host/pnv_phb3.h
-> +++ b/include/hw/pci-host/pnv_phb3.h
-> @@ -16,6 +16,7 @@
->   #include "qom/object.h"
->   
->   typedef struct PnvPHB3 PnvPHB3;
-> +typedef struct PnvChip PnvChip;
->   
->   /*
->    * PHB3 XICS Source for MSIs
-> @@ -157,6 +158,8 @@ struct PnvPHB3 {
->       PnvPHB3RootPort root;
->   
->       QLIST_HEAD(, PnvPhb3DMASpace) dma_spaces;
-> +
-> +    PnvChip *chip;
+> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+> index 6f498c8f1b5f..0710673a7fd8 100644
+> --- a/include/hw/ppc/pnv.h
+> +++ b/include/hw/ppc/pnv.h
+> @@ -215,6 +215,8 @@ struct PnvMachineState {
+>       hwaddr       fw_load_addr;
 >   };
 >   
->   uint64_t pnv_phb3_reg_read(void *opaque, hwaddr off, unsigned size);
+> +PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_id);
+> +
+>   #define PNV_FDT_ADDR          0x01000000
+>   #define PNV_TIMEBASE_FREQ     512000000ULL
+>   
 > diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-> index a7f96850055a..3aa42ef9d4b9 100644
+> index 3aa42ef9d4b9..dd1cf37288a0 100644
 > --- a/hw/pci-host/pnv_phb3.c
 > +++ b/hw/pci-host/pnv_phb3.c
-> @@ -1092,6 +1092,7 @@ static const char *pnv_phb3_root_bus_path(PCIHostState *host_bridge,
->   static Property pnv_phb3_properties[] = {
->           DEFINE_PROP_UINT32("index", PnvPHB3, phb_id, 0),
->           DEFINE_PROP_UINT32("chip-id", PnvPHB3, chip_id, 0),
-> +        DEFINE_PROP_LINK("chip", PnvPHB3, chip, TYPE_PNV_CHIP, PnvChip *),
->           DEFINE_PROP_END_OF_LIST(),
->   };
+> @@ -998,6 +998,15 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+>           return;
+>       }
 >   
-> diff --git a/hw/pci-host/pnv_phb3_pbcq.c b/hw/pci-host/pnv_phb3_pbcq.c
-> index a0526aa1eca3..c7426cd27a20 100644
-> --- a/hw/pci-host/pnv_phb3_pbcq.c
-> +++ b/hw/pci-host/pnv_phb3_pbcq.c
-> @@ -284,6 +284,17 @@ static void pnv_pbcq_realize(DeviceState *dev, Error **errp)
->       pnv_xscom_region_init(&pbcq->xscom_spci_regs, OBJECT(dev),
->                             &pnv_pbcq_spci_xscom_ops, pbcq, name,
->                             PNV_XSCOM_PBCQ_SPCI_SIZE);
+> +    /* User created devices */
+> +    if (!phb->chip) {
+> +        phb->chip = pnv_get_chip(pnv, phb->chip_id);
+> +        if (!phb->chip) {
+> +            error_setg(errp, "invalid chip id: %d", phb->chip_id);
+> +            return;
+> +        }
+> +    }
 > +
-> +    /* Populate the XSCOM address space. */
-> +    pnv_xscom_add_subregion(phb->chip,
-> +                            PNV_XSCOM_PBCQ_NEST_BASE + 0x400 * phb->phb_id,
-> +                            &pbcq->xscom_nest_regs);
-> +    pnv_xscom_add_subregion(phb->chip,
-> +                            PNV_XSCOM_PBCQ_PCI_BASE + 0x400 * phb->phb_id,
-> +                            &pbcq->xscom_pci_regs);
-> +    pnv_xscom_add_subregion(phb->chip,
-> +                            PNV_XSCOM_PBCQ_SPCI_BASE + 0x040 * phb->phb_id,
-> +                            &pbcq->xscom_spci_regs);
+>       /* LSI sources */
+>       object_property_set_link(OBJECT(&phb->lsis), "xics", OBJECT(pnv),
+>                                &error_abort);
+> @@ -1105,7 +1114,7 @@ static void pnv_phb3_class_init(ObjectClass *klass, void *data)
+>       dc->realize = pnv_phb3_realize;
+>       device_class_set_props(dc, pnv_phb3_properties);
+>       set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> -    dc->user_creatable = false;
+> +    dc->user_creatable = true;
 >   }
 >   
->   static int pnv_pbcq_dt_xscom(PnvXScomInterface *dev, void *fdt,
+>   static const TypeInfo pnv_phb3_type_info = {
 > diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 988b305398b2..de277c457838 100644
+> index de277c457838..d7fe92cb082d 100644
 > --- a/hw/ppc/pnv.c
 > +++ b/hw/ppc/pnv.c
-> @@ -1221,25 +1221,15 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
->       /* PHB3 controllers */
->       for (i = 0; i < chip->num_phbs; i++) {
->           PnvPHB3 *phb = &chip8->phbs[i];
-> -        PnvPBCQState *pbcq = &phb->pbcq;
+> @@ -1097,14 +1097,14 @@ static void pnv_chip_power8_instance_init(Object *obj)
 >   
->           object_property_set_int(OBJECT(phb), "index", i, &error_fatal);
->           object_property_set_int(OBJECT(phb), "chip-id", chip->chip_id,
->                                   &error_fatal);
-> +        object_property_set_link(OBJECT(phb), "chip", OBJECT(chip),
-> +                                 &error_fatal);
->           if (!sysbus_realize(SYS_BUS_DEVICE(phb), errp)) {
->               return;
->           }
-> -
-> -        /* Populate the XSCOM address space. */
-> -        pnv_xscom_add_subregion(chip,
-> -                                PNV_XSCOM_PBCQ_NEST_BASE + 0x400 * phb->phb_id,
-> -                                &pbcq->xscom_nest_regs);
-> -        pnv_xscom_add_subregion(chip,
-> -                                PNV_XSCOM_PBCQ_PCI_BASE + 0x400 * phb->phb_id,
-> -                                &pbcq->xscom_pci_regs);
-> -        pnv_xscom_add_subregion(chip,
-> -                                PNV_XSCOM_PBCQ_SPCI_BASE + 0x040 * phb->phb_id,
-> -                                &pbcq->xscom_spci_regs);
+>       object_initialize_child(obj, "homer", &chip8->homer, TYPE_PNV8_HOMER);
+>   
+> -    for (i = 0; i < pcc->num_phbs; i++) {
+> +    if (defaults_enabled()) {
+> +        chip->num_phbs = pcc->num_phbs;
+> +    }
+> +
+> +    for (i = 0; i < chip->num_phbs; i++) {
+>           object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV_PHB3);
 >       }
+>   
+> -    /*
+> -     * Number of PHBs is the chip default
+> -     */
+> -    chip->num_phbs = pcc->num_phbs;
 >   }
 >   
+>   static void pnv_chip_icp_realize(Pnv8Chip *chip8, Error **errp)
+> @@ -1784,6 +1784,19 @@ PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir)
+>       return NULL;
+>   }
+>   
+> +PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_id)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < pnv->num_chips; i++) {
+> +        PnvChip *chip = pnv->chips[i];
+> +        if (chip->chip_id == chip_id) {
+> +            return chip;
+> +        }
+> +    }
+> +    return NULL;
+> +}
+> +
+>   static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
+>   {
+>       PnvMachineState *pnv = PNV_MACHINE(xi);
 > 
 
