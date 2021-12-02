@@ -2,91 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF98D466975
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:54:42 +0100 (CET)
-Received: from localhost ([::1]:53684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF221466982
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:57:48 +0100 (CET)
+Received: from localhost ([::1]:33686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msqI5-0004Kv-Hv
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:54:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47956)
+	id 1msqL5-0001dF-QG
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:57:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1msqCt-0006Fh-Ds
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 12:49:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55439)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1msqCp-0004VC-Si
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 12:49:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638467354;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jnQNVgrYR9Uo6g284kt6WlLug4i0W/gDzANZAp4iwAM=;
- b=GMou3D6s+tW0Uu8eAJ72Wt86CTTDhp3HkU7LFSCZ598l2Mk2SgnKmbuiP/+L+roVfWWM4f
- IxjZKXRgZHQRFXulIBOEpKyPX8H33RolWLdkDQxsqT15YrSx0E9+9Rs1jLsjY8IMh9KFko
- rQcI8Av/YYdUlHAPtxnJ+vvRoRd2X0U=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-314-L0OQzatMPxqf4Uenllw_lw-1; Thu, 02 Dec 2021 12:49:13 -0500
-X-MC-Unique: L0OQzatMPxqf4Uenllw_lw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- h7-20020adfaa87000000b001885269a937so43641wrc.17
- for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 09:49:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1msqDU-0007Kw-0X; Thu, 02 Dec 2021 12:49:56 -0500
+Received: from [2607:f8b0:4864:20::f31] (port=34344
+ helo=mail-qv1-xf31.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1msqDK-0004YL-Fb; Thu, 02 Dec 2021 12:49:55 -0500
+Received: by mail-qv1-xf31.google.com with SMTP id i13so240314qvm.1;
+ Thu, 02 Dec 2021 09:49:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=H8nMmALg+JnfQxfZq8ZSOGPpkiqGdKng0ABvZKIgq/g=;
+ b=ZD9Wq/kTPI4NRx/mC9Te8t0WKDPemaXI1CtoMTkk9CS2J9F94GS1Qbeg+qNc6fcaLJ
+ cCOzYwJvW479GtCOcEC4WmgQznCYDqDMTBCIqeomBUfDtr1P1njpqmgzBqkTZGxoZHEQ
+ 4CEr+0WO5oiziBvZtGDSQGv9Jvr/yFnmkSAQtQtO7hPaYnDyvUzEFHgd9LLF37Rm0VCX
+ +/qWiL+dvWJX2bCX96zybb230CM7j+WNqCrEuBIGfOApvLnKN5PIP3yFO8j14QQ4RKoi
+ em4iPGTy1536XV4ocgOplfhuGdjUcRGg1OW3IIHk+pXPbmhlQF5a7INNbwOp9hxMBAkf
+ ubtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=jnQNVgrYR9Uo6g284kt6WlLug4i0W/gDzANZAp4iwAM=;
- b=587JkZUE0ZtXyRmidQnej3rmePpWJ1Tx+h8dvN5jJMz+WFloaUUK11XuOsIRzhRd/5
- PzCAzDtMlbLJozAlXpcCLL64jGig1tI7w6nu+knPoHT264GAOG/e7e5DiBJs6bwgMvFi
- bbjIUlddLeTZl6osl1Fb2BVpAUeQ5eNNI6iE00ERyok4V3ZckYOaavr/WcjuYs7Ja9oK
- esa8OlvTw/clPOfPA/LCB/5YKXyxfINzQSF8aqNrUkF3mE9DgkAQeE2wLzgAwazxzzE/
- D42s0jBsrz1LzTG0lMdEmhEIJkOFPudXB0+9QCmgDV3IkbgN3ztEHX1lRktF+BC429f0
- 1LEA==
-X-Gm-Message-State: AOAM530kKcVauJFDqNNmFzmObBV9KYW1vku/YGlaYrxaM+w04hlCNNME
- SsoDcc+5ZbdvOQkjY43h6BCLnvK5OcjFu7ykDW9uSFyAVfQlf47NIknJ+5EcsVd2qMAFFJCGNLT
- j9S0XJiAprbcTPt0=
-X-Received: by 2002:adf:dd87:: with SMTP id x7mr16291653wrl.158.1638467351821; 
- Thu, 02 Dec 2021 09:49:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxDjycK8gBEM5dCVkhqn7hIvgmrzgi2aj3/oxK/8bQppvmuRpxbHh9skdoyxSsOPsXy8+yZAg==
-X-Received: by 2002:adf:dd87:: with SMTP id x7mr16291624wrl.158.1638467351562; 
- Thu, 02 Dec 2021 09:49:11 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id 138sm2828039wma.17.2021.12.02.09.49.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Dec 2021 09:49:11 -0800 (PST)
-Date: Thu, 2 Dec 2021 17:49:09 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v3 23/23] migration: Use multifd before we check for the
- zero page
-Message-ID: <YakHFVxJ7NhOWV/D@work-vm>
-References: <20211124100617.19786-1-quintela@redhat.com>
- <20211124100617.19786-24-quintela@redhat.com>
- <Yaj+V6LstcnNERaZ@work-vm> <87fsragb58.fsf@secure.mitica>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=H8nMmALg+JnfQxfZq8ZSOGPpkiqGdKng0ABvZKIgq/g=;
+ b=4kLkvVlFyd8ty+XmC4NUW48E0pWdphl0RkUnaZoJwa7T9fVeqnkPAJ/NrzzF5/RYmQ
+ FNdeJHQfKpYQzP8zgOjC5OpOJXrqo2b7RruZYFlodajlpV8l3Q/Ag8wad3+RZC7K0GR/
+ ePsCdwHpY3jYNe4EG3eIAV+FdKB+d9YbhSOARJTmUhAg0Olrs5gFDnJJ9OFk3goledec
+ /AlM9gvYvF49KN6QHHTIFxvQOuE9tG8kaBLRwhZNV80nW3dyoEJ+tVzvl2qshnDCZ56R
+ ULN+F1mzQud7pFKTh9likFc94tBWHgFD6l8/JBbFEEXYFYkIKYCqSzV49D5zjbJ6hxO6
+ ki0g==
+X-Gm-Message-State: AOAM532b00s0B1so2v7IGuQ3E36JK/o2YVK8thxV3sY6ItrSbw9uU+t7
+ mIR3OuzpZShLPvVVJXKM9No=
+X-Google-Smtp-Source: ABdhPJxBj9M+sGSBfR4LzYOgJUuWqOhvloUPcNkWKxygKLI2wEblPPM8RaT7kB709eet1tjYFVftdw==
+X-Received: by 2002:a05:6214:c6f:: with SMTP id
+ t15mr14414169qvj.6.1638467385360; 
+ Thu, 02 Dec 2021 09:49:45 -0800 (PST)
+Received: from [192.168.10.222] ([177.68.212.35])
+ by smtp.gmail.com with ESMTPSA id i14sm366512qko.9.2021.12.02.09.49.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Dec 2021 09:49:45 -0800 (PST)
+Message-ID: <1192aade-4158-103f-abd8-5ce20153373b@gmail.com>
+Date: Thu, 2 Dec 2021 14:49:42 -0300
 MIME-Version: 1.0
-In-Reply-To: <87fsragb58.fsf@secure.mitica>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 14/14] ppc/pnv: Introduce support for user created PHB4
+ devices
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211202144235.1276352-1-clg@kaod.org>
+ <20211202144235.1276352-15-clg@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20211202144235.1276352-15-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f31
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf31.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.3,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,61 +92,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>
+Cc: Frederic Barrat <fbarrat@linux.ibm.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > * Juan Quintela (quintela@redhat.com) wrote:
-> >> So we use multifd to transmit zero pages.
-> >> 
-> >> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> >> ---
-> >>  migration/ram.c | 22 +++++++++++-----------
-> >>  1 file changed, 11 insertions(+), 11 deletions(-)
-> >> 
-> >> diff --git a/migration/ram.c b/migration/ram.c
-> >> index 57efa67f20..3ae094f653 100644
-> >> --- a/migration/ram.c
-> >> +++ b/migration/ram.c
-> >> @@ -2138,6 +2138,17 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
-> >>      ram_addr_t offset = ((ram_addr_t)pss->page) << TARGET_PAGE_BITS;
-> >>      int res;
-> >>  
-> >> +    /*
-> >> +     * Do not use multifd for:
-> >> +     * 1. Compression as the first page in the new block should be posted out
-> >> +     *    before sending the compressed page
-> >> +     * 2. In postcopy as one whole host page should be placed
-> >> +     */
-> >> +    if (!save_page_use_compression(rs) && migrate_use_multifd()
-> >> +        && !migration_in_postcopy()) {
-> >> +        return ram_save_multifd_page(rs, block, offset);
-> >> +    }
-> >> +
-> >>      if (control_save_page(rs, block, offset, &res)) {
-> >>          return res;
-> >>      }
-> >
-> > Although I don't think it currently matters, I think that should be
-> > after the control_save_page.
+
+
+On 12/2/21 11:42, Cédric Le Goater wrote:
+> PHB4 devices and PCI devices can now be added to the powernv9 machine
+> using:
 > 
-> This needs to be improved to be compatible with old versions.
+>    -device pnv-phb4-pec,chip-id=0,index=0
+>    -device nec-usb-xhci,bus=pci.0,addr=0x0
 > 
-> But .... if we don't care about RDMA, why do we care about
-> control_save_page()?
-
-That's why I said I don't think it currently matters; but the patch
-seemed a little odd since it changed this order which isn't what
-it said.
-
-Dave
-
-> Later, Juan.
+> In case of user created devices, a lookup on 'chip-id' is required to
+> assign the owning chip.
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> To be noted, that the PEC PHB4 devices can add more than one PHB4
+> devices:
+> 
+>    * PEC0 provides 1 PHB  (PHB0)
+>    * PEC1 provides 2 PHBs (PHB1 and PHB2)
+>    * PEC2 provides 3 PHBs (PHB3, PHB4 and PHB5)
+> 
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
 
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   hw/pci-host/pnv_phb4_pec.c | 19 ++++++++++++++++++-
+>   1 file changed, 18 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+> index 9b081d543057..4ee92f11945c 100644
+> --- a/hw/pci-host/pnv_phb4_pec.c
+> +++ b/hw/pci-host/pnv_phb4_pec.c
+> @@ -394,6 +394,17 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
+>       char name[64];
+>       int i;
+>   
+> +    /* User created devices */
+> +    if (!pec->chip) {
+> +        PnvMachineState *pnv = PNV_MACHINE(qdev_get_machine());
+> +
+> +        pec->chip = pnv_get_chip(pnv, pec->chip_id);
+> +        if (!pec->chip) {
+> +            error_setg(errp, "invalid chip id: %d", pec->chip_id);
+> +            return;
+> +        }
+> +    }
+> +
+>       if (pec->index >= PNV_CHIP_GET_CLASS(pec->chip)->num_pecs) {
+>           error_setg(errp, "invalid PEC index: %d", pec->index);
+>           return;
+> @@ -401,6 +412,12 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
+>   
+>       pec->num_stacks = pecc->num_stacks[pec->index];
+>   
+> +    /*
+> +     * Reparent user created devices to the chip to build correctly
+> +     * the device tree.
+> +     */
+> +    pnv_chip_parent_fixup(pec->chip, OBJECT(pec), pec->index);
+> +
+>       /* Create stacks */
+>       for (i = 0; i < pec->num_stacks; i++) {
+>           PnvPhb4PecStack *stack = &pec->stacks[i];
+> @@ -516,7 +533,7 @@ static void pnv_pec_class_init(ObjectClass *klass, void *data)
+>   
+>       dc->realize = pnv_pec_realize;
+>       device_class_set_props(dc, pnv_pec_properties);
+> -    dc->user_creatable = false;
+> +    dc->user_creatable = true;
+>   
+>       pecc->xscom_nest_base = pnv_pec_xscom_nest_base;
+>       pecc->xscom_pci_base  = pnv_pec_xscom_pci_base;
+> 
 
