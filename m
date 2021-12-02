@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0490C4661C6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 11:53:51 +0100 (CET)
-Received: from localhost ([::1]:57596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2932B4661CD
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 11:56:13 +0100 (CET)
+Received: from localhost ([::1]:59758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msjin-00026t-HG
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 05:53:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40492)
+	id 1msjl6-0003fr-8S
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 05:56:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1msjhT-0001Gl-7E
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 05:52:27 -0500
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:49231)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1msjkE-0002wG-RY
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 05:55:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1msjhQ-00039h-N5
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 05:52:26 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 5BE1A3201EAD;
- Thu,  2 Dec 2021 05:52:20 -0500 (EST)
-Received: from imap44 ([10.202.2.94])
- by compute5.internal (MEProxy); Thu, 02 Dec 2021 05:52:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- mime-version:message-id:in-reply-to:references:date:from:to
- :subject:content-type:content-transfer-encoding; s=fm3; bh=flRaU
- xOgqe7iwUi0pLNnkMGdMRxY8SV9LjVBdVMg3yc=; b=Pe+XmSHfa6AnlgGXK/Lha
- XuYrZn4vaTjr1iHGskq0eijpSNRbuyGy732duqnV04Je7bsK5DfaaaquKTqAFG7P
- 11us7miKtfrahCWBhPX+ZczR04t1kSus4D+cC7X9HTo7eHB7sm0ckTpFjuNr9zWd
- y3vrJlbN7xKzcXGDtXwJe0NN4EJZHUIEXCN0lXzKFIipWMux2Byupnfjefnhf5l7
- G7EI5tu+5LsjMn3I1YBexU+pRnkv6cWzlRwdnkMHA/gV6X2VDZzEX4gRQqYxSyEl
- 27JlvN3hx2kTfSoU6u9rbyK07BuCH8rVJXycYyIrDQqE6ChjPxGxEhdvcDV5rebV
- g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=flRaUxOgqe7iwUi0pLNnkMGdMRxY8SV9LjVBdVMg3
- yc=; b=EN3kjLBkEbhvF9sKJ+yFWhWG+TOCrfbwz73BNJRga+IbvdyW/dEtrpyHL
- f4aj61rGXolPT0AzPnxxLY10xs9o4INOYpFSAurhjoVX9Lbe//EWGM4xhqOyFj2L
- s1TQ+szuqBZhVT+ZJVOXHDOVmzpi5LMhPxNQkZS6rkDwEEE/H6DbtnzrVx1TcE2l
- SNoJ2kEPBDEMl/qcTfixKqSZjN3RES+AYGIjWbg6msNzSVll+nWnu3sKtTUDY+QP
- +Kak9A2YnFdHjMi6VUQfnP5a1Qu0qQXY/i6TruZwGhWy2Es8FyTvUM4iyzrT/zbM
- fww0HMqVXNDk/puKio5R0JhS6WsTQ==
-X-ME-Sender: <xms:Y6WoYTtyE0ozS7nKFTSyE54eIxLluHYKmy4E7eXZt53mqzvBG1S65g>
- <xme:Y6WoYUfBQsNlbbEsTSAnuls8gAm8ngKRP-bfIQOWiddo0zvd4lTkuK2NIQpFCA_LY
- 96ASuAuPII40B_oUPM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrieehgddvtdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkjghffffhvffutgfgsehtqh
- ertderreejnecuhfhrohhmpedflfhirgiguhhnucgjrghnghdfuceojhhirgiguhhnrdih
- rghnghesfhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepfeetgeekveefte
- fhgfduheegvdeuuddvieefvddvlefhfeehkeetfeeukedtfeejnecuvehluhhsthgvrhfu
- ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfh
- hlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:Y6WoYWxt5tPMK02NXs8yhRfkigSf0xA3_wLVkMRdKj9CwpDOhfOn2w>
- <xmx:Y6WoYSML3wsGPWCtKKWtwmtJK4rH3AMHEVPD73prSQMg8stb_EEZvg>
- <xmx:Y6WoYT_0gEzPl-oHmpISVzZ5dc64A8DQozFKXoG3voCASndl7A1Y7A>
- <xmx:Y6WoYQI2rRlVpG7cEjkbXdymN1zjYUktmlc4A_4BtDAOA-0FbTNiAw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 86B2CFA0AA7; Thu,  2 Dec 2021 05:52:19 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-4458-g51a91c06b2-fm-20211130.004-g51a91c06
-Mime-Version: 1.0
-Message-Id: <5466a0e1-2fad-464a-bec1-7be8b794d09c@www.fastmail.com>
-In-Reply-To: <f6d41700-94fa-d8bf-bc54-a842f0cd4873@amsat.org>
-References: <20211130211729.7116-1-jiaxun.yang@flygoat.com>
- <20211130211729.7116-2-jiaxun.yang@flygoat.com>
- <f6d41700-94fa-d8bf-bc54-a842f0cd4873@amsat.org>
-Date: Thu, 02 Dec 2021 10:51:58 +0000
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "BALATON Zoltan via" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 1/2] hw/mips: bootloader: Fix write_ulong
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=64.147.123.20;
- envelope-from=jiaxun.yang@flygoat.com; helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1msjk7-0004YI-PK
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 05:55:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638442504;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1mU78q6/jOGrvbu0LOpwEzmx2XxlfU0vgWRfaSDoL1M=;
+ b=RCDo9l7Cv8hRXUewPG1CG4jZ2DDfPfJj2ceL5MMFjqP7Miji//QlsSv10nqBtLFhOrX6/M
+ FQjBoCGgrDa87IUM8kHt7G/ostu7VwXayMNGu92lZPvHMHs8oA0vHPuN99FI5FtDMLJTTY
+ q1D6E0ouKg2haYspG1JnjJbnpbsS5hw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-311-aV2YTVaZPsuJDeqdAtHgqg-1; Thu, 02 Dec 2021 05:55:01 -0500
+X-MC-Unique: aV2YTVaZPsuJDeqdAtHgqg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48B411006AA5
+ for <qemu-devel@nongnu.org>; Thu,  2 Dec 2021 10:55:00 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EE5775F4E7;
+ Thu,  2 Dec 2021 10:54:54 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 405C1180079A; Thu,  2 Dec 2021 11:54:53 +0100 (CET)
+Date: Thu, 2 Dec 2021 11:54:53 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH] edid: set default resolution to 1280x800 (WXGA)
+Message-ID: <20211202105453.h27qsc3hlnph5y76@sirius.home.kraxel.org>
+References: <20211129140508.1745130-1-berrange@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20211129140508.1745130-1-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,59 +80,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Nov 29, 2021 at 02:05:08PM +0000, Daniel P. Berrangé wrote:
+> Currently QEMU defaults to a resolution of 1024x768 when exposing EDID
+> info to the guest OS. The EDID default info is important as this will
+> influence what resolution many guest OS will configure the screen with
+> on boot. It can also potentially influence what resolution the firmware
+> will configure the screen with, though until very recently EDK2 would
+> not handle EDID info.
 
+edk2 support is at "patches exist" level right now, not even merged,
+will hopefully land in the next stable tag (feb 22).
 
-=E5=9C=A82021=E5=B9=B411=E6=9C=8830=E6=97=A5=E5=8D=81=E4=B8=80=E6=9C=88 =
-=E4=B8=8B=E5=8D=889:52=EF=BC=8CPhilippe Mathieu-Daud=C3=A9=E5=86=99=E9=81=
-=93=EF=BC=9A
-> On 11/30/21 22:17, Jiaxun Yang wrote:
->> bl_gen_write_ulong uses sd for both 32 and 64 bit CPU,
->> while sd is illegal on 32 bit CPUs.
->>=20
->> Replace sd with sw on 32bit CPUs.
->>=20
->> Fixes: 3ebbf86 ("hw/mips: Add a bootloader helper")
->> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->> ---
->> Should be backported to 6.0 onwards.
->> ---
->>  hw/mips/bootloader.c | 6 +++++-
->>  1 file changed, 5 insertions(+), 1 deletion(-)
->>=20
->> diff --git a/hw/mips/bootloader.c b/hw/mips/bootloader.c
->> index 6ec8314490..99991f8b2b 100644
->> --- a/hw/mips/bootloader.c
->> +++ b/hw/mips/bootloader.c
->> @@ -182,7 +182,11 @@ void bl_gen_write_ulong(uint32_t **p, target_ulo=
-ng addr, target_ulong val)
->>  {
->>      bl_gen_load_ulong(p, BL_REG_K0, val);
->>      bl_gen_load_ulong(p, BL_REG_K1, addr);
->> -    bl_gen_sd(p, BL_REG_K0, BL_REG_K1, 0x0);
->> +    if (bootcpu_supports_isa(ISA_MIPS3)) {
->> +        bl_gen_sd(p, BL_REG_K0, BL_REG_K1, 0x0);
->> +    } else {
->> +        bl_gen_sw(p, BL_REG_K0, BL_REG_K1, 0x0);
->> +    }
->
-> We have bl_gen_load_ulong(); having bl_gen_store_ulong()
-> would make the API even. Mind sending a patch? Otherwise:
+Independent from that we plan to change the edk2 default resolution from
+the current 800x600 to whatever qemu 7.0 will use, be that 1280x800 (as
+suggested by this patch) or 1024x768 (current qemu default).
 
-Should I revisit this set or start another patch?
+> One important thing to bear in mind is that the default graphics card
+> driver provided by Windows will leave the display set to whatever
+> resolution was enabled by the firmware on boot. Even if sufficient
+> VRAM is available, the resolution can't be changed without installing
+> new drivers. IOW, the default resolution choice is quite important
+> for usability of Windows.
 
-Thanks.
+It's not that simple.
 
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
->>  }
->> =20
->>  void bl_gen_write_u32(uint32_t **p, target_ulong addr, uint32_t val)
->>
+With uefi firmware windows sticks to whatever resolution the firmware
+has initialized (without installing guest drivers).  The resolution can
+be changed in the firmware setup.
 
---=20
-- Jiaxun
+With bios firmware windows can change the resolution at runtime using
+vgabios calls, i.e. after completing the install you can right-click on
+the desktop, pick display config in the popup menu, then change the
+resolution.
+
+So there are ways to use other resolutions.  They are not exactly
+intuitive though and I think it makes sense to modernize the qemu
+defaults.
+
+> In considering what possible new default could be suitable, choices
+> considered were 1280x720 (720p), 1280x800 (WXGA) and 1280x1024 (SXGA).
+> 
+> In many ways, vertical space is the most important, and so 720p was
+> discarded due to loosing vertical space, despite being 25% wider.
+> 
+> The SXGA resolution would be good, but when taking into account
+> window titlebars/toolbars and window manager desktop UI, this might
+> be a little too tall for some users to fit the guest on their physical
+> montior.
+
+Yes, with FullHD (1920x1080) being a popular resolution these days
+having a 1280x1024 guest display would leave only 56 pixes for title
+bar and menus.
+
+> This patch thus suggests a modest change to 1280x800 (WXGA). This
+> only consumes 1 MB per colour channel, allowing double buffered
+> framebuffer in 8 MB of VRAM. Width wise this is 25% larger than
+> QEMU's current default, but height wise this only adds 5%, so the
+> difference isn't massive on the QEMU side.
+
+Looks like a good pick to me.
+
+In case someone wants pick that up:
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+
+Failing that I'll add that to my first post-freeze pull request.
+
+take care,
+  Gerd
+
 
