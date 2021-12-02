@@ -2,50 +2,163 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213BF465DFB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 06:44:54 +0100 (CET)
-Received: from localhost ([::1]:41462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EFAC465DB4
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 06:17:21 +0100 (CET)
+Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mseto-0007Ay-Kw
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 00:44:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46578)
+	id 1mseTA-00022b-0Q
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 00:17:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mseob-00064i-8n; Thu, 02 Dec 2021 00:39:30 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:43275)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>)
+ id 1mseR1-0000t8-Q3; Thu, 02 Dec 2021 00:15:07 -0500
+Received: from mga17.intel.com ([192.55.52.151]:43172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mseoV-0001xZ-JD; Thu, 02 Dec 2021 00:39:28 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4J4PsF00L2z4xZ4; Thu,  2 Dec 2021 16:39:12 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1638423553;
- bh=hblzcNQMH3R3vd+N4mj8V5WSorIeVsAPy8iS5dRiEHE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CWfQQeecIrQvgF/Xt9mRNIhRxo5lFheoa4Bs5YjExFFYlsl4xjxl8cV8Z8RyK9NKA
- E5EM6zJpf0r1ukM7RN9zbBf+z3RkksSED0DyUze1CSam7aLo2UR+qQ22WZfhgc13Ux
- A4e/DF8Vhee8+JkI+uAnxrRtqNSKKNIWMReO8EHk=
-Date: Thu, 2 Dec 2021 13:42:49 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v9 06/10] target/ppc: enable PMU instruction count
-Message-ID: <YagyqbzFYL0Ddv4v@yekko>
-References: <20211201151734.654994-1-danielhb413@gmail.com>
- <20211201151734.654994-7-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>)
+ id 1mseQw-0006xR-If; Thu, 02 Dec 2021 00:15:07 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10185"; a="217319744"
+X-IronPort-AV: E=Sophos;i="5.87,281,1631602800"; d="scan'208";a="217319744"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2021 21:14:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,281,1631602800"; d="scan'208";a="576626330"
+Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
+ by fmsmga004.fm.intel.com with ESMTP; 01 Dec 2021 21:14:59 -0800
+Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
+ ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 1 Dec 2021 21:14:59 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Wed, 1 Dec 2021 21:14:59 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Wed, 1 Dec 2021 21:14:58 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CWArsFVjiKNqD797RQuZNYFgMxoCyduK7s57UAtsipSGCI+YeYrXWRkeF8Gi/kq/N1uU9flt/0Uxqlxd7ybhcFd3hjl5HT8Fn41Kgwx5kR7dYjNnPpUbIavvSQYTGEl7AxekzLeFb7qFQqB+VKwD/BXitX71QEk89bB4X22r22CzvxxUsX5e55YALlCLu59clAcxhvVEybF1rcOaSmpImKmWnlKaf/HpLtozYLr/EuRGbGTyO0Ndb2spdR6FWKXpLjElM5bUBtXIjwShEyO+LEpGH0qk+vTQC2PHCvPTb+Ijw1xvse8fenjs+/Q/Ly0FI2Cnh63eRQzZsLWo74nt7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ShvqWVOzNQD475p2Fl23v4NNsb2QrEDhDKl7rJ2oIpo=;
+ b=EY1xYmRWEaABV/dGcy9lrIz3XWoOfhB/zHdGROYlnOY4FMWFG+Mm061sNPlDJk8aGT1zbkQbO772t889jJO/7IeTj3XvivPB+KSrWtwPHxm0AEFPigEhMUFVtjNOlYh81IjpfIH3LWTIqOi4KtLETbK9aigzRvVgrF0MWnYRtWv1p4rPblEXTgCq9bumtBef7/ZLMogUKhDhSbYJshYxJ7C5Pr9ZyU2mqFj3ES+Iqdpcd3YBsZbGveNe2LphSo/YtdEcX7OCOB4Tms97LtG9Tr1SC6tmJKl883fdPXqR/5eo4lBwwksf1VSe3LRBhH1WhH9g8CZ+bqdpQHJVqAdCBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ShvqWVOzNQD475p2Fl23v4NNsb2QrEDhDKl7rJ2oIpo=;
+ b=N2jU/KuEtWpBCHqCdLpQ50qi9ImSetfRs8dCzP1ViL5bKbZvSFoJmu8X3AIscFGksnG0flFeklU5XfeYZt9oB5hkRCcx74U7YoZjegr7eyd2JVoj70G2dnmTv/ueSIRuaXLHk/hNVT8/R+5mAcu34NJLEnnaNSBSQjd6lKLoGqw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM8PR11MB5640.namprd11.prod.outlook.com (2603:10b6:8:3f::14) by
+ DM4PR11MB5568.namprd11.prod.outlook.com (2603:10b6:5:39a::18) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4734.22; Thu, 2 Dec 2021 05:14:57 +0000
+Received: from DM8PR11MB5640.namprd11.prod.outlook.com
+ ([fe80::9c4d:5c63:9fdd:53da]) by DM8PR11MB5640.namprd11.prod.outlook.com
+ ([fe80::9c4d:5c63:9fdd:53da%3]) with mapi id 15.20.4755.015; Thu, 2 Dec 2021
+ 05:14:57 +0000
+Message-ID: <836f8fe3-5262-d179-a66a-325935ec7005@intel.com>
+Date: Thu, 2 Dec 2021 13:14:47 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.3.2
+Subject: Re: [PATCH] QIO: Add force_quit to the QIOChannel to ensure QIO exits
+ cleanly in some corner case
+Content-Language: en-US
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20211201075427.155702-1-lei.rao@intel.com>
+ <Yac8B76dAulyx+2T@redhat.com>
+ <DM8PR11MB5640D2F156E53A0CD644AC71FD689@DM8PR11MB5640.namprd11.prod.outlook.com>
+ <a1706788-2f28-9948-f68f-a6fd51b81fa3@virtuozzo.com>
+From: "Rao, Lei" <lei.rao@intel.com>
+In-Reply-To: <a1706788-2f28-9948-f68f-a6fd51b81fa3@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SG2PR02CA0076.apcprd02.prod.outlook.com
+ (2603:1096:4:90::16) To DM8PR11MB5640.namprd11.prod.outlook.com
+ (2603:10b6:8:3f::14)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="eiW1bt/pn4B76Lff"
-Content-Disposition: inline
-In-Reply-To: <20211201151734.654994-7-danielhb413@gmail.com>
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received: from [10.238.128.151] (192.198.142.11) by
+ SG2PR02CA0076.apcprd02.prod.outlook.com (2603:1096:4:90::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4755.11 via Frontend Transport; Thu, 2 Dec 2021 05:14:54 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dbb4c563-d439-4c0c-d121-08d9b552aecc
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5568:
+X-Microsoft-Antispam-PRVS: <DM4PR11MB5568341677AE9B038C8CF593FD699@DM4PR11MB5568.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8AcqN2D4KWohXTMZSL0+96mdaSWWG3t6SrpKNUtDTWl01h9tFpKO4NBo7tadE45r+PX5a2cjUKE2UJLPjEufQ6wrZ+NFG0goRseKVFPPPG3clYvsh5L4p4HvIwKicbLZfUGFN2TARviRSoa9YDtIhi1JGhpxaS9QIt2Hn9w18XAt2S72X4+Id3WGlYsW7mKcgujSY6YDU0b2u2EmtAOujS7H7Hc3TwXdmqOuTweUZYHTFcRtGqfrGbpyCzJT99QqVLk3AVYw4xEVhyjL998vcoJ45hS1H8hX6Qm6seoNC6sYFYSFn9wJ4KR9owGS8sff+DxKx+xQXyOfiIttuc8qNIia2cSPPosBChD7gNbn6ZguKNzKQfkorXPRHcz0goJgn3DlZrWRPR+IT4Bu5X95RIV+WtSqkNltDhV1ffCY9wGwDwzkp5CZGOkIEVviNrIt3Frb7+JPToRGMRPt0a4FjLKo4zJmsxkudRd0TnMP5dfbaL93oLqV2H6wptavk6+7oZtMkbeTBM388pTcOViTGQQqWy63Uvd2I3UwF2409ZiwcbVUkNmWf5P0ExqZB0od6zeBzYyG2Tn7pVLMp+vULUNR9xWJQBNXpB53zJicMK3cXfSMciaCBJD2svQRuq8YxcziRNTAqgJ3ljCCTdgvYXnG+6voj3rAZDbGXKTJwa0IvL7YPaYWYem6xaMztFOKAThUuorqGNMfiRqhgtutKQvqYQjuWk/OBPP2CKGPSsXCTtiqWB+OznGt3ODIK0CVqlAlQCvQjO2ASMs5nNUTgQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR11MB5640.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(83380400001)(110136005)(2906002)(66946007)(54906003)(16576012)(6666004)(66476007)(316002)(66556008)(6486002)(82960400001)(86362001)(31686004)(53546011)(8936002)(38100700002)(8676002)(186003)(30864003)(36756003)(956004)(508600001)(4326008)(2616005)(31696002)(5660300002)(26005)(21314003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OE1sc0RhUC9Gem1rSG5oQlkyMlRzSGdKYmdhN1dIVDhZM0JQMlYwYVErOUJv?=
+ =?utf-8?B?bUtzdkdtZjZYVVJRSDZKUndlTE44M1hIOW95SFNKZmZqZnRZangvQ3hTY0xH?=
+ =?utf-8?B?Tjh2Z0NmY3ZzRisybE5QMTBIaVN0TDdIY1dxbW1TTmcyZHl4RDlTY3ExbnhR?=
+ =?utf-8?B?SUIxMk5yd2lEVUdSbE9JU2xDVkJmRXNxUjFPN2dIMTFKdWVZQTM4MzBGVnZ3?=
+ =?utf-8?B?eWZEZWc4SjkzVmdCVnE0ck95ZkdHUzQyQktrcUJaNGNxMnZIMmFqODB4b0gv?=
+ =?utf-8?B?c1B4YWRYb3JidjFlNUlPYnpmOXIwNjVUZkRvZStxUG5XZk5PVjExRk1ZbjJ2?=
+ =?utf-8?B?alZFdkJoRm9wbUZSZXhaUk81blFia0I0UUpVVjExRGMwdGNrbzdJOHozOVRS?=
+ =?utf-8?B?QXYwWllTNjVSaDZKby91aDZtRzR5NUJEa2Y5dEw1Z1FrMG5GVlZRRDhiT3Ja?=
+ =?utf-8?B?Rm5xdE9LbWViTlU3RTJLRUVvVERJbkdsbDBaeFArMHdTQ1dmYVpaSTlIQ0RC?=
+ =?utf-8?B?aWJGWi9Rdlc3bm5BSlhOSkdSR1Y0NlhaVzVqbzZ5RmpoV1hldjRyeHBUUzJB?=
+ =?utf-8?B?SGlDb21jT3lsNVVvdHNKY08zUjBYUGdocEczbGdaWktKUWtHT0NacDEreXUx?=
+ =?utf-8?B?THR0a2dMUjI0T1ZUWTcvN0FLVWljK1Y5MzNoMnI2WFlPMmhEV1pBSlhsQjYr?=
+ =?utf-8?B?cnFjT2ZIZHlneXRkYnhTcWF5VzRIRVVER3BVMTZVR2dtN1RXc0lQQi9tZzFT?=
+ =?utf-8?B?bUhHaEhrYyttUjkrU3RIbUZYOFFvMzJ4b1FlZUNXYXV0Y2d6REdVc0hITFZY?=
+ =?utf-8?B?eUJyOERUUVBoaEtuaUJnQWNreXI4OVpnNlNUSGhaNjNzcHhCU2dwYzFQU0dS?=
+ =?utf-8?B?eS9SOGxJRkdSRG95b0VUUk1WMjFxTU44bGY1RG1MVUNwRFRteVNZTUlIbzFR?=
+ =?utf-8?B?NnpJUGF1Ymp4bnFPREczam9HSjB0KzVQS25vbW11UEpBQzROb1IvNmx0WEV6?=
+ =?utf-8?B?TnFDWk5FS3kwQjZxeTl3dnJBZzBzUUZKbDlLbWFmUU41Ym10WlZJa0FUcHcy?=
+ =?utf-8?B?RGFBRWJ5aEd0eHRnSkp2dnp5RDZMK2owUGZpS0Vac3JBTk4xRGpZLzBxakRH?=
+ =?utf-8?B?RUszMndOU1VEN1drV3c5RDBlL3VoZGNTWEM3TXZEUVVvSnRCcFBDK2o2a3cx?=
+ =?utf-8?B?VFluZGRFUjdiNTNBL1VmeUtkZXNZbzlFUlZvdzRkZ1hsWUVvOGpHbnAwbW84?=
+ =?utf-8?B?aUJjZ1VsSHBzUmM4eDc4aDJTNVBGTTh1eTRWZ0RQUXJiK2VSeDFtM3Y5NmN4?=
+ =?utf-8?B?ZFpVUFJ0NFhlTlIwcGd2dFFiYmhvOGF5MCtvaWxEZmVPYXlVbjVTeWdaclkx?=
+ =?utf-8?B?c0p2QnRLaFMxeVc5ZFNOeHlNMnpQR0dMTU5pMU5LY1NqeTJza2hidnI1blFt?=
+ =?utf-8?B?bXkxRDVLY2laR2tpYnRvdDJlSUEwbWhJMW14cVB6V29USkJ1U0dFT0VSV2ZX?=
+ =?utf-8?B?VVZnWTN4c3BvcDVyTGttNmxtaDBNSmtTZTZveUoySGd1YVZGeDhUb2pCUi9i?=
+ =?utf-8?B?d080dTFNK0lTdWxyKzlIbkZNcEdBR0VUbjFVTnI0T1VhbE1BZHhQOE40RlZZ?=
+ =?utf-8?B?U0tuM1g4MDVhanZVM21WVmwvVk8xNitzekhLWUtQbmhvRGJqcEoxbHMycmpD?=
+ =?utf-8?B?ZG9mVkp4dVRPREdkVVlZM1I1T1A5SjE2VG1rYU1Kd0JQZzJxTk9HclEwYlZy?=
+ =?utf-8?B?Z3p1Umh4RHNvc0w3cVduL1FtUnNoTUJqTFJPeVBMUm9UQnM1dDNqZ2lxT0VI?=
+ =?utf-8?B?cDQ0MDl4N3puWmFVaGxLNHVqZTlQZ3grVFlaZ3pNTjBHdmdOVXJsOHpZek9H?=
+ =?utf-8?B?VnhrNklIUFZhdXZ0ckNwbzRlMTh3TzN6WlZWUG9uNkJ5bXUxR1FrMFFhMklC?=
+ =?utf-8?B?WE85SUZzVG5QUkthQnE1Wit6ZmZTZElFd3UvSE5aQ296YlhwUXBaNDUyL1hl?=
+ =?utf-8?B?eDl0S3RPOEdUa3laQ01GS2dBUGpIK0c3a2J5RjNQVkN3Y1JLYUNGRFA2d0dl?=
+ =?utf-8?B?Qmw2c3VDdVpoaFp5enFIdDlYYWdXWkRFV1FaVk1ZcG01alMzaW80aUhsWE1Y?=
+ =?utf-8?B?dHpjN2xiWk1mRTg5TGUxdWJzbTRqTW9lT2NSN3NXeG92T0FHY2RTNkNaV2Rx?=
+ =?utf-8?Q?S/UvpnDT/9a7euUm3uy7f6s=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: dbb4c563-d439-4c0c-d121-08d9b552aecc
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5640.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 05:14:57.7087 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cdyqsixfz/npng4Ejs1QY522FFMtYoPrYyU06p9VLx3q8ISNwlIsyyIYteQ+eQCCA1wwvZht49wY8udzT2Y9vw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5568
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=lei.rao@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.211,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,392 +171,292 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- clg@kaod.org
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Zhang,
+ Chen" <chen.zhang@intel.com>, "hreitz@redhat.com" <hreitz@redhat.com>,
+ "eblake@redhat.com" <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Sorry, resending with correct indentation and quoting.
 
---eiW1bt/pn4B76Lff
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 12/1/2021 10:27 PM, Vladimir Sementsov-Ogievskiy wrote:
+> 01.12.2021 12:48, Rao, Lei wrote:
+>>
+>>
+>> -----Original Message-----
+>> From: Daniel P. Berrangé <berrange@redhat.com>
+>> Sent: Wednesday, December 1, 2021 5:11 PM
+>> To: Rao, Lei <lei.rao@intel.com>
+>> Cc: Zhang, Chen <chen.zhang@intel.com>; eblake@redhat.com; vsementsov@virtuozzo.com; kwolf@redhat.com; hreitz@redhat.com; qemu-block@nongnu.org; qemu-devel@nongnu.org
+>> Subject: Re: [PATCH] QIO: Add force_quit to the QIOChannel to ensure QIO exits cleanly in some corner case
+>>
+>> On Wed, Dec 01, 2021 at 03:54:27PM +0800, Rao, Lei wrote:
+>>>      We found that the QIO channel coroutine could not be awakened in some corner cases during our stress test for COLO.
+>>>      The patch fixes as follow:
+>>>          #0  0x00007fad72e24bf6 in __ppoll (fds=0x5563d75861f0, nfds=1, timeout=<optimized out>, sigmask=0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
+>>>          #1  0x00005563d6977c68 in qemu_poll_ns (fds=0x5563d75861f0, nfds=1, timeout=599999697630) at util/qemu-timer.c:348
+>>>          #2  0x00005563d697ac44 in aio_poll (ctx=0x5563d755dfa0, blocking=true) at util/aio-posix.c:669
+>>>          #3  0x00005563d68ba24f in bdrv_do_drained_begin (bs=0x5563d75ea0c0, recursive=false, parent=0x0, ignore_bds_parents=false, poll=true) at block/io.c:432
+>>>          #4  0x00005563d68ba338 in bdrv_drained_begin (bs=0x5563d75ea0c0) at block/io.c:438
+>>>          #5  0x00005563d689c6d2 in quorum_del_child (bs=0x5563d75ea0c0, child=0x5563d7908600, errp=0x7fff3cf5b960) at block/quorum.c:1063
+>>>          #6  0x00005563d684328f in bdrv_del_child (parent_bs=0x5563d75ea0c0, child=0x5563d7908600, errp=0x7fff3cf5b960) at block.c:6568
+>>>          #7  0x00005563d658499e in qmp_x_blockdev_change (parent=0x5563d80ec4c0 "colo-disk0", has_child=true, child=0x5563d7577d30 "children.1", has_node=false, node=0x0,errp=0x7fff3cf5b960) at blockdev.c:4494
+>>>          #8  0x00005563d67e8b4e in qmp_marshal_x_blockdev_change (args=0x7fad6400ada0, ret=0x7fff3cf5b9f8, errp=0x7fff3cf5b9f0) at qapi/qapi-commands-block-core.c:1538
+>>>          #9  0x00005563d691cd9e in do_qmp_dispatch (cmds=0x5563d719a4f0 <qmp_commands>, request=0x7fad64009d80, allow_oob=true, errp=0x7fff3cf5ba98)
+>>>              at qapi/qmp-dispatch.c:132
+>>>          #10 0x00005563d691cfab in qmp_dispatch (cmds=0x5563d719a4f0 <qmp_commands>, request=0x7fad64009d80, allow_oob=true) at qapi/qmp-dispatch.c:175
+>>>          #11 0x00005563d67b7787 in monitor_qmp_dispatch (mon=0x5563d7605d40, req=0x7fad64009d80) at monitor/qmp.c:145
+>>>          #12 0x00005563d67b7b24 in monitor_qmp_bh_dispatcher (data=0x0) at monitor/qmp.c:234
+>>>          #13 0x00005563d69754c2 in aio_bh_call (bh=0x5563d7473230) at util/async.c:89
+>>>          #14 0x00005563d697555e in aio_bh_poll (ctx=0x5563d7471da0) at util/async.c:117
+>>>          #15 0x00005563d697a423 in aio_dispatch (ctx=0x5563d7471da0) at util/aio-posix.c:459
+>>>          #16 0x00005563d6975917 in aio_ctx_dispatch (source=0x5563d7471da0, callback=0x0, user_data=0x0) at util/async.c:260
+>>>          #17 0x00007fad730e1fbd in g_main_context_dispatch () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+>>>          #18 0x00005563d6978cda in glib_pollfds_poll () at util/main-loop.c:219
+>>>          #19 0x00005563d6978d58 in os_host_main_loop_wait (timeout=977650) at util/main-loop.c:242
+>>>          #20 0x00005563d6978e69 in main_loop_wait (nonblocking=0) at util/main-loop.c:518
+>>>          #21 0x00005563d658f5ed in main_loop () at vl.c:1814
+>>>          #22 0x00005563d6596bb7 in main (argc=61, argv=0x7fff3cf5c0c8,
+>>> envp=0x7fff3cf5c2b8) at vl.c:450
+>>>
+>>>      From the call trace, we can see that the QEMU main thread is waiting for the in_flight return to zero. But the in_filght never reaches 0.
+>>>      After analysis, the root cause is that the coroutine of NBD was not awakened. Although this bug was found in the COLO test, I think this is a
+>>>      universal problem in the QIO module. This issue also affects other modules depending on QIO such as NBD. We dump the following data:
+>>>      $2 = {
+>>>        in_flight = 2,
+>>>        state = NBD_CLIENT_QUIT,
+>>>        connect_status = 0,
+>>>        connect_err = 0x0,
+>>>        wait_in_flight = false,
+>>>        requests = {{
+>>>            coroutine = 0x0,
+>>>            offset = 273077071872,
+>>>            receiving = false,
+>>>          }, {
+>>>            coroutine = 0x7f1164571df0,
+>>>            offset = 498792529920,
+>>>            receiving = false,
+>>>          }, {
+>>>            coroutine = 0x0,
+>>>            offset = 500663590912,
+>>>            receiving = false,
+>>>          }, {
+>>>            ...
+>>>          } },
+>>>        reply = {
+>>>          simple = {
+>>>            magic = 1732535960,
+>>>            error = 0,
+>>>            handle = 0
+>>>          },
+>>>          structured = {
+>>>            magic = 1732535960,
+>>>            flags = 0,
+>>>            type = 0,
+>>>            handle = 0,
+>>>            length = 0
+>>>          },
+>>>          {
+>>>            magic = 1732535960,
+>>>            _skip = 0,
+>>>            handle = 0
+>>>          }
+>>>        },
+>>>        bs = 0x7f11640e2140,
+>>>        reconnect_delay = 0,
+>>>        saddr = 0x7f11640e1f80,
+>>>        export = 0x7f11640dc560 "parent0",
+>>>      }
+>>>      From the data, we can see the coroutine of NBD does not exit normally when killing the NBD server(we kill the Secondary VM in the COLO stress test).
+>>>      Then it will not execute in_flight--. So, the QEMU main thread will hang here. Further analysis, I found the coroutine of NBD will yield
+>>>      in nbd_send_request() or qio_channel_write_all() in nbd_co_send_request. By the way, the yield is due to the kernel return EAGAIN(under the stress test).
+>>>      However, NBD didn't know it would yield here. So, the nbd_recv_coroutines_wake won't wake it up because req->receiving is false. if the NBD server
+>>>      is terminated abnormally at the same time. The G_IO_OUT will be invalid, the coroutine will never be awakened. In addition, the s->ioc will be released
+>>>      immediately. if we force to wake up the coroutine of NBD, access to the ioc->xxx will cause segment fault. Finally, I add a state named force_quit to
+>>>      the QIOChannel to ensure that QIO will exit immediately. And I add the function of qio_channel_coroutines_wake to wake it up.
+> 
+> If qio_channel_shutdown() can't kill request that is in qio_channel_write_all() - it's not a reponsibility of nbd driver, qio channel layer should take care of this..
+> 
+> Or, you probably need some keep-alive settings set up.
+> 
+>>>
+>>> Signed-off-by: Lei Rao <lei.rao@intel.com>
+>>> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+>>> ---
+>>>   block/nbd.c          |  5 +++++
+>>>   include/io/channel.h | 19 +++++++++++++++++++
+>>>   io/channel.c         | 22 ++++++++++++++++++++++
+>>>   3 files changed, 46 insertions(+)
+>>>
+>>> diff --git a/block/nbd.c b/block/nbd.c index 5ef462db1b..5ee4eaaf57
+>>> 100644
+>>> --- a/block/nbd.c
+>>> +++ b/block/nbd.c
+>>> @@ -208,6 +208,8 @@ static void nbd_teardown_connection(BlockDriverState *bs)
+>>>       assert(!s->in_flight);
+>>>       if (s->ioc) {
+>>> +        qio_channel_set_force_quit(s->ioc, true);
+>>> +        qio_channel_coroutines_wake(s->ioc);
+>>>           qio_channel_shutdown(s->ioc, QIO_CHANNEL_SHUTDOWN_BOTH,
+>>> NULL);
+>>
+>> Calling shutdown here should already be causing the qio_chanel_readv_all to wakeup and break out of its
+>> poll() loop. We shouldn't need to add a second way to break out of the poll().
+>>
+>> Calling shutdown can wake up the coroutines which is polling. But I think it's not enough. I tried to forcibly wake up the NBD coroutine,
+>> It may cause segment fault. The root cause is that it will continue to access ioc->xxx in qio_channel_yield(), but the ioc has been released and set it NULL such as in
+>> nbd_co_do_establish_connection(); I think call shutdown will have the same result. So, I add the force_quit, once set it true, it will immediately exit without accessing IOC.
+>>
+> 
+> What do you mean by "the NBD coroutine" and by "forcibly wake up"?
+> 
+> In recent Qemu there is no specific NBD coroutine. Only request coroutines should exist.
+> 
+> Forcibly waking up any coroutine is generally unsafe in Qemu, most of the code is not prepared for this, crash is normal result for such try.
+> 
+> Also, there is good mechanism to debug coroutines in gdb:
+> 
+> source scripts/qemu-gdb.py
+> qemu coroutine <coroutine pointer>
+> 
+> - it will dump stack trace of a coroutine, it may help.
+> 
+> Also, to find coroutines look at bs->tracked_requests list, all requests of bs are in the list with coroutine pointers in .co field.
 
-On Wed, Dec 01, 2021 at 12:17:30PM -0300, Daniel Henrique Barboza wrote:
-> The PMU is already counting cycles by calculating time elapsed in
-> nanoseconds. Counting instructions is a different matter and requires
-> another approach.
->=20
-> This patch adds the capability of counting completed instructions (Perf
-> event PM_INST_CMPL) by counting the amount of instructions translated in
-> each translation block right before exiting it.
->=20
-> A new pmu_count_insns() helper in translation.c was added to do that.
-> After verifying that the PMU is counting instructions, call
-> helper_insns_inc(). This new helper from power8-pmu.c will add the
-> instructions to the relevant counters. It'll also be responsible for
-> triggering counter negative overflows as it is already being done with
-> cycles.
->=20
-> To verify whether the PMU is counting instructions or now, a new hflags
-> named 'HFLAGS_INSN_CNT' is introduced. This flag will match the internal
-> state of the PMU. We're be using this flag to avoid calling
-> helper_insn_inc() when we do not have a valid instruction event being
-> sampled.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+I am sorry for the unclear description. The NBD coroutine means the request coroutines.
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+About "the forcibly wake up" I just set the receiving to true before qio_channel_writev_all() in nbd_co_send_request()
+to ensure that the request coroutines can be awakened by nbd_recv_coroutine_wake_one(). But that's just a test.
 
-> ---
->  target/ppc/cpu.h                 |  1 +
->  target/ppc/helper.h              |  1 +
->  target/ppc/helper_regs.c         |  7 ++++
->  target/ppc/power8-pmu-regs.c.inc |  6 +++
->  target/ppc/power8-pmu.c          | 67 +++++++++++++++++++++++++++++++-
->  target/ppc/power8-pmu.h          |  1 +
->  target/ppc/translate.c           | 64 ++++++++++++++++++++++++++++++
->  7 files changed, 146 insertions(+), 1 deletion(-)
->=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index f562d5b933..28a185fb25 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -655,6 +655,7 @@ enum {
->      HFLAGS_PR =3D 14,  /* MSR_PR */
->      HFLAGS_PMCC0 =3D 15,  /* MMCR0 PMCC bit 0 */
->      HFLAGS_PMCC1 =3D 16,  /* MMCR0 PMCC bit 1 */
-> +    HFLAGS_INSN_CNT =3D 17, /* PMU instruction count enabled */
->      HFLAGS_VSX =3D 23, /* MSR_VSX if cpu has VSX */
->      HFLAGS_VR =3D 25,  /* MSR_VR if cpu has VRE */
-> =20
-> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index 94b4690375..d8a23e054a 100644
-> --- a/target/ppc/helper.h
-> +++ b/target/ppc/helper.h
-> @@ -24,6 +24,7 @@ DEF_HELPER_2(store_mmcr0, void, env, tl)
->  DEF_HELPER_2(store_mmcr1, void, env, tl)
->  DEF_HELPER_3(store_pmc, void, env, i32, i64)
->  DEF_HELPER_2(read_pmc, tl, env, i32)
-> +DEF_HELPER_2(insns_inc, void, env, i32)
->  #endif
->  DEF_HELPER_1(check_tlb_flush_local, void, env)
->  DEF_HELPER_1(check_tlb_flush_global, void, env)
-> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-> index 99562edd57..b847928842 100644
-> --- a/target/ppc/helper_regs.c
-> +++ b/target/ppc/helper_regs.c
-> @@ -23,6 +23,7 @@
->  #include "exec/exec-all.h"
->  #include "sysemu/kvm.h"
->  #include "helper_regs.h"
-> +#include "power8-pmu.h"
-> =20
->  /* Swap temporary saved registers with GPRs */
->  void hreg_swap_gpr_tgpr(CPUPPCState *env)
-> @@ -121,6 +122,12 @@ static uint32_t hreg_compute_hflags_value(CPUPPCStat=
-e *env)
->          hflags |=3D 1 << HFLAGS_HV;
->      }
-> =20
-> +#if defined(TARGET_PPC64)
-> +    if (pmu_insn_cnt_enabled(env)) {
-> +        hflags |=3D 1 << HFLAGS_INSN_CNT;
-> +    }
-> +#endif
-> +
->      /*
->       * This is our encoding for server processors. The architecture
->       * specifies that there is no such thing as userspace with
-> diff --git a/target/ppc/power8-pmu-regs.c.inc b/target/ppc/power8-pmu-reg=
-s.c.inc
-> index 25b13ad564..2bab6cece7 100644
-> --- a/target/ppc/power8-pmu-regs.c.inc
-> +++ b/target/ppc/power8-pmu-regs.c.inc
-> @@ -113,6 +113,12 @@ static void write_MMCR0_common(DisasContext *ctx, TC=
-Gv val)
->       */
->      gen_icount_io_start(ctx);
->      gen_helper_store_mmcr0(cpu_env, val);
-> +
-> +    /*
-> +     * End the translation block because MMCR0 writes can change
-> +     * ctx->pmu_insn_cnt.
-> +     */
-> +    ctx->base.is_jmp =3D DISAS_EXIT_UPDATE;
->  }
-> =20
->  void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
-> diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-> index 399234a2fc..e163ba5640 100644
-> --- a/target/ppc/power8-pmu.c
-> +++ b/target/ppc/power8-pmu.c
-> @@ -112,6 +112,54 @@ static PMUEventType pmc_get_event(CPUPPCState *env, =
-int sprn)
->      return evt_type;
->  }
-> =20
-> +bool pmu_insn_cnt_enabled(CPUPPCState *env)
-> +{
-> +    int sprn;
-> +
-> +    for (sprn =3D SPR_POWER_PMC1; sprn <=3D SPR_POWER_PMC5; sprn++) {
-> +        if (pmc_get_event(env, sprn) =3D=3D PMU_EVENT_INSTRUCTIONS) {
-> +            return true;
-> +        }
-> +    }
-> +
-> +    return false;
-> +}
-> +
-> +static bool pmu_increment_insns(CPUPPCState *env, uint32_t num_insns)
-> +{
-> +    bool overflow_triggered =3D false;
-> +    int sprn;
-> +
-> +    /* PMC6 never counts instructions */
-> +    for (sprn =3D SPR_POWER_PMC1; sprn <=3D SPR_POWER_PMC5; sprn++) {
-> +        if (pmc_get_event(env, sprn) !=3D PMU_EVENT_INSTRUCTIONS) {
-> +            continue;
-> +        }
-> +
-> +        env->spr[sprn] +=3D num_insns;
-> +
-> +        if (env->spr[sprn] >=3D PMC_COUNTER_NEGATIVE_VAL &&
-> +            pmc_has_overflow_enabled(env, sprn)) {
-> +
-> +            overflow_triggered =3D true;
-> +
-> +            /*
-> +             * The real PMU will always trigger a counter overflow with
-> +             * PMC_COUNTER_NEGATIVE_VAL. We don't have an easy way to
-> +             * do that since we're counting block of instructions at
-> +             * the end of each translation block, and we're probably
-> +             * passing this value at this point.
-> +             *
-> +             * Let's write PMC_COUNTER_NEGATIVE_VAL to the overflowed
-> +             * counter to simulate what the real hardware would do.
-> +             */
-> +            env->spr[sprn] =3D PMC_COUNTER_NEGATIVE_VAL;
-> +        }
-> +    }
-> +
-> +    return overflow_triggered;
-> +}
-> +
->  static void pmu_update_cycles(CPUPPCState *env)
->  {
->      uint64_t now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> @@ -195,7 +243,7 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulon=
-g value)
-> =20
->      env->spr[SPR_POWER_MMCR0] =3D value;
-> =20
-> -    /* MMCR0 writes can change HFLAGS_PMCCCLEAR */
-> +    /* MMCR0 writes can change HFLAGS_PMCCCLEAR and HFLAGS_INSN_CNT */
->      hreg_compute_hflags(env);
-> =20
->      /* Update cycle overflow timers with the current MMCR0 state */
-> @@ -207,6 +255,9 @@ void helper_store_mmcr1(CPUPPCState *env, uint64_t va=
-lue)
->      pmu_update_cycles(env);
-> =20
->      env->spr[SPR_POWER_MMCR1] =3D value;
-> +
-> +    /* MMCR1 writes can change HFLAGS_INSN_CNT */
-> +    hreg_compute_hflags(env);
->  }
-> =20
->  target_ulong helper_read_pmc(CPUPPCState *env, uint32_t sprn)
-> @@ -237,6 +288,20 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
->      return;
->  }
-> =20
-> +/* This helper assumes that the PMC is running. */
-> +void helper_insns_inc(CPUPPCState *env, uint32_t num_insns)
-> +{
-> +    bool overflow_triggered;
-> +    PowerPCCPU *cpu;
-> +
-> +    overflow_triggered =3D pmu_increment_insns(env, num_insns);
-> +
-> +    if (overflow_triggered) {
-> +        cpu =3D env_archcpu(env);
-> +        fire_PMC_interrupt(cpu);
-> +    }
-> +}
-> +
->  static void cpu_ppc_pmu_timer_cb(void *opaque)
->  {
->      PowerPCCPU *cpu =3D opaque;
-> diff --git a/target/ppc/power8-pmu.h b/target/ppc/power8-pmu.h
-> index 49a813a443..3ee4b4cda5 100644
-> --- a/target/ppc/power8-pmu.h
-> +++ b/target/ppc/power8-pmu.h
-> @@ -21,5 +21,6 @@
->  #include "qemu/main-loop.h"
-> =20
->  void cpu_ppc_pmu_init(CPUPPCState *env);
-> +bool pmu_insn_cnt_enabled(CPUPPCState *env);
-> =20
->  #endif
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 9960df6e18..896b916021 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -177,6 +177,7 @@ struct DisasContext {
->      bool hr;
->      bool mmcr0_pmcc0;
->      bool mmcr0_pmcc1;
-> +    bool pmu_insn_cnt;
->      ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
->      int singlestep_enabled;
->      uint32_t flags;
-> @@ -4170,6 +4171,49 @@ static inline void gen_update_cfar(DisasContext *c=
-tx, target_ulong nip)
->  #endif
->  }
-> =20
-> +#if defined(TARGET_PPC64)
-> +static void pmu_count_insns(DisasContext *ctx)
-> +{
-> +    /*
-> +     * Do not bother calling the helper if the PMU isn't counting
-> +     * instructions.
-> +     */
-> +    if (!ctx->pmu_insn_cnt) {
-> +        return;
-> +    }
-> +
-> + #if !defined(CONFIG_USER_ONLY)
-> +    /*
-> +     * The PMU insns_inc() helper stops the internal PMU timer if a
-> +     * counter overflows happens. In that case, if the guest is
-> +     * running with icount and we do not handle it beforehand,
-> +     * the helper can trigger a 'bad icount read'.
-> +     */
-> +    gen_icount_io_start(ctx);
-> +
-> +    gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
-> +#else
-> +    /*
-> +     * User mode can read (but not write) PMC5 and start/stop
-> +     * the PMU via MMCR0_FC. In this case just increment
-> +     * PMC5 with base.num_insns.
-> +     */
-> +    TCGv t0 =3D tcg_temp_new();
-> +
-> +    gen_load_spr(t0, SPR_POWER_PMC5);
-> +    tcg_gen_addi_tl(t0, t0, ctx->base.num_insns);
-> +    gen_store_spr(SPR_POWER_PMC5, t0);
-> +
-> +    tcg_temp_free(t0);
-> +#endif /* #if !defined(CONFIG_USER_ONLY) */
-> +}
-> +#else
-> +static void pmu_count_insns(DisasContext *ctx)
-> +{
-> +    return;
-> +}
-> +#endif /* #if defined(TARGET_PPC64) */
-> +
->  static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
->  {
->      return translator_use_goto_tb(&ctx->base, dest);
-> @@ -4180,6 +4224,14 @@ static void gen_lookup_and_goto_ptr(DisasContext *=
-ctx)
->      if (unlikely(ctx->singlestep_enabled)) {
->          gen_debug_exception(ctx);
->      } else {
-> +        /*
-> +         * tcg_gen_lookup_and_goto_ptr will exit the TB if
-> +         * CF_NO_GOTO_PTR is set. Count insns now.
-> +         */
-> +        if (ctx->base.tb->flags & CF_NO_GOTO_PTR) {
-> +            pmu_count_insns(ctx);
-> +        }
-> +
->          tcg_gen_lookup_and_goto_ptr();
->      }
->  }
-> @@ -4191,6 +4243,7 @@ static void gen_goto_tb(DisasContext *ctx, int n, t=
-arget_ulong dest)
->          dest =3D (uint32_t) dest;
->      }
->      if (use_goto_tb(ctx, dest)) {
-> +        pmu_count_insns(ctx);
->          tcg_gen_goto_tb(n);
->          tcg_gen_movi_tl(cpu_nip, dest & ~3);
->          tcg_gen_exit_tb(ctx->base.tb, n);
-> @@ -8458,6 +8511,7 @@ static void ppc_tr_init_disas_context(DisasContextB=
-ase *dcbase, CPUState *cs)
->      ctx->hr =3D (hflags >> HFLAGS_HR) & 1;
->      ctx->mmcr0_pmcc0 =3D (hflags >> HFLAGS_PMCC0) & 1;
->      ctx->mmcr0_pmcc1 =3D (hflags >> HFLAGS_PMCC1) & 1;
-> +    ctx->pmu_insn_cnt =3D (hflags >> HFLAGS_INSN_CNT) & 1;
-> =20
->      ctx->singlestep_enabled =3D 0;
->      if ((hflags >> HFLAGS_SE) & 1) {
-> @@ -8564,6 +8618,7 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase=
-, CPUState *cs)
->      switch (is_jmp) {
->      case DISAS_TOO_MANY:
->          if (use_goto_tb(ctx, nip)) {
-> +            pmu_count_insns(ctx);
->              tcg_gen_goto_tb(0);
->              gen_update_nip(ctx, nip);
->              tcg_gen_exit_tb(ctx->base.tb, 0);
-> @@ -8574,6 +8629,14 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbas=
-e, CPUState *cs)
->          gen_update_nip(ctx, nip);
->          /* fall through */
->      case DISAS_CHAIN:
-> +        /*
-> +         * tcg_gen_lookup_and_goto_ptr will exit the TB if
-> +         * CF_NO_GOTO_PTR is set. Count insns now.
-> +         */
-> +        if (ctx->base.tb->flags & CF_NO_GOTO_PTR) {
-> +            pmu_count_insns(ctx);
-> +        }
-> +
->          tcg_gen_lookup_and_goto_ptr();
->          break;
-> =20
-> @@ -8581,6 +8644,7 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase=
-, CPUState *cs)
->          gen_update_nip(ctx, nip);
->          /* fall through */
->      case DISAS_EXIT:
-> +        pmu_count_insns(ctx);
->          tcg_gen_exit_tb(NULL, 0);
->          break;
-> =20
+The issue is, only waking up the request coroutine or shutdown the QIO is not enough because there will be a synchronization issue.
+For example, When the NBD request coroutine is awakened in qio_channel_writev_full_all(), it will continue to access the ioc->xxx,
+but the ioc has been set to NULL in nbd_co_do_establish_connection(); it will cause segment fault.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Since this is caused by QIO yielding that the upper layer is not aware of, How about we don't yield in QIO?
+That is, when the request can't be sent, QIO can return to the caller directly, so the caller can decide whether to yield or not.
 
---eiW1bt/pn4B76Lff
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
+Lei
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGoMqcACgkQbDjKyiDZ
-s5LmEQ//XL7SUBnPxdCKFuHmPcQb0msj20UTaVagKvGflJ+SggklFa3VT+tmrFWV
-gj3s2Lzh1SvT+w4/gn9/XdonUQDM51MEDVML186JE9w7qqn94ZXkQ6qPumTpwJlu
-Z7eL3iT1wML7LTTCf4UYaUM1Hs/6txwF8VJNNUMrZV1uy+jarvguRMvtO2BUa8OD
-B9bZ3PRNFB4MByCk/wQvS2uUYWXBT72/8Ju4j7NWKk3c9qg3yEeLPH6hz38Gb7ye
-KOcFyyfqWvae8P2CTIGopEY53V9xYQF0ZpQuY/nqEjJ78y3Sc9KsGE20TgKqYZpl
-939NADxuJLiTW/vxRFhlXip2x1vLkDhI8QkgtCHuTZqkgSv8V6TeR9rdv1kkB2eM
-rHdEtg88qltPYlEDlZ478sjaod/V7dP57WXJzu9+SSdOulWqTpc+81e/PDKHAsIT
-YI69TyPz5fEjUeYEHJ+2jDu3l5JXZUG4Vvp7PgT89Cdgzw/zEHkDVWDqHCv0Oyy6
-KmE4Fj8bUtdTHXxZoOLjU4Lk30O1Xj5SG3Aat726WYygUplNamILo4tpBEosLaT6
-PDPvkmDWpP2/kaSJLAOGpZgzA2mLHCjMJX7cOxOv43V0Sk1Tac/JyFcynvuxN7Q4
-W7V2RmNDaKkqVlNtAHCLbMXJtR+zESwhSors554PBg8ulGRd2AM=
-=IMk6
------END PGP SIGNATURE-----
-
---eiW1bt/pn4B76Lff--
+> 
+>> Thanks
+>> Lei
+>>
+>>>           yank_unregister_function(BLOCKDEV_YANK_INSTANCE(s->bs->node_name),
+>>>                                    nbd_yank, s->bs); @@ -315,6 +317,7
+>>> @@ int coroutine_fn nbd_co_do_establish_connection(BlockDriverState
+>>> *bs,
+>>>       /* successfully connected */
+>>>       s->state = NBD_CLIENT_CONNECTED;
+>>> +    qio_channel_set_force_quit(s->ioc, false);
+>>>       qemu_co_queue_restart_all(&s->free_sema);
+>>>       return 0;
+>>> @@ -345,6 +348,8 @@ static coroutine_fn void
+>>> nbd_reconnect_attempt(BDRVNBDState *s)
+>>>       /* Finalize previous connection if any */
+>>>       if (s->ioc) {
+>>> +        qio_channel_set_force_quit(s->ioc, true);
+>>> +        qio_channel_coroutines_wake(s->ioc);
+>>
+>> Isn't this code path just missing a qio_channel_shutdown call or a qio_channel_close call to make the socket trigger wakeup from poll.
+>>
+>> I don't think it can solve the bug even if it is added, the reason is as above.
+>> Thanks,
+>> Lei
+>>
+>>>           qio_channel_detach_aio_context(QIO_CHANNEL(s->ioc));
+>>>           yank_unregister_function(BLOCKDEV_YANK_INSTANCE(s->bs->node_name),
+>>>                                    nbd_yank, s->bs); diff --git
+>>> a/include/io/channel.h b/include/io/channel.h index
+>>> 88988979f8..bc5af8cdd6 100644
+>>> --- a/include/io/channel.h
+>>> +++ b/include/io/channel.h
+>>> @@ -78,6 +78,7 @@ struct QIOChannel {
+>>>       AioContext *ctx;
+>>>       Coroutine *read_coroutine;
+>>>       Coroutine *write_coroutine;
+>>> +    bool force_quit;
+>>>   #ifdef _WIN32
+>>>       HANDLE event; /* For use with GSource on Win32 */  #endif @@
+>>> -484,6 +485,24 @@ int qio_channel_set_blocking(QIOChannel *ioc,
+>>>                                bool enabled,
+>>>                                Error **errp);
+>>> +/**
+>>> + * qio_channel_force_quit:
+>>> + * @ioc: the channel object
+>>> + * @quit: the new flag state
+>>> + *
+>>> + * Set the new flag state
+>>> + */
+>>> +void qio_channel_set_force_quit(QIOChannel *ioc, bool quit);
+>>> +
+>>> +/**
+>>> + * qio_channel_coroutines_wake:
+>>> + * @ioc: the channel object
+>>> + *
+>>> + * Wake up the coroutines to ensure that they will exit normally
+>>> + * when the server terminated abnormally  */ void
+>>> +qio_channel_coroutines_wake(QIOChannel *ioc);
+>>> +
+>>>   /**
+>>>    * qio_channel_close:
+>>>    * @ioc: the channel object
+>>> diff --git a/io/channel.c b/io/channel.c index e8b019dc36..bc1a9e055c
+>>> 100644
+>>> --- a/io/channel.c
+>>> +++ b/io/channel.c
+>>> @@ -136,6 +136,9 @@ int qio_channel_readv_full_all_eof(QIOChannel *ioc,
+>>>           if (len == QIO_CHANNEL_ERR_BLOCK) {
+>>>               if (qemu_in_coroutine()) {
+>>>                   qio_channel_yield(ioc, G_IO_IN);
+>>> +                if (ioc->force_quit) {
+>>> +                    goto cleanup;
+>>> +                }
+>>>               } else {
+>>>                   qio_channel_wait(ioc, G_IO_IN);
+>>>               }
+>>> @@ -242,6 +245,9 @@ int qio_channel_writev_full_all(QIOChannel *ioc,
+>>>           if (len == QIO_CHANNEL_ERR_BLOCK) {
+>>>               if (qemu_in_coroutine()) {
+>>>                   qio_channel_yield(ioc, G_IO_OUT);
+>>> +                if (ioc->force_quit) {
+>>> +                    goto cleanup;
+>>> +                }
+>>>               } else {
+>>>                   qio_channel_wait(ioc, G_IO_OUT);
+>>>               }
+>>> @@ -543,6 +549,9 @@ void coroutine_fn qio_channel_yield(QIOChannel *ioc,
+>>>       }
+>>>       qio_channel_set_aio_fd_handlers(ioc);
+>>>       qemu_coroutine_yield();
+>>> +    if (ioc->force_quit) {
+>>> +        return;
+>>> +    }
+>>>       /* Allow interrupting the operation by reentering the coroutine other than
+>>>        * through the aio_fd_handlers. */ @@ -555,6 +564,19 @@ void
+>>> coroutine_fn qio_channel_yield(QIOChannel *ioc,
+>>>       }
+>>>   }
+>>> +void qio_channel_set_force_quit(QIOChannel *ioc, bool quit) {
+>>> +    ioc->force_quit = quit;
+>>> +}
+>>> +
+>>> +void qio_channel_coroutines_wake(QIOChannel *ioc) {
+>>> +    if (ioc->read_coroutine) {
+>>> +        qio_channel_restart_read(ioc);
+>>> +    } else if (ioc->write_coroutine) {
+>>> +        qio_channel_restart_write(ioc);
+>>> +    }
+>>> +}
+>>
+>> None of this should be needed AFAICT, as the poll/coroutine code shuld already break out of poll if the socket is closed, or is marked shutdown.
+>>
+>>
+>> Regards,
+>> Daniel
+>>
+> 
+> 
 
