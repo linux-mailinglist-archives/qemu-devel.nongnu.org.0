@@ -2,91 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F7246694C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:41:18 +0100 (CET)
-Received: from localhost ([::1]:59116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D7546695D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:46:16 +0100 (CET)
+Received: from localhost ([::1]:38492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msq57-0005QE-DA
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:41:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44988)
+	id 1msq9u-0002DI-Vy
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:46:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1msq2a-0003kJ-3g
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 12:38:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1msq2S-0008OD-Ba
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 12:38:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638466711;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=8+m6sE5xxlcs/k3TODGqEDkBdKQwnFcsv4OnZLqL9Eg=;
- b=WvDfUO9vZGoIJXUFTkYbVoLZUvh+NS2FYmDrTH4utgzPKdGbnSGo+liPuX93YwQ84iMG33
- /xnt3Yk/8iw+T6bXzkj/+WVThTBKF7FbY/aR858x9yUyZb6YoHavBaj3u5lA3NBlFiPEwP
- SuvufugeYLRMzPtUwYLpq7yMocGvk0E=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-491-w2wLb2YJNy-HP27Oo-1VnA-1; Thu, 02 Dec 2021 12:38:30 -0500
-X-MC-Unique: w2wLb2YJNy-HP27Oo-1VnA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- l4-20020a05600c1d0400b00332f47a0fa3so138729wms.8
- for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 09:38:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1msq6e-0008UI-MW; Thu, 02 Dec 2021 12:42:52 -0500
+Received: from [2a00:1450:4864:20::32d] (port=46878
+ helo=mail-wm1-x32d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1msq6c-0006qU-BA; Thu, 02 Dec 2021 12:42:52 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ c6-20020a05600c0ac600b0033c3aedd30aso348264wmr.5; 
+ Thu, 02 Dec 2021 09:42:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Fzc9fRimTVXigs1r0IpTWfiZqAfavm+lr2ZSIfoAN9M=;
+ b=aey7DLLc/rYEfxIYejeUoc2HNhP+zwTXQY7RYefZf65Cy+e0vmENogDB5pTzc5VfyF
+ J4ztJMwNXTrZtDPkxrgdXPWsB1y1YXlpiR4q8AIs6yD/91xrqMvCfpsvZ5q4PCtQA0UJ
+ l43dfPoj0twrJRJvwaWCeJbC+iF2vQoNwyM7m8TnqME+EvPjGWQmJU1H2qTi5vwfMQAf
+ BaY3tSPGXZKq8oSvjvidD7AhqGC88YQZd0qXmwB+4oOk3CurXlFD9FaAf8Ly+2o7KtkG
+ ZyzYD1qBUI4IHp1Wj2B1SodTsaFyXkz03Ez5xIMfgCXyqp/iKOn1Qs2GYalZOhUUprPB
+ O04A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=8+m6sE5xxlcs/k3TODGqEDkBdKQwnFcsv4OnZLqL9Eg=;
- b=PAu+y4Gx+Xgw0dLxl//6PX2aBRzEVcYVMXto3xziGMjf2qhD1unEAm9PkTso1dFfaM
- EnMg+AiRnxIdI+Gw9vDcNGktby1kdApUtnP5HjfOOVk7D9rFQZHiQ4ZAnsWzSj/BoWXS
- 7qkJBDQVu1kg8mpaL/6www05FKOHgSyn1TleRWcGon/CPbMqMRviKVRJgND/xxdt+ugK
- 352g+c83W7ha12oZsVKmeFcOLGGgnvqzTqFfIfAOe0QX3YvgrDZfA95wKjVhnYHAE3II
- LPS1HTt2uu0D/BkE5oG7BrdTGwPgxbwR1WQypV6C7TsPcLukASpUeDLY3kZOK8/OUsw0
- gd2Q==
-X-Gm-Message-State: AOAM531JfqIjta4VSEPdzcl8kU/XrE9Gd7GuNnAKnboE2Jh3QRayUCaF
- pG5h1K0lFTK6cZ0UZxxRcAB5DGaAus3ZeEvN6P9tYdAh1kYwbMObavJO0V/A9ag3WBfP7XEdKwU
- YWDC7MVV/z4CZSwI=
-X-Received: by 2002:adf:ab53:: with SMTP id r19mr16033786wrc.584.1638466708911; 
- Thu, 02 Dec 2021 09:38:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwxAPmwctsVGURw5E/idODhgA3lHu6dZ3NxhAJnRsdceGZ4ls4JgyFxP8D9PLKpvCo2GR+gcQ==
-X-Received: by 2002:adf:ab53:: with SMTP id r19mr16033760wrc.584.1638466708691; 
- Thu, 02 Dec 2021 09:38:28 -0800 (PST)
-Received: from localhost (static-58-87-86-188.ipcom.comunitel.net.
- [188.86.87.58])
- by smtp.gmail.com with ESMTPSA id o12sm390630wmq.12.2021.12.02.09.38.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Dec 2021 09:38:28 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v3 23/23] migration: Use multifd before we check for the
- zero page
-In-Reply-To: <Yaj+V6LstcnNERaZ@work-vm> (David Alan Gilbert's message of "Thu, 
- 2 Dec 2021 17:11:51 +0000")
-References: <20211124100617.19786-1-quintela@redhat.com>
- <20211124100617.19786-24-quintela@redhat.com>
- <Yaj+V6LstcnNERaZ@work-vm>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Thu, 02 Dec 2021 18:38:27 +0100
-Message-ID: <87fsragb58.fsf@secure.mitica>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Fzc9fRimTVXigs1r0IpTWfiZqAfavm+lr2ZSIfoAN9M=;
+ b=5g4UXYipgsbmSMBIKWlNxRYFJAsy/hQ25LgnhY8AHd37ZbUz5wXK75x7u87ohSViDo
+ dlKpztnqyfe6Dv8FKPbkGvVYNOUxQ5YWxI+NLAHMHtDVRFGcCLv/rWFFGU+9yU78+6xA
+ Gw9zIBOPFTyZQkVAb8lD5eplCN+Mq84D0n3vk4RdGY4d+gyohC33CYDIynF0na2TXoa+
+ qP/MnjFnS7ZpZiNspjh2uUpHw9gNa/Ppfaa/dcl801sWoqfqWhyP/6sSCMrc/ju4OtfE
+ vw+qhuvdg7+fM3fMeaw5tYox/tAHxAnYjJjc+Nf7M2a9BO90NmyhUyEjp2pyIJYmOy0G
+ D/Rg==
+X-Gm-Message-State: AOAM530EWMbigOd0m+COIEqSSYgknu2qmr6lSpJ8gus8u37VMOFglDJV
+ kYTs0Xr2xaVwG5JU7sD/4LA=
+X-Google-Smtp-Source: ABdhPJytz2A3tWOVuST13GElpDHmyrg3HoGMF/OT2liquAGruHN4F2XjpkRv/R0n8Mm45PYm+TWdcQ==
+X-Received: by 2002:a1c:a710:: with SMTP id q16mr8175431wme.138.1638466967372; 
+ Thu, 02 Dec 2021 09:42:47 -0800 (PST)
+Received: from [192.168.1.34] (abayonne-654-1-79-213.w86-222.abo.wanadoo.fr.
+ [86.222.222.213])
+ by smtp.gmail.com with ESMTPSA id f13sm402207wmq.29.2021.12.02.09.42.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Dec 2021 09:42:46 -0800 (PST)
+Message-ID: <4de257c7-b508-e259-7203-48c64d8c587f@amsat.org>
+Date: Thu, 2 Dec 2021 18:42:45 +0100
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] tests/plugin/syscall.c: fix compiler warnings
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20211128011551.2115468-1-juro.bystricky@intel.com>
+ <87r1azyv88.fsf@linaro.org> <81d05a81-8ade-2a6c-427e-79a93543554f@amsat.org>
+ <87fsrbxnzq.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <87fsrbxnzq.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-3.3,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,52 +93,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>
+Cc: Juro Bystricky <juro.bystricky@intel.com>, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, erdnaxe@crans.org, ma.mandourr@gmail.com,
+ jurobystricky@hotmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> * Juan Quintela (quintela@redhat.com) wrote:
->> So we use multifd to transmit zero pages.
->> 
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> ---
->>  migration/ram.c | 22 +++++++++++-----------
->>  1 file changed, 11 insertions(+), 11 deletions(-)
->> 
->> diff --git a/migration/ram.c b/migration/ram.c
->> index 57efa67f20..3ae094f653 100644
->> --- a/migration/ram.c
->> +++ b/migration/ram.c
->> @@ -2138,6 +2138,17 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
->>      ram_addr_t offset = ((ram_addr_t)pss->page) << TARGET_PAGE_BITS;
->>      int res;
->>  
->> +    /*
->> +     * Do not use multifd for:
->> +     * 1. Compression as the first page in the new block should be posted out
->> +     *    before sending the compressed page
->> +     * 2. In postcopy as one whole host page should be placed
->> +     */
->> +    if (!save_page_use_compression(rs) && migrate_use_multifd()
->> +        && !migration_in_postcopy()) {
->> +        return ram_save_multifd_page(rs, block, offset);
->> +    }
->> +
->>      if (control_save_page(rs, block, offset, &res)) {
->>          return res;
->>      }
->
-> Although I don't think it currently matters, I think that should be
-> after the control_save_page.
+On 12/2/21 12:08, Alex Bennée wrote:
+> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+>> On 11/29/21 13:58, Alex Bennée wrote:
+>>>
+>>> Juro Bystricky <juro.bystricky@intel.com> writes:
+>>>
+>>>> Fix compiler warnings. The warnings can result in a broken build.
+>>>> This patch fixes warnings such as:
+>>>
+>>> Queued to for-6.2/more-misc-fixes, thanks.
+>>
+>> I wondered if this single patch would justify delaying the 6.2
+>> release by one week, but then I noticed the IDE pull request,
+>> so let it be...
+> 
+> Already in - as I had a PR in flight ;-)
 
-This needs to be improved to be compatible with old versions.
-
-But .... if we don't care about RDMA, why do we care about
-control_save_page()?
-
-Later, Juan.
-
+Oops, mails out of sync...
 
