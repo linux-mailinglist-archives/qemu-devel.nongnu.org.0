@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C154466916
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:28:41 +0100 (CET)
-Received: from localhost ([::1]:37790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72FA3466919
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:29:00 +0100 (CET)
+Received: from localhost ([::1]:39804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mspst-0006zi-IK
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:28:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41166)
+	id 1msptD-0008Mv-Is
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:28:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1msprf-0005bC-Il; Thu, 02 Dec 2021 12:27:23 -0500
-Received: from [2607:f8b0:4864:20::733] (port=36429
- helo=mail-qk1-x733.google.com)
+ id 1msps5-00063J-5A; Thu, 02 Dec 2021 12:27:49 -0500
+Received: from [2607:f8b0:4864:20::82b] (port=44559
+ helo=mail-qt1-x82b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1msprd-0002tn-QN; Thu, 02 Dec 2021 12:27:23 -0500
-Received: by mail-qk1-x733.google.com with SMTP id i9so678289qki.3;
- Thu, 02 Dec 2021 09:27:20 -0800 (PST)
+ id 1msps3-0002vz-3b; Thu, 02 Dec 2021 12:27:48 -0500
+Received: by mail-qt1-x82b.google.com with SMTP id a2so428141qtx.11;
+ Thu, 02 Dec 2021 09:27:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=/it/5RAQgg0ZrhaL/efTHEl4VScetYUtoRcLDR2Ehl4=;
- b=cqsxpWl/Edq3SmYfGweNrWcJkDKzVz40cOedVbjwCpe8ITxfDjq5E9E3Oz2YrMwBHL
- kLJigEqGXdPjPh3C7NqRwYjKPDf0HcInZw8qgfG+sox6/RXiyKexT0fpszJVgVptmpFb
- lmJNmGt32ihoC49c/Nit4Q/Jpt4N2dQMcsFMgoNS4MSfGIhzTNMJXvxtKukst0iAjEIp
- cAUVZdfpbAer/kZPmYUTMKeBFPD9pzt+k0wel7Q9avybjg0rsrP7X4+qXITp2X1Qpsmm
- V51lgR7prfa3z1vvt+H+3/wcFbkL8YgWULB/iqOI/sly/HlYybMdWwXXRXqETlLDaix8
- Cpbg==
+ bh=Y9xhcVnSjl0ow6sJAOiADQHEGKG4BURnU3WcRN5GIVA=;
+ b=loiQ0qmwgS0zDjXNannLzJRpfP4UOhB85U4mJcYIuvzNsGHNeJ3scG1/exaDJKsw2+
+ aLyUusKpolwJpqbfVr7F4fomZcJXXQi46DBhIq3hRHYIUljoLUdtaB4Uei/j+wwAhdE2
+ GO7+3SArUCgGzwp9ohcCHA0rn5JIVIJDgjCTvA2ijJY0DZ3u1mdpKCqJROE0ay0TZu/l
+ 9sh9QR33w8T0zdhRa9DpSCb5djoOOHyEJ3PyD5t8H/UgiHKcpeYbOog12bytymndJ0Sx
+ x4GEhcfxyI10NuyLzr6UBjv8XP0628z/QB76MfM5g6O5dZgoxIjvmcc/RLM8t3k2nmRI
+ w3XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/it/5RAQgg0ZrhaL/efTHEl4VScetYUtoRcLDR2Ehl4=;
- b=ljVLalrfzFV+Li/C6z5z8A3oSzW2zPFgsB8XFSpomKtH6ik7aEoC458dABTmxYdDqQ
- +ibGgN6EJpZxznm9dLHUvvpM3k8IJNuBFiEH8iYnDCAj7TnvZ/bYE1vVl+7vQ0Kf3c+B
- LnUGM0fZxPZJKkUejlIIcL9iUzVwMtzK5FuEZEz2q/nGgXozlFwKjFGaHOkQPlgXTwuC
- NJis9uCkwegHjQUpMG/d1mZiS6x2AGkmpXf6MLVO9sexZaBbj0GpwmLI9cfvjcqu9n6+
- 2MjEiC0WShOl84hBvREu7+RgdJgCTIxsRhcAcYsym+adu8+zLZfUUFW7KsB7nrmXzmrK
- vcEQ==
-X-Gm-Message-State: AOAM533vW5cqUWglDIfT2fWVNiPoEMGqu7YcGZJcw9OVsifTJ3MTNvvY
- NIQ2rpCfn+47mG38NVwvNCCMTxtO2mg=
-X-Google-Smtp-Source: ABdhPJx7bWZmnE2i625IgU5ANR5tY9QB/M/vmY+LMFdPrNyK+kqusDTxioCfkCiYG4WbeRLPvY75vw==
-X-Received: by 2002:a05:620a:2892:: with SMTP id
- j18mr13235678qkp.441.1638466040087; 
- Thu, 02 Dec 2021 09:27:20 -0800 (PST)
+ bh=Y9xhcVnSjl0ow6sJAOiADQHEGKG4BURnU3WcRN5GIVA=;
+ b=dbfMfArsPRTNqrJDLJNiq0TztrU7oiJ/iHYnyw2BeQT33ESVd4nyFEy7Cfic041b9E
+ uz0P0HU2UB01DbXy3QulTiXIQdLR/xfPBc5qktKQ/Rhu/RsRS4r3T5ykW2CS1aMOLo6X
+ 32w7o87m/iyaNvVsuWMORqvKwSwQbEIFJZCq4FY8bajv39WLFVI8q9FwmlwZ5EXMxrDI
+ Awqz3PYzudDFYiQ2flon8pzfsb0/lqVT/MDf530ZiLDJKyQNBYiMoOyU7wu8Ue8CUKUj
+ 4moWkZFF+lGSsFzbcIqIgjaJdf+LhxHb5JUVUUonSxzegCtcpP+YD6F/+6aSFNSg05bV
+ cNIA==
+X-Gm-Message-State: AOAM533iGPhNc54q9+pfunijuprVNlXcGyAt2+5ZrRTJzFp1sjE+LESV
+ o4ZTkQeKflcM+B5gB9Kkm8k=
+X-Google-Smtp-Source: ABdhPJzmkdMW7sYlZ24U9ny5TVSTW8WkVfjfFBP5aaOaD1X5nC06GXqkL95HssGd5FpfW/byzhXZwQ==
+X-Received: by 2002:ac8:5cc5:: with SMTP id s5mr14946778qta.97.1638466065966; 
+ Thu, 02 Dec 2021 09:27:45 -0800 (PST)
 Received: from [192.168.10.222] ([177.68.212.35])
- by smtp.gmail.com with ESMTPSA id f34sm283114qtb.7.2021.12.02.09.27.18
+ by smtp.gmail.com with ESMTPSA id l2sm232081qtk.41.2021.12.02.09.27.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Dec 2021 09:27:19 -0800 (PST)
-Message-ID: <2c037046-f3fb-96da-c32b-b35fffb2429e@gmail.com>
-Date: Thu, 2 Dec 2021 14:27:16 -0300
+ Thu, 02 Dec 2021 09:27:45 -0800 (PST)
+Message-ID: <46f526be-135b-a879-2c4a-33de7f92d260@gmail.com>
+Date: Thu, 2 Dec 2021 14:27:43 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 01/14] ppc/pnv: Reduce the maximum of PHB3 devices
+Subject: Re: [PATCH 02/14] ppc/pnv: Drop the "num-phbs" property
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211202144235.1276352-1-clg@kaod.org>
- <20211202144235.1276352-2-clg@kaod.org>
+ <20211202144235.1276352-3-clg@kaod.org>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20211202144235.1276352-2-clg@kaod.org>
+In-Reply-To: <20211202144235.1276352-3-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::733
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x733.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82b.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -98,64 +97,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 12/2/21 11:42, Cédric Le Goater wrote:
-> All POWER8 machines have a maximum of 3 PHB3 devices. Adapt the
-> PNV8_CHIP_PHB3_MAX definition for consistency.
-
-I suggest "3 PHB3 devices per chip" for clarity.
-
+> It is never used.
 > 
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
->   include/hw/ppc/pnv.h | 2 +-
->   hw/ppc/pnv.c         | 6 +++---
->   2 files changed, 4 insertions(+), 4 deletions(-)
+>   hw/ppc/pnv.c | 1 -
+>   1 file changed, 1 deletion(-)
 > 
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index aa08d79d24de..6f498c8f1b5f 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -79,7 +79,7 @@ struct Pnv8Chip {
->       PnvOCC       occ;
->       PnvHomer     homer;
->   
-> -#define PNV8_CHIP_PHB3_MAX 4
-> +#define PNV8_CHIP_PHB3_MAX 3
->       PnvPHB3      phbs[PNV8_CHIP_PHB3_MAX];
->   
->       XICSFabric    *xics;
 > diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 71e45515f136..bd768dcc28ad 100644
+> index bd768dcc28ad..988b305398b2 100644
 > --- a/hw/ppc/pnv.c
 > +++ b/hw/ppc/pnv.c
-> @@ -1256,7 +1256,7 @@ static void pnv_chip_power8e_class_init(ObjectClass *klass, void *data)
+> @@ -1764,7 +1764,6 @@ static Property pnv_chip_properties[] = {
+>       DEFINE_PROP_UINT32("nr-cores", PnvChip, nr_cores, 1),
+>       DEFINE_PROP_UINT64("cores-mask", PnvChip, cores_mask, 0x0),
+>       DEFINE_PROP_UINT32("nr-threads", PnvChip, nr_threads, 1),
+> -    DEFINE_PROP_UINT32("num-phbs", PnvChip, num_phbs, 0),
+>       DEFINE_PROP_END_OF_LIST(),
+>   };
 >   
->       k->chip_cfam_id = 0x221ef04980000000ull;  /* P8 Murano DD2.1 */
->       k->cores_mask = POWER8E_CORE_MASK;
-> -    k->num_phbs = 3;
-> +    k->num_phbs = PNV8_CHIP_PHB3_MAX;
->       k->core_pir = pnv_chip_core_pir_p8;
->       k->intc_create = pnv_chip_power8_intc_create;
->       k->intc_reset = pnv_chip_power8_intc_reset;
-> @@ -1280,7 +1280,7 @@ static void pnv_chip_power8_class_init(ObjectClass *klass, void *data)
->   
->       k->chip_cfam_id = 0x220ea04980000000ull; /* P8 Venice DD2.0 */
->       k->cores_mask = POWER8_CORE_MASK;
-> -    k->num_phbs = 3;
-> +    k->num_phbs = PNV8_CHIP_PHB3_MAX;
->       k->core_pir = pnv_chip_core_pir_p8;
->       k->intc_create = pnv_chip_power8_intc_create;
->       k->intc_reset = pnv_chip_power8_intc_reset;
-> @@ -1304,7 +1304,7 @@ static void pnv_chip_power8nvl_class_init(ObjectClass *klass, void *data)
->   
->       k->chip_cfam_id = 0x120d304980000000ull;  /* P8 Naples DD1.0 */
->       k->cores_mask = POWER8_CORE_MASK;
-> -    k->num_phbs = 3;
-> +    k->num_phbs = PNV8_CHIP_PHB3_MAX;
->       k->core_pir = pnv_chip_core_pir_p8;
->       k->intc_create = pnv_chip_power8_intc_create;
->       k->intc_reset = pnv_chip_power8_intc_reset;
 > 
 
