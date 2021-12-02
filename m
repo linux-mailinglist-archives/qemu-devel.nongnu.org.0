@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59B64668AF
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 17:53:17 +0100 (CET)
-Received: from localhost ([::1]:33836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F69E4668B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 17:53:21 +0100 (CET)
+Received: from localhost ([::1]:34140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mspKe-00078G-OK
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 11:53:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56686)
+	id 1mspKi-0007Lr-8x
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 11:53:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.mielke@gmail.com>)
- id 1mspFM-0000ZJ-Vn; Thu, 02 Dec 2021 11:47:49 -0500
-Received: from [2a00:1450:4864:20::52d] (port=42801
- helo=mail-ed1-x52d.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mspHT-0004hX-Mt
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 11:50:00 -0500
+Received: from [2a00:1450:4864:20::42b] (port=37577
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mark.mielke@gmail.com>)
- id 1mspFI-0005UC-CA; Thu, 02 Dec 2021 11:47:46 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id r11so434922edd.9;
- Thu, 02 Dec 2021 08:47:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/+pYBHWwoVbB7dUwLy+g2yXoaXy5z2uXR7Do0ZlzUbk=;
- b=e2gg/V3ULVDWGzQiEpuPnOwsg98rKtfLrjoyZnvW0D4MSvARs614YyyQ8rlWGC82Os
- z0PSHUZIhZScVWjdXSdewXR9FevpI9tpZCj7WRBNUnjn8n/M5Kurp3WmDdPhJ6MMqPAv
- 5f1xbIvA8GxAL94FSHFgAK0+rftI684r6mak9whrsV9NbePe2AP7W5oxkMHCyeMnMBp1
- kUtns+/Pbpk43BKnY9hJQAUa52s87e8Eplxd6RTIyIec4RrKfDI9njd3Vc0WxptT/wmv
- Rcv1sOntwNXfeoTJRBVA6Pe3QGs2Wh8RFzEIVKEC1KT/Dcu/Om4HWbe8BNpHu7ThI6oq
- 0V9g==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mspHL-0005mo-Cb
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 11:49:53 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id d9so90499wrw.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 08:49:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5vmAM52JfSSXwOMsFRYBUjyjXXmv4Jdz3sFOGF5ZQxQ=;
+ b=Su3uvgmdJpQ0qBxk67/GpWp7Ec56cKOJmRiPIf/gmd09CeYpOvTRCXtj749xJAjmRJ
+ pmkIjHnS8u+ZPemLwQfsyiIohdmLNKlbhgPojjPgmsgCeYksuGBmSU6FoodL9hdCZNP2
+ YNACbhBrrrm8k7mBwPZh6LwiyObKeGxaQR0VUTAOTwG3Lm5pFaXG0BDPkiclCvmEif4a
+ KhsiJGLTc+/yyO9UzPWrOetVsYnLV8KEBhxKwWK3KpvWs2WUe8qvhbHhCR96dsl/u5+F
+ wokb/N46T098tCYmO/dnJxie/Vy3zgYllGRI3Ckkrsu4j4jBzmTN5QgOVZr0FjIw3AWc
+ FNPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/+pYBHWwoVbB7dUwLy+g2yXoaXy5z2uXR7Do0ZlzUbk=;
- b=33yjFhoMJHqo0iVIaip1m4n/WH9bSCHX+avHXFHGbC5FugmXKzmvTpasQ8WVGw84+j
- wAIJ8BkHrCsjRw4BW5bfI7TGuKwKlnG86McYcP78GdbBV9PoZV5a2lqsX9Z9iGY/8xiD
- leCm4LRvaV2blVGU+xXdvRXNKVdgYGkXJwHR9srARz7EFeQZlTce+FTzNCkgEkjtYUKm
- 4XiZkN9aOjsTpIfZOqU1URZF4Bu19mmj3keiruaF/+TPC35PReebJayeXgBVvvrUm6tF
- VMBUKJ829jOOKpwcUNbhWAejG0DkqdnL7yaGD5nuLbDUZskMGaC9wXKu4rOdJeq9ML8K
- ZyRg==
-X-Gm-Message-State: AOAM532w94T7u2FEXdk68zWvYSJHnj6XMGiN5+calLCu61d986wUdb7p
- MPYA8iCAfv8yqbn2skOjp7zA+7lE8E9aFhh7L5F/tu9wj4Y=
-X-Google-Smtp-Source: ABdhPJy1agj58JrKBURoJDugkYptifiAT6Vo80u5cTMPuruDpfdWO4nbNYedSI4MuPCilzzwGERFjnQbPv5XX6CRmw4=
-X-Received: by 2002:aa7:c714:: with SMTP id i20mr18856455edq.180.1638463660464; 
- Thu, 02 Dec 2021 08:47:40 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5vmAM52JfSSXwOMsFRYBUjyjXXmv4Jdz3sFOGF5ZQxQ=;
+ b=mwt7kDogqXfxzTEVg5Q05R1/169zk91TyfLgg7dRSZrqNcOJs6/6RmXqH/i8rqYVWz
+ uYRRPeVvKDVXV7glNp7QQ64EWk07QH+5goddEjaCL0WuVE5o3PzUbMWprMTm8tsPJMeo
+ mcsEsOIqVPE47pza9SnW+c7nGt0MVMnBMQefGxBwZ63eu5PwkaS5nfvIwO9cvvzCunw+
+ pqsbDYMX3uHxhGcbC9Lvgdfdxj96mx3/lvJ8tZ67+5rQOtU+aVULGj+uaZsPYaABnMHn
+ iUkAG4BPd/i6DDreU2+Uk65dGQnOvr30WlA2uguvlP8YOkJme7y4Z0f7eEaD1WiylGZW
+ IWKw==
+X-Gm-Message-State: AOAM5320ia/780yHnC2O8Py3OBtBt0DO/ZKi4ThDrPcvbq+ynYoGdjGh
+ zx7z/Ie6nvueROL9/bg7EsOzAA==
+X-Google-Smtp-Source: ABdhPJy5kqVoAGdFOgTglBxewMlwdW8ruFpn9+vILWiVfuwH4mYyoRQK+sRfSjk5X0S6oxgVa3nVkg==
+X-Received: by 2002:a5d:54c5:: with SMTP id x5mr14934414wrv.607.1638463787415; 
+ Thu, 02 Dec 2021 08:49:47 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n13sm291805wrt.44.2021.12.02.08.49.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Dec 2021 08:49:46 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 80D691FF96;
+ Thu,  2 Dec 2021 16:49:45 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for 6.2?] Revert "vga: don't abort when adding a duplicate
+ isa-vga device"
+Date: Thu,  2 Dec 2021 16:49:29 +0000
+Message-Id: <20211202164929.1119036-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <CALm7yL08qarOu0dnQkTN+pa=BSRC92g31YpQQNDeAiT4yLZWQQ@mail.gmail.com>
-In-Reply-To: <CALm7yL08qarOu0dnQkTN+pa=BSRC92g31YpQQNDeAiT4yLZWQQ@mail.gmail.com>
-From: Mark Mielke <mark.mielke@gmail.com>
-Date: Thu, 2 Dec 2021 11:47:29 -0500
-Message-ID: <CALm7yL2gSF8cstgaCmqWmn-3yn9bt0L5QDn9YnmUZQkXPa-A+A@mail.gmail.com>
-Subject: Fwd: [PATCH] virtio-blk: Fix clean up of host notifiers for single MR
- transaction.
-To: qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>, 
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52d
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=mark.mielke@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -80,49 +88,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry... I missed copy maintainers and qemu-stable. This should be
-considered a regression.
+This reverts commit 7852a77f598635a67a222b6c1463c8b46098aed2.
 
----------- Forwarded message ---------
-From: Mark Mielke <mark.mielke@gmail.com>
-Date: Thu, Dec 2, 2021 at 11:26 AM
-Subject: [PATCH] virtio-blk: Fix clean up of host notifiers for single
-MR transaction.
-To: <qemu-devel@nongnu.org>
+The check is bogus as it ends up finding itself and falling over.
 
-
-The code that introduced "virtio-blk: Configure all host notifiers in
-a single MR transaction" introduced a second loop variable to perform
-cleanup in second loop, but mistakenly still refers to the first
-loop variable within the second loop body.
-
-Fixes: d0267da61489 ("virtio-blk: Configure all host notifiers in a
-single MR transaction")
-Signed-off-by: Mark Mielke <mark.mielke@gmail.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Resolves: https://gitlab.com/qemu-project/qemu.git/-/issues/733
 ---
- hw/block/dataplane/virtio-blk.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/display/vga-isa.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
-index 252c3a7a23..ee5a5352dc 100644
---- a/hw/block/dataplane/virtio-blk.c
-+++ b/hw/block/dataplane/virtio-blk.c
-@@ -222,7 +222,7 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
-             memory_region_transaction_commit();
-
-             while (j--) {
--                virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
-+                virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), j);
-             }
-             goto fail_host_notifiers;
-         }
---
-2.33.1
-
+diff --git a/hw/display/vga-isa.c b/hw/display/vga-isa.c
+index 8cea84f2be..90851e730b 100644
+--- a/hw/display/vga-isa.c
++++ b/hw/display/vga-isa.c
+@@ -33,7 +33,6 @@
+ #include "hw/loader.h"
+ #include "hw/qdev-properties.h"
+ #include "qom/object.h"
+-#include "qapi/error.h"
+ 
+ #define TYPE_ISA_VGA "isa-vga"
+ OBJECT_DECLARE_SIMPLE_TYPE(ISAVGAState, ISA_VGA)
+@@ -62,15 +61,6 @@ static void vga_isa_realizefn(DeviceState *dev, Error **errp)
+     MemoryRegion *vga_io_memory;
+     const MemoryRegionPortio *vga_ports, *vbe_ports;
+ 
+-    /*
+-     * make sure this device is not being added twice, if so
+-     * exit without crashing qemu
+-     */
+-    if (object_resolve_path_type("", TYPE_ISA_VGA, NULL)) {
+-        error_setg(errp, "at most one %s device is permitted", TYPE_ISA_VGA);
+-        return;
+-    }
+-
+     s->global_vmstate = true;
+     vga_common_init(s, OBJECT(dev));
+     s->legacy_address_space = isa_address_space(isadev);
 -- 
-Mark Mielke <mark.mielke@gmail.com>
+2.30.2
+
 
