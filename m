@@ -2,100 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6358466896
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 17:47:06 +0100 (CET)
-Received: from localhost ([::1]:48422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 327DB466898
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 17:47:18 +0100 (CET)
+Received: from localhost ([::1]:48768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mspEf-0006KM-HE
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 11:47:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55316)
+	id 1mspEr-0006YI-9t
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 11:47:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1msp9E-0006kU-5Q; Thu, 02 Dec 2021 11:41:28 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58098)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mspAj-0000DE-Hy
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 11:43:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1msp9B-00038p-Vu; Thu, 02 Dec 2021 11:41:27 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B2FrFOx007013; 
- Thu, 2 Dec 2021 16:41:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=DlYSHSj7L8KjPs2kQSFif/jNNdVBNAr1I+6+yowPYjE=;
- b=SXFn1J8qgoLbTsaX9/b8sxFlCvTSujjwrz97Y0TEAowFnQ407xtHhtrxMMMA45GtQWGH
- 2nmYdS/z4g/4z8eSn8+7aS9sdYw4KgoAB6ucsZi2Xz71vbntqUcOVLf+nXFvPLLsLCht
- Lv7OwcwDBgcyKJin7BBoL0vq+yMwUtySeZQ3ajoPsN3v8Lxh8cKvnKdsEJMF6btUfsvE
- 1swvQrGVH0Hnu8UiPM97iVaT0eQ+HCXb2Lrpfyfc8hYbQ5oW+C2h8rZ1VpUjE14lLm66
- byDrWb9Au4CzXas9bqu6Oq7OUSIdEyegtBvOMvXgZUBzPX7xPCm7Nag6SnKi0MR9N4vH zA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cq15yh2sw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Dec 2021 16:41:24 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B2Fv0vV022854;
- Thu, 2 Dec 2021 16:41:23 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cq15yh2sm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Dec 2021 16:41:23 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B2GSqko003470;
- Thu, 2 Dec 2021 16:41:23 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma01dal.us.ibm.com with ESMTP id 3ckcadp8cy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Dec 2021 16:41:23 +0000
-Received: from b03ledav002.gho.boulder.ibm.com
- (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B2GfLMD60227926
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 2 Dec 2021 16:41:21 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 77000136066;
- Thu,  2 Dec 2021 16:41:21 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8A69D136059;
- Thu,  2 Dec 2021 16:41:20 +0000 (GMT)
-Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown
- [9.211.48.116])
- by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu,  2 Dec 2021 16:41:20 +0000 (GMT)
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-To: thuth@redhat.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 4/4] s390x/pci: add supported DT information to clp response
-Date: Thu,  2 Dec 2021 11:41:10 -0500
-Message-Id: <20211202164110.326947-5-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20211202164110.326947-1-mjrosato@linux.ibm.com>
-References: <20211202164110.326947-1-mjrosato@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mspAf-0001C0-RJ
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 11:43:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638463376;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2syveVEv7akazd7OzV5CYTkZ0T937F6YsNFDnDIJcEc=;
+ b=YhF38L2M1mXy+i1vCqwvmsHWBLGr7QWpGxFY1539QJcQEP1P89e5kYEVXl6sNjzZc5vBqf
+ IMR1eGUjTjK2qOylPA8y85K3lDMEwkIjbW7h+PwSFBL+BWVX3r4CTME5SZ2fIARKS8Kcmt
+ rTx0GOJOBfG439AGUkJwN64T8S3lEB4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-262-yFL_i7IQNzOJnjY9mHSQQQ-1; Thu, 02 Dec 2021 11:42:55 -0500
+X-MC-Unique: yFL_i7IQNzOJnjY9mHSQQQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ q15-20020adfbb8f000000b00191d3d89d09so7206wrg.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 08:42:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=2syveVEv7akazd7OzV5CYTkZ0T937F6YsNFDnDIJcEc=;
+ b=1aBHWMj1+tm1MuLcp1KmOtyk6UhgNcHisoIyax4Gmu0luTrECxHdEQFpDKY/AdrS17
+ 0KOmPwQmDM4UDcq1AL98PGYRaVTTAx3y5kgXv1zYwYMW+JzYLOFZx8alBRX8e+ixmFZz
+ QuS5VBZaAy15bAHGEiwXWR4SOS4TIf3Vw+H01ahbxyWrwGP3/qNf4HxWnPyI5+UDnR+/
+ +UBReQcVPg+rvvs+znnr6FiVi0AXIiGlaMZ/r3tYge0mUV95jWj54OalRdaVva9ODYfT
+ NYosTydsytXofVDA3pFsyfRG5GxaKNR9DcOpzDiy34hDBkG88ALv1sgVID3DvG1IfOJW
+ sVug==
+X-Gm-Message-State: AOAM532vpmh5L14L0nYnzce48LZbksqkleUKKibXMzswfYn7cf7rUC0Q
+ 9Kla0EQDdaqfDMRHjzwyWDfA3DHIqMSIPSI6rlNAhMFjuFxe+I0Qbt5BwtDPq+nx021BcmiWFTt
+ 1HyMYCO3E3iQ7NbM=
+X-Received: by 2002:a5d:47aa:: with SMTP id 10mr15184711wrb.50.1638463374643; 
+ Thu, 02 Dec 2021 08:42:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz5KzZOXCpynmfgS7bsTDo2UtGGu/oQpSVFf1Mhz+achapEMxkWFE/rQEGPblI9hVY0ZSur4w==
+X-Received: by 2002:a5d:47aa:: with SMTP id 10mr15184669wrb.50.1638463374217; 
+ Thu, 02 Dec 2021 08:42:54 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id 9sm432476wry.0.2021.12.02.08.42.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Dec 2021 08:42:53 -0800 (PST)
+Date: Thu, 2 Dec 2021 16:42:51 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v3 22/23] multifd: Zero pages transmission
+Message-ID: <Yaj3i1S8DRB1y4DG@work-vm>
+References: <20211124100617.19786-1-quintela@redhat.com>
+ <20211124100617.19786-23-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 2MhLx2Wl1ONSFMwhrrGqj0AnBM0d4HSC
-X-Proofpoint-GUID: Pnlj7bCumf6uXx-M57C5QtLHTclsWWIU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-02_10,2021-12-02_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0
- clxscore=1015 suspectscore=0 mlxlogscore=999 impostorscore=0 bulkscore=0
- priorityscore=1501 lowpriorityscore=0 adultscore=0 mlxscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2112020109
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211124100617.19786-23-quintela@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,75 +97,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, pmorel@linux.ibm.com, david@redhat.com,
- cohuck@redhat.com, richard.henderson@linaro.org, pasic@linux.ibm.com,
- borntraeger@linux.ibm.com
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The DTSM is a mask that specifies which I/O Address Translation designation
-types are supported.  A linux guest today does not look at this field but
-could in the future; let's advertise what QEMU actually supports.
+* Juan Quintela (quintela@redhat.com) wrote:
+> This implements the zero page dection and handling.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>  migration/multifd.c | 33 +++++++++++++++++++++++++++++++--
+>  1 file changed, 31 insertions(+), 2 deletions(-)
+> 
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 2e4dffd6c6..5c1fc70ce3 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -11,6 +11,7 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> +#include "qemu/cutils.h"
+>  #include "qemu/rcu.h"
+>  #include "exec/target_page.h"
+>  #include "sysemu/sysemu.h"
+> @@ -277,6 +278,12 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
+>  
+>          packet->offset[i] = cpu_to_be64(temp);
+>      }
+> +    for (i = 0; i < p->zero_num; i++) {
+> +        /* there are architectures where ram_addr_t is 32 bit */
+> +        uint64_t temp = p->zero[i];
+> +
+> +        packet->offset[p->normal_num + i] = cpu_to_be64(temp);
 
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- hw/s390x/s390-pci-bus.c         | 1 +
- hw/s390x/s390-pci-vfio.c        | 1 +
- include/hw/s390x/s390-pci-bus.h | 1 +
- include/hw/s390x/s390-pci-clp.h | 3 ++-
- 4 files changed, 5 insertions(+), 1 deletion(-)
+OK, so if I'm understanding correctly here, the packet->offset array
+starts with the 'normals' and then the zeros?
+If so that probably needs a comment somewhere.
 
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index 1b51a72838..01b58ebc70 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -782,6 +782,7 @@ static void s390_pci_init_default_group(void)
-     resgrp->i = 128;
-     resgrp->maxstbl = 128;
-     resgrp->version = 0;
-+    resgrp->dtsm = ZPCI_DTSM;
- }
- 
- static void set_pbdev_info(S390PCIBusDevice *pbdev)
-diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-index 2a153fa8c9..6f80a47e29 100644
---- a/hw/s390x/s390-pci-vfio.c
-+++ b/hw/s390x/s390-pci-vfio.c
-@@ -160,6 +160,7 @@ static void s390_pci_read_group(S390PCIBusDevice *pbdev,
-         resgrp->i = cap->noi;
-         resgrp->maxstbl = cap->maxstbl;
-         resgrp->version = cap->version;
-+        resgrp->dtsm = ZPCI_DTSM;
-     }
- }
- 
-diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
-index 2727e7bdef..da3cde2bb4 100644
---- a/include/hw/s390x/s390-pci-bus.h
-+++ b/include/hw/s390x/s390-pci-bus.h
-@@ -37,6 +37,7 @@
- #define ZPCI_MAX_UID 0xffff
- #define UID_UNDEFINED 0
- #define UID_CHECKING_ENABLED 0x01
-+#define ZPCI_DTSM 0x40
- 
- OBJECT_DECLARE_SIMPLE_TYPE(S390pciState, S390_PCI_HOST_BRIDGE)
- OBJECT_DECLARE_SIMPLE_TYPE(S390PCIBus, S390_PCI_BUS)
-diff --git a/include/hw/s390x/s390-pci-clp.h b/include/hw/s390x/s390-pci-clp.h
-index 96b8e3f133..cc8c8662b8 100644
---- a/include/hw/s390x/s390-pci-clp.h
-+++ b/include/hw/s390x/s390-pci-clp.h
-@@ -163,7 +163,8 @@ typedef struct ClpRspQueryPciGrp {
-     uint8_t fr;
-     uint16_t maxstbl;
-     uint16_t mui;
--    uint64_t reserved3;
-+    uint8_t dtsm;
-+    uint8_t reserved3[7];
-     uint64_t dasm; /* dma address space mask */
-     uint64_t msia; /* MSI address */
-     uint64_t reserved4;
+Other than that,
+
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> +    }
+>  }
+>  
+>  static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
+> @@ -362,6 +369,18 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
+>          p->normal[i] = offset;
+>      }
+>  
+> +    for (i = 0; i < p->zero_num; i++) {
+> +        uint64_t offset = be64_to_cpu(packet->offset[p->normal_num + i]);
+> +
+> +        if (offset > (block->used_length - page_size)) {
+> +            error_setg(errp, "multifd: offset too long %" PRIu64
+> +                       " (max " RAM_ADDR_FMT ")",
+> +                       offset, block->used_length);
+> +            return -1;
+> +        }
+> +        p->zero[i] = offset;
+> +    }
+> +
+>      return 0;
+>  }
+>  
+> @@ -652,8 +671,14 @@ static void *multifd_send_thread(void *opaque)
+>              p->zero_num = 0;
+>  
+>              for (int i = 0; i < p->pages->num; i++) {
+> -                p->normal[p->normal_num] = p->pages->offset[i];
+> -                p->normal_num++;
+> +                if (buffer_is_zero(p->pages->block->host + p->pages->offset[i],
+> +                                   qemu_target_page_size())) {
+> +                    p->zero[p->zero_num] = p->pages->offset[i];
+> +                    p->zero_num++;
+> +                } else {
+> +                    p->normal[p->normal_num] = p->pages->offset[i];
+> +                    p->normal_num++;
+> +                }
+>              }
+>  
+>              if (p->normal_num) {
+> @@ -1112,6 +1137,10 @@ static void *multifd_recv_thread(void *opaque)
+>              }
+>          }
+>  
+> +        for (int i = 0; i < p->zero_num; i++) {
+> +            memset(p->host + p->zero[i], 0, qemu_target_page_size());
+> +        }
+> +
+>          if (flags & MULTIFD_FLAG_SYNC) {
+>              qemu_sem_post(&multifd_recv_state->sem_sync);
+>              qemu_sem_wait(&p->sem_sync);
+> -- 
+> 2.33.1
+> 
 -- 
-2.27.0
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
