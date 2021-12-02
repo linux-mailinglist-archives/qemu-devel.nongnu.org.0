@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C431B465E97
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 08:18:50 +0100 (CET)
-Received: from localhost ([::1]:59736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21494465EB8
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 08:29:58 +0100 (CET)
+Received: from localhost ([::1]:39802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msgMj-0000GU-8y
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 02:18:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39596)
+	id 1msgXU-0006HY-KU
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 02:29:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1msg9N-0005Ul-S6
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1msg9N-0005Ui-QY
  for qemu-devel@nongnu.org; Thu, 02 Dec 2021 02:05:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31358)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1msg9K-0006Ei-4Y
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1msg9K-0006Ej-5d
  for qemu-devel@nongnu.org; Thu, 02 Dec 2021 02:05:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1638428697;
@@ -23,35 +23,36 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BgOQImmELR5gZTjk61q9HwrQaUNRwQHpb81Id/yHJpg=;
- b=BkJzX0/dLDeb71/BDJzvQY4e44r0x/1fusaumHKrhLuRBgKzEjaLCB7ojEgLsrlu30WrWf
- ktbXrq4ikslbBZp6ZTQvGJoShcAIO15c0zTCNTMijGGPEi7VQS6/8gBc44PDEVqgwgj+4K
- r18t+TxAUHAbeV12refSBEukIqbx25Y=
+ bh=KgSnAE2gxmi6RnKB1xvL8y2e29aE0v3OXGqSPwiqoTA=;
+ b=birsOThi/E+wylEBsVGN4y1yhH8Z8C+wyERw/glmJ5MmNsbuHM0eGBFRNoQijH12+XFbIY
+ zo1MfAKKsHkbPVshUXnSImwD00fDQIF5XPVuNpV6dh2JWBWuv5FoX0+NozgggzHbzeXh6e
+ dmUGYhqBxK2mwSqnFyrKXMVMkJbSX9M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-zdT1qTnXPK-sQIav3ywPzA-1; Thu, 02 Dec 2021 02:04:54 -0500
-X-MC-Unique: zdT1qTnXPK-sQIav3ywPzA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-589-QHQWZsf9PgKVxYJgFSpA7w-1; Thu, 02 Dec 2021 02:04:54 -0500
+X-MC-Unique: QHQWZsf9PgKVxYJgFSpA7w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64322100CCC0;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 629E883DD20;
  Thu,  2 Dec 2021 07:04:53 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E3E55D6BA;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F23B10013D6;
  Thu,  2 Dec 2021 07:04:53 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2231F11384A5; Thu,  2 Dec 2021 08:04:50 +0100 (CET)
+ id 25A2B1138220; Thu,  2 Dec 2021 08:04:50 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 06/11] vl: Factor qemu_until_phase() out of qemu_init()
-Date: Thu,  2 Dec 2021 08:04:45 +0100
-Message-Id: <20211202070450.264743-7-armbru@redhat.com>
+Subject: [PATCH RFC 07/11] vl: Implement qemu_until_phase() running from
+ arbitrary phase
+Date: Thu,  2 Dec 2021 08:04:46 +0100
+Message-Id: <20211202070450.264743-8-armbru@redhat.com>
 In-Reply-To: <20211202070450.264743-1-armbru@redhat.com>
 References: <20211202070450.264743-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,88 +86,74 @@ Cc: damien.hedde@greensocs.com, berrange@redhat.com, mark.burton@greensocs.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This loses a hidden bit of CLI that evaded the axe murderer: picking
-the default accelerator based on argv[0].
+A later patch will want to use qemu_until_phase() to advance from one
+arbitrary phase to another.  Implement advancing from arbitrary phase
+to PHASE_MACHINE_READY.
+
+Indentation is intentionally off to minimize diffs.  It's RFC :)
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/hw/qdev-core.h |  1 +
- hw/core/qdev.c         |  5 +++++
- softmmu/vl.c           | 16 ++++++++++++----
- 3 files changed, 18 insertions(+), 4 deletions(-)
+ softmmu/vl.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 20d3066595..2a3a3b0118 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -876,6 +876,7 @@ typedef enum MachineInitPhase {
- } MachineInitPhase;
- 
- extern bool phase_check(MachineInitPhase phase);
-+extern MachineInitPhase phase_get(void);
- extern void phase_advance(MachineInitPhase phase);
- 
- #endif
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 84f3019440..287eb81ff8 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -915,6 +915,11 @@ bool phase_check(MachineInitPhase phase)
-     return machine_phase >= phase;
- }
- 
-+MachineInitPhase phase_get(void)
-+{
-+    return machine_phase;
-+}
-+
- void phase_advance(MachineInitPhase phase)
- {
-     assert(machine_phase == phase - 1);
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 916cba35b7..e340475986 100644
+index e340475986..b7f15d9f86 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -963,12 +963,10 @@ static void qemu_machine_creation_done(void)
-         assert(machine->cgs->ready);
-     }
- }
-+static void qemu_until_phase(void);
+@@ -1043,7 +1043,8 @@ void qemu_until_phase(void)
+     MachineClass *machine_class;
+     FILE *vmstate_dump_file = NULL;
  
- void qemu_init(int argc, char **argv, char **envp)
- {
--    MachineClass *machine_class;
--    FILE *vmstate_dump_file = NULL;
--
-     qemu_add_opts(&qemu_drive_opts);
-     qemu_add_drive_opts(&qemu_legacy_drive_opts);
-     qemu_add_drive_opts(&qemu_common_drive_opts);
-@@ -1037,6 +1035,16 @@ void qemu_init(int argc, char **argv, char **envp)
-         }
-     }
+-    assert(phase_get() == PHASE_NO_MACHINE);
++    switch (phase_get()) {
++    case PHASE_NO_MACHINE:
  
-+    qemu_until_phase();
-+}
-+
-+void qemu_until_phase(void)
-+{
-+    MachineClass *machine_class;
-+    FILE *vmstate_dump_file = NULL;
-+
-+    assert(phase_get() == PHASE_NO_MACHINE);
-+
      qemu_process_early_options();
  
-     qemu_maybe_daemonize(pid_file);
-@@ -1073,7 +1081,7 @@ void qemu_init(int argc, char **argv, char **envp)
+@@ -1077,6 +1078,9 @@ void qemu_until_phase(void)
+     qemu_apply_machine_options(NULL);
+     phase_advance(PHASE_MACHINE_CREATED);
+ 
++    /* fall through */
++    case PHASE_MACHINE_CREATED:
++
+     /*
       * Note: uses machine properties such as kernel-irqchip, must run
       * after qemu_apply_machine_options.
-      */
--    configure_accelerators(argv[0]);
-+    configure_accelerators("FIXME");
+@@ -1084,6 +1088,9 @@ void qemu_until_phase(void)
+     configure_accelerators("FIXME");
      phase_advance(PHASE_ACCEL_CREATED);
  
++    /* fall through */
++    case PHASE_ACCEL_CREATED:
++
      /*
+      * Beware, QOM objects created before this point miss global and
+      * compat properties.
+@@ -1128,7 +1135,13 @@ void qemu_until_phase(void)
+     }
+ 
+     qemu_init_board();
++    assert(phase_get() == PHASE_MACHINE_INITIALIZED);
++
++    /* fall through */
++    case PHASE_MACHINE_INITIALIZED:
++
+     qemu_machine_creation_done();
++    assert(phase_get() == PHASE_MACHINE_READY);
+ 
+     if (replay_mode != REPLAY_MODE_NONE) {
+         replay_vmstate_init();
+@@ -1151,4 +1164,8 @@ void qemu_until_phase(void)
+     accel_setup_post(current_machine);
+     os_setup_post();
+     resume_mux_open();
++
++    case PHASE_MACHINE_READY:
++        break;
++    }
+ }
 -- 
 2.31.1
 
