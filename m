@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF1A4665CD
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 15:50:42 +0100 (CET)
-Received: from localhost ([::1]:35152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5479E4665BF
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 15:48:22 +0100 (CET)
+Received: from localhost ([::1]:56006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msnQ1-0007VX-2n
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 09:50:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48796)
+	id 1msnNl-0002Qi-Ed
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 09:48:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1msnIQ-0000hN-Pf
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 09:42:50 -0500
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:57471)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1msnIR-0000lJ-KG
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 09:42:51 -0500
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:44861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1msnIJ-0005GY-9A
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 09:42:50 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.2])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 3A268201DB;
- Thu,  2 Dec 2021 14:42:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1msnIJ-0005Gd-NJ
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 09:42:51 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.235])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id A4400CF7056B;
+ Thu,  2 Dec 2021 15:42:41 +0100 (CET)
 Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Thu, 2 Dec
- 2021 15:42:40 +0100
+ 2021 15:42:41 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-95G00159944977-c1ce-40ff-8b4e-dc3528f362da,
+ (GARM-95G0017a435915-15bf-4c6f-bd20-1a1cb07772a3,
  53AF7497412F6E71185D8D05EFDE7032E43CC10F) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH 08/14] ppc/pnv: Introduce version and device_id class
- atributes for PHB4 devices
-Date: Thu, 2 Dec 2021 15:42:29 +0100
-Message-ID: <20211202144235.1276352-9-clg@kaod.org>
+Subject: [PATCH 09/14] ppc/pnv: Introduce a "chip" property under the PHB4
+ model
+Date: Thu, 2 Dec 2021 15:42:30 +0100
+Message-ID: <20211202144235.1276352-10-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211202144235.1276352-1-clg@kaod.org>
 References: <20211202144235.1276352-1-clg@kaod.org>
@@ -43,19 +43,19 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.95]
 X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: f53d931a-0249-4215-bcb2-fa80a0218ca4
-X-Ovh-Tracer-Id: 15807916169039022886
+X-Ovh-Tracer-GUID: 9ddb0e3d-d70c-4036-b02f-061209508c34
+X-Ovh-Tracer-Id: 15807916170734373670
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrieehgdeijecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,55 +74,54 @@ Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Next changes will make use of it.
+
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
  include/hw/pci-host/pnv_phb4.h | 2 ++
  hw/pci-host/pnv_phb4_pec.c     | 2 ++
- hw/ppc/pnv.c                   | 4 ++--
- 3 files changed, 6 insertions(+), 2 deletions(-)
+ hw/ppc/pnv.c                   | 2 ++
+ 3 files changed, 6 insertions(+)
 
 diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-index 27556ae53425..b2864233641e 100644
+index b2864233641e..8a585c9a42f7 100644
 --- a/include/hw/pci-host/pnv_phb4.h
 +++ b/include/hw/pci-host/pnv_phb4.h
-@@ -219,6 +219,8 @@ struct PnvPhb4PecClass {
-     int compat_size;
-     const char *stk_compat;
-     int stk_compat_size;
-+    uint64_t version;
-+    uint64_t device_id;
+@@ -205,6 +205,8 @@ struct PnvPhb4PecState {
+     #define PHB4_PEC_MAX_STACKS     3
+     uint32_t num_stacks;
+     PnvPhb4PecStack stacks[PHB4_PEC_MAX_STACKS];
++
++    PnvChip *chip;
  };
  
- #endif /* PCI_HOST_PNV_PHB4_H */
+ 
 diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index 741ddc90ed8d..9f722729ac50 100644
+index 9f722729ac50..e9750c41c595 100644
 --- a/hw/pci-host/pnv_phb4_pec.c
 +++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -499,6 +499,8 @@ static void pnv_pec_class_init(ObjectClass *klass, void *data)
-     pecc->compat_size = sizeof(compat);
-     pecc->stk_compat = stk_compat;
-     pecc->stk_compat_size = sizeof(stk_compat);
-+    pecc->version = PNV_PHB4_VERSION;
-+    pecc->device_id = PNV_PHB4_DEVICE_ID;
- }
- 
- static const TypeInfo pnv_pec_type_info = {
+@@ -462,6 +462,8 @@ static Property pnv_pec_properties[] = {
+         DEFINE_PROP_UINT32("index", PnvPhb4PecState, index, 0),
+         DEFINE_PROP_UINT32("num-stacks", PnvPhb4PecState, num_stacks, 0),
+         DEFINE_PROP_UINT32("chip-id", PnvPhb4PecState, chip_id, 0),
++        DEFINE_PROP_LINK("chip", PnvPhb4PecState, chip, TYPE_PNV_CHIP,
++                         PnvChip *),
+         DEFINE_PROP_LINK("system-memory", PnvPhb4PecState, system_memory,
+                      TYPE_MEMORY_REGION, MemoryRegion *),
+         DEFINE_PROP_END_OF_LIST(),
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 185464a1d443..0c65e1e88cf5 100644
+index 0c65e1e88cf5..76b2f5468b38 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -1408,9 +1408,9 @@ static void pnv_chip_power9_phb_realize(PnvChip *chip, Error **errp)
-             object_property_set_int(obj, "index", phb_id, &error_fatal);
-             object_property_set_int(obj, "chip-id", chip->chip_id,
-                                     &error_fatal);
--            object_property_set_int(obj, "version", PNV_PHB4_VERSION,
-+            object_property_set_int(obj, "version", pecc->version,
-                                     &error_fatal);
--            object_property_set_int(obj, "device-id", PNV_PHB4_DEVICE_ID,
-+            object_property_set_int(obj, "device-id", pecc->device_id,
-                                     &error_fatal);
-             object_property_set_link(obj, "stack", OBJECT(stack),
-                                      &error_abort);
+@@ -1389,6 +1389,8 @@ static void pnv_chip_power9_phb_realize(PnvChip *chip, Error **errp)
+                                 &error_fatal);
+         object_property_set_int(OBJECT(pec), "chip-id", chip->chip_id,
+                                 &error_fatal);
++        object_property_set_link(OBJECT(pec), "chip", OBJECT(chip),
++                                 &error_fatal);
+         object_property_set_link(OBJECT(pec), "system-memory",
+                                  OBJECT(get_system_memory()), &error_abort);
+         if (!qdev_realize(DEVICE(pec), NULL, errp)) {
 -- 
 2.31.1
 
