@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BFE6466BB2
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 22:33:13 +0100 (CET)
-Received: from localhost ([::1]:37642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F04466BBB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 22:41:55 +0100 (CET)
+Received: from localhost ([::1]:42402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msthX-00080h-Ib
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 16:33:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54358)
+	id 1mstpy-00034o-2y
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 16:41:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1mstev-0005Xg-Ar; Thu, 02 Dec 2021 16:30:29 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31286
+ id 1mstoj-0002NK-Vu; Thu, 02 Dec 2021 16:40:38 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33704
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1mstep-0005rN-VS; Thu, 02 Dec 2021 16:30:29 -0500
+ id 1mstoh-0007Kj-PF; Thu, 02 Dec 2021 16:40:37 -0500
 Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B2LHeFr006214; 
- Thu, 2 Dec 2021 21:30:19 GMT
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B2LHfsc006268; 
+ Thu, 2 Dec 2021 21:40:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : subject :
  from : to : cc : date : in-reply-to : references : content-type :
  mime-version : content-transfer-encoding; s=pp1;
- bh=XbG1S5w77oaDiEvUiVtHjSObJMmFGxuux9i+a9BpjGA=;
- b=ZyO574RedtvMeK0pt/GqpGicOQ/1LeUk0CuBgnB0wui3RFMI+CTkpGwvCLU/qZDhW3Nc
- 8tbhMk3Wtsp7hwV23R1BpMVdrYcWRhtT50ezwJuq+5UcCfHfvuFQpFSt8irAMHXifYMY
- Qlx6Drg4NK+nxdgGhPVQ8QPkk7KTOGDzVk7hmGWyMAT1YV2f8JVWdb2/ZnSJl6azHJL7
- 3boNq7rPqQ369RCQO6QCv3GhUDkaITFPZV0xAzGHFPMJ0NwE1+bdaSsLrzpOR7FsodEo
- h2B98rCHQ7E/FPbk/NbcdweoIiV0OX5sriFcc+/b4alH+DAvcfw2GE9Ov/hsJmBavUWE 3A== 
+ bh=XDvrtZ+IcuJnUs4V/y/G890fIN1CBm+bMuEJWDOH3WY=;
+ b=mJSKSCIbS2lHd2uK14XHw/mA9WP+lQMHRNSRkivT1C4X+WK2yE9qx18lMnTDu+/6EWtA
+ NFcSsF0wGIoxKHhiX5oIF6/AR7mWsxag+BxfHGlANCBKMzqLlYYFltLoKi5IKwhmaiKP
+ 9qv6QOa05rF5FNtBAlxjT/Yg89Qey8ERyrt0z4yjnnGg1XOhW8YbjsT/MSZJCbSrqXlz
+ ThNcaL1eEvWJAudeg/cNCsknKar3M6X87dSG56an7xe3juVrigU3jXjINurq3hCeLYOw
+ mRSshQObexPUMsFGJhUOIWYaGt/SnXspL9W9Ev4FbmLPt370wrLx8/BtC7LQ9uMSKqwy EQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cq5xcr9gy-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cq5xcrjyb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Dec 2021 21:30:19 +0000
+ Thu, 02 Dec 2021 21:40:33 +0000
 Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B2LHk4u006470;
- Thu, 2 Dec 2021 21:30:19 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cq5xcr9g1-1
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B2LMVtm029302;
+ Thu, 2 Dec 2021 21:40:33 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cq5xcrjxx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Dec 2021 21:30:19 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B2LOKFX003551;
- Thu, 2 Dec 2021 21:30:17 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma03wdc.us.ibm.com with ESMTP id 3cn3k3evbn-1
+ Thu, 02 Dec 2021 21:40:33 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B2LP7tx005229;
+ Thu, 2 Dec 2021 21:40:32 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma02dal.us.ibm.com with ESMTP id 3cn5f17183-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Dec 2021 21:30:17 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B2LUGqb55706042
+ Thu, 02 Dec 2021 21:40:32 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B2LeUAK37421354
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 2 Dec 2021 21:30:16 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5B2DAAE064;
- Thu,  2 Dec 2021 21:30:16 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C7041AE068;
- Thu,  2 Dec 2021 21:30:13 +0000 (GMT)
+ Thu, 2 Dec 2021 21:40:30 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C8C9E78080;
+ Thu,  2 Dec 2021 21:40:30 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D0C1F7806D;
+ Thu,  2 Dec 2021 21:40:29 +0000 (GMT)
 Received: from farman-thinkpad-t470p (unknown [9.211.70.80])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu,  2 Dec 2021 21:30:13 +0000 (GMT)
-Message-ID: <ca4dc1b5b8e7f737337381609e4b44fb62f8f3eb.camel@linux.ibm.com>
-Subject: Re: [PATCH 3/4] s390x/pci: use the passthrough measurement update
- interval
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu,  2 Dec 2021 21:40:29 +0000 (GMT)
+Message-ID: <ab8c5e7a4ee6b5b373a789a0aefc71dbf70d1ebf.camel@linux.ibm.com>
+Subject: Re: [PATCH 4/4] s390x/pci: add supported DT information to clp
+ response
 From: Eric Farman <farman@linux.ibm.com>
 To: Matthew Rosato <mjrosato@linux.ibm.com>, thuth@redhat.com,
  qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-Date: Thu, 02 Dec 2021 16:30:12 -0500
-In-Reply-To: <20211202164110.326947-4-mjrosato@linux.ibm.com>
+Date: Thu, 02 Dec 2021 16:40:28 -0500
+In-Reply-To: <20211202164110.326947-5-mjrosato@linux.ibm.com>
 References: <20211202164110.326947-1-mjrosato@linux.ibm.com>
- <20211202164110.326947-4-mjrosato@linux.ibm.com>
+ <20211202164110.326947-5-mjrosato@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: XmWRzwr86LRP9ttxNpzd_ojRznt9HN9Q
-X-Proofpoint-GUID: JjNLdQ8roamWdZtKQAOJ7HsmLoiz5oiF
+X-Proofpoint-ORIG-GUID: c_BfiGFBBAV1nJ2i8sd7oyBlpfe8Fe_Y
+X-Proofpoint-GUID: o5p3PuVWZHjX2NuXkAT0OO5scZAfUQie
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-02_14,2021-12-02_01,2021-12-02_01
@@ -118,48 +119,77 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, 2021-12-02 at 11:41 -0500, Matthew Rosato wrote:
-> We may have gotten a measurement update interval from the underlying
-> host
-> via vfio -- Use it to set the interval via which we update the
-> function
-> measurement block.
+> The DTSM is a mask that specifies which I/O Address Translation
+> designation
+> types are supported.  A linux guest today does not look at this field
+> but
+> could in the future; let's advertise what QEMU actually supports.
 > 
-> Fixes: 28dc86a072 ("s390x/pci: use a PCI Group structure")
 > Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+
+Also good.
 
 Reviewed-by: Eric Farman <farman@linux.ibm.com>
 
 > ---
->  hw/s390x/s390-pci-inst.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  hw/s390x/s390-pci-bus.c         | 1 +
+>  hw/s390x/s390-pci-vfio.c        | 1 +
+>  include/hw/s390x/s390-pci-bus.h | 1 +
+>  include/hw/s390x/s390-pci-clp.h | 3 ++-
+>  4 files changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-> index 11b7f6bfa1..07bab85ce5 100644
-> --- a/hw/s390x/s390-pci-inst.c
-> +++ b/hw/s390x/s390-pci-inst.c
-> @@ -1046,7 +1046,7 @@ static void fmb_update(void *opaque)
->                        sizeof(pbdev->fmb.last_update))) {
->          return;
->      }
-> -    timer_mod(pbdev->fmb_timer, t + DEFAULT_MUI);
-> +    timer_mod(pbdev->fmb_timer, t + pbdev->pci_group-
-> >zpci_group.mui);
+> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+> index 1b51a72838..01b58ebc70 100644
+> --- a/hw/s390x/s390-pci-bus.c
+> +++ b/hw/s390x/s390-pci-bus.c
+> @@ -782,6 +782,7 @@ static void s390_pci_init_default_group(void)
+>      resgrp->i = 128;
+>      resgrp->maxstbl = 128;
+>      resgrp->version = 0;
+> +    resgrp->dtsm = ZPCI_DTSM;
 >  }
 >  
->  int mpcifc_service_call(S390CPU *cpu, uint8_t r1, uint64_t fiba,
-> uint8_t ar,
-> @@ -1204,7 +1204,8 @@ int mpcifc_service_call(S390CPU *cpu, uint8_t
-> r1, uint64_t fiba, uint8_t ar,
->          }
->          pbdev->fmb_addr = fmb_addr;
->          timer_mod(pbdev->fmb_timer,
-> -                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
-> DEFAULT_MUI);
-> +                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
-> +                                    pbdev->pci_group-
-> >zpci_group.mui);
->          break;
+>  static void set_pbdev_info(S390PCIBusDevice *pbdev)
+> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
+> index 2a153fa8c9..6f80a47e29 100644
+> --- a/hw/s390x/s390-pci-vfio.c
+> +++ b/hw/s390x/s390-pci-vfio.c
+> @@ -160,6 +160,7 @@ static void s390_pci_read_group(S390PCIBusDevice
+> *pbdev,
+>          resgrp->i = cap->noi;
+>          resgrp->maxstbl = cap->maxstbl;
+>          resgrp->version = cap->version;
+> +        resgrp->dtsm = ZPCI_DTSM;
 >      }
->      default:
+>  }
+>  
+> diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-
+> pci-bus.h
+> index 2727e7bdef..da3cde2bb4 100644
+> --- a/include/hw/s390x/s390-pci-bus.h
+> +++ b/include/hw/s390x/s390-pci-bus.h
+> @@ -37,6 +37,7 @@
+>  #define ZPCI_MAX_UID 0xffff
+>  #define UID_UNDEFINED 0
+>  #define UID_CHECKING_ENABLED 0x01
+> +#define ZPCI_DTSM 0x40
+>  
+>  OBJECT_DECLARE_SIMPLE_TYPE(S390pciState, S390_PCI_HOST_BRIDGE)
+>  OBJECT_DECLARE_SIMPLE_TYPE(S390PCIBus, S390_PCI_BUS)
+> diff --git a/include/hw/s390x/s390-pci-clp.h b/include/hw/s390x/s390-
+> pci-clp.h
+> index 96b8e3f133..cc8c8662b8 100644
+> --- a/include/hw/s390x/s390-pci-clp.h
+> +++ b/include/hw/s390x/s390-pci-clp.h
+> @@ -163,7 +163,8 @@ typedef struct ClpRspQueryPciGrp {
+>      uint8_t fr;
+>      uint16_t maxstbl;
+>      uint16_t mui;
+> -    uint64_t reserved3;
+> +    uint8_t dtsm;
+> +    uint8_t reserved3[7];
+>      uint64_t dasm; /* dma address space mask */
+>      uint64_t msia; /* MSI address */
+>      uint64_t reserved4;
 
 
