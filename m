@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BD546693C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:35:29 +0100 (CET)
-Received: from localhost ([::1]:48978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7DA46693D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:36:15 +0100 (CET)
+Received: from localhost ([::1]:50770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mspzT-0006lr-UK
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:35:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43054)
+	id 1msq0E-000865-T8
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:36:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mspwj-0004hj-LH; Thu, 02 Dec 2021 12:32:37 -0500
-Received: from [2607:f8b0:4864:20::f2b] (port=33716
- helo=mail-qv1-xf2b.google.com)
+ id 1mspxw-0005zM-UC; Thu, 02 Dec 2021 12:33:52 -0500
+Received: from [2607:f8b0:4864:20::735] (port=36487
+ helo=mail-qk1-x735.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mspwi-0004ZE-2u; Thu, 02 Dec 2021 12:32:37 -0500
-Received: by mail-qv1-xf2b.google.com with SMTP id bu11so226480qvb.0;
- Thu, 02 Dec 2021 09:32:35 -0800 (PST)
+ id 1mspxv-0004oM-47; Thu, 02 Dec 2021 12:33:52 -0500
+Received: by mail-qk1-x735.google.com with SMTP id i9so699705qki.3;
+ Thu, 02 Dec 2021 09:33:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=NwtgmuE90iKCwGnHdyMjUXNGhJba9UPR4ZboPObfO5E=;
- b=T83qvMEq7fySOGODJZLBXbeU0TYX7Ms49rTm+H4ER8wFENDoyNycARFJS99Kz48bpo
- i+hfoCsqlQai/AWj9gqlGeMgAorw6JsIINMjiKoJkHstPXX3/njubMiNL8R+mgjhbWUX
- erJ/ylJ43x/mGgvciOjbBDJfPeb+vemLDplc/fLKIjQ+Co2jCurZZBDxLtNsTtZtkxkJ
- UrZv+7wvlzZdGP2ghjBE3uJ7DXb3kSsJuLkFLQcQjUQM8BAwagJS9oGfhS4HpCTrHvrK
- +JQvYb4sax+wgqm0+g01a9mua8T+PhKsjlzkBLd5DE+Qy502qPLHO3IvSTkAFsvb+VEs
- NQ8g==
+ bh=+OqyCTggBvZ+aBt9wumBf+nFdES3oEgd3YB8MemvrKY=;
+ b=gxIBwGbA9zOJMoEE7pVjOySShZXQ0wYu9LwppaoVFuPm/IorDb85ArZUgKmzI8suUc
+ bkDxAS4DqKHaEfOIcy6y8Xb5jblk93QpjsblG4qk8hV7ehJU+c29x0qpb1xuQlA+UgbE
+ EC6MqcQHPFwyQWV8TDlDd7paBRqkyoddB//dltwpLroycw35Fn5+ZN1k19J9xvKCqZSf
+ nIc9BNZY3k7THN1HGlPXv++D7tX6MtGutBBXDNLaqFbZ4vhJp3cjf7TcujUcE6aGj+DH
+ oSWs8EnulxjuU8hKb4EugNmiWa9GxVdmE5veAq0GXF1b2fTh9o8YsnmFmwAFJKZiPh1i
+ jbHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=NwtgmuE90iKCwGnHdyMjUXNGhJba9UPR4ZboPObfO5E=;
- b=0bFKP2UJjgfbJHhWeJI914RqSljl+XID8Q5JXguu4sxigw3yzCHsesA4Wlwsa8Eary
- XdgRQBz1TPBQ012BF4Nr9craMXX0bm+gynRYQA28h/zum1W8Mf2CtP8J4iboV6rCipWl
- tELfd1dw1LtncfN4+cOdNLUEYnU+UF0EAkGOaKAZGpbcR/oAIOzoQuLxT8kYQL1+Ph7g
- qAbehnq03ZvsairshOuZM6FCTAw+ZHSk90j8UJHc9BhyGPgwsHEwzqLPcXtxho+Md3lG
- LXO/PXzCrlSHECUknCkuWAOu4MKMyaq2Yc9kO3ADTsr65vT6psc8Rhqhhbt84qe3sx5Z
- wzVg==
-X-Gm-Message-State: AOAM530h3MCknm2HazmwrEexnPNj3ZnKSprDRDG2uINDrNZ0HAj/Mr0A
- DrRNolEzEWy5Q7XE6C1hByt5GB+rSO8=
-X-Google-Smtp-Source: ABdhPJw7ng5XKfDrLakGbUVohVKR2mr9Pke6EkfGc+BEsR52LWTU7ZER0dMr4/PyTqSxeIbXpvmJ6w==
-X-Received: by 2002:a05:6214:528c:: with SMTP id
- kj12mr14314894qvb.4.1638466354865; 
- Thu, 02 Dec 2021 09:32:34 -0800 (PST)
+ bh=+OqyCTggBvZ+aBt9wumBf+nFdES3oEgd3YB8MemvrKY=;
+ b=nnBQkwb6Gowhxxslaf4q+XC/FkW2Sv1otew0dwTt4w0Fr7w6ZEsqkh7BvL4Z2v5gxj
+ GQZ84Qpusekz2ox6LpxypfKM400CiKp414horwU6OCG53eTqoGJesSxzGl0/W9KFAQMe
+ /MirvMa92Ef37UNNx2TDkg44HqlSyxGPIXSnBLtc9wg13mPj/ZlwRySesf4buzAh5+Lv
+ TS9SIqFctMuYjgf+JlsVXPRphmdpQ5gtE0jWMWzbKB16ENkAJBESPLFUD6ipgmfFO0QT
+ zeopbHO0Un1KdbQ5+BjrWXAioOZZPthrWG17djgEnPoxsMV7WsgPbxiJluzh9mo6Yj3J
+ Orug==
+X-Gm-Message-State: AOAM532jBoOzDY9xGNvhEPdScA9MJNNgaue5iI/U4ngDngP3yc0OYs6j
+ 37mYDETN19RXzRay0FKixnI=
+X-Google-Smtp-Source: ABdhPJxahx7ELDYi9j8LGlZst1keCzoLY8BF1ZOhd8Ex2k5PY8WtBGpNNbLyiEuWHYeSZzPSzTYnXg==
+X-Received: by 2002:a05:620a:1587:: with SMTP id
+ d7mr13583079qkk.126.1638466429996; 
+ Thu, 02 Dec 2021 09:33:49 -0800 (PST)
 Received: from [192.168.10.222] ([177.68.212.35])
- by smtp.gmail.com with ESMTPSA id i16sm223303qtx.57.2021.12.02.09.32.32
+ by smtp.gmail.com with ESMTPSA id w14sm311520qkp.54.2021.12.02.09.33.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Dec 2021 09:32:34 -0800 (PST)
-Message-ID: <64dd90b5-0261-9624-b214-794eddde4c06@gmail.com>
-Date: Thu, 2 Dec 2021 14:32:31 -0300
+ Thu, 02 Dec 2021 09:33:49 -0800 (PST)
+Message-ID: <d630a7d7-bf99-8434-c197-f3301ae4bcd9@gmail.com>
+Date: Thu, 2 Dec 2021 14:33:46 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 05/14] ppc/pnv: Reparent user created PHB3 devices to the
- PnvChip
+Subject: Re: [PATCH 06/14] ppc/pnv: Complete user created PHB3 devices
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211202144235.1276352-1-clg@kaod.org>
- <20211202144235.1276352-6-clg@kaod.org>
+ <20211202144235.1276352-7-clg@kaod.org>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20211202144235.1276352-6-clg@kaod.org>
+In-Reply-To: <20211202144235.1276352-7-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f2b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::735
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x735.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -99,80 +98,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 12/2/21 11:42, Cédric Le Goater wrote:
-> The powernv machine uses the object hierarchy to populate the device
-> tree and each device should be parented to the chip it belongs to.
-> This is not the case for user created devices which are parented to
-> the container "/unattached".
-> 
-> Make sure a PHB3 device is parented to its chip by reparenting the
-> object if necessary.
+> PHB3s ared SysBus devices and should be allowed to be dynamically
+> created.
 > 
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
->   include/hw/ppc/pnv.h   |  1 +
->   hw/pci-host/pnv_phb3.c |  6 ++++++
->   hw/ppc/pnv.c           | 17 +++++++++++++++++
->   3 files changed, 24 insertions(+)
+>   hw/pci-host/pnv_phb3.c | 9 +++++++++
+>   hw/ppc/pnv.c           | 2 ++
+>   2 files changed, 11 insertions(+)
 > 
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index 0710673a7fd8..247379ef1f88 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -175,6 +175,7 @@ DECLARE_INSTANCE_CHECKER(PnvChip, PNV_CHIP_POWER10,
->                            TYPE_PNV_CHIP_POWER10)
->   
->   PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir);
-> +void pnv_chip_parent_fixup(PnvChip *chip, Object *obj, int index);
->   
->   #define TYPE_PNV_MACHINE       MACHINE_TYPE_NAME("powernv")
->   typedef struct PnvMachineClass PnvMachineClass;
 > diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-> index dd1cf37288a0..e91f658b0060 100644
+> index e91f658b0060..b61f9c369f64 100644
 > --- a/hw/pci-host/pnv_phb3.c
 > +++ b/hw/pci-host/pnv_phb3.c
-> @@ -1005,6 +1005,12 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
->               error_setg(errp, "invalid chip id: %d", phb->chip_id);
->               return;
->           }
+> @@ -1000,6 +1000,9 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+>   
+>       /* User created devices */
+>       if (!phb->chip) {
+> +        Error *local_err = NULL;
+> +        BusState *s;
 > +
-> +        /*
-> +         * Reparent user created devices to the chip to build
-> +         * correctly the device tree.
-> +         */
-> +        pnv_chip_parent_fixup(phb->chip, OBJECT(phb), phb->phb_id);
+>           phb->chip = pnv_get_chip(pnv, phb->chip_id);
+>           if (!phb->chip) {
+>               error_setg(errp, "invalid chip id: %d", phb->chip_id);
+> @@ -1011,6 +1014,12 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+>            * correctly the device tree.
+>            */
+>           pnv_chip_parent_fixup(phb->chip, OBJECT(phb), phb->phb_id);
+> +
+> +        s = qdev_get_parent_bus(DEVICE(phb->chip));
+> +        if (!qdev_set_parent_bus(DEVICE(phb), s, &local_err)) {
+> +            error_propagate(errp, local_err);
+> +            return;
+> +        }
 >       }
 >   
 >       /* LSI sources */
 > diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index d7fe92cb082d..9a458655efd9 100644
+> index 9a458655efd9..45d8ecbf2bf7 100644
 > --- a/hw/ppc/pnv.c
 > +++ b/hw/ppc/pnv.c
-> @@ -1784,6 +1784,23 @@ PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir)
->       return NULL;
+> @@ -1927,6 +1927,8 @@ static void pnv_machine_power8_class_init(ObjectClass *oc, void *data)
+>   
+>       pmc->compat = compat;
+>       pmc->compat_size = sizeof(compat);
+> +
+> +    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB3);
 >   }
 >   
-> +void pnv_chip_parent_fixup(PnvChip *chip, Object *obj, int index)
-> +{
-> +    Object *parent = OBJECT(chip);
-> +    g_autofree char *default_id =
-> +        g_strdup_printf("%s[%d]", object_get_typename(obj), index);
-> +
-> +    if (obj->parent == parent) {
-> +        return;
-> +    }
-> +
-> +    object_ref(obj);
-> +    object_unparent(obj);
-> +    object_property_add_child(
-> +        parent, DEVICE(obj)->id ? DEVICE(obj)->id : default_id, obj);
-> +    object_unref(obj);
-> +}
-> +
->   PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_id)
->   {
->       int i;
+>   static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
 > 
 
