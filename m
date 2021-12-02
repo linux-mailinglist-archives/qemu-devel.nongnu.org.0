@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA14A466A52
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 20:17:24 +0100 (CET)
-Received: from localhost ([::1]:43128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C062466A69
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 20:25:36 +0100 (CET)
+Received: from localhost ([::1]:56696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msra7-00083p-Sv
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 14:17:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44952)
+	id 1msri3-0000eT-M8
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 14:25:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1msrT1-0007VH-C9
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 14:10:03 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:17978)
+ id 1msrSx-0007Ri-1O
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 14:09:59 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:21726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1msrSy-0006OV-MO
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 14:10:02 -0500
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B2J2Yud020374; 
- Thu, 2 Dec 2021 19:09:59 GMT
+ id 1msrSs-0006Nn-NG
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 14:09:58 -0500
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B2IlR1t024274; 
+ Thu, 2 Dec 2021 19:09:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=hue1FbAQNu+6fNtHW6xreW4UF9J/jJW7uHhvWwkmuQk=;
- b=wqeXmH6SlDdCVFt0TJvCeXkzzrGmzj/BpH2tH/tXj/zUwsYrf0EymiIkxSULxs+03rlP
- klGv0QiTQ3tk8F93qy2gKdkF/URMVZCaD+CqGs7NXTnlxhgF5/bKu9jwXPSxKDB1kadG
- C66S7FfJQ0xGTr2Y5ilJ8R6V/SNhMhb/EQWWVyPachxfHxH1ZvsFhoWmBJ2k+4H5+CPI
- BcRfoImvmr7UtOhwEV8jXtUaYX2em976jkBJO2J+1ZzN9MTo7eBfPJNTUWlinIdi/MrQ
- GD+bDPKk3oUgmO2zC9FZUXvnhqwWo7U0hqjkfKxbU3oYpoN20L8V4G5ymNhcHPPNT/tp 4w== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cp9r5a8tx-1
+ bh=wjU8eZmaW7smmH/zhs6MyIuQE/spXPGDYehAbMF8yh8=;
+ b=ZVl+Yk50HbgOtC7yb8oippqhT5ojqyiQ72qWnou4PeSD7Yz3c1b4Y1vOjANq7xAqdmZ9
+ 3kwipks5zufUAhNA+dqk0QjZ7cNi+nvY+YvyyfJGRfMraAQ8dE5I+7eOcWdlq6SMBNMl
+ fJIlfNIcBZ2Kc1ZRyWgJ1MmyqKDupzFzcEZsPECRw8dPhydje7VERivus2UuGKXZ3gqR
+ IdY0tiUHo6jxGNR3Gzssqoar1J7Vxc+pal4roUtyu2sseP7qWgPjv0HNoREYvAt7vaV3
+ ww19+tgTMeE2xtU1YMBe6Udj+WEY72uKvavBk6TeYKtV24kLnzPlUZ8y7/psriVss2MI hg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3cpasys3ak-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 02 Dec 2021 19:09:56 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1B2IoP4I115582;
- Thu, 2 Dec 2021 19:09:34 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com
- (mail-bn1nam07lp2048.outbound.protection.outlook.com [104.47.51.48])
- by userp3020.oracle.com with ESMTP id 3cke4urwd9-2
+ Thu, 02 Dec 2021 19:09:44 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1B2Ipfrt085637;
+ Thu, 2 Dec 2021 19:09:38 GMT
+Received: from nam04-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08lp2177.outbound.protection.outlook.com [104.47.73.177])
+ by aserp3030.oracle.com with ESMTP id 3ckaqk1y4s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 02 Dec 2021 19:09:34 +0000
+ Thu, 02 Dec 2021 19:09:38 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i63AHNCWBslZ+PNjsGcDrcYNcUpTavsRTeJe5NJqRncQ3sVSGIfNzKHZpmHCso2mY2ikc0aVlOrmZka3J/RT29fGhFILM2Ix6oO9gXA39MIIFKSiVw57URhXYC3fUWNKwNyy8OWs6Bj3VNwUMIDl4AxDQB9lGDp1e1eqzjHjphIWAR4gEteEM7CxVVd6xWc0mTEo8IXPsg/yZXU5uNn5eQ9xwZEqdLvv5jBgKZRqUx+ksTuuy/nvagw//+/SG3Uvj1Z0Clb9a16h1pP7MrNMlg4vyzJ/nreYPlAYkDNTtZUzo+YrzwZqQNl/u2htxesQhSn0XZxjA2W7pCSn4LqEwA==
+ b=eRsiy/vrwm5FF776D9Oha7sCfOd8RRXaPzhhfVwOwxmMhp2Dx2+XDfZugOVgExtLFuZQQxrVD7Rldu43cOa6Yt7OIPjKrlyTBmFvoprm92gWv5Do94emOHJy5yuTiTuOrTUNMWv+BznIm6aV4jj9GTm7F3kPF6ybXbd28B/vuy3Cr2MV6F6I391Fi3RCf/WpbT7XRtfGdfTM20xwb1CxspvKjc8O8GMFKhi1tc2h19vlMIPmYFIn1Zl7XvQ8DUP5HPgGSyEy4WwINDfGTNadD54O/+MdibyOr8Se/3Zp2WBwjcgxuZmO5vMGwrodIh3gUrLruluMC18PSHPVtFBNUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hue1FbAQNu+6fNtHW6xreW4UF9J/jJW7uHhvWwkmuQk=;
- b=hrimXqcnxskqRO+6/fHmGY5VEomNCsLmamaufK7laciDyGPmBsfSDPRBVvh3FE87EBYe6F2Pq4EmbBlOEfcqjIo/FTTcluZtSQoruD39XHpkfL10PrQl+qoctkD1gEip/NE1Lep5/sotw+xZMSVUbKUfFwc6U7Lig6OzgZyaRIdjTIZzyMsf+aFxWpekbK4GC6vJDsTpbrfN+J9Sw3ZmmM7apujRo6V5ZFad1m0UGjoClN7J00OadqTA3+6V4mf5SD1hZSlOoYMAGrK3ZD1RX1KMNpzFATnt8KM/NopqmGDL/KtEPgjisbHUVwbs/vgb26Pndb9oLtt7ahr2Zi5BuQ==
+ bh=wjU8eZmaW7smmH/zhs6MyIuQE/spXPGDYehAbMF8yh8=;
+ b=B7+LNR9ZI8ToFXMG8tw1a3JpboPai26Pybrmr+EVyi82UThgP3LzQtankIAgTgpmUMnZq9q60Whb6J8qjg3H/+GAIN8Z3YcEil13Db1Z1C0fGX5fp43fEjCFrRH8z0wN0PUUrwZSoZ0HjHlngSMUAlsYM8cAln2LLkq0SRIH07BPldB/Shnd7e1Yw3qdqnW3ZPw2eDeP+GhKJapECN/AKAQi94XMRpyMrwtoxgsWFmJ3jhWw+fQOqoGeYRonWTonpBRVEvdNyfZzr73AsrgbUX2d4UHeUM6iA1xrL2qFLXzH25FQuwcgmqgFWhP5daxzRR7VqAtZrFgeDyIEk2xLmw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hue1FbAQNu+6fNtHW6xreW4UF9J/jJW7uHhvWwkmuQk=;
- b=aedbL0AKzrABlmkyXc5BjJwG+Xp/XSp+6rzMfhltOhQEZutlSXZfXqyD60ROY3mIsEMMSsKdQWKDbckAz+TvcrpsxsEhYtNu2P2HtQvzE8paT4+LXGSipSu4SY6pT5pVq7VQgu5pff0sQLpLM3svnnz+74wmm8DFx3gcZTEbzr0=
+ bh=wjU8eZmaW7smmH/zhs6MyIuQE/spXPGDYehAbMF8yh8=;
+ b=Bwx1U6UmUjcK/3yWyH4G57rCE40jvNkSpovTk5Vo44Bam5FRDBHUPD6lQiukwS1PoC9q/1lUF70L4k5648LAmacfB5EaO6MOEoPO4vLOoJPZWoOAdT8mC9ALKmcm64IKeEAhgyQqf7dVJvXv1HMR+4m418bOMdvMc/+BvqeHNwg=
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
  by MWHPR10MB1760.namprd10.prod.outlook.com (2603:10b6:301:a::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Thu, 2 Dec
- 2021 19:09:33 +0000
+ 2021 19:09:35 +0000
 Received: from CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::143c:ea64:7017:19f]) by CO1PR10MB4531.namprd10.prod.outlook.com
  ([fe80::143c:ea64:7017:19f%4]) with mapi id 15.20.4755.015; Thu, 2 Dec 2021
- 19:09:33 +0000
+ 19:09:35 +0000
 From: Eric DeVolder <eric.devolder@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 09/10] ACPI ERST: bios-tables-test testcase
-Date: Thu,  2 Dec 2021 14:09:01 -0500
-Message-Id: <1638472142-14396-10-git-send-email-eric.devolder@oracle.com>
+Subject: [PATCH v9 10/10] ACPI ERST: step 6 of bios-tables-test.c
+Date: Thu,  2 Dec 2021 14:09:02 -0500
+Message-Id: <1638472142-14396-11-git-send-email-eric.devolder@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1638472142-14396-1-git-send-email-eric.devolder@oracle.com>
 References: <1638472142-14396-1-git-send-email-eric.devolder@oracle.com>
@@ -85,78 +85,79 @@ Received: from ban25x6uut23.us.oracle.com (138.3.201.23) by
  SJ0PR03CA0014.namprd03.prod.outlook.com (2603:10b6:a03:33a::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.16 via Frontend
- Transport; Thu, 2 Dec 2021 19:09:31 +0000
+ Transport; Thu, 2 Dec 2021 19:09:33 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0cf2cd2e-3eae-4e90-2f69-08d9b5c74639
+X-MS-Office365-Filtering-Correlation-Id: 2587caca-bd31-4da8-2fae-08d9b5c74768
 X-MS-TrafficTypeDiagnostic: MWHPR10MB1760:
-X-Microsoft-Antispam-PRVS: <MWHPR10MB1760E9D43003BE6EAA22BD2197699@MWHPR10MB1760.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:415;
+X-Microsoft-Antispam-PRVS: <MWHPR10MB17604E0FA602F4580D26A3DF97699@MWHPR10MB1760.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:126;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fiAvkfzIdCoRWsO7gSlA8pnqGHKS96snYdDTaRd4xioKDv4ueLpIDi2VBuxXKFu0TgeRyu9hn23jYSWUSkCJ4aZrl+SuloiStbB5j580Onb5TjDIsV3ZJjtNzMxvNL/7m6ypMBHkt7EcPF5qaGZI0mc3goqaSlX2V949ru+dWJeHM8SMkceo3DgFJTe3ybuLP/YLCrF0PJ0WhPdUX7duAHwJbBVdRN56Jglz/pk+tqh14B4P7ZTbShL+0EtstMSUaxZrY3har9fCCQd8UnVT9qCgKYfSBvjSgxyfHAsqJzzzb0XASngJUAbeRiHbA9NNp4Z55MFd/7UTJny7RWPVdB+IR6Z66RV8z0MzTUqouhIGMPA9QrojIlzbUu45CrKxwGX06RVVCsw0pSjRmqp9bZeGPTKRkN5qq5eL2XxmNqON0CeI7IPs2iLEdzKPktJ2z/994YGm0KyLBQur7SmFkYyxLrcxsktvU8oKR2EDm9lHoj/KaUUcYSC5AXvNK8vCluMkqNXInhPNqj8fUW1Exut9boa6XW862ROZ8GqntKeIgsI43PIpmFehXllx+9Pg3jgses1tC4IJ1peyRxleBQm5da3v81Yrq6eX1hjP0fkKK0GRCqkky9z3rIJviHsG2hCFXOHt1NbplhP4sKKf7Ua5tjZ+LF9TE3ljRkH00jSUdquXR2NVaaJArPuYkb4W9zJB6GRMlcCPbW9NdAR5YQ==
+X-Microsoft-Antispam-Message-Info: BVD3FfKgDoWr9SQIYHUb2mWFmVgxiGDmmmn5uMxz2KslLk6o6lPP2IoMHMkGQNmqMeQr5thu75fL+DfJfEd8kssuVH1DJU2im55FRW7MC7IFEaxd9N+bXcyuTr/+y0/AGd7aY3P5yI0B9tNSfuCnn3wWa044OJHwa7eQKWRLG58nAUIVX9wXabvh4f+X6UdWGt3iYXiCNwcqwAgYIEagMKrvMgSI5M5HJkAFDqHhyK2QK5S8gjUXFM5henCK7o8QpwJPDrYbahc3ofJ8A3SodMhsehbBLVo21ehdBclH3bIt4iKfUT2kehjlm3AYye1kAufCR8jEscoADPpt2HQihZmUx8tJzJ3ZxBSgKGtowY0st3SBo2QVBQ2W+/ctrZCM7lAfVgHiMBHvgt6CdR3Xt36fz5CpsjcbefqI70r82XKU8q/zthtvyzpgcR087VJfgANE7wt/0efpIMMzhKY/oBOLsCh0yaw3reXYsXAPNmbeYwkk1jrgl+eUfVsIFR5vxkCfesgBjk9js1fyW0KzFJhBBJXwnZ5nPBdeRdE59XckgfLyNzCEBchVtP8Ix1Q52cvSCv0yf3EkqLYaqGlDxlxhf1qx+rMjKZbG7fTFeUSAfYlIJaI43UcFw/jAtRSoBkIstqJy9sQTl3l58GaRtrW9xg83QPW0BG2LohqnJta1BT1LCjOAb3fIevJ56EIJizQnI9e2kDGY+qpGSUgODw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(6666004)(38100700002)(38350700002)(66556008)(36756003)(316002)(66476007)(66946007)(2906002)(186003)(6486002)(8676002)(6916009)(26005)(5660300002)(107886003)(52116002)(8936002)(508600001)(7696005)(956004)(4326008)(2616005)(86362001);
+ SFS:(366004)(6666004)(38100700002)(38350700002)(66556008)(36756003)(316002)(66476007)(66946007)(2906002)(186003)(6486002)(8676002)(6916009)(26005)(5660300002)(83380400001)(30864003)(107886003)(52116002)(8936002)(508600001)(7696005)(956004)(4326008)(2616005)(86362001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FKDxZh68gZwz93jDdOB1vyreDl6s1Ch9YmBtbWH8aWr29H4KD+Zn1My+U2kK?=
- =?us-ascii?Q?DEgW9tu1jkeBAgTuSQnoWZv8ImPj6xV90iKbe/mRh9OhJlMw1tm3x04Ynk4g?=
- =?us-ascii?Q?ybeSjyb6WQv/D0mK5SjZh9VbaiJz0eUKvGr4RFBqzO0R84nCen9x/4Aol9qa?=
- =?us-ascii?Q?r0UC/uf+9TG15CC6K+fq0rCZ/SrV1Hl/19n1HLH0IuJxpNBAoKXaOeZbqPK6?=
- =?us-ascii?Q?Umh8sMqRqWTe+EdZl1wlg11rnqhgFgWUSjoQfyFkmqiZWWP3EYATybsG08sk?=
- =?us-ascii?Q?eqomdA7V9ZXRGq/EfdhaY1jTdu9gtu3ESZuqadR8Xnz99Enxmw/9ZNJSfvYg?=
- =?us-ascii?Q?rfHmuFaGjy17iGZyXWgyW60mYszMqI3vi4tEGHzPrbHvv471tCgc+a3SnzNs?=
- =?us-ascii?Q?aG2pEEaPNZcDEico0nvM3LqGi2SA9rSl9xhfllPFRPep4cf2bzkeoY6qTM+L?=
- =?us-ascii?Q?nyMcfpisdJHbvevePt5OT1VTuXY5hRx59T0on5pkD8TVaJxR/1Vx8GbcP9Dv?=
- =?us-ascii?Q?WSP/kJGxn84JmtOnmjaddA1aPeFSihWVd+Z6LHiBZC9rVlnG4Y7IavrOncUn?=
- =?us-ascii?Q?DSOp8MRHPjIUI/Du5PVpvExk6sd3RZi7XDkW7FIYrUVLhxNfsCNkptGvMFD/?=
- =?us-ascii?Q?FpycTrzdfREcrDW0iPNoPKkRCHDpGr5JrdJHfXVEC4QXmNj35Hs5BgMl4E5h?=
- =?us-ascii?Q?qGsJf5bqpGS57mA3ymoMdrHnuifpqy1b3QGSjs8sibffIonh+x7GD8iH1Btv?=
- =?us-ascii?Q?E8FBOb93eAiTKeZsxET2le6g1LdG7QMpR7mGnsgR3AhhRnqktKKzw5lYmNRL?=
- =?us-ascii?Q?w2f6n+OJ/qH8JFy754Obo/Nlvu+yS9sFWw3/j1gdHg+6s3GrQbWalTpV1Y/Q?=
- =?us-ascii?Q?Lc62Y3nhFa0fq0XZSPcYV0wl4PEx4tVL7dBpuupPAabhBUMJARlfDuhCOTGI?=
- =?us-ascii?Q?r3eh3xf2kOpBWF7LkXb6KQcNDDTT0UUH/cxN7SvhmI8lXIMD2KxmY/PqpJAM?=
- =?us-ascii?Q?mWh1vwWeyLNnNkAy1J6Fsniyti8bvaNSB9uTnr5BQcMkXKiddrV8UyjA0j8f?=
- =?us-ascii?Q?+FXX0DVxqZDlPGS+V3R5JgCXfsd3kaO5n3MZ4uMaXeY09LRZ09RHjxwCnxCJ?=
- =?us-ascii?Q?p+SKJnLnCwFZXuVa5ElK2zunOWxdytsmELxTjKIHpGVmwMp2iitm2BbnQwY5?=
- =?us-ascii?Q?2A3HCbQJ9eKXb6Jm2Zh9T8QncSVwScrgiyj2w40GGCf4XnFGjtGD30pQ5yxb?=
- =?us-ascii?Q?516tJeDE9GOQtEmK+5a3Q6LmikiWEjNvR+nQmFlYFN9WaeplfJyi1SIzq5U+?=
- =?us-ascii?Q?yorRdaLxUhggy8GFqPNSQC4icioXs4lO/hC91514aMJXoprrK+TwD9l/My2h?=
- =?us-ascii?Q?cMOnRKKOAnFaxHkAJYiOHg/8LTjqm1dqjq/QIj9CGDnE/BQmsRkzmCByuOh+?=
- =?us-ascii?Q?aO4csYp5f7UQQYQaDnwpKilzVUbK0eMnZTx82tEcfACpQtHE7Jsu5abIZ41y?=
- =?us-ascii?Q?ADyfaJQYp0/Qko2ynIh9N+mfjCdNU+9d/QDjQOQs2cnYXqDXm4DPIrjwVh9f?=
- =?us-ascii?Q?azqiMGm1HZwQoTFJeOhdtn7HY5frSl38LxNaDMDWsZhSwL5MeX+ePsBmf+xy?=
- =?us-ascii?Q?z1bn/7TgODIkMNE2HC/MOr8rHYOSege/DGWUnaszhCqqltwQ2SIrmhuKb8xC?=
- =?us-ascii?Q?5K/Zpw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?eUij6eL54asiKNteGCzzRPSD7Ni69bklZSDkLyTnOfpAelTxIS5lyZbHs4Zh?=
+ =?us-ascii?Q?sgi47fWuiheAw6eSZSj0k4ikSMXOLc+GYMZmosttrn8GG+ArBKhu2/EcYi6E?=
+ =?us-ascii?Q?2u+wsqM92ZGoo0Va77uPjGVj+fxKMBnh8lg7AxUHwnsuvLhgS/ORRzXIZVFz?=
+ =?us-ascii?Q?HfiHlclZT06rG8xVWhcs7JDXt2ZkfhpSvqV0dXX/fa1UQf2SnckqD8s1m6q5?=
+ =?us-ascii?Q?JNOuJ6mb8XV3BjOB0nfYrc1cZUfW/K3EibcisGTrChTfeKl8k/HcTRxLxLp6?=
+ =?us-ascii?Q?jIrNm8oUa8jLV0e47SCNA4LHO0+xVaC1VBJxUKh8j5Yf+/8asu9deJXK30Q1?=
+ =?us-ascii?Q?0KqLhfk6EZ+8oKXdWsgFTzG3wTiAcyI9qLNLDcIJaynhWqC5a73KFKoAeht5?=
+ =?us-ascii?Q?HXU7ZMp3rztnv/L4KpemxfeNAM9CatYhqUk+ThM6GKSu5FzgbYas6EJu6dab?=
+ =?us-ascii?Q?EOzMrQqJ86ZS0FU74Qj+vzkNwjfz+Xvq1KtKZgXFP9aGhno2TKDe/1E3RuDA?=
+ =?us-ascii?Q?cl7gddSeUCSdQZR+rMWUZKty/OR/Do9dM9NBDlANK5GnbJuFsEUNHLaYaDEI?=
+ =?us-ascii?Q?RzNag2n2d+1QtbCsky0/Ekj6yx656rgxS5uWKiqvven1yUbI2eDqGExOSe8k?=
+ =?us-ascii?Q?rSQ8//23hrw9pY0891D/h0XyiDceJu93s2RFkuD6ZNIUa6U56mvivlrkehSK?=
+ =?us-ascii?Q?lRPZWNhz2N433r2JLiD993OfgB/SuKE+BJ0bB/fRnfcHQZRnE3eLWcki48sg?=
+ =?us-ascii?Q?ODU+1ae+UZk010XnU3bgd34AAeCe0A/ZqBfH6EBUyiaXYJDEdl2i5hknph4U?=
+ =?us-ascii?Q?ULpyXEakano5+AgJUMtlgyDgz3OlwH4qmEY5g0E5jMjuQ8LJ75mtDo2xRmvD?=
+ =?us-ascii?Q?hhXwA/78SYDpyRsU4jYuGY0yRa0dASjztLWJVyY1cuptfFLncnXyDfejrC43?=
+ =?us-ascii?Q?EzczaHSTTfmnNnVxRl7+lhySh/1GLkOEl8xOjnjN0vmh5kHKBMzHXuhQHHg7?=
+ =?us-ascii?Q?b1At5bsYHut6NSGn7UQ9u0UkgCte4MaSIsci/P/Mmm2V1KDJNQJdkpMizt0R?=
+ =?us-ascii?Q?0qnoD005rsEgNpffNv6zP92F5e4wn4h11/E3npOsqAzfULV6uyKflrgnSi6t?=
+ =?us-ascii?Q?190YZiNPqacYM07GZLzf9tNY28EGEcBczTWPgS6OHws2X9rLL0F5/Ov9LvgY?=
+ =?us-ascii?Q?Rod11WaCmLIVV+5razcHCe8/kspXrgjJluITnXMGdW6tKAPtkFI3Y6OOpqP+?=
+ =?us-ascii?Q?Gm7CK8n0jIHLCR4Ji7GU/mis74c2GYJCGO7U8n9augeFa5hLmL5hgNRwJuk0?=
+ =?us-ascii?Q?Bn7+zR9qrj2AFaZq+DHP8hzg7isR8HdFxcgd/5C+i8Zos5P5GOnF/3CAUZuO?=
+ =?us-ascii?Q?wTF3JjGcSC1HoPn87CNs2VJ3WvjGj+7uKOOqXa3e206RAX7ZhprOUprUiPtX?=
+ =?us-ascii?Q?jdjXIRZgFs9mEvj/Uyuxvm8VqzNss2Kn4B1rDJjURFTe4to+Ez1hg+P9F4k6?=
+ =?us-ascii?Q?qr6GAoMpLVjzdz6fuTvbNGz578rlkCF4/fFIaFkt9C3YHel73osg2HbOnVdR?=
+ =?us-ascii?Q?8SZB4f6N4O3ONTpX+/x1CfxuJ375Aw6ovTYrE8BtXic6VlrWl3HfeBrRgdZc?=
+ =?us-ascii?Q?r6yVHQJWUkUjad/jmTR2t3ReE63kbWSJgajWKD/ikws6NS1+hGzIG7nlF2M7?=
+ =?us-ascii?Q?30OIug=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0cf2cd2e-3eae-4e90-2f69-08d9b5c74639
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2587caca-bd31-4da8-2fae-08d9b5c74768
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 19:09:33.2797 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 19:09:35.2578 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tnU1Sf7FeJzt6jZhRPjj5vjejDOE0b9/HrxApERKEB4bHgDePv8VBS+Y+jvdF0vPwZOzakGkhADcHrSH+N7zKSGiQgyvApGVoKeaE0MSuMs=
+X-MS-Exchange-CrossTenant-UserPrincipalName: dq0mshpLdaqwqyyPnoToo0byrkHGVsF1E9W2oUMIPGxq/t1S70jtcgW9kk+x1rj9w2+AS4oDstkHPUjqW9wZCmyASUiXqNjt1VTM9yd3OEE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1760
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10185
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxlogscore=984
- phishscore=0 suspectscore=0 spamscore=0 adultscore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112020121
-X-Proofpoint-ORIG-GUID: TYbAeKKTzKpVTBZhZrG7goyGsotJyusy
-X-Proofpoint-GUID: TYbAeKKTzKpVTBZhZrG7goyGsotJyusy
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ malwarescore=0 mlxscore=0
+ suspectscore=0 mlxlogscore=967 spamscore=0 phishscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2112020121
+X-Proofpoint-GUID: YGCjmyOdCIGH6xk7CEcgvnlrsn6vDF9N
+X-Proofpoint-ORIG-GUID: YGCjmyOdCIGH6xk7CEcgvnlrsn6vDF9N
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=eric.devolder@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -175,94 +176,756 @@ Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change implements the test suite checks for the ERST table.
+Following the guidelines in tests/qtest/bios-tables-test.c, this
+is step 6.
+
+Below is the disassembly of tests/data/acpi/pc/ERST.acpierst.
+
+ /*
+  * Intel ACPI Component Architecture
+  * AML/ASL+ Disassembler version 20180508 (64-bit version)
+  * Copyright (c) 2000 - 2018 Intel Corporation
+  *
+  * Disassembly of tests/data/acpi/pc/ERST.acpierst, Thu Dec  2 13:32:07 2021
+  *
+  * ACPI Data Table [ERST]
+  *
+  * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
+  */
+
+ [000h 0000   4]                    Signature : "ERST"    [Error Record Serialization Table]
+ [004h 0004   4]                 Table Length : 00000390
+ [008h 0008   1]                     Revision : 01
+ [009h 0009   1]                     Checksum : D6
+ [00Ah 0010   6]                       Oem ID : "BOCHS "
+ [010h 0016   8]                 Oem Table ID : "BXPC    "
+ [018h 0024   4]                 Oem Revision : 00000001
+ [01Ch 0028   4]              Asl Compiler ID : "BXPC"
+ [020h 0032   4]        Asl Compiler Revision : 00000001
+
+ [024h 0036   4]  Serialization Header Length : 00000030
+ [028h 0040   4]                     Reserved : 00000000
+ [02Ch 0044   4]      Instruction Entry Count : 0000001B
+
+ [030h 0048   1]                       Action : 00 [Begin Write Operation]
+ [031h 0049   1]                  Instruction : 03 [Write Register Value]
+ [032h 0050   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [033h 0051   1]                     Reserved : 00
+
+ [034h 0052  12]              Register Region : [Generic Address Structure]
+ [034h 0052   1]                     Space ID : 00 [SystemMemory]
+ [035h 0053   1]                    Bit Width : 20
+ [036h 0054   1]                   Bit Offset : 00
+ [037h 0055   1]         Encoded Access Width : 03 [DWord Access:32]
+ [038h 0056   8]                      Address : 00000000FEBF3000
+
+ [040h 0064   8]                        Value : 0000000000000000
+ [048h 0072   8]                         Mask : 00000000000000FF
+
+ [050h 0080   1]                       Action : 01 [Begin Read Operation]
+ [051h 0081   1]                  Instruction : 03 [Write Register Value]
+ [052h 0082   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [053h 0083   1]                     Reserved : 00
+
+ [054h 0084  12]              Register Region : [Generic Address Structure]
+ [054h 0084   1]                     Space ID : 00 [SystemMemory]
+ [055h 0085   1]                    Bit Width : 20
+ [056h 0086   1]                   Bit Offset : 00
+ [057h 0087   1]         Encoded Access Width : 03 [DWord Access:32]
+ [058h 0088   8]                      Address : 00000000FEBF3000
+
+ [060h 0096   8]                        Value : 0000000000000001
+ [068h 0104   8]                         Mask : 00000000000000FF
+
+ [070h 0112   1]                       Action : 02 [Begin Clear Operation]
+ [071h 0113   1]                  Instruction : 03 [Write Register Value]
+ [072h 0114   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [073h 0115   1]                     Reserved : 00
+
+ [074h 0116  12]              Register Region : [Generic Address Structure]
+ [074h 0116   1]                     Space ID : 00 [SystemMemory]
+ [075h 0117   1]                    Bit Width : 20
+ [076h 0118   1]                   Bit Offset : 00
+ [077h 0119   1]         Encoded Access Width : 03 [DWord Access:32]
+ [078h 0120   8]                      Address : 00000000FEBF3000
+
+ [080h 0128   8]                        Value : 0000000000000002
+ [088h 0136   8]                         Mask : 00000000000000FF
+
+ [090h 0144   1]                       Action : 03 [End Operation]
+ [091h 0145   1]                  Instruction : 03 [Write Register Value]
+ [092h 0146   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [093h 0147   1]                     Reserved : 00
+
+ [094h 0148  12]              Register Region : [Generic Address Structure]
+ [094h 0148   1]                     Space ID : 00 [SystemMemory]
+ [095h 0149   1]                    Bit Width : 20
+ [096h 0150   1]                   Bit Offset : 00
+ [097h 0151   1]         Encoded Access Width : 03 [DWord Access:32]
+ [098h 0152   8]                      Address : 00000000FEBF3000
+
+ [0A0h 0160   8]                        Value : 0000000000000003
+ [0A8h 0168   8]                         Mask : 00000000000000FF
+
+ [0B0h 0176   1]                       Action : 04 [Set Record Offset]
+ [0B1h 0177   1]                  Instruction : 02 [Write Register]
+ [0B2h 0178   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [0B3h 0179   1]                     Reserved : 00
+
+ [0B4h 0180  12]              Register Region : [Generic Address Structure]
+ [0B4h 0180   1]                     Space ID : 00 [SystemMemory]
+ [0B5h 0181   1]                    Bit Width : 20
+ [0B6h 0182   1]                   Bit Offset : 00
+ [0B7h 0183   1]         Encoded Access Width : 03 [DWord Access:32]
+ [0B8h 0184   8]                      Address : 00000000FEBF3008
+
+ [0C0h 0192   8]                        Value : 0000000000000000
+ [0C8h 0200   8]                         Mask : 00000000FFFFFFFF
+
+ [0D0h 0208   1]                       Action : 04 [Set Record Offset]
+ [0D1h 0209   1]                  Instruction : 03 [Write Register Value]
+ [0D2h 0210   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [0D3h 0211   1]                     Reserved : 00
+
+ [0D4h 0212  12]              Register Region : [Generic Address Structure]
+ [0D4h 0212   1]                     Space ID : 00 [SystemMemory]
+ [0D5h 0213   1]                    Bit Width : 20
+ [0D6h 0214   1]                   Bit Offset : 00
+ [0D7h 0215   1]         Encoded Access Width : 03 [DWord Access:32]
+ [0D8h 0216   8]                      Address : 00000000FEBF3000
+
+ [0E0h 0224   8]                        Value : 0000000000000004
+ [0E8h 0232   8]                         Mask : 00000000000000FF
+
+ [0F0h 0240   1]                       Action : 05 [Execute Operation]
+ [0F1h 0241   1]                  Instruction : 03 [Write Register Value]
+ [0F2h 0242   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [0F3h 0243   1]                     Reserved : 00
+
+ [0F4h 0244  12]              Register Region : [Generic Address Structure]
+ [0F4h 0244   1]                     Space ID : 00 [SystemMemory]
+ [0F5h 0245   1]                    Bit Width : 20
+ [0F6h 0246   1]                   Bit Offset : 00
+ [0F7h 0247   1]         Encoded Access Width : 03 [DWord Access:32]
+ [0F8h 0248   8]                      Address : 00000000FEBF3008
+
+ [100h 0256   8]                        Value : 000000000000009C
+ [108h 0264   8]                         Mask : 00000000000000FF
+
+ [110h 0272   1]                       Action : 05 [Execute Operation]
+ [111h 0273   1]                  Instruction : 03 [Write Register Value]
+ [112h 0274   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [113h 0275   1]                     Reserved : 00
+
+ [114h 0276  12]              Register Region : [Generic Address Structure]
+ [114h 0276   1]                     Space ID : 00 [SystemMemory]
+ [115h 0277   1]                    Bit Width : 20
+ [116h 0278   1]                   Bit Offset : 00
+ [117h 0279   1]         Encoded Access Width : 03 [DWord Access:32]
+ [118h 0280   8]                      Address : 00000000FEBF3000
+
+ [120h 0288   8]                        Value : 0000000000000005
+ [128h 0296   8]                         Mask : 00000000000000FF
+
+ [130h 0304   1]                       Action : 06 [Check Busy Status]
+ [131h 0305   1]                  Instruction : 03 [Write Register Value]
+ [132h 0306   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [133h 0307   1]                     Reserved : 00
+
+ [134h 0308  12]              Register Region : [Generic Address Structure]
+ [134h 0308   1]                     Space ID : 00 [SystemMemory]
+ [135h 0309   1]                    Bit Width : 20
+ [136h 0310   1]                   Bit Offset : 00
+ [137h 0311   1]         Encoded Access Width : 03 [DWord Access:32]
+ [138h 0312   8]                      Address : 00000000FEBF3000
+
+ [140h 0320   8]                        Value : 0000000000000006
+ [148h 0328   8]                         Mask : 00000000000000FF
+
+ [150h 0336   1]                       Action : 06 [Check Busy Status]
+ [151h 0337   1]                  Instruction : 01 [Read Register Value]
+ [152h 0338   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [153h 0339   1]                     Reserved : 00
+
+ [154h 0340  12]              Register Region : [Generic Address Structure]
+ [154h 0340   1]                     Space ID : 00 [SystemMemory]
+ [155h 0341   1]                    Bit Width : 20
+ [156h 0342   1]                   Bit Offset : 00
+ [157h 0343   1]         Encoded Access Width : 03 [DWord Access:32]
+ [158h 0344   8]                      Address : 00000000FEBF3008
+
+ [160h 0352   8]                        Value : 0000000000000001
+ [168h 0360   8]                         Mask : 00000000000000FF
+
+ [170h 0368   1]                       Action : 07 [Get Command Status]
+ [171h 0369   1]                  Instruction : 03 [Write Register Value]
+ [172h 0370   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [173h 0371   1]                     Reserved : 00
+
+ [174h 0372  12]              Register Region : [Generic Address Structure]
+ [174h 0372   1]                     Space ID : 00 [SystemMemory]
+ [175h 0373   1]                    Bit Width : 20
+ [176h 0374   1]                   Bit Offset : 00
+ [177h 0375   1]         Encoded Access Width : 03 [DWord Access:32]
+ [178h 0376   8]                      Address : 00000000FEBF3000
+
+ [180h 0384   8]                        Value : 0000000000000007
+ [188h 0392   8]                         Mask : 00000000000000FF
+
+ [190h 0400   1]                       Action : 07 [Get Command Status]
+ [191h 0401   1]                  Instruction : 00 [Read Register]
+ [192h 0402   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [193h 0403   1]                     Reserved : 00
+
+ [194h 0404  12]              Register Region : [Generic Address Structure]
+ [194h 0404   1]                     Space ID : 00 [SystemMemory]
+ [195h 0405   1]                    Bit Width : 20
+ [196h 0406   1]                   Bit Offset : 00
+ [197h 0407   1]         Encoded Access Width : 03 [DWord Access:32]
+ [198h 0408   8]                      Address : 00000000FEBF3008
+
+ [1A0h 0416   8]                        Value : 0000000000000000
+ [1A8h 0424   8]                         Mask : 00000000000000FF
+
+ [1B0h 0432   1]                       Action : 08 [Get Record Identifier]
+ [1B1h 0433   1]                  Instruction : 03 [Write Register Value]
+ [1B2h 0434   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [1B3h 0435   1]                     Reserved : 00
+
+ [1B4h 0436  12]              Register Region : [Generic Address Structure]
+ [1B4h 0436   1]                     Space ID : 00 [SystemMemory]
+ [1B5h 0437   1]                    Bit Width : 20
+ [1B6h 0438   1]                   Bit Offset : 00
+ [1B7h 0439   1]         Encoded Access Width : 03 [DWord Access:32]
+ [1B8h 0440   8]                      Address : 00000000FEBF3000
+
+ [1C0h 0448   8]                        Value : 0000000000000008
+ [1C8h 0456   8]                         Mask : 00000000000000FF
+
+ [1D0h 0464   1]                       Action : 08 [Get Record Identifier]
+ [1D1h 0465   1]                  Instruction : 00 [Read Register]
+ [1D2h 0466   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [1D3h 0467   1]                     Reserved : 00
+
+ [1D4h 0468  12]              Register Region : [Generic Address Structure]
+ [1D4h 0468   1]                     Space ID : 00 [SystemMemory]
+ [1D5h 0469   1]                    Bit Width : 40
+ [1D6h 0470   1]                   Bit Offset : 00
+ [1D7h 0471   1]         Encoded Access Width : 04 [QWord Access:64]
+ [1D8h 0472   8]                      Address : 00000000FEBF3008
+
+ [1E0h 0480   8]                        Value : 0000000000000000
+ [1E8h 0488   8]                         Mask : FFFFFFFFFFFFFFFF
+
+ [1F0h 0496   1]                       Action : 09 [Set Record Identifier]
+ [1F1h 0497   1]                  Instruction : 02 [Write Register]
+ [1F2h 0498   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [1F3h 0499   1]                     Reserved : 00
+
+ [1F4h 0500  12]              Register Region : [Generic Address Structure]
+ [1F4h 0500   1]                     Space ID : 00 [SystemMemory]
+ [1F5h 0501   1]                    Bit Width : 40
+ [1F6h 0502   1]                   Bit Offset : 00
+ [1F7h 0503   1]         Encoded Access Width : 04 [QWord Access:64]
+ [1F8h 0504   8]                      Address : 00000000FEBF3008
+
+ [200h 0512   8]                        Value : 0000000000000000
+ [208h 0520   8]                         Mask : FFFFFFFFFFFFFFFF
+
+ [210h 0528   1]                       Action : 09 [Set Record Identifier]
+ [211h 0529   1]                  Instruction : 03 [Write Register Value]
+ [212h 0530   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [213h 0531   1]                     Reserved : 00
+
+ [214h 0532  12]              Register Region : [Generic Address Structure]
+ [214h 0532   1]                     Space ID : 00 [SystemMemory]
+ [215h 0533   1]                    Bit Width : 20
+ [216h 0534   1]                   Bit Offset : 00
+ [217h 0535   1]         Encoded Access Width : 03 [DWord Access:32]
+ [218h 0536   8]                      Address : 00000000FEBF3000
+
+ [220h 0544   8]                        Value : 0000000000000009
+ [228h 0552   8]                         Mask : 00000000000000FF
+
+ [230h 0560   1]                       Action : 0A [Get Record Count]
+ [231h 0561   1]                  Instruction : 03 [Write Register Value]
+ [232h 0562   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [233h 0563   1]                     Reserved : 00
+
+ [234h 0564  12]              Register Region : [Generic Address Structure]
+ [234h 0564   1]                     Space ID : 00 [SystemMemory]
+ [235h 0565   1]                    Bit Width : 20
+ [236h 0566   1]                   Bit Offset : 00
+ [237h 0567   1]         Encoded Access Width : 03 [DWord Access:32]
+ [238h 0568   8]                      Address : 00000000FEBF3000
+
+ [240h 0576   8]                        Value : 000000000000000A
+ [248h 0584   8]                         Mask : 00000000000000FF
+
+ [250h 0592   1]                       Action : 0A [Get Record Count]
+ [251h 0593   1]                  Instruction : 00 [Read Register]
+ [252h 0594   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [253h 0595   1]                     Reserved : 00
+
+ [254h 0596  12]              Register Region : [Generic Address Structure]
+ [254h 0596   1]                     Space ID : 00 [SystemMemory]
+ [255h 0597   1]                    Bit Width : 20
+ [256h 0598   1]                   Bit Offset : 00
+ [257h 0599   1]         Encoded Access Width : 03 [DWord Access:32]
+ [258h 0600   8]                      Address : 00000000FEBF3008
+
+ [260h 0608   8]                        Value : 0000000000000000
+ [268h 0616   8]                         Mask : 00000000FFFFFFFF
+
+ [270h 0624   1]                       Action : 0B [Begin Dummy Write]
+ [271h 0625   1]                  Instruction : 03 [Write Register Value]
+ [272h 0626   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [273h 0627   1]                     Reserved : 00
+
+ [274h 0628  12]              Register Region : [Generic Address Structure]
+ [274h 0628   1]                     Space ID : 00 [SystemMemory]
+ [275h 0629   1]                    Bit Width : 20
+ [276h 0630   1]                   Bit Offset : 00
+ [277h 0631   1]         Encoded Access Width : 03 [DWord Access:32]
+ [278h 0632   8]                      Address : 00000000FEBF3000
+
+ [280h 0640   8]                        Value : 000000000000000B
+ [288h 0648   8]                         Mask : 00000000000000FF
+
+ [290h 0656   1]                       Action : 0D [Get Error Address Range]
+ [291h 0657   1]                  Instruction : 03 [Write Register Value]
+ [292h 0658   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [293h 0659   1]                     Reserved : 00
+
+ [294h 0660  12]              Register Region : [Generic Address Structure]
+ [294h 0660   1]                     Space ID : 00 [SystemMemory]
+ [295h 0661   1]                    Bit Width : 20
+ [296h 0662   1]                   Bit Offset : 00
+ [297h 0663   1]         Encoded Access Width : 03 [DWord Access:32]
+ [298h 0664   8]                      Address : 00000000FEBF3000
+
+ [2A0h 0672   8]                        Value : 000000000000000D
+ [2A8h 0680   8]                         Mask : 00000000000000FF
+
+ [2B0h 0688   1]                       Action : 0D [Get Error Address Range]
+ [2B1h 0689   1]                  Instruction : 00 [Read Register]
+ [2B2h 0690   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [2B3h 0691   1]                     Reserved : 00
+
+ [2B4h 0692  12]              Register Region : [Generic Address Structure]
+ [2B4h 0692   1]                     Space ID : 00 [SystemMemory]
+ [2B5h 0693   1]                    Bit Width : 40
+ [2B6h 0694   1]                   Bit Offset : 00
+ [2B7h 0695   1]         Encoded Access Width : 04 [QWord Access:64]
+ [2B8h 0696   8]                      Address : 00000000FEBF3008
+
+ [2C0h 0704   8]                        Value : 0000000000000000
+ [2C8h 0712   8]                         Mask : FFFFFFFFFFFFFFFF
+
+ [2D0h 0720   1]                       Action : 0E [Get Error Address Length]
+ [2D1h 0721   1]                  Instruction : 03 [Write Register Value]
+ [2D2h 0722   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [2D3h 0723   1]                     Reserved : 00
+
+ [2D4h 0724  12]              Register Region : [Generic Address Structure]
+ [2D4h 0724   1]                     Space ID : 00 [SystemMemory]
+ [2D5h 0725   1]                    Bit Width : 20
+ [2D6h 0726   1]                   Bit Offset : 00
+ [2D7h 0727   1]         Encoded Access Width : 03 [DWord Access:32]
+ [2D8h 0728   8]                      Address : 00000000FEBF3000
+
+ [2E0h 0736   8]                        Value : 000000000000000E
+ [2E8h 0744   8]                         Mask : 00000000000000FF
+
+ [2F0h 0752   1]                       Action : 0E [Get Error Address Length]
+ [2F1h 0753   1]                  Instruction : 00 [Read Register]
+ [2F2h 0754   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [2F3h 0755   1]                     Reserved : 00
+
+ [2F4h 0756  12]              Register Region : [Generic Address Structure]
+ [2F4h 0756   1]                     Space ID : 00 [SystemMemory]
+ [2F5h 0757   1]                    Bit Width : 40
+ [2F6h 0758   1]                   Bit Offset : 00
+ [2F7h 0759   1]         Encoded Access Width : 04 [QWord Access:64]
+ [2F8h 0760   8]                      Address : 00000000FEBF3008
+
+ [300h 0768   8]                        Value : 0000000000000000
+ [308h 0776   8]                         Mask : 00000000FFFFFFFF
+
+ [310h 0784   1]                       Action : 0F [Get Error Attributes]
+ [311h 0785   1]                  Instruction : 03 [Write Register Value]
+ [312h 0786   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [313h 0787   1]                     Reserved : 00
+
+ [314h 0788  12]              Register Region : [Generic Address Structure]
+ [314h 0788   1]                     Space ID : 00 [SystemMemory]
+ [315h 0789   1]                    Bit Width : 20
+ [316h 0790   1]                   Bit Offset : 00
+ [317h 0791   1]         Encoded Access Width : 03 [DWord Access:32]
+ [318h 0792   8]                      Address : 00000000FEBF3000
+
+ [320h 0800   8]                        Value : 000000000000000F
+ [328h 0808   8]                         Mask : 00000000000000FF
+
+ [330h 0816   1]                       Action : 0F [Get Error Attributes]
+ [331h 0817   1]                  Instruction : 00 [Read Register]
+ [332h 0818   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [333h 0819   1]                     Reserved : 00
+
+ [334h 0820  12]              Register Region : [Generic Address Structure]
+ [334h 0820   1]                     Space ID : 00 [SystemMemory]
+ [335h 0821   1]                    Bit Width : 20
+ [336h 0822   1]                   Bit Offset : 00
+ [337h 0823   1]         Encoded Access Width : 03 [DWord Access:32]
+ [338h 0824   8]                      Address : 00000000FEBF3008
+
+ [340h 0832   8]                        Value : 0000000000000000
+ [348h 0840   8]                         Mask : 00000000FFFFFFFF
+
+ [350h 0848   1]                       Action : 10 [Execute Timings]
+ [351h 0849   1]                  Instruction : 03 [Write Register Value]
+ [352h 0850   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [353h 0851   1]                     Reserved : 00
+
+ [354h 0852  12]              Register Region : [Generic Address Structure]
+ [354h 0852   1]                     Space ID : 00 [SystemMemory]
+ [355h 0853   1]                    Bit Width : 20
+ [356h 0854   1]                   Bit Offset : 00
+ [357h 0855   1]         Encoded Access Width : 03 [DWord Access:32]
+ [358h 0856   8]                      Address : 00000000FEBF3000
+
+ [360h 0864   8]                        Value : 0000000000000010
+ [368h 0872   8]                         Mask : 00000000000000FF
+
+ [370h 0880   1]                       Action : 10 [Execute Timings]
+ [371h 0881   1]                  Instruction : 00 [Read Register]
+ [372h 0882   1]        Flags (decoded below) : 00
+                       Preserve Register Bits : 0
+ [373h 0883   1]                     Reserved : 00
+
+ [374h 0884  12]              Register Region : [Generic Address Structure]
+ [374h 0884   1]                     Space ID : 00 [SystemMemory]
+ [375h 0885   1]                    Bit Width : 40
+ [376h 0886   1]                   Bit Offset : 00
+ [377h 0887   1]         Encoded Access Width : 04 [QWord Access:64]
+ [378h 0888   8]                      Address : 00000000FEBF3008
+
+ [380h 0896   8]                        Value : 0000000000000000
+ [388h 0904   8]                         Mask : FFFFFFFFFFFFFFFF
+
+ Raw Table Data: Length 912 (0x390)
+
+Note that the contents of tests/data/q35/ERST.acpierst and
+tests/data/microvm/ERST.pcie are the same except for differences
+due to assigned base address.
+
+Files tests/data/pc/DSDT.acpierst and tests/data/acpi/q35/DSDT.acpierst
+are new files (and are included as a result of 'make check' process).
+Rather than provide the entire content, I am providing the differences
+between pc/DSDT and pc/DSDT.acpierst, and the difference between
+q35/DSDT and q35/DSDT.acpierst, with an explanation to follow.
+
+diff pc/DSDT pc/DSDT.acpierst:
+ @@ -5,13 +5,13 @@
+   *
+   * Disassembling to symbolic ASL+ operators
+   *
+ - * Disassembly of tests/data/acpi/pc/DSDT, Thu Dec  2 10:10:13 2021
+ + * Disassembly of tests/data/acpi/pc/DSDT.acpierst, Thu Dec  2 12:59:36 2021
+   *
+   * Original Table Header:
+   *     Signature        "DSDT"
+ - *     Length           0x00001772 (6002)
+ + *     Length           0x00001751 (5969)
+   *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
+ - *     Checksum         0x9E
+ + *     Checksum         0x95
+   *     OEM ID           "BOCHS "
+   *     OEM Table ID     "BXPC    "
+   *     OEM Revision     0x00000001 (1)
+ @@ -964,16 +964,11 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS "
+
+              Device (S18)
+              {
+ -                Name (_SUN, 0x03)  // _SUN: Slot User Number
+                  Name (_ADR, 0x00030000)  // _ADR: Address
+ -                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+ -                {
+ -                    PCEJ (BSEL, _SUN)
+ -                }
+ -
+ +                Name (ASUN, 0x03)
+                  Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+                  {
+ -                    Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
+ +                    Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, ASUN))
+                  }
+              }
+
+ @@ -1399,11 +1394,6 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS "
+
+              Method (DVNT, 2, NotSerialized)
+              {
+ -                If ((Arg0 & 0x08))
+ -                {
+ -                    Notify (S18, Arg1)
+ -                }
+ -
+                  If ((Arg0 & 0x10))
+                  {
+                      Notify (S20, Arg1)
+
+diff q35/DSDT and q35/DSDT.acpierst:
+ @@ -5,13 +5,13 @@
+   *
+   * Disassembling to symbolic ASL+ operators
+   *
+ - * Disassembly of tests/data/acpi/q35/DSDT, Thu Dec  2 10:10:13 2021
+ + * Disassembly of tests/data/acpi/q35/DSDT.acpierst, Thu Dec  2 12:59:36 2021
+   *
+   * Original Table Header:
+   *     Signature        "DSDT"
+ - *     Length           0x00002061 (8289)
+ + *     Length           0x00002072 (8306)
+   *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
+ - *     Checksum         0xFA
+ + *     Checksum         0x9A
+   *     OEM ID           "BOCHS "
+   *     OEM Table ID     "BXPC    "
+   *     OEM Revision     0x00000001 (1)
+ @@ -3278,6 +3278,11 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS "
+                  }
+              }
+
+ +            Device (S10)
+ +            {
+ +                Name (_ADR, 0x00020000)  // _ADR: Address
+ +            }
+ +
+              Method (PCNT, 0, NotSerialized)
+              {
+              }
+
+For both pc and q35, there is but a small difference between this
+DSDT.acpierst and the corresponding DSDT. In both cases, the changes
+occur under the hiearchy:
+
+    Scope (\_SB)
+    {
+        Scope (PCI0)
+        {
+
+which leads me to believe that the change to the DSDT was needed
+due to the introduction of the ERST PCI device.
 
 Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
 ---
- tests/qtest/bios-tables-test.c | 56 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+ tests/data/acpi/microvm/ERST.pcie           | Bin 0 -> 912 bytes
+ tests/data/acpi/pc/DSDT.acpierst            | Bin 0 -> 5969 bytes
+ tests/data/acpi/pc/ERST.acpierst            | Bin 0 -> 912 bytes
+ tests/data/acpi/q35/DSDT.acpierst           | Bin 0 -> 8306 bytes
+ tests/data/acpi/q35/ERST.acpierst           | Bin 0 -> 912 bytes
+ tests/qtest/bios-tables-test-allowed-diff.h |   5 -----
+ 6 files changed, 5 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 2588741..2f073e6 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1446,6 +1446,57 @@ static void test_acpi_piix4_tcg_acpi_hmat(void)
-     test_acpi_tcg_acpi_hmat(MACHINE_PC);
- }
- 
-+static void test_acpi_erst(const char *machine)
-+{
-+    gchar *tmp_path = g_dir_make_tmp("qemu-test-erst.XXXXXX", NULL);
-+    gchar *params;
-+    test_data data;
-+
-+    memset(&data, 0, sizeof(data));
-+    data.machine = machine;
-+    data.variant = ".acpierst";
-+    params = g_strdup_printf(
-+        " -object memory-backend-file,id=erstnvram,"
-+            "mem-path=%s,size=0x10000,share=on"
-+        " -device acpi-erst,memdev=erstnvram", tmp_path);
-+    test_acpi_one(params, &data);
-+    free_test_data(&data);
-+    g_free(params);
-+    g_assert(g_rmdir(tmp_path) == 0);
-+    g_free(tmp_path);
-+}
-+
-+static void test_acpi_piix4_acpi_erst(void)
-+{
-+    test_acpi_erst(MACHINE_PC);
-+}
-+
-+static void test_acpi_q35_acpi_erst(void)
-+{
-+    test_acpi_erst(MACHINE_Q35);
-+}
-+
-+static void test_acpi_microvm_acpi_erst(void)
-+{
-+    gchar *tmp_path = g_dir_make_tmp("qemu-test-erst.XXXXXX", NULL);
-+    gchar *params;
-+    test_data data;
-+
-+    test_acpi_microvm_prepare(&data);
-+    data.variant = ".pcie";
-+    data.tcg_only = true; /* need constant host-phys-bits */
-+    params = g_strdup_printf(" -machine microvm,"
-+        "acpi=on,ioapic2=off,rtc=off,pcie=on"
-+        " -object memory-backend-file,id=erstnvram,"
-+           "mem-path=%s,size=0x10000,share=on"
-+        " -device acpi-erst,memdev=erstnvram", tmp_path);
-+    test_acpi_one(params, &data);
-+    g_free(params);
-+    g_assert(g_rmdir(tmp_path) == 0);
-+    g_free(tmp_path);
-+    free_test_data(&data);
-+}
-+
- static void test_acpi_virt_tcg(void)
- {
-     test_data data = {
-@@ -1624,6 +1675,8 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-         qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
-         qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
-+        qtest_add_func("acpi/piix4/acpierst", test_acpi_piix4_acpi_erst);
-+        qtest_add_func("acpi/q35/acpierst", test_acpi_q35_acpi_erst);
-         qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
-         qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
-         qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
-@@ -1639,6 +1692,9 @@ int main(int argc, char *argv[])
-             qtest_add_func("acpi/q35/kvm/xapic", test_acpi_q35_kvm_xapic);
-             qtest_add_func("acpi/q35/kvm/dmar", test_acpi_q35_kvm_dmar);
-         }
-+        if (strcmp(arch, "x86_64") == 0) {
-+            qtest_add_func("acpi/microvm/acpierst", test_acpi_microvm_acpi_erst);
-+        }
-     } else if (strcmp(arch, "aarch64") == 0) {
-         if (has_tcg) {
-             qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+diff --git a/tests/data/acpi/microvm/ERST.pcie b/tests/data/acpi/microvm/ERST.pcie
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..d9a2b3211ab5893a50751ad52be3782579e367f2 100644
+GIT binary patch
+literal 912
+zcmaKpO%8%E5QPUQ|KVrvh9h_c12J)@5f?5!k_Ygv*jGA8UW7?#`}+D#XXyDpKHiZ?
+z@anI_W$gOrZRl(SB7!yMqx}#E4EC&a5=}m^g_!0^0`kEl)DOuIXM6D@@*xq*8vyqH
+z)b0KTlmlgmH~xt7vG<k#Z1~z=OnyT76ZX;Ysy^;NC0^^$`kY?zKK;^vMtny1JAD$P
+zc^BR{l;i*H`IJAW`~~?1`_TXD_wQ2@UlL!DU$GCpQ-4i-O}x_^JdQTRH^e)=(_c$`
+LOT5z?_v4Aa+v(5&
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/pc/DSDT.acpierst b/tests/data/acpi/pc/DSDT.acpierst
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..bb0593eeb8730d51a6f0fe51a00a00df9c83c419 100644
+GIT binary patch
+literal 5969
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/pc/ERST.acpierst b/tests/data/acpi/pc/ERST.acpierst
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..f24fadd345c798ee5c17cdb66e0e1703bd1b2f26 100644
+GIT binary patch
+literal 912
+zcmaKpOAdlC6h#XZC=fn#CoF*_7>J28jW}>wF2KFG3zs9lTPTnl;U#=7r>E_sr(1u2
+z21<FK_R^jEx_w-`TFO&O;T_LLF4O@x8LMi!H}5Z^t6_Tah{H!Y?i2S%JoA7!BFgz1
+zf~;?N{b8^}H2K=viyuzh`L7M``U{CiG=Ib#4X^gc{m10T<lDURCp`CW$T#HMd{o-?
+zH~aE`PznCu9;f*enm;9;GDrTme_0zSBR|7ODR;g(@qEM!N8Z_gL4HBL%^N<3mgJY@
+R+q~0XMSexT%^U0Ee0~)`g#iEn
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/q35/DSDT.acpierst b/tests/data/acpi/q35/DSDT.acpierst
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..cad26e3f0c27a40a33101155a5282ed9bcb1d441 100644
+GIT binary patch
+literal 8306
+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
+Lf)z9L%&`9h*%QBN
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/q35/ERST.acpierst b/tests/data/acpi/q35/ERST.acpierst
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..f24fadd345c798ee5c17cdb66e0e1703bd1b2f26 100644
+GIT binary patch
+literal 912
+zcmaKpOAdlC6h#XZC=fn#CoF*_7>J28jW}>wF2KFG3zs9lTPTnl;U#=7r>E_sr(1u2
+z21<FK_R^jEx_w-`TFO&O;T_LLF4O@x8LMi!H}5Z^t6_Tah{H!Y?i2S%JoA7!BFgz1
+zf~;?N{b8^}H2K=viyuzh`L7M``U{CiG=Ib#4X^gc{m10T<lDURCp`CW$T#HMd{o-?
+zH~aE`PznCu9;f*enm;9;GDrTme_0zSBR|7ODR;g(@qEM!N8Z_gL4HBL%^N<3mgJY@
+R+q~0XMSexT%^U0Ee0~)`g#iEn
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 603db07..dfb8523 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,6 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/pc/DSDT.acpierst",
+-"tests/data/acpi/pc/ERST.acpierst",
+-"tests/data/acpi/q35/DSDT.acpierst",
+-"tests/data/acpi/q35/ERST.acpierst",
+-"tests/data/acpi/microvm/ERST.pcie",
 -- 
 1.8.3.1
 
