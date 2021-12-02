@@ -2,75 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD44466790
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 17:05:53 +0100 (CET)
-Received: from localhost ([::1]:56398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B3E4667BB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 17:18:20 +0100 (CET)
+Received: from localhost ([::1]:47212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msoal-0005um-Oo
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 11:05:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44472)
+	id 1msomp-0002AH-9u
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 11:18:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1msoXf-0003fc-KQ
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 11:02:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53815)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1msol5-0000DL-CY
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 11:16:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1msoXN-0001F0-P5
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 11:02:38 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1msol2-0003oN-1c
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 11:16:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638460939;
+ s=mimecast20190719; t=1638461786;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EBbBnKjQ3FItuwlY4fFnRtKboXizO19ihhILu9q6igA=;
- b=ARxdCYKDG1wDVtW/jCbavcnV7vFdW9/e6RJtPNPHJReVj5RwY5S/asK1Hn0AwXJikaVt+d
- IcDTWHB5Op8d/69eiDoSfO+GQsR6euv//XNSHBhqOvMhL9uPrx11ikmbSO9dS0gawdNGUW
- dstnpKES02vJXpRzl6LJgREc3SXsXVQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Y7NASooEnaQZCxHtSfBic4Rix2gmced/ev81gVXGDrs=;
+ b=T8d7lKr1+VpfDdS+6OAR1/s4gvj6LBpqoHoHSt1ff1fWx7xfamuU7EteYuroORDM5VBkK/
+ 8zUfvMhz/AyaqdApbGJ7N0aPJRVYZlQda9dZbpWa9ix/rxEKCe1OEGtlkOnfp9r81cU2+t
+ 03R3iWbHhRIZsK6WUyeYQZ6QxToDVxI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-100-qbEE5nelMn-St9UyIwzoMA-1; Thu, 02 Dec 2021 11:02:13 -0500
-X-MC-Unique: qbEE5nelMn-St9UyIwzoMA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB3B0101796C;
- Thu,  2 Dec 2021 16:02:11 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C915010016F7;
- Thu,  2 Dec 2021 16:02:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9EFD0113865F; Thu,  2 Dec 2021 17:02:06 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v7 3/3] cpus-common: implement dirty page limit on vCPU
-References: <cover.1638267778.git.huangy81@chinatelecom.cn>
- <cover.1638267948.git.huangy81@chinatelecom.cn>
- <692eeb1960338ff0ae027a42192e264d55342e7b.1638267948.git.huangy81@chinatelecom.cn>
-Date: Thu, 02 Dec 2021 17:02:06 +0100
-In-Reply-To: <692eeb1960338ff0ae027a42192e264d55342e7b.1638267948.git.huangy81@chinatelecom.cn>
- (huangy's message of "Tue, 30 Nov 2021 18:28:13 +0800")
-Message-ID: <877dcn5729.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-569-uFNB6nNTPb6GHDa5t4o1rQ-1; Thu, 02 Dec 2021 11:16:25 -0500
+X-MC-Unique: uFNB6nNTPb6GHDa5t4o1rQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d3-20020adfa343000000b0018ed6dd4629so5189945wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 08:16:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Y7NASooEnaQZCxHtSfBic4Rix2gmced/ev81gVXGDrs=;
+ b=OwpPsGQZiy35vxisfSfNy9al/glTpyGfkOFBA+8alN64QNrHqboMRJMgVj0/EV+nM5
+ G05R2PI5ctuBDlh0uKu9Cemk7TTjMsRGXIV1sSLV3XMqzsiDqmAQPE+AAT599ESoC1M7
+ Y2llOCPRZCO6IwjinUe5Z3ket83wFE6wHzUCHNUlC3hF/+8iCcLLmwgGznOsLllMv5gQ
+ LyeFEEcWUBAhlhnUXEUtEqniLUrgEqGBwwlXSzaZNUgdwfeGFKMqsqnZt/NbkO71yeo3
+ Vh1FZoDNuRNeysMgjCnfE5G1qqZgU43OBXrJRo1eW2qOQC8SxMAEagQAKkSPVCgWG1w2
+ aeRw==
+X-Gm-Message-State: AOAM531LT5c8dVe8caKkDkASoEOZHYgBl0IAfElV77HWoQaxJhBg3r+Y
+ Q6eeQFLm18slvJZHin3puBFQJIe8KQ5fSpW6PhgGTs8utfUkqjQn3I8tMDEKlY0GaH+devdN5fb
+ c734iJzJPllcx7PU=
+X-Received: by 2002:a1c:7517:: with SMTP id o23mr7431505wmc.172.1638461784093; 
+ Thu, 02 Dec 2021 08:16:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxmpNVGAW9FWYafiypCAoCSMxR24qzLQBJV43EJ/LIp130qUe9vn/gfmmqDFM+rFzwzhovm+w==
+X-Received: by 2002:a1c:7517:: with SMTP id o23mr7431467wmc.172.1638461783841; 
+ Thu, 02 Dec 2021 08:16:23 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id o4sm258813wry.80.2021.12.02.08.16.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Dec 2021 08:16:23 -0800 (PST)
+Date: Thu, 2 Dec 2021 16:16:21 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v3 21/23] multifd: Support for zero pages transmission
+Message-ID: <YajxVb0ex3v1COoW@work-vm>
+References: <20211124100617.19786-1-quintela@redhat.com>
+ <20211124100617.19786-22-quintela@redhat.com>
+ <Yaiv0PazlhLdsf0O@work-vm> <871r2vgqfu.fsf@secure.mitica>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <871r2vgqfu.fsf@secure.mitica>
+User-Agent: Mutt/2.1.3 (2021-09-10)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,202 +98,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-huangy81@chinatelecom.cn writes:
+* Juan Quintela (quintela@redhat.com) wrote:
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > * Juan Quintela (quintela@redhat.com) wrote:
+> >> This patch adds counters and similar.  Logic will be added on the
+> >> following patch.
+> >> 
+> >> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> >> ---
+> >>  migration/multifd.h    | 13 ++++++++++++-
+> >>  migration/multifd.c    | 22 +++++++++++++++++++---
+> >>  migration/trace-events |  2 +-
+> >>  3 files changed, 32 insertions(+), 5 deletions(-)
+> >> 
+> >> diff --git a/migration/multifd.h b/migration/multifd.h
+> >> index 39e55d7f05..973315b545 100644
+> >> --- a/migration/multifd.h
+> >> +++ b/migration/multifd.h
+> >> @@ -49,7 +49,10 @@ typedef struct {
+> >>      /* size of the next packet that contains pages */
+> >>      uint32_t next_packet_size;
+> >>      uint64_t packet_num;
+> >> -    uint64_t unused[4];    /* Reserved for future use */
+> >> +    /* zero pages */
+> >> +    uint32_t zero_pages;
+> >
+> > Had you considered just adding a flag, MULTIFD_FLAG_ZERO to the packet?
+> 
+> I *have* to also add the flag.
 
-> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->
-> Implement dirtyrate calculation periodically basing on
-> dirty-ring and throttle vCPU until it reachs the quota
-> dirty page rate given by user.
->
-> Introduce qmp commands set-dirty-limit/cancel-dirty-limit to
-> set/cancel dirty page limit on vCPU.
->
-> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
-> ---
->  cpus-common.c         | 48 +++++++++++++++++++++++++++++++++++++++++++++=
-+++
->  include/hw/core/cpu.h |  9 +++++++++
->  qapi/migration.json   | 43 +++++++++++++++++++++++++++++++++++++++++++
->  softmmu/vl.c          |  1 +
->  4 files changed, 101 insertions(+)
->
-> diff --git a/cpus-common.c b/cpus-common.c
-> index 6e73d3e..86c7712 100644
-> --- a/cpus-common.c
-> +++ b/cpus-common.c
-> @@ -23,6 +23,11 @@
->  #include "hw/core/cpu.h"
->  #include "sysemu/cpus.h"
->  #include "qemu/lockable.h"
-> +#include "sysemu/dirtylimit.h"
-> +#include "sysemu/cpu-throttle.h"
-> +#include "sysemu/kvm.h"
-> +#include "qapi/error.h"
-> +#include "qapi/qapi-commands-migration.h"
-> =20
->  static QemuMutex qemu_cpu_list_lock;
->  static QemuCond exclusive_cond;
-> @@ -352,3 +357,46 @@ void process_queued_cpu_work(CPUState *cpu)
->      qemu_mutex_unlock(&cpu->work_mutex);
->      qemu_cond_broadcast(&qemu_work_cond);
->  }
-> +
-> +void qmp_set_dirty_limit(int64_t idx,
-> +                         uint64_t dirtyrate,
-> +                         Error **errp)
-> +{
-> +    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-> +        error_setg(errp, "setting a dirty page limit requires KVM with"
-> +                   " accelerator property 'dirty-ring-size' set'");
-> +        return;
-> +    }
-> +
-> +    dirtylimit_calc();
-> +    dirtylimit_vcpu(idx, dirtyrate);
-> +}
-> +
-> +void qmp_cancel_dirty_limit(int64_t idx,
-> +                            Error **errp)
-> +{
-> +    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-> +        error_setg(errp, "KVM with accelerator property 'dirty-ring-size=
-'"
-> +                   " not set, abort canceling a dirty page limit");
-> +        return;
-> +    }
+I meant can't you add a flag to say that this whole packet is zero pages
+and then you only need one counter.
 
-Is this check actually needed?  It's not when !dirtylimit_enabled(idx).
+Dave
 
-> +
-> +    if (!dirtylimit_enabled(idx)) {
-> +        error_setg(errp, "dirty page limit for the CPU %ld not set", idx=
-);
-
-"for CPU"
-
-> +        return;
-> +    }
-> +
-> +    if (unlikely(!dirtylimit_cancel_vcpu(idx))) {
-
-I don't think unlikely() matters here.
-
-> +        dirtylimit_calc_quit();
-> +    }
-> +}
-> +
-> +void dirtylimit_setup(int max_cpus)
-> +{
-> +    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-> +        return;
-> +    }
-> +
-> +    dirtylimit_calc_state_init(max_cpus);
-> +    dirtylimit_state_init(max_cpus);
-> +}
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index e948e81..11df012 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -881,6 +881,15 @@ void end_exclusive(void);
->   */
->  void qemu_init_vcpu(CPUState *cpu);
-> =20
-> +/**
-> + * dirtylimit_setup:
-> + *
-> + * Initializes the global state of dirtylimit calculation and
-> + * dirtylimit itself. This is prepared for vCPU dirtylimit which
-> + * could be triggered during vm lifecycle.
-> + */
-> +void dirtylimit_setup(int max_cpus);
-> +
->  #define SSTEP_ENABLE  0x1  /* Enable simulated HW single stepping */
->  #define SSTEP_NOIRQ   0x2  /* Do not use IRQ while single stepping */
->  #define SSTEP_NOTIMER 0x4  /* Do not Timers while single stepping */
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index bbfd48c..57c9a63 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -1850,6 +1850,49 @@
->  { 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
-> =20
->  ##
-> +# @set-dirty-limit:
-> +#
-> +# Set the upper limit of dirty page rate for a virtual CPU.
-> +#
-> +# Requires KVM with accelerator property "dirty-ring-size" set.
-> +# A virtual CPU's dirty page rate is a measure of its memory load.
-> +# To observe dirty page rates, use @calc-dirty-rate.
-> +#
-> +# @cpu-index: index of the virtual CPU.
-> +#
-> +# @dirty-rate: upper limit for the specified vCPU's dirty page rate (MB/=
-s)
-> +#
-> +# Since: 7.0
-> +#
-> +# Example:
-> +#   {"execute": "set-dirty-limit"}
-> +#    "arguments": { "cpu-index": 0,
-> +#                   "dirty-rate": 200 } }
-> +#
-> +##
-> +{ 'command': 'set-dirty-limit',
-> +  'data': { 'cpu-index': 'int', 'dirty-rate': 'uint64' } }
-> +
-> +##
-> +# @cancel-dirty-limit:
-> +#
-> +# Cancel the dirty page limit for the vCPU which has been set with
-> +# set-dirty-limit command. Note that this command requires support from
-> +# dirty ring, same as the "set-dirty-limit" command.
-> +#
-> +# @cpu-index: index of the virtual CPU to cancel the dirty page limit
-
-I'd go with
-
-   # @cpu-index: index of the virtual CPU.
-
-> +#
-> +# Since: 7.0
-> +#
-> +# Example:
-> +#   {"execute": "cancel-dirty-limit"}
-> +#    "arguments": { "cpu-index": 0 } }
-> +#
-> +##
-> +{ 'command': 'cancel-dirty-limit',
-> +  'data': { 'cpu-index': 'int' } }
-> +
-> +##
->  # @snapshot-save:
->  #
->  # Save a VM snapshot
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 620a1f1..0f83ce3 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -3777,5 +3777,6 @@ void qemu_init(int argc, char **argv, char **envp)
->      qemu_init_displays();
->      accel_setup_post(current_machine);
->      os_setup_post();
-> +    dirtylimit_setup(current_machine->smp.max_cpus);
->      resume_mux_open();
->  }
-
-QAPI schema:
-Acked-by: Markus Armbruster <armbru@redhat.com>
+> I was waiting for 7.0 to get out, because I still have to do the
+> compatibility bits.  Otherwise you can't migrate to an old multifd version.
+> 
+> >
+> >> +    uint32_t unused32[1];    /* Reserved for future use */
+> >> +    uint64_t unused64[3];    /* Reserved for future use */
+> >>      char ramblock[256];
+> >>      uint64_t offset[];
+> >>  } __attribute__((packed)) MultiFDPacket_t;
+> >> @@ -117,6 +120,10 @@ typedef struct {
+> >>      ram_addr_t *normal;
+> >>      /* num of non zero pages */
+> >>      uint32_t normal_num;
+> >> +    /* Pages that are  zero */
+> >> +    ram_addr_t *zero;
+> >> +    /* num of zero pages */
+> >> +    uint32_t zero_num;
+> >>      /* used for compression methods */
+> >>      void *data;
+> >>  }  MultiFDSendParams;
+> >> @@ -162,6 +169,10 @@ typedef struct {
+> >>      ram_addr_t *normal;
+> >>      /* num of non zero pages */
+> >>      uint32_t normal_num;
+> >> +    /* Pages that are  zero */
+> >> +    ram_addr_t *zero;
+> >> +    /* num of zero pages */
+> >> +    uint32_t zero_num;
+> >>      /* used for de-compression methods */
+> >>      void *data;
+> >>  } MultiFDRecvParams;
+> >> diff --git a/migration/multifd.c b/migration/multifd.c
+> >> index d1ab823f98..2e4dffd6c6 100644
+> >> --- a/migration/multifd.c
+> >> +++ b/migration/multifd.c
+> >> @@ -265,6 +265,7 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
+> >>      packet->normal_pages = cpu_to_be32(p->normal_num);
+> >>      packet->next_packet_size = cpu_to_be32(p->next_packet_size);
+> >>      packet->packet_num = cpu_to_be64(p->packet_num);
+> >> +    packet->zero_pages = cpu_to_be32(p->zero_num);
+> >>  
+> >>      if (p->pages->block) {
+> >>          strncpy(packet->ramblock, p->pages->block->idstr, 256);
+> >> @@ -327,7 +328,15 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
+> >>      p->next_packet_size = be32_to_cpu(packet->next_packet_size);
+> >>      p->packet_num = be64_to_cpu(packet->packet_num);
+> >>  
+> >> -    if (p->normal_num == 0) {
+> >> +    p->zero_num = be32_to_cpu(packet->zero_pages);
+> >> +    if (p->zero_num > packet->pages_alloc - p->normal_num) {
+> >> +        error_setg(errp, "multifd: received packet "
+> >> +                   "with %d zero pages and expected maximum pages are %d",
+> >> +                   p->normal_num, packet->pages_alloc - p->zero_num) ;
+> >
+> > should that be p->zero_num, packet->pages_alloc - p->normal_num ?
+> > (and be %u)
+> 
+> Copy and paste error.  You are right on both cases.
+> 
+> Thanks.
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
