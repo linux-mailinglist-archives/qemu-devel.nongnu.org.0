@@ -2,96 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD7CB466BDE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 22:57:02 +0100 (CET)
-Received: from localhost ([::1]:48534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1220466D7B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 00:10:31 +0100 (CET)
+Received: from localhost ([::1]:49364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msu4b-0007sN-O2
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 16:57:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59348)
+	id 1msvDi-0005YA-IV
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 18:10:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1msu34-0007Ac-5K
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 16:55:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32749)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1msvBW-0004eq-16; Thu, 02 Dec 2021 18:08:14 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48518
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1msu2z-0003Cd-UF
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 16:55:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638482120;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=scIKq1d+8FyZabA5j1D9HpC1tDRf0B8+LaEsU+0UK0I=;
- b=LVVYSID3s29Ux9DPuPYVh0C0haYLHZJ9rD3FNN9mvyO9KgSx83/7kqS1IDDVKkDCj60/g9
- oSJWHWN+oeuJK6uEIgfQV5vjoyXjty7K76H+AwOQakAHy254kPzFJMok3WLhvR5youTV5g
- XUcDREA77eaS+PYTUGwnTnr/Dc0G0cQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-190-M6EuoovdM7aju72ko-UgZQ-1; Thu, 02 Dec 2021 16:55:19 -0500
-X-MC-Unique: M6EuoovdM7aju72ko-UgZQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- g80-20020a1c2053000000b003331a764709so2370235wmg.2
- for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 13:55:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=scIKq1d+8FyZabA5j1D9HpC1tDRf0B8+LaEsU+0UK0I=;
- b=Cmz25e/uX7CbZ6b4PpUh4A3lCrj0PcL7L+k3EptY+NEsOBCFMW6ZOVL+NRdnl0FndE
- FFXTzcjIbKyPIGDgYlzfdYaEzd0U8FQZDA2v/7VoTpPkEJtY83Vt9yWiS8k+uwGwtbUS
- tO8QDXaj/T8iDkMJ00GjozmKwj+opd9rdU/QCNY1vEGFlurKmn+RYM3Ep7ADVnPtLYJP
- KTXDxZhIrRJhCIKM0IT7/yAIseiPkZedSAppKPGjgdlPrVRZnrnxi8xMKHL0K0mXXpsu
- bbEAbqY+7sNeQWVwu7jyS3q8ZdeqVgKtc5rjNAo7J+39WpEhyX86YAkTqreJjOXA2cya
- jerg==
-X-Gm-Message-State: AOAM531gP1m7V9yPv20Dq3lBZxly7clA0MAlIsr9xsENmLLTBSRExMfN
- 5tcJJEFGP0iJFSMo/Su3t7y+Isv0sLbYWttXix7ixpDXGui2VyZN1vwK5RTutgnzVe9ZcnHz3sl
- SopzOsdAslmUWv0s=
-X-Received: by 2002:adf:db47:: with SMTP id f7mr17591956wrj.113.1638482118159; 
- Thu, 02 Dec 2021 13:55:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz908MrYwKmChxcVy85v0HjfAacmRcK2acF9chBa+EuUhXfmQUH5wM6/DFmp8kU/jjltWeB0w==
-X-Received: by 2002:adf:db47:: with SMTP id f7mr17591922wrj.113.1638482117863; 
- Thu, 02 Dec 2021 13:55:17 -0800 (PST)
-Received: from ?IPV6:2003:d8:2f44:9200:3344:447e:353c:bf0b?
- (p200300d82f4492003344447e353cbf0b.dip0.t-ipconnect.de.
- [2003:d8:2f44:9200:3344:447e:353c:bf0b])
- by smtp.gmail.com with ESMTPSA id p5sm847572wrd.13.2021.12.02.13.55.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Dec 2021 13:55:17 -0800 (PST)
-Message-ID: <57fca588-8bae-213e-8353-58e9a487d939@redhat.com>
-Date: Thu, 2 Dec 2021 22:55:16 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1msvBQ-0000fu-7h; Thu, 02 Dec 2021 18:08:13 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B2MGtsX029483; 
+ Thu, 2 Dec 2021 23:07:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=eY5wc0caIrO+ltO8X0UpOb2UmnYSGPzpsTnUxXxWdDU=;
+ b=O5YTJXvu6uYjMn1nVsgJcHS/4K662RMOq5H4mf/nAwfN77gF6UJSJqnNbFOoi9i4/tUY
+ KGZAMJD+lBRnP3WRdeAlTFjmIaZ3s5T2ByKEGV4+WI4CEAXVJ+ZiftqGMm+EFmy6IObE
+ 32+a8cp2/CgaLj0GdgFamU/ROYIvsyNURDGat5MQ+fviHcHID6xSv3+GMDju5Mrhtn56
+ 2RLKnkixXLY377MgQHuoErBRHL9YMW12BKoouts0YwS8PPfyw1FHbhWIfN/rbedwdBq6
+ 7UEKq4At86xXpv3WGjfCBMyqzzA6RH2tFrAYBDnBB4KyTIP6jLcwV9XJDbozItIZ7dRK Hg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cq6t5hb9h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 Dec 2021 23:07:04 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B2MJXK8008117;
+ Thu, 2 Dec 2021 23:07:03 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cq6t5hb8x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 Dec 2021 23:07:03 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B2MwDNd030050;
+ Thu, 2 Dec 2021 23:07:02 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06ams.nl.ibm.com with ESMTP id 3ckbxkrse3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 Dec 2021 23:07:01 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1B2MxSPv27197816
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 2 Dec 2021 22:59:28 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9C10411C086;
+ Thu,  2 Dec 2021 23:06:58 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1756211C07D;
+ Thu,  2 Dec 2021 23:06:58 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.5.173])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu,  2 Dec 2021 23:06:58 +0000 (GMT)
+Date: Fri, 3 Dec 2021 00:06:55 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>
 Subject: Re: [PATCH 1/4] s390x/pci: use a reserved ID for the default PCI group
-To: Matthew Rosato <mjrosato@linux.ibm.com>, thuth@redhat.com,
- qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Message-ID: <20211203000655.0c679c8c.pasic@linux.ibm.com>
+In-Reply-To: <a5b6d5d7-e11a-9b7a-651f-feda4f2c3781@linux.ibm.com>
 References: <20211202164110.326947-1-mjrosato@linux.ibm.com>
  <20211202164110.326947-2-mjrosato@linux.ibm.com>
  <123ecaef-0f76-614c-2f6d-cdb824a84f56@redhat.com>
  <a5b6d5d7-e11a-9b7a-651f-feda4f2c3781@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <a5b6d5d7-e11a-9b7a-651f-feda4f2c3781@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.3, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: emYlwH3E7oRAw9WKQGtl6Eopgh0Upqoh
+X-Proofpoint-GUID: 5wZqtt5FH_UlIW_b5sCsZSWFSzkf3x1o
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-02_15,2021-12-02_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ lowpriorityscore=0 clxscore=1015 impostorscore=0 priorityscore=1501
+ spamscore=0 adultscore=0 phishscore=0 malwarescore=0 suspectscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112020138
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,42 +114,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, pmorel@linux.ibm.com, cohuck@redhat.com,
- richard.henderson@linaro.org, pasic@linux.ibm.com, borntraeger@linux.ibm.com
+Cc: farman@linux.ibm.com, pmorel@linux.ibm.com,
+ David Hildenbrand <david@redhat.com>, cohuck@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org, thuth@redhat.com,
+ borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02.12.21 18:11, Matthew Rosato wrote:
-> On 12/2/21 11:43 AM, David Hildenbrand wrote:
->> On 02.12.21 17:41, Matthew Rosato wrote:
->>> The current default PCI group being used can technically collide with a
->>> real group ID passed from a hostdev.  Let's instead use a group ID that comes
->>> from a special pool that is architected to be reserved for simulated devices.
->>>
->>> Fixes: 28dc86a072 ("s390x/pci: use a PCI Group structure")
->>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->>> ---
->>>   include/hw/s390x/s390-pci-bus.h | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
->>> index aa891c178d..2727e7bdef 100644
->>> --- a/include/hw/s390x/s390-pci-bus.h
->>> +++ b/include/hw/s390x/s390-pci-bus.h
->>> @@ -313,7 +313,7 @@ typedef struct ZpciFmb {
->>>   } ZpciFmb;
->>>   QEMU_BUILD_BUG_MSG(offsetof(ZpciFmb, fmt0) != 48, "padding in ZpciFmb");
->>>   
->>> -#define ZPCI_DEFAULT_FN_GRP 0x20
->>> +#define ZPCI_DEFAULT_FN_GRP 0xFF
->>>   typedef struct S390PCIGroup {
->>>       ClpRspQueryPciGrp zpci_group;
->>>       int id;
->>>
->>
->> What happens if we migrate a VM from old to new QEMU? Won't the guest be
->> able to observe the change?
->>
+On Thu, 2 Dec 2021 12:11:38 -0500
+Matthew Rosato <mjrosato@linux.ibm.com> wrote:
+
+> > 
+> > What happens if we migrate a VM from old to new QEMU? Won't the guest be
+> > able to observe the change?
+> >   
 > 
 > Yes, technically --  But # itself is not really all that important, it 
 > is provided from CLP Q PCI FN to be subsequently used as input into Q 
@@ -165,18 +154,13 @@ On 02.12.21 18:11, Matthew Rosato wrote:
 > }
 > 
 > What do you think?
-> 
 
-Good question, I'm certainly not a zPCI expert. However if you think
-that we cannot really break migration in a sane use case, I'm fine with
-it as well :)
+Another option, and in my opinion the cleaner one would be to tie this
+change to a new machine version. That is if a post-change qemu is used
+in compatibility mode, we would still have the old behavior.
 
-The question about breaking migration just popped up in my head when I
-stumbled over this patch.
+What do you think?
 
--- 
-Thanks,
-
-David / dhildenb
-
+Regards,
+Halil
 
