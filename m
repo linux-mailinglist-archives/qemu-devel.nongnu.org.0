@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E17004668E8
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:13:14 +0100 (CET)
-Received: from localhost ([::1]:41228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 821604668F0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:15:15 +0100 (CET)
+Received: from localhost ([::1]:47746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mspdy-0006gf-0p
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:13:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36258)
+	id 1mspfu-0002ak-Gy
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:15:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1mspc5-0004XB-FE
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 12:11:17 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:48160
+ id 1mspc7-0004as-E5
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 12:11:19 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:48167
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1mspc1-0001Ws-CK
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 12:11:17 -0500
+ (envelope-from <huangy81@chinatelecom.cn>) id 1mspc3-0001X7-6w
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 12:11:19 -0500
 HMM_SOURCE_IP: 172.18.0.218:55170.1170008821
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-125.69.41.245 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 91F9B2800AA;
- Fri,  3 Dec 2021 01:11:03 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 8E8BB2800AE;
+ Fri,  3 Dec 2021 01:11:06 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.218])
- by app0025 with ESMTP id edcd34debcc24beb88d96feb6317fe4f for
- qemu-devel@nongnu.org; Fri, 03 Dec 2021 01:11:09 CST
-X-Transaction-ID: edcd34debcc24beb88d96feb6317fe4f
+ by app0025 with ESMTP id 0b3292cc32f24bff903f7ae834cb6b1c for
+ qemu-devel@nongnu.org; Fri, 03 Dec 2021 01:11:12 CST
+X-Transaction-ID: 0b3292cc32f24bff903f7ae834cb6b1c
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.218
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v8 2/3] cpu-throttle: implement vCPU throttle
-Date: Fri,  3 Dec 2021 01:10:56 +0800
-Message-Id: <b596c980cb0cbc8c0f0dd078d7452c4a29940289.1638464552.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v8 3/3] cpus-common: implement dirty page limit on vCPU
+Date: Fri,  3 Dec 2021 01:10:57 +0800
+Message-Id: <c20e96b3c5a3f936483de636ec17d811d5b08f06.1638464552.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1638463260.git.huangy81@chinatelecom.cn>
 References: <cover.1638463260.git.huangy81@chinatelecom.cn>
@@ -76,498 +76,342 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Impose dirty restraint on vCPU by kicking it and sleep
-as the auto-converge does during migration, but just
-kick the specified vCPU instead, not all vCPUs of vm.
+Implement dirtyrate calculation periodically basing on
+dirty-ring and throttle vCPU until it reachs the quota
+dirty page rate given by user.
 
-Start a thread to track the dirtylimit status and adjust
-the throttle pencentage dynamically depend on current
-and quota dirtyrate.
+Introduce qmp commands "vcpu-dirty-limit", "query-vcpu-dirty-limit"
+to enable, disable, query dirty page limit for virtual CPU.
 
-Introduce the util function in the header for dirtylimit
-implementation.
+Meanwhile, introduce corresponding hmp commands "vcpu_dirty_limit",
+"info vcpu_dirty_limit" so developers can play with them easier.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- include/sysemu/cpu-throttle.h |  45 ++++++
- qapi/migration.json           |  22 +++
- softmmu/cpu-throttle.c        | 355 ++++++++++++++++++++++++++++++++++++++++++
- softmmu/trace-events          |   5 +
- 4 files changed, 427 insertions(+)
+ cpus-common.c         | 149 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ hmp-commands-info.hx  |  13 +++++
+ hmp-commands.hx       |  16 ++++++
+ include/hw/core/cpu.h |   9 +++
+ include/monitor/hmp.h |   2 +
+ qapi/migration.json   |  48 ++++++++++++++++
+ softmmu/vl.c          |   1 +
+ 7 files changed, 238 insertions(+)
 
-diff --git a/include/sysemu/cpu-throttle.h b/include/sysemu/cpu-throttle.h
-index d65bdef..962990b 100644
---- a/include/sysemu/cpu-throttle.h
-+++ b/include/sysemu/cpu-throttle.h
-@@ -65,4 +65,49 @@ bool cpu_throttle_active(void);
+diff --git a/cpus-common.c b/cpus-common.c
+index 6e73d3e..04b9bc9 100644
+--- a/cpus-common.c
++++ b/cpus-common.c
+@@ -23,6 +23,14 @@
+ #include "hw/core/cpu.h"
+ #include "sysemu/cpus.h"
+ #include "qemu/lockable.h"
++#include "sysemu/dirtylimit.h"
++#include "sysemu/cpu-throttle.h"
++#include "sysemu/kvm.h"
++#include "monitor/hmp.h"
++#include "monitor/monitor.h"
++#include "qapi/qmp/qdict.h"
++#include "qapi/error.h"
++#include "qapi/qapi-commands-migration.h"
+ 
+ static QemuMutex qemu_cpu_list_lock;
+ static QemuCond exclusive_cond;
+@@ -352,3 +360,144 @@ void process_queued_cpu_work(CPUState *cpu)
+     qemu_mutex_unlock(&cpu->work_mutex);
+     qemu_cond_broadcast(&qemu_work_cond);
+ }
++
++void qmp_vcpu_dirty_limit(int64_t cpu_index,
++                          bool enable,
++                          uint64_t dirty_rate,
++                          Error **errp)
++{
++    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
++        error_setg(errp, "dirty page limit feature requires KVM with"
++                   " accelerator property 'dirty-ring-size' set'");
++        return;
++    }
++
++    if (!dirtylimit_is_vcpu_index_valid(cpu_index)) {
++        error_setg(errp, "cpu index out of range");
++        return;
++    }
++
++    if (enable) {
++        dirtylimit_calc();
++        dirtylimit_vcpu(cpu_index, dirty_rate);
++    } else {
++        if (!dirtylimit_enabled(cpu_index)) {
++            error_setg(errp, "dirty page limit for CPU %ld not set",
++                       cpu_index);
++            return;
++        }
++
++        if (!dirtylimit_cancel_vcpu(cpu_index)) {
++            dirtylimit_calc_quit();
++        }
++    }
++}
++
++void hmp_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
++{
++    int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
++    int64_t dirty_rate = qdict_get_try_int(qdict, "dirty_rate", -1);
++    bool enable = qdict_get_bool(qdict, "enable");
++    Error *err = NULL;
++
++    if (enable && dirty_rate < 0) {
++        monitor_printf(mon, "Enabling dirty limit requires dirty_rate set!\n");
++        return;
++    }
++
++    if (!dirtylimit_is_vcpu_index_valid(cpu_index)) {
++        monitor_printf(mon, "Incorrect cpu index specified!\n");
++        return;
++    }
++
++    qmp_vcpu_dirty_limit(cpu_index, enable, dirty_rate, &err);
++
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++
++    monitor_printf(mon, "Enabling dirty page rate limit with %"PRIi64
++                   " MB/s\n", dirty_rate);
++
++    monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
++                   "dirty limit for virtual CPU]\n");
++}
++
++struct DirtyLimitInfoList *qmp_query_vcpu_dirty_limit(bool has_cpu_index,
++                                                      int64_t cpu_index,
++                                                      Error **errp)
++{
++    DirtyLimitInfo *info = NULL;
++    DirtyLimitInfoList *head = NULL, **tail = &head;
++
++    if (has_cpu_index &&
++        (!dirtylimit_is_vcpu_index_valid(cpu_index))) {
++        error_setg(errp, "cpu index out of range");
++        return NULL;
++    }
++
++    if (has_cpu_index) {
++        info = dirtylimit_query_vcpu(cpu_index);
++        QAPI_LIST_APPEND(tail, info);
++    } else {
++        CPUState *cpu;
++        CPU_FOREACH(cpu) {
++            if (!cpu->unplug) {
++                info = dirtylimit_query_vcpu(cpu->cpu_index);
++                QAPI_LIST_APPEND(tail, info);
++            }
++        }
++    }
++
++    return head;
++}
++
++void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
++{
++    DirtyLimitInfoList *limit, *head, *info = NULL;
++    int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
++    Error *err = NULL;
++
++    if (cpu_index >=0 &&
++        !dirtylimit_is_vcpu_index_valid(cpu_index)) {
++        monitor_printf(mon, "cpu index out of range\n");
++        return;
++    }
++
++    if (cpu_index < 0) {
++        info = qmp_query_vcpu_dirty_limit(false, -1, &err);
++    } else {
++        info = qmp_query_vcpu_dirty_limit(true, cpu_index, &err);
++    }
++
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++
++    head = info;
++    for (limit = head; limit != NULL; limit = limit->next) {
++        monitor_printf(mon, "vcpu[%"PRIi64"], Enable: %s",
++                       limit->value->cpu_index,
++                       limit->value->enable ? "true" : "false");
++        if (limit->value->enable) {
++            monitor_printf(mon, ", limit rate %"PRIi64 " (MB/s),"
++                           " current rate %"PRIi64 " (MB/s)\n",
++                           limit->value->limit_rate,
++                           limit->value->current_rate);
++        } else {
++            monitor_printf(mon, "\n");
++        }
++    }
++}
++
++void dirtylimit_setup(int max_cpus)
++{
++    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
++        return;
++    }
++
++    dirtylimit_calc_state_init(max_cpus);
++    dirtylimit_state_init(max_cpus);
++}
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index 407a1da..aff28d9 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -863,6 +863,19 @@ SRST
+     Display the vcpu dirty rate information.
+ ERST
+ 
++    {
++        .name       = "vcpu_dirty_limit",
++        .args_type  = "cpu_index:l?",
++        .params     = "cpu_index",
++        .help       = "show dirty page limit information",
++        .cmd        = hmp_info_vcpu_dirty_limit,
++    },
++
++SRST
++  ``info vcpu_dirty_limit``
++    Display the vcpu dirty page limit information.
++ERST
++
+ #if defined(TARGET_I386)
+     {
+         .name       = "sgx",
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 70a9136..1839fa4 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1744,3 +1744,19 @@ ERST
+                       "\n\t\t\t -b to specify dirty bitmap as method of calculation)",
+         .cmd        = hmp_calc_dirty_rate,
+     },
++
++SRST
++``vcpu_dirty_limit``
++  Start dirty page rate limit on a virtual CPU, the information about all the
++  virtual CPU dirty limit status can be observed with ``info vcpu_dirty_limit``
++  command.
++ERST
++
++    {
++        .name       = "vcpu_dirty_limit",
++        .args_type  = "cpu_index:l,enable:b,dirty_rate:l?",
++        .params     = "cpu_index on|off [dirty_rate]",
++        .help       = "enable, disable dirty page rate limit on a virtual CPU"
++                      "(dirty_rate should be specified dirty_rate if enable)",
++        .cmd        = hmp_vcpu_dirty_limit,
++    },
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index e948e81..11df012 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -881,6 +881,15 @@ void end_exclusive(void);
   */
- int cpu_throttle_get_percentage(void);
+ void qemu_init_vcpu(CPUState *cpu);
  
 +/**
-+ * dirtylimit_enabled
++ * dirtylimit_setup:
 + *
-+ * Returns: %true if dirty page limit for vCPU is enabled, %false otherwise.
++ * Initializes the global state of dirtylimit calculation and
++ * dirtylimit itself. This is prepared for vCPU dirtylimit which
++ * could be triggered during vm lifecycle.
 + */
-+bool dirtylimit_enabled(int cpu_index);
++void dirtylimit_setup(int max_cpus);
 +
-+/**
-+ * dirtylimit_is_vcpu_index_valid
-+ *
-+ * Returns: %true if cpu index valid, %false otherwise.
-+ */
-+bool dirtylimit_is_vcpu_index_valid(int cpu_index);
-+
-+/**
-+ * dirtylimit_state_init:
-+ *
-+ * initialize golobal state for dirtylimit
-+ */
-+void dirtylimit_state_init(int max_cpus);
-+
-+/**
-+ * dirtylimit_vcpu:
-+ *
-+ * impose dirtylimit on vcpu util reaching the quota dirtyrate
-+ */
-+void dirtylimit_vcpu(int cpu_index,
-+                     uint64_t quota);
-+
-+/**
-+ * dirtylimit_query_vcpu:
-+ *
-+ * Returns: dirty page limit information of specified virtual CPU.
-+ */
-+struct DirtyLimitInfo *dirtylimit_query_vcpu(int cpu_index);
-+
-+/**
-+ * dirtylimit_cancel_vcpu:
-+ *
-+ * cancel dirtylimit for the specified vcpu
-+ *
-+ * Returns: the number of running threads for dirtylimit
-+ */
-+int dirtylimit_cancel_vcpu(int cpu_index);
-+
- #endif /* SYSEMU_CPU_THROTTLE_H */
+ #define SSTEP_ENABLE  0x1  /* Enable simulated HW single stepping */
+ #define SSTEP_NOIRQ   0x2  /* Do not use IRQ while single stepping */
+ #define SSTEP_NOTIMER 0x4  /* Do not Timers while single stepping */
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 96d0148..04879a2 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -131,6 +131,8 @@ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
+ void hmp_replay_seek(Monitor *mon, const QDict *qdict);
+ void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
+ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
++void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
++void hmp_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
+ void hmp_human_readable_text_helper(Monitor *mon,
+                                     HumanReadableText *(*qmp_handler)(Error **));
+ 
 diff --git a/qapi/migration.json b/qapi/migration.json
-index bbfd48c..3da8fdf 100644
+index 3da8fdf..dc15b3f 100644
 --- a/qapi/migration.json
 +++ b/qapi/migration.json
-@@ -1850,6 +1850,28 @@
- { 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
+@@ -1872,6 +1872,54 @@
+             'current-rate': 'int64' } }
  
  ##
-+# @DirtyLimitInfo:
++# @vcpu-dirty-limit:
 +#
-+# Dirty page rate limit information of virtual CPU.
++# Set or cancel the upper limit of dirty page rate for a virtual CPU.
++#
++# Requires KVM with accelerator property "dirty-ring-size" set.
++# A virtual CPU's dirty page rate is a measure of its memory load.
++# To observe dirty page rates, use @calc-dirty-rate.
 +#
 +# @cpu-index: index of virtual CPU.
 +#
 +# @enable: true to enable, false to disable.
 +#
-+# @limit-rate: upper limit of dirty page rate for virtual CPU.
-+#
-+# @current-rate: current dirty page rate for virtual CPU.
++# @dirty-rate: upper limit of dirty page rate for virtual CPU.
 +#
 +# Since: 7.0
 +#
++# Example:
++#   {"execute": "vcpu-dirty-limit"}
++#    "arguments": { "cpu-index": 0,
++#                   "enable": true,
++#                   "dirty-rate": 200 } }
++#
 +##
-+{ 'struct': 'DirtyLimitInfo',
++{ 'command': 'vcpu-dirty-limit',
 +  'data': { 'cpu-index': 'int',
 +            'enable': 'bool',
-+            'limit-rate': 'int64',
-+            'current-rate': 'int64' } }
++            'dirty-rate': 'uint64'} }
++
++##
++# @query-vcpu-dirty-limit:
++#
++# Returns information about the virtual CPU dirty limit status.
++#
++# @cpu-index: index of the virtual CPU to query, if not specified, all
++#             virtual CPUs will be queried.
++#
++# Since: 7.0
++#
++# Example:
++#   {"execute": "query-vcpu-dirty-limit"}
++#    "arguments": { "cpu-index": 0 } }
++#
++##
++{ 'command': 'query-vcpu-dirty-limit',
++  'data': { '*cpu-index': 'int' },
++  'returns': [ 'DirtyLimitInfo' ] }
 +
 +##
  # @snapshot-save:
  #
  # Save a VM snapshot
-diff --git a/softmmu/cpu-throttle.c b/softmmu/cpu-throttle.c
-index 8c2144a..ca0f440 100644
---- a/softmmu/cpu-throttle.c
-+++ b/softmmu/cpu-throttle.c
-@@ -29,6 +29,9 @@
- #include "qemu/main-loop.h"
- #include "sysemu/cpus.h"
- #include "sysemu/cpu-throttle.h"
-+#include "sysemu/dirtylimit.h"
-+#include "qapi/qapi-commands-migration.h"
-+#include "trace.h"
- 
- /* vcpu throttling controls */
- static QEMUTimer *throttle_timer;
-@@ -38,6 +41,358 @@ static unsigned int throttle_percentage;
- #define CPU_THROTTLE_PCT_MAX 99
- #define CPU_THROTTLE_TIMESLICE_NS 10000000
- 
-+#define DIRTYLIMIT_TOLERANCE_RANGE  15      /* 15MB/s */
-+
-+#define DIRTYLIMIT_THROTTLE_HEAVY_WATERMARK     75
-+#define DIRTYLIMIT_THROTTLE_SLIGHT_WATERMARK    90
-+
-+#define DIRTYLIMIT_THROTTLE_HEAVY_STEP_SIZE     5
-+#define DIRTYLIMIT_THROTTLE_SLIGHT_STEP_SIZE    2
-+
-+typedef enum {
-+    RESTRAIN_KEEP,
-+    RESTRAIN_RATIO,
-+    RESTRAIN_HEAVY,
-+    RESTRAIN_SLIGHT,
-+} RestrainPolicy;
-+
-+typedef struct DirtyLimitState {
-+    int cpu_index;
-+    bool enabled;
-+    uint64_t quota;     /* quota dirtyrate MB/s */
-+    QemuThread thread;
-+    char *name;         /* thread name */
-+} DirtyLimitState;
-+
-+struct {
-+    DirtyLimitState *states;
-+    int max_cpus;
-+    unsigned long *bmap; /* running thread bitmap */
-+    unsigned long nr;
-+} *dirtylimit_state;
-+
-+bool dirtylimit_enabled(int cpu_index)
-+{
-+    return qatomic_read(&dirtylimit_state->states[cpu_index].enabled);
-+}
-+
-+static bool dirtylimit_is_vcpu_unplug(int cpu_index)
-+{
-+    CPUState *cpu;
-+    CPU_FOREACH(cpu) {
-+        if (cpu->cpu_index == cpu_index) {
-+            break;
-+        }
-+    }
-+
-+    return cpu->unplug;
-+}
-+
-+bool dirtylimit_is_vcpu_index_valid(int cpu_index)
-+{
-+    if (cpu_index < 0 ||
-+        cpu_index >= qatomic_read(&dirtylimit_state->max_cpus) ||
-+        dirtylimit_is_vcpu_unplug(cpu_index)) {
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
-+static inline void dirtylimit_set_quota(int cpu_index, uint64_t quota)
-+{
-+    qatomic_set(&dirtylimit_state->states[cpu_index].quota, quota);
-+}
-+
-+static inline uint64_t dirtylimit_quota(int cpu_index)
-+{
-+    return qatomic_read(&dirtylimit_state->states[cpu_index].quota);
-+}
-+
-+static int64_t dirtylimit_current(int cpu_index)
-+{
-+    return dirtylimit_calc_current(cpu_index);
-+}
-+
-+static void dirtylimit_vcpu_thread(CPUState *cpu, run_on_cpu_data data)
-+{
-+    double pct;
-+    double throttle_ratio;
-+    int64_t sleeptime_ns, endtime_ns;
-+    int *percentage = (int *)data.host_ptr;
-+
-+    pct = (double)(*percentage) / 100;
-+    throttle_ratio = pct / (1 - pct);
-+    /* Add 1ns to fix double's rounding error (like 0.9999999...) */
-+    sleeptime_ns = (int64_t)(throttle_ratio * CPU_THROTTLE_TIMESLICE_NS + 1);
-+    endtime_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + sleeptime_ns;
-+    while (sleeptime_ns > 0 && !cpu->stop) {
-+        if (sleeptime_ns > SCALE_MS) {
-+            qemu_cond_timedwait_iothread(cpu->halt_cond,
-+                                         sleeptime_ns / SCALE_MS);
-+        } else {
-+            qemu_mutex_unlock_iothread();
-+            g_usleep(sleeptime_ns / SCALE_US);
-+            qemu_mutex_lock_iothread();
-+        }
-+        sleeptime_ns = endtime_ns - qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-+    }
-+    qatomic_set(&cpu->throttle_thread_scheduled, 0);
-+
-+    free(percentage);
-+}
-+
-+static void dirtylimit_check(int cpu_index,
-+                             int percentage)
-+{
-+    CPUState *cpu;
-+    int64_t sleeptime_ns, starttime_ms, currenttime_ms;
-+    int *pct_parameter;
-+    double pct;
-+
-+    pct = (double) percentage / 100;
-+
-+    starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+
-+    while (true) {
-+        CPU_FOREACH(cpu) {
-+            if ((cpu_index == cpu->cpu_index) &&
-+                (!qatomic_xchg(&cpu->throttle_thread_scheduled, 1))) {
-+                pct_parameter = malloc(sizeof(*pct_parameter));
-+                *pct_parameter = percentage;
-+                async_run_on_cpu(cpu, dirtylimit_vcpu_thread,
-+                                 RUN_ON_CPU_HOST_PTR(pct_parameter));
-+                break;
-+            }
-+        }
-+
-+        sleeptime_ns = CPU_THROTTLE_TIMESLICE_NS / (1 - pct);
-+        g_usleep(sleeptime_ns / SCALE_US);
-+
-+        currenttime_ms = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+        if (unlikely((currenttime_ms - starttime_ms) >
-+                     (DIRTYLIMIT_CALC_PERIOD_TIME_S * 1000))) {
-+            break;
-+        }
-+    }
-+}
-+
-+static uint64_t dirtylimit_init_pct(uint64_t quota,
-+                                    uint64_t current)
-+{
-+    uint64_t limit_pct = 0;
-+
-+    if (quota >= current || (current == 0) ||
-+        ((current - quota) <= DIRTYLIMIT_TOLERANCE_RANGE)) {
-+        limit_pct = 0;
-+    } else {
-+        limit_pct = (current - quota) * 100 / current;
-+
-+        limit_pct = MIN(limit_pct,
-+            DIRTYLIMIT_THROTTLE_HEAVY_WATERMARK);
-+    }
-+
-+    return limit_pct;
-+}
-+
-+static RestrainPolicy dirtylimit_policy(unsigned int last_pct,
-+                                        uint64_t quota,
-+                                        uint64_t current)
-+{
-+    uint64_t max, min;
-+
-+    max = MAX(quota, current);
-+    min = MIN(quota, current);
-+    if ((max - min) <= DIRTYLIMIT_TOLERANCE_RANGE) {
-+        return RESTRAIN_KEEP;
-+    }
-+    if (last_pct < DIRTYLIMIT_THROTTLE_HEAVY_WATERMARK) {
-+        /* last percentage locates in [0, 75)*/
-+        return RESTRAIN_RATIO;
-+    } else if (last_pct < DIRTYLIMIT_THROTTLE_SLIGHT_WATERMARK) {
-+        /* last percentage locates in [75, 90)*/
-+        return RESTRAIN_HEAVY;
-+    } else {
-+        /* last percentage locates in [90, 99]*/
-+        return RESTRAIN_SLIGHT;
-+    }
-+}
-+
-+static uint64_t dirtylimit_pct(unsigned int last_pct,
-+                               uint64_t quota,
-+                               uint64_t current)
-+{
-+    uint64_t limit_pct = 0;
-+    RestrainPolicy policy;
-+    bool mitigate = (quota > current) ? true : false;
-+
-+    if (mitigate && ((current == 0) ||
-+        (last_pct <= DIRTYLIMIT_THROTTLE_SLIGHT_STEP_SIZE))) {
-+        return 0;
-+    }
-+
-+    policy = dirtylimit_policy(last_pct, quota, current);
-+    switch (policy) {
-+    case RESTRAIN_SLIGHT:
-+        /* [90, 99] */
-+        if (mitigate) {
-+            limit_pct =
-+                last_pct - DIRTYLIMIT_THROTTLE_SLIGHT_STEP_SIZE;
-+        } else {
-+            limit_pct =
-+                last_pct + DIRTYLIMIT_THROTTLE_SLIGHT_STEP_SIZE;
-+
-+            limit_pct = MIN(limit_pct, CPU_THROTTLE_PCT_MAX);
-+        }
-+       break;
-+    case RESTRAIN_HEAVY:
-+        /* [75, 90) */
-+        if (mitigate) {
-+            limit_pct =
-+                last_pct - DIRTYLIMIT_THROTTLE_HEAVY_STEP_SIZE;
-+        } else {
-+            limit_pct =
-+                last_pct + DIRTYLIMIT_THROTTLE_HEAVY_STEP_SIZE;
-+
-+            limit_pct = MIN(limit_pct,
-+                DIRTYLIMIT_THROTTLE_SLIGHT_WATERMARK);
-+        }
-+       break;
-+    case RESTRAIN_RATIO:
-+        /* [0, 75) */
-+        if (mitigate) {
-+            if (last_pct <= (((quota - current) * 100 / quota))) {
-+                limit_pct = 0;
-+            } else {
-+                limit_pct = last_pct -
-+                    ((quota - current) * 100 / quota);
-+                limit_pct = MAX(limit_pct, CPU_THROTTLE_PCT_MIN);
-+            }
-+        } else {
-+            limit_pct = last_pct +
-+                ((current - quota) * 100 / current);
-+
-+            limit_pct = MIN(limit_pct,
-+                DIRTYLIMIT_THROTTLE_HEAVY_WATERMARK);
-+        }
-+       break;
-+    case RESTRAIN_KEEP:
-+    default:
-+       limit_pct = last_pct;
-+       break;
-+    }
-+
-+    return limit_pct;
-+}
-+
-+static void *dirtylimit_thread(void *opaque)
-+{
-+    int cpu_index = *(int *)opaque;
-+    uint64_t quota_dirtyrate, current_dirtyrate;
-+    unsigned int last_pct = 0;
-+    unsigned int pct = 0;
-+
-+    rcu_register_thread();
-+
-+    quota_dirtyrate = dirtylimit_quota(cpu_index);
-+    current_dirtyrate = dirtylimit_current(cpu_index);
-+
-+    pct = dirtylimit_init_pct(quota_dirtyrate, current_dirtyrate);
-+
-+    do {
-+        trace_dirtylimit_impose(cpu_index,
-+            quota_dirtyrate, current_dirtyrate, pct);
-+
-+        last_pct = pct;
-+        if (pct == 0) {
-+            sleep(DIRTYLIMIT_CALC_PERIOD_TIME_S);
-+        } else {
-+            dirtylimit_check(cpu_index, pct);
-+        }
-+
-+        quota_dirtyrate = dirtylimit_quota(cpu_index);
-+        current_dirtyrate = dirtylimit_current(cpu_index);
-+
-+        pct = dirtylimit_pct(last_pct, quota_dirtyrate, current_dirtyrate);
-+    } while (dirtylimit_enabled(cpu_index));
-+
-+    rcu_unregister_thread();
-+
-+    return NULL;
-+}
-+
-+int dirtylimit_cancel_vcpu(int cpu_index)
-+{
-+    int i;
-+    int nr_threads = 0;
-+
-+    qatomic_set(&dirtylimit_state->states[cpu_index].enabled, 0);
-+    dirtylimit_set_quota(cpu_index, 0);
-+
-+    bitmap_test_and_clear_atomic(dirtylimit_state->bmap, cpu_index, 1);
-+
-+    for (i = 0; i < dirtylimit_state->nr; i++) {
-+        unsigned long temp = dirtylimit_state->bmap[i];
-+        nr_threads += ctpopl(temp);
-+    }
-+
-+   return nr_threads;
-+}
-+
-+void dirtylimit_vcpu(int cpu_index,
-+                     uint64_t quota)
-+{
-+    trace_dirtylimit_vcpu(cpu_index, quota);
-+
-+    dirtylimit_set_quota(cpu_index, quota);
-+
-+    if (unlikely(!dirtylimit_enabled(cpu_index))) {
-+        qatomic_set(&dirtylimit_state->states[cpu_index].enabled, 1);
-+        dirtylimit_state->states[cpu_index].name =
-+            g_strdup_printf("dirtylimit-%d", cpu_index);
-+        qemu_thread_create(&dirtylimit_state->states[cpu_index].thread,
-+            dirtylimit_state->states[cpu_index].name,
-+            dirtylimit_thread,
-+            (void *)&dirtylimit_state->states[cpu_index].cpu_index,
-+            QEMU_THREAD_DETACHED);
-+        bitmap_set_atomic(dirtylimit_state->bmap, cpu_index, 1);
-+    }
-+}
-+
-+struct DirtyLimitInfo *dirtylimit_query_vcpu(int cpu_index)
-+{
-+    DirtyLimitInfo *info = NULL;
-+
-+    info = g_malloc0(sizeof(*info));
-+    info->cpu_index = cpu_index;
-+    info->enable = dirtylimit_enabled(cpu_index);
-+    info->limit_rate= dirtylimit_quota(cpu_index);;
-+    info->current_rate = dirtylimit_current(cpu_index);
-+
-+    return info;
-+}
-+
-+void dirtylimit_state_init(int max_cpus)
-+{
-+    int i;
-+
-+    dirtylimit_state = g_malloc0(sizeof(*dirtylimit_state));
-+
-+    dirtylimit_state->states =
-+            g_malloc0(sizeof(DirtyLimitState) * max_cpus);
-+
-+    for (i = 0; i < max_cpus; i++) {
-+        dirtylimit_state->states[i].cpu_index = i;
-+    }
-+
-+    dirtylimit_state->max_cpus = max_cpus;
-+    dirtylimit_state->bmap = bitmap_new(max_cpus);
-+    bitmap_clear(dirtylimit_state->bmap, 0, max_cpus);
-+    dirtylimit_state->nr = BITS_TO_LONGS(max_cpus);
-+
-+    trace_dirtylimit_state_init(max_cpus);
-+}
-+
- static void cpu_throttle_thread(CPUState *cpu, run_on_cpu_data opaque)
- {
-     double pct;
-diff --git a/softmmu/trace-events b/softmmu/trace-events
-index 9c88887..a7c9c04 100644
---- a/softmmu/trace-events
-+++ b/softmmu/trace-events
-@@ -31,3 +31,8 @@ runstate_set(int current_state, const char *current_state_str, int new_state, co
- system_wakeup_request(int reason) "reason=%d"
- qemu_system_shutdown_request(int reason) "reason=%d"
- qemu_system_powerdown_request(void) ""
-+
-+#cpu-throttle.c
-+dirtylimit_state_init(int max_cpus) "dirtylimit state init: max cpus %d"
-+dirtylimit_impose(int cpu_index, uint64_t quota, uint64_t current, int pct) "CPU[%d] impose dirtylimit: quota %" PRIu64 ", current %" PRIu64 ", percentage %d"
-+dirtylimit_vcpu(int cpu_index, uint64_t quota) "CPU[%d] set quota dirtylimit %"PRIu64
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 620a1f1..0f83ce3 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3777,5 +3777,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_init_displays();
+     accel_setup_post(current_machine);
+     os_setup_post();
++    dirtylimit_setup(current_machine->smp.max_cpus);
+     resume_mux_open();
+ }
 -- 
 1.8.3.1
 
