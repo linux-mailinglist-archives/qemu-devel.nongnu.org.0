@@ -2,83 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE7DA46693D
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:36:15 +0100 (CET)
-Received: from localhost ([::1]:50770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3934846697D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:55:45 +0100 (CET)
+Received: from localhost ([::1]:55114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msq0E-000865-T8
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:36:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43438)
+	id 1msqJ6-0005K1-Ac
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:55:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mspxw-0005zM-UC; Thu, 02 Dec 2021 12:33:52 -0500
-Received: from [2607:f8b0:4864:20::735] (port=36487
- helo=mail-qk1-x735.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mspxv-0004oM-47; Thu, 02 Dec 2021 12:33:52 -0500
-Received: by mail-qk1-x735.google.com with SMTP id i9so699705qki.3;
- Thu, 02 Dec 2021 09:33:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=+OqyCTggBvZ+aBt9wumBf+nFdES3oEgd3YB8MemvrKY=;
- b=gxIBwGbA9zOJMoEE7pVjOySShZXQ0wYu9LwppaoVFuPm/IorDb85ArZUgKmzI8suUc
- bkDxAS4DqKHaEfOIcy6y8Xb5jblk93QpjsblG4qk8hV7ehJU+c29x0qpb1xuQlA+UgbE
- EC6MqcQHPFwyQWV8TDlDd7paBRqkyoddB//dltwpLroycw35Fn5+ZN1k19J9xvKCqZSf
- nIc9BNZY3k7THN1HGlPXv++D7tX6MtGutBBXDNLaqFbZ4vhJp3cjf7TcujUcE6aGj+DH
- oSWs8EnulxjuU8hKb4EugNmiWa9GxVdmE5veAq0GXF1b2fTh9o8YsnmFmwAFJKZiPh1i
- jbHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+OqyCTggBvZ+aBt9wumBf+nFdES3oEgd3YB8MemvrKY=;
- b=nnBQkwb6Gowhxxslaf4q+XC/FkW2Sv1otew0dwTt4w0Fr7w6ZEsqkh7BvL4Z2v5gxj
- GQZ84Qpusekz2ox6LpxypfKM400CiKp414horwU6OCG53eTqoGJesSxzGl0/W9KFAQMe
- /MirvMa92Ef37UNNx2TDkg44HqlSyxGPIXSnBLtc9wg13mPj/ZlwRySesf4buzAh5+Lv
- TS9SIqFctMuYjgf+JlsVXPRphmdpQ5gtE0jWMWzbKB16ENkAJBESPLFUD6ipgmfFO0QT
- zeopbHO0Un1KdbQ5+BjrWXAioOZZPthrWG17djgEnPoxsMV7WsgPbxiJluzh9mo6Yj3J
- Orug==
-X-Gm-Message-State: AOAM532jBoOzDY9xGNvhEPdScA9MJNNgaue5iI/U4ngDngP3yc0OYs6j
- 37mYDETN19RXzRay0FKixnI=
-X-Google-Smtp-Source: ABdhPJxahx7ELDYi9j8LGlZst1keCzoLY8BF1ZOhd8Ex2k5PY8WtBGpNNbLyiEuWHYeSZzPSzTYnXg==
-X-Received: by 2002:a05:620a:1587:: with SMTP id
- d7mr13583079qkk.126.1638466429996; 
- Thu, 02 Dec 2021 09:33:49 -0800 (PST)
-Received: from [192.168.10.222] ([177.68.212.35])
- by smtp.gmail.com with ESMTPSA id w14sm311520qkp.54.2021.12.02.09.33.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Dec 2021 09:33:49 -0800 (PST)
-Message-ID: <d630a7d7-bf99-8434-c197-f3301ae4bcd9@gmail.com>
-Date: Thu, 2 Dec 2021 14:33:46 -0300
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mspyf-0007Bd-RL; Thu, 02 Dec 2021 12:34:38 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:58195)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mspyc-0004uH-8f; Thu, 02 Dec 2021 12:34:36 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.197])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 5DC8ECF7BFA4;
+ Thu,  2 Dec 2021 18:34:30 +0100 (CET)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Thu, 2 Dec
+ 2021 18:34:29 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R00487f5e714-af66-464d-8b8e-77f1438ebe17,
+ 53AF7497412F6E71185D8D05EFDE7032E43CC10F) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <3f9c6470-456e-4d51-9a32-1523c2d6441e@kaod.org>
+Date: Thu, 2 Dec 2021 18:34:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 06/14] ppc/pnv: Complete user created PHB3 devices
+Subject: Re: [PATCH 01/14] ppc/pnv: Reduce the maximum of PHB3 devices
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-ppc@nongnu.org>,
+ <qemu-devel@nongnu.org>
 References: <20211202144235.1276352-1-clg@kaod.org>
- <20211202144235.1276352-7-clg@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20211202144235.1276352-7-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <20211202144235.1276352-2-clg@kaod.org>
+ <2c037046-f3fb-96da-c32b-b35fffb2429e@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <2c037046-f3fb-96da-c32b-b35fffb2429e@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::735
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x735.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.3,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 2d5c77b9-1b4d-4f8e-bfbe-9874ae1da2b3
+X-Ovh-Tracer-Id: 262897631649893283
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrieehgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.3,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,60 +76,71 @@ Cc: Frederic Barrat <fbarrat@linux.ibm.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 12/2/21 11:42, Cédric Le Goater wrote:
-> PHB3s ared SysBus devices and should be allowed to be dynamically
-> created.
+On 12/2/21 18:27, Daniel Henrique Barboza wrote:
 > 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
->   hw/pci-host/pnv_phb3.c | 9 +++++++++
->   hw/ppc/pnv.c           | 2 ++
->   2 files changed, 11 insertions(+)
 > 
-> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-> index e91f658b0060..b61f9c369f64 100644
-> --- a/hw/pci-host/pnv_phb3.c
-> +++ b/hw/pci-host/pnv_phb3.c
-> @@ -1000,6 +1000,9 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
->   
->       /* User created devices */
->       if (!phb->chip) {
-> +        Error *local_err = NULL;
-> +        BusState *s;
-> +
->           phb->chip = pnv_get_chip(pnv, phb->chip_id);
->           if (!phb->chip) {
->               error_setg(errp, "invalid chip id: %d", phb->chip_id);
-> @@ -1011,6 +1014,12 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
->            * correctly the device tree.
->            */
->           pnv_chip_parent_fixup(phb->chip, OBJECT(phb), phb->phb_id);
-> +
-> +        s = qdev_get_parent_bus(DEVICE(phb->chip));
-> +        if (!qdev_set_parent_bus(DEVICE(phb), s, &local_err)) {
-> +            error_propagate(errp, local_err);
-> +            return;
-> +        }
->       }
->   
->       /* LSI sources */
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 9a458655efd9..45d8ecbf2bf7 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1927,6 +1927,8 @@ static void pnv_machine_power8_class_init(ObjectClass *oc, void *data)
->   
->       pmc->compat = compat;
->       pmc->compat_size = sizeof(compat);
-> +
-> +    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB3);
->   }
->   
->   static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
+> On 12/2/21 11:42, Cédric Le Goater wrote:
+>> All POWER8 machines have a maximum of 3 PHB3 devices. Adapt the
+>> PNV8_CHIP_PHB3_MAX definition for consistency.
 > 
+> I suggest "3 PHB3 devices per chip" for clarity.
+
+Fixed.
+
+Thanks,
+
+C.
+
+> 
+>>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+> 
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> 
+>>   include/hw/ppc/pnv.h | 2 +-
+>>   hw/ppc/pnv.c         | 6 +++---
+>>   2 files changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+>> index aa08d79d24de..6f498c8f1b5f 100644
+>> --- a/include/hw/ppc/pnv.h
+>> +++ b/include/hw/ppc/pnv.h
+>> @@ -79,7 +79,7 @@ struct Pnv8Chip {
+>>       PnvOCC       occ;
+>>       PnvHomer     homer;
+>> -#define PNV8_CHIP_PHB3_MAX 4
+>> +#define PNV8_CHIP_PHB3_MAX 3
+>>       PnvPHB3      phbs[PNV8_CHIP_PHB3_MAX];
+>>       XICSFabric    *xics;
+>> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+>> index 71e45515f136..bd768dcc28ad 100644
+>> --- a/hw/ppc/pnv.c
+>> +++ b/hw/ppc/pnv.c
+>> @@ -1256,7 +1256,7 @@ static void pnv_chip_power8e_class_init(ObjectClass *klass, void *data)
+>>       k->chip_cfam_id = 0x221ef04980000000ull;  /* P8 Murano DD2.1 */
+>>       k->cores_mask = POWER8E_CORE_MASK;
+>> -    k->num_phbs = 3;
+>> +    k->num_phbs = PNV8_CHIP_PHB3_MAX;
+>>       k->core_pir = pnv_chip_core_pir_p8;
+>>       k->intc_create = pnv_chip_power8_intc_create;
+>>       k->intc_reset = pnv_chip_power8_intc_reset;
+>> @@ -1280,7 +1280,7 @@ static void pnv_chip_power8_class_init(ObjectClass *klass, void *data)
+>>       k->chip_cfam_id = 0x220ea04980000000ull; /* P8 Venice DD2.0 */
+>>       k->cores_mask = POWER8_CORE_MASK;
+>> -    k->num_phbs = 3;
+>> +    k->num_phbs = PNV8_CHIP_PHB3_MAX;
+>>       k->core_pir = pnv_chip_core_pir_p8;
+>>       k->intc_create = pnv_chip_power8_intc_create;
+>>       k->intc_reset = pnv_chip_power8_intc_reset;
+>> @@ -1304,7 +1304,7 @@ static void pnv_chip_power8nvl_class_init(ObjectClass *klass, void *data)
+>>       k->chip_cfam_id = 0x120d304980000000ull;  /* P8 Naples DD1.0 */
+>>       k->cores_mask = POWER8_CORE_MASK;
+>> -    k->num_phbs = 3;
+>> +    k->num_phbs = PNV8_CHIP_PHB3_MAX;
+>>       k->core_pir = pnv_chip_core_pir_p8;
+>>       k->intc_create = pnv_chip_power8_intc_create;
+>>       k->intc_reset = pnv_chip_power8_intc_reset;
+>>
+
 
