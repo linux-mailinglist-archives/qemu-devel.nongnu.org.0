@@ -2,61 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B858646600A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 09:58:00 +0100 (CET)
-Received: from localhost ([::1]:54952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB1E46604A
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 10:25:20 +0100 (CET)
+Received: from localhost ([::1]:45260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mshuh-0005Yk-RA
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 03:57:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38264)
+	id 1msiL9-0001yD-Bx
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 04:25:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1msht3-0004dS-H7
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 03:56:17 -0500
-Received: from mga14.intel.com ([192.55.52.115]:48063)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1msiJ4-0000aN-9P
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 04:23:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1msht0-0000eB-7G
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 03:56:16 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10185"; a="236892303"
-X-IronPort-AV: E=Sophos;i="5.87,281,1631602800"; d="scan'208";a="236892303"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2021 00:56:09 -0800
-X-IronPort-AV: E=Sophos;i="5.87,281,1631602800"; d="scan'208";a="513105132"
-Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.255.31.236])
- ([10.255.31.236])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2021 00:56:05 -0800
-Message-ID: <ee4934e1-e1e6-68dd-df67-424783c0f812@intel.com>
-Date: Thu, 2 Dec 2021 16:56:03 +0800
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1msiIz-0008Dc-Mf
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 04:23:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638436984;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FDJBM29qbnTNN+W+S1MsY+LVLmWKBKBYiBlC4ur/CzQ=;
+ b=Vr/qFWSODwasqBRtDmKAITVNREURgmex43b6hfeaGM9TjHrjSggWvdL/NgvgBVWH0oF/xk
+ 86a8lQrzrEPYO+z4WvVBbL/v4QTg47+1vNewhVA+GUGfCr0DA0GpbiHGbV318M2RJVaS6P
+ BpEqPuj8GEDpnXYE/3HOSpOG+VV9hco=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-478-3m4vj2KJNTeEp6nU9xs1AA-1; Thu, 02 Dec 2021 04:23:03 -0500
+X-MC-Unique: 3m4vj2KJNTeEp6nU9xs1AA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ z138-20020a1c7e90000000b003319c5f9164so1367634wmc.7
+ for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 01:23:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FDJBM29qbnTNN+W+S1MsY+LVLmWKBKBYiBlC4ur/CzQ=;
+ b=EzKNXQ+mnQTqS7WzobLIS2YvYj9Bk/KUm/57T4GVKIync7EsSPIaJ092Ri2IrWUJOP
+ aH86xSA7sLpMasxCu8dnEYp2pMxSxCd0QQ3to8J7uQLsQSMFo3jN6VAvCRnA2830kiC/
+ ntdviWrijbE2rJW7L7CVuFzHSpgZ5nGcj9J/YXCttKsPfGy9E4uAXNCO62F2klFvjb1Q
+ SReno9rzPQ41erdCCeD64YdqKoe0kNVr9ntpELdOl9zs2921bmniT4mzpQpdEa29XaV/
+ UQMD8Gta3jreoPpAg3CXKmpMtsLke0wiassc5eQCzS8q/dxfOD+NXKkBCjxngp2KgK64
+ GC6g==
+X-Gm-Message-State: AOAM532fFQbdAksRoVSeGtYodx5qtOtTBs09hwJJjZoZDWzmb2tBziCJ
+ OIoGxkFA68oHqB8K3noHrFyYeM1Ks00oDCDsw4+Yy4aXPX+ZxPXalaGdEztrorTEBSEV7Jf+z9C
+ OTAcwMoKO79lYDPU=
+X-Received: by 2002:a5d:6351:: with SMTP id b17mr13062942wrw.151.1638436982257; 
+ Thu, 02 Dec 2021 01:23:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyKtjIZaWHF1io9vfnn95r+3m/bNMXt8do1oKWDDvwvjdh45Tcs6Bh6TzpAbLnh8lclQx5P6w==
+X-Received: by 2002:a5d:6351:: with SMTP id b17mr13062907wrw.151.1638436981948; 
+ Thu, 02 Dec 2021 01:23:01 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id g124sm1526850wme.28.2021.12.02.01.23.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Dec 2021 01:23:01 -0800 (PST)
+Message-ID: <776ef06a-525a-6aaa-fe7c-b99c91c6b7fe@redhat.com>
+Date: Thu, 2 Dec 2021 10:23:00 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.3.2
-Subject: Re: [RFC PATCH v2 11/44] i386/tdx: Implement user specified tsc
- frequency
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v4] s390: kvm: adjust diag318 resets to retain data
+To: Collin Walling <walling@linux.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org
+References: <20211117152303.627969-1-walling@linux.ibm.com>
+ <6befad1c-af14-8fe6-e3a6-a022b053f1c1@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <6befad1c-af14-8fe6-e3a6-a022b053f1c1@linux.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Connor Kuehl <ckuehl@redhat.com>, isaku.yamahata@gmail.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, alistair@alistair23.me,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
- cohuck@redhat.com, mtosatti@redhat.com, seanjc@google.com,
- erdemaktas@google.com
-References: <cover.1625704980.git.isaku.yamahata@intel.com>
- <564e6ae089c30aaba9443294ecca72da9ee7b7c4.1625704981.git.isaku.yamahata@intel.com>
- <42187f1c-26b5-b039-8fcf-f9268129feb8@redhat.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <42187f1c-26b5-b039-8fcf-f9268129feb8@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=xiaoyao.li@intel.com;
- helo=mga14.intel.com
-X-Spam_score_int: -85
-X-Spam_score: -8.6
-X-Spam_bar: --------
-X-Spam_report: (-8.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.627,
- HK_RANDOM_FROM=0.998, NICE_REPLY_A=-3.3, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.3, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,49 +99,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, kvm@vger.kernel.org
+Cc: borntraeger@de.ibm.com, cohuck@redhat.com, frankja@linux.ibm.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/23/2021 1:53 AM, Connor Kuehl wrote:
-> On 7/7/21 7:54 PM, isaku.yamahata@gmail.com wrote:
->> From: Xiaoyao Li <xiaoyao.li@intel.com>
->>
->> Reuse -cpu,tsc-frequency= to get user wanted tsc frequency and pass it
->> to KVM_TDX_INIT_VM.
->>
->> Besides, sanity check the tsc frequency to be in the legal range and
->> legal granularity (required by SEAM module).
->>
->> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
->> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
->> ---
->> [..]
->> +    if (env->tsc_khz && (env->tsc_khz < TDX1_MIN_TSC_FREQUENCY_KHZ ||
->> +                         env->tsc_khz > TDX1_MAX_TSC_FREQUENCY_KHZ)) {
->> +        error_report("Invalid TSC %ld KHz, must specify cpu_frequecy 
->> between [%d, %d] kHz\n",
-> 
-> s/frequecy/frequency
+On 01/12/2021 19.45, Collin Walling wrote:
+> Polite ping. I may have missed if this patch was picked already. Thanks!
 
-will fix it, thanks!
+I've already queued it to my s390x-next branch:
 
->> +                      env->tsc_khz, TDX1_MIN_TSC_FREQUENCY_KHZ,
->> +                      TDX1_MAX_TSC_FREQUENCY_KHZ);
->> +        exit(1);
->> +    }
->> +
->> +    if (env->tsc_khz % (25 * 1000)) {
->> +        error_report("Invalid TSC %ld KHz, it must be multiple of 
->> 25MHz\n", env->tsc_khz);
-> 
-> Should this be 25KHz instead of 25MHz?
+  https://gitlab.com/thuth/qemu/-/commits/s390x-next/
 
-No. It equals to
+It just came in very late for 6.2, and it didn't seem too critical to me, so 
+I didn't sent a separate pull request for this one. Thus it will get merged 
+once the hard freeze period of QEMU is over.
 
-	(evn->tsc_khz * 1000) % (25 * 1000 * 1000)
-
-
-
+  Thomas
 
 
