@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8788F4665A3
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 15:44:35 +0100 (CET)
-Received: from localhost ([::1]:46578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 028254665C5
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 15:49:00 +0100 (CET)
+Received: from localhost ([::1]:58192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msnK6-0004TP-L6
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 09:44:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48656)
+	id 1msnOM-0003uk-3M
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 09:48:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1msnIL-0000PL-0v; Thu, 02 Dec 2021 09:42:45 -0500
-Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:36967)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1msnIM-0000Sr-Ku
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 09:42:46 -0500
+Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229]:42123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1msnIH-0005Ex-5I; Thu, 02 Dec 2021 09:42:44 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.21])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E6A2F20150;
- Thu,  2 Dec 2021 14:42:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1msnIH-0005FC-FO
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 09:42:46 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.93])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 6F0E7202BE;
+ Thu,  2 Dec 2021 14:42:39 +0000 (UTC)
 Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Thu, 2 Dec
  2021 15:42:38 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0019997a271-f489-41ce-823a-ec629069c59c,
+ (GARM-95G001de07ed27-88a9-4667-8bd6-cd484fbe08ed,
  53AF7497412F6E71185D8D05EFDE7032E43CC10F) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH 03/14] ppc/pnv: Move mapping of the PHB3 CQ regions under
- pnv_pbcq_realize()
-Date: Thu, 2 Dec 2021 15:42:24 +0100
-Message-ID: <20211202144235.1276352-4-clg@kaod.org>
+Subject: [PATCH 04/14] ppc/pnv: Introduce support for user created PHB3 devices
+Date: Thu, 2 Dec 2021 15:42:25 +0100
+Message-ID: <20211202144235.1276352-5-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211202144235.1276352-1-clg@kaod.org>
 References: <20211202144235.1276352-1-clg@kaod.org>
@@ -43,19 +42,19 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.95]
 X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 91896406-4726-455b-afad-9abf0772fa54
-X-Ovh-Tracer-Id: 15807071742924524326
+X-Ovh-Tracer-GUID: 1f72c7e6-de8a-4737-96f0-4a98aab11f12
+X-Ovh-Tracer-Id: 15807353219267136294
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrieehgdeijecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
- helo=1.mo548.mail-out.ovh.net
+Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
+ helo=4.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,105 +73,109 @@ Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This requires a link to the chip to add the regions under the XSCOM
-address space. This change will help us providing support for user
-created PHB3 devices.
+PHB3 devices and PCI devices can now be added to the powernv8 machine
+using :
+
+  -device pnv-phb3,chip-id=0,index=1 \
+  -device nec-usb-xhci,bus=pci.1,addr=0x0
+
+The 'index' property identifies the PHB3 in the chip. In case of user
+created devices, a lookup on 'chip-id' is required to assign the
+owning chip.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/pci-host/pnv_phb3.h |  3 +++
- hw/pci-host/pnv_phb3.c         |  1 +
- hw/pci-host/pnv_phb3_pbcq.c    | 11 +++++++++++
- hw/ppc/pnv.c                   | 14 ++------------
- 4 files changed, 17 insertions(+), 12 deletions(-)
+ include/hw/ppc/pnv.h   |  2 ++
+ hw/pci-host/pnv_phb3.c | 11 ++++++++++-
+ hw/ppc/pnv.c           | 23 ++++++++++++++++++-----
+ 3 files changed, 30 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
-index e2a2e3624532..e9c13e6bd821 100644
---- a/include/hw/pci-host/pnv_phb3.h
-+++ b/include/hw/pci-host/pnv_phb3.h
-@@ -16,6 +16,7 @@
- #include "qom/object.h"
- 
- typedef struct PnvPHB3 PnvPHB3;
-+typedef struct PnvChip PnvChip;
- 
- /*
-  * PHB3 XICS Source for MSIs
-@@ -157,6 +158,8 @@ struct PnvPHB3 {
-     PnvPHB3RootPort root;
- 
-     QLIST_HEAD(, PnvPhb3DMASpace) dma_spaces;
-+
-+    PnvChip *chip;
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index 6f498c8f1b5f..0710673a7fd8 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -215,6 +215,8 @@ struct PnvMachineState {
+     hwaddr       fw_load_addr;
  };
  
- uint64_t pnv_phb3_reg_read(void *opaque, hwaddr off, unsigned size);
++PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_id);
++
+ #define PNV_FDT_ADDR          0x01000000
+ #define PNV_TIMEBASE_FREQ     512000000ULL
+ 
 diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index a7f96850055a..3aa42ef9d4b9 100644
+index 3aa42ef9d4b9..dd1cf37288a0 100644
 --- a/hw/pci-host/pnv_phb3.c
 +++ b/hw/pci-host/pnv_phb3.c
-@@ -1092,6 +1092,7 @@ static const char *pnv_phb3_root_bus_path(PCIHostState *host_bridge,
- static Property pnv_phb3_properties[] = {
-         DEFINE_PROP_UINT32("index", PnvPHB3, phb_id, 0),
-         DEFINE_PROP_UINT32("chip-id", PnvPHB3, chip_id, 0),
-+        DEFINE_PROP_LINK("chip", PnvPHB3, chip, TYPE_PNV_CHIP, PnvChip *),
-         DEFINE_PROP_END_OF_LIST(),
- };
+@@ -998,6 +998,15 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+         return;
+     }
  
-diff --git a/hw/pci-host/pnv_phb3_pbcq.c b/hw/pci-host/pnv_phb3_pbcq.c
-index a0526aa1eca3..c7426cd27a20 100644
---- a/hw/pci-host/pnv_phb3_pbcq.c
-+++ b/hw/pci-host/pnv_phb3_pbcq.c
-@@ -284,6 +284,17 @@ static void pnv_pbcq_realize(DeviceState *dev, Error **errp)
-     pnv_xscom_region_init(&pbcq->xscom_spci_regs, OBJECT(dev),
-                           &pnv_pbcq_spci_xscom_ops, pbcq, name,
-                           PNV_XSCOM_PBCQ_SPCI_SIZE);
++    /* User created devices */
++    if (!phb->chip) {
++        phb->chip = pnv_get_chip(pnv, phb->chip_id);
++        if (!phb->chip) {
++            error_setg(errp, "invalid chip id: %d", phb->chip_id);
++            return;
++        }
++    }
 +
-+    /* Populate the XSCOM address space. */
-+    pnv_xscom_add_subregion(phb->chip,
-+                            PNV_XSCOM_PBCQ_NEST_BASE + 0x400 * phb->phb_id,
-+                            &pbcq->xscom_nest_regs);
-+    pnv_xscom_add_subregion(phb->chip,
-+                            PNV_XSCOM_PBCQ_PCI_BASE + 0x400 * phb->phb_id,
-+                            &pbcq->xscom_pci_regs);
-+    pnv_xscom_add_subregion(phb->chip,
-+                            PNV_XSCOM_PBCQ_SPCI_BASE + 0x040 * phb->phb_id,
-+                            &pbcq->xscom_spci_regs);
+     /* LSI sources */
+     object_property_set_link(OBJECT(&phb->lsis), "xics", OBJECT(pnv),
+                              &error_abort);
+@@ -1105,7 +1114,7 @@ static void pnv_phb3_class_init(ObjectClass *klass, void *data)
+     dc->realize = pnv_phb3_realize;
+     device_class_set_props(dc, pnv_phb3_properties);
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+-    dc->user_creatable = false;
++    dc->user_creatable = true;
  }
  
- static int pnv_pbcq_dt_xscom(PnvXScomInterface *dev, void *fdt,
+ static const TypeInfo pnv_phb3_type_info = {
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 988b305398b2..de277c457838 100644
+index de277c457838..d7fe92cb082d 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -1221,25 +1221,15 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
-     /* PHB3 controllers */
-     for (i = 0; i < chip->num_phbs; i++) {
-         PnvPHB3 *phb = &chip8->phbs[i];
--        PnvPBCQState *pbcq = &phb->pbcq;
+@@ -1097,14 +1097,14 @@ static void pnv_chip_power8_instance_init(Object *obj)
  
-         object_property_set_int(OBJECT(phb), "index", i, &error_fatal);
-         object_property_set_int(OBJECT(phb), "chip-id", chip->chip_id,
-                                 &error_fatal);
-+        object_property_set_link(OBJECT(phb), "chip", OBJECT(chip),
-+                                 &error_fatal);
-         if (!sysbus_realize(SYS_BUS_DEVICE(phb), errp)) {
-             return;
-         }
--
--        /* Populate the XSCOM address space. */
--        pnv_xscom_add_subregion(chip,
--                                PNV_XSCOM_PBCQ_NEST_BASE + 0x400 * phb->phb_id,
--                                &pbcq->xscom_nest_regs);
--        pnv_xscom_add_subregion(chip,
--                                PNV_XSCOM_PBCQ_PCI_BASE + 0x400 * phb->phb_id,
--                                &pbcq->xscom_pci_regs);
--        pnv_xscom_add_subregion(chip,
--                                PNV_XSCOM_PBCQ_SPCI_BASE + 0x040 * phb->phb_id,
--                                &pbcq->xscom_spci_regs);
+     object_initialize_child(obj, "homer", &chip8->homer, TYPE_PNV8_HOMER);
+ 
+-    for (i = 0; i < pcc->num_phbs; i++) {
++    if (defaults_enabled()) {
++        chip->num_phbs = pcc->num_phbs;
++    }
++
++    for (i = 0; i < chip->num_phbs; i++) {
+         object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV_PHB3);
      }
+ 
+-    /*
+-     * Number of PHBs is the chip default
+-     */
+-    chip->num_phbs = pcc->num_phbs;
  }
  
+ static void pnv_chip_icp_realize(Pnv8Chip *chip8, Error **errp)
+@@ -1784,6 +1784,19 @@ PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir)
+     return NULL;
+ }
+ 
++PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_id)
++{
++    int i;
++
++    for (i = 0; i < pnv->num_chips; i++) {
++        PnvChip *chip = pnv->chips[i];
++        if (chip->chip_id == chip_id) {
++            return chip;
++        }
++    }
++    return NULL;
++}
++
+ static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
+ {
+     PnvMachineState *pnv = PNV_MACHINE(xi);
 -- 
 2.31.1
 
