@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB23466945
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:39:35 +0100 (CET)
-Received: from localhost ([::1]:55932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D11F466984
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Dec 2021 18:58:24 +0100 (CET)
+Received: from localhost ([::1]:35692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msq3R-0003G0-Ro
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:39:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43942)
+	id 1msqLf-0002z1-AT
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 12:58:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mspz1-0007jA-1M; Thu, 02 Dec 2021 12:34:59 -0500
-Received: from [2607:f8b0:4864:20::82a] (port=42586
- helo=mail-qt1-x82a.google.com)
+ id 1msq1I-0002MT-PS; Thu, 02 Dec 2021 12:37:23 -0500
+Received: from [2607:f8b0:4864:20::833] (port=34669
+ helo=mail-qt1-x833.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mspyx-0004xu-LK; Thu, 02 Dec 2021 12:34:58 -0500
-Received: by mail-qt1-x82a.google.com with SMTP id z9so463888qtj.9;
- Thu, 02 Dec 2021 09:34:53 -0800 (PST)
+ id 1msq1H-0008Hx-Dr; Thu, 02 Dec 2021 12:37:20 -0500
+Received: by mail-qt1-x833.google.com with SMTP id o17so522350qtk.1;
+ Thu, 02 Dec 2021 09:37:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=G24gP7XQuC6M8aC6N1geimOFNAiPqJ/ptBYX7ZRUBsk=;
- b=l0jKF8ImsAGQ0b5bfQ6lgQJtBsTQ7L22SHZoNkGt+o76kR404/VbTxIhrTA2Fu62kD
- ueuwEF6WJ/VaboFRwLb5SOHRbeviFJ5KumRqealuZGOjn0PaaR6VDVWQY7J7WiMb20No
- dblupevtrCfgHvC3WoME+/tDi1VttFMlBppw+Qf5sW5z+FrgAemowjX1j70SJ0jk8xd+
- WgiYlyqXT21U/MM/80uWOjgdRuBA3De2g6V8OYi8t8fzdSxH8SCo9VMa/hk1xW1N/iYP
- mj67sLPC8k4mnBnFJ/+XxjLGpod27M++YqoerqFjkw88ZvznFs+VghdiQDYXR8LeVgXI
- tQzg==
+ bh=spHhGpgvG5GOc965JBN9w9au9qbZvILlfJf9sOHhBZA=;
+ b=puqh5Ze2NxJqqr15kxHDQzjXzJi4KdeEzXFEc+ELtCIG6D9u9+TEGanI5hTiSvLoRl
+ zGIGEySy1fEASMa5I4GZ212emmrpZJvvJZi3PoXwF6DP33ljtD6+ON5E5PwJfP48PDkv
+ kPuOkMmjpKREM/5YlBph3WubozEw/ECT5kWxhHvrNgGvYJ8ZrUq8eIDnb0eJ2Du+zvXU
+ Tk0QVCB83JniR+jargd3aOU/9j60E38jd3o3px6w9Xhd9X1V1/kK0nIpwyo7aRqQ9Evz
+ Dk7ZSH+TBDuczfKu8PSEqI4BAsu7CAeeDB/Ra6AXuVJlRdhi+zxbvcnLfpH5jo/l72VD
+ +TWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=G24gP7XQuC6M8aC6N1geimOFNAiPqJ/ptBYX7ZRUBsk=;
- b=ZQZ9ndojCXufYliM15F6/WO9sdc071noByPWxQ2uThUkSdUiG79g4N0IEd7GsjZDrg
- 0Y44rQoFwBlOxZFPuMBn8+hyO4VfJgyfkZpmBoS1D04dnaEnTPMGVhGHRJbxgSkBujtz
- LIANouoC4LM838sVEE3xvMEf6kQUjILA8rziBotY+Ga0MKkv7bJS5kAjN23Z/q8OQdHF
- m/b5X/Rhmjy+B5K2nqPsVIC+R0IC6tZ+r0DVIg5d+CVVvc0VAkZxJOeC5uH07SOUMPfH
- zzTMpexrkXPd5S/QoBaVWEAUtmCkM3vJW2+yQz73nN2N1TBRiu2OLw/ZfSmoBQbMdgHr
- yApw==
-X-Gm-Message-State: AOAM530vfxaU+r3ubdk4ngoTHcNAFmNmlx04d1giAfSrf+kEFGxDfN9o
- tL6Vk0maujDsC7i9bTziPVTgPbHVuAQ=
-X-Google-Smtp-Source: ABdhPJxtsrQkYwbKnceDiHz9lmvKP+ehKZrH2JkgotqOktVR3Wcr0eDxoPcbqKyATDLPclMA/LsQ9w==
-X-Received: by 2002:ac8:610b:: with SMTP id a11mr15060236qtm.182.1638466493554; 
- Thu, 02 Dec 2021 09:34:53 -0800 (PST)
+ bh=spHhGpgvG5GOc965JBN9w9au9qbZvILlfJf9sOHhBZA=;
+ b=AFxpPuurbj6vEn9/WL9agUft6EMIrUPTklObgB0JXNEiMD0yRiUAHFbJb5S5KY4ZkI
+ 7sl7SNIkqzDKDROXDCZIwFCamAtYxYtqiseCbXZ1VXBDb2UkVKPcAgMDws82NWlt7hkG
+ 8Ap1RFpZCoJxJ6FFKeSbgaa0V76z1RVWeQQq5kLofNcoFxzWqec2Ck85xLk2AKZiyIHA
+ cMXCkclj9BNsjN4MVF8uEPB6ZdM1kQJqCQtX6rfSi0f9BwMgc/uGlhW5xpHNO/qHFzus
+ DyImTgcy7GRy0XlZeABV/a06CvoofR4ul1KVOAGM7JOj2OWt8TjoWqZIpXN7KoGBndwa
+ meqQ==
+X-Gm-Message-State: AOAM533YDuidu7r16uycWzb+IgISMcx8CQHjy1wo2HEV5XKCRsOzKubK
+ 8KIbJYigex8ePRGs3W2aEwk=
+X-Google-Smtp-Source: ABdhPJydviNxO0XYbWc4HSz2Go4jnxOFw8i2sCkPxO/M7aKStWN8ugqb2JJPrMJa0LDYg7L5yGT3pQ==
+X-Received: by 2002:a05:622a:2d6:: with SMTP id
+ a22mr15281940qtx.29.1638466638352; 
+ Thu, 02 Dec 2021 09:37:18 -0800 (PST)
 Received: from [192.168.10.222] ([177.68.212.35])
- by smtp.gmail.com with ESMTPSA id h3sm366118qko.78.2021.12.02.09.34.51
+ by smtp.gmail.com with ESMTPSA id bl16sm337795qkb.44.2021.12.02.09.37.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Dec 2021 09:34:53 -0800 (PST)
-Message-ID: <74b438b4-3800-7266-18ba-6b9ab9a9add4@gmail.com>
-Date: Thu, 2 Dec 2021 14:34:50 -0300
+ Thu, 02 Dec 2021 09:37:18 -0800 (PST)
+Message-ID: <44c311af-da58-c72c-26f1-50774a390776@gmail.com>
+Date: Thu, 2 Dec 2021 14:37:15 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 07/14] ppc/pnv: Introduce a num_pecs class attribute for
- PHB4 PEC devices
+Subject: Re: [PATCH 08/14] ppc/pnv: Introduce version and device_id class
+ atributes for PHB4 devices
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211202144235.1276352-1-clg@kaod.org>
- <20211202144235.1276352-8-clg@kaod.org>
+ <20211202144235.1276352-9-clg@kaod.org>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20211202144235.1276352-8-clg@kaod.org>
+In-Reply-To: <20211202144235.1276352-9-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::833
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x833.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -98,107 +99,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 12/2/21 11:42, Cédric Le Goater wrote:
-> POWER9 processor comes with 3 PHB4 PECs (PCI Express Controller) and
-> each PEC can have several PHBs :
-> 
->    * PEC0 provides 1 PHB  (PHB0)
->    * PEC1 provides 2 PHBs (PHB1 and PHB2)
->    * PEC2 provides 3 PHBs (PHB3, PHB4 and PHB5)
-> 
-> A num_pecs class attribute represents better the logic units of the
-> POWER9 chip. Use that instead of num_phbs which fits POWER8 chips.
-> This will ease adding support for user created devices.
-> 
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
->   include/hw/ppc/pnv.h |  2 ++
->   hw/ppc/pnv.c         | 20 +++++++++-----------
->   2 files changed, 11 insertions(+), 11 deletions(-)
+>   include/hw/pci-host/pnv_phb4.h | 2 ++
+>   hw/pci-host/pnv_phb4_pec.c     | 2 ++
+>   hw/ppc/pnv.c                   | 4 ++--
+>   3 files changed, 6 insertions(+), 2 deletions(-)
 > 
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index 247379ef1f88..f2c238062f4a 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -53,6 +53,7 @@ struct PnvChip {
->       PnvCore      **cores;
+> diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
+> index 27556ae53425..b2864233641e 100644
+> --- a/include/hw/pci-host/pnv_phb4.h
+> +++ b/include/hw/pci-host/pnv_phb4.h
+> @@ -219,6 +219,8 @@ struct PnvPhb4PecClass {
+>       int compat_size;
+>       const char *stk_compat;
+>       int stk_compat_size;
+> +    uint64_t version;
+> +    uint64_t device_id;
+>   };
 >   
->       uint32_t     num_phbs;
-> +    uint32_t     num_pecs;
->   
->       MemoryRegion xscom_mmio;
->       MemoryRegion xscom;
-> @@ -136,6 +137,7 @@ struct PnvChipClass {
->       uint64_t     chip_cfam_id;
->       uint64_t     cores_mask;
->       uint32_t     num_phbs;
-> +    uint32_t     num_pecs;
->   
->       DeviceRealize parent_realize;
->   
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 45d8ecbf2bf7..185464a1d443 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -658,7 +658,7 @@ static void pnv_chip_power9_pic_print_info(PnvChip *chip, Monitor *mon)
->       pnv_xive_pic_print_info(&chip9->xive, mon);
->       pnv_psi_pic_print_info(&chip9->psi, mon);
->   
-> -    for (i = 0; i < PNV9_CHIP_MAX_PEC; i++) {
-> +    for (i = 0; i < chip->num_pecs; i++) {
->           PnvPhb4PecState *pec = &chip9->pecs[i];
->           for (j = 0; j < pec->num_stacks; j++) {
->               pnv_phb4_pic_print_info(&pec->stacks[j].phb, mon);
-> @@ -1330,15 +1330,14 @@ static void pnv_chip_power9_instance_init(Object *obj)
->   
->       object_initialize_child(obj, "homer", &chip9->homer, TYPE_PNV9_HOMER);
->   
-> -    for (i = 0; i < PNV9_CHIP_MAX_PEC; i++) {
-> +    if (defaults_enabled()) {
-> +        chip->num_pecs = pcc->num_pecs;
-> +    }
-> +
-> +    for (i = 0; i < chip->num_pecs; i++) {
->           object_initialize_child(obj, "pec[*]", &chip9->pecs[i],
->                                   TYPE_PNV_PHB4_PEC);
->       }
-> -
-> -    /*
-> -     * Number of PHBs is the chip default
-> -     */
-> -    chip->num_phbs = pcc->num_phbs;
+>   #endif /* PCI_HOST_PNV_PHB4_H */
+> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+> index 741ddc90ed8d..9f722729ac50 100644
+> --- a/hw/pci-host/pnv_phb4_pec.c
+> +++ b/hw/pci-host/pnv_phb4_pec.c
+> @@ -499,6 +499,8 @@ static void pnv_pec_class_init(ObjectClass *klass, void *data)
+>       pecc->compat_size = sizeof(compat);
+>       pecc->stk_compat = stk_compat;
+>       pecc->stk_compat_size = sizeof(stk_compat);
+> +    pecc->version = PNV_PHB4_VERSION;
+> +    pecc->device_id = PNV_PHB4_DEVICE_ID;
 >   }
 >   
->   static void pnv_chip_quad_realize(Pnv9Chip *chip9, Error **errp)
-> @@ -1374,7 +1373,7 @@ static void pnv_chip_power9_phb_realize(PnvChip *chip, Error **errp)
->       int i, j;
->       int phb_id = 0;
->   
-> -    for (i = 0; i < PNV9_CHIP_MAX_PEC; i++) {
-> +    for (i = 0; i < chip->num_pecs; i++) {
->           PnvPhb4PecState *pec = &chip9->pecs[i];
->           PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
->           uint32_t pec_nest_base;
-> @@ -1402,8 +1401,7 @@ static void pnv_chip_power9_phb_realize(PnvChip *chip, Error **errp)
->           pnv_xscom_add_subregion(chip, pec_nest_base, &pec->nest_regs_mr);
->           pnv_xscom_add_subregion(chip, pec_pci_base, &pec->pci_regs_mr);
->   
-> -        for (j = 0; j < pec->num_stacks && phb_id < chip->num_phbs;
-> -             j++, phb_id++) {
-> +        for (j = 0; j < pec->num_stacks; j++, phb_id++) {
->               PnvPhb4PecStack *stack = &pec->stacks[j];
->               Object *obj = OBJECT(&stack->phb);
->   
-> @@ -1559,7 +1557,7 @@ static void pnv_chip_power9_class_init(ObjectClass *klass, void *data)
->       k->xscom_core_base = pnv_chip_power9_xscom_core_base;
->       k->xscom_pcba = pnv_chip_power9_xscom_pcba;
->       dc->desc = "PowerNV Chip POWER9";
-> -    k->num_phbs = 6;
-> +    k->num_pecs = PNV9_CHIP_MAX_PEC;
->   
->       device_class_set_parent_realize(dc, pnv_chip_power9_realize,
->                                       &k->parent_realize);
+>   static const TypeInfo pnv_pec_type_info = {
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 185464a1d443..0c65e1e88cf5 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -1408,9 +1408,9 @@ static void pnv_chip_power9_phb_realize(PnvChip *chip, Error **errp)
+>               object_property_set_int(obj, "index", phb_id, &error_fatal);
+>               object_property_set_int(obj, "chip-id", chip->chip_id,
+>                                       &error_fatal);
+> -            object_property_set_int(obj, "version", PNV_PHB4_VERSION,
+> +            object_property_set_int(obj, "version", pecc->version,
+>                                       &error_fatal);
+> -            object_property_set_int(obj, "device-id", PNV_PHB4_DEVICE_ID,
+> +            object_property_set_int(obj, "device-id", pecc->device_id,
+>                                       &error_fatal);
+>               object_property_set_link(obj, "stack", OBJECT(stack),
+>                                        &error_abort);
 > 
 
