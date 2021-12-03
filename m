@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47FB04680B4
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 00:39:13 +0100 (CET)
-Received: from localhost ([::1]:58434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A12004680C5
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 00:42:14 +0100 (CET)
+Received: from localhost ([::1]:38288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtI91-0004fN-Q0
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 18:39:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38142)
+	id 1mtIBw-0001lM-J9
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 18:42:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHoY-0002Bs-WE
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:18:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39881)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHoa-0002IX-HJ
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:18:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHoX-0003JP-AX
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:18:02 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHoX-0003Jc-Gu
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:18:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638573480;
+ s=mimecast20190719; t=1638573481;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b7vTNTo8uTLAByN8asrFOku08wwC2MQ4RKEAFYJrPdY=;
- b=N+5DXg1TUbeFsIABJBm2MsVXdWXwWdC3ZYKf5y0J/E0ZPJUm5ZcaUGZK1piae1FjUqTF1a
- tiQ5xcrbyyb/6FJ4gYOYbzm2sARG7TpzixHHUAmWXRG7l4B0LVfQF0kGIEKsOb157UGxK0
- +BKHHyufwFRBpC7Bi/tmXIOG/iUOCeM=
+ bh=68wLFDmhwgI93GM09cg1fWteej9OMa60cYVzyX0BSaI=;
+ b=Ur881y4bIbBTrbxAmoVr8n+jXn/YYYabVj3kZQjY/rBMtbWmkB/UQLqxJaR+lrqsu6izEf
+ qArPQZhPDG0Z7XhJoos6qftCoBEaO8gADHJzgWtBnvAgFupP3vita6yT4ndwcXCujzKTR/
+ iWoi3u6gwWBPVZ/sZXjrUOs7h0Z6/8Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-109-aJFX8kpTMHShB6jNRcEIeA-1; Fri, 03 Dec 2021 18:17:57 -0500
-X-MC-Unique: aJFX8kpTMHShB6jNRcEIeA-1
+ us-mta-395-wf9M9K8FNV6NjBdTz1VFkw-1; Fri, 03 Dec 2021 18:17:58 -0500
+X-MC-Unique: wf9M9K8FNV6NjBdTz1VFkw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6D51190A7A4;
- Fri,  3 Dec 2021 23:17:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA0DA801B26;
+ Fri,  3 Dec 2021 23:17:56 +0000 (UTC)
 Received: from blue.redhat.com (unknown [10.2.16.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF3345DF2B;
- Fri,  3 Dec 2021 23:17:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E932EADD5;
+ Fri,  3 Dec 2021 23:17:55 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: libguestfs@redhat.com
-Subject: [libnbd PATCH 03/13] protocol: Add definitions for extended headers
-Date: Fri,  3 Dec 2021 17:17:31 -0600
-Message-Id: <20211203231741.3901263-4-eblake@redhat.com>
+Subject: [libnbd PATCH 04/13] protocol: Prepare to send 64-bit requests
+Date: Fri,  3 Dec 2021 17:17:32 -0600
+Message-Id: <20211203231741.3901263-5-eblake@redhat.com>
 In-Reply-To: <20211203231741.3901263-1-eblake@redhat.com>
 References: <20211203231307.wmtbw7r72tyzkkax@redhat.com>
  <20211203231741.3901263-1-eblake@redhat.com>
@@ -83,137 +83,162 @@ Cc: nsoffer@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the magic numbers and new structs necessary to implement the NBD
-protocol extension of extended headers providing 64-bit lengths.
----
- lib/nbd-protocol.h | 61 ++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 51 insertions(+), 10 deletions(-)
+Support sending 64-bit requests if extended headers were negotiated.
 
-diff --git a/lib/nbd-protocol.h b/lib/nbd-protocol.h
-index e5d6404b..7247d775 100644
---- a/lib/nbd-protocol.h
-+++ b/lib/nbd-protocol.h
+At this point, h->extended_headers is permanently false (we can't
+enable it until all other aspects of the protocol have likewise been
+converted).
+---
+ lib/internal.h                      | 12 ++++++++---
+ generator/states-issue-command.c    | 31 +++++++++++++++++++----------
+ generator/states-reply-structured.c |  2 +-
+ lib/rw.c                            | 10 ++++------
+ 4 files changed, 34 insertions(+), 21 deletions(-)
+
+diff --git a/lib/internal.h b/lib/internal.h
+index 7e96e8e9..07378588 100644
+--- a/lib/internal.h
++++ b/lib/internal.h
 @@ -1,5 +1,5 @@
- /* nbdkit
+ /* nbd client library in userspace: internal definitions
 - * Copyright (C) 2013-2020 Red Hat Inc.
 + * Copyright (C) 2013-2021 Red Hat Inc.
   *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-@@ -124,6 +124,7 @@ struct nbd_fixed_new_option_reply {
- #define NBD_OPT_STRUCTURED_REPLY   8
- #define NBD_OPT_LIST_META_CONTEXT  9
- #define NBD_OPT_SET_META_CONTEXT   10
-+#define NBD_OPT_EXTENDED_HEADERS   11
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+@@ -106,6 +106,9 @@ struct nbd_handle {
+   char *tls_username;           /* Username, NULL = use current username */
+   char *tls_psk_file;           /* PSK filename, NULL = no PSK */
 
- #define NBD_REP_ERR(val) (0x80000000 | (val))
- #define NBD_REP_IS_ERR(val) (!!((val) & 0x80000000))
-@@ -188,6 +189,13 @@ struct nbd_block_descriptor {
-   uint32_t status_flags;        /* block type (hole etc) */
- } NBD_ATTRIBUTE_PACKED;
-
-+/* NBD_REPLY_TYPE_BLOCK_STATUS_EXT block descriptor. */
-+struct nbd_block_descriptor_ext {
-+  uint64_t length;              /* length of block */
-+  uint32_t status_flags;        /* block type (hole etc) */
-+  uint32_t pad;                 /* must be zero */
-+} NBD_ATTRIBUTE_PACKED;
++  /* Extended headers. */
++  bool extended_headers;        /* If we negotiated NBD_OPT_EXTENDED_HEADERS */
 +
- /* Request (client -> server). */
- struct nbd_request {
-   uint32_t magic;               /* NBD_REQUEST_MAGIC. */
-@@ -197,6 +205,14 @@ struct nbd_request {
-   uint64_t offset;              /* Request offset. */
-   uint32_t count;               /* Request length. */
- } NBD_ATTRIBUTE_PACKED;
-+struct nbd_request_ext {
-+  uint32_t magic;               /* NBD_REQUEST_EXT_MAGIC. */
-+  uint16_t flags;               /* Request flags. */
-+  uint16_t type;                /* Request type. */
-+  uint64_t handle;              /* Opaque handle. */
-+  uint64_t offset;              /* Request offset. */
-+  uint64_t count;               /* Request length. */
-+} NBD_ATTRIBUTE_PACKED;
+   /* Desired metadata contexts. */
+   bool request_sr;
+   string_vector request_meta_contexts;
+@@ -242,7 +245,10 @@ struct nbd_handle {
+   /* Issuing a command must use a buffer separate from sbuf, for the
+    * case when we interrupt a request to service a reply.
+    */
+-  struct nbd_request request;
++  union {
++    struct nbd_request request;
++    struct nbd_request_ext request_ext;
++  } req;
+   bool in_write_payload;
+   bool in_write_shutdown;
 
- /* Simple reply (server -> client). */
- struct nbd_simple_reply {
-@@ -204,6 +220,13 @@ struct nbd_simple_reply {
-   uint32_t error;               /* NBD_SUCCESS or one of NBD_E*. */
-   uint64_t handle;              /* Opaque handle. */
- } NBD_ATTRIBUTE_PACKED;
-+struct nbd_simple_reply_ext {
-+  uint32_t magic;               /* NBD_SIMPLE_REPLY_EXT_MAGIC. */
-+  uint32_t error;               /* NBD_SUCCESS or one of NBD_E*. */
-+  uint64_t handle;              /* Opaque handle. */
-+  uint64_t pad1;                /* Must be 0. */
-+  uint64_t pad2;                /* Must be 0. */
-+} NBD_ATTRIBUTE_PACKED;
+@@ -347,7 +353,7 @@ struct command {
+   uint16_t type;
+   uint64_t cookie;
+   uint64_t offset;
+-  uint32_t count;
++  uint64_t count;
+   void *data; /* Buffer for read/write */
+   struct command_cb cb;
+   enum state state; /* State to resume with on next POLLIN */
+diff --git a/generator/states-issue-command.c b/generator/states-issue-command.c
+index a8101144..7b1d6dc7 100644
+--- a/generator/states-issue-command.c
++++ b/generator/states-issue-command.c
+@@ -1,5 +1,5 @@
+ /* nbd client library in userspace: state machine
+- * Copyright (C) 2013-2020 Red Hat Inc.
++ * Copyright (C) 2013-2021 Red Hat Inc.
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+@@ -41,14 +41,23 @@ STATE_MACHINE {
+     return 0;
+   }
 
- /* Structured reply (server -> client). */
- struct nbd_structured_reply {
-@@ -213,6 +236,14 @@ struct nbd_structured_reply {
-   uint64_t handle;              /* Opaque handle. */
-   uint32_t length;              /* Length of payload which follows. */
- } NBD_ATTRIBUTE_PACKED;
-+struct nbd_structured_reply_ext {
-+  uint32_t magic;               /* NBD_STRUCTURED_REPLY_EXT_MAGIC. */
-+  uint16_t flags;               /* NBD_REPLY_FLAG_* */
-+  uint16_t type;                /* NBD_REPLY_TYPE_* */
-+  uint64_t handle;              /* Opaque handle. */
-+  uint64_t length;              /* Length of payload which follows. */
-+  uint64_t pad;                 /* Must be 0. */
-+} NBD_ATTRIBUTE_PACKED;
+-  h->request.magic = htobe32 (NBD_REQUEST_MAGIC);
+-  h->request.flags = htobe16 (cmd->flags);
+-  h->request.type = htobe16 (cmd->type);
+-  h->request.handle = htobe64 (cmd->cookie);
+-  h->request.offset = htobe64 (cmd->offset);
+-  h->request.count = htobe32 ((uint32_t) cmd->count);
+-  h->wbuf = &h->request;
+-  h->wlen = sizeof (h->request);
++  /* These fields are coincident between req.request and req.request_ext */
++  h->req.request.flags = htobe16 (cmd->flags);
++  h->req.request.type = htobe16 (cmd->type);
++  h->req.request.handle = htobe64 (cmd->cookie);
++  h->req.request.offset = htobe64 (cmd->offset);
++  if (h->extended_headers) {
++    h->req.request_ext.magic = htobe32 (NBD_REQUEST_EXT_MAGIC);
++    h->req.request_ext.count = htobe64 (cmd->count);
++    h->wlen = sizeof (h->req.request_ext);
++  }
++  else {
++    assert (cmd->count <= UINT32_MAX);
++    h->req.request.magic = htobe32 (NBD_REQUEST_MAGIC);
++    h->req.request.count = htobe32 (cmd->count);
++    h->wlen = sizeof (h->req.request);
++  }
++  h->wbuf = &h->req;
+   if (cmd->type == NBD_CMD_WRITE || cmd->next)
+     h->wflags = MSG_MORE;
+   SET_NEXT_STATE (%SEND_REQUEST);
+@@ -73,7 +82,7 @@ STATE_MACHINE {
 
- struct nbd_structured_reply_offset_data {
-   uint64_t offset;              /* offset */
-@@ -224,15 +255,23 @@ struct nbd_structured_reply_offset_hole {
-   uint32_t length;              /* Length of hole. */
- } NBD_ATTRIBUTE_PACKED;
+   assert (h->cmds_to_issue != NULL);
+   cmd = h->cmds_to_issue;
+-  assert (cmd->cookie == be64toh (h->request.handle));
++  assert (cmd->cookie == be64toh (h->req.request.handle));
+   if (cmd->type == NBD_CMD_WRITE) {
+     h->wbuf = cmd->data;
+     h->wlen = cmd->count;
+@@ -119,7 +128,7 @@ STATE_MACHINE {
+   assert (!h->wlen);
+   assert (h->cmds_to_issue != NULL);
+   cmd = h->cmds_to_issue;
+-  assert (cmd->cookie == be64toh (h->request.handle));
++  assert (cmd->cookie == be64toh (h->req.request.handle));
+   h->cmds_to_issue = cmd->next;
+   if (h->cmds_to_issue_tail == cmd)
+     h->cmds_to_issue_tail = NULL;
+diff --git a/generator/states-reply-structured.c b/generator/states-reply-structured.c
+index e1da850d..5524e000 100644
+--- a/generator/states-reply-structured.c
++++ b/generator/states-reply-structured.c
+@@ -34,7 +34,7 @@ structured_reply_in_bounds (uint64_t offset, uint32_t length,
+       offset + length > cmd->offset + cmd->count) {
+     set_error (0, "range of structured reply is out of bounds, "
+                "offset=%" PRIu64 ", cmd->offset=%" PRIu64 ", "
+-               "length=%" PRIu32 ", cmd->count=%" PRIu32 ": "
++               "length=%" PRIu32 ", cmd->count=%" PRIu64 ": "
+                "this is likely to be a bug in the NBD server",
+                offset, cmd->offset, length, cmd->count);
+     return false;
+diff --git a/lib/rw.c b/lib/rw.c
+index 4ade7508..16c2e848 100644
+--- a/lib/rw.c
++++ b/lib/rw.c
+@@ -1,5 +1,5 @@
+ /* NBD client library in userspace
+- * Copyright (C) 2013-2020 Red Hat Inc.
++ * Copyright (C) 2013-2021 Red Hat Inc.
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+@@ -216,13 +216,11 @@ nbd_internal_command_common (struct nbd_handle *h,
+     }
+     break;
 
-+struct nbd_structured_reply_offset_hole_ext {
-+  uint64_t offset;
-+  uint64_t length;              /* Length of hole. */
-+} NBD_ATTRIBUTE_PACKED;
-+
- struct nbd_structured_reply_error {
-   uint32_t error;               /* NBD_E* error number */
-   uint16_t len;                 /* Length of human readable error. */
-   /* Followed by human readable error string, and possibly more structure. */
- } NBD_ATTRIBUTE_PACKED;
-
--#define NBD_REQUEST_MAGIC           0x25609513
--#define NBD_SIMPLE_REPLY_MAGIC      0x67446698
--#define NBD_STRUCTURED_REPLY_MAGIC  0x668e33ef
-+#define NBD_REQUEST_MAGIC               0x25609513
-+#define NBD_REQUEST_EXT_MAGIC           0x21e41c71
-+#define NBD_SIMPLE_REPLY_MAGIC          0x67446698
-+#define NBD_SIMPLE_REPLY_EXT_MAGIC      0x60d12fd6
-+#define NBD_STRUCTURED_REPLY_MAGIC      0x668e33ef
-+#define NBD_STRUCTURED_REPLY_EXT_MAGIC  0x6e8a278c
-
- /* Structured reply flags. */
- #define NBD_REPLY_FLAG_DONE         (1<<0)
-@@ -241,12 +280,14 @@ struct nbd_structured_reply_error {
- #define NBD_REPLY_TYPE_IS_ERR(val) (!!((val) & (1<<15)))
-
- /* Structured reply types. */
--#define NBD_REPLY_TYPE_NONE         0
--#define NBD_REPLY_TYPE_OFFSET_DATA  1
--#define NBD_REPLY_TYPE_OFFSET_HOLE  2
--#define NBD_REPLY_TYPE_BLOCK_STATUS 5
--#define NBD_REPLY_TYPE_ERROR        NBD_REPLY_TYPE_ERR (1)
--#define NBD_REPLY_TYPE_ERROR_OFFSET NBD_REPLY_TYPE_ERR (2)
-+#define NBD_REPLY_TYPE_NONE             0
-+#define NBD_REPLY_TYPE_OFFSET_DATA      1
-+#define NBD_REPLY_TYPE_OFFSET_HOLE      2
-+#define NBD_REPLY_TYPE_OFFSET_HOLE_EXT  3
-+#define NBD_REPLY_TYPE_BLOCK_STATUS     5
-+#define NBD_REPLY_TYPE_BLOCK_STATUS_EXT 6
-+#define NBD_REPLY_TYPE_ERROR            NBD_REPLY_TYPE_ERR (1)
-+#define NBD_REPLY_TYPE_ERROR_OFFSET     NBD_REPLY_TYPE_ERR (2)
-
- /* NBD commands. */
- #define NBD_CMD_READ              0
+-    /* Other commands are currently limited by the 32 bit field in the
+-     * command structure on the wire, but in future we hope to support
+-     * 64 bit values here with a change to the NBD protocol which is
+-     * being discussed upstream.
++    /* Other commands are limited by the 32 bit field in the command
++     * structure on the wire, unless extended headers were negotiated.
+      */
+   default:
+-    if (count > UINT32_MAX) {
++    if (!h->extended_headers && count > UINT32_MAX) {
+       set_error (ERANGE, "request too large: maximum request size is %" PRIu32,
+                  UINT32_MAX);
+       goto err;
 -- 
 2.33.1
 
