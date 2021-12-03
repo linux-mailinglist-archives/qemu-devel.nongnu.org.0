@@ -2,74 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E464676E6
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 12:58:06 +0100 (CET)
-Received: from localhost ([::1]:33252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BFB467700
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 13:04:55 +0100 (CET)
+Received: from localhost ([::1]:42184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt7CX-00047V-MN
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 06:58:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37892)
+	id 1mt7J8-0002A9-3O
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 07:04:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1mt7AI-00022h-UL
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 06:55:46 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:45856)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1mt7AG-0001Rh-B7
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 06:55:46 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1EA071FD40;
- Fri,  3 Dec 2021 11:55:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638532543; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R7rWtsuUPfBjyZG4Ax61KdJvGnZ6y0nDdjW+4w4ufTQ=;
- b=TN1PdP/4vIzNUVoBV6DAmwzGZm+eMfdczgq3mLGmWVaY1ekqeDzDasS9kOtfPbaLxua3JA
- JMFZu9cF8f3D8PUMlyTBaSR3u67MCi65qnIquvAdOc7HKuM3q7oqgYpfVFaJL4Bi2HSzD6
- Z/hCoueAbuqHmJpM0Yk2PR1TBLNqC6s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638532543;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R7rWtsuUPfBjyZG4Ax61KdJvGnZ6y0nDdjW+4w4ufTQ=;
- b=EbR4+0GmsAeJEvaleTSAoO9oYxi5sB2CMurdW+8wfrEHRjgO5kCieFj74abbf5vdPzVRJv
- 3mZuOsXczfoJclDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E0A7D13DF5;
- Fri,  3 Dec 2021 11:55:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id sBBpNb4FqmHbNgAAMHmgww
- (envelope-from <lizhang@suse.de>); Fri, 03 Dec 2021 11:55:42 +0000
-From: Li Zhang <lizhang@suse.de>
-To: dgilbert@redhat.com, quintela@redhat.com, berrange@redhat.com,
- cfontana@suse.de, qemu-devel@nongnu.org
-Subject: [PATCH v2 1/1] multifd: Shut down the QIO channels to avoid blocking
- the send threads when they are terminated.
-Date: Fri,  3 Dec 2021 12:55:33 +0100
-Message-Id: <20211203115533.31534-2-lizhang@suse.de>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211203115533.31534-1-lizhang@suse.de>
-References: <20211203115533.31534-1-lizhang@suse.de>
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1mt7Hm-0001G9-88; Fri, 03 Dec 2021 07:03:31 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46458)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1mt7Hj-0002f8-Rr; Fri, 03 Dec 2021 07:03:29 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B3AkFX7025732; 
+ Fri, 3 Dec 2021 12:03:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=UfCt2s4miISBgNrkalAuARCN9sKTDTJXbySmtS2B8aU=;
+ b=P9hyDAskXC5d+9vmKpTfdIlhOV/IJjHKvlRm5yrsbXAVmU/75eEVxHEJiGNE+aKyoUL2
+ GYDOCnl6Z5I2kRrlhDFKmpAQEpuKJb3FsPnu4cvjRI4FQ9Bv40qb0DLjTNG7e9rZ9DXq
+ 7Mh4yG0jauV9ow82wNBBii0iSR5wmukqPXZLiMNZXbWCz/yn1RzwCjc20SIVdSQFlrEq
+ Q/yLNozz2PTCLRevRl4yCZZF6DPmA/YJg+7hjx6Rs4a6E+9IOPRp5Kck1Qmo9ib/k1Sq
+ mutGhOcyC/7MepgC311Uqas6ia25E1qo+GBL7ZC02Z1Up8loLcxBjVIh2/JkeZxC5v7m cA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cqhsdhb29-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Dec 2021 12:03:24 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B3C1dLF028938;
+ Fri, 3 Dec 2021 12:03:24 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cqhsdhb1t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Dec 2021 12:03:24 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B3Bxo4U028960;
+ Fri, 3 Dec 2021 12:03:23 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma01wdc.us.ibm.com with ESMTP id 3ckcad2ynk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Dec 2021 12:03:23 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B3C3Mr555640550
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 3 Dec 2021 12:03:22 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 06F607806D;
+ Fri,  3 Dec 2021 12:03:22 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1FF1978068;
+ Fri,  3 Dec 2021 12:03:21 +0000 (GMT)
+Received: from [9.211.96.25] (unknown [9.211.96.25])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri,  3 Dec 2021 12:03:20 +0000 (GMT)
+Message-ID: <d1ae73fb-014d-3384-80ad-fa88218be541@linux.ibm.com>
+Date: Fri, 3 Dec 2021 07:03:20 -0500
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 4/4] s390x/pci: add supported DT information to clp
+ response
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>, thuth@redhat.com,
+ qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+References: <20211202164110.326947-1-mjrosato@linux.ibm.com>
+ <20211202164110.326947-5-mjrosato@linux.ibm.com>
+ <b483e71b-1b53-248b-cad4-ad267c8bfdcd@linux.ibm.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <b483e71b-1b53-248b-cad4-ad267c8bfdcd@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=lizhang@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: yN1TdBlUZvLYHXIwoUZf9A0AqKGK_mR8
+X-Proofpoint-ORIG-GUID: gwLe8gShMwBJo1uWpewz7ZLzRydf2hM6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-03_06,2021-12-02_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0
+ suspectscore=0 clxscore=1015 mlxlogscore=999 impostorscore=0 mlxscore=0
+ spamscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112030076
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.938,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,60 +115,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Zhang <lizhang@suse.de>
+Cc: farman@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, pasic@linux.ibm.com, borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When doing live migration with multifd channels 8, 16 or larger number,
-the guest hangs in the presence of the network errors such as missing TCP ACKs.
+On 12/3/21 4:33 AM, Pierre Morel wrote:
+> 
+> 
+> On 12/2/21 17:41, Matthew Rosato wrote:
+>> The DTSM is a mask that specifies which I/O Address Translation 
+>> designation
+>> types are supported.  A linux guest today does not look at this field but
+> 
+> Even Linux is the most used guest it is not the only one so may be not 
+> mention Linux here.
+> 
 
-At sender's side:
-The main thread is blocked on qemu_thread_join, migration_fd_cleanup
-is called because one thread fails on qio_channel_write_all when
-the network problem happens and other send threads are blocked on sendmsg.
-They could not be terminated. So the main thread is blocked on qemu_thread_join
-to wait for the threads terminated.
+OK
 
-(gdb) bt
-0  0x00007f30c8dcffc0 in __pthread_clockjoin_ex () at /lib64/libpthread.so.0
-1  0x000055cbb716084b in qemu_thread_join (thread=0x55cbb881f418) at ../util/qemu-thread-posix.c:627
-2  0x000055cbb6b54e40 in multifd_save_cleanup () at ../migration/multifd.c:542
-3  0x000055cbb6b4de06 in migrate_fd_cleanup (s=0x55cbb8024000) at ../migration/migration.c:1808
-4  0x000055cbb6b4dfb4 in migrate_fd_cleanup_bh (opaque=0x55cbb8024000) at ../migration/migration.c:1850
-5  0x000055cbb7173ac1 in aio_bh_call (bh=0x55cbb7eb98e0) at ../util/async.c:141
-6  0x000055cbb7173bcb in aio_bh_poll (ctx=0x55cbb7ebba80) at ../util/async.c:169
-7  0x000055cbb715ba4b in aio_dispatch (ctx=0x55cbb7ebba80) at ../util/aio-posix.c:381
-8  0x000055cbb7173ffe in aio_ctx_dispatch (source=0x55cbb7ebba80, callback=0x0, user_data=0x0) at ../util/async.c:311
-9  0x00007f30c9c8cdf4 in g_main_context_dispatch () at /usr/lib64/libglib-2.0.so.0
-10 0x000055cbb71851a2 in glib_pollfds_poll () at ../util/main-loop.c:232
-11 0x000055cbb718521c in os_host_main_loop_wait (timeout=42251070366) at ../util/main-loop.c:255
-12 0x000055cbb7185321 in main_loop_wait (nonblocking=0) at ../util/main-loop.c:531
-13 0x000055cbb6e6ba27 in qemu_main_loop () at ../softmmu/runstate.c:726
-14 0x000055cbb6ad6fd7 in main (argc=68, argv=0x7ffc0c578888, envp=0x7ffc0c578ab0) at ../softmmu/main.c:50
+>> could in the future; let's advertise what QEMU actually supports.
+>>
+>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>> ---
+>>   hw/s390x/s390-pci-bus.c         | 1 +
+>>   hw/s390x/s390-pci-vfio.c        | 1 +
+>>   include/hw/s390x/s390-pci-bus.h | 1 +
+>>   include/hw/s390x/s390-pci-clp.h | 3 ++-
+>>   4 files changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+>> index 1b51a72838..01b58ebc70 100644
+>> --- a/hw/s390x/s390-pci-bus.c
+>> +++ b/hw/s390x/s390-pci-bus.c
+>> @@ -782,6 +782,7 @@ static void s390_pci_init_default_group(void)
+>>       resgrp->i = 128;
+>>       resgrp->maxstbl = 128;
+>>       resgrp->version = 0;
+>> +    resgrp->dtsm = ZPCI_DTSM;
+> 
+> OK
+> 
+>>   }
+>>   static void set_pbdev_info(S390PCIBusDevice *pbdev)
+>> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
+>> index 2a153fa8c9..6f80a47e29 100644
+>> --- a/hw/s390x/s390-pci-vfio.c
+>> +++ b/hw/s390x/s390-pci-vfio.c
+>> @@ -160,6 +160,7 @@ static void s390_pci_read_group(S390PCIBusDevice 
+>> *pbdev,
+>>           resgrp->i = cap->noi;
+>>           resgrp->maxstbl = cap->maxstbl;
+>>           resgrp->version = cap->version;
+>> +        resgrp->dtsm = ZPCI_DTSM;
+> 
+> Is it safe for VFIO whith interpretation?
+> Shouldn't we extend the capability and use the host DTSM in this case?
 
-To make sure that the send threads could be terminated, IO channels should be
-shut down to avoid waiting IO.
+We will do exactly this when there is an interpretation series.
 
-Signed-off-by: Li Zhang <lizhang@suse.de>
----
- migration/multifd.c | 3 +++
- 1 file changed, 3 insertions(+)
+For the current intercept-based code, QEMU only supports DT 1 for 
+passthrough regardless of what the host is supporting and rejects all 
+else (see check in reg_ioat)
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 7c9deb1921..33f8287969 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -523,6 +523,9 @@ static void multifd_send_terminate_threads(Error *err)
-         qemu_mutex_lock(&p->mutex);
-         p->quit = true;
-         qemu_sem_post(&p->sem);
-+        if (p->c) {
-+            qio_channel_shutdown(p->c, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-+        }
-         qemu_mutex_unlock(&p->mutex);
-     }
- }
--- 
-2.31.1
 
 
