@@ -2,83 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597124677CF
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 14:05:55 +0100 (CET)
-Received: from localhost ([::1]:37370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E504677D3
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 14:07:59 +0100 (CET)
+Received: from localhost ([::1]:40796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt8GA-0006rk-01
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 08:05:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55442)
+	id 1mt8IA-0000pF-9G
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 08:07:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mt8CS-00022V-EB
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 08:02:04 -0500
-Received: from [2607:f8b0:4864:20::533] (port=38893
- helo=mail-pg1-x533.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mt8CQ-0005uB-P7
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 08:02:04 -0500
-Received: by mail-pg1-x533.google.com with SMTP id s137so2958039pgs.5
- for <qemu-devel@nongnu.org>; Fri, 03 Dec 2021 05:02:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4x3PPn3pdr61gJRH81kyuSvK3baripFIqpZL+AJXGec=;
- b=XX2IXzsLa1l/PSMwoTaBt9701DU1zyN61+CQMvw+RC1XsISf/pAPxbA/UiztXweZgC
- i9C0M8Icrp6P1SVXbsC+0kTN4hU6sBdzMt7XtuZDlh5DAOGKL06pqtP8DJVg2Ctg/HwO
- 7MC0sUu3MrmeLXNsEm9fcgZojTeEDtMZwaQ5GWKbVGzMMCU4dbbCdlnc0dM4Mn2vwfGA
- uEWKUWjhTIwwKbHVsDD65UeX8RVxUMXjAS3uoqPaW76r/wrJAi+9iaDH2YWX8TNr6jVw
- Fsz1adYkoxa8KWSDrLXSEteN+1MtchD7NFKt+1jzIMOOjrXqNke4N2GNe9rY1tJhnX9n
- 7/4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4x3PPn3pdr61gJRH81kyuSvK3baripFIqpZL+AJXGec=;
- b=3agPcqjln6Zw4ZemZfevAmAA+opzXVANs7cu+TmSkV4Ym1eMJKgPn6Holop1o9w4ET
- rr/4am9YmqzrK7yoBeSRt26/4KjyByjrlrTCJ+kxrdBSoYBEs6wde2JPan3txP7+0aQG
- IibuXPZN2KrbfiLra7SdOccX7Yr5JjmloFn/msVJLBlzeKkqqSo4cYRV+Vswe05T9mGW
- pCQHXgsf32upnpZLf3g9mAvClJM6YxrYVIttVod/YQECMYDxeOPMisgIZScqh6/0exau
- 2i1xK4oP9xBhCyUxIercroMdCjr2HNhJiVvlA0aDlV6TuoBohUeEYrtWIub+3X9YACwk
- zGDA==
-X-Gm-Message-State: AOAM5314t4wGWsg5jmeLOomvhLrh1WZe8V0bhBhHXFEnrDoGZNtYZBSH
- EmfC9aHFUukIgPqXV+wFKzTIiw==
-X-Google-Smtp-Source: ABdhPJzCx0Y1Q0O0b7/9r+cU6bNDkVgkmTN2VdLgfeX9hqiF2I4RZzaxUZSQLByjQBt8yiiEjW81xA==
-X-Received: by 2002:aa7:9d1e:0:b0:494:6dec:6425 with SMTP id
- k30-20020aa79d1e000000b004946dec6425mr18924728pfp.83.1638536521338; 
- Fri, 03 Dec 2021 05:02:01 -0800 (PST)
-Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id il13sm5990333pjb.52.2021.12.03.05.02.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Dec 2021 05:02:00 -0800 (PST)
-Subject: Re: [PATCH v2 3/3] target/ppc: Implement Vector Mask Move insns
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20211112141430.631732-1-matheus.ferst@eldorado.org.br>
- <20211112141430.631732-4-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6806c672-f9d0-8706-10be-9038b3f518b7@linaro.org>
-Date: Fri, 3 Dec 2021 05:01:59 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1mt8ED-000532-DJ; Fri, 03 Dec 2021 08:03:55 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16588)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1mt8E7-0006Aj-2e; Fri, 03 Dec 2021 08:03:52 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B3CqcSt028495; 
+ Fri, 3 Dec 2021 13:03:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=J1luGhM0ciohQrWNPbGjkcSwi8ebrKNHPK+bEBssvyg=;
+ b=grOnya7Fn6hF0P9Vy0SVjhGMJccuqJn6h6UDWhhlBqGEBHb1PNMg0SJmM7FDa2sPDITi
+ 7UCK7Ha5VQYryrps9anpyhVsjtM4nJV1A7Fvcg7/rjcVzgRRLpuPkYwfUBzIXvzRmfmw
+ n8SwbcyaQ2/ktwRzHwSzQyjC7TyH8p+kfbNOj6eevmGic0SyKTOM2ZdAWFwuiMd1liNf
+ Yt7JIaT6GtUzh/lboguWDo9U+SPQLY5HTgW57oy23gGBFCeTVbc4NqCanSG+GHANM6Fk
+ nDUHor1gyWkIFOsnvxa75QTFPL6e+zYSWCLPJ66J/Mg6A7V8U6fVEi9jCS6z1OunQ9CQ 4w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cqkmj868y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Dec 2021 13:03:38 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B3Cvvh0002533;
+ Fri, 3 Dec 2021 13:03:38 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cqkmj868q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Dec 2021 13:03:38 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B3D3AIK020428;
+ Fri, 3 Dec 2021 13:03:37 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma02wdc.us.ibm.com with ESMTP id 3ckcadbvg2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Dec 2021 13:03:37 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B3D3aCi54526402
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 3 Dec 2021 13:03:36 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 72FC4AE066;
+ Fri,  3 Dec 2021 13:03:36 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7BFAAAE067;
+ Fri,  3 Dec 2021 13:03:35 +0000 (GMT)
+Received: from localhost (unknown [9.211.34.214])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Fri,  3 Dec 2021 13:03:35 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, Daniel Henrique Barboza
+ <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v9 00/10] PMU-EBB support for PPC64 TCG
+In-Reply-To: <27d2eb41-f34a-5c2d-e1f1-977f08ac58d8@kaod.org>
+References: <20211201151734.654994-1-danielhb413@gmail.com>
+ <27d2eb41-f34a-5c2d-e1f1-977f08ac58d8@kaod.org>
+Date: Fri, 03 Dec 2021 10:03:32 -0300
+Message-ID: <87r1atj0wr.fsf@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 6eEMNbiOuaR1D_w8tKAqnBgGQAAcjMZQ
+X-Proofpoint-ORIG-GUID: w3LZR1iNyzcwvjshkEsjsDnQk7Eb-tYb
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-In-Reply-To: <20211112141430.631732-4-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-03_06,2021-12-02_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxlogscore=999
+ spamscore=0 impostorscore=0 suspectscore=0 mlxscore=0 phishscore=0
+ malwarescore=0 priorityscore=1501 adultscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112030082
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.938,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,30 +110,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
+Cc: qemu-ppc@nongnu.org, richard.henderson@linaro.org,
  david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/12/21 6:14 AM, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> 
-> Implement the following PowerISA v3.1 instructions:
-> mtvsrbm: Move to VSR Byte Mask
-> mtvsrhm: Move to VSR Halfword Mask
-> mtvsrwm: Move to VSR Word Mask
-> mtvsrdm: Move to VSR Doubleword Mask
-> mtvsrqm: Move to VSR Quadword Mask
-> mtvsrbmi: Move to VSR Byte Mask Immediate
-> 
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
-> v2:
-> - Applied rth suggestions to do_mtvsrm and trans_MTVSRBMI
+C=C3=A9dric Le Goater <clg@kaod.org> writes:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Hello,
+>
+> On 12/1/21 16:17, Daniel Henrique Barboza wrote:
+>> Hi,
+>>=20
+>> In this new version the most significant change is in patch 6,
+>> where a new hflag allows us to not call the instruction helper
+>> inside translate.c unless we're absolutely certain that there
+>> is an instruction count event being sampled and active in the
+>> PMU. This change turned out to be a big boost in performance
+>> in the PMU emulation overall, most notably when dealing with
+>> cycle events that were calling the helper needlessly.
+>>=20
+>> This and all other changes were suggested by David in his review
+>> of the previous version.
+>
+>
+> patch 1-8 look good. I still have some questions on the exception
+> handling and how EBB are gated.
+>
+> I am asking to get the model right for the next step which should
+> be to modify the XIVE interrupt controller to generate External
+> EBB exceptions.
+>
+> One more comment, not for now, since the EBB patchset is nearly
+> ready.
+>
+> May be, it is time to think about introducing a per-CPU model
+> excp_handlers[] array indexed by POWERPC_EXCP_* exception
+> numbers and to duplicate some code for the sake of clarity.
+>
+> Fabiano, isn't it what you had in mind ?
 
+I had basically changed env->excp_vectors to be an array of objects of
+the kind:
 
-r~
+  struct PPCInterrupt {
+      Object parent;
+=20=20
+      int id;
+      const char *name;
+      target_ulong addr;
+      ppc_intr_fn_t setup_regs;
+  };
+
+we would access it from powerpc_excp() with:
+
+  intr =3D &env->excp_vectors[excp];
+  if (intr->setup_regs) {
+      intr->setup_regs(cpu, intr, excp_model, &regs, &ignore);
+  }
+
+I also had another series to move the exception models into QOM like
+this:
+
+  struct PPCIntrModel {
+      Object parent;
+=20=20
+      int id;
+      const char *name;
+      target_ulong hreset_vector;
+      target_ulong ivor_mask;
+      target_ulong ivpr_mask;
+      target_ulong excp_prefix;
+      PPCInterrupt excp_vectors[POWERPC_EXCP_NB];
+  };
+
+  struct PPCIntrModelClass {
+      ObjectClass parent_class;
+=20=20
+      bool (*intr_little_endian)(CPUPPCState *env, bool hv);
+      bool (*lpar_env_selection)(CPUPPCState *env);
+      target_ulong (*filter_msr)(CPUPPCState *env);
+      bool (*set_sixty_four_bit_mode)(CPUPPCState *env, target_ulong *msr);
+      bool (*set_ail)(CPUPPCState *env, bool mmu_all_on, bool hv_escalation,
+                      bool hv, int *_ail);
+      void (*prepare_tlb_miss)(PowerPCCPU *cpu, int excp, target_ulong *new=
+_msr,
+                               target_ulong *msr);
+      void (*debug_software_tlb)(CPUPPCState *env, int excp);
+      void (*init_excp)(PPCIntrModel *im);
+  };
+
+So the powerpc_excp() code would become:
+
+    PPCIntrModel *intr_model =3D &env->im;
+    PPCInterrupt *intr;
+    ...
+
+    intr =3D &intr_model->entry_points[excp];
+    if (!intr->setup_regs) {
+        cpu_abort(cs, "Raised an exception without defined vector %d\n",
+                  excp);
+    }
+
+    regs.new_nip =3D intr->addr | intr_model->excp_prefix;
+    intr->setup_regs(cpu, intr, intr_model, &regs, &ignore);
+
+I'll rebase it all and work on reducing some of the complexity around
+QOM, which was pointed out by David in the previous version:
+
+https://lists.nongnu.org/archive/html/qemu-ppc/2021-06/msg00140.html
+
+Any other suggestions are welcome.
+
+>
+> Thanks,
+>
+> C.
 
