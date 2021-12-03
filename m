@@ -2,106 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EC4467719
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 13:09:24 +0100 (CET)
-Received: from localhost ([::1]:47174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5EC467726
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 13:17:06 +0100 (CET)
+Received: from localhost ([::1]:52000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt7NT-0006Yh-Bm
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 07:09:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41538)
+	id 1mt7Uu-0001mt-NI
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 07:17:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1mt7LD-0004bW-2y; Fri, 03 Dec 2021 07:07:03 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45830
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mt7Sn-0008GO-Tz
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 07:14:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1mt7LA-0003sx-QC; Fri, 03 Dec 2021 07:07:02 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B3BkhTG017437; 
- Fri, 3 Dec 2021 12:06:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=tZ9fEsWZiJdAY2JOM3CKdQo+XK+XmBBd1nC70B8sfB8=;
- b=ETYGGAu5WCio34smXvXVQvoPL0uBjbHV6vlOzLs/G6iXmsmJwkM55QZjQOLYh8C8ONgF
- vFs01PTsCYy1vm5oBYR7v3oGb1jFq309OTiiIPAUYrbkUajVdqmDy6ttQISjIWHX7ZJO
- /02JGPm9cWh8m+yLIidYsg72N0350ncsjmMbF+vX73qJXvRjR+neHxQEAkOlmmQT/Oyf
- rr6l6Ec9jpGW0DhQQibo0WRTzQVqm3aAnRUW0TK6XL8qdQIO1/0SM1i9KPn6cNBmCJY1
- xGnWuvnvcbziMX/7e172DHYkP3VW02Ha6Nk1nZd6066QVVndo++RPhRci2M4QYqPvLLM 9g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cqjnrgcdn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Dec 2021 12:06:59 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B3Bkj4t017545;
- Fri, 3 Dec 2021 12:06:58 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cqjnrgcd8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Dec 2021 12:06:58 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B3C4CuN026899;
- Fri, 3 Dec 2021 12:06:57 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma02dal.us.ibm.com with ESMTP id 3cn5f1njcn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Dec 2021 12:06:57 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B3C6uIW21299598
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 3 Dec 2021 12:06:56 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 277F778063;
- Fri,  3 Dec 2021 12:06:56 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0E3447805F;
- Fri,  3 Dec 2021 12:06:55 +0000 (GMT)
-Received: from [9.211.96.25] (unknown [9.211.96.25])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri,  3 Dec 2021 12:06:54 +0000 (GMT)
-Message-ID: <5d6fb517-bd8f-26cc-89cd-6c19c773ef8b@linux.ibm.com>
-Date: Fri, 3 Dec 2021 07:06:54 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mt7Sf-0008V7-OA
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 07:14:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638533670;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qLz+UdfNJdJEwrCxG4+FLom0ESnOyXG47LSjDY1GKOw=;
+ b=P6RWK+4ZnumgyW+UjNyw1QXcSzUkmuYLSwT9pPkvxqeMaDupReRWpvMHrdvJds8b+2FP4d
+ mtVdAah+dABJtFhvl34WJH10wZEXl+EPCWz7PNFTv0ctEHvSv2VjPJFelds8tXk2gQldbh
+ B90zwvnHI3FPiKT1h323iZ7O6QRmtl0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-213-Kwx6a2dVPk6OMRhAxPqRsQ-1; Fri, 03 Dec 2021 07:14:29 -0500
+X-MC-Unique: Kwx6a2dVPk6OMRhAxPqRsQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v62-20020a1cac41000000b0033719a1a714so1453869wme.6
+ for <qemu-devel@nongnu.org>; Fri, 03 Dec 2021 04:14:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=qLz+UdfNJdJEwrCxG4+FLom0ESnOyXG47LSjDY1GKOw=;
+ b=evfm4nmZ3adst0AADQkbSdxq6u52gOEY4xMg8aXwhRyH4fcSYCnsvSl0Qj+vFlkQp7
+ efcPB3Y/cQ6nbig2775bgX1PHVbzt618eWuR21nS+8IF4ylI5I0oDjsH0ZcMA4gQZN/8
+ d46v6Yhsxf+F2Ds3bWsp9H6V2+gKKFx4wcTMeNiNI+Ed9DqLKHUDLKHweM30ogE26z4p
+ 5xxGKSyoeNPcS9rA9OQHzZc9dLblkgWtj2HNkRE1dxMVWazhbIZJmkxORy+T7nrqUHsV
+ 4xGJ/GHqR6yZ/XLMCBL7j97hwd4ceWg3nnLxCpdFLXgk55rsbRA5omWeGJY+21uTCXAN
+ W6HA==
+X-Gm-Message-State: AOAM533AipaVNWabNSXvbjOfezWUrjiUnU0ztzEjtiOTvxpIP44iXoOz
+ i2+tIdpM7LKHDpT3DC/7QCAVxDXtQh5pb0aOyh3caZdVLlfygBXtJyG3YdfqGaeLdTOKmhlLW0U
+ 0CTXd0GoSSiTIGMg=
+X-Received: by 2002:adf:cd06:: with SMTP id w6mr21870008wrm.431.1638533668093; 
+ Fri, 03 Dec 2021 04:14:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwa+TcuinoqTYEY52xlfmgUfeF45UvudavKT1tl0Z4K/0hqW7a25NASHl+O/HH7/pDyfOTp6g==
+X-Received: by 2002:adf:cd06:: with SMTP id w6mr21869984wrm.431.1638533667829; 
+ Fri, 03 Dec 2021 04:14:27 -0800 (PST)
+Received: from xz-m1.local ([64.64.123.16])
+ by smtp.gmail.com with ESMTPSA id k37sm2572372wms.21.2021.12.03.04.14.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Dec 2021 04:14:26 -0800 (PST)
+Date: Fri, 3 Dec 2021 20:14:20 +0800
+From: Peter Xu <peterx@redhat.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Subject: Re: [PATCH 1/2] intel_iommu: Support IR-only mode without DMA
+ translation
+Message-ID: <YaoKHPR/SiRoAteV@xz-m1.local>
+References: <20211201205113.57299-1-dwmw2@infradead.org>
+ <CACGkMEuhnUZuKa-u1MDudmnLrwXO=B5WSp-siAC-UpUONey8xw@mail.gmail.com>
+ <YanJkBiLtxzt04Hn@xz-m1.local>
+ <e5d91ce70d40caa4d91e29d2227ad72ccf1a1bb6.camel@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 4/4] s390x/pci: add supported DT information to clp
- response
-Content-Language: en-US
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-To: thuth@redhat.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-References: <20211202164110.326947-1-mjrosato@linux.ibm.com>
- <20211202164110.326947-5-mjrosato@linux.ibm.com>
-In-Reply-To: <20211202164110.326947-5-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: LQAVY8i-240IHx6HRDOVbf1i9-rYPIIV
-X-Proofpoint-ORIG-GUID: vkX8FdS6gQa509Qaiq657CBpSPNoS5Xc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-03_06,2021-12-02_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- spamscore=0 malwarescore=0 suspectscore=0 bulkscore=0 adultscore=0
- phishscore=0 mlxscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112030076
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.938,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e5d91ce70d40caa4d91e29d2227ad72ccf1a1bb6.camel@infradead.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,79 +99,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, pmorel@linux.ibm.com, david@redhat.com,
- cohuck@redhat.com, richard.henderson@linaro.org, pasic@linux.ibm.com,
- borntraeger@linux.ibm.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/2/21 11:41 AM, Matthew Rosato wrote:
-> The DTSM is a mask that specifies which I/O Address Translation designation
-> types are supported.  A linux guest today does not look at this field but
-> could in the future; let's advertise what QEMU actually supports.
+On Fri, Dec 03, 2021 at 10:46:46AM +0000, David Woodhouse wrote:
+> On Fri, 2021-12-03 at 15:38 +0800, Peter Xu wrote:
+> > On Thu, Dec 02, 2021 at 11:49:25AM +0800, Jason Wang wrote:
+> > > On Thu, Dec 2, 2021 at 4:55 AM David Woodhouse <dwmw2@infradead.org> wrote:
+> > > > From: David Woodhouse <dwmw@amazon.co.uk>
+> > > > 
+> > > > By setting none of the SAGAW bits we can indicate to a guest that DMA
+> > > > translation isn't supported. Tested by booting Windows 10, as well as
+> > > > Linux guests with the fix at 
+> > > > https://git.kernel.org/torvalds/c/c40aaaac10
+> > > > 
+> > > > 
+> > > > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> > > > ---
+> > > >  hw/i386/intel_iommu.c         | 14 ++++++++++----
+> > > >  include/hw/i386/intel_iommu.h |  1 +
+> > > >  2 files changed, 11 insertions(+), 4 deletions(-)
+> > > > 
+> > > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> > > > index 294499ee20..ffc852d110 100644
+> > > > --- a/hw/i386/intel_iommu.c
+> > > > +++ b/hw/i386/intel_iommu.c
+> > > > @@ -2202,7 +2202,7 @@ static void vtd_handle_gcmd_write(IntelIOMMUState *s)
+> > > >      uint32_t changed = status ^ val;
+> > > > 
+> > > >      trace_vtd_reg_write_gcmd(status, val);
+> > > > -    if (changed & VTD_GCMD_TE) {
+> > > > +    if ((changed & VTD_GCMD_TE) && s->dma_translation) {
+> > > >          /* Translation enable/disable */
+> > > >          vtd_handle_gcmd_te(s, val & VTD_GCMD_TE);
+> > > >      }
+> > > > @@ -3100,6 +3100,7 @@ static Property vtd_properties[] = {
+> > > >      DEFINE_PROP_BOOL("caching-mode", IntelIOMMUState, caching_mode, FALSE),
+> > > >      DEFINE_PROP_BOOL("x-scalable-mode", IntelIOMMUState, scalable_mode, FALSE),
+> > > >      DEFINE_PROP_BOOL("dma-drain", IntelIOMMUState, dma_drain, true),
+> > > > +    DEFINE_PROP_BOOL("dma-translation", IntelIOMMUState, dma_translation, true),
+> > > >      DEFINE_PROP_END_OF_LIST(),
+> > > >  };
+> > > > 
+> > > > @@ -3605,12 +3606,17 @@ static void vtd_init(IntelIOMMUState *s)
+> > > >      s->next_frcd_reg = 0;
+> > > >      s->cap = VTD_CAP_FRO | VTD_CAP_NFR | VTD_CAP_ND |
+> > > >               VTD_CAP_MAMV | VTD_CAP_PSI | VTD_CAP_SLLPS |
+> > > > -             VTD_CAP_SAGAW_39bit | VTD_CAP_MGAW(s->aw_bits);
+> > > > +             VTD_CAP_MGAW(s->aw_bits);
+> > > >      if (s->dma_drain) {
+> > > >          s->cap |= VTD_CAP_DRAIN;
+> > > >      }
+> > > > -    if (s->aw_bits == VTD_HOST_AW_48BIT) {
+> > > > -        s->cap |= VTD_CAP_SAGAW_48bit;
+> > > > +    if (s->dma_translation) {
+> > > > +            if (s->aw_bits >= VTD_HOST_AW_39BIT) {
+> > > > +                    s->cap |= VTD_CAP_SAGAW_39bit;
+> > > > +            }
+> > > > +            if (s->aw_bits >= VTD_HOST_AW_48BIT) {
+> > > > +                    s->cap |= VTD_CAP_SAGAW_48bit;
+> > > > +            }
+> > > >      }
+> > > 
+> > > Just wonder if this is the hardware behaviour as I see 0 is reserved
+> > > for SAGAW in vtd 3.3 spec.
+> > 
+> > Yes I have the same question.  But if latest Linux & Windows work fine then it
+> > seems ok if we have explicit use scenario with enabling IR only.
+> 
+> Bit zero is reserved. The *value* zero is just what you get when none
+> of the bits are set.
+> 
+> 	"A value of 1 in any of these bits indicates the corresponding
+> 	adjusted guest address width is supported.The adjusted guest
+> 	address widths corresponding to various bit positions within
+> 	this field are:
+> 
+> 	 • 0: Reserved
+> 	 • 1: 39-bit AGAW (3-level page-table)
+> 	 • 2: 48-bit AGAW (4-level page-table)
+> 	 • 3: 57-bit AGAW (5-level page-table)
+> 	 • 4: Reserved
+> 
+> 	Software must ensure that the adjusted guest address width used
+> 	to set up the page tables is one of the supported guest address
+> 	widths reported in this field.
+> 
+> 	Hardware implementations reporting second-level translation
+> 	support (SLTS) field as Clear also report this field as 0.
 
-Will send a v2, this patch is missing a line in clp_service_call to copy 
-the byte into the guest payload (forgot it's not a memcpy anymore)
+I see.
 
+>  
+> > In that case commenting with some details would be more than welcomed, e.g.
+> > mentioning Linux commit c40aaaac1018 ("iommu/vt-d: Gracefully handle DMAR units
+> > with no supported address widths", 2020-10-07) as comments above the code.
+> > 
+> > One more question: SAGAW is a bitmask, is it intended to only set 1 bit out of
+> > the mask?  I'm afraid it could break guest OS that only support 39 bits when
+> > the qemu cmdline has aw-bits=48 specified.
 > 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> ---
->   hw/s390x/s390-pci-bus.c         | 1 +
->   hw/s390x/s390-pci-vfio.c        | 1 +
->   include/hw/s390x/s390-pci-bus.h | 1 +
->   include/hw/s390x/s390-pci-clp.h | 3 ++-
->   4 files changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-> index 1b51a72838..01b58ebc70 100644
-> --- a/hw/s390x/s390-pci-bus.c
-> +++ b/hw/s390x/s390-pci-bus.c
-> @@ -782,6 +782,7 @@ static void s390_pci_init_default_group(void)
->       resgrp->i = 128;
->       resgrp->maxstbl = 128;
->       resgrp->version = 0;
-> +    resgrp->dtsm = ZPCI_DTSM;
->   }
->   
->   static void set_pbdev_info(S390PCIBusDevice *pbdev)
-> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-> index 2a153fa8c9..6f80a47e29 100644
-> --- a/hw/s390x/s390-pci-vfio.c
-> +++ b/hw/s390x/s390-pci-vfio.c
-> @@ -160,6 +160,7 @@ static void s390_pci_read_group(S390PCIBusDevice *pbdev,
->           resgrp->i = cap->noi;
->           resgrp->maxstbl = cap->maxstbl;
->           resgrp->version = cap->version;
-> +        resgrp->dtsm = ZPCI_DTSM;
->       }
->   }
->   
-> diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
-> index 2727e7bdef..da3cde2bb4 100644
-> --- a/include/hw/s390x/s390-pci-bus.h
-> +++ b/include/hw/s390x/s390-pci-bus.h
-> @@ -37,6 +37,7 @@
->   #define ZPCI_MAX_UID 0xffff
->   #define UID_UNDEFINED 0
->   #define UID_CHECKING_ENABLED 0x01
-> +#define ZPCI_DTSM 0x40
->   
->   OBJECT_DECLARE_SIMPLE_TYPE(S390pciState, S390_PCI_HOST_BRIDGE)
->   OBJECT_DECLARE_SIMPLE_TYPE(S390PCIBus, S390_PCI_BUS)
-> diff --git a/include/hw/s390x/s390-pci-clp.h b/include/hw/s390x/s390-pci-clp.h
-> index 96b8e3f133..cc8c8662b8 100644
-> --- a/include/hw/s390x/s390-pci-clp.h
-> +++ b/include/hw/s390x/s390-pci-clp.h
-> @@ -163,7 +163,8 @@ typedef struct ClpRspQueryPciGrp {
->       uint8_t fr;
->       uint16_t maxstbl;
->       uint16_t mui;
-> -    uint64_t reserved3;
-> +    uint8_t dtsm;
-> +    uint8_t reserved3[7];
->       uint64_t dasm; /* dma address space mask */
->       uint64_t msia; /* MSI address */
->       uint64_t reserved4;
-> 
+> No, we should set all bits that correspond to supported page table
+> depths. And I believe we still do; there's no 'else' in the patch above
+> so it will set *both* the 39-bit and 48-bit support bits if s->aw_bits
+> is high enough to support both.
+
+Yeah I missed that, sorry.
+
+Reviewed-by: Peter Xu <peterx@redhat.com>
+
+Thanks,
+
+-- 
+Peter Xu
 
 
