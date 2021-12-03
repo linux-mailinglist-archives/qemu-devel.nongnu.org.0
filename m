@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82AB5468057
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 00:26:25 +0100 (CET)
-Received: from localhost ([::1]:44922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 603F446805E
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 00:29:47 +0100 (CET)
+Received: from localhost ([::1]:56010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtHwe-0001IU-J0
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 18:26:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37746)
+	id 1mtHzu-0000ff-F9
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 18:29:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHnC-0007o9-1y
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:16:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48691)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHnE-0007sn-2W
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:16:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHnA-0003A3-3P
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:16:37 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHnA-0003AJ-8o
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:16:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638573392;
+ s=mimecast20190719; t=1638573395;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cXqedCwPvqpB0KfB2gP/avL3AK8S0eJ0pZYu/KEPRpY=;
- b=cY6/M6XJZOj3Or+iMnexrfHJJjc9EkPlhZy5oRe4xjQuafaLuOQhU5IUCidwYWcSj3vXuV
- y7HA/Xk4U4drOdisT8aiaqCRMLPviRP0L4dzpolJmYWQEDWPl9/rcxwLIUIAdPU4AwQplw
- OqnFbcF6tg2UwszCj1iFqBvR/UAuR8c=
+ bh=vJ9jZN2mFIPKC1TvOx/EIHpjsFOSdT4uXj0cLOay0Io=;
+ b=AuFA2fBwYFJ3PyAtRJZQiry4PJI9oiiGyAWpC7gj6Dhq61i8V4XAwFnP3nh3+jCmqm26/q
+ KHJSx3DQS5FXXpKYEUbeRbNm4l6CS/RL4Cg2r1REB8vTeyK5k9ypBmuwltyHJAflJ/wp6K
+ u/zPD3Y9OOtpWnJC53mJbqYqCyR0qb0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-600-chM2I_uvPOeH1YPBOXAQYg-1; Fri, 03 Dec 2021 18:16:29 -0500
-X-MC-Unique: chM2I_uvPOeH1YPBOXAQYg-1
+ us-mta-577-syNAAt3rPAistbgMmqGFWw-1; Fri, 03 Dec 2021 18:16:34 -0500
+X-MC-Unique: syNAAt3rPAistbgMmqGFWw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BF8B102C888;
- Fri,  3 Dec 2021 23:16:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 643D494EE0;
+ Fri,  3 Dec 2021 23:16:33 +0000 (UTC)
 Received: from blue.redhat.com (unknown [10.2.16.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 351B95DF2B;
- Fri,  3 Dec 2021 23:16:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CD6F5D9D5;
+ Fri,  3 Dec 2021 23:16:28 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/14] nbd/client: Accept 64-bit hole chunks
-Date: Fri,  3 Dec 2021 17:15:36 -0600
-Message-Id: <20211203231539.3900865-12-eblake@redhat.com>
+Subject: [PATCH 12/14] nbd/client: Accept 64-bit block status chunks
+Date: Fri,  3 Dec 2021 17:15:37 -0600
+Message-Id: <20211203231539.3900865-13-eblake@redhat.com>
 In-Reply-To: <20211203231539.3900865-1-eblake@redhat.com>
 References: <20211203231307.wmtbw7r72tyzkkax@redhat.com>
  <20211203231539.3900865-1-eblake@redhat.com>
@@ -57,15 +57,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,91 +84,114 @@ Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Although our read requests are sized such that servers need not send
-an extended hole chunk, we still have to be prepared for it to be
-fully compliant if we request extended headers.  We can also tolerate
-a non-compliant server sending the new chunk even when it should not.
+Because we use NBD_CMD_FLAG_REQ_ONE with NBD_CMD_BLOCK_STATUS, a
+client in narrow mode should not be able to provoke a server into
+sending a block status result larger than the client's 32-bit request.
+But in extended mode, a 64-bit status request must be able to handle a
+64-bit status result, once a future patch enables the client
+requesting extended mode.  We can also tolerate a non-compliant server
+sending the new chunk even when it should not.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/nbd.c        | 26 ++++++++++++++++++++------
- block/trace-events |  1 +
- 2 files changed, 21 insertions(+), 6 deletions(-)
+ block/nbd.c | 38 +++++++++++++++++++++++++++-----------
+ 1 file changed, 27 insertions(+), 11 deletions(-)
 
 diff --git a/block/nbd.c b/block/nbd.c
-index da5e6ac2d9a5..c5dea864ebb6 100644
+index c5dea864ebb6..bd4a9c407bde 100644
 --- a/block/nbd.c
 +++ b/block/nbd.c
-@@ -518,20 +518,26 @@ static inline uint64_t payload_advance64(uint8_t **payload)
-
- static int nbd_parse_offset_hole_payload(BDRVNBDState *s,
+@@ -563,13 +563,15 @@ static int nbd_parse_offset_hole_payload(BDRVNBDState *s,
+  */
+ static int nbd_parse_blockstatus_payload(BDRVNBDState *s,
                                           NBDStructuredReplyChunk *chunk,
--                                         uint8_t *payload, uint64_t orig_offset,
+-                                         uint8_t *payload, uint64_t orig_length,
+-                                         NBDExtent *extent, Error **errp)
 +                                         uint8_t *payload, bool wide,
-+                                         uint64_t orig_offset,
-                                          QEMUIOVector *qiov, Error **errp)
++                                         uint64_t orig_length,
++                                         NBDExtentExt *extent, Error **errp)
  {
-     uint64_t offset;
--    uint32_t hole_size;
-+    uint64_t hole_size;
-+    size_t len = wide ? sizeof(hole_size) : sizeof(uint32_t);
+     uint32_t context_id;
++    size_t len = wide ? sizeof(*extent) : sizeof(NBDExtent);
 
--    if (chunk->length != sizeof(offset) + sizeof(hole_size)) {
-+    if (chunk->length != sizeof(offset) + len) {
+     /* The server succeeded, so it must have sent [at least] one extent */
+-    if (chunk->length < sizeof(context_id) + sizeof(*extent)) {
++    if (chunk->length < sizeof(context_id) + len) {
          error_setg(errp, "Protocol error: invalid payload for "
-                          "NBD_REPLY_TYPE_OFFSET_HOLE");
+                          "NBD_REPLY_TYPE_BLOCK_STATUS");
+         return -EINVAL;
+@@ -584,8 +586,16 @@ static int nbd_parse_blockstatus_payload(BDRVNBDState *s,
          return -EINVAL;
      }
 
-     offset = payload_advance64(&payload);
--    hole_size = payload_advance32(&payload);
+-    extent->length = payload_advance32(&payload);
+-    extent->flags = payload_advance32(&payload);
 +    if (wide) {
-+        hole_size = payload_advance64(&payload);
++        extent->length = payload_advance64(&payload);
++        extent->flags = payload_advance32(&payload);
++        if (payload_advance32(&payload) != 0) {
++            trace_nbd_parse_blockstatus_compliance("non-zero extent padding");
++        }
 +    } else {
-+        hole_size = payload_advance32(&payload);
++        extent->length = payload_advance32(&payload);
++        extent->flags = payload_advance32(&payload);
 +    }
 
-     if (!hole_size || offset < orig_offset || hole_size > qiov->size ||
-         offset > orig_offset + qiov->size - hole_size) {
-@@ -544,6 +550,7 @@ static int nbd_parse_offset_hole_payload(BDRVNBDState *s,
-         trace_nbd_structured_read_compliance("hole");
+     if (extent->length == 0) {
+         error_setg(errp, "Protocol error: server sent status chunk with "
+@@ -625,7 +635,7 @@ static int nbd_parse_blockstatus_payload(BDRVNBDState *s,
+      * connection; just ignore trailing extents, and clamp things to
+      * the length of our request.
+      */
+-    if (chunk->length > sizeof(context_id) + sizeof(*extent)) {
++    if (chunk->length > sizeof(context_id) + len) {
+         trace_nbd_parse_blockstatus_compliance("more than one extent");
      }
+     if (extent->length > orig_length) {
+@@ -1081,7 +1091,7 @@ static int nbd_co_receive_cmdread_reply(BDRVNBDState *s, uint64_t handle,
 
-+    assert(hole_size <= SIZE_MAX);
-     qemu_iovec_memset(qiov, offset - orig_offset, 0, hole_size);
+ static int nbd_co_receive_blockstatus_reply(BDRVNBDState *s,
+                                             uint64_t handle, uint64_t length,
+-                                            NBDExtent *extent,
++                                            NBDExtentExt *extent,
+                                             int *request_ret, Error **errp)
+ {
+     NBDReplyChunkIter iter;
+@@ -1098,6 +1108,11 @@ static int nbd_co_receive_blockstatus_reply(BDRVNBDState *s,
+         assert(nbd_reply_is_structured(&reply));
 
-     return 0;
-@@ -1037,9 +1044,16 @@ static int nbd_co_receive_cmdread_reply(BDRVNBDState *s, uint64_t handle,
-              * in qiov
-              */
-             break;
-+        case NBD_REPLY_TYPE_OFFSET_HOLE_EXT:
+         switch (chunk->type) {
++        case NBD_REPLY_TYPE_BLOCK_STATUS_EXT:
 +            if (!s->info.extended_headers) {
-+                trace_nbd_extended_headers_compliance("hole_ext");
++                trace_nbd_extended_headers_compliance("block_status_ext");
 +            }
 +            /* fallthrough */
-         case NBD_REPLY_TYPE_OFFSET_HOLE:
--            ret = nbd_parse_offset_hole_payload(s, &reply.structured, payload,
--                                                offset, qiov, &local_err);
-+            ret = nbd_parse_offset_hole_payload(
+         case NBD_REPLY_TYPE_BLOCK_STATUS:
+             if (received) {
+                 nbd_channel_error(s, -EINVAL);
+@@ -1106,9 +1121,10 @@ static int nbd_co_receive_blockstatus_reply(BDRVNBDState *s,
+             }
+             received = true;
+
+-            ret = nbd_parse_blockstatus_payload(s, &reply.structured,
+-                                                payload, length, extent,
+-                                                &local_err);
++            ret = nbd_parse_blockstatus_payload(
 +                s, &reply.structured, payload,
-+                chunk->type == NBD_REPLY_TYPE_OFFSET_HOLE_EXT,
-+                offset, qiov, &local_err);
++                chunk->type == NBD_REPLY_TYPE_BLOCK_STATUS_EXT,
++                length, extent, &local_err);
              if (ret < 0) {
                  nbd_channel_error(s, ret);
                  nbd_iter_channel_error(&iter, ret, &local_err);
-diff --git a/block/trace-events b/block/trace-events
-index 549090d453e7..ee65da204dde 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -168,6 +168,7 @@ iscsi_xcopy(void *src_lun, uint64_t src_off, void *dst_lun, uint64_t dst_off, ui
- # nbd.c
- nbd_parse_blockstatus_compliance(const char *err) "ignoring extra data from non-compliant server: %s"
- nbd_structured_read_compliance(const char *type) "server sent non-compliant unaligned read %s chunk"
-+nbd_extended_headers_compliance(const char *type) "server sent non-compliant %s chunk without extended headers"
- nbd_read_reply_entry_fail(int ret, const char *err) "ret = %d, err: %s"
- nbd_co_request_fail(uint64_t from, uint32_t len, uint64_t handle, uint16_t flags, uint16_t type, const char *name, int ret, const char *err) "Request failed { .from = %" PRIu64", .len = %" PRIu32 ", .handle = %" PRIu64 ", .flags = 0x%" PRIx16 ", .type = %" PRIu16 " (%s) } ret = %d, err: %s"
- nbd_client_handshake(const char *export_name) "export '%s'"
+@@ -1337,7 +1353,7 @@ static int coroutine_fn nbd_client_co_block_status(
+         int64_t *pnum, int64_t *map, BlockDriverState **file)
+ {
+     int ret, request_ret;
+-    NBDExtent extent = { 0 };
++    NBDExtentExt extent = { 0 };
+     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+     Error *local_err = NULL;
+
 -- 
 2.33.1
 
