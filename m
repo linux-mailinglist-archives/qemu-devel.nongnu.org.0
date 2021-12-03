@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5327467FA1
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 23:02:55 +0100 (CET)
-Received: from localhost ([::1]:58838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 664EC467FC5
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 23:17:52 +0100 (CET)
+Received: from localhost ([::1]:41988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtGdo-0007Rj-RN
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 17:02:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50612)
+	id 1mtGsI-0007pH-VN
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 17:17:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mtGby-0005yh-Ar
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 17:00:58 -0500
-Received: from [2607:f8b0:4864:20::529] (port=46063
- helo=mail-pg1-x529.google.com)
+ (Exim 4.90_1) (envelope-from
+ <3wZWqYQcKCqofOXdebOQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--venture.bounces.google.com>)
+ id 1mtGqv-000747-Bq
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 17:16:25 -0500
+Received: from [2607:f8b0:4864:20::249] (port=49057
+ helo=mail-oi1-x249.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mtGbv-0007mU-UB
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 17:00:58 -0500
-Received: by mail-pg1-x529.google.com with SMTP id 133so4334195pgc.12
- for <qemu-devel@nongnu.org>; Fri, 03 Dec 2021 14:00:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qQils0M/PVvYl3geu4GQRWjqCL7xIc+Dr6vVPmytlw8=;
- b=Ucoa1q96Pzobxi1zI/jqT91QOrrYWzyDQ/ygeA7Bnm3iSZ3wYNoFwBdzGXSCcIy6h4
- k9Wprmpz1mNDKFVuF/siJhlhxMJMYU1wODBBNMr/eVkYTjOkBaXhNPPRtvWjWpMvmGKC
- HVXyDHaXBPGyiFqd45L+CKibrxBlIY++7l4MBJ3m5z3AscmgDjNYuZPub+mqLQ+YsWry
- zmxyJaiq9KD56PubaRzQpAQ9o69xU6FMoEeYpi4PXAJejuQcqu0meNXyHc5k25/ZbSD5
- /1PI+6vfzqwZ2WS3rpszYFUVfWllbiU37iQucT2FeSjyY+YL7DLjfp+9TlsKlANuboVq
- cUKg==
+ (Exim 4.90_1) (envelope-from
+ <3wZWqYQcKCqofOXdebOQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--venture.bounces.google.com>)
+ id 1mtGqu-0004rj-0m
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 17:16:25 -0500
+Received: by mail-oi1-x249.google.com with SMTP id
+ y21-20020aca4b15000000b002a819a3cd6dso2983100oia.15
+ for <qemu-devel@nongnu.org>; Fri, 03 Dec 2021 14:16:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=DptKPBtVqulkRZwb4bxvQuevNljfMMf/j/w293um1mM=;
+ b=PnQ9CBH+4dRC6T58i0FF2tAOVJVR9mjl5b1wvXU68ZFgFoMxAlb9glW9BNKxrRwFiB
+ iUMtVJv8YDO+nXz4Hs9655gwiX5whn5hdNQdVePsaXaZNGR7MDRgjaYn09jL52sGRT64
+ opXGamPG+JSxE3z+RB+tbIZMcLaILeLqTE3H6eYjm0lEdsIyavvZczfTDBUWMfkUZXoh
+ hpd1CovuXupBRb61ig78XoFF968uqhN0HiM6vHAwVrfpJHdWHZ+iEW8K8WKtuh39kPbn
+ /hsKq0yXbPymkZS+6xZyVhhZfGamhQpXo/CzwRFf7RZM/1Y7xmXzEu8IMXyuMAtlfedQ
+ Wk2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qQils0M/PVvYl3geu4GQRWjqCL7xIc+Dr6vVPmytlw8=;
- b=bmrzeRquPrxfp7VT9H7IuEciS0UQ9EjGJuKpEv6A1rXg+YxZcgJYL2JKjVbCf5rbaY
- kCWjczpopoUoa2YaUFNGDEsGl8eXS5IYdJUVVjaVIPg0lkAt0BJihoeac2NjyTs+U+uZ
- j7NfSwxb5mTgaatzbKGR/ExHwQtMraKrw55RQByivhNQ+K4HFxB0dyjr6D2iiHtF6iRM
- JggmjHE0sMGzIK8NIdSvuSQee1rC1gb1w+0Z5JQQF0lK4f0CP4zeFRVf5WvwvSQOA3pE
- kgOW2MpYg0ejIJDbTOq2Oku66POK90ADBWN2qgS7hVoWcPxBIDx39pXEZZVUli/kSnuI
- esQA==
-X-Gm-Message-State: AOAM532t8F79II+qwF6E54RedUmsSahFozHS/6ZXbz1h/3OiAJaXHtma
- 15hoQkII9sC2qAp4WDdEU+WQHA==
-X-Google-Smtp-Source: ABdhPJx6rZ1OA8HyK0CRuPS69xZXyhNQa1LDCrVklCUWFxTcHzf6xGFgNboVRbORfu6Xf9IhOVuasQ==
-X-Received: by 2002:a65:6a0b:: with SMTP id m11mr6624268pgu.372.1638568853636; 
- Fri, 03 Dec 2021 14:00:53 -0800 (PST)
-Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id pj12sm6279871pjb.51.2021.12.03.14.00.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Dec 2021 14:00:53 -0800 (PST)
-Subject: Re: QEMU 6.2.0 and rhbz#1999878
-To: "Richard W.M. Jones" <rjones@redhat.com>, Eduardo Lima <elima@redhat.com>
-References: <CAJzYwARYDA+E4wrszx-F1D_9+VAYB2dU=M-LtvzPJey02gu2qg@mail.gmail.com>
- <20211203193725.GB1127@redhat.com>
- <CAJzYwASbiKGe5n7Ggs3u+6b6-7KEyqLCHxFsv2YMh2xyU4Y1MQ@mail.gmail.com>
- <20211203210325.GG1127@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ca5c4fb4-3e9e-03c7-b682-cd29a01e0f13@linaro.org>
-Date: Fri, 3 Dec 2021 14:00:50 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <20211203210325.GG1127@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::529
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=DptKPBtVqulkRZwb4bxvQuevNljfMMf/j/w293um1mM=;
+ b=BzAOGHIqL1w6OWhvfeslrhHmAUa6Z7OvvOuFM/t8R7xUD/EA8WNiD5QSiORP6xpcNG
+ YizxiZawYvnSqrJwFuLI/RxXGMtsykFmOUGE6EMKupCeKpJ+n31u7rxxoasXoVrZtAdB
+ jTRyhLtirDjcBZtRWGnQmj2cnNyYZK3Xo0964urFym2Z2Cc0/uXrFxRU50df6L1OMsuF
+ QvA34YtPf3WE3kXH5THTT6LO/S9bl9obQRPmeisI5ONEXRrWyVljKtX/WpyPOX6PPrEe
+ yNPXoxftz6WOrVb4/uKD7C2nKjYmSaF+Am8P2vTrwVO+D/5juviC0cQ0RBHdx+eIIAqR
+ VBQw==
+X-Gm-Message-State: AOAM531qJqgHqLQh7IIAyettykkko681QXTbBr4hQcfvVC5ev6XGR5L1
+ oUrKXuWFrJWrrtuZUXino6Z6fSLFProE
+X-Google-Smtp-Source: ABdhPJw5KnBqErxOD+f9hBEv+qBXseA3QiY3ZX9cnpZTg593VDud9PAx8eOjdTvtidAsm0KkZmit0FBvbcq9
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:7a5a:6b8a:761a:5dd9])
+ (user=venture job=sendgmr) by 2002:a17:90b:17cf:: with SMTP id
+ me15mr17228792pjb.125.1638569409918; Fri, 03 Dec 2021 14:10:09 -0800 (PST)
+Date: Fri,  3 Dec 2021 14:10:02 -0800
+Message-Id: <20211203221002.1719306-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.400.ga245620fadb-goog
+Subject: [PATCH v2] hw/net: npcm7xx_emc fix missing queue_flush
+From: Patrick Venture <venture@google.com>
+To: f4bug@amsat.org, peter.maydell@linaro.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, hskinnemoen@google.com, 
+ kfting@nuvoton.com, Patrick Venture <venture@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::249
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.938,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::249;
+ envelope-from=3wZWqYQcKCqofOXdebOQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--venture.bounces.google.com;
+ helo=mail-oi1-x249.google.com
+X-Spam_score_int: -87
+X-Spam_score: -8.8
+X-Spam_bar: --------
+X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,54 +86,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, sw@weilnetz.de,
- Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/3/21 1:03 PM, Richard W.M. Jones wrote:
-> On Fri, Dec 03, 2021 at 05:35:41PM -0300, Eduardo Lima wrote:
->>
->>
->> On Fri, Dec 3, 2021 at 4:37 PM Richard W.M. Jones <rjones@redhat.com> wrote:
->>
->>      On Fri, Dec 03, 2021 at 04:20:23PM -0300, Eduardo Lima wrote:
->>      > Hi Rich,
->>      >
->>      > Can you confirm if the patch you added for qemu in Fedora has still not
->>      been
->>      > merged upstream? I could not find it on the git source tree.
->>      >
->>      > +Patch2: 0001-tcg-arm-Reduce-vector-alignment-requirement-for-NEON.patch
->>      > +From 1331e4eec016a295949009b4360c592401b089f7 Mon Sep 17 00:00:00 2001
->>      > +From: Richard Henderson <richard.henderson@linaro.org>
->>      > +Date: Sun, 12 Sep 2021 10:49:25 -0700
->>      > +Subject: [PATCH] tcg/arm: Reduce vector alignment requirement for NEON
->>
->>      https://bugzilla.redhat.com/show_bug.cgi?id=1999878
->>      https://lists.nongnu.org/archive/html/qemu-devel/2021-09/msg01028.html
->>
->>      The patch I posted wasn't correct (or meant to be), it was just a
->>      workaround.  However I think you're right - I don't believe the
->>      original problem was ever fixed.
->>
->> Yes, I saw that your original patch had been replaced by this new
->> one I mentioned, so I thought it was the correct solution, but I
->> could not find this new one on the repository as well.
-> 
-> Oh I see, it was indeed replaced by Richard Henderson's patch:
-> 
-> https://src.fedoraproject.org/rpms/qemu/blob/rawhide/f/0001-tcg-arm-Reduce-vector-alignment-requirement-for-NEON.patch
-> 
->> At the moment I kept it as part of 6.2.0 build, which I am just about to push
->> to rawhide. It builds locally, and I am only waiting for the scratch-build to
->> finish.
-> 
-> Yes looks like we need to keep it, and get it upstream too.
+The rx_active boolean change to true should always trigger a try_read
+call that flushes the queue.
 
-Whoops.  That dropped through the cracks.
-I'll queue that now-ish.
+Signed-off-by: Patrick Venture <venture@google.com>
+---
+v2: introduced helper method to encapsulate rx activation and queue flush.
+---
+ hw/net/npcm7xx_emc.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
+diff --git a/hw/net/npcm7xx_emc.c b/hw/net/npcm7xx_emc.c
+index 7c892f820f..545b2b7410 100644
+--- a/hw/net/npcm7xx_emc.c
++++ b/hw/net/npcm7xx_emc.c
+@@ -284,6 +284,12 @@ static void emc_halt_rx(NPCM7xxEMCState *emc, uint32_t mista_flag)
+     emc_set_mista(emc, mista_flag);
+ }
+ 
++static void emc_enable_rx_and_flush(NPCM7xxEMCState *emc)
++{
++    emc->rx_active = true;
++    qemu_flush_queued_packets(qemu_get_queue(emc->nic));
++}
++
+ static void emc_set_next_tx_descriptor(NPCM7xxEMCState *emc,
+                                        const NPCM7xxEMCTxDesc *tx_desc,
+                                        uint32_t desc_addr)
+@@ -581,13 +587,6 @@ static ssize_t emc_receive(NetClientState *nc, const uint8_t *buf, size_t len1)
+     return len;
+ }
+ 
+-static void emc_try_receive_next_packet(NPCM7xxEMCState *emc)
+-{
+-    if (emc_can_receive(qemu_get_queue(emc->nic))) {
+-        qemu_flush_queued_packets(qemu_get_queue(emc->nic));
+-    }
+-}
+-
+ static uint64_t npcm7xx_emc_read(void *opaque, hwaddr offset, unsigned size)
+ {
+     NPCM7xxEMCState *emc = opaque;
+@@ -703,7 +702,7 @@ static void npcm7xx_emc_write(void *opaque, hwaddr offset,
+             emc->regs[REG_MGSTA] |= REG_MGSTA_RXHA;
+         }
+         if (value & REG_MCMDR_RXON) {
+-            emc->rx_active = true;
++            emc_enable_rx_and_flush(emc);
+         } else {
+             emc_halt_rx(emc, 0);
+         }
+@@ -739,8 +738,7 @@ static void npcm7xx_emc_write(void *opaque, hwaddr offset,
+         break;
+     case REG_RSDR:
+         if (emc->regs[REG_MCMDR] & REG_MCMDR_RXON) {
+-            emc->rx_active = true;
+-            emc_try_receive_next_packet(emc);
++            emc_enable_rx_and_flush(emc);
+         }
+         break;
+     case REG_MIIDA:
+-- 
+2.34.1.400.ga245620fadb-goog
 
-r~
 
