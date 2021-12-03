@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A37C4680D3
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 00:44:08 +0100 (CET)
-Received: from localhost ([::1]:42768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48AAE4680B5
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 00:39:15 +0100 (CET)
+Received: from localhost ([::1]:58504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtIDn-0004p2-CW
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 18:44:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40858)
+	id 1mtI94-0004hb-1x
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 18:39:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mtI4f-0006Bx-9W
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:34:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40268)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mtI4t-0006pC-NU
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:34:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mtI4c-0001or-7w
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:34:40 -0500
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mtI4r-0001ql-KV
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:34:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638574477;
+ s=mimecast20190719; t=1638574493;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lIhV5K1u2wvXnKxE9a1/GDmXrykKf0FSebfksfskNA0=;
- b=i+ynqhFFrcGLRJXHnIH300HEiwDCTdX71cIffNi0JPs4xMa0rW93J/r+lvcsV9fNhARY7L
- siRKPWSfe2BxAQJPAZ7HqXaQRtSCtrCjaBsdjbeZ2hUETnlJcAO277+Ftkig/x7KvjWA+0
- 6OP1gXWYQNCCGmBLHDU+oHcn5gw0bAg=
+ bh=VtNz+daFdRVqMzXQEdDO0e9qGyb3lRfv8GHRF45nWMQ=;
+ b=PmcEMQjxdNL25GQOS3y3h643JqBkmItSHBjH0b3sTkcxOdYcpG6102ZKibKMgiihwcYidc
+ KyjHoqVeO43hbOtHrYQMOS8NdE2XAicxlDv8cHsGb9oRxAyshjtq2CCmcMPZCBPGLgJl+A
+ zMAU2MoZexV4UVvrFcd8zyt4H2+IVFI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-169-Yg0FrP4mMhSQtBSjAXPesg-1; Fri, 03 Dec 2021 18:34:34 -0500
-X-MC-Unique: Yg0FrP4mMhSQtBSjAXPesg-1
+ us-mta-593-3nRp0qFaPeSLBo2uqC7Afw-1; Fri, 03 Dec 2021 18:34:50 -0500
+X-MC-Unique: 3nRp0qFaPeSLBo2uqC7Afw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 317231030C20;
- Fri,  3 Dec 2021 23:34:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3A528042E1;
+ Fri,  3 Dec 2021 23:34:48 +0000 (UTC)
 Received: from gshan.redhat.com (vpn2-54-43.bne.redhat.com [10.64.54.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D16BF60843;
- Fri,  3 Dec 2021 23:34:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C199B60843;
+ Fri,  3 Dec 2021 23:34:33 +0000 (UTC)
 From: Gavin Shan <gshan@redhat.com>
 To: qemu-arm@nongnu.org
-Subject: [PATCH v3 1/2] virtio-mem: Correct default THP size for ARM64
-Date: Sat,  4 Dec 2021 07:34:03 +0800
-Message-Id: <20211203233404.37313-2-gshan@redhat.com>
+Subject: [PATCH v3 2/2] hw/arm/virt: Support for virtio-mem-pci
+Date: Sat,  4 Dec 2021 07:34:04 +0800
+Message-Id: <20211203233404.37313-3-gshan@redhat.com>
 In-Reply-To: <20211203233404.37313-1-gshan@redhat.com>
 References: <20211203233404.37313-1-gshan@redhat.com>
 MIME-Version: 1.0
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,86 +83,182 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The default block size is same as to the THP size, which is either
-retrieved from "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size"
-or hardcoded to 2MB. There are flaws in both mechanisms and this
-intends to fix them up.
+This supports virtio-mem-pci device on "virt" platform, by simply
+following the implementation on x86.
 
-  * When "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size" is
-    used to getting the THP size, 32MB and 512MB are valid values
-    when we have 16KB and 64KB page size on ARM64.
+   * This implements the hotplug handlers to support virtio-mem-pci
+     device hot-add, while the hot-remove isn't supported as we have
+     on x86.
 
-  * When the hardcoded THP size is used, 2MB, 32MB and 512MB are
-    valid values when we have 4KB, 16KB and 64KB page sizes on
-    ARM64.
+   * The block size is 512MB on ARM64 instead of 128MB on x86.
+
+   * It has been passing the tests with various combinations like 64KB
+     and 4KB page sizes on host and guest, different memory device
+     backends like normal, transparent huge page and HugeTLB, plus
+     migration.
 
 Co-developed-by: David Hildenbrand <david@redhat.com>
+Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Gavin Shan <gshan@redhat.com>
 Reviewed-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- hw/virtio/virtio-mem.c | 32 ++++++++++++++++++++------------
- 1 file changed, 20 insertions(+), 12 deletions(-)
+ hw/arm/Kconfig         |  1 +
+ hw/arm/virt.c          | 68 +++++++++++++++++++++++++++++++++++++++++-
+ hw/virtio/virtio-mem.c |  4 ++-
+ 3 files changed, 71 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index d5a578142b..b20595a496 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -38,14 +38,25 @@
-  */
- #define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)(1 * MiB))
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 2d37d29f02..15aff8efb8 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -27,6 +27,7 @@ config ARM_VIRT
+     select DIMM
+     select ACPI_HW_REDUCED
+     select ACPI_APEI
++    select VIRTIO_MEM_SUPPORTED
  
--#if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
--    defined(__powerpc64__)
--#define VIRTIO_MEM_DEFAULT_THP_SIZE ((uint32_t)(2 * MiB))
--#else
--        /* fallback to 1 MiB (e.g., the THP size on s390x) */
--#define VIRTIO_MEM_DEFAULT_THP_SIZE VIRTIO_MEM_MIN_BLOCK_SIZE
-+static uint32_t virtio_mem_default_thp_size(void)
+ config CHEETAH
+     bool
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 30da05dfe0..db1544760d 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -72,9 +72,11 @@
+ #include "hw/arm/smmuv3.h"
+ #include "hw/acpi/acpi.h"
+ #include "target/arm/internals.h"
++#include "hw/mem/memory-device.h"
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/mem/nvdimm.h"
+ #include "hw/acpi/generic_event_device.h"
++#include "hw/virtio/virtio-mem-pci.h"
+ #include "hw/virtio/virtio-iommu.h"
+ #include "hw/char/pl011.h"
+ #include "qemu/guest-random.h"
+@@ -2483,6 +2485,63 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
+                          dev, &error_abort);
+ }
+ 
++static void virt_virtio_md_pci_pre_plug(HotplugHandler *hotplug_dev,
++                                        DeviceState *dev, Error **errp)
 +{
-+    uint32_t default_thp_size = VIRTIO_MEM_MIN_BLOCK_SIZE;
++    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
++    Error *local_err = NULL;
 +
-+#if defined(__x86_64__) || defined(__arm__) || defined(__powerpc64__)
-+    default_thp_size = 2 * MiB;
-+#elif defined(__aarch64__)
-+    if (qemu_real_host_page_size == 4 * KiB) {
-+        default_thp_size = 2 * MiB;
-+    } else if (qemu_real_host_page_size == 16 * KiB) {
-+        default_thp_size = 32 * MiB;
-+    } else if (qemu_real_host_page_size == 64 * KiB) {
-+        default_thp_size = 512 * MiB;
++    if (!hotplug_dev2 && dev->hotplugged) {
++        /*
++         * Without a bus hotplug handler, we cannot control the plug/unplug
++         * order. We should never reach this point when hotplugging on x86,
++         * however, better add a safety net.
++         */
++        error_setg(errp, "hotplug of virtio based memory devices not supported"
++                   " on this bus.");
++        return;
 +    }
- #endif
- 
-+    return default_thp_size;
++    /*
++     * First, see if we can plug this memory device at all. If that
++     * succeeds, branch of to the actual hotplug handler.
++     */
++    memory_device_pre_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev), NULL,
++                           &local_err);
++    if (!local_err && hotplug_dev2) {
++        hotplug_handler_pre_plug(hotplug_dev2, dev, &local_err);
++    }
++    error_propagate(errp, local_err);
 +}
 +
- /*
-  * We want to have a reasonable default block size such that
-  * 1. We avoid splitting THPs when unplugging memory, which degrades
-@@ -78,11 +89,8 @@ static uint32_t virtio_mem_thp_size(void)
-     if (g_file_get_contents(HPAGE_PMD_SIZE_PATH, &content, NULL, NULL) &&
-         !qemu_strtou64(content, &endptr, 0, &tmp) &&
-         (!endptr || *endptr == '\n')) {
--        /*
--         * Sanity-check the value, if it's too big (e.g., aarch64 with 64k base
--         * pages) or weird, fallback to something smaller.
--         */
--        if (!tmp || !is_power_of_2(tmp) || tmp > 16 * MiB) {
-+        /* Sanity-check the value and fallback to something reasonable. */
-+        if (!tmp || !is_power_of_2(tmp)) {
-             warn_report("Read unsupported THP size: %" PRIx64, tmp);
-         } else {
-             thp_size = tmp;
-@@ -90,7 +98,7 @@ static uint32_t virtio_mem_thp_size(void)
++static void virt_virtio_md_pci_plug(HotplugHandler *hotplug_dev,
++                                    DeviceState *dev, Error **errp)
++{
++    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
++    Error *local_err = NULL;
++
++    /*
++     * Plug the memory device first and then branch off to the actual
++     * hotplug handler. If that one fails, we can easily undo the memory
++     * device bits.
++     */
++    memory_device_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
++    if (hotplug_dev2) {
++        hotplug_handler_plug(hotplug_dev2, dev, &local_err);
++        if (local_err) {
++            memory_device_unplug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
++        }
++    }
++    error_propagate(errp, local_err);
++}
++
++static void virt_virtio_md_pci_unplug_request(HotplugHandler *hotplug_dev,
++                                              DeviceState *dev, Error **errp)
++{
++    /* We don't support hot unplug of virtio based memory devices */
++    error_setg(errp, "virtio based memory devices cannot be unplugged.");
++}
++
++
+ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+                                             DeviceState *dev, Error **errp)
+ {
+@@ -2516,6 +2575,8 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+         qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
+         qdev_prop_set_string(dev, "reserved-regions[0]", resv_prop_str);
+         g_free(resv_prop_str);
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
++        virt_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);
      }
+ }
  
-     if (!thp_size) {
--        thp_size = VIRTIO_MEM_DEFAULT_THP_SIZE;
-+        thp_size = virtio_mem_default_thp_size();
-         warn_report("Could not detect THP size, falling back to %" PRIx64
-                     "  MiB.", thp_size / MiB);
+@@ -2541,6 +2602,8 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+         vms->iommu = VIRT_IOMMU_VIRTIO;
+         vms->virtio_iommu_bdf = pci_get_bdf(pdev);
+         create_virtio_iommu_dt_bindings(vms);
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
++        virt_virtio_md_pci_plug(hotplug_dev, dev, errp);
      }
+ }
+ 
+@@ -2591,6 +2654,8 @@ static void virt_machine_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+ {
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+         virt_dimm_unplug_request(hotplug_dev, dev, errp);
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
++        virt_virtio_md_pci_unplug_request(hotplug_dev, dev, errp);
+     } else {
+         error_setg(errp, "device unplug request for unsupported device"
+                    " type: %s", object_get_typename(OBJECT(dev)));
+@@ -2614,7 +2679,8 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+ 
+     if (device_is_dynamic_sysbus(mc, dev) ||
+-       (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM))) {
++        object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
++        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
+         return HOTPLUG_HANDLER(machine);
+     }
+     if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index b20595a496..21e4d572ab 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -125,7 +125,7 @@ static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
+  * The memory block size corresponds mostly to the section size.
+  *
+  * This allows e.g., to add 20MB with a section size of 128MB on x86_64, and
+- * a section size of 1GB on arm64 (as long as the start address is properly
++ * a section size of 512MB on arm64 (as long as the start address is properly
+  * aligned, similar to ordinary DIMMs).
+  *
+  * We can change this at any time and maybe even make it configurable if
+@@ -134,6 +134,8 @@ static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
+  */
+ #if defined(TARGET_X86_64) || defined(TARGET_I386)
+ #define VIRTIO_MEM_USABLE_EXTENT (2 * (128 * MiB))
++#elif defined(TARGET_ARM)
++#define VIRTIO_MEM_USABLE_EXTENT (2 * (512 * MiB))
+ #else
+ #error VIRTIO_MEM_USABLE_EXTENT not defined
+ #endif
 -- 
 2.23.0
 
