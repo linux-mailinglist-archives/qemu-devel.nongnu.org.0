@@ -2,134 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A312D467ED6
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 21:32:26 +0100 (CET)
-Received: from localhost ([::1]:41788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2E5467FB5
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 23:11:58 +0100 (CET)
+Received: from localhost ([::1]:36070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtFEH-0003M2-PK
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 15:32:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57766)
+	id 1mtGma-0003MF-Vp
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 17:11:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mtF8u-00011i-6R; Fri, 03 Dec 2021 15:26:52 -0500
-Received: from mail-db8eur05on2098.outbound.protection.outlook.com
- ([40.107.20.98]:1792 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <elima@redhat.com>) id 1mtFIr-0006CY-IE
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 15:37:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mtF8r-0001dZ-4i; Fri, 03 Dec 2021 15:26:51 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iefV9s7CI9raWykNscSPkrbx0i3bT1UJTenT9K9So+GuRVQRn/2XEIlwHPPjjmLKbqBNOAUKO09FWhLx2BDEDfTdYQppwwpqHfKsCsfxM7mdEYphL7ZkU0+dcziOSgZy+8AEOtBcIsqXrkKvZdkSHreXGhwjs4AlfItuSk2j//oJ9wnpfiJAksHCBR1po4BFBxpdOW7WQBmCeWCYVG2xNQKBCWYOvriSW3Oo/n2ajG6Xuckh5V2MbJd1vcbmm2tlMM3YPZLfDmmNsb0lKGacyonjdz6zlYIvBRWD4eSZ99cEi0SrboXSdl/u5onynYorYi2h1avKvN2g4WficG8joQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UJmj01KFgYGt01mpFsopt3xuBF4uLFTukUjGF7gO8z8=;
- b=mXHnzOAkC+pM7o19yhFNEr+AauakJhgVI+M/epOiiSZj74N28tHD1+LM4JqiVV7yO7aDrXxBzl9OfM4Nc3lUAIFblY9OahfplG0EUpZle9eIk+LA7P27q1JQtgdnjeC9Hfje7uyZSGSYDu+UOe42KvHPhn/BjW89yUhdfAdQE+YHmFzxYi6MhkgTgq1inQ+Cu5XYSuJYgd/QjDcUa/wmkd0cqU0461jHGrpzSbnZ8ig+JuQD/Yc2ZNlvWgSB6Vtq2Gj6GcS4OfcGabiQZtmUwSWTIRMmFnpU7ng9lKD5Nls/i0NAf+SrFh4W7GP0zkXPETRabo77BkJywHfdBBW42Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UJmj01KFgYGt01mpFsopt3xuBF4uLFTukUjGF7gO8z8=;
- b=FoB66ZvsGEgRl/4GfYTHC4v4LJKE+omSQBsjkloGGo8ClKPcvgP09NCxtWrXRBpF064t/FUxX7hbqRjI0VbHiTP8xhEEw0DHL++hHweEjEV/FBna2tDOL5yHsys1wQMG5XyP/VVN7tYvNdRtcmOrbdldagVrrC2rjvP3y+1tN34=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM0PR08MB4068.eurprd08.prod.outlook.com (2603:10a6:208:12b::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.16; Fri, 3 Dec
- 2021 20:26:25 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Fri, 3 Dec 2021
- 20:26:25 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
- vsementsov@virtuozzo.com
-Subject: [PATCH 14/14] block/snapshot: drop indirection around
- bdrv_snapshot_fallback_ptr
-Date: Fri,  3 Dec 2021 21:25:53 +0100
-Message-Id: <20211203202553.3231580-15-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211203202553.3231580-1-vsementsov@virtuozzo.com>
-References: <20211203202553.3231580-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM6PR10CA0086.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:209:8c::27) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
+ (Exim 4.90_1) (envelope-from <elima@redhat.com>) id 1mtFIn-0005LU-Dl
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 15:37:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638563824;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lZtyhJCr2hRAWrAzIrAnni83D8SnJgwhgPvjlTPQ+hU=;
+ b=MKfMUBr3GqvEX9dPpACiXeQPxgM30kX4iu2gd7nh7bcjAOxmHzBVzpQnCIHJDiqnMsGqfX
+ eLTojOP5gPx1NaKCsfqOAMhcDp+VKXXmydiF60wlFvbapnKZG7lK95yQx2xNtpsDWMHz7r
+ xHQz/ckMUJof1WteYe1FPYQNkf+CntE=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-114-1LXEPVZ3NaWRocgqPK7KKQ-1; Fri, 03 Dec 2021 15:35:53 -0500
+X-MC-Unique: 1LXEPVZ3NaWRocgqPK7KKQ-1
+Received: by mail-pl1-f200.google.com with SMTP id
+ i3-20020a170902c94300b0014287dc7dcbso1161587pla.16
+ for <qemu-devel@nongnu.org>; Fri, 03 Dec 2021 12:35:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lZtyhJCr2hRAWrAzIrAnni83D8SnJgwhgPvjlTPQ+hU=;
+ b=O88QJgNwc3gmbA/k0GzACoE9Za0zJfQ8hgTrfCyfS2JQBuAXkEB6SdHWPHpyv6DnHp
+ hYnu/ZG8lQCGc+iw2/WwaM9dpuearPcshPK8qSh9kHNgQHRunXcJQSImhCALmIUTxoGt
+ zlcVnIR6driMjwo5YbxDFg9ooLT13UU4DZrfOkUes0IOq32Wx2Uus/Ymk/UZNOUyeAb9
+ lxHo3XJ4ygyqtS0lj5Vt9Pwjy6Xoz91d2miZJVlg6MMI3cyyX4jD7+eQbtJtZOUxpPQk
+ 8pbQEZwzfHfK9mFatbOObzjEQqF+D1GJDNnw6Aav+gNlDvzej/MsIkMv64mW6/UmVE9M
+ xM6w==
+X-Gm-Message-State: AOAM53332jN8hblEYcd8j/3PebCmGOe4/TV1FWPG67+fAqvI2AIQLyzW
+ IMMyV4iq6wgtwDeEmRdXRPP6XfnWL4zAeFtKMt6pIh3xzaU3DDtgoXrswk4Wv1DnFW+vpqA796H
+ BSjYLiF+/xw2FL7MGc9WSCBUpPnQIzXc=
+X-Received: by 2002:a17:903:41ca:b0:142:1dff:1cb7 with SMTP id
+ u10-20020a17090341ca00b001421dff1cb7mr24989841ple.37.1638563752703; 
+ Fri, 03 Dec 2021 12:35:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz9xbtNoFHv1eEpkx+dii8OKiU7bNY/CQwktKidzZ5qA9PA9bYwB3K/DtVTqX2E/Pk1REPmkAivdK0aocsYe3k=
+X-Received: by 2002:a17:903:41ca:b0:142:1dff:1cb7 with SMTP id
+ u10-20020a17090341ca00b001421dff1cb7mr24989815ple.37.1638563752444; Fri, 03
+ Dec 2021 12:35:52 -0800 (PST)
 MIME-Version: 1.0
-Received: from kvm.ch-qa.sw.ru (130.117.225.5) by
- AM6PR10CA0086.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:8c::27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4755.16 via Frontend Transport; Fri, 3 Dec 2021 20:26:25 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1fb5f9b5-dfce-4598-74ff-08d9b69b2df2
-X-MS-TrafficTypeDiagnostic: AM0PR08MB4068:
-X-Microsoft-Antispam-PRVS: <AM0PR08MB4068D347CC522E3DE45A70F9C16A9@AM0PR08MB4068.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:291;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5orQHoH/4xBBi784t3KVnuvW9yK6cbMGMHE2DVE2aqlchg5fUXZBsMGVN50wQpNWnOHg/pVAvyi4NgAsEbJehvRyW12IqqLIfvk0ke9IZpMevkHxoXLX26tNqzMbRAty517s4OTuyX9PNmL26nTC1Oi293qSiCmQmByREb67BTGhl0NaJZ+lXKvmbRSunz9r48tLbDlYGECQayIo3v8fElfBfPnWhqOX0aCXOwci8V5Oh1I15jYsPUoQNuhtnNJCC+dzHZx8fAFsjb9ldRmURpI8UuYYjao9+gdUKEzNdk70pTj3UF7/dyd6F3HoGs84qZRxh4VH+BGoQQpqkZdQwChORlOToZc7NgXY9PqBQtiT4VP5Pal/g6pvqEY1JMPKJrB1Ur0WqEm0fVBKbIqVtNcJvXHIVuZ6AEe0Q7Kxy0T3Y4PnFd6UgH/4+rvSyjO+B/OJur7f4HgMsT5wcYl1TyE82AVIRgNOTp+o4vPwc4MEe75ew8g0lMoGG42xmlgQgpdq5fFNbOfS1Wjh0P6d3pQss1q9zMzj8y00rgY+jbIJrvd4qQqagXIDxOju6tA0j0g5Y8L18+90mmrI1rqUGu1QQmYiwmwnnNeoSN99J/Cedr9sap7JCAj4xMsyEVfpMC5VIDpEMUSvEMju/tDeQpksl65J8CZD+Y/qMhaJb4SUT+lETfuZTLRCcH0B1PwgANTGgsmo+Gba3+Nhs8h4rA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(1076003)(107886003)(83380400001)(26005)(6916009)(8936002)(2616005)(66556008)(2906002)(508600001)(6506007)(6666004)(38350700002)(66946007)(66476007)(38100700002)(52116002)(186003)(316002)(4326008)(6512007)(36756003)(6486002)(956004)(8676002)(5660300002)(86362001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JnOftCNd/yZ6tzwNkVaDV9GhhnFO9GOpr5GP1a580ZDITrG8Vxk9amJGaV7E?=
- =?us-ascii?Q?vM0AW3c0DQkY3UwKGLZfICbTFdQRuN81KjwhscwhRXQ9MZpfrhe4h18rrCoG?=
- =?us-ascii?Q?DKIbTJedmYgTtE8V75l2sc9Y0Mh3BSJV9yGzeF8NMZRFEUdvOWJ+QbB8yC+s?=
- =?us-ascii?Q?olJNsbyKfWIGbUbIDvv63MUcr9yTvDkX3TsWUtRttRLJuV9z8Psd53vg3k/k?=
- =?us-ascii?Q?PREA7MCFqwjRHM5nleqyogNcH51OSqYXbXozXixbM8YfCpfIpozRF8QHLNBf?=
- =?us-ascii?Q?wksqyYmbObbl5Uso2S5opOhGwwgS4EWqpRwkNd1f8v5mdj5vIJzq36SkBNxG?=
- =?us-ascii?Q?PsNN30qlZq83ok/YTgnF0BYQLojuTnFQs5BANpk448CmZYrRniNhCiyWXioZ?=
- =?us-ascii?Q?lNSW1xVj1vi/L41fQrpjVrC/2yLyLJpMEyjd1I/0o+NH7ycwnplkLGg/8glr?=
- =?us-ascii?Q?mulOPMxwrLwqApfVFF6H9Xlgj3kxzKnwehk6DrawH6hqKqlARcrCkYu+Uc1b?=
- =?us-ascii?Q?HqDO8tyBad4y1C1egn5iSzgPAr1wl895f8diSgaPlnrHwFtn0CQKq/auSKr7?=
- =?us-ascii?Q?dZ3G4u68u8oJHDcJSX4QP9YznfoC35BOH+kYuUlzqqNarxiNArzE75UHHKM3?=
- =?us-ascii?Q?AAIR7At/ANna6rs+5KaEyocNef6KQVU3AGtCwNSDhWJg1ZpvRjEGF8xx8isg?=
- =?us-ascii?Q?g0oRnj9SM/9N3hEm7VmOtDt03Y8/VVdwdwqXjFobchQvFn0mEdMrHkUzJo1T?=
- =?us-ascii?Q?7d8irwxqPgI6Dr1RaFn0fG4w2admt5MLRHeveIiXSLHkbrwvN8PJ3RbNJLRc?=
- =?us-ascii?Q?su14nYCV3tyvB9h/UNLOocc4L91LMSD7RcUL0vX1VMVKOH3J5GCl79yaOW8s?=
- =?us-ascii?Q?iwYh0FlKOBqAmfp6BOqq0/i1aLTrfZ0lyUDQSvCu6LLSHXe9+NuLJTW+nQya?=
- =?us-ascii?Q?0w0bD/m6K5RHQc+6PC4espXEosZ0jUx+cp8pKaTDO+WNKGWNXTWPrDSkdo8v?=
- =?us-ascii?Q?sMAtzlp08olQ0yHUG8r4PAwpxfyu5OtvSlh1zG7EJAVoPB7s8QE4jtTTq47I?=
- =?us-ascii?Q?xiSESz9KRJxYBxoQmTtAkVY/2xAqU6SUt72mhLyCnkgNRV29AzzdBKZY676G?=
- =?us-ascii?Q?rATUI0qvU/X4KSYzvbKzMDf0fI6WyMH50ZypulLYPotYtc5feBwBwVUo2yND?=
- =?us-ascii?Q?f/S85lO9mCEohdZKYLh5zal6bNoPel5+dP20U06p1osK2soQYE3qkLcL37/u?=
- =?us-ascii?Q?D0jaxA+K5l6L6cNnYl3tEIcI2DtblpQoHNU7wiLVs0M9qNlFLz95LlSQOCJE?=
- =?us-ascii?Q?ALEcYXIl6qehTLNcLf9ymLVwB/Vc71gerNyLpRqEuTD1vaVCtNsMBTXA3WTl?=
- =?us-ascii?Q?FdcaLmcBOEZL+0jIUhRPmPc6Y0FRvmvgkqXf+g8knLWtpfWkQOrCiD0d5W1r?=
- =?us-ascii?Q?x/dn1OGsb15GBeyMJpkt2MoqoRKNMt8sP63o+0pSNzAElagVmfqm91DVrUv7?=
- =?us-ascii?Q?oFAQCXu+ctEB7E4GmLi3ydi9lw15NrYOQzJMIbPhdG7s+FdBPNPRo/6M+bjy?=
- =?us-ascii?Q?g5mfVoJLTyG5qo7tZd4BHcOBfFiNcakiJHy2DW+CO6XCgn7kvP5jtpBV+Cjy?=
- =?us-ascii?Q?ul0UFXkN53P4nItCmxjjogCvVkA/c+a7ZnQprASibDjSHhToASHDscX9Gk4z?=
- =?us-ascii?Q?3ngGNw=3D=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fb5f9b5-dfce-4598-74ff-08d9b69b2df2
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2021 20:26:25.8956 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: or7ptYQ5xTB2BIUj03xN3vY8kq7nt4icSe1QPRoUyi26FWLTZ4jkDspSWAnxY8wRuQsrw3UwU3zN5Tjoze0E+BQMgkJG4XkbQm921RJakwo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4068
-Received-SPF: pass client-ip=40.107.20.98;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAJzYwARYDA+E4wrszx-F1D_9+VAYB2dU=M-LtvzPJey02gu2qg@mail.gmail.com>
+ <20211203193725.GB1127@redhat.com>
+In-Reply-To: <20211203193725.GB1127@redhat.com>
+From: Eduardo Lima <elima@redhat.com>
+Date: Fri, 3 Dec 2021 17:35:41 -0300
+Message-ID: <CAJzYwASbiKGe5n7Ggs3u+6b6-7KEyqLCHxFsv2YMh2xyU4Y1MQ@mail.gmail.com>
+Subject: Re: QEMU 6.2.0 and rhbz#1999878
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=elima@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000681b8305d243da4b"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=elima@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 03 Dec 2021 17:09:40 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,122 +91,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, Daniel Berrange <berrange@redhat.com>,
+ sw@weilnetz.de, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now the indirection is not actually used, we can safely reduce it to
-simple pointer.
+--000000000000681b8305d243da4b
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/snapshot.c | 39 +++++++++++++++++----------------------
- 1 file changed, 17 insertions(+), 22 deletions(-)
+On Fri, Dec 3, 2021 at 4:37 PM Richard W.M. Jones <rjones@redhat.com> wrote:
 
-diff --git a/block/snapshot.c b/block/snapshot.c
-index cb184d70b4..e32f9cb2ad 100644
---- a/block/snapshot.c
-+++ b/block/snapshot.c
-@@ -148,34 +148,29 @@ bool bdrv_snapshot_find_by_id_and_name(BlockDriverState *bs,
- }
- 
- /**
-- * Return a pointer to the child BDS pointer to which we can fall
-+ * Return a pointer to child of given BDS to which we can fall
-  * back if the given BDS does not support snapshots.
-  * Return NULL if there is no BDS to (safely) fall back to.
-- *
-- * We need to return an indirect pointer because bdrv_snapshot_goto()
-- * has to modify the BdrvChild pointer.
-  */
--static BdrvChild **bdrv_snapshot_fallback_ptr(BlockDriverState *bs)
-+static BdrvChild *bdrv_snapshot_fallback_ptr(BlockDriverState *bs)
- {
--    BdrvChild **fallback;
--    BdrvChild *child = bdrv_primary_child(bs);
-+    BdrvChild *fallback = bdrv_primary_child(bs);
-+    BdrvChild *child;
- 
-     /* We allow fallback only to primary child */
--    if (!child) {
-+    if (!fallback) {
-         return NULL;
-     }
--    fallback = (child == bs->file ? &bs->file : &bs->backing);
--    assert(*fallback == child);
- 
-     /*
-      * Check that there are no other children that would need to be
-      * snapshotted.  If there are, it is not safe to fall back to
--     * *fallback.
-+     * fallback.
-      */
-     QLIST_FOREACH(child, &bs->children, next) {
-         if (child->role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA |
-                            BDRV_CHILD_FILTERED) &&
--            child != *fallback)
-+            child != fallback)
-         {
-             return NULL;
-         }
-@@ -186,8 +181,8 @@ static BdrvChild **bdrv_snapshot_fallback_ptr(BlockDriverState *bs)
- 
- static BlockDriverState *bdrv_snapshot_fallback(BlockDriverState *bs)
- {
--    BdrvChild **child_ptr = bdrv_snapshot_fallback_ptr(bs);
--    return child_ptr ? (*child_ptr)->bs : NULL;
-+    BdrvChild *child_ptr = bdrv_snapshot_fallback_ptr(bs);
-+    return child_ptr ? child_ptr->bs : NULL;
- }
- 
- int bdrv_can_snapshot(BlockDriverState *bs)
-@@ -230,7 +225,7 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
-                        Error **errp)
- {
-     BlockDriver *drv = bs->drv;
--    BdrvChild **fallback_ptr;
-+    BdrvChild *fallback;
-     int ret, open_ret;
- 
-     if (!drv) {
-@@ -251,13 +246,13 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
-         return ret;
-     }
- 
--    fallback_ptr = bdrv_snapshot_fallback_ptr(bs);
--    if (fallback_ptr) {
-+    fallback = bdrv_snapshot_fallback_ptr(bs);
-+    if (fallback) {
-         QDict *options;
-         QDict *file_options;
-         Error *local_err = NULL;
--        BlockDriverState *fallback_bs = (*fallback_ptr)->bs;
--        char *subqdict_prefix = g_strdup_printf("%s.", (*fallback_ptr)->name);
-+        BlockDriverState *fallback_bs = fallback->bs;
-+        char *subqdict_prefix = g_strdup_printf("%s.", fallback->name);
- 
-         options = qdict_clone_shallow(bs->options);
- 
-@@ -268,8 +263,8 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
-         qobject_unref(file_options);
-         g_free(subqdict_prefix);
- 
--        /* Force .bdrv_open() below to re-attach fallback_bs on *fallback_ptr */
--        qdict_put_str(options, (*fallback_ptr)->name,
-+        /* Force .bdrv_open() below to re-attach fallback_bs on fallback */
-+        qdict_put_str(options, fallback->name,
-                       bdrv_get_node_name(fallback_bs));
- 
-         /* Now close bs, apply the snapshot on fallback_bs, and re-open bs */
-@@ -278,7 +273,7 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
-         }
- 
-         /* .bdrv_open() will re-attach it */
--        bdrv_unref_child(bs, *fallback_ptr);
-+        bdrv_unref_child(bs, fallback);
- 
-         ret = bdrv_snapshot_goto(fallback_bs, snapshot_id, errp);
-         open_ret = drv->bdrv_open(bs, options, bs->open_flags, &local_err);
--- 
-2.31.1
+> On Fri, Dec 03, 2021 at 04:20:23PM -0300, Eduardo Lima wrote:
+> > Hi Rich,
+> >
+> > Can you confirm if the patch you added for qemu in Fedora has still not
+> been
+> > merged upstream? I could not find it on the git source tree.
+> >
+> > +Patch2: 0001-tcg-arm-Reduce-vector-alignment-requirement-for-NEON.patch
+> > +From 1331e4eec016a295949009b4360c592401b089f7 Mon Sep 17 00:00:00 2001
+> > +From: Richard Henderson <richard.henderson@linaro.org>
+> > +Date: Sun, 12 Sep 2021 10:49:25 -0700
+> > +Subject: [PATCH] tcg/arm: Reduce vector alignment requirement for NEON
+>
+> https://bugzilla.redhat.com/show_bug.cgi?id=1999878
+> https://lists.nongnu.org/archive/html/qemu-devel/2021-09/msg01028.html
+>
+> The patch I posted wasn't correct (or meant to be), it was just a
+> workaround.  However I think you're right - I don't believe the
+> original problem was ever fixed.
+>
+Yes, I saw that your original patch had been replaced by this new one I
+mentioned, so I thought it was the correct solution, but I could not find
+this new one on the repository as well.
+
+At the moment I kept it as part of 6.2.0 build, which I am just about to
+push to rawhide. It builds locally, and I am only waiting for the
+scratch-build to finish.
+
+https://koji.fedoraproject.org/koji/taskinfo?taskID=79556515
+
+Thanks, Eduardo.
+
+
+
+>
+> Let's see what upstreams says ...
+>
+> Rich.
+>
+> --
+> Richard Jones, Virtualization Group, Red Hat
+> http://people.redhat.com/~rjones
+> Read my programming and virtualization blog: http://rwmj.wordpress.com
+> virt-p2v converts physical machines to virtual machines.  Boot with a
+> live CD or over the network (PXE) and turn machines into KVM guests.
+> http://libguestfs.org/virt-v2v
+>
+>
+
+--000000000000681b8305d243da4b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-family:arial,sans-serif;font-size:small"><br></div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 3, 2021 =
+at 4:37 PM Richard W.M. Jones &lt;<a href=3D"mailto:rjones@redhat.com">rjon=
+es@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">On Fri, Dec 03, 2021 at 04:20:23PM -0300, Eduardo Lima wrote:<=
+br>
+&gt; Hi Rich,<br>
+&gt; <br>
+&gt; Can you confirm if the patch you added for qemu in Fedora has still no=
+t been<br>
+&gt; merged upstream? I could not find it on the git source tree.<br>
+&gt; <br>
+&gt; +Patch2: 0001-tcg-arm-Reduce-vector-alignment-requirement-for-NEON.pat=
+ch<br>
+&gt; +From 1331e4eec016a295949009b4360c592401b089f7 Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linar=
+o.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
+&gt; +Date: Sun, 12 Sep 2021 10:49:25 -0700<br>
+&gt; +Subject: [PATCH] tcg/arm: Reduce vector alignment requirement for NEO=
+N<br>
+<br>
+<a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1999878" rel=3D"no=
+referrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.cgi?id=3D1=
+999878</a><br>
+<a href=3D"https://lists.nongnu.org/archive/html/qemu-devel/2021-09/msg0102=
+8.html" rel=3D"noreferrer" target=3D"_blank">https://lists.nongnu.org/archi=
+ve/html/qemu-devel/2021-09/msg01028.html</a><br>
+<br>
+The patch I posted wasn&#39;t correct (or meant to be), it was just a<br>
+workaround.=C2=A0 However I think you&#39;re right - I don&#39;t believe th=
+e<br>
+original problem was ever fixed.<br></blockquote><div><span style=3D"font-f=
+amily:arial,sans-serif"><span class=3D"gmail_default" style=3D"font-family:=
+arial,sans-serif;font-size:small"></span></span></div><div><span style=3D"f=
+ont-family:arial,sans-serif"><span class=3D"gmail_default" style=3D"font-fa=
+mily:arial,sans-serif;font-size:small">Yes, I saw that your original patch =
+had been replaced by this new one I mentioned, so I thought it was the corr=
+ect solution, but I could not find this new one on the repository as well.<=
+/span></span></div><div><span style=3D"font-family:arial,sans-serif"><span =
+class=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-size:sma=
+ll"><br></span></span></div><div><span style=3D"font-family:arial,sans-seri=
+f"><span class=3D"gmail_default" style=3D"font-family:arial,sans-serif;font=
+-size:small">At the moment I kept it as part of 6.2.0 build, which I am jus=
+t about to push to rawhide. It builds locally, and I am only waiting for th=
+e scratch-build to finish.</span></span><br></div><div><br></div><div><div =
+class=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-size:sma=
+ll"><a href=3D"https://koji.fedoraproject.org/koji/taskinfo?taskID=3D795565=
+15">https://koji.fedoraproject.org/koji/taskinfo?taskID=3D79556515</a></div=
+><div class=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-si=
+ze:small"><br></div><div class=3D"gmail_default" style=3D"font-family:arial=
+,sans-serif;font-size:small">Thanks, Eduardo.</div><br></div><div>=C2=A0</d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Let&#39;s see what upstreams says ...<br>
+<br>
+Rich.<br>
+<br>
+-- <br>
+Richard Jones, Virtualization Group, Red Hat <a href=3D"http://people.redha=
+t.com/~rjones" rel=3D"noreferrer" target=3D"_blank">http://people.redhat.co=
+m/~rjones</a><br>
+Read my programming and virtualization blog: <a href=3D"http://rwmj.wordpre=
+ss.com" rel=3D"noreferrer" target=3D"_blank">http://rwmj.wordpress.com</a><=
+br>
+virt-p2v converts physical machines to virtual machines.=C2=A0 Boot with a<=
+br>
+live CD or over the network (PXE) and turn machines into KVM guests.<br>
+<a href=3D"http://libguestfs.org/virt-v2v" rel=3D"noreferrer" target=3D"_bl=
+ank">http://libguestfs.org/virt-v2v</a><br>
+<br>
+</blockquote></div></div>
+
+--000000000000681b8305d243da4b--
 
 
