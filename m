@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B07E4671A0
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 06:27:10 +0100 (CET)
-Received: from localhost ([::1]:60168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC8A44671B7
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 06:44:18 +0100 (CET)
+Received: from localhost ([::1]:35050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt16D-0003aU-2R
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 00:27:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36254)
+	id 1mt1Mn-0006Wr-Fj
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 00:44:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mt14P-0002rZ-CA
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 00:25:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26767)
+ id 1mt1LE-0005q1-9T
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 00:42:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30185)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mt14L-0004NQ-7a
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 00:25:16 -0500
+ id 1mt1LA-00071x-OU
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 00:42:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638509110;
+ s=mimecast20190719; t=1638510155;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=irUvQlCmdvqGuDXErfj31FIPbJEteBVIernFNR331qY=;
- b=BkGGfRbsETaVEF3s/qnQ25VRxQCcg5h3Z2YLrvB4ul93cEuv3ECp0l6Bfx04XGeezWvDA7
- 24uMrN83nTgBuCAIph6o3xbwmJCVKwyEW17LOEXUdIyDfEUGwOd/89w0CY1+JS4VE3eRkF
- XJE+wdle/q0tuQbw5nPFZLkhNyleyjw=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6+t76g/fJk+enONzpL5p5nGa4Ozi4qsTq3ORYlXCfbE=;
+ b=eDL6PnvD0cbH28wt+r+BvrQZUicfnV7KiNkBqWgL1ekntKEp67MALj0U3TI+vsDmUP47BE
+ dxdumt/QTEoeI251hZLpv5JvhCoL5aq/m+mntqoiFuahruVjjWB/zC61E21TT5KZwFCPs6
+ a7hy6ukCAxTCxS3R8QthSyda/QTuJbk=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-187-ROO_o9WWOJOJJJdGfhWUTQ-1; Fri, 03 Dec 2021 00:25:05 -0500
-X-MC-Unique: ROO_o9WWOJOJJJdGfhWUTQ-1
-Received: by mail-lf1-f72.google.com with SMTP id
- k5-20020a05651210c500b0040934a07fbdso626324lfg.22
- for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 21:25:05 -0800 (PST)
+ us-mta-342-bakt4YurMsC1nYmKZlnZlA-1; Fri, 03 Dec 2021 00:42:32 -0500
+X-MC-Unique: bakt4YurMsC1nYmKZlnZlA-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ d20-20020a05651c111400b00218c6372b7eso686849ljo.16
+ for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 21:42:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=irUvQlCmdvqGuDXErfj31FIPbJEteBVIernFNR331qY=;
- b=u+rbfWBqGpJlzVEyKX8RahchKoCmbEoklbO0G6tLK/BfeewX4nGDN8zD1B3rueHHG1
- 5o3hGrifZjLJA0TmtvGQ4kXrJRfBEM8Q26LIJvd0t9zosGvnG9fJx9vov7kav+1rf/Hj
- gOyTDS8SV051mkbmiypD14RbFArPIypmrfqskyLecmC+M+N5/FHuBd1eCddBwsOqPFiG
- XgwUyTw9Bp63TUKqLUkNowdNftibY+uG1R/U+0y6cbk3ue6I13lpOUjDlBlI4SRTrzpV
- fc4rHjZgLqYf//ncI/RpcWTibHhf8yUa6XuChaAgE5rCTAyDziwcqxEwL+7bAAgmTWFy
- K/2Q==
-X-Gm-Message-State: AOAM533VyfAQvTYnEDem/vSNjpj9igIPKohSKqItHwXqrXnd/yv/+glJ
- 5F5pa7ZS0hs5yFPbCriZ5kPFKp1W2Yx+c9S1h4DYZv8oiGpHAISO4gOXiv1PmuAccwogo6jsRW0
- 9FdbbwuX+b5bK+pjslIHPDIcuYtnDJHI=
-X-Received: by 2002:a2e:141e:: with SMTP id u30mr16194573ljd.434.1638509104135; 
- Thu, 02 Dec 2021 21:25:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwQ7gGia0BVvaGNpLKSjKOcHs1aeFQ8UIAawmJAHIaXgzcrrgv0zgGG01eQusbtJLCOXDc6mX852ASqE7kaCAQ=
-X-Received: by 2002:a2e:141e:: with SMTP id u30mr16194545ljd.434.1638509103822; 
- Thu, 02 Dec 2021 21:25:03 -0800 (PST)
+ bh=6+t76g/fJk+enONzpL5p5nGa4Ozi4qsTq3ORYlXCfbE=;
+ b=AEzMV8+dO/KUapaE7rwjJxMmsS0pxLCfYhs4BlhhcwMViHgUeFELMrstd+iVL6xIq/
+ nCG+UAxSVQIWmnDyNa3DGPPIQmF4xGbWhW1JYWu/pOM5IBYBGplEwXL02p9ENnnEOsWM
+ FVtZBTl5wDepOH22VzmcOfzwsmyQxQLZbYXjww2ZpPg7TZfH5RWiGRGOK5yP+gr4OJ97
+ 3BzStGkL2wd3f2w16Yv58DvzrD1BJ3lsrvU/T1qLZKENhYP59FHL3HEfOI6/kl1BYGqz
+ IFL6mUpWg8LmsxnaMY7sDioOo9nfyYh+SWbm82Rie32xhQ9rPi0ilm1O15BLg5Jhg7Fu
+ yMfg==
+X-Gm-Message-State: AOAM530JYHR7scPpxB/lBy2f9u4XqWq14eNDZb4dgo4sC2YMpMCS1Krd
+ sukl+/4AiJ+Ea70w9HxmHsLuikyIXfTv9fELidH7CZg6195x6i+froYNSy4jvS5rk581TyzMS0O
+ ebjEhKmQWlrqPyYFxgVQE+voMjfQ4clM=
+X-Received: by 2002:a05:6512:118a:: with SMTP id
+ g10mr15223399lfr.17.1638510151110; 
+ Thu, 02 Dec 2021 21:42:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxarFykuQrsD2s3ZGq1ZR4Ukwnu9YOaTYs0WI4yp6omO8vnHEinFTbxISOii57F3Xgc0xoXQfYLmJJTBJQBnDA=
+X-Received: by 2002:a05:6512:118a:: with SMTP id
+ g10mr15223374lfr.17.1638510150788; 
+ Thu, 02 Dec 2021 21:42:30 -0800 (PST)
 MIME-Version: 1.0
 References: <20211112051040.923746-1-leobras@redhat.com>
- <20211112051040.923746-2-leobras@redhat.com>
- <YY4+LWnRTV7iaErs@redhat.com>
- <CAJ6HWG4Z7Y=qvp4SZE1+hsk-imouHrsBr9M8Seo1_zPvMtOWjg@mail.gmail.com>
- <YZy4Kz/H/9sZpjCi@redhat.com>
-In-Reply-To: <YZy4Kz/H/9sZpjCi@redhat.com>
+ <20211112051040.923746-4-leobras@redhat.com>
+ <YY5H2ixqGpfbo5jI@redhat.com>
+ <CAJ6HWG6TczHZC6EFcicG8irVb3XKdhB05bcyOb0ANAZKmRWqZg@mail.gmail.com>
+ <YZy6qifB8JNwYEkp@redhat.com>
+In-Reply-To: <YZy6qifB8JNwYEkp@redhat.com>
 From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Fri, 3 Dec 2021 02:24:52 -0300
-Message-ID: <CAJ6HWG6T5HnwUp0u-w8ViYRPTt88MLjNawXzTh+zCHkq+UKS0A@mail.gmail.com>
-Subject: Re: [PATCH v5 1/6] QIOChannel: Add io_writev_zerocopy &
- io_flush_zerocopy callbacks
+Date: Fri, 3 Dec 2021 02:42:19 -0300
+Message-ID: <CAJ6HWG5e5VGW0pt_ek+jMZi+oz4uDOLnC0dHczkqMBBspdLf5A@mail.gmail.com>
+Subject: Re: [PATCH v5 3/6] QIOChannelSocket: Implement io_writev_zerocopy &
+ io_flush_zerocopy for CONFIG_LINUX
 To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
@@ -75,15 +77,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,137 +106,187 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hello Daniel,
 
-On Tue, Nov 23, 2021 at 6:45 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+On Tue, Nov 23, 2021 at 6:56 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
 m> wrote:
 >
-> On Mon, Nov 22, 2021 at 08:18:09PM -0300, Leonardo Bras Soares Passos wro=
+> On Tue, Nov 23, 2021 at 01:46:44AM -0300, Leonardo Bras Soares Passos wro=
 te:
 > > Hello Daniel,
-> > Thanks for the feedback!
 > >
-> > On Fri, Nov 12, 2021 at 7:13 AM Daniel P. Berrang=C3=A9 <berrange@redha=
+> > On Fri, Nov 12, 2021 at 7:54 AM Daniel P. Berrang=C3=A9 <berrange@redha=
 t.com> wrote:
-> > >
-> > > On Fri, Nov 12, 2021 at 02:10:36AM -0300, Leonardo Bras wrote:
-> > > > -int qio_channel_writev_all(QIOChannel *ioc,
-> > > > -                           const struct iovec *iov,
-> > > > -                           size_t niov,
-> > > > -                           Error **erp);
-> > > > +int qio_channel_writev_all_flags(QIOChannel *ioc,
-> > > > +                                 const struct iovec *iov,
-> > > > +                                 size_t niov,
-> > > > +                                 int flags,
-> > > > +                                 Error **errp);
-> > > > +#define qio_channel_writev_all(ioc, iov, niov, errp) \
-> > > > +    qio_channel_writev_all_flags(ioc, iov, niov, 0, errp)
-> > >
-> > > We already have separate methods for zerocopy, instead of adding
-> > > flags, so we shouldn't add flags to this either.
-> > >
-> > > Add a qio_channel_writev_zerocopy_all method instead.
-> > >
-> > > Internally, we can still make both qio_channel_writev_zerocopy_all
-> > > and qio_channel_writev_all use the same helper method, just don't
-> > > expose flags in the public API. Even internally we don't really
-> > > need flags, just a bool
-> >
-> > I see.
-> > The idea of having a flag was to make it easier to expand the
-> > interface in the future.
-> > I got some feedback on v1 that would suggest it would be desired:
-> > http://patchwork.ozlabs.org/project/qemu-devel/patch/20210831110238.299=
-458-2-leobras@redhat.com/
-> >
-> >
-> > >
 > > [...]
-> > > > +#define qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, err=
-p) \
-> > > > +    qio_channel_writev_full_all_flags(ioc, iov, niov, fds, nfds, 0=
-, errp)
+> > > > @@ -561,12 +577,15 @@ static ssize_t qio_channel_socket_writev_flag=
+s(QIOChannel *ioc,
+> > > >   retry:
+> > > >      ret =3D sendmsg(sioc->fd, &msg, flags);
+> > > >      if (ret <=3D 0) {
+> > > > -        if (errno =3D=3D EAGAIN) {
+> > > > +        switch (errno) {
+> > > > +        case EAGAIN:
+> > > >              return QIO_CHANNEL_ERR_BLOCK;
+> > > > -        }
+> > > > -        if (errno =3D=3D EINTR) {
+> > > > +        case EINTR:
+> > > >              goto retry;
+> > > > +        case ENOBUFS:
+> > > > +            return QIO_CHANNEL_ERR_NOBUFS;
 > > >
-> > > There's no need for this at all. Since fd passing is not supported
-> > > with zerocopy, there's no reason to ever use this method.
+> > > Why does ENOBUFS need handling separately instead of letting
+> > > the error_setg_errno below handle it ?
 > > >
-> > > > +/**
-> > > > + * qio_channel_writev_zerocopy:
-> > > > + * @ioc: the channel object
-> > > > + * @iov: the array of memory regions to write data from
-> > > > + * @niov: the length of the @iov array
-> > > > + * @errp: pointer to a NULL-initialized error object
-> > > > + *
-> > > > + * Behaves like qio_channel_writev_full_all_flags, but may write
+> > > The caller immediately invokes error_setg_errno() again,
+> > > just with different error message.
 > > >
-> > > qio_channel_writev
-> > >
-> > > > + * data asynchronously while avoiding unnecessary data copy.
-> > > > + * This function may return before any data is actually written,
-> > > > + * but should queue every buffer for writing.
-> > >
-> > > Callers mustn't rely on "should" docs - they must rely on the
-> > > return value indicating how many bytes were accepted.
-> > >
-> > > Also mention that this requires locked memory and can/will fail if
-> > > insufficient locked memory is available.
+> > > No code in this series ever looks at QIO_CHANNEL_ERR_NOBUFS
+> > > either, so we don't even need that special error return code
+> > > added AFAICT ?
 > > >
 > >
-> > Sure, I will update that.
+> > The idea was to add a custom message for ENOBUFS return when sending
+> > with MSG_ZEROCOPY.
+> > I mean, having this message is important for the user to understand
+> > why the migration is failing, but it would
+> > not make any sense to have this message while a non-zerocopy sendmsg()
+> > returns with ENOBUFS.
 > >
-> > > > +/**
-> > > > + * qio_channel_flush_zerocopy:
-> > > > + * @ioc: the channel object
-> > > > + * @errp: pointer to a NULL-initialized error object
-> > > > + *
-> > > > + * Will block until every packet queued with
-> > > > + * qio_channel_writev_zerocopy() is sent, or return
-> > > > + * in case of any error.
-> > > > + *
-> > > > + * Returns -1 if any error is found, 0 otherwise.
-> > >
-> > >   Returns -1 if any error is found, 0 if all data was sent,
-> > >            or 1 if all data was sent but at least some was copied.
-> > >
+> > ENOBUFS : The output queue for a network interface was full.  This
+> > generally indicates that the interface has stopped sending, but may be
+> > caused by transient congestion.
 > >
-> > I don't really get the return 1 part, I mean, per description it will
-> > 'block until every queued packet was sent, so "at least some was
-> > copied" doesn't seem to fit here.
-> > Could you elaborate?
+> > As an alternative, I could add this message inside the switch, inside
+> > an if (flags & MSG_ZEROCOPY) on qio_channel_socket_writev_flags()
+> > instead of in it's caller.
+> > But for me it looks bloated, I mean, dealing with an error for
+> > ZEROCOPY only in the general function.
 >
-> Passing the ZEROCOPY flag to the kernel does not guarantee
-> that the copy is avoided, it is merely a hint to the kernel
+> It is perfectly reasonable to check flags in this method.
 >
-> When getting the notification, the ee_code  field in the
-> notification struct will have the flag
-> SO_EE_CODE_ZEROCOPY_COPIED  set if the kernel could not
-> avoid the copy.
+> > OTOH, if you think that it's a better idea to deal with every error in
+> > qio_channel_socket_writev_flags() instead of in the caller, I will
+> > change it for v6. Please let me know.
+>
+> Yes, this method is already taking an ERror **errp parameter and
+> reporting a user facing error. If we need to report different
+> message text for ENOBUFS, it should be done in this method too.
+>
+> The reason QIO_CHANNEL_ERR_BLOCK is special is because we are
+> explicitly not treating it as an error scenario at all.  That's
+> different to the ENOBUFS case.
 >
 
-Correct,
+Ok, I will change it for v6.
 
-> In this case, it is better for the application to stop
-> using the ZEROCOPY flag and just do normal writes, so
-> it avoids the overhead of the the notifications.
 >
-> This is described in "Deferred copies" section of the
-> Documentation/networking/msg_zerocopy.rst in linux.git
+> >
+> > > >          }
+> > > > +
+> > > >          error_setg_errno(errp, errno,
+> > > >                           "Unable to write to socket");
+> > > >          return -1;
+> > > > @@ -670,6 +689,127 @@ static ssize_t qio_channel_socket_writev(QIOC=
+hannel *ioc,
+> > > >  }
+> > > >  #endif /* WIN32 */
+> > > >
+> > > > +
+> > > > +#ifdef CONFIG_LINUX
+> > > > +
+> > > > +static int qio_channel_socket_poll(QIOChannelSocket *sioc, bool ze=
+rocopy,
+> > > > +                                   Error **errp)
+> > >
+> > > There's only one caller and it always passes zerocopy=3Dtrue,
+> > > so this parmeter looks pointless.
+> >
+> > I did that for possible reuse of this function in the future:
+> > - As of today, this is certainly compiled out, but if at some point
+> > someone wants to use poll for something other
+> > than the reading of an zerocopy errqueue, it could be reused.
+> >
+> > But sure, if that's not desirable, I can remove the parameter (and the
+> > if clause for !zerocopy).
+> >
+> > >
+> > > > +{
+> > > > +    struct pollfd pfd;
+> > > > +    int ret;
+> > > > +
+> > > > +    pfd.fd =3D sioc->fd;
+> > > > +    pfd.events =3D 0;
+> > > > +
+> > > > + retry:
+> > > > +    ret =3D poll(&pfd, 1, -1);
+> > > > +    if (ret < 0) {
+> > > > +        switch (errno) {
+> > > > +        case EAGAIN:
+> > > > +        case EINTR:
+> > > > +            goto retry;
+> > > > +        default:
+> > > > +            error_setg_errno(errp, errno,
+> > > > +                             "Poll error");
+> > > > +            return ret;
+> > >
+> > >        return -1;
+> > >
+> > > > +        }
+> > > > +    }
+> > > > +
+> > > > +    if (pfd.revents & (POLLHUP | POLLNVAL)) {
+> > > > +        error_setg(errp, "Poll error: Invalid or disconnected fd")=
+;
+> > > > +        return -1;
+> > > > +    }
+> > > > +
+> > > > +    if (!zerocopy && (pfd.revents & POLLERR)) {
+> > > > +        error_setg(errp, "Poll error: Errors present in errqueue")=
+;
+> > > > +        return -1;
+> > > > +    }
+> > >
+> > > > +
+> > > > +    return ret;
+> > >
+> > >   return 0;
+> >
+> > In the idea of future reuse I spoke above, returning zero here would
+> > make this function always look like the poll timed out. Some future
+> > users may want to repeat the waiting if poll() timed out, or if
+> > (return > 0) stop polling.
 >
-> So I'm suggesting that the return value of this method
-> be '0' if SO_EE_CODE_ZEROCOPY_COPIED was *NOT* set in
-> /all/ notifications, or '1' if SO_EE_CODE_ZEROCOPY_COPIED
-> was set in at least one notification.
+> Now that I'm looking again, we should not really use poll() at all,
+> as GLib provides us higher level APIs. We in fact already have the
+> qio_channel_wait() method as a general purpose helper for waiting
+> for an I/O condition to occur.;
+>
 
-So, here you say that once a message has SO_EE_CODE_ZEROCOPY_COPIED we
-should return 1.
-Is the idea here to understand if zerocopy is working at all, so we
-can disable zerocopy and avoid overhead ?
+So you suggest using
+qio_channel_wait(sioc, G_IO_IN);
+instead of creating the new qio_channel_socket_poll().
 
-If so, we should somehow check if every write was sent with
-SO_EE_CODE_ZEROCOPY_COPIED instead.
-I mean, we should not disable Zerocopy if a single write got
-SO_EE_CODE_ZEROCOPY_COPIED ?
+Is the above correct? I mean, is it as simple as that?
 
+>
+> > I understand the idea of testing SO_EE_CODE_ZEROCOPY_COPIED to be able
+> > to tell whenever zerocopy fell back to copying for some reason, but I
+> > don't see how this can be helpful here.
+> >
+> > Other than that I would do rv++ instead of rv=3D1 here, if I want to
+> > keep track of how many buffers were sent with zerocopy and how many
+> > ended up being copied.
+>
+> Sure, we could do   "ret > 0 =3D=3D number of buffers that were copied"
+> as the API contract, rather than just treating it as a boolean.
 
+Ok, then you suggest the responsibility of checking the number of
+writes with SO_EE_CODE_ZEROCOPY_COPIED, comparing with the total
+number of writes,  and deciding whether to disable or not zerocopy
+should be on the caller.
 
+(Disabling zerocopy on a single SO_EE_CODE_ZEROCOPY_COPIED doesn't
+seem a good idea also)
+
+>
 >
 >
 > Regards,
