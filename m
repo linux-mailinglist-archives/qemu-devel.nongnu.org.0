@@ -2,80 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599324673DF
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 10:21:16 +0100 (CET)
-Received: from localhost ([::1]:48644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D82E4673D2
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 10:18:40 +0100 (CET)
+Received: from localhost ([::1]:44478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt4kl-0005Qy-D2
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 04:21:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58794)
+	id 1mt4iF-0002Yw-58
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 04:18:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mt4hp-0002lF-Vw
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 04:18:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53451)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mt4gp-000161-SF; Fri, 03 Dec 2021 04:17:12 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mt4hm-0007Ls-Mx
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 04:18:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638523086;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pXO+RXPzKn3WdOuuHimxllpZmboa9RU0QavFH/9U4K8=;
- b=afakTlfVtvZIEmhWoo3KGf7w7iccXYG9P+NirH2FbSJYqs4ajlR3bkT01nkjqewShaySqC
- TPxkb/UvzAKb/FtgfweVSCCDu/s5KPGkFOA0j2PFUeFtDwR3SUdcJGTLalfvafPZuwoA40
- 3MmQyR3GX1sdObDTukBF00LfjQ0O6VI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-161-SOjqwzrdMeawCRqscITaTg-1; Fri, 03 Dec 2021 04:18:03 -0500
-X-MC-Unique: SOjqwzrdMeawCRqscITaTg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66DFD100D682
- for <qemu-devel@nongnu.org>; Fri,  3 Dec 2021 09:18:02 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.127])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 215435D9D5;
- Fri,  3 Dec 2021 09:17:52 +0000 (UTC)
-Date: Fri, 3 Dec 2021 09:17:50 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Leonardo Bras Soares Passos <leobras@redhat.com>
-Subject: Re: [PATCH v5 3/6] QIOChannelSocket: Implement io_writev_zerocopy &
- io_flush_zerocopy for CONFIG_LINUX
-Message-ID: <YangvtnXSwge0R0U@redhat.com>
-References: <20211112051040.923746-1-leobras@redhat.com>
- <20211112051040.923746-4-leobras@redhat.com>
- <YY5H2ixqGpfbo5jI@redhat.com>
- <CAJ6HWG6TczHZC6EFcicG8irVb3XKdhB05bcyOb0ANAZKmRWqZg@mail.gmail.com>
- <YZy6qifB8JNwYEkp@redhat.com>
- <CAJ6HWG5e5VGW0pt_ek+jMZi+oz4uDOLnC0dHczkqMBBspdLf5A@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mt4gn-0007Do-W0; Fri, 03 Dec 2021 04:17:11 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B39Gtoq031827; 
+ Fri, 3 Dec 2021 09:17:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=5edwId4trjj4dVq8v3w+WoA3r3RbfdT53maFfAPBbGg=;
+ b=dNeJ2nLjz+gGL+zJK0oVnAFchczeIwxOAOEeE6ZBBoSwE3DQ72tsbmUZCXFTx3vZi8yl
+ hqC1d6AwQmDi/D7fnHc3YuSRSE59fdFz62ev20JnNB0AmtAHnj39Wj8JSuRKJ4l9ujJA
+ S0xxnlR/LMU3UBJB8ojEWpm1ygK/pN/LvuAQ0byoQxfj0wjyQwwOkulHbK247RtEbYEj
+ kpzMNolgoYpiLuHZ7AJmiKT2ekmSl0yG8wFGr9kikN/hDaoWshfjhgYAU2cOfcswuf5H
+ xMN7z4dDcU7ToDv3NxA/+rz4FDpxKaNU/V9444wU4X24wn5Rgi4He6qhnl/2VCsLlUE6 Fg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cqgff006j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Dec 2021 09:17:07 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B39H6Hh032087;
+ Fri, 3 Dec 2021 09:17:07 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cqgff005y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Dec 2021 09:17:06 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B39CPJm023046;
+ Fri, 3 Dec 2021 09:17:04 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma01fra.de.ibm.com with ESMTP id 3ckcaahfbe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Dec 2021 09:17:04 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B39H13d25428378
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 3 Dec 2021 09:17:01 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 061204C044;
+ Fri,  3 Dec 2021 09:17:01 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6FAA04C05A;
+ Fri,  3 Dec 2021 09:17:00 +0000 (GMT)
+Received: from [9.171.47.125] (unknown [9.171.47.125])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  3 Dec 2021 09:17:00 +0000 (GMT)
+Message-ID: <d32d4aeb-b573-d63c-2f11-bc47b288a009@linux.ibm.com>
+Date: Fri, 3 Dec 2021 10:17:52 +0100
 MIME-Version: 1.0
-In-Reply-To: <CAJ6HWG5e5VGW0pt_ek+jMZi+oz4uDOLnC0dHczkqMBBspdLf5A@mail.gmail.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 3/4] s390x/pci: use the passthrough measurement update
+ interval
+Content-Language: en-US
+To: Matthew Rosato <mjrosato@linux.ibm.com>, thuth@redhat.com,
+ qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+References: <20211202164110.326947-1-mjrosato@linux.ibm.com>
+ <20211202164110.326947-4-mjrosato@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <20211202164110.326947-4-mjrosato@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ezvltmUgkySMLHFDJewk7TnB0Xc37gsa
+X-Proofpoint-ORIG-GUID: z-wlGOV_5dezLQYRrYusJA9XqN8RVs14
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-03_05,2021-12-02_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0
+ adultscore=0 malwarescore=0 suspectscore=0 spamscore=0 bulkscore=0
+ mlxscore=0 priorityscore=1501 lowpriorityscore=0 mlxlogscore=999
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112030057
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.938,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,122 +114,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: farman@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, pasic@linux.ibm.com, borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 03, 2021 at 02:42:19AM -0300, Leonardo Bras Soares Passos wrote:
-> Hello Daniel,
-> 
-> On Tue, Nov 23, 2021 at 6:56 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Tue, Nov 23, 2021 at 01:46:44AM -0300, Leonardo Bras Soares Passos wrote:
-> > > Hello Daniel,
-> > >
-> > > On Fri, Nov 12, 2021 at 7:54 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > > > > +
-> > > > > +#ifdef CONFIG_LINUX
-> > > > > +
-> > > > > +static int qio_channel_socket_poll(QIOChannelSocket *sioc, bool zerocopy,
-> > > > > +                                   Error **errp)
-> > > >
-> > > > There's only one caller and it always passes zerocopy=true,
-> > > > so this parmeter looks pointless.
-> > >
-> > > I did that for possible reuse of this function in the future:
-> > > - As of today, this is certainly compiled out, but if at some point
-> > > someone wants to use poll for something other
-> > > than the reading of an zerocopy errqueue, it could be reused.
-> > >
-> > > But sure, if that's not desirable, I can remove the parameter (and the
-> > > if clause for !zerocopy).
-> > >
-> > > >
-> > > > > +{
-> > > > > +    struct pollfd pfd;
-> > > > > +    int ret;
-> > > > > +
-> > > > > +    pfd.fd = sioc->fd;
-> > > > > +    pfd.events = 0;
-> > > > > +
-> > > > > + retry:
-> > > > > +    ret = poll(&pfd, 1, -1);
-> > > > > +    if (ret < 0) {
-> > > > > +        switch (errno) {
-> > > > > +        case EAGAIN:
-> > > > > +        case EINTR:
-> > > > > +            goto retry;
-> > > > > +        default:
-> > > > > +            error_setg_errno(errp, errno,
-> > > > > +                             "Poll error");
-> > > > > +            return ret;
-> > > >
-> > > >        return -1;
-> > > >
-> > > > > +        }
-> > > > > +    }
-> > > > > +
-> > > > > +    if (pfd.revents & (POLLHUP | POLLNVAL)) {
-> > > > > +        error_setg(errp, "Poll error: Invalid or disconnected fd");
-> > > > > +        return -1;
-> > > > > +    }
-> > > > > +
-> > > > > +    if (!zerocopy && (pfd.revents & POLLERR)) {
-> > > > > +        error_setg(errp, "Poll error: Errors present in errqueue");
-> > > > > +        return -1;
-> > > > > +    }
-> > > >
-> > > > > +
-> > > > > +    return ret;
-> > > >
-> > > >   return 0;
-> > >
-> > > In the idea of future reuse I spoke above, returning zero here would
-> > > make this function always look like the poll timed out. Some future
-> > > users may want to repeat the waiting if poll() timed out, or if
-> > > (return > 0) stop polling.
-> >
-> > Now that I'm looking again, we should not really use poll() at all,
-> > as GLib provides us higher level APIs. We in fact already have the
-> > qio_channel_wait() method as a general purpose helper for waiting
-> > for an I/O condition to occur.;
-> >
-> 
-> So you suggest using
-> qio_channel_wait(sioc, G_IO_IN);
-> instead of creating the new qio_channel_socket_poll().
-> 
-> Is the above correct? I mean, is it as simple as that?
 
-Yes, hopefully it is that simple.
 
-> > > I understand the idea of testing SO_EE_CODE_ZEROCOPY_COPIED to be able
-> > > to tell whenever zerocopy fell back to copying for some reason, but I
-> > > don't see how this can be helpful here.
-> > >
-> > > Other than that I would do rv++ instead of rv=1 here, if I want to
-> > > keep track of how many buffers were sent with zerocopy and how many
-> > > ended up being copied.
-> >
-> > Sure, we could do   "ret > 0 == number of buffers that were copied"
-> > as the API contract, rather than just treating it as a boolean.
+On 12/2/21 17:41, Matthew Rosato wrote:
+> We may have gotten a measurement update interval from the underlying host
+> via vfio -- Use it to set the interval via which we update the function
+> measurement block.
 > 
-> Ok, then you suggest the responsibility of checking the number of
-> writes with SO_EE_CODE_ZEROCOPY_COPIED, comparing with the total
-> number of writes,  and deciding whether to disable or not zerocopy
-> should be on the caller.
+> Fixes: 28dc86a072 ("s390x/pci: use a PCI Group structure")
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+>   hw/s390x/s390-pci-inst.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+> index 11b7f6bfa1..07bab85ce5 100644
+> --- a/hw/s390x/s390-pci-inst.c
+> +++ b/hw/s390x/s390-pci-inst.c
+> @@ -1046,7 +1046,7 @@ static void fmb_update(void *opaque)
+>                         sizeof(pbdev->fmb.last_update))) {
+>           return;
+>       }
+> -    timer_mod(pbdev->fmb_timer, t + DEFAULT_MUI);
+> +    timer_mod(pbdev->fmb_timer, t + pbdev->pci_group->zpci_group.mui);
+>   }
+>   
+>   int mpcifc_service_call(S390CPU *cpu, uint8_t r1, uint64_t fiba, uint8_t ar,
+> @@ -1204,7 +1204,8 @@ int mpcifc_service_call(S390CPU *cpu, uint8_t r1, uint64_t fiba, uint8_t ar,
+>           }
+>           pbdev->fmb_addr = fmb_addr;
+>           timer_mod(pbdev->fmb_timer,
+> -                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + DEFAULT_MUI);
+> +                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
+> +                                    pbdev->pci_group->zpci_group.mui);
+>           break;
+>       }
+>       default:
+> 
 
-Yep, its a usage policy so nicer to allow caller to decide the
-policy.
+Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
 
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Pierre Morel
+IBM Lab Boeblingen
 
