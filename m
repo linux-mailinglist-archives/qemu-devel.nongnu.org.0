@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48AAE4680B5
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 00:39:15 +0100 (CET)
-Received: from localhost ([::1]:58504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71CE24680EC
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 00:49:19 +0100 (CET)
+Received: from localhost ([::1]:50602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtI94-0004hb-1x
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 18:39:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40910)
+	id 1mtIIo-0001sW-9k
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 18:49:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mtI4t-0006pC-NU
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:34:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26178)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mtI4r-0001ql-KV
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:34:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638574493;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VtNz+daFdRVqMzXQEdDO0e9qGyb3lRfv8GHRF45nWMQ=;
- b=PmcEMQjxdNL25GQOS3y3h643JqBkmItSHBjH0b3sTkcxOdYcpG6102ZKibKMgiihwcYidc
- KyjHoqVeO43hbOtHrYQMOS8NdE2XAicxlDv8cHsGb9oRxAyshjtq2CCmcMPZCBPGLgJl+A
- zMAU2MoZexV4UVvrFcd8zyt4H2+IVFI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-3nRp0qFaPeSLBo2uqC7Afw-1; Fri, 03 Dec 2021 18:34:50 -0500
-X-MC-Unique: 3nRp0qFaPeSLBo2uqC7Afw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3A528042E1;
- Fri,  3 Dec 2021 23:34:48 +0000 (UTC)
-Received: from gshan.redhat.com (vpn2-54-43.bne.redhat.com [10.64.54.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C199B60843;
- Fri,  3 Dec 2021 23:34:33 +0000 (UTC)
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-arm@nongnu.org
-Subject: [PATCH v3 2/2] hw/arm/virt: Support for virtio-mem-pci
-Date: Sat,  4 Dec 2021 07:34:04 +0800
-Message-Id: <20211203233404.37313-3-gshan@redhat.com>
-In-Reply-To: <20211203233404.37313-1-gshan@redhat.com>
-References: <20211203233404.37313-1-gshan@redhat.com>
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mtIGd-0000Qr-Gf
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:47:03 -0500
+Received: from [2607:f8b0:4864:20::92f] (port=36448
+ helo=mail-ua1-x92f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mtIGQ-00083x-DZ
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:47:03 -0500
+Received: by mail-ua1-x92f.google.com with SMTP id r15so8495109uao.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Dec 2021 15:46:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VsD6PxrpYb0Oao+gThxOAEHy93/acGf6zptL8kRc6hc=;
+ b=eBigLyocWOy7YSQ7cFiytO3Gi/1/xtMxTNo7v34k/LP8yo9Z4gudNjQj/6H52FDrrK
+ 3Xq1wBtugEa6xWn/XawOo6UBGd6RfcxgD/0pIs7uEKA/DACbQk6zpS0ahyrHwbwbuN3y
+ maUDNfPaWFWQNm2qEukvuyYfZM0VuuinS/dwlJH/FOoqmUnqo3AgYFp4icnYFvgnRB29
+ PtFFcGFMUBm+OmtrzJ0vbSg0gpmJSU5KlZGoUaJ6pyVwd8of4UlSp0YeWBc2JsQTEto5
+ xwuUVMfWbLnSaQDbg8LClFG8tAmtIEv30f03FVVw9thkgZUmTiWIPltGh7v1upG02a03
+ Njow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VsD6PxrpYb0Oao+gThxOAEHy93/acGf6zptL8kRc6hc=;
+ b=0TDwXtqNl6QabbWK8YBEKKZrx3co/5UiZItIWeALit29/CIvCOk3ZcpjdA66fLpx5a
+ O8qxYtwZf/aWhMtfYAY2m3HMO3BlzVH1UMNIQLHvgkgvrxHWCpags9va5HvjGU+m/SMW
+ t27oVvXjQS5vE+xkr7WnycGUjKPMs2gjed9TXb4bYDrZYi9EG5joPr8TjduEp0PDVG/x
+ 015hwL4oncfxebjZaeQAsMh1MIB18xhq2cgu/HHlxoI+YLMu3wQPTwbzuChDS3v+iXgC
+ c9IhgbNLng78lE58OzTEme/qrCqdEZ6iPaXBezVHQKp4CS75fcmX9x450TnVwHBFBjYp
+ CAmA==
+X-Gm-Message-State: AOAM533gFi2WdoH+JS7LvzRWFiprm8WtumNHSbhYVG3zNzDOxhIgcOnN
+ okYOqEm2VQf99xVRaja8BqA+5J7VRc8SWY8Bz/doPc5Ke3ahKA==
+X-Google-Smtp-Source: ABdhPJwXuF5+XD6VRmDmPGyhh339rq5VKmnejH9Af7323JajK/4nlm7oU1sYRZ6NNbdIArC7QvGBBqw5jddYLcIMSgc=
+X-Received: by 2002:a67:f950:: with SMTP id u16mr25096922vsq.68.1638575208516; 
+ Fri, 03 Dec 2021 15:46:48 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211127201846.64187-1-imp@bsdimp.com>
+In-Reply-To: <20211127201846.64187-1-imp@bsdimp.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Fri, 3 Dec 2021 16:46:37 -0700
+Message-ID: <CANCZdfpUYJZHfSZCZrk05U3K=gUM8gudFDEHjm3xhZU5bX0ztw@mail.gmail.com>
+Subject: Re: [PATCH for 7.0 0/5] bsd-user-smoke: A simple smoke test for
+ bsd-user
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000003de14605d24685bf"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92f
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::92f;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92f.google.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,189 +78,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, david@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, eric.auger@redhat.com,
- shan.gavin@gmail.com, Jonathan.Cameron@huawei.com, imammedo@redhat.com
+Cc: Kyle Evans <kevans@freebsd.org>, Konrad Witaszczyk <def@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Gleb Popov <arrowd@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This supports virtio-mem-pci device on "virt" platform, by simply
-following the implementation on x86.
+--0000000000003de14605d24685bf
+Content-Type: text/plain; charset="UTF-8"
 
-   * This implements the hotplug handlers to support virtio-mem-pci
-     device hot-add, while the hot-remove isn't supported as we have
-     on x86.
+PING!
 
-   * The block size is 512MB on ARM64 instead of 128MB on x86.
+If anybody (especially the BSD reviewers) could look at these, that would
+be great!
 
-   * It has been passing the tests with various combinations like 64KB
-     and 4KB page sizes on host and guest, different memory device
-     backends like normal, transparent huge page and HugeTLB, plus
-     migration.
+It's been suggested I rename bsd-user-smoke to just be bsd-user and we put
+our tests there until we can switch to the more generic tcg tests, so I'll
+do that and resend in a few days.
 
-Co-developed-by: David Hildenbrand <david@redhat.com>
-Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Gavin Shan <gshan@redhat.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
----
- hw/arm/Kconfig         |  1 +
- hw/arm/virt.c          | 68 +++++++++++++++++++++++++++++++++++++++++-
- hw/virtio/virtio-mem.c |  4 ++-
- 3 files changed, 71 insertions(+), 2 deletions(-)
+Warner
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 2d37d29f02..15aff8efb8 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -27,6 +27,7 @@ config ARM_VIRT
-     select DIMM
-     select ACPI_HW_REDUCED
-     select ACPI_APEI
-+    select VIRTIO_MEM_SUPPORTED
- 
- config CHEETAH
-     bool
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 30da05dfe0..db1544760d 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -72,9 +72,11 @@
- #include "hw/arm/smmuv3.h"
- #include "hw/acpi/acpi.h"
- #include "target/arm/internals.h"
-+#include "hw/mem/memory-device.h"
- #include "hw/mem/pc-dimm.h"
- #include "hw/mem/nvdimm.h"
- #include "hw/acpi/generic_event_device.h"
-+#include "hw/virtio/virtio-mem-pci.h"
- #include "hw/virtio/virtio-iommu.h"
- #include "hw/char/pl011.h"
- #include "qemu/guest-random.h"
-@@ -2483,6 +2485,63 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
-                          dev, &error_abort);
- }
- 
-+static void virt_virtio_md_pci_pre_plug(HotplugHandler *hotplug_dev,
-+                                        DeviceState *dev, Error **errp)
-+{
-+    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-+    Error *local_err = NULL;
-+
-+    if (!hotplug_dev2 && dev->hotplugged) {
-+        /*
-+         * Without a bus hotplug handler, we cannot control the plug/unplug
-+         * order. We should never reach this point when hotplugging on x86,
-+         * however, better add a safety net.
-+         */
-+        error_setg(errp, "hotplug of virtio based memory devices not supported"
-+                   " on this bus.");
-+        return;
-+    }
-+    /*
-+     * First, see if we can plug this memory device at all. If that
-+     * succeeds, branch of to the actual hotplug handler.
-+     */
-+    memory_device_pre_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev), NULL,
-+                           &local_err);
-+    if (!local_err && hotplug_dev2) {
-+        hotplug_handler_pre_plug(hotplug_dev2, dev, &local_err);
-+    }
-+    error_propagate(errp, local_err);
-+}
-+
-+static void virt_virtio_md_pci_plug(HotplugHandler *hotplug_dev,
-+                                    DeviceState *dev, Error **errp)
-+{
-+    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-+    Error *local_err = NULL;
-+
-+    /*
-+     * Plug the memory device first and then branch off to the actual
-+     * hotplug handler. If that one fails, we can easily undo the memory
-+     * device bits.
-+     */
-+    memory_device_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
-+    if (hotplug_dev2) {
-+        hotplug_handler_plug(hotplug_dev2, dev, &local_err);
-+        if (local_err) {
-+            memory_device_unplug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
-+        }
-+    }
-+    error_propagate(errp, local_err);
-+}
-+
-+static void virt_virtio_md_pci_unplug_request(HotplugHandler *hotplug_dev,
-+                                              DeviceState *dev, Error **errp)
-+{
-+    /* We don't support hot unplug of virtio based memory devices */
-+    error_setg(errp, "virtio based memory devices cannot be unplugged.");
-+}
-+
-+
- static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-                                             DeviceState *dev, Error **errp)
- {
-@@ -2516,6 +2575,8 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-         qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
-         qdev_prop_set_string(dev, "reserved-regions[0]", resv_prop_str);
-         g_free(resv_prop_str);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        virt_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);
-     }
- }
- 
-@@ -2541,6 +2602,8 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
-         vms->iommu = VIRT_IOMMU_VIRTIO;
-         vms->virtio_iommu_bdf = pci_get_bdf(pdev);
-         create_virtio_iommu_dt_bindings(vms);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        virt_virtio_md_pci_plug(hotplug_dev, dev, errp);
-     }
- }
- 
-@@ -2591,6 +2654,8 @@ static void virt_machine_device_unplug_request_cb(HotplugHandler *hotplug_dev,
- {
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
-         virt_dimm_unplug_request(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        virt_virtio_md_pci_unplug_request(hotplug_dev, dev, errp);
-     } else {
-         error_setg(errp, "device unplug request for unsupported device"
-                    " type: %s", object_get_typename(OBJECT(dev)));
-@@ -2614,7 +2679,8 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
- 
-     if (device_is_dynamic_sysbus(mc, dev) ||
--       (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM))) {
-+        object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
-+        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-         return HOTPLUG_HANDLER(machine);
-     }
-     if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index b20595a496..21e4d572ab 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -125,7 +125,7 @@ static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
-  * The memory block size corresponds mostly to the section size.
-  *
-  * This allows e.g., to add 20MB with a section size of 128MB on x86_64, and
-- * a section size of 1GB on arm64 (as long as the start address is properly
-+ * a section size of 512MB on arm64 (as long as the start address is properly
-  * aligned, similar to ordinary DIMMs).
-  *
-  * We can change this at any time and maybe even make it configurable if
-@@ -134,6 +134,8 @@ static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
-  */
- #if defined(TARGET_X86_64) || defined(TARGET_I386)
- #define VIRTIO_MEM_USABLE_EXTENT (2 * (128 * MiB))
-+#elif defined(TARGET_ARM)
-+#define VIRTIO_MEM_USABLE_EXTENT (2 * (512 * MiB))
- #else
- #error VIRTIO_MEM_USABLE_EXTENT not defined
- #endif
--- 
-2.23.0
+On Sat, Nov 27, 2021 at 1:19 PM Warner Losh <imp@bsdimp.com> wrote:
 
+> This series adds a number of simple binaries that FreeBSD's clang can
+> build on
+> any system. I've kept it simple so that there's no extra binaries that
+> need to
+> be installed. Given the current state of bsd-user in the project's repo,
+> this
+> likely is as extensive a set of tests that should be done right now. We
+> can load
+> static binaries only (so these are static binaries) and hello world is the
+> canonical test. I have binaries for all the supported FreeBSD targets, but
+> have
+> included only the ones that are in upstream (or in review) at this time.
+>
+> In the future, I'll integreate with the tcg tests when there's more in
+> upstream
+> they can test.  Since that requires putting together FreeBSD sysroots for
+> all
+> the supported architectures for multiple versions, I'm going to delay that
+> for a
+> while. I'll also integrate FreeBSD's 5k system tests when we're much
+> further
+> along with the upstreaming.
+>
+> The purpose of this is to give others doing changes in this area a
+> standardized
+> way to ensure their changes don't fundamentally break bsd-user. This
+> approach
+> will work for all setups that do a 'make check' to do their testing.
+>
+> Based-on: 20211108035136.43687-1-imp@bsdimp.com
+>
+> Warner Losh (5):
+>   h.armv7: Simple hello-world test for armv7
+>   h.i386: Simple hello-world test for i386
+>   h.amd64: Simple hello-world test for x86_64
+>   smoke-bsd-user: A test script to run all the FreeBSD binaries
+>   bsd-user-smoke: Add to build
+>
+>  tests/bsd-user-smoke/h.amd64.S      | 28 +++++++++++++++++++++
+>  tests/bsd-user-smoke/h.armv7.S      | 37 +++++++++++++++++++++++++++
+>  tests/bsd-user-smoke/h.i386.S       | 39 +++++++++++++++++++++++++++++
+>  tests/bsd-user-smoke/meson.build    | 31 +++++++++++++++++++++++
+>  tests/bsd-user-smoke/smoke-bsd-user | 22 ++++++++++++++++
+>  tests/meson.build                   |  1 +
+>  6 files changed, 158 insertions(+)
+>  create mode 100644 tests/bsd-user-smoke/h.amd64.S
+>  create mode 100644 tests/bsd-user-smoke/h.armv7.S
+>  create mode 100644 tests/bsd-user-smoke/h.i386.S
+>  create mode 100644 tests/bsd-user-smoke/meson.build
+>  create mode 100644 tests/bsd-user-smoke/smoke-bsd-user
+>
+> --
+> 2.33.0
+>
+>
+
+--0000000000003de14605d24685bf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">PING!<div><br></div><div>If anybody (especially the BSD re=
+viewers) could look at these, that would be great!</div><div><br></div><div=
+>It&#39;s been suggested I rename bsd-user-smoke to just be bsd-user and we=
+ put our tests there until we can switch to the more generic tcg tests, so =
+I&#39;ll do that and resend in a few days.</div><div><br></div><div>Warner<=
+/div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
+ttr">On Sat, Nov 27, 2021 at 1:19 PM Warner Losh &lt;<a href=3D"mailto:imp@=
+bsdimp.com">imp@bsdimp.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">This series adds a number of simple binaries that=
+ FreeBSD&#39;s clang can build on<br>
+any system. I&#39;ve kept it simple so that there&#39;s no extra binaries t=
+hat need to<br>
+be installed. Given the current state of bsd-user in the project&#39;s repo=
+, this<br>
+likely is as extensive a set of tests that should be done right now. We can=
+ load<br>
+static binaries only (so these are static binaries) and hello world is the<=
+br>
+canonical test. I have binaries for all the supported FreeBSD targets, but =
+have<br>
+included only the ones that are in upstream (or in review) at this time.<br=
+>
+<br>
+In the future, I&#39;ll integreate with the tcg tests when there&#39;s more=
+ in upstream<br>
+they can test.=C2=A0 Since that requires putting together FreeBSD sysroots =
+for all<br>
+the supported architectures for multiple versions, I&#39;m going to delay t=
+hat for a<br>
+while. I&#39;ll also integrate FreeBSD&#39;s 5k system tests when we&#39;re=
+ much further<br>
+along with the upstreaming.<br>
+<br>
+The purpose of this is to give others doing changes in this area a standard=
+ized<br>
+way to ensure their changes don&#39;t fundamentally break bsd-user. This ap=
+proach<br>
+will work for all setups that do a &#39;make check&#39; to do their testing=
+.<br>
+<br>
+Based-on: <a href=3D"mailto:20211108035136.43687-1-imp@bsdimp.com" target=
+=3D"_blank">20211108035136.43687-1-imp@bsdimp.com</a><br>
+<br>
+Warner Losh (5):<br>
+=C2=A0 h.armv7: Simple hello-world test for armv7<br>
+=C2=A0 h.i386: Simple hello-world test for i386<br>
+=C2=A0 h.amd64: Simple hello-world test for x86_64<br>
+=C2=A0 smoke-bsd-user: A test script to run all the FreeBSD binaries<br>
+=C2=A0 bsd-user-smoke: Add to build<br>
+<br>
+=C2=A0tests/bsd-user-smoke/h.amd64.S=C2=A0 =C2=A0 =C2=A0 | 28 +++++++++++++=
+++++++++<br>
+=C2=A0tests/bsd-user-smoke/h.armv7.S=C2=A0 =C2=A0 =C2=A0 | 37 +++++++++++++=
+++++++++++++++<br>
+=C2=A0tests/bsd-user-smoke/h.i386.S=C2=A0 =C2=A0 =C2=A0 =C2=A0| 39 ++++++++=
++++++++++++++++++++++<br>
+=C2=A0tests/bsd-user-smoke/meson.build=C2=A0 =C2=A0 | 31 ++++++++++++++++++=
++++++<br>
+=C2=A0tests/bsd-user-smoke/smoke-bsd-user | 22 ++++++++++++++++<br>
+=C2=A0tests/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A06 files changed, 158 insertions(+)<br>
+=C2=A0create mode 100644 tests/bsd-user-smoke/h.amd64.S<br>
+=C2=A0create mode 100644 tests/bsd-user-smoke/h.armv7.S<br>
+=C2=A0create mode 100644 tests/bsd-user-smoke/h.i386.S<br>
+=C2=A0create mode 100644 tests/bsd-user-smoke/meson.build<br>
+=C2=A0create mode 100644 tests/bsd-user-smoke/smoke-bsd-user<br>
+<br>
+-- <br>
+2.33.0<br>
+<br>
+</blockquote></div>
+
+--0000000000003de14605d24685bf--
 
