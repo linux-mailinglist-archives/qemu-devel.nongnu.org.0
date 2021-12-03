@@ -2,90 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC8A44671B7
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 06:44:18 +0100 (CET)
-Received: from localhost ([::1]:35050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E374671D6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 07:23:25 +0100 (CET)
+Received: from localhost ([::1]:39460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt1Mn-0006Wr-Fj
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 00:44:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38172)
+	id 1mt1yd-0002fl-MV
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 01:23:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mt1LE-0005q1-9T
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 00:42:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30185)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mt1LA-00071x-OU
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 00:42:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638510155;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6+t76g/fJk+enONzpL5p5nGa4Ozi4qsTq3ORYlXCfbE=;
- b=eDL6PnvD0cbH28wt+r+BvrQZUicfnV7KiNkBqWgL1ekntKEp67MALj0U3TI+vsDmUP47BE
- dxdumt/QTEoeI251hZLpv5JvhCoL5aq/m+mntqoiFuahruVjjWB/zC61E21TT5KZwFCPs6
- a7hy6ukCAxTCxS3R8QthSyda/QTuJbk=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-342-bakt4YurMsC1nYmKZlnZlA-1; Fri, 03 Dec 2021 00:42:32 -0500
-X-MC-Unique: bakt4YurMsC1nYmKZlnZlA-1
-Received: by mail-lj1-f200.google.com with SMTP id
- d20-20020a05651c111400b00218c6372b7eso686849ljo.16
- for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 21:42:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mt1vp-0001L4-7x
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 01:20:29 -0500
+Received: from [2a00:1450:4864:20::32c] (port=39745
+ helo=mail-wm1-x32c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mt1vn-0001En-4u
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 01:20:28 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ n33-20020a05600c502100b0032fb900951eso4013080wmr.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 22:20:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/3va/pCm2+lgIP7wgFl0KWgrsAldqC5qmmGmCVaaa0s=;
+ b=JnV91t9CzVZNp+7ARVQtVb+rHXUwELdxD7AfULeML9AGRKu2COE6kzcQHCuQ93OXKB
+ Cw1RF2tp/WbX2/mwkKeyJJZJEMrFOGrkuIEnGynwlXONMdt3pqQhUXPwjdw27V+BYrTp
+ 2PmEvR/yt65VGKFR62l7EJm0m9RsAurfnWHOOFVEcCA45Unj7FmtDOStwP02k02WzDpY
+ pLI9DIDwJQzeC35DcLrfY1wJcrL1kQ+V8cFnWsutKON8xFWR9QbUatJqHbpGMdfduETw
+ YLHFwZtRo23pGJHg7OI6RaIIpaC5AA7As97ob2s7zannHlQ/UnV+p/8ARR3oaDqE3STn
+ mklA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6+t76g/fJk+enONzpL5p5nGa4Ozi4qsTq3ORYlXCfbE=;
- b=AEzMV8+dO/KUapaE7rwjJxMmsS0pxLCfYhs4BlhhcwMViHgUeFELMrstd+iVL6xIq/
- nCG+UAxSVQIWmnDyNa3DGPPIQmF4xGbWhW1JYWu/pOM5IBYBGplEwXL02p9ENnnEOsWM
- FVtZBTl5wDepOH22VzmcOfzwsmyQxQLZbYXjww2ZpPg7TZfH5RWiGRGOK5yP+gr4OJ97
- 3BzStGkL2wd3f2w16Yv58DvzrD1BJ3lsrvU/T1qLZKENhYP59FHL3HEfOI6/kl1BYGqz
- IFL6mUpWg8LmsxnaMY7sDioOo9nfyYh+SWbm82Rie32xhQ9rPi0ilm1O15BLg5Jhg7Fu
- yMfg==
-X-Gm-Message-State: AOAM530JYHR7scPpxB/lBy2f9u4XqWq14eNDZb4dgo4sC2YMpMCS1Krd
- sukl+/4AiJ+Ea70w9HxmHsLuikyIXfTv9fELidH7CZg6195x6i+froYNSy4jvS5rk581TyzMS0O
- ebjEhKmQWlrqPyYFxgVQE+voMjfQ4clM=
-X-Received: by 2002:a05:6512:118a:: with SMTP id
- g10mr15223399lfr.17.1638510151110; 
- Thu, 02 Dec 2021 21:42:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxarFykuQrsD2s3ZGq1ZR4Ukwnu9YOaTYs0WI4yp6omO8vnHEinFTbxISOii57F3Xgc0xoXQfYLmJJTBJQBnDA=
-X-Received: by 2002:a05:6512:118a:: with SMTP id
- g10mr15223374lfr.17.1638510150788; 
- Thu, 02 Dec 2021 21:42:30 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=/3va/pCm2+lgIP7wgFl0KWgrsAldqC5qmmGmCVaaa0s=;
+ b=DpTNSOxdBRyzf1nT99qsxIKtS7LjxQetdXJW0GA+UCbXZkrT0qdoG+LKafKbWT5Nvf
+ D5vLBE7psXXLMdz6WTbzUQ173Z4WWLQkkYY6x2SKAPPZdvp62icZcM61b88uG0EfsKEw
+ +FWDzcDQj0sE2DSbNXdAyI/o2p/8Vj7XDzQc/l7FcigiozptnslHzcqiX9BgeH68q23Z
+ D7unUGmckORhEAoJiKPLkGprT0AVPwFbv47WLvPvfedabe3wgn1NsXr5JdJm7c982AzE
+ 99El//pRNc1JNuaJZIBqc8P3XapGUtqqrNqfKlloUAgIbc0njiUvhworjOkvwJEAOgBW
+ wkrg==
+X-Gm-Message-State: AOAM531InmiYTu2cnevM/ImlaB69ibwzZSV1R7yTtsiK5qLlk5IlFWxN
+ GGgZ4cKwAGNzlJr9uFEjwq+V1tiJnvHtBHvGdCrs6A==
+X-Google-Smtp-Source: ABdhPJz9y1XCwJi9YPIQOYXvTyTFvwc6jUzGcaWbytAXXTrxY6JpkwRLyEwMi7rK2sjwI8sZz+QFIFyB5+yGqcbLSh4=
+X-Received: by 2002:a7b:c017:: with SMTP id c23mr12379673wmb.137.1638512424299; 
+ Thu, 02 Dec 2021 22:20:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20211112051040.923746-1-leobras@redhat.com>
- <20211112051040.923746-4-leobras@redhat.com>
- <YY5H2ixqGpfbo5jI@redhat.com>
- <CAJ6HWG6TczHZC6EFcicG8irVb3XKdhB05bcyOb0ANAZKmRWqZg@mail.gmail.com>
- <YZy6qifB8JNwYEkp@redhat.com>
-In-Reply-To: <YZy6qifB8JNwYEkp@redhat.com>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Fri, 3 Dec 2021 02:42:19 -0300
-Message-ID: <CAJ6HWG5e5VGW0pt_ek+jMZi+oz4uDOLnC0dHczkqMBBspdLf5A@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] QIOChannelSocket: Implement io_writev_zerocopy &
- io_flush_zerocopy for CONFIG_LINUX
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20211120074644.729-1-jiangyifei@huawei.com>
+ <20211120074644.729-5-jiangyifei@huawei.com>
+In-Reply-To: <20211120074644.729-5-jiangyifei@huawei.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Fri, 3 Dec 2021 11:50:13 +0530
+Message-ID: <CAAhSdy2gFufV4Xuu9Ewn2htLRB8SZ+xohbAnjYmnM1D_xMQP4A@mail.gmail.com>
+Subject: Re: [PATCH v1 04/12] target/riscv: Implement kvm_arch_get_registers
+To: Yifei Jiang <jiangyifei@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::32c;
+ envelope-from=anup@brainfault.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,209 +82,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Mingwang Li <limingwang@huawei.com>, KVM General <kvm@vger.kernel.org>,
+ libvir-list@redhat.com, Anup Patel <anup.patel@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, wanbo13@huawei.com,
+ Palmer Dabbelt <palmer@dabbelt.com>, kvm-riscv@lists.infradead.org,
+ wanghaibin.wang@huawei.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ fanliang@huawei.com, "Wubin \(H\)" <wu.wubin@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Daniel,
+On Sat, Nov 20, 2021 at 1:17 PM Yifei Jiang <jiangyifei@huawei.com> wrote:
+>
+> Get GPR CSR and FP registers from kvm by KVM_GET_ONE_REG ioctl.
+>
+> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+> Signed-off-by: Mingwang Li <limingwang@huawei.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/kvm.c | 150 ++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 149 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+> index 9f9692fb9e..b49c24be0a 100644
+> --- a/target/riscv/kvm.c
+> +++ b/target/riscv/kvm.c
+> @@ -55,13 +55,161 @@ static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type, uint64_t idx
+>      return id;
+>  }
+>
+> +#define RISCV_CORE_REG(env, name)  kvm_riscv_reg_id(env, KVM_REG_RISCV_CORE, \
+> +                 KVM_REG_RISCV_CORE_REG(name))
+> +
+> +#define RISCV_CSR_REG(env, name)  kvm_riscv_reg_id(env, KVM_REG_RISCV_CSR, \
+> +                 KVM_REG_RISCV_CSR_REG(name))
+> +
+> +#define RISCV_FP_F_REG(env, idx)  kvm_riscv_reg_id(env, KVM_REG_RISCV_FP_F, idx)
+> +
+> +#define RISCV_FP_D_REG(env, idx)  kvm_riscv_reg_id(env, KVM_REG_RISCV_FP_D, idx)
+> +
+> +static int kvm_riscv_get_regs_core(CPUState *cs)
+> +{
+> +    int ret = 0;
+> +    int i;
+> +    target_ulong reg;
+> +    CPURISCVState *env = &RISCV_CPU(cs)->env;
+> +
+> +    ret = kvm_get_one_reg(cs, RISCV_CORE_REG(env, regs.pc), &reg);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +    env->pc = reg;
+> +
+> +    for (i = 1; i < 32; i++) {
+> +        uint64_t id = kvm_riscv_reg_id(env, KVM_REG_RISCV_CORE, i);
+> +        ret = kvm_get_one_reg(cs, id, &reg);
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +        env->gpr[i] = reg;
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+> +static int kvm_riscv_get_regs_csr(CPUState *cs)
+> +{
+> +    int ret = 0;
+> +    target_ulong reg;
+> +    CPURISCVState *env = &RISCV_CPU(cs)->env;
+> +
+> +    ret = kvm_get_one_reg(cs, RISCV_CSR_REG(env, sstatus), &reg);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +    env->mstatus = reg;
+> +
+> +    ret = kvm_get_one_reg(cs, RISCV_CSR_REG(env, sie), &reg);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +    env->mie = reg;
+> +
+> +    ret = kvm_get_one_reg(cs, RISCV_CSR_REG(env, stvec), &reg);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +    env->stvec = reg;
+> +
+> +    ret = kvm_get_one_reg(cs, RISCV_CSR_REG(env, sscratch), &reg);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +    env->sscratch = reg;
+> +
+> +    ret = kvm_get_one_reg(cs, RISCV_CSR_REG(env, sepc), &reg);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +    env->sepc = reg;
+> +
+> +    ret = kvm_get_one_reg(cs, RISCV_CSR_REG(env, scause), &reg);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +    env->scause = reg;
+> +
+> +    ret = kvm_get_one_reg(cs, RISCV_CSR_REG(env, stval), &reg);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +    env->stval = reg;
+> +
+> +    ret = kvm_get_one_reg(cs, RISCV_CSR_REG(env, sip), &reg);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +    env->mip = reg;
+> +
+> +    ret = kvm_get_one_reg(cs, RISCV_CSR_REG(env, satp), &reg);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +    env->satp = reg;
 
-On Tue, Nov 23, 2021 at 6:56 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> On Tue, Nov 23, 2021 at 01:46:44AM -0300, Leonardo Bras Soares Passos wro=
-te:
-> > Hello Daniel,
-> >
-> > On Fri, Nov 12, 2021 at 7:54 AM Daniel P. Berrang=C3=A9 <berrange@redha=
-t.com> wrote:
-> > [...]
-> > > > @@ -561,12 +577,15 @@ static ssize_t qio_channel_socket_writev_flag=
-s(QIOChannel *ioc,
-> > > >   retry:
-> > > >      ret =3D sendmsg(sioc->fd, &msg, flags);
-> > > >      if (ret <=3D 0) {
-> > > > -        if (errno =3D=3D EAGAIN) {
-> > > > +        switch (errno) {
-> > > > +        case EAGAIN:
-> > > >              return QIO_CHANNEL_ERR_BLOCK;
-> > > > -        }
-> > > > -        if (errno =3D=3D EINTR) {
-> > > > +        case EINTR:
-> > > >              goto retry;
-> > > > +        case ENOBUFS:
-> > > > +            return QIO_CHANNEL_ERR_NOBUFS;
-> > >
-> > > Why does ENOBUFS need handling separately instead of letting
-> > > the error_setg_errno below handle it ?
-> > >
-> > > The caller immediately invokes error_setg_errno() again,
-> > > just with different error message.
-> > >
-> > > No code in this series ever looks at QIO_CHANNEL_ERR_NOBUFS
-> > > either, so we don't even need that special error return code
-> > > added AFAICT ?
-> > >
-> >
-> > The idea was to add a custom message for ENOBUFS return when sending
-> > with MSG_ZEROCOPY.
-> > I mean, having this message is important for the user to understand
-> > why the migration is failing, but it would
-> > not make any sense to have this message while a non-zerocopy sendmsg()
-> > returns with ENOBUFS.
-> >
-> > ENOBUFS : The output queue for a network interface was full.  This
-> > generally indicates that the interface has stopped sending, but may be
-> > caused by transient congestion.
-> >
-> > As an alternative, I could add this message inside the switch, inside
-> > an if (flags & MSG_ZEROCOPY) on qio_channel_socket_writev_flags()
-> > instead of in it's caller.
-> > But for me it looks bloated, I mean, dealing with an error for
-> > ZEROCOPY only in the general function.
->
-> It is perfectly reasonable to check flags in this method.
->
-> > OTOH, if you think that it's a better idea to deal with every error in
-> > qio_channel_socket_writev_flags() instead of in the caller, I will
-> > change it for v6. Please let me know.
->
-> Yes, this method is already taking an ERror **errp parameter and
-> reporting a user facing error. If we need to report different
-> message text for ENOBUFS, it should be done in this method too.
->
-> The reason QIO_CHANNEL_ERR_BLOCK is special is because we are
-> explicitly not treating it as an error scenario at all.  That's
-> different to the ENOBUFS case.
->
+There is a common pattern in above kvm_get_one_reg() calls so I suggest
+creating a macro for repeating code patterns. This can help us to have one
+line for each CSR and in future it is easy to add more CSRs.
 
-Ok, I will change it for v6.
+Regards,
+Anup
 
+> +
+> +    return ret;
+> +}
+> +
+> +static int kvm_riscv_get_regs_fp(CPUState *cs)
+> +{
+> +    int ret = 0;
+> +    int i;
+> +    CPURISCVState *env = &RISCV_CPU(cs)->env;
+> +
+> +    if (riscv_has_ext(env, RVD)) {
+> +        uint64_t reg;
+> +        for (i = 0; i < 32; i++) {
+> +            ret = kvm_get_one_reg(cs, RISCV_FP_D_REG(env, i), &reg);
+> +            if (ret) {
+> +                return ret;
+> +            }
+> +            env->fpr[i] = reg;
+> +        }
+> +        return ret;
+> +    }
+> +
+> +    if (riscv_has_ext(env, RVF)) {
+> +        uint32_t reg;
+> +        for (i = 0; i < 32; i++) {
+> +            ret = kvm_get_one_reg(cs, RISCV_FP_F_REG(env, i), &reg);
+> +            if (ret) {
+> +                return ret;
+> +            }
+> +            env->fpr[i] = reg;
+> +        }
+> +        return ret;
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+>  const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
+>      KVM_CAP_LAST_INFO
+>  };
 >
-> >
-> > > >          }
-> > > > +
-> > > >          error_setg_errno(errp, errno,
-> > > >                           "Unable to write to socket");
-> > > >          return -1;
-> > > > @@ -670,6 +689,127 @@ static ssize_t qio_channel_socket_writev(QIOC=
-hannel *ioc,
-> > > >  }
-> > > >  #endif /* WIN32 */
-> > > >
-> > > > +
-> > > > +#ifdef CONFIG_LINUX
-> > > > +
-> > > > +static int qio_channel_socket_poll(QIOChannelSocket *sioc, bool ze=
-rocopy,
-> > > > +                                   Error **errp)
-> > >
-> > > There's only one caller and it always passes zerocopy=3Dtrue,
-> > > so this parmeter looks pointless.
-> >
-> > I did that for possible reuse of this function in the future:
-> > - As of today, this is certainly compiled out, but if at some point
-> > someone wants to use poll for something other
-> > than the reading of an zerocopy errqueue, it could be reused.
-> >
-> > But sure, if that's not desirable, I can remove the parameter (and the
-> > if clause for !zerocopy).
-> >
-> > >
-> > > > +{
-> > > > +    struct pollfd pfd;
-> > > > +    int ret;
-> > > > +
-> > > > +    pfd.fd =3D sioc->fd;
-> > > > +    pfd.events =3D 0;
-> > > > +
-> > > > + retry:
-> > > > +    ret =3D poll(&pfd, 1, -1);
-> > > > +    if (ret < 0) {
-> > > > +        switch (errno) {
-> > > > +        case EAGAIN:
-> > > > +        case EINTR:
-> > > > +            goto retry;
-> > > > +        default:
-> > > > +            error_setg_errno(errp, errno,
-> > > > +                             "Poll error");
-> > > > +            return ret;
-> > >
-> > >        return -1;
-> > >
-> > > > +        }
-> > > > +    }
-> > > > +
-> > > > +    if (pfd.revents & (POLLHUP | POLLNVAL)) {
-> > > > +        error_setg(errp, "Poll error: Invalid or disconnected fd")=
-;
-> > > > +        return -1;
-> > > > +    }
-> > > > +
-> > > > +    if (!zerocopy && (pfd.revents & POLLERR)) {
-> > > > +        error_setg(errp, "Poll error: Errors present in errqueue")=
-;
-> > > > +        return -1;
-> > > > +    }
-> > >
-> > > > +
-> > > > +    return ret;
-> > >
-> > >   return 0;
-> >
-> > In the idea of future reuse I spoke above, returning zero here would
-> > make this function always look like the poll timed out. Some future
-> > users may want to repeat the waiting if poll() timed out, or if
-> > (return > 0) stop polling.
+>  int kvm_arch_get_registers(CPUState *cs)
+>  {
+> -    return 0;
+> +    int ret = 0;
+> +
+> +    ret = kvm_riscv_get_regs_core(cs);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    ret = kvm_riscv_get_regs_csr(cs);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    ret = kvm_riscv_get_regs_fp(cs);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    return ret;
+>  }
 >
-> Now that I'm looking again, we should not really use poll() at all,
-> as GLib provides us higher level APIs. We in fact already have the
-> qio_channel_wait() method as a general purpose helper for waiting
-> for an I/O condition to occur.;
->
-
-So you suggest using
-qio_channel_wait(sioc, G_IO_IN);
-instead of creating the new qio_channel_socket_poll().
-
-Is the above correct? I mean, is it as simple as that?
-
->
-> > I understand the idea of testing SO_EE_CODE_ZEROCOPY_COPIED to be able
-> > to tell whenever zerocopy fell back to copying for some reason, but I
-> > don't see how this can be helpful here.
-> >
-> > Other than that I would do rv++ instead of rv=3D1 here, if I want to
-> > keep track of how many buffers were sent with zerocopy and how many
-> > ended up being copied.
->
-> Sure, we could do   "ret > 0 =3D=3D number of buffers that were copied"
-> as the API contract, rather than just treating it as a boolean.
-
-Ok, then you suggest the responsibility of checking the number of
-writes with SO_EE_CODE_ZEROCOPY_COPIED, comparing with the total
-number of writes,  and deciding whether to disable or not zerocopy
-should be on the caller.
-
-(Disabling zerocopy on a single SO_EE_CODE_ZEROCOPY_COPIED doesn't
-seem a good idea also)
-
->
->
->
-> Regards,
-> Daniel
+>  int kvm_arch_put_registers(CPUState *cs, int level)
 > --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+> 2.19.1
 >
-
-Best regards,
-Leo
-
+>
+> --
+> kvm-riscv mailing list
+> kvm-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/kvm-riscv
 
