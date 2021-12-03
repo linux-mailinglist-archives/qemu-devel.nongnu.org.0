@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1985746701F
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 03:41:18 +0100 (CET)
-Received: from localhost ([::1]:45442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D8D4670CE
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 04:38:27 +0100 (CET)
+Received: from localhost ([::1]:58096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msyVg-0000vH-Oc
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 21:41:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35814)
+	id 1mszOz-0003kr-Lf
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 22:38:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevin@koconnor.net>)
- id 1msyUd-00009a-M3
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 21:40:11 -0500
-Received: from [2607:f8b0:4864:20::734] (port=46923
- helo=mail-qk1-x734.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kevin@koconnor.net>)
- id 1msyUV-0000Zf-7v
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 21:40:11 -0500
-Received: by mail-qk1-x734.google.com with SMTP id a11so1985513qkh.13
- for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 18:40:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=koconnor.net; s=google;
- h=date:from:to:subject:message-id:mime-version:content-disposition
- :content-transfer-encoding;
- bh=9OCESwY591yYhLzGj3OXfpQG+zr64bua8Ob3rJuDNtI=;
- b=QrqPEERPqBswASQ51IQZAJUyzZGmhU4FfzAKUAG3sV1QJzipK/UiEJh6Kgh6dy2DQZ
- G+g+vjFNTkbOh6tGpHIDb/D73B+hjGLBr5YgoFTjB0LBkujN6RjaFPc41JaicF5JVcwF
- iiLaxVGeadew6Aj7kP7E9whGjlq+4/bed4A3I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:subject:message-id:mime-version
- :content-disposition:content-transfer-encoding;
- bh=9OCESwY591yYhLzGj3OXfpQG+zr64bua8Ob3rJuDNtI=;
- b=3bmhAediBq4m0XlowOabBy5Qrc1+RDwZ8my95v5mFrIHMQcnh+OIgcK+WKZSb/0qB0
- RK6dN0PrFdW2lNsUhBrbEDBongt9xkplAVK/qOvKHsoRZ2581nOO3dueDFvYz3zqhRBn
- bPNdsxBnKjluGHe/rRWNNCXtS08ih2E/tljCwoZe6lzFFL9yN/pURuJKyYreZ8gr9TzW
- NQJACkFYQx99WUP2yY75LwHHCx57ezypCVL+WP92ZeZM/RclAxjW1OuEARxD4tfe9NrT
- Rf8ERTCvnHG+KrKVrmOPNgiQasyIQj8ul/299pKv1tRprN8xPL63JvRxMCyyd8I8Tdmi
- 7DBw==
-X-Gm-Message-State: AOAM530FV59PUxE55asQ4k6D0HPOybqzYT4wOPIJJPl8wNbRvGI4RY7g
- xeWfCD/1IJfDF67ARkhkW4tYfDx8nMoQJg==
-X-Google-Smtp-Source: ABdhPJxJKMij6JgBBvhnHoSjT/wct/JXageuDxG0U2iVME9koPxWzCTncwhyRmanI3kgja7ZQx8EZQ==
-X-Received: by 2002:a05:620a:2848:: with SMTP id
- h8mr16172915qkp.87.1638499201218; 
- Thu, 02 Dec 2021 18:40:01 -0800 (PST)
-Received: from localhost ([64.18.9.197])
- by smtp.gmail.com with ESMTPSA id bp38sm1231593qkb.66.2021.12.02.18.40.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Dec 2021 18:40:01 -0800 (PST)
-Date: Thu, 2 Dec 2021 21:40:00 -0500
-From: Kevin O'Connor <kevin@koconnor.net>
-To: seabios@seabios.org, qemu-devel@nongnu.org, coreboot@coreboot.org
-Subject: [ANNOUNCE] SeaBIOS 1.15.0
-Message-ID: <YamDgHhOtwjU+YX8@morn>
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mszMx-00029h-78
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 22:36:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35640)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mszMt-0002Rm-Hi
+ for qemu-devel@nongnu.org; Thu, 02 Dec 2021 22:36:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638502574;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8hU0l5Um/uFc8zNQCLk0xQemnNqgLFX59nVDvUWvMio=;
+ b=LM3uqX8M0ftvI6mR52df/QH1hKNsvnzXn3eolxx4K5a1LQIL3WAetqqr3Q3MFj2CAblThK
+ ZrexFYvU5GkiI/YdaJPweBMiFwhs6pEdNK76S/EU6l0YvWTjHJljLyo8jiEDFXXsKqvuc1
+ omj2JwP6cdviNNj8hsoQENP5q9cGmtQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-407-lt6BvFJjMrWxl23xlhjK0Q-1; Thu, 02 Dec 2021 22:36:13 -0500
+X-MC-Unique: lt6BvFJjMrWxl23xlhjK0Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF4D281430E;
+ Fri,  3 Dec 2021 03:36:11 +0000 (UTC)
+Received: from gshan.redhat.com (vpn2-54-43.bne.redhat.com [10.64.54.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C199519724;
+ Fri,  3 Dec 2021 03:35:24 +0000 (UTC)
+From: Gavin Shan <gshan@redhat.com>
+To: qemu-arm@nongnu.org
+Subject: [PATCH v2 0/2] hw/arm/virt: Support for virtio-mem-pci
+Date: Fri,  3 Dec 2021 11:35:20 +0800
+Message-Id: <20211203033522.27580-1-gshan@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::734
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::734;
- envelope-from=kevin@koconnor.net; helo=mail-qk1-x734.google.com
-X-Spam_score_int: 20
-X-Spam_score: 2.0
-X-Spam_bar: ++
-X-Spam_report: (2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,82 +74,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, david@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ shan.gavin@gmail.com, Jonathan.Cameron@huawei.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 1.15.0 version of SeaBIOS has now been released.  For more
-information on the release, please see:
+This series supports virtio-mem-pci device, by simply following the
+implementation on x86. The exception is the block size is 512MB on
+ARM64 instead of 128MB on x86, compatible with the memory section
+size in linux guest.
 
-http://seabios.org/Releases
+The work was done by David Hildenbrand and then Jonathan Cameron. I'm
+taking the patch and putting more efforts, which is all about testing
+to me at current stage.
 
+Testing
+=======
+The upstream linux kernel (v5.16.rc3) is used on host/guest during
+the testing. The guest kernel includes changes to enable virtio-mem
+driver, which is simply to enable CONFIG_VIRTIO_MEM on ARM64.
 
-New in this release:
+Mutiple combinations like page sizes on host/guest, memory backend
+device etc are covered in the testing. Besides, migration is also
+tested. The following command lines are used for VM or virtio-mem-pci
+device hot-add. It's notable that virtio-mem-pci device hot-remove
+isn't supported, similar to what we have on x86. 
 
-* Improved support for USB devices with multiple interfaces.
-* Support for USB XHCI devices using direct MMIO access (instead of PCI).
-* NVMe improvements.
-* Increased "f-segment" RAM allocations for BIOS tables.
-* Several bug fixes and code cleanups.
+  host.pgsize  guest.pgsize  backend    hot-add  hot-remove  migration
+  ---------------------------------------------------------------------
+   4KB         4KB           normal     ok       ok          ok
+                             THP        ok       ok          ok
+                             hugeTLB    ok       ok          ok
+   4KB         64KB          normal     ok       ok          ok
+                             THP        ok       ok          ok
+                             hugeTLB    ok       ok          ok
+  64KB         4KB           normal     ok       ok          ok
+                             THP        ok       ok          ok
+                             hugeTLB    ok       ok          ok
+  64KB         64KB          normal     ok       ok          ok
+                             THP        ok       ok          ok
+                             hugeTLB    ok       ok          ok
 
+The command lines are used for VM. When hugeTLBfs is used, all memory
+backend objects are popuated on /dev/hugepages-2048kB or
+/dev/hugepages-524288kB, depending on the host page sizes.
 
-For information on obtaining SeaBIOS, please see:
+  /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64                       \
+  -accel kvm -machine virt,gic-version=host                                     \
+  -cpu host -smp 4,sockets=2,cores=2,threads=1                                  \
+  -m 1024M,slots=16,maxmem=64G                                                  \
+  -object memory-backend-ram,id=mem0,size=512M                                  \
+  -object memory-backend-ram,id=mem1,size=512M                                  \
+  -numa node,nodeid=0,cpus=0-1,memdev=mem0                                      \
+  -numa node,nodeid=1,cpus=2-3,memdev=mem1                                      \
+     :
+  -kernel /home/gavin/sandbox/linux.guest/arch/arm64/boot/Image                 \
+  -initrd /home/gavin/sandbox/images/rootfs.cpio.xz                             \
+  -append earlycon=pl011,mmio,0x9000000                                         \
+  -device pcie-root-port,bus=pcie.0,chassis=1,id=pcie.1                         \
+  -device pcie-root-port,bus=pcie.0,chassis=2,id=pcie.2                         \
+  -device pcie-root-port,bus=pcie.0,chassis=3,id=pcie.3                         \
+  -object memory-backend-ram,id=vmem0,size=512M                                 \
+  -device virtio-mem-pci,id=vm0,bus=pcie.1,memdev=vmem0,node=0,requested-size=0 \
+  -object memory-backend-ram,id=vmem1,size=512M                                 \
+  -device virtio-mem-pci,id=vm1,bus=pcie.2,memdev=vmem1,node=1,requested-size=0 
 
-http://seabios.org/Download
+Command lines used for memory hot-add and hot-remove:
 
+  (qemu) qom-set vm1 requested-size 512M
+  (qemu) qom-set vm1 requested-size 0
+  (qemu) qom-set vm1 requested-size 512M
 
-===== git shortlog -n rel-1.14.0..rel-1.15.0 =====
+Command lines used for virtio-mem-pci device hot-add:
 
-Gerd Hoffmann (9):
-      output: add support for uppercase hex numbers
-      dsdt: add support for pnp ids as strings
-      usb: add boot prio support for mmio host adapters
-      usb/xhci: split xhci setup into generic and pci parts
-      usb/xhci: add support for mmio host adapters (via acpi).
-      usb boot: add xhci mmio example
-      nvme: improve namespace allocation
-      nvme: drive desc should not include the newline
-      Increase BUILD_MIN_BIOSTABLE for large roms
+  (qemu) object_add memory-backend-ram,id=hp-mem1,size=512M
+  (qemu) device_add virtio-mem-pci,id=hp-vm1,bus=pcie.3,memdev=hp-mem1,node=1
+  (qemu) qom-set hp-vm1 requested-size 512M
+  (qemu) qom-set hp-vm1 requested-size 0
+  (qemu) qom-set hp-vm1 requested-size 512M
 
-Alexander Graf (4):
-      nvme: Record maximum allowed request size
-      nvme: Allow to set PRP2
-      nvme: Pass large I/O requests as PRP lists
-      nvme: Split requests by maximum allowed size
+Changelog
+=========
+v2:
+  * Include David/Jonathan as co-developers in the commit log           (David)
+  * Decrease VIRTIO_MEM_USABLE_EXTENT to 512MB on ARM64 in PATCH[1/2]   (David)
+  * PATCH[2/2] is added to correct the THP sizes on ARM64               (David)
 
-Stefan Berger (4):
-      tcgbios: Fix details in log entries
-      Add implementations for sha256, sha384, and sha512
-      tcgbios: Use The proper sha function for each PCR bank
-      tcgbios: Disable platform hierarchy in case of failure
+Gavin Shan (2):
+  hw/arm/virt: Support for virtio-mem-pci
+  virtio-mem: Correct default THP size for ARM64
 
-Volker Rümelin (2):
-      stacks: call check_irqs() in run_thread()
-      stacks: call check_irqs() after switch_next()
+ hw/arm/Kconfig         |  1 +
+ hw/arm/virt.c          | 68 +++++++++++++++++++++++++++++++++++++++++-
+ hw/virtio/virtio-mem.c | 36 ++++++++++++++--------
+ 3 files changed, 91 insertions(+), 14 deletions(-)
 
-Alex Martens via SeaBIOS (1):
-      nvme: fix missing newline on sq full print
+-- 
+2.23.0
 
-Daniel P. Berrangé (1):
-      smbios: avoid integer overflow when adding SMBIOS type 0 table
-
-David Woodhouse (1):
-      nvme: Clean up nvme_cmd_readwrite()
-
-Kevin O'Connor (1):
-      docs: Note v1.15.0 release
-
-Matt DeVillier (1):
-      usb.c: Fix devices using non-primary interface descriptor
-
-Mike Banon (1):
-      Support booting USB drives with a write protect switch enabled
-
-Sergei Trofimovich (1):
-      vgasrc: ignore .node.gnu.property (binutils-2.36 support)
-
-Stefan Ott via SeaBIOS (1):
-      usb-hid: Increase MAX_KBD_EVENT
-
-weitaowang-oc@zhaoxin.com (1):
-      USB:Fix xHCI initail fail by using longer reset and CNR clear timeout value
 
