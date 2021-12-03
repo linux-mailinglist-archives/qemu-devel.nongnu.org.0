@@ -2,55 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D11C466F35
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 02:42:45 +0100 (CET)
-Received: from localhost ([::1]:49374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB4E466FBE
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 03:27:42 +0100 (CET)
+Received: from localhost ([::1]:35206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1msxb2-00078r-Jr
-	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 20:42:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53086)
+	id 1msyIW-0001sN-NE
+	for lists+qemu-devel@lfdr.de; Thu, 02 Dec 2021 21:27:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1msxYh-0004yk-KM
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 20:40:19 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:59868
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1msxYe-0006C2-G0
- for qemu-devel@nongnu.org; Thu, 02 Dec 2021 20:40:19 -0500
-HMM_SOURCE_IP: 172.18.0.48:50602.1497958364
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 0AFD12800A5;
- Fri,  3 Dec 2021 09:40:06 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id c2d06b376cd14be4a3b02605cec3c5c8 for
- qemu-devel@nongnu.org; Fri, 03 Dec 2021 09:40:13 CST
-X-Transaction-ID: c2d06b376cd14be4a3b02605cec3c5c8
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v9 3/3] cpus-common: implement dirty page limit on vCPU
-Date: Fri,  3 Dec 2021 09:39:47 +0800
-Message-Id: <9cc3cc5377e4330cbe0e87e89f452889516a4c09.1638495274.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1638495274.git.huangy81@chinatelecom.cn>
-References: <cover.1638495274.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1638495274.git.huangy81@chinatelecom.cn>
-References: <cover.1638495274.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1msyGr-00014T-NK; Thu, 02 Dec 2021 21:25:57 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56820)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1msyGp-0007CK-Rx; Thu, 02 Dec 2021 21:25:57 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B31M6ct001164; 
+ Fri, 3 Dec 2021 02:25:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=L2ZlHfqLidy8qe8mH6qpGVSrlvYQVNzrM8RtMb0WdHs=;
+ b=lO8Vqi8MN/LA2/jKyM3e5NZ0u6T9T8mhPkXd3V0RsbAH2DxTtlsaaOG5BnigkM2eAHUx
+ 0zruKrCmgsm1XfBmNZxpXni8rmSRKtRIcQwQf+l9Uzng3TW04q14vH1AqFWDAYcuYjAV
+ iLzojpAW3bYDyW0pXSp0o1zJrkjujFOZiVxZbdv9vDZsvmcUnkZEPbT1MobP+qn+deZe
+ 0NJZiGpAhalU595zDwAgkszAvVC13RgiVC7ML0DMwYigb/x7K47ekuJpbPn//EAfXe/f
+ M3ylMLAuBwLtTAs110J3U8wlkkSQ+jSA6sO58w+lHeq5Y2jCpAa/kXShionLPgMDW/uS tQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cq9gx0xca-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Dec 2021 02:25:52 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B32Pqru020141;
+ Fri, 3 Dec 2021 02:25:52 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cq9gx0xc1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Dec 2021 02:25:52 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B32HTCW018830;
+ Fri, 3 Dec 2021 02:25:51 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma04dal.us.ibm.com with ESMTP id 3cnne3mjhn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Dec 2021 02:25:51 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B32PnBW31130108
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 3 Dec 2021 02:25:49 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A93926A05A;
+ Fri,  3 Dec 2021 02:25:49 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BDC956A05D;
+ Fri,  3 Dec 2021 02:25:48 +0000 (GMT)
+Received: from [9.211.48.116] (unknown [9.211.48.116])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri,  3 Dec 2021 02:25:48 +0000 (GMT)
+Message-ID: <bd39e782-0348-cf93-0d4e-0b1c0fc8cb8b@linux.ibm.com>
+Date: Thu, 2 Dec 2021 21:25:48 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.219;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 1/4] s390x/pci: use a reserved ID for the default PCI group
+Content-Language: en-US
+To: Halil Pasic <pasic@linux.ibm.com>
+References: <20211202164110.326947-1-mjrosato@linux.ibm.com>
+ <20211202164110.326947-2-mjrosato@linux.ibm.com>
+ <123ecaef-0f76-614c-2f6d-cdb824a84f56@redhat.com>
+ <a5b6d5d7-e11a-9b7a-651f-feda4f2c3781@linux.ibm.com>
+ <20211203000655.0c679c8c.pasic@linux.ibm.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <20211203000655.0c679c8c.pasic@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: joOIO0DZ-PGpaUp-Ojgg3C2lz5LhpQ2t
+X-Proofpoint-ORIG-GUID: pS5EgKK9NgfYFcn0fqyQizXhHYhrcXgj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-02_16,2021-12-02_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 impostorscore=0
+ bulkscore=0 phishscore=0 spamscore=0 lowpriorityscore=0 clxscore=1015
+ adultscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112030012
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,355 +115,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus ArmBruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: farman@linux.ibm.com, pmorel@linux.ibm.com,
+ David Hildenbrand <david@redhat.com>, cohuck@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ thuth@redhat.com, borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On 12/2/21 6:06 PM, Halil Pasic wrote:
+> On Thu, 2 Dec 2021 12:11:38 -0500
+> Matthew Rosato <mjrosato@linux.ibm.com> wrote:
+> 
+>>>
+>>> What happens if we migrate a VM from old to new QEMU? Won't the guest be
+>>> able to observe the change?
+>>>    
+>>
+>> Yes, technically --  But # itself is not really all that important, it
+>> is provided from CLP Q PCI FN to be subsequently used as input into Q
+>> PCI FNGRP -- With the fundamental notion being that all functions that
+>> share the same group # share the same group CLP info.  Whether the
+>> number is, say, 1 or 5 doesn't matter so much.
+>>
+>> However..  0xF0 and greater are the only values reserved for hypervisor
+>> use.  By using 0x20 we run the risk of accidentally conflating simulated
+>> devices and real hardware, hence the desire to change it.
+>>
+>> Is your concern about a migrated guest with a virtio device trying to do
+>> a CLP QUERY PCI FNGRP using 0x20 on a new QEMU?  I suppose we could
+>> modify 'clp_service_call, case CLP_QUERY_PCI_FNGRP' to silently catch
+>> simulated devices trying to use something other than the default group,
+>> e.g.:
+>>
+>> if ((pbdev->fh & FH_SHM_EMUL) &&
+>>       (pbdev->zpci_fn.pfgid != ZPCI_DEFAULT_FN_GRP)) {
+>>           /* Simulated device MUST have default group */
+>> 	pbdev->zpci_fn.pfgid = ZPCI_DEFAULT_FN_GRP;
+>> 	group = s390_group_find(ZPCI_DEFAULT_FN_GRP);
+>> }
+>>
+>> What do you think?
+> 
+> Another option, and in my opinion the cleaner one would be to tie this
+> change to a new machine version. That is if a post-change qemu is used
+> in compatibility mode, we would still have the old behavior.
+> 
+> What do you think?
+> 
 
-Implement dirtyrate calculation periodically basing on
-dirty-ring and throttle vCPU until it reachs the quota
-dirty page rate given by user.
+The problem there is that the old behavior goes against the architecture 
+(group 0x20 could belong to real hardware) and AFAIU assigning this new 
+behavior only to a new machine version means we can't fix old stable 
+QEMU versions.
 
-Introduce qmp commands "vcpu-dirty-limit", "query-vcpu-dirty-limit"
-to enable, disable, query dirty page limit for virtual CPU.
-
-Meanwhile, introduce corresponding hmp commands "vcpu_dirty_limit",
-"info vcpu_dirty_limit" so developers can play with them easier.
-
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- cpus-common.c         | 149 ++++++++++++++++++++++++++++++++++++++++++++++++++
- hmp-commands-info.hx  |  13 +++++
- hmp-commands.hx       |  16 ++++++
- include/hw/core/cpu.h |   9 +++
- include/monitor/hmp.h |   2 +
- qapi/migration.json   |  48 ++++++++++++++++
- softmmu/vl.c          |   1 +
- 7 files changed, 238 insertions(+)
-
-diff --git a/cpus-common.c b/cpus-common.c
-index 6e73d3e..04b9bc9 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -23,6 +23,14 @@
- #include "hw/core/cpu.h"
- #include "sysemu/cpus.h"
- #include "qemu/lockable.h"
-+#include "sysemu/dirtylimit.h"
-+#include "sysemu/cpu-throttle.h"
-+#include "sysemu/kvm.h"
-+#include "monitor/hmp.h"
-+#include "monitor/monitor.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-migration.h"
- 
- static QemuMutex qemu_cpu_list_lock;
- static QemuCond exclusive_cond;
-@@ -352,3 +360,144 @@ void process_queued_cpu_work(CPUState *cpu)
-     qemu_mutex_unlock(&cpu->work_mutex);
-     qemu_cond_broadcast(&qemu_work_cond);
- }
-+
-+void qmp_vcpu_dirty_limit(int64_t cpu_index,
-+                          bool enable,
-+                          uint64_t dirty_rate,
-+                          Error **errp)
-+{
-+    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-+        error_setg(errp, "dirty page limit feature requires KVM with"
-+                   " accelerator property 'dirty-ring-size' set'");
-+        return;
-+    }
-+
-+    if (!dirtylimit_is_vcpu_index_valid(cpu_index)) {
-+        error_setg(errp, "cpu index out of range");
-+        return;
-+    }
-+
-+    if (enable) {
-+        dirtylimit_calc();
-+        dirtylimit_vcpu(cpu_index, dirty_rate);
-+    } else {
-+        if (!dirtylimit_enabled(cpu_index)) {
-+            error_setg(errp, "dirty page limit for CPU %ld not set",
-+                       cpu_index);
-+            return;
-+        }
-+
-+        if (!dirtylimit_cancel_vcpu(cpu_index)) {
-+            dirtylimit_calc_quit();
-+        }
-+    }
-+}
-+
-+void hmp_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-+{
-+    int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
-+    int64_t dirty_rate = qdict_get_try_int(qdict, "dirty_rate", -1);
-+    bool enable = qdict_get_bool(qdict, "enable");
-+    Error *err = NULL;
-+
-+    if (enable && dirty_rate < 0) {
-+        monitor_printf(mon, "Enabling dirty limit requires dirty_rate set!\n");
-+        return;
-+    }
-+
-+    if (!dirtylimit_is_vcpu_index_valid(cpu_index)) {
-+        monitor_printf(mon, "Incorrect cpu index specified!\n");
-+        return;
-+    }
-+
-+    qmp_vcpu_dirty_limit(cpu_index, enable, dirty_rate, &err);
-+
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "Enabling dirty page rate limit with %"PRIi64
-+                   " MB/s\n", dirty_rate);
-+
-+    monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
-+                   "dirty limit for virtual CPU]\n");
-+}
-+
-+struct DirtyLimitInfoList *qmp_query_vcpu_dirty_limit(bool has_cpu_index,
-+                                                      int64_t cpu_index,
-+                                                      Error **errp)
-+{
-+    DirtyLimitInfo *info = NULL;
-+    DirtyLimitInfoList *head = NULL, **tail = &head;
-+
-+    if (has_cpu_index &&
-+        (!dirtylimit_is_vcpu_index_valid(cpu_index))) {
-+        error_setg(errp, "cpu index out of range");
-+        return NULL;
-+    }
-+
-+    if (has_cpu_index) {
-+        info = dirtylimit_query_vcpu(cpu_index);
-+        QAPI_LIST_APPEND(tail, info);
-+    } else {
-+        CPUState *cpu;
-+        CPU_FOREACH(cpu) {
-+            if (!cpu->unplug) {
-+                info = dirtylimit_query_vcpu(cpu->cpu_index);
-+                QAPI_LIST_APPEND(tail, info);
-+            }
-+        }
-+    }
-+
-+    return head;
-+}
-+
-+void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-+{
-+    DirtyLimitInfoList *limit, *head, *info = NULL;
-+    int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
-+    Error *err = NULL;
-+
-+    if (cpu_index >=0 &&
-+        !dirtylimit_is_vcpu_index_valid(cpu_index)) {
-+        monitor_printf(mon, "cpu index out of range\n");
-+        return;
-+    }
-+
-+    if (cpu_index < 0) {
-+        info = qmp_query_vcpu_dirty_limit(false, -1, &err);
-+    } else {
-+        info = qmp_query_vcpu_dirty_limit(true, cpu_index, &err);
-+    }
-+
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    head = info;
-+    for (limit = head; limit != NULL; limit = limit->next) {
-+        monitor_printf(mon, "vcpu[%"PRIi64"], Enable: %s",
-+                       limit->value->cpu_index,
-+                       limit->value->enable ? "true" : "false");
-+        if (limit->value->enable) {
-+            monitor_printf(mon, ", limit rate %"PRIi64 " (MB/s),"
-+                           " current rate %"PRIi64 " (MB/s)\n",
-+                           limit->value->limit_rate,
-+                           limit->value->current_rate);
-+        } else {
-+            monitor_printf(mon, "\n");
-+        }
-+    }
-+}
-+
-+void dirtylimit_setup(int max_cpus)
-+{
-+    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-+        return;
-+    }
-+
-+    dirtylimit_calc_state_init(max_cpus);
-+    dirtylimit_state_init(max_cpus);
-+}
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 407a1da..aff28d9 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -863,6 +863,19 @@ SRST
-     Display the vcpu dirty rate information.
- ERST
- 
-+    {
-+        .name       = "vcpu_dirty_limit",
-+        .args_type  = "cpu_index:l?",
-+        .params     = "cpu_index",
-+        .help       = "show dirty page limit information",
-+        .cmd        = hmp_info_vcpu_dirty_limit,
-+    },
-+
-+SRST
-+  ``info vcpu_dirty_limit``
-+    Display the vcpu dirty page limit information.
-+ERST
-+
- #if defined(TARGET_I386)
-     {
-         .name       = "sgx",
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 70a9136..1839fa4 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1744,3 +1744,19 @@ ERST
-                       "\n\t\t\t -b to specify dirty bitmap as method of calculation)",
-         .cmd        = hmp_calc_dirty_rate,
-     },
-+
-+SRST
-+``vcpu_dirty_limit``
-+  Start dirty page rate limit on a virtual CPU, the information about all the
-+  virtual CPU dirty limit status can be observed with ``info vcpu_dirty_limit``
-+  command.
-+ERST
-+
-+    {
-+        .name       = "vcpu_dirty_limit",
-+        .args_type  = "cpu_index:l,enable:b,dirty_rate:l?",
-+        .params     = "cpu_index on|off [dirty_rate]",
-+        .help       = "enable, disable dirty page rate limit on a virtual CPU"
-+                      "(dirty_rate should be specified dirty_rate if enable)",
-+        .cmd        = hmp_vcpu_dirty_limit,
-+    },
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index e948e81..11df012 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -881,6 +881,15 @@ void end_exclusive(void);
-  */
- void qemu_init_vcpu(CPUState *cpu);
- 
-+/**
-+ * dirtylimit_setup:
-+ *
-+ * Initializes the global state of dirtylimit calculation and
-+ * dirtylimit itself. This is prepared for vCPU dirtylimit which
-+ * could be triggered during vm lifecycle.
-+ */
-+void dirtylimit_setup(int max_cpus);
-+
- #define SSTEP_ENABLE  0x1  /* Enable simulated HW single stepping */
- #define SSTEP_NOIRQ   0x2  /* Do not use IRQ while single stepping */
- #define SSTEP_NOTIMER 0x4  /* Do not Timers while single stepping */
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 96d0148..04879a2 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -131,6 +131,8 @@ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
- void hmp_replay_seek(Monitor *mon, const QDict *qdict);
- void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
- void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
-+void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
-+void hmp_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
- void hmp_human_readable_text_helper(Monitor *mon,
-                                     HumanReadableText *(*qmp_handler)(Error **));
- 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 3da8fdf..dc15b3f 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1872,6 +1872,54 @@
-             'current-rate': 'int64' } }
- 
- ##
-+# @vcpu-dirty-limit:
-+#
-+# Set or cancel the upper limit of dirty page rate for a virtual CPU.
-+#
-+# Requires KVM with accelerator property "dirty-ring-size" set.
-+# A virtual CPU's dirty page rate is a measure of its memory load.
-+# To observe dirty page rates, use @calc-dirty-rate.
-+#
-+# @cpu-index: index of virtual CPU.
-+#
-+# @enable: true to enable, false to disable.
-+#
-+# @dirty-rate: upper limit of dirty page rate for virtual CPU.
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#   {"execute": "vcpu-dirty-limit"}
-+#    "arguments": { "cpu-index": 0,
-+#                   "enable": true,
-+#                   "dirty-rate": 200 } }
-+#
-+##
-+{ 'command': 'vcpu-dirty-limit',
-+  'data': { 'cpu-index': 'int',
-+            'enable': 'bool',
-+            'dirty-rate': 'uint64'} }
-+
-+##
-+# @query-vcpu-dirty-limit:
-+#
-+# Returns information about the virtual CPU dirty limit status.
-+#
-+# @cpu-index: index of the virtual CPU to query, if not specified, all
-+#             virtual CPUs will be queried.
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#   {"execute": "query-vcpu-dirty-limit"}
-+#    "arguments": { "cpu-index": 0 } }
-+#
-+##
-+{ 'command': 'query-vcpu-dirty-limit',
-+  'data': { '*cpu-index': 'int' },
-+  'returns': [ 'DirtyLimitInfo' ] }
-+
-+##
- # @snapshot-save:
- #
- # Save a VM snapshot
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 620a1f1..0f83ce3 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3777,5 +3777,6 @@ void qemu_init(int argc, char **argv, char **envp)
-     qemu_init_displays();
-     accel_setup_post(current_machine);
-     os_setup_post();
-+    dirtylimit_setup(current_machine->smp.max_cpus);
-     resume_mux_open();
- }
--- 
-1.8.3.1
-
+Also, wait a minute -- migration isn't even an option right now, it's 
+blocked for zpci devices, both passthrough and simulated (see 
+aede5d5dfc5f 's390x/pci: mark zpci devices as unmigratable') so I say 
+let's just move to a proper default group now before we potentially 
+allow migration later.
 
