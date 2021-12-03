@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5F046802D
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 00:09:21 +0100 (CET)
-Received: from localhost ([::1]:40530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D54BF46802E
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 00:14:50 +0100 (CET)
+Received: from localhost ([::1]:43502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtHg7-0003Te-UL
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 18:09:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35792)
+	id 1mtHlR-0005kN-9G
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 18:14:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mtHeK-00029h-Fk
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:07:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48105)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHkA-0004xp-V1
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:13:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1mtHeG-0007L1-NC
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:07:27 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHk8-0001gf-4x
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:13:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638572842;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E1PqSQCgSBZSyeFtBCxTlhhTodq9lOn37h2qobTUok8=;
- b=iHG8vtxxUy1lAF7HfmG/vxQmUX9SZj/Gi8MdTqI0aeIFembzuM5Qpqm1DtWHvHUFxYB0iI
- /CIZ3jAmiGBqr+Hg477FHAFVBARKqKPONAC0Q0KuibS20HFSeDdRSzsF7qz3dzFgqmFXWG
- M2FPAgLROX9jzIyGuyb6R9pIN5tcoIA=
+ s=mimecast20190719; t=1638573206;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type;
+ bh=oUWBWjJQ6f4K0WpqYUATM5jw6+bn9bfsKOi8oHqvMXs=;
+ b=T9O4Kbyt0fuwmfIDTQdrIlxRFQQ1HfV7BrRHbAgaWWNI2oHY4Cz+ddlLjQO5+RiEgU7KoH
+ Am3/NOhP9AAPCHEpNcmdlBOq1hamhg7PDYuxicgkEWCeLIcgmRh0u/s16QLQCmSDr14JBb
+ ry3+i0vXTB43jZI1PcANACDS//muVx8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-585--W1jDEo8MYuKgVvyTUJU0w-1; Fri, 03 Dec 2021 18:07:21 -0500
-X-MC-Unique: -W1jDEo8MYuKgVvyTUJU0w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-326-mB8c7q_CNFWc32G3GC4dig-1; Fri, 03 Dec 2021 18:13:23 -0500
+X-MC-Unique: mB8c7q_CNFWc32G3GC4dig-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF3B683DD20;
- Fri,  3 Dec 2021 23:07:19 +0000 (UTC)
-Received: from [10.64.54.43] (vpn2-54-43.bne.redhat.com [10.64.54.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48CF460843;
- Fri,  3 Dec 2021 23:07:00 +0000 (UTC)
-Subject: Re: [PATCH v2 0/2] hw/arm/virt: Support for virtio-mem-pci
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-References: <20211203033522.27580-1-gshan@redhat.com>
- <20211203141058.00006079@Huawei.com>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <e6159135-6bbc-7f2f-2226-e25e29ba3c67@redhat.com>
-Date: Sat, 4 Dec 2021 10:06:56 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3771A1808321;
+ Fri,  3 Dec 2021 23:13:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A00AA60BE5;
+ Fri,  3 Dec 2021 23:13:09 +0000 (UTC)
+Date: Fri, 3 Dec 2021 17:13:07 -0600
+From: Eric Blake <eblake@redhat.com>
+To: nbd@other.debian.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ vsementsov@virtuozzo.com, libguestfs@redhat.com, nsoffer@redhat.com
+Subject: RFC for NBD protocol extension: extended headers
+Message-ID: <20211203231307.wmtbw7r72tyzkkax@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211203141058.00006079@Huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+User-Agent: NeoMutt/20211029-46-a5fba3
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.938, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,39 +75,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, david@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, eric.auger@redhat.com,
- qemu-arm@nongnu.org, shan.gavin@gmail.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jonathan,
+In response to this mail, I will be cross-posting a series of patches
+to multiple projects as a proof-of-concept implementation and request
+for comments on a new NBD protocol extension, called
+NBD_OPT_EXTENDED_HEADERS.  With this in place, it will be possible for
+clients to request 64-bit zero, trim, cache, and block status
+operations when supported by the server.
 
-On 12/4/21 1:10 AM, Jonathan Cameron wrote:
-> On Fri,  3 Dec 2021 11:35:20 +0800
-> Gavin Shan <gshan@redhat.com> wrote:
-> 
->> This series supports virtio-mem-pci device, by simply following the
->> implementation on x86. The exception is the block size is 512MB on
->> ARM64 instead of 128MB on x86, compatible with the memory section
->> size in linux guest.
->>
->> The work was done by David Hildenbrand and then Jonathan Cameron. I'm
->> taking the patch and putting more efforts, which is all about testing
->> to me at current stage.
-> 
-> Thanks for taking this forwards.  What you have here looks good to me, but
-> I've not looked at this for a while, so I'll go with whatever David and
-> others say :)
-> 
+Not yet complete: an implementation of this in nbdkit.  I also plan to
+tweak libnbd's 'nbdinfo --map' and 'nbdcopy' to take advantage of the
+larger block status results.  Also, with 64-bit commands, we may want
+to also make it easier to let servers advertise an actual maximum size
+they are willing to accept for the commands in question (for example,
+a server may be happy with a full 64-bit block status, but still want
+to limit non-fast zero and cache to a smaller limit to avoid denial of
+service).
 
-[...]
-
-I would translate this as your reviewed-by tag, which will be added to v3.
-However, it shouldn't stop you from further reviewing :)
-
-Thanks,
-Gavin
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
