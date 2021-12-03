@@ -2,97 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E3D467D35
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 19:23:31 +0100 (CET)
-Received: from localhost ([::1]:58060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10575467E62
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 20:40:30 +0100 (CET)
+Received: from localhost ([::1]:47682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtDDW-0007j9-K4
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 13:23:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56098)
+	id 1mtEQ0-0008Vd-7S
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 14:40:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mtDBa-0006ZM-LY
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 13:21:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56042)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mtENN-0006vX-GS
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 14:37:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mtDBY-0007MJ-Sd
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 13:21:30 -0500
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mtENG-0003jX-Om
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 14:37:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638555688;
+ s=mimecast20190719; t=1638560256;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eI1nokn2NEJ2rkRDUCKon2gUX6h28FBSwD4gEKl1qJ4=;
- b=REmQnNrV+RAhtFdx+R86HgzZUVP51pPQlM9mQInOy4j1jPm45hmtOvggatk1fAxFXEWZfM
- iVOS6jUO3wI3D9e/DV5KkswZA0t5uy26gZR/gCRaLlxFoRE8iY9+MTw83dJs90LVanFHre
- 8kYSkWJPLNTitgadyDv05q2grHC9JyM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=I9eTs1b8+fLyQvtsIPgYxtT9WRkikjmlpzEdsmcyXhY=;
+ b=fyBWO3fQwp4GtkUVZ3jxqPfBAKk0jPFJ0agX1RE5c4QkHYnjB4HKXuX36iqjVYN9PaycJa
+ DsN3Cge8UiMEcWZ6awZfhOCowXtroNvLsh9xAAgxRlVx3LZee9ZR5rw+lxBD3hWH6jBuMN
+ YiDr3ixA5+f5HZoY9W5z8HSpvCIZrMk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-300-qXxd6n2LN-GpcwHEePRYNQ-1; Fri, 03 Dec 2021 13:21:25 -0500
-X-MC-Unique: qXxd6n2LN-GpcwHEePRYNQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o18-20020a05600c511200b00332fa17a02eso1692182wms.5
- for <qemu-devel@nongnu.org>; Fri, 03 Dec 2021 10:21:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=eI1nokn2NEJ2rkRDUCKon2gUX6h28FBSwD4gEKl1qJ4=;
- b=uWvi7z0H1WOWmOiADMprIANSdWUdXVvFogr1PD3xhPuQvQrst+nBVYr/xZMJEdw+MB
- Wtky1Lpg6pUtOAhrgVXxka8KIuj9peF+uCiSBx/EX7tFl1UjZCDukaEQ7PrlRzIw9bX7
- qE5myRGVMpX6kpmjhT5nAhbkjj246wK4PhZWn6Jrsu7YU9qoFrJNTijjua6b1dgvAnPz
- fj5AhuW1B2cxkCgcScn1EWS22Z7FdoPNKx55OQpuAMqVwSx22lxQ93FbU1nB0djWwjyU
- P4+b/uh2dTBeHSh055onrDE+aA+YfW2Hk/kFe779X4zZg4iuU82zU7npM2MbBWaiKome
- PtKA==
-X-Gm-Message-State: AOAM533tUGKqWzCQxXIkgXD/FyMnd2qY2v/9SnwkllxoZubMWA2GcKNb
- vuVCyweX18fqwaza47EWMNP4EfwhbkXcxenjvBWDHGNzWC9VagoDalGvtBRweigxaWEAAg6g5eD
- VAlf5oH7Fpgd7bWE=
-X-Received: by 2002:a1c:488:: with SMTP id 130mr17060874wme.157.1638555684070; 
- Fri, 03 Dec 2021 10:21:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwzYx3yF79Ts7LgIa1DTsTOIRXhitXEgorodkNwLrmG9woiT88mX0fK98C0gVK5+DxgHJs+0A==
-X-Received: by 2002:a1c:488:: with SMTP id 130mr17060835wme.157.1638555683833; 
- Fri, 03 Dec 2021 10:21:23 -0800 (PST)
-Received: from ?IPV6:2003:d8:2f44:9200:3344:447e:353c:bf0b?
- (p200300d82f4492003344447e353cbf0b.dip0.t-ipconnect.de.
- [2003:d8:2f44:9200:3344:447e:353c:bf0b])
- by smtp.gmail.com with ESMTPSA id a10sm5907351wmq.27.2021.12.03.10.21.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Dec 2021 10:21:23 -0800 (PST)
-Message-ID: <5cbbb142-2c77-435d-32a7-033dbf0995e6@redhat.com>
-Date: Fri, 3 Dec 2021 19:21:22 +0100
+ us-mta-159-bEZc349mPpOOoYMgkL6rhw-1; Fri, 03 Dec 2021 14:37:31 -0500
+X-MC-Unique: bEZc349mPpOOoYMgkL6rhw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11C1D802925;
+ Fri,  3 Dec 2021 19:37:30 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65E1419C79;
+ Fri,  3 Dec 2021 19:37:26 +0000 (UTC)
+Date: Fri, 3 Dec 2021 19:37:26 +0000
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Eduardo Lima <elima@redhat.com>
+Subject: Re: QEMU 6.2.0 and rhbz#1999878
+Message-ID: <20211203193725.GB1127@redhat.com>
+References: <CAJzYwARYDA+E4wrszx-F1D_9+VAYB2dU=M-LtvzPJey02gu2qg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 1/4] s390x/pci: use a reserved ID for the default PCI group
-To: Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>
-References: <20211202164110.326947-1-mjrosato@linux.ibm.com>
- <20211202164110.326947-2-mjrosato@linux.ibm.com>
- <123ecaef-0f76-614c-2f6d-cdb824a84f56@redhat.com>
- <a5b6d5d7-e11a-9b7a-651f-feda4f2c3781@linux.ibm.com>
- <20211203000655.0c679c8c.pasic@linux.ibm.com>
- <bd39e782-0348-cf93-0d4e-0b1c0fc8cb8b@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <bd39e782-0348-cf93-0d4e-0b1c0fc8cb8b@linux.ibm.com>
+In-Reply-To: <CAJzYwARYDA+E4wrszx-F1D_9+VAYB2dU=M-LtvzPJey02gu2qg@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.938, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,71 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, pmorel@linux.ibm.com, cohuck@redhat.com,
- richard.henderson@linaro.org, thuth@redhat.com, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, borntraeger@linux.ibm.com
+Cc: peter.maydell@linaro.org, berrange@redhat.com, sw@weilnetz.de,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.12.21 03:25, Matthew Rosato wrote:
-> On 12/2/21 6:06 PM, Halil Pasic wrote:
->> On Thu, 2 Dec 2021 12:11:38 -0500
->> Matthew Rosato <mjrosato@linux.ibm.com> wrote:
->>
->>>>
->>>> What happens if we migrate a VM from old to new QEMU? Won't the guest be
->>>> able to observe the change?
->>>>    
->>>
->>> Yes, technically --  But # itself is not really all that important, it
->>> is provided from CLP Q PCI FN to be subsequently used as input into Q
->>> PCI FNGRP -- With the fundamental notion being that all functions that
->>> share the same group # share the same group CLP info.  Whether the
->>> number is, say, 1 or 5 doesn't matter so much.
->>>
->>> However..  0xF0 and greater are the only values reserved for hypervisor
->>> use.  By using 0x20 we run the risk of accidentally conflating simulated
->>> devices and real hardware, hence the desire to change it.
->>>
->>> Is your concern about a migrated guest with a virtio device trying to do
->>> a CLP QUERY PCI FNGRP using 0x20 on a new QEMU?  I suppose we could
->>> modify 'clp_service_call, case CLP_QUERY_PCI_FNGRP' to silently catch
->>> simulated devices trying to use something other than the default group,
->>> e.g.:
->>>
->>> if ((pbdev->fh & FH_SHM_EMUL) &&
->>>       (pbdev->zpci_fn.pfgid != ZPCI_DEFAULT_FN_GRP)) {
->>>           /* Simulated device MUST have default group */
->>> 	pbdev->zpci_fn.pfgid = ZPCI_DEFAULT_FN_GRP;
->>> 	group = s390_group_find(ZPCI_DEFAULT_FN_GRP);
->>> }
->>>
->>> What do you think?
->>
->> Another option, and in my opinion the cleaner one would be to tie this
->> change to a new machine version. That is if a post-change qemu is used
->> in compatibility mode, we would still have the old behavior.
->>
->> What do you think?
->>
+On Fri, Dec 03, 2021 at 04:20:23PM -0300, Eduardo Lima wrote:
+> Hi Rich,
 > 
-> The problem there is that the old behavior goes against the architecture 
-> (group 0x20 could belong to real hardware) and AFAIU assigning this new 
-> behavior only to a new machine version means we can't fix old stable 
-> QEMU versions.
+> Can you confirm if the patch you added for qemu in Fedora has still not been
+> merged upstream? I could not find it on the git source tree.
 > 
-> Also, wait a minute -- migration isn't even an option right now, it's 
-> blocked for zpci devices, both passthrough and simulated (see 
-> aede5d5dfc5f 's390x/pci: mark zpci devices as unmigratable') so I say 
-> let's just move to a proper default group now before we potentially 
-> allow migration later.
+> +Patch2: 0001-tcg-arm-Reduce-vector-alignment-requirement-for-NEON.patch
+> +From 1331e4eec016a295949009b4360c592401b089f7 Mon Sep 17 00:00:00 2001
+> +From: Richard Henderson <richard.henderson@linaro.org>
+> +Date: Sun, 12 Sep 2021 10:49:25 -0700
+> +Subject: [PATCH] tcg/arm: Reduce vector alignment requirement for NEON
 
-Perfect, thanks for confirming!
+https://bugzilla.redhat.com/show_bug.cgi?id=1999878
+https://lists.nongnu.org/archive/html/qemu-devel/2021-09/msg01028.html
 
+The patch I posted wasn't correct (or meant to be), it was just a
+workaround.  However I think you're right - I don't believe the
+original problem was ever fixed.
+
+Let's see what upstreams says ...
+
+Rich.
 
 -- 
-Thanks,
-
-David / dhildenb
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-p2v converts physical machines to virtual machines.  Boot with a
+live CD or over the network (PXE) and turn machines into KVM guests.
+http://libguestfs.org/virt-v2v
 
 
