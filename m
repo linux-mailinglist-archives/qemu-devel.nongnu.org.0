@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA964677FA
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 14:17:28 +0100 (CET)
-Received: from localhost ([::1]:55286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C65B0467817
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 14:20:21 +0100 (CET)
+Received: from localhost ([::1]:58940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt8RM-0002RZ-1B
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 08:17:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57724)
+	id 1mt8U8-00055j-SH
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 08:20:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mt8IX-0001up-4B; Fri, 03 Dec 2021 08:08:21 -0500
+ id 1mt8Ic-00024k-Nd; Fri, 03 Dec 2021 08:08:27 -0500
 Received: from mail-eopbgr40135.outbound.protection.outlook.com
  ([40.107.4.135]:40808 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mt8IV-00071Q-2R; Fri, 03 Dec 2021 08:08:20 -0500
+ id 1mt8IZ-00071Q-Ht; Fri, 03 Dec 2021 08:08:26 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eKJxXAsulvEqfUEzkvrUJpta+BSsivI6dsi6ysqK8zHlS8mwNFDNV7/1HMnVHiIMhcpA0eWl2kQ9Wdf9OLdDP5k94QGFt3mt/Vf+ARU8KF7XZL3N2T5Rdr+izTaKEEdr22LdNhlZW/WPlTxS3yciBNSjzZnQPotJG6sLFt5QJzT3cDSAt9ACivUcW9Wcqv0Ah3twvwRCQ8VG6T5cMhn9ByNM5XF6nweygXwki/fjSQnC9aWM1T7MwTLY7Tsix3+tnxW7WmoSm+cPC9oQy0RwU1riOJqBX47iyEy93Rha7bmivoXQZzne315oqJBFgXv06N7P/YHFyy73/R9YoTrgpA==
+ b=Swwg35XuyJeoHEequGLp+Kykd/YTzTbPLCiIFmf4M9a2rp0dJgpQwdUAxKuZtErBwCnea8jESvA6vAnYrPfR4gVgIT7j+pmAY0BtLHLcOFNnbbE4h89/FYOrsF8avoQsOaypRI/T5Wl2wUcCFVDnVjSJhuarqNLDc8w1iLE9FMxAZeYM5CZ4DWVLBdBNicTSKQbTT9y1OJGGPRIRHlzvU6bju84T258/f/F2IwTaMIzNCvqRTXVcSpHmw/LsZBUB41prMJtKLQEj0zS6aSejfYrKIPg0BXc1eNe/oXMtwVD0Ur5/goY6wF0dExUWkX9EdwYPNeXHnoTShVNbyTEkIQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OZkd26KhLQd1bfutxli+O+3gDTMF6MIWX5aBAH9rcLg=;
- b=LWGsx6HJ9LuwJCVfDhM78E6O3K+byLAdqAwKcI4X8SCVgXi+PO2XDkQME3FblI+OZa/D/eX9Bwp2aviZn+alrLGUumXtEVvfd1o8T0Q8HNxH4ZONqmc4wvdbp30HEK1XCHD2kPVpombOP4yyRzpYoNz5HPtuPkOon4gYx4oZjEOZXcmpi1SpNWm+RrhNwltq/2Vugl7lhlMvV9huRde+xB3kMwi7npmMUpk1XAIloWQalCp3z5U6RWDYoMR9sl1Sg9SRbHq39F9B6jGvzRYx6UXtbOvAUQ/IUzPWNIgoMEapktl9HhF9CZ2O3BeERsool7tpzIkV/8SW8zk2CxW80A==
+ bh=FhvaATUa4cNWT0H3PXZx+a7CCwtxj8QfOSkqKBncPnU=;
+ b=dvq7Lc2ALwXmhX8u7pWxFMEEtvCiuUs0Di9lGFwJypH9jzzAKZwdfb9HekczmWLLPvMDyLNwkjUtwktVHDhXG0LaH4Bi3tA+NSI4l6rEN0HQmwMfZFGY1UEnWRmhCGFbak3bbjOrxp+VSRSKlRDWc2G4Qhlb+r2sLzm6pBoLDDVQ/c7L5nOaVhd7RQEMcLhsuptEjHQY5iP2mHBtQlL6cGIcazXqsUVI1tee4ffnR2WGOY/pai35yZNGU9g7nbmAd6ukUV3HdWHzBEYnUh+WvKGzEjUdARuPyizZfy7DeK7nd/aUy5fz7aoFaXvvJcWCXzd7uufJvjT7PM9DPaVaGw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OZkd26KhLQd1bfutxli+O+3gDTMF6MIWX5aBAH9rcLg=;
- b=rf9alGBwacN4/XHsmWQBityKkNqeZutVc+4RIhkXzcoCArpmRMHmspwVJ5k7qlLiqz/apAfXFXQXAqSsjCLtWGqtz1vyscR+ojN8+5MeuCxwCOuPVy9OhOsGEFKHMGN72cSG5Mv+EK3xUBtT5gQt53wUn20K8NqsAIJP5E9jT+o=
+ bh=FhvaATUa4cNWT0H3PXZx+a7CCwtxj8QfOSkqKBncPnU=;
+ b=OF4udqqVXKFJDZQRXEnYp/S/eyxv5i79mgXme0l4dX27A/6u8izXHIg13iSnFEMhEawmo29yduI63hm36oypAR4FYdjms2A/RfJW0euuKTpKtcj8k89ZwnIoTPjyWBSQnCVTL71R6lY1GGgB+6aklfvcjhCJcaJrkKbOyCMFQVA=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
  by AM0PR08MB4515.eurprd08.prod.outlook.com (2603:10a6:208:148::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Fri, 3 Dec
- 2021 13:08:09 +0000
+ 2021 13:08:10 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Fri, 3 Dec 2021
- 13:08:12 +0000
+ 13:08:13 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
- vsementsov@virtuozzo.com, jsnow@redhat.com
-Subject: [PATCH v4 08/19] iotests.py: filter compression type out
-Date: Fri,  3 Dec 2021 14:07:26 +0100
-Message-Id: <20211203130737.2924594-9-vsementsov@virtuozzo.com>
+ vsementsov@virtuozzo.com, jsnow@redhat.com, Max Reitz <mreitz@redhat.com>
+Subject: [PATCH v4 09/19] iotest 302: use img_info_log() helper
+Date: Fri,  3 Dec 2021 14:07:27 +0100
+Message-Id: <20211203130737.2924594-10-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211203130737.2924594-1-vsementsov@virtuozzo.com>
 References: <20211203130737.2924594-1-vsementsov@virtuozzo.com>
@@ -63,59 +63,59 @@ MIME-Version: 1.0
 Received: from kvm.ch-qa.sw.ru (130.117.225.5) by
  AM6P194CA0095.EURP194.PROD.OUTLOOK.COM (2603:10a6:209:8f::36) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4755.16 via Frontend Transport; Fri, 3 Dec 2021 13:08:11 +0000
+ 15.20.4755.16 via Frontend Transport; Fri, 3 Dec 2021 13:08:12 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 38338dc8-bdc0-47c2-4a76-08d9b65df56d
+X-MS-Office365-Filtering-Correlation-Id: e4cc7ce3-a13e-4c4f-2010-08d9b65df612
 X-MS-TrafficTypeDiagnostic: AM0PR08MB4515:
-X-Microsoft-Antispam-PRVS: <AM0PR08MB45153EDBA3A7F52AFA4B9BB5C16A9@AM0PR08MB4515.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Microsoft-Antispam-PRVS: <AM0PR08MB4515D445A354515E2B1F5910C16A9@AM0PR08MB4515.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yZJU7z2q9nmE0a0tFqXz+pN29mtJYrK/ahxlWKVByI+K9qMBu5RC8s/dJeEu4E+qymQEMuiVBQ4/7wcaWtO9usgPor0g49O48AoJDX+IavjrEj/41ITWbzz/dhoI7Z13xb/Q6TWrrFUruj6ObEC8z6rC2G5FYyifv95cdeAv08pg6wngTCmFld27cnN/HdS0hCqurA5zElpGzbUoJGtsM6gBqHx9xb7RtKquLdJwSzoxWocexoI6g8wCb8mlYUeiqjna4kq2b5V8dIrjWkb9GJWZLT5gjwBRapUGDOVI8V06T4lIbD7VIgERymC7cDb1fGIYHodIAx0aiqaGcXrZr9a1v4UyTpGaxIQddaO0PFguVBDx8i755NB5bBXcdB+0yeimTr+gRNlDkpoMOyq2CoQh1+JLiedVIuMiDOZmD3rsb+fQqo4HZ9tnCFn3BjUWNoYsFbko1yabWYnyVRs/enZN+GQbAW3da5e8Vz9o81uErNvjnPHDblSVHKNUiGtYhJjwClaAN+Xwe2o/ba0GCJrNDRxMBeVwbNRL00t6pfy+4eyiTjj4VMM33VScgjHsmqg4wrhdp8yic27dSn873D/fhVncQEWtDr8Wx+AsKhfCK2z6j3HhQpYTOjuM9Csqp1quX0FEuOhLHEfeapSDpwZHKsNdjWburFycDDPrUZyq4ZUErzXHiyQ3e9R2nRINMlLgF4kCxuCQrOBVC0f7gg==
+X-Microsoft-Antispam-Message-Info: fuQdrYWfv/z1XuVNBSQKICJDrvqYfgFdGhMiLOcsl5kwYkPDn6kfpQHnRMcD/vIzK0jz0Zgh7F3smtde+Ny432IWoyyJifmdwJmn/DOHQSncMlzzo3EKZ6sE7yqZsmyjlR7FBLtWdKlOGHvMfAxGm8YUVyJpcvd2PXIqW6yKBcWrMr+BmRUWarnVVJy7PdzNiD00UGKZ3AqPVJmNYIPlcQns+6V2eYu1istFxuZInS8700IRSeNlYJNwFyTuHe7cKgbRTXFyqXk/L4BTM+4ECKOd811vd7EMVH5UagdqMfRu/jmP+A4Fc+No/E09s4r3A68z/ePHxbKpr5+ZA8TvjXtgdYlHKmoqI7I8vsBYYE4uWT6RHgCqFIaBiLT++VByOYtjpxvffyvKJnhv8Q6SfclX2HCOVBt4Hk27R+0mY0zIyoLwe/Yx7fGaOdwZ9m2Ph7Sh0uMVoDvG9+GsFrI80M5wJYhgLrUx2sXyWethLp3wdDFkiQdITrimg1vOXYdL9r1znb3sJAv9RtOrgpOyv5pWcZY8qOUHngfKZFiOI4SRA8iWalgi0Nrw0eErhnhy1/BxAq0BA27GJN9F0zL2FFKXa16FBz6oKp4//J6ZWTAK3H1lhCIRiHt4DrOYOA3WTqqEZW8wHulpnXZBNPR0OX1ScYJWeNUBE1V3RJ+tGgCxiZcWVMC6ObchK/71KWCOMopZTWgp4eoIOWMpg0Xj5A==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(2906002)(4326008)(186003)(6512007)(52116002)(6506007)(1076003)(5660300002)(36756003)(86362001)(38100700002)(26005)(956004)(508600001)(2616005)(8676002)(316002)(6486002)(66476007)(8936002)(66946007)(66556008)(6666004)(83380400001)(38350700002)(6916009);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uirZ1jYOZRj4IqGEWeya1krlXnW7erGjbxIHqiONhcBOSZNcXGU8emt6InLw?=
- =?us-ascii?Q?I53JIU0Z10jgKdyyPScg5LohFxtQaYLjTqIwuKTXeNgX0S39sOAhGKuapbV9?=
- =?us-ascii?Q?2WqXgjWmc+5R7duWs/r4eRRI94djPrY5WGqAFpDWsTdZXyFe+IhrI0vxFcQK?=
- =?us-ascii?Q?/IY5pLvYvFAkd3A/VyGqHQIXNNJgxGKVtktAv7I1DORX9m4kZX1RrCDi4j2z?=
- =?us-ascii?Q?j3uqY/cOld4qbNa3xeLl0P6KVdCnblJagCiaAGu7a7v1bs6IocKSHEHUh7It?=
- =?us-ascii?Q?w8h973rdInDRl8COZZoIrZZG86npkJJksSk8Z+26pZJLl27BEoZ/T0/Z7wtE?=
- =?us-ascii?Q?r3QmUts9kYYv+nQM1WZgs+FqVwQEoNAC3Om7n62KmnlxMMiz+DYxwOT55Tzg?=
- =?us-ascii?Q?yydeUeGXnmeplDoaXME4hr2niCh+c1OrzzGTwOvu8hz+Y5N2iX/UZR7YGlxe?=
- =?us-ascii?Q?FoykHdXY2gGQCSS6lBQu5ArQrJqG3sM6yEnVtss2MT2XUIsuEq/2aKuXxlgo?=
- =?us-ascii?Q?MV5glmrQhxSEEucbuWORKpIKP/LwOc1WZfHDfNvsHwN15HmT60B5ifbR4H3o?=
- =?us-ascii?Q?gbVRpjBZIZZNHkPrynxScLRRK6f4Xh0ep8/wZ7rpY6Npeahu+KevQHifRMsE?=
- =?us-ascii?Q?3/RYkurvkluXB6TMN9RIxvJyFuMV6dm/q7dMeNn+91sKiTK0xcya8quJEViQ?=
- =?us-ascii?Q?2OXdABcqB7CGZ2j+EMMnHvsQPqu5Rn0NvahCJ7Rb9N2V8Evu7bN5kdpmXtEB?=
- =?us-ascii?Q?YhCvm80lQqkKjCJ8CXzZdIgUyvReS2NpW/B6YUlNIHFqj7aC4N+REqrgBVqQ?=
- =?us-ascii?Q?hmn9O/lHT8nsQd+ZJEcwLXS28DGNCphX8WqCif84BQhVjrDmKr/AEqs9phgG?=
- =?us-ascii?Q?KLnwbk0IrjJQPqZR/u/ITdQgUVjXOfwMoaeaJ89kzWTKXtYH3YuWLNtuRT24?=
- =?us-ascii?Q?wr9GfNoXeCb46HPaEssG5KBjKRwDKtudgCC5dG9vGiZxEAM43hehzRZ9cR4Q?=
- =?us-ascii?Q?XoZNfJQu249egWFRy8m4DCMu0XfughGqOv4diSUfaj6DC/PDNGpYlgoJ/BWi?=
- =?us-ascii?Q?vXZeL+cGXxV83a3savCLUjkTHUXT4ARgM59+Bs6pxIn+SL5JGdrvA9fikOpL?=
- =?us-ascii?Q?8dU1L05lGgl8TpR94UdnDozx5fHZp3pdQ0NhadwAeGLv4+IKsKUtmS5vLZir?=
- =?us-ascii?Q?MC8C058ZZgDpQgG9XbiOpxc0D7G6T35sq9bJNnSAReLToSnqcwC7CDb+WCo9?=
- =?us-ascii?Q?W9DapGpoN8pZqBIkKlhGMCkmKez3SUZp3dsqGSlAYWK4VwaxmzkuUewtl33D?=
- =?us-ascii?Q?P8qUPqNfbUv2QEJUsIIVP1uWGwh0MG5ct2ED0WaJPbfqvaneC/3vpDbt5tW2?=
- =?us-ascii?Q?I/CEQUhUVMAFfB7B9A3KTGBb0Brtk5cJu29CEYJJ7jMIEGUigRfYfONQayJl?=
- =?us-ascii?Q?PQQlzITN+qWUpsm7FM55NZSrWfByDd9uZkUHCfO54qAAU9DgJZ4rA7z+11Cp?=
- =?us-ascii?Q?u/CbbpGuTFhbcZ/QfFbJZ3jNsi2wQhdTq7UlYVkEd855TMmnqkmi0t0Z57za?=
- =?us-ascii?Q?+Rl+rLar36yu59pnh7vl10RzFaqqdNocHoBbYURNxEfTnv/B9QBLeLEHWzXE?=
- =?us-ascii?Q?kpMIC4omdKkE24nqrLzvSGN5iwrL1eHLyvRSE+dO5WkTZUWMYsMUvNbZJ29W?=
- =?us-ascii?Q?+HTqrA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4N+C18K0vVSqav9pW8ajo4j+Vrh/5FU0JWfPvuGas3Sf+Fh55uB29fc+Tddo?=
+ =?us-ascii?Q?X8ZXDWECJezes3kEZgXiCezXz2WnheZTXEmJ77LxE6Q2EKNX3DhsZ3Udlx9v?=
+ =?us-ascii?Q?6oNfvuTzNnBBJo57uyvkoHHGk01gJ5h31+7DZewUKqY1JqfdeacZl5K2DVLN?=
+ =?us-ascii?Q?KQyp8Th+cSU3to9YsFhVSXBUlSqL0DTeYt/yOACKt9OljOnm73Avny1dPZmI?=
+ =?us-ascii?Q?8FqyUiyEI1XotAfTm3ViM4K5GpOFwZLr7SP5X4JvzP4lW+wgcJjhdXd2AS8p?=
+ =?us-ascii?Q?NC8IwNnYUN/nfjE/qaswW5vYKyetwOcz9NZKfMwYvxvFPf/g/FA1O0q+svPj?=
+ =?us-ascii?Q?gIzW/OQO/FBDIDCc7LsmDrFJb/4m07nGsSOBnsD8m4x4NHIXEaCpkY6+EGlU?=
+ =?us-ascii?Q?urI5mx1BHe5fPVoNP8fKX9EuGgjENHc9zQcpraaw7irKveFqlHJkOpLQlSXR?=
+ =?us-ascii?Q?UDXcFabVcjBhjCx3EXUy1B1rvfBJIhfhU1RtX2k7m7M9LEHiHoIgpQECxEpM?=
+ =?us-ascii?Q?osYKV1GC5diP4Gb4kD39ZrC01+DrFz+6YALkVt6o3mJ6SucAxTYUotV6vR9g?=
+ =?us-ascii?Q?e0O+Yq41RxrPsZsqY8v73t6KPoW403bs9DmYktKlywzI07oOq2O0dKv4b+5v?=
+ =?us-ascii?Q?cKE7znZSxj0YgpujMdA6EgBIuPXLqz18nEHiw2vuEAFhkGb9NnkJrycMQCUn?=
+ =?us-ascii?Q?6bWjAjo2xRpBnUWVShyaFRIH4Lbfg8Y80qtJFRGHIt2TuWbK2laB71+IPfxG?=
+ =?us-ascii?Q?VzRAx6HKzUP0gisXmTH+BA/0cusbO2I3wJX/ZprJko7r+Obf+Ew1d4/EN5nQ?=
+ =?us-ascii?Q?cj50m/qkRjkFw4s5ydKf3VIEBf0KZJzSttSoOj/xEvAYdwcdgoMeh/NI+EOI?=
+ =?us-ascii?Q?TMwRwhDOW6BkSXGvMBQqHCaDHEzsZNMXdRarlJrpU9ze/FyB6vobWiK4SwXO?=
+ =?us-ascii?Q?AzYpv2Qdl0J7+RLJHYHQk1SL6L43gHJCA0ZzLlADkrjEmavHwpT773somEOS?=
+ =?us-ascii?Q?jLnqKpDZq1MUVbVib9QS6xLOA32sGypoEdmXM+UlOCMmHi6MzFwGXSwyAN1+?=
+ =?us-ascii?Q?UJmdLeaBxlUm+HG3oAmlR18mdngjQf0UBoAGBfYNKLn2O8JdaAAjM63WYcmH?=
+ =?us-ascii?Q?5Ppm2WriT2P2MkT7cyGkDFPsnW8lfenCbwBs/0tP3KopbzNh3tWu8eGtu/D1?=
+ =?us-ascii?Q?IZVxBuLwUqojU6GAdnUiEevGpmbF5GRERLuEccTLZWHQNtbNcWtXvgUb7bWt?=
+ =?us-ascii?Q?MG2eFPBMoTWpKC/3SqIyTfH+McoF+sOKxjKZXDHaRNW+Dk6mm6z0Ju+EZJRE?=
+ =?us-ascii?Q?AxpOra1YgJVYqnUHddilXWOtUaeaVmyqZh85lRYqQhAtxMC8q9/1A7T68EL/?=
+ =?us-ascii?Q?UJ6MP2JG1En7GLn36Z80e2ij+zodQdTjXI0eEljjFGxL9hFHXcWcDzEocXRW?=
+ =?us-ascii?Q?+Pbp4bvhjwxuwIlYS2PpSJuEKi/MGHnJu1aTXKx7f8MzWXHiqqjanN9WT8Bd?=
+ =?us-ascii?Q?dbbCy+q1h7TyQxQnqnuDEEpOdOM6U1JyI4JDeEnDBj8NFBQUy8PF3eqNbOG8?=
+ =?us-ascii?Q?+MXPOeLuRlI92NOKiNvoAAtjJrp0Jvd3wbTPsOkivUqXBg0ydUWwsNQ8UMGt?=
+ =?us-ascii?Q?XKPsAgtxWFXszagzMfj372sTBrIoQyESTO4C3CbSqV8upAXmbVm9yK9AEIB3?=
+ =?us-ascii?Q?Re+M+w=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38338dc8-bdc0-47c2-4a76-08d9b65df56d
+X-MS-Exchange-CrossTenant-Network-Message-Id: e4cc7ce3-a13e-4c4f-2010-08d9b65df612
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2021 13:08:11.9223 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2021 13:08:13.2534 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Fiu4mcL6zro37nMALYXMaKv5ndPbjCIMyM/gkMtP9b94IY3zYUNCx2EYpUhq5f0Pmd6g3Nct38YOkzofpXgYoHDCxL+OTp5KSUpzlT++7rc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: GhjIVBUzZturPVlhMGCtCjq6oFHDHIYb+yAiFZHTZ3EjgX6ak6vZqFZ45KY9TSOUwismQ9m7Ua2AX83aLbg28f6dvT7kb66PtW8WhPdU6ts=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4515
 Received-SPF: pass client-ip=40.107.4.135;
  envelope-from=vsementsov@virtuozzo.com;
@@ -143,183 +143,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want iotests pass with both the default zlib compression and with
-IMGOPTS='compression_type=zstd'.
+Instead of qemu_img_log("info", ..) use generic helper img_info_log().
 
-Actually the only test that is interested in real compression type in
-test output is 287 (test for qcow2 compression type) and it's in bash.
-So for now we can safely filter out compression type in all qcow2
-tests.
+img_info_log() has smarter logic. For example it use filter_img_info()
+to filter output, which in turns filter a compression type. So it will
+help us in future when we implement a possibility to use zstd
+compression by default (with help of some runtime config file or maybe
+build option). For now to test you should recompile qemu with a small
+addition into block/qcow2.c before
+"if (qcow2_opts->has_compression_type":
+
+    if (!qcow2_opts->has_compression_type && version >= 3) {
+        qcow2_opts->has_compression_type = true;
+        qcow2_opts->compression_type = QCOW2_COMPRESSION_TYPE_ZSTD;
+    }
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/206.out    | 10 +++++-----
- tests/qemu-iotests/242.out    | 10 +++++-----
- tests/qemu-iotests/274.out    | 10 +++++-----
- tests/qemu-iotests/iotests.py |  2 ++
- 4 files changed, 17 insertions(+), 15 deletions(-)
+ tests/qemu-iotests/302     | 4 +++-
+ tests/qemu-iotests/302.out | 7 +++----
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qemu-iotests/206.out b/tests/qemu-iotests/206.out
-index 80cd274223..7e95694777 100644
---- a/tests/qemu-iotests/206.out
-+++ b/tests/qemu-iotests/206.out
-@@ -18,7 +18,7 @@ virtual size: 128 MiB (134217728 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -42,7 +42,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -66,7 +66,7 @@ virtual size: 32 MiB (33554432 bytes)
- cluster_size: 2097152
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: true
-     refcount bits: 1
-     corrupt: false
-@@ -92,7 +92,7 @@ backing file: TEST_IMG.base
- backing file format: IMGFMT
- Format specific information:
-     compat: 0.10
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     refcount bits: 16
+diff --git a/tests/qemu-iotests/302 b/tests/qemu-iotests/302
+index 5695af4914..a6d79e727b 100755
+--- a/tests/qemu-iotests/302
++++ b/tests/qemu-iotests/302
+@@ -34,6 +34,7 @@ from iotests import (
+     qemu_img_measure,
+     qemu_io,
+     qemu_nbd_popen,
++    img_info_log,
+ )
  
- === Successful image creation (encrypted) ===
-@@ -109,7 +109,7 @@ encrypted: yes
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     encrypt:
-diff --git a/tests/qemu-iotests/242.out b/tests/qemu-iotests/242.out
-index 3759c99284..ce231424a7 100644
---- a/tests/qemu-iotests/242.out
-+++ b/tests/qemu-iotests/242.out
-@@ -12,7 +12,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -34,7 +34,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     bitmaps:
-         [0]:
-@@ -68,7 +68,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     bitmaps:
-         [0]:
-@@ -110,7 +110,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     bitmaps:
-         [0]:
-@@ -161,7 +161,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     bitmaps:
-         [0]:
-diff --git a/tests/qemu-iotests/274.out b/tests/qemu-iotests/274.out
-index 1d2928e14d..1ce40d839a 100644
---- a/tests/qemu-iotests/274.out
-+++ b/tests/qemu-iotests/274.out
-@@ -50,7 +50,7 @@ backing file: TEST_DIR/PID-base
- backing file format: IMGFMT
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -79,7 +79,7 @@ backing file: TEST_DIR/PID-base
- backing file format: IMGFMT
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -114,7 +114,7 @@ backing file: TEST_DIR/PID-base
- backing file format: IMGFMT
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -141,7 +141,7 @@ virtual size: 2 MiB (2097152 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -176,7 +176,7 @@ backing file: TEST_DIR/PID-base
- backing file format: IMGFMT
- Format specific information:
-     compat: 1.1
--    compression type: zlib
-+    compression type: COMPRESSION_TYPE
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index f19f0590f5..903686b402 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -486,6 +486,8 @@ def filter_img_info(output, filename):
-                       'uuid: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
-                       line)
-         line = re.sub('cid: [0-9]+', 'cid: XXXXXXXXXX', line)
-+        line = re.sub('(compression type: )(zlib|zstd)', r'\1COMPRESSION_TYPE',
-+                      line)
-         lines.append(line)
-     return '\n'.join(lines)
+ iotests.script_initialize(supported_fmts=["qcow2"])
+@@ -88,6 +89,7 @@ with tarfile.open(tar_file, "w") as tar:
+             tar_file):
  
+         iotests.log("=== Target image info ===")
++        # Not img_info_log as it enforces imgfmt, but now we print info on raw
+         qemu_img_log("info", nbd_uri)
+ 
+         qemu_img(
+@@ -99,7 +101,7 @@ with tarfile.open(tar_file, "w") as tar:
+             nbd_uri)
+ 
+         iotests.log("=== Converted image info ===")
+-        qemu_img_log("info", nbd_uri)
++        img_info_log(nbd_uri)
+ 
+         iotests.log("=== Converted image check ===")
+         qemu_img_log("check", nbd_uri)
+diff --git a/tests/qemu-iotests/302.out b/tests/qemu-iotests/302.out
+index e2f6077e83..3e7c281b91 100644
+--- a/tests/qemu-iotests/302.out
++++ b/tests/qemu-iotests/302.out
+@@ -6,14 +6,13 @@ virtual size: 448 KiB (458752 bytes)
+ disk size: unavailable
+ 
+ === Converted image info ===
+-image: nbd+unix:///exp?socket=SOCK_DIR/PID-nbd-sock
+-file format: qcow2
++image: TEST_IMG
++file format: IMGFMT
+ virtual size: 1 GiB (1073741824 bytes)
+-disk size: unavailable
+ cluster_size: 65536
+ Format specific information:
+     compat: 1.1
+-    compression type: zlib
++    compression type: COMPRESSION_TYPE
+     lazy refcounts: false
+     refcount bits: 16
+     corrupt: false
 -- 
 2.31.1
 
