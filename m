@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4842A4673A1
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 10:04:31 +0100 (CET)
-Received: from localhost ([::1]:53338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB1F14673A9
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 10:06:28 +0100 (CET)
+Received: from localhost ([::1]:56008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt4UY-0005v2-2y
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 04:04:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53402)
+	id 1mt4WR-0007ju-KD
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 04:06:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mt4Se-0005F1-PH
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 04:02:32 -0500
-Received: from [2a00:1450:4864:20::32f] (port=45048
- helo=mail-wm1-x32f.google.com)
+ id 1mt4Tl-00069D-Jj
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 04:03:41 -0500
+Received: from [2a00:1450:4864:20::42d] (port=44994
+ helo=mail-wr1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mt4Sd-0008TW-0r
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 04:02:32 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- p27-20020a05600c1d9b00b0033bf8532855so1665225wms.3
- for <qemu-devel@nongnu.org>; Fri, 03 Dec 2021 01:02:30 -0800 (PST)
+ id 1mt4Tk-000071-0D
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 04:03:41 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id l16so4210621wrp.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Dec 2021 01:03:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=gwACWvvC6lDYXlEbGdiodBZtwrfR8+95kmrrJS25i9Y=;
- b=kuXUPPQJE0+tQTlFti2yg9Rf7lHwaqJ/N0MdAJXHVSw7bJSLA9KUoZlRRDb4pevvCC
- Ii8jgoKoWXnJSU+ecszbQO5MYpZWZLlbDtlEMKdHznNKh7Ytakl8wZpvY1POqnQG73b6
- iQQbAyEFwbEogclhx0Z4gqnrFNQQ3U8WOo4KdnsxU80Ce5K4Aq/5zozAuIQi8O1eeEje
- kylAza5bBCkebocacrI2bjQJ4mkrsnZwHQxpGack/JDIjkgtT+5s0fjiZ4Zg9hdkaLHo
- PzDTGjkjnVi3vcwW3bfF0dmfPYvj/Ev40gC0qX8IawB1C2sjNKifEk7sOOWH0zOUbL6p
- b02w==
+ bh=1hHeRqCYFKsptslpicEqzcW+2wevuoxxQcOegRTYcDo=;
+ b=ieFSUFOaPnPFAJ05YTeNiq8JiKZKrZ2UXFX6v18fBHc8npzSL5waHiepyvBuekFfsP
+ ib4OX0PWd7OR+OzXyv2lf7U1NR2mVjzill93XJNSCkl+dqiSNCQj2j0Ok4VTvqI8tBOc
+ IIK+Gd2AGS2oej4mHtAHyzbyFt7ytQ9x6n3jnUVqQmrzqb4i1Gg1lgT6l8JfNSoCfEf7
+ ULAehDmMp4XnNHmE1YtSDyykiHWY41NJmwoATRDWbqnLOIvmBVG22JzH5Vec0qFncIaq
+ mw3gZWCVihjeqZtngKkrzTHwWlVbbp9Zd9QbcM5sMZPrBmBDZx/K4Pumh60+45PhFWYy
+ 5qog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=gwACWvvC6lDYXlEbGdiodBZtwrfR8+95kmrrJS25i9Y=;
- b=aoGm2SIzfti3wN5k3iWnjf81B+daNGMjl4n7PvG1vPfaxStGBFuJ13SXvreRXCUIQO
- ewqxGwxUpjaa8jYjqt0VeAUg6H4xgpvmoEZ9kzYA85Tl4IJtvBMGZJX3kq4sHhpOT8dR
- wuTKyXjjK8I8eYJzdeGCugY4H+QQMqK+pChp3xFq2rITdT21IMOvwPMtAl0ohYmYKOzZ
- UauShP1F1ahDcl7LM0LK5ttQNz22gj5Q4ObqYXSeXD+60s8KeATZ7WHAXE7QPpgNEJd2
- 6FT0tIuy1DzAplTGWgtpIFthenKyp6xfgD5EJe6rpq8cqhFfcZ1vDF/OXI9UV+FvicXv
- pShQ==
-X-Gm-Message-State: AOAM530afGjnPmXFikk3H0hV9pV4+Y7C4MU+pPmbOwHAxOxX+0fS8gqJ
- 50DGOaDTbCy9avicZZR95hk=
-X-Google-Smtp-Source: ABdhPJxoMOnGfgctSEQuFqlcskh8MPZFBRk30mJU0MLyOEWiPwLcUl6p1uhMsNEZ7htJmn8uJE36QA==
-X-Received: by 2002:a1c:4d8:: with SMTP id 207mr13293682wme.23.1638522148996; 
- Fri, 03 Dec 2021 01:02:28 -0800 (PST)
+ bh=1hHeRqCYFKsptslpicEqzcW+2wevuoxxQcOegRTYcDo=;
+ b=2njGxYdDjSV0QV2b41xOmw7/Ji3px2FIOClrj9RsiYHfreCtV6fOJjrx7rtOcyn8u7
+ 2x+n7TBMocMS+OLkQyPUcjOGYye1Yyoocep95XJzHRKkd0vAi9m58aT9bRaEJnY5eaOb
+ 1N5ZUxtV4V4JSOvlqC6uSy6aEHjgIxDkSX+BILdrt54ZvyOeAkVo60K17E3JZn4XaVtW
+ +OSRISRO9HY+79L3x08nXQod+C49dZOt8wf8Frc9jqDpAPDgqBuxRCbTKNlvYxXapVTn
+ nrcYwzaXl5Tvk9rzOl7u4kyfgmA9XwjdVKUB4XurpQRbAsnrQxq16BVkq3pNbeEnhleV
+ ZmTg==
+X-Gm-Message-State: AOAM530JuhJDWrRC0i+TUP2ZvMZWK6mtTrEql/tnPunuajcYzM/sz4Hw
+ Xj4FJB7upqys3v81BJtGkYyCP8E/6OLBBA==
+X-Google-Smtp-Source: ABdhPJx4vJm3nk/Eo+JHzBP32bcNqdS4S4/hfpk37fVOYsrpl4A9WwImdqHZXRrkVU/rOyvRJsYLWw==
+X-Received: by 2002:a5d:59ae:: with SMTP id p14mr19935821wrr.365.1638522218664; 
+ Fri, 03 Dec 2021 01:03:38 -0800 (PST)
 Received: from [192.168.1.34] (abayonne-654-1-79-213.w86-222.abo.wanadoo.fr.
  [86.222.222.213])
- by smtp.gmail.com with ESMTPSA id b197sm1989513wmb.24.2021.12.03.01.02.27
+ by smtp.gmail.com with ESMTPSA id l5sm2623017wrs.59.2021.12.03.01.03.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Dec 2021 01:02:28 -0800 (PST)
-Message-ID: <37d0a287-daf4-91f4-e88a-9245ae3b5c6b@amsat.org>
-Date: Fri, 3 Dec 2021 10:02:27 +0100
+ Fri, 03 Dec 2021 01:03:38 -0800 (PST)
+Message-ID: <719c1c47-06aa-d1a7-5b52-7d4b2999bc1b@amsat.org>
+Date: Fri, 3 Dec 2021 10:03:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v2 02/15] target/m68k: Switch over exception type in
- m68k_interrupt_all
+Subject: Re: [PATCH v2 05/15] target/m68k: Remove retaddr in m68k_interrupt_all
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211202204900.50973-1-richard.henderson@linaro.org>
- <20211202204900.50973-3-richard.henderson@linaro.org>
+ <20211202204900.50973-6-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211202204900.50973-3-richard.henderson@linaro.org>
+In-Reply-To: <20211202204900.50973-6-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
@@ -100,49 +98,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/2/21 21:48, Richard Henderson wrote:
-> Replace an if ladder with a switch for clarity.
+> The only value this variable holds is now env->pc.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/m68k/op_helper.c | 45 +++++++++++++++++++++++++----------------
->  1 file changed, 28 insertions(+), 17 deletions(-)
-
-> -    } else if (is_hw && oldsr & SR_M &&
-> -               cs->exception_index >= EXCP_SPURIOUS &&
-> -               cs->exception_index <= EXCP_INT_LEVEL_7) {
-> -        do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
-> -        oldsr = sr;
-> -        env->aregs[7] = sp;
-> -        cpu_m68k_set_sr(env, sr &= ~SR_M);
-> -        sp = env->aregs[7] & ~1;
-> -        do_stack_frame(env, &sp, 1, oldsr, 0, retaddr);
-> -    } else {
-> +        break;
-> +
-> +    case EXCP_SPURIOUS ... EXCP_INT_LEVEL_7:
-> +        if (is_hw && oldsr & SR_M) {
-
-This is code movement, but adding parenthesis would produce
-clearer code.
-
-> +            do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
-> +            oldsr = sr;
-> +            env->aregs[7] = sp;
-> +            cpu_m68k_set_sr(env, sr &= ~SR_M);
-
-Similarly code movement; this assignation deserves a followup
-cleanup patch...
-
-> +            sp = env->aregs[7] & ~1;
-> +            do_stack_frame(env, &sp, 1, oldsr, 0, retaddr);
-> +            break;
-> +        }
-> +        /* fall through */
-> +
-> +    default:
->          do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
-> +        break;
->      }
+>  target/m68k/op_helper.c | 15 ++++++---------
+>  1 file changed, 6 insertions(+), 9 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
