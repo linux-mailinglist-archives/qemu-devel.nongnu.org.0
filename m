@@ -2,52 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B2D467614
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 12:19:23 +0100 (CET)
-Received: from localhost ([::1]:35072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58FE84676E5
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 12:58:04 +0100 (CET)
+Received: from localhost ([::1]:33210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt6b3-0001CI-Td
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 06:19:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57766)
+	id 1mt7CU-00045X-Ud
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 06:58:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1mt6ZC-0000N0-FF; Fri, 03 Dec 2021 06:17:26 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:40846)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1mt6ZA-0005LH-IV; Fri, 03 Dec 2021 06:17:26 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from [172.20.250.15] ([172.20.250.15])
- (authenticated user pl@kamp.de) by kerio.kamp.de with ESMTPSA
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
- Fri, 3 Dec 2021 12:17:15 +0100
-Subject: Re: [RFC PATCH 2/2] qemu-img convert: Fix sparseness detection
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20210415152214.279844-1-kwolf@redhat.com>
- <20210415152214.279844-3-kwolf@redhat.com>
- <06e1910c-102a-e41d-116f-00458f41243c@virtuozzo.com>
- <YH7tah47XxdYs3VW@merkur.fritz.box>
- <f0ba8d30-3380-41d5-e3e7-c1ee52fc46be@virtuozzo.com>
- <dde3af63-994d-4b60-03f7-fc71273e149f@kamp.de>
- <YKVBc4BwX0YuKnrR@merkur.fritz.box>
-From: Peter Lieven <pl@kamp.de>
-Message-ID: <f8ef0127-ea3b-6eb4-a83b-7765c764a024@kamp.de>
-Date: Fri, 3 Dec 2021 12:17:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1mt7AH-00021C-Up
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 06:55:45 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:45846)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1mt7AF-0001QC-Ke
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 06:55:45 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 884F71FD3F;
+ Fri,  3 Dec 2021 11:55:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1638532540; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=C0Td1uOQOvN4m+f2UGpe+IyZCw0rsPC64ucImaVCldI=;
+ b=AR9/cBrO4AJW4Qh9wdAfRQF6UNbRGUqIampkeGBbD/X+YSl7aE6aDgCKgYfIQiK/viD8XO
+ eh6aj3DCu4I+d3y4KLzJkRPih91sGy/SP9JvF/Q+3vckg3ASkFtc7Qf5VXbUClByHb5jxy
+ b4DcAWBVWqTqx6MqxpEM69Qiq32SO/A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1638532540;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=C0Td1uOQOvN4m+f2UGpe+IyZCw0rsPC64ucImaVCldI=;
+ b=chC3M+lNEHlQySReluXQIALJ9WDkzIkoXjVMPCYHI+T2RUAldaukwlGv3puvIp9G55Lv6I
+ TEsX3/oxb/EjyvAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 503BD13DF5;
+ Fri,  3 Dec 2021 11:55:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id iF7xEbwFqmHbNgAAMHmgww
+ (envelope-from <lizhang@suse.de>); Fri, 03 Dec 2021 11:55:40 +0000
+From: Li Zhang <lizhang@suse.de>
+To: dgilbert@redhat.com, quintela@redhat.com, berrange@redhat.com,
+ cfontana@suse.de, qemu-devel@nongnu.org
+Subject: [PATCH v2 0/1] migration: multifd live migration improvement 
+Date: Fri,  3 Dec 2021 12:55:32 +0100
+Message-Id: <20211203115533.31534-1-lizhang@suse.de>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <YKVBc4BwX0YuKnrR@merkur.fritz.box>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.938,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=lizhang@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,134 +79,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Li Zhang <lizhang@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 19.05.21 um 18:48 schrieb Kevin Wolf:
-> Am 19.05.2021 um 15:24 hat Peter Lieven geschrieben:
->> Am 20.04.21 um 18:52 schrieb Vladimir Sementsov-Ogievskiy:
->>> 20.04.2021 18:04, Kevin Wolf wrote:
->>>> Am 20.04.2021 um 16:31 hat Vladimir Sementsov-Ogievskiy geschrieben:
->>>>> 15.04.2021 18:22, Kevin Wolf wrote:
->>>>>> In order to avoid RMW cycles, is_allocated_sectors() treats zeroed areas
->>>>>> like non-zero data if the end of the checked area isn't aligned. This
->>>>>> can improve the efficiency of the conversion and was introduced in
->>>>>> commit 8dcd3c9b91a.
->>>>>>
->>>>>> However, it comes with a correctness problem: qemu-img convert is
->>>>>> supposed to sparsify areas that contain only zeros, which it doesn't do
->>>>>> any more. It turns out that this even happens when not only the
->>>>>> unaligned area is zeroed, but also the blocks before and after it. In
->>>>>> the bug report, conversion of a fragmented 10G image containing only
->>>>>> zeros resulted in an image consuming 2.82 GiB even though the expected
->>>>>> size is only 4 KiB.
->>>>>>
->>>>>> As a tradeoff between both, let's ignore zeroed sectors only after
->>>>>> non-zero data to fix the alignment, but if we're only looking at zeros,
->>>>>> keep them as such, even if it may mean additional RMW cycles.
->>>>>>
->>>>> Hmm.. If I understand correctly, we are going to do unaligned
->>>>> write-zero. And that helps.
->>>> This can happen (mostly raw images on block devices, I think?), but
->>>> usually it just means skipping the write because we know that the target
->>>> image is already zeroed.
->>>>
->>>> What it does mean is that if the next part is data, we'll have an
->>>> unaligned data write.
->>>>
->>>>> Doesn't that mean that alignment is wrongly detected?
->>>> The problem is that you can have bdrv_block_status_above() return the
->>>> same allocation status multiple times in a row, but *pnum can be
->>>> unaligned for the conversion.
->>>>
->>>> We only look at a single range returned by it when detecting the
->>>> alignment, so it could be that we have zero buffers for both 0-11 and
->>>> 12-16 and detect two misaligned ranges, when both together are a
->>>> perfectly aligned zeroed range.
->>>>
->>>> In theory we could try to do some lookahead and merge ranges where
->>>> possible, which should give us the perfect result, but it would make the
->>>> code considerably more complicated. (Whether we want to merge them
->>>> doesn't only depend on the block status, but possibly also on the
->>>> content of a DATA range.)
->>>>
->>>> Kevin
->>>>
->>> Oh, I understand now the problem, thanks for explanation.
->>>
->>> Hmm, yes that means, that if the whole buf is zero, is_allocated_sectors must not align it down, to be possibly "merged" with next chunk if it is zero too.
->>>
->>> But it's still good to align zeroes down, if data starts somewhere inside the buf, isn't it?
->>>
->>> what about something like this:
->>>
->>> diff --git a/qemu-img.c b/qemu-img.c
->>> index babb5573ab..d1704584a0 100644
->>> --- a/qemu-img.c
->>> +++ b/qemu-img.c
->>> @@ -1167,19 +1167,39 @@ static int is_allocated_sectors(const uint8_t *buf, int n, int *pnum,
->>>          }
->>>      }
->>>  
->>> +    if (i == n) {
->>> +        /*
->>> +         * The whole buf is the same.
->>> +         *
->>> +         * if it's data, just return it. It's the old behavior.
->>> +         *
->>> +         * if it's zero, just return too. It will work good if target is alredy
->>> +         * zeroed. And if next chunk is zero too we'll have no RMW and no reason
->>> +         * to write data.
->>> +         */
->>> +        *pnum = i;
->>> +        return !is_zero;
->>> +    }
->>> +
->>>      tail = (sector_num + i) & (alignment - 1);
->>>      if (tail) {
->>>          if (is_zero && i <= tail) {
->>> -            /* treat unallocated areas which only consist
->>> -             * of a small tail as allocated. */
->>> +            /*
->>> +             * For sure next sector after i is data, and it will rewrite this
->>> +             * tail anyway due to RMW. So, let's just write data now.
->>> +             */
->>>              is_zero = false;
->>>          }
->>>          if (!is_zero) {
->>> -            /* align up end offset of allocated areas. */
->>> +            /* If possible, align up end offset of allocated areas. */
->>>              i += alignment - tail;
->>>              i = MIN(i, n);
->>>          } else {
->>> -            /* align down end offset of zero areas. */
->>> +            /*
->>> +             * For sure next sector after i is data, and it will rewrite this
->>> +             * tail anyway due to RMW. Better is avoid RMW and write zeroes up
->>> +             * to aligned bound.
->>> +             */
->>>              i -= tail;
->>>          }
->>>      }
->> I think we forgot to follow up on this. Has anyone tested this
->> suggestion?
->>
->> Otherwise, I would try to rerun the tests I did with the my old and
->> Kevins suggestion.
-> I noticed earlier this week that these patches are still in my
-> development branch, but didn't actually pick it up again yet. So feel
-> free to try it out.
+When testing live migration with multifd channels (8, 16, or a bigger number)
+and using qemu -incoming (without "defer"), if a network error occurs
+(for example, triggering the kernel SYN flooding detection),
+the migration fails and the guest hangs forever.
 
+The test environment and the command line is as the following:
 
-It seems this time I forgot to follow up. Is this topic still open?
+QEMU verions: QEMU emulator version 6.2.91 (v6.2.0-rc1-47-gc5fbdd60cf)
+Host OS: SLE 15  with kernel: 5.14.5-1-default
+Network Card: mlx5 100Gbps
+Network card: Intel Corporation I350 Gigabit (1Gbps)
 
+Source:
+qemu-system-x86_64 -M q35 -smp 32 -nographic \
+        -serial telnet:10.156.208.153:4321,server,nowait \
+        -m 4096 -enable-kvm -hda /var/lib/libvirt/images/openSUSE-15.3.img \
+        -monitor stdio
+Dest:
+qemu-system-x86_64 -M q35 -smp 32 -nographic \
+        -serial telnet:10.156.208.154:4321,server,nowait \
+        -m 4096 -enable-kvm -hda /var/lib/libvirt/images/openSUSE-15.3.img \
+        -monitor stdio \
+        -incoming tcp:1.0.8.154:4000
 
-Best,
+(qemu) migrate_set_parameter max-bandwidth 100G
+(qemu) migrate_set_capability multifd on
+(qemu) migrate_set_parameter multifd-channels 16
 
-Peter
+The guest hangs when executing the command: migrate -d tcp:1.0.8.154:4000.
 
+If a network problem happens, TCP ACK is not received by destination
+and the destination resets the connection with RST.
 
+No.     Time    Source  Destination     Protocol        Length  Info
+119     1.021169        1.0.8.153       1.0.8.154       TCP     1410    60166 → 4000 [PSH, ACK] Seq=65 Ack=1 Win=62720 Len=1344 TSval=1338662881 TSecr=1399531897
+No.     Time    Source  Destination     Protocol        Length  Info
+125     1.021181        1.0.8.154       1.0.8.153       TCP     54      4000 → 60166 [RST] Seq=1 Win=0 Len=0
+
+kernel log:
+[334520.229445] TCP: request_sock_TCP: Possible SYN flooding on port 4000. Sending cookies.  Check SNMP counters.
+[334562.994919] TCP: request_sock_TCP: Possible SYN flooding on port 4000. Sending cookies.  Check SNMP counters.
+[334695.519927] TCP: request_sock_TCP: Possible SYN flooding on port 4000. Sending cookies.  Check SNMP counters.
+[334734.689511] TCP: request_sock_TCP: Possible SYN flooding on port 4000. Sending cookies.  Check SNMP counters.
+[335687.740415] TCP: request_sock_TCP: Possible SYN flooding on port 4000. Sending cookies.  Check SNMP counters.
+[335730.013598] TCP: request_sock_TCP: Possible SYN flooding on port 4000. Sending cookies.  Check SNMP counters.
+
+There are two problems here:
+1. On the send side, the main thread is blocked on qemu_thread_join and 
+   send threads are blocked on sendmsg
+2. On receive side, the receive threads are blocked on qemu_sem_wait to 
+   wait for a semaphore. 
+
+The patch is to fix the first problem, and the guest doesn't hang any more. 
+But there is no better solution to fix the second problem yet. 
+
+Li Zhang (1):
+  multifd: Shut down the QIO channels to avoid blocking the send threads
+    when they are terminated.
+
+ migration/multifd.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+-- 
+2.31.1
 
 
