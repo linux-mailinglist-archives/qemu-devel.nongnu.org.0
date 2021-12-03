@@ -2,92 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488AF46777A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 13:34:19 +0100 (CET)
-Received: from localhost ([::1]:45516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E8946777B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 13:34:23 +0100 (CET)
+Received: from localhost ([::1]:45746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt7la-0000WT-2Y
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 07:34:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47034)
+	id 1mt7lb-0000hK-Vx
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 07:34:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1mt7jz-0006sM-5Q; Fri, 03 Dec 2021 07:32:40 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:24796)
+ id 1mt7k2-0006sk-Nz; Fri, 03 Dec 2021 07:32:44 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16282
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1mt7jx-0008NB-PP; Fri, 03 Dec 2021 07:32:38 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B3CMn5t018772; 
- Fri, 3 Dec 2021 12:32:36 GMT
+ id 1mt7k0-0008Nj-HK; Fri, 03 Dec 2021 07:32:41 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B3ALeLs031540; 
+ Fri, 3 Dec 2021 12:32:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=6RpY75ZP3cCWRNfgc+A/YuYK4UkB5oOiEZCyKfk0RFs=;
- b=g1MPowd25Fs7LaKdOP5g/3/wHdRPom2VrVU0/I0W2uuJIiT7h5Bwvuvs2y3gukXwFGr3
- P3umVO7rbA1Wa3vITTCsr0O/Ave8KBtEtEE5HrYei3+CZWfOmbK/XUr5JWMl9XNxFHtv
- H6lXt3leb8vveNOnpSmHkbxXM2M1vr8RBbo/ZjqISqPGP2hlOISWVCL2wurZm+2E5fT3
- t5Zvx1CdXbfyldp1m9w4W/XIMTXEHbDFF4g1zLMqR4KSuoPX5jkRq2zmS9LUk2DbGMp6
- CymD/LNW5pvP9KSUhrJtAiiItXAJwvY3ZooNiOUsORLXZWjoa5BJl5RlnB/5iD0LEA7H Rg== 
+ bh=q2r4kT5kVauZyfUOKtTlIY9TSfamcawhFp19KQaysQU=;
+ b=YxDcLosWWA1fmlDp81PYFmMdTnR5eCWcgjVvbQnCKN8/d7MEiXdFQ4vUdjjWi0KxI76g
+ aZ+9M9dQXqBdFgl3W9w2tFF9lqiyCmjsq4qL6Dk+crTrrnEcmpN1Kl5MJWNzJqK5POL6
+ b1dqs8T00AOtN+yn+0B4jWiaU7keUJ74yn/oRnPnIeAHrVArGPEpep1OhL28ptiCYXKw
+ kBlROSvD6P/rtr6j5iz2wNpXwk7PK9cAOrDIXoaHxoqoz8bvb1LtzDCfKE5jthcEt2Lv
+ ZDTAIfo8f9QzVH2ZSyPNiRx7ua5d35cckmMZB/xkRNEgIeZV4VIpvyEkaEmGDQSqYSqx tg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cqk6kg4ku-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cqhdv2925-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Dec 2021 12:32:36 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B3CNnqc020422;
- Fri, 3 Dec 2021 12:32:35 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cqk6kg4kp-1
+ Fri, 03 Dec 2021 12:32:39 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B3CEcRV016575;
+ Fri, 3 Dec 2021 12:32:38 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cqhdv291v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Dec 2021 12:32:35 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B3CVGmo009774;
- Fri, 3 Dec 2021 12:32:35 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma03dal.us.ibm.com with ESMTP id 3ckcae3q4x-1
+ Fri, 03 Dec 2021 12:32:38 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B3CUwB5000827;
+ Fri, 3 Dec 2021 12:32:37 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma01dal.us.ibm.com with ESMTP id 3ckcaebnya-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Dec 2021 12:32:34 +0000
+ Fri, 03 Dec 2021 12:32:37 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B3CWXEl58327502
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B3CWaHA44761454
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 3 Dec 2021 12:32:33 GMT
+ Fri, 3 Dec 2021 12:32:36 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3FB94124052;
+ by IMSVA (Postfix) with ESMTP id ED5FD124055;
+ Fri,  3 Dec 2021 12:32:35 +0000 (GMT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 912F012405A;
  Fri,  3 Dec 2021 12:32:33 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9777B12405A;
- Fri,  3 Dec 2021 12:32:30 +0000 (GMT)
 Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown
  [9.211.96.25]) by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri,  3 Dec 2021 12:32:30 +0000 (GMT)
+ Fri,  3 Dec 2021 12:32:33 +0000 (GMT)
 From: Matthew Rosato <mjrosato@linux.ibm.com>
 To: thuth@redhat.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v2 1/4] s390x/pci: use a reserved ID for the default PCI group
-Date: Fri,  3 Dec 2021 07:32:18 -0500
-Message-Id: <20211203123221.420101-2-mjrosato@linux.ibm.com>
+Subject: [PATCH v2 2/4] s390x/pci: don't use hard-coded dma range in reg_ioat
+Date: Fri,  3 Dec 2021 07:32:19 -0500
+Message-Id: <20211203123221.420101-3-mjrosato@linux.ibm.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20211203123221.420101-1-mjrosato@linux.ibm.com>
 References: <20211203123221.420101-1-mjrosato@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: swUXbyVdoNSLk1jD-a86xLbroRFM0oBy
-X-Proofpoint-ORIG-GUID: hSfO6LriNdH3-wSLFVGFf6hgH_cGZtmM
+X-Proofpoint-GUID: VY-oi5SG4KL7IvZtkcX_CP4a6AFWDxOs
+X-Proofpoint-ORIG-GUID: rYUkQwVM4xmLjo9WbAMpaKBpTX3_RmCD
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-03_06,2021-12-02_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- clxscore=1015 impostorscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
- bulkscore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
+ clxscore=1015 malwarescore=0
+ spamscore=0 impostorscore=0 mlxlogscore=626 mlxscore=0 adultscore=0
+ bulkscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501
  phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2112030078
 Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -113,32 +114,60 @@ Cc: farman@linux.ibm.com, pmorel@linux.ibm.com, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current default PCI group being used can technically collide with a
-real group ID passed from a hostdev.  Let's instead use a group ID that
-comes from a special pool (0xF0-0xFF) that is architected to be reserved
-for simulated devices.
+Instead use the values from clp info, they will either be the hard-coded
+values or what came from the host driver via vfio.
 
-Fixes: 28dc86a072 ("s390x/pci: use a PCI Group structure")
+Fixes: 9670ee752727 ("s390x/pci: use a PCI Function structure")
 Reviewed-by: Eric Farman <farman@linux.ibm.com>
 Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
 Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
 ---
- include/hw/s390x/s390-pci-bus.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/s390x/s390-pci-inst.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
-index aa891c178d..2727e7bdef 100644
---- a/include/hw/s390x/s390-pci-bus.h
-+++ b/include/hw/s390x/s390-pci-bus.h
-@@ -313,7 +313,7 @@ typedef struct ZpciFmb {
- } ZpciFmb;
- QEMU_BUILD_BUG_MSG(offsetof(ZpciFmb, fmt0) != 48, "padding in ZpciFmb");
+diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+index 1c8ad91175..11b7f6bfa1 100644
+--- a/hw/s390x/s390-pci-inst.c
++++ b/hw/s390x/s390-pci-inst.c
+@@ -916,9 +916,10 @@ int pci_dereg_irqs(S390PCIBusDevice *pbdev)
+     return 0;
+ }
  
--#define ZPCI_DEFAULT_FN_GRP 0x20
-+#define ZPCI_DEFAULT_FN_GRP 0xFF
- typedef struct S390PCIGroup {
-     ClpRspQueryPciGrp zpci_group;
-     int id;
+-static int reg_ioat(CPUS390XState *env, S390PCIIOMMU *iommu, ZpciFib fib,
++static int reg_ioat(CPUS390XState *env, S390PCIBusDevice *pbdev, ZpciFib fib,
+                     uintptr_t ra)
+ {
++    S390PCIIOMMU *iommu = pbdev->iommu;
+     uint64_t pba = ldq_p(&fib.pba);
+     uint64_t pal = ldq_p(&fib.pal);
+     uint64_t g_iota = ldq_p(&fib.iota);
+@@ -927,7 +928,7 @@ static int reg_ioat(CPUS390XState *env, S390PCIIOMMU *iommu, ZpciFib fib,
+ 
+     pba &= ~0xfff;
+     pal |= 0xfff;
+-    if (pba > pal || pba < ZPCI_SDMA_ADDR || pal > ZPCI_EDMA_ADDR) {
++    if (pba > pal || pba < pbdev->zpci_fn.sdma || pal > pbdev->zpci_fn.edma) {
+         s390_program_interrupt(env, PGM_OPERAND, ra);
+         return -EINVAL;
+     }
+@@ -1125,7 +1126,7 @@ int mpcifc_service_call(S390CPU *cpu, uint8_t r1, uint64_t fiba, uint8_t ar,
+         } else if (pbdev->iommu->enabled) {
+             cc = ZPCI_PCI_LS_ERR;
+             s390_set_status_code(env, r1, ZPCI_MOD_ST_SEQUENCE);
+-        } else if (reg_ioat(env, pbdev->iommu, fib, ra)) {
++        } else if (reg_ioat(env, pbdev, fib, ra)) {
+             cc = ZPCI_PCI_LS_ERR;
+             s390_set_status_code(env, r1, ZPCI_MOD_ST_INSUF_RES);
+         }
+@@ -1150,7 +1151,7 @@ int mpcifc_service_call(S390CPU *cpu, uint8_t r1, uint64_t fiba, uint8_t ar,
+             s390_set_status_code(env, r1, ZPCI_MOD_ST_SEQUENCE);
+         } else {
+             pci_dereg_ioat(pbdev->iommu);
+-            if (reg_ioat(env, pbdev->iommu, fib, ra)) {
++            if (reg_ioat(env, pbdev, fib, ra)) {
+                 cc = ZPCI_PCI_LS_ERR;
+                 s390_set_status_code(env, r1, ZPCI_MOD_ST_INSUF_RES);
+             }
 -- 
 2.27.0
 
