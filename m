@@ -2,91 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B5EC467726
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 13:17:06 +0100 (CET)
-Received: from localhost ([::1]:52000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5215467739
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 13:24:23 +0100 (CET)
+Received: from localhost ([::1]:58002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt7Uu-0001mt-NI
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 07:17:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43560)
+	id 1mt7by-0006JI-I8
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 07:24:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mt7Sn-0008GO-Tz
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 07:14:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28997)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mt7aU-00047W-VB; Fri, 03 Dec 2021 07:22:50 -0500
+Received: from mail-eopbgr70128.outbound.protection.outlook.com
+ ([40.107.7.128]:26637 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mt7Sf-0008V7-OA
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 07:14:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638533670;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qLz+UdfNJdJEwrCxG4+FLom0ESnOyXG47LSjDY1GKOw=;
- b=P6RWK+4ZnumgyW+UjNyw1QXcSzUkmuYLSwT9pPkvxqeMaDupReRWpvMHrdvJds8b+2FP4d
- mtVdAah+dABJtFhvl34WJH10wZEXl+EPCWz7PNFTv0ctEHvSv2VjPJFelds8tXk2gQldbh
- B90zwvnHI3FPiKT1h323iZ7O6QRmtl0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-213-Kwx6a2dVPk6OMRhAxPqRsQ-1; Fri, 03 Dec 2021 07:14:29 -0500
-X-MC-Unique: Kwx6a2dVPk6OMRhAxPqRsQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v62-20020a1cac41000000b0033719a1a714so1453869wme.6
- for <qemu-devel@nongnu.org>; Fri, 03 Dec 2021 04:14:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=qLz+UdfNJdJEwrCxG4+FLom0ESnOyXG47LSjDY1GKOw=;
- b=evfm4nmZ3adst0AADQkbSdxq6u52gOEY4xMg8aXwhRyH4fcSYCnsvSl0Qj+vFlkQp7
- efcPB3Y/cQ6nbig2775bgX1PHVbzt618eWuR21nS+8IF4ylI5I0oDjsH0ZcMA4gQZN/8
- d46v6Yhsxf+F2Ds3bWsp9H6V2+gKKFx4wcTMeNiNI+Ed9DqLKHUDLKHweM30ogE26z4p
- 5xxGKSyoeNPcS9rA9OQHzZc9dLblkgWtj2HNkRE1dxMVWazhbIZJmkxORy+T7nrqUHsV
- 4xGJ/GHqR6yZ/XLMCBL7j97hwd4ceWg3nnLxCpdFLXgk55rsbRA5omWeGJY+21uTCXAN
- W6HA==
-X-Gm-Message-State: AOAM533AipaVNWabNSXvbjOfezWUrjiUnU0ztzEjtiOTvxpIP44iXoOz
- i2+tIdpM7LKHDpT3DC/7QCAVxDXtQh5pb0aOyh3caZdVLlfygBXtJyG3YdfqGaeLdTOKmhlLW0U
- 0CTXd0GoSSiTIGMg=
-X-Received: by 2002:adf:cd06:: with SMTP id w6mr21870008wrm.431.1638533668093; 
- Fri, 03 Dec 2021 04:14:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwa+TcuinoqTYEY52xlfmgUfeF45UvudavKT1tl0Z4K/0hqW7a25NASHl+O/HH7/pDyfOTp6g==
-X-Received: by 2002:adf:cd06:: with SMTP id w6mr21869984wrm.431.1638533667829; 
- Fri, 03 Dec 2021 04:14:27 -0800 (PST)
-Received: from xz-m1.local ([64.64.123.16])
- by smtp.gmail.com with ESMTPSA id k37sm2572372wms.21.2021.12.03.04.14.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Dec 2021 04:14:26 -0800 (PST)
-Date: Fri, 3 Dec 2021 20:14:20 +0800
-From: Peter Xu <peterx@redhat.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Subject: Re: [PATCH 1/2] intel_iommu: Support IR-only mode without DMA
- translation
-Message-ID: <YaoKHPR/SiRoAteV@xz-m1.local>
-References: <20211201205113.57299-1-dwmw2@infradead.org>
- <CACGkMEuhnUZuKa-u1MDudmnLrwXO=B5WSp-siAC-UpUONey8xw@mail.gmail.com>
- <YanJkBiLtxzt04Hn@xz-m1.local>
- <e5d91ce70d40caa4d91e29d2227ad72ccf1a1bb6.camel@infradead.org>
-MIME-Version: 1.0
-In-Reply-To: <e5d91ce70d40caa4d91e29d2227ad72ccf1a1bb6.camel@infradead.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mt7aN-00072E-Ag; Fri, 03 Dec 2021 07:22:49 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OP/sKQ5IEocz2gFRYL+HyYXCuYQMNAg5GfnM5IMVGWU2OU6Wi0Scsrrp/8jTyRIdWiR17hHbc0vri1SMW/5wky0oDNXdH7EaaprSOgbXdc25PwQdd6X8CVFLN7HRNGQjdwxhp+k4MJoKDr6JODH6wvpivieC6cbZxkB8p6M8nIhPRVsEqPFQCV1ryBgZSyW1h0V+qr0bjxEEscEpuh6ey6hsi1D6gDh1halNDW0P5bmjn2jKn8pDVpxRltBBJXnPWntpGXUvtov0DkA0s4EfN4SoPsnwopMVgCfRrAIpgePHQjJmceuEvPl0+vABig6/S4MVDoPDd+rcWVgyNAwMtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w5VypB91RRfKt20EFtOkyvqBKp8y+vRtHlchJfqBwWw=;
+ b=B35r0K3NpdgJCzplEcuEHP/wcl4oC+g8nSEjgcuLBPwfiaKDqMinMYpHeQcWKFg/HLsccdK2wlBaMQy+FWsUyoAtt772zQrTpPcBY7eHx3+FShKhlkfYGDyTWMyeG7829EDrc3UBKP+y7tZF4pb76GLI6JbJNsk69LNEf9Ku5a0i0ANIEAf0EHvbwqzG2iiwyldiV02q+wYervoqTH0ogA1y2FFHljQnmitFmlZ4PjHlAiGHVcQu6427hhmttjsx9E9lrJ/InghpaaibSEwC/JosJSyTazWF2Odo7RGXymBwavMbchnR4pmn354z7XlU9qZ8dOoYoiD3D9/qQte+7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w5VypB91RRfKt20EFtOkyvqBKp8y+vRtHlchJfqBwWw=;
+ b=onL7OJ4iHG0K2f3r/iFiVj/XJ8Ks8dF84jVP1UY7IXio32KtXqAwoU7pvYxLmdfp2QpaOYMX7YE0FhW4bPpYClc77ShU28sPzBoNxR+Np2v4iwjnkPtHkr2bqAxBuixP4u+vUwh2kvcq5Awgh2JbK+tf2DLXg0TO5hWkO2l07SM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by AM4PR0802MB2178.eurprd08.prod.outlook.com (2603:10a6:200:5a::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Fri, 3 Dec
+ 2021 12:22:38 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Fri, 3 Dec 2021
+ 12:22:38 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
+ jsnow@redhat.com, vsementsov@virtuozzo.com, den@openvz.org
+Subject: [PATCH 0/3] iotests: multiprocessing!!
+Date: Fri,  3 Dec 2021 13:22:20 +0100
+Message-Id: <20211203122223.2780098-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-ClientProxiedBy: AS9PR06CA0111.eurprd06.prod.outlook.com
+ (2603:10a6:20b:465::17) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
+MIME-Version: 1.0
+Received: from kvm.ch-qa.sw.ru (130.117.225.5) by
+ AS9PR06CA0111.eurprd06.prod.outlook.com (2603:10a6:20b:465::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11 via Frontend
+ Transport; Fri, 3 Dec 2021 12:22:37 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 072be713-4c7c-42c2-f1d8-08d9b65797da
+X-MS-TrafficTypeDiagnostic: AM4PR0802MB2178:
+X-Microsoft-Antispam-PRVS: <AM4PR0802MB2178DD94B6DC9A18F86CC439C16A9@AM4PR0802MB2178.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Sk14KtfkRxId/lLIjPqmXaVuPpE2OerE6DNFgePmb1PLCQ2abKeaDHKPSkRQJthbnd0N50zWrJoUJuxtscq5PnCsmJevRXBpFcMo+dA1j50RHf9z3dU0HSIOKAdNEqgqqddUM5cyNWCVtDB+7qoO40B658RFn++/W4pGAb2XAJc8qXVKWaXkm4FOoRhwJTWedicP6tU9rkG4FdMawYykdj6Nq7NZnVQbauSly0cQGjyGZ8rWvsxYGMEkRxTM9AHVfyTCIXJECe/axyCHPnZMoSQjHRFsB/VFQu/fBtpGZBpYiiY5QMG3zpJ9MO763qYituU+jKT2FtASm7L0zNuF/Du6OdGdkbdwodhUNqjzepLrAcBysL3ZP7JYWGUQd71b9O2OqolZSIfg7h2VlqNaobOlbSVo9ShVYjrLh04dv1lnfJzGMcHYl84HWyLe9y/7psfjjuYs3XqKPj+0rZqlT+saVZm3VszxbuWb7WX4KH2TcnWVACA574LEvcZiFU8alMK/mFQDRzEzm40S/ht71rGk4GGVco5fE3P9KT8Egcez///7/HDMS7bN7hbxnmSWL72iL0oKbCIUpnbl4WSMgRKD+jYswLnVWl2AKgI6MUpYjSsrYYFuretF0kIZar9HIb/QHCPJ9tCCotOcBAEY2x6Fkk54gZuF18W+JTN311MXMLcNU6VqccS7FVY6b2OwmIB2rRomWSAQBODMv8aBRQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(6916009)(508600001)(2906002)(66946007)(83380400001)(52116002)(6506007)(186003)(5660300002)(8936002)(38100700002)(26005)(6486002)(38350700002)(107886003)(4744005)(36756003)(316002)(2616005)(1076003)(4326008)(86362001)(6512007)(8676002)(6666004)(956004)(66476007)(66556008);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zrdJE4FL53UyR7bd2S7Y6YPyPuMXmBjKLWz4qmS0ZPSxw7HjWoiKmW2NCLQE?=
+ =?us-ascii?Q?tMmPjKyy8K3Mf2eKEBDZOzq065bdLVt8V3O3X6QQr1H8kajeBQDXY46OBSA3?=
+ =?us-ascii?Q?Q/4srZ2ITgM3Q+yf8d4HRrNA8rJQ17vU4AwC3VWULdVZakRzby5Cby3SDlRH?=
+ =?us-ascii?Q?IAHht9Ch+Qpz9R6meU7SjvozhYhkjRTIB9hIELSJjW81KRriTHtvmNLHSty+?=
+ =?us-ascii?Q?PTH3rknjAhtjWDTN1QoknVbKeqFUSL7jPyto5Xs+HYQxw2KnliKlSO+UY0hw?=
+ =?us-ascii?Q?icPv7RPKVK5VMXEK0UKMvLtnvb31fDVfPduSIHfVGtG2PYHtpp1dV28auSKQ?=
+ =?us-ascii?Q?I1fkTsto98k9Un+C4Njd3xcqlj0J2yP7+A4CDoOvdlqy7IU49P6sCZzhyzxf?=
+ =?us-ascii?Q?vTwsrlYn6dZtvWiqUXZXdQzScYYxBDbmNtfYDDErrz20B8eohE33gShuLyfu?=
+ =?us-ascii?Q?KLpUNz3J2CwBL+ZP+y0s/Jb7xbuFUasg3MtvI++rJC2euz+6ZYA/po/RMOfF?=
+ =?us-ascii?Q?iqCOJP3BoHkDdWTIfAo00gAVvdzqj3v+vjABGBD1LbU3myEAUFc0E6dTxwck?=
+ =?us-ascii?Q?vr/4/Nnx8ySmEfwLx2zG2712OMCL8G63uRyToCQ7aIX26J3UOEyvqSgC1mYs?=
+ =?us-ascii?Q?t4XJfsNKAdZhh+ISOh7FNT8l6hNhnV0+rT6gDq4ICvsufJftvbma/83wSoT8?=
+ =?us-ascii?Q?pQ9PUuvYHeIkHyZ1Bw4WKnrRjPVv+duYrmPW1LC/jO6aVJCo2DcrhVh955M/?=
+ =?us-ascii?Q?+vGXGWVrZYUtk7MgarRomRbjplH3zneSI+hUtz0ltzab9hrJb08ZpvGMJffr?=
+ =?us-ascii?Q?pwhSOxNK6nYNavS/kDHC9uWbrF6w8Vwj8XLRB8l2NFdbedSTRG+e5TaR2F9Q?=
+ =?us-ascii?Q?dEU2SmIHm3Q3Txggy1YTuxOrAMbPK2p4+N9+qRexGDr4dKZebb0bIhDgvsGm?=
+ =?us-ascii?Q?OkqPfcGzPHhYyQoGddSyIpzoa8Z9irz+bKOEjmy1ngKwTZJmb5hESQz2hLoj?=
+ =?us-ascii?Q?vbcb4vkJ1Xqfsy04qJnNokOfYreio0KLWz+XxTfEUs/e39gw3XSbXe+ZBB66?=
+ =?us-ascii?Q?gaFz76QWgzbe49uanJkBmDZaqEyDBRZhQsBFkhcV8aIhQ4URrGlsBw/FsNR3?=
+ =?us-ascii?Q?A+P91+STZKKBYlkWG14VB+ezXP/soH3LlnPA3+RRjV9pMM6nYKKKGxu6Bup2?=
+ =?us-ascii?Q?nfcip14VDPjtqwnrZJHlt5HoevUK3Dwrt/Kfi+WrB6fOrkRdWsyiGbHBtU+E?=
+ =?us-ascii?Q?6z1BsLdizGllJt3ed/9B4pZ6uMhcvmqsXh91TPYEZOEwtwuLfD/Kip8ot2Os?=
+ =?us-ascii?Q?3wBJ+EluBiuhP/bay6ENfsxIRElMWCmnUsRHWg7SaZJDY5Tydr8s7HbGXDjj?=
+ =?us-ascii?Q?WcQ1HNr4beKUmV37ot2QrApjH9tMqcOEbE9QBAQCa3GEkO3NgjdTfi8pvW7u?=
+ =?us-ascii?Q?k1B/ztVIPcZ1DmJC2KGKHUtsqCIzvVOhApURrto+BLoP6ZhYyDnid/l8rPUg?=
+ =?us-ascii?Q?wMVhg2m38eWu/bFEfmz6uiM3v8ufGq7LeDBV4tA1cT4ejJl404B6hK/703WB?=
+ =?us-ascii?Q?b0yZqBSGgq0rbRS7/Pxe3YvsHQS/I88wLj7BrqjcA7VFRRVBHarJ6F6SNhEG?=
+ =?us-ascii?Q?oUjRMjKmBl8F/6lTeWNXDCY2uncHV9BiwssGYRz6ue9MkjdxdGsCC/DLgHm5?=
+ =?us-ascii?Q?lctOjQ=3D=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 072be713-4c7c-42c2-f1d8-08d9b65797da
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2021 12:22:37.8890 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F/NXih9xtGXtFVQwyxkq/wpRLOBFvHQyCsa2gxQvyt0EEJDksMnfl+4SusxjgWFvfyi5W76e/8OqT19E1UdamhTS2bhZiw3VZ8QzWOtcCUo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR0802MB2178
+Received-SPF: pass client-ip=40.107.7.128;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,122 +139,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 03, 2021 at 10:46:46AM +0000, David Woodhouse wrote:
-> On Fri, 2021-12-03 at 15:38 +0800, Peter Xu wrote:
-> > On Thu, Dec 02, 2021 at 11:49:25AM +0800, Jason Wang wrote:
-> > > On Thu, Dec 2, 2021 at 4:55 AM David Woodhouse <dwmw2@infradead.org> wrote:
-> > > > From: David Woodhouse <dwmw@amazon.co.uk>
-> > > > 
-> > > > By setting none of the SAGAW bits we can indicate to a guest that DMA
-> > > > translation isn't supported. Tested by booting Windows 10, as well as
-> > > > Linux guests with the fix at 
-> > > > https://git.kernel.org/torvalds/c/c40aaaac10
-> > > > 
-> > > > 
-> > > > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> > > > ---
-> > > >  hw/i386/intel_iommu.c         | 14 ++++++++++----
-> > > >  include/hw/i386/intel_iommu.h |  1 +
-> > > >  2 files changed, 11 insertions(+), 4 deletions(-)
-> > > > 
-> > > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> > > > index 294499ee20..ffc852d110 100644
-> > > > --- a/hw/i386/intel_iommu.c
-> > > > +++ b/hw/i386/intel_iommu.c
-> > > > @@ -2202,7 +2202,7 @@ static void vtd_handle_gcmd_write(IntelIOMMUState *s)
-> > > >      uint32_t changed = status ^ val;
-> > > > 
-> > > >      trace_vtd_reg_write_gcmd(status, val);
-> > > > -    if (changed & VTD_GCMD_TE) {
-> > > > +    if ((changed & VTD_GCMD_TE) && s->dma_translation) {
-> > > >          /* Translation enable/disable */
-> > > >          vtd_handle_gcmd_te(s, val & VTD_GCMD_TE);
-> > > >      }
-> > > > @@ -3100,6 +3100,7 @@ static Property vtd_properties[] = {
-> > > >      DEFINE_PROP_BOOL("caching-mode", IntelIOMMUState, caching_mode, FALSE),
-> > > >      DEFINE_PROP_BOOL("x-scalable-mode", IntelIOMMUState, scalable_mode, FALSE),
-> > > >      DEFINE_PROP_BOOL("dma-drain", IntelIOMMUState, dma_drain, true),
-> > > > +    DEFINE_PROP_BOOL("dma-translation", IntelIOMMUState, dma_translation, true),
-> > > >      DEFINE_PROP_END_OF_LIST(),
-> > > >  };
-> > > > 
-> > > > @@ -3605,12 +3606,17 @@ static void vtd_init(IntelIOMMUState *s)
-> > > >      s->next_frcd_reg = 0;
-> > > >      s->cap = VTD_CAP_FRO | VTD_CAP_NFR | VTD_CAP_ND |
-> > > >               VTD_CAP_MAMV | VTD_CAP_PSI | VTD_CAP_SLLPS |
-> > > > -             VTD_CAP_SAGAW_39bit | VTD_CAP_MGAW(s->aw_bits);
-> > > > +             VTD_CAP_MGAW(s->aw_bits);
-> > > >      if (s->dma_drain) {
-> > > >          s->cap |= VTD_CAP_DRAIN;
-> > > >      }
-> > > > -    if (s->aw_bits == VTD_HOST_AW_48BIT) {
-> > > > -        s->cap |= VTD_CAP_SAGAW_48bit;
-> > > > +    if (s->dma_translation) {
-> > > > +            if (s->aw_bits >= VTD_HOST_AW_39BIT) {
-> > > > +                    s->cap |= VTD_CAP_SAGAW_39bit;
-> > > > +            }
-> > > > +            if (s->aw_bits >= VTD_HOST_AW_48BIT) {
-> > > > +                    s->cap |= VTD_CAP_SAGAW_48bit;
-> > > > +            }
-> > > >      }
-> > > 
-> > > Just wonder if this is the hardware behaviour as I see 0 is reserved
-> > > for SAGAW in vtd 3.3 spec.
-> > 
-> > Yes I have the same question.  But if latest Linux & Windows work fine then it
-> > seems ok if we have explicit use scenario with enabling IR only.
-> 
-> Bit zero is reserved. The *value* zero is just what you get when none
-> of the bits are set.
-> 
-> 	"A value of 1 in any of these bits indicates the corresponding
-> 	adjusted guest address width is supported.The adjusted guest
-> 	address widths corresponding to various bit positions within
-> 	this field are:
-> 
-> 	 • 0: Reserved
-> 	 • 1: 39-bit AGAW (3-level page-table)
-> 	 • 2: 48-bit AGAW (4-level page-table)
-> 	 • 3: 57-bit AGAW (5-level page-table)
-> 	 • 4: Reserved
-> 
-> 	Software must ensure that the adjusted guest address width used
-> 	to set up the page tables is one of the supported guest address
-> 	widths reported in this field.
-> 
-> 	Hardware implementations reporting second-level translation
-> 	support (SLTS) field as Clear also report this field as 0.
+Hi all!
 
-I see.
+Finally, I can not stand it any longer. So, I'm happy to present
+multiprocessing support for iotests test runner.
 
->  
-> > In that case commenting with some details would be more than welcomed, e.g.
-> > mentioning Linux commit c40aaaac1018 ("iommu/vt-d: Gracefully handle DMAR units
-> > with no supported address widths", 2020-10-07) as comments above the code.
-> > 
-> > One more question: SAGAW is a bitmask, is it intended to only set 1 bit out of
-> > the mask?  I'm afraid it could break guest OS that only support 39 bits when
-> > the qemu cmdline has aw-bits=48 specified.
-> 
-> No, we should set all bits that correspond to supported page table
-> depths. And I believe we still do; there's no 'else' in the patch above
-> so it will set *both* the 39-bit and 48-bit support bits if s->aw_bits
-> is high enough to support both.
+testing on tmpfs:
 
-Yeah I missed that, sorry.
+Before:
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+time check -qcow2
+...
+real    12m28.095s
+user    9m53.398s
+sys     2m55.548s
 
-Thanks,
+After:
+
+time check -qcow2 -j 12
+...
+real    2m12.136s
+user    12m40.948s
+sys     4m7.449s
+
+
+Hmm, seems -j 6 should be enough. I have 6 cores, 2 threads per core.
+Anyway, that's so fast!
+
+Vladimir Sementsov-Ogievskiy (3):
+  iotests/testrunner.py: add doc string for run_test()
+  iotests/testrunner.py: move updating last_elapsed to run_tests
+  iotests: check: multiprocessing support
+
+ tests/qemu-iotests/check         |  4 +-
+ tests/qemu-iotests/testrunner.py | 86 ++++++++++++++++++++++++++++----
+ 2 files changed, 80 insertions(+), 10 deletions(-)
 
 -- 
-Peter Xu
+2.31.1
 
 
