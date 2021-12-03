@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66173468056
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 00:26:01 +0100 (CET)
-Received: from localhost ([::1]:43408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1731D46807F
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 00:34:18 +0100 (CET)
+Received: from localhost ([::1]:43570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtHwG-0000G1-GZ
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 18:26:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37876)
+	id 1mtI4H-0002yN-59
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 18:34:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHnH-0007vG-89
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:16:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48839)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHoW-00024c-VZ
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:18:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHnE-0003Bt-R7
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:16:42 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHoU-0003IW-58
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:18:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638573400;
+ s=mimecast20190719; t=1638573477;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tY7h3+bq2nYHgwaUd6pL1PiQc9UJocScO6g1ctQu6O4=;
- b=HbBgA151DSYyVdGxJYXPu3kMjpMctIK61PcxmDDnZdRyRjeaQ1tpoOwExYqPcWgRCBO2+Z
- ZTcpTHnWBLGvuuYzM+s0bBxHpZ965CxKij8SI8gMTOS7+L34SG81sVwHyi6Au3KImUSr6X
- UmtZ9G3W3oshn+opMayPQN0/cEhmHT8=
+ bh=ddU8sKSfHn9SWFTU2J+B/O09+Qc7onLR5QWM+HKGoFc=;
+ b=Mg6PVbshoYErsZU7BYk7QcFDcxOyHCXEN/fMpGkzZsqnr6Xg/YCGS0adpFzJFnhggqohyX
+ fImz4I4wmIVkHe7jt4EiJtbPQUIiz/DKsnKMnSJviw6naAonyVlgO/vgulwdjbIsgIUWyy
+ /gvYpLjrdTLUakaHWgg8aIgqa2amJgg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-105-DjEC12nGOGqBolIv-x8Tmg-1; Fri, 03 Dec 2021 18:16:37 -0500
-X-MC-Unique: DjEC12nGOGqBolIv-x8Tmg-1
+ us-mta-459-XJxfkzQjMp69cXw4d5-r_Q-1; Fri, 03 Dec 2021 18:17:54 -0500
+X-MC-Unique: XJxfkzQjMp69cXw4d5-r_Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F1A5102C886;
- Fri,  3 Dec 2021 23:16:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50F4F801B10;
+ Fri,  3 Dec 2021 23:17:52 +0000 (UTC)
 Received: from blue.redhat.com (unknown [10.2.16.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4BD5C5D9D5;
- Fri,  3 Dec 2021 23:16:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 555705DF2B;
+ Fri,  3 Dec 2021 23:17:42 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 14/14] do not apply: nbd/server: Send 64-bit hole chunk
-Date: Fri,  3 Dec 2021 17:15:39 -0600
-Message-Id: <20211203231539.3900865-15-eblake@redhat.com>
-In-Reply-To: <20211203231539.3900865-1-eblake@redhat.com>
+To: libguestfs@redhat.com
+Subject: [libnbd PATCH 00/13] libnbd patches for NBD_OPT_EXTENDED_HEADERS
+Date: Fri,  3 Dec 2021 17:17:28 -0600
+Message-Id: <20211203231741.3901263-1-eblake@redhat.com>
+In-Reply-To: <20211203231307.wmtbw7r72tyzkkax@redhat.com>
 References: <20211203231307.wmtbw7r72tyzkkax@redhat.com>
- <20211203231539.3900865-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
@@ -59,13 +58,14 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_DBL_SPAM=2.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,56 +78,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: nsoffer@redhat.com, vsementsov@virtuozzo.com, libguestfs@redhat.com,
+Cc: nsoffer@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
  qemu-block@nongnu.org, nbd@other.debian.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we cap NBD_CMD_READ requests to 32M, we never have a reason to
-send a 64-bit chunk type for a hole; but it is worth producing these
-for interoperability testing of clients that want extended headers.
----
- nbd/server.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+Available here: https://repo.or.cz/libnbd/ericb.git/shortlog/refs/tags/exthdr-v1
 
-diff --git a/nbd/server.c b/nbd/server.c
-index 7e6140350797..4369a9a8ff08 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -2071,19 +2071,29 @@ static int coroutine_fn nbd_co_send_sparse_read(NBDClient *client,
-         if (status & BDRV_BLOCK_ZERO) {
-             NBDReply hdr;
-             NBDStructuredReadHole chunk;
-+            NBDStructuredReadHoleExt chunk_ext;
-             struct iovec iov[] = {
-                 {.iov_base = &hdr},
--                {.iov_base = &chunk, .iov_len = sizeof(chunk)},
-+                {.iov_base = client->extended_headers ? &chunk_ext
-+                 : (void *) &chunk,
-+                 .iov_len = client->extended_headers ? sizeof(chunk_ext)
-+                 : sizeof(chunk)},
-             };
+I also want to do followup patches to teach 'nbdinfo --map' and
+'nbdcopy' to utilize 64-bit extents.
 
-             trace_nbd_co_send_structured_read_hole(handle, offset + progress,
-                                                    pnum);
-             set_be_chunk(client, &iov[0],
-                          final ? NBD_REPLY_FLAG_DONE : 0,
--                         NBD_REPLY_TYPE_OFFSET_HOLE,
-+                         client->extended_headers ? NBD_REPLY_TYPE_OFFSET_HOLE_EXT
-+                         : NBD_REPLY_TYPE_OFFSET_HOLE,
-                          handle, iov[1].iov_len);
--            stq_be_p(&chunk.offset, offset + progress);
--            stl_be_p(&chunk.length, pnum);
-+            if (client->extended_headers) {
-+                stq_be_p(&chunk_ext.offset, offset + progress);
-+                stq_be_p(&chunk_ext.length, pnum);
-+            } else {
-+                stq_be_p(&chunk.offset, offset + progress);
-+                stl_be_p(&chunk.length, pnum);
-+            }
-             ret = nbd_co_send_iov(client, iov, 2, errp);
-         } else {
-             ret = blk_pread(exp->common.blk, offset + progress,
+Eric Blake (13):
+  golang: Simplify nbd_block_status callback array copy
+  block_status: Refactor array storage
+  protocol: Add definitions for extended headers
+  protocol: Prepare to send 64-bit requests
+  protocol: Prepare to receive 64-bit replies
+  protocol: Accept 64-bit holes during pread
+  generator: Add struct nbd_extent in prep for 64-bit extents
+  block_status: Track 64-bit extents internally
+  block_status: Accept 64-bit extents during block status
+  api: Add [aio_]nbd_block_status_64
+  api: Add three functions for controlling extended headers
+  generator: Actually request extended headers
+  interop: Add test of 64-bit block status
+
+ lib/internal.h                                |  31 ++-
+ lib/nbd-protocol.h                            |  61 ++++-
+ generator/API.ml                              | 237 ++++++++++++++++--
+ generator/API.mli                             |   3 +-
+ generator/C.ml                                |  24 +-
+ generator/GoLang.ml                           |  35 ++-
+ generator/Makefile.am                         |   3 +-
+ generator/OCaml.ml                            |  20 +-
+ generator/Python.ml                           |  29 ++-
+ generator/state_machine.ml                    |  52 +++-
+ generator/states-issue-command.c              |  31 ++-
+ .../states-newstyle-opt-extended-headers.c    |  90 +++++++
+ generator/states-newstyle-opt-starttls.c      |  10 +-
+ generator/states-reply-structured.c           | 220 ++++++++++++----
+ generator/states-reply.c                      |  31 ++-
+ lib/handle.c                                  |  27 +-
+ lib/rw.c                                      | 105 +++++++-
+ python/t/110-defaults.py                      |   3 +-
+ python/t/120-set-non-defaults.py              |   4 +-
+ python/t/465-block-status-64.py               |  56 +++++
+ ocaml/helpers.c                               |  22 +-
+ ocaml/nbd-c.h                                 |   3 +-
+ ocaml/tests/Makefile.am                       |   5 +-
+ ocaml/tests/test_110_defaults.ml              |   4 +-
+ ocaml/tests/test_120_set_non_defaults.ml      |   5 +-
+ ocaml/tests/test_465_block_status_64.ml       |  58 +++++
+ tests/meta-base-allocation.c                  | 111 +++++++-
+ interop/Makefile.am                           |   6 +
+ interop/large-status.c                        | 186 ++++++++++++++
+ interop/large-status.sh                       |  49 ++++
+ .gitignore                                    |   1 +
+ golang/Makefile.am                            |   3 +-
+ golang/handle.go                              |   6 +
+ golang/libnbd_110_defaults_test.go            |   8 +
+ golang/libnbd_120_set_non_defaults_test.go    |  12 +
+ golang/libnbd_465_block_status_64_test.go     | 119 +++++++++
+ 36 files changed, 1511 insertions(+), 159 deletions(-)
+ create mode 100644 generator/states-newstyle-opt-extended-headers.c
+ create mode 100644 python/t/465-block-status-64.py
+ create mode 100644 ocaml/tests/test_465_block_status_64.ml
+ create mode 100644 interop/large-status.c
+ create mode 100755 interop/large-status.sh
+ create mode 100644 golang/libnbd_465_block_status_64_test.go
+
 -- 
 2.33.1
 
