@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C172846740C
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 10:29:04 +0100 (CET)
-Received: from localhost ([::1]:57138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA66467414
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 10:30:21 +0100 (CET)
+Received: from localhost ([::1]:59218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt4sI-0003Eo-Lx
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 04:29:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33490)
+	id 1mt4tY-0004fV-Rw
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 04:30:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mt4rB-0001sB-Fp
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 04:27:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37132)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mt4rF-000214-6X; Fri, 03 Dec 2021 04:27:57 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:41827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mt4r9-0000AH-6r
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 04:27:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638523669;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jqskNe0ZtRH3XEfLLz4htrp+q38HkpGcy3PRyHJp9Qc=;
- b=a2Ho2faz0wmZLgi/9zEezCp68rpIKAcO0y0NpgG01fryDVGANYP56cvyLhgeGWaDgJPzEd
- Q6oflopvcWyE6olJVAWfIfS7uQ0k/29VFEAAM2vtTomyg48PnVOeY8vJLg/ftqERugqz0G
- X9MDHeIB8fOmr+wSkEFbB1AY9hh8dso=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-264-z1coiQguMuC32fmHpc6mrQ-1; Fri, 03 Dec 2021 04:27:47 -0500
-X-MC-Unique: z1coiQguMuC32fmHpc6mrQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B50C363A5;
- Fri,  3 Dec 2021 09:27:46 +0000 (UTC)
-Received: from paraplu (unknown [10.39.194.242])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AA5C579452;
- Fri,  3 Dec 2021 09:27:32 +0000 (UTC)
-Date: Fri, 3 Dec 2021 10:27:30 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 2/2] docs: rSTify "report-a-bug" page; move it to QEMU Git
-Message-ID: <YanjAmL5pmxfAUVa@paraplu>
-References: <20211124142728.1221817-1-kchamart@redhat.com>
- <20211124142728.1221817-3-kchamart@redhat.com>
- <CAFEAcA-8uAu5nsyFCG6zo9+sFrywJxgeuUdgFzmdKx3wREUFrw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mt4rC-0000AM-7c; Fri, 03 Dec 2021 04:27:56 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.252])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id E5C0FCF97003;
+ Fri,  3 Dec 2021 10:27:50 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 3 Dec
+ 2021 10:27:50 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0022212b1e8-0a35-48a6-bea2-786afec3538d,
+ 530A9595C01F0F4EFEED26D362E2F82770F5CBE3) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <5e0c4c6a-55cc-87d2-6900-e609b258e557@kaod.org>
+Date: Fri, 3 Dec 2021 10:27:44 +0100
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-8uAu5nsyFCG6zo9+sFrywJxgeuUdgFzmdKx3wREUFrw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v9 09/10] target/ppc: PMU Event-Based exception support
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+References: <20211201151734.654994-1-danielhb413@gmail.com>
+ <20211201151734.654994-10-danielhb413@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211201151734.654994-10-danielhb413@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 197c24d3-a915-440c-853d-45c395a0711f
+X-Ovh-Tracer-Id: 16363266300379761516
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrieejgddthecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhgrrhhoshgrsheslhhinhhugidrihgsmhdrtghomh
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.938,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,50 +70,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, thuth@redhat.com, eblake@redhat.com,
- qemu-devel@nongnu.org
+Cc: Gustavo Romero <gustavo.romero@linaro.org>,
+ Fabiano Rosas <farosas@linux.ibm.com>, Gustavo Romero <gromero@linux.ibm.com>,
+ richard.henderson@linaro.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 29, 2021 at 01:35:11PM +0000, Peter Maydell wrote:
-> On Wed, 24 Nov 2021 at 14:27, Kashyap Chamarthy <kchamart@redhat.com> wrote:
+Hello,
 
-[...]
-
-> > [1] https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg04002.html
-> > [2] https://www.qemu.org/contribute/report-a-bug/
-> >
-> > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> > Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-> > ---
-> >  docs/devel/index.rst           |  8 +++++---
-> >  docs/devel/reporting-a-bug.rst | 37 ++++++++++++++++++++++++++++++++++
-> >  2 files changed, 42 insertions(+), 3 deletions(-)
-> >  create mode 100644 docs/devel/reporting-a-bug.rst
+On 12/1/21 16:17, Daniel Henrique Barboza wrote:
+> From: Gustavo Romero <gromero@linux.ibm.com>
 > 
-> I don't think the bug-reporting instructions really belong in 'devel',
-> because we would like all users to report bugs, not just developers.
-> I think the /about/ section would be a better home for this file.
+> Following up the rfebb implementation, this patch adds the EBB exception
+> support that are triggered by Performance Monitor alerts. This exception
+> occurs when an enabled PMU condition or event happens and both MMCR0_EBE
+> and BESCR_PME are set.
+> 
+> The supported PM alerts will consist of counter negative conditions of
+> the PMU counters. This will be achieved by a timer mechanism that will
+> predict when a counter becomes negative. The PMU timer callback will set
+> the appropriate bits in MMCR0 and fire a PMC interrupt. The EBB
+> exception code will then set the appropriate BESCR bits, set the next
+> instruction pointer to the address pointed by the return register
+> (SPR_EBBRR), and redirect execution to the handler (pointed by
+> SPR_EBBHR).
+> 
+> CC: Gustavo Romero <gustavo.romero@linaro.org>
+> Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>   target/ppc/cpu.h         |  5 ++++-
+>   target/ppc/excp_helper.c | 29 +++++++++++++++++++++++++++++
+>   target/ppc/power8-pmu.c  | 40 ++++++++++++++++++++++++++++++++++++++--
+>   3 files changed, 71 insertions(+), 3 deletions(-)
+> 
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 741b8baf4c..8e0e6319ee 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -129,8 +129,10 @@ enum {
+>       /* ISA 3.00 additions */
+>       POWERPC_EXCP_HVIRT    = 101,
+>       POWERPC_EXCP_SYSCALL_VECTORED = 102, /* scv exception                     */
+> +    POWERPC_EXCP_EBB = 103, /* Event-based branch exception                  */
+> +
+>       /* EOL                                                                   */
+> -    POWERPC_EXCP_NB       = 103,
+> +    POWERPC_EXCP_NB       = 104,
+>       /* QEMU exceptions: special cases we want to stop translation            */
+>       POWERPC_EXCP_SYSCALL_USER = 0x203, /* System call in user mode only      */
+>   };
+> @@ -2452,6 +2454,7 @@ enum {
+>       PPC_INTERRUPT_HMI,            /* Hypervisor Maintenance interrupt    */
+>       PPC_INTERRUPT_HDOORBELL,      /* Hypervisor Doorbell interrupt        */
+>       PPC_INTERRUPT_HVIRT,          /* Hypervisor virtualization interrupt  */
+> +    PPC_INTERRUPT_PMC,            /* PMU interrupt  */
 
-(Sorry for the slowness, I was out the last 4 days.)
+This is referred as a Performance Monitor event-based exception in ISA.
+PPC_INTERRUPT_PM_EBB would be a better name I think.
 
-Yeah; fair point.  Not sure why I didn't think about it :-).  I'll drop
-this one.
+We also have :
 
-        - - -
+   Load Monitored event-based exceptions
+   External event-based exceptions
 
-What do you think about these two pages:
 
-    https://wiki.qemu.org/Contribute/FAQ
-    https://wiki.qemu.org/Documentation/GettingStartedDevelopers
 
-I think the 'Contribute/FAQ' page could be on the website, because the
-same argument: FAQ can be used by any contributor, not just developers.
-But 'GettingStartedDevelopers' can be in docs/devel/.  
+>   };
+>   
+>   /* Processor Compatibility mask (PCR) */
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 7ead32279c..a26d266fe6 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -799,6 +799,23 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+>           cpu_abort(cs, "Non maskable external exception "
+>                     "is not implemented yet !\n");
+>           break;
+> +    case POWERPC_EXCP_EBB:       /* Event-based branch exception             */
+> +        if ((env->spr[SPR_FSCR] & (1ull << FSCR_EBB)) &&
+> +            (env->spr[SPR_BESCR] & BESCR_GE) &&
+> +            (env->spr[SPR_BESCR] & BESCR_PME)) {
 
-Let me know if you think differently.
 
--- 
-/kashyap
+Shouldn't we check these conditions to gate the EBB before sending it ?
+What about the HFSCR_EBB case ?
+
+
+> +            target_ulong nip;
+> +
+> +            env->spr[SPR_BESCR] &= ~BESCR_GE;   /* Clear GE */
+> +            env->spr[SPR_BESCR] |= BESCR_PMEO;  /* Set PMEO */
+> +            env->spr[SPR_EBBRR] = env->nip;     /* Save NIP for rfebb insn */
+> +            nip = env->spr[SPR_EBBHR];          /* EBB handler */
+> +            powerpc_set_excp_state(cpu, nip, env->msr);
+> +        }
+
+
+I am in favor of not adding anything more under the powerpc_excp() routine.
+Can we add a helper to isolate the EBB case ? I have the feeling it could
+become big.
+
+
+> +        /*
+> +         * This interrupt is handled by userspace. No need
+> +         * to proceed.
+> +         */
+> +        return;
+>       default:
+>       excp_invalid:
+>           cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
+> @@ -1046,6 +1063,18 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+>               powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_THERM);
+>               return;
+>           }
+> +        /* PMC -> Event-based branch exception */
+> +        if (env->pending_interrupts & (1 << PPC_INTERRUPT_PMC)) {
+> +            /*
+> +             * Performance Monitor event-based exception can only
+> +             * occur in problem state.
+> +             */
+
+Yes. is the PM EBB exception gated by EE also ?
+
+Thanks,
+
+C.
+
+
+> +            if (msr_pr == 1) {
+> +                env->pending_interrupts &= ~(1 << PPC_INTERRUPT_PMC);
+> +                powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_EBB);
+> +                return;
+> +            }
+> +        }
+>       }
+>   
+>       if (env->resume_as_sreset) {
+> diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+> index 08d1902cd5..279b824c3f 100644
+> --- a/target/ppc/power8-pmu.c
+> +++ b/target/ppc/power8-pmu.c
+> @@ -297,6 +297,20 @@ void helper_store_pmc(CPUPPCState *env, uint32_t sprn, uint64_t value)
+>       pmc_update_overflow_timer(env, sprn);
+>   }
+>   
+> +static void pmu_delete_timers(CPUPPCState *env)
+> +{
+> +    QEMUTimer *pmc_overflow_timer;
+> +    int sprn;
+> +
+> +    for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC6; sprn++) {
+> +        pmc_overflow_timer = get_cyc_overflow_timer(env, sprn);
+> +
+> +        if (pmc_overflow_timer) {
+> +            timer_del(pmc_overflow_timer);
+> +        }
+> +    }
+> +}
+> +
+>   static void fire_PMC_interrupt(PowerPCCPU *cpu)
+>   {
+>       CPUPPCState *env = &cpu->env;
+> @@ -305,8 +319,30 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
+>           return;
+>       }
+>   
+> -    /* PMC interrupt not implemented yet */
+> -    return;
+> +    pmu_update_cycles(env);
+> +
+> +    if (env->spr[SPR_POWER_MMCR0] & MMCR0_FCECE) {
+> +        env->spr[SPR_POWER_MMCR0] &= ~MMCR0_FCECE;
+> +        env->spr[SPR_POWER_MMCR0] |= MMCR0_FC;
+> +
+> +        /* Changing MMCR0_FC demands a new hflags compute */
+> +        hreg_compute_hflags(env);
+> +
+> +        /*
+> +         * Delete all pending timers if we need to freeze
+> +         * the PMC. We'll restart them when the PMC starts
+> +         * running again.
+> +         */
+> +        pmu_delete_timers(env);
+> +    }
+> +
+> +    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMAE) {
+> +        env->spr[SPR_POWER_MMCR0] &= ~MMCR0_PMAE;
+> +        env->spr[SPR_POWER_MMCR0] |= MMCR0_PMAO;
+> +    }
+> +
+> +    /* Fire the PMC hardware exception */
+> +    ppc_set_irq(cpu, PPC_INTERRUPT_PMC, 1);
+>   }
+>   
+>   /* This helper assumes that the PMC is running. */
+> 
 
 
