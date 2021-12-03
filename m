@@ -2,86 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC974672DA
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 08:44:40 +0100 (CET)
-Received: from localhost ([::1]:47874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24CE467350
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 09:35:55 +0100 (CET)
+Received: from localhost ([::1]:36196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt3FH-00059y-VX
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 02:44:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59452)
+	id 1mt42s-0001Yq-FT
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 03:35:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mt3DM-0004Rt-91
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 02:42:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45999)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mt41T-0000s3-FC; Fri, 03 Dec 2021 03:34:27 -0500
+Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156]:46139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mt3D7-0000BE-LY
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 02:42:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638517344;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=czjVVWmeMP6Ef1cm79MYOyB2zq2wrN8kpoZwwYe5q3c=;
- b=dm+nE4otZEs1fT+zgHrNavR0qqVmbPo2NnxOa0B5B/0IisJPwk81YXUIFSu++uMagaAYuZ
- iuCBayKfYIITR2Mh9BnGuZY0o677JU239HT/9qAq89mzgSb1aFzzoC1xB3ADNx8PQ4yjMC
- rA1ZKBZEnAGfBPh3hdj+RR91WYxcdiY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-520-wXyZPxMOOFGkBnCmywMFnA-1; Fri, 03 Dec 2021 02:42:21 -0500
-X-MC-Unique: wXyZPxMOOFGkBnCmywMFnA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- q7-20020adff507000000b0017d160d35a8so399662wro.4
- for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 23:42:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=czjVVWmeMP6Ef1cm79MYOyB2zq2wrN8kpoZwwYe5q3c=;
- b=0Hbt1m22XC7s75DTrc/9xhcn++DLVFerfCOfySSv1IzK0DL9AF0aXQBtIUN5REItdu
- 5Qoom4EXuNbokW0X0Mx2UViikOmizl3Ubaf3I/F4ewGwBLeUHtg359SKtHe5jE0Z9o6s
- pl17hhrwG9NA2Ibcr3yaRB9qcC3z3mYCKrm9HBpoT/6fcnnZjlXznF1u0lncCEfxgqWL
- KI076O0bNM8GI0RMWjxNha+HDlNV2gsvUIrYEOlrslbzAVVgxqbG6PEEAtvxOEQzOILH
- rGqGU+Q8TXD93f92mlhVVRI3XnQpDMoaanecKozNdA92B5N3sX4fL3quKai5rKB3fboM
- 54nQ==
-X-Gm-Message-State: AOAM531S8HgP8AJxaQ5BlEbNGkMkTWZvd/YghbYKUOxCoUazMXzyMq1A
- DD18A1eu+UeoxsBbKd3WuQWGyrm1dLvb86+mqiCsUlnmjLttMiZDO3MTE51Db1EIWuq5FBM4KyR
- +5S+etICvnZa6wHw=
-X-Received: by 2002:a7b:ce16:: with SMTP id m22mr12879858wmc.137.1638517340397; 
- Thu, 02 Dec 2021 23:42:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwFUBxZ9NvEvZTrDHO3e0J9qzGxHutyGsmHTXqN4JEIRETEAO47Art0r6h0hZ0oZHINaNlu2A==
-X-Received: by 2002:a7b:ce16:: with SMTP id m22mr12879834wmc.137.1638517340196; 
- Thu, 02 Dec 2021 23:42:20 -0800 (PST)
-Received: from xz-m1.local ([64.64.123.26])
- by smtp.gmail.com with ESMTPSA id p27sm1763533wmi.28.2021.12.02.23.42.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Dec 2021 23:42:19 -0800 (PST)
-Date: Fri, 3 Dec 2021 15:42:14 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 2/2] intel_iommu: Only allow interrupt remapping to be
- enabled if it's supported
-Message-ID: <YanKVrNFRq/BO5Ew@xz-m1.local>
-References: <20211201205113.57299-1-dwmw2@infradead.org>
- <20211201205113.57299-2-dwmw2@infradead.org>
- <CACGkMEvtrVX8uWciiVfYpBNsaAwRAfP_P4Ja3T4Axvn47WdzNw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mt41M-0002W8-5q; Fri, 03 Dec 2021 03:34:22 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.174])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 96FA02201C;
+ Fri,  3 Dec 2021 08:34:16 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 3 Dec
+ 2021 09:34:15 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G00283e2038c-52a5-438b-b581-211a81ba36c9,
+ 530A9595C01F0F4EFEED26D362E2F82770F5CBE3) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <10445aeb-2ac7-7a2f-742b-c4f41a22d2f4@kaod.org>
+Date: Fri, 3 Dec 2021 09:34:15 +0100
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEvtrVX8uWciiVfYpBNsaAwRAfP_P4Ja3T4Axvn47WdzNw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 0/3] target/ppc: Implement Vector Expand/Extract Mask
+ and Vector Mask
+Content-Language: en-US
+To: <matheus.ferst@eldorado.org.br>, <qemu-devel@nongnu.org>,
+ <qemu-ppc@nongnu.org>
+References: <20211112141430.631732-1-matheus.ferst@eldorado.org.br>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211112141430.631732-1-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 0bf228df-f2cf-4457-be12-fccbe3e8c995
+X-Ovh-Tracer-Id: 15458605724688026473
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrieeigdduvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
+ helo=8.mo552.mail-out.ovh.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.938,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,36 +71,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- David Woodhouse <dwmw2@infradead.org>
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 02, 2021 at 11:53:25AM +0800, Jason Wang wrote:
-> On Thu, Dec 2, 2021 at 4:58 AM David Woodhouse <dwmw2@infradead.org> wrote:
-> >
-> > From: David Woodhouse <dwmw@amazon.co.uk>
-> >
-> > We should probably check if we were meant to be exposing IR, before
-> > letting the guest turn the IRE bit on.
+Hello,
+
+On 11/12/21 15:14, matheus.ferst@eldorado.org.br wrote:
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 > 
-> This looks correct, but it's a change of guest noticeable behaviour.
-> It's probably fine since we don't expect a guest that enable IR
-> without checking ecap.
+> This is a small patch series just to allow Ubuntu 21.10 to boot with
+> -cpu POWER10. Glibc 2.34 is using vextractbm, so the init is killed by
+> SIGILL without the second patch of this series. The other two insns. are
+> included as they are somewhat close to Vector Extract Mask (at least in
+> pseudocode).
+> 
+> v2:
+> - Applied rth suggestions to VEXTRACT[BHWDQ]M and MTVSR[BHWDQ]M[I]
 
-Agreed.
+I am planning to include these patches in the next ppc pull request
+for QEMU 7.0 since they fix support for recent glibc/distros. Unless
+something still needs to be done fpr patch 2+3.
+
+Thanks,
+
+C.
 
 > 
-> So
+> Matheus Ferst (3):
+>    target/ppc: Implement Vector Expand Mask
+>    target/ppc: Implement Vector Extract Mask
+>    target/ppc: Implement Vector Mask Move insns
 > 
-> Acked-by: Jason Wang <jasowang@redhat.com>
-
-Reviewed-by: Peter Xu <peterx@redhat.com>
-
--- 
-Peter Xu
+>   target/ppc/insn32.decode            |  28 ++++
+>   target/ppc/translate/vmx-impl.c.inc | 209 ++++++++++++++++++++++++++++
+>   2 files changed, 237 insertions(+)
+> 
 
 
