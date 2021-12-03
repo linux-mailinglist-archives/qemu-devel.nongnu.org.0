@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218D746715A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 06:10:45 +0100 (CET)
-Received: from localhost ([::1]:54068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3FF467175
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 06:23:50 +0100 (CET)
+Received: from localhost ([::1]:58006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt0qK-0007Hw-8b
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 00:10:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33690)
+	id 1mt12z-00023d-KF
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 00:23:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mt0ok-0006Gj-V4
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 00:09:06 -0500
-Received: from [2a00:1450:4864:20::32d] (port=33574
- helo=mail-wm1-x32d.google.com)
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1mt11h-0001GQ-LJ
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 00:22:29 -0500
+Received: from [2607:f8b0:4864:20::d29] (port=41477
+ helo=mail-io1-xd29.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mt0oj-00015W-6q
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 00:09:06 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- r9-20020a7bc089000000b00332f4abf43fso3818380wmh.0
- for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 21:09:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1mt11Q-0002JI-J1
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 00:22:28 -0500
+Received: by mail-io1-xd29.google.com with SMTP id y16so2335382ioc.8
+ for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 21:22:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ d=braap-org.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MvpxU/zQgmVYk8jRqwwlAfgA2DGPBBA6ycytwfg8N1I=;
- b=yUaFY+XkamNidvrqtpCeifrVdN5izEHR53kkFATjIn8mX9uNlLYIkwoH1ukHrO/DFJ
- Nuzvr7x0gY0E6rUerCR5IOJUhKAkjGIOE+jYBChcegUho+mIPH4BQKzafxc2f6QE3w1q
- fYEX1lyCFc8V0PkJW4Fh5iloNMZ8qROSBnDydKI67QNL1TBGvYqx2uKubj7Fm2O+YsBH
- efpCcs0/NPGB/KmEehAAwLKHYub1m0PQ3EvWwXFqSkKtKpsyMf0az868t9IErCPjmNwa
- cIcnV/zHwsPI0ruxF+51c26pZTyFJnCUjyZPUlNeyyz3cTLrkzaJQzeWGuEoVN4Sds7V
- tCTA==
+ :cc; bh=sK6+IUHKECnagMWmHHLsPx+swwwlBUbpQ5fGyoSzNTI=;
+ b=Hoqe7c2OgE9IZuKeXSJ5y1YZbumMhX9GhyFV8oOsQ05rpaguLHA5Twn4km2lYulTi6
+ dfKZN2Aaw1qpQtaEqrGIJZMhvlsOEa0TxqyzlYsLNO6CMkM3wnEcI8Li/zQEWdHF4Vsq
+ oBiC818M6dxY3b5Wg2OjNbuWfMHdeyj0AUjdl4nJCTB8nQpebwb7IvjXjfo6QotVZqb1
+ l3osU4XmMC+W8S2tT2Lg8L2/NxlLJtcQmJwE3ka2/XtymIgwqXnVr843GJnGqN8RYzEO
+ VczdUv69gm/sJtuhg0gweRn7bZ2IMh58FUWzCavaioxE1OiC9V8KskPSrRRKN/KKPL71
+ Qp7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=MvpxU/zQgmVYk8jRqwwlAfgA2DGPBBA6ycytwfg8N1I=;
- b=fwYqW3XwStqh1poTAU3kPtbiUz6Nd9c55FO5fT+gHmZs4+f6HtQKReWzCI3/MQpnl/
- OXdeoLaeqq9DD8Esomz0GQ8nGRGcjhNihlQEEDJmyIy+WelNKl4tskvo/2OjZzibdUTq
- WaMBtfjRdXI/Vl3mXd5018AKL40DvWrLHy/TKxnKmRlMoMylqEUPh+zFI3ntCEN7GoU/
- s68dnxUX2jEg2EPiqdNm9xxf4fxTr4ty1CQXliaLYaRr4RSsCqvsEVv025YxJnzpmQnj
- EazJ8mI+Pb4ZICsttQLtrNn85KzUTPtb2X+TLXqLUR0EVqiP5f7rRCSeCC8dRosROmfx
- MldQ==
-X-Gm-Message-State: AOAM531pn2ds6QMmrz9qxAKYdKXddGSv+4F6zxlpwq2ZB4k9+KrpAoS+
- Fncsy0XQLjO7ts07h5gFeRZnMNyNgesymjmJx7iZew==
-X-Google-Smtp-Source: ABdhPJx0KrVLLCYNaSL9ehBnr/VTigADR+Z3z+3pOLuXixW2HUYdUfDlqoy+DAox+u3hvsnJ95XJ+Xys9loPA6x63Pg=
-X-Received: by 2002:a7b:c194:: with SMTP id y20mr12506581wmi.61.1638508143606; 
- Thu, 02 Dec 2021 21:09:03 -0800 (PST)
+ bh=sK6+IUHKECnagMWmHHLsPx+swwwlBUbpQ5fGyoSzNTI=;
+ b=MTuFa+Jver3+fvtKOxb2nKGNo4I7EAvaxTN782s//QO4AJL4y8ShUJD3idhRbPJmx7
+ X9fgwNu+8LA2pxV+rFuugRkqGmYmp1Ha0gLexT1JVKQetA+CruFlKbwkWh4lUNZ0++vB
+ Q2MsD3NCIC0e+R4m0PIbMOMZx77Eb3HctTAZ/RBkbDqjYIEcKmGFU7cRaDEX0FcAyJxn
+ uTLXjvGFMFh+AUnX468twiEeBjejbHnKrEQCClTXQCcwRq82GS//gmLcfh6ZGR+yxTXy
+ aOK/KLPcQdvczEycx8wJvZAUQBwQXu4eZdGYgE4m5a1HiWhmsyRfPoIKOXJdIyHxHNgr
+ 0xxQ==
+X-Gm-Message-State: AOAM530BOGy/zOlO9OLQZ2y1BPgQ6oDVCEgW73D+R25BCCwq4mlDxTzF
+ +xwQdNb/Tm+zMb4xpV4Eb1r3dJFxE3apLPUFqb1geA==
+X-Google-Smtp-Source: ABdhPJyoB+n1KntqFFxQ/d7g0KsP+wVkB6a+2B8DiQpAv65LJXlsPdIL+Dm5HQRGb+kpS2UK7Z7+xAOEtoOPClpP37A=
+X-Received: by 2002:a6b:d904:: with SMTP id r4mr18379827ioc.52.1638508929680; 
+ Thu, 02 Dec 2021 21:22:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20211120074644.729-1-jiangyifei@huawei.com>
- <20211120074644.729-3-jiangyifei@huawei.com>
-In-Reply-To: <20211120074644.729-3-jiangyifei@huawei.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Fri, 3 Dec 2021 10:38:51 +0530
-Message-ID: <CAAhSdy27SRFxGU-vs-1SXZ8bw6-G+73XThHJkP66MB+zY4TrQg@mail.gmail.com>
-Subject: Re: [PATCH v1 02/12] target/riscv: Add target/riscv/kvm.c to place
- the public kvm interface
-To: Yifei Jiang <jiangyifei@huawei.com>
+References: <c76bde31-8f3b-2d03-b7c7-9e026d4b5873@huawei.com>
+In-Reply-To: <c76bde31-8f3b-2d03-b7c7-9e026d4b5873@huawei.com>
+From: Emilio Cota <cota@braap.org>
+Date: Fri, 3 Dec 2021 00:21:57 -0500
+Message-ID: <CAJY1Aq7-J+nnf1k_HdbUnc3mJvua0VHYPNMokCKeitG1ZbH91g@mail.gmail.com>
+Subject: Re: Suggestions for TCG performance improvements
+To: Vasilev Oleg <vasilev.oleg@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::32d;
- envelope-from=anup@brainfault.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+Received-SPF: softfail client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=cota@braap.org; helo=mail-io1-xd29.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,210 +77,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Mingwang Li <limingwang@huawei.com>, KVM General <kvm@vger.kernel.org>,
- libvir-list@redhat.com, Anup Patel <anup.patel@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>, wanbo13@huawei.com,
- Palmer Dabbelt <palmer@dabbelt.com>, kvm-riscv@lists.infradead.org,
- wanghaibin.wang@huawei.com, Alistair Francis <Alistair.Francis@wdc.com>,
- fanliang@huawei.com, "Wubin \(H\)" <wu.wubin@huawei.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ Konobeev Vladimir <konobeev.vladimir@huawei.com>, "Chengen \(William,
+ FixNet\)" <chengen@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Andrey Shinkevich <andrey.shinkevich@huawei.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ Plotnik Nikolay <plotnik.nikolay@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Nov 20, 2021 at 1:17 PM Yifei Jiang <jiangyifei@huawei.com> wrote:
->
-> Add target/riscv/kvm.c to place kvm_arch_* function needed by
-> kvm/kvm-all.c. Meanwhile, add kvm support in meson.build file.
->
-> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-> Signed-off-by: Mingwang Li <limingwang@huawei.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+On Thu, Dec 2, 2021 at 4:47 AM Vasilev Oleg <vasilev.oleg@huawei.com> wrote:
+> The mentioned paper[4] also describes other possible improvements.
+> Some of those are already implemented (such as victim TLB and dynamic
+> size for TLB), but others are not (e.g. TLB lookup uninlining and
+> set-associative TLB layer). Do you think those improvements
+> worth trying?
 
-Looks good to me.
+I cannot find the emails, but I do remember that Richard wrote tcg-i386 patches
+for uninlining TLB lookups. Unfortunately they resulted in a slowdown on
+modern machines.
 
-Reviewed-by: Anup Patel <anup.patel@wdc.com>
-
-Regards,
-Anup
-
-> ---
->  meson.build              |   2 +
->  target/riscv/kvm.c       | 133 +++++++++++++++++++++++++++++++++++++++
->  target/riscv/meson.build |   1 +
->  3 files changed, 136 insertions(+)
->  create mode 100644 target/riscv/kvm.c
->
-> diff --git a/meson.build b/meson.build
-> index 96de1a6ef9..ae35e76ea4 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -77,6 +77,8 @@ elif cpu in ['ppc', 'ppc64']
->    kvm_targets = ['ppc-softmmu', 'ppc64-softmmu']
->  elif cpu in ['mips', 'mips64']
->    kvm_targets = ['mips-softmmu', 'mipsel-softmmu', 'mips64-softmmu', 'mips64el-softmmu']
-> +elif cpu in ['riscv']
-> +  kvm_targets = ['riscv32-softmmu', 'riscv64-softmmu']
->  else
->    kvm_targets = []
->  endif
-> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-> new file mode 100644
-> index 0000000000..687dd4b621
-> --- /dev/null
-> +++ b/target/riscv/kvm.c
-> @@ -0,0 +1,133 @@
-> +/*
-> + * RISC-V implementation of KVM hooks
-> + *
-> + * Copyright (c) 2020 Huawei Technologies Co., Ltd
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include <sys/ioctl.h>
-> +
-> +#include <linux/kvm.h>
-> +
-> +#include "qemu-common.h"
-> +#include "qemu/timer.h"
-> +#include "qemu/error-report.h"
-> +#include "qemu/main-loop.h"
-> +#include "sysemu/sysemu.h"
-> +#include "sysemu/kvm.h"
-> +#include "sysemu/kvm_int.h"
-> +#include "cpu.h"
-> +#include "trace.h"
-> +#include "hw/pci/pci.h"
-> +#include "exec/memattrs.h"
-> +#include "exec/address-spaces.h"
-> +#include "hw/boards.h"
-> +#include "hw/irq.h"
-> +#include "qemu/log.h"
-> +#include "hw/loader.h"
-> +
-> +const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
-> +    KVM_CAP_LAST_INFO
-> +};
-> +
-> +int kvm_arch_get_registers(CPUState *cs)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_put_registers(CPUState *cs, int level)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_release_virq_post(int virq)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_fixup_msi_route(struct kvm_irq_routing_entry *route,
-> +                             uint64_t address, uint32_t data, PCIDevice *dev)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_destroy_vcpu(CPUState *cs)
-> +{
-> +    return 0;
-> +}
-> +
-> +unsigned long kvm_arch_vcpu_id(CPUState *cpu)
-> +{
-> +    return cpu->cpu_index;
-> +}
-> +
-> +void kvm_arch_init_irq_routing(KVMState *s)
-> +{
-> +}
-> +
-> +int kvm_arch_init_vcpu(CPUState *cs)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_msi_data_to_gsi(uint32_t data)
-> +{
-> +    abort();
-> +}
-> +
-> +int kvm_arch_add_msi_route_post(struct kvm_irq_routing_entry *route,
-> +                                int vector, PCIDevice *dev)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_init(MachineState *ms, KVMState *s)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_irqchip_create(KVMState *s)
-> +{
-> +    return 0;
-> +}
-> +
-> +int kvm_arch_process_async_events(CPUState *cs)
-> +{
-> +    return 0;
-> +}
-> +
-> +void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
-> +{
-> +}
-> +
-> +MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
-> +{
-> +    return MEMTXATTRS_UNSPECIFIED;
-> +}
-> +
-> +bool kvm_arch_stop_on_emulation_error(CPUState *cs)
-> +{
-> +    return true;
-> +}
-> +
-> +int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-> +{
-> +    return 0;
-> +}
-> +
-> +bool kvm_arch_cpu_check_are_resettable(void)
-> +{
-> +    return true;
-> +}
-> diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-> index d5e0bc93ea..2faf08a941 100644
-> --- a/target/riscv/meson.build
-> +++ b/target/riscv/meson.build
-> @@ -19,6 +19,7 @@ riscv_ss.add(files(
->    'bitmanip_helper.c',
->    'translate.c',
->  ))
-> +riscv_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
->
->  riscv_softmmu_ss = ss.source_set()
->  riscv_softmmu_ss.add(files(
-> --
-> 2.19.1
->
->
-> --
-> kvm-riscv mailing list
-> kvm-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/kvm-riscv
+        Emilio
 
