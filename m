@@ -2,101 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E504677D3
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 14:07:59 +0100 (CET)
-Received: from localhost ([::1]:40796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E594677E2
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 14:12:11 +0100 (CET)
+Received: from localhost ([::1]:46150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt8IA-0000pF-9G
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 08:07:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56204)
+	id 1mt8ME-0004fr-DX
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 08:12:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1mt8ED-000532-DJ; Fri, 03 Dec 2021 08:03:55 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16588)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mt8IL-0001be-Ql; Fri, 03 Dec 2021 08:08:11 -0500
+Received: from mail-eopbgr00119.outbound.protection.outlook.com
+ ([40.107.0.119]:27043 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1mt8E7-0006Aj-2e; Fri, 03 Dec 2021 08:03:52 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B3CqcSt028495; 
- Fri, 3 Dec 2021 13:03:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=J1luGhM0ciohQrWNPbGjkcSwi8ebrKNHPK+bEBssvyg=;
- b=grOnya7Fn6hF0P9Vy0SVjhGMJccuqJn6h6UDWhhlBqGEBHb1PNMg0SJmM7FDa2sPDITi
- 7UCK7Ha5VQYryrps9anpyhVsjtM4nJV1A7Fvcg7/rjcVzgRRLpuPkYwfUBzIXvzRmfmw
- n8SwbcyaQ2/ktwRzHwSzQyjC7TyH8p+kfbNOj6eevmGic0SyKTOM2ZdAWFwuiMd1liNf
- Yt7JIaT6GtUzh/lboguWDo9U+SPQLY5HTgW57oy23gGBFCeTVbc4NqCanSG+GHANM6Fk
- nDUHor1gyWkIFOsnvxa75QTFPL6e+zYSWCLPJ66J/Mg6A7V8U6fVEi9jCS6z1OunQ9CQ 4w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cqkmj868y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Dec 2021 13:03:38 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B3Cvvh0002533;
- Fri, 3 Dec 2021 13:03:38 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cqkmj868q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Dec 2021 13:03:38 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B3D3AIK020428;
- Fri, 3 Dec 2021 13:03:37 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma02wdc.us.ibm.com with ESMTP id 3ckcadbvg2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Dec 2021 13:03:37 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B3D3aCi54526402
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 3 Dec 2021 13:03:36 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 72FC4AE066;
- Fri,  3 Dec 2021 13:03:36 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7BFAAAE067;
- Fri,  3 Dec 2021 13:03:35 +0000 (GMT)
-Received: from localhost (unknown [9.211.34.214])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
- Fri,  3 Dec 2021 13:03:35 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, Daniel Henrique Barboza
- <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v9 00/10] PMU-EBB support for PPC64 TCG
-In-Reply-To: <27d2eb41-f34a-5c2d-e1f1-977f08ac58d8@kaod.org>
-References: <20211201151734.654994-1-danielhb413@gmail.com>
- <27d2eb41-f34a-5c2d-e1f1-977f08ac58d8@kaod.org>
-Date: Fri, 03 Dec 2021 10:03:32 -0300
-Message-ID: <87r1atj0wr.fsf@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 6eEMNbiOuaR1D_w8tKAqnBgGQAAcjMZQ
-X-Proofpoint-ORIG-GUID: w3LZR1iNyzcwvjshkEsjsDnQk7Eb-tYb
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mt8II-0006zE-Fy; Fri, 03 Dec 2021 08:08:08 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B66HXsjOl7tGr4bRoBV7R3EXNEPkhCHrFY60ZsBQwBTQRTFivpuhuIH5iRXAaGBGSEIexF46d5NQPsB5p46O0/b16CcLgzK87MJ9iTwVPFpWo26mdIpVRgX1Y8dih3NNhGFXZ8b5RkWDzYXO2dL7BJDGuc9LcLckFJVRt8Y9iLEWvZ3YxlLGMkhNHoq8nbBI9wfCM1wv5nwWmlRTKoe+aaceCrdU2NrgUKJGkDOaWDEAaOuU1nTUFQSG+VCiqNmGJlIeDR67vjQZW/P9Bpv1kcHtv69pISlytbzxB/+jZbAjGBsFpuKnCKXoIKQPvwJ8ck51vfgZznFd+zocpzTHFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FrwUk6VEoVKzu1IZgvM3N1HnmBo2uJZArEcOHBdW7Bs=;
+ b=lu+kQuiniLmZIZL1o+hN51CqP6MMCtNowDh0TmhwF1zKbzlC7/AFaGh+NHSntyEZcc7wCEHEpg8KeOBkYXG+SHKhpPURIWuw7ACx7kot8gH5CvFM4khDQSQZNutcGZA9Vf6Xkbu4hiheSFkF5bElU9IAOfNjBo5dGqTOnjjuM9qNDpyz39oF1Coit0Y7Et+so0wGIu2sTiuSKltZBNZ66k5pwSiLeGKpm+GzQkALW4EqTNk4KI7nnentaQQb6upT9RBNDb6I2XKd77GMAATY8L9F/SuK/FcC11UrFeBJBoeJF+UkLTsmtt6oldMTUrK9yQUriZUXYDZq2KPgYuvGtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FrwUk6VEoVKzu1IZgvM3N1HnmBo2uJZArEcOHBdW7Bs=;
+ b=AAy3DjjY0NekilkGYiXEsS4tlBFoYDU+kELf70e+5Uo7hFWd1mex4ikppuqQ5kB6Vafrifu/f22NeqE90SRI82EF40pzRQNAMBhfcNAHjmt0mNP1+LEvmdEFdBBBGzVFNOCRdu/2TfqGzqJ5q6TE2QRfyh5Ak+LrczvmiHG4+MM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by AM9PR08MB6968.eurprd08.prod.outlook.com (2603:10a6:20b:417::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.21; Fri, 3 Dec
+ 2021 13:08:03 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Fri, 3 Dec 2021
+ 13:08:03 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
+ vsementsov@virtuozzo.com, jsnow@redhat.com
+Subject: [PATCH v4 00/19] iotests: support zstd
+Date: Fri,  3 Dec 2021 14:07:18 +0100
+Message-Id: <20211203130737.2924594-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AM6P194CA0095.EURP194.PROD.OUTLOOK.COM
+ (2603:10a6:209:8f::36) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-03_06,2021-12-02_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxlogscore=999
- spamscore=0 impostorscore=0 suspectscore=0 mlxscore=0 phishscore=0
- malwarescore=0 priorityscore=1501 adultscore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112030082
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received: from kvm.ch-qa.sw.ru (130.117.225.5) by
+ AM6P194CA0095.EURP194.PROD.OUTLOOK.COM (2603:10a6:209:8f::36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4755.16 via Frontend Transport; Fri, 3 Dec 2021 13:08:02 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 91022ebd-580f-4e3d-c5ac-08d9b65df00f
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6968:
+X-Microsoft-Antispam-PRVS: <AM9PR08MB696883B2E48116767096C942C16A9@AM9PR08MB6968.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:229;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5u6VjzuctX36hos1h2/pkgYRIGv3wGBBAhpLNirSR90Mz6ephwSshSccm2QdFF4zhICLUWr9vTEbcCJKC4mtgRup9/Z4UP+7o5mgs4MZhqhXhMrdzK7vvXpNvthi027dBrp6BXZL3P9HDrJOucoIc8sFosJVjuE4iKsvc/0cPtpCOot/+3ZJLS6AufZPGgDuQAp5j/Zb4rcH6Bt4A6XQQCXxpMgIUdyut3XKH13I8c7jHzNMjBS1YHaV6lxu4iLbrbGs9XdgShIYTkJN039qYTV3NV1xt6+XIo+GneCGjl4tAWrySf49yoSoIzUbppez+cFDv9L1FzlxprS68Do2QbIDIGFUU32SoIdfmOMhg9Xj2IZmS+oirQ9OMtBZIKNcnGwbDQF7XDvBRbVtJuC3lOlcEegHI1F9xmt2CEYlOBZeZgK/sQEfHJeUMVQV04QLWZyTZDfc89ZPuhusn3dFzu7LDqT63U9V5/5YtKD8xE8910h46Lg0iVqHh5aWMU+6M1CujxooZu7KlsMPkARbqU/KTwimAXQ6oX4kCHhyGkyWHdf5gHTh+srnt3j0YvGi/XWaF+/yirmS1odT7gPfFZA+ta4itisDNKYKU4FOzwQvS+NPJPouBJV7VPd7FuvCDjbpftJblqplcN3vYlQFAM7tHuXovNkONxzw8lxxb4H0P4ea8xUCyll2G+PZDPD0z9ZThFV2yD6asgXe4xOgMg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(36756003)(1076003)(6666004)(6486002)(8936002)(2616005)(52116002)(86362001)(316002)(6506007)(508600001)(956004)(6512007)(5660300002)(2906002)(4326008)(38350700002)(186003)(38100700002)(66556008)(66946007)(8676002)(66476007)(6916009)(83380400001)(26005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lLIUMuTZTqUTsE0cj5lfF47u4axXf3IZteYnMzzZg54pfko6lSDK9bZXNZPA?=
+ =?us-ascii?Q?orWV3FIKJMMbbhjLOE9rW2ao4ZDw4/bce5m4OvkmQOCl3UzXO7xwRsxkQ6ax?=
+ =?us-ascii?Q?WwW9UsBMI+dFaEDFl8jlaESOAfynYL0sxrvyxU+QiiLMG5GbFtW5J/fuh9R+?=
+ =?us-ascii?Q?Hl0LTLF7TuOj6CozNAHTRQhRQIu5OCHKbyulqOKPYRq4v+64K7QI8fCiyUwL?=
+ =?us-ascii?Q?Bu84+Z4pBg6TFp9cC9GUv9+A7RBBrdaLCgZiyjdTzuY0rm2x13IGrZGiplLd?=
+ =?us-ascii?Q?G5sYda00A/E+4Y4qLV+1pESH64jcWi1BMkvIqBNA/KOVbIfkYOxijdO97qcV?=
+ =?us-ascii?Q?6M8aCejcUqdU0V0A6mGQkHjwz6+tn19h+Ki0HjoMP52sFRFYVmfEGNimPbfb?=
+ =?us-ascii?Q?RshmD20ttIDIQtGsTV2LPlZjT8hpjbDemH/e/1QW3I4VbnjI15aTN3wqbSHi?=
+ =?us-ascii?Q?S05xi7vu3p/rkDV4OfwO6yVw/cDdlBf8qPrUwzWMYrmfKXNz5XfQC0Qkyu9s?=
+ =?us-ascii?Q?QTkuEIpn4lr/EgaL705yiIAqbDPCsrJU5itos8N4sjvtAkn4n7x3bUj6tr9G?=
+ =?us-ascii?Q?TmWm6ifDpQKjKfWxCxfK3i+HSHx9pLHkwuW0R6Pthrw0RETF6n/xHvKTlLwd?=
+ =?us-ascii?Q?0+dRWIg2Mw1Ek6hihu+DsxO8D6Q6/2GC42s46X7HP+auLljDIIhGbojn72C8?=
+ =?us-ascii?Q?VoEg6QnjcMgka/CgL9/f8R8EVFnw790nTB6JvduMivZF/hGRT/xBJA+GkMYC?=
+ =?us-ascii?Q?RR+Fr1tMKtKUhD3rQMhvGFiOOsvqNDR/uMs6GnbfNC96sC6N6rVOPqpRm8yA?=
+ =?us-ascii?Q?DZmB1JSBuiPAUXNNREBXZ8Pskg/vHgArQyyZaRrTSl0tHzzUBDC6/4Y1VzZY?=
+ =?us-ascii?Q?TeBziTXNZtum7O0n8Kk7nz/2cAQy8oflkmwBOXUA1/BAiYgiWELXDk6CoELr?=
+ =?us-ascii?Q?shpdZ7rAc9ENOTBNbcMLwrf+cnG+GGTGkZmUalYepBM8SM39ZcHaP/cY90jC?=
+ =?us-ascii?Q?vmR9p213gO47LE9BXpaTtT1elKcr50smCBKkmWdAF4gX1csXXpd4ylS7CmI7?=
+ =?us-ascii?Q?RTSQueSaDBMtIMnDLHDWgiUyYRS0rIAdJKWzeTYBrfzBib5c4cWDorJYM7n6?=
+ =?us-ascii?Q?Qj9CZQtliz+BkY2oT9Dj9KkyfqPblb30uDWIyKzwfv1kTrIyV8FnN5J3WHFC?=
+ =?us-ascii?Q?65wGXBHwiQF6HU1nfXc9tuQ1GfvNNpN01al24EALWrBKE0k8eUQQzQcYtEmi?=
+ =?us-ascii?Q?AR+tHdTvhCNwhni0D8ZJi/WkMoc00XM4jza4g/07ZVHlhhaY/GLLnaYnQOKj?=
+ =?us-ascii?Q?yeYi2W80jFu+/t3CcG9pwX6mLqk2M06ZlfQ8Vm8O2EPl84s9eTvrhkvSNMgj?=
+ =?us-ascii?Q?QwjDdW87ohp8O/qDPeqCLTarWzhdGGVZVkeiZF3yO09DmMk76icveKGJ9XwC?=
+ =?us-ascii?Q?DrXpWLL6m6m29/tAidNhivvnWLZRt/csZFFwbyj844qJfov3WUG9arrQZ/AF?=
+ =?us-ascii?Q?ebmhQFxoHLn9//4DKFji02TfR291f/T7LoD4AjiWhjHUiaTUBZaqVB9r6bl8?=
+ =?us-ascii?Q?B7gj4jQHBWZOXZGAmzMgdevkbj6cGFIkVfTCuS1nVf8YwD7lIisKuGQ+zpV7?=
+ =?us-ascii?Q?nwoicum9O90m9KfV6sq6Y5V8+InUqxRa9Z/KfqpnjWlYDwvFEpJLUIeY7/oK?=
+ =?us-ascii?Q?3QqUBGNCsUrPIFdnqi6t39RRG0g=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91022ebd-580f-4e3d-c5ac-08d9b65df00f
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2021 13:08:03.1309 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G+qIt86vrYNzu7SnP4bUmgkC921fvZaiTlBX2VGm/pZ2CV6l5QAHNa0qbmjGTweWYmd6Gjpxxkdc15OARlO7A6OuWTeoV6oh61bSSwthTAM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6968
+Received-SPF: pass client-ip=40.107.0.119;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,120 +138,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, richard.henderson@linaro.org,
- david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-C=C3=A9dric Le Goater <clg@kaod.org> writes:
+These series makes tests pass with
 
-> Hello,
->
-> On 12/1/21 16:17, Daniel Henrique Barboza wrote:
->> Hi,
->>=20
->> In this new version the most significant change is in patch 6,
->> where a new hflag allows us to not call the instruction helper
->> inside translate.c unless we're absolutely certain that there
->> is an instruction count event being sampled and active in the
->> PMU. This change turned out to be a big boost in performance
->> in the PMU emulation overall, most notably when dealing with
->> cycle events that were calling the helper needlessly.
->>=20
->> This and all other changes were suggested by David in his review
->> of the previous version.
->
->
-> patch 1-8 look good. I still have some questions on the exception
-> handling and how EBB are gated.
->
-> I am asking to get the model right for the next step which should
-> be to modify the XIVE interrupt controller to generate External
-> EBB exceptions.
->
-> One more comment, not for now, since the EBB patchset is nearly
-> ready.
->
-> May be, it is time to think about introducing a per-CPU model
-> excp_handlers[] array indexed by POWERPC_EXCP_* exception
-> numbers and to duplicate some code for the sake of clarity.
->
-> Fabiano, isn't it what you had in mind ?
+   IMGOPTS='compression_type=zstd'
 
-I had basically changed env->excp_vectors to be an array of objects of
-the kind:
+Also, python iotests start to support IMGOPTS (they didn't before).
 
-  struct PPCInterrupt {
-      Object parent;
-=20=20
-      int id;
-      const char *name;
-      target_ulong addr;
-      ppc_intr_fn_t setup_regs;
-  };
+v4: 18,19: new: add unsupported_imgopts as suggested by Hanna.
 
-we would access it from powerpc_excp() with:
+Vladimir Sementsov-Ogievskiy (19):
+  iotests.py: img_info_log(): rename imgopts argument
+  iotests.py: qemu_img*("create"): support
+    IMGOPTS='compression_type=zstd'
+  iotests: drop qemu_img_verbose() helper
+  iotests.py: rewrite default luks support in qemu_img
+  iotest 303: explicit compression type
+  iotest 065: explicit compression type
+  iotests.py: filter out successful output of qemu-img create
+  iotests.py: filter compression type out
+  iotest 302: use img_info_log() helper
+  qcow2: simple case support for downgrading of qcow2 images with zstd
+  iotests/common.rc: introduce _qcow2_dump_header helper
+  iotests: massive use _qcow2_dump_header
+  iotest 39: use _qcow2_dump_header
+  iotests: bash tests: filter compression type
+  iotests 60: more accurate set dirty bit in qcow2 header
+  iotest 214: explicit compression type
+  iotests: declare lack of support for compresion_type in IMGOPTS
+  iotests.py: implement unsupported_imgopts
+  iotests: specify some unsupported_imgopts for python iotests
 
-  intr =3D &env->excp_vectors[excp];
-  if (intr->setup_regs) {
-      intr->setup_regs(cpu, intr, excp_model, &regs, &ignore);
-  }
+ block/qcow2.c                                 | 58 ++++++++++-
+ tests/qemu-iotests/031                        | 11 ++-
+ tests/qemu-iotests/036                        |  6 +-
+ tests/qemu-iotests/039                        | 22 ++---
+ tests/qemu-iotests/044                        |  8 +-
+ tests/qemu-iotests/044.out                    |  1 +
+ tests/qemu-iotests/051                        |  5 +-
+ tests/qemu-iotests/060                        | 22 ++---
+ tests/qemu-iotests/060.out                    |  2 +-
+ tests/qemu-iotests/061                        | 42 ++++----
+ tests/qemu-iotests/061.out                    | 12 +--
+ tests/qemu-iotests/065                        | 19 ++--
+ tests/qemu-iotests/082.out                    | 14 +--
+ tests/qemu-iotests/112                        |  3 +-
+ tests/qemu-iotests/137                        |  2 +-
+ tests/qemu-iotests/149.out                    | 21 ----
+ tests/qemu-iotests/163                        |  3 +-
+ tests/qemu-iotests/165                        |  3 +-
+ tests/qemu-iotests/196                        |  3 +-
+ tests/qemu-iotests/198.out                    |  4 +-
+ tests/qemu-iotests/206.out                    | 10 +-
+ tests/qemu-iotests/209                        |  7 +-
+ tests/qemu-iotests/209.out                    |  2 +
+ tests/qemu-iotests/210                        |  8 +-
+ tests/qemu-iotests/214                        |  2 +-
+ tests/qemu-iotests/237.out                    |  3 -
+ tests/qemu-iotests/242                        |  3 +-
+ tests/qemu-iotests/242.out                    | 10 +-
+ tests/qemu-iotests/246                        |  3 +-
+ tests/qemu-iotests/254                        |  3 +-
+ tests/qemu-iotests/255.out                    |  4 -
+ tests/qemu-iotests/260                        |  4 +-
+ tests/qemu-iotests/274                        |  3 +-
+ tests/qemu-iotests/274.out                    | 39 +-------
+ tests/qemu-iotests/280.out                    |  1 -
+ tests/qemu-iotests/281                        |  3 +-
+ tests/qemu-iotests/287                        |  8 +-
+ tests/qemu-iotests/290                        |  2 +-
+ tests/qemu-iotests/296.out                    | 10 +-
+ tests/qemu-iotests/302                        |  4 +-
+ tests/qemu-iotests/302.out                    |  7 +-
+ tests/qemu-iotests/303                        | 26 +++--
+ tests/qemu-iotests/303.out                    | 30 +++++-
+ tests/qemu-iotests/common.filter              |  8 ++
+ tests/qemu-iotests/common.rc                  | 22 +++++
+ tests/qemu-iotests/iotests.py                 | 99 +++++++++++++------
+ .../tests/migrate-bitmaps-postcopy-test       |  3 +-
+ tests/qemu-iotests/tests/migrate-bitmaps-test |  3 +-
+ .../qemu-iotests/tests/migrate-during-backup  |  3 +-
+ .../tests/remove-bitmap-from-backing          |  3 +-
+ 50 files changed, 358 insertions(+), 236 deletions(-)
 
-I also had another series to move the exception models into QOM like
-this:
+-- 
+2.31.1
 
-  struct PPCIntrModel {
-      Object parent;
-=20=20
-      int id;
-      const char *name;
-      target_ulong hreset_vector;
-      target_ulong ivor_mask;
-      target_ulong ivpr_mask;
-      target_ulong excp_prefix;
-      PPCInterrupt excp_vectors[POWERPC_EXCP_NB];
-  };
-
-  struct PPCIntrModelClass {
-      ObjectClass parent_class;
-=20=20
-      bool (*intr_little_endian)(CPUPPCState *env, bool hv);
-      bool (*lpar_env_selection)(CPUPPCState *env);
-      target_ulong (*filter_msr)(CPUPPCState *env);
-      bool (*set_sixty_four_bit_mode)(CPUPPCState *env, target_ulong *msr);
-      bool (*set_ail)(CPUPPCState *env, bool mmu_all_on, bool hv_escalation,
-                      bool hv, int *_ail);
-      void (*prepare_tlb_miss)(PowerPCCPU *cpu, int excp, target_ulong *new=
-_msr,
-                               target_ulong *msr);
-      void (*debug_software_tlb)(CPUPPCState *env, int excp);
-      void (*init_excp)(PPCIntrModel *im);
-  };
-
-So the powerpc_excp() code would become:
-
-    PPCIntrModel *intr_model =3D &env->im;
-    PPCInterrupt *intr;
-    ...
-
-    intr =3D &intr_model->entry_points[excp];
-    if (!intr->setup_regs) {
-        cpu_abort(cs, "Raised an exception without defined vector %d\n",
-                  excp);
-    }
-
-    regs.new_nip =3D intr->addr | intr_model->excp_prefix;
-    intr->setup_regs(cpu, intr, intr_model, &regs, &ignore);
-
-I'll rebase it all and work on reducing some of the complexity around
-QOM, which was pointed out by David in the previous version:
-
-https://lists.nongnu.org/archive/html/qemu-ppc/2021-06/msg00140.html
-
-Any other suggestions are welcome.
-
->
-> Thanks,
->
-> C.
 
