@@ -2,98 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94157467523
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 11:32:48 +0100 (CET)
-Received: from localhost ([::1]:36824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF226467530
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 11:37:32 +0100 (CET)
+Received: from localhost ([::1]:39364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt5rz-0002Gl-O2
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 05:32:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47834)
+	id 1mt5wZ-0004BX-Qz
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 05:37:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mt5qk-0001Q8-5L
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 05:31:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52801)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mt5vY-0003Tm-SG
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 05:36:28 -0500
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:51063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mt5qh-0004zL-01
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 05:31:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638527485;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eizJsW8KwfaDqELQJ4jNSPvzfjeW5QIy2uo2WjmnbjI=;
- b=Q6z3AVQJzQqDxwmahZutCW4DVNI4THJtVw/jv0OxRCmOAcnflMdoJC1JGwsZXn62aF+NPJ
- mtar7ekJYdiMJyfLdzKBYuWRlC++xbyZQhYNPQMHVuL629ErpeltkBrWitl+9gz8Jkb2tz
- c/TkgLqUM9qmxcMzPbTyfNS3tzBc/Ac=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-569-Yx8-4Xc1MjutwybSxqU77w-1; Fri, 03 Dec 2021 05:31:24 -0500
-X-MC-Unique: Yx8-4Xc1MjutwybSxqU77w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v62-20020a1cac41000000b0033719a1a714so1321233wme.6
- for <qemu-devel@nongnu.org>; Fri, 03 Dec 2021 02:31:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=eizJsW8KwfaDqELQJ4jNSPvzfjeW5QIy2uo2WjmnbjI=;
- b=1dPp3pG2g/o+W9uTNsS0jGcpqL6QZwVQ/HU+ZZ6CjohslLHbOlGTpunv+0jceTbjtD
- pKU0K6uQQ/r2Jud02P6r/gmiuDR/qBX7Pw/WPwt3quXqIt/ZcaffDE70NgpjSXUCFaOF
- XhBVqwzaltuCmw9a6gSA8NwkGinDEmwMuaFJM1PFH6Pjg0mw1TefXmg7DkcynyERj/d1
- EX2bZRl/U19PVayV/aC19wivbISvbcfOCc8h1aAlcj1Y+wn6pEJON0iUIWkAROFwxXBH
- w92VkYmpmwzx0iGK2VkN+mvP41I4v+p8QYp1EeryJj1AoIpnhJs1U2/G289uglIOHuZn
- a/9w==
-X-Gm-Message-State: AOAM531LonsyFF/RaPOibJ4RbQtqfjNCZT8Xxm85LISdGW+PuDwySrBa
- Urh0WSPlhhQThabYgoMDzPYMmlMImAddcJaPFTFouof+daCi5+50N4Tv3MkAtaeK7kVMp1sXL8c
- do/5qyJxIS9qxaBw=
-X-Received: by 2002:a05:6000:1a48:: with SMTP id
- t8mr20866395wry.66.1638527483106; 
- Fri, 03 Dec 2021 02:31:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzTdSxSmMEbLSiIjPARGt1ynUAMuQ5kWJAL2TuQOhEQDaKRkvJMhmDv79B1/idynP4ir5+5UQ==
-X-Received: by 2002:a05:6000:1a48:: with SMTP id
- t8mr20866349wry.66.1638527482750; 
- Fri, 03 Dec 2021 02:31:22 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id d8sm2153417wrm.76.2021.12.03.02.31.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Dec 2021 02:31:22 -0800 (PST)
-Message-ID: <75b27dfe-cb8f-d40c-c1bd-79415264a87f@redhat.com>
-Date: Fri, 3 Dec 2021 11:31:21 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mt5vV-0005b9-LL
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 05:36:28 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.206])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 5164B20DB4;
+ Fri,  3 Dec 2021 10:36:23 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 3 Dec
+ 2021 11:36:22 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R001b8cd5bd7-9277-4dd7-9b0c-484800ada087,
+ 327B7BE4A87BAA89609EF58271276ABDC6C19EF5) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <b85f3c68-7643-be41-9c7b-6475932725d6@kaod.org>
+Date: Fri, 3 Dec 2021 11:36:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH] hw/ppc/ppc405_boards: Change kernel load address
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- LEROY Christophe <christophe.leroy@csgroup.eu>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20211202191446.1292125-1-clg@kaod.org>
- <d8119266-e6f1-969c-d440-d511951178f6@redhat.com>
- <8d21273b-0b81-5041-cfc4-704307aa37cc@kaod.org>
- <32012645-274e-9ee9-2d8a-a3d87c4a6bf5@csgroup.eu>
- <599e5aa0-d7a9-b89c-2da9-5e7c909a6064@kaod.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <599e5aa0-d7a9-b89c-2da9-5e7c909a6064@kaod.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [RFC PATCH for-7.0 00/35] target/ppc fpu fixes and cleanups
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.938, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+To: Richard Henderson <richard.henderson@linaro.org>, <qemu-devel@nongnu.org>
+References: <20211119160502.17432-1-richard.henderson@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211119160502.17432-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 0ccd0f78-daeb-4b8a-8f2a-827b8bfeda12
+X-Ovh-Tracer-Id: 17520972876682529699
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrieejgddulecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.938,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,45 +69,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/12/2021 11.27, Cédric Le Goater wrote:
-> On 12/2/21 20:32, LEROY Christophe wrote:
->>
->>
->> Le 02/12/2021 à 20:19, Cédric Le Goater a écrit :
->>> On 12/2/21 20:17, Thomas Huth wrote:
->>>> On 02/12/2021 20.14, Cédric Le Goater wrote:
->>>>> The default addresses to load the kernel, fdt, initrd of AMCC boards
->>>>> in U-Boot v2015.10 are :
->>>>>
->>>>>      "kernel_addr_r=1000000\0"
->>>>>      "fdt_addr_r=1800000\0"
->>>>>      "ramdisk_addr_r=1900000\0"
->>>>>
->>>>> The taihu is one of these boards, the ref405ep is not but we don't
->>>>> have much information on it and both boards have a very similar
->>>>> address space layout. Change the kernel load address to match U-Boot
->>>>> expectations and fix loading.
->>>>
->>>> You could additionally mention that U-Boot corrupts the kernel if it
->>>> gets loaded to address 0.
->>>
->>> True. The first word is overwritten with zeros. I looked for it
->>> in the code but could not find the reason.
->>>
->>
->> Isn't it because U-boot unzips the kernel at address 0 ?
+On 11/19/21 17:04, Richard Henderson wrote:
+> This is a partial patch set showing the direction I believe
+> the cleanups should go, as opposed to a complete conversion.
 > 
-> Address 0 is trashed before U-boot loads the kernel.
+> I add a bunch of float_flag_* bits that diagnose the reason
+> for most float_flag_invalid, as guided by the requirements
+> of the PowerPC VX* bits.  I have converted some helpers to
+> use these new flags but not all.  A good signal for unconverted
+> routines is the use of float*_is_signalling_nan, which should
+> now be using float_flag_invalid_snan.
+> 
+> I added float64x32_* arithmetic routines, which take float64
+> arguments and round the result to the range and precision of
+> float32, while giving the result in float64 form.  This is
+> exactly what PowerPC requires for its single-precision math.
+> This fixes double-rounding problems that exist in the current
+> code, and are visible in the float_madds test.
+> 
+> I add test reference files for float_madds and float_convs
+> after fixing the bugs required to make the tests pass.
+> 
+> 
+> r~
+> 
+> 
+> Richard Henderson (35):
+>    softfloat: Extend float_exception_flags to 16 bits
+>    softfloat: Add flag specific to Inf - Inf
+>    softfloat: Add flag specific to Inf * 0
+>    softfloat: Add flags specific to Inf / Inf and 0 / 0
+>    softfloat: Add flag specific to sqrt(-x)
+>    softfloat: Add flag specific to convert non-nan to int
+>    softfloat: Add flag specific to signaling nans
+>    target/ppc: Update float_invalid_op_addsub for new flags
+>    target/ppc: Update float_invalid_op_mul for new flags
+>    target/ppc: Update float_invalid_op_div for new flags
+>    target/ppc: Move float_check_status from FPU_FCTI to translate
+>    target/ppc: Update float_invalid_cvt for new flags
+>    target/ppc: Fix VXCVI return value
+>    target/ppc: Remove inline from do_fri
+>    target/ppc: Use FloatRoundMode in do_fri
+>    target/ppc: Tidy inexact handling in do_fri
+>    target/ppc: Clean up do_fri
+>    target/ppc: Update fmadd for new flags
+>    target/ppc: Split out do_fmadd
+>    target/ppc: Do not call do_float_check_status from do_fmadd
+>    target/ppc: Split out do_frsp
+>    target/ppc: Update do_frsp for new flags
+>    target/ppc: Use helper_todouble in do_frsp
+>    target/ppc: Update sqrt for new flags
+>    target/ppc: Update xsrqpi and xsrqpxp to new flags
+>    target/ppc: Update fre to new flags
+>    softfloat: Add float64r32 arithmetic routines
+>    target/ppc: Add helpers for fmadds et al
+>    target/ppc: Add helper for fsqrts
+>    target/ppc: Add helpers for fadds, fsubs, fdivs
+>    target/ppc: Add helper for fmuls
+>    target/ppc: Add helper for frsqrtes
+>    target/ppc: Update fres to new flags and float64r32
+>    target/ppc: Use helper_todouble/tosingle in helper_xststdcsp
+>    test/tcg/ppc64le: Add float reference files
 
-I guess it's an accidential NULL pointer dereference somewhere in the u-boot 
-code ... which will be quite hard to track down when the first page of 
-memory is marked as writable... :-/
+I didn't see any regression, so I plan to queue the first 34 patches
+for 7.0 and let you handle the last patch since there is a small fix
+to address before.
 
-  Thomas
+Thanks,
 
+C.
 
