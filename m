@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B97C4680E4
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 00:48:44 +0100 (CET)
-Received: from localhost ([::1]:49300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60DE4468079
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 00:33:50 +0100 (CET)
+Received: from localhost ([::1]:41424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtIIF-0000yQ-Az
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 18:48:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38440)
+	id 1mtI3p-0001Y0-CZ
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 18:33:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHoj-0002fw-19
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:18:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21476)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHoq-0002qV-Lf
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:18:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHoh-0003N3-5n
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:18:12 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mtHoi-0003NU-FL
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 18:18:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638573490;
+ s=mimecast20190719; t=1638573492;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aAikDzknh6GnT56mGmeoqGqtkzuR+VqfuYgmhIc0hOM=;
- b=c9YjPmhx66yN/cnpLpOHbSiElWwLqsgz0wqoSGNMDaDQP49Qjtu02FOWi5d0d1y7sthDni
- bnHoCIlfEz1JwH46r1t5nqhjpCoFuEbT+MZgrPUpGKpuf8hCx67ttPxTbWKtTHl8cN0w9H
- ukubsqYVYiFFtKmSVqMr8a7hYJdx0pc=
+ bh=TFgXKW9oEdKP/ZLEwprdG47z68l0oNeQStZo0s1LTZE=;
+ b=CwLseXg5V1kEWgXBrKmJT2B1Vb6eRMGJymtBB3KR2BmU1PHy+7bZYW57OyuXPDlf0LuK56
+ u6VzsxAHgE61E2ydbx29YUsxRvrD+LBjWRWacVApRhHJNlDeOKSVEGAWQHye4V1AHX0Vex
+ m1qWWlsa0nwE/D0D434sSxj6VzxBHs8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-D6TiK4ddNQS-Hu3dl-jcUA-1; Fri, 03 Dec 2021 18:18:07 -0500
-X-MC-Unique: D6TiK4ddNQS-Hu3dl-jcUA-1
+ us-mta-567-ETISjXYPPjq6m_plOZWwIg-1; Fri, 03 Dec 2021 18:18:08 -0500
+X-MC-Unique: ETISjXYPPjq6m_plOZWwIg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B79E104ECE7;
- Fri,  3 Dec 2021 23:18:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 863128042F6;
+ Fri,  3 Dec 2021 23:18:07 +0000 (UTC)
 Received: from blue.redhat.com (unknown [10.2.16.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88A235DF2B;
- Fri,  3 Dec 2021 23:18:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F83F5DF2B;
+ Fri,  3 Dec 2021 23:18:06 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: libguestfs@redhat.com
-Subject: [libnbd PATCH 12/13] generator: Actually request extended headers
-Date: Fri,  3 Dec 2021 17:17:40 -0600
-Message-Id: <20211203231741.3901263-13-eblake@redhat.com>
+Subject: [libnbd PATCH 13/13] interop: Add test of 64-bit block status
+Date: Fri,  3 Dec 2021 17:17:41 -0600
+Message-Id: <20211203231741.3901263-14-eblake@redhat.com>
 In-Reply-To: <20211203231741.3901263-1-eblake@redhat.com>
 References: <20211203231307.wmtbw7r72tyzkkax@redhat.com>
  <20211203231741.3901263-1-eblake@redhat.com>
@@ -83,109 +83,64 @@ Cc: nsoffer@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the culmination of the previous patches preparation work for
-using extended headers when possible.  The new states in the state
-machine are copied extensively from our handling of
-OPT_STRUCTURED_REPLY.
-
-At the same time I posted this patch, I had patches for qemu-nbd to
-support extended headers as server (nbdkit is a bit tougher).  The
-interop tests still pass when using a new enough qemu-nbd, showing
-that we have cross-project interoperability and therefore an extension
-worth standardizing.
+Prove that we can round-trip a block status request larger than 4G
+through a new-enough qemu-nbd.  Also serves as a unit test of our shim
+for converting internal 64-bit representation back to the older 32-bit
+nbd_block_status callback interface.
 ---
- generator/Makefile.am                         |  3 +-
- generator/state_machine.ml                    | 41 +++++++++
- .../states-newstyle-opt-extended-headers.c    | 90 +++++++++++++++++++
- generator/states-newstyle-opt-starttls.c      | 10 +--
- 4 files changed, 138 insertions(+), 6 deletions(-)
- create mode 100644 generator/states-newstyle-opt-extended-headers.c
+ interop/Makefile.am     |   6 ++
+ interop/large-status.c  | 186 ++++++++++++++++++++++++++++++++++++++++
+ interop/large-status.sh |  49 +++++++++++
+ .gitignore              |   1 +
+ 4 files changed, 242 insertions(+)
+ create mode 100644 interop/large-status.c
+ create mode 100755 interop/large-status.sh
 
-diff --git a/generator/Makefile.am b/generator/Makefile.am
-index 594d23cf..c889eb7f 100644
---- a/generator/Makefile.am
-+++ b/generator/Makefile.am
-@@ -1,5 +1,5 @@
- # nbd client library in userspace
--# Copyright (C) 2013-2020 Red Hat Inc.
-+# Copyright (C) 2013-2021 Red Hat Inc.
- #
- # This library is free software; you can redistribute it and/or
- # modify it under the terms of the GNU Lesser General Public
-@@ -30,6 +30,7 @@ states_code = \
- 	states-issue-command.c \
- 	states-magic.c \
- 	states-newstyle-opt-export-name.c \
-+	states-newstyle-opt-extended-headers.c \
- 	states-newstyle-opt-list.c \
- 	states-newstyle-opt-go.c \
- 	states-newstyle-opt-meta-context.c \
-diff --git a/generator/state_machine.ml b/generator/state_machine.ml
-index 99652948..ad8eba5e 100644
---- a/generator/state_machine.ml
-+++ b/generator/state_machine.ml
-@@ -295,6 +295,7 @@ and
-    * NEGOTIATING after OPT_STRUCTURED_REPLY or any failed OPT_GO.
-    *)
-   Group ("OPT_STARTTLS", newstyle_opt_starttls_state_machine);
-+  Group ("OPT_EXTENDED_HEADERS", newstyle_opt_extended_headers_state_machine);
-   Group ("OPT_STRUCTURED_REPLY", newstyle_opt_structured_reply_state_machine);
-   Group ("OPT_META_CONTEXT", newstyle_opt_meta_context_state_machine);
-   Group ("OPT_GO", newstyle_opt_go_state_machine);
-@@ -432,6 +433,46 @@ and
-   };
- ]
+diff --git a/interop/Makefile.am b/interop/Makefile.am
+index 3a8d5677..96c0a0f6 100644
+--- a/interop/Makefile.am
++++ b/interop/Makefile.am
+@@ -20,6 +20,7 @@ include $(top_srcdir)/subdir-rules.mk
+ EXTRA_DIST = \
+ 	dirty-bitmap.sh \
+ 	interop-qemu-storage-daemon.sh \
++	large-status.sh \
+ 	list-exports-nbd-config \
+ 	list-exports-test-dir/disk1 \
+ 	list-exports-test-dir/disk2 \
+@@ -129,6 +130,7 @@ check_PROGRAMS += \
+ 	list-exports-qemu-nbd \
+ 	socket-activation-qemu-nbd \
+ 	dirty-bitmap \
++	large-status \
+ 	structured-read \
+ 	$(NULL)
+ TESTS += \
+@@ -138,6 +140,7 @@ TESTS += \
+ 	list-exports-qemu-nbd \
+ 	socket-activation-qemu-nbd \
+ 	dirty-bitmap.sh \
++	large-status.sh \
+ 	structured-read.sh \
+ 	$(NULL)
 
-+(* Fixed newstyle NBD_OPT_EXTENDED_HEADERS option.
-+ * Implementation: generator/states-newstyle-opt-extended-headers.c
-+ *)
-+and newstyle_opt_extended_headers_state_machine = [
-+  State {
-+    default_state with
-+    name = "START";
-+    comment = "Try to negotiate newstyle NBD_OPT_EXTENDED_HEADERS";
-+    external_events = [];
-+  };
+@@ -227,6 +230,9 @@ socket_activation_qemu_nbd_LDADD = $(top_builddir)/lib/libnbd.la
+ dirty_bitmap_SOURCES = dirty-bitmap.c
+ dirty_bitmap_LDADD = $(top_builddir)/lib/libnbd.la
+
++large_status_SOURCES = large-status.c
++large_status_LDADD = $(top_builddir)/lib/libnbd.la
 +
-+  State {
-+    default_state with
-+    name = "SEND";
-+    comment = "Send newstyle NBD_OPT_EXTENDED_HEADERS negotiation request";
-+    external_events = [ NotifyWrite, "" ];
-+  };
-+
-+  State {
-+    default_state with
-+    name = "RECV_REPLY";
-+    comment = "Receive newstyle NBD_OPT_EXTENDED_HEADERS option reply";
-+    external_events = [ NotifyRead, "" ];
-+  };
-+
-+  State {
-+    default_state with
-+    name = "RECV_REPLY_PAYLOAD";
-+    comment = "Receive any newstyle NBD_OPT_EXTENDED_HEADERS reply payload";
-+    external_events = [ NotifyRead, "" ];
-+  };
-+
-+  State {
-+    default_state with
-+    name = "CHECK_REPLY";
-+    comment = "Check newstyle NBD_OPT_EXTENDED_HEADERS option reply";
-+    external_events = [];
-+  };
-+]
-+
- (* Fixed newstyle NBD_OPT_STRUCTURED_REPLY option.
-  * Implementation: generator/states-newstyle-opt-structured-reply.c
-  *)
-diff --git a/generator/states-newstyle-opt-extended-headers.c b/generator/states-newstyle-opt-extended-headers.c
+ structured_read_SOURCES = structured-read.c
+ structured_read_LDADD = $(top_builddir)/lib/libnbd.la
+
+diff --git a/interop/large-status.c b/interop/large-status.c
 new file mode 100644
-index 00000000..e2c9890e
+index 00000000..3cc040fe
 --- /dev/null
-+++ b/generator/states-newstyle-opt-extended-headers.c
-@@ -0,0 +1,90 @@
-+/* nbd client library in userspace: state machine
++++ b/interop/large-status.c
+@@ -0,0 +1,186 @@
++/* NBD client library in userspace
 + * Copyright (C) 2013-2021 Red Hat Inc.
 + *
 + * This library is free software; you can redistribute it and/or
@@ -203,125 +158,241 @@ index 00000000..e2c9890e
 + * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 + */
 +
-+/* State machine for negotiating NBD_OPT_EXTENDED_HEADERS. */
++/* Test 64-bit block status with qemu. */
 +
-+STATE_MACHINE {
-+ NEWSTYLE.OPT_EXTENDED_HEADERS.START:
-+  assert (h->gflags & LIBNBD_HANDSHAKE_FLAG_FIXED_NEWSTYLE);
-+  if (!h->request_eh) {
-+    SET_NEXT_STATE (%^OPT_STRUCTURED_REPLY.START);
-+    return 0;
++#include <config.h>
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include <assert.h>
++#include <stdbool.h>
++#include <errno.h>
++
++#include <libnbd.h>
++
++static const char *bitmap;
++
++struct data {
++  bool req_one;    /* input: true if req_one was passed to request */
++  int count;       /* input: count of expected remaining calls */
++  bool seen_base;  /* output: true if base:allocation encountered */
++  bool seen_dirty; /* output: true if qemu:dirty-bitmap encountered */
++};
++
++static int
++cb32 (void *opaque, const char *metacontext, uint64_t offset,
++      uint32_t *entries, size_t len, int *error)
++{
++  struct data *data = opaque;
++
++  assert (offset == 0);
++  assert (data->count-- > 0);
++
++  if (strcmp (metacontext, LIBNBD_CONTEXT_BASE_ALLOCATION) == 0) {
++    assert (!data->seen_base);
++    data->seen_base = true;
++
++    /* Data block offset 0 size 64k, remainder is hole */
++    assert (len == 4);
++    assert (entries[0] == 65536);
++    assert (entries[1] == 0);
++    /* libnbd had to truncate qemu's >4G answer */
++    assert (entries[2] == 4227858432);
++    assert (entries[3] == (LIBNBD_STATE_HOLE|LIBNBD_STATE_ZERO));
++  }
++  else if (strcmp (metacontext, bitmap) == 0) {
++    assert (!data->seen_dirty);
++    data->seen_dirty = true;
++
++    /* Dirty block at offset 5G-64k, remainder is clean */
++    /* libnbd had to truncate qemu's >4G answer */
++    assert (len == 2);
++    assert (entries[0] == 4227858432);
++    assert (entries[1] == 0);
++  }
++  else {
++    fprintf (stderr, "unexpected context %s\n", metacontext);
++    exit (EXIT_FAILURE);
++  }
++  return 0;
++}
++
++static int
++cb64 (void *opaque, const char *metacontext, uint64_t offset,
++      nbd_extent *entries, size_t len, int *error)
++{
++  struct data *data = opaque;
++
++  assert (offset == 0);
++  assert (data->count-- > 0);
++
++  if (strcmp (metacontext, LIBNBD_CONTEXT_BASE_ALLOCATION) == 0) {
++    assert (!data->seen_base);
++    data->seen_base = true;
++
++    /* Data block offset 0 size 64k, remainder is hole */
++    assert (len == 2);
++    assert (entries[0].length == 65536);
++    assert (entries[0].flags == 0);
++    assert (entries[1].length == 5368643584ULL);
++    assert (entries[1].flags == (LIBNBD_STATE_HOLE|LIBNBD_STATE_ZERO));
++  }
++  else if (strcmp (metacontext, bitmap) == 0) {
++    assert (!data->seen_dirty);
++    data->seen_dirty = true;
++
++    /* Dirty block at offset 5G-64k, remainder is clean */
++    assert (len == 2);
++    assert (entries[0].length == 5368643584ULL);
++    assert (entries[0].flags == 0);
++    assert (entries[1].length == 65536);
++    assert (entries[1].flags == 1);
++  }
++  else {
++    fprintf (stderr, "unexpected context %s\n", metacontext);
++    exit (EXIT_FAILURE);
++  }
++  return 0;
++}
++
++int
++main (int argc, char *argv[])
++{
++  struct nbd_handle *nbd;
++  int64_t exportsize;
++  struct data data;
++
++  if (argc < 3) {
++    fprintf (stderr, "%s bitmap qemu-nbd [args ...]\n", argv[0]);
++    exit (EXIT_FAILURE);
++  }
++  bitmap = argv[1];
++
++  nbd = nbd_create ();
++  if (nbd == NULL) {
++    fprintf (stderr, "%s\n", nbd_get_error ());
++    exit (EXIT_FAILURE);
 +  }
 +
-+  h->sbuf.option.version = htobe64 (NBD_NEW_VERSION);
-+  h->sbuf.option.option = htobe32 (NBD_OPT_EXTENDED_HEADERS);
-+  h->sbuf.option.optlen = htobe32 (0);
-+  h->wbuf = &h->sbuf;
-+  h->wlen = sizeof h->sbuf.option;
-+  SET_NEXT_STATE (%SEND);
-+  return 0;
++  nbd_add_meta_context (nbd, LIBNBD_CONTEXT_BASE_ALLOCATION);
++  nbd_add_meta_context (nbd, bitmap);
 +
-+ NEWSTYLE.OPT_EXTENDED_HEADERS.SEND:
-+  switch (send_from_wbuf (h)) {
-+  case -1: SET_NEXT_STATE (%.DEAD); return 0;
-+  case 0:
-+    h->rbuf = &h->sbuf;
-+    h->rlen = sizeof h->sbuf.or.option_reply;
-+    SET_NEXT_STATE (%RECV_REPLY);
-+  }
-+  return 0;
-+
-+ NEWSTYLE.OPT_EXTENDED_HEADERS.RECV_REPLY:
-+  switch (recv_into_rbuf (h)) {
-+  case -1: SET_NEXT_STATE (%.DEAD); return 0;
-+  case 0:
-+    if (prepare_for_reply_payload (h, NBD_OPT_EXTENDED_HEADERS) == -1) {
-+      SET_NEXT_STATE (%.DEAD);
-+      return 0;
-+    }
-+    SET_NEXT_STATE (%RECV_REPLY_PAYLOAD);
-+  }
-+  return 0;
-+
-+ NEWSTYLE.OPT_EXTENDED_HEADERS.RECV_REPLY_PAYLOAD:
-+  switch (recv_into_rbuf (h)) {
-+  case -1: SET_NEXT_STATE (%.DEAD); return 0;
-+  case 0:  SET_NEXT_STATE (%CHECK_REPLY);
-+  }
-+  return 0;
-+
-+ NEWSTYLE.OPT_EXTENDED_HEADERS.CHECK_REPLY:
-+  uint32_t reply;
-+
-+  reply = be32toh (h->sbuf.or.option_reply.reply);
-+  switch (reply) {
-+  case NBD_REP_ACK:
-+    debug (h, "negotiated extended headers on this connection");
-+    h->extended_headers = true;
-+    break;
-+  default:
-+    if (handle_reply_error (h) == -1) {
-+      SET_NEXT_STATE (%.DEAD);
-+      return 0;
-+    }
-+
-+    debug (h, "extended headers are not supported by this server");
-+    h->extended_headers = false;
-+    break;
++  if (nbd_connect_systemd_socket_activation (nbd, &argv[2]) == -1) {
++    fprintf (stderr, "%s\n", nbd_get_error ());
++    exit (EXIT_FAILURE);
 +  }
 +
-+  /* Next option. */
-+  SET_NEXT_STATE (%^OPT_STRUCTURED_REPLY.START);
-+  return 0;
++  exportsize = nbd_get_size (nbd);
++  if (exportsize == -1) {
++    fprintf (stderr, "%s\n", nbd_get_error ());
++    exit (EXIT_FAILURE);
++  }
 +
-+} /* END STATE MACHINE */
-diff --git a/generator/states-newstyle-opt-starttls.c b/generator/states-newstyle-opt-starttls.c
-index 9eab023b..2aec3f3d 100644
---- a/generator/states-newstyle-opt-starttls.c
-+++ b/generator/states-newstyle-opt-starttls.c
-@@ -1,5 +1,5 @@
- /* nbd client library in userspace: state machine
-- * Copyright (C) 2013-2020 Red Hat Inc.
-+ * Copyright (C) 2013-2021 Red Hat Inc.
-  *
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-@@ -23,7 +23,7 @@ STATE_MACHINE {
-   assert (h->gflags & LIBNBD_HANDSHAKE_FLAG_FIXED_NEWSTYLE);
-   /* If TLS was not requested we skip this option and go to the next one. */
-   if (h->tls == LIBNBD_TLS_DISABLE) {
--    SET_NEXT_STATE (%^OPT_STRUCTURED_REPLY.START);
-+    SET_NEXT_STATE (%^OPT_EXTENDED_HEADERS.START);
-     return 0;
-   }
-
-@@ -102,7 +102,7 @@ STATE_MACHINE {
-     debug (h,
-            "server refused TLS (%s), continuing with unencrypted connection",
-            reply == NBD_REP_ERR_POLICY ? "policy" : "not supported");
--    SET_NEXT_STATE (%^OPT_STRUCTURED_REPLY.START);
-+    SET_NEXT_STATE (%^OPT_EXTENDED_HEADERS.START);
-     return 0;
-   }
-   return 0;
-@@ -121,7 +121,7 @@ STATE_MACHINE {
-     nbd_internal_crypto_debug_tls_enabled (h);
-
-     /* Continue with option negotiation. */
--    SET_NEXT_STATE (%^OPT_STRUCTURED_REPLY.START);
-+    SET_NEXT_STATE (%^OPT_EXTENDED_HEADERS.START);
-     return 0;
-   }
-   /* Continue handshake. */
-@@ -144,7 +144,7 @@ STATE_MACHINE {
-     debug (h, "connection is using TLS");
-
-     /* Continue with option negotiation. */
--    SET_NEXT_STATE (%^OPT_STRUCTURED_REPLY.START);
-+    SET_NEXT_STATE (%^OPT_EXTENDED_HEADERS.START);
-     return 0;
-   }
-   /* Continue handshake. */
++  if (nbd_get_extended_headers_negotiated (nbd) != 1) {
++    fprintf (stderr, "skipping: qemu-nbd lacks extended headers\n");
++    exit (77);
++  }
++
++  /* Prove that we can round-trip a >4G block status request */
++  data = (struct data) { .count = 2, };
++  if (nbd_block_status_64 (nbd, exportsize, 0,
++                           (nbd_extent64_callback) { .callback = cb64,
++                             .user_data = &data },
++                           0) == -1) {
++    fprintf (stderr, "%s\n", nbd_get_error ());
++    exit (EXIT_FAILURE);
++  }
++  assert (data.seen_base && data.seen_dirty);
++
++  /* Check libnbd's handling of a >4G response through older interface  */
++  data = (struct data) { .count = 2, };
++  if (nbd_block_status (nbd, exportsize, 0,
++                        (nbd_extent_callback) { .callback = cb32,
++                          .user_data = &data },
++                        0) == -1) {
++    fprintf (stderr, "%s\n", nbd_get_error ());
++    exit (EXIT_FAILURE);
++  }
++  assert (data.seen_base && data.seen_dirty);
++
++  if (nbd_shutdown (nbd, 0) == -1) {
++    fprintf (stderr, "%s\n", nbd_get_error ());
++    exit (EXIT_FAILURE);
++  }
++
++  nbd_close (nbd);
++
++  exit (EXIT_SUCCESS);
++}
+diff --git a/interop/large-status.sh b/interop/large-status.sh
+new file mode 100755
+index 00000000..58fbdd36
+--- /dev/null
++++ b/interop/large-status.sh
+@@ -0,0 +1,49 @@
++#!/usr/bin/env bash
++# nbd client library in userspace
++# Copyright (C) 2019-2021 Red Hat Inc.
++#
++# This library is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2 of the License, or (at your option) any later version.
++#
++# This library is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU Lesser General Public
++# License along with this library; if not, write to the Free Software
++# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++
++# Test reading qemu dirty-bitmap.
++
++source ../tests/functions.sh
++set -e
++set -x
++
++requires qemu-img bitmap --help
++requires qemu-nbd --version
++
++# This test uses the qemu-nbd -B option.
++if ! qemu-nbd --help | grep -sq -- -B; then
++    echo "$0: skipping because qemu-nbd does not support the -B option"
++    exit 77
++fi
++
++files="large-status.qcow2"
++rm -f $files
++cleanup_fn rm -f $files
++
++# Create mostly-sparse file with intentionally different data vs. dirty areas
++# (64k data, 5G-64k hole,zero; 5G-64k clean, 64k dirty)
++qemu-img create -f qcow2 large-status.qcow2 5G
++qemu-img bitmap --add --enable -f qcow2 large-status.qcow2 bitmap0
++qemu-io -f qcow2 -c "w -z $((5*1024*1024*1024 - 64*1024)) 64k" \
++        large-status.qcow2
++qemu-img bitmap --disable -f qcow2 large-status.qcow2 bitmap0
++qemu-io -f qcow2 -c 'w 0 64k' large-status.qcow2
++
++# Run the test.
++$VG ./large-status qemu:dirty-bitmap:bitmap0 \
++    qemu-nbd -f qcow2 -B bitmap0 large-status.qcow2
+diff --git a/.gitignore b/.gitignore
+index 3ecdceaf..cbc5b88d 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -100,6 +100,7 @@ Makefile.in
+ /interop/interop-qemu-nbd
+ /interop/interop-qemu-nbd-tls-certs
+ /interop/interop-qemu-nbd-tls-psk
++/interop/large-status
+ /interop/list-exports-nbd-server
+ /interop/list-exports-nbdkit
+ /interop/list-exports-qemu-nbd
 -- 
 2.33.1
 
