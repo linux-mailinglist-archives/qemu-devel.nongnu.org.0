@@ -2,73 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207EA4671D7
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 07:24:40 +0100 (CET)
-Received: from localhost ([::1]:41526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1684671DC
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 07:26:53 +0100 (CET)
+Received: from localhost ([::1]:43862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt1zq-000430-U5
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 01:24:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43814)
+	id 1mt21z-0005by-56
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 01:26:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mt1xh-0002gI-G3
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 01:22:25 -0500
-Received: from [2a00:1450:4864:20::434] (port=37431
- helo=mail-wr1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mt1xf-0002CT-FX
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 01:22:25 -0500
-Received: by mail-wr1-x434.google.com with SMTP id d9so3519065wrw.4
- for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 22:22:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=B8+b5xKsMUDKa+oyyXAeAYgzpjyhIiOxi8EOvVBsToo=;
- b=LbMIA80PU3ifmQ+azi/PlEUXfowc4V2sThUnp3xTk285Mt5ruRy4wVmn3G/+WKUZ2B
- zwpVRFPKHBEjeuvBH6I4+j6/2JNX0Od9FqmV7x9fOCcht5S/dSetRQ6pkA2m69zA07+h
- JFbKoRniDqDlQgemaywApcqiu0OQC3r0XWqbvsuw+rShLGnKDNVTAfueonRqLlevCQTv
- e8fMMMgj6k60rR9AzuJl2jAx/nxmXGTxB9tWDGRagT4VxTRy3AsShpfaaiUvVDikVTmf
- MDmsHSndJxnZIcwH1T3niAe2xGJzihn3K+LBSczQjIeuvAlJBismOr4ZM2Bw0OPm2lbE
- OCbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=B8+b5xKsMUDKa+oyyXAeAYgzpjyhIiOxi8EOvVBsToo=;
- b=sTNjM0pvXGIn1b0Mfff6CcYrnpDAJK+NXpJoGQbksx+gbSnz6xDRMZbww6t6zoOdGE
- 7J8U21o86la8Vow6YkUy7FUT1fAR/YyureIuvm14/LrgL3grinh9Md2XDeUZFQjvTFrS
- 4iYlkpN8R/1akL4g0BgsRR/oQpYTKkKhCdyojTsodmmgjk29VozuNO+3W9qD4VP3JgBP
- nT7RDjvoXBtX02ArRKAHm+v4uhE25SHbzQvTHLDKrVwSWXOTq6tJB+MzSeJqhiIS0Aka
- OGxdpc04KRQm8yknw8UXzKGssIUlMeO9Q8HwiT1eQshcEzo2XsUknInFEEklkujTxb6A
- aD9Q==
-X-Gm-Message-State: AOAM532Exx3MoLeXYv5q9Jb+5JyNZJ4ctlauXIRu49rX2xdQB0eCkoAF
- Lx6tcJoc/3nwc2mPjLU458V+7p7+PLjZe2iNX1//dw==
-X-Google-Smtp-Source: ABdhPJwSNcxVh22LA/7Yu3Bp3kFje0KPPgiLoxo0vzQiabe0sG6w/Qr0bzx+Nf+eQjClm6k0UA4QyobGhfN/ay7nWKw=
-X-Received: by 2002:a5d:4f8d:: with SMTP id d13mr18470362wru.89.1638512540993; 
- Thu, 02 Dec 2021 22:22:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <serge.guelton@telecom-bretagne.eu>)
+ id 1mt203-0004vH-S1; Fri, 03 Dec 2021 01:24:51 -0500
+Received: from smtp2-g21.free.fr ([212.27.42.2]:43354)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <serge.guelton@telecom-bretagne.eu>)
+ id 1mt1zz-0004WA-Ng; Fri, 03 Dec 2021 01:24:50 -0500
+Received: from localhost (unknown [IPv6:2a01:e0a:923:3150:6f60:5f78:f08b:c504])
+ (Authenticated sender: sergesanspaille@free.fr)
+ by smtp2-g21.free.fr (Postfix) with ESMTPSA id 8DB862003E8;
+ Fri,  3 Dec 2021 07:24:15 +0100 (CET)
+Date: Fri, 3 Dec 2021 07:24:14 +0100
+From: Serge Guelton <sguelton@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [RFC v2 1/4] tls: add macros for coroutine-safe TLS variables
+Message-ID: <20211203062414.GA1106@sguelton.remote.csb>
+References: <20211201170120.286139-1-stefanha@redhat.com>
+ <20211201170120.286139-2-stefanha@redhat.com>
+ <CAFEAcA-QU_PERcLCf3WpTc_mTU6LymEaHqVJTtahGRD8H6oT9A@mail.gmail.com>
 MIME-Version: 1.0
-References: <20211120074644.729-1-jiangyifei@huawei.com>
- <20211120074644.729-6-jiangyifei@huawei.com>
-In-Reply-To: <20211120074644.729-6-jiangyifei@huawei.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Fri, 3 Dec 2021 11:52:09 +0530
-Message-ID: <CAAhSdy0umeb2Qu=6hJZGy4g1FhW-bsYL=80Msao_pULsJ0+2mw@mail.gmail.com>
-Subject: Re: [PATCH v1 05/12] target/riscv: Implement kvm_arch_put_registers
-To: Yifei Jiang <jiangyifei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::434;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-QU_PERcLCf3WpTc_mTU6LymEaHqVJTtahGRD8H6oT9A@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: softfail client-ip=212.27.42.2;
+ envelope-from=serge.guelton@telecom-bretagne.eu; helo=smtp2-g21.free.fr
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,214 +55,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Mingwang Li <limingwang@huawei.com>, KVM General <kvm@vger.kernel.org>,
- libvir-list@redhat.com, Anup Patel <anup.patel@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>, wanbo13@huawei.com,
- Palmer Dabbelt <palmer@dabbelt.com>, kvm-riscv@lists.infradead.org,
- wanghaibin.wang@huawei.com, Alistair Francis <Alistair.Francis@wdc.com>,
- fanliang@huawei.com, "Wubin \(H\)" <wu.wubin@huawei.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, fweimer@redhat.com, thuth@redhat.com,
+ Daniel Berrange <berrange@redhat.com>, qemu-block@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Nov 20, 2021 at 1:17 PM Yifei Jiang <jiangyifei@huawei.com> wrote:
->
-> Put GPR CSR and FP registers to kvm by KVM_SET_ONE_REG ioctl
->
-> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-> Signed-off-by: Mingwang Li <limingwang@huawei.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/kvm.c | 141 ++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 140 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-> index b49c24be0a..5fe5ca4434 100644
-> --- a/target/riscv/kvm.c
-> +++ b/target/riscv/kvm.c
-> @@ -90,6 +90,31 @@ static int kvm_riscv_get_regs_core(CPUState *cs)
->      return ret;
->  }
->
-> +static int kvm_riscv_put_regs_core(CPUState *cs)
-> +{
-> +    int ret = 0;
-> +    int i;
-> +    target_ulong reg;
-> +    CPURISCVState *env = &RISCV_CPU(cs)->env;
-> +
-> +    reg = env->pc;
-> +    ret = kvm_set_one_reg(cs, RISCV_CORE_REG(env, regs.pc), &reg);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    for (i = 1; i < 32; i++) {
-> +        uint64_t id = kvm_riscv_reg_id(env, KVM_REG_RISCV_CORE, i);
-> +        reg = env->gpr[i];
-> +        ret = kvm_set_one_reg(cs, id, &reg);
-> +        if (ret) {
-> +            return ret;
-> +        }
-> +    }
-> +
-> +    return ret;
-> +}
-> +
->  static int kvm_riscv_get_regs_csr(CPUState *cs)
->  {
->      int ret = 0;
-> @@ -153,6 +178,69 @@ static int kvm_riscv_get_regs_csr(CPUState *cs)
->      return ret;
->  }
->
-> +static int kvm_riscv_put_regs_csr(CPUState *cs)
-> +{
-> +    int ret = 0;
-> +    target_ulong reg;
-> +    CPURISCVState *env = &RISCV_CPU(cs)->env;
-> +
-> +    reg = env->mstatus;
-> +    ret = kvm_set_one_reg(cs, RISCV_CSR_REG(env, sstatus), &reg);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    reg = env->mie;
-> +    ret = kvm_set_one_reg(cs, RISCV_CSR_REG(env, sie), &reg);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    reg = env->stvec;
-> +    ret = kvm_set_one_reg(cs, RISCV_CSR_REG(env, stvec), &reg);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    reg = env->sscratch;
-> +    ret = kvm_set_one_reg(cs, RISCV_CSR_REG(env, sscratch), &reg);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    reg = env->sepc;
-> +    ret = kvm_set_one_reg(cs, RISCV_CSR_REG(env, sepc), &reg);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    reg = env->scause;
-> +    ret = kvm_set_one_reg(cs, RISCV_CSR_REG(env, scause), &reg);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    reg = env->stval;
-> +    ret = kvm_set_one_reg(cs, RISCV_CSR_REG(env, stval), &reg);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    reg = env->mip;
-> +    ret = kvm_set_one_reg(cs, RISCV_CSR_REG(env, sip), &reg);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    reg = env->satp;
-> +    ret = kvm_set_one_reg(cs, RISCV_CSR_REG(env, satp), &reg);
-> +    if (ret) {
-> +        return ret;
-> +    }
+On Thu, Dec 02, 2021 at 02:44:42PM +0000, Peter Maydell wrote:
+> On Wed, 1 Dec 2021 at 17:19, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> >
+> > Compiler optimizations can cache TLS values across coroutine yield
+> > points, resulting in stale values from the previous thread when a
+> > coroutine is re-entered by a new thread.
+> >
+> > Serge Guelton developed an __attribute__((noinline)) wrapper and tested
+> > it with clang and gcc. I formatted his idea according to QEMU's coding
+> > style and wrote documentation.
+> 
+> > +#ifdef QEMU_CO_TLS_ADDR
+> > +#define QEMU_DEFINE_STATIC_CO_TLS(type, var)                    \
+> > +    __thread type co_tls_##var;  \
+> > +    static inline type get_##var(void)                          \
+> > +    { type *p; QEMU_CO_TLS_ADDR(p, co_tls_##var); return *p; }  \
+> > +    static inline void set_##var(type v)                        \
+> > +    { type *p; QEMU_CO_TLS_ADDR(p, co_tls_##var); *p = v; }     \
+> > +    static inline type *get_ptr_##var(void)                     \
+> > +    { type *p; QEMU_CO_TLS_ADDR(p, co_tls_##var); return p; }
+> > +#else
+> > +#define QEMU_DEFINE_STATIC_CO_TLS(type, var)                    \
+> > +    static __thread type co_tls_##var;                          \
+> > +    static __attribute__((noinline, unused)) type get_##var(void)       \
+> > +    { return co_tls_##var; }                                    \
+> > +    static __attribute__((noinline, unused)) void set_##var(type v)     \
+> > +    { co_tls_##var = v; }                                       \
+> > +    static __attribute__((noinline, unused)) type *get_ptr_##var(void)  \
+> > +    { return &co_tls_##var; }
+> > +#endif
+> 
+> My compiler-developer colleagues present the following case where
+> 'noinline' is not sufficient for the compiler to definitely
+> use different values of the address-of-the-TLS-var across an
+> intervening function call:
+> 
+>   __thread int i;
+> 
+>   __attribute__((noinline)) long get_ptr_i()
+>   {
+>     return (long)&i;
+>   }
+> 
+>   void switcher();
+> 
+>   int g()
+>   {
+>     long a = get_ptr_i();
+>     switcher();
+>     return a == get_ptr_i();
+>   }
 
-Same as the previous patch, there is a common pattern in above
-kvm_set_one_reg() calls. Please use a macro to simplify.
-
-Regards,
-Anup
-
-> +
-> +    return ret;
-> +}
-> +
->  static int kvm_riscv_get_regs_fp(CPUState *cs)
->  {
->      int ret = 0;
-> @@ -186,6 +274,40 @@ static int kvm_riscv_get_regs_fp(CPUState *cs)
->      return ret;
->  }
->
-> +static int kvm_riscv_put_regs_fp(CPUState *cs)
-> +{
-> +    int ret = 0;
-> +    int i;
-> +    CPURISCVState *env = &RISCV_CPU(cs)->env;
-> +
-> +    if (riscv_has_ext(env, RVD)) {
-> +        uint64_t reg;
-> +        for (i = 0; i < 32; i++) {
-> +            reg = env->fpr[i];
-> +            ret = kvm_set_one_reg(cs, RISCV_FP_D_REG(env, i), &reg);
-> +            if (ret) {
-> +                return ret;
-> +            }
-> +        }
-> +        return ret;
-> +    }
-> +
-> +    if (riscv_has_ext(env, RVF)) {
-> +        uint32_t reg;
-> +        for (i = 0; i < 32; i++) {
-> +            reg = env->fpr[i];
-> +            ret = kvm_set_one_reg(cs, RISCV_FP_F_REG(env, i), &reg);
-> +            if (ret) {
-> +                return ret;
-> +            }
-> +        }
-> +        return ret;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +
->  const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
->      KVM_CAP_LAST_INFO
->  };
-> @@ -214,7 +336,24 @@ int kvm_arch_get_registers(CPUState *cs)
->
->  int kvm_arch_put_registers(CPUState *cs, int level)
->  {
-> -    return 0;
-> +    int ret = 0;
-> +
-> +    ret = kvm_riscv_put_regs_core(cs);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    ret = kvm_riscv_put_regs_csr(cs);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    ret = kvm_riscv_put_regs_fp(cs);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    return ret;
->  }
->
->  int kvm_arch_release_virq_post(int virq)
-> --
-> 2.19.1
->
->
-> --
-> kvm-riscv mailing list
-> kvm-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/kvm-riscv
+You can also force an extra mov through `volatile` as in
+https://godbolt.org/z/hWvdb7o9G
 
