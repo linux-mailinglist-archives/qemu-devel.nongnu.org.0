@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72D14677BC
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 13:57:48 +0100 (CET)
-Received: from localhost ([::1]:45938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A922F4677C9
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 14:01:24 +0100 (CET)
+Received: from localhost ([::1]:55442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt88J-0001xj-BN
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 07:57:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53234)
+	id 1mt8Bn-0008Hn-Nl
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 08:01:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mt86m-00019Q-FM
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 07:56:12 -0500
-Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:46353)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mt87T-0001lD-A7
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 07:56:55 -0500
+Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222]:50093)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mt86i-0002tX-V8
- for qemu-devel@nongnu.org; Fri, 03 Dec 2021 07:56:11 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.84])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 29CA821208;
- Fri,  3 Dec 2021 12:56:05 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mt87Q-0002xU-Tt
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 07:56:55 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.132])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 293E3223C1;
+ Fri,  3 Dec 2021 12:56:47 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 3 Dec
- 2021 13:56:04 +0100
+ 2021 13:56:46 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002ed2689f4-b780-4edf-a3da-a1049aef36b9,
+ (GARM-96R001d92cfa68-a800-459a-a977-2c4c9dfac316,
  327B7BE4A87BAA89609EF58271276ABDC6C19EF5) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <87cce1e1-9869-f9c8-f0e3-a4063c8fdade@kaod.org>
-Date: Fri, 3 Dec 2021 13:56:03 +0100
+Message-ID: <4485dc40-65b9-380f-49b4-517bd87c4bc4@kaod.org>
+Date: Fri, 3 Dec 2021 13:56:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [RFC PATCH v2 1/4] target/ppc: Disable software TLB for the 7450
- family
+Subject: Re: [RFC PATCH v2 2/4] target/ppc: Disable unused facilities in the
+ e600 CPU
 Content-Language: en-US
 To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
 References: <20211130230123.781844-1-farosas@linux.ibm.com>
- <20211130230123.781844-2-farosas@linux.ibm.com>
+ <20211130230123.781844-3-farosas@linux.ibm.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20211130230123.781844-2-farosas@linux.ibm.com>
+In-Reply-To: <20211130230123.781844-3-farosas@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: aa5b365b-d6a1-4ac2-b7f9-9de2a93727b0
-X-Ovh-Tracer-Id: 1433552060154415919
+X-Ovh-Tracer-GUID: 8b5297e4-6cd0-4acf-9170-8fc532451ff3
+X-Ovh-Tracer-Id: 1445374008393829167
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrieejgdegkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelheegjeeuhefhtefggeejjeeiudelieffledtkefgfefgfffhfeekhfefgfekieenucffohhmrghinheplhgruhhntghhphgrugdrnhgvthdpghhithhlrggsrdgtohhmpdhnohhnghhnuhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhg
-Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
- helo=1.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrieejgdegkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhg
+Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
+ helo=6.mo552.mail-out.ovh.net
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.938,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,35 +78,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/1/21 00:01, Fabiano Rosas wrote:
-> (Applies to 7441, 7445, 7450, 7451, 7455, 7457, 7447 and 7447a)*
+> The e600 CPU is a successor of the 7448 and like all the 7450s CPUs,
+> it has an optional software TLB feature.
 > 
-> We have since 2011 [1] been unable to run OpenBIOS in the 7450s and
-> have not heard of any other software that is used with those CPUs in
-> QEMU. A current discussion [2] shows that the 7450 software TLB is
-> unsupported in Linux 5.15, FreeBSD 13, MacOS9, MacOSX and MorphOS
-> 3.15. With no known support in firmware or OS, this means that no code
-> for any of the 7450 CPUs is ever ran in QEMU.
+> We have determined that there is no OS software support for the 7450
+> software TLB available these days. See the previous commit for more
+> information.
 > 
-> Since the implementation in QEMU of the 7400 MMU is the same as the
-> 7450, except for the software TLB vs. hardware TLB search, this patch
-> changes all 7450 cpus to the 7400 MMU model. This has the practical
-> effect of disabling the software TLB feature while keeping other
-> aspects of address translation working as expected.
+> This patch disables the SPRs and instructions related to software TLB
+> from the e600 CPU.
 > 
-> This allow us to run software on the 7450 family again.
-> 
-> *- note that the 7448 is currently aliased in QEMU for a 7400, so it
->     is unaffected by this change.
-
-but it has a 7448 PVR. May be that's why we see an issue when
-booting Linux.
-
-  
-> 1- https://bugs.launchpad.net/qemu/+bug/812398
->     https://gitlab.com/qemu-project/qemu/-/issues/86
-> 
-> 2- https://lists.nongnu.org/archive/html/qemu-ppc/2021-11/msg00289.html
->     message id: 20211119134431.406753-1-farosas@linux.ibm.com
+> No functional change intended. These facilities should be used by the
+> OS in interrupt handlers for interrupts that QEMU never generates.
 > 
 > Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
@@ -116,68 +99,25 @@ Thanks,
 
 C.
 
-
 > ---
->   target/ppc/cpu_init.c | 25 ++++++++++---------------
->   1 file changed, 10 insertions(+), 15 deletions(-)
+>   target/ppc/cpu_init.c | 6 +-----
+>   1 file changed, 1 insertion(+), 5 deletions(-)
 > 
 > diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index 6695985e9b..509df35d09 100644
+> index 509df35d09..962acf295f 100644
 > --- a/target/ppc/cpu_init.c
 > +++ b/target/ppc/cpu_init.c
-> @@ -5932,7 +5932,6 @@ static void init_proc_7440(CPUPPCState *env)
->                    0x00000000);
->       /* Memory management */
->       register_low_BATs(env);
-> -    register_74xx_soft_tlb(env, 128, 2);
->       init_excp_7450(env);
->       env->dcache_line_size = 32;
->       env->icache_line_size = 32;
-> @@ -5956,7 +5955,7 @@ POWERPC_FAMILY(7440)(ObjectClass *oc, void *data)
->                          PPC_CACHE_DCBA | PPC_CACHE_DCBZ |
->                          PPC_MEM_SYNC | PPC_MEM_EIEIO |
->                          PPC_MEM_TLBIE | PPC_MEM_TLBSYNC |
-> -                       PPC_MEM_TLBIA | PPC_74xx_TLB |
-> +                       PPC_MEM_TLBIA |
->                          PPC_SEGMENT | PPC_EXTERN |
->                          PPC_ALTIVEC;
->       pcc->msr_mask = (1ull << MSR_VR) |
-> @@ -5976,7 +5975,7 @@ POWERPC_FAMILY(7440)(ObjectClass *oc, void *data)
->                       (1ull << MSR_PMM) |
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
-> -    pcc->mmu_model = POWERPC_MMU_SOFT_74xx;
-> +    pcc->mmu_model = POWERPC_MMU_32B;
->       pcc->excp_model = POWERPC_EXCP_74xx;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_7400;
-> @@ -6067,7 +6066,6 @@ static void init_proc_7450(CPUPPCState *env)
->                    0x00000000);
->       /* Memory management */
->       register_low_BATs(env);
-> -    register_74xx_soft_tlb(env, 128, 2);
->       init_excp_7450(env);
->       env->dcache_line_size = 32;
->       env->icache_line_size = 32;
-> @@ -6091,7 +6089,7 @@ POWERPC_FAMILY(7450)(ObjectClass *oc, void *data)
->                          PPC_CACHE_DCBA | PPC_CACHE_DCBZ |
->                          PPC_MEM_SYNC | PPC_MEM_EIEIO |
->                          PPC_MEM_TLBIE | PPC_MEM_TLBSYNC |
-> -                       PPC_MEM_TLBIA | PPC_74xx_TLB |
-> +                       PPC_MEM_TLBIA |
->                          PPC_SEGMENT | PPC_EXTERN |
->                          PPC_ALTIVEC;
->       pcc->msr_mask = (1ull << MSR_VR) |
-> @@ -6111,7 +6109,7 @@ POWERPC_FAMILY(7450)(ObjectClass *oc, void *data)
->                       (1ull << MSR_PMM) |
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
-> -    pcc->mmu_model = POWERPC_MMU_SOFT_74xx;
-> +    pcc->mmu_model = POWERPC_MMU_32B;
->       pcc->excp_model = POWERPC_EXCP_74xx;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_7400;
-> @@ -6205,7 +6203,6 @@ static void init_proc_7445(CPUPPCState *env)
+> @@ -2537,9 +2537,6 @@ static void init_excp_7450(CPUPPCState *env)
+>       env->excp_vectors[POWERPC_EXCP_TRACE]    = 0x00000D00;
+>       env->excp_vectors[POWERPC_EXCP_PERFM]    = 0x00000F00;
+>       env->excp_vectors[POWERPC_EXCP_VPU]      = 0x00000F20;
+> -    env->excp_vectors[POWERPC_EXCP_IFTLB]    = 0x00001000;
+> -    env->excp_vectors[POWERPC_EXCP_DLTLB]    = 0x00001100;
+> -    env->excp_vectors[POWERPC_EXCP_DSTLB]    = 0x00001200;
+>       env->excp_vectors[POWERPC_EXCP_IABR]     = 0x00001300;
+>       env->excp_vectors[POWERPC_EXCP_SMI]      = 0x00001400;
+>       env->excp_vectors[POWERPC_EXCP_VPUA]     = 0x00001600;
+> @@ -6643,7 +6640,6 @@ static void init_proc_e600(CPUPPCState *env)
 >       /* Memory management */
 >       register_low_BATs(env);
 >       register_high_BATs(env);
@@ -185,7 +125,7 @@ C.
 >       init_excp_7450(env);
 >       env->dcache_line_size = 32;
 >       env->icache_line_size = 32;
-> @@ -6229,7 +6226,7 @@ POWERPC_FAMILY(7445)(ObjectClass *oc, void *data)
+> @@ -6667,7 +6663,7 @@ POWERPC_FAMILY(e600)(ObjectClass *oc, void *data)
 >                          PPC_CACHE_DCBA | PPC_CACHE_DCBZ |
 >                          PPC_MEM_SYNC | PPC_MEM_EIEIO |
 >                          PPC_MEM_TLBIE | PPC_MEM_TLBSYNC |
@@ -193,68 +133,7 @@ C.
 > +                       PPC_MEM_TLBIA |
 >                          PPC_SEGMENT | PPC_EXTERN |
 >                          PPC_ALTIVEC;
->       pcc->msr_mask = (1ull << MSR_VR) |
-> @@ -6249,7 +6246,7 @@ POWERPC_FAMILY(7445)(ObjectClass *oc, void *data)
->                       (1ull << MSR_PMM) |
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
-> -    pcc->mmu_model = POWERPC_MMU_SOFT_74xx;
-> +    pcc->mmu_model = POWERPC_MMU_32B;
->       pcc->excp_model = POWERPC_EXCP_74xx;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_7400;
-> @@ -6345,7 +6342,6 @@ static void init_proc_7455(CPUPPCState *env)
->       /* Memory management */
->       register_low_BATs(env);
->       register_high_BATs(env);
-> -    register_74xx_soft_tlb(env, 128, 2);
->       init_excp_7450(env);
->       env->dcache_line_size = 32;
->       env->icache_line_size = 32;
-> @@ -6369,7 +6365,7 @@ POWERPC_FAMILY(7455)(ObjectClass *oc, void *data)
->                          PPC_CACHE_DCBA | PPC_CACHE_DCBZ |
->                          PPC_MEM_SYNC | PPC_MEM_EIEIO |
->                          PPC_MEM_TLBIE | PPC_MEM_TLBSYNC |
-> -                       PPC_MEM_TLBIA | PPC_74xx_TLB |
-> +                       PPC_MEM_TLBIA |
->                          PPC_SEGMENT | PPC_EXTERN |
->                          PPC_ALTIVEC;
->       pcc->msr_mask = (1ull << MSR_VR) |
-> @@ -6389,7 +6385,7 @@ POWERPC_FAMILY(7455)(ObjectClass *oc, void *data)
->                       (1ull << MSR_PMM) |
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
-> -    pcc->mmu_model = POWERPC_MMU_SOFT_74xx;
-> +    pcc->mmu_model = POWERPC_MMU_32B;
->       pcc->excp_model = POWERPC_EXCP_74xx;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_7400;
-> @@ -6509,7 +6505,6 @@ static void init_proc_7457(CPUPPCState *env)
->       /* Memory management */
->       register_low_BATs(env);
->       register_high_BATs(env);
-> -    register_74xx_soft_tlb(env, 128, 2);
->       init_excp_7450(env);
->       env->dcache_line_size = 32;
->       env->icache_line_size = 32;
-> @@ -6533,7 +6528,7 @@ POWERPC_FAMILY(7457)(ObjectClass *oc, void *data)
->                          PPC_CACHE_DCBA | PPC_CACHE_DCBZ |
->                          PPC_MEM_SYNC | PPC_MEM_EIEIO |
->                          PPC_MEM_TLBIE | PPC_MEM_TLBSYNC |
-> -                       PPC_MEM_TLBIA | PPC_74xx_TLB |
-> +                       PPC_MEM_TLBIA |
->                          PPC_SEGMENT | PPC_EXTERN |
->                          PPC_ALTIVEC;
->       pcc->msr_mask = (1ull << MSR_VR) |
-> @@ -6553,7 +6548,7 @@ POWERPC_FAMILY(7457)(ObjectClass *oc, void *data)
->                       (1ull << MSR_PMM) |
->                       (1ull << MSR_RI) |
->                       (1ull << MSR_LE);
-> -    pcc->mmu_model = POWERPC_MMU_SOFT_74xx;
-> +    pcc->mmu_model = POWERPC_MMU_32B;
->       pcc->excp_model = POWERPC_EXCP_74xx;
->       pcc->bus_model = PPC_FLAGS_INPUT_6xx;
->       pcc->bfd_mach = bfd_mach_ppc_7400;
+>       pcc->insns_flags2 = PPC_NONE;
 > 
 
 
