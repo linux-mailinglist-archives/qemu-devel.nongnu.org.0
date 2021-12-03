@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABDD4677F6
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 14:17:19 +0100 (CET)
-Received: from localhost ([::1]:55108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8D0467820
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 14:23:15 +0100 (CET)
+Received: from localhost ([::1]:37238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt8RB-0002Kz-4H
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 08:17:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57680)
+	id 1mt8Ww-0001S8-7l
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 08:23:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mt8IR-0001go-Vb; Fri, 03 Dec 2021 08:08:15 -0500
-Received: from mail-eopbgr80099.outbound.protection.outlook.com
- ([40.107.8.99]:31910 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ id 1mt8Ij-0002A7-H9; Fri, 03 Dec 2021 08:08:34 -0500
+Received: from mail-eopbgr40107.outbound.protection.outlook.com
+ ([40.107.4.107]:61828 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mt8IP-000700-V0; Fri, 03 Dec 2021 08:08:15 -0500
+ id 1mt8If-00071J-OA; Fri, 03 Dec 2021 08:08:32 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WN0ufH0QoeMXRIR6Y68EoJEgNiyrRQiz7fsmY7UYwZ4V695wA6PLpV1wnfjqwXPwYT3yWVzybWA+XVLY/dCcn+pooGijasapfUA6q+AVI5I7dX5ak8f/JJz/FZYqZMEcqkKMa36UJSDuOzoxV/EokFeT8DkmClU/Amb+MR6UUG4Fuu8r8lPgQFQ9EEEz8vFLp0I2ZhRVKnIxc6r7WF1mJC4PSqkjW4QYHK3G3Ai1c/7oil8/0CpHmluUMrr6w/574YXFYxeieWzkZkJjKxqO0UXNkvMHTFeV5UuAlNz6OvLof0rCvSFkTkdl8n0zEVJ8mrjdSjK0rnJySUAwGqNqrA==
+ b=A0jqynyEeWGi1DV1ZyXljRkFg/BYFXagr5fr4eQ/sEBLMVBnVk1pU/GYYc7x4cuGH4sPwOuVP8vxMkH/oq4UIjQeO714CdruFinKCHRRW2Z0tUGIxzJRFTik/UPrNftgcrw2Op4UPPtwTWkODoQ83TkHP00uIuqP4OO8126N5/VehsndNbedStv2JnxcPvkb8NMArcpqtjsCl9wOUtOT1z2HbmQNH6sifNCTtiI8kBrVKgxPwY3I87FUzKBFKHBR+5qT19DezPgPbUt1dv4v2IlfyMeM+ypftifWDoc7yxtrJFoqtiXOHeZZevSpe03ZtuFP0iCA9DCB4whysaSfTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dfAH1f1AldwRbRN6ZAAEYbgfqdYt4mT3p1VmNPnl7ic=;
- b=F0AupatCCgXeU63KDqiaguSnIGZ/CxV1A6+mDIPYGZxd4FR9jTFzUiveT+4Hbc00PCzEEc0KgPXB4JKIxRKCxfJk/VBISXL1tRPonaX9WE9wewTfzZ1n4w/k+QZQ6WXa6PbmM5W/665ZJThnWkCMUxDc9B+w2nYYooqxZe1h9EhPUXTP/AwNfl1ONam9f6QZ8oGBX+2wRLeYrA1ttZHKOMhr4PrcvFALKN4QX7rukKd0Zf1XfTxyMSXYEKD9gUCVSSnQCK9tZJoBJtEmrrEErgCSuwkipCYKGAiPh7+C+1zGyZ8VJhRIpBy2Ch9ZIXO8R7AOInFrQYtrYswadUT5XQ==
+ bh=qRgWlaPlXz07pjacdZ8Q6G9t2x49Jbk6j/j+XkcksbI=;
+ b=P413oYOmkjCtospLICG07FaR/IgJDO3YpnNECJT4zNbf7yGYDMXruEkGcIiT3Ef3LaUt4xQSv2Ocl08ZpI5TZ1V/AtPUkmK6uDgp8MwBCxNm3nKPryWkRALl4ibB5gMV2IBhuNpZcBXP9kctztJHwdUeMJWXXsWkFKVubZPUmpeeAtbZwa2X1YnT1/J34xoErKSNwkZcj/m5HzbyiYgGk1NxG95/nkQpQauD+X7AFxG/3/mXWFqpgIOF08h/m784JXS7s6fVradrF1X8flEI9BNznMXZs7QVVTZ7gE4ZoByH8VYnT+MwLjBJu8cAJQvp6uVbCstU8Gs0Ct7jHrtGuA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dfAH1f1AldwRbRN6ZAAEYbgfqdYt4mT3p1VmNPnl7ic=;
- b=WwZ1Crymt2QUeUGORtbDIl9DT7dxUET6wsS2fWR+tOaQHgLLyQ72n9Rz5VoPkC9JCAQsoWlF5upyWYPOvYnB6VwGymOhU13OAXsnVGSiP2WMPdG/wfwTU79t8Y1xib7JVCPNgL+50kSyLyCVNJlVn9YqkBVJ2KrnULa5JYtuf84=
+ bh=qRgWlaPlXz07pjacdZ8Q6G9t2x49Jbk6j/j+XkcksbI=;
+ b=DFMy8MMbzc8vyZDwckelxWSDYZw3BPScm3uCnMvR2SoyJMDYHqwYFsN26JD6Kgea/0rygj2DVRmmLn9TXQUbVQMy62t5L3NJL8aYu4iOdSGiaaSXIG0ahc7VtrdZCSjDGo44LtnmY2mxTH6nCd4P3KwTvKusKx0EAsNXSg6qy2I=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
  by AM0PR08MB4515.eurprd08.prod.outlook.com (2603:10a6:208:148::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Fri, 3 Dec
- 2021 13:08:04 +0000
+ 2021 13:08:05 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Fri, 3 Dec 2021
- 13:08:06 +0000
+ 13:08:08 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com, jsnow@redhat.com
-Subject: [PATCH v4 03/19] iotests: drop qemu_img_verbose() helper
-Date: Fri,  3 Dec 2021 14:07:21 +0100
-Message-Id: <20211203130737.2924594-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 04/19] iotests.py: rewrite default luks support in qemu_img
+Date: Fri,  3 Dec 2021 14:07:22 +0100
+Message-Id: <20211203130737.2924594-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211203130737.2924594-1-vsementsov@virtuozzo.com>
 References: <20211203130737.2924594-1-vsementsov@virtuozzo.com>
@@ -63,63 +63,63 @@ MIME-Version: 1.0
 Received: from kvm.ch-qa.sw.ru (130.117.225.5) by
  AM6P194CA0095.EURP194.PROD.OUTLOOK.COM (2603:10a6:209:8f::36) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4755.16 via Frontend Transport; Fri, 3 Dec 2021 13:08:06 +0000
+ 15.20.4755.16 via Frontend Transport; Fri, 3 Dec 2021 13:08:07 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ddfd6fc4-c50b-49bc-1ccf-08d9b65df260
+X-MS-Office365-Filtering-Correlation-Id: f25ac73b-021e-45e2-d4ea-08d9b65df2fb
 X-MS-TrafficTypeDiagnostic: AM0PR08MB4515:
-X-Microsoft-Antispam-PRVS: <AM0PR08MB45153B97003D29D9184146C8C16A9@AM0PR08MB4515.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1923;
+X-Microsoft-Antispam-PRVS: <AM0PR08MB4515B860515B5536B75226C0C16A9@AM0PR08MB4515.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: L0TZPSlO12oTkl5CrG6Uc/pRggCxF/gxGQ1inVioPM6EiM14Dfa/FafgSFmo21xtA2tP3HlzYRdCO/zf80VeUsQO2JE/49PJZB9XOEtvQbw2OW15++RRB5T5BML4OPXV569LbE/tN8wZBB5lOjrFcAL/TDEJRIiC0Mo2BPMFvWtVcC/o2utF1Yhpe71AHS6Rh55RICP+BsVwbUDHt5SlpINrHcG03VLLWsdLaXrt6hnG3rec+9l7517XM28lk+dfkqhCkDISqMsCxQcKwhUAlargjEUa4DTw9FmoLRDX4lTL6SDRw6EfDUpR9+vcmp90pIhVBVT2iW7BTl0oTcR0S1GidzlAHJ+OPZ3p9kb6IlEKpUmm0p64/Wr2jb0x1aqFfuLG0KrOPwF8uW2K1dTmX3UPM8Y0Sll/bJ/JXVsu6BR4EJmupqhmMgtV0gh8cqw+/SCxE8ERzheYZ2bRpLDB7OJSb5X/qyCVX5WSd5vF0/nbnsvZnHd6iYfHY9IXo3xtWNbN9QDnov0aIo4Em6xdgGT2dRoNCzG6Rm5eNCEJOZ7mH+0gfXK29VZm/g6zH+vYEWnw8LBJzbOTapTVmU6YBZZnzjc/jUTGx+GitQMAfojwH1VtWU1k1f6++9QXM1FYZUZpZTW6lyQpDrl9lqJUfIyftFbLs2iciUoCpKgy6CtjkTfeD5UlFB3z+NEkjXA1EgpunjVikF1is/BV2eHQaA==
+X-Microsoft-Antispam-Message-Info: 4sKrQL+5AeEdudimNBCsD4oJRAScwAT8QPXU7/PPOepkQVxz9u2l2YKGrc2ioIbMoUN/aCUxXfWHxYEyYtGxJjKoLk4hn7YQsJZaPVhvj1sH30sglWgOE8Ilzs2wN9qXdwR/CPgXwlXbs/NHw8KXGwq/TgjcTMC18MDAdwMcgQ0V+1xRYiD58/X3dFcgpfqiJIDN4aESWqk0j0DMhTLN9P1xtDF3wZtX+XF3/wm/ZEKSgLP5a6/zagr5PCIfHB224Jdqi5A2UkBKTeFl2FXxEHnzoaOSNJtXCLLO0YViFVT2IvyVpj9wT10kO4Sr1ROPtycoo9TSA7YCN69GAj86IEYDGMWsPn859ByjI0Lwu46eEXvj3CmJlWizG/X/fTP0oo27eHRcvLIKki7RL4UeukQOQQBgw3p4QNMaD0X9owo/h3w/Oynh7QKrT0NL0NibktRVHGEtAXW4AtIN56im/AjMO7nkD5vFm/4Ws80f8TMQmjP/xvkIXR7aPooFWqqIdScXLkw0PW8BWLmAQkD0Eu38CO0ZHoJe12KxCgGfKJDAeSDfBR7KQbwPK4vjlGKGlzxmqEY3iFA74U0MZjIScRMQKOixkwwwoiC9efHNTlhkn3C5RruOHfuRBscKwXaKasLH1hwbImQaG90c40tbuDWc2X8xOUV4m4lzN3vLwQkEcrOxxlEomn5HCWV/EyNinhZzfRCOqz52A6pdb10fzg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(2906002)(4326008)(186003)(6512007)(52116002)(6506007)(1076003)(5660300002)(36756003)(86362001)(38100700002)(26005)(956004)(508600001)(2616005)(8676002)(316002)(6486002)(66476007)(8936002)(66946007)(66556008)(6666004)(83380400001)(38350700002)(6916009);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pigawQ6PVRoy8IlaaXxG75GJjauNqFvuL3ECnuTRmXmLP2DET4T5cuotkxRp?=
- =?us-ascii?Q?hhCbyeHOrJW3gUvvwErfIx/rRNVGhbTyNMXrT/Ozyfm7qwElNolB1m4IW//o?=
- =?us-ascii?Q?EMrKT95n9cYrLw+b+m7oW7b6RhpHkO5mio/NSl0Oy9Fo8qNLTvZSKLRCsQib?=
- =?us-ascii?Q?Ds6Ngo6FuoXEzg25RrtWBG6n4IsqX9i6izsxPtHnz4qUQLpJuQGjA645OpWN?=
- =?us-ascii?Q?h7gylPqTrkd54LzqA+Pi+HCK039SO515zsHs7y/uBmxsxAVExQE0g6jkpi6D?=
- =?us-ascii?Q?QdxSTsva4Pa1VS5c/zJ6plbaYsfr/j7qfZ/uSjSN4I6JA3jYOmKGjGhrNK2h?=
- =?us-ascii?Q?a9j+HW06BU0KocP4y56mMue+cUVp7n9OBZnUl0oKqPk1seQF4Np6Mk3ztUFS?=
- =?us-ascii?Q?RkuWndzKlONZrjeRetBL/HkxB978TXsXzisZRdnHF36ttvr/FEzscG37UJCT?=
- =?us-ascii?Q?rqDuPNyZdRZwHBcYmhv5/RtDHeqztgniyybzK4+f+SGCTMbEYI8/Hf9keyeC?=
- =?us-ascii?Q?s9H79gEtlxxxm7lGp5rdgkU94TOxtm2Fo0D0IUPAGWlGOpby5Nu5Bgrc87DW?=
- =?us-ascii?Q?zZmt4zmWOvs4ymKLNCO75NcuRdb8ybyTgTi9pMBDSNhDLj5nWNMsqThgJOvA?=
- =?us-ascii?Q?K9vYlZumqyfU2DHUrfs21RDkEwxyxdoBYnZ3sdW9jcPT89x+BDMzFndzTI3g?=
- =?us-ascii?Q?0hm9XrdOFckb13OuqXBrXKxVAQg6ZHIgKmgey9pg5UVhwsu/zVzggXF+Hk5H?=
- =?us-ascii?Q?wLXzo0q1vJzjxs1ZSCveg60tGe0n7m3UR7NLWeeAp7RINRPCJ+N/ZsmnMhQm?=
- =?us-ascii?Q?YMVFUALXjk6NDt7EeQDlFjZcHoSs9lF1S4Okm3GpwaMe7QfAGmuRFH6GkLoG?=
- =?us-ascii?Q?V0l6w6hEAiBczz0isKH4vQbD52HGVGwLSoxqGB1pjIofDMr5B0lBwWvYmtac?=
- =?us-ascii?Q?qLt0k6ItP84UxJWw4WeBmsF6unDts6SUclrWiY3J3/8W3uWAKvhcVk6ty9XP?=
- =?us-ascii?Q?ZLc50TrbaUlabvMhvaWA+tplNLNF5yd3nHPVvKBTP4unVfAXjJxi2WYSbCOD?=
- =?us-ascii?Q?RJdG5OCXiKJo09dtHxDFfg6Yrd0cs0t3UX8JjpOvwCfh/Psjl2hsd26HNINd?=
- =?us-ascii?Q?h3I68FqQYXH5HacscywxUopOQg1cSgYcL94r6WWmlt9nQDdYEES4qkGIqF4l?=
- =?us-ascii?Q?jBHGWx84oM4bb3rLuwv/SF96gNiGfP6sug43vb9SG+IX9f5GgxRYRnKCfaTk?=
- =?us-ascii?Q?DYVe1YKOjekvmCETAMsHvLOQ7/OeoDBgLB8gZnIBQP6q6W2C6PiivLG/zNz1?=
- =?us-ascii?Q?TZIqVwU3Ockn3FdahAH05S3Je8cXVyn7tb5Fr9RbnyNNzMBJ5cK/QnB/ki0d?=
- =?us-ascii?Q?vl4weRB0Ro59mtrrflhk2Z5AMfRXXtPUh8iQY+kxDJc96jAmGfnpT9aEbgTV?=
- =?us-ascii?Q?nzDw2bthQwDdbU0RT2y16gP4CuAoYQUP/KnrDvuGiXgyCuN9xMF0WVncp0Fz?=
- =?us-ascii?Q?sxSrwJznE5BSwmQDaEmBkUEpSxOv+LGSiVKJvMQisf2CUD55yMfSMFwSezLY?=
- =?us-ascii?Q?3G0Ru/xIEJdrruq1XWtn5O4gXekIeWewEe8iOKWM4ASGi8dgPquHjO5236l+?=
- =?us-ascii?Q?3XRTAroEgLrd8K/TBjx/YpOxhoqqD4/0YfEEkOppOWt4IlIkrllE217kI8Zg?=
- =?us-ascii?Q?akKPDQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Srl9ayqZSZyEkWzHipFHwdjPMCgFEfg8OSC0LiYa25UcZWSk5L3o73OPrCSp?=
+ =?us-ascii?Q?550LeUlp+kZGM3IUEUB4EDXG64ky8yCSN0uO1m4QxbzCRhfsaumhJywgBhVD?=
+ =?us-ascii?Q?we5lYqfgsPYj/OV/HkKIUku6Qb/1Y7B97ZGRxHUlln2U1u0kNfT1A7pkvQtG?=
+ =?us-ascii?Q?F+kRreODjAD/SJnvMU7wdTTFKw9j0pLJGbDdE0nBl/2bsOF0IAu/WpSfBI2a?=
+ =?us-ascii?Q?U+QCsH8bPz2uS+c8CCYOqCJJyEbCbdVylVdbMRinNiZfonez4e+LxPZfXqTH?=
+ =?us-ascii?Q?Yg3nU+Zi5sPrWxt/cvZweKoNLWJtzfUcvM291JgkKGOMx+vMZF4TJAJvQbH4?=
+ =?us-ascii?Q?mzVYaeEgFr6RKX4xcp6u911MJO5moECj62kaFMmoJCIDUn17lVjbRS/t3XXE?=
+ =?us-ascii?Q?BbGxblPjG0/z4b1R7zcJawD89NMDaz02uVscrTEAiRRViehZWLbZtAz9xfYW?=
+ =?us-ascii?Q?mAzpiRw1BjEbxU0gFvz6F1ZaG8T51b/lxjliTFnB3K4Ixc2VrA6PzBtrAdzs?=
+ =?us-ascii?Q?N8NmEkbos8UsvSGHEeJP4rV2Oc1NuvV3R8JacjlQSouVdiiuLMCW7/Rlu0rt?=
+ =?us-ascii?Q?NMj6T1qxWvApFiE/BeWkrMBQzPI/5XPMnWpjx+onUSRn9+PqfNXjFcmYIHzN?=
+ =?us-ascii?Q?F69hopSLzi1/EU269O/rmIZqImdJHv6dkDV1BH3ydZTb5bstiLCDE8k4VNMV?=
+ =?us-ascii?Q?LEpP7XOEyZIfPvDz4JRcIVAfo0vumtxnJqDglFATICU/4pFqWZx7Qg89c79/?=
+ =?us-ascii?Q?7l6xvjiEqpHs1ng8IzG7BRRnEPPUvGSg8kMhu5ZblhNkmKvW65GNwY4rD0YC?=
+ =?us-ascii?Q?TODUKcaKnJMMC8y3Owy/eszVCDV/DF7WHPYUGsmWMgUtghbhZEPm8zwoxdVK?=
+ =?us-ascii?Q?aJ+I6bq2nZCZVlMRAnADvCY6bLUJvEbfeR2YPni7+Yd9yj1PSHvQTYa/UoXJ?=
+ =?us-ascii?Q?W0akodiD+lnt0cdymo0sBEZ31OCyQJZxrNNPsr7XrQYiikkydy/VAEkEuGEk?=
+ =?us-ascii?Q?dnKt4jS55d0T3pImgUeQHOoyAfD4JUDLatGISM2PzZYqQzaANSwvEM5jDG5G?=
+ =?us-ascii?Q?7Jr0Sz1S9bBU+j7p0VEKqeJsOHvI9TQFiE2tx0DrTFcycp7dwYIh6gpYv1El?=
+ =?us-ascii?Q?dZeI0yCyw7L5KVGvnQIxQ/Yo5TZzInVeMbv/kV2b7ZOPp1m5hqLo4DheAH/P?=
+ =?us-ascii?Q?rtecc1Ia4MZ4UFPu5Vbr00eEFFSAUKaOv6Mpqbs5o2igUqKrpsejyMJR6R19?=
+ =?us-ascii?Q?yEpuNDopF0oJajKxrSmvRgli444Mup+AjOakzhyPcsqU9BcFvKTPbeBw/Peg?=
+ =?us-ascii?Q?aYvFNwAdjzoiJv46EqtcwvdX7cIRS/PHzIZ02Hil3lvyMPb4WA/j1rGqF3Av?=
+ =?us-ascii?Q?qgmPabIRAXqTjeJZoMd7zcOXTU4Tnqr/ZFz+URkpWXxKsLCZ1JJ0xCzgPhLu?=
+ =?us-ascii?Q?23EaonjY3PyrzCOmQjRgxb7o5hw3vZcS+mDdGkgSCOdBIyhFIbHyV5+Oq7MZ?=
+ =?us-ascii?Q?/oW8tH9hSeqo/P9qNk8kfC0FmABiAdM4wzsFAkG3TFuNyN9YzCJtQcOA6pC8?=
+ =?us-ascii?Q?IYJFxNd/tw4lvpWb3VK9x3BC94n0VAbD08c7/plYt1doXf+NsbSaD5GU7o2d?=
+ =?us-ascii?Q?HLCZKKihHj/oDjmTsk/A8h0p3WE4ZYx1W/iEGszCLHzTuEnBEGSdSmJuwe25?=
+ =?us-ascii?Q?I4N8EQ=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ddfd6fc4-c50b-49bc-1ccf-08d9b65df260
+X-MS-Exchange-CrossTenant-Network-Message-Id: f25ac73b-021e-45e2-d4ea-08d9b65df2fb
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2021 13:08:06.7490 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2021 13:08:08.2833 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tvTAE7kUrFNsglgviBHdHw3FuFsFtgY/ZDD8N30BnTebA/h7fHcKAgsw2gaLfdE29RFnkznlyGVCOh/pWTqOrVocuIMqLOL4kEpGh8hxqZA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: r2yRl6gWL3KgGev1g+GnqBi8Rdk51XxAp/1G0yFzl5lr0OFto+X3TkhX+i5x5r3xmZs3PyGssSTJ5YeQcAu6+5WL+x3e3AI5NY5XS35kS7c=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4515
-Received-SPF: pass client-ip=40.107.8.99;
+Received-SPF: pass client-ip=40.107.4.107;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -143,108 +143,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_img_verbose() has a drawback of not going through generic
-qemu_img_pipe_and_status(). qemu_img_verbose() is not very popular, so
-update the only two users to qemu_img_log() and drop qemu_img_verbose()
-at all.
+Move the logic to more generic qemu_img_pipe_and_status(). Also behave
+better when we have several -o options. And reuse argument parser of
+course.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/044        | 5 +++--
- tests/qemu-iotests/044.out    | 1 +
- tests/qemu-iotests/209        | 7 ++++---
- tests/qemu-iotests/209.out    | 2 ++
- tests/qemu-iotests/iotests.py | 8 --------
- 5 files changed, 10 insertions(+), 13 deletions(-)
+ tests/qemu-iotests/iotests.py | 36 +++++++++++++++++------------------
+ 1 file changed, 17 insertions(+), 19 deletions(-)
 
-diff --git a/tests/qemu-iotests/044 b/tests/qemu-iotests/044
-index 64b18eb7c8..714329eb16 100755
---- a/tests/qemu-iotests/044
-+++ b/tests/qemu-iotests/044
-@@ -24,7 +24,7 @@ import os
- import qcow2
- from qcow2 import QcowHeader
- import iotests
--from iotests import qemu_img, qemu_img_verbose, qemu_io
-+from iotests import qemu_img, qemu_img_log, qemu_io
- import struct
- import subprocess
- import sys
-@@ -112,9 +112,10 @@ class TestRefcountTableGrowth(iotests.QMPTestCase):
- 
-     def test_grow_refcount_table(self):
-         qemu_io('-c', 'write 3800M 1M', test_img)
--        qemu_img_verbose('check' , test_img)
-+        qemu_img_log('check' , test_img)
-         pass
- 
- if __name__ == '__main__':
-+    iotests.activate_logging()
-     iotests.main(supported_fmts=['qcow2'],
-                  supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/044.out b/tests/qemu-iotests/044.out
-index 703cf3dee1..ff663b17d7 100644
---- a/tests/qemu-iotests/044.out
-+++ b/tests/qemu-iotests/044.out
-@@ -1,6 +1,7 @@
- No errors were found on the image.
- 7292415/33554432 = 21.73% allocated, 0.00% fragmented, 0.00% compressed clusters
- Image end offset: 4296217088
-+
- .
- ----------------------------------------------------------------------
- Ran 1 tests
-diff --git a/tests/qemu-iotests/209 b/tests/qemu-iotests/209
-index ff7efea11b..f6ad08ec42 100755
---- a/tests/qemu-iotests/209
-+++ b/tests/qemu-iotests/209
-@@ -20,8 +20,8 @@
- #
- 
- import iotests
--from iotests import qemu_img_create, qemu_io, qemu_img_verbose, qemu_nbd, \
--                    file_path
-+from iotests import qemu_img_create, qemu_io, qemu_img_log, qemu_nbd, \
-+                    file_path, log
- 
- iotests.script_initialize(supported_fmts=['qcow2'])
- 
-@@ -33,4 +33,5 @@ qemu_img_create('-f', iotests.imgfmt, disk, '1M')
- qemu_io('-f', iotests.imgfmt, '-c', 'write 0 512K', disk)
- 
- qemu_nbd('-k', nbd_sock, '-x', 'exp', '-f', iotests.imgfmt, disk)
--qemu_img_verbose('map', '-f', 'raw', '--output=json', nbd_uri)
-+qemu_img_log('map', '-f', 'raw', '--output=json', nbd_uri)
-+log('done.')  # avoid new line at the end of output file
-diff --git a/tests/qemu-iotests/209.out b/tests/qemu-iotests/209.out
-index f27be3fa7b..515906ac7a 100644
---- a/tests/qemu-iotests/209.out
-+++ b/tests/qemu-iotests/209.out
-@@ -1,2 +1,4 @@
- [{ "start": 0, "length": 524288, "depth": 0, "present": true, "zero": false, "data": true, "offset": 0},
- { "start": 524288, "length": 524288, "depth": 0, "present": true, "zero": true, "data": false, "offset": 524288}]
-+
-+done.
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index a7a257ee2f..4846ba7c60 100644
+index 4846ba7c60..055b162531 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -227,14 +227,6 @@ def qemu_img_measure(*args):
- def qemu_img_check(*args):
-     return json.loads(qemu_img_pipe("check", "--output", "json", *args))
+@@ -160,9 +160,13 @@ def qemu_img_create_prepare_args(args: List[str]) -> List[str]:
+     args = args[1:]
  
--def qemu_img_verbose(*args):
--    '''Run qemu-img without suppressing its output and return the exit code'''
--    exitcode = subprocess.call(qemu_img_args + list(args))
--    if exitcode < 0:
--        sys.stderr.write('qemu-img received signal %i: %s\n'
--                         % (-exitcode, ' '.join(qemu_img_args + list(args))))
--    return exitcode
+     p = argparse.ArgumentParser(allow_abbrev=False)
++    # -o option may be specified several times
++    p.add_argument('-o', action='append', default=[])
+     p.add_argument('-f')
+     parsed, remaining = p.parse_known_args(args)
+ 
++    opts_list = parsed.o
++
+     result = ['create']
+     if parsed.f is not None:
+         result += ['-f', parsed.f]
+@@ -171,8 +175,18 @@ def qemu_img_create_prepare_args(args: List[str]) -> List[str]:
+     # like extended_l2 or compression_type for qcow2. Test may want to create
+     # additional images in other formats that doesn't support these options.
+     # So, use IMGOPTS only for images created in imgfmt format.
+-    if parsed.f == imgfmt and 'IMGOPTS' in os.environ:
+-        result += ['-o', os.environ['IMGOPTS']]
++    imgopts = os.environ.get('IMGOPTS')
++    if imgopts and parsed.f == imgfmt:
++        opts_list.insert(0, imgopts)
++
++    # default luks support
++    if parsed.f == 'luks' and \
++            all('key-secret' not in opts for opts in opts_list):
++        result += ['--object', luks_default_secret_object]
++        opts_list.append(luks_default_key_secret_opt)
++
++    for opts in opts_list:
++        result += ['-o', opts]
+ 
+     result += remaining
+ 
+@@ -203,23 +217,7 @@ def ordered_qmp(qmsg, conv_keys=True):
+     return qmsg
+ 
+ def qemu_img_create(*args):
+-    args = list(args)
 -
- def qemu_img_pipe(*args: str) -> str:
-     '''Run qemu-img and return its output'''
-     return qemu_img_pipe_and_status(*args)[0]
+-    # default luks support
+-    if '-f' in args and args[args.index('-f') + 1] == 'luks':
+-        if '-o' in args:
+-            i = args.index('-o')
+-            if 'key-secret' not in args[i + 1]:
+-                args[i + 1].append(luks_default_key_secret_opt)
+-                args.insert(i + 2, '--object')
+-                args.insert(i + 3, luks_default_secret_object)
+-        else:
+-            args = ['-o', luks_default_key_secret_opt,
+-                    '--object', luks_default_secret_object] + args
+-
+-    args.insert(0, 'create')
+-
+-    return qemu_img(*args)
++    return qemu_img('create', *args)
+ 
+ def qemu_img_measure(*args):
+     return json.loads(qemu_img_pipe("measure", "--output", "json", *args))
 -- 
 2.31.1
 
