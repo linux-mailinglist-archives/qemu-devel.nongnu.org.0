@@ -2,105 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B1C34673E4
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 10:24:53 +0100 (CET)
-Received: from localhost ([::1]:52782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7482A467409
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 10:28:23 +0100 (CET)
+Received: from localhost ([::1]:55062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt4oG-0008Rc-Fk
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 04:24:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60688)
+	id 1mt4re-0001nz-8N
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 04:28:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mt4nL-0007jE-4x; Fri, 03 Dec 2021 04:23:55 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34400
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mt4n8-0003h8-Dc; Fri, 03 Dec 2021 04:23:54 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B37MpKT015404; 
- Fri, 3 Dec 2021 09:23:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=IMn4frJ9q5yKx6UkgffvrVXrMM7L6hBD3ZfDDdNozFw=;
- b=gA5TUHDejAvRQpr6Qqjq0WmQlOgNhM+AIG5CVo3Nwp6960yCgSgSznRFfZ8amxswKFz0
- LYXuMimENJGj9lbt8ownSWst9QjN4DDGj4tFS2E+NjxalxwWg5cR07THIGBItOlsumVy
- 8gqtaFWNg8dTelUCRDraFVmFQkmyTFS0kr1XDrS3N2VQ5EwbmWWl+iF6XnkrJy3S+jft
- l5GxuslpHGuTkyG/+r5Q9Z5d1E739fNlTcP07fMdgKQX2KFzK3SzwYzM5cOswiDYjoU4
- L0c+duaSK0QOxJwSP6CGWf4lIB/sPS5o1Cv3XldQR7uTbtqyrihPiu2xoCD5WK+6NEoY sQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cqet2a4jd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Dec 2021 09:23:40 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B38KPJU026448;
- Fri, 3 Dec 2021 09:23:40 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cqet2a4hr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Dec 2021 09:23:40 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B39Napc013707;
- Fri, 3 Dec 2021 09:23:38 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma03ams.nl.ibm.com with ESMTP id 3ckcaac7r4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Dec 2021 09:23:38 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B39NYET24379858
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 3 Dec 2021 09:23:34 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A31854C052;
- Fri,  3 Dec 2021 09:23:34 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1A1524C044;
- Fri,  3 Dec 2021 09:23:34 +0000 (GMT)
-Received: from [9.171.47.125] (unknown [9.171.47.125])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  3 Dec 2021 09:23:33 +0000 (GMT)
-Message-ID: <4cac00b0-f162-f0a9-0ba5-45a968fec949@linux.ibm.com>
-Date: Fri, 3 Dec 2021 10:24:26 +0100
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mt4qC-0000ye-JA
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 04:26:52 -0500
+Received: from [2a00:1450:4864:20::434] (port=46618
+ helo=mail-wr1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mt4q6-0008Ul-Cg
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 04:26:49 -0500
+Received: by mail-wr1-x434.google.com with SMTP id u1so4292833wru.13
+ for <qemu-devel@nongnu.org>; Fri, 03 Dec 2021 01:26:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=k6aucabibQqs2VrbmkeB/1vOT7V/HEk3VUT4PvkHOkw=;
+ b=FPuSCHw/zT6DJ0lhv7IoQXSVjI5n+H98+64+3h0S0ETjcsLeTbBlxrKrVTXZcHtIKU
+ +4cCG0RZhG1yDMw4enjgsXixDYVQPcome7basTqRLhzwXUOzKC5ZcRuqQIduHvcQYxP8
+ lMfeT4/zGRxb886vviKIa5Io6oXe/zbPUAs2/zqDowc5btiuJcKO4vpe6dfDlv46N71E
+ FfoIcCo04Gqoyeb7wENRNbgujGZlOS4zF8m9Ry8qkKFu+h5e1nvy/h2rJfYMhQA+ZY3a
+ bNefbqHXybE8y4qdmi1ygAYDcAtfJfZeDjQyjSHP3Y5jwm7gzss/5lmzdV49TOSkfLwE
+ Bz5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=k6aucabibQqs2VrbmkeB/1vOT7V/HEk3VUT4PvkHOkw=;
+ b=kpPEhjDvb21KuqqVE273vwItP9ydW6xMEHUvN98Gmw3PO2QU0R2zElZ62yAu8RP/Gz
+ j60oFu4E4PhPkkCeP0IX6dotQc3+x5zTiwYcW+9V7WzjOYTLqYx3UDKyJOhATUTv0Kcf
+ fU6OVNdVWSCIP7N0VbpHPPmCKCpfnOBoHCUyslu6uQGQ4NT5yghQXKqaiamX8Fxx+mH8
+ Yc7pA6SX7YUnBHjZZIKw4EDSgENUIUOkwwM2QzIO2FUqU2xTAv5mL+H8zWdNlkgwNYvm
+ X7kEuiyahoO17zEzYcWZ0BLuOfzI1nmivaPV5apY+9u3kDygJZT901joVsVF42M3f/LZ
+ WsvA==
+X-Gm-Message-State: AOAM5300JB3RWrUexOpl2yKTyYPplrBE4OXggWvV4dmoc5o/ty6MXNl0
+ 6P94IOL+W50dtqA/X753lY/+St2/pQOBurCERXzVaA==
+X-Google-Smtp-Source: ABdhPJwUeNYaQU0w36sYC1UvpvhS+E+TnHxnjMCeQd2b4IcpfLtfyx8p2foRJeQJ/SPFuKvw8bGXIC1MssFG+bhn0E0=
+X-Received: by 2002:a5d:650f:: with SMTP id x15mr20299919wru.201.1638523600380; 
+ Fri, 03 Dec 2021 01:26:40 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 1/4] s390x/pci: use a reserved ID for the default PCI group
-Content-Language: en-US
-To: Matthew Rosato <mjrosato@linux.ibm.com>, thuth@redhat.com,
- qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-References: <20211202164110.326947-1-mjrosato@linux.ibm.com>
- <20211202164110.326947-2-mjrosato@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <20211202164110.326947-2-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: VrYSOTZ2f5HTjCMclNiboufCI2pta0Ij
-X-Proofpoint-ORIG-GUID: 3qWgiqlDWfnl2HEEGcRFI69Wt-60HO4z
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-03_05,2021-12-02_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 malwarescore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0
- clxscore=1015 mlxscore=0 spamscore=0 adultscore=0 impostorscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112030057
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.938, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211120074644.729-1-jiangyifei@huawei.com>
+ <20211120074644.729-10-jiangyifei@huawei.com>
+In-Reply-To: <20211120074644.729-10-jiangyifei@huawei.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Fri, 3 Dec 2021 14:56:28 +0530
+Message-ID: <CAAhSdy2iy6caF3DLqvo=xpYst=QV4bSjTQjU0ZktV88Ez-QqPA@mail.gmail.com>
+Subject: Re: [PATCH v1 09/12] target/riscv: Add host cpu type
+To: Yifei Jiang <jiangyifei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::434;
+ envelope-from=anup@brainfault.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,48 +81,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- richard.henderson@linaro.org, pasic@linux.ibm.com, borntraeger@linux.ibm.com
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Mingwang Li <limingwang@huawei.com>, KVM General <kvm@vger.kernel.org>,
+ libvir-list@redhat.com, Anup Patel <anup.patel@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, wanbo13@huawei.com,
+ Palmer Dabbelt <palmer@dabbelt.com>, kvm-riscv@lists.infradead.org,
+ wanghaibin.wang@huawei.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ fanliang@huawei.com, "Wubin \(H\)" <wu.wubin@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sat, Nov 20, 2021 at 1:17 PM Yifei Jiang <jiangyifei@huawei.com> wrote:
+>
+> 'host' type cpu is set isa to RV32 or RV64 simply, more isa info
+> will obtain from KVM in kvm_arch_init_vcpu()
+>
+> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+> Signed-off-by: Mingwang Li <limingwang@huawei.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
+Looks good to me.
 
-On 12/2/21 17:41, Matthew Rosato wrote:
-> The current default PCI group being used can technically collide with a
-> real group ID passed from a hostdev.  Let's instead use a group ID that comes
-> from a special pool that is architected to be reserved for simulated devices.
+Reviewed-by: Anup Patel <anup.patel@wdc.com>
 
-NIT: May be add that PCIFG between 0xF0 and 0xFF is specified for this 
-reserved pool.
+Regards,
+Anup
 
-
-> 
-> Fixes: 28dc86a072 ("s390x/pci: use a PCI Group structure")
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
 > ---
->   include/hw/s390x/s390-pci-bus.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
-> index aa891c178d..2727e7bdef 100644
-> --- a/include/hw/s390x/s390-pci-bus.h
-> +++ b/include/hw/s390x/s390-pci-bus.h
-> @@ -313,7 +313,7 @@ typedef struct ZpciFmb {
->   } ZpciFmb;
->   QEMU_BUILD_BUG_MSG(offsetof(ZpciFmb, fmt0) != 48, "padding in ZpciFmb");
->   
-> -#define ZPCI_DEFAULT_FN_GRP 0x20
-> +#define ZPCI_DEFAULT_FN_GRP 0xFF
->   typedef struct S390PCIGroup {
->       ClpRspQueryPciGrp zpci_group;
->       int id;
-> 
-
-Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
-
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
+>  target/riscv/cpu.c | 15 +++++++++++++++
+>  target/riscv/cpu.h |  1 +
+>  2 files changed, 16 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index a464845c99..6512182c62 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -247,6 +247,18 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
+>  }
+>  #endif
+>
+> +#if defined(CONFIG_KVM)
+> +static void riscv_host_cpu_init(Object *obj)
+> +{
+> +    CPURISCVState *env = &RISCV_CPU(obj)->env;
+> +#if defined(TARGET_RISCV32)
+> +    set_misa(env, MXL_RV32, 0);
+> +#elif defined(TARGET_RISCV64)
+> +    set_misa(env, MXL_RV64, 0);
+> +#endif
+> +}
+> +#endif
+> +
+>  static ObjectClass *riscv_cpu_class_by_name(const char *cpu_model)
+>  {
+>      ObjectClass *oc;
+> @@ -844,6 +856,9 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+>          .class_init = riscv_cpu_class_init,
+>      },
+>      DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
+> +#if defined(CONFIG_KVM)
+> +    DEFINE_CPU(TYPE_RISCV_CPU_HOST,             riscv_host_cpu_init),
+> +#endif
+>  #if defined(TARGET_RISCV32)
+>      DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           rv32_base_cpu_init),
+>      DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_ibex_cpu_init),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 2807eb1bcb..e7dba35acb 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -45,6 +45,7 @@
+>  #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51")
+>  #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34")
+>  #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54")
+> +#define TYPE_RISCV_CPU_HOST             RISCV_CPU_TYPE_NAME("host")
+>
+>  #if defined(TARGET_RISCV32)
+>  # define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE32
+> --
+> 2.19.1
+>
+>
+> --
+> kvm-riscv mailing list
+> kvm-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/kvm-riscv
 
