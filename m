@@ -2,47 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1684671DC
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 07:26:53 +0100 (CET)
-Received: from localhost ([::1]:43862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2853E4671E9
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 07:31:58 +0100 (CET)
+Received: from localhost ([::1]:47660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mt21z-0005by-56
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 01:26:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44060)
+	id 1mt26u-0008Io-MP
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 01:31:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <serge.guelton@telecom-bretagne.eu>)
- id 1mt203-0004vH-S1; Fri, 03 Dec 2021 01:24:51 -0500
-Received: from smtp2-g21.free.fr ([212.27.42.2]:43354)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <serge.guelton@telecom-bretagne.eu>)
- id 1mt1zz-0004WA-Ng; Fri, 03 Dec 2021 01:24:50 -0500
-Received: from localhost (unknown [IPv6:2a01:e0a:923:3150:6f60:5f78:f08b:c504])
- (Authenticated sender: sergesanspaille@free.fr)
- by smtp2-g21.free.fr (Postfix) with ESMTPSA id 8DB862003E8;
- Fri,  3 Dec 2021 07:24:15 +0100 (CET)
-Date: Fri, 3 Dec 2021 07:24:14 +0100
-From: Serge Guelton <sguelton@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC v2 1/4] tls: add macros for coroutine-safe TLS variables
-Message-ID: <20211203062414.GA1106@sguelton.remote.csb>
-References: <20211201170120.286139-1-stefanha@redhat.com>
- <20211201170120.286139-2-stefanha@redhat.com>
- <CAFEAcA-QU_PERcLCf3WpTc_mTU6LymEaHqVJTtahGRD8H6oT9A@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mt25S-0007dn-EC
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 01:30:26 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=42771
+ helo=mail-pj1-x1035.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mt25P-000518-Qe
+ for qemu-devel@nongnu.org; Fri, 03 Dec 2021 01:30:25 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ fv9-20020a17090b0e8900b001a6a5ab1392so1675646pjb.1
+ for <qemu-devel@nongnu.org>; Thu, 02 Dec 2021 22:30:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4jONKXOMunkyiqT3MSB3vxLJydEqjGHgihDnQVNcsRQ=;
+ b=QPmElWqoZ+MJiFyCMnTLFiMlQuodXv8Km3uWYdG/hnBz3izi/mQJKvQDJL00NkwoZF
+ ZkAIvIefp7eiPcO0jCpFZIa23DsjiEKj7+ipeTEkI6IfLUphy/AVFWbHXUH8TN8BrFqS
+ QfpnWoTajhUkq+6b4j9HiWP43Fgj3z0+XbaWgKUaYvWQ6xhW2QCyq10d908HjzkcEsMR
+ DSX9cwzJ6zaWS2yKqLZXlDJ+Q1DmxpB7b9wHdubngmvqFxbjWPvNSV6JUxr5CXCOglXZ
+ kb2kPhbPiArcSIgLYMufoqUqjln8oWx5agqubOYRkY7TLcOMG8lDtGxuvTkWt/mn6sVf
+ Xz8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4jONKXOMunkyiqT3MSB3vxLJydEqjGHgihDnQVNcsRQ=;
+ b=u1CRD2d6QN6I+bOPqBNXyec7cQMXWTywsNt/lTywzFuMmsE/gzYhNpHIhvOZ+1cNre
+ MhWHTBV2L/+SFrsL9q1HZ2clenroZn7JemPqtIQO2gvErBhYFvp8974qv3Cufh6fyYa3
+ iB8H4fTJOlqhEZs6ZtpsYBDsBPk4RPYSIK+V82Nz2eGsjQ1WSswE2wW36EVY+92kXzA+
+ j/+AfQJHTbc1iVxyrqWhlwdTzhuoYbuscABNk39e6FS2H1Ftaojs3hVVVPZbXFAOMRIs
+ iRjtBQr1DBpBLlYES+qmAd9s6sODhm/+3Ficjh/0mB1ViSFmxh/JJNPU0suErKJnxKQg
+ c/EA==
+X-Gm-Message-State: AOAM533CNaA1lcK0c5roJWJh+WViZozK75kfMkCw36TCyd1VvGLyKnXm
+ 6qt6arIi2yx0qUiGfpqZq2Wa6g==
+X-Google-Smtp-Source: ABdhPJxg+cEH/zua/TC+w0qO2+fNPiJcNmOUT16L9sTRDb2q5qjjJY7v3c/63N6FOvaKHq318Thkcw==
+X-Received: by 2002:a17:902:c643:b0:141:cf6b:6999 with SMTP id
+ s3-20020a170902c64300b00141cf6b6999mr20821735pls.80.1638513021354; 
+ Thu, 02 Dec 2021 22:30:21 -0800 (PST)
+Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id p124sm1757886pfg.110.2021.12.02.22.30.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Dec 2021 22:30:20 -0800 (PST)
+Subject: Re: Suggestions for TCG performance improvements
+To: Emilio Cota <cota@braap.org>, Vasilev Oleg <vasilev.oleg@huawei.com>
+References: <c76bde31-8f3b-2d03-b7c7-9e026d4b5873@huawei.com>
+ <CAJY1Aq7-J+nnf1k_HdbUnc3mJvua0VHYPNMokCKeitG1ZbH91g@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <abd0ca8a-6272-cf5a-f841-272c40d7f654@linaro.org>
+Date: Thu, 2 Dec 2021 22:30:19 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-QU_PERcLCf3WpTc_mTU6LymEaHqVJTtahGRD8H6oT9A@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: softfail client-ip=212.27.42.2;
- envelope-from=serge.guelton@telecom-bretagne.eu; helo=smtp2-g21.free.fr
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <CAJY1Aq7-J+nnf1k_HdbUnc3mJvua0VHYPNMokCKeitG1ZbH91g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.938,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,66 +92,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, fweimer@redhat.com, thuth@redhat.com,
- Daniel Berrange <berrange@redhat.com>, qemu-block@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, Warner Losh <imp@bsdimp.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ Konobeev Vladimir <konobeev.vladimir@huawei.com>, "Chengen \(William,
+ FixNet\)" <chengen@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Andrey Shinkevich <andrey.shinkevich@huawei.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ Plotnik Nikolay <plotnik.nikolay@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 02, 2021 at 02:44:42PM +0000, Peter Maydell wrote:
-> On Wed, 1 Dec 2021 at 17:19, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >
-> > Compiler optimizations can cache TLS values across coroutine yield
-> > points, resulting in stale values from the previous thread when a
-> > coroutine is re-entered by a new thread.
-> >
-> > Serge Guelton developed an __attribute__((noinline)) wrapper and tested
-> > it with clang and gcc. I formatted his idea according to QEMU's coding
-> > style and wrote documentation.
+On 12/2/21 9:21 PM, Emilio Cota wrote:
+> On Thu, Dec 2, 2021 at 4:47 AM Vasilev Oleg <vasilev.oleg@huawei.com> wrote:
+>> The mentioned paper[4] also describes other possible improvements.
+>> Some of those are already implemented (such as victim TLB and dynamic
+>> size for TLB), but others are not (e.g. TLB lookup uninlining and
+>> set-associative TLB layer). Do you think those improvements
+>> worth trying?
 > 
-> > +#ifdef QEMU_CO_TLS_ADDR
-> > +#define QEMU_DEFINE_STATIC_CO_TLS(type, var)                    \
-> > +    __thread type co_tls_##var;  \
-> > +    static inline type get_##var(void)                          \
-> > +    { type *p; QEMU_CO_TLS_ADDR(p, co_tls_##var); return *p; }  \
-> > +    static inline void set_##var(type v)                        \
-> > +    { type *p; QEMU_CO_TLS_ADDR(p, co_tls_##var); *p = v; }     \
-> > +    static inline type *get_ptr_##var(void)                     \
-> > +    { type *p; QEMU_CO_TLS_ADDR(p, co_tls_##var); return p; }
-> > +#else
-> > +#define QEMU_DEFINE_STATIC_CO_TLS(type, var)                    \
-> > +    static __thread type co_tls_##var;                          \
-> > +    static __attribute__((noinline, unused)) type get_##var(void)       \
-> > +    { return co_tls_##var; }                                    \
-> > +    static __attribute__((noinline, unused)) void set_##var(type v)     \
-> > +    { co_tls_##var = v; }                                       \
-> > +    static __attribute__((noinline, unused)) type *get_ptr_##var(void)  \
-> > +    { return &co_tls_##var; }
-> > +#endif
-> 
-> My compiler-developer colleagues present the following case where
-> 'noinline' is not sufficient for the compiler to definitely
-> use different values of the address-of-the-TLS-var across an
-> intervening function call:
-> 
->   __thread int i;
-> 
->   __attribute__((noinline)) long get_ptr_i()
->   {
->     return (long)&i;
->   }
-> 
->   void switcher();
-> 
->   int g()
->   {
->     long a = get_ptr_i();
->     switcher();
->     return a == get_ptr_i();
->   }
+> I cannot find the emails, but I do remember that Richard wrote tcg-i386 patches
+> for uninlining TLB lookups. Unfortunately they resulted in a slowdown on
+> modern machines.
 
-You can also force an extra mov through `volatile` as in
-https://godbolt.org/z/hWvdb7o9G
+That code is still around at
+https://github.com/rth7680/qemu/tree/tcg-softmmu-ool
+
+
+r~
 
