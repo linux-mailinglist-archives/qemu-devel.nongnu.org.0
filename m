@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2009467E72
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 20:50:05 +0100 (CET)
-Received: from localhost ([::1]:59504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3EB4467E79
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Dec 2021 20:53:52 +0100 (CET)
+Received: from localhost ([::1]:36086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtEZI-0008NQ-RN
-	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 14:50:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45792)
+	id 1mtEcx-0003Nl-Dj
+	for lists+qemu-devel@lfdr.de; Fri, 03 Dec 2021 14:53:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mtETO-0004AB-Cs; Fri, 03 Dec 2021 14:44:02 -0500
+ id 1mtETQ-0004AO-Sl; Fri, 03 Dec 2021 14:44:02 -0500
 Received: from [201.28.113.2] (port=9582 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mtETM-0006h3-AA; Fri, 03 Dec 2021 14:43:57 -0500
+ id 1mtETP-0006h3-G4; Fri, 03 Dec 2021 14:44:00 -0500
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 3 Dec 2021 16:42:57 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 3 Dec 2021 16:42:58 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 93978800EB4;
+ by power9a (Postfix) with ESMTP id D5659800A5A;
  Fri,  3 Dec 2021 16:42:57 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 1/3] target/ppc: Implement Vector Expand Mask
-Date: Fri,  3 Dec 2021 16:42:27 -0300
-Message-Id: <20211203194229.746275-2-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v3 2/3] target/ppc: Implement Vector Extract Mask
+Date: Fri,  3 Dec 2021 16:42:28 -0300
+Message-Id: <20211203194229.746275-3-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211203194229.746275-1-matheus.ferst@eldorado.org.br>
 References: <20211203194229.746275-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 03 Dec 2021 19:42:57.0890 (UTC)
- FILETIME=[F9200420:01D7E87D]
+X-OriginalArrivalTime: 03 Dec 2021 19:42:58.0126 (UTC)
+ FILETIME=[F94406E0:01D7E87D]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -65,73 +65,108 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
 Implement the following PowerISA v3.1 instructions:
-vexpandbm: Vector Expand Byte Mask
-vexpandhm: Vector Expand Halfword Mask
-vexpandwm: Vector Expand Word Mask
-vexpanddm: Vector Expand Doubleword Mask
-vexpandqm: Vector Expand Quadword Mask
+vextractbm: Vector Extract Byte Mask
+vextracthm: Vector Extract Halfword Mask
+vextractwm: Vector Extract Word Mask
+vextractdm: Vector Extract Doubleword Mask
+vextractqm: Vector Extract Quadword Mask
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/insn32.decode            | 11 ++++++++++
- target/ppc/translate/vmx-impl.c.inc | 34 +++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
+ target/ppc/insn32.decode            |  6 +++
+ target/ppc/translate/vmx-impl.c.inc | 82 +++++++++++++++++++++++++++++
+ 2 files changed, 88 insertions(+)
 
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index e135b8aba4..9a28f1d266 100644
+index 9a28f1d266..639ac22bf0 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -56,6 +56,9 @@
- &VX_uim4        vrt uim vrb
- @VX_uim4        ...... vrt:5 . uim:4 vrb:5 ...........  &VX_uim4
+@@ -419,6 +419,12 @@ VEXPANDWM       000100 ..... 00010 ..... 11001000010    @VX_tb
+ VEXPANDDM       000100 ..... 00011 ..... 11001000010    @VX_tb
+ VEXPANDQM       000100 ..... 00100 ..... 11001000010    @VX_tb
  
-+&VX_tb          vrt vrb
-+@VX_tb          ...... vrt:5 ..... vrb:5 ...........    &VX_tb
-+
- &X              rt ra rb
- @X              ...... rt:5 ra:5 rb:5 .......... .      &X
- 
-@@ -408,6 +411,14 @@ VINSWVRX        000100 ..... ..... ..... 00110001111    @VX
- VSLDBI          000100 ..... ..... ..... 00 ... 010110  @VN
- VSRDBI          000100 ..... ..... ..... 01 ... 010110  @VN
- 
-+## Vector Mask Manipulation Instructions
-+
-+VEXPANDBM       000100 ..... 00000 ..... 11001000010    @VX_tb
-+VEXPANDHM       000100 ..... 00001 ..... 11001000010    @VX_tb
-+VEXPANDWM       000100 ..... 00010 ..... 11001000010    @VX_tb
-+VEXPANDDM       000100 ..... 00011 ..... 11001000010    @VX_tb
-+VEXPANDQM       000100 ..... 00100 ..... 11001000010    @VX_tb
++VEXTRACTBM      000100 ..... 01000 ..... 11001000010    @VX_tb
++VEXTRACTHM      000100 ..... 01001 ..... 11001000010    @VX_tb
++VEXTRACTWM      000100 ..... 01010 ..... 11001000010    @VX_tb
++VEXTRACTDM      000100 ..... 01011 ..... 11001000010    @VX_tb
++VEXTRACTQM      000100 ..... 01100 ..... 11001000010    @VX_tb
 +
  # VSX Load/Store Instructions
  
  LXV             111101 ..... ..... ............ . 001   @DQ_TSX
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 8eb8d3a067..ebb0484323 100644
+index ebb0484323..96c97bf6e7 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1491,6 +1491,40 @@ static bool trans_VSRDBI(DisasContext *ctx, arg_VN *a)
+@@ -1525,6 +1525,88 @@ static bool trans_VEXPANDQM(DisasContext *ctx, arg_VX_tb *a)
      return true;
  }
  
-+static bool do_vexpand(DisasContext *ctx, arg_VX_tb *a, unsigned vece)
++static bool do_vextractm(DisasContext *ctx, arg_VX_tb *a, unsigned vece)
 +{
++    const uint64_t elem_width = 8 << vece, elem_count_half = 8 >> vece,
++                   mask = dup_const(vece, 1 << (elem_width - 1));
++    uint64_t i, j;
++    TCGv_i64 lo, hi, t0, t1;
++
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VECTOR(ctx);
 +
-+    tcg_gen_gvec_sari(vece, avr_full_offset(a->vrt), avr_full_offset(a->vrb),
-+                      (8 << vece) - 1, 16, 16);
++    hi = tcg_temp_new_i64();
++    lo = tcg_temp_new_i64();
++    t0 = tcg_temp_new_i64();
++    t1 = tcg_temp_new_i64();
++
++    get_avr64(lo, a->vrb, false);
++    get_avr64(hi, a->vrb, true);
++
++    tcg_gen_andi_i64(lo, lo, mask);
++    tcg_gen_andi_i64(hi, hi, mask);
++
++    /*
++     * Gather the most significant bit of each element in the highest element
++     * element. E.g. for bytes:
++     * aXXXXXXXbXXXXXXXcXXXXXXXdXXXXXXXeXXXXXXXfXXXXXXXgXXXXXXXhXXXXXXX
++     *     & dup(1 << (elem_width - 1))
++     * a0000000b0000000c0000000d0000000e0000000f0000000g0000000h0000000
++     *     << 32 - 4
++     * 0000e0000000f0000000g0000000h00000000000000000000000000000000000
++     *     |
++     * a000e000b000f000c000g000d000h000e0000000f0000000g0000000h0000000
++     *     << 16 - 2
++     * 00c000g000d000h000e0000000f0000000g0000000h000000000000000000000
++     *     |
++     * a0c0e0g0b0d0f0h0c0e0g000d0f0h000e0g00000f0h00000g0000000h0000000
++     *     << 8 - 1
++     * 0b0d0f0h0c0e0g000d0f0h000e0g00000f0h00000g0000000h00000000000000
++     *     |
++     * abcdefghbcdefgh0cdefgh00defgh000efgh0000fgh00000gh000000h0000000
++     */
++    for (i = elem_count_half / 2, j = 32; i > 0; i >>= 1, j >>= 1) {
++        tcg_gen_shli_i64(t0, hi, j - i);
++        tcg_gen_shli_i64(t1, lo, j - i);
++        tcg_gen_or_i64(hi, hi, t0);
++        tcg_gen_or_i64(lo, lo, t1);
++    }
++
++    tcg_gen_shri_i64(hi, hi, 64 - elem_count_half);
++    tcg_gen_extract2_i64(lo, lo, hi, 64 - elem_count_half);
++    tcg_gen_trunc_i64_tl(cpu_gpr[a->vrt], lo);
++
++    tcg_temp_free_i64(hi);
++    tcg_temp_free_i64(lo);
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
 +
 +    return true;
 +}
 +
-+TRANS(VEXPANDBM, do_vexpand, MO_8)
-+TRANS(VEXPANDHM, do_vexpand, MO_16)
-+TRANS(VEXPANDWM, do_vexpand, MO_32)
-+TRANS(VEXPANDDM, do_vexpand, MO_64)
++TRANS(VEXTRACTBM, do_vextractm, MO_8)
++TRANS(VEXTRACTHM, do_vextractm, MO_16)
++TRANS(VEXTRACTWM, do_vextractm, MO_32)
++TRANS(VEXTRACTDM, do_vextractm, MO_64)
 +
-+static bool trans_VEXPANDQM(DisasContext *ctx, arg_VX_tb *a)
++static bool trans_VEXTRACTQM(DisasContext *ctx, arg_VX_tb *a)
 +{
 +    TCGv_i64 tmp;
 +
@@ -141,11 +176,11 @@ index 8eb8d3a067..ebb0484323 100644
 +    tmp = tcg_temp_new_i64();
 +
 +    get_avr64(tmp, a->vrb, true);
-+    tcg_gen_sari_i64(tmp, tmp, 63);
-+    set_avr64(a->vrt, tmp, false);
-+    set_avr64(a->vrt, tmp, true);
++    tcg_gen_shri_i64(tmp, tmp, 63);
++    tcg_gen_trunc_i64_tl(cpu_gpr[a->vrt], tmp);
 +
 +    tcg_temp_free_i64(tmp);
++
 +    return true;
 +}
 +
