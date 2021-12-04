@@ -2,44 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE6F4683E6
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 10:55:51 +0100 (CET)
-Received: from localhost ([::1]:33922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013A4468473
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 12:23:26 +0100 (CET)
+Received: from localhost ([::1]:40824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtRlm-0006nH-4N
-	for lists+qemu-devel@lfdr.de; Sat, 04 Dec 2021 04:55:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44708)
+	id 1mtT8W-0000uW-L6
+	for lists+qemu-devel@lfdr.de; Sat, 04 Dec 2021 06:23:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1mtRjB-0005JQ-Ab; Sat, 04 Dec 2021 04:53:09 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:36942)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1mtRj8-0000rf-Pw; Sat, 04 Dec 2021 04:53:08 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from smtpclient.apple ([80.187.125.231])
- (authenticated user pl@kamp.de) by kerio.kamp.de with ESMTPSA
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
- Sat, 4 Dec 2021 10:53:03 +0100
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Peter Lieven <pl@kamp.de>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [RFC PATCH 2/2] qemu-img convert: Fix sparseness detection
-Date: Sat, 4 Dec 2021 10:53:02 +0100
-Message-Id: <D8C60375-F9A2-4C08-8210-5209CC066F8D@kamp.de>
-References: <ba062f58-36b7-7898-1254-313c7bd1d7b3@virtuozzo.com>
-In-Reply-To: <ba062f58-36b7-7898-1254-313c7bd1d7b3@virtuozzo.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Mailer: iPhone Mail (18H17)
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+ (Exim 4.90_1) (envelope-from <noah@statshelix.com>)
+ id 1mtT6L-0008TF-AT
+ for qemu-devel@nongnu.org; Sat, 04 Dec 2021 06:21:10 -0500
+Received: from [2607:f8b0:4864:20::b30] (port=38597
+ helo=mail-yb1-xb30.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <noah@statshelix.com>)
+ id 1mtT6H-00005l-3Q
+ for qemu-devel@nongnu.org; Sat, 04 Dec 2021 06:21:08 -0500
+Received: by mail-yb1-xb30.google.com with SMTP id v64so17111565ybi.5
+ for <qemu-devel@nongnu.org>; Sat, 04 Dec 2021 03:21:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=statshelix-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HeZp5ZfnJgEx8JnFuNwQvdXaX3kHfRM6rwnLCu04cl0=;
+ b=Y9ajELrSVPpDszuZl3dhZbtiJUeN576qZcFbitEhR9GpdboK8GkYfAdqs+7YNqdKqh
+ l2ha7Yy+rHOSTMO6QM0hWfvJ2TIgkf68yNj5Okv5MHJdu99yK7b58AINQiR/HL+mXp1j
+ jzvb6cy8o52IAx2UzvqEANDCq5WV/wy7RsEYowJ2as3VyaJM/pEwHdMWH9e7CYd7rZ9w
+ FEhQ/nbWwgcEe9t51wPRKyscdNWsbP/LY37J4fNeLMGoBlTcgTSMD1Q5hV39/zJf1UuI
+ 6DxIoVhgGj0EgmAFWDhIKZ8j/JrZimCYwAhhy+hFOudwTEeRcS/vkTunIgMguu/Upvj6
+ 6mJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HeZp5ZfnJgEx8JnFuNwQvdXaX3kHfRM6rwnLCu04cl0=;
+ b=jyoILtEqjT9DE2p8UvFjRrvXxhUcXvsQg9pX/KdpC73iHKNJwnkX6f0gr4gXvEhriH
+ st4YefSR2aus/LI2ithhSfSIArRoX3uNhea1z+ihVyNOUzk5TP9tgZYOjHdkGs0qGSzX
+ 6LMtDvAHpWdBaLSHuS4x5SYg2Zi8Rli/NFS4MkD4/+x4t+VUsg/vI3UQprCvr2nxZIDx
+ TdjvYtEbQCUBZkkeFC30sVccJqS12i9XQrw7K7D9Y4eyrNY0qV8RYiu+oboAjE05q8Jw
+ QBSGeTcMev2+nzpU+R+D7X/xuNs/yVkTgvBcnMYjjtfw6tzaVGJ8BVmCI/mfTALmJh7k
+ lk6w==
+X-Gm-Message-State: AOAM530nEz11R5xErncMJFrF6cvkoVcQAZdf2C2qWfp7bFC8brXhKNHp
+ k43Zorv7vFt2JxqfnbJUuuBfYdD6G9+H5U6Jiqp7weSnWWmC/Xmq
+X-Google-Smtp-Source: ABdhPJzhEdJFLtkQxbpvWU8KI8TP3WmJA+uVN69S/HfaESEbzMp5n4yQIynaTYNu53clCISbW5bdG0rRryGH947tKK4=
+X-Received: by 2002:a25:5d6:: with SMTP id 205mr29352603ybf.741.1638616862348; 
+ Sat, 04 Dec 2021 03:21:02 -0800 (PST)
+MIME-Version: 1.0
+References: <20211126140437.79745-1-noah@statshelix.com>
+In-Reply-To: <20211126140437.79745-1-noah@statshelix.com>
+From: Noah Bergbauer <noah@statshelix.com>
+Date: Sat, 4 Dec 2021 12:20:51 +0100
+Message-ID: <CABjy+RiwQLNmdSYop1zWq40Jp2HRvf_z5xtDTmKT1R3ff0bHdg@mail.gmail.com>
+Subject: Re: [PATCH] hid: Implement support for side and extra buttons
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000000f04c05d25038b6"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b30
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=noah@statshelix.com; helo=mail-yb1-xb30.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -52,165 +80,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: qemu-trivial@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000000f04c05d25038b6
+Content-Type: text/plain; charset="UTF-8"
 
+ping https://patchew.org/QEMU/20211126140437.79745-1-noah@statshelix.com/
 
-> Am 04.12.2021 um 00:04 schrieb Vladimir Sementsov-Ogievskiy <vsementsov@vi=
-rtuozzo.com>:
->=20
-> =EF=BB=BF03.12.2021 14:17, Peter Lieven wrote:
->>> Am 19.05.21 um 18:48 schrieb Kevin Wolf:
->>> Am 19.05.2021 um 15:24 hat Peter Lieven geschrieben:
->>>> Am 20.04.21 um 18:52 schrieb Vladimir Sementsov-Ogievskiy:
->>>>> 20.04.2021 18:04, Kevin Wolf wrote:
->>>>>> Am 20.04.2021 um 16:31 hat Vladimir Sementsov-Ogievskiy geschrieben:
->>>>>>> 15.04.2021 18:22, Kevin Wolf wrote:
->>>>>>>> In order to avoid RMW cycles, is_allocated_sectors() treats zeroed a=
-reas
->>>>>>>> like non-zero data if the end of the checked area isn't aligned. Th=
-is
->>>>>>>> can improve the efficiency of the conversion and was introduced in
->>>>>>>> commit 8dcd3c9b91a.
->>>>>>>>=20
->>>>>>>> However, it comes with a correctness problem: qemu-img convert is
->>>>>>>> supposed to sparsify areas that contain only zeros, which it doesn'=
-t do
->>>>>>>> any more. It turns out that this even happens when not only the
->>>>>>>> unaligned area is zeroed, but also the blocks before and after it. I=
-n
->>>>>>>> the bug report, conversion of a fragmented 10G image containing onl=
-y
->>>>>>>> zeros resulted in an image consuming 2.82 GiB even though the expec=
-ted
->>>>>>>> size is only 4 KiB.
->>>>>>>>=20
->>>>>>>> As a tradeoff between both, let's ignore zeroed sectors only after
->>>>>>>> non-zero data to fix the alignment, but if we're only looking at ze=
-ros,
->>>>>>>> keep them as such, even if it may mean additional RMW cycles.
->>>>>>>>=20
->>>>>>> Hmm.. If I understand correctly, we are going to do unaligned
->>>>>>> write-zero. And that helps.
->>>>>> This can happen (mostly raw images on block devices, I think?), but
->>>>>> usually it just means skipping the write because we know that the tar=
-get
->>>>>> image is already zeroed.
->>>>>>=20
->>>>>> What it does mean is that if the next part is data, we'll have an
->>>>>> unaligned data write.
->>>>>>=20
->>>>>>> Doesn't that mean that alignment is wrongly detected?
->>>>>> The problem is that you can have bdrv_block_status_above() return the=
+On Fri, Nov 26, 2021 at 3:04 PM Noah Bergbauer <noah@statshelix.com> wrote:
 
->>>>>> same allocation status multiple times in a row, but *pnum can be
->>>>>> unaligned for the conversion.
->>>>>>=20
->>>>>> We only look at a single range returned by it when detecting the
->>>>>> alignment, so it could be that we have zero buffers for both 0-11 and=
+> Simply set the respective bits and update the descriptor accordingly.
+>
+> Signed-off-by: Noah Bergbauer <noah@statshelix.com>
+> ---
+>  hw/input/hid.c   | 2 ++
+>  hw/usb/dev-hid.c | 6 +++---
+>  2 files changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/input/hid.c b/hw/input/hid.c
+> index 8aab0521f4..e7ecebdf8f 100644
+> --- a/hw/input/hid.c
+> +++ b/hw/input/hid.c
+> @@ -114,6 +114,8 @@ static void hid_pointer_event(DeviceState *dev,
+> QemuConsole *src,
+>          [INPUT_BUTTON_LEFT]   = 0x01,
+>          [INPUT_BUTTON_RIGHT]  = 0x02,
+>          [INPUT_BUTTON_MIDDLE] = 0x04,
+> +        [INPUT_BUTTON_SIDE] = 0x08,
+> +        [INPUT_BUTTON_EXTRA] = 0x10,
+>      };
+>      HIDState *hs = (HIDState *)dev;
+>      HIDPointerEvent *e;
+> diff --git a/hw/usb/dev-hid.c b/hw/usb/dev-hid.c
+> index 1c7ae97c30..bdd6d1ffaf 100644
+> --- a/hw/usb/dev-hid.c
+> +++ b/hw/usb/dev-hid.c
+> @@ -461,14 +461,14 @@ static const uint8_t
+> qemu_mouse_hid_report_descriptor[] = {
+>      0xa1, 0x00,                /*   Collection (Physical) */
+>      0x05, 0x09,                /*     Usage Page (Button) */
+>      0x19, 0x01,                /*     Usage Minimum (1) */
+> -    0x29, 0x03,                /*     Usage Maximum (3) */
+> +    0x29, 0x05,                /*     Usage Maximum (5) */
+>      0x15, 0x00,                /*     Logical Minimum (0) */
+>      0x25, 0x01,                /*     Logical Maximum (1) */
+> -    0x95, 0x03,                /*     Report Count (3) */
+> +    0x95, 0x05,                /*     Report Count (5) */
+>      0x75, 0x01,                /*     Report Size (1) */
+>      0x81, 0x02,                /*     Input (Data, Variable, Absolute) */
+>      0x95, 0x01,                /*     Report Count (1) */
+> -    0x75, 0x05,                /*     Report Size (5) */
+> +    0x75, 0x03,                /*     Report Size (3) */
+>      0x81, 0x01,                /*     Input (Constant) */
+>      0x05, 0x01,                /*     Usage Page (Generic Desktop) */
+>      0x09, 0x30,                /*     Usage (X) */
+> --
+> 2.34.0
+>
+>
 
->>>>>> 12-16 and detect two misaligned ranges, when both together are a
->>>>>> perfectly aligned zeroed range.
->>>>>>=20
->>>>>> In theory we could try to do some lookahead and merge ranges where
->>>>>> possible, which should give us the perfect result, but it would make t=
-he
->>>>>> code considerably more complicated. (Whether we want to merge them
->>>>>> doesn't only depend on the block status, but possibly also on the
->>>>>> content of a DATA range.)
->>>>>>=20
->>>>>> Kevin
->>>>>>=20
->>>>> Oh, I understand now the problem, thanks for explanation.
->>>>>=20
->>>>> Hmm, yes that means, that if the whole buf is zero, is_allocated_secto=
-rs must not align it down, to be possibly "merged" with next chunk if it is z=
-ero too.
->>>>>=20
->>>>> But it's still good to align zeroes down, if data starts somewhere ins=
-ide the buf, isn't it?
->>>>>=20
->>>>> what about something like this:
->>>>>=20
->>>>> diff --git a/qemu-img.c b/qemu-img.c
->>>>> index babb5573ab..d1704584a0 100644
->>>>> --- a/qemu-img.c
->>>>> +++ b/qemu-img.c
->>>>> @@ -1167,19 +1167,39 @@ static int is_allocated_sectors(const uint8_t *=
-buf, int n, int *pnum,
->>>>>          }
->>>>>      }
->>>>>  +    if (i =3D=3D n) {
->>>>> +        /*
->>>>> +         * The whole buf is the same.
->>>>> +         *
->>>>> +         * if it's data, just return it. It's the old behavior.
->>>>> +         *
->>>>> +         * if it's zero, just return too. It will work good if target=
- is alredy
->>>>> +         * zeroed. And if next chunk is zero too we'll have no RMW an=
-d no reason
->>>>> +         * to write data.
->>>>> +         */
->>>>> +        *pnum =3D i;
->>>>> +        return !is_zero;
->>>>> +    }
->>>>> +
->>>>>      tail =3D (sector_num + i) & (alignment - 1);
->>>>>      if (tail) {
->>>>>          if (is_zero && i <=3D tail) {
->>>>> -            /* treat unallocated areas which only consist
->>>>> -             * of a small tail as allocated. */
->>>>> +            /*
->>>>> +             * For sure next sector after i is data, and it will rewr=
-ite this
->>>>> +             * tail anyway due to RMW. So, let's just write data now.=
+--00000000000000f04c05d25038b6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->>>>> +             */
->>>>>              is_zero =3D false;
->>>>>          }
->>>>>          if (!is_zero) {
->>>>> -            /* align up end offset of allocated areas. */
->>>>> +            /* If possible, align up end offset of allocated areas. *=
-/
->>>>>              i +=3D alignment - tail;
->>>>>              i =3D MIN(i, n);
->>>>>          } else {
->>>>> -            /* align down end offset of zero areas. */
->>>>> +            /*
->>>>> +             * For sure next sector after i is data, and it will rewr=
-ite this
->>>>> +             * tail anyway due to RMW. Better is avoid RMW and write z=
-eroes up
->>>>> +             * to aligned bound.
->>>>> +             */
->>>>>              i -=3D tail;
->>>>>          }
->>>>>      }
->>>> I think we forgot to follow up on this. Has anyone tested this
->>>> suggestion?
->>>>=20
->>>> Otherwise, I would try to rerun the tests I did with the my old and
->>>> Kevins suggestion.
->>> I noticed earlier this week that these patches are still in my
->>> development branch, but didn't actually pick it up again yet. So feel
->>> free to try it out.
->> It seems this time I forgot to follow up. Is this topic still open?
->=20
-> Most probably yes :) I now checked, that my proposed diff is still applica=
-ble to master and don't break compilation. So, if you have some test, you ca=
-n check if it works better with the change.
+<div dir=3D"ltr"><div>ping <a href=3D"https://patchew.org/QEMU/202111261404=
+37.79745-1-noah@statshelix.com/">https://patchew.org/QEMU/20211126140437.79=
+745-1-noah@statshelix.com/</a></div></div><br><div class=3D"gmail_quote"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Fri, Nov 26, 2021 at 3:04 PM Noah Be=
+rgbauer &lt;<a href=3D"mailto:noah@statshelix.com">noah@statshelix.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Simpl=
+y set the respective bits and update the descriptor accordingly.<br>
+<br>
+Signed-off-by: Noah Bergbauer &lt;<a href=3D"mailto:noah@statshelix.com" ta=
+rget=3D"_blank">noah@statshelix.com</a>&gt;<br>
+---<br>
+=C2=A0hw/input/hid.c=C2=A0 =C2=A0| 2 ++<br>
+=C2=A0hw/usb/dev-hid.c | 6 +++---<br>
+=C2=A02 files changed, 5 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/hw/input/hid.c b/hw/input/hid.c<br>
+index 8aab0521f4..e7ecebdf8f 100644<br>
+--- a/hw/input/hid.c<br>
++++ b/hw/input/hid.c<br>
+@@ -114,6 +114,8 @@ static void hid_pointer_event(DeviceState *dev, QemuCon=
+sole *src,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[INPUT_BUTTON_LEFT]=C2=A0 =C2=A0=3D 0x01,=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[INPUT_BUTTON_RIGHT]=C2=A0 =3D 0x02,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[INPUT_BUTTON_MIDDLE] =3D 0x04,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 [INPUT_BUTTON_SIDE] =3D 0x08,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 [INPUT_BUTTON_EXTRA] =3D 0x10,<br>
+=C2=A0 =C2=A0 =C2=A0};<br>
+=C2=A0 =C2=A0 =C2=A0HIDState *hs =3D (HIDState *)dev;<br>
+=C2=A0 =C2=A0 =C2=A0HIDPointerEvent *e;<br>
+diff --git a/hw/usb/dev-hid.c b/hw/usb/dev-hid.c<br>
+index 1c7ae97c30..bdd6d1ffaf 100644<br>
+--- a/hw/usb/dev-hid.c<br>
++++ b/hw/usb/dev-hid.c<br>
+@@ -461,14 +461,14 @@ static const uint8_t qemu_mouse_hid_report_descriptor=
+[] =3D {<br>
+=C2=A0 =C2=A0 =C2=A00xa1, 0x00,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 /*=C2=A0 =C2=A0Collection (Physical) */<br>
+=C2=A0 =C2=A0 =C2=A00x05, 0x09,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Usage Page (Button) */<br>
+=C2=A0 =C2=A0 =C2=A00x19, 0x01,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Usage Minimum (1) */<br>
+-=C2=A0 =C2=A0 0x29, 0x03,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 /*=C2=A0 =C2=A0 =C2=A0Usage Maximum (3) */<br>
++=C2=A0 =C2=A0 0x29, 0x05,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 /*=C2=A0 =C2=A0 =C2=A0Usage Maximum (5) */<br>
+=C2=A0 =C2=A0 =C2=A00x15, 0x00,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Logical Minimum (0) */<br>
+=C2=A0 =C2=A0 =C2=A00x25, 0x01,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Logical Maximum (1) */<br>
+-=C2=A0 =C2=A0 0x95, 0x03,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 /*=C2=A0 =C2=A0 =C2=A0Report Count (3) */<br>
++=C2=A0 =C2=A0 0x95, 0x05,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 /*=C2=A0 =C2=A0 =C2=A0Report Count (5) */<br>
+=C2=A0 =C2=A0 =C2=A00x75, 0x01,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Report Size (1) */<br>
+=C2=A0 =C2=A0 =C2=A00x81, 0x02,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Input (Data, Variable, Absolute) */<br>
+=C2=A0 =C2=A0 =C2=A00x95, 0x01,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Report Count (1) */<br>
+-=C2=A0 =C2=A0 0x75, 0x05,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 /*=C2=A0 =C2=A0 =C2=A0Report Size (5) */<br>
++=C2=A0 =C2=A0 0x75, 0x03,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 /*=C2=A0 =C2=A0 =C2=A0Report Size (3) */<br>
+=C2=A0 =C2=A0 =C2=A00x81, 0x01,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Input (Constant) */<br>
+=C2=A0 =C2=A0 =C2=A00x05, 0x01,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Usage Page (Generic Desktop) */<br>
+=C2=A0 =C2=A0 =C2=A00x09, 0x30,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Usage (X) */<br>
+-- <br>
+2.34.0<br>
+<br>
+</blockquote></div>
 
-Unfortunately the reproducer in the original ticket does not work for me. It=
- might also depend on the XFS version used.
-What I can say is that your patch has no negative impact for my use cases.
-If I find the time I will try the reproducer on CentOS7
-
-Best,
-Peter
-
-
+--00000000000000f04c05d25038b6--
 
