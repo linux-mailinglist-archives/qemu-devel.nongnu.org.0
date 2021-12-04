@@ -2,38 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6014683B4
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 10:41:53 +0100 (CET)
-Received: from localhost ([::1]:36988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A944683C1
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 10:49:02 +0100 (CET)
+Received: from localhost ([::1]:51358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtRYG-0006O6-9A
-	for lists+qemu-devel@lfdr.de; Sat, 04 Dec 2021 04:41:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41340)
+	id 1mtRfB-0007op-Fu
+	for lists+qemu-devel@lfdr.de; Sat, 04 Dec 2021 04:49:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mtRN2-0004Uw-1o
- for qemu-devel@nongnu.org; Sat, 04 Dec 2021 04:30:16 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:38402 helo=loongson.cn)
+ id 1mtRNa-0004oI-Tx
+ for qemu-devel@nongnu.org; Sat, 04 Dec 2021 04:30:50 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:38414 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mtRMy-0003pK-1H
- for qemu-devel@nongnu.org; Sat, 04 Dec 2021 04:30:15 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1mtRNJ-0003sI-Hh
+ for qemu-devel@nongnu.org; Sat, 04 Dec 2021 04:30:50 -0500
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx78r1NKthpt0CAA--.6875S26; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx78r1NKthpt0CAA--.6875S27; 
  Sat, 04 Dec 2021 17:29:53 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v13 24/26] target/loongarch: Add target build suport
-Date: Sat,  4 Dec 2021 17:29:23 +0800
-Message-Id: <1638610165-15036-25-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v13 25/26] target/loongarch: 'make check-tcg' support
+Date: Sat,  4 Dec 2021 17:29:24 +0800
+Message-Id: <1638610165-15036-26-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1638610165-15036-1-git-send-email-gaosong@loongson.cn>
 References: <1638610165-15036-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9Dx78r1NKthpt0CAA--.6875S26
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4xCw4fGw1fKrWDAFWDJwb_yoW8ZrWkpr
- W7Aw15KFW8ZF93J3s3Ja40qFZ5Jw1kCr47XanxKrWxA39xtayUZw1rKFZ8GF17X3W0kFyF
- gFn3C34rGF48Ja7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dx78r1NKthpt0CAA--.6875S27
+X-Coremail-Antispam: 1UD129KBjvdXoWrZry3Cw13trW5KFWkJF43ZFb_yoWfXrc_A3
+ WSkr1kCF4YyF1xGr1rWFs5Gr1rW3y2vFyagF1DAw1fX39Fvan8ta1xAFsrXF15Zw45ZrnI
+ qa97Aw4I9w18AjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
@@ -59,68 +62,26 @@ Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds build loongarch-linux-user target support.
-
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- meson.build                  |  2 +-
- target/loongarch/meson.build | 19 +++++++++++++++++++
- target/meson.build           |  1 +
- 3 files changed, 21 insertions(+), 1 deletion(-)
- create mode 100644 target/loongarch/meson.build
+ tests/tcg/configure.sh | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meson.build b/meson.build
-index 84d28d8..1e0d0cb 100644
---- a/meson.build
-+++ b/meson.build
-@@ -56,7 +56,7 @@ python = import('python').find_installation()
- 
- supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
- supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv', 'x86', 'x86_64',
--  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
-+  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64', 'loongarch64']
- 
- cpu = host_machine.cpu_family()
- 
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
-new file mode 100644
-index 0000000..bcb076e
---- /dev/null
-+++ b/target/loongarch/meson.build
-@@ -0,0 +1,19 @@
-+gen = decodetree.process('insns.decode')
-+
-+loongarch_ss = ss.source_set()
-+loongarch_ss.add(files(
-+  'cpu.c',
-+  'disas.c',
-+))
-+loongarch_tcg_ss = ss.source_set()
-+loongarch_tcg_ss.add(gen)
-+loongarch_tcg_ss.add(files(
-+  'fpu_helper.c',
-+  'op_helper.c',
-+  'translate.c',
-+))
-+loongarch_tcg_ss.add(zlib)
-+
-+loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
-+
-+target_arch += {'loongarch': loongarch_ss}
-diff --git a/target/meson.build b/target/meson.build
-index 2f69402..a53a604 100644
---- a/target/meson.build
-+++ b/target/meson.build
-@@ -5,6 +5,7 @@ subdir('cris')
- subdir('hexagon')
- subdir('hppa')
- subdir('i386')
-+subdir('loongarch')
- subdir('m68k')
- subdir('microblaze')
- subdir('mips')
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 9b76f58..49a05ec 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -51,6 +51,7 @@ fi
+ : ${cross_cc_cflags_armeb="-mbig-endian"}
+ : ${cross_cc_hexagon="hexagon-unknown-linux-musl-clang"}
+ : ${cross_cc_cflags_hexagon="-mv67 -O2 -static"}
++: ${cross_cc_loongarch64="loongarch64-unknown-linux-gnu-gcc"}
+ : ${cross_cc_hppa="hppa-linux-gnu-gcc"}
+ : ${cross_cc_i386="i686-linux-gnu-gcc"}
+ : ${cross_cc_cflags_i386="-m32"}
 -- 
 1.8.3.1
 
