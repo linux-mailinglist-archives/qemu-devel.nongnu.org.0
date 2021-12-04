@@ -2,72 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013A4468473
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 12:23:26 +0100 (CET)
-Received: from localhost ([::1]:40824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B4C4684A2
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 13:03:40 +0100 (CET)
+Received: from localhost ([::1]:57910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtT8W-0000uW-L6
-	for lists+qemu-devel@lfdr.de; Sat, 04 Dec 2021 06:23:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58596)
+	id 1mtTlS-0004QG-PA
+	for lists+qemu-devel@lfdr.de; Sat, 04 Dec 2021 07:03:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noah@statshelix.com>)
- id 1mtT6L-0008TF-AT
- for qemu-devel@nongnu.org; Sat, 04 Dec 2021 06:21:10 -0500
-Received: from [2607:f8b0:4864:20::b30] (port=38597
- helo=mail-yb1-xb30.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <noah@statshelix.com>)
- id 1mtT6H-00005l-3Q
- for qemu-devel@nongnu.org; Sat, 04 Dec 2021 06:21:08 -0500
-Received: by mail-yb1-xb30.google.com with SMTP id v64so17111565ybi.5
- for <qemu-devel@nongnu.org>; Sat, 04 Dec 2021 03:21:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=statshelix-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HeZp5ZfnJgEx8JnFuNwQvdXaX3kHfRM6rwnLCu04cl0=;
- b=Y9ajELrSVPpDszuZl3dhZbtiJUeN576qZcFbitEhR9GpdboK8GkYfAdqs+7YNqdKqh
- l2ha7Yy+rHOSTMO6QM0hWfvJ2TIgkf68yNj5Okv5MHJdu99yK7b58AINQiR/HL+mXp1j
- jzvb6cy8o52IAx2UzvqEANDCq5WV/wy7RsEYowJ2as3VyaJM/pEwHdMWH9e7CYd7rZ9w
- FEhQ/nbWwgcEe9t51wPRKyscdNWsbP/LY37J4fNeLMGoBlTcgTSMD1Q5hV39/zJf1UuI
- 6DxIoVhgGj0EgmAFWDhIKZ8j/JrZimCYwAhhy+hFOudwTEeRcS/vkTunIgMguu/Upvj6
- 6mJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HeZp5ZfnJgEx8JnFuNwQvdXaX3kHfRM6rwnLCu04cl0=;
- b=jyoILtEqjT9DE2p8UvFjRrvXxhUcXvsQg9pX/KdpC73iHKNJwnkX6f0gr4gXvEhriH
- st4YefSR2aus/LI2ithhSfSIArRoX3uNhea1z+ihVyNOUzk5TP9tgZYOjHdkGs0qGSzX
- 6LMtDvAHpWdBaLSHuS4x5SYg2Zi8Rli/NFS4MkD4/+x4t+VUsg/vI3UQprCvr2nxZIDx
- TdjvYtEbQCUBZkkeFC30sVccJqS12i9XQrw7K7D9Y4eyrNY0qV8RYiu+oboAjE05q8Jw
- QBSGeTcMev2+nzpU+R+D7X/xuNs/yVkTgvBcnMYjjtfw6tzaVGJ8BVmCI/mfTALmJh7k
- lk6w==
-X-Gm-Message-State: AOAM530nEz11R5xErncMJFrF6cvkoVcQAZdf2C2qWfp7bFC8brXhKNHp
- k43Zorv7vFt2JxqfnbJUuuBfYdD6G9+H5U6Jiqp7weSnWWmC/Xmq
-X-Google-Smtp-Source: ABdhPJzhEdJFLtkQxbpvWU8KI8TP3WmJA+uVN69S/HfaESEbzMp5n4yQIynaTYNu53clCISbW5bdG0rRryGH947tKK4=
-X-Received: by 2002:a25:5d6:: with SMTP id 205mr29352603ybf.741.1638616862348; 
- Sat, 04 Dec 2021 03:21:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1mtTiY-0003JB-Im
+ for qemu-devel@nongnu.org; Sat, 04 Dec 2021 07:00:38 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.227]:57542
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1mtTiV-0001nw-MH
+ for qemu-devel@nongnu.org; Sat, 04 Dec 2021 07:00:38 -0500
+HMM_SOURCE_IP: 172.18.0.48:46852.981223429
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 0720A280091;
+ Sat,  4 Dec 2021 20:00:19 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id bc56e26aca1741bab4f5a1053b55a2a9 for
+ armbru@redhat.com; Sat, 04 Dec 2021 20:00:26 CST
+X-Transaction-ID: bc56e26aca1741bab4f5a1053b55a2a9
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+Message-ID: <65a49c9f-9287-b950-8fde-40fa9a4a28fe@chinatelecom.cn>
+Date: Sat, 4 Dec 2021 20:00:19 +0800
 MIME-Version: 1.0
-References: <20211126140437.79745-1-noah@statshelix.com>
-In-Reply-To: <20211126140437.79745-1-noah@statshelix.com>
-From: Noah Bergbauer <noah@statshelix.com>
-Date: Sat, 4 Dec 2021 12:20:51 +0100
-Message-ID: <CABjy+RiwQLNmdSYop1zWq40Jp2HRvf_z5xtDTmKT1R3ff0bHdg@mail.gmail.com>
-Subject: Re: [PATCH] hid: Implement support for side and extra buttons
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000000f04c05d25038b6"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b30
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=noah@statshelix.com; helo=mail-yb1-xb30.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v9 3/3] cpus-common: implement dirty page limit on vCPU
+To: Markus Armbruster <armbru@redhat.com>
+References: <cover.1638495274.git.huangy81@chinatelecom.cn>
+ <cover.1638495274.git.huangy81@chinatelecom.cn>
+ <9cc3cc5377e4330cbe0e87e89f452889516a4c09.1638495274.git.huangy81@chinatelecom.cn>
+ <87tufpyiij.fsf@dusky.pond.sub.org>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <87tufpyiij.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.227;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.011,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,146 +66,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, kraxel@redhat.com
+Cc: David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000000f04c05d25038b6
-Content-Type: text/plain; charset="UTF-8"
 
-ping https://patchew.org/QEMU/20211126140437.79745-1-noah@statshelix.com/
 
-On Fri, Nov 26, 2021 at 3:04 PM Noah Bergbauer <noah@statshelix.com> wrote:
+在 2021/12/3 20:34, Markus Armbruster 写道:
+> huangy81@chinatelecom.cn writes:
+> 
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>
+>> Implement dirtyrate calculation periodically basing on
+>> dirty-ring and throttle vCPU until it reachs the quota
+>> dirty page rate given by user.
+>>
+>> Introduce qmp commands "vcpu-dirty-limit", "query-vcpu-dirty-limit"
+>> to enable, disable, query dirty page limit for virtual CPU.
+>>
+>> Meanwhile, introduce corresponding hmp commands "vcpu_dirty_limit",
+>> "info vcpu_dirty_limit" so developers can play with them easier.
+>>
+>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> 
+> [...]
+> 
+> I see you replaced the interface.  Back to square one...
+> 
+>> diff --git a/qapi/migration.json b/qapi/migration.json
+>> index 3da8fdf..dc15b3f 100644
+>> --- a/qapi/migration.json
+>> +++ b/qapi/migration.json
+>> @@ -1872,6 +1872,54 @@
+>>               'current-rate': 'int64' } }
+>>   
+>>   ##
+>> +# @vcpu-dirty-limit:
+>> +#
+>> +# Set or cancel the upper limit of dirty page rate for a virtual CPU.
+>> +#
+>> +# Requires KVM with accelerator property "dirty-ring-size" set.
+>> +# A virtual CPU's dirty page rate is a measure of its memory load.
+>> +# To observe dirty page rates, use @calc-dirty-rate.
+>> +#
+>> +# @cpu-index: index of virtual CPU.
+>> +#
+>> +# @enable: true to enable, false to disable.
+>> +#
+>> +# @dirty-rate: upper limit of dirty page rate for virtual CPU.
+>> +#
+>> +# Since: 7.0
+>> +#
+>> +# Example:
+>> +#   {"execute": "vcpu-dirty-limit"}
+>> +#    "arguments": { "cpu-index": 0,
+>> +#                   "enable": true,
+>> +#                   "dirty-rate": 200 } }
+>> +#
+>> +##
+>> +{ 'command': 'vcpu-dirty-limit',
+>> +  'data': { 'cpu-index': 'int',
+>> +            'enable': 'bool',
+>> +            'dirty-rate': 'uint64'} }
+> 
+> When @enable is false, @dirty-rate makes no sense and is not used (I
+> checked the code), but users have to specify it anyway.  That's bad
+> design.
+> 
+> Better: drop @enable, make @dirty-rate optional, present means enable,
+> absent means disable.
+Uh, if we drop @enable, enabling dirty limit should be like:
+vcpu-dirty-limit cpu-index=0 dirty-rate=1000
 
-> Simply set the respective bits and update the descriptor accordingly.
->
-> Signed-off-by: Noah Bergbauer <noah@statshelix.com>
-> ---
->  hw/input/hid.c   | 2 ++
->  hw/usb/dev-hid.c | 6 +++---
->  2 files changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/input/hid.c b/hw/input/hid.c
-> index 8aab0521f4..e7ecebdf8f 100644
-> --- a/hw/input/hid.c
-> +++ b/hw/input/hid.c
-> @@ -114,6 +114,8 @@ static void hid_pointer_event(DeviceState *dev,
-> QemuConsole *src,
->          [INPUT_BUTTON_LEFT]   = 0x01,
->          [INPUT_BUTTON_RIGHT]  = 0x02,
->          [INPUT_BUTTON_MIDDLE] = 0x04,
-> +        [INPUT_BUTTON_SIDE] = 0x08,
-> +        [INPUT_BUTTON_EXTRA] = 0x10,
->      };
->      HIDState *hs = (HIDState *)dev;
->      HIDPointerEvent *e;
-> diff --git a/hw/usb/dev-hid.c b/hw/usb/dev-hid.c
-> index 1c7ae97c30..bdd6d1ffaf 100644
-> --- a/hw/usb/dev-hid.c
-> +++ b/hw/usb/dev-hid.c
-> @@ -461,14 +461,14 @@ static const uint8_t
-> qemu_mouse_hid_report_descriptor[] = {
->      0xa1, 0x00,                /*   Collection (Physical) */
->      0x05, 0x09,                /*     Usage Page (Button) */
->      0x19, 0x01,                /*     Usage Minimum (1) */
-> -    0x29, 0x03,                /*     Usage Maximum (3) */
-> +    0x29, 0x05,                /*     Usage Maximum (5) */
->      0x15, 0x00,                /*     Logical Minimum (0) */
->      0x25, 0x01,                /*     Logical Maximum (1) */
-> -    0x95, 0x03,                /*     Report Count (3) */
-> +    0x95, 0x05,                /*     Report Count (5) */
->      0x75, 0x01,                /*     Report Size (1) */
->      0x81, 0x02,                /*     Input (Data, Variable, Absolute) */
->      0x95, 0x01,                /*     Report Count (1) */
-> -    0x75, 0x05,                /*     Report Size (5) */
-> +    0x75, 0x03,                /*     Report Size (3) */
->      0x81, 0x01,                /*     Input (Constant) */
->      0x05, 0x01,                /*     Usage Page (Generic Desktop) */
->      0x09, 0x30,                /*     Usage (X) */
-> --
-> 2.34.0
->
->
+And disabling dirty limit like:
+vcpu-dirty-limit cpu-index=0
 
---00000000000000f04c05d25038b6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+For disabling case, there is no hint of disabling in command 
+"vcpu-dirty-limit".
 
-<div dir=3D"ltr"><div>ping <a href=3D"https://patchew.org/QEMU/202111261404=
-37.79745-1-noah@statshelix.com/">https://patchew.org/QEMU/20211126140437.79=
-745-1-noah@statshelix.com/</a></div></div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Fri, Nov 26, 2021 at 3:04 PM Noah Be=
-rgbauer &lt;<a href=3D"mailto:noah@statshelix.com">noah@statshelix.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Simpl=
-y set the respective bits and update the descriptor accordingly.<br>
-<br>
-Signed-off-by: Noah Bergbauer &lt;<a href=3D"mailto:noah@statshelix.com" ta=
-rget=3D"_blank">noah@statshelix.com</a>&gt;<br>
----<br>
-=C2=A0hw/input/hid.c=C2=A0 =C2=A0| 2 ++<br>
-=C2=A0hw/usb/dev-hid.c | 6 +++---<br>
-=C2=A02 files changed, 5 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/hw/input/hid.c b/hw/input/hid.c<br>
-index 8aab0521f4..e7ecebdf8f 100644<br>
---- a/hw/input/hid.c<br>
-+++ b/hw/input/hid.c<br>
-@@ -114,6 +114,8 @@ static void hid_pointer_event(DeviceState *dev, QemuCon=
-sole *src,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[INPUT_BUTTON_LEFT]=C2=A0 =C2=A0=3D 0x01,=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[INPUT_BUTTON_RIGHT]=C2=A0 =3D 0x02,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[INPUT_BUTTON_MIDDLE] =3D 0x04,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [INPUT_BUTTON_SIDE] =3D 0x08,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [INPUT_BUTTON_EXTRA] =3D 0x10,<br>
-=C2=A0 =C2=A0 =C2=A0};<br>
-=C2=A0 =C2=A0 =C2=A0HIDState *hs =3D (HIDState *)dev;<br>
-=C2=A0 =C2=A0 =C2=A0HIDPointerEvent *e;<br>
-diff --git a/hw/usb/dev-hid.c b/hw/usb/dev-hid.c<br>
-index 1c7ae97c30..bdd6d1ffaf 100644<br>
---- a/hw/usb/dev-hid.c<br>
-+++ b/hw/usb/dev-hid.c<br>
-@@ -461,14 +461,14 @@ static const uint8_t qemu_mouse_hid_report_descriptor=
-[] =3D {<br>
-=C2=A0 =C2=A0 =C2=A00xa1, 0x00,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 /*=C2=A0 =C2=A0Collection (Physical) */<br>
-=C2=A0 =C2=A0 =C2=A00x05, 0x09,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Usage Page (Button) */<br>
-=C2=A0 =C2=A0 =C2=A00x19, 0x01,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Usage Minimum (1) */<br>
--=C2=A0 =C2=A0 0x29, 0x03,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 /*=C2=A0 =C2=A0 =C2=A0Usage Maximum (3) */<br>
-+=C2=A0 =C2=A0 0x29, 0x05,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 /*=C2=A0 =C2=A0 =C2=A0Usage Maximum (5) */<br>
-=C2=A0 =C2=A0 =C2=A00x15, 0x00,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Logical Minimum (0) */<br>
-=C2=A0 =C2=A0 =C2=A00x25, 0x01,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Logical Maximum (1) */<br>
--=C2=A0 =C2=A0 0x95, 0x03,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 /*=C2=A0 =C2=A0 =C2=A0Report Count (3) */<br>
-+=C2=A0 =C2=A0 0x95, 0x05,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 /*=C2=A0 =C2=A0 =C2=A0Report Count (5) */<br>
-=C2=A0 =C2=A0 =C2=A00x75, 0x01,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Report Size (1) */<br>
-=C2=A0 =C2=A0 =C2=A00x81, 0x02,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Input (Data, Variable, Absolute) */<br>
-=C2=A0 =C2=A0 =C2=A00x95, 0x01,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Report Count (1) */<br>
--=C2=A0 =C2=A0 0x75, 0x05,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 /*=C2=A0 =C2=A0 =C2=A0Report Size (5) */<br>
-+=C2=A0 =C2=A0 0x75, 0x03,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 /*=C2=A0 =C2=A0 =C2=A0Report Size (3) */<br>
-=C2=A0 =C2=A0 =C2=A00x81, 0x01,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Input (Constant) */<br>
-=C2=A0 =C2=A0 =C2=A00x05, 0x01,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Usage Page (Generic Desktop) */<br>
-=C2=A0 =C2=A0 =C2=A00x09, 0x30,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0Usage (X) */<br>
--- <br>
-2.34.0<br>
-<br>
-</blockquote></div>
+How about make @dirty-rate optional, when enable dirty limit, it should
+present, ignored otherwise?
 
---00000000000000f04c05d25038b6--
+> 
+>> +
+>> +##
+>> +# @query-vcpu-dirty-limit:
+>> +#
+>> +# Returns information about the virtual CPU dirty limit status.
+>> +#
+>> +# @cpu-index: index of the virtual CPU to query, if not specified, all
+>> +#             virtual CPUs will be queried.
+>> +#
+>> +# Since: 7.0
+>> +#
+>> +# Example:
+>> +#   {"execute": "query-vcpu-dirty-limit"}
+>> +#    "arguments": { "cpu-index": 0 } }
+>> +#
+>> +##
+>> +{ 'command': 'query-vcpu-dirty-limit',
+>> +  'data': { '*cpu-index': 'int' },
+>> +  'returns': [ 'DirtyLimitInfo' ] }
+> 
+> Why would anyone ever want to specify @cpu-index?  Output isn't that
+> large even if you have a few hundred CPUs.
+> 
+> Let's keep things simple and drop the parameter.
+Ok, this make things simple.
+> 
+>> +
+>> +##
+>>   # @snapshot-save:
+>>   #
+>>   # Save a VM snapshot
+>> diff --git a/softmmu/vl.c b/softmmu/vl.c
+>> index 620a1f1..0f83ce3 100644
+>> --- a/softmmu/vl.c
+>> +++ b/softmmu/vl.c
+>> @@ -3777,5 +3777,6 @@ void qemu_init(int argc, char **argv, char **envp)
+>>       qemu_init_displays();
+>>       accel_setup_post(current_machine);
+>>       os_setup_post();
+>> +    dirtylimit_setup(current_machine->smp.max_cpus);
+>>       resume_mux_open();
+>>   }
+> 
+
+-- 
+Best regard
+
+Hyman Huang(黄勇)
 
