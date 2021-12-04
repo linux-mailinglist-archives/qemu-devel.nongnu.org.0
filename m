@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFE4D46839E
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 10:36:13 +0100 (CET)
-Received: from localhost ([::1]:49768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A7746839D
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Dec 2021 10:36:10 +0100 (CET)
+Received: from localhost ([::1]:49516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mtRSm-0004CQ-S2
-	for lists+qemu-devel@lfdr.de; Sat, 04 Dec 2021 04:36:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41218)
+	id 1mtRSj-00042L-Vp
+	for lists+qemu-devel@lfdr.de; Sat, 04 Dec 2021 04:36:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mtRMn-0004GT-8q
- for qemu-devel@nongnu.org; Sat, 04 Dec 2021 04:30:01 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:38134 helo=loongson.cn)
+ id 1mtRMt-0004Ru-4S
+ for qemu-devel@nongnu.org; Sat, 04 Dec 2021 04:30:10 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:38156 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mtRMd-0003mw-UY
- for qemu-devel@nongnu.org; Sat, 04 Dec 2021 04:30:01 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1mtRMa-0003nV-Az
+ for qemu-devel@nongnu.org; Sat, 04 Dec 2021 04:30:06 -0500
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx78r1NKthpt0CAA--.6875S9;
- Sat, 04 Dec 2021 17:29:36 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx78r1NKthpt0CAA--.6875S10; 
+ Sat, 04 Dec 2021 17:29:37 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v13 07/26] target/loongarch: Add fixed point load/store
+Subject: [PATCH v13 08/26] target/loongarch: Add fixed point atomic
  instruction translation
-Date: Sat,  4 Dec 2021 17:29:06 +0800
-Message-Id: <1638610165-15036-8-git-send-email-gaosong@loongson.cn>
+Date: Sat,  4 Dec 2021 17:29:07 +0800
+Message-Id: <1638610165-15036-9-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1638610165-15036-1-git-send-email-gaosong@loongson.cn>
 References: <1638610165-15036-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9Dx78r1NKthpt0CAA--.6875S9
-X-Coremail-Antispam: 1UD129KBjvAXoW3ZFW8JrWktw48JrWDJw1xGrg_yoW8JFy7Ko
- WUJ3W5Jr48Gr15AFyqkwnYqrWayFyj9393JrZ8uw1UGa4xJry7Jry8GrnYva1fJryjgryr
- J3WfKF15J3y3Xr1Dn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
+X-CM-TRANSID: AQAAf9Dx78r1NKthpt0CAA--.6875S10
+X-Coremail-Antispam: 1UD129KBjvJXoW3Xr4kZr43XFW3Aw4xGw4rZrb_yoWftw17pr
+ 42yr18Kr40qry5Ar1ktws8G347GFnFy3yjgry3tr1kZFW7GF15Xr18t39I9FW8Xan5Zryr
+ KFW2y3yjkFyrJaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
@@ -61,408 +61,215 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This includes:
-- LD.{B[U]/H[U]/W[U]/D}, ST.{B/H/W/D}
-- LDX.{B[U]/H[U]/W[U]/D}, STX.{B/H/W/D}
-- LDPTR.{W/D}, STPTR.{W/D}
-- PRELD
-- LD{GT/LE}.{B/H/W/D}, ST{GT/LE}.{B/H/W/D}
-- DBAR, IBAR
+- LL.{W/D}, SC.{W/D}
+- AM{SWAP/ADD/AND/OR/XOR/MAX/MIN}[_DB].{W/D}
+- AM{MAX/MIN}[_DB].{WU/DU}
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/helper.h                      |   3 +
- target/loongarch/insn_trans/trans_memory.c.inc | 229 +++++++++++++++++++++++++
- target/loongarch/insns.decode                  |  55 ++++++
- target/loongarch/op_helper.c                   |  15 ++
- target/loongarch/translate.c                   |   6 +
- 5 files changed, 308 insertions(+)
- create mode 100644 target/loongarch/insn_trans/trans_memory.c.inc
+ target/loongarch/insn_trans/trans_atomic.c.inc | 114 +++++++++++++++++++++++++
+ target/loongarch/insn_trans/trans_memory.c.inc |   2 +-
+ target/loongarch/insns.decode                  |  44 ++++++++++
+ target/loongarch/translate.c                   |   1 +
+ 4 files changed, 160 insertions(+), 1 deletion(-)
+ create mode 100644 target/loongarch/insn_trans/trans_atomic.c.inc
 
-diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 04e0245..100622b 100644
---- a/target/loongarch/helper.h
-+++ b/target/loongarch/helper.h
-@@ -8,3 +8,6 @@ DEF_HELPER_2(raise_exception, noreturn, env, i32)
- DEF_HELPER_FLAGS_1(bitrev_w, TCG_CALL_NO_RWG_SE, tl, tl)
- DEF_HELPER_FLAGS_1(bitrev_d, TCG_CALL_NO_RWG_SE, tl, tl)
- DEF_HELPER_FLAGS_1(bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
-+
-+DEF_HELPER_FLAGS_3(asrtle_d, TCG_CALL_NO_WG, void, env, tl, tl)
-+DEF_HELPER_FLAGS_3(asrtgt_d, TCG_CALL_NO_WG, void, env, tl, tl)
-diff --git a/target/loongarch/insn_trans/trans_memory.c.inc b/target/loongarch/insn_trans/trans_memory.c.inc
+diff --git a/target/loongarch/insn_trans/trans_atomic.c.inc b/target/loongarch/insn_trans/trans_atomic.c.inc
 new file mode 100644
-index 0000000..9003d9a
+index 0000000..f89b9a5
 --- /dev/null
-+++ b/target/loongarch/insn_trans/trans_memory.c.inc
-@@ -0,0 +1,229 @@
++++ b/target/loongarch/insn_trans/trans_atomic.c.inc
+@@ -0,0 +1,114 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + */
 +
-+static bool gen_load(DisasContext *ctx, arg_rr_i *a, MemOp mop)
++static bool gen_ll(DisasContext *ctx, arg_rr_i *a,
++                   void (*func)(TCGv, TCGv, int))
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv t0 = tcg_temp_new();
++
++    tcg_gen_addi_tl(t0, src1, a->imm);
++    func(dest, t0, ctx->mem_idx);
++    tcg_gen_st_tl(t0, cpu_env, offsetof(CPULoongArchState, lladdr));
++    tcg_gen_st_tl(dest, cpu_env, offsetof(CPULoongArchState, llval));
++    gen_set_gpr(a->rd, dest, EXT_NONE);
++    tcg_temp_free(t0);
++
++    return true;
++}
++
++static bool gen_sc(DisasContext *ctx, arg_rr_i *a, MemOp mop)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv src2 = gpr_src(ctx, a->rd, EXT_NONE);
++    TCGv t0 = tcg_temp_new();
++    TCGv val = tcg_temp_new();
++
++    TCGLabel *l1 = gen_new_label();
++    TCGLabel *done = gen_new_label();
++
++    tcg_gen_addi_tl(t0, src1, a->imm);
++    tcg_gen_brcond_tl(TCG_COND_EQ, t0, cpu_lladdr, l1);
++    tcg_gen_movi_tl(dest, 0);
++    tcg_gen_br(done);
++
++    gen_set_label(l1);
++    tcg_gen_mov_tl(val, src2);
++    /* generate cmpxchg */
++    tcg_gen_atomic_cmpxchg_tl(t0, cpu_lladdr, cpu_llval,
++                              val, ctx->mem_idx, mop);
++    tcg_gen_setcond_tl(TCG_COND_EQ, dest, t0, cpu_llval);
++    gen_set_label(done);
++    gen_set_gpr(a->rd, dest, EXT_NONE);
++    tcg_temp_free(t0);
++    tcg_temp_free(val);
++
++    return true;
++}
++
++static bool gen_am(DisasContext *ctx, arg_rrr *a,
++                   void (*func)(TCGv, TCGv, TCGv, TCGArg, MemOp),
++                   MemOp mop)
 +{
 +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
 +    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv temp = NULL;
++    TCGv val = gpr_src(ctx, a->rk, EXT_NONE);
 +
-+    if (a->imm) {
-+        temp = tcg_temp_new();
++    if (a->rd != 0 && (a->rj == a->rd || a->rk == a->rd)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "Warning: source register overlaps destination register"
++                      "in atomic insn at pc=0x" TARGET_FMT_lx "\n",
++                      ctx->base.pc_next - 4);
++        return false;
++    }
++
++    func(dest, addr, val, ctx->mem_idx, mop);
++    gen_set_gpr(a->rd, dest, EXT_NONE);
++
++    return true;
++}
++
++TRANS(ll_w, gen_ll, tcg_gen_qemu_ld32s)
++TRANS(sc_w, gen_sc, MO_TESL)
++TRANS(ll_d, gen_ll, tcg_gen_qemu_ld64)
++TRANS(sc_d, gen_sc, MO_TEQ)
++TRANS(amswap_w, gen_am, tcg_gen_atomic_xchg_tl, MO_TESL)
++TRANS(amswap_d, gen_am, tcg_gen_atomic_xchg_tl, MO_TEQ)
++TRANS(amadd_w, gen_am, tcg_gen_atomic_fetch_add_tl, MO_TESL)
++TRANS(amadd_d, gen_am, tcg_gen_atomic_fetch_add_tl, MO_TEQ)
++TRANS(amand_w, gen_am, tcg_gen_atomic_fetch_and_tl, MO_TESL)
++TRANS(amand_d, gen_am, tcg_gen_atomic_fetch_and_tl, MO_TEQ)
++TRANS(amor_w, gen_am, tcg_gen_atomic_fetch_or_tl, MO_TESL)
++TRANS(amor_d, gen_am, tcg_gen_atomic_fetch_or_tl, MO_TEQ)
++TRANS(amxor_w, gen_am, tcg_gen_atomic_fetch_xor_tl, MO_TESL)
++TRANS(amxor_d, gen_am, tcg_gen_atomic_fetch_xor_tl, MO_TEQ)
++TRANS(ammax_w, gen_am, tcg_gen_atomic_fetch_smax_tl, MO_TESL)
++TRANS(ammax_d, gen_am, tcg_gen_atomic_fetch_smax_tl, MO_TEQ)
++TRANS(ammin_w, gen_am, tcg_gen_atomic_fetch_smin_tl, MO_TESL)
++TRANS(ammin_d, gen_am, tcg_gen_atomic_fetch_smin_tl, MO_TEQ)
++TRANS(ammax_wu, gen_am, tcg_gen_atomic_fetch_umax_tl, MO_TESL)
++TRANS(ammax_du, gen_am, tcg_gen_atomic_fetch_umax_tl, MO_TEQ)
++TRANS(ammin_wu, gen_am, tcg_gen_atomic_fetch_umin_tl, MO_TESL)
++TRANS(ammin_du, gen_am, tcg_gen_atomic_fetch_umin_tl, MO_TEQ)
++TRANS(amswap_db_w, gen_am, tcg_gen_atomic_xchg_tl, MO_TESL)
++TRANS(amswap_db_d, gen_am, tcg_gen_atomic_xchg_tl, MO_TEQ)
++TRANS(amadd_db_w, gen_am, tcg_gen_atomic_fetch_add_tl, MO_TESL)
++TRANS(amadd_db_d, gen_am, tcg_gen_atomic_fetch_add_tl, MO_TEQ)
++TRANS(amand_db_w, gen_am, tcg_gen_atomic_fetch_and_tl, MO_TESL)
++TRANS(amand_db_d, gen_am, tcg_gen_atomic_fetch_and_tl, MO_TEQ)
++TRANS(amor_db_w, gen_am, tcg_gen_atomic_fetch_or_tl, MO_TESL)
++TRANS(amor_db_d, gen_am, tcg_gen_atomic_fetch_or_tl, MO_TEQ)
++TRANS(amxor_db_w, gen_am, tcg_gen_atomic_fetch_xor_tl, MO_TESL)
++TRANS(amxor_db_d, gen_am, tcg_gen_atomic_fetch_xor_tl, MO_TEQ)
++TRANS(ammax_db_w, gen_am, tcg_gen_atomic_fetch_smax_tl, MO_TESL)
++TRANS(ammax_db_d, gen_am, tcg_gen_atomic_fetch_smax_tl, MO_TEQ)
++TRANS(ammin_db_w, gen_am, tcg_gen_atomic_fetch_smin_tl, MO_TESL)
++TRANS(ammin_db_d, gen_am, tcg_gen_atomic_fetch_smin_tl, MO_TEQ)
++TRANS(ammax_db_wu, gen_am, tcg_gen_atomic_fetch_umax_tl, MO_TESL)
++TRANS(ammax_db_du, gen_am, tcg_gen_atomic_fetch_umax_tl, MO_TEQ)
++TRANS(ammin_db_wu, gen_am, tcg_gen_atomic_fetch_umin_tl, MO_TESL)
++TRANS(ammin_db_du, gen_am, tcg_gen_atomic_fetch_umin_tl, MO_TEQ)
+diff --git a/target/loongarch/insn_trans/trans_memory.c.inc b/target/loongarch/insn_trans/trans_memory.c.inc
+index 9003d9a..8c9925e 100644
+--- a/target/loongarch/insn_trans/trans_memory.c.inc
++++ b/target/loongarch/insn_trans/trans_memory.c.inc
+@@ -172,7 +172,7 @@ static bool gen_stptr(DisasContext *ctx, arg_rr_i *a, MemOp mop)
+ 
+     if (a->imm) {
+         temp = tcg_temp_new();
+-        tcg_gen_addi_tl(temp, addr, a->im);
 +        tcg_gen_addi_tl(temp, addr, a->imm);
-+        addr = temp;
-+    }
-+
-+    tcg_gen_qemu_ld_tl(dest, addr, ctx->mem_idx, mop);
-+    gen_set_gpr(a->rd, dest, EXT_NONE);
-+
-+    if (temp) {
-+        tcg_temp_free(temp);
-+    }
-+
-+    return true;
-+}
-+
-+static bool gen_store(DisasContext *ctx, arg_rr_i *a, MemOp mop)
-+{
-+    TCGv data = gpr_src(ctx, a->rd, EXT_NONE);
-+    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv temp = NULL;
-+
-+    if (a->imm) {
-+        temp = tcg_temp_new();
-+        tcg_gen_addi_tl(temp, addr, a->imm);
-+        addr = temp;
-+    }
-+
-+    tcg_gen_qemu_st_tl(data, addr, ctx->mem_idx, mop);
-+
-+    if (temp) {
-+        tcg_temp_free(temp);
-+    }
-+
-+    return true;
-+}
-+
-+static bool gen_loadx(DisasContext *ctx, arg_rrr *a, MemOp mop)
-+{
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+    TCGv addr = tcg_temp_new();
-+
-+    tcg_gen_add_tl(addr, src1, src2);
-+    tcg_gen_qemu_ld_tl(dest, addr, ctx->mem_idx, mop);
-+    gen_set_gpr(a->rd, dest, EXT_NONE);
-+    tcg_temp_free(addr);
-+
-+    return true;
-+}
-+
-+static bool gen_storex(DisasContext *ctx, arg_rrr *a, MemOp mop)
-+{
-+    TCGv data = gpr_src(ctx, a->rd, EXT_NONE);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+    TCGv addr = tcg_temp_new();
-+
-+    tcg_gen_add_tl(addr, src1, src2);
-+    tcg_gen_qemu_st_tl(data, addr, ctx->mem_idx, mop);
-+    tcg_temp_free(addr);
-+
-+    return true;
-+}
-+
-+static bool gen_load_gt(DisasContext *ctx, arg_rrr *a, MemOp mop)
-+{
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+
-+    gen_helper_asrtgt_d(cpu_env, src1, src2);
-+    tcg_gen_qemu_ld_tl(dest, src1, ctx->mem_idx, mop);
-+    gen_set_gpr(a->rd, dest, EXT_NONE);
-+
-+    return true;
-+}
-+
-+static bool gen_load_le(DisasContext *ctx, arg_rrr *a, MemOp mop)
-+{
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+
-+    gen_helper_asrtle_d(cpu_env, src1, src2);
-+    tcg_gen_qemu_ld_tl(dest, src1, ctx->mem_idx, mop);
-+    gen_set_gpr(a->rd, dest, EXT_NONE);
-+
-+    return true;
-+}
-+
-+static bool gen_store_gt(DisasContext *ctx, arg_rrr *a, MemOp mop)
-+{
-+    TCGv data = gpr_src(ctx, a->rd, EXT_NONE);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+
-+    gen_helper_asrtgt_d(cpu_env, src1, src2);
-+    tcg_gen_qemu_st_tl(data, src1, ctx->mem_idx, mop);
-+
-+    return true;
-+}
-+
-+static bool gen_store_le(DisasContext *ctx, arg_rrr *a, MemOp mop)
-+{
-+    TCGv data = gpr_src(ctx, a->rd, EXT_NONE);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+
-+    gen_helper_asrtle_d(cpu_env, src1, src2);
-+    tcg_gen_qemu_st_tl(data, src1, ctx->mem_idx, mop);
-+
-+    return true;
-+}
-+
-+static bool trans_preld(DisasContext *ctx, arg_preld *a)
-+{
-+    return true;
-+}
-+
-+static bool trans_dbar(DisasContext *ctx, arg_dbar * a)
-+{
-+    tcg_gen_mb(TCG_BAR_SC | TCG_MO_ALL);
-+    return true;
-+}
-+
-+static bool trans_ibar(DisasContext *ctx, arg_ibar *a)
-+{
-+    ctx->base.is_jmp = DISAS_STOP;
-+    return true;
-+}
-+
-+static bool gen_ldptr(DisasContext *ctx, arg_rr_i *a, MemOp mop)
-+{
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv temp = NULL;
-+
-+    if (a->imm) {
-+        temp = tcg_temp_new();
-+        tcg_gen_addi_tl(temp, addr, a->imm);
-+        addr = temp;
-+    }
-+
-+    tcg_gen_qemu_ld_tl(dest, addr, ctx->mem_idx, mop);
-+    gen_set_gpr(a->rd, dest, EXT_NONE);
-+
-+    if (temp) {
-+        tcg_temp_free(temp);
-+    }
-+
-+    return true;
-+}
-+
-+static bool gen_stptr(DisasContext *ctx, arg_rr_i *a, MemOp mop)
-+{
-+    TCGv data = gpr_src(ctx, a->rd, EXT_NONE);
-+    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv temp = NULL;
-+
-+    if (a->imm) {
-+        temp = tcg_temp_new();
-+        tcg_gen_addi_tl(temp, addr, a->im);
-+        addr = temp;
-+    }
-+
-+    tcg_gen_qemu_st_tl(data, addr, ctx->mem_idx, mop);
-+
-+    if (temp) {
-+        tcg_temp_free(temp);
-+    }
-+
-+    return true;
-+}
-+
-+TRANS(ld_b, gen_load, MO_SB)
-+TRANS(ld_h, gen_load, MO_TESW)
-+TRANS(ld_w, gen_load, MO_TESL)
-+TRANS(ld_d, gen_load, MO_TEQ)
-+TRANS(st_b, gen_store, MO_SB)
-+TRANS(st_h, gen_store, MO_TESW)
-+TRANS(st_w, gen_store, MO_TESL)
-+TRANS(st_d, gen_store, MO_TEQ)
-+TRANS(ld_bu, gen_load, MO_UB)
-+TRANS(ld_hu, gen_load, MO_TEUW)
-+TRANS(ld_wu, gen_load, MO_TEUL)
-+TRANS(ldx_b, gen_loadx, MO_SB)
-+TRANS(ldx_h, gen_loadx, MO_TESW)
-+TRANS(ldx_w, gen_loadx, MO_TESL)
-+TRANS(ldx_d, gen_loadx, MO_TEQ)
-+TRANS(stx_b, gen_storex, MO_SB)
-+TRANS(stx_h, gen_storex, MO_TESW)
-+TRANS(stx_w, gen_storex, MO_TESL)
-+TRANS(stx_d, gen_storex, MO_TEQ)
-+TRANS(ldx_bu, gen_loadx, MO_UB)
-+TRANS(ldx_hu, gen_loadx, MO_TEUW)
-+TRANS(ldx_wu, gen_loadx, MO_TEUL)
-+TRANS(ldptr_w, gen_ldptr, MO_TESL)
-+TRANS(stptr_w, gen_stptr, MO_TESL)
-+TRANS(ldptr_d, gen_ldptr, MO_TEQ)
-+TRANS(stptr_d, gen_stptr, MO_TEQ)
-+TRANS(ldgt_b, gen_load_gt, MO_SB)
-+TRANS(ldgt_h, gen_load_gt, MO_TESW)
-+TRANS(ldgt_w, gen_load_gt, MO_TESL)
-+TRANS(ldgt_d, gen_load_gt, MO_TEQ)
-+TRANS(ldle_b, gen_load_le, MO_SB)
-+TRANS(ldle_h, gen_load_le, MO_TESW)
-+TRANS(ldle_w, gen_load_le, MO_TESL)
-+TRANS(ldle_d, gen_load_le, MO_TEQ)
-+TRANS(stgt_b, gen_store_gt, MO_SB)
-+TRANS(stgt_h, gen_store_gt, MO_TESW)
-+TRANS(stgt_w, gen_store_gt, MO_TESL)
-+TRANS(stgt_d, gen_store_gt, MO_TEQ)
-+TRANS(stle_b, gen_store_le, MO_SB)
-+TRANS(stle_h, gen_store_le, MO_TESW)
-+TRANS(stle_w, gen_store_le, MO_TESL)
-+TRANS(stle_d, gen_store_le, MO_TEQ)
+         addr = temp;
+     }
+ 
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index b0bed55..1156e69 100644
+index 1156e69..8d247aa 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -8,21 +8,25 @@
- #
- # Fields
- #
-+%i14s2     10:s14       !function=shl_2
- %sa2p1     15:2         !function=plus_1
- 
- #
- # Argument sets
- #
-+&i            imm
- &r_i          rd imm
- &rr           rd rj
- &rrr          rd rj rk
- &rr_i         rd rj imm
-+&hint_r_i     hint rj imm
- &rrr_sa       rd rj rk sa
- &rr_ms_ls     rd rj ms ls
- 
- #
- # Formats
- #
-+@i15                       .... ........ ..... imm:15    &i
- @rr               .... ........ ..... ..... rj:5 rd:5    &rr
- @rrr               .... ........ ..... rk:5 rj:5 rd:5    &rrr
- @r_i20                          .... ... imm:s20 rd:5    &r_i
-@@ -30,7 +34,9 @@
- @rr_ui6            .... ........ .... imm:6 rj:5 rd:5    &rr_i
- @rr_i12                 .... ...... imm:s12 rj:5 rd:5    &rr_i
- @rr_ui12                 .... ...... imm:12 rj:5 rd:5    &rr_i
-+@rr_i14s2         .... ....  .............. rj:5 rd:5    &rr_i imm=%i14s2
- @rr_i16                     .... .. imm:s16 rj:5 rd:5    &rr_i
-+@hint_r_i12           .... ...... imm:s12 rj:5 hint:5    &hint_r_i
- @rrr_sa2p1        .... ........ ... .. rk:5 rj:5 rd:5    &rrr_sa  sa=%sa2p1
- @rrr_sa2        .... ........ ... sa:2 rk:5 rj:5 rd:5    &rrr_sa
- @rrr_sa3         .... ........ .. sa:3 rk:5 rj:5 rd:5    &rrr_sa
-@@ -138,3 +144,52 @@ bstrins_w       0000 0000011 ..... 0 ..... ..... .....   @rr_2bw
- bstrpick_w      0000 0000011 ..... 1 ..... ..... .....   @rr_2bw
- bstrins_d       0000 000010 ...... ...... ..... .....    @rr_2bd
- bstrpick_d      0000 000011 ...... ...... ..... .....    @rr_2bd
+@@ -193,3 +193,47 @@ stle_b          0011 10000111 11100 ..... ..... .....    @rrr
+ stle_h          0011 10000111 11101 ..... ..... .....    @rrr
+ stle_w          0011 10000111 11110 ..... ..... .....    @rrr
+ stle_d          0011 10000111 11111 ..... ..... .....    @rrr
 +
 +#
-+# Fixed point load/store instruction
++# Fixed point atomic instruction
 +#
-+ld_b            0010 100000 ............ ..... .....     @rr_i12
-+ld_h            0010 100001 ............ ..... .....     @rr_i12
-+ld_w            0010 100010 ............ ..... .....     @rr_i12
-+ld_d            0010 100011 ............ ..... .....     @rr_i12
-+st_b            0010 100100 ............ ..... .....     @rr_i12
-+st_h            0010 100101 ............ ..... .....     @rr_i12
-+st_w            0010 100110 ............ ..... .....     @rr_i12
-+st_d            0010 100111 ............ ..... .....     @rr_i12
-+ld_bu           0010 101000 ............ ..... .....     @rr_i12
-+ld_hu           0010 101001 ............ ..... .....     @rr_i12
-+ld_wu           0010 101010 ............ ..... .....     @rr_i12
-+ldx_b           0011 10000000 00000 ..... ..... .....    @rrr
-+ldx_h           0011 10000000 01000 ..... ..... .....    @rrr
-+ldx_w           0011 10000000 10000 ..... ..... .....    @rrr
-+ldx_d           0011 10000000 11000 ..... ..... .....    @rrr
-+stx_b           0011 10000001 00000 ..... ..... .....    @rrr
-+stx_h           0011 10000001 01000 ..... ..... .....    @rrr
-+stx_w           0011 10000001 10000 ..... ..... .....    @rrr
-+stx_d           0011 10000001 11000 ..... ..... .....    @rrr
-+ldx_bu          0011 10000010 00000 ..... ..... .....    @rrr
-+ldx_hu          0011 10000010 01000 ..... ..... .....    @rrr
-+ldx_wu          0011 10000010 10000 ..... ..... .....    @rrr
-+preld           0010 101011 ............ ..... .....     @hint_r_i12
-+dbar            0011 10000111 00100 ...............      @i15
-+ibar            0011 10000111 00101 ...............      @i15
-+ldptr_w         0010 0100 .............. ..... .....     @rr_i14s2
-+stptr_w         0010 0101 .............. ..... .....     @rr_i14s2
-+ldptr_d         0010 0110 .............. ..... .....     @rr_i14s2
-+stptr_d         0010 0111 .............. ..... .....     @rr_i14s2
-+ldgt_b          0011 10000111 10000 ..... ..... .....    @rrr
-+ldgt_h          0011 10000111 10001 ..... ..... .....    @rrr
-+ldgt_w          0011 10000111 10010 ..... ..... .....    @rrr
-+ldgt_d          0011 10000111 10011 ..... ..... .....    @rrr
-+ldle_b          0011 10000111 10100 ..... ..... .....    @rrr
-+ldle_h          0011 10000111 10101 ..... ..... .....    @rrr
-+ldle_w          0011 10000111 10110 ..... ..... .....    @rrr
-+ldle_d          0011 10000111 10111 ..... ..... .....    @rrr
-+stgt_b          0011 10000111 11000 ..... ..... .....    @rrr
-+stgt_h          0011 10000111 11001 ..... ..... .....    @rrr
-+stgt_w          0011 10000111 11010 ..... ..... .....    @rrr
-+stgt_d          0011 10000111 11011 ..... ..... .....    @rrr
-+stle_b          0011 10000111 11100 ..... ..... .....    @rrr
-+stle_h          0011 10000111 11101 ..... ..... .....    @rrr
-+stle_w          0011 10000111 11110 ..... ..... .....    @rrr
-+stle_d          0011 10000111 11111 ..... ..... .....    @rrr
-diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
-index f4b22c7..e6410f6 100644
---- a/target/loongarch/op_helper.c
-+++ b/target/loongarch/op_helper.c
-@@ -40,3 +40,18 @@ target_ulong helper_bitswap(target_ulong v)
-         ((v & (target_ulong)0x0F0F0F0F0F0F0F0FULL) << 4);
-     return v;
- }
-+
-+/* loongarch assert op */
-+void helper_asrtle_d(CPULoongArchState *env, target_ulong rj, target_ulong rk)
-+{
-+    if (rj > rk) {
-+        do_raise_exception(env, EXCP_ADE, GETPC());
-+    }
-+}
-+
-+void helper_asrtgt_d(CPULoongArchState *env, target_ulong rj, target_ulong rk)
-+{
-+    if (rj <= rk) {
-+        do_raise_exception(env, EXCP_ADE, GETPC());
-+    }
-+}
++ll_w            0010 0000 .............. ..... .....     @rr_i14s2
++sc_w            0010 0001 .............. ..... .....     @rr_i14s2
++ll_d            0010 0010 .............. ..... .....     @rr_i14s2
++sc_d            0010 0011 .............. ..... .....     @rr_i14s2
++amswap_w        0011 10000110 00000 ..... ..... .....    @rrr
++amswap_d        0011 10000110 00001 ..... ..... .....    @rrr
++amadd_w         0011 10000110 00010 ..... ..... .....    @rrr
++amadd_d         0011 10000110 00011 ..... ..... .....    @rrr
++amand_w         0011 10000110 00100 ..... ..... .....    @rrr
++amand_d         0011 10000110 00101 ..... ..... .....    @rrr
++amor_w          0011 10000110 00110 ..... ..... .....    @rrr
++amor_d          0011 10000110 00111 ..... ..... .....    @rrr
++amxor_w         0011 10000110 01000 ..... ..... .....    @rrr
++amxor_d         0011 10000110 01001 ..... ..... .....    @rrr
++ammax_w         0011 10000110 01010 ..... ..... .....    @rrr
++ammax_d         0011 10000110 01011 ..... ..... .....    @rrr
++ammin_w         0011 10000110 01100 ..... ..... .....    @rrr
++ammin_d         0011 10000110 01101 ..... ..... .....    @rrr
++ammax_wu        0011 10000110 01110 ..... ..... .....    @rrr
++ammax_du        0011 10000110 01111 ..... ..... .....    @rrr
++ammin_wu        0011 10000110 10000 ..... ..... .....    @rrr
++ammin_du        0011 10000110 10001 ..... ..... .....    @rrr
++amswap_db_w     0011 10000110 10010 ..... ..... .....    @rrr
++amswap_db_d     0011 10000110 10011 ..... ..... .....    @rrr
++amadd_db_w      0011 10000110 10100 ..... ..... .....    @rrr
++amadd_db_d      0011 10000110 10101 ..... ..... .....    @rrr
++amand_db_w      0011 10000110 10110 ..... ..... .....    @rrr
++amand_db_d      0011 10000110 10111 ..... ..... .....    @rrr
++amor_db_w       0011 10000110 11000 ..... ..... .....    @rrr
++amor_db_d       0011 10000110 11001 ..... ..... .....    @rrr
++amxor_db_w      0011 10000110 11010 ..... ..... .....    @rrr
++amxor_db_d      0011 10000110 11011 ..... ..... .....    @rrr
++ammax_db_w      0011 10000110 11100 ..... ..... .....    @rrr
++ammax_db_d      0011 10000110 11101 ..... ..... .....    @rrr
++ammin_db_w      0011 10000110 11110 ..... ..... .....    @rrr
++ammin_db_d      0011 10000110 11111 ..... ..... .....    @rrr
++ammax_db_wu     0011 10000111 00000 ..... ..... .....    @rrr
++ammax_db_du     0011 10000111 00001 ..... ..... .....    @rrr
++ammin_db_wu     0011 10000111 00010 ..... ..... .....    @rrr
++ammin_db_du     0011 10000111 00011 ..... ..... .....    @rrr
 diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index c0875db..4ce452a 100644
+index 4ce452a..5bb0d82 100644
 --- a/target/loongarch/translate.c
 +++ b/target/loongarch/translate.c
-@@ -31,6 +31,11 @@ static inline int plus_1(DisasContext *ctx, int x)
-     return x + 1;
- }
- 
-+static inline int shl_2(DisasContext *ctx, int x)
-+{
-+    return x * 4;
-+}
-+
- void generate_exception(DisasContext *ctx, int excp)
- {
-     tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
-@@ -148,6 +153,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
- #include "insn_trans/trans_arith.c.inc"
+@@ -154,6 +154,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
  #include "insn_trans/trans_shift.c.inc"
  #include "insn_trans/trans_bit.c.inc"
-+#include "insn_trans/trans_memory.c.inc"
+ #include "insn_trans/trans_memory.c.inc"
++#include "insn_trans/trans_atomic.c.inc"
  
  static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
  {
