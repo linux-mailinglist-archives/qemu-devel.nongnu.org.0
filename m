@@ -2,79 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4F74698E4
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 15:29:33 +0100 (CET)
-Received: from localhost ([::1]:56494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7FF94698E3
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 15:29:01 +0100 (CET)
+Received: from localhost ([::1]:54396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muEzk-00031o-O8
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 09:29:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51830)
+	id 1muEzE-0001aZ-Dh
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 09:29:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1muExX-000861-U4
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 09:27:15 -0500
-Received: from [2a00:1450:4864:20::42b] (port=43992
- helo=mail-wr1-x42b.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1muEsN-0008R1-QG
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 09:21:55 -0500
+Received: from [2a00:1450:4864:20::331] (port=53241
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1muExV-00032U-3b
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 09:27:15 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id v11so22760759wrw.10
- for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 06:27:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1muEsL-0001vH-7P
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 09:21:55 -0500
+Received: by mail-wm1-x331.google.com with SMTP id o29so8293469wms.2
+ for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 06:21:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=cY4S0jSiyaDrkbOrA2xKtjk8Eg4+GPUsMDWf2Uw0nS4=;
- b=ScyNZtEjpDqW+ihKouJXsXSNOstfVEL3/0NQnq5us8aqSWyzU2Dmk3Fqkc//BXYnXZ
- v0iKKBrfhIAkI7RbV6UEUmwqTpgojJJtE4vtzJfAa42DH7y6y3eRi6vs9Kaq1SKQHL4d
- Dw4QHO34xCxvFjbi3FoWwExK7OYnQJy0xmeGIPjBt1EMgcoV8mIt/9V07Rvwq3MkyyNH
- g3To7hifxJKaDVw9Mi0M/5S8Y+8UcFfPrTptm8GkYGVr3L6hud7MKJk8s++vPqVpzTGh
- UYWbJgOux2SP2M9PlMI2L+hoQJfn7miaQojXHSn4IcDgy9Inm0dZzcwPR0LCrOvCvPUa
- OXCQ==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=oGzcPubaqkvqMo5L0tRTwNkPPwLtS/7sxS8VHb0vHaY=;
+ b=S12rPBV2S1HF40hLwvCG1uOu4H06ZvhaBMnDyVmGwASaUpxxaCy2Ax/RKEMDrhMNLR
+ 3+zTlCuSAGUPq6nUAEyrGniqAudPqrmk/wA64S6FinWwOHkDTQgvW1OhjRCT9idNuost
+ Ruz+kx7GHGxnXHXSuz6ZhMazjpO3PuXK/X1ZTnPkQafMvtup9aC/0zqsyCEMH4/NuUQq
+ 9KLp1ZL8thMoHZzTe8jeUiFxtTgwRasUuEwH/YfM3sgjviAL5he/gyyqmizpxnA/+5a+
+ HYPqW9kDdikgF9c3ckallMaiXi0eMb/ATP1YiqX2jYTpY90k4+2TuUp0aGKR1YILoUEV
+ beFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=cY4S0jSiyaDrkbOrA2xKtjk8Eg4+GPUsMDWf2Uw0nS4=;
- b=P205DP7AAWZYLi75VB+A+zvpYXgd1mzef4620vwg68+TPCemVS0wxNeMUYj07FvjCZ
- v1j0ax5R7PYg6bfNM0eUt0l96jfLgG90q4GFQwY68uXZM2tLGJYUPPCvsWDm56bJicD5
- aeqgy+DwJ3UZXnMbbI9btlBkl3NXDqThL7xoTVFRj8DNN1nPGRAbMANsvOU5e6WWP8nh
- +qSYLkQO9MkFXyPtBvD4PtPkmYSW3clDqzMT/Z77AFk2HSM6p1RRtNjbFPyuwVqK+XyF
- kyWeioODtLaHkRiEeBuEfozec/XzemH5t9VsEuthz1+eFIJo0c6O9X5Z7fZu31Porqe8
- Bk0g==
-X-Gm-Message-State: AOAM53177N/Y4w1hUp34L8I0vWQqZJDZgEnjwutvi0PJOiU2OaQd5HwV
- Eq954VRG/GAEuktUVnGMvsy94C0DIYo=
-X-Google-Smtp-Source: ABdhPJxGYawni/GpcSXJlSYZiup2eV0fzpMl0ku/AIAjlizlFKjyMeaTI7QhGWaABDrHYYwm/WhKLw==
-X-Received: by 2002:adf:f602:: with SMTP id t2mr44207230wrp.539.1638800502246; 
- Mon, 06 Dec 2021 06:21:42 -0800 (PST)
-Received: from localhost (109.9.90.146.dyn.plus.net. [146.90.9.109])
- by smtp.gmail.com with ESMTPSA id bg34sm14491063wmb.47.2021.12.06.06.21.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Dec 2021 06:21:41 -0800 (PST)
-Date: Mon, 6 Dec 2021 14:21:39 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Mark Mielke <mark.mielke@gmail.com>
-Subject: Re: [PATCH] virtio-blk: Fix clean up of host notifiers for single MR
- transaction.
-Message-ID: <Ya4cc/nBM0wyTaM7@stefanha-x1.localdomain>
-References: <CALm7yL08qarOu0dnQkTN+pa=BSRC92g31YpQQNDeAiT4yLZWQQ@mail.gmail.com>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=oGzcPubaqkvqMo5L0tRTwNkPPwLtS/7sxS8VHb0vHaY=;
+ b=VbSuF6OdVf4vXKQfzHdI8LGhDxXPr8gL4nedxcS2I9H9Sx1eoIEPgbzt86VcSP+nse
+ F5SMrbstgv5hMQ52m/4A5T8cOZu154VpI1OD01d0y2oELVDJAYACS8i9jfqxWoSRPE8R
+ xKnHaHbOyaV9QZc9P4XIKcHnn3DSIcBQFjWW7JJXygnWcwxcuqoo4MVKdal8TrazCBzV
+ hxJeLXaCAaQqqEQshR2GysILhlfuOsTkcXjTzoqT7oW7mMai+xNs1aN+CLI+FKdEPiO7
+ 9w+5Qh9gp36mKmuG0HVfCyO1bO6QhII0gghGsfLGyd3gof/1I6XWDXBm6pNyOchzBLb8
+ Ym7g==
+X-Gm-Message-State: AOAM531TbZjdUhGYBLFid8cbkVjHShYBwlkib+Kb1iX+3Met5EIIV3RW
+ ITdRKAGp7/NmO8uR2C3X1+Lr83EWwJk=
+X-Google-Smtp-Source: ABdhPJzUZce9qOHJXd+w8G4p5Zmr7leNSIEDklzHFAKf1q0333QvwdNFV2H4l7SRVpvCqOApoicJ5w==
+X-Received: by 2002:a05:600c:1d91:: with SMTP id
+ p17mr39886156wms.193.1638800511611; 
+ Mon, 06 Dec 2021 06:21:51 -0800 (PST)
+Received: from [192.168.1.36] (82.red-83-50-95.dynamicip.rima-tde.net.
+ [83.50.95.82])
+ by smtp.gmail.com with ESMTPSA id m1sm11219427wme.39.2021.12.06.06.21.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Dec 2021 06:21:51 -0800 (PST)
+Message-ID: <82134adb-acec-4638-821a-932f413b3ec3@amsat.org>
+Date: Mon, 6 Dec 2021 15:21:50 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="DfTzpr3ec5ICQ/zT"
-Content-Disposition: inline
-In-Reply-To: <CALm7yL08qarOu0dnQkTN+pa=BSRC92g31YpQQNDeAiT4yLZWQQ@mail.gmail.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] linux-user/hexagon: Use generic target_stat64 structure
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+References: <20211116210919.2823206-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211116210919.2823206-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.076,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,48 +93,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Taylor Simpson <tsimpson@quicinc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Laurent,
 
---DfTzpr3ec5ICQ/zT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+What is your plan for this patch? Technically this is a bugfix.
 
-On Thu, Dec 02, 2021 at 11:26:51AM -0500, Mark Mielke wrote:
-> The code that introduced "virtio-blk: Configure all host notifiers in
-> a single MR transaction" introduced a second loop variable to perform
-> cleanup in second loop, but mistakenly still refers to the first
-> loop variable within the second loop body.
->=20
-> Fixes: d0267da61489 ("virtio-blk: Configure all host notifiers in a
-> single MR transaction")
-> Signed-off-by: Mark Mielke <mark.mielke@gmail.com>
+On 11/16/21 22:09, Philippe Mathieu-Daudé wrote:
+> Linux Hexagon port doesn't define a specific 'struct stat'
+> but uses the generic one (see Linux commit 6103ec56c65c [*]
+> "asm-generic: add generic ABI headers" which predates the
+> introduction of the Hexagon port).
+> 
+> Remove the target specific target_stat (which in fact is the
+> target_stat64 structure but uses incorrect target_long and
+> ABI unsafe long long types) and use the generic target_stat64
+> instead.
+> 
+> [*] https://github.com/torvalds/linux/commit/6103ec56c65c3#diff-5f59b07b38273b7d6a74193bc81a8cd18928c688276eae20cb10c569de3253ee
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/block/dataplane/virtio-blk.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Thanks, applied to my block tree:
-https://gitlab.com/stefanha/qemu/commits/block
-
-Stefan
-
---DfTzpr3ec5ICQ/zT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmGuHHMACgkQnKSrs4Gr
-c8j1ygf/e8AaRClYPCMyA9opdi7yWeYZ7xv+HUJooAaoqemSi/qJwFTkWhWfbe0R
-OrY37Bktr2sdCp4CVTyvnWyfSMVzoGXWb/ffTWnkIJIduSDnCPRhc+W982qIBE6E
-R3W+gbhqCh9dYXtZQltXUvKZcygWOqj9Id4b0m0AFO51cYBgRCkgl9FnraqvPiym
-t2npFAkfJtmGQH+NF8i+5F+Z4kFyvYmxKQfF2oiQxzftfCtMXvdVskvJbUo19gPi
-iKv3BJKR97+IiIoAuYaqbhE0QBOPkVl5+0B0hco1xBK1+HPKa6zwAIA2qRKXks9C
-hVIUpTKR4j3i3CwSyCipy9eAZzkS1g==
-=VLM/
------END PGP SIGNATURE-----
-
---DfTzpr3ec5ICQ/zT--
+>  linux-user/syscall_defs.h | 28 ++--------------------------
+>  1 file changed, 2 insertions(+), 26 deletions(-)
+> 
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index a5ce487dcc3..7ab612d163b 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -2129,7 +2129,8 @@ struct target_stat64  {
+>      abi_ulong __unused5;
+>  };
+>  
+> -#elif defined(TARGET_OPENRISC) || defined(TARGET_NIOS2) || defined(TARGET_RISCV)
+> +#elif defined(TARGET_OPENRISC) || defined(TARGET_NIOS2) \
+> +        || defined(TARGET_RISCV) || defined(TARGET_HEXAGON)
+>  
+>  /* These are the asm-generic versions of the stat and stat64 structures */
+>  
+> @@ -2240,31 +2241,6 @@ struct target_stat64 {
+>      uint64_t   st_ino;
+>  };
+>  
+> -#elif defined(TARGET_HEXAGON)
+> -
+> -struct target_stat {
+> -    unsigned long long st_dev;
+> -    unsigned long long st_ino;
+> -    unsigned int st_mode;
+> -    unsigned int st_nlink;
+> -    unsigned int st_uid;
+> -    unsigned int st_gid;
+> -    unsigned long long st_rdev;
+> -    target_ulong __pad1;
+> -    long long st_size;
+> -    target_long st_blksize;
+> -    int __pad2;
+> -    long long st_blocks;
+> -
+> -    target_long target_st_atime;
+> -    target_long target_st_atime_nsec;
+> -    target_long target_st_mtime;
+> -    target_long target_st_mtime_nsec;
+> -    target_long target_st_ctime;
+> -    target_long target_st_ctime_nsec;
+> -    int __unused[2];
+> -};
+> -
+>  #else
+>  #error unsupported CPU
+>  #endif
+> 
 
