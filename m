@@ -2,91 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01984691EC
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 10:05:25 +0100 (CET)
-Received: from localhost ([::1]:44040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2871046923E
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 10:21:47 +0100 (CET)
+Received: from localhost ([::1]:48480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mu9w4-0008R9-RY
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 04:05:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50206)
+	id 1muABt-0003So-Pm
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 04:21:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mu9tb-0007iS-6u
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 04:02:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22287)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1muA9e-0002o1-Nf
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 04:19:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43361)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mu9tZ-0002kJ-5D
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 04:02:50 -0500
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1muA9b-0004ge-EZ
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 04:19:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638781368;
+ s=mimecast20190719; t=1638782361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EI9VCe0m6XmOt0A/UPi1Y9LxmGcC0uLa3HgBn0uS/xA=;
- b=JMVTUZDMyaJFAPcio/8cD8gJyuJWQ9RZVctVH/G5eKhe5knsEdqDZ9304YuPQ/VZkBE0uX
- WRporSR4PkH4Bl7xssGpJcugDZXLPqvDlkFqsW9AMzbpNHZtfJY8/zNUGukezjiImhg00y
- e/Ln2a/Cxz7TG0bRAk7HSNBhdUbpKgc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=C1wLcyNV9kJYLyzTNXYq8JYyF156a+k507+RJjj7BJM=;
+ b=U8aOnspZtfDqeT/hB56gDIo3oBfQ7DVDOHd2cpJv2Uy+WY6lPeTYrjhyfNAy0D63mvEvtw
+ dKhAndz6Jtk+T1TikVEgyYexzlFYRKCljWTs5fliSzvhgXAUDoSpC/deTAZRp59c6UDlZy
+ QGyscXQSdwLhQBBYjIvBSKUM1iphnW0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-488-IFBtIcrEPPiSHvGDMTExtw-1; Mon, 06 Dec 2021 04:02:47 -0500
-X-MC-Unique: IFBtIcrEPPiSHvGDMTExtw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- a64-20020a1c7f43000000b003335e5dc26bso5780163wmd.8
- for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 01:02:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=EI9VCe0m6XmOt0A/UPi1Y9LxmGcC0uLa3HgBn0uS/xA=;
- b=xzMvFH001kc/hclugL1wpYwWUYstkM2xqdSrrZD7Gqf56325iSfzOxPzLw+crRptLy
- e1xCV5gnvDcEkEQB8jQdrUWN5g41SpBerYXJ4OoqtqAODUbokIuMiAEodS3c4LcnGPhI
- TLt/tghvcSal9fICG3/+UrjsZBS3Y1wXmxRFzEAOVRCPTjAAi3vAsac87n2YQxWVM8+2
- zbQRNa+J6vOf8ayIhlz6Fw9dZuqjvpS6IISMkGmTCxUJlPsDgJXwwlaD0tKNDHv+f2Zn
- QqflXavSjOPF+qrh8BYxcpgNsPN0ewDn+c8VNHWVBTqpxik5XuugyxtGgX1a3P0vuS25
- SHFg==
-X-Gm-Message-State: AOAM532QEDAdWXaNv4qO/PNxYCn85vYb2KGxpp6VwFbTcVaIxcEY6fjT
- +orl5UrWSBimDZOBnz+YaZ/W/iTDIdPGpNMyJrKFdq/OZFcY91y8L1w1DcfaRYPKbxmf5/UXiqw
- II3mv+Qq6kCkKSiM=
-X-Received: by 2002:adf:d1e3:: with SMTP id g3mr43065161wrd.300.1638781366162; 
- Mon, 06 Dec 2021 01:02:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyFJkuv72OZnisgV7llFzic83iB9esn+1VWe0CSpteep8kMSvI7zlQEmeJSdjEqIk/gv7kMpg==
-X-Received: by 2002:adf:d1e3:: with SMTP id g3mr43065134wrd.300.1638781365946; 
- Mon, 06 Dec 2021 01:02:45 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id b13sm11068801wrh.32.2021.12.06.01.02.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Dec 2021 01:02:45 -0800 (PST)
-Message-ID: <1fd3a291-0970-5a5f-9428-9539afc8559b@redhat.com>
-Date: Mon, 6 Dec 2021 10:02:44 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
+ us-mta-9-jcVtG2DbOVWptuCqT5aWcg-1; Mon, 06 Dec 2021 04:19:20 -0500
+X-MC-Unique: jcVtG2DbOVWptuCqT5aWcg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 710FB1B18BC0;
+ Mon,  6 Dec 2021 09:19:19 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 09F1A60C13;
+ Mon,  6 Dec 2021 09:19:03 +0000 (UTC)
+Date: Mon, 6 Dec 2021 10:19:00 +0100
+From: Peter Krempa <pkrempa@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
 Subject: Re: [PATCH for-7.0] i386: Deprecate the -no-hpet QEMU command line
  option
-To: Peter Krempa <pkrempa@redhat.com>
+Message-ID: <Ya3VhFvT0cRfvvXU@angien.pipo.sk>
 References: <20211206084012.49277-1-thuth@redhat.com>
  <10bc4172-f6c0-504b-cecb-e7caf9edb074@redhat.com>
  <Ya3QltUi9CkqDJEN@angien.pipo.sk>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <Ya3QltUi9CkqDJEN@angien.pipo.sk>
+ <1fd3a291-0970-5a5f-9428-9539afc8559b@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <1fd3a291-0970-5a5f-9428-9539afc8559b@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pkrempa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.076, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,55 +90,67 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/12/2021 09.57, Peter Krempa wrote:
-> On Mon, Dec 06, 2021 at 09:47:58 +0100, Thomas Huth wrote:
->> On 06/12/2021 09.40, Thomas Huth wrote:
->>> The HPET setting has been turned into a machine property a while ago
->>> already, so we should finally do the next step and deprecate the
->>> legacy CLI option, too.
->>> While we're at it, add a proper help text for the machine property, too.
->>>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>    docs/about/deprecated.rst | 6 ++++++
->>>    hw/i386/pc.c              | 2 ++
->>>    qemu-options.hx           | 2 +-
->>>    softmmu/vl.c              | 1 +
->>>    4 files changed, 10 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
->>> index 5693abb663..1dfe69aa6a 100644
->>> --- a/docs/about/deprecated.rst
->>> +++ b/docs/about/deprecated.rst
->>> @@ -198,6 +198,12 @@ form is preferred.
->>>    Using ``-drive if=none`` to configure the OTP device of the sifive_u
->>>    RISC-V machine is deprecated. Use ``-drive if=pflash`` instead.
->>> +``-no-hpet`` (since 7.0)
->>> +''''''''''''''''''''''''
->>> +
->>> +The HPET setting has been turned into a machine property.
->>> +Use ``-machine hpet=off`` instead.
->> [...]
->>
->> Forgot to CC: the libvirt folks, doing so now.
->>
->> Seems like libvirt is still using -no-hpet in some few spots, so I guess
->> these would need to be changed first, before we could finally remove this
->> option in QEMU?
+On Mon, Dec 06, 2021 at 10:02:44 +0100, Thomas Huth wrote:
+> On 06/12/2021 09.57, Peter Krempa wrote:
+> > On Mon, Dec 06, 2021 at 09:47:58 +0100, Thomas Huth wrote:
+> > > On 06/12/2021 09.40, Thomas Huth wrote:
+> > > > The HPET setting has been turned into a machine property a while ago
+> > > > already, so we should finally do the next step and deprecate the
+> > > > legacy CLI option, too.
+> > > > While we're at it, add a proper help text for the machine property, too.
+> > > > 
+> > > > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > > > ---
+> > > >    docs/about/deprecated.rst | 6 ++++++
+> > > >    hw/i386/pc.c              | 2 ++
+> > > >    qemu-options.hx           | 2 +-
+> > > >    softmmu/vl.c              | 1 +
+> > > >    4 files changed, 10 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> > > > index 5693abb663..1dfe69aa6a 100644
+> > > > --- a/docs/about/deprecated.rst
+> > > > +++ b/docs/about/deprecated.rst
+> > > > @@ -198,6 +198,12 @@ form is preferred.
+> > > >    Using ``-drive if=none`` to configure the OTP device of the sifive_u
+> > > >    RISC-V machine is deprecated. Use ``-drive if=pflash`` instead.
+> > > > +``-no-hpet`` (since 7.0)
+> > > > +''''''''''''''''''''''''
+> > > > +
+> > > > +The HPET setting has been turned into a machine property.
+> > > > +Use ``-machine hpet=off`` instead.
+> > > [...]
+> > > 
+> > > Forgot to CC: the libvirt folks, doing so now.
+> > > 
+> > > Seems like libvirt is still using -no-hpet in some few spots, so I guess
+> > > these would need to be changed first, before we could finally remove this
+> > > option in QEMU?
+> > 
+> > Yes we need to switch to the new property first.
+> > 
+> > Is the new way via -machine property by any chance usable with
+> > qemu-2.11? If yes, then we can do it unconditionally, otherwise we'll
+> > need a witness to detect the support for the new flag as a qemu
+> > capability.
 > 
-> Yes we need to switch to the new property first.
+> The machine property has been added just a year ago:
 > 
-> Is the new way via -machine property by any chance usable with
-> qemu-2.11? If yes, then we can do it unconditionally, otherwise we'll
-> need a witness to detect the support for the new flag as a qemu
-> capability.
+>  https://gitlab.com/qemu-project/qemu/-/commit/0259c78ca79
+> 
+> So it's just available on QEMU v5.2.0 and newer.
 
-The machine property has been added just a year ago:
+Okay, so we can't unfortunately always use the new way.
 
-  https://gitlab.com/qemu-project/qemu/-/commit/0259c78ca79
+I had a brief look in what libvirt queries to build the capability list
+and unfortunately neither query-command-line-options nor query-machines
+list anything which we could detect.
 
-So it's just available on QEMU v5.2.0 and newer.
+Since only the config knob is changing the presence in qom-list-types
+doesn't help either.
 
-  Thomas
+So if qemu want's to deprecate the '-no-hpet' spelling we need something
+which we can detect by one of the above means or other probe command to
+use the new spelling.
 
 
