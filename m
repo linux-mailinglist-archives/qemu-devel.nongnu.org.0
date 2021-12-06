@@ -2,79 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494604691A5
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 09:41:28 +0100 (CET)
-Received: from localhost ([::1]:51510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48C04691B0
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 09:42:36 +0100 (CET)
+Received: from localhost ([::1]:53494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mu9Yt-0001l6-5Y
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 03:41:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44786)
+	id 1mu9Zz-00039f-Rf
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 03:42:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mu9XI-00011s-RM
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 03:39:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37078)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mu9Xw-0001iJ-MB
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 03:40:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mu9XG-0006zQ-Oq
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 03:39:47 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mu9Xv-0007AO-6Z
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 03:40:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638779984;
+ s=mimecast20190719; t=1638780025;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Tdwf6d+p4Ft9FfK8Htm09frKW+6p08y4oR49UsGQOGU=;
- b=ikLO7LyrIUX6I+wzsIc/ofadPpIypd0uhByz/fk1dm4nVUTwoAqewFDM2i9N2MxD3jlhWR
- w5hHJPjDgUBZVwt2LdfFJ/lsmjpbOvw5hLi6QJ5PpiPDH9f5wURHuAskdL4hXuAGvWHXBc
- e9PSA/u8caIc3Xlc0q9oYEMLRpozDdo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6wmyjEPEV935S0F/dSomDUwWGfNmsHA4u91jY1OpL20=;
+ b=A7UN9kCiL8R5vXlQZw07x3Zm2ycgzIK3dlFutAGyQPV/rwBp/suxmc5BCYexkpexOEiWYa
+ fW5K5JtfdP5ykGhaq/JublmD/ndVfzBBhPDR9KoBYLC/uAGbscLRzePFAoTE6lxd47KLnz
+ nU5aO0BA9gjalaTVBnphcMnWQzRMXz8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-27-MVtozVPQMmKbpHzr_T1Aog-1; Mon, 06 Dec 2021 03:39:40 -0500
-X-MC-Unique: MVtozVPQMmKbpHzr_T1Aog-1
-Received: by mail-wr1-f69.google.com with SMTP id
- v18-20020a5d5912000000b001815910d2c0so1791118wrd.1
- for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 00:39:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Tdwf6d+p4Ft9FfK8Htm09frKW+6p08y4oR49UsGQOGU=;
- b=NPV+7favszCIfTBQjlT+aBlzC9sPI8Y9du5QTE2khgAavLb8OF21X6KuCwOvqqfZ0r
- YYnHEpe80gpyZh4mfjnB0UeAlSP+VIZRHG1yklflauC0zGIuAa5IRZw3q/uODz0kfLkg
- GLLwk2Iq6OZ9hoJ7Fhdmr/3ib0KoMvqhBbpP1rjOUqPxt3r+9gpeiHiHRqifIQOczbx1
- f4ZV6juK9LmYIARI2l2GlqbHUJYRlso0I4lmzzA5IpCbp+VhD0ZxxTCFQLIxUmaE9iZI
- +K2CiGRNN6owQHfDpsNAnNivQr4bCa3IDwD3VKihZnzS+wHeKATQjM8GQnuZeQXLzZDK
- HSaQ==
-X-Gm-Message-State: AOAM532rXEhRa621PbykWhuR6PJcuR8Zml/DBfD7TxJXyqaLrAEbYrN2
- Ogq5WBmKBzsIR7I59kkVRVfU8dVeoVCzYGbGptkGojgYD5vJu6bMiCnTX3YImOMZL8rI0lyqgSi
- 62/uWTH/qzOKF/Wk=
-X-Received: by 2002:a05:600c:3506:: with SMTP id
- h6mr12472656wmq.122.1638779979597; 
- Mon, 06 Dec 2021 00:39:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy5qJzFhvOfz26tkwjTZkyrdjBsMCDp6FaRS+hQDvhFcaZ8EjKwoQcIwcxBcp0Eg2PwHhoByA==
-X-Received: by 2002:a05:600c:3506:: with SMTP id
- h6mr12472641wmq.122.1638779979441; 
- Mon, 06 Dec 2021 00:39:39 -0800 (PST)
-Received: from xz-m1.local ([85.203.46.183])
- by smtp.gmail.com with ESMTPSA id p27sm10028443wmi.28.2021.12.06.00.39.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Dec 2021 00:39:38 -0800 (PST)
-Date: Mon, 6 Dec 2021 16:39:32 +0800
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v9 3/3] cpus-common: implement dirty page limit on vCPU
-Message-ID: <Ya3MROP77Uibicmn@xz-m1.local>
-References: <cover.1638495274.git.huangy81@chinatelecom.cn>
- <9cc3cc5377e4330cbe0e87e89f452889516a4c09.1638495274.git.huangy81@chinatelecom.cn>
+ us-mta-51-bjZSTCW9Mb6rBUfmqj92yg-1; Mon, 06 Dec 2021 03:40:22 -0500
+X-MC-Unique: bjZSTCW9Mb6rBUfmqj92yg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B87DD102CB76;
+ Mon,  6 Dec 2021 08:40:18 +0000 (UTC)
+Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E08955C25D;
+ Mon,  6 Dec 2021 08:40:13 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH for-7.0] i386: Deprecate the -no-hpet QEMU command line option
+Date: Mon,  6 Dec 2021 09:40:12 +0100
+Message-Id: <20211206084012.49277-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <9cc3cc5377e4330cbe0e87e89f452889516a4c09.1638495274.git.huangy81@chinatelecom.cn>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -95,44 +75,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Markus ArmBruster <armbru@redhat.com>,
- David Hildenbrand <david@redhat.com>,
+Cc: Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 03, 2021 at 09:39:47AM +0800, huangy81@chinatelecom.cn wrote:
-> +void dirtylimit_setup(int max_cpus)
-> +{
-> +    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-> +        return;
-> +    }
-> +
-> +    dirtylimit_calc_state_init(max_cpus);
-> +    dirtylimit_state_init(max_cpus);
-> +}
+The HPET setting has been turned into a machine property a while ago
+already, so we should finally do the next step and deprecate the
+legacy CLI option, too.
+While we're at it, add a proper help text for the machine property, too.
 
-[...]
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ docs/about/deprecated.rst | 6 ++++++
+ hw/i386/pc.c              | 2 ++
+ qemu-options.hx           | 2 +-
+ softmmu/vl.c              | 1 +
+ 4 files changed, 10 insertions(+), 1 deletion(-)
 
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 620a1f1..0f83ce3 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -3777,5 +3777,6 @@ void qemu_init(int argc, char **argv, char **envp)
->      qemu_init_displays();
->      accel_setup_post(current_machine);
->      os_setup_post();
-> +    dirtylimit_setup(current_machine->smp.max_cpus);
->      resume_mux_open();
-
-Can we do the init only when someone enables it?  We could also do proper
-free() for the structs when it's globally turned off.
-
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 5693abb663..1dfe69aa6a 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -198,6 +198,12 @@ form is preferred.
+ Using ``-drive if=none`` to configure the OTP device of the sifive_u
+ RISC-V machine is deprecated. Use ``-drive if=pflash`` instead.
+ 
++``-no-hpet`` (since 7.0)
++''''''''''''''''''''''''
++
++The HPET setting has been turned into a machine property.
++Use ``-machine hpet=off`` instead.
++
+ 
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index a2ef40ecbc..0ab6e67afe 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1743,6 +1743,8 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+ 
+     object_class_property_add_bool(oc, "hpet",
+         pc_machine_get_hpet, pc_machine_set_hpet);
++    object_class_property_set_description(oc, "hpet",
++        "High precision event timer emulation");
+ 
+     object_class_property_add_bool(oc, "default-bus-bypass-iommu",
+         pc_machine_get_default_bus_bypass_iommu,
+diff --git a/qemu-options.hx b/qemu-options.hx
+index ae2c6dbbfc..7b921fcbe3 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2436,7 +2436,7 @@ DEF("no-hpet", 0, QEMU_OPTION_no_hpet,
+     "-no-hpet        disable HPET\n", QEMU_ARCH_I386)
+ SRST
+ ``-no-hpet``
+-    Disable HPET support.
++    Disable HPET support. Deprecated, use '-machine hpet=off' instead.
+ ERST
+ 
+ DEF("acpitable", HAS_ARG, QEMU_OPTION_acpitable,
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 620a1f1367..471ed006eb 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3418,6 +3418,7 @@ void qemu_init(int argc, char **argv, char **envp)
+                 qdict_put_str(machine_opts_dict, "acpi", "off");
+                 break;
+             case QEMU_OPTION_no_hpet:
++                warn_report("-no-hpet is deprecated, use '-machine hpet=off' instead");
+                 qdict_put_str(machine_opts_dict, "hpet", "off");
+                 break;
+             case QEMU_OPTION_no_reboot:
 -- 
-Peter Xu
+2.27.0
 
 
