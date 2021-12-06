@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC76F46999A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 15:57:37 +0100 (CET)
-Received: from localhost ([::1]:56104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E66D469A3B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 16:03:12 +0100 (CET)
+Received: from localhost ([::1]:34558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muFQu-0008Ti-H2
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 09:57:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60214)
+	id 1muFWI-00043u-M8
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 10:03:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1muFPg-0007DN-CV
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 09:56:20 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:57442
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1muFPd-0007k7-Gc
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 09:56:20 -0500
-HMM_SOURCE_IP: 172.18.0.218:44010.1959946064
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-125.69.41.245 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id ECD422800EC;
- Mon,  6 Dec 2021 22:55:59 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 5d2137df4136490b8d3696968ff02073 for
- peterx@redhat.com; Mon, 06 Dec 2021 22:56:07 CST
-X-Transaction-ID: 5d2137df4136490b8d3696968ff02073
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-Message-ID: <9446cb24-c132-64e7-d696-ac959327d861@chinatelecom.cn>
-Date: Mon, 6 Dec 2021 22:56:00 +0800
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1muFU3-0002AH-4I; Mon, 06 Dec 2021 10:00:54 -0500
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:38502)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1muFTw-0008QI-Lt; Mon, 06 Dec 2021 10:00:50 -0500
+Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id A89A94024C;
+ Mon,  6 Dec 2021 16:00:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=univ-grenoble-alpes.fr; s=2020; t=1638802840;
+ bh=4LXmHjHgAifzrx9ligx/9UINKyBRFm7X2U8BKsyc8aE=;
+ h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+ b=LX+wLAsZkAciUXMfWRbjRhun63eOYKGoGNGcyG5YDo3ydEMfdPbGWScnTffsb4wjc
+ 8A3BcUNexKmTARd9YErV+KUWSmSRNBFvMG1y1WUMYZmUvtWfZxKUgA0MIHrayGYxyj
+ Tfufy47fZhSUy/wU+SnG+GGMDh/2Huhfv8Aww28RGalFsQNRRHMDwqNV7ehFhIvWJa
+ hRSQqpfmv+gSSlM8bOhJSnMff2xk+itV5dWldLsq9Thp9FEQnz778fRFKjVEbjgAkp
+ N0L0A892sBNWMXDVbVV8n0KdjZELFC+2mvUZRb8KWzwby3EVbsIPD5tu/JrmDdjbV4
+ /DR8TzwDSx10w==
+Received: from smtps.univ-grenoble-alpes.fr (smtps3.u-ga.fr [195.83.24.62])
+ by mailhost.u-ga.fr (Postfix) with ESMTP id 948496006D;
+ Mon,  6 Dec 2021 16:00:40 +0100 (CET)
+Received: from [147.171.132.208] (palmier.tima.u-ga.fr [147.171.132.208])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id D446840069;
+ Mon,  6 Dec 2021 16:00:39 +0100 (CET)
+Message-ID: <7a257cb6-ca63-bf7d-a5d4-26d3e70ac992@univ-grenoble-alpes.fr>
+Date: Mon, 6 Dec 2021 16:00:34 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.2
-Subject: Re: [PATCH v9 3/3] cpus-common: implement dirty page limit on vCPU
-To: Peter Xu <peterx@redhat.com>
-References: <cover.1638495274.git.huangy81@chinatelecom.cn>
- <cover.1638495274.git.huangy81@chinatelecom.cn>
- <9cc3cc5377e4330cbe0e87e89f452889516a4c09.1638495274.git.huangy81@chinatelecom.cn>
- <87tufpyiij.fsf@dusky.pond.sub.org>
- <65a49c9f-9287-b950-8fde-40fa9a4a28fe@chinatelecom.cn>
- <Ya3Jy1nWVRz12NHv@xz-m1.local>
-From: Hyman <huangy81@chinatelecom.cn>
-In-Reply-To: <Ya3Jy1nWVRz12NHv@xz-m1.local>
+Content-Language: fr
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <4fceecbf-7424-3a0d-d350-fb677f6b1104@linaro.org>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Subject: Re: [PATCH v6 00/18] Adding partial support for 128-bit riscv target
+In-Reply-To: <4fceecbf-7424-3a0d-d350-fb677f6b1104@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.228;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -39
-X-Spam_score: -4.0
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (41)
+X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 195.83.24.62
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.076,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.076,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,156 +83,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
+ palmer@dabbelt.com, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Richard,
 
+On 29/11/2021 13:13, Richard Henderson wrote:
+> On 11/28/21 2:57 PM, Frédéric Pétrot wrote:
+>> This series of patches provides partial 128-bit support for the riscv
+>> target architecture, namely RVI and RVM, with minimal csr support.
+>>
+>> Thanks again for the reviews and suggestions.
+>>
+>> v6:
+>> - support for '-cpu rv128' in qemu-system-riscv64 to handle 128-bit
+>>    executables (no more qemu-system-riscv128)
+>> - remove useless (and buggy) big-endian support in lq/sq
+> 
+> This also fails make check.  With
+> 
+>    ../qemu/configure --enable-debug 
+> --target-list=riscv64-linux-user,riscv64-softmmu,riscv32-softmmu,riscv32-linux-user
+> 
+> watch qemu-iotest 040 fail.
 
-在 2021/12/6 16:28, Peter Xu 写道:
-> On Sat, Dec 04, 2021 at 08:00:19PM +0800, Hyman Huang wrote:
->>
->>
->> 在 2021/12/3 20:34, Markus Armbruster 写道:
->>> huangy81@chinatelecom.cn writes:
->>>
->>>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->>>>
->>>> Implement dirtyrate calculation periodically basing on
->>>> dirty-ring and throttle vCPU until it reachs the quota
->>>> dirty page rate given by user.
->>>>
->>>> Introduce qmp commands "vcpu-dirty-limit", "query-vcpu-dirty-limit"
->>>> to enable, disable, query dirty page limit for virtual CPU.
->>>>
->>>> Meanwhile, introduce corresponding hmp commands "vcpu_dirty_limit",
->>>> "info vcpu_dirty_limit" so developers can play with them easier.
->>>>
->>>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->>>
->>> [...]
->>>
->>> I see you replaced the interface.  Back to square one...
->>>
->>>> diff --git a/qapi/migration.json b/qapi/migration.json
->>>> index 3da8fdf..dc15b3f 100644
->>>> --- a/qapi/migration.json
->>>> +++ b/qapi/migration.json
->>>> @@ -1872,6 +1872,54 @@
->>>>                'current-rate': 'int64' } }
->>>>    ##
->>>> +# @vcpu-dirty-limit:
->>>> +#
->>>> +# Set or cancel the upper limit of dirty page rate for a virtual CPU.
->>>> +#
->>>> +# Requires KVM with accelerator property "dirty-ring-size" set.
->>>> +# A virtual CPU's dirty page rate is a measure of its memory load.
->>>> +# To observe dirty page rates, use @calc-dirty-rate.
->>>> +#
->>>> +# @cpu-index: index of virtual CPU.
->>>> +#
->>>> +# @enable: true to enable, false to disable.
->>>> +#
->>>> +# @dirty-rate: upper limit of dirty page rate for virtual CPU.
->>>> +#
->>>> +# Since: 7.0
->>>> +#
->>>> +# Example:
->>>> +#   {"execute": "vcpu-dirty-limit"}
->>>> +#    "arguments": { "cpu-index": 0,
->>>> +#                   "enable": true,
->>>> +#                   "dirty-rate": 200 } }
->>>> +#
->>>> +##
->>>> +{ 'command': 'vcpu-dirty-limit',
->>>> +  'data': { 'cpu-index': 'int',
->>>> +            'enable': 'bool',
->>>> +            'dirty-rate': 'uint64'} }
->>>
->>> When @enable is false, @dirty-rate makes no sense and is not used (I
->>> checked the code), but users have to specify it anyway.  That's bad
->>> design.
->>>
->>> Better: drop @enable, make @dirty-rate optional, present means enable,
->>> absent means disable.
->> Uh, if we drop @enable, enabling dirty limit should be like:
->> vcpu-dirty-limit cpu-index=0 dirty-rate=1000
->>
->> And disabling dirty limit like:
->> vcpu-dirty-limit cpu-index=0
->>
->> For disabling case, there is no hint of disabling in command
->> "vcpu-dirty-limit".
->>
->> How about make @dirty-rate optional, when enable dirty limit, it should
->> present, ignored otherwise?
-> 
-> Sounds good, I think we can make both "enable" and "dirty-rate" optional.
-> 
-> To turn it on we either use "enable=true,dirty-rate=XXX" or "dirty-rate=XXX" >
-> To turn it off we use "enable=false".
-Indeed, this make things more convenient.
->  >>
->>>
->>>> +
->>>> +##
->>>> +# @query-vcpu-dirty-limit:
->>>> +#
->>>> +# Returns information about the virtual CPU dirty limit status.
->>>> +#
->>>> +# @cpu-index: index of the virtual CPU to query, if not specified, all
->>>> +#             virtual CPUs will be queried.
->>>> +#
->>>> +# Since: 7.0
->>>> +#
->>>> +# Example:
->>>> +#   {"execute": "query-vcpu-dirty-limit"}
->>>> +#    "arguments": { "cpu-index": 0 } }
->>>> +#
->>>> +##
->>>> +{ 'command': 'query-vcpu-dirty-limit',
->>>> +  'data': { '*cpu-index': 'int' },
->>>> +  'returns': [ 'DirtyLimitInfo' ] }
->>>
->>> Why would anyone ever want to specify @cpu-index?  Output isn't that
->>> large even if you have a few hundred CPUs.
->>>
->>> Let's keep things simple and drop the parameter.
->> Ok, this make things simple.
-> 
-> I found that it'll be challenging for any human being to identify "whether
-> he/she has turned throttle off for all vcpus"..  I think that could be useful
-> when we finally decided to cancel current migration.
-That's question, how about adding an optional argument "global" and 
-making "cpu-index", "enable", "dirty-rate" all optional in 
-"vcpu-dirty-limit", keeping the "cpu-index" and "global" options 
-mutually exclusive?
-{ 'command': 'vcpu-dirty-limit',
-   'data': { '*cpu-index': 'int',
-             '*global': 'bool'
-             '*enable': 'bool',
-             '*dirty-rate': 'uint64'} }
-In the case of enabling all vcpu throttle:
-Either use "global=true,enable=true,dirty-rate=XXX" or 
-"global=true,dirty-rate=XXX"
+   I'm afraid this test and a few others (5 in total) fail on current master,
+   too, with this 'configure' command line.
+   I just did a fresh install to make sure I did not kill something in the rv128
+   patches.
 
-In the case of disabling all vcpu throttle:
-use "global=true,enable=false,dirty-rate=XXX"
+   Note that if I add x86_64-softmmu to target-list, it runs like a charm, as
+   it takes it as default choice.
+   I did try to go back in time to find a working 040 with qemu-system-riscv32
+   (the default choice of check when qemu-system-x86_64 does not exist) or
+   qemu-system-riscv64, but I could not find one I could compile with my current
+   system.
+   So I suspect this is the syndrome of something that is (1) not of my doing
+   (although it could have, for sure), and (2) above my understanding.
 
-In other case, we pass the same option just like what we did for 
-specified vcpu throttle before.
+   Sorry for not being more helpful,
+   Frédéric
 > 
-> I thought about adding a "global=on/off" flag, but instead can we just return
-> the vcpu info for the ones that enabled the per-vcpu throttling?  For anyone
-> who wants to read all vcpu dirty information he/she can use calc-dirty-rate.
 > 
-Ok, I'll pick up this advice next version.
-> Thanks,
-> 
+> r~
+
+-- 
++---------------------------------------------------------------------------+
+| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
+| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
+| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
++---------------------------------------------------------------------------+
 
