@@ -2,81 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBD9246A3B8
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 19:02:57 +0100 (CET)
-Received: from localhost ([::1]:43788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6CBB46A3D2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 19:15:59 +0100 (CET)
+Received: from localhost ([::1]:56420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muIKG-0005dQ-Ch
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 13:02:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53760)
+	id 1muIWs-00067a-8Q
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 13:15:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muIH6-0003G1-9X
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 12:59:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43700)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1muIUw-0005If-Lq; Mon, 06 Dec 2021 13:13:58 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:34263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muIH0-0000JG-MC
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 12:59:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638813573;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LrVMGfxLZs6kYp57GqFMnSDG4PMJmyMyMa4hEGYaOtM=;
- b=TehmcTtcSsnonqQyieBC6z+EkWS0MHvyOp5+pH3jmqCySgKpP75D3MqLOi5SLVNQSE39so
- p70FZfUYQld3/gcE1+49gpW5CJZC/d6oYhjgbg8ke07KoqOEY7ySAv2XlXB1m2LdrHGkG/
- OOEAMtJwjgZ6t9yLOvsUOJyN9qj7HUs=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215-pevxettbN4OlpGNLV6HhpQ-1; Mon, 06 Dec 2021 12:59:32 -0500
-X-MC-Unique: pevxettbN4OlpGNLV6HhpQ-1
-Received: by mail-vk1-f198.google.com with SMTP id
- j194-20020a1f6ecb000000b002f4c0eb8185so4502195vkc.6
- for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 09:59:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LrVMGfxLZs6kYp57GqFMnSDG4PMJmyMyMa4hEGYaOtM=;
- b=124YJAsfyaPlr56ll1AbPdT0/YRZhziwo1pnKepFFMiCqJqt0xg+ltyugAtPH0OfvX
- ka1g1pKl9ZWsYklJ8DEStHGy+i+zPSH8kQ6zZ3qMEW6LT3/YUqs+AKyEv4vh7/j8UQye
- 4QtmIlUd/4DlqyX2jO0+oxSV48X76ADVuUHFmn6qVoDHzlqAL18BQ7zdD8Vjze5+bhqn
- NkoYXmCLH269UQ7XgUgYjX8rrm13RAs8CMVg179HXn1OVX8NuBSWqjyX0+qVix1nam9V
- 0ZKpDWsWtZ0I4DdyW+iViTBCp3/bCMfdLGBHjZBUmjc4SY6zFdx4eTmEZU/FghaNYBiT
- xTVw==
-X-Gm-Message-State: AOAM533noz/zxSUXzmIehTNOr03PP3jig2C1InXZ+7jW5BacF9TYnVZz
- mUOSbbaS9FV++MP3jR2lesntq+g9ZBy0Lyf8DkdC9YNslrWthiGPCOiRnVjJJF6yb1v38hqZY+g
- ZlwweiwMj6rNPtlQRe8AkIfXFPWVAuhM=
-X-Received: by 2002:a67:e40d:: with SMTP id d13mr37741851vsf.11.1638813570903; 
- Mon, 06 Dec 2021 09:59:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwnGzPBVVdSGBjD77UG1T+ehkfqkUWgJq88v++M12Tw0NmOSlH/NV8u7BS++uNy34Sfj/9Pa3eYUnfqW0MpUpk=
-X-Received: by 2002:a67:e40d:: with SMTP id d13mr37741699vsf.11.1638813569471; 
- Mon, 06 Dec 2021 09:59:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1muIUu-000444-AV; Mon, 06 Dec 2021 13:13:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=fEM12tEEh0kkR3lccpUeT9Lx7NBBLf8iwifv608gCeg=; b=AWIEv7t5G7Y7Px1tvl9IetTTna
+ tfSMWPvOq2EtyWURKe1WXC/3c9UwSldeto8yS3OIuNTqIac1DD1RzMCj9jfdQZs/QzgTFoXCY7RIj
+ Q73kg4ySfNHHHksDknT3XqOfpdW3qVEMsjOarrXbq2exNXeHJCde547YawIxRO8rMVI72rIzIPlc5
+ 1TXMo7lHPAk8VyABUrjBv9XLXvOriU0QFWWRCNrF2l1ALXa5vgo+AFfhqGCZxmqE2mpKnIeCdYyD2
+ 6J/n3c3ZGU1Vh6xPYFzPoKqnmlpA8/4I7M/hbQMgr8bm7oEtJVtTyzxQkSdeWepNlQXqOsgQVzViS
+ 9xQ/15Wgp/S1XChpOPHMsEAEh4ZXmKIS4IB44D0jB04xaYjSnM/DdbdSAtsYU4cujjywseq+9Q5vj
+ 95o4NmX7cPBINlBizO76HBZuyQuxLDrUWIww4AzZUUnVg5rIqxN7TRtfWJxcFOvEAIALXa9jSpWU6
+ 3mMEVzoaK2IivrmBmGYYPxNl6nYoLYLbRcI51wXjooq/46zfPJnBDC+eMTfNyeF/Dr6+ziWUvOifV
+ Y91ugXWPW3a85t0VmzCWB52bMoWyXn+BL0b975D91smulMqM5PWZjfi57dE/QAYe2iS8bZ9aHul7D
+ DIaL0Uqhfp7x4R3BeuBB1WtuPrsdrTJj6vUT8VaAM=;
+To: qemu-devel@nongnu.org
+Cc: Jonah Palmer <jonah.palmer@oracle.com>, mst@redhat.com, kraxel@redhat.com,
+ si-wei.liu@oracle.com, joao.m.martins@oracle.com, eblake@redhat.com,
+ qemu-block@nongnu.org, david@redhat.com, armbru@redhat.com,
+ arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
+ thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
+ eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
+ kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
+ pbonzini@redhat.com
+Subject: Re: [PATCH v10 0/8] hmp,
+ qmp: Add commands to introspect virtio devices
+Date: Mon, 06 Dec 2021 19:13:49 +0100
+Message-ID: <819408538.haW0C61HAu@silver>
+In-Reply-To: <b8d74a5c-73ac-3fe5-6eae-1e5b3c907628@oracle.com>
+References: <1638794606-19631-1-git-send-email-jonah.palmer@oracle.com>
+ <2322952.dU7V5S69UE@silver> <b8d74a5c-73ac-3fe5-6eae-1e5b3c907628@oracle.com>
 MIME-Version: 1.0
-References: <20211203122223.2780098-1-vsementsov@virtuozzo.com>
- <20211203122223.2780098-3-vsementsov@virtuozzo.com>
-In-Reply-To: <20211203122223.2780098-3-vsementsov@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 6 Dec 2021 12:59:18 -0500
-Message-ID: <CAFn=p-aAB9TXcJkm_cNtAowz_AjWeTvFgyL8kZ7E4zyDqMxF_Q@mail.gmail.com>
-Subject: Re: [PATCH 2/3] iotests/testrunner.py: move updating last_elapsed to
- run_tests
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000a96ffd05d27e04fd"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,130 +70,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, den@openvz.org,
- Hanna Reitz <hreitz@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Christian Schoenebeck <qemu_oss@crudebyte.com>
+From:  Christian Schoenebeck via <qemu-devel@nongnu.org>
 
---000000000000a96ffd05d27e04fd
-Content-Type: text/plain; charset="UTF-8"
+On Montag, 6. Dezember 2021 17:09:45 CET Jonah Palmer wrote:
+> On 12/6/21 08:50, Christian Schoenebeck wrote:
+> > On Montag, 6. Dezember 2021 13:43:18 CET Jonah Palmer wrote:
+> >> This series introduces new QMP/HMP commands to dump the status of a
+> >> virtio device at different levels.
+> >> 
+> >> [Jonah: Rebasing previous patchset from Nov. 10 (v9). Original patches
+> >> 
+> >>   are by Laurent Vivier from May 2020.
+> >>   
+> >>   Rebase from v9 to v10 includes reformatting virtio.json examples and
+> >>   command structures for better consistency. Also removed all enums from
+> >>   virtio.json and replaced their purpose with string literals.
+> >>   
+> >>   Removed @ndescs from VirtioQueueElement, as the number of descriptors
+> >>   can be inferred from the length of the @descs chain.
+> >>   
+> >>   Lastly, removed the examples in hmp-commands-info.hx to fix
+> >>   'inconsistent
+> >>   literal block quoting' warning from Sphinx.]
+> > 
+> > I have not followed the entire discussion. AFAICS this is intended to
+> > monitor status information on virtio level only, like virtqueue fill
+> > status, etc.
+> > 
+> > One thing that I am looking for is monitoring device specific information
+> > above virtio level, e.g. certain performance numbers or statistics that
+> > only make sense for the specific device. That would not fit into any of
+> > these commands, right?
+> > 
+> > Best regards,
+> > Christian Schoenebeck
+> 
+> Correct. These are just one-shot commands that dump information on virtio
+> devices (including vhosts), their virtqueues, and virtqueue elements as they
+> are at the time of the command.
+> 
+> Jonah
 
-On Fri, Dec 3, 2021 at 7:22 AM Vladimir Sementsov-Ogievskiy <
-vsementsov@virtuozzo.com> wrote:
+What I would find useful though on this virtio level: also being able to query 
+the maximum and average fill state of the two ring buffers of each virtqueue. 
+That would allow to identify performance bottlenecks.
 
-> We are going to use do_run_test() in multiprocessing environment, where
-> we'll not be able to change original runner object.
->
-> Happily, the only thing we change is that last_elapsed and it's simple
-> to do it in run_tests() instead. All other accesses to self in
-> do_runt_test() and in run_test() are read-only.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  tests/qemu-iotests/testrunner.py | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/tests/qemu-iotests/testrunner.py
-> b/tests/qemu-iotests/testrunner.py
-> index fa842252d3..a9f2feb58c 100644
-> --- a/tests/qemu-iotests/testrunner.py
-> +++ b/tests/qemu-iotests/testrunner.py
-> @@ -287,7 +287,6 @@ def do_run_test(self, test: str) -> TestResult:
->                                diff=diff, casenotrun=casenotrun)
->          else:
->              f_bad.unlink()
-> -            self.last_elapsed.update(test, elapsed)
->              return TestResult(status='pass', elapsed=elapsed,
->                                casenotrun=casenotrun)
->
-> @@ -353,6 +352,9 @@ def run_tests(self, tests: List[str]) -> bool:
->                      print('\n'.join(res.diff))
->              elif res.status == 'not run':
->                  notrun.append(name)
-> +            elif res.status == 'pass':
-> +                assert res.elapsed is not None
-> +                self.last_elapsed.update(t, res.elapsed)
->
->              sys.stdout.flush()
->              if res.interrupted:
-> --
-> 2.31.1
->
->
-(I continue to be annoyed by the "None" problem in mypy, but I suppose it
-really can't be helped. Nothing for you to change with this patch or
-series. I just wish we didn't need so many assertions ...)
+Best regards,
+Christian Schoenebeck
 
-Reviewed-by: John Snow <jsnow@redhat.com>
-
---000000000000a96ffd05d27e04fd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 3, 2021 at 7:22 AM Vladim=
-ir Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@virtuozzo.com">vsem=
-entsov@virtuozzo.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">We are going to use do_run_test() in multiprocessing en=
-vironment, where<br>
-we&#39;ll not be able to change original runner object.<br>
-<br>
-Happily, the only thing we change is that last_elapsed and it&#39;s simple<=
-br>
-to do it in run_tests() instead. All other accesses to self in<br>
-do_runt_test() and in run_test() are read-only.<br>
-<br>
-Signed-off-by: Vladimir Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsementso=
-v@virtuozzo.com" target=3D"_blank">vsementsov@virtuozzo.com</a>&gt;<br>
----<br>
-=C2=A0tests/qemu-iotests/testrunner.py | 4 +++-<br>
-=C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunn=
-er.py<br>
-index fa842252d3..a9f2feb58c 100644<br>
---- a/tests/qemu-iotests/testrunner.py<br>
-+++ b/tests/qemu-iotests/testrunner.py<br>
-@@ -287,7 +287,6 @@ def do_run_test(self, test: str) -&gt; TestResult:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0diff=3Ddiff, casenotrun=3Dcasenotrun)=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f_bad.unlink()<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_elapsed.update(test, e=
-lapsed)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return TestResult(status=3D=
-&#39;pass&#39;, elapsed=3Delapsed,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0casenotrun=3Dcasenotrun)<br>
-<br>
-@@ -353,6 +352,9 @@ def run_tests(self, tests: List[str]) -&gt; bool:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0print(&#39;\n&#39;.join(res.diff))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elif res.status =3D=3D &#39=
-;not run&#39;:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0notrun.append=
-(name)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif res.status =3D=3D &#39;pass=
-&#39;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert res.elapsed=
- is not None<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_elapsed.=
-update(t, res.elapsed)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sys.stdout.flush()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if res.interrupted:<br>
--- <br>
-2.31.1<br>
-<br></blockquote><div><br></div><div>(I continue to be annoyed by the &quot=
-;None&quot; problem in mypy, but I suppose it really can&#39;t be helped. N=
-othing for you to change with this patch or series. I just wish we didn&#39=
-;t need so many assertions ...)<br></div><div><br></div><div>Reviewed-by: J=
-ohn Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt;</=
-div></div></div>
-
---000000000000a96ffd05d27e04fd--
 
 
