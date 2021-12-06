@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AECA246976F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 14:47:53 +0100 (CET)
-Received: from localhost ([::1]:55942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DE1B469780
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 14:49:41 +0100 (CET)
+Received: from localhost ([::1]:33430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muELQ-0002pP-D6
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 08:47:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38266)
+	id 1muENA-0006cf-DQ
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 08:49:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1muEGq-0004ns-Nf
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 08:43:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57957)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1muEGn-0003CU-D7
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 08:43:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638798184;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LO4FQi9TgUuDxP/ItAKSBtBYehb7pEZ2vlDAuVWviuM=;
- b=corDkCJS7+4q+hk2qpXS64DS4q/lxrt3T2GHMIRXhfudi4NDKh44LwQBcL2G/C7zjb6WVR
- oCcXm3lQnLn5puT9z9spp+DfaAynQ2bEHm6lLYZtwEJp3LZ9jHNZn4j5aYJHI0EKyJb4w5
- lQFIOKqiyNHlXCELQVa13qzpxPPa9UI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-375-pfQUdU0nOHufM3wr5WCHLQ-1; Mon, 06 Dec 2021 08:43:01 -0500
-X-MC-Unique: pfQUdU0nOHufM3wr5WCHLQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1muELO-0004JW-8N
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 08:47:50 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:55930)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1muELL-0006eD-AO
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 08:47:49 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F26F28749A3;
- Mon,  6 Dec 2021 13:42:59 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.194.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0072D45D6A;
- Mon,  6 Dec 2021 13:42:57 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH for-7.0] hw/i386/pc: Add missing property descriptions
-Date: Mon,  6 Dec 2021 14:42:55 +0100
-Message-Id: <20211206134255.94784-1-thuth@redhat.com>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 09C5B1FD54;
+ Mon,  6 Dec 2021 13:47:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1638798464; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8MS2aW2q7Ar8EzhBLrvergMsWWJJzYybJNP8s8eEWYs=;
+ b=Meb7IMHpaSlynXLPTV20O7JoPANR6aLzVjMoZEvNqySIVe+lg8pYWwlft8H7S3/3vs08vP
+ y5I5hB6zTrqAO5YXdTCL8JuARa2sYtvtYmJCBfOUxKByBtv4rVySiWaMrGHOeqNRx0krDJ
+ CLjnb3LB21csXgpMH+aTGugqzSQXkUI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1638798464;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8MS2aW2q7Ar8EzhBLrvergMsWWJJzYybJNP8s8eEWYs=;
+ b=QyzijkB0jZfBBIhoGMdUm8Oi3z16at61Qxm7UbrCfHiapFlAJxaSz1ig7ImX0TQ2bITD0o
+ SgLp6eiIkcR5yEDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B254B13BB9;
+ Mon,  6 Dec 2021 13:47:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id uLAGKX8UrmEUKAAAMHmgww
+ (envelope-from <lizhang@suse.de>); Mon, 06 Dec 2021 13:47:43 +0000
+Subject: Re: [PATCH 1/1] kvm: Clear variables which may not be used
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20211206112738.14893-1-lizhang@suse.de>
+ <Ya32dqW8Mo0/X+3H@redhat.com>
+From: Li Zhang <lizhang@suse.de>
+Message-ID: <1414281f-abc5-588d-9c67-4ef7a0bc3add@suse.de>
+Date: Mon, 6 Dec 2021 14:47:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <Ya32dqW8Mo0/X+3H@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=lizhang@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -64
+X-Spam_score: -6.5
+X-Spam_bar: ------
+X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.076,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,51 +85,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: pbonzini@redhat.com, cfontana@suse.de, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running "qemu-system-x86_64 -M pc,help" I noticed that some
-properties were still missing their description. Add them now so
-that users get at least a slightly better idea what they are all
-about.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/i386/pc.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On 12/6/21 12:39 PM, Daniel P. Berrangé wrote:
+> On Mon, Dec 06, 2021 at 12:27:38PM +0100, Li Zhang wrote:
+>> The variables msi, route in kvm_irqchip_send_msi may be uninitialised
+>> values in some cases. It's necessary to clear them.
+> You say the patch is going to 'clear them' but....
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index a2ef40ecbc..837f2bff4e 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1734,15 +1734,23 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
- 
-     object_class_property_add_bool(oc, PC_MACHINE_SMBUS,
-         pc_machine_get_smbus, pc_machine_set_smbus);
-+    object_class_property_set_description(oc, PC_MACHINE_SMBUS,
-+        "Enable/disable system management bus");
- 
-     object_class_property_add_bool(oc, PC_MACHINE_SATA,
-         pc_machine_get_sata, pc_machine_set_sata);
-+    object_class_property_set_description(oc, PC_MACHINE_SATA,
-+        "Enable/disable Serial ATA bus");
- 
-     object_class_property_add_bool(oc, PC_MACHINE_PIT,
-         pc_machine_get_pit, pc_machine_set_pit);
-+    object_class_property_set_description(oc, PC_MACHINE_PIT,
-+        "Enable/disable Intel 8254 programmable interval timer emulation");
- 
-     object_class_property_add_bool(oc, "hpet",
-         pc_machine_get_hpet, pc_machine_set_hpet);
-+    object_class_property_set_description(oc, "hpet",
-+        "Enable/disable high precision event timer emulation");
- 
-     object_class_property_add_bool(oc, "default-bus-bypass-iommu",
-         pc_machine_get_default_bus_bypass_iommu,
--- 
-2.27.0
+Ah, sorry for my bad. And this is not correct fix.
 
+>
+>> Signed-off-by: Li Zhang <lizhang@suse.de>
+>> ---
+>>   accel/kvm/kvm-all.c | 5 ++---
+>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+>> index eecd8031cf..bd50dc6b80 100644
+>> --- a/accel/kvm/kvm-all.c
+>> +++ b/accel/kvm/kvm-all.c
+>> @@ -1913,10 +1913,8 @@ static KVMMSIRoute *kvm_lookup_msi_route(KVMState *s, MSIMessage msg)
+>>   
+>>   int kvm_irqchip_send_msi(KVMState *s, MSIMessage msg)
+>>   {
+>> -    struct kvm_msi msi;
+>> -    KVMMSIRoute *route;
+>> -
+>>       if (kvm_direct_msi_allowed) {
+>> +        struct kvm_msi msi;
+> ...but this is still an uninitialized declaration.
+>
+>>           msi.address_lo = (uint32_t)msg.address;
+>>           msi.address_hi = msg.address >> 32;
+>>           msi.data = le32_to_cpu(msg.data);
+> I guess the bug you were wanting to fix is that this code only
+> initializes 5 out of 6 struct fields, before calling the
+> ioctl.
+
+Yes, you are right.
+
+>> @@ -1926,6 +1924,7 @@ int kvm_irqchip_send_msi(KVMState *s, MSIMessage msg)
+>>           return kvm_vm_ioctl(s, KVM_SIGNAL_MSI, &msi);
+>>       }
+>>   
+>> +    KVMMSIRoute *route;
+> This was initialized correctly before and didn't need moving
+>
+>>       route = kvm_lookup_msi_route(s, msg);
+>>       if (!route) {
+>>           int virq;
+> Regards,
+> Daniel
 
