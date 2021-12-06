@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B48469370
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 11:22:02 +0100 (CET)
-Received: from localhost ([::1]:53336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18CD94693FB
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 11:32:21 +0100 (CET)
+Received: from localhost ([::1]:57048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muB8C-0004ER-Th
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 05:22:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39250)
+	id 1muBIB-0007Dp-NO
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 05:32:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muB5H-0002vs-9y
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:18:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22024)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muB5E-0007ee-8C
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:18:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638785932;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=g0RQISgPVAsJyfp3zHzD4Iwm7AFjzdQ/HHSKryWupJs=;
- b=Q0sX/5kjOBfSiqCVi0Z9iPKZ3B+9kNBIxNv7CQBnOpFIh3A5sLkNgKcRbViIvKRL2VVb3A
- BhDisx69DU/IbKfsJt6MftuJEgF5VE8bQkIuwqgdmOehesN2oYHhC2Xl1D/hniW8KjYcy4
- wm+wZi2FdMPXI6xnoPtnJHInM1jViFo=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-360-1KwhAmOHOCGB8uQ8i1AoiQ-1; Mon, 06 Dec 2021 05:18:44 -0500
-X-MC-Unique: 1KwhAmOHOCGB8uQ8i1AoiQ-1
-Received: by mail-pj1-f71.google.com with SMTP id
- d3-20020a17090a6a4300b001a70e45f34cso4486048pjm.0
- for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 02:18:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1muBH1-0006YA-D1
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:31:07 -0500
+Received: from [2a00:1450:4864:20::532] (port=34697
+ helo=mail-ed1-x532.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1muBGv-0000vI-Ia
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:31:06 -0500
+Received: by mail-ed1-x532.google.com with SMTP id x15so41106031edv.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 02:31:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5HOP0NO08W5zPy367YNOwJqNa1spCNzBgT1DuxcTT88=;
+ b=OB3NZxRRZj1wzYsUNGTqZaZj3gW1pq6ASIZvpGAYFXLqE2jyTly9Tt6XUOxntpL2w1
+ TfrKOAb5X1utsXEathzc0TD1LOrUcQ9VQGl+gpm9ch/WpTAYfwA/8eEjtW2MuOyMH9oM
+ Fp1yl2f1oXxrfWdfuJ0JcsUIYzGmwT6SoD5qXv3gk65PMyp0PS67QnIyXptfZzvtZRqT
+ H+IStg0j79itQ5HE929rZvUuWlhc0WcgM4NxPKhSKOnT0CHC+r4t6ojtfftXq1etNNKO
+ rokAZ7aJiFtUOlPYUl4tziiCIfzn+0drUGVqLYRToHaAIuMxEZENFVKuNqyOazT+m6dS
+ BpuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=g0RQISgPVAsJyfp3zHzD4Iwm7AFjzdQ/HHSKryWupJs=;
- b=ZBkbTmcm0l79TGhdrJRa9mXQJu0/WH0GadUk9xRfkB6bW6jxVha0cF0YQgmk4cp0Jq
- 6YPOHqkbrbCLnbwybRpEiJoQeYTIZQXOdjs/28XzFcfGfX4pXdQLh88XwmUbFnWgdN3u
- brNJERnH9mI8mvSfvuBXt1KLrnI3RRtAIvjqi1nIwGquOdnzUr3X0/HpleL+wiy/mHZM
- CsGHsIrHV1mtN5sS5ZQTWWRIz3Z7AFK6UBDdxavq5jQz2kokRgbOufBEQ/ljzlMVqU1V
- t0ycl2S5HeROU5AIn9n8ympzHG7pgAifUoB8P0HSD56SxlYan30DedMFD+7sANHmIKz1
- QqdQ==
-X-Gm-Message-State: AOAM530IsFALmxYykX2O0W3lDeMJ9c9P7Uy6r3wvN3qZNfrJab2qPM6q
- C2Utb9eCuR7XtBXnHX+gL+5uUBdTe6mYxdzeaKAdBZkDBu24UWrHlMD8Oa8YJ+tzXwHohKRVfUm
- H0ZsNFS5U2a4BXYY=
-X-Received: by 2002:aa7:8d0a:0:b0:4a2:82d7:1695 with SMTP id
- j10-20020aa78d0a000000b004a282d71695mr36391181pfe.86.1638785923168; 
- Mon, 06 Dec 2021 02:18:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyjCUPPCLgRFuU35K2QXRVwOnQCgUlijHT3UFjqOkBoon54MAcV+I7WhiwQG1H7e3d6XauS1A==
-X-Received: by 2002:aa7:8d0a:0:b0:4a2:82d7:1695 with SMTP id
- j10-20020aa78d0a000000b004a282d71695mr36391165pfe.86.1638785922896; 
- Mon, 06 Dec 2021 02:18:42 -0800 (PST)
-Received: from xz-m1.local ([223.72.74.110])
- by smtp.gmail.com with ESMTPSA id m11sm1165885pfk.27.2021.12.06.02.18.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Dec 2021 02:18:42 -0800 (PST)
-Date: Mon, 6 Dec 2021 18:18:35 +0800
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v9 1/3] migration/dirtyrate: implement vCPU dirtyrate
- calculation periodically
-Message-ID: <Ya3je9/6ff89adp4@xz-m1.local>
-References: <cover.1638495274.git.huangy81@chinatelecom.cn>
- <db19021e4c0ef3d253723a299f8e626f09a1b121.1638495274.git.huangy81@chinatelecom.cn>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5HOP0NO08W5zPy367YNOwJqNa1spCNzBgT1DuxcTT88=;
+ b=QBPWWVqbhImNtNPAWZgWBiBeCKn9qZefc6P2qNiwgBCCEln6ycWW0HHue5KDbbosrL
+ uRiSg9bpREqnJwSX7O1KYotflSDoCBnFdX7ksDiVq/ng6CR4UbXAr0dOlR/lwR3vir9Z
+ bj7krpY8reig6ZQEl/XetNaeAw/HX8e+bbBNRvllbvhhXI6pOjnp6rO7+H8F5DTjsttv
+ CwPaAzJJErOvdZWtQE8MXkrI1iUdHnEApQU5Ua6flMQjlAx0hQzNw8XCIIcGMtzm14BE
+ v5FeLMtzIRpLMS4IUtSKT4mHnrNCJr9dpz0XxsSpH/GHAu0rVFwKV6CbeRee88aFFjM3
+ GZlw==
+X-Gm-Message-State: AOAM5318ImhaEnsTJuQ3WzVDH2llNj7VCg2if3PsQbMV6o9lcSCjY7XQ
+ ymrTtJbX/hTLQhUv63zmTTzCX+yQpEqbMvkNY6Qg4g==
+X-Google-Smtp-Source: ABdhPJyZjEauZvonVbGQ2F5fyu0FmLOGmgDdGWjpDCzNWzVvlTH3YgZ4RtOgUSBT8cIq1uS0xWHuzs6s4AwsUrl4xwo=
+X-Received: by 2002:a17:906:2d51:: with SMTP id
+ e17mr43783920eji.132.1638786659240; 
+ Mon, 06 Dec 2021 02:30:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <db19021e4c0ef3d253723a299f8e626f09a1b121.1638495274.git.huangy81@chinatelecom.cn>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <1638472142-14396-1-git-send-email-eric.devolder@oracle.com>
+ <1638472142-14396-7-git-send-email-eric.devolder@oracle.com>
+In-Reply-To: <1638472142-14396-7-git-send-email-eric.devolder@oracle.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Mon, 6 Dec 2021 16:00:48 +0530
+Message-ID: <CAARzgwyKyk+J71esb_U5m8gDsU9PZ3FKps9fEtyomuJB_GJwdg@mail.gmail.com>
+Subject: Re: [PATCH v9 06/10] ACPI ERST: build the ACPI ERST table
+To: Eric DeVolder <eric.devolder@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::532;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,67 +80,280 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Markus ArmBruster <armbru@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 03, 2021 at 09:39:45AM +0800, huangy81@chinatelecom.cn wrote:
-> +static void dirtylimit_calc_func(void)
+On Fri, Dec 3, 2021 at 12:40 AM Eric DeVolder <eric.devolder@oracle.com> wrote:
+>
+> This builds the ACPI ERST table to inform OSPM how to communicate
+> with the acpi-erst device.
+>
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> ---
+>  hw/acpi/erst.c | 241 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 241 insertions(+)
+>
+> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+> index 4304f55..06a87af 100644
+> --- a/hw/acpi/erst.c
+> +++ b/hw/acpi/erst.c
+> @@ -701,6 +701,247 @@ static const MemoryRegionOps erst_reg_ops = {
+>      .endianness = DEVICE_NATIVE_ENDIAN,
+>  };
+>
+> +
+> +/*******************************************************************/
+> +/*******************************************************************/
+> +
+> +/* ACPI 4.0: Table 17-19 Serialization Instructions */
+> +#define INST_READ_REGISTER                 0x00
+> +#define INST_READ_REGISTER_VALUE           0x01
+> +#define INST_WRITE_REGISTER                0x02
+> +#define INST_WRITE_REGISTER_VALUE          0x03
+> +#define INST_NOOP                          0x04
+> +#define INST_LOAD_VAR1                     0x05
+> +#define INST_LOAD_VAR2                     0x06
+> +#define INST_STORE_VAR1                    0x07
+> +#define INST_ADD                           0x08
+> +#define INST_SUBTRACT                      0x09
+> +#define INST_ADD_VALUE                     0x0A
+> +#define INST_SUBTRACT_VALUE                0x0B
+> +#define INST_STALL                         0x0C
+> +#define INST_STALL_WHILE_TRUE              0x0D
+> +#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
+> +#define INST_GOTO                          0x0F
+> +#define INST_SET_SRC_ADDRESS_BASE          0x10
+> +#define INST_SET_DST_ADDRESS_BASE          0x11
+> +#define INST_MOVE_DATA                     0x12
+> +
+> +/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
+> +static void build_serialization_instruction_entry(GArray *table_data,
+> +    uint8_t serialization_action,
+> +    uint8_t instruction,
+> +    uint8_t flags,
+> +    uint8_t register_bit_width,
+> +    uint64_t register_address,
+> +    uint64_t value,
+> +    uint64_t mask)
 > +{
-> +    CPUState *cpu;
-> +    DirtyPageRecord *dirty_pages;
-> +    int64_t start_time, end_time, calc_time;
-> +    DirtyRateVcpu rate;
-> +    int i = 0;
+> +    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
+> +    struct AcpiGenericAddress gas;
 > +
-> +    dirty_pages = g_malloc0(sizeof(*dirty_pages) *
-> +        dirtylimit_calc_state->data.nvcpu);
-> +
-> +    CPU_FOREACH(cpu) {
-> +        record_dirtypages(dirty_pages, cpu, true);
+> +    /* Serialization Action */
+> +    build_append_int_noprefix(table_data, serialization_action, 1);
+> +    /* Instruction */
+> +    build_append_int_noprefix(table_data, instruction         , 1);
+> +    /* Flags */
+> +    build_append_int_noprefix(table_data, flags               , 1);
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data, 0                   , 1);
+> +    /* Register Region */
+> +    gas.space_id = AML_SYSTEM_MEMORY;
+> +    gas.bit_width = register_bit_width;
+> +    gas.bit_offset = 0;
+> +    switch (register_bit_width) {
+> +    case 8:
+> +        gas.access_width = 1;
+> +        break;
+> +    case 16:
+> +        gas.access_width = 2;
+> +        break;
+> +    case 32:
+> +        gas.access_width = 3;
+> +        break;
+> +    case 64:
+> +        gas.access_width = 4;
+> +        break;
+> +    default:
+> +        gas.access_width = 0;
+> +        break;
 > +    }
-> +
-> +    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-> +    g_usleep(DIRTYLIMIT_CALC_TIME_MS * 1000);
-> +    end_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-> +    calc_time = end_time - start_time;
-> +
-> +    qemu_mutex_lock_iothread();
-> +    memory_global_dirty_log_sync();
-> +    qemu_mutex_unlock_iothread();
-> +
-> +    CPU_FOREACH(cpu) {
-> +        record_dirtypages(dirty_pages, cpu, false);
-> +    }
-> +
-> +    for (i = 0; i < dirtylimit_calc_state->data.nvcpu; i++) {
-> +        uint64_t increased_dirty_pages =
-> +            dirty_pages[i].end_pages - dirty_pages[i].start_pages;
-> +        uint64_t memory_size_MB =
-> +            (increased_dirty_pages * TARGET_PAGE_SIZE) >> 20;
-> +        int64_t dirtyrate = (memory_size_MB * 1000) / calc_time;
-> +
-> +        rate.id = i;
-> +        rate.dirty_rate  = dirtyrate;
-> +        dirtylimit_calc_state->data.rates[i] = rate;
-> +
-> +        trace_dirtyrate_do_calculate_vcpu(i,
-> +            dirtylimit_calc_state->data.rates[i].dirty_rate);
-> +    }
+> +    gas.address = register_address;
+> +    build_append_gas_from_struct(table_data, &gas);
+> +    /* Value */
+> +    build_append_int_noprefix(table_data, value  , 8);
+> +    /* Mask */
+> +    build_append_int_noprefix(table_data, mask   , 8);
 > +}
+> +
+> +/* ACPI 4.0: 17.4.1 Serialization Action Table */
+> +void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
+> +    const char *oem_id, const char *oem_table_id)
+> +{
+> +    GArray *table_instruction_data;
+> +    unsigned action;
+> +    hwaddr bar0, bar1;
 
-This looks so like the calc-dirty-rate code already.
+I would rather have pcibus_t here as opposed to hwaddr although
+currently they are both unint64_t. Just in case they diverge in
+future.
 
-I think adding a new resion (GLOBAL_DIRTY_LIMIT) is fine, however still, any
-chance to merge the code?
-
--- 
-Peter Xu
-
+> +    AcpiTable table = { .sig = "ERST", .rev = 1, .oem_id = oem_id,
+> +                        .oem_table_id = oem_table_id };
+> +
+> +    bar0 = (hwaddr)pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
+> +    trace_acpi_erst_pci_bar_0(bar0);
+> +    bar1 = (hwaddr)pci_get_bar_addr(PCI_DEVICE(erst_dev), 1);
+> +    trace_acpi_erst_pci_bar_1(bar1);
+> +
+> +#define MASK8  0x00000000000000FFUL
+> +#define MASK16 0x000000000000FFFFUL
+> +#define MASK32 0x00000000FFFFFFFFUL
+> +#define MASK64 0xFFFFFFFFFFFFFFFFUL
+> +
+> +    /*
+> +     * Serialization Action Table
+> +     * The serialization action table must be generated first
+> +     * so that its size can be known in order to populate the
+> +     * Instruction Entry Count field.
+> +     */
+> +    table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
+> +
+> +    /* Serialization Instruction Entries */
+> +    action = ACTION_BEGIN_WRITE_OPERATION;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +
+> +    action = ACTION_BEGIN_READ_OPERATION;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +
+> +    action = ACTION_BEGIN_CLEAR_OPERATION;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +
+> +    action = ACTION_END_OPERATION;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +
+> +    action = ACTION_SET_RECORD_OFFSET;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER      , 0, 32,
+> +        bar0 + ERST_VALUE_OFFSET , 0, MASK32);
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +
+> +    action = ACTION_EXECUTE_OPERATION;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_VALUE_OFFSET , ERST_EXECUTE_OPERATION_MAGIC, MASK8);
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +
+> +    action = ACTION_CHECK_BUSY_STATUS;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_READ_REGISTER_VALUE , 0, 32,
+> +        bar0 + ERST_VALUE_OFFSET, 0x01, MASK8);
+> +
+> +    action = ACTION_GET_COMMAND_STATUS;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_READ_REGISTER       , 0, 32,
+> +        bar0 + ERST_VALUE_OFFSET, 0, MASK8);
+> +
+> +    action = ACTION_GET_RECORD_IDENTIFIER;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_READ_REGISTER       , 0, 64,
+> +        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
+> +
+> +    action = ACTION_SET_RECORD_IDENTIFIER;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER      , 0, 64,
+> +        bar0 + ERST_VALUE_OFFSET , 0, MASK64);
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +
+> +    action = ACTION_GET_RECORD_COUNT;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_READ_REGISTER       , 0, 32,
+> +        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
+> +
+> +    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +
+> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_READ_REGISTER       , 0, 64,
+> +        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
+> +
+> +    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_READ_REGISTER       , 0, 64,
+> +        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
+> +
+> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_READ_REGISTER       , 0, 32,
+> +        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
+> +
+> +    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
+> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
+> +    build_serialization_instruction_entry(table_instruction_data,
+> +        action, INST_READ_REGISTER       , 0, 64,
+> +        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
+> +
+> +    /* Serialization Header */
+> +    acpi_table_begin(&table, table_data);
+> +
+> +    /* Serialization Header Size */
+> +    build_append_int_noprefix(table_data, 48, 4);
+> +
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data,  0, 4);
+> +
+> +    /*
+> +     * Instruction Entry Count
+> +     * Each instruction entry is 32 bytes
+> +     */
+> +    build_append_int_noprefix(table_data,
+> +        (table_instruction_data->len / 32), 4);
+> +
+> +    /* Serialization Instruction Entries */
+> +    g_array_append_vals(table_data, table_instruction_data->data,
+> +        table_instruction_data->len);
+> +    g_array_free(table_instruction_data, TRUE);
+> +
+> +    acpi_table_end(linker, &table);
+> +}
+> +
+>  /*******************************************************************/
+>  /*******************************************************************/
+>  static int erst_post_load(void *opaque, int version_id)
+> --
+> 1.8.3.1
+>
 
