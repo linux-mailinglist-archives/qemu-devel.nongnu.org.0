@@ -2,81 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16A96469265
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 10:30:45 +0100 (CET)
-Received: from localhost ([::1]:53514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BDFC4692E7
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 10:46:51 +0100 (CET)
+Received: from localhost ([::1]:60738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muAKZ-0007XY-L7
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 04:30:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56420)
+	id 1muAaA-0004qi-2F
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 04:46:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1muAIi-0006dG-6q
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 04:28:48 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:50630)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1muAIY-00070R-At
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 04:28:47 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A41001FD54;
- Mon,  6 Dec 2021 09:28:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638782914; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1muAYQ-00043i-LS
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 04:45:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58969)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1muAYJ-00035G-TB
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 04:45:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638783894;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dzw60Z6+HZUgZ8RhSqWr0UlixvhZAZanUCBKJ1b3Aok=;
- b=brk5KCbEQRDSm4kWGzoDQiAt75UDXdcB0WnlB/btesD5rQZMxs+28AffwWHOVALbSCx+JQ
- pKJjGCMdzhk6EB6LD2+JQJtrudBGNEIFH1S8goxlXCzW58nBhMBdtOCQPwJER2i2vJubi2
- e8SEOg3L9kmXslcaIqurqwZcKM7LocI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638782914;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dzw60Z6+HZUgZ8RhSqWr0UlixvhZAZanUCBKJ1b3Aok=;
- b=cZS0/O04qnj81T6RYpNz/Dw05pKy+4tHHReVKsQJL9U89VbDz87QgBBhDe1J1ew1idcoJ8
- D5hYQqPxP72gieDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 779A413B2C;
- Mon,  6 Dec 2021 09:28:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id VqW8G8LXrWG4KgAAMHmgww
- (envelope-from <lizhang@suse.de>); Mon, 06 Dec 2021 09:28:34 +0000
-Subject: Re: [PATCH 1/2] multifd: use qemu_sem_timedwait in
- multifd_recv_thread to avoid waiting forever
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20211126153154.25424-1-lizhang@suse.de>
- <20211126153154.25424-2-lizhang@suse.de> <YaECIGJAPAtB+n8/@redhat.com>
- <YaS3aKW6AWH4JAeR@work-vm> <YaTqfO1ZqUanlA7K@redhat.com>
- <YaT2nMsL18cZxPgk@work-vm>
-From: Li Zhang <lizhang@suse.de>
-Message-ID: <f4a3b973-b968-a40b-0699-0c6c0f79b1a6@suse.de>
-Date: Mon, 6 Dec 2021 10:28:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ bh=WfYvGMtxpkDncxpxw89ardRg5SfllVNyH3eQeNGyVbU=;
+ b=ZtHbaOnoUhY4usUzWtrns4VbhELJrGcgzMj2/ngSLpzzdm4HnWi43+2xqYn/bmtW8HC/Xf
+ 7ez/FCTZ40JNvGQ3ztoAXnszrLi31uMGBtXo9da4F9MJ+cNVH/2thatCl+/js9kyJnYfYy
+ SSYywd4ua1UrWJEIPTbShfocfCNwqX0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-19-6kS4sxcdNh-VapXVnaEXjQ-1; Mon, 06 Dec 2021 04:44:53 -0500
+X-MC-Unique: 6kS4sxcdNh-VapXVnaEXjQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d7-20020a5d6447000000b00186a113463dso1831986wrw.10
+ for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 01:44:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=WfYvGMtxpkDncxpxw89ardRg5SfllVNyH3eQeNGyVbU=;
+ b=Wr/5NYIVKRebB+DBwfs2Cj/baguCJ8yshAkEePWHsEXHucZ62jMBC1DBLls9haJ+am
+ 32/BJ8mKEvOjDvV9zv9pmYPjzxokIax9xE6wpBBAy1VGThojAF+eHYbrryz/dV3mXM2o
+ u+0Gh7DcdeUPDC+b4D/YXVY3eut//cWGKC6RH0VcOSgT5VWxomU27vlrq0P3dh/N4ksn
+ 9CWp6279kq9pmlta/i6ndBPej40dKhLzUmlI6QKda2Jd9+3M5D7b/p/QVc00wxAzToke
+ Vx6njRxNUsd0Z9iBdD9odbS8zVLnRmPsQnc7CW0ums0yueM4lQTEvAbYnPdhULePudYS
+ 5vng==
+X-Gm-Message-State: AOAM530bkrq3s+7C+nTuof+6iomBjngeyAAjRSar6vvgM+udJugjkFWe
+ xgQNUFOk7IbliKeo1UUFmA80FcqB15PgXOBgBb26ZXHnWz6TaHp3xbjCk5o0bwy3U0AkUcCAnh0
+ SdIDsfI8BmmFvZ+Q=
+X-Received: by 2002:a5d:6d0c:: with SMTP id e12mr40783586wrq.94.1638783892217; 
+ Mon, 06 Dec 2021 01:44:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwJR3ljnQUc10E2L86PgYj4d0x5qkQQxDl1TGPHvUjljmzIP8+13a57x546d58R9XVit5sYLg==
+X-Received: by 2002:a5d:6d0c:: with SMTP id e12mr40783564wrq.94.1638783892007; 
+ Mon, 06 Dec 2021 01:44:52 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id l5sm13800465wrs.59.2021.12.06.01.44.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Dec 2021 01:44:51 -0800 (PST)
+Message-ID: <d27c47cb-e0bb-761a-e613-27be752197ac@redhat.com>
+Date: Mon, 6 Dec 2021 10:44:50 +0100
 MIME-Version: 1.0
-In-Reply-To: <YaT2nMsL18cZxPgk@work-vm>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+To: Peter Krempa <pkrempa@redhat.com>
+References: <20211206084012.49277-1-thuth@redhat.com>
+ <10bc4172-f6c0-504b-cecb-e7caf9edb074@redhat.com>
+ <Ya3QltUi9CkqDJEN@angien.pipo.sk>
+ <1fd3a291-0970-5a5f-9428-9539afc8559b@redhat.com>
+ <Ya3VhFvT0cRfvvXU@angien.pipo.sk>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH for-7.0] i386: Deprecate the -no-hpet QEMU command line
+ option
+In-Reply-To: <Ya3VhFvT0cRfvvXU@angien.pipo.sk>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=lizhang@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -64
-X-Spam_score: -6.5
-X-Spam_bar: ------
-X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.076,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.076, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,81 +103,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, cfontana@suse.de, quintela@redhat.com
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Libvirt <libvir-list@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 11/29/21 4:49 PM, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrangé (berrange@redhat.com) wrote:
->> On Mon, Nov 29, 2021 at 11:20:08AM +0000, Dr. David Alan Gilbert wrote:
->>> * Daniel P. Berrangé (berrange@redhat.com) wrote:
->>>> On Fri, Nov 26, 2021 at 04:31:53PM +0100, Li Zhang wrote:
->>>>> When doing live migration with multifd channels 8, 16 or larger number,
->>>>> the guest hangs in the presence of the network errors such as missing TCP ACKs.
+On 06/12/2021 10.19, Peter Krempa wrote:
+> On Mon, Dec 06, 2021 at 10:02:44 +0100, Thomas Huth wrote:
+>> On 06/12/2021 09.57, Peter Krempa wrote:
+>>> On Mon, Dec 06, 2021 at 09:47:58 +0100, Thomas Huth wrote:
+>>>> On 06/12/2021 09.40, Thomas Huth wrote:
+>>>>> The HPET setting has been turned into a machine property a while ago
+>>>>> already, so we should finally do the next step and deprecate the
+>>>>> legacy CLI option, too.
+>>>>> While we're at it, add a proper help text for the machine property, too.
 >>>>>
->>>>> At sender's side:
->>>>> The main thread is blocked on qemu_thread_join, migration_fd_cleanup
->>>>> is called because one thread fails on qio_channel_write_all when
->>>>> the network problem happens and other send threads are blocked on sendmsg.
->>>>> They could not be terminated. So the main thread is blocked on qemu_thread_join
->>>>> to wait for the threads terminated.
->>>> Isn't the right answer here to ensure we've called 'shutdown' on
->>>> all the FDs, so that the threads get kicked out of sendmsg, before
->>>> trying to join the thread ?
->>> I agree a timeout is wrong here; there is no way to get a good timeout
->>> value.
->>> However, I'm a bit confused - we should be able to try a shutdown on the
->>> receive side using the 'yank' command. - that's what it's there for; Li
->>> does this solve your problem?
->> Why do we even need to use 'yank' on the receive side ? Until migration
->> has switched over from src to dst, the receive side is discardable and
->> the whole process can just be teminated with kill(SIGTERM/SIGKILL).
-> True, although it's nice to be able to quit cleanly.
-
-I found that the 'yank' function has been registered on receive side 
-actually.
-
-It's different from the send side.
-
-It's in the function:
-
-void migration_channel_process_incoming(QIOChannel *ioc)
-{
-     MigrationState *s = migrate_get_current();
-     Error *local_err = NULL;
-
-     trace_migration_set_incoming_channel(
-         ioc, object_get_typename(OBJECT(ioc)));
-
-     if (s->parameters.tls_creds &&
-         *s->parameters.tls_creds &&
-         !object_dynamic_cast(OBJECT(ioc),
-                              TYPE_QIO_CHANNEL_TLS)) {
-         migration_tls_channel_process_incoming(s, ioc, &local_err);
-     } else {
-         migration_ioc_register_yank(ioc);
-         migration_ioc_process_incoming(ioc, &local_err);
-     }
-
-     if (local_err) {
-         error_report_err(local_err);
-     }
-}
-
-
->
->> On the source side 'yank' is needed, because the QEMU process is still
->> running the live workload and thus is precious and mustn't be killed.
-> True.
->
-> Dave
->
->> Regards,
->> Daniel
->> -- 
->> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
->> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
->> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>>> ---
+>>>>>     docs/about/deprecated.rst | 6 ++++++
+>>>>>     hw/i386/pc.c              | 2 ++
+>>>>>     qemu-options.hx           | 2 +-
+>>>>>     softmmu/vl.c              | 1 +
+>>>>>     4 files changed, 10 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+>>>>> index 5693abb663..1dfe69aa6a 100644
+>>>>> --- a/docs/about/deprecated.rst
+>>>>> +++ b/docs/about/deprecated.rst
+>>>>> @@ -198,6 +198,12 @@ form is preferred.
+>>>>>     Using ``-drive if=none`` to configure the OTP device of the sifive_u
+>>>>>     RISC-V machine is deprecated. Use ``-drive if=pflash`` instead.
+>>>>> +``-no-hpet`` (since 7.0)
+>>>>> +''''''''''''''''''''''''
+>>>>> +
+>>>>> +The HPET setting has been turned into a machine property.
+>>>>> +Use ``-machine hpet=off`` instead.
+>>>> [...]
+>>>>
+>>>> Forgot to CC: the libvirt folks, doing so now.
+>>>>
+>>>> Seems like libvirt is still using -no-hpet in some few spots, so I guess
+>>>> these would need to be changed first, before we could finally remove this
+>>>> option in QEMU?
+>>>
+>>> Yes we need to switch to the new property first.
+>>>
+>>> Is the new way via -machine property by any chance usable with
+>>> qemu-2.11? If yes, then we can do it unconditionally, otherwise we'll
+>>> need a witness to detect the support for the new flag as a qemu
+>>> capability.
 >>
+>> The machine property has been added just a year ago:
+>>
+>>   https://gitlab.com/qemu-project/qemu/-/commit/0259c78ca79
+>>
+>> So it's just available on QEMU v5.2.0 and newer.
+> 
+> Okay, so we can't unfortunately always use the new way.
+> 
+> I had a brief look in what libvirt queries to build the capability list
+> and unfortunately neither query-command-line-options nor query-machines
+> list anything which we could detect.
+> 
+> Since only the config knob is changing the presence in qom-list-types
+> doesn't help either.
+> 
+> So if qemu want's to deprecate the '-no-hpet' spelling we need something
+> which we can detect by one of the above means or other probe command to
+> use the new spelling.
+
+I just had another chat with Peter on IRC, and seems like it could be 
+detected by running "qom-list-properties" on e.g. the "generic-pc-machine" 
+object. However, libvirt does not have that information in their test data 
+yet, so it's not a very trivial change to support this in libvirt.
+Thus, please don't merge this patch yet, it will currently cause more hassle 
+than benefit.
+
+  Thomas
+
 
