@@ -2,80 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2575046A687
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 21:04:50 +0100 (CET)
-Received: from localhost ([::1]:41026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D4846A6A2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 21:14:07 +0100 (CET)
+Received: from localhost ([::1]:53250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muKEC-0003cH-NV
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 15:04:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58010)
+	id 1muKNB-0003dh-U4
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 15:14:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muKBq-0002pj-Ob
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 15:02:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25932)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muKBn-0007ie-O5
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 15:02:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638820938;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nWIE/0qoxO/ZQ/x2sfBfRkIw4LKtjuaOYnGbSaIn3KY=;
- b=E15NpAGqC0xUfG55Rg3nn2j+f/quq6mHXQN8yXsGPla5TnBQUnqZwlfwF0FwRqT/tCEWG8
- ySYQrbqy0JLDuQiaaiP9rdqtySgT+uZ2QHPD7BKMX3Ovc9fej3ecJjIzIjEQX0lnyIriWo
- aqBiG31FILiPMT0fuRYciPFy+W/+gzo=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-172-hCVboA5vMCeNz5HJTIZUnA-1; Mon, 06 Dec 2021 15:02:17 -0500
-X-MC-Unique: hCVboA5vMCeNz5HJTIZUnA-1
-Received: by mail-ua1-f69.google.com with SMTP id
- 106-20020a9f2473000000b002d0671b34efso6685776uaq.10
- for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 12:02:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1muKLA-0001bg-3E
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 15:12:01 -0500
+Received: from [2a00:1450:4864:20::430] (port=36539
+ helo=mail-wr1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1muKKz-000247-HD
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 15:11:59 -0500
+Received: by mail-wr1-x430.google.com with SMTP id u17so17491676wrt.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 12:11:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mMpmHnCs3iJAZNBehfOhIRS3ARA6xrnmWGoqPrdCQlI=;
+ b=cr2iNTpLVmyHfXtkLTgX8iRrvZOzY2F5eUi5fFB4J30MBLwUzF/fnY4qB9TIA5upjg
+ k21dkSJ4Tghj6S0IsixzvBP4/Fk+jA/Kg6abDg9GIWXLRXiriiv8ezEqPpAwxDJaNzip
+ JLpOKiHClyqBPTeas8e0gjG4TO6UjYY+BmLDHY3XhQE8RC28y9Cl49Xc9XJqGOFA7VIj
+ +JtNYX7xzMGMtXNuhRogFTS/ul7BoUm1L1anYGOSnuZvypxs72SfnkbTjKIvewGByaxY
+ mAcyhpQHndW9LgBn50Sy/Ffggmlx117bN7osMXZIHoT+H1jqs2FwHbbZOAks4s3sSu4P
+ bYRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nWIE/0qoxO/ZQ/x2sfBfRkIw4LKtjuaOYnGbSaIn3KY=;
- b=VNDzG3vAqptlMUlqiAWHBxQcZpJKnmkBQLYsX3jReJE/cCa/6Ly4duqJe5x/JKfXLA
- 3DYizDxI/WKqgq/X2DyDZBRT/aU2ewDEX/DI99HQz+sIsCF5WxYNusMQlY2OkBH5Uzoi
- cUai08b6tvOgLkjqynr7JS1Gx4AscwlX8a6hXsfmShHVIlliW7unmYg6GPVI/mS+DUX2
- 33uQxTrctH42uV2cFRh+A6QLSc454gFSC9Gku+o2xtdBUW2D/KgtDH1BAuv9ksufdwxd
- cCnJI0CQMkzM6UMZ6hyq8ubqdfQr6nsGbCeWWp2s5aXVqKBqm3SIGJCQePsTL0Rl7Qkx
- w4Rg==
-X-Gm-Message-State: AOAM530TjD2g9fbC5x+CzHJ/DCRaKwbpgLhB0DrkrDqclPO5IgxxBPrF
- 7Mjorb+1x2104Z4iB2QqPGidOc7o33j9qc9exSlipv5DCtSA04tGvAMyfm2V/9wzlzU61+RzkVu
- cDxbCsXCQk3CVQmG5xrmtIpGTO5OaO+Q=
-X-Received: by 2002:a1f:a4c5:: with SMTP id n188mr44906351vke.35.1638820936713; 
- Mon, 06 Dec 2021 12:02:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxfQ40dYt2QoGCc4c1WuH1kGvVLCLDXc5pB3l0T/UY3hNGaD8+LqpTtwk7pM8kqjCgMjdZIDCg+HX5T5qgR5/A=
-X-Received: by 2002:a1f:a4c5:: with SMTP id n188mr44906322vke.35.1638820936539; 
- Mon, 06 Dec 2021 12:02:16 -0800 (PST)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mMpmHnCs3iJAZNBehfOhIRS3ARA6xrnmWGoqPrdCQlI=;
+ b=6qwJKhw45B9QBP0lkZccB6YDyXCs1MHc++w02RIokngQaKYqOPtfdxRPKVYb+F+seL
+ 3srNrspaZEMO5vMqb6Dh1n3g2o4tSls+P/f547Vv2op7mkUjsa6/DSCyJ+Dl3xyi1KzR
+ 9s47q1DDa6yxx9ads0F956TCaIjF/RC1f1CFkDlVcCLNpFHAxz4v0LC7Bs6VasvQq8DI
+ 4Yi296DFhzPsdlthPuAXHBDjIHMf3s51gQ9YUXfWcBf8T8TxK7Dkp2NR84riB5DXkkmb
+ pqGuGO3K3HoLfzwBq03h0gZVGkD3aR2jHI+zIDOzHp2gPQ2CewCQ104Puv0bke+P8L58
+ mzWA==
+X-Gm-Message-State: AOAM533gQQ9txPnPduE7km2kxrGxjDaqwHErBgodsFNOW7KlxJDgLLN1
+ 5uHgDPcCL8VLP9tiGUyTDDA=
+X-Google-Smtp-Source: ABdhPJzbpu1rT3kd51zCMMo/05lE+PTjDiY8OZV15NZq/MnqmCFIEO70kjsa1rcL75kA2QPMiY46cw==
+X-Received: by 2002:a05:6000:252:: with SMTP id
+ m18mr45421825wrz.117.1638821500547; 
+ Mon, 06 Dec 2021 12:11:40 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id n4sm13984563wri.41.2021.12.06.12.11.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Dec 2021 12:11:39 -0800 (PST)
+Message-ID: <77f1322f-a389-a6bc-62f7-23ed02a0bc76@amsat.org>
+Date: Mon, 6 Dec 2021 21:11:37 +0100
 MIME-Version: 1.0
-References: <20211201104347.51922-1-thuth@redhat.com>
- <20211201104347.51922-5-thuth@redhat.com>
-In-Reply-To: <20211201104347.51922-5-thuth@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 6 Dec 2021 15:02:05 -0500
-Message-ID: <CAFn=p-bzqXqJZqnMT-+mOUJK2DEWi0JM4crWZZy+MC_xCDk95w@mail.gmail.com>
-Subject: Re: [PATCH for-7.0 4/4] tests/qtest: Add a function to check whether
- a machine is available
-To: Thomas Huth <thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000c5f16a05d27fbbd0"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH for-6.2 1/1] tcg/arm: Reduce vector alignment requirement
+ for NEON
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211206191335.230683-1-richard.henderson@linaro.org>
+ <20211206191335.230683-2-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211206191335.230683-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.076,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,303 +95,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, elima@redhat.com, alex.bennee@linaro.org,
+ rjones@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c5f16a05d27fbbd0
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, Dec 1, 2021 at 5:44 AM Thomas Huth <thuth@redhat.com> wrote:
-
-> It is nowadays possible to build QEMU with a reduced set of machines
-> in each binary. However, the qtests still hard-code the expected
-> machines and fail if the binary does not feature the required machine.
-> Let's get a little bit more flexible here: Add a function that can be
-> used to query whether a certain machine is available or not, and use
-> it in some tests as an example (more work has to be done in other
-> tests which will follow later).
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On 12/6/21 20:13, Richard Henderson wrote:
+> With arm32, the ABI gives us 8-byte alignment for the stack.
+> While it's possible to realign the stack to provide 16-byte alignment,
+> it's far easier to simply not encode 16-byte alignment in the
+> VLD1 and VST1 instructions that we emit.
+> 
+> Remove the assertion in temp_allocate_frame, limit natural alignment
+> to the provided stack alignment, and add a comment.
+> 
+> Reported-by: Richard W.M. Jones <rjones@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20210912174925.200132-1-richard.henderson@linaro.org>
 > ---
->  tests/qtest/boot-serial-test.c |  3 ++-
->  tests/qtest/cdrom-test.c       |  8 +++++---
->  tests/qtest/libqos/libqtest.h  |  8 ++++++++
->  tests/qtest/libqtest.c         | 17 +++++++++++++++++
->  tests/qtest/prom-env-test.c    |  8 +++++---
->  5 files changed, 37 insertions(+), 7 deletions(-)
->
-> diff --git a/tests/qtest/boot-serial-test.c
-> b/tests/qtest/boot-serial-test.c
-> index 83828ba270..4d8e1343bd 100644
-> --- a/tests/qtest/boot-serial-test.c
-> +++ b/tests/qtest/boot-serial-test.c
-> @@ -285,7 +285,8 @@ int main(int argc, char *argv[])
->      g_test_init(&argc, &argv, NULL);
->
->      for (i = 0; tests[i].arch != NULL; i++) {
-> -        if (strcmp(arch, tests[i].arch) == 0) {
-> +        if (g_str_equal(arch, tests[i].arch) &&
-> +            qtest_has_machine(tests[i].machine)) {
->              char *name = g_strdup_printf("boot-serial/%s",
-> tests[i].machine);
->              qtest_add_data_func(name, &tests[i], test_machine);
->              g_free(name);
-> diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
-> index 5af944a5fb..c1fcac5c45 100644
-> --- a/tests/qtest/cdrom-test.c
-> +++ b/tests/qtest/cdrom-test.c
-> @@ -109,9 +109,11 @@ static void test_cdrom_param(gconstpointer data)
->  static void add_cdrom_param_tests(const char **machines)
->  {
->      while (*machines) {
-> -        char *testname = g_strdup_printf("cdrom/param/%s", *machines);
-> -        qtest_add_data_func(testname, *machines, test_cdrom_param);
-> -        g_free(testname);
-> +        if (qtest_has_machine(*machines)) {
-> +            char *testname = g_strdup_printf("cdrom/param/%s", *machines);
-> +            qtest_add_data_func(testname, *machines, test_cdrom_param);
-> +            g_free(testname);
-> +        }
->          machines++;
->      }
->  }
-> diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
-> index 59e9271195..dff6b31cf0 100644
-> --- a/tests/qtest/libqos/libqtest.h
-> +++ b/tests/qtest/libqos/libqtest.h
-> @@ -710,6 +710,14 @@ QDict *qmp_fd(int fd, const char *fmt, ...)
-> GCC_FMT_ATTR(2, 3);
->  void qtest_cb_for_every_machine(void (*cb)(const char *machine),
->                                  bool skip_old_versioned);
->
-> +/**
-> + * qtest_has_machine:
-> + * @machine: The machine to look for
-> + *
-> + * Returns: true if the machine is available in the target binary.
-> + */
-> +bool qtest_has_machine(const char *machine);
-> +
->  /**
->   * qtest_qmp_device_add_qdict:
->   * @qts: QTestState instance to operate on
-> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> index 7ae2dc4e1d..65ed949685 100644
-> --- a/tests/qtest/libqtest.c
-> +++ b/tests/qtest/libqtest.c
-> @@ -1401,6 +1401,23 @@ void qtest_cb_for_every_machine(void (*cb)(const
-> char *machine),
->      }
->  }
->
-> +bool qtest_has_machine(const char *machine)
-> +{
-> +    struct MachInfo *machines;
-> +    int i;
-> +
-> +    machines = qtest_get_machines();
-> +
-> +    for (i = 0; machines[i].name != NULL; i++) {
-> +        if (g_str_equal(machine, machines[i].name) ||
-> +            (machines[i].alias && g_str_equal(machine,
-> machines[i].alias))) {
-> +            return true;
-> +        }
-> +    }
-> +
-> +    return false;
-> +}
-> +
->  /*
->   * Generic hot-plugging test via the device_add QMP commands.
->   */
-> diff --git a/tests/qtest/prom-env-test.c b/tests/qtest/prom-env-test.c
-> index f41d80154a..bdbb01d8e5 100644
-> --- a/tests/qtest/prom-env-test.c
-> +++ b/tests/qtest/prom-env-test.c
-> @@ -71,9 +71,11 @@ static void add_tests(const char *machines[])
->      char *name;
->
->      for (i = 0; machines[i] != NULL; i++) {
-> -        name = g_strdup_printf("prom-env/%s", machines[i]);
-> -        qtest_add_data_func(name, machines[i], test_machine);
-> -        g_free(name);
-> +        if (qtest_has_machine(machines[i])) {
-> +            name = g_strdup_printf("prom-env/%s", machines[i]);
-> +            qtest_add_data_func(name, machines[i], test_machine);
-> +            g_free(name);
-> +        }
->      }
->  }
->
->
-I wonder if the arch-specific CDROM tests should be split out into their
-own file, because IIRC it's not really about testing the *cdrom* itself,
-it's just a test that uses the CDROM.
+>  tcg/tcg.c                |  8 +++++++-
+>  tcg/arm/tcg-target.c.inc | 13 +++++++++----
+>  2 files changed, 16 insertions(+), 5 deletions(-)
 
-Eh.
-
-cdrom test bits: Acked-by: John Snow <jsnow@redhat.com>
-
---js
-
---000000000000c5f16a05d27fbbd0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 1, 2021 at 5:44 AM Thomas=
- Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">It is nowaday=
-s possible to build QEMU with a reduced set of machines<br>
-in each binary. However, the qtests still hard-code the expected<br>
-machines and fail if the binary does not feature the required machine.<br>
-Let&#39;s get a little bit more flexible here: Add a function that can be<b=
-r>
-used to query whether a certain machine is available or not, and use<br>
-it in some tests as an example (more work has to be done in other<br>
-tests which will follow later).<br>
-<br>
-Signed-off-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=
-=3D"_blank">thuth@redhat.com</a>&gt;<br>
----<br>
-=C2=A0tests/qtest/boot-serial-test.c |=C2=A0 3 ++-<br>
-=C2=A0tests/qtest/cdrom-test.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 8 +++++---=
-<br>
-=C2=A0tests/qtest/libqos/libqtest.h=C2=A0 |=C2=A0 8 ++++++++<br>
-=C2=A0tests/qtest/libqtest.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 17 ++++++++=
-+++++++++<br>
-=C2=A0tests/qtest/prom-env-test.c=C2=A0 =C2=A0 |=C2=A0 8 +++++---<br>
-=C2=A05 files changed, 37 insertions(+), 7 deletions(-)<br>
-<br>
-diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.=
-c<br>
-index 83828ba270..4d8e1343bd 100644<br>
---- a/tests/qtest/boot-serial-test.c<br>
-+++ b/tests/qtest/boot-serial-test.c<br>
-@@ -285,7 +285,8 @@ int main(int argc, char *argv[])<br>
-=C2=A0 =C2=A0 =C2=A0g_test_init(&amp;argc, &amp;argv, NULL);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0for (i =3D 0; tests[i].arch !=3D NULL; i++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (strcmp(arch, tests[i].arch) =3D=3D 0) {<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (g_str_equal(arch, tests[i].arch) &amp;&amp=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qtest_has_machine(tests[i].machi=
-ne)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char *name =3D g_strdup_pri=
-ntf(&quot;boot-serial/%s&quot;, tests[i].machine);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qtest_add_data_func(name, &=
-amp;tests[i], test_machine);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_free(name);<br>
-diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c<br>
-index 5af944a5fb..c1fcac5c45 100644<br>
---- a/tests/qtest/cdrom-test.c<br>
-+++ b/tests/qtest/cdrom-test.c<br>
-@@ -109,9 +109,11 @@ static void test_cdrom_param(gconstpointer data)<br>
-=C2=A0static void add_cdrom_param_tests(const char **machines)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0while (*machines) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *testname =3D g_strdup_printf(&quot;cdrom=
-/param/%s&quot;, *machines);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qtest_add_data_func(testname, *machines, test_=
-cdrom_param);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(testname);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (qtest_has_machine(*machines)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 char *testname =3D g_strdup_prin=
-tf(&quot;cdrom/param/%s&quot;, *machines);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qtest_add_data_func(testname, *m=
-achines, test_cdrom_param);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(testname);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0machines++;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h<=
-br>
-index 59e9271195..dff6b31cf0 100644<br>
---- a/tests/qtest/libqos/libqtest.h<br>
-+++ b/tests/qtest/libqos/libqtest.h<br>
-@@ -710,6 +710,14 @@ QDict *qmp_fd(int fd, const char *fmt, ...) GCC_FMT_AT=
-TR(2, 3);<br>
-=C2=A0void qtest_cb_for_every_machine(void (*cb)(const char *machine),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool skip_old_versioned);<br>
-<br>
-+/**<br>
-+ * qtest_has_machine:<br>
-+ * @machine: The machine to look for<br>
-+ *<br>
-+ * Returns: true if the machine is available in the target binary.<br>
-+ */<br>
-+bool qtest_has_machine(const char *machine);<br>
-+<br>
-=C2=A0/**<br>
-=C2=A0 * qtest_qmp_device_add_qdict:<br>
-=C2=A0 * @qts: QTestState instance to operate on<br>
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c<br>
-index 7ae2dc4e1d..65ed949685 100644<br>
---- a/tests/qtest/libqtest.c<br>
-+++ b/tests/qtest/libqtest.c<br>
-@@ -1401,6 +1401,23 @@ void qtest_cb_for_every_machine(void (*cb)(const cha=
-r *machine),<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-<br>
-+bool qtest_has_machine(const char *machine)<br>
-+{<br>
-+=C2=A0 =C2=A0 struct MachInfo *machines;<br>
-+=C2=A0 =C2=A0 int i;<br>
-+<br>
-+=C2=A0 =C2=A0 machines =3D qtest_get_machines();<br>
-+<br>
-+=C2=A0 =C2=A0 for (i =3D 0; machines[i].name !=3D NULL; i++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (g_str_equal(machine, machines[i].name) ||<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (machines[i].alias &amp;&amp; g_=
-str_equal(machine, machines[i].alias))) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 return false;<br>
-+}<br>
-+<br>
-=C2=A0/*<br>
-=C2=A0 * Generic hot-plugging test via the device_add QMP commands.<br>
-=C2=A0 */<br>
-diff --git a/tests/qtest/prom-env-test.c b/tests/qtest/prom-env-test.c<br>
-index f41d80154a..bdbb01d8e5 100644<br>
---- a/tests/qtest/prom-env-test.c<br>
-+++ b/tests/qtest/prom-env-test.c<br>
-@@ -71,9 +71,11 @@ static void add_tests(const char *machines[])<br>
-=C2=A0 =C2=A0 =C2=A0char *name;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0for (i =3D 0; machines[i] !=3D NULL; i++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 name =3D g_strdup_printf(&quot;prom-env/%s&quo=
-t;, machines[i]);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qtest_add_data_func(name, machines[i], test_ma=
-chine);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(name);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (qtest_has_machine(machines[i])) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name =3D g_strdup_printf(&quot;p=
-rom-env/%s&quot;, machines[i]);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qtest_add_data_func(name, machin=
-es[i], test_machine);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(name);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-<br></blockquote><div><br></div><div>I wonder if the arch-specific CDROM te=
-sts should be split out into their own file, because IIRC it&#39;s not real=
-ly about testing the *cdrom* itself, it&#39;s just a test that uses the CDR=
-OM.</div><div><br></div><div>Eh.</div><div><br></div><div>cdrom test bits: =
-Acked-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.co=
-m</a>&gt;</div><div><br></div><div>--js<br></div></div></div>
-
---000000000000c5f16a05d27fbbd0--
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
