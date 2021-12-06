@@ -2,95 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BDFC4692E7
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 10:46:51 +0100 (CET)
-Received: from localhost ([::1]:60738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D2A469303
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 10:54:01 +0100 (CET)
+Received: from localhost ([::1]:35768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muAaA-0004qi-2F
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 04:46:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59264)
+	id 1muAh6-0007N4-4L
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 04:54:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1muAYQ-00043i-LS
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 04:45:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58969)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1muAYJ-00035G-TB
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 04:45:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638783894;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WfYvGMtxpkDncxpxw89ardRg5SfllVNyH3eQeNGyVbU=;
- b=ZtHbaOnoUhY4usUzWtrns4VbhELJrGcgzMj2/ngSLpzzdm4HnWi43+2xqYn/bmtW8HC/Xf
- 7ez/FCTZ40JNvGQ3ztoAXnszrLi31uMGBtXo9da4F9MJ+cNVH/2thatCl+/js9kyJnYfYy
- SSYywd4ua1UrWJEIPTbShfocfCNwqX0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-19-6kS4sxcdNh-VapXVnaEXjQ-1; Mon, 06 Dec 2021 04:44:53 -0500
-X-MC-Unique: 6kS4sxcdNh-VapXVnaEXjQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- d7-20020a5d6447000000b00186a113463dso1831986wrw.10
- for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 01:44:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1muAfX-0006gK-KG
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 04:52:23 -0500
+Received: from [2a00:1450:4864:20::42e] (port=40626
+ helo=mail-wr1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1muAfV-0000tx-Jr
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 04:52:23 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id t9so21136887wrx.7
+ for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 01:52:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Af0vIXMcbgHjwVmo6bgFK26AFt/RzU7BJ49OoHDuCUE=;
+ b=qEhVj6YZlt8R5L+BqcUGQtYQz4prWF+UEFf1j3+Ak+0QwmnHWlq0qCg6JivkFE7ZGp
+ m9H8bJ/PASXpMmcjCcumP1v60aAFqEc4G+/JIda25VD8fH0lWtHoG06YBwm0IdJ/UqhU
+ 4b3ucqidRpHbToByamHGV3Zwx3hvLvkEmpig/0tqEWedz+DX+FTpgFT6zwae/4s9PjAv
+ f1Ds+NpZnKp1R3gmDIwScQDjDyfrvwDF0/zmM0PWpSomzAv3wtYNaxWnFC5ykXiWbwq2
+ 80pNd/IPNHzos3NCnGPyFLEv6DQXdmZznyt9QQ2MFuGFXhoozER/GJGNuRo1cY/YVaI1
+ d0EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=WfYvGMtxpkDncxpxw89ardRg5SfllVNyH3eQeNGyVbU=;
- b=Wr/5NYIVKRebB+DBwfs2Cj/baguCJ8yshAkEePWHsEXHucZ62jMBC1DBLls9haJ+am
- 32/BJ8mKEvOjDvV9zv9pmYPjzxokIax9xE6wpBBAy1VGThojAF+eHYbrryz/dV3mXM2o
- u+0Gh7DcdeUPDC+b4D/YXVY3eut//cWGKC6RH0VcOSgT5VWxomU27vlrq0P3dh/N4ksn
- 9CWp6279kq9pmlta/i6ndBPej40dKhLzUmlI6QKda2Jd9+3M5D7b/p/QVc00wxAzToke
- Vx6njRxNUsd0Z9iBdD9odbS8zVLnRmPsQnc7CW0ums0yueM4lQTEvAbYnPdhULePudYS
- 5vng==
-X-Gm-Message-State: AOAM530bkrq3s+7C+nTuof+6iomBjngeyAAjRSar6vvgM+udJugjkFWe
- xgQNUFOk7IbliKeo1UUFmA80FcqB15PgXOBgBb26ZXHnWz6TaHp3xbjCk5o0bwy3U0AkUcCAnh0
- SdIDsfI8BmmFvZ+Q=
-X-Received: by 2002:a5d:6d0c:: with SMTP id e12mr40783586wrq.94.1638783892217; 
- Mon, 06 Dec 2021 01:44:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwJR3ljnQUc10E2L86PgYj4d0x5qkQQxDl1TGPHvUjljmzIP8+13a57x546d58R9XVit5sYLg==
-X-Received: by 2002:a5d:6d0c:: with SMTP id e12mr40783564wrq.94.1638783892007; 
- Mon, 06 Dec 2021 01:44:52 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id l5sm13800465wrs.59.2021.12.06.01.44.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Dec 2021 01:44:51 -0800 (PST)
-Message-ID: <d27c47cb-e0bb-761a-e613-27be752197ac@redhat.com>
-Date: Mon, 6 Dec 2021 10:44:50 +0100
+ bh=Af0vIXMcbgHjwVmo6bgFK26AFt/RzU7BJ49OoHDuCUE=;
+ b=kn35PLh8kQX8Odc1pwFdxs1ymwhlnD10Dty2v0/k6kKJby59BvgzgJgISLwF0pZzpS
+ BgCJwusXy8wOngcqRBVXj1PXqD8NYeuvNTwRpZJW00pqpljDhde0BMz7PSrKlatMuh00
+ 0g2Gy+stEIhPFOpRQBDteNpjZz9O/UPp9Z3b5TJ8/MvaARGNmKLH6AOXFpXDOQeQWJWC
+ Ozb3hH8OjuiC242hmg8afXwRkko823pwA2lWZNVNu1Ni32i0tHVnVvEhwQpYryzJkj4+
+ maUP8M3ZyUdsU+T6Z85U9zKXuHK88ho8S/pBKhrxwij5DBbm+ITGOk8PizvNNJRz8LDS
+ 0csA==
+X-Gm-Message-State: AOAM5305lq+ixcg0Od3tHK1JwgPVRyHKDD3O9Qqdzvj+jmmlaKYdx7WW
+ 9vV6qJo8t3U8NhyyroEZbWXjvQ==
+X-Google-Smtp-Source: ABdhPJwxnt5YxteCJeGarvtZYGORH35jhbxr9O094gRmiqxRSZTC6vrABVoAzylOujd/ZkaPcpSXRQ==
+X-Received: by 2002:adf:f206:: with SMTP id p6mr42157596wro.509.1638784336969; 
+ Mon, 06 Dec 2021 01:52:16 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r17sm14434359wmq.5.2021.12.06.01.52.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Dec 2021 01:52:15 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2CB531FF96;
+ Mon,  6 Dec 2021 09:52:15 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for 6.2? v2] Revert "vga: don't abort when adding a duplicate
+ isa-vga device"
+Date: Mon,  6 Dec 2021 09:52:09 +0000
+Message-Id: <20211206095209.2332376-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-To: Peter Krempa <pkrempa@redhat.com>
-References: <20211206084012.49277-1-thuth@redhat.com>
- <10bc4172-f6c0-504b-cecb-e7caf9edb074@redhat.com>
- <Ya3QltUi9CkqDJEN@angien.pipo.sk>
- <1fd3a291-0970-5a5f-9428-9539afc8559b@redhat.com>
- <Ya3VhFvT0cRfvvXU@angien.pipo.sk>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH for-7.0] i386: Deprecate the -no-hpet QEMU command line
- option
-In-Reply-To: <Ya3VhFvT0cRfvvXU@angien.pipo.sk>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.076, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,84 +88,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>, Libvirt <libvir-list@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/12/2021 10.19, Peter Krempa wrote:
-> On Mon, Dec 06, 2021 at 10:02:44 +0100, Thomas Huth wrote:
->> On 06/12/2021 09.57, Peter Krempa wrote:
->>> On Mon, Dec 06, 2021 at 09:47:58 +0100, Thomas Huth wrote:
->>>> On 06/12/2021 09.40, Thomas Huth wrote:
->>>>> The HPET setting has been turned into a machine property a while ago
->>>>> already, so we should finally do the next step and deprecate the
->>>>> legacy CLI option, too.
->>>>> While we're at it, add a proper help text for the machine property, too.
->>>>>
->>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>>> ---
->>>>>     docs/about/deprecated.rst | 6 ++++++
->>>>>     hw/i386/pc.c              | 2 ++
->>>>>     qemu-options.hx           | 2 +-
->>>>>     softmmu/vl.c              | 1 +
->>>>>     4 files changed, 10 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
->>>>> index 5693abb663..1dfe69aa6a 100644
->>>>> --- a/docs/about/deprecated.rst
->>>>> +++ b/docs/about/deprecated.rst
->>>>> @@ -198,6 +198,12 @@ form is preferred.
->>>>>     Using ``-drive if=none`` to configure the OTP device of the sifive_u
->>>>>     RISC-V machine is deprecated. Use ``-drive if=pflash`` instead.
->>>>> +``-no-hpet`` (since 7.0)
->>>>> +''''''''''''''''''''''''
->>>>> +
->>>>> +The HPET setting has been turned into a machine property.
->>>>> +Use ``-machine hpet=off`` instead.
->>>> [...]
->>>>
->>>> Forgot to CC: the libvirt folks, doing so now.
->>>>
->>>> Seems like libvirt is still using -no-hpet in some few spots, so I guess
->>>> these would need to be changed first, before we could finally remove this
->>>> option in QEMU?
->>>
->>> Yes we need to switch to the new property first.
->>>
->>> Is the new way via -machine property by any chance usable with
->>> qemu-2.11? If yes, then we can do it unconditionally, otherwise we'll
->>> need a witness to detect the support for the new flag as a qemu
->>> capability.
->>
->> The machine property has been added just a year ago:
->>
->>   https://gitlab.com/qemu-project/qemu/-/commit/0259c78ca79
->>
->> So it's just available on QEMU v5.2.0 and newer.
-> 
-> Okay, so we can't unfortunately always use the new way.
-> 
-> I had a brief look in what libvirt queries to build the capability list
-> and unfortunately neither query-command-line-options nor query-machines
-> list anything which we could detect.
-> 
-> Since only the config knob is changing the presence in qom-list-types
-> doesn't help either.
-> 
-> So if qemu want's to deprecate the '-no-hpet' spelling we need something
-> which we can detect by one of the above means or other probe command to
-> use the new spelling.
+This reverts commit 7852a77f598635a67a222b6c1463c8b46098aed2.
 
-I just had another chat with Peter on IRC, and seems like it could be 
-detected by running "qom-list-properties" on e.g. the "generic-pc-machine" 
-object. However, libvirt does not have that information in their test data 
-yet, so it's not a very trivial change to support this in libvirt.
-Thus, please don't merge this patch yet, it will currently cause more hassle 
-than benefit.
+The check is bogus as it ends up finding itself and falling over.
 
-  Thomas
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/733
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20211202164929.1119036-1-alex.bennee@linaro.org>
+
+---
+v2
+  - fixed bug link
+---
+ hw/display/vga-isa.c | 10 ----------
+ 1 file changed, 10 deletions(-)
+
+diff --git a/hw/display/vga-isa.c b/hw/display/vga-isa.c
+index 8cea84f2be..90851e730b 100644
+--- a/hw/display/vga-isa.c
++++ b/hw/display/vga-isa.c
+@@ -33,7 +33,6 @@
+ #include "hw/loader.h"
+ #include "hw/qdev-properties.h"
+ #include "qom/object.h"
+-#include "qapi/error.h"
+ 
+ #define TYPE_ISA_VGA "isa-vga"
+ OBJECT_DECLARE_SIMPLE_TYPE(ISAVGAState, ISA_VGA)
+@@ -62,15 +61,6 @@ static void vga_isa_realizefn(DeviceState *dev, Error **errp)
+     MemoryRegion *vga_io_memory;
+     const MemoryRegionPortio *vga_ports, *vbe_ports;
+ 
+-    /*
+-     * make sure this device is not being added twice, if so
+-     * exit without crashing qemu
+-     */
+-    if (object_resolve_path_type("", TYPE_ISA_VGA, NULL)) {
+-        error_setg(errp, "at most one %s device is permitted", TYPE_ISA_VGA);
+-        return;
+-    }
+-
+     s->global_vmstate = true;
+     vga_common_init(s, OBJECT(dev));
+     s->legacy_address_space = isa_address_space(isadev);
+-- 
+2.30.2
 
 
