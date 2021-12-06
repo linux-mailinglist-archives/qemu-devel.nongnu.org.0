@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE5E04696A9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 14:17:51 +0100 (CET)
-Received: from localhost ([::1]:56590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2414696D0
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 14:21:58 +0100 (CET)
+Received: from localhost ([::1]:34480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muDsL-0004jH-76
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 08:17:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55328)
+	id 1muDwL-0000bn-P8
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 08:21:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1muDcO-0006pf-8T; Mon, 06 Dec 2021 08:01:20 -0500
-Received: from [2607:f8b0:4864:20::a2b] (port=44736
- helo=mail-vk1-xa2b.google.com)
+ id 1muDe8-0000FB-6w; Mon, 06 Dec 2021 08:03:08 -0500
+Received: from [2607:f8b0:4864:20::a33] (port=45960
+ helo=mail-vk1-xa33.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1muDcL-000374-KM; Mon, 06 Dec 2021 08:01:19 -0500
-Received: by mail-vk1-xa2b.google.com with SMTP id u68so6683542vke.11;
- Mon, 06 Dec 2021 05:01:16 -0800 (PST)
+ id 1muDe6-0003Py-Ce; Mon, 06 Dec 2021 08:03:07 -0500
+Received: by mail-vk1-xa33.google.com with SMTP id m19so6679624vko.12;
+ Mon, 06 Dec 2021 05:03:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=wLhENF0Eet/0ZWZ+jmFleRSbGTJbI6cm4TT6MEkN2hY=;
- b=m3Wg5Qct86e0ct/v3HxrE08f5UQ7rkuhFD64aB2A8Zy8n7uLg4tOADGxZAYuAEDIaa
- jx01H55hsgUuzM/cYD6acP73nYxyEqHFHEiKk0d1nT+iHPMwGXaynU1UfH7qypSloIFz
- Y27mBZ4k1V72oy1ZvlpdIoCEos5kcMDQyPym9vxJ7+B4Pr2zTCaI+8Nt3OS3+jR3Eh/A
- IJ76t1AvvOVWuyuURohTMChGCBIBAUsUudKWu+Mc4iuV3RFqwg14sp9HG3RuH+RngfZw
- DZDn5cZYGwMlpV/pL18zrHIFBc2BjdOqNCOn2Y/mz35UNyyc6YkLQZopjB8Y9hn04Lar
- P2VA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=epht/YBP+GUagq7x2E+mDlGdPt8tiIuMAeXausa4bCI=;
+ b=KYEIdG8TXvTi4Dgt99Jdf8Nwio84iUEijbw+1gVbp6x2PFiy+yE7l0XqAh9qVoL9eM
+ 1T3TsfNK6tzoXJ2DPc/5BIdMWyxVuk9/4+p+mwomezrM6oJJIthC+6It7EiOzhrDFjYG
+ 7GKZIR3faqBqfAa3iVDXKu2DB3jGJXb6YIhaLj8UxuLTypckv2VYy4FzXWznds0GjCV3
+ GKJYPAK0q7dmH0af2QdgiRFePZ3dnWmhDKYD+OwFkx7Zj+kiUSg7SHbOQtUnxGVdY6wv
+ ZIsGzm3ywQfkJNjIL/ogRrKlGhvmvpomxesc369JqddImTkaqvPJq+PFhJ+hqHoe7GnN
+ HlAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=wLhENF0Eet/0ZWZ+jmFleRSbGTJbI6cm4TT6MEkN2hY=;
- b=HWfVQw798XmYgS3ZSC87ZmOyc88+YtV+kopmP4umNnKaxV2d7r6JkEG+J3od9ypSTy
- J4sFXTmyTkoGuWXgHk58qo3g2rkXcqXIJJHrrhujhiLxHVOD8jGdzQWqcjC4ujtC6uhW
- 3ghlptd2MJJtHkzm8xE4hnTlfgcq1o9t52eZdQsyom0wEGYaEZ1OS8UoKmgGPlmIashS
- +j8FQ+/M8WyS4QeWAKrhdwosfmLoZQ66Iqe07alAeR0BXtgufFarbT712YDaDTAiOzJq
- uDplc7TqD/vz2wETJB90wPwGseh59nGKr2zSDbiVR9C+T4beRLq0A4QL6c69T5psHGQV
- WtOQ==
-X-Gm-Message-State: AOAM532E4SlsdGNV/qu5ASPzyD3v5OWqYUBj5LEpJLAc9jf0cAHy1rz2
- SHiLbR5S1lTKtL/XcW8gUgM=
-X-Google-Smtp-Source: ABdhPJxn3H26gkLFo65+6KAg0oN9yjVKuSDB2HDZVXgXkPKcS1qcfcjeIN9pzPnzTX7YYPaRr1LaeQ==
-X-Received: by 2002:a1f:c9c2:: with SMTP id z185mr41605657vkf.26.1638795674856; 
- Mon, 06 Dec 2021 05:01:14 -0800 (PST)
-Received: from [192.168.10.222] ([177.103.2.88])
- by smtp.gmail.com with ESMTPSA id c24sm4147337vkn.30.2021.12.06.05.01.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Dec 2021 05:01:14 -0800 (PST)
-Message-ID: <1bcace94-500c-0898-29ed-0c80bfaa26d9@gmail.com>
-Date: Mon, 6 Dec 2021 10:01:12 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] ppc/pvn.c: fix "system-id" FDT when -uuid is set
-Content-Language: en-US
-To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20211206124538.627920-1-danielhb413@gmail.com>
- <CPXPR80MB522484DC28B535343BCE837DDA6D9@CPXPR80MB5224.lamprd80.prod.outlook.com>
+ bh=epht/YBP+GUagq7x2E+mDlGdPt8tiIuMAeXausa4bCI=;
+ b=5xPbmZE5BXF7NLUu6rFX4H/bKCkKctvEBwQ3NA3XMwZO+iuNYnJx+6tEN/tiRRydxU
+ Qy7kBI714pJP+tj82Dh0tlJSABa0dnILhvzz2cU96QRuxkUA9ojELGoPagJyl1qdjMqD
+ syGxoXGKIgmB+HKT9HbhUp0nOrFGy4gKQCRMjN6TH8VTNsgLJcmAbPuoxUQ76scBUAtv
+ 2VPCi4c6+mbuFVlTYIkTYvTYqo8JPb1kDI5f7UQoyCHV92ChgrTA7u4fU614CyI6gSUx
+ JZoc76cFOk+uyWvitZxuMVy0+eaXN4/OK1e376JGj2VlAc8zfcRkX7fv21QYvXz3PeBF
+ r78w==
+X-Gm-Message-State: AOAM530LB6LbKAYn+PW/qHFCa6OPBhw7NpAbwh3blGJ/RxHYfo/cS9bI
+ ELmgIfRfPWXW5U4mmkZ2txaUyHFJXE4=
+X-Google-Smtp-Source: ABdhPJxh05cOsankazze55hngE3yAD0EYclAtMfTnlRnbE9GccNPXBJBAgvStlY5JglgVhKOO0Zv7g==
+X-Received: by 2002:a1f:3807:: with SMTP id f7mr41523230vka.28.1638795784905; 
+ Mon, 06 Dec 2021 05:03:04 -0800 (PST)
+Received: from rekt.ibmuc.com ([177.103.2.88])
+ by smtp.gmail.com with ESMTPSA id s10sm4170577vkf.9.2021.12.06.05.03.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Dec 2021 05:03:04 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <CPXPR80MB522484DC28B535343BCE837DDA6D9@CPXPR80MB5224.lamprd80.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a2b
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] ppc/pnv.c: fix "system-id" FDT when -uuid is set
+Date: Mon,  6 Dec 2021 10:02:53 -0300
+Message-Id: <20211206130253.630655-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a33
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2b;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa2b.google.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a33;
+ envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa33.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.076,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,25 +82,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>, "clg@kaod.org" <clg@kaod.org>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Setting -uuid in the pnv machine does not work:
+
+./qemu-system-ppc64 -machine powernv8,accel=tcg  -uuid 7ff61ca1-a4a0-4bc1-944c-abd114a35e80
+qemu-system-ppc64: error creating device tree: (fdt_property_string(fdt, "system-id", buf)): FDT_ERR_BADSTATE
+
+This happens because we're using "fdt_property_string" to retrieve a
+"system-id" attribute that does not exist, instead of using
+fdt_setprop_string() to create a "system-id" attribute with the uuid
+provided via command line.
+
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+
+changes from v1:
+- fixed typo in commit title
 
 
-On 12/6/21 09:59, Luis Fernando Fujita Pires wrote:
-> From: Daniel Henrique Barboza <danielhb413@gmail.com>
->> Subject: [PATCH] ppc/pvn.c: fix "system-id" FDT when -uuid is set
-> 
-> I don't know enough to review this, but there's a typo on the commit message (pvn.c -> pnv.c). :)
+ hw/ppc/pnv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-ooops :D
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 32ab8071a4..9e532caa9f 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -552,7 +552,7 @@ static void *pnv_dt_create(MachineState *machine)
+     buf =  qemu_uuid_unparse_strdup(&qemu_uuid);
+     _FDT((fdt_setprop_string(fdt, 0, "vm,uuid", buf)));
+     if (qemu_uuid_set) {
+-        _FDT((fdt_property_string(fdt, "system-id", buf)));
++        _FDT((fdt_setprop_string(fdt, 0, "system-id", buf)));
+     }
+     g_free(buf);
+ 
+-- 
+2.31.1
 
-> 
-> --
-> Luis Pires
-> Instituto de Pesquisas ELDORADO
-> Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
-> 
 
