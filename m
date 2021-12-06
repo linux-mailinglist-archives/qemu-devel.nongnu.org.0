@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3599469433
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 11:49:09 +0100 (CET)
-Received: from localhost ([::1]:60114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45497469453
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 11:51:51 +0100 (CET)
+Received: from localhost ([::1]:38426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muBYS-0003f6-QO
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 05:49:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43862)
+	id 1muBb4-0008Bv-DP
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 05:51:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muBNG-0001Eg-UN
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:37:35 -0500
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:46469)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muBNI-0001HW-9u
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:37:38 -0500
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:35333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muBNC-0001q2-VD
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:37:34 -0500
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muBNC-0001q5-UU
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:37:36 -0500
 Received: from mxplan5.mail.ovh.net (unknown [10.109.138.42])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 228C320B4C;
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 4230320B48;
  Mon,  6 Dec 2021 10:37:23 +0000 (UTC)
 Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Mon, 6 Dec
  2021 11:37:22 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-95G00195625a74-6cd8-4ae7-88d9-84e40151eb56,
+ (GARM-95G00170d226a3-ff28-441a-bc63-b7d88367b794,
  4EE5CA355A73348BB336A65EF5ADB9B11F7CB924) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH 14/15] ppc/ppc405: Add update of bi_procfreq field
-Date: Mon, 6 Dec 2021 11:37:11 +0100
-Message-ID: <20211206103712.1866296-15-clg@kaod.org>
+Subject: [PATCH 15/15] ppc/ppc405: Update U-Boot board information for hotfoot
+Date: Mon, 6 Dec 2021 11:37:12 +0100
+Message-ID: <20211206103712.1866296-16-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211206103712.1866296-1-clg@kaod.org>
 References: <20211206103712.1866296-1-clg@kaod.org>
@@ -42,13 +42,13 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.95]
 X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 41d1fdeb-096e-44d4-bcd3-4b0502cb3f12
-X-Ovh-Tracer-Id: 16708917571276409708
+X-Ovh-Tracer-GUID: 169b65f2-077b-4d62-89be-4e6a71dedbb0
+X-Ovh-Tracer-Id: 16709199043780381548
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrjeefgddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrjeefgddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedugedvtdevuedvveethffgffetfeekfefggeekfeeugfevlefhveeivddvtddtheenucffohhmrghinhepohiilhgrsghsrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -74,36 +74,92 @@ Cc: Christophe Leroy <christophe.leroy@c-s.fr>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adapt the fields offset in the board information for Linux. Since
-Linux relies on the CPU frequency value, I wonder how it ever worked.
+When support for the ESTeem 195E (PPC405EP) SBC (hotfoot) board was
+added to Linux, a different layout of U-Boot board information was
+introduced because the FW of these boards was an ancient U-Boot
+without dual ethernet support [1].
 
+Change the QEMU PPC405 board information to match the hotfoot board
+and let the ref405ep machine boot from Linux directly. Only the CPU
+frequency is required.
+
+This is brutal force. We could possibly add a machine option or a
+ref405ep machine class to update the board information accordingly.
+
+A similar change would be required in U-Boot. The alternative is to
+change Linux.
+
+[1] https://lists.ozlabs.org/pipermail/linuxppc-dev/2009-July/074487.html
+
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ppc/ppc405_uc.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/ppc/ppc405_uc.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
 diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index 2a1e2d71b08b..ec97b22bd019 100644
+index ec97b22bd019..649bb2b0daf5 100644
 --- a/hw/ppc/ppc405_uc.c
 +++ b/hw/ppc/ppc405_uc.c
-@@ -102,12 +102,13 @@ static ram_addr_t __ppc405_set_bootinfo(CPUPPCState *env, ppc4xx_bd_info_t *bd)
-     for (i = 0; i < 32; i++) {
-         stb_phys(cs->as, bdloc + 0x3C + i, bd->bi_r_version[i]);
+@@ -41,6 +41,49 @@
+ #include "qapi/error.h"
+ #include "trace.h"
+ 
++/*
++ * Linux hotfoot board information based on a production bootloader
++ * (u-boot 1.2.0.x) plus changes not upstream.
++ *
++ * https://lists.ozlabs.org/pipermail/linuxppc-dev/2009-July/074487.html
++ */
++struct linux_hotfoot_bd_info {
++    long unsigned int          bi_memstart;          /*     0     4 */
++    long unsigned int          bi_memsize;           /*     4     4 */
++    long unsigned int          bi_flashstart;        /*     8     4 */
++    long unsigned int          bi_flashsize;         /*    12     4 */
++    long unsigned int          bi_flashoffset;       /*    16     4 */
++    long unsigned int          bi_sramstart;         /*    20     4 */
++    long unsigned int          bi_sramsize;          /*    24     4 */
++    long unsigned int          bi_bootflags;         /*    28     4 */
++    long unsigned int          bi_ip_addr;           /*    32     4 */
++    unsigned char              bi_enetaddr[6];       /*    36     6 */
++    unsigned char              bi_enet1addr[6];      /*    42     6 */
++    short unsigned int         bi_ethspeed;          /*    48     2 */
++    long unsigned int          bi_intfreq;           /*    52     4 */
++    long unsigned int          bi_busfreq;           /*    56     4 */
++    long unsigned int          bi_baudrate;          /*    60     4 */
++    unsigned char              bi_s_version[4];      /*    64     4 */
++    unsigned char              bi_r_version[32];     /*    68    32 */
++    unsigned int               bi_procfreq;          /*   100     4 */
++    unsigned int               bi_plb_busfreq;       /*   104     4 */
++    unsigned int               bi_pci_busfreq;       /*   108     4 */
++    unsigned char              bi_pci_enetaddr[6];   /*   112     6 */
++    unsigned int               bi_pllouta_freq;      /*   120     4 */
++    int                        bi_phynum[2];         /*   124     8 */
++    int                        bi_phymode[2];        /*   132     8 */
++    unsigned int               bi_opbfreq;           /*   140     4 */
++    int                        bi_iic_fast[2];       /*   144     8 */
++};
++
++static void ppc405_fixup_bootinfo(CPUState *cs, ppc4xx_bd_info_t *bd,
++                                  ram_addr_t bdloc)
++{
++    stl_be_phys(cs->as,
++                bdloc + offsetof(struct linux_hotfoot_bd_info, bi_procfreq),
++                bd->bi_procfreq);
++}
++
+ static void ppc405_set_default_bootinfo(ppc4xx_bd_info_t *bd,
+                                         ram_addr_t ram_size)
+ {
+@@ -119,6 +162,8 @@ static ram_addr_t __ppc405_set_bootinfo(CPUPPCState *env, ppc4xx_bd_info_t *bd)
+         n += 4;
      }
--    stl_be_phys(cs->as, bdloc + 0x5C, bd->bi_plb_busfreq);
--    stl_be_phys(cs->as, bdloc + 0x60, bd->bi_pci_busfreq);
-+    stl_be_phys(cs->as, bdloc + 0x5C, bd->bi_procfreq);
-+    stl_be_phys(cs->as, bdloc + 0x60, bd->bi_plb_busfreq);
-+    stl_be_phys(cs->as, bdloc + 0x64, bd->bi_pci_busfreq);
-     for (i = 0; i < 6; i++) {
--        stb_phys(cs->as, bdloc + 0x64 + i, bd->bi_pci_enetaddr[i]);
-+        stb_phys(cs->as, bdloc + 0x68 + i, bd->bi_pci_enetaddr[i]);
-     }
--    n = 0x6A;
-+    n = 0x70; /* includes 2 bytes hole */
-     for (i = 0; i < 6; i++) {
-         stb_phys(cs->as, bdloc + n++, bd->bi_pci_enetaddr2[i]);
-     }
+ 
++    ppc405_fixup_bootinfo(cs, bd, bdloc);
++
+     return bdloc;
+ }
+ 
 -- 
 2.31.1
 
