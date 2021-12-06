@@ -2,47 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012F646A184
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 17:36:46 +0100 (CET)
-Received: from localhost ([::1]:55866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD37646A1A0
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 17:44:34 +0100 (CET)
+Received: from localhost ([::1]:34074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muGyq-0002Wf-KV
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 11:36:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59556)
+	id 1muH6P-0007Eb-H9
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 11:44:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1muGxt-0001lN-F8
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 11:35:45 -0500
-Received: from relay68.bu.edu ([128.197.228.73]:56856)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1muGxq-0005T6-QW
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 11:35:45 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 1B6GZ1gd013626
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 6 Dec 2021 11:35:04 -0500
-Date: Mon, 6 Dec 2021 11:35:01 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-Subject: Re: [PATCH] fuzz: pass failures from child process into libfuzzer
- engine
-Message-ID: <20211206163501.rh4du6omz4oxfgui@mozz.bu.edu>
-References: <163872107649.53117.6457962986798427964.stgit@dynamic-vpn.dhcp.yndx.net>
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1muH4Z-0004gd-R5
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 11:42:39 -0500
+Received: from [2a00:1450:4864:20::22e] (port=42508
+ helo=mail-lj1-x22e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1muH4X-00074W-Kn
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 11:42:39 -0500
+Received: by mail-lj1-x22e.google.com with SMTP id z8so22076942ljz.9
+ for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 08:42:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RT4ivu8MH7b1ncxA9M9/3u9EaMY+YrHnvUmWLRabMB4=;
+ b=WvRhQGFLL+VMTnnadJxtaRphhIT+Kme1G/EUAsxLeRh3o9wtX4n23mf+jXybb7Pn5l
+ 6jgH0vFcTnzRUCp7bZk3fMxHmABCuG2ZHtLuHST34FxsLMjfLTCw7LPiygyxzJolUhxr
+ fjXiAtaRnRIBrErpHVpwfHxLjcdZvlPI5fcwVHuq38urtaCxyOLhws292pNZ1dp0xbQy
+ +ECd76Gqeja3t/YqY9xYWN+lwWtAnThz0Spiv/G0/3Wz+ZQ93Yhw3AzqtPr3JbJJdhzc
+ in6Sq7/7V6KCTsBHHZniYuNmJSLSGz55EfiP+T7+ODs52JmuIo3Ius0N/gRBWbgp3ae4
+ uhRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RT4ivu8MH7b1ncxA9M9/3u9EaMY+YrHnvUmWLRabMB4=;
+ b=joj6zu2NG3S9apkoTKRUCRYRVlT0hvqhcToeFmNgBq8Jpoi8U2FtK9Ck1KmT9CVxpP
+ 0B2iIyaxhxPkLbwjeCc4vqTK03b4LMrDJfnVT8TDmh92mZA9UUCXQ+p0co7ekg74ECvQ
+ 1R6ltve3rpa6kG/cMXgZhvdAM021kNKGe5c42ZAmL8U1rieWj346QfRHQogkJJZ8S16B
+ xbOddsJToyks0MmRfC7Bwu9OH4jK3eCleAR8yUzfupK4uFcAuGaVi3SyVgAmuUKqiSL/
+ oYra4R6PyDoB3W5/K4Q1YuBBfozabk6WZdZd81CesqumUwGayMjZvMMezqPEzmVlzEoC
+ 3ysw==
+X-Gm-Message-State: AOAM530NI0YIyJzchYOTKtSTaDhCbwslCTX0u82RRvCMJ92rprMfanmM
+ EcSZhpbl60URCPZsIIbaRIz7X9MBPCz1xjpO
+X-Google-Smtp-Source: ABdhPJywuLhz3oTPPdoXxRRftxMIgQMwT0QYdTc9xsu11mfHqAANA+9sigB/NeKUkxin8CGB3R5RnQ==
+X-Received: by 2002:a05:651c:4c6:: with SMTP id
+ e6mr37125658lji.505.1638808955099; 
+ Mon, 06 Dec 2021 08:42:35 -0800 (PST)
+Received: from UNIT-808.labs.intellij.net ([91.132.204.19])
+ by smtp.gmail.com with ESMTPSA id e11sm1401809lfq.65.2021.12.06.08.42.33
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 06 Dec 2021 08:42:34 -0800 (PST)
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 0/6] Add vmnet.framework based network backend
+Date: Mon,  6 Dec 2021 19:42:16 +0300
+Message-Id: <20211206164222.11027-1-yaroshchuk2000@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <163872107649.53117.6457962986798427964.stgit@dynamic-vpn.dhcp.yndx.net>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.846,
- HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-lj1-x22e.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,251 +85,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, jasowang@redhat.com,
+ phillip.ennen@gmail.com, armbru@redhat.com, r.bolshakov@yadro.com,
+ phillip@axleos.com, akihiko.odaki@gmail.com, hsp.cat7@gmail.com, hello@adns.io,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 211205 1917, Konstantin Khlebnikov wrote:
-> Fuzzer is supposed to stop when first bug is found and report failure.
-> Present fuzzers fork new child at each iteration to isolate side-effects.
-> But child's exit code is ignored, i.e. libfuzzer does not see any crashes.
-> 
-> Right now virtio-net fuzzer instantly falls on assert in iov_copy and
-> dumps crash-*, but fuzzing continues and ends successfully if global
-> timeout is set.
-> 
-> Let's put required logic into helper function "fork_fuzzer_and_wait".
-> 
+macOS provides networking API for VMs called 'vmnet.framework':
+https://developer.apple.com/documentation/vmnet
 
-Hi Konstantin,
-Can you provide more details about them problem this is meant to solve?
-Currently, the fuzzer would just output a "crash-" file and continue
-fuzzing. So the crash isn't lost - it can still be reproduced later.
-This means the fuzzer can progress faster (no need to restart the whole
-process each time there is a crash).
+We can provide its support as the new QEMU network backends which
+represent three different vmnet.framework interface usage modes:
 
-However, this is of course, not the default libfuzzer behavior. That's
-why I wonder whether you encountered some issue that depended on
-libfuzzer exiting immediately. We have had some problems on OSS-Fuzz,
-with incomplete coverage reports, and I wonder if this could be related.
+  * `vmnet-shared`:
+    allows the guest to communicate with other guests in shared mode and
+    also with external network (Internet) via NAT. Has (macOS-provided)
+    DHCP server; subnet mask and IP range can be configured;
 
-For the example you gave, OSS-Fuzz picked up on the crash, so even
-though we don't comform to the default libfuzzer behavior, the crashes
-are still detected.
-https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=23985&q=iov_copy&can=2
+  * `vmnet-host`:
+    allows the guest to communicate with other guests in host mode.
+    By default has enabled DHCP as `vmnet-shared`, but providing
+    network unique id (uuid) can make `vmnet-host` interfaces isolated
+    from each other and also disables DHCP.
 
-Small question below.
+  * `vmnet-bridged`:
+    bridges the guest with a physical network interface.
 
-> Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-> ---
->  tests/qtest/fuzz/fork_fuzz.c        |   26 ++++++++++++++++++++++++++
->  tests/qtest/fuzz/fork_fuzz.h        |    1 +
->  tests/qtest/fuzz/generic_fuzz.c     |    3 +--
->  tests/qtest/fuzz/i440fx_fuzz.c      |    3 +--
->  tests/qtest/fuzz/virtio_blk_fuzz.c  |    6 ++----
->  tests/qtest/fuzz/virtio_net_fuzz.c  |    6 ++----
->  tests/qtest/fuzz/virtio_scsi_fuzz.c |    6 ++----
->  7 files changed, 35 insertions(+), 16 deletions(-)
-> 
-> diff --git a/tests/qtest/fuzz/fork_fuzz.c b/tests/qtest/fuzz/fork_fuzz.c
-> index 6ffb2a7937..6e3a3867bf 100644
-> --- a/tests/qtest/fuzz/fork_fuzz.c
-> +++ b/tests/qtest/fuzz/fork_fuzz.c
-> @@ -38,4 +38,30 @@ void counter_shm_init(void)
->      free(copy);
->  }
->  
-> +/* Returns true in child process */
-> +bool fork_fuzzer_and_wait(void)
-> +{
-> +    pid_t pid;
-> +    int wstatus;
-> +
-> +    pid = fork();
-> +    if (pid < 0) {
-> +        perror("fork");
-> +        abort();
-> +    }
-> +
-> +    if (pid == 0) {
-> +        return true;
-> +    }
->  
-> +    if (waitpid(pid, &wstatus, 0) < 0) {
-> +        perror("waitpid");
-> +        abort();
-> +    }
-> +
-> +    if (!WIFEXITED(wstatus) || WEXITSTATUS(wstatus) != 0) {
-> +        abort();
-> +    }
+This backends cannot work on macOS Catalina 10.15 cause we use
+vmnet.framework API provided only with macOS 11 and newer. Seems
+that it is not a problem, because QEMU guarantees to work on two most
+recent versions of macOS which now are Big Sur (11) and Monterey (12).
 
-Maybe instead of these aborts, we return "true" so the fork-server tries
-to run the input, itself and (hopefully) crashes. That way we would have
-an accurate stack trace, instead of abort, which is probably important
-for the OSS-Fuzz crash-bucketing.
+Also, we have one inconvenient restriction: vmnet.framework interfaces
+can create only privileged user:
+`$ sudo qemu-system-x86_64 -nic vmnet-shared`
 
-Thanks
--Alex
+Attempt of `vmnet-*` netdev creation being unprivileged user fails with
+vmnet's 'general failure'.
 
-> +
-> +    return false;
-> +}
-> diff --git a/tests/qtest/fuzz/fork_fuzz.h b/tests/qtest/fuzz/fork_fuzz.h
-> index 9ecb8b58ef..792e922731 100644
-> --- a/tests/qtest/fuzz/fork_fuzz.h
-> +++ b/tests/qtest/fuzz/fork_fuzz.h
-> @@ -18,6 +18,7 @@ extern uint8_t __FUZZ_COUNTERS_START;
->  extern uint8_t __FUZZ_COUNTERS_END;
->  
->  void counter_shm_init(void);
-> +bool fork_fuzzer_and_wait(void);
->  
->  #endif
->  
-> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-> index dd7e25851c..f0e25b39ea 100644
-> --- a/tests/qtest/fuzz/generic_fuzz.c
-> +++ b/tests/qtest/fuzz/generic_fuzz.c
-> @@ -667,7 +667,7 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
->      size_t cmd_len;
->      uint8_t op;
->  
-> -    if (fork() == 0) {
-> +    if (fork_fuzzer_and_wait()) {
->          struct sigaction sact;
->          struct itimerval timer;
->          sigset_t set;
-> @@ -723,7 +723,6 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
->          _Exit(0);
->      } else {
->          flush_events(s);
-> -        wait(0);
->      }
->  }
->  
-> diff --git a/tests/qtest/fuzz/i440fx_fuzz.c b/tests/qtest/fuzz/i440fx_fuzz.c
-> index 86796bff2b..0b927f4b3a 100644
-> --- a/tests/qtest/fuzz/i440fx_fuzz.c
-> +++ b/tests/qtest/fuzz/i440fx_fuzz.c
-> @@ -147,12 +147,11 @@ static void i440fx_fuzz_qos(QTestState *s,
->  
->  static void i440fx_fuzz_qos_fork(QTestState *s,
->          const unsigned char *Data, size_t Size) {
-> -    if (fork() == 0) {
-> +    if (fork_fuzzer_and_wait()) {
->          i440fx_fuzz_qos(s, Data, Size);
->          _Exit(0);
->      } else {
->          flush_events(s);
-> -        wait(NULL);
->      }
->  }
->  
-> diff --git a/tests/qtest/fuzz/virtio_blk_fuzz.c b/tests/qtest/fuzz/virtio_blk_fuzz.c
-> index 623a756fd4..9532dc1fa7 100644
-> --- a/tests/qtest/fuzz/virtio_blk_fuzz.c
-> +++ b/tests/qtest/fuzz/virtio_blk_fuzz.c
-> @@ -136,13 +136,12 @@ static void virtio_blk_fork_fuzz(QTestState *s,
->      if (!queues) {
->          queues = qvirtio_blk_init(blk->vdev, 0);
->      }
-> -    if (fork() == 0) {
-> +    if (fork_fuzzer_and_wait()) {
->          virtio_blk_fuzz(s, queues, Data, Size);
->          flush_events(s);
->          _Exit(0);
->      } else {
->          flush_events(s);
-> -        wait(NULL);
->      }
->  }
->  
-> @@ -152,7 +151,7 @@ static void virtio_blk_with_flag_fuzz(QTestState *s,
->      QVirtioBlk *blk = fuzz_qos_obj;
->      static QVirtioBlkQueues *queues;
->  
-> -    if (fork() == 0) {
-> +    if (fork_fuzzer_and_wait()) {
->          if (Size >= sizeof(uint64_t)) {
->              queues = qvirtio_blk_init(blk->vdev, *(uint64_t *)Data);
->              virtio_blk_fuzz(s, queues,
-> @@ -162,7 +161,6 @@ static void virtio_blk_with_flag_fuzz(QTestState *s,
->          _Exit(0);
->      } else {
->          flush_events(s);
-> -        wait(NULL);
->      }
->  }
->  
-> diff --git a/tests/qtest/fuzz/virtio_net_fuzz.c b/tests/qtest/fuzz/virtio_net_fuzz.c
-> index 0e873ab8e2..6b492ef9e7 100644
-> --- a/tests/qtest/fuzz/virtio_net_fuzz.c
-> +++ b/tests/qtest/fuzz/virtio_net_fuzz.c
-> @@ -118,26 +118,24 @@ static void virtio_net_fuzz_multi(QTestState *s,
->  static void virtio_net_fork_fuzz(QTestState *s,
->          const unsigned char *Data, size_t Size)
->  {
-> -    if (fork() == 0) {
-> +    if (fork_fuzzer_and_wait()) {
->          virtio_net_fuzz_multi(s, Data, Size, false);
->          flush_events(s);
->          _Exit(0);
->      } else {
->          flush_events(s);
-> -        wait(NULL);
->      }
->  }
->  
->  static void virtio_net_fork_fuzz_check_used(QTestState *s,
->          const unsigned char *Data, size_t Size)
->  {
-> -    if (fork() == 0) {
-> +    if (fork_fuzzer_and_wait()) {
->          virtio_net_fuzz_multi(s, Data, Size, true);
->          flush_events(s);
->          _Exit(0);
->      } else {
->          flush_events(s);
-> -        wait(NULL);
->      }
->  }
->  
-> diff --git a/tests/qtest/fuzz/virtio_scsi_fuzz.c b/tests/qtest/fuzz/virtio_scsi_fuzz.c
-> index 6ff6fabe4a..c7eaf3242b 100644
-> --- a/tests/qtest/fuzz/virtio_scsi_fuzz.c
-> +++ b/tests/qtest/fuzz/virtio_scsi_fuzz.c
-> @@ -140,13 +140,12 @@ static void virtio_scsi_fork_fuzz(QTestState *s,
->      if (!queues) {
->          queues = qvirtio_scsi_init(scsi->vdev, 0);
->      }
-> -    if (fork() == 0) {
-> +    if (fork_fuzzer_and_wait()) {
->          virtio_scsi_fuzz(s, queues, Data, Size);
->          flush_events(s);
->          _Exit(0);
->      } else {
->          flush_events(s);
-> -        wait(NULL);
->      }
->  }
->  
-> @@ -156,7 +155,7 @@ static void virtio_scsi_with_flag_fuzz(QTestState *s,
->      QVirtioSCSI *scsi = fuzz_qos_obj;
->      static QVirtioSCSIQueues *queues;
->  
-> -    if (fork() == 0) {
-> +    if (fork_fuzzer_and_wait()) {
->          if (Size >= sizeof(uint64_t)) {
->              queues = qvirtio_scsi_init(scsi->vdev, *(uint64_t *)Data);
->              virtio_scsi_fuzz(s, queues,
-> @@ -166,7 +165,6 @@ static void virtio_scsi_with_flag_fuzz(QTestState *s,
->          _Exit(0);
->      } else {
->          flush_events(s);
-> -        wait(NULL);
->      }
->  }
->  
-> 
+This happens because vmnet.framework requires `com.apple.vm.networking`
+entitlement which is: "restricted to developers of virtualization software.
+To request this entitlement, contact your Apple representative." as Apple
+documentation says:
+https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_vm_networking
+
+One more note: we still have quite useful but not supported
+'vmnet.framework' features as creating port forwarding rules, IPv6
+NAT prefix specifying and so on.
+
+Nevertheless, new backends work fine and tested within `qemu-system-x86-64`
+on macOS Bir Sur 11.5.2 host with such nic models:
+  * e1000-82545em
+  * virtio-net-pci
+  * vmxnet3
+
+The guests were:
+  * macOS 10.15.7
+  * Ubuntu Bionic (server cloudimg)
+
+
+This series partially reuses patches by Phillip Tennen:
+https://patchew.org/QEMU/20210218134947.1860-1-phillip.ennen@gmail.com/
+So I included them signed-off line into one of the commit messages and
+also here.
+
+v1 -> v2:
+ Since v1 minor typos were fixed, patches rebased onto latest master,
+ redundant changes removed (small commits squashed)
+v2 -> v3:
+ - QAPI style fixes
+ - Typos fixes in comments
+ - `#include`'s updated to be in sync with recent master
+v3 -> v4:
+ - Support vmnet interfaces isolation feature
+ - Support vmnet-host network uuid setting feature
+ - Refactored sources a bit
+v4 -> v5:
+ - Missed 6.2 boat, now 7.0 candidate
+ - Fix qapi netdev descriptions and styles
+   (@subnetmask -> @subnet-mask)
+ - Support vmnet-shared IPv6 prefix setting feature
+v5 -> v6
+ - provide detailed commit messages for commits of
+   many changes
+ - rename properties @dhcpstart and @dhcpend to
+   @start-address and @end-address
+ - improve qapi documentation about isolation
+   features (@isolated, @net-uuid)
+
+Vladislav Yaroshchuk (6):
+  net/vmnet: add vmnet dependency and customizable option
+  net/vmnet: add vmnet backends to qapi/net
+  net/vmnet: implement shared mode (vmnet-shared)
+  net/vmnet: implement host mode (vmnet-host)
+  net/vmnet: implement bridged mode (vmnet-bridged)
+  net/vmnet: update qemu-options.hx
+
+ meson.build                   |   4 +
+ meson_options.txt             |   2 +
+ net/clients.h                 |  11 ++
+ net/meson.build               |   7 +
+ net/net.c                     |  10 ++
+ net/vmnet-bridged.m           | 111 ++++++++++++
+ net/vmnet-common.m            | 330 ++++++++++++++++++++++++++++++++++
+ net/vmnet-host.c              | 105 +++++++++++
+ net/vmnet-shared.c            |  92 ++++++++++
+ net/vmnet_int.h               |  48 +++++
+ qapi/net.json                 | 132 +++++++++++++-
+ qemu-options.hx               |  25 +++
+ scripts/meson-buildoptions.sh |   3 +
+ 13 files changed, 878 insertions(+), 2 deletions(-)
+ create mode 100644 net/vmnet-bridged.m
+ create mode 100644 net/vmnet-common.m
+ create mode 100644 net/vmnet-host.c
+ create mode 100644 net/vmnet-shared.c
+ create mode 100644 net/vmnet_int.h
+
+-- 
+2.23.0
+
 
