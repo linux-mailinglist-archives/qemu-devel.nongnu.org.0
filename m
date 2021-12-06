@@ -2,77 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F35C469315
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 10:58:15 +0100 (CET)
-Received: from localhost ([::1]:39898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D9B469327
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 11:01:42 +0100 (CET)
+Received: from localhost ([::1]:42296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muAlB-00028J-Rs
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 04:58:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34360)
+	id 1muAoX-0003xO-OZ
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 05:01:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1muAkJ-00018V-22
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 04:57:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39941)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1muAm2-00030z-TN; Mon, 06 Dec 2021 04:59:06 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11772
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1muAkE-0002oI-WC
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 04:57:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638784633;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=3Y8qVZHLC5gwvCmzN2KRQqzUZEH+5qDtRC306lDZNLI=;
- b=ZeeHexREKp8jwL5KqzRDx7XKsdOraa3X+HZ9WpiJgXmhmZQQrw+s+3jaNm0q6JgbWgMwco
- zuO45EeE5Ga93nCxoS4xjB5/gFGMAdMv6oxq7yWik3NUwLHMXWavZ5wPUhZeqNqh41dxvT
- 1Lx/Et5w2BsRYi8/lxqp16PojjvzM1Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-341-Xp8MS_CmPaeLTW574RHOVw-1; Mon, 06 Dec 2021 04:57:07 -0500
-X-MC-Unique: Xp8MS_CmPaeLTW574RHOVw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D07A41926DA1;
- Mon,  6 Dec 2021 09:57:05 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9292479454;
- Mon,  6 Dec 2021 09:56:53 +0000 (UTC)
-Date: Mon, 6 Dec 2021 09:56:51 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH for-7.0] i386: Deprecate the -no-hpet QEMU command line
- option
-Message-ID: <Ya3eY0uEOvFAeB9v@redhat.com>
-References: <20211206084012.49277-1-thuth@redhat.com>
- <10bc4172-f6c0-504b-cecb-e7caf9edb074@redhat.com>
- <Ya3QltUi9CkqDJEN@angien.pipo.sk>
- <1fd3a291-0970-5a5f-9428-9539afc8559b@redhat.com>
- <Ya3VhFvT0cRfvvXU@angien.pipo.sk>
- <d27c47cb-e0bb-761a-e613-27be752197ac@redhat.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1muAm0-00043T-KQ; Mon, 06 Dec 2021 04:59:06 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B68r5dq005446; 
+ Mon, 6 Dec 2021 09:58:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=O9xxr7Tv86EAP8H2rAWvxu5PBNBZq3Ep2L3rdxpeemU=;
+ b=El9hYa5kUSn4gvyyaKwI+XHbC8ysgGZjS82qWNQC4i+fdBuhpnG1gQR+k/wgs0ncb9OA
+ LCACSv02AuNQEpmSCmIp4Q3sLX5Da+K8b+TFN9dTNmhg6q/2EqIDz0nZQ3g0xjIYecTd
+ qVoKFm305LVluW+ClKgHfjpOGH4Qwl7Z86tVa8HhmUjdS5/bT/NWwld/7aw08vTuIxI4
+ NDSIBdb9g0tte6gwDfeZHQq3PTC4yoTeiW51svQmxkZ3JRG9oooZfaXy0DLrbrkdNpkV
+ siUJIhGKqfuLUAg0ndDALavvc2vnMhY290BHE10rwYEoi52qOX+kavdoMqCv6DbHuD28 1A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3csfd0s3qn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Dec 2021 09:58:56 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B69wuiq014150;
+ Mon, 6 Dec 2021 09:58:56 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3csfd0s3qc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Dec 2021 09:58:56 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B69qaU1024197;
+ Mon, 6 Dec 2021 09:58:54 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06ams.nl.ibm.com with ESMTP id 3cqykhtxun-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Dec 2021 09:58:54 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1B69pCCZ29360572
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 6 Dec 2021 09:51:12 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F3D8EAE055;
+ Mon,  6 Dec 2021 09:58:50 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5DF8EAE053;
+ Mon,  6 Dec 2021 09:58:50 +0000 (GMT)
+Received: from [9.171.36.79] (unknown [9.171.36.79])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  6 Dec 2021 09:58:50 +0000 (GMT)
+Message-ID: <3ff513c8-0d1e-ff23-0844-17e0838edac7@linux.ibm.com>
+Date: Mon, 6 Dec 2021 10:59:47 +0100
 MIME-Version: 1.0
-In-Reply-To: <d27c47cb-e0bb-761a-e613-27be752197ac@redhat.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v3 4/4] s390x/pci: add supported DT information to clp
+ response
+Content-Language: en-US
+To: Matthew Rosato <mjrosato@linux.ibm.com>, thuth@redhat.com,
+ qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+References: <20211203142706.427279-1-mjrosato@linux.ibm.com>
+ <20211203142706.427279-5-mjrosato@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <20211203142706.427279-5-mjrosato@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: IhOS3Oy2-Mgk2ENzPx6WqaA5T5P1S9nU
+X-Proofpoint-GUID: Fha3UQLWaR4Ho0J7mxFS_Osj88JnjISr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-06_03,2021-12-06_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
+ suspectscore=0 adultscore=0 spamscore=0 mlxscore=0 malwarescore=0
+ impostorscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2112060056
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.076,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,100 +115,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Peter Krempa <pkrempa@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Libvirt <libvir-list@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: farman@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, pasic@linux.ibm.com, borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 06, 2021 at 10:44:50AM +0100, Thomas Huth wrote:
-> On 06/12/2021 10.19, Peter Krempa wrote:
-> > On Mon, Dec 06, 2021 at 10:02:44 +0100, Thomas Huth wrote:
-> > > On 06/12/2021 09.57, Peter Krempa wrote:
-> > > > On Mon, Dec 06, 2021 at 09:47:58 +0100, Thomas Huth wrote:
-> > > > > On 06/12/2021 09.40, Thomas Huth wrote:
-> > > > > > The HPET setting has been turned into a machine property a while ago
-> > > > > > already, so we should finally do the next step and deprecate the
-> > > > > > legacy CLI option, too.
-> > > > > > While we're at it, add a proper help text for the machine property, too.
-> > > > > > 
-> > > > > > Signed-off-by: Thomas Huth <thuth@redhat.com>
-> > > > > > ---
-> > > > > >     docs/about/deprecated.rst | 6 ++++++
-> > > > > >     hw/i386/pc.c              | 2 ++
-> > > > > >     qemu-options.hx           | 2 +-
-> > > > > >     softmmu/vl.c              | 1 +
-> > > > > >     4 files changed, 10 insertions(+), 1 deletion(-)
-> > > > > > 
-> > > > > > diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> > > > > > index 5693abb663..1dfe69aa6a 100644
-> > > > > > --- a/docs/about/deprecated.rst
-> > > > > > +++ b/docs/about/deprecated.rst
-> > > > > > @@ -198,6 +198,12 @@ form is preferred.
-> > > > > >     Using ``-drive if=none`` to configure the OTP device of the sifive_u
-> > > > > >     RISC-V machine is deprecated. Use ``-drive if=pflash`` instead.
-> > > > > > +``-no-hpet`` (since 7.0)
-> > > > > > +''''''''''''''''''''''''
-> > > > > > +
-> > > > > > +The HPET setting has been turned into a machine property.
-> > > > > > +Use ``-machine hpet=off`` instead.
-> > > > > [...]
-> > > > > 
-> > > > > Forgot to CC: the libvirt folks, doing so now.
-> > > > > 
-> > > > > Seems like libvirt is still using -no-hpet in some few spots, so I guess
-> > > > > these would need to be changed first, before we could finally remove this
-> > > > > option in QEMU?
-> > > > 
-> > > > Yes we need to switch to the new property first.
-> > > > 
-> > > > Is the new way via -machine property by any chance usable with
-> > > > qemu-2.11? If yes, then we can do it unconditionally, otherwise we'll
-> > > > need a witness to detect the support for the new flag as a qemu
-> > > > capability.
-> > > 
-> > > The machine property has been added just a year ago:
-> > > 
-> > >   https://gitlab.com/qemu-project/qemu/-/commit/0259c78ca79
-> > > 
-> > > So it's just available on QEMU v5.2.0 and newer.
-> > 
-> > Okay, so we can't unfortunately always use the new way.
-> > 
-> > I had a brief look in what libvirt queries to build the capability list
-> > and unfortunately neither query-command-line-options nor query-machines
-> > list anything which we could detect.
-> > 
-> > Since only the config knob is changing the presence in qom-list-types
-> > doesn't help either.
-> > 
-> > So if qemu want's to deprecate the '-no-hpet' spelling we need something
-> > which we can detect by one of the above means or other probe command to
-> > use the new spelling.
+
+
+On 12/3/21 15:27, Matthew Rosato wrote:
+> The DTSM is a mask that specifies which I/O Address Translation designation
+> types are supported.  Today QEMU only supports DT=1.
 > 
-> I just had another chat with Peter on IRC, and seems like it could be
-> detected by running "qom-list-properties" on e.g. the "generic-pc-machine"
-> object. However, libvirt does not have that information in their test data
-> yet, so it's not a very trivial change to support this in libvirt.
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+>   hw/s390x/s390-pci-bus.c         | 1 +
+>   hw/s390x/s390-pci-inst.c        | 1 +
+>   hw/s390x/s390-pci-vfio.c        | 1 +
+>   include/hw/s390x/s390-pci-bus.h | 1 +
+>   include/hw/s390x/s390-pci-clp.h | 3 ++-
+>   5 files changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+> index 1b51a72838..01b58ebc70 100644
+> --- a/hw/s390x/s390-pci-bus.c
+> +++ b/hw/s390x/s390-pci-bus.c
+> @@ -782,6 +782,7 @@ static void s390_pci_init_default_group(void)
+>       resgrp->i = 128;
+>       resgrp->maxstbl = 128;
+>       resgrp->version = 0;
+> +    resgrp->dtsm = ZPCI_DTSM;
+>   }
+>   
+>   static void set_pbdev_info(S390PCIBusDevice *pbdev)
+> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+> index 07bab85ce5..6d400d4147 100644
+> --- a/hw/s390x/s390-pci-inst.c
+> +++ b/hw/s390x/s390-pci-inst.c
+> @@ -329,6 +329,7 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
+>           stw_p(&resgrp->i, group->zpci_group.i);
+>           stw_p(&resgrp->maxstbl, group->zpci_group.maxstbl);
+>           resgrp->version = group->zpci_group.version;
+> +        resgrp->dtsm = group->zpci_group.dtsm;
+>           stw_p(&resgrp->hdr.rsp, CLP_RC_OK);
+>           break;
+>       }
+> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
+> index 2a153fa8c9..6f80a47e29 100644
+> --- a/hw/s390x/s390-pci-vfio.c
+> +++ b/hw/s390x/s390-pci-vfio.c
+> @@ -160,6 +160,7 @@ static void s390_pci_read_group(S390PCIBusDevice *pbdev,
+>           resgrp->i = cap->noi;
+>           resgrp->maxstbl = cap->maxstbl;
+>           resgrp->version = cap->version;
+> +        resgrp->dtsm = ZPCI_DTSM;
+>       }
+>   }
+>   
+> diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
+> index 2727e7bdef..da3cde2bb4 100644
+> --- a/include/hw/s390x/s390-pci-bus.h
+> +++ b/include/hw/s390x/s390-pci-bus.h
+> @@ -37,6 +37,7 @@
+>   #define ZPCI_MAX_UID 0xffff
+>   #define UID_UNDEFINED 0
+>   #define UID_CHECKING_ENABLED 0x01
+> +#define ZPCI_DTSM 0x40
+>   
+>   OBJECT_DECLARE_SIMPLE_TYPE(S390pciState, S390_PCI_HOST_BRIDGE)
+>   OBJECT_DECLARE_SIMPLE_TYPE(S390PCIBus, S390_PCI_BUS)
+> diff --git a/include/hw/s390x/s390-pci-clp.h b/include/hw/s390x/s390-pci-clp.h
+> index 96b8e3f133..cc8c8662b8 100644
+> --- a/include/hw/s390x/s390-pci-clp.h
+> +++ b/include/hw/s390x/s390-pci-clp.h
+> @@ -163,7 +163,8 @@ typedef struct ClpRspQueryPciGrp {
+>       uint8_t fr;
+>       uint16_t maxstbl;
+>       uint16_t mui;
+> -    uint64_t reserved3;
+> +    uint8_t dtsm;
+> +    uint8_t reserved3[7];
+>       uint64_t dasm; /* dma address space mask */
+>       uint64_t msia; /* MSI address */
+>       uint64_t reserved4;
+> 
+Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
 
-It is mostly just a tedious matter of getting sample QMP replies for
-the qom-list-properties command on various older QEMU versions to
-make sure our test suite does the right thing.
 
-> Thus, please don't merge this patch yet, it will currently cause more hassle
-> than benefit.
-
-I don't see any problem in QEMU going ahead with this. If it is deprecated
-in 7.0, then it won't be until 7.2 that its deleted, which is Dec 2022
-timeframe. A year is enough time for libvirt to adapt.
-
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Pierre Morel
+IBM Lab Boeblingen
 
