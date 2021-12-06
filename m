@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E66D469A3B
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 16:03:12 +0100 (CET)
-Received: from localhost ([::1]:34558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4245469AB0
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 16:06:51 +0100 (CET)
+Received: from localhost ([::1]:38454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muFWI-00043u-M8
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 10:03:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33108)
+	id 1muFZq-0006vn-Bu
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 10:06:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1muFU3-0002AH-4I; Mon, 06 Dec 2021 10:00:54 -0500
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:38502)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1muFYY-000602-UT; Mon, 06 Dec 2021 10:05:30 -0500
+Received: from [2001:738:2001:2001::2001] (port=17099 helo=zero.eik.bme.hu)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1muFTw-0008QI-Lt; Mon, 06 Dec 2021 10:00:50 -0500
-Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id A89A94024C;
- Mon,  6 Dec 2021 16:00:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=univ-grenoble-alpes.fr; s=2020; t=1638802840;
- bh=4LXmHjHgAifzrx9ligx/9UINKyBRFm7X2U8BKsyc8aE=;
- h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
- b=LX+wLAsZkAciUXMfWRbjRhun63eOYKGoGNGcyG5YDo3ydEMfdPbGWScnTffsb4wjc
- 8A3BcUNexKmTARd9YErV+KUWSmSRNBFvMG1y1WUMYZmUvtWfZxKUgA0MIHrayGYxyj
- Tfufy47fZhSUy/wU+SnG+GGMDh/2Huhfv8Aww28RGalFsQNRRHMDwqNV7ehFhIvWJa
- hRSQqpfmv+gSSlM8bOhJSnMff2xk+itV5dWldLsq9Thp9FEQnz778fRFKjVEbjgAkp
- N0L0A892sBNWMXDVbVV8n0KdjZELFC+2mvUZRb8KWzwby3EVbsIPD5tu/JrmDdjbV4
- /DR8TzwDSx10w==
-Received: from smtps.univ-grenoble-alpes.fr (smtps3.u-ga.fr [195.83.24.62])
- by mailhost.u-ga.fr (Postfix) with ESMTP id 948496006D;
- Mon,  6 Dec 2021 16:00:40 +0100 (CET)
-Received: from [147.171.132.208] (palmier.tima.u-ga.fr [147.171.132.208])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id D446840069;
- Mon,  6 Dec 2021 16:00:39 +0100 (CET)
-Message-ID: <7a257cb6-ca63-bf7d-a5d4-26d3e70ac992@univ-grenoble-alpes.fr>
-Date: Mon, 6 Dec 2021 16:00:34 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1muFYV-0000eA-Q6; Mon, 06 Dec 2021 10:05:30 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id E6FA3755F74;
+ Mon,  6 Dec 2021 16:05:20 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id C237B748F5A; Mon,  6 Dec 2021 16:05:20 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id C076E748F56;
+ Mon,  6 Dec 2021 16:05:20 +0100 (CET)
+Date: Mon, 6 Dec 2021 16:05:20 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+Subject: Re: [PATCH 07/15] ppc/ppc405: Add some address space definitions
+In-Reply-To: <20211206103712.1866296-8-clg@kaod.org>
+Message-ID: <e3178117-dfbc-c778-b48b-587bb3ce5167@eik.bme.hu>
+References: <20211206103712.1866296-1-clg@kaod.org>
+ <20211206103712.1866296-8-clg@kaod.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211128135719.50444-1-frederic.petrot@univ-grenoble-alpes.fr>
- <4fceecbf-7424-3a0d-d350-fb677f6b1104@linaro.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-Subject: Re: [PATCH v6 00/18] Adding partial support for 128-bit riscv target
-In-Reply-To: <4fceecbf-7424-3a0d-d350-fb677f6b1104@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
- via submission-587 ACL (41)
-X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 195.83.24.62
-Received-SPF: pass client-ip=152.77.200.56;
- envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
- helo=zm-mta-out-3.u-ga.fr
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.076,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-957355465-1638803120=:25898"
+X-Spam-Probability: 11%
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
+ (failed)
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,56 +58,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>, Thomas Huth <thuth@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On 29/11/2021 13:13, Richard Henderson wrote:
-> On 11/28/21 2:57 PM, Frédéric Pétrot wrote:
->> This series of patches provides partial 128-bit support for the riscv
->> target architecture, namely RVI and RVM, with minimal csr support.
->>
->> Thanks again for the reviews and suggestions.
->>
->> v6:
->> - support for '-cpu rv128' in qemu-system-riscv64 to handle 128-bit
->>    executables (no more qemu-system-riscv128)
->> - remove useless (and buggy) big-endian support in lq/sq
-> 
-> This also fails make check.  With
-> 
->    ../qemu/configure --enable-debug 
-> --target-list=riscv64-linux-user,riscv64-softmmu,riscv32-softmmu,riscv32-linux-user
-> 
-> watch qemu-iotest 040 fail.
+--3866299591-957355465-1638803120=:25898
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-   I'm afraid this test and a few others (5 in total) fail on current master,
-   too, with this 'configure' command line.
-   I just did a fresh install to make sure I did not kill something in the rv128
-   patches.
+On Mon, 6 Dec 2021, Cédric Le Goater wrote:
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+> hw/ppc/ppc405.h        |  7 +++++++
+> hw/ppc/ppc405_boards.c | 16 +++++++---------
+> 2 files changed, 14 insertions(+), 9 deletions(-)
+>
+> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+> index ad5f4026b5db..ea48c3626908 100644
+> --- a/hw/ppc/ppc405.h
+> +++ b/hw/ppc/ppc405.h
+> @@ -27,6 +27,13 @@
+>
+> #include "hw/ppc/ppc4xx.h"
+>
+> +#define PPC405EP_SDRAM_BASE 0x00000000
+> +#define PPC405EP_NVRAM_BASE 0xF0000000
+> +#define PPC405EP_FPGA_BASE  0xF0300000
+> +#define PPC405EP_SRAM_BASE  0xFFF00000
+> +#define PPC405EP_SRAM_SIZE  (512 * KiB)
+> +#define PPC405EP_FLASH_BASE 0xFFF80000
 
-   Note that if I add x86_64-softmmu to target-list, it runs like a charm, as
-   it takes it as default choice.
-   I did try to go back in time to find a working 040 with qemu-system-riscv32
-   (the default choice of check when qemu-system-x86_64 does not exist) or
-   qemu-system-riscv64, but I could not find one I could compile with my current
-   system.
-   So I suspect this is the syndrome of something that is (1) not of my doing
-   (although it could have, for sure), and (2) above my understanding.
+Are these specific to the 405EP SoC itself or the board? Maybe it's better 
+to put these in the board .c file and get rid of the ppc405.h later if 
+there are no 405 specific parts needed. It's currently included also by 
+440 machines because it has some functions re-used by them but those may 
+be gone when QOM-ifying these eventually or could be moved to a ppc4xx.h 
+instead. I've tried to make a distinction between 405, 440 and 4xx parts 
+(the latter common to both) when adding sam460ex but did not finish this 
+clean up completely.
 
-   Sorry for not being more helpful,
-   Frédéric
-> 
-> 
-> r~
+Regards,
+BALATON Zoltan
 
--- 
-+---------------------------------------------------------------------------+
-| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
-| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
-| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
-+---------------------------------------------------------------------------+
+> +
+> /* Bootinfo as set-up by u-boot */
+> typedef struct ppc4xx_bd_info_t ppc4xx_bd_info_t;
+> struct ppc4xx_bd_info_t {
+> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+> index fcdb6d4cf8a0..60dc81fa4880 100644
+> --- a/hw/ppc/ppc405_boards.c
+> +++ b/hw/ppc/ppc405_boards.c
+> @@ -154,7 +154,6 @@ static void ref405ep_init(MachineState *machine)
+>     ram_addr_t bdloc;
+>     MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
+>     hwaddr ram_bases[2], ram_sizes[2];
+> -    target_ulong sram_size;
+>     long bios_size;
+>     //int phy_addr = 0;
+>     //static int phy_addr = 1;
+> @@ -187,10 +186,9 @@ static void ref405ep_init(MachineState *machine)
+>     env = &cpu->env;
+>
+>     /* allocate SRAM */
+> -    sram_size = 512 * KiB;
+> -    memory_region_init_ram(sram, NULL, "ef405ep.sram", sram_size,
+> +    memory_region_init_ram(sram, NULL, "ef405ep.sram", PPC405EP_SRAM_SIZE,
+>                            &error_fatal);
+> -    memory_region_add_subregion(sysmem, 0xFFF00000, sram);
+> +    memory_region_add_subregion(sysmem, PPC405EP_SRAM_BASE, sram);
+>     /* allocate and load BIOS */
+> #ifdef USE_FLASH_BIOS
+>     dinfo = drive_get(IF_PFLASH, 0, 0);
+> @@ -230,24 +228,24 @@ static void ref405ep_init(MachineState *machine)
+>         }
+>     }
+>     /* Register FPGA */
+> -    ref405ep_fpga_init(sysmem, 0xF0300000);
+> +    ref405ep_fpga_init(sysmem, PPC405EP_FPGA_BASE);
+>     /* Register NVRAM */
+>     dev = qdev_new("sysbus-m48t08");
+>     qdev_prop_set_int32(dev, "base-year", 1968);
+>     s = SYS_BUS_DEVICE(dev);
+>     sysbus_realize_and_unref(s, &error_fatal);
+> -    sysbus_mmio_map(s, 0, 0xF0000000);
+> +    sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
+>     /* Load kernel */
+>     linux_boot = (kernel_filename != NULL);
+>     if (linux_boot) {
+>         memset(&bd, 0, sizeof(bd));
+> -        bd.bi_memstart = 0x00000000;
+> +        bd.bi_memstart = PPC405EP_SDRAM_BASE;
+>         bd.bi_memsize = machine->ram_size;
+>         bd.bi_flashstart = -bios_size;
+>         bd.bi_flashsize = -bios_size;
+>         bd.bi_flashoffset = 0;
+> -        bd.bi_sramstart = 0xFFF00000;
+> -        bd.bi_sramsize = sram_size;
+> +        bd.bi_sramstart = PPC405EP_SRAM_BASE;
+> +        bd.bi_sramsize = PPC405EP_SRAM_SIZE;
+>         bd.bi_bootflags = 0;
+>         bd.bi_intfreq = 133333333;
+>         bd.bi_busfreq = 33333333;
+>
+--3866299591-957355465-1638803120=:25898--
 
