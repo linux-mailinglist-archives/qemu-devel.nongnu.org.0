@@ -2,59 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45497469453
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 11:51:51 +0100 (CET)
-Received: from localhost ([::1]:38426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EFB8469497
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 11:58:58 +0100 (CET)
+Received: from localhost ([::1]:45976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muBb4-0008Bv-DP
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 05:51:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43900)
+	id 1muBhx-0005MY-Cw
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 05:58:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muBNI-0001HW-9u
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:37:38 -0500
-Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:35333)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muBNC-0001q5-UU
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:37:36 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.42])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 4230320B48;
- Mon,  6 Dec 2021 10:37:23 +0000 (UTC)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Mon, 6 Dec
- 2021 11:37:22 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G00170d226a3-ff28-441a-bc63-b7d88367b794,
- 4EE5CA355A73348BB336A65EF5ADB9B11F7CB924) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH 15/15] ppc/ppc405: Update U-Boot board information for hotfoot
-Date: Mon, 6 Dec 2021 11:37:12 +0100
-Message-ID: <20211206103712.1866296-16-clg@kaod.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211206103712.1866296-1-clg@kaod.org>
-References: <20211206103712.1866296-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1muBP1-00043Y-Ly
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:39:23 -0500
+Received: from [2a00:1450:4864:20::330] (port=55876
+ helo=mail-wm1-x330.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1muBOz-00023j-V5
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:39:23 -0500
+Received: by mail-wm1-x330.google.com with SMTP id p18so7721014wmq.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 02:39:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Bv3ehfZVBHfq9XY8RZSiQM/c/B/sWu45Mc61Iwzg2F4=;
+ b=Ir4wyixyhSmrZNZM10uBtjLiAqmWyzuzfzYIfrOy3N83jl9Bi5DH1sRZCdvenSXqTq
+ tALcgsmMdjnSFZP2qr7WA4wyvEDmohUskf/8nDhNIp5x9VGkF/mjWceaTq/qYUo/7u/u
+ JKlBLNVML+0Jga1gnepTYmG3KkEmixrBQdENVuJne95MaRfRQ6K5GetavTmbFagBHH7p
+ PXC0QwUzXjm009qUoRy8IVueyyYLnGQUeW0+jprCniBtufA8cu7MDlbKOgLjouKzxpV6
+ hJ1FJlCAFJM7dfigBWsh8HQsenIBsnT4NXUCla93oSovFVh5CiCQJw+p5/tf4M+Laf6d
+ +wzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Bv3ehfZVBHfq9XY8RZSiQM/c/B/sWu45Mc61Iwzg2F4=;
+ b=qWGI+WLYT6GQE7awY4har5EMXvKAcP09gErXWh2aKwkB1vh6CxVoBR13C5bFru+L9q
+ LkrbceKBK2FkbNscBLJeg7cZ+nMZJYieV/sMHLxcmjyzceF66GqOSsY7NI3W7PuN2FkN
+ NuVHUQzpPnPOzr7lW+LXkXWOMvCb2wFrF9rH9zr4kLVc+4xxfg3+37en79INtIKYXTEx
+ NbhAuGJ3Qov4WgV8CJVGCDaulZJeErhY/SWMy8eldL50gD2VR177Is8LtKJM7dEkHHBc
+ bhw4bNBkIOU38S7rtqtsulK+bTX/fV9WuH/o/A6eA4NijEU7FlcpgNGQ3fqp3xM0ei0X
+ eBbQ==
+X-Gm-Message-State: AOAM532UoPWcDd4kheKI0lnfb/ehHFll+5olqnXRf40QHUlHqtUc4QUY
+ im8lZqcpS5i7Lx2P9Ou1Nlo=
+X-Google-Smtp-Source: ABdhPJxQ4gm9A5IJ3MW+PyGL5b4iQ4wlLAKL0gKmOnfDnYDraEN1MNGeSyIbl4PoZUtFXf54AUZc3w==
+X-Received: by 2002:a7b:ce01:: with SMTP id m1mr38691800wmc.187.1638787160648; 
+ Mon, 06 Dec 2021 02:39:20 -0800 (PST)
+Received: from [192.168.1.36] (82.red-83-50-95.dynamicip.rima-tde.net.
+ [83.50.95.82])
+ by smtp.gmail.com with ESMTPSA id r17sm11987588wmq.11.2021.12.06.02.39.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Dec 2021 02:39:20 -0800 (PST)
+Message-ID: <83d0c416-7e89-9e8e-cb10-85ccb631c296@amsat.org>
+Date: Mon, 6 Dec 2021 11:39:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v13 02/26] target/loongarch: Add core definition
+Content-Language: en-US
+To: gaosong <gaosong@loongson.cn>
+References: <1638610165-15036-1-git-send-email-gaosong@loongson.cn>
+ <1638610165-15036-3-git-send-email-gaosong@loongson.cn>
+ <9700d154-7185-b71f-4ab3-9c89f3021f7c@amsat.org>
+ <1bf1604e-2e65-b302-068b-3ca59a510f0b@loongson.cn>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <1bf1604e-2e65-b302-068b-3ca59a510f0b@loongson.cn>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 169b65f2-077b-4d62-89be-4e6a71dedbb0
-X-Ovh-Tracer-Id: 16709199043780381548
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrjeefgddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedugedvtdevuedvveethffgffetfeekfefggeekfeeugfevlefhveeivddvtddtheenucffohhmrghinhepohiilhgrsghsrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
- helo=5.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.076,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,100 +95,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>, Thomas Huth <thuth@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When support for the ESTeem 195E (PPC405EP) SBC (hotfoot) board was
-added to Linux, a different layout of U-Boot board information was
-introduced because the FW of these boards was an ancient U-Boot
-without dual ethernet support [1].
+On 12/6/21 02:22, gaosong wrote:
+> HI,
+> On 2021/12/5 上午1:26, Philippe Mathieu-Daudé wrote:
+>>> +
+>>> +    env->fcsr0_mask = 0x1f1f031f;
+>> Is this for all CPUs or only the 3A5000?
+>>
+> Yes,     env->fcsr0_mask = FCSR0_M1 | FCSR0_M2 | FCSR0_M3 = 0x1f1f031f;
 
-Change the QEMU PPC405 board information to match the hotfoot board
-and let the ref405ep machine boot from Linux directly. Only the CPU
-frequency is required.
+Let's use "env->fcsr0_mask = FCSR0_M1 | FCSR0_M2 | FCSR0_M3;" then :)
 
-This is brutal force. We could possibly add a machine option or a
-ref405ep machine class to update the board information accordingly.
-
-A similar change would be required in U-Boot. The alternative is to
-change Linux.
-
-[1] https://lists.ozlabs.org/pipermail/linuxppc-dev/2009-July/074487.html
-
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- hw/ppc/ppc405_uc.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
-
-diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index ec97b22bd019..649bb2b0daf5 100644
---- a/hw/ppc/ppc405_uc.c
-+++ b/hw/ppc/ppc405_uc.c
-@@ -41,6 +41,49 @@
- #include "qapi/error.h"
- #include "trace.h"
- 
-+/*
-+ * Linux hotfoot board information based on a production bootloader
-+ * (u-boot 1.2.0.x) plus changes not upstream.
-+ *
-+ * https://lists.ozlabs.org/pipermail/linuxppc-dev/2009-July/074487.html
-+ */
-+struct linux_hotfoot_bd_info {
-+    long unsigned int          bi_memstart;          /*     0     4 */
-+    long unsigned int          bi_memsize;           /*     4     4 */
-+    long unsigned int          bi_flashstart;        /*     8     4 */
-+    long unsigned int          bi_flashsize;         /*    12     4 */
-+    long unsigned int          bi_flashoffset;       /*    16     4 */
-+    long unsigned int          bi_sramstart;         /*    20     4 */
-+    long unsigned int          bi_sramsize;          /*    24     4 */
-+    long unsigned int          bi_bootflags;         /*    28     4 */
-+    long unsigned int          bi_ip_addr;           /*    32     4 */
-+    unsigned char              bi_enetaddr[6];       /*    36     6 */
-+    unsigned char              bi_enet1addr[6];      /*    42     6 */
-+    short unsigned int         bi_ethspeed;          /*    48     2 */
-+    long unsigned int          bi_intfreq;           /*    52     4 */
-+    long unsigned int          bi_busfreq;           /*    56     4 */
-+    long unsigned int          bi_baudrate;          /*    60     4 */
-+    unsigned char              bi_s_version[4];      /*    64     4 */
-+    unsigned char              bi_r_version[32];     /*    68    32 */
-+    unsigned int               bi_procfreq;          /*   100     4 */
-+    unsigned int               bi_plb_busfreq;       /*   104     4 */
-+    unsigned int               bi_pci_busfreq;       /*   108     4 */
-+    unsigned char              bi_pci_enetaddr[6];   /*   112     6 */
-+    unsigned int               bi_pllouta_freq;      /*   120     4 */
-+    int                        bi_phynum[2];         /*   124     8 */
-+    int                        bi_phymode[2];        /*   132     8 */
-+    unsigned int               bi_opbfreq;           /*   140     4 */
-+    int                        bi_iic_fast[2];       /*   144     8 */
-+};
-+
-+static void ppc405_fixup_bootinfo(CPUState *cs, ppc4xx_bd_info_t *bd,
-+                                  ram_addr_t bdloc)
-+{
-+    stl_be_phys(cs->as,
-+                bdloc + offsetof(struct linux_hotfoot_bd_info, bi_procfreq),
-+                bd->bi_procfreq);
-+}
-+
- static void ppc405_set_default_bootinfo(ppc4xx_bd_info_t *bd,
-                                         ram_addr_t ram_size)
- {
-@@ -119,6 +162,8 @@ static ram_addr_t __ppc405_set_bootinfo(CPUPPCState *env, ppc4xx_bd_info_t *bd)
-         n += 4;
-     }
- 
-+    ppc405_fixup_bootinfo(cs, bd, bdloc);
-+
-     return bdloc;
- }
- 
--- 
-2.31.1
-
+With review comment addressed:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
