@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5AA24694C4
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 12:10:05 +0100 (CET)
-Received: from localhost ([::1]:37656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC264694DA
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 12:16:28 +0100 (CET)
+Received: from localhost ([::1]:48530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muBsi-0000eD-EG
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 06:10:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52324)
+	id 1muByt-0008Cz-Ld
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 06:16:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1muBqe-0006sQ-JV
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 06:07:56 -0500
-Received: from [2a00:1450:4864:20::430] (port=35701
- helo=mail-wr1-x430.google.com)
+ id 1muBqj-00078f-DQ
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 06:08:01 -0500
+Received: from [2a00:1450:4864:20::335] (port=46834
+ helo=mail-wm1-x335.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1muBqc-0003Lk-RF
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 06:07:56 -0500
-Received: by mail-wr1-x430.google.com with SMTP id i5so21645708wrb.2
- for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 03:07:54 -0800 (PST)
+ id 1muBqh-0003M1-Le
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 06:08:01 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ c6-20020a05600c0ac600b0033c3aedd30aso7294338wmr.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 03:07:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wFti5fdBWZt65wfSGIAT9DbbN09hWoSYxokOwb1uXUk=;
- b=JrwDyYOvtd3SFwLOEEz/GDqvsEVLWLZWQDqwtqbk/kb+dc1DU0E5RGDTCzYiosMrFW
- 4rz32tQe7gf/K07v+YVBgBcw8WeGAymFpdvsQG6jvJi++WgFyfGONo71ZojEANfakiCy
- FcNFzhcFY1r9tldwubip00zn9hLFt7M9sv06y+CZn0Pj2TpWRZhYFIvkeWnnAapARgvN
- rPsD7qdxdqMCj7tAICsXeuotShqsoOwUFdBI4FnNOcpiUfnn8Ck2E4kUHh9VGCWJ0pzn
- hbCy2B9GytDNHkkpyfUC3FLlMd8u07Zl0Ld24khNPlNjFLiDgD9GgYVhDhceZS2cRbsk
- X/nQ==
+ bh=/DJj/gxHt6m4FCr9Z7lcL4/ZOvmbUdkOohUSBXdWb/M=;
+ b=gihBjoMmWb0BRGjgXPVlYMzOUanXZ9OU6pIBOEAWIgxwTh9nKo5cR45jwRAP9X3lnL
+ KJ38ANT3x6J6KaWgCq8WrfmXKcEXPlqp+Za+D58rrGWwmgGGp17ORvTN0vBJYZQw4nfP
+ l3lhwKwOZAMDPYo7/GR+90yU7wY2InZU+ZQeDKhDaRtnLwPbjN31uOJEyHjCXujDEkfl
+ kLIpqrvzgpmywiZKeujrfSNjR4nzRFXKph2lKnoGb5Ztbx2IvkYC3PVtu+AG8PpOQQdK
+ Ee5OrNolICzgr/U10pq4BRFX+8wZA2MgEOCZ31GOlwbIqrNHspV/XFPlOHX8WW3pYcuz
+ MAyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wFti5fdBWZt65wfSGIAT9DbbN09hWoSYxokOwb1uXUk=;
- b=x1Hp1xGRI21lTCY2ehptnhgZU96I7S5t5Tqk9D4fJjBqX11HU2KKt0zEjQvJYLqGcr
- xHZ1qk2Z4o0A+8N+C1BHI23CvCyONaP6qDdRGsSIRXfpuSj1xB0Ns/4BJ5CzJ0pyYqzU
- /GC57a7m7slC9jpt5op2+8Iq1xvOI/yDN2QHIqh5GJgeir/Z6My3J0Om3eEhbe48QWCN
- 3J3XPpJHjUnzVYhnrgKUySFmpk/CzJRMDNq70Z9GV/V1hecp9002BbTkkBoGCsUAz4U9
- GvzOPwpbvNGYgfqYM0dfZVu4+b5wEVA3C4DegpRpq2hWIjhr2mnVy1vfqVZwz8n1D1w7
- 8hpQ==
-X-Gm-Message-State: AOAM533mmVNSxlZd/4J+397sDwFw9Zcm9YJ2XEKyeP+jVXMnH+hYyamZ
- 46RI8Ph5Bx8MgrXcF1RJnHCkhgmUTS0=
-X-Google-Smtp-Source: ABdhPJwkK9o1u8HPK41xRuX7qBNU8HP4iWVhiyct5f4qJgs5J9IjZjIPkk4VMKUk5kL/BTNmcXN3Tg==
-X-Received: by 2002:adf:d091:: with SMTP id y17mr44639063wrh.418.1638788873266; 
- Mon, 06 Dec 2021 03:07:53 -0800 (PST)
+ bh=/DJj/gxHt6m4FCr9Z7lcL4/ZOvmbUdkOohUSBXdWb/M=;
+ b=Tq8DeHzOxbJSrm2sM1epaFdfGECRKcg0m4z63E1y3EYm8Y4p3tuIzkm2cOVuo1Ie1j
+ pfnofTpNXfBFMlta9V34r2XJUox+QINAPnQI9aRWYEJHudurIMTIfr4DTo2Izi/waVXL
+ QHmCfkPcdFHkgddyTImQ84Wx+y/bGmkyhKZd71kNDgcHLJmBbBb3LVXAvt/ZlqsSOGV6
+ 7mmF4zJPHNLoXiYexHyqS41UiqVUYarwytXUO8/eyQOR/bMoRUeT0eIlD6EKyd7Jd97P
+ 7c17qyBsV+9uYsmr1rv+IrsuVzE83cXt6UeHZlZcbyaGMB/WvRPWKs/koitEBplZgaV0
+ SjvA==
+X-Gm-Message-State: AOAM531Ola4DQpmAEaRudQN1+gbbOvlg52DCTad2OyVSTIYIt7/rJL5I
+ 2HaeRi9MxRZaRlGWp6q9kg7yiXf2vWk=
+X-Google-Smtp-Source: ABdhPJxCBO4b54gH0DVzft2o3jY6g7d1iOtzEKmAxbQpaDWjiXzn9Cgbpi1oMkBRrJxlFB0Uaw9eMA==
+X-Received: by 2002:a1c:448b:: with SMTP id r133mr38461274wma.85.1638788877970; 
+ Mon, 06 Dec 2021 03:07:57 -0800 (PST)
 Received: from x1w.. (82.red-83-50-95.dynamicip.rima-tde.net. [83.50.95.82])
- by smtp.gmail.com with ESMTPSA id b10sm11021836wrt.36.2021.12.06.03.07.52
+ by smtp.gmail.com with ESMTPSA id d6sm11222010wrn.53.2021.12.06.03.07.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Dec 2021 03:07:52 -0800 (PST)
+ Mon, 06 Dec 2021 03:07:57 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/3] hw/mips/bootloader: Fix write_ulong()
-Date: Mon,  6 Dec 2021 12:07:44 +0100
-Message-Id: <20211206110746.360608-2-f4bug@amsat.org>
+Subject: [PULL 2/3] hw/mips/boston: Fix load_elf() error detection
+Date: Mon,  6 Dec 2021 12:07:45 +0100
+Message-Id: <20211206110746.360608-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211206110746.360608-1-f4bug@amsat.org>
 References: <20211206110746.360608-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,37 +96,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-bl_gen_write_ulong uses sd for both 32 and 64 bit CPU,
-while sd is illegal on 32 bit CPUs.
+load_elf() gives negative return in case of error, not zero.
 
-Replace sd with sw on 32bit CPUs.
-
-Fixes: 3ebbf86128f ("hw/mips: Add a bootloader helper")
+Fixes: 10e3f30ff73 ("hw/mips/boston: Allow loading elf kernel and dtb")
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211130211729.7116-2-jiaxun.yang@flygoat.com>
+Message-Id: <20211130211729.7116-3-jiaxun.yang@flygoat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/bootloader.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/mips/boston.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/mips/bootloader.c b/hw/mips/bootloader.c
-index 6ec83144909..99991f8b2b5 100644
---- a/hw/mips/bootloader.c
-+++ b/hw/mips/bootloader.c
-@@ -182,7 +182,11 @@ void bl_gen_write_ulong(uint32_t **p, target_ulong addr, target_ulong val)
- {
-     bl_gen_load_ulong(p, BL_REG_K0, val);
-     bl_gen_load_ulong(p, BL_REG_K1, addr);
--    bl_gen_sd(p, BL_REG_K0, BL_REG_K1, 0x0);
-+    if (bootcpu_supports_isa(ISA_MIPS3)) {
-+        bl_gen_sd(p, BL_REG_K0, BL_REG_K1, 0x0);
-+    } else {
-+        bl_gen_sw(p, BL_REG_K0, BL_REG_K1, 0x0);
-+    }
- }
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index 0e3cca55118..59ca08b93a9 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -777,14 +777,15 @@ static void boston_mach_init(MachineState *machine)
+             exit(1);
+         }
+     } else if (machine->kernel_filename) {
+-        uint64_t kernel_entry, kernel_high, kernel_size;
++        uint64_t kernel_entry, kernel_high;
++        ssize_t kernel_size;
  
- void bl_gen_write_u32(uint32_t **p, target_ulong addr, uint32_t val)
+         kernel_size = load_elf(machine->kernel_filename, NULL,
+                            cpu_mips_kseg0_to_phys, NULL,
+                            &kernel_entry, NULL, &kernel_high,
+                            NULL, 0, EM_MIPS, 1, 0);
+ 
+-        if (kernel_size) {
++        if (kernel_size > 0) {
+             int dt_size;
+             g_autofree const void *dtb_file_data, *dtb_load_data;
+             hwaddr dtb_paddr = QEMU_ALIGN_UP(kernel_high, 64 * KiB);
 -- 
 2.33.1
 
