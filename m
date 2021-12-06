@@ -2,61 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA461469655
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 14:09:00 +0100 (CET)
-Received: from localhost ([::1]:44488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BB3D4696A2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 14:16:43 +0100 (CET)
+Received: from localhost ([::1]:53640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muDjn-0004SQ-Aj
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 08:08:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56028)
+	id 1muDrG-0002ZG-4n
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 08:16:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muDey-0001US-P1
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 08:04:03 -0500
-Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233]:54617)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muDew-0003X0-N7
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 08:04:00 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.13])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 2412C22646;
- Mon,  6 Dec 2021 13:03:55 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Mon, 6 Dec
- 2021 14:03:54 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003ee6b9dd7-d3d4-4c79-8e3c-9e775afb5333,
- 4EE5CA355A73348BB336A65EF5ADB9B11F7CB924) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <11cfaca1-eda5-68a6-1407-b2e4f69747ab@kaod.org>
-Date: Mon, 6 Dec 2021 14:03:54 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1muDgh-0003Mu-2b
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 08:05:49 -0500
+Received: from [2a00:1450:4864:20::433] (port=34515
+ helo=mail-wr1-x433.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1muDgZ-0003rX-E3
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 08:05:41 -0500
+Received: by mail-wr1-x433.google.com with SMTP id j3so22357299wrp.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 05:05:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ckJNZsLUMwWAVsatr+RjA1hYlAJHfRzdTmJp4RO5KTY=;
+ b=nPmpK2+4bOv2T65si+jTzA9yKIBVqm6iB7HSI7MfxLQY9DCuN6Xx4l4+0/Y56wUVOz
+ xwoHS0x5ZI/2spK6GZ4y5009sHTAHzxoM98L0/9vzttC/6gNmkYQuWXLBBbvYkG6uvmf
+ 9Vz5H+eY9bsVp0y0e9mGKkYeX8P3opqTngWfiuBIQliY0CXpiv+3RaYFCUAj1rk8OwvG
+ jcrhPOZcDjgUqFsejFkpU+AjOmmPXoMfXegzpxYjgv8OUFVFRus49tf3/Ccq+suAwoys
+ OkGoP2PYjTB8ngmmZdK2rZitROiuxjQCGoBBCw6tYNqtgnEYlzJxBUu7s1xGHkdqrj4k
+ RIXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ckJNZsLUMwWAVsatr+RjA1hYlAJHfRzdTmJp4RO5KTY=;
+ b=pq0qB+2kWjxOkkIOEidH9zYi+rPdBI1HGt8ISQnUUJQG8f8j7FY2nfvNcUYN/J+6UG
+ 9Ta44o3Vprdqv4ic3Icjwc5SrZZztc+R/f01oRdikLhxJ4ERPWMSOOnj5aM8eJuaxiYG
+ AjLLjitDxjQwDvI7zSzdwSuBP9X8tp/B/E1E3ROYGe1Tn/bxtZmy3/Gce7225T5n9fCo
+ kYRsI8wVN3yCQ1YXVRKhck7XiVGj0gHzBHVKbYMcSmJscCsUj3MAeHxw4Pc74SIukSOn
+ NaI/0eWiepb/RZfJtD40UyJ19Y6PQJHQ8UDbAZ2tawvbK/BnZHtk4pcwszdRow+vpo6P
+ GSkQ==
+X-Gm-Message-State: AOAM533CyGBIkiZmvvIpGb30/5STwLCIlKVtvWaL23a1x+RngKMal0kl
+ 2KfRafPpnHiGmAMxNNZE/smFNJkl93K3wtoBUCy2pA==
+X-Google-Smtp-Source: ABdhPJyD4HTHf/90WJvG9mmkq/txJjXFy2cVAv/rhTO9OmPGD4Ftkgqn0b35+rshQLUdYEVLlh7sy8nnOf2FE2dduKQ=
+X-Received: by 2002:adf:f0c5:: with SMTP id x5mr41228887wro.484.1638795937804; 
+ Mon, 06 Dec 2021 05:05:37 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] ppc/pvn.c: fix "system-id" FDT when -uuid is set
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20211206124538.627920-1-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20211206124538.627920-1-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 72759c2e-8b34-4d94-9e51-740de3582602
-X-Ovh-Tracer-Id: 737182964410387424
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrjeefgdegjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
- helo=2.mo552.mail-out.ovh.net
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.076,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211117163409.3587705-1-armbru@redhat.com>
+ <20211117163409.3587705-2-armbru@redhat.com>
+ <575fcf95-f4f0-3d88-ab08-b4d21f2da354@amsat.org>
+ <87tufllxn5.fsf@dusky.pond.sub.org>
+In-Reply-To: <87tufllxn5.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 6 Dec 2021 13:05:26 +0000
+Message-ID: <CAFEAcA9fBHgz+jbECRS6n5qqgKmrL=khseq-9cqsL7sDkqMXeA@mail.gmail.com>
+Subject: Re: [PATCH v2 01/13] hw/sd/ssi-sd: Do not create SD card within
+ controller's realize
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,58 +85,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: qemu-riscv@nongnu.org, qemu-block@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/6/21 13:45, Daniel Henrique Barboza wrote:
-> Setting -uuid in the pnv machine does not work:
-> 
-> ./qemu-system-ppc64 -machine powernv8,accel=tcg  -uuid 7ff61ca1-a4a0-4bc1-944c-abd114a35e80
-> qemu-system-ppc64: error creating device tree: (fdt_property_string(fdt, "system-id", buf)): FDT_ERR_BADSTATE
-> 
-> This happens because we're using "fdt_property_string" to retrieve a
-> "system-id" attribute that does not exist, instead of using
-> fdt_setprop_string() to create a "system-id" attribute with the uuid
-> provided via command line.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+On Mon, 6 Dec 2021 at 12:35, Markus Armbruster <armbru@redhat.com> wrote:
+> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+> > I guess a already asked this once but don't remember now... What is the
+> > point of creating a SD card without drive? Is this due to the old desig=
+n
+> > issue we hotplug the drive to the SD card and not the SD card on the SD
+> > bus?
+>
+> Device model "sd-card" implements BlockdevOps method change_media_cb().
+> This menas it models a device with a removable medium.  No drive behaves
+> like no medium.  I guess it's an SD card reader.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+No, device sd-card really is the SD card -- the protocol between
+the SD controller device and the sd-card device is (a slightly
+abstracted version of) the protocol that goes between the card
+and the controller in hardware. I think the reason it's implemented
+as a "device with a removable medium" is historical -- back in
+2007 that was the only way to support runtime ejecting and
+insertion. We'd implement it differently today, but we've wanted
+to preserve the user-facing compatibility of how the monitor
+commands for ejecting and inserting an sd card work.
 
-> ---
-> 
-> Cedric,
-> 
-> This isn't critical and probably not worth postponing 7.0 for one
-> more week, but since we're pushing MIPS fixes for 6.2 I believe this
-> one can also go in.
+(Side note, the initial sd implementation actually tells the block
+layer that it's BDRV_TYPE_FLOPPY as a "reasonable approximation"...)
 
-As you said, it is not critical :) and 6.2 is due for tomorrow !
-
-Let's take it for 7.0.
-
-Thanks,
-
-C.
-
-> 
->   hw/ppc/pnv.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 32ab8071a4..9e532caa9f 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -552,7 +552,7 @@ static void *pnv_dt_create(MachineState *machine)
->       buf =  qemu_uuid_unparse_strdup(&qemu_uuid);
->       _FDT((fdt_setprop_string(fdt, 0, "vm,uuid", buf)));
->       if (qemu_uuid_set) {
-> -        _FDT((fdt_property_string(fdt, "system-id", buf)));
-> +        _FDT((fdt_setprop_string(fdt, 0, "system-id", buf)));
->       }
->       g_free(buf);
->   
-> 
-
+-- PMM
 
