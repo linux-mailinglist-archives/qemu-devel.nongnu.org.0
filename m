@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E494D469739
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 14:35:57 +0100 (CET)
-Received: from localhost ([::1]:56732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2E8469760
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 14:44:05 +0100 (CET)
+Received: from localhost ([::1]:46924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muE9s-0000g6-6s
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 08:35:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32956)
+	id 1muEHk-00059A-2M
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 08:44:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1muDzh-0006t2-MZ; Mon, 06 Dec 2021 08:25:26 -0500
-Received: from [2a00:1450:4864:20::335] (port=52800
- helo=mail-wm1-x335.google.com)
+ id 1muE1p-0001nz-DS; Mon, 06 Dec 2021 08:27:38 -0500
+Received: from [2a00:1450:4864:20::32f] (port=42941
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1muDzg-000454-7f; Mon, 06 Dec 2021 08:25:25 -0500
-Received: by mail-wm1-x335.google.com with SMTP id o29so8126857wms.2;
- Mon, 06 Dec 2021 05:25:23 -0800 (PST)
+ id 1muE1l-0005oH-V5; Mon, 06 Dec 2021 08:27:36 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ d72-20020a1c1d4b000000b00331140f3dc8so7598531wmd.1; 
+ Mon, 06 Dec 2021 05:27:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=HZiMdWb+VSAjW9ypa/1udXIVwttK0qClm01zzqCL6kw=;
- b=d8+NC6MEExceyFqczUhE/KKQbZ99bpte9PmkOG5rgl1XjwtB41vPxqJuJSFwrL1x1U
- dxp5hIrQH67JNZb9kBmvSoi3XsgiE5gklTBgfgcHI1VGlIBy0JLuVSfhdJs12w6owBbQ
- PWbItPj7VGAnBzVz6OODo6BzEv3QVfeDxzoDx5/hRIW4mG82d+2NKojg45hpq5C09eF2
- 5u6ieDXBzUHlMhTkkva9gwPx0yLwLGMzuJnlgtHOsl6LH69cXHRSDSB12UoP6uYVW2V1
- 6ThPAID3GF+abQJ1kP3z/uE/YpjmbJYcMWT1LP1VDelS1vsWRPtxchl9lp4p1BIsNDYQ
- AArg==
+ bh=dhvnfhOw1DIOre7gj/dDvjmKxgAH5FXqTb05qdLIFvQ=;
+ b=LgUZIvsjvMkq52lNhk+BReTT/80UCotHtey1tE+GcA9/WEnsVv9tLRkG1NlVYL35vt
+ Zsag37hIE0m1SamX/kZlgqd9HpLm784kLn7O8p/M/koZsI0lk5sxN4sbyrrrnbVa0sIk
+ 5motIGHjLtXazm24m6idflfHhRBP6wkPlWQ5NxO3CulVmLJRuZj7jAFSauzhTj7zCygX
+ xmpmmM4PHfoy0863JsqaxYHGAnIu53jjeOp8luAEZ2A0MamB8j+FcDt/SnCzv4wQPUSz
+ m9KCsYg3OP45XZNVXLI0DL9NLkirernoNVvOhHiW50NT3ouKzjw0QtH1naXXRvFqEhUl
+ 6Orw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=HZiMdWb+VSAjW9ypa/1udXIVwttK0qClm01zzqCL6kw=;
- b=YVrbk7c0xQiSlHFSB8CcKAhtpeEzHlO51fvYOKw62XhcyTvMthQrOflOIM5fqkaloT
- BMehfqUrUSo86DlqXDJCHDs1tbO72PK5NHgLOxkw2hLU9Ws0HTS9JXVs1ng5nryfa9GH
- kfRb4xBfTfge9GshDEojZdlV5wcPh1qxIJpgX+dgWjtjomANRcO5t0qvr4G8VpWScMZb
- Y2fixv5M94A3QoKnN/0mMHrMCIFER2OH2897TEOz0MfOQ5DWXR+pr3p8AtJTs57Hwec0
- TEDoqFUD5PecYp9LCgGoPIzCpf0/IBsCpBs0wqtSreSDLOoe1ppiMx8LHRAqyCycQBvx
- c8Vw==
-X-Gm-Message-State: AOAM531p/uxXXcJsuGeiBed9BkQzk73htfzOby5jW2Km+I3y1KM/HyVB
- luKx3pkm+nrUbYty4cpEeSY=
-X-Google-Smtp-Source: ABdhPJz//yM8e0uhmmkqGPtweFPzXGLQaJ3ysYTSKOh1dA9S9El/6P51Ll0Lavbf4Ld6KeomzkidCg==
-X-Received: by 2002:a1c:7e04:: with SMTP id z4mr39034423wmc.134.1638797121667; 
- Mon, 06 Dec 2021 05:25:21 -0800 (PST)
+ bh=dhvnfhOw1DIOre7gj/dDvjmKxgAH5FXqTb05qdLIFvQ=;
+ b=Q5boofAgoD8B/LWNz+ua/5nSkSnLHQB+7XcF3Rm2Fsk7vhtdg2TwnJqX9QpyTtfb/4
+ cSFYcFf6+xDk9Yr5QYGS8sEV2QXuLZYxT2CwLlGtv8+RF/ZnpDVeFZ0k/c/i39+7irCY
+ uJJEp1C2f/5yldFs9e5WedGYll3mavXXelbx2OITpq1VvqoIqFllxSgbvtDEIjRgtQ7v
+ /GzzZAMyDHFeOD7hsuRstMNycNX3JIksOFr9HT7uF+4I919yeYxxsR0OWBRxSOXhmQv1
+ 7j7bLdIRWC8WHTQ6CSHVN0yy5SKky2uJ7qN8UlVQ85RU2E4zcge22sNXAUYP3fq+zEtq
+ Kr+A==
+X-Gm-Message-State: AOAM5324ul/mgAPjIdmhadZrs/TwvA1Oe+V0rTukX98dRuH/buibaPlj
+ DnMtwyiEGOYUjwJ8r60xh9Y=
+X-Google-Smtp-Source: ABdhPJziPqmvpdGqLyC+nt/WSgZfz3NOS1Ou30RG3zn47DrarBCVpIp4cAG8sLzrvqRlOCtDBM5CJA==
+X-Received: by 2002:a05:600c:3b83:: with SMTP id
+ n3mr38731964wms.116.1638797252213; 
+ Mon, 06 Dec 2021 05:27:32 -0800 (PST)
 Received: from [192.168.1.36] (82.red-83-50-95.dynamicip.rima-tde.net.
  [83.50.95.82])
- by smtp.gmail.com with ESMTPSA id o1sm11641151wrn.63.2021.12.06.05.25.20
+ by smtp.gmail.com with ESMTPSA id p12sm13652880wrr.10.2021.12.06.05.27.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Dec 2021 05:25:20 -0800 (PST)
-Message-ID: <92f3b2cf-236a-d379-a2ef-9ace228783c9@amsat.org>
-Date: Mon, 6 Dec 2021 14:25:19 +0100
+ Mon, 06 Dec 2021 05:27:31 -0800 (PST)
+Message-ID: <370b0897-b87f-bcb8-ccaf-8212dbf8d23c@amsat.org>
+Date: Mon, 6 Dec 2021 14:27:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 13/15] ppc/ppc405: Fix bi_pci_enetaddr2 field in U-Boot
- board information
+Subject: Re: [PATCH 15/15] ppc/ppc405: Update U-Boot board information for
+ hotfoot
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211206103712.1866296-1-clg@kaod.org>
- <20211206103712.1866296-14-clg@kaod.org>
+ <20211206103712.1866296-16-clg@kaod.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211206103712.1866296-14-clg@kaod.org>
+In-Reply-To: <20211206103712.1866296-16-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -100,33 +102,71 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/6/21 11:37, Cédric Le Goater wrote:
-> The board information for the 405EP first appeared in commit 04f20795ac81
-> ("Move PowerPC 405 specific definitions into a separate file ...")
-> An Ethernet address is a 6 byte number. Fix that.
+> When support for the ESTeem 195E (PPC405EP) SBC (hotfoot) board was
+> added to Linux, a different layout of U-Boot board information was
+> introduced because the FW of these boards was an ancient U-Boot
+> without dual ethernet support [1].
 > 
+> Change the QEMU PPC405 board information to match the hotfoot board
+> and let the ref405ep machine boot from Linux directly. Only the CPU
+> frequency is required.
+> 
+> This is brutal force. We could possibly add a machine option or a
+> ref405ep machine class to update the board information accordingly.
+> 
+> A similar change would be required in U-Boot. The alternative is to
+> change Linux.
+> 
+> [1] https://lists.ozlabs.org/pipermail/linuxppc-dev/2009-July/074487.html
+> 
+> Cc: Christophe Leroy <christophe.leroy@c-s.fr>
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->  hw/ppc/ppc405.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/ppc/ppc405_uc.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 45 insertions(+)
 > 
-> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index 6fb8b41bbc77..83f156f585c8 100644
-> --- a/hw/ppc/ppc405.h
-> +++ b/hw/ppc/ppc405.h
-> @@ -57,7 +57,7 @@ struct ppc4xx_bd_info_t {
->      uint32_t bi_plb_busfreq;
->      uint32_t bi_pci_busfreq;
->      uint8_t  bi_pci_enetaddr[6];
-> -    uint32_t bi_pci_enetaddr2[6];
-> +    uint8_t  bi_pci_enetaddr2[6]; /* PPC405EP specific */
+> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+> index ec97b22bd019..649bb2b0daf5 100644
+> --- a/hw/ppc/ppc405_uc.c
+> +++ b/hw/ppc/ppc405_uc.c
+> @@ -41,6 +41,49 @@
+>  #include "qapi/error.h"
+>  #include "trace.h"
+>  
+> +/*
+> + * Linux hotfoot board information based on a production bootloader
+> + * (u-boot 1.2.0.x) plus changes not upstream.
+> + *
+> + * https://lists.ozlabs.org/pipermail/linuxppc-dev/2009-July/074487.html
+> + */
+> +struct linux_hotfoot_bd_info {
+> +    long unsigned int          bi_memstart;          /*     0     4 */
+> +    long unsigned int          bi_memsize;           /*     4     4 */
+> +    long unsigned int          bi_flashstart;        /*     8     4 */
+> +    long unsigned int          bi_flashsize;         /*    12     4 */
+> +    long unsigned int          bi_flashoffset;       /*    16     4 */
+> +    long unsigned int          bi_sramstart;         /*    20     4 */
+> +    long unsigned int          bi_sramsize;          /*    24     4 */
+> +    long unsigned int          bi_bootflags;         /*    28     4 */
+> +    long unsigned int          bi_ip_addr;           /*    32     4 */
+> +    unsigned char              bi_enetaddr[6];       /*    36     6 */
+> +    unsigned char              bi_enet1addr[6];      /*    42     6 */
+> +    short unsigned int         bi_ethspeed;          /*    48     2 */
+> +    long unsigned int          bi_intfreq;           /*    52     4 */
+> +    long unsigned int          bi_busfreq;           /*    56     4 */
+> +    long unsigned int          bi_baudrate;          /*    60     4 */
+> +    unsigned char              bi_s_version[4];      /*    64     4 */
+> +    unsigned char              bi_r_version[32];     /*    68    32 */
+> +    unsigned int               bi_procfreq;          /*   100     4 */
+> +    unsigned int               bi_plb_busfreq;       /*   104     4 */
+> +    unsigned int               bi_pci_busfreq;       /*   108     4 */
+> +    unsigned char              bi_pci_enetaddr[6];   /*   112     6 */
+> +    unsigned int               bi_pllouta_freq;      /*   120     4 */
+> +    int                        bi_phynum[2];         /*   124     8 */
+> +    int                        bi_phymode[2];        /*   132     8 */
+> +    unsigned int               bi_opbfreq;           /*   140     4 */
+> +    int                        bi_iic_fast[2];       /*   144     8 */
+> +};
 
-Also eventually 6 -> ETH_ALEN from "net/net.h".
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
->      uint32_t bi_opbfreq;
->      uint32_t bi_iic_fast[2];
->  };
-> 
-
+Why not use <stdint.h> types?
 
