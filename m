@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48C04691B0
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 09:42:36 +0100 (CET)
-Received: from localhost ([::1]:53494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ADDC4691C9
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 09:51:08 +0100 (CET)
+Received: from localhost ([::1]:57454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mu9Zz-00039f-Rf
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 03:42:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44970)
+	id 1mu9iF-00069l-2L
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 03:51:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mu9Xw-0001iJ-MB
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 03:40:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30506)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mu9Xv-0007AO-6Z
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 03:40:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638780025;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6wmyjEPEV935S0F/dSomDUwWGfNmsHA4u91jY1OpL20=;
- b=A7UN9kCiL8R5vXlQZw07x3Zm2ycgzIK3dlFutAGyQPV/rwBp/suxmc5BCYexkpexOEiWYa
- fW5K5JtfdP5ykGhaq/JublmD/ndVfzBBhPDR9KoBYLC/uAGbscLRzePFAoTE6lxd47KLnz
- nU5aO0BA9gjalaTVBnphcMnWQzRMXz8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-51-bjZSTCW9Mb6rBUfmqj92yg-1; Mon, 06 Dec 2021 03:40:22 -0500
-X-MC-Unique: bjZSTCW9Mb6rBUfmqj92yg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B87DD102CB76;
- Mon,  6 Dec 2021 08:40:18 +0000 (UTC)
-Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E08955C25D;
- Mon,  6 Dec 2021 08:40:13 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH for-7.0] i386: Deprecate the -no-hpet QEMU command line option
-Date: Mon,  6 Dec 2021 09:40:12 +0100
-Message-Id: <20211206084012.49277-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mu9fC-0004wC-0d
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 03:47:58 -0500
+Received: from [2a00:1450:4864:20::535] (port=34304
+ helo=mail-ed1-x535.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mu9fA-0002R2-Ez
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 03:47:57 -0500
+Received: by mail-ed1-x535.google.com with SMTP id x15so40007511edv.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 00:47:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+XeRjkRU+WU+Rvr0FWXTZh1t+JMTx+JPbU3eATHUUSQ=;
+ b=5NVkEOVsNXHiZvqvYSrkOhksT+LuEJXIMKv326oojAxsbtxoDbhdQ37/oU1kldw/DD
+ Lg/cZktGV1SOPLhEB0mQorM6nmpGEqYgzKERdwBFoIygOlQJ78z/GQNBQGQ6Z5har6AG
+ JUxcpmJBby/EYv2gd8mYWhStDTseOcMaP1WijijjM+h8mDKlIWPU+TxvagetgPqvdXfk
+ fVsEo3GjubSkZSrzvfrESZWjSGpYoAGggKE2qlJ3ZEprtM+XSLJyWCoP7PPkKfZz7KUE
+ M98HVPQdjngE0trXXzCszZ1k9TnVzi/KmWbaKSn06PM9tmjbDXzbeZGsLiQZm4cuTgDg
+ WhYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+XeRjkRU+WU+Rvr0FWXTZh1t+JMTx+JPbU3eATHUUSQ=;
+ b=EhkzTTKTxkRw2U647/+owIKdErPC2NnwKLwciPp4UAVeVgUQMp80jCjcjoHuF8RRv9
+ s0+5eerHR2ePBrWvJUt5iF3m/g6cwCS78HAmv5n1Nj/m0jjArPfSLbWfAIkuyyCB3E5X
+ o2dG0SyM4kfd9IvDxjwfAv+Yyr0tDJugyjnDft3BECnEN8xf4RJA9hGEAdhO1T2kJ+4O
+ x9aIRtvn16ZteUrT9ZRJna8SD6tt5B3ZB3N2otNdU2n6fUmmAOKTECfuX1J1Zlhm1ycP
+ v+IbBm1kgSK70xuvyjs336l8ktGqTrzUwNWzrONmazCk7pPln27cHaFva4sDW6sTpWxF
+ jOPg==
+X-Gm-Message-State: AOAM5320pADgksXsXcAqkDCamwQGmX2R05mlbDE87gEjuxq8R/Fn1+3p
+ tt0ayRtVAV160IyqiyfXilYUrTun2y3WRBPhxzkRLw==
+X-Google-Smtp-Source: ABdhPJw2vr0p1zf4hpzIgLZn08Agoeh9C2hricdmxqT7uS7HWkeL23v9YgIrwyAivG0joiGt0wa1Svng5wov8vFUsOo=
+X-Received: by 2002:aa7:de86:: with SMTP id j6mr53169180edv.1.1638780474792;
+ Mon, 06 Dec 2021 00:47:54 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <1638472142-14396-1-git-send-email-eric.devolder@oracle.com>
+ <1638472142-14396-10-git-send-email-eric.devolder@oracle.com>
+In-Reply-To: <1638472142-14396-10-git-send-email-eric.devolder@oracle.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Mon, 6 Dec 2021 14:17:43 +0530
+Message-ID: <CAARzgwzC6maazE3Lxrm0Rg6o5hzgPdgPYWsL_5W6depQu7u82Q@mail.gmail.com>
+Subject: Re: [PATCH v9 09/10] ACPI ERST: bios-tables-test testcase
+To: Eric DeVolder <eric.devolder@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::535;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,81 +79,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The HPET setting has been turned into a machine property a while ago
-already, so we should finally do the next step and deprecate the
-legacy CLI option, too.
-While we're at it, add a proper help text for the machine property, too.
+On Fri, Dec 3, 2021 at 12:39 AM Eric DeVolder <eric.devolder@oracle.com> wrote:
+>
+> This change implements the test suite checks for the ERST table.
+>
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- docs/about/deprecated.rst | 6 ++++++
- hw/i386/pc.c              | 2 ++
- qemu-options.hx           | 2 +-
- softmmu/vl.c              | 1 +
- 4 files changed, 10 insertions(+), 1 deletion(-)
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 5693abb663..1dfe69aa6a 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -198,6 +198,12 @@ form is preferred.
- Using ``-drive if=none`` to configure the OTP device of the sifive_u
- RISC-V machine is deprecated. Use ``-drive if=pflash`` instead.
- 
-+``-no-hpet`` (since 7.0)
-+''''''''''''''''''''''''
-+
-+The HPET setting has been turned into a machine property.
-+Use ``-machine hpet=off`` instead.
-+
- 
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index a2ef40ecbc..0ab6e67afe 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1743,6 +1743,8 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
- 
-     object_class_property_add_bool(oc, "hpet",
-         pc_machine_get_hpet, pc_machine_set_hpet);
-+    object_class_property_set_description(oc, "hpet",
-+        "High precision event timer emulation");
- 
-     object_class_property_add_bool(oc, "default-bus-bypass-iommu",
-         pc_machine_get_default_bus_bypass_iommu,
-diff --git a/qemu-options.hx b/qemu-options.hx
-index ae2c6dbbfc..7b921fcbe3 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2436,7 +2436,7 @@ DEF("no-hpet", 0, QEMU_OPTION_no_hpet,
-     "-no-hpet        disable HPET\n", QEMU_ARCH_I386)
- SRST
- ``-no-hpet``
--    Disable HPET support.
-+    Disable HPET support. Deprecated, use '-machine hpet=off' instead.
- ERST
- 
- DEF("acpitable", HAS_ARG, QEMU_OPTION_acpitable,
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 620a1f1367..471ed006eb 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3418,6 +3418,7 @@ void qemu_init(int argc, char **argv, char **envp)
-                 qdict_put_str(machine_opts_dict, "acpi", "off");
-                 break;
-             case QEMU_OPTION_no_hpet:
-+                warn_report("-no-hpet is deprecated, use '-machine hpet=off' instead");
-                 qdict_put_str(machine_opts_dict, "hpet", "off");
-                 break;
-             case QEMU_OPTION_no_reboot:
--- 
-2.27.0
-
+> ---
+>  tests/qtest/bios-tables-test.c | 56 ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+>
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index 2588741..2f073e6 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -1446,6 +1446,57 @@ static void test_acpi_piix4_tcg_acpi_hmat(void)
+>      test_acpi_tcg_acpi_hmat(MACHINE_PC);
+>  }
+>
+> +static void test_acpi_erst(const char *machine)
+> +{
+> +    gchar *tmp_path = g_dir_make_tmp("qemu-test-erst.XXXXXX", NULL);
+> +    gchar *params;
+> +    test_data data;
+> +
+> +    memset(&data, 0, sizeof(data));
+> +    data.machine = machine;
+> +    data.variant = ".acpierst";
+> +    params = g_strdup_printf(
+> +        " -object memory-backend-file,id=erstnvram,"
+> +            "mem-path=%s,size=0x10000,share=on"
+> +        " -device acpi-erst,memdev=erstnvram", tmp_path);
+> +    test_acpi_one(params, &data);
+> +    free_test_data(&data);
+> +    g_free(params);
+> +    g_assert(g_rmdir(tmp_path) == 0);
+> +    g_free(tmp_path);
+> +}
+> +
+> +static void test_acpi_piix4_acpi_erst(void)
+> +{
+> +    test_acpi_erst(MACHINE_PC);
+> +}
+> +
+> +static void test_acpi_q35_acpi_erst(void)
+> +{
+> +    test_acpi_erst(MACHINE_Q35);
+> +}
+> +
+> +static void test_acpi_microvm_acpi_erst(void)
+> +{
+> +    gchar *tmp_path = g_dir_make_tmp("qemu-test-erst.XXXXXX", NULL);
+> +    gchar *params;
+> +    test_data data;
+> +
+> +    test_acpi_microvm_prepare(&data);
+> +    data.variant = ".pcie";
+> +    data.tcg_only = true; /* need constant host-phys-bits */
+> +    params = g_strdup_printf(" -machine microvm,"
+> +        "acpi=on,ioapic2=off,rtc=off,pcie=on"
+> +        " -object memory-backend-file,id=erstnvram,"
+> +           "mem-path=%s,size=0x10000,share=on"
+> +        " -device acpi-erst,memdev=erstnvram", tmp_path);
+> +    test_acpi_one(params, &data);
+> +    g_free(params);
+> +    g_assert(g_rmdir(tmp_path) == 0);
+> +    g_free(tmp_path);
+> +    free_test_data(&data);
+> +}
+> +
+>  static void test_acpi_virt_tcg(void)
+>  {
+>      test_data data = {
+> @@ -1624,6 +1675,8 @@ int main(int argc, char *argv[])
+>          qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
+>          qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
+>          qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
+> +        qtest_add_func("acpi/piix4/acpierst", test_acpi_piix4_acpi_erst);
+> +        qtest_add_func("acpi/q35/acpierst", test_acpi_q35_acpi_erst);
+>          qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
+>          qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
+>          qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
+> @@ -1639,6 +1692,9 @@ int main(int argc, char *argv[])
+>              qtest_add_func("acpi/q35/kvm/xapic", test_acpi_q35_kvm_xapic);
+>              qtest_add_func("acpi/q35/kvm/dmar", test_acpi_q35_kvm_dmar);
+>          }
+> +        if (strcmp(arch, "x86_64") == 0) {
+> +            qtest_add_func("acpi/microvm/acpierst", test_acpi_microvm_acpi_erst);
+> +        }
+>      } else if (strcmp(arch, "aarch64") == 0) {
+>          if (has_tcg) {
+>              qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+> --
+> 1.8.3.1
+>
 
