@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 201694696F1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 14:24:53 +0100 (CET)
-Received: from localhost ([::1]:39540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8959F469784
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 14:50:11 +0100 (CET)
+Received: from localhost ([::1]:33990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muDz9-0004Pc-QH
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 08:24:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58724)
+	id 1muENe-000719-IW
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 08:50:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1muDsT-00071T-Sr; Mon, 06 Dec 2021 08:17:57 -0500
-Received: from [2a00:1450:4864:20::42a] (port=46991
- helo=mail-wr1-x42a.google.com)
+ id 1muDtG-0007ze-O3; Mon, 06 Dec 2021 08:18:51 -0500
+Received: from [2a00:1450:4864:20::32f] (port=54842
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1muDsS-0006QX-AP; Mon, 06 Dec 2021 08:17:57 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id u1so22289496wru.13;
- Mon, 06 Dec 2021 05:17:55 -0800 (PST)
+ id 1muDtE-0000Z1-QM; Mon, 06 Dec 2021 08:18:46 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id i12so8099731wmq.4;
+ Mon, 06 Dec 2021 05:18:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=801d3UYfgo1vv3A4AG+QTld3QJ10VtHI+ftBa1BWzWU=;
- b=FdMHfojChDCfzKdiHHSVzyY/OIFu7ehpxVVXFSo3xTpMk0HM8k5vTnYLklwOvFZDCY
- CmFtyl5LOK5HPcHaSExC7GaynX1129IoVZOSJ2uEGGPhO+npBpbPzslQZVdPlbZ4yLeD
- vbUZCJrIjC7vbS+Jfdu21SBUyih9YFvy3wretG23K1d8T0t1mvwA0oboGO5PL1je1xRi
- QcxGu7DVpY11we5Q9Y1/4ngNkwnSoAO+RqUhhWM6fV4eOrH91LGCkrYf0ACBXqEaX0cx
- u3XfE7Nlk4noE1iDFy0puqWonRGtXDk68JO4bToRcyE8kfoOhGkiLAxdnkBQFUckIW3x
- FnEg==
+ bh=nYZSJa3VGranUvU4vAyj9g3ZQxTXlc14mrYxkUPtVds=;
+ b=M2NtJ+Rh5XoxjIxIqo39tb8WVd5jYX9PuKE4Lns46y5OVkWjYHhDQGhjLpC3Vc/FvN
+ jOZ9+IdSHV/AXVYXfUUCWME7qaTmoVeZWwlXxnXzOhTyGFGVetzlxeNx5+OsvKk3sQN8
+ SevL69+V2DFpoOwDlpr6r43exoJdT9Hze7/uWfdqzhbbc5hsc50A/AjBpzL2eHd6j/e9
+ 5rLpqV4jsqAYubEwHye2mVToH7JYXF5Nzly7rUWqoOq+UQcKpWOFOdFUqDG7bisQvPWw
+ FE8J1qNAutOY1Cl7Z53gaEeaDzzHIk0A32WaGF0Ul/sQ8dExyL+xcX3K5atyN+LgikBf
+ I+kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=801d3UYfgo1vv3A4AG+QTld3QJ10VtHI+ftBa1BWzWU=;
- b=u1wDaMQ1QTAfuGY+HrzVv+wxEEaYzSspyqi8yT0mPfV00jlppQWRYZOLtRZjsdarTU
- LKKXPftsik1eP7aH1ONGRbY5mE96ITzRs8pUbI99UcL33/LE+adr8E5Jil6g2xrLgZAv
- RpNcziMeLjbHw9eY2AIaFwbe6Io0Nfp3k5EnMTnofTc63vo3e1sc0RaJd/EL6Zw7KPMi
- zv0WpV6SJVvempZfwl4nPdoh3s5gry+VGMmP3J+seFJj9uL42JxvppY3zS3ke5PNno0P
- l+DNc2m+NKW45jQ/+UCEOhtPLLmkONVUA/dZiUKtgGZUKinqpHmr4oeT6AcBdl4Fy77T
- 6U5A==
-X-Gm-Message-State: AOAM5319Zg9jueOrWG03wf+C+/DmhQ7vWmzx+9kJ+sifGpd6ohj2fjrl
- Z8Sebvt7jpagmgT3cpLfHf4=
-X-Google-Smtp-Source: ABdhPJw6owvXHK65iH2MPmTjo/qOTxH5BMzX7W2TAkRdTcYByAwKJuGrMCygW72Xy6T9L01gvPvKOA==
-X-Received: by 2002:adf:cd06:: with SMTP id w6mr44213766wrm.431.1638796674426; 
- Mon, 06 Dec 2021 05:17:54 -0800 (PST)
+ bh=nYZSJa3VGranUvU4vAyj9g3ZQxTXlc14mrYxkUPtVds=;
+ b=sU6cyuCbmdKXW86jAy4BnhUcTU37QqVSuEE6kzRXEa92hvYvLH/yYnNdFr/X/tgVw2
+ RNC2yxKS5ndF7kaMjDbi10P/4t0IP3G6rwg02lDpLZ/e+CtQfu4TIs5o0b/d2iI+hx51
+ Jy7OukNZTrby/LlyXeBFTa12GQrXsJdmb8X6xjRPCpPKrVJC4y/WH+VUpyW36R0nzsCI
+ GCFNAGWwCZg9pAFKLEKsJUOHcht6hu5hG46jiQOc3AC2CxyVMc1n4cmjoY8H7Sgsgkqi
+ 6QH15Czs9qNnFvL+BSFQreRmq6d6X/K/o3nkCiksADjBZybOFOqoIkYTi4RmIrxEbjPU
+ b0FA==
+X-Gm-Message-State: AOAM533U4Ci+DYCulwWrP5AYpl7Jyy4cWfVA9lIVAQM72a1DcRxmoXkf
+ oZFVT67CAb2J9YIdJBo/uyo=
+X-Google-Smtp-Source: ABdhPJyGNlnXQVx/2qfMMWrQeKW/RM0wKryiQnKNxIH5sfVW4PaRvAO86H+D6vAHNxAGDD0ByL/n3A==
+X-Received: by 2002:a7b:c455:: with SMTP id l21mr25056043wmi.168.1638796722831; 
+ Mon, 06 Dec 2021 05:18:42 -0800 (PST)
 Received: from [192.168.1.36] (82.red-83-50-95.dynamicip.rima-tde.net.
  [83.50.95.82])
- by smtp.gmail.com with ESMTPSA id p19sm12246693wmq.4.2021.12.06.05.17.53
+ by smtp.gmail.com with ESMTPSA id t127sm13752489wma.9.2021.12.06.05.18.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Dec 2021 05:17:53 -0800 (PST)
-Message-ID: <7e5c7bc3-1837-91a6-c793-3ed171c854eb@amsat.org>
-Date: Mon, 6 Dec 2021 14:17:52 +0100
+ Mon, 06 Dec 2021 05:18:42 -0800 (PST)
+Message-ID: <1125f430-67db-13d0-8c01-9e82c08f0628@amsat.org>
+Date: Mon, 6 Dec 2021 14:18:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 03/15] ppc: Add trace-events for DCR accesses
+Subject: Re: [PATCH 05/15] ppc/ppc405: Drop flag parameter in
+ ppc405_set_bootinfo()
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211206103712.1866296-1-clg@kaod.org>
- <20211206103712.1866296-4-clg@kaod.org>
+ <20211206103712.1866296-6-clg@kaod.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211206103712.1866296-4-clg@kaod.org>
+In-Reply-To: <20211206103712.1866296-6-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -99,11 +100,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/6/21 11:37, Cédric Le Goater wrote:
+> It was introduced in commit b8d3f5d12642 ("Add flags to support
+> PowerPC 405 bootinfos variations.") but since its value has always
+> been set to '1'.
+> 
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->  hw/ppc/ppc.c        | 2 ++
->  hw/ppc/trace-events | 3 +++
->  2 files changed, 5 insertions(+)
+>  hw/ppc/ppc405.h        | 3 +--
+>  hw/ppc/ppc405_boards.c | 2 +-
+>  hw/ppc/ppc405_uc.c     | 8 +++-----
+>  3 files changed, 5 insertions(+), 8 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
