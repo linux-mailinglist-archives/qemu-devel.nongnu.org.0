@@ -2,103 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3DA0469533
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 12:44:45 +0100 (CET)
-Received: from localhost ([::1]:36868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D873546953F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 12:51:13 +0100 (CET)
+Received: from localhost ([::1]:42492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muCQG-000491-TL
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 06:44:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35338)
+	id 1muCWW-00087a-VN
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 06:51:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1muCP0-0003S3-7s
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 06:43:26 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4868)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1muCTy-0006kY-T1
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 06:48:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1muCOx-0006My-Ud
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 06:43:25 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B6BHBuJ006672
- for <qemu-devel@nongnu.org>; Mon, 6 Dec 2021 11:43:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=iqcWof80fTaJmi5hXoXEEAbr8XEZQPxJnoCE4oYPapQ=;
- b=KXtS5TPSrRjirbnhvMp9BN7KRtyN1QsfDEdMiv0Gz/QUPhnORV3YP9dofNUFFBi4jSXw
- fT7GN5xLPNB2bRuoaO7nTcYpBM9C8bc8PGMUrs4ErB3IkV+7XBPQnFYLcqdK/M1Z95Wo
- hFoAfWniOHRpzF/GLa9NctqDCCDrHrnm0aIwhn3pQRJGz0vAJUptnWhddx45nHEgB2OS
- iGB5n6wh40T9rszp76y9WtcJGRJCLwW1Jlgg2pNk23aKXFe0p0SOd+TT3IhD9X1ISCgn
- 6yON5R+MeFZbL0/1SuCPx25x0+99BlSLm4qQIUyNlnxhhEiF0MpB+gsR17aOVuHK7z3O wA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cshgu8dc6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 11:43:21 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B6BaaMv026690
- for <qemu-devel@nongnu.org>; Mon, 6 Dec 2021 11:43:21 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cshgu8dbf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Dec 2021 11:43:21 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B6Bbq0Z025630;
- Mon, 6 Dec 2021 11:43:19 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03fra.de.ibm.com with ESMTP id 3cqyy93crq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Dec 2021 11:43:18 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1B6BZbew29753820
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 6 Dec 2021 11:35:37 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5478942047;
- Mon,  6 Dec 2021 11:43:15 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C5AF242042;
- Mon,  6 Dec 2021 11:43:14 +0000 (GMT)
-Received: from p-imbrenda (unknown [9.145.0.173])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  6 Dec 2021 11:43:14 +0000 (GMT)
-Date: Mon, 6 Dec 2021 12:43:12 +0100
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1muCTs-0002rE-6J
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 06:48:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638791306;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eiV6/GV3wk7gPHZxPsKW0oN2ULLhyzY9NwCigLHM/Qs=;
+ b=cYgkW995VCfqpJanALDLVL5wEGJnOgFaKwHastaffY9Zhc71wVp+Dz7LU/ApXWYX9GlE14
+ 2ZFZSmkgVtTLlyB1n0a1tlMf8twQHxWUDxF65l1rhFWUnwlFyDnjzp/FbGnFsioe0pT53g
+ hRtXkakhutd59CDBk9q5HQ1DqDycoEs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-18-PSGMQX0QMVibvDWxkSIvZA-1; Mon, 06 Dec 2021 06:48:23 -0500
+X-MC-Unique: PSGMQX0QMVibvDWxkSIvZA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09B8283DD2F;
+ Mon,  6 Dec 2021 11:48:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D6C7919C79;
+ Mon,  6 Dec 2021 11:47:57 +0000 (UTC)
+Date: Mon, 6 Dec 2021 11:47:55 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Claudio Imbrenda <imbrenda@linux.ibm.com>
 Subject: Re: [PATCH v1 1/1] osdep: asynchronous teardown for shutdown on Linux
-Message-ID: <20211206124312.0a13b7c0@p-imbrenda>
-In-Reply-To: <Ya3yJoUh97+B2EYJ@redhat.com>
+Message-ID: <Ya34a03f7XGIrqql@redhat.com>
 References: <20211206110611.27283-1-imbrenda@linux.ibm.com>
- <Ya3yJoUh97+B2EYJ@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ <Ya3yJoUh97+B2EYJ@redhat.com> <20211206124312.0a13b7c0@p-imbrenda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: pM5ozM1A-UrV_CXf3AJI73q9tHY2Bgn7
-X-Proofpoint-ORIG-GUID: YaK7rYFkzgrO1AR-tgQFXOrRtzgTRuiP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-06_04,2021-12-06_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=745 clxscore=1015
- malwarescore=0 bulkscore=0 impostorscore=0 spamscore=0 suspectscore=0
- mlxscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2112060069
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211206124312.0a13b7c0@p-imbrenda>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,68 +83,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
  cohuck@redhat.com, qemu-devel@nongnu.org, borntraeger@de.ibm.com,
  pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Dec 2021 11:21:10 +0000
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+On Mon, Dec 06, 2021 at 12:43:12PM +0100, Claudio Imbrenda wrote:
+> On Mon, 6 Dec 2021 11:21:10 +0000
+> Daniel P. Berrangé <berrange@redhat.com> wrote:
+> 
+> > On Mon, Dec 06, 2021 at 12:06:11PM +0100, Claudio Imbrenda wrote:
+> > > This patch adds support for asynchronously tearing down a VM on Linux.
+> > > 
+> > > When qemu terminates, either naturally or because of a fatal signal,
+> > > the VM is torn down. If the VM is huge, it can take a considerable
+> > > amount of time for it to be cleaned up. In case of a protected VM, it
+> > > might take even longer than a non-protected VM (this is the case on
+> > > s390x, for example).
+> > > 
+> > > Some users might want to shut down a VM and restart it immediately,
+> > > without having to wait. This is especially true if management
+> > > infrastructure like libvirt is used.
+> > > 
+> > > This patch implements a simple trick on Linux to allow qemu to return
+> > > immediately, with the teardown of the VM being performed
+> > > asynchronously.
+> > > 
+> > > If the new commandline option -async-teardown is used, a new process is
+> > > spawned from qemu using the clone syscall, so that it will share its
+> > > address space with qemu.
+> > > 
+> > > The new process will then wait until qemu terminates, and then it will
+> > > exit itself.
+> > > 
+> > > This allows qemu to terminate quickly, without having to wait for the
+> > > whole address space to be torn down. The teardown process will exit
+> > > after qemu, so it will be the last user of the address space, and
+> > > therefore it will take care of the actual teardown.
+> > > 
+> > > The teardown process will share the same cgroups as qemu, so both
+> > > memory usage and cpu time will be accounted properly.  
+> > 
+> > If this suggested workaround has any benefit to the shutdown of a VM
+> > with libvirt, then it is a bug in libvirt IMHO.
+> > 
+> > When libvirt tears down a QEMU VM, it should be waiting for *every*
+> > process in the VM's cgroup to be terminated before it reports that
+> > the VM is shutoff. IOW, the fact that this workaround lets the main
+> > QEMU process exit quickly should not matter. libvirt should still
+> > be blocked in exactly the same place in its code, waiting for the
+> > "async" cleanup process to exit. IOW, this should not be async at
+> > all from libvirt's POV.
+> 
+> interesting, I did not know that about libvirt.
+> 
+> maybe libvirt could be fixed/improved to allow this patch to work?
 
-> On Mon, Dec 06, 2021 at 12:06:11PM +0100, Claudio Imbrenda wrote:
-> > This patch adds support for asynchronously tearing down a VM on Linux.
-> >=20
-> > When qemu terminates, either naturally or because of a fatal signal,
-> > the VM is torn down. If the VM is huge, it can take a considerable
-> > amount of time for it to be cleaned up. In case of a protected VM, it
-> > might take even longer than a non-protected VM (this is the case on
-> > s390x, for example).
-> >=20
-> > Some users might want to shut down a VM and restart it immediately,
-> > without having to wait. This is especially true if management
-> > infrastructure like libvirt is used.
-> >=20
-> > This patch implements a simple trick on Linux to allow qemu to return
-> > immediately, with the teardown of the VM being performed
-> > asynchronously.
-> >=20
-> > If the new commandline option -async-teardown is used, a new process is
-> > spawned from qemu using the clone syscall, so that it will share its
-> > address space with qemu.
-> >=20
-> > The new process will then wait until qemu terminates, and then it will
-> > exit itself.
-> >=20
-> > This allows qemu to terminate quickly, without having to wait for the
-> > whole address space to be torn down. The teardown process will exit
-> > after qemu, so it will be the last user of the address space, and
-> > therefore it will take care of the actual teardown.
-> >=20
-> > The teardown process will share the same cgroups as qemu, so both
-> > memory usage and cpu time will be accounted properly. =20
->=20
-> If this suggested workaround has any benefit to the shutdown of a VM
-> with libvirt, then it is a bug in libvirt IMHO.
->=20
-> When libvirt tears down a QEMU VM, it should be waiting for *every*
-> process in the VM's cgroup to be terminated before it reports that
-> the VM is shutoff. IOW, the fact that this workaround lets the main
-> QEMU process exit quickly should not matter. libvirt should still
-> be blocked in exactly the same place in its code, waiting for the
-> "async" cleanup process to exit. IOW, this should not be async at
-> all from libvirt's POV.
+That would not be desirable. When libvirt reports a VM as shutoff,
+it is expected that all resources associated with the VM huave been
+fully released, such that they are available for launching a new
+VM.  We can't allow resources to be asynchronously released as that
+violates app's expectation that the resources are released once the
+VM is shutoff.
 
-interesting, I did not know that about libvirt.
+> surely without this patch an asynchronous teardown will not be possible
+> at all
 
-maybe libvirt could be fixed/improved to allow this patch to work?
+I appreciate that the current slow teardown is a pain, but async
+teardown does not sound like an appealing alternative given that
+the app can't use the resources again until the teardown is
+complete.
 
-surely without this patch an asynchronous teardown will not be possible
-at all
-
->=20
->=20
-> Regards,
-> Daniel
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
