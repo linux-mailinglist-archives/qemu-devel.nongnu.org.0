@@ -2,72 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18CD94693FB
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 11:32:21 +0100 (CET)
-Received: from localhost ([::1]:57048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D08C7469403
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 11:40:13 +0100 (CET)
+Received: from localhost ([::1]:35774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muBIB-0007Dp-NO
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 05:32:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41972)
+	id 1muBPo-00043x-F5
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 05:40:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1muBH1-0006YA-D1
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:31:07 -0500
-Received: from [2a00:1450:4864:20::532] (port=34697
- helo=mail-ed1-x532.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1muBGv-0000vI-Ia
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:31:06 -0500
-Received: by mail-ed1-x532.google.com with SMTP id x15so41106031edv.1
- for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 02:31:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5HOP0NO08W5zPy367YNOwJqNa1spCNzBgT1DuxcTT88=;
- b=OB3NZxRRZj1wzYsUNGTqZaZj3gW1pq6ASIZvpGAYFXLqE2jyTly9Tt6XUOxntpL2w1
- TfrKOAb5X1utsXEathzc0TD1LOrUcQ9VQGl+gpm9ch/WpTAYfwA/8eEjtW2MuOyMH9oM
- Fp1yl2f1oXxrfWdfuJ0JcsUIYzGmwT6SoD5qXv3gk65PMyp0PS67QnIyXptfZzvtZRqT
- H+IStg0j79itQ5HE929rZvUuWlhc0WcgM4NxPKhSKOnT0CHC+r4t6ojtfftXq1etNNKO
- rokAZ7aJiFtUOlPYUl4tziiCIfzn+0drUGVqLYRToHaAIuMxEZENFVKuNqyOazT+m6dS
- BpuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5HOP0NO08W5zPy367YNOwJqNa1spCNzBgT1DuxcTT88=;
- b=QBPWWVqbhImNtNPAWZgWBiBeCKn9qZefc6P2qNiwgBCCEln6ycWW0HHue5KDbbosrL
- uRiSg9bpREqnJwSX7O1KYotflSDoCBnFdX7ksDiVq/ng6CR4UbXAr0dOlR/lwR3vir9Z
- bj7krpY8reig6ZQEl/XetNaeAw/HX8e+bbBNRvllbvhhXI6pOjnp6rO7+H8F5DTjsttv
- CwPaAzJJErOvdZWtQE8MXkrI1iUdHnEApQU5Ua6flMQjlAx0hQzNw8XCIIcGMtzm14BE
- v5FeLMtzIRpLMS4IUtSKT4mHnrNCJr9dpz0XxsSpH/GHAu0rVFwKV6CbeRee88aFFjM3
- GZlw==
-X-Gm-Message-State: AOAM5318ImhaEnsTJuQ3WzVDH2llNj7VCg2if3PsQbMV6o9lcSCjY7XQ
- ymrTtJbX/hTLQhUv63zmTTzCX+yQpEqbMvkNY6Qg4g==
-X-Google-Smtp-Source: ABdhPJyZjEauZvonVbGQ2F5fyu0FmLOGmgDdGWjpDCzNWzVvlTH3YgZ4RtOgUSBT8cIq1uS0xWHuzs6s4AwsUrl4xwo=
-X-Received: by 2002:a17:906:2d51:: with SMTP id
- e17mr43783920eji.132.1638786659240; 
- Mon, 06 Dec 2021 02:30:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muBNA-0001Bk-8q
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:37:29 -0500
+Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:60457)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muBN7-0001mq-9h
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 05:37:28 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.191])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 31BBF20AE0;
+ Mon,  6 Dec 2021 10:37:14 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Mon, 6 Dec
+ 2021 11:37:13 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0016746f085-f9a9-483b-ba9c-aa4f4d70cdc9,
+ 4EE5CA355A73348BB336A65EF5ADB9B11F7CB924) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
+Subject: [PATCH 00/15] ppc/ppc405: decade cleanup
+Date: Mon, 6 Dec 2021 11:36:57 +0100
+Message-ID: <20211206103712.1866296-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <1638472142-14396-1-git-send-email-eric.devolder@oracle.com>
- <1638472142-14396-7-git-send-email-eric.devolder@oracle.com>
-In-Reply-To: <1638472142-14396-7-git-send-email-eric.devolder@oracle.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 6 Dec 2021 16:00:48 +0530
-Message-ID: <CAARzgwyKyk+J71esb_U5m8gDsU9PZ3FKps9fEtyomuJB_GJwdg@mail.gmail.com>
-Subject: Re: [PATCH v9 06/10] ACPI ERST: build the ACPI ERST table
-To: Eric DeVolder <eric.devolder@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::532;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: a2f5b4f3-fe33-4851-b2e7-fecf0b9f62db
+X-Ovh-Tracer-Id: 16706665769931803500
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrjeefgddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedttdelvdehuedtvdfggeeggedvkeffieevtddukefgudelhfejueeufeejffffffenucffohhmrghinhepghhithhlrggsrdgtohhmpdhoiihlrggsshdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
+ helo=1.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,280 +65,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
- imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>, Thomas Huth <thuth@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 3, 2021 at 12:40 AM Eric DeVolder <eric.devolder@oracle.com> wrote:
->
-> This builds the ACPI ERST table to inform OSPM how to communicate
-> with the acpi-erst device.
->
-> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> ---
->  hw/acpi/erst.c | 241 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 241 insertions(+)
->
-> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
-> index 4304f55..06a87af 100644
-> --- a/hw/acpi/erst.c
-> +++ b/hw/acpi/erst.c
-> @@ -701,6 +701,247 @@ static const MemoryRegionOps erst_reg_ops = {
->      .endianness = DEVICE_NATIVE_ENDIAN,
->  };
->
-> +
-> +/*******************************************************************/
-> +/*******************************************************************/
-> +
-> +/* ACPI 4.0: Table 17-19 Serialization Instructions */
-> +#define INST_READ_REGISTER                 0x00
-> +#define INST_READ_REGISTER_VALUE           0x01
-> +#define INST_WRITE_REGISTER                0x02
-> +#define INST_WRITE_REGISTER_VALUE          0x03
-> +#define INST_NOOP                          0x04
-> +#define INST_LOAD_VAR1                     0x05
-> +#define INST_LOAD_VAR2                     0x06
-> +#define INST_STORE_VAR1                    0x07
-> +#define INST_ADD                           0x08
-> +#define INST_SUBTRACT                      0x09
-> +#define INST_ADD_VALUE                     0x0A
-> +#define INST_SUBTRACT_VALUE                0x0B
-> +#define INST_STALL                         0x0C
-> +#define INST_STALL_WHILE_TRUE              0x0D
-> +#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
-> +#define INST_GOTO                          0x0F
-> +#define INST_SET_SRC_ADDRESS_BASE          0x10
-> +#define INST_SET_DST_ADDRESS_BASE          0x11
-> +#define INST_MOVE_DATA                     0x12
-> +
-> +/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
-> +static void build_serialization_instruction_entry(GArray *table_data,
-> +    uint8_t serialization_action,
-> +    uint8_t instruction,
-> +    uint8_t flags,
-> +    uint8_t register_bit_width,
-> +    uint64_t register_address,
-> +    uint64_t value,
-> +    uint64_t mask)
-> +{
-> +    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
-> +    struct AcpiGenericAddress gas;
-> +
-> +    /* Serialization Action */
-> +    build_append_int_noprefix(table_data, serialization_action, 1);
-> +    /* Instruction */
-> +    build_append_int_noprefix(table_data, instruction         , 1);
-> +    /* Flags */
-> +    build_append_int_noprefix(table_data, flags               , 1);
-> +    /* Reserved */
-> +    build_append_int_noprefix(table_data, 0                   , 1);
-> +    /* Register Region */
-> +    gas.space_id = AML_SYSTEM_MEMORY;
-> +    gas.bit_width = register_bit_width;
-> +    gas.bit_offset = 0;
-> +    switch (register_bit_width) {
-> +    case 8:
-> +        gas.access_width = 1;
-> +        break;
-> +    case 16:
-> +        gas.access_width = 2;
-> +        break;
-> +    case 32:
-> +        gas.access_width = 3;
-> +        break;
-> +    case 64:
-> +        gas.access_width = 4;
-> +        break;
-> +    default:
-> +        gas.access_width = 0;
-> +        break;
-> +    }
-> +    gas.address = register_address;
-> +    build_append_gas_from_struct(table_data, &gas);
-> +    /* Value */
-> +    build_append_int_noprefix(table_data, value  , 8);
-> +    /* Mask */
-> +    build_append_int_noprefix(table_data, mask   , 8);
-> +}
-> +
-> +/* ACPI 4.0: 17.4.1 Serialization Action Table */
-> +void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
-> +    const char *oem_id, const char *oem_table_id)
-> +{
-> +    GArray *table_instruction_data;
-> +    unsigned action;
-> +    hwaddr bar0, bar1;
+Hello,
 
-I would rather have pcibus_t here as opposed to hwaddr although
-currently they are both unint64_t. Just in case they diverge in
-future.
+The goal of these changes is to refresh the QEMU ref405ep machine and
+enable boot from a Linux kernel without relying on a U-Boot firmware.
+The reason for doing so is that we are unable to find a "ppc405_rom.bin"
+firmware image or a flash image for the 405EP machines.
 
-> +    AcpiTable table = { .sig = "ERST", .rev = 1, .oem_id = oem_id,
-> +                        .oem_table_id = oem_table_id };
-> +
-> +    bar0 = (hwaddr)pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
-> +    trace_acpi_erst_pci_bar_0(bar0);
-> +    bar1 = (hwaddr)pci_get_bar_addr(PCI_DEVICE(erst_dev), 1);
-> +    trace_acpi_erst_pci_bar_1(bar1);
-> +
-> +#define MASK8  0x00000000000000FFUL
-> +#define MASK16 0x000000000000FFFFUL
-> +#define MASK32 0x00000000FFFFFFFFUL
-> +#define MASK64 0xFFFFFFFFFFFFFFFFUL
-> +
-> +    /*
-> +     * Serialization Action Table
-> +     * The serialization action table must be generated first
-> +     * so that its size can be known in order to populate the
-> +     * Instruction Entry Count field.
-> +     */
-> +    table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
-> +
-> +    /* Serialization Instruction Entries */
-> +    action = ACTION_BEGIN_WRITE_OPERATION;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_BEGIN_READ_OPERATION;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_BEGIN_CLEAR_OPERATION;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_END_OPERATION;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_SET_RECORD_OFFSET;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER      , 0, 32,
-> +        bar0 + ERST_VALUE_OFFSET , 0, MASK32);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_EXECUTE_OPERATION;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_VALUE_OFFSET , ERST_EXECUTE_OPERATION_MAGIC, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_CHECK_BUSY_STATUS;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER_VALUE , 0, 32,
-> +        bar0 + ERST_VALUE_OFFSET, 0x01, MASK8);
-> +
-> +    action = ACTION_GET_COMMAND_STATUS;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER       , 0, 32,
-> +        bar0 + ERST_VALUE_OFFSET, 0, MASK8);
-> +
-> +    action = ACTION_GET_RECORD_IDENTIFIER;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER       , 0, 64,
-> +        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
-> +
-> +    action = ACTION_SET_RECORD_IDENTIFIER;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER      , 0, 64,
-> +        bar0 + ERST_VALUE_OFFSET , 0, MASK64);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_GET_RECORD_COUNT;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER       , 0, 32,
-> +        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
-> +
-> +    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER       , 0, 64,
-> +        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
-> +
-> +    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER       , 0, 64,
-> +        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
-> +
-> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER       , 0, 32,
-> +        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
-> +
-> +    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER       , 0, 64,
-> +        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
-> +
-> +    /* Serialization Header */
-> +    acpi_table_begin(&table, table_data);
-> +
-> +    /* Serialization Header Size */
-> +    build_append_int_noprefix(table_data, 48, 4);
-> +
-> +    /* Reserved */
-> +    build_append_int_noprefix(table_data,  0, 4);
-> +
-> +    /*
-> +     * Instruction Entry Count
-> +     * Each instruction entry is 32 bytes
-> +     */
-> +    build_append_int_noprefix(table_data,
-> +        (table_instruction_data->len / 32), 4);
-> +
-> +    /* Serialization Instruction Entries */
-> +    g_array_append_vals(table_data, table_instruction_data->data,
-> +        table_instruction_data->len);
-> +    g_array_free(table_instruction_data, TRUE);
-> +
-> +    acpi_table_end(linker, &table);
-> +}
-> +
->  /*******************************************************************/
->  /*******************************************************************/
->  static int erst_post_load(void *opaque, int version_id)
-> --
-> 1.8.3.1
->
+Thomas fought is way through on a v2015.10 U-Boot and taihu defconfig
+and provided a compatible image available here :
+
+ https://gitlab.com/huth/u-boot/-/tree/taihu/
+
+With this image, QEMU reaches the U-Boot prompt (with a simple
+workaround in the SDRAM).
+
+On the Linux side, the only available 405EP CPU board is the one for
+the ESTeem 195E (PPC405EP) SBC (hotfoot). It was added in 2009. The
+board information structure in Linux, in U-Boot and in QEMU are not in
+sync and the hotfoot board also adds its own flavor because the FW was
+an ancient U-Boot without dual ethernet support [1].
+
+For this kernel to be loaded by the U-Boot image provided by Thomas,
+we either need to modify U-Boot or Linux. The same question arise for
+QEMU, see the last patch of this series which is controversial. Please
+advise !
+
+Thanks,
+
+C.
+
+[1] https://lists.ozlabs.org/pipermail/linuxppc-dev/2009-July/074487.html
+
+Cédric Le Goater (14):
+  ppc/ppc405: Change kernel load address
+  ppc: Add trace-events for DCR accesses
+  ppc/ppc405: Convert printfs to trace-events
+  ppc/ppc405: Drop flag parameter in ppc405_set_bootinfo()
+  ppc/ppc405: Change ppc405ep_init() return value
+  ppc/ppc405: Add some address space definitions
+  ppc/ppc405: Remove flash support
+  ppc/ppc405: Rework FW load
+  ppc/ppc405: Introduce ppc405_set_default_bootinfo()
+  ppc/ppc405: Fix boot from kernel
+  ppc/ppc405: Change default PLL values at reset
+  ppc/ppc405: Fix bi_pci_enetaddr2 field in U-Boot board information
+  ppc/ppc405: Add update of bi_procfreq field
+  ppc/ppc405: Update U-Boot board information for hotfoot
+
+Thomas Huth (1):
+  ppc: Mark the 'taihu' machine as deprecated
+
+ docs/about/deprecated.rst |   9 ++
+ hw/ppc/ppc405.h           |  14 +-
+ hw/ppc/ppc.c              |   2 +
+ hw/ppc/ppc405_boards.c    | 245 ++++++++++++++++++----------------
+ hw/ppc/ppc405_uc.c        | 270 +++++++++++++++++++++-----------------
+ hw/ppc/trace-events       |  23 ++++
+ 6 files changed, 327 insertions(+), 236 deletions(-)
+
+-- 
+2.31.1
+
 
