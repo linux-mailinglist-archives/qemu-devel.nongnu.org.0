@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B354469506
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 12:29:24 +0100 (CET)
-Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29DC5469523
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Dec 2021 12:40:58 +0100 (CET)
+Received: from localhost ([::1]:34598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muCBP-0007q1-Ar
-	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 06:29:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58582)
+	id 1muCMX-0002Rk-6R
+	for lists+qemu-devel@lfdr.de; Mon, 06 Dec 2021 06:40:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1muCA1-00072i-9P
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 06:27:58 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:47802)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1muC9y-0000Te-Me
- for qemu-devel@nongnu.org; Mon, 06 Dec 2021 06:27:57 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1muCLX-0001k7-Lr
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 06:39:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56317)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1muCLS-0004GN-9y
+ for qemu-devel@nongnu.org; Mon, 06 Dec 2021 06:39:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638790784;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=J0vYyCuHdyRzpBi1sMVSH9sfGOEAhuHj7K4jWXvi/Fw=;
+ b=F416CUypWdpljHeFCNj3uypWAB9hqc9cCaAtPcBnuvEiypWot03NoCrh+jKshFRlImEssz
+ K3JM2GC2McmUaN0fewh2ggZ+qSgg0xN1ISld/T6t4EwZFUo/kle8rF9MDGtrBwR3U32duB
+ T4EV0VcmNI8pNuSDXb77/3WbJsSFYqo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-180-tmnrcNboNBCBU0W853ujLA-1; Mon, 06 Dec 2021 06:39:38 -0500
+X-MC-Unique: tmnrcNboNBCBU0W853ujLA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A923F1FD2F;
- Mon,  6 Dec 2021 11:27:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638790068; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=B9mYm5Y6hadN/QQvHLGl2Wc1tOzHva0Vu/vH9VI5W3E=;
- b=MVd811S+1SqAXCHLQg+Ja14c6AvfEhQKctcddFD+ibpzB1LibRZDNkePhWmWsGBcSSM0ld
- eEWt7iX8muJZMQ4NS6ufYEy9d3gGzJTB5MWKNzWwU5xQ/SfXNakSa0wYWPoZq4+dX/XuTC
- i46PvbpEth480omlT27DVw4MCYkonHU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638790068;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=B9mYm5Y6hadN/QQvHLGl2Wc1tOzHva0Vu/vH9VI5W3E=;
- b=eFPWTdzj+GHuGvtbcJeREJKSWJ7XmAcG71AemqXnVaa7YLYuUcbLv1hHlOlaqrSGS8lZZP
- 2YkGfgxPoc746GDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7FDA313BD9;
- Mon,  6 Dec 2021 11:27:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YoCoHbTzrWHEYwAAMHmgww
- (envelope-from <lizhang@suse.de>); Mon, 06 Dec 2021 11:27:48 +0000
-From: Li Zhang <lizhang@suse.de>
-To: pbonzini@redhat.com,
-	cfontana@suse.de,
-	qemu-devel@nongnu.org
-Subject: [PATCH 1/1] kvm: Clear variables which may not be used
-Date: Mon,  6 Dec 2021 12:27:38 +0100
-Message-Id: <20211206112738.14893-1-lizhang@suse.de>
-X-Mailer: git-send-email 2.31.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E753F94EE1;
+ Mon,  6 Dec 2021 11:39:37 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E7BF479454;
+ Mon,  6 Dec 2021 11:39:36 +0000 (UTC)
+Date: Mon, 6 Dec 2021 11:39:34 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Li Zhang <lizhang@suse.de>
+Subject: Re: [PATCH 1/1] kvm: Clear variables which may not be used
+Message-ID: <Ya32dqW8Mo0/X+3H@redhat.com>
+References: <20211206112738.14893-1-lizhang@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=lizhang@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211206112738.14893-1-lizhang@suse.de>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,43 +79,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Zhang <lizhang@suse.de>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pbonzini@redhat.com, cfontana@suse.de, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The variables msi, route in kvm_irqchip_send_msi may be uninitialised
-values in some cases. It's necessary to clear them.
+On Mon, Dec 06, 2021 at 12:27:38PM +0100, Li Zhang wrote:
+> The variables msi, route in kvm_irqchip_send_msi may be uninitialised
+> values in some cases. It's necessary to clear them.
 
-Signed-off-by: Li Zhang <lizhang@suse.de>
----
- accel/kvm/kvm-all.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+You say the patch is going to 'clear them' but....
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index eecd8031cf..bd50dc6b80 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -1913,10 +1913,8 @@ static KVMMSIRoute *kvm_lookup_msi_route(KVMState *s, MSIMessage msg)
- 
- int kvm_irqchip_send_msi(KVMState *s, MSIMessage msg)
- {
--    struct kvm_msi msi;
--    KVMMSIRoute *route;
--
-     if (kvm_direct_msi_allowed) {
-+        struct kvm_msi msi;
-         msi.address_lo = (uint32_t)msg.address;
-         msi.address_hi = msg.address >> 32;
-         msi.data = le32_to_cpu(msg.data);
-@@ -1926,6 +1924,7 @@ int kvm_irqchip_send_msi(KVMState *s, MSIMessage msg)
-         return kvm_vm_ioctl(s, KVM_SIGNAL_MSI, &msi);
-     }
- 
-+    KVMMSIRoute *route;
-     route = kvm_lookup_msi_route(s, msg);
-     if (!route) {
-         int virq;
+> 
+> Signed-off-by: Li Zhang <lizhang@suse.de>
+> ---
+>  accel/kvm/kvm-all.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index eecd8031cf..bd50dc6b80 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -1913,10 +1913,8 @@ static KVMMSIRoute *kvm_lookup_msi_route(KVMState *s, MSIMessage msg)
+>  
+>  int kvm_irqchip_send_msi(KVMState *s, MSIMessage msg)
+>  {
+> -    struct kvm_msi msi;
+> -    KVMMSIRoute *route;
+> -
+>      if (kvm_direct_msi_allowed) {
+> +        struct kvm_msi msi;
+
+...but this is still an uninitialized declaration.
+
+>          msi.address_lo = (uint32_t)msg.address;
+>          msi.address_hi = msg.address >> 32;
+>          msi.data = le32_to_cpu(msg.data);
+
+I guess the bug you were wanting to fix is that this code only
+initializes 5 out of 6 struct fields, before calling the
+ioctl.
+
+> @@ -1926,6 +1924,7 @@ int kvm_irqchip_send_msi(KVMState *s, MSIMessage msg)
+>          return kvm_vm_ioctl(s, KVM_SIGNAL_MSI, &msi);
+>      }
+>  
+> +    KVMMSIRoute *route;
+
+This was initialized correctly before and didn't need moving
+
+>      route = kvm_lookup_msi_route(s, msg);
+>      if (!route) {
+>          int virq;
+
+Regards,
+Daniel
 -- 
-2.31.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
