@@ -2,106 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46A046B7BC
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 10:43:31 +0100 (CET)
-Received: from localhost ([::1]:60672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D869F46B7DC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 10:46:36 +0100 (CET)
+Received: from localhost ([::1]:41912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muX0U-0000QV-U3
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 04:43:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54498)
+	id 1muX3T-0006ll-WD
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 04:46:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1muWyg-0006oR-Cg; Tue, 07 Dec 2021 04:41:38 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25478
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1muWye-0002RF-KL; Tue, 07 Dec 2021 04:41:38 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B77GcoZ021754; 
- Tue, 7 Dec 2021 09:41:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=dNSHIDlAeA3FEtmyKKBhP6DH0iwf7PRYAc6vy9XgFF8=;
- b=iSdmTYMQ5orqH6JnwOXfvqnaRu9cooFXTq9RItuJmMBFzCWgVj60I/gBdFog2dWK/Yg4
- +P/WRKrSvqQYffC/TBm7EfgRfMIk85yFi5s/cGmlyU1R80vS4R15JHvLhUnNGcFh0E8+
- B3cxqY1VZIn8b50VJ+yeIOa7vPzz+6097NS0UmDMw1JDkwzzr1QPyV2X0tLEiqCUv9+g
- eisPPMY60ssq0p4pNMiqIVKAtplscDucmJzz3OMLlHyk1Ql9N1zF6grg0NDZYXJjz4aw
- Qovpg2jvIN9IkD5C11syXvzqk1h6td9ubQiopJgv5P9nKdgHI5v5agESbKk+GZHhQkAX Mg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ct334tr6s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Dec 2021 09:41:27 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B79NkOP006451;
- Tue, 7 Dec 2021 09:41:27 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ct334tr6f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Dec 2021 09:41:27 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B79bsZb024686;
- Tue, 7 Dec 2021 09:41:25 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 3cqyy9vrgx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Dec 2021 09:41:25 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B79fMV424641962
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 7 Dec 2021 09:41:22 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8D94D11C04C;
- Tue,  7 Dec 2021 09:41:22 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 13E8E11C05C;
- Tue,  7 Dec 2021 09:41:22 +0000 (GMT)
-Received: from [9.145.165.107] (unknown [9.145.165.107])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  7 Dec 2021 09:41:21 +0000 (GMT)
-Message-ID: <ef183565-77f1-97d5-291a-1c87ecd448fc@linux.ibm.com>
-Date: Tue, 7 Dec 2021 10:41:21 +0100
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1muX1R-00049S-JU; Tue, 07 Dec 2021 04:44:29 -0500
+Received: from [2607:f8b0:4864:20::933] (port=42775
+ helo=mail-ua1-x933.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1muX1Q-0003m6-6K; Tue, 07 Dec 2021 04:44:29 -0500
+Received: by mail-ua1-x933.google.com with SMTP id t13so25261856uad.9;
+ Tue, 07 Dec 2021 01:44:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=8y1QR8lSQU68tvs+aiOmil1o0xXXjvGXYembOR4Nduk=;
+ b=gWXoWIE9NbCSlbYPJWUBm0EWtTAgAIgNl6IdtHY/5YvalZV6D0tiLZpqcv999xBCrW
+ HVqi7AGxQMKcFMPXXysXwiS9gOUFFfzoJzBkRK3uN+jgNxnxJJr4cHOQ7oVzKKXylOxD
+ NvMlMl3M6NgaL7zRm+OCG9AUyWSsWP01DX4IzWl6ir/cLrAHxtE23TjkcN0RIJtlC0AZ
+ nI4rmpXMlPk/ANIIicw1WaL/OJyQplbhsxwoUynmvYisfO5/BiG9boKWVctdbLqiMDtG
+ Xv6fyiBXg/j/KwflHh0Iz/he8Ea7QKOxkSaV3FTMwikDMzhmC97C1oXX+bGhgHfo9br7
+ Vrfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=8y1QR8lSQU68tvs+aiOmil1o0xXXjvGXYembOR4Nduk=;
+ b=vBn840nbT3QnIAgVmQEF6ZeAVju5FLkvMpvh6THkfNDCHOFUo+gLtHmRYBpqz/GHcZ
+ NXOiU2teQahcqd0DHLi3zrkNw/MpIbe3DggoxeNXR/Py86A3lzQyefQeNjLJUj3mdhxG
+ ndFPzF3N94zYSrk/Kh+MZC56fuYvg3mep0siWEnEq0ykYBPJ45bFkshOaw2iFOtjzlIa
+ Mm4+3hL1cxW+PD114mhyep2hUAtfxSFjKMNBYuisHbjzzqiFRr4hKdgFH319iiXQJtlT
+ 4epsMhOxbg6/uAQIimSjUsFAc3MTG8D/bLCqxAnaAOApvJe9qd/F866IOGUMI+Ky+n7z
+ pMwg==
+X-Gm-Message-State: AOAM530jHb18H5vOMIWmiucu7jFnr83WIJAowN44Y3wv02uhP0Gx3i7r
+ XUbX7iSF8K0jPrt38LpLB+9dIpy5MAk=
+X-Google-Smtp-Source: ABdhPJzxz6XIKJ9HAMIXQYqo7sQ+fHc6fOU6kiUtCaHC44TjYcWe6y4Efh0ELMQbw0X7K8skL3azXA==
+X-Received: by 2002:ab0:66cd:: with SMTP id d13mr48640244uaq.140.1638870266973; 
+ Tue, 07 Dec 2021 01:44:26 -0800 (PST)
+Received: from [192.168.10.222] ([177.103.2.88])
+ by smtp.gmail.com with ESMTPSA id s27sm5813772vkl.24.2021.12.07.01.44.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Dec 2021 01:44:26 -0800 (PST)
+Message-ID: <43ea68a2-27d4-5084-6cb0-b6a7a4cba784@gmail.com>
+Date: Tue, 7 Dec 2021 06:44:23 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 02/14] ppc/pnv: Drop the "num-phbs" property
+Subject: Re: [PATCH v2] ppc/pnv.c: fix "system-id" FDT when -uuid is set
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211202144235.1276352-1-clg@kaod.org>
- <20211202144235.1276352-3-clg@kaod.org>
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <20211202144235.1276352-3-clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20211206130253.630655-1-danielhb413@gmail.com>
+ <Ya6mHauaGPv7HwYf@yekko>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <Ya6mHauaGPv7HwYf@yekko>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: rRXZosKCd_JtsJ0X3gaVk6UOX_ZPr0r5
-X-Proofpoint-ORIG-GUID: jJEqt53uAC-m7UveOYU3xVKeQP4kKMbj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-07_03,2021-12-06_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
- suspectscore=0 phishscore=0 mlxlogscore=999 impostorscore=0 clxscore=1015
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112070056
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.44,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::933
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::933;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x933.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.44,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,36 +89,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 02/12/2021 15:42, Cédric Le Goater wrote:
-> It is never used.
+On 12/6/21 21:09, David Gibson wrote:
+> On Mon, Dec 06, 2021 at 10:02:53AM -0300, Daniel Henrique Barboza wrote:
+>> Setting -uuid in the pnv machine does not work:
+>>
+>> ./qemu-system-ppc64 -machine powernv8,accel=tcg  -uuid 7ff61ca1-a4a0-4bc1-944c-abd114a35e80
+>> qemu-system-ppc64: error creating device tree: (fdt_property_string(fdt, "system-id", buf)): FDT_ERR_BADSTATE
+>>
+>> This happens because we're using "fdt_property_string" to retrieve a
+>> "system-id" attribute that does not exist, instead of using
+>> fdt_setprop_string() to create a "system-id" attribute with the uuid
+>> provided via command line.
 > 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-
-
-Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
-
-
->   hw/ppc/pnv.c | 1 -
->   1 file changed, 1 deletion(-)
+> Fix is correct but this description isn't really accurate.
+> fdt_property_string() is a "sequential write" function, only used when
+> you're building a new DT up from scratch, which is an entirely
+> different mode from read/write access to an existing tree.  Using when
+> the tree is in read-write state will cause an immediate BADSTATE
+> error; whether the property exists already or not is irrelevant.
 > 
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index bd768dcc28ad..988b305398b2 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1764,7 +1764,6 @@ static Property pnv_chip_properties[] = {
->       DEFINE_PROP_UINT32("nr-cores", PnvChip, nr_cores, 1),
->       DEFINE_PROP_UINT64("cores-mask", PnvChip, cores_mask, 0x0),
->       DEFINE_PROP_UINT32("nr-threads", PnvChip, nr_threads, 1),
-> -    DEFINE_PROP_UINT32("num-phbs", PnvChip, num_phbs, 0),
->       DEFINE_PROP_END_OF_LIST(),
->   };
->   
+> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+Thanks for the explanation. I'll send a v3 fixing the commit msg.
+
+
+Daniel
+
+> 
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>
+>> changes from v1:
+>> - fixed typo in commit title
+>>
+>>
+>>   hw/ppc/pnv.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+>> index 32ab8071a4..9e532caa9f 100644
+>> --- a/hw/ppc/pnv.c
+>> +++ b/hw/ppc/pnv.c
+>> @@ -552,7 +552,7 @@ static void *pnv_dt_create(MachineState *machine)
+>>       buf =  qemu_uuid_unparse_strdup(&qemu_uuid);
+>>       _FDT((fdt_setprop_string(fdt, 0, "vm,uuid", buf)));
+>>       if (qemu_uuid_set) {
+>> -        _FDT((fdt_property_string(fdt, "system-id", buf)));
+>> +        _FDT((fdt_setprop_string(fdt, 0, "system-id", buf)));
+>>       }
+>>       g_free(buf);
+>>   
 > 
 
