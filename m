@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C5946B8EF
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 11:26:24 +0100 (CET)
-Received: from localhost ([::1]:56636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C21A346B920
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 11:29:29 +0100 (CET)
+Received: from localhost ([::1]:35370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muXfz-0005U9-LR
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 05:26:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35596)
+	id 1muXiy-0001xC-T8
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 05:29:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
- id 1muXYn-0001s9-OC
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 05:18:57 -0500
-Received: from [2a00:1450:4864:20::12e] (port=43538
- helo=mail-lf1-x12e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
- id 1muXYm-0007E4-A4
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 05:18:57 -0500
-Received: by mail-lf1-x12e.google.com with SMTP id b40so32336043lfv.10
- for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 02:18:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=wTbVbo9ur7WLaFFQEbjRi1oejMLe54z9lZ3u3znGArs=;
- b=lbCdXhh3u+o5rCYEedRg9y21pqHaMtBc8eLJX2WXzWuWKYu6zgj0p+72t7UjGHeGO2
- T5YGz/SKDavYVyQZVhqe2sLO6tSJ+HwIH0DhhhCqTvNFEiDIm+UQa07AK5NAK+jYaCyT
- coIRxDHdq9EU/QepS22nw7s7yB9hZgMTYinLEqcKg7YONnbNOg5SQ3JdKW3IdnLHAZYh
- woztjpmOaB2wiQzCk3r2tZv6vuiL3/8xmgsTtnfIGuZk0kLbSvAv0NHIamuWuZJMUPEW
- dsxZYbDiwCsW58yXLqNNuQ6I+H8Q8RUydFvZQpAqdaiyMlQ2bY0p/h3JJ/C5AkEhM2Jb
- eKSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=wTbVbo9ur7WLaFFQEbjRi1oejMLe54z9lZ3u3znGArs=;
- b=Ho7uQTQZ56KDnd+ieEhFjVvRFyIBDovl5OrcvgVl13SzJ7G/RXzGwWzFh2FJojGiAU
- h1DQqCXyLyzijL2qCyAYJ072Q2xm5UTNC0SBHNTZylSJG2bdoqju8VPoJ9s+oAj2WH+K
- T/kLMZ0j12fdyRW7MP9/yU5X01sDoWR6OrTcd6Rii0nfOsrq8H+SmH/x66BA3oZ3Rdfo
- NRlF/vrR5585iR6WuiyjQCPGLwKDNDzjkooonHtx8Ft3p6T3V0EGs7nd0nG0a4EEM5Fc
- IL2HR2hD4kL3eeqwvZDnGpllmjlkq0Jeu/rv+GHVNJO9LQi3eIFRoXItoG63eeIZh32Q
- m7rg==
-X-Gm-Message-State: AOAM5313iD6zl3HaHJ8l3Is3DqJQd3ph91wi/3OZc/sNVhsfkQ6VC6kH
- tHu959D1gqFMyXYyumTGY1m1EzQySvAjfw==
-X-Google-Smtp-Source: ABdhPJxPjgxsRrSqb2VpOh0zt2sSQ89GFv8b8RYQ3vADiTY5rxADjdapfVDTLO/XlJY3su0wESyjgA==
-X-Received: by 2002:a19:7b1b:: with SMTP id w27mr39650840lfc.379.1638872334486; 
- Tue, 07 Dec 2021 02:18:54 -0800 (PST)
-Received: from UNIT-808.labs.intellij.net ([91.132.204.19])
- by smtp.gmail.com with ESMTPSA id w10sm1629022lfn.308.2021.12.07.02.18.53
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 07 Dec 2021 02:18:54 -0800 (PST)
-From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 7/7] net/vmnet: update MAINTAINERS list
-Date: Tue,  7 Dec 2021 13:18:28 +0300
-Message-Id: <20211207101828.22033-8-yaroshchuk2000@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20211207101828.22033-1-yaroshchuk2000@gmail.com>
-References: <20211207101828.22033-1-yaroshchuk2000@gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muXZZ-0004NP-S1
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 05:19:47 -0500
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:54819)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muXZW-0007bJ-GV
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 05:19:45 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.249])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 360D320902;
+ Tue,  7 Dec 2021 10:19:40 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 7 Dec
+ 2021 11:19:39 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004bb537f5e-5c23-4e23-b737-32732b145a07,
+ EDCC1E77E28A65BD51DFCD2B92BF934EEA10E5FB) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <4cf7bfef-c742-7a16-5363-a61e4e8375a0@kaod.org>
+Date: Tue, 7 Dec 2021 11:19:39 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 06/14] ppc/pnv: Complete user created PHB3 devices
+Content-Language: en-US
+To: Frederic Barrat <fbarrat@linux.ibm.com>, <qemu-ppc@nongnu.org>,
+ <qemu-devel@nongnu.org>
+References: <20211202144235.1276352-1-clg@kaod.org>
+ <20211202144235.1276352-7-clg@kaod.org>
+ <e3c2344f-a4bd-59c6-7dff-428e2d70a120@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <e3c2344f-a4bd-59c6-7dff-428e2d70a120@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
- envelope-from=yaroshchuk2000@gmail.com; helo=mail-lf1-x12e.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 8440035e-2b55-4eb2-9db8-9c964b08ff38
+X-Ovh-Tracer-Id: 3835940983043558307
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrjeehgdduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.44,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,35 +72,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, jasowang@redhat.com,
- phillip.ennen@gmail.com, armbru@redhat.com, r.bolshakov@yadro.com,
- phillip@axleos.com, akihiko.odaki@gmail.com, hsp.cat7@gmail.com, hello@adns.io,
- eblake@redhat.com
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
----
- MAINTAINERS | 5 +++++
- 1 file changed, 5 insertions(+)
+On 12/7/21 10:53, Frederic Barrat wrote:
+> 
+> 
+> On 02/12/2021 15:42, Cédric Le Goater wrote:
+>> PHB3s ared SysBus devices and should be allowed to be dynamically
+>> created.
+>>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+> 
+> This one is a bit of black magic for me. 
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7543eb4d59..5c696e38da 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2631,6 +2631,11 @@ W: http://info.iet.unipi.it/~luigi/netmap/
- S: Maintained
- F: net/netmap.c
- 
-+Apple vmnet network backends
-+M: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-+S: Maintained
-+F: net/vmnet*
-+
- Host Memory Backends
- M: David Hildenbrand <david@redhat.com>
- M: Igor Mammedov <imammedo@redhat.com>
--- 
-2.23.0
+Yes. QEMU internals related to sysbus. I am not an expert either.
+
+> I don't see an equivalent for P9 though. Not needed there? 
+
+No because the phb4-pec devices are simple devices. Not tied to sysbus.
+
+Thanks,
+
+C.
+
+> I'll have another comment about P8/P9 later.
+> 
+>    Fred
+> 
+> 
+>>   hw/pci-host/pnv_phb3.c | 9 +++++++++
+>>   hw/ppc/pnv.c           | 2 ++
+>>   2 files changed, 11 insertions(+)
+>>
+>> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+>> index e91f658b0060..b61f9c369f64 100644
+>> --- a/hw/pci-host/pnv_phb3.c
+>> +++ b/hw/pci-host/pnv_phb3.c
+>> @@ -1000,6 +1000,9 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+>>       /* User created devices */
+>>       if (!phb->chip) {
+>> +        Error *local_err = NULL;
+>> +        BusState *s;
+>> +
+>>           phb->chip = pnv_get_chip(pnv, phb->chip_id);
+>>           if (!phb->chip) {
+>>               error_setg(errp, "invalid chip id: %d", phb->chip_id);
+>> @@ -1011,6 +1014,12 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+>>            * correctly the device tree.
+>>            */
+>>           pnv_chip_parent_fixup(phb->chip, OBJECT(phb), phb->phb_id);
+>> +
+>> +        s = qdev_get_parent_bus(DEVICE(phb->chip));
+>> +        if (!qdev_set_parent_bus(DEVICE(phb), s, &local_err)) {
+>> +            error_propagate(errp, local_err);
+>> +            return;
+>> +        }
+>>       }
+>>       /* LSI sources */
+>> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+>> index 9a458655efd9..45d8ecbf2bf7 100644
+>> --- a/hw/ppc/pnv.c
+>> +++ b/hw/ppc/pnv.c
+>> @@ -1927,6 +1927,8 @@ static void pnv_machine_power8_class_init(ObjectClass *oc, void *data)
+>>       pmc->compat = compat;
+>>       pmc->compat_size = sizeof(compat);
+>> +
+>> +    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB3);
+>>   }
+>>   static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
+>>
 
 
