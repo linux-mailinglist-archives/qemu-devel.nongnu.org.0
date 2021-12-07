@@ -2,104 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18B746B89E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 11:15:51 +0100 (CET)
-Received: from localhost ([::1]:60428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 919C146B8AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 11:18:58 +0100 (CET)
+Received: from localhost ([::1]:38360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muXVl-0005ME-OU
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 05:15:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34290)
+	id 1muXYn-0001F1-FA
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 05:18:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1muXSo-0002mi-Mo; Tue, 07 Dec 2021 05:12:46 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39400)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1muXXS-0008Ux-MZ; Tue, 07 Dec 2021 05:17:34 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:51447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1muXSl-0004Km-AC; Tue, 07 Dec 2021 05:12:45 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B79qZHP010494; 
- Tue, 7 Dec 2021 10:12:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=83ood/QvcP2ZsmqeazUWHDPv9Xim+0Zn8lAT97a8qTA=;
- b=cpSd2TiIsRrpuCUwLd/pB9Euet5boWMiClga3FlGrZnEBhsBCNSqNUb4ZRLM9mEB0mQZ
- K6mJ2W3lgQnE5E3Re5WlU0/hp6zT7Xp7DDtaWtgQFxn0Jf1+IPz4L0rew0Kj1rdGBUBh
- 6szZglqV495yyx7Np/ZPqr5jK+DN1IawHHByjet0Di2uj8GhM0ySS3vYbOWLXTkEfJEu
- /WKUEqaOD1q630NMAx/vsW4etSeR6DsSxFHVTbIRT0GZaP+D1S0sCM4/RE+uhuAPoUSr
- a64sn5lrIwGgfZh89713u+H/ZYtla1L5w/HQY3y66gb1bkN9JlgcSPTdO1viCxcm3+wh qA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ct5c88c5s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Dec 2021 10:12:39 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B79r422011838;
- Tue, 7 Dec 2021 10:12:38 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ct5c88c56-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Dec 2021 10:12:38 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B7A3xbk023163;
- Tue, 7 Dec 2021 10:12:36 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03fra.de.ibm.com with ESMTP id 3cqyy9c074-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Dec 2021 10:12:36 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1B7ACXvS21364998
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 7 Dec 2021 10:12:33 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B8A6411C052;
- Tue,  7 Dec 2021 10:12:33 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 467AC11C050;
- Tue,  7 Dec 2021 10:12:33 +0000 (GMT)
-Received: from [9.145.165.107] (unknown [9.145.165.107])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  7 Dec 2021 10:12:33 +0000 (GMT)
-Message-ID: <0aeb2553-7044-08d3-c3ff-f416b3561cb7@linux.ibm.com>
-Date: Tue, 7 Dec 2021 11:12:33 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1muXXQ-00072R-3C; Tue, 07 Dec 2021 05:17:34 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.114])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 52630D04FDCF;
+ Tue,  7 Dec 2021 11:17:29 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 7 Dec
+ 2021 11:17:28 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0029ced5c89-56d3-400b-80d5-d1bdca37f5cd,
+ EDCC1E77E28A65BD51DFCD2B92BF934EEA10E5FB) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <4984d971-9255-b5bd-3989-02a30f55d50d@kaod.org>
+Date: Tue, 7 Dec 2021 11:17:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 14/14] ppc/pnv: Introduce support for user created PHB4
+Subject: Re: [PATCH 04/14] ppc/pnv: Introduce support for user created PHB3
  devices
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+To: Frederic Barrat <fbarrat@linux.ibm.com>, <qemu-ppc@nongnu.org>,
+ <qemu-devel@nongnu.org>
 References: <20211202144235.1276352-1-clg@kaod.org>
- <20211202144235.1276352-15-clg@kaod.org>
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <20211202144235.1276352-15-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <20211202144235.1276352-5-clg@kaod.org>
+ <72b4d947-2f6d-da3d-46f7-75e729643036@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <72b4d947-2f6d-da3d-46f7-75e729643036@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: DWLbxqsA3HlvGwrqLaTtOodPfHj_AiMf
-X-Proofpoint-GUID: RJ0Ajkba0sp94QRmsBHtI4Sb_dsdhaYR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-07_03,2021-12-06_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0
- clxscore=1015 lowpriorityscore=0 spamscore=0 suspectscore=0 bulkscore=0
- impostorscore=0 malwarescore=0 adultscore=0 phishscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2112070060
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 0fad2ff7-270b-40b9-9064-813a1d2e0538
+X-Ovh-Tracer-Id: 3799067763752405923
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrjeehgdduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuveelvdejteegteefieevfeetffefvddvieekteevleefgeelgfeutedvfedvfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.44,
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.44,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -118,78 +77,63 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/7/21 10:47, Frederic Barrat wrote:
+> 
+> 
+> On 02/12/2021 15:42, Cédric Le Goater wrote:
+>> PHB3 devices and PCI devices can now be added to the powernv8 machine
+>> using :
+>>
+>>    -device pnv-phb3,chip-id=0,index=1 \
+>>    -device nec-usb-xhci,bus=pci.1,addr=0x0
+>>
+>> The 'index' property identifies the PHB3 in the chip. In case of user
+>> created devices, a lookup on 'chip-id' is required to assign the
+>> owning chip.
+>>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+> 
+>> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+>> index de277c457838..d7fe92cb082d 100644
+>> --- a/hw/ppc/pnv.c
+>> +++ b/hw/ppc/pnv.c
+>> @@ -1097,14 +1097,14 @@ static void pnv_chip_power8_instance_init(Object *obj)
+>>       object_initialize_child(obj, "homer", &chip8->homer, TYPE_PNV8_HOMER);
+>> -    for (i = 0; i < pcc->num_phbs; i++) {
+>> +    if (defaults_enabled()) {
+>> +        chip->num_phbs = pcc->num_phbs;
+>> +    }
+>> +
+>> +    for (i = 0; i < chip->num_phbs; i++) {
+>>           object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV_PHB3);
+>>       }
+>> -    /*
+>> -     * Number of PHBs is the chip default
+>> -     */
+>> -    chip->num_phbs = pcc->num_phbs;
+>>   }
+> 
+> 
+> So if "-nodefaults" is mentioned on the command line, then chip->num_phbs is not set. It seems the intention is to have only the PHBs defined on the CLI, which is fine. However, I don't see where chip->num_phbs is incremented in that case.
+
+Good catch :) That's why we need another patch fixing all this because
+it is breaking the XICS fabric handlers, ics_get and ics_resend.
+'info pic' is impacted also.
+
+Here is the proposed fix for v2 :
+
+  https://github.com/legoater/qemu/commit/b47bce3109f316a65aa2fa2a46651b2960e93fca
+
+I chose to loop on the children of the chip to find the user
+created devices and leave the PnvChip model with empty defaults.
 
 
-On 02/12/2021 15:42, Cédric Le Goater wrote:
-> PHB4 devices and PCI devices can now be added to the powernv9 machine
-> using:
-> 
->    -device pnv-phb4-pec,chip-id=0,index=0
->    -device nec-usb-xhci,bus=pci.0,addr=0x0
-> 
-> In case of user created devices, a lookup on 'chip-id' is required to
-> assign the owning chip.
-> 
-> To be noted, that the PEC PHB4 devices can add more than one PHB4
-> devices:
-> 
->    * PEC0 provides 1 PHB  (PHB0)
->    * PEC1 provides 2 PHBs (PHB1 and PHB2)
->    * PEC2 provides 3 PHBs (PHB3, PHB4 and PHB5)
-> 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
+'info pic' is impacted the same on P9
 
+   https://github.com/legoater/qemu/commit/d4733edca94c95f717f4ee35bbea6dc085365286
 
-Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
+Thanks,
 
-
->   hw/pci-host/pnv_phb4_pec.c | 19 ++++++++++++++++++-
->   1 file changed, 18 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-> index 9b081d543057..4ee92f11945c 100644
-> --- a/hw/pci-host/pnv_phb4_pec.c
-> +++ b/hw/pci-host/pnv_phb4_pec.c
-> @@ -394,6 +394,17 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
->       char name[64];
->       int i;
->   
-> +    /* User created devices */
-> +    if (!pec->chip) {
-> +        PnvMachineState *pnv = PNV_MACHINE(qdev_get_machine());
-> +
-> +        pec->chip = pnv_get_chip(pnv, pec->chip_id);
-> +        if (!pec->chip) {
-> +            error_setg(errp, "invalid chip id: %d", pec->chip_id);
-> +            return;
-> +        }
-> +    }
-> +
->       if (pec->index >= PNV_CHIP_GET_CLASS(pec->chip)->num_pecs) {
->           error_setg(errp, "invalid PEC index: %d", pec->index);
->           return;
-> @@ -401,6 +412,12 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
->   
->       pec->num_stacks = pecc->num_stacks[pec->index];
->   
-> +    /*
-> +     * Reparent user created devices to the chip to build correctly
-> +     * the device tree.
-> +     */
-> +    pnv_chip_parent_fixup(pec->chip, OBJECT(pec), pec->index);
-> +
->       /* Create stacks */
->       for (i = 0; i < pec->num_stacks; i++) {
->           PnvPhb4PecStack *stack = &pec->stacks[i];
-> @@ -516,7 +533,7 @@ static void pnv_pec_class_init(ObjectClass *klass, void *data)
->   
->       dc->realize = pnv_pec_realize;
->       device_class_set_props(dc, pnv_pec_properties);
-> -    dc->user_creatable = false;
-> +    dc->user_creatable = true;
->   
->       pecc->xscom_nest_base = pnv_pec_xscom_nest_base;
->       pecc->xscom_pci_base  = pnv_pec_xscom_pci_base;
-> 
+C.
 
