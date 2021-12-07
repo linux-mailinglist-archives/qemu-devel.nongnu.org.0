@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9084746BA6A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 12:52:14 +0100 (CET)
-Received: from localhost ([::1]:46468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C59346BA6B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 12:52:15 +0100 (CET)
+Received: from localhost ([::1]:46556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muZ13-0007of-3m
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 06:52:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55980)
+	id 1muZ14-0007s5-69
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 06:52:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muYzV-0005AJ-12
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 06:50:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54829)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muYzW-0005Ae-KW
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 06:50:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muYzR-0004lo-Mp
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 06:50:36 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muYzS-0004ly-LL
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 06:50:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638877830;
+ s=mimecast20190719; t=1638877833;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MUtpeLYHKQgrc9BMfv66tyCzYEZUrgpReG7BcJQeSaM=;
- b=JmrRTD+erR9/oWFC9Y28TKxIKyJbukrDSPStI3V5m0t/egXW8xztqDv1KTfJ9KguZGYHeC
- fksNwiYYmrNblT4MJ4a+rezK4RnqPCh4wFaX1dJF7ZtWRfAsORURgK+maT8TcnBk4kuJnN
- i9gsM3+d+OwT818NrN/Vtfyyxd+Qqqw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xkNoxRGiLarQHKJMZMA2Rdjez5Quwer/Kh6c3bPYS8g=;
+ b=OTaTnYRB1xomoWrQF/6W1+40KG1pomOZtS7zjsBilhSz0YiV08xGvNnKBK/G8RPccmzhCR
+ w/cwS+u/KdX1Ypr994Ua7Jv/VoE4/dwVripXU43Ajsdk3mkymPvZ4vihk/nTinlS8A6L6K
+ 0p56YBsBv/KHONokV6/GSYQdYk7snog=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-8-vkIhEvJCNReeLO0E3lD6MA-1; Tue, 07 Dec 2021 06:50:29 -0500
-X-MC-Unique: vkIhEvJCNReeLO0E3lD6MA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- q5-20020a5d5745000000b00178abb72486so2859855wrw.9
- for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 03:50:29 -0800 (PST)
+ us-mta-275-LlvohfHAOmeunuyemSZtUw-1; Tue, 07 Dec 2021 06:50:32 -0500
+X-MC-Unique: LlvohfHAOmeunuyemSZtUw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o18-20020a05600c511200b00332fa17a02eso1245502wms.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 03:50:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MUtpeLYHKQgrc9BMfv66tyCzYEZUrgpReG7BcJQeSaM=;
- b=kQ0ctXJym2e/jI+O8//9n6yg1Oyp4Fa2sP5x7VR4PpMkzGXHUPePAHGS/++8vEQok8
- 325MFkY21fjOObLcIjWvf9Kr71+CIZLSVy0odvWCU7JXh/jttn/A2bEMseffzgbVkaJe
- 2RVGarLyMRr47QoSa3PjqcAQv8biBt+bz13sPid20+kf2bUh2wS8PdGFGZYa0wcvX4Gd
- 0BCVFbNkzea2Ab0NNji2nxpetzFqHSLsT3t8MtuE1k+SZ4occcKcjUcUt4FQWf/sCmLB
- aBhJ8CVQhGYU1u9jXsXjANRrQpC/y1fmtuIhm529yryY5H0HJDhFsAEMkQEOmolCNNmk
- BlMQ==
-X-Gm-Message-State: AOAM530O17Gk79DafzF0O8DVkInWKj5cucCTjs5FhAEzydJQdO7lT3xJ
- 6xP5Z7ZToRfpvvTbBppmVK3Nyo3mTWnNU/ejc26Dn5poZA3UAk0dCxQB+CJlEop63pTXMoE7vau
- asF0hOp/J8t12Uf9oHt7R4tM6ZQgLFVtTkVyvb5gu+NX7kj5lNvMgFHpVQKzf1gvA
-X-Received: by 2002:a5d:6da2:: with SMTP id u2mr50037461wrs.273.1638877828175; 
- Tue, 07 Dec 2021 03:50:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJykVUBKt1FImbcPb2AgwarC7z0aRwGenSfhkK4TfDmrZGKnp6W74UfH2MLAGrkGF3J3qOI73w==
-X-Received: by 2002:a5d:6da2:: with SMTP id u2mr50037428wrs.273.1638877827888; 
- Tue, 07 Dec 2021 03:50:27 -0800 (PST)
+ bh=xkNoxRGiLarQHKJMZMA2Rdjez5Quwer/Kh6c3bPYS8g=;
+ b=deuaYVvr6fZQbd+kF8i+NBBvsob4p+rOyhCvRh8WABnySFiQ1tIVithftxV7HniTor
+ rhYVFMpyJL5nd170vQb/a4g2QlQk+wM0pTWjk7UK+MyuTfW0XRlSn3OCidwKTKYvV+GV
+ 1wjFyeD1SWQVLFd+MBJNkP1skC+LqHxwaHMQUI1BbWltVC1vXM8UpdneldIhB/X+7DFc
+ U/jyqPj69FegYmNKQGX1D1N+a8kgwd5+lf8hpuCyZ6e/td+WxDYsZEtLgbmCw1r9q3Re
+ sQkgnRHG/zZQ9Tjr5S7le0Yx56Fnv0cl0Shmn29hA5gIBIcDbU7Aos83Y+/FRtvVS02R
+ t/iQ==
+X-Gm-Message-State: AOAM530O5YGqx6Ea0JOiP/b4ZOX8hHzSuxHUFUGIiKIQnLS2+OOTmmg/
+ orabzRXO6b+cVKFRHFtjOBGE0BIbG8WGxlXVrC9g9SQa0eY1zyejVoz5gFp438itr0WjlTIT+5O
+ KPrvsoZicMYkVHBUMneTKdJyT6n0Z1qBfgRAaax94FvqVwz8wz7A0F+Ysn/NfqPVs
+X-Received: by 2002:a05:600c:4fcc:: with SMTP id
+ o12mr6534703wmq.110.1638877831254; 
+ Tue, 07 Dec 2021 03:50:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxtLTAVUDCuausXrZXiws+xNCGC4LGpjeafjACE3lCrA5CLMfwtSM3hTHteB9NBfjVmsziB+A==
+X-Received: by 2002:a05:600c:4fcc:: with SMTP id
+ o12mr6534673wmq.110.1638877831035; 
+ Tue, 07 Dec 2021 03:50:31 -0800 (PST)
 Received: from localhost.localdomain ([85.203.46.177])
- by smtp.gmail.com with ESMTPSA id g18sm3023551wmq.4.2021.12.07.03.50.25
+ by smtp.gmail.com with ESMTPSA id g18sm3023551wmq.4.2021.12.07.03.50.28
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 07 Dec 2021 03:50:27 -0800 (PST)
+ Tue, 07 Dec 2021 03:50:30 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] migration: Drop dead code of ram_debug_dump_bitmap()
-Date: Tue,  7 Dec 2021 19:50:10 +0800
-Message-Id: <20211207115016.73195-2-peterx@redhat.com>
+Subject: [PATCH 2/7] migration: Don't return for postcopy_chunk_hostpages()
+Date: Tue,  7 Dec 2021 19:50:11 +0800
+Message-Id: <20211207115016.73195-3-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211207115016.73195-1-peterx@redhat.com>
 References: <20211207115016.73195-1-peterx@redhat.com>
@@ -73,15 +75,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,86 +102,60 @@ Cc: Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I planned to add "#ifdef DEBUG_POSTCOPY" around the function too because
-otherwise it'll be compiled into qemu binary even if it'll never be used.  Then
-I found that maybe it's easier to just drop it for good..
+It always return zero, because it just can't go wrong so far.  Simplify the
+code with no functional change.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/ram.c | 39 ---------------------------------------
- migration/ram.h |  2 --
- 2 files changed, 41 deletions(-)
+ migration/ram.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 863035d235..756ac800a7 100644
+index 756ac800a7..fb8c1a887e 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -2413,40 +2413,6 @@ static void ram_state_reset(RAMState *rs)
+@@ -2585,12 +2585,10 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block)
+  * dirty host-page size chunks as all dirty.  In this case the host-page
+  * is the host-page for the particular RAMBlock, i.e. it might be a huge page
+  *
+- * Returns zero on success
+- *
+  * @ms: current migration state
+  * @block: block we want to work with
+  */
+-static int postcopy_chunk_hostpages(MigrationState *ms, RAMBlock *block)
++static void postcopy_chunk_hostpages(MigrationState *ms, RAMBlock *block)
+ {
+     postcopy_discard_send_init(ms, block->idstr);
  
- #define MAX_WAIT 50 /* ms, half buffered_file limit */
+@@ -2600,7 +2598,6 @@ static int postcopy_chunk_hostpages(MigrationState *ms, RAMBlock *block)
+     postcopy_chunk_hostpages_pass(ms, block);
  
--/*
-- * 'expected' is the value you expect the bitmap mostly to be full
-- * of; it won't bother printing lines that are all this value.
-- * If 'todump' is null the migration bitmap is dumped.
-- */
--void ram_debug_dump_bitmap(unsigned long *todump, bool expected,
--                           unsigned long pages)
--{
--    int64_t cur;
--    int64_t linelen = 128;
--    char linebuf[129];
--
--    for (cur = 0; cur < pages; cur += linelen) {
--        int64_t curb;
--        bool found = false;
--        /*
--         * Last line; catch the case where the line length
--         * is longer than remaining ram
--         */
--        if (cur + linelen > pages) {
--            linelen = pages - cur;
--        }
--        for (curb = 0; curb < linelen; curb++) {
--            bool thisbit = test_bit(cur + curb, todump);
--            linebuf[curb] = thisbit ? '1' : '.';
--            found = found || (thisbit != expected);
--        }
--        if (found) {
--            linebuf[curb] = '\0';
--            fprintf(stderr,  "0x%08" PRIx64 " : %s\n", cur, linebuf);
--        }
--    }
--}
--
- /* **** functions for postcopy ***** */
+     postcopy_discard_send_finish(ms);
+-    return 0;
+ }
  
- void ram_postcopy_migrated_memory_release(MigrationState *ms)
-@@ -2674,11 +2640,6 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
-         if (ret) {
-             return ret;
-         }
--
--#ifdef DEBUG_POSTCOPY
--        ram_debug_dump_bitmap(block->bmap, true,
--                              block->used_length >> TARGET_PAGE_BITS);
--#endif
+ /**
+@@ -2622,7 +2619,6 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
+ {
+     RAMState *rs = ram_state;
+     RAMBlock *block;
+-    int ret;
+ 
+     RCU_READ_LOCK_GUARD();
+ 
+@@ -2636,10 +2632,7 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
+ 
+     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+         /* Deal with TPS != HPS and huge pages */
+-        ret = postcopy_chunk_hostpages(ms, block);
+-        if (ret) {
+-            return ret;
+-        }
++        postcopy_chunk_hostpages(ms, block);
      }
      trace_ram_postcopy_send_discard_bitmap();
  
-diff --git a/migration/ram.h b/migration/ram.h
-index c515396a9a..f543e25765 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -55,8 +55,6 @@ void mig_throttle_counter_reset(void);
- uint64_t ram_pagesize_summary(void);
- int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_t len);
- void acct_update_position(QEMUFile *f, size_t size, bool zero);
--void ram_debug_dump_bitmap(unsigned long *todump, bool expected,
--                           unsigned long pages);
- void ram_postcopy_migrated_memory_release(MigrationState *ms);
- /* For outgoing discard bitmap */
- int ram_postcopy_send_discard_bitmap(MigrationState *ms);
 -- 
 2.32.0
 
