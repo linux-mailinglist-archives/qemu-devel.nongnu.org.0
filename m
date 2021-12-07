@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B19446B259
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 06:25:55 +0100 (CET)
-Received: from localhost ([::1]:48020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C48F846B25C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 06:27:57 +0100 (CET)
+Received: from localhost ([::1]:51236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muSzB-0000LX-Gs
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 00:25:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57700)
+	id 1muT1A-0002mJ-Ix
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 00:27:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1muSxC-0007NC-Oa
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 00:23:51 -0500
-Received: from [2a00:1450:4864:20::531] (port=45736
- helo=mail-ed1-x531.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1muSzQ-000177-Jn
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 00:26:09 -0500
+Received: from [2a00:1450:4864:20::536] (port=39579
+ helo=mail-ed1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1muSx8-0007Wd-Fd
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 00:23:50 -0500
-Received: by mail-ed1-x531.google.com with SMTP id y12so51873313eda.12
- for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 21:23:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1muSzM-00083L-MY
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 00:26:08 -0500
+Received: by mail-ed1-x536.google.com with SMTP id w1so52148496edc.6
+ for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 21:26:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7hH7kuRPojg6Ec3n9YZqTa7uKGv8C4PuhoFpIoJibJU=;
- b=szDmhO5kJLwHYu8ZGgvioGyvOpKT0OM8X6SSNuQ6rzlII+4pDECQ7iNGbkqME2n/Ut
- 9k8TBOe8HWj8kYuGm/7WRK+iYg664qu4GCHovG9Wul7HDWz3eTRr2m2P3M5IvxTriQRx
- kRrnTW64rqwpMOyiYAskSMWlgtSTvuF6/y3sjtbeRI0B09rL8PZIgerW7kzEJL6VWixK
- 4FMS6IC0uEQIKWXTewvSWODsv6gcxNnXe0VV2mIO/ww96+elhP6CQytwSmdM33WlWLe6
- 0OU0mVBCtfDJB7Wd5n8ZswYTTTaLKQgukLBpl8IoCabO2qAOBbe0+73cgb0ehymEXdbX
- riIA==
+ :cc; bh=J0kPRPlcxSDerhJ+0ouWIitAEMdLj4aznewEd6FnBZM=;
+ b=AM/2bhQjLR+xhhWbfHwTcD21BE1FL0KCFNN900x7LhhfHlm9pb6qOKJ7cI7CQ7UlsG
+ X1Aja4vKTwi0xZsvvElIo5/kn+E0kHErFUNgr1PvByU35s1CBrrDC0gUmmFhwik95XLH
+ vhyMQuD1BWduJqinm1HqdgRfrfuoniB2QZaqwLnYNY/1DqGE0OpAL6ZHhmYgIEe4O232
+ TY75ThHSR6NfdoqjfgcnuFpxvii2Gp5VcBSAWLpdLDNfb1TAHA/2ms/iCXHD6nxnT/7t
+ Dioem48nOt9VUxe2Bar4+0w4P6eo2Qr2E4GTpaWfGulPLUdpvtZnYU7JYdfqc0b8KhSD
+ Wf8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7hH7kuRPojg6Ec3n9YZqTa7uKGv8C4PuhoFpIoJibJU=;
- b=TF5nUbWmHwGqcVLT0XxxA1fup5HKn9Wv65QhpJtfur71waDyjV4TjlfjvGEeT2wNPe
- yC+gk0OGebNXRxEf2yM6PaTJwOTV5zjW7Ks9fBv1rTh0dJTzQ+Bv0uNz/Qqx4CdhdJIW
- EjFU2VG3Mwni6TQ0hTeiJDhJ67D/8FbJ6uoV8EhZfQGM0OwZWVkxFXNvgB94jXkjh5vL
- B4hBVO2ShsdIwlIn02GfAPjylhNi6h6GvLnJ4wLtOwFhiYEh9O3ZkxzQbqH3eNgu/1k3
- UNO6WsfJpVxC2/RuazXOotUcg9Pq1+W3Mha96sP8OfePNDOLG+OQSdPUj6TMa0KFZPW2
- dFNA==
-X-Gm-Message-State: AOAM532jyKtn9IdS4vEc1/adiyvVOfu5183jNGcCZNT0fZGAHy5sjbt5
- Ux1HaH3nCFTsnjj/EPFZy+mK+fx2MQTuuisFNTP+UA==
-X-Google-Smtp-Source: ABdhPJyd5QoJLRhWmY9xBun3kaN20Nxvif9mHX2Xtc2eLN2GCAbXWAGilaUeI8paOzsMs5gjlVMcO76UwYDLCEGWmnk=
-X-Received: by 2002:a17:907:a42c:: with SMTP id
- sg44mr50324181ejc.335.1638854620900; 
- Mon, 06 Dec 2021 21:23:40 -0800 (PST)
+ bh=J0kPRPlcxSDerhJ+0ouWIitAEMdLj4aznewEd6FnBZM=;
+ b=7SMh3Mw3otV2CmLbp8ui735HvKAD5moz4+XpO39Rj+RMwOkNQI8zWxQgNMcXgmwpGe
+ btXuqhns6dsop/AzUQl0UdaRgo9zNmN5tzuams0JQd8N+lw77ASxffsCXyi8XGP7rPnJ
+ YzG5dsHFQWzzZWGbSPRYV0uZ5eqdmSVCPqlmGsu2siPbEpMnExYKU0eycQAr3fg03Ftb
+ 5tDIRX/jrWdbjSDrPx0GRLxH7lCXno5/tv+3HcKebqzTDqTyWjbiDB4WsMsuVLxeyFYu
+ /2sVfdWP0RPm5N7uiQ7je6DWQLW978rRCV+JDIxmVCJpAPOm4te0O2ytDtmkGXHBI33D
+ 6xFg==
+X-Gm-Message-State: AOAM531bX676yiW2lzQ4M+0DjFrmhU0JEYunkEcnY/YAdNRnNDyWOlzz
+ 9QJ1cNRUVTzbmsY709M5IJNhay4hVhhLyvB0blOg8Ne5WDU=
+X-Google-Smtp-Source: ABdhPJyR85X8fFGg9TeOQkfcKHkOv9YTZ+hsk9jAeoi4ZUa1cbhYhp+IWn6I5IBWy9ywVtdni7FJWA0poomaZT7UvT4=
+X-Received: by 2002:a50:f18a:: with SMTP id x10mr5606151edl.193.1638854763315; 
+ Mon, 06 Dec 2021 21:26:03 -0800 (PST)
 MIME-Version: 1.0
 References: <1638472142-14396-1-git-send-email-eric.devolder@oracle.com>
  <1638472142-14396-6-git-send-email-eric.devolder@oracle.com>
@@ -54,15 +53,15 @@ References: <1638472142-14396-1-git-send-email-eric.devolder@oracle.com>
  <6a60706a-194c-2aab-9f80-44b82372bad3@oracle.com>
 In-Reply-To: <6a60706a-194c-2aab-9f80-44b82372bad3@oracle.com>
 From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 7 Dec 2021 10:53:30 +0530
-Message-ID: <CAARzgwyiN2-gGU0=EFhnxBZNOe0XoCKeZyzP4rfrygubwcLhZw@mail.gmail.com>
+Date: Tue, 7 Dec 2021 10:55:52 +0530
+Message-ID: <CAARzgwy41CMBiW96jZ-gThpjsc9AE0qR4tGy5U4P8sp5W2Gbvg@mail.gmail.com>
 Subject: Re: [PATCH v9 05/10] ACPI ERST: support for ACPI ERST feature
 To: Eric DeVolder <eric.devolder@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::531;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x531.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::536;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -205,11 +204,6 @@ On Mon, Dec 6, 2021 at 9:51 PM Eric DeVolder <eric.devolder@oracle.com> wrote:
 > > https://uefi.org/sites/default/files/resources/ACPI_6_3_May16.pdf
 > > section 18.5.1.1
 > Ah, should I remove it (to stay 4.0-esque), or leave it stay current?
-
-I would leave it there since its in the latest spec but add a comment
-mentioning which version of ACPI this action was introduced.
-If someone else thinks otherwise, please speak up now.
-
 >
 > >
 > >> +
@@ -282,6 +276,8 @@ If someone else thinks otherwise, please speak up now.
 > > in acpi spec 6.3.
 >
 > This is arbitrary; it is purely for the 'magic' member in the struct ERSTStorageHeader below.
+Please mention this in the comment that the magic number is arbitrary.
+
 > >
 > >> +
 > >> +typedef struct {
@@ -299,6 +295,10 @@ If someone else thinks otherwise, please speak up now.
 >
 > This is not in the ACPI spec; this would fall under the implementation-specific guidance of the
 > spec. I do describe how I use this in the acpi-erst.rst.
+
+Here also a comment would be useful that says the struct above is
+implementation specific.
+
 >
 > >
 > >> +
