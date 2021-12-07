@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE59946BCF1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 14:50:30 +0100 (CET)
-Received: from localhost ([::1]:55868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD7146BD03
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 14:55:10 +0100 (CET)
+Received: from localhost ([::1]:59408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muarV-0003mC-TF
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 08:50:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39148)
+	id 1muaw1-0006Vm-49
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 08:55:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1muaqG-000338-3Y
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 08:49:15 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:42120)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1muaqE-0008Dj-7q
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 08:49:11 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DC819212BE;
- Tue,  7 Dec 2021 13:49:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638884948; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1muauD-0005Gf-Hl
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 08:53:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24960)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1muau7-00021x-V1
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 08:53:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638885188;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xjgllPpAgYU3VY2GuFDe9dZQPnkeVXc0mmaZnqdzCX0=;
- b=hxCp1tEBXSDlZ18Lz9yNE0au0pZl5MCxB1CU5RXiFf627kVZSD3pD/8zP6ZqTfe+fhxe9H
- VYrXy+nCZP/Tq516OSXCf5VAajiEMzN9/v/kc1KaoLCt4nPwCb/hkmM45ZtYdzoqzlvf7a
- 4MUDTIW8uQvSkjDslBG2QnI+EEtuhqk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638884948;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xjgllPpAgYU3VY2GuFDe9dZQPnkeVXc0mmaZnqdzCX0=;
- b=IlMbb4LoxBZejmzmJ/YPQqMDkjIeW0Sk38mkj5W9YSZzVcQMWDWB2QxbVyGXTe1xPIS7C8
- cgDbGXzCC9cspLDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=z0IWIQsp0xUaMSjk+2JNWoDgWrTxAr18iNO+rcQnKQo=;
+ b=Jnn8ZumAsHzP6rbzWij9Z9bLIkmuAQmsW8JFSFxLhkkwgEExGri3fSkHM63njLdrg2F9TV
+ yZADwAgu4SpySkKbvYPc6m9eDBuw++YgYrcE2wX7tOZAySOF3z7ox67hUlFfgSqWjYBHdl
+ wQ7wiHBcrCwsxqXoW77uArdJovjQicY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-244-GH5-a6VnO8yk2F4fj6_Thw-1; Tue, 07 Dec 2021 08:53:06 -0500
+X-MC-Unique: GH5-a6VnO8yk2F4fj6_Thw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 99C8013A82;
- Tue,  7 Dec 2021 13:49:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id nfx5I1Rmr2FaVQAAMHmgww
- (envelope-from <lizhang@suse.de>); Tue, 07 Dec 2021 13:49:08 +0000
-Subject: Re: [PATCH v2 1/1] multifd: Shut down the QIO channels to avoid
- blocking the send threads when they are terminated.
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20211203115533.31534-1-lizhang@suse.de>
- <20211203115533.31534-2-lizhang@suse.de>
- <c020b6ee-12e4-9161-9a8d-9090930a4dd0@suse.de> <Ya5pd4HcD2/2AfzK@work-vm>
-From: Li Zhang <lizhang@suse.de>
-Message-ID: <8e02ecb6-f1db-2555-0b8d-8ead61cee830@suse.de>
-Date: Tue, 7 Dec 2021 14:49:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 115278710F1;
+ Tue,  7 Dec 2021 13:53:05 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9906760843;
+ Tue,  7 Dec 2021 13:53:04 +0000 (UTC)
+Date: Tue, 7 Dec 2021 13:53:03 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [RFC v3 0/4] tls: add macros for coroutine-safe TLS variables
+Message-ID: <Ya9nP63gwsk80POC@stefanha-x1.localdomain>
+References: <20211206142632.116925-1-stefanha@redhat.com>
+ <CAFEAcA9=T-2AxzN1fhrtnu5U_5k7D8TPVjFXOLS_MeOCvR8FNA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <Ya5pd4HcD2/2AfzK@work-vm>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=lizhang@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.44,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA9=T-2AxzN1fhrtnu5U_5k7D8TPVjFXOLS_MeOCvR8FNA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DywgZOoE+2kyEKs1"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,84 +80,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, berrange@redhat.com, cfontana@suse.de,
- quintela@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, fweimer@redhat.com, thuth@redhat.com,
+ Daniel Berrange <berrange@redhat.com>, qemu-block@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Warner Losh <imp@bsdimp.com>, sguelton@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--DywgZOoE+2kyEKs1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 12/6/21 8:50 PM, Dr. David Alan Gilbert wrote:
-> * Li Zhang (lizhang@suse.de) wrote:
->> Thanks for Daniel's review.
->>
->> Hi David and Juan,
->>
->> Any comments for this patch?
->>
-> Yeh I think that's OK, so
->
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->
-> I'd have a slight preference for it being before the post I think.
+On Mon, Dec 06, 2021 at 02:34:45PM +0000, Peter Maydell wrote:
+> On Mon, 6 Dec 2021 at 14:33, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> >
+> > v3:
+> > - Added __attribute__((weak)) to get_ptr_*() [Florian]
+>=20
+> Do we really need it *only* on get_ptr_*() ? If we need to
+> noinline the other two we probably also should use the same
+> attribute weak to force no optimizations at all.
 
-Thanks.
+The weak attribute can't be used on static functions, so I think we need
+a different approach:
 
->
-> Dave
->
->> Thanks
->>
->> Li
->>
->> On 12/3/21 12:55 PM, Li Zhang wrote:
->>> When doing live migration with multifd channels 8, 16 or larger number,
->>> the guest hangs in the presence of the network errors such as missing TCP ACKs.
->>>
->>> At sender's side:
->>> The main thread is blocked on qemu_thread_join, migration_fd_cleanup
->>> is called because one thread fails on qio_channel_write_all when
->>> the network problem happens and other send threads are blocked on sendmsg.
->>> They could not be terminated. So the main thread is blocked on qemu_thread_join
->>> to wait for the threads terminated.
->>>
->>> (gdb) bt
->>> 0  0x00007f30c8dcffc0 in __pthread_clockjoin_ex () at /lib64/libpthread.so.0
->>> 1  0x000055cbb716084b in qemu_thread_join (thread=0x55cbb881f418) at ../util/qemu-thread-posix.c:627
->>> 2  0x000055cbb6b54e40 in multifd_save_cleanup () at ../migration/multifd.c:542
->>> 3  0x000055cbb6b4de06 in migrate_fd_cleanup (s=0x55cbb8024000) at ../migration/migration.c:1808
->>> 4  0x000055cbb6b4dfb4 in migrate_fd_cleanup_bh (opaque=0x55cbb8024000) at ../migration/migration.c:1850
->>> 5  0x000055cbb7173ac1 in aio_bh_call (bh=0x55cbb7eb98e0) at ../util/async.c:141
->>> 6  0x000055cbb7173bcb in aio_bh_poll (ctx=0x55cbb7ebba80) at ../util/async.c:169
->>> 7  0x000055cbb715ba4b in aio_dispatch (ctx=0x55cbb7ebba80) at ../util/aio-posix.c:381
->>> 8  0x000055cbb7173ffe in aio_ctx_dispatch (source=0x55cbb7ebba80, callback=0x0, user_data=0x0) at ../util/async.c:311
->>> 9  0x00007f30c9c8cdf4 in g_main_context_dispatch () at /usr/lib64/libglib-2.0.so.0
->>> 10 0x000055cbb71851a2 in glib_pollfds_poll () at ../util/main-loop.c:232
->>> 11 0x000055cbb718521c in os_host_main_loop_wait (timeout=42251070366) at ../util/main-loop.c:255
->>> 12 0x000055cbb7185321 in main_loop_wait (nonblocking=0) at ../util/main-loop.c:531
->>> 13 0x000055cbb6e6ba27 in qemu_main_loop () at ../softmmu/runstate.c:726
->>> 14 0x000055cbb6ad6fd7 in main (argc=68, argv=0x7ffc0c578888, envp=0x7ffc0c578ab0) at ../softmmu/main.c:50
->>>
->>> To make sure that the send threads could be terminated, IO channels should be
->>> shut down to avoid waiting IO.
->>>
->>> Signed-off-by: Li Zhang <lizhang@suse.de>
->>> ---
->>>    migration/multifd.c | 3 +++
->>>    1 file changed, 3 insertions(+)
->>>
->>> diff --git a/migration/multifd.c b/migration/multifd.c
->>> index 7c9deb1921..33f8287969 100644
->>> --- a/migration/multifd.c
->>> +++ b/migration/multifd.c
->>> @@ -523,6 +523,9 @@ static void multifd_send_terminate_threads(Error *err)
->>>            qemu_mutex_lock(&p->mutex);
->>>            p->quit = true;
->>>            qemu_sem_post(&p->sem);
->>> +        if (p->c) {
->>> +            qio_channel_shutdown(p->c, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
->>> +        }
->>>            qemu_mutex_unlock(&p->mutex);
->>>        }
->>>    }
->>
+In file included from ../util/async.c:35:
+/builds/stefanha/qemu/include/qemu/coroutine-tls.h:201:11: error: weak decl=
+aration of 'get_ptr_my_aiocontext' must be public
+     type *get_ptr_##var(void)                                             =
+   \
+           ^~~~~~~~
+../util/async.c:673:1: note: in expansion of macro 'QEMU_DEFINE_STATIC_CO_T=
+LS'
+ QEMU_DEFINE_STATIC_CO_TLS(AioContext *, my_aiocontext)
+ ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+Adding asm volatile("") seems to work though:
+https://godbolt.org/z/3hn8Gh41d
+
+The GCC documentation mentions combining noinline with asm(""):
+https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-no=
+inline-function-attribute
+
+Stefan
+
+--DywgZOoE+2kyEKs1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmGvZz8ACgkQnKSrs4Gr
+c8iGCgf+L2b+ZeDITct6IMiisXVyiDdAezzKcvqqROcrKOANkIfDkUIpKigMKd3V
+1+FUDmQPvjoj7dAtbTBoEuhTXzmw2clx9/O2l4wwXeoiE50tvbfUcdNBFj/fTfy0
+hWN2AOG9TTwcKvV7jYghIl2thufXANNV6xXL0JEOwixUkbU90m2ZWm3JZwcUv1Uz
+36btzmJxEEt9yIsbIO5kKOdc4faQfn34TP6BTBeP9mH+Ry3rLU6KgfWdOhDj/0ju
+a+6fHwJLTRQg0Acl8hbBS8ERVfDWyapm28nDtiueO54GDLG6UDrJ3e1OGtWuCU20
+1LPEQQbOyQPa94nK+3aiiz8Vms5qsQ==
+=8tOe
+-----END PGP SIGNATURE-----
+
+--DywgZOoE+2kyEKs1--
+
 
