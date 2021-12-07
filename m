@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ACAB46C063
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 17:12:57 +0100 (CET)
-Received: from localhost ([::1]:59202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E2746C089
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 17:16:38 +0100 (CET)
+Received: from localhost ([::1]:33388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mud5M-0003ze-13
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 11:12:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56376)
+	id 1mud8v-0005jh-QC
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 11:16:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mud4S-0003LN-JQ
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 11:12:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54185)
+ (Exim 4.90_1) (envelope-from <w@uter.be>)
+ id 1mud7C-0004sS-Rg; Tue, 07 Dec 2021 11:14:50 -0500
+Received: from lounge.grep.be ([144.76.219.42]:41471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mud4M-0005S3-K6
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 11:11:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638893512;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Rk5Wb0nTl7dpFc+B6HZg1Jm+8+ET8pC+slZKxVgZrRA=;
- b=hLyA4HxP8X++jUWbGZdrRS/nNAz3Scgj0pN4FvN3B5eR9Z6/N1BFwfN4iALCsDIAb6S1Gr
- BMFAiMuWLY6xD8MzSeRoecxjfJxvero0ZcNy2xCGtz1iE16HpZmXKn+eZXW+bT3/YNyJ4l
- pJ5YktFQPgRhnMBwG/5kgNGgjoOLa8g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-82-Fd06OOzFO6Ktc3FOQ7dnoQ-1; Tue, 07 Dec 2021 11:11:49 -0500
-X-MC-Unique: Fd06OOzFO6Ktc3FOQ7dnoQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EE281006AA1;
- Tue,  7 Dec 2021 16:11:48 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 916595D9C0;
- Tue,  7 Dec 2021 16:11:47 +0000 (UTC)
-Date: Tue, 7 Dec 2021 16:11:46 +0000
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] tests/docker: add libfuse3 development headers
-Message-ID: <20211207161146.GQ1127@redhat.com>
-References: <20211207160025.52466-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <w@uter.be>)
+ id 1mud7A-0006v7-KC; Tue, 07 Dec 2021 11:14:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=uter.be;
+ s=2021.lounge; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=25a1o2WYOQYbCP2CdxCrYiQ1cGWDx5GwMdekaJBLEZk=; b=A9n9CPe3MJYzvynRukUGPcS0F4
+ FTM60J7mAyKo+SDiz8ba+HHN4HEz9epcZgHZogUe4gjQwySxkdt8o0h4kBWNlSwMPEu1E/E4Ife5f
+ 0lo1zKpOTKWTfqx6xc4syuk+vPaghNbLigG2A67Zqr2X5yNKDFVzFcqAzM/RBsNNPQy603H1n3CdN
+ y4H2+4dV/wu+1d0uMXZSlxStb//iMudKX11JxTqW03tjcZow9JHbYKI9TIMXWF0ILrKUzdysZBjsz
+ kVMbSoNverTUu2zEeHUFzF/LsGvvnfKTVCZlyXpUGBMgg1FaLgn+aSMDMUWzToJMQAM799O/37VSK
+ 3SvR0iEg==;
+Received: from [209.203.16.11] (helo=pc181009)
+ by lounge.grep.be with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <w@uter.be>)
+ id 1mud6t-003Gd0-1A; Tue, 07 Dec 2021 17:14:31 +0100
+Received: from wouter by pc181009 with local (Exim 4.95)
+ (envelope-from <w@uter.be>) id 1mud6l-000Wf4-V0;
+ Tue, 07 Dec 2021 18:14:23 +0200
+Date: Tue, 7 Dec 2021 18:14:23 +0200
+From: Wouter Verhelst <w@uter.be>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH] spec: Add NBD_OPT_EXTENDED_HEADERS
+Message-ID: <Ya+IXzVAfS98M0dq@pc181009.grep.be>
+References: <20211203231307.wmtbw7r72tyzkkax@redhat.com>
+ <20211203231434.3900824-1-eblake@redhat.com>
+ <f05c680a-73c3-b0d2-dbdf-c0bcf1ca3530@virtuozzo.com>
+ <20211206230047.q5xc5enodbicf3gw@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211207160025.52466-1-stefanha@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211206230047.q5xc5enodbicf3gw@redhat.com>
+X-Speed: Gates' Law: Every 18 months, the speed of software halves.
+Organization: none
+Received-SPF: pass client-ip=144.76.219.42; envelope-from=w@uter.be;
+ helo=lounge.grep.be
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,50 +72,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, nbd@other.debian.org,
+ nsoffer@redhat.com, libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 07, 2021 at 04:00:25PM +0000, Stefan Hajnoczi wrote:
-...
-> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-> index 7f135f8e8c..a2dae4be29 100644
-> --- a/tests/docker/dockerfiles/centos8.docker
-> +++ b/tests/docker/dockerfiles/centos8.docker
-> @@ -19,6 +19,7 @@ ENV PACKAGES \
->      device-mapper-multipath-devel \
->      diffutils \
->      findutils \
-> +    fuse3-devel \
->      gcc \
->      gcc-c++ \
->      genisoimage \
+On Mon, Dec 06, 2021 at 05:00:47PM -0600, Eric Blake wrote:
+> On Mon, Dec 06, 2021 at 02:40:45PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> > >   #### Simple reply message
+> > > 
+> > >   The simple reply message MUST be sent by the server in response to all
+> > >   requests if structured replies have not been negotiated using
+> > > -`NBD_OPT_STRUCTURED_REPLY`. If structured replies have been negotiated, a simple
+> > > -reply MAY be used as a reply to any request other than `NBD_CMD_READ`,
+> > > -but only if the reply has no data payload.  The message looks as
+> > > -follows:
+> > > +`NBD_OPT_STRUCTURED_REPLY`. If structured replies have been
+> > > +negotiated, a simple reply MAY be used as a reply to any request other
+> > > +than `NBD_CMD_READ`, but only if the reply has no data payload.  If
+> > > +extended headers were not negotiated using `NBD_OPT_EXTENDED_HEADERS`,
+> > > +the message looks as follows:
+> > > 
+> > >   S: 32 bits, 0x67446698, magic (`NBD_SIMPLE_REPLY_MAGIC`; used to be
+> > >      `NBD_REPLY_MAGIC`)
+> > > @@ -369,6 +398,16 @@ S: 64 bits, handle
+> > >   S: (*length* bytes of data if the request is of type `NBD_CMD_READ` and
+> > >       *error* is zero)
+> > > 
+> > > +If extended headers were negotiated using `NBD_OPT_EXTENDED_HEADERS`,
+> > > +the message looks like:
+> > > +
+> > > +S: 32 bits, 0x60d12fd6, magic (`NBD_SIMPLE_REPLY_EXT_MAGIC`)
+> > > +S: 32 bits, error (MAY be zero)
+> > > +S: 64 bits, handle
+> > > +S: 128 bits, padding (MUST be zero)
+> > > +S: (*length* bytes of data if the request is of type `NBD_CMD_READ` and
+> > > +    *error* is zero)
+> > > +
+> > 
+> > If we go this way, let's put payload length into padding: it will help to make the protocol context-independent and less error-prone.
 
-Just for my own notes, it took me a while to work out that CentOS 8
-does have fuse3.  It didn't appear in EPEL 8 etc:
+Agreed.
 
-https://src.fedoraproject.org/rpms/fuse3
-https://ci.centos.org/search/?q=fuse3
+> Easy enough to do (the payload length will be 0 except for
+> NBD_CMD_READ).
 
-However it turns out it is built from a source package called "fuse"
-(version 2.9.7!)  Also I am able to install fuse3 on RHEL 8.  So I
-guess that's OK in the end.
+Indeed.
 
-The rest of the changes look good too, so:
+> > Or, the otherway, may be just forbid the payload for simple-64bit ? What's the reason to allow 64bit requests without structured reply negotiation?
+> 
+> The two happened to be orthogonal enough in my implementation.  It was
+> easy to demonstrate either one without the other, and it IS easier to
+> write a client using non-structured replies (structured reads ARE
+> tougher than simple reads, even if it is less efficient when it comes
+> to reading zeros).  But you are also right that we could require
+> structured reads prior to allowing 64-bit operations, and then have
+> only one supported reply type on the wire when negotiated.  Wouter,
+> which way do you prefer?
 
-Acked-by: Richard W.M. Jones <rjones@redhat.com>
+Given that I *still* haven't gotten around to implementing structured
+replies for nbd-server, I'd prefer not to require it, but that's not
+really a decent argument IMO :-)
 
-Rich.
+[... I haven't read this in much detail yet, intend to do that later...]
 
 -- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-Fedora Windows cross-compiler. Compile Windows programs, test, and
-build Windows installers. Over 100 libraries supported.
-http://fedoraproject.org/wiki/MinGW
-
+     w@uter.{be,co.za}
+wouter@{grep.be,fosdem.org,debian.org}
 
