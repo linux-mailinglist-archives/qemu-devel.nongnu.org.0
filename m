@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E82D46BD8A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 15:24:53 +0100 (CET)
-Received: from localhost ([::1]:39268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB6646BDDA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 15:36:47 +0100 (CET)
+Received: from localhost ([::1]:48694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mubOm-00077z-1V
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 09:24:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54090)
+	id 1mubaH-0005md-RB
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 09:36:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mubLM-0005Ir-Ex
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 09:21:20 -0500
-Received: from [2a00:1450:4864:20::430] (port=40929
- helo=mail-wr1-x430.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mubLK-0003gE-Qo
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 09:21:20 -0500
-Received: by mail-wr1-x430.google.com with SMTP id t9so29796768wrx.7
- for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 06:21:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=m70ivHZrGLjiucxSRk+L68pGwtbi/W1C+9qD32cGhvA=;
- b=TEKtQnjQnpRapN4EwQMIGsIBzAbBiSQppP1pwMEPcY0evKNjwVv5mhdDxb1133zct5
- bj7u3CizuY2xNOjTw3tN+Hq0gJuZlU8RbQEwvmpR+cj3la7L5qf+WiiwW6Ay6QYZvrfc
- oN/4CP1dHBdMrKRnyCG0T+d6fNLHbnTA34oIgVuVJ5eF8UnVl22MxrHW4wOf92NgTwOS
- NvW7w/hFNSbJA3jDzOsAaCKZ8ep2epg6k/XVfYU23RB4zEiERTjG6OkvzSqMai2Xkne1
- 5rJ8Ixagu857mD6GrKI8MuYADPLv4lLSWihMynU0uf8wBX1dI8x9BPtIn8f3gZ7OEg4y
- KrhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=m70ivHZrGLjiucxSRk+L68pGwtbi/W1C+9qD32cGhvA=;
- b=pCcS453L9+GklWmoECtgz8eLTyl+oOdSbt8YTdx6FMfRHa1/Bxdk4pcjtO+FiRXjyT
- CHoy4hqmFoV873JwjnalxQQfLQD6UNJrf0taNNIURJC6lVJgqynECAaCpQxsh6YU1ZI5
- Eott/g1Pn09J60Ynj1z7Nic6Zg8VcimdHyHzrTEiRRNsNO0i2UN5G0ormoWq7nKzj6Zv
- dC2cgz9c4F8SfcAwyhdQgYI5VGO7cYgMwqvIx1BmEIXwQRj5d4zdXGsJHIpj4TjTWP4X
- Etab9HRvhQNS9mdoRnUE3kRMV5BTlKMJsIZ/f4D5aHunSaJKnNmfhd8FB0mMFHuzZTtF
- OYoQ==
-X-Gm-Message-State: AOAM530rsx5B1OnT9Si63GCDJ8IZRT1o9NarANkigW41uSflmtj90q6R
- CzcUh/NNJmIONoXrkJjGterjKQ2GzyoX5LLLu1Zpfg==
-X-Google-Smtp-Source: ABdhPJxj0MHX4YWNP4t327sPVr2jnFMD4M1aIzrf7nKUHBy1HygKKeCvn9H8tDwGi6BO1ZLdxsJURf96bzbukWwTD60=
-X-Received: by 2002:a05:6000:156a:: with SMTP id
- 10mr50901740wrz.87.1638886876930; 
- Tue, 07 Dec 2021 06:21:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mubYM-0004iY-LP
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 09:34:46 -0500
+Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:39649)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mubYJ-0007U6-NH
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 09:34:46 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.54])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 0A3071FFB0;
+ Tue,  7 Dec 2021 14:34:40 +0000 (UTC)
+Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 7 Dec
+ 2021 15:34:40 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006fb34da70-b3e2-4c3d-a576-0161b81a04f7,
+ EDCC1E77E28A65BD51DFCD2B92BF934EEA10E5FB) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 86.201.172.254
+Message-ID: <804b4711-9b4b-30bc-1655-4516a3a3ed8f@kaod.org>
+Date: Tue, 7 Dec 2021 15:34:39 +0100
 MIME-Version: 1.0
-References: <20211207094427.3473-1-damien.hedde@greensocs.com>
-In-Reply-To: <20211207094427.3473-1-damien.hedde@greensocs.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Dec 2021 14:21:06 +0000
-Message-ID: <CAFEAcA-=8an6Q0ZC2Nx6=VoaB0_rucv+vEGS8Fy+ChMc2zCqHg@mail.gmail.com>
-Subject: Re: [PATCH v2 for 6.2?] gicv3: fix ICH_MISR's LRENP computation
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 07/14] ppc/pnv: Introduce a num_pecs class attribute for
+ PHB4 PEC devices
+Content-Language: en-US
+To: Frederic Barrat <fbarrat@linux.ibm.com>, <qemu-ppc@nongnu.org>,
+ <qemu-devel@nongnu.org>
+References: <20211202144235.1276352-1-clg@kaod.org>
+ <20211202144235.1276352-8-clg@kaod.org>
+ <453c5cc3-5ac5-c6ff-fa7f-5ccb8492e314@linux.ibm.com>
+ <fe4c3744-91b1-bd5b-2a04-e2782c46fc09@kaod.org>
+ <6ee71d8d-33b8-47cf-66c1-92b960d3c5fe@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <6ee71d8d-33b8-47cf-66c1-92b960d3c5fe@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 2907d093-4560-4168-b91e-06a3c0f22456
+X-Ovh-Tracer-Id: 8142508130190265251
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrjeehgdeikecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
+ helo=9.mo548.mail-out.ovh.net
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.44,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,40 +75,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: shashi.mallela@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Dec 2021 at 09:44, Damien Hedde <damien.hedde@greensocs.com> wrote:
->
-> According to the "Arm Generic Interrupt Controller Architecture
-> Specification GIC architecture version 3 and 4" (version G: page 345
-> for aarch64 or 509 for aarch32):
-> LRENP bit of ICH_MISR is set when ICH_HCR.LRENPIE==1 and
-> ICH_HCR.EOIcount is non-zero.
->
-> When only LRENPIE was set (and EOI count was zero), the LRENP bit was
-> wrongly set and MISR value was wrong.
->
-> As an additional consequence, if an hypervisor set ICH_HCR.LRENPIE,
-> the maintenance interrupt was constantly fired. It happens since patch
-> 9cee1efe92 ("hw/intc: Set GIC maintenance interrupt level to only 0 or 1")
-> which fixed another bug about maintenance interrupt (most significant
-> bits of misr, including this one, were ignored in the interrupt trigger).
->
-> Fixes: 83f036fe3d ("hw/intc/arm_gicv3: Add accessors for ICH_ system registers")
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> ---
-> The gic doc is available here:
-> https://developer.arm.com/documentation/ihi0069/g
->
-> v2: identical resend because subject screw-up (sorry)
+On 12/7/21 15:03, Frederic Barrat wrote:
+> 
+> 
+> On 07/12/2021 11:45, Cédric Le Goater wrote:
+>> On 12/7/21 11:00, Frederic Barrat wrote:
+>>>
+>>>
+>>> On 02/12/2021 15:42, Cédric Le Goater wrote:
+>>>> POWER9 processor comes with 3 PHB4 PECs (PCI Express Controller) and
+>>>> each PEC can have several PHBs :
+>>>>
+>>>>    * PEC0 provides 1 PHB  (PHB0)
+>>>>    * PEC1 provides 2 PHBs (PHB1 and PHB2)
+>>>>    * PEC2 provides 3 PHBs (PHB3, PHB4 and PHB5)
+>>>>
+>>>> A num_pecs class attribute represents better the logic units of the
+>>>> POWER9 chip. Use that instead of num_phbs which fits POWER8 chips.
+>>>> This will ease adding support for user created devices.
+>>>>
+>>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>>> ---
+>>>
+>>> With this patch, chip->num_phbs is only defined and used on P8. We may want to add a comment to make it clear.
+>>
+>> Yes.
+>>
+>> With the latest changes, I think we can now move num_phbs under PnvChip8
+>> and num_pecs under PnvChip9 since they are only used in these routines :
+>>
+>> P8:
+>>      static void pnv_chip_power8_instance_init(Object *obj)
+>>              chip->num_phbs = pcc->num_phbs;
+>>          for (i = 0; i < chip->num_phbs; i++) {
+>>
+>>      static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
+>>          for (i = 0; i < chip->num_phbs; i++) {
+>> P9:
+>>      static void pnv_chip_power9_instance_init(Object *obj)
+>>              chip->num_pecs = pcc->num_pecs;
+>>          for (i = 0; i < chip->num_pecs; i++) {
+>>
+>>      static void pnv_chip_power9_phb_realize(PnvChip *chip, Error **errp)
+>>          for (i = 0; i < chip->num_pecs; i++) {
+>>
+>>> As I review this series, something is bugging me though: the difference of handling between P8 and P9.
+>>> On P9, we seem to have a more logical hiearachy:
+>>> phb <- PCI controller (PEC) <- chip
+>>
+>> Yes. It's cleaner than P8 in terms of logic. P8 initial support was
+>> done hastily for skiboot bringup in 2014.
+>>
+>>> With P8, we don't have an explicit PEC, but we have a PBCQ object, which is somewhat similar. The hierarchy seems also more convoluted.
+>>
+>> But we don't have stacks on P8. Do we ?
+> 
+> 
+> Stacks were introduced on P9 because all the lanes handled by a PEC could be grouped differently, each group being called a stack. And each stack is associated to a PHB.
+> On P8, there's no such split, so the doc didn't mention stacks. But each PEC handles exactly one PHB. So we could still keep the same abstractions.
+> On all chips, a PEC would really be equal to a pbcq interface to the power bus. The pbcq is servicing one (on P8) or more (on P9/P10) PHBs.
+> 
+> 
+> 
+>>> I don't see why it's treated differently. It seems both chips could be treated the same, which would make the code easier to follow.
+>>
+>> I agree. Daniel certainly would also :)
+>>
+>>> That's outside of the scope of this series though. 
+>>
+>> Well, this patchset enables libvirt support for the PowerNV machines.
+>> Once this is pushed, we need to keep the API, the object model names
+>> being part of it.
+>>
+>> 7.0 is a good time for a change, really. After that, we won't be able
+>> to change the QOM hierarchy that much.
+>>
+>>> So maybe for a future patch? Who knows, I might volunteer...
+>>
+>> You would introduce a phb3-pec on top of the phb3s ?
+> 
+> Or rename pnv_phb3_pbcq.c to pnv_phb3_pec.c and starts from there. Conceptually, the TYPE_PNV_PBCQ and TYPE_PNV_PHB4_PEC_STACK objects seem close. But that's easy to say in an email...
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+It's a start.
 
-I won't try to put this into 6.2 unless you have a common guest
-that runs into this bug.
+Here is the PHB3 QOM tree :
 
-thanks
--- PMM
+    /pnv-phb3[0] (pnv-phb3)
+       /lsi (ics)
+       /msi (phb3-msi)
+       /msi32[0] (memory-region)
+       /msi64[0] (memory-region)
+       /pbcq (pnv-pbcq)
+         /pbcq-mmio0[0] (memory-region)
+         /pbcq-mmio1[0] (memory-region)
+         /pbcq-phb[0] (memory-region)
+         /xscom-pbcq-nest-0.0[0] (memory-region)
+         /xscom-pbcq-pci-0.0[0] (memory-region)
+         /xscom-pbcq-spci-0.0[0] (memory-region)
+       /pci-io[0] (memory-region)
+       /pci-mmio[0] (memory-region)
+       /pcie-mmcfg-mmio[0] (memory-region)
+       /phb3-m32[0] (memory-region)
+       /phb3-regs[0] (memory-region)
+       /phb3_iommu[0] (pnv-phb3-iommu-memory-region)
+       /root (pnv-phb3-root-port)
+         /bus master container[0] (memory-region)
+         /bus master[0] (memory-region)
+         /pci_bridge_io[0] (memory-region)
+         /pci_bridge_io[1] (memory-region)
+         /pci_bridge_mem[0] (memory-region)
+         /pci_bridge_pci[0] (memory-region)
+         /pci_bridge_pref_mem[0] (memory-region)
+         /pci_bridge_vga_io_hi[0] (memory-region)
+         /pci_bridge_vga_io_lo[0] (memory-region)
+         /pci_bridge_vga_mem[0] (memory-region)
+         /pcie.0 (PCIE)
+       /root-bus (pnv-phb3-root-bus)
+
+We would swap 'pnv-phb3' and 'pnv-pbcq' and rename it to 'pnv-phb3-pec'.
+Looks good to me. This should clarify the relationship between objects.
+
+I never like the back pointer to the phb under pbcq:
+
+     (qemu) qom-list /machine/chip[0]/pnv-phb3[0]/pbcq
+     type (string)
+     parent_bus (link<bus>)
+     realized (bool)
+     hotplugged (bool)
+     hotpluggable (bool)
+     pbcq-mmio0[0] (child<memory-region>)
+     xscom-pbcq-spci-0.0[0] (child<memory-region>)
+     xscom-pbcq-nest-0.0[0] (child<memory-region>)
+     pbcq-mmio1[0] (child<memory-region>)
+     phb (link<pnv-phb3>)
+     pbcq-phb[0] (child<memory-region>)
+     xscom-pbcq-pci-0.0[0] (child<memory-region>)
+     
+
+That's P9 for the reference :
+
+     /pnv-phb4-pec[0] (pnv-phb4-pec)
+       /stack[0] (pnv-phb4-pec-stack)
+         /pec-0.0-stack-0-int[0] (memory-region)
+         /pec-0.0-stack-0-mmio0[0] (memory-region)
+         /pec-0.0-stack-0-mmio1[0] (memory-region)
+         /pec-0.0-stack-0-phb[0] (memory-region)
+         /phb (pnv-phb4)
+           /msi32[0] (memory-region)
+           /msi64[0] (memory-region)
+           /pcie-mmcfg-mmio[0] (memory-region)
+           /phb4-0.0-iommu[0] (pnv-phb4-iommu-memory-region)
+           /phb4-0.0-pci-io[0] (memory-region)
+           /phb4-0.0-pci-mmio[0] (memory-region)
+           /phb4-0.0-regs[0] (memory-region)
+           /phb4-mbar0[0] (memory-region)
+           /root (pnv-phb4-root-port)
+             /bus master container[0] (memory-region)
+             /bus master[0] (memory-region)
+             /pci_bridge_io[0] (memory-region)
+             /pci_bridge_io[1] (memory-region)
+             /pci_bridge_mem[0] (memory-region)
+             /pci_bridge_pci[0] (memory-region)
+             /pci_bridge_pref_mem[0] (memory-region)
+             /pci_bridge_vga_io_hi[0] (memory-region)
+             /pci_bridge_vga_io_lo[0] (memory-region)
+             /pci_bridge_vga_mem[0] (memory-region)
+             /pcie.0 (PCIE)
+           /root-bus (pnv-phb4-root-bus)
+           /source (xive-source)
+             /xive.esb-emulated[0] (memory-region)
+             /xive.esb[0] (memory-region)
+           /xscom-pec-0.0-pci-stack-0-phb[0] (memory-region)
+         /xscom-pec-0.0-nest-stack-0[0] (memory-region)
+         /xscom-pec-0.0-pci-stack-0[0] (memory-region)
+       /xscom-pec-0.0-nest[0] (memory-region)
+       /xscom-pec-0.0-pci[0] (memory-region)
+
+
+Thanks,
+
+C.
 
