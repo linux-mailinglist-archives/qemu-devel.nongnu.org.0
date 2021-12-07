@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C59346BA6B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 12:52:15 +0100 (CET)
-Received: from localhost ([::1]:46556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 309A146BA6D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 12:52:17 +0100 (CET)
+Received: from localhost ([::1]:46984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muZ14-0007s5-69
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 06:52:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56002)
+	id 1muZ16-0008AL-8J
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 06:52:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muYzW-0005Ae-KW
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 06:50:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24204)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muYzY-0005CF-Hv
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 06:50:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muYzS-0004ly-LL
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 06:50:37 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muYzV-0004mW-Jd
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 06:50:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638877833;
+ s=mimecast20190719; t=1638877837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xkNoxRGiLarQHKJMZMA2Rdjez5Quwer/Kh6c3bPYS8g=;
- b=OTaTnYRB1xomoWrQF/6W1+40KG1pomOZtS7zjsBilhSz0YiV08xGvNnKBK/G8RPccmzhCR
- w/cwS+u/KdX1Ypr994Ua7Jv/VoE4/dwVripXU43Ajsdk3mkymPvZ4vihk/nTinlS8A6L6K
- 0p56YBsBv/KHONokV6/GSYQdYk7snog=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rAhbUGVptyLQwm179+saNf2aDx6aW3dcDYCvczFtWqQ=;
+ b=YtwDJ/eLLwO+dbq4Ax03AsLC/U3frgqAX4Qk0fZ1+DDfMkibGAWBDRt5SVSOEdlSrSZaF0
+ EezguxxbeIR9sVNosXtUgtC6Wh5K1pgoouSdyImHYlKTNstcqQDlFhqNF+pAmJ77iP/bdk
+ 3cs4aCqNYpES3r6rccizxOIyoIjHuNI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-275-LlvohfHAOmeunuyemSZtUw-1; Tue, 07 Dec 2021 06:50:32 -0500
-X-MC-Unique: LlvohfHAOmeunuyemSZtUw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o18-20020a05600c511200b00332fa17a02eso1245502wms.5
- for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 03:50:32 -0800 (PST)
+ us-mta-371-GMY0QYkKNpmNnOx7w4W_KA-1; Tue, 07 Dec 2021 06:50:36 -0500
+X-MC-Unique: GMY0QYkKNpmNnOx7w4W_KA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ p3-20020a056000018300b00186b195d4ddso2853489wrx.15
+ for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 03:50:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xkNoxRGiLarQHKJMZMA2Rdjez5Quwer/Kh6c3bPYS8g=;
- b=deuaYVvr6fZQbd+kF8i+NBBvsob4p+rOyhCvRh8WABnySFiQ1tIVithftxV7HniTor
- rhYVFMpyJL5nd170vQb/a4g2QlQk+wM0pTWjk7UK+MyuTfW0XRlSn3OCidwKTKYvV+GV
- 1wjFyeD1SWQVLFd+MBJNkP1skC+LqHxwaHMQUI1BbWltVC1vXM8UpdneldIhB/X+7DFc
- U/jyqPj69FegYmNKQGX1D1N+a8kgwd5+lf8hpuCyZ6e/td+WxDYsZEtLgbmCw1r9q3Re
- sQkgnRHG/zZQ9Tjr5S7le0Yx56Fnv0cl0Shmn29hA5gIBIcDbU7Aos83Y+/FRtvVS02R
- t/iQ==
-X-Gm-Message-State: AOAM530O5YGqx6Ea0JOiP/b4ZOX8hHzSuxHUFUGIiKIQnLS2+OOTmmg/
- orabzRXO6b+cVKFRHFtjOBGE0BIbG8WGxlXVrC9g9SQa0eY1zyejVoz5gFp438itr0WjlTIT+5O
- KPrvsoZicMYkVHBUMneTKdJyT6n0Z1qBfgRAaax94FvqVwz8wz7A0F+Ysn/NfqPVs
-X-Received: by 2002:a05:600c:4fcc:: with SMTP id
- o12mr6534703wmq.110.1638877831254; 
- Tue, 07 Dec 2021 03:50:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxtLTAVUDCuausXrZXiws+xNCGC4LGpjeafjACE3lCrA5CLMfwtSM3hTHteB9NBfjVmsziB+A==
-X-Received: by 2002:a05:600c:4fcc:: with SMTP id
- o12mr6534673wmq.110.1638877831035; 
- Tue, 07 Dec 2021 03:50:31 -0800 (PST)
+ bh=rAhbUGVptyLQwm179+saNf2aDx6aW3dcDYCvczFtWqQ=;
+ b=Xwr4zydQx7BEtHfwmeIu6P+1P7wjvtKqJZvdgiq2wadYv+/AUAtMTAaERnKHayiUG/
+ EykhTOmmyhuN4PUpzYkPQxoDQl1V9GDv40FjxblMkcb4XSSyglZ5kcFMANoOrzZsdY2n
+ RLzxSuusNuXs8t1UGmOtf8hEOUAv1gGzarQnQXHqRrUSLb9SCswZrkyj0hRcPx8rLhGf
+ gd+qcKff+pVZPh972xEMIua/pyrEDND6eNfu/12vvKkRCt38WFOr9WCZJtjV0h2y2C7f
+ k5cvaAZj4ioDiY/a637Ucu/+A1e/TBTn+0MDeRLFDrzX4teEpyJT9ChqfTSk7YSiFofR
+ 2eUg==
+X-Gm-Message-State: AOAM531wg6YsqaYVIVBO1wuChZHrmN1jm9ZR8GOXdZzxYwztv9mTz8KP
+ wN7wY4XGCIee0taKKGp5xmit5dSOHLG1rpocFnxKUrv+VPAAhMOR1UnRtZIKT0CGIZmdESqbix0
+ yIXt+pGVxqyxQRJncgngZ7DG3xmWIQBLdbQ1YdEFkGVIpgS4ULNjMkj07yG4dGnxF
+X-Received: by 2002:a05:600c:4ed2:: with SMTP id
+ g18mr6497707wmq.122.1638877834519; 
+ Tue, 07 Dec 2021 03:50:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwZNu2t6Er06ZZETWwWloWtg613yfsEnN/7hfhvtpzfTdqXYas9RrIzN/ImEj71+Jpo8c5Q+w==
+X-Received: by 2002:a05:600c:4ed2:: with SMTP id
+ g18mr6497658wmq.122.1638877834145; 
+ Tue, 07 Dec 2021 03:50:34 -0800 (PST)
 Received: from localhost.localdomain ([85.203.46.177])
- by smtp.gmail.com with ESMTPSA id g18sm3023551wmq.4.2021.12.07.03.50.28
+ by smtp.gmail.com with ESMTPSA id g18sm3023551wmq.4.2021.12.07.03.50.31
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 07 Dec 2021 03:50:30 -0800 (PST)
+ Tue, 07 Dec 2021 03:50:33 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] migration: Don't return for postcopy_chunk_hostpages()
-Date: Tue,  7 Dec 2021 19:50:11 +0800
-Message-Id: <20211207115016.73195-3-peterx@redhat.com>
+Subject: [PATCH 3/7] migration: Drop postcopy_chunk_hostpages()
+Date: Tue,  7 Dec 2021 19:50:12 +0800
+Message-Id: <20211207115016.73195-4-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211207115016.73195-1-peterx@redhat.com>
 References: <20211207115016.73195-1-peterx@redhat.com>
@@ -102,57 +102,78 @@ Cc: Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It always return zero, because it just can't go wrong so far.  Simplify the
-code with no functional change.
+This function calls three functions:
+
+  - postcopy_discard_send_init(ms, block->idstr);
+  - postcopy_chunk_hostpages_pass(ms, block);
+  - postcopy_discard_send_finish(ms);
+
+However only the 2nd function call is meaningful.  It's major role is to make
+sure dirty bits are applied in host-page-size granule, so there will be no
+partial dirty bits set for a whole host page if huge pages are used.
+
+The 1st/3rd call are for latter when we want to send the disgard ranges.
+They're mostly no-op here besides some tracepoints (which are misleading!).
+
+Drop them, then we can directly drop postcopy_chunk_hostpages() as a whole
+because we can call postcopy_chunk_hostpages_pass() directly.
+
+There're still some nice comments above postcopy_chunk_hostpages() that explain
+what it does.  Copy it over to the caller's site.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/ram.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ migration/ram.c | 33 +++++++--------------------------
+ 1 file changed, 7 insertions(+), 26 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 756ac800a7..fb8c1a887e 100644
+index fb8c1a887e..e3876181ab 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -2585,12 +2585,10 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block)
-  * dirty host-page size chunks as all dirty.  In this case the host-page
-  * is the host-page for the particular RAMBlock, i.e. it might be a huge page
-  *
-- * Returns zero on success
-- *
-  * @ms: current migration state
-  * @block: block we want to work with
-  */
--static int postcopy_chunk_hostpages(MigrationState *ms, RAMBlock *block)
-+static void postcopy_chunk_hostpages(MigrationState *ms, RAMBlock *block)
- {
-     postcopy_discard_send_init(ms, block->idstr);
- 
-@@ -2600,7 +2598,6 @@ static int postcopy_chunk_hostpages(MigrationState *ms, RAMBlock *block)
-     postcopy_chunk_hostpages_pass(ms, block);
- 
-     postcopy_discard_send_finish(ms);
--    return 0;
+@@ -2576,30 +2576,6 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block)
+     }
  }
  
+-/**
+- * postcopy_chunk_hostpages: discard any partially sent host page
+- *
+- * Utility for the outgoing postcopy code.
+- *
+- * Discard any partially sent host-page size chunks, mark any partially
+- * dirty host-page size chunks as all dirty.  In this case the host-page
+- * is the host-page for the particular RAMBlock, i.e. it might be a huge page
+- *
+- * @ms: current migration state
+- * @block: block we want to work with
+- */
+-static void postcopy_chunk_hostpages(MigrationState *ms, RAMBlock *block)
+-{
+-    postcopy_discard_send_init(ms, block->idstr);
+-
+-    /*
+-     * Ensure that all partially dirty host pages are made fully dirty.
+-     */
+-    postcopy_chunk_hostpages_pass(ms, block);
+-
+-    postcopy_discard_send_finish(ms);
+-}
+-
  /**
-@@ -2622,7 +2619,6 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
- {
-     RAMState *rs = ram_state;
-     RAMBlock *block;
--    int ret;
- 
-     RCU_READ_LOCK_GUARD();
- 
-@@ -2636,10 +2632,7 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
+  * ram_postcopy_send_discard_bitmap: transmit the discard bitmap
+  *
+@@ -2631,8 +2607,13 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
+     rs->last_page = 0;
  
      RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-         /* Deal with TPS != HPS and huge pages */
--        ret = postcopy_chunk_hostpages(ms, block);
--        if (ret) {
--            return ret;
--        }
-+        postcopy_chunk_hostpages(ms, block);
+-        /* Deal with TPS != HPS and huge pages */
+-        postcopy_chunk_hostpages(ms, block);
++        /*
++         * Deal with TPS != HPS and huge pages.  It discard any partially sent
++         * host-page size chunks, mark any partially dirty host-page size
++         * chunks as all dirty.  In this case the host-page is the host-page
++         * for the particular RAMBlock, i.e. it might be a huge page.
++         */
++        postcopy_chunk_hostpages_pass(ms, block);
      }
      trace_ram_postcopy_send_discard_bitmap();
  
