@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D804F46BCBD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 14:38:18 +0100 (CET)
-Received: from localhost ([::1]:36004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 880D646BCC6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 14:42:28 +0100 (CET)
+Received: from localhost ([::1]:42410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muafh-0006Tz-W5
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 08:38:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55230)
+	id 1muajj-0002aV-II
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 08:42:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1muaU1-0002ju-Mx
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 08:26:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36139)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1muaTy-0006WU-8p
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 08:26:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638883562;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TIu7p2ZIHoo/ecmt2czm8usZL13K7mxILSf2DegWIyw=;
- b=LYXT0smbu21fZ2h+dHY49HGwTnzRO7jIWV3LkHZxg1KrKqWH9ju71fOAv6Lza43Po4nznY
- mksgNeoNlotSAQw2dZS0ZJ6z+1LiYr/37witxjnxr00057F7Z1sbCTgWu8H4PiQzVbDUhF
- hTNEbkYVk8kPtp837Vw1grXd5/bkvZU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-324-onmQLRMcNkWA3brENvW3Tg-1; Tue, 07 Dec 2021 08:25:59 -0500
-X-MC-Unique: onmQLRMcNkWA3brENvW3Tg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90DC2760C0;
- Tue,  7 Dec 2021 13:25:57 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 289EC5DF4F;
- Tue,  7 Dec 2021 13:25:57 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/6] virtio: unify dataplane and non-dataplane
- ->handle_output()
-Date: Tue,  7 Dec 2021 13:23:36 +0000
-Message-Id: <20211207132336.36627-7-stefanha@redhat.com>
-In-Reply-To: <20211207132336.36627-1-stefanha@redhat.com>
-References: <20211207132336.36627-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1muaab-0002FS-FP
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 08:33:02 -0500
+Received: from [2a00:1450:4864:20::433] (port=42750
+ helo=mail-wr1-x433.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1muaaZ-0008Qe-Re
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 08:33:01 -0500
+Received: by mail-wr1-x433.google.com with SMTP id c4so29464551wrd.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 05:32:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=MB9U9JPpTmeSHHfjfxPgMmDln8X50d6NlS0Btl6ZfG4=;
+ b=VtMfmlt1Qj2HCk/B7pWi5LAenEJoo2XBAeVckmtMqXODbsTHs5Ax2SBsc9rNVXC6BA
+ fZQm1rcqIPxkKtBQb8dF4VDqYkWY0OCqUdRqs7KV19e3uH6I6upFPD+sV3skekThBccc
+ y3pb7lD4SkXd/F8kb6fB8hMIPgltrB+W3dc2whVgsOk2+1nxLUhCIB4/HePiJme+7jUA
+ i16M21PwHabBAlLjzrPpRLLQ6eyoFxBpGI6iiEitmDJC6AgVYHhuBiC54g11YfcwEVC1
+ PPg7p7rVpjLf/187djsioSjkx2XZjugUEjOED3noSWExNah97J/gYyQ8uuA9sDMs1hVx
+ 1MgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=MB9U9JPpTmeSHHfjfxPgMmDln8X50d6NlS0Btl6ZfG4=;
+ b=0rjOc7usco/rl5L9ITDjMzngYy9FnryWB1J4Qk2bPywjHDNij233bkhzLQIAi0OXWA
+ n6RQu9X9hlrSCmhf89wVcdKpWS//B/P+gofTBkomID8X+bsnlNc2G9hEqx29QExp51fa
+ f+Wa3ll7AQMxii2KOhbHpiwOcVwIbKnKRJIrUOAreViZfHRYY1pQQZHIEL6Rt98+Z9lt
+ kHVd72u4bBwfwlB+Ve3LGhCrXrvSnABj4Y+ELqr3SuRUDjpFqzfY3RYN/3lNGgw+h3Ot
+ e2DREcYFIxAWu+/MnC5xXi2qQCupu4ZtPX1UozJ/wUY3/jwbUm/GeSCUjvwG3QbqJva6
+ yOQQ==
+X-Gm-Message-State: AOAM533cCcexoLCusOs6mYGW7B2KAd4ln0zM/zFqQlR366c1sjxX1m92
+ FtVc1PEXosg6+xj2mzAnphN68FG1Z8O932HVZBvgjA==
+X-Google-Smtp-Source: ABdhPJxOTP90BIY8drpnPuMbQH196ce6l08BHkOJT9rbR2CskSLI9FtMRQ5fzpXpJQPqxCCJnaIM0wEl9Sl4pMSiAy4=
+X-Received: by 2002:adf:ef42:: with SMTP id c2mr49449216wrp.528.1638883978082; 
+ Tue, 07 Dec 2021 05:32:58 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211207094427.3473-1-damien.hedde@greensocs.com>
+ <e0419fd9-ce18-a4f6-7c8a-36e36dce2ae4@redhat.com>
+ <d77f21c7-2b92-2c45-aabd-36148f7fd822@greensocs.com>
+In-Reply-To: <d77f21c7-2b92-2c45-aabd-36148f7fd822@greensocs.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Dec 2021 13:32:46 +0000
+Message-ID: <CAFEAcA_snfwV8gBoo1ZHwqSimJEoW7+TVsa=BhQikxJ5sqP8Kg@mail.gmail.com>
+Subject: Re: [PATCH v2 for 6.2?] gicv3: fix ICH_MISR's LRENP computation
+To: Damien Hedde <damien.hedde@greensocs.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,217 +83,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Paul Durrant <paul@xen.org>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Peter Lieven <pl@kamp.de>,
- Stefan Weil <sw@weilnetz.de>, Julia Suvorova <jusual@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Richard W.M. Jones" <rjones@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, shashi.mallela@linaro.org,
+ qemu-arm@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that virtio-blk and virtio-scsi are ready, get rid of
-the handle_aio_output() callback. It's no longer needed.
+On Tue, 7 Dec 2021 at 13:05, Damien Hedde <damien.hedde@greensocs.com> wrot=
+e:
+> On 12/7/21 13:45, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 12/7/21 10:44, Damien Hedde wrote:
+> >> According to the "Arm Generic Interrupt Controller Architecture
+> >> Specification GIC architecture version 3 and 4" (version G: page 345
+> >> for aarch64 or 509 for aarch32):
+> >> LRENP bit of ICH_MISR is set when ICH_HCR.LRENPIE=3D=3D1 and
+> >> ICH_HCR.EOIcount is non-zero.
+> >>
+> >> When only LRENPIE was set (and EOI count was zero), the LRENP bit was
+> >> wrongly set and MISR value was wrong.
+> >>
+> >> As an additional consequence, if an hypervisor set ICH_HCR.LRENPIE,
+> >> the maintenance interrupt was constantly fired. It happens since patch
+> >> 9cee1efe92 ("hw/intc: Set GIC maintenance interrupt level to only 0 or=
+ 1")
+> >> which fixed another bug about maintenance interrupt (most significant
+> >> bits of misr, including this one, were ignored in the interrupt trigge=
+r).
+> >>
+> >> Fixes: 83f036fe3d ("hw/intc/arm_gicv3: Add accessors for ICH_ system r=
+egisters")
+> >
+> > This commit predates 6.1 release, so technically this is not
+> > a regression for 6.2.
+>
+> Do you mean "Fixes:" is meant only for regression or simply that this
+> patch should not go for 6.2 ?
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- include/hw/virtio/virtio.h      |  4 +--
- hw/block/dataplane/virtio-blk.c | 16 ++--------
- hw/scsi/virtio-scsi-dataplane.c | 54 ++++-----------------------------
- hw/virtio/virtio.c              | 32 +++++++++----------
- 4 files changed, 26 insertions(+), 80 deletions(-)
+Fixes: is fine in all situations where the commit is fixing
+a bug that was introduced in the commit hash it mentions.
 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index b90095628f..f095637058 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -316,8 +316,8 @@ bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev);
- EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq);
- void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabled);
- void virtio_queue_host_notifier_read(EventNotifier *n);
--void virtio_queue_aio_set_host_notifier_handler(VirtQueue *vq, AioContext *ctx,
--        VirtIOHandleOutput handle_output);
-+void virtio_queue_aio_attach_host_notifier(VirtQueue *vq, AioContext *ctx);
-+void virtio_queue_aio_detach_host_notifier(VirtQueue *vq, AioContext *ctx);
- VirtQueue *virtio_vector_first_queue(VirtIODevice *vdev, uint16_t vector);
- VirtQueue *virtio_vector_next_queue(VirtQueue *vq);
- 
-diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
-index a2fa407b98..49276e46f2 100644
---- a/hw/block/dataplane/virtio-blk.c
-+++ b/hw/block/dataplane/virtio-blk.c
-@@ -154,17 +154,6 @@ void virtio_blk_data_plane_destroy(VirtIOBlockDataPlane *s)
-     g_free(s);
- }
- 
--static void virtio_blk_data_plane_handle_output(VirtIODevice *vdev,
--                                                VirtQueue *vq)
--{
--    VirtIOBlock *s = (VirtIOBlock *)vdev;
--
--    assert(s->dataplane);
--    assert(s->dataplane_started);
--
--    virtio_blk_handle_vq(s, vq);
--}
--
- /* Context: QEMU global mutex held */
- int virtio_blk_data_plane_start(VirtIODevice *vdev)
- {
-@@ -258,8 +247,7 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
-     for (i = 0; i < nvqs; i++) {
-         VirtQueue *vq = virtio_get_queue(s->vdev, i);
- 
--        virtio_queue_aio_set_host_notifier_handler(vq, s->ctx,
--                virtio_blk_data_plane_handle_output);
-+        virtio_queue_aio_attach_host_notifier(vq, s->ctx);
-     }
-     aio_context_release(s->ctx);
-     return 0;
-@@ -302,7 +290,7 @@ static void virtio_blk_data_plane_stop_bh(void *opaque)
-     for (i = 0; i < s->conf->num_queues; i++) {
-         VirtQueue *vq = virtio_get_queue(s->vdev, i);
- 
--        virtio_queue_aio_set_host_notifier_handler(vq, s->ctx, NULL);
-+        virtio_queue_aio_detach_host_notifier(vq, s->ctx);
-     }
- }
- 
-diff --git a/hw/scsi/virtio-scsi-dataplane.c b/hw/scsi/virtio-scsi-dataplane.c
-index 76137de67f..29575cbaf6 100644
---- a/hw/scsi/virtio-scsi-dataplane.c
-+++ b/hw/scsi/virtio-scsi-dataplane.c
-@@ -49,45 +49,6 @@ void virtio_scsi_dataplane_setup(VirtIOSCSI *s, Error **errp)
-     }
- }
- 
--static void virtio_scsi_data_plane_handle_cmd(VirtIODevice *vdev,
--                                              VirtQueue *vq)
--{
--    VirtIOSCSI *s = VIRTIO_SCSI(vdev);
--
--    virtio_scsi_acquire(s);
--    if (!s->dataplane_fenced) {
--        assert(s->ctx && s->dataplane_started);
--        virtio_scsi_handle_cmd_vq(s, vq);
--    }
--    virtio_scsi_release(s);
--}
--
--static void virtio_scsi_data_plane_handle_ctrl(VirtIODevice *vdev,
--                                               VirtQueue *vq)
--{
--    VirtIOSCSI *s = VIRTIO_SCSI(vdev);
--
--    virtio_scsi_acquire(s);
--    if (!s->dataplane_fenced) {
--        assert(s->ctx && s->dataplane_started);
--        virtio_scsi_handle_ctrl_vq(s, vq);
--    }
--    virtio_scsi_release(s);
--}
--
--static void virtio_scsi_data_plane_handle_event(VirtIODevice *vdev,
--                                                VirtQueue *vq)
--{
--    VirtIOSCSI *s = VIRTIO_SCSI(vdev);
--
--    virtio_scsi_acquire(s);
--    if (!s->dataplane_fenced) {
--        assert(s->ctx && s->dataplane_started);
--        virtio_scsi_handle_event_vq(s, vq);
--    }
--    virtio_scsi_release(s);
--}
--
- static int virtio_scsi_set_host_notifier(VirtIOSCSI *s, VirtQueue *vq, int n)
- {
-     BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(s)));
-@@ -112,10 +73,10 @@ static void virtio_scsi_dataplane_stop_bh(void *opaque)
-     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(s);
-     int i;
- 
--    virtio_queue_aio_set_host_notifier_handler(vs->ctrl_vq, s->ctx, NULL);
--    virtio_queue_aio_set_host_notifier_handler(vs->event_vq, s->ctx, NULL);
-+    virtio_queue_aio_detach_host_notifier(vs->ctrl_vq, s->ctx);
-+    virtio_queue_aio_detach_host_notifier(vs->event_vq, s->ctx);
-     for (i = 0; i < vs->conf.num_queues; i++) {
--        virtio_queue_aio_set_host_notifier_handler(vs->cmd_vqs[i], s->ctx, NULL);
-+        virtio_queue_aio_detach_host_notifier(vs->cmd_vqs[i], s->ctx);
-     }
- }
- 
-@@ -176,14 +137,11 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
-     memory_region_transaction_commit();
- 
-     aio_context_acquire(s->ctx);
--    virtio_queue_aio_set_host_notifier_handler(vs->ctrl_vq, s->ctx,
--                                            virtio_scsi_data_plane_handle_ctrl);
--    virtio_queue_aio_set_host_notifier_handler(vs->event_vq, s->ctx,
--                                           virtio_scsi_data_plane_handle_event);
-+    virtio_queue_aio_attach_host_notifier(vs->ctrl_vq, s->ctx);
-+    virtio_queue_aio_attach_host_notifier(vs->event_vq, s->ctx);
- 
-     for (i = 0; i < vs->conf.num_queues; i++) {
--        virtio_queue_aio_set_host_notifier_handler(vs->cmd_vqs[i], s->ctx,
--                                             virtio_scsi_data_plane_handle_cmd);
-+        virtio_queue_aio_attach_host_notifier(vs->cmd_vqs[i], s->ctx);
-     }
- 
-     s->dataplane_starting = false;
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index a97a406d3c..ce182a4e57 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -3522,23 +3522,23 @@ static void virtio_queue_host_notifier_aio_poll_end(EventNotifier *n)
-     virtio_queue_set_notification(vq, 1);
- }
- 
--void virtio_queue_aio_set_host_notifier_handler(VirtQueue *vq, AioContext *ctx,
--        VirtIOHandleOutput handle_output)
-+void virtio_queue_aio_attach_host_notifier(VirtQueue *vq, AioContext *ctx)
- {
--    if (handle_output) {
--        aio_set_event_notifier(ctx, &vq->host_notifier, true,
--                               virtio_queue_host_notifier_read,
--                               virtio_queue_host_notifier_aio_poll,
--                               virtio_queue_host_notifier_aio_poll_ready);
--        aio_set_event_notifier_poll(ctx, &vq->host_notifier,
--                                    virtio_queue_host_notifier_aio_poll_begin,
--                                    virtio_queue_host_notifier_aio_poll_end);
--    } else {
--        aio_set_event_notifier(ctx, &vq->host_notifier, true, NULL, NULL, NULL);
--        /* Test and clear notifier before after disabling event,
--         * in case poll callback didn't have time to run. */
--        virtio_queue_host_notifier_read(&vq->host_notifier);
--    }
-+    aio_set_event_notifier(ctx, &vq->host_notifier, true,
-+                           virtio_queue_host_notifier_read,
-+                           virtio_queue_host_notifier_aio_poll,
-+                           virtio_queue_host_notifier_aio_poll_ready);
-+    aio_set_event_notifier_poll(ctx, &vq->host_notifier,
-+                                virtio_queue_host_notifier_aio_poll_begin,
-+                                virtio_queue_host_notifier_aio_poll_end);
-+}
-+
-+void virtio_queue_aio_detach_host_notifier(VirtQueue *vq, AioContext *ctx)
-+{
-+    aio_set_event_notifier(ctx, &vq->host_notifier, true, NULL, NULL, NULL);
-+    /* Test and clear notifier before after disabling event,
-+     * in case poll callback didn't have time to run. */
-+    virtio_queue_host_notifier_read(&vq->host_notifier);
- }
- 
- void virtio_queue_host_notifier_read(EventNotifier *n)
--- 
-2.33.1
+Separately, given where we are in the release cycle, a patch has
+to hit a very high bar to go into 6.2: at least "this breaks
+a real world use case that worked fine in 6.1", and probably also
+"a use case that we expect a fair number of users to be using".
 
+-- PMM
 
