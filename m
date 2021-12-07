@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3413946BD6B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 15:19:07 +0100 (CET)
-Received: from localhost ([::1]:34584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E82D46BD8A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 15:24:53 +0100 (CET)
+Received: from localhost ([::1]:39268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mubJB-0003ni-Op
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 09:19:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52836)
+	id 1mubOm-00077z-1V
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 09:24:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mubI3-00036T-1v
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 09:17:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58897)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mubHz-0002hf-Lc
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 09:17:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638886607;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DrU4XHw8U5iw3RU4nZQGZgDrQAv/Y031E44/Cyq8JPY=;
- b=P+0xvD+nKQ7lpE7pp/ATMjtvEmzy9x6p2d1Gd+jtIyL/WzQjV4EJXNw7+bLVg/PAbycwn2
- cZVvS9t4g72XrworRSztSVXSWL/0XyUg8bG0zbOvg3cwQkSDYF+kJyzmgRtUolV11P6eOI
- 2L2pIN+xHPJY757UYd27hdNfIoxzAvI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-bscP127_ONqG3GU49cXgyQ-1; Tue, 07 Dec 2021 09:16:44 -0500
-X-MC-Unique: bscP127_ONqG3GU49cXgyQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D6F11017968;
- Tue,  7 Dec 2021 14:16:43 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.140])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E47260C04;
- Tue,  7 Dec 2021 14:16:41 +0000 (UTC)
-Date: Tue, 7 Dec 2021 14:16:39 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Li Zhang <lizhang@suse.de>
-Subject: Re: [PATCH v2 0/1] migration: multifd live migration improvement
-Message-ID: <Ya9sx9AMwQ2Kwooj@redhat.com>
-References: <20211203115533.31534-1-lizhang@suse.de> <Ya5qgYpDrN79A+jl@work-vm>
- <e55634a9-bb30-de28-9dec-2dee15d9cb41@suse.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mubLM-0005Ir-Ex
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 09:21:20 -0500
+Received: from [2a00:1450:4864:20::430] (port=40929
+ helo=mail-wr1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mubLK-0003gE-Qo
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 09:21:20 -0500
+Received: by mail-wr1-x430.google.com with SMTP id t9so29796768wrx.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 06:21:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=m70ivHZrGLjiucxSRk+L68pGwtbi/W1C+9qD32cGhvA=;
+ b=TEKtQnjQnpRapN4EwQMIGsIBzAbBiSQppP1pwMEPcY0evKNjwVv5mhdDxb1133zct5
+ bj7u3CizuY2xNOjTw3tN+Hq0gJuZlU8RbQEwvmpR+cj3la7L5qf+WiiwW6Ay6QYZvrfc
+ oN/4CP1dHBdMrKRnyCG0T+d6fNLHbnTA34oIgVuVJ5eF8UnVl22MxrHW4wOf92NgTwOS
+ NvW7w/hFNSbJA3jDzOsAaCKZ8ep2epg6k/XVfYU23RB4zEiERTjG6OkvzSqMai2Xkne1
+ 5rJ8Ixagu857mD6GrKI8MuYADPLv4lLSWihMynU0uf8wBX1dI8x9BPtIn8f3gZ7OEg4y
+ KrhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=m70ivHZrGLjiucxSRk+L68pGwtbi/W1C+9qD32cGhvA=;
+ b=pCcS453L9+GklWmoECtgz8eLTyl+oOdSbt8YTdx6FMfRHa1/Bxdk4pcjtO+FiRXjyT
+ CHoy4hqmFoV873JwjnalxQQfLQD6UNJrf0taNNIURJC6lVJgqynECAaCpQxsh6YU1ZI5
+ Eott/g1Pn09J60Ynj1z7Nic6Zg8VcimdHyHzrTEiRRNsNO0i2UN5G0ormoWq7nKzj6Zv
+ dC2cgz9c4F8SfcAwyhdQgYI5VGO7cYgMwqvIx1BmEIXwQRj5d4zdXGsJHIpj4TjTWP4X
+ Etab9HRvhQNS9mdoRnUE3kRMV5BTlKMJsIZ/f4D5aHunSaJKnNmfhd8FB0mMFHuzZTtF
+ OYoQ==
+X-Gm-Message-State: AOAM530rsx5B1OnT9Si63GCDJ8IZRT1o9NarANkigW41uSflmtj90q6R
+ CzcUh/NNJmIONoXrkJjGterjKQ2GzyoX5LLLu1Zpfg==
+X-Google-Smtp-Source: ABdhPJxj0MHX4YWNP4t327sPVr2jnFMD4M1aIzrf7nKUHBy1HygKKeCvn9H8tDwGi6BO1ZLdxsJURf96bzbukWwTD60=
+X-Received: by 2002:a05:6000:156a:: with SMTP id
+ 10mr50901740wrz.87.1638886876930; 
+ Tue, 07 Dec 2021 06:21:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <e55634a9-bb30-de28-9dec-2dee15d9cb41@suse.de>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211207094427.3473-1-damien.hedde@greensocs.com>
+In-Reply-To: <20211207094427.3473-1-damien.hedde@greensocs.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Dec 2021 14:21:06 +0000
+Message-ID: <CAFEAcA-=8an6Q0ZC2Nx6=VoaB0_rucv+vEGS8Fy+ChMc2zCqHg@mail.gmail.com>
+Subject: Re: [PATCH v2 for 6.2?] gicv3: fix ICH_MISR's LRENP computation
+To: Damien Hedde <damien.hedde@greensocs.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,88 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: cfontana@suse.de, quintela@redhat.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: shashi.mallela@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 07, 2021 at 02:45:10PM +0100, Li Zhang wrote:
-> 
-> On 12/6/21 8:54 PM, Dr. David Alan Gilbert wrote:
-> > * Li Zhang (lizhang@suse.de) wrote:
-> > > When testing live migration with multifd channels (8, 16, or a bigger number)
-> > > and using qemu -incoming (without "defer"), if a network error occurs
-> > > (for example, triggering the kernel SYN flooding detection),
-> > > the migration fails and the guest hangs forever.
-> > > 
-> > > The test environment and the command line is as the following:
-> > > 
-> > > QEMU verions: QEMU emulator version 6.2.91 (v6.2.0-rc1-47-gc5fbdd60cf)
-> > > Host OS: SLE 15  with kernel: 5.14.5-1-default
-> > > Network Card: mlx5 100Gbps
-> > > Network card: Intel Corporation I350 Gigabit (1Gbps)
-> > > 
-> > > Source:
-> > > qemu-system-x86_64 -M q35 -smp 32 -nographic \
-> > >          -serial telnet:10.156.208.153:4321,server,nowait \
-> > >          -m 4096 -enable-kvm -hda /var/lib/libvirt/images/openSUSE-15.3.img \
-> > >          -monitor stdio
-> > > Dest:
-> > > qemu-system-x86_64 -M q35 -smp 32 -nographic \
-> > >          -serial telnet:10.156.208.154:4321,server,nowait \
-> > >          -m 4096 -enable-kvm -hda /var/lib/libvirt/images/openSUSE-15.3.img \
-> > >          -monitor stdio \
-> > >          -incoming tcp:1.0.8.154:4000
-> > > 
-> > > (qemu) migrate_set_parameter max-bandwidth 100G
-> > > (qemu) migrate_set_capability multifd on
-> > > (qemu) migrate_set_parameter multifd-channels 16
-> > > 
-> > > The guest hangs when executing the command: migrate -d tcp:1.0.8.154:4000.
-> > > 
-> > > If a network problem happens, TCP ACK is not received by destination
-> > > and the destination resets the connection with RST.
-> > > 
-> > > No.     Time    Source  Destination     Protocol        Length  Info
-> > > 119     1.021169        1.0.8.153       1.0.8.154       TCP     1410    60166 → 4000 [PSH, ACK] Seq=65 Ack=1 Win=62720 Len=1344 TSval=1338662881 TSecr=1399531897
-> > > No.     Time    Source  Destination     Protocol        Length  Info
-> > > 125     1.021181        1.0.8.154       1.0.8.153       TCP     54      4000 → 60166 [RST] Seq=1 Win=0 Len=0
-> > > 
-> > > kernel log:
-> > > [334520.229445] TCP: request_sock_TCP: Possible SYN flooding on port 4000. Sending cookies.  Check SNMP counters.
-> > > [334562.994919] TCP: request_sock_TCP: Possible SYN flooding on port 4000. Sending cookies.  Check SNMP counters.
-> > > [334695.519927] TCP: request_sock_TCP: Possible SYN flooding on port 4000. Sending cookies.  Check SNMP counters.
-> > > [334734.689511] TCP: request_sock_TCP: Possible SYN flooding on port 4000. Sending cookies.  Check SNMP counters.
-> > > [335687.740415] TCP: request_sock_TCP: Possible SYN flooding on port 4000. Sending cookies.  Check SNMP counters.
-> > > [335730.013598] TCP: request_sock_TCP: Possible SYN flooding on port 4000. Sending cookies.  Check SNMP counters.
-> > Should we document somewhere how to avoid that?  Is there something we
-> > should be doing in the connection code to avoid it?
-> 
-> We should use the command line -incoming defer in QEMU command line instead
-> of -incoming ip:port.
-> 
-> And the backlog of the socket will be set as the same as  multifd channels, 
-> this problem doesn't happen as far as I test.
-> 
-> If we use --incoming ip:port in the QEMU command line, the backlog of the
-> socket is always 1, it will cause the SYN flooding.
+On Tue, 7 Dec 2021 at 09:44, Damien Hedde <damien.hedde@greensocs.com> wrote:
+>
+> According to the "Arm Generic Interrupt Controller Architecture
+> Specification GIC architecture version 3 and 4" (version G: page 345
+> for aarch64 or 509 for aarch32):
+> LRENP bit of ICH_MISR is set when ICH_HCR.LRENPIE==1 and
+> ICH_HCR.EOIcount is non-zero.
+>
+> When only LRENPIE was set (and EOI count was zero), the LRENP bit was
+> wrongly set and MISR value was wrong.
+>
+> As an additional consequence, if an hypervisor set ICH_HCR.LRENPIE,
+> the maintenance interrupt was constantly fired. It happens since patch
+> 9cee1efe92 ("hw/intc: Set GIC maintenance interrupt level to only 0 or 1")
+> which fixed another bug about maintenance interrupt (most significant
+> bits of misr, including this one, were ignored in the interrupt trigger).
+>
+> Fixes: 83f036fe3d ("hw/intc/arm_gicv3: Add accessors for ICH_ system registers")
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> ---
+> The gic doc is available here:
+> https://developer.arm.com/documentation/ihi0069/g
+>
+> v2: identical resend because subject screw-up (sorry)
 
-Do we send migration parameters from the src to the dst QEMU ?
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-There are a bunch of things that we need to set to the same
-value on the src and dst. If we sent any relevant MigrationParameters
-fields to the dst, when the first/main migration chanel is opened, it
-could validate that it is configured in a way that is compatible with
-the src. If it isn't, it can drop the main channel immediately. This
-would trigger the src to fail the migration and we couldn't get stuck
-setting up the secondary data channels for multifd.
+I won't try to put this into 6.2 unless you have a common guest
+that runs into this bug.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
