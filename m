@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13AFC46C499
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 21:26:57 +0100 (CET)
-Received: from localhost ([::1]:39548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3731146C4D5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 21:43:22 +0100 (CET)
+Received: from localhost ([::1]:51856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muh39-0007H5-T6
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 15:26:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34434)
+	id 1muhJ2-00083m-N5
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 15:43:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1muh0f-0005F0-1B
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 15:24:21 -0500
-Received: from [2a00:1450:4864:20::32b] (port=55029
- helo=mail-wm1-x32b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1muh0d-00071Q-0u
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 15:24:20 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id i12so253697wmq.4
- for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 12:24:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=he1+55OMQrhPzn/Du0g9rhBuLpjE5wn6quFfOCTwcD0=;
- b=KNQjSbf/TdPbqMQEq0JvNed7qlINYd9P8mcpAo/fjXBCIXA/bzc000NI9Y8fzR8P2d
- UsJPqUY6fnHE9pebFfnLvZGuBRynz30nkX+4sPm2l0Sup51Bnos+JbCJWpWtTuhpMHda
- V8CAqU6f0oVJN18ir8pOjy6wQQl5X/AZ9t1woQuxpP49oQvtCxKXeaypi13v45ngqaeB
- wi3RN5HrklXeJvb4c7wh/lvbY0Qgs//+b/aWkqz6EU2EqGdi5/vVlWzhcQQsU18CKMy7
- SDjkDNWF1oPBR2z138EY7hprF7dF4zgRK77MFeKve2gKk71u85eN4mOc5doAt+qYNvJf
- RvKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=he1+55OMQrhPzn/Du0g9rhBuLpjE5wn6quFfOCTwcD0=;
- b=vyl8re+tfQ4IV6MTfO0sDuO8ixj0rhEHHOA0jeO8kYjdmIirVtUkS5G89mzP4bhdQO
- Y3AvB6JPOhuy6GQxJd598w8mLob1xG7SAC2gDtWZyjwoVfrVZOrhSrC+BCE20OPa3dUP
- m0DGDxHqI/6D/pG8tyKvoqDvmava474/tLwWJF9N/2TZ/oWD39GO9UYv9vsWePlSv1Ut
- icZfQeJtxX1G7RWFqOSZl0IJhDf3ui9oy1hYD3zuACGxm52IuWxJdG07q7BVXcnk4YfP
- bf/4S6/0czWQ7rD14HBwuCnz4fSLj5iOOMA90K2j9LC2ibE5sgL4ifhWi12J5NQVDEeh
- DqNw==
-X-Gm-Message-State: AOAM531jjVyhoiOPhUMPpZtMs4/TKe8wGV6BRaAcd01BpSMcXnBBrVxF
- T6n9l84xkO/uEe+ADwlh2W9cHp8SqxA1YrH8/NCQrw==
-X-Google-Smtp-Source: ABdhPJwvBZb6K9XZdtCjqpOh5vtxVaLyY9ZeXnyeZMoOmGWLvRVVL6cvb8fASljARtpqZjt+1Jpbe4XksKQkCvFB8GE=
-X-Received: by 2002:a1c:7f43:: with SMTP id a64mr10069090wmd.133.1638908657078; 
- Tue, 07 Dec 2021 12:24:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muhH1-0006nP-Hm
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 15:41:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59385)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muhGy-0001Po-QO
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 15:41:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638909671;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=o/mQDv0klID+KqLG5qpl7jNtupx2gvyx6QYJB4Gg6AQ=;
+ b=evKKNzbhBelZ7TZExi9f15AFH5WaU3lYH7aLVMZP4WeC8oPgqJJBXcAkaoSZ8Ws281r9e7
+ DNXJ5x8V95KJTFnhnrkPQd/2pRWqk/jJBeWqAw5Cf+E3LAhTygnnagAcKNhLNkkv3mbZzy
+ janGCUJJdUEdd6+KZ2M4i+yq7QNvhc0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-93-a1XbWHaHNg-IgEax79GxuA-1; Tue, 07 Dec 2021 15:41:10 -0500
+X-MC-Unique: a1XbWHaHNg-IgEax79GxuA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3EA21006AA1;
+ Tue,  7 Dec 2021 20:41:09 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.11.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F14F5D6CF;
+ Tue,  7 Dec 2021 20:40:38 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] Misc: build fixes for Fedora 35, Ubuntu et al
+Date: Tue,  7 Dec 2021 15:40:36 -0500
+Message-Id: <20211207204038.664133-1-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <20211207094427.3473-1-damien.hedde@greensocs.com>
- <CAFEAcA-=8an6Q0ZC2Nx6=VoaB0_rucv+vEGS8Fy+ChMc2zCqHg@mail.gmail.com>
- <SN6PR02MB42054732F8B59940998D01EDB86E9@SN6PR02MB4205.namprd02.prod.outlook.com>
- <CAFEAcA-x_e4NrQziTEpYrTZn7X_enEMjKn0bHEK8uS4ED1vjzw@mail.gmail.com>
- <CAFEAcA_C17byZDDdenOfmD6TU4UuTq=uHfXQxdurppaa18S4mQ@mail.gmail.com>
- <7c9d97ab-1662-106a-5b51-630a4d2375cf@greensocs.com>
-In-Reply-To: <7c9d97ab-1662-106a-5b51-630a4d2375cf@greensocs.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Dec 2021 20:24:06 +0000
-Message-ID: <CAFEAcA-29QMZ0CX-irpoa0mpa_WUTBAAYhS9QUhCzBsEiWbYhg@mail.gmail.com>
-Subject: Re: [PATCH v2 for 6.2?] gicv3: fix ICH_MISR's LRENP computation
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,44 +74,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brian Cain <bcain@quicinc.com>, Sid Manning <sidneym@quicinc.com>,
- Carl van Schaik <cvanscha@qti.qualcomm.com>,
- "shashi.mallela@linaro.org" <shashi.mallela@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Taylor Simpson <tsimpson@quicinc.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>
+Cc: Daniel Berrange <berrange@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe Mathieu Daude <philmd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Dec 2021 at 15:49, Damien Hedde <damien.hedde@greensocs.com> wrote:
->
->
->
-> On 12/7/21 16:45, Peter Maydell wrote:
-> > On Tue, 7 Dec 2021 at 15:24, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >> The bug is a bug in any case and we'll fix it, it's just a
-> >> question of whether it meets the bar to go into 6.2, which is
-> >> hopefully going to have its final RC tagged today. If this
-> >> patch had arrived a week ago then the bar would have been
-> >> lower and it would definitely have gone in. As it is I have
-> >> to weigh up the chances of this change causing a regression
-> >> for eg KVM running on emulated QEMU.
-> >
-> > Looking at the KVM source it doesn't ever set the LRENPIE
-> > bit (it doesn't even have a #define for it), which both
-> > explains why we didn't notice this bug before and also
-> > means we can be pretty certain we're not going to cause a
-> > regression for KVM at least if we fix it...
+I didn't push this through in time for 6.2, so this series just worries=0D
+about the little fixes necessary for building QEMU under Fedora 35 and=0D
+the latest Ubuntu distributions.=0D
+=0D
+The actual container changes have been cut off of this series in favor=0D
+of Dan's larger series that switches us over to using lcitool.=0D
+=0D
+John Snow (2):=0D
+  spice: Update QXLInterface for spice >=3D 0.15.0=0D
+  ui/clipboard: Don't use g_autoptr just to free a variable=0D
+=0D
+ include/ui/qemu-spice.h |  6 ++++++=0D
+ hw/display/qxl.c        | 14 +++++++++++++-=0D
+ ui/clipboard.c          |  3 +--=0D
+ ui/spice-display.c      | 11 +++++++++++=0D
+ 4 files changed, 31 insertions(+), 3 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-> We are perfectly fine with this not going into 6.2.
-
-I thought about it a bit more, and realized that we could
-end up giving KVM spurious maintenance interrupts even though
-it doesn't set the LRENPIE bit, because the incorrect OR
-meant we'd send a maint irq whenever the EOIcount was nonzero.
-So we've put this fix in for 6.2.
-
-Thanks for the patch and the discussion.
-
--- PMM
 
