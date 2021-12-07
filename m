@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9759D46BD0D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 14:57:14 +0100 (CET)
-Received: from localhost ([::1]:35510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05AB346BD27
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 15:01:41 +0100 (CET)
+Received: from localhost ([::1]:41318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muay1-00017h-NR
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 08:57:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42674)
+	id 1mub2J-00055g-TU
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 09:01:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1muawf-0007nw-9B
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 08:55:49 -0500
-Received: from [2a00:1450:4864:20::436] (port=36363
- helo=mail-wr1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1muawd-0002XV-1p
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 08:55:48 -0500
-Received: by mail-wr1-x436.google.com with SMTP id u17so22326238wrt.3
- for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 05:55:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OmnCqI7AQQEi74h0vSav94J/f/7nc4qjmWkUhokZ68U=;
- b=vDmAlMmlUXVt/iiqAWvt/z7iavoDf+ja1DUC+dx17wuo8kxynZGXm6YEJsJoqxCS4F
- TK920B33aBaC4aF80snEDpO2tty039zx4IaPGaCqqb0Dt4Zj1tS+ywnTcy2mjH1HWEny
- 2VVS+E9WDK7O5hDL1oMbawdGTunmf0x+2QjcbYIIaqfEhrYg+3emPivDoukaZLpbHO3i
- Y3l3+Mz3e1FuS0hItLOgu6iEvKCXHgBoQVIOg7g9urQvtteWuZg1yeCOhdJ3WZzVPDVl
- BVjHw+88IlZdFlv/uKR7F8lUM2yHVH0wXgyu4bI04evLhZlhW2pXVnXDHOLnoCaVlL2R
- B38g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OmnCqI7AQQEi74h0vSav94J/f/7nc4qjmWkUhokZ68U=;
- b=5CpSjzez0praIGdjvD+l62+emHTXKgn3LNw9bHB6OPspaVhGtPCpRvSjVFg7AyXnG1
- H+rVHSqhXPncSLSU/IjJdfvi6QfPhz9s+xAFB580jrpP8BFwjqDquADww3HEZpB7aaxQ
- iLERYCmIZMLM5Ym5VeGMl3MOOMeLmZUzqiB8kck0/N4YAWvQ2WwFabUSApSXeH9VmDTb
- KFg0X6J9aBtRu87Ocw4VcnGZONi43QjC4MVBKbHsZyPauvEmwHjBsC6fdkJDOcJwxF/Z
- MhG6JWludruIRkFAbKeggcKnBkNEmm1fqXwIjZ1bD8E8EY4kax0HbH+Gh/aDP9dkptW/
- PP6w==
-X-Gm-Message-State: AOAM530gvB3Dcg2A3qT7F6rhyQ6nWBuDfqZke8z6TmCH/7l6oxlfISkV
- EiqDnhbxlhFKikQPlCQSQIHClCHjNdBXPrd8y3MNJg==
-X-Google-Smtp-Source: ABdhPJxWxDb8O2AJ5m+kqCAzpnDmFfr3BlCu6yvlyZ9nTwCynQkKsHkxfq2Q0/N8VxSLWOLFKy44U9F7WlEZS2f43pI=
-X-Received: by 2002:adf:cf05:: with SMTP id o5mr51439357wrj.325.1638885345790; 
- Tue, 07 Dec 2021 05:55:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1muazs-0004Ao-Ic
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 08:59:08 -0500
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:45616)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1muazo-0003O4-Gf
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 08:59:07 -0500
+Received: from sas1-3cba3404b018.qloud-c.yandex.net
+ (sas1-3cba3404b018.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:bd26:0:640:3cba:3404])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id F064F2E1337;
+ Tue,  7 Dec 2021 16:58:56 +0300 (MSK)
+Received: from 2a02:6b8:c08:78a:0:640:7f17:9212
+ (2a02:6b8:c08:78a:0:640:7f17:9212 [2a02:6b8:c08:78a:0:640:7f17:9212])
+ by sas1-3cba3404b018.qloud-c.yandex.net (mxbackcorp/Yandex) with HTTP id
+ qwThHX0Lh0U1-wuLWKlum; Tue, 07 Dec 2021 16:58:56 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1638885536; bh=IUsDmnoZim+V9/O6s7u4SnnALbHTRsEli4fPMGr/4CA=;
+ h=Subject:In-Reply-To:Cc:Date:References:To:From:Message-Id;
+ b=iMNjP7LYDayEP0+T2iiNLd58vDp+cu5gD9E2aoPH6anrtkIE4EAcRwMZFCVjwcusM
+ EiNf5wu63hwsykep5cX6e3GQhDfZmO6osb09/BmFYcbDOL5rRecfRo/m9fuckWizei
+ UrtU8hebP7PDBOPxyKx5Wx0K1YiuL9v/7MrTeZr8=
+Authentication-Results: sas1-3cba3404b018.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from iva8-dc7983bf477b.qloud-c.yandex.net
+ (iva8-dc7983bf477b.qloud-c.yandex.net [2a02:6b8:c0c:1086:0:640:dc79:83bf])
+ by iva8-c5ee4261001e.qloud-c.yandex.net (mxbackcorp/Yandex) with HTTP id
+ hwTlXO1LP8c1-5A1s7R54
+ for <d-tatianin@yandex-team.ru>; Tue, 07 Dec 2021 16:58:46 +0300
+X-Yandex-Fwd: 2
+Received: by iva8-dc7983bf477b.qloud-c.yandex.net with HTTP;
+ Tue, 07 Dec 2021 16:58:46 +0300
+From: Daniil Tatianin <d-tatianin@yandex-team.ru>
+To: David Hildenbrand <david@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+In-Reply-To: <3af46862-7c8d-dcdd-9ca8-8ace4f3a554a@redhat.com>
+References: <20211207070607.1422670-1-d-tatianin@yandex-team.ru>
+ <20211207070607.1422670-2-d-tatianin@yandex-team.ru>
+ <3af46862-7c8d-dcdd-9ca8-8ace4f3a554a@redhat.com>
+Subject: Re: [PATCH v1 2/2] osdep: support mempolicy for preallocation in
+ os_mem_prealloc
 MIME-Version: 1.0
-References: <20211206142632.116925-1-stefanha@redhat.com>
- <CAFEAcA9=T-2AxzN1fhrtnu5U_5k7D8TPVjFXOLS_MeOCvR8FNA@mail.gmail.com>
- <Ya9nP63gwsk80POC@stefanha-x1.localdomain>
-In-Reply-To: <Ya9nP63gwsk80POC@stefanha-x1.localdomain>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Dec 2021 13:55:34 +0000
-Message-ID: <CAFEAcA_PfjwqS=4c=LCzZWbJBiELeBsdQ4QZur5wMtrtu1BFuQ@mail.gmail.com>
-Subject: Re: [RFC v3 0/4] tls: add macros for coroutine-safe TLS variables
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date: Tue, 07 Dec 2021 16:58:56 +0300
+Message-Id: <227321638883575@mail.yandex-team.ru>
+Content-Transfer-Encoding: base64
+Content-Type: text/html; charset=utf-8
+Received-SPF: pass client-ip=77.88.29.217;
+ envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ HTML_MIME_NO_HTML_TAG=0.377, MIME_HTML_ONLY=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,43 +81,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, fweimer@redhat.com, thuth@redhat.com,
- Daniel Berrange <berrange@redhat.com>, qemu-block@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Warner Losh <imp@bsdimp.com>, sguelton@redhat.com
+Cc: "imammedo@redhat.com" <imammedo@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>,
+ "sw@weilnetz.de" <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Dec 2021 at 13:53, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> On Mon, Dec 06, 2021 at 02:34:45PM +0000, Peter Maydell wrote:
-> > On Mon, 6 Dec 2021 at 14:33, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > >
-> > > v3:
-> > > - Added __attribute__((weak)) to get_ptr_*() [Florian]
-> >
-> > Do we really need it *only* on get_ptr_*() ? If we need to
-> > noinline the other two we probably also should use the same
-> > attribute weak to force no optimizations at all.
->
-> The weak attribute can't be used on static functions, so I think we need
-> a different approach:
->
-> In file included from ../util/async.c:35:
-> /builds/stefanha/qemu/include/qemu/coroutine-tls.h:201:11: error: weak declaration of 'get_ptr_my_aiocontext' must be public
->      type *get_ptr_##var(void)                                                \
->            ^~~~~~~~
-> ../util/async.c:673:1: note: in expansion of macro 'QEMU_DEFINE_STATIC_CO_TLS'
->  QEMU_DEFINE_STATIC_CO_TLS(AioContext *, my_aiocontext)
->  ^~~~~~~~~~~~~~~~~~~~~~~~~
->
-> Adding asm volatile("") seems to work though:
-> https://godbolt.org/z/3hn8Gh41d
-
-You can see in the clang disassembly there that this isn't
-sufficient. The compiler puts in both calls, but it ignores
-the return results and always returns "true" from the function.
-
--- PMM
+PGRpdj5JIGJlbGlldmUgeW91J3JlIHJpZ2h0LiBMb29raW5nIGF0IHRoZSBpbXBsZW1lbnRhdGlv
+biBvZiBzaG1lbV9hbGxvY19wYWdlLCBpdCB1c2VzIHRoZSBpbm9kZSBwb2xpY3ksIHdoaWNoIGlz
+IHNldCB2aWE8YnIgLz52bWEtJmd0O3NldF9wb2xpY3kgKGZyb20gdGhlIG1iaW5kKCkgY2FsbCBp
+biB0aGlzIGNhc2UpLiBzZXRfbWVtcG9saWN5IGlzIGJvdGggdXNlbGVzcyBhbmQgcmVkdW5kYW50
+IGhlcmUsIGFzIHRocmVhZCdzPGJyIC8+cG9saWN5IGlzIG9ubHkgZXZlciB1c2VkIGluIGNhc2Ug
+dm1hLSZndDtnZXRfcG9saWN5IHJldHVybnMgTlVMTCAod2hpY2ggaXQgZG9lc24ndCBpbiBvdXIg
+Y2FzZSkuPGJyIC8+U29ycnkgZm9yIHRoZSBjb25mdXNpb24uPGJyIC8+PGJyIC8+VGhhbmtzLDxi
+ciAvPkRhbmlpbDwvZGl2PjxkaXY+wqA8L2Rpdj48ZGl2PjA3LjEyLjIwMjEsIDExOjEzLCAiRGF2
+aWQgSGlsZGVuYnJhbmQiICZsdDtkYXZpZEByZWRoYXQuY29tJmd0Ozo8L2Rpdj48YmxvY2txdW90
+ZT48cD5PbiAwNy4xMi4yMSAwODowNiwgRGFuaWlsIFRhdGlhbmluIHdyb3RlOjwvcD48YmxvY2tx
+dW90ZT7CoFRoaXMgaXMgbmVlZGVkIGZvciBjYXNlcyB3aGVyZSB3ZSB3YW50IHRvIG1ha2Ugc3Vy
+ZSB0aGF0IGEgc2hhcmVkIG1lbW9yeTxiciAvPsKgcmVnaW9uIGdldHMgYWxsb2NhdGVkIGZyb20g
+YSBzcGVjaWZpYyBOVU1BIG5vZGUuIFRoaXMgaXMgaW1wb3NzaWJsZSB0byBkbzxiciAvPsKgd2l0
+aCBtYmluZCgyKSBiZWNhdXNlIGl0IGlnbm9yZXMgdGhlIHBvbGljeSBmb3IgbWVtb3J5IG1hcHBl
+ZCB3aXRoPGJyIC8+wqBNQVBfU0hBUkVELiBXZSB3b3JrIGFyb3VuZCB0aGlzIGJ5IGNhbGxpbmcg
+c2V0X21lbXBvbGljeSBmcm9tIHByZWFsbG9jPGJyIC8+wqB0aHJlYWRzIGluc3RlYWQuPC9ibG9j
+a3F1b3RlPjxwPjxiciAvPlRoYXQncyBub3QgcXVpdGUgdHJ1ZSBJIHRoaW5rLCBob3cgd2VyZSB5
+b3UgYWJsZSB0byBvYnNlcnZlIHRoaXM/IERvIHlvdTxiciAvPmhhdmUgYSByZXByb2R1Y2VyPzxi
+ciAvPjxiciAvPldoaWxlIHRoZSBtYW4gcGFnZSBzYXlzOjxiciAvPjxiciAvPiI8YnIgLz5UaGUg
+c3BlY2lmaWVkIHBvbGljeSB3aWxsIGJlIGlnbm9yZWQgZm9yIGFueSBNQVBfU0hBUkVEIG1hcHBp
+bmdzIGluPGJyIC8+dGhlIHNwZWNpZmllZCBtZW1vcnkgcmFuZ2UuIFJhdGhlciB0aGUgcGFnZXMg
+d2lsbCBiZSBhbGxvY2F0ZWQ8YnIgLz5hY2NvcmRpbmcgdG8gdGhlIG1lbW9yeSBwb2xpY3kgb2Yg
+dGhlIHRocmVhZCB0aGF0IGNhdXNlZCB0aGUgcGFnZSB0byBiZTxiciAvPmFsbG9jYXRlZC4gQWdh
+aW4sIHRoaXMgbWF5IG5vdCBiZSB0aGUgdGhyZWFkIHRoYXQgY2FsbGVkIG1iaW5kKCkuPGJyIC8+
+IjxiciAvPjxiciAvPldoYXQgaXQgcmVhbGx5IG1lYW5zIGlzIHRoYXQgYXMgbG9uZyBhcyB3ZSBh
+Y2Nlc3MgdGhhdCBtZW1vcnkgdmlhIHRoZTxiciAvPipWTUEqIGZvciB3aGljaCB3ZSBjYWxsZWQg
+bWJpbmQoKSwgd2hpY2ggaXMgdGhlIGNhc2Ugd2hlbiAqbm90KiB1c2luZzxiciAvPmZhbGxvY2F0
+ZSgpIHRvIHByZWFsbG9jYXRlIG1lbW9yeSwgd2UgZW5kIHVwIHVzaW5nIHRoZSBjb3JyZWN0IHBv
+bGljeS48YnIgLz48YnIgLz48YnIgLz5JIGRpZCBleHBlcmltZW50cyBhIHdoaWxlIGFnbyB3aXRo
+IGh1Z2V0bGJmcyBzaGFyZWQgbWVtb3J5IGFuZCBpdDxiciAvPnByb3Blcmx5IGFsbG9jYXRlZCBm
+cm9tIHRoZSByaWdodCBub2RlLiBTbyBJJ2QgYmUgY3VyaW91cyBob3cgeW91PGJyIC8+dHJpZ2dl
+ciB0aGlzLjxiciAvPsKgPC9wPi0tPGJyIC8+VGhhbmtzLDxiciAvPjxiciAvPkRhdmlkIC8gZGhp
+bGRlbmI8YnIgLz7CoDwvYmxvY2txdW90ZT4=
 
