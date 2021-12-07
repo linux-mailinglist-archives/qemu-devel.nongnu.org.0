@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 919C146B8AE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 11:18:58 +0100 (CET)
-Received: from localhost ([::1]:38360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D7046B8C1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 11:22:33 +0100 (CET)
+Received: from localhost ([::1]:44488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muXYn-0001F1-FA
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 05:18:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35212)
+	id 1muXcG-0005aS-J0
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 05:22:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1muXXS-0008Ux-MZ; Tue, 07 Dec 2021 05:17:34 -0500
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:51447)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1muXXQ-00072R-3C; Tue, 07 Dec 2021 05:17:34 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.114])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 52630D04FDCF;
- Tue,  7 Dec 2021 11:17:29 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 7 Dec
- 2021 11:17:28 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G0029ced5c89-56d3-400b-80d5-d1bdca37f5cd,
- EDCC1E77E28A65BD51DFCD2B92BF934EEA10E5FB) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <4984d971-9255-b5bd-3989-02a30f55d50d@kaod.org>
-Date: Tue, 7 Dec 2021 11:17:25 +0100
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1muXYk-0001gR-1R
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 05:18:54 -0500
+Received: from [2a00:1450:4864:20::22f] (port=45686
+ helo=mail-lj1-x22f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1muXYh-0007Ck-Lq
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 05:18:53 -0500
+Received: by mail-lj1-x22f.google.com with SMTP id j18so26409211ljc.12
+ for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 02:18:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=reTY0akj2IbzF6TCG8qLcv8DhWfSLRBQGjD7EUn4LLs=;
+ b=fVKqqf3CC4HonvxaXTuilTzxL8Yqlt+RxPqy4us+xeL8VqqLReE3HDfidUyPf/Iaz9
+ 9MZYv+HGJ3hZM6hMAmKp2ZFmLi+AMtYXQrgOfIDZ28w2G1KNpwYS8/xBX0NeGFSWnHs6
+ sFFy+VdLJztMejFcnmaqITFjaFGuYmrUpJGcMJWM/svi/kbUV5eT6RwWyfMnH5gczQLO
+ 5LpzhjfnG3rlCagkuGf+OAE/hnIYA3J+YQ+XryCX3QlxaHC38BRvbw5VnvYR7ayb5X1S
+ gv79nw9PAZIJdrZea9wtno0pUMb4c7FjN57Zm7d2+4cutyIFUDCya4NdUxZJGZs1C6i3
+ JAhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=reTY0akj2IbzF6TCG8qLcv8DhWfSLRBQGjD7EUn4LLs=;
+ b=8ClkWf97DbSxanP5Jh2afgMqV2ksP4DZ0MA7LYCzZuvMYNt5c5bTUMiRmlyp0q1y+V
+ DyY602FiSCxqhgmbTnPJf8YYcY++jJIDzqS6qD1h5o02e5S2+gd5PD4e5SotZOB7GNtN
+ 3RVQnA8yHgW+f3V2PtTGgJrfKpL0c8gNDsG2H5UEw56+1keYxe+h5T28VtVZtRGrEDuU
+ g8JvF3V7ib0OwG/ZYmTSpq0UQu5I61mPILfZGEMp5+hqFbTjix6GoS+inTZo7v08Whmc
+ FUmABQ603oYWYFnYZCFwZDijvJDZKbF7lDrsR7nljIae11vJeOFC8VkQQpJ0PrdUDmQN
+ KVjA==
+X-Gm-Message-State: AOAM531m/kfRMpbVjfzpO6wEwcbELy5vt+83qJAOde83mnlXYkNiIatS
+ 3VibivehFqXxubZfoGSd1gHpApGQSzJ4yQ==
+X-Google-Smtp-Source: ABdhPJzuVwh43sa2oZ6lvk99Y8320tgP8zdLcZRbl+sxD8vCCUybr+hX5VcP71LLcdAufB0xs74/bA==
+X-Received: by 2002:a2e:984f:: with SMTP id e15mr41095903ljj.427.1638872328953; 
+ Tue, 07 Dec 2021 02:18:48 -0800 (PST)
+Received: from UNIT-808.labs.intellij.net ([91.132.204.19])
+ by smtp.gmail.com with ESMTPSA id w10sm1629022lfn.308.2021.12.07.02.18.48
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 07 Dec 2021 02:18:48 -0800 (PST)
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 0/7] Add vmnet.framework based network backend
+Date: Tue,  7 Dec 2021 13:18:21 +0300
+Message-Id: <20211207101828.22033-1-yaroshchuk2000@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 04/14] ppc/pnv: Introduce support for user created PHB3
- devices
-Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, <qemu-ppc@nongnu.org>,
- <qemu-devel@nongnu.org>
-References: <20211202144235.1276352-1-clg@kaod.org>
- <20211202144235.1276352-5-clg@kaod.org>
- <72b4d947-2f6d-da3d-46f7-75e729643036@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <72b4d947-2f6d-da3d-46f7-75e729643036@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 0fad2ff7-270b-40b9-9064-813a1d2e0538
-X-Ovh-Tracer-Id: 3799067763752405923
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrjeehgdduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuveelvdejteegteefieevfeetffefvddvieekteevleefgeelgfeutedvfedvfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.44,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-lj1-x22f.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,67 +84,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>
+Cc: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, jasowang@redhat.com,
+ phillip.ennen@gmail.com, armbru@redhat.com, r.bolshakov@yadro.com,
+ phillip@axleos.com, akihiko.odaki@gmail.com, hsp.cat7@gmail.com, hello@adns.io,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/7/21 10:47, Frederic Barrat wrote:
-> 
-> 
-> On 02/12/2021 15:42, Cédric Le Goater wrote:
->> PHB3 devices and PCI devices can now be added to the powernv8 machine
->> using :
->>
->>    -device pnv-phb3,chip-id=0,index=1 \
->>    -device nec-usb-xhci,bus=pci.1,addr=0x0
->>
->> The 'index' property identifies the PHB3 in the chip. In case of user
->> created devices, a lookup on 'chip-id' is required to assign the
->> owning chip.
->>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
-> 
->> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
->> index de277c457838..d7fe92cb082d 100644
->> --- a/hw/ppc/pnv.c
->> +++ b/hw/ppc/pnv.c
->> @@ -1097,14 +1097,14 @@ static void pnv_chip_power8_instance_init(Object *obj)
->>       object_initialize_child(obj, "homer", &chip8->homer, TYPE_PNV8_HOMER);
->> -    for (i = 0; i < pcc->num_phbs; i++) {
->> +    if (defaults_enabled()) {
->> +        chip->num_phbs = pcc->num_phbs;
->> +    }
->> +
->> +    for (i = 0; i < chip->num_phbs; i++) {
->>           object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV_PHB3);
->>       }
->> -    /*
->> -     * Number of PHBs is the chip default
->> -     */
->> -    chip->num_phbs = pcc->num_phbs;
->>   }
-> 
-> 
-> So if "-nodefaults" is mentioned on the command line, then chip->num_phbs is not set. It seems the intention is to have only the PHBs defined on the CLI, which is fine. However, I don't see where chip->num_phbs is incremented in that case.
+macOS provides networking API for VMs called 'vmnet.framework':
+https://developer.apple.com/documentation/vmnet
 
-Good catch :) That's why we need another patch fixing all this because
-it is breaking the XICS fabric handlers, ics_get and ics_resend.
-'info pic' is impacted also.
+We can provide its support as the new QEMU network backends which
+represent three different vmnet.framework interface usage modes:
 
-Here is the proposed fix for v2 :
+  * `vmnet-shared`:
+    allows the guest to communicate with other guests in shared mode and
+    also with external network (Internet) via NAT. Has (macOS-provided)
+    DHCP server; subnet mask and IP range can be configured;
 
-  https://github.com/legoater/qemu/commit/b47bce3109f316a65aa2fa2a46651b2960e93fca
+  * `vmnet-host`:
+    allows the guest to communicate with other guests in host mode.
+    By default has enabled DHCP as `vmnet-shared`, but providing
+    network unique id (uuid) can make `vmnet-host` interfaces isolated
+    from each other and also disables DHCP.
 
-I chose to loop on the children of the chip to find the user
-created devices and leave the PnvChip model with empty defaults.
+  * `vmnet-bridged`:
+    bridges the guest with a physical network interface.
+
+This backends cannot work on macOS Catalina 10.15 cause we use
+vmnet.framework API provided only with macOS 11 and newer. Seems
+that it is not a problem, because QEMU guarantees to work on two most
+recent versions of macOS which now are Big Sur (11) and Monterey (12).
+
+Also, we have one inconvenient restriction: vmnet.framework interfaces
+can create only privileged user:
+`$ sudo qemu-system-x86_64 -nic vmnet-shared`
+
+Attempt of `vmnet-*` netdev creation being unprivileged user fails with
+vmnet's 'general failure'.
+
+This happens because vmnet.framework requires `com.apple.vm.networking`
+entitlement which is: "restricted to developers of virtualization software.
+To request this entitlement, contact your Apple representative." as Apple
+documentation says:
+https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_vm_networking
+
+One more note: we still have quite useful but not supported
+'vmnet.framework' features as creating port forwarding rules, IPv6
+NAT prefix specifying and so on.
+
+Nevertheless, new backends work fine and tested within `qemu-system-x86-64`
+on macOS Bir Sur 11.5.2 host with such nic models:
+  * e1000-82545em
+  * virtio-net-pci
+  * vmxnet3
+
+The guests were:
+  * macOS 10.15.7
+  * Ubuntu Bionic (server cloudimg)
 
 
-'info pic' is impacted the same on P9
+This series partially reuses patches by Phillip Tennen:
+https://patchew.org/QEMU/20210218134947.1860-1-phillip.ennen@gmail.com/
+So I included them signed-off line into one of the commit messages and
+also here.
 
-   https://github.com/legoater/qemu/commit/d4733edca94c95f717f4ee35bbea6dc085365286
+v1 -> v2:
+ Since v1 minor typos were fixed, patches rebased onto latest master,
+ redundant changes removed (small commits squashed)
+v2 -> v3:
+ - QAPI style fixes
+ - Typos fixes in comments
+ - `#include`'s updated to be in sync with recent master
+v3 -> v4:
+ - Support vmnet interfaces isolation feature
+ - Support vmnet-host network uuid setting feature
+ - Refactored sources a bit
+v4 -> v5:
+ - Missed 6.2 boat, now 7.0 candidate
+ - Fix qapi netdev descriptions and styles
+   (@subnetmask -> @subnet-mask)
+ - Support vmnet-shared IPv6 prefix setting feature
+v5 -> v6
+ - provide detailed commit messages for commits of
+   many changes
+ - rename properties @dhcpstart and @dhcpend to
+   @start-address and @end-address
+ - improve qapi documentation about isolation
+   features (@isolated, @net-uuid)
+v6 -> v7:
+ - update MAINTAINERS list
 
-Thanks,
 
-C.
+Vladislav Yaroshchuk (7):
+  net/vmnet: add vmnet dependency and customizable option
+  net/vmnet: add vmnet backends to qapi/net
+  net/vmnet: implement shared mode (vmnet-shared)
+  net/vmnet: implement host mode (vmnet-host)
+  net/vmnet: implement bridged mode (vmnet-bridged)
+  net/vmnet: update qemu-options.hx
+  net/vmnet: update MAINTAINERS list
+
+ MAINTAINERS                   |   5 +
+ meson.build                   |   4 +
+ meson_options.txt             |   2 +
+ net/clients.h                 |  11 ++
+ net/meson.build               |   7 +
+ net/net.c                     |  10 ++
+ net/vmnet-bridged.m           | 111 ++++++++++++
+ net/vmnet-common.m            | 330 ++++++++++++++++++++++++++++++++++
+ net/vmnet-host.c              | 105 +++++++++++
+ net/vmnet-shared.c            |  92 ++++++++++
+ net/vmnet_int.h               |  48 +++++
+ qapi/net.json                 | 132 +++++++++++++-
+ qemu-options.hx               |  25 +++
+ scripts/meson-buildoptions.sh |   3 +
+ 14 files changed, 883 insertions(+), 2 deletions(-)
+ create mode 100644 net/vmnet-bridged.m
+ create mode 100644 net/vmnet-common.m
+ create mode 100644 net/vmnet-host.c
+ create mode 100644 net/vmnet-shared.c
+ create mode 100644 net/vmnet_int.h
+
+-- 
+2.23.0
+
 
