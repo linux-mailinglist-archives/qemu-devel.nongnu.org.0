@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9600746BA7F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 12:56:35 +0100 (CET)
-Received: from localhost ([::1]:60590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7F546BAA3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 13:04:03 +0100 (CET)
+Received: from localhost ([::1]:35514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muZ5G-0000M1-Nd
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 06:56:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56134)
+	id 1muZCU-00035m-5K
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 07:04:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muYzk-0005jq-Jt
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 06:50:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38336)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1muZAD-0001tx-Hg
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 07:01:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muYzj-0004qz-0p
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 06:50:52 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1muZ9y-00086V-4G
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 07:01:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638877849;
+ s=mimecast20190719; t=1638878484;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T09as+BM23dap9ugeHe48STRkXtr+9Qwlc857UXESkg=;
- b=EOUeJdv7h0gbWhaK+BFh9ONj43rDlzHPorLgbkvay6GMVtK+xx9OlOaldSagpeZRDfRUaP
- +iKCWqeim3Xuud9W2ESwDB+erx/HOAYPRXCveubYZbo2EBjAkP+PV2C/R1XNT7sjkE3Gvt
- YA9GrUYtBao9BEw5halsCaw3S5L6mIM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OCBtn/zdkfz53nsh8kBuECmPoV5gXsHn9XBCbOW2zJg=;
+ b=VnF7w9d2RlxA6zv1WYn1XNSjjF9qN4XwRgEDbTRs6hjEvpMAMckI0peHNv8gloU4n72jqh
+ 1xzCKpeweK4etc7IT2nGSrR6Q/ohsNTo0AQWR+FN7XdY+FNnk+M0vbcOqMO1rk/xdRVPm0
+ kV31CP9YEa6T96QA56Jaos+D3YU2Wnk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-278-mVondn6qPOGvJeDhD4fAmQ-1; Tue, 07 Dec 2021 06:50:48 -0500
-X-MC-Unique: mVondn6qPOGvJeDhD4fAmQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- c4-20020adfed84000000b00185ca4eba36so2844702wro.21
- for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 03:50:48 -0800 (PST)
+ us-mta-549-k6g_4iCOO-C0Hkln5QDViw-1; Tue, 07 Dec 2021 07:01:23 -0500
+X-MC-Unique: k6g_4iCOO-C0Hkln5QDViw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ ay34-20020a05600c1e2200b00337fd217772so1260433wmb.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 04:01:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=T09as+BM23dap9ugeHe48STRkXtr+9Qwlc857UXESkg=;
- b=4sOzt8328SR1q3yNnDG2ffVsTcqIPfE9Eyjt/3d4sK077Ij9ofCb+Z5NCuhvbT3Zvf
- LNR55SQ4bUovG3fckgFlpley1Hyr6QPQp7EeZZMixU4V0oS3JY7PrGF6ApA3n9pmiLKN
- FBWUD+CE+ReSY3G6jAlrETSyQh1pJcZQAmEdFoNjniKdneYGXDvpR/89/lzcXqK88sx9
- RMhAZlKsECEx579s01iQFoI9fUYUZWqEOO5AKJ0wbTthbDhEt0rB5piql0Z/QobKbbeC
- qDPvF2GWFPUBVbbYrhLbH/1tfGv4AT/RQTVyPJZ5Au3TISr7rX1KcdnVNTolbXpPW8Tz
- FgUg==
-X-Gm-Message-State: AOAM531uSrqIr/afG7wp9X98mf5kweEB7ASlF8PFbw8Re/qORlfCqC9j
- E/k8SiQYILd3Qwj2PROkm0S1OsRttqDEKmtwK91ZSATpmXEMZ1uRTaN9axLAb3wzk1FG2u6lwsp
- pluwodKi403XQdcI9naPNuxJUGXYu2QQ6IiZyuYYWuox92qiuDHRqfi8oEgu38huW
-X-Received: by 2002:a7b:cd90:: with SMTP id y16mr6465040wmj.84.1638877847350; 
- Tue, 07 Dec 2021 03:50:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxRhHKZxznmKE8vs1D/ydUO31XRbRevUOb4EibuxR1ArInxTS9DjyX7IqJ+6eHNN88K6KXN7A==
-X-Received: by 2002:a7b:cd90:: with SMTP id y16mr6465006wmj.84.1638877847054; 
- Tue, 07 Dec 2021 03:50:47 -0800 (PST)
-Received: from localhost.localdomain ([85.203.46.177])
- by smtp.gmail.com with ESMTPSA id g18sm3023551wmq.4.2021.12.07.03.50.44
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 07 Dec 2021 03:50:46 -0800 (PST)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] migration: Finer grained tracepoints for POSTCOPY_LISTEN
-Date: Tue,  7 Dec 2021 19:50:16 +0800
-Message-Id: <20211207115016.73195-8-peterx@redhat.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211207115016.73195-1-peterx@redhat.com>
-References: <20211207115016.73195-1-peterx@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=OCBtn/zdkfz53nsh8kBuECmPoV5gXsHn9XBCbOW2zJg=;
+ b=Jc+n1lcwKhpI9m2yW6qKLgSKbc+W0e+52/Gb6eCRTOBDLVqrMlHT7/ARv7fH8ij0Ge
+ W9+APdbZXxIQX1W2R0h4XHwhiPTy99kU5ClLPEWkBkLamQQgCSA0uk7OQOGEF1yItDqc
+ pJguPEy4eKsO84B3Jw7bLXE1N8nMjLagIBzXfmWmrRJ2hcmmhHV6eK+YEp9U0OtViB7S
+ Wdzu+DhzvF7nlw93D2vSbWy7eMVHACr2TUr9fsU9shgh0fhBFTpgzX+4n8agTWAT6svs
+ uSAbIaIa6bQMjzpCin541WH9QjJwbCZQxUFWZzeLjz+2qg6YT7DvR5m1f3PqJ2cTFUNJ
+ W8kg==
+X-Gm-Message-State: AOAM530y0f39+R6uA/RFOcl0m6QZmAiL2Jf/o0L28IDDqujgcBI1agQR
+ 2xInPIbhcQ/ZUF6nxbU9y9416j5g7pwO7CXHrG/UlsKUkAZAfEfxIG6yNbJ30Zkoh2Q69XiMvtI
+ ynZw1qIpIc/VNpvo=
+X-Received: by 2002:a1c:e918:: with SMTP id q24mr6619271wmc.108.1638878482497; 
+ Tue, 07 Dec 2021 04:01:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxRUcTD1zLLzt96Tfg3lxwS+JX/VCjEWrXgZOiazD26qZcAj9pWpSpwM1ikWFZPRtxrD08OQQ==
+X-Received: by 2002:a1c:e918:: with SMTP id q24mr6619212wmc.108.1638878482131; 
+ Tue, 07 Dec 2021 04:01:22 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id f8sm3007003wmf.2.2021.12.07.04.01.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Dec 2021 04:01:21 -0800 (PST)
+Message-ID: <ff84b2f5-4737-7c25-a944-43a0774a2865@redhat.com>
+Date: Tue, 7 Dec 2021 13:01:20 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] mirror: Avoid assertion failed in mirror_run
+To: Yi Wang <wang.yi59@zte.com.cn>, qemu-devel@nongnu.org
+References: <20211207105619.3205-1-wang.yi59@zte.com.cn>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211207105619.3205-1-wang.yi59@zte.com.cn>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.44, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,72 +98,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ wang.liang82@zte.com.cn, qemu-block <qemu-block@nongnu.org>,
+ xue.zhihong@zte.com.cn, Long YunJian <long.yunjian@zte.com.cn>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The enablement of postcopy listening has a few steps, add a few tracepoints to
-be there ready for some basic measurements for them.
+[CC-ing qemu-block, Vladimir, Kevin, and John – when sending patches, 
+please look into the MAINTAINERS file or use the 
+scripts/get_maintainer.pl script to find out who to CC on them.  It’s 
+very to overlook patches on qemu-devel :/]
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- migration/savevm.c     | 5 ++++-
- migration/trace-events | 2 +-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+On 07.12.21 11:56, Yi Wang wrote:
+> From: Long YunJian <long.yunjian@zte.com.cn>
+>
+> when blockcommit from active leaf node, sometimes, we get assertion failed with
+> "mirror_run: Assertion `QLIST_EMPTY(&bs->tracked_requests)' failed" messages.
+> According to the core file, we find bs->tracked_requests has IO request,
+> so assertion failed.
+> (gdb) bt
+> #0  0x00007f410df707cf in raise () from /lib64/libc.so.6
+> #1  0x00007f410df5ac05 in abort () from /lib64/libc.so.6
+> #2  0x00007f410df5aad9 in __assert_fail_base.cold.0 () from /lib64/libc.so.6
+> #3  0x00007f410df68db6 in __assert_fail () from /lib64/libc.so.6
+> #4  0x0000556915635371 in mirror_run (job=0x556916ff8600, errp=<optimized out>) at block/mirror.c:1092
+> #5  0x00005569155e6c53 in job_co_entry (opaque=0x556916ff8600) at job.c:904
+> #6  0x00005569156d9483 in coroutine_trampoline (i0=<optimized out>, i1=<optimized out>) at util/coroutine-ucontext.c:115
+> (gdb) p s->mirror_top_bs->backing->bs->tracked_requests
+> $12 = {lh_first = 0x7f3f07bfb8b0}
+> (gdb) p s->mirror_top_bs->backing->bs->tracked_requests->lh_first
+> $13 = (struct BdrvTrackedRequest *) 0x7f3f07bfb8b0
+>
+> Actually, before excuting assert(QLIST_EMPTY(&bs->tracked_requests)),
+> it will excute mirror_flush(s). It may handle new I/O request and maybe
+> pending I/O during this flush. Just likes in bdrv_close fuction,
+> bdrv_drain(bs) followed by bdrv_flush(bs), we should add bdrv_drain fuction
+> to handle pending I/O after mirror_flush.
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 17b8e25e00..5b3f31eab2 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1946,7 +1946,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
- static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
- {
-     PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_LISTENING);
--    trace_loadvm_postcopy_handle_listen();
-+    trace_loadvm_postcopy_handle_listen(1);
-     Error *local_err = NULL;
- 
-     if (ps != POSTCOPY_INCOMING_ADVISE && ps != POSTCOPY_INCOMING_DISCARD) {
-@@ -1962,6 +1962,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
-             postcopy_ram_prepare_discard(mis);
-         }
-     }
-+    trace_loadvm_postcopy_handle_listen(2);
- 
-     /*
-      * Sensitise RAM - can now generate requests for blocks that don't exist
-@@ -1974,6 +1975,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
-             return -1;
-         }
-     }
-+    trace_loadvm_postcopy_handle_listen(3);
- 
-     if (postcopy_notify(POSTCOPY_NOTIFY_INBOUND_LISTEN, &local_err)) {
-         error_report_err(local_err);
-@@ -1988,6 +1990,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
-                        QEMU_THREAD_DETACHED);
-     qemu_sem_wait(&mis->listen_thread_sem);
-     qemu_sem_destroy(&mis->listen_thread_sem);
-+    trace_loadvm_postcopy_handle_listen(4);
- 
-     return 0;
- }
-diff --git a/migration/trace-events b/migration/trace-events
-index d63a5915f5..1aa6937dc1 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -14,7 +14,7 @@ loadvm_handle_cmd_packaged_main(int ret) "%d"
- loadvm_handle_cmd_packaged_received(int ret) "%d"
- loadvm_handle_recv_bitmap(char *s) "%s"
- loadvm_postcopy_handle_advise(void) ""
--loadvm_postcopy_handle_listen(void) ""
-+loadvm_postcopy_handle_listen(int i) "%d"
- loadvm_postcopy_handle_run(void) ""
- loadvm_postcopy_handle_run_cpu_sync(void) ""
- loadvm_postcopy_handle_run_vmstart(void) ""
--- 
-2.32.0
+Oh.  How is that happening, though?  I would have expected that flushing 
+the target BB (and associated BDS) only flushes requests to the OS and 
+lower layers, but the source node (which is `bs`) should (in the case of 
+commit) always be above the target, so I wouldn’t have expected it to 
+get any new requests due to this flush.
+
+Do you have a reproducer for this?
+
+> Signed-off-by: Long YunJian <long.yunjian@zte.com.cn>
+> Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
+> ---
+>   block/mirror.c | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/block/mirror.c b/block/mirror.c
+> index efec2c7674..1eec356310 100644
+> --- a/block/mirror.c
+> +++ b/block/mirror.c
+> @@ -1079,6 +1079,8 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
+>                   s->in_drain = false;
+>                   continue;
+>               }
+> +            /* in case flush left pending I/O */
+> +            bdrv_drain(bs);
+
+I don’t think this works, because if we drain, we would also need to 
+flush the target again.  Essentially I believe we’d basically need 
+something like
+
+do {
+     bdrv_drained_begin(bs);
+     mirror_flush(s);
+     if (!QLIST_EMPTY(&bs->tracked_requests)) {
+         bdrv_drained_end(bs);
+     }
+} while (!QLIST_EMPTY(&bs->tracked_requests));
+
+(Which I know is really ugly)
+
+Hanna
+
+>   
+>               /* The two disks are in sync.  Exit and report successful
+>                * completion.
 
 
