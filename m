@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2AB246C1B4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 18:28:08 +0100 (CET)
-Received: from localhost ([::1]:58960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E2A46C1B5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 18:28:09 +0100 (CET)
+Received: from localhost ([::1]:59058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mueG7-0002aY-Fj
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 12:28:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46230)
+	id 1mueG8-0002eO-Jd
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 12:28:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mueCB-0000Gm-T7
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 12:24:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28072)
+ id 1mueCE-0000Kb-SB
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 12:24:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mueC7-0002Z2-WF
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 12:24:02 -0500
+ id 1mueC9-0002ZM-Ou
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 12:24:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638897839;
+ s=mimecast20190719; t=1638897840;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vXsK6XR8Dfp9V36wpIjWAE+9b7jKy1AYtAN1TJQb8YE=;
- b=CwLct7YoSR2TvnfxjzBnWI+TvVLnO3yOCT9O2Etl3EjHZxIBiumQ6z8lxaAUHchgjLvO3W
- aBcO8db+7cd01TejodYBwQjoisuiBlNULDbY4QRvvCpprPqv6A3LavJr76np5FLK0LkH5T
- c1NIVEvL4Oe6G5K+HnvGNasweMWoMqQ=
+ bh=v3A7v9FZk/uvZunhOBPDPfxReSOKD9yARon3AScXWfM=;
+ b=JRsWFMO1g0NhgmR63h9jefvfkPUS6HxeLU3x05j6WVfLF0S+69Kx7WyUOjNhpZo0Mux3W/
+ HEkfzW1PKqYf7qQyEQvy0OryKDNb600zj12o6DcRBYkleXpu764ZK8ktFFCfUCIvbHhmHg
+ U+OpjNMBXys/S8EKM4KrqBrBtcotMIo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-53-3vBcqPBsOD2PN_eRwL-m3Q-1; Tue, 07 Dec 2021 12:23:57 -0500
-X-MC-Unique: 3vBcqPBsOD2PN_eRwL-m3Q-1
+ us-mta-533-obC3dQYpOxuDW-cKLrXPbQ-1; Tue, 07 Dec 2021 12:23:59 -0500
+X-MC-Unique: obC3dQYpOxuDW-cKLrXPbQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3BB218C89C4
- for <qemu-devel@nongnu.org>; Tue,  7 Dec 2021 17:23:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C92EB760C0
+ for <qemu-devel@nongnu.org>; Tue,  7 Dec 2021 17:23:58 +0000 (UTC)
 Received: from thinkpad.redhat.com (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D6AD67840;
- Tue,  7 Dec 2021 17:23:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48E3A1346F;
+ Tue,  7 Dec 2021 17:23:57 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 3/4] test/libqtest: add some virtio-net failover migration
- cancelling tests
-Date: Tue,  7 Dec 2021 18:23:41 +0100
-Message-Id: <20211207172342.4058491-4-lvivier@redhat.com>
+Subject: [PATCH v7 4/4] tests/libqtest: add a migration test with two couples
+ of failover devices
+Date: Tue,  7 Dec 2021 18:23:42 +0100
+Message-Id: <20211207172342.4058491-5-lvivier@redhat.com>
 In-Reply-To: <20211207172342.4058491-1-lvivier@redhat.com>
 References: <20211207172342.4058491-1-lvivier@redhat.com>
 MIME-Version: 1.0
@@ -86,37 +86,57 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add some tests to check the state of the machine if the migration
-is cancelled while we are using virtio-net failover.
-
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 Acked-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/virtio-net-failover.c | 276 ++++++++++++++++++++++++++++++
- 1 file changed, 276 insertions(+)
+ tests/qtest/virtio-net-failover.c | 277 ++++++++++++++++++++++++++++++
+ 1 file changed, 277 insertions(+)
 
 diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
-index 7444d30d2900..f3d4ba69f51b 100644
+index f3d4ba69f51b..43d32ce17ba4 100644
 --- a/tests/qtest/virtio-net-failover.c
 +++ b/tests/qtest/virtio-net-failover.c
-@@ -735,6 +735,274 @@ static void test_migrate_in(gconstpointer opaque)
+@@ -20,6 +20,7 @@
+ 
+ #define ACPI_PCIHP_ADDR_ICH9    0x0cc0
+ #define PCI_EJ_BASE             0x0008
++#define PCI_SEL_BASE            0x0010
+ 
+ #define BASE_MACHINE "-M q35 -nodefaults " \
+     "-device pcie-root-port,id=root0,addr=0x1,bus=pcie.0,chassis=1 " \
+@@ -27,6 +28,8 @@
+ 
+ #define MAC_PRIMARY0 "52:54:00:11:11:11"
+ #define MAC_STANDBY0 "52:54:00:22:22:22"
++#define MAC_PRIMARY1 "52:54:00:33:33:33"
++#define MAC_STANDBY1 "52:54:00:44:44:44"
+ 
+ static QGuestAllocator guest_malloc;
+ static QPCIBus *pcibus;
+@@ -1003,6 +1006,276 @@ static void test_migrate_abort_timeout(gconstpointer opaque)
      machine_stop(qts);
  }
  
-+static void test_migrate_abort_wait_unplug(gconstpointer opaque)
++static void test_multi_out(gconstpointer opaque)
 +{
 +    QTestState *qts;
 +    QDict *resp, *args, *ret;
 +    g_autofree gchar *uri = g_strdup_printf("exec: cat > %s", (gchar *)opaque);
-+    const gchar *status;
++    const gchar *status, *expected;
 +
 +    qts = machine_start(BASE_MACHINE
-+                     "-netdev user,id=hs0 "
-+                     "-netdev user,id=hs1 ",
-+                     2);
++                "-device pcie-root-port,id=root2,addr=0x3,bus=pcie.0,chassis=3 "
++                "-device pcie-root-port,id=root3,addr=0x4,bus=pcie.0,chassis=4 "
++                "-netdev user,id=hs0 "
++                "-netdev user,id=hs1 "
++                "-netdev user,id=hs2 "
++                "-netdev user,id=hs3 ",
++                4);
 +
 +    check_one_card(qts, false, "standby0", MAC_STANDBY0);
 +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, false, "standby1", MAC_STANDBY1);
++    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
 +
 +    qtest_qmp_device_add(qts, "virtio-net", "standby0",
 +                         "{'bus': 'root0',"
@@ -126,11 +146,8 @@ index 7444d30d2900..f3d4ba69f51b 100644
 +
 +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
 +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+
-+    start_virtio_net(qts, 1, 0, "standby0");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, false, "standby1", MAC_STANDBY1);
++    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
 +
 +    qtest_qmp_device_add(qts, "virtio-net", "primary0",
 +                         "{'bus': 'root1',"
@@ -141,7 +158,47 @@ index 7444d30d2900..f3d4ba69f51b 100644
 +                         "'mac': '"MAC_PRIMARY0"'}");
 +
 +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
++    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, false, "standby1", MAC_STANDBY1);
++    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
++
++    start_virtio_net(qts, 1, 0, "standby0");
++
++    check_one_card(qts, true, "standby0", MAC_STANDBY0);
 +    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, false, "standby1", MAC_STANDBY1);
++    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
++
++    qtest_qmp_device_add(qts, "virtio-net", "standby1",
++                         "{'bus': 'root2',"
++                         "'failover': 'on',"
++                         "'netdev': 'hs2',"
++                         "'mac': '"MAC_STANDBY1"'}");
++
++    check_one_card(qts, true, "standby0", MAC_STANDBY0);
++    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, true, "standby1", MAC_STANDBY1);
++    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
++
++    qtest_qmp_device_add(qts, "virtio-net", "primary1",
++                         "{'bus': 'root3',"
++                         "'failover_pair_id': 'standby1',"
++                         "'netdev': 'hs3',"
++                         "'rombar': 0,"
++                         "'romfile': '',"
++                         "'mac': '"MAC_PRIMARY1"'}");
++
++    check_one_card(qts, true, "standby0", MAC_STANDBY0);
++    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, true, "standby1", MAC_STANDBY1);
++    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
++
++    start_virtio_net(qts, 3, 0, "standby1");
++
++    check_one_card(qts, true, "standby0", MAC_STANDBY0);
++    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, true, "standby1", MAC_STANDBY1);
++    check_one_card(qts, true, "primary1", MAC_PRIMARY1);
 +
 +    args = qdict_from_jsonf_nofail("{}");
 +    g_assert_nonnull(args);
@@ -153,58 +210,99 @@ index 7444d30d2900..f3d4ba69f51b 100644
 +
 +    /* the event is sent when QEMU asks the OS to unplug the card */
 +    resp = get_unplug_primary_event(qts);
-+    g_assert_cmpstr(qdict_get_str(resp, "device-id"), ==, "primary0");
++    if (strcmp(qdict_get_str(resp, "device-id"), "primary0") == 0) {
++        expected = "primary1";
++    } else if (strcmp(qdict_get_str(resp, "device-id"), "primary1") == 0) {
++        expected = "primary0";
++    } else {
++        g_assert_not_reached();
++    }
 +    qobject_unref(resp);
 +
-+    resp = qtest_qmp(qts, "{ 'execute': 'migrate_cancel' }");
-+    g_assert(qdict_haskey(resp, "return"));
++    resp = get_unplug_primary_event(qts);
++    g_assert_cmpstr(qdict_get_str(resp, "device-id"), ==, expected);
 +    qobject_unref(resp);
 +
-+    /* migration has been cancelled while the unplug was in progress */
++    /* wait the end of the migration setup phase */
++    while (true) {
++        ret = migrate_status(qts);
 +
-+    /* while the card is not ejected, we must be in "cancelling" state */
++        status = qdict_get_str(ret, "status");
++        if (strcmp(status, "wait-unplug") == 0) {
++            break;
++        }
++
++        /* The migration must not start if the card is not ejected */
++        g_assert_cmpstr(status, !=, "active");
++        g_assert_cmpstr(status, !=, "completed");
++        g_assert_cmpstr(status, !=, "failed");
++        g_assert_cmpstr(status, !=, "cancelling");
++        g_assert_cmpstr(status, !=, "cancelled");
++
++        qobject_unref(ret);
++    }
++    qobject_unref(ret);
++
++    /* OS unplugs primary1, but we must wait the second */
++    qtest_outl(qts, ACPI_PCIHP_ADDR_ICH9 + PCI_EJ_BASE, 1);
++
 +    ret = migrate_status(qts);
-+
 +    status = qdict_get_str(ret, "status");
-+    g_assert_cmpstr(status, ==, "cancelling");
++    g_assert_cmpstr(status, ==, "wait-unplug");
 +    qobject_unref(ret);
 +
-+    /* OS unplugs the cards, QEMU can move from wait-unplug state */
++    if (g_test_slow()) {
++        /* check we stay in wait-unplug while the card is not ejected */
++        for (int i = 0; i < 5; i++) {
++            sleep(1);
++            ret = migrate_status(qts);
++            status = qdict_get_str(ret, "status");
++            g_assert_cmpstr(status, ==, "wait-unplug");
++            qobject_unref(ret);
++        }
++    }
++
++    /* OS unplugs primary0, QEMU can move from wait-unplug state */
++    qtest_outl(qts, ACPI_PCIHP_ADDR_ICH9 + PCI_SEL_BASE, 2);
 +    qtest_outl(qts, ACPI_PCIHP_ADDR_ICH9 + PCI_EJ_BASE, 1);
 +
 +    while (true) {
 +        ret = migrate_status(qts);
 +
 +        status = qdict_get_str(ret, "status");
-+        if (strcmp(status, "cancelled") == 0) {
++        if (strcmp(status, "completed") == 0) {
 +            break;
 +        }
 +        g_assert_cmpstr(status, !=, "failed");
-+        g_assert_cmpstr(status, !=, "active");
-+        qobject_unref(ret);
++        g_assert_cmpstr(status, !=, "cancelling");
++        g_assert_cmpstr(status, !=, "cancelled");
 +    }
-+    qobject_unref(ret);
 +
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
++    qtest_qmp_eventwait(qts, "STOP");
 +
 +    machine_stop(qts);
 +}
 +
-+static void test_migrate_abort_active(gconstpointer opaque)
++static void test_multi_in(gconstpointer opaque)
 +{
 +    QTestState *qts;
 +    QDict *resp, *args, *ret;
-+    g_autofree gchar *uri = g_strdup_printf("exec: cat > %s", (gchar *)opaque);
-+    const gchar *status;
++    g_autofree gchar *uri = g_strdup_printf("exec: cat %s", (gchar *)opaque);
 +
 +    qts = machine_start(BASE_MACHINE
-+                     "-netdev user,id=hs0 "
-+                     "-netdev user,id=hs1 ",
-+                     2);
++                "-device pcie-root-port,id=root2,addr=0x3,bus=pcie.0,chassis=3 "
++                "-device pcie-root-port,id=root3,addr=0x4,bus=pcie.0,chassis=4 "
++                "-netdev user,id=hs0 "
++                "-netdev user,id=hs1 "
++                "-netdev user,id=hs2 "
++                "-netdev user,id=hs3 "
++                "-incoming defer ",
++                4);
 +
 +    check_one_card(qts, false, "standby0", MAC_STANDBY0);
 +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, false, "standby1", MAC_STANDBY1);
++    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
 +
 +    qtest_qmp_device_add(qts, "virtio-net", "standby0",
 +                         "{'bus': 'root0',"
@@ -214,11 +312,8 @@ index 7444d30d2900..f3d4ba69f51b 100644
 +
 +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
 +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+
-+    start_virtio_net(qts, 1, 0, "standby0");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, false, "standby1", MAC_STANDBY1);
++    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
 +
 +    qtest_qmp_device_add(qts, "virtio-net", "primary0",
 +                         "{'bus': 'root1',"
@@ -229,144 +324,65 @@ index 7444d30d2900..f3d4ba69f51b 100644
 +                         "'mac': '"MAC_PRIMARY0"'}");
 +
 +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
-+
-+    args = qdict_from_jsonf_nofail("{}");
-+    g_assert_nonnull(args);
-+    qdict_put_str(args, "uri", uri);
-+
-+    resp = qtest_qmp(qts, "{ 'execute': 'migrate', 'arguments': %p}", args);
-+    g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
-+
-+    /* the event is sent when QEMU asks the OS to unplug the card */
-+    resp = get_unplug_primary_event(qts);
-+    g_assert_cmpstr(qdict_get_str(resp, "device-id"), ==, "primary0");
-+    qobject_unref(resp);
-+
-+    /* OS unplugs the cards, QEMU can move from wait-unplug state */
-+    qtest_outl(qts, ACPI_PCIHP_ADDR_ICH9 + PCI_EJ_BASE, 1);
-+
-+    while (true) {
-+        ret = migrate_status(qts);
-+
-+        status = qdict_get_str(ret, "status");
-+        if (strcmp(status, "wait-unplug") != 0) {
-+            break;
-+        }
-+        g_assert_cmpstr(status, !=, "failed");
-+        qobject_unref(ret);
-+    }
-+    qobject_unref(ret);
-+
-+    resp = qtest_qmp(qts, "{ 'execute': 'migrate_cancel' }");
-+    g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
-+
-+    while (true) {
-+        ret = migrate_status(qts);
-+
-+        status = qdict_get_str(ret, "status");
-+        if (strcmp(status, "cancelled") == 0) {
-+            break;
-+        }
-+        g_assert_cmpstr(status, !=, "failed");
-+        g_assert_cmpstr(status, !=, "active");
-+        qobject_unref(ret);
-+    }
-+    qobject_unref(ret);
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
-+
-+    machine_stop(qts);
-+}
-+
-+static void test_migrate_abort_timeout(gconstpointer opaque)
-+{
-+    QTestState *qts;
-+    QDict *resp, *args, *ret;
-+    g_autofree gchar *uri = g_strdup_printf("exec: cat > %s", (gchar *)opaque);
-+    const gchar *status;
-+    int total;
-+
-+    qts = machine_start(BASE_MACHINE
-+                     "-netdev user,id=hs0 "
-+                     "-netdev user,id=hs1 ",
-+                     2);
-+
-+    check_one_card(qts, false, "standby0", MAC_STANDBY0);
 +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, false, "standby1", MAC_STANDBY1);
++    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
 +
-+    qtest_qmp_device_add(qts, "virtio-net", "standby0",
-+                         "{'bus': 'root0',"
++    qtest_qmp_device_add(qts, "virtio-net", "standby1",
++                         "{'bus': 'root2',"
 +                         "'failover': 'on',"
-+                         "'netdev': 'hs0',"
-+                         "'mac': '"MAC_STANDBY0"'}");
++                         "'netdev': 'hs2',"
++                         "'mac': '"MAC_STANDBY1"'}");
 +
 +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
 +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, true, "standby1", MAC_STANDBY1);
++    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
 +
-+    start_virtio_net(qts, 1, 0, "standby0");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "primary0",
-+                         "{'bus': 'root1',"
-+                         "'failover_pair_id': 'standby0',"
-+                         "'netdev': 'hs1',"
++    qtest_qmp_device_add(qts, "virtio-net", "primary1",
++                         "{'bus': 'root3',"
++                         "'failover_pair_id': 'standby1',"
++                         "'netdev': 'hs3',"
 +                         "'rombar': 0,"
 +                         "'romfile': '',"
-+                         "'mac': '"MAC_PRIMARY0"'}");
++                         "'mac': '"MAC_PRIMARY1"'}");
 +
 +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, true, "standby1", MAC_STANDBY1);
++    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
 +
 +    args = qdict_from_jsonf_nofail("{}");
 +    g_assert_nonnull(args);
 +    qdict_put_str(args, "uri", uri);
 +
-+    resp = qtest_qmp(qts, "{ 'execute': 'migrate', 'arguments': %p}", args);
++    resp = qtest_qmp(qts, "{ 'execute': 'migrate-incoming', 'arguments': %p}",
++                     args);
 +    g_assert(qdict_haskey(resp, "return"));
 +    qobject_unref(resp);
 +
-+    /* the event is sent when QEMU asks the OS to unplug the card */
-+    resp = get_unplug_primary_event(qts);
-+    g_assert_cmpstr(qdict_get_str(resp, "device-id"), ==, "primary0");
++    resp = get_migration_event(qts);
++    g_assert_cmpstr(qdict_get_str(resp, "status"), ==, "setup");
 +    qobject_unref(resp);
 +
-+    resp = qtest_qmp(qts, "{ 'execute': 'migrate_cancel' }");
-+    g_assert(qdict_haskey(resp, "return"));
++    resp = get_failover_negociated_event(qts);
++    g_assert_cmpstr(qdict_get_str(resp, "device-id"), ==, "standby0");
 +    qobject_unref(resp);
 +
-+    /* migration has been cancelled while the unplug was in progress */
-+
-+    /* while the card is not ejected, we must be in "cancelling" state */
-+
-+    total = 0;
-+    while (true) {
-+        ret = migrate_status(qts);
-+
-+        status = qdict_get_str(ret, "status");
-+        if (strcmp(status, "cancelled") == 0) {
-+            break;
-+        }
-+        g_assert_cmpstr(status, ==, "cancelling");
-+        g_assert(qdict_haskey(ret, "total-time"));
-+        total = qdict_get_int(ret, "total-time");
-+        qobject_unref(ret);
-+    }
-+    qobject_unref(ret);
-+
-+    /*
-+     * migration timeout in this case is 30 seconds
-+     * check we exit on the timeout (ms)
-+     */
-+    g_assert_cmpint(total, >, 30000);
++    resp = get_failover_negociated_event(qts);
++    g_assert_cmpstr(qdict_get_str(resp, "device-id"), ==, "standby1");
++    qobject_unref(resp);
 +
 +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
 +    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, true, "standby1", MAC_STANDBY1);
++    check_one_card(qts, true, "primary1", MAC_PRIMARY1);
++
++    qtest_qmp_eventwait(qts, "RESUME");
++
++    ret = migrate_status(qts);
++    g_assert_cmpstr(qdict_get_str(ret, "status"), ==, "completed");
++    qobject_unref(ret);
 +
 +    machine_stop(qts);
 +}
@@ -374,18 +390,14 @@ index 7444d30d2900..f3d4ba69f51b 100644
  int main(int argc, char **argv)
  {
      const gchar *tmpdir = g_get_tmp_dir();
-@@ -761,6 +1029,14 @@ int main(int argc, char **argv)
-                         test_migrate_out);
-     qtest_add_data_func("failover-virtio-net/migrate/in", tmpfile,
-                         test_migrate_in);
-+    qtest_add_data_func("failover-virtio-net/migrate/abort/wait-unplug",
-+                        tmpfile, test_migrate_abort_wait_unplug);
-+    qtest_add_data_func("failover-virtio-net/migrate/abort/active", tmpfile,
-+                        test_migrate_abort_active);
-+    if (g_test_slow()) {
-+        qtest_add_data_func("failover-virtio-net/migrate/abort/timeout",
-+                            tmpfile, test_migrate_abort_timeout);
-+    }
+@@ -1037,6 +1310,10 @@ int main(int argc, char **argv)
+         qtest_add_data_func("failover-virtio-net/migrate/abort/timeout",
+                             tmpfile, test_migrate_abort_timeout);
+     }
++    qtest_add_data_func("failover-virtio-net/multi/out",
++                        tmpfile, test_multi_out);
++    qtest_add_data_func("failover-virtio-net/multi/in",
++                   tmpfile, test_multi_in);
  
      ret = g_test_run();
  
