@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87E2A46C1B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 18:28:09 +0100 (CET)
-Received: from localhost ([::1]:59058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4AA46C1CB
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 18:31:05 +0100 (CET)
+Received: from localhost ([::1]:39226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mueG8-0002eO-Jd
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 12:28:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46268)
+	id 1mueIz-0008Hl-2N
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 12:31:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mueCE-0000Kb-SB
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 12:24:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43353)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mueC9-0002ZM-Ou
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 12:24:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638897840;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v3A7v9FZk/uvZunhOBPDPfxReSOKD9yARon3AScXWfM=;
- b=JRsWFMO1g0NhgmR63h9jefvfkPUS6HxeLU3x05j6WVfLF0S+69Kx7WyUOjNhpZo0Mux3W/
- HEkfzW1PKqYf7qQyEQvy0OryKDNb600zj12o6DcRBYkleXpu764ZK8ktFFCfUCIvbHhmHg
- U+OpjNMBXys/S8EKM4KrqBrBtcotMIo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-533-obC3dQYpOxuDW-cKLrXPbQ-1; Tue, 07 Dec 2021 12:23:59 -0500
-X-MC-Unique: obC3dQYpOxuDW-cKLrXPbQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C92EB760C0
- for <qemu-devel@nongnu.org>; Tue,  7 Dec 2021 17:23:58 +0000 (UTC)
-Received: from thinkpad.redhat.com (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48E3A1346F;
- Tue,  7 Dec 2021 17:23:57 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mueDl-0001AD-Kz
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 12:25:41 -0500
+Received: from [2a00:1450:4864:20::32a] (port=42691
+ helo=mail-wm1-x32a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mueDg-0002sj-GL
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 12:25:38 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ d72-20020a1c1d4b000000b00331140f3dc8so30wmd.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 09:25:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MgyV4+NE4pw1IcspuQrj96xhlPFIsIyEDh71hiELwBc=;
+ b=PRHhPm6m/oWvi2HCNFNcW8jP52dyV9yq/Iuyp7OJ3B7zsiQEO3sdCsq5LAjJI+WToK
+ YigFf7BSOd7PHMLYs9lLvyBKJmTLUJYNKOcCkPgkMJVM67bqBjigTtwOtmkfdS5wO4M9
+ SQRpA4TBNtCc1/aLU9nd5MmYC3PKf4re5bYTBU0I9tJ5AwYxi7PVMAi+z20PG8ZyEt/e
+ IdQI9jS9NX3RNVXJdxFKFipytmTldhNNv3x69uWFpY9fR4vMsfRCq/+NDh0BFLEq8Vv1
+ a8aypdbkyVznPqBmXcliU2Z8Vr1Y4HvWuMCYd8+ae4C/1K37251BgITUarEitU9734dp
+ F04Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MgyV4+NE4pw1IcspuQrj96xhlPFIsIyEDh71hiELwBc=;
+ b=lcjA2UK3dTt7aiIYW9crVT5JhqRM8BYYFatV2rt6jGwMwiiGwDPRH6K/6AkrDsqYUI
+ 0vNs4cnWtFhyqBLQJFSUcCJNYjoKFS+UzkKqmw6pktLVbH2464E+WzmNnbarlx7OKTi6
+ ZhfQPQjk536CO7s/9wC5dAw2WX7nrN1rHF7ucOw4R+bft28OwTqijE8l+Lh0UwVmwL/N
+ R4O/f69hPcXM84W/YJeYQ0GzRgv4HUMlCfK2ULCZ8nc1tgkEmasxT17jt09PzzFFB2f7
+ xJv4gb4eT88n+gKKJCVDKCO2etmQ4sMymiGiMEUFtFEvs4yFLNk+J7M/VvxmdMSxLegY
+ pAkA==
+X-Gm-Message-State: AOAM533H8GdZqd5l55k80w9zpOv+xddRxVQzJOM4/y3LvoVOHy81D84L
+ zdFOX6W2Qk9cH8AhrWAhf+TQXeDYjrtU6w==
+X-Google-Smtp-Source: ABdhPJzinzJazjgOn6SuCBWfwTHaNdd3ny34TWlLdTjFkVP+NSr1Wp/r/7155vOCkpENwkf52cQoCQ==
+X-Received: by 2002:a05:600c:3b1b:: with SMTP id
+ m27mr8802959wms.125.1638897935279; 
+ Tue, 07 Dec 2021 09:25:35 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id bg34sm3556060wmb.47.2021.12.07.09.25.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Dec 2021 09:25:34 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 4/4] tests/libqtest: add a migration test with two couples
- of failover devices
-Date: Tue,  7 Dec 2021 18:23:42 +0100
-Message-Id: <20211207172342.4058491-5-lvivier@redhat.com>
-In-Reply-To: <20211207172342.4058491-1-lvivier@redhat.com>
-References: <20211207172342.4058491-1-lvivier@redhat.com>
+Subject: [PULL for-6.2 0/1] target-arm queue
+Date: Tue,  7 Dec 2021 17:25:32 +0000
+Message-Id: <20211207172533.1410205-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,328 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
----
- tests/qtest/virtio-net-failover.c | 277 ++++++++++++++++++++++++++++++
- 1 file changed, 277 insertions(+)
+Last minute pullreq with one patch, fixing the GICv3 ICH_MISR_EL2.LRENP
+calculation. I went back-and-forth on whether to put this in, but:
+ * it's an effective regression from 6.1 (the bug itself has been
+   present since before then, but it was previously masked by the
+   other bug which we fixed in 9cee1efe92)
+ * I just realized it could cause a screaming maintenance interrupt
+   even for hypervisors like KVM that don't set LRENPIE
 
-diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
-index f3d4ba69f51b..43d32ce17ba4 100644
---- a/tests/qtest/virtio-net-failover.c
-+++ b/tests/qtest/virtio-net-failover.c
-@@ -20,6 +20,7 @@
- 
- #define ACPI_PCIHP_ADDR_ICH9    0x0cc0
- #define PCI_EJ_BASE             0x0008
-+#define PCI_SEL_BASE            0x0010
- 
- #define BASE_MACHINE "-M q35 -nodefaults " \
-     "-device pcie-root-port,id=root0,addr=0x1,bus=pcie.0,chassis=1 " \
-@@ -27,6 +28,8 @@
- 
- #define MAC_PRIMARY0 "52:54:00:11:11:11"
- #define MAC_STANDBY0 "52:54:00:22:22:22"
-+#define MAC_PRIMARY1 "52:54:00:33:33:33"
-+#define MAC_STANDBY1 "52:54:00:44:44:44"
- 
- static QGuestAllocator guest_malloc;
- static QPCIBus *pcibus;
-@@ -1003,6 +1006,276 @@ static void test_migrate_abort_timeout(gconstpointer opaque)
-     machine_stop(qts);
- }
- 
-+static void test_multi_out(gconstpointer opaque)
-+{
-+    QTestState *qts;
-+    QDict *resp, *args, *ret;
-+    g_autofree gchar *uri = g_strdup_printf("exec: cat > %s", (gchar *)opaque);
-+    const gchar *status, *expected;
-+
-+    qts = machine_start(BASE_MACHINE
-+                "-device pcie-root-port,id=root2,addr=0x3,bus=pcie.0,chassis=3 "
-+                "-device pcie-root-port,id=root3,addr=0x4,bus=pcie.0,chassis=4 "
-+                "-netdev user,id=hs0 "
-+                "-netdev user,id=hs1 "
-+                "-netdev user,id=hs2 "
-+                "-netdev user,id=hs3 ",
-+                4);
-+
-+    check_one_card(qts, false, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+    check_one_card(qts, false, "standby1", MAC_STANDBY1);
-+    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "standby0",
-+                         "{'bus': 'root0',"
-+                         "'failover': 'on',"
-+                         "'netdev': 'hs0',"
-+                         "'mac': '"MAC_STANDBY0"'}");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+    check_one_card(qts, false, "standby1", MAC_STANDBY1);
-+    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "primary0",
-+                         "{'bus': 'root1',"
-+                         "'failover_pair_id': 'standby0',"
-+                         "'netdev': 'hs1',"
-+                         "'rombar': 0,"
-+                         "'romfile': '',"
-+                         "'mac': '"MAC_PRIMARY0"'}");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+    check_one_card(qts, false, "standby1", MAC_STANDBY1);
-+    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
-+
-+    start_virtio_net(qts, 1, 0, "standby0");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
-+    check_one_card(qts, false, "standby1", MAC_STANDBY1);
-+    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "standby1",
-+                         "{'bus': 'root2',"
-+                         "'failover': 'on',"
-+                         "'netdev': 'hs2',"
-+                         "'mac': '"MAC_STANDBY1"'}");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
-+    check_one_card(qts, true, "standby1", MAC_STANDBY1);
-+    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "primary1",
-+                         "{'bus': 'root3',"
-+                         "'failover_pair_id': 'standby1',"
-+                         "'netdev': 'hs3',"
-+                         "'rombar': 0,"
-+                         "'romfile': '',"
-+                         "'mac': '"MAC_PRIMARY1"'}");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
-+    check_one_card(qts, true, "standby1", MAC_STANDBY1);
-+    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
-+
-+    start_virtio_net(qts, 3, 0, "standby1");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
-+    check_one_card(qts, true, "standby1", MAC_STANDBY1);
-+    check_one_card(qts, true, "primary1", MAC_PRIMARY1);
-+
-+    args = qdict_from_jsonf_nofail("{}");
-+    g_assert_nonnull(args);
-+    qdict_put_str(args, "uri", uri);
-+
-+    resp = qtest_qmp(qts, "{ 'execute': 'migrate', 'arguments': %p}", args);
-+    g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
-+
-+    /* the event is sent when QEMU asks the OS to unplug the card */
-+    resp = get_unplug_primary_event(qts);
-+    if (strcmp(qdict_get_str(resp, "device-id"), "primary0") == 0) {
-+        expected = "primary1";
-+    } else if (strcmp(qdict_get_str(resp, "device-id"), "primary1") == 0) {
-+        expected = "primary0";
-+    } else {
-+        g_assert_not_reached();
-+    }
-+    qobject_unref(resp);
-+
-+    resp = get_unplug_primary_event(qts);
-+    g_assert_cmpstr(qdict_get_str(resp, "device-id"), ==, expected);
-+    qobject_unref(resp);
-+
-+    /* wait the end of the migration setup phase */
-+    while (true) {
-+        ret = migrate_status(qts);
-+
-+        status = qdict_get_str(ret, "status");
-+        if (strcmp(status, "wait-unplug") == 0) {
-+            break;
-+        }
-+
-+        /* The migration must not start if the card is not ejected */
-+        g_assert_cmpstr(status, !=, "active");
-+        g_assert_cmpstr(status, !=, "completed");
-+        g_assert_cmpstr(status, !=, "failed");
-+        g_assert_cmpstr(status, !=, "cancelling");
-+        g_assert_cmpstr(status, !=, "cancelled");
-+
-+        qobject_unref(ret);
-+    }
-+    qobject_unref(ret);
-+
-+    /* OS unplugs primary1, but we must wait the second */
-+    qtest_outl(qts, ACPI_PCIHP_ADDR_ICH9 + PCI_EJ_BASE, 1);
-+
-+    ret = migrate_status(qts);
-+    status = qdict_get_str(ret, "status");
-+    g_assert_cmpstr(status, ==, "wait-unplug");
-+    qobject_unref(ret);
-+
-+    if (g_test_slow()) {
-+        /* check we stay in wait-unplug while the card is not ejected */
-+        for (int i = 0; i < 5; i++) {
-+            sleep(1);
-+            ret = migrate_status(qts);
-+            status = qdict_get_str(ret, "status");
-+            g_assert_cmpstr(status, ==, "wait-unplug");
-+            qobject_unref(ret);
-+        }
-+    }
-+
-+    /* OS unplugs primary0, QEMU can move from wait-unplug state */
-+    qtest_outl(qts, ACPI_PCIHP_ADDR_ICH9 + PCI_SEL_BASE, 2);
-+    qtest_outl(qts, ACPI_PCIHP_ADDR_ICH9 + PCI_EJ_BASE, 1);
-+
-+    while (true) {
-+        ret = migrate_status(qts);
-+
-+        status = qdict_get_str(ret, "status");
-+        if (strcmp(status, "completed") == 0) {
-+            break;
-+        }
-+        g_assert_cmpstr(status, !=, "failed");
-+        g_assert_cmpstr(status, !=, "cancelling");
-+        g_assert_cmpstr(status, !=, "cancelled");
-+    }
-+
-+    qtest_qmp_eventwait(qts, "STOP");
-+
-+    machine_stop(qts);
-+}
-+
-+static void test_multi_in(gconstpointer opaque)
-+{
-+    QTestState *qts;
-+    QDict *resp, *args, *ret;
-+    g_autofree gchar *uri = g_strdup_printf("exec: cat %s", (gchar *)opaque);
-+
-+    qts = machine_start(BASE_MACHINE
-+                "-device pcie-root-port,id=root2,addr=0x3,bus=pcie.0,chassis=3 "
-+                "-device pcie-root-port,id=root3,addr=0x4,bus=pcie.0,chassis=4 "
-+                "-netdev user,id=hs0 "
-+                "-netdev user,id=hs1 "
-+                "-netdev user,id=hs2 "
-+                "-netdev user,id=hs3 "
-+                "-incoming defer ",
-+                4);
-+
-+    check_one_card(qts, false, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+    check_one_card(qts, false, "standby1", MAC_STANDBY1);
-+    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "standby0",
-+                         "{'bus': 'root0',"
-+                         "'failover': 'on',"
-+                         "'netdev': 'hs0',"
-+                         "'mac': '"MAC_STANDBY0"'}");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+    check_one_card(qts, false, "standby1", MAC_STANDBY1);
-+    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "primary0",
-+                         "{'bus': 'root1',"
-+                         "'failover_pair_id': 'standby0',"
-+                         "'netdev': 'hs1',"
-+                         "'rombar': 0,"
-+                         "'romfile': '',"
-+                         "'mac': '"MAC_PRIMARY0"'}");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+    check_one_card(qts, false, "standby1", MAC_STANDBY1);
-+    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "standby1",
-+                         "{'bus': 'root2',"
-+                         "'failover': 'on',"
-+                         "'netdev': 'hs2',"
-+                         "'mac': '"MAC_STANDBY1"'}");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+    check_one_card(qts, true, "standby1", MAC_STANDBY1);
-+    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "primary1",
-+                         "{'bus': 'root3',"
-+                         "'failover_pair_id': 'standby1',"
-+                         "'netdev': 'hs3',"
-+                         "'rombar': 0,"
-+                         "'romfile': '',"
-+                         "'mac': '"MAC_PRIMARY1"'}");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+    check_one_card(qts, true, "standby1", MAC_STANDBY1);
-+    check_one_card(qts, false, "primary1", MAC_PRIMARY1);
-+
-+    args = qdict_from_jsonf_nofail("{}");
-+    g_assert_nonnull(args);
-+    qdict_put_str(args, "uri", uri);
-+
-+    resp = qtest_qmp(qts, "{ 'execute': 'migrate-incoming', 'arguments': %p}",
-+                     args);
-+    g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
-+
-+    resp = get_migration_event(qts);
-+    g_assert_cmpstr(qdict_get_str(resp, "status"), ==, "setup");
-+    qobject_unref(resp);
-+
-+    resp = get_failover_negociated_event(qts);
-+    g_assert_cmpstr(qdict_get_str(resp, "device-id"), ==, "standby0");
-+    qobject_unref(resp);
-+
-+    resp = get_failover_negociated_event(qts);
-+    g_assert_cmpstr(qdict_get_str(resp, "device-id"), ==, "standby1");
-+    qobject_unref(resp);
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
-+    check_one_card(qts, true, "standby1", MAC_STANDBY1);
-+    check_one_card(qts, true, "primary1", MAC_PRIMARY1);
-+
-+    qtest_qmp_eventwait(qts, "RESUME");
-+
-+    ret = migrate_status(qts);
-+    g_assert_cmpstr(qdict_get_str(ret, "status"), ==, "completed");
-+    qobject_unref(ret);
-+
-+    machine_stop(qts);
-+}
-+
- int main(int argc, char **argv)
- {
-     const gchar *tmpdir = g_get_tmp_dir();
-@@ -1037,6 +1310,10 @@ int main(int argc, char **argv)
-         qtest_add_data_func("failover-virtio-net/migrate/abort/timeout",
-                             tmpfile, test_migrate_abort_timeout);
-     }
-+    qtest_add_data_func("failover-virtio-net/multi/out",
-+                        tmpfile, test_multi_out);
-+    qtest_add_data_func("failover-virtio-net/multi/in",
-+                   tmpfile, test_multi_in);
- 
-     ret = g_test_run();
- 
--- 
-2.33.1
+On the other hand this is very late and we haven't seen it be a
+problem with any guest except Qualcomm's hypervisor. So if you want
+to decide it's better not going in that's OK too.
 
+Tested on the gitlab CI and with a local test of nested KVM.
+
+-- PMM
+
+The following changes since commit 7635eff97104242d618400e4b6746d0a5c97af82:
+
+  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2021-12-06 11:18:06 -0800)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20211207
+
+for you to fetch changes up to 2958e5150dfa297dd5a51fe57a29156b8744f07f:
+
+  gicv3: fix ICH_MISR's LRENP computation (2021-12-07 15:30:08 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * Fix calculation of ICH_MISR_EL2.LRENP to avoid incorrect generation
+   of maintenance interrupts
+
+----------------------------------------------------------------
+Damien Hedde (1):
+      gicv3: fix ICH_MISR's LRENP computation
+
+ hw/intc/arm_gicv3_cpuif.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
