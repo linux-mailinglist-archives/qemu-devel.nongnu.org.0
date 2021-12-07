@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3731146C4D5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 21:43:22 +0100 (CET)
-Received: from localhost ([::1]:51856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C35146C4DD
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 21:46:43 +0100 (CET)
+Received: from localhost ([::1]:58522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muhJ2-00083m-N5
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 15:43:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38494)
+	id 1muhMI-0004Ap-3a
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 15:46:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muhH1-0006nP-Hm
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 15:41:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59385)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muhHO-0006sY-Lv
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 15:41:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muhGy-0001Po-QO
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 15:41:14 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muhHM-0001Wp-Tc
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 15:41:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638909671;
+ s=mimecast20190719; t=1638909695;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=o/mQDv0klID+KqLG5qpl7jNtupx2gvyx6QYJB4Gg6AQ=;
- b=evKKNzbhBelZ7TZExi9f15AFH5WaU3lYH7aLVMZP4WeC8oPgqJJBXcAkaoSZ8Ws281r9e7
- DNXJ5x8V95KJTFnhnrkPQd/2pRWqk/jJBeWqAw5Cf+E3LAhTygnnagAcKNhLNkkv3mbZzy
- janGCUJJdUEdd6+KZ2M4i+yq7QNvhc0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nGhMs2Qe98OSIfJtMPS4gMxKSEzy7iiQCdZbOOhQCKQ=;
+ b=g6M8J1ihTouQdlnPit1CzgpwlSYz1g887k+HvfD0e85fpZycDO3w+Ef1Uove7HJr4Pv9Pg
+ tUoXM2sEgBdSXh1WkIBUOOKr7/keDVjBffdiqoB11Tkf89mWoK0Q1aH8RwDS04s5CuXxBp
+ Qt/vqUbcpS3JfMGgVuoqfb97yRRJJj0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-93-a1XbWHaHNg-IgEax79GxuA-1; Tue, 07 Dec 2021 15:41:10 -0500
-X-MC-Unique: a1XbWHaHNg-IgEax79GxuA-1
+ us-mta-324-pT4_Sfr7ON6pQVuYilrEPQ-1; Tue, 07 Dec 2021 15:41:30 -0500
+X-MC-Unique: pT4_Sfr7ON6pQVuYilrEPQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3EA21006AA1;
- Tue,  7 Dec 2021 20:41:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD94C1023F5F;
+ Tue,  7 Dec 2021 20:41:27 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F14F5D6CF;
- Tue,  7 Dec 2021 20:40:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E8DB95D6CF;
+ Tue,  7 Dec 2021 20:41:09 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] Misc: build fixes for Fedora 35, Ubuntu et al
-Date: Tue,  7 Dec 2021 15:40:36 -0500
-Message-Id: <20211207204038.664133-1-jsnow@redhat.com>
+Subject: [PATCH v2 1/2] spice: Update QXLInterface for spice >= 0.15.0
+Date: Tue,  7 Dec 2021 15:40:37 -0500
+Message-Id: <20211207204038.664133-2-jsnow@redhat.com>
+In-Reply-To: <20211207204038.664133-1-jsnow@redhat.com>
+References: <20211207204038.664133-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -82,25 +85,112 @@ Cc: Daniel Berrange <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I didn't push this through in time for 6.2, so this series just worries=0D
-about the little fixes necessary for building QEMU under Fedora 35 and=0D
-the latest Ubuntu distributions.=0D
-=0D
-The actual container changes have been cut off of this series in favor=0D
-of Dan's larger series that switches us over to using lcitool.=0D
-=0D
-John Snow (2):=0D
-  spice: Update QXLInterface for spice >=3D 0.15.0=0D
-  ui/clipboard: Don't use g_autoptr just to free a variable=0D
-=0D
- include/ui/qemu-spice.h |  6 ++++++=0D
- hw/display/qxl.c        | 14 +++++++++++++-=0D
- ui/clipboard.c          |  3 +--=0D
- ui/spice-display.c      | 11 +++++++++++=0D
- 4 files changed, 31 insertions(+), 3 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+spice updated the spelling (and arguments) of "attache_worker" in
+0.15.0. Update QEMU to match, preventing -Wdeprecated-declarations
+compilations from reporting build errors.
+
+See also:
+https://gitlab.freedesktop.org/spice/spice/-/commit/974692bda1e77af92b71ed43b022439448492cb9
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ include/ui/qemu-spice.h |  6 ++++++
+ hw/display/qxl.c        | 14 +++++++++++++-
+ ui/spice-display.c      | 11 +++++++++++
+ 3 files changed, 30 insertions(+), 1 deletion(-)
+
+diff --git a/include/ui/qemu-spice.h b/include/ui/qemu-spice.h
+index 71ecd6cfd1..21fe195e18 100644
+--- a/include/ui/qemu-spice.h
++++ b/include/ui/qemu-spice.h
+@@ -40,6 +40,12 @@ int qemu_spice_migrate_info(const char *hostname, int port, int tls_port,
+ #define SPICE_NEEDS_SET_MM_TIME 0
+ #endif
+ 
++#if defined(SPICE_SERVER_VERSION) && (SPICE_SERVER_VERSION >= 0x000f00)
++#define SPICE_HAS_ATTACHED_WORKER 1
++#else
++#define SPICE_HAS_ATTACHED_WORKER 0
++#endif
++
+ #else  /* CONFIG_SPICE */
+ 
+ #include "qemu/error-report.h"
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index 29c80b4289..1da6703e44 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -517,13 +517,20 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct QXLCommandExt *ext)
+ 
+ /* spice display interface callbacks */
+ 
+-static void interface_attach_worker(QXLInstance *sin, QXLWorker *qxl_worker)
++static void interface_attached_worker(QXLInstance *sin)
+ {
+     PCIQXLDevice *qxl = container_of(sin, PCIQXLDevice, ssd.qxl);
+ 
+     trace_qxl_interface_attach_worker(qxl->id);
+ }
+ 
++#if !(SPICE_HAS_ATTACHED_WORKER)
++static void interface_attach_worker(QXLInstance *sin, QXLWorker *qxl_worker)
++{
++    interface_attached_worker(sin);
++}
++#endif
++
+ static void interface_set_compression_level(QXLInstance *sin, int level)
+ {
+     PCIQXLDevice *qxl = container_of(sin, PCIQXLDevice, ssd.qxl);
+@@ -1131,7 +1138,12 @@ static const QXLInterface qxl_interface = {
+     .base.major_version      = SPICE_INTERFACE_QXL_MAJOR,
+     .base.minor_version      = SPICE_INTERFACE_QXL_MINOR,
+ 
++#if SPICE_HAS_ATTACHED_WORKER
++    .attached_worker         = interface_attached_worker,
++#else
+     .attache_worker          = interface_attach_worker,
++#endif
++
+     .set_compression_level   = interface_set_compression_level,
+ #if SPICE_NEEDS_SET_MM_TIME
+     .set_mm_time             = interface_set_mm_time,
+diff --git a/ui/spice-display.c b/ui/spice-display.c
+index f59c69882d..1a60cebb7d 100644
+--- a/ui/spice-display.c
++++ b/ui/spice-display.c
+@@ -500,10 +500,17 @@ void qemu_spice_display_refresh(SimpleSpiceDisplay *ssd)
+ 
+ /* spice display interface callbacks */
+ 
++#if SPICE_HAS_ATTACHED_WORKER
++static void interface_attached_worker(QXLInstance *sin)
++{
++    /* nothing to do */
++}
++#else
+ static void interface_attach_worker(QXLInstance *sin, QXLWorker *qxl_worker)
+ {
+     /* nothing to do */
+ }
++#endif
+ 
+ static void interface_set_compression_level(QXLInstance *sin, int level)
+ {
+@@ -702,7 +709,11 @@ static const QXLInterface dpy_interface = {
+     .base.major_version      = SPICE_INTERFACE_QXL_MAJOR,
+     .base.minor_version      = SPICE_INTERFACE_QXL_MINOR,
+ 
++#if SPICE_HAS_ATTACHED_WORKER
++    .attached_worker         = interface_attached_worker,
++#else
+     .attache_worker          = interface_attach_worker,
++#endif
+     .set_compression_level   = interface_set_compression_level,
+ #if SPICE_NEEDS_SET_MM_TIME
+     .set_mm_time             = interface_set_mm_time,
+-- 
+2.31.1
 
 
