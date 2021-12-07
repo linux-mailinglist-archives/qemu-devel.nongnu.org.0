@@ -2,64 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25C846B96E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 11:48:03 +0100 (CET)
-Received: from localhost ([::1]:50682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9544A46B9C4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 12:05:47 +0100 (CET)
+Received: from localhost ([::1]:59676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muY0w-0004oq-Af
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 05:48:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41728)
+	id 1muYI6-000444-A1
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 06:05:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muXz3-0003IF-Mx
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 05:46:05 -0500
-Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:56629)
+ (Exim 4.90_1) (envelope-from <wang.yi59@zte.com.cn>)
+ id 1muYGf-0003L6-R4
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 06:04:17 -0500
+Received: from mxhk.zte.com.cn ([63.216.63.35]:51548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muXyz-0006wJ-MI
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 05:46:05 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.238])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id B2FA32044B;
- Tue,  7 Dec 2021 10:45:51 +0000 (UTC)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 7 Dec
- 2021 11:45:51 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001ff39935e-d900-4446-9447-36fdf20faf32,
- D5B34436B48CBBE29FDE786D5871FA4E32D79878) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <fe4c3744-91b1-bd5b-2a04-e2782c46fc09@kaod.org>
-Date: Tue, 7 Dec 2021 11:45:48 +0100
+ (Exim 4.90_1) (envelope-from <wang.yi59@zte.com.cn>)
+ id 1muYGd-0005Jt-FJ
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 06:04:17 -0500
+Received: from mse-fl1.zte.com.cn (unknown [10.30.14.238])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4J7cmW2PxZz4yjYb
+ for <qemu-devel@nongnu.org>; Tue,  7 Dec 2021 19:01:15 +0800 (CST)
+Received: from kjyxapp04.zte.com.cn ([10.30.12.203])
+ by mse-fl1.zte.com.cn with SMTP id 1B7B3xLi007639
+ for <qemu-devel@nongnu.org>; Tue, 7 Dec 2021 19:03:59 +0800 (GMT-8)
+ (envelope-from wang.yi59@zte.com.cn)
+Received: from fox-cloudhost8.localdomain (unknown [10.234.72.110])
+ by smtp (Zmail) with SMTP; Tue, 7 Dec 2021 19:03:59 +0800
+X-Zmail-TransId: 3e8861af3f9e010-001d8
+From: Yi Wang <wang.yi59@zte.com.cn>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] mirror: Avoid assertion failed in mirror_run
+Date: Tue,  7 Dec 2021 18:56:19 +0800
+Message-Id: <20211207105619.3205-1-wang.yi59@zte.com.cn>
+X-Mailer: git-send-email 2.33.0.rc0.dirty
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 07/14] ppc/pnv: Introduce a num_pecs class attribute for
- PHB4 PEC devices
-Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, <qemu-ppc@nongnu.org>,
- <qemu-devel@nongnu.org>
-References: <20211202144235.1276352-1-clg@kaod.org>
- <20211202144235.1276352-8-clg@kaod.org>
- <453c5cc3-5ac5-c6ff-fa7f-5ccb8492e314@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <453c5cc3-5ac5-c6ff-fa7f-5ccb8492e314@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: a3295c16-12e7-4435-9da6-80be8fca389b
-X-Ovh-Tracer-Id: 4278138172691352483
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrjeehgddvudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
- helo=10.mo548.mail-out.ovh.net
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.44,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL: mse-fl1.zte.com.cn 1B7B3xLi007639
+X-Fangmail-Gw-Spam-Type: 0
+X-FangMail-Miltered: at cgslv5.04-192.168.250.138.novalocal with ID
+ 61AF3EFB.000 by FangMail milter!
+X-FangMail-Envelope: 1638874875/4J7cmW2PxZz4yjYb/61AF3EFB.000/10.30.14.238/[10.30.14.238]/mse-fl1.zte.com.cn/<wang.yi59@zte.com.cn>
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 61AF3EFB.000/4J7cmW2PxZz4yjYb
+Received-SPF: pass client-ip=63.216.63.35; envelope-from=wang.yi59@zte.com.cn;
+ helo=mxhk.zte.com.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,84 +67,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>
+Cc: wang.yi59@zte.com.cn, Long YunJian <long.yunjian@zte.com.cn>,
+ wang.liang82@zte.com.cn, xue.zhihong@zte.com.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/7/21 11:00, Frederic Barrat wrote:
-> 
-> 
-> On 02/12/2021 15:42, Cédric Le Goater wrote:
->> POWER9 processor comes with 3 PHB4 PECs (PCI Express Controller) and
->> each PEC can have several PHBs :
->>
->>    * PEC0 provides 1 PHB  (PHB0)
->>    * PEC1 provides 2 PHBs (PHB1 and PHB2)
->>    * PEC2 provides 3 PHBs (PHB3, PHB4 and PHB5)
->>
->> A num_pecs class attribute represents better the logic units of the
->> POWER9 chip. Use that instead of num_phbs which fits POWER8 chips.
->> This will ease adding support for user created devices.
->>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
-> 
-> With this patch, chip->num_phbs is only defined and used on P8. We may want to add a comment to make it clear.
+From: Long YunJian <long.yunjian@zte.com.cn>
 
-Yes.
+when blockcommit from active leaf node, sometimes, we get assertion failed with
+"mirror_run: Assertion `QLIST_EMPTY(&bs->tracked_requests)' failed" messages.
+According to the core file, we find bs->tracked_requests has IO request,
+so assertion failed.
+(gdb) bt
+#0  0x00007f410df707cf in raise () from /lib64/libc.so.6
+#1  0x00007f410df5ac05 in abort () from /lib64/libc.so.6
+#2  0x00007f410df5aad9 in __assert_fail_base.cold.0 () from /lib64/libc.so.6
+#3  0x00007f410df68db6 in __assert_fail () from /lib64/libc.so.6
+#4  0x0000556915635371 in mirror_run (job=0x556916ff8600, errp=<optimized out>) at block/mirror.c:1092
+#5  0x00005569155e6c53 in job_co_entry (opaque=0x556916ff8600) at job.c:904
+#6  0x00005569156d9483 in coroutine_trampoline (i0=<optimized out>, i1=<optimized out>) at util/coroutine-ucontext.c:115
+(gdb) p s->mirror_top_bs->backing->bs->tracked_requests
+$12 = {lh_first = 0x7f3f07bfb8b0}
+(gdb) p s->mirror_top_bs->backing->bs->tracked_requests->lh_first
+$13 = (struct BdrvTrackedRequest *) 0x7f3f07bfb8b0
 
-With the latest changes, I think we can now move num_phbs under PnvChip8
-and num_pecs under PnvChip9 since they are only used in these routines :
+Actually, before excuting assert(QLIST_EMPTY(&bs->tracked_requests)),
+it will excute mirror_flush(s). It may handle new I/O request and maybe
+pending I/O during this flush. Just likes in bdrv_close fuction,
+bdrv_drain(bs) followed by bdrv_flush(bs), we should add bdrv_drain fuction
+to handle pending I/O after mirror_flush.
 
-P8:
-     static void pnv_chip_power8_instance_init(Object *obj)
-             chip->num_phbs = pcc->num_phbs;
-         for (i = 0; i < chip->num_phbs; i++) {
+Signed-off-by: Long YunJian <long.yunjian@zte.com.cn>
+Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
+---
+ block/mirror.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-     static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
-         for (i = 0; i < chip->num_phbs; i++) {
-     
-P9:
-     static void pnv_chip_power9_instance_init(Object *obj)
-             chip->num_pecs = pcc->num_pecs;
-         for (i = 0; i < chip->num_pecs; i++) {
-	
-     static void pnv_chip_power9_phb_realize(PnvChip *chip, Error **errp)
-         for (i = 0; i < chip->num_pecs; i++) {
-     
-
-> As I review this series, something is bugging me though: the difference of handling between P8 and P9.
-> On P9, we seem to have a more logical hiearachy:
-> phb <- PCI controller (PEC) <- chip
-
-Yes. It's cleaner than P8 in terms of logic. P8 initial support was
-done hastily for skiboot bringup in 2014.
-
-> With P8, we don't have an explicit PEC, but we have a PBCQ object, which is somewhat similar. The hierarchy seems also more convoluted.
-
-But we don't have stacks on P8. Do we ?
-
-> I don't see why it's treated differently. It seems both chips could be treated the same, which would make the code easier to follow.
-
-I agree. Daniel certainly would also :)
-
-> That's outside of the scope of this series though. 
-
-Well, this patchset enables libvirt support for the PowerNV machines.
-Once this is pushed, we need to keep the API, the object model names
-being part of it.
-
-7.0 is a good time for a change, really. After that, we won't be able
-to change the QOM hierarchy that much.
-
-> So maybe for a future patch? Who knows, I might volunteer...
-
-You would introduce a phb3-pec on top of the phb3s ?
-
-Let me send a v2 first and may be we could rework the object hierarchy
-in the 7.0 time frame. We don't have to merge this ASAP.
-
-Thanks,
-
-C.
+diff --git a/block/mirror.c b/block/mirror.c
+index efec2c7674..1eec356310 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1079,6 +1079,8 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
+                 s->in_drain = false;
+                 continue;
+             }
++            /* in case flush left pending I/O */
++            bdrv_drain(bs);
+ 
+             /* The two disks are in sync.  Exit and report successful
+              * completion.
+-- 
+2.18.1
 
