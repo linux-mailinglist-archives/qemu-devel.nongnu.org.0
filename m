@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7694E46B378
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 08:13:26 +0100 (CET)
-Received: from localhost ([::1]:57358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 942B146B3F3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 08:32:57 +0100 (CET)
+Received: from localhost ([::1]:34610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muUfE-0008Up-V6
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 02:13:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50036)
+	id 1muUy8-0004fe-3z
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 02:32:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muUdF-0007lE-Tl
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 02:11:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34434)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muUw8-0003nN-UJ
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 02:30:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muUdB-0001Ib-9h
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 02:11:20 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1muUw6-0001GD-8n
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 02:30:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638861075;
+ s=mimecast20190719; t=1638862249;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=eSAhAl+PTPQaqlESCQwU64lqQsAy+17P1Z59RmD/dGI=;
- b=YnI0t8J5Z+pcoxVMAomK6+0aZVw4CDt/GJkco6VC9tYecXeCQ0nF/202ywzJ3croo8dzZB
- 18sArlU9yU6dPr7Jn9LrRcVPXGagHyv9CNouJb41lBelvSwb/OeuwNaejLuPHsjAvsGm6H
- cBv2cmQNhPe1rVr1M/npY0w1033Z6CQ=
+ bh=B1SjCoLnKMM3k9JJaQDJq5N+2CDURBj2hAD5cMFvVQQ=;
+ b=gjWRf5kw9ZLBQsqcPjTxN3B4SnbRCMAhlsw2UHSDq6ZptcPlaWCBebJO8shd/ugZqpMgVU
+ j9P+P2CnE4MqtH8qY/jJguIPqOb4Os6BOOhl5yn/4UVBmHxtnNr5qxY9dQ7/UocC1OL+OX
+ kOIbP/JRH53ewZoVwZP2SHyyiAhSRD0=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-452-0BIaByjEPHGRTiEQMjSPiA-1; Tue, 07 Dec 2021 02:11:14 -0500
-X-MC-Unique: 0BIaByjEPHGRTiEQMjSPiA-1
+ us-mta-220-6rp26Q2iOjaQ_oJhBjKAaQ-1; Tue, 07 Dec 2021 02:30:47 -0500
+X-MC-Unique: 6rp26Q2iOjaQ_oJhBjKAaQ-1
 Received: by mail-wm1-f72.google.com with SMTP id
- j71-20020a1c234a000000b00342f418ae7cso804955wmj.1
- for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 23:11:13 -0800 (PST)
+ j25-20020a05600c1c1900b00332372c252dso990285wms.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 23:30:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=eSAhAl+PTPQaqlESCQwU64lqQsAy+17P1Z59RmD/dGI=;
- b=bdIpcaCwZEhsgijeUjsrvaEaN973tycVxvIZFoCO+ILSontoR3REPx7xz54U2TGWGX
- T7sebZI5wZyMi2sGXXnNjez03oD+PZavt7UZ+UNrwMEKbbtOQ0lY9M6OGUNES/yXjtGi
- +Cu0GtFNcJlmI0zYHAMTMbvKqvXRTGAzEy37guoY1q0KiMEsp1uSs6YR19y+F7dl6lDn
- miEt0IJJ9TPOcjxpOj5/LNgaeKvjFrYzWQJzX41tlZLpAn7WmxlqyocJL8RHcBrhsuyX
- 3I+ZX2R2FYO2ov1/oXSvT1IJEC/f1Rz7nuZ/5oauvJGQUg2GJgl1D7utT4kN3r9VKC3v
- cXqw==
-X-Gm-Message-State: AOAM532DBnk2ZOrxZjYRtOFq9OZ4FsmOiTiy3hV34+jmMx28V07h2kcy
- dj7Zam73IWnEqab08Kg/qVgcJRdtm98IDhV4gmyjy007ZshGLFtAjw4flWfZmYl0Oh3RWF+thnD
- klAOLBCIbvrtjkts=
-X-Received: by 2002:a1c:ed18:: with SMTP id l24mr4843974wmh.99.1638861072825; 
- Mon, 06 Dec 2021 23:11:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz2DlYmDzmEZntyx0WDeGycn8x/nr33zRJ6OsA6tVxr1uAUB890fFu7BD2Gj4ruKjSGui/zKQ==
-X-Received: by 2002:a1c:ed18:: with SMTP id l24mr4843938wmh.99.1638861072498; 
- Mon, 06 Dec 2021 23:11:12 -0800 (PST)
+ bh=B1SjCoLnKMM3k9JJaQDJq5N+2CDURBj2hAD5cMFvVQQ=;
+ b=Z05jM4WBUO0/AAwdkSfyIJHkMJezdbhoKCJ3PJtt7oAakXxVCXl4FOgsz+gsitmfm2
+ V7TIwZRBAprWvR+nzsp1Du/7lMvnsIlfbrTXh8m/HS0GwUYILvwXOHWFQTVp5cUVrsxs
+ mjtX7w6gMoQ5zo6MobpIR4ArgaLuvz6dC8Q1O7M54M5bxNcbRghv6tXkIIm3pvfIVfeK
+ WESqYdQ0GSDNdhZAjM20ON+hN9BDNZTUXNYFGwJORsEjqz/M06q7QxgcT8d7qe4qNaVc
+ AT3CJ4mXwnkavAgFQ6PvS2VVKXgeIqk6cKdZRuByJnjsZzbsNtYbHEpOYlP2jLfLOwlt
+ Nbdg==
+X-Gm-Message-State: AOAM533O2s1MyZNo5sFNgdvhoLjrGp9gOI9FYgOHbtKxN5Ll1vmCb+TS
+ F2HkbrKS0lHkoyYXXVJJyowoo03SKqR36uRWZZa7I10FFRQ/8aJ+1z2OLr8mX4Y4du/dFokkvpZ
+ +krEyb3M+A3XPjKI=
+X-Received: by 2002:adf:ef52:: with SMTP id c18mr49633730wrp.162.1638862246559; 
+ Mon, 06 Dec 2021 23:30:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzGFLKoZJC0ub4VY+ETdoBNSLNUc6i+0fBKtrFC9jJ/Hvjzr7Gj2EJuNTN2Kln0Xc9sbpyr4g==
+X-Received: by 2002:adf:ef52:: with SMTP id c18mr49633713wrp.162.1638862246385; 
+ Mon, 06 Dec 2021 23:30:46 -0800 (PST)
 Received: from xz-m1.local ([85.203.46.174])
- by smtp.gmail.com with ESMTPSA id l4sm13167426wrv.94.2021.12.06.23.11.09
+ by smtp.gmail.com with ESMTPSA id z6sm1865062wmp.9.2021.12.06.23.30.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Dec 2021 23:11:11 -0800 (PST)
-Date: Tue, 7 Dec 2021 15:11:06 +0800
+ Mon, 06 Dec 2021 23:30:45 -0800 (PST)
+Date: Tue, 7 Dec 2021 15:30:41 +0800
 From: Peter Xu <peterx@redhat.com>
 To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v3 18/23] multifd: Use normal pages array on the recv side
-Message-ID: <Ya8JCq/cRmcL9Kp7@xz-m1.local>
+Subject: Re: [PATCH v3 23/23] migration: Use multifd before we check for the
+ zero page
+Message-ID: <Ya8NoTyiXOCQ/MLL@xz-m1.local>
 References: <20211124100617.19786-1-quintela@redhat.com>
- <20211124100617.19786-19-quintela@redhat.com>
+ <20211124100617.19786-24-quintela@redhat.com>
+ <Yaj+V6LstcnNERaZ@work-vm> <87fsragb58.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <20211124100617.19786-19-quintela@redhat.com>
+In-Reply-To: <87fsragb58.fsf@secure.mitica>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,54 +95,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Leonardo Bras <leobras@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 24, 2021 at 11:06:12AM +0100, Juan Quintela wrote:
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
->  migration/multifd.h      |  8 +++++--
->  migration/multifd-zlib.c |  8 +++----
->  migration/multifd-zstd.c |  6 +++---
->  migration/multifd.c      | 45 ++++++++++++++++++----------------------
->  4 files changed, 33 insertions(+), 34 deletions(-)
+On Thu, Dec 02, 2021 at 06:38:27PM +0100, Juan Quintela wrote:
+> This needs to be improved to be compatible with old versions.
+
+Any plan to let new binary work with old binary?
+
+Maybe boost the version field for multifd packet (along with a
+multifd_version=2 parameter and only set on new machine types)?
+
+PS: We should really have some handshake mechanism between src/dst, I dreamt it
+for a long time..  So that we only need to specify the capability/parameters on
+src someday and we'll never see incompatible migration failing randomly because
+the handshake should guarantee no stupid mistake..  Sad.
+
 > 
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 78e73df3ec..9fbcb7bb9a 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -151,12 +151,16 @@ typedef struct {
->      uint32_t next_packet_size;
->      /* packets sent through this channel */
->      uint64_t num_packets;
-> -    /* pages sent through this channel */
-> -    uint64_t num_pages;
-> +    /* non zero pages sent through this channel */
+> But .... if we don't care about RDMA, why do we care about
+> control_save_page()?
 
-s/send/recv/
-
-> +    uint64_t num_normal_pages;
-
-How about renaming it to "total_normal_pages"?  It's merely impossible to
-identify this from normal_num below from their names..
-
-I'd have the same comment to previous patch.
+Could anyone help to explain why we don't care?  I still see bugfixes coming..
 
 Thanks,
-
->      /* syncs main thread and channels */
->      QemuSemaphore sem_sync;
->      /* buffers to recv */
->      struct iovec *iov;
-> +    /* Pages that are not zero */
-> +    ram_addr_t *normal;
-> +    /* num of non zero pages */
-> +    uint32_t normal_num;
->      /* used for de-compression methods */
->      void *data;
->  } MultiFDRecvParams;
 
 -- 
 Peter Xu
