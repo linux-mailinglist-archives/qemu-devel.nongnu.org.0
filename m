@@ -2,56 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0183E46BF46
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 16:28:32 +0100 (CET)
-Received: from localhost ([::1]:52286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 309F446BF55
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 16:30:54 +0100 (CET)
+Received: from localhost ([::1]:57120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mucOM-0003RD-2n
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 10:28:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43258)
+	id 1mucQf-00072K-9q
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 10:30:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mucIl-0000qU-0R; Tue, 07 Dec 2021 10:22:45 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:38434)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mucIi-0003tJ-Hc; Tue, 07 Dec 2021 10:22:42 -0500
-Received: from [172.17.10.6] (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 95CF020775;
- Tue,  7 Dec 2021 15:22:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1638890557;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nZln2ofkr667x6NISN7c0eyLVh+IKfX1mdZvTd63O4w=;
- b=jopfEHUYKrGMvTf6EJ30VZ6YYMLw/NoN9dNqoQWDVmyCUU55Fqs6kcoyKETkgqpHP2c+yY
- qudsj1mXkZ33zXs9sn2rzAUKNGI3jb3IwS3+DKVkBuwgDu9XKR0f6eUMZXXlDL5wt3tRSO
- gANAMbPqtkiNUM5qtfS23ikz4vLP6TM=
-Message-ID: <1e3878bd-bcc5-3278-7401-52d5af6dc4fd@greensocs.com>
-Date: Tue, 7 Dec 2021 16:22:37 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mucKY-0002P6-Er
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 10:24:34 -0500
+Received: from [2a00:1450:4864:20::42e] (port=34644
+ helo=mail-wr1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mucKT-0004rw-WE
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 10:24:33 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id j3so30311843wrp.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 07:24:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Wj/CUL6QPWm9ZM72JjgJCyemakkMWGTJi3KA9fKpRPo=;
+ b=Cf0aLpCDD7rtqwMCqJtYUcMWjk7n/XhYArs470746Ku/jMZP3DdJdAG5+JBPo5SeEp
+ VIOkhV2xAAUSqVUqmeJQOth9v1T9PC2WVDfTUJGw92BZ1HsH67R5HFtKFzQsuHfdxjzD
+ bBY1qgTRmCDQslz4+MUVHQ84/BIngU9D+Ofhav7JpcO/qQjNn5+Jc8UvUgrBX7xV29rS
+ NXobwEuvYVR9AUuglYTYakOBACucq0P+GaDqNrr0BrLPdzmNVFFW5KaIoPB87KMo4xrF
+ KYAQGhGLo4WM3pxzyz09kGI9RM1WXAA9a03rK1yTZxqeZtQUcS0MDDGOa4yyh4dsdTII
+ dAdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Wj/CUL6QPWm9ZM72JjgJCyemakkMWGTJi3KA9fKpRPo=;
+ b=jclrnucEJXhK9FpW9SGY0skE5ZW+krrkFXuF/gB5ZgVPFSncZq/r97lMKe8wNc9Xv8
+ UNY232Ql1MSgBS+7huFvJcXinHG1TarWrs+sot5xlCY+DwBuC6kT0BlWttzn3VtSIb9l
+ pDqPkHZDHp37krttRS6XEDZfq9M1NMLIFCFBdURUiCz8PX6DeZChzDDFPM8AwwwWFvk+
+ eeENNuUXc9suuvISWJ/sjDXwRCEWnYmMppON8Vl4N8aeD/RHr43PGtALEq5d/yqqO8hq
+ 5xMs5bZCrvPSf8Box/W3aELmTsjCCF8Ga1rxMTFXf1SBAwRVVco+8ZVRZFpqSiWuFCH8
+ wxsw==
+X-Gm-Message-State: AOAM5327Df3w06QIf0/O8Q21Kc+86w6w9I/To6n40ItvlY7bLkUXzZtZ
+ dOONkYjspYnnlHiF0Dt/OO+GtTzVoA0XvsBxNdk4nA==
+X-Google-Smtp-Source: ABdhPJzwj0LDU/4dgip1iO7f4ps0hWvNgykXRgZAsaoK0D9zcZenmOAj9iRxfQm6cQ93WKdh0sVzSIXUhPkIOMxi0io=
+X-Received: by 2002:adf:f64b:: with SMTP id x11mr52799817wrp.4.1638890666745; 
+ Tue, 07 Dec 2021 07:24:26 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v2 for 6.2?] gicv3: fix ICH_MISR's LRENP computation
-Content-Language: en-US-large
-To: Peter Maydell <peter.maydell@linaro.org>
 References: <20211207094427.3473-1-damien.hedde@greensocs.com>
  <CAFEAcA-=8an6Q0ZC2Nx6=VoaB0_rucv+vEGS8Fy+ChMc2zCqHg@mail.gmail.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <CAFEAcA-=8an6Q0ZC2Nx6=VoaB0_rucv+vEGS8Fy+ChMc2zCqHg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.44,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <SN6PR02MB42054732F8B59940998D01EDB86E9@SN6PR02MB4205.namprd02.prod.outlook.com>
+In-Reply-To: <SN6PR02MB42054732F8B59940998D01EDB86E9@SN6PR02MB4205.namprd02.prod.outlook.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Dec 2021 15:24:15 +0000
+Message-ID: <CAFEAcA-x_e4NrQziTEpYrTZn7X_enEMjKn0bHEK8uS4ED1vjzw@mail.gmail.com>
+Subject: Re: [PATCH v2 for 6.2?] gicv3: fix ICH_MISR's LRENP computation
+To: Brian Cain <bcain@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,63 +83,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: shashi.mallela@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Sid Manning <sidneym@quicinc.com>, Carl van Schaik <cvanscha@qti.qualcomm.com>,
+ "shashi.mallela@linaro.org" <shashi.mallela@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 7 Dec 2021 at 15:18, Brian Cain <bcain@quicinc.com> wrote:
+> Peter Maydell wrote:
+> > I won't try to put this into 6.2 unless you have a common guest
+> > that runs into this bug.
 
+> I know that Qualcomm encounters this issue with its hypervisor (https://g=
+ithub.com/quic/gunyah-hypervisor).  Apologies for not being familiar -- "co=
+mmon guest" means multiple guest systems/OSs that encounter the issue?  Doe=
+s that mean that it would not suffice to demonstrate the issue for the one =
+known case?
 
-On 12/7/21 15:21, Peter Maydell wrote:
-> On Tue, 7 Dec 2021 at 09:44, Damien Hedde <damien.hedde@greensocs.com> wrote:
->>
->> According to the "Arm Generic Interrupt Controller Architecture
->> Specification GIC architecture version 3 and 4" (version G: page 345
->> for aarch64 or 509 for aarch32):
->> LRENP bit of ICH_MISR is set when ICH_HCR.LRENPIE==1 and
->> ICH_HCR.EOIcount is non-zero.
->>
->> When only LRENPIE was set (and EOI count was zero), the LRENP bit was
->> wrongly set and MISR value was wrong.
->>
->> As an additional consequence, if an hypervisor set ICH_HCR.LRENPIE,
->> the maintenance interrupt was constantly fired. It happens since patch
->> 9cee1efe92 ("hw/intc: Set GIC maintenance interrupt level to only 0 or 1")
->> which fixed another bug about maintenance interrupt (most significant
->> bits of misr, including this one, were ignored in the interrupt trigger).
->>
->> Fixes: 83f036fe3d ("hw/intc/arm_gicv3: Add accessors for ICH_ system registers")
->> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
->> ---
->> The gic doc is available here:
->> https://developer.arm.com/documentation/ihi0069/g
->>
->> v2: identical resend because subject screw-up (sorry)
-> 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> 
-> I won't try to put this into 6.2 unless you have a common guest
-> that runs into this bug.
-> 
-> thanks
-> -- PMM
-> 
+It means "if you see this with a Linux, BSD etc guest that's
+more important than if you see this with some oddball thing
+nobody else is using and whose users aren't as likely to be
+using release versions of QEMU rather than mainline".
 
-I don't know if this fit into "common guest" but my use case is:
+The bug is a bug in any case and we'll fix it, it's just a
+question of whether it meets the bar to go into 6.2, which is
+hopefully going to have its final RC tagged today. If this
+patch had arrived a week ago then the bar would have been
+lower and it would definitely have gone in. As it is I have
+to weigh up the chances of this change causing a regression
+for eg KVM running on emulated QEMU.
 
- > ./build/qemu-system-aarch64 \
- >     -machine virt,virtualization=on,gic-version=3,highmem=off  \
- >     -cpu max -m size=4G -smp cpus=8 -nographic  \
- >     -kernel hypvm.elf   \
- >     -device loader,file=Image,addr=0x41080000  \
- >     -device loader,file=virt_512M.dtb,addr=0x44200000
-
-where Image is a buildroot compiled kernel and hypvm.elf is an 
-hypervisor from qualcomm (https://github.com/quic/gunyah-hypervisor).
-
-It boots fine on v6.0 or v6.1 but hangs on master.
-
-It's the same hypervisor Brian is talking about.
-
-Thanks,
-Damien
+thanks
+-- PMM
 
