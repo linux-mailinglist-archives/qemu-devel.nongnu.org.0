@@ -2,48 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACEAD46B7F2
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 10:49:49 +0100 (CET)
-Received: from localhost ([::1]:43592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 287BD46B7F3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 10:49:51 +0100 (CET)
+Received: from localhost ([::1]:45444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muX6a-0007wu-Ca
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 04:49:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55358)
+	id 1muX6c-0000oI-8a
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 04:49:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1muX1Y-0004Q8-Jc; Tue, 07 Dec 2021 04:44:36 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:35620)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1muX4p-0008Bw-CE; Tue, 07 Dec 2021 04:47:59 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:19360)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1muX1V-0003mS-1C; Tue, 07 Dec 2021 04:44:36 -0500
-Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 432C020778;
- Tue,  7 Dec 2021 09:44:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1638870270;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=9voYB0aqtI0B+yUvk4Gsn7Y7XtnXn4zagg3/8GYKj6I=;
- b=x+uH6pYN/jdxnEeaGHDgQ9c9TsgWovLsNgBQkLWArqY5Kgm/2bU3ee0zPavZ45VToomfTJ
- 3/XipwYpO4+gPYcTCBH1l6QL5f9Rze2Q+T4mnwa9jg6/LGeWMvxTTwz29UeMH9uVswp4HL
- D+UC3VTkC2o0coao58ekoImiFieqAMc=
-From: Damien Hedde <damien.hedde@greensocs.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 for 6.2?] gicv3: fix ICH_MISR's LRENP computation
-Date: Tue,  7 Dec 2021 10:44:27 +0100
-Message-Id: <20211207094427.3473-1-damien.hedde@greensocs.com>
-X-Mailer: git-send-email 2.34.0
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1muX4f-00065g-Sd; Tue, 07 Dec 2021 04:47:58 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B78rODc013864; 
+ Tue, 7 Dec 2021 09:47:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=YoGQYLK7DbloLGGVLspDmJr+/QvryYM2jbAccdZOPaA=;
+ b=MTnwmsoiYzEIUS3XE7qa0J2VKBqLfjzFe2JBsGAMZf7ZyrJBQPrnTCJFNQIKAC5vqx4Y
+ 9dDiq5Xz9S880Jyhd2ukw8DebKGQMpDc55gldIdOKIod2hMToLZUFh0ox4dQwZxnFvEJ
+ 7o27owhDahEHB+twUayE9ZFPF8zaBNLXWhmJHThdsp/HY/GwToemsOMyB62dqOq3tRIp
+ i1drWX4uWCekRGdCEYBXTCYQyFJS5I6nLOdrvRGTAXi98IUiAk6EJnR2YkAujM0y3fhM
+ kx0eh+7Bqmx9lkEJETgdQ6q2me5uBoHmdk02Jb8UycY+Sn7G2cNhCtcAw9qVMPDVs0j+ 3g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ct4ge8xkw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Dec 2021 09:47:45 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B79IvmH021494;
+ Tue, 7 Dec 2021 09:47:44 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ct4ge8xkp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Dec 2021 09:47:44 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B79bkuF029826;
+ Tue, 7 Dec 2021 09:47:42 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04fra.de.ibm.com with ESMTP id 3cqyy9ksgn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Dec 2021 09:47:42 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B79lcn631654266
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 7 Dec 2021 09:47:38 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BFF4411C050;
+ Tue,  7 Dec 2021 09:47:38 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 852FB11C054;
+ Tue,  7 Dec 2021 09:47:38 +0000 (GMT)
+Received: from [9.145.165.107] (unknown [9.145.165.107])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  7 Dec 2021 09:47:38 +0000 (GMT)
+Message-ID: <72b4d947-2f6d-da3d-46f7-75e729643036@linux.ibm.com>
+Date: Tue, 7 Dec 2021 10:47:38 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 04/14] ppc/pnv: Introduce support for user created PHB3
+ devices
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211202144235.1276352-1-clg@kaod.org>
+ <20211202144235.1276352-5-clg@kaod.org>
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+In-Reply-To: <20211202144235.1276352-5-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: sfRRqfcLHAhxEZXJwyykgM1Kg7K6euLq
+X-Proofpoint-GUID: 89D9643JlzvA4aPht_SFAXAhjqFw87I7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-07_03,2021-12-06_02,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ suspectscore=0 bulkscore=0 phishscore=0 clxscore=1015 adultscore=0
+ spamscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112070056
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.44,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,56 +114,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>, shashi.mallela@linaro.org,
- qemu-arm@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the "Arm Generic Interrupt Controller Architecture
-Specification GIC architecture version 3 and 4" (version G: page 345
-for aarch64 or 509 for aarch32):
-LRENP bit of ICH_MISR is set when ICH_HCR.LRENPIE==1 and
-ICH_HCR.EOIcount is non-zero.
 
-When only LRENPIE was set (and EOI count was zero), the LRENP bit was
-wrongly set and MISR value was wrong.
 
-As an additional consequence, if an hypervisor set ICH_HCR.LRENPIE,
-the maintenance interrupt was constantly fired. It happens since patch
-9cee1efe92 ("hw/intc: Set GIC maintenance interrupt level to only 0 or 1")
-which fixed another bug about maintenance interrupt (most significant
-bits of misr, including this one, were ignored in the interrupt trigger).
+On 02/12/2021 15:42, Cédric Le Goater wrote:
+> PHB3 devices and PCI devices can now be added to the powernv8 machine
+> using :
+> 
+>    -device pnv-phb3,chip-id=0,index=1 \
+>    -device nec-usb-xhci,bus=pci.1,addr=0x0
+> 
+> The 'index' property identifies the PHB3 in the chip. In case of user
+> created devices, a lookup on 'chip-id' is required to assign the
+> owning chip.
+> 
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
 
-Fixes: 83f036fe3d ("hw/intc/arm_gicv3: Add accessors for ICH_ system registers")
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
----
-The gic doc is available here:
-https://developer.arm.com/documentation/ihi0069/g
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index de277c457838..d7fe92cb082d 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -1097,14 +1097,14 @@ static void pnv_chip_power8_instance_init(Object *obj)
+>   
+>       object_initialize_child(obj, "homer", &chip8->homer, TYPE_PNV8_HOMER);
+>   
+> -    for (i = 0; i < pcc->num_phbs; i++) {
+> +    if (defaults_enabled()) {
+> +        chip->num_phbs = pcc->num_phbs;
+> +    }
+> +
+> +    for (i = 0; i < chip->num_phbs; i++) {
+>           object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV_PHB3);
+>       }
+>   
+> -    /*
+> -     * Number of PHBs is the chip default
+> -     */
+> -    chip->num_phbs = pcc->num_phbs;
+>   }
 
-v2: identical resend because subject screw-up (sorry)
 
-Thanks,
-Damien
----
- hw/intc/arm_gicv3_cpuif.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+So if "-nodefaults" is mentioned on the command line, then 
+chip->num_phbs is not set. It seems the intention is to have only the 
+PHBs defined on the CLI, which is fine. However, I don't see where 
+chip->num_phbs is incremented in that case.
 
-diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index 7fba931450..85fc369e55 100644
---- a/hw/intc/arm_gicv3_cpuif.c
-+++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -351,7 +351,8 @@ static uint32_t maintenance_interrupt_state(GICv3CPUState *cs)
-     /* Scan list registers and fill in the U, NP and EOI bits */
-     eoi_maintenance_interrupt_state(cs, &value);
- 
--    if (cs->ich_hcr_el2 & (ICH_HCR_EL2_LRENPIE | ICH_HCR_EL2_EOICOUNT_MASK)) {
-+    if ((cs->ich_hcr_el2 & ICH_HCR_EL2_LRENPIE) &&
-+        (cs->ich_hcr_el2 & ICH_HCR_EL2_EOICOUNT_MASK)) {
-         value |= ICH_MISR_EL2_LRENP;
-     }
- 
--- 
-2.34.0
+   Fred
 
+
+
+>   
+>   static void pnv_chip_icp_realize(Pnv8Chip *chip8, Error **errp)
+> @@ -1784,6 +1784,19 @@ PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir)
+>       return NULL;
+>   }
+>   
+> +PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_id)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < pnv->num_chips; i++) {
+> +        PnvChip *chip = pnv->chips[i];
+> +        if (chip->chip_id == chip_id) {
+> +            return chip;
+> +        }
+> +    }
+> +    return NULL;
+> +}
+> +
+>   static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
+>   {
+>       PnvMachineState *pnv = PNV_MACHINE(xi);
+> 
 
