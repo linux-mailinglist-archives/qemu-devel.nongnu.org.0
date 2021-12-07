@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48F846B25C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 06:27:57 +0100 (CET)
-Received: from localhost ([::1]:51236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9377546B335
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 07:50:09 +0100 (CET)
+Received: from localhost ([::1]:49836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muT1A-0002mJ-Ix
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 00:27:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58002)
+	id 1muUIg-000055-Fh
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 01:50:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1muSzQ-000177-Jn
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 00:26:09 -0500
-Received: from [2a00:1450:4864:20::536] (port=39579
- helo=mail-ed1-x536.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1muSzM-00083L-MY
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 00:26:08 -0500
-Received: by mail-ed1-x536.google.com with SMTP id w1so52148496edc.6
- for <qemu-devel@nongnu.org>; Mon, 06 Dec 2021 21:26:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=J0kPRPlcxSDerhJ+0ouWIitAEMdLj4aznewEd6FnBZM=;
- b=AM/2bhQjLR+xhhWbfHwTcD21BE1FL0KCFNN900x7LhhfHlm9pb6qOKJ7cI7CQ7UlsG
- X1Aja4vKTwi0xZsvvElIo5/kn+E0kHErFUNgr1PvByU35s1CBrrDC0gUmmFhwik95XLH
- vhyMQuD1BWduJqinm1HqdgRfrfuoniB2QZaqwLnYNY/1DqGE0OpAL6ZHhmYgIEe4O232
- TY75ThHSR6NfdoqjfgcnuFpxvii2Gp5VcBSAWLpdLDNfb1TAHA/2ms/iCXHD6nxnT/7t
- Dioem48nOt9VUxe2Bar4+0w4P6eo2Qr2E4GTpaWfGulPLUdpvtZnYU7JYdfqc0b8KhSD
- Wf8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=J0kPRPlcxSDerhJ+0ouWIitAEMdLj4aznewEd6FnBZM=;
- b=7SMh3Mw3otV2CmLbp8ui735HvKAD5moz4+XpO39Rj+RMwOkNQI8zWxQgNMcXgmwpGe
- btXuqhns6dsop/AzUQl0UdaRgo9zNmN5tzuams0JQd8N+lw77ASxffsCXyi8XGP7rPnJ
- YzG5dsHFQWzzZWGbSPRYV0uZ5eqdmSVCPqlmGsu2siPbEpMnExYKU0eycQAr3fg03Ftb
- 5tDIRX/jrWdbjSDrPx0GRLxH7lCXno5/tv+3HcKebqzTDqTyWjbiDB4WsMsuVLxeyFYu
- /2sVfdWP0RPm5N7uiQ7je6DWQLW978rRCV+JDIxmVCJpAPOm4te0O2ytDtmkGXHBI33D
- 6xFg==
-X-Gm-Message-State: AOAM531bX676yiW2lzQ4M+0DjFrmhU0JEYunkEcnY/YAdNRnNDyWOlzz
- 9QJ1cNRUVTzbmsY709M5IJNhay4hVhhLyvB0blOg8Ne5WDU=
-X-Google-Smtp-Source: ABdhPJyR85X8fFGg9TeOQkfcKHkOv9YTZ+hsk9jAeoi4ZUa1cbhYhp+IWn6I5IBWy9ywVtdni7FJWA0poomaZT7UvT4=
-X-Received: by 2002:a50:f18a:: with SMTP id x10mr5606151edl.193.1638854763315; 
- Mon, 06 Dec 2021 21:26:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1muUDe-00074f-A3
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 01:44:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53595)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1muUDZ-0002zg-7r
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 01:44:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638859487;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gBeYnKMRZjX6z04LB4TCyVUuNOOA+xhccOGec5TBI5w=;
+ b=B648wBRwGm3K+RWS021zr3SLOr812kDKfjkLqErzcsMXgou+qjYSXb9jS3pUUBooPb5ELR
+ LUca0EX+yky8OR6qRC6Nr4KNwFt4pJSeHM23Fji2TwdTUbN4T/TWSL65CxBNCJYKUbnDrq
+ SIYG4AI7e94HwxdYmUeaMNowMPFC5oY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-223-XnCzwnRGOSiaaQVr4-A_Ig-1; Tue, 07 Dec 2021 01:44:44 -0500
+X-MC-Unique: XnCzwnRGOSiaaQVr4-A_Ig-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C11F3801AAB;
+ Tue,  7 Dec 2021 06:44:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7800419C59;
+ Tue,  7 Dec 2021 06:43:53 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 081DA113865F; Tue,  7 Dec 2021 07:43:51 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jonah Palmer <jonah.palmer@oracle.com>
+Subject: Re: [PATCH v10 3/8] qmp: add QMP command x-query-virtio
+References: <1638794606-19631-1-git-send-email-jonah.palmer@oracle.com>
+ <1638794606-19631-4-git-send-email-jonah.palmer@oracle.com>
+Date: Tue, 07 Dec 2021 07:43:51 +0100
+In-Reply-To: <1638794606-19631-4-git-send-email-jonah.palmer@oracle.com>
+ (Jonah Palmer's message of "Mon, 6 Dec 2021 07:43:21 -0500")
+Message-ID: <87ee6ogbiw.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <1638472142-14396-1-git-send-email-eric.devolder@oracle.com>
- <1638472142-14396-6-git-send-email-eric.devolder@oracle.com>
- <CAARzgwyrfW8Dy_fow7nOr9nF9XTLazidiTqn9itPmoOZpMxu-Q@mail.gmail.com>
- <6a60706a-194c-2aab-9f80-44b82372bad3@oracle.com>
-In-Reply-To: <6a60706a-194c-2aab-9f80-44b82372bad3@oracle.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 7 Dec 2021 10:55:52 +0530
-Message-ID: <CAARzgwy41CMBiW96jZ-gThpjsc9AE0qR4tGy5U4P8sp5W2Gbvg@mail.gmail.com>
-Subject: Re: [PATCH v9 05/10] ACPI ERST: support for ACPI ERST feature
-To: Eric DeVolder <eric.devolder@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::536;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,985 +80,281 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
- imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
+Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
+ eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com,
+ arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
+ thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
+ eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
+ kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 6, 2021 at 9:51 PM Eric DeVolder <eric.devolder@oracle.com> wrote:
->
-> Hi Ani, inline responses below.
-> eric
->
-> On 12/6/21 02:14, Ani Sinha wrote:
-> > On Fri, Dec 3, 2021 at 12:39 AM Eric DeVolder <eric.devolder@oracle.com> wrote:
-> >>
-> >> This implements a PCI device for ACPI ERST. This implements the
-> >> non-NVRAM "mode" of operation for ERST as it is supported by
-> >> Linux and Windows.
-> >
-> > OK sent some more comments. It will take another pass for me to fully
-> > review this.
-> >
-> >>
-> >> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> >> ---
-> >>   hw/acpi/Kconfig      |   6 +
-> >>   hw/acpi/erst.c       | 836 +++++++++++++++++++++++++++++++++++++++++++++++++++
-> >>   hw/acpi/meson.build  |   1 +
-> >>   hw/acpi/trace-events |  15 +
-> >>   4 files changed, 858 insertions(+)
-> >>   create mode 100644 hw/acpi/erst.c
-> >>
-> >> diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
-> >> index 622b0b5..19caebd 100644
-> >> --- a/hw/acpi/Kconfig
-> >> +++ b/hw/acpi/Kconfig
-> >> @@ -10,6 +10,7 @@ config ACPI_X86
-> >>       select ACPI_HMAT
-> >>       select ACPI_PIIX4
-> >>       select ACPI_PCIHP
-> >> +    select ACPI_ERST
-> >>
-> >>   config ACPI_X86_ICH
-> >>       bool
-> >> @@ -60,3 +61,8 @@ config ACPI_HW_REDUCED
-> >>       select ACPI
-> >>       select ACPI_MEMORY_HOTPLUG
-> >>       select ACPI_NVDIMM
-> >> +
-> >> +config ACPI_ERST
-> >> +    bool
-> >> +    default y
-> >> +    depends on ACPI && PCI
-> >> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
-> >> new file mode 100644
-> >> index 0000000..4304f55
-> >> --- /dev/null
-> >> +++ b/hw/acpi/erst.c
-> >> @@ -0,0 +1,836 @@
-> >> +/*
-> >> + * ACPI Error Record Serialization Table, ERST, Implementation
-> >> + *
-> >> + * ACPI ERST introduced in ACPI 4.0, June 16, 2009.
-> >> + * ACPI Platform Error Interfaces : Error Serialization
-> >> + *
-> >> + * Copyright (c) 2021 Oracle and/or its affiliates.
-> >> + *
-> >> + * SPDX-License-Identifier: GPL-2.0-or-later
-> >> + */
-> >> +
-> >> +#include <sys/types.h>
-> >> +#include <sys/stat.h>
-> >> +#include <unistd.h>
-> >> +
-> >> +#include "qemu/osdep.h"
-> >> +#include "qapi/error.h"
-> >> +#include "hw/qdev-core.h"
-> >> +#include "exec/memory.h"
-> >> +#include "qom/object.h"
-> >> +#include "hw/pci/pci.h"
-> >> +#include "qom/object_interfaces.h"
-> >> +#include "qemu/error-report.h"
-> >> +#include "migration/vmstate.h"
-> >> +#include "hw/qdev-properties.h"
-> >> +#include "hw/acpi/acpi.h"
-> >> +#include "hw/acpi/acpi-defs.h"
-> >> +#include "hw/acpi/aml-build.h"
-> >> +#include "hw/acpi/bios-linker-loader.h"
-> >> +#include "exec/address-spaces.h"
-> >> +#include "sysemu/hostmem.h"
-> >> +#include "hw/acpi/erst.h"
-> >> +#include "trace.h"
-> >> +
-> >> +/* ACPI 4.0: Table 17-16 Serialization Actions */
-> >
-> > Is there any reason why you refer to version 4.0 and not the latest version 6.3?
-> Some time ago Igor asked that I cite the earliest spec reference in which ERST appears.
->
-> >
-> >> +#define ACTION_BEGIN_WRITE_OPERATION         0x0
-> >> +#define ACTION_BEGIN_READ_OPERATION          0x1
-> >> +#define ACTION_BEGIN_CLEAR_OPERATION         0x2
-> >> +#define ACTION_END_OPERATION                 0x3
-> >> +#define ACTION_SET_RECORD_OFFSET             0x4
-> >> +#define ACTION_EXECUTE_OPERATION             0x5
-> >> +#define ACTION_CHECK_BUSY_STATUS             0x6
-> >> +#define ACTION_GET_COMMAND_STATUS            0x7
-> >> +#define ACTION_GET_RECORD_IDENTIFIER         0x8
-> >> +#define ACTION_SET_RECORD_IDENTIFIER         0x9
-> >> +#define ACTION_GET_RECORD_COUNT              0xA
-> >> +#define ACTION_BEGIN_DUMMY_WRITE_OPERATION   0xB
-> >> +#define ACTION_RESERVED                      0xC
-> >> +#define ACTION_GET_ERROR_LOG_ADDRESS_RANGE   0xD
-> >> +#define ACTION_GET_ERROR_LOG_ADDRESS_LENGTH  0xE
-> >> +#define ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES 0xF
-> >> +#define ACTION_GET_EXECUTE_OPERATION_TIMINGS 0x10
-> >
-> > ACTION_GET_EXECUTE_OPERATION_TIMINGS is not present here:
-> > https://uefi.org/sites/default/files/resources/ACPI_4.pdf, section
-> > 17.4.1.1 .
-> > But I do see it in version 6.3
-> > https://uefi.org/sites/default/files/resources/ACPI_6_3_May16.pdf
-> > section 18.5.1.1
-> Ah, should I remove it (to stay 4.0-esque), or leave it stay current?
->
-> >
-> >> +
-> >> +/* ACPI 4.0: Table 17-17 Command Status Definitions */
-> >> +#define STATUS_SUCCESS                0x00
-> >> +#define STATUS_NOT_ENOUGH_SPACE       0x01
-> >> +#define STATUS_HARDWARE_NOT_AVAILABLE 0x02
-> >> +#define STATUS_FAILED                 0x03
-> >> +#define STATUS_RECORD_STORE_EMPTY     0x04
-> >> +#define STATUS_RECORD_NOT_FOUND       0x05
-> >> +
-> >> +
-> >> +/* UEFI 2.1: Appendix N Common Platform Error Record */
-> >> +#define UEFI_CPER_RECORD_MIN_SIZE 128U
-> >> +#define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
-> >> +#define UEFI_CPER_RECORD_ID_OFFSET 96U
-> >> +#define IS_UEFI_CPER_RECORD(ptr) \
-> >> +    (((ptr)[0] == 'C') && \
-> >> +     ((ptr)[1] == 'P') && \
-> >> +     ((ptr)[2] == 'E') && \
-> >> +     ((ptr)[3] == 'R'))
-> >> +
-> >> +/*
-> >> + * NOTE that when accessing CPER fields within a record, memcpy()
-> >> + * is utilized to avoid a possible misaligned access on the host.
-> >> + */
-> >> +
-> >> +/*
-> >> + * This implementation is an ACTION (cmd) and VALUE (data)
-> >> + * interface consisting of just two 64-bit registers.
-> >> + */
-> >> +#define ERST_REG_SIZE (16UL)
-> >> +#define ERST_ACTION_OFFSET (0UL) /* action (cmd) */
-> >> +#define ERST_VALUE_OFFSET  (8UL) /* argument/value (data) */
-> >> +
-> >> +/*
-> >> + * ERST_RECORD_SIZE is the buffer size for exchanging ERST
-> >> + * record contents. Thus, it defines the maximum record size.
-> >> + * As this is mapped through a PCI BAR, it must be a power of
-> >> + * two and larger than UEFI_CPER_RECORD_MIN_SIZE.
-> >> + * The backing storage is divided into fixed size "slots",
-> >> + * each ERST_RECORD_SIZE in length, and each "slot"
-> >> + * storing a single record. No attempt at optimizing storage
-> >> + * through compression, compaction, etc is attempted.
-> >> + * NOTE that slot 0 is reserved for the backing storage header.
-> >> + * Depending upon the size of the backing storage, additional
-> >> + * slots will be part of the slot 0 header in order to account
-> >> + * for a record_id for each available remaining slot.
-> >> + */
-> >> +/* 8KiB records, not too small, not too big */
-> >> +#define ERST_RECORD_SIZE (8192UL)
-> >> +
-> >> +#define ACPI_ERST_MEMDEV_PROP "memdev"
-> >> +#define ACPI_ERST_RECORD_SIZE_PROP "record_size"
-> >> +
-> >> +/*
-> >> + * From the ACPI ERST spec sections:
-> >> + * A record id of all 0s is used to indicate 'unspecified' record id.
-> >> + * A record id of all 1s is used to indicate empty or end.
-> >> + */
-> >> +#define ERST_UNSPECIFIED_RECORD_ID (0UL)
-> >> +#define ERST_EMPTY_END_RECORD_ID (~0UL)
-> >> +#define ERST_EXECUTE_OPERATION_MAGIC 0x9CUL
-> >> +#define ERST_IS_VALID_RECORD_ID(rid) \
-> >> +    ((rid != ERST_UNSPECIFIED_RECORD_ID) && \
-> >> +     (rid != ERST_EMPTY_END_RECORD_ID))
-> >> +#define ERST_STORE_MAGIC 0x524F545354535245UL /* ERSTSTOR */
-> >
-> > Is this arbitrary or is it defined by the spec? I could not find this
-> > in acpi spec 6.3.
->
-> This is arbitrary; it is purely for the 'magic' member in the struct ERSTStorageHeader below.
-Please mention this in the comment that the magic number is arbitrary.
+Jonah Palmer <jonah.palmer@oracle.com> writes:
 
-> >
-> >> +
-> >> +typedef struct {
-> >> +    uint64_t magic;
-> >> +    uint32_t record_size;
-> >> +    uint32_t storage_offset; /* offset to record storage beyond header */
-> >> +    uint16_t version;
-> >> +    uint16_t reserved;
-> >> +    uint32_t record_count;
-> >> +    uint64_t map[]; /* contains record_ids, and position indicates index */
-> >> +} __attribute__((packed)) ERSTStorageHeader;
-> >
-> > Could you please point to the spec where this header is defined and
-> > add a comment here for the same?
+> From: Laurent Vivier <lvivier@redhat.com>
 >
-> This is not in the ACPI spec; this would fall under the implementation-specific guidance of the
-> spec. I do describe how I use this in the acpi-erst.rst.
+> This new command lists all the instances of VirtIODevices with
+> their canonical QOM path and name.
+>
+> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
+> ---
+>  hw/virtio/meson.build      |  2 ++
+>  hw/virtio/virtio-stub.c    | 14 ++++++++++
+>  hw/virtio/virtio.c         | 27 ++++++++++++++++++
+>  include/hw/virtio/virtio.h |  1 +
+>  qapi/meson.build           |  1 +
+>  qapi/qapi-schema.json      |  1 +
+>  qapi/virtio.json           | 68 ++++++++++++++++++++++++++++++++++++++++++++++
+>  tests/qtest/qmp-cmd-test.c |  1 +
+>  8 files changed, 115 insertions(+)
+>  create mode 100644 hw/virtio/virtio-stub.c
+>  create mode 100644 qapi/virtio.json
+>
+> diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+> index 521f7d6..d893f5f 100644
+> --- a/hw/virtio/meson.build
+> +++ b/hw/virtio/meson.build
+> @@ -6,8 +6,10 @@ softmmu_virtio_ss.add(when: 'CONFIG_VHOST', if_false: files('vhost-stub.c'))
+>  
+>  softmmu_ss.add_all(when: 'CONFIG_VIRTIO', if_true: softmmu_virtio_ss)
+>  softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('vhost-stub.c'))
+> +softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('virtio-stub.c'))
+>  
+>  softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
+> +softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('virtio-stub.c'))
+>  
+>  virtio_ss = ss.source_set()
+>  virtio_ss.add(files('virtio.c'))
+> diff --git a/hw/virtio/virtio-stub.c b/hw/virtio/virtio-stub.c
+> new file mode 100644
+> index 0000000..05a81ed
+> --- /dev/null
+> +++ b/hw/virtio/virtio-stub.c
+> @@ -0,0 +1,14 @@
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qapi/qapi-commands-virtio.h"
+> +
+> +static void *qmp_virtio_unsupported(Error **errp)
+> +{
+> +    error_setg(errp, "Virtio is disabled");
+> +    return NULL;
+> +}
+> +
+> +VirtioInfoList *qmp_x_query_virtio(Error **errp)
+> +{
+> +    return qmp_virtio_unsupported(errp);
+> +}
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index 867834d..76a63a0 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -13,6 +13,8 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "qapi/error.h"
+> +#include "qapi/qapi-commands-virtio.h"
+> +#include "qapi/qapi-visit-virtio.h"
+>  #include "cpu.h"
+>  #include "trace.h"
+>  #include "qemu/error-report.h"
+> @@ -29,6 +31,9 @@
+>  #include "sysemu/runstate.h"
+>  #include "standard-headers/linux/virtio_ids.h"
+>  
+> +/* QAPI list of realized VirtIODevices */
+> +static QTAILQ_HEAD(, VirtIODevice) virtio_list;
+> +
+>  /*
+>   * The alignment to use between consumer and producer parts of vring.
+>   * x86 pagesize again. This is the default, used by transports like PCI
+> @@ -3700,6 +3705,7 @@ static void virtio_device_realize(DeviceState *dev, Error **errp)
+>      vdev->listener.commit = virtio_memory_listener_commit;
+>      vdev->listener.name = "virtio";
+>      memory_listener_register(&vdev->listener, vdev->dma_as);
+> +    QTAILQ_INSERT_TAIL(&virtio_list, vdev, next);
+>  }
+>  
+>  static void virtio_device_unrealize(DeviceState *dev)
+> @@ -3714,6 +3720,7 @@ static void virtio_device_unrealize(DeviceState *dev)
+>          vdc->unrealize(dev);
+>      }
+>  
+> +    QTAILQ_REMOVE(&virtio_list, vdev, next);
+>      g_free(vdev->bus_name);
+>      vdev->bus_name = NULL;
+>  }
+> @@ -3887,6 +3894,8 @@ static void virtio_device_class_init(ObjectClass *klass, void *data)
+>      vdc->stop_ioeventfd = virtio_device_stop_ioeventfd_impl;
+>  
+>      vdc->legacy_features |= VIRTIO_LEGACY_FEATURES;
+> +
+> +    QTAILQ_INIT(&virtio_list);
+>  }
 
-Here also a comment would be useful that says the struct above is
-implementation specific.
+@virtio_list duplicates information that exists in the QOM composition
+tree.  It needs to stay in sync.  You could search the composition tree
+instead.  I don't particularly care, but a virtio or QOM maintainer
+might have a preference.
 
->
-> >
-> >> +
-> >> +/*
-> >> + * Object cast macro
-> >> + */
-> >> +#define ACPIERST(obj) \
-> >> +    OBJECT_CHECK(ERSTDeviceState, (obj), TYPE_ACPI_ERST)
-> >> +
-> >> +/*
-> >> + * Main ERST device state structure
-> >> + */
-> >> +typedef struct {
-> >> +    PCIDevice parent_obj;
-> >> +
-> >> +    /* Backend storage */
-> >> +    HostMemoryBackend *hostmem;
-> >> +    MemoryRegion *hostmem_mr;
-> >> +    uint32_t storage_size;
-> >> +    uint32_t default_record_size;
-> >> +
-> >> +    /* Programming registers */
-> >> +    MemoryRegion iomem_mr;
-> >> +
-> >> +    /* Exchange buffer */
-> >> +    MemoryRegion exchange_mr;
-> >> +
-> >> +    /* Interface state */
-> >> +    uint8_t operation;
-> >> +    uint8_t busy_status;
-> >> +    uint8_t command_status;
-> >> +    uint32_t record_offset;
-> >> +    uint64_t reg_action;
-> >> +    uint64_t reg_value;
-> >> +    uint64_t record_identifier;
-> >> +    ERSTStorageHeader *header;
-> >> +    unsigned first_record_index;
-> >> +    unsigned last_record_index;
-> >> +    unsigned next_record_index;
-> >> +
-> >> +} ERSTDeviceState;
-> >> +
-> >> +/*******************************************************************/
-> >> +/*******************************************************************/
-> >> +
-> >> +static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState *s, unsigned index)
-> >> +{
-> >> +    uint8_t *rc = NULL;
-> >> +    off_t offset = (index * le32_to_cpu(s->header->record_size));
-> >> +
-> >> +    g_assert(offset < s->storage_size);
-> >> +
-> >> +    rc = memory_region_get_ram_ptr(s->hostmem_mr);
-> >> +    rc += offset;
-> >> +
-> >> +    return rc;
-> >> +}
-> >> +
-> >> +static void make_erst_storage_header(ERSTDeviceState *s)
-> >> +{
-> >> +    ERSTStorageHeader *header = s->header;
-> >> +    unsigned mapsz, headersz;
-> >> +
-> >> +    header->magic = cpu_to_le64(ERST_STORE_MAGIC);
-> >> +    header->record_size = cpu_to_le32(s->default_record_size);
-> >> +    header->version = cpu_to_le16(0x0100);
-> >> +    header->reserved = cpu_to_le16(0x0000);
-> >> +
-> >> +    /* Compute mapsize */
-> >> +    mapsz = s->storage_size / s->default_record_size;
-> >> +    mapsz *= sizeof(uint64_t);
-> >> +    /* Compute header+map size */
-> >> +    headersz = sizeof(ERSTStorageHeader) + mapsz;
-> >> +    /* Round up to nearest integer multiple of ERST_RECORD_SIZE */
-> >> +    headersz = QEMU_ALIGN_UP(headersz, s->default_record_size);
-> >> +    header->storage_offset = cpu_to_le32(headersz);
-> >> +
-> >> +    /*
-> >> +     * The HostMemoryBackend initializes contents to zero,
-> >> +     * so all record_ids stashed in the map are zero'd.
-> >> +     * As well the record_count is zero. Properly initialized.
-> >> +     */
-> >> +}
-> >> +
-> >> +static void check_erst_backend_storage(ERSTDeviceState *s, Error **errp)
-> >> +{
-> >> +    ERSTStorageHeader *header;
-> >> +    uint32_t record_size;
-> >> +
-> >> +    header = memory_region_get_ram_ptr(s->hostmem_mr);
-> >> +    s->header = header;
-> >> +
-> >> +    /* Ensure pointer to header is 64-bit aligned */
-> >> +    g_assert(QEMU_PTR_IS_ALIGNED(header, sizeof(uint64_t)));
-> >> +
-> >> +    /*
-> >> +     * Check if header is uninitialized; HostMemoryBackend inits to 0
-> >> +     */
-> >> +    if (le64_to_cpu(header->magic) == 0UL) {
-> >> +        make_erst_storage_header(s);
-> >> +    }
-> >> +
-> >> +    /* Validity check record_size */
-> >> +    record_size = le32_to_cpu(header->record_size);
-> >> +    if (!(
-> >> +        (record_size) && /* non zero */
-> >> +        (record_size >= UEFI_CPER_RECORD_MIN_SIZE) &&
-> >> +        (((record_size - 1) & record_size) == 0) && /* is power of 2 */
-> >> +        (record_size >= 4096) /* PAGE_SIZE */
-> >> +        )) {
-> >> +        error_setg(errp, "ERST record_size %u is invalid", record_size);
-> >> +    }
-> >> +
-> >> +    /* Validity check header */
-> >> +    if (!(
-> >> +        (le64_to_cpu(header->magic) == ERST_STORE_MAGIC) &&
-> >> +        ((le32_to_cpu(header->storage_offset) % record_size) == 0) &&
-> >> +        (le16_to_cpu(header->version) == 0x0100) &&
-> >> +        (le16_to_cpu(header->reserved) == 0)
-> >> +        )) {
-> >> +        error_setg(errp, "ERST backend storage header is invalid");
-> >> +    }
-> >> +
-> >> +    /* Check storage_size against record_size */
-> >> +    if (((s->storage_size % record_size) != 0) ||
-> >> +         (record_size > s->storage_size)) {
-> >> +        error_setg(errp, "ACPI ERST requires storage size be multiple of "
-> >> +            "record size (%uKiB)", record_size);
-> >> +    }
-> >> +
-> >> +    /* Compute offset of first and last record storage slot */
-> >> +    s->first_record_index = le32_to_cpu(header->storage_offset)
-> >> +        / record_size;
-> >> +    s->last_record_index = (s->storage_size / record_size);
-> >> +}
-> >> +
-> >> +static void update_map_entry(ERSTDeviceState *s, unsigned index,
-> >> +    uint64_t record_id)
-> >> +{
-> >> +    if (index < s->last_record_index) {
-> >> +        s->header->map[index] = cpu_to_le64(record_id);
-> >> +    }
-> >> +}
-> >> +
-> >> +static unsigned allocate_erst_record(ERSTDeviceState *s)
-> >
-> > nit: this function name is misleading. It's not allocating any
-> > records. It's finding the next empty slot for the record. So the
-> > function could be named something like:
-> >
-> > find_next_empty_record_idx() or something.
-> ok, will change it.
->
-> >
-> >> +{
-> >> +    unsigned rc = 0; /* 0 not a valid index */
-> >> +    unsigned index = s->first_record_index;
-> >> +
-> >> +    for (; index < s->last_record_index; ++index) {
-> >> +        if (le64_to_cpu(s->header->map[index]) == ERST_UNSPECIFIED_RECORD_ID) {
-> >> +            rc = index;
-> >> +            break;
-> >> +        }
-> >> +    }
-> >> +
-> >> +    return rc;
-> >> +}
-> >> +
-> >> +static unsigned lookup_erst_record(ERSTDeviceState *s,
-> >> +    uint64_t record_identifier)
-> >> +{
-> >> +    unsigned rc = 0; /* 0 not a valid index */
-> >> +
-> >> +    /* Find the record_identifier in the map */
-> >> +    if (record_identifier != ERST_UNSPECIFIED_RECORD_ID) {
-> >> +        /*
-> >> +         * Count number of valid records encountered, and
-> >> +         * short-circuit the loop if identifier not found
-> >> +         */
-> >> +        uint32_t record_count = le32_to_cpu(s->header->record_count);
-> >> +        unsigned count = 0;
-> >> +        unsigned index;
-> >> +        for (index = s->first_record_index; index < s->last_record_index &&
-> >> +                count < record_count; ++index) {
-> >> +            if (le64_to_cpu(s->header->map[index]) == record_identifier) {
-> >> +                rc = index;
-> >> +                break;
-> >> +            }
-> >> +            if (le64_to_cpu(s->header->map[index]) !=
-> >> +                ERST_UNSPECIFIED_RECORD_ID) {
-> >> +                ++count;
-> >> +            }
-> >> +        }
-> >> +    }
-> >> +
-> >> +    return rc;
-> >> +}
-> >> +
-> >> +/*
-> >> + * ACPI 4.0: 17.4.1.1 Serialization Actions, also see
-> >> + * ACPI 4.0: 17.4.2.2 Operations - Reading 6.c and 2.c
-> >> + */
-> >> +static unsigned get_next_record_identifier(ERSTDeviceState *s,
-> >> +    uint64_t *record_identifier, bool first)
-> >> +{
-> >> +    unsigned found = 0;
-> >> +    unsigned index;
-> >> +
-> >> +    /* For operations needing to return 'first' record identifer */
-> >
-> > nit: typo in comment - identifier
-> ok will correct it
->
-> >
-> >> +    if (first) {
-> >> +        /* Reset initial index to beginning */
-> >> +        s->next_record_index = s->first_record_index;
-> >> +    }
-> >> +    index = s->next_record_index;
-> >> +
-> >> +    *record_identifier = ERST_EMPTY_END_RECORD_ID;
-> >> +
-> >> +    if (le32_to_cpu(s->header->record_count)) {
-> >> +        for (; index < s->last_record_index; ++index) {
-> >> +            if (le64_to_cpu(s->header->map[index]) !=
-> >> +                    ERST_UNSPECIFIED_RECORD_ID) {
-> >> +                    /* where to start next time */
-> >> +                    s->next_record_index = index + 1;
-> >> +                    *record_identifier = le64_to_cpu(s->header->map[index]);
-> >> +                    found = 1;
-> >> +                    break;
-> >> +            }
-> >> +        }
-> >> +    }
-> >> +    if (!found) {
-> >> +        /* at end (ie scan complete), reset */
-> >> +        s->next_record_index = s->first_record_index;
-> >> +    }
-> >> +
-> >> +    return STATUS_SUCCESS;
-> >> +}
-> >> +
-> >> +/* ACPI 4.0: 17.4.2.3 Operations - Clearing */
-> >> +static unsigned clear_erst_record(ERSTDeviceState *s)
-> >> +{
-> >> +    unsigned rc = STATUS_RECORD_NOT_FOUND;
-> >> +    unsigned index;
-> >> +
-> >> +    /* Check for valid record identifier */
-> >> +    if (!ERST_IS_VALID_RECORD_ID(s->record_identifier)) {
-> >> +        return STATUS_FAILED;
-> >> +    }
-> >> +
-> >> +    index = lookup_erst_record(s, s->record_identifier);
-> >> +    if (index) {
-> >> +        /* No need to wipe record, just invalidate its map entry */
-> >> +        uint32_t record_count;
-> >> +        update_map_entry(s, index, ERST_UNSPECIFIED_RECORD_ID);
-> >> +        record_count = le32_to_cpu(s->header->record_count);
-> >> +        record_count -= 1;
-> >> +        s->header->record_count = cpu_to_le32(record_count);
-> >> +        rc = STATUS_SUCCESS;
-> >> +    }
-> >> +
-> >> +    return rc;
-> >> +}
-> >> +
-> >> +/* ACPI 4.0: 17.4.2.2 Operations - Reading */
-> >> +static unsigned read_erst_record(ERSTDeviceState *s)
-> >> +{
-> >> +    unsigned rc = STATUS_RECORD_NOT_FOUND;
-> >> +    unsigned exchange_length;
-> >> +    unsigned index;
-> >> +
-> >> +    /* Check if backend storage is empty */
-> >> +    if (le32_to_cpu(s->header->record_count) == 0) {
-> >> +        return STATUS_RECORD_STORE_EMPTY;
-> >> +    }
-> >> +
-> >> +    exchange_length = memory_region_size(&s->exchange_mr);
-> >> +
-> >> +    /* Check for record identifier of all 0s */
-> >> +    if (s->record_identifier == ERST_UNSPECIFIED_RECORD_ID) {
-> >> +        /* Set to 'first' record in storage */
-> >> +        get_next_record_identifier(s, &s->record_identifier, true);
-> >> +        /* record_identifier is now a valid id, or all 1s */
-> >> +    }
-> >> +
-> >> +    /* Check for record identifier of all 1s */
-> >> +    if (s->record_identifier == ERST_EMPTY_END_RECORD_ID) {
-> >> +        return STATUS_FAILED;
-> >> +    }
-> >> +
-> >> +    /* Validate record_offset */
-> >> +    if (s->record_offset > (exchange_length - UEFI_CPER_RECORD_MIN_SIZE)) {
-> >> +        return STATUS_FAILED;
-> >> +    }
-> >> +
-> >> +    index = lookup_erst_record(s, s->record_identifier);
-> >> +    if (index) {
-> >> +        uint8_t *nvram;
-> >> +        uint8_t *exchange;
-> >> +        uint32_t record_length;
-> >> +
-> >> +        /* Obtain pointer to the exchange buffer */
-> >> +        exchange = memory_region_get_ram_ptr(&s->exchange_mr);
-> >> +        exchange += s->record_offset;
-> >> +        /* Obtain pointer to slot in storage */
-> >> +        nvram = get_nvram_ptr_by_index(s, index);
-> >> +        /* Validate CPER record_length */
-> >> +        memcpy((uint8_t *)&record_length,
-> >> +            &nvram[UEFI_CPER_RECORD_LENGTH_OFFSET],
-> >> +            sizeof(uint32_t));
-> >> +        record_length = le32_to_cpu(record_length);
-> >> +        if (record_length < UEFI_CPER_RECORD_MIN_SIZE) {
-> >> +            rc = STATUS_FAILED;
-> >> +        }
-> >> +        if ((s->record_offset + record_length) > exchange_length) {
-> >> +            rc = STATUS_FAILED;
-> >> +        }
-> >> +        /* If all is ok, copy the record to the exchange buffer */
-> >> +        if (rc != STATUS_FAILED) {
-> >> +            memcpy(exchange, nvram, record_length);
-> >> +            rc = STATUS_SUCCESS;
-> >> +        }
-> >> +    } else {
-> >> +        /* Set to 'first' record in storage */
-> >> +        get_next_record_identifier(s, &s->record_identifier, true);
-> >> +    }
-> >> +
-> >> +    return rc;
-> >> +}
-> >> +
-> >> +/* ACPI 4.0: 17.4.2.1 Operations - Writing */
-> >> +static unsigned write_erst_record(ERSTDeviceState *s)
-> >> +{
-> >> +    unsigned rc = STATUS_FAILED;
-> >> +    unsigned exchange_length;
-> >> +    unsigned index;
-> >> +    uint64_t record_identifier;
-> >> +    uint32_t record_length;
-> >> +    uint8_t *exchange;
-> >> +    uint8_t *nvram = NULL;
-> >> +    bool record_found = false;
-> >> +
-> >> +    exchange_length = memory_region_size(&s->exchange_mr);
-> >> +
-> >> +    /* Validate record_offset */
-> >> +    if (s->record_offset > (exchange_length - UEFI_CPER_RECORD_MIN_SIZE)) {
-> >> +        return STATUS_FAILED;
-> >> +    }
-> >> +
-> >> +    /* Obtain pointer to record in the exchange buffer */
-> >> +    exchange = memory_region_get_ram_ptr(&s->exchange_mr);
-> >> +    exchange += s->record_offset;
-> >> +
-> >> +    /* Validate CPER record_length */
-> >> +    memcpy((uint8_t *)&record_length, &exchange[UEFI_CPER_RECORD_LENGTH_OFFSET],
-> >> +        sizeof(uint32_t));
-> >> +    record_length = le32_to_cpu(record_length);
-> >> +    if (record_length < UEFI_CPER_RECORD_MIN_SIZE) {
-> >> +        return STATUS_FAILED;
-> >> +    }
-> >> +    if ((s->record_offset + record_length) > exchange_length) {
-> >> +        return STATUS_FAILED;
-> >> +    }
-> >> +
-> >> +    /* Extract record identifier */
-> >> +    memcpy((uint8_t *)&record_identifier, &exchange[UEFI_CPER_RECORD_ID_OFFSET],
-> >> +        sizeof(uint64_t));
-> >> +    record_identifier = le64_to_cpu(record_identifier);
-> >> +
-> >> +    /* Check for valid record identifier */
-> >> +    if (!ERST_IS_VALID_RECORD_ID(record_identifier)) {
-> >> +        return STATUS_FAILED;
-> >> +    }
-> >> +
-> >> +    index = lookup_erst_record(s, record_identifier);
-> >> +    if (index) {
-> >> +        /* Record found, overwrite existing record */
-> >> +        nvram = get_nvram_ptr_by_index(s, index);
-> >> +        record_found = true;
-> >> +    } else {
-> >> +        /* Record not found, not an overwrite, allocate for write */
-> >> +        index = allocate_erst_record(s);
-> >> +        if (index) {
-> >> +            nvram = get_nvram_ptr_by_index(s, index);
-> >> +        } else {
-> >> +            rc = STATUS_NOT_ENOUGH_SPACE;
-> >> +        }
-> >> +    }
-> >> +    if (nvram) {
-> >> +        /* Write the record into the slot */
-> >> +        memcpy(nvram, exchange, record_length);
-> >> +        memset(nvram + record_length, exchange_length - record_length, 0xFF);
-> >> +        /* If a new record, increment the record_count */
-> >> +        if (!record_found) {
-> >> +            uint32_t record_count;
-> >> +            record_count = le32_to_cpu(s->header->record_count);
-> >> +            record_count += 1; /* writing new record */
-> >> +            s->header->record_count = cpu_to_le32(record_count);
-> >> +        }
-> >> +        update_map_entry(s, index, record_identifier);
-> >> +        rc = STATUS_SUCCESS;
-> >> +    }
-> >> +
-> >> +    return rc;
-> >> +}
-> >> +
-> >> +/*******************************************************************/
-> >> +
-> >> +static uint64_t erst_rd_reg64(hwaddr addr,
-> >> +    uint64_t reg, unsigned size)
-> >> +{
-> >> +    uint64_t rdval;
-> >> +    uint64_t mask;
-> >> +    unsigned shift;
-> >> +
-> >> +    if (size == sizeof(uint64_t)) {
-> >> +        /* 64b access */
-> >> +        mask = 0xFFFFFFFFFFFFFFFFUL;
-> >> +        shift = 0;
-> >> +    } else {
-> >> +        /* 32b access */
-> >> +        mask = 0x00000000FFFFFFFFUL;
-> >> +        shift = ((addr & 0x4) == 0x4) ? 32 : 0;
-> >> +    }
-> >> +
-> >> +    rdval = reg;
-> >> +    rdval >>= shift;
-> >> +    rdval &= mask;
-> >> +
-> >> +    return rdval;
-> >> +}
-> >> +
-> >> +static uint64_t erst_wr_reg64(hwaddr addr,
-> >> +    uint64_t reg, uint64_t val, unsigned size)
-> >> +{
-> >> +    uint64_t wrval;
-> >> +    uint64_t mask;
-> >> +    unsigned shift;
-> >> +
-> >> +    if (size == sizeof(uint64_t)) {
-> >> +        /* 64b access */
-> >> +        mask = 0xFFFFFFFFFFFFFFFFUL;
-> >> +        shift = 0;
-> >> +    } else {
-> >> +        /* 32b access */
-> >> +        mask = 0x00000000FFFFFFFFUL;
-> >> +        shift = ((addr & 0x4) == 0x4) ? 32 : 0;
-> >> +    }
-> >> +
-> >> +    val &= mask;
-> >> +    val <<= shift;
-> >> +    mask <<= shift;
-> >> +    wrval = reg;
-> >> +    wrval &= ~mask;
-> >> +    wrval |= val;
-> >> +
-> >> +    return wrval;
-> >> +}
-> >> +
-> >> +static void erst_reg_write(void *opaque, hwaddr addr,
-> >> +    uint64_t val, unsigned size)
-> >> +{
-> >> +    ERSTDeviceState *s = (ERSTDeviceState *)opaque;
-> >> +
-> >> +    /*
-> >> +     * NOTE: All actions/operations/side effects happen on the WRITE,
-> >> +     * by this implementation's design. The READs simply return the
-> >> +     * reg_value contents.
-> >> +     */
-> >> +    trace_acpi_erst_reg_write(addr, val, size);
-> >> +
-> >> +    switch (addr) {
-> >> +    case ERST_VALUE_OFFSET + 0:
-> >> +    case ERST_VALUE_OFFSET + 4:
-> >> +        s->reg_value = erst_wr_reg64(addr, s->reg_value, val, size);
-> >> +        break;
-> >> +    case ERST_ACTION_OFFSET + 0:
-> >> +        /*
-> >> +         * NOTE: all valid values written to this register are of the
-> >> +         * ACTION_* variety. Thus there is no need to make this a 64-bit
-> >> +         * register, 32-bits is appropriate. As such ERST_ACTION_OFFSET+4
-> >> +         * is not needed.
-> >> +         */
-> >> +        switch (val) {
-> >> +        case ACTION_BEGIN_WRITE_OPERATION:
-> >> +        case ACTION_BEGIN_READ_OPERATION:
-> >> +        case ACTION_BEGIN_CLEAR_OPERATION:
-> >> +        case ACTION_BEGIN_DUMMY_WRITE_OPERATION:
-> >> +        case ACTION_END_OPERATION:
-> >> +            s->operation = val;
-> >> +            break;
-> >> +        case ACTION_SET_RECORD_OFFSET:
-> >> +            s->record_offset = s->reg_value;
-> >> +            break;
-> >> +        case ACTION_EXECUTE_OPERATION:
-> >> +            if ((uint8_t)s->reg_value == ERST_EXECUTE_OPERATION_MAGIC) {
-> >> +                s->busy_status = 1;
-> >> +                switch (s->operation) {
-> >> +                case ACTION_BEGIN_WRITE_OPERATION:
-> >> +                    s->command_status = write_erst_record(s);
-> >> +                    break;
-> >> +                case ACTION_BEGIN_READ_OPERATION:
-> >> +                    s->command_status = read_erst_record(s);
-> >> +                    break;
-> >> +                case ACTION_BEGIN_CLEAR_OPERATION:
-> >> +                    s->command_status = clear_erst_record(s);
-> >> +                    break;
-> >> +                case ACTION_BEGIN_DUMMY_WRITE_OPERATION:
-> >> +                    s->command_status = STATUS_SUCCESS;
-> >> +                    break;
-> >> +                case ACTION_END_OPERATION:
-> >> +                    s->command_status = STATUS_SUCCESS;
-> >> +                    break;
-> >> +                default:
-> >> +                    s->command_status = STATUS_FAILED;
-> >> +                    break;
-> >> +                }
-> >> +                s->busy_status = 0;
-> >> +            }
-> >> +            break;
-> >> +        case ACTION_CHECK_BUSY_STATUS:
-> >> +            s->reg_value = s->busy_status;
-> >> +            break;
-> >> +        case ACTION_GET_COMMAND_STATUS:
-> >> +            s->reg_value = s->command_status;
-> >> +            break;
-> >> +        case ACTION_GET_RECORD_IDENTIFIER:
-> >> +            s->command_status = get_next_record_identifier(s,
-> >> +                                    &s->reg_value, false);
-> >> +            break;
-> >> +        case ACTION_SET_RECORD_IDENTIFIER:
-> >> +            s->record_identifier = s->reg_value;
-> >> +            break;
-> >> +        case ACTION_GET_RECORD_COUNT:
-> >> +            s->reg_value = le32_to_cpu(s->header->record_count);
-> >> +            break;
-> >> +        case ACTION_GET_ERROR_LOG_ADDRESS_RANGE:
-> >> +            s->reg_value = (hwaddr)pci_get_bar_addr(PCI_DEVICE(s), 1);
-> >> +            break;
-> >> +        case ACTION_GET_ERROR_LOG_ADDRESS_LENGTH:
-> >> +            s->reg_value = le32_to_cpu(s->header->record_size);
-> >> +            break;
-> >> +        case ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES:
-> >> +            s->reg_value = 0x0; /* intentional, not NVRAM mode */
-> >> +            break;
-> >> +        case ACTION_GET_EXECUTE_OPERATION_TIMINGS:
-> >> +            s->reg_value =
-> >> +                (100ULL << 32) | /* 100us max time */
-> >> +                (10ULL  <<  0) ; /*  10us min time */
-> >> +            break;
-> >> +        default:
-> >> +            /* Unknown action/command, NOP */
-> >> +            break;
-> >> +        }
-> >> +        break;
-> >> +    default:
-> >> +        /* This should not happen, but if it does, NOP */
-> >> +        break;
-> >> +    }
-> >> +}
-> >> +
-> >> +static uint64_t erst_reg_read(void *opaque, hwaddr addr,
-> >> +                                unsigned size)
-> >> +{
-> >> +    ERSTDeviceState *s = (ERSTDeviceState *)opaque;
-> >> +    uint64_t val = 0;
-> >> +
-> >> +    switch (addr) {
-> >> +    case ERST_ACTION_OFFSET + 0:
-> >> +    case ERST_ACTION_OFFSET + 4:
-> >> +        val = erst_rd_reg64(addr, s->reg_action, size);
-> >> +        break;
-> >> +    case ERST_VALUE_OFFSET + 0:
-> >> +    case ERST_VALUE_OFFSET + 4:
-> >> +        val = erst_rd_reg64(addr, s->reg_value, size);
-> >> +        break;
-> >> +    default:
-> >> +        break;
-> >> +    }
-> >> +    trace_acpi_erst_reg_read(addr, val, size);
-> >> +    return val;
-> >> +}
-> >> +
-> >> +static const MemoryRegionOps erst_reg_ops = {
-> >> +    .read = erst_reg_read,
-> >> +    .write = erst_reg_write,
-> >> +    .endianness = DEVICE_NATIVE_ENDIAN,
-> >> +};
-> >> +
-> >> +/*******************************************************************/
-> >> +/*******************************************************************/
-> >> +static int erst_post_load(void *opaque, int version_id)
-> >> +{
-> >> +    ERSTDeviceState *s = opaque;
-> >> +
-> >> +    /* Recompute pointer to header */
-> >> +    s->header = (ERSTStorageHeader *)get_nvram_ptr_by_index(s, 0);
-> >> +    trace_acpi_erst_post_load(s->header, le32_to_cpu(s->header->record_size));
-> >> +
-> >> +    return 0;
-> >> +}
-> >> +
-> >> +static const VMStateDescription erst_vmstate  = {
-> >> +    .name = "acpi-erst",
-> >> +    .version_id = 1,
-> >> +    .minimum_version_id = 1,
-> >> +    .post_load = erst_post_load,
-> >> +    .fields = (VMStateField[]) {
-> >> +        VMSTATE_UINT8(operation, ERSTDeviceState),
-> >> +        VMSTATE_UINT8(busy_status, ERSTDeviceState),
-> >> +        VMSTATE_UINT8(command_status, ERSTDeviceState),
-> >> +        VMSTATE_UINT32(record_offset, ERSTDeviceState),
-> >> +        VMSTATE_UINT64(reg_action, ERSTDeviceState),
-> >> +        VMSTATE_UINT64(reg_value, ERSTDeviceState),
-> >> +        VMSTATE_UINT64(record_identifier, ERSTDeviceState),
-> >> +        VMSTATE_UINT32(next_record_index, ERSTDeviceState),
-> >> +        VMSTATE_END_OF_LIST()
-> >> +    }
-> >> +};
-> >> +
-> >> +static void erst_realizefn(PCIDevice *pci_dev, Error **errp)
-> >> +{
-> >> +    ERSTDeviceState *s = ACPIERST(pci_dev);
-> >> +
-> >> +    trace_acpi_erst_realizefn_in();
-> >> +
-> >> +    if (!s->hostmem) {
-> >> +        error_setg(errp, "'" ACPI_ERST_MEMDEV_PROP "' property is not set");
-> >> +        return;
-> >> +    } else if (host_memory_backend_is_mapped(s->hostmem)) {
-> >> +        error_setg(errp, "can't use already busy memdev: %s",
-> >> +                   object_get_canonical_path_component(OBJECT(s->hostmem)));
-> >> +        return;
-> >> +    }
-> >> +
-> >> +    s->hostmem_mr = host_memory_backend_get_memory(s->hostmem);
-> >> +
-> >> +    /* HostMemoryBackend size will be multiple of PAGE_SIZE */
-> >> +    s->storage_size = object_property_get_int(OBJECT(s->hostmem), "size", errp);
-> >> +
-> >> +    /* Initialize backend storage and record_count */
-> >> +    check_erst_backend_storage(s, errp);
-> >> +
-> >> +    /* BAR 0: Programming registers */
-> >> +    memory_region_init_io(&s->iomem_mr, OBJECT(pci_dev), &erst_reg_ops, s,
-> >> +                          TYPE_ACPI_ERST, ERST_REG_SIZE);
-> >> +    pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->iomem_mr);
-> >> +
-> >> +    /* BAR 1: Exchange buffer memory */
-> >> +    memory_region_init_ram(&s->exchange_mr, OBJECT(pci_dev),
-> >> +                            "erst.exchange",
-> >> +                            le32_to_cpu(s->header->record_size), errp);
-> >> +    pci_register_bar(pci_dev, 1, PCI_BASE_ADDRESS_SPACE_MEMORY,
-> >> +                        &s->exchange_mr);
-> >> +
-> >> +    /* Include the backend storage in the migration stream */
-> >> +    vmstate_register_ram_global(s->hostmem_mr);
-> >> +
-> >> +    trace_acpi_erst_realizefn_out(s->storage_size);
-> >> +}
-> >> +
-> >> +static void erst_reset(DeviceState *dev)
-> >> +{
-> >> +    ERSTDeviceState *s = ACPIERST(dev);
-> >> +
-> >> +    trace_acpi_erst_reset_in(le32_to_cpu(s->header->record_count));
-> >> +    s->operation = 0;
-> >> +    s->busy_status = 0;
-> >> +    s->command_status = STATUS_SUCCESS;
-> >> +    s->record_identifier = ERST_UNSPECIFIED_RECORD_ID;
-> >> +    s->record_offset = 0;
-> >> +    s->next_record_index = s->first_record_index;
-> >> +    /* NOTE: first/last_record_index are computed only once */
-> >> +    trace_acpi_erst_reset_out(le32_to_cpu(s->header->record_count));
-> >> +}
-> >> +
-> >> +static Property erst_properties[] = {
-> >> +    DEFINE_PROP_LINK(ACPI_ERST_MEMDEV_PROP, ERSTDeviceState, hostmem,
-> >> +                     TYPE_MEMORY_BACKEND, HostMemoryBackend *),
-> >> +    DEFINE_PROP_UINT32(ACPI_ERST_RECORD_SIZE_PROP, ERSTDeviceState,
-> >> +                     default_record_size, ERST_RECORD_SIZE),
-> >> +    DEFINE_PROP_END_OF_LIST(),
-> >> +};
-> >> +
-> >> +static void erst_class_init(ObjectClass *klass, void *data)
-> >> +{
-> >> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> >> +    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-> >> +
-> >> +    trace_acpi_erst_class_init_in();
-> >> +    k->realize = erst_realizefn;
-> >> +    k->vendor_id = PCI_VENDOR_ID_REDHAT;
-> >> +    k->device_id = PCI_DEVICE_ID_REDHAT_ACPI_ERST;
-> >> +    k->revision = 0x00;
-> >> +    k->class_id = PCI_CLASS_OTHERS;
-> >> +    dc->reset = erst_reset;
-> >> +    dc->vmsd = &erst_vmstate;
-> >> +    dc->user_creatable = true;
-> >> +    dc->hotpluggable = false;
-> >> +    device_class_set_props(dc, erst_properties);
-> >> +    dc->desc = "ACPI Error Record Serialization Table (ERST) device";
-> >> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-> >> +    trace_acpi_erst_class_init_out();
-> >> +}
-> >> +
-> >> +static const TypeInfo erst_type_info = {
-> >> +    .name          = TYPE_ACPI_ERST,
-> >> +    .parent        = TYPE_PCI_DEVICE,
-> >> +    .class_init    = erst_class_init,
-> >> +    .instance_size = sizeof(ERSTDeviceState),
-> >> +    .interfaces = (InterfaceInfo[]) {
-> >> +        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-> >> +        { }
-> >> +    }
-> >> +};
-> >> +
-> >> +static void erst_register_types(void)
-> >> +{
-> >> +    type_register_static(&erst_type_info);
-> >> +}
-> >> +
-> >> +type_init(erst_register_types)
-> >> diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
-> >> index adf6347..f5b2298 100644
-> >> --- a/hw/acpi/meson.build
-> >> +++ b/hw/acpi/meson.build
-> >> @@ -22,6 +22,7 @@ acpi_ss.add(when: 'CONFIG_ACPI_PCIHP', if_true: files('pcihp.c'))
-> >>   acpi_ss.add(when: 'CONFIG_ACPI_PCIHP', if_false: files('acpi-pci-hotplug-stub.c'))
-> >>   acpi_ss.add(when: 'CONFIG_ACPI_VIOT', if_true: files('viot.c'))
-> >>   acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
-> >> +acpi_ss.add(when: 'CONFIG_ACPI_ERST', if_true: files('erst.c'))
-> >>   acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
-> >>   acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
-> >>   acpi_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
-> >> diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
-> >> index 974d770..2250126 100644
-> >> --- a/hw/acpi/trace-events
-> >> +++ b/hw/acpi/trace-events
-> >> @@ -55,3 +55,18 @@ piix4_gpe_writeb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64
-> >>   # tco.c
-> >>   tco_timer_reload(int ticks, int msec) "ticks=%d (%d ms)"
-> >>   tco_timer_expired(int timeouts_no, bool strap, bool no_reboot) "timeouts_no=%d no_reboot=%d/%d"
-> >> +
-> >> +# erst.c
-> >> +acpi_erst_reg_write(uint64_t addr, uint64_t val, unsigned size) "addr: 0x%04" PRIx64 " <== 0x%016" PRIx64 " (size: %u)"
-> >> +acpi_erst_reg_read(uint64_t addr, uint64_t val, unsigned size) " addr: 0x%04" PRIx64 " ==> 0x%016" PRIx64 " (size: %u)"
-> >> +acpi_erst_mem_write(uint64_t addr, uint64_t val, unsigned size) "addr: 0x%06" PRIx64 " <== 0x%016" PRIx64 " (size: %u)"
-> >> +acpi_erst_mem_read(uint64_t addr, uint64_t val, unsigned size) " addr: 0x%06" PRIx64 " ==> 0x%016" PRIx64 " (size: %u)"
-> >> +acpi_erst_pci_bar_0(uint64_t addr) "BAR0: 0x%016" PRIx64
-> >> +acpi_erst_pci_bar_1(uint64_t addr) "BAR1: 0x%016" PRIx64
-> >> +acpi_erst_realizefn_in(void)
-> >> +acpi_erst_realizefn_out(unsigned size) "total nvram size %u bytes"
-> >> +acpi_erst_reset_in(unsigned record_count) "record_count %u"
-> >> +acpi_erst_reset_out(unsigned record_count) "record_count %u"
-> >> +acpi_erst_post_load(void *header, unsigned slot_size) "header: 0x%p slot_size %u"
-> >> +acpi_erst_class_init_in(void)
-> >> +acpi_erst_class_init_out(void)
-> >> --
-> >> 1.8.3.1
-> >>
+>  
+>  bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
+> @@ -3897,6 +3906,24 @@ bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
+>      return virtio_bus_ioeventfd_enabled(vbus);
+>  }
+>  
+> +VirtioInfoList *qmp_x_query_virtio(Error **errp)
+> +{
+> +    VirtioInfoList *list = NULL;
+> +    VirtioInfoList *node;
+> +    VirtIODevice *vdev;
+> +
+> +    QTAILQ_FOREACH(vdev, &virtio_list, next) {
+> +        DeviceState *dev = DEVICE(vdev);
+> +        node = g_new0(VirtioInfoList, 1);
+> +        node->value = g_new(VirtioInfo, 1);
+> +        node->value->path = g_strdup(dev->canonical_path);
+> +        node->value->name = g_strdup(vdev->name);
+> +        QAPI_LIST_PREPEND(list, node->value);
+> +    }
+> +
+> +    return list;
+> +}
+> +
+>  static const TypeInfo virtio_device_info = {
+>      .name = TYPE_VIRTIO_DEVICE,
+>      .parent = TYPE_DEVICE,
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index 0a12bd5..3b4eb85 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -110,6 +110,7 @@ struct VirtIODevice
+>      bool use_guest_notifier_mask;
+>      AddressSpace *dma_as;
+>      QLIST_HEAD(, VirtQueue) *vector_queues;
+> +    QTAILQ_ENTRY(VirtIODevice) next;
+>  };
+>  
+>  struct VirtioDeviceClass {
+> diff --git a/qapi/meson.build b/qapi/meson.build
+> index c0c49c1..e332f28 100644
+> --- a/qapi/meson.build
+> +++ b/qapi/meson.build
+> @@ -48,6 +48,7 @@ qapi_all_modules = [
+>    'sockets',
+>    'trace',
+>    'transaction',
+> +  'virtio',
+>    'yank',
+>  ]
+>  if have_system
+> diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+> index 4912b97..1512ada 100644
+> --- a/qapi/qapi-schema.json
+> +++ b/qapi/qapi-schema.json
+> @@ -93,3 +93,4 @@
+>  { 'include': 'audio.json' }
+>  { 'include': 'acpi.json' }
+>  { 'include': 'pci.json' }
+> +{ 'include': 'virtio.json' }
+> diff --git a/qapi/virtio.json b/qapi/virtio.json
+> new file mode 100644
+> index 0000000..5372cde
+> --- /dev/null
+> +++ b/qapi/virtio.json
+> @@ -0,0 +1,68 @@
+> +# -*- Mode: Python -*-
+> +# vim: filetype=python
+> +#
+> +
+> +##
+> +# = Virtio devices
+> +##
+> +
+> +##
+> +# @VirtioInfo:
+> +#
+> +# Basic information about a given VirtIODevice
+> +#
+> +# @path: The VirtIODevice's canonical QOM path
+> +#
+> +# @name: Name of the VirtIODevice
+> +#
+> +# Since: 7.0
+> +#
+> +##
+> +{ 'struct': 'VirtioInfo',
+> +  'data': { 'path': 'str',
+> +            'name': 'str' } }
+> +
+> +##
+> +# @x-query-virtio:
+> +#
+> +# Returns a list of all realized VirtIODevices
+> +#
+> +# Features:
+> +# @unstable: This command is meant for debugging
+
+End with a period for consistency with existing docs.
+
+> +#
+> +# Returns: List of gathered VirtIODevices
+> +#
+> +# Since: 7.0
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "x-query-virtio" }
+> +# <- { "return": [
+> +#        {
+> +#            "path": "/machine/peripheral-anon/device[4]/virtio-backend",
+> +#            "name": "virtio-input"
+> +#        },
+> +#        {
+> +#            "path": "/machine/peripheral/crypto0/virtio-backend",
+> +#            "name": "virtio-crypto"
+> +#        },
+> +#        {
+> +#            "path": "/machine/peripheral-anon/device[2]/virtio-backend",
+> +#            "name": "virtio-scsi"
+> +#        },
+> +#        {
+> +#            "path": "/machine/peripheral-anon/device[1]/virtio-backend",
+> +#            "name": "virtio-net"
+> +#        },
+> +#        {
+> +#            "path": "/machine/peripheral-anon/device[0]/virtio-backend",
+> +#            "name": "virtio-serial"
+> +#        }
+> +#      ]
+> +#    }
+> +#
+> +##
+> +
+> +{ 'command': 'x-query-virtio',
+> +  'returns': [ 'VirtioInfo' ],
+> +  'features': [ 'unstable' ] }
+
+This command is actually redundant: qom-list and qom-get suffice to
+search /machine/ for virtio devices whose property realized is true.
+
+To recognize virtio devices without relying on a naming convention, you
+can use
+
+    {"execute": "qom-list-types",
+     "arguments": {"implements": "virtio-device"}}
+
+Perhaps we want the command anyway, for convenience.  That's for to the
+virtio maintainer to decide, I guess.  In case of "wanted":
+
+QAPI schema
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+
+But please point out the redundancy in the commit message and/or a
+comment.
+
+[...]
+
 
