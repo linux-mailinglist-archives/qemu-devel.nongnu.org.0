@@ -2,50 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06C546C292
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 19:20:02 +0100 (CET)
-Received: from localhost ([::1]:58708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 862DB46C29D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 19:22:17 +0100 (CET)
+Received: from localhost ([::1]:33496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muf4L-00072G-Ct
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 13:20:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59900)
+	id 1muf6W-0000it-C9
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 13:22:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1muf3W-0006NT-Be
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 13:19:10 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:49239)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muf5B-0008Fp-DK
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 13:20:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1muf3T-0001l8-Q9
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 13:19:09 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 1B7II3Ri005520
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Tue, 7 Dec 2021 13:18:07 -0500
-Date: Tue, 7 Dec 2021 13:18:03 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-Subject: Re: [PATCH] fuzz: pass failures from child process into libfuzzer
- engine
-Message-ID: <20211207181803.6kmu7oiqry2yw7iw@mozz.bu.edu>
-References: <163872107649.53117.6457962986798427964.stgit@dynamic-vpn.dhcp.yndx.net>
- <20211206163501.rh4du6omz4oxfgui@mozz.bu.edu>
- <140251638814249@mail.yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muf58-00021g-HH
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 13:20:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638901248;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=az1+ZHFDj+n5RXoVd2UhWVdyBb6RrbQeLe8EMR/i4RQ=;
+ b=YGtb5TOcrcl+pYO5cDXwRWsB1VnCZXcd//9TxeAjJvX7VZX/Q5HadK8wrX6rSzo3xtnNUl
+ TrztQpIQ4g/AcmO7Vh8Ry3DJPy3kDvIorCNSk+lPUZc6T2WqP12WCWryBGDiQcnelbZN3s
+ qAPQRJl/BR8Ng0A18ISs7jgkApZXdS4=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-178-w0laNO8xM8yaGFO-HPaFxg-1; Tue, 07 Dec 2021 13:20:47 -0500
+X-MC-Unique: w0laNO8xM8yaGFO-HPaFxg-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ b6-20020ab026c6000000b002e56ca72e19so16749uap.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 10:20:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=az1+ZHFDj+n5RXoVd2UhWVdyBb6RrbQeLe8EMR/i4RQ=;
+ b=hcDSWOD7h047FwrVjUnjmayouzeRppcWurIVrceNoZeJxYtFu/qpulI9fiC6r+Z4rq
+ TEUjpIfMvNyu4n8K9g0BqOBxhR5sNtPV1Q51qOhAOMdhcpgd7fwL9SZbdZnZj+H7Gbu2
+ PtJ3PyKMV096PVpQuSNeRZYAeGaA2FlgCtgZcTJ2x11AOh5Zi4VqC90h9AJXjGB+q69/
+ rcdJkmhWEvBrszCS7mqt0YlB17VWahOBuArwiOGJKlm7P8p+stvLyAq0NNe+1y9SCrOX
+ gSbxQUyP3i2BtvTiuHLi4tL8y+FUdS1xgJy8bsvAmhCk32AWcCTsy48fHZBMGVlLW7eH
+ rxRg==
+X-Gm-Message-State: AOAM533OSiDKM/VhN4TuK6wa99HEGuIsDR1o++aDSBntP+U+wNeARVYq
+ 40zuuFyjQw6GypttmQJPxz1jr62eXL7Jr/xB1sIYk4pvYf9etkLK62TEZHzim7RPkekXQKDgjB1
+ AoRK+ghdamh8KBc3VFOS0fDTWhvzxVTk=
+X-Received: by 2002:a05:6122:2158:: with SMTP id
+ m24mr54674420vkd.1.1638901247090; 
+ Tue, 07 Dec 2021 10:20:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxw2LFoGo8T7t6FQWII3Q6NWVmhwqCALyjVKyYiK1KRrcdPsbe+dxelZNkBc9TFAl+Y1hxIOQL2UcLG2Yjw2W0=
+X-Received: by 2002:a05:6122:2158:: with SMTP id
+ m24mr54674390vkd.1.1638901246907; 
+ Tue, 07 Dec 2021 10:20:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <140251638814249@mail.yandex-team.ru>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.999,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211203122223.2780098-1-vsementsov@virtuozzo.com>
+ <CAFn=p-bsY_QWNoRWp928_dwmNyXXcDQ7Bi+0P9ObAsxGTYyiBA@mail.gmail.com>
+ <68d4742a-bcc4-df26-41d0-ece75eea58e0@virtuozzo.com>
+In-Reply-To: <68d4742a-bcc4-df26-41d0-ece75eea58e0@virtuozzo.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 7 Dec 2021 13:20:36 -0500
+Message-ID: <CAFn=p-anMonsQDThd4xzp9292dTp7hLXc3N8YSwP9L0t4NeHiQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] iotests: multiprocessing!!
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000a4e9ac05d2926ef5"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,343 +91,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, den@openvz.org,
+ Hanna Reitz <hreitz@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 211206 2348, Konstantin Khlebnikov wrote:
->     
->     
->    06.12.2021, 19:35, "Alexander Bulekov" <[1]alxndr@bu.edu>:
-> 
->      On 211205 1917, Konstantin Khlebnikov wrote:
-> 
->         Fuzzer is supposed to stop when first bug is found and report
->        failure.
->         Present fuzzers fork new child at each iteration to isolate
->        side-effects.
->         But child's exit code is ignored, i.e. libfuzzer does not see any
->        crashes.
->         
->         Right now virtio-net fuzzer instantly falls on assert in iov_copy and
->         dumps crash-*, but fuzzing continues and ends successfully if global
->         timeout is set.
->         
->         Let's put required logic into helper function "fork_fuzzer_and_wait".
->         
-> 
->      Hi Konstantin,
->      Can you provide more details about them problem this is meant to solve?
->      Currently, the fuzzer would just output a "crash-" file and continue
->      fuzzing. So the crash isn't lost - it can still be reproduced later.
->      This means the fuzzer can progress faster (no need to restart the whole
->      process each time there is a crash).
-> 
->      However, this is of course, not the default libfuzzer behavior. That's
->      why I wonder whether you encountered some issue that depended on
->      libfuzzer exiting immediately. We have had some problems on OSS-Fuzz,
->      with incomplete coverage reports, and I wonder if this could be related.
-> 
->      For the example you gave, OSS-Fuzz picked up on the crash, so even
->      though we don't comform to the default libfuzzer behavior, the crashes
->      are still detected.
->      [2]https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=23985&q=iov_copy&can=2
-> 
->    Oh well. So, this is known "feature". That was unexpected. =)
->    Recent libfuzzer has options for that behaviour: "-fork=1
->    -ignore_crashes=1".
->     
->    I'm trying to fuzz various virtio devices and was really surprised that
->    present
->    fuzzing targes still find crashes in seconds.
->    I thought they might be missed due to unhandled exit status.
+--000000000000a4e9ac05d2926ef5
+Content-Type: text/plain; charset="UTF-8"
 
-For some reason, I never created a report for this issue. Just created
-one: https://gitlab.com/qemu-project/qemu/-/issues/762
+On Mon, Dec 6, 2021 at 3:26 PM Vladimir Sementsov-Ogievskiy <
+vsementsov@virtuozzo.com> wrote:
 
->     
->    It seems fuzzing targets like "virtio-net" in present state wastes
->    resources.
->    oss-fuzz could instead focus on not yet broken targets.
+> 06.12.2021 21:37, John Snow wrote:
+> >
+> >
+> > On Fri, Dec 3, 2021 at 7:22 AM Vladimir Sementsov-Ogievskiy <
+> vsementsov@virtuozzo.com <mailto:vsementsov@virtuozzo.com>> wrote:
+> >
+> >     Hi all!
+> >
+> >     Finally, I can not stand it any longer. So, I'm happy to present
+> >     multiprocessing support for iotests test runner.
+> >
+> >     testing on tmpfs:
+> >
+> >     Before:
+> >
+> >     time check -qcow2
+> >     ...
+> >     real    12m28.095s
+> >     user    9m53.398s
+> >     sys     2m55.548s
+> >
+> >     After:
+> >
+> >     time check -qcow2 -j 12
+> >     ...
+> >     real    2m12.136s
+> >     user    12m40.948s
+> >     sys     4m7.449s
+> >
+> >
+> > VERY excellent. And this will probably flush a lot more bugs loose, too.
+> (Which I consider a good thing!)
+>
+> Thanks!)
+>
+> > We could look into utilizing it for 'make check', but we'll have to be
+> prepared for a greater risk of race conditions on the CI if we do. But...
+> it's seriously hard to argue with this kind of optimization, very well done!
+>
+> I thought about this too. I think, we can at least passthrought -j flag of
+> "make -j9 check" to ./check
+>
+> I think, CIs mostly call make check without -j flag. But I always call
+> make -j9 check. And it always upset me that all tests run in parallel
+> except for iotests. So if it possible to detect that we are called through
+> "make -j9 check" and use "-j 9" for iotests/check in this case, it would be
+> good.
+>
+> >
+> >
+> >     Hmm, seems -j 6 should be enough. I have 6 cores, 2 threads per core.
+> >     Anyway, that's so fast!
+> >
+> >     Vladimir Sementsov-Ogievskiy (3):
+> >        iotests/testrunner.py: add doc string for run_test()
+> >        iotests/testrunner.py: move updating last_elapsed to run_tests
+> >        iotests: check: multiprocessing support
+> >
+> >       tests/qemu-iotests/check         |  4 +-
+> >       tests/qemu-iotests/testrunner.py | 86
+> ++++++++++++++++++++++++++++----
+> >       2 files changed, 80 insertions(+), 10 deletions(-)
+> >
+> >     --
+> >     2.31.1
+> >
+>
+>
+>
+I'll also now add:
 
-I don't think so. For example, the generic-fuzz-virtio-net-pci-slirp
-fuzzer also found the same issue, but it continued making progress, and
-eventually found CVE-2021-3748
-https://access.redhat.com/security/cve/cve-2021-3748
-(the reproducer was almost 200 lines long - much more complex than issue #762)
-So with the fork approach, the fuzzer might be slowed down (due to
-outputting stacktraces and creating crash- files), but it can still
-continue to make progress.
+Tested-by: John Snow <jsnow@redhat.com>
 
->     
->    Or "abort/assert' in device emulation code should be treated as "success"?
->    In some sense that's true, we cannot prevent suicide behaviour in vm.
->    Real hardware dies easily after shooting randomly into ports/io ranges.
+I tried to find a different workaround in just a few minutes, but that just
+made it clear that your solution was right. While I had it checked out, I
+ran it a few times and it looks good to me!
+(And no new problems from the Python CI stuff, so it looks good to me.)
 
-Certainly not. We usually create QEMU Issues for assertion failures
-found by the fuzzer, but the one you brough up slipped through the cracks.
+--000000000000a4e9ac05d2926ef5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
->      Small question below.
-> 
->         Signed-off-by: Konstantin Khlebnikov <[3]khlebnikov@yandex-team.ru>
->         ---
->          tests/qtest/fuzz/fork_fuzz.c | 26 ++++++++++++++++++++++++++
->          tests/qtest/fuzz/fork_fuzz.h | 1 +
->          tests/qtest/fuzz/generic_fuzz.c | 3 +--
->          tests/qtest/fuzz/i440fx_fuzz.c | 3 +--
->          tests/qtest/fuzz/virtio_blk_fuzz.c | 6 ++----
->          tests/qtest/fuzz/virtio_net_fuzz.c | 6 ++----
->          tests/qtest/fuzz/virtio_scsi_fuzz.c | 6 ++----
->          7 files changed, 35 insertions(+), 16 deletions(-)
->         
->         diff --git a/tests/qtest/fuzz/fork_fuzz.c
->        b/tests/qtest/fuzz/fork_fuzz.c
->         index 6ffb2a7937..6e3a3867bf 100644
->         --- a/tests/qtest/fuzz/fork_fuzz.c
->         +++ b/tests/qtest/fuzz/fork_fuzz.c
->         @@ -38,4 +38,30 @@ void counter_shm_init(void)
->              free(copy);
->          }
->          
->         +/* Returns true in child process */
->         +bool fork_fuzzer_and_wait(void)
->         +{
->         + pid_t pid;
->         + int wstatus;
->         +
->         + pid = fork();
->         + if (pid < 0) {
->         + perror("fork");
->         + abort();
->         + }
->         +
->         + if (pid == 0) {
->         + return true;
->         + }
->          
->         + if (waitpid(pid, &wstatus, 0) < 0) {
->         + perror("waitpid");
->         + abort();
->         + }
->         +
->         + if (!WIFEXITED(wstatus) || WEXITSTATUS(wstatus) != 0) {
->         + abort();
->         + }
-> 
->      Maybe instead of these aborts, we return "true" so the fork-server tries
->      to run the input, itself and (hopefully) crashes. That way we would have
->      an accurate stack trace, instead of abort, which is probably important
->      for the OSS-Fuzz crash-bucketing.
-> 
->    Stack trace from child process should have same accuracy.
->    I don't see how they could be different.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 6, 2021 at 3:26 PM Vladim=
+ir Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@virtuozzo.com" targ=
+et=3D"_blank">vsementsov@virtuozzo.com</a>&gt; wrote:<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">06.12.2021 21:37, John Snow wrote:<br=
+>
+&gt; <br>
+&gt; <br>
+&gt; On Fri, Dec 3, 2021 at 7:22 AM Vladimir Sementsov-Ogievskiy &lt;<a hre=
+f=3D"mailto:vsementsov@virtuozzo.com" target=3D"_blank">vsementsov@virtuozz=
+o.com</a> &lt;mailto:<a href=3D"mailto:vsementsov@virtuozzo.com" target=3D"=
+_blank">vsementsov@virtuozzo.com</a>&gt;&gt; wrote:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Hi all!<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Finally, I can not stand it any longer. So, I&#39;m=
+ happy to present<br>
+&gt;=C2=A0 =C2=A0 =C2=A0multiprocessing support for iotests test runner.<br=
+>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0testing on tmpfs:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Before:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0time check -qcow2<br>
+&gt;=C2=A0 =C2=A0 =C2=A0...<br>
+&gt;=C2=A0 =C2=A0 =C2=A0real=C2=A0 =C2=A0 12m28.095s<br>
+&gt;=C2=A0 =C2=A0 =C2=A0user=C2=A0 =C2=A0 9m53.398s<br>
+&gt;=C2=A0 =C2=A0 =C2=A0sys=C2=A0 =C2=A0 =C2=A02m55.548s<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0After:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0time check -qcow2 -j 12<br>
+&gt;=C2=A0 =C2=A0 =C2=A0...<br>
+&gt;=C2=A0 =C2=A0 =C2=A0real=C2=A0 =C2=A0 2m12.136s<br>
+&gt;=C2=A0 =C2=A0 =C2=A0user=C2=A0 =C2=A0 12m40.948s<br>
+&gt;=C2=A0 =C2=A0 =C2=A0sys=C2=A0 =C2=A0 =C2=A04m7.449s<br>
+&gt; <br>
+&gt; <br>
+&gt; VERY excellent. And this will probably flush a lot more bugs loose, to=
+o. (Which I consider a good thing!)<br>
+<br>
+Thanks!)<br>
+<br>
+&gt; We could look into utilizing it for &#39;make check&#39;, but we&#39;l=
+l have to be prepared for a greater risk of race conditions on the CI if we=
+ do. But... it&#39;s seriously hard to argue with this kind of optimization=
+, very well done!<br>
+<br>
+I thought about this too. I think, we can at least passthrought -j flag of =
+&quot;make -j9 check&quot; to ./check<br>
+<br>
+I think, CIs mostly call make check without -j flag. But I always call make=
+ -j9 check. And it always upset me that all tests run in parallel except fo=
+r iotests. So if it possible to detect that we are called through &quot;mak=
+e -j9 check&quot; and use &quot;-j 9&quot; for iotests/check in this case, =
+it would be good.<br>
+<br>
+&gt; <br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Hmm, seems -j 6 should be enough. I have 6 cores, 2=
+ threads per core.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Anyway, that&#39;s so fast!<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Vladimir Sementsov-Ogievskiy (3):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 iotests/testrunner.py: add doc string for r=
+un_test()<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 iotests/testrunner.py: move updating last_e=
+lapsed to run_tests<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 iotests: check: multiprocessing support<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0tests/qemu-iotests/check=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0|=C2=A0 4 +-<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0tests/qemu-iotests/testrunner.py | 86 ++++++=
+++++++++++++++++++++++----<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A02 files changed, 80 insertions(+), 10 deleti=
+ons(-)<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0-- <br>
+&gt;=C2=A0 =C2=A0 =C2=A02.31.1<br>
+&gt; <br>
+<br>
+<br></blockquote><div><br></div><div>I&#39;ll also now add:<br><br></div><d=
+iv>Tested-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_=
+blank">jsnow@redhat.com</a>&gt;</div><div><br></div><div>I tried to find a =
+different workaround in just a few minutes, but that just made it clear tha=
+t your solution was right. While I had it checked out, I ran it a few times=
+ and it looks good to me!<br></div><div>(And no new problems from the Pytho=
+n CI stuff, so it looks good to me.)</div><div><br></div></div></div>
 
-Yes the child stack-trace is fine, however it is followed by one for the
-abort() in the parent.
+--000000000000a4e9ac05d2926ef5--
 
->     
->    I suppose OSS-Fuzz infrastructure is ready to handle multiple stacktraces,
->    e.g. stacktraces from several threads should be a common result.
-
-I don't think it's that advanced. libfuzzer stack-traces typically only
-contain a single trace for the thread that crashed (there are some
-exceptions for AddressSanitizer). OSS-Fuzz relies on these traces to
-automatically identify separate issues, so if it sees that the last
-crash in the output is fork_fuzzer_and_wait->abort, I worry that it will
-not be able to properly identify unique bugs.
--Alex
-
->     
-> 
->      Thanks
->      -Alex
->       
-> 
->         +
->         + return false;
->         +}
->         diff --git a/tests/qtest/fuzz/fork_fuzz.h
->        b/tests/qtest/fuzz/fork_fuzz.h
->         index 9ecb8b58ef..792e922731 100644
->         --- a/tests/qtest/fuzz/fork_fuzz.h
->         +++ b/tests/qtest/fuzz/fork_fuzz.h
->         @@ -18,6 +18,7 @@ extern uint8_t __FUZZ_COUNTERS_START;
->          extern uint8_t __FUZZ_COUNTERS_END;
->          
->          void counter_shm_init(void);
->         +bool fork_fuzzer_and_wait(void);
->          
->          #endif
->          
->         diff --git a/tests/qtest/fuzz/generic_fuzz.c
->        b/tests/qtest/fuzz/generic_fuzz.c
->         index dd7e25851c..f0e25b39ea 100644
->         --- a/tests/qtest/fuzz/generic_fuzz.c
->         +++ b/tests/qtest/fuzz/generic_fuzz.c
->         @@ -667,7 +667,7 @@ static void generic_fuzz(QTestState *s, const
->        unsigned char *Data, size_t Size)
->              size_t cmd_len;
->              uint8_t op;
->          
->         - if (fork() == 0) {
->         + if (fork_fuzzer_and_wait()) {
->                  struct sigaction sact;
->                  struct itimerval timer;
->                  sigset_t set;
->         @@ -723,7 +723,6 @@ static void generic_fuzz(QTestState *s, const
->        unsigned char *Data, size_t Size)
->                  _Exit(0);
->              } else {
->                  flush_events(s);
->         - wait(0);
->              }
->          }
->          
->         diff --git a/tests/qtest/fuzz/i440fx_fuzz.c
->        b/tests/qtest/fuzz/i440fx_fuzz.c
->         index 86796bff2b..0b927f4b3a 100644
->         --- a/tests/qtest/fuzz/i440fx_fuzz.c
->         +++ b/tests/qtest/fuzz/i440fx_fuzz.c
->         @@ -147,12 +147,11 @@ static void i440fx_fuzz_qos(QTestState *s,
->          
->          static void i440fx_fuzz_qos_fork(QTestState *s,
->                  const unsigned char *Data, size_t Size) {
->         - if (fork() == 0) {
->         + if (fork_fuzzer_and_wait()) {
->                  i440fx_fuzz_qos(s, Data, Size);
->                  _Exit(0);
->              } else {
->                  flush_events(s);
->         - wait(NULL);
->              }
->          }
->          
->         diff --git a/tests/qtest/fuzz/virtio_blk_fuzz.c
->        b/tests/qtest/fuzz/virtio_blk_fuzz.c
->         index 623a756fd4..9532dc1fa7 100644
->         --- a/tests/qtest/fuzz/virtio_blk_fuzz.c
->         +++ b/tests/qtest/fuzz/virtio_blk_fuzz.c
->         @@ -136,13 +136,12 @@ static void virtio_blk_fork_fuzz(QTestState *s,
->              if (!queues) {
->                  queues = qvirtio_blk_init(blk->vdev, 0);
->              }
->         - if (fork() == 0) {
->         + if (fork_fuzzer_and_wait()) {
->                  virtio_blk_fuzz(s, queues, Data, Size);
->                  flush_events(s);
->                  _Exit(0);
->              } else {
->                  flush_events(s);
->         - wait(NULL);
->              }
->          }
->          
->         @@ -152,7 +151,7 @@ static void virtio_blk_with_flag_fuzz(QTestState
->        *s,
->              QVirtioBlk *blk = fuzz_qos_obj;
->              static QVirtioBlkQueues *queues;
->          
->         - if (fork() == 0) {
->         + if (fork_fuzzer_and_wait()) {
->                  if (Size >= sizeof(uint64_t)) {
->                      queues = qvirtio_blk_init(blk->vdev, *(uint64_t *)Data);
->                      virtio_blk_fuzz(s, queues,
->         @@ -162,7 +161,6 @@ static void virtio_blk_with_flag_fuzz(QTestState
->        *s,
->                  _Exit(0);
->              } else {
->                  flush_events(s);
->         - wait(NULL);
->              }
->          }
->          
->         diff --git a/tests/qtest/fuzz/virtio_net_fuzz.c
->        b/tests/qtest/fuzz/virtio_net_fuzz.c
->         index 0e873ab8e2..6b492ef9e7 100644
->         --- a/tests/qtest/fuzz/virtio_net_fuzz.c
->         +++ b/tests/qtest/fuzz/virtio_net_fuzz.c
->         @@ -118,26 +118,24 @@ static void virtio_net_fuzz_multi(QTestState
->        *s,
->          static void virtio_net_fork_fuzz(QTestState *s,
->                  const unsigned char *Data, size_t Size)
->          {
->         - if (fork() == 0) {
->         + if (fork_fuzzer_and_wait()) {
->                  virtio_net_fuzz_multi(s, Data, Size, false);
->                  flush_events(s);
->                  _Exit(0);
->              } else {
->                  flush_events(s);
->         - wait(NULL);
->              }
->          }
->          
->          static void virtio_net_fork_fuzz_check_used(QTestState *s,
->                  const unsigned char *Data, size_t Size)
->          {
->         - if (fork() == 0) {
->         + if (fork_fuzzer_and_wait()) {
->                  virtio_net_fuzz_multi(s, Data, Size, true);
->                  flush_events(s);
->                  _Exit(0);
->              } else {
->                  flush_events(s);
->         - wait(NULL);
->              }
->          }
->          
->         diff --git a/tests/qtest/fuzz/virtio_scsi_fuzz.c
->        b/tests/qtest/fuzz/virtio_scsi_fuzz.c
->         index 6ff6fabe4a..c7eaf3242b 100644
->         --- a/tests/qtest/fuzz/virtio_scsi_fuzz.c
->         +++ b/tests/qtest/fuzz/virtio_scsi_fuzz.c
->         @@ -140,13 +140,12 @@ static void virtio_scsi_fork_fuzz(QTestState
->        *s,
->              if (!queues) {
->                  queues = qvirtio_scsi_init(scsi->vdev, 0);
->              }
->         - if (fork() == 0) {
->         + if (fork_fuzzer_and_wait()) {
->                  virtio_scsi_fuzz(s, queues, Data, Size);
->                  flush_events(s);
->                  _Exit(0);
->              } else {
->                  flush_events(s);
->         - wait(NULL);
->              }
->          }
->          
->         @@ -156,7 +155,7 @@ static void virtio_scsi_with_flag_fuzz(QTestState
->        *s,
->              QVirtioSCSI *scsi = fuzz_qos_obj;
->              static QVirtioSCSIQueues *queues;
->          
->         - if (fork() == 0) {
->         + if (fork_fuzzer_and_wait()) {
->                  if (Size >= sizeof(uint64_t)) {
->                      queues = qvirtio_scsi_init(scsi->vdev, *(uint64_t
->        *)Data);
->                      virtio_scsi_fuzz(s, queues,
->         @@ -166,7 +165,6 @@ static void virtio_scsi_with_flag_fuzz(QTestState
->        *s,
->                  _Exit(0);
->              } else {
->                  flush_events(s);
->         - wait(NULL);
->              }
->          }
->          
->         
-> 
->     
->     
->     
-> 
-> References
-> 
->    Visible links
->    1. mailto:alxndr@bu.edu
->    2. https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=23985&q=iov_copy&can=2
->    3. mailto:khlebnikov@yandex-team.ru
 
