@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E6A446C1BF
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 18:29:56 +0100 (CET)
-Received: from localhost ([::1]:35780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E02DE46C1F9
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 18:41:19 +0100 (CET)
+Received: from localhost ([::1]:51294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mueHr-0005y4-D0
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 12:29:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46990)
+	id 1mueSq-0008Qv-QF
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 12:41:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mueFN-0003D4-Ue
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 12:27:21 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=36537
- helo=mail-pj1-x1035.google.com)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1mueRZ-0007TU-8M
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 12:39:57 -0500
+Received: from [2607:f8b0:4864:20::533] (port=46834
+ helo=mail-pg1-x533.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mueFI-0003JM-NE
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 12:27:19 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- n15-20020a17090a160f00b001a75089daa3so2443330pja.1
- for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 09:27:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=4H/YAg+UPcJQ0CWFsvzYkd7cLwseatlwF+t/FglP97Y=;
- b=YS0udSnxB+JyLLR9z56Qmia7NWaD3Z60eUBowhKiDU+oIxKAAFUJZAyPyYNEkTSIiO
- Uur9vFWY+JML9k0TYbgDlYO4qqkT+pk/ksLpLHdQyAYl1ay4lJdyYuXdovAXub6jLVVU
- yrMHtHRQx5a8Zo0yhnT+9XRNsuCktNJ7g1jGcAAaikrmDpGaUrgl9C3G29GfFrD7jFTA
- 0M5JmySq2a6Ngd7EsCpSKWfoYiIjIj1B0JT5IusbAyPAXsoRgfKe2gNq8xYHIDS4/I+/
- nVSPWFnyVccgt9RUBgjMfcGZlVkKTvT5r/FGn5Qc9qC57xUUJCnNHfCtVsTJdSf/FtvX
- mz0g==
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1mueRW-00067G-O4
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 12:39:57 -0500
+Received: by mail-pg1-x533.google.com with SMTP id r138so14456375pgr.13
+ for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 09:39:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gIxo3JvsGVpgTvSpDA+DpvDCudBAt5nfuwanvMe8Hps=;
+ b=FyHAsmBPU++OqTovDysKiOuB00IGwiTAz8dnUsi2iJFteHrLABOVAwKR+qo+JZk4Bg
+ lgfKg/crJKaScW9GFgfNwY3irwmBtaEpfxWcjDOiB22ceczrTzwFfMYV7Vx+y7nJKrsh
+ pudV7yQ8YsnqjDZ/2MOvmxZ4YK63LtlFPvlgy1/hnyFgQ+xKpAw2Qcy4Vz3iO8gmmVx+
+ 3mlNvGW3hVpsgwltuOy6rUyxaul4mCDKjv0ZWvWaWm3H+/NgbkL6BXE803849c3355Rn
+ O8FWzvHS3X6pUALCkzOp5wYe00ofGkDDqykmfvt1AXYErOU3/elbh2E0RsBuGqOh0lpL
+ 9uig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4H/YAg+UPcJQ0CWFsvzYkd7cLwseatlwF+t/FglP97Y=;
- b=43MOg+oRCS6uP5qdy8EdEWSs3/klenEP/lVHiKLeMG+RDyDWQwLXEJcwYEUb5MQVhB
- 5YRYB7uQUrxru5GXmV69vUOkpODFQ8BzgZ6doDxREZSxYMgbzrt4zhxew8hDxvPj5TWd
- rGXpGzNMMxBhxT6q5a+c4KHOSRPcYZih6TmC7zx0xjLmDLPhJqOf3RBh1kjOhW8IKA0w
- g/lp/dc0uLQiGW7vuqVUxuFqA5MyD5vJNXald9bJV8fPJD78KSWNgWlSkfQ++YYZpWln
- J0ntmh4VO1+MH2mNqGM2qWEfoOb592Mpq2w3zvlrlmwI1vz4btBG1pqDtWDkrxzzk1E8
- w/Cw==
-X-Gm-Message-State: AOAM531UsNCRW9wVGGF/5PVT84YivdHiFqf7VPvRig9rWojXTr/MONj0
- 5ytZdBzYlz/N35BNfdq9b+22p2kYrGUJaQ==
-X-Google-Smtp-Source: ABdhPJxS66n7VRcB5+z7ssQQBsP5Vg5YmnnbJl+bL9Za9mzPfV/xpVUTfZEJEt8iXoivMLWdQV2jyQ==
-X-Received: by 2002:a17:90b:1806:: with SMTP id
- lw6mr420144pjb.53.1638898035190; 
- Tue, 07 Dec 2021 09:27:15 -0800 (PST)
-Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id h15sm292128pfc.134.2021.12.07.09.27.14
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Dec 2021 09:27:14 -0800 (PST)
-Subject: Re: [PULL 0/1] tcg patch queue for 6.2
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20211207143936.258418-1-richard.henderson@linaro.org>
-Message-ID: <42ee7732-5e0c-93bb-8745-b831e4fd3a59@linaro.org>
-Date: Tue, 7 Dec 2021 09:27:13 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gIxo3JvsGVpgTvSpDA+DpvDCudBAt5nfuwanvMe8Hps=;
+ b=lpsgJf+YkaZmIrSXhYwf+uI4LJBtx7UBM/c5ZtRVOm86pHl+qzyHYxy9hE06GAV86d
+ QNi7Qk0S7NAhyuvpK3Pz4+Xa7EfTmGsIeKSzsyZr6QJNDeni7aHYCeNryMaeCsHNQ099
+ oFBkEVH8LcmYUP8KH3jMgU5vhH6ftutUKJAFKHigv27+S6fVunAtNIiRfhsHP8d64eUk
+ kJxWxsFIbPcHexkXKzMK9oKTvOEMyUO8nBAzp6sO8qB5X705Xcmxk64spzWTtkeB/bTP
+ e5aqY+uLfu85xe6FArEj5EdbRWsZp750nZEpmPZT+XNGVcg9nJ/o7NNYNi4/iHebHmu6
+ nNNQ==
+X-Gm-Message-State: AOAM531+uh08gFKagYS/I00G1Cq5zABazD40pIZtHvlDctLve6lnS2x1
+ S87GAs1DG7eQiA8v1bFhikLTbdccfVWqpcoCTfA=
+X-Google-Smtp-Source: ABdhPJwXcpybeY4QmKYhyTCkRr+Cctdm5UdorNNtpiwSimQIW+3RQd7syWPDlqEe3JUbnsPmZ4aJ6iEthZKuo4LjNqE=
+X-Received: by 2002:a63:161f:: with SMTP id w31mr4850269pgl.14.1638898792226; 
+ Tue, 07 Dec 2021 09:39:52 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211207143936.258418-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+References: <20211207101828.22033-1-yaroshchuk2000@gmail.com>
+ <20211207101828.22033-2-yaroshchuk2000@gmail.com>
+ <87ilw07bca.fsf@dusky.pond.sub.org>
+In-Reply-To: <87ilw07bca.fsf@dusky.pond.sub.org>
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Date: Tue, 7 Dec 2021 20:39:41 +0300
+Message-ID: <CADO9X9SF9gGUs6rQKS7eMZpHYTOA8W8pCztF8CSJOxDP2AEZ8A@mail.gmail.com>
+Subject: Re: [PATCH v7 1/7] net/vmnet: add vmnet dependency and customizable
+ option
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000055634805d291dced"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.44,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,34 +83,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Jason Wang <jasowang@redhat.com>, phillip.ennen@gmail.com,
+ qemu-devel <qemu-devel@nongnu.org>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Phillip Tennen <phillip@axleos.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Howard Spoelstra <hsp.cat7@gmail.com>, Alessio Dionisi <hello@adns.io>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/7/21 6:39 AM, Richard Henderson wrote:
-> The following changes since commit 7635eff97104242d618400e4b6746d0a5c97af82:
-> 
->    Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2021-12-06 11:18:06 -0800)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20211207
-> 
-> for you to fetch changes up to b9537d5904f6e3df896264a6144883ab07db9608:
-> 
->    tcg/arm: Reduce vector alignment requirement for NEON (2021-12-07 06:32:09 -0800)
-> 
-> ----------------------------------------------------------------
-> Fix stack spills for arm neon.
-> 
-> ----------------------------------------------------------------
-> Richard Henderson (1):
->        tcg/arm: Reduce vector alignment requirement for NEON
-> 
->   tcg/tcg.c                |  8 +++++++-
->   tcg/arm/tcg-target.c.inc | 13 +++++++++----
->   2 files changed, 16 insertions(+), 5 deletions(-)
+--00000000000055634805d291dced
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks.
+If you meant patch series cover letter, it exists, see
+https://patchew.org/QEMU/20211207101828.22033-1-yaroshchuk2000@gmail.com/
 
-r~
+=D0=B2=D1=82, 7 =D0=B4=D0=B5=D0=BA. 2021 =D0=B3. =D0=B2 17:12, Markus Armbr=
+uster <armbru@redhat.com>:
+
+> No cover letter?
+>
+>
+
+--=20
+Best Regards,
+
+Vladislav Yaroshchuk
+
+--00000000000055634805d291dced
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">If you meant patch series cover letter, i=
+t exists, see=C2=A0<a href=3D"https://patchew.org/QEMU/20211207101828.22033=
+-1-yaroshchuk2000@gmail.com/" target=3D"_blank">https://patchew.org/QEMU/20=
+211207101828.22033-1-yaroshchuk2000@gmail.com/</a>=C2=A0</div><br><div clas=
+s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=D0=B2=D1=82, 7 =D0=
+=B4=D0=B5=D0=BA. 2021 =D0=B3. =D0=B2 17:12, Markus Armbruster &lt;<a href=
+=3D"mailto:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt;:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">No cover letter?=
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+><div dir=3D"ltr">Best Regards,<div><br><div>Vladislav Yaroshchuk</div></di=
+v></div></div></div>
+
+--00000000000055634805d291dced--
 
