@@ -2,89 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075ED46BBB9
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 13:48:56 +0100 (CET)
-Received: from localhost ([::1]:52188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C317646BC32
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 14:10:25 +0100 (CET)
+Received: from localhost ([::1]:39756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muZtu-0000hG-IC
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 07:48:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42392)
+	id 1muaEh-0003hG-Oi
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 08:10:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1muZqn-0007Ot-MH
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 07:45:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39251)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mua9o-0002dN-Ui; Tue, 07 Dec 2021 08:05:20 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:37334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1muZqj-0007rJ-Uc
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 07:45:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638881135;
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mua9j-0005gT-MS; Tue, 07 Dec 2021 08:05:17 -0500
+Received: from [172.17.10.6] (unknown [172.17.10.6])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id A5B1A20778;
+ Tue,  7 Dec 2021 13:05:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1638882312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iA125WgdL0feVx1Cwf+ohVWm2XoCg4Yb4ydVSGT/Qg8=;
- b=jELZ3CWTODhOkLcQn7Z1QqLjY+lHBIrDAGCXkKp6U9cX0kSCXomFDKjngDkibZrY54yMTq
- WNrPi43kpZMkm9/FMFAIFXkrMFzMyhHq7VY4qFkRdEqlOi73Zaq7VANrIUoLPDOGzfmBAP
- EG93NMhCaegjqZd4RYUO9EHNkN9OLlU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-268-22hJVw3JOYyq-BXYg5t6rA-1; Tue, 07 Dec 2021 07:45:33 -0500
-X-MC-Unique: 22hJVw3JOYyq-BXYg5t6rA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 145-20020a1c0197000000b0032efc3eb9bcso1189618wmb.0
- for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 04:45:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iA125WgdL0feVx1Cwf+ohVWm2XoCg4Yb4ydVSGT/Qg8=;
- b=zG9uad/9Jz9yyDIltMsCKKhURZdpgPDsOeMNCfACn8L3wFgBr5TZUe0Cno3kYsoEpQ
- ZzZY/auaUxsyhc4xL6hCyPqe+ZmZ+0R4Nd5AQK76xJFRqXh3k+5IQeK4KA+pKHRNj9Ff
- ql+ih/VOWZrWTa3ogQUQQfsAcZoWWVgd+icERWA3j49eo4GFL8+F3bz6psmRWrjHTQZO
- H4OVTrtPlKbUbW8licxx3a7T5ZpLtiVo6lSP2IWhs5lOXAmsIZqJ58hc3/ISA80xQYjm
- OJ3LGayX0qNBzx6/YuXwfgN4lUffawn7XlXV9Dz67n/uL08b+VQw17dcVZhiEmTwFIUm
- Fv4Q==
-X-Gm-Message-State: AOAM533DSjt6FJgieqN+ZTy/lemxWrnVlhE/U/0O6dbRK0h18Ud4jF2E
- /70osrM6z0sDUVmS7rDIppFUIhvGvzQ3wrc5UtopUlzbKJvFEwiHC7Ad1Ezxr1ZrDQ2pIzd1AmU
- 0reIjJh29B7pB17g=
-X-Received: by 2002:adf:f5ce:: with SMTP id k14mr50618528wrp.100.1638881132281; 
- Tue, 07 Dec 2021 04:45:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw/GuaXCgeuEpdkj9zlaChh8eMpJRE8CtGYdJkQuWFuRI/gxZMTsrlFqmgIkXCvWsDeKteqWQ==
-X-Received: by 2002:adf:f5ce:: with SMTP id k14mr50618506wrp.100.1638881132065; 
- Tue, 07 Dec 2021 04:45:32 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id s63sm2744799wme.22.2021.12.07.04.45.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Dec 2021 04:45:31 -0800 (PST)
-Message-ID: <e0419fd9-ce18-a4f6-7c8a-36e36dce2ae4@redhat.com>
-Date: Tue, 7 Dec 2021 13:45:30 +0100
+ bh=nPg5C3EqanbC3wMHe1Qn0JHt2hTa+5YHPIc1iqhebgU=;
+ b=wvvtPsyw/Jaq/kNIfFA56BJDjIcNsK+dL2Zsjrz5TBq+gNrbTbe2lwuAG/p5KAUd/NLFYQ
+ fyu3NbJUmxyvnyN8eY0GagCKkL07EdFla2zkn2/2h5JUjNHI31T/K7BmDJpCmpRWBN8hJC
+ 0qs64618rl/VQF+Ka/SCBOu1LsTjRrQ=
+Message-ID: <d77f21c7-2b92-2c45-aabd-36148f7fd822@greensocs.com>
+Date: Tue, 7 Dec 2021 14:05:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
+ Thunderbird/91.3.2
 Subject: Re: [PATCH v2 for 6.2?] gicv3: fix ICH_MISR's LRENP computation
-To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
+Content-Language: en-US-large
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 References: <20211207094427.3473-1-damien.hedde@greensocs.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211207094427.3473-1-damien.hedde@greensocs.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.44, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ <e0419fd9-ce18-a4f6-7c8a-36e36dce2ae4@redhat.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <e0419fd9-ce18-a4f6-7c8a-36e36dce2ae4@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.44,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,54 +70,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, shashi.mallela@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/7/21 10:44, Damien Hedde wrote:
-> According to the "Arm Generic Interrupt Controller Architecture
-> Specification GIC architecture version 3 and 4" (version G: page 345
-> for aarch64 or 509 for aarch32):
-> LRENP bit of ICH_MISR is set when ICH_HCR.LRENPIE==1 and
-> ICH_HCR.EOIcount is non-zero.
-> 
-> When only LRENPIE was set (and EOI count was zero), the LRENP bit was
-> wrongly set and MISR value was wrong.
-> 
-> As an additional consequence, if an hypervisor set ICH_HCR.LRENPIE,
-> the maintenance interrupt was constantly fired. It happens since patch
-> 9cee1efe92 ("hw/intc: Set GIC maintenance interrupt level to only 0 or 1")
-> which fixed another bug about maintenance interrupt (most significant
-> bits of misr, including this one, were ignored in the interrupt trigger).
-> 
-> Fixes: 83f036fe3d ("hw/intc/arm_gicv3: Add accessors for ICH_ system registers")
 
-This commit predates 6.1 release, so technically this is not
-a regression for 6.2.
 
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> ---
-> The gic doc is available here:
-> https://developer.arm.com/documentation/ihi0069/g
+On 12/7/21 13:45, Philippe Mathieu-Daudé wrote:
+> On 12/7/21 10:44, Damien Hedde wrote:
+>> According to the "Arm Generic Interrupt Controller Architecture
+>> Specification GIC architecture version 3 and 4" (version G: page 345
+>> for aarch64 or 509 for aarch32):
+>> LRENP bit of ICH_MISR is set when ICH_HCR.LRENPIE==1 and
+>> ICH_HCR.EOIcount is non-zero.
+>>
+>> When only LRENPIE was set (and EOI count was zero), the LRENP bit was
+>> wrongly set and MISR value was wrong.
+>>
+>> As an additional consequence, if an hypervisor set ICH_HCR.LRENPIE,
+>> the maintenance interrupt was constantly fired. It happens since patch
+>> 9cee1efe92 ("hw/intc: Set GIC maintenance interrupt level to only 0 or 1")
+>> which fixed another bug about maintenance interrupt (most significant
+>> bits of misr, including this one, were ignored in the interrupt trigger).
+>>
+>> Fixes: 83f036fe3d ("hw/intc/arm_gicv3: Add accessors for ICH_ system registers")
 > 
-> v2: identical resend because subject screw-up (sorry)
-> 
-> Thanks,
-> Damien
-> ---
->  hw/intc/arm_gicv3_cpuif.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-> index 7fba931450..85fc369e55 100644
-> --- a/hw/intc/arm_gicv3_cpuif.c
-> +++ b/hw/intc/arm_gicv3_cpuif.c
-> @@ -351,7 +351,8 @@ static uint32_t maintenance_interrupt_state(GICv3CPUState *cs)
->      /* Scan list registers and fill in the U, NP and EOI bits */
->      eoi_maintenance_interrupt_state(cs, &value);
->  
-> -    if (cs->ich_hcr_el2 & (ICH_HCR_EL2_LRENPIE | ICH_HCR_EL2_EOICOUNT_MASK)) {
-> +    if ((cs->ich_hcr_el2 & ICH_HCR_EL2_LRENPIE) &&
-> +        (cs->ich_hcr_el2 & ICH_HCR_EL2_EOICOUNT_MASK)) {
->          value |= ICH_MISR_EL2_LRENP;
->      }
->  
-> 
+> This commit predates 6.1 release, so technically this is not
+> a regression for 6.2.
 
+Do you mean "Fixes:" is meant only for regression or simply that this 
+patch should not go for 6.2 ?
+
+9cee1efe92 was introduced after 6.1, and changed the interrupt behavior. 
+Thought I'm not sure if we can consider this as a fix for 9cee1efe92: it 
+only makes the previous error more visible.
+
+Damien
 
