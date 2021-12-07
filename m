@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E439E46B33B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 07:54:42 +0100 (CET)
-Received: from localhost ([::1]:56622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 327BD46B35D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 08:06:36 +0100 (CET)
+Received: from localhost ([::1]:46768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muUN8-0004ox-0u
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 01:54:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46286)
+	id 1muUYc-0001CI-PN
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 02:06:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muULN-0003Qu-NF
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 01:52:53 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:56435)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muULL-00043i-Cw
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 01:52:53 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.25])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id B27B4D041D82;
- Tue,  7 Dec 2021 07:52:48 +0100 (CET)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 7 Dec
- 2021 07:52:48 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006a84698a0-8149-48f6-99e8-354273087ef3,
- EDCC1E77E28A65BD51DFCD2B92BF934EEA10E5FB) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <a9f12ccd-e6f4-aa04-3c35-8f71ca5e41be@kaod.org>
-Date: Tue, 7 Dec 2021 07:52:47 +0100
+ (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
+ id 1muUXY-0000Xb-5F
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 02:05:28 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:42124 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <maobibo@loongson.cn>) id 1muUXU-0008HH-9Z
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 02:05:27 -0500
+Received: from [10.20.42.25] (unknown [10.20.42.25])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxisiYB69h8iIEAA--.8562S3;
+ Tue, 07 Dec 2021 15:04:57 +0800 (CST)
+Subject: Re: [RFC PATCH v3 05/27] target/loongarch: Add stabletimer support
+To: chen huacai <zltjiangshi@gmail.com>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>
+References: <1638619645-11283-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1638619645-11283-6-git-send-email-yangxiaojuan@loongson.cn>
+ <CABDp7Vr5b_gpE3d3U1NL1VMw4xoZMEqtnOiiVe=j-5ODerefng@mail.gmail.com>
+From: maobibo <maobibo@loongson.cn>
+Message-ID: <501fdbf2-e586-02e3-c091-406253b05ec4@loongson.cn>
+Date: Tue, 7 Dec 2021 15:04:56 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 11/15] ppc/ppc405: Fix boot from kernel
+In-Reply-To: <CABDp7Vr5b_gpE3d3U1NL1VMw4xoZMEqtnOiiVe=j-5ODerefng@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20211206103712.1866296-1-clg@kaod.org>
- <20211206103712.1866296-12-clg@kaod.org>
- <9c3d5314-f2de-6d6d-913b-bef82d6e5af6@eik.bme.hu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <9c3d5314-f2de-6d6d-913b-bef82d6e5af6@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 6046fbe2-38fc-44ee-bfb7-1d5b727406d1
-X-Ovh-Tracer-Id: 342273573577853804
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrjeeggddutddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf9AxisiYB69h8iIEAA--.8562S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3Gw48ZF48Aw18CF48KrWDCFg_yoW7uF4DpF
+ Z7CF9xKF4UtrZrJwn7tas0qF1DXr4xGr129a1fKFW8CwsFvwn7Xa40g39ruFy7Z3WF9rWI
+ vF10vw1Y9F48J37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9C14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+ 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I
+ 8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
+ xVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
+ AFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8I
+ cIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI
+ 0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQvtAUUUUU=
+X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
+ helo=loongson.cn
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.44,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,252 +74,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>, Thomas Huth <thuth@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ chenhuacai@loongson.cn, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ i.qemu@xen0n.name, mark.cave-ayland@ilande.co.uk,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, peterx@redhat.com,
+ qemu-level <qemu-devel@nongnu.org>, alistair.francis@wdc.com,
+ Song Gao <gaosong@loongson.cn>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/6/21 16:16, BALATON Zoltan wrote:
-> On Mon, 6 Dec 2021, Cédric Le Goater wrote:
->> The machine can already boot with kernel and initrd U-boot images if a
->> firmware is loaded first. Adapt and improve the load sequence to let
->> the machine boot directly from a Linux kernel ELF image and a usual
->> initrd image if a firmware image is not provided. For that, install a
->> custom CPU reset handler to setup the registers and to start the CPU
->> from the Linux kernel entry point.
+
+
+On 12/06/2021 12:38 PM, chen huacai wrote:
+> Hi, Xiaojuan,
+> 
+> Maybe it is better to use "constant timer" instead of "stable timer",
+> which is more "native" in English.
+
+Yeap, maybe we need more investigation. On arm platform its name is ArchTimer
+rather than "constant timer" in x86. And we will investigate the timer name
+across different architecture.
+
+regards
+bibo, mao
+
+> 
+> Huacai
+> 
+> On Sat, Dec 4, 2021 at 8:11 PM Xiaojuan Yang <yangxiaojuan@loongson.cn> wrote:
 >>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+>> Signed-off-by: Song Gao <gaosong@loongson.cn>
 >> ---
->> hw/ppc/ppc405_boards.c | 145 +++++++++++++++++++++++++++++------------
->> 1 file changed, 102 insertions(+), 43 deletions(-)
+>>  target/loongarch/cpu.c         |  9 +++++
+>>  target/loongarch/cpu.h         | 10 ++++++
+>>  target/loongarch/meson.build   |  1 +
+>>  target/loongarch/stabletimer.c | 63 ++++++++++++++++++++++++++++++++++
+>>  4 files changed, 83 insertions(+)
+>>  create mode 100644 target/loongarch/stabletimer.c
 >>
->> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
->> index 71a652e2d846..3ae2b36373a5 100644
->> --- a/hw/ppc/ppc405_boards.c
->> +++ b/hw/ppc/ppc405_boards.c
->> @@ -41,6 +41,7 @@
->> #include "qemu/error-report.h"
->> #include "hw/loader.h"
->> #include "qemu/cutils.h"
->> +#include "elf.h"
+>> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+>> index 343632c644..f34e9763af 100644
+>> --- a/target/loongarch/cpu.c
+>> +++ b/target/loongarch/cpu.c
+>> @@ -234,12 +234,21 @@ static void loongarch_cpu_realizefn(DeviceState *dev, Error **errp)
+>>      LoongArchCPUClass *lacc = LOONGARCH_CPU_GET_CLASS(dev);
+>>      Error *local_err = NULL;
 >>
->> #define BIOS_FILENAME "ppc405_rom.bin"
->> #define BIOS_SIZE (2 * MiB)
->> @@ -136,25 +137,101 @@ static void ref405ep_fpga_init(MemoryRegion *sysmem, uint32_t base)
->>     qemu_register_reset(&ref405ep_fpga_reset, fpga);
->> }
+>> +#ifndef CONFIG_USER_ONLY
+>> +    LoongArchCPU *cpu = LOONGARCH_CPU(dev);
+>> +#endif
+>> +
+>>      cpu_exec_realizefn(cs, &local_err);
+>>      if (local_err != NULL) {
+>>          error_propagate(errp, local_err);
+>>          return;
+>>      }
 >>
+>> +#ifndef CONFIG_USER_ONLY
+>> +    timer_init_ns(&cpu->timer, QEMU_CLOCK_VIRTUAL,
+>> +                  &loongarch_stable_timer_cb, cpu);
+>> +#endif
+>> +
+>>      cpu_reset(cs);
+>>      qemu_init_vcpu(cs);
+>>
+>> diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+>> index a4acd3b285..aeb8a5d397 100644
+>> --- a/target/loongarch/cpu.h
+>> +++ b/target/loongarch/cpu.h
+>> @@ -12,6 +12,7 @@
+>>  #include "fpu/softfloat-types.h"
+>>  #include "hw/registerfields.h"
+>>  #include "cpu-csr.h"
+>> +#include "qemu/timer.h"
+>>
+>>  #define TCG_GUEST_DEFAULT_MO (0)
+>>
+>> @@ -148,6 +149,9 @@ FIELD(CPUCFG20, L3IU_SIZE, 24, 7)
+>>  extern const char * const regnames[];
+>>  extern const char * const fregnames[];
+>>
+>> +#define N_IRQS      14
+>> +#define IRQ_TIMER   11
+>> +
+>>  typedef struct CPULoongArchState CPULoongArchState;
+>>  struct CPULoongArchState {
+>>      uint64_t gpr[32];
+>> @@ -242,6 +246,7 @@ struct LoongArchCPU {
+>>
+>>      CPUNegativeOffsetState neg;
+>>      CPULoongArchState env;
+>> +    QEMUTimer timer; /* Internal timer */
+>>  };
+>>
+>>  #define TYPE_LOONGARCH_CPU "loongarch-cpu"
+>> @@ -306,4 +311,9 @@ enum {
+>>  #define LOONGARCH_CPU_TYPE_NAME(model) model LOONGARCH_CPU_TYPE_SUFFIX
+>>  #define CPU_RESOLVING_TYPE TYPE_LOONGARCH_CPU
+>>
+>> +void loongarch_stable_timer_cb(void *opaque);
+>> +uint64_t cpu_loongarch_get_stable_counter(LoongArchCPU *cpu);
+>> +uint64_t cpu_loongarch_get_stable_timer_ticks(LoongArchCPU *cpu);
+>> +void cpu_loongarch_store_stable_timer_config(LoongArchCPU *cpu,
+>> +                                             uint64_t value);
+>>  #endif /* LOONGARCH_CPU_H */
+>> diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
+>> index 103f36ee15..bda9f47ae4 100644
+>> --- a/target/loongarch/meson.build
+>> +++ b/target/loongarch/meson.build
+>> @@ -17,6 +17,7 @@ loongarch_tcg_ss.add(zlib)
+>>  loongarch_softmmu_ss = ss.source_set()
+>>  loongarch_softmmu_ss.add(files(
+>>    'machine.c',
+>> +  'stabletimer.c',
+>>  ))
+>>
+>>  loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
+>> diff --git a/target/loongarch/stabletimer.c b/target/loongarch/stabletimer.c
+>> new file mode 100644
+>> index 0000000000..151f5073f5
+>> --- /dev/null
+>> +++ b/target/loongarch/stabletimer.c
+>> @@ -0,0 +1,63 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-or-later */
 >> +/*
->> + * CPU reset handler when booting directly from a loaded kernel
+>> + * QEMU LoongArch timer support
+>> + *
+>> + * Copyright (c) 2021 Loongson Technology Corporation Limited
 >> + */
->> +static struct boot_info {
->> +    uint32_t entry;
->> +    uint32_t bdloc;
->> +    uint32_t initrd_base;
->> +    uint32_t initrd_size;
->> +    uint32_t cmdline_base;
->> +    uint32_t cmdline_size;
->> +} boot_info;
 >> +
->> +static void main_cpu_reset(void *opaque)
+>> +#include "qemu/osdep.h"
+>> +#include "hw/loongarch/loongarch.h"
+>> +#include "qemu/timer.h"
+>> +#include "cpu.h"
+>> +
+>> +#define TIMER_PERIOD                10 /* 10 ns period for 100 Mhz frequency */
+>> +#define STABLETIMER_TICK_MASK       0xfffffffffffcUL
+>> +#define STABLETIMER_ENABLE          0x1UL
+>> +
+>> +/* LoongArch timer */
+>> +uint64_t cpu_loongarch_get_stable_counter(LoongArchCPU *cpu)
 >> +{
->> +    PowerPCCPU *cpu = opaque;
->> +    CPUPPCState *env = &cpu->env;
->> +    struct boot_info *bi = env->load_info;
->> +
->> +    cpu_reset(CPU(cpu));
->> +
->> +    /* stack: top of sram */
->> +    env->gpr[1] = PPC405EP_SRAM_BASE + PPC405EP_SRAM_SIZE - 8;
->> +
->> +    /* Tune our boot state */
->> +    env->gpr[3] = bi->bdloc;
->> +    env->gpr[4] = bi->initrd_base;
->> +    env->gpr[5] = bi->initrd_base + bi->initrd_size;
->> +    env->gpr[6] = bi->cmdline_base;
->> +    env->gpr[7] = bi->cmdline_size;
->> +
->> +    env->nip = bi->entry;
+>> +    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / TIMER_PERIOD;
 >> +}
 >> +
->> +static void boot_from_kernel(MachineState *machine, PowerPCCPU *cpu)
+>> +uint64_t cpu_loongarch_get_stable_timer_ticks(LoongArchCPU *cpu)
 >> +{
->> +    CPUPPCState *env = &cpu->env;
->> +    hwaddr boot_entry;
->> +    hwaddr kernel_base;
->> +    int kernel_size;
->> +    hwaddr initrd_base;
->> +    int initrd_size;
->> +    ram_addr_t bdloc;
->> +    int len;
+>> +    uint64_t now, expire;
 >> +
->> +    bdloc = ppc405_set_bootinfo(env, machine->ram_size);
->> +    boot_info.bdloc = bdloc;
+>> +    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+>> +    expire = timer_expire_time_ns(&cpu->timer);
 >> +
->> +    kernel_size = load_elf(machine->kernel_filename, NULL, NULL, NULL,
->> +                           &boot_entry, &kernel_base, NULL, NULL,
->> +                           1, PPC_ELF_MACHINE, 0, 0);
->> +    if (kernel_size < 0) {
->> +        error_report("Could not load kernel '%s' : %s",
->> +                     machine->kernel_filename, load_elf_strerror(kernel_size));
->> +        exit(1);
->> +    }
->> +    boot_info.entry = boot_entry;
->> +
->> +    /* load initrd */
->> +    if (machine->initrd_filename) {
->> +        initrd_base = INITRD_LOAD_ADDR;
->> +        initrd_size = load_image_targphys(machine->initrd_filename, initrd_base,
->> +                                          machine->ram_size - initrd_base);
->> +        if (initrd_size < 0) {
->> +            error_report("could not load initial ram disk '%s'",
->> +                         machine->initrd_filename);
->> +            exit(1);
->> +        }
->> +
->> +        boot_info.initrd_base = initrd_base;
->> +        boot_info.initrd_size = initrd_size;
->> +    }
->> +
->> +    if (machine->kernel_cmdline) {
->> +        len = strlen(machine->kernel_cmdline);
->> +        bdloc -= ((len + 255) & ~255);
->> +        cpu_physical_memory_write(bdloc, machine->kernel_cmdline, len + 1);
->> +        boot_info.cmdline_base = bdloc;
->> +        boot_info.cmdline_size = bdloc + len;
->> +    }
->> +
->> +    /* Install our custom reset handler to start from Linux */
->> +    qemu_register_reset(main_cpu_reset, cpu);
->> +    env->load_info = &boot_info;
+>> +    return (expire - now) / TIMER_PERIOD;
 >> +}
 >> +
->> static void ref405ep_init(MachineState *machine)
->> {
->>     MachineClass *mc = MACHINE_GET_CLASS(machine);
->>     const char *kernel_filename = machine->kernel_filename;
+>> +void cpu_loongarch_store_stable_timer_config(LoongArchCPU *cpu,
+>> +                                             uint64_t value)
+>> +{
+>> +    CPULoongArchState *env = &cpu->env;
+>> +    uint64_t now, next;
+>> +
+>> +    env->CSR_TCFG = value;
+>> +    if (value & STABLETIMER_ENABLE) {
+>> +        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+>> +        next = now + (value & STABLETIMER_TICK_MASK) * TIMER_PERIOD;
+>> +        timer_mod(&cpu->timer, next);
+>> +    }
+>> +}
+>> +
+>> +void loongarch_stable_timer_cb(void *opaque)
+>> +{
+>> +    LoongArchCPU *cpu  = opaque;
+>> +    CPULoongArchState *env = &cpu->env;
+>> +    uint64_t now, next;
+>> +
+>> +    if (FIELD_EX64(env->CSR_TCFG, CSR_TCFG, PERIODIC)) {
+>> +        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+>> +        next = now + (env->CSR_TCFG & STABLETIMER_TICK_MASK) * TIMER_PERIOD;
+>> +        timer_mod(&cpu->timer, next);
+>> +    } else {
+>> +        env->CSR_TCFG = FIELD_DP64(env->CSR_TCFG, CSR_TCFG, EN, 0);
+>> +    }
+>> +
+>> +    env->CSR_ESTAT |= 1 << IRQ_TIMER;
+>> +    cpu_interrupt(CPU(cpu), CPU_INTERRUPT_HARD);
+>> +}
+>> --
+>> 2.27.0
+>>
+>>
 > 
-> You could also get rid of kernel_filename and use machine->kernel_filename instead like for the others below. It does not help readability especially if only this one is aliased in a local variable but not the others. (Getting rid of these variables could be a separate patch in case that simpifies the actual change in this patch for easier review.)
-
-Yes. I did reshuffle the patchset a few times to make it clearer.
-I agree that part is still a bit fuzzy. I will add your suggestion
-in a v2.
-
-Thanks,
-
-C.
-
-
 > 
-> Regards,
-> BALATON Zoltan
-> 
->> -    const char *kernel_cmdline = machine->kernel_cmdline;
->> -    const char *initrd_filename = machine->initrd_filename;
->>     PowerPCCPU *cpu;
->> -    CPUPPCState *env;
->>     DeviceState *dev;
->>     SysBusDevice *s;
->>     MemoryRegion *sram = g_new(MemoryRegion, 1);
->> -    ram_addr_t bdloc;
->>     MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
->>     hwaddr ram_bases[2], ram_sizes[2];
->> -    long bios_size = -1;
->> -    target_ulong kernel_base, initrd_base;
->> -    long kernel_size, initrd_size;
->> -    int linux_boot;
->> -    int len;
->>     MemoryRegion *sysmem = get_system_memory();
->>     DeviceState *uicdev;
->>
->> @@ -176,7 +253,6 @@ static void ref405ep_init(MachineState *machine)
->>
->>     cpu = ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
->>                         33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
->> -    env = &cpu->env;
->>
->>     /* allocate SRAM */
->>     memory_region_init_ram(sram, NULL, "ef405ep.sram", PPC405EP_SRAM_SIZE,
->> @@ -187,6 +263,7 @@ static void ref405ep_init(MachineState *machine)
->>     if (machine->firmware) {
->>         MemoryRegion *bios = g_new(MemoryRegion, 1);
->>         g_autofree char *filename;
->> +        long bios_size;
->>
->>         memory_region_init_rom(bios, NULL, "ef405ep.bios", BIOS_SIZE,
->>                                &error_fatal);
->> @@ -217,54 +294,36 @@ static void ref405ep_init(MachineState *machine)
->>     s = SYS_BUS_DEVICE(dev);
->>     sysbus_realize_and_unref(s, &error_fatal);
->>     sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
->> -    /* Load kernel */
->> -    linux_boot = (kernel_filename != NULL);
->> -    if (linux_boot) {
->> -        bdloc = ppc405_set_bootinfo(env, machine->ram_size);
->> -        env->gpr[3] = bdloc;
->> +
->> +    /* Load kernel and initrd using U-Boot images */
->> +    if (kernel_filename && machine->firmware) {
->> +        target_ulong kernel_base, initrd_base;
->> +        long kernel_size, initrd_size;
->> +
->>         kernel_base = KERNEL_LOAD_ADDR;
->> -        /* now we can load the kernel */
->>         kernel_size = load_image_targphys(kernel_filename, kernel_base,
->>                                           machine->ram_size - kernel_base);
->>         if (kernel_size < 0) {
->>             error_report("could not load kernel '%s'", kernel_filename);
->>             exit(1);
->>         }
->> -        printf("Load kernel size %ld at " TARGET_FMT_lx,
->> -               kernel_size, kernel_base);
->> +
->>         /* load initrd */
->> -        if (initrd_filename) {
->> +        if (machine->initrd_filename) {
->>             initrd_base = INITRD_LOAD_ADDR;
->> -            initrd_size = load_image_targphys(initrd_filename, initrd_base,
->> +            initrd_size = load_image_targphys(machine->initrd_filename,
->> +                                              initrd_base,
->>                                               machine->ram_size - initrd_base);
->>             if (initrd_size < 0) {
->>                 error_report("could not load initial ram disk '%s'",
->> -                             initrd_filename);
->> +                             machine->initrd_filename);
->>                 exit(1);
->>             }
->> -        } else {
->> -            initrd_base = 0;
->> -            initrd_size = 0;
->> -        }
->> -        env->gpr[4] = initrd_base;
->> -        env->gpr[5] = initrd_size;
->> -        if (kernel_cmdline != NULL) {
->> -            len = strlen(kernel_cmdline);
->> -            bdloc -= ((len + 255) & ~255);
->> -            cpu_physical_memory_write(bdloc, kernel_cmdline, len + 1);
->> -            env->gpr[6] = bdloc;
->> -            env->gpr[7] = bdloc + len;
->> -        } else {
->> -            env->gpr[6] = 0;
->> -            env->gpr[7] = 0;
->>         }
->> -        env->nip = KERNEL_LOAD_ADDR;
->> -    } else {
->> -        kernel_base = 0;
->> -        kernel_size = 0;
->> -        initrd_base = 0;
->> -        initrd_size = 0;
->> -        bdloc = 0;
->> +
->> +    /* Load ELF kernel and rootfs.cpio */
->> +    } else if (kernel_filename && !machine->firmware) {
->> +        boot_from_kernel(machine, cpu);
->>     }
->> }
->>
->>
 
 
