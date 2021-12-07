@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B48246B8F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 11:27:07 +0100 (CET)
-Received: from localhost ([::1]:58962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A51C46B92D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 11:30:54 +0100 (CET)
+Received: from localhost ([::1]:37926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muXgg-0007BL-Cw
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 05:27:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36940)
+	id 1muXkL-0003kX-Hc
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 05:30:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muXeH-0004FX-99
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 05:24:37 -0500
-Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117]:56369)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muXij-0002AN-CV
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 05:29:13 -0500
+Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:45073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muXeE-0002xi-AC
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 05:24:36 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.132])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 27B8C21728;
- Tue,  7 Dec 2021 10:24:32 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1muXig-0003fl-Jq
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 05:29:13 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.47])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9B5FF20838;
+ Tue,  7 Dec 2021 10:29:08 +0000 (UTC)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 7 Dec
- 2021 11:24:31 +0100
+ 2021 11:29:07 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003668c655c-3b24-4072-9b4d-567d3288c1ad,
+ (GARM-100R00365d85165-15af-49af-baaa-10fe81258f1f,
  EDCC1E77E28A65BD51DFCD2B92BF934EEA10E5FB) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <ff8c64e8-4606-3329-ef87-778b7ea8a403@kaod.org>
-Date: Tue, 7 Dec 2021 11:24:30 +0100
+Message-ID: <ef28793c-14aa-2218-99e0-d7f732061de5@kaod.org>
+Date: Tue, 7 Dec 2021 11:29:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 11/14] ppc/pnv: Compute the PHB index from the PHB4 PEC
- model
+Subject: Re: [PATCH 12/14] ppc/pnv: Remove "system-memory" property for he
+ PHB4 PEC model
 Content-Language: en-US
 To: Frederic Barrat <fbarrat@linux.ibm.com>, <qemu-ppc@nongnu.org>,
  <qemu-devel@nongnu.org>
 References: <20211202144235.1276352-1-clg@kaod.org>
- <20211202144235.1276352-12-clg@kaod.org>
- <c600b004-e0ad-17e4-90d5-e53556e4bad3@linux.ibm.com>
+ <20211202144235.1276352-13-clg@kaod.org>
+ <37a13a84-8e5c-7115-20b9-b23305a6bbd4@linux.ibm.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <c600b004-e0ad-17e4-90d5-e53556e4bad3@linux.ibm.com>
+In-Reply-To: <37a13a84-8e5c-7115-20b9-b23305a6bbd4@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: bb1861e9-3d09-48b2-be47-5acb84354603
-X-Ovh-Tracer-Id: 3917850201393433507
+X-Ovh-Tracer-GUID: 2e25f5c8-f238-455e-a390-d90b18f1ecaa
+X-Ovh-Tracer-Id: 3995818773404814243
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrjeehgddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuveelvdejteegteefieevfeetffefvddvieekteevleefgeelgfeutedvfedvfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
- helo=1.mo552.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrjeehgddukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
+ helo=10.mo552.mail-out.ovh.net
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.44,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,103 +77,79 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/7/21 11:06, Frederic Barrat wrote:
+On 12/7/21 11:08, Frederic Barrat wrote:
 > 
 > 
 > On 02/12/2021 15:42, Cédric Le Goater wrote:
->> Use the num_stacks class attribute to compute the PHB index depending
->> on the PEC index :
->>
->>    * PEC0 provides 1 PHB  (PHB0)
->>    * PEC1 provides 2 PHBs (PHB1 and PHB2)
->>    * PEC2 provides 3 PHBs (PHB3, PHB4 and PHB5)
+>> This is not useful and will be in the way for support of user created
+>> PHB4 devices.
 >>
 >> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 >> ---
->>   hw/pci-host/pnv_phb4_pec.c | 16 ++++++++++++++++
->>   hw/ppc/pnv.c               |  4 +---
->>   2 files changed, 17 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
->> index 293909b5cb90..a7dd4173d598 100644
->> --- a/hw/pci-host/pnv_phb4_pec.c
->> +++ b/hw/pci-host/pnv_phb4_pec.c
->> @@ -374,6 +374,19 @@ static void pnv_pec_instance_init(Object *obj)
->>       }
->>   }
->> +static int pnv_pec_phb_offset(PnvPhb4PecState *pec)
->> +{
->> +    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
->> +    int index = pec->index;
->> +    int offset = 0;
->> +
->> +    while (index--) {
->> +        offset += pecc->num_stacks[index];
->> +    }
->> +
->> +    return offset;
->> +}
->> +
 > 
 > 
-> That seems overly complicated to me and not very readable. The log message is a lot more clear. I'd prefer we have a switch() statement returning the base PHB ID based on the PEC index.
+> I doubt I see all the implications here, 
 
-yes I agree but PHB5 is on its way and this is compatible. See :
-
-   https://github.com/legoater/qemu/commit/d7caa1b74f3f8a90815fa086b87a1bd467b7c988
-
-I will take any good idea fitting both :)
+It is good practice to avoid statics in models or calls like
+get_system_memory() or qdev_get_machine(). With dynamic models,
+it becomes more complex.
 
 Thanks,
 
 C.
 
+> but it doesn't look wrong to me, so:
+> Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
 > 
 >    Fred
 > 
 > 
-> 
->>   static void pnv_pec_realize(DeviceState *dev, Error **errp)
+>>   hw/pci-host/pnv_phb4_pec.c | 6 +-----
+>>   hw/ppc/pnv.c               | 2 --
+>>   2 files changed, 1 insertion(+), 7 deletions(-)
+>>
+>> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+>> index a7dd4173d598..dfed2af0f7df 100644
+>> --- a/hw/pci-host/pnv_phb4_pec.c
+>> +++ b/hw/pci-host/pnv_phb4_pec.c
+>> @@ -124,7 +124,7 @@ static uint64_t pnv_pec_stk_nest_xscom_read(void *opaque, hwaddr addr,
+>>   static void pnv_pec_stk_update_map(PnvPhb4PecStack *stack)
 >>   {
->>       PnvPhb4PecState *pec = PNV_PHB4_PEC(dev);
->> @@ -394,8 +407,10 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
->>       for (i = 0; i < pec->num_stacks; i++) {
->>           PnvPhb4PecStack *stack = &pec->stacks[i];
->>           Object *stk_obj = OBJECT(stack);
->> +        int phb_id = pnv_pec_phb_offset(pec) + i;
->>           object_property_set_int(stk_obj, "stack-no", i, &error_abort);
->> +        object_property_set_int(stk_obj, "phb-id", phb_id, &error_abort);
->>           object_property_set_link(stk_obj, "pec", OBJECT(pec), &error_abort);
->>           if (!qdev_realize(DEVICE(stk_obj), NULL, errp)) {
->>               return;
->> @@ -538,6 +553,7 @@ static void pnv_pec_stk_instance_init(Object *obj)
->>       PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(obj);
->>       object_initialize_child(obj, "phb", &stack->phb, TYPE_PNV_PHB4);
->> +    object_property_add_alias(obj, "phb-id", OBJECT(&stack->phb), "index");
->>   }
->>   static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
+>>       PnvPhb4PecState *pec = stack->pec;
+>> -    MemoryRegion *sysmem = pec->system_memory;
+>> +    MemoryRegion *sysmem = get_system_memory();
+>>       uint64_t bar_en = stack->nest_regs[PEC_NEST_STK_BAR_EN];
+>>       uint64_t bar, mask, size;
+>>       char name[64];
+>> @@ -394,8 +394,6 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
+>>       char name[64];
+>>       int i;
+>> -    assert(pec->system_memory);
+>> -
+>>       if (pec->index >= PNV_CHIP_GET_CLASS(pec->chip)->num_pecs) {
+>>           error_setg(errp, "invalid PEC index: %d", pec->index);
+>>           return;
+>> @@ -486,8 +484,6 @@ static Property pnv_pec_properties[] = {
+>>           DEFINE_PROP_UINT32("chip-id", PnvPhb4PecState, chip_id, 0),
+>>           DEFINE_PROP_LINK("chip", PnvPhb4PecState, chip, TYPE_PNV_CHIP,
+>>                            PnvChip *),
+>> -        DEFINE_PROP_LINK("system-memory", PnvPhb4PecState, system_memory,
+>> -                     TYPE_MEMORY_REGION, MemoryRegion *),
+>>           DEFINE_PROP_END_OF_LIST(),
+>>   };
 >> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
->> index 957f0bdfaa6b..f8b0b2a28383 100644
+>> index f8b0b2a28383..3a550eed0f36 100644
 >> --- a/hw/ppc/pnv.c
 >> +++ b/hw/ppc/pnv.c
->> @@ -1371,7 +1371,6 @@ static void pnv_chip_power9_phb_realize(PnvChip *chip, Error **errp)
->>   {
->>       Pnv9Chip *chip9 = PNV9_CHIP(chip);
->>       int i, j;
->> -    int phb_id = 0;
->>       for (i = 0; i < chip->num_pecs; i++) {
->>           PnvPhb4PecState *pec = &chip9->pecs[i];
->> @@ -1396,11 +1395,10 @@ static void pnv_chip_power9_phb_realize(PnvChip *chip, Error **errp)
->>           pnv_xscom_add_subregion(chip, pec_nest_base, &pec->nest_regs_mr);
->>           pnv_xscom_add_subregion(chip, pec_pci_base, &pec->pci_regs_mr);
->> -        for (j = 0; j < pec->num_stacks; j++, phb_id++) {
->> +        for (j = 0; j < pec->num_stacks; j++) {
->>               PnvPhb4PecStack *stack = &pec->stacks[j];
->>               Object *obj = OBJECT(&stack->phb);
->> -            object_property_set_int(obj, "index", phb_id, &error_fatal);
->>               object_property_set_int(obj, "chip-id", chip->chip_id,
->>                                       &error_fatal);
->>               object_property_set_int(obj, "version", pecc->version,
+>> @@ -1383,8 +1383,6 @@ static void pnv_chip_power9_phb_realize(PnvChip *chip, Error **errp)
+>>                                   &error_fatal);
+>>           object_property_set_link(OBJECT(pec), "chip", OBJECT(chip),
+>>                                    &error_fatal);
+>> -        object_property_set_link(OBJECT(pec), "system-memory",
+>> -                                 OBJECT(get_system_memory()), &error_abort);
+>>           if (!qdev_realize(DEVICE(pec), NULL, errp)) {
+>>               return;
+>>           }
 >>
 
 
