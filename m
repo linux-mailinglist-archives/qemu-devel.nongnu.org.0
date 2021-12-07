@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862DB46C29D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 19:22:17 +0100 (CET)
-Received: from localhost ([::1]:33496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4263046C315
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 19:48:15 +0100 (CET)
+Received: from localhost ([::1]:43402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muf6W-0000it-C9
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 13:22:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60394)
+	id 1mufVc-0000GY-Vt
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 13:48:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muf5B-0008Fp-DK
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 13:20:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41020)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mufQh-0006oR-Tl
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 13:43:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muf58-00021g-HH
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 13:20:52 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mufQe-0001DE-1a
+ for qemu-devel@nongnu.org; Tue, 07 Dec 2021 13:43:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638901248;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=az1+ZHFDj+n5RXoVd2UhWVdyBb6RrbQeLe8EMR/i4RQ=;
- b=YGtb5TOcrcl+pYO5cDXwRWsB1VnCZXcd//9TxeAjJvX7VZX/Q5HadK8wrX6rSzo3xtnNUl
- TrztQpIQ4g/AcmO7Vh8Ry3DJPy3kDvIorCNSk+lPUZc6T2WqP12WCWryBGDiQcnelbZN3s
- qAPQRJl/BR8Ng0A18ISs7jgkApZXdS4=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1638902582;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=okCF6uq+S0oh9Xd9d/LriKcH2HNlc6ttHxvNp0xjCY4=;
+ b=RzOzYjJ2YVRD8pvK/9V2xqM7T5Aq5e/VhunSncmy0/jXfnEcbpV5wsdEoCbktpzSgQuT8T
+ dDWEblWc6yNmU9cLEIxnvVySD92FT6C/YIQvuRK2RetYXtN6tz+JtDw2IGiztDJYcKWvO9
+ KTnjxv1IxrBj058bFvwE7KH7PBhn54E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-178-w0laNO8xM8yaGFO-HPaFxg-1; Tue, 07 Dec 2021 13:20:47 -0500
-X-MC-Unique: w0laNO8xM8yaGFO-HPaFxg-1
-Received: by mail-ua1-f70.google.com with SMTP id
- b6-20020ab026c6000000b002e56ca72e19so16749uap.7
- for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 10:20:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=az1+ZHFDj+n5RXoVd2UhWVdyBb6RrbQeLe8EMR/i4RQ=;
- b=hcDSWOD7h047FwrVjUnjmayouzeRppcWurIVrceNoZeJxYtFu/qpulI9fiC6r+Z4rq
- TEUjpIfMvNyu4n8K9g0BqOBxhR5sNtPV1Q51qOhAOMdhcpgd7fwL9SZbdZnZj+H7Gbu2
- PtJ3PyKMV096PVpQuSNeRZYAeGaA2FlgCtgZcTJ2x11AOh5Zi4VqC90h9AJXjGB+q69/
- rcdJkmhWEvBrszCS7mqt0YlB17VWahOBuArwiOGJKlm7P8p+stvLyAq0NNe+1y9SCrOX
- gSbxQUyP3i2BtvTiuHLi4tL8y+FUdS1xgJy8bsvAmhCk32AWcCTsy48fHZBMGVlLW7eH
- rxRg==
-X-Gm-Message-State: AOAM533OSiDKM/VhN4TuK6wa99HEGuIsDR1o++aDSBntP+U+wNeARVYq
- 40zuuFyjQw6GypttmQJPxz1jr62eXL7Jr/xB1sIYk4pvYf9etkLK62TEZHzim7RPkekXQKDgjB1
- AoRK+ghdamh8KBc3VFOS0fDTWhvzxVTk=
-X-Received: by 2002:a05:6122:2158:: with SMTP id
- m24mr54674420vkd.1.1638901247090; 
- Tue, 07 Dec 2021 10:20:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxw2LFoGo8T7t6FQWII3Q6NWVmhwqCALyjVKyYiK1KRrcdPsbe+dxelZNkBc9TFAl+Y1hxIOQL2UcLG2Yjw2W0=
-X-Received: by 2002:a05:6122:2158:: with SMTP id
- m24mr54674390vkd.1.1638901246907; 
- Tue, 07 Dec 2021 10:20:46 -0800 (PST)
+ us-mta-468-hOujm_l7Oie4Nlv0ljSWPg-1; Tue, 07 Dec 2021 13:42:58 -0500
+X-MC-Unique: hOujm_l7Oie4Nlv0ljSWPg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D6E9802C91;
+ Tue,  7 Dec 2021 18:42:57 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA1FF6D036;
+ Tue,  7 Dec 2021 18:42:55 +0000 (UTC)
+Date: Tue, 7 Dec 2021 18:42:53 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Mark Kanda <mark.kanda@oracle.com>
+Subject: Re: [PATCH v2 1/3] qmp: Support for querying stats
+Message-ID: <Ya+rLex1djU/1Wc1@redhat.com>
+References: <20211119195153.11815-1-mark.kanda@oracle.com>
+ <20211119195153.11815-2-mark.kanda@oracle.com>
 MIME-Version: 1.0
-References: <20211203122223.2780098-1-vsementsov@virtuozzo.com>
- <CAFn=p-bsY_QWNoRWp928_dwmNyXXcDQ7Bi+0P9ObAsxGTYyiBA@mail.gmail.com>
- <68d4742a-bcc4-df26-41d0-ece75eea58e0@virtuozzo.com>
-In-Reply-To: <68d4742a-bcc4-df26-41d0-ece75eea58e0@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 7 Dec 2021 13:20:36 -0500
-Message-ID: <CAFn=p-anMonsQDThd4xzp9292dTp7hLXc3N8YSwP9L0t4NeHiQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] iotests: multiprocessing!!
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <20211119195153.11815-2-mark.kanda@oracle.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000a4e9ac05d2926ef5"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,191 +80,513 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, den@openvz.org,
- Hanna Reitz <hreitz@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a4e9ac05d2926ef5
-Content-Type: text/plain; charset="UTF-8"
+Copying in Markus as QAPI maintainer, since I feel this proposed
+design is a little oddball from typical QAPI design approach....
 
-On Mon, Dec 6, 2021 at 3:26 PM Vladimir Sementsov-Ogievskiy <
-vsementsov@virtuozzo.com> wrote:
+On Fri, Nov 19, 2021 at 01:51:51PM -0600, Mark Kanda wrote:
+> Introduce qmp support for querying stats. Provide a framework for
+> adding new stats and support for the following commands:
+> 
+> - query-stats
+> Returns a list of all stats, with options for specifying a stat
+> name and schema type. A schema type is the set of stats associated
+> with a given component (e.g. vm or vcpu).
+> 
+> - query-stats-schemas
+> Returns a list of stats included in each schema type, with an
+> option for specifying the schema name.
+> 
+> - query-stats-instances
+> Returns a list of stat instances and their associated schema type.
+> 
+> The framework provides a method to register callbacks for these qmp
+> commands.
+> 
+> The first usecase will be for fd-based KVM stats (in an upcoming
+> patch).
+> 
+> Examples (with fd-based KVM stats):
+> 
+> { "execute": "query-stats" }
+> { "return": [
+>     { "name": "vcpu_1",
+>       "type": "kvm-vcpu",
+>       "stats": [
+>         { "name": "guest_mode",
+>           "unit": "none",
+>           "base": 10,
+>           "val": [ 0 ],
+>           "exponent": 0,
+>           "type": "instant" },
+>         { "name": "directed_yield_successful",
+>           "unit": "none",
+>           "base": 10,
+>           "val": [ 0 ],
+>           "exponent": 0,
+>           "type": "cumulative" },
+> ...
+>     },
+>     { "name": "vcpu_0",
+>       "type": "kvm-vcpu",
+>       "stats": ...
+> ...
+>  },
+>     { "name": "vm",
+>       "type": "kvm-vm",
+>       "stats": [
+>         { "name": "max_mmu_page_hash_collisions",
+>           "unit": "none",
+>           "base": 10,
+>           "val": [ 0 ],
+>           "exponent": 0,
+>           "type": "peak" },
+>           ...
 
-> 06.12.2021 21:37, John Snow wrote:
-> >
-> >
-> > On Fri, Dec 3, 2021 at 7:22 AM Vladimir Sementsov-Ogievskiy <
-> vsementsov@virtuozzo.com <mailto:vsementsov@virtuozzo.com>> wrote:
-> >
-> >     Hi all!
-> >
-> >     Finally, I can not stand it any longer. So, I'm happy to present
-> >     multiprocessing support for iotests test runner.
-> >
-> >     testing on tmpfs:
-> >
-> >     Before:
-> >
-> >     time check -qcow2
-> >     ...
-> >     real    12m28.095s
-> >     user    9m53.398s
-> >     sys     2m55.548s
-> >
-> >     After:
-> >
-> >     time check -qcow2 -j 12
-> >     ...
-> >     real    2m12.136s
-> >     user    12m40.948s
-> >     sys     4m7.449s
-> >
-> >
-> > VERY excellent. And this will probably flush a lot more bugs loose, too.
-> (Which I consider a good thing!)
->
-> Thanks!)
->
-> > We could look into utilizing it for 'make check', but we'll have to be
-> prepared for a greater risk of race conditions on the CI if we do. But...
-> it's seriously hard to argue with this kind of optimization, very well done!
->
-> I thought about this too. I think, we can at least passthrought -j flag of
-> "make -j9 check" to ./check
->
-> I think, CIs mostly call make check without -j flag. But I always call
-> make -j9 check. And it always upset me that all tests run in parallel
-> except for iotests. So if it possible to detect that we are called through
-> "make -j9 check" and use "-j 9" for iotests/check in this case, it would be
-> good.
->
-> >
-> >
-> >     Hmm, seems -j 6 should be enough. I have 6 cores, 2 threads per core.
-> >     Anyway, that's so fast!
-> >
-> >     Vladimir Sementsov-Ogievskiy (3):
-> >        iotests/testrunner.py: add doc string for run_test()
-> >        iotests/testrunner.py: move updating last_elapsed to run_tests
-> >        iotests: check: multiprocessing support
-> >
-> >       tests/qemu-iotests/check         |  4 +-
-> >       tests/qemu-iotests/testrunner.py | 86
-> ++++++++++++++++++++++++++++----
-> >       2 files changed, 80 insertions(+), 10 deletions(-)
-> >
-> >     --
-> >     2.31.1
-> >
->
->
->
-I'll also now add:
+So this is essentially exposing the low level kernel data structure
+'struct kvm_stats_desc' mapped 1-to-1 into QAPI.
 
-Tested-by: John Snow <jsnow@redhat.com>
+There are pros/cons to doing that should be explored to see whether
+this actually makes sense for the QMP design.
 
-I tried to find a different workaround in just a few minutes, but that just
-made it clear that your solution was right. While I had it checked out, I
-ran it a few times and it looks good to me!
-(And no new problems from the Python CI stuff, so it looks good to me.)
+I understand this design is intended to be fully self-describing
+such that we can add arbitrarily more fields without ever
+changing QEMU code, and with a simple mapping from the kernel
+kvm_stats_desc.
 
---000000000000a4e9ac05d2926ef5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Taking the first level of data returned, we see the natural
+structure of the data wrt vCPUs is flattened:
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 6, 2021 at 3:26 PM Vladim=
-ir Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@virtuozzo.com" targ=
-et=3D"_blank">vsementsov@virtuozzo.com</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">06.12.2021 21:37, John Snow wrote:<br=
->
-&gt; <br>
-&gt; <br>
-&gt; On Fri, Dec 3, 2021 at 7:22 AM Vladimir Sementsov-Ogievskiy &lt;<a hre=
-f=3D"mailto:vsementsov@virtuozzo.com" target=3D"_blank">vsementsov@virtuozz=
-o.com</a> &lt;mailto:<a href=3D"mailto:vsementsov@virtuozzo.com" target=3D"=
-_blank">vsementsov@virtuozzo.com</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Hi all!<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Finally, I can not stand it any longer. So, I&#39;m=
- happy to present<br>
-&gt;=C2=A0 =C2=A0 =C2=A0multiprocessing support for iotests test runner.<br=
->
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0testing on tmpfs:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Before:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0time check -qcow2<br>
-&gt;=C2=A0 =C2=A0 =C2=A0...<br>
-&gt;=C2=A0 =C2=A0 =C2=A0real=C2=A0 =C2=A0 12m28.095s<br>
-&gt;=C2=A0 =C2=A0 =C2=A0user=C2=A0 =C2=A0 9m53.398s<br>
-&gt;=C2=A0 =C2=A0 =C2=A0sys=C2=A0 =C2=A0 =C2=A02m55.548s<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0After:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0time check -qcow2 -j 12<br>
-&gt;=C2=A0 =C2=A0 =C2=A0...<br>
-&gt;=C2=A0 =C2=A0 =C2=A0real=C2=A0 =C2=A0 2m12.136s<br>
-&gt;=C2=A0 =C2=A0 =C2=A0user=C2=A0 =C2=A0 12m40.948s<br>
-&gt;=C2=A0 =C2=A0 =C2=A0sys=C2=A0 =C2=A0 =C2=A04m7.449s<br>
-&gt; <br>
-&gt; <br>
-&gt; VERY excellent. And this will probably flush a lot more bugs loose, to=
-o. (Which I consider a good thing!)<br>
-<br>
-Thanks!)<br>
-<br>
-&gt; We could look into utilizing it for &#39;make check&#39;, but we&#39;l=
-l have to be prepared for a greater risk of race conditions on the CI if we=
- do. But... it&#39;s seriously hard to argue with this kind of optimization=
-, very well done!<br>
-<br>
-I thought about this too. I think, we can at least passthrought -j flag of =
-&quot;make -j9 check&quot; to ./check<br>
-<br>
-I think, CIs mostly call make check without -j flag. But I always call make=
- -j9 check. And it always upset me that all tests run in parallel except fo=
-r iotests. So if it possible to detect that we are called through &quot;mak=
-e -j9 check&quot; and use &quot;-j 9&quot; for iotests/check in this case, =
-it would be good.<br>
-<br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Hmm, seems -j 6 should be enough. I have 6 cores, 2=
- threads per core.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Anyway, that&#39;s so fast!<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Vladimir Sementsov-Ogievskiy (3):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 iotests/testrunner.py: add doc string for r=
-un_test()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 iotests/testrunner.py: move updating last_e=
-lapsed to run_tests<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 iotests: check: multiprocessing support<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0tests/qemu-iotests/check=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0|=C2=A0 4 +-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0tests/qemu-iotests/testrunner.py | 86 ++++++=
-++++++++++++++++++++++----<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A02 files changed, 80 insertions(+), 10 deleti=
-ons(-)<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0-- <br>
-&gt;=C2=A0 =C2=A0 =C2=A02.31.1<br>
-&gt; <br>
-<br>
-<br></blockquote><div><br></div><div>I&#39;ll also now add:<br><br></div><d=
-iv>Tested-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_=
-blank">jsnow@redhat.com</a>&gt;</div><div><br></div><div>I tried to find a =
-different workaround in just a few minutes, but that just made it clear tha=
-t your solution was right. While I had it checked out, I ran it a few times=
- and it looks good to me!<br></div><div>(And no new problems from the Pytho=
-n CI stuff, so it looks good to me.)</div><div><br></div></div></div>
+ { "return": [
+     { "name": "vcpu_0",
+       "type": "kvm-vcpu",
+       "stats": [...],  // stats for vcpu 0
+     },
+     { "name": "vcpu_1",
+       "type": "kvm-vcpu",
+       "stats": [...],  // stats for vcpu 0
+     },
+     ...other vCPUs...
+     { "name": "vm",
+       "type": "kvm-vm",
+       "stats": [...],  // stats for the VM
+     },
+ }
 
---000000000000a4e9ac05d2926ef5--
+This name+type stuff is all unnecessarily indirect. If we ever
+have to add more data unrelated to the kvm stats, we're going
+to need QEMU changes no matter what, so this indirect structure
+isn't future proofing it.
+
+I'd rather expect us to have named struct fields for each
+different provider of data, respecting the natural hierachy.
+ie use an array for vCPU data.
+
+I understand this is future proofed to be able to support
+non-KVM stats. If we have KVM per-vCPU stat and non-KVM
+per-VCPU stats at the same time, I'd expect them all to
+appear in the same place.  IOW, overall I'd expect to
+see grouping more like
+
+ { "return": {
+     "vcpus": [
+        
+        [ // stats for vcpu 0
+          { "provider": 'kvm',
+            "stats": [...] },
+          { "provider": 'qemu',
+            "stats"; [...] }
+        ],
+        
+        [ // stats for vcpu 1
+          { "provider": 'kvm',
+            "stats": [...] },
+          { "provider": 'qemu',
+            "stats"; [...] }
+        ],
+        
+        ...other vCPUs...
+     ]
+     "vm": [
+         { "provider": 'kvm',
+           "stats": [...] },
+         { "provider": 'qemu',
+           "stats"; [...] } ],
+     ],
+ }
+
+
+Now onto the values being reported. AFAICT from the kernel
+docs, for all the types of data it currently reports
+(cumulative, instant, peak, none), there is only ever going
+to be a single value. I assume the ability to report multiple
+values is future proofing for a later requirement. This is
+fine from a kerenl POV since they're trying to fit this into
+a flat struct. QAPI is way more flexible. It can switch
+between reporting an scale or array or scalars for the
+same field. So if we know the stat will only ever have
+1 value, we should be reporting a scalar, not an array
+which will only ever have one value.
+
+Second, for a given named statistic, AFAICT, the data type,
+unit, base and exponent are all fixed. I don't see a reason
+for us to be reporting that information every time we call
+'query-stats'. Just report the name + value(s).  Apps that
+want a specific named stat won't care about the dimensions,
+because they'll already know what the value means.
+
+Apps that want to be metadata driven to handle arbitrary
+stats, can just call 'query-stats-schemas' to learn about
+the dimensions one time.
+
+This will give waaay lower data transfer for querying
+values repeatedly.
+
+> 
+> { "execute": "query-stats-schemas" }
+> { "return": [
+>     { "type": "kvm-vcpu",
+>       "stats": [
+>         { "name": "guest_mode" },
+>         { "name": "directed_yield_successful" },
+>         ...
+>         },
+>     { "type": "kvm-vm",
+>       "stats": [
+>         { "name": "max_mmu_page_hash_collisions" },
+>         { "name": "max_mmu_rmap_size" },
+>         ...
+
+...this can be used to introspect the data type, unit,
+base, exponent as a one time task, if needed.
+
+Again, I'd expect the first level of nested to be
+removed  to mirror 'query-stats',
+
+ { "return": {
+     "vcpu": [
+         {
+           "provider": "kvm",
+           "stats": [
+             { "name": "guest_mode",
+               "unit": "none",
+               "base": 10,
+               "exponent": 0 },
+             { "name": "directed_yield_successful"
+               "unit": "none",
+               "base": 10,
+               "exponent": 0 },
+             },
+           ],
+         },
+         {
+           "provider": "qemu"
+           "stats": [
+             {
+               "name": "something_blah_blah",
+               "unit": "bytes",
+               "base": 2,
+               "exponent": 20,
+             },
+          ]
+        },
+    ],
+    "vm": [
+        {
+          "provider": "kvm",
+          "stats": [
+            { "name": "max_mmu_page_hash_collisions", ... }
+            { "name": "max_mmu_rmap_size", ... }
+          ]
+        },
+        {
+          "provider": "qemu",
+          "stats": [
+            { "name": "blah", ... }
+          ]
+        },
+    }
+ }
+
+> 
+> { "execute": "query-stats-instances" }
+> { "return": [
+>     { "name": "vcpu_1",
+>       "type": "kvm-vcpu" },
+>     { "name": "vcpu_0",
+>       "type": "kvm-vcpu" },
+>     { "name": "vm",
+>       "type": "kvm-vm" } ]
+> }
+
+I don't see a need for this command at all. It doesn't tell
+apps anything they can't already learn from "query-stats-schemas"
+
+New 'type' values will involve QEMU code changes no matter what.
+So in the even we need something other than 'vcpu' and 'vm' stats
+reported by 'query-stats', apps can just query the QAPI schema
+in the normal manner to learn about struct field names that exist
+in this QEMU version.
+
+IOW, this really just re-invented QAPI introspection for no
+benefit IMHO.
+
+> diff --git a/qapi/misc.json b/qapi/misc.json
+> index 358548abe1..a0a07ef0b1 100644
+> --- a/qapi/misc.json
+> +++ b/qapi/misc.json
+> @@ -527,3 +527,145 @@
+>   'data': { '*option': 'str' },
+>   'returns': ['CommandLineOptionInfo'],
+>   'allow-preconfig': true }
+> +
+> +##
+> +# @StatType:
+> +#
+> +# Enumeration of stat types
+> +# @cumulative: stat is cumulative; value can only increase.
+> +# @instant: stat is instantaneous; value can increase or decrease.
+> +# @peak: stat is the peak value; value can only increase.
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'enum' : 'StatType',
+> +  'data' : [ 'cumulative', 'instant', 'peak' ] }
+> +
+> +##
+> +# @StatUnit:
+> +#
+> +# Enumeration of stat units
+> +# @bytes: stat reported in bytes.
+> +# @seconds: stat reported in seconds.
+> +# @cycles: stat reported in clock cycles.
+> +# @none: no unit for this stat.
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'enum' : 'StatUnit',
+> +  'data' : [ 'bytes', 'seconds', 'cycles', 'none' ] }
+> +
+> +##
+> +# @StatData:
+> +#
+> +# Individual stat
+> +# @name: Stat name
+> +# @type: @StatType
+> +# @unit: @StatUnit
+> +# @base: Exponent base (2 or 10)
+> +# @exponent: Used together with @base
+> +# @val: List of uint64 values
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'struct': 'StatData',
+> +  'data': { 'name': 'str',
+> +            'type': 'StatType',
+> +            'unit': 'StatUnit',
+> +            'base': 'uint8',
+> +            'exponent': 'int16',
+> +            'val': [ 'uint64' ] } }
+> +
+> +##
+> +# @Stats:
+> +#
+> +# Stats per resource (e.g. vm or vcpu)
+> +# @name: Resource name
+> +# @stats: List of @StatData
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'struct': 'Stats',
+> +  'data': {'name': 'str',
+> +           'type': 'StatSchemaType',
+> +           'stats': [ 'StatData' ] } }
+> +
+> +##
+> +# @query-stats:
+> +#
+> +# @name: Stat name (optional)
+> +# @type: Type name (optional)
+> +# Returns: List of @Stats
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'command': 'query-stats',
+> +  'data': { '*name': 'str', '*type': 'str' },
+> +  'returns': [ 'Stats' ] }
+
+The 'name' and 'type' are used for filtering I presume. Only allowing
+a single value for each feels pretty inflexible. I'd say we want to
+allow mutliple requests at a time for efficiency.
+
+Bearing in mind my other suggestions above, I'd think we should have
+something  more like
+
+ { 'enum': 'StatsProvider',
+   'data': ["kvm", "qemu", "tcg", ....],
+ }
+
+ { 'struct': 'StatsRequest',
+   'data': {
+      'provider': 'StatsProvider',
+      // If omitted, report everything for this provider
+      '*fields': [ 'str' ]
+   }
+ }
+
+ { 'struct': 'StatsVCPURequest',
+   'base': 'StatsRequest',
+   'data': {
+     // To request subset of vCPUs e.g.
+     //  "cpu_set": "0-3"
+     // Could use ['int'] instead if desired
+     '*cpu_set': str,
+   },
+ }
+
+ { 'struct': 'StatsFilter',
+   'data': {
+     // If omitted means don't report that group of data
+     '*vcpu': 'StatsVCPURequest',
+     '*vm': 'StatsRequest',
+   },
+ }
+
+ { 'alternate': 'StatsValue',
+   'data': { 'scalar': 'int64',
+             'list': [ 'int64 ' ] }
+ }
+
+ { 'struct': 'StatsResultsEntry',
+   'data': {
+     'provider': 'StatsProvider',
+     'stats': [ 'StatsValue' ]
+   }
+ }
+
+ { 'struct': 'StatsResults':
+   'data': {
+     '*vcpu': [ [ 'StatsResultsEntry' ] ],
+     '*vm': [ 'StatsResultsEntry' ]
+   }
+ }
+
+ { 'command': 'query-stats',
+   'data': { 'filter': '*StatsFilter' },
+   'returns': 'StatsResults' }
+
+
+> +
+> +##
+> +# @StatSchemaType:
+> +#
+> +# Enumeration of stats schema types
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'enum' : 'StatSchemaType',
+> +  'data' : [ ] }
+> +
+> +##
+> +# @StatSchemaEntry:
+> +#
+> +# Individual stat in a schema type
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'struct': 'StatSchemaEntry',
+> +  'data': { 'name': 'str' } }
+> +
+> +##
+> +# @StatsSchema:
+> +#
+> +# Stats per @StatSchemaType
+> +# @type: @StatSchemaType
+> +# @stats: @StatCchemaName
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'struct': 'StatsSchema',
+> +  'data': { 'type': 'StatSchemaType',
+> +            'stats': [ 'StatSchemaEntry' ] } }
+> +
+> +##
+> +# @query-stats-schemas:
+> +#
+> +# @type: type name (optional)
+> +# Returns: List of @StatsSchema
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'command': 'query-stats-schemas',
+> +  'data': { '*type': 'str' },
+> +  'returns': [ 'StatsSchema' ] }
+
+I'd think this is more like
+
+ { 'struct': 'StatsSchemaValue',
+   'data': {
+     'name': 'str',
+     'type': 'StatType',
+     'unit': 'StatUnit',
+     'base': 'uint8',
+     'exponent': 'int16',
+   },
+ }
+
+ { 'struct': 'StatsSchemaProvider',
+   'data': {
+     'provider': 'StatsProvider',
+     'stats': [ 'StatsSchemaValue'],
+   }
+ }
+
+ { 'struct': 'StatsSchemaResult',
+   'data': {
+     'vcpu': ['StatsSchemaProvider'],
+     'vm': ['StatsSchemaProvider'],
+   }
+ }
+
+ { 'command': 'query-stats-schemas',
+   'returns': [ 'StatsSchemaResult' ] }
+
+
+> +
+> +##
+> +# @StatsInstance:
+> +#
+> +# @name: resource name
+> +# @type: @StatSchemaType
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'struct': 'StatsInstance',
+> +  'data': { 'name': 'str',
+> +            'type': 'StatSchemaType' } }
+> +
+> +##
+> +# @query-stats-instances:
+> +#
+> +# Returns list of @StatsInstance
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'command': 'query-stats-instances',
+> +  'returns': [ 'StatsInstance' ] }
+
+As mentioned earlier, IMHO this doesn't need to exist.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
