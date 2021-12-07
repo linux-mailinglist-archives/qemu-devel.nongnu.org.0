@@ -2,77 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05AB346BD27
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 15:01:41 +0100 (CET)
-Received: from localhost ([::1]:41318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34ABC46BD3B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Dec 2021 15:07:09 +0100 (CET)
+Received: from localhost ([::1]:47642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mub2J-00055g-TU
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 09:01:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44672)
+	id 1mub7b-0001I6-ND
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 09:07:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1muazs-0004Ao-Ic
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 08:59:08 -0500
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:45616)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1mub5I-000897-9B; Tue, 07 Dec 2021 09:04:45 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50002
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1muazo-0003O4-Gf
- for qemu-devel@nongnu.org; Tue, 07 Dec 2021 08:59:07 -0500
-Received: from sas1-3cba3404b018.qloud-c.yandex.net
- (sas1-3cba3404b018.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:bd26:0:640:3cba:3404])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id F064F2E1337;
- Tue,  7 Dec 2021 16:58:56 +0300 (MSK)
-Received: from 2a02:6b8:c08:78a:0:640:7f17:9212
- (2a02:6b8:c08:78a:0:640:7f17:9212 [2a02:6b8:c08:78a:0:640:7f17:9212])
- by sas1-3cba3404b018.qloud-c.yandex.net (mxbackcorp/Yandex) with HTTP id
- qwThHX0Lh0U1-wuLWKlum; Tue, 07 Dec 2021 16:58:56 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1638885536; bh=IUsDmnoZim+V9/O6s7u4SnnALbHTRsEli4fPMGr/4CA=;
- h=Subject:In-Reply-To:Cc:Date:References:To:From:Message-Id;
- b=iMNjP7LYDayEP0+T2iiNLd58vDp+cu5gD9E2aoPH6anrtkIE4EAcRwMZFCVjwcusM
- EiNf5wu63hwsykep5cX6e3GQhDfZmO6osb09/BmFYcbDOL5rRecfRo/m9fuckWizei
- UrtU8hebP7PDBOPxyKx5Wx0K1YiuL9v/7MrTeZr8=
-Authentication-Results: sas1-3cba3404b018.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from iva8-dc7983bf477b.qloud-c.yandex.net
- (iva8-dc7983bf477b.qloud-c.yandex.net [2a02:6b8:c0c:1086:0:640:dc79:83bf])
- by iva8-c5ee4261001e.qloud-c.yandex.net (mxbackcorp/Yandex) with HTTP id
- hwTlXO1LP8c1-5A1s7R54
- for <d-tatianin@yandex-team.ru>; Tue, 07 Dec 2021 16:58:46 +0300
-X-Yandex-Fwd: 2
-Received: by iva8-dc7983bf477b.qloud-c.yandex.net with HTTP;
- Tue, 07 Dec 2021 16:58:46 +0300
-From: Daniil Tatianin <d-tatianin@yandex-team.ru>
-To: David Hildenbrand <david@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-In-Reply-To: <3af46862-7c8d-dcdd-9ca8-8ace4f3a554a@redhat.com>
-References: <20211207070607.1422670-1-d-tatianin@yandex-team.ru>
- <20211207070607.1422670-2-d-tatianin@yandex-team.ru>
- <3af46862-7c8d-dcdd-9ca8-8ace4f3a554a@redhat.com>
-Subject: Re: [PATCH v1 2/2] osdep: support mempolicy for preallocation in
- os_mem_prealloc
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1mub5F-0004bk-L4; Tue, 07 Dec 2021 09:04:44 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B7CqqD5016767; 
+ Tue, 7 Dec 2021 14:04:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=RWEc6mU6A/pNUZvBKznFLX7bAuUJXTtuSeSTwjR58y4=;
+ b=ImQUTEB9Ub4sKNZLkp6kuRUFz9vKgx4lJep51X3XO2yxyh9cRhoqBChpIqAPxJcuHB26
+ xf3j4yfxJY0OrkfK3xyUKznEO0g//PaSlLeLwSX+aE1iAy/KozrN4O9m1EqjTUMnh/eh
+ bDHqtmTUyw61pITD17+MtRPpitDNt/pS+UW7WUs2dO/6CmNv40Qm7KZMwhVyvq4c4Yb7
+ WV7OpId08HfLeIK/25abhWXfm3ZWXtybnjSDzQarrWdaRLGhNwcmwLF+d9AKJtNdvxSK
+ xBvhL1MlSdTrjDQ5XhhcqtXt0+vMrv2/pQ0rxup1CU/s6Wj1e5BSKjOZkLB2kGpvKCiA JA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ct80r1guj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Dec 2021 14:04:33 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B7Dx942011754;
+ Tue, 7 Dec 2021 14:04:33 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ct80r1gtr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Dec 2021 14:04:32 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B7E3AVb001766;
+ Tue, 7 Dec 2021 14:04:31 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04ams.nl.ibm.com with ESMTP id 3cqyyaq213-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Dec 2021 14:04:31 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B7E3hRr31326604
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 7 Dec 2021 14:03:43 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2EB6D11C07D;
+ Tue,  7 Dec 2021 14:03:43 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EEA9011C050;
+ Tue,  7 Dec 2021 14:03:42 +0000 (GMT)
+Received: from [9.145.165.107] (unknown [9.145.165.107])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  7 Dec 2021 14:03:42 +0000 (GMT)
+Message-ID: <6ee71d8d-33b8-47cf-66c1-92b960d3c5fe@linux.ibm.com>
+Date: Tue, 7 Dec 2021 15:03:42 +0100
 MIME-Version: 1.0
-X-Mailer: Yamail [ http://yandex.ru ] 5.0
-Date: Tue, 07 Dec 2021 16:58:56 +0300
-Message-Id: <227321638883575@mail.yandex-team.ru>
-Content-Transfer-Encoding: base64
-Content-Type: text/html; charset=utf-8
-Received-SPF: pass client-ip=77.88.29.217;
- envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- HTML_MIME_NO_HTML_TAG=0.377, MIME_HTML_ONLY=0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 07/14] ppc/pnv: Introduce a num_pecs class attribute for
+ PHB4 PEC devices
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211202144235.1276352-1-clg@kaod.org>
+ <20211202144235.1276352-8-clg@kaod.org>
+ <453c5cc3-5ac5-c6ff-fa7f-5ccb8492e314@linux.ibm.com>
+ <fe4c3744-91b1-bd5b-2a04-e2782c46fc09@kaod.org>
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+In-Reply-To: <fe4c3744-91b1-bd5b-2a04-e2782c46fc09@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ZlSxifNv1tp-hbyIFvigZy_J5hBp7RvL
+X-Proofpoint-GUID: M4bUzcb0K67avHSiTBivYZfW6Ma9T6h1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-07_06,2021-12-06_02,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 bulkscore=0
+ priorityscore=1501 lowpriorityscore=0 clxscore=1015 mlxscore=0
+ adultscore=0 malwarescore=0 suspectscore=0 phishscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112070085
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.44,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,44 +117,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "imammedo@redhat.com" <imammedo@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>,
- "sw@weilnetz.de" <sw@weilnetz.de>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PGRpdj5JIGJlbGlldmUgeW91J3JlIHJpZ2h0LiBMb29raW5nIGF0IHRoZSBpbXBsZW1lbnRhdGlv
-biBvZiBzaG1lbV9hbGxvY19wYWdlLCBpdCB1c2VzIHRoZSBpbm9kZSBwb2xpY3ksIHdoaWNoIGlz
-IHNldCB2aWE8YnIgLz52bWEtJmd0O3NldF9wb2xpY3kgKGZyb20gdGhlIG1iaW5kKCkgY2FsbCBp
-biB0aGlzIGNhc2UpLiBzZXRfbWVtcG9saWN5IGlzIGJvdGggdXNlbGVzcyBhbmQgcmVkdW5kYW50
-IGhlcmUsIGFzIHRocmVhZCdzPGJyIC8+cG9saWN5IGlzIG9ubHkgZXZlciB1c2VkIGluIGNhc2Ug
-dm1hLSZndDtnZXRfcG9saWN5IHJldHVybnMgTlVMTCAod2hpY2ggaXQgZG9lc24ndCBpbiBvdXIg
-Y2FzZSkuPGJyIC8+U29ycnkgZm9yIHRoZSBjb25mdXNpb24uPGJyIC8+PGJyIC8+VGhhbmtzLDxi
-ciAvPkRhbmlpbDwvZGl2PjxkaXY+wqA8L2Rpdj48ZGl2PjA3LjEyLjIwMjEsIDExOjEzLCAiRGF2
-aWQgSGlsZGVuYnJhbmQiICZsdDtkYXZpZEByZWRoYXQuY29tJmd0Ozo8L2Rpdj48YmxvY2txdW90
-ZT48cD5PbiAwNy4xMi4yMSAwODowNiwgRGFuaWlsIFRhdGlhbmluIHdyb3RlOjwvcD48YmxvY2tx
-dW90ZT7CoFRoaXMgaXMgbmVlZGVkIGZvciBjYXNlcyB3aGVyZSB3ZSB3YW50IHRvIG1ha2Ugc3Vy
-ZSB0aGF0IGEgc2hhcmVkIG1lbW9yeTxiciAvPsKgcmVnaW9uIGdldHMgYWxsb2NhdGVkIGZyb20g
-YSBzcGVjaWZpYyBOVU1BIG5vZGUuIFRoaXMgaXMgaW1wb3NzaWJsZSB0byBkbzxiciAvPsKgd2l0
-aCBtYmluZCgyKSBiZWNhdXNlIGl0IGlnbm9yZXMgdGhlIHBvbGljeSBmb3IgbWVtb3J5IG1hcHBl
-ZCB3aXRoPGJyIC8+wqBNQVBfU0hBUkVELiBXZSB3b3JrIGFyb3VuZCB0aGlzIGJ5IGNhbGxpbmcg
-c2V0X21lbXBvbGljeSBmcm9tIHByZWFsbG9jPGJyIC8+wqB0aHJlYWRzIGluc3RlYWQuPC9ibG9j
-a3F1b3RlPjxwPjxiciAvPlRoYXQncyBub3QgcXVpdGUgdHJ1ZSBJIHRoaW5rLCBob3cgd2VyZSB5
-b3UgYWJsZSB0byBvYnNlcnZlIHRoaXM/IERvIHlvdTxiciAvPmhhdmUgYSByZXByb2R1Y2VyPzxi
-ciAvPjxiciAvPldoaWxlIHRoZSBtYW4gcGFnZSBzYXlzOjxiciAvPjxiciAvPiI8YnIgLz5UaGUg
-c3BlY2lmaWVkIHBvbGljeSB3aWxsIGJlIGlnbm9yZWQgZm9yIGFueSBNQVBfU0hBUkVEIG1hcHBp
-bmdzIGluPGJyIC8+dGhlIHNwZWNpZmllZCBtZW1vcnkgcmFuZ2UuIFJhdGhlciB0aGUgcGFnZXMg
-d2lsbCBiZSBhbGxvY2F0ZWQ8YnIgLz5hY2NvcmRpbmcgdG8gdGhlIG1lbW9yeSBwb2xpY3kgb2Yg
-dGhlIHRocmVhZCB0aGF0IGNhdXNlZCB0aGUgcGFnZSB0byBiZTxiciAvPmFsbG9jYXRlZC4gQWdh
-aW4sIHRoaXMgbWF5IG5vdCBiZSB0aGUgdGhyZWFkIHRoYXQgY2FsbGVkIG1iaW5kKCkuPGJyIC8+
-IjxiciAvPjxiciAvPldoYXQgaXQgcmVhbGx5IG1lYW5zIGlzIHRoYXQgYXMgbG9uZyBhcyB3ZSBh
-Y2Nlc3MgdGhhdCBtZW1vcnkgdmlhIHRoZTxiciAvPipWTUEqIGZvciB3aGljaCB3ZSBjYWxsZWQg
-bWJpbmQoKSwgd2hpY2ggaXMgdGhlIGNhc2Ugd2hlbiAqbm90KiB1c2luZzxiciAvPmZhbGxvY2F0
-ZSgpIHRvIHByZWFsbG9jYXRlIG1lbW9yeSwgd2UgZW5kIHVwIHVzaW5nIHRoZSBjb3JyZWN0IHBv
-bGljeS48YnIgLz48YnIgLz48YnIgLz5JIGRpZCBleHBlcmltZW50cyBhIHdoaWxlIGFnbyB3aXRo
-IGh1Z2V0bGJmcyBzaGFyZWQgbWVtb3J5IGFuZCBpdDxiciAvPnByb3Blcmx5IGFsbG9jYXRlZCBm
-cm9tIHRoZSByaWdodCBub2RlLiBTbyBJJ2QgYmUgY3VyaW91cyBob3cgeW91PGJyIC8+dHJpZ2dl
-ciB0aGlzLjxiciAvPsKgPC9wPi0tPGJyIC8+VGhhbmtzLDxiciAvPjxiciAvPkRhdmlkIC8gZGhp
-bGRlbmI8YnIgLz7CoDwvYmxvY2txdW90ZT4=
+
+
+On 07/12/2021 11:45, Cédric Le Goater wrote:
+> On 12/7/21 11:00, Frederic Barrat wrote:
+>>
+>>
+>> On 02/12/2021 15:42, Cédric Le Goater wrote:
+>>> POWER9 processor comes with 3 PHB4 PECs (PCI Express Controller) and
+>>> each PEC can have several PHBs :
+>>>
+>>>    * PEC0 provides 1 PHB  (PHB0)
+>>>    * PEC1 provides 2 PHBs (PHB1 and PHB2)
+>>>    * PEC2 provides 3 PHBs (PHB3, PHB4 and PHB5)
+>>>
+>>> A num_pecs class attribute represents better the logic units of the
+>>> POWER9 chip. Use that instead of num_phbs which fits POWER8 chips.
+>>> This will ease adding support for user created devices.
+>>>
+>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>> ---
+>>
+>> With this patch, chip->num_phbs is only defined and used on P8. We may 
+>> want to add a comment to make it clear.
+> 
+> Yes.
+> 
+> With the latest changes, I think we can now move num_phbs under PnvChip8
+> and num_pecs under PnvChip9 since they are only used in these routines :
+> 
+> P8:
+>      static void pnv_chip_power8_instance_init(Object *obj)
+>              chip->num_phbs = pcc->num_phbs;
+>          for (i = 0; i < chip->num_phbs; i++) {
+> 
+>      static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
+>          for (i = 0; i < chip->num_phbs; i++) {
+> P9:
+>      static void pnv_chip_power9_instance_init(Object *obj)
+>              chip->num_pecs = pcc->num_pecs;
+>          for (i = 0; i < chip->num_pecs; i++) {
+> 
+>      static void pnv_chip_power9_phb_realize(PnvChip *chip, Error **errp)
+>          for (i = 0; i < chip->num_pecs; i++) {
+> 
+>> As I review this series, something is bugging me though: the 
+>> difference of handling between P8 and P9.
+>> On P9, we seem to have a more logical hiearachy:
+>> phb <- PCI controller (PEC) <- chip
+> 
+> Yes. It's cleaner than P8 in terms of logic. P8 initial support was
+> done hastily for skiboot bringup in 2014.
+> 
+>> With P8, we don't have an explicit PEC, but we have a PBCQ object, 
+>> which is somewhat similar. The hierarchy seems also more convoluted.
+> 
+> But we don't have stacks on P8. Do we ?
+
+
+Stacks were introduced on P9 because all the lanes handled by a PEC 
+could be grouped differently, each group being called a stack. And each 
+stack is associated to a PHB.
+On P8, there's no such split, so the doc didn't mention stacks. But each 
+PEC handles exactly one PHB. So we could still keep the same abstractions.
+On all chips, a PEC would really be equal to a pbcq interface to the 
+power bus. The pbcq is servicing one (on P8) or more (on P9/P10) PHBs.
+
+
+
+>> I don't see why it's treated differently. It seems both chips could be 
+>> treated the same, which would make the code easier to follow.
+> 
+> I agree. Daniel certainly would also :)
+> 
+>> That's outside of the scope of this series though. 
+> 
+> Well, this patchset enables libvirt support for the PowerNV machines.
+> Once this is pushed, we need to keep the API, the object model names
+> being part of it.
+> 
+> 7.0 is a good time for a change, really. After that, we won't be able
+> to change the QOM hierarchy that much.
+> 
+>> So maybe for a future patch? Who knows, I might volunteer...
+> 
+> You would introduce a phb3-pec on top of the phb3s ?
+
+
+Or rename pnv_phb3_pbcq.c to pnv_phb3_pec.c and starts from there. 
+Conceptually, the TYPE_PNV_PBCQ and TYPE_PNV_PHB4_PEC_STACK objects seem 
+close. But that's easy to say in an email...
+
+   Fred
+
+
+> Let me send a v2 first and may be we could rework the object hierarchy
+> in the 7.0 time frame. We don't have to merge this ASAP.
+> 
+> Thanks,
+> 
+> C.
 
