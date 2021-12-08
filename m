@@ -2,87 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7D446CE74
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 08:40:00 +0100 (CET)
-Received: from localhost ([::1]:35414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67F3646CE7E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 08:47:19 +0100 (CET)
+Received: from localhost ([::1]:42646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1murYV-0007aB-4O
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 02:39:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47722)
+	id 1murfa-0004FF-0q
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 02:47:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1murVT-0004cU-Do
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 02:36:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47843)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1murcs-0002gg-7J
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 02:44:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1murVR-0000Dr-Ak
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 02:36:51 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1murco-0006QY-KG
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 02:44:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638949008;
+ s=mimecast20190719; t=1638949464;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Q2RL3ImqOPKx7cUO/sZATykbFeiIgMwuC3lKOVbiONw=;
- b=jCnUuwn6TDqbJNVu4ek646zYzxfOkwKmN/8+CbjqBatGhyjwuAVGBGWAERBc0g0ctAwweW
- FSqCqFa6JPe/dOM0mdb9Vrr8zBXEtRscdTcYLbKdQYuFSwS0F2CW/5NjQJpUbuLUAzBtP8
- /QaTDLiquVXQeQ8vY6A+hx09wmOYS5Y=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UAsnne2B39UNUVL0cFK0pkfKW9FfPphHr4PbIsK8CnY=;
+ b=CQMQpAmJU7dgA+Or4iiRscXiu4h0n0x6VNY+Z5NQJc/JSmfo7MP/4L/BkMuLsrUeEUx+zT
+ PfWDu1380Wrsk14pTSwzyrw4xl/qqDPTm/zIVhzhfHTEtpsQo7vi4SinjT1uQQ3RbVCfLd
+ XiU1ElJNlCzMqldHVw61yRRi7uPS1OM=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-uHJ0zwxVNmybguHgPy91Ig-1; Wed, 08 Dec 2021 02:36:47 -0500
-X-MC-Unique: uHJ0zwxVNmybguHgPy91Ig-1
-Received: by mail-ed1-f69.google.com with SMTP id
- w5-20020a05640234c500b003f1b9ab06d2so1375831edc.13
- for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 23:36:47 -0800 (PST)
+ us-mta-327-cFny4ngFP26uXay19-nwxw-1; Wed, 08 Dec 2021 02:44:23 -0500
+X-MC-Unique: cFny4ngFP26uXay19-nwxw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 30-20020a508e5e000000b003f02e458b17so1370822edx.17
+ for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 23:44:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Q2RL3ImqOPKx7cUO/sZATykbFeiIgMwuC3lKOVbiONw=;
- b=tprI7ly9Vz2ax7aiNakU+rhFhx6vnDIOdvdOw6msNDjum3YE2FukTvY8fM7w+baMhb
- 0OguU+icWm98JXjxR3oRYlPCZaj8vFjDraFBXFZm8gMnMFS/s8YEovjZypLsxZC5EgOF
- TRORZoDhnrwbonzR0E3qjFgzPInQqkoghe0ug4HqjLF0T24dJQo2uE9a19x4x+Vm+H6E
- iK/hQ2y6hAcPaEW3y4hAs492zzL8sAX/Yr/RqlXAtHrlj8dhLYjFnhaTt7cse+yIjb7e
- 07eTRG2/AKHc9DmHTY/fMGHVRytryaQjUSesvzLJaVSfQ4bmyZ10vK4kmUDfLCfpSUxS
- PMqA==
-X-Gm-Message-State: AOAM530W0itbAvDnWm/wENDHpmmY/4HnReN8FGAf8wNdwqaAkdedfKrz
- uBu/tBIpbIBUZ84Mv7HdUtiJT6dGrh+GavkVRQHDbUJdWxlu2vdoCniLPOMOgF4NkEHCn56ISJd
- v6M7tgxyHSUfDM1Y=
-X-Received: by 2002:a05:6402:26c8:: with SMTP id
- x8mr17110902edd.156.1638949005981; 
- Tue, 07 Dec 2021 23:36:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwTwjShxrRi++Z1rdIL9S9rtATuIGddzgDaO9HI+QjVR4RowmFFUcEIwGUqztp6cgzJytKx6w==
-X-Received: by 2002:a05:6402:26c8:: with SMTP id
- x8mr17110880edd.156.1638949005783; 
- Tue, 07 Dec 2021 23:36:45 -0800 (PST)
+ bh=UAsnne2B39UNUVL0cFK0pkfKW9FfPphHr4PbIsK8CnY=;
+ b=tN8sqEczax4ExuGVBQSmSEQ+UlnQzMZg/Ak4pfrJ+ncBg8ZNiKYQqyiO9eazNoFYWz
+ CSUXL+RXW3AM3K4ZN8NjlmKAdRHbbSAscSvEBA7e0U9z0hgwwK8UqQSIMsLxSsVfJyyC
+ 6IeXlSFa+vYa6ICIq7rBeGFw70a2j3nNkk5uTWtypbUXofouFhH4h9VfTqaKj6vnA9Sp
+ OYH5WsRdeozjKw+tZvQTGo0zMU1xUo6vn2bz0hPps+pd5sk91owgU2YXRsaEo11+0RFA
+ GfagMmBVu7NxZWMBxZGtnCVhh1/wey/Ez9G4Y7jg09UBhZ/keqauMLrKizF38B6q6Daf
+ yJnA==
+X-Gm-Message-State: AOAM532K2Ec4EPRBBFTbWXTpCiM83MIHvMvECzHQDmKoFkeb82Uwtq9v
+ BwZisdvmQJc60TWItqNBxqi2Cns/rXVvzcSU+ootQRgVeoZ2oWJIl3leLQWIY9HmPWfNVBxHR23
+ oR+feoHVA+K6ATY8=
+X-Received: by 2002:a17:907:6e8e:: with SMTP id
+ sh14mr5393497ejc.536.1638949461711; 
+ Tue, 07 Dec 2021 23:44:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJze3jlMYuxzdSACyUJ2iud7KEUQwZC4ype5EmlIP1xw51KmgaFLc5CrJduDcxu3yXZ1vu0ZSA==
+X-Received: by 2002:a17:907:6e8e:: with SMTP id
+ sh14mr5393465ejc.536.1638949461393; 
+ Tue, 07 Dec 2021 23:44:21 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:107e:ebdb:5cc6:c351:b05:514f])
- by smtp.gmail.com with ESMTPSA id r3sm985257ejr.79.2021.12.07.23.36.43
+ by smtp.gmail.com with ESMTPSA id ar2sm998011ejc.20.2021.12.07.23.44.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Dec 2021 23:36:45 -0800 (PST)
-Date: Wed, 8 Dec 2021 02:36:41 -0500
+ Tue, 07 Dec 2021 23:44:20 -0800 (PST)
+Date: Wed, 8 Dec 2021 02:44:17 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v5 3/4] failover: fix unplug pending detection
-Message-ID: <20211208023603-mutt-send-email-mst@kernel.org>
-References: <20211119090718.440793-1-lvivier@redhat.com>
- <20211119090718.440793-4-lvivier@redhat.com>
+Subject: Re: [PATCH v6 5/6] test/libqtest: add some virtio-net failover
+ migration cancelling tests
+Message-ID: <20211208024325-mutt-send-email-mst@kernel.org>
+References: <20211206222040.3872253-1-lvivier@redhat.com>
+ <20211206222040.3872253-6-lvivier@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211119090718.440793-4-lvivier@redhat.com>
+In-Reply-To: <20211206222040.3872253-6-lvivier@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,94 +96,338 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Michael Roth <michael.roth@amd.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>, Jens Freimann <jfreimann@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Jens Freimann <jfreimann@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 19, 2021 at 10:07:17AM +0100, Laurent Vivier wrote:
-> Failover needs to detect the end of the PCI unplug to start migration
-> after the VFIO card has been unplugged.
-> 
-> To do that, a flag is set in pcie_cap_slot_unplug_request_cb() and reset in
-> pcie_unplug_device().
-> 
-> But since
->     17858a169508 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35")
-> we have switched to ACPI unplug and these functions are not called anymore
-> and the flag not set. So failover migration is not able to detect if card
-> is really unplugged and acts as it's done as soon as it's started. So it
-> doesn't wait the end of the unplug to start the migration. We don't see any
-> problem when we test that because ACPI unplug is faster than PCIe native
-> hotplug and when the migration really starts the unplug operation is
-> already done.
-> 
-> See c000a9bd06ea ("pci: mark device having guest unplug request pending")
->     a99c4da9fc2a ("pci: mark devices partially unplugged")
+On Mon, Dec 06, 2021 at 11:20:39PM +0100, Laurent Vivier wrote:
+> Add some tests to check the state of the machine if the migration
+> is cancelled while we are using virtio-net failover.
 > 
 > Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> Reviewed-by: Ani Sinha <ani@anisinha.ca>
 
-Hmm.  I think this one may be needed for this release actually.
-Isolate from testing changes and repost?
+So this one I think is needed for the release. Thomas, are you
+merging it there or should I?
 
 > ---
->  hw/acpi/pcihp.c | 30 +++++++++++++++++++++++++++---
->  1 file changed, 27 insertions(+), 3 deletions(-)
+>  tests/qtest/virtio-net-failover.c | 291 ++++++++++++++++++++++++++++++
+>  1 file changed, 291 insertions(+)
 > 
-> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> index f610a25d2ef9..30405b5113d7 100644
-> --- a/hw/acpi/pcihp.c
-> +++ b/hw/acpi/pcihp.c
-> @@ -222,9 +222,27 @@ static void acpi_pcihp_eject_slot(AcpiPciHpState *s, unsigned bsel, unsigned slo
->          PCIDevice *dev = PCI_DEVICE(qdev);
->          if (PCI_SLOT(dev->devfn) == slot) {
->              if (!acpi_pcihp_pc_no_hotplug(s, dev)) {
-> -                hotplug_ctrl = qdev_get_hotplug_handler(qdev);
-> -                hotplug_handler_unplug(hotplug_ctrl, qdev, &error_abort);
-> -                object_unparent(OBJECT(qdev));
-> +                /*
-> +                 * partially_hotplugged is used by virtio-net failover:
-> +                 * failover has asked the guest OS to unplug the device
-> +                 * but we need to keep some references to the device
-> +                 * to be able to plug it back in case of failure so
-> +                 * we don't execute hotplug_handler_unplug().
-> +                 */
-> +                if (dev->partially_hotplugged) {
-> +                    /*
-> +                     * pending_deleted_event is set to true when
-> +                     * virtio-net failover asks to unplug the device,
-> +                     * and set to false here when the operation is done
-> +                     * This is used by the migration loop to detect the
-> +                     * end of the operation and really start the migration.
-> +                     */
-> +                    qdev->pending_deleted_event = false;
-> +                } else {
-> +                    hotplug_ctrl = qdev_get_hotplug_handler(qdev);
-> +                    hotplug_handler_unplug(hotplug_ctrl, qdev, &error_abort);
-> +                    object_unparent(OBJECT(qdev));
-> +                }
->              }
->          }
->      }
-> @@ -396,6 +414,12 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
->          return;
->      }
->  
-> +    /*
-> +     * pending_deleted_event is used by virtio-net failover to detect the
-> +     * end of the unplug operation, the flag is set to false in
-> +     * acpi_pcihp_eject_slot() when the operation is completed.
-> +     */
-> +    pdev->qdev.pending_deleted_event = true;
->      s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
->      acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
+> diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
+> index c88f8ddec39a..57abb99e7f6e 100644
+> --- a/tests/qtest/virtio-net-failover.c
+> +++ b/tests/qtest/virtio-net-failover.c
+> @@ -682,6 +682,289 @@ static void test_migrate_in(gconstpointer opaque)
+>      machine_stop(qts);
 >  }
+>  
+> +static void test_migrate_abort_wait_unplug(gconstpointer opaque)
+> +{
+> +    QTestState *qts;
+> +    QDict *resp, *args, *data, *ret;
+> +    g_autofree gchar *uri = g_strdup_printf("exec: cat > %s", (gchar *)opaque);
+> +    const gchar *status;
+> +
+> +    qts = machine_start(BASE_MACHINE
+> +                     "-netdev user,id=hs0 "
+> +                     "-netdev user,id=hs1 ",
+> +                     2);
+> +
+> +    check_one_card(qts, false, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
+> +
+> +    qtest_qmp_device_add(qts, "virtio-net", "standby0",
+> +                         "{'bus': 'root0',"
+> +                         "'failover': 'on',"
+> +                         "'netdev': 'hs0',"
+> +                         "'mac': '"MAC_STANDBY0"'}");
+> +
+> +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
+> +
+> +    start_virtio_net(qts, 1, 0, "standby0");
+> +
+> +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
+> +
+> +    qtest_qmp_device_add(qts, "virtio-net", "primary0",
+> +                         "{'bus': 'root1',"
+> +                         "'failover_pair_id': 'standby0',"
+> +                         "'netdev': 'hs1',"
+> +                         "'rombar': 0,"
+> +                         "'romfile': '',"
+> +                         "'mac': '"MAC_PRIMARY0"'}");
+> +
+> +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
+> +
+> +    args = qdict_from_jsonf_nofail("{}");
+> +    g_assert_nonnull(args);
+> +    qdict_put_str(args, "uri", uri);
+> +
+> +    resp = qtest_qmp(qts, "{ 'execute': 'migrate', 'arguments': %p}", args);
+> +    g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
+> +
+> +    /* the event is sent whan QEMU asks the OS to unplug the card */
+> +    resp = qtest_qmp_eventwait_ref(qts, "UNPLUG_PRIMARY");
+> +    g_assert(qdict_haskey(resp, "data"));
+> +
+> +    data = qdict_get_qdict(resp, "data");
+> +    g_assert(qdict_haskey(data, "device-id"));
+> +    g_assert_cmpstr(qdict_get_str(data, "device-id"), ==, "primary0");
+> +
+> +    qobject_unref(resp);
+> +
+> +    resp = qtest_qmp(qts, "{ 'execute': 'migrate_cancel' }");
+> +    g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
+> +
+> +    /* migration has been cancelled while the unplug was in progress */
+> +
+> +    /* while the card is not ejected, we must be in "cancelling" state */
+> +    ret = migrate_status(qts);
+> +
+> +    status = qdict_get_str(ret, "status");
+> +    g_assert_cmpstr(status, ==, "cancelling");
+> +    qobject_unref(ret);
+> +
+> +    /* OS unplugs the cards, QEMU can move from wait-unplug state */
+> +    qtest_outl(qts, ACPI_PCIHP_ADDR_ICH9 + PCI_EJ_BASE, 1);
+> +
+> +    while (true) {
+> +        ret = migrate_status(qts);
+> +
+> +        status = qdict_get_str(ret, "status");
+> +        if (strcmp(status, "cancelled") == 0) {
+> +            break;
+> +        }
+> +        g_assert_cmpstr(status, !=, "failed");
+> +        g_assert_cmpstr(status, !=, "active");
+> +        qobject_unref(ret);
+> +    }
+> +    qobject_unref(ret);
+> +
+> +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
+> +
+> +    machine_stop(qts);
+> +}
+> +
+> +static void test_migrate_abort_active(gconstpointer opaque)
+> +{
+> +    QTestState *qts;
+> +    QDict *resp, *args, *data, *ret;
+> +    g_autofree gchar *uri = g_strdup_printf("exec: cat > %s", (gchar *)opaque);
+> +    const gchar *status;
+> +
+> +    qts = machine_start(BASE_MACHINE
+> +                     "-netdev user,id=hs0 "
+> +                     "-netdev user,id=hs1 ",
+> +                     2);
+> +
+> +    check_one_card(qts, false, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
+> +
+> +    qtest_qmp_device_add(qts, "virtio-net", "standby0",
+> +                         "{'bus': 'root0',"
+> +                         "'failover': 'on',"
+> +                         "'netdev': 'hs0',"
+> +                         "'mac': '"MAC_STANDBY0"'}");
+> +
+> +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
+> +
+> +    start_virtio_net(qts, 1, 0, "standby0");
+> +
+> +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
+> +
+> +    qtest_qmp_device_add(qts, "virtio-net", "primary0",
+> +                         "{'bus': 'root1',"
+> +                         "'failover_pair_id': 'standby0',"
+> +                         "'netdev': 'hs1',"
+> +                         "'rombar': 0,"
+> +                         "'romfile': '',"
+> +                         "'mac': '"MAC_PRIMARY0"'}");
+> +
+> +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
+> +
+> +    args = qdict_from_jsonf_nofail("{}");
+> +    g_assert_nonnull(args);
+> +    qdict_put_str(args, "uri", uri);
+> +
+> +    resp = qtest_qmp(qts, "{ 'execute': 'migrate', 'arguments': %p}", args);
+> +    g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
+> +
+> +    /* the event is sent whan QEMU asks the OS to unplug the card */
+> +    resp = qtest_qmp_eventwait_ref(qts, "UNPLUG_PRIMARY");
+> +    g_assert(qdict_haskey(resp, "data"));
+> +
+> +    data = qdict_get_qdict(resp, "data");
+> +    g_assert(qdict_haskey(data, "device-id"));
+> +    g_assert_cmpstr(qdict_get_str(data, "device-id"), ==, "primary0");
+> +
+> +    qobject_unref(resp);
+> +
+> +    /* OS unplugs the cards, QEMU can move from wait-unplug state */
+> +    qtest_outl(qts, ACPI_PCIHP_ADDR_ICH9 + PCI_EJ_BASE, 1);
+> +
+> +    while (true) {
+> +        ret = migrate_status(qts);
+> +
+> +        status = qdict_get_str(ret, "status");
+> +        if (strcmp(status, "wait-unplug") != 0) {
+> +            break;
+> +        }
+> +        g_assert_cmpstr(status, !=, "failed");
+> +        qobject_unref(ret);
+> +    }
+> +    qobject_unref(resp);
+> +
+> +    resp = qtest_qmp(qts, "{ 'execute': 'migrate_cancel' }");
+> +    g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
+> +
+> +    while (true) {
+> +        ret = migrate_status(qts);
+> +
+> +        status = qdict_get_str(ret, "status");
+> +        if (strcmp(status, "cancelled") == 0) {
+> +            break;
+> +        }
+> +        g_assert_cmpstr(status, !=, "failed");
+> +        g_assert_cmpstr(status, !=, "active");
+> +        qobject_unref(ret);
+> +    }
+> +    qobject_unref(ret);
+> +
+> +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
+> +
+> +    machine_stop(qts);
+> +}
+> +
+> +static void test_migrate_abort_timeout(gconstpointer opaque)
+> +{
+> +    QTestState *qts;
+> +    QDict *resp, *args, *data, *ret;
+> +    g_autofree gchar *uri = g_strdup_printf("exec: cat > %s", (gchar *)opaque);
+> +    const gchar *status;
+> +    int total;
+> +
+> +    qts = machine_start(BASE_MACHINE
+> +                     "-netdev user,id=hs0 "
+> +                     "-netdev user,id=hs1 ",
+> +                     2);
+> +
+> +    check_one_card(qts, false, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
+> +
+> +    qtest_qmp_device_add(qts, "virtio-net", "standby0",
+> +                         "{'bus': 'root0',"
+> +                         "'failover': 'on',"
+> +                         "'netdev': 'hs0',"
+> +                         "'mac': '"MAC_STANDBY0"'}");
+> +
+> +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
+> +
+> +    start_virtio_net(qts, 1, 0, "standby0");
+> +
+> +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
+> +
+> +    qtest_qmp_device_add(qts, "virtio-net", "primary0",
+> +                         "{'bus': 'root1',"
+> +                         "'failover_pair_id': 'standby0',"
+> +                         "'netdev': 'hs1',"
+> +                         "'rombar': 0,"
+> +                         "'romfile': '',"
+> +                         "'mac': '"MAC_PRIMARY0"'}");
+> +
+> +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
+> +
+> +    args = qdict_from_jsonf_nofail("{}");
+> +    g_assert_nonnull(args);
+> +    qdict_put_str(args, "uri", uri);
+> +
+> +    resp = qtest_qmp(qts, "{ 'execute': 'migrate', 'arguments': %p}", args);
+> +    g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
+> +
+> +    /* the event is sent whan QEMU asks the OS to unplug the card */
+> +    resp = qtest_qmp_eventwait_ref(qts, "UNPLUG_PRIMARY");
+> +    g_assert(qdict_haskey(resp, "data"));
+> +
+> +    data = qdict_get_qdict(resp, "data");
+> +    g_assert(qdict_haskey(data, "device-id"));
+> +    g_assert_cmpstr(qdict_get_str(data, "device-id"), ==, "primary0");
+> +
+> +    qobject_unref(resp);
+> +
+> +    resp = qtest_qmp(qts, "{ 'execute': 'migrate_cancel' }");
+> +    g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
+> +
+> +    /* migration has been cancelled while the unplug was in progress */
+> +
+> +    /* while the card is not ejected, we must be in "cancelling" state */
+> +
+> +    total = 0;
+> +    while (true) {
+> +        ret = migrate_status(qts);
+> +
+> +        status = qdict_get_str(ret, "status");
+> +        if (strcmp(status, "cancelled") == 0) {
+> +            break;
+> +        }
+> +        g_assert_cmpstr(status, ==, "cancelling");
+> +        g_assert(qdict_haskey(ret, "total-time"));
+> +        total = qdict_get_int(ret, "total-time");
+> +        qobject_unref(ret);
+> +    }
+> +    qobject_unref(ret);
+> +
+> +    /*
+> +     * migration timeout in this case is 30 seconds
+> +     * check we exit on the timeout (ms)
+> +     */
+> +    g_assert_cmpint(total, >, 30000);
+> +
+> +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
+> +    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
+> +
+> +    machine_stop(qts);
+> +}
+> +
+>  int main(int argc, char **argv)
+>  {
+>      gchar *tmpfile = g_strdup_printf("/tmp/failover_test_migrate-%u-%u",
+> @@ -714,6 +997,14 @@ int main(int argc, char **argv)
+>                          test_migrate_out);
+>      qtest_add_data_func("failover-virtio-net/migrate/in", tmpfile,
+>                          test_migrate_in);
+> +    qtest_add_data_func("failover-virtio-net/migrate/abort/wait-unplug",
+> +                        tmpfile, test_migrate_abort_wait_unplug);
+> +    qtest_add_data_func("failover-virtio-net/migrate/abort/active", tmpfile,
+> +                        test_migrate_abort_active);
+> +    if (g_test_slow()) {
+> +        qtest_add_data_func("failover-virtio-net/migrate/abort/timeout",
+> +                            tmpfile, test_migrate_abort_timeout);
+> +    }
+>  
+>      ret = g_test_run();
+>  
 > -- 
 > 2.33.1
+> 
+> 
+> 
 
 
