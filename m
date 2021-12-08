@@ -2,91 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027B146DC70
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 20:48:24 +0100 (CET)
-Received: from localhost ([::1]:34388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB5046DEDE
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 00:09:15 +0100 (CET)
+Received: from localhost ([::1]:58632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mv2vO-0004Sy-Aj
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 14:48:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42190)
+	id 1mv63m-0003Rs-3G
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 18:09:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mv2ta-0002TF-FT
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 14:46:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43264)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1mv61n-0002i0-Hj; Wed, 08 Dec 2021 18:07:11 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64624
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mv2tX-00013b-EM
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 14:46:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638992786;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ElPoN/64YgzNdw9va+OWXDZBK8x747z/aRsK3OPlnyc=;
- b=GLEaM5mGL/SzPGQ4Yyrl/SSngS6v3uecl8yTw9MwsjS4sYbroE8bnsxvlWR0mG6Y+y5W+r
- RJDWurYMZ4atVYK3T6Alt0aspKdXHcbWQ1JnIEDxehq1qt4w+jTXCPOnDl6MZxF5Ffsnh8
- Nt9OQ53NtwUlxzS+p3sm1ti4rEGhpeg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-156-BRXB-TtrNeu24KuINkMIkQ-1; Wed, 08 Dec 2021 14:46:24 -0500
-X-MC-Unique: BRXB-TtrNeu24KuINkMIkQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- a85-20020a1c7f58000000b0033ddc0eacc8so3517023wmd.9
- for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 11:46:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ElPoN/64YgzNdw9va+OWXDZBK8x747z/aRsK3OPlnyc=;
- b=iLALe6xhyrG3WytvtFw8XN+Lqom61U3sxPgKoXMCmWeHleJI/0U+j+WoJJWSu76xdY
- jT9JNmbzuuHyxpHq13zrFX/0KBrXxXDoWh6kJI/Eac3zFnO/o0kcMLmXJDOia6HlmcxQ
- 8ChJWmXnBdKJIDBPmXQDBQm8YX6bvBCLmV+gTIKeYPaFbAfbMg55NA+5/wiNSgPwpAbm
- jDY7RCXTvZbIk9P8pi1J/+KEgSi7tWkkrJyh1hee1pu581BYzR7Fho0jUJe+rI6m0Oqg
- 7Zx9OMVKLS4rflvthnFeoltGv8PuLTSDBc3w/LAp17VbUS/2uRrPSXmGiQBKqp51CDr6
- mzug==
-X-Gm-Message-State: AOAM533PGfdTFluaPFK1BoWmqFbiQ4beMQUzTefiR+HVY4zwDedG3dI5
- 1axqYPW65YS1Bqdh2XEThHOY/VwQEmEUjG72SxGw5Z/2S+xGAx8tAjdiAy2Rru6X/uSa++E+UUB
- PePIQhbv+GJcHEuw=
-X-Received: by 2002:a05:600c:3658:: with SMTP id
- y24mr830501wmq.161.1638992783431; 
- Wed, 08 Dec 2021 11:46:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyTHXyao/07QhMmj+zh/VMHgcVMQ6UHhgPaLOX3GB+rzNy/XUXV/hMDG2HwWVCSdzZm0WZB9w==
-X-Received: by 2002:a05:600c:3658:: with SMTP id
- y24mr830477wmq.161.1638992783192; 
- Wed, 08 Dec 2021 11:46:23 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id n2sm6823674wmi.36.2021.12.08.11.46.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Dec 2021 11:46:22 -0800 (PST)
-Date: Wed, 8 Dec 2021 19:46:20 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 7/7] migration: Finer grained tracepoints for
- POSTCOPY_LISTEN
-Message-ID: <YbELjB041z8jSBUE@work-vm>
-References: <20211207115016.73195-1-peterx@redhat.com>
- <20211207115016.73195-8-peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1mv61l-0002Qy-F1; Wed, 08 Dec 2021 18:07:11 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B8MwTVY019673; 
+ Wed, 8 Dec 2021 23:07:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=lmFrxLyEdemNhNc/q0CYoNek4RET+AgClarTeLGv7b4=;
+ b=cIblaL1JnNFVRYvzEyRu2AskNxFGBVZZRoWoB1qzQkgTGoHkP0c7zNbdjddvUYAWRbTs
+ sid9Jra4ojNLcSJLlaVd1ufMN7MwOVxP/Z3vSgl+doRPqlDxKHxEE/8mNLncT3h/2t5W
+ jAD8R57LAqtntmNg5EsGrUjb6ri9Z1y8nrrsYQB2F2dLQyPy2/FIC7z40uvyUwgEBXvA
+ N0zTz5cFtkIdgswxdKwg6wPTMqoRWfIKie0IJmJY6mVq1jLGr5FY1t6S36rK9z9rszHV
+ Ae1Y80mjcgdiFIjMlKgKNMMxhf9kb/626+uoVMdSthrKdIVuxRU7/EFBc5SdvNwQGpns 8w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cu5ykg4hg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Dec 2021 23:07:00 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B8N6xjY023523;
+ Wed, 8 Dec 2021 23:06:59 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cu5ykg4ha-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Dec 2021 23:06:59 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B8N26Yd021374;
+ Wed, 8 Dec 2021 23:06:58 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma02wdc.us.ibm.com with ESMTP id 3cqyybc5qj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Dec 2021 23:06:58 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B8N6wDj27066730
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 8 Dec 2021 23:06:58 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1FF4DAC091;
+ Wed,  8 Dec 2021 23:06:58 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 311E4AC08F;
+ Wed,  8 Dec 2021 23:06:56 +0000 (GMT)
+Received: from farosas.linux.ibm.com.com (unknown [9.211.43.72])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Wed,  8 Dec 2021 23:06:55 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/ppc: powerpc_excp: Guard ALIGNMENT interrupt with
+ CONFIG_TCG
+Date: Wed,  8 Dec 2021 20:06:50 -0300
+Message-Id: <20211208230650.2125095-1-farosas@linux.ibm.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <20211207115016.73195-8-peterx@redhat.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: YfSpB_EkgNUzv3givJLchaRm0PlAeGu4
+X-Proofpoint-ORIG-GUID: o_7fycAdfRLC5T8XJHDLIpBwMx897jeJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-08_08,2021-12-08_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ lowpriorityscore=0 suspectscore=0 impostorscore=0 malwarescore=0
+ mlxlogscore=885 mlxscore=0 bulkscore=0 priorityscore=1501 adultscore=0
+ clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112080127
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,86 +108,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> The enablement of postcopy listening has a few steps, add a few tracepoints to
-> be there ready for some basic measurements for them.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  migration/savevm.c     | 5 ++++-
->  migration/trace-events | 2 +-
->  2 files changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 17b8e25e00..5b3f31eab2 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1946,7 +1946,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
->  static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
->  {
->      PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_LISTENING);
-> -    trace_loadvm_postcopy_handle_listen();
-> +    trace_loadvm_postcopy_handle_listen(1);
+We cannot have TCG code in powerpc_excp because the function is called
+from kvm-only code via ppc_cpu_do_interrupt:
 
-I think we tend just to split this into separate traces in many places;
-or if we're using the same one then we should use a string
+ ../target/ppc/excp_helper.c:463:29: error: implicit declaration of
+ function ‘cpu_ldl_code’ [-Werror=implicit-function-declaration]
 
-I'd make this:
-  trace_loadvm_postcopy_handle_listen_entry();
+Fortunately, the Alignment interrupt is not among the ones dispatched
+from kvm-only code, so we can keep it out of the disable-tcg build for
+now.
 
-for example.
+Fixes: 336e91f853 ("target/ppc: Move SPR_DSISR setting to powerpc_excp")
+Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
->      Error *local_err = NULL;
->  
->      if (ps != POSTCOPY_INCOMING_ADVISE && ps != POSTCOPY_INCOMING_DISCARD) {
-> @@ -1962,6 +1962,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
->              postcopy_ram_prepare_discard(mis);
->          }
->      }
-> +    trace_loadvm_postcopy_handle_listen(2);
->  
->      /*
->       * Sensitise RAM - can now generate requests for blocks that don't exist
-> @@ -1974,6 +1975,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
->              return -1;
->          }
->      }
-> +    trace_loadvm_postcopy_handle_listen(3);
->  
->      if (postcopy_notify(POSTCOPY_NOTIFY_INBOUND_LISTEN, &local_err)) {
->          error_report_err(local_err);
-> @@ -1988,6 +1990,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
->                         QEMU_THREAD_DETACHED);
->      qemu_sem_wait(&mis->listen_thread_sem);
->      qemu_sem_destroy(&mis->listen_thread_sem);
-> +    trace_loadvm_postcopy_handle_listen(4);
+---
 
-  trace_loadvm_postcopy_handle_listen_entry_end();
->  
->      return 0;
->  }
-> diff --git a/migration/trace-events b/migration/trace-events
-> index d63a5915f5..1aa6937dc1 100644
-> --- a/migration/trace-events
-> +++ b/migration/trace-events
-> @@ -14,7 +14,7 @@ loadvm_handle_cmd_packaged_main(int ret) "%d"
->  loadvm_handle_cmd_packaged_received(int ret) "%d"
->  loadvm_handle_recv_bitmap(char *s) "%s"
->  loadvm_postcopy_handle_advise(void) ""
-> -loadvm_postcopy_handle_listen(void) ""
-> +loadvm_postcopy_handle_listen(int i) "%d"
->  loadvm_postcopy_handle_run(void) ""
->  loadvm_postcopy_handle_run_cpu_sync(void) ""
->  loadvm_postcopy_handle_run_vmstart(void) ""
-> -- 
-> 2.32.0
-> 
+Perhaps we could make powerpc_excp TCG only and have a separate
+function that only knows the two interrupts that we use with KVM
+(Program, Machine check). But for now this fix will do, I think.
+---
+ target/ppc/excp_helper.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 17607adbe4..dcf22440cc 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -453,6 +453,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+         }
+         break;
+     }
++#ifdef CONFIG_TCG
+     case POWERPC_EXCP_ALIGN:     /* Alignment exception                      */
+         /*
+          * Get rS/rD and rA from faulting opcode.
+@@ -464,6 +465,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+             env->spr[SPR_DSISR] |= (insn & 0x03FF0000) >> 16;
+         }
+         break;
++#endif
+     case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
+         switch (env->error_code & ~0xF) {
+         case POWERPC_EXCP_FP:
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.33.1
 
 
