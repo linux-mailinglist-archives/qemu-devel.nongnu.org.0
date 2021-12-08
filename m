@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36EF46DEEB
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 00:14:09 +0100 (CET)
-Received: from localhost ([::1]:35772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6DE46DEF1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 00:16:41 +0100 (CET)
+Received: from localhost ([::1]:43496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mv68W-0007FM-Hr
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 18:14:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34136)
+	id 1mv6Ay-00048W-F6
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 18:16:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mv66R-00056k-IK
+ id 1mv66S-00058A-EM
  for qemu-devel@nongnu.org; Wed, 08 Dec 2021 18:12:00 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=46725
- helo=mail-pj1-x1034.google.com)
+Received: from [2607:f8b0:4864:20::42d] (port=42665
+ helo=mail-pf1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mv66P-0004mR-Eb
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 18:11:59 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- np6-20020a17090b4c4600b001a90b011e06so3344583pjb.5
+ id 1mv66Q-0004mt-5n
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 18:12:00 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id u80so3745688pfc.9
  for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 15:11:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=3hX/+5BRd2SnWuJl3tr+kAwTDbd9YV56sDgFzlRQkRU=;
- b=TLaRDobnZTMuNxm3v5It9FP0xwXjwuYLizvFi1SVnXEa914sVh3DDgDIoCproGV4eh
- GsDmI9MStV2p1T/5pN+QOORjqYDfkvXkBE9r5+ODY3oeW3HT+pcizzWT2gtfUiope57U
- vmJfyPMAhkm+lqKAZjduRUfLSl1AdDXGGgIGsX4hPv5NxKie2W9kHteeDcdjxj6JiIAt
- X4rJG5o9WY2gaSzmg0bMvb1XvPCjheY8Ddy31cIalCYwVvoyyA84QPzkh7yI4IhbGbBn
- 3qlg7egXreILE0+z4MoE9Ao+9hBiSPj2il7XThgzTlBehK+/5OjTtaV81n/1CZkRZmWE
- jGRw==
+ bh=8Odri40+f/dUoIsb/bgSIF+/bcyc0os3qiW/fNyIHw0=;
+ b=aGP/X3W0C6PCiBh8YmcA7oZxwYFBL7hHkZKp+cfNv0qAi7nP4jbDHPXInWXSdUl3Sv
+ wbmwJSwk78QrrU9Nn4HHVXOgYGymMI4BxvRkA98qGqh26L7F4ruRVrHNf9Thfy4IlPwm
+ RNv8nDAOHwV4G6bWBbaHENyXWqHMnjT2Cft0s4qC6hQQ/b9HbGjwISvKRtwD2QtnS4v+
+ e72rKA1JciX5MMYQpjol+k/ju1PDFIpQQOud7zQWOfhZw0ssex88cW3nX9Nd2LoZiFWK
+ 1/ZefKrRLWN6RZt2RYwhSy8yHlkiFFJuNb+zdqgnO7lHJGeX0dGLByWBESWiU7vMdnDd
+ 0KfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3hX/+5BRd2SnWuJl3tr+kAwTDbd9YV56sDgFzlRQkRU=;
- b=mxl6BMn7f2gK+q+pSbDYYu3jyynctPNPLQzS9U9Ih7EEjku6d2W+pa9cDv+OLAJAOW
- d39gOewb3p3nAgjU3ZGGaUYCRigy1PTGp0V5x703HmfPKJh0ulokTJUvS3kkZ2uzh32h
- a+M8JEw+0VGclFHWcghn9uxijnLbaPX96E8G/ONGLNUoGDDgYIZkO8KhooTOhCxRk6Yd
- ORiF1XyTGMAkKfHzoCdtrSvBVsbyS6W+FNnBaUv7M2uryFrGB9k4hjDvHMSEvqzs2z2z
- N0zWRLAlGHwqepcM5lO90l7KymSwuEaZi3yX3Q5j3GCR3pqOLYlbERAb10blXEDqYVvS
- v4sw==
-X-Gm-Message-State: AOAM532QsHUNFk2fX1qaDMJ3dlnTdJCf3h6OkdpuX6W4dwUd0OjZ2QbQ
- m9DLigCRKnJ6q4gzng9za3liCT5qULutCw==
-X-Google-Smtp-Source: ABdhPJxBr/rZqxNndy3nEkMjHcrZJOaTHomB7X95FGktF7s+DTOZnrg7NgNM7TMl3f+P7ZVKXs5Uvw==
-X-Received: by 2002:a17:903:32c7:b0:141:eb39:30b7 with SMTP id
- i7-20020a17090332c700b00141eb3930b7mr62323487plr.41.1639005115629; 
- Wed, 08 Dec 2021 15:11:55 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8Odri40+f/dUoIsb/bgSIF+/bcyc0os3qiW/fNyIHw0=;
+ b=rz/4p9k/2HAUMhSiMJtBWV+ktQMnVmh171+9iXVI+4eA2APIYsiaAe4598SgzkQpZW
+ k9fLCjWQrQ48ZDojFbXawkAi2stnLvG72UcTAqwnxYB5Dpa8byT/LYPmbEtBHCUy13Ud
+ oroT715r/CFdUoKoTwuSLVhxg3z2aUUJiO4/2tE1uiku7XoW5icYs7gDVZymEuyr/KM2
+ u4ZuHpQmkDnWWlytp7NVUq/w2Udeeb3+dPvDYlY5WUbQ13RqkZljIlIPo81vB8pvqUCa
+ 2ccwWDnOOuBusKW1Y3ukowKt1Tcwea+Wi0OG1DNuKrr6faVv37Cj2c91nLCQEiR7H7V0
+ A/rA==
+X-Gm-Message-State: AOAM5316dpq5vDvlVl5QDHjqrIfoopW3krXx1BxhNh1j3I5CfJNi3ZSJ
+ nU//EcFyjvpeiFcqu8BzD2+HdFGJo9C5NA==
+X-Google-Smtp-Source: ABdhPJx95fcuRxyonZ2v2+foHzPKhUPgGrIanlbXlQHS7pLMhd+gJcc5Mw1x4unDnMQ5kfkIFXsaMA==
+X-Received: by 2002:a63:6882:: with SMTP id
+ d124mr31976744pgc.234.1639005116664; 
+ Wed, 08 Dec 2021 15:11:56 -0800 (PST)
 Received: from localhost.localdomain
  (45-19-222-18.lightspeed.sntcca.sbcglobal.net. [45.19.222.18])
  by smtp.gmail.com with ESMTPSA id k15sm3301062pgn.91.2021.12.08.15.11.55
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Dec 2021 15:11:55 -0800 (PST)
+ Wed, 08 Dec 2021 15:11:56 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.0 0/6] target/arm: Implement LVA, LPA, LPA2 features
-Date: Wed,  8 Dec 2021 15:11:48 -0800
-Message-Id: <20211208231154.392029-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/6] target/arm: Fault on invalid TCR_ELx.TxSZ
+Date: Wed,  8 Dec 2021 15:11:49 -0800
+Message-Id: <20211208231154.392029-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211208231154.392029-1-richard.henderson@linaro.org>
+References: <20211208231154.392029-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,34 +91,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These features are all related and relatively small.
+Without FEAT_LVA, the behaviour of programming an invalid value
+is IMPLEMENTATION DEFINED.  With FEAT_LVA, programming an invalid
+minimum value requires a Translation fault.
 
-Testing so far has been limited to booting a kernel
-with 64k pages and VA and PA set to 52 bits, which
-excercises LVA and LPA.
+It is most self-consistent to choose to generate the fault always.
 
-There is not yet upstream support for LPA2, probably
-because it's an ARMv8.7 addition.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/helper.c | 32 ++++++++++++++++++++++----------
+ 1 file changed, 22 insertions(+), 10 deletions(-)
 
-
-r~
-
-
-Richard Henderson (6):
-  target/arm: Fault on invalid TCR_ELx.TxSZ
-  target/arm: Move arm_pamax out of line
-  target/arm: Honor TCR_ELx.{I}PS
-  target/arm: Implement FEAT_LVA
-  target/arm: Implement FEAT_LPA
-  target/arm: Implement FEAT_LPA2
-
- target/arm/cpu-param.h |   4 +-
- target/arm/cpu.h       |  17 ++++
- target/arm/internals.h |  22 +----
- target/arm/cpu64.c     |   5 +-
- target/arm/helper.c    | 211 ++++++++++++++++++++++++++++++++++-------
- 5 files changed, 204 insertions(+), 55 deletions(-)
-
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 9b317899a6..575723d62c 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -11129,7 +11129,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+ {
+     uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
+     bool epd, hpd, using16k, using64k;
+-    int select, tsz, tbi, max_tsz;
++    int select, tsz, tbi;
+ 
+     if (!regime_has_2_ranges(mmu_idx)) {
+         select = 0;
+@@ -11165,15 +11165,6 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+         }
+     }
+ 
+-    if (cpu_isar_feature(aa64_st, env_archcpu(env))) {
+-        max_tsz = 48 - using64k;
+-    } else {
+-        max_tsz = 39;
+-    }
+-
+-    tsz = MIN(tsz, max_tsz);
+-    tsz = MAX(tsz, 16);  /* TODO: ARMv8.2-LVA  */
+-
+     /* Present TBI as a composite with TBID.  */
+     tbi = aa64_va_parameter_tbi(tcr, mmu_idx);
+     if (!data) {
+@@ -11309,9 +11300,30 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+ 
+     /* TODO: This code does not support shareability levels. */
+     if (aarch64) {
++        int min_tsz = 16, max_tsz = 39;  /* TODO: ARMv8.2-LVA  */
++
+         param = aa64_va_parameters(env, address, mmu_idx,
+                                    access_type != MMU_INST_FETCH);
+         level = 0;
++
++        if (cpu_isar_feature(aa64_st, env_archcpu(env))) {
++            max_tsz = 48 - param.using64k;
++        }
++
++        /*
++         * If TxSZ is programmed to a value larger than the maximum,
++         * or smaller than the effective minimum, it is IMPLEMENTATION
++         * DEFINED whether we behave as if the field were programmed
++         * within bounds, or if a level 0 Translation fault is generated.
++         *
++         * With FEAT_LVA, fault on less than minimum becomes required,
++         * so our choice is to always raise the fault.
++         */
++        if (param.tsz < min_tsz || param.tsz > max_tsz) {
++            fault_type = ARMFault_Translation;
++            goto do_fault;
++        }
++
+         addrsize = 64 - 8 * param.tbi;
+         inputsize = 64 - param.tsz;
+     } else {
 -- 
 2.25.1
 
