@@ -2,100 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCBF946D36B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 13:37:25 +0100 (CET)
-Received: from localhost ([::1]:55250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2ECC46D425
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 14:10:20 +0100 (CET)
+Received: from localhost ([::1]:56062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muwCK-0004ue-Us
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 07:37:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60906)
+	id 1muwiB-0000je-Ls
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 08:10:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1muw7z-0007FH-Il; Wed, 08 Dec 2021 07:32:55 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41792)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1muwdo-0006PG-80
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 08:05:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1muw7x-0005i3-0k; Wed, 08 Dec 2021 07:32:55 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B8CJHto024840; 
- Wed, 8 Dec 2021 12:32:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=2lfXhwD2z9c50b60XdTWXXrhov1aDi2H+JXMI8vnmnE=;
- b=VhSDzDrKak9riI+MmQOD+PM55OiF8BLbkW6XrNOd1RRpLp1PuauBYKLPcof4S1EoQWGp
- GjBEXdjy22/aZ8U1ux9+dcfvAEMCrvg09y8Fc6Hrf8VyRBmJfwiXNkFzElc2Nx2/mH+h
- QmTBw8QwpKOq62lY/XPTP252zWTjJkkGcVycZRnGYHbVaP17Iy7yFSieWwjcxt5rbbJ/
- vQpqewCnqSdhjCOsI/3iMLmnhNRLjptU9n7pOSa09zJu4Q6stWoRZEZDQjxhmtp1UEQp
- Ts814eb5ZZzdYHX8z432eiUc6NZkI5PT0JYRWYeWLjvoXzq9qkjNnERa9D7KzgPEyIkU DQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ctvkp07p4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 12:32:45 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B8CNcIV007743;
- Wed, 8 Dec 2021 12:32:45 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ctvkp07nu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 12:32:45 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B8CWVgT008185;
- Wed, 8 Dec 2021 12:32:44 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com
- (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
- by ppma01wdc.us.ibm.com with ESMTP id 3cqyyb0w0w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 12:32:44 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B8CWhxE33685944
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 8 Dec 2021 12:32:43 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7762678060;
- Wed,  8 Dec 2021 12:32:43 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E31617805F;
- Wed,  8 Dec 2021 12:32:41 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.211.43.72])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed,  8 Dec 2021 12:32:41 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1muwdm-0001Qb-9M
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 08:05:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638968745;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=01GZZu5laj8TvuAx4bhibvExTxwAU76XCxYMfmr9e8w=;
+ b=Tl8wmCUzOMiKFYW0pF8J8eA3XjmcO9jqf2Ue84akx2GyUEJUvE8wNaYJyaQZo6TQaNZoiT
+ XkMZuYj9hVtAnYBuuPs7mSbDPgRPftqSdiI9cXNvcvnuOioZDhKMFqV13wQ7Cs4tG2wMWC
+ PIHkctyMY97R3hwsQ1J5AkCPuqZ86Z4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-431-cvOY2u6-PzKF7Fijq2_HWQ-1; Wed, 08 Dec 2021 08:04:32 -0500
+X-MC-Unique: cvOY2u6-PzKF7Fijq2_HWQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7868E805747
+ for <qemu-devel@nongnu.org>; Wed,  8 Dec 2021 13:04:31 +0000 (UTC)
+Received: from thinkpad.redhat.com (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E60D66107E;
+ Wed,  8 Dec 2021 13:03:51 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] target/ppc: Set 601v exception model id
-Date: Wed,  8 Dec 2021 09:30:29 -0300
-Message-Id: <20211208123029.2052625-4-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211208123029.2052625-1-farosas@linux.ibm.com>
-References: <20211208123029.2052625-1-farosas@linux.ibm.com>
+Subject: [PATCH v8 0/4] tests/qtest: add some tests for virtio-net failover
+Date: Wed,  8 Dec 2021 14:03:46 +0100
+Message-Id: <20211208130350.10178-1-lvivier@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: qtQiUN1808GMMiuabvRbTZ79vKgl641a
-X-Proofpoint-ORIG-GUID: 5i7Sl0-L9fsE5PkRXFnyvwJm_kettd1M
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-08_04,2021-12-08_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0
- mlxscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=908
- lowpriorityscore=0 adultscore=0 suspectscore=0 spamscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112080080
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,33 +76,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jens Freimann <jfreimann@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The exception model id for 601v has been removed without mention
-why. I assume it was inadvertent and restore it here.
-
-Fixes: b632a148b6 ("target-ppc: Use QOM method dispatch for MMU fault handling")
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
----
- target/ppc/cpu_init.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 8100b89033..0e1682ddd9 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -4607,6 +4607,7 @@ POWERPC_FAMILY(601v)(ObjectClass *oc, void *data)
-                     (1ull << MSR_IR) |
-                     (1ull << MSR_DR);
-     pcc->mmu_model = POWERPC_MMU_601;
-+    pcc->excp_model = POWERPC_EXCP_601;
-     pcc->bus_model = PPC_FLAGS_INPUT_6xx;
-     pcc->bfd_mach = bfd_mach_ppc_601;
-     pcc->flags = POWERPC_FLAG_SE | POWERPC_FLAG_RTC_CLK | POWERPC_FLAG_HID0_LE;
--- 
-2.33.1
+This series adds a qtest entry to test virtio-net failover feature.=0D
+=0D
+We check following error cases:=0D
+=0D
+- check missing id on device with failover_pair_id triggers an error=0D
+- check a primary device plugged on a bus that doesn't support hotplug=0D
+  triggers an error=0D
+=0D
+We check the status of the machine before and after hotplugging cards and=
+=0D
+feature negotiation:=0D
+=0D
+- check we don't see the primary device at boot if failover is on=0D
+- check we see the primary device at boot if failover is off=0D
+- check we don't see the primary device if failover is on=0D
+  but failover_pair_id is not the one with on (I think this should be chang=
+ed)=0D
+- check the primary device is plugged after the feature negotiation=0D
+- check the result if the primary device is plugged before standby device a=
+nd=0D
+  vice-versa=0D
+- check the if the primary device is coldplugged and the standy device=0D
+  hotplugged and vice-versa=0D
+- check the migration triggers the unplug and the hotplug=0D
+=0D
+There is one preliminary patch in the series:=0D
+=0D
+- PATCH 1 introduces a function to enable PCI bridge.=0D
+  Failover needs to be plugged on a pcie-root-port and while=0D
+  the root port is not configured the cards behind it are not=0D
+  available=0D
+=0D
+v8:=0D
+- fix checkpatch.pl error (space after "(")=0D
+- fix sanitizer errors:=0D
+  * migrate_status() qobject_unref() cleanup=0D
+  * release QVirtioPCIDevice with qos_object_destroy()=0D
+  * add a missing g_free() in qpci_secondary_buses_rec()=0D
+  * add qobject_unref() in get_bus() and find_device()=0D
+    when an object is popped from a list.=0D
+=0D
+v7:=0D
+- merge patch 3 and 4 as the fix for ACPI unplug has been merged=0D
+- address Thomas' comments=0D
+- add a dependency on slirp in meson.build=0D
+- check FAILOVER_NEGOCIATED device-id and MIGRATION status=0D
+  on destination, update UNPLUG_PRIMARY event checking=0D
+- fix an object_unref() in test_migrate_abort_active()=0D
+- fix typo s/whan/when/=0D
+=0D
+v6:=0D
+- manage more than 2 root ports=0D
+- add a function to check if a card is available or not=0D
+- check migration state=0D
+- add cancelled migration test cases=0D
+- rename tests=0D
+=0D
+v5:=0D
+- re-add the wait-unplug test that has been removed from v4 by mistake.=0D
+=0D
+v4:=0D
+- rely on query-migrate status to know the migration state rather than=0D
+  to wait the STOP event.=0D
+- remove the patch to add time out to qtest_qmp_eventwait()=0D
+=0D
+v3:=0D
+- fix a bug with ACPI unplug and add the related test=0D
+=0D
+v2:=0D
+- remove PATCH 1 that introduced a function that can be replaced by=0D
+  qobject_to_json_pretty() (Markus)=0D
+- Add migration to a file and from the file to check the card is=0D
+  correctly unplugged on the source, and hotplugged on the dest=0D
+- Add an ACPI call to eject the card as the kernel would do=0D
+=0D
+Laurent Vivier (4):=0D
+  qtest/libqos: add a function to initialize secondary PCI buses=0D
+  tests/qtest: add some tests for virtio-net failover=0D
+  test/libqtest: add some virtio-net failover migration cancelling tests=0D
+  tests/libqtest: add a migration test with two couples of failover=0D
+    devices=0D
+=0D
+ include/hw/pci/pci_bridge.h       |    8 +=0D
+ tests/qtest/libqos/pci.c          |  119 +++=0D
+ tests/qtest/libqos/pci.h          |    1 +=0D
+ tests/qtest/meson.build           |    4 +=0D
+ tests/qtest/virtio-net-failover.c | 1352 +++++++++++++++++++++++++++++=0D
+ 5 files changed, 1484 insertions(+)=0D
+ create mode 100644 tests/qtest/virtio-net-failover.c=0D
+=0D
+--=20=0D
+2.33.1=0D
+=0D
 
 
