@@ -2,89 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D20AE46D90B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 17:57:33 +0100 (CET)
-Received: from localhost ([::1]:34206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DACCC46D938
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 18:06:28 +0100 (CET)
+Received: from localhost ([::1]:50344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mv0G4-00035u-Lu
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 11:57:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48942)
+	id 1mv0Oh-0005h5-PA
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 12:06:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mv0Eh-0001eo-2s
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 11:56:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26656)
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1mv0In-0005on-H7; Wed, 08 Dec 2021 12:00:26 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mv0Ea-0007ZG-Hf
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 11:56:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638982559;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hBTLbHeY+mjC7BqPcjqvNwnfWBbNdpAaOUcQkjanvDA=;
- b=EpMOvbPArBIo/rln9YeVoi7MjKEYG3nK/HiUEjtJE26rJzZOtWNUNAxuljzpF8Xz67X8ZU
- fH5knonDNDwHkwOLFVuuTbhEr30SVfBtjD9va6RCw/KAZ6VzUfTuuDtjySXvfsqGP+EfwH
- s6papNiZMrQADpyxaO/a44gRa64mCbc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-QoIUjGmxNDCsLT2jTgk7og-1; Wed, 08 Dec 2021 11:55:57 -0500
-X-MC-Unique: QoIUjGmxNDCsLT2jTgk7og-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r129-20020a1c4487000000b00333629ed22dso3293697wma.6
- for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 08:55:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=hBTLbHeY+mjC7BqPcjqvNwnfWBbNdpAaOUcQkjanvDA=;
- b=faEhpJjtFh63WfWbDWMd0Jyvp5iLhxscXbnPpgYvISGvOThKrvGwWLBlxRX/lle9nw
- Ps0+wvE2FfkkPwlJ0idHS52kvigZndilsNa69KWZO5YW4ll0H0iRSKSDW3XOfGRWjBN+
- i5419RHEjGZpLvrCCsSnf/V0f0pRDy1rWbjGttExy0PW2bN5mzGWkaXSejQINyHJQEwx
- y6SybbiI6wGMp4DSYbkts9mo2vzE4vtlxDh4A0Qp2YALKmYC/oONSeq+JpswKKYspHax
- xx6b6kvpj8E7GgICUgJXoa1+74RJgEfVYGXienGZ4pqlGiLO8UfGfXt+N5F66aAmVmLW
- nYTQ==
-X-Gm-Message-State: AOAM5335fPKEALOYtpYEZi7fgfvsYeBa1FYge99Y1Uk/2gxKj5EdsG7Y
- iY47/xxE3eAnxHGTRaA2+RflqQDDzhRb3O2Bn2JfsfcheeApxVW7xhZgM4WQnQMgmfE/atoC7HD
- naxt34DUhRXynClM=
-X-Received: by 2002:adf:e68f:: with SMTP id r15mr59328141wrm.359.1638982556792; 
- Wed, 08 Dec 2021 08:55:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwqJ0VbnvO2VnXSJg+o/AapfT5ipiaCI2GR6nXo8psx6aYMIZ7qBJ8t6+n6ccA0SgNxMtl68Q==
-X-Received: by 2002:adf:e68f:: with SMTP id r15mr59328110wrm.359.1638982556563; 
- Wed, 08 Dec 2021 08:55:56 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id o9sm3253467wrs.4.2021.12.08.08.55.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Dec 2021 08:55:56 -0800 (PST)
-Date: Wed, 8 Dec 2021 16:55:54 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 3/7] migration: Drop postcopy_chunk_hostpages()
-Message-ID: <YbDjmnW7uFKYvPAk@work-vm>
-References: <20211207115016.73195-1-peterx@redhat.com>
- <20211207115016.73195-4-peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1mv0Ig-0001tS-U7; Wed, 08 Dec 2021 12:00:17 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B8Gqu0s027617; 
+ Wed, 8 Dec 2021 17:00:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=0PnNtQtF46XxJSnGI46PDucFqF6Kqv1xWtvnnHmpZh8=;
+ b=f2sEKxdPfbEZwDbZBWCFUn0aA9WB+4rSDbTw4sPm6DzrxYEexdtRf6Lzg4mjEI1aGgEF
+ a9oMws9cZPeSGhwmxN+QFEpzH9K5oyAsCrdWWp905FraAzSA3TmIZQgSofal+Dsy81IQ
+ /ti+ioaCGZdha6KRm+YTpUUz/MQnF57L6KuvjAWbqqMoAy35eQRr1QhY4hxguKdl6LSm
+ xFlAwLUZN3zCewt9wl1/osFX7qXSjWJsD7ZZdX5HBM3j7I/Mcq1YOGNf5ugTz2ZviLJb
+ v1Au/Z+hurk0qpec0uBSqVf/IfzjgtfbLIQaRf8VqGJnLy+cgRCPFJSQV1Elnpi/70qt OA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cu0m983en-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Dec 2021 17:00:05 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B8GvPMt003426;
+ Wed, 8 Dec 2021 17:00:05 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cu0m983dm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Dec 2021 17:00:05 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B8GwuIl029463;
+ Wed, 8 Dec 2021 17:00:03 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma05wdc.us.ibm.com with ESMTP id 3cqyyb6ec0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Dec 2021 17:00:03 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B8H02Oi19661068
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 8 Dec 2021 17:00:02 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B50B9C6062;
+ Wed,  8 Dec 2021 17:00:02 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1C892C6073;
+ Wed,  8 Dec 2021 17:00:01 +0000 (GMT)
+Received: from lagarcia.br.ibm.com.com (unknown [9.65.76.184])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed,  8 Dec 2021 17:00:00 +0000 (GMT)
+From: lagarcia@linux.ibm.com
+To: qemu-ppc@nongnu.org
+Subject: [PATCH 0/3] docs: rSTify ppc-spapr-hcalls.txt
+Date: Wed,  8 Dec 2021 13:59:15 -0300
+Message-Id: <cover.1638982480.git.lagarcia@br.ibm.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <20211207115016.73195-4-peterx@redhat.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 3H1ASzqwi1Gt_6OBillHpleq43GVud07
+X-Proofpoint-ORIG-GUID: NJbUktYHJsd7EXZkDVSFMlNb_BFxHrna
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-08_07,2021-12-08_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=618
+ priorityscore=1501 bulkscore=0 adultscore=0 suspectscore=0 clxscore=1015
+ spamscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112080097
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=lagarcia@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,97 +104,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: danielhb413@gmail.com, groug@kaod.org, qemu-devel@nongnu.org, clg@kaod.org,
+ Leonardo Garcia <lagarcia@br.ibm.com>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> This function calls three functions:
-> 
->   - postcopy_discard_send_init(ms, block->idstr);
->   - postcopy_chunk_hostpages_pass(ms, block);
->   - postcopy_discard_send_finish(ms);
-> 
-> However only the 2nd function call is meaningful.  It's major role is to make
-> sure dirty bits are applied in host-page-size granule, so there will be no
-> partial dirty bits set for a whole host page if huge pages are used.
-> 
-> The 1st/3rd call are for latter when we want to send the disgard ranges.
-> They're mostly no-op here besides some tracepoints (which are misleading!).
-> 
-> Drop them, then we can directly drop postcopy_chunk_hostpages() as a whole
-> because we can call postcopy_chunk_hostpages_pass() directly.
-> 
-> There're still some nice comments above postcopy_chunk_hostpages() that explain
-> what it does.  Copy it over to the caller's site.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+From: Leonardo Garcia <lagarcia@br.ibm.com>
 
-Yeh, I think originally the idea was to send some of the messages during
-the chunking
+Along with this change, hook the new rst file into the pseries
+documentation.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Leonardo Garcia (3):
+  docs: rSTify ppc-spapr-hcalls.txt
+  docs: Rename ppc-spapr-hcalls.txt to ppc-spapr-hcalls.rst.
+  Link new ppc-spapr-hcalls.rst file to pseries.rst.
 
-> ---
->  migration/ram.c | 33 +++++++--------------------------
->  1 file changed, 7 insertions(+), 26 deletions(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index fb8c1a887e..e3876181ab 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -2576,30 +2576,6 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block)
->      }
->  }
->  
-> -/**
-> - * postcopy_chunk_hostpages: discard any partially sent host page
-> - *
-> - * Utility for the outgoing postcopy code.
-> - *
-> - * Discard any partially sent host-page size chunks, mark any partially
-> - * dirty host-page size chunks as all dirty.  In this case the host-page
-> - * is the host-page for the particular RAMBlock, i.e. it might be a huge page
-> - *
-> - * @ms: current migration state
-> - * @block: block we want to work with
-> - */
-> -static void postcopy_chunk_hostpages(MigrationState *ms, RAMBlock *block)
-> -{
-> -    postcopy_discard_send_init(ms, block->idstr);
-> -
-> -    /*
-> -     * Ensure that all partially dirty host pages are made fully dirty.
-> -     */
-> -    postcopy_chunk_hostpages_pass(ms, block);
-> -
-> -    postcopy_discard_send_finish(ms);
-> -}
-> -
->  /**
->   * ram_postcopy_send_discard_bitmap: transmit the discard bitmap
->   *
-> @@ -2631,8 +2607,13 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
->      rs->last_page = 0;
->  
->      RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-> -        /* Deal with TPS != HPS and huge pages */
-> -        postcopy_chunk_hostpages(ms, block);
-> +        /*
-> +         * Deal with TPS != HPS and huge pages.  It discard any partially sent
-> +         * host-page size chunks, mark any partially dirty host-page size
-> +         * chunks as all dirty.  In this case the host-page is the host-page
-> +         * for the particular RAMBlock, i.e. it might be a huge page.
-> +         */
-> +        postcopy_chunk_hostpages_pass(ms, block);
->      }
->      trace_ram_postcopy_send_discard_bitmap();
->  
-> -- 
-> 2.32.0
-> 
+ docs/specs/ppc-spapr-hcalls.rst | 100 ++++++++++++++++++++++++++++++++
+ docs/specs/ppc-spapr-hcalls.txt |  78 -------------------------
+ docs/system/ppc/pseries.rst     |   2 +-
+ 3 files changed, 101 insertions(+), 79 deletions(-)
+ create mode 100644 docs/specs/ppc-spapr-hcalls.rst
+ delete mode 100644 docs/specs/ppc-spapr-hcalls.txt
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.33.1
 
 
