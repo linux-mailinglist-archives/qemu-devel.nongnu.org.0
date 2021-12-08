@@ -2,175 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704BF46D8A6
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 17:39:28 +0100 (CET)
-Received: from localhost ([::1]:49120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A5346D8DA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 17:48:53 +0100 (CET)
+Received: from localhost ([::1]:56102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muzyZ-0001dN-3D
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 11:39:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42878)
+	id 1mv07g-0006rJ-9j
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 11:48:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1muzxO-0000bM-Mj
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 11:38:14 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:21540)
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1mv05O-0005Qz-4N; Wed, 08 Dec 2021 11:46:30 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1168
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1muzxM-00089Z-HJ
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 11:38:14 -0500
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B8F9VpS025161; 
- Wed, 8 Dec 2021 16:38:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=PZoJbiL17UyqmIsz5PnmhToZ/SDrqqIHoUtylFFqnvQ=;
- b=IMZ1bnInn3eL5h0n4uq8Kb7T8Cn47+bAaYqOwVO5fCuG9+SyoKD+Z8kERybyoQgKbBU6
- 2eYj2t1QaD9u3B7wUr4JrIlyVxwwtWQh44avoFusq4fPoGgZGYmUXG0d3U5roPQGJlf7
- dWmtc9PPsi7sZknZfhIp+KDALeC/ErBD01j20kSFSW/k0c2hAukUJ4f+Psf5aUrLCMbf
- Nm2JhsYhBnMB8bpyt+bvNokWaiCDK40O2SY0kgdIkVVkzG88j6INAA3fsU4BBim+UBRI
- 3TAOfhXeuZDW5nR9LTsErp1poSZtp9JPaUNcFWUlOHMYtfWJE7ltPdVj9ZzIUhKzw2G5 8g== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3ctrj2s8f5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 08 Dec 2021 16:38:09 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1B8GLHQb041477;
- Wed, 8 Dec 2021 16:38:08 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2105.outbound.protection.outlook.com [104.47.55.105])
- by userp3030.oracle.com with ESMTP id 3cqwf0p1bn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 08 Dec 2021 16:38:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hha/YjqEkRaVHCU7H655BwZpnkgliLGuQJvk/NfX7S3lIF34Jfq2dcneVQRzPKEhgcYIUk1U7FAPUS4q8TkbB27pi1GTdERyVAjG20rsjEPsDGsI+UdMARJqUQrrVStVdiELPlYevi54sqTlAH4M6bHywX+5y7Blt9hzxFEInB0IjFj7x7kLoGaw74Pnlule8onK3kuWBxH0o9XnesMXdUGDhBNVoxqp8EEp57aI40a0ZWUBrDaOmp8PvYfchQI8P+KjYeOjhVqrxQqMWsGXdg4o5g21Qc710PYShHmgBFR2Lch0AxhRAXNqSfiQ4KMwjl56i5in+Wh7HyjnqCK68Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PZoJbiL17UyqmIsz5PnmhToZ/SDrqqIHoUtylFFqnvQ=;
- b=m/Bq2vXVO5CQgKhwKIzbZTRu1WgnH/vtIporkiAeePII7YhUeM0SlNQ1DOVG14yUdmO2ztCVQ3PhrjsAigfFU5+IpDmy75mjcE9BHXuUIQHWHZSTJXP14SxY+wOygA9CTrUw9Bv5++BEVxEf+Tv4tgx2grw/e1gz0s7ZYX7SudNu7+ifuaNPsn1SBZ3gRjYFyxsmxuATli1sS3IHkDKSBW2jXUsfL5VzFd5ZBUDHgF0wJrRt2KW+V8UQ4TpPd7X8ajNtKvqOd/k3AGAfavFJxHsinolTRGokBpXVcTwKp1A2K5/TcX+jgT74mUzA0w4OV8ogr/LeneBj5d41ZET/SQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PZoJbiL17UyqmIsz5PnmhToZ/SDrqqIHoUtylFFqnvQ=;
- b=hReW+9pU5x0qxJ6tFkg6CRw257xZUrKBt99tVGLFHmEYpK2vKK9ZSCobFwoSVSWlC1yke/FNKfx5V8idRhcfpQ4qOyi+tWl+0I+7hOZcQ2ggmRm/oQ6FBcBB1VM+oNM+NJSZ8d3y9jAoqKI8wSfRG9HYSn2WyNZB0uZOO5L0Jg0=
-Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
- by MWHPR10MB1391.namprd10.prod.outlook.com (2603:10b6:300:29::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.21; Wed, 8 Dec
- 2021 16:38:05 +0000
-Received: from CO1PR10MB4531.namprd10.prod.outlook.com
- ([fe80::143c:ea64:7017:19f]) by CO1PR10MB4531.namprd10.prod.outlook.com
- ([fe80::143c:ea64:7017:19f%4]) with mapi id 15.20.4755.022; Wed, 8 Dec 2021
- 16:38:05 +0000
-Message-ID: <af8dc304-ec4d-8c0f-696a-b00a72bd1764@oracle.com>
-Date: Wed, 8 Dec 2021 10:38:01 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v9 05/10] ACPI ERST: support for ACPI ERST feature
-Content-Language: en-US
-To: Ani Sinha <ani@anisinha.ca>
-References: <1638472142-14396-1-git-send-email-eric.devolder@oracle.com>
- <1638472142-14396-6-git-send-email-eric.devolder@oracle.com>
- <CAARzgwyrfW8Dy_fow7nOr9nF9XTLazidiTqn9itPmoOZpMxu-Q@mail.gmail.com>
-From: Eric DeVolder <eric.devolder@oracle.com>
-In-Reply-To: <CAARzgwyrfW8Dy_fow7nOr9nF9XTLazidiTqn9itPmoOZpMxu-Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR08CA0054.namprd08.prod.outlook.com
- (2603:10b6:a03:117::31) To CO1PR10MB4531.namprd10.prod.outlook.com
- (2603:10b6:303:6c::22)
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1mv05H-0001Ro-Ru; Wed, 08 Dec 2021 11:46:29 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B8GIIbQ011205; 
+ Wed, 8 Dec 2021 16:46:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=FzbCnDoj0ANShBJ/dTC4A31hJ47SVICPpkKK6OL9Hp4=;
+ b=TTcs2BKOgmGW9nhz7UddX2NqdgPacEYqlbfIYdFYlTkXVWMR3loHSspiYegkbchZ7yto
+ DUuBveoQ1OyQV+6DA4uPQgOl7GUG07LIlCVDUls3DwX/84ILJ8UHKeeRsa/rKUWMGjwV
+ pQsEEubihUI8pr4JQFDPAPuXMj5DYsOo16026GsdSjHdXAR3MpxlrDPu/6d6ZAGUjGia
+ RCKxLTp11JTF7WCM13KbxdW+ZbqxM0eOUXTt+EQR8o4l9KI5JSSb39zobt76/2GzIeJ3
+ 1Gli7roGFZYufHhUpIG5tWR/si8OuyzvEb+8ymu1hKbF+1YSHitcjVtHi+XEhkchjlj2 4g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cu0428j41-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Dec 2021 16:46:17 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B8GKY3w015188;
+ Wed, 8 Dec 2021 16:46:16 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cu0428j3s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Dec 2021 16:46:16 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B8GSBqg003274;
+ Wed, 8 Dec 2021 16:46:15 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com
+ (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+ by ppma04dal.us.ibm.com with ESMTP id 3cqyybgu5n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Dec 2021 16:46:15 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B8GkEBO30343436
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 8 Dec 2021 16:46:14 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9A52378068;
+ Wed,  8 Dec 2021 16:46:14 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DF43078063;
+ Wed,  8 Dec 2021 16:46:12 +0000 (GMT)
+Received: from lagarcia.br.ibm.com.com (unknown [9.65.76.184])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed,  8 Dec 2021 16:46:12 +0000 (GMT)
+From: lagarcia@linux.ibm.com
+To: qemu-ppc@nongnu.org
+Subject: [PATCH v4] docs: Introducing pseries documentation.
+Date: Wed,  8 Dec 2021 13:46:04 -0300
+Message-Id: <66b6fdde52062fdf4f4b4dc35a9f06a899c88293.1638981899.git.lagarcia@br.ibm.com>
+X-Mailer: git-send-email 2.33.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: rq0YaPMt8RNgc7skeIdc96ctNDikgbol
+X-Proofpoint-GUID: HIyz7NGIJjMjmK-uEXhAj3Z_s9u5R5RE
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Received: from [IPV6:2606:b400:414:8061:221:28ff:fea5:27c8]
- (2606:b400:8024:1010::112a) by BYAPR08CA0054.namprd08.prod.outlook.com
- (2603:10b6:a03:117::31) with Microsoft SMTP Server (version=TLS1_2, cipher=)
- via Frontend Transport; Wed, 8 Dec 2021 16:38:03 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d4f40631-38ef-41f8-cd72-08d9ba691bbd
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1391:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR10MB13918C7F08CAE4B60DC75F5A976F9@MWHPR10MB1391.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3fHout+jp/Usb0rpzY8vUG7ASyoJM8LjkoRh52SshcVRFyqrn31vgXYtha6IwlaAzKaKp+YKtXcUT41p8mQ/SLgE3P/IktcMrI/1Geh6R5ZZiUBvu1VURoM3quFHUXHgWapPg28wXl1sg0otGCLkWYfiNbG6PH2zGGmvRySqqPtZz1mlWPTLWpfogyFeKvbUfGE2+GxtKr/b68en3wxNOlZ3BhlYpBig00fxup1+M80ZzIzzZfI4lmbymxwQXJYoPfdp6uh0hyYYCTIHEiIKh3Tnf7sxGGGOH53FzHdOA8PazP+uXHRH/cZAP+bpqD8tgC1C6Psufp7wkEpNvFcayFcUOv6MlN/KtUVUUh7o1s2Ek6oCFff8AJxtmcBPZl3julG54S2MU3VhjLFe5X3UROle2n0jbLfGZcQdLpUxaAn8UP22amY0LZ/yIjYOJCYvbl1ajquoAhHx13W012Y0wUV6E1/r2n96SLbD7zGfYMbB0szLM7sgLClx/FK1eI/bV8p8nXDNDelfnVGpAdA3hsFsytc1L7uXslLblpTAbvu6qjdPVfzfmS4rORoJx7pEvghepWFI71/wUsRrJtNG0zvi2AcJDsyhegQjzWaEPRbKImcYCOV/bunk3ZEjzU+9ERsTNLqD/ztf/9yNUOE/uEGaOVC0J+WZJceYo/Q5+7hOpKFSZTsGSDb9LUCRAxcomJFaLF6Wjye8UfkCYWr+zhZF6/LDIaO9JKC8vZWgw2c=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(107886003)(4326008)(2906002)(316002)(31686004)(186003)(4744005)(86362001)(6916009)(508600001)(6486002)(36756003)(38100700002)(66476007)(31696002)(8676002)(66556008)(5660300002)(8936002)(66946007)(53546011)(2616005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RW05L1Y5cHJPUmFzMlJlYXhTL3p4WHcxUHU0Z05GdU1PbTR3dFExZjFzcHpX?=
- =?utf-8?B?MkpWT0g3YmpxMURsKytNVlVnS2tCaFJaRzRXVnRZSW9UWG1kaUxSc3AvNU5H?=
- =?utf-8?B?UjBtK25XS01Xb2l5ZXBoSWt0emlJbnFHVnB1NlU0T2haUDdpY1JpZGl3QzBy?=
- =?utf-8?B?dDhYOEJTOGRtQjN0enA5Vm9uL0dSOUQwMDI0Q01CWUEzc0pGVWI4VFowNEl6?=
- =?utf-8?B?OG5QeTc3ZW9jOHBLWVNjTjdGSVdmakMwRWVzMHNjeUJDdUE1ZHlZRFJmMmZY?=
- =?utf-8?B?RGFjZHh4Y0ZsMDJSVkYyUkIvRTgyUHFnSkdSRHZBN3ljSnk1WHJCMFdjYUVs?=
- =?utf-8?B?aTdFZTdlaEl1dmZiSDhjVE1iM0tMcktIVkJYSmJBMG56TmxyeEVjYjFyQWdq?=
- =?utf-8?B?L2dVZEIyQWtXZWpDN0tyQVZVek1mNW5CK0szaFZZVmZhOHlsSk9xamlxTTRO?=
- =?utf-8?B?TC9mT1l1SlpEZHRhUFdXbDVJUW5qQ3lRSis3Q1JXZ1dsdkkrcjJBS0h0S0Js?=
- =?utf-8?B?QmRIbjY2bFJuN1NWcm9pN21SL1pMKzRQQ204S0tSbXFQZDNRcVlFa0M1UFhu?=
- =?utf-8?B?bjY3Yi81ZUI1azZBZTJvQk56Sk1saGNWQ2FZMHU3QWFKRzRmMWd2VzNnS2Jp?=
- =?utf-8?B?SUpZTksrM1NEVEFoU2xWc2tSNERPcHNJR2x0Wk5jNFhFdjU0dzNOelozNGFI?=
- =?utf-8?B?c2lNUjI0ck9PbURCVXpON1l0QW5nUzJFd0lvelozd1d4a2JldE9raVVLQ1JR?=
- =?utf-8?B?SkRybmhFT3dsbEJLaUF1dU11U1lvZ2N2Y2ZXZXlrb0xJeVNSTWpad3JOblBR?=
- =?utf-8?B?N1RJaFo4d0wvenN0SlF0L0p6Z2I5Nk5NVEZRV3ZSYU4zQ08rOWs4bHNTVGZz?=
- =?utf-8?B?dXc0U1p1MnNBWXVobGVGYVZmbDNDRjNFcTNwRGhYQWYyeDNEckVmNmJta0VW?=
- =?utf-8?B?WUpOZ2IrcWRnTjdwcWU5QStPK2hKbFd3ZmVRdVhHNFNyU09CVWJ1VlZhTHFE?=
- =?utf-8?B?cktQb0dYUGU4SWVFSWN0WGszR0pzNkJDTEc3NjZMaTczcWVtQVBHSXphcFlq?=
- =?utf-8?B?TE1XTThLMGhVcmJraUFlbkZHbzhnYThWQ2c1OVVvdyt1S2lLbzE4L3Vzeldi?=
- =?utf-8?B?ZnZPdVliZE11dG1zTVkySkkxbVhrWFBWZ21mVVVVQW9qS1FHcklaQS9vMEdT?=
- =?utf-8?B?M3lycU9aU3pXM0ZJejBjN2FZbWZ4VFZKYURZTTRkbWZMa3AraVhwVE1NbWFm?=
- =?utf-8?B?Q2k0U0o3UFI5MGg5OWE2eHZuZ2drZGxmYUMweHpROFVydFdVendWWFlCVDF6?=
- =?utf-8?B?QWZ6T0Y0RG9jVUJYSU81bXNiMGRkWUptaVZOUTJDRXdpVEVSMEt6aGkxUHli?=
- =?utf-8?B?OFVvYnR0VVhOS2ZscTJXNEFDN3YzTEprUVhieUJCNUpFM3JoWGFyU2FaUy81?=
- =?utf-8?B?bUVzYWhOY2h0UHlKTjJxa2l5OVJBRmpMZGhwS050RHlBVlJXOHl0VW5Tc29q?=
- =?utf-8?B?ZUFDck9TYnRsS3Q1QW1IcEZoOS8yNXFpaXppSHRscWdnaTZqa2JXdTdkbU1t?=
- =?utf-8?B?N3RLbTR3RzhhVFA2b2tUY1VGWFNkclNwZE5tb3dUOW9OelhaM1Z1RjVKNlFX?=
- =?utf-8?B?UmNEM1lMdXBKbEpFUTd3MWRwaFpXU2NQdDB5UVRtMVkwZ1NyRzdjeFo1c3lG?=
- =?utf-8?B?ZEM4Mk9rdGdWUFFabWx3bGw1a3lIZzZ1RTlLTSsrdDdSMGtTTFpQdVhrazFs?=
- =?utf-8?B?a1ZxZEZjNHU1YnJmZnBFSzdUVnQ5RzE3Z05OSEx2dlNGb3JxajRZc2RyUS9R?=
- =?utf-8?B?TERERk9XTlh5eXNQakRSOVVjY3N3NVFXbE9Dd0h4UTY4amlEU09lZXNqdTQ4?=
- =?utf-8?B?ejBuaXgvRFVFRGtYbTVZSm9zaXBsL1hCRkd2UTBMYzBsRlJQMWJVY3Yyb1B6?=
- =?utf-8?B?L2g5N3N6QXJDYnFEVEJVMWsyMVVBcG1MdFVTNkVZQmRiVFJHTVN0SlhCV3g5?=
- =?utf-8?B?S2traGpHQm5rOHRzL3M0QUVwNERQUjNpWFJRVDRlZjZYbFg2T3JaZXRQUEdS?=
- =?utf-8?B?aFlPNjVtMlJnWkxSaXZtcHdvMXFIKy9yVm5nelBMZ1dkQlpHU0tyT2Njc1lV?=
- =?utf-8?B?Q2hJdjFFbDR0UUt1RFhkMW80ajh6OU93MHFwc1djSXprVldOSTNsaGt6NFhW?=
- =?utf-8?B?RHQ2azhOeHdWQStaeXd3QlE1Z203UU5Wd01pUFFGSEtrak8wSzBQVnZxeitO?=
- =?utf-8?B?SStsbHJadFdhcmNBY1kwMEVhQjdLNzF6NUNubktlNEJHODFzcVdKMWFPaGlx?=
- =?utf-8?Q?8rUQvVM3825VYS3irS?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4f40631-38ef-41f8-cd72-08d9ba691bbd
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2021 16:38:05.2828 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Bq7o2Q8IkXUbsjkflKkLmkQ/LtYgAscfiPu3AEiBoD9r8eqQCKff5hh4QQE0wiDxUJk/2bDzOq12knEUInGzDikFqLfn2ku+VkNYj2tiBpo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1391
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10192
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- suspectscore=0
- adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112080097
-X-Proofpoint-ORIG-GUID: ZMfVJ5O5ML_R62E8TPCutooAJO1KgGKK
-X-Proofpoint-GUID: ZMfVJ5O5ML_R62E8TPCutooAJO1KgGKK
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.44, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-08_07,2021-12-08_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 phishscore=0 adultscore=0 spamscore=0 mlxscore=0
+ bulkscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2112080097
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=lagarcia@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -184,27 +108,286 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
- imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
+Cc: danielhb413@gmail.com, groug@kaod.org, qemu-devel@nongnu.org, clg@kaod.org,
+ Leonardo Garcia <lagarcia@br.ibm.com>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Leonardo Garcia <lagarcia@br.ibm.com>
 
+The purpose of this document is to substitute the content currently
+available in the QEMU wiki at [0]. This initial version does contain
+some additional content as well. Whenever this documentation gets
+upstream and is reflected in [1], the QEMU wiki will be edited to point
+to this documentation, so that we only need to keep it updated in one
+place.
 
-On 12/6/21 02:14, Ani Sinha wrote:
-> On Fri, Dec 3, 2021 at 12:39 AM Eric DeVolder <eric.devolder@oracle.com> wrote:
->>
->> This implements a PCI device for ACPI ERST. This implements the
->> non-NVRAM "mode" of operation for ERST as it is supported by
->> Linux and Windows.
-> 
-> OK sent some more comments. It will take another pass for me to fully
-> review this.
-> 
+0. https://wiki.qemu.org/Documentation/Platforms/POWER
+1. https://qemu.readthedocs.io/en/latest/system/ppc/pseries.html
 
-Hi Ani, thank you for reviewing. I have incorporated your feedback thus far.
-I have v10 ready to go but not sure if your review of v9 is completed yet?
-Thanks!
-eric
+Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+---
+
+Changelog:
+v3->v4:
+- Fix build.
+
+v2->v3:
+- Updating LoPAR link.
+- Minor clarifications in the text.
+
+v1->v2:
+- Addressing David Gibson and Cédric's comments. Thanks!
+
+ docs/system/ppc/pseries.rst | 226 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 226 insertions(+)
+
+diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
+index 932d4dd17d..e46f09d4c8 100644
+--- a/docs/system/ppc/pseries.rst
++++ b/docs/system/ppc/pseries.rst
+@@ -1,12 +1,238 @@
+ pSeries family boards (``pseries``)
+ ===================================
+ 
++The Power machine para-virtualized environment described by the `Linux on Power
++Architecture Reference document (LoPAR)
++<https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200812.pdf>`_
++is called pSeries. This environment is also known as sPAPR, System p guests, or
++simply Power Linux guests (although it is capable of running other operating
++systems, such as AIX).
++
++Even though pSeries is designed to behave as a guest environment, it is also
++capable of acting as a hypervisor OS, providing, on that role, nested
++virtualization capabilities.
++
+ Supported devices
+ -----------------
+ 
++ * Multi processor support for many Power processors generations: POWER7,
++   POWER7+, POWER8, POWER8NVL, POWER9, and Power10. Support for POWER5+ exists,
++   but its state is unknown.
++ * Interrupt Controller, XICS (POWER8) and XIVE (POWER9 and Power10)
++ * vPHB PCIe Host bridge.
++ * vscsi and vnet devices, compatible with the same devices available on a
++   PowerVM hypervisor with VIOS managing LPARs.
++ * Virtio based devices.
++ * PCIe device pass through.
++
+ Missing devices
+ ---------------
+ 
++ * SPICE support.
+ 
+ Firmware
+ --------
++
++`SLOF <https://github.com/aik/SLOF>`_ (Slimline Open Firmware) is an
++implementation of the `IEEE 1275-1994, Standard for Boot (Initialization
++Configuration) Firmware: Core Requirements and Practices
++<https://standards.ieee.org/standard/1275-1994.html>`_.
++
++QEMU includes a prebuilt image of SLOF which is updated when a more recent
++version is required.
++
++Build directions
++----------------
++
++.. code-block:: bash
++
++  ./configure --target-list=ppc64-softmmu && make
++
++Running instructions
++--------------------
++
++Someone can select the pSeries machine type by running QEMU with the following
++options:
++
++.. code-block:: bash
++
++  qemu-system-ppc64 -M pseries <other QEMU arguments>
++
++sPAPR devices
++-------------
++
++The sPAPR specification defines a set of para-virtualized devices, which are
++also supported by the pSeries machine in QEMU and can be instantiated with the
++``-device`` option:
++
++* ``spapr-vlan`` : a virtual network interface.
++* ``spapr-vscsi`` : a virtual SCSI disk interface.
++* ``spapr-rng`` : a pseudo-device for passing random number generator data to the
++  guest (see the `H_RANDOM hypercall feature
++  <https://wiki.qemu.org/Features/HRandomHypercall>`_ for details).
++* ``spapr-vty``: a virtual teletype.
++* ``spapr-pci-host-bridge``: a PCI host bridge.
++* ``tpm-spapr``: a Trusted Platform Module (TPM).
++* ``spapr-tpm-proxy``: a TPM proxy.
++
++These are compatible with the devices historically available for use when
++running the IBM PowerVM hypervisor with LPARs.
++
++However, since these devices have originally been specified with another
++hypervisor and non-Linux guests in mind, you should use the virtio counterparts
++(virtio-net, virtio-blk/scsi and virtio-rng for instance) if possible instead,
++since they will most probably give you better performance with Linux guests in a
++QEMU environment.
++
++The pSeries machine in QEMU is always instantiated with the following devices:
++
++* A NVRAM device (``spapr-nvram``).
++* A virtual teletype (``spapr-vty``).
++* A PCI host bridge (``spapr-pci-host-bridge``).
++
++Hence, it is not needed to add them manually, unless you use the ``-nodefaults``
++command line option in QEMU.
++
++In the case of the default ``spapr-nvram`` device, if someone wants to make the
++contents of the NVRAM device persistent, they will need to specify a PFLASH
++device when starting QEMU, i.e. either use
++``-drive if=pflash,file=<filename>,format=raw`` to set the default PFLASH
++device, or specify one with an ID
++(``-drive if=none,file=<filename>,format=raw,id=pfid``) and pass that ID to the
++NVRAM device with ``-global spapr-nvram.drive=pfid``.
++
++sPAPR specification
++^^^^^^^^^^^^^^^^^^^
++
++The main source of documentation on the sPAPR standard is the `Linux on Power
++Architecture Reference document (LoPAR)
++<https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200812.pdf>`_.
++However, documentation specific to QEMU's implementation of the specification
++can  also be found in QEMU documentation:
++
++.. toctree::
++   :maxdepth: 1
++
++   ../../specs/ppc-spapr-numa.rst
++   ../../specs/ppc-spapr-xive.rst
++
++Other documentation available in QEMU docs directory:
++
++* Hypervisor calls (a.k.a. hcalls) (``docs/specs/ppc-spapr-hcalls.txt``).
++* Hot plug (``/docs/specs/ppc-spapr-hotplug.txt``).
++* Hypervisor calls needed by the Ultravisor
++  (``/docs/specs/ppc-spapr-uv-hcalls.txt``).
++
++Switching between the KVM-PR and KVM-HV kernel module
++-----------------------------------------------------
++
++Currently, there are two implementations of KVM on Power, ``kvm_hv.ko`` and
++``kvm_pr.ko``.
++
++
++If a host supports both KVM modes, and both KVM kernel modules are loaded, it is
++possible to switch between the two modes with the ``kvm-type`` parameter:
++
++* Use ``qemu-system-ppc64 -M pseries,accel=kvm,kvm-type=PR`` to use the
++  ``kvm_pr.ko`` kernel module.
++* Use ``qemu-system-ppc64 -M pseries,accel=kvm,kvm-type=HV`` to use ``kvm_hv.ko``
++  instead.
++
++KVM-PR
++^^^^^^
++
++KVM-PR uses the so-called **PR**\ oblem state of the PPC CPUs to run the guests,
++i.e. the virtual machine is run in user mode and all privileged instructions
++trap and have to be emulated by the host. That means you can run KVM-PR inside
++a pSeries guest (or a PowerVM LPAR for that matter), and that is where it has
++originated, as historically (prior to POWER7) it was not possible to run Linux
++on hypervisor mode on a Power processor (this function was restricted to
++PowerVM, the IBM proprietary hypervisor).
++
++Because all privileged instructions are trapped, guests that use a lot of
++privileged instructions run quite slow with KVM-PR. On the other hand, because
++of that, this kernel module can run on pretty much every PPC hardware, and is
++able to emulate a lot of guests CPUs. This module can even be used to run other
++PowerPC guests like an emulated PowerMac.
++
++As KVM-PR can be run inside a pSeries guest, it can also provide nested
++virtualization capabilities (i.e. running a guest from within a guest).
++
++It is important to notice that, as KVM-HV provides a much better execution
++performance, maintenance work has been much more focused on it in the past
++years. Maintenance for KVM-PR has been minimal.
++
++In order to run KVM-PR guests with POWER9 processors, someone will need to start
++QEMU with ``kernel_irqchip=off`` command line option.
++
++KVM-HV
++^^^^^^
++
++KVM-HV uses the hypervisor mode of more recent Power processors, that allow
++access to the bare metal hardware directly. Although POWER7 had this capability,
++it was only starting with POWER8 that this was officially supported by IBM.
++
++Originally, KVM-HV was only available when running on a PowerNV platform (a.k.a.
++Power bare metal). Although it runs on a PowerNV platform, it can only be used
++to start pSeries guests. As the pSeries guest doesn't have access to the
++hypervisor mode of the Power CPU, it wasn't possible to run KVM-HV on a guest.
++This limitation has been lifted, and now it is possible to run KVM-HV inside
++pSeries guests as well, making nested virtualization possible with KVM-HV.
++
++As KVM-HV has access to privileged instructions, guests that use a lot of these
++can run much faster than with KVM-PR. On the other hand, the guest CPU has to be
++of the same type as the host CPU this way, e.g. it is not possible to specify an
++embedded PPC CPU for the guest with KVM-HV. However, there is at least the
++possibility to run the guest in a backward-compatibility mode of the previous
++CPUs generations, e.g. you can run a POWER7 guest on a POWER8 host by using
++``-cpu POWER8,compat=power7`` as parameter to QEMU.
++
++Modules support
++---------------
++
++As noticed in the sections above, each module can run in a different
++environment. The following table shows with which environment each module can
++run. As long as you are in a supported environment, you can run KVM-PR or KVM-HV
++nested. Combinations not shown in the table are not available.
++
+++--------------+------------+------+-------------------+----------+--------+
++| Platform     | Host type  | Bits | Page table format | KVM-HV   | KVM-PR |
+++==============+============+======+===================+==========+========+
++| PowerNV      | bare metal | 32   | hash              | no       | yes    |
++|              |            |      +-------------------+----------+--------+
++|              |            |      | radix             | N/A      | N/A    |
++|              |            +------+-------------------+----------+--------+
++|              |            | 64   | hash              | yes      | yes    |
++|              |            |      +-------------------+----------+--------+
++|              |            |      | radix             | yes      | no     |
+++--------------+------------+------+-------------------+----------+--------+
++| pSeries [1]_ | PowerNV    | 32   | hash              | no       | yes    |
++|              |            |      +-------------------+----------+--------+
++|              |            |      | radix             | N/A      | N/A    |
++|              |            +------+-------------------+----------+--------+
++|              |            | 64   | hash              | no       | yes    |
++|              |            |      +-------------------+----------+--------+
++|              |            |      | radix             | yes [2]_ | no     |
++|              +------------+------+-------------------+----------+--------+
++|              | PowerVM    | 32   | hash              | no       | yes    |
++|              |            |      +-------------------+----------+--------+
++|              |            |      | radix             | N/A      | N/A    |
++|              |            +------+-------------------+----------+--------+
++|              |            | 64   | hash              | no       | yes    |
++|              |            |      +-------------------+----------+--------+
++|              |            |      | radix [3]_        | no       | yes    |
+++--------------+------------+------+-------------------+----------+--------+
++
++.. [1] On POWER9 DD2.1 processors, the page table format on the host and guest
++   must be the same.
++
++.. [2] KVM-HV cannot run nested on POWER8 machines.
++
++.. [3] Introduced on Power10 machines.
++
++Maintainer contact information
++------------------------------
++
++Cédric Le Goater <clg@kaod.org>
++
++Daniel Henrique Barboza <danielhb413@gmail.com>
+\ No newline at end of file
+-- 
+2.33.1
+
 
