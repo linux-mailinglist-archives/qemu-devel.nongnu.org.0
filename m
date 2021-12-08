@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B9346CE70
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 08:38:35 +0100 (CET)
-Received: from localhost ([::1]:60600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F7D446CE74
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 08:40:00 +0100 (CET)
+Received: from localhost ([::1]:35414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1murX8-0005VZ-0S
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 02:38:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47448)
+	id 1murYV-0007aB-4O
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 02:39:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1murU8-0003Vz-Nr
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 02:35:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36933)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1murVT-0004cU-Do
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 02:36:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1murU7-0008NR-1Z
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 02:35:28 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1murVR-0000Dr-Ak
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 02:36:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638948926;
+ s=mimecast20190719; t=1638949008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=OnhCRc19B6t7iGXffcxpgc/fI29VkReMyZtKtGJEbp0=;
- b=Atu+/4vijE/Fd2qdL6O6Q4Vj82jp3WcQnVSZm1X52ijyUHRcpuIUFRsJ3IApwwG3TLwDEJ
- ZRFZc/0tejrGBmWFIKrZfDwgZ2zYujhAQO79OpD+vQlkruhfou2SLRYjjLgtvys2+ktlyw
- K/rhy07HWGISft5pg5vAuauJu8fsWDA=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Q2RL3ImqOPKx7cUO/sZATykbFeiIgMwuC3lKOVbiONw=;
+ b=jCnUuwn6TDqbJNVu4ek646zYzxfOkwKmN/8+CbjqBatGhyjwuAVGBGWAERBc0g0ctAwweW
+ FSqCqFa6JPe/dOM0mdb9Vrr8zBXEtRscdTcYLbKdQYuFSwS0F2CW/5NjQJpUbuLUAzBtP8
+ /QaTDLiquVXQeQ8vY6A+hx09wmOYS5Y=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-308-4UZH9q-TPj624ttddh1OWg-1; Wed, 08 Dec 2021 02:35:25 -0500
-X-MC-Unique: 4UZH9q-TPj624ttddh1OWg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- eg20-20020a056402289400b003eb56fcf6easo1340499edb.20
- for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 23:35:25 -0800 (PST)
+ us-mta-428-uHJ0zwxVNmybguHgPy91Ig-1; Wed, 08 Dec 2021 02:36:47 -0500
+X-MC-Unique: uHJ0zwxVNmybguHgPy91Ig-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ w5-20020a05640234c500b003f1b9ab06d2so1375831edc.13
+ for <qemu-devel@nongnu.org>; Tue, 07 Dec 2021 23:36:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=OnhCRc19B6t7iGXffcxpgc/fI29VkReMyZtKtGJEbp0=;
- b=Uxs/Ukl2WZDtOTpRsHDFJO0/st4l1mZNGb3WNVnZjh4/ERVdsO+FPKVlhno0dcZLp8
- SJKsg6Tq3g0vxbxBJxKC2/dJn0RQCN/T6OIdvpI6MYCzm1+LUHNJsUZHAJntnbFtL2di
- luns5poAkERQ09Ju9MW8JGwedUMJPCJfHYFX0GY7IKZGdxiuhAPndGJexxTG+kZBRDjr
- 64MQyo2TTnp6j0RcsVHGUw+T64dhF0rKBem2W6lPeNUE68SnMWNkhHLZQvNa5lVWn3IJ
- SbyruWaisc9ZbjcEnauZvOt53P849rX8aSGgWbWgTrpwxDLF02m1pBRVoBDQyUI9SIB1
- rV9w==
-X-Gm-Message-State: AOAM531ZFSHGyrTNBgVgIh9KozJ4tLWqedWyZJPD9/BmRwhMigWlBCHG
- ZJha/OVFN30XLMvENkIdo6XbwYcxztSYhzm76XHYAgSMb+AT/O8tB4wwSx87uNYVH2ZSGIUu/BJ
- +ypH63SpYVIpLO80=
-X-Received: by 2002:aa7:d794:: with SMTP id s20mr16502011edq.305.1638948923158; 
- Tue, 07 Dec 2021 23:35:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxnZucZN0tHLZucHGx4O7gO3HrxgsB91EUKrBRs6O9OqlWo/1I7uZmhOZ6Wbrdu2KSw9E80Gg==
-X-Received: by 2002:aa7:d794:: with SMTP id s20mr16501997edq.305.1638948923020; 
- Tue, 07 Dec 2021 23:35:23 -0800 (PST)
+ bh=Q2RL3ImqOPKx7cUO/sZATykbFeiIgMwuC3lKOVbiONw=;
+ b=tprI7ly9Vz2ax7aiNakU+rhFhx6vnDIOdvdOw6msNDjum3YE2FukTvY8fM7w+baMhb
+ 0OguU+icWm98JXjxR3oRYlPCZaj8vFjDraFBXFZm8gMnMFS/s8YEovjZypLsxZC5EgOF
+ TRORZoDhnrwbonzR0E3qjFgzPInQqkoghe0ug4HqjLF0T24dJQo2uE9a19x4x+Vm+H6E
+ iK/hQ2y6hAcPaEW3y4hAs492zzL8sAX/Yr/RqlXAtHrlj8dhLYjFnhaTt7cse+yIjb7e
+ 07eTRG2/AKHc9DmHTY/fMGHVRytryaQjUSesvzLJaVSfQ4bmyZ10vK4kmUDfLCfpSUxS
+ PMqA==
+X-Gm-Message-State: AOAM530W0itbAvDnWm/wENDHpmmY/4HnReN8FGAf8wNdwqaAkdedfKrz
+ uBu/tBIpbIBUZ84Mv7HdUtiJT6dGrh+GavkVRQHDbUJdWxlu2vdoCniLPOMOgF4NkEHCn56ISJd
+ v6M7tgxyHSUfDM1Y=
+X-Received: by 2002:a05:6402:26c8:: with SMTP id
+ x8mr17110902edd.156.1638949005981; 
+ Tue, 07 Dec 2021 23:36:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwTwjShxrRi++Z1rdIL9S9rtATuIGddzgDaO9HI+QjVR4RowmFFUcEIwGUqztp6cgzJytKx6w==
+X-Received: by 2002:a05:6402:26c8:: with SMTP id
+ x8mr17110880edd.156.1638949005783; 
+ Tue, 07 Dec 2021 23:36:45 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:107e:ebdb:5cc6:c351:b05:514f])
- by smtp.gmail.com with ESMTPSA id w24sm977929ejk.0.2021.12.07.23.35.20
+ by smtp.gmail.com with ESMTPSA id r3sm985257ejr.79.2021.12.07.23.36.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Dec 2021 23:35:22 -0800 (PST)
-Date: Wed, 8 Dec 2021 02:35:18 -0500
+ Tue, 07 Dec 2021 23:36:45 -0800 (PST)
+Date: Wed, 8 Dec 2021 02:36:41 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v7 2/4] tests/qtest: add some tests for virtio-net failover
-Message-ID: <20211208023509-mutt-send-email-mst@kernel.org>
-References: <20211207172342.4058491-1-lvivier@redhat.com>
- <20211207172342.4058491-3-lvivier@redhat.com>
- <0c40316f-aa00-37ff-096a-ac94279d6a8d@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH v5 3/4] failover: fix unplug pending detection
+Message-ID: <20211208023603-mutt-send-email-mst@kernel.org>
+References: <20211119090718.440793-1-lvivier@redhat.com>
+ <20211119090718.440793-4-lvivier@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <0c40316f-aa00-37ff-096a-ac94279d6a8d@redhat.com>
+In-Reply-To: <20211119090718.440793-4-lvivier@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -94,36 +95,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+Cc: Thomas Huth <thuth@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
  Paolo Bonzini <pbonzini@redhat.com>, Jens Freimann <jfreimann@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 08, 2021 at 08:33:31AM +0100, Thomas Huth wrote:
-> On 07/12/2021 18.23, Laurent Vivier wrote:
-> > Add test cases to test several error cases that must be
-> > generated by invalid failover configuration.
-> > 
-> > Add a combination of coldplug and hotplug test cases to be
-> > sure the primary is correctly managed according the
-> > presence or not of the STANDBY feature.
-> > 
-> > Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> > ---
-> >   tests/qtest/meson.build           |   4 +
-> >   tests/qtest/virtio-net-failover.c | 771 ++++++++++++++++++++++++++++++
-> >   2 files changed, 775 insertions(+)
-> >   create mode 100644 tests/qtest/virtio-net-failover.c
+On Fri, Nov 19, 2021 at 10:07:17AM +0100, Laurent Vivier wrote:
+> Failover needs to detect the end of the PCI unplug to start migration
+> after the VFIO card has been unplugged.
 > 
-> Acked-by: Thomas Huth <thuth@redhat.com>
+> To do that, a flag is set in pcie_cap_slot_unplug_request_cb() and reset in
+> pcie_unplug_device().
 > 
-> I'll take this series through my "testing" branch (unless someone speaks up
-> that it should go through some virtio/network branch instead).
+> But since
+>     17858a169508 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35")
+> we have switched to ACPI unplug and these functions are not called anymore
+> and the flag not set. So failover migration is not able to detect if card
+> is really unplugged and acts as it's done as soon as it's started. So it
+> doesn't wait the end of the unplug to start the migration. We don't see any
+> problem when we test that because ACPI unplug is faster than PCIe native
+> hotplug and when the migration really starts the unplug operation is
+> already done.
+> 
+> See c000a9bd06ea ("pci: mark device having guest unplug request pending")
+>     a99c4da9fc2a ("pci: mark devices partially unplugged")
+> 
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Reviewed-by: Ani Sinha <ani@anisinha.ca>
 
-Pls do.
+Hmm.  I think this one may be needed for this release actually.
+Isolate from testing changes and repost?
 
--- 
-MST
+> ---
+>  hw/acpi/pcihp.c | 30 +++++++++++++++++++++++++++---
+>  1 file changed, 27 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> index f610a25d2ef9..30405b5113d7 100644
+> --- a/hw/acpi/pcihp.c
+> +++ b/hw/acpi/pcihp.c
+> @@ -222,9 +222,27 @@ static void acpi_pcihp_eject_slot(AcpiPciHpState *s, unsigned bsel, unsigned slo
+>          PCIDevice *dev = PCI_DEVICE(qdev);
+>          if (PCI_SLOT(dev->devfn) == slot) {
+>              if (!acpi_pcihp_pc_no_hotplug(s, dev)) {
+> -                hotplug_ctrl = qdev_get_hotplug_handler(qdev);
+> -                hotplug_handler_unplug(hotplug_ctrl, qdev, &error_abort);
+> -                object_unparent(OBJECT(qdev));
+> +                /*
+> +                 * partially_hotplugged is used by virtio-net failover:
+> +                 * failover has asked the guest OS to unplug the device
+> +                 * but we need to keep some references to the device
+> +                 * to be able to plug it back in case of failure so
+> +                 * we don't execute hotplug_handler_unplug().
+> +                 */
+> +                if (dev->partially_hotplugged) {
+> +                    /*
+> +                     * pending_deleted_event is set to true when
+> +                     * virtio-net failover asks to unplug the device,
+> +                     * and set to false here when the operation is done
+> +                     * This is used by the migration loop to detect the
+> +                     * end of the operation and really start the migration.
+> +                     */
+> +                    qdev->pending_deleted_event = false;
+> +                } else {
+> +                    hotplug_ctrl = qdev_get_hotplug_handler(qdev);
+> +                    hotplug_handler_unplug(hotplug_ctrl, qdev, &error_abort);
+> +                    object_unparent(OBJECT(qdev));
+> +                }
+>              }
+>          }
+>      }
+> @@ -396,6 +414,12 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+>          return;
+>      }
+>  
+> +    /*
+> +     * pending_deleted_event is used by virtio-net failover to detect the
+> +     * end of the unplug operation, the flag is set to false in
+> +     * acpi_pcihp_eject_slot() when the operation is completed.
+> +     */
+> +    pdev->qdev.pending_deleted_event = true;
+>      s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
+>      acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
+>  }
+> -- 
+> 2.33.1
 
 
