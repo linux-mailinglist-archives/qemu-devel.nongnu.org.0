@@ -2,104 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E2146DBD8
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 20:12:35 +0100 (CET)
-Received: from localhost ([::1]:53068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027B146DC70
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 20:48:24 +0100 (CET)
+Received: from localhost ([::1]:34388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mv2Mj-0002zL-Dz
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 14:12:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33184)
+	id 1mv2vO-0004Sy-Aj
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 14:48:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1mv2K6-0001e2-RE; Wed, 08 Dec 2021 14:09:50 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36378)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mv2ta-0002TF-FT
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 14:46:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1mv2K5-0006eq-5R; Wed, 08 Dec 2021 14:09:50 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B8ISl0g004290; 
- Wed, 8 Dec 2021 19:09:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=6HOwfVrHUMZ3e5lm9dJwACPuGjKsRr/ngZLHs8z/zZ8=;
- b=UV2NBlPBXjvn4zOoildyaANYTjZuz489eN0KMtUfxf322o9Yj1S8L0sEDacKkzngu8n1
- 20fAjbA1JrIYlCQ6dqUpl5zgAM88um5joLvspzW2OU+fPlqt3j92qRMULggHbLGFuVEu
- UCxRDnFs+uDxX5vUUzaLwJtfjzNf/ECcGdsVprtUTcLyk+TM+rrvXCAuSSEHzb4avmjk
- dZjapmXy87KMN3He3zwT+Z8ubay18j3/qGXkuSbb7uDiVz/w0CjmABJDUXssVD5TAnYs
- iJ2qOSwJqExl1cF+FiMEIto+7YWH8BYoPklPQy34bZZHPuA1tZttln3eIQk73CzZizxq 2Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cu2128pq7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 19:09:44 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B8J50Sn020480;
- Wed, 8 Dec 2021 19:09:44 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cu2128ppw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 19:09:44 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B8J3QS0016498;
- Wed, 8 Dec 2021 19:09:43 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma03dal.us.ibm.com with ESMTP id 3cqyybv1cs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 19:09:43 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B8J9fMT60228058
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 8 Dec 2021 19:09:41 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7133AB2065;
- Wed,  8 Dec 2021 19:09:41 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CEC4AB2064;
- Wed,  8 Dec 2021 19:09:37 +0000 (GMT)
-Received: from [9.211.152.43] (unknown [9.211.152.43])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed,  8 Dec 2021 19:09:37 +0000 (GMT)
-Message-ID: <38419082-3a9e-96d0-0cbf-5c97884b1a95@linux.ibm.com>
-Date: Wed, 8 Dec 2021 14:09:36 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mv2tX-00013b-EM
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 14:46:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638992786;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ElPoN/64YgzNdw9va+OWXDZBK8x747z/aRsK3OPlnyc=;
+ b=GLEaM5mGL/SzPGQ4Yyrl/SSngS6v3uecl8yTw9MwsjS4sYbroE8bnsxvlWR0mG6Y+y5W+r
+ RJDWurYMZ4atVYK3T6Alt0aspKdXHcbWQ1JnIEDxehq1qt4w+jTXCPOnDl6MZxF5Ffsnh8
+ Nt9OQ53NtwUlxzS+p3sm1ti4rEGhpeg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-156-BRXB-TtrNeu24KuINkMIkQ-1; Wed, 08 Dec 2021 14:46:24 -0500
+X-MC-Unique: BRXB-TtrNeu24KuINkMIkQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ a85-20020a1c7f58000000b0033ddc0eacc8so3517023wmd.9
+ for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 11:46:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ElPoN/64YgzNdw9va+OWXDZBK8x747z/aRsK3OPlnyc=;
+ b=iLALe6xhyrG3WytvtFw8XN+Lqom61U3sxPgKoXMCmWeHleJI/0U+j+WoJJWSu76xdY
+ jT9JNmbzuuHyxpHq13zrFX/0KBrXxXDoWh6kJI/Eac3zFnO/o0kcMLmXJDOia6HlmcxQ
+ 8ChJWmXnBdKJIDBPmXQDBQm8YX6bvBCLmV+gTIKeYPaFbAfbMg55NA+5/wiNSgPwpAbm
+ jDY7RCXTvZbIk9P8pi1J/+KEgSi7tWkkrJyh1hee1pu581BYzR7Fho0jUJe+rI6m0Oqg
+ 7Zx9OMVKLS4rflvthnFeoltGv8PuLTSDBc3w/LAp17VbUS/2uRrPSXmGiQBKqp51CDr6
+ mzug==
+X-Gm-Message-State: AOAM533PGfdTFluaPFK1BoWmqFbiQ4beMQUzTefiR+HVY4zwDedG3dI5
+ 1axqYPW65YS1Bqdh2XEThHOY/VwQEmEUjG72SxGw5Z/2S+xGAx8tAjdiAy2Rru6X/uSa++E+UUB
+ PePIQhbv+GJcHEuw=
+X-Received: by 2002:a05:600c:3658:: with SMTP id
+ y24mr830501wmq.161.1638992783431; 
+ Wed, 08 Dec 2021 11:46:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyTHXyao/07QhMmj+zh/VMHgcVMQ6UHhgPaLOX3GB+rzNy/XUXV/hMDG2HwWVCSdzZm0WZB9w==
+X-Received: by 2002:a05:600c:3658:: with SMTP id
+ y24mr830477wmq.161.1638992783192; 
+ Wed, 08 Dec 2021 11:46:23 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id n2sm6823674wmi.36.2021.12.08.11.46.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Dec 2021 11:46:22 -0800 (PST)
+Date: Wed, 8 Dec 2021 19:46:20 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 7/7] migration: Finer grained tracepoints for
+ POSTCOPY_LISTEN
+Message-ID: <YbELjB041z8jSBUE@work-vm>
+References: <20211207115016.73195-1-peterx@redhat.com>
+ <20211207115016.73195-8-peterx@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 09/12] s390x/pci: enable adapter event notification for
- interpreted devices
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-References: <20211207210425.150923-1-mjrosato@linux.ibm.com>
- <20211207210425.150923-10-mjrosato@linux.ibm.com>
- <6e4e0755-3ecb-c9d8-6e09-9cee5c9f3fb7@redhat.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <6e4e0755-3ecb-c9d8-6e09-9cee5c9f3fb7@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: sRrE2y-e-8A4a8oaEk6wjTWQsiTLnEOB
-X-Proofpoint-ORIG-GUID: AQuupHYrc_6qk39e0ZBdEcDcHBFySsTo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-08_07,2021-12-08_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- suspectscore=0 impostorscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999
- bulkscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0 phishscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112080108
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.44,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211207115016.73195-8-peterx@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,65 +100,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
- schnelle@linux.ibm.com, cohuck@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
- borntraeger@linux.ibm.com
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/8/21 6:29 AM, Thomas Huth wrote:
-> On 07/12/2021 22.04, Matthew Rosato wrote:
->> Use the associated vfio feature ioctl to enable adapter event 
->> notification
->> and forwarding for devices when requested.  This feature will be set up
->> with or without firmware assist based upon the 'intassist' setting.
->>
->> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->> ---
->>   hw/s390x/s390-pci-bus.c          | 24 +++++++--
->>   hw/s390x/s390-pci-inst.c         | 54 +++++++++++++++++++-
->>   hw/s390x/s390-pci-vfio.c         | 88 ++++++++++++++++++++++++++++++++
->>   include/hw/s390x/s390-pci-bus.h  |  1 +
->>   include/hw/s390x/s390-pci-vfio.h | 20 ++++++++
->>   5 files changed, 182 insertions(+), 5 deletions(-)
-> [...]
->> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
->> index 78093aaac7..6f9271df87 100644
->> --- a/hw/s390x/s390-pci-vfio.c
->> +++ b/hw/s390x/s390-pci-vfio.c
->> @@ -152,6 +152,94 @@ int 
->> s390_pci_update_passthrough_fh(S390PCIBusDevice *pbdev)
->>       return 0;
->>   }
->> +int s390_pci_probe_aif(S390PCIBusDevice *pbdev)
->> +{
->> +    VFIOPCIDevice *vdev = container_of(pbdev->pdev, VFIOPCIDevice, 
->> pdev);
+* Peter Xu (peterx@redhat.com) wrote:
+> The enablement of postcopy listening has a few steps, add a few tracepoints to
+> be there ready for some basic measurements for them.
 > 
-> Should this use VFIO_PCI() instead of container_of ?
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  migration/savevm.c     | 5 ++++-
+>  migration/trace-events | 2 +-
+>  2 files changed, 5 insertions(+), 2 deletions(-)
 > 
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 17b8e25e00..5b3f31eab2 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -1946,7 +1946,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
+>  static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+>  {
+>      PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_LISTENING);
+> -    trace_loadvm_postcopy_handle_listen();
+> +    trace_loadvm_postcopy_handle_listen(1);
 
-Yes, VFIO_PCI(pbdev->pdev) should work.
+I think we tend just to split this into separate traces in many places;
+or if we're using the same one then we should use a string
 
->> +    struct vfio_device_feature feat = {
->> +        .argsz = sizeof(struct vfio_device_feature),
->> +        .flags = VFIO_DEVICE_FEATURE_PROBE + 
->> VFIO_DEVICE_FEATURE_ZPCI_AIF
->> +    };
->> +
->> +    assert(vdev);
+I'd make this:
+  trace_loadvm_postcopy_handle_listen_entry();
+
+for example.
+
+>      Error *local_err = NULL;
+>  
+>      if (ps != POSTCOPY_INCOMING_ADVISE && ps != POSTCOPY_INCOMING_DISCARD) {
+> @@ -1962,6 +1962,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+>              postcopy_ram_prepare_discard(mis);
+>          }
+>      }
+> +    trace_loadvm_postcopy_handle_listen(2);
+>  
+>      /*
+>       * Sensitise RAM - can now generate requests for blocks that don't exist
+> @@ -1974,6 +1975,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+>              return -1;
+>          }
+>      }
+> +    trace_loadvm_postcopy_handle_listen(3);
+>  
+>      if (postcopy_notify(POSTCOPY_NOTIFY_INBOUND_LISTEN, &local_err)) {
+>          error_report_err(local_err);
+> @@ -1988,6 +1990,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+>                         QEMU_THREAD_DETACHED);
+>      qemu_sem_wait(&mis->listen_thread_sem);
+>      qemu_sem_destroy(&mis->listen_thread_sem);
+> +    trace_loadvm_postcopy_handle_listen(4);
+
+  trace_loadvm_postcopy_handle_listen_entry_end();
+>  
+>      return 0;
+>  }
+> diff --git a/migration/trace-events b/migration/trace-events
+> index d63a5915f5..1aa6937dc1 100644
+> --- a/migration/trace-events
+> +++ b/migration/trace-events
+> @@ -14,7 +14,7 @@ loadvm_handle_cmd_packaged_main(int ret) "%d"
+>  loadvm_handle_cmd_packaged_received(int ret) "%d"
+>  loadvm_handle_recv_bitmap(char *s) "%s"
+>  loadvm_postcopy_handle_advise(void) ""
+> -loadvm_postcopy_handle_listen(void) ""
+> +loadvm_postcopy_handle_listen(int i) "%d"
+>  loadvm_postcopy_handle_run(void) ""
+>  loadvm_postcopy_handle_run_cpu_sync(void) ""
+>  loadvm_postcopy_handle_run_vmstart(void) ""
+> -- 
+> 2.32.0
 > 
-> ... then you could likely also drop the assert(), I think?
-
-If I've understood qom.h correctly then yes you're right, if we use the 
-instance checker VFIO_PCI() we should trigger an assert through 
-object_dynamic_cast_assert() already if the pdev isn't a vfio-pci device 
--- I just verified that by trying to call VFIO_PCI() with something else 
-and we indeed get an assert e.g. 'VFIO_PCI: Object 0x... is not an 
-instance of type vfio-pci'
-
-So I'll change these and get rid of the extra asserts, thanks.
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
