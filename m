@@ -2,103 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE19F46DAAB
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 19:02:19 +0100 (CET)
-Received: from localhost ([::1]:41868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FD346DACB
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 19:13:22 +0100 (CET)
+Received: from localhost ([::1]:48686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mv1Gk-0006ZO-EW
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 13:02:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36722)
+	id 1mv1RQ-00039E-Oz
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 13:13:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1mv1Fm-0005qY-V6; Wed, 08 Dec 2021 13:01:19 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:61946)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mv1QK-0002U5-0L
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 13:12:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1mv1Fj-0005VM-NZ; Wed, 08 Dec 2021 13:01:17 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B8HrVx9016831; 
- Wed, 8 Dec 2021 18:01:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=icNS/hUNTZOizlARzmU3ZuuwS3Cil4+EuDX+1J989XA=;
- b=quK1iRPj1wdLDc52theVqpsIOMn6+jROqrkVuyVJj/RAVKmzT1Ne/tkSX5YOa3pqndTy
- II57fJ1yMbitQbhzs2KfzgldQU3j3bKqUM8yVaYAuVCgzNk3KOiYD1nPjMd/IPZ3eAOx
- dhbhBqnA5kY/I4NhsDADEAXikQMCO73gUsB5jzp4ILZKyqOvcta0MVLeulZSouwbK/9t
- n3nHTIMdngUXpqJgQH9dRwq6RXMUHv5KDzq1l8FMOj6u3GkR/fW2e2w/GMEEJK6Mmi0t
- iPJRvSuQDB+hmLW2pcXyIAYlX0Tyq1i5/JLqjpTRkFUsBGXU/utEGhRlFmqbv27nNQ+P Fw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cu1gp83g2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 18:01:05 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B8HwfrK002195;
- Wed, 8 Dec 2021 18:01:04 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cu1gp83fe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 18:01:04 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B8HwVXT009300;
- Wed, 8 Dec 2021 18:01:03 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma01wdc.us.ibm.com with ESMTP id 3cqyyb7hgq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 18:01:03 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B8I11oD44040630
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 8 Dec 2021 18:01:01 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 80C9BB2072;
- Wed,  8 Dec 2021 18:01:01 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0783AB2066;
- Wed,  8 Dec 2021 18:00:55 +0000 (GMT)
-Received: from [9.211.152.43] (unknown [9.211.152.43])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed,  8 Dec 2021 18:00:55 +0000 (GMT)
-Message-ID: <d3d4c643-0d97-e16e-b505-a81c2a8f19e3@linux.ibm.com>
-Date: Wed, 8 Dec 2021 13:00:54 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mv1QG-0007ds-L7
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 13:12:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638987127;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HacGarhUqgonAJ3KBLvpuht7fvZG1o2wSDqT59MSb1c=;
+ b=afN7Q0xVzn96GubkwWXpqAoyxTGSi6AR0fmUfj+x5osNcraJqlyS6Dku5akLnJHJBU8yqn
+ 4k5Xc6aTDP9ipGRF03JwRGC0/4K/ab/f9ES+D+F9q+mSlblVNY2Wk3I45CV0qIJl05gLb3
+ Fv+Jt7I3niU/XU6UJXnzQ0tBENKCC1E=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-108--nZjwF0qO76EfKCqAK3dvg-1; Wed, 08 Dec 2021 13:12:06 -0500
+X-MC-Unique: -nZjwF0qO76EfKCqAK3dvg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m14-20020a05600c3b0e00b0033308dcc933so1636969wms.7
+ for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 10:12:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=HacGarhUqgonAJ3KBLvpuht7fvZG1o2wSDqT59MSb1c=;
+ b=k2d9rMAISss8v1Z/JGt7ij6vj3q0/spugTAmXRoffA8xt3MQTSX5Y5KNr+fZgIfXhS
+ unQNZGsaPvNkVSPBf/QH3VpsNT6yWo3DIm3NpDZyM7bXjKBa/5H4Q7kpOz4AWGLCIaNb
+ uiCBuRWiWKws+Zbfk1wJ6SjsO4YAVLE6imrnTtgyvqLfT9fUiZXR9tM2lA1//4u0xMXN
+ fPJh1kH/ovDTvxwpPuG84bpi2Dh7KlZ5f/gl415AEUTpLc3T/251Nuf5/upV83oApS1M
+ ie04DlyepFkqq/D+YJmlk55Z1dcGuvAP4CvX0Ei0ecc/RMwukyJLy4qCtRuPKTNubhqj
+ f5Xw==
+X-Gm-Message-State: AOAM530DedcvSEz6bp03AtyOn/SMbwxE4pk8MCOvuE+NXX3djI8rdKJ0
+ FlKS41VIg+XJwSlLrlqgPHhYQ45iY64M7MxCoGgih6B6au33arFIKkGy1JbjTBWjIAEdcoOnRsw
+ +EpehJtGFgKydqQs=
+X-Received: by 2002:a1c:1bd8:: with SMTP id b207mr392385wmb.114.1638987125084; 
+ Wed, 08 Dec 2021 10:12:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz6jFT8oVQ+wR7fqF4XPbm8HkwdDt0UIRddzfT9+NKWrMmbtxpxTysu3XfF3dWa0LY7/aFf6g==
+X-Received: by 2002:a1c:1bd8:: with SMTP id b207mr392346wmb.114.1638987124831; 
+ Wed, 08 Dec 2021 10:12:04 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id ay21sm6308639wmb.7.2021.12.08.10.12.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Dec 2021 10:12:04 -0800 (PST)
+Date: Wed, 8 Dec 2021 18:12:02 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 5/7] migration: Drop return code for disgard ram process
+Message-ID: <YbD1cqa+F70QZY2M@work-vm>
+References: <20211207115016.73195-1-peterx@redhat.com>
+ <20211207115016.73195-6-peterx@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 06/12] target/s390x: add zpci-interp to cpu models
-Content-Language: en-US
-To: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-s390x@nongnu.org
-References: <20211207210425.150923-1-mjrosato@linux.ibm.com>
- <20211207210425.150923-7-mjrosato@linux.ibm.com>
- <77f66828-b947-da7a-fe8c-35b698eca841@linux.ibm.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <77f66828-b947-da7a-fe8c-35b698eca841@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: RF81MBEXchmr9Zq_YvHs3EONs2KvAWgP
-X-Proofpoint-ORIG-GUID: LeZZ6_VsQVpt8bV5kHJ61Rqlhrrj7yKn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-08_07,2021-12-08_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxscore=0
- suspectscore=0 impostorscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxlogscore=999 phishscore=0 priorityscore=1501
- bulkscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112080102
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.44,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211207115016.73195-6-peterx@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,82 +97,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
- schnelle@linux.ibm.com, cohuck@redhat.com, richard.henderson@linaro.org,
- thuth@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- alex.williamson@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- david@redhat.com
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/8/21 5:16 AM, Christian Borntraeger wrote:
-> Am 07.12.21 um 22:04 schrieb Matthew Rosato:
->> The zpci-interp feature is used to specify whether zPCI interpretation is
->> to be used for this guest.
->>
->> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->> ---
->>   target/s390x/cpu_features_def.h.inc | 1 +
->>   target/s390x/gen-features.c         | 2 ++
->>   target/s390x/kvm/kvm.c              | 1 +
->>   3 files changed, 4 insertions(+)
->>
->> diff --git a/target/s390x/cpu_features_def.h.inc 
->> b/target/s390x/cpu_features_def.h.inc
->> index e86662bb3b..4ade3182aa 100644
->> --- a/target/s390x/cpu_features_def.h.inc
->> +++ b/target/s390x/cpu_features_def.h.inc
->> @@ -146,6 +146,7 @@ DEF_FEAT(SIE_CEI, "cei", SCLP_CPU, 43, "SIE: 
->> Conditional-external-interception f
->>   DEF_FEAT(DAT_ENH_2, "dateh2", MISC, 0, "DAT-enhancement facility 2")
->>   DEF_FEAT(CMM, "cmm", MISC, 0, "Collaborative-memory-management 
->> facility")
->>   DEF_FEAT(AP, "ap", MISC, 0, "AP instructions installed")
->> +DEF_FEAT(ZPCI_INTERP, "zpci-interp", MISC, 0, "zPCI interpretation")
->>   /* Features exposed via the PLO instruction. */
->>   DEF_FEAT(PLO_CL, "plo-cl", PLO, 0, "PLO Compare and load (32 bit in 
->> general registers)")
->> diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
->> index 7cb1a6ec10..7005d22415 100644
->> --- a/target/s390x/gen-features.c
->> +++ b/target/s390x/gen-features.c
->> @@ -554,6 +554,7 @@ static uint16_t full_GEN14_GA1[] = {
->>       S390_FEAT_HPMA2,
->>       S390_FEAT_SIE_KSS,
->>       S390_FEAT_GROUP_MULTIPLE_EPOCH_PTFF,
->> +    S390_FEAT_ZPCI_INTERP,
->>   };
->>   #define full_GEN14_GA2 EmptyFeat
->> @@ -650,6 +651,7 @@ static uint16_t default_GEN14_GA1[] = {
->>       S390_FEAT_GROUP_MSA_EXT_8,
->>       S390_FEAT_MULTIPLE_EPOCH,
->>       S390_FEAT_GROUP_MULTIPLE_EPOCH_PTFF,
->> +    S390_FEAT_ZPCI_INTERP,
->>   };
+* Peter Xu (peterx@redhat.com) wrote:
+> It will just never fail.  Drop those return values where they're constantly
+> zeros.
 > 
-> For the default model you need to be careful.
-> Is this in any way guest visible? then you definitely need to fence this
-> off for older QEMU versions so that when you migrate with older QEMUs
-> See the s390_cpudef_featoff_greater calls in  hw/s390x/s390-virtio-ccw.c
+> A tiny touch-up on the tracepoint so trace_ram_postcopy_send_discard_bitmap()
+> is called after the logic itself (which sounds more reasonable).
 > 
-> I know its more of a theoretical aspect, since PCI currently forbids 
-> migration
-> but we should try to have the cpu model consistent I guess.
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-Ah, good idea.  Thanks for the pointer.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
->>   #define default_GEN14_GA2 EmptyFeat
->> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
->> index 5b1fdb55c4..b13d78f988 100644
->> --- a/target/s390x/kvm/kvm.c
->> +++ b/target/s390x/kvm/kvm.c
->> @@ -2290,6 +2290,7 @@ static int kvm_to_feat[][2] = {
->>       { KVM_S390_VM_CPU_FEAT_PFMFI, S390_FEAT_SIE_PFMFI},
->>       { KVM_S390_VM_CPU_FEAT_SIGPIF, S390_FEAT_SIE_SIGPIF},
->>       { KVM_S390_VM_CPU_FEAT_KSS, S390_FEAT_SIE_KSS},
->> +    { KVM_S390_VM_CPU_FEAT_ZPCI_INTERP, S390_FEAT_ZPCI_INTERP },
->>   };
->>   static int query_cpu_feat(S390FeatBitmap features)
->>
+> ---
+>  migration/migration.c |  5 +----
+>  migration/ram.c       | 20 +++++---------------
+>  migration/ram.h       |  2 +-
+>  3 files changed, 7 insertions(+), 20 deletions(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index abaf6f9e3d..c2e5539721 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2983,10 +2983,7 @@ static int postcopy_start(MigrationState *ms)
+>       * that are dirty
+>       */
+>      if (migrate_postcopy_ram()) {
+> -        if (ram_postcopy_send_discard_bitmap(ms)) {
+> -            error_report("postcopy send discard bitmap failed");
+> -            goto fail;
+> -        }
+> +        ram_postcopy_send_discard_bitmap(ms);
+>      }
+>  
+>      /*
+> diff --git a/migration/ram.c b/migration/ram.c
+> index ecc744d54d..28f1ace0f7 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2478,8 +2478,6 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block);
+>  /**
+>   * postcopy_each_ram_send_discard: discard all RAMBlocks
+>   *
+> - * Returns 0 for success or negative for error
+> - *
+>   * Utility for the outgoing postcopy code.
+>   *   Calls postcopy_send_discard_bm_ram for each RAMBlock
+>   *   passing it bitmap indexes and name.
+> @@ -2488,10 +2486,9 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block);
+>   *
+>   * @ms: current migration state
+>   */
+> -static int postcopy_each_ram_send_discard(MigrationState *ms)
+> +static void postcopy_each_ram_send_discard(MigrationState *ms)
+>  {
+>      struct RAMBlock *block;
+> -    int ret;
+>  
+>      RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+>          postcopy_discard_send_init(ms, block->idstr);
+> @@ -2509,14 +2506,9 @@ static int postcopy_each_ram_send_discard(MigrationState *ms)
+>           * just needs indexes at this point, avoids it having
+>           * target page specific code.
+>           */
+> -        ret = postcopy_send_discard_bm_ram(ms, block);
+> +        postcopy_send_discard_bm_ram(ms, block);
+>          postcopy_discard_send_finish(ms);
+> -        if (ret) {
+> -            return ret;
+> -        }
+>      }
+> -
+> -    return 0;
+>  }
+>  
+>  /**
+> @@ -2589,8 +2581,6 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block)
+>  /**
+>   * ram_postcopy_send_discard_bitmap: transmit the discard bitmap
+>   *
+> - * Returns zero on success
+> - *
+>   * Transmit the set of pages to be discarded after precopy to the target
+>   * these are pages that:
+>   *     a) Have been previously transmitted but are now dirty again
+> @@ -2601,7 +2591,7 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block)
+>   *
+>   * @ms: current migration state
+>   */
+> -int ram_postcopy_send_discard_bitmap(MigrationState *ms)
+> +void ram_postcopy_send_discard_bitmap(MigrationState *ms)
+>  {
+>      RAMState *rs = ram_state;
+>  
+> @@ -2615,9 +2605,9 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
+>      rs->last_sent_block = NULL;
+>      rs->last_page = 0;
+>  
+> -    trace_ram_postcopy_send_discard_bitmap();
+> +    postcopy_each_ram_send_discard(ms);
+>  
+> -    return postcopy_each_ram_send_discard(ms);
+> +    trace_ram_postcopy_send_discard_bitmap();
+>  }
+>  
+>  /**
+> diff --git a/migration/ram.h b/migration/ram.h
+> index f543e25765..2c6dc3675d 100644
+> --- a/migration/ram.h
+> +++ b/migration/ram.h
+> @@ -57,7 +57,7 @@ int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_t len);
+>  void acct_update_position(QEMUFile *f, size_t size, bool zero);
+>  void ram_postcopy_migrated_memory_release(MigrationState *ms);
+>  /* For outgoing discard bitmap */
+> -int ram_postcopy_send_discard_bitmap(MigrationState *ms);
+> +void ram_postcopy_send_discard_bitmap(MigrationState *ms);
+>  /* For incoming postcopy discard */
+>  int ram_discard_range(const char *block_name, uint64_t start, size_t length);
+>  int ram_postcopy_incoming_init(MigrationIncomingState *mis);
+> -- 
+> 2.32.0
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
