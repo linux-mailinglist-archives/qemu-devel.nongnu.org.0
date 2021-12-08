@@ -2,24 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2F546D7BB
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 17:08:24 +0100 (CET)
-Received: from localhost ([::1]:57036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70DFC46D7B2
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 17:06:34 +0100 (CET)
+Received: from localhost ([::1]:50530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muzUV-0003Yu-U8
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 11:08:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34962)
+	id 1muzSi-0007aG-Vw
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 11:06:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
- id 1muzRI-0007zo-3b; Wed, 08 Dec 2021 11:05:04 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43160)
+ (Exim 4.90_1) (envelope-from <lagarcia@br.ibm.com>)
+ id 1muzPi-00064T-Du; Wed, 08 Dec 2021 11:03:26 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8320
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
- id 1muzRE-0002ez-9B; Wed, 08 Dec 2021 11:05:03 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B8FMjN8023090; 
- Wed, 8 Dec 2021 16:04:54 GMT
+ (Exim 4.90_1) (envelope-from <lagarcia@br.ibm.com>)
+ id 1muzPc-0002RS-CD; Wed, 08 Dec 2021 11:03:26 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B8FmZWw020288; 
+ Wed, 8 Dec 2021 16:03:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  subject : to : cc : references : from : reply-to : in-reply-to :
@@ -31,39 +32,39 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  6wX1M2adMVeHp7mDl4InVPz/Y9ils4KQghPOQRbcKMjV3tXoYeCLHNx10fsTwJRZS5Hp
  0qtERDE7sJjDnsgdI5CpU5D8PAcXXoVes5Y2tmWypZ1CJYMDA7zHo+fahmk2rZx9VjQx /w== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ctya08vut-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ctynvg9dk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 16:04:54 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B8Fodnv035629;
- Wed, 8 Dec 2021 16:04:53 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ctya08vu0-1
+ Wed, 08 Dec 2021 16:03:06 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B8FpI0E029119;
+ Wed, 8 Dec 2021 16:03:05 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ctynvg9cu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 16:04:53 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B8Fvs89006021;
- Wed, 8 Dec 2021 16:04:51 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma01dal.us.ibm.com with ESMTP id 3cqyycqt34-1
+ Wed, 08 Dec 2021 16:03:05 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B8FwS69023694;
+ Wed, 8 Dec 2021 16:03:04 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma01wdc.us.ibm.com with ESMTP id 3cqyyb580q-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 16:04:49 +0000
+ Wed, 08 Dec 2021 16:03:04 +0000
 Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
  [9.57.199.111])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B8G3EEQ32309512
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B8G339X22151986
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 8 Dec 2021 16:03:14 GMT
+ Wed, 8 Dec 2021 16:03:03 GMT
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AD27BAC073;
- Wed,  8 Dec 2021 16:03:13 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 85DE3AC060;
+ Wed,  8 Dec 2021 16:03:02 +0000 (GMT)
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9D371AC098;
- Wed,  8 Dec 2021 16:03:11 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 91B77AC073;
+ Wed,  8 Dec 2021 16:03:00 +0000 (GMT)
 Received: from [9.65.76.184] (unknown [9.65.76.184])
  by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed,  8 Dec 2021 16:03:11 +0000 (GMT)
+ Wed,  8 Dec 2021 16:02:59 +0000 (GMT)
 Message-ID: <976fdd68-1880-9ffe-371e-c15c6b266120@linux.ibm.com>
 Date: Wed, 8 Dec 2021 13:00:58 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
@@ -78,8 +79,8 @@ Organization: IBM
 In-Reply-To: <254c7beacff48d6bf160e52c091bafb9b367fc08.1638978401.git.lagarcia@br.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: -6XUdJIyfJQNZnyNCSX5diVhJxtTwUug
-X-Proofpoint-ORIG-GUID: GBq9CrlTtiZSdwRm8U6QSYJLP7JsxAzp
+X-Proofpoint-GUID: FZc0zrzydHfy0MSlCxyK4x4FIC58k991
+X-Proofpoint-ORIG-GUID: jX6fiBglcqR4ASuHto0uphyZGbyPaZew
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
@@ -87,20 +88,20 @@ X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-08_06,2021-12-08_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- spamscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
- priorityscore=1501 suspectscore=0 adultscore=0 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ priorityscore=1501 malwarescore=0 bulkscore=0 clxscore=1015
+ mlxlogscore=999 phishscore=0 spamscore=0 impostorscore=0 adultscore=0
+ suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2112080096
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=lagarcia@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=lagarcia@br.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
 X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.44,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
