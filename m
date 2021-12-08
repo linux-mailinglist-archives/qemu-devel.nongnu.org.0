@@ -2,60 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3603A46D060
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 10:53:36 +0100 (CET)
-Received: from localhost ([::1]:60750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909AB46D076
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 11:01:22 +0100 (CET)
+Received: from localhost ([::1]:37138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mutdm-0000qj-BR
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 04:53:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52062)
+	id 1mutlJ-0004Pk-4k
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 05:01:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wang.yi59@zte.com.cn>)
- id 1mutcW-00009r-5J; Wed, 08 Dec 2021 04:52:16 -0500
-Received: from mxhk.zte.com.cn ([63.216.63.35]:53660)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mutja-0003W0-Gd
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 04:59:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wang.yi59@zte.com.cn>)
- id 1mutcT-00038v-1y; Wed, 08 Dec 2021 04:52:15 -0500
-Received: from mse-fl2.zte.com.cn (unknown [10.30.14.239])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mxhk.zte.com.cn (FangMail) with ESMTPS id 4J8C6r3zBkz4yjYg;
- Wed,  8 Dec 2021 17:49:08 +0800 (CST)
-Received: from kjyxapp03.zte.com.cn ([10.30.12.202])
- by mse-fl2.zte.com.cn with SMTP id 1B89q3SS052514;
- Wed, 8 Dec 2021 17:52:03 +0800 (GMT-8)
- (envelope-from wang.yi59@zte.com.cn)
-Received: from mapi (kjyxapp04[null]) by mapi (Zmail) with MAPI id mid14;
- Wed, 8 Dec 2021 17:52:03 +0800 (CST)
-Date: Wed, 8 Dec 2021 17:52:03 +0800 (CST)
-X-Zmail-TransId: 2b0661b080436dee1864
-X-Mailer: Zmail v1.0
-Message-ID: <202112081752032511235@zte.com.cn>
-In-Reply-To: <ff84b2f5-4737-7c25-a944-43a0774a2865@redhat.com>
-References: 20211207105619.3205-1-wang.yi59@zte.com.cn,
- ff84b2f5-4737-7c25-a944-43a0774a2865@redhat.com
-Mime-Version: 1.0
-From: <wang.yi59@zte.com.cn>
-To: <hreitz@redhat.com>
-Subject: =?UTF-8?B?UmU6W1BBVENIXSBtaXJyb3I6IEF2b2lkIGFzc2VydGlvbiBmYWlsZWQgaW4gbWlycm9yX3J1bg==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 1B89q3SS052514
-X-Fangmail-Gw-Spam-Type: 0
-X-FangMail-Miltered: at cgslv5.04-192.168.250.138.novalocal with ID
- 61B07F94.000 by FangMail milter!
-X-FangMail-Envelope: 1638956948/4J8C6r3zBkz4yjYg/61B07F94.000/10.30.14.239/[10.30.14.239]/mse-fl2.zte.com.cn/<wang.yi59@zte.com.cn>
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 61B07F94.000/4J8C6r3zBkz4yjYg
-Received-SPF: pass client-ip=63.216.63.35; envelope-from=wang.yi59@zte.com.cn;
- helo=mxhk.zte.com.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mutjQ-0004yV-PG
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 04:59:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638957562;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lsx4BcPcxvMsPZ1VXCH226GZhNZtC4knghjBoE43wKs=;
+ b=DnEUg0N6jYNJYajI6cRdjWpWQQ6OJcYE+DsAfWrkVyzWmktgys/BV2G0gpHmnf9XwGJgmw
+ wO23f6n5GxeOO0iF0nkXWScVLJ7XBRmNyCRpgRT5wPtQtJD40mGK2USUSR/3nkp51FbuWQ
+ z9/SwQk/EMhFYsgMXw2BYu1+iu2510c=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-405-PDDXw0oXOiWCBsOCf-Zs_A-1; Wed, 08 Dec 2021 04:59:19 -0500
+X-MC-Unique: PDDXw0oXOiWCBsOCf-Zs_A-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m18-20020a05600c3b1200b0033283ea5facso1045070wms.1
+ for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 01:59:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=lsx4BcPcxvMsPZ1VXCH226GZhNZtC4knghjBoE43wKs=;
+ b=oFS7z0JAYjLKWrTm9IFnZI84hN/a7lHwl5/POoE4XN7cENlAFuDif+gXV6pExiIC2u
+ qYiIpoBCPjIUjpSx/Pc1Lpyn99I8O2SdqiSx1feO7Y/3f851bWxiI5aXgMU6EENtEypW
+ fSC5H0pWJ+V8Q5sBze9/2fifog5OfjPBT1VkdameFQ6SPAIz/N2N+1lklj3SGE1E3CN3
+ 1no86HHkWDNB7uhQxat+mqig1xsP6kKHo3k/Lyab4L3hUi0w69P8fR7dank0SCA3+zI6
+ mawky7hdkEBmaBrY88jfrYghnYM5U1wuDBbiyGPuPSokAaRN0R8QjvyTdb7sxq2U/6qa
+ L0WA==
+X-Gm-Message-State: AOAM532LOd/54vGciBBx1TcYnRqU3vvpcr1LHr47c3uuDYKcq7gFkr4v
+ HhCc3wyaJpiFfW62SjUXvI/y4snbtaAqh6MAPIEmblMtFwW2SUhnqtH11t7aKHAjCrKs/ahsTkD
+ 1izKhhbcTATknwbE=
+X-Received: by 2002:a05:600c:21cd:: with SMTP id
+ x13mr14927694wmj.52.1638957558475; 
+ Wed, 08 Dec 2021 01:59:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxLf8U4TV+7WinZNl0RdqA4pErH09CFmvVi4owDBKaMCj8aCNFtRWp3dTpZP3M4S4G0ipguMQ==
+X-Received: by 2002:a05:600c:21cd:: with SMTP id
+ x13mr14927659wmj.52.1638957558196; 
+ Wed, 08 Dec 2021 01:59:18 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id f7sm2756674wri.74.2021.12.08.01.59.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Dec 2021 01:59:17 -0800 (PST)
+Message-ID: <8c1bb1df-112f-fe75-1d06-30e169b94770@redhat.com>
+Date: Wed, 8 Dec 2021 10:59:06 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [qemu-web PATCH v4] Add Sponsors page
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211124103028.484302-1-philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20211124103028.484302-1-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.44, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,136 +101,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, wang.liang82@zte.com.cn,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, xue.zhihong@zte.com.cn,
- long.yunjian@zte.com.cn, jsnow@redhat.com
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Thomas Markey <admin@fosshost.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Alistair Francis <alistair23@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->[CC-ing qemu-block, Vladimir, Kevin, and John – when sending patches,  
->please look into the MAINTAINERS file or use the  
->scripts/get_maintainer.pl script to find out who to CC on them.  It’s  
->very to overlook patches on qemu-devel :/]
->
->On 07.12.21 11:56, Yi Wang wrote:
->> From: Long YunJian <long.yunjian@zte.com.cn> 
->> 
->> when blockcommit from active leaf node, sometimes, we get assertion failed with
->> "mirror_run: Assertion `QLIST_EMPTY(&bs->tracked_requests)' failed" messages.
->> According to the core file, we find bs->tracked_requests has IO request,
->> so assertion failed.
->> (gdb) bt
->> #0  0x00007f410df707cf in raise () from /lib64/libc.so.6
->> #1  0x00007f410df5ac05 in abort () from /lib64/libc.so.6
->> #2  0x00007f410df5aad9 in __assert_fail_base.cold.0 () from /lib64/libc..so.6
->> #3  0x00007f410df68db6 in __assert_fail () from /lib64/libc.so.6
->> #4  0x0000556915635371 in mirror_run (job=0x556916ff8600, errp=<optimized out>) at block/mirror.c:1092
->> #5  0x00005569155e6c53 in job_co_entry (opaque=0x556916ff8600) at job..c:904
->> #6  0x00005569156d9483 in coroutine_trampoline (i0=<optimized out>, i1=<optimized out>) at util/coroutine-ucontext.c:115
->> (gdb) p s->mirror_top_bs->backing->bs->tracked_requests
->> $12 = {lh_first = 0x7f3f07bfb8b0}
->> (gdb) p s->mirror_top_bs->backing->bs->tracked_requests->lh_first
->> $13 = (struct BdrvTrackedRequest *) 0x7f3f07bfb8b0
->> 
->> Actually, before excuting assert(QLIST_EMPTY(&bs->tracked_requests)),
->> it will excute mirror_flush(s). It may handle new I/O request and maybe
->> pending I/O during this flush. Just likes in bdrv_close fuction,
->> bdrv_drain(bs) followed by bdrv_flush(bs), we should add bdrv_drain fuction
->> to handle pending I/O after mirror_flush.
->
->Oh.  How is that happening, though?  I would have expected that flushing  
->the target BB (and associated BDS) only flushes requests to the OS and  
->lower layers, but the source node (which is `bs`) should (in the case of  
->commit) always be above the target, so I wouldn’t have expected it to  
->get any new requests due to this flush.
->
->Do you have a reproducer for this?
+On 24/11/2021 11.30, Philippe Mathieu-Daudé wrote:
+> Add a page listing QEMU sponsors.
+> 
+> For now, only mention Fosshost which requested to be listed:
+> https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg05381.html
+> 
+> Cc: Thomas Markey <admin@fosshost.org>
+> Resolves: https://gitlab.com/qemu-project/qemu-web/-/issues/2
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
 
-As i know, flush maybe will do some thring write, and then in qcow2_co_pwritev function,
-if others aready hold "s->lock" lock, qemu_co_mutex_lock(&s->lock) will go to qemu_coroutine_yield,
-and do some other things. Maybe, it will handle new I/O now. 
+Thanks - after considering 
+https://lore.kernel.org/qemu-devel/YZ5NIo3XKLm1pRL2@redhat.com/ I've finally 
+applied the patch now:
 
-reproducer:
-first, create leaf alpine-min_leaf1.qcow2, alpine-min_leaf1.qcow2 has backing file alpine-min.qcow2,
-and create vm from leaf qcow2, xml likes this
-<disk type='file' device='disk'>
-      <driver name='qemu' type='qcow2' cache='none' iothread='1'/>
-      <source file='/home/alpine-min_leaf1.qcow2'/>
-      <target dev='vda' bus='virtio'/>
-</disk>
+  https://www.qemu.org/sponsors/
 
+Sorry for the delay.
 
-and then make I/O request by read and write files all the time in guset os.
-finally, run script blockcommit.sh until assertion failed. You should modify script according to actual situation.
-script as follows: 
+  Thomas
 
-#!/bin/bash
-QEMUIMG=/home/qemu-6.0.0-rc2/build/qemu-img
-VIRSH=/home/libvirt-7.2.0/build/tools/virsh
-DOMID=v6_host7
-LEAF1=/home/alpine-min_leaf1.qcow2
-LEAF2=/home/alpine-min_leaf2.qcow2
-while [ 1 ]
-do
-        [ -f quitfile ] && break
-        ${QEMUIMG} create -f qcow2 -F qcow2 -b ${LEAF1} ${LEAF2}
-        sleep 2
-        ${VIRSH} -k 0 snapshot-create-as ${DOMID} --disk-only --diskspec vda,file=${LEAF2} --reuse-external --no-metadata
-        [ $? -ne 0 ] && break
-        sleep 30
-        ${VIRSH} blockcommit --domain ${DOMID} vda --base ${LEAF1} --top ${LEAF2} --wait --verbose --active --pivot
-        [ $? -ne 0 ] && break
-done
-
-
-The probability of the problem is not high, it's difficult to reproduce the problem, blockcommit hundreds of times at least.
-
->> Signed-off-by: Long YunJian <long.yunjian@zte.com.cn> 
->> Signed-off-by: Yi Wang <wang.yi59@zte.com.cn> 
->> ---
->>   block/mirror.c | 2 ++
->>   1 file changed, 2 insertions(+)
->> 
->> diff --git a/block/mirror.c b/block/mirror.c
->> index efec2c7674..1eec356310 100644
->> --- a/block/mirror.c
->> +++ b/block/mirror.c
->> @@ -1079,6 +1079,8 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
->>                   s->in_drain = false;
->>                   continue;
->>               }
->> +            /* in case flush left pending I/O */
->> +            bdrv_drain(bs);
->
->I don’t think this works, because if we drain, we would also need to  
->flush the target again.  Essentially I believe we’d basically need  
->something like
->
->do {
->     bdrv_drained_begin(bs);
->     mirror_flush(s);
->     if (!QLIST_EMPTY(&bs->tracked_requests)) {
->         bdrv_drained_end(bs);
->     }
->} while (!QLIST_EMPTY(&bs->tracked_requests));
->
->(Which I know is really ugly)
->
->Hanna
-
-Yes, add bdrv_drain(bs) after mirror_flush(s) can't fix this problem. Thank you for your idea of a solution.
-and I'd like to modify as follows, how do you like it?
-@@ -1074,7 +1074,7 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
-             s->in_drain = true;
-             bdrv_drained_begin(bs);
-             cnt = bdrv_get_dirty_count(s->dirty_bitmap);
--            if (cnt > 0 || mirror_flush(s) < 0) {
-+            if (cnt > 0 || mirror_flush(s) < 0 || !QLIST_EMPTY(&bs->tracked_requests)) {
-                 bdrv_drained_end(bs);
-                 s->in_drain = false;
-                 continue;
-
->    
->               /* The two disks are in sync.  Exit and report successful
->                * completion.
 
