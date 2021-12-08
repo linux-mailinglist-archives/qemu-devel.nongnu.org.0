@@ -2,98 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67FC46CBCD
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 04:55:15 +0100 (CET)
-Received: from localhost ([::1]:33922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9705846CCEB
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 06:21:46 +0100 (CET)
+Received: from localhost ([::1]:51622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muo30-0006ny-8E
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 22:55:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58594)
+	id 1mupOj-000648-6B
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 00:21:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
- id 1muo0y-0005yP-En; Tue, 07 Dec 2021 22:53:08 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60312)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mupNZ-0005J3-EP
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 00:20:33 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
- id 1muo0w-0004pe-L6; Tue, 07 Dec 2021 22:53:08 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B81mUZf023113; 
- Wed, 8 Dec 2021 03:52:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=qarhbAo/fUPwb9BRb0qvbrvXrPC2IU4QdTyDi7a4W9M=;
- b=j4FOegQkvizXAeeVLYwLI16YTmEbz/HTuvkWHaoj4HfQaQ+x29bqmkl0D3P4b1ps6bbS
- ARIW488skIGbThRI3iFaep9ciAmrIQgV3uMz16O27/OgcqLfHM3Vim+3oZvKmoHi+xYy
- EneK0NwuTj2tPRNAdoAOBFg6VbrrS6yAu+Eh2ztw2WNwYr8x38sDhkXR9Zb+FA/FVDv3
- mid3QpCIGQk9aQm1QUpJ2A2XiQ/FcPmqbPQmZhU3w90/cHVQltjG+xXqKYgehhKoI7I+
- 1xd4FfVv7vv7p8MKn0sbppyEyhkdpKqyffSWXfitjjJ9nigZu7dh1K9vo8Il3JDjzm60 yQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ctkc71nna-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 03:52:57 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B83quHP017481;
- Wed, 8 Dec 2021 03:52:56 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ctkc71nn3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 03:52:56 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B83psP8010690;
- Wed, 8 Dec 2021 03:52:55 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma03dal.us.ibm.com with ESMTP id 3cqyyb9s1g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Dec 2021 03:52:55 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B83qsKa11928032
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 8 Dec 2021 03:52:54 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B2E05AE063;
- Wed,  8 Dec 2021 03:52:54 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DB11DAE06B;
- Wed,  8 Dec 2021 03:52:52 +0000 (GMT)
-Received: from lagarcia.br.ibm.com (unknown [9.160.64.156])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed,  8 Dec 2021 03:52:52 +0000 (GMT)
-From: lagarcia@linux.ibm.com
-To: qemu-ppc@nongnu.org
-Subject: [PATCH] =?UTF-8?q?Adding=20C=C3=A9dric's=20repos=20in=20MAINTAINE?=
- =?UTF-8?q?RS=20file.?=
-Date: Wed,  8 Dec 2021 00:52:49 -0300
-Message-Id: <6387872fe9d16d32be0ec311e310d250e47fa97c.1638935436.git.lagarcia@br.ibm.com>
-X-Mailer: git-send-email 2.33.1
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: SxkbXI_3OTNLimsnCMhOTLlSyYIZXV2w
-X-Proofpoint-ORIG-GUID: 79acxqMsudbuVn4VDRVu_mv_z3n_Dsv4
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mupNU-00060R-3t
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 00:20:33 -0500
+Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4J855J4lsNzZdZ7;
+ Wed,  8 Dec 2021 13:17:24 +0800 (CST)
+Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 8 Dec 2021 13:20:15 +0800
+Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
+ dggpeml100016.china.huawei.com (7.185.36.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 8 Dec 2021 13:20:14 +0800
+To: <jasowang@redhat.com>, <mst@redhat.com>
+CC: <parav@nvidia.com>, <xieyongji@bytedance.com>, <stefanha@redhat.com>,
+ <sgarzare@redhat.com>, <yechuan@huawei.com>, <arei.gonglei@huawei.com>,
+ <qemu-devel@nongnu.org>, Longpeng <longpeng2@huawei.com>
+Subject: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
+Date: Wed, 8 Dec 2021 13:20:10 +0800
+Message-ID: <20211208052010.1719-1-longpeng2@huawei.com>
+X-Mailer: git-send-email 2.25.0.windows.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-08_01,2021-12-06_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=999 spamscore=0 impostorscore=0 suspectscore=0 phishscore=0
- bulkscore=0 priorityscore=1501 mlxscore=0 clxscore=1015 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112080024
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=lagarcia@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml100016.china.huawei.com (7.185.36.216)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
+ helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,71 +65,621 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Garcia <lagarcia@br.ibm.com>, danielhb413@gmail.com,
- qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Longpeng(Mike)" <longpeng2@huawei.com>
+From:  "Longpeng(Mike)" via <qemu-devel@nongnu.org>
 
-From: Leonardo Garcia <lagarcia@br.ibm.com>
+From: Longpeng <longpeng2@huawei.com>
 
-Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
+Hi guys,
+
+This patch introduces vhost-vdpa-net device, which is inspired
+by vhost-user-blk and the proposal of vhost-vdpa-blk device [1].
+
+I've tested this patch on Huawei's offload card:
+./x86_64-softmmu/qemu-system-x86_64 \
+    -device vhost-vdpa-net-pci,vdpa-dev=/dev/vhost-vdpa-0
+
+For virtio hardware offloading, the most important requirement for us
+is to support live migration between offloading cards from different
+vendors, the combination of netdev and virtio-net seems too heavy, we
+prefer a lightweight way.
+
+Maybe we could support both in the future ? Such as:
+
+* Lightweight
+ Net: vhost-vdpa-net
+ Storage: vhost-vdpa-blk
+
+* Heavy but more powerful
+ Net: netdev + virtio-net + vhost-vdpa
+ Storage: bdrv + virtio-blk + vhost-vdpa
+
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg797569.html
+
+Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
 ---
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/net/meson.build                 |   1 +
+ hw/net/vhost-vdpa-net.c            | 338 +++++++++++++++++++++++++++++++++++++
+ hw/virtio/Kconfig                  |   5 +
+ hw/virtio/meson.build              |   1 +
+ hw/virtio/vhost-vdpa-net-pci.c     | 118 +++++++++++++
+ include/hw/virtio/vhost-vdpa-net.h |  31 ++++
+ include/net/vhost-vdpa.h           |   2 +
+ net/vhost-vdpa.c                   |   2 +-
+ 8 files changed, 497 insertions(+), 1 deletion(-)
+ create mode 100644 hw/net/vhost-vdpa-net.c
+ create mode 100644 hw/virtio/vhost-vdpa-net-pci.c
+ create mode 100644 include/hw/virtio/vhost-vdpa-net.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7543eb4d59..52c6b99763 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -273,6 +273,7 @@ F: hw/ppc/ppc.c
- F: hw/ppc/ppc_booke.c
- F: include/hw/ppc/ppc.h
- F: disas/ppc.c
-+T: git https://gitlab.com/legoater/qemu.git
+diff --git a/hw/net/meson.build b/hw/net/meson.build
+index bdf71f1..139ebc4 100644
+--- a/hw/net/meson.build
++++ b/hw/net/meson.build
+@@ -44,6 +44,7 @@ specific_ss.add(when: 'CONFIG_XILINX_ETHLITE', if_true: files('xilinx_ethlite.c'
  
- RISC-V TCG CPUs
- M: Palmer Dabbelt <palmer@dabbelt.com>
-@@ -390,6 +391,7 @@ R: David Gibson <david@gibson.dropbear.id.au>
- R: Greg Kurz <groug@kaod.org>
- S: Maintained
- F: target/ppc/kvm.c
-+T: git https://gitlab.com/legoater/qemu.git
+ softmmu_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('net_rx_pkt.c'))
+ specific_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-net.c'))
++specific_ss.add(when: 'CONFIG_VHOST_VDPA_NET', if_true: files('vhost-vdpa-net.c'))
  
- S390 KVM CPUs
- M: Halil Pasic <pasic@linux.ibm.com>
-@@ -1343,6 +1345,7 @@ F: tests/qtest/libqos/*spapr*
- F: tests/qtest/rtas*
- F: tests/qtest/libqos/rtas*
- F: tests/avocado/ppc_pseries.py
-+T: git https://gitlab.com/legoater/qemu.git
+ softmmu_ss.add(when: ['CONFIG_VIRTIO_NET', 'CONFIG_VHOST_NET'], if_true: files('vhost_net.c'), if_false: files('vhost_net-stub.c'))
+ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost_net-stub.c'))
+diff --git a/hw/net/vhost-vdpa-net.c b/hw/net/vhost-vdpa-net.c
+new file mode 100644
+index 0000000..48b99f9
+--- /dev/null
++++ b/hw/net/vhost-vdpa-net.c
+@@ -0,0 +1,338 @@
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "qemu/error-report.h"
++#include "qemu/cutils.h"
++#include "hw/qdev-core.h"
++#include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
++#include "hw/virtio/vhost.h"
++#include "hw/virtio/vhost-vdpa-net.h"
++#include "hw/virtio/virtio.h"
++#include "hw/virtio/virtio-bus.h"
++#include "hw/virtio/virtio-access.h"
++#include "sysemu/sysemu.h"
++#include "sysemu/runstate.h"
++#include "net/vhost-vdpa.h"
++
++static void vhost_vdpa_net_get_config(VirtIODevice *vdev, uint8_t *config)
++{
++    VHostVdpaNet *s = VHOST_VDPA_NET(vdev);
++
++    memcpy(config, &s->netcfg, sizeof(struct virtio_net_config));
++}
++
++static void vhost_vdpa_net_set_config(VirtIODevice *vdev, const uint8_t *config)
++{
++    VHostVdpaNet *s = VHOST_VDPA_NET(vdev);
++    struct virtio_net_config *netcfg = (struct virtio_net_config *)config;
++    int ret;
++
++    ret = vhost_dev_set_config(&s->dev, (uint8_t *)netcfg, 0, sizeof(*netcfg),
++                               VHOST_SET_CONFIG_TYPE_MASTER);
++    if (ret) {
++        error_report("set device config space failed");
++        return;
++    }
++}
++
++static uint64_t vhost_vdpa_net_get_features(VirtIODevice *vdev,
++                                            uint64_t features,
++                                            Error **errp)
++{
++    VHostVdpaNet *s = VHOST_VDPA_NET(vdev);
++
++    virtio_add_feature(&features, VIRTIO_NET_F_CSUM);
++    virtio_add_feature(&features, VIRTIO_NET_F_GUEST_CSUM);
++    virtio_add_feature(&features, VIRTIO_NET_F_MAC);
++    virtio_add_feature(&features, VIRTIO_NET_F_GSO);
++    virtio_add_feature(&features, VIRTIO_NET_F_GUEST_TSO4);
++    virtio_add_feature(&features, VIRTIO_NET_F_GUEST_TSO6);
++    virtio_add_feature(&features, VIRTIO_NET_F_GUEST_ECN);
++    virtio_add_feature(&features, VIRTIO_NET_F_GUEST_UFO);
++    virtio_add_feature(&features, VIRTIO_NET_F_GUEST_ANNOUNCE);
++    virtio_add_feature(&features, VIRTIO_NET_F_HOST_TSO4);
++    virtio_add_feature(&features, VIRTIO_NET_F_HOST_TSO6);
++    virtio_add_feature(&features, VIRTIO_NET_F_HOST_ECN);
++    virtio_add_feature(&features, VIRTIO_NET_F_HOST_UFO);
++    virtio_add_feature(&features, VIRTIO_NET_F_MRG_RXBUF);
++    virtio_add_feature(&features, VIRTIO_NET_F_STATUS);
++    virtio_add_feature(&features, VIRTIO_NET_F_CTRL_VQ);
++    virtio_add_feature(&features, VIRTIO_NET_F_CTRL_RX);
++    virtio_add_feature(&features, VIRTIO_NET_F_CTRL_VLAN);
++    virtio_add_feature(&features, VIRTIO_NET_F_CTRL_RX_EXTRA);
++    virtio_add_feature(&features, VIRTIO_NET_F_CTRL_MAC_ADDR);
++    virtio_add_feature(&features, VIRTIO_NET_F_MQ);
++
++    return vhost_get_features(&s->dev, vdpa_feature_bits, features);
++}
++
++static int vhost_vdpa_net_start(VirtIODevice *vdev, Error **errp)
++{
++    VHostVdpaNet *s = VHOST_VDPA_NET(vdev);
++    BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
++    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
++    int i, ret;
++
++    if (!k->set_guest_notifiers) {
++        error_setg(errp, "binding does not support guest notifiers");
++        return -ENOSYS;
++    }
++
++    ret = vhost_dev_enable_notifiers(&s->dev, vdev);
++    if (ret < 0) {
++        error_setg_errno(errp, -ret, "Error enabling host notifiers");
++        return ret;
++    }
++
++    ret = k->set_guest_notifiers(qbus->parent, s->dev.nvqs, true);
++    if (ret < 0) {
++        error_setg_errno(errp, -ret, "Error binding guest notifier");
++        goto err_host_notifiers;
++    }
++
++    s->dev.acked_features = vdev->guest_features;
++
++    ret = vhost_dev_start(&s->dev, vdev);
++    if (ret < 0) {
++        error_setg_errno(errp, -ret, "Error starting vhost");
++        goto err_guest_notifiers;
++    }
++    s->started = true;
++
++    /* guest_notifier_mask/pending not used yet, so just unmask
++     * everything here. virtio-pci will do the right thing by
++     * enabling/disabling irqfd.
++     */
++    for (i = 0; i < s->dev.nvqs; i++) {
++        vhost_virtqueue_mask(&s->dev, vdev, i, false);
++    }
++
++    return ret;
++
++err_guest_notifiers:
++    k->set_guest_notifiers(qbus->parent, s->dev.nvqs, false);
++err_host_notifiers:
++    vhost_dev_disable_notifiers(&s->dev, vdev);
++    return ret;
++}
++
++static void vhost_vdpa_net_handle_output(VirtIODevice *vdev, VirtQueue *vq)
++{
++    VHostVdpaNet *s = VHOST_VDPA_NET(vdev);
++    Error *local_err = NULL;
++    int i, ret;
++
++    if (!vdev->start_on_kick) {
++        return;
++    }
++
++    if (s->dev.started) {
++        return;
++    }
++
++    /* Some guests kick before setting VIRTIO_CONFIG_S_DRIVER_OK so start
++     * vhost here instead of waiting for .set_status().
++     */
++    ret = vhost_vdpa_net_start(vdev, &local_err);
++    if (ret < 0) {
++        error_reportf_err(local_err, "vhost-vdpa-net: start failed: ");
++        return;
++    }
++
++    /* Kick right away to begin processing requests already in vring */
++    for (i = 0; i < s->dev.nvqs; i++) {
++        VirtQueue *kick_vq = virtio_get_queue(vdev, i);
++
++        if (!virtio_queue_get_desc_addr(vdev, i)) {
++            continue;
++        }
++        event_notifier_set(virtio_queue_get_host_notifier(kick_vq));
++    }
++}
++
++static void vhost_vdpa_net_stop(VirtIODevice *vdev)
++{
++    VHostVdpaNet *s = VHOST_VDPA_NET(vdev);
++    BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
++    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
++    int ret;
++
++    if (!s->started) {
++        return;
++    }
++    s->started = false;
++
++    if (!k->set_guest_notifiers) {
++        return;
++    }
++
++    vhost_dev_stop(&s->dev, vdev);
++
++    ret = k->set_guest_notifiers(qbus->parent, s->dev.nvqs, false);
++    if (ret < 0) {
++        error_report("vhost guest notifier cleanup failed: %d", ret);
++        return;
++    }
++
++    vhost_dev_disable_notifiers(&s->dev, vdev);
++}
++
++static void vhost_vdpa_net_set_status(VirtIODevice *vdev, uint8_t status)
++{
++    VHostVdpaNet *s = VHOST_VDPA_NET(vdev);
++    bool should_start = virtio_device_started(vdev, status);
++    Error *local_err = NULL;
++    int ret;
++
++    if (!vdev->vm_running) {
++        should_start = false;
++    }
++
++    if (s->started == should_start) {
++        return;
++    }
++
++    if (should_start) {
++        ret = vhost_vdpa_net_start(vdev, &local_err);
++        if (ret < 0) {
++            error_reportf_err(local_err, "vhost-vdpa-net: start failed: ");
++        }
++    } else {
++        vhost_vdpa_net_stop(vdev);
++    }
++}
++
++static void vhost_vdpa_net_unrealize(VHostVdpaNet *s)
++{
++    VirtIODevice *vdev = VIRTIO_DEVICE(s);
++    int i;
++
++    for (i = 0; i < s->queue_pairs * 2; i++) {
++        virtio_delete_queue(s->virtqs[i]);
++    }
++    /* ctrl vq */
++    virtio_delete_queue(s->virtqs[i]);
++
++    g_free(s->virtqs);
++    virtio_cleanup(vdev);
++}
++
++static void vhost_vdpa_net_device_realize(DeviceState *dev, Error **errp)
++{
++    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
++    VHostVdpaNet *s = VHOST_VDPA_NET(vdev);
++    int i, ret;
++
++    s->vdpa.device_fd = qemu_open_old(s->vdpa_dev, O_RDWR);
++    if (s->vdpa.device_fd == -1) {
++        error_setg(errp, "vhost-vdpa-net: open %s failed: %s",
++                   s->vdpa_dev, strerror(errno));
++        return;
++    }
++
++    virtio_init(vdev, "virtio-net", VIRTIO_ID_NET,
++                sizeof(struct virtio_net_config));
++
++    s->dev.nvqs = s->queue_pairs * 2 + 1;
++    s->dev.vqs = g_new0(struct vhost_virtqueue, s->dev.nvqs);
++    s->dev.vq_index = 0;
++    s->dev.vq_index_end = s->dev.nvqs;
++    s->dev.backend_features = 0;
++    s->started = false;
++
++    s->virtqs = g_new0(VirtQueue *, s->dev.nvqs);
++    for (i = 0; i < s->dev.nvqs; i++) {
++        s->virtqs[i] = virtio_add_queue(vdev, s->queue_size,
++                                        vhost_vdpa_net_handle_output);
++    }
++
++    ret = vhost_dev_init(&s->dev, &s->vdpa, VHOST_BACKEND_TYPE_VDPA, 0, NULL);
++    if (ret < 0) {
++        error_setg(errp, "vhost-vdpa-net: vhost initialization failed: %s",
++                   strerror(-ret));
++        goto init_err;
++    }
++
++    ret = vhost_dev_get_config(&s->dev, (uint8_t *)&s->netcfg,
++                               sizeof(struct virtio_net_config), NULL);
++    if (ret < 0) {
++        error_setg(errp, "vhost-vdpa-net: get network config failed");
++        goto config_err;
++    }
++
++    return;
++config_err:
++    vhost_dev_cleanup(&s->dev);
++init_err:
++    vhost_vdpa_net_unrealize(s);
++    close(s->vdpa.device_fd);
++}
++
++static void vhost_vdpa_net_device_unrealize(DeviceState *dev)
++{
++    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
++    VHostVdpaNet *s = VHOST_VDPA_NET(vdev);
++
++    virtio_set_status(vdev, 0);
++    vhost_dev_cleanup(&s->dev);
++    vhost_vdpa_net_unrealize(s);
++    close(s->vdpa.device_fd);
++}
++
++static const VMStateDescription vmstate_vhost_vdpa_net = {
++    .name = "vhost-vdpa-net",
++    .minimum_version_id = 1,
++    .version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_VIRTIO_DEVICE,
++        VMSTATE_END_OF_LIST()
++    },
++};
++
++static void vhost_vdpa_net_instance_init(Object *obj)
++{
++    VHostVdpaNet *s = VHOST_VDPA_NET(obj);
++
++    device_add_bootindex_property(obj, &s->bootindex, "bootindex",
++                                  "/ethernet-phy@0,0", DEVICE(obj));
++}
++
++static Property vhost_vdpa_net_properties[] = {
++    DEFINE_PROP_STRING("vdpa-dev", VHostVdpaNet, vdpa_dev),
++    DEFINE_PROP_UINT16("queue-pairs", VHostVdpaNet, queue_pairs,
++                       VHOST_VDPA_NET_AUTO_QUEUE_PAIRS),
++    DEFINE_PROP_UINT32("queue-size", VHostVdpaNet, queue_size,
++                       VHOST_VDPA_NET_QUEUE_DEFAULT_SIZE),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void vhost_vdpa_net_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
++
++    device_class_set_props(dc, vhost_vdpa_net_properties);
++    dc->vmsd = &vmstate_vhost_vdpa_net;
++    set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
++    vdc->realize = vhost_vdpa_net_device_realize;
++    vdc->unrealize = vhost_vdpa_net_device_unrealize;
++    vdc->get_config = vhost_vdpa_net_get_config;
++    vdc->set_config = vhost_vdpa_net_set_config;
++    vdc->get_features = vhost_vdpa_net_get_features;
++    vdc->set_status = vhost_vdpa_net_set_status;
++}
++
++static const TypeInfo vhost_vdpa_net_info = {
++    .name = TYPE_VHOST_VDPA_NET,
++    .parent = TYPE_VIRTIO_DEVICE,
++    .instance_size = sizeof(VHostVdpaNet),
++    .instance_init = vhost_vdpa_net_instance_init,
++    .class_init = vhost_vdpa_net_class_init,
++};
++
++static void virtio_register_types(void)
++{
++    type_register_static(&vhost_vdpa_net_info);
++}
++
++type_init(virtio_register_types)
+diff --git a/hw/virtio/Kconfig b/hw/virtio/Kconfig
+index c144d42..50dba2e 100644
+--- a/hw/virtio/Kconfig
++++ b/hw/virtio/Kconfig
+@@ -68,3 +68,8 @@ config VHOST_USER_RNG
+     bool
+     default y
+     depends on VIRTIO && VHOST_USER
++
++config VHOST_VDPA_NET
++    bool
++    default y if VIRTIO_PCI
++    depends on VIRTIO && VHOST_VDPA && LINUX
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+index 521f7d6..3089222 100644
+--- a/hw/virtio/meson.build
++++ b/hw/virtio/meson.build
+@@ -34,6 +34,7 @@ virtio_pci_ss = ss.source_set()
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_VSOCK', if_true: files('vhost-user-vsock-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-user-blk-pci.c'))
++virtio_pci_ss.add(when: 'CONFIG_VHOST_VDPA_NET', if_true: files('vhost-vdpa-net-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_INPUT', if_true: files('vhost-user-input-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_SCSI', if_true: files('vhost-user-scsi-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_SCSI', if_true: files('vhost-scsi-pci.c'))
+diff --git a/hw/virtio/vhost-vdpa-net-pci.c b/hw/virtio/vhost-vdpa-net-pci.c
+new file mode 100644
+index 0000000..84199a8
+--- /dev/null
++++ b/hw/virtio/vhost-vdpa-net-pci.c
+@@ -0,0 +1,118 @@
++#include "qemu/osdep.h"
++#include "standard-headers/linux/virtio_pci.h"
++#include "hw/virtio/virtio.h"
++#include "hw/virtio/vhost-vdpa-net.h"
++#include "hw/pci/pci.h"
++#include "hw/qdev-properties.h"
++#include "qapi/error.h"
++#include "qemu/error-report.h"
++#include "qemu/module.h"
++#include "virtio-pci.h"
++#include "qom/object.h"
++#include "net/vhost-vdpa.h"
++
++typedef struct VHostVdpaNetPCI VHostVdpaNetPCI;
++
++#define TYPE_VHOST_VDPA_NET_PCI "vhost-vdpa-net-pci-base"
++DECLARE_INSTANCE_CHECKER(VHostVdpaNetPCI, VHOST_VDPA_NET_PCI,
++                         TYPE_VHOST_VDPA_NET_PCI)
++
++struct VHostVdpaNetPCI {
++    VirtIOPCIProxy parent_obj;
++    VHostVdpaNet vdev;
++};
++
++static Property vhost_vdpa_net_pci_properties[] = {
++    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
++                       DEV_NVECTORS_UNSPECIFIED),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static int vhost_vdpa_net_get_queue_pairs(VHostVdpaNetPCI *dev, Error **errp)
++{
++    int device_fd, queue_pairs;
++    int has_cvq;
++
++    device_fd = qemu_open_old(dev->vdev.vdpa_dev, O_RDWR);
++    if (device_fd == -1) {
++        error_setg(errp, "vhost-vdpa-net: open %s failed: %s",
++                   dev->vdev.vdpa_dev, strerror(errno));
++        return -1;
++    }
++
++    queue_pairs = vhost_vdpa_get_max_queue_pairs(device_fd, &has_cvq, errp);
++    if (queue_pairs < 0) {
++        error_setg(errp, "vhost-vdpa-net: get queue pairs failed: %s",
++                   strerror(errno));
++        goto out;
++    }
++
++    if (!has_cvq) {
++        error_setg(errp, "vhost-vdpa-net: not support ctrl vq");
++    }
++
++out:
++    close(device_fd);
++    return queue_pairs;
++}
++
++static void vhost_vdpa_net_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
++{
++    VHostVdpaNetPCI *dev = VHOST_VDPA_NET_PCI(vpci_dev);
++    DeviceState *vdev = DEVICE(&dev->vdev);
++
++    if (dev->vdev.queue_pairs == VHOST_VDPA_NET_AUTO_QUEUE_PAIRS) {
++        dev->vdev.queue_pairs = vhost_vdpa_net_get_queue_pairs(dev, errp);
++        if (*errp) {
++            return;
++        }
++    }
++
++    if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
++        vpci_dev->nvectors = dev->vdev.queue_pairs * 2 + 1;
++    }
++
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
++}
++
++static void vhost_vdpa_net_pci_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
++    PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
++
++    set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
++    device_class_set_props(dc, vhost_vdpa_net_pci_properties);
++    k->realize = vhost_vdpa_net_pci_realize;
++    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
++    pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_NET;
++    pcidev_k->revision = VIRTIO_PCI_ABI_VERSION;
++    pcidev_k->class_id = PCI_CLASS_NETWORK_ETHERNET;
++}
++
++static void vhost_vdpa_net_pci_instance_init(Object *obj)
++{
++    VHostVdpaNetPCI *dev = VHOST_VDPA_NET_PCI(obj);
++
++    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
++                                TYPE_VHOST_VDPA_NET);
++    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
++                              "bootindex");
++}
++
++static const VirtioPCIDeviceTypeInfo vhost_vdpa_net_pci_info = {
++    .base_name               = TYPE_VHOST_VDPA_NET_PCI,
++    .generic_name            = "vhost-vdpa-net-pci",
++    .transitional_name       = "vhost-vdpa-net-pci-transitional",
++    .non_transitional_name   = "vhost-vdpa-net-pci-non-transitional",
++    .instance_size  = sizeof(VHostVdpaNetPCI),
++    .instance_init  = vhost_vdpa_net_pci_instance_init,
++    .class_init     = vhost_vdpa_net_pci_class_init,
++};
++
++static void vhost_vdpa_net_pci_register(void)
++{
++    virtio_pci_types_register(&vhost_vdpa_net_pci_info);
++}
++
++type_init(vhost_vdpa_net_pci_register)
+diff --git a/include/hw/virtio/vhost-vdpa-net.h b/include/hw/virtio/vhost-vdpa-net.h
+new file mode 100644
+index 0000000..63bf3a6
+--- /dev/null
++++ b/include/hw/virtio/vhost-vdpa-net.h
+@@ -0,0 +1,31 @@
++#ifndef VHOST_VDPA_NET_H
++#define VHOST_VDPA_NET_H
++
++#include "standard-headers/linux/virtio_blk.h"
++#include "hw/block/block.h"
++#include "chardev/char-fe.h"
++#include "hw/virtio/vhost.h"
++#include "hw/virtio/vhost-vdpa.h"
++#include "hw/virtio/virtio-net.h"
++#include "qom/object.h"
++
++#define TYPE_VHOST_VDPA_NET "vhost-vdpa-net"
++OBJECT_DECLARE_SIMPLE_TYPE(VHostVdpaNet, VHOST_VDPA_NET)
++
++struct VHostVdpaNet {
++    VirtIODevice parent_obj;
++    int32_t bootindex;
++    struct virtio_net_config netcfg;
++    uint16_t queue_pairs;
++    uint32_t queue_size;
++    struct vhost_dev dev;
++    VirtQueue **virtqs;
++    struct vhost_vdpa vdpa;
++    char *vdpa_dev;
++    bool started;
++};
++
++#define VHOST_VDPA_NET_AUTO_QUEUE_PAIRS     UINT16_MAX
++#define VHOST_VDPA_NET_QUEUE_DEFAULT_SIZE   256
++
++#endif
+diff --git a/include/net/vhost-vdpa.h b/include/net/vhost-vdpa.h
+index b81f9a6..f029972 100644
+--- a/include/net/vhost-vdpa.h
++++ b/include/net/vhost-vdpa.h
+@@ -18,4 +18,6 @@ struct vhost_net *vhost_vdpa_get_vhost_net(NetClientState *nc);
  
- PowerNV (Non-Virtualized)
- M: Cédric Le Goater <clg@kaod.org>
-@@ -1356,6 +1359,7 @@ F: include/hw/ppc/pnv*
- F: include/hw/pci-host/pnv*
- F: pc-bios/skiboot.lid
- F: tests/qtest/pnv*
-+T: git https://gitlab.com/legoater/qemu.git powernv-next
+ extern const int vdpa_feature_bits[];
  
- virtex_ml507
- M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
-@@ -1399,6 +1403,7 @@ F: hw/ppc/vof*
- F: include/hw/ppc/vof*
- F: pc-bios/vof/*
- F: pc-bios/vof*
-+T: git https://gitlab.com/legoater/qemu.git
++int vhost_vdpa_get_max_queue_pairs(int fd, int *has_cvq, Error **errp);
++
+ #endif /* VHOST_VDPA_H */
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 25dd6dd..8ee6ba5 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -219,7 +219,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+     return nc;
+ }
  
- RISC-V Machines
- ---------------
-@@ -2244,6 +2249,7 @@ S: Supported
- F: hw/*/*xive*
- F: include/hw/*/*xive*
- F: docs/*/*xive*
-+T: git https://gitlab.com/legoater/qemu.git
- 
- Renesas peripherals
- R: Yoshinori Sato <ysato@users.sourceforge.jp>
+-static int vhost_vdpa_get_max_queue_pairs(int fd, int *has_cvq, Error **errp)
++int vhost_vdpa_get_max_queue_pairs(int fd, int *has_cvq, Error **errp)
+ {
+     unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
+     g_autofree struct vhost_vdpa_config *config = NULL;
 -- 
-2.33.1
+1.8.3.1
 
 
