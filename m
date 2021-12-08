@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 305EE46DEF0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 00:16:38 +0100 (CET)
-Received: from localhost ([::1]:43448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC3A46DEEC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 00:14:40 +0100 (CET)
+Received: from localhost ([::1]:37432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mv6Av-00046q-AN
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 18:16:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34214)
+	id 1mv690-0008Mf-0q
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 18:14:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mv66U-0005Bb-D1
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 18:12:02 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=35808
- helo=mail-pj1-x1031.google.com)
+ id 1mv66V-0005DE-2L
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 18:12:03 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=42789
+ helo=mail-pj1-x1032.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mv66S-0004nY-IE
+ id 1mv66T-0004nu-Ky
  for qemu-devel@nongnu.org; Wed, 08 Dec 2021 18:12:02 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- j6-20020a17090a588600b001a78a5ce46aso5537243pji.0
- for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 15:12:00 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ fv9-20020a17090b0e8900b001a6a5ab1392so3373654pjb.1
+ for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 15:12:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=nEPvlsXoO0/jwpDg/CNkKw+cUVDhy5CThal9Lsb0r4k=;
- b=iptOSutfk+n404WPvENJMtfjI8rRKktJrMyiL5xGVm02IgDbP/wSv+hDnPNUdB7qEk
- XOe9YGxQV+Ji5zzyQclZEjRvdfKyP5Ej7jDM4/OWp4WS8He7rTNV3d2h/es1zdE1VAaV
- VTkCOmxZkaES1oRMPm0SVKf9A8AZEBX+uif0ke/LCdiw6egiUKuZlKrk+K0okLd8yq//
- eaymqfMM7EPkYbaqTwZoIy70bNTGOoVZiLhhb2hIK8wvkxC3yZT13WvtTIT4AmZUE0Ux
- QWray3NnBjm1lkkCRPVhzYBtObanN5awpMwzdpyJMepelk2aoiZ692GOWcNugtRuVNKQ
- qBTQ==
+ bh=eXPzA23R6/mCA8LiCwN5fF4QHA07i/kRSJFbv5jfL1Q=;
+ b=F/8o/wLQeaecWx8RfLD+pdlx9Dw3/VgqLDr/EJB3WMo0NPjvBXhJbkDG1F/9TaYB7i
+ +61+UhRoOrm4yaLttntd2lki51EqzD594hJPy4zmZVdTjTpbb/ZHptMjEhAlcD0PdRId
+ XfHPkA5EnGsO/Rylx6Z4ap7x4Kgv5zLCO8J0onoei8fu/51E3vjhTU7yEnhGJg6Xi09i
+ veyvE9XEkUNFn61yavn1kbZ2Da8pMaRNEv1hmZeErbZc/egSMNQWtgHwwvf96/cUTKhR
+ 24ktlK9u3IBBQsealB1uMiWQeYsYJsB6cIuHJKuH9r6MjpSEt9eAlXMdHsmTQYizBBF+
+ umHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nEPvlsXoO0/jwpDg/CNkKw+cUVDhy5CThal9Lsb0r4k=;
- b=A/af67xkbF1rpxl+6Dcqtojd1SXUapbMswiEylcKqEMCrQZpv4z5MZ7ktlq0H35JAr
- DM4d+2WUL3tS3X8mZICLgoTyct53GHAr7vVElHv5+AlUFWeCybHRjTAlODnYbTTpi66O
- HmB/ntB2p1GjxfSsLd5H/FnxhcXSqTYNEb7eeMwUjfBfSJlkvvrNPm6NIM4yp0dC3PxO
- OlpO9apLUBki+SdqDStapjpY0q9+fAS/3KfEyiexyOVj/lyfhBhEq6shqEUzHOZnNlON
- tH9OTJAL2vJCKdgHyApwUx+9SUoBxtJYgwR07VpcCE/Yd72O/jBZbcGZRnDcFbYJB284
- kmkg==
-X-Gm-Message-State: AOAM531wMa1GD5fDenvU90/T1L0B8Hjeu62YOKszC+bqUSCD+3xjiQsn
- MGTeWVNxKxVlrQHrvPjT/sP+bER+X0iAig==
-X-Google-Smtp-Source: ABdhPJx5ppSLsmv1TlAYSJaRUC8tZHKoQ4KZnAo09+MnvAZfOILkOiTsFytnjDR+gh7Ory/vfLKKdQ==
-X-Received: by 2002:a17:903:283:b0:142:1243:d879 with SMTP id
- j3-20020a170903028300b001421243d879mr63922603plr.61.1639005119325; 
- Wed, 08 Dec 2021 15:11:59 -0800 (PST)
+ bh=eXPzA23R6/mCA8LiCwN5fF4QHA07i/kRSJFbv5jfL1Q=;
+ b=HwbCVwxA190bG3jbRColvhE0OAWPcIQlxGF00o5d7jI2BG479IjMgzp3zXfvPGEgVW
+ M423rlCI8x9vhcRnB6117YiIosz3JkpUC3p9tjX1+FS2x+AoG1c1TjxDP++DG6wtjghZ
+ zKM789WMrQSqE1r0NN5JHI/bkYm1HohqrgbOXhsRMXcSdp+GPXrubg6KHOCObkg+SpSD
+ MAEJ7UThfiCfggJw2qTuqbJOd72g4/6sP3/7FZcn8h3XCYZKTZErm2g0ySqwoK3Ky6O9
+ S39QRlF5umPElwkcQVWGl8ezZ0SsqoOVygAQWIUPtL3UTKvGDh8nIj92OTuYFpfcSu47
+ rX/Q==
+X-Gm-Message-State: AOAM533pckDkcm7mUb1VHOT5Tj96+4ies9hU5/HQgEtqxPvjQmO+QxRS
+ XCNe+e40s1Rip4yw0i36De+pv7h/l1IQ4w==
+X-Google-Smtp-Source: ABdhPJztwIdCt1oKZwKukvck0D53+7zyLaj2HefbXqcMRFZKJxLwYr5FjXpVG2HCGrQjzkF5akOKnw==
+X-Received: by 2002:a17:902:a605:b0:143:d289:f3fb with SMTP id
+ u5-20020a170902a60500b00143d289f3fbmr63139108plq.41.1639005120089; 
+ Wed, 08 Dec 2021 15:12:00 -0800 (PST)
 Received: from localhost.localdomain
  (45-19-222-18.lightspeed.sntcca.sbcglobal.net. [45.19.222.18])
- by smtp.gmail.com with ESMTPSA id k15sm3301062pgn.91.2021.12.08.15.11.58
+ by smtp.gmail.com with ESMTPSA id k15sm3301062pgn.91.2021.12.08.15.11.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Dec 2021 15:11:58 -0800 (PST)
+ Wed, 08 Dec 2021 15:11:59 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] target/arm: Implement FEAT_LVA
-Date: Wed,  8 Dec 2021 15:11:52 -0800
-Message-Id: <20211208231154.392029-5-richard.henderson@linaro.org>
+Subject: [PATCH 5/6] target/arm: Implement FEAT_LPA
+Date: Wed,  8 Dec 2021 15:11:53 -0800
+Message-Id: <20211208231154.392029-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211208231154.392029-1-richard.henderson@linaro.org>
 References: <20211208231154.392029-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,87 +92,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This feature is relatively small, as it applies only to
-64k pages and thus requires no additional changes to the
-table descriptor walking algorithm, only a change to the
-minimum TSZ (which is the inverse of the maximum virtual
-address space size).
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu-param.h | 2 +-
- target/arm/cpu.h       | 5 +++++
- target/arm/cpu64.c     | 1 +
- target/arm/helper.c    | 8 +++++++-
- 4 files changed, 14 insertions(+), 2 deletions(-)
+ target/arm/cpu-param.h |  2 +-
+ target/arm/cpu64.c     |  2 +-
+ target/arm/helper.c    | 19 ++++++++++++++++---
+ 3 files changed, 18 insertions(+), 5 deletions(-)
 
 diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
-index 7f38d33b8e..5f9c288b1a 100644
+index 5f9c288b1a..b59d505761 100644
 --- a/target/arm/cpu-param.h
 +++ b/target/arm/cpu-param.h
-@@ -11,7 +11,7 @@
+@@ -10,7 +10,7 @@
+ 
  #ifdef TARGET_AARCH64
  # define TARGET_LONG_BITS             64
- # define TARGET_PHYS_ADDR_SPACE_BITS  48
--# define TARGET_VIRT_ADDR_SPACE_BITS  48
-+# define TARGET_VIRT_ADDR_SPACE_BITS  52
+-# define TARGET_PHYS_ADDR_SPACE_BITS  48
++# define TARGET_PHYS_ADDR_SPACE_BITS  52
+ # define TARGET_VIRT_ADDR_SPACE_BITS  52
  #else
  # define TARGET_LONG_BITS             32
- # define TARGET_PHYS_ADDR_SPACE_BITS  40
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index e33f37b70a..3149000004 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -4288,6 +4288,11 @@ static inline bool isar_feature_aa64_ccidx(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, CCIDX) != 0;
- }
- 
-+static inline bool isar_feature_aa64_lva(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, VARANGE) != 0;
-+}
-+
- static inline bool isar_feature_aa64_tts2uxn(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, XNX) != 0;
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 15245a60a8..f44ee643ef 100644
+index f44ee643ef..3bb79ca744 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -755,6 +755,7 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64MMFR2, UAO, 1);
-         t = FIELD_DP64(t, ID_AA64MMFR2, CNP, 1); /* TTCNP */
-         t = FIELD_DP64(t, ID_AA64MMFR2, ST, 1); /* TTST */
-+        t = FIELD_DP64(t, ID_AA64MMFR2, VARANGE, 1); /* FEAT_LPA */
-         cpu->isar.id_aa64mmfr2 = t;
+@@ -739,7 +739,7 @@ static void aarch64_max_initfn(Object *obj)
+         cpu->isar.id_aa64pfr1 = t;
  
-         t = cpu->isar.id_aa64zfr0;
+         t = cpu->isar.id_aa64mmfr0;
+-        t = FIELD_DP64(t, ID_AA64MMFR0, PARANGE, 5); /* PARange: 48 bits */
++        t = FIELD_DP64(t, ID_AA64MMFR0, PARANGE, 6); /* FEAT_LPA: 52 bits */
+         cpu->isar.id_aa64mmfr0 = t;
+ 
+         t = cpu->isar.id_aa64mmfr1;
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 568914bd42..6a59975028 100644
+index 6a59975028..e39c1f5b3a 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -11324,7 +11324,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+@@ -11095,6 +11095,7 @@ static const uint8_t pamax_map[] = {
+     [3] = 42,
+     [4] = 44,
+     [5] = 48,
++    [6] = 52,
+ };
  
-     /* TODO: This code does not support shareability levels. */
-     if (aarch64) {
--        int min_tsz = 16, max_tsz = 39;  /* TODO: ARMv8.2-LVA  */
-+        int min_tsz = 16, max_tsz = 39;
-         int parange;
+ /* The cpu-specific constant value of PAMax; also used by hw/arm/virt. */
+@@ -11472,11 +11473,15 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+     descaddr = extract64(ttbr, 0, 48);
  
-         param = aa64_va_parameters(env, address, mmu_idx,
-@@ -11334,6 +11334,12 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-         if (cpu_isar_feature(aa64_st, env_archcpu(env))) {
-             max_tsz = 48 - param.using64k;
+     /*
+-     * If the base address is out of range, raise AddressSizeFault.
++     * For FEAT_LPA and PS=6, bits [51:48] of descaddr are in [5:2] of TTBR.
++     *
++     * Otherwise, if the base address is out of range, raise AddressSizeFault.
+      * In the pseudocode, this is !IsZero(baseregister<47:outputsize>),
+      * but we've just cleared the bits above 47, so simplify the test.
+      */
+-    if (descaddr >> outputsize) {
++    if (outputsize > 48) {
++        descaddr |= extract64(ttbr, 2, 4) << 48;
++    } else if (descaddr >> outputsize) {
+         level = 0;
+         fault_type = ARMFault_AddressSize;
+         goto do_fault;
+@@ -11526,7 +11531,15 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
          }
-+        if (param.using64k) {
-+            if (cpu_isar_feature(aa64_lva, env_archcpu(env))) {
-+                min_tsz = 12;
-+            }
-+        }
-+        /* TODO: FEAT_LPA2 */
  
-         /*
-          * If TxSZ is programmed to a value larger than the maximum,
+         descaddr = descriptor & descaddrmask;
+-        if (descaddr >> outputsize) {
++
++        /*
++         * For FEAT_LPA and PS=6, bits [51:48] of descaddr are in [15:12]
++         * of descriptor.  Otherwise, if descaddr is out of range, raise
++         * AddressSizeFault.
++         */
++        if (outputsize > 48) {
++            descaddr |= extract64(descriptor, 12, 4) << 48;
++        } else if (descaddr >> outputsize) {
+             fault_type = ARMFault_AddressSize;
+             goto do_fault;
+         }
 -- 
 2.25.1
 
