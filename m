@@ -2,72 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57E946CBA1
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 04:40:55 +0100 (CET)
-Received: from localhost ([::1]:52810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B42946CBB6
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 04:44:24 +0100 (CET)
+Received: from localhost ([::1]:56376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1munp7-0008NZ-FT
-	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 22:40:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56748)
+	id 1munsV-0002Tw-6m
+	for lists+qemu-devel@lfdr.de; Tue, 07 Dec 2021 22:44:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1munnO-00074w-Ol; Tue, 07 Dec 2021 22:39:07 -0500
-Received: from [2607:f8b0:4864:20::d34] (port=41684
- helo=mail-io1-xd34.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1munnM-0007al-W8; Tue, 07 Dec 2021 22:39:06 -0500
-Received: by mail-io1-xd34.google.com with SMTP id y16so1396130ioc.8;
- Tue, 07 Dec 2021 19:39:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ULagRiZQUcsCdfnWzxWqN+QKUPi4EZkn7bGfg2H/wyM=;
- b=AsBoco4ljOO209Q73EPlY90NtRYwxwjPhbWe3sKBHkMrpXNox5qrz17V9XYSyqgQU5
- Xan6LYOQU9QYdOLNr4zpqUy8k6wup9w8Xj0uyve1ideSRRwse8g4sx/ay0vlJe97cPLJ
- gz3qPih2SeKle5mfGj6I9MQW8Kkr0IBBGEiENOSpg7XPGUZnPH5WFMMbdR7qwzrHXh1t
- SNz/+5eztPG2NhaeRhGEQeP7o/z5CRAOa8DkKtwoROJdIlrA2oTfBqlYY6pxZAgozhL3
- DQqLhPY83NU2ryQJo4GWwmgxRR8ztxPGb7HuCVoWJFW5N9L+UaHjvABubluZVGBr8Riw
- s8IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ULagRiZQUcsCdfnWzxWqN+QKUPi4EZkn7bGfg2H/wyM=;
- b=v1rZtrfkjLFTlOIa90EKm0/5/zfYaob7TZ3Q6r5bkB6DOE41rD1Sefy3rMNR1hg4Yb
- gWpjN4VFxsT1P+PSUGI9Q50n2GAsyU/hE3cD4UwbH/zb7LfAa5M19JLI397idGEWfWK3
- FO2xJ66etXTyXqNpQhnD+j7JTy9qdjkR7HYGKOv8rzrZLycZ0kaAcigdEi+d+KFowppj
- W3UtXgbwKuYxvW7hWI76LAlntmM6mPwz0HGU1ttgl60UbQu8BCl5n2gFrePLkVvtU18m
- +SHdUQQ2C9s7sYG1UW+LPnKLmrmErSI5uQY91pgidrdXdrdU+76M62bz5411l/PzcuPh
- eYPQ==
-X-Gm-Message-State: AOAM533szxR0JZGetVHaZF9EpesF6YVN0JoelE1p7+FWnmHZIB0gkKuc
- 3HAgvtaGlvQl9phetHlG47J0hwA70yIV9qHoCNw=
-X-Google-Smtp-Source: ABdhPJyT+kxTJJpSygKj5zAtIf5ghNpTeTohg9crXG6I8JDDw/uAfgk4w+cq9zvG4NA5Iym7JUXCDZ+bbmbiccZIbhw=
-X-Received: by 2002:a02:9f0c:: with SMTP id z12mr52807672jal.117.1638934743423; 
- Tue, 07 Dec 2021 19:39:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1munrX-0001gf-2e; Tue, 07 Dec 2021 22:43:23 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10376
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1munrU-00005R-IB; Tue, 07 Dec 2021 22:43:22 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B7NMvU4030073; 
+ Wed, 8 Dec 2021 03:43:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=qiuCYpgRDBK15rUU3k5i+Lk5r959t17GZaMrxdn4dpk=;
+ b=MtYNrbbiy2Vv7QvAa8K3cmQf9O31T76nnWiV2TPakVZxisxkyPjm1qoVR3ZxubOtNU9U
+ 9eq/1voRmLsfThDZtAT3p5WhuvKa9mquT0TNrDSKPh187TjMawpiXeS3/lxnwCRB93/o
+ 5NufSjttlyYRFjqXWYDsrpEuQuxKFBFizdiV+B4RdfZ7LSYoGNZ26MGhl86RmZsEYMsW
+ zVZKg4+Fxr1Kc65wlgfPBgFZnUrPXTW7P4Uwd2UYvOgE4ThcRUystLeUKTliVhsJip5F
+ eQ0lRkflfLuoo2TPN/UhEmoDFfWpGTcZyXDhAAMtkhadElux/iqGP5VjlAmJhG4elo/5 9w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cth843ndw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Dec 2021 03:43:13 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B83JDY4019794;
+ Wed, 8 Dec 2021 03:43:13 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cth843ndn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Dec 2021 03:43:13 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B83Zv4K005271;
+ Wed, 8 Dec 2021 03:43:12 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma01dal.us.ibm.com with ESMTP id 3cqyyc9myv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Dec 2021 03:43:12 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B83hBbx24969972
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 8 Dec 2021 03:43:11 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 01624BE051;
+ Wed,  8 Dec 2021 03:43:11 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 78336BE056;
+ Wed,  8 Dec 2021 03:43:08 +0000 (GMT)
+Received: from lagarcia.br.ibm.com (unknown [9.160.64.156])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed,  8 Dec 2021 03:43:08 +0000 (GMT)
+From: lagarcia@linux.ibm.com
+To: qemu-ppc@nongnu.org
+Subject: [PATCH v2] docs: Introducing pseries documentation.
+Date: Wed,  8 Dec 2021 00:42:46 -0300
+Message-Id: <b29cd5d1ff931a69c3a21b1ac01ed57a533e36ba.1638934914.git.lagarcia@br.ibm.com>
+X-Mailer: git-send-email 2.33.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: R355tYeNdsL5lcVBxU5Cqyerl-41XNmu
+X-Proofpoint-GUID: hmgSOert91qghW23cx01tc19wfKBAssa
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20211129030340.429689-1-frank.chang@sifive.com>
- <20211129030340.429689-71-frank.chang@sifive.com>
-In-Reply-To: <20211129030340.429689-71-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 8 Dec 2021 13:38:37 +1000
-Message-ID: <CAKmqyKNYisVEnYjavpWdKDXXoH4bazQ8dw9Y_KJviUdMcYm90A@mail.gmail.com>
-Subject: Re: [PATCH v10 70/77] target/riscv: rvv-1.0: floating-point
- reciprocal estimate instruction
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d34
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-08_01,2021-12-06_02,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ spamscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=999
+ impostorscore=0 priorityscore=1501 phishscore=0 bulkscore=0 mlxscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112080024
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=lagarcia@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,277 +108,274 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: danielhb413@gmail.com, groug@kaod.org, qemu-devel@nongnu.org, clg@kaod.org,
+ Leonardo Garcia <lagarcia@br.ibm.com>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 29, 2021 at 1:58 PM <frank.chang@sifive.com> wrote:
->
-> From: Frank Chang <frank.chang@sifive.com>
->
-> Implement the floating-point reciprocal estimate to 7 bits instruction.
->
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+From: Leonardo Garcia <lagarcia@br.ibm.com>
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+The purpose of this document is to substitute the content currently
+available in the QEMU wiki at [0]. This initial version does contain
+some additional content as well. Whenever this documentation gets
+upstream and is reflected in [1], the QEMU wiki will be edited to point
+to this documentation, so that we only need to keep it updated in one
+place.
 
-Alistair
+0. https://wiki.qemu.org/Documentation/Platforms/POWER
+1. https://qemu.readthedocs.io/en/latest/system/ppc/pseries.html
 
-> ---
->  target/riscv/helper.h                   |   4 +
->  target/riscv/insn32.decode              |   1 +
->  target/riscv/insn_trans/trans_rvv.c.inc |   1 +
->  target/riscv/vector_helper.c            | 191 ++++++++++++++++++++++++
->  4 files changed, 197 insertions(+)
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index bdf06dfb24d..ab283d12b79 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -845,6 +845,10 @@ DEF_HELPER_5(vfrsqrt7_v_h, void, ptr, ptr, ptr, env, i32)
->  DEF_HELPER_5(vfrsqrt7_v_w, void, ptr, ptr, ptr, env, i32)
->  DEF_HELPER_5(vfrsqrt7_v_d, void, ptr, ptr, ptr, env, i32)
->
-> +DEF_HELPER_5(vfrec7_v_h, void, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_5(vfrec7_v_w, void, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_5(vfrec7_v_d, void, ptr, ptr, ptr, env, i32)
-> +
->  DEF_HELPER_6(vfmin_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
->  DEF_HELPER_6(vfmin_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
->  DEF_HELPER_6(vfmin_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 6e5f288943a..952768f8ded 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -561,6 +561,7 @@ vfwnmsac_vv     111111 . ..... ..... 001 ..... 1010111 @r_vm
->  vfwnmsac_vf     111111 . ..... ..... 101 ..... 1010111 @r_vm
->  vfsqrt_v        010011 . ..... 00000 001 ..... 1010111 @r2_vm
->  vfrsqrt7_v      010011 . ..... 00100 001 ..... 1010111 @r2_vm
-> +vfrec7_v        010011 . ..... 00101 001 ..... 1010111 @r2_vm
->  vfmin_vv        000100 . ..... ..... 001 ..... 1010111 @r_vm
->  vfmin_vf        000100 . ..... ..... 101 ..... 1010111 @r_vm
->  vfmax_vv        000110 . ..... ..... 001 ..... 1010111 @r_vm
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 8fe718610a9..ff8f6df8f7b 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -2408,6 +2408,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)  \
->
->  GEN_OPFV_TRANS(vfsqrt_v, opfv_check, RISCV_FRM_DYN)
->  GEN_OPFV_TRANS(vfrsqrt7_v, opfv_check, RISCV_FRM_DYN)
-> +GEN_OPFV_TRANS(vfrec7_v, opfv_check, RISCV_FRM_DYN)
->
->  /* Vector Floating-Point MIN/MAX Instructions */
->  GEN_OPFVV_TRANS(vfmin_vv, opfvv_check)
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index d5f3229bcb4..946dca53ffd 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -3587,6 +3587,197 @@ GEN_VEXT_V_ENV(vfrsqrt7_v_h, 2, 2)
->  GEN_VEXT_V_ENV(vfrsqrt7_v_w, 4, 4)
->  GEN_VEXT_V_ENV(vfrsqrt7_v_d, 8, 8)
->
-> +/*
-> + * Vector Floating-Point Reciprocal Estimate Instruction
-> + *
-> + * Adapted from riscv-v-spec recip.c:
-> + * https://github.com/riscv/riscv-v-spec/blob/master/recip.c
-> + */
-> +static uint64_t frec7(uint64_t f, int exp_size, int frac_size,
-> +                      float_status *s)
-> +{
-> +    uint64_t sign = extract64(f, frac_size + exp_size, 1);
-> +    uint64_t exp = extract64(f, frac_size, exp_size);
-> +    uint64_t frac = extract64(f, 0, frac_size);
-> +
-> +    const uint8_t lookup_table[] = {
-> +        127, 125, 123, 121, 119, 117, 116, 114,
-> +        112, 110, 109, 107, 105, 104, 102, 100,
-> +        99, 97, 96, 94, 93, 91, 90, 88,
-> +        87, 85, 84, 83, 81, 80, 79, 77,
-> +        76, 75, 74, 72, 71, 70, 69, 68,
-> +        66, 65, 64, 63, 62, 61, 60, 59,
-> +        58, 57, 56, 55, 54, 53, 52, 51,
-> +        50, 49, 48, 47, 46, 45, 44, 43,
-> +        42, 41, 40, 40, 39, 38, 37, 36,
-> +        35, 35, 34, 33, 32, 31, 31, 30,
-> +        29, 28, 28, 27, 26, 25, 25, 24,
-> +        23, 23, 22, 21, 21, 20, 19, 19,
-> +        18, 17, 17, 16, 15, 15, 14, 14,
-> +        13, 12, 12, 11, 11, 10, 9, 9,
-> +        8, 8, 7, 7, 6, 5, 5, 4,
-> +        4, 3, 3, 2, 2, 1, 1, 0
-> +    };
-> +    const int precision = 7;
-> +
-> +    if (exp == 0 && frac != 0) { /* subnormal */
-> +        /* Normalize the subnormal. */
-> +        while (extract64(frac, frac_size - 1, 1) == 0) {
-> +            exp--;
-> +            frac <<= 1;
-> +        }
-> +
-> +        frac = (frac << 1) & MAKE_64BIT_MASK(0, frac_size);
-> +
-> +        if (exp != 0 && exp != UINT64_MAX) {
-> +            /*
-> +             * Overflow to inf or max value of same sign,
-> +             * depending on sign and rounding mode.
-> +             */
-> +            s->float_exception_flags |= (float_flag_inexact |
-> +                                         float_flag_overflow);
-> +
-> +            if ((s->float_rounding_mode == float_round_to_zero) ||
-> +                ((s->float_rounding_mode == float_round_down) && !sign) ||
-> +                ((s->float_rounding_mode == float_round_up) && sign)) {
-> +                /* Return greatest/negative finite value. */
-> +                return (sign << (exp_size + frac_size)) |
-> +                    (MAKE_64BIT_MASK(frac_size, exp_size) - 1);
-> +            } else {
-> +                /* Return +-inf. */
-> +                return (sign << (exp_size + frac_size)) |
-> +                    MAKE_64BIT_MASK(frac_size, exp_size);
-> +            }
-> +        }
-> +    }
-> +
-> +    int idx = frac >> (frac_size - precision);
-> +    uint64_t out_frac = (uint64_t)(lookup_table[idx]) <<
-> +                            (frac_size - precision);
-> +    uint64_t out_exp = 2 * MAKE_64BIT_MASK(0, exp_size - 1) + ~exp;
-> +
-> +    if (out_exp == 0 || out_exp == UINT64_MAX) {
-> +        /*
-> +         * The result is subnormal, but don't raise the underflow exception,
-> +         * because there's no additional loss of precision.
-> +         */
-> +        out_frac = (out_frac >> 1) | MAKE_64BIT_MASK(frac_size - 1, 1);
-> +        if (out_exp == UINT64_MAX) {
-> +            out_frac >>= 1;
-> +            out_exp = 0;
-> +        }
-> +    }
-> +
-> +    uint64_t val = 0;
-> +    val = deposit64(val, 0, frac_size, out_frac);
-> +    val = deposit64(val, frac_size, exp_size, out_exp);
-> +    val = deposit64(val, frac_size + exp_size, 1, sign);
-> +    return val;
-> +}
-> +
-> +static float16 frec7_h(float16 f, float_status *s)
-> +{
-> +    int exp_size = 5, frac_size = 10;
-> +    bool sign = float16_is_neg(f);
-> +
-> +    /* frec7(+-inf) = +-0 */
-> +    if (float16_is_infinity(f)) {
-> +        return float16_set_sign(float16_zero, sign);
-> +    }
-> +
-> +    /* frec7(+-0) = +-inf */
-> +    if (float16_is_zero(f)) {
-> +        s->float_exception_flags |= float_flag_divbyzero;
-> +        return float16_set_sign(float16_infinity, sign);
-> +    }
-> +
-> +    /* frec7(sNaN) = canonical NaN */
-> +    if (float16_is_signaling_nan(f, s)) {
-> +        s->float_exception_flags |= float_flag_invalid;
-> +        return float16_default_nan(s);
-> +    }
-> +
-> +    /* frec7(qNaN) = canonical NaN */
-> +    if (float16_is_quiet_nan(f, s)) {
-> +        return float16_default_nan(s);
-> +    }
-> +
-> +    /* +-normal, +-subnormal */
-> +    uint64_t val = frec7(f, exp_size, frac_size, s);
-> +    return make_float16(val);
-> +}
-> +
-> +static float32 frec7_s(float32 f, float_status *s)
-> +{
-> +    int exp_size = 8, frac_size = 23;
-> +    bool sign = float32_is_neg(f);
-> +
-> +    /* frec7(+-inf) = +-0 */
-> +    if (float32_is_infinity(f)) {
-> +        return float32_set_sign(float32_zero, sign);
-> +    }
-> +
-> +    /* frec7(+-0) = +-inf */
-> +    if (float32_is_zero(f)) {
-> +        s->float_exception_flags |= float_flag_divbyzero;
-> +        return float32_set_sign(float32_infinity, sign);
-> +    }
-> +
-> +    /* frec7(sNaN) = canonical NaN */
-> +    if (float32_is_signaling_nan(f, s)) {
-> +        s->float_exception_flags |= float_flag_invalid;
-> +        return float32_default_nan(s);
-> +    }
-> +
-> +    /* frec7(qNaN) = canonical NaN */
-> +    if (float32_is_quiet_nan(f, s)) {
-> +        return float32_default_nan(s);
-> +    }
-> +
-> +    /* +-normal, +-subnormal */
-> +    uint64_t val = frec7(f, exp_size, frac_size, s);
-> +    return make_float32(val);
-> +}
-> +
-> +static float64 frec7_d(float64 f, float_status *s)
-> +{
-> +    int exp_size = 11, frac_size = 52;
-> +    bool sign = float64_is_neg(f);
-> +
-> +    /* frec7(+-inf) = +-0 */
-> +    if (float64_is_infinity(f)) {
-> +        return float64_set_sign(float64_zero, sign);
-> +    }
-> +
-> +    /* frec7(+-0) = +-inf */
-> +    if (float64_is_zero(f)) {
-> +        s->float_exception_flags |= float_flag_divbyzero;
-> +        return float64_set_sign(float64_infinity, sign);
-> +    }
-> +
-> +    /* frec7(sNaN) = canonical NaN */
-> +    if (float64_is_signaling_nan(f, s)) {
-> +        s->float_exception_flags |= float_flag_invalid;
-> +        return float64_default_nan(s);
-> +    }
-> +
-> +    /* frec7(qNaN) = canonical NaN */
-> +    if (float64_is_quiet_nan(f, s)) {
-> +        return float64_default_nan(s);
-> +    }
-> +
-> +    /* +-normal, +-subnormal */
-> +    uint64_t val = frec7(f, exp_size, frac_size, s);
-> +    return make_float64(val);
-> +}
-> +
-> +RVVCALL(OPFVV1, vfrec7_v_h, OP_UU_H, H2, H2, frec7_h)
-> +RVVCALL(OPFVV1, vfrec7_v_w, OP_UU_W, H4, H4, frec7_s)
-> +RVVCALL(OPFVV1, vfrec7_v_d, OP_UU_D, H8, H8, frec7_d)
-> +GEN_VEXT_V_ENV(vfrec7_v_h, 2, 2)
-> +GEN_VEXT_V_ENV(vfrec7_v_w, 4, 4)
-> +GEN_VEXT_V_ENV(vfrec7_v_d, 8, 8)
-> +
->  /* Vector Floating-Point MIN/MAX Instructions */
->  RVVCALL(OPFVV2, vfmin_vv_h, OP_UUU_H, H2, H2, H2, float16_minimum_number)
->  RVVCALL(OPFVV2, vfmin_vv_w, OP_UUU_W, H4, H4, H4, float32_minimum_number)
-> --
-> 2.25.1
->
->
+Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ docs/system/ppc/pseries.rst | 226 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 226 insertions(+)
+
+diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
+index 932d4dd17d..13edccbfd8 100644
+--- a/docs/system/ppc/pseries.rst
++++ b/docs/system/ppc/pseries.rst
+@@ -1,12 +1,238 @@
+ pSeries family boards (``pseries``)
+ ===================================
+ 
++The Power machine para-virtualized environment described by the `Linux on Power
++Architecture Reference document (LoPAR)
++<https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200611.pdf>`_
++is called pSeries. This environment is also known as sPAPR, System p guests, or
++simply Power Linux guests (although it is capable of running other operating
++systems, such as AIX).
++
++Even though pSeries is designed to behave as a guest environment, it is also
++capable of acting as a hypervisor OS, providing, on that role, nested
++virtualization capabilities.
++
+ Supported devices
+ -----------------
+ 
++ * Multi processor support for many Power processors generations: POWER7,
++   POWER7+, POWER8, POWER8NVL, POWER9, and Power10. Support for POWER5+ exists,
++   but its state is unknown.
++ * Interrupt Controller, XICS (POWER8) and XIVE (POWER9 and Power10)
++ * vPHB PCIe Host bridge.
++ * vscsi and vnet devices, compatible with the same devices available on a
++   PowerVM hypervisor with VIOS managing LPARs.
++ * Virtio based devices.
++ * PCIe device pass through.
++
+ Missing devices
+ ---------------
+ 
++ * SPICE support.
+ 
+ Firmware
+ --------
++
++`SLOF <https://github.com/aik/SLOF>`_ (Slimline Open Firmware) is an
++implementation of the `IEEE 1275-1994, Standard for Boot (Initialization
++Configuration) Firmware: Core Requirements and Practices
++<https://standards.ieee.org/standard/1275-1994.html>`_.
++
++QEMU includes a prebuilt image of SLOF which is updated when a more recent
++version is required.
++
++Build directions
++----------------
++
++.. code-block:: bash
++
++  ./configure --target-list=ppc64-softmmu && make
++
++Running instructions
++--------------------
++
++Someone can select the pSeries machine type by running QEMU with the following
++options:
++
++.. code-block:: bash
++
++  qemu-system-ppc64 -M pseries <other QEMU arguments>
++
++sPAPR devices
++-------------
++
++The sPAPR specification defines a set of para-virtualized devices, which are
++also supported by the pSeries machine in QEMU and can be instantiated with the
++``-device`` option:
++
++* ``spapr-vlan`` : a virtual network interface.
++* ``spapr-vscsi`` : a virtual SCSI disk interface.
++* ``spapr-rng`` : a pseudo-device for passing random number generator data to the
++  guest (see the `H_RANDOM hypercall feature
++  <https://wiki.qemu.org/Features/HRandomHypercall>`_ for details).
++* ``spapr-vty``: a virtual teletype.
++* ``spapr-pci-host-bridge``: a PCI host bridge.
++* ``tpm-spapr``: a Trusted Platform Module (TPM).
++* ``spapr-tpm-proxy``: a TPM proxy.
++
++These are compatible with the devices historically available for use when
++running the IBM PowerVM hypervisor with LPARs.
++
++However, since these devices have originally been specified with another
++hypervisor and non-Linux guests in mind, you should use the virtio counterparts
++(virtio-net, virtio-blk/scsi and virtio-rng) if possible instead, since they
++will most probably give you better performance with Linux guests in a QEMU
++environment.
++
++The pSeries machine in QEMU is always instantiated with the following devices:
++
++* A NVRAM device (``spapr-nvram``).
++* A virtual teletype (``spapr-vty``).
++* A PCI host bridge (``spapr-pci-host-bridge``).
++
++Hence, it is not needed to add them manually, unless you use the ``-nodefaults``
++command line option in QEMU.
++
++In the case of the default ``spapr-nvram`` device, if someone wants to make the
++contents of the NVRAM device persistent, they will need to specify a PFLASH
++device when starting QEMU, i.e. either use
++``-drive if=pflash,file=<filename>,format=raw`` to set the default PFLASH
++device, or specify one with an ID
++(``-drive if=none,file=<filename>,format=raw,id=pfid``) and pass that ID to the
++NVRAM device with ``-global spapr-nvram.drive=pfid``.
++
++sPAPR specification
++^^^^^^^^^^^^^^^^^^^
++
++The main source of documentation on the sPAPR standard is the `Linux on Power
++Architecture Reference document (LoPAR)
++<https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200611.pdf>`_.
++However, documentation specific to QEMU's implementation of the specification
++can  also be found in QEMU documentation:
++
++.. toctree::
++   :maxdepth: 1
++
++   ../../specs/ppc-spapr-numa.rst
++   ../../specs/ppc-spapr-xive.rst
++
++Other documentation available in QEMU docs directory:
++
++* Hypervisor calls (a.k.a. hcalls) (``docs/specs/ppc-spapr-hcalls.txt``).
++* Hot plug (``/docs/specs/ppc-spapr-hotplug.txt``).
++* Hypervisor calls needed by the Ultravisor
++  (``/docs/specs/ppc-spapr-uv-hcalls.txt``).
++
++Switching between the KVM-PR and KVM-HV kernel module
++-----------------------------------------------------
++
++Currently, there are two implementations of KVM on Power, ``kvm_hv.ko`` and
++``kvm_pr.ko``.
++
++
++If a host supports both KVM modes, and both KVM kernel modules are loaded, it is
++possible to switch between the two modes with the ``kvm-type`` parameter:
++
++* Use ``qemu-system-ppc64 -M pseries,accel=kvm,kvm-type=PR`` to use the
++  ``kvm_pr.ko`` kernel module.
++* Use ``qemu-system-ppc64 -M pseries,accel=kvm,kvm-type=HV`` to use ``kvm_hv.ko``
++  instead.
++
++KVM-PR
++^^^^^^
++
++KVM-PR uses the so-called **PR**\ oblem state of the PPC CPUs to run the guests,
++i.e. the virtual machine is run in user mode and all privileged instructions
++trap and have to be emulated by the host. That means you can run KVM-PR inside
++a pSeries guest (or a PowerVM LPAR for that matter), and that is where it has
++originated, as historically (prior to POWER7) it was not possible to run Linux
++on hypervisor mode on a Power processor (this function was restricted to
++PowerVM, the IBM proprietary hypervisor).
++
++Because all privileged instructions are trapped, guests that use a lot of
++privileged instructions run quite slow with KVM-PR. On the other hand, because
++of that, this kernel module can run on pretty much every PPC hardware, and is
++able to emulate a lot of guests CPUs. This module can even be used to run other
++PowerPC guests like an emulated PowerMac.
++
++As KVM-PR can be run inside a pSeries guest, it can also provide nested
++virtualization capabilities (i.e. running a guest from within a guest).
++
++It is important to notice that, as KVM-HV provides a much better execution
++performance, maintenance work has been much more focused on it in the past
++years. Maintenance for KVM-PR has been minimal.
++
++In order to run KVM-PR guests with POWER9 processors, someone will need to start
++QEMU with ``kernel_irqchip=off`` command line option.
++
++KVM-HV
++^^^^^^
++
++KVM-HV uses the hypervisor mode of more recent Power processors, that allow
++access to the bare metal hardware directly. Although POWER7 had this capability,
++it was only starting with POWER8 that this was officially supported by IBM.
++
++Originally, KVM-HV was only available when running on a PowerNV platform (a.k.a.
++Power bare metal). Although it runs on a PowerNV platform, it can only be used
++to start pSeries guests. As the pSeries guest doesn't have access to the
++hypervisor mode of the Power CPU, it wasn't possible to run KVM-HV on a guest.
++This limitation has been lifted, and now it is possible to run KVM-HV inside
++pSeries guests as well, making nested virtualization possible with KVM-HV.
++
++As KVM-HV has access to privileged instructions, guests that use a lot of these
++can run much faster than with KVM-PR. On the other hand, the guest CPU has to be
++of the same type as the host CPU this way, e.g. it is not possible to specify an
++embedded PPC CPU for the guest with KVM-HV. However, there is at least the
++possibility to run the guest in a backward-compatibility mode of the previous
++CPUs generations, e.g. you can run a POWER7 guest on a POWER8 host by using
++``-cpu POWER8,compat=power7`` as parameter to QEMU.
++
++Modules support
++---------------
++
++As noticed in the sections above, each module can run in a different
++environment. The following table shows with which environment each module can
++run. As long as you are in a supported environment, you can run KVM-PR or KVM-HV
++nested. Combinations not shown in the table are not available.
++
+++--------------+------------+------+-------------------+----------+--------+
++| Platform     | Host type  | Bits | Page table format | KVM-HV   | KVM-PR |
+++==============+============+======+===================+==========+========+
++| PowerNV      | bare metal | 32   | hash              | no       | yes    |
++|              |            |      +-------------------+----------+--------+
++|              |            |      | radix             | N/A      | N/A    |
++|              |            +------+-------------------+----------+--------+
++|              |            | 64   | hash              | yes      | yes    |
++|              |            |      +-------------------+----------+--------+
++|              |            |      | radix             | yes      | no     |
+++--------------+------------+------+-------------------+----------+--------+
++| pSeries [1]_ | PowerNV    | 32   | hash              | no       | yes    |
++|              |            |      +-------------------+----------+--------+
++|              |            |      | radix             | N/A      | N/A    |
++|              |            +------+-------------------+----------+--------+
++|              |            | 64   | hash              | no       | yes    |
++|              |            |      +-------------------+----------+--------+
++|              |            |      | radix             | yes [2]_ | no     |
++|              +------------+------+-------------------+----------+--------+
++|              | PowerVM    | 32   | hash              | no       | yes    |
++|              |            |      +-------------------+----------+--------+
++|              |            |      | radix             | N/A      | N/A    |
++|              |            +------+-------------------+----------+--------+
++|              |            | 64   | hash              | no       | yes    |
++|              |            |      +-------------------+----------+--------+
++|              |            |      | radix [3]_        | no       | yes    |
+++--------------+------------+------+-------------------+----------+--------+
++
++.. [1] On POWER9 DD2.1 processors, the page table format on the host and guest
++   must be the same.
++
++.. [2] KVM-HV cannot run nested on POWER8 machines.
++
++.. [3] Introduced on Power10 machines.
++
++Maintainer contact information
++------------------------------
++
++Cédric Le Goater <clg@kaod.org>
++
++Daniel Henrique Barboza <danielhb413@gmail.com>
+\ No newline at end of file
+-- 
+2.33.1
+
 
