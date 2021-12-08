@@ -2,93 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7181046D235
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 12:31:30 +0100 (CET)
-Received: from localhost ([::1]:51384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAEFC46D2BD
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 12:52:52 +0100 (CET)
+Received: from localhost ([::1]:35554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muvAW-0003I7-3F
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 06:31:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44498)
+	id 1muvVD-00047n-Go
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 06:52:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1muv8y-0002QT-2A
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 06:29:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47456)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1muv8u-0003Q0-F9
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 06:29:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638962987;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=N2b62NQXKOt8ppnkv+Bg3xKl55NRicgHvHjq4fhYetg=;
- b=NnvIhmYG2ClL4IBmz45tjC9VNz27VnW5Tnnj0zKJaeUvy6K3l1CumpBB8w9/CSefLTAZgF
- LJUImsKkVbGUHSyatVmUuGkdNw19S1Ds1heNcuQL6ZDRuOj4eScG/ouhmc/8f6i5ShVeDP
- 13kPv/h7IAgWitRAhfszv80qCKeuHAQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-192-HiNitNdlPRiM5iUjckwrAA-1; Wed, 08 Dec 2021 06:29:46 -0500
-X-MC-Unique: HiNitNdlPRiM5iUjckwrAA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m14-20020a05600c3b0e00b0033308dcc933so1285079wms.7
- for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 03:29:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1muvTt-0003MT-Ha; Wed, 08 Dec 2021 06:51:29 -0500
+Received: from [2a00:1450:4864:20::429] (port=39932
+ helo=mail-wr1-x429.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1muvTr-0001yh-Ht; Wed, 08 Dec 2021 06:51:29 -0500
+Received: by mail-wr1-x429.google.com with SMTP id a18so3615446wrn.6;
+ Wed, 08 Dec 2021 03:51:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=N2b62NQXKOt8ppnkv+Bg3xKl55NRicgHvHjq4fhYetg=;
- b=eJeHXqXqEA8Z8UiArqnd//N3VF514lHckqShYcnQfl+O5iPfuQ9LoNdd4hhHMF3AWJ
- Vnh+fR75WWWhz8OnhU9875AZm7cajrf57FUa64fQ6CCXqJpyMlx/e+9DaBfSJDAp3mtX
- SS8JuTZL1zHFknyZV0ILpUo7TXBzxxB8wa9HLxeMCYLCqubMA3g/hT98eqplnyVeT8g5
- ym1pKLmGsovuEL8UsNhbJAPSDxVxgNyN/Iq4awW7R7ygAqD9QsKarW7KXEBKyDA/LC6x
- 9Sm8lNbZD63scg+LqgARhoyfmV36lQK30ZLi9lJffbmlJIOb64BECSVboDjOn/RsbBDx
- 7avw==
-X-Gm-Message-State: AOAM531v8HNx6Rjt0kAhwkdrr60kHWkIsqErZB27uuJOgTqB6zV7vxcB
- ZI4yfeuUNzDLueD/l0wQhJpS8yZXIBJuTDYSI1+OF+FFxHoqRpRDQLt24fJpFdYClBiruoHWzrS
- noVLiUlrp12NvXRI=
-X-Received: by 2002:a05:600c:2292:: with SMTP id
- 18mr15358116wmf.6.1638962985110; 
- Wed, 08 Dec 2021 03:29:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwDBkCT2nOYJ9nLv7falHMNfi4tp2O1mOqA3XtIs880cErvvJYO9FXvHpNY7ZCZk3BazlIczg==
-X-Received: by 2002:a05:600c:2292:: with SMTP id
- 18mr15358051wmf.6.1638962984642; 
- Wed, 08 Dec 2021 03:29:44 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id r8sm3060095wrz.43.2021.12.08.03.29.43
+ bh=fOVs0Q4rnvinaD0GFmHqxboA68kMJ8M+f0bJ0rUSoM8=;
+ b=hRaQw9Uc/tT/KDeg4gBfjMZ0Bw8bz3oX1yuM8hIRC4GVmZU0vcYIJeCqwbUsjavxza
+ 6BLDtyBP47TeJC8FT1loVifidzkWkRFoI/BiBDXH02s61aQslGmfuw3ShRyQN7G+vktF
+ eoCzptZvQ/INmLA261RkQltmfD9uYktiu/aUItVazkVHRFBb8OTEbFW5+VfOcKxAlT+J
+ paoH4plzWqkv9KBcE5tJKytGzjb+ZsDxDpEA4EKAMnuBtQuoiayU4bP6jDlxar0Vt7JH
+ mQAnVIhmAetVznHZdNHppGuRXSSLWKVv4ciZ1E/gcpTBV/q/jRj7yRmNle716rvsI7KQ
+ Sh+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fOVs0Q4rnvinaD0GFmHqxboA68kMJ8M+f0bJ0rUSoM8=;
+ b=QJmPg841LiKOEhw2g4Sbk7F70MmJ6X+hceTb5d2NGsqz/vAH7vvbJsfZPonjOLn59J
+ GlyNvSK2QRVZW7OgSiie2OqE6ClNf3MAk3iVfytkhiUimCmO7TiyzxGlX5exuvdifFgn
+ 1uWH8Sw02E4T+SorTivECUNctKbUi+WLAWuq1JyKSFg+WNEpxwVRnNSM12C1TcLGEwjj
+ fIqjZvlXRMgPoU3Y9pC/zXyhZdSlrSDY6yfS2tS+wuuF8gUPs7eqHGj1FP/INkSABAmN
+ gPsLBsEcrOkBgd9gOVYvjK85oIY2hmpLA+2P/6TINB/8kuWl6+05/C6lP/P2xTjVagDH
+ dajQ==
+X-Gm-Message-State: AOAM5319OsvvA7d9x5+dsghqQtX60CAoJ83K5UimRxg5qTplONfZ7B9w
+ zAs/7qksHi0nkGri4n0FkgM=
+X-Google-Smtp-Source: ABdhPJzXXNz5MgpMiRuMKeLJh6qHtG5fKpf3oveZYawSXX0p9HmoIeNjMCCTs/m9W7B0YDTDjJP6Uw==
+X-Received: by 2002:a5d:5912:: with SMTP id v18mr57073412wrd.144.1638964285221; 
+ Wed, 08 Dec 2021 03:51:25 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id r17sm6635575wmq.5.2021.12.08.03.51.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Dec 2021 03:29:44 -0800 (PST)
-Message-ID: <6e4e0755-3ecb-c9d8-6e09-9cee5c9f3fb7@redhat.com>
-Date: Wed, 8 Dec 2021 12:29:43 +0100
+ Wed, 08 Dec 2021 03:51:24 -0800 (PST)
+Message-ID: <1a47fc78-8374-d2d1-9a3a-673ed6fefc17@amsat.org>
+Date: Wed, 8 Dec 2021 12:51:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 09/12] s390x/pci: enable adapter event notification for
- interpreted devices
-To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
-References: <20211207210425.150923-1-mjrosato@linux.ibm.com>
- <20211207210425.150923-10-mjrosato@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20211207210425.150923-10-mjrosato@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 7/7] hw/riscv: Use error_fatal for SoC realisation
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.44, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20211208064252.375360-1-alistair.francis@opensource.wdc.com>
+ <20211208064252.375360-8-alistair.francis@opensource.wdc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211208064252.375360-8-alistair.francis@opensource.wdc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.44,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,133 +92,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
- schnelle@linux.ibm.com, cohuck@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
- borntraeger@linux.ibm.com
+Cc: Bin Meng <bin.meng@windriver.com>, Markus Armbruster <armbru@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, alistair23@gmail.com,
+ Palmer Dabbelt <palmer@dabbelt.com>, bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/12/2021 22.04, Matthew Rosato wrote:
-> Use the associated vfio feature ioctl to enable adapter event notification
-> and forwarding for devices when requested.  This feature will be set up
-> with or without firmware assist based upon the 'intassist' setting.
+On 12/8/21 07:42, Alistair Francis wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
 > 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> When realising the SoC use error_fatal instead of error_abort as the
+> process can fail and report useful information to the user.
+> 
+> Currently a user can see this:
+> 
+>    $ ../qemu/bld/qemu-system-riscv64 -M sifive_u -S -monitor stdio -display none -drive if=pflash
+>     QEMU 6.1.93 monitor - type 'help' for more information
+>     (qemu) Unexpected error in sifive_u_otp_realize() at ../hw/misc/sifive_u_otp.c:229:
+>     qemu-system-riscv64: OTP drive size < 16K
+>     Aborted (core dumped)
+> 
+> Which this patch addresses
+> 
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> Reported-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   hw/s390x/s390-pci-bus.c          | 24 +++++++--
->   hw/s390x/s390-pci-inst.c         | 54 +++++++++++++++++++-
->   hw/s390x/s390-pci-vfio.c         | 88 ++++++++++++++++++++++++++++++++
->   include/hw/s390x/s390-pci-bus.h  |  1 +
->   include/hw/s390x/s390-pci-vfio.h | 20 ++++++++
->   5 files changed, 182 insertions(+), 5 deletions(-)
-[...]
-> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-> index 78093aaac7..6f9271df87 100644
-> --- a/hw/s390x/s390-pci-vfio.c
-> +++ b/hw/s390x/s390-pci-vfio.c
-> @@ -152,6 +152,94 @@ int s390_pci_update_passthrough_fh(S390PCIBusDevice *pbdev)
->       return 0;
->   }
->   
-> +int s390_pci_probe_aif(S390PCIBusDevice *pbdev)
-> +{
-> +    VFIOPCIDevice *vdev = container_of(pbdev->pdev, VFIOPCIDevice, pdev);
+>  hw/riscv/microchip_pfsoc.c | 2 +-
+>  hw/riscv/opentitan.c       | 2 +-
+>  hw/riscv/sifive_e.c        | 2 +-
+>  hw/riscv/sifive_u.c        | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
 
-Should this use VFIO_PCI() instead of container_of ?
-
-> +    struct vfio_device_feature feat = {
-> +        .argsz = sizeof(struct vfio_device_feature),
-> +        .flags = VFIO_DEVICE_FEATURE_PROBE + VFIO_DEVICE_FEATURE_ZPCI_AIF
-> +    };
-> +
-> +    assert(vdev);
-
-... then you could likely also drop the assert(), I think?
-
-> +    return ioctl(vdev->vbasedev.fd, VFIO_DEVICE_FEATURE, &feat);
-> +}
-> +
-> +int s390_pci_set_aif(S390PCIBusDevice *pbdev, ZpciFib *fib, bool enable,
-> +                     bool assist)
-> +{
-> +    VFIOPCIDevice *vdev = container_of(pbdev->pdev, VFIOPCIDevice, pdev);
-> +    g_autofree struct vfio_device_feature *feat;
-> +    struct vfio_device_zpci_aif *data;
-> +    int size;
-> +
-> +    assert(vdev);
-
-dito
-
-> +    size = sizeof(*feat) + sizeof(*data);
-> +    feat = g_malloc0(size);
-> +    feat->argsz = size;
-> +    feat->flags = VFIO_DEVICE_FEATURE_SET + VFIO_DEVICE_FEATURE_ZPCI_AIF;
-> +
-> +    data = (struct vfio_device_zpci_aif *)&feat->data;
-> +    if (enable) {
-> +        data->flags = VFIO_DEVICE_ZPCI_FLAG_AIF_FLOAT;
-> +        if (!pbdev->intassist) {
-> +            data->flags |= VFIO_DEVICE_ZPCI_FLAG_AIF_HOST;
-> +        }
-> +        /* Fill in the guest fib info */
-> +        data->ibv = fib->aibv;
-> +        data->sb = fib->aisb;
-> +        data->noi = FIB_DATA_NOI(fib->data);
-> +        data->isc = FIB_DATA_ISC(fib->data);
-> +        data->sbo = FIB_DATA_AISBO(fib->data);
-> +    } else {
-> +        data->flags = 0;
-> +    }
-> +
-> +    return ioctl(vdev->vbasedev.fd, VFIO_DEVICE_FEATURE, feat);
-> +}
-> +
-> +int s390_pci_get_aif(S390PCIBusDevice *pbdev, bool enable, bool assist)
-> +{
-> +    VFIOPCIDevice *vdev = container_of(pbdev->pdev, VFIOPCIDevice, pdev);
-> +    g_autofree struct vfio_device_feature *feat;
-> +    struct vfio_device_zpci_aif *data;
-> +    int size, rc;
-> +
-> +    assert(vdev);
-
-dito
-
-> +    size = sizeof(*feat) + sizeof(*data);
-> +    feat = g_malloc0(size);
-> +    feat->argsz = size;
-> +    feat->flags = VFIO_DEVICE_FEATURE_GET + VFIO_DEVICE_FEATURE_ZPCI_AIF;
-> +
-> +    rc = ioctl(vdev->vbasedev.fd, VFIO_DEVICE_FEATURE, feat);
-> +    if (rc) {
-> +        return rc;
-> +    }
-> +
-> +    /* Determine if current interrupt settings match the host */
-> +    data = (struct vfio_device_zpci_aif *)&feat->data;
-> +    if (enable && (!(data->flags & VFIO_DEVICE_ZPCI_FLAG_AIF_FLOAT))) {
-> +        rc = -EINVAL;
-> +    } else if (!enable && (data->flags & VFIO_DEVICE_ZPCI_FLAG_AIF_FLOAT)) {
-> +        rc = -EINVAL;
-> +    }
-> +
-> +    /*
-> +     * When enabled for interrupts, the assist and forced host-delivery are
-> +     * mututally exclusive
-> +     */
-> +    if (enable && assist && (data->flags & VFIO_DEVICE_ZPCI_FLAG_AIF_HOST)) {
-> +        rc = -EINVAL;
-> +    } else if (enable && (!assist) && (!(data->flags &
-> +                                         VFIO_DEVICE_ZPCI_FLAG_AIF_HOST))) {
-> +        rc = -EINVAL;
-> +    }
-> +
-> +    return rc;
-> +}
-
-  Thomas
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
