@@ -2,83 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA21946D6EF
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 16:24:49 +0100 (CET)
-Received: from localhost ([::1]:43958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E29C46D724
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Dec 2021 16:39:13 +0100 (CET)
+Received: from localhost ([::1]:57584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1muyoK-0007s4-S1
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 10:24:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51852)
+	id 1muz2F-0000kA-Ky
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 10:39:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muyme-0006T4-R4
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 10:23:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35276)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1muymc-0003LH-KS
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 10:23:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638976982;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gqfW8siDCAHgMzorf2E5z9h68ygHNUKLTSUt1+c5yoY=;
- b=I0TEVFvKfasRKMiT+b+aTInJdxYzr9Z1zVgqhDdA/0dAzO+y2c42iIkcz7xJKV21JXNBRV
- fnEVhu7QDQFL46CanSWZ02x+0Sx9v2TNoTuL+KHSroF7WoAbJCA4YrI0Pf6ZAcjeUgSWOQ
- 3mOQ649m/eGvzn4qx3iMFa1M0Bc9PFY=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-183-QwRokEr7M6GkT5bumROz4Q-1; Wed, 08 Dec 2021 10:22:58 -0500
-X-MC-Unique: QwRokEr7M6GkT5bumROz4Q-1
-Received: by mail-vk1-f200.google.com with SMTP id
- s12-20020a1ff40c000000b002fa86937165so1345551vkh.8
- for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 07:22:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gqfW8siDCAHgMzorf2E5z9h68ygHNUKLTSUt1+c5yoY=;
- b=2mvfmyU0fJrgHSWItKc18vDQut3aRJtU9SDQ4Sbhuw097cgfYv+/NGJcrmCMwC7iCT
- Li+JjeDv2/Zfpsl7n7WCGp4l35s2FzpJ2aYDY1N3MCdZd3jm3QwAueFPzHvgAjVzVoSp
- slfhTtJ94b+D/gm5sz+MFcH5RS2Lbf8IC5IIcww1fgCHOcPQ2jJy4s2334KwiXP7kJD9
- uFZPVKJ3W9iPSEdW2+CE8AnUK0PjXV4AmIQRoXiQv7rJEtNeRcExtfa8LAG5Qp1mHoof
- VeE+icvpArNvHG5muutwpjM9ftwZtxsWZH3L0h1NTDoFtoq/yJ6lssiO4D9uIei6RUeX
- 9z6A==
-X-Gm-Message-State: AOAM533YdZUDxNnRPFVuHjRMgBluanZN6i7rh0FTO2++FcHJLjqlLAjd
- H34IEt/NVsLVqTrg8StKw2AHVlNWjJlVG2cfmDlbxoOtu7jdnYn/CBjBK9yn0uYqWUIqWs4ILRO
- 5pd09CgzTuHbldSLnIEIX16PKA1wF8/E=
-X-Received: by 2002:a67:d78c:: with SMTP id q12mr55351597vsj.35.1638976977451; 
- Wed, 08 Dec 2021 07:22:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJys4nrrb4qIc5RWSALoxiMMT/g2mfdDV1eK8As1n3Fo2kkg+ZBk9Tmzl3cTH6iavLGWVyOk6fri0wCWzolunNc=
-X-Received: by 2002:a67:d78c:: with SMTP id q12mr55351562vsj.35.1638976977191; 
- Wed, 08 Dec 2021 07:22:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1muyzz-0007lX-Rz
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 10:36:52 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:37630
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1muyzw-0006DJ-I6
+ for qemu-devel@nongnu.org; Wed, 08 Dec 2021 10:36:51 -0500
+HMM_SOURCE_IP: 172.18.0.188:57610.671055688
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-171.223.99.232 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id E3CEC280083;
+ Wed,  8 Dec 2021 23:36:30 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.188])
+ by app0023 with ESMTP id 023e7d47bc0e4e15bd0548ab8accb590 for
+ peterx@redhat.com; Wed, 08 Dec 2021 23:36:37 CST
+X-Transaction-ID: 023e7d47bc0e4e15bd0548ab8accb590
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.188
+X-MEDUSA-Status: 0
+Message-ID: <35074c69-25e7-f2f1-b7b8-e35b9744e356@chinatelecom.cn>
+Date: Wed, 8 Dec 2021 23:36:32 +0800
 MIME-Version: 1.0
-References: <20211207204038.664133-1-jsnow@redhat.com>
- <20211207204038.664133-3-jsnow@redhat.com>
- <YbB2qS8bpHlYccvP@redhat.com>
-In-Reply-To: <YbB2qS8bpHlYccvP@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 8 Dec 2021 10:22:47 -0500
-Message-ID: <CAFn=p-ZWtbggrGCVR4oxJsDH6TmDZHMzFPyR6ukni8QwjVKZMg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] ui/clipboard: Don't use g_autoptr just to free a
- variable
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000855ff005d2a4109b"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v9 2/3] cpu-throttle: implement vCPU throttle
+To: Peter Xu <peterx@redhat.com>
+References: <cover.1638495274.git.huangy81@chinatelecom.cn>
+ <155c8ef6b68c06829f971d356732783c671f661a.1638495274.git.huangy81@chinatelecom.cn>
+ <Ya3hfN+xKie2geL+@xz-m1.local>
+From: Hyman <huangy81@chinatelecom.cn>
+In-Reply-To: <Ya3hfN+xKie2geL+@xz-m1.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.219;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.44,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,133 +65,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Philippe Mathieu Daude <philmd@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, Markus ArmBruster <armbru@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000855ff005d2a4109b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 8, 2021, 4:11 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
 
-> On Tue, Dec 07, 2021 at 03:40:38PM -0500, John Snow wrote:
-> > Clang doesn't recognize that the variable is being "used" and will emit
-> > a warning:
-> >
-> >   ../ui/clipboard.c:47:34: error: variable 'old' set but not used
-> [-Werror,-Wunused-but-set-variable]
-> >       g_autoptr(QemuClipboardInfo) old =3D NULL;
-> >                                  ^
-> >   1 error generated.
-> >
-> > OK, fine. Just do things the old way.
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >  ui/clipboard.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/ui/clipboard.c b/ui/clipboard.c
-> > index d7b008d62a..9ab65efefb 100644
-> > --- a/ui/clipboard.c
-> > +++ b/ui/clipboard.c
-> > @@ -44,12 +44,11 @@ void qemu_clipboard_peer_release(QemuClipboardPeer
-> *peer,
-> >
-> >  void qemu_clipboard_update(QemuClipboardInfo *info)
-> >  {
-> > -    g_autoptr(QemuClipboardInfo) old =3D NULL;
-> >      assert(info->selection < QEMU_CLIPBOARD_SELECTION__COUNT);
-> >
-> >      notifier_list_notify(&clipboard_notifiers, info);
-> >
-> > -    old =3D cbinfo[info->selection];
-> > +    g_free(cbinfo[info->selection]);
->
-> This is a ref counted data type - it can't use g_free:
->
->   https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg04890.html
->
-> >      cbinfo[info->selection] =3D qemu_clipboard_info_ref(info);
-> >  }
->
-> Regards,
-> Daniel
->
+在 2021/12/6 18:10, Peter Xu 写道:
+> On Fri, Dec 03, 2021 at 09:39:46AM +0800, huangy81@chinatelecom.cn wrote:
+>> +static uint64_t dirtylimit_pct(unsigned int last_pct,
+>> +                               uint64_t quota,
+>> +                               uint64_t current)
+>> +{
+>> +    uint64_t limit_pct = 0;
+>> +    RestrainPolicy policy;
+>> +    bool mitigate = (quota > current) ? true : false;
+>> +
+>> +    if (mitigate && ((current == 0) ||
+>> +        (last_pct <= DIRTYLIMIT_THROTTLE_SLIGHT_STEP_SIZE))) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    policy = dirtylimit_policy(last_pct, quota, current);
+>> +    switch (policy) {
+>> +    case RESTRAIN_SLIGHT:
+>> +        /* [90, 99] */
+>> +        if (mitigate) {
+>> +            limit_pct =
+>> +                last_pct - DIRTYLIMIT_THROTTLE_SLIGHT_STEP_SIZE;
+>> +        } else {
+>> +            limit_pct =
+>> +                last_pct + DIRTYLIMIT_THROTTLE_SLIGHT_STEP_SIZE;
+>> +
+>> +            limit_pct = MIN(limit_pct, CPU_THROTTLE_PCT_MAX);
+>> +        }
+>> +       break;
+>> +    case RESTRAIN_HEAVY:
+>> +        /* [75, 90) */
+>> +        if (mitigate) {
+>> +            limit_pct =
+>> +                last_pct - DIRTYLIMIT_THROTTLE_HEAVY_STEP_SIZE;
+>> +        } else {
+>> +            limit_pct =
+>> +                last_pct + DIRTYLIMIT_THROTTLE_HEAVY_STEP_SIZE;
+>> +
+>> +            limit_pct = MIN(limit_pct,
+>> +                DIRTYLIMIT_THROTTLE_SLIGHT_WATERMARK);
+>> +        }
+>> +       break;
+>> +    case RESTRAIN_RATIO:
+>> +        /* [0, 75) */
+>> +        if (mitigate) {
+>> +            if (last_pct <= (((quota - current) * 100 / quota))) {
+>> +                limit_pct = 0;
+>> +            } else {
+>> +                limit_pct = last_pct -
+>> +                    ((quota - current) * 100 / quota);
+>> +                limit_pct = MAX(limit_pct, CPU_THROTTLE_PCT_MIN);
+>> +            }
+>> +        } else {
+>> +            limit_pct = last_pct +
+>> +                ((current - quota) * 100 / current);
+>> +
+>> +            limit_pct = MIN(limit_pct,
+>> +                DIRTYLIMIT_THROTTLE_HEAVY_WATERMARK);
+>> +        }
+>> +       break;
+>> +    case RESTRAIN_KEEP:
+>> +    default:
+>> +       limit_pct = last_pct;
+>> +       break;
+>> +    }
+>> +
+>> +    return limit_pct;
+>> +}
+>> +
+>> +static void *dirtylimit_thread(void *opaque)
+>> +{
+>> +    int cpu_index = *(int *)opaque;
+>> +    uint64_t quota_dirtyrate, current_dirtyrate;
+>> +    unsigned int last_pct = 0;
+>> +    unsigned int pct = 0;
+>> +
+>> +    rcu_register_thread();
+>> +
+>> +    quota_dirtyrate = dirtylimit_quota(cpu_index);
+>> +    current_dirtyrate = dirtylimit_current(cpu_index);
+>> +
+>> +    pct = dirtylimit_init_pct(quota_dirtyrate, current_dirtyrate);
+>> +
+>> +    do {
+>> +        trace_dirtylimit_impose(cpu_index,
+>> +            quota_dirtyrate, current_dirtyrate, pct);
+>> +
+>> +        last_pct = pct;
+>> +        if (pct == 0) {
+>> +            sleep(DIRTYLIMIT_CALC_PERIOD_TIME_S);
+>> +        } else {
+>> +            dirtylimit_check(cpu_index, pct);
+>> +        }
+>> +
+>> +        quota_dirtyrate = dirtylimit_quota(cpu_index);
+>> +        current_dirtyrate = dirtylimit_current(cpu_index);
+>> +
+>> +        pct = dirtylimit_pct(last_pct, quota_dirtyrate, current_dirtyrate);
+> 
+> So what I had in mind is we can start with an extremely simple version of
+> negative feedback system.  Say, firstly each vcpu will have a simple number to
+> sleep for some interval (this is ugly code, but just show what I meant..):
+> 
+> ===============
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index eecd8031cf..c320fd190f 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -2932,6 +2932,8 @@ int kvm_cpu_exec(CPUState *cpu)
+>               trace_kvm_dirty_ring_full(cpu->cpu_index);
+>               qemu_mutex_lock_iothread();
+>               kvm_dirty_ring_reap(kvm_state);
+> +            if (dirtylimit_enabled(cpu->cpu_index) && cpu->throttle_us_per_full)
+> +                usleep(cpu->throttle_us_per_full);
+>               qemu_mutex_unlock_iothread();
+>               ret = 0;
+>               break;
+> ===============
+> 
+> I think this will have finer granularity when throttle (for 4096 ring size,
+> that's per-16MB operation) than current way where we inject per-vcpu async task
+> to sleep, like auto-converge.
+> 
+> Then we have the "black box" to tune this value with below input/output:
+> 
+>    - Input: dirty rate information, same as current algo
+> 
+>    - Output: increase/decrease of per-vcpu throttle_us_per_full above, and
+>      that's all
+> 
+> We can do the sampling per-second, then we keep doing it: we can have 1 thread
+> doing per-second task collecting dirty rate information for all the vcpus, then
+> tune that throttle_us_per_full for each of them.
+> 
+> The simplest linear algorithm would be as simple as (for each vcpu):
+> 
+>    if (quota < current)
+>      throttle_us_per_full += SOMETHING;
+>      if (throttle_us_per_full > MAX)
+>        throttle_us_per_full = MAX;
+>    else
+>      throttle_us_per_full -= SOMETHING;
+>      if (throttle_us_per_full < 0)
+>        throttle_us_per_full = 0;
+> 
+> I think your algorithm is fine, but thoroughly review every single bit of it in
+> one shot will be challenging, and it's also hard to prove every bit of the
+> algorithm is helpful, as there're a lot of hand-made macros and state changes.
+> 
+> I actually tested the current algorithm of yours, the dirty rate fluctuates a
+> bit (when I specified 200MB/s, it can go into either a few tens of MB/s or
+> 300MB/s, normally less), neither does it respond fast (the initial throtle from
+> 500MB/s -> 200MB/s should need 1 minute or something), so it seems not ideal
+> anyway. In that case I prefer we start with simple.
+> 
+> So IMHO we can start with this simple scheme first then it'll start working
+> with much less line of codes, afaict.  With that scheme ready in the 1st or
+> initial patches, it'll be easier to either apply any better algorithm
+> (e.g. your current one, if you're confident with that) or other things then
+> it'll be much easier to review too if you could consider split your patch like
+> that.
+> 
+> Normally per my knowledge for the need on migration, we could consider add an
+> integral algorithm into this linear algorithm that I said above, and it should
+> help us reach a very stable and constant state of throttling already.  But
+> we'll need to try it out, as I never tried.
+> 
+> What do you think?
+> 
+I absolutely agree with your point, negative feedback system is also 
+what i thought in the first place, and theoretically may be the most 
+appropriate algo to control the vcpu in a stable dirty page rate from my 
+point of view, but at the very beginning i'm not sure the new algo of 
+throttling can be accepted, so i adopted the exiting auto-converge algo 
+in qemu... :). One of my purposes of posting this patchset is for the 
+sake of RFC, and thanks Peter very much for giving the advice.
 
-Whoops, sorry. I saw free being used elsewhere and assumed it was safe.
-That's what I get for assuming things...
-
---000000000000855ff005d2a4109b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, Dec 8, 2021, 4:11 AM Daniel P. Berrang=C3=A9 &=
-lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">On Tue, Dec 07, 2021 at 03:40:38P=
-M -0500, John Snow wrote:<br>
-&gt; Clang doesn&#39;t recognize that the variable is being &quot;used&quot=
-; and will emit<br>
-&gt; a warning:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0../ui/clipboard.c:47:34: error: variable &#39;old&#39; set=
- but not used [-Werror,-Wunused-but-set-variable]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0g_autoptr(QemuClipboardInfo) old =3D NULL;<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^<br>
-&gt;=C2=A0 =C2=A01 error generated.<br>
-&gt; <br>
-&gt; OK, fine. Just do things the old way.<br>
-&gt; <br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 ui/clipboard.c | 3 +--<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 2 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/ui/clipboard.c b/ui/clipboard.c<br>
-&gt; index d7b008d62a..9ab65efefb 100644<br>
-&gt; --- a/ui/clipboard.c<br>
-&gt; +++ b/ui/clipboard.c<br>
-&gt; @@ -44,12 +44,11 @@ void qemu_clipboard_peer_release(QemuClipboardPeer=
- *peer,<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 void qemu_clipboard_update(QemuClipboardInfo *info)<br>
-&gt;=C2=A0 {<br>
-&gt; -=C2=A0 =C2=A0 g_autoptr(QemuClipboardInfo) old =3D NULL;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 assert(info-&gt;selection &lt; QEMU_CLIPBOARD_SELE=
-CTION__COUNT);<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 notifier_list_notify(&amp;clipboard_notifiers, inf=
-o);<br>
-&gt;=C2=A0 <br>
-&gt; -=C2=A0 =C2=A0 old =3D cbinfo[info-&gt;selection];<br>
-&gt; +=C2=A0 =C2=A0 g_free(cbinfo[info-&gt;selection]);<br>
-<br>
-This is a ref counted data type - it can&#39;t use g_free:<br>
-<br>
-=C2=A0 <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg=
-04890.html" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.g=
-nu.org/archive/html/qemu-devel/2021-11/msg04890.html</a><br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 cbinfo[info-&gt;selection] =3D qemu_clipboard_info=
-_ref(info);<br>
-&gt;=C2=A0 }<br>
-<br>
-Regards,<br>
-Daniel<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"=
-auto">Whoops, sorry. I saw free being used elsewhere and assumed it was saf=
-e. That&#39;s what I get for assuming things...</div><div dir=3D"auto"><br>=
-</div></div>
-
---000000000000855ff005d2a4109b--
-
+I'll try it out and see the results. If things go well, the negative 
+feedback system to control the dirty page rate for a vcpu will be 
+introduced next version.
 
