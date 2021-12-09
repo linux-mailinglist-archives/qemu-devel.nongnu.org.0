@@ -2,87 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB6E46E5A6
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 10:33:17 +0100 (CET)
-Received: from localhost ([::1]:36526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3FD546E5AA
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 10:36:22 +0100 (CET)
+Received: from localhost ([::1]:42442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvFng-0000Ap-39
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 04:33:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50332)
+	id 1mvFqf-0004At-Tz
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 04:36:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <oro@il.ibm.com>)
- id 1mvFjD-0005b1-FU; Thu, 09 Dec 2021 04:28:39 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11212)
+ id 1mvFjT-00066q-Sq; Thu, 09 Dec 2021 04:28:56 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <oro@il.ibm.com>)
- id 1mvFjB-0006OT-Ho; Thu, 09 Dec 2021 04:28:39 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B97SZnx027687; 
- Thu, 9 Dec 2021 09:28:34 GMT
+ id 1mvFjS-0006Tv-9c; Thu, 09 Dec 2021 04:28:55 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B97bwc9008192; 
+ Thu, 9 Dec 2021 09:28:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=CERrMKld2g3smjjfVP4uoYpCJbF+hDBnNRLMHsOK1a8=;
- b=OUQRddJQfz2J7OXqlsFSYrEr/d5SCCZo9NmhgBkrmjZDyc9i+RlZXZvcRioCjsVsSqLJ
- Ikk0NBDAHbDkJ4ZGjmOvR6ur6DZq1/7HsKvqNMuQ+JIJ0UvR6fmoYbT5+wSdVJUH0+DD
- 2o4ik9L8IMI7jZIxOspjiRXPbH8rW8nYbRKT1dNoF/birHSEC2biW9hU1KDysxrod/MT
- U8stuXvBuJ6XEF7Nht8sGBcvIzL1mmc2CGSroekdaeYS60ankDpBTDijfoZTqYdgIp4f
- EpHq1RGVQ1cvvYdXIuLwmUXOoYPU0vNUtfh/g1Vc1/mwXy+4f6NP72YMkMOcLiLv4Bn0 Ig== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=M18RsD1YHGWRDXA7AvyKwwU0/jyJlajJNCegIn8CXQA=;
+ b=Xio8W7wl7WqxbFGzoELWcgcEK6HdW9sGus1ibI1maDWIkrV139LyUJbgex+hs1kKWUJB
+ Ov26JY7x0CVW8UCFxa491cQULZ2FW93hCPpz2gz71MQBMdRVqYtleT8z3JHOpV6KtSLQ
+ vghoJ9AI49/q8MljWlN3mNAg9n5yREcLs8N6mvjq1DGIlTvugjqf+WweCCQ9Zszyuigr
+ G+MsX75a3h8xq7Fz/x7T+9cKE97rJjO0s4ACqdbFQDuZ2/SU9gz96KnBkZNrnxU3K04Z
+ FrCahdvLcdIT5HP5qLC/E2V8Rl4u5VNpzCDQYCKHejik8sIUcHGCf9vPVdVlQ4AbxZQe iw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cudept8a1-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cucj2bbkc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Dec 2021 09:28:33 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B99JKg4027681;
- Thu, 9 Dec 2021 09:28:33 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cudept89r-1
+ Thu, 09 Dec 2021 09:28:52 +0000
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B99Sqjb032312;
+ Thu, 9 Dec 2021 09:28:52 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cucj2bbk6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Dec 2021 09:28:33 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B99RxaG003701;
- Thu, 9 Dec 2021 09:28:32 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma05wdc.us.ibm.com with ESMTP id 3cqyybm9ev-1
+ Thu, 09 Dec 2021 09:28:52 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B99SBKW018095;
+ Thu, 9 Dec 2021 09:28:51 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma02wdc.us.ibm.com with ESMTP id 3cqyybm71r-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Dec 2021 09:28:32 +0000
+ Thu, 09 Dec 2021 09:28:51 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B99SUPj28770646
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B99Snpf51708344
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 9 Dec 2021 09:28:30 GMT
+ Thu, 9 Dec 2021 09:28:49 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0F40528083;
- Thu,  9 Dec 2021 09:28:30 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 2A4D728067;
+ Thu,  9 Dec 2021 09:28:49 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6E37F28067;
- Thu,  9 Dec 2021 09:28:29 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 8904C2805E;
+ Thu,  9 Dec 2021 09:28:48 +0000 (GMT)
 Received: from oro.sl.cloud9.ibm.com (unknown [9.59.192.176])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu,  9 Dec 2021 09:28:29 +0000 (GMT)
+ Thu,  9 Dec 2021 09:28:48 +0000 (GMT)
 From: Or Ozeri <oro@il.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/1] virtio-block: switch to blk_get_max_hw_transfer
-Date: Thu,  9 Dec 2021 03:28:14 -0600
-Message-Id: <20211209092815.778066-1-oro@il.ibm.com>
+Subject: [PATCH v1 1/1] virtio-block: switch to blk_get_max_hw_transfer
+Date: Thu,  9 Dec 2021 03:28:15 -0600
+Message-Id: <20211209092815.778066-2-oro@il.ibm.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211209092815.778066-1-oro@il.ibm.com>
+References: <20211209092815.778066-1-oro@il.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 5ev5UaHt0BM1EtZOOh0uIlEhyuEHnEDP
-X-Proofpoint-GUID: ms27Ib3Jweye5eW5QYBnaHzCmUd2gBjw
+X-Proofpoint-GUID: -FWxhw0jK0oe1WwKMrVEO1D4zW-QLA7o
+X-Proofpoint-ORIG-GUID: 8y5fLO8N-4ed4jNd4m70Pa2xEjgOQdLE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-09_04,2021-12-08_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- lowpriorityscore=0 priorityscore=1501 mlxlogscore=906 phishscore=0
- spamscore=0 clxscore=1011 adultscore=0 impostorscore=0 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112090045
+ mlxscore=0 lowpriorityscore=0
+ priorityscore=1501 bulkscore=0 clxscore=1015 impostorscore=0 spamscore=0
+ malwarescore=0 mlxlogscore=899 adultscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2112090048
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=oro@il.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
@@ -108,33 +111,28 @@ Cc: dupadhya@redhat.com, oro@il.ibm.com, to.my.trociny@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since moving to qemu 6.1.0 we've been seeing disk failures inside a qemu guest VM.
-This happened when using if=virtio on a host /dev/nbdX device.
-Binary searching on qemu commit history, I found these errors start on this commit:
+The blk_get_max_hw_transfer API was recently added in 6.1.0.
+It allows querying an underlying block device its max transfer capability.
+This commit changes virtio-blk to use this.
 
-Commit 18473467
-file-posix: try BLKSECTGET on block devices too, do not round to power of 2
-
-The above commit switched posix block device limits (including host /dev/nbdX devices)
-to query limits from /sys/dev/block/..., instead of using predefined limits.
-
-The scsi-generic driver was changed to use the queried limits,
-whereas the virtio-blk driver was only the queried max_iov,
-but still using the predefined max_transfer, which is unlimited in qemu.
-
-For NBD devices, max_iov is unlimited by the kernel nbd driver.
-As as consequence, the virtio-blk merged requests over the limit of our host /dev/nbdX device,
-which apparently caused the guest disk errors.
-
-The solution that worked for me was to change the virtio-blk driver to use the max_transfer
-limit queried from the posix host device (given by blk_get_max_hw_transfer).
-
-Or Ozeri (1):
-  virtio-block: switch to blk_get_max_hw_transfer
-
+Signed-off-by: Or Ozeri <oro@il.ibm.com>
+---
  hw/block/virtio-blk.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index f139cd7cc9..1ba9a06888 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -458,7 +458,7 @@ static void virtio_blk_submit_multireq(BlockBackend *blk, MultiReqBuffer *mrb)
+         return;
+     }
+ 
+-    max_transfer = blk_get_max_transfer(mrb->reqs[0]->dev->blk);
++    max_transfer = blk_get_max_hw_transfer(mrb->reqs[0]->dev->blk);
+ 
+     qsort(mrb->reqs, mrb->num_reqs, sizeof(*mrb->reqs),
+           &multireq_compare);
 -- 
 2.25.1
 
