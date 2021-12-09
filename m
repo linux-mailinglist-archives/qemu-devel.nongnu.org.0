@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FFB46EAAA
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 16:08:13 +0100 (CET)
-Received: from localhost ([::1]:37566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5ED46EA92
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 16:05:18 +0100 (CET)
+Received: from localhost ([::1]:33472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvL1n-0001ak-NR
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 10:08:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59318)
+	id 1mvKz0-00074U-0d
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 10:05:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.griffin@linaro.org>)
- id 1mvKqj-0002be-KW
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 09:56:45 -0500
-Received: from [2a00:1450:4864:20::333] (port=40926
- helo=mail-wm1-x333.google.com)
+ id 1mvKqk-0002eB-JR
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 09:56:46 -0500
+Received: from [2a00:1450:4864:20::32d] (port=46617
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.griffin@linaro.org>)
- id 1mvKqg-0001Zl-Ok
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 09:56:45 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- j140-20020a1c2392000000b003399ae48f58so6742467wmj.5
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 06:56:42 -0800 (PST)
+ id 1mvKqi-0001Zx-Q7
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 09:56:46 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ c6-20020a05600c0ac600b0033c3aedd30aso4287914wmr.5
+ for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 06:56:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GzyL0rwW98AtDdWXVvxfJFra64F6h5kdluyzTy63cnM=;
- b=oZDrJa9FfyOHcAOZAaRYIrY9M3SNfGzDUVJXbkTKIVjtaYdT4j83kHej6fp97yinl5
- qDZbohsYigwLLzazSs9qIIquQP6VOOAkIB4SXIkhrI69oGNVq/5vl/mxuSR1oG5vsQ5d
- Z87PiGxh1yVKcUCDn0tPMGk8uYWSWRNtyQlZGkUMMq2F8OyYBCytUG9kvvHLlp55CJSR
- kUP6FiV7UXVpMfhxyzcWJld9utxksQdKWfLDQTbkLL8LAcx3vHWAQ7K77v5eNC07P7SM
- SvMIs9tbm9b7D6VTbfwWST08bBltR6089Ov8RnKqFUSjIiJZAr/m0UWnolvyebvXVzxh
- ZCVg==
+ bh=ucRtCT/8uwpnsgdYhV7nphwjB8b91qloRsPjp9e3CEs=;
+ b=tPTwBOt3NAUJGH+i3yviRxPIS2c+wBQKuKxfG1bARMoa4Q8CQJ/R0grYwMk841Gtda
+ HuKx4Z4t/KrTeFB/Eb6Vd6RLrYwooKKOAiRsE7J/cLqaTWuqhYECBVuWTJ9kwoqmRdUm
+ jkNbPfi4BBkm1uO8XACln1aQYIxpK99HphSQbhIwZ+1gobsNYHVb2QYLweDwEU6YAWp8
+ kErbFi5msYnw+gvfz0c3UB2+MV8NvPN+WkVBbiplXVOtlFBgcENpfkhCDmdZs3DIAzLo
+ Iuuzx7FSJh9So1LJVU3FR4m7fQE9QFbq5ekTf0VhXiLNDuAjfOmMGEvF/BmvI4W2J0ac
+ DcMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GzyL0rwW98AtDdWXVvxfJFra64F6h5kdluyzTy63cnM=;
- b=z4BFWAJaHH7+jcBW/Yyjw8BVI+9vg/kkgPkjTTEnONmQ4qUDg4g0XPVfVKjOzL3Jm4
- H2Rex/jW6OrX2M+ipakJDYArgaA/cK4Qyfsm/MDekZaZkVNz3j7f4uAzVyzPHoqHLDOY
- dnrHRZ5Cj8bgYCltoImMG6LHIpOr3lk6K23wlmNFPoOB2l3uqmFJ6gSG9Z82pg9r7/gD
- Jt+5a5UmfX3+eqeKjhM86U58uqFh7/4mfaeDV1ZxUAytBNmJ4r/XJUSaXtaytOnJRLAP
- jQ8usYKwCqwEaoZ//iGTB/4usFxvUPxVIU5TA662YcIND8oNZ2SrRe1YKmMy8cYNggRn
- 6UWQ==
-X-Gm-Message-State: AOAM531LCvYZM6BymGb4c0/TOw3F0K6Zebbd/YOEKohEMfqY3fsCMYny
- Ib55FM3KuZgtjyBqbvMN2IM1AppttNmHmQ==
-X-Google-Smtp-Source: ABdhPJzgZv330Jx20YFtt+MqOXIl/xcbyXLy1edkA3yV1bj0BtOh2DgYsU4QW1B6Fms1tK1CAkJrtQ==
-X-Received: by 2002:a05:600c:1e87:: with SMTP id
- be7mr7618376wmb.182.1639061801441; 
- Thu, 09 Dec 2021 06:56:41 -0800 (PST)
+ bh=ucRtCT/8uwpnsgdYhV7nphwjB8b91qloRsPjp9e3CEs=;
+ b=DOL9NZt8oZ0igbVsGB9W7BNjoZWi9ynoOl4oL1yKYAvxbk2W0e8hd8wknqK3iV5tso
+ ZB10hJ/zJJOiZptNqKzcCXDz7x5dv/+FugL+9LmZd+nDZIn3P42Ha0ZhxSAvb0HJgFrC
+ OfIUESq71U18ZOLPjHIBZP08wF9tiYn2f43i1BKTfjI8FvVj8V8Kr3O8UbCe2keoTDMS
+ PRdXKWs0iX+jaA7PeKXFlMGodg5msebzF7rrJt72ki27XencmGNAhcWE+to/Vyzg0y/T
+ XirbQ/0R7h8m2sR2yPxx+gtzEL8nSGpjre2dUJLuo7xogEhKCj6MiuPU1XzQcPS8sl+U
+ 6RcA==
+X-Gm-Message-State: AOAM5301zG9ATHxosy3hfmUzcWIoJsiG1ciBwdmZZkooN6l7RZ6wvfF/
+ bHZ/Ik7NlaxCdr44LdWulK74Jg==
+X-Google-Smtp-Source: ABdhPJyPe/oYAPb9L64CsscqBYAFu1kvlIyTFlVv4Ty0HD+ce5x5m8CYVR8VQC8SRK1egL4h/qOQBw==
+X-Received: by 2002:a05:600c:4f48:: with SMTP id
+ m8mr8050810wmq.50.1639061802337; 
+ Thu, 09 Dec 2021 06:56:42 -0800 (PST)
 Received: from xps15-9570.lan (host-92-16-105-103.as13285.net. [92.16.105.103])
- by smtp.gmail.com with ESMTPSA id y142sm30845wmc.40.2021.12.09.06.56.40
+ by smtp.gmail.com with ESMTPSA id y142sm30845wmc.40.2021.12.09.06.56.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 09 Dec 2021 06:56:41 -0800 (PST)
 From: Peter Griffin <peter.griffin@linaro.org>
 To: marcandre.lureau@redhat.com,
 	mst@redhat.com,
 	alex.bennee@linaro.org
-Subject: [PATCH 6/8] virtio_video: Add Fast Walsh-Hadamard Transform format
-Date: Thu,  9 Dec 2021 14:55:59 +0000
-Message-Id: <20211209145601.331477-7-peter.griffin@linaro.org>
+Subject: [PATCH 7/8] hw/display: add vhost-user-video-pci
+Date: Thu,  9 Dec 2021 14:56:00 +0000
+Message-Id: <20211209145601.331477-8-peter.griffin@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211209145601.331477-1-peter.griffin@linaro.org>
 References: <20211209145601.331477-1-peter.griffin@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.griffin@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.griffin@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -94,30 +94,106 @@ Cc: Peter Griffin <peter.griffin@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linux vicodec (Virtual Codec) test driver in Linux implements
-FWHT. FWHT was designed to be fast and simple and to have
-characteristics of other video codecs and therefore face similar
-issues [1].
+Add boiler plate code for vhost-user-video-pci.
 
-https://en.wikipedia.org/wiki/Fast_Walsh%E2%80%93Hadamard_transform
+Example
+-device vhost-user-video-pci,chardev=video,id=video
+-chardev socket,path=video.sock,id=video
 
 Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
 ---
- include/standard-headers/linux/virtio_video.h | 1 +
- 1 file changed, 1 insertion(+)
+ hw/display/vhost-user-video-pci.c | 82 +++++++++++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+ create mode 100644 hw/display/vhost-user-video-pci.c
 
-diff --git a/include/standard-headers/linux/virtio_video.h b/include/standard-headers/linux/virtio_video.h
-index 16b5f642a9..3b517d50c4 100644
---- a/include/standard-headers/linux/virtio_video.h
-+++ b/include/standard-headers/linux/virtio_video.h
-@@ -75,6 +75,7 @@ enum virtio_video_format {
- 	VIRTIO_VIDEO_FORMAT_HEVC, /* HEVC aka H.265*/
- 	VIRTIO_VIDEO_FORMAT_VP8, /* VP8 */
- 	VIRTIO_VIDEO_FORMAT_VP9, /* VP9 */
-+	VIRTIO_VIDEO_FORMAT_FWHT, /* FWHT used by vicodec */
- 	VIRTIO_VIDEO_FORMAT_CODED_MAX = VIRTIO_VIDEO_FORMAT_VP9,
- };
- 
+diff --git a/hw/display/vhost-user-video-pci.c b/hw/display/vhost-user-video-pci.c
+new file mode 100644
+index 0000000000..ceeaad2742
+--- /dev/null
++++ b/hw/display/vhost-user-video-pci.c
+@@ -0,0 +1,82 @@
++/*
++ * Vhost-user VIDEO virtio device PCI glue
++ *
++ * Copyright (c) 2021 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "hw/qdev-properties.h"
++#include "hw/virtio/vhost-user-video.h"
++#include "hw/virtio/virtio-pci.h"
++
++struct VHostUserVIDEOPCI {
++    VirtIOPCIProxy parent_obj;
++    VHostUserVIDEO vdev;
++};
++
++typedef struct VHostUserVIDEOPCI VHostUserVIDEOPCI;
++
++#define TYPE_VHOST_USER_VIDEO_PCI "vhost-user-video-pci-base"
++
++#define VHOST_USER_VIDEO_PCI(obj) \
++        OBJECT_CHECK(VHostUserVIDEOPCI, (obj), TYPE_VHOST_USER_VIDEO_PCI)
++
++static Property vuvideo_pci_properties[] = {
++    DEFINE_PROP_BIT("ioeventfd", VirtIOPCIProxy, flags,
++                    VIRTIO_PCI_FLAG_USE_IOEVENTFD_BIT, true),
++    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
++                       DEV_NVECTORS_UNSPECIFIED),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void vuvideo_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
++{
++    VHostUserVIDEOPCI *dev = VHOST_USER_VIDEO_PCI(vpci_dev);
++    DeviceState *vdev = DEVICE(&dev->vdev);
++
++    if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
++        vpci_dev->nvectors = 1;
++    }
++
++    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus), errp);
++    object_property_set_bool(OBJECT(vdev), "realized", true, errp);
++}
++
++static void vuvideo_pci_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
++    PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
++    k->realize = vuvideo_pci_realize;
++    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
++    device_class_set_props(dc, vuvideo_pci_properties);
++    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
++    pcidev_k->device_id = 0; /* Set by virtio-pci based on virtio id */
++    pcidev_k->revision = 0x00;
++    pcidev_k->class_id = PCI_CLASS_STORAGE_OTHER;
++}
++
++static void vuvideo_pci_instance_init(Object *obj)
++{
++    VHostUserVIDEOPCI *dev = VHOST_USER_VIDEO_PCI(obj);
++
++    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
++                                TYPE_VHOST_USER_VIDEO);
++}
++
++static const VirtioPCIDeviceTypeInfo vuvideo_pci_info = {
++    .base_name             = TYPE_VHOST_USER_VIDEO_PCI,
++    .non_transitional_name = "vhost-user-video-pci",
++    .instance_size = sizeof(VHostUserVIDEOPCI),
++    .instance_init = vuvideo_pci_instance_init,
++    .class_init    = vuvideo_pci_class_init,
++};
++
++static void vuvideo_pci_register(void)
++{
++    virtio_pci_types_register(&vuvideo_pci_info);
++}
++
++type_init(vuvideo_pci_register);
 -- 
 2.25.1
 
