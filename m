@@ -2,75 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D038546F4EC
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 21:29:29 +0100 (CET)
-Received: from localhost ([::1]:59040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 345B946F6D3
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 23:28:55 +0100 (CET)
+Received: from localhost ([::1]:60966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvQ2i-00059o-EM
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 15:29:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41010)
+	id 1mvRuE-00015U-S0
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 17:28:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mvQ1e-0004Sr-56
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 15:28:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29709)
+ (Exim 4.90_1) (envelope-from
+ <BATV+7040f1d0de1ffd82a4fb+6682+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1mvRbA-0003rm-RT
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 17:09:08 -0500
+Received: from desiato.infradead.org ([90.155.92.199]:34186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mvQ1b-0005iF-Ey
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 15:28:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639081698;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=A5PiyoFm3Pe2YsGUClI92aeTooKbhnpiAtwFQfnHpwo=;
- b=it4SY8PvCYECGay21fZLLR3/w1JJ22j+rGaAVJn0YDoXtqBuBtlhcLsIYoLNg1Qug07bYJ
- 4ajFyeyfy56CzzGBo8BwtTpClUQTUCEipoL+tfuGNHMaZkY9YFJEhfXJIJTcN86athwj8a
- E2CsQcZdSx6pCs4Jlzr9TLcqij6NKwE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-464-0WagGa9jP6WZaHxm6HJKXw-1; Thu, 09 Dec 2021 15:28:09 -0500
-X-MC-Unique: 0WagGa9jP6WZaHxm6HJKXw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36CC710144E2;
- Thu,  9 Dec 2021 20:28:08 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 29EA05E24E;
- Thu,  9 Dec 2021 20:28:05 +0000 (UTC)
-Date: Thu, 9 Dec 2021 20:28:03 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Mark Burton <mark.burton@greensocs.com>
-Subject: Re: Redesign of QEMU startup & initial configuration
-Message-ID: <YbJm0+gK/iLsaBsb@redhat.com>
-References: <87lf13cx3x.fsf@dusky.pond.sub.org> <YbJU5vVdesoGuug9@redhat.com>
- <CE6F7A66-A5B9-45CA-9E9D-C8AFFB2976D5@greensocs.com>
+ (Exim 4.90_1) (envelope-from
+ <BATV+7040f1d0de1ffd82a4fb+6682+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1mvRb5-0002cb-98
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 17:09:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=aF2VJz818y4HgBgf3CkuDSyw9YreBIt/kI+rCIY9Axk=; b=pd83DsM8isN2L7/F5QSmaEuF8w
+ Cb72uwtBkx3wLjoJxWtntmtw3vlWCIQD3LoMV3uZkgm5+D45etOzfA7zmbtGEqdFyCMyAm0S+I7Vr
+ b+bMWQr4naWZOfB6WQ9UzAtcCqasZdd3muv8LHwnS9AoaIN4AZ4m0lluZx1QMA+eSTCEimtM6Ervu
+ 8TG+R81UWgdBwL8ATQ27MndeLeU9tai/Eg8EP8i1ouSbEwd8STErcItqyiQTO9y4QEJe960w11DcP
+ RbSVgEGQtk2nEN+UAEAmpq3d5AHOxBUn9bafB+bDbmRCU/mv/98/VJZl7dX1XGLRGAUGwtuJq4QIt
+ i6Th7hDg==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mvRaj-000RNe-Aq; Thu, 09 Dec 2021 22:08:50 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1mvRai-0003su-UJ; Thu, 09 Dec 2021 22:08:40 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 1/4] target/i386: Fix sanity check on max APIC ID / X2APIC
+ enablement
+Date: Thu,  9 Dec 2021 22:08:37 +0000
+Message-Id: <20211209220840.14889-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <CE6F7A66-A5B9-45CA-9E9D-C8AFFB2976D5@greensocs.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.618,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=90.155.92.199;
+ envelope-from=BATV+7040f1d0de1ffd82a4fb+6682+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,54 +69,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+Cc: Eduardo Habkost <eduardo@habkost.net>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 09, 2021 at 09:01:24PM +0100, Mark Burton wrote:
-> I’ll take the liberty to cut one part (I agree with much of what you say elsewhere)
-> 
-> > On 9 Dec 2021, at 20:11, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > 
-> > As illustrated earlier, I'd really like us to consider being a bit
-> > more adventurous on the CLI side. I'm convinced that a CLI for
-> > directly configurable hardware is doomed to be horrible no matter
-> > what, if you try to directly expose all QAPI configuration
-> > flexibilty. Whether key/value, JSON, whatever, it will become
-> > unmanagable on the CLI because VM hardware config is inherantly
-> > complicated.
-> > 
-> 
-> I absolutely agree, but reach a slightly different conclusion
-> 
-> > Thus my though that config files or QMP should be the only two
-> > places where the full power of QAPI config is exposed. Use CLI
-> > as just a way to interact with config files in a simple way
-> > with templates.
-> 
-> I would countenance that we choose only one place to ‘support’ an interface. Either “Yet Another Hardware Configuration Language” or QAPI. Rather than re-inventing that wheel I would simply suggest that we leave that to the relevant ‘user’ community (libvirt, whatever), who have specific requirements and/or existing solutions. Leaving QEMU itself to focus on improving QAPI (and migrating the CLI). 
+The check on x86ms->apic_id_limit in pc_machine_done() had two problems.
 
-Yes, indeed, the logical extension of my idea is that the 'simple'
-CLI + templating thing doesn't atually have to be in the main QEMU
-binary at all. We could in fact ship a bare '/usr/bin/qemu' which
-does the config file templating and spawns whatever full QEMU
-binary (/usr/bin/qemu-system-blah) does the real VM.  The key is
-just that we have something simple for users, who don't want a
-full mgmt layer and like the historical QEMU simple configs.
+Firstly, we need KVM to support the X2APIC API in order to allow IRQ
+delivery to APICs >= 255. So we need to call/check kvm_enable_x2apic(),
+which was done elsewhere in *some* cases but not all.
 
+Secondly, microvm needs the same check. So move it from pc_machine_done()
+to x86_cpus_init() where it will work for both.
 
-Regards,
-Daniel
+The check in kvm_cpu_instance_init() is now redundant and can be dropped.
+
+Signed-off-by: David Woodhouse <dwmw2@infradead.org>
+Acked-by: Claudio Fontana <cfontana@suse.de>
+---
+ hw/i386/pc.c              |  8 --------
+ hw/i386/x86.c             | 16 ++++++++++++++++
+ target/i386/kvm/kvm-cpu.c |  2 +-
+ 3 files changed, 17 insertions(+), 9 deletions(-)
+
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index a2ef40ecbc..9959f93216 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -736,14 +736,6 @@ void pc_machine_done(Notifier *notifier, void *data)
+         /* update FW_CFG_NB_CPUS to account for -device added CPUs */
+         fw_cfg_modify_i16(x86ms->fw_cfg, FW_CFG_NB_CPUS, x86ms->boot_cpus);
+     }
+-
+-
+-    if (x86ms->apic_id_limit > 255 && !xen_enabled() &&
+-        !kvm_irqchip_in_kernel()) {
+-        error_report("current -smp configuration requires kernel "
+-                     "irqchip support.");
+-        exit(EXIT_FAILURE);
+-    }
+ }
+ 
+ void pc_guest_info_init(PCMachineState *pcms)
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index b84840a1bb..f64639b873 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -39,6 +39,7 @@
+ #include "sysemu/replay.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/cpu-timers.h"
++#include "sysemu/xen.h"
+ #include "trace.h"
+ 
+ #include "hw/i386/x86.h"
+@@ -136,6 +137,21 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+      */
+     x86ms->apic_id_limit = x86_cpu_apic_id_from_index(x86ms,
+                                                       ms->smp.max_cpus - 1) + 1;
++
++    /*
++     * Can we support APIC ID 255 or higher?
++     *
++     * Under Xen: yes.
++     * With userspace emulated lapic: no
++     * With KVM's in-kernel lapic: only if X2APIC API is enabled.
++     */
++    if (x86ms->apic_id_limit > 255 && !xen_enabled() &&
++        (!kvm_irqchip_in_kernel() || !kvm_enable_x2apic())) {
++        error_report("current -smp configuration requires kernel "
++                     "irqchip and X2APIC API support.");
++        exit(EXIT_FAILURE);
++    }
++
+     possible_cpus = mc->possible_cpu_arch_ids(ms);
+     for (i = 0; i < ms->smp.cpus; i++) {
+         x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
+diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
+index d95028018e..c60cb2dafb 100644
+--- a/target/i386/kvm/kvm-cpu.c
++++ b/target/i386/kvm/kvm-cpu.c
+@@ -165,7 +165,7 @@ static void kvm_cpu_instance_init(CPUState *cs)
+         /* only applies to builtin_x86_defs cpus */
+         if (!kvm_irqchip_in_kernel()) {
+             x86_cpu_change_kvm_default("x2apic", "off");
+-        } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
++        } else if (kvm_irqchip_is_split()) {
+             x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
+         }
+ 
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.31.1
 
 
