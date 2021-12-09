@@ -2,71 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BF046EB11
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 16:23:25 +0100 (CET)
-Received: from localhost ([::1]:56424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C68046EB1C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 16:26:04 +0100 (CET)
+Received: from localhost ([::1]:35112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvLGW-0006tw-LK
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 10:23:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39320)
+	id 1mvLJ5-000335-Mi
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 10:26:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mvLEx-0005KP-Gx
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 10:21:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33770)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1mvLFT-0006Ir-VW; Thu, 09 Dec 2021 10:22:24 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mvLEr-0000O3-RP
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 10:21:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639063301;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NleFn46vLgnZVZBBV75dK3g+gTfMwS93mNu5jXTZBsI=;
- b=S8qgBj3HRr2TlXAqNHwb364XFqiNvC3vur6gkVHGywx43CV1qNkUg1QL2HgILJk71wzqtF
- z+XiG56rhoXH2MbnRzmP90Y83HzsLzH4D6t6M81ncs6XWKAf/PArk1pOAK3v4TMaA1u148
- +6wntdTJzfsBnLa3bc4EUwuy8CWoeGs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-375-rTIw1VkYM52ENzn5ahjCjA-1; Thu, 09 Dec 2021 10:21:38 -0500
-X-MC-Unique: rTIw1VkYM52ENzn5ahjCjA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 185D485EE60;
- Thu,  9 Dec 2021 15:21:37 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BCE1119C59;
- Thu,  9 Dec 2021 15:21:33 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 1/1] block/nvme: fix infinite loop in nvme_free_req_queue_cb()
-Date: Thu,  9 Dec 2021 15:21:17 +0000
-Message-Id: <20211209152117.383832-2-stefanha@redhat.com>
-In-Reply-To: <20211209152117.383832-1-stefanha@redhat.com>
-References: <20211209152117.383832-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1mvLFP-0000QL-N5; Thu, 09 Dec 2021 10:22:18 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B9DxTwe027137; 
+ Thu, 9 Dec 2021 15:22:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=jPObpxySJ/Yy4O89rs3Biy4tMm8Ik81r1btWHNnM0KA=;
+ b=eZV4PuFweZ05B15ZuYAELssr2b59/+9Aw0lCnInKx+jzrjuHhIH/sPqwEPN8xKE267Vo
+ roHgrQpz7/0QpHgk5x7TfVd74cpyUQspQSdtIvWPf6xtfpRRtjOtDoqv3B7N61SIuYiK
+ Wo1FJDvXO98ZnmP/t6HJsLxknYl94EcmY0LaSVwOo+ZsYQx2oUlfobTULLTXEIKlaI4H
+ 8Eu+liusKURIp1bIpMi2WBcDGxofjiQiB7Jyt8BXVKCcaNhRiZRt/OdWTPWdCuKI45Nd
+ hnN6FjzU9wxnMaPt9RzWjg4LOvWr44jvQY2KbGwF8THgZFxKJVdJ0dJGA34btIUbMGme ag== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cuk5ka1j5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Dec 2021 15:22:07 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B9EM1P1030743;
+ Thu, 9 Dec 2021 15:22:07 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cuk5ka1hk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Dec 2021 15:22:06 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B9FCEEE021814;
+ Thu, 9 Dec 2021 15:22:06 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma04dal.us.ibm.com with ESMTP id 3cqyyca9ba-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Dec 2021 15:22:06 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B9FM4ht29163934
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 9 Dec 2021 15:22:04 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B0C3EAC065;
+ Thu,  9 Dec 2021 15:22:04 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B0454AC066;
+ Thu,  9 Dec 2021 15:22:03 +0000 (GMT)
+Received: from localhost (unknown [9.163.12.190])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Thu,  9 Dec 2021 15:22:03 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] target/ppc: powerpc_excp: Guard ALIGNMENT interrupt
+ with CONFIG_TCG
+In-Reply-To: <62461e08-a5ef-f39c-3b7a-3a9426c1b11a@redhat.com>
+References: <20211208230650.2125095-1-farosas@linux.ibm.com>
+ <62461e08-a5ef-f39c-3b7a-3a9426c1b11a@redhat.com>
+Date: Thu, 09 Dec 2021 12:22:01 -0300
+Message-ID: <87lf0t6bxi.fsf@linux.ibm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.618,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: gwg_ikIM4WEKrJRA5qG4iDnhOvkW_72U
+X-Proofpoint-GUID: d9atizlv_rnWl2UHN6Gs5nDFsynf3IFu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-09_06,2021-12-08_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ mlxlogscore=999 malwarescore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 adultscore=0 impostorscore=0 suspectscore=0
+ priorityscore=1501 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2112090082
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,64 +109,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the request free list is exhausted the coroutine waits on
-q->free_req_queue for the next free request. Whenever a request is
-completed a BH is scheduled to invoke nvme_free_req_queue_cb() and wake
-up waiting coroutines.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-1. nvme_get_free_req() waits for a free request:
+> On 12/9/21 00:06, Fabiano Rosas wrote:
+>> We cannot have TCG code in powerpc_excp because the function is called
+>> from kvm-only code via ppc_cpu_do_interrupt:
+>>=20
+>>  ../target/ppc/excp_helper.c:463:29: error: implicit declaration of
+>>  function =E2=80=98cpu_ldl_code=E2=80=99 [-Werror=3Dimplicit-function-de=
+claration]
+>>=20
+>> Fortunately, the Alignment interrupt is not among the ones dispatched
+>> from kvm-only code, so we can keep it out of the disable-tcg build for
+>> now.
+>>=20
+>> Fixes: 336e91f853 ("target/ppc: Move SPR_DSISR setting to powerpc_excp")
+>> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+>>=20
+>> ---
+>>=20
+>> Perhaps we could make powerpc_excp TCG only and have a separate
+>> function that only knows the two interrupts that we use with KVM
+>> (Program, Machine check). But for now this fix will do, I think.
+>
+> If KVM only uses 2 exception vectors, you could guard the
+> enum in target/ppc/cpu.h using #ifdef'ry. While making the
+> include uglier, it will helps to catch vector misused at
+> compile time.
 
-    while (q->free_req_head == -1) {
-        ...
-            trace_nvme_free_req_queue_wait(q->s, q->index);
-            qemu_co_queue_wait(&q->free_req_queue, &q->lock);
-        ...
-    }
+Yes, good point.
 
-2. nvme_free_req_queue_cb() wakes up the coroutine:
+I just noticed that we also use System Reset with KVM. The other two are
+kvm-only, but this one is in code shared with TCG, so it will need a bit
+more work to disentangle. But should still be doable.
 
-    while (qemu_co_enter_next(&q->free_req_queue, &q->lock)) {
-       ^--- infinite loop when free_req_head == -1
-    }
-
-nvme_free_req_queue_cb() and the coroutine form an infinite loop when
-q->free_req_head == -1. Fix this by checking q->free_req_head in
-nvme_free_req_queue_cb(). If the free request list is exhausted, don't
-wake waiting coroutines. Eventually an in-flight request will complete
-and the BH will be scheduled again, guaranteeing forward progress.
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20211208152246.244585-1-stefanha@redhat.com
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/nvme.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/block/nvme.c b/block/nvme.c
-index e4f336d79c..fa360b9b3c 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -206,8 +206,9 @@ static void nvme_free_req_queue_cb(void *opaque)
-     NVMeQueuePair *q = opaque;
- 
-     qemu_mutex_lock(&q->lock);
--    while (qemu_co_enter_next(&q->free_req_queue, &q->lock)) {
--        /* Retry all pending requests */
-+    while (q->free_req_head != -1 &&
-+           qemu_co_enter_next(&q->free_req_queue, &q->lock)) {
-+        /* Retry waiting requests */
-     }
-     qemu_mutex_unlock(&q->lock);
- }
--- 
-2.33.1
-
+>> ---
+>>  target/ppc/excp_helper.c | 2 ++
+>>  1 file changed, 2 insertions(+)
 
