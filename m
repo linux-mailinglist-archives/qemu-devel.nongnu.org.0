@@ -2,70 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DED546E55F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 10:18:59 +0100 (CET)
-Received: from localhost ([::1]:45122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB6E46E5A6
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 10:33:17 +0100 (CET)
+Received: from localhost ([::1]:36526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvFZq-0003F5-Ep
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 04:18:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41480)
+	id 1mvFng-0000Ap-39
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 04:33:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mvFY9-0001PF-UZ
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 04:17:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38831)
+ (Exim 4.90_1) (envelope-from <oro@il.ibm.com>)
+ id 1mvFjD-0005b1-FU; Thu, 09 Dec 2021 04:28:39 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mvFY7-0004Jg-NU
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 04:17:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639041430;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DfW+JGNGe8VUDhw272aR4Nbz1dxQTme/hzDCF9gzksA=;
- b=FlJpocn5nRao7aDud71EeDmftVmfJTBPLuKg0C5NdWnhLuHd+rObmOdHj4TCCaLIdNHTuR
- Xopg3KHiF9kyFdLpd0KX1kGqA40GNX3u49CEfy85Oth3MGBokKU+Z8Z2xfiZ7LU4MEh4+Q
- c9Tpzkrdy4yYjxqXKMkRZmc1iofkW+Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-527-198VWEzUPEGmrITdHck_YA-1; Thu, 09 Dec 2021 04:17:05 -0500
-X-MC-Unique: 198VWEzUPEGmrITdHck_YA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E477F81CCB4;
- Thu,  9 Dec 2021 09:17:03 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 06B3410016F5;
- Thu,  9 Dec 2021 09:16:59 +0000 (UTC)
-Date: Thu, 9 Dec 2021 09:16:58 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Longpeng(Mike)" <longpeng2@huawei.com>
-Subject: Re: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
-Message-ID: <YbHJivhCDvKo4eB0@stefanha-x1.localdomain>
-References: <20211208052010.1719-1-longpeng2@huawei.com>
+ (Exim 4.90_1) (envelope-from <oro@il.ibm.com>)
+ id 1mvFjB-0006OT-Ho; Thu, 09 Dec 2021 04:28:39 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B97SZnx027687; 
+ Thu, 9 Dec 2021 09:28:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=CERrMKld2g3smjjfVP4uoYpCJbF+hDBnNRLMHsOK1a8=;
+ b=OUQRddJQfz2J7OXqlsFSYrEr/d5SCCZo9NmhgBkrmjZDyc9i+RlZXZvcRioCjsVsSqLJ
+ Ikk0NBDAHbDkJ4ZGjmOvR6ur6DZq1/7HsKvqNMuQ+JIJ0UvR6fmoYbT5+wSdVJUH0+DD
+ 2o4ik9L8IMI7jZIxOspjiRXPbH8rW8nYbRKT1dNoF/birHSEC2biW9hU1KDysxrod/MT
+ U8stuXvBuJ6XEF7Nht8sGBcvIzL1mmc2CGSroekdaeYS60ankDpBTDijfoZTqYdgIp4f
+ EpHq1RGVQ1cvvYdXIuLwmUXOoYPU0vNUtfh/g1Vc1/mwXy+4f6NP72YMkMOcLiLv4Bn0 Ig== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cudept8a1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Dec 2021 09:28:33 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B99JKg4027681;
+ Thu, 9 Dec 2021 09:28:33 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cudept89r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Dec 2021 09:28:33 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B99RxaG003701;
+ Thu, 9 Dec 2021 09:28:32 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma05wdc.us.ibm.com with ESMTP id 3cqyybm9ev-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Dec 2021 09:28:32 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B99SUPj28770646
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 9 Dec 2021 09:28:30 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0F40528083;
+ Thu,  9 Dec 2021 09:28:30 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6E37F28067;
+ Thu,  9 Dec 2021 09:28:29 +0000 (GMT)
+Received: from oro.sl.cloud9.ibm.com (unknown [9.59.192.176])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu,  9 Dec 2021 09:28:29 +0000 (GMT)
+From: Or Ozeri <oro@il.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 0/1] virtio-block: switch to blk_get_max_hw_transfer
+Date: Thu,  9 Dec 2021 03:28:14 -0600
+Message-Id: <20211209092815.778066-1-oro@il.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211208052010.1719-1-longpeng2@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HXTbTWR+PQwj5wCK"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.618,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 5ev5UaHt0BM1EtZOOh0uIlEhyuEHnEDP
+X-Proofpoint-GUID: ms27Ib3Jweye5eW5QYBnaHzCmUd2gBjw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-09_04,2021-12-08_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 suspectscore=0
+ lowpriorityscore=0 priorityscore=1501 mlxlogscore=906 phishscore=0
+ spamscore=0 clxscore=1011 adultscore=0 impostorscore=0 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112090045
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=oro@il.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,86 +103,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org,
- yechuan@huawei.com, xieyongji@bytedance.com, arei.gonglei@huawei.com,
- parav@nvidia.com, sgarzare@redhat.com
+Cc: dupadhya@redhat.com, oro@il.ibm.com, to.my.trociny@gmail.com,
+ qemu-block@nongnu.org, dannyh@il.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---HXTbTWR+PQwj5wCK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Since moving to qemu 6.1.0 we've been seeing disk failures inside a qemu guest VM.
+This happened when using if=virtio on a host /dev/nbdX device.
+Binary searching on qemu commit history, I found these errors start on this commit:
 
-On Wed, Dec 08, 2021 at 01:20:10PM +0800, Longpeng(Mike) wrote:
-> From: Longpeng <longpeng2@huawei.com>
->=20
-> Hi guys,
->=20
-> This patch introduces vhost-vdpa-net device, which is inspired
-> by vhost-user-blk and the proposal of vhost-vdpa-blk device [1].
->=20
-> I've tested this patch on Huawei's offload card:
-> ./x86_64-softmmu/qemu-system-x86_64 \
->     -device vhost-vdpa-net-pci,vdpa-dev=3D/dev/vhost-vdpa-0
->=20
-> For virtio hardware offloading, the most important requirement for us
-> is to support live migration between offloading cards from different
-> vendors, the combination of netdev and virtio-net seems too heavy, we
-> prefer a lightweight way.
->=20
-> Maybe we could support both in the future ? Such as:
->=20
-> * Lightweight
->  Net: vhost-vdpa-net
->  Storage: vhost-vdpa-blk
->=20
-> * Heavy but more powerful
->  Net: netdev + virtio-net + vhost-vdpa
->  Storage: bdrv + virtio-blk + vhost-vdpa
->=20
-> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg797569.html
+Commit 18473467
+file-posix: try BLKSECTGET on block devices too, do not round to power of 2
 
-Stefano presented a plan for vdpa-blk at KVM Forum 2021:
-https://kvmforum2021.sched.com/event/ke3a/vdpa-blk-unified-hardware-and-sof=
-tware-offload-for-virtio-blk-stefano-garzarella-red-hat
+The above commit switched posix block device limits (including host /dev/nbdX devices)
+to query limits from /sys/dev/block/..., instead of using predefined limits.
 
-It's closer to today's virtio-net + vhost-net approach than the
-vhost-vdpa-blk device you have mentioned. The idea is to treat vDPA as
-an offload feature rather than a completely separate code path that
-needs to be maintained and tested. That way QEMU's block layer features
-and live migration work with vDPA devices and re-use the virtio-blk
-code. The key functionality that has not been implemented yet is a "fast
-path" mechanism that allows the QEMU virtio-blk device's virtqueue to be
-offloaded to vDPA.
+The scsi-generic driver was changed to use the queried limits,
+whereas the virtio-blk driver was only the queried max_iov,
+but still using the predefined max_transfer, which is unlimited in qemu.
 
-The unified vdpa-blk architecture should deliver the same performance
-as the vhost-vdpa-blk device you mentioned but with more features, so I
-wonder what aspects of the vhost-vdpa-blk idea are important to you?
+For NBD devices, max_iov is unlimited by the kernel nbd driver.
+As as consequence, the virtio-blk merged requests over the limit of our host /dev/nbdX device,
+which apparently caused the guest disk errors.
 
-QEMU already has vhost-user-blk, which takes a similar approach as the
-vhost-vdpa-blk device you are proposing. I'm not against the
-vhost-vdpa-blk approach in priciple, but would like to understand your
-requirements and see if there is a way to collaborate on one vdpa-blk
-implementation instead of dividing our efforts between two.
+The solution that worked for me was to change the virtio-blk driver to use the max_transfer
+limit queried from the posix host device (given by blk_get_max_hw_transfer).
 
-Stefan
+Or Ozeri (1):
+  virtio-block: switch to blk_get_max_hw_transfer
 
---HXTbTWR+PQwj5wCK
-Content-Type: application/pgp-signature; name="signature.asc"
+ hw/block/virtio-blk.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmGxyYoACgkQnKSrs4Gr
-c8iziwgAtVAXiCBh7iqmWDgh4bbo3zgFm809qWf5/UzHRs2zABLZRQSBIYX+VbX7
-6W+PXEmk4ZyQr2IKrj4Xmxd7QJP9MgyEhYZ/lOZcpCaamfcbjcdzaod/nOhlK61l
-/3nOJ++yS9UvFYSqDJ7TR7mT+K9BzXJr8wDYiaSyrsAngpSBKYq70/RHwbaLhMc5
-1bo+punMWN12M7ix9gUWUEpI99BCOmFk6m6PR+GElcJhgB4z1gO3HwILrORB2JcN
-EmROzGMGYv+G5NbR1e13gSSspWyhE+h7NLvWIbWsjsa9NAvazjqcPaUvMVHts2H5
-a+YKuzuGUT19KrNRqFHVQZ1VL2Pzlw==
-=AW0a
------END PGP SIGNATURE-----
-
---HXTbTWR+PQwj5wCK--
+-- 
+2.25.1
 
 
