@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E56F46E25C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 07:19:04 +0100 (CET)
-Received: from localhost ([::1]:46118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E977C46E293
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 07:34:45 +0100 (CET)
+Received: from localhost ([::1]:50604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvClh-0003da-Mf
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 01:19:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47676)
+	id 1mvD0u-0007W3-DK
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 01:34:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mvCi2-0002bN-2g
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 01:15:14 -0500
-Received: from [2a00:1450:4864:20::32a] (port=44990
- helo=mail-wm1-x32a.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mvCwC-0005wg-AS
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 01:29:52 -0500
+Received: from [2a00:1450:4864:20::535] (port=37716
+ helo=mail-ed1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mvChx-0003I5-Nc
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 01:15:13 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- p27-20020a05600c1d9b00b0033bf8532855so3277746wms.3
- for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 22:15:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mvCw8-0001ND-W6
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 01:29:52 -0500
+Received: by mail-ed1-x535.google.com with SMTP id e3so16136248edu.4
+ for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 22:29:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LgJGzUf2Gs7UblxasKc0SI5VRXNyeX55JAVlRcbi7m4=;
- b=r1VAgkbuiLflO1nH0CuU+bsqv5nMdWYU7wJpN2R9tiQ6na33liPm/eF4LoPpqMH388
- PWw1QS0cYrXhuV5kRplX5+eAUX/ejSD2pXWNcHwLMPONuRbemdlSvkhCxNnyaIRFcMzC
- qUehy4jhe1QNRC+oS2Nm6/mhVrUCHYHqIoeEMzeV+nJfCNFOIfnieUNLiuOfpO6t7p6j
- ZWTtwsvOqxgxP5XMJTT1Mh25YhN+++n951OCrTm30Mbc5mzWgbOONOu9L+Ri3c/6D7hX
- uoZnCZ+0l36gAmr3p/NQCO0DN2IRkKSDCPIlHbhpdDWegUtc0XnRrAue8+/WidCOuF6G
- /GaA==
+ :cc; bh=Fcq262YFBOpswzz1lJ70CDwiA15rbulyQpy+BnfkjYM=;
+ b=ukID5QVzfqqcYOwk7Y0Yw+mgchx5FFnHGZkmd4Wxz+nVmQQNt6U6S2YHfJODQK/d8Q
+ qqSLT7SxX+NsgYvxQ6is3SwHm6vyfe6Dx5tf7w3LbMVZp3UUoAsm1PEAD6DIAE9FXXCq
+ o2iIofSlRgQeHc0A6GukHaDMbxpw5uGIWovgt8DC7+6rk2icAZbHAWGN3kqwVUfzdWIC
+ U6niKITAsKCxY7haEV7lwWX/6hgVuhwRlKiUmqF2e0uDmUqxKIdvV1B6rpRXhZMTTv74
+ BUpg5IQUETINcnyZI+0QOX3orDFSLCnqKKTzH2gC4psvvW/GC04LINQAQOzoqcDYSd5d
+ IhnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LgJGzUf2Gs7UblxasKc0SI5VRXNyeX55JAVlRcbi7m4=;
- b=qfxUseVkiOuEFCUFFx2E/5UtVCyahqFRBtmsPj3BtCgEn6EItgVwOMN9T6tNB9I3wJ
- chr5PDie8wucLmmRbqs4bh01L+VyZecZlCBFtFww4h9JKbhIYlmVJWGC50d+yyN+CYon
- 9JwZxnCXcrk/g6jsFKZ7IYZOpUBWrHsbpLh4h0BIkx7vUfoh0PFnIDhFlUCvnPbxE/1p
- Mpi5b2S3q8Ls1JBDjMZ4x7w947aq65As4QWM6nAnxK0lRGKgwo3EA8+hzhysuu4ricPe
- XmGWaq1A2ivRVf7cW1Bke4Yq2/9BNECVgAOWhBwFSUCYJD9cpOLs7/8nwnnmrXmI7e/w
- YGDQ==
-X-Gm-Message-State: AOAM5338JS0ov1v0n+s5AnE3Pn+ZGgTPi4MSuJCUBg8np7aiwKTBm3hN
- 1RjnhoXa9FRQhbQOjtUfz05J9914URo7Jp+A7eA1Lw==
-X-Google-Smtp-Source: ABdhPJzgJA0Hrw2BPKGc3R5XajN0fN6hdMwgaH2pF1akO+fyN3khZOQ4dyhdhAVGNQKb7H3t3VSTH9EhiGyZY9+qnUQ=
-X-Received: by 2002:a7b:c7cd:: with SMTP id z13mr4642399wmk.59.1639030507178; 
- Wed, 08 Dec 2021 22:15:07 -0800 (PST)
+ bh=Fcq262YFBOpswzz1lJ70CDwiA15rbulyQpy+BnfkjYM=;
+ b=SINyiAxV4WEHe2qD2DcPow6XG/ASU3ihkXhBSOK6FtDP0xZbHP1kTX3tM6MT/hfCuV
+ uh2XWDqfW3Zh0XCGujPxtKfmZM31XOoD8oc6I+xRt3hlBctyM8E7Hb2rP7m6Pos/FEW/
+ 2+sgxTfuwaopMO7qzBuJtkhMXV+BXqd2CLAyM31nUyNqSyTlWXtSTZXY7Qv2uHAWgxAy
+ LIpinFtV8Cja9KY8nS4k7fzVeBFqiJMuaYi5AbmqC1976QzWmbraL+ts6jV73nvzqHQ8
+ ZdNKwDlMTWB6nTik+8SttLC9+z/y2uAGVCNiZc3flE5p6fhxjPXrTg9OzfLZ4BhufW+M
+ 47ow==
+X-Gm-Message-State: AOAM532vx/jfjvt9BHxC8vdUEQjRWVYNqonSQxc+CIImo3flegxDhjPk
+ Pe5Jd15aIe/VGvE9re6+atWnjiHbub68j4ghGK151Q==
+X-Google-Smtp-Source: ABdhPJy73wOMbAtiCjxycPYEbN5rSnNbpL4GmcXMBsY7dI2m3qFIlrGuEYfpwnz1P5EbB4sJS7S/ibCHn2xSJcwE8Ss=
+X-Received: by 2002:a17:906:dc91:: with SMTP id
+ cs17mr13311876ejc.461.1639031387103; 
+ Wed, 08 Dec 2021 22:29:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20211026064227.2014502-1-anup.patel@wdc.com>
- <20211026064227.2014502-11-anup.patel@wdc.com>
- <CAKmqyKOzBa8Bu13=K=0v_MLjY2Pm6BAtEuJ5SDBuRAwEqbRstA@mail.gmail.com>
-In-Reply-To: <CAKmqyKOzBa8Bu13=K=0v_MLjY2Pm6BAtEuJ5SDBuRAwEqbRstA@mail.gmail.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Thu, 9 Dec 2021 11:44:55 +0530
-Message-ID: <CAAhSdy0D3xtd1FV=61STDyvfjKx3gK4xm7ax7Zcn-Fgh7caYNA@mail.gmail.com>
-Subject: Re: [PATCH v4 10/22] target/riscv: Implement AIA CSRs for 64 local
- interrupts on RV32
-To: Alistair Francis <alistair23@gmail.com>
+References: <1638472142-14396-1-git-send-email-eric.devolder@oracle.com>
+ <1638472142-14396-6-git-send-email-eric.devolder@oracle.com>
+In-Reply-To: <1638472142-14396-6-git-send-email-eric.devolder@oracle.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Thu, 9 Dec 2021 11:59:35 +0530
+Message-ID: <CAARzgwzPQ-B-BfP4zejd2a9O_CsgfJj-RyVx0V3-v2HphOKDTQ@mail.gmail.com>
+Subject: Re: [PATCH v9 05/10] ACPI ERST: support for ACPI ERST feature
+To: Eric DeVolder <eric.devolder@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::32a;
- envelope-from=anup@brainfault.org; helo=mail-wm1-x32a.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::535;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -84,911 +80,946 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 4, 2021 at 10:13 AM Alistair Francis <alistair23@gmail.com> wrote:
+On Fri, Dec 3, 2021 at 12:39 AM Eric DeVolder <eric.devolder@oracle.com> wrote:
 >
-> On Tue, Oct 26, 2021 at 5:10 PM Anup Patel <anup.patel@wdc.com> wrote:
-> >
-> > The AIA specification adds new CSRs for RV32 so that RISC-V hart can
-> > support 64 local interrupts on both RV32 and RV64.
-> >
-> > Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> > ---
-> >  target/riscv/cpu.h        |  14 +-
-> >  target/riscv/cpu_helper.c |  10 +-
-> >  target/riscv/csr.c        | 560 +++++++++++++++++++++++++++++++-------
-> >  target/riscv/machine.c    |  10 +-
-> >  4 files changed, 474 insertions(+), 120 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index c47e57efc8..718a95e864 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -159,12 +159,12 @@ struct CPURISCVState {
-> >       */
-> >      uint64_t mstatus;
-> >
-> > -    target_ulong mip;
-> > +    uint64_t mip;
-> >
-> > -    uint32_t miclaim;
-> > +    uint64_t miclaim;
-> >
-> > -    target_ulong mie;
-> > -    target_ulong mideleg;
-> > +    uint64_t mie;
-> > +    uint64_t mideleg;
-> >
-> >      target_ulong satp;   /* since: priv-1.10.0 */
-> >      target_ulong stval;
-> > @@ -186,7 +186,7 @@ struct CPURISCVState {
-> >      /* Hypervisor CSRs */
-> >      target_ulong hstatus;
-> >      target_ulong hedeleg;
-> > -    target_ulong hideleg;
-> > +    uint64_t hideleg;
-> >      target_ulong hcounteren;
-> >      target_ulong htval;
-> >      target_ulong htinst;
-> > @@ -399,8 +399,8 @@ void riscv_cpu_list(void);
-> >  #ifndef CONFIG_USER_ONLY
-> >  bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
-> >  void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env);
-> > -int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts);
-> > -uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value);
-> > +int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint64_t interrupts);
-> > +uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value);
-> >  #define BOOL_TO_MASK(x) (-!!(x)) /* helper for riscv_cpu_update_mip value */
-> >  void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
-> >                               uint32_t arg);
-> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > index 73ebce1efd..416b11f85c 100644
-> > --- a/target/riscv/cpu_helper.c
-> > +++ b/target/riscv/cpu_helper.c
-> > @@ -506,7 +506,7 @@ bool riscv_cpu_two_stage_lookup(int mmu_idx)
-> >      return mmu_idx & TB_FLAGS_PRIV_HYP_ACCESS_MASK;
-> >  }
-> >
-> > -int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
-> > +int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint64_t interrupts)
-> >  {
-> >      CPURISCVState *env = &cpu->env;
-> >      if (env->miclaim & interrupts) {
-> > @@ -517,11 +517,11 @@ int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
-> >      }
-> >  }
-> >
-> > -uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value)
-> > +uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
-> >  {
-> >      CPURISCVState *env = &cpu->env;
-> >      CPUState *cs = CPU(cpu);
-> > -    uint32_t gein, vsgein = 0, old = env->mip;
-> > +    uint64_t gein, vsgein = 0, old = env->mip;
-> >      bool locked = false;
-> >
-> >      if (riscv_cpu_virt_enabled(env)) {
-> > @@ -1244,7 +1244,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-> >       */
-> >      bool async = !!(cs->exception_index & RISCV_EXCP_INT_FLAG);
-> >      target_ulong cause = cs->exception_index & RISCV_EXCP_INT_MASK;
-> > -    target_ulong deleg = async ? env->mideleg : env->medeleg;
-> > +    uint64_t deleg = async ? env->mideleg : env->medeleg;
-> >      bool write_tval = false;
-> >      target_ulong tval = 0;
-> >      target_ulong htval = 0;
-> > @@ -1311,7 +1311,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-> >              cause < TARGET_LONG_BITS && ((deleg >> cause) & 1)) {
-> >          /* handle the trap in S-mode */
-> >          if (riscv_has_ext(env, RVH)) {
-> > -            target_ulong hdeleg = async ? env->hideleg : env->hedeleg;
-> > +            uint64_t hdeleg = async ? env->hideleg : env->hedeleg;
-> >
-> >              if (env->two_stage_lookup && write_tval) {
-> >                  /*
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index 7ff285282b..3a7d89ac34 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -153,6 +153,15 @@ static RISCVException any32(CPURISCVState *env, int csrno)
-> >
-> >  }
-> >
-> > +static int aia_any32(CPURISCVState *env, int csrno)
-> > +{
-> > +    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    return any32(env, csrno);
-> > +}
-> > +
-> >  static RISCVException smode(CPURISCVState *env, int csrno)
-> >  {
-> >      if (riscv_has_ext(env, RVS)) {
-> > @@ -162,6 +171,24 @@ static RISCVException smode(CPURISCVState *env, int csrno)
-> >      return RISCV_EXCP_ILLEGAL_INST;
-> >  }
-> >
-> > +static int smode32(CPURISCVState *env, int csrno)
-> > +{
-> > +    if (riscv_cpu_mxl(env) != MXL_RV32) {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    return smode(env, csrno);
-> > +}
-> > +
-> > +static int aia_smode32(CPURISCVState *env, int csrno)
-> > +{
-> > +    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    return smode32(env, csrno);
-> > +}
-> > +
-> >  static RISCVException hmode(CPURISCVState *env, int csrno)
-> >  {
-> >      if (riscv_has_ext(env, RVS) &&
-> > @@ -192,6 +219,15 @@ static RISCVException hmode32(CPURISCVState *env, int csrno)
-> >
-> >  }
-> >
-> > +static int aia_hmode32(CPURISCVState *env, int csrno)
-> > +{
-> > +    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    return hmode32(env, csrno);
-> > +}
-> > +
-> >  static RISCVException pmp(CPURISCVState *env, int csrno)
-> >  {
-> >      if (riscv_feature(env, RISCV_FEATURE_PMP)) {
-> > @@ -405,15 +441,15 @@ static RISCVException read_timeh(CPURISCVState *env, int csrno,
-> >
-> >  /* Machine constants */
-> >
-> > -#define M_MODE_INTERRUPTS  (MIP_MSIP | MIP_MTIP | MIP_MEIP)
-> > -#define S_MODE_INTERRUPTS  (MIP_SSIP | MIP_STIP | MIP_SEIP)
-> > -#define VS_MODE_INTERRUPTS (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP)
-> > -#define HS_MODE_INTERRUPTS (MIP_SGEIP | VS_MODE_INTERRUPTS)
-> > +#define M_MODE_INTERRUPTS  ((uint64_t)(MIP_MSIP | MIP_MTIP | MIP_MEIP))
-> > +#define S_MODE_INTERRUPTS  ((uint64_t)(MIP_SSIP | MIP_STIP | MIP_SEIP))
-> > +#define VS_MODE_INTERRUPTS ((uint64_t)(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP))
-> > +#define HS_MODE_INTERRUPTS ((uint64_t)(MIP_SGEIP | VS_MODE_INTERRUPTS))
-> >
-> > -static const target_ulong delegable_ints = S_MODE_INTERRUPTS |
-> > +static const uint64_t delegable_ints = S_MODE_INTERRUPTS |
-> >                                             VS_MODE_INTERRUPTS;
-> > -static const target_ulong vs_delegable_ints = VS_MODE_INTERRUPTS;
-> > -static const target_ulong all_ints = M_MODE_INTERRUPTS | S_MODE_INTERRUPTS |
-> > +static const uint64_t vs_delegable_ints = VS_MODE_INTERRUPTS;
-> > +static const uint64_t all_ints = M_MODE_INTERRUPTS | S_MODE_INTERRUPTS |
-> >                                       HS_MODE_INTERRUPTS;
-> >  #define DELEGABLE_EXCPS ((1ULL << (RISCV_EXCP_INST_ADDR_MIS)) | \
-> >                           (1ULL << (RISCV_EXCP_INST_ACCESS_FAULT)) | \
-> > @@ -662,40 +698,107 @@ static RISCVException write_medeleg(CPURISCVState *env, int csrno,
-> >      return RISCV_EXCP_NONE;
-> >  }
-> >
-> > -static RISCVException read_mideleg(CPURISCVState *env, int csrno,
-> > -                                   target_ulong *val)
-> > +static RISCVException rmw_mideleg64(CPURISCVState *env, int csrno,
-> > +                                    uint64_t *ret_val,
-> > +                                    uint64_t new_val, uint64_t wr_mask)
-> >  {
-> > -    *val = env->mideleg;
-> > -    return RISCV_EXCP_NONE;
-> > -}
-> > +    uint64_t mask = wr_mask & delegable_ints;
-> > +
-> > +    if (ret_val) {
-> > +        *ret_val = env->mideleg;
-> > +    }
-> > +
-> > +    env->mideleg = (env->mideleg & ~mask) | (new_val & mask);
-> >
-> > -static RISCVException write_mideleg(CPURISCVState *env, int csrno,
-> > -                                    target_ulong val)
-> > -{
-> > -    env->mideleg = (env->mideleg & ~delegable_ints) | (val & delegable_ints);
-> >      if (riscv_has_ext(env, RVH)) {
-> >          env->mideleg |= HS_MODE_INTERRUPTS;
-> >      }
-> > +
-> >      return RISCV_EXCP_NONE;
-> >  }
-> >
-> > -static RISCVException read_mie(CPURISCVState *env, int csrno,
-> > -                               target_ulong *val)
-> > +static RISCVException rmw_mideleg(CPURISCVState *env, int csrno,
-> > +                                  target_ulong *ret_val,
-> > +                                  target_ulong new_val, target_ulong wr_mask)
-> >  {
-> > -    *val = env->mie;
-> > -    return RISCV_EXCP_NONE;
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_mideleg64(env, csrno, &rval, new_val, wr_mask);
-> > +    if (ret_val) {
-> > +        *ret_val = rval;
-> > +    }
-> > +
-> > +    return ret;
-> >  }
-> >
-> > -static RISCVException write_mie(CPURISCVState *env, int csrno,
-> > -                                target_ulong val)
-> > +static RISCVException rmw_midelegh(CPURISCVState *env, int csrno,
-> > +                                   target_ulong *ret_val,
-> > +                                   target_ulong new_val,
-> > +                                   target_ulong wr_mask)
-> >  {
-> > -    env->mie = (env->mie & ~all_ints) | (val & all_ints);
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_mideleg64(env, csrno, &rval,
-> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-> > +    if (ret_val) {
-> > +        *ret_val = rval >> 32;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +static RISCVException rmw_mie64(CPURISCVState *env, int csrno,
-> > +                                uint64_t *ret_val,
-> > +                                uint64_t new_val, uint64_t wr_mask)
-> > +{
-> > +    uint64_t mask = wr_mask & all_ints;
-> > +
-> > +    if (ret_val) {
-> > +        *ret_val = env->mie;
-> > +    }
-> > +
-> > +    env->mie = (env->mie & ~mask) | (new_val & mask);
-> > +
-> >      if (!riscv_has_ext(env, RVH)) {
-> > -        env->mie &= ~MIP_SGEIP;
-> > +        env->mie &= ~((uint64_t)MIP_SGEIP);
-> >      }
-> > +
-> >      return RISCV_EXCP_NONE;
-> >  }
-> >
-> > +static RISCVException rmw_mie(CPURISCVState *env, int csrno,
-> > +                              target_ulong *ret_val,
-> > +                              target_ulong new_val, target_ulong wr_mask)
-> > +{
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_mie64(env, csrno, &rval, new_val, wr_mask);
-> > +    if (ret_val) {
-> > +        *ret_val = rval;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +static RISCVException rmw_mieh(CPURISCVState *env, int csrno,
-> > +                               target_ulong *ret_val,
-> > +                               target_ulong new_val, target_ulong wr_mask)
-> > +{
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_mie64(env, csrno, &rval,
-> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-> > +    if (ret_val) {
-> > +        *ret_val = rval >> 32;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> >  static RISCVException read_mtvec(CPURISCVState *env, int csrno,
-> >                                   target_ulong *val)
-> >  {
-> > @@ -786,17 +889,17 @@ static RISCVException write_mtval(CPURISCVState *env, int csrno,
-> >      return RISCV_EXCP_NONE;
-> >  }
-> >
-> > -static RISCVException rmw_mip(CPURISCVState *env, int csrno,
-> > -                              target_ulong *ret_value,
-> > -                              target_ulong new_value, target_ulong write_mask)
-> > +static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
-> > +                                uint64_t *ret_val,
-> > +                                uint64_t new_val, uint64_t wr_mask)
-> >  {
-> >      RISCVCPU *cpu = env_archcpu(env);
-> >      /* Allow software control of delegable interrupts not claimed by hardware */
-> > -    target_ulong mask = write_mask & delegable_ints & ~env->miclaim;
-> > -    uint32_t gin, old_mip;
-> > +    uint64_t old_mip, mask = wr_mask & delegable_ints & ~env->miclaim;
-> > +    uint32_t gin;
-> >
-> >      if (mask) {
-> > -        old_mip = riscv_cpu_update_mip(cpu, mask, (new_value & mask));
-> > +        old_mip = riscv_cpu_update_mip(cpu, mask, (new_val & mask));
-> >      } else {
-> >          old_mip = env->mip;
-> >      }
-> > @@ -806,13 +909,44 @@ static RISCVException rmw_mip(CPURISCVState *env, int csrno,
-> >          old_mip |= (env->hgeip & ((target_ulong)1 << gin)) ? MIP_VSEIP : 0;
-> >      }
-> >
-> > -    if (ret_value) {
-> > -        *ret_value = old_mip;
-> > +    if (ret_val) {
-> > +        *ret_val = old_mip;
-> >      }
-> >
-> >      return RISCV_EXCP_NONE;
-> >  }
-> >
-> > +static RISCVException rmw_mip(CPURISCVState *env, int csrno,
-> > +                              target_ulong *ret_val,
-> > +                              target_ulong new_val, target_ulong wr_mask)
-> > +{
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_mip64(env, csrno, &rval, new_val, wr_mask);
-> > +    if (ret_val) {
-> > +        *ret_val = rval;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +static RISCVException rmw_miph(CPURISCVState *env, int csrno,
-> > +                               target_ulong *ret_val,
-> > +                               target_ulong new_val, target_ulong wr_mask)
-> > +{
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_mip64(env, csrno, &rval,
-> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-> > +    if (ret_val) {
-> > +        *ret_val = rval >> 32;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> >  /* Supervisor Trap Setup */
-> >  static RISCVException read_sstatus(CPURISCVState *env, int csrno,
-> >                                     target_ulong *val)
-> > @@ -832,45 +966,112 @@ static RISCVException write_sstatus(CPURISCVState *env, int csrno,
-> >      return write_mstatus(env, CSR_MSTATUS, newval);
-> >  }
-> >
-> > -static RISCVException read_vsie(CPURISCVState *env, int csrno,
-> > -                                target_ulong *val)
-> > +static RISCVException rmw_vsie64(CPURISCVState *env, int csrno,
-> > +                                 uint64_t *ret_val,
-> > +                                 uint64_t new_val, uint64_t wr_mask)
-> >  {
-> > -    /* Shift the VS bits to their S bit location in vsie */
-> > -    *val = (env->mie & env->hideleg & VS_MODE_INTERRUPTS) >> 1;
-> > -    return RISCV_EXCP_NONE;
-> > +    RISCVException ret;
-> > +    uint64_t rval, vsbits, mask = env->hideleg & VS_MODE_INTERRUPTS;
-> > +
-> > +    /* Bring VS-level bits to correct position */
-> > +    vsbits = new_val & (VS_MODE_INTERRUPTS >> 1);
-> > +    new_val &= ~(VS_MODE_INTERRUPTS >> 1);
-> > +    new_val |= vsbits << 1;
-> > +    vsbits = wr_mask & (VS_MODE_INTERRUPTS >> 1);
-> > +    wr_mask &= ~(VS_MODE_INTERRUPTS >> 1);
-> > +    wr_mask |= vsbits << 1;
-> > +
-> > +    ret = rmw_mie64(env, csrno, &rval, new_val, wr_mask & mask);
-> > +    if (ret_val) {
-> > +        rval &= mask;
-> > +        vsbits = rval & VS_MODE_INTERRUPTS;
-> > +        rval &= ~VS_MODE_INTERRUPTS;
-> > +        *ret_val = rval | (vsbits >> 1);
-> > +    }
-> > +
-> > +    return ret;
-> >  }
-> >
-> > -static RISCVException read_sie(CPURISCVState *env, int csrno,
-> > -                               target_ulong *val)
-> > +static RISCVException rmw_vsie(CPURISCVState *env, int csrno,
-> > +                               target_ulong *ret_val,
-> > +                               target_ulong new_val, target_ulong wr_mask)
-> >  {
-> > -    if (riscv_cpu_virt_enabled(env)) {
-> > -        read_vsie(env, CSR_VSIE, val);
-> > -    } else {
-> > -        *val = env->mie & env->mideleg;
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_vsie64(env, csrno, &rval, new_val, wr_mask);
-> > +    if (ret_val) {
-> > +        *ret_val = rval;
-> >      }
-> > -    return RISCV_EXCP_NONE;
-> > +
-> > +    return ret;
-> >  }
-> >
-> > -static RISCVException write_vsie(CPURISCVState *env, int csrno,
-> > -                                 target_ulong val)
-> > +static RISCVException rmw_vsieh(CPURISCVState *env, int csrno,
-> > +                                target_ulong *ret_val,
-> > +                                target_ulong new_val, target_ulong wr_mask)
-> >  {
-> > -    /* Shift the S bits to their VS bit location in mie */
-> > -    target_ulong newval = (env->mie & ~VS_MODE_INTERRUPTS) |
-> > -                          ((val << 1) & env->hideleg & VS_MODE_INTERRUPTS);
-> > -    return write_mie(env, CSR_MIE, newval);
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_vsie64(env, csrno, &rval,
-> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-> > +    if (ret_val) {
-> > +        *ret_val = rval >> 32;
-> > +    }
-> > +
-> > +    return ret;
-> >  }
-> >
-> > -static int write_sie(CPURISCVState *env, int csrno, target_ulong val)
-> > +static RISCVException rmw_sie64(CPURISCVState *env, int csrno,
-> > +                                uint64_t *ret_val,
-> > +                                uint64_t new_val, uint64_t wr_mask)
-> >  {
-> > +    RISCVException ret;
-> > +    uint64_t mask = env->mideleg & S_MODE_INTERRUPTS;
-> > +
-> >      if (riscv_cpu_virt_enabled(env)) {
-> > -        write_vsie(env, CSR_VSIE, val);
-> > +        ret = rmw_vsie64(env, CSR_VSIE, ret_val, new_val, wr_mask);
-> >      } else {
-> > -        target_ulong newval = (env->mie & ~S_MODE_INTERRUPTS) |
-> > -                              (val & S_MODE_INTERRUPTS);
-> > -        write_mie(env, CSR_MIE, newval);
-> > +        ret = rmw_mie64(env, csrno, ret_val, new_val, wr_mask & mask);
-> >      }
-> >
-> > -    return RISCV_EXCP_NONE;
-> > +    if (ret_val) {
-> > +        *ret_val &= mask;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +static RISCVException rmw_sie(CPURISCVState *env, int csrno,
-> > +                              target_ulong *ret_val,
-> > +                              target_ulong new_val, target_ulong wr_mask)
-> > +{
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_sie64(env, csrno, &rval, new_val, wr_mask);
-> > +    if (ret_val) {
-> > +        *ret_val = rval;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +static RISCVException rmw_sieh(CPURISCVState *env, int csrno,
-> > +                               target_ulong *ret_val,
-> > +                               target_ulong new_val, target_ulong wr_mask)
-> > +{
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_sie64(env, csrno, &rval,
-> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-> > +    if (ret_val) {
-> > +        *ret_val = rval >> 32;
-> > +    }
-> > +
-> > +    return ret;
-> >  }
-> >
-> >  static RISCVException read_stvec(CPURISCVState *env, int csrno,
-> > @@ -963,38 +1164,111 @@ static RISCVException write_stval(CPURISCVState *env, int csrno,
-> >      return RISCV_EXCP_NONE;
-> >  }
-> >
-> > +static RISCVException rmw_vsip64(CPURISCVState *env, int csrno,
-> > +                                 uint64_t *ret_val,
-> > +                                 uint64_t new_val, uint64_t wr_mask)
-> > +{
-> > +    RISCVException ret;
-> > +    uint64_t rval, vsbits, mask = env->hideleg & vsip_writable_mask;
-> > +
-> > +    /* Bring VS-level bits to correct position */
-> > +    vsbits = new_val & (VS_MODE_INTERRUPTS >> 1);
-> > +    new_val &= ~(VS_MODE_INTERRUPTS >> 1);
-> > +    new_val |= vsbits << 1;
-> > +    vsbits = wr_mask & (VS_MODE_INTERRUPTS >> 1);
-> > +    wr_mask &= ~(VS_MODE_INTERRUPTS >> 1);
-> > +    wr_mask |= vsbits << 1;
-> > +
-> > +    ret = rmw_mip64(env, csrno, &rval, new_val, wr_mask & mask);
-> > +    if (ret_val) {
-> > +        rval &= mask;
-> > +        vsbits = rval & VS_MODE_INTERRUPTS;
-> > +        rval &= ~VS_MODE_INTERRUPTS;
-> > +        *ret_val = rval | (vsbits >> 1);
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> >  static RISCVException rmw_vsip(CPURISCVState *env, int csrno,
-> > -                               target_ulong *ret_value,
-> > -                               target_ulong new_value, target_ulong write_mask)
-> > +                               target_ulong *ret_val,
-> > +                               target_ulong new_val, target_ulong wr_mask)
-> >  {
-> > -    /* Shift the S bits to their VS bit location in mip */
-> > -    int ret = rmw_mip(env, csrno, ret_value, new_value << 1,
-> > -                      (write_mask << 1) & vsip_writable_mask & env->hideleg);
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> >
-> > -    if (ret_value) {
-> > -        *ret_value &= VS_MODE_INTERRUPTS;
-> > -        /* Shift the VS bits to their S bit location in vsip */
-> > -        *ret_value >>= 1;
-> > +    ret = rmw_vsip64(env, csrno, &rval, new_val, wr_mask);
-> > +    if (ret_val) {
-> > +        *ret_val = rval;
-> >      }
-> > +
-> >      return ret;
-> >  }
-> >
-> > -static RISCVException rmw_sip(CPURISCVState *env, int csrno,
-> > -                              target_ulong *ret_value,
-> > -                              target_ulong new_value, target_ulong write_mask)
-> > +static RISCVException rmw_vsiph(CPURISCVState *env, int csrno,
-> > +                                target_ulong *ret_val,
-> > +                                target_ulong new_val, target_ulong wr_mask)
-> >  {
-> > -    int ret;
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_vsip64(env, csrno, &rval,
-> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-> > +    if (ret_val) {
-> > +        *ret_val = rval >> 32;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +static RISCVException rmw_sip64(CPURISCVState *env, int csrno,
-> > +                                uint64_t *ret_val,
-> > +                                uint64_t new_val, uint64_t wr_mask)
-> > +{
-> > +    RISCVException ret;
-> > +    uint64_t mask = env->mideleg & sip_writable_mask;
-> >
-> >      if (riscv_cpu_virt_enabled(env)) {
-> > -        ret = rmw_vsip(env, CSR_VSIP, ret_value, new_value, write_mask);
-> > +        ret = rmw_vsip64(env, CSR_VSIE, ret_val, new_val, wr_mask);
->
-> Why change the csrno to CSR_VSIE?
+> This implements a PCI device for ACPI ERST. This implements the
+> non-NVRAM "mode" of operation for ERST as it is supported by
+> Linux and Windows.
 
-Thanks for catching, this is a typo. I will fix it in next revision.
-
-Regards,
-Anup
+Few more comments on this patch ...
 
 >
-> Alistair
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> ---
+>  hw/acpi/Kconfig      |   6 +
+>  hw/acpi/erst.c       | 836 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>  hw/acpi/meson.build  |   1 +
+>  hw/acpi/trace-events |  15 +
+>  4 files changed, 858 insertions(+)
+>  create mode 100644 hw/acpi/erst.c
 >
-> >      } else {
-> > -        ret = rmw_mip(env, csrno, ret_value, new_value,
-> > -                      write_mask & env->mideleg & sip_writable_mask);
-> > +        ret = rmw_mip64(env, csrno, ret_val, new_val, wr_mask & mask);
-> >      }
-> >
-> > -    if (ret_value) {
-> > -        *ret_value &= env->mideleg & S_MODE_INTERRUPTS;
-> > +    if (ret_val) {
-> > +        *ret_val &= env->mideleg & S_MODE_INTERRUPTS;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +static RISCVException rmw_sip(CPURISCVState *env, int csrno,
-> > +                              target_ulong *ret_val,
-> > +                              target_ulong new_val, target_ulong wr_mask)
-> > +{
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_sip64(env, csrno, &rval, new_val, wr_mask);
-> > +    if (ret_val) {
-> > +        *ret_val = rval;
-> >      }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +static RISCVException rmw_siph(CPURISCVState *env, int csrno,
-> > +                               target_ulong *ret_val,
-> > +                               target_ulong new_val, target_ulong wr_mask)
-> > +{
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_sip64(env, csrno, &rval,
-> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-> > +    if (ret_val) {
-> > +        *ret_val = rval >> 32;
-> > +    }
-> > +
-> >      return ret;
-> >  }
-> >
-> > @@ -1089,30 +1363,94 @@ static RISCVException write_hedeleg(CPURISCVState *env, int csrno,
-> >      return RISCV_EXCP_NONE;
-> >  }
-> >
-> > -static RISCVException read_hideleg(CPURISCVState *env, int csrno,
-> > -                                   target_ulong *val)
-> > +static RISCVException rmw_hideleg64(CPURISCVState *env, int csrno,
-> > +                                    uint64_t *ret_val,
-> > +                                    uint64_t new_val, uint64_t wr_mask)
-> >  {
-> > -    *val = env->hideleg;
-> > +    uint64_t mask = wr_mask & vs_delegable_ints;
-> > +
-> > +    if (ret_val) {
-> > +        *ret_val = env->hideleg & vs_delegable_ints;
-> > +    }
-> > +
-> > +    env->hideleg = (env->hideleg & ~mask) | (new_val & mask);
-> >      return RISCV_EXCP_NONE;
-> >  }
-> >
-> > -static RISCVException write_hideleg(CPURISCVState *env, int csrno,
-> > -                                    target_ulong val)
-> > +static RISCVException rmw_hideleg(CPURISCVState *env, int csrno,
-> > +                                  target_ulong *ret_val,
-> > +                                  target_ulong new_val, target_ulong wr_mask)
-> >  {
-> > -    env->hideleg = val & vs_delegable_ints;
-> > -    return RISCV_EXCP_NONE;
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_hideleg64(env, csrno, &rval, new_val, wr_mask);
-> > +    if (ret_val) {
-> > +        *ret_val = rval;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +static RISCVException rmw_hidelegh(CPURISCVState *env, int csrno,
-> > +                                   target_ulong *ret_val,
-> > +                                   target_ulong new_val, target_ulong wr_mask)
-> > +{
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_hideleg64(env, csrno, &rval,
-> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-> > +    if (ret_val) {
-> > +        *ret_val = rval >> 32;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +static RISCVException rmw_hvip64(CPURISCVState *env, int csrno,
-> > +                                 uint64_t *ret_val,
-> > +                                 uint64_t new_val, uint64_t wr_mask)
-> > +{
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_mip64(env, csrno, ret_val, new_val,
-> > +                    wr_mask & hvip_writable_mask);
-> > +    if (ret_val) {
-> > +        *ret_val &= VS_MODE_INTERRUPTS;
-> > +    }
-> > +
-> > +    return ret;
-> >  }
-> >
-> >  static RISCVException rmw_hvip(CPURISCVState *env, int csrno,
-> > -                               target_ulong *ret_value,
-> > -                               target_ulong new_value, target_ulong write_mask)
-> > +                               target_ulong *ret_val,
-> > +                               target_ulong new_val, target_ulong wr_mask)
-> >  {
-> > -    int ret = rmw_mip(env, csrno, ret_value, new_value,
-> > -                      write_mask & hvip_writable_mask);
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> >
-> > -    if (ret_value) {
-> > -        *ret_value &= VS_MODE_INTERRUPTS;
-> > +    ret = rmw_hvip64(env, csrno, &rval, new_val, wr_mask);
-> > +    if (ret_val) {
-> > +        *ret_val = rval;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +static RISCVException rmw_hviph(CPURISCVState *env, int csrno,
-> > +                                target_ulong *ret_val,
-> > +                                target_ulong new_val, target_ulong wr_mask)
-> > +{
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> > +
-> > +    ret = rmw_hvip64(env, csrno, &rval,
-> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
-> > +    if (ret_val) {
-> > +        *ret_val = rval >> 32;
-> >      }
-> > +
-> >      return ret;
-> >  }
-> >
-> > @@ -1129,18 +1467,19 @@ static RISCVException rmw_hip(CPURISCVState *env, int csrno,
-> >      return ret;
-> >  }
-> >
-> > -static RISCVException read_hie(CPURISCVState *env, int csrno,
-> > -                               target_ulong *val)
-> > +static RISCVException rmw_hie(CPURISCVState *env, int csrno,
-> > +                              target_ulong *ret_val,
-> > +                              target_ulong new_val, target_ulong wr_mask)
-> >  {
-> > -    *val = env->mie & HS_MODE_INTERRUPTS;
-> > -    return RISCV_EXCP_NONE;
-> > -}
-> > +    uint64_t rval;
-> > +    RISCVException ret;
-> >
-> > -static RISCVException write_hie(CPURISCVState *env, int csrno,
-> > -                                target_ulong val)
-> > -{
-> > -    target_ulong newval = (env->mie & ~HS_MODE_INTERRUPTS) | (val & HS_MODE_INTERRUPTS);
-> > -    return write_mie(env, CSR_MIE, newval);
-> > +    ret = rmw_mie64(env, csrno, &rval, new_val, wr_mask & HS_MODE_INTERRUPTS);
-> > +    if (ret_val) {
-> > +        *ret_val = rval & HS_MODE_INTERRUPTS;
-> > +    }
-> > +
-> > +    return ret;
-> >  }
-> >
-> >  static RISCVException read_hcounteren(CPURISCVState *env, int csrno,
-> > @@ -1598,9 +1937,9 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >      /* Machine Trap Setup */
-> >      [CSR_MSTATUS]     = { "mstatus",    any,   read_mstatus,     write_mstatus     },
-> >      [CSR_MISA]        = { "misa",       any,   read_misa,        write_misa        },
-> > -    [CSR_MIDELEG]     = { "mideleg",    any,   read_mideleg,     write_mideleg     },
-> > +    [CSR_MIDELEG]     = { "mideleg",    any,   NULL,    NULL,    rmw_mideleg       },
-> >      [CSR_MEDELEG]     = { "medeleg",    any,   read_medeleg,     write_medeleg     },
-> > -    [CSR_MIE]         = { "mie",        any,   read_mie,         write_mie         },
-> > +    [CSR_MIE]         = { "mie",        any,   NULL,    NULL,    rmw_mie           },
-> >      [CSR_MTVEC]       = { "mtvec",      any,   read_mtvec,       write_mtvec       },
-> >      [CSR_MCOUNTEREN]  = { "mcounteren", any,   read_mcounteren,  write_mcounteren  },
-> >
-> > @@ -1613,9 +1952,14 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >      [CSR_MTVAL]    = { "mtval",    any,  read_mtval,    write_mtval    },
-> >      [CSR_MIP]      = { "mip",      any,  NULL,    NULL, rmw_mip        },
-> >
-> > +    /* Machine-Level High-Half CSRs (AIA) */
-> > +    [CSR_MIDELEGH] = { "midelegh", aia_any32, NULL, NULL, rmw_midelegh },
-> > +    [CSR_MIEH]     = { "mieh",     aia_any32, NULL, NULL, rmw_mieh     },
-> > +    [CSR_MIPH]     = { "miph",     aia_any32, NULL, NULL, rmw_miph     },
-> > +
-> >      /* Supervisor Trap Setup */
-> >      [CSR_SSTATUS]    = { "sstatus",    smode, read_sstatus,    write_sstatus    },
-> > -    [CSR_SIE]        = { "sie",        smode, read_sie,        write_sie        },
-> > +    [CSR_SIE]        = { "sie",        smode, NULL,   NULL,    rmw_sie          },
-> >      [CSR_STVEC]      = { "stvec",      smode, read_stvec,      write_stvec      },
-> >      [CSR_SCOUNTEREN] = { "scounteren", smode, read_scounteren, write_scounteren },
-> >
-> > @@ -1629,12 +1973,16 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >      /* Supervisor Protection and Translation */
-> >      [CSR_SATP]     = { "satp",     smode, read_satp,    write_satp      },
-> >
-> > +    /* Supervisor-Level High-Half CSRs (AIA) */
-> > +    [CSR_SIEH]       = { "sieh",   aia_smode32, NULL, NULL, rmw_sieh },
-> > +    [CSR_SIPH]       = { "siph",   aia_smode32, NULL, NULL, rmw_siph },
-> > +
-> >      [CSR_HSTATUS]     = { "hstatus",     hmode,   read_hstatus,     write_hstatus     },
-> >      [CSR_HEDELEG]     = { "hedeleg",     hmode,   read_hedeleg,     write_hedeleg     },
-> > -    [CSR_HIDELEG]     = { "hideleg",     hmode,   read_hideleg,     write_hideleg     },
-> > +    [CSR_HIDELEG]     = { "hideleg",     hmode,   NULL,   NULL,     rmw_hideleg       },
-> >      [CSR_HVIP]        = { "hvip",        hmode,   NULL,   NULL,     rmw_hvip          },
-> >      [CSR_HIP]         = { "hip",         hmode,   NULL,   NULL,     rmw_hip           },
-> > -    [CSR_HIE]         = { "hie",         hmode,   read_hie,         write_hie         },
-> > +    [CSR_HIE]         = { "hie",         hmode,   NULL,   NULL,     rmw_hie           },
-> >      [CSR_HCOUNTEREN]  = { "hcounteren",  hmode,   read_hcounteren,  write_hcounteren  },
-> >      [CSR_HGEIE]       = { "hgeie",       hmode,   read_hgeie,       write_hgeie       },
-> >      [CSR_HTVAL]       = { "htval",       hmode,   read_htval,       write_htval       },
-> > @@ -1646,7 +1994,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >
-> >      [CSR_VSSTATUS]    = { "vsstatus",    hmode,   read_vsstatus,    write_vsstatus    },
-> >      [CSR_VSIP]        = { "vsip",        hmode,   NULL,    NULL,    rmw_vsip          },
-> > -    [CSR_VSIE]        = { "vsie",        hmode,   read_vsie,        write_vsie        },
-> > +    [CSR_VSIE]        = { "vsie",        hmode,   NULL,    NULL,    rmw_vsie          },
-> >      [CSR_VSTVEC]      = { "vstvec",      hmode,   read_vstvec,      write_vstvec      },
-> >      [CSR_VSSCRATCH]   = { "vsscratch",   hmode,   read_vsscratch,   write_vsscratch   },
-> >      [CSR_VSEPC]       = { "vsepc",       hmode,   read_vsepc,       write_vsepc       },
-> > @@ -1657,6 +2005,12 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >      [CSR_MTVAL2]      = { "mtval2",      hmode,   read_mtval2,      write_mtval2      },
-> >      [CSR_MTINST]      = { "mtinst",      hmode,   read_mtinst,      write_mtinst      },
-> >
-> > +    /* Hypervisor and VS-Level High-Half CSRs (H-extension with AIA) */
-> > +    [CSR_HIDELEGH]    = { "hidelegh",    aia_hmode32, NULL, NULL, rmw_hidelegh },
-> > +    [CSR_HVIPH]       = { "hviph",       aia_hmode32, NULL, NULL, rmw_hviph },
-> > +    [CSR_VSIEH]       = { "vsieh",       aia_hmode32, NULL, NULL, rmw_vsieh },
-> > +    [CSR_VSIPH]       = { "vsiph",       aia_hmode32, NULL, NULL, rmw_vsiph },
-> > +
-> >      /* Physical Memory Protection */
-> >      [CSR_MSECCFG]    = { "mseccfg",  epmp, read_mseccfg, write_mseccfg },
-> >      [CSR_PMPCFG0]    = { "pmpcfg0",   pmp, read_pmpcfg,  write_pmpcfg  },
-> > diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> > index a7102220b6..7356d70be6 100644
-> > --- a/target/riscv/machine.c
-> > +++ b/target/riscv/machine.c
-> > @@ -108,7 +108,7 @@ static const VMStateDescription vmstate_hyper = {
-> >      .fields = (VMStateField[]) {
-> >          VMSTATE_UINTTL(env.hstatus, RISCVCPU),
-> >          VMSTATE_UINTTL(env.hedeleg, RISCVCPU),
-> > -        VMSTATE_UINTTL(env.hideleg, RISCVCPU),
-> > +        VMSTATE_UINT64(env.hideleg, RISCVCPU),
-> >          VMSTATE_UINTTL(env.hcounteren, RISCVCPU),
-> >          VMSTATE_UINTTL(env.htval, RISCVCPU),
-> >          VMSTATE_UINTTL(env.htinst, RISCVCPU),
-> > @@ -168,10 +168,10 @@ const VMStateDescription vmstate_riscv_cpu = {
-> >          VMSTATE_UINTTL(env.resetvec, RISCVCPU),
-> >          VMSTATE_UINTTL(env.mhartid, RISCVCPU),
-> >          VMSTATE_UINT64(env.mstatus, RISCVCPU),
-> > -        VMSTATE_UINTTL(env.mip, RISCVCPU),
-> > -        VMSTATE_UINT32(env.miclaim, RISCVCPU),
-> > -        VMSTATE_UINTTL(env.mie, RISCVCPU),
-> > -        VMSTATE_UINTTL(env.mideleg, RISCVCPU),
-> > +        VMSTATE_UINT64(env.mip, RISCVCPU),
-> > +        VMSTATE_UINT64(env.miclaim, RISCVCPU),
-> > +        VMSTATE_UINT64(env.mie, RISCVCPU),
-> > +        VMSTATE_UINT64(env.mideleg, RISCVCPU),
-> >          VMSTATE_UINTTL(env.satp, RISCVCPU),
-> >          VMSTATE_UINTTL(env.stval, RISCVCPU),
-> >          VMSTATE_UINTTL(env.medeleg, RISCVCPU),
-> > --
-> > 2.25.1
-> >
-> >
+> diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
+> index 622b0b5..19caebd 100644
+> --- a/hw/acpi/Kconfig
+> +++ b/hw/acpi/Kconfig
+> @@ -10,6 +10,7 @@ config ACPI_X86
+>      select ACPI_HMAT
+>      select ACPI_PIIX4
+>      select ACPI_PCIHP
+> +    select ACPI_ERST
+>
+>  config ACPI_X86_ICH
+>      bool
+> @@ -60,3 +61,8 @@ config ACPI_HW_REDUCED
+>      select ACPI
+>      select ACPI_MEMORY_HOTPLUG
+>      select ACPI_NVDIMM
+> +
+> +config ACPI_ERST
+> +    bool
+> +    default y
+> +    depends on ACPI && PCI
+> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+> new file mode 100644
+> index 0000000..4304f55
+> --- /dev/null
+> +++ b/hw/acpi/erst.c
+> @@ -0,0 +1,836 @@
+> +/*
+> + * ACPI Error Record Serialization Table, ERST, Implementation
+> + *
+> + * ACPI ERST introduced in ACPI 4.0, June 16, 2009.
+> + * ACPI Platform Error Interfaces : Error Serialization
+> + *
+> + * Copyright (c) 2021 Oracle and/or its affiliates.
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#include <sys/types.h>
+> +#include <sys/stat.h>
+> +#include <unistd.h>
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "hw/qdev-core.h"
+> +#include "exec/memory.h"
+> +#include "qom/object.h"
+> +#include "hw/pci/pci.h"
+> +#include "qom/object_interfaces.h"
+> +#include "qemu/error-report.h"
+> +#include "migration/vmstate.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/acpi/acpi.h"
+> +#include "hw/acpi/acpi-defs.h"
+> +#include "hw/acpi/aml-build.h"
+> +#include "hw/acpi/bios-linker-loader.h"
+> +#include "exec/address-spaces.h"
+> +#include "sysemu/hostmem.h"
+> +#include "hw/acpi/erst.h"
+> +#include "trace.h"
+> +
+> +/* ACPI 4.0: Table 17-16 Serialization Actions */
+> +#define ACTION_BEGIN_WRITE_OPERATION         0x0
+> +#define ACTION_BEGIN_READ_OPERATION          0x1
+> +#define ACTION_BEGIN_CLEAR_OPERATION         0x2
+> +#define ACTION_END_OPERATION                 0x3
+> +#define ACTION_SET_RECORD_OFFSET             0x4
+> +#define ACTION_EXECUTE_OPERATION             0x5
+> +#define ACTION_CHECK_BUSY_STATUS             0x6
+> +#define ACTION_GET_COMMAND_STATUS            0x7
+> +#define ACTION_GET_RECORD_IDENTIFIER         0x8
+> +#define ACTION_SET_RECORD_IDENTIFIER         0x9
+> +#define ACTION_GET_RECORD_COUNT              0xA
+> +#define ACTION_BEGIN_DUMMY_WRITE_OPERATION   0xB
+> +#define ACTION_RESERVED                      0xC
+> +#define ACTION_GET_ERROR_LOG_ADDRESS_RANGE   0xD
+> +#define ACTION_GET_ERROR_LOG_ADDRESS_LENGTH  0xE
+> +#define ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES 0xF
+> +#define ACTION_GET_EXECUTE_OPERATION_TIMINGS 0x10
+> +
+> +/* ACPI 4.0: Table 17-17 Command Status Definitions */
+> +#define STATUS_SUCCESS                0x00
+> +#define STATUS_NOT_ENOUGH_SPACE       0x01
+> +#define STATUS_HARDWARE_NOT_AVAILABLE 0x02
+> +#define STATUS_FAILED                 0x03
+> +#define STATUS_RECORD_STORE_EMPTY     0x04
+> +#define STATUS_RECORD_NOT_FOUND       0x05
+> +
+> +
+> +/* UEFI 2.1: Appendix N Common Platform Error Record */
+> +#define UEFI_CPER_RECORD_MIN_SIZE 128U
+> +#define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
+> +#define UEFI_CPER_RECORD_ID_OFFSET 96U
+> +#define IS_UEFI_CPER_RECORD(ptr) \
+> +    (((ptr)[0] == 'C') && \
+> +     ((ptr)[1] == 'P') && \
+> +     ((ptr)[2] == 'E') && \
+> +     ((ptr)[3] == 'R'))
+> +
+> +/*
+> + * NOTE that when accessing CPER fields within a record, memcpy()
+> + * is utilized to avoid a possible misaligned access on the host.
+> + */
+> +
+> +/*
+> + * This implementation is an ACTION (cmd) and VALUE (data)
+> + * interface consisting of just two 64-bit registers.
+> + */
+> +#define ERST_REG_SIZE (16UL)
+> +#define ERST_ACTION_OFFSET (0UL) /* action (cmd) */
+> +#define ERST_VALUE_OFFSET  (8UL) /* argument/value (data) */
+> +
+> +/*
+> + * ERST_RECORD_SIZE is the buffer size for exchanging ERST
+> + * record contents. Thus, it defines the maximum record size.
+> + * As this is mapped through a PCI BAR, it must be a power of
+> + * two and larger than UEFI_CPER_RECORD_MIN_SIZE.
+> + * The backing storage is divided into fixed size "slots",
+> + * each ERST_RECORD_SIZE in length, and each "slot"
+> + * storing a single record. No attempt at optimizing storage
+> + * through compression, compaction, etc is attempted.
+> + * NOTE that slot 0 is reserved for the backing storage header.
+> + * Depending upon the size of the backing storage, additional
+> + * slots will be part of the slot 0 header in order to account
+> + * for a record_id for each available remaining slot.
+> + */
+> +/* 8KiB records, not too small, not too big */
+> +#define ERST_RECORD_SIZE (8192UL)
+> +
+> +#define ACPI_ERST_MEMDEV_PROP "memdev"
+> +#define ACPI_ERST_RECORD_SIZE_PROP "record_size"
+> +
+> +/*
+> + * From the ACPI ERST spec sections:
+> + * A record id of all 0s is used to indicate 'unspecified' record id.
+> + * A record id of all 1s is used to indicate empty or end.
+> + */
+> +#define ERST_UNSPECIFIED_RECORD_ID (0UL)
+> +#define ERST_EMPTY_END_RECORD_ID (~0UL)
+> +#define ERST_EXECUTE_OPERATION_MAGIC 0x9CUL
+> +#define ERST_IS_VALID_RECORD_ID(rid) \
+> +    ((rid != ERST_UNSPECIFIED_RECORD_ID) && \
+> +     (rid != ERST_EMPTY_END_RECORD_ID))
+> +#define ERST_STORE_MAGIC 0x524F545354535245UL /* ERSTSTOR */
+> +
+
+you might want to add a comment something like
+/* please see erst.rst documentation for the details on this header structure */
+
+> +typedef struct {
+> +    uint64_t magic;
+> +    uint32_t record_size;
+> +    uint32_t storage_offset; /* offset to record storage beyond header */
+> +    uint16_t version;
+> +    uint16_t reserved;
+> +    uint32_t record_count;
+> +    uint64_t map[]; /* contains record_ids, and position indicates index */
+> +} __attribute__((packed)) ERSTStorageHeader;
+> +
+> +/*
+> + * Object cast macro
+> + */
+> +#define ACPIERST(obj) \
+> +    OBJECT_CHECK(ERSTDeviceState, (obj), TYPE_ACPI_ERST)
+> +
+> +/*
+> + * Main ERST device state structure
+> + */
+> +typedef struct {
+> +    PCIDevice parent_obj;
+> +
+> +    /* Backend storage */
+> +    HostMemoryBackend *hostmem;
+> +    MemoryRegion *hostmem_mr;
+> +    uint32_t storage_size;
+> +    uint32_t default_record_size;
+> +
+> +    /* Programming registers */
+> +    MemoryRegion iomem_mr;
+> +
+> +    /* Exchange buffer */
+> +    MemoryRegion exchange_mr;
+> +
+> +    /* Interface state */
+> +    uint8_t operation;
+> +    uint8_t busy_status;
+> +    uint8_t command_status;
+> +    uint32_t record_offset;
+> +    uint64_t reg_action;
+> +    uint64_t reg_value;
+> +    uint64_t record_identifier;
+> +    ERSTStorageHeader *header;
+> +    unsigned first_record_index;
+> +    unsigned last_record_index;
+> +    unsigned next_record_index;
+> +
+> +} ERSTDeviceState;
+> +
+> +/*******************************************************************/
+> +/*******************************************************************/
+> +
+> +static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState *s, unsigned index)
+> +{
+> +    uint8_t *rc = NULL;
+> +    off_t offset = (index * le32_to_cpu(s->header->record_size));
+> +
+> +    g_assert(offset < s->storage_size);
+> +
+> +    rc = memory_region_get_ram_ptr(s->hostmem_mr);
+> +    rc += offset;
+> +
+> +    return rc;
+> +}
+> +
+> +static void make_erst_storage_header(ERSTDeviceState *s)
+> +{
+> +    ERSTStorageHeader *header = s->header;
+> +    unsigned mapsz, headersz;
+> +
+> +    header->magic = cpu_to_le64(ERST_STORE_MAGIC);
+> +    header->record_size = cpu_to_le32(s->default_record_size);
+> +    header->version = cpu_to_le16(0x0100);
+> +    header->reserved = cpu_to_le16(0x0000);
+> +
+> +    /* Compute mapsize */
+> +    mapsz = s->storage_size / s->default_record_size;
+> +    mapsz *= sizeof(uint64_t);
+> +    /* Compute header+map size */
+> +    headersz = sizeof(ERSTStorageHeader) + mapsz;
+> +    /* Round up to nearest integer multiple of ERST_RECORD_SIZE */
+> +    headersz = QEMU_ALIGN_UP(headersz, s->default_record_size);
+> +    header->storage_offset = cpu_to_le32(headersz);
+> +
+> +    /*
+> +     * The HostMemoryBackend initializes contents to zero,
+> +     * so all record_ids stashed in the map are zero'd.
+> +     * As well the record_count is zero. Properly initialized.
+> +     */
+> +}
+> +
+> +static void check_erst_backend_storage(ERSTDeviceState *s, Error **errp)
+> +{
+> +    ERSTStorageHeader *header;
+> +    uint32_t record_size;
+> +
+> +    header = memory_region_get_ram_ptr(s->hostmem_mr);
+> +    s->header = header;
+> +
+> +    /* Ensure pointer to header is 64-bit aligned */
+> +    g_assert(QEMU_PTR_IS_ALIGNED(header, sizeof(uint64_t)));
+> +
+> +    /*
+> +     * Check if header is uninitialized; HostMemoryBackend inits to 0
+> +     */
+> +    if (le64_to_cpu(header->magic) == 0UL) {
+> +        make_erst_storage_header(s);
+> +    }
+> +
+> +    /* Validity check record_size */
+> +    record_size = le32_to_cpu(header->record_size);
+> +    if (!(
+> +        (record_size) && /* non zero */
+> +        (record_size >= UEFI_CPER_RECORD_MIN_SIZE) &&
+> +        (((record_size - 1) & record_size) == 0) && /* is power of 2 */
+> +        (record_size >= 4096) /* PAGE_SIZE */
+> +        )) {
+> +        error_setg(errp, "ERST record_size %u is invalid", record_size);
+> +    }
+> +
+> +    /* Validity check header */
+> +    if (!(
+> +        (le64_to_cpu(header->magic) == ERST_STORE_MAGIC) &&
+> +        ((le32_to_cpu(header->storage_offset) % record_size) == 0) &&
+> +        (le16_to_cpu(header->version) == 0x0100) &&
+> +        (le16_to_cpu(header->reserved) == 0)
+> +        )) {
+> +        error_setg(errp, "ERST backend storage header is invalid");
+> +    }
+> +
+> +    /* Check storage_size against record_size */
+> +    if (((s->storage_size % record_size) != 0) ||
+> +         (record_size > s->storage_size)) {
+> +        error_setg(errp, "ACPI ERST requires storage size be multiple of "
+> +            "record size (%uKiB)", record_size);
+> +    }
+> +
+> +    /* Compute offset of first and last record storage slot */
+> +    s->first_record_index = le32_to_cpu(header->storage_offset)
+> +        / record_size;
+> +    s->last_record_index = (s->storage_size / record_size);
+> +}
+> +
+> +static void update_map_entry(ERSTDeviceState *s, unsigned index,
+> +    uint64_t record_id)
+> +{
+> +    if (index < s->last_record_index) {
+> +        s->header->map[index] = cpu_to_le64(record_id);
+> +    }
+> +}
+> +
+> +static unsigned allocate_erst_record(ERSTDeviceState *s)
+> +{
+> +    unsigned rc = 0; /* 0 not a valid index */
+> +    unsigned index = s->first_record_index;
+> +
+> +    for (; index < s->last_record_index; ++index) {
+> +        if (le64_to_cpu(s->header->map[index]) == ERST_UNSPECIFIED_RECORD_ID) {
+> +            rc = index;
+> +            break;
+> +        }
+> +    }
+> +
+> +    return rc;
+> +}
+> +
+> +static unsigned lookup_erst_record(ERSTDeviceState *s,
+> +    uint64_t record_identifier)
+> +{
+> +    unsigned rc = 0; /* 0 not a valid index */
+> +
+> +    /* Find the record_identifier in the map */
+> +    if (record_identifier != ERST_UNSPECIFIED_RECORD_ID) {
+> +        /*
+> +         * Count number of valid records encountered, and
+> +         * short-circuit the loop if identifier not found
+> +         */
+> +        uint32_t record_count = le32_to_cpu(s->header->record_count);
+> +        unsigned count = 0;
+> +        unsigned index;
+> +        for (index = s->first_record_index; index < s->last_record_index &&
+> +                count < record_count; ++index) {
+> +            if (le64_to_cpu(s->header->map[index]) == record_identifier) {
+> +                rc = index;
+> +                break;
+> +            }
+> +            if (le64_to_cpu(s->header->map[index]) !=
+> +                ERST_UNSPECIFIED_RECORD_ID) {
+> +                ++count;
+> +            }
+> +        }
+> +    }
+> +
+> +    return rc;
+> +}
+> +
+> +/*
+> + * ACPI 4.0: 17.4.1.1 Serialization Actions, also see
+> + * ACPI 4.0: 17.4.2.2 Operations - Reading 6.c and 2.c
+> + */
+> +static unsigned get_next_record_identifier(ERSTDeviceState *s,
+> +    uint64_t *record_identifier, bool first)
+> +{
+> +    unsigned found = 0;
+> +    unsigned index;
+> +
+> +    /* For operations needing to return 'first' record identifer */
+> +    if (first) {
+> +        /* Reset initial index to beginning */
+> +        s->next_record_index = s->first_record_index;
+> +    }
+> +    index = s->next_record_index;
+> +
+> +    *record_identifier = ERST_EMPTY_END_RECORD_ID;
+> +
+> +    if (le32_to_cpu(s->header->record_count)) {
+> +        for (; index < s->last_record_index; ++index) {
+> +            if (le64_to_cpu(s->header->map[index]) !=
+> +                    ERST_UNSPECIFIED_RECORD_ID) {
+> +                    /* where to start next time */
+> +                    s->next_record_index = index + 1;
+> +                    *record_identifier = le64_to_cpu(s->header->map[index]);
+> +                    found = 1;
+> +                    break;
+> +            }
+> +        }
+> +    }
+> +    if (!found) {
+> +        /* at end (ie scan complete), reset */
+> +        s->next_record_index = s->first_record_index;
+> +    }
+> +
+> +    return STATUS_SUCCESS;
+> +}
+> +
+> +/* ACPI 4.0: 17.4.2.3 Operations - Clearing */
+> +static unsigned clear_erst_record(ERSTDeviceState *s)
+> +{
+> +    unsigned rc = STATUS_RECORD_NOT_FOUND;
+> +    unsigned index;
+> +
+> +    /* Check for valid record identifier */
+> +    if (!ERST_IS_VALID_RECORD_ID(s->record_identifier)) {
+> +        return STATUS_FAILED;
+> +    }
+> +
+> +    index = lookup_erst_record(s, s->record_identifier);
+> +    if (index) {
+> +        /* No need to wipe record, just invalidate its map entry */
+> +        uint32_t record_count;
+> +        update_map_entry(s, index, ERST_UNSPECIFIED_RECORD_ID);
+> +        record_count = le32_to_cpu(s->header->record_count);
+> +        record_count -= 1;
+> +        s->header->record_count = cpu_to_le32(record_count);
+> +        rc = STATUS_SUCCESS;
+> +    }
+> +
+> +    return rc;
+> +}
+> +
+> +/* ACPI 4.0: 17.4.2.2 Operations - Reading */
+> +static unsigned read_erst_record(ERSTDeviceState *s)
+> +{
+> +    unsigned rc = STATUS_RECORD_NOT_FOUND;
+> +    unsigned exchange_length;
+> +    unsigned index;
+> +
+> +    /* Check if backend storage is empty */
+> +    if (le32_to_cpu(s->header->record_count) == 0) {
+> +        return STATUS_RECORD_STORE_EMPTY;
+> +    }
+> +
+> +    exchange_length = memory_region_size(&s->exchange_mr);
+> +
+> +    /* Check for record identifier of all 0s */
+> +    if (s->record_identifier == ERST_UNSPECIFIED_RECORD_ID) {
+> +        /* Set to 'first' record in storage */
+> +        get_next_record_identifier(s, &s->record_identifier, true);
+> +        /* record_identifier is now a valid id, or all 1s */
+> +    }
+> +
+> +    /* Check for record identifier of all 1s */
+> +    if (s->record_identifier == ERST_EMPTY_END_RECORD_ID) {
+> +        return STATUS_FAILED;
+> +    }
+> +
+> +    /* Validate record_offset */
+> +    if (s->record_offset > (exchange_length - UEFI_CPER_RECORD_MIN_SIZE)) {
+> +        return STATUS_FAILED;
+> +    }
+> +
+> +    index = lookup_erst_record(s, s->record_identifier);
+> +    if (index) {
+> +        uint8_t *nvram;
+> +        uint8_t *exchange;
+> +        uint32_t record_length;
+> +
+> +        /* Obtain pointer to the exchange buffer */
+> +        exchange = memory_region_get_ram_ptr(&s->exchange_mr);
+> +        exchange += s->record_offset;
+> +        /* Obtain pointer to slot in storage */
+> +        nvram = get_nvram_ptr_by_index(s, index);
+> +        /* Validate CPER record_length */
+> +        memcpy((uint8_t *)&record_length,
+> +            &nvram[UEFI_CPER_RECORD_LENGTH_OFFSET],
+> +            sizeof(uint32_t));
+> +        record_length = le32_to_cpu(record_length);
+> +        if (record_length < UEFI_CPER_RECORD_MIN_SIZE) {
+> +            rc = STATUS_FAILED;
+> +        }
+> +        if ((s->record_offset + record_length) > exchange_length) {
+> +            rc = STATUS_FAILED;
+> +        }
+> +        /* If all is ok, copy the record to the exchange buffer */
+> +        if (rc != STATUS_FAILED) {
+> +            memcpy(exchange, nvram, record_length);
+> +            rc = STATUS_SUCCESS;
+> +        }
+> +    } else {
+
+I wonder if it is wise to return the next record id if the record is
+not found. Should we simply return STATUS_FAILED here as well?
+
+> +        /* Set to 'first' record in storage */
+> +        get_next_record_identifier(s, &s->record_identifier, true);
+> +    }
+> +
+> +    return rc;
+> +}
+> +
+> +/* ACPI 4.0: 17.4.2.1 Operations - Writing */
+> +static unsigned write_erst_record(ERSTDeviceState *s)
+> +{
+> +    unsigned rc = STATUS_FAILED;
+> +    unsigned exchange_length;
+> +    unsigned index;
+> +    uint64_t record_identifier;
+> +    uint32_t record_length;
+> +    uint8_t *exchange;
+> +    uint8_t *nvram = NULL;
+> +    bool record_found = false;
+> +
+> +    exchange_length = memory_region_size(&s->exchange_mr);
+> +
+> +    /* Validate record_offset */
+> +    if (s->record_offset > (exchange_length - UEFI_CPER_RECORD_MIN_SIZE)) {
+> +        return STATUS_FAILED;
+> +    }
+> +
+> +    /* Obtain pointer to record in the exchange buffer */
+> +    exchange = memory_region_get_ram_ptr(&s->exchange_mr);
+> +    exchange += s->record_offset;
+> +
+> +    /* Validate CPER record_length */
+> +    memcpy((uint8_t *)&record_length, &exchange[UEFI_CPER_RECORD_LENGTH_OFFSET],
+> +        sizeof(uint32_t));
+> +    record_length = le32_to_cpu(record_length);
+> +    if (record_length < UEFI_CPER_RECORD_MIN_SIZE) {
+> +        return STATUS_FAILED;
+> +    }
+> +    if ((s->record_offset + record_length) > exchange_length) {
+> +        return STATUS_FAILED;
+> +    }
+> +
+> +    /* Extract record identifier */
+> +    memcpy((uint8_t *)&record_identifier, &exchange[UEFI_CPER_RECORD_ID_OFFSET],
+> +        sizeof(uint64_t));
+> +    record_identifier = le64_to_cpu(record_identifier);
+> +
+> +    /* Check for valid record identifier */
+> +    if (!ERST_IS_VALID_RECORD_ID(record_identifier)) {
+> +        return STATUS_FAILED;
+> +    }
+> +
+> +    index = lookup_erst_record(s, record_identifier);
+> +    if (index) {
+> +        /* Record found, overwrite existing record */
+> +        nvram = get_nvram_ptr_by_index(s, index);
+> +        record_found = true;
+> +    } else {
+> +        /* Record not found, not an overwrite, allocate for write */
+> +        index = allocate_erst_record(s);
+> +        if (index) {
+> +            nvram = get_nvram_ptr_by_index(s, index);
+> +        } else {
+> +            rc = STATUS_NOT_ENOUGH_SPACE;
+
+/* all slots are occupied */
+
+> +        }
+> +    }
+> +    if (nvram) {
+> +        /* Write the record into the slot */
+> +        memcpy(nvram, exchange, record_length);
+> +        memset(nvram + record_length, exchange_length - record_length, 0xFF);
+> +        /* If a new record, increment the record_count */
+> +        if (!record_found) {
+> +            uint32_t record_count;
+> +            record_count = le32_to_cpu(s->header->record_count);
+> +            record_count += 1; /* writing new record */
+> +            s->header->record_count = cpu_to_le32(record_count);
+> +        }
+> +        update_map_entry(s, index, record_identifier);
+> +        rc = STATUS_SUCCESS;
+> +    }
+> +
+> +    return rc;
+> +}
+> +
+> +/*******************************************************************/
+> +
+> +static uint64_t erst_rd_reg64(hwaddr addr,
+> +    uint64_t reg, unsigned size)
+> +{
+> +    uint64_t rdval;
+> +    uint64_t mask;
+> +    unsigned shift;
+> +
+> +    if (size == sizeof(uint64_t)) {
+> +        /* 64b access */
+> +        mask = 0xFFFFFFFFFFFFFFFFUL;
+> +        shift = 0;
+> +    } else {
+> +        /* 32b access */
+> +        mask = 0x00000000FFFFFFFFUL;
+> +        shift = ((addr & 0x4) == 0x4) ? 32 : 0;
+> +    }
+> +
+> +    rdval = reg;
+> +    rdval >>= shift;
+> +    rdval &= mask;
+> +
+> +    return rdval;
+> +}
+> +
+> +static uint64_t erst_wr_reg64(hwaddr addr,
+> +    uint64_t reg, uint64_t val, unsigned size)
+> +{
+> +    uint64_t wrval;
+> +    uint64_t mask;
+> +    unsigned shift;
+> +
+> +    if (size == sizeof(uint64_t)) {
+> +        /* 64b access */
+> +        mask = 0xFFFFFFFFFFFFFFFFUL;
+> +        shift = 0;
+> +    } else {
+> +        /* 32b access */
+> +        mask = 0x00000000FFFFFFFFUL;
+> +        shift = ((addr & 0x4) == 0x4) ? 32 : 0;
+> +    }
+> +
+> +    val &= mask;
+> +    val <<= shift;
+> +    mask <<= shift;
+> +    wrval = reg;
+> +    wrval &= ~mask;
+> +    wrval |= val;
+> +
+> +    return wrval;
+> +}
+> +
+> +static void erst_reg_write(void *opaque, hwaddr addr,
+> +    uint64_t val, unsigned size)
+> +{
+> +    ERSTDeviceState *s = (ERSTDeviceState *)opaque;
+> +
+> +    /*
+> +     * NOTE: All actions/operations/side effects happen on the WRITE,
+> +     * by this implementation's design. The READs simply return the
+> +     * reg_value contents.
+> +     */
+> +    trace_acpi_erst_reg_write(addr, val, size);
+> +
+> +    switch (addr) {
+> +    case ERST_VALUE_OFFSET + 0:
+> +    case ERST_VALUE_OFFSET + 4:
+> +        s->reg_value = erst_wr_reg64(addr, s->reg_value, val, size);
+> +        break;
+> +    case ERST_ACTION_OFFSET + 0:
+> +        /*
+> +         * NOTE: all valid values written to this register are of the
+> +         * ACTION_* variety. Thus there is no need to make this a 64-bit
+> +         * register, 32-bits is appropriate. As such ERST_ACTION_OFFSET+4
+> +         * is not needed.
+> +         */
+> +        switch (val) {
+> +        case ACTION_BEGIN_WRITE_OPERATION:
+> +        case ACTION_BEGIN_READ_OPERATION:
+> +        case ACTION_BEGIN_CLEAR_OPERATION:
+> +        case ACTION_BEGIN_DUMMY_WRITE_OPERATION:
+> +        case ACTION_END_OPERATION:
+> +            s->operation = val;
+> +            break;
+> +        case ACTION_SET_RECORD_OFFSET:
+> +            s->record_offset = s->reg_value;
+> +            break;
+> +        case ACTION_EXECUTE_OPERATION:
+> +            if ((uint8_t)s->reg_value == ERST_EXECUTE_OPERATION_MAGIC) {
+> +                s->busy_status = 1;
+> +                switch (s->operation) {
+> +                case ACTION_BEGIN_WRITE_OPERATION:
+> +                    s->command_status = write_erst_record(s);
+> +                    break;
+> +                case ACTION_BEGIN_READ_OPERATION:
+> +                    s->command_status = read_erst_record(s);
+> +                    break;
+> +                case ACTION_BEGIN_CLEAR_OPERATION:
+> +                    s->command_status = clear_erst_record(s);
+> +                    break;
+> +                case ACTION_BEGIN_DUMMY_WRITE_OPERATION:
+> +                    s->command_status = STATUS_SUCCESS;
+> +                    break;
+> +                case ACTION_END_OPERATION:
+> +                    s->command_status = STATUS_SUCCESS;
+> +                    break;
+> +                default:
+> +                    s->command_status = STATUS_FAILED;
+
+Should this be something like STATUS_NOT_SUPPORTED?
+
+> +                    break;
+> +                }
+> +                s->busy_status = 0;
+> +            }
+> +            break;
+> +        case ACTION_CHECK_BUSY_STATUS:
+> +            s->reg_value = s->busy_status;
+> +            break;
+> +        case ACTION_GET_COMMAND_STATUS:
+> +            s->reg_value = s->command_status;
+> +            break;
+> +        case ACTION_GET_RECORD_IDENTIFIER:
+> +            s->command_status = get_next_record_identifier(s,
+> +                                    &s->reg_value, false);
+> +            break;
+> +        case ACTION_SET_RECORD_IDENTIFIER:
+> +            s->record_identifier = s->reg_value;
+> +            break;
+> +        case ACTION_GET_RECORD_COUNT:
+> +            s->reg_value = le32_to_cpu(s->header->record_count);
+> +            break;
+> +        case ACTION_GET_ERROR_LOG_ADDRESS_RANGE:
+> +            s->reg_value = (hwaddr)pci_get_bar_addr(PCI_DEVICE(s), 1);
+> +            break;
+> +        case ACTION_GET_ERROR_LOG_ADDRESS_LENGTH:
+> +            s->reg_value = le32_to_cpu(s->header->record_size);
+> +            break;
+> +        case ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES:
+> +            s->reg_value = 0x0; /* intentional, not NVRAM mode */
+> +            break;
+> +        case ACTION_GET_EXECUTE_OPERATION_TIMINGS:
+> +            s->reg_value =
+> +                (100ULL << 32) | /* 100us max time */
+> +                (10ULL  <<  0) ; /*  10us min time */
+> +            break;
+> +        default:
+> +            /* Unknown action/command, NOP */
+
+maybe add some tracing here in case guests are going bad mmio writes?
+
+> +            break;
+> +        }
+> +        break;
+> +    default:
+> +        /* This should not happen, but if it does, NOP */
+> +        break;
+> +    }
+> +}
+> +
+> +static uint64_t erst_reg_read(void *opaque, hwaddr addr,
+> +                                unsigned size)
+> +{
+> +    ERSTDeviceState *s = (ERSTDeviceState *)opaque;
+> +    uint64_t val = 0;
+> +
+> +    switch (addr) {
+> +    case ERST_ACTION_OFFSET + 0:
+> +    case ERST_ACTION_OFFSET + 4:
+> +        val = erst_rd_reg64(addr, s->reg_action, size);
+> +        break;
+> +    case ERST_VALUE_OFFSET + 0:
+> +    case ERST_VALUE_OFFSET + 4:
+> +        val = erst_rd_reg64(addr, s->reg_value, size);
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +    trace_acpi_erst_reg_read(addr, val, size);
+> +    return val;
+> +}
+> +
+> +static const MemoryRegionOps erst_reg_ops = {
+> +    .read = erst_reg_read,
+> +    .write = erst_reg_write,
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+> +};
+> +
+> +/*******************************************************************/
+> +/*******************************************************************/
+> +static int erst_post_load(void *opaque, int version_id)
+> +{
+> +    ERSTDeviceState *s = opaque;
+> +
+> +    /* Recompute pointer to header */
+> +    s->header = (ERSTStorageHeader *)get_nvram_ptr_by_index(s, 0);
+> +    trace_acpi_erst_post_load(s->header, le32_to_cpu(s->header->record_size));
+> +
+> +    return 0;
+> +}
+> +
+> +static const VMStateDescription erst_vmstate  = {
+> +    .name = "acpi-erst",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .post_load = erst_post_load,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT8(operation, ERSTDeviceState),
+> +        VMSTATE_UINT8(busy_status, ERSTDeviceState),
+> +        VMSTATE_UINT8(command_status, ERSTDeviceState),
+> +        VMSTATE_UINT32(record_offset, ERSTDeviceState),
+> +        VMSTATE_UINT64(reg_action, ERSTDeviceState),
+> +        VMSTATE_UINT64(reg_value, ERSTDeviceState),
+> +        VMSTATE_UINT64(record_identifier, ERSTDeviceState),
+> +        VMSTATE_UINT32(next_record_index, ERSTDeviceState),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static void erst_realizefn(PCIDevice *pci_dev, Error **errp)
+> +{
+> +    ERSTDeviceState *s = ACPIERST(pci_dev);
+> +
+> +    trace_acpi_erst_realizefn_in();
+> +
+> +    if (!s->hostmem) {
+> +        error_setg(errp, "'" ACPI_ERST_MEMDEV_PROP "' property is not set");
+> +        return;
+> +    } else if (host_memory_backend_is_mapped(s->hostmem)) {
+> +        error_setg(errp, "can't use already busy memdev: %s",
+> +                   object_get_canonical_path_component(OBJECT(s->hostmem)));
+> +        return;
+> +    }
+> +
+> +    s->hostmem_mr = host_memory_backend_get_memory(s->hostmem);
+> +
+> +    /* HostMemoryBackend size will be multiple of PAGE_SIZE */
+> +    s->storage_size = object_property_get_int(OBJECT(s->hostmem), "size", errp);
+> +
+> +    /* Initialize backend storage and record_count */
+> +    check_erst_backend_storage(s, errp);
+> +
+> +    /* BAR 0: Programming registers */
+> +    memory_region_init_io(&s->iomem_mr, OBJECT(pci_dev), &erst_reg_ops, s,
+> +                          TYPE_ACPI_ERST, ERST_REG_SIZE);
+> +    pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->iomem_mr);
+> +
+> +    /* BAR 1: Exchange buffer memory */
+> +    memory_region_init_ram(&s->exchange_mr, OBJECT(pci_dev),
+> +                            "erst.exchange",
+> +                            le32_to_cpu(s->header->record_size), errp);
+> +    pci_register_bar(pci_dev, 1, PCI_BASE_ADDRESS_SPACE_MEMORY,
+> +                        &s->exchange_mr);
+> +
+> +    /* Include the backend storage in the migration stream */
+> +    vmstate_register_ram_global(s->hostmem_mr);
+> +
+> +    trace_acpi_erst_realizefn_out(s->storage_size);
+> +}
+> +
+> +static void erst_reset(DeviceState *dev)
+> +{
+> +    ERSTDeviceState *s = ACPIERST(dev);
+> +
+> +    trace_acpi_erst_reset_in(le32_to_cpu(s->header->record_count));
+> +    s->operation = 0;
+> +    s->busy_status = 0;
+> +    s->command_status = STATUS_SUCCESS;
+> +    s->record_identifier = ERST_UNSPECIFIED_RECORD_ID;
+> +    s->record_offset = 0;
+> +    s->next_record_index = s->first_record_index;
+> +    /* NOTE: first/last_record_index are computed only once */
+> +    trace_acpi_erst_reset_out(le32_to_cpu(s->header->record_count));
+> +}
+> +
+> +static Property erst_properties[] = {
+> +    DEFINE_PROP_LINK(ACPI_ERST_MEMDEV_PROP, ERSTDeviceState, hostmem,
+> +                     TYPE_MEMORY_BACKEND, HostMemoryBackend *),
+> +    DEFINE_PROP_UINT32(ACPI_ERST_RECORD_SIZE_PROP, ERSTDeviceState,
+> +                     default_record_size, ERST_RECORD_SIZE),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void erst_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+> +
+> +    trace_acpi_erst_class_init_in();
+> +    k->realize = erst_realizefn;
+> +    k->vendor_id = PCI_VENDOR_ID_REDHAT;
+> +    k->device_id = PCI_DEVICE_ID_REDHAT_ACPI_ERST;
+> +    k->revision = 0x00;
+> +    k->class_id = PCI_CLASS_OTHERS;
+> +    dc->reset = erst_reset;
+> +    dc->vmsd = &erst_vmstate;
+> +    dc->user_creatable = true;
+> +    dc->hotpluggable = false;
+> +    device_class_set_props(dc, erst_properties);
+> +    dc->desc = "ACPI Error Record Serialization Table (ERST) device";
+> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+> +    trace_acpi_erst_class_init_out();
+> +}
+> +
+> +static const TypeInfo erst_type_info = {
+> +    .name          = TYPE_ACPI_ERST,
+> +    .parent        = TYPE_PCI_DEVICE,
+> +    .class_init    = erst_class_init,
+> +    .instance_size = sizeof(ERSTDeviceState),
+> +    .interfaces = (InterfaceInfo[]) {
+> +        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+> +        { }
+> +    }
+> +};
+> +
+> +static void erst_register_types(void)
+> +{
+> +    type_register_static(&erst_type_info);
+> +}
+> +
+> +type_init(erst_register_types)
+> diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+> index adf6347..f5b2298 100644
+> --- a/hw/acpi/meson.build
+> +++ b/hw/acpi/meson.build
+> @@ -22,6 +22,7 @@ acpi_ss.add(when: 'CONFIG_ACPI_PCIHP', if_true: files('pcihp.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_PCIHP', if_false: files('acpi-pci-hotplug-stub.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_VIOT', if_true: files('viot.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
+> +acpi_ss.add(when: 'CONFIG_ACPI_ERST', if_true: files('erst.c'))
+>  acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
+>  acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
+>  acpi_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
+> diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
+> index 974d770..2250126 100644
+> --- a/hw/acpi/trace-events
+> +++ b/hw/acpi/trace-events
+> @@ -55,3 +55,18 @@ piix4_gpe_writeb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64
+>  # tco.c
+>  tco_timer_reload(int ticks, int msec) "ticks=%d (%d ms)"
+>  tco_timer_expired(int timeouts_no, bool strap, bool no_reboot) "timeouts_no=%d no_reboot=%d/%d"
+> +
+> +# erst.c
+> +acpi_erst_reg_write(uint64_t addr, uint64_t val, unsigned size) "addr: 0x%04" PRIx64 " <== 0x%016" PRIx64 " (size: %u)"
+> +acpi_erst_reg_read(uint64_t addr, uint64_t val, unsigned size) " addr: 0x%04" PRIx64 " ==> 0x%016" PRIx64 " (size: %u)"
+> +acpi_erst_mem_write(uint64_t addr, uint64_t val, unsigned size) "addr: 0x%06" PRIx64 " <== 0x%016" PRIx64 " (size: %u)"
+> +acpi_erst_mem_read(uint64_t addr, uint64_t val, unsigned size) " addr: 0x%06" PRIx64 " ==> 0x%016" PRIx64 " (size: %u)"
+> +acpi_erst_pci_bar_0(uint64_t addr) "BAR0: 0x%016" PRIx64
+> +acpi_erst_pci_bar_1(uint64_t addr) "BAR1: 0x%016" PRIx64
+> +acpi_erst_realizefn_in(void)
+> +acpi_erst_realizefn_out(unsigned size) "total nvram size %u bytes"
+> +acpi_erst_reset_in(unsigned record_count) "record_count %u"
+> +acpi_erst_reset_out(unsigned record_count) "record_count %u"
+> +acpi_erst_post_load(void *header, unsigned slot_size) "header: 0x%p slot_size %u"
+> +acpi_erst_class_init_in(void)
+> +acpi_erst_class_init_out(void)
+> --
+> 1.8.3.1
+>
 
