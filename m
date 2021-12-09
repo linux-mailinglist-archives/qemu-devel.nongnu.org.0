@@ -2,91 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F8E046EA0E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 15:34:44 +0100 (CET)
-Received: from localhost ([::1]:44346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D57946EA2B
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 15:40:15 +0100 (CET)
+Received: from localhost ([::1]:52744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvKVP-0008NV-F2
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 09:34:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52526)
+	id 1mvKak-0005qa-2g
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 09:40:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mvKUA-0007FK-UR
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 09:33:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22537)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mvKZR-0004Q8-Fs
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 09:38:53 -0500
+Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19]:39291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mvKU7-0005fI-3I
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 09:33:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639060401;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LvH2Xn+1B6EOi9XO5aY05DPO+WZijOOMKIgFZ/rm2NU=;
- b=SVycwN8dYH6xlG9guX4NAHJYTU5eqzsQbjtpgeJxnpqUlcN1gnNd/V91A/lfJZjzb8E/dO
- LbdlpAzTu6lNyrGYJLFsJSgmuee114JTzoWnRtXj0VPVFreMBTz3y3YAtDhAIbcaUb6t9K
- SY0NTJICTAGPQPRzQhgClKpztB3DQRs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-270-sh-XYzW2Pqmf6vUYOejcpQ-1; Thu, 09 Dec 2021 09:33:20 -0500
-X-MC-Unique: sh-XYzW2Pqmf6vUYOejcpQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- g81-20020a1c9d54000000b003330e488323so2059052wme.0
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 06:33:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=LvH2Xn+1B6EOi9XO5aY05DPO+WZijOOMKIgFZ/rm2NU=;
- b=UktdgV48pIyUD0c9Aq+JdIGEMQrhnspwJxnvugT7sJy+qv/DKS9PB5S5lvzuRvnUjY
- EapFD9E9hlsTDlQGZF0WjamXKbQp+197ph41jzAWl3r00jJAlFU+l4tW0vzG+K6cJjOw
- KearD87Y5CeBV8xW0GCNOB28Dan0oVR4+7NHpzEu0unqIOPJn4FvcILfbDVF1O/OnADA
- +HQpVx09ZB6hAAZoTaGCYUblNb4h0hDcOy8JWGebO8FslwPgL82ITnek/nh0HMH8Fjvd
- G56sAXrsnuGc/Y7wEx6c/q3EvmwFmkmZ9A4+nKyzMv3JZLWURikp5C34KBlZ1DYx0dKm
- F5XA==
-X-Gm-Message-State: AOAM531xPrRGKQp3MrQyRol0mkZ0gTEbzHK1QFsJDRubusfSNVfncsON
- FiqIcrw97mf98379MipYJmmKpugldnlvNh++RCwEU1A53u1arlxOdXZT/A09VVQLhavHzlB9/us
- 5x3JxFMgLfjxWEUQ=
-X-Received: by 2002:adf:f40f:: with SMTP id g15mr7077069wro.536.1639060399140; 
- Thu, 09 Dec 2021 06:33:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyxoSNz1xG0h8YwDfZRFwHl8VxaeQLgjyQz9tOA42MnDueOdL+zubcll7f8nCqtwlrTj4SjAg==
-X-Received: by 2002:adf:f40f:: with SMTP id g15mr7077040wro.536.1639060398883; 
- Thu, 09 Dec 2021 06:33:18 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id a198sm8813219wme.1.2021.12.09.06.33.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Dec 2021 06:33:18 -0800 (PST)
-Message-ID: <638a610f-5547-d349-ab35-0b3578bdd493@redhat.com>
-Date: Thu, 9 Dec 2021 15:33:17 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mvKZP-0007aO-Ds
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 09:38:53 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.137])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 9DD1B20D35;
+ Thu,  9 Dec 2021 14:38:41 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Thu, 9 Dec
+ 2021 15:38:40 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0023cb4f775-77cb-4a25-9e09-620e62cbe624,
+ 8D04C9E66DC1FB38CABDD9E51B1330B7D999B631) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <c17bf4e0-2c5c-0748-0539-34b441c81644@kaod.org>
+Date: Thu, 9 Dec 2021 15:38:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 0/3] iotests: multiprocessing!!
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20211203122223.2780098-1-vsementsov@virtuozzo.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211203122223.2780098-1-vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH] target/ppc: powerpc_excp: Guard ALIGNMENT interrupt with
+ CONFIG_TCG
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -61
-X-Spam_score: -6.2
-X-Spam_bar: ------
-X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.618,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.803, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
+References: <20211208230650.2125095-1-farosas@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211208230650.2125095-1-farosas@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 85f21efb-c06b-4e6a-90dc-654576f0eec7
+X-Ovh-Tracer-Id: 1508987352870193958
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrkedtgdeilecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhg
+Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
+ helo=2.mo548.mail-out.ovh.net
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.803,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,22 +70,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.12.21 13:22, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
->
-> Finally, I can not stand it any longer. So, I'm happy to present
-> multiprocessing support for iotests test runner.
+On 12/9/21 00:06, Fabiano Rosas wrote:
+> We cannot have TCG code in powerpc_excp because the function is called
+> from kvm-only code via ppc_cpu_do_interrupt:
+> 
+>   ../target/ppc/excp_helper.c:463:29: error: implicit declaration of
+>   function ‘cpu_ldl_code’ [-Werror=implicit-function-declaration]
+> 
+> Fortunately, the Alignment interrupt is not among the ones dispatched
+> from kvm-only code, so we can keep it out of the disable-tcg build for
+> now.
+> 
+> Fixes: 336e91f853 ("target/ppc: Move SPR_DSISR setting to powerpc_excp")
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> 
+> ---
+> 
+> Perhaps we could make powerpc_excp TCG only and have a separate
+> function that only knows the two interrupts that we use with KVM
+> (Program, Machine check). But for now this fix will do, I think.
+> ---
+>   target/ppc/excp_helper.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 17607adbe4..dcf22440cc 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -453,6 +453,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+>           }
+>           break;
+>       }
+> +#ifdef CONFIG_TCG
+>       case POWERPC_EXCP_ALIGN:     /* Alignment exception                      */
+>           /*
+>            * Get rS/rD and rA from faulting opcode.
+> @@ -464,6 +465,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+>               env->spr[SPR_DSISR] |= (insn & 0x03FF0000) >> 16;
+>           }
+>           break;
+> +#endif
+>       case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
+>           switch (env->error_code & ~0xF) {
+>           case POWERPC_EXCP_FP:
+> 
 
-Thanks, looks great!
+Shouldn't we move that code under ppc_cpu_do_unaligned_access ?
 
-Applied to my block-next branch:
+Thanks,
 
-https://gitlab.com/hreitz/qemu/-/commits/block-next
-
-Hanna
-
+C.
 
