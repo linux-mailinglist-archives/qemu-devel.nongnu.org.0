@@ -2,91 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4400E46E51A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 10:06:26 +0100 (CET)
-Received: from localhost ([::1]:37084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC6D46E559
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 10:16:29 +0100 (CET)
+Received: from localhost ([::1]:40612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvFNg-0005Uu-QN
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 04:06:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60182)
+	id 1mvFXQ-0000Bo-E3
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 04:16:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mvFLh-0004SO-Ho
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 04:04:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39427)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mvFW1-0007gI-JW
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 04:15:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mvFLc-0003ZW-TV
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 04:04:20 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mvFVz-0003pT-Qt
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 04:15:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639040655;
+ s=mimecast20190719; t=1639041299;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VSYOmQce4xSeYxIzDO/LHp2hmoHg8wj9M46c/xkArvg=;
- b=dIfkR8FSYebD4QSiIQId9euFOX7lTkAfOrVi7vsXtMO5cDSMzymOLv6lGd8vLPh6clDDbH
- 61VJcrlSBLIHeSNs3ChQlGE8yjYJYrTLlYuUXGOT0dyipudmYbkOeQW/CIRDZLuks/4bZP
- 8E9WGHZ+Ivk3CCAZHDYOdwZ4HtCjlzA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Cf5pf6EKUixjZTggCYp8nMj6L0Xv31iujI9Okk4o4mw=;
+ b=g7iiIS5emRR/Vc+kaUV2OxgZj74p1FQ10pRU+/Sop0D57PQl4nlt6ns1fJVqBb3kMp3wm2
+ njJPddf2GEmN+pqtZwmzF9VjkLSD83EvUvV0g1JXnM2B2yukLCOHnjNcUs1Swb9LiAM62g
+ nW2E+irm33t74EGnOxV57d9FAaxqNsc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-323-ukpiajPOMLmTlSMLYAynwA-1; Thu, 09 Dec 2021 04:04:14 -0500
-X-MC-Unique: ukpiajPOMLmTlSMLYAynwA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- q15-20020adfbb8f000000b00191d3d89d09so1173614wrg.3
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 01:04:14 -0800 (PST)
+ us-mta-487-0um4F-CWMpO0F0d__kDNKw-1; Thu, 09 Dec 2021 04:14:56 -0500
+X-MC-Unique: 0um4F-CWMpO0F0d__kDNKw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ h7-20020adfaa87000000b001885269a937so1185939wrc.17
+ for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 01:14:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=VSYOmQce4xSeYxIzDO/LHp2hmoHg8wj9M46c/xkArvg=;
- b=KKDBDH+rjPLAkoScb4MW06VKMGaMbeebNG8xyNCkYYDTd9EQmyYzO7tch/POYJdxwq
- bdIEOHwJuFUpkfQNVkoZacV86/fgY4KN21WpiuXrYUe32HZB+Y204eClIEsCy14uClxd
- Y3TzgRklJKeCEz8XxhuVHHTxqIrcFwEVWHmgNxxRYsTKGU3Qxg1idM8MRVPIJg5E27dg
- Ow+SnXUdAm1C4mk7nlslJGyBmO9YvROZ3GiyhOLyuceh1vLUhhIbzPflzFvuQMcQmg6A
- znVqLLWweAGK+2aB6aA1sBopQamcCQxB+rEWAaxEsrzM56MqXerG9UTBcZ/sUAWEziNi
- 7SVw==
-X-Gm-Message-State: AOAM530Kn5ZpJXC/U3aBdrURH4yS+t8vb3vWJuzU7LKiC/eZJ3a+zjS+
- E0OmTwatjUur2gcwiB/LOKi/iuWTkQISUNAG4V3zKtRYjUJQ/2MepbcJ0/i1q7IFEWpK7mJK7Qa
- 4VMZZ9fmRVZVD2H8=
-X-Received: by 2002:adf:e84e:: with SMTP id d14mr4828496wrn.472.1639040652968; 
- Thu, 09 Dec 2021 01:04:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyfG3vV/aRyiYWe3LN4jC4aNnHV+jtlwRB2a/z9RSF4h0GXAskY10WYB/ydgOWJ7a4EhEsyyQ==
-X-Received: by 2002:adf:e84e:: with SMTP id d14mr4828466wrn.472.1639040652652; 
- Thu, 09 Dec 2021 01:04:12 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id z6sm6245420wmp.9.2021.12.09.01.04.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Dec 2021 01:04:12 -0800 (PST)
-Date: Thu, 9 Dec 2021 09:04:10 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 7/7] migration: Finer grained tracepoints for
- POSTCOPY_LISTEN
-Message-ID: <YbHGilsMgFp0dYYP@work-vm>
-References: <20211207115016.73195-1-peterx@redhat.com>
- <20211207115016.73195-8-peterx@redhat.com>
- <YbELjB041z8jSBUE@work-vm> <YbFhQP3FldToWkGv@xz-m1.local>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Cf5pf6EKUixjZTggCYp8nMj6L0Xv31iujI9Okk4o4mw=;
+ b=f0QHdUZoQIkTbRapCztFIsNeHslptpjAcEeweWFIpRLHXjY4HsRV5wQw5anotCycmW
+ Pv8jX4r4BQKQ//KSt8mEXc5HPO4PnBfgNJ+fIFQYFpXKWempXlLvSRxzT11+EMMB8XU5
+ pEioPFSvRPBKkdBXGc7Kqb5OVPQzGeghMhKj01s3XWlzPA9FwCYvrhxoJFEMsfWrzSrL
+ JYDD8R6XzXcFEa9gsAA02AVPC7/kwUfvWgplEaIt8ji8wc23QJwhwQad/aSuPNEWP09H
+ 1L96UpO162HF56HrgB9X5mPuqcGFf7haELFp32xr5a2KM33i24ODsXgxXVyQMHY6ydzb
+ tzbw==
+X-Gm-Message-State: AOAM5320Q+PpazPJVWsKi5+xpiN+j7wRaH8H0UXB4dyCzqoxp4zP8Wpr
+ n0UG74KDNrzvW0PqZPg8ZgULwT4zGEVDpn+MyUvEk5/IWn77hDX/1hkMkcu5SP4CtBXwbDgFdr9
+ dNutuoxao9oFj884=
+X-Received: by 2002:a5d:6d8a:: with SMTP id l10mr5221880wrs.126.1639041295751; 
+ Thu, 09 Dec 2021 01:14:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwwFAo0LyFxjJ/at+VUL8GtRoqVATZT8UWix+w4DJSToruWuYQFUL6/epYOc48hHb8lcMxIaA==
+X-Received: by 2002:a5d:6d8a:: with SMTP id l10mr5221849wrs.126.1639041295499; 
+ Thu, 09 Dec 2021 01:14:55 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id l5sm7109373wrs.59.2021.12.09.01.14.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Dec 2021 01:14:54 -0800 (PST)
+Message-ID: <62461e08-a5ef-f39c-3b7a-3a9426c1b11a@redhat.com>
+Date: Thu, 9 Dec 2021 10:14:53 +0100
 MIME-Version: 1.0
-In-Reply-To: <YbFhQP3FldToWkGv@xz-m1.local>
-User-Agent: Mutt/2.1.3 (2021-09-10)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] target/ppc: powerpc_excp: Guard ALIGNMENT interrupt with
+ CONFIG_TCG
+To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20211208230650.2125095-1-farosas@linux.ibm.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211208230650.2125095-1-farosas@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.618,
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.618,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.803, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,102 +100,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, richard.henderson@linaro.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> On Wed, Dec 08, 2021 at 07:46:20PM +0000, Dr. David Alan Gilbert wrote:
-> > * Peter Xu (peterx@redhat.com) wrote:
-> > > The enablement of postcopy listening has a few steps, add a few tracepoints to
-> > > be there ready for some basic measurements for them.
-> > > 
-> > > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > > ---
-> > >  migration/savevm.c     | 5 ++++-
-> > >  migration/trace-events | 2 +-
-> > >  2 files changed, 5 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/migration/savevm.c b/migration/savevm.c
-> > > index 17b8e25e00..5b3f31eab2 100644
-> > > --- a/migration/savevm.c
-> > > +++ b/migration/savevm.c
-> > > @@ -1946,7 +1946,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
-> > >  static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
-> > >  {
-> > >      PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_LISTENING);
-> > > -    trace_loadvm_postcopy_handle_listen();
-> > > +    trace_loadvm_postcopy_handle_listen(1);
-> > 
-> > I think we tend just to split this into separate traces in many places;
-> > or if we're using the same one then we should use a string
-> > 
-> > I'd make this:
-> >   trace_loadvm_postcopy_handle_listen_entry();
-> > 
-> > for example.
-> > 
-> > >      Error *local_err = NULL;
-> > >  
-> > >      if (ps != POSTCOPY_INCOMING_ADVISE && ps != POSTCOPY_INCOMING_DISCARD) {
-> > > @@ -1962,6 +1962,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
-> > >              postcopy_ram_prepare_discard(mis);
-> > >          }
-> > >      }
-> > > +    trace_loadvm_postcopy_handle_listen(2);
-> > >  
-> > >      /*
-> > >       * Sensitise RAM - can now generate requests for blocks that don't exist
-> > > @@ -1974,6 +1975,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
-> > >              return -1;
-> > >          }
-> > >      }
-> > > +    trace_loadvm_postcopy_handle_listen(3);
-> > >  
-> > >      if (postcopy_notify(POSTCOPY_NOTIFY_INBOUND_LISTEN, &local_err)) {
-> > >          error_report_err(local_err);
-> > > @@ -1988,6 +1990,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
-> > >                         QEMU_THREAD_DETACHED);
-> > >      qemu_sem_wait(&mis->listen_thread_sem);
-> > >      qemu_sem_destroy(&mis->listen_thread_sem);
-> > > +    trace_loadvm_postcopy_handle_listen(4);
-> > 
-> >   trace_loadvm_postcopy_handle_listen_entry_end();
+On 12/9/21 00:06, Fabiano Rosas wrote:
+> We cannot have TCG code in powerpc_excp because the function is called
+> from kvm-only code via ppc_cpu_do_interrupt:
 > 
-> I see, I can use it.  It's just that I want to trap more than entry/exit.
+>  ../target/ppc/excp_helper.c:463:29: error: implicit declaration of
+>  function ‘cpu_ldl_code’ [-Werror=implicit-function-declaration]
 > 
-> For the "4 steps" here I split it into four procedures, the 2 steps inside are
-> majorly to trap either uffd registration time or external uffd handling of
-> other processes.
+> Fortunately, the Alignment interrupt is not among the ones dispatched
+> from kvm-only code, so we can keep it out of the disable-tcg build for
+> now.
 > 
-> One example:
+> Fixes: 336e91f853 ("target/ppc: Move SPR_DSISR setting to powerpc_excp")
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 > 
-> We may want to know how slow is postcopy_notify(POSTCOPY_NOTIFY_INBOUND_LISTEN)
-> when there're some external process attached.  I wanted to be prepared for that
-> so when there's need to evaluate slowness of this procedure with vhost-user
-> enabled we have some tracepoints without replacing the binaries.
+> ---
 > 
-> It's easy to use strings too if that's better looking than numbers.  How about:
-> 
->   trace_loadvm_postcopy_handle_listen("entry")
->   trace_loadvm_postcopy_handle_listen("uffd-reg")
->   trace_loadvm_postcopy_handle_listen("external")
->   trace_loadvm_postcopy_handle_listen("exit")
-> 
+> Perhaps we could make powerpc_excp TCG only and have a separate
+> function that only knows the two interrupts that we use with KVM
+> (Program, Machine check). But for now this fix will do, I think.
 
-Yes, that's fine; but it would also be fine to create 4 separate traces.
+If KVM only uses 2 exception vectors, you could guard the
+enum in target/ppc/cpu.h using #ifdef'ry. While making the
+include uglier, it will helps to catch vector misused at
+compile time.
 
-Dave
-
-> ?
-> 
-> Thanks,
-> 
-> -- 
-> Peter Xu
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> ---
+>  target/ppc/excp_helper.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
 
