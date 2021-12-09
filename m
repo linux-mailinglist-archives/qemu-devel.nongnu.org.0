@@ -2,55 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2252246F4AC
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 21:07:53 +0100 (CET)
-Received: from localhost ([::1]:37744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6674446F4C6
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 21:19:12 +0100 (CET)
+Received: from localhost ([::1]:52526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvPhn-00071H-KE
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 15:07:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34628)
+	id 1mvPsk-000064-WA
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 15:19:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
- id 1mvPbm-0004M7-2U
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 15:01:38 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:58420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
- id 1mvPbj-0003gR-Sc
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 15:01:37 -0500
-Received: from smtpclient.apple (lfbn-bor-1-1317-97.w193-250.abo.wanadoo.fr
- [193.250.130.97])
- by beetle.greensocs.com (Postfix) with ESMTPSA id F10A221A87;
- Thu,  9 Dec 2021 20:01:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1639080091;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=415jl5TuEF31TWFmPAwHkMcDYBgko2sWCWebPmVIPfg=;
- b=UpcLqeWzhEt2jcy3T4+Y7lwmnhCxtQS/4A3y5NoRY/7koJ/1nlYy7Cq4cQRWSlKZEzahSe
- gGqBj4UT98Ja76+sgtJVibrJh0rgdcIfOEQBAin8q631UfUinfOXNtqY8RHN/m72A8SlgX
- xiRv3Wu/D9MrvORlgW/7W26x8QaQCHg=
-From: Mark Burton <mark.burton@greensocs.com>
-Message-Id: <CE6F7A66-A5B9-45CA-9E9D-C8AFFB2976D5@greensocs.com>
-Content-Type: multipart/alternative;
- boundary="Apple-Mail=_651F5D36-7C5E-49F8-A143-50CA25BFE0EA"
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.20.0.1.32\))
-Subject: Re: Redesign of QEMU startup & initial configuration
-Date: Thu, 9 Dec 2021 21:01:24 +0100
-In-Reply-To: <YbJU5vVdesoGuug9@redhat.com>
-To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
-References: <87lf13cx3x.fsf@dusky.pond.sub.org> <YbJU5vVdesoGuug9@redhat.com>
-X-Mailer: Apple Mail (2.3693.20.0.1.32)
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=mark.burton@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1mvPqb-00075o-Lf
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 15:16:58 -0500
+Received: from [2607:f8b0:4864:20::331] (port=35345
+ helo=mail-ot1-x331.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1mvPqa-0001vA-0F
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 15:16:57 -0500
+Received: by mail-ot1-x331.google.com with SMTP id
+ x43-20020a056830246b00b00570d09d34ebso7467371otr.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 12:16:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=t/vUw2aLrU3Ohvz+dgBomF4qsHupZSMAZmL3w/htTtE=;
+ b=AVfOG9e3DuYEMK7zkKSBC88srcVl74yUSdw0s/Sj7TUdJ/ZojxvA/oylrYq1PXdhnI
+ cbx/4ANK4Ld93igMr3pi74sqZN/DRWGdYGy7yS5XAAvroEF0YdoNW6D9yh2Ckp48QMdb
+ LXKfKRMTA7qWWs6X2atF30vRLs0/+X8VI71au1JESwfX67I1e9FwtTlrItx+EgqTD9us
+ bC0UIXTJPiSO+kpGeMkw6mMCrZhpz5NWDuMLuPoEq4KsBDNKF+ilfjyRvXElh5GGnQ+S
+ kAGfJdV/09w4EGo6fMZAx5wp2+r8hv27qJC4po5HIyC+fogGAfuAU6AghAaI+VHRim5j
+ DLSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=t/vUw2aLrU3Ohvz+dgBomF4qsHupZSMAZmL3w/htTtE=;
+ b=S2IBjR9pvOKEDK3WlM9zZxJXynvrIGEt+4Y/3l5BfMrUydl0FnxWte1YyYlCe7OkPN
+ X0sX1FvGB4egU9UYa0eNGTA/Sq4SLZdszdvfBP6/3rrbWY+NaMIMBnl29G1r6oSbGu5D
+ KCSwRKiZqaixU4q2Ni9PEe/NUylx4wROqh+Oj03F4+esLtpma1QLk1j7anmkA3hf3Gst
+ Uv65JFTK2fcnBKzW78Zsep254TAb8unlixzUosVy23Lgt+bTt5WPAPWzQobPDUSeEHe6
+ gDTtQvloEq/dd+gUbQo9myhle0TXgrTqVg7OYBC9E35SOONqpQfPKWXFVVGHwhtxL6UZ
+ 2XVg==
+X-Gm-Message-State: AOAM532ksjb1hMIjTUgbrOYHQDJR1ZbR281ZlKEFyXoh8R3CR8inFb+C
+ pogrqg4jRtJFX5rUL6uql50=
+X-Google-Smtp-Source: ABdhPJx/fkDY6CaEH0TFlTy9RpDXcbuIiCiXlZ1fWENPNAPZx3UvRIc3yFJplsCnJS5yqKARk1uQxA==
+X-Received: by 2002:a9d:2c6:: with SMTP id 64mr7553273otl.0.1639081014347;
+ Thu, 09 Dec 2021 12:16:54 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ f9sm144098oto.56.2021.12.09.12.16.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Dec 2021 12:16:53 -0800 (PST)
+Date: Thu, 9 Dec 2021 12:16:52 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 1/1] uas: add stream number sanity checks.
+Message-ID: <20211209201652.GA2342043@roeck-us.net>
+References: <20210818120505.1258262-1-kraxel@redhat.com>
+ <20210818120505.1258262-2-kraxel@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210818120505.1258262-2-kraxel@redhat.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::331
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
+ envelope-from=groeck7@gmail.com; helo=mail-ot1-x331.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,210 +90,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Aug 18, 2021 at 02:05:05PM +0200, Gerd Hoffmann wrote:
+> The device uses the guest-supplied stream number unchecked, which can
+> lead to guest-triggered out-of-band access to the UASDevice->data3 and
+> UASDevice->status3 fields.  Add the missing checks.
+> 
+> Fixes: CVE-2021-3713
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Reported-by: Chen Zhe <chenzhe@huawei.com>
+> Reported-by: Tan Jingguo <tanjingguo@huawei.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  hw/usb/dev-uas.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
+> index 263056231c79..f6309a5ebfdc 100644
+> --- a/hw/usb/dev-uas.c
+> +++ b/hw/usb/dev-uas.c
+> @@ -840,6 +840,9 @@ static void usb_uas_handle_data(USBDevice *dev, USBPacket *p)
+>          }
+>          break;
+>      case UAS_PIPE_ID_STATUS:
+> +        if (p->stream > UAS_MAX_STREAMS) {
+> +            goto err_stream;
+> +        }
+>          if (p->stream) {
+>              QTAILQ_FOREACH(st, &uas->results, next) {
+>                  if (st->stream == p->stream) {
+> @@ -867,6 +870,9 @@ static void usb_uas_handle_data(USBDevice *dev, USBPacket *p)
+>          break;
+>      case UAS_PIPE_ID_DATA_IN:
+>      case UAS_PIPE_ID_DATA_OUT:
+> +        if (p->stream > UAS_MAX_STREAMS) {
+> +            goto err_stream;
+> +        }
+>          if (p->stream) {
+>              req = usb_uas_find_request(uas, p->stream);
+>          } else {
+> @@ -902,6 +908,11 @@ static void usb_uas_handle_data(USBDevice *dev, USBPacket *p)
+>          p->status = USB_RET_STALL;
+>          break;
+>      }
+> +
+> +err_stream:
+> +    error_report("%s: invalid stream %d", __func__, p->stream);
+> +    p->status = USB_RET_STALL;
+> +    return;
 
---Apple-Mail=_651F5D36-7C5E-49F8-A143-50CA25BFE0EA
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+How is this supposed to work ? It results in messages such as the following.
 
-I=E2=80=99ll take the liberty to cut one part (I agree with much of what =
-you say elsewhere)
+qemu-system-sparc64: usb_uas_handle_data: invalid stream 1
+qemu-system-sparc64: usb_uas_handle_data: invalid stream 1
 
-> On 9 Dec 2021, at 20:11, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
->=20
-> As illustrated earlier, I'd really like us to consider being a bit
-> more adventurous on the CLI side. I'm convinced that a CLI for
-> directly configurable hardware is doomed to be horrible no matter
-> what, if you try to directly expose all QAPI configuration
-> flexibilty. Whether key/value, JSON, whatever, it will become
-> unmanagable on the CLI because VM hardware config is inherantly
-> complicated.
->=20
+It also sets the status unconditionally to USB_RET_STALL,
+and UAS is simply broken after this patch is applied because
+the error handling code is executed literally for each call
+of usb_uas_handle_data().
 
-I absolutely agree, but reach a slightly different conclusion
-
-> Thus my though that config files or QMP should be the only two
-> places where the full power of QAPI config is exposed. Use CLI
-> as just a way to interact with config files in a simple way
-> with templates.
-
-I would countenance that we choose only one place to =E2=80=98support=E2=80=
-=99 an interface. Either =E2=80=9CYet Another Hardware Configuration =
-Language=E2=80=9D or QAPI. Rather than re-inventing that wheel I would =
-simply suggest that we leave that to the relevant =E2=80=98user=E2=80=99 =
-community (libvirt, whatever), who have specific requirements and/or =
-existing solutions. Leaving QEMU itself to focus on improving QAPI (and =
-migrating the CLI).=20
-
-Cheers
-Mark.
-
-
---Apple-Mail=_651F5D36-7C5E-49F8-A143-50CA25BFE0EA
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; line-break: after-white-space;" =
-class=3D"">I=E2=80=99ll take the liberty to cut one part (I agree with =
-much of what you say elsewhere)<br class=3D""><div><br =
-class=3D""><blockquote type=3D"cite" class=3D""><div class=3D"">On 9 Dec =
-2021, at 20:11, Daniel P. Berrang=C3=A9 &lt;<a =
-href=3D"mailto:berrange@redhat.com" class=3D"">berrange@redhat.com</a>&gt;=
- wrote:</div><br class=3D"Apple-interchange-newline"><div class=3D""><span=
- style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-14px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">As illustrated earlier, I'd =
-really like us to consider being a bit</span><br style=3D"caret-color: =
-rgb(0, 0, 0); font-family: Helvetica; font-size: 14px; font-style: =
-normal; font-variant-caps: normal; font-weight: normal; letter-spacing: =
-normal; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 14px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none; float: none; display: inline !important;" =
-class=3D"">more adventurous on the CLI side. I'm convinced that a CLI =
-for</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 14px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none;" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 14px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none; float: none; display: inline !important;" class=3D"">directly =
-configurable hardware is doomed to be horrible no matter</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-14px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-14px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">what, if you try to directly =
-expose all QAPI configuration</span><br style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 14px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 14px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none; float: none; display: inline !important;" =
-class=3D"">flexibilty. Whether key/value, JSON, whatever, it will =
-become</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 14px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none;" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 14px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none; float: none; display: inline !important;" class=3D"">unmanagable =
-on the CLI because VM hardware config is inherantly</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-14px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-14px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">complicated.</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-14px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-14px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" =
-class=3D""></div></blockquote><div><br class=3D""></div>I absolutely =
-agree, but reach a slightly different conclusion<br class=3D""><br =
-class=3D""><blockquote type=3D"cite" class=3D""><div class=3D""><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-14px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">Thus my though that config files =
-or QMP should be the only two</span><br style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 14px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 14px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none; float: none; display: inline !important;" =
-class=3D"">places where the full power of QAPI config is exposed. Use =
-CLI</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 14px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none;" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 14px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none; float: none; display: inline !important;" class=3D"">as just a way =
-to interact with config files in a simple way</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-14px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-14px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">with =
-templates.</span></div></blockquote></div><br class=3D""><div class=3D"">I=
- would countenance that we choose only one place to =E2=80=98support=E2=80=
-=99 an interface. Either =E2=80=9CYet Another Hardware Configuration =
-Language=E2=80=9D or QAPI. Rather than re-inventing that wheel I would =
-simply suggest that we leave that to the relevant =E2=80=98user=E2=80=99 =
-community (libvirt, whatever), who have specific requirements and/or =
-existing solutions. Leaving QEMU itself to focus on improving QAPI (and =
-migrating the CLI).&nbsp;</div><div class=3D""><br class=3D""></div><div =
-class=3D"">Cheers</div><div class=3D"">Mark.</div><div class=3D""><br =
-class=3D""></div></body></html>=
-
---Apple-Mail=_651F5D36-7C5E-49F8-A143-50CA25BFE0EA--
+Guenter
 
