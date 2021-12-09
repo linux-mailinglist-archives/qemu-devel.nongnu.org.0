@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6674446F4C6
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 21:19:12 +0100 (CET)
-Received: from localhost ([::1]:52526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D038546F4EC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 21:29:29 +0100 (CET)
+Received: from localhost ([::1]:59040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvPsk-000064-WA
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 15:19:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38208)
+	id 1mvQ2i-00059o-EM
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 15:29:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1mvPqb-00075o-Lf
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 15:16:58 -0500
-Received: from [2607:f8b0:4864:20::331] (port=35345
- helo=mail-ot1-x331.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1mvPqa-0001vA-0F
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 15:16:57 -0500
-Received: by mail-ot1-x331.google.com with SMTP id
- x43-20020a056830246b00b00570d09d34ebso7467371otr.2
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 12:16:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=t/vUw2aLrU3Ohvz+dgBomF4qsHupZSMAZmL3w/htTtE=;
- b=AVfOG9e3DuYEMK7zkKSBC88srcVl74yUSdw0s/Sj7TUdJ/ZojxvA/oylrYq1PXdhnI
- cbx/4ANK4Ld93igMr3pi74sqZN/DRWGdYGy7yS5XAAvroEF0YdoNW6D9yh2Ckp48QMdb
- LXKfKRMTA7qWWs6X2atF30vRLs0/+X8VI71au1JESwfX67I1e9FwtTlrItx+EgqTD9us
- bC0UIXTJPiSO+kpGeMkw6mMCrZhpz5NWDuMLuPoEq4KsBDNKF+ilfjyRvXElh5GGnQ+S
- kAGfJdV/09w4EGo6fMZAx5wp2+r8hv27qJC4po5HIyC+fogGAfuAU6AghAaI+VHRim5j
- DLSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=t/vUw2aLrU3Ohvz+dgBomF4qsHupZSMAZmL3w/htTtE=;
- b=S2IBjR9pvOKEDK3WlM9zZxJXynvrIGEt+4Y/3l5BfMrUydl0FnxWte1YyYlCe7OkPN
- X0sX1FvGB4egU9UYa0eNGTA/Sq4SLZdszdvfBP6/3rrbWY+NaMIMBnl29G1r6oSbGu5D
- KCSwRKiZqaixU4q2Ni9PEe/NUylx4wROqh+Oj03F4+esLtpma1QLk1j7anmkA3hf3Gst
- Uv65JFTK2fcnBKzW78Zsep254TAb8unlixzUosVy23Lgt+bTt5WPAPWzQobPDUSeEHe6
- gDTtQvloEq/dd+gUbQo9myhle0TXgrTqVg7OYBC9E35SOONqpQfPKWXFVVGHwhtxL6UZ
- 2XVg==
-X-Gm-Message-State: AOAM532ksjb1hMIjTUgbrOYHQDJR1ZbR281ZlKEFyXoh8R3CR8inFb+C
- pogrqg4jRtJFX5rUL6uql50=
-X-Google-Smtp-Source: ABdhPJx/fkDY6CaEH0TFlTy9RpDXcbuIiCiXlZ1fWENPNAPZx3UvRIc3yFJplsCnJS5yqKARk1uQxA==
-X-Received: by 2002:a9d:2c6:: with SMTP id 64mr7553273otl.0.1639081014347;
- Thu, 09 Dec 2021 12:16:54 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- f9sm144098oto.56.2021.12.09.12.16.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Dec 2021 12:16:53 -0800 (PST)
-Date: Thu, 9 Dec 2021 12:16:52 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 1/1] uas: add stream number sanity checks.
-Message-ID: <20211209201652.GA2342043@roeck-us.net>
-References: <20210818120505.1258262-1-kraxel@redhat.com>
- <20210818120505.1258262-2-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mvQ1e-0004Sr-56
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 15:28:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29709)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mvQ1b-0005iF-Ey
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 15:28:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639081698;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A5PiyoFm3Pe2YsGUClI92aeTooKbhnpiAtwFQfnHpwo=;
+ b=it4SY8PvCYECGay21fZLLR3/w1JJ22j+rGaAVJn0YDoXtqBuBtlhcLsIYoLNg1Qug07bYJ
+ 4ajFyeyfy56CzzGBo8BwtTpClUQTUCEipoL+tfuGNHMaZkY9YFJEhfXJIJTcN86athwj8a
+ E2CsQcZdSx6pCs4Jlzr9TLcqij6NKwE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-464-0WagGa9jP6WZaHxm6HJKXw-1; Thu, 09 Dec 2021 15:28:09 -0500
+X-MC-Unique: 0WagGa9jP6WZaHxm6HJKXw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36CC710144E2;
+ Thu,  9 Dec 2021 20:28:08 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 29EA05E24E;
+ Thu,  9 Dec 2021 20:28:05 +0000 (UTC)
+Date: Thu, 9 Dec 2021 20:28:03 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Mark Burton <mark.burton@greensocs.com>
+Subject: Re: Redesign of QEMU startup & initial configuration
+Message-ID: <YbJm0+gK/iLsaBsb@redhat.com>
+References: <87lf13cx3x.fsf@dusky.pond.sub.org> <YbJU5vVdesoGuug9@redhat.com>
+ <CE6F7A66-A5B9-45CA-9E9D-C8AFFB2976D5@greensocs.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+In-Reply-To: <CE6F7A66-A5B9-45CA-9E9D-C8AFFB2976D5@greensocs.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210818120505.1258262-2-kraxel@redhat.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::331
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=groeck7@gmail.com; helo=mail-ot1-x331.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.618,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,67 +83,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 18, 2021 at 02:05:05PM +0200, Gerd Hoffmann wrote:
-> The device uses the guest-supplied stream number unchecked, which can
-> lead to guest-triggered out-of-band access to the UASDevice->data3 and
-> UASDevice->status3 fields.  Add the missing checks.
+On Thu, Dec 09, 2021 at 09:01:24PM +0100, Mark Burton wrote:
+> I’ll take the liberty to cut one part (I agree with much of what you say elsewhere)
 > 
-> Fixes: CVE-2021-3713
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Reported-by: Chen Zhe <chenzhe@huawei.com>
-> Reported-by: Tan Jingguo <tanjingguo@huawei.com>
-> Reviewed-by: Philippe Mathieu-Daud� <philmd@redhat.com>
-> ---
->  hw/usb/dev-uas.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+> > On 9 Dec 2021, at 20:11, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > 
+> > As illustrated earlier, I'd really like us to consider being a bit
+> > more adventurous on the CLI side. I'm convinced that a CLI for
+> > directly configurable hardware is doomed to be horrible no matter
+> > what, if you try to directly expose all QAPI configuration
+> > flexibilty. Whether key/value, JSON, whatever, it will become
+> > unmanagable on the CLI because VM hardware config is inherantly
+> > complicated.
+> > 
 > 
-> diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
-> index 263056231c79..f6309a5ebfdc 100644
-> --- a/hw/usb/dev-uas.c
-> +++ b/hw/usb/dev-uas.c
-> @@ -840,6 +840,9 @@ static void usb_uas_handle_data(USBDevice *dev, USBPacket *p)
->          }
->          break;
->      case UAS_PIPE_ID_STATUS:
-> +        if (p->stream > UAS_MAX_STREAMS) {
-> +            goto err_stream;
-> +        }
->          if (p->stream) {
->              QTAILQ_FOREACH(st, &uas->results, next) {
->                  if (st->stream == p->stream) {
-> @@ -867,6 +870,9 @@ static void usb_uas_handle_data(USBDevice *dev, USBPacket *p)
->          break;
->      case UAS_PIPE_ID_DATA_IN:
->      case UAS_PIPE_ID_DATA_OUT:
-> +        if (p->stream > UAS_MAX_STREAMS) {
-> +            goto err_stream;
-> +        }
->          if (p->stream) {
->              req = usb_uas_find_request(uas, p->stream);
->          } else {
-> @@ -902,6 +908,11 @@ static void usb_uas_handle_data(USBDevice *dev, USBPacket *p)
->          p->status = USB_RET_STALL;
->          break;
->      }
-> +
-> +err_stream:
-> +    error_report("%s: invalid stream %d", __func__, p->stream);
-> +    p->status = USB_RET_STALL;
-> +    return;
+> I absolutely agree, but reach a slightly different conclusion
+> 
+> > Thus my though that config files or QMP should be the only two
+> > places where the full power of QAPI config is exposed. Use CLI
+> > as just a way to interact with config files in a simple way
+> > with templates.
+> 
+> I would countenance that we choose only one place to ‘support’ an interface. Either “Yet Another Hardware Configuration Language” or QAPI. Rather than re-inventing that wheel I would simply suggest that we leave that to the relevant ‘user’ community (libvirt, whatever), who have specific requirements and/or existing solutions. Leaving QEMU itself to focus on improving QAPI (and migrating the CLI). 
 
-How is this supposed to work ? It results in messages such as the following.
+Yes, indeed, the logical extension of my idea is that the 'simple'
+CLI + templating thing doesn't atually have to be in the main QEMU
+binary at all. We could in fact ship a bare '/usr/bin/qemu' which
+does the config file templating and spawns whatever full QEMU
+binary (/usr/bin/qemu-system-blah) does the real VM.  The key is
+just that we have something simple for users, who don't want a
+full mgmt layer and like the historical QEMU simple configs.
 
-qemu-system-sparc64: usb_uas_handle_data: invalid stream 1
-qemu-system-sparc64: usb_uas_handle_data: invalid stream 1
 
-It also sets the status unconditionally to USB_RET_STALL,
-and UAS is simply broken after this patch is applied because
-the error handling code is executed literally for each call
-of usb_uas_handle_data().
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Guenter
 
