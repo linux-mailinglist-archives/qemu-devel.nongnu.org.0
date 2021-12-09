@@ -2,87 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90B746E5E8
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 10:48:17 +0100 (CET)
-Received: from localhost ([::1]:39196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B801946E679
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 11:18:55 +0100 (CET)
+Received: from localhost ([::1]:56722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvG2C-0004v6-UJ
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 04:48:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35592)
+	id 1mvGVq-0001Wz-BH
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 05:18:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mvFwU-0005AE-1Q
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 04:42:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51837)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mvGTg-0000UH-1R
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 05:16:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mvFwS-0001pa-Fk
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 04:42:21 -0500
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mvGTc-00035o-KQ
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 05:16:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639042940;
+ s=mimecast20190719; t=1639044994;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=pPPmUmNI9KFPtmeSDL+aVV4Ewc0xaqmsWpxbtGhIJ9s=;
- b=StvdOZB9Rde/pTChmk5XGyXC83eD51sGuO46X1tz5rWTRpCpY1pPvtFWdM6C06XGioxn+B
- r3jEixuynSKggc+f/RHAyMRel8jnZ4K6S21Q14vLhPPQEovo3rcDNaUHQgzYIVOo35aj/+
- VfJVrTsA2Ohh4lJzsr0gpgoVA91EYeE=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=skSdkMP3/Z5ledz3SKJURFKwF+2QK06u2MtL2wrAHEA=;
+ b=eJ3PPnqGbgDhaOFwlkM/pWlsQIi+recOU/k/PNnRCXZzMyx/m2uDqlH2c4YmJC153IL2IV
+ Osh0vpH9yIMFTkPN1Bobj65JcZFSRAKVMJRZseojpDEyUS+J2QuUaMWm/j/RA2z3upqyrX
+ rU7B6ID90F2sIjtr8dQd5ubBGymX0xw=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-184-Le1W8lKRO7msVbtpPz2fvA-1; Thu, 09 Dec 2021 04:42:18 -0500
-X-MC-Unique: Le1W8lKRO7msVbtpPz2fvA-1
-Received: by mail-lf1-f71.google.com with SMTP id
- d2-20020a0565123d0200b0040370d0d2fbso2409493lfv.23
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 01:42:18 -0800 (PST)
+ us-mta-431-XIsIRlTTPuWEEYKW-4ZvAA-1; Thu, 09 Dec 2021 05:16:33 -0500
+X-MC-Unique: XIsIRlTTPuWEEYKW-4ZvAA-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ br9-20020a05620a460900b0046ad784c791so6372811qkb.4
+ for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 02:16:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pPPmUmNI9KFPtmeSDL+aVV4Ewc0xaqmsWpxbtGhIJ9s=;
- b=rRo7iWCD3t8ATC81rStTA00v3w8zi3XAtJ3vB1cafAIEq77fXQUTgpfNGKRE8AO61x
- yrVHwVUEexPWsm5ysuWxEBOn8y/AcFZI3a3Z5UV15lZZn9AIypzSPqQn5BvMbASjNi8X
- ac/RgLL0EV+kptgwFsrzNAEHytquksjgM/7NN1kqxXb3lGsnlH2jDqDaGKTNZm/lJVip
- mQu3Rw6AkzpI20GkiGK+yB8RZHHkwGyiLFHyR+lzuy9kmH2F/KHb3zFl1ao4Z5Mh1MKE
- YuZUlKo/lBBBV5HgkJ+65gQJqYij03abEY/qRfPBKHzeybRSu+Op7tPt3uRRRHBjhbIL
- 9PZw==
-X-Gm-Message-State: AOAM531leQS2mAkZv5YDYscwlCAV3QhowCROAVElT+9G1V+OaEJ8vqdP
- BdZkSdoJN+iu1LzzLrSPdE0XARTaP20dGCNA9JfYRq2MDDzsOgwqsg1vDDO56WzM5s27tMzts9S
- 8MZL6Y9hz13T+R3Vgn5tlJqMENl9g5c4=
-X-Received: by 2002:a05:651c:4c9:: with SMTP id
- e9mr5405928lji.10.1639042937385; 
- Thu, 09 Dec 2021 01:42:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzJwg3pavRQbKb9DE7uJ8iS0c0kGYu3lpjHabAgARPvxSUSkz7RupzbkaSxQZraLnSaxy+IhEc//N0fdEreHyA=
-X-Received: by 2002:a05:651c:4c9:: with SMTP id
- e9mr5405909lji.10.1639042937080; 
- Thu, 09 Dec 2021 01:42:17 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=skSdkMP3/Z5ledz3SKJURFKwF+2QK06u2MtL2wrAHEA=;
+ b=cBej3BGE1RTrnIrrGe4ImMSlj8rZnIJnISbpx7R84EIqTFepN8KntZZs6gCL28bQcr
+ vOLy4xEx93187ILW1U21KvmHDjYL7GHam2FqnoFIFWA/kN1MB32txjCEP8U+1frBi9Z4
+ 8wSfHD85t4yY2X4s8XWhESiJ9QYKg6gXyj7owZ1Iv7MvJ48TgRQwN0nHgeTqSP3ePNS4
+ +XM/A0kvHUKzIJz8RrCak15I3U7uaKPmcyUpmPmcCCgbclsfjV5CGMmCE7fOUpAtVK9h
+ kFEFMN12+3uOiFoTFzx0KxxTubGaJY8nB1GX09W/zYFwWmYoAB7CKo702C+I6RjqUsoq
+ XMuQ==
+X-Gm-Message-State: AOAM530yRQtB72m0Vk0bdBKJaOW42DavKtzYt34/W9Zyr7BEiOSQaIgG
+ t6RGAS7V0/qbTNSIzcvBE3SwppUinTkdpezejFJJx99fWDx1bvy0Vr6YYJtv/PjlB+JZ7WAuam8
+ RSPmaxXfmLBEjg08=
+X-Received: by 2002:a05:622a:346:: with SMTP id
+ r6mr15827165qtw.78.1639044993491; 
+ Thu, 09 Dec 2021 02:16:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxRJ/jy5gwTgSypAPgE1xPC61ttuND6x5A5qbkOiCsntHwUEjX6o68lu/SOhEC/Ll9Ki4cxXQ==
+X-Received: by 2002:a05:622a:346:: with SMTP id
+ r6mr15827126qtw.78.1639044993273; 
+ Thu, 09 Dec 2021 02:16:33 -0800 (PST)
+Received: from steredhat (host-87-21-203-138.retail.telecomitalia.it.
+ [87.21.203.138])
+ by smtp.gmail.com with ESMTPSA id y18sm3753945qtx.19.2021.12.09.02.16.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Dec 2021 02:16:32 -0800 (PST)
+Date: Thu, 9 Dec 2021 11:16:26 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v3 0/6] aio-posix: split poll check from ready handler
+Message-ID: <20211209101626.t5fkmsnjxwjveb5i@steredhat>
+References: <20211207132336.36627-1-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <20211112051040.923746-1-leobras@redhat.com>
- <20211112051040.923746-7-leobras@redhat.com>
- <87pmr0ulqx.fsf@secure.mitica>
- <CAJ6HWG4hJSDSNR5GcON2z6LA0ykMv6x7BVS0vpR3zcQuCOzW+A@mail.gmail.com>
-In-Reply-To: <CAJ6HWG4hJSDSNR5GcON2z6LA0ykMv6x7BVS0vpR3zcQuCOzW+A@mail.gmail.com>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Thu, 9 Dec 2021 06:42:06 -0300
-Message-ID: <CAJ6HWG7nhzC02OGTBhtd1u4SJiztgFqfYGDyOVMJAT8+7tPtag@mail.gmail.com>
-Subject: Re: [PATCH v5 6/6] multifd: Implement zerocopy write in multifd
- migration (multifd-zerocopy)
-To: Juan Quintela <quintela@redhat.com>
+In-Reply-To: <20211207132336.36627-1-stefanha@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.618,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,129 +97,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Paul Durrant <paul@xen.org>, Anthony Perard <anthony.perard@citrix.com>,
+ xen-devel@lists.xenproject.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Peter Lieven <pl@kamp.de>, Stefan Weil <sw@weilnetz.de>,
+ Julia Suvorova <jusual@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 9, 2021 at 5:51 AM Leonardo Bras Soares Passos
-<leobras@redhat.com> wrote:
+On Tue, Dec 07, 2021 at 01:23:30PM +0000, Stefan Hajnoczi wrote:
+>v3:
+>- Fixed FUSE export aio_set_fd_handler() call that I missed and double-checked
+>  for any other missing call sites using Coccinelle [Rich]
+>v2:
+>- Cleaned up unused return values in nvme and virtio-blk [Stefano]
+>- Documented try_poll_mode() ready_list argument [Stefano]
+>- Unified virtio-blk/scsi dataplane and non-dataplane virtqueue handlers [Stefano]
 >
-> Hello Juan,
+>The first patch improves AioContext's adaptive polling execution time
+>measurement. This can result in better performance because the algorithm makes
+>better decisions about when to poll versus when to fall back to file descriptor
+>monitoring.
 >
-> On Tue, Nov 16, 2021 at 1:08 PM Juan Quintela <quintela@redhat.com> wrote:
-> >
-> > Leonardo Bras <leobras@redhat.com> wrote:
-> > > Implement zerocopy on nocomp_send_write(), by making use of QIOChannel
-> > > zerocopy interface.
-> > >
-> > > Change multifd_send_sync_main() so it can distinguish each iteration sync from
-> > > the setup and the completion, so a flush_zerocopy() can be called
-> > > at the after each iteration in order to make sure all dirty pages are sent
-> > > before a new iteration is started.
-> > >
-> > > Also make it return -1 if flush_zerocopy() fails, in order to cancel
-> > > the migration process, and avoid resuming the guest in the target host
-> > > without receiving all current RAM.
-> > >
-> > > This will work fine on RAM migration because the RAM pages are not usually freed,
-> > > and there is no problem on changing the pages content between async_send() and
-> > > the actual sending of the buffer, because this change will dirty the page and
-> > > cause it to be re-sent on a next iteration anyway.
-> > >
-> > > Given a lot of locked memory may be needed in order to use multid migration
-> > > with zerocopy enabled, make it optional by creating a new migration parameter
-> > > "zerocopy" on qapi, so low-privileged users can still perform multifd
-> > > migrations.
-> >
-> > How much memory can a non-root program use by default?
-> >
-> >
-> > >  static void *multifd_send_thread(void *opaque)
-> > > @@ -853,6 +875,10 @@ static void multifd_new_send_channel_async(QIOTask *task, gpointer opaque)
-> > >          goto cleanup;
-> > >      }
-> > >
-> > > +    if (migrate_use_zerocopy()) {
-> > > +        p->write_flags = QIO_CHANNEL_WRITE_FLAG_ZEROCOPY;
-> > > +    }
-> >
-> > This belongs
-> >
-> >
-> > >      p->c = QIO_CHANNEL(sioc);
-> > >      qio_channel_set_delay(p->c, false);
-> > >      p->running = true;
-> > > @@ -918,6 +944,7 @@ int multifd_save_setup(Error **errp)
-> > >          p->packet->version = cpu_to_be32(MULTIFD_VERSION);
-> > >          p->name = g_strdup_printf("multifdsend_%d", i);
-> > >          p->tls_hostname = g_strdup(s->hostname);
-> > > +        p->write_flags = 0;
-> >
-> > here?
-> >
-> > >          socket_send_channel_create(multifd_new_send_channel_async, p);
-> > >      }
-> > > diff --git a/migration/socket.c b/migration/socket.c
-> > > index e26e94aa0c..8e40e0a3fd 100644
-> > > --- a/migration/socket.c
-> > > +++ b/migration/socket.c
-> > > @@ -78,8 +78,13 @@ static void socket_outgoing_migration(QIOTask *task,
-> > >          trace_migration_socket_outgoing_connected(data->hostname);
-> > >      }
-> > >
-> > > -    if (migrate_use_zerocopy()) {
-> > > -        error_setg(&err, "Zerocopy not available in migration");
-> > > +    if (migrate_use_zerocopy() &&
-> > > +        (!migrate_use_multifd() ||
-> > > +         !qio_channel_has_feature(sioc, QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY) ||
-> > > +          migrate_multifd_compression() != MULTIFD_COMPRESSION_NONE ||
-> > > +          migrate_use_tls())) {
-> > > +        error_setg(&err,
-> > > +                   "Zerocopy only available for non-compressed non-TLS multifd migration");
-> > >      }
-> > >
-> > >      migration_channel_connect(data->s, sioc, data->hostname, err);
-> >
-> > Do we really want to do this check here?  I think this is really too
-> > late.
-> >
-> > You are not patching migrate_params_check().
-> >
-> > I think that the proper way of doing this is something like:
-> >
-> >     if (params->zerocopy &&
-> >         (params->parameters.multifd_compression != MULTIFD_COMPRESSION_NONE ||
-> >          migrate_use_tls())) {
-> >            error_setg(&err,
-> >                      "Zerocopy only available for non-compressed non-TLS multifd migration");
-> >         return false;
-> >     }
->
-> Don't we also need a check for multifd enabled here?
-> We could have zerocopy, multifd_compression=none, tls=disabled but it
-> will not fail if multifd=disabled.
->
-> Is this correct?
->
+>The remaining patches unify the virtio-blk and virtio-scsi dataplane and
+>non-dataplane virtqueue handlers. This became possible because the dataplane
+>handler function now has the same function signature as the non-dataplane
+>handler function. Stefano Garzarella prompted me to make this refactoring.
 
-I did some tests and this case actually seems to not fail, even though
-it should.
-So IIUC we really need to check for multifd here.
+Great clean up! Thanks for doing this, everything LGTM:
 
-Sending v6.
-
->
-> >
-> > You have to do the equivalent of multifd_compression and tls enablement,
-> > to see that zerocopy is not enabled, of course.
-> >
-> > I would prefer to check for QIO_CHANNEL_FEATUR_WRITE_ZEROCPY there, but
-> > I can't see a way of doing that without a qio.
-> >
-> > Later, Juan.
-> >
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
 
