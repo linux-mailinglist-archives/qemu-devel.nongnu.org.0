@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4723546ED03
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 17:24:25 +0100 (CET)
-Received: from localhost ([::1]:48628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B9546ED22
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 17:34:37 +0100 (CET)
+Received: from localhost ([::1]:56162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvMDX-00083g-Vv
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 11:24:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57638)
+	id 1mvMNQ-0005lu-48
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 11:34:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elima@redhat.com>) id 1mvMBg-0006Dl-7h
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 11:22:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21337)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mvMLy-0004y1-FA
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 11:33:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elima@redhat.com>) id 1mvMBc-0003GY-Px
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 11:22:27 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mvMLu-0005xr-Vk
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 11:33:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639066943;
+ s=mimecast20190719; t=1639067581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BEI5MIxhi6zk2lOBek2rPzJIXD+uzRIa//y+c7mWQow=;
- b=NS5uFGlYfFj+USNgummSw39ffCrAv9/ouC/z29lRAiVyz7tcPfB1KVg+9s1f0B5IqeoyA/
- EE+7iEGXGCnN8Ci5CEUjjt0aXe6KXD8oidi91efCe3WWEMPNKe8LjudmZe7I/SWvrPZlK9
- +AhcwSspj92rNfl2OCQnwuw/ANGE1NQ=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5X4MtKcb0zOnXHsT/bSx/xdp5YeyeFyRXOCHyd0yxKc=;
+ b=bwue4bbFTywOhpuxmlR7Expb++h046amcoadQOmemNd1q4pJvc9OLoN/gI4WrHLC0d9hgM
+ eLhCsf0cjzLHTwtPPIZsG+5OM5GnCwgkgjK+D6gmgwYi74TRPL4a0pGT5mj7t469Nr5Est
+ AE26qZ/+aoNYEA1VSrsqjcIad76T7Es=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-230-Miuz5HddM8GfdQOMa4Ejow-1; Thu, 09 Dec 2021 11:22:19 -0500
-X-MC-Unique: Miuz5HddM8GfdQOMa4Ejow-1
-Received: by mail-pg1-f197.google.com with SMTP id
- i12-20020a63584c000000b00330ec6e2c37so3501466pgm.7
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 08:22:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BEI5MIxhi6zk2lOBek2rPzJIXD+uzRIa//y+c7mWQow=;
- b=bHlWB890XXO1uq3lSXIZXvSqNc/YaMB2hdSt6zLWv98oNCdW8Q20lChDIlJ0tJg2R2
- VJaUDuLONPSgeb1Sm9APVrSks0ngvYpvVkY20UswcBk7IqwqJp1ahbbL+K+eEqs+bSx4
- dDTzhRoXSjPAdDyL9x1EHQmdbSX5XADvipel8ILnOFbhj5q9E8SaWqaC9w2GN/zNzIGJ
- 1kzDzwvS7bgo4mTnKoythFpJer4B42XOdvDRe+my3M1IlXKUBuRj6PPwpImaZBO14jJ3
- TrASKzS9tX1Zz9CzW29KPJt7dzFmZCtuxsxNcnHhKbnPM+AEo+Ifn9LslpLw/icWuWGJ
- o7iA==
-X-Gm-Message-State: AOAM530l8h23qYe7nXvAMbk6ascGrei+iMUq8+pHXmWFhlNPzfS3gtYk
- RDoY6i8Qq+xFEZ6JrUgVqM57vfvYU1uov7SoVMG/Exea6tzasmR+KrI3GikBjAKI7u+45firaAX
- tG7Ssqi4r7taI+8e7cUEHLHwDL6Ppun8=
-X-Received: by 2002:a63:88c1:: with SMTP id
- l184mr34081674pgd.460.1639066938754; 
- Thu, 09 Dec 2021 08:22:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyWO02PUS/Rs0sh3rqpI+iESh9fIs8Pu1dbaPDpZ3lVnhqWfhah4w5F4NxqCxnzZMzlNGKsCNsMNMqVOmch944=
-X-Received: by 2002:a63:88c1:: with SMTP id
- l184mr34081658pgd.460.1639066938462; 
- Thu, 09 Dec 2021 08:22:18 -0800 (PST)
+ us-mta-221-mavTdumlO6WWdUnpxawY0A-1; Thu, 09 Dec 2021 11:33:00 -0500
+X-MC-Unique: mavTdumlO6WWdUnpxawY0A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12A6961245;
+ Thu,  9 Dec 2021 16:32:59 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C287C19724;
+ Thu,  9 Dec 2021 16:32:55 +0000 (UTC)
+Date: Thu, 9 Dec 2021 16:32:54 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [RFC] block-backend: prevent dangling BDS pointer in blk_drain()
+Message-ID: <YbIvtoLHeZLcBE4b@stefanha-x1.localdomain>
+References: <20211209142304.381253-1-stefanha@redhat.com>
+ <404e8b66-b64a-fded-db53-81eef675fc33@redhat.com>
 MIME-Version: 1.0
-References: <CAJzYwARYDA+E4wrszx-F1D_9+VAYB2dU=M-LtvzPJey02gu2qg@mail.gmail.com>
- <20211203193725.GB1127@redhat.com>
- <CAJzYwASbiKGe5n7Ggs3u+6b6-7KEyqLCHxFsv2YMh2xyU4Y1MQ@mail.gmail.com>
- <20211203210325.GG1127@redhat.com>
- <ca5c4fb4-3e9e-03c7-b682-cd29a01e0f13@linaro.org>
- <a4421d15-81aa-4128-11f9-726765c814c5@linaro.org>
-In-Reply-To: <a4421d15-81aa-4128-11f9-726765c814c5@linaro.org>
-From: Eduardo Lima <elima@redhat.com>
-Date: Thu, 9 Dec 2021 13:22:07 -0300
-Message-ID: <CAJzYwARxgVstp=0jgaBWxyjZGX73D5rFdp=TQ4QssQYRFnKaRw@mail.gmail.com>
-Subject: Re: QEMU 6.2.0 and rhbz#1999878
-To: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <404e8b66-b64a-fded-db53-81eef675fc33@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=elima@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000a169bf05d2b902f8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=elima@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dBJHe8kNryM4YAD5"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.618,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,100 +80,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org, sw@weilnetz.de,
- f4bug@amsat.org, "Richard W.M. Jones" <rjones@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a169bf05d2b902f8
-Content-Type: text/plain; charset="UTF-8"
-
-Thanks all, I saw the patch has been merged and is part of rc4. I'm
-removing it from the fedora package.
-
-On Fri, Dec 3, 2021 at 9:09 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 12/3/21 2:00 PM, Richard Henderson wrote:
-> >> Oh I see, it was indeed replaced by Richard Henderson's patch:
-> >>
-> >>
-> https://src.fedoraproject.org/rpms/qemu/blob/rawhide/f/0001-tcg-arm-Reduce-vector-alignment-requirement-for-NEON.patch
-> >>
-> >>
-> >>> At the moment I kept it as part of 6.2.0 build, which I am just about
-> to push
-> >>> to rawhide. It builds locally, and I am only waiting for the
-> scratch-build to
-> >>> finish.
-> >>
-> >> Yes looks like we need to keep it, and get it upstream too.
-> >
-> > Whoops.  That dropped through the cracks.
-> > I'll queue that now-ish.
->
->
-> https://patchew.org/QEMU/20210912174925.200132-1-richard.henderson@linaro.org/
->
-> Ah right, I was supposed to test your kernel and never got there.
-> Plus it never got any r-b's.
->
-> Rebase was smooth and regression testing went ok on cortex-a57 host.
->
->
-> r~
->
->
-
---000000000000a169bf05d2b902f8
-Content-Type: text/html; charset="UTF-8"
+--dBJHe8kNryM4YAD5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:arial,sa=
-ns-serif;font-size:small">Thanks all, I saw the patch has been merged and i=
-s part of rc4. I&#39;m removing it from the fedora package.</div></div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, De=
-c 3, 2021 at 9:09 PM Richard Henderson &lt;<a href=3D"mailto:richard.hender=
-son@linaro.org">richard.henderson@linaro.org</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">On 12/3/21 2:00 PM, Richard Hen=
-derson wrote:<br>
-&gt;&gt; Oh I see, it was indeed replaced by Richard Henderson&#39;s patch:=
-<br>
-&gt;&gt;<br>
-&gt;&gt; <a href=3D"https://src.fedoraproject.org/rpms/qemu/blob/rawhide/f/=
-0001-tcg-arm-Reduce-vector-alignment-requirement-for-NEON.patch" rel=3D"nor=
-eferrer" target=3D"_blank">https://src.fedoraproject.org/rpms/qemu/blob/raw=
-hide/f/0001-tcg-arm-Reduce-vector-alignment-requirement-for-NEON.patch</a> =
-<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;&gt; At the moment I kept it as part of 6.2.0 build, which I am jus=
-t about to push<br>
-&gt;&gt;&gt; to rawhide. It builds locally, and I am only waiting for the s=
-cratch-build to<br>
-&gt;&gt;&gt; finish.<br>
-&gt;&gt;<br>
-&gt;&gt; Yes looks like we need to keep it, and get it upstream too.<br>
-&gt; <br>
-&gt; Whoops.=C2=A0 That dropped through the cracks.<br>
-&gt; I&#39;ll queue that now-ish.<br>
-<br>
-<a href=3D"https://patchew.org/QEMU/20210912174925.200132-1-richard.henders=
-on@linaro.org/" rel=3D"noreferrer" target=3D"_blank">https://patchew.org/QE=
-MU/20210912174925.200132-1-richard.henderson@linaro.org/</a><br>
-<br>
-Ah right, I was supposed to test your kernel and never got there.<br>
-Plus it never got any r-b&#39;s.<br>
-<br>
-Rebase was smooth and regression testing went ok on cortex-a57 host.<br>
-<br>
-<br>
-r~<br>
-<br>
-</blockquote></div>
+On Thu, Dec 09, 2021 at 04:45:13PM +0100, Hanna Reitz wrote:
+> On 09.12.21 15:23, Stefan Hajnoczi wrote:
+> > The BlockBackend root child can change during bdrv_drained_begin() when
+> > aio_poll() is invoked. In fact the BlockDriverState can reach refcnt 0
+> > and blk_drain() is left with a dangling BDS pointer.
+> >=20
+> > One example is scsi_device_purge_requests(), which calls blk_drain() to
+> > wait for in-flight requests to cancel. If the backup blockjob is active=
+,
+> > then the BlockBackend root child is a temporary filter BDS owned by the
+> > blockjob. The blockjob can complete during bdrv_drained_begin() and the
+> > last reference to the BDS is released when the temporary filter node is
+> > removed. This results in a use-after-free when blk_drain() calls
+> > bdrv_drained_end(bs) on the dangling pointer.
+> >=20
+> > The general problem is that a function and its callers must not assume
+> > that bs is still valid across aio_poll(). Explicitly hold a reference t=
+o
+> > bs in blk_drain() to avoid the dangling pointer.
+> >=20
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> > I found that BDS nodes are sometimes deleted with bs->quiesce_counter >
+> > 0 (at least when running "make check"), so it is currently not possible
+> > to put the bdrv_ref/unref() calls in bdrv_do_drained_begin() and
+> > bdrv_do_drained_end() because they will be unbalanced. That would have
+> > been a more general solution than only fixing blk_drain().
+>=20
+> Deleting nodes that have a `quiesce_counter > 0` doesn=E2=80=99t seem wro=
+ng to me =E2=80=93
+> deleting only depends on strong references, and so I=E2=80=99d expect tha=
+t anything
+> that increases the quiesce_counter also has a strong reference to the nod=
+e
+> if the former wants the latter to stay around.
+>=20
+> I suppose we could make it so that both the quiesce_counter and the refcn=
+t
+> need to be 0 before a BDS is deleted (and then deletion can happen both f=
+rom
+> bdrv_unref() and drained_end), but I don=E2=80=99t know whether that=E2=
+=80=99s really
+> necessary.=C2=A0 I=E2=80=99d rather leave it to the caller to ensure they=
+ keep a strong
+> reference throughout the drain.
+>=20
+> The question is, how often do we have a situation like this, where we tak=
+e a
+> weak reference for draining, because we assume there=E2=80=99s a strong r=
+eference
+> backing us up (namely the one through blk->root), but that strong referen=
+ce
+> then can go away due to draining...
+>=20
+> > Any suggestions for a better fix?
+>=20
+> The fix makes sense to me.
 
---000000000000a169bf05d2b902f8--
+Okay. My concern was that this is a whole class of bugs and my patch
+only fixes blk_drain(). I have audited the code some more in the
+meantime.
+
+bdrv_insert_node() may be unsafe in the case where bs is a temporary
+filter node that is unref'd during bdrv_drained_begin():
+
+  BlockDriverState *bdrv_insert_node(BlockDriverState *bs, QDict *options,
+                                     int flags, Error **errp)
+  {
+      ERRP_GUARD();
+      int ret;
+      BlockDriverState *new_node_bs =3D NULL;
+      const char *drvname, *node_name;
+      BlockDriver *drv;
+ =20
+      drvname =3D qdict_get_try_str(options, "driver");
+      if (!drvname) {
+          error_setg(errp, "driver is not specified");
+          goto fail;
+      }
+ =20
+      drv =3D bdrv_find_format(drvname);
+      if (!drv) {
+          error_setg(errp, "Unknown driver: '%s'", drvname);
+          goto fail;
+      }
+ =20
+      node_name =3D qdict_get_try_str(options, "node-name");
+ =20
+      new_node_bs =3D bdrv_new_open_driver_opts(drv, node_name, options, fl=
+ags,
+                                              errp);
+      options =3D NULL; /* bdrv_new_open_driver() eats options */
+      if (!new_node_bs) {
+          error_prepend(errp, "Could not create node: ");
+          goto fail;
+      }
+ =20
+      bdrv_drained_begin(bs);
+      ^^^^^^^^^^^^^^^^^^^^^^^ <--- bs can be dangling pointer
+      ret =3D bdrv_replace_node(bs, new_node_bs, errp);
+      bdrv_drained_end(bs);
+
+The fix isn't as simple as blk_drain() because we don't want to insert
+the new node before the now-deleted node. I think the correct way to
+insert a node is against BdrvChild, not BlockDriverState. That way we
+can be sure the new node will be inserted into a graph that is reachable
+via BdrvChild (e.g. BlockBackend) instead of a detached BDS.
+
+bdrv_set_aio_context_ignore() and blk_io_limits_disable() need to ref bs
+like blk_drain() in this patch.
+
+There are some other bdrv_drained_begin() calls that I'm assuming are
+safe because they are during creation/deletion so I think we have strong
+references there or nothing else knows about our BDS yet.
+
+Do you agree with extending this patch series to cover the functions I
+mentioned above?
+
+> One alternative that comes to my mind is to instead re-fetch `bs =3D
+> blk_bs(blk);` after the AIO_WAIT_WHILE() loop.=C2=A0 But that might be wr=
+ong,
+> because if the node attached to the BB changed (i.e. isn=E2=80=99t `bs`, =
+and isn=E2=80=99t
+> `NULL`), then we=E2=80=99d end the drain on the wrong node.
+
+Yes.
+
+Stefan
+
+--dBJHe8kNryM4YAD5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmGyL7YACgkQnKSrs4Gr
+c8j11wgArqCBjzOPhOVEjosX69ja3sQK3dw2WD5x7HiRoaBWy34d2Wok48UlPFOy
+Wkp8qRVtxL8H+zDx0LcpJG210T7Al0ltlQVZyrCCn0ys54IWBPNjcn6kmTvQeO5m
+u35EG6UTFy0TATfexL0kGxzS/oCVuZUOayFNzyvCBzA/FWCLR/8pZwH0xfrwtk6L
+ELtPQ1QtdLcQYv+JsLjrqr4Zl6WPTfMh0kBfEDVdrm4nL8R9KdHP1XzKPucb0RQI
+cZ3rSBQuP9H42rktUpb9z/hkxoBnT2JfscLT0pz9v1JFQrbcyyXk8z1O3IXFppP7
+oUVThSqjYptzpfh7mE4QmOuPLhE7Jg==
+=4RSx
+-----END PGP SIGNATURE-----
+
+--dBJHe8kNryM4YAD5--
 
 
