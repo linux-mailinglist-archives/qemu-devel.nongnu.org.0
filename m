@@ -2,96 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379EA46F1E1
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 18:28:46 +0100 (CET)
-Received: from localhost ([::1]:53232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7CF46F230
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 18:37:05 +0100 (CET)
+Received: from localhost ([::1]:35748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvNDo-0001vN-Re
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 12:28:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48230)
+	id 1mvNLs-0008AA-CU
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 12:37:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1mvNBm-00005q-07; Thu, 09 Dec 2021 12:26:39 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40646)
+ id 1mvNJu-0006an-GR; Thu, 09 Dec 2021 12:35:02 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46698
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1mvNBj-0000Aj-Nw; Thu, 09 Dec 2021 12:26:37 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B9H9jj0008199; 
- Thu, 9 Dec 2021 17:26:24 GMT
+ id 1mvNJq-0003HL-H7; Thu, 09 Dec 2021 12:35:02 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B9HCGj6030974; 
+ Thu, 9 Dec 2021 17:34:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=4eaj6lO4OvM/1Se43bbY3NNwVmo1qMl+2QdCNxPuIMs=;
- b=BAZq+4eYpvV+WruLgRlOQlvIM0PqQff8qPHnBFvCXlmRDjqxmTVujsy+tfeBnQCYvC0U
- waqILPudmWNFGpLfs7eTRvS+Ef8FaOxIyfsJZOQZmSZdHuDO/NM5rDVV2K/F/28uKF9E
- +hyFM5d2N1d+sccl5bOd1owNWRGJbnAU7n7glAzElrz75SiwGdLhFejFoq8nezrpuguq
- K/plcaAvCxJkuL38Q+W0hSksgIdr5GEnVIKpuh3e4BfBetaHWlRCxIt6fjdwMhtaQmFc
- X7ImPIUpbEKcl8TqC7ReUI7XFZWLoTH5ebUVo8+fc6QR1fWnDIhVk9W1robeMkJMOjAJ MQ== 
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=eafw23upgUDI7+F39IUD/sU80yOjuW0qlQdb4ECYGfg=;
+ b=fzxx9sHXBy9VAkigxyZbH/9UOzmBS+qyhIFphaoDI0sgmas7QuVHGzWj8Sf8/0iZ8Hhe
+ K5tvYUe65MwarPyFaS7EaxmZeMMy/et5mRG5I4Ma84k3KKocvJzjzrEQNtflqJBc5hnT
+ xqq0rw7KRiMoL3AcZ3U1lbnx92icnIKnIOEuNPg+pKataNLPTNY82xpRiIDpfwoWGHZz
+ 0ojbIsHmXYnNlFRq0DUqVUDagRxe57CotW5xlZASeg+7ykNWQgFIFA1fb/X3uTaNh3xe
+ 0imF2BGmvk0EWtIRzgsefoVqIOQYP+IUqWr9IYPc2moFIgTCDmEMLUjQY2rMyQjNSdvs yw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cunbr9bp9-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cup018fnp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Dec 2021 17:26:23 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B9HLN9i006949;
- Thu, 9 Dec 2021 17:26:23 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cunbr9bp5-1
+ Thu, 09 Dec 2021 17:34:49 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B9HDPJJ001454;
+ Thu, 9 Dec 2021 17:34:49 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cup018fnc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Dec 2021 17:26:23 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B9HE6Af007707;
- Thu, 9 Dec 2021 17:26:22 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma04wdc.us.ibm.com with ESMTP id 3cqyybx3rd-1
+ Thu, 09 Dec 2021 17:34:49 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B9HYLaQ013246;
+ Thu, 9 Dec 2021 17:34:48 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma02dal.us.ibm.com with ESMTP id 3cqyycppcj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Dec 2021 17:26:22 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B9HQLDe46727584
+ Thu, 09 Dec 2021 17:34:46 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1B9HXVaD27853112
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 9 Dec 2021 17:26:21 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1B3AF11206D;
- Thu,  9 Dec 2021 17:26:21 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4051D112065;
- Thu,  9 Dec 2021 17:26:20 +0000 (GMT)
-Received: from localhost (unknown [9.163.12.190])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTPS;
- Thu,  9 Dec 2021 17:26:19 +0000 (GMT)
+ Thu, 9 Dec 2021 17:33:31 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E593CBE04F;
+ Thu,  9 Dec 2021 17:33:30 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 20F61BE054;
+ Thu,  9 Dec 2021 17:33:29 +0000 (GMT)
+Received: from farosas.linux.ibm.com.com (unknown [9.163.12.190])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu,  9 Dec 2021 17:33:28 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] target/ppc: powerpc_excp: Guard ALIGNMENT interrupt
- with CONFIG_TCG
-In-Reply-To: <a2cca719-7d28-65a1-97c4-c91d9a469cbf@kaod.org>
-References: <20211208230650.2125095-1-farosas@linux.ibm.com>
- <c17bf4e0-2c5c-0748-0539-34b441c81644@kaod.org>
- <87o85p6cog.fsf@linux.ibm.com>
- <a2cca719-7d28-65a1-97c4-c91d9a469cbf@kaod.org>
-Date: Thu, 09 Dec 2021 14:26:17 -0300
-Message-ID: <87h7bh666e.fsf@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] Revert "target/ppc: Move SPR_DSISR setting to powerpc_excp"
+Date: Thu,  9 Dec 2021 14:33:23 -0300
+Message-Id: <20211209173323.2166642-1-farosas@linux.ibm.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _UJBKBiLK8Bgb2MYQZhdExz7B5_9pgqU
-X-Proofpoint-ORIG-GUID: ZQKAReffvoN3MyG9AdsBMXjH9FbGF7jJ
+X-Proofpoint-GUID: L5B5USPJkkQVITnhCXmZ12FWpkd9N3tE
+X-Proofpoint-ORIG-GUID: Cc4adecPQskmkp5ABaELbMKazgxqhqEW
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-09_07,2021-12-08_01,2021-12-02_01
+ definitions=2021-12-09_08,2021-12-08_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- spamscore=0 clxscore=1015 malwarescore=0 bulkscore=0 lowpriorityscore=0
- adultscore=0 phishscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112090089
+ mlxlogscore=755
+ impostorscore=0 phishscore=0 mlxscore=0 clxscore=1015 suspectscore=0
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 spamscore=0
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112090091
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -111,82 +108,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, richard.henderson@linaro.org,
- david@gibson.dropbear.id.au
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, qemu-ppc@nongnu.org,
+ clg@kaod.org, philmd@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-C=C3=A9dric Le Goater <clg@kaod.org> writes:
+This reverts commit 336e91f85332dda0ede4c1d15b87a19a0fb898a2.
 
-> Richard,
->
-> On 12/9/21 16:05, Fabiano Rosas wrote:
->> C=C3=A9dric Le Goater <clg@kaod.org> writes:
->>=20
->>> On 12/9/21 00:06, Fabiano Rosas wrote:
->>>> We cannot have TCG code in powerpc_excp because the function is called
->>>> from kvm-only code via ppc_cpu_do_interrupt:
->>>>
->>>>    ../target/ppc/excp_helper.c:463:29: error: implicit declaration of
->>>>    function =E2=80=98cpu_ldl_code=E2=80=99 [-Werror=3Dimplicit-functio=
-n-declaration]
->>>>
->>>> Fortunately, the Alignment interrupt is not among the ones dispatched
->>>> from kvm-only code, so we can keep it out of the disable-tcg build for
->>>> now.
->>>>
->>>> Fixes: 336e91f853 ("target/ppc: Move SPR_DSISR setting to powerpc_excp=
-")
->>>> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
->>>>
->>>> ---
->>>>
->>>> Perhaps we could make powerpc_excp TCG only and have a separate
->>>> function that only knows the two interrupts that we use with KVM
->>>> (Program, Machine check). But for now this fix will do, I think.
->>>> ---
->>>>    target/ppc/excp_helper.c | 2 ++
->>>>    1 file changed, 2 insertions(+)
->>>>
->>>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->>>> index 17607adbe4..dcf22440cc 100644
->>>> --- a/target/ppc/excp_helper.c
->>>> +++ b/target/ppc/excp_helper.c
->>>> @@ -453,6 +453,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, i=
-nt excp_model, int excp)
->>>>            }
->>>>            break;
->>>>        }
->>>> +#ifdef CONFIG_TCG
->>>>        case POWERPC_EXCP_ALIGN:     /* Alignment exception            =
+It breaks the --disable-tcg build:
+
+ ../target/ppc/excp_helper.c:463:29: error: implicit declaration of
+ function ‘cpu_ldl_code’ [-Werror=implicit-function-declaration]
+
+We should not have TCG code in powerpc_excp because some kvm-only
+routines use it indirectly to dispatch interrupts. See
+kvm_handle_debug, spapr_mce_req_event and
+spapr_do_system_reset_on_cpu.
+
+We can re-introduce the change once we have split the interrupt
+injection code between KVM and TCG.
+
+Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+---
+ target/ppc/excp_helper.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
+
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 17607adbe4..1c8b373078 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -454,15 +454,13 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+         break;
+     }
+     case POWERPC_EXCP_ALIGN:     /* Alignment exception                      */
++        /* Get rS/rD and rA from faulting opcode */
+         /*
+-         * Get rS/rD and rA from faulting opcode.
+-         * Note: We will only invoke ALIGN for atomic operations,
+-         * so all instructions are X-form.
++         * Note: the opcode fields will not be set properly for a
++         * direct store load/store, but nobody cares as nobody
++         * actually uses direct store segments.
           */
->>>>            /*
->>>>             * Get rS/rD and rA from faulting opcode.
->>>> @@ -464,6 +465,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, i=
-nt excp_model, int excp)
->>>>                env->spr[SPR_DSISR] |=3D (insn & 0x03FF0000) >> 16;
->>>>            }
->>>>            break;
->>>> +#endif
->>>>        case POWERPC_EXCP_PROGRAM:   /* Program exception              =
-          */
->>>>            switch (env->error_code & ~0xF) {
->>>>            case POWERPC_EXCP_FP:
->>>>
->>>
->>> Shouldn't we move that code under ppc_cpu_do_unaligned_access ?
->>=20
->> Well, it came from there initially. We could revert 336e91f853 and that
->> would fix the issue as well.
->
-> What would you prefer ?
+-        {
+-            uint32_t insn = cpu_ldl_code(env, env->nip);
+-            env->spr[SPR_DSISR] |= (insn & 0x03FF0000) >> 16;
+-        }
++        env->spr[SPR_DSISR] |= (env->error_code & 0x03FF0000) >> 16;
+         break;
+     case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
+         switch (env->error_code & ~0xF) {
+@@ -1461,6 +1459,11 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+                                  int mmu_idx, uintptr_t retaddr)
+ {
+     CPUPPCState *env = cs->env_ptr;
++    uint32_t insn;
++
++    /* Restore state and reload the insn we executed, for filling in DSISR.  */
++    cpu_restore_state(cs, retaddr, true);
++    insn = cpu_ldl_code(env, env->nip);
+ 
+     switch (env->mmu_model) {
+     case POWERPC_MMU_SOFT_4xx:
+@@ -1477,8 +1480,8 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+     }
+ 
+     cs->exception_index = POWERPC_EXCP_ALIGN;
+-    env->error_code = 0;
+-    cpu_loop_exit_restore(cs, retaddr);
++    env->error_code = insn & 0x03FF0000;
++    cpu_loop_exit(cs);
+ }
+ #endif /* CONFIG_TCG */
+ #endif /* !CONFIG_USER_ONLY */
+-- 
+2.33.1
 
-Well none of this interfere with the work I'm doing, so it really makes
-no difference. I guess reverting the patch is cleaner than having an
-ifdef loose in the middle of the code. I'll send a v2 with the revert.
-
->
-> Thanks,
->
-> C.
 
