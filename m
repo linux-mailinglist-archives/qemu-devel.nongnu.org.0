@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A47846E33B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 08:32:15 +0100 (CET)
-Received: from localhost ([::1]:59208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 183BA46E377
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 08:45:52 +0100 (CET)
+Received: from localhost ([::1]:40690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvDuX-0001S3-Dc
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 02:32:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35478)
+	id 1mvE7i-0008NU-Mq
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 02:45:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mvDqi-0007Tj-Vq
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 02:28:17 -0500
-Received: from [2a00:1450:4864:20::42c] (port=40647
- helo=mail-wr1-x42c.google.com)
+ id 1mvE5r-0007hg-Ac
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 02:43:55 -0500
+Received: from [2a00:1450:4864:20::42f] (port=35503
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mvDqe-00008A-BN
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 02:28:16 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id t9so8072385wrx.7
- for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 23:28:11 -0800 (PST)
+ id 1mvE5T-00036h-OG
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 02:43:55 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id i5so8151053wrb.2
+ for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 23:43:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ACntJQa5JRAuh6bqUszn4wfXaeIE9wytb5aQ+joBqX0=;
- b=YHdx3Zn0t3veC2OmyZr8dHCudS5FXN++8cu0lRl0hl5+SzH94XHZPZMvMmfZjniSvY
- yKwjMJLZtN8UQoZgnqqYNSZQVKs1kNHJXCFFYzKCk3N/7sgkZilWI1Ym7SLqtnybVnAk
- MusLy8o9hX0EyEuUlLYTOAC4YfDh9jE/vHJszy8jzuKW+nINd3S8SZ/yXXJqiNz/iheD
- GLRtPsrbRAnXtvncszPGlM2kwZ96DBfLLY52d4IAJs7Hbz+M/1AUcTdUb4zBOC89Emfb
- r/+Rn1ZQsYORmBUZv8Z4vk6dwHWKnaCpLzIY300PkIeBAgmz2BS9WXOJ3GicQ38CgjFk
- 83LQ==
+ bh=Zcq0y83wTDzV0jHTk/gK+bLS5fviAee7zGR57onXPRs=;
+ b=etIJZWJ+h/VK6TEgbkmHlmZbBz1S1KZJXxDG4Mh803P4NU0cT3bO15XGWEQVMjaIAP
+ XBG6qiKHYmIudB6mWqbMlw9aT7pfFmqugEv6X3kBGL8rb80MiN6eY8P/KiMHH5swmFCr
+ COsqckTOWgk0jZjUiuJd7I1p46lYCEW4ntQuhYwSRUk31mejCSQv6DJEgnLcD+s6pVv0
+ PPxCNwHGu5fcRYqSZt2gR3oP4AvWPTgWZaQIvYDdVkuz1Cthy2lbmV+7O6ffktwSj8jc
+ XvSB1qnhXrbASO71hHJiC9nVaHkdROr/2ABV85x3oIk5Yd1Xe0ieq+0V69UQeNzgKRZ/
+ 3xNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ACntJQa5JRAuh6bqUszn4wfXaeIE9wytb5aQ+joBqX0=;
- b=BonD+X74e32+SNiJ4ZXn0zBBjOz31tuHiQvIEO5+fzJoifnXq+oku5oMg4JQ4RbPBY
- eQd0V8Q4GNo2F0Fkyx3wRY6sDf8FAPMcLJCRq8nLr3DoD57lzKvCl+HxVg8EIiKPO/rk
- 9zUCncOO5CbeRZOXPHx5KeHLjlmcGSF57DkKc+y0BrXxmiuV6aumhePUy0vYpYoU3Zx2
- QDx7F8suZA5sTFlKqN+JcalpYkGFcJ8YYsNuv4Kf+8Di3kJK3Mh1Ey34kP3fz+T937W1
- //wgCbR8M9vkYdHlNCw+LMOyQX3zYS4DhhWjRs6smpaATt+wEwf9IhLl3O9sUDTRCM/l
- ++qg==
-X-Gm-Message-State: AOAM5316xGt+MXdBmM0uPpPCHBrPCf4buTj1+UmNfKNff1Swa1+MNKVX
- Zre0FMozR93Yud2ZmK5ZpNA=
-X-Google-Smtp-Source: ABdhPJxulL4yEU+aDJ5OyYgl5/u436DuR+7+NK4EXjTCFdh6RKivcOm22nzMBiGEJ+6IvA+6VHfLtg==
-X-Received: by 2002:adf:edc6:: with SMTP id v6mr4427297wro.461.1639034890937; 
- Wed, 08 Dec 2021 23:28:10 -0800 (PST)
+ bh=Zcq0y83wTDzV0jHTk/gK+bLS5fviAee7zGR57onXPRs=;
+ b=P+5p7Lyf9MQvHyJvLKwFUxU3d2JT6c9v+u2HplH/4KeQ9+3WeNTst65g8Wq9OgyqHh
+ emDzCbsc4IY4H8HpGSOY/EjXFwzreG5yGpVB8ezlJ2lx6kayYcTzUdqir+TX3tF7XEkk
+ 1FYdTk9CV9VmVXpmE7d7jRnrmC45OMkPkKE5saT268ni2GoGIxrtOp3Thw5bkTpghFOI
+ 0ZJA8/QVG0PSzQvJJfLVumZb2uxjwwN2MkZ6BzDlWAxcSV1RrUlnQm8gm487t6C1L4vb
+ mcvuqNIDNVzbqxOR46nEStQJr+pccheDa8yqZkrkd1Z4ETnszr+635aExaTyvUevuEqH
+ MoDw==
+X-Gm-Message-State: AOAM533NcDnVMdDSqz9Fo4+WPuyiRKVRQmBhUj7TQNHurNA0WDDXNKze
+ GKuzszRFHKZRgNb4WA2oBflhNFrDjKo=
+X-Google-Smtp-Source: ABdhPJzHJ1n1yY+EFdTn47zYsDZ9ejaFFv8D41wdwUtXZTcCNcCzziCYa89/7dbmsBd9WjMFatcw8A==
+X-Received: by 2002:adf:f947:: with SMTP id q7mr4565551wrr.260.1639035810319; 
+ Wed, 08 Dec 2021 23:43:30 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id b11sm7673107wmj.35.2021.12.08.23.28.10
+ by smtp.gmail.com with ESMTPSA id g18sm9958133wmq.4.2021.12.08.23.43.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Dec 2021 23:28:10 -0800 (PST)
-Message-ID: <130fd0c5-81d8-e213-58b2-432f9859d3e1@amsat.org>
-Date: Thu, 9 Dec 2021 08:28:09 +0100
+ Wed, 08 Dec 2021 23:43:29 -0800 (PST)
+Message-ID: <f2dc5267-e30c-9f02-6c0c-c0c40448a1bc@amsat.org>
+Date: Thu, 9 Dec 2021 08:43:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 2/6] target/arm: Move arm_pamax out of line
+Subject: Re: [PATCH 3/6] target/arm: Honor TCR_ELx.{I}PS
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211208231154.392029-1-richard.henderson@linaro.org>
- <20211208231154.392029-3-richard.henderson@linaro.org>
+ <20211208231154.392029-4-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211208231154.392029-3-richard.henderson@linaro.org>
+In-Reply-To: <20211208231154.392029-4-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -96,12 +96,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Richard,
+
 On 12/9/21 00:11, Richard Henderson wrote:
+> This field controls the output (intermediate) physical address size
+> of the translation process.  V8 requires to raise an AddressSize
+> fault if the page tables are programmed incorrectly, such that any
+> intermediate descriptor address, or the final translated address,
+> is out of range.
+> 
+
+I'd split this patch as:
+
+> Add an outputsize field to ARMVAParameters,
+^ 1
+
+> and fill it in during
+> aa64_va_parameters.
+^2
+
+> Pass the value to check_s2_mmu_setup to use
+> instead of the raw PAMax value.
+^1
+
+> Test the descaddr as extracted
+> from TTBR and from page table entries.
+^2
+
+> Restrict descaddrmask so that we won't raise the fault for v7.
+^ could be in 1 (simpler) or 2 if you think it makes sense.
+
+This way #1 is a preliminary refactor/cleanup,
+and #2 is only the ps field and V8 addition.
+
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/internals.h | 19 +------------------
->  target/arm/helper.c    | 22 ++++++++++++++++++++++
->  2 files changed, 23 insertions(+), 18 deletions(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>  target/arm/internals.h |  1 +
+>  target/arm/helper.c    | 92 +++++++++++++++++++++++++++++-------------
+>  2 files changed, 65 insertions(+), 28 deletions(-)
 
