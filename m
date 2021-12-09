@@ -2,89 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEC2246E05C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 02:47:06 +0100 (CET)
-Received: from localhost ([::1]:60088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A4346E0D4
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 03:22:44 +0100 (CET)
+Received: from localhost ([::1]:46360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mv8WX-0000e8-MB
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 20:47:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46512)
+	id 1mv951-0003lB-3P
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 21:22:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mv8US-0008IN-GR
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 20:44:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49700)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mv90z-0001Pa-F6; Wed, 08 Dec 2021 21:18:33 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=53221
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mv8UP-0003fT-04
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 20:44:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639014291;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EZ/QQYlp+iyqYyf17joIwBRjXJWQtgJosT9BrjuvkZw=;
- b=iS2krCjVEE9HhGc91IXXg+RaN0noNdrjK5TcLFA5BNsGwbb5bu+7wkEacrFZIYQ9doSCRb
- KFvdkC8F5rwLhCsCz6FnQZhAOdXCNxMfMCCN0ShBcnSr6VPylNidygqh9rCtbDuZOHqcVe
- O0Duqstx5qy60W0RxhS+xiRfoZ1W4fI=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-85-cysrw33AOZqiJePY0-MESw-1; Wed, 08 Dec 2021 20:44:50 -0500
-X-MC-Unique: cysrw33AOZqiJePY0-MESw-1
-Received: by mail-pl1-f197.google.com with SMTP id
- e10-20020a17090301ca00b00141fbe2569dso1550579plh.14
- for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 17:44:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=EZ/QQYlp+iyqYyf17joIwBRjXJWQtgJosT9BrjuvkZw=;
- b=fK1jeQ10ymF66reDHTYSBCne4nRXQKQ9ZP88Cxx6tsLsHnLO4OVlt4vnd6DfkM+ERy
- Z8UssHSbH+g76byysz01Apq7cz0v5Sd3dRHM7LHinUvK7pk+LvVJ23J99xI8vUWfMmMP
- OmeprLrZebQedBU1wOzJKJy3mtONlLtGAI02Qj2dejEYr8kC9tOpi/CuDmE/5OLRbN2H
- HTegSkwlakfcNGCUoeKMhSn6XDNcEN72zzsdakKbdoIl8w4Se07iKE7Ub/tLC6isOS9R
- 5aHp6cP5B/X38yYa5fLjp/sDQJ8ZwRRMoLVi7hIGVqO2i4Uy+CqGcAUNqqEFcIvMRWTn
- E2+Q==
-X-Gm-Message-State: AOAM532fPIiOF7s5mTuFVDDnHNrl7ZmtkDET7o+ig1Guch+lGpK2s0jf
- QPMQ4IeLiZwygoKioFTxsdkIzA6pWbyY/VkklCu/4AxZ5kN62Ik8AjxvImDN6uHYP694gYC9ryh
- 3hLxKXjKm9iHTAKo=
-X-Received: by 2002:a62:7b8e:0:b0:49f:a0ba:67ff with SMTP id
- w136-20020a627b8e000000b0049fa0ba67ffmr8854279pfc.64.1639014289144; 
- Wed, 08 Dec 2021 17:44:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy2bVZGWLjXuwUS+WdloZBZUVPbKSYt5m4dnIhCdiIRh1N5dHEjVXKAIa9LZMGj1xayQ3igVA==
-X-Received: by 2002:a62:7b8e:0:b0:49f:a0ba:67ff with SMTP id
- w136-20020a627b8e000000b0049fa0ba67ffmr8854260pfc.64.1639014288858; 
- Wed, 08 Dec 2021 17:44:48 -0800 (PST)
-Received: from xz-m1.local ([191.101.132.71])
- by smtp.gmail.com with ESMTPSA id g17sm3589599pgh.46.2021.12.08.17.44.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Dec 2021 17:44:48 -0800 (PST)
-Date: Thu, 9 Dec 2021 09:44:43 +0800
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 6/7] migration: Dump sub-cmd name in
- loadvm_process_command tp
-Message-ID: <YbFfixNLlfvyj63Y@xz-m1.local>
-References: <20211207115016.73195-1-peterx@redhat.com>
- <20211207115016.73195-7-peterx@redhat.com>
- <YbD8Uuscfd+bm2Ex@work-vm>
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mv90K-0006uO-Ee; Wed, 08 Dec 2021 21:18:33 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4J8d3Z6sJ6z4xhk; Thu,  9 Dec 2021 13:17:46 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1639016266;
+ bh=uNSGwVTaCElj9UtXTY0MRyj1qGbXhRxBkcgRM1ETTjg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZlyQ937JhMlt3NzgZSlIqg/PCgVL5aM8WEhdzkaquN732l/EWeqlqkYOX7cDh7fJP
+ 0PtSavC+0+VdFsxvCMINHJQX27ra3sQSQyIs2i7dqVJb+XDGUH2R57uhAGnv3gFJTo
+ Y3+LqxgG+2bqNjTHRe7hnkmXJdTssk+wiN/+KfjQ=
+Date: Thu, 9 Dec 2021 12:51:11 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v9 09/10] target/ppc: PMU Event-Based exception support
+Message-ID: <YbFhDxha+/sZVEf/@yekko>
+References: <20211201151734.654994-1-danielhb413@gmail.com>
+ <20211201151734.654994-10-danielhb413@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YbD8Uuscfd+bm2Ex@work-vm>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HhZwsrRfoBqPlkgL"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211201151734.654994-10-danielhb413@gmail.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for
+ 2404:9400:2:0:216:3eff:fee2:21ea (failed)
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,43 +62,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: Gustavo Romero <gustavo.romero@linaro.org>,
+ Gustavo Romero <gromero@linux.ibm.com>, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 08, 2021 at 06:41:22PM +0000, Dr. David Alan Gilbert wrote:
-> * Peter Xu (peterx@redhat.com) wrote:
-> > It'll be easier to read the name rather than index of sub-cmd when debugging.
-> > 
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > ---
-> >  migration/savevm.c     | 2 +-
-> >  migration/trace-events | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/migration/savevm.c b/migration/savevm.c
-> > index d59e976d50..17b8e25e00 100644
-> > --- a/migration/savevm.c
-> > +++ b/migration/savevm.c
-> > @@ -2271,7 +2271,7 @@ static int loadvm_process_command(QEMUFile *f)
-> >          return qemu_file_get_error(f);
-> >      }
-> >  
-> > -    trace_loadvm_process_command(cmd, len);
-> > +    trace_loadvm_process_command(mig_cmd_args[cmd].name, len);
-> >      if (cmd >= MIG_CMD_MAX || cmd == MIG_CMD_INVALID) {
-> 
-> No! you can't do that name lookup before the limit check.
 
-Heh, right. :)
+--HhZwsrRfoBqPlkgL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I guess it shouldn't matter in reality as we don't worry too much on untrusted
-or uncompatible src qemu, but it's very reasonable to fix it.
+On Wed, Dec 01, 2021 at 12:17:33PM -0300, Daniel Henrique Barboza wrote:
+> From: Gustavo Romero <gromero@linux.ibm.com>
+>=20
+> Following up the rfebb implementation, this patch adds the EBB exception
+> support that are triggered by Performance Monitor alerts. This exception
+> occurs when an enabled PMU condition or event happens and both MMCR0_EBE
+> and BESCR_PME are set.
+>=20
+> The supported PM alerts will consist of counter negative conditions of
+> the PMU counters. This will be achieved by a timer mechanism that will
+> predict when a counter becomes negative. The PMU timer callback will set
+> the appropriate bits in MMCR0 and fire a PMC interrupt. The EBB
+> exception code will then set the appropriate BESCR bits, set the next
+> instruction pointer to the address pointed by the return register
+> (SPR_EBBRR), and redirect execution to the handler (pointed by
+> SPR_EBBHR).
+>=20
+> CC: Gustavo Romero <gustavo.romero@linaro.org>
+> Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>  target/ppc/cpu.h         |  5 ++++-
+>  target/ppc/excp_helper.c | 29 +++++++++++++++++++++++++++++
+>  target/ppc/power8-pmu.c  | 40 ++++++++++++++++++++++++++++++++++++++--
+>  3 files changed, 71 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 741b8baf4c..8e0e6319ee 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -129,8 +129,10 @@ enum {
+>      /* ISA 3.00 additions */
+>      POWERPC_EXCP_HVIRT    =3D 101,
+>      POWERPC_EXCP_SYSCALL_VECTORED =3D 102, /* scv exception             =
+        */
+> +    POWERPC_EXCP_EBB =3D 103, /* Event-based branch exception           =
+       */
+> +
+>      /* EOL                                                              =
+     */
+> -    POWERPC_EXCP_NB       =3D 103,
+> +    POWERPC_EXCP_NB       =3D 104,
+>      /* QEMU exceptions: special cases we want to stop translation       =
+     */
+>      POWERPC_EXCP_SYSCALL_USER =3D 0x203, /* System call in user mode onl=
+y      */
+>  };
+> @@ -2452,6 +2454,7 @@ enum {
+>      PPC_INTERRUPT_HMI,            /* Hypervisor Maintenance interrupt   =
+ */
+>      PPC_INTERRUPT_HDOORBELL,      /* Hypervisor Doorbell interrupt      =
+  */
+>      PPC_INTERRUPT_HVIRT,          /* Hypervisor virtualization interrupt=
+  */
+> +    PPC_INTERRUPT_PMC,            /* PMU interrupt  */
+>  };
 
-Thanks!
+All this low-level exception stuff is very clunky, but addressing
+that is not reasonably in scope for this series.  So,
 
--- 
-Peter Xu
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
+> =20
+>  /* Processor Compatibility mask (PCR) */
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 7ead32279c..a26d266fe6 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -799,6 +799,23 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
+ excp_model, int excp)
+>          cpu_abort(cs, "Non maskable external exception "
+>                    "is not implemented yet !\n");
+>          break;
+> +    case POWERPC_EXCP_EBB:       /* Event-based branch exception        =
+     */
+> +        if ((env->spr[SPR_FSCR] & (1ull << FSCR_EBB)) &&
+> +            (env->spr[SPR_BESCR] & BESCR_GE) &&
+> +            (env->spr[SPR_BESCR] & BESCR_PME)) {
+> +            target_ulong nip;
+> +
+> +            env->spr[SPR_BESCR] &=3D ~BESCR_GE;   /* Clear GE */
+> +            env->spr[SPR_BESCR] |=3D BESCR_PMEO;  /* Set PMEO */
+> +            env->spr[SPR_EBBRR] =3D env->nip;     /* Save NIP for rfebb =
+insn */
+> +            nip =3D env->spr[SPR_EBBHR];          /* EBB handler */
+> +            powerpc_set_excp_state(cpu, nip, env->msr);
+> +        }
+> +        /*
+> +         * This interrupt is handled by userspace. No need
+> +         * to proceed.
+> +         */
+> +        return;
+>      default:
+>      excp_invalid:
+>          cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
+> @@ -1046,6 +1063,18 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+>              powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_THERM);
+>              return;
+>          }
+> +        /* PMC -> Event-based branch exception */
+> +        if (env->pending_interrupts & (1 << PPC_INTERRUPT_PMC)) {
+> +            /*
+> +             * Performance Monitor event-based exception can only
+> +             * occur in problem state.
+> +             */
+> +            if (msr_pr =3D=3D 1) {
+> +                env->pending_interrupts &=3D ~(1 << PPC_INTERRUPT_PMC);
+> +                powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_EBB);
+> +                return;
+> +            }
+> +        }
+>      }
+> =20
+>      if (env->resume_as_sreset) {
+> diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+> index 08d1902cd5..279b824c3f 100644
+> --- a/target/ppc/power8-pmu.c
+> +++ b/target/ppc/power8-pmu.c
+> @@ -297,6 +297,20 @@ void helper_store_pmc(CPUPPCState *env, uint32_t spr=
+n, uint64_t value)
+>      pmc_update_overflow_timer(env, sprn);
+>  }
+> =20
+> +static void pmu_delete_timers(CPUPPCState *env)
+> +{
+> +    QEMUTimer *pmc_overflow_timer;
+> +    int sprn;
+> +
+> +    for (sprn =3D SPR_POWER_PMC1; sprn <=3D SPR_POWER_PMC6; sprn++) {
+> +        pmc_overflow_timer =3D get_cyc_overflow_timer(env, sprn);
+> +
+> +        if (pmc_overflow_timer) {
+> +            timer_del(pmc_overflow_timer);
+> +        }
+> +    }
+> +}
+> +
+>  static void fire_PMC_interrupt(PowerPCCPU *cpu)
+>  {
+>      CPUPPCState *env =3D &cpu->env;
+> @@ -305,8 +319,30 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
+>          return;
+>      }
+> =20
+> -    /* PMC interrupt not implemented yet */
+> -    return;
+> +    pmu_update_cycles(env);
+> +
+> +    if (env->spr[SPR_POWER_MMCR0] & MMCR0_FCECE) {
+> +        env->spr[SPR_POWER_MMCR0] &=3D ~MMCR0_FCECE;
+> +        env->spr[SPR_POWER_MMCR0] |=3D MMCR0_FC;
+> +
+> +        /* Changing MMCR0_FC demands a new hflags compute */
+> +        hreg_compute_hflags(env);
+> +
+> +        /*
+> +         * Delete all pending timers if we need to freeze
+> +         * the PMC. We'll restart them when the PMC starts
+> +         * running again.
+> +         */
+> +        pmu_delete_timers(env);
+> +    }
+> +
+> +    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMAE) {
+> +        env->spr[SPR_POWER_MMCR0] &=3D ~MMCR0_PMAE;
+> +        env->spr[SPR_POWER_MMCR0] |=3D MMCR0_PMAO;
+> +    }
+> +
+> +    /* Fire the PMC hardware exception */
+> +    ppc_set_irq(cpu, PPC_INTERRUPT_PMC, 1);
+>  }
+> =20
+>  /* This helper assumes that the PMC is running. */
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--HhZwsrRfoBqPlkgL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGxYQ0ACgkQbDjKyiDZ
+s5IcuRAAlYC49rm0NDnPKAB7ZuyXDPODgBY/3SKpEQV5b3lekgII4CiRetrlMQgj
+i1ONebSJl1AJZynRFFPxteuTntqHXRA5ps5mb5Va0O0BqlHaLHlx1TFPKtpeNLvK
+/Vmh0Y7A5ZHD4fYjeSJfg0qUbIAMh9o1UTCmLs66hsRqmL5+/nNKPDkNSrL5UlnD
+GjbkMDW0V7JLEkEhuKoCURLCPr0c+WGm7bKER1yNvLi8+TPiTuCSiP4hCDWt+Ial
+1YyquGks0RbEnyEYyR3dMA48E06vQDFRQ85WHEvB3lZB0ETkJjC+HBJAXPOoUdwG
+4TaKkYHT2NdS/tWsXh/iXXLCX1xzpmpIqsIyJzil6vuQxf4iB7zhOwo4SpuU69Mc
+40wVOccuzDMstF615pdUopwaxrOpjl2opnr/4slGMGBmrMPFfhE4vWLYG4qUSWdx
+zEoROtoGHDtAeTpmF2FyR6q1K+OdGaPmstBjJiY/0Z5B54LjeXCoqm+FUaumglmA
+kqBRbjvcYB+YsCrIfhC+t3d/bWIfSTGzyPN2ov0M7AJWydya6UlVHT6P6Q1lcBOD
+xSdCYnqV/lekP7vRAP7HfxjTBBrZDRY5PCC+CnIpkGrW5g5GuiUjxd23C8kl/eYK
+qTi/nine/ny4558FoXUi4jlucrVvuzthDjQ8OrsmFia0Iy2E6/o=
+=+GOE
+-----END PGP SIGNATURE-----
+
+--HhZwsrRfoBqPlkgL--
 
