@@ -2,70 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7648D46E866
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 13:23:27 +0100 (CET)
-Received: from localhost ([::1]:56186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D2946E93B
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 14:36:45 +0100 (CET)
+Received: from localhost ([::1]:44200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvISM-0004i1-2T
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 07:23:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34852)
+	id 1mvJbH-0006th-ON
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 08:36:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pvorel@suse.cz>)
- id 1mvIPX-0003Q3-GD; Thu, 09 Dec 2021 07:20:31 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:51382)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pvorel@suse.cz>)
- id 1mvIPT-0002Gs-P2; Thu, 09 Dec 2021 07:20:29 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B7A291F37D;
- Thu,  9 Dec 2021 12:20:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1639052423;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qi8ZoK8f8gPDnzmEmrKOIb52wbwmYXcQJdNvNkryX1Q=;
- b=ll0amWt1Q+ikTxxelRKVDZcLKFC9yGD4S8zTE2LrieQwfEGK9Uj0e0RJ9x3Hcnle2TzFde
- fSCR0ObkzlK9wJMJ7vFgtRYVYnuT3fIRynCp2McbJr/gIqkr4PczQ1vMaU4h/S0f+J7DAO
- KKvVHIhB2KQ6GPMAoecAgptGiJ7MyX0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1639052423;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qi8ZoK8f8gPDnzmEmrKOIb52wbwmYXcQJdNvNkryX1Q=;
- b=l5HJQnTJidxiMurMgt9/auTdtfLp07wMGhxNKRYKroXx+oug64fuDQdsmlgrkid+2xpy9K
- qw+wi1GI0LQmv2AA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7F57813B2D;
- Thu,  9 Dec 2021 12:20:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qkZJHYf0sWEHYQAAMHmgww
- (envelope-from <pvorel@suse.cz>); Thu, 09 Dec 2021 12:20:23 +0000
-Date: Thu, 9 Dec 2021 13:20:21 +0100
-From: Petr Vorel <pvorel@suse.cz>
-To: linux-perf-users@vger.kernel.org
-Subject: LTP test perf_event_open02.c: possible rounding issue on aarch64 KVM
-Message-ID: <YbH0hQbQw3KNSLOQ@pevik>
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mvJUR-0001x1-Gz; Thu, 09 Dec 2021 08:29:39 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8480)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mvJUP-00009U-Hp; Thu, 09 Dec 2021 08:29:39 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B9CvkWt035276; 
+ Thu, 9 Dec 2021 13:29:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=bCgmoXqFSH1VJSuPBLEbDqGTvkivJS8y2R38310hxnU=;
+ b=VGFQA754nGaas5QKLQQY4KM8DeGlDg/pxoDVTdhSYLg3Zxk2F9ZnA3plNnU6n389Gwoy
+ ZrzGo0qjkjEPfYFERcNVykvtuB7qvpXdT+yOuUMDqfVDboCmX4RQ24xKNbDZXpbnHPLO
+ NIiTcJd6z2K7zYLAdL6GPV+pvS+l0g+PirvpnuaYDtnBL/P6lsu0qTWXp1ggofbF7i/4
+ D9ogqWhckbjn2C5+S8qJtgBIHnUq9BPEZUpbY4Uu/DWEjFMh/Wm/+0ig77Kpd95TCvAi
+ Qo3sX9suhXGZ3JFuDFHEZz5GtNKgk7fAYPLXq/vMSgk+RPzam+cMewGnuAbwRVU3BFVw TA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cuj918mxe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Dec 2021 13:29:33 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B9Cwvhs037066;
+ Thu, 9 Dec 2021 13:29:32 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cuj918mwu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Dec 2021 13:29:32 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B9DH0JB016008;
+ Thu, 9 Dec 2021 13:29:31 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3cqykjsvac-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Dec 2021 13:29:30 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1B9DTRLD22282658
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 9 Dec 2021 13:29:27 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D5EB211C050;
+ Thu,  9 Dec 2021 13:29:27 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 53D3311C052;
+ Thu,  9 Dec 2021 13:29:27 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.8.227])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu,  9 Dec 2021 13:29:27 +0000 (GMT)
+Date: Thu, 9 Dec 2021 14:29:25 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [RFC PATCH v2 0/5] virtio: early detect 'modern' virtio
+Message-ID: <20211209142925.0decf425.pasic@linux.ibm.com>
+In-Reply-To: <20211208135456-mutt-send-email-mst@kernel.org>
+References: <20211112145749.618157-1-pasic@linux.ibm.com>
+ <20211208135456-mutt-send-email-mst@kernel.org>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=pvorel@suse.cz;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: EEkLrmYo9NqYEVHnu6N48Z47vqNmN6et
+X-Proofpoint-GUID: 7w6Nd4UY79uSPLpo789u9Vvi0l6NLJUx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-09_04,2021-12-08_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ suspectscore=0 spamscore=0 malwarescore=0 bulkscore=0 clxscore=1015
+ adultscore=0 impostorscore=0 priorityscore=1501 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112090073
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,200 +111,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Petr Vorel <pvorel@suse.cz>
-Cc: kvm@vger.kernel.org, qemu-arm@nongnu.org, Cyril Hrubis <chrubis@suse.cz>,
- ltp@lists.linux.it, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Wed, 8 Dec 2021 13:56:19 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-I have problem with LTP test perf_event_open02.c [1] on QEMU using KVM on
-openSUSE aarch64 kernel 5.15.5-1-default (not much different from stable ke=
-rnel
-=66rom kernel.org):
+> On Fri, Nov 12, 2021 at 03:57:44PM +0100, Halil Pasic wrote:
+> > This is an early RFC for a transport specific early detecton of
+> > modern virtio, which is most relevant for transitional devices on big
+> > endian platforms, when drivers access the config space before
+> > FEATURES_OK is set.
+> > 
+> > The most important part that is missing here is fixing all the problems
+> > that arise in the situation described in the previous paragraph, when
+> > the config is managed by a vhost device (and thus outside QEMU. This
+> > series tackles this problem only for virtio_net+vhost as an example. If
+> > this approach is deemed good, we need to do something very similar for
+> > every single affected device.
+> > 
+> > This series was only lightly tested. The vhost stuff is entirely
+> > untested, unfortunately I don't have a working setup where this
+> > handling would be needed (because the config space is handled in the
+> > device). DPDK is not supported on s390x so at the moment I can't test
+> > DPDK based setups.   
+> 
+> So this looks sane to me. Cornelia requested some name tweaks and we
+> need to add vhost-user things and more devices, but otherwise we are
+> good.
 
-# /opt/ltp/testcases/bin/perf_event_open02
-=2E..
-perf_event_open02.c:104: TINFO: bench_work estimated loops =3D 8083 in 500 =
-ms
-perf_event_open02.c:149: TINFO: [0] value:2425293761 time_enabled:749092800=
- time_running:749092800
-perf_event_open02.c:149: TINFO: [1] value:2425287027 time_enabled:749141475=
- time_running:749141475
-perf_event_open02.c:149: TINFO: [2] value:2433046583 time_enabled:757346300=
- time_running:757346300
-perf_event_open02.c:149: TINFO: [3] value:2432771537 time_enabled:753369300=
- time_running:753369300
-perf_event_open02.c:149: TINFO: [4] value:2432551620 time_enabled:753784075=
- time_running:753784075
-perf_event_open02.c:149: TINFO: [5] value:2432386104 time_enabled:753481750=
- time_running:753481750
-perf_event_open02.c:149: TINFO: [6] value:2095086137 time_enabled:768866050=
- time_running:660021525
-perf_event_open02.c:308: TINFO: nhw: 6, overall task clock: 4098138525
-perf_event_open02.c:309: TINFO: hw sum: 116450294745, task clock sum: 24589=
-636350
-perf_event_open02.c:321: TINFO: ratio: 6.000196
-perf_event_open02.c:323: TFAIL: test failed (ratio was greater than 6)
-=2E..
+Thanks for your feedback! There were several points where I could
+not reach agreement with Cornelia. From your response I recon that:
 
-The test tries to assert the precision of hardware counters (using struct
-perf_event_attr hw_event.type =3D PERF_TYPE_HARDWARE), but sometimes it fai=
-ls with
-slight overrun. We suppose that this is a rounding error, but it'd be nice =
-to
-get this confirmed from kernel developers.
+1) I should rename virtio_force_modern() to virtio_indicate_modern()
+(per maintainer request).
+2) Keep the call to virtio_set_features()?
 
-Related kernel setup (or you need to know something else)
-grep PERF_EVENTS config-5.15.5-1-default # aarch64
-CONFIG_HAVE_PERF_EVENTS=3Dy
-CONFIG_PERF_EVENTS=3Dy
-CONFIG_HW_PERF_EVENTS=3Dy
+Is that right?
 
-Test is running inside testing framework with this setup:
-qemu-system-aarch64 -device virtio-gpu-pci -only-migratable -chardev ringbu=
-f,id=3Dserial0,logfile=3Dserial0,logappend=3Don -serial chardev:serial0 -au=
-diodev none,id=3Dsnd0 -device intel-hda -device hda-output,audiodev=3Dsnd0 =
--m 2048 -machine virt,gic-version=3Dhost -cpu host -mem-prealloc -mem-path =
-/dev/hugepages/ -netdev user,id=3Dqanet0 -device virtio-net,netdev=3Dqanet0=
-,mac=3D52:54:00:12:34:56 -object rng-random,filename=3D/dev/urandom,id=3Drn=
-g0 -device virtio-rng-pci,rng=3Drng0 -boot menu=3Don,splash-time=3D5000 -de=
-vice nec-usb-xhci -device usb-tablet -device usb-kbd -smp 2 -enable-kvm -no=
--shutdown -vnc :97,share=3Dforce-shared -device virtio-serial -chardev pipe=
-,id=3Dvirtio_console,path=3Dvirtio_console,logfile=3Dvirtio_console.log,log=
-append=3Don -device virtconsole,chardev=3Dvirtio_console,name=3Dorg.openqa.=
-console.virtio_console -chardev pipe,id=3Dvirtio_console1,path=3Dvirtio_con=
-sole1,logfile=3Dvirtio_console1.log,logappend=3Don -device virtconsole,char=
-dev=3Dvirtio_console1,name=3Dorg.openqa.console.virtio_console1 -chardev so=
-cket,path=3Dqmp_socket,server=3Don,wait=3Doff,id=3Dqmp_socket,logfile=3Dqmp=
-_socket.log,logappend=3Don -qmp chardev:qmp_socket -S -device virtio-scsi-p=
-ci,id=3Dscsi0 -blockdev driver=3Dfile,node-name=3Dhd0-overlay0-file,filenam=
-e=3D/var/lib/openqa/pool/7/raid/hd0-overlay0,cache.no-flush=3Don -blockdev =
-driver=3Dqcow2,node-name=3Dhd0-overlay0,file=3Dhd0-overlay0-file,cache.no-f=
-lush=3Don -device virtio-blk-device,id=3Dhd0-device,drive=3Dhd0-overlay0,bo=
-otindex=3D0,serial=3Dhd0 -blockdev driver=3Dfile,node-name=3Dcd0-overlay0-f=
-ile,filename=3D/var/lib/openqa/pool/7/raid/cd0-overlay0,cache.no-flush=3Don=
- -blockdev driver=3Dqcow2,node-name=3Dcd0-overlay0,file=3Dcd0-overlay0-file=
-,cache.no-flush=3Don -device scsi-cd,id=3Dcd0-device,drive=3Dcd0-overlay0,s=
-erial=3Dcd0 -drive id=3Dpflash-code-overlay0,if=3Dpflash,file=3D/var/lib/op=
-enqa/pool/7/raid/pflash-code-overlay0,unit=3D0,readonly=3Don -drive id=3Dpf=
-lash-vars-overlay0,if=3Dpflash,file=3D/var/lib/openqa/pool/7/raid/pflash-va=
-rs-overlay0,unit=3D1
+Regards,
+Halil
 
-Running the same OS and kernel (aarch64 JeOS Tumbleweed 20211202) on RPI it=
-'s working:
-perf_event_open02.c:104: TINFO: bench_work estimated loops =3D 3601 in 500 =
-ms
-perf_event_open02.c:149: TINFO: [0] value:1080601748 time_enabled:480527015=
- time_running:480527015
-perf_event_open02.c:149: TINFO: [1] value:1080599535 time_enabled:480540573=
- time_running:480540573
-perf_event_open02.c:149: TINFO: [2] value:1080592770 time_enabled:480533868=
- time_running:480533868
-perf_event_open02.c:149: TINFO: [3] value:1080607121 time_enabled:480571573=
- time_running:480571573
-perf_event_open02.c:149: TINFO: [4] value:1080598264 time_enabled:480568330=
- time_running:480568330
-perf_event_open02.c:149: TINFO: [5] value:1080608798 time_enabled:480600001=
- time_running:480600001
-perf_event_open02.c:149: TINFO: [6] value:923390393 time_enabled:480919479 =
-time_running:410947611
-perf_event_open02.c:308: TINFO: nhw: 6, overall task clock: 4990107074
-perf_event_open02.c:309: TINFO: hw sum: 51868804135, task clock sum: 299406=
-16417
-perf_event_open02.c:321: TINFO: ratio: 5.999995
-perf_event_open02.c:325: TPASS: test passed
-
-Test is not supported ENOENT when running with similar setup on x86_64 and
-s390x quests:
-perf_event_open.h:31: TCONF: perf_event_open type/config not supported: ENO=
-ENT (2)
-
-grep PERF_EVENTS config-5.15.5-1-default # x86_64
-CONFIG_HAVE_PERF_EVENTS=3Dy
-CONFIG_PERF_EVENTS=3Dy
-CONFIG_PERF_EVENTS_INTEL_UNCORE=3Dy
-CONFIG_PERF_EVENTS_INTEL_RAPL=3Dy
-CONFIG_PERF_EVENTS_INTEL_CSTATE=3Dy
-CONFIG_PERF_EVENTS_AMD_POWER=3Dm
-CONFIG_PERF_EVENTS_AMD_UNCORE=3Dm
-CONFIG_HAVE_PERF_EVENTS_NMI=3Dy
-
-But it passes on ppc64le
-
-perf_event_open02.c:104: TINFO: bench_work estimated loops =3D 4075 in 500 =
-ms
-perf_event_open02.c:151: TINFO: [0] value:815279669 time_enabled:316461566 =
-time_running:316461566
-perf_event_open02.c:151: TINFO: [1] value:815281799 time_enabled:316462740 =
-time_running:316462740
-perf_event_open02.c:151: TINFO: [2] value:815280588 time_enabled:316534086 =
-time_running:316534086
-perf_event_open02.c:151: TINFO: [3] value:815283285 time_enabled:316465672 =
-time_running:316465672
-perf_event_open02.c:151: TINFO: [4] value:815305390 time_enabled:316492698 =
-time_running:316492698
-perf_event_open02.c:151: TINFO: [5] value:686550649 time_enabled:316631866 =
-time_running:266632316
-perf_event_open02.c:308: TINFO: nhw: 5, overall task clock: 2534004200
-perf_event_open02.c:309: TINFO: hw sum: 32612814180, task clock sum: 126699=
-66232
-perf_event_open02.c:321: TINFO: ratio: 4.999978
-perf_event_open02.c:325: TPASS: test passed
-
-grep PERF_EVENTS config # ppc64le
-CONFIG_HAVE_PERF_EVENTS=3Dy
-CONFIG_PERF_EVENTS=3Dy
-CONFIG_HAVE_PERF_EVENTS_NMI=3Dy
-
-When I tried running aarch64 quest with stable kernel 5.10.76 from kernel.o=
-rg on
-my intel laptop, using simplified setup, the event was not supported (not s=
-ure
-whether that was caused unavailable -enable-kvm or something else; I also
-haven't checked kernel config):
-
-qemu-system-aarch64 -M virt -cpu cortex-a53 -nographic -smp $SMP -kernel Im=
-age -append "rootwait root=3D/dev/vda console=3DttyAMA0" -netdev user,id=3D=
-eth0 -device virtio-net-device,netdev=3Deth0 -drive file=3Drootfs.ext4,if=
-=3Dnone,format=3Draw,id=3Dhd0 -device virtio-blk-device,drive=3Dhd0
-=2E..
-perf_event_open.h:26: TINFO: perf_event_open event.type: 0, event.config: 1
-perf_event_open.h:30: TCONF: perf_event_open type/config not supported: ENO=
-ENT (2)
-
-I also tested that stable kernel 5.10.76 on RPI but that passed (the same a=
-s openSUSE 5.15.5-1-default)
-perf_event_open02.c:104: TINFO: bench_work estimated loops =3D 1496 in 500 =
-ms
-perf_event_open02.c:149: TINFO: [0] value:449725668 time_enabled:500191054 =
-time_running:500191054
-perf_event_open02.c:149: TINFO: [1] value:449728803 time_enabled:500204795 =
-time_running:500204795
-perf_event_open02.c:149: TINFO: [2] value:449732944 time_enabled:500210665 =
-time_running:500210665
-perf_event_open02.c:149: TINFO: [3] value:449738099 time_enabled:500210443 =
-time_running:500210443
-perf_event_open02.c:149: TINFO: [4] value:449745104 time_enabled:500234961 =
-time_running:500234961
-perf_event_open02.c:149: TINFO: [5] value:449756676 time_enabled:500247647 =
-time_running:500247647
-perf_event_open02.c:149: TINFO: [6] value:385474224 time_enabled:502975813 =
-time_running:430976612
-perf_event_open02.c:308: TINFO: nhw: 6, overall task clock: 4031349522
-perf_event_open02.c:309: TINFO: hw sum: 21590362808, task clock sum: 241871=
-13827
-perf_event_open02.c:321: TINFO: ratio: 5.999756
-perf_event_open02.c:325: TPASS: test passed
-
-So is it a rounding issue on aarch64 QEMU/KVM?
-Thanks for any hint what to check / try.
-
-Kind regards,
-Petr
-
-[1] https://github.com/linux-test-project/ltp/tree/c2d4836c057fb9f78e7f625d=
-71638d4f40f98659/testcases/kernel/syscalls/perf_event_open/perf_event_open0=
-2.c
 
