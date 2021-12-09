@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C18546EA81
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 16:01:39 +0100 (CET)
-Received: from localhost ([::1]:53102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5972E46EA75
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 15:59:12 +0100 (CET)
+Received: from localhost ([::1]:47310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvKvS-0000sn-Dp
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 10:01:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59176)
+	id 1mvKt3-0005IR-Ub
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 09:59:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.griffin@linaro.org>)
- id 1mvKqf-0002XV-22
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 09:56:41 -0500
-Received: from [2a00:1450:4864:20::32a] (port=45612
- helo=mail-wm1-x32a.google.com)
+ id 1mvKqg-0002Ya-1v
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 09:56:42 -0500
+Received: from [2a00:1450:4864:20::42a] (port=37614
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.griffin@linaro.org>)
- id 1mvKqd-0001XL-2i
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 09:56:40 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- g191-20020a1c9dc8000000b0032fbf912885so4288986wme.4
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 06:56:37 -0800 (PST)
+ id 1mvKqd-0001XX-2i
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 09:56:41 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id d9so10162945wrw.4
+ for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 06:56:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DVK/9hKqxk9TK9qKo9lSrWoYU7MBIbwtjutdopGS4P4=;
- b=rK/zFpxrcT/fz0JW6Ot0oRCI27ESw4sBy5veyZ2qqDmUr7sZjK5tARNQd2Tx3CZQhE
- 1uCW4spiQrZvQ6JUaduommMEvEfzxcThoS+uyj5pv5/R46Fm64svtAEOtaK7a/YsPFNs
- TWRlk/SmuxuOOiV/GHMZO6tKLjMX2J74Q3LZc3yxHU0jARGDQ2CHC6iKNyM0JF1kSOr+
- uRZ09K9Z1y7y6rlD27e+NElwAqxFwIshY4EHl2Fhuod3V1fP9NNgarDVjDJs9mhvI5J9
- aYFiUZsmefimSvBrKUhXHWucNbDOCB+wyImAIMyGmKYVN1/8BPXNCQefHd5rfauxZ+v7
- Dpng==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1QYgAjp609xS1sl67fG+HMcw0ipi2+jgawDo+pv6YsU=;
+ b=AqIaKPAslWw78cQsF3zgvKdCrZ68QcTqvHm/rvit/XGRO0z/U7DirTRUrgvy1zVHSt
+ Mn6Q7BYlr9rWxdtbfTybBHqQfLsmsVUDJC3XgOCI0jujHzJlgDKW+3CX9o00rr5sBnbn
+ v2Ke0QD3BRzm4OKJeVNKFLWZUT8jWQCt9YTFokTv947sQsZDQ8EujSwMpa0ox36joYEA
+ tVDpyn4TEDvh3B5jcRcby7nne1AkRLzV7GFjhsGvtVNIIeu4dtmOMsdUV1shS710cdtZ
+ Ja4Ae6y2iIqNC2XLyEfDgD8IV8QIiGBihvJgsDLcf1ROH3/GWu4WtV/QUVCSF+3YncMm
+ KB4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DVK/9hKqxk9TK9qKo9lSrWoYU7MBIbwtjutdopGS4P4=;
- b=JKyM/MuY90jpP438Ee/IeTfESWkqwETIiXciHC3Vs/jdZ41Kja8bTy9/ffQA2qmyCI
- HUJ9gSC+yiZIwZfYmlOm1MC4fT4rybI6GdNzg9MFkWHPJD7p+5fEC8FfgVRLnUElEiYj
- yoMcb+qGFUvM5/0mgt5AruUokQRrmh2GFY2IPDB1W+H2iDAWKNFO71v78H0FV0TwB1kj
- 2iHo8uUassy94TVgopiKxykvaZ0c843ygCi6lH6cOKlqe40MtoPzzTnrosqbsFzdRVjf
- APoFchygAHiac7SqHjWcY7y4t98/QWKcwwnPbAZHpmDbpvwRNIs9gdVbeAwWe7wUzEL5
- +m1g==
-X-Gm-Message-State: AOAM5327r7SzbY/s1pXMm7gNYcwByG9w60u2XqvuQNLPuUFvfRT63p+u
- +83tu+tLHGZg+pK495v0lhL5RQ==
-X-Google-Smtp-Source: ABdhPJyJU3lr8oNk2wc3HJk81oOhw9MAQwidsv1B9nIWIXrsqIwagL5NtI9/pcyLacF15jvOImW/NA==
-X-Received: by 2002:a05:600c:2217:: with SMTP id
- z23mr7878814wml.42.1639061796101; 
- Thu, 09 Dec 2021 06:56:36 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1QYgAjp609xS1sl67fG+HMcw0ipi2+jgawDo+pv6YsU=;
+ b=F/wp6blwWwmXjry3k4LGiVxYRcEB59erx69KhLhspnOXulfqIdn7gw6ErDMwT0I2e/
+ J+/BzJ28KDUICDZ1I6bnXBiSWs/OHaOcNfKz0QYQaHKAs7bWeYlNfSdSgptHQjWaZjrw
+ mliKEidHbyJDwVmGZOWYh8bfNd2UnowV3CXaxB4u9NCVg6cgKxhTttxvzT0SwJGUSH5s
+ 3HY5WMLAoMRLiYHTUQX4WFlEKGqsoeAUGPurTk0k6jHAM0CS2iA/AFvZ9DPxEK/208v7
+ D778t4pwVPxT5fWHrXbjF0g/VKH3OFhMiDSMyWaEuyzcDtoeZFCd1OE2Uq1KZBXuVD0G
+ 8OdQ==
+X-Gm-Message-State: AOAM532vl3dCIpNplCWz8brOcK1UmvkiK7foWy4F5OeoDjb4iilTObJ6
+ FEhHN4kwgWBrdCWV1d+kPdGqcw==
+X-Google-Smtp-Source: ABdhPJzqMm/JzWm3VYj3NUK9w/M1+W3rcxEvBWYRmMA2p4eU07/JZHK3QzN99YSNm+bg1I5qe4ua1Q==
+X-Received: by 2002:a5d:58ed:: with SMTP id f13mr6976991wrd.373.1639061797086; 
+ Thu, 09 Dec 2021 06:56:37 -0800 (PST)
 Received: from xps15-9570.lan (host-92-16-105-103.as13285.net. [92.16.105.103])
- by smtp.gmail.com with ESMTPSA id y142sm30845wmc.40.2021.12.09.06.56.35
+ by smtp.gmail.com with ESMTPSA id y142sm30845wmc.40.2021.12.09.06.56.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Dec 2021 06:56:35 -0800 (PST)
+ Thu, 09 Dec 2021 06:56:36 -0800 (PST)
 From: Peter Griffin <peter.griffin@linaro.org>
 To: marcandre.lureau@redhat.com,
 	mst@redhat.com,
 	alex.bennee@linaro.org
-Subject: [PATCH 0/8] virtio: Add vhost-user based Video decode
-Date: Thu,  9 Dec 2021 14:55:53 +0000
-Message-Id: <20211209145601.331477-1-peter.griffin@linaro.org>
+Subject: [PATCH 1/8] vhost-user-video: Add a README.md with cheat sheet of
+ commands
+Date: Thu,  9 Dec 2021 14:55:54 +0000
+Message-Id: <20211209145601.331477-2-peter.griffin@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211209145601.331477-1-peter.griffin@linaro.org>
+References: <20211209145601.331477-1-peter.griffin@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.griffin@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.griffin@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,93 +93,116 @@ Cc: Peter Griffin <peter.griffin@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds support for virtio-video decoder devices in Qemu
-and also provides a vhost-user-video vmm implementation.
-
-The vhost-user-video vmm currently parses virtio-vido v3 protocol
-(as that is what the Linux frontend driver implements).
-It then converts that to a v4l2 mem2mem stateful decoder device.
-Currently this has been tested using v4l2 vicodec test driver in Linux
-[1] but it is intended to be used with Arm SoCs which often implement
-v4l2 stateful decoders/encoders drivers for their video accelerators.
-
-The primary goal so far has been to allow continuing development
-of virtio-video Linux frontend driver and testing with Qemu. Using
-vicodec on the host allows a purely virtual dev env, and allows for
-ci integration in the future by kernelci etc.
-
-This series also adds the virtio_video.h header and adds the
-FWHT format which is used by vicodec driver.
-
-I have tested this VMM using v4l2-ctl from v4l2 utils in the guest
-to do a video decode to a file. This can then be validated using ffplay
-v4l2-compliance tool in the guest has also been run which stresses the
-interface and issues lots of syscall level tests
-
-See the README.md for example commands on how to configure guest kernel
-and do a video decode using Qemu, vicodec using this VMM.
-
-Linux virtio-video frontend driver code:
-https://github.com/petegriffin/linux/commits/v5.10-virtio-video-latest
-
-Qemu vmm code:
-https://github.com/petegriffin/qemu/tree/vhost-virtio-video-master-v1
-
-This is part of a wider initiative by Linaro called
-"project Stratos" for which you can find information here:
-
-  https://collaborate.linaro.org/display/STR/Stratos+Home
-
-Applies cleanly to git://git.qemu.org/qemu.git master(a3607def89).
-
-Thanks,
-
-Peter.
-
-[1] https://lwn.net/Articles/760650/
-
-Peter Griffin (8):
-  vhost-user-video: Add a README.md with cheat sheet of commands
-  MAINTAINERS: Add virtio-video section
-  vhost-user-video: boiler plate code for vhost-user-video device
-  vhost-user-video: add meson subdir build logic
-  standard-headers: Add virtio_video.h
-  virtio_video: Add Fast Walsh-Hadamard Transform format
-  hw/display: add vhost-user-video-pci
-  tools/vhost-user-video: Add initial vhost-user-video vmm
-
- MAINTAINERS                                   |    8 +
- hw/display/Kconfig                            |    5 +
- hw/display/meson.build                        |    3 +
- hw/display/vhost-user-video-pci.c             |   82 +
- hw/display/vhost-user-video.c                 |  386 ++++
- include/hw/virtio/vhost-user-video.h          |   41 +
- include/standard-headers/linux/virtio_video.h |  484 +++++
- tools/meson.build                             |    9 +
- tools/vhost-user-video/50-qemu-rpmb.json.in   |    5 +
- tools/vhost-user-video/README.md              |   98 +
- tools/vhost-user-video/main.c                 | 1680 ++++++++++++++++
- tools/vhost-user-video/meson.build            |   10 +
- tools/vhost-user-video/v4l2_backend.c         | 1777 +++++++++++++++++
- tools/vhost-user-video/v4l2_backend.h         |   99 +
- tools/vhost-user-video/virtio_video_helpers.c |  462 +++++
- tools/vhost-user-video/virtio_video_helpers.h |  166 ++
- tools/vhost-user-video/vuvideo.h              |   43 +
- 17 files changed, 5358 insertions(+)
- create mode 100644 hw/display/vhost-user-video-pci.c
- create mode 100644 hw/display/vhost-user-video.c
- create mode 100644 include/hw/virtio/vhost-user-video.h
- create mode 100644 include/standard-headers/linux/virtio_video.h
- create mode 100644 tools/vhost-user-video/50-qemu-rpmb.json.in
+Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
+---
+ tools/vhost-user-video/README.md | 98 ++++++++++++++++++++++++++++++++
+ 1 file changed, 98 insertions(+)
  create mode 100644 tools/vhost-user-video/README.md
- create mode 100644 tools/vhost-user-video/main.c
- create mode 100644 tools/vhost-user-video/meson.build
- create mode 100644 tools/vhost-user-video/v4l2_backend.c
- create mode 100644 tools/vhost-user-video/v4l2_backend.h
- create mode 100644 tools/vhost-user-video/virtio_video_helpers.c
- create mode 100644 tools/vhost-user-video/virtio_video_helpers.h
- create mode 100644 tools/vhost-user-video/vuvideo.h
 
+diff --git a/tools/vhost-user-video/README.md b/tools/vhost-user-video/README.md
+new file mode 100644
+index 0000000000..c55e0a7b68
+--- /dev/null
++++ b/tools/vhost-user-video/README.md
+@@ -0,0 +1,98 @@
++# Overview vhost-user-video
++
++This vmm translates from virtio-video v3 protocol and writes
++to a v4l2 mem2mem stateful decoder/encoder device [1]. v3 was
++chosen as that is what the virtio-video Linux frontend driver
++currently implements.
++
++The primary goal so far is to enable development of virtio-video
++frontend driver using purely open source software. Using vicodec
++v4l2 stateful decoder on the host for testing then allows a pure
++virtual environment for development and testing.
++
++Currently the vmm only supports v4l2 stateful devices, and the
++intention is it will be used with Arm SoCs that implement stateful
++decode/encode devices such as Qcom Venus, RPi, MediaTek etc.
++
++A Qemu + vicodec setup for virtio-video should also allow for
++CI systems like kernelci, lkft to test the virtio-video interface
++easily.
++
++Currently support for VAAPI or decoding via libavcodec or similar
++libraries is not implemented, but this could be added in the future.
++
++Some example commands are provided below on how to run the daemon
++and achieve a video decode using vicodec and a link to some test
++content.
++
++[1] https://www.kernel.org/doc/html/latest/userspace-api/media/
++    v4l/dev-decoder.html
++
++[2] https://lwn.net/Articles/760650/
++
++# Guest Linux kernel modules
++CONFIG_MEDIA_SUPPORT=y
++CONFIG_MEDIA_TEST_SUPPORT=y
++CONFIG_V4L_TEST_DRIVERS=y
++CONFIG_VIRTIO_VIDEO=y
++CONFIG_GDB_SCRIPTS=y
++CONFIG_DRM_VIRTIO_GPU=y
++
++# Host kernel modules
++CONFIG_MEDIA_SUPPORT=y
++CONFIG_MEDIA_TEST_SUPPORT=y
++CONFIG_V4L_TEST_DRIVERS=y
++CONFIG_VIDEO_VICODEC=y
++
++# Run vhost-user-video daemon with vicodec
++# (video3 typically is the stateful video)
++vhost-user-video --socket-path=/tmp/video.sock --v4l2-device=/dev/video3
++
++# Qemu command for virtio-video device
++
++-device vhost-user-video-pci,chardev=video,id=video
++-chardev socket,path=/tmp//video.sock,id=video
++
++# Example v4l2-ctl decode command
++wget https://people.linaro.org/~peter.griffin/jelly_640_480-420P.fwht
++
++v4l2-ctl -d0 -x width=640,height=480 -v width=640,height=480,pixelformat=YU12
++--stream-mmap --stream-out-mmap --stream-from jelly_640_480-420P.fwht
++--stream-to out-jelly-640-480.YU12
++
++# Play the raw decoded video with ffplay or mplayer
++ffplay -loglevel warning -v info -f rawvideo -pixel_format  yuv420p
++  -video_size "640x480" ./out-jelly-640-480.YU12
++
++mplayer -demuxer rawvideo -rawvideo
++  format=i420:w=640:h=480:fps=25 out-jelly-640-480.YU12
++
++# Enable v4l2 debug in virtio-video frontend driver
++echo 0x1f > /sys/class/video4linux/video0/dev_debug
++
++# Enable v4l2 debug in vicodec backend driver
++echo 0x1f > /sys/class/video4linux/video3/dev_debug
++
++# optee-build system qemu virtio-video command
++make QEMU_VIRTFS_ENABLE=y QEMU_USERNET_ENABLE=y CFG_TA_ASLR=n
++    QEMU_VHOSTUSER_MEM=y QEMU_VIRTVIDEO_ENABLE=y SSH_PORT_FW=y run-only
++
++Current status
++* Tested with v4l2-ctl from v4l2-utils and vicodec stateful decoder driver
++* v4l2-compliance - reports
++Total: 43, Succeeded: 37, Failed: 6, Warnings: 0
++
++Known Issues
++* 6 v4l2-compliance failures remaining
++* v4l2-ctl 0fps misleading output
++* v4l2-ctl sometimes reports - 0 != <somenumber>
++* Encoder not tested yet
++
++TODOs
++* Test with a "real" stateful decoder & codec
++  (e.g. Qcom Venus or RPi).
++* Test more v4l2 userspaces in the guest
++
++Future potential features
++* Emulation using libavcodec or similar library
++* Support for VAAPI, OpenMax or v4l2 stateless devices
 -- 
 2.25.1
 
