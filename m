@@ -2,80 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0C146DEFE
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 00:21:09 +0100 (CET)
-Received: from localhost ([::1]:51944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7135946E07C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 02:52:42 +0100 (CET)
+Received: from localhost ([::1]:34270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mv6FI-0001Nu-Pi
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 18:21:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34252)
+	id 1mv8bx-0002Nl-Ds
+	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 20:52:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mv66W-0005GU-2E
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 18:12:04 -0500
-Received: from [2607:f8b0:4864:20::62f] (port=46867
- helo=mail-pl1-x62f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mv66U-0004oJ-6m
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 18:12:03 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id p18so2542709plf.13
- for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 15:12:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=uAAN1kaoQfn9Rr4weQnVVbWtBx1U1Cj2+/RVGbi/Znc=;
- b=ZGWN0Qm8ZcnMBjqS+4QWdb8rEBhm1xVtj3vrz5bkaTjZPPQlhBVgtp41c3/K8jq4KI
- oKzGuLNfqpOTszNnOArZnNBCG050ycuJyO3MYn6Kd8YXo4sh0SvNRsZrjIxsvx9aAWiP
- yYbeolZsqHmOc0MK3im1YkpKl4ZMBhTuhTfuZ0UlLEclp0yviMUWGxCxlr5UG19HBzY3
- ZM7dGJU+7yPKLcci55w5J2yExBwhAqK86G+9WnDdl2UPIm7pWYUewTOgJy6GcktyhJ+m
- 9spHRMgoc5PsqRGswjAtT9TaddOmPWkPpqqjlO7V/9KAlzXib14f6WMjIqqdl/jorntS
- joTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=uAAN1kaoQfn9Rr4weQnVVbWtBx1U1Cj2+/RVGbi/Znc=;
- b=0JDv2BTuveL3+6HL2QXr2wLgBNvtyUUwEEmSrKntFY2/rsG9nohU9BT0XGWQpPTCtt
- P2uOeHYudNgof57wjvM82G4SvdMcG2oICkoicrR1H3ScpYXekeOgWpetll3Dwfq/Uk6m
- WWl7PLhS5fHvNnGXDe5lU7sGhqCJx4DPSH29kt9MG3C78jkN1Aiq6SeM/OdXoiuKV8Ld
- 5XTTsrIufu55wx8ojUsbdJq85Qitam7o13nmsVubf8jEmIYYIE8InuOcO4F3tWg8ScV9
- xPdzZuNBDwErTNZqhndFWvpXR4j8fYOOaO1RkxrhdDXKiIaTdoyZ9p0grNvszGt9gYBB
- GIeQ==
-X-Gm-Message-State: AOAM532apu2vdWSuxmQTot1ZqWk5V5Zkscu4GmmV0Th33Oy8b4dRYLAx
- rKEB67SJqBEwfdl0soNB3ogmsLS0Q2y/WQ==
-X-Google-Smtp-Source: ABdhPJyhE975D33iExQZ6Ko3QHBA1KQf5DnyWgktw7RwQgjNdhniNVgwkrpVJoA0d+B3GsMLdZfKWw==
-X-Received: by 2002:a17:903:1c5:b0:141:fbe2:56c1 with SMTP id
- e5-20020a17090301c500b00141fbe256c1mr62743920plh.52.1639005120803; 
- Wed, 08 Dec 2021 15:12:00 -0800 (PST)
-Received: from localhost.localdomain
- (45-19-222-18.lightspeed.sntcca.sbcglobal.net. [45.19.222.18])
- by smtp.gmail.com with ESMTPSA id k15sm3301062pgn.91.2021.12.08.15.12.00
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Dec 2021 15:12:00 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] target/arm: Implement FEAT_LPA2
-Date: Wed,  8 Dec 2021 15:11:54 -0800
-Message-Id: <20211208231154.392029-7-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211208231154.392029-1-richard.henderson@linaro.org>
-References: <20211208231154.392029-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mv8XQ-0001SW-5u; Wed, 08 Dec 2021 20:48:00 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=39517
+ helo=gandalf.ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mv8XL-0007PL-Ie; Wed, 08 Dec 2021 20:47:59 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4J8cNz0nGrz4xhj; Thu,  9 Dec 2021 12:47:47 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1639014467;
+ bh=CJtCtkkwvcPW9piJ6eQ/tJG4eyo+DaRn5GnlXnC6zuA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Qewlbe64vDz4jvo8r4tLwahYE2Wb4UVeYLfX7gx+ExNbuFUkA/aNR7IUl5zjD+JuA
+ RG6NpOqLCrjUrk+RMGvRx6yn/XhkHkPv49asu9lKPzeKSRjE/rYvkTPXJxxJNuiQS7
+ 5ih9i6JtkDB+xOQiOIvInu5rzyE2aYcmdqQV46YE=
+Date: Thu, 9 Dec 2021 12:07:56 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 1/3] docs: rSTify ppc-spapr-hcalls.txt
+Message-ID: <YbFW7JjNLvr5aVKI@yekko>
+References: <cover.1638982480.git.lagarcia@br.ibm.com>
+ <e20319dcf0ec37bedd915c740c3813eb0e58ead4.1638982486.git.lagarcia@br.ibm.com>
+ <da9c1d2d-ce52-5114-eefc-cbf3eb7c475f@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8qGrbHgU1RnflWF6"
+Content-Disposition: inline
+In-Reply-To: <da9c1d2d-ce52-5114-eefc-cbf3eb7c475f@gmail.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for
+ 2404:9400:2:0:216:3eff:fee2:21ea (failed)
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,255 +63,230 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: lagarcia@linux.ibm.com, groug@kaod.org, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, Leonardo Garcia <lagarcia@br.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu.h       | 12 +++++++
- target/arm/internals.h |  2 ++
- target/arm/cpu64.c     |  2 ++
- target/arm/helper.c    | 80 +++++++++++++++++++++++++++++++++++-------
- 4 files changed, 83 insertions(+), 13 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 3149000004..379585352b 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -4283,6 +4283,18 @@ static inline bool isar_feature_aa64_i8mm(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, I8MM) != 0;
- }
- 
-+static inline bool isar_feature_aa64_tgran4_lpa2(const ARMISARegisters *id)
-+{
-+    return sextract64(id->id_aa64mmfr0,
-+                      R_ID_AA64MMFR0_TGRAN4_SHIFT,
-+                      R_ID_AA64MMFR0_TGRAN4_LENGTH) >= 1;
-+}
-+
-+static inline bool isar_feature_aa64_tgran16_lpa2(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN16) >= 2;
-+}
-+
- static inline bool isar_feature_aa64_ccidx(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, CCIDX) != 0;
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 3e801833b4..868cae2a55 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1033,12 +1033,14 @@ static inline uint32_t aarch64_pstate_valid_mask(const ARMISARegisters *id)
- typedef struct ARMVAParameters {
-     unsigned tsz    : 8;
-     unsigned ps     : 3;
-+    unsigned sh     : 2;
-     unsigned select : 1;
-     bool tbi        : 1;
-     bool epd        : 1;
-     bool hpd        : 1;
-     bool using16k   : 1;
-     bool using64k   : 1;
-+    bool ds         : 1;
- } ARMVAParameters;
- 
- ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 3bb79ca744..5a1940aa94 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -740,6 +740,8 @@ static void aarch64_max_initfn(Object *obj)
- 
-         t = cpu->isar.id_aa64mmfr0;
-         t = FIELD_DP64(t, ID_AA64MMFR0, PARANGE, 6); /* FEAT_LPA: 52 bits */
-+        t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN16, 2); /* FEAT_LPA2: 52 bits */
-+        t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN4, 1);  /* FEAT_LPA2: 52 bits */
-         cpu->isar.id_aa64mmfr0 = t;
- 
-         t = cpu->isar.id_aa64mmfr1;
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index e39c1f5b3a..f4a8b37f98 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11008,8 +11008,13 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
-     const int grainsize = stride + 3;
-     int startsizecheck;
- 
--    /* Negative levels are never allowed.  */
--    if (level < 0) {
-+    /*
-+     * Negative levels are usually not allowed...
-+     * Except for FEAT_LPA2, 4k page table, 52-bit address space, which
-+     * begins with level -1.  Note that previous feature tests will have
-+     * eliminated this combination if it is not enabled.
-+     */
-+    if (level < (inputsize == 52 && stride == 9 ? -1 : 0)) {
-         return false;
-     }
- 
-@@ -11150,8 +11155,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-                                    ARMMMUIdx mmu_idx, bool data)
- {
-     uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
--    bool epd, hpd, using16k, using64k;
--    int select, tsz, tbi, ps;
-+    bool epd, hpd, using16k, using64k, ds;
-+    int select, tsz, tbi, ps, sh;
- 
-     if (!regime_has_2_ranges(mmu_idx)) {
-         select = 0;
-@@ -11165,7 +11170,9 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-             hpd = extract32(tcr, 24, 1);
-         }
-         epd = false;
-+        sh = extract64(tcr, 12, 2);
-         ps = extract64(tcr, 16, 3);
-+        ds = extract64(tcr, 32, 1);
-     } else {
-         /*
-          * Bit 55 is always between the two regions, and is canonical for
-@@ -11175,6 +11182,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-         if (!select) {
-             tsz = extract32(tcr, 0, 6);
-             epd = extract32(tcr, 7, 1);
-+            sh = extract32(tcr, 12, 2);
-             using64k = extract32(tcr, 14, 1);
-             using16k = extract32(tcr, 15, 1);
-             hpd = extract64(tcr, 41, 1);
-@@ -11184,9 +11192,11 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-             using64k = tg == 3;
-             tsz = extract32(tcr, 16, 6);
-             epd = extract32(tcr, 23, 1);
-+            sh = extract32(tcr, 28, 2);
-             hpd = extract64(tcr, 42, 1);
-         }
-         ps = extract64(tcr, 32, 3);
-+        ds = extract64(tcr, 59, 1);
-     }
- 
-     /* Present TBI as a composite with TBID.  */
-@@ -11199,12 +11209,14 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-     return (ARMVAParameters) {
-         .tsz = tsz,
-         .ps = ps,
-+        .sh = sh,
-         .select = select,
-         .tbi = tbi,
-         .epd = epd,
-         .hpd = hpd,
-         .using16k = using16k,
-         .using64k = using64k,
-+        .ds = ds,
-     };
- }
- 
-@@ -11332,15 +11344,31 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-                                    access_type != MMU_INST_FETCH);
-         level = 0;
- 
--        if (cpu_isar_feature(aa64_st, env_archcpu(env))) {
-+        /* Find the minimum allowed input address size. */
-+        if (cpu_isar_feature(aa64_st, cpu)) {
-             max_tsz = 48 - param.using64k;
-         }
-+
-+        /*
-+         * Find the maximum allowed input address size.
-+         * DS is RES0 unless FEAT_LPA2 is supported for the given page size;
-+         * adjust param.ds to the effective value of DS, as documented.
-+         */
-         if (param.using64k) {
--            if (cpu_isar_feature(aa64_lva, env_archcpu(env))) {
-+            if (cpu_isar_feature(aa64_lva, cpu)) {
-                 min_tsz = 12;
-             }
-+            param.ds = false;
-+        } else if (param.ds) {
-+            /* ??? Assume tgran{4,16}_2 == 0, i.e. match tgran{4,16}. */
-+            if (param.using16k
-+                ? cpu_isar_feature(aa64_tgran16_lpa2, cpu)
-+                : cpu_isar_feature(aa64_tgran4_lpa2, cpu)) {
-+                min_tsz = 12;
-+            } else {
-+                param.ds = false;
-+            }
-         }
--        /* TODO: FEAT_LPA2 */
- 
-         /*
-          * If TxSZ is programmed to a value larger than the maximum,
-@@ -11441,10 +11469,19 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-          * VTCR_EL2.SL0 field (whose interpretation depends on the page size)
-          */
-         uint32_t sl0 = extract32(tcr->raw_tcr, 6, 2);
-+        uint32_t sl2 = extract64(tcr->raw_tcr, 33, 1);
-         uint32_t startlevel;
-         bool ok;
- 
--        if (!aarch64 || stride == 9) {
-+        /* SL2 is RES0 unless DS=1 & 4kb granule. */
-+        if (param.ds && stride == 9 && sl2) {
-+            if (sl0 != 0) {
-+                level = 0;
-+                fault_type = ARMFault_Translation;
-+                goto do_fault;
-+            }
-+            startlevel = -1;
-+        } else if (!aarch64 || stride == 9) {
-             /* AArch32 or 4KB pages */
-             startlevel = 2 - sl0;
- 
-@@ -11499,7 +11536,9 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-      * but in ARMv8 they are checked for zero and an AddressSize fault
-      * is raised if they are not.
-      */
--    if (aarch64 || arm_feature(env, ARM_FEATURE_V8)) {
-+    if (param.ds) {
-+        descaddrmask = MAKE_64BIT_MASK(0, 50);
-+    } else if (aarch64 || arm_feature(env, ARM_FEATURE_V8)) {
-         descaddrmask = MAKE_64BIT_MASK(0, 48);
-     } else {
-         descaddrmask = MAKE_64BIT_MASK(0, 40);
-@@ -11534,11 +11573,16 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
- 
-         /*
-          * For FEAT_LPA and PS=6, bits [51:48] of descaddr are in [15:12]
--         * of descriptor.  Otherwise, if descaddr is out of range, raise
--         * AddressSizeFault.
-+         * of descriptor.  For FEAT_LPA2 and effective DS, bits [51:50] of
-+         * descaddr are in [9:8].  Otherwise, if descaddr is out of range,
-+         * raise AddressSizeFault.
-          */
-         if (outputsize > 48) {
--            descaddr |= extract64(descriptor, 12, 4) << 48;
-+            if (param.ds) {
-+                descaddr |= extract64(descriptor, 8, 2) << 50;
-+            } else {
-+                descaddr |= extract64(descriptor, 12, 4) << 48;
-+            }
-         } else if (descaddr >> outputsize) {
-             fault_type = ARMFault_AddressSize;
-             goto do_fault;
-@@ -11632,7 +11676,17 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-         assert(attrindx <= 7);
-         cacheattrs->attrs = extract64(mair, attrindx * 8, 8);
-     }
--    cacheattrs->shareability = extract32(attrs, 6, 2);
-+
-+    /*
-+     * For FEAT_LPA2 and effective DS, the SH field in the attributes
-+     * was re-purposed for output address bits.  The SH attribute in
-+     * that case comes from TCR_ELx, which we extracted earlier.
-+     */
-+    if (param.ds) {
-+        cacheattrs->shareability = param.sh;
-+    } else {
-+        cacheattrs->shareability = extract32(attrs, 6, 2);
-+    }
- 
-     *phys_ptr = descaddr;
-     *page_size_ptr = page_size;
--- 
-2.25.1
+--8qGrbHgU1RnflWF6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Dec 08, 2021 at 03:54:40PM -0300, Daniel Henrique Barboza wrote:
+>=20
+>=20
+> On 12/8/21 13:59, lagarcia@linux.ibm.com wrote:
+> > From: Leonardo Garcia <lagarcia@br.ibm.com>
+> >=20
+> > Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
+> > ---
+> >   docs/specs/ppc-spapr-hcalls.txt | 92 ++++++++++++++++++++-------------
+> >   1 file changed, 57 insertions(+), 35 deletions(-)
+> >=20
+> > diff --git a/docs/specs/ppc-spapr-hcalls.txt b/docs/specs/ppc-spapr-hca=
+lls.txt
+> > index 93fe3da91b..c69dae535b 100644
+> > --- a/docs/specs/ppc-spapr-hcalls.txt
+> > +++ b/docs/specs/ppc-spapr-hcalls.txt
+> > @@ -1,9 +1,15 @@
+> > -When used with the "pseries" machine type, QEMU-system-ppc64 implements
+> > -a set of hypervisor calls using a subset of the server "PAPR" specific=
+ation
+> > -(IBM internal at this point), which is also what IBM's proprietary hyp=
+ervisor
+> > -adheres too.
+> > +sPAPR hypervisor calls
+> > +----------------------
+> > -The subset is selected based on the requirements of Linux as a guest.
+> > +When used with the ``pseries`` machine type, ``qemu-system-ppc64`` imp=
+lements
+> > +a set of hypervisor calls (a.k.a. hcalls) defined in the `Linux on Pow=
+er
+> > +Architecture Reference document (LoPAR)
+> > +<https://cdn.openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-=
+20200812.pdf>`_.
+> > +This document is a subset of the Power Architecture Platform Reference=
+ (PAPR+)
+> > +specification (IBM internal only), which is what PowerVM, the IBM prop=
+rietary
+> > +hypervisor, adheres to.
+> > +
+> > +The subset in LoPAR is selected based on the requirements of Linux as =
+a guest.
+> >   In addition to those calls, we have added our own private hypervisor
+> >   calls which are mostly used as a private interface between the firmwa=
+re
+> > @@ -12,13 +18,14 @@ running in the guest and QEMU.
+> >   All those hypercalls start at hcall number 0xf000 which correspond
+> >   to an implementation specific range in PAPR.
+> > -- H_RTAS (0xf000)
+> > +H_RTAS (0xf000)
+> > +^^^^^^^^^^^^^^^
+> > -RTAS is a set of runtime services generally provided by the firmware
+> > -inside the guest to the operating system. It predates the existence
+> > -of hypervisors (it was originally an extension to Open Firmware) and
+> > -is still used by PAPR to provide various services that aren't performa=
+nce
+> > -sensitive.
+> > +RTAS stands for Run-Time Abstraction Sercies and is a set of runtime s=
+ervices
+> > +generally provided by the firmware inside the guest to the operating s=
+ystem. It
+> > +predates the existence of hypervisors (it was originally an extension =
+to Open
+> > +Firmware) and is still used by PAPR and LoPAR to provide various servi=
+ces that
+> > +are not performance sensitive.
+> >   We currently implement the RTAS services in QEMU itself. The actual R=
+TAS
+> >   "firmware" blob in the guest is a small stub of a few instructions wh=
+ich
+> > @@ -26,22 +33,25 @@ calls our private H_RTAS hypervisor call to pass th=
+e RTAS calls to QEMU.
+> >   Arguments:
+> > -  r3 : H_RTAS (0xf000)
+> > -  r4 : Guest physical address of RTAS parameter block
+> > +  ``r3``: ``H_RTAS (0xf000)``
+> > +
+> > +  ``r4``: Guest physical address of RTAS parameter block.
+> >   Returns:
+> > -  H_SUCCESS   : Successfully called the RTAS function (RTAS result
+> > -                will have been stored in the parameter block)
+> > -  H_PARAMETER : Unknown token
+> > +  ``H_SUCCESS``: Successfully called the RTAS function (RTAS result wi=
+ll have
+> > +  been stored in the parameter block).
+> > -- H_LOGICAL_MEMOP (0xf001)
+> > +  ``H_PARAMETER``: Unknown token.
+> > -When the guest runs in "real mode" (in powerpc lingua this means
+> > -with MMU disabled, ie guest effective =3D=3D guest physical), it only
+> > -has access to a subset of memory and no IOs.
+> > +H_LOGICAL_MEMOP (0xf001)
+> > +^^^^^^^^^^^^^^^^^^^^^^^^
+> > -PAPR provides a set of hypervisor calls to perform cacheable or
+> > +When the guest runs in "real mode" (in powerpc lingua this means with =
+MMU
+>=20
+> What's up with 'lingua'? As you already know "lingua" is Brazilian portug=
+uese for "tongue"
+> and it's so weird to be used in this context.
+>=20
+> The one English word that I can think of that is closer to "lingua" and w=
+ould make sense here
+> is 'lingo'. But that is a slang for 'jargon' and not appropriate for a te=
+chnical document
+> either. "langua" as a short form of "language" seems weird as well. I rea=
+lly believe 'jargon'
+> is a more suitable word here.
+
+As a native speaker: "lingo" would make sense here, though its tone is
+a little informal.  "jargon" could also work, but "terminology" would
+probably better match the tone of the document.
+
+I expect this hasn't been noticed before, because I think most English
+speakers would read "lingua" as a typo for "lingo", maybe only barely
+registering that it was not the standard spelling.  ("lingo" is, of
+course, cognate with lingua and similar words from romance langauges).
+
+> This was added by c73e3771ea79ab and I really believe this is an unintend=
+ed typo/mistake. If
+> you're feeling generous feel free to send an extra patch (you can send an=
+ independent patch,
+> or another patch on top of this series, your call) changing this 'lingua'=
+ instance to something
+> more appropriate.
+>=20
+>=20
+> Since this is not this patch fault:
+>=20
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>=20
+>=20
+>=20
+>=20
+> > +disabled, i.e. guest effective address equals to guest physical addres=
+s), it
+> > +only has access to a subset of memory and no I/Os.
+> > +
+> > +PAPR and LoPAR provides a set of hypervisor calls to perform cacheable=
+ or
+> >   non-cacheable accesses to any guest physical addresses that the
+> >   guest can use in order to access IO devices while in real mode.
+> > @@ -58,21 +68,33 @@ is used by our SLOF firmware to invert the screen.
+> >   Arguments:
+> > -  r3: H_LOGICAL_MEMOP (0xf001)
+> > -  r4: Guest physical address of destination
+> > -  r5: Guest physical address of source
+> > -  r6: Individual element size
+> > -        0 =3D 1 byte
+> > -        1 =3D 2 bytes
+> > -        2 =3D 4 bytes
+> > -        3 =3D 8 bytes
+> > -  r7: Number of elements
+> > -  r8: Operation
+> > -        0 =3D copy
+> > -        1 =3D xor
+> > +  ``r3 ``: ``H_LOGICAL_MEMOP (0xf001)``
+> > +
+> > +  ``r4``: Guest physical address of destination.
+> > +
+> > +  ``r5``: Guest physical address of source.
+> > +
+> > +  ``r6``: Individual element size, defined by the binary logarithm of =
+the
+> > +  desired size. Supported values are:
+> > +
+> > +    ``0`` =3D 1 byte
+> > +
+> > +    ``1`` =3D 2 bytes
+> > +
+> > +    ``2`` =3D 4 bytes
+> > +
+> > +    ``3`` =3D 8 bytes
+> > +
+> > +  ``r7``: Number of elements.
+> > +
+> > +  ``r8``: Operation. Supported values are:
+> > +
+> > +    ``0``: copy
+> > +
+> > +    ``1``: xor
+> >   Returns:
+> > -  H_SUCCESS   : Success
+> > -  H_PARAMETER : Invalid argument
+> > +  ``H_SUCCESS``: Success.
+> > +  ``H_PARAMETER``: Invalid argument.
+> > \ No newline at end of file
+> >=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--8qGrbHgU1RnflWF6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGxVukACgkQbDjKyiDZ
+s5IT4RAAtEl0BNKD9rHud6bwPJUuhCdSAt9y9UjuI6O+PByAwKZQ1++W+DbJtYFl
+C0A13l8LIFQTj7JSaq7xIOTJmyFHj2iQDwQV53UNGm71Y3TBwwcSwIHpb93kzb0I
+Wt0/7KymW3Ns55q6IEdgtS21nlZyUzYSnHQocjMdoi5JlKqxvSR3eD/TnRXGC2K8
++KikQ5AHMq2UlQw8Q86bm7RZAnfqQfui5NSZHYsGBF+IUS1Y5+C3caJWT+B4A/Cl
+sg+hqb/GnlC/l6RncqMT9qlvHjqeLElWKv+sQgMT10wXHQ3RvBB9c7A7vL1XAMBI
+/MILF2QktP+HohHkUSFAGjRbzEwpx1t6tJ6lV4IRAZmUi0jF36/4gwAqhyz0iCBc
+hnjNHZDrcELeXlHZOSntR3dDtYJ4B6B9HqxyKJ7ceSKdWGysrJSpql/cADtguCC0
+zqHLMKu+B9XMCb6fAjhcVtGysqKJagVNFyvaadEqZbDEONSTFEVfAqWdEZxzs9zW
+jCODpob/TbjDDr6QpxeylxfCTyNXaUk5hSHouCfdrpzT/aXcEnwD/5ZLipDVooWL
+KlGu4k+/k5WDa5BR+gJzq093qA0g1qpNN/l2jRifgadf3VmbVm0gTrYsMPr3kNVh
+sorme9iqdj+r7Pbotxjs9Pd8942bUGtrVrXHvPWDwE6l8fbhFLQ=
+=fLUp
+-----END PGP SIGNATURE-----
+
+--8qGrbHgU1RnflWF6--
 
