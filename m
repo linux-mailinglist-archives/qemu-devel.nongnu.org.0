@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C1846E15F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 04:53:30 +0100 (CET)
-Received: from localhost ([::1]:38972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E56F46E25C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 07:19:04 +0100 (CET)
+Received: from localhost ([::1]:46118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvAUq-0006Fs-LT
-	for lists+qemu-devel@lfdr.de; Wed, 08 Dec 2021 22:53:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40698)
+	id 1mvClh-0003da-Mf
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 01:19:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mvATM-0005O3-CS
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 22:51:56 -0500
-Received: from [2607:f8b0:4864:20::935] (port=34628
- helo=mail-ua1-x935.google.com)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mvCi2-0002bN-2g
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 01:15:14 -0500
+Received: from [2a00:1450:4864:20::32a] (port=44990
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mvATI-000491-Cu
- for qemu-devel@nongnu.org; Wed, 08 Dec 2021 22:51:56 -0500
-Received: by mail-ua1-x935.google.com with SMTP id n6so8509274uak.1
- for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 19:51:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mvChx-0003I5-Nc
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 01:15:13 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ p27-20020a05600c1d9b00b0033bf8532855so3277746wms.3
+ for <qemu-devel@nongnu.org>; Wed, 08 Dec 2021 22:15:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/pA2v/bg1UyJIpIbW0CB/MR7f0a2T/2fKRlanTuhQCU=;
- b=PbcIqphYh20mxQKYJdnKftJVMcDgPeOppqCMxQliwwaDwwm7gJmwtylnXC7AuyohXN
- khC8vXMt6kvODMn0M99vsix972fPctc/WgaWHAKMTg0dJhL8H6IXxzG4+CH6oZyd8XdA
- cdjowkpp3doZGUUSDaTjJUYolYIrq1+5EGj2GU+1n8mvCBnuhPF01DV99me8wCAMSDuO
- jva1aupnxzCyxcBs5loBQpjpgc0jCQZa7FCQJR5QlFIL75ePenQx4/3HQg3AJUtdnqwL
- a19FAnswaQ08bJibP/GiCoBEC8VwX857mt2PZYk/lUmt2duC5CaN5xHRCr/ZIkBkfUQ9
- 2PIw==
+ :cc; bh=LgJGzUf2Gs7UblxasKc0SI5VRXNyeX55JAVlRcbi7m4=;
+ b=r1VAgkbuiLflO1nH0CuU+bsqv5nMdWYU7wJpN2R9tiQ6na33liPm/eF4LoPpqMH388
+ PWw1QS0cYrXhuV5kRplX5+eAUX/ejSD2pXWNcHwLMPONuRbemdlSvkhCxNnyaIRFcMzC
+ qUehy4jhe1QNRC+oS2Nm6/mhVrUCHYHqIoeEMzeV+nJfCNFOIfnieUNLiuOfpO6t7p6j
+ ZWTtwsvOqxgxP5XMJTT1Mh25YhN+++n951OCrTm30Mbc5mzWgbOONOu9L+Ri3c/6D7hX
+ uoZnCZ+0l36gAmr3p/NQCO0DN2IRkKSDCPIlHbhpdDWegUtc0XnRrAue8+/WidCOuF6G
+ /GaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/pA2v/bg1UyJIpIbW0CB/MR7f0a2T/2fKRlanTuhQCU=;
- b=FzWkKp+qAx7RtIO6E3wXpRJON1rPYlJZ4UIXZGSHgpdldLuqfZhHeMlAbW2wNXfmmF
- 58BIdrJMWNg5dtDxJCaqfxyJ7r8bw/L8cONcmCi+aT5aoSJ1Rn/18y5m2jbl/lgsHghK
- +cJ6Ha9YjsL7Vj/hjeXPD9LBJG10MP/p2Vq5VXQKR9kZzIVCj6+An/7+XL5sFiIHQhaG
- WveHPYgrmPmHaFbpaVm67Dan+UD+n4JpQeulW+ZDqw0m6g79rFnAVqCzm9TGiwbdcGiq
- IHKuBSeuISBpsDjTGjmSblU+0jMz816DtGUIK8t597TAekaBfduSpyAed6m2HrnMlAaF
- UXog==
-X-Gm-Message-State: AOAM530a9JOct082A2Z7uJKHuzT6/jYDP4suODeu6S2ip7ueV0cdvWnu
- fvHJjnkha8S335R7DEjPbeN7NkLI45ELegAGw0RkNA==
-X-Google-Smtp-Source: ABdhPJzwhNCBcu+emkwJD9HwsctK1GUEKD2eOdX+DWnMcdUwCRrrXuhCKSPaXmGUlW6xXLhQr3r+ybdwgTno89riaeA=
-X-Received: by 2002:a67:d508:: with SMTP id l8mr4148465vsj.42.1639021910642;
- Wed, 08 Dec 2021 19:51:50 -0800 (PST)
+ bh=LgJGzUf2Gs7UblxasKc0SI5VRXNyeX55JAVlRcbi7m4=;
+ b=qfxUseVkiOuEFCUFFx2E/5UtVCyahqFRBtmsPj3BtCgEn6EItgVwOMN9T6tNB9I3wJ
+ chr5PDie8wucLmmRbqs4bh01L+VyZecZlCBFtFww4h9JKbhIYlmVJWGC50d+yyN+CYon
+ 9JwZxnCXcrk/g6jsFKZ7IYZOpUBWrHsbpLh4h0BIkx7vUfoh0PFnIDhFlUCvnPbxE/1p
+ Mpi5b2S3q8Ls1JBDjMZ4x7w947aq65As4QWM6nAnxK0lRGKgwo3EA8+hzhysuu4ricPe
+ XmGWaq1A2ivRVf7cW1Bke4Yq2/9BNECVgAOWhBwFSUCYJD9cpOLs7/8nwnnmrXmI7e/w
+ YGDQ==
+X-Gm-Message-State: AOAM5338JS0ov1v0n+s5AnE3Pn+ZGgTPi4MSuJCUBg8np7aiwKTBm3hN
+ 1RjnhoXa9FRQhbQOjtUfz05J9914URo7Jp+A7eA1Lw==
+X-Google-Smtp-Source: ABdhPJzgJA0Hrw2BPKGc3R5XajN0fN6hdMwgaH2pF1akO+fyN3khZOQ4dyhdhAVGNQKb7H3t3VSTH9EhiGyZY9+qnUQ=
+X-Received: by 2002:a7b:c7cd:: with SMTP id z13mr4642399wmk.59.1639030507178; 
+ Wed, 08 Dec 2021 22:15:07 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1638982480.git.lagarcia@br.ibm.com>
- <e20319dcf0ec37bedd915c740c3813eb0e58ead4.1638982486.git.lagarcia@br.ibm.com>
- <da9c1d2d-ce52-5114-eefc-cbf3eb7c475f@gmail.com> <YbFW7JjNLvr5aVKI@yekko>
-In-Reply-To: <YbFW7JjNLvr5aVKI@yekko>
-From: Warner Losh <imp@bsdimp.com>
-Date: Wed, 8 Dec 2021 20:51:39 -0700
-Message-ID: <CANCZdfqkFZVfE3HdF38LhBzcguaZFFYMQ=DmVhnEPwYu=sCahw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] docs: rSTify ppc-spapr-hcalls.txt
-To: David Gibson <david@gibson.dropbear.id.au>
-Content-Type: multipart/alternative; boundary="000000000000c3646405d2ae8667"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::935
+References: <20211026064227.2014502-1-anup.patel@wdc.com>
+ <20211026064227.2014502-11-anup.patel@wdc.com>
+ <CAKmqyKOzBa8Bu13=K=0v_MLjY2Pm6BAtEuJ5SDBuRAwEqbRstA@mail.gmail.com>
+In-Reply-To: <CAKmqyKOzBa8Bu13=K=0v_MLjY2Pm6BAtEuJ5SDBuRAwEqbRstA@mail.gmail.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Thu, 9 Dec 2021 11:44:55 +0530
+Message-ID: <CAAhSdy0D3xtd1FV=61STDyvfjKx3gK4xm7ax7Zcn-Fgh7caYNA@mail.gmail.com>
+Subject: Re: [PATCH v4 10/22] target/riscv: Implement AIA CSRs for 64 local
+ interrupts on RV32
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::935;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x935.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::32a;
+ envelope-from=anup@brainfault.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
 X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,503 +84,911 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, lagarcia@linux.ibm.com,
- Greg Kurz <groug@kaod.org>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, clg@kaod.org,
- Leonardo Garcia <lagarcia@br.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c3646405d2ae8667
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, Dec 8, 2021 at 6:51 PM David Gibson <david@gibson.dropbear.id.au>
-wrote:
-
-> On Wed, Dec 08, 2021 at 03:54:40PM -0300, Daniel Henrique Barboza wrote:
-> >
-> >
-> > On 12/8/21 13:59, lagarcia@linux.ibm.com wrote:
-> > > From: Leonardo Garcia <lagarcia@br.ibm.com>
-> > >
-> > > Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
-> > > ---
-> > >   docs/specs/ppc-spapr-hcalls.txt | 92
-> ++++++++++++++++++++-------------
-> > >   1 file changed, 57 insertions(+), 35 deletions(-)
-> > >
-> > > diff --git a/docs/specs/ppc-spapr-hcalls.txt
-> b/docs/specs/ppc-spapr-hcalls.txt
-> > > index 93fe3da91b..c69dae535b 100644
-> > > --- a/docs/specs/ppc-spapr-hcalls.txt
-> > > +++ b/docs/specs/ppc-spapr-hcalls.txt
-> > > @@ -1,9 +1,15 @@
-> > > -When used with the "pseries" machine type, QEMU-system-ppc64
-> implements
-> > > -a set of hypervisor calls using a subset of the server "PAPR"
-> specification
-> > > -(IBM internal at this point), which is also what IBM's proprietary
-> hypervisor
-> > > -adheres too.
-> > > +sPAPR hypervisor calls
-> > > +----------------------
-> > > -The subset is selected based on the requirements of Linux as a guest.
-> > > +When used with the ``pseries`` machine type, ``qemu-system-ppc64``
-> implements
-> > > +a set of hypervisor calls (a.k.a. hcalls) defined in the `Linux on
-> Power
-> > > +Architecture Reference document (LoPAR)
-> > > +<
-> https://cdn.openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200812.pdf
-> >`_.
-> > > +This document is a subset of the Power Architecture Platform
-> Reference (PAPR+)
-> > > +specification (IBM internal only), which is what PowerVM, the IBM
-> proprietary
-> > > +hypervisor, adheres to.
-> > > +
-> > > +The subset in LoPAR is selected based on the requirements of Linux as
-> a guest.
-> > >   In addition to those calls, we have added our own private hypervisor
-> > >   calls which are mostly used as a private interface between the
-> firmware
-> > > @@ -12,13 +18,14 @@ running in the guest and QEMU.
-> > >   All those hypercalls start at hcall number 0xf000 which correspond
-> > >   to an implementation specific range in PAPR.
-> > > -- H_RTAS (0xf000)
-> > > +H_RTAS (0xf000)
-> > > +^^^^^^^^^^^^^^^
-> > > -RTAS is a set of runtime services generally provided by the firmware
-> > > -inside the guest to the operating system. It predates the existence
-> > > -of hypervisors (it was originally an extension to Open Firmware) and
-> > > -is still used by PAPR to provide various services that aren't
-> performance
-> > > -sensitive.
-> > > +RTAS stands for Run-Time Abstraction Sercies and is a set of runtime
-> services
-> > > +generally provided by the firmware inside the guest to the operating
-> system. It
-> > > +predates the existence of hypervisors (it was originally an extension
-> to Open
-> > > +Firmware) and is still used by PAPR and LoPAR to provide various
-> services that
-> > > +are not performance sensitive.
-> > >   We currently implement the RTAS services in QEMU itself. The actual
-> RTAS
-> > >   "firmware" blob in the guest is a small stub of a few instructions
-> which
-> > > @@ -26,22 +33,25 @@ calls our private H_RTAS hypervisor call to pass
-> the RTAS calls to QEMU.
-> > >   Arguments:
-> > > -  r3 : H_RTAS (0xf000)
-> > > -  r4 : Guest physical address of RTAS parameter block
-> > > +  ``r3``: ``H_RTAS (0xf000)``
-> > > +
-> > > +  ``r4``: Guest physical address of RTAS parameter block.
-> > >   Returns:
-> > > -  H_SUCCESS   : Successfully called the RTAS function (RTAS result
-> > > -                will have been stored in the parameter block)
-> > > -  H_PARAMETER : Unknown token
-> > > +  ``H_SUCCESS``: Successfully called the RTAS function (RTAS result
-> will have
-> > > +  been stored in the parameter block).
-> > > -- H_LOGICAL_MEMOP (0xf001)
-> > > +  ``H_PARAMETER``: Unknown token.
-> > > -When the guest runs in "real mode" (in powerpc lingua this means
-> > > -with MMU disabled, ie guest effective == guest physical), it only
-> > > -has access to a subset of memory and no IOs.
-> > > +H_LOGICAL_MEMOP (0xf001)
-> > > +^^^^^^^^^^^^^^^^^^^^^^^^
-> > > -PAPR provides a set of hypervisor calls to perform cacheable or
-> > > +When the guest runs in "real mode" (in powerpc lingua this means with
-> MMU
-> >
-> > What's up with 'lingua'? As you already know "lingua" is Brazilian
-> portuguese for "tongue"
-> > and it's so weird to be used in this context.
-> >
-> > The one English word that I can think of that is closer to "lingua" and
-> would make sense here
-> > is 'lingo'. But that is a slang for 'jargon' and not appropriate for a
-> technical document
-> > either. "langua" as a short form of "language" seems weird as well. I
-> really believe 'jargon'
-> > is a more suitable word here.
+On Thu, Nov 4, 2021 at 10:13 AM Alistair Francis <alistair23@gmail.com> wrote:
 >
-> As a native speaker: "lingo" would make sense here, though its tone is
-> a little informal.  "jargon" could also work, but "terminology" would
-> probably better match the tone of the document.
->
-> I expect this hasn't been noticed before, because I think most English
-> speakers would read "lingua" as a typo for "lingo", maybe only barely
-> registering that it was not the standard spelling.  ("lingo" is, of
-> course, cognate with lingua and similar words from romance langauges).
->
-
-My google search turns up exactly 1 other hit for 'powerpc lingua' so it's
-not a wide spread thing.
-In fact, it is in our archives when this commit was made to the text file
-as near as I can tell.
-
-As such, the phrase should be 'in powerpc terminology' or 'in powerpc
-jargon' to make
-sense to a native English speaker. 'linga' doesn't make  sense in English
-(though we
-do have the loan phrase 'lingua franca' meaning 'the common language'
-derived from the
-common language of the Levant made up of a hodge-podge of other languages.
-Another
-phrase that would make sense, but is a bit of an uncommon usage, is
-'powerpc parlance'
-which might capture the right nuance of meaning here better than the other
-suggestions.
-
-
-> > This was added by c73e3771ea79ab and I really believe this is an
-> unintended typo/mistake. If
-> > you're feeling generous feel free to send an extra patch (you can send
-> an independent patch,
-> > or another patch on top of this series, your call) changing this
-> 'lingua' instance to something
-> > more appropriate.
->
-
-Yes. The original review for that was the only other place google can find
-this turn of phrase.
-I'd thought it might be a pun on lingua franca (eg 'lingua powerpc' was an
-in joke in that
-community, but google says no).
-
-Warner
-
-
-
-> > Since this is not this patch fault:
+> On Tue, Oct 26, 2021 at 5:10 PM Anup Patel <anup.patel@wdc.com> wrote:
 > >
-> > Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> > The AIA specification adds new CSRs for RV32 so that RISC-V hart can
+> > support 64 local interrupts on both RV32 and RV64.
 > >
+> > Signed-off-by: Anup Patel <anup.patel@wdc.com>
+> > ---
+> >  target/riscv/cpu.h        |  14 +-
+> >  target/riscv/cpu_helper.c |  10 +-
+> >  target/riscv/csr.c        | 560 +++++++++++++++++++++++++++++++-------
+> >  target/riscv/machine.c    |  10 +-
+> >  4 files changed, 474 insertions(+), 120 deletions(-)
 > >
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index c47e57efc8..718a95e864 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -159,12 +159,12 @@ struct CPURISCVState {
+> >       */
+> >      uint64_t mstatus;
 > >
+> > -    target_ulong mip;
+> > +    uint64_t mip;
 > >
-> > > +disabled, i.e. guest effective address equals to guest physical
-> address), it
-> > > +only has access to a subset of memory and no I/Os.
-> > > +
-> > > +PAPR and LoPAR provides a set of hypervisor calls to perform
-> cacheable or
-> > >   non-cacheable accesses to any guest physical addresses that the
-> > >   guest can use in order to access IO devices while in real mode.
-> > > @@ -58,21 +68,33 @@ is used by our SLOF firmware to invert the screen.
-> > >   Arguments:
-> > > -  r3: H_LOGICAL_MEMOP (0xf001)
-> > > -  r4: Guest physical address of destination
-> > > -  r5: Guest physical address of source
-> > > -  r6: Individual element size
-> > > -        0 = 1 byte
-> > > -        1 = 2 bytes
-> > > -        2 = 4 bytes
-> > > -        3 = 8 bytes
-> > > -  r7: Number of elements
-> > > -  r8: Operation
-> > > -        0 = copy
-> > > -        1 = xor
-> > > +  ``r3 ``: ``H_LOGICAL_MEMOP (0xf001)``
-> > > +
-> > > +  ``r4``: Guest physical address of destination.
-> > > +
-> > > +  ``r5``: Guest physical address of source.
-> > > +
-> > > +  ``r6``: Individual element size, defined by the binary logarithm of
-> the
-> > > +  desired size. Supported values are:
-> > > +
-> > > +    ``0`` = 1 byte
-> > > +
-> > > +    ``1`` = 2 bytes
-> > > +
-> > > +    ``2`` = 4 bytes
-> > > +
-> > > +    ``3`` = 8 bytes
-> > > +
-> > > +  ``r7``: Number of elements.
-> > > +
-> > > +  ``r8``: Operation. Supported values are:
-> > > +
-> > > +    ``0``: copy
-> > > +
-> > > +    ``1``: xor
-> > >   Returns:
-> > > -  H_SUCCESS   : Success
-> > > -  H_PARAMETER : Invalid argument
-> > > +  ``H_SUCCESS``: Success.
-> > > +  ``H_PARAMETER``: Invalid argument.
-> > > \ No newline at end of file
-> > >
+> > -    uint32_t miclaim;
+> > +    uint64_t miclaim;
 > >
+> > -    target_ulong mie;
+> > -    target_ulong mideleg;
+> > +    uint64_t mie;
+> > +    uint64_t mideleg;
+> >
+> >      target_ulong satp;   /* since: priv-1.10.0 */
+> >      target_ulong stval;
+> > @@ -186,7 +186,7 @@ struct CPURISCVState {
+> >      /* Hypervisor CSRs */
+> >      target_ulong hstatus;
+> >      target_ulong hedeleg;
+> > -    target_ulong hideleg;
+> > +    uint64_t hideleg;
+> >      target_ulong hcounteren;
+> >      target_ulong htval;
+> >      target_ulong htinst;
+> > @@ -399,8 +399,8 @@ void riscv_cpu_list(void);
+> >  #ifndef CONFIG_USER_ONLY
+> >  bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
+> >  void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env);
+> > -int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts);
+> > -uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value);
+> > +int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint64_t interrupts);
+> > +uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value);
+> >  #define BOOL_TO_MASK(x) (-!!(x)) /* helper for riscv_cpu_update_mip value */
+> >  void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
+> >                               uint32_t arg);
+> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > index 73ebce1efd..416b11f85c 100644
+> > --- a/target/riscv/cpu_helper.c
+> > +++ b/target/riscv/cpu_helper.c
+> > @@ -506,7 +506,7 @@ bool riscv_cpu_two_stage_lookup(int mmu_idx)
+> >      return mmu_idx & TB_FLAGS_PRIV_HYP_ACCESS_MASK;
+> >  }
+> >
+> > -int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
+> > +int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint64_t interrupts)
+> >  {
+> >      CPURISCVState *env = &cpu->env;
+> >      if (env->miclaim & interrupts) {
+> > @@ -517,11 +517,11 @@ int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
+> >      }
+> >  }
+> >
+> > -uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value)
+> > +uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
+> >  {
+> >      CPURISCVState *env = &cpu->env;
+> >      CPUState *cs = CPU(cpu);
+> > -    uint32_t gein, vsgein = 0, old = env->mip;
+> > +    uint64_t gein, vsgein = 0, old = env->mip;
+> >      bool locked = false;
+> >
+> >      if (riscv_cpu_virt_enabled(env)) {
+> > @@ -1244,7 +1244,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+> >       */
+> >      bool async = !!(cs->exception_index & RISCV_EXCP_INT_FLAG);
+> >      target_ulong cause = cs->exception_index & RISCV_EXCP_INT_MASK;
+> > -    target_ulong deleg = async ? env->mideleg : env->medeleg;
+> > +    uint64_t deleg = async ? env->mideleg : env->medeleg;
+> >      bool write_tval = false;
+> >      target_ulong tval = 0;
+> >      target_ulong htval = 0;
+> > @@ -1311,7 +1311,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+> >              cause < TARGET_LONG_BITS && ((deleg >> cause) & 1)) {
+> >          /* handle the trap in S-mode */
+> >          if (riscv_has_ext(env, RVH)) {
+> > -            target_ulong hdeleg = async ? env->hideleg : env->hedeleg;
+> > +            uint64_t hdeleg = async ? env->hideleg : env->hedeleg;
+> >
+> >              if (env->two_stage_lookup && write_tval) {
+> >                  /*
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index 7ff285282b..3a7d89ac34 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -153,6 +153,15 @@ static RISCVException any32(CPURISCVState *env, int csrno)
+> >
+> >  }
+> >
+> > +static int aia_any32(CPURISCVState *env, int csrno)
+> > +{
+> > +    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
+> > +        return RISCV_EXCP_ILLEGAL_INST;
+> > +    }
+> > +
+> > +    return any32(env, csrno);
+> > +}
+> > +
+> >  static RISCVException smode(CPURISCVState *env, int csrno)
+> >  {
+> >      if (riscv_has_ext(env, RVS)) {
+> > @@ -162,6 +171,24 @@ static RISCVException smode(CPURISCVState *env, int csrno)
+> >      return RISCV_EXCP_ILLEGAL_INST;
+> >  }
+> >
+> > +static int smode32(CPURISCVState *env, int csrno)
+> > +{
+> > +    if (riscv_cpu_mxl(env) != MXL_RV32) {
+> > +        return RISCV_EXCP_ILLEGAL_INST;
+> > +    }
+> > +
+> > +    return smode(env, csrno);
+> > +}
+> > +
+> > +static int aia_smode32(CPURISCVState *env, int csrno)
+> > +{
+> > +    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
+> > +        return RISCV_EXCP_ILLEGAL_INST;
+> > +    }
+> > +
+> > +    return smode32(env, csrno);
+> > +}
+> > +
+> >  static RISCVException hmode(CPURISCVState *env, int csrno)
+> >  {
+> >      if (riscv_has_ext(env, RVS) &&
+> > @@ -192,6 +219,15 @@ static RISCVException hmode32(CPURISCVState *env, int csrno)
+> >
+> >  }
+> >
+> > +static int aia_hmode32(CPURISCVState *env, int csrno)
+> > +{
+> > +    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
+> > +        return RISCV_EXCP_ILLEGAL_INST;
+> > +    }
+> > +
+> > +    return hmode32(env, csrno);
+> > +}
+> > +
+> >  static RISCVException pmp(CPURISCVState *env, int csrno)
+> >  {
+> >      if (riscv_feature(env, RISCV_FEATURE_PMP)) {
+> > @@ -405,15 +441,15 @@ static RISCVException read_timeh(CPURISCVState *env, int csrno,
+> >
+> >  /* Machine constants */
+> >
+> > -#define M_MODE_INTERRUPTS  (MIP_MSIP | MIP_MTIP | MIP_MEIP)
+> > -#define S_MODE_INTERRUPTS  (MIP_SSIP | MIP_STIP | MIP_SEIP)
+> > -#define VS_MODE_INTERRUPTS (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP)
+> > -#define HS_MODE_INTERRUPTS (MIP_SGEIP | VS_MODE_INTERRUPTS)
+> > +#define M_MODE_INTERRUPTS  ((uint64_t)(MIP_MSIP | MIP_MTIP | MIP_MEIP))
+> > +#define S_MODE_INTERRUPTS  ((uint64_t)(MIP_SSIP | MIP_STIP | MIP_SEIP))
+> > +#define VS_MODE_INTERRUPTS ((uint64_t)(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP))
+> > +#define HS_MODE_INTERRUPTS ((uint64_t)(MIP_SGEIP | VS_MODE_INTERRUPTS))
+> >
+> > -static const target_ulong delegable_ints = S_MODE_INTERRUPTS |
+> > +static const uint64_t delegable_ints = S_MODE_INTERRUPTS |
+> >                                             VS_MODE_INTERRUPTS;
+> > -static const target_ulong vs_delegable_ints = VS_MODE_INTERRUPTS;
+> > -static const target_ulong all_ints = M_MODE_INTERRUPTS | S_MODE_INTERRUPTS |
+> > +static const uint64_t vs_delegable_ints = VS_MODE_INTERRUPTS;
+> > +static const uint64_t all_ints = M_MODE_INTERRUPTS | S_MODE_INTERRUPTS |
+> >                                       HS_MODE_INTERRUPTS;
+> >  #define DELEGABLE_EXCPS ((1ULL << (RISCV_EXCP_INST_ADDR_MIS)) | \
+> >                           (1ULL << (RISCV_EXCP_INST_ACCESS_FAULT)) | \
+> > @@ -662,40 +698,107 @@ static RISCVException write_medeleg(CPURISCVState *env, int csrno,
+> >      return RISCV_EXCP_NONE;
+> >  }
+> >
+> > -static RISCVException read_mideleg(CPURISCVState *env, int csrno,
+> > -                                   target_ulong *val)
+> > +static RISCVException rmw_mideleg64(CPURISCVState *env, int csrno,
+> > +                                    uint64_t *ret_val,
+> > +                                    uint64_t new_val, uint64_t wr_mask)
+> >  {
+> > -    *val = env->mideleg;
+> > -    return RISCV_EXCP_NONE;
+> > -}
+> > +    uint64_t mask = wr_mask & delegable_ints;
+> > +
+> > +    if (ret_val) {
+> > +        *ret_val = env->mideleg;
+> > +    }
+> > +
+> > +    env->mideleg = (env->mideleg & ~mask) | (new_val & mask);
+> >
+> > -static RISCVException write_mideleg(CPURISCVState *env, int csrno,
+> > -                                    target_ulong val)
+> > -{
+> > -    env->mideleg = (env->mideleg & ~delegable_ints) | (val & delegable_ints);
+> >      if (riscv_has_ext(env, RVH)) {
+> >          env->mideleg |= HS_MODE_INTERRUPTS;
+> >      }
+> > +
+> >      return RISCV_EXCP_NONE;
+> >  }
+> >
+> > -static RISCVException read_mie(CPURISCVState *env, int csrno,
+> > -                               target_ulong *val)
+> > +static RISCVException rmw_mideleg(CPURISCVState *env, int csrno,
+> > +                                  target_ulong *ret_val,
+> > +                                  target_ulong new_val, target_ulong wr_mask)
+> >  {
+> > -    *val = env->mie;
+> > -    return RISCV_EXCP_NONE;
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_mideleg64(env, csrno, &rval, new_val, wr_mask);
+> > +    if (ret_val) {
+> > +        *ret_val = rval;
+> > +    }
+> > +
+> > +    return ret;
+> >  }
+> >
+> > -static RISCVException write_mie(CPURISCVState *env, int csrno,
+> > -                                target_ulong val)
+> > +static RISCVException rmw_midelegh(CPURISCVState *env, int csrno,
+> > +                                   target_ulong *ret_val,
+> > +                                   target_ulong new_val,
+> > +                                   target_ulong wr_mask)
+> >  {
+> > -    env->mie = (env->mie & ~all_ints) | (val & all_ints);
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_mideleg64(env, csrno, &rval,
+> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
+> > +    if (ret_val) {
+> > +        *ret_val = rval >> 32;
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> > +static RISCVException rmw_mie64(CPURISCVState *env, int csrno,
+> > +                                uint64_t *ret_val,
+> > +                                uint64_t new_val, uint64_t wr_mask)
+> > +{
+> > +    uint64_t mask = wr_mask & all_ints;
+> > +
+> > +    if (ret_val) {
+> > +        *ret_val = env->mie;
+> > +    }
+> > +
+> > +    env->mie = (env->mie & ~mask) | (new_val & mask);
+> > +
+> >      if (!riscv_has_ext(env, RVH)) {
+> > -        env->mie &= ~MIP_SGEIP;
+> > +        env->mie &= ~((uint64_t)MIP_SGEIP);
+> >      }
+> > +
+> >      return RISCV_EXCP_NONE;
+> >  }
+> >
+> > +static RISCVException rmw_mie(CPURISCVState *env, int csrno,
+> > +                              target_ulong *ret_val,
+> > +                              target_ulong new_val, target_ulong wr_mask)
+> > +{
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_mie64(env, csrno, &rval, new_val, wr_mask);
+> > +    if (ret_val) {
+> > +        *ret_val = rval;
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> > +static RISCVException rmw_mieh(CPURISCVState *env, int csrno,
+> > +                               target_ulong *ret_val,
+> > +                               target_ulong new_val, target_ulong wr_mask)
+> > +{
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_mie64(env, csrno, &rval,
+> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
+> > +    if (ret_val) {
+> > +        *ret_val = rval >> 32;
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> >  static RISCVException read_mtvec(CPURISCVState *env, int csrno,
+> >                                   target_ulong *val)
+> >  {
+> > @@ -786,17 +889,17 @@ static RISCVException write_mtval(CPURISCVState *env, int csrno,
+> >      return RISCV_EXCP_NONE;
+> >  }
+> >
+> > -static RISCVException rmw_mip(CPURISCVState *env, int csrno,
+> > -                              target_ulong *ret_value,
+> > -                              target_ulong new_value, target_ulong write_mask)
+> > +static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
+> > +                                uint64_t *ret_val,
+> > +                                uint64_t new_val, uint64_t wr_mask)
+> >  {
+> >      RISCVCPU *cpu = env_archcpu(env);
+> >      /* Allow software control of delegable interrupts not claimed by hardware */
+> > -    target_ulong mask = write_mask & delegable_ints & ~env->miclaim;
+> > -    uint32_t gin, old_mip;
+> > +    uint64_t old_mip, mask = wr_mask & delegable_ints & ~env->miclaim;
+> > +    uint32_t gin;
+> >
+> >      if (mask) {
+> > -        old_mip = riscv_cpu_update_mip(cpu, mask, (new_value & mask));
+> > +        old_mip = riscv_cpu_update_mip(cpu, mask, (new_val & mask));
+> >      } else {
+> >          old_mip = env->mip;
+> >      }
+> > @@ -806,13 +909,44 @@ static RISCVException rmw_mip(CPURISCVState *env, int csrno,
+> >          old_mip |= (env->hgeip & ((target_ulong)1 << gin)) ? MIP_VSEIP : 0;
+> >      }
+> >
+> > -    if (ret_value) {
+> > -        *ret_value = old_mip;
+> > +    if (ret_val) {
+> > +        *ret_val = old_mip;
+> >      }
+> >
+> >      return RISCV_EXCP_NONE;
+> >  }
+> >
+> > +static RISCVException rmw_mip(CPURISCVState *env, int csrno,
+> > +                              target_ulong *ret_val,
+> > +                              target_ulong new_val, target_ulong wr_mask)
+> > +{
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_mip64(env, csrno, &rval, new_val, wr_mask);
+> > +    if (ret_val) {
+> > +        *ret_val = rval;
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> > +static RISCVException rmw_miph(CPURISCVState *env, int csrno,
+> > +                               target_ulong *ret_val,
+> > +                               target_ulong new_val, target_ulong wr_mask)
+> > +{
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_mip64(env, csrno, &rval,
+> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
+> > +    if (ret_val) {
+> > +        *ret_val = rval >> 32;
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> >  /* Supervisor Trap Setup */
+> >  static RISCVException read_sstatus(CPURISCVState *env, int csrno,
+> >                                     target_ulong *val)
+> > @@ -832,45 +966,112 @@ static RISCVException write_sstatus(CPURISCVState *env, int csrno,
+> >      return write_mstatus(env, CSR_MSTATUS, newval);
+> >  }
+> >
+> > -static RISCVException read_vsie(CPURISCVState *env, int csrno,
+> > -                                target_ulong *val)
+> > +static RISCVException rmw_vsie64(CPURISCVState *env, int csrno,
+> > +                                 uint64_t *ret_val,
+> > +                                 uint64_t new_val, uint64_t wr_mask)
+> >  {
+> > -    /* Shift the VS bits to their S bit location in vsie */
+> > -    *val = (env->mie & env->hideleg & VS_MODE_INTERRUPTS) >> 1;
+> > -    return RISCV_EXCP_NONE;
+> > +    RISCVException ret;
+> > +    uint64_t rval, vsbits, mask = env->hideleg & VS_MODE_INTERRUPTS;
+> > +
+> > +    /* Bring VS-level bits to correct position */
+> > +    vsbits = new_val & (VS_MODE_INTERRUPTS >> 1);
+> > +    new_val &= ~(VS_MODE_INTERRUPTS >> 1);
+> > +    new_val |= vsbits << 1;
+> > +    vsbits = wr_mask & (VS_MODE_INTERRUPTS >> 1);
+> > +    wr_mask &= ~(VS_MODE_INTERRUPTS >> 1);
+> > +    wr_mask |= vsbits << 1;
+> > +
+> > +    ret = rmw_mie64(env, csrno, &rval, new_val, wr_mask & mask);
+> > +    if (ret_val) {
+> > +        rval &= mask;
+> > +        vsbits = rval & VS_MODE_INTERRUPTS;
+> > +        rval &= ~VS_MODE_INTERRUPTS;
+> > +        *ret_val = rval | (vsbits >> 1);
+> > +    }
+> > +
+> > +    return ret;
+> >  }
+> >
+> > -static RISCVException read_sie(CPURISCVState *env, int csrno,
+> > -                               target_ulong *val)
+> > +static RISCVException rmw_vsie(CPURISCVState *env, int csrno,
+> > +                               target_ulong *ret_val,
+> > +                               target_ulong new_val, target_ulong wr_mask)
+> >  {
+> > -    if (riscv_cpu_virt_enabled(env)) {
+> > -        read_vsie(env, CSR_VSIE, val);
+> > -    } else {
+> > -        *val = env->mie & env->mideleg;
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_vsie64(env, csrno, &rval, new_val, wr_mask);
+> > +    if (ret_val) {
+> > +        *ret_val = rval;
+> >      }
+> > -    return RISCV_EXCP_NONE;
+> > +
+> > +    return ret;
+> >  }
+> >
+> > -static RISCVException write_vsie(CPURISCVState *env, int csrno,
+> > -                                 target_ulong val)
+> > +static RISCVException rmw_vsieh(CPURISCVState *env, int csrno,
+> > +                                target_ulong *ret_val,
+> > +                                target_ulong new_val, target_ulong wr_mask)
+> >  {
+> > -    /* Shift the S bits to their VS bit location in mie */
+> > -    target_ulong newval = (env->mie & ~VS_MODE_INTERRUPTS) |
+> > -                          ((val << 1) & env->hideleg & VS_MODE_INTERRUPTS);
+> > -    return write_mie(env, CSR_MIE, newval);
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_vsie64(env, csrno, &rval,
+> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
+> > +    if (ret_val) {
+> > +        *ret_val = rval >> 32;
+> > +    }
+> > +
+> > +    return ret;
+> >  }
+> >
+> > -static int write_sie(CPURISCVState *env, int csrno, target_ulong val)
+> > +static RISCVException rmw_sie64(CPURISCVState *env, int csrno,
+> > +                                uint64_t *ret_val,
+> > +                                uint64_t new_val, uint64_t wr_mask)
+> >  {
+> > +    RISCVException ret;
+> > +    uint64_t mask = env->mideleg & S_MODE_INTERRUPTS;
+> > +
+> >      if (riscv_cpu_virt_enabled(env)) {
+> > -        write_vsie(env, CSR_VSIE, val);
+> > +        ret = rmw_vsie64(env, CSR_VSIE, ret_val, new_val, wr_mask);
+> >      } else {
+> > -        target_ulong newval = (env->mie & ~S_MODE_INTERRUPTS) |
+> > -                              (val & S_MODE_INTERRUPTS);
+> > -        write_mie(env, CSR_MIE, newval);
+> > +        ret = rmw_mie64(env, csrno, ret_val, new_val, wr_mask & mask);
+> >      }
+> >
+> > -    return RISCV_EXCP_NONE;
+> > +    if (ret_val) {
+> > +        *ret_val &= mask;
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> > +static RISCVException rmw_sie(CPURISCVState *env, int csrno,
+> > +                              target_ulong *ret_val,
+> > +                              target_ulong new_val, target_ulong wr_mask)
+> > +{
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_sie64(env, csrno, &rval, new_val, wr_mask);
+> > +    if (ret_val) {
+> > +        *ret_val = rval;
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> > +static RISCVException rmw_sieh(CPURISCVState *env, int csrno,
+> > +                               target_ulong *ret_val,
+> > +                               target_ulong new_val, target_ulong wr_mask)
+> > +{
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_sie64(env, csrno, &rval,
+> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
+> > +    if (ret_val) {
+> > +        *ret_val = rval >> 32;
+> > +    }
+> > +
+> > +    return ret;
+> >  }
+> >
+> >  static RISCVException read_stvec(CPURISCVState *env, int csrno,
+> > @@ -963,38 +1164,111 @@ static RISCVException write_stval(CPURISCVState *env, int csrno,
+> >      return RISCV_EXCP_NONE;
+> >  }
+> >
+> > +static RISCVException rmw_vsip64(CPURISCVState *env, int csrno,
+> > +                                 uint64_t *ret_val,
+> > +                                 uint64_t new_val, uint64_t wr_mask)
+> > +{
+> > +    RISCVException ret;
+> > +    uint64_t rval, vsbits, mask = env->hideleg & vsip_writable_mask;
+> > +
+> > +    /* Bring VS-level bits to correct position */
+> > +    vsbits = new_val & (VS_MODE_INTERRUPTS >> 1);
+> > +    new_val &= ~(VS_MODE_INTERRUPTS >> 1);
+> > +    new_val |= vsbits << 1;
+> > +    vsbits = wr_mask & (VS_MODE_INTERRUPTS >> 1);
+> > +    wr_mask &= ~(VS_MODE_INTERRUPTS >> 1);
+> > +    wr_mask |= vsbits << 1;
+> > +
+> > +    ret = rmw_mip64(env, csrno, &rval, new_val, wr_mask & mask);
+> > +    if (ret_val) {
+> > +        rval &= mask;
+> > +        vsbits = rval & VS_MODE_INTERRUPTS;
+> > +        rval &= ~VS_MODE_INTERRUPTS;
+> > +        *ret_val = rval | (vsbits >> 1);
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> >  static RISCVException rmw_vsip(CPURISCVState *env, int csrno,
+> > -                               target_ulong *ret_value,
+> > -                               target_ulong new_value, target_ulong write_mask)
+> > +                               target_ulong *ret_val,
+> > +                               target_ulong new_val, target_ulong wr_mask)
+> >  {
+> > -    /* Shift the S bits to their VS bit location in mip */
+> > -    int ret = rmw_mip(env, csrno, ret_value, new_value << 1,
+> > -                      (write_mask << 1) & vsip_writable_mask & env->hideleg);
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> >
+> > -    if (ret_value) {
+> > -        *ret_value &= VS_MODE_INTERRUPTS;
+> > -        /* Shift the VS bits to their S bit location in vsip */
+> > -        *ret_value >>= 1;
+> > +    ret = rmw_vsip64(env, csrno, &rval, new_val, wr_mask);
+> > +    if (ret_val) {
+> > +        *ret_val = rval;
+> >      }
+> > +
+> >      return ret;
+> >  }
+> >
+> > -static RISCVException rmw_sip(CPURISCVState *env, int csrno,
+> > -                              target_ulong *ret_value,
+> > -                              target_ulong new_value, target_ulong write_mask)
+> > +static RISCVException rmw_vsiph(CPURISCVState *env, int csrno,
+> > +                                target_ulong *ret_val,
+> > +                                target_ulong new_val, target_ulong wr_mask)
+> >  {
+> > -    int ret;
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_vsip64(env, csrno, &rval,
+> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
+> > +    if (ret_val) {
+> > +        *ret_val = rval >> 32;
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> > +static RISCVException rmw_sip64(CPURISCVState *env, int csrno,
+> > +                                uint64_t *ret_val,
+> > +                                uint64_t new_val, uint64_t wr_mask)
+> > +{
+> > +    RISCVException ret;
+> > +    uint64_t mask = env->mideleg & sip_writable_mask;
+> >
+> >      if (riscv_cpu_virt_enabled(env)) {
+> > -        ret = rmw_vsip(env, CSR_VSIP, ret_value, new_value, write_mask);
+> > +        ret = rmw_vsip64(env, CSR_VSIE, ret_val, new_val, wr_mask);
 >
-> --
-> David Gibson                    | I'll have my music baroque, and my code
-> david AT gibson.dropbear.id.au  | minimalist, thank you.  NOT _the_
-> _other_
->                                 | _way_ _around_!
-> http://www.ozlabs.org/~dgibson
+> Why change the csrno to CSR_VSIE?
+
+Thanks for catching, this is a typo. I will fix it in next revision.
+
+Regards,
+Anup
+
 >
-
---000000000000c3646405d2ae8667
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 8, 2021 at 6:51 PM David =
-Gibson &lt;<a href=3D"mailto:david@gibson.dropbear.id.au">david@gibson.drop=
-bear.id.au</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On Wed, Dec 08, 2021 at 03:54:40PM -0300, Daniel Henrique Barboz=
-a wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On 12/8/21 13:59, <a href=3D"mailto:lagarcia@linux.ibm.com" target=3D"=
-_blank">lagarcia@linux.ibm.com</a> wrote:<br>
-&gt; &gt; From: Leonardo Garcia &lt;<a href=3D"mailto:lagarcia@br.ibm.com" =
-target=3D"_blank">lagarcia@br.ibm.com</a>&gt;<br>
-&gt; &gt; <br>
-&gt; &gt; Signed-off-by: Leonardo Garcia &lt;<a href=3D"mailto:lagarcia@br.=
-ibm.com" target=3D"_blank">lagarcia@br.ibm.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 =C2=A0docs/specs/ppc-spapr-hcalls.txt | 92 ++++++++++++++++=
-++++-------------<br>
-&gt; &gt;=C2=A0 =C2=A01 file changed, 57 insertions(+), 35 deletions(-)<br>
-&gt; &gt; <br>
-&gt; &gt; diff --git a/docs/specs/ppc-spapr-hcalls.txt b/docs/specs/ppc-spa=
-pr-hcalls.txt<br>
-&gt; &gt; index 93fe3da91b..c69dae535b 100644<br>
-&gt; &gt; --- a/docs/specs/ppc-spapr-hcalls.txt<br>
-&gt; &gt; +++ b/docs/specs/ppc-spapr-hcalls.txt<br>
-&gt; &gt; @@ -1,9 +1,15 @@<br>
-&gt; &gt; -When used with the &quot;pseries&quot; machine type, QEMU-system=
--ppc64 implements<br>
-&gt; &gt; -a set of hypervisor calls using a subset of the server &quot;PAP=
-R&quot; specification<br>
-&gt; &gt; -(IBM internal at this point), which is also what IBM&#39;s propr=
-ietary hypervisor<br>
-&gt; &gt; -adheres too.<br>
-&gt; &gt; +sPAPR hypervisor calls<br>
-&gt; &gt; +----------------------<br>
-&gt; &gt; -The subset is selected based on the requirements of Linux as a g=
-uest.<br>
-&gt; &gt; +When used with the ``pseries`` machine type, ``qemu-system-ppc64=
-`` implements<br>
-&gt; &gt; +a set of hypervisor calls (a.k.a. hcalls) defined in the `Linux =
-on Power<br>
-&gt; &gt; +Architecture Reference document (LoPAR)<br>
-&gt; &gt; +&lt;<a href=3D"https://cdn.openpowerfoundation.org/wp-content/up=
-loads/2020/07/LoPAR-20200812.pdf" rel=3D"noreferrer" target=3D"_blank">http=
-s://cdn.openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200812.p=
-df</a>&gt;`_.<br>
-&gt; &gt; +This document is a subset of the Power Architecture Platform Ref=
-erence (PAPR+)<br>
-&gt; &gt; +specification (IBM internal only), which is what PowerVM, the IB=
-M proprietary<br>
-&gt; &gt; +hypervisor, adheres to.<br>
-&gt; &gt; +<br>
-&gt; &gt; +The subset in LoPAR is selected based on the requirements of Lin=
-ux as a guest.<br>
-&gt; &gt;=C2=A0 =C2=A0In addition to those calls, we have added our own pri=
-vate hypervisor<br>
-&gt; &gt;=C2=A0 =C2=A0calls which are mostly used as a private interface be=
-tween the firmware<br>
-&gt; &gt; @@ -12,13 +18,14 @@ running in the guest and QEMU.<br>
-&gt; &gt;=C2=A0 =C2=A0All those hypercalls start at hcall number 0xf000 whi=
-ch correspond<br>
-&gt; &gt;=C2=A0 =C2=A0to an implementation specific range in PAPR.<br>
-&gt; &gt; -- H_RTAS (0xf000)<br>
-&gt; &gt; +H_RTAS (0xf000)<br>
-&gt; &gt; +^^^^^^^^^^^^^^^<br>
-&gt; &gt; -RTAS is a set of runtime services generally provided by the firm=
-ware<br>
-&gt; &gt; -inside the guest to the operating system. It predates the existe=
-nce<br>
-&gt; &gt; -of hypervisors (it was originally an extension to Open Firmware)=
- and<br>
-&gt; &gt; -is still used by PAPR to provide various services that aren&#39;=
-t performance<br>
-&gt; &gt; -sensitive.<br>
-&gt; &gt; +RTAS stands for Run-Time Abstraction Sercies and is a set of run=
-time services<br>
-&gt; &gt; +generally provided by the firmware inside the guest to the opera=
-ting system. It<br>
-&gt; &gt; +predates the existence of hypervisors (it was originally an exte=
-nsion to Open<br>
-&gt; &gt; +Firmware) and is still used by PAPR and LoPAR to provide various=
- services that<br>
-&gt; &gt; +are not performance sensitive.<br>
-&gt; &gt;=C2=A0 =C2=A0We currently implement the RTAS services in QEMU itse=
-lf. The actual RTAS<br>
-&gt; &gt;=C2=A0 =C2=A0&quot;firmware&quot; blob in the guest is a small stu=
-b of a few instructions which<br>
-&gt; &gt; @@ -26,22 +33,25 @@ calls our private H_RTAS hypervisor call to p=
-ass the RTAS calls to QEMU.<br>
-&gt; &gt;=C2=A0 =C2=A0Arguments:<br>
-&gt; &gt; -=C2=A0 r3 : H_RTAS (0xf000)<br>
-&gt; &gt; -=C2=A0 r4 : Guest physical address of RTAS parameter block<br>
-&gt; &gt; +=C2=A0 ``r3``: ``H_RTAS (0xf000)``<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 ``r4``: Guest physical address of RTAS parameter block.<b=
-r>
-&gt; &gt;=C2=A0 =C2=A0Returns:<br>
-&gt; &gt; -=C2=A0 H_SUCCESS=C2=A0 =C2=A0: Successfully called the RTAS func=
-tion (RTAS result<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 will hav=
-e been stored in the parameter block)<br>
-&gt; &gt; -=C2=A0 H_PARAMETER : Unknown token<br>
-&gt; &gt; +=C2=A0 ``H_SUCCESS``: Successfully called the RTAS function (RTA=
-S result will have<br>
-&gt; &gt; +=C2=A0 been stored in the parameter block).<br>
-&gt; &gt; -- H_LOGICAL_MEMOP (0xf001)<br>
-&gt; &gt; +=C2=A0 ``H_PARAMETER``: Unknown token.<br>
-&gt; &gt; -When the guest runs in &quot;real mode&quot; (in powerpc lingua =
-this means<br>
-&gt; &gt; -with MMU disabled, ie guest effective =3D=3D guest physical), it=
- only<br>
-&gt; &gt; -has access to a subset of memory and no IOs.<br>
-&gt; &gt; +H_LOGICAL_MEMOP (0xf001)<br>
-&gt; &gt; +^^^^^^^^^^^^^^^^^^^^^^^^<br>
-&gt; &gt; -PAPR provides a set of hypervisor calls to perform cacheable or<=
-br>
-&gt; &gt; +When the guest runs in &quot;real mode&quot; (in powerpc lingua =
-this means with MMU<br>
-&gt; <br>
-&gt; What&#39;s up with &#39;lingua&#39;? As you already know &quot;lingua&=
-quot; is Brazilian portuguese for &quot;tongue&quot;<br>
-&gt; and it&#39;s so weird to be used in this context.<br>
-&gt; <br>
-&gt; The one English word that I can think of that is closer to &quot;lingu=
-a&quot; and would make sense here<br>
-&gt; is &#39;lingo&#39;. But that is a slang for &#39;jargon&#39; and not a=
-ppropriate for a technical document<br>
-&gt; either. &quot;langua&quot; as a short form of &quot;language&quot; see=
-ms weird as well. I really believe &#39;jargon&#39;<br>
-&gt; is a more suitable word here.<br>
-<br>
-As a native speaker: &quot;lingo&quot; would make sense here, though its to=
-ne is<br>
-a little informal.=C2=A0 &quot;jargon&quot; could also work, but &quot;term=
-inology&quot; would<br>
-probably better match the tone of the document.<br>
-<br>
-I expect this hasn&#39;t been noticed before, because I think most English<=
-br>
-speakers would read &quot;lingua&quot; as a typo for &quot;lingo&quot;, may=
-be only barely<br>
-registering that it was not the standard spelling.=C2=A0 (&quot;lingo&quot;=
- is, of<br>
-course, cognate with lingua and similar words from romance langauges).<br><=
-/blockquote><div><br></div><div>My google search turns up exactly 1 other h=
-it for &#39;powerpc lingua&#39; so it&#39;s not a wide spread thing.</div><=
-div>In fact, it is in our archives when this commit was made to the text fi=
-le as near as I can tell.</div><div><br></div><div>As such, the phrase shou=
-ld be &#39;in powerpc terminology&#39; or &#39;in powerpc jargon&#39; to ma=
-ke</div><div>sense to a native English speaker. &#39;linga&#39; doesn&#39;t=
- make=C2=A0 sense in English (though we</div><div>do have the loan phrase &=
-#39;lingua franca&#39; meaning &#39;the common language&#39; derived from t=
-he</div><div>common language of the Levant made up of a hodge-podge of othe=
-r=C2=A0languages. Another</div><div>phrase that would make sense, but is a =
-bit of an uncommon usage, is &#39;powerpc parlance&#39;</div><div>which mig=
-ht capture the right nuance of meaning here better than the other suggestio=
-ns.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+> Alistair
 >
-&gt; This was added by c73e3771ea79ab and I really believe this is an unint=
-ended typo/mistake. If<br>
-&gt; you&#39;re feeling generous feel free to send an extra patch (you can =
-send an independent patch,<br>
-&gt; or another patch on top of this series, your call) changing this &#39;=
-lingua&#39; instance to something<br>
-&gt; more appropriate.<br></blockquote><div><br></div><div>Yes. The origina=
-l review for that was the only other place google can find this turn of phr=
-ase.</div><div>I&#39;d thought it might be a pun on lingua franca (eg &#39;=
-lingua powerpc&#39; was an in joke in that</div><div>community, but google =
-says no).</div><div><br></div><div>Warner</div><div>=C2=A0</div><div>=C2=A0=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt; Since this is not this patch fault:<br>
-&gt; <br>
-&gt; Reviewed-by: Daniel Henrique Barboza &lt;<a href=3D"mailto:danielhb413=
-@gmail.com" target=3D"_blank">danielhb413@gmail.com</a>&gt;<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; &gt; +disabled, i.e. guest effective address equals to guest physical =
-address), it<br>
-&gt; &gt; +only has access to a subset of memory and no I/Os.<br>
-&gt; &gt; +<br>
-&gt; &gt; +PAPR and LoPAR provides a set of hypervisor calls to perform cac=
-heable or<br>
-&gt; &gt;=C2=A0 =C2=A0non-cacheable accesses to any guest physical addresse=
-s that the<br>
-&gt; &gt;=C2=A0 =C2=A0guest can use in order to access IO devices while in =
-real mode.<br>
-&gt; &gt; @@ -58,21 +68,33 @@ is used by our SLOF firmware to invert the sc=
-reen.<br>
-&gt; &gt;=C2=A0 =C2=A0Arguments:<br>
-&gt; &gt; -=C2=A0 r3: H_LOGICAL_MEMOP (0xf001)<br>
-&gt; &gt; -=C2=A0 r4: Guest physical address of destination<br>
-&gt; &gt; -=C2=A0 r5: Guest physical address of source<br>
-&gt; &gt; -=C2=A0 r6: Individual element size<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 0 =3D 1 byte<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 1 =3D 2 bytes<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 2 =3D 4 bytes<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 3 =3D 8 bytes<br>
-&gt; &gt; -=C2=A0 r7: Number of elements<br>
-&gt; &gt; -=C2=A0 r8: Operation<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 0 =3D copy<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 1 =3D xor<br>
-&gt; &gt; +=C2=A0 ``r3 ``: ``H_LOGICAL_MEMOP (0xf001)``<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 ``r4``: Guest physical address of destination.<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 ``r5``: Guest physical address of source.<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 ``r6``: Individual element size, defined by the binary lo=
-garithm of the<br>
-&gt; &gt; +=C2=A0 desired size. Supported values are:<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 =C2=A0 ``0`` =3D 1 byte<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 =C2=A0 ``1`` =3D 2 bytes<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 =C2=A0 ``2`` =3D 4 bytes<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 =C2=A0 ``3`` =3D 8 bytes<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 ``r7``: Number of elements.<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 ``r8``: Operation. Supported values are:<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 =C2=A0 ``0``: copy<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 =C2=A0 ``1``: xor<br>
-&gt; &gt;=C2=A0 =C2=A0Returns:<br>
-&gt; &gt; -=C2=A0 H_SUCCESS=C2=A0 =C2=A0: Success<br>
-&gt; &gt; -=C2=A0 H_PARAMETER : Invalid argument<br>
-&gt; &gt; +=C2=A0 ``H_SUCCESS``: Success.<br>
-&gt; &gt; +=C2=A0 ``H_PARAMETER``: Invalid argument.<br>
-&gt; &gt; \ No newline at end of file<br>
-&gt; &gt; <br>
-&gt; <br>
-<br>
--- <br>
-David Gibson=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | I&#39;ll have my music baroque, and my code<br>
-david AT <a href=3D"http://gibson.dropbear.id.au" rel=3D"noreferrer" target=
-=3D"_blank">gibson.dropbear.id.au</a>=C2=A0 | minimalist, thank you.=C2=A0 =
-NOT _the_ _other_<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | _way_ _around_!<br>
-<a href=3D"http://www.ozlabs.org/~dgibson" rel=3D"noreferrer" target=3D"_bl=
-ank">http://www.ozlabs.org/~dgibson</a><br>
-</blockquote></div></div>
-
---000000000000c3646405d2ae8667--
+> >      } else {
+> > -        ret = rmw_mip(env, csrno, ret_value, new_value,
+> > -                      write_mask & env->mideleg & sip_writable_mask);
+> > +        ret = rmw_mip64(env, csrno, ret_val, new_val, wr_mask & mask);
+> >      }
+> >
+> > -    if (ret_value) {
+> > -        *ret_value &= env->mideleg & S_MODE_INTERRUPTS;
+> > +    if (ret_val) {
+> > +        *ret_val &= env->mideleg & S_MODE_INTERRUPTS;
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> > +static RISCVException rmw_sip(CPURISCVState *env, int csrno,
+> > +                              target_ulong *ret_val,
+> > +                              target_ulong new_val, target_ulong wr_mask)
+> > +{
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_sip64(env, csrno, &rval, new_val, wr_mask);
+> > +    if (ret_val) {
+> > +        *ret_val = rval;
+> >      }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> > +static RISCVException rmw_siph(CPURISCVState *env, int csrno,
+> > +                               target_ulong *ret_val,
+> > +                               target_ulong new_val, target_ulong wr_mask)
+> > +{
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_sip64(env, csrno, &rval,
+> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
+> > +    if (ret_val) {
+> > +        *ret_val = rval >> 32;
+> > +    }
+> > +
+> >      return ret;
+> >  }
+> >
+> > @@ -1089,30 +1363,94 @@ static RISCVException write_hedeleg(CPURISCVState *env, int csrno,
+> >      return RISCV_EXCP_NONE;
+> >  }
+> >
+> > -static RISCVException read_hideleg(CPURISCVState *env, int csrno,
+> > -                                   target_ulong *val)
+> > +static RISCVException rmw_hideleg64(CPURISCVState *env, int csrno,
+> > +                                    uint64_t *ret_val,
+> > +                                    uint64_t new_val, uint64_t wr_mask)
+> >  {
+> > -    *val = env->hideleg;
+> > +    uint64_t mask = wr_mask & vs_delegable_ints;
+> > +
+> > +    if (ret_val) {
+> > +        *ret_val = env->hideleg & vs_delegable_ints;
+> > +    }
+> > +
+> > +    env->hideleg = (env->hideleg & ~mask) | (new_val & mask);
+> >      return RISCV_EXCP_NONE;
+> >  }
+> >
+> > -static RISCVException write_hideleg(CPURISCVState *env, int csrno,
+> > -                                    target_ulong val)
+> > +static RISCVException rmw_hideleg(CPURISCVState *env, int csrno,
+> > +                                  target_ulong *ret_val,
+> > +                                  target_ulong new_val, target_ulong wr_mask)
+> >  {
+> > -    env->hideleg = val & vs_delegable_ints;
+> > -    return RISCV_EXCP_NONE;
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_hideleg64(env, csrno, &rval, new_val, wr_mask);
+> > +    if (ret_val) {
+> > +        *ret_val = rval;
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> > +static RISCVException rmw_hidelegh(CPURISCVState *env, int csrno,
+> > +                                   target_ulong *ret_val,
+> > +                                   target_ulong new_val, target_ulong wr_mask)
+> > +{
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_hideleg64(env, csrno, &rval,
+> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
+> > +    if (ret_val) {
+> > +        *ret_val = rval >> 32;
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> > +static RISCVException rmw_hvip64(CPURISCVState *env, int csrno,
+> > +                                 uint64_t *ret_val,
+> > +                                 uint64_t new_val, uint64_t wr_mask)
+> > +{
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_mip64(env, csrno, ret_val, new_val,
+> > +                    wr_mask & hvip_writable_mask);
+> > +    if (ret_val) {
+> > +        *ret_val &= VS_MODE_INTERRUPTS;
+> > +    }
+> > +
+> > +    return ret;
+> >  }
+> >
+> >  static RISCVException rmw_hvip(CPURISCVState *env, int csrno,
+> > -                               target_ulong *ret_value,
+> > -                               target_ulong new_value, target_ulong write_mask)
+> > +                               target_ulong *ret_val,
+> > +                               target_ulong new_val, target_ulong wr_mask)
+> >  {
+> > -    int ret = rmw_mip(env, csrno, ret_value, new_value,
+> > -                      write_mask & hvip_writable_mask);
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> >
+> > -    if (ret_value) {
+> > -        *ret_value &= VS_MODE_INTERRUPTS;
+> > +    ret = rmw_hvip64(env, csrno, &rval, new_val, wr_mask);
+> > +    if (ret_val) {
+> > +        *ret_val = rval;
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> > +static RISCVException rmw_hviph(CPURISCVState *env, int csrno,
+> > +                                target_ulong *ret_val,
+> > +                                target_ulong new_val, target_ulong wr_mask)
+> > +{
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> > +
+> > +    ret = rmw_hvip64(env, csrno, &rval,
+> > +        ((uint64_t)new_val) << 32, ((uint64_t)wr_mask) << 32);
+> > +    if (ret_val) {
+> > +        *ret_val = rval >> 32;
+> >      }
+> > +
+> >      return ret;
+> >  }
+> >
+> > @@ -1129,18 +1467,19 @@ static RISCVException rmw_hip(CPURISCVState *env, int csrno,
+> >      return ret;
+> >  }
+> >
+> > -static RISCVException read_hie(CPURISCVState *env, int csrno,
+> > -                               target_ulong *val)
+> > +static RISCVException rmw_hie(CPURISCVState *env, int csrno,
+> > +                              target_ulong *ret_val,
+> > +                              target_ulong new_val, target_ulong wr_mask)
+> >  {
+> > -    *val = env->mie & HS_MODE_INTERRUPTS;
+> > -    return RISCV_EXCP_NONE;
+> > -}
+> > +    uint64_t rval;
+> > +    RISCVException ret;
+> >
+> > -static RISCVException write_hie(CPURISCVState *env, int csrno,
+> > -                                target_ulong val)
+> > -{
+> > -    target_ulong newval = (env->mie & ~HS_MODE_INTERRUPTS) | (val & HS_MODE_INTERRUPTS);
+> > -    return write_mie(env, CSR_MIE, newval);
+> > +    ret = rmw_mie64(env, csrno, &rval, new_val, wr_mask & HS_MODE_INTERRUPTS);
+> > +    if (ret_val) {
+> > +        *ret_val = rval & HS_MODE_INTERRUPTS;
+> > +    }
+> > +
+> > +    return ret;
+> >  }
+> >
+> >  static RISCVException read_hcounteren(CPURISCVState *env, int csrno,
+> > @@ -1598,9 +1937,9 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+> >      /* Machine Trap Setup */
+> >      [CSR_MSTATUS]     = { "mstatus",    any,   read_mstatus,     write_mstatus     },
+> >      [CSR_MISA]        = { "misa",       any,   read_misa,        write_misa        },
+> > -    [CSR_MIDELEG]     = { "mideleg",    any,   read_mideleg,     write_mideleg     },
+> > +    [CSR_MIDELEG]     = { "mideleg",    any,   NULL,    NULL,    rmw_mideleg       },
+> >      [CSR_MEDELEG]     = { "medeleg",    any,   read_medeleg,     write_medeleg     },
+> > -    [CSR_MIE]         = { "mie",        any,   read_mie,         write_mie         },
+> > +    [CSR_MIE]         = { "mie",        any,   NULL,    NULL,    rmw_mie           },
+> >      [CSR_MTVEC]       = { "mtvec",      any,   read_mtvec,       write_mtvec       },
+> >      [CSR_MCOUNTEREN]  = { "mcounteren", any,   read_mcounteren,  write_mcounteren  },
+> >
+> > @@ -1613,9 +1952,14 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+> >      [CSR_MTVAL]    = { "mtval",    any,  read_mtval,    write_mtval    },
+> >      [CSR_MIP]      = { "mip",      any,  NULL,    NULL, rmw_mip        },
+> >
+> > +    /* Machine-Level High-Half CSRs (AIA) */
+> > +    [CSR_MIDELEGH] = { "midelegh", aia_any32, NULL, NULL, rmw_midelegh },
+> > +    [CSR_MIEH]     = { "mieh",     aia_any32, NULL, NULL, rmw_mieh     },
+> > +    [CSR_MIPH]     = { "miph",     aia_any32, NULL, NULL, rmw_miph     },
+> > +
+> >      /* Supervisor Trap Setup */
+> >      [CSR_SSTATUS]    = { "sstatus",    smode, read_sstatus,    write_sstatus    },
+> > -    [CSR_SIE]        = { "sie",        smode, read_sie,        write_sie        },
+> > +    [CSR_SIE]        = { "sie",        smode, NULL,   NULL,    rmw_sie          },
+> >      [CSR_STVEC]      = { "stvec",      smode, read_stvec,      write_stvec      },
+> >      [CSR_SCOUNTEREN] = { "scounteren", smode, read_scounteren, write_scounteren },
+> >
+> > @@ -1629,12 +1973,16 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+> >      /* Supervisor Protection and Translation */
+> >      [CSR_SATP]     = { "satp",     smode, read_satp,    write_satp      },
+> >
+> > +    /* Supervisor-Level High-Half CSRs (AIA) */
+> > +    [CSR_SIEH]       = { "sieh",   aia_smode32, NULL, NULL, rmw_sieh },
+> > +    [CSR_SIPH]       = { "siph",   aia_smode32, NULL, NULL, rmw_siph },
+> > +
+> >      [CSR_HSTATUS]     = { "hstatus",     hmode,   read_hstatus,     write_hstatus     },
+> >      [CSR_HEDELEG]     = { "hedeleg",     hmode,   read_hedeleg,     write_hedeleg     },
+> > -    [CSR_HIDELEG]     = { "hideleg",     hmode,   read_hideleg,     write_hideleg     },
+> > +    [CSR_HIDELEG]     = { "hideleg",     hmode,   NULL,   NULL,     rmw_hideleg       },
+> >      [CSR_HVIP]        = { "hvip",        hmode,   NULL,   NULL,     rmw_hvip          },
+> >      [CSR_HIP]         = { "hip",         hmode,   NULL,   NULL,     rmw_hip           },
+> > -    [CSR_HIE]         = { "hie",         hmode,   read_hie,         write_hie         },
+> > +    [CSR_HIE]         = { "hie",         hmode,   NULL,   NULL,     rmw_hie           },
+> >      [CSR_HCOUNTEREN]  = { "hcounteren",  hmode,   read_hcounteren,  write_hcounteren  },
+> >      [CSR_HGEIE]       = { "hgeie",       hmode,   read_hgeie,       write_hgeie       },
+> >      [CSR_HTVAL]       = { "htval",       hmode,   read_htval,       write_htval       },
+> > @@ -1646,7 +1994,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+> >
+> >      [CSR_VSSTATUS]    = { "vsstatus",    hmode,   read_vsstatus,    write_vsstatus    },
+> >      [CSR_VSIP]        = { "vsip",        hmode,   NULL,    NULL,    rmw_vsip          },
+> > -    [CSR_VSIE]        = { "vsie",        hmode,   read_vsie,        write_vsie        },
+> > +    [CSR_VSIE]        = { "vsie",        hmode,   NULL,    NULL,    rmw_vsie          },
+> >      [CSR_VSTVEC]      = { "vstvec",      hmode,   read_vstvec,      write_vstvec      },
+> >      [CSR_VSSCRATCH]   = { "vsscratch",   hmode,   read_vsscratch,   write_vsscratch   },
+> >      [CSR_VSEPC]       = { "vsepc",       hmode,   read_vsepc,       write_vsepc       },
+> > @@ -1657,6 +2005,12 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+> >      [CSR_MTVAL2]      = { "mtval2",      hmode,   read_mtval2,      write_mtval2      },
+> >      [CSR_MTINST]      = { "mtinst",      hmode,   read_mtinst,      write_mtinst      },
+> >
+> > +    /* Hypervisor and VS-Level High-Half CSRs (H-extension with AIA) */
+> > +    [CSR_HIDELEGH]    = { "hidelegh",    aia_hmode32, NULL, NULL, rmw_hidelegh },
+> > +    [CSR_HVIPH]       = { "hviph",       aia_hmode32, NULL, NULL, rmw_hviph },
+> > +    [CSR_VSIEH]       = { "vsieh",       aia_hmode32, NULL, NULL, rmw_vsieh },
+> > +    [CSR_VSIPH]       = { "vsiph",       aia_hmode32, NULL, NULL, rmw_vsiph },
+> > +
+> >      /* Physical Memory Protection */
+> >      [CSR_MSECCFG]    = { "mseccfg",  epmp, read_mseccfg, write_mseccfg },
+> >      [CSR_PMPCFG0]    = { "pmpcfg0",   pmp, read_pmpcfg,  write_pmpcfg  },
+> > diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> > index a7102220b6..7356d70be6 100644
+> > --- a/target/riscv/machine.c
+> > +++ b/target/riscv/machine.c
+> > @@ -108,7 +108,7 @@ static const VMStateDescription vmstate_hyper = {
+> >      .fields = (VMStateField[]) {
+> >          VMSTATE_UINTTL(env.hstatus, RISCVCPU),
+> >          VMSTATE_UINTTL(env.hedeleg, RISCVCPU),
+> > -        VMSTATE_UINTTL(env.hideleg, RISCVCPU),
+> > +        VMSTATE_UINT64(env.hideleg, RISCVCPU),
+> >          VMSTATE_UINTTL(env.hcounteren, RISCVCPU),
+> >          VMSTATE_UINTTL(env.htval, RISCVCPU),
+> >          VMSTATE_UINTTL(env.htinst, RISCVCPU),
+> > @@ -168,10 +168,10 @@ const VMStateDescription vmstate_riscv_cpu = {
+> >          VMSTATE_UINTTL(env.resetvec, RISCVCPU),
+> >          VMSTATE_UINTTL(env.mhartid, RISCVCPU),
+> >          VMSTATE_UINT64(env.mstatus, RISCVCPU),
+> > -        VMSTATE_UINTTL(env.mip, RISCVCPU),
+> > -        VMSTATE_UINT32(env.miclaim, RISCVCPU),
+> > -        VMSTATE_UINTTL(env.mie, RISCVCPU),
+> > -        VMSTATE_UINTTL(env.mideleg, RISCVCPU),
+> > +        VMSTATE_UINT64(env.mip, RISCVCPU),
+> > +        VMSTATE_UINT64(env.miclaim, RISCVCPU),
+> > +        VMSTATE_UINT64(env.mie, RISCVCPU),
+> > +        VMSTATE_UINT64(env.mideleg, RISCVCPU),
+> >          VMSTATE_UINTTL(env.satp, RISCVCPU),
+> >          VMSTATE_UINTTL(env.stval, RISCVCPU),
+> >          VMSTATE_UINTTL(env.medeleg, RISCVCPU),
+> > --
+> > 2.25.1
+> >
+> >
 
