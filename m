@@ -2,104 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69AA946F3CC
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 20:17:44 +0100 (CET)
-Received: from localhost ([::1]:59068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F238446F43C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 20:47:55 +0100 (CET)
+Received: from localhost ([::1]:53184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvOvH-0005zy-43
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 14:17:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52512)
+	id 1mvPOU-00061f-Jz
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 14:47:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1mvOt6-00057n-5Q; Thu, 09 Dec 2021 14:15:28 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10252)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1mvOt2-0003lZ-Rd; Thu, 09 Dec 2021 14:15:27 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B9IjCMI018492; 
- Thu, 9 Dec 2021 19:15:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=dRCPheyk4CSD8/bMhIDjU8AnJDpo/zK8R8QCz0IevT8=;
- b=tcXzneYqo7h8TOxqVWv5njufjfcWfMqvYbWUdObli7J36lbNAFOlbVRS6Jwy/R2YIdvp
- BCFiQSHA3KqYh2VjnEm1nwtLZw9wzw8Rt2sy13mXMwHbCEG32R9xe8hmVrwgMNr22U4p
- bfWwvmxvVBfsR5ozI8BPCwrnP4V26Me3N8qGx2sxtOAM9kkE/r7F9SBh5U32/eQS+Zne
- 9+yclsp+nv9tNK7O5Q+KKNfhGjN0Pf/loDSC5YjaYxFGoYifIqn85wrbT4gk9Wql8YuZ
- uKS8X5+vkmY05ZQ1WlntotOVj5/ttle+z4AZTMrmAs6ydNgYHdFk1/h7jBW+xiDy8DhH TQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cuq3xgt8j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Dec 2021 19:15:10 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B9IjIcV019042;
- Thu, 9 Dec 2021 19:15:09 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cuq3xgt82-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Dec 2021 19:15:09 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B9J4542014964;
- Thu, 9 Dec 2021 19:15:08 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma04wdc.us.ibm.com with ESMTP id 3cqyyc02ac-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Dec 2021 19:15:08 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1B9JF7Dm18809164
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 9 Dec 2021 19:15:07 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 298CA78074;
- Thu,  9 Dec 2021 19:15:07 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9874E78091;
- Thu,  9 Dec 2021 19:15:06 +0000 (GMT)
-Received: from localhost (unknown [9.163.12.190])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Thu,  9 Dec 2021 19:15:06 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] target/ppc: powerpc_excp: Guard ALIGNMENT interrupt
- with CONFIG_TCG
-In-Reply-To: <87h7bh666e.fsf@linux.ibm.com>
-References: <20211208230650.2125095-1-farosas@linux.ibm.com>
- <c17bf4e0-2c5c-0748-0539-34b441c81644@kaod.org>
- <87o85p6cog.fsf@linux.ibm.com>
- <a2cca719-7d28-65a1-97c4-c91d9a469cbf@kaod.org>
- <87h7bh666e.fsf@linux.ibm.com>
-Date: Thu, 09 Dec 2021 16:15:04 -0300
-Message-ID: <87czm56153.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mvPML-0004MI-Pr
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 14:45:41 -0500
+Received: from [2a00:1450:4864:20::42c] (port=34760
+ helo=mail-wr1-x42c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mvPMJ-0008CW-NM
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 14:45:41 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id j3so11617151wrp.1
+ for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 11:45:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5PEQGZl48JLyiMPJrYocwgG7rzgazf0ReO3wQ7rARg0=;
+ b=oiW6aMCK7TBPj42Qu6Phd+I4qz2ZQX3NNnHYQOwnK9cuJA0S7oahw3TdebgL25U5ux
+ ONji6HNJUvf7nPRFKU3i0FpNyCZzSfGIBjPPmO2XA8ZS4S8ZGO3o53APayBIhfCcjBPE
+ wCMwWqlGjpQn7e7tqypLrF+Z4mfhWsyQfrgLwOy6KbZ70BNK1L/H5gziciU+M7nTLHRc
+ ResXXQquPqxBeME2lRgQVGdacuLiqPfJ31BSixDef1w8I1NYtussbd93tAiRF6zuDtoA
+ IxsEBvUY0uNVlWDBdVRxlszoMgJA3dizTtyQT9rLyojnigC6zP42aYF3qIoM4eqqkqC3
+ SqzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5PEQGZl48JLyiMPJrYocwgG7rzgazf0ReO3wQ7rARg0=;
+ b=ozozsTFMnKiyhGKrwg5vg0JqCa9EOo73gYQ4xmJ3PZNlgUus38nDVcDyF+BSH9awAd
+ KJkmmLvpeSCUv43uWQoEeheZDeKtLi4aAnl5E4Fq2WzBdgbrejJLHnaiP52M+LEVE3xX
+ KJswnArV3AYTynz0WxgcjaFNXj0UM4wELIEYFgw+HAzaF6PR4gVQ3xSdRi5xeBp9n10/
+ YZxfjGlQS1U5P/VDEPOgpFdFmmLoQmq0FJy0I3RelJGZ9Vp/KS1a/9ULJSCEFdB4Hkon
+ Dz8MhhUw77Xvs1Qioybj2NxwUFkhVcVTkqZI0mFWBzQUPloIf2zGLsz0a+A84yJphQWP
+ e/4Q==
+X-Gm-Message-State: AOAM5332ygdbypeGuFiQXl2OgC2lf1gCQQaGlSHaFs2MdrWUbeCLFMnU
+ Od/4XQ2TY8OqNk0XqImMfIJqo6vZmESJlA==
+X-Google-Smtp-Source: ABdhPJxznRRHIfy2Um0Q2fRcPIU5SFtR5p7la5lQ19SvdhMRCUyUenroT858A386nxqEQTv6iqgh7g==
+X-Received: by 2002:a5d:468f:: with SMTP id u15mr8891825wrq.171.1639079136276; 
+ Thu, 09 Dec 2021 11:45:36 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id b15sm855425wri.62.2021.12.09.11.45.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Dec 2021 11:45:35 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 for-7.0] scripts: Explain the difference between
+ linux-headers and standard-headers
+Date: Thu,  9 Dec 2021 19:45:32 +0000
+Message-Id: <20211209194532.1502920-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 3rLZUqFZ3wTiFLzt_WEHUMxlXvQK14Z0
-X-Proofpoint-GUID: 8eIKwEpg4v_NWF4fzNAHUOZ_PG1ixLiE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-09_08,2021-12-08_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0
- bulkscore=0 spamscore=0 lowpriorityscore=0 mlxlogscore=999 clxscore=1015
- mlxscore=0 impostorscore=0 priorityscore=1501 suspectscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2112090100
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,93 +84,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, richard.henderson@linaro.org,
- david@gibson.dropbear.id.au
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fabiano Rosas <farosas@linux.ibm.com> writes:
+If you don't know it, it's hard to figure out the difference between
+the linux-headers folder and the include/standard-headers folder.
+So let's add a short explanation to clarify the difference.
 
-> C=C3=A9dric Le Goater <clg@kaod.org> writes:
->
->> Richard,
->>
->> On 12/9/21 16:05, Fabiano Rosas wrote:
->>> C=C3=A9dric Le Goater <clg@kaod.org> writes:
->>>=20
->>>> On 12/9/21 00:06, Fabiano Rosas wrote:
->>>>> We cannot have TCG code in powerpc_excp because the function is called
->>>>> from kvm-only code via ppc_cpu_do_interrupt:
->>>>>
->>>>>    ../target/ppc/excp_helper.c:463:29: error: implicit declaration of
->>>>>    function =E2=80=98cpu_ldl_code=E2=80=99 [-Werror=3Dimplicit-functi=
-on-declaration]
->>>>>
->>>>> Fortunately, the Alignment interrupt is not among the ones dispatched
->>>>> from kvm-only code, so we can keep it out of the disable-tcg build for
->>>>> now.
->>>>>
->>>>> Fixes: 336e91f853 ("target/ppc: Move SPR_DSISR setting to powerpc_exc=
-p")
->>>>> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
->>>>>
->>>>> ---
->>>>>
->>>>> Perhaps we could make powerpc_excp TCG only and have a separate
->>>>> function that only knows the two interrupts that we use with KVM
->>>>> (Program, Machine check). But for now this fix will do, I think.
->>>>> ---
->>>>>    target/ppc/excp_helper.c | 2 ++
->>>>>    1 file changed, 2 insertions(+)
->>>>>
->>>>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->>>>> index 17607adbe4..dcf22440cc 100644
->>>>> --- a/target/ppc/excp_helper.c
->>>>> +++ b/target/ppc/excp_helper.c
->>>>> @@ -453,6 +453,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, =
-int excp_model, int excp)
->>>>>            }
->>>>>            break;
->>>>>        }
->>>>> +#ifdef CONFIG_TCG
->>>>>        case POWERPC_EXCP_ALIGN:     /* Alignment exception           =
-           */
->>>>>            /*
->>>>>             * Get rS/rD and rA from faulting opcode.
->>>>> @@ -464,6 +465,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, =
-int excp_model, int excp)
->>>>>                env->spr[SPR_DSISR] |=3D (insn & 0x03FF0000) >> 16;
->>>>>            }
->>>>>            break;
->>>>> +#endif
->>>>>        case POWERPC_EXCP_PROGRAM:   /* Program exception             =
-           */
->>>>>            switch (env->error_code & ~0xF) {
->>>>>            case POWERPC_EXCP_FP:
->>>>>
->>>>
->>>> Shouldn't we move that code under ppc_cpu_do_unaligned_access ?
->>>=20
->>> Well, it came from there initially. We could revert 336e91f853 and that
->>> would fix the issue as well.
->>
->> What would you prefer ?
->
-> Well none of this interfere with the work I'm doing, so it really makes
-> no difference. I guess reverting the patch is cleaner than having an
-> ifdef loose in the middle of the code. I'll send a v2 with the revert.
->
+Suggested-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+v1 of this was from Thomas; I suggested some expanded wording
+and since that made the patch pretty much entirely my text
+Thomas suggested I send this under my name.
+---
+ scripts/update-linux-headers.sh | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-Ah I missed that you were talking to Richard! That first line got kind of
-hidden.
+diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
+index fea4d6eb655..d23851e1d3b 100755
+--- a/scripts/update-linux-headers.sh
++++ b/scripts/update-linux-headers.sh
+@@ -9,6 +9,22 @@
+ #
+ # This work is licensed under the terms of the GNU GPL version 2.
+ # See the COPYING file in the top-level directory.
++#
++# The script will copy the headers into two target folders:
++#
++# - linux-headers/ for files that are required for compiling on a
++#   Linux host.  Generally we have these so we can use kernel structs
++#   and defines that are more recent than the headers that might be
++#   in /usr/include/linux on the host system.  Usually this script
++#   can do simple file copies for these headers.
++#
++# - include/standard-headers/ for files that are used for guest
++#   device emulation and are required on all hosts.  For instance, we
++#   get our definitions of the virtio structures from the Linux
++#   kernel headers, but we need those definitions regardless of which
++#   host OS we are building on.  This script has to be careful to
++#   sanitize the headers to remove any use of Linux-specifics such as
++#   types like "__u64".  This work is done in the cp_portable function.
+ 
+ tmpdir=$(mktemp -d)
+ linux="$1"
+-- 
+2.25.1
 
-I already sent a v2, but as I said, I have no preference either
-way. Let's hear from Richard.
-
-Sorry for the confusion =3D)
-
->>
->> Thanks,
->>
->> C.
 
