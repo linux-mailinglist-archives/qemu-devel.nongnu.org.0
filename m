@@ -2,89 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67BA646E695
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 11:27:39 +0100 (CET)
-Received: from localhost ([::1]:38076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B0246E6A0
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 11:33:42 +0100 (CET)
+Received: from localhost ([::1]:41890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvGeI-00087B-1I
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 05:27:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39396)
+	id 1mvGk9-0002aS-8H
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 05:33:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mvGb7-0005UH-Cu
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 05:24:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43951)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mvGi6-0000nN-AP
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 05:31:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mvGay-0004J1-T7
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 05:24:19 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mvGi3-0005fR-VP
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 05:31:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639045451;
+ s=mimecast20190719; t=1639045890;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kYuxQj5HIVVYZMufDXtIO6Oj54zfcaWQLVfL9gF+3fI=;
- b=TVhYjtp+OQdId+RF932zonLKgUsqw4wxXHlw735f3sgvPew/Wmc9SfZ/AvbWTgecUGBHvh
- IOcHC0htXSo5P9IwOxNHXQnEVbZaHqVRELK0MyJAKFTEWtoFtoV+oMcn6wrO/l22JU4u82
- T1+wqgOE9FHgCVD1R/vTVShyQXddRbU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gtRooo6LVdqSTbQrPCY/Dof/deS0+JpAvhpCQVC7mts=;
+ b=E7UIXv6rl68vlyvPm4xZWUUyPiDy7ZjeukhxhPifjmQzIlwK5rEZrao4QbO6grteYYaRGA
+ ZVik7OymTWiih8213doJlsI0KDJsASw3iIQLJk7qe0X+ptHza5iML6P31xDDzDQQff5pHx
+ CsehyZvkaV3llmn4tNrq1Ahq+1Me1yY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-137-EAd74vZuMDeAGZKZXIxI9A-1; Thu, 09 Dec 2021 05:24:09 -0500
-X-MC-Unique: EAd74vZuMDeAGZKZXIxI9A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 187-20020a1c02c4000000b003335872db8dso2921111wmc.2
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 02:24:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=kYuxQj5HIVVYZMufDXtIO6Oj54zfcaWQLVfL9gF+3fI=;
- b=v1m9OfC/AUEo6OQO9dUEb5nAewN5kYeHK4rUpCFrU9K5sOmeZTQZ6Hf16XYzjTbKxx
- oOEbQ6QqVGT4Ak0srUHEEefVSN+VA/r0Zos7X/bPyJn9hQ8drwA0e0aLVt7axE/Lglof
- /p0g+Ba7MB+zPacHFKl+7uu+fYZPz3fujZRlcDo1opQSIVuyaXVtj5Bw1ZVsk9b8gby5
- BbURhxOkwyWz0LMF4NiAAeYcB6gWA/t78WOsdNsRFG+fylxRTyvt3Hm+JE7abERZUKUn
- rr4DiI8lLlUUKPT0Ks2CSCOyL+i/50lh5D6grPKgbOSbrZgb77p80aI0AAMA5/WwFybU
- FXzw==
-X-Gm-Message-State: AOAM532YrurEGhEv3l9DWzINb7p7Iibf+EdeL0FK3fasi7KzDGq4Zoof
- okMjZLRKRn+w2vevFpAtRAbgj390juya7g6vbE/RLJ6E46e+xDq1PeztFlLixoiD7AwTivECFbZ
- OdB7GQmWyt50On1Q=
-X-Received: by 2002:a5d:4e0b:: with SMTP id p11mr5348430wrt.88.1639045448776; 
- Thu, 09 Dec 2021 02:24:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxTCIv/bndnkZNY/cj26NMLSQ6ieKpO6zOMuU9FPc5E5deG+ibldYuLAl0kW489zTTXzmuMTw==
-X-Received: by 2002:a5d:4e0b:: with SMTP id p11mr5348395wrt.88.1639045448525; 
- Thu, 09 Dec 2021 02:24:08 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id m17sm5108005wrz.22.2021.12.09.02.24.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Dec 2021 02:24:08 -0800 (PST)
-Message-ID: <36c15126-b63b-742d-d2c6-f81fc0138252@redhat.com>
-Date: Thu, 9 Dec 2021 11:24:07 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v8 0/4] tests/qtest: add some tests for virtio-net failover
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-References: <20211208130350.10178-1-lvivier@redhat.com>
+ us-mta-236-heHKPujbO0qiS29YzK_nWA-1; Thu, 09 Dec 2021 05:31:29 -0500
+X-MC-Unique: heHKPujbO0qiS29YzK_nWA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 490931018720;
+ Thu,  9 Dec 2021 10:31:28 +0000 (UTC)
+Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D0E817DBA;
+ Thu,  9 Dec 2021 10:31:26 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20211208130350.10178-1-lvivier@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH for-7.0] gitlab-ci: Add cirrus-ci based tests for NetBSD and
+ OpenBSD
+Date: Thu,  9 Dec 2021 11:31:24 +0100
+Message-Id: <20211209103124.121942-1-thuth@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -61
-X-Spam_score: -6.2
-X-Spam_bar: ------
-X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.618,
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.618,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.803, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,54 +77,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
- Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/12/2021 14.03, Laurent Vivier wrote:
-> This series adds a qtest entry to test virtio-net failover feature.
-> 
-> We check following error cases:
-> 
-> - check missing id on device with failover_pair_id triggers an error
-> - check a primary device plugged on a bus that doesn't support hotplug
->    triggers an error
-> 
-> We check the status of the machine before and after hotplugging cards and
-> feature negotiation:
-> 
-> - check we don't see the primary device at boot if failover is on
-> - check we see the primary device at boot if failover is off
-> - check we don't see the primary device if failover is on
->    but failover_pair_id is not the one with on (I think this should be changed)
-> - check the primary device is plugged after the feature negotiation
-> - check the result if the primary device is plugged before standby device and
->    vice-versa
-> - check the if the primary device is coldplugged and the standy device
->    hotplugged and vice-versa
-> - check the migration triggers the unplug and the hotplug
-> 
-> There is one preliminary patch in the series:
-> 
-> - PATCH 1 introduces a function to enable PCI bridge.
->    Failover needs to be plugged on a pcie-root-port and while
->    the root port is not configured the cards behind it are not
->    available
-> 
-> v8:
-> - fix checkpatch.pl error (space after "(")
-> - fix sanitizer errors:
->    * migrate_status() qobject_unref() cleanup
->    * release QVirtioPCIDevice with qos_object_destroy()
->    * add a missing g_free() in qpci_secondary_buses_rec()
->    * add qobject_unref() in get_bus() and find_device()
->      when an object is popped from a list.
+Cirrus-CI provides KVM in their Linux containers, so we can also run
+our VM-based NetBSD and OpenBSD build jobs there.
+Since the VM installation might take a while, we only run the "help"
+target on the first invocation to avoid timeouts, and then only check
+the build during the next run, once the base image has been cached.
+For the the build tests, we also only use very a limited set of target
+CPUs since compiling in these VMs is not very fast (especially the
+build on OpenBSD seems to be incredibly slow).
+For the time being, the jobs are also marked as manually only, since
+this double-indirect setup (with the cirrus-run script and VMs in
+the Cirrus-CI containers) might fail more often than the other jobs.
 
-Thanks, CI is green now, so queued it to my testing-next branch:
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ If you're interested, you can see some runs here:
+ NetBSD: https://gitlab.com/thuth/qemu/-/jobs/1865965079
+ OpenBSD: https://gitlab.com/thuth/qemu/-/jobs/1866116634
 
-  https://gitlab.com/thuth/qemu/-/commits/testing-next/
+ .gitlab-ci.d/cirrus.yml           | 35 +++++++++++++++++++++++++++++++
+ .gitlab-ci.d/cirrus/kvm-build.yml | 31 +++++++++++++++++++++++++++
+ 2 files changed, 66 insertions(+)
+ create mode 100644 .gitlab-ci.d/cirrus/kvm-build.yml
 
-  Thomas
+diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
+index 90bbe9f8ff..f2d4c0ca4f 100644
+--- a/.gitlab-ci.d/cirrus.yml
++++ b/.gitlab-ci.d/cirrus.yml
+@@ -64,3 +64,38 @@ x64-macos-11-base-build:
+     PATH_EXTRA: /usr/local/opt/ccache/libexec:/usr/local/opt/gettext/bin
+     PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
+     TEST_TARGETS: check-unit check-block check-qapi-schema check-softfloat check-qtest-x86_64
++
++
++# The following jobs run VM-based tests via KVM on a Linux-based Cirrus-CI job
++.cirrus_kvm_job:
++  stage: build
++  image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:master
++  needs: []
++  timeout: 80m
++  allow_failure: true
++  script:
++    - sed -e "s|[@]CI_REPOSITORY_URL@|$CI_REPOSITORY_URL|g"
++          -e "s|[@]CI_COMMIT_REF_NAME@|$CI_COMMIT_REF_NAME|g"
++          -e "s|[@]CI_COMMIT_SHA@|$CI_COMMIT_SHA|g"
++          -e "s|[@]NAME@|$NAME|g"
++          -e "s|[@]CONFIGURE_ARGS@|$CONFIGURE_ARGS|g"
++          -e "s|[@]TEST_TARGETS@|$TEST_TARGETS|g"
++      <.gitlab-ci.d/cirrus/kvm-build.yml >.gitlab-ci.d/cirrus/$NAME.yml
++    - cat .gitlab-ci.d/cirrus/$NAME.yml
++    - cirrus-run -v --show-build-log always .gitlab-ci.d/cirrus/$NAME.yml
++  rules:
++    - when: manual
++
++x86-netbsd:
++  extends: .cirrus_kvm_job
++  variables:
++    NAME: netbsd
++    CONFIGURE_ARGS: --target-list=x86_64-softmmu,ppc64-softmmu,aarch64-softmmu
++    TEST_TARGETS: check
++
++x86-openbsd:
++  extends: .cirrus_kvm_job
++  variables:
++    NAME: openbsd
++    CONFIGURE_ARGS: --target-list=i386-softmmu,riscv64-softmmu,mips64-softmmu
++    TEST_TARGETS: check
+diff --git a/.gitlab-ci.d/cirrus/kvm-build.yml b/.gitlab-ci.d/cirrus/kvm-build.yml
+new file mode 100644
+index 0000000000..4334fabf39
+--- /dev/null
++++ b/.gitlab-ci.d/cirrus/kvm-build.yml
+@@ -0,0 +1,31 @@
++container:
++  image: fedora:35
++  cpu: 4
++  memory: 8Gb
++  kvm: true
++
++env:
++  CIRRUS_CLONE_DEPTH: 1
++  CI_REPOSITORY_URL: "@CI_REPOSITORY_URL@"
++  CI_COMMIT_REF_NAME: "@CI_COMMIT_REF_NAME@"
++  CI_COMMIT_SHA: "@CI_COMMIT_SHA@"
++
++@NAME@_task:
++  @NAME@_vm_cache:
++    folder: $HOME/.cache/qemu-vm
++  install_script:
++    - dnf update -y
++    - dnf install -y git make openssh-clients qemu-img qemu-system-x86 wget
++  clone_script:
++    - git clone --depth 100 "$CI_REPOSITORY_URL" .
++    - git fetch origin "$CI_COMMIT_REF_NAME"
++    - git reset --hard "$CI_COMMIT_SHA"
++  build_script:
++    - if [ -f $HOME/.cache/qemu-vm/images/@NAME@.img ]; then
++        make vm-build-@NAME@ J=$(getconf _NPROCESSORS_ONLN)
++          EXTRA_CONFIGURE_OPTS="@CONFIGURE_ARGS@"
++          BUILD_TARGET="@TEST_TARGETS@" ;
++      else
++        make vm-build-@NAME@ J=$(getconf _NPROCESSORS_ONLN) BUILD_TARGET=help
++          EXTRA_CONFIGURE_OPTS="--disable-system --disable-user --disable-tools" ;
++      fi
+-- 
+2.27.0
 
 
