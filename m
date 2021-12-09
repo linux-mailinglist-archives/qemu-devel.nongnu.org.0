@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D00246E4A3
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 09:53:50 +0100 (CET)
-Received: from localhost ([::1]:60272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4400E46E51A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 10:06:26 +0100 (CET)
+Received: from localhost ([::1]:37084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvFBV-0001Yi-7M
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 03:53:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51312)
+	id 1mvFNg-0005Uu-QN
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 04:06:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mvF9x-0000oB-Q7
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 03:52:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32816)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mvFLh-0004SO-Ho
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 04:04:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mvF9u-00064P-5f
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 03:52:12 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mvFLc-0003ZW-TV
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 04:04:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639039927;
+ s=mimecast20190719; t=1639040655;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UJMT5JBvMYxogPcO3vafbY1w1VmBcg6H5XKC5cGuF8E=;
- b=FL0yH3EkgW9pG0E5bYdYAUmmeIE3PgnpQ87u7CuI28HAvRKLQuF5Qq7Ztldvx9Fib49ZhZ
- TMVQaP+106DlupGD0PR/Tt8neyndHkkJh8jSMKotjr6Zzg/Z4WlsgP+kswcdPzzZzHIJd3
- zKpyyXNqzJ7MWbASsmMseritqUu1mPk=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VSYOmQce4xSeYxIzDO/LHp2hmoHg8wj9M46c/xkArvg=;
+ b=dIfkR8FSYebD4QSiIQId9euFOX7lTkAfOrVi7vsXtMO5cDSMzymOLv6lGd8vLPh6clDDbH
+ 61VJcrlSBLIHeSNs3ChQlGE8yjYJYrTLlYuUXGOT0dyipudmYbkOeQW/CIRDZLuks/4bZP
+ 8E9WGHZ+Ivk3CCAZHDYOdwZ4HtCjlzA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-281-Zu-zOt2KO3-1u8QCD-ZTuQ-1; Thu, 09 Dec 2021 03:52:06 -0500
-X-MC-Unique: Zu-zOt2KO3-1u8QCD-ZTuQ-1
-Received: by mail-lj1-f199.google.com with SMTP id
- bn28-20020a05651c179c00b002222b4cc6d8so905663ljb.0
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 00:52:06 -0800 (PST)
+ us-mta-323-ukpiajPOMLmTlSMLYAynwA-1; Thu, 09 Dec 2021 04:04:14 -0500
+X-MC-Unique: ukpiajPOMLmTlSMLYAynwA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ q15-20020adfbb8f000000b00191d3d89d09so1173614wrg.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 01:04:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UJMT5JBvMYxogPcO3vafbY1w1VmBcg6H5XKC5cGuF8E=;
- b=G9MbZdsXdzKN/9s9jT/Q/8BQYYHjPOt5EQibwtSX0fTNXVGl2zgsNsHR0A+w/sAmNA
- JxB2sKH9QqO4IAib567auYvaB5pJsB4lUUBTVLjUxOLgI46IrUA22DqH6iaaULyrq5fJ
- QLrkQ2hCxSFN3dU+aYOzbYkBH17JKLowpUmLg4C2xoJ4fzdCfqF2TVvY6IYvevFQjGmg
- 3jGw+U2HbrUGpjoFM3z5AGmVrcWZ/4WKz4U6qR+TsDirSDr/tWjmpwpgAr2UWYFwwGmH
- He+svNcNWJgnvK763CIqMG10APbxqaFjwnl95003CBDSo1H3c5V8BRrcqnF5HvL69i9V
- ovSQ==
-X-Gm-Message-State: AOAM530rP57q6DlJs25Rrmj/BcCVDDRA+Lq/5X/nMSyG7rHhN1ZjP053
- NsL7Xu1gfZgQqyOqLXg+iAwcWPkPxkIUqEFXZnXswK7RQokVZr2uBZ1QULiPBivyJPuStzlofLV
- a2wIM8LInhJMdy913cSkSloM8qzYd9Vk=
-X-Received: by 2002:a05:6512:32c8:: with SMTP id
- f8mr4593377lfg.669.1639039925131; 
- Thu, 09 Dec 2021 00:52:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzGYggmrER8MKo4y1wU7T3eLNmKDNmMTkafC3AgBfA1vqWuGt7dZyTH7yp6HthyTpb/r+/27sVYq1pM5XUi484=
-X-Received: by 2002:a05:6512:32c8:: with SMTP id
- f8mr4593353lfg.669.1639039924930; 
- Thu, 09 Dec 2021 00:52:04 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=VSYOmQce4xSeYxIzDO/LHp2hmoHg8wj9M46c/xkArvg=;
+ b=KKDBDH+rjPLAkoScb4MW06VKMGaMbeebNG8xyNCkYYDTd9EQmyYzO7tch/POYJdxwq
+ bdIEOHwJuFUpkfQNVkoZacV86/fgY4KN21WpiuXrYUe32HZB+Y204eClIEsCy14uClxd
+ Y3TzgRklJKeCEz8XxhuVHHTxqIrcFwEVWHmgNxxRYsTKGU3Qxg1idM8MRVPIJg5E27dg
+ Ow+SnXUdAm1C4mk7nlslJGyBmO9YvROZ3GiyhOLyuceh1vLUhhIbzPflzFvuQMcQmg6A
+ znVqLLWweAGK+2aB6aA1sBopQamcCQxB+rEWAaxEsrzM56MqXerG9UTBcZ/sUAWEziNi
+ 7SVw==
+X-Gm-Message-State: AOAM530Kn5ZpJXC/U3aBdrURH4yS+t8vb3vWJuzU7LKiC/eZJ3a+zjS+
+ E0OmTwatjUur2gcwiB/LOKi/iuWTkQISUNAG4V3zKtRYjUJQ/2MepbcJ0/i1q7IFEWpK7mJK7Qa
+ 4VMZZ9fmRVZVD2H8=
+X-Received: by 2002:adf:e84e:: with SMTP id d14mr4828496wrn.472.1639040652968; 
+ Thu, 09 Dec 2021 01:04:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyfG3vV/aRyiYWe3LN4jC4aNnHV+jtlwRB2a/z9RSF4h0GXAskY10WYB/ydgOWJ7a4EhEsyyQ==
+X-Received: by 2002:adf:e84e:: with SMTP id d14mr4828466wrn.472.1639040652652; 
+ Thu, 09 Dec 2021 01:04:12 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id z6sm6245420wmp.9.2021.12.09.01.04.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Dec 2021 01:04:12 -0800 (PST)
+Date: Thu, 9 Dec 2021 09:04:10 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 7/7] migration: Finer grained tracepoints for
+ POSTCOPY_LISTEN
+Message-ID: <YbHGilsMgFp0dYYP@work-vm>
+References: <20211207115016.73195-1-peterx@redhat.com>
+ <20211207115016.73195-8-peterx@redhat.com>
+ <YbELjB041z8jSBUE@work-vm> <YbFhQP3FldToWkGv@xz-m1.local>
 MIME-Version: 1.0
-References: <20211112051040.923746-1-leobras@redhat.com>
- <20211112051040.923746-7-leobras@redhat.com>
- <87pmr0ulqx.fsf@secure.mitica>
-In-Reply-To: <87pmr0ulqx.fsf@secure.mitica>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Thu, 9 Dec 2021 05:51:54 -0300
-Message-ID: <CAJ6HWG4hJSDSNR5GcON2z6LA0ykMv6x7BVS0vpR3zcQuCOzW+A@mail.gmail.com>
-Subject: Re: [PATCH v5 6/6] multifd: Implement zerocopy write in multifd
- migration (multifd-zerocopy)
-To: Juan Quintela <quintela@redhat.com>
+In-Reply-To: <YbFhQP3FldToWkGv@xz-m1.local>
+User-Agent: Mutt/2.1.3 (2021-09-10)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -94,119 +99,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Juan,
+* Peter Xu (peterx@redhat.com) wrote:
+> On Wed, Dec 08, 2021 at 07:46:20PM +0000, Dr. David Alan Gilbert wrote:
+> > * Peter Xu (peterx@redhat.com) wrote:
+> > > The enablement of postcopy listening has a few steps, add a few tracepoints to
+> > > be there ready for some basic measurements for them.
+> > > 
+> > > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > > ---
+> > >  migration/savevm.c     | 5 ++++-
+> > >  migration/trace-events | 2 +-
+> > >  2 files changed, 5 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/migration/savevm.c b/migration/savevm.c
+> > > index 17b8e25e00..5b3f31eab2 100644
+> > > --- a/migration/savevm.c
+> > > +++ b/migration/savevm.c
+> > > @@ -1946,7 +1946,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
+> > >  static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+> > >  {
+> > >      PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_LISTENING);
+> > > -    trace_loadvm_postcopy_handle_listen();
+> > > +    trace_loadvm_postcopy_handle_listen(1);
+> > 
+> > I think we tend just to split this into separate traces in many places;
+> > or if we're using the same one then we should use a string
+> > 
+> > I'd make this:
+> >   trace_loadvm_postcopy_handle_listen_entry();
+> > 
+> > for example.
+> > 
+> > >      Error *local_err = NULL;
+> > >  
+> > >      if (ps != POSTCOPY_INCOMING_ADVISE && ps != POSTCOPY_INCOMING_DISCARD) {
+> > > @@ -1962,6 +1962,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+> > >              postcopy_ram_prepare_discard(mis);
+> > >          }
+> > >      }
+> > > +    trace_loadvm_postcopy_handle_listen(2);
+> > >  
+> > >      /*
+> > >       * Sensitise RAM - can now generate requests for blocks that don't exist
+> > > @@ -1974,6 +1975,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+> > >              return -1;
+> > >          }
+> > >      }
+> > > +    trace_loadvm_postcopy_handle_listen(3);
+> > >  
+> > >      if (postcopy_notify(POSTCOPY_NOTIFY_INBOUND_LISTEN, &local_err)) {
+> > >          error_report_err(local_err);
+> > > @@ -1988,6 +1990,7 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+> > >                         QEMU_THREAD_DETACHED);
+> > >      qemu_sem_wait(&mis->listen_thread_sem);
+> > >      qemu_sem_destroy(&mis->listen_thread_sem);
+> > > +    trace_loadvm_postcopy_handle_listen(4);
+> > 
+> >   trace_loadvm_postcopy_handle_listen_entry_end();
+> 
+> I see, I can use it.  It's just that I want to trap more than entry/exit.
+> 
+> For the "4 steps" here I split it into four procedures, the 2 steps inside are
+> majorly to trap either uffd registration time or external uffd handling of
+> other processes.
+> 
+> One example:
+> 
+> We may want to know how slow is postcopy_notify(POSTCOPY_NOTIFY_INBOUND_LISTEN)
+> when there're some external process attached.  I wanted to be prepared for that
+> so when there's need to evaluate slowness of this procedure with vhost-user
+> enabled we have some tracepoints without replacing the binaries.
+> 
+> It's easy to use strings too if that's better looking than numbers.  How about:
+> 
+>   trace_loadvm_postcopy_handle_listen("entry")
+>   trace_loadvm_postcopy_handle_listen("uffd-reg")
+>   trace_loadvm_postcopy_handle_listen("external")
+>   trace_loadvm_postcopy_handle_listen("exit")
+> 
 
-On Tue, Nov 16, 2021 at 1:08 PM Juan Quintela <quintela@redhat.com> wrote:
->
-> Leonardo Bras <leobras@redhat.com> wrote:
-> > Implement zerocopy on nocomp_send_write(), by making use of QIOChannel
-> > zerocopy interface.
-> >
-> > Change multifd_send_sync_main() so it can distinguish each iteration sync from
-> > the setup and the completion, so a flush_zerocopy() can be called
-> > at the after each iteration in order to make sure all dirty pages are sent
-> > before a new iteration is started.
-> >
-> > Also make it return -1 if flush_zerocopy() fails, in order to cancel
-> > the migration process, and avoid resuming the guest in the target host
-> > without receiving all current RAM.
-> >
-> > This will work fine on RAM migration because the RAM pages are not usually freed,
-> > and there is no problem on changing the pages content between async_send() and
-> > the actual sending of the buffer, because this change will dirty the page and
-> > cause it to be re-sent on a next iteration anyway.
-> >
-> > Given a lot of locked memory may be needed in order to use multid migration
-> > with zerocopy enabled, make it optional by creating a new migration parameter
-> > "zerocopy" on qapi, so low-privileged users can still perform multifd
-> > migrations.
->
-> How much memory can a non-root program use by default?
->
->
-> >  static void *multifd_send_thread(void *opaque)
-> > @@ -853,6 +875,10 @@ static void multifd_new_send_channel_async(QIOTask *task, gpointer opaque)
-> >          goto cleanup;
-> >      }
-> >
-> > +    if (migrate_use_zerocopy()) {
-> > +        p->write_flags = QIO_CHANNEL_WRITE_FLAG_ZEROCOPY;
-> > +    }
->
-> This belongs
->
->
-> >      p->c = QIO_CHANNEL(sioc);
-> >      qio_channel_set_delay(p->c, false);
-> >      p->running = true;
-> > @@ -918,6 +944,7 @@ int multifd_save_setup(Error **errp)
-> >          p->packet->version = cpu_to_be32(MULTIFD_VERSION);
-> >          p->name = g_strdup_printf("multifdsend_%d", i);
-> >          p->tls_hostname = g_strdup(s->hostname);
-> > +        p->write_flags = 0;
->
-> here?
->
-> >          socket_send_channel_create(multifd_new_send_channel_async, p);
-> >      }
-> > diff --git a/migration/socket.c b/migration/socket.c
-> > index e26e94aa0c..8e40e0a3fd 100644
-> > --- a/migration/socket.c
-> > +++ b/migration/socket.c
-> > @@ -78,8 +78,13 @@ static void socket_outgoing_migration(QIOTask *task,
-> >          trace_migration_socket_outgoing_connected(data->hostname);
-> >      }
-> >
-> > -    if (migrate_use_zerocopy()) {
-> > -        error_setg(&err, "Zerocopy not available in migration");
-> > +    if (migrate_use_zerocopy() &&
-> > +        (!migrate_use_multifd() ||
-> > +         !qio_channel_has_feature(sioc, QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY) ||
-> > +          migrate_multifd_compression() != MULTIFD_COMPRESSION_NONE ||
-> > +          migrate_use_tls())) {
-> > +        error_setg(&err,
-> > +                   "Zerocopy only available for non-compressed non-TLS multifd migration");
-> >      }
-> >
-> >      migration_channel_connect(data->s, sioc, data->hostname, err);
->
-> Do we really want to do this check here?  I think this is really too
-> late.
->
-> You are not patching migrate_params_check().
->
-> I think that the proper way of doing this is something like:
->
->     if (params->zerocopy &&
->         (params->parameters.multifd_compression != MULTIFD_COMPRESSION_NONE ||
->          migrate_use_tls())) {
->            error_setg(&err,
->                      "Zerocopy only available for non-compressed non-TLS multifd migration");
->         return false;
->     }
+Yes, that's fine; but it would also be fine to create 4 separate traces.
 
-Don't we also need a check for multifd enabled here?
-We could have zerocopy, multifd_compression=none, tls=disabled but it
-will not fail if multifd=disabled.
+Dave
 
-Is this correct?
-
-
->
-> You have to do the equivalent of multifd_compression and tls enablement,
-> to see that zerocopy is not enabled, of course.
->
-> I would prefer to check for QIO_CHANNEL_FEATUR_WRITE_ZEROCPY there, but
-> I can't see a way of doing that without a qio.
->
-> Later, Juan.
->
+> ?
+> 
+> Thanks,
+> 
+> -- 
+> Peter Xu
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
