@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1467B46EC1B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 16:46:52 +0100 (CET)
-Received: from localhost ([::1]:47490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD6B46EC27
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Dec 2021 16:48:27 +0100 (CET)
+Received: from localhost ([::1]:50292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvLdC-0004hH-OR
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 10:46:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46628)
+	id 1mvLek-0006bC-KG
+	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 10:48:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mvLbu-0003nS-Vw
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 10:45:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mvLbi-0000LT-QE
- for qemu-devel@nongnu.org; Thu, 09 Dec 2021 10:45:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639064717;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I+gbtwI9qjVDiNoMtHusBnjkf1Cn0ub0kDcLVUbLgp8=;
- b=Fi21BRsRXMv3/Mnwir7yZOKzmlHQRmV3mpUdRs9u3MCtxRp3eLCaW2fyOfrB69rA9oeUnb
- ZW6x0Aoh1vz7Xy+jOG5rkvNxK71BOOyqeS+SWTRK6goGa4OkAlitdmu8bXnI5NKNL9J0zH
- K0+G5K8K9lHkXcYABX2YUan2zgic09A=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-43-c8P-Vl-6MguMMUJxY-VuyA-1; Thu, 09 Dec 2021 10:45:16 -0500
-X-MC-Unique: c8P-Vl-6MguMMUJxY-VuyA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 144-20020a1c0496000000b003305ac0e03aso5032839wme.8
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 07:45:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mvLdB-0005HP-0V
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 10:46:49 -0500
+Received: from [2a00:1450:4864:20::435] (port=45834
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mvLd7-0002OH-8P
+ for qemu-devel@nongnu.org; Thu, 09 Dec 2021 10:46:47 -0500
+Received: by mail-wr1-x435.google.com with SMTP id o13so10368835wrs.12
+ for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 07:46:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EABrqejqG9CdMqBgKWZyDbCM+dW1LsbXU1pxlh78y9Y=;
+ b=Sl6jsBG6ZRrOte8rFUBv9qBjK/iytKNyZo3hIBhuyyXmJrIHeBX74jdFa+M81R8u2p
+ CLf2WqbLB8PhQ92mxXN4hMGgHQl6tHEwFoZzWw1muWe24HBopl6r1/4o2bma2sLi1IEw
+ piWFSlNIR3ew2lzW0EesX4EKBHV1c5FtwMq5mQ/oyQ+SWVxzf16I7hDFpWzHqmy8il8n
+ 7Vs+lOMy+gVIrIDy2QrCfEnOuJgBfZjFly8Li472TsET7bJLLYhBCAwkviZ3lS7QhVAQ
+ sVMTflC306nGylG2EU9BL+5X7rRWnPQGEoZtLaYMQjAADrJ1yFv2GOnKdAsxBRVISY5G
+ +t1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=I+gbtwI9qjVDiNoMtHusBnjkf1Cn0ub0kDcLVUbLgp8=;
- b=vDl0KwIhCzXdfxGdiOeBYKjVrPF47pxmz0WSm/nFb2yHAxJNVRAfvhEC1h909Z74eD
- Ka5n7aJaKxHDEcyjUanX7/z99aeG9bfr93xwXqkVl+S6oAqa2bqY06ZEdcbbepFqLfQc
- U/Ac5VypQBtFazVlHVt9YgMZ4lHSy8Ua5PCe7tcwkaWGTxNDYfSv5YChSD/2jx4Ct2W3
- kcMsM88RrclXztGfkrRfjb/PrsCMiUarMNbPCgk5NMLUNiNE/EUoihlQUOi24K4KnbmL
- TufCChJteGq0QXL1SD3SNp3/LufOd0zl1EErWT+wzpZ3lXJJyWRRuHslcf8xwpfTQJ45
- FNrA==
-X-Gm-Message-State: AOAM531QNahyKnmjFEI3CVGXCl29frHQyOa/tLimhMjlLwkrPDh3VDEI
- x6T0xeDgSUzrOoo5f4admIunwMU0Vj33BLTykfUtLWPRE3PMneZcnJ9snX/bOxuXnswlbDP0wn7
- wg24h0XPPwj11qcE=
-X-Received: by 2002:a1c:9a89:: with SMTP id c131mr8027530wme.80.1639064715038; 
- Thu, 09 Dec 2021 07:45:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyd5kH2Edj7FVYa/T0J67lq44wdOT8kiAKHhYwQY2+5yb632F/BpfPsh0MfbGajTsDxQ0uiCg==
-X-Received: by 2002:a1c:9a89:: with SMTP id c131mr8027489wme.80.1639064714760; 
- Thu, 09 Dec 2021 07:45:14 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id n184sm9181654wme.2.2021.12.09.07.45.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Dec 2021 07:45:14 -0800 (PST)
-Message-ID: <404e8b66-b64a-fded-db53-81eef675fc33@redhat.com>
-Date: Thu, 9 Dec 2021 16:45:13 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EABrqejqG9CdMqBgKWZyDbCM+dW1LsbXU1pxlh78y9Y=;
+ b=wGZblhf83ZKY3gzLbzxNVNGYsvza13GzrNWJfe+37mBZCk1oLgt/DpdN0FyZrdy2kI
+ dciusapoosGpX5CzSNE7P4WWxVGyZTSNoyepWICXmRZZDj2GCZ7jjOWlHhu/l2hHgUAE
+ i0SQLmCTmjuluXjDg/r7ODnneTbjJrrFNMnISR18vXkU4Yue2FUrIWrW9RFmDBJWG7HQ
+ nYL4FUO/5QbMuMJQ5yHspn8RnX/YoMH686Pg8LOMd+pCOQQ/PUWs10BcsguvowBdBkyI
+ EFzKNN2/9quV6+T7PtTBRNjb8eUU+QijHedfHRkYYbjgjCyYTSLQzMLOp5DDjDT7fV/1
+ JX7A==
+X-Gm-Message-State: AOAM533PrwREZfb2J29dj9zJzs0parDFiK8LbirMlcQNlM90ELdeo1dz
+ iwPjDxwyVoUoOh55CpQHqMJtQqbgxkoX/xFTqHGUkEJw0k0=
+X-Google-Smtp-Source: ABdhPJyPjv/ELjAQci8SfqzDMULdrge7azHjQWUpNpS1qpete/rUKKl2qWrFtWWpRS0ie5xLXQskRhd4YRmNX2DfMaM=
+X-Received: by 2002:a05:6000:156a:: with SMTP id
+ 10mr7235542wrz.87.1639064800459; 
+ Thu, 09 Dec 2021 07:46:40 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [RFC] block-backend: prevent dangling BDS pointer in blk_drain()
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20211209142304.381253-1-stefanha@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211209142304.381253-1-stefanha@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.618,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.803, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20211209152117.383832-1-stefanha@redhat.com>
+In-Reply-To: <20211209152117.383832-1-stefanha@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Dec 2021 15:46:29 +0000
+Message-ID: <CAFEAcA8mpWWZ0YS-FX8zCy6fZmCi_oznZ8c0N9mzyOqzVX1HMA@mail.gmail.com>
+Subject: Re: [PULL 0/1] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,152 +80,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.12.21 15:23, Stefan Hajnoczi wrote:
-> The BlockBackend root child can change during bdrv_drained_begin() when
-> aio_poll() is invoked. In fact the BlockDriverState can reach refcnt 0
-> and blk_drain() is left with a dangling BDS pointer.
+On Thu, 9 Dec 2021 at 15:21, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> One example is scsi_device_purge_requests(), which calls blk_drain() to
-> wait for in-flight requests to cancel. If the backup blockjob is active,
-> then the BlockBackend root child is a temporary filter BDS owned by the
-> blockjob. The blockjob can complete during bdrv_drained_begin() and the
-> last reference to the BDS is released when the temporary filter node is
-> removed. This results in a use-after-free when blk_drain() calls
-> bdrv_drained_end(bs) on the dangling pointer.
+> The following changes since commit a3607def89f9cd68c1b994e1030527df33aa91d0:
 >
-> The general problem is that a function and its callers must not assume
-> that bs is still valid across aio_poll(). Explicitly hold a reference to
-> bs in blk_drain() to avoid the dangling pointer.
+>   Update version for v6.2.0-rc4 release (2021-12-07 17:51:38 -0800)
 >
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
-> I found that BDS nodes are sometimes deleted with bs->quiesce_counter >
-> 0 (at least when running "make check"), so it is currently not possible
-> to put the bdrv_ref/unref() calls in bdrv_do_drained_begin() and
-> bdrv_do_drained_end() because they will be unbalanced. That would have
-> been a more general solution than only fixing blk_drain().
-
-Deleting nodes that have a `quiesce_counter > 0` doesn’t seem wrong to 
-me – deleting only depends on strong references, and so I’d expect that 
-anything that increases the quiesce_counter also has a strong reference 
-to the node if the former wants the latter to stay around.
-
-I suppose we could make it so that both the quiesce_counter and the 
-refcnt need to be 0 before a BDS is deleted (and then deletion can 
-happen both from bdrv_unref() and drained_end), but I don’t know whether 
-that’s really necessary.  I’d rather leave it to the caller to ensure 
-they keep a strong reference throughout the drain.
-
-The question is, how often do we have a situation like this, where we 
-take a weak reference for draining, because we assume there’s a strong 
-reference backing us up (namely the one through blk->root), but that 
-strong reference then can go away due to draining...
-
-> Any suggestions for a better fix?
-
-The fix makes sense to me.
-
-One alternative that comes to my mind is to instead re-fetch `bs = 
-blk_bs(blk);` after the AIO_WAIT_WHILE() loop.  But that might be wrong, 
-because if the node attached to the BB changed (i.e. isn’t `bs`, and 
-isn’t `NULL`), then we’d end the drain on the wrong node.
-
-So I think your fix is the right one.
-
-Hanna
-
-> I think it's likely that more "dangling pointer across aio_poll()"
-> problems exist :(.
+> are available in the Git repository at:
 >
-> Here is the (hacky) reproducer:
+>   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
 >
->    build/qemu-system-x86_64 \
->       -name 'avocado-vt-vm1'  \
->       -sandbox on  \
->       -machine q35,memory-backend=mem-machine_mem \
->       -device pcie-root-port,id=pcie-root-port-0,multifunction=on,bus=pcie.0,addr=0x1,chassis=1 \
->       -device pcie-pci-bridge,id=pcie-pci-bridge-0,addr=0x0,bus=pcie-root-port-0  \
->       -nodefaults \
->       -device VGA,bus=pcie.0,addr=0x2 \
->       -m 1024 \
->       -object memory-backend-ram,size=1024M,id=mem-machine_mem  \
->       -smp 10,maxcpus=10,cores=5,threads=1,dies=1,sockets=2  \
->       -cpu 'Cascadelake-Server-noTSX',+kvm_pv_unhalt \
->       -chardev socket,wait=off,server=on,id=qmp_id_qmpmonitor1,path=/tmp/qmp.sock  \
->       -mon chardev=qmp_id_qmpmonitor1,mode=control \
->       -chardev socket,wait=off,server=on,id=qmp_id_catch_monitor,path=/tmp/catch_monitor.sock  \
->       -mon chardev=qmp_id_catch_monitor,mode=control \
->       -device pvpanic,ioport=0x505,id=idgKHYrQ \
->       -chardev socket,wait=off,server=on,id=chardev_serial0,path=/tmp/serial.sock \
->       -device isa-serial,id=serial0,chardev=chardev_serial0  \
->       -chardev socket,id=seabioslog_id_20211110-012521-TNCkxDmn,path=/tmp/seabios.sock,server=on,wait=off \
->       -device isa-debugcon,chardev=seabioslog_id_20211110-012521-TNCkxDmn,iobase=0x402 \
->       -device pcie-root-port,id=pcie-root-port-2,port=0x2,addr=0x1.0x2,bus=pcie.0,chassis=3 \
->       -device virtio-scsi-pci,id=virtio_scsi_pci0,bus=pcie-root-port-2,addr=0x0 \
->       -blockdev node-name=file_image1,driver=file,auto-read-only=on,discard=unmap,aio=threads,filename=test.img,cache.direct=on,cache.no-flush=off \
->       -blockdev node-name=drive_image1,driver=raw,read-only=off,cache.direct=on,cache.no-flush=off,file=file_image1 \
->       -device scsi-hd,id=image1,drive=drive_image1,write-cache=on \
->       -blockdev node-name=file_src1,driver=file,auto-read-only=on,discard=unmap,aio=threads,filename=sr1.qcow2,cache.direct=on,cache.no-flush=off \
->       -blockdev node-name=drive_src1,driver=qcow2,read-only=off,cache.direct=on,cache.no-flush=off,file=file_src1 \
->       -device scsi-hd,id=src1,drive=drive_src1,write-cache=on \
->       -device pcie-root-port,id=pcie-root-port-3,port=0x3,addr=0x1.0x3,bus=pcie.0,chassis=4 \
->       -device virtio-net-pci,mac=9a:11:64:b0:5d:a8,id=idxnEEYY,netdev=idBjpylo,bus=pcie-root-port-3,addr=0x0  \
->       -netdev user,id=idBjpylo  \
->       -vnc :0  \
->       -rtc base=utc,clock=host,driftfix=slew  \
->       -boot menu=off,order=cdn,once=c,strict=off \
->       -enable-kvm \
->       -device pcie-root-port,id=pcie_extra_root_port_0,multifunction=on,bus=pcie.0,addr=0x3,chassis=5 &
+> for you to fetch changes up to cf4fbc3030c974fff726756a7ceef8386cdf500b:
 >
->    sleep 8 # delay for VM startup and socket creation
+>   block/nvme: fix infinite loop in nvme_free_req_queue_cb() (2021-12-09 09:19:49 +0000)
 >
->    nc -U /tmp/qmp.sock <<EOF
->    {'execute': 'qmp_capabilities'}
->    {'execute': 'blockdev-create', 'arguments': {'options': {'driver': 'file', 'filename': 'dst1.qcow2', 'size': 209715200}, 'job-id': 'file_dst1'}, 'id': 'Fk1bF3FV'}
->    EOF
->    sleep 1 # wait for blockdev-create completion
->    nc -U /tmp/qmp.sock <<EOF
->    {'execute': 'qmp_capabilities'}
->    {'execute': 'job-dismiss', 'arguments': {'id': 'file_dst1'}, 'id': '13R5TDSj'}
->    {'execute': 'blockdev-add', 'arguments': {'node-name': 'file_dst1', 'driver': 'file', 'filename': 'dst1.qcow2', 'aio': 'threads', 'auto-read-only': true, 'discard': 'unmap'}, 'id': 'VIzrN0zy'}
->    {'execute': 'blockdev-create', 'arguments': {'options': {'driver': 'qcow2', 'file': 'file_dst1', 'size': 209715200}, 'job-id': 'drive_dst1'}, 'id': 'YX8t8hBs'}
->    EOF
->    sleep 1 # wait for blockdev-create completion
->    nc -U /tmp/qmp.sock <<EOF
->    {'execute': 'qmp_capabilities'}
->    {'execute': 'job-dismiss', 'arguments': {'id': 'drive_dst1'}, 'id': 'OTZwYb7J'}
->    {'execute': 'blockdev-add', 'arguments': {'node-name': 'drive_dst1', 'driver': 'qcow2', 'file': 'file_dst1', 'read-only': false}, 'id': 'QHyUxtql'}
->    {'execute': 'system_reset', 'id': 'OREutgnz'}
->    {'execute': 'blockdev-backup', 'arguments': {'device': 'drive_src1', 'target': 'drive_dst1', 'job-id': 'drive_src1_qnFF', 'sync': 'full', 'speed': 0, 'compress': false, 'auto-finalize': true, 'auto-dismiss': true, 'on-source-error': 'report', 'on-target-error': 'report'}, 'id': 'WbDARa8c'}
->    EOF
-> ---
->   block/block-backend.c | 2 ++
->   1 file changed, 2 insertions(+)
+> ----------------------------------------------------------------
+> Pull request
 >
-> diff --git a/block/block-backend.c b/block/block-backend.c
-> index 12ef80ea17..5608c0451b 100644
-> --- a/block/block-backend.c
-> +++ b/block/block-backend.c
-> @@ -1705,6 +1705,7 @@ void blk_drain(BlockBackend *blk)
->       BlockDriverState *bs = blk_bs(blk);
->   
->       if (bs) {
-> +        bdrv_ref(bs);
->           bdrv_drained_begin(bs);
->       }
->   
-> @@ -1714,6 +1715,7 @@ void blk_drain(BlockBackend *blk)
->   
->       if (bs) {
->           bdrv_drained_end(bs);
-> +        bdrv_unref(bs);
->       }
->   }
->   
+> An infinite loop fix for the userspace NVMe driver.
+>
+> ----------------------------------------------------------------
 
+I'm not running the release cycle this time around, but: it's
+already rc4, pull requests by this point need a clear justification
+in the cover letter for why they're really release critical.
+
+-- PMM
 
