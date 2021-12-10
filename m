@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D1946FFCB
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 12:29:17 +0100 (CET)
-Received: from localhost ([::1]:56780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E990747004E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 12:46:31 +0100 (CET)
+Received: from localhost ([::1]:40330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mve5U-0005Dj-9u
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 06:29:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45514)
+	id 1mveMA-0005j4-Bg
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 06:46:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mve2d-0002qb-Ck
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 06:26:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22182)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mve2W-0000lc-RC
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 06:26:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639135570;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6kyI9I3wcdy9WwJhFjMSHKlfAbXr6diljWB3WpCJTpE=;
- b=PBWJ/WpO69o+uPZF/YAkYO+HPueelFKbhYVruXV0812HZwcRgfcMDwLHzSDyqxzcrhbJAE
- tzPc/Z6iCTzAWiNHipn9NUKyu+rJmr0JA8khJP2XlKCmR6tnRblsA3iTRw3iVdEj3+tiN/
- NBh4b0GKqhsXVdz1o+gc3NrUBSNyAAM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-90-E_wWlvDdP7mdhlvukv-XxA-1; Fri, 10 Dec 2021 06:26:07 -0500
-X-MC-Unique: E_wWlvDdP7mdhlvukv-XxA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84BEA64140;
- Fri, 10 Dec 2021 11:26:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.153])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E06E100E125;
- Fri, 10 Dec 2021 11:25:58 +0000 (UTC)
-Date: Fri, 10 Dec 2021 11:25:55 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mveKj-0004wo-8N
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 06:45:01 -0500
+Received: from [2a00:1450:4864:20::330] (port=36749
+ helo=mail-wm1-x330.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mveKd-0001gs-PI
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 06:45:00 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ i8-20020a7bc948000000b0030db7b70b6bso8814434wml.1
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 03:44:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=AXbyYdXP9bE13GOya0q/0LeFMAZ4w4jljUkUSf4KYts=;
+ b=nxiAbfZd+somEP9ZhakRnTeDSXPHbEL952pq6yx1a6htUeM9mLVKrqvs3dZLOevhr/
+ ogERz5ABiCM8uFUL2lxltG6jRZIQ+ZqrhRczf/eriJ61YgE+w5TxSvXmpuWVWtEGkAZX
+ vFLHjScqgyTUahBSwqkMakxIr1jyjAQmkULb0S/8+wbFrKl8bldH2oVCWeUnNQT6ohhO
+ tb0ZfJ8yFDweJkOw7LtgA18c/J6SAzkQvetnurBqno4iv+tsXcRBi2M78EVyxg7xgNso
+ r39kR7BIblw9GvcAWAh1nc7s8t5JVpHGENGb0rA4vDmKqKo/9Rm7yf4BGHmPYYwqhuDb
+ wFqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=AXbyYdXP9bE13GOya0q/0LeFMAZ4w4jljUkUSf4KYts=;
+ b=JtAJF4eP2AF76nspMZqqukaZhQmLOILRQ5t4U8opBo6Xxp7pW837D3Rh4yB2lc0BUj
+ kZZsdEWB5vKBHXC3jh4qcUd+zPCp2cJMwlxlLkCqrtGwYLu4/7mTU4kVKQX7oHYhghgL
+ cI3Ul5tGr8oXofF0l+8IMvJ9ylF4RDSNwCxYfkChmrhPVYv8f3zgt6uUSwzzE+e864kN
+ qYGSlJQPHrW3F7pqjq+ct0qfO4lG+FVLGY/sckH1IZCmPPdIuyz4t8AyJPwIZTJHwL4S
+ GvVArPSVv/7T4QvFiz9Iy8BLoib3UX5EKzbocwvDSmmeDhe9LBTSVh9GXqGQrFke/GLh
+ fD4g==
+X-Gm-Message-State: AOAM531qqF5IK7VprCN9LPvCm9VjNLLwJwhJS7hf+lz556YtfsQQpbxK
+ xcuLZAUH8IC7d0otRHjRdBdKnBWndeE/xw==
+X-Google-Smtp-Source: ABdhPJwncjW9mpTQGPZ0e+EZXrkUxJm3D+Cm9JJkCkks5Vi04pOx95cGPeVAJRYhkYmnforYhyX+HA==
+X-Received: by 2002:a05:600c:4f0f:: with SMTP id
+ l15mr15670273wmq.25.1639136692995; 
+ Fri, 10 Dec 2021 03:44:52 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 4sm3457816wrz.90.2021.12.10.03.44.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Dec 2021 03:44:52 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A5D8A1FF96;
+ Fri, 10 Dec 2021 11:44:51 +0000 (GMT)
+References: <20211210084718.24758-1-pbonzini@redhat.com>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: Redesign of QEMU startup & initial configuration
-Message-ID: <YbM5Q+gq89rWoPt8@redhat.com>
-References: <87lf13cx3x.fsf@dusky.pond.sub.org> <YbJU5vVdesoGuug9@redhat.com>
- <fb7e946e-6881-0ea3-d824-99693f938165@redhat.com>
+Subject: Re: [PATCH] configure: remove dead variables
+Date: Fri, 10 Dec 2021 11:44:47 +0000
+In-reply-to: <20211210084718.24758-1-pbonzini@redhat.com>
+Message-ID: <87tufgk7kc.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <fb7e946e-6881-0ea3-d824-99693f938165@redhat.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,61 +91,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Mark Burton <mark.burton@greensocs.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Mirela Grujic <mirela.grujic@greensocs.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 10, 2021 at 09:34:41AM +0100, Paolo Bonzini wrote:
-> On 12/9/21 20:11, Daniel P. Berrangé wrote:
-> > >     They still need to bootstrap a QMP monitor, and for that, CLI is fine
-> > >     as long as it's simple and stable.
-> 
-> I would go a step further and say that the QMP monitor socket should be
-> created by whoever invoked QEMU and passed down via systemd's socket
-> activation protocol, with a fallback to stdin/stdout.
 
-That's an interesting idea, firmly relegating any "human friendly"
-targetted CLI to a separate program, that in turn invokes this
-low level QEMU binary. I do like the simplicity of this and the
-strict division of the layers it provides us, as it will help keep
-us honest when designing human friendly interfaces.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-To be clear, I do think the QEMU project should be delivering a
-nice simple human targetted interface, and ideally using the
-'/usr/bin/qemu' binary name, and able to deliver users a machines
-with a modern hardware config that can evolve over time.
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-> > > = Appendix: Why further incremental change feels impractical =
-> > > 
-> > > Crafting a big change in small steps sounds great.  It isn't when we
-> > > have to make things worse before they can get better, and every step is
-> > > painfully slow because it's just too hard, and the end state we aim for
-> > > isn't really what we want.
-> > 
-> > I can't disagree with this. If we carry on trying to evolve vl.c
-> > incrementally we are doomed to be stuck with a horrible starstup
-> > process for enternity (or at least as long as I'll still be
-> > working as QEMU maintainer).
-> 
-> ... and if you compare vl.c in 5.2 and now, and consider current vl.c to be
-> horrible, my knowedge of English does not include an adjective to describe
-> the 5.2 state.  Some incremental work _is_ possible or even necessary, and
-> has been done already.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Right, I'm not saying vl.c hasn't improved, but we're never going
-to get out of the peculiar historical startup ordering rules we
-have today by incremental fixes, without breaking people.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
