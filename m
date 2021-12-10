@@ -2,93 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2A9C470150
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 14:11:10 +0100 (CET)
-Received: from localhost ([::1]:39808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6F847015D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 14:14:29 +0100 (CET)
+Received: from localhost ([::1]:43836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvfg3-0007KJ-Eq
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 08:11:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53664)
+	id 1mvfjI-0001vY-Sp
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 08:14:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mvfap-0005II-GH
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 08:05:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34865)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mvfal-0007Cu-Hc
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 08:05:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639141523;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ivv46FTFurmQY6l99ByKetWVos1wM6aXi8QILreAtmU=;
- b=gihFHY8GhdNp+DtCX3gZMjPv6/p8kLZgRl/+a69xxpCw8xzAOLo4vZFUutaDMbOeINVzuV
- DHoJuEzzpGgPAjmYpcqUekbBRL3IhBE0ssXO72+i/XgfnqIf4FgwSpjsJnKtpkfbzhsmVk
- ecOjoZ2zMhDAiqoukTvW4+C9QQnKmI8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-442-9JNBhLwnOOKFGl-klyp9wA-1; Fri, 10 Dec 2021 08:05:20 -0500
-X-MC-Unique: 9JNBhLwnOOKFGl-klyp9wA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- g11-20020a1c200b000000b003320d092d08so4864541wmg.9
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 05:05:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.griffin@linaro.org>)
+ id 1mvff0-0007v1-NH
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 08:10:02 -0500
+Received: from [2a00:1450:4864:20::332] (port=41491
+ helo=mail-wm1-x332.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.griffin@linaro.org>)
+ id 1mvfer-0007y6-LA
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 08:09:55 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ az34-20020a05600c602200b0033bf8662572so6616400wmb.0
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 05:09:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=GG3cI3VL03mYS6GmxB7BMCVqnJBGb7IPs5WTXo4TRFQ=;
+ b=jH47+DJOGxowuBVdFeXAk1cml3FXgb9GOw9QcGA4TaL1Yabtg0dFVLiZLTQZkerYmr
+ WRIQyPOYBbO3c/yu1QSmLszqaGRYT3yd95GuptcClmaegvmgwb+5rDB9VyIXEAMuHeW7
+ vewaROap98z9lM28bLnToSCqd13kh8dNtn9jJpGanszSAAuca5siG+WjHqe7IAmHIct7
+ Ikt7fI8sfyor6cZJVwocX+zBbkl9mmIC6mG8UMpLaoe+sU08OIwAfW5RQYOGNdfv3QrY
+ ZO36kDnuUYoGI9ToNA/3HkGotkwtRsKhhcx9a4ZTuJYxVvu9jSyivE8UvhRsIZYzR+we
+ KqdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Ivv46FTFurmQY6l99ByKetWVos1wM6aXi8QILreAtmU=;
- b=gPjVxZtPLR/F8ef4OCxmyZAk4FQnO4jeVbUCTWGlDlawgmfSipEsKeY5boBfqMdQe3
- NT5O4iBph3STj7s//HXNHoULBNk+7EYOyYbgqa0Op9/AveTKvfHWNKMl/11dDsoS9SRg
- 6rv+aToG4gh/f79XY8fGEP9j8yKKhp0FbL9eqdmuulPCJ+u5ljyGbxXIkLZtzsGqXy55
- D1Q81XsylI24WJNtK9yTL9WRFvjFnSVTkVk6adCD8CHIi2kCEJijSuRjuTfA9YIWzw4k
- I5oFwkBLHl+uvQuYZ4jqGq0aTTBhQkltVEb7uVeq7IEfVv6cmRdIlkVlHIP7m2YUuvHi
- Do0Q==
-X-Gm-Message-State: AOAM532uEvSjTyJBi2N2cY9hIjg/ov6qrTDJyA0fA7LMrFqAIIPkPj9/
- xcJP9c4UKAGrJdn1ta9eNYcdfdey2W8HJHQOh8EMH9H7pV6Bqv/DLSou85o4ljajrxJeB7pNhpt
- m5gzratdXl0ITgDg=
-X-Received: by 2002:a1c:7e41:: with SMTP id z62mr16820320wmc.62.1639141519094; 
- Fri, 10 Dec 2021 05:05:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxrJalcaiB+iMM7Tu2hO2d+2lFSj79NIyBLFoh+6NMfJpxmedQX2DZsWNGkq6Oq01cM6cUn4A==
-X-Received: by 2002:a1c:7e41:: with SMTP id z62mr16820231wmc.62.1639141518366; 
- Fri, 10 Dec 2021 05:05:18 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id o63sm3066594wme.2.2021.12.10.05.05.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Dec 2021 05:05:17 -0800 (PST)
-Message-ID: <9e55f8f5-1588-367d-3681-54c77d77700f@redhat.com>
-Date: Fri, 10 Dec 2021 14:05:17 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=GG3cI3VL03mYS6GmxB7BMCVqnJBGb7IPs5WTXo4TRFQ=;
+ b=r9celUg4OaGqSFklIWnpHq47UGxXe8QHZN/y/Vmazkhk159TfTyGIe+W7s6vhk7+El
+ uWyfMw36zXI1fIhCTYVZw0fX+G+O6EHgVkInaCd79BbOuZjHaRuGVr6ZAjW9DfLgIZVz
+ FLNwuSLzUhr9hPSL1vwJ+vk//9Noofap2Xdv/G/oBbwX96/B24OQBnTra9bWIwesteAF
+ QuuXcbofgPf/6PfS6c+o76Nwken95/CV7W9bdOkfPgae82IqwXDA0ePJcfDIOmjoZSBd
+ ncegY+Z3lt9wMYUvLPNeU1JaGyp6WdSRqOS7YJoK5UQwQhMnzCcC3GErVBt172phSg0Q
+ /rsA==
+X-Gm-Message-State: AOAM533eN7RsvF38XAedHMwsq/pgZrjCb/vbuPTcxT171Iujy0ByTY9n
+ 3uR1Yc/XEmfhuA7GASemliehx8sdoSVh0Q==
+X-Google-Smtp-Source: ABdhPJw73vq1pWnghmkqkKQtALdK1b1kzMMSCNOVFJX5LZschPuB0fmgg4oAoqlbkXb4EZh2jX2yyw==
+X-Received: by 2002:a1c:7907:: with SMTP id l7mr16447763wme.72.1639141788700; 
+ Fri, 10 Dec 2021 05:09:48 -0800 (PST)
+Received: from xps15-9570.lan (host-92-16-105-103.as13285.net. [92.16.105.103])
+ by smtp.gmail.com with ESMTPSA id r8sm3267918wrz.43.2021.12.10.05.09.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Dec 2021 05:09:48 -0800 (PST)
+Date: Fri, 10 Dec 2021 13:09:46 +0000
+From: Peter Griffin <peter.griffin@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 5/8] standard-headers: Add virtio_video.h
+Message-ID: <20211210130946.GB382594@xps15-9570.lan>
+References: <20211209145601.331477-1-peter.griffin@linaro.org>
+ <20211209145601.331477-6-peter.griffin@linaro.org>
+ <20211210055537-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2] Move the libssh setup from configure to meson.build
-To: "Richard W.M. Jones" <rjones@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <20211209144801.148388-1-thuth@redhat.com>
- <20211209145501.GK1127@redhat.com>
- <b59169e2-409a-75e0-339c-4021499d7131@redhat.com>
- <20211209152230.GL1127@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211209152230.GL1127@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.317, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211210055537-mutt-send-email-mst@kernel.org>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.griffin@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,52 +88,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/9/21 16:22, Richard W.M. Jones wrote:
-> On Thu, Dec 09, 2021 at 04:08:24PM +0100, Thomas Huth wrote:
->> On 09/12/2021 15.55, Richard W.M. Jones wrote:
->>> On Thu, Dec 09, 2021 at 03:48:01PM +0100, Thomas Huth wrote:
->>>> It's easier to do this in meson.build now.
->>>>
->>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>> ---
->>>>  v2: Added the missing "config_host_data.set('CONFIG_LIBSSH', libssh.found())"
->>>>
->>>>  configure                     | 27 ---------------------------
->>>>  meson.build                   | 13 +++++++++----
->>>>  meson_options.txt             |  2 ++
->>>>  scripts/meson-buildoptions.sh |  3 +++
->>>>  4 files changed, 14 insertions(+), 31 deletions(-)
+Hi Michael,
 
->>> I should say that my interest in the ssh driver in qemu is not that
->>> much these days.  I've been telling people to use nbdkit-ssh-plugin
->>> instead.  It's more featureful and running it in a separate process is
->>> probably safer too.
->>
->> Then it's maybe time to deprecate the ssh driver in QEMU?
-> 
-> Weeeellllll ...  I didn't necessarily want to say that.  Others may be
-> using it, and deprecating working software causes trouble for some.
-> But I'll let others have their say on this.
+On Fri, 10 Dec 2021, Michael S. Tsirkin wrote:
 
-The deprecation process is slow, users have 8 months to notice it,
-and we might discover contributors willing to maintain it. IOW more
-PROs than CONs IMHO.
+> On Thu, Dec 09, 2021 at 02:55:58PM +0000, Peter Griffin wrote:
+> > Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
+> > ---
+> >  include/standard-headers/linux/virtio_video.h | 483 ++++++++++++++++++
+> >  1 file changed, 483 insertions(+)
+> >  create mode 100644 include/standard-headers/linux/virtio_video.h
+> 
+> We generally inherit these files from Linux.
+> Was the driver posted for inclusion in Linux?
 
-> I will mention that RHEL 9.1 will replace qemu's curl and ssh drivers
-> with nbdkit-curl-plugin and nbdkit-ssh-plugin.  For RHEL users this
-> should happen transparently.  Libvirt will substitute an external
-> nbdkit process when it sees the appropriate <disk> in the XML (all
-> RHEL users are required to use libvirt instead of qemu directly).  Of
-> course qemu doesn't need to care about what RHEL does, this is just
-> for your information.
-> 
-> https://bugzilla.redhat.com/show_bug.cgi?id=2016527
-> 
-> Rich.
-> 
+Thanks for reviewing. Yes the Linux virtio-video frontend driver was posted
+sometime back on the linux-media ML [1].
+
+One piece of pushback then was not supporting vicodec/FWHT and also no Qemu
+support [2] which is what this series is trying to address.
+
+The virtio-video spec however is now at rfc v5. So my rough plan was now I have
+something working with Qemu and vicodec I can move both the frontend driver
+and the vhost-user-video to latest v5 spec.
+
+I'm a bit unclear what the process is to get the virtio-video spec merged though.
+I think I read somewhere they expect a matching frontend driver implementation?
+
+Thanks,
+
+Peter.
+
+[1] https://patchwork.kernel.org/project/linux-media/cover/20200218202753.652093-1-dmitry.sepp@opensynergy.com/
+[2] https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg02204.html
 
 
