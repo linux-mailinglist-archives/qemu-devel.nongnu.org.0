@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 533DE46FE53
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 11:00:48 +0100 (CET)
-Received: from localhost ([::1]:36014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD43646FE50
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 10:59:57 +0100 (CET)
+Received: from localhost ([::1]:33390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvchq-0005ct-AX
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 05:00:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47946)
+	id 1mvch2-0003m2-9A
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 04:59:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mvbdW-0004ex-Dv
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 03:52:14 -0500
-Received: from [2a00:1450:4864:20::52f] (port=36842
- helo=mail-ed1-x52f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mvbdT-0005f9-OC
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 03:52:13 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id z5so28152360edd.3
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 00:52:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3Ro+8DdT6XayqjaMWOUNuI9PjansdWb8nqL367+LLq8=;
- b=FSaI9vUME8BhqapZ8KZX/kx/JVThJBGjkEE0E5Z0L5gQJPaqOtLlmONWXLkUP96T2d
- WwHW9d5WMcyTc93sU9DkXP5YTHlcnhn5NtH1KpUPwwPf2nyWHhojXIl+lutpGR9XMOqR
- dd71o70SLstSktV8PBhRe1oVAz/pt8Z1oxvbEomK0uMAb5zfb6Cy6os2RWC6DUTnogXF
- hKJkiyylECoBski7j/t4qKGgA3Ts8/fp2MxVM1zvUsHSkkVZ8VZqW8ehKGzolmDOuUi0
- wXoBasjkUp579x0VFekW7d82yUKe77/2UVc96C9bIBpRkoU3n7JwHmaHVgy3dAEv95uZ
- 6Xuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=3Ro+8DdT6XayqjaMWOUNuI9PjansdWb8nqL367+LLq8=;
- b=B1y9ntIMo6R2ZvE+LygKNkTEc6f0HVJwdeL9ia5wmo2TOuepttsEObcglzXHOoWVgy
- EoqWXn/r4PW83CjLz/A8GcMXyUcIO7+Kwu5bH7aJxo4zwa4FFphx0pg74oJ21cmF6ptm
- u+FhZkl8MWZIoK/kld+COLsWezEX9NG/0pR9y0CfPJTXYp5HE+Pg3N8GliTYBUdMpyzE
- gzrIn3hiknfxjjLbJTDtPpGb2sNdsxNLlMUK2CHz1SAbAS3OQQM7mymIK8EoVDcjQ0Fl
- at4aFltik0LGOoEC6lUeiJLRcyWYan+RYPo4huzIYgj/J2w2ItRMq1jkyjjeBW/BtUeB
- dNJQ==
-X-Gm-Message-State: AOAM531u0YO7pVHvP78XKH7rESjiyoewkF/E7CJ33yA24isvOw9zXeB+
- E2qvLSqxDyh+Fh6NLBnjbtM83zkOLcU=
-X-Google-Smtp-Source: ABdhPJzLLJZNdEALPQpVbP2JuPBoSzdmkIYqrfZJCfuqe9pWdxy+GuHllfLf9738VnLXYmpFtTAqDw==
-X-Received: by 2002:aa7:c406:: with SMTP id j6mr37847489edq.76.1639126330319; 
- Fri, 10 Dec 2021 00:52:10 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id t20sm1052047edv.81.2021.12.10.00.52.09
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Dec 2021 00:52:10 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] configure: remove DIRS
-Date: Fri, 10 Dec 2021 09:52:06 +0100
-Message-Id: <20211210085206.25811-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.33.1
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1mvcbf-00045T-UD
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 04:54:23 -0500
+Received: from mga18.intel.com ([134.134.136.126]:18483)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1mvcbc-00084f-FP
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 04:54:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639130060; x=1670666060;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=i5mi2ux2NWMV234M1FllWOI2g2yLlRa0QdVRhusT3Og=;
+ b=IVEeO3aMvRER6qkW1xQIVBtWp3nczvD6DQ+8iJo42RBfB6pVTaQ5RnEg
+ 77xte2j8IKEiOJHoyTmuUYozRHTro8C/4hwwWfiuxds69XLpNInZYK3OZ
+ VreHaF+nKwTqNmjSetbmKigD1LACmSTQSMf7FXh4jE2OUkDs9L0Kb4XZS
+ E9fYsUDDBDxRhGXWzYsAuWyaItZUeYmt+376VggtjZbobPaQZbmR5JiZ/
+ aLvefOpgaKbtNJc8fmCy++Jl33mrfAA3vheXO0LIdD6Su6tb80Jz1CC/V
+ U8StE/r2U5XRUicP1DdSM61xxSDSmNMEUfjdde79mcMsfttBVxpWZf3+W Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="225185190"
+X-IronPort-AV: E=Sophos;i="5.88,195,1635231600"; d="scan'208";a="225185190"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2021 01:54:16 -0800
+X-IronPort-AV: E=Sophos;i="5.88,195,1635231600"; d="scan'208";a="503868624"
+Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.249.171.165])
+ ([10.249.171.165])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2021 01:54:13 -0800
+Message-ID: <6031a4ed-1544-c563-9f05-cfcf2ae351b6@intel.com>
+Date: Fri, 10 Dec 2021 17:54:10 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.3.2
+Subject: Re: [RFC PATCH v2 34/44] target/i386/tdx: set reboot action to
+ shutdown when tdx
+Content-Language: en-US
+To: Connor Kuehl <ckuehl@redhat.com>, isaku.yamahata@gmail.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, alistair@alistair23.me,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
+ cohuck@redhat.com, mtosatti@redhat.com, seanjc@google.com,
+ erdemaktas@google.com
+References: <cover.1625704980.git.isaku.yamahata@intel.com>
+ <d1afced8a92c01367d0aed7c6f82659c9bf79956.1625704981.git.isaku.yamahata@intel.com>
+ <0ccf5a5c-2322-eae3-bd4b-9e72e2f4bbd1@redhat.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <0ccf5a5c-2322-eae3-bd4b-9e72e2f4bbd1@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=134.134.136.126;
+ envelope-from=xiaoyao.li@intel.com; helo=mga18.intel.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.317,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,56 +83,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: isaku.yamahata@intel.com, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DIRS is used to create the directory in which the LINKS symbolic links
-reside, or to create directories for object files.  The former can
-be done directly in the symlinking loop, while the latter is done
-by Meson already, so DIRS is not necessary.
+On 7/23/2021 1:54 AM, Connor Kuehl wrote:
+> On 7/7/21 7:55 PM, isaku.yamahata@gmail.com wrote:
+>> From: Isaku Yamahata <isaku.yamahata@intel.com>
+>>
+>> In TDX CPU state is also protected, thus vcpu state can't be reset by 
+>> VMM.
+>> It assumes -action reboot=shutdown instead of silently ignoring vcpu 
+>> reset.
+>>
+>> TDX module spec version 344425-002US doesn't support vcpu reset by 
+>> VMM.  VM
+>> needs to be destroyed and created again to emulate REBOOT_ACTION_RESET.
+>> For simplicity, put its responsibility to management system like libvirt
+>> because it's difficult for the current qemu implementation to destroy and
+>> re-create KVM VM resources with keeping other resources.
+>>
+>> If management system wants reboot behavior for its users, it needs to
+>>   - set reboot_action to REBOOT_ACTION_SHUTDOWN,
+>>   - set shutdown_action to SHUTDOWN_ACTION_PAUSE optionally and,
+>>   - subscribe VM state change and on reboot, (destroy qemu if
+>>     SHUTDOWN_ACTION_PAUSE and) start new qemu.
+>>
+>> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+>> ---
+>>   target/i386/kvm/tdx.c | 14 ++++++++++++++
+>>   1 file changed, 14 insertions(+)
+>>
+>> diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
+>> index 1316d95209..0621317b0a 100644
+>> --- a/target/i386/kvm/tdx.c
+>> +++ b/target/i386/kvm/tdx.c
+>> @@ -25,6 +25,7 @@
+>>   #include "qapi/qapi-types-misc-target.h"
+>>   #include "standard-headers/asm-x86/kvm_para.h"
+>>   #include "sysemu/sysemu.h"
+>> +#include "sysemu/runstate-action.h"
+>>   #include "sysemu/kvm.h"
+>>   #include "sysemu/kvm_int.h"
+>>   #include "sysemu/tdx.h"
+>> @@ -363,6 +364,19 @@ static void tdx_guest_init(Object *obj)
+>>       qemu_mutex_init(&tdx->lock);
+>> +    /*
+>> +     * TDX module spec version 344425-002US doesn't support reset of 
+>> vcpu by
+>> +     * VMM.  VM needs to be destroyed and created again to emulate
+>> +     * REBOOT_ACTION_RESET.  For simplicity, put its responsibility to
+>> +     * management system like libvirt.
+>> +     *
+>> +     * Management system should
+>> +     *  - set reboot_action to REBOOT_ACTION_SHUTDOWN
+>> +     *  - set shutdown_action to SHUTDOWN_ACTION_PAUSE
+>> +     *  - subscribe VM state and on reboot, destroy qemu and start 
+>> new qemu
+>> +     */
+>> +    reboot_action = REBOOT_ACTION_SHUTDOWN;
+>> +
+>>       tdx->debug = false;
+>>       object_property_add_bool(obj, "debug", tdx_guest_get_debug,
+>>                                tdx_guest_set_debug);
+>>
+> 
+> I think the same effect could be accomplished with modifying
+> kvm_arch_cpu_check_are_resettable.
+> 
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
-
-diff --git a/configure b/configure
-index 80b5d0c148..4f7ed2ad1a 100755
---- a/configure
-+++ b/configure
-@@ -3794,7 +3794,6 @@ if test "$safe_stack" = "yes"; then
- fi
- 
- # If we're using a separate build tree, set it up now.
--# DIRS are directories which we simply mkdir in the build tree;
- # LINKS are things to symlink back into the source tree
- # (these can be both files and directories).
- # Caution: do not add files or directories here using wildcards. This
-@@ -3806,12 +3805,6 @@ fi
- # UNLINK is used to remove symlinks from older development versions
- # that might get into the way when doing "git update" without doing
- # a "make distclean" in between.
--DIRS="tests tests/tcg tests/qapi-schema tests/qtest/libqos"
--DIRS="$DIRS tests/qtest tests/qemu-iotests tests/vm tests/fp tests/qgraph"
--DIRS="$DIRS docs docs/interop fsdev scsi"
--DIRS="$DIRS pc-bios/optionrom pc-bios/s390-ccw"
--DIRS="$DIRS roms/seabios"
--DIRS="$DIRS contrib/plugins/"
- LINKS="Makefile"
- LINKS="$LINKS tests/tcg/Makefile.target"
- LINKS="$LINKS pc-bios/optionrom/Makefile"
-@@ -3840,9 +3833,9 @@ for bios_file in \
- do
-     LINKS="$LINKS pc-bios/$(basename $bios_file)"
- done
--mkdir -p $DIRS
- for f in $LINKS ; do
-     if [ -e "$source_path/$f" ]; then
-+        mkdir -p `dirname ./$f`
-         symlink "$source_path/$f" "$f"
-     fi
- done
--- 
-2.33.1
-
+Yes. Thanks for pointing it out. We will take this approach.
 
