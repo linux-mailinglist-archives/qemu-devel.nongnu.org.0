@@ -2,67 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BFF470254
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 15:02:34 +0100 (CET)
-Received: from localhost ([::1]:52820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2128747026D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 15:07:00 +0100 (CET)
+Received: from localhost ([::1]:55830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvgTl-0005gL-AL
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 09:02:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40392)
+	id 1mvgY6-0007qw-WA
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 09:06:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mvgSV-0004rf-Tj
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 09:01:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30375)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mvgWw-0006za-Hd
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 09:05:47 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:33561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mvgSS-0004n5-Cx
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 09:01:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639144867;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xMeDsmAgu9Q+F0/ufoihzFGJ1mStNM8UQEidhO8LsYs=;
- b=SLPN4ttaFFQeSdEHtiul76FUNMSPxuALuQf6gwXdpfgCOXnnRljHMwv8X/5LoPjmswazEA
- TOQu0VmVPrFijK9ZeyB3SpPM/cbw4ofi3lXhksrC0UndpoHd60Cwb79eY8YgIzrPHr6W5K
- Ky+Vc0iH+inI+zovcMMZmFA4BNv+TvA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-294-8Ea5H5n9OAWRTsM9R-o08g-1; Fri, 10 Dec 2021 09:01:04 -0500
-X-MC-Unique: 8Ea5H5n9OAWRTsM9R-o08g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 451B210168D0;
- Fri, 10 Dec 2021 14:01:03 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.255])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D865960C9F;
- Fri, 10 Dec 2021 14:00:39 +0000 (UTC)
-Date: Fri, 10 Dec 2021 15:00:38 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [RFC] block-backend: prevent dangling BDS pointer in blk_drain()
-Message-ID: <YbNdhnxItT7zmeyn@redhat.com>
-References: <20211209142304.381253-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mvgWu-0005Pv-7b
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 09:05:46 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.250])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id BAFFCD1212B2;
+ Fri, 10 Dec 2021 15:05:40 +0100 (CET)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Fri, 10 Dec
+ 2021 15:05:39 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R001ebf0e436-1375-4f7c-a038-19b6b0cb698f,
+ C80FE4A66E5B5B4A0E1D48CB2EFD2B2F83D6D903) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <914155fd-646e-b551-9c54-3b132a5abfa5@kaod.org>
+Date: Fri, 10 Dec 2021 15:05:39 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211209142304.381253-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v1] Add dummy Aspeed AST2600 Display Port MCU (DPMCU)
+Content-Language: en-US
+To: Troy Lee <troy_lee@aspeedtech.com>, <qemu-devel@nongnu.org>
+References: <20211210083034.726610-1-troy_lee@aspeedtech.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211210083034.726610-1-troy_lee@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 71b9bd2a-f0c3-4eb3-ad13-e6dc41a6c117
+X-Ovh-Tracer-Id: 6824079338113305449
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrkedvgdeiudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.317,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,43 +69,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ leetroy@gmail.com, "open list:ASPEED
+ BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 09.12.2021 um 15:23 hat Stefan Hajnoczi geschrieben:
-> The BlockBackend root child can change during bdrv_drained_begin() when
-> aio_poll() is invoked. In fact the BlockDriverState can reach refcnt 0
-> and blk_drain() is left with a dangling BDS pointer.
-> 
-> One example is scsi_device_purge_requests(), which calls blk_drain() to
-> wait for in-flight requests to cancel. If the backup blockjob is active,
-> then the BlockBackend root child is a temporary filter BDS owned by the
-> blockjob. The blockjob can complete during bdrv_drained_begin() and the
-> last reference to the BDS is released when the temporary filter node is
-> removed. This results in a use-after-free when blk_drain() calls
-> bdrv_drained_end(bs) on the dangling pointer.
-> 
-> The general problem is that a function and its callers must not assume
-> that bs is still valid across aio_poll(). Explicitly hold a reference to
-> bs in blk_drain() to avoid the dangling pointer.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+On 12/10/21 09:30, Troy Lee wrote:
+> AST2600 Display Port MCU introduces 0x18000000~0x1803FFFF as it's memory
+> and io address. If guest machine try to access DPMCU memory, it will
+> cause a fatal error.
+
+The Aspeed SoCs have an "aspeed_soc.io" region for unimplemented devices
+but it's too small. Anyhow, it is better to have per logic unit. We should
+change that one day.
+
+For my information, which FW image are you using ?
+
+> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+Thanks,
+
+C.
+
 > ---
-> I found that BDS nodes are sometimes deleted with bs->quiesce_counter >
-> 0 (at least when running "make check"), so it is currently not possible
-> to put the bdrv_ref/unref() calls in bdrv_do_drained_begin() and
-> bdrv_do_drained_end() because they will be unbalanced. That would have
-> been a more general solution than only fixing blk_drain().
-
-They are not supposed to end up unbalanced because detaching a child
-calls bdrv_unapply_subtree_drain(). In fact, I think test-bdrv-drain
-tests a few scenarios like this.
-
-Do have more details about the case that failed for you?
-
-Kevin
+>   hw/arm/aspeed_ast2600.c     | 8 ++++++++
+>   include/hw/arm/aspeed_soc.h | 2 ++
+>   2 files changed, 10 insertions(+)
+> 
+> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> index 0384357a95..e33483fb5d 100644
+> --- a/hw/arm/aspeed_ast2600.c
+> +++ b/hw/arm/aspeed_ast2600.c
+> @@ -19,9 +19,11 @@
+>   #include "sysemu/sysemu.h"
+>   
+>   #define ASPEED_SOC_IOMEM_SIZE       0x00200000
+> +#define ASPEED_SOC_DPMCU_SIZE       0x00040000
+>   
+>   static const hwaddr aspeed_soc_ast2600_memmap[] = {
+>       [ASPEED_DEV_SRAM]      = 0x10000000,
+> +    [ASPEED_DEV_DPMCU]     = 0x18000000,
+>       /* 0x16000000     0x17FFFFFF : AHB BUS do LPC Bus bridge */
+>       [ASPEED_DEV_IOMEM]     = 0x1E600000,
+>       [ASPEED_DEV_PWM]       = 0x1E610000,
+> @@ -44,6 +46,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
+>       [ASPEED_DEV_SCU]       = 0x1E6E2000,
+>       [ASPEED_DEV_XDMA]      = 0x1E6E7000,
+>       [ASPEED_DEV_ADC]       = 0x1E6E9000,
+> +    [ASPEED_DEV_DP]        = 0x1E6EB000,
+>       [ASPEED_DEV_VIDEO]     = 0x1E700000,
+>       [ASPEED_DEV_SDHCI]     = 0x1E740000,
+>       [ASPEED_DEV_EMMC]      = 0x1E750000,
+> @@ -104,6 +107,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
+>       [ASPEED_DEV_ETH3]      = 32,
+>       [ASPEED_DEV_ETH4]      = 33,
+>       [ASPEED_DEV_KCS]       = 138,   /* 138 -> 142 */
+> +    [ASPEED_DEV_DP]        = 62,
+>   };
+>   
+>   static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
+> @@ -298,6 +302,10 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+>       memory_region_add_subregion(get_system_memory(),
+>                                   sc->memmap[ASPEED_DEV_SRAM], &s->sram);
+>   
+> +    /* DPMCU */
+> +    create_unimplemented_device("aspeed.dpmcu", sc->memmap[ASPEED_DEV_DPMCU],
+> +                                ASPEED_SOC_DPMCU_SIZE);
+> +
+>       /* SCU */
+>       if (!sysbus_realize(SYS_BUS_DEVICE(&s->scu), errp)) {
+>           return;
+> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+> index 8139358549..18fb7eed46 100644
+> --- a/include/hw/arm/aspeed_soc.h
+> +++ b/include/hw/arm/aspeed_soc.h
+> @@ -139,6 +139,8 @@ enum {
+>       ASPEED_DEV_EMMC,
+>       ASPEED_DEV_KCS,
+>       ASPEED_DEV_HACE,
+> +    ASPEED_DEV_DPMCU,
+> +    ASPEED_DEV_DP,
+>   };
+>   
+>   #endif /* ASPEED_SOC_H */
+> 
 
 
