@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89EE746FEDD
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 11:43:21 +0100 (CET)
-Received: from localhost ([::1]:51372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8CF46FF00
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 11:49:55 +0100 (CET)
+Received: from localhost ([::1]:55456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvdN0-0005Oq-P1
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 05:43:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58926)
+	id 1mvdTO-0008Lo-0m
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 05:49:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mvdLa-0004it-8j
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:41:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35206)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mvdLW-0008Ds-Ds
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:41:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639132904;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=szQqK7SomEY3Q9X1DLFITrS/yQr21gWp1zUXPq7iw0w=;
- b=J3uPbZ2Z7b3TyopEv2SUe18w8j1C+Ji51RXbNqjPyyvzkMvS7t1v2fxNl/7GUtYU66erc8
- nhsNyGt/KgpzslWunrmEX8t4BEutpEQv3g+8rxffrVYw2FaQJUY1ydboSJi6Vgjs7W312n
- AWbtjjjJmBFlpnxMlmCnqRgh7MHTMo4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-477-X0DF8fsyOtejZYQF9m9JJw-1; Fri, 10 Dec 2021 05:41:43 -0500
-X-MC-Unique: X0DF8fsyOtejZYQF9m9JJw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d7-20020a5d6447000000b00186a113463dso2111979wrw.10
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 02:41:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mvdRN-0007cs-P0
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:47:49 -0500
+Received: from [2a00:1450:4864:20::32f] (port=43855
+ helo=mail-wm1-x32f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mvdRK-0008C8-NP
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:47:49 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ o19-20020a1c7513000000b0033a93202467so6294338wmc.2
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 02:47:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fG8oiNLY2NI87ku1TR1ryNNQlKhYgWZQKD9ARJrqSIE=;
+ b=JoY57IylJ/1HMaglGmIQwfkaKDvFFj8fyInO/VV3hVy1cSE3EMxSxsrxaKlQs0A/v0
+ 1dv/AXrYUeH9rJSE0PO1S0TajHvNiqWnnCOEDJgMDCQXmMlrBhS78IEK21O28Tb5MD3j
+ IOVTwtHzpFBAy3/8L0AehklD8/cQxI/26cxDfRoxdvtzKdbp9x5vjMChyjnSR8HsaeTQ
+ prOk7I/Zhr0NFNY2f0Wv09elg+cUoGTLAVkezVt6+Dz/59m1S7oQPt0zE4VSAbP2YnJq
+ DeiU3HCuQlnbwlAvDgmVbI8r5IE3/bOoB6qUyd1NFgz77UR6JIca9TPJtr5ft+tFo+86
+ McYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=szQqK7SomEY3Q9X1DLFITrS/yQr21gWp1zUXPq7iw0w=;
- b=ZyZ1e5mPc5JCwijZBUPYXikv570pN3YntwlcaAvrKVCHnLhNcvHW69VrHg8bXh4UGy
- MNpa7CcdDKji6pwNcHy8ySBwa+8KTp/tM0azebjQrUKjLaW+NtVCeP9GPko3TVimaPxl
- ak8or4PUtb7Vthi5tROqLCYzGeB9pEOMOyuzmWfsMJCn++2J3zu+P7VWE6wbUHA2dn5i
- 8yBU1EmRuo4Jaa+pmm2Txp3vEAVoysg8NrGjyCdTK5InbxMQc062DgsZ7IkVy/bXCkVa
- VhMmi3akZKRAVs9dwvpofnrzGSWB2Oq9ZmvEsn6V21GySltniZwEYMGFWNA1JmZHGHEN
- MyMw==
-X-Gm-Message-State: AOAM532UOEDg82NQWyh4cUI0+7ilBhKnWp089lNUI+3WPiC8rpNmCbCn
- u//0kHmOo0EHl/u4gUkk/V7aNW97Ows+eZ7Qnw6Dz1UqvV2jdtLwUd48Pq2OkLbtIaPmFQHmrPt
- NjtGYEGc8B0dBxcs=
-X-Received: by 2002:a1c:7e41:: with SMTP id z62mr15921472wmc.62.1639132902561; 
- Fri, 10 Dec 2021 02:41:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzJrVM9ONhTiKJ637ekqCaKN5y9moY/PqdFtM6j59FmBg8Js0ZB9xpjBZ36K6mCBsZke2H9SA==
-X-Received: by 2002:a1c:7e41:: with SMTP id z62mr15921447wmc.62.1639132902342; 
- Fri, 10 Dec 2021 02:41:42 -0800 (PST)
-Received: from localhost (static-174-144-85-188.ipcom.comunitel.net.
- [188.85.144.174])
- by smtp.gmail.com with ESMTPSA id p5sm2392799wrd.13.2021.12.10.02.41.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Dec 2021 02:41:41 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v3 18/23] multifd: Use normal pages array on the recv side
-In-Reply-To: <Ya8JCq/cRmcL9Kp7@xz-m1.local> (Peter Xu's message of "Tue, 7 Dec
- 2021 15:11:06 +0800")
-References: <20211124100617.19786-1-quintela@redhat.com>
- <20211124100617.19786-19-quintela@redhat.com>
- <Ya8JCq/cRmcL9Kp7@xz-m1.local>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Fri, 10 Dec 2021 11:41:41 +0100
-Message-ID: <878rwskahm.fsf@secure.mitica>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fG8oiNLY2NI87ku1TR1ryNNQlKhYgWZQKD9ARJrqSIE=;
+ b=GPAZewlQyRQSmw7AkZzdcXbAJ2CuAno8KAKoLcZ8lALhjBlrgQkznQa8tFpA9I2bT/
+ 2VRG4m5R8RZDDQ6aNqWrHoBN5rzW8MajlobjQt+iVS/cCcGttYNqCYJvI8kdSpmyM94A
+ m5THpXaEh7DPYw8zgF+19MYvKf9lHYNfOyVSG2A2Er7m5EOO+poEBjmqoGfNC+5w220T
+ v/CBrguUZccFnTyd9UiLUDRJkdValMHmBuikcZ8Qkwni8ebl+J1az34uGJJ7Medjirjs
+ va6lS9inMC1U7C9KUwrhrICXpHri2+S6HU3O89Kf5BNkZTP4kE+/ITmy/DmTEVpx4fBC
+ JL5Q==
+X-Gm-Message-State: AOAM533eSXavfAOrV63oszPpFqe65kIsJjrS0m+Ckgn2cl1bjY6TonZC
+ pzFUeAAtx+ShM5klnHoHZ/8s1Ip/iYijvrxdnGol3Q==
+X-Google-Smtp-Source: ABdhPJxf6qQDCd5/CMZqSxaX6XQ7aaCBISuDe910CMts8YOAftDXxq3Gar/8rIjU0wBLX9rb1tvfVY50QXEims7VgDw=
+X-Received: by 2002:a1c:96:: with SMTP id 144mr15819425wma.126.1639133264827; 
+ Fri, 10 Dec 2021 02:47:44 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211210084836.25202-1-pbonzini@redhat.com>
+In-Reply-To: <20211210084836.25202-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Dec 2021 10:47:33 +0000
+Message-ID: <CAFEAcA_Nh4ay7885nOnmA21d3Q2e1BE82zXHtmG6ResDxtYpXQ@mail.gmail.com>
+Subject: Re: [PATCH] tests/tcg: use CONFIG_LINUX_USER, not CONFIG_LINUX
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,65 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Xu <peterx@redhat.com> wrote:
-> On Wed, Nov 24, 2021 at 11:06:12AM +0100, Juan Quintela wrote:
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> ---
->>  migration/multifd.h      |  8 +++++--
->>  migration/multifd-zlib.c |  8 +++----
->>  migration/multifd-zstd.c |  6 +++---
->>  migration/multifd.c      | 45 ++++++++++++++++++----------------------
->>  4 files changed, 33 insertions(+), 34 deletions(-)
->> 
->> diff --git a/migration/multifd.h b/migration/multifd.h
->> index 78e73df3ec..9fbcb7bb9a 100644
->> --- a/migration/multifd.h
->> +++ b/migration/multifd.h
->> @@ -151,12 +151,16 @@ typedef struct {
->>      uint32_t next_packet_size;
->>      /* packets sent through this channel */
->>      uint64_t num_packets;
->> -    /* pages sent through this channel */
->> -    uint64_t num_pages;
->> +    /* non zero pages sent through this channel */
+On Fri, 10 Dec 2021 at 09:41, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> s/send/recv/
-
-Thanks.
-
->> +    uint64_t num_normal_pages;
+> The two more or less overlap, because CONFIG_LINUX is a requirement for Linux
+> user-mode emulation.  However, CONFIG_LINUX is technically a host symbol
+> that applies even to system emulation.  Defining CONFIG_LINUX_USER, and
+> CONFIG_BSD_USER for eventual future use, is cleaner.
 >
-> How about renaming it to "total_normal_pages"?  It's merely impossible to
-> identify this from normal_num below from their names..
-
-I can change it.  It just makes some lines a bit longer, but that is
-what you have with better names.
-
-> I'd have the same comment to previous patch.
-
-Ok.
-
-Thanks, Juan.
-
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  tests/tcg/configure.sh              | 8 +++++++-
+>  tests/tcg/multiarch/Makefile.target | 2 +-
+>  tests/tcg/x86_64/Makefile.target    | 2 +-
+>  3 files changed, 9 insertions(+), 3 deletions(-)
 >
-> Thanks,
->
->>      /* syncs main thread and channels */
->>      QemuSemaphore sem_sync;
->>      /* buffers to recv */
->>      struct iovec *iov;
->> +    /* Pages that are not zero */
->> +    ram_addr_t *normal;
->> +    /* num of non zero pages */
->> +    uint32_t normal_num;
->>      /* used for de-compression methods */
->>      void *data;
->>  } MultiFDRecvParams;
+> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+> index 9ef913df5b..f859b61d90 100755
+> --- a/tests/tcg/configure.sh
+> +++ b/tests/tcg/configure.sh
+> @@ -225,8 +225,14 @@ for target in $target_list; do
+>    echo "TARGET_NAME=$arch" >> $config_target_mak
+>    echo "target=$target" >> $config_target_mak
+>    case $target in
+> -    *-linux-user | *-bsd-user)
+> +    *-linux-user)
+>        echo "CONFIG_USER_ONLY=y" >> $config_target_mak
+> +      echo "CONFIG_LINUX_USER=y" >> $config_target_mak
+> +      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
+> +      ;;
+> +    *-bsd-user)
+> +      echo "CONFIG_USER_ONLY=y" >> $config_target_mak
+> +      echo "CONFIG_BSD_USER=y" >> $config_target_mak
+>        echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
 
+I note that this is very subtly different from the logic
+used in meson.build for setting CONFIG_LINUX_USER,
+which uses "target.endswith('linux-user')" without the
+leading hyphen...
+
+Vaguely relatedly, gdbstub.c has some ifdefs:
+ #if defined(CONFIG_USER_ONLY) && defined(CONFIG_LINUX_USER)
+
+Is it possible for CONFIG_LINUX_USER to be defined when
+CONFIG_USER_ONLY is not, or is the first clause in the #if
+redundant?
+
+thanks
+-- PMM
 
