@@ -2,87 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6250346FF09
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 11:51:22 +0100 (CET)
-Received: from localhost ([::1]:58320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A301546FF0B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 11:52:07 +0100 (CET)
+Received: from localhost ([::1]:60966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvdUn-0001u0-HL
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 05:51:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33098)
+	id 1mvdVW-0003le-QP
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 05:52:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mvdSe-00005A-6f
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:49:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21127)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mvdSa-0008Iy-TM
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:49:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639133343;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JiBwa5/NVd+FCuZrOZRWrZyWzC5HC7yMWl6gXzMVzcI=;
- b=FAgWoNwgEh3iSEM1L7ilAS1IwZxqeWOK3wFszEi78lSoVfg2yQR7Dc1SAQaeW1ZZDVpKam
- +6Bn6HfSHkTuRmiXUB0n6gJULVDULFV1PY8EcM1u2qOJIosfYPd1AUhNnd1RNT8g+Fd6jo
- /lGimvhgLc08U0eXxzRPwpPaeeMJHh4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-461-ep4bDdrYOV-Ak93lvyVg3Q-1; Fri, 10 Dec 2021 05:49:02 -0500
-X-MC-Unique: ep4bDdrYOV-Ak93lvyVg3Q-1
-Received: by mail-wr1-f71.google.com with SMTP id
- v18-20020a5d5912000000b001815910d2c0so2124180wrd.1
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 02:49:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mvdU0-0001sm-AX
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:50:32 -0500
+Received: from [2a00:1450:4864:20::42a] (port=38652
+ helo=mail-wr1-x42a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mvdTs-0001ID-6h
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:50:31 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id q3so14212311wru.5
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 02:50:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xqfkr+ueKBohNoj+V1Ha9RWuhMEPRyqzYnFRfklr4uI=;
+ b=QTc77Be0oOm3p/mcKzjYlp+0N78vgaYDB+cr4i4cCNp1nDzUnQXyPLc1NyD+ZzwR8V
+ PxPaPNP7c2oRo6bd1QPcz6fMIdYyu/rvGEEAdgOVcFfTARFHqN7/kU0BmmLA3S6G1WhL
+ OhNa2McFG+pZ0bAkmqXOGYCE1G8CUTgtwsK5hrHjvLPBTiTJ5kJRTi8HTHpGS6xqNpRZ
+ o8APDIaF+yfhw5EO5yvO/UzcCYh6qVT2j70ySUm5dZfCNeFllqxxnI9W2ZD2syREkEEc
+ q++ZOnEe+vRLQ5qXqMxocnXA2+7ARXEv/asaDygnEDCcYdZPgwS2KPKCJzXHE4V/R/vI
+ fDDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JiBwa5/NVd+FCuZrOZRWrZyWzC5HC7yMWl6gXzMVzcI=;
- b=aBQ9anvViFAYuz2yu+CpZ/81PtX8Q6mpUlsB9gAqUJjlH/11a+jAUbIWRFV0BuspzW
- WKFObtzLkKCPunn+VU7zU0mmwHi8E+b4SSxguhB7umB8VHNz0sYMC/e9YgzcQjLIPQtS
- it2r9U2mO7o2hQX+mizbr2oWzebHbEU3xhk8z8/36UvVPCXb+4guvMSr8wvdfro/eIpM
- W88plp7OgX+wBKPmtsZTdbfqd7klM6XE/0vRuJaJ5Rq1qgFVxMjgD7K5IxopSJLCMMAz
- z/PRVZHC2AvrKdT2WcrUa/qtC+oICwCaFpEg7CHSiMFyHdvGv7Y1TEQJ1jSTpSjH1y3X
- rN8Q==
-X-Gm-Message-State: AOAM531dnKmf+UdSnljU0owbJAwaLPlUfN/HeTtxxOyCiDbdFx9Pr0p4
- uuTJffuRgpKJOLNbNyS7/3xuOEjFwsq9JYFXoZcw1a0+cEBCtkXsHAmxkBkekiZI1b3TaTZtN2f
- RZ2kbDtjydjOgChM=
-X-Received: by 2002:a05:600c:190b:: with SMTP id
- j11mr15331870wmq.112.1639133341324; 
- Fri, 10 Dec 2021 02:49:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzzZkNuyw4A7fORSHbTYluzvevAKNyDsgsjoOL+i9luDEYhIaopnpi0Q4kP22tZCtzABOn4Pg==
-X-Received: by 2002:a05:600c:190b:: with SMTP id
- j11mr15331851wmq.112.1639133341117; 
- Fri, 10 Dec 2021 02:49:01 -0800 (PST)
-Received: from redhat.com ([2.55.18.120])
- by smtp.gmail.com with ESMTPSA id n2sm11273921wmi.36.2021.12.10.02.48.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Dec 2021 02:49:00 -0800 (PST)
-Date: Fri, 10 Dec 2021 05:48:56 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 for-7.0] scripts: Explain the difference between
- linux-headers and standard-headers
-Message-ID: <20211210054601-mutt-send-email-mst@kernel.org>
-References: <20211209194532.1502920-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xqfkr+ueKBohNoj+V1Ha9RWuhMEPRyqzYnFRfklr4uI=;
+ b=biwhnzZPbWtWRK+T5ZGq9Mp5d7zd9mqt+1tcTUV/nUwExTCZjwMUTxjVB2HHw7ZP2o
+ CWB4jcFpdopNpPg57x4d3FkJBnykxBcpA+OIVNsiHjGRuZARHixrd9SOoE6D4mQpziL5
+ ah8TkQYt0/NkgkMuaKNWglwWRMWFZuVXL08FAA7xm+7R/X+C0F1KA3rgCrKEbMOAtaHD
+ pX3eXAY8kmZewJMcM5LxQWK8h57POJnYHlSLxgBEpXlp2dJt1hf6rhtp17+EJb6wJaem
+ xqD2b1immHiV1xp88KN+DSqQNJLYxgcXCjfXkpGacTvyQ5sGHyGI8h/tAry4J7xslrVj
+ l/nw==
+X-Gm-Message-State: AOAM533zeWYvIZInn0lvOs4iFPJbGpc9inWlft0vigDVoOOYZ27eBOOb
+ PiDAKjoZWf7XbCdjvt0eT58reYWF4/oIBfW1yieWKw==
+X-Google-Smtp-Source: ABdhPJxANd6uy5JGktgqPq8ZAWit9+Cj+1mzROqUo3ZKki/4FcNQ5f8OeVqQzqtuqEClCYtzJdXAwv3/6YQAP07uKVI=
+X-Received: by 2002:adf:f64b:: with SMTP id x11mr13412143wrp.4.1639133422691; 
+ Fri, 10 Dec 2021 02:50:22 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211209194532.1502920-1-peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211210085206.25811-1-pbonzini@redhat.com>
+In-Reply-To: <20211210085206.25811-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Dec 2021 10:50:11 +0000
+Message-ID: <CAFEAcA_9t_8h0OWkjGeDJGMh-Og6f=x==txSJLBWT1aCRu1WoQ@mail.gmail.com>
+Subject: Re: [PATCH] configure: remove DIRS
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,69 +79,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 09, 2021 at 07:45:32PM +0000, Peter Maydell wrote:
-> If you don't know it, it's hard to figure out the difference between
-> the linux-headers folder and the include/standard-headers folder.
-> So let's add a short explanation to clarify the difference.
-> 
-> Suggested-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-
-A couple of minor tweaks: what matters is which platform
-we are building for I think.
-
+On Fri, 10 Dec 2021 at 10:01, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> DIRS is used to create the directory in which the LINKS symbolic links
+> reside, or to create directories for object files.  The former can
+> be done directly in the symlinking loop, while the latter is done
+> by Meson already, so DIRS is not necessary.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
-> v1 of this was from Thomas; I suggested some expanded wording
-> and since that made the patch pretty much entirely my text
-> Thomas suggested I send this under my name.
-> ---
->  scripts/update-linux-headers.sh | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
-> index fea4d6eb655..d23851e1d3b 100755
-> --- a/scripts/update-linux-headers.sh
-> +++ b/scripts/update-linux-headers.sh
-> @@ -9,6 +9,22 @@
->  #
->  # This work is licensed under the terms of the GNU GPL version 2.
->  # See the COPYING file in the top-level directory.
-> +#
-> +# The script will copy the headers into two target folders:
-> +#
-> +# - linux-headers/ for files that are required for compiling on a
+>  configure | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
+>
+> diff --git a/configure b/configure
+> index 80b5d0c148..4f7ed2ad1a 100755
+> --- a/configure
+> +++ b/configure
+> @@ -3794,7 +3794,6 @@ if test "$safe_stack" = "yes"; then
+>  fi
+>
+>  # If we're using a separate build tree, set it up now.
+> -# DIRS are directories which we simply mkdir in the build tree;
+>  # LINKS are things to symlink back into the source tree
+>  # (these can be both files and directories).
+>  # Caution: do not add files or directories here using wildcards. This
+> @@ -3806,12 +3805,6 @@ fi
+>  # UNLINK is used to remove symlinks from older development versions
+>  # that might get into the way when doing "git update" without doing
+>  # a "make distclean" in between.
+> -DIRS="tests tests/tcg tests/qapi-schema tests/qtest/libqos"
+> -DIRS="$DIRS tests/qtest tests/qemu-iotests tests/vm tests/fp tests/qgraph"
+> -DIRS="$DIRS docs docs/interop fsdev scsi"
+> -DIRS="$DIRS pc-bios/optionrom pc-bios/s390-ccw"
+> -DIRS="$DIRS roms/seabios"
+> -DIRS="$DIRS contrib/plugins/"
+>  LINKS="Makefile"
+>  LINKS="$LINKS tests/tcg/Makefile.target"
+>  LINKS="$LINKS pc-bios/optionrom/Makefile"
+> @@ -3840,9 +3833,9 @@ for bios_file in \
+>  do
+>      LINKS="$LINKS pc-bios/$(basename $bios_file)"
+>  done
+> -mkdir -p $DIRS
+>  for f in $LINKS ; do
+>      if [ -e "$source_path/$f" ]; then
+> +        mkdir -p `dirname ./$f`
+>          symlink "$source_path/$f" "$f"
+>      fi
+>  done
 
-I think it's more of a "for a Linux host"
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-> +#   Linux host.  Generally we have these so we can use kernel structs
-> +#   and defines that are more recent than the headers that might be
-> +#   in /usr/include/linux 
+Ideally at some point we should move the LINKS stuff into
+meson too, and get rid of the wildcarding. pc-bios/meson.build
+already has to have an explicit list of the blobs that we
+here are handling via wildcards.
 
-I'd just say "installed". Path does not matter.
-
->on the host system.  Usually this script
-> +#   can do simple file copies for these headers.
-> +#
-> +# - include/standard-headers/ for files that are used for guest
-> +#   device emulation and are required on all hosts.  For instance, we
-> +#   get our definitions of the virtio structures from the Linux
-> +#   kernel headers, but we need those definitions regardless of which
-> +#   host OS we are building on.
-
-we are building for
-
->  This script has to be careful to
-> +#   sanitize the headers to remove any use of Linux-specifics such as
-> +#   types like "__u64".  This work is done in the cp_portable function.
->  
->  tmpdir=$(mktemp -d)
->  linux="$1"
-> -- 
-> 2.25.1
-
+thanks
+-- PMM
 
