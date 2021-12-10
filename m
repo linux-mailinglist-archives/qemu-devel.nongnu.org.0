@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6159C47005B
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 12:57:06 +0100 (CET)
-Received: from localhost ([::1]:47856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32537470069
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 13:04:57 +0100 (CET)
+Received: from localhost ([::1]:53922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mveWO-0002kD-TZ
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 06:57:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53922)
+	id 1mvedz-0007ZY-Oq
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 07:04:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mveOd-0006rg-Rq
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 06:49:03 -0500
-Received: from [2a00:1450:4864:20::52c] (port=39789
- helo=mail-ed1-x52c.google.com)
+ id 1mveb4-0005qq-Fi
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 07:01:54 -0500
+Received: from [2a00:1450:4864:20::329] (port=39848
+ helo=mail-wm1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mveOc-0003so-Cg
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 06:49:03 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id w1so28923761edc.6
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 03:49:01 -0800 (PST)
+ id 1mveay-0008SM-B0
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 07:01:53 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ n33-20020a05600c502100b0032fb900951eso8822730wmr.4
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 04:01:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=JwASdhaZ8avzSdRFeS/S7mRDaPVmXPKEjYKK5JnWnQM=;
- b=hXqYxcEvJvCFKQ8CKNb+IOra0iF1lXsLPg00TGZreSvdNfBscoRnBccTKQ7fr5R9ht
- Nz0FSn9tnFgtwi29M+yrmBJGyT6bkKS36OxlpB7FDfKCOpThP2q9usJ/qJXvjBtmYuYa
- PtbJjDAqYVLKZrGKiwdz+3m7pIAXVzjCnRh9yuEXjiwPRIW7dKIOrIWbMUZx2Tkbtn81
- /pzzl7h/fFMf2/04KiZMrQU1d8+OmvBNc29JTSDKUYqA9GyQ3n66zU5yQVG2huZVcQCX
- ywj1aAkvxpu42mWkHAUCjaDSLKn9LU2l8bfIse/EPJGor+UT0hJiA+EHif1KU8L6qnz+
- LnCA==
+ bh=vbZH3ye7pmVONinLGjexgoIkFDuWe+VnfXOwkOSuVSM=;
+ b=jRULCHw5pA1Z+nBN5NyNi2aUuGOVKx9NJrYkN6NDT0jfUqh1a+ladzgG4vMjqEFGRQ
+ YwrvMjyBapC166lqLL0nbsVmCwEJezjTeeOVMXSA9qiW9sTukjeMOzUjLCdBLPVIDvNj
+ 3mTs9Rd1t6QLS28xLdJ1zeX1dwDG6a+/pZ/lu1SuVtDRYPmRPAYN4J4gtjGq64hLFWG9
+ sX9INlNCRX0B/Nh22JU5T0y163nJknQRmiOgcx4kZWeO8ZsAE2D5I/aqhd3lPXA5niHN
+ a1DWot1KFvHl8Tr6JnVcia3KuFYR3ruOGY0UukGZnGs+3R4xsPX72Vwlvhjtf9LfcG7l
+ t0lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=JwASdhaZ8avzSdRFeS/S7mRDaPVmXPKEjYKK5JnWnQM=;
- b=vTVFdfgvyRNQ8urs1PoxwlDJ7+GOdSB2ndqMc59HBay+tg2gaverOhI8Cc1254ssaw
- iqqjBdopn9cNK8Noy55avS0JoCXgHBY9mBRzn9zXHohkJeNxBojT1xh1C6JxBgDzfh70
- jtRhd8nemN4+IEBZBb1B9afKmp5laOdLGbKCWPGIEf+iYDyFdOzxryG0MlcJlXWq8ivm
- rysnuQGJ1z4OqMd06rS9RiYSA/GYmMJv+VcRUiKx6VcasLo21xm35MT9NytaYbAI1uuW
- RgjPewgGNyNcExlFYLtZe/0xYCaNjIr8C9e0HezXFMYafs4n0STZEi9+widv9BMUnPhO
- gyFQ==
-X-Gm-Message-State: AOAM531f/rnUfFnTkvK/bFYxamusopQ7NnGty1YG9bpt6K3/JI+vUWMl
- iK2pOzGa/4O+GtUm4t2797b/obccOMz8DQ==
-X-Google-Smtp-Source: ABdhPJxL7BSOi6yGKO+kARXqbYVm08k0ge75WcRZk9bub3C+7eAnL5rpPk4tHobWYkuqaSJfa6CLyg==
-X-Received: by 2002:a17:907:2d10:: with SMTP id
- gs16mr22402806ejc.353.1639136940237; 
- Fri, 10 Dec 2021 03:49:00 -0800 (PST)
+ bh=vbZH3ye7pmVONinLGjexgoIkFDuWe+VnfXOwkOSuVSM=;
+ b=hO1LlYZIzQD4eBuoBloPsSWeK/1ZUu3g7WMdBZFiD3Td+z1qkhkugXMU78uvXxZAC+
+ wR7n/Sdcd6S9Qo/Aw/yeZ+p4mqf0gduJiFnfMhYpKPiiyTfKWAx0yMIQ4yk5zoelA5SP
+ o6Je3D+Q8njpdOxgScoo996yDNZdHEg9fMBK4RnFDuzkBrZ2eQ5fCZ3J1J21qfCnkY0R
+ NrzfCybRHg49CfcPbv07EUAy6DF8CYaBJt5YpapY90UL4/AqincDjTGR27b8NspxCTpn
+ DklNG7yVTtjqXRt+IvATPN7AbVPsUY627y5TzzRpgM05P2Zx/UWV6KMCJTlhTDgPHXfp
+ q75A==
+X-Gm-Message-State: AOAM531Nq8yEuWtf46a28Td3h80ve9ybjeKtNlCRFJVaMUp8EJcSxSa8
+ LfCc4zkdh2ZfRvi4YEIozi/0zxh/4cDI4A==
+X-Google-Smtp-Source: ABdhPJwCzS+5W3GKmSUggJzIG6go9jA0+tIFGbJPdqg0Hr0efR6lVSmIeosgrUsLNN665UzyGKKL7g==
+X-Received: by 2002:a1c:1f94:: with SMTP id
+ f142mr16332755wmf.192.1639137699218; 
+ Fri, 10 Dec 2021 04:01:39 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c7sm1367352ejd.91.2021.12.10.03.48.59
+ by smtp.gmail.com with ESMTPSA id a1sm3125472wri.89.2021.12.10.04.01.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Dec 2021 03:48:59 -0800 (PST)
+ Fri, 10 Dec 2021 04:01:38 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DF3661FF96;
- Fri, 10 Dec 2021 11:48:58 +0000 (GMT)
-References: <20211210084836.25202-1-pbonzini@redhat.com>
+ by zen.linaroharston (Postfix) with ESMTP id E3C3A1FF96;
+ Fri, 10 Dec 2021 12:01:37 +0000 (GMT)
+References: <20211210085206.25811-1-pbonzini@redhat.com>
 User-agent: mu4e 1.7.5; emacs 28.0.90
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] tests/tcg: use CONFIG_LINUX_USER, not CONFIG_LINUX
-Date: Fri, 10 Dec 2021 11:48:53 +0000
-In-reply-to: <20211210084836.25202-1-pbonzini@redhat.com>
-Message-ID: <87pmq4k7dh.fsf@linaro.org>
+Subject: Re: [PATCH] configure: remove DIRS
+Date: Fri, 10 Dec 2021 11:59:17 +0000
+In-reply-to: <20211210085206.25811-1-pbonzini@redhat.com>
+Message-ID: <87lf0sk6se.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -97,15 +98,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> The two more or less overlap, because CONFIG_LINUX is a requirement for L=
-inux
-> user-mode emulation.  However, CONFIG_LINUX is technically a host symbol
-> that applies even to system emulation.  Defining CONFIG_LINUX_USER, and
-> CONFIG_BSD_USER for eventual future use, is cleaner.
+> DIRS is used to create the directory in which the LINKS symbolic links
+> reside, or to create directories for object files.  The former can
+> be done directly in the symlinking loop, while the latter is done
+> by Meson already, so DIRS is not necessary.
 >
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Queued to testing/next, thanks.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
 Alex Benn=C3=A9e
