@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E151846FC1D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 08:54:10 +0100 (CET)
-Received: from localhost ([::1]:50128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C78B46FC0D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 08:47:03 +0100 (CET)
+Received: from localhost ([::1]:36606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvajK-0005yK-1f
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 02:54:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55776)
+	id 1mvacP-0005G2-8b
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 02:47:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvaZa-0002OW-GK
+ id 1mvaZa-0002Ng-4w
  for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:44:06 -0500
-Received: from [2607:f8b0:4864:20::102a] (port=34541
- helo=mail-pj1-x102a.google.com)
+Received: from [2607:f8b0:4864:20::42c] (port=38547
+ helo=mail-pf1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvaZW-0007rh-DJ
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:44:06 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- j5-20020a17090a318500b001a6c749e697so7640394pjb.1
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 23:43:57 -0800 (PST)
+ id 1mvaZW-0007rp-FD
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:44:05 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id g18so7736908pfk.5
+ for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 23:44:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=V1J7pWolu2DDg8NInUsbrU4WO7tsqQMnN5Bedisyyqk=;
- b=AgdXLI+KnpxnOakhIgr3z8VCMN3HrndL4MQ3aSCufkWgn56uC8HvaSQC2tkme06w64
- bMZLTIesNxkF2YaASX873bhHkCmjI+gjhwu7gkl0QegTxIES/RyZ3IR8urZqDPJc59Lf
- AbkBAZOjsjIM5RNYNyWR2jIQPvj+c+1jGMu8WdTodHOAKvgAXa1XUfiTUARU4uaPaqPl
- VlsoDlhQ9NcnkjAJsfYAgUzixVYBoUozbcANpijPYAcLW1aYQn+8fW/gF4Jl8bZgmOFE
- pM0j2Srke3hhcUj3OY1UwTTiLyXl5CjYwZiT2rBRw2wn+fVn5Y4tAd3GYmNw/n94oShi
- O2Dg==
+ bh=6mp+Dg287bQfhvSt+AX7ufFhRBdHxpYX3QavDrimu20=;
+ b=GfTr1M/nW8mu2VRy27Vzr5iAO5kIajRiZwscRrsUywEFpMmrSmpOQHyFCoWBsgE9Bd
+ XBxEQrapqHktf8Bxk29lPW+oHM/FOJvbfjtTRAxr6h9gzOkO0DmCMnwNHbPBTcPCoSeC
+ ZdV4aLAwgSXVXsPRZP7m8yPLtgpoN8mFH61v4oO633NemU6oQoX1ygcKBHjpZjqTqfkl
+ KwkBYPXJlHOTZDaFZRlc7TVuvIhIegBbG9WI/t/kemDWeaaGZaKfLqs4hR8KWDPc7wMO
+ 0LzRjzI4PKGh3VJcqzVl80WOkFxuDMT+HGVIftn2XN1FGnB2nTV3epcDo4pOszt9AHrV
+ KnHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=V1J7pWolu2DDg8NInUsbrU4WO7tsqQMnN5Bedisyyqk=;
- b=Ea7d/8GVTKrhziKZPODYGMRBmpdUSDNjHPdHkrJ6K5sCrIt+4TdWZVdcR39TFMtG72
- 52mpA4HT84yNr18b3BTl7hSYaO5eFfa763oo/R8kKvm50Ttm5/Ngjb6yzIyrcSxlozeC
- 83go/aQ0vDW5BzAl0a9WTj5uaLJ4HOhXdWApGDL/XGZ32CLa6GpWDyic5qDKC7AQ/jwp
- GvVbkl5cH1u1lPp9LhUVt3HY0k46iZGtuc4IaUEgGQfyEwbMphaAy90GyxSafSXw9ZQn
- koTPGVjKxCo/Sqp5k1wkVcsUpa6bHreLC4pXhjd2uhMyPGH0mJQov9zmlVV5Uh4oSorY
- 9dvw==
-X-Gm-Message-State: AOAM532rC0bqeA9sEkjYVif5+Ekk3PvFw3JGiycHbDLq9x1sXZKPBAJL
- CDJc7AufsRY/ZzHXA9wIfq6WrzLAJVtxb3fr
-X-Google-Smtp-Source: ABdhPJygWIzLkM2cl2nl5y+vQyMybDVMvBdDgbjtBsR/pqXPSeLIGGuDTof28L4hCCjeZ46PD6A9Yw==
-X-Received: by 2002:a17:902:dac7:b0:141:e931:3aff with SMTP id
- q7-20020a170902dac700b00141e9313affmr74786259plx.50.1639122236178; 
- Thu, 09 Dec 2021 23:43:56 -0800 (PST)
+ bh=6mp+Dg287bQfhvSt+AX7ufFhRBdHxpYX3QavDrimu20=;
+ b=QyLeLUHneBpRpW+pCi6i0oJfmFIOPvPITcF+cZcUQVl9Lu50yTM/WnfECpjUGNHVar
+ pEpZ9mrUIn29DkgRO+SgWGHRqHAWeecCz1PgKYmin3czza1HWTA4Enm2NUmwEr+DTg90
+ JIg8N60szb7t0tu20KDFeGhOA/2QReSe3ManpZxsR5snIqDZJNI+2xSTKgW8I8Oc1KQu
+ 5hW/DkJf7XSkpirnIxfSMcFtSAmr1MC6DZIIg5ev8uKBLjFerFPhrQQauLbQRCv/DjTl
+ pOjYSKRnB9fk1ShYOGL9R+1Q8yd5aek/4EmmLIAkcuEBH8IXPQyyhYScglPoN9jAeIQs
+ hL5w==
+X-Gm-Message-State: AOAM5330HmorA3lOltZohKCpuCJDWZWGLF4w0aqBPnyNWhJ6zz171WoX
+ ajpb1r+2xRfQlhqj3Xd3Y5F3EPYosUQ+HiRg
+X-Google-Smtp-Source: ABdhPJzOwgdu9Z7+2Qp01xrsoHvP+tn5ADW76rlUIvDQ+JU6K3rOfGWDQT20ruykfCq/fZAtBYeQGg==
+X-Received: by 2002:a63:4385:: with SMTP id
+ q127mr37122719pga.304.1639122239471; 
+ Thu, 09 Dec 2021 23:43:59 -0800 (PST)
 Received: from hsinchu16.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id g17sm1737704pgh.46.2021.12.09.23.43.54
+ by smtp.gmail.com with ESMTPSA id g17sm1737704pgh.46.2021.12.09.23.43.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Dec 2021 23:43:55 -0800 (PST)
+ Thu, 09 Dec 2021 23:43:59 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 4/8] target/riscv: zfh: half-precision floating-point
- compare
-Date: Fri, 10 Dec 2021 15:43:23 +0800
-Message-Id: <20211210074329.5775-5-frank.chang@sifive.com>
+Subject: [PATCH v6 5/8] target/riscv: zfh: half-precision floating-point
+ classify
+Date: Fri, 10 Dec 2021 15:43:24 +0800
+Message-Id: <20211210074329.5775-6-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211210074329.5775-1-frank.chang@sifive.com>
 References: <20211210074329.5775-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -106,113 +105,69 @@ Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/fpu_helper.c                 | 21 +++++++++++++
- target/riscv/helper.h                     |  3 ++
- target/riscv/insn32.decode                |  3 ++
- target/riscv/insn_trans/trans_rvzfh.c.inc | 37 +++++++++++++++++++++++
- 4 files changed, 64 insertions(+)
+ target/riscv/fpu_helper.c                 |  6 ++++++
+ target/riscv/helper.h                     |  1 +
+ target/riscv/insn32.decode                |  1 +
+ target/riscv/insn_trans/trans_rvzfh.c.inc | 12 ++++++++++++
+ 4 files changed, 20 insertions(+)
 
 diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
-index 2ed9b03193..ec2009ee65 100644
+index ec2009ee65..388e23ca67 100644
 --- a/target/riscv/fpu_helper.c
 +++ b/target/riscv/fpu_helper.c
-@@ -461,6 +461,27 @@ uint64_t helper_fsqrt_h(CPURISCVState *env, uint64_t rs1)
-     return nanbox_h(float16_sqrt(frs1, &env->fp_status));
+@@ -482,6 +482,12 @@ target_ulong helper_feq_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
+     return float16_eq_quiet(frs1, frs2, &env->fp_status);
  }
  
-+target_ulong helper_fle_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
++target_ulong helper_fclass_h(uint64_t rs1)
 +{
 +    float16 frs1 = check_nanbox_h(rs1);
-+    float16 frs2 = check_nanbox_h(rs2);
-+    return float16_le(frs1, frs2, &env->fp_status);
-+}
-+
-+target_ulong helper_flt_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-+{
-+    float16 frs1 = check_nanbox_h(rs1);
-+    float16 frs2 = check_nanbox_h(rs2);
-+    return float16_lt(frs1, frs2, &env->fp_status);
-+}
-+
-+target_ulong helper_feq_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-+{
-+    float16 frs1 = check_nanbox_h(rs1);
-+    float16 frs2 = check_nanbox_h(rs2);
-+    return float16_eq_quiet(frs1, frs2, &env->fp_status);
++    return fclass_h(frs1);
 +}
 +
  target_ulong helper_fcvt_w_h(CPURISCVState *env, uint64_t rs1)
  {
      float16 frs1 = check_nanbox_h(rs1);
 diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index b50672d168..9c89521d4a 100644
+index 9c89521d4a..d25cf725c5 100644
 --- a/target/riscv/helper.h
 +++ b/target/riscv/helper.h
-@@ -74,6 +74,9 @@ DEF_HELPER_FLAGS_3(fdiv_h, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_3(fmin_h, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_3(fmax_h, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_2(fsqrt_h, TCG_CALL_NO_RWG, i64, env, i64)
-+DEF_HELPER_FLAGS_3(fle_h, TCG_CALL_NO_RWG, tl, env, i64, i64)
-+DEF_HELPER_FLAGS_3(flt_h, TCG_CALL_NO_RWG, tl, env, i64, i64)
-+DEF_HELPER_FLAGS_3(feq_h, TCG_CALL_NO_RWG, tl, env, i64, i64)
- DEF_HELPER_FLAGS_2(fcvt_s_h, TCG_CALL_NO_RWG, i64, env, i64)
- DEF_HELPER_FLAGS_2(fcvt_h_s, TCG_CALL_NO_RWG, i64, env, i64)
- DEF_HELPER_FLAGS_2(fcvt_d_h, TCG_CALL_NO_RWG, i64, env, i64)
+@@ -89,6 +89,7 @@ DEF_HELPER_FLAGS_2(fcvt_h_w, TCG_CALL_NO_RWG, i64, env, tl)
+ DEF_HELPER_FLAGS_2(fcvt_h_wu, TCG_CALL_NO_RWG, i64, env, tl)
+ DEF_HELPER_FLAGS_2(fcvt_h_l, TCG_CALL_NO_RWG, i64, env, tl)
+ DEF_HELPER_FLAGS_2(fcvt_h_lu, TCG_CALL_NO_RWG, i64, env, tl)
++DEF_HELPER_FLAGS_1(fclass_h, TCG_CALL_NO_RWG_SE, tl, i64)
+ 
+ /* Special functions */
+ DEF_HELPER_2(csrr, tl, env, int)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index ba40f3e7f8..3906c9fb20 100644
+index 3906c9fb20..6c4cde216b 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -751,6 +751,9 @@ fcvt_d_h   0100001  00010 ..... ... ..... 1010011 @r2_rm
- fcvt_w_h   1100010  00000 ..... ... ..... 1010011 @r2_rm
- fcvt_wu_h  1100010  00001 ..... ... ..... 1010011 @r2_rm
- fmv_x_h    1110010  00000 ..... 000 ..... 1010011 @r2
-+feq_h      1010010  ..... ..... 010 ..... 1010011 @r
-+flt_h      1010010  ..... ..... 001 ..... 1010011 @r
-+fle_h      1010010  ..... ..... 000 ..... 1010011 @r
+@@ -754,6 +754,7 @@ fmv_x_h    1110010  00000 ..... 000 ..... 1010011 @r2
+ feq_h      1010010  ..... ..... 010 ..... 1010011 @r
+ flt_h      1010010  ..... ..... 001 ..... 1010011 @r
+ fle_h      1010010  ..... ..... 000 ..... 1010011 @r
++fclass_h   1110010  00000 ..... 001 ..... 1010011 @r2
  fcvt_h_w   1101010  00000 ..... ... ..... 1010011 @r2_rm
  fcvt_h_wu  1101010  00001 ..... ... ..... 1010011 @r2_rm
  fmv_h_x    1111010  00000 ..... 000 ..... 1010011 @r2
 diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/insn_trans/trans_rvzfh.c.inc
-index d125025766..8d0959a667 100644
+index 8d0959a667..0549e25fb4 100644
 --- a/target/riscv/insn_trans/trans_rvzfh.c.inc
 +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
-@@ -335,6 +335,43 @@ static bool trans_fcvt_h_d(DisasContext *ctx, arg_fcvt_h_d *a)
+@@ -372,6 +372,18 @@ static bool trans_fle_h(DisasContext *ctx, arg_fle_h *a)
      return true;
  }
  
-+static bool trans_feq_h(DisasContext *ctx, arg_feq_h *a)
++static bool trans_fclass_h(DisasContext *ctx, arg_fclass_h *a)
 +{
 +    REQUIRE_FPU;
 +    REQUIRE_ZFH(ctx);
 +
 +    TCGv dest = dest_gpr(ctx, a->rd);
 +
-+    gen_helper_feq_h(dest, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
-+    gen_set_gpr(ctx, a->rd, dest);
-+    return true;
-+}
-+
-+static bool trans_flt_h(DisasContext *ctx, arg_flt_h *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv dest = dest_gpr(ctx, a->rd);
-+
-+    gen_helper_flt_h(dest, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
-+    gen_set_gpr(ctx, a->rd, dest);
-+
-+    return true;
-+}
-+
-+static bool trans_fle_h(DisasContext *ctx, arg_fle_h *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv dest = dest_gpr(ctx, a->rd);
-+
-+    gen_helper_fle_h(dest, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
++    gen_helper_fclass_h(dest, cpu_fpr[a->rs1]);
 +    gen_set_gpr(ctx, a->rd, dest);
 +    return true;
 +}
