@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9375946FEA1
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 11:20:36 +0100 (CET)
-Received: from localhost ([::1]:59448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 113A646FEB0
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 11:24:43 +0100 (CET)
+Received: from localhost ([::1]:41514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvd11-00081H-MN
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 05:20:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47796)
+	id 1mvd4z-0006a5-PS
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 05:24:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mvcqz-0006yg-72; Fri, 10 Dec 2021 05:10:13 -0500
-Received: from [2a00:1450:4864:20::52f] (port=46871
- helo=mail-ed1-x52f.google.com)
+ id 1mvcsE-0001qS-1y; Fri, 10 Dec 2021 05:11:30 -0500
+Received: from [2a00:1450:4864:20::530] (port=35494
+ helo=mail-ed1-x530.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mvcqv-0006hS-3s; Fri, 10 Dec 2021 05:10:11 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id y13so27884558edd.13;
- Fri, 10 Dec 2021 02:10:08 -0800 (PST)
+ id 1mvcsC-0007xK-If; Fri, 10 Dec 2021 05:11:29 -0500
+Received: by mail-ed1-x530.google.com with SMTP id v1so28600801edx.2;
+ Fri, 10 Dec 2021 02:11:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=4P1XPd4qyrGemyYjZkrNHDR5HYwCct/Qr/jTfhRjQy0=;
- b=fReeBN/CfHvhG9kKjR9IKNKAzWCbBemYWpvEyENxN2MYTSfOJPlmg+ldPikSDqZ9LE
- +v3CeYk7GNQPB1udmxyCKi8jXyfKURAR1r0jXdSwCNA/wbmf0WYqnBwmexzhpTxgXnnU
- spm4l9FtnB4zozjntv/I1IXR2ROBsXRi17AXqqemsvbXoQ2TY5dOt5Sjzpl/tel/TjkG
- X+SHIKzx03jDpffjhXTlnU+6ruRQmZ6M3IWMe59IUNNwcXqoNltaQE9MlRqIHcFPlqPC
- gdhhJEftlFgB0WF35m6sAqcGQW4yOcoHEr3mg1KiaA4bJ+1nRfLdatLMmpMGLQTwe4cr
- iDqg==
+ bh=l3qeEo+jWGYFV13NH3oOdulqHhDAMY2J0DO65Q819/8=;
+ b=V84DNfMxZXBdpMkjS7DzgFDawHK00I0C+0iEewswkQ0JiNxPpciixx1vbYlDmTYs9s
+ MqUOfXByP6cmtYHbyVuSa3Y0r9lTmxeSTBn3+nXXnHLP7drxQ4zkAF6dnXtya0H/oS2K
+ iO2lAjSGQ5gza9CJlZEMuVgwohjUyTzW+JvEAo+YdVPL3HrdbWE21MX3wgyGwEE4omhg
+ dmJzMlYDHXCjkGgMVa4611xpLiKzZBxocL13G1RkYxmX1/8IG8TqZ05yzzTcwV6GkS2T
+ Sk9BTrkDVvZL4mswmYeEBFjTDLP/nMu6UHYMK4w4FMcMHNd+wveoFDqFM3py8N75HyME
+ txvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=4P1XPd4qyrGemyYjZkrNHDR5HYwCct/Qr/jTfhRjQy0=;
- b=g6OxkLyUPO1cpRCTuCMes0gDHGeIWgzKaqL8/1PaRLHUQsLS4aw9PySqZoAvOU0jvK
- hyWWWTQwDIobF6BP76xv5FgN6KoeRh+1IT3uod3jvlMY8DfJX0EpJdE80Hj4CQ7F5CE0
- VCOFCKy4kS13CX8LQ/4k8zZMmdz+jrXXwF7WCr/RhbW3C7kWoOn3MGubMJ8Q9g487XDT
- 8HUca5UaijuMpgz8w6huZhfwQdp3qeCxnTRekj8GuKIKi4olYDczDP9A+87CXotrnO89
- 13ht5s+xjkZ5Tc+oOPIkJK+PSgBtv2Zfze/PrQdNkaqFmDyJann7WhSxXr/d5LoyXvVq
- NnMw==
-X-Gm-Message-State: AOAM532EA9AzOyPecLXvvwMfB4e4XertemrXGCkCfkczaNKryGYkcwkV
- WXeyH7D/5tyFZcgR1vxUZBg=
-X-Google-Smtp-Source: ABdhPJwxjdsd8wLltC6+9xG+WeYsMbAybpYtkPk8pSlA5LjrrQEP0sdKZ/S76yY/KHejnn62xd0gZQ==
-X-Received: by 2002:a17:906:9b8e:: with SMTP id
- dd14mr22654334ejc.337.1639131007158; 
- Fri, 10 Dec 2021 02:10:07 -0800 (PST)
+ bh=l3qeEo+jWGYFV13NH3oOdulqHhDAMY2J0DO65Q819/8=;
+ b=HSS2c/1w6KziA1zVNsn7OtrSHeyUTtN+Rj5+VIsEgylzzEwcKwe2aFyeeCHtBkYLxw
+ i8dbExJ76iGVpOEBLtQynzcZ5NMYh65LL8wYv8M55JyOSD5J7UXZH5FqaCegHIXYH/F8
+ FjWOThomMBcSHrUMoBZfr8FcAy6He6iMA6TGocCUzfwq+aQr3NkuQXTcaMlLCX+AUmPY
+ reKKxdIVMvQ3tzF2qnmuzpfUL09icZ9vwZE3SIMzEUd8rrnR9hGcz8kfz3rncj1OJvEF
+ EXCued6t3EHotOligXDvZUCDMvl79rDVqvyz2YqJcaSurlk2SUAFtjaDTaANki8rByLF
+ sDpQ==
+X-Gm-Message-State: AOAM531dQf58qLaNeQEV/7iRNgzGLp+IQscMPjhNSI1qVj+XZvvgGHMc
+ N+QtcnAbn5OR4z0UEKgfQLU=
+X-Google-Smtp-Source: ABdhPJzdgCERPEsFn+0ltSoWI8Y11Ak6TqpEH8ksNhEUWGG4fYeeF0xqE5idxUN1Na+O6b+2YsqE3w==
+X-Received: by 2002:a17:906:1599:: with SMTP id
+ k25mr22566954ejd.298.1639131086120; 
+ Fri, 10 Dec 2021 02:11:26 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312::973? ([2001:b07:6468:f312::973])
- by smtp.googlemail.com with ESMTPSA id gs15sm1265870ejc.42.2021.12.10.02.10.06
+ by smtp.googlemail.com with ESMTPSA id jg32sm1336819ejc.43.2021.12.10.02.11.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Dec 2021 02:10:06 -0800 (PST)
-Message-ID: <73e6f8e1-d30c-6c1b-008f-235f624d08f0@redhat.com>
-Date: Fri, 10 Dec 2021 11:10:05 +0100
+ Fri, 10 Dec 2021 02:11:25 -0800 (PST)
+Message-ID: <02a0ad69-4129-6e6c-06af-fc9c9e3047e1@redhat.com>
+Date: Fri, 10 Dec 2021 11:11:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 3/4] Move CONFIG_XFS handling to meson.build
+Subject: Re: [PATCH v1 12/12] target/riscv: Support virtual time context
+ synchronization
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20211028185910.1729744-1-thuth@redhat.com>
- <20211028185910.1729744-4-thuth@redhat.com>
- <e02332c0-7c4e-18a2-5c33-b00e8045f6da@redhat.com>
- <7da70e19-537b-9ca5-125d-f9bcf2d3f6df@redhat.com>
- <aa0b8d39-32ad-b3a0-afff-474de704211f@redhat.com>
- <4ebf08ed-dd35-8347-45f8-18be46fae16f@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Yifei Jiang <jiangyifei@huawei.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211120074644.729-1-jiangyifei@huawei.com>
+ <20211120074644.729-13-jiangyifei@huawei.com>
+ <d9c9196a-692c-cbcf-339b-8e84ecde7cee@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <4ebf08ed-dd35-8347-45f8-18be46fae16f@redhat.com>
+In-Reply-To: <d9c9196a-692c-cbcf-339b-8e84ecde7cee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -95,27 +95,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qemu-block <qemu-block@nongnu.org>
+Cc: bin.meng@windriver.com, Mingwang Li <limingwang@huawei.com>,
+ kvm@vger.kernel.org, libvir-list@redhat.com, anup.patel@wdc.com,
+ wanbo13@huawei.com, Alistair.Francis@wdc.com, kvm-riscv@lists.infradead.org,
+ wanghaibin.wang@huawei.com, fanliang@huawei.com, palmer@dabbelt.com,
+ wu.wubin@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/21 09:46, Thomas Huth wrote:
->>
->> platform_test_xfs_fd() is only used to decide whether to invoke 
->> XFS_IOC_DIOINFO; but failures of XFS_IOC_DIOINFO are ignored anyway, 
->> so we can get rid of is_xfs in BDRVRawState, too.
+On 11/20/21 23:34, Richard Henderson wrote:
+> On 11/20/21 8:46 AM, Yifei Jiang wrote:
+>>   const VMStateDescription vmstate_riscv_cpu = {
+>>       .name = "cpu",
+>>       .version_id = 3,
+>>       .minimum_version_id = 3,
+>> +    .post_load = cpu_post_load,
+>>       .fields = (VMStateField[]) {
+>>           VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
+>>           VMSTATE_UINT64_ARRAY(env.fpr, RISCVCPU, 32),
+>> @@ -211,6 +221,10 @@ const VMStateDescription vmstate_riscv_cpu = {
+>>           VMSTATE_UINT64(env.mtohost, RISCVCPU),
+>>           VMSTATE_UINT64(env.timecmp, RISCVCPU),
+>> +        VMSTATE_UINT64(env.kvm_timer_time, RISCVCPU),
+>> +        VMSTATE_UINT64(env.kvm_timer_compare, RISCVCPU),
+>> +        VMSTATE_UINT64(env.kvm_timer_state, RISCVCPU),
+>> +
+>>           VMSTATE_END_OF_LIST()
+>>       },
 > 
-> After staring at the code for a while, I wonder why we're not simply 
-> using fstat() here instead to get the st_blksize value... wouldn't that 
-> be better anyway since it also works with other file system types?
+> Can't alter VMStateDescription.fields without bumping version.
+> 
+> If this is really kvm-only state, consider placing it into a 
+> subsection.  But I worry about kvm-only state because ideally we'd be 
+> able to migrate between tcg and kvm (if only for debugging).
 
-The value that XFS_IOC_DIOINFO returns is the logical sector size of the 
-underlying device; it should be 512 or 4096, but more likely 512.  It 
-can be smaller than st_blksize, because often it will be if it is 512 
-but the st_blksize is usually 4096.
-
-If it is wrong, QEMU will do unnecessary read/modify/write operations 
-for disk writes that are not 4K-aligned.
+Where is this state stored for TCG?
 
 Paolo
 
