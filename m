@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF7F946FCFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 09:50:55 +0100 (CET)
-Received: from localhost ([::1]:50290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 517C946FCD6
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 09:37:43 +0100 (CET)
+Received: from localhost ([::1]:53812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvbcE-0000N7-RN
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 03:50:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33020)
+	id 1mvbPS-0008SX-Ds
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 03:37:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvaoK-0006N5-60
+ id 1mvaoK-0006N7-6h
  for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:59:21 -0500
-Received: from [2607:f8b0:4864:20::102f] (port=54144
- helo=mail-pj1-x102f.google.com)
+Received: from [2607:f8b0:4864:20::436] (port=42792
+ helo=mail-pf1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvaoB-0006vh-LS
+ id 1mvaoB-0006vw-SL
  for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:59:17 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id iq11so6263237pjb.3
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 23:59:06 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id u80so7755193pfc.9
+ for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 23:59:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DiQXnhX3LowsLjz/JXwpCCRkk0pTIoMgDowNSJpcND8=;
- b=mPYMOAaY15GZP5jYK9Mur3eaj7axF0fiHtvKB4FV6+AUvj3NHp/XHajvm0uOy9idw6
- P+g+GYvxNl2InMqFkSe1IF3gH2ao6NuYBH6TWJhDHFByKzThrnvsqhbBvmfAkhj1I+47
- q15ROm77PYgNF0Cp18cg4G7zj9cQFih7EJbcX9cybC4IhdZ3uqv7m6aXojJXe6ZE0XA5
- gJ777Gqa4b48n+TblaRZVyBEhQgrkLWTo9U2LhzKLfrFUyysEH+YiWdNB5iypugf34EX
- 6Brqryuz+Hg1H2WKx/ezu/uDOZ8EYieaO0ezkRJpNTTuP9ZnRf9Hwd+oLoJN16m8jGkg
- E9HQ==
+ bh=P+No8Hh3sFX3VAKdhZkr4N+fI/QEs3skLRPgC7AhekM=;
+ b=FwApuEMIF3V74363L83qaWiA5TOlKlz2FpF81U5jD6zbRPQLOSvRcZOrVWKsDZHiSm
+ p14XFGeCIw6/JRB15aTN4/ce/E704f/AkySmUtvbFHRh0nWqEW6ANFC1sIfQ8lixbpNz
+ fuAr4v6Rj5x5Skx/yKGHal/vDJ+swqowrV/VHq9WJxL42T9qES6mDCDfHVtWDUjRLCH3
+ gkdRdcwjvoUCClNdI+baunw2QokNXzxxPHrPZBMyOSlcimQ1zHdsnBP+4FUS0E2VdpqE
+ 2PNkTCRLTtpLPSo/V9w1dvPiDle0CAC4R+fgQLeQLC7PAwViN2V+lDkzogKa/dVJ3aYO
+ GeEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DiQXnhX3LowsLjz/JXwpCCRkk0pTIoMgDowNSJpcND8=;
- b=dgxvL1pu/jgiUE1/jPEXoayNWBeVvpLGUP2mP1xwVKI1moNfZuZvXYVHDFJ2fl4apm
- rKJJ1SU8RW8jv4iiHY+ozSLL8ES5C+xp+VnzfrZkmINQWptAxdVcLO7uxUYu0B61XwaF
- SRTxEeMtlT9oTiihzFLMzQ94eYthN8rCgu5NjIaNG9MYXUv7AF9eZRJqOqQ0jA6RMajh
- 9EHp/MgtYKVDt1FgoMYIZreikh9CYFTL+r9VHoalcziRtYYGxTwfv9bZEDhTjt8aFews
- sDtnX5YKzdShSmeYFydlwiJnXWenII4tnixD7wfqOfCi5rOfO+plQOPmYMvcJzbvhkVi
- QAow==
-X-Gm-Message-State: AOAM533+HjrnZqxEhCH2j0Q4ixtsxWLekH/laVd6YRm/m2mUPxerVs/N
- /Bjv6EAS3ONmHBD6egkyPVbRIKl3GmNImdff
-X-Google-Smtp-Source: ABdhPJyc7P5dmtzJafKNCAoBiSMvl4dMuy4c9sAIwsz9eCeLtJGUU2xxgmLUVzLk2e+FJtDkej9lOw==
-X-Received: by 2002:a17:903:245:b0:143:c5ba:8bd8 with SMTP id
- j5-20020a170903024500b00143c5ba8bd8mr74658021plh.64.1639123145761; 
- Thu, 09 Dec 2021 23:59:05 -0800 (PST)
+ bh=P+No8Hh3sFX3VAKdhZkr4N+fI/QEs3skLRPgC7AhekM=;
+ b=BWM2+r8wora5vFbNIMwDQQNZV75aqC28+MFU8yK1N+U5gpKN+SFqfX4oTg0k4Unt2o
+ wc8w4HuaLldkCqsT67c47BfwVQgdjOjtnER9KXyEy+tPDjIzKYyJDajablCTwEdjI5Un
+ Qy8gzKo1fipZpkxrGLLrTfDLLYZ7QNxrJu0wVFSsS+eHfiegPmiU1CpPsg64UyFQTvyf
+ M+PV8IPeZJUxcFYhjtnnqD4JlTNB7H4FuMqoec3wt4m9M/lDEyorAx1Zw/zSHTCMXqMU
+ W3wjuAFV5PKUf/FAMH21ND6FouKAAa+nOekJOS7F224Q7BfR33Ax2E+Jqh0sOjbvSriz
+ 6o0w==
+X-Gm-Message-State: AOAM531lrFW3iwgDvIS9LEEqc4++HE/7ub/VtaVYQ5qXYKol5CJI8vtM
+ JG2SB3IXvQk3JqeZkdZ1HTAMFraacnhGtpMC
+X-Google-Smtp-Source: ABdhPJyntpLSG3+QgG2G+Vv+2v4+tbyu5nRXIx9NNKA4jK5kioefAf1jVZh5MjZ7ykqZemCmGDMJUQ==
+X-Received: by 2002:a62:380f:0:b0:4b0:da80:2dac with SMTP id
+ f15-20020a62380f000000b004b0da802dacmr5381717pfa.66.1639123148384; 
+ Thu, 09 Dec 2021 23:59:08 -0800 (PST)
 Received: from hsinchu16.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id f4sm2087955pfg.34.2021.12.09.23.59.04
+ by smtp.gmail.com with ESMTPSA id f4sm2087955pfg.34.2021.12.09.23.59.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Dec 2021 23:59:05 -0800 (PST)
+ Thu, 09 Dec 2021 23:59:08 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 36/77] target/riscv: rvv-1.0: integer scalar move
- instructions
-Date: Fri, 10 Dec 2021 15:56:22 +0800
-Message-Id: <20211210075704.23951-37-frank.chang@sifive.com>
+Subject: [PATCH v11 37/77] target/riscv: rvv-1.0: floating-point move
+ instruction
+Date: Fri, 10 Dec 2021 15:56:23 +0800
+Message-Id: <20211210075704.23951-38-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211210075704.23951-1-frank.chang@sifive.com>
 References: <20211210075704.23951-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -98,99 +98,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-* Remove "vmv.s.x: dothing if rs1 == 0" constraint.
-* Add vmv.x.s instruction.
+NaN-boxed the scalar floating-point register based on RVV 1.0's rules.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn32.decode              |  3 +-
- target/riscv/insn_trans/trans_rvv.c.inc | 43 ++++++++++++++++++++-----
- 2 files changed, 37 insertions(+), 9 deletions(-)
+ target/riscv/insn_trans/trans_rvv.c.inc | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 4653a9679e..e33ec82fdf 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -634,8 +634,9 @@ vmsif_m         010100 . ..... 00011 010 ..... 1010111 @r2_vm
- vmsof_m         010100 . ..... 00010 010 ..... 1010111 @r2_vm
- viota_m         010100 . ..... 10000 010 ..... 1010111 @r2_vm
- vid_v           010100 . 00000 10001 010 ..... 1010111 @r1_vm
-+vmv_x_s         010000 1 ..... 00000 010 ..... 1010111 @r2rd
-+vmv_s_x         010000 1 00000 ..... 110 ..... 1010111 @r2
- vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
--vmv_s_x         001101 1 00000 ..... 110 ..... 1010111 @r2
- vfmv_f_s        001100 1 ..... 00000 001 ..... 1010111 @r2rd
- vfmv_s_f        001101 1 00000 ..... 101 ..... 1010111 @r2
- vslideup_vx     001110 . ..... ..... 100 ..... 1010111 @r_vm
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 322fc5c4aa..c250943dde 100644
+index c250943dde..2c8002af54 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2978,27 +2978,54 @@ static void vec_element_storei(DisasContext *s, int vreg,
-     store_element(val, cpu_env, endian_ofs(s, vreg, idx), s->sew);
- }
- 
-+/* vmv.x.s rd, vs2 # x[rd] = vs2[0] */
-+static bool trans_vmv_x_s(DisasContext *s, arg_vmv_x_s *a)
-+{
-+    if (require_rvv(s) &&
-+        vext_check_isa_ill(s)) {
+@@ -2461,9 +2461,15 @@ static bool trans_vfmv_v_f(DisasContext *s, arg_vfmv_v_f *a)
+         require_rvf(s) &&
+         vext_check_isa_ill(s) &&
+         require_align(a->rd, s->lmul)) {
 +        TCGv_i64 t1;
-+        TCGv dest;
 +
-+        t1 = tcg_temp_new_i64();
-+        dest = tcg_temp_new();
-+        /*
-+         * load vreg and sign-extend to 64 bits,
-+         * then truncate to XLEN bits before storing to gpr.
-+         */
-+        vec_element_loadi(s, t1, a->rs2, 0, true);
-+        tcg_gen_trunc_i64_tl(dest, t1);
-+        gen_set_gpr(s, a->rd, dest);
+         if (s->vl_eq_vlmax) {
++            t1 = tcg_temp_new_i64();
++            /* NaN-box f[rs1] */
++            do_nanbox(s, t1, cpu_fpr[a->rs1]);
++
+             tcg_gen_gvec_dup_i64(s->sew, vreg_ofs(s, a->rd),
+-                                 MAXSZ(s), MAXSZ(s), cpu_fpr[a->rs1]);
++                                 MAXSZ(s), MAXSZ(s), t1);
+             mark_vs_dirty(s);
+         } else {
+             TCGv_ptr dest;
+@@ -2477,15 +2483,21 @@ static bool trans_vfmv_v_f(DisasContext *s, arg_vfmv_v_f *a)
+             TCGLabel *over = gen_new_label();
+             tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+ 
++            t1 = tcg_temp_new_i64();
++            /* NaN-box f[rs1] */
++            do_nanbox(s, t1, cpu_fpr[a->rs1]);
++
+             dest = tcg_temp_new_ptr();
+             desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
+             tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, a->rd));
+-            fns[s->sew - 1](dest, cpu_fpr[a->rs1], cpu_env, desc);
++
++            fns[s->sew - 1](dest, t1, cpu_env, desc);
+ 
+             tcg_temp_free_ptr(dest);
+             mark_vs_dirty(s);
+             gen_set_label(over);
+         }
 +        tcg_temp_free_i64(t1);
-+        tcg_temp_free(dest);
-+
-+        return true;
-+    }
-+    return false;
-+}
-+
- /* vmv.s.x vd, rs1 # vd[0] = rs1 */
- static bool trans_vmv_s_x(DisasContext *s, arg_vmv_s_x *a)
- {
--    if (vext_check_isa_ill(s)) {
-+    if (require_rvv(s) &&
-+        vext_check_isa_ill(s)) {
-         /* This instruction ignores LMUL and vector register groups */
--        int maxsz = s->vlen >> 3;
-         TCGv_i64 t1;
-+        TCGv s1;
-         TCGLabel *over = gen_new_label();
- 
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
--        tcg_gen_gvec_dup_imm(SEW64, vreg_ofs(s, a->rd), maxsz, maxsz, 0);
--        if (a->rs1 == 0) {
--            goto done;
--        }
- 
-         t1 = tcg_temp_new_i64();
--        tcg_gen_extu_tl_i64(t1, cpu_gpr[a->rs1]);
-+
-+        /*
-+         * load gpr and sign-extend to 64 bits,
-+         * then truncate to SEW bits when storing to vreg.
-+         */
-+        s1 = get_gpr(s, a->rs1, EXT_NONE);
-+        tcg_gen_ext_tl_i64(t1, s1);
-         vec_element_storei(s, a->rd, 0, t1);
-         tcg_temp_free_i64(t1);
-         mark_vs_dirty(s);
--    done:
-         gen_set_label(over);
          return true;
      }
+     return false;
 -- 
 2.31.1
 
