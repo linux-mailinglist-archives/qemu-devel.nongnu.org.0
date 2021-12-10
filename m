@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE34470556
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 17:09:54 +0100 (CET)
-Received: from localhost ([::1]:54016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45B747055C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 17:12:12 +0100 (CET)
+Received: from localhost ([::1]:56886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mviT3-0007Hs-Ab
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 11:09:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50182)
+	id 1mviVH-00011T-O5
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 11:12:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mviPD-0001lC-VO
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 11:05:57 -0500
-Received: from [2a00:1450:4864:20::436] (port=44001
- helo=mail-wr1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mviPC-0007vX-9h
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 11:05:55 -0500
-Received: by mail-wr1-x436.google.com with SMTP id v11so15672396wrw.10
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 08:05:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Qgt2FEV5WNQAEOEArrZZgumlAB9OsrfsNuRgDwxszIE=;
- b=WW+bEywuPvZICyukoYKLf0WzbTQcmjm//TAvMPgUGdH5/KA8YW9Rq96M+BHKLeZSuV
- OQrzpoHViwLaSvzpLinmktjdwEqXilu/peixarhBdTLDCFM5h9w1MFkhytXcbJo0mDPw
- WLOaP92ziapW4MPCXoddEZ7o74dByGhpC4vrAF54fP+bG+nsJjt+AYsWlZlxwO8zXEUq
- /OZ7vg18jfnlr3dfILdP38aPGC++m+6+KiJsfalUjltJFDeR3v7aAgaitd5ePid4qvVa
- IW7g1pzpBIpDHtfnUoICwFUNyewcSZcMfHuf5Rslr7wI7/MDNAn2bBcGXVKddjK9c4xM
- noVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Qgt2FEV5WNQAEOEArrZZgumlAB9OsrfsNuRgDwxszIE=;
- b=KDZfIQg22PKkkvjdnHR4PercmZ2wN7XGNOvBFCvLEfKl/xGCz/DLuR1g0E+ES/oGFR
- veUJ1sIBEnTxHKrL6FfUOcBJqf3/J0Yvg3+9rK8e2/dAE99cBfbdoHCuZPBifrJQGJHg
- To4ruwXPdW1BGXGvRhxRV8SN0dfmFvA/CZn8GgOsb1QQoOUovPACg+uCWo78AOfOxMn6
- /eVP4xZaCgLMim3+Fbr9LUeA4KIMWDMSI+u6TNV18JB4rzTarJtDS9zc4ZpGFm0eXljY
- bTPxvFPgQDadmOyr65O4qpj8YE/k9wY/S5wZgrPAweq/qvNRJIBd0T1QKAPe9RqDLCSK
- aOYw==
-X-Gm-Message-State: AOAM533jj68tfZXKBTdoeGIa2od8cLKlNLqUqam+V6Q2jr95HGLHMerq
- ytOOkei2gyME/Bv6tP0DJNZb4jkw8y7KDMAcJj6sLw==
-X-Google-Smtp-Source: ABdhPJxK2cU90iwF5LZpNsANO1ONrjBrvOyWY0j9WtVRlNMOsWYO4vJR2g/brm26Zm+E3GBph6y3nWaIQRsJkw8GSDw=
-X-Received: by 2002:adf:f64b:: with SMTP id x11mr15283281wrp.4.1639152352786; 
- Fri, 10 Dec 2021 08:05:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mviTm-0008SQ-5p
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 11:10:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49209)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mviTi-0000yA-1s
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 11:10:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639152629;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vsVQBgeX6Xx8C6WCt78kb1V4uedh8TTXAvnFXZtUXeY=;
+ b=BII0hicVqZe0HZvehoL53pjSzu+xIZyrLwIiWMjvevUdHWpzGnXFl18Te5D4DaOz6AKna5
+ OxTaxsbWPdMNNh488XlWJrqY9+ir5u76ox5O0dJXPO57siIyT/BPUIX96rm7dDiFgP2+XM
+ SeQ/Qzi4w5IxbI/mPOFBdMIbh7mOPY0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-482-MC7OJ0SxM3iUDugagBzdkQ-1; Fri, 10 Dec 2021 11:10:26 -0500
+X-MC-Unique: MC7OJ0SxM3iUDugagBzdkQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 523B810199A0;
+ Fri, 10 Dec 2021 16:10:25 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.255])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5572860BF4;
+ Fri, 10 Dec 2021 16:10:24 +0000 (UTC)
+Date: Fri, 10 Dec 2021 17:10:22 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH 0/2] block-backend: Retain permissions after migration
+Message-ID: <YbN77v2rCdgcBxyQ@redhat.com>
+References: <20211125135317.186576-1-hreitz@redhat.com>
 MIME-Version: 1.0
-References: <20211201154023.13931-1-francisco.iglesias@xilinx.com>
- <20211201154023.13931-11-francisco.iglesias@xilinx.com>
-In-Reply-To: <20211201154023.13931-11-francisco.iglesias@xilinx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Dec 2021 16:05:41 +0000
-Message-ID: <CAFEAcA-o8_U46C1ApijM9cktAQHyjtztbCsMRM4Kgcsgg0mncg@mail.gmail.com>
-Subject: Re: [PATCH v4 10/11] MAINTAINERS: Add an entry for Xilinx Versal OSPI
-To: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211125135317.186576-1-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,23 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
- alistair@alistair23.me, qemu-devel@nongnu.org, alistair23@gmail.com,
- philmd@redhat.com
+Cc: Peng Liang <liangpeng10@huawei.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 1 Dec 2021 at 15:41, Francisco Iglesias
-<francisco.iglesias@xilinx.com> wrote:
->
-> List myself as maintainer for the Xilinx Versal OSPI controller.
->
-> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> ---
+Am 25.11.2021 um 14:53 hat Hanna Reitz geschrieben:
+> Hi,
+> 
+> Peng Liang has reported an issue regarding migration of raw images here:
+> https://lists.nongnu.org/archive/html/qemu-block/2021-11/msg00673.html
+> 
+> It turns out that after migrating, all permissions are shared when they
+> weren’t before.  The cause of the problem is that we deliberately delay
+> restricting the shared permissions until migration is really done (until
+> the runstate is no longer INMIGRATE) and first share all permissions;
+> but this causes us to lose the original shared permission mask and
+> overwrites it with BLK_PERM_ALL, so once we do try to restrict the
+> shared permissions, we only again share them all.
+> 
+> Fix this by saving the set of shared permissions through the first
+> blk_perm_set() call that shares all; and add a regression test.
+> 
+> 
+> I don’t believe we have to fix this in 6.2, because I think this bug has
+> existed for four years now.  (I.e. it isn’t critical, and it’s no
+> regression.)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Feels a bit like a hack, but I guess as long as it works... :-)
 
-thanks
--- PMM
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+
 
