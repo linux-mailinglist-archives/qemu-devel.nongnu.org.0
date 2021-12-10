@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9EB46FD0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 09:52:37 +0100 (CET)
-Received: from localhost ([::1]:54932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4C546FCC4
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 09:31:58 +0100 (CET)
+Received: from localhost ([::1]:43056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvbds-0003Zo-Hs
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 03:52:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60876)
+	id 1mvbJt-00019t-Ov
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 03:31:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvann-0005ua-Eb
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:58:47 -0500
-Received: from [2607:f8b0:4864:20::631] (port=46690
- helo=mail-pl1-x631.google.com)
+ id 1mvano-0005yp-Kc
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:58:48 -0500
+Received: from [2607:f8b0:4864:20::42b] (port=41679
+ helo=mail-pf1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvanj-0006r5-Va
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:58:47 -0500
-Received: by mail-pl1-x631.google.com with SMTP id p18so5721112plf.13
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 23:58:43 -0800 (PST)
+ id 1mvanm-0006s5-H2
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:58:48 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id g19so7770097pfb.8
+ for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 23:58:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bMxtMs8KLHg1VrhV6E9tcps8BmAmJv9k6CQYse6I7KA=;
- b=cQp8KCv6lt9kw8ZmSJiW1u8wFS/U3yHMQdPm1RXpWWdZAvY9jESFAx8MafJcSVsZy9
- wtMN4VrcBhyR91bIeX3nsk2ZnyFgCXY5E/Gc66agp+fCfQBzC+JpX/OyYlFzBHIjSki4
- DJseYx//lt1A1z00FbehxjBC6PXJzInyHMgXJyhufRuEKC+EizCVZK12ut+JuN0e2/ri
- GEQ59CRtuz5iruGb8u7YHtI/kW8DMjs4m2b1VeQe6JzozIfThB8DNL6DA90isV1w1E6X
- RWe4yt5WYA4NX5T/0gi/g6esWel59IYO5MCT/R/H30jFzlPWs66c/qlNknhIufhCat+b
- DoRg==
+ bh=psnTdQQJlLhjeyFOG5kFcY75ahQs7c0yD26P9q7b4PA=;
+ b=A8rOgIzxGdEzIcWmmDnJKMUzRioYXY8pSsh2gnmvgmynk9opbnfTDykkSbjr2sb+3m
+ J/6vWWLs5VENTFeSPLlVJi1jecH1j+m0enUN4JsH2kWMOVi9/dMEI4c5e3VLluPsdRTQ
+ ZDp4WmAMT1PR9xqEqK9z1ouvwrjwWTCNvumd2+wpSSZUKoSiuXwoqp4STnDilXMlypaK
+ UsTvYRhconn5BGJjN6Cnnv0b55+rVOxD+1Yh5aOgHkfH3him6YvWNH/kC2u1vcGn7IWj
+ h/Ffd89km7ZSnRm21U+lWhdy3Ri0LpJzm31V7oHWI+czEjDX2sKmqKe2X/H1p4sLRe3C
+ CELQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bMxtMs8KLHg1VrhV6E9tcps8BmAmJv9k6CQYse6I7KA=;
- b=SAi0IzK0KDnC9XMjM19PO7vVsxoEh+oPZrYaNUlkottk9cwgyX2ZxbB8oA/uQsyXqO
- ZS0hz7LhGYBVJznXlp1DAjN8muHmbqnFI8P2H/jIOfkgzSjWIenz1mt8To0OUDg7FYOy
- FSgMwHxlH1x1STshBr6WcDXcRGd9j+8RbjvyDQX860A5nNEkgPT0sESh1rwhS0uXSYkF
- 3BPG1AZNpth1kPVJ9VGUVoWsoXiTDeaUq4noDGlmZBX2P4sL5LaM/Dbs6DFejFEaQcQB
- 8wbhQeGi4HeNmmM6CdkzGK5m5i1+BHIpjIkPnN5pemqrftoZ96DFKN6lE00ft5FwAI31
- JVQQ==
-X-Gm-Message-State: AOAM532O6USfTgCUV6fMwwTSKN30qa+WvEUetsAZ805QFVKMN4DnO2sG
- NGbnSzZHI4NHag9l3yjfZIlZXsvGyWVDhv1Z
-X-Google-Smtp-Source: ABdhPJwY3x+cN0Dzq8bb/NFYg4Cw8kcMbZNv5yjio1RjZBAqOGUIzORuSA3oKrHjcKQZxjQ1NYgqmg==
-X-Received: by 2002:a17:90a:9291:: with SMTP id
- n17mr22184406pjo.219.1639123122662; 
- Thu, 09 Dec 2021 23:58:42 -0800 (PST)
+ bh=psnTdQQJlLhjeyFOG5kFcY75ahQs7c0yD26P9q7b4PA=;
+ b=m6/VhEb/e4ZNmd4c57Ij+FeaOZSFeZmAdbTqm/Is0b7xA6HiSbDLcSVLMrJX5Fx2F9
+ o18IwbcVmWlyKnSI9waMK68LCMjQcy5Jbbl9YHNmDqhII1mgj309iwlXR3JmflR10LDu
+ obwBT/+WZAAWcWy0Y8dxh26kelJwJkCLmDRrK007hLJy54d4Zwpk6zbEPSne1IJKJwpd
+ qsA++5+4du2IO2f2NJ/jSjlkF3gPlhcei/u6xQOqGH80kJild0+eZT5862Ng0gfJnzUk
+ kb5QV8wGYsZ5Bis6xQIZwGRQoueBP3u8nTaneqCbCgnYvP09LA2ntd1o3WdwFqbS3EdX
+ ORbA==
+X-Gm-Message-State: AOAM531yTUr/t3ygByZudjSofoelTZzAOaKFn2XWgAWYOga55tpw0wtZ
+ vV3Hc78BzduPxRxEzEJO/txYKDw0HmIMLiEo
+X-Google-Smtp-Source: ABdhPJymR2v61FgufdDVLz4SGKI+O5wdCKIpAUogz8LobHJtkSeodNIabPr/URwjFmUl4lcHTH9/AQ==
+X-Received: by 2002:aa7:8717:0:b0:4a2:967c:96b with SMTP id
+ b23-20020aa78717000000b004a2967c096bmr16721013pfo.14.1639123125129; 
+ Thu, 09 Dec 2021 23:58:45 -0800 (PST)
 Received: from hsinchu16.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id f4sm2087955pfg.34.2021.12.09.23.58.41
+ by smtp.gmail.com with ESMTPSA id f4sm2087955pfg.34.2021.12.09.23.58.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Dec 2021 23:58:42 -0800 (PST)
+ Thu, 09 Dec 2021 23:58:44 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 27/77] target/riscv: rvv-1.0: floating-point square-root
- instruction
-Date: Fri, 10 Dec 2021 15:56:13 +0800
-Message-Id: <20211210075704.23951-28-frank.chang@sifive.com>
+Subject: [PATCH v11 28/77] target/riscv: rvv-1.0: floating-point classify
+ instructions
+Date: Fri, 10 Dec 2021 15:56:14 +0800
+Message-Id: <20211210075704.23951-29-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211210075704.23951-1-frank.chang@sifive.com>
 References: <20211210075704.23951-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -106,18 +106,18 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 7d8441d1f2..92a0e6fe51 100644
+index 92a0e6fe51..f61eaf7c6b 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -563,7 +563,7 @@ vfwmsac_vv      111110 . ..... ..... 001 ..... 1010111 @r_vm
- vfwmsac_vf      111110 . ..... ..... 101 ..... 1010111 @r_vm
- vfwnmsac_vv     111111 . ..... ..... 001 ..... 1010111 @r_vm
- vfwnmsac_vf     111111 . ..... ..... 101 ..... 1010111 @r_vm
--vfsqrt_v        100011 . ..... 00000 001 ..... 1010111 @r2_vm
-+vfsqrt_v        010011 . ..... 00000 001 ..... 1010111 @r2_vm
- vfmin_vv        000100 . ..... ..... 001 ..... 1010111 @r_vm
- vfmin_vf        000100 . ..... ..... 101 ..... 1010111 @r_vm
- vfmax_vv        000110 . ..... ..... 001 ..... 1010111 @r_vm
+@@ -586,7 +586,7 @@ vmfgt_vf        011101 . ..... ..... 101 ..... 1010111 @r_vm
+ vmfge_vf        011111 . ..... ..... 101 ..... 1010111 @r_vm
+ vmford_vv       011010 . ..... ..... 001 ..... 1010111 @r_vm
+ vmford_vf       011010 . ..... ..... 101 ..... 1010111 @r_vm
+-vfclass_v       100011 . ..... 10000 001 ..... 1010111 @r2_vm
++vfclass_v       010011 . ..... 10000 001 ..... 1010111 @r2_vm
+ vfmerge_vfm     010111 0 ..... ..... 101 ..... 1010111 @r_vm_0
+ vfmv_v_f        010111 1 00000 ..... 101 ..... 1010111 @r2
+ vfcvt_xu_f_v    100010 . ..... 00000 001 ..... 1010111 @r2_vm
 -- 
 2.31.1
 
