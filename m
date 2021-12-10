@@ -2,69 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D516646FEB8
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 11:26:36 +0100 (CET)
-Received: from localhost ([::1]:43836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89EE746FEDD
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 11:43:21 +0100 (CET)
+Received: from localhost ([::1]:51372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvd6q-00087f-0F
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 05:26:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53494)
+	id 1mvdN0-0005Oq-P1
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 05:43:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jtomko@redhat.com>) id 1mvd4b-0006ip-7j
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:24:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52935)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mvdLa-0004it-8j
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:41:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jtomko@redhat.com>) id 1mvd4Y-0003Lv-5Z
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:24:16 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mvdLW-0008Ds-Ds
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:41:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639131852;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uUj3t4l19Qw/ssQ5Il0C+p7LMF4iuAw+hKUhYzl8F5E=;
- b=TKfTa2SmkXhlDYLzkHxX0RPbfw6tmGjYdzThb1NJqM2sucTxnFlcZBj002ALlD1R9N7nZG
- PNxvy00u89xURiJ4/b3AHiz605JYve9SyOOfhuMXSp0JZZtqvjL6mUWAaGbi0p9D9ANQiw
- 6MgIlce50V4fdSTTUWCgo0mt5Yx4fxU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1639132904;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=szQqK7SomEY3Q9X1DLFITrS/yQr21gWp1zUXPq7iw0w=;
+ b=J3uPbZ2Z7b3TyopEv2SUe18w8j1C+Ji51RXbNqjPyyvzkMvS7t1v2fxNl/7GUtYU66erc8
+ nhsNyGt/KgpzslWunrmEX8t4BEutpEQv3g+8rxffrVYw2FaQJUY1ydboSJi6Vgjs7W312n
+ AWbtjjjJmBFlpnxMlmCnqRgh7MHTMo4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-222-1zULxvPlOqCN2JeFz-31og-1; Fri, 10 Dec 2021 05:23:05 -0500
-X-MC-Unique: 1zULxvPlOqCN2JeFz-31og-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C32A1006AA1
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 10:23:05 +0000 (UTC)
-Received: from fedora (unknown [10.40.193.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 40C3445D72;
- Fri, 10 Dec 2021 10:23:04 +0000 (UTC)
-Date: Fri, 10 Dec 2021 11:23:01 +0100
-From: =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] configure: remove dead variables
-Message-ID: <YbMqhTA+kr7W5ZGv@fedora>
-References: <20211210084718.24758-1-pbonzini@redhat.com>
+ us-mta-477-X0DF8fsyOtejZYQF9m9JJw-1; Fri, 10 Dec 2021 05:41:43 -0500
+X-MC-Unique: X0DF8fsyOtejZYQF9m9JJw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ d7-20020a5d6447000000b00186a113463dso2111979wrw.10
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 02:41:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=szQqK7SomEY3Q9X1DLFITrS/yQr21gWp1zUXPq7iw0w=;
+ b=ZyZ1e5mPc5JCwijZBUPYXikv570pN3YntwlcaAvrKVCHnLhNcvHW69VrHg8bXh4UGy
+ MNpa7CcdDKji6pwNcHy8ySBwa+8KTp/tM0azebjQrUKjLaW+NtVCeP9GPko3TVimaPxl
+ ak8or4PUtb7Vthi5tROqLCYzGeB9pEOMOyuzmWfsMJCn++2J3zu+P7VWE6wbUHA2dn5i
+ 8yBU1EmRuo4Jaa+pmm2Txp3vEAVoysg8NrGjyCdTK5InbxMQc062DgsZ7IkVy/bXCkVa
+ VhMmi3akZKRAVs9dwvpofnrzGSWB2Oq9ZmvEsn6V21GySltniZwEYMGFWNA1JmZHGHEN
+ MyMw==
+X-Gm-Message-State: AOAM532UOEDg82NQWyh4cUI0+7ilBhKnWp089lNUI+3WPiC8rpNmCbCn
+ u//0kHmOo0EHl/u4gUkk/V7aNW97Ows+eZ7Qnw6Dz1UqvV2jdtLwUd48Pq2OkLbtIaPmFQHmrPt
+ NjtGYEGc8B0dBxcs=
+X-Received: by 2002:a1c:7e41:: with SMTP id z62mr15921472wmc.62.1639132902561; 
+ Fri, 10 Dec 2021 02:41:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzJrVM9ONhTiKJ637ekqCaKN5y9moY/PqdFtM6j59FmBg8Js0ZB9xpjBZ36K6mCBsZke2H9SA==
+X-Received: by 2002:a1c:7e41:: with SMTP id z62mr15921447wmc.62.1639132902342; 
+ Fri, 10 Dec 2021 02:41:42 -0800 (PST)
+Received: from localhost (static-174-144-85-188.ipcom.comunitel.net.
+ [188.85.144.174])
+ by smtp.gmail.com with ESMTPSA id p5sm2392799wrd.13.2021.12.10.02.41.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Dec 2021 02:41:41 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v3 18/23] multifd: Use normal pages array on the recv side
+In-Reply-To: <Ya8JCq/cRmcL9Kp7@xz-m1.local> (Peter Xu's message of "Tue, 7 Dec
+ 2021 15:11:06 +0800")
+References: <20211124100617.19786-1-quintela@redhat.com>
+ <20211124100617.19786-19-quintela@redhat.com>
+ <Ya8JCq/cRmcL9Kp7@xz-m1.local>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Fri, 10 Dec 2021 11:41:41 +0100
+Message-ID: <878rwskahm.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <20211210084718.24758-1-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jtomko@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xrRHCwV/7BMcfNqT"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jtomko@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,53 +98,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: quintela@redhat.com
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---xrRHCwV/7BMcfNqT
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On a Friday in 2021, Paolo Bonzini wrote:
->Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->---
-> configure | 5 -----
-> 1 file changed, 5 deletions(-)
+Peter Xu <peterx@redhat.com> wrote:
+> On Wed, Nov 24, 2021 at 11:06:12AM +0100, Juan Quintela wrote:
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> ---
+>>  migration/multifd.h      |  8 +++++--
+>>  migration/multifd-zlib.c |  8 +++----
+>>  migration/multifd-zstd.c |  6 +++---
+>>  migration/multifd.c      | 45 ++++++++++++++++++----------------------
+>>  4 files changed, 33 insertions(+), 34 deletions(-)
+>> 
+>> diff --git a/migration/multifd.h b/migration/multifd.h
+>> index 78e73df3ec..9fbcb7bb9a 100644
+>> --- a/migration/multifd.h
+>> +++ b/migration/multifd.h
+>> @@ -151,12 +151,16 @@ typedef struct {
+>>      uint32_t next_packet_size;
+>>      /* packets sent through this channel */
+>>      uint64_t num_packets;
+>> -    /* pages sent through this channel */
+>> -    uint64_t num_pages;
+>> +    /* non zero pages sent through this channel */
 >
+> s/send/recv/
 
-Reviewed-by: J=E1n Tomko <jtomko@redhat.com>
+Thanks.
 
-$supported_os is unused since
-commit f9332757898a764d85e19d339ec421236e885b68
-     meson: move summary to meson.build
+>> +    uint64_t num_normal_pages;
+>
+> How about renaming it to "total_normal_pages"?  It's merely impossible to
+> identify this from normal_num below from their names..
 
-$haiku is unused since
-commit d99e97e6912d90a55e9a92e004dd54513da2848a
-     configure: Add a proper check for openpty() in libutil
+I can change it.  It just makes some lines a bit longer, but that is
+what you have with better names.
 
-CONFIG_HAIKU is unused since
-commit 4348300e751df1cd24810fb5f699f1f85bbc2849
-     net/tap: Replace tap-haiku.c and tap-aix.c by a generic tap-stub.c
+> I'd have the same comment to previous patch.
 
-Jano
+Ok.
 
---xrRHCwV/7BMcfNqT
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks, Juan.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEE7DTm0WabvfIr7YZ4Ak1z5KIMl5QFAmGzKn8ACgkQAk1z5KIM
-l5TRlwf+NPIjNFY3oai/HRf4AX6I3gA5MvUPgPMpCzpjXmU23cw/05PEYpKxlUuX
-oV2tSZSMzQGsC6EzCrwUVmyAVGDlib4NGkcGNWWVw8EPA1sG2R5CbsKy4Tj0bh/6
-cN7Mgi4CCW/pXdt+2/pEn7AHKJ/Atswljyy/wbdWPauze5pkZX7oihSrEIVnOZhU
-OJldeEQEgt1b3gBXhtVFbm1vHsV/H8AfNsaKsymsH+iQs+3oH0hzpNQ+UJzTuDJQ
-W3nnwJfuToVnD9SyyMv1Li4b8joTq1S18ep1skLv1Z+MXK2Pr3oQwI26vcAbzNvM
-O8jKr+3K2+ktAwsKApwy9cs8HTVaVQ==
-=HZxg
------END PGP SIGNATURE-----
-
---xrRHCwV/7BMcfNqT--
+>
+> Thanks,
+>
+>>      /* syncs main thread and channels */
+>>      QemuSemaphore sem_sync;
+>>      /* buffers to recv */
+>>      struct iovec *iov;
+>> +    /* Pages that are not zero */
+>> +    ram_addr_t *normal;
+>> +    /* num of non zero pages */
+>> +    uint32_t normal_num;
+>>      /* used for de-compression methods */
+>>      void *data;
+>>  } MultiFDRecvParams;
 
 
