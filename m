@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D3346FFCA
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 12:29:16 +0100 (CET)
-Received: from localhost ([::1]:56638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D1946FFCB
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 12:29:17 +0100 (CET)
+Received: from localhost ([::1]:56780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mve5S-00057e-Pm
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 06:29:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45466)
+	id 1mve5U-0005Dj-9u
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 06:29:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mve2U-0002o0-H0
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 06:26:11 -0500
-Received: from [2a00:1450:4864:20::42e] (port=39501
- helo=mail-wr1-x42e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mve2O-0000kU-Ly
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 06:26:10 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id a18so14377081wrn.6
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 03:26:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=41hXRHnrhFhgGnMC2ttwvxMRGHW6C1ta/K7XSzwwaHk=;
- b=Ns/y+F8WZpMF2Alx2onWsNPIWY40fCkqcm4+h2K8IQAMRDU8q9wI7hhbowrisKqZhm
- 0bow1CoyIKNmjWpl5oMLVQtgJ33V/vhSH6+Z5Y/ig+NPfzKC4pwHvqGCIy//P+SJnMyo
- 9ypiQ1mK/einpsOoEE0i9y/iN33PXWH/v0ZzCvZiG/McjorNwjJGDK1Oc2RXNGRgcLct
- NI6E+EusT4jJYWtBYM5ND+1M6fsMXXwtd9UjpwBFo8It2NGXe9FBuPejb5f66bVn86SX
- 7hr4E0ljVMlvGQStN1MbcD99Fi9CHWMxJNxk8q6e42KvHxKtggKzkIxHiNbYiDW7jWAi
- HtvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=41hXRHnrhFhgGnMC2ttwvxMRGHW6C1ta/K7XSzwwaHk=;
- b=rIpfwb7mDQiJZIC1KzhB0eHpkDS3zL9iALFWJCFdTTbVv1JX4ajKZ/XRiZbjrjRczY
- F8o3Kw6Hv4OpMrN6NrMYrOM9AS0u1+hM+rLiiBAYSm9F9OJpcr8HTm5BJwK85/gG5yfN
- VtlQYi15Fwrmq7TFSMVm4ItdawrKnJjh4BVwMvS7xGAMYQ3A55NAVA9mXP3KBgB2+DQl
- +NN06QuDEgcvFn4hFbfwd/q/+mVmwkNW7SJ+vz6iPKwyV/K5Aq1GvZ7hPQ27tT/4mbT0
- 2wq/ShwCs4j+i+fon7S+ieDPkMN5xIDNeQRCkxJflw07oLOYfQNeACHLumX7itB/yb8n
- wuNg==
-X-Gm-Message-State: AOAM5309Q+HOGrgxeD3XfmumcrbGHcGPP6nEMaATTv80RurJcBQC6Qw0
- YGDtbxgUkYWFdoIO8Tb36avXE4Wd48eKSHl3MA33Tg==
-X-Google-Smtp-Source: ABdhPJzyhIuucW4R+aLGZkgvlSWvhNw/Z1ItYuFIjTn/YJHNtJeHpCpZ0tANHf0Aa2QgQOqks1PA7bZQ7wY0Scs5OPY=
-X-Received: by 2002:adf:f0c5:: with SMTP id x5mr12789013wro.484.1639135561545; 
- Fri, 10 Dec 2021 03:26:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mve2d-0002qb-Ck
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 06:26:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22182)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mve2W-0000lc-RC
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 06:26:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639135570;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6kyI9I3wcdy9WwJhFjMSHKlfAbXr6diljWB3WpCJTpE=;
+ b=PBWJ/WpO69o+uPZF/YAkYO+HPueelFKbhYVruXV0812HZwcRgfcMDwLHzSDyqxzcrhbJAE
+ tzPc/Z6iCTzAWiNHipn9NUKyu+rJmr0JA8khJP2XlKCmR6tnRblsA3iTRw3iVdEj3+tiN/
+ NBh4b0GKqhsXVdz1o+gc3NrUBSNyAAM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-90-E_wWlvDdP7mdhlvukv-XxA-1; Fri, 10 Dec 2021 06:26:07 -0500
+X-MC-Unique: E_wWlvDdP7mdhlvukv-XxA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84BEA64140;
+ Fri, 10 Dec 2021 11:26:06 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E06E100E125;
+ Fri, 10 Dec 2021 11:25:58 +0000 (UTC)
+Date: Fri, 10 Dec 2021 11:25:55 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: Redesign of QEMU startup & initial configuration
+Message-ID: <YbM5Q+gq89rWoPt8@redhat.com>
+References: <87lf13cx3x.fsf@dusky.pond.sub.org> <YbJU5vVdesoGuug9@redhat.com>
+ <fb7e946e-6881-0ea3-d824-99693f938165@redhat.com>
 MIME-Version: 1.0
-References: <20211209145601.331477-1-peter.griffin@linaro.org>
- <20211209145601.331477-6-peter.griffin@linaro.org>
-In-Reply-To: <20211209145601.331477-6-peter.griffin@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Dec 2021 11:25:50 +0000
-Message-ID: <CAFEAcA_P8x90HgxSiqYiT4h6HsBwZsKKfXUWx1_g8sCgikxzZw@mail.gmail.com>
-Subject: Re: [PATCH 5/8] standard-headers: Add virtio_video.h
-To: Peter Griffin <peter.griffin@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <fb7e946e-6881-0ea3-d824-99693f938165@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,52 +83,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, stratos-dev@op-lists.linaro.org,
- alex.bennee@linaro.org, qemu-devel@nongnu.org, mst@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Mark Burton <mark.burton@greensocs.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Mirela Grujic <mirela.grujic@greensocs.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 9 Dec 2021 at 15:03, Peter Griffin <peter.griffin@linaro.org> wrote:
->
-> Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
-> ---
->  include/standard-headers/linux/virtio_video.h | 483 ++++++++++++++++++
->  1 file changed, 483 insertions(+)
->  create mode 100644 include/standard-headers/linux/virtio_video.h
+On Fri, Dec 10, 2021 at 09:34:41AM +0100, Paolo Bonzini wrote:
+> On 12/9/21 20:11, Daniel P. Berrangé wrote:
+> > >     They still need to bootstrap a QMP monitor, and for that, CLI is fine
+> > >     as long as it's simple and stable.
+> 
+> I would go a step further and say that the QMP monitor socket should be
+> created by whoever invoked QEMU and passed down via systemd's socket
+> activation protocol, with a fallback to stdin/stdout.
 
-As MST notes, content in include/standard-headers/ is from
-upstream Linux, and it gets into QEMU by:
+That's an interesting idea, firmly relegating any "human friendly"
+targetted CLI to a separate program, that in turn invokes this
+low level QEMU binary. I do like the simplicity of this and the
+strict division of the layers it provides us, as it will help keep
+us honest when designing human friendly interfaces.
 
- (1) getting it into the Linux kernel tree
- (2) changing QEMU's scripts/update-linux-headers.sh to know that
-     it wants this new header file
- (3) running the script to create a patch which updates the headers
-     to match a new enough mainline Linux kernel that has the file
+To be clear, I do think the QEMU project should be delivering a
+nice simple human targetted interface, and ideally using the
+'/usr/bin/qemu' binary name, and able to deliver users a machines
+with a modern hardware config that can evolve over time.
 
-This is important because files in standard-headers are used
-by QEMU on all host OSes, not just Linux. Things like:
+> > > = Appendix: Why further incremental change feels impractical =
+> > > 
+> > > Crafting a big change in small steps sounds great.  It isn't when we
+> > > have to make things worse before they can get better, and every step is
+> > > painfully slow because it's just too hard, and the end state we aim for
+> > > isn't really what we want.
+> > 
+> > I can't disagree with this. If we carry on trying to evolve vl.c
+> > incrementally we are doomed to be stuck with a horrible starstup
+> > process for enternity (or at least as long as I'll still be
+> > working as QEMU maintainer).
+> 
+> ... and if you compare vl.c in 5.2 and now, and consider current vl.c to be
+> horrible, my knowedge of English does not include an adjective to describe
+> the 5.2 state.  Some incremental work _is_ possible or even necessary, and
+> has been done already.
 
-> +#include <linux/virtio_config.h>
+Right, I'm not saying vl.c hasn't improved, but we're never going
+to get out of the peculiar historical startup ordering rules we
+have today by incremental fixes, without breaking people.
 
-or
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-> +       __le32 version;
-
-won't compile on BSD. The update-linux-headers.sh script takes
-care of sanitizing this kind of Linuxism when it copies the
-header into the QEMU tree.
-
-The process also ensures that we don't accidentally bring in
-support for a kernel feature until its userspace ABI is finalized.
-
-Where a new feature is being worked on on both the kernel and the
-QEMU side of things, you can post QEMU RFC patchsets which
-temporarily have ad-hoc header file updates (eg created from
-a kernel tree that has the not-yet-upstream kernel patches), but
-these should be clearly marked as RFCs and we don't take the
-QEMU patches until the kernel side is upstream and the QEMU
-headers can be cleanly generated from a mainline kernel commit.
-
-thanks
--- PMM
 
