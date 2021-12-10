@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F117C4706BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 18:10:01 +0100 (CET)
-Received: from localhost ([::1]:48182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 558A64706B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 18:08:36 +0100 (CET)
+Received: from localhost ([::1]:44338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvjPF-0002zB-2t
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 12:10:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40226)
+	id 1mvjNq-0000SV-TV
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 12:08:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mvjLL-0005oa-Rh
+ id 1mvjLN-0005od-FP
  for qemu-devel@nongnu.org; Fri, 10 Dec 2021 12:06:06 -0500
-Received: from [2a00:1450:4864:20::534] (port=43790
- helo=mail-ed1-x534.google.com)
+Received: from [2a00:1450:4864:20::536] (port=41946
+ helo=mail-ed1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mvjLK-0006QZ-5a
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 12:05:59 -0500
-Received: by mail-ed1-x534.google.com with SMTP id o20so32376685eds.10
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 09:05:57 -0800 (PST)
+ id 1mvjLK-0006Rc-JL
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 12:06:00 -0500
+Received: by mail-ed1-x536.google.com with SMTP id g14so31184218edb.8
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 09:05:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RZYrOTlTize273kRDCgsOSabJUg4Thn9EplwiX40QqE=;
- b=zRieCPc0wjXAXswALgOBEXD5yw0zQ/C4scJuDI+y+gHD7LGo9pLaZQNoRhc+3/PyuE
- +EMJ5+UiduqNSopqv0qdRwnvkalaPbxU1775UlXDIiyaiq5nDfHQpQy5g6/p3CUF9T0J
- 8DIT+TVkciZz20iQk9dW5vvJYRDHKWfMKaY0pNptP68CWXn15fmOIL7S0M+G/2H9zNkU
- JTOfCu3akXThV/WhQBZhOnITwwd/9PsPlgGK/exEtqnnZfsAr0aPQslS4jsh1CjvMsX/
- UiHDyGBA6luM24R1SX7ciupGLd6NBfMuHfXhT8O4WI1aTstl1IEFtFrEbjOWEmCP6SBk
- cadA==
+ bh=4yO/WGhytnP1jShdpXsBzF1bUEx6zhOAnxporW8D5r4=;
+ b=MLq0gTYbuEPiTJ2+4bFOTuCcc+RMqjNDaYHC+KLB4Olf0wCd72IWW8zJyk7QRdhURm
+ AofkYcaW6YVhRHHJwCmE+NGnmnStnRAow0iMkr+uxKlQ0Qd/9g+NIztp2yJv5DMMLESn
+ 030l/VZkW1nHEzAJuW3ciON76FRABxhjSx1Jj15V+k6M21PJrglG8sM3b5V5Nm9qp0AW
+ DmlbWW3zsoeBSqpVtGQfnxOLLIAkKabhML+S5YOw+rymRMpxeZZirGpPL7LOBY3lG11A
+ FOvo/prJbTl5LEOxk1sQYPbnkv8SWVWWFLYou1WXNzUrcUQjMMzWyR9qUC1LwixeUKjZ
+ zWlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RZYrOTlTize273kRDCgsOSabJUg4Thn9EplwiX40QqE=;
- b=OawhWUcyUeyJDjiFYXkbbUax9ySPDBYkMIqrK2nVU+w3LT4pFjpioeTQul5JVB0hw3
- pMU4BAxAi2v6pB1TdCPtIM6R9uT40HlJRUpbFU7OYMvA/63XII0L4BVicqlyChV9naRc
- 81q6QgGWvgfqmj2hxUFUDVWVFdaNe4rYtycY/3q5C/Bijb87KFiE3tz1k05IPhiWsApS
- 8ORMUtkM3JNtxhl0MD86o+sBN4l2YaDaJ93biVzQ5TjC5m0nDGrf/Yo+XybdZW38R+Tp
- 3Skt4+rSmCzBBUwUr5MpsxkIuGtiqAhuuVPTX72b3pMH+Yxs7GRnSaWRs63FoM/S3ONM
- McwQ==
-X-Gm-Message-State: AOAM532lbNsg6XnDfS7KNxjE9je0+s0d3a8p8Ni7wjgSfdyOBsGzwiks
- zCrkngGaXcfLt2vmY9S4luXAZg==
-X-Google-Smtp-Source: ABdhPJyaTE7xFM3xfjBl+4pYJYY004EbKM/SX3TlGIlgBCuHKguRhbfTsl6TDMF97GF9d9WPJnwFkg==
-X-Received: by 2002:a17:906:fa87:: with SMTP id
- lt7mr25701801ejb.426.1639155952779; 
- Fri, 10 Dec 2021 09:05:52 -0800 (PST)
+ bh=4yO/WGhytnP1jShdpXsBzF1bUEx6zhOAnxporW8D5r4=;
+ b=3gRcef6zM6g0WkohHFgdnOe8ekSs9WeFv0dA/whASwuyZCGhCLq5WGA5cpAq9Bx2Yv
+ vRdOG4+8HJFxQKCy522ZXow7AXJ4lrEnuBji50vLJYxHkXs9RXGovp3ovjaQcL1TJKQe
+ 5bI2r7kxlf7oBt2fycKvzceKhtvBbFW4bwhhSVd9ayiHKycyOi+zYkYY4diM50mJFpId
+ DF5XyFGtGDeunSt2kX1bb/FehN07tB7LH2wPO55Wvw4r5+1EmCi64UJVqUo0LX5DDz38
+ 89dUtRkpawzSmylDt9HSfUlAAYO+Qb7RxfOnRtkhF9dmbSicnL/6ZLHYH1O7Zp2b+XOd
+ el1g==
+X-Gm-Message-State: AOAM532EYyT32rN9wUquUDQosLOnNqIrR7upS3krVsRqQv5I08A+JUAj
+ KsmHkLPJ+xZmXse3yAkx5fW59A==
+X-Google-Smtp-Source: ABdhPJxinpMU7LlIwehx+jdOGZHWmnfyBJZkLqCL0FwJRzDTE66boezMh4oNMY3mzp/myZW4dxTyhA==
+X-Received: by 2002:a05:6402:2547:: with SMTP id
+ l7mr40358309edb.301.1639155957105; 
+ Fri, 10 Dec 2021 09:05:57 -0800 (PST)
 Received: from localhost.localdomain
  (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id x7sm1860661edd.28.2021.12.10.09.05.51
+ by smtp.gmail.com with ESMTPSA id x7sm1860661edd.28.2021.12.10.09.05.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Dec 2021 09:05:52 -0800 (PST)
+ Fri, 10 Dec 2021 09:05:56 -0800 (PST)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: mst@redhat.com, imammedo@redhat.com, peter.maydell@linaro.org,
  shannon.zhaosl@gmail.com
-Subject: [PATCH v7 1/8] hw/arm/virt-acpi-build: Add VIOT table for virtio-iommu
-Date: Fri, 10 Dec 2021 17:04:09 +0000
-Message-Id: <20211210170415.583179-2-jean-philippe@linaro.org>
+Subject: [PATCH v7 2/8] hw/arm/virt: Remove device tree restriction for
+ virtio-iommu
+Date: Fri, 10 Dec 2021 17:04:10 +0000
+Message-Id: <20211210170415.583179-3-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211210170415.583179-1-jean-philippe@linaro.org>
 References: <20211210170415.583179-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=jean-philippe@linaro.org; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=jean-philippe@linaro.org; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -93,54 +94,64 @@ Cc: ani@anisinha.ca, eric.auger@redhat.com, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a virtio-iommu is instantiated, describe it using the ACPI VIOT
-table.
+virtio-iommu is now supported with ACPI VIOT as well as device tree.
+Remove the restriction that prevents from instantiating a virtio-iommu
+device under ACPI.
 
 Acked-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- hw/arm/virt-acpi-build.c | 7 +++++++
- hw/arm/Kconfig           | 1 +
- 2 files changed, 8 insertions(+)
+ hw/arm/virt.c                | 10 ++--------
+ hw/virtio/virtio-iommu-pci.c | 12 ++----------
+ 2 files changed, 4 insertions(+), 18 deletions(-)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 674f902652..d0f4867fdf 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -55,6 +55,7 @@
- #include "kvm_arm.h"
- #include "migration/vmstate.h"
- #include "hw/acpi/ghes.h"
-+#include "hw/acpi/viot.h"
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 30da05dfe0..53941e4aac 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2614,16 +2614,10 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
  
- #define ARM_SPI_BASE 32
- 
-@@ -1011,6 +1012,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+     if (device_is_dynamic_sysbus(mc, dev) ||
+-       (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM))) {
++        object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
++        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+         return HOTPLUG_HANDLER(machine);
      }
- #endif
+-    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+-        VirtMachineState *vms = VIRT_MACHINE(machine);
+-
+-        if (!vms->bootinfo.firmware_loaded || !virt_is_acpi_enabled(vms)) {
+-            return HOTPLUG_HANDLER(machine);
+-        }
+-    }
+     return NULL;
+ }
  
-+    if (vms->iommu == VIRT_IOMMU_VIRTIO) {
-+        acpi_add_table(table_offsets, tables_blob);
-+        build_viot(ms, tables_blob, tables->linker, vms->virtio_iommu_bdf,
-+                   vms->oem_id, vms->oem_table_id);
-+    }
-+
-     /* XSDT is pointed to by RSDP */
-     xsdt = tables_blob->len;
-     build_xsdt(tables_blob, tables->linker, table_offsets, vms->oem_id,
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 2d37d29f02..e652590943 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -27,6 +27,7 @@ config ARM_VIRT
-     select DIMM
-     select ACPI_HW_REDUCED
-     select ACPI_APEI
-+    select ACPI_VIOT
+diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
+index a160ae6b41..6a1df7fe50 100644
+--- a/hw/virtio/virtio-iommu-pci.c
++++ b/hw/virtio/virtio-iommu-pci.c
+@@ -48,16 +48,8 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     VirtIOIOMMU *s = VIRTIO_IOMMU(vdev);
  
- config CHEETAH
-     bool
+     if (!qdev_get_machine_hotplug_handler(DEVICE(vpci_dev))) {
+-        MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
+-
+-        error_setg(errp,
+-                   "%s machine fails to create iommu-map device tree bindings",
+-                   mc->name);
+-        error_append_hint(errp,
+-                          "Check your machine implements a hotplug handler "
+-                          "for the virtio-iommu-pci device\n");
+-        error_append_hint(errp, "Check the guest is booted without FW or with "
+-                          "-no-acpi\n");
++        error_setg(errp, "Check your machine implements a hotplug handler "
++                         "for the virtio-iommu-pci device");
+         return;
+     }
+     for (int i = 0; i < s->nb_reserved_regions; i++) {
 -- 
 2.34.1
 
