@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD43646FE50
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 10:59:57 +0100 (CET)
-Received: from localhost ([::1]:33390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F090046FE7A
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 11:08:18 +0100 (CET)
+Received: from localhost ([::1]:54470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvch2-0003m2-9A
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 04:59:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41276)
+	id 1mvcp7-0002H1-3f
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 05:08:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1mvcbf-00045T-UD
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 04:54:23 -0500
-Received: from mga18.intel.com ([134.134.136.126]:18483)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1mvcce-00051p-Kw; Fri, 10 Dec 2021 04:55:30 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1mvcbc-00084f-FP
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 04:54:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639130060; x=1670666060;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=i5mi2ux2NWMV234M1FllWOI2g2yLlRa0QdVRhusT3Og=;
- b=IVEeO3aMvRER6qkW1xQIVBtWp3nczvD6DQ+8iJo42RBfB6pVTaQ5RnEg
- 77xte2j8IKEiOJHoyTmuUYozRHTro8C/4hwwWfiuxds69XLpNInZYK3OZ
- VreHaF+nKwTqNmjSetbmKigD1LACmSTQSMf7FXh4jE2OUkDs9L0Kb4XZS
- E9fYsUDDBDxRhGXWzYsAuWyaItZUeYmt+376VggtjZbobPaQZbmR5JiZ/
- aLvefOpgaKbtNJc8fmCy++Jl33mrfAA3vheXO0LIdD6Su6tb80Jz1CC/V
- U8StE/r2U5XRUicP1DdSM61xxSDSmNMEUfjdde79mcMsfttBVxpWZf3+W Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="225185190"
-X-IronPort-AV: E=Sophos;i="5.88,195,1635231600"; d="scan'208";a="225185190"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 01:54:16 -0800
-X-IronPort-AV: E=Sophos;i="5.88,195,1635231600"; d="scan'208";a="503868624"
-Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.249.171.165])
- ([10.249.171.165])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 01:54:13 -0800
-Message-ID: <6031a4ed-1544-c563-9f05-cfcf2ae351b6@intel.com>
-Date: Fri, 10 Dec 2021 17:54:10 +0800
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1mvccb-0001FF-NA; Fri, 10 Dec 2021 04:55:24 -0500
+Received: from canpemm100003.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4J9R5X0Z20zZcDQ;
+ Fri, 10 Dec 2021 17:52:16 +0800 (CST)
+Received: from kwepemm600017.china.huawei.com (7.193.23.234) by
+ canpemm100003.china.huawei.com (7.192.104.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Fri, 10 Dec 2021 17:55:09 +0800
+Received: from kwepemm600017.china.huawei.com ([7.193.23.234]) by
+ kwepemm600017.china.huawei.com ([7.193.23.234]) with mapi id 15.01.2308.020;
+ Fri, 10 Dec 2021 17:55:08 +0800
+To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>
+CC: "bin.meng@windriver.com" <bin.meng@windriver.com>, "limingwang (A)"
+ <limingwang@huawei.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>, "anup.patel@wdc.com"
+ <anup.patel@wdc.com>, "wanbo (G)" <wanbo13@huawei.com>, Alistair Francis
+ <alistair.francis@wdc.com>, "kvm-riscv@lists.infradead.org"
+ <kvm-riscv@lists.infradead.org>, "Wanghaibin (D)"
+ <wanghaibin.wang@huawei.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>,
+ "Fanliang (EulerOS)" <fanliang@huawei.com>, "Wubin (H)" <wu.wubin@huawei.com>
+Subject: RE: [PATCH v1 03/12] target/riscv: Implement function
+ kvm_arch_init_vcpu
+Thread-Topic: [PATCH v1 03/12] target/riscv: Implement function
+ kvm_arch_init_vcpu
+Thread-Index: AQHX3eLJwQnXP9IbnEK93wh1nF4bZawMd2KAgB8ks/A=
+Date: Fri, 10 Dec 2021 09:55:08 +0000
+Message-ID: <8e09fe10ba1a4062831b934a836ff861@huawei.com>
+References: <20211120074644.729-1-jiangyifei@huawei.com>
+ <20211120074644.729-4-jiangyifei@huawei.com>
+ <d3f974e1-6278-8c11-898a-a1cc55965786@linaro.org>
+In-Reply-To: <d3f974e1-6278-8c11-898a-a1cc55965786@linaro.org>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.186.236]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.3.2
-Subject: Re: [RFC PATCH v2 34/44] target/i386/tdx: set reboot action to
- shutdown when tdx
-Content-Language: en-US
-To: Connor Kuehl <ckuehl@redhat.com>, isaku.yamahata@gmail.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, alistair@alistair23.me,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
- cohuck@redhat.com, mtosatti@redhat.com, seanjc@google.com,
- erdemaktas@google.com
-References: <cover.1625704980.git.isaku.yamahata@intel.com>
- <d1afced8a92c01367d0aed7c6f82659c9bf79956.1625704981.git.isaku.yamahata@intel.com>
- <0ccf5a5c-2322-eae3-bd4b-9e72e2f4bbd1@redhat.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <0ccf5a5c-2322-eae3-bd4b-9e72e2f4bbd1@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=xiaoyao.li@intel.com; helo=mga18.intel.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.317,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=jiangyifei@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,74 +77,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jiangyifei <jiangyifei@huawei.com>
+From:  Jiangyifei via <qemu-devel@nongnu.org>
 
-On 7/23/2021 1:54 AM, Connor Kuehl wrote:
-> On 7/7/21 7:55 PM, isaku.yamahata@gmail.com wrote:
->> From: Isaku Yamahata <isaku.yamahata@intel.com>
->>
->> In TDX CPU state is also protected, thus vcpu state can't be reset by 
->> VMM.
->> It assumes -action reboot=shutdown instead of silently ignoring vcpu 
->> reset.
->>
->> TDX module spec version 344425-002US doesn't support vcpu reset by 
->> VMM.  VM
->> needs to be destroyed and created again to emulate REBOOT_ACTION_RESET.
->> For simplicity, put its responsibility to management system like libvirt
->> because it's difficult for the current qemu implementation to destroy and
->> re-create KVM VM resources with keeping other resources.
->>
->> If management system wants reboot behavior for its users, it needs to
->>   - set reboot_action to REBOOT_ACTION_SHUTDOWN,
->>   - set shutdown_action to SHUTDOWN_ACTION_PAUSE optionally and,
->>   - subscribe VM state change and on reboot, (destroy qemu if
->>     SHUTDOWN_ACTION_PAUSE and) start new qemu.
->>
->> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
->> ---
->>   target/i386/kvm/tdx.c | 14 ++++++++++++++
->>   1 file changed, 14 insertions(+)
->>
->> diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
->> index 1316d95209..0621317b0a 100644
->> --- a/target/i386/kvm/tdx.c
->> +++ b/target/i386/kvm/tdx.c
->> @@ -25,6 +25,7 @@
->>   #include "qapi/qapi-types-misc-target.h"
->>   #include "standard-headers/asm-x86/kvm_para.h"
->>   #include "sysemu/sysemu.h"
->> +#include "sysemu/runstate-action.h"
->>   #include "sysemu/kvm.h"
->>   #include "sysemu/kvm_int.h"
->>   #include "sysemu/tdx.h"
->> @@ -363,6 +364,19 @@ static void tdx_guest_init(Object *obj)
->>       qemu_mutex_init(&tdx->lock);
->> +    /*
->> +     * TDX module spec version 344425-002US doesn't support reset of 
->> vcpu by
->> +     * VMM.  VM needs to be destroyed and created again to emulate
->> +     * REBOOT_ACTION_RESET.  For simplicity, put its responsibility to
->> +     * management system like libvirt.
->> +     *
->> +     * Management system should
->> +     *  - set reboot_action to REBOOT_ACTION_SHUTDOWN
->> +     *  - set shutdown_action to SHUTDOWN_ACTION_PAUSE
->> +     *  - subscribe VM state and on reboot, destroy qemu and start 
->> new qemu
->> +     */
->> +    reboot_action = REBOOT_ACTION_SHUTDOWN;
->> +
->>       tdx->debug = false;
->>       object_property_add_bool(obj, "debug", tdx_guest_get_debug,
->>                                tdx_guest_set_debug);
->>
-> 
-> I think the same effect could be accomplished with modifying
-> kvm_arch_cpu_check_are_resettable.
-> 
-
-Yes. Thanks for pointing it out. We will take this approach.
+DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFJpY2hhcmQgSGVuZGVyc29u
+IFttYWlsdG86cmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZ10NCj4gU2VudDogU3VuZGF5LCBO
+b3ZlbWJlciAyMSwgMjAyMSA2OjE5IEFNDQo+IFRvOiBKaWFuZ3lpZmVpIDxqaWFuZ3lpZmVpQGh1
+YXdlaS5jb20+OyBxZW11LWRldmVsQG5vbmdudS5vcmc7DQo+IHFlbXUtcmlzY3ZAbm9uZ251Lm9y
+Zw0KPiBDYzogYmluLm1lbmdAd2luZHJpdmVyLmNvbTsgbGltaW5nd2FuZyAoQSkgPGxpbWluZ3dh
+bmdAaHVhd2VpLmNvbT47DQo+IGt2bUB2Z2VyLmtlcm5lbC5vcmc7IGxpYnZpci1saXN0QHJlZGhh
+dC5jb207IGFudXAucGF0ZWxAd2RjLmNvbTsgd2FuYm8gKEcpDQo+IDx3YW5ibzEzQGh1YXdlaS5j
+b20+OyBBbGlzdGFpciBGcmFuY2lzIDxhbGlzdGFpci5mcmFuY2lzQHdkYy5jb20+Ow0KPiBrdm0t
+cmlzY3ZAbGlzdHMuaW5mcmFkZWFkLm9yZzsgV2FuZ2hhaWJpbiAoRCkNCj4gPHdhbmdoYWliaW4u
+d2FuZ0BodWF3ZWkuY29tPjsgcGFsbWVyQGRhYmJlbHQuY29tOyBGYW5saWFuZyAoRXVsZXJPUykN
+Cj4gPGZhbmxpYW5nQGh1YXdlaS5jb20+OyBXdWJpbiAoSCkgPHd1Lnd1YmluQGh1YXdlaS5jb20+
+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjEgMDMvMTJdIHRhcmdldC9yaXNjdjogSW1wbGVtZW50
+IGZ1bmN0aW9uDQo+IGt2bV9hcmNoX2luaXRfdmNwdQ0KPiANCj4gT24gMTEvMjAvMjEgODo0NiBB
+TSwgWWlmZWkgSmlhbmcgd3JvdGU6DQo+ID4gKyAgICBpZCA9IGt2bV9yaXNjdl9yZWdfaWQoZW52
+LCBLVk1fUkVHX1JJU0NWX0NPTkZJRywNCj4gS1ZNX1JFR19SSVNDVl9DT05GSUdfUkVHKGlzYSkp
+Ow0KPiA+ICsgICAgcmV0ID0ga3ZtX2dldF9vbmVfcmVnKGNzLCBpZCwgJmlzYSk7DQo+ID4gKyAg
+ICBpZiAocmV0KSB7DQo+ID4gKyAgICAgICAgcmV0dXJuIHJldDsNCj4gPiArICAgIH0NCj4gPiAr
+ICAgIGVudi0+bWlzYV9teGwgfD0gaXNhOw0KPiANCj4gVGhpcyBkb2Vzbid0IGxvb2sgcmlnaHQu
+DQo+IEknbSBzdXJlIHlvdSBtZWFudA0KPiANCj4gICAgICBlbnYtPm1pc2FfZXh0ID0gaXNhOw0K
+PiANCj4gDQo+IHJ+DQoNClRoYW5rcywgaXQgd2lsbCBiZSBtb2RpZmllZCBpbiB0aGUgbmV4dCBz
+ZXJpZXMuDQoNCllpZmVpDQo=
 
