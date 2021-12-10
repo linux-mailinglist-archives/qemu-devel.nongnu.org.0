@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75B8470393
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 16:13:55 +0100 (CET)
-Received: from localhost ([::1]:34746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E472B470396
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 16:14:01 +0100 (CET)
+Received: from localhost ([::1]:34752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvhaq-0004pD-8x
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 10:13:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60906)
+	id 1mvhay-0004pS-OZ
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 10:14:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mvhZ2-0003Rj-Nr
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 10:12:00 -0500
-Received: from [2a00:1450:4864:20::436] (port=45915
- helo=mail-wr1-x436.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mvhZ4-0003S0-OW
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 10:12:04 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=56120
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mvhYz-0005SR-Cc
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 10:11:58 -0500
-Received: by mail-wr1-x436.google.com with SMTP id o13so15384996wrs.12
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 07:11:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mvhZ3-0005Sb-As
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 10:12:02 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id v23so7026660pjr.5
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 07:11:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=icOKEq1DRrDRHaEvq1ebU+n2GcFZOdjpYZ4AInfNr4Q=;
- b=uoNpk9ZnEeBsuBKSThjY3y0jnb70NKuKdXRInU8nm1ISK0ORbBwMoVCsJTzQK9Lj6k
- mzp5QUPLZq/rImnAGe2w+brdFjPsC3DkU36B/GfJRkZ2HWo0+RUROt19IGgfT73gURL4
- i4gkx78GIyloBCr326KTxVIhKnvhGURZUWRMqByNrOZ5LXvSbf+i02Tk1a7nytSnleJD
- lB4mSOgLWKjKMvPLPMNSyD2lW3LRDQzpk25YgdHd5xkmrYKDL+YaeJL22NNIIEinEIzg
- s2S1mbOTC3Zj0oqWWb0b0X1tpY/ZExHIcrXnewB+t2ZMHTTjB8zcA92EUpuOb/P+Qcmh
- A2OA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=uytk9CbZYhrrFVCeXAsOW+dc2f3EmOXFP9cLyrouMhc=;
+ b=oq64BG1SQ3CIA7I8iucaksrZACw8dZDbHfvW9rBCSQBkfondWRvs1k4lfusYFanfVR
+ IEea3QQXjjl8on5r1vZ+AmqjEY6FYfKHwj73T93tMFbviXzPVI7/y4uVMGqXDG/YGprZ
+ 0LopwKFUCFp2USf2ZflljF45txFviExZE16k9oZ2MK8dfszt508kb+C0SNaIq1bKKdh9
+ ZBSCLuXhlPbxRrSjjoYEaUq485kLvqyRHIgp+wjv39xYntD7wGfk6ffOu2BqwMt1cZIx
+ 53GATV1RvOuLoVGvdMbGBxYEUwSaM2SAR9hDd9YLd6rhrvNo7wvnPuZmYXwAyO4YNtGw
+ xjgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=icOKEq1DRrDRHaEvq1ebU+n2GcFZOdjpYZ4AInfNr4Q=;
- b=NlUg/uibXTOVGy8jZGxQoDZEkfd8d+KkhIL5dTtC7vVbjzHNI9L9UXHnF/bRlKHP4C
- wYkrMMXJVVCV96NIuloQbz71p8t7ZcwvkssrByAJlbI4gsLzcJQcK+iVUJ3Crf066zBk
- FBUhIgL5zeemKP8UtLgEwGwlk1AFEHqGpZfqDevHvbTvZKC7RhhMGfbiHNQ6CsQz4OL1
- 9oiWD2+cTbFlYg4jqEakTxGLkHgmsVAsz6IrIhmgxyrROYKyxw/HC+izA4cp5i54/Ywe
- z0vU4O7OyM+nNC85p/4not8f43G9QR/nBlI3IDpSNg6zNg3ysiGkSp7r6Q0U0dzJde+b
- rH0w==
-X-Gm-Message-State: AOAM5304fwxaGKQwH5LTBzZZLZUxAQK6ZP3nFCIxRPcUAuFSmiGUR0Ps
- xPtBPle2gDdpxisagmWU1Cot+RzsjWWlzHMicijJdQ==
-X-Google-Smtp-Source: ABdhPJzxTAQSxAxFopZHUwzfpduPD0Tq2NpqW58rmBa0Evp9j4+ewtZO7zIZ+lGFkNVTCk3xEBeZcCdC/NSpIATlA5M=
-X-Received: by 2002:adf:f64b:: with SMTP id x11mr14946867wrp.4.1639149114293; 
- Fri, 10 Dec 2021 07:11:54 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uytk9CbZYhrrFVCeXAsOW+dc2f3EmOXFP9cLyrouMhc=;
+ b=LBH+3pb53VgQVHwQ09GD/LbndotRuDIWkRHZ2BhLLSodNMezDOkimj/7tpf/N1k4tW
+ cVZPfzg3iO600jKdzeGNliEXMYR6Sw4KSdmrs2/pisvhgeoZuhBXhVHU8CfSJfxX2Dcm
+ CvfNGTWl0/pavTxNkNgpWC1PKlY1mFJKpaB4LErbGjAeN1ksaIHwrVVRGVz3uY2RJv7B
+ wdocFeFc1sWVUWLh5TcvvKJm+X1bKxqykQJRTbvN05Njx6KU9diTqb+n4frrxkIUms3+
+ ZlxSRxtckW7PtmcigNZow7508R/uEqppH3v18djlPcIA3qejfuBjVywVsYaRYobWAjoB
+ ZeKA==
+X-Gm-Message-State: AOAM532sEFPlAKxmMt9YC5I1EkzfOKbyM6zcc7QQdZKyj5KG/8/Y/eiS
+ 5YKWT2VpTayBPLis71FuHztbIA==
+X-Google-Smtp-Source: ABdhPJzeL+wQmnwFPpkeYQCMrghLHdda0qtXv7+kRYSDby5J/TijJwfY+NOUgcxzg+b6ST8z1sr9FA==
+X-Received: by 2002:a17:90a:6e0c:: with SMTP id
+ b12mr24069938pjk.41.1639149116238; 
+ Fri, 10 Dec 2021 07:11:56 -0800 (PST)
+Received: from [172.20.1.20] (45-19-222-18.lightspeed.sntcca.sbcglobal.net.
+ [45.19.222.18])
+ by smtp.gmail.com with ESMTPSA id a18sm3332739pfn.185.2021.12.10.07.11.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Dec 2021 07:11:55 -0800 (PST)
+Subject: Re: [PATCH 2/2] target/riscv: Implement the stval/mtval illegal
+ instruction
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20211210062638.824672-1-alistair.francis@opensource.wdc.com>
+ <20211210062638.824672-3-alistair.francis@opensource.wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <56a5e33d-bf0f-f588-d288-a302b5631fb4@linaro.org>
+Date: Fri, 10 Dec 2021 07:11:53 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211201154023.13931-1-francisco.iglesias@xilinx.com>
- <20211201154023.13931-2-francisco.iglesias@xilinx.com>
-In-Reply-To: <20211201154023.13931-2-francisco.iglesias@xilinx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Dec 2021 15:11:41 +0000
-Message-ID: <CAFEAcA9=cHr4NhVc_gnbM83fEEVXduJ1iyfYXSYk6PUu0grW8g@mail.gmail.com>
-Subject: Re: [PATCH v4 01/11] hw/misc: Add a model of Versal's PMC SLCR
-To: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+In-Reply-To: <20211210062638.824672-3-alistair.francis@opensource.wdc.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.317,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -80,81 +94,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
- alistair@alistair23.me, qemu-devel@nongnu.org, alistair23@gmail.com,
- philmd@redhat.com
+Cc: palmer@dabbelt.com, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>, bmeng.cn@gmail.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 1 Dec 2021 at 15:40, Francisco Iglesias
-<francisco.iglesias@xilinx.com> wrote:
->
-> Add a model of Versal's PMC SLCR (system-level control registers).
->
-> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> Acked-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+On 12/9/21 10:26 PM, Alistair Francis wrote:
+> @@ -975,7 +975,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>       bool async = !!(cs->exception_index & RISCV_EXCP_INT_FLAG);
+>       target_ulong cause = cs->exception_index & RISCV_EXCP_INT_MASK;
+>       target_ulong deleg = async ? env->mideleg : env->medeleg;
+> -    bool write_tval = false;
+>       target_ulong tval = 0;
+>       target_ulong htval = 0;
+>       target_ulong mtval2 = 0;
+> @@ -1004,9 +1003,11 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>           case RISCV_EXCP_INST_PAGE_FAULT:
+>           case RISCV_EXCP_LOAD_PAGE_FAULT:
+>           case RISCV_EXCP_STORE_PAGE_FAULT:
+> -            write_tval  = true;
+>               tval = env->badaddr;
+>               break;
+...
+> @@ -1041,17 +1042,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>           if (riscv_has_ext(env, RVH)) {
+>               target_ulong hdeleg = async ? env->hideleg : env->hedeleg;
+>   
+> -            if (env->two_stage_lookup && write_tval) {
+> -                /*
+> -                 * If we are writing a guest virtual address to stval, set
+> -                 * this to 1. If we are trapping to VS we will set this to 0
+> -                 * later.
+> -                 */
+> -                env->hstatus = set_field(env->hstatus, HSTATUS_GVA, 1);
+> -            } else {
+> -                /* For other HS-mode traps, we set this to 0. */
+> -                env->hstatus = set_field(env->hstatus, HSTATUS_GVA, 0);
+> -            }
+> +            env->hstatus = set_field(env->hstatus, HSTATUS_GVA, 0);
+>   
+>               if (riscv_cpu_virt_enabled(env) && ((hdeleg >> cause) & 1)) {
+>                   /* Trap to VS mode */
+> @@ -1063,7 +1054,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>                       cause == IRQ_VS_EXT) {
+>                       cause = cause - 1;
+>                   }
+> -                env->hstatus = set_field(env->hstatus, HSTATUS_GVA, 0);
+>               } else if (riscv_cpu_virt_enabled(env)) {
+>                   /* Trap into HS mode, from virt */
+>                   riscv_cpu_swap_hypervisor_regs(env);
+> @@ -1071,6 +1061,13 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>                                            env->priv);
+>                   env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
+>                                            riscv_cpu_virt_enabled(env));
+> +                if (tval) {
+> +                    /*
+> +                     * If we are writing a guest virtual address to stval, set
+> +                     * this to 1.
+> +                     */
+> +                    env->hstatus = set_field(env->hstatus, HSTATUS_GVA, 1);
+> +                }
+
+The thing that concerns me here is the very legitimate badaddr of NULL.  I think you need 
+to keep some out-of-band flag for that.
+
+In addition, the out-of-band flag should probably be called write_gva, because tval from 
+ILLEGAL_INST is not a Guest Virtual Address, and so should not set GVA.
+
+You could even push the setting of the bit down so that it's only done once, e.g.
+
+     hstatus_gva = true;
+     tval = env->badaddr;
+
+     if (trap to vs) {
+        ...
+        hstatus_gva = false;
+     } else if (virt enabled) {
+        ...
+     } else {
+        trap into hs
+        hstatus_gva = false;
+     }
+     env->hstatus(set_field(env->hstatus, HSTATUS_GVA, hstatus_gva);
 
 
-> +static void xlnx_versal_pmc_iou_slcr_realize(DeviceState *dev, Error **errp)
-> +{
-> +    XlnxVersalPmcIouSlcr *s = XILINX_VERSAL_PMC_IOU_SLCR(dev);
-> +
-> +    qdev_init_gpio_out(dev, s->sd_emmc_sel, 2);
-> +    qdev_init_gpio_out(dev, &s->qspi_ospi_mux_sel, 1);
-> +    qdev_init_gpio_out(dev, &s->ospi_mux_sel, 1);
+The actual handling of ILLEGAL_INST looks fine.
+You may well want to split the GVA handling to a separate patch.
 
-Could we use named GPIOs for these? That would be clearer
-in the code that wires them up than having to remember what
-unnamed gpio lines 0,1,2,3 do.
 
-(Also, I don't see anywhere in the board code in patch 2
-that wires these GPIO lines up. Did I miss it?)
-
-> +#ifndef XILINX_VERSAL_PMC_IOU_SLCR_H
-> +#define XILINX_VERSAL_PMC_IOU_SLCR_H
-
-For a complicated device like this which has multiple IRQs
-and GPIOs, I would suggest having a comment here which
-defines the "QEMU interface", which is just a list
-of all the sysbus MMIO regions, QOM properties, named and
-unnamed GPIO inputs and outputs, sysbus IRQs, etc, which the
-device has (basically, anything that code creating one of these
-devices might want to configure or wire up). There's an
-example in include/hw/misc/tz-ppc.h (or grep in include/ for
-"QEMU interface" for others).
-
-> +
-> +#include "hw/register.h"
-> +
-> +#define TYPE_XILINX_VERSAL_PMC_IOU_SLCR "xlnx.versal-pmc-iou-slcr"
-> +
-> +#define XILINX_VERSAL_PMC_IOU_SLCR(obj) \
-> +     OBJECT_CHECK(XlnxVersalPmcIouSlcr, (obj), TYPE_XILINX_VERSAL_PMC_IOU_SLCR)
-
-Don't define cast macros by hand, please. Prefer
-OBJECT_DECLARE_SIMPLE_TYPE() (which will also do the
-typedef for you, so you don't need it on the struct).
-
-> +
-> +#define XILINX_VERSAL_PMC_IOU_SLCR_R_MAX (0x828 / 4 + 1)
-> +
-> +typedef struct XlnxVersalPmcIouSlcr {
-> +    SysBusDevice parent_obj;
-> +    MemoryRegion iomem;
-> +    qemu_irq irq_parity_imr;
-> +    qemu_irq irq_imr;
-> +    qemu_irq sd_emmc_sel[2];
-> +    qemu_irq qspi_ospi_mux_sel;
-> +    qemu_irq ospi_mux_sel;
-> +
-> +    uint32_t regs[XILINX_VERSAL_PMC_IOU_SLCR_R_MAX];
-> +    RegisterInfo regs_info[XILINX_VERSAL_PMC_IOU_SLCR_R_MAX];
-> +} XlnxVersalPmcIouSlcr;
-> +
-> +#endif /* XILINX_VERSAL_PMC_IOU_SLCR_H */
-
-Otherwise this patch looks OK.
-
--- PMM
+r~
 
