@@ -2,139 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E43FD470816
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 19:07:01 +0100 (CET)
-Received: from localhost ([::1]:41016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6724447085D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 19:18:24 +0100 (CET)
+Received: from localhost ([::1]:47952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvkIO-0005m1-JF
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 13:07:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56450)
+	id 1mvkTP-0002jG-19
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 13:18:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mvkGu-0004wb-Hi; Fri, 10 Dec 2021 13:05:28 -0500
-Received: from mail-vi1eur05on2106.outbound.protection.outlook.com
- ([40.107.21.106]:22211 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ id 1mvkRa-0000Vo-R5; Fri, 10 Dec 2021 13:16:32 -0500
+Received: from mail-am6eur05on2119.outbound.protection.outlook.com
+ ([40.107.22.119]:52160 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mvkGr-0000w3-Ke; Fri, 10 Dec 2021 13:05:28 -0500
+ id 1mvkRW-00071p-J5; Fri, 10 Dec 2021 13:16:30 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YyWmiQXN+qAe3uOhdrNFgZ79LaS6OJ870FCkhAipDwEZXnKr20/crUrOyemtfiaa+Ucgm8PodqrsamSIZ8hYA3ytmCc9Y1/luZq0nWEDx+lEi4g8MRDgPJ9zC42jf4DmmZC4BDY07+Xtv7RMQTRn2tgTPd6oaHchKnhSwqQBLeF+DJ0I3skHC5cQFueghXxJ0qw+oFzB13prTbM4yvElmKkDVzbCthQeSk0Hy433N/RKA5usCtmrtnAwxqq22mS+KJWUQdpj+P3I+TD03er+jVq8D8IHaZ/nYAHR2UHL5IDOc5unNI9kyTpM5eeIzolX/QXNJ5ejpLGgW/GkL2+iCg==
+ b=mF0TilI2y9TSr4XSG2fYTW7gvJRMSr7tLt2LkdWbLq/gtSGIZuG8sHZXNiB85eMutA+ZqcTxo99aH5hjEyacyOWwd2pjFMiltU9LueVsWCEhC1cgOmu4xZCM1K/bE66SXQbIwDXvUzwdLbisTX8xVecuVIg95qOKESP0Ek9apmxCf8FvJVgXMydk+wWNxZeLmKNaSqloY7XXbzvS0qFJYNi0JYJ1JlExaB+qn1EQYj+wnEHHgHi4Q/YEM+TKdIo3k1FzWU+AMJk4aKmAls1pmCsbq4gu0BkBl+bOdx7CW6G/SVds7xYvh0aAXjm+2dmDHGhPqiUTZd0cX0I314vzng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y+PtdjNg5XYdR0hWOR+aDTQEmj+cH6X9sz8kC/kW3GM=;
- b=mnsDyRCI4GlzwqJSKzkF73r+qBWxGAnO2IwvpdIlLiB2KCzXbmcjJkZ8IooxwBjme75BEq2a0Cu7WIjrusbwH5WCrDM4XFVNk0dZRj4XHmqSju9+Hw2vBwqUzrYjcW5GYqjeGB0zJaNetTirY1uMo6EIYcEG0Hj4pghr6R5+YztQgyihYuqirVCNOJqU87tD0E20HdLSvFkIqrUxn9gd3udqw9pSN4fCXCByjkot6bzLee/yPhg8uW/HzUYaPW1blw0kDQfS4sWK3ZSv1MV4h95wWGRsOjVzlO+iWmimCvQz/E/OxG1anX+z/1IhyNSTlSbI3ql4cghyNDF5XsC5ig==
+ bh=0s27WwMiZPa1DcRdgansxFpf02TQ2FgtS0UwSjX+sVY=;
+ b=gZXVsesJsE89L/HlxChU+jt4V17owKoeh3kWi85FfNmPzpydM60JwfXfaDpErtOc9lhOxqzQjWAQ5KExDzLd18yOfCZEm3U+JRW0VRwkih3sz+HCUix9K4p3pl1nyi8aBJQd2cumjFNd1kmFIOT/SdPk7zLpTJSW3JH83qHRNnph+dDJo1dB9txTb3685mtoSCCtctA6YTvGUb0rZKN9uvDYLCOXzqQVzg/ht/pXVx/XAC9AIa+0RFPu/+jkjMa4MS10UTuT227tatdg4+pnwGk5NXPPQTWQvm2bA7aZx3oCo33UH+ELy1IwKzz21ZHQOlMiJZWP32Pyoh1J3HJbhQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y+PtdjNg5XYdR0hWOR+aDTQEmj+cH6X9sz8kC/kW3GM=;
- b=WzVoggJsBRdjN6CjtinfaB4KmbntZ9h8uHFUSYse82lXfNL3sfo+Vi1KMLo2fwiUs73QptZ5sRhGzUGmq9FvwCZbFJvXJBWYreIVU806UGb7rucQOuZltDAtVq8Dz29NcwZMOCXS+WlASvXE/gi0rCs4zBK17icXCmITUdciFq8=
+ bh=0s27WwMiZPa1DcRdgansxFpf02TQ2FgtS0UwSjX+sVY=;
+ b=O1eVGsJRUrsNncqqgGqMmpytZsAlai/RCMXzVh8qHf/QN/smVolyQ+K2oJT3XqqPHW1BFvTgolDQczOeJKNxkCVZrArsGqf4PgV4yr0G0BgnQNVCT0OroM4fbWjhFze/SiPlsk9i/32FLs9Vz7d19BzQfGnVl7R4wR5AEgUvSm4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM0PR08MB3812.eurprd08.prod.outlook.com (2603:10a6:208:fd::15)
+ by AM0PR08MB4962.eurprd08.prod.outlook.com (2603:10a6:208:15a::31)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.16; Fri, 10 Dec
- 2021 18:05:21 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.13; Fri, 10 Dec
+ 2021 18:16:14 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Fri, 10 Dec 2021
- 18:05:21 +0000
-Message-ID: <8035e971-b668-d4b7-2caf-62601dd46b19@virtuozzo.com>
-Date: Fri, 10 Dec 2021 21:05:18 +0300
+ 18:16:14 +0000
+Message-ID: <60a56a8d-87fc-dbaf-0ebf-cd551ce13f14@virtuozzo.com>
+Date: Fri, 10 Dec 2021 21:16:12 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
 Subject: Re: [PATCH] spec: Add NBD_OPT_EXTENDED_HEADERS
 Content-Language: en-US
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Eric Blake <eblake@redhat.com>
-Cc: nbd@other.debian.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- libguestfs@redhat.com, nsoffer@redhat.com
+To: Eric Blake <eblake@redhat.com>, nbd@other.debian.org
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, libguestfs@redhat.com,
+ nsoffer@redhat.com
 References: <20211203231307.wmtbw7r72tyzkkax@redhat.com>
  <20211203231434.3900824-1-eblake@redhat.com>
- <f05c680a-73c3-b0d2-dbdf-c0bcf1ca3530@virtuozzo.com>
- <20211206230047.q5xc5enodbicf3gw@redhat.com>
- <45f22ac7-a36a-0c40-7198-267a2f46e71a@virtuozzo.com>
-In-Reply-To: <45f22ac7-a36a-0c40-7198-267a2f46e71a@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <20211203231434.3900824-1-eblake@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0071.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4b::7) To AM9PR08MB6737.eurprd08.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0085.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1e::9) To AM9PR08MB6737.eurprd08.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 Received: from [192.168.100.10] (185.215.60.230) by
- FR3P281CA0071.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:4b::7) with Microsoft
+ FR0P281CA0085.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1e::9) with Microsoft
  SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
- Fri, 10 Dec 2021 18:05:20 +0000
+ Fri, 10 Dec 2021 18:16:14 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c8b0f636-e097-40c9-c0bd-08d9bc07a17a
-X-MS-TrafficTypeDiagnostic: AM0PR08MB3812:EE_
-X-Microsoft-Antispam-PRVS: <AM0PR08MB38124A3F21FF9CE4904E10C7C1719@AM0PR08MB3812.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Office365-Filtering-Correlation-Id: b67101db-9bf0-40f7-8af6-08d9bc092719
+X-MS-TrafficTypeDiagnostic: AM0PR08MB4962:EE_
+X-Microsoft-Antispam-PRVS: <AM0PR08MB4962D3707FCCFB0CD72A18FEC1719@AM0PR08MB4962.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K9FFZNxWHTiLW7DSnf496dPD+9CYcTvfXDt2A94AsfAOPVcmfjP2Zt1w6I6U9QKJMm6mM/jYyJdn04BA/xSlbTxZPFWnzJZf3Ucgqhn8NsTn7R5Dmn0YIqv/JkJhPoQa7cl0n++RGwJs+qp/O1eU9310LGjtEbMVjB4q4MhCiYIzryzgZOqBqBAd//p1BLCI9F2Lh5r6od3QYzxzzK6M3h+g3WKzp1IGTzXxJUtMDF8o1WZxkS+WTQmCfDNsDq66b0yQcGAEj9h+dsGc2ThrJXajsmzMlyDHcSCCNkHaxRSpwrBxE+3rCDBn0xdP5uHbYFZxNYe3iP/1C0qGPVTlf9rQ4gmFP/SH+gxZDgJTvn9GP0ZzrPgqynQiY3zjUttEhzkziw5ZHJ2tRoyAWNMgTd5p6J2a0EcsG4F1NrsgLr55Gln9Qncz5xE5f5MD+owDCQHlWiR+asK6A+nPaTxtwi/KL6wnr8vxF6JpprNUIi3fFwGooUI+/waDPoZ8ULDVpyshc5B1Mlkpun/gi/qyvFHwjxEGWlkb9WbPAdP9u+g3pbuW25EjlFyhPzYZ6SeWMh4fQkOmR8xOucuRZrD5xpk/gWjy+UxPoLHk3jmjXQsAFApG1FQFQpnVN+WkOtpa1GyoJjOyUHi25IjuXS29sOUishXK6znKJHm2AMtmNkMqpNCTCIHbmJjQHIaxtHkjdcWj0En6LeCHUesg2yMzib15RptzYQRFfT0v71OXx+0KEWtoNDzRNMUBfW+t1PTGxkKM+Lw9VqbvF8r1FASBMQ==
+X-Microsoft-Antispam-Message-Info: nTNEmKJnyd/Dl56QCSicQcGYAWwrGykiCVCPkZHm1iR1Q4HW3h9OC2EYNebtTjxa7IUQqZMfbnvBnsr6WRi5z26ov8HyL5oBRnp5QaJkSniGkLKW3Z4QTi4c7Bv+WToHiXPRQj3QH8T9O2c+6r7R4XI18lAMfkxDA7YKKhUTzjN8WDRO4fbi/DUrMxHbaUY0tEg26ado3hdIyL+nJ+NboUbfoIHhlgvTOBxs82J575DdGG2oNLHY1dxbbOOnqWvnZ6BokUpTj55l+aAlwdDnMbADv8sHs4Wnmg3aMYW/xFw0ZsuScsFdXs3ZtGFGDD1r6rLAGr2QOn7Om8TRoy3pThOqCavwOjhEv5Nme62TfeFoQz3XDzc+68mq96uzu1EbzR+KHwv7ycZ3ImOxa7Z7krFEHd4lb6sdM8siYmSMnSaClQqj5wFfsHOuW9baGqFmR4S4Z4kwfBDy/hMaAd3oFYCjIp7Wd0hhTo3vZpcyTSIzJVH//vfftgV64wwcdd1CR+zqAiPcmpeqfSELiHGqclAlY11idOmWaZfeunn4e9NF9fFgFkHZJt8rWj/8Q75jXTaaVWnWYlcs8p/3Pt5jRTmMpyFZljjCJu7AZPokpdLyztfACShy0EsgLaFrZNQyt5wmyl0Und9phAzcbcIuht3Sx+7tISn9Ead7TVyEHUyv0HNlj9gaaZ8yKJS4QmdKuf7EEq1kqwbZWhUILrOwIR1ZXC81dfgONBRYHhn+3LKVyFZguJcKxd0/hOfPW5Uc4ldSAyQ4q6MYV4hDl9nLhA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(2616005)(508600001)(6916009)(52116002)(956004)(36756003)(5660300002)(2906002)(86362001)(4326008)(8676002)(16576012)(66946007)(8936002)(316002)(186003)(26005)(83380400001)(38100700002)(38350700002)(6486002)(31696002)(31686004)(66476007)(66556008)(43740500002)(45980500001);
+ SFS:(4636009)(366004)(16576012)(316002)(83380400001)(4326008)(31686004)(38100700002)(38350700002)(2906002)(66556008)(66476007)(508600001)(36756003)(6486002)(5660300002)(52116002)(8936002)(2616005)(956004)(8676002)(31696002)(66946007)(26005)(86362001)(186003)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?KzVRWTVaM3lNekl1OUErTU52SkdmcURtNVVvVkRBcHE3YjFYWi9kcmhlek01?=
- =?utf-8?B?a05rc0RGOVRUamQ0ZDJ6UFBXTHgwNU5LQkRPSmh6WGJpZHEva2NaQlFObVdw?=
- =?utf-8?B?cXpzMlBZQWZ2M29UMHdnQVJxTXZpd3BKWjRiQ1Nra3dwdnFsMEZOVDZZTi9D?=
- =?utf-8?B?aENuVHB6cURxK3dnVU1iVVNQY0tHdUozMDFzd1pxY0FDYnFSWDZGL2krWnE1?=
- =?utf-8?B?SkE2c2pPb3hwNjFvQzZ2MWNHNzV3OGtxREI2dkxuM0orUDV6V3RRbjQwTDkx?=
- =?utf-8?B?RWFCMmt3VTl0Rnl0K1BDR2NraS9hNzUxNG9jeHB5NzV4YVZWYXY0M3IrSllG?=
- =?utf-8?B?eWJqM2lEZ2s5ak8weHg5VUxQcFJiNkFjem1FZXFENEE5dVN5OGtpY0lzMGhK?=
- =?utf-8?B?Y3lXb0JBMXVYcjlEZHdyM0NsOTNvRFp3a1NuTHZ4ZTNTeFBaVUU5eDBTSEM1?=
- =?utf-8?B?R1pzTzAwOW04a1I2RjFvajY0N3JsRFhlWjcwdHBicEJ5NVVPUGlZL3hNanJC?=
- =?utf-8?B?K3VxaDFhR2xPd09jbkRvb295b01iUVJxRm5WM0kxRVdJOSt4ekpXVEhROUtV?=
- =?utf-8?B?eTczUnk5MUxReXpZajJXNmtXUlRjcVIyeWxITGpHa1lWWUtqeWdIazdHbEVz?=
- =?utf-8?B?emJLa3R3M1ZSVXNxeG9lTVJNbkxiSWtJdGRkQ2t0L1pTak1jcjJnV3JVK3dL?=
- =?utf-8?B?N21XNjNkUVhUWGdLZCtEdzBqY3dKV1N4SEozdmx4SEszMWtyVitzTWM4dHhR?=
- =?utf-8?B?eDJpSHk2cFJLU1FXUzE0dk55SHlUZGpzOFZRcmF4M0NRQTRlZ0pEWEdyTWpq?=
- =?utf-8?B?TFRub3k1T1ZKc3dGUVRTNDZFaXFvS3Vua0x2U3B5M0c4dEtyRktpM1YwYmkv?=
- =?utf-8?B?bFlyZVcvQ3A5bkpEQy9nekV3aExDWmFpZ1hUdW1uMWNTSXkvMko4VnBxMVE1?=
- =?utf-8?B?cjJZL1M0RDAxalF0bnVxbUZhQkhsVkFkcGdscnYyV2U5UVArSHlDaTRjRVdQ?=
- =?utf-8?B?WGQ3NnNLODdrdFR4ZXN0SFI1QUpkRjduS0laUkl4S1g1L0UzcDJvd3J0OHIv?=
- =?utf-8?B?SWE3Q2dlY2d4ZG1JUVdONGhhejk0bE1OVTFSR0NMY0dqNWFBVExPcUtxaFBZ?=
- =?utf-8?B?VzkyRHE5WENGQkJvZDNNbm9Uc2RHTlZaRjJoc0RzOFd4ZGZBWnVNUjVSZHVs?=
- =?utf-8?B?Rkg5YTY0V1BobGY2OVBvZmMxUEIyV1loYVpaZ3R4NitOeHBZKzIwUzFmQm1P?=
- =?utf-8?B?anF5cmI3TzU5QmtPMG80cXZwVnFyRXl6Z0dRWThrVml2eHZQZC9NUFMwanhB?=
- =?utf-8?B?UHVjYjFSdFZnOGxuVkdWbDI2cXRJQlZqeCs2WXpKVnJUSTdoNCtHTFFSZ09U?=
- =?utf-8?B?T2pzWVdrNWFmZU9Oa3U1a3V2YnB6K09RQ3d3anU2QStLQzJzT1orbU5uL2lh?=
- =?utf-8?B?VjFFTVJjSERSVktLeGdhUFJrM2Q3bU9TT1JkTlE3eGprU0poY1hnWk5kUWEw?=
- =?utf-8?B?OEVRSFFTNWxlTGorNXBWV3J0TUZWVWdkV1Q0WGh1WGZOQWFkcHowTnVLVFhJ?=
- =?utf-8?B?YVRMQW1yTUsxcUJrclhEWEJaUEE0d3hMcTZOOHNWNzFYUkNLSlR5enFUaU5D?=
- =?utf-8?B?eW9GSkxUMFM5cmJHcTNyWXUxS1krY3JKZTlzcWlhZGxPdGU5eGtaalFHZmt5?=
- =?utf-8?B?c1lJUUJaajVHaG0yekVjd3NpUGlOR092YjZDU2VpYytRYVVJdUQrb1hUWlYv?=
- =?utf-8?B?bGJxNUVDSU8wVDIvMzZkeGZoM3N5UnhURmZ4eVk3VmxRVnJxbk5ka1RGdFlN?=
- =?utf-8?B?Wk90WGpRc1gzdmViRlZPYzc4dWhSVFMzQ3ZTbkhYNG80Nlpaa1ZCYkRRc0o4?=
- =?utf-8?B?QlVicDEzOGY3QkZxcWRmVkg0RzBIU1htNUIrNitjdHVLZ2t2bHJoUFFCV3R2?=
- =?utf-8?B?QXhzdHA4UDB0SW0yZmVwenRUeWNya2w0SFF2TFhHQnp1N05hODhpaVdrUjI3?=
- =?utf-8?B?OW9TWWU0N0hrU0dDUVNLU0UwR2REOTJYbzZRbmNsRUpJK1pvbDkyMll0c1Jy?=
- =?utf-8?B?bEhXTDIxN2k5dzZNVmI3VlBrQ0NuengyZjBzZVlXOXdISUx5N1lkUEFyUU1O?=
- =?utf-8?B?dGVNWGQ3dUQ3N2N1aTJWSkdPdkdWWnFWamUxMXloZ2hIN2VCVTEwMG5MeG5G?=
- =?utf-8?B?emtsRmJuZjNGOGcwRzk0OE8zcGlCeWJYYzdScjRZa290MFRETFlLOHRnRjcz?=
- =?utf-8?B?OE13Mi9DenNDSmJEVEdWdXM5MnR3PT0=?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VjZHVFEvMmlrdjVBT2Q4aTBPZTQ2ckZNUm5IZ3dVdCtpd1VMV1Z3aWJobDNJ?=
+ =?utf-8?B?aCsvekpnb21WNmNLNlAvZWs2dG1XOG56RTRmM0cvUVROSkIvNURnUXVtdUxI?=
+ =?utf-8?B?MktFellQV0lMM29zeDB5d3JGK1UzckZ2RlkxdTk0VmM5SlR4UCt0MytQaXpO?=
+ =?utf-8?B?TDNrOTdRQm14YzRIZXJzZHVHbVl5bGlmTDBqVzhXUlRiOU0wTUNOOWJSbUpW?=
+ =?utf-8?B?NmVvRVZvWTR0SGg2SEI4cGtZSklOMmtXREZva09pYnIyY3Jpcm5FWmV4SXQy?=
+ =?utf-8?B?SWM4MGljbmNRYkxpTlZtc3AxOUlJRHVzRkZwSTVCL3E5THllejNja3hEOThN?=
+ =?utf-8?B?SWU2OTRPeW92ajFDeExoN2s4a2d2L1ZkQllJRHB2OTJBb29tQXdtU3hES3Nk?=
+ =?utf-8?B?UUNUOGZqcEdSK3hMVFV5Qlo1amsvaXByWU9rL0ppallGNmNqVGJ5NVlFQmVr?=
+ =?utf-8?B?QmVFZXdDdXI4WmZCQnFFQWNLSFJySkJHNzRlZDVVbVFTYkFWRFg4MzBHRHlj?=
+ =?utf-8?B?cWhBVUo2S1BTclA1azBXZ1VuV3VNVWU0QWdKTDBHRUUyajk1dzlLU2gxekdG?=
+ =?utf-8?B?amc1NEp3N1YxRDI4MnRLR0xoZGZ0R0JTditpRkMxREc3QmZaZ3J3eTEvMGN1?=
+ =?utf-8?B?YkJuWUFWa1g4VENQVDV6ZG9SM0h1eHFiZE9RRVZKZjBndENWZlF0YXFySkxx?=
+ =?utf-8?B?clRJTzZhV3h2RHB4SWFoeFRKdHhnTVQ4MTdmbVB0WTkrdXU2a05RSjZFUkdY?=
+ =?utf-8?B?YnV3R0lhN1Nqa2t4SFl2aDM0K2s2NVJWMlNnbSt0UFRqZTJqaG4xQkxnRVIr?=
+ =?utf-8?B?clBoYjRPcnVQUmxqUm4rU3VLUEVMK3lheEZ2cGd2NDlXSUhiY1hBUlV3OU42?=
+ =?utf-8?B?cGxSL3BicmJsMThVMU9RZGhMcVFMK2grUWllTWs1ZVVWMkdxTVlkQ2pWU1pE?=
+ =?utf-8?B?RW5hazVRYkZNdTFORHp0dGdBWkt2T3ZOWlVPU3hvZVloMmdFTEFieEc2L1pL?=
+ =?utf-8?B?Wko3K2JFNW1zOXl1T29oM1R4cWRkOEdIYjlNRldMSjdqaXBBNys1TUpEY2I5?=
+ =?utf-8?B?RzBvZWVpSHlWcjdvR3NueHZiM25YMng1OGEvY05kam9mUE02SjVrTUQwcm1Q?=
+ =?utf-8?B?c1lud3FTazRlZHFMMW4zRFltVjVwR2FMdTdoY0NQUVA0elRzN3dEYm0wQUM2?=
+ =?utf-8?B?bDY0SkpKSGtTMHNnR0NQc201RHF1ZlhVM1NqekdFd2ZmT0xBUEpmUWZGdzBE?=
+ =?utf-8?B?ZGJnOXovYmgzSm9RYTZYSEdvOURRajZUcXpTZmR1aWpjbldxR3lmUGtwQ205?=
+ =?utf-8?B?bFZ1OWNpOHQwOXNrL3R4Y2Vuc1hxeEVNblpHV0VDNjRFNi9EbjduU003UlpR?=
+ =?utf-8?B?V3U0L040QzMwQzVtSGl1VVhrZk9USFpDRkV0Y2dvcUhmN2hwczJMeUc3VXp6?=
+ =?utf-8?B?ck9QRnZReWV4VWRNcHdEbEFORUk4NHNnRzE0aWV3S0k4WHNMM01pZFYxOHFs?=
+ =?utf-8?B?UlJmelBCNW1vRWhKZVhJVEZkbFVUT1VBekMvK3grN1F1ekd1cGxmc2t5cko4?=
+ =?utf-8?B?TU9KSkwyanVJT05mMmdqS2d1c3haeEFKUDdPMy9ac0VicFo5Lzh0VXJNZmxs?=
+ =?utf-8?B?VWxPWW16Z0wxL2I5Tlk5NldFZldsNFJyY3p6MHM1TFhlRERRZGZSS1hFNXcw?=
+ =?utf-8?B?TjVsU0xEeEVCS2xHUGlGOHpWeWdKa2M4QU5BSkd0VURERlZwTnl0REZtWjA1?=
+ =?utf-8?B?b0FPQjQwUFJqMC9vYWxjZ0tSUHhhNml4KzJuSGZBM3d3dUNtMHFuRlJML0Mv?=
+ =?utf-8?B?c3JtQ0l5dkVnTG90ZnNDc1hVa3RkQlhnbjhlWGthcFdZMG5ZWFltaEQ1YkVP?=
+ =?utf-8?B?ZjlxTnRSWGtNNDRsQkNhc25TbXBDZ3lxdHNTSVpidzVyNEtFbXAyY0VoMUFv?=
+ =?utf-8?B?MW8wcGN0bHVHZkRIdENvd0NCZlM5amhLVXBGb0JtS3FSZ3QwWW96dkxIMFFn?=
+ =?utf-8?B?OStrTGNDWGdocW0rZkVqZ1pjTDJjNjBseHhFcVBRNDQ1SnRpL2N5cW5OdzJZ?=
+ =?utf-8?B?S0lRNEs1ODdDZ3hRZVdYL2VqTkcxa2xCYzBXdXB4WFJZKzVncFJMaXlGNnpv?=
+ =?utf-8?B?U0Z5VWNoc3UyRkdGR20waDlkYVZ4dExHSnMvdFF5Y3Q3NUpCeVVJYjluK1Bt?=
+ =?utf-8?B?bjY5R1ZMb3ozbmpnR2lMT2pHQ01HTTRGN09WU0hXNmZJT25kUWY4TmhGTWtq?=
+ =?utf-8?Q?1rVt6rG2EcvLBrcZYWQQ7bjeOC/tH9/4Zcj8jLm/kU=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8b0f636-e097-40c9-c0bd-08d9bc07a17a
+X-MS-Exchange-CrossTenant-Network-Message-Id: b67101db-9bf0-40f7-8af6-08d9bc092719
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2021 18:05:21.2841 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2021 18:16:14.7125 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5hvZIA5Pyn3pTSPs1SJJQi2liWfrowOp4W01VwZD8pMgaGbzQuzPu5VQTTASH4ausA/rmqSpd2viwLU5SorGUjrfAegperOFo+ONRJgAyrA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3812
-Received-SPF: pass client-ip=40.107.21.106;
+X-MS-Exchange-CrossTenant-UserPrincipalName: lQqOoNJ3o1UnwLoqaMI/2acyIe7DnBX8N6kOreeYu834qBKJImuSXRT6X/XKv1BmFn2ZSr2G2PHXyK2vZ5tpNRVP32vaThym7ZT+slNQFok=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4962
+Received-SPF: pass client-ip=40.107.22.119;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -158,39 +155,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-07.12.2021 12:08, Vladimir Sementsov-Ogievskiy wrote:
-> 07.12.2021 02:00, Eric Blake wrote:
->> On Mon, Dec 06, 2021 at 02:40:45PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+04.12.2021 02:14, Eric Blake wrote:
+> Add a new negotiation feature where the client and server agree to use
+> larger packet headers on every packet sent during transmission phase.
+> This has two purposes: first, it makes it possible to perform
+> operations like trim, write zeroes, and block status on more than 2^32
+> bytes in a single command; this in turn requires that some structured
+> replies from the server also be extended to match.  The wording chosen
+> here is careful to permit a server to use either flavor in its reply
+> (that is, a request less than 32-bits can trigger an extended reply,
+> and conversely a request larger than 32-bits can trigger a compact
+> reply).
 
-[..]
 
->>>
->>>> +S: 64 bits, padding (MUST be zero)
->>>
->>> Hmm. Extra 8 bytes to be power-of-2. Does 32 bytes really perform better than 24 bytes?
->>
->> Consider:
->> struct header[100];
->>
->> if sizeof(header[0]) is a power of 2 <= the cache line size (and the
->> compiler prefers to start arrays aligned to the cache line) then we
->> are guaranteed that all array members each reside in a single cache
->> line.  But if it is not a power of 2, some of the array members
->> straddle two cache lines.
->>
->> Will there be code that wants to create an array of headers?  Perhaps
->> so, because that is a logical way (along with scatter/gather to
->> combine the header with variable-sized payloads) of tracking the
->> headers for multiple commands issued in parallel.
->>
->> Do I have actual performance numbers?  No. But there's plenty of
->> google hits for why sizing structs to a power of 2 is a good idea.
+About this.. Isn't it too permissive?
 
-I have a thought:
+I think that actually having to very similar ways to do the same thing is usually a bad design. I think we don't want someone implement the logic, which tries to send 32bit commands/replies for small requests and 64bit command/replies for larger ones? Moreover, you don't allow doing it for commands. So, for symmetry, it may be good to be strict with replies too: in 64bit mode only 64bit replies.
 
-If client stores headers in separate, nothing prevents make this padding in RAM. So you can define header struct with padding. But what a reason to make the padding in the stream? You can have and array of good-aligned structures, but fill only part of header structure reading from the socket. Note, that you can read only one header in one read() call anyway, as you have to analyze, does it have payload or not.
-
-So, if we want to improve performance by padding the structures in RAM, it's not a reason for padding them in the wire, keeping in mind that we can't read more then one structure at once.
+Now we of course have to support old 32bit commands and new 64bit commands. But, may be, we'll want to deprecate 32bit commands at some moment? I'm not sure we can deprecate them in protocol, but we can deprecate them in Qemu at least. And several years later we'll drop old code, keeping only support for 64bit commands. Less code paths, less similar structures, simpler code, I think it worth it.
 
 
 -- 
