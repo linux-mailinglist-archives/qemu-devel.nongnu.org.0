@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE6E46FCFF
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 09:50:58 +0100 (CET)
-Received: from localhost ([::1]:50626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEDDA46FD0C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 09:54:21 +0100 (CET)
+Received: from localhost ([::1]:59258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvbcI-0000aQ-3D
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 03:50:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34082)
+	id 1mvbfY-0006RP-QW
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 03:54:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvapH-0008LD-Hr
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 03:00:19 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=46891
- helo=mail-pj1-x1030.google.com)
+ id 1mvapa-0000UP-KN
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 03:00:38 -0500
+Received: from [2607:f8b0:4864:20::430] (port=35753
+ helo=mail-pf1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvapE-0007BB-Nb
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 03:00:19 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- np6-20020a17090b4c4600b001a90b011e06so6841462pjb.5
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 00:00:16 -0800 (PST)
+ id 1mvapU-0007OP-KZ
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 03:00:38 -0500
+Received: by mail-pf1-x430.google.com with SMTP id p13so7791887pfw.2
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 00:00:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UefHqT/XAbfAFowQ5MKuvao/c74SGlCSyEvUV5YOLpk=;
- b=bWroANRMgqJW0HR7XR3W/awq0Nu0KByaznp+fnC7M+YWzPYMfWH50IdEL7dE/K48pL
- DaF56/cqiGYT0iP+EuKCBWgCQvvPrp8Yd/smzsf85Hc2lHWbGu3A2/nH3DpAuNbIQ6c2
- IqZogA9loLHXGy78qkDOjCn0zRA/aG83w6TdP3ObzV/4v43AlchBTOi9Jd1j/ZTWciWG
- iLq3W8FEJTfrQ4zvQpHj6D04i3hbCJq4yAKV84plci4NIo+tlYR5DlG0qiDZpulQTGhu
- K1aQKccuKqEZt/i/sxAv5xt9mqs+ghDlNuNl9cqxcW+ZqLMMa95lpZerW3xAkreHLJHS
- nqZg==
+ bh=WDcbHvFfnRh1HNjClY61dDp99D4HR8GSj/sfoqjXa/g=;
+ b=hw2nYtdbfbUsSBQz/SYTqh4dFE8MaSRnGdmypCgXK3YxUpQvVESkoY0KN9k1Sxj5C1
+ 27iYD8uEjm/lMpXKjNLXyN8AuiUw48bzrJNgXDiavbjcnbyw27KJRzwncypE2kcnhvda
+ NDMzr9EfsGIvSag6bDA9qHIyqzEP8LhIsxPr2jbou0mhIQyaLqjDflfLGjaSFCNpTI26
+ sGTy2ijpxTMR9/csbIOPEBANblh+LEv0r00FXBqPez3KgWU2qshU3+Yd5vvKdsyB1gVD
+ 2lisSdR27MdrkHGpDOqrnYDuFTa5BWuDPR6deGrC0w6zFS915dUiqgsP/rrFe3G8lOH/
+ G6sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UefHqT/XAbfAFowQ5MKuvao/c74SGlCSyEvUV5YOLpk=;
- b=RI5C+y5ZTco58VL0gEYOpaG2hnF3sreljrjexJBfO6/Z/qJS6Wp/1Z8r/yMzNeqlxG
- mHDD+j8kJqaXtJaolCs5FFBHCS8N4qelYMu+dHwIK0t2oBhKDX0igV7/4xodYIR0z+Lq
- xjgxxJU7OUm4612nLwL70xC1e36qXb64F2JpSKWV65opiuamFAZfzLjfw0FYRmc5R4uQ
- L59f/zEbBUvEp6A9hiaDZJ90NbTU3bE3P9q95QxHW3FNg2msm2VvTvQwuI2mELYnJltu
- QPpcsfJuSoV8lhHjYzyFFCpt5bAI135Sved6Yt45Ey1gRDVeNvQSv1rWPzX6BPvvOoEJ
- HuaA==
-X-Gm-Message-State: AOAM531tPAVkqaXgmpG+GabzkM8J0v6is2+flXZ2MTDIblIFUfLdUPGs
- 1BF6yJACc6k2ylvldqBGCrurAZj3BzVyCCDp
-X-Google-Smtp-Source: ABdhPJzqCUBLXnEenJ75/6dOr0p40A4/JAtpIb9inTn2zv40KpgNKsZIAXoaT9vtbfWzAFwKAeby5g==
-X-Received: by 2002:a17:90a:ce02:: with SMTP id
- f2mr21632940pju.77.1639123215260; 
- Fri, 10 Dec 2021 00:00:15 -0800 (PST)
+ bh=WDcbHvFfnRh1HNjClY61dDp99D4HR8GSj/sfoqjXa/g=;
+ b=Y0C1Omjc9w9pMoZuFSJATRIvPBBEp5PSpu+IQA3Hfly5j1/iXnuvAWPXmBvu1bON+H
+ /APMQk2776j2BurMEn0i0rcJOfmE+yWCNWy7Io3IH7uwIF17GgFYdJEbi+w+uPqB7WqY
+ r6F8p2qyDpIXeoTITMc/cNmPXIpgIWHX94xDYDifT6bd3ZbNiWggsS/1hHHsnToyQ9AR
+ HZW8bluf2sy12ZB7axXs5BEgcr8O6Oa4GWwKZu+O8ZjEkgcLBnohSKye16HPijYFtdGi
+ EZe1UqKmKaa3HfNfxL5Fd8MuY9dgemyEQxbucljv8kpqcTKhQpXwdPwWKgVP7LoBFAsq
+ SzCg==
+X-Gm-Message-State: AOAM533pSKYJ1ulumKP7PoIWxlaRhGAq/IjZMeoM1XgzVUl+/52SVbnQ
+ WkqfiVOjLV1F9CSD2BtOhNF8QiLEezmDFf7Z
+X-Google-Smtp-Source: ABdhPJxXph8/kmaTvKHb7fupLeaFjQSBrkIliRTQjJihHY9o+aWGt1+4ojJK2Ue6wCJIEqVUrWOxTA==
+X-Received: by 2002:a65:5ccb:: with SMTP id b11mr37150563pgt.408.1639123231244; 
+ Fri, 10 Dec 2021 00:00:31 -0800 (PST)
 Received: from hsinchu16.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id f4sm2087955pfg.34.2021.12.10.00.00.13
+ by smtp.gmail.com with ESMTPSA id f4sm2087955pfg.34.2021.12.10.00.00.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Dec 2021 00:00:14 -0800 (PST)
+ Fri, 10 Dec 2021 00:00:31 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 62/77] target/riscv: rvv-1.0: widening
- floating-point/integer type-convert
-Date: Fri, 10 Dec 2021 15:56:48 +0800
-Message-Id: <20211210075704.23951-63-frank.chang@sifive.com>
+Subject: [PATCH v11 68/77] target/riscv: gdb: support vector registers for
+ rv64 & rv32
+Date: Fri, 10 Dec 2021 15:56:54 +0800
+Message-Id: <20211210075704.23951-69-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211210075704.23951-1-frank.chang@sifive.com>
 References: <20211210075704.23951-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -89,197 +87,266 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
+ Frank Chang <frank.chang@sifive.com>, Hsiangkai Wang <kai.wang@sifive.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Greentime Hu <greentime.hu@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+From: Hsiangkai Wang <kai.wang@sifive.com>
 
-Add the following instructions:
-
-* vfwcvt.rtz.xu.f.v
-* vfwcvt.rtz.x.f.v
-
-Also adjust GEN_OPFV_WIDEN_TRANS() to accept multiple floating-point
-rounding modes.
-
+Signed-off-by: Hsiangkai Wang <kai.wang@sifive.com>
+Signed-off-by: Greentime Hu <greentime.hu@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Acked-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/helper.h                   |  2 +
- target/riscv/insn32.decode              | 13 +++---
- target/riscv/insn_trans/trans_rvv.c.inc | 55 +++++++++++++++++++++----
- target/riscv/vector_helper.c            |  7 +++-
- 4 files changed, 63 insertions(+), 14 deletions(-)
+ target/riscv/cpu.c     |   2 +
+ target/riscv/cpu.h     |   1 +
+ target/riscv/gdbstub.c | 184 +++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 187 insertions(+)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 1727075dce..53cf88cd40 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -928,8 +928,10 @@ DEF_HELPER_5(vfwcvt_xu_f_v_h, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(vfwcvt_xu_f_v_w, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(vfwcvt_x_f_v_h, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(vfwcvt_x_f_v_w, void, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_5(vfwcvt_f_xu_v_b, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(vfwcvt_f_xu_v_h, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(vfwcvt_f_xu_v_w, void, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_5(vfwcvt_f_x_v_b, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(vfwcvt_f_x_v_h, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(vfwcvt_f_x_v_w, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(vfwcvt_f_f_v_h, void, ptr, ptr, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 02064f8ec9..664d0fb371 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -592,11 +592,14 @@ vfcvt_f_xu_v       010010 . ..... 00010 001 ..... 1010111 @r2_vm
- vfcvt_f_x_v        010010 . ..... 00011 001 ..... 1010111 @r2_vm
- vfcvt_rtz_xu_f_v   010010 . ..... 00110 001 ..... 1010111 @r2_vm
- vfcvt_rtz_x_f_v    010010 . ..... 00111 001 ..... 1010111 @r2_vm
--vfwcvt_xu_f_v   100010 . ..... 01000 001 ..... 1010111 @r2_vm
--vfwcvt_x_f_v    100010 . ..... 01001 001 ..... 1010111 @r2_vm
--vfwcvt_f_xu_v   100010 . ..... 01010 001 ..... 1010111 @r2_vm
--vfwcvt_f_x_v    100010 . ..... 01011 001 ..... 1010111 @r2_vm
--vfwcvt_f_f_v    100010 . ..... 01100 001 ..... 1010111 @r2_vm
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 728092f78c..9776297c79 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -675,6 +675,8 @@ static const char *riscv_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname)
+ 
+     if (strcmp(xmlname, "riscv-csr.xml") == 0) {
+         return cpu->dyn_csr_xml;
++    } else if (strcmp(xmlname, "riscv-vector.xml") == 0) {
++        return cpu->dyn_vreg_xml;
+     }
+ 
+     return NULL;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 5d93ccdfa7..dc10f27093 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -291,6 +291,7 @@ struct RISCVCPU {
+     CPURISCVState env;
+ 
+     char *dyn_csr_xml;
++    char *dyn_vreg_xml;
+ 
+     /* Configuration Settings */
+     struct {
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index 23429179e2..881ab33392 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -20,6 +20,32 @@
+ #include "exec/gdbstub.h"
+ #include "cpu.h"
+ 
++struct TypeSize {
++    const char *gdb_type;
++    const char *id;
++    int size;
++    const char suffix;
++};
 +
-+vfwcvt_xu_f_v      010010 . ..... 01000 001 ..... 1010111 @r2_vm
-+vfwcvt_x_f_v       010010 . ..... 01001 001 ..... 1010111 @r2_vm
-+vfwcvt_f_xu_v      010010 . ..... 01010 001 ..... 1010111 @r2_vm
-+vfwcvt_f_x_v       010010 . ..... 01011 001 ..... 1010111 @r2_vm
-+vfwcvt_f_f_v       010010 . ..... 01100 001 ..... 1010111 @r2_vm
-+vfwcvt_rtz_xu_f_v  010010 . ..... 01110 001 ..... 1010111 @r2_vm
-+vfwcvt_rtz_x_f_v   010010 . ..... 01111 001 ..... 1010111 @r2_vm
- vfncvt_xu_f_v   100010 . ..... 10000 001 ..... 1010111 @r2_vm
- vfncvt_x_f_v    100010 . ..... 10001 001 ..... 1010111 @r2_vm
- vfncvt_f_xu_v   100010 . ..... 10010 001 ..... 1010111 @r2_vm
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 4bc4dfa69f..b4cf044450 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2536,12 +2536,55 @@ static bool opfv_widen_check(DisasContext *s, arg_rmr *a)
-            vext_check_ds(s, a->rd, a->rs2, a->vm);
++static const struct TypeSize vec_lanes[] = {
++    /* quads */
++    { "uint128", "quads", 128, 'q' },
++    /* 64 bit */
++    { "uint64", "longs", 64, 'l' },
++    /* 32 bit */
++    { "uint32", "words", 32, 'w' },
++    /* 16 bit */
++    { "uint16", "shorts", 16, 's' },
++    /*
++     * TODO: currently there is no reliable way of telling
++     * if the remote gdb actually understands ieee_half so
++     * we don't expose it in the target description for now.
++     * { "ieee_half", 16, 'h', 'f' },
++     */
++    /* bytes */
++    { "uint8", "bytes", 8, 'b' },
++};
++
+ int riscv_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
+     RISCVCPU *cpu = RISCV_CPU(cs);
+@@ -101,6 +127,96 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
+     return 0;
  }
  
--#define GEN_OPFV_WIDEN_TRANS(NAME)                                 \
-+#define GEN_OPFV_WIDEN_TRANS(NAME, HELPER, FRM)                    \
- static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
- {                                                                  \
-     if (opfv_widen_check(s, a)) {                                  \
-         uint32_t data = 0;                                         \
-         static gen_helper_gvec_3_ptr * const fns[2] = {            \
-+            gen_helper_##HELPER##_h,                               \
-+            gen_helper_##HELPER##_w,                               \
-+        };                                                         \
-+        TCGLabel *over = gen_new_label();                          \
-+        gen_set_rm(s, FRM);                                        \
-+        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-+                                                                   \
-+        data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-+        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-+        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-+                           vreg_ofs(s, a->rs2), cpu_env,           \
-+                           s->vlen / 8, s->vlen / 8, data,         \
-+                           fns[s->sew - 1]);                       \
-+        mark_vs_dirty(s);                                          \
-+        gen_set_label(over);                                       \
-+        return true;                                               \
-+    }                                                              \
-+    return false;                                                  \
-+}
-+
-+GEN_OPFV_WIDEN_TRANS(vfwcvt_xu_f_v, vfwcvt_xu_f_v, RISCV_FRM_DYN)
-+GEN_OPFV_WIDEN_TRANS(vfwcvt_x_f_v, vfwcvt_x_f_v, RISCV_FRM_DYN)
-+GEN_OPFV_WIDEN_TRANS(vfwcvt_f_f_v, vfwcvt_f_f_v, RISCV_FRM_DYN)
-+/* Reuse the helper functions from vfwcvt.xu.f.v and vfwcvt.x.f.v */
-+GEN_OPFV_WIDEN_TRANS(vfwcvt_rtz_xu_f_v, vfwcvt_xu_f_v, RISCV_FRM_RTZ)
-+GEN_OPFV_WIDEN_TRANS(vfwcvt_rtz_x_f_v, vfwcvt_x_f_v, RISCV_FRM_RTZ)
-+
-+static bool opfxv_widen_check(DisasContext *s, arg_rmr *a)
++/*
++ * Convert register index number passed by GDB to the correspond
++ * vector CSR number. Vector CSRs are defined after vector registers
++ * in dynamic generated riscv-vector.xml, thus the starting register index
++ * of vector CSRs is 32.
++ * Return 0 if register index number is out of range.
++ */
++static int riscv_gdb_vector_csrno(int num_regs)
 +{
-+    return require_rvv(s) &&
-+           require_scale_rvf(s) &&
-+           vext_check_isa_ill(s) &&
-+           /* OPFV widening instructions ignore vs1 check */
-+           vext_check_ds(s, a->rd, a->rs2, a->vm);
++    /*
++     * The order of vector CSRs in the switch case
++     * should match with the order defined in csr_ops[].
++     */
++    switch (num_regs) {
++    case 32:
++        return CSR_VSTART;
++    case 33:
++        return CSR_VXSAT;
++    case 34:
++        return CSR_VXRM;
++    case 35:
++        return CSR_VCSR;
++    case 36:
++        return CSR_VL;
++    case 37:
++        return CSR_VTYPE;
++    case 38:
++        return CSR_VLENB;
++    default:
++        /* Unknown register. */
++        return 0;
++    }
 +}
 +
-+#define GEN_OPFXV_WIDEN_TRANS(NAME)                                \
-+static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
-+{                                                                  \
-+    if (opfxv_widen_check(s, a)) {                                 \
-+        uint32_t data = 0;                                         \
-+        static gen_helper_gvec_3_ptr * const fns[3] = {            \
-+            gen_helper_##NAME##_b,                                 \
-             gen_helper_##NAME##_h,                                 \
-             gen_helper_##NAME##_w,                                 \
-         };                                                         \
-@@ -2550,11 +2593,10 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-                                                                    \
-         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
--        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-         tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-                            vreg_ofs(s, a->rs2), cpu_env,           \
-                            s->vlen / 8, s->vlen / 8, data,         \
--                           fns[s->sew - 1]);                       \
-+                           fns[s->sew]);                           \
-         mark_vs_dirty(s);                                          \
-         gen_set_label(over);                                       \
-         return true;                                               \
-@@ -2562,11 +2604,8 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
-     return false;                                                  \
++static int riscv_gdb_get_vector(CPURISCVState *env, GByteArray *buf, int n)
++{
++    uint16_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
++    if (n < 32) {
++        int i;
++        int cnt = 0;
++        for (i = 0; i < vlenb; i += 8) {
++            cnt += gdb_get_reg64(buf,
++                                 env->vreg[(n * vlenb + i) / 8]);
++        }
++        return cnt;
++    }
++
++    int csrno = riscv_gdb_vector_csrno(n);
++
++    if (!csrno) {
++        return 0;
++    }
++
++    target_ulong val = 0;
++    int result = riscv_csrrw_debug(env, csrno, &val, 0, 0);
++
++    if (result == 0) {
++        return gdb_get_regl(buf, val);
++    }
++
++    return 0;
++}
++
++static int riscv_gdb_set_vector(CPURISCVState *env, uint8_t *mem_buf, int n)
++{
++    uint16_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
++    if (n < 32) {
++        int i;
++        for (i = 0; i < vlenb; i += 8) {
++            env->vreg[(n * vlenb + i) / 8] = ldq_p(mem_buf + i);
++        }
++        return vlenb;
++    }
++
++    int csrno = riscv_gdb_vector_csrno(n);
++
++    if (!csrno) {
++        return 0;
++    }
++
++    target_ulong val = ldtul_p(mem_buf);
++    int result = riscv_csrrw_debug(env, csrno, NULL, val, -1);
++
++    if (result == 0) {
++        return sizeof(target_ulong);
++    }
++
++    return 0;
++}
++
+ static int riscv_gdb_get_csr(CPURISCVState *env, GByteArray *buf, int n)
+ {
+     if (n < CSR_TABLE_SIZE) {
+@@ -187,6 +303,68 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
+     return CSR_TABLE_SIZE;
  }
  
--GEN_OPFV_WIDEN_TRANS(vfwcvt_xu_f_v)
--GEN_OPFV_WIDEN_TRANS(vfwcvt_x_f_v)
--GEN_OPFV_WIDEN_TRANS(vfwcvt_f_xu_v)
--GEN_OPFV_WIDEN_TRANS(vfwcvt_f_x_v)
--GEN_OPFV_WIDEN_TRANS(vfwcvt_f_f_v)
-+GEN_OPFXV_WIDEN_TRANS(vfwcvt_f_xu_v)
-+GEN_OPFXV_WIDEN_TRANS(vfwcvt_f_x_v)
- 
- /* Narrowing Floating-Point/Integer Type-Convert Instructions */
- 
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index cc95b69255..c3b7719291 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -3773,6 +3773,7 @@ GEN_VEXT_V_ENV(vfcvt_f_x_v_d, 8, 8)
- 
- /* Widening Floating-Point/Integer Type-Convert Instructions */
- /* (TD, T2, TX2) */
-+#define WOP_UU_B uint16_t, uint8_t,  uint8_t
- #define WOP_UU_H uint32_t, uint16_t, uint16_t
- #define WOP_UU_W uint64_t, uint32_t, uint32_t
- /* vfwcvt.xu.f.v vd, vs2, vm # Convert float to double-width unsigned integer.*/
-@@ -3788,19 +3789,23 @@ GEN_VEXT_V_ENV(vfwcvt_x_f_v_h, 2, 4)
- GEN_VEXT_V_ENV(vfwcvt_x_f_v_w, 4, 8)
- 
- /* vfwcvt.f.xu.v vd, vs2, vm # Convert unsigned integer to double-width float */
-+RVVCALL(OPFVV1, vfwcvt_f_xu_v_b, WOP_UU_B, H2, H1, uint8_to_float16)
- RVVCALL(OPFVV1, vfwcvt_f_xu_v_h, WOP_UU_H, H4, H2, uint16_to_float32)
- RVVCALL(OPFVV1, vfwcvt_f_xu_v_w, WOP_UU_W, H8, H4, uint32_to_float64)
-+GEN_VEXT_V_ENV(vfwcvt_f_xu_v_b, 1, 2)
- GEN_VEXT_V_ENV(vfwcvt_f_xu_v_h, 2, 4)
- GEN_VEXT_V_ENV(vfwcvt_f_xu_v_w, 4, 8)
- 
- /* vfwcvt.f.x.v vd, vs2, vm # Convert integer to double-width float. */
-+RVVCALL(OPFVV1, vfwcvt_f_x_v_b, WOP_UU_B, H2, H1, int8_to_float16)
- RVVCALL(OPFVV1, vfwcvt_f_x_v_h, WOP_UU_H, H4, H2, int16_to_float32)
- RVVCALL(OPFVV1, vfwcvt_f_x_v_w, WOP_UU_W, H8, H4, int32_to_float64)
-+GEN_VEXT_V_ENV(vfwcvt_f_x_v_b, 1, 2)
- GEN_VEXT_V_ENV(vfwcvt_f_x_v_h, 2, 4)
- GEN_VEXT_V_ENV(vfwcvt_f_x_v_w, 4, 8)
- 
- /*
-- * vfwcvt.f.f.v vd, vs2, vm #
-+ * vfwcvt.f.f.v vd, vs2, vm
-  * Convert single-width float to double-width float.
-  */
- static uint32_t vfwcvtffv16(uint16_t a, float_status *s)
++static int ricsv_gen_dynamic_vector_xml(CPUState *cs, int base_reg)
++{
++    RISCVCPU *cpu = RISCV_CPU(cs);
++    GString *s = g_string_new(NULL);
++    g_autoptr(GString) ts = g_string_new("");
++    int reg_width = cpu->cfg.vlen;
++    int num_regs = 0;
++    int i;
++
++    g_string_printf(s, "<?xml version=\"1.0\"?>");
++    g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
++    g_string_append_printf(s, "<feature name=\"org.gnu.gdb.riscv.vector\">");
++
++    /* First define types and totals in a whole VL */
++    for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
++        int count = reg_width / vec_lanes[i].size;
++        g_string_printf(ts, "%s", vec_lanes[i].id);
++        g_string_append_printf(s,
++                               "<vector id=\"%s\" type=\"%s\" count=\"%d\"/>",
++                               ts->str, vec_lanes[i].gdb_type, count);
++    }
++
++    /* Define unions */
++    g_string_append_printf(s, "<union id=\"riscv_vector\">");
++    for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
++        g_string_append_printf(s, "<field name=\"%c\" type=\"%s\"/>",
++                               vec_lanes[i].suffix,
++                               vec_lanes[i].id);
++    }
++    g_string_append(s, "</union>");
++
++    /* Define vector registers */
++    for (i = 0; i < 32; i++) {
++        g_string_append_printf(s,
++                               "<reg name=\"v%d\" bitsize=\"%d\""
++                               " regnum=\"%d\" group=\"vector\""
++                               " type=\"riscv_vector\"/>",
++                               i, reg_width, base_reg++);
++        num_regs++;
++    }
++
++    /* Define vector CSRs */
++    const char *vector_csrs[7] = {
++        "vstart", "vxsat", "vxrm", "vcsr",
++        "vl", "vtype", "vlenb"
++    };
++
++    for (i = 0; i < 7; i++) {
++        g_string_append_printf(s,
++                               "<reg name=\"%s\" bitsize=\"%d\""
++                               " regnum=\"%d\" group=\"vector\""
++                               " type=\"int\"/>",
++                               vector_csrs[i], TARGET_LONG_BITS, base_reg++);
++        num_regs++;
++    }
++
++    g_string_append_printf(s, "</feature>");
++
++    cpu->dyn_vreg_xml = g_string_free(s, false);
++    return num_regs;
++}
++
+ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+ {
+     RISCVCPU *cpu = RISCV_CPU(cs);
+@@ -198,6 +376,12 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+         gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
+                                  36, "riscv-32bit-fpu.xml", 0);
+     }
++    if (env->misa_ext & RVV) {
++        gdb_register_coprocessor(cs, riscv_gdb_get_vector, riscv_gdb_set_vector,
++                                 ricsv_gen_dynamic_vector_xml(cs,
++                                                              cs->gdb_num_regs),
++                                 "riscv-vector.xml", 0);
++    }
+ #if defined(TARGET_RISCV32)
+     gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
+                              1, "riscv-32bit-virtual.xml", 0);
 -- 
 2.31.1
 
