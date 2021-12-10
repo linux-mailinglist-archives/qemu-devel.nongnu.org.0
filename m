@@ -2,64 +2,150 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1BE14702B8
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 15:22:20 +0100 (CET)
-Received: from localhost ([::1]:40250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B168147029B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 15:19:07 +0100 (CET)
+Received: from localhost ([::1]:37602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvgmx-0000KO-TG
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 09:22:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43964)
+	id 1mvgjp-0006x7-TP
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 09:19:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
- id 1mvggo-0004xq-1z
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 09:15:58 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:37316)
+ (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
+ id 1mvghe-0005Ly-CI; Fri, 10 Dec 2021 09:16:50 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:39654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
- id 1mvggk-00009S-PL
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 09:15:57 -0500
-Received: from smtpclient.apple (lfbn-bor-1-1317-97.w193-250.abo.wanadoo.fr
- [193.250.130.97])
- by beetle.greensocs.com (Postfix) with ESMTPSA id E02E321A87;
- Fri, 10 Dec 2021 14:15:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1639145751;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8PKVNAHp4BydPhKhoxnDx+Z5H+U3VcNphElySXBcAgw=;
- b=sJbznqM9REmgCpLsRzjHGW6cRqfh/hEuV5c9AK9uycEyrcGRfqywjdQ2IoX67bN8hMnNgm
- rHvGiReM45uJTbRHL2p+b0t+QfVpxoPHlZBPZwp6j8uDjDLxBOdwmGklc0AoC3TqiBvNC7
- X0PX34JOy8ALKMiY1blipe553sGspcw=
-From: Mark Burton <mark.burton@greensocs.com>
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.20.0.1.32\))
-Subject: Re: Redesign of QEMU startup & initial configuration
-Date: Fri, 10 Dec 2021 15:15:50 +0100
-References: <87lf13cx3x.fsf@dusky.pond.sub.org> <YbJU5vVdesoGuug9@redhat.com>
- <fb7e946e-6881-0ea3-d824-99693f938165@redhat.com>
- <YbM5Q+gq89rWoPt8@redhat.com>
-To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Damien Hedde <damien.hedde@greensocs.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>
-In-Reply-To: <YbM5Q+gq89rWoPt8@redhat.com>
-Message-Id: <A220E257-3378-4E43-86B6-4ED84E3CA3E8@greensocs.com>
-X-Mailer: Apple Mail (2.3693.20.0.1.32)
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=mark.burton@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
+ id 1mvghc-0000KR-5g; Fri, 10 Dec 2021 09:16:50 -0500
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BAE8fHA012455; 
+ Fri, 10 Dec 2021 14:16:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : mime-version;
+ s=corp-2021-07-09; bh=fYhYAAEJ5NhuLKqCOFue1jdSHmeJwZR8GCOVaZjXxaI=;
+ b=XR7tIl5uMtZlXISGguJgLjogh4MLbzXGLe5e7InsTgOJIxZohCSZJBHtjCIBMos8BZca
+ doTSeSqZds2oAzN6sN0/AabMcHXmaoIIOK83dWeSEaezeGRCFfDhA1rqAhEi1Drmun7a
+ VrqHK+7X0r3jiZc5wQH6wsbP/J4IuaGQccgEXRNg+vhUfuHSICUJ7JtGv+x4y7waaJd+
+ 8c2FQU1NEDodwqNk1F/TxDAjbKcd54GmdvImtBenLQGTZqVilcvRIgVAEsO/c56fUdv5
+ tbFoIVjG0RAbnfZcklQ+yy3AfmEkLIwJlTyY0uPszC2KPjmeIlJglyKUFjgtbP8XcV2Q Vw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3ctu96wyxk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 10 Dec 2021 14:16:36 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BAEFafV049225;
+ Fri, 10 Dec 2021 14:16:35 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2104.outbound.protection.outlook.com [104.47.70.104])
+ by aserp3030.oracle.com with ESMTP id 3csc4xrju9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 10 Dec 2021 14:16:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aMu63hU+usSrvK4vZwbHjj8AmAjO9wTR7GXfEIwiKvHiuXPLDfv3Kv5fpMbzBz3p0AS42IaxpkokBuuLuksQ+Y5LQDYMCxi0ijgEX9Gn7HJpSYeo+nHcFUB6S7ckWZfYlbZVkGechCZzfaIm7QSt+RCAbAqbzeHDdtCn0w6gRKTLPXwQF8R8KmKfsZ6QClue4ddv7T2pWb0Trl+BYYC4xY9fwn3NW+Z9P18lsmhT5V5ga1cmh1dybS9eY46eM7DJfVNALOEN+8lNDaqx0KPWgiKg66Nu8CCo7c++rUmsmigWxrqfLCyL9fT4wRFPXH9hxbG9rmUi7wf1N9nYapb0vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fYhYAAEJ5NhuLKqCOFue1jdSHmeJwZR8GCOVaZjXxaI=;
+ b=FTy9ZRa7YI4I8u/0C1LmP9okPKTonyS96Pa8mfGLx03AEmIeIG2yQQT/dHBn5PKwPXJsGf44GAIDUScjyuch1HQqDhkcqY9nUy4kajAc6DCpXqKg075OrcipDf4fhCAIMuJ7eDS/RcGeRaIvNKN5ei020YtlAa2FF800QaUm08S95N14htMh1RNWkAO04J2q4PIeLk/K7/cBJ82D+lyCXREA+65+kqTti149kU1AzmC7oh5sw+DB95GUS9BJRtFTny1ZUjk5fkWLre8Fgqd1jfDt5piPDvj0PYttmHH3/cZ7hrSU1ry4QmmU27MuktRyq31GI67OqvZ/Of/V/q5sqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fYhYAAEJ5NhuLKqCOFue1jdSHmeJwZR8GCOVaZjXxaI=;
+ b=d/XjelfYraV1aB8WtnmhumEw6xbU4tRib3sIYKdLhAIJX4R5LFM30IkSvjXIMaoqz+AENu5szyfvgY3CrYAKMWTNeu5773xph6nWIZoU5lMaBYEud80uZK1U2vWIYtjzVFY/WnYlOrlUA+tY8OYUx2OfnRe5lnKPno53/pZLmc4=
+Received: from BYAPR10MB2663.namprd10.prod.outlook.com (2603:10b6:a02:a9::20)
+ by SJ0PR10MB4463.namprd10.prod.outlook.com (2603:10b6:a03:2af::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.25; Fri, 10 Dec
+ 2021 14:16:33 +0000
+Received: from BYAPR10MB2663.namprd10.prod.outlook.com
+ ([fe80::91ce:8d4f:e5d1:c67b]) by BYAPR10MB2663.namprd10.prod.outlook.com
+ ([fe80::91ce:8d4f:e5d1:c67b%6]) with mapi id 15.20.4778.015; Fri, 10 Dec 2021
+ 14:16:33 +0000
+From: Dongli Zhang <dongli.zhang@oracle.com>
+To: qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH 0/2] scsi: to fix issue on passing host_status to the guest
+ kernel
+Date: Fri, 10 Dec 2021 06:16:13 -0800
+Message-Id: <20211210141615.2585-1-dongli.zhang@oracle.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: SN7PR04CA0072.namprd04.prod.outlook.com
+ (2603:10b6:806:121::17) To BYAPR10MB2663.namprd10.prod.outlook.com
+ (2603:10b6:a02:a9::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c91b9ff3-b807-4b51-424b-08d9bbe7aada
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB4463:EE_
+X-Microsoft-Antispam-PRVS: <SJ0PR10MB44637543559810E171DA1494F0719@SJ0PR10MB4463.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: W0fuIAcyC9AtffScjMpDk6nt6GzMpahwXk/BxUkc+2VeIxPcrd2o1bZt6YZesXZc1xsX3LRYwd/uN3svUJqpZLyH/gcgbhVHZ8FOGW2/DnL5i690Oy0zz3Oh42T2iTL3DgbAfLun8FZ1Hqkl9BMmZyJW3tS43UIZCraD80FuvUnauA9Kjwn+DNQg5vePutVBAWvjF2v3KZcVffiDRXmiUeiM60gkkGzzbyu7F8030UQuqyerAZ2F8gNMsilyCLHW6C+Rw+t+jZ79Q9gWpRTpe0+MoFmP8T8JXEKZPoyEWWg4sxsqMDJfjb58J4loo2cRU0g8d5MklSh4v8giDuikFpf+4PSPNbLb7vzWWqJqHQdk1LUMVYOuC6aLLn+fcrM/52yvRFtiXEsurvebVR8HvMvKBuPeQmryowz6Z1ch2TJ47d6yqPYaoCZLsHkEyEPfmsk05VK0gepveb45Eo4X6UITZwdMpqWqYLVTXkB+hdMfpFe6W8FUxv33eVAsPiZai567GAT5yb15qCCqMenUUUZTzK1MEq+97cbW1QceqSUbB3kElgStTEZ3Ri50reFd2OtTq7MPAwilxxUdb9pfjlikzhm9gTx/NBOghyqU0qJi8Qn8nESFBvTaSdgeIt3N1ntyUeo5T1UnmZDJH7D/cuYhKAa25jE3tWEqdSXvs/ZZa/1tg44zRkh65TMmCtD7FGTHGApbV8BC30cTThFdGg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR10MB2663.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(2906002)(6666004)(6506007)(36756003)(26005)(2616005)(4326008)(508600001)(107886003)(186003)(52116002)(44832011)(6486002)(38100700002)(1076003)(316002)(8676002)(8936002)(66556008)(66476007)(4744005)(5660300002)(86362001)(66946007)(38350700002)(6512007)(83380400001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Nk5iBHP2aY5GkqxS3BK9J7v5BhihY3Uc0oUzutV6dOJ2HdW2PkPgTkzn1fp2?=
+ =?us-ascii?Q?BAPdYMJxc8EmdyoqkwDVzLYN6DV2JqolI0rL19Kt5hIWqbshgCw1mDQIaTu4?=
+ =?us-ascii?Q?nEeXQW/kK1WyxZS0yconZtqd9zypr18eaASCvGF0Afp+bcwFuf+IC+PzsHR/?=
+ =?us-ascii?Q?kNOoh1LM/yej5QUwmIQkS704ocqqJ7koO68pvGT515sFA7n7bahgZFKYP7Vx?=
+ =?us-ascii?Q?XeMC08QaLEDOQT8Gr8CZZg/gW4InNKf7M9guZUtJWVRe60tyMY6z2mjQG4xi?=
+ =?us-ascii?Q?85IYdoNf8xWpgxz7BAEsBEKz+RmIp8xwhJQK5pGzzCde3dLyxUJlzblD17Q5?=
+ =?us-ascii?Q?Tj9XW1JBgN220u68zFDUnQHtaRUhT26hivu2obhgY1ZiCARU9ZDxTRRFEmDq?=
+ =?us-ascii?Q?w7QpoXE7V0IHOStD47XLPlmGDtHNzJ8It7m7NsChLHOlzOXGNEv3jgikazy1?=
+ =?us-ascii?Q?kI/51o1OUHRa4fSLJeBy+MBHrrk/ZlyZ9mRkkJv5FdpHw14/reJY98DZ46oA?=
+ =?us-ascii?Q?E/pgvkFp7uMI/dspvpyt7UapD4tfsC/Rr0iW1IIKMJPL+daMsRqXeOwGu+gC?=
+ =?us-ascii?Q?uhB+BXbrRUBcYKSEiOKeQ4wozfZvyMmK4ZM/a6whdY3rxu10yziG+vbs1YzX?=
+ =?us-ascii?Q?1rDpvXd7c+s9gbg8wzesA/TZjDgdiOUUEvjbOqT/gZueLUZA7i0sGO+X6t1g?=
+ =?us-ascii?Q?jcYZcHMoEkh2CLPq1DzzSL7GCkz1CqCov7VD8c/mQXAEsNlwi1NxKDKyMsOn?=
+ =?us-ascii?Q?x0Dg+JZJCTU276uDyv0FTiTT/e3PWLeefXiquY+pDmmZkH7/+8jKDIsuiCrR?=
+ =?us-ascii?Q?ZgosAKMRpS7l05OhJeFO56Nz3AvlthpBjO1grpozJ9LhnJz8ZD72mZjiwlwS?=
+ =?us-ascii?Q?X7R/BVsjXDFCS9LOPthxx/3SA1ck3K8kp5ohKJ5Svb2BGQRmpm/v6cLhMct7?=
+ =?us-ascii?Q?am8fK030M4529Bwbk2mi4A7v4DVR20Va+hrpMF7ymy+1vIK48XvaCYHP8eOj?=
+ =?us-ascii?Q?NESXweekdY3usrhTn6n7MZrhyiuRcDquKWMFwCBjji4ziLHNa67JJu7RL2cN?=
+ =?us-ascii?Q?T1lqqL8evWEVOn9KlCMcHUUXejKnDmTU3RqGUKxc1zjShAWnsRJxRLALdP4y?=
+ =?us-ascii?Q?gUqnF5DpPHG46t+vsNRiuCOUNLI01TBFfxRLEOeRlGoC82T1wMm23jDI+iU0?=
+ =?us-ascii?Q?jBmoNIOUXwH2H9dC1Vu5ztjkd7J4OwfCMb5ckksGnV099uoVPuk1pTq8KOTG?=
+ =?us-ascii?Q?AnUHMwFSJuaBb5/jzE5ivDXbv7fHadbpcOlwOMDTrfB+B8c/DzkNyb0+giEt?=
+ =?us-ascii?Q?hl6thw69BYo40TJaN4ov6K3y6E7VeUnpvA4Ds1QAAGWniFTKFCoVJgChZFvX?=
+ =?us-ascii?Q?3jONSY19ZvKimB0Mn8nJ1G79IzwJNGHhLlFCsmaGkYyzm7MZNp1gweHLXBc/?=
+ =?us-ascii?Q?STyWcNklEOlfqs+lw8b9Ztjmffve1090i+VvRXJ+BJ/tMOCkzBxmagCALKZd?=
+ =?us-ascii?Q?zSn7bfBBuCqUuSFpu7qqmce8jE9RW+oZd7qinpPySpu0KoBAxOzbGOHFqIIn?=
+ =?us-ascii?Q?ODAf5DEMo+K6ucY0ABUD3XxK3DwRSxgtYydLK1fmhU6JT/UyGcs6+xFPhVzZ?=
+ =?us-ascii?Q?YNLDTxqfkf9cNeHCSdhg3jU=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c91b9ff3-b807-4b51-424b-08d9bbe7aada
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2663.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2021 14:16:33.0405 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xJ/dxO0/rJHCGWGz21vUzSzKCYqGVYi7IUx+Lpgw+hYizcatAxiGRfnh2y3uUgfjV8qsYn2Phs6d5UqRqYs6ag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4463
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10193
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxlogscore=764
+ phishscore=0 bulkscore=0 malwarescore=0 spamscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112100082
+X-Proofpoint-GUID: Cj1iiq0syZdzqPH48L4cwe5aMAy0EMZl
+X-Proofpoint-ORIG-GUID: Cj1iiq0syZdzqPH48L4cwe5aMAy0EMZl
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=dongli.zhang@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,102 +159,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: fam@euphon.net, pbonzini@redhat.com, rui.loura@oracle.com,
+ joe.jin@oracle.com, adnan.misherfi@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patchset fixes the issue on passing 'host_status' to the guest kernel.
 
+The 1st patch fixes the erroneous usage of req->host_status.
 
-> On 10 Dec 2021, at 12:25, Daniel P. Berrang=C3=A9 =
-<berrange@redhat.com> wrote:
->=20
-> On Fri, Dec 10, 2021 at 09:34:41AM +0100, Paolo Bonzini wrote:
->> On 12/9/21 20:11, Daniel P. Berrang=C3=A9 wrote:
->>>>    They still need to bootstrap a QMP monitor, and for that, CLI is =
-fine
->>>>    as long as it's simple and stable.
->>=20
->> I would go a step further and say that the QMP monitor socket should =
-be
->> created by whoever invoked QEMU and passed down via systemd's socket
->> activation protocol, with a fallback to stdin/stdout.
+The 2nd patch is to pass the SCSI_HOST_ERROR to the guest kernel when the
+req->bus->info->fail() is not implemented. I do not add 'Fixes:' because I
+am not sure if to not pass SCSI_HOST_ERROR was on purpose, especially for
+security reason.
 
-Could we take one more small step =E2=80=A6.=20
-(Sorry - I=E2=80=99m sure you=E2=80=99ll all hate me for pointing at the =
-elephant in the room=E2=80=A6.)
+Thank you very much!
 
-Why should QEMU itself handle this? You may want to use systemd socket =
-activation, I may be happier with a different approach. The commonality =
-is surely at the level of the underlying QAPI.
-Being able to build QEMU as a =E2=80=A6.. library, with a single entry =
-point to access the QAPI would allow the QEMU community to focus on =
-it=E2=80=99s key =E2=80=98kernel=E2=80=99, while others are able to =
-propose integrated solutions like activation through systemd an/or =
-whatever libvirt does etc etc=E2=80=A6. By all means there can be a =
-systemd-qemu project=E2=80=A6. But does that have to be baked into QEMU?
-I know there=E2=80=99s a history on the use of the =E2=80=9CLibrary=E2=80=9D=
- word - equally there is a notion of a library needing a static =
-interface etc - I propose we agree upon a single access mechanism to the =
-QAPI - who=E2=80=99s existence and stability we have already (I think) =
-agreed upon.
+Dongli Zhang
 
-This requires a =E2=80=98full=E2=80=99 QAPI, of course, and a bit of =
-care in the build system. It allows total flexibility, and the =
-guarantees of stability reach no further than what we're proposing =
-anyway. The existing CLI can migrate (fast or slow) to using QAPI=E2=80=A6=
-.
-
-Cheers
-Mark.
-
-
->=20
-> That's an interesting idea, firmly relegating any "human friendly"
-> targetted CLI to a separate program, that in turn invokes this
-> low level QEMU binary. I do like the simplicity of this and the
-> strict division of the layers it provides us, as it will help keep
-> us honest when designing human friendly interfaces.
->=20
-> To be clear, I do think the QEMU project should be delivering a
-> nice simple human targetted interface, and ideally using the
-> '/usr/bin/qemu' binary name, and able to deliver users a machines
-> with a modern hardware config that can evolve over time.
->=20
->>>> =3D Appendix: Why further incremental change feels impractical =3D
->>>>=20
->>>> Crafting a big change in small steps sounds great.  It isn't when =
-we
->>>> have to make things worse before they can get better, and every =
-step is
->>>> painfully slow because it's just too hard, and the end state we aim =
-for
->>>> isn't really what we want.
->>>=20
->>> I can't disagree with this. If we carry on trying to evolve vl.c
->>> incrementally we are doomed to be stuck with a horrible starstup
->>> process for enternity (or at least as long as I'll still be
->>> working as QEMU maintainer).
->>=20
->> ... and if you compare vl.c in 5.2 and now, and consider current vl.c =
-to be
->> horrible, my knowedge of English does not include an adjective to =
-describe
->> the 5.2 state.  Some incremental work _is_ possible or even =
-necessary, and
->> has been done already.
->=20
-> Right, I'm not saying vl.c hasn't improved, but we're never going
-> to get out of the peculiar historical startup ordering rules we
-> have today by incremental fixes, without breaking people.
->=20
-> Regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    =
-https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            =
-https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    =
-https://www.instagram.com/dberrange :|
->=20
 
 
