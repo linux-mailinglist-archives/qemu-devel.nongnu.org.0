@@ -2,60 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F0B46FA98
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 07:17:49 +0100 (CET)
-Received: from localhost ([::1]:57488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2086546FB2D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 08:16:36 +0100 (CET)
+Received: from localhost ([::1]:48978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvZE3-0001yq-PW
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 01:17:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34956)
+	id 1mva8t-0001Xv-0Q
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 02:16:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1mvZBQ-00010M-FF
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 01:15:04 -0500
-Received: from mga05.intel.com ([192.55.52.43]:12530)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mva3U-0000Pu-3O
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:10:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1mvZBN-0007Gx-F7
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 01:15:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639116901; x=1670652901;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=rBSiC4iRoQKGtjtmD7AQBEmc1JcX6byiC0AnDlaWVi4=;
- b=JDoDfF8ePscNPujoiC2cc8c/YU4KHQ9VfsXoXe7N1J6aRYS+u7cLQX8r
- lw2zp9bZkD6iWKYPUk0Wubtp3CDKdaVutOB650KNid05h0qJPvobaRew8
- Xer41ZUw2KWJOgpge2L7/CJy3G45PZ/oIANtG6yq2J2bYTXdw6s1bIaEh
- kEh6jCDK0AFUP5t1RnoHQkhuisV4d3NCMYjultxGJYU3uWsZN20UvIU1n
- OU8v59Y6EXJupFW5jWN/4HSRCUa34MRhsnzQQDTResrG0+Iq5P8VGWXjL
- pa0tTmq59wT/2D4RWYRP73wqVXCHNUtnyVUvzqOXK4Jb6TjVE2sxXfMcx A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="324546513"
-X-IronPort-AV: E=Sophos;i="5.88,194,1635231600"; d="scan'208";a="324546513"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 22:14:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,194,1635231600"; d="scan'208";a="612822670"
-Received: from unknown (HELO leirao-pc.bj.intel.com) ([10.238.156.139])
- by orsmga004.jf.intel.com with ESMTP; 09 Dec 2021 22:14:53 -0800
-From: "Rao, Lei" <lei.rao@intel.com>
-To: chen.zhang@intel.com, zhang.zhanghailiang@huawei.com, quintela@redhat.com,
- dgilbert@redhat.com
-Subject: [PATCH] COLO: Move some trace code behind qemu_mutex_unlock_iothread()
-Date: Sat, 11 Dec 2021 06:14:35 +0800
-Message-Id: <20211210221435.142472-1-lei.rao@intel.com>
-X-Mailer: git-send-email 2.32.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mva3O-0000AU-Hw
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:10:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639120249;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NrKUpAEE3We2TDSaDHulcP+8iYO7ZZGoN3t5/iPC/EY=;
+ b=NkQI8eLehVjHED8yoNbobAKzUCnyZE+o//RLcYXjGn+y/4kimaUFjGWnb90ux2cIUuJxad
+ gB4i2pZMCXGMtMMFOQaghRqbkJn5x1cpLHu5meb7cUEH5zdMJNk77TilwXmO17hnsSYwqG
+ orMBTqLytp3IxL93c2kI7KsD1+gT6iw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-357-yURZGEHCP-S0SayW6_OO_A-1; Fri, 10 Dec 2021 02:10:46 -0500
+X-MC-Unique: yURZGEHCP-S0SayW6_OO_A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A39B10151E3;
+ Fri, 10 Dec 2021 07:10:44 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C14119C59;
+ Fri, 10 Dec 2021 07:10:44 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 899C7113865F; Fri, 10 Dec 2021 08:10:42 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Subject: Re: [PATCH 7/7] hw/riscv: Use error_fatal for SoC realisation
+References: <20211208064252.375360-1-alistair.francis@opensource.wdc.com>
+ <20211208064252.375360-8-alistair.francis@opensource.wdc.com>
+Date: Fri, 10 Dec 2021 08:10:42 +0100
+In-Reply-To: <20211208064252.375360-8-alistair.francis@opensource.wdc.com>
+ (Alistair Francis's message of "Wed, 8 Dec 2021 16:42:52 +1000")
+Message-ID: <87v8zxc4ul.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=lei.rao@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_12_24=3.199,
- DKIMWL_WL_HIGH=-0.619, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,50 +80,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Rao, Lei" <lei.rao@intel.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, Bin Meng <bin.meng@windriver.com>,
+ qemu-devel@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>,
+ alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Lei Rao <lei.rao@intel.com>
----
- migration/colo.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Alistair Francis <alistair.francis@opensource.wdc.com> writes:
 
-diff --git a/migration/colo.c b/migration/colo.c
-index 2415325262..3ccacb29c8 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -683,8 +683,8 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
- 
-     qemu_mutex_lock_iothread();
-     vm_stop_force_state(RUN_STATE_COLO);
--    trace_colo_vm_state_change("run", "stop");
-     qemu_mutex_unlock_iothread();
-+    trace_colo_vm_state_change("run", "stop");
- 
-     /* FIXME: This is unnecessary for periodic checkpoint mode */
-     colo_send_message(mis->to_src_file, COLO_MESSAGE_CHECKPOINT_REPLY,
-@@ -786,8 +786,8 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
- 
-     vmstate_loading = false;
-     vm_start();
--    trace_colo_vm_state_change("stop", "run");
-     qemu_mutex_unlock_iothread();
-+    trace_colo_vm_state_change("stop", "run");
- 
-     if (failover_get_state() == FAILOVER_STATUS_RELAUNCH) {
-         return;
-@@ -870,8 +870,8 @@ void *colo_process_incoming_thread(void *opaque)
-         abort();
- #endif
-     vm_start();
--    trace_colo_vm_state_change("stop", "run");
-     qemu_mutex_unlock_iothread();
-+    trace_colo_vm_state_change("stop", "run");
- 
-     colo_send_message(mis->to_src_file, COLO_MESSAGE_CHECKPOINT_READY,
-                       &local_err);
--- 
-2.32.0
+> From: Alistair Francis <alistair.francis@wdc.com>
+>
+> When realising the SoC use error_fatal instead of error_abort as the
+> process can fail and report useful information to the user.
+>
+> Currently a user can see this:
+>
+>    $ ../qemu/bld/qemu-system-riscv64 -M sifive_u -S -monitor stdio -display none -drive if=pflash
+>     QEMU 6.1.93 monitor - type 'help' for more information
+>     (qemu) Unexpected error in sifive_u_otp_realize() at ../hw/misc/sifive_u_otp.c:229:
+>     qemu-system-riscv64: OTP drive size < 16K
+>     Aborted (core dumped)
+>
+> Which this patch addresses
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> Reported-by: Markus Armbruster <armbru@redhat.com>
+
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
