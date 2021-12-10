@@ -2,69 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3B046FF0C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 11:52:30 +0100 (CET)
-Received: from localhost ([::1]:34348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F2346FF3B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 11:58:21 +0100 (CET)
+Received: from localhost ([::1]:38698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvdVt-0004qM-KS
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 05:52:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34122)
+	id 1mvdbX-0008G9-SX
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 05:58:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jtomko@redhat.com>) id 1mvdUl-0002v4-RZ
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:51:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46687)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mvdaZ-0007WC-AZ
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:57:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jtomko@redhat.com>) id 1mvdUh-0001V3-96
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:51:17 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mvdaW-0002PC-Nb
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:57:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639133474;
+ s=mimecast20190719; t=1639133835;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=lm6Y2iS1Yy0UtJTMyphkV97A/gwh+Vjw4+xtIg/5uC4=;
- b=HBwS28L+myTrTdR43mSHpunsTnv5sq+fvcQVtkcX7VfJVfYmoRmSMo3FKUi0lICLO9/bvI
- tCljrJNobX8p270KoGp1bbTQgQsNHd4gsmE0lHhscMLFShSAZ63ASCzhLdjP7XL1Z26h9K
- jPMKZQcY+a8AECKUSnzLZKbaeptoBvQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qOr+eyb+ika+oaVT7dUe9KzCHpLOPriK6towirskFDo=;
+ b=U5MQIHxC9kOcOIHLYbSNfJj9xbOYmkPbh5FqoVfgDW0WSVVnF7PfY4TnVx88FW5B/ecpUT
+ YjEjy7mRClCHoBFFbk/IzRlz5nqzQvA3LwrOT6gPUwWjbvnsnrtXf3AUd8476J5i1lQEOQ
+ pVqvgGHkzeNWzoTeOKNTKMK+9uOuDEw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-592-BJSt7i6dPCitbcSCrB4nMw-1; Fri, 10 Dec 2021 05:51:11 -0500
-X-MC-Unique: BJSt7i6dPCitbcSCrB4nMw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3599534787;
- Fri, 10 Dec 2021 10:51:10 +0000 (UTC)
-Received: from fedora (unknown [10.40.193.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E360E10013D0;
- Fri, 10 Dec 2021 10:51:08 +0000 (UTC)
-Date: Fri, 10 Dec 2021 11:51:05 +0100
-From: =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [RFC PATCH] blog post: how to get your new feature up-streamed
-Message-ID: <YbMxGUTa6uqU3ydt@fedora>
-References: <20211126203319.3298089-1-alex.bennee@linaro.org>
+ us-mta-555-V29qe7ZHOyyjl-zrrMRgxA-1; Fri, 10 Dec 2021 05:57:14 -0500
+X-MC-Unique: V29qe7ZHOyyjl-zrrMRgxA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ c4-20020adfed84000000b00185ca4eba36so2118919wro.21
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 02:57:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=qOr+eyb+ika+oaVT7dUe9KzCHpLOPriK6towirskFDo=;
+ b=V46HSzt6W/loTv6/mO1jvsbwpMw/As9MIkF+laBPFYJ8JlXzf6RXeNxT0xLIqR36bp
+ I4pntmEa8HtxpiC/xqfErELOjT1FjUtwrVjPl9RM/CpGU5EWrWfTDV+yo7dTtiqXE5gS
+ Z58NHtq5zBdjOYKRqLhWRrAtwZ/cMDrlLXClWIsErkjciMuZ3Qf/WxruyVFbpnNUA3zn
+ 36/fA9iFzFUcEF3n1ttF3hAZzlKCSZ5InEYpEtosTwMEWf78Ovw/yc4SlIntQX6x5nZm
+ aL9Vx75qTMzudfanhb6PvrdoV8hrxnQvK7X25mrNY1bo73kJkV4CrrMRyKWvvNEqbiG6
+ TeRg==
+X-Gm-Message-State: AOAM532l18H27860TUvymDSa+RRygK+YgdlO83uBOyfd0V5i5vX8XmJa
+ qvf56wb7kuj4HNFDPFWV/xT7AgmeYsxOxwdfx8UvSmCW9qoXFkLKBELoz24/T19yDoR/O+EJFLm
+ xA7YHM2Fnij0NhDU=
+X-Received: by 2002:a5d:4704:: with SMTP id y4mr12917381wrq.85.1639133833240; 
+ Fri, 10 Dec 2021 02:57:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJymxEKc9Dei0dX/urqzenNpo2ikl+UtCqbdK+Qitp9LPoyuVZ3Y1t+0sRlMSDT9aSAQCQlTeQ==
+X-Received: by 2002:a5d:4704:: with SMTP id y4mr12917364wrq.85.1639133833048; 
+ Fri, 10 Dec 2021 02:57:13 -0800 (PST)
+Received: from redhat.com ([2.55.18.120])
+ by smtp.gmail.com with ESMTPSA id z5sm14467265wmp.26.2021.12.10.02.57.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Dec 2021 02:57:12 -0800 (PST)
+Date: Fri, 10 Dec 2021 05:57:09 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Griffin <peter.griffin@linaro.org>
+Subject: Re: [PATCH 5/8] standard-headers: Add virtio_video.h
+Message-ID: <20211210055537-mutt-send-email-mst@kernel.org>
+References: <20211209145601.331477-1-peter.griffin@linaro.org>
+ <20211209145601.331477-6-peter.griffin@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20211126203319.3298089-1-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20211209145601.331477-6-peter.griffin@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jtomko@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Vw3A40oDmxARJ64w"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jtomko@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,85 +93,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Vw3A40oDmxARJ64w
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Dec 09, 2021 at 02:55:58PM +0000, Peter Griffin wrote:
+> Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
+> ---
+>  include/standard-headers/linux/virtio_video.h | 483 ++++++++++++++++++
+>  1 file changed, 483 insertions(+)
+>  create mode 100644 include/standard-headers/linux/virtio_video.h
 
-On a Friday in 2021, Alex Benn=E9e wrote:
->Experience has shown that getting new functionality up-streamed can be
->a somewhat painful process. Lets see if we can collect some of our
->community knowledge into a blog post describing some best practices
->for getting code accepted.
->
->[AJB: obviously RFC for now, need material for the end]
->
->Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
->---
-> ...26-so-you-want-to-add-something-to-qemu.md | 100 ++++++++++++++++++
-> 1 file changed, 100 insertions(+)
-> create mode 100644 _posts/2021-11-26-so-you-want-to-add-something-to-qemu=
-.md
->
->diff --git a/_posts/2021-11-26-so-you-want-to-add-something-to-qemu.md b/_=
-posts/2021-11-26-so-you-want-to-add-something-to-qemu.md
->new file mode 100644
->index 0000000..d38c0ca
->--- /dev/null
->+++ b/_posts/2021-11-26-so-you-want-to-add-something-to-qemu.md
+We generally inherit these files from Linux.
+Was the driver posted for inclusion in Linux?
 
-[..]
-
->+The maintainers path
->+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->+
-
-[..]
-
->+I won't pretend there isn't some commitment required when becoming a
->+maintainer. However if you were motivated enough to write the code for
->+a new feature you should be up to keeping it running smoothly in the
->+upstream. The level of effort required is also proportional to the
->+popularity of the feature - there is a world of difference between
->+maintaining an individual device and a core subsystem. If the feature
->+
-
-Unfinished sentence.
-
->+Practically you will probably want to get yourself a
->+[GitLab](https://gitlab.com/qemu-project/qemu/-/blob/master/MAINTAINERS)
->+account so you can run the CI tests on your pull requests. While
->+membership of `qemu-devel` is recommended no one is expecting you to
->+read every message sent to it as long as you look at those where you
->+are explicitly Cc'd.
->+
->+Now if you are convinced to become a maintainer for your new feature
->+lets discuss how you can improve the chances of getting it merged.
->+
-
-* let's
-
-Jano
-
---Vw3A40oDmxARJ64w
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEE7DTm0WabvfIr7YZ4Ak1z5KIMl5QFAmGzMRQACgkQAk1z5KIM
-l5QlqQf/QY9CGNFeiTBOHPDMyb/0FlaJyIc/26+7veppXX2wKNodXhkA6jEOABLc
-LqbWl4dLWHBgvkCtQHFwPpcjCdzSPuqWG9oAvkT3LAUgALAnTBr+5sagTzy/eRzq
-WduToFp/jhEToyote4L0lyuCgxcZ5BIXc8mJT2WzLD+z8T11yZJT+aRU0F8XimGD
-4zZP/oCJw6tyiE59EMDagiIYwY1YCm3RNHZ//0lU3jTqCkNa+qLo0s6NH1waM6L7
-fYqcl026FCuXpf5BH7iKT0gm4x79R6msOlf8XDGL5f4LMT6wcZcL9jOrn/g66T3L
-j8X/93FPJ5S5T90krdv9yBL1yjfXhQ==
-=QaFI
------END PGP SIGNATURE-----
-
---Vw3A40oDmxARJ64w--
+-- 
+MST
 
 
