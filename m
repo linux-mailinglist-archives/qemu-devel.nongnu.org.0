@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DDED470798
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 18:45:33 +0100 (CET)
-Received: from localhost ([::1]:51522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 820E04707E9
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 18:56:10 +0100 (CET)
+Received: from localhost ([::1]:54910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvjxc-00011I-8d
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 12:45:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51078)
+	id 1mvk7t-0003mo-1X
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 12:56:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mvjvy-0000BO-NX
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 12:43:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21925)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mvk5v-000313-Mn
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 12:54:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mvjvw-0005yA-63
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 12:43:49 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mvk5h-0001Oy-TR
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 12:54:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639158225;
+ s=mimecast20190719; t=1639158833;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6XsWqYPKtjXYEy//DlKr9cSmvoh2uMI/P8WfwMKdKNw=;
- b=hpHpNI8s+zaBRMmuJL+6iJKKCztzrQJrd4m3BSIRZV970Qpgt/y7pzvn15kKFbjT2wWycr
- uFxFkaB6ykqHwxa7Xk0aLKqED+JglyqUA3oLvxDMUYkwFvBfSJaWLD47FUoirGD2OOpl5z
- EjBBwv8jV4zyDep9SgreY8Dxnm+hrOQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uYjsASqWzoUljhGTalYhxvGVPsuG4LpeHMEFNn0TObU=;
+ b=eTvW0cr6Wc3TWmoX9VufQdMyBAhJ1KqTMAcvuB84LcwDHTjFy1b5X0s93jy7sojJOn8NNH
+ E4VipCV/u6n4iKLlVdtku9fhvz9OWuCOr/gVWKz5X5phxIqXX20vDgcditkPkC/CcWrqEY
+ iF6FdizER1KHi/T5OHYYTDslf4JYpVI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-160-5umNNFi_OeCl1ilsFP4QEQ-1; Fri, 10 Dec 2021 12:43:42 -0500
-X-MC-Unique: 5umNNFi_OeCl1ilsFP4QEQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- x17-20020a5d6511000000b0019838caab88so2571791wru.6
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 09:43:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6XsWqYPKtjXYEy//DlKr9cSmvoh2uMI/P8WfwMKdKNw=;
- b=BkJ/40wcyinG24+3sBHUnc1yYDmunSPvYDDQU2USEXsWNqGpn+O4Op3tNe2eYCGHeB
- vPqbTkvoJBDq8m+6LWsz2a+lTw+zrPXljO/fsuhqYspWXAUi7rQUrQKG4lZ5SjCylYcG
- t+2McAlrHDi49z5Ig83R9iPQ4HDQDKlj74niyrRyK+pRPAI1IEphKAetiD/q4EbFU6CB
- UH5XP2vfswIpqrrraQn2kZukJiH1QFaC6HOLF2nI125ZlnahCRWerHCIeDtT+ylqmnab
- OwdJ7qFQFSRK4hnVQxQhaaOD2DCjqNvWZ90Y6fnqYe8oVApxo374JhwJW1I1j8BHkNhV
- 8utg==
-X-Gm-Message-State: AOAM531zpilhGawEjPqrOPXL99zjSVswAlJukh65/QCAgDgQOOPuIyo8
- cjq0Ej5cOw+qczA9ymvNYX452iR/Sj79jO1JiZj1fg8eJtmV/RrpMhHa91Sf+wsAU7k+1Et/b07
- wRDAGGC4Y/BJ6RMc=
-X-Received: by 2002:a5d:50c6:: with SMTP id f6mr14879062wrt.131.1639158221076; 
- Fri, 10 Dec 2021 09:43:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxCHxrWBGT7iYfek4G1+zNH7wlMpCvTn/hUz6MX4SJbcIfdAq/Prr89fMFa3YwgNq+/DUdabQ==
-X-Received: by 2002:a5d:50c6:: with SMTP id f6mr14879025wrt.131.1639158220827; 
- Fri, 10 Dec 2021 09:43:40 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id m36sm3436152wms.25.2021.12.10.09.43.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Dec 2021 09:43:40 -0800 (PST)
-Message-ID: <6dd02c7c-5f0e-9dce-28b8-6ed7fb834a50@redhat.com>
-Date: Fri, 10 Dec 2021 18:43:39 +0100
+ us-mta-166-PTOCQUcNNg2-pe9acK5S1Q-1; Fri, 10 Dec 2021 12:53:51 -0500
+X-MC-Unique: PTOCQUcNNg2-pe9acK5S1Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E03BA18C8C02
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 17:53:50 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.255])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A19022DFE;
+ Fri, 10 Dec 2021 17:53:49 +0000 (UTC)
+Date: Fri, 10 Dec 2021 18:53:47 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [RFC PATCH 07/12] qapi: Allow defining QOM classes
+Message-ID: <YbOUKw1GhRn5mVuT@redhat.com>
+References: <20211103173002.209906-1-kwolf@redhat.com>
+ <20211103173002.209906-8-kwolf@redhat.com>
+ <871r379oku.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 09/31] block: introduce assert_bdrv_graph_writable
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20211124064418.3120601-1-eesposit@redhat.com>
- <20211124064418.3120601-10-eesposit@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211124064418.3120601-10-eesposit@redhat.com>
+In-Reply-To: <871r379oku.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.317, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,125 +78,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ eblake@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.11.21 07:43, Emanuele Giuseppe Esposito wrote:
-> We want to be sure that the functions that write the child and
-> parent list of a bs are under BQL and drain.
->
-> BQL prevents from concurrent writings from the GS API, while
-> drains protect from I/O.
->
-> TODO: drains are missing in some functions using this assert.
-> Therefore a proper assertion will fail. Because adding drains
-> requires additional discussions, they will be added in future
-> series.
->
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   include/block/block_int-global-state.h | 10 +++++++++-
->   block.c                                |  4 ++++
->   block/io.c                             | 11 +++++++++++
->   3 files changed, 24 insertions(+), 1 deletion(-)
->
-> diff --git a/include/block/block_int-global-state.h b/include/block/block_int-global-state.h
-> index a1b7d0579d..fa96e8b449 100644
-> --- a/include/block/block_int-global-state.h
-> +++ b/include/block/block_int-global-state.h
-> @@ -312,4 +312,12 @@ void bdrv_remove_aio_context_notifier(BlockDriverState *bs,
->    */
->   void bdrv_drain_all_end_quiesce(BlockDriverState *bs);
->   
-> -#endif /* BLOCK_INT_GLOBAL_STATE*/
+Am 23.11.2021 um 11:02 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >  scripts/qapi/expr.py   | 28 +++++++++++++++++-
+> >  scripts/qapi/schema.py | 66 ++++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 93 insertions(+), 1 deletion(-)
+> 
+> Missing: docs/devel/qapi-code-gen.rst update.  I understand why, but it
+> does make review harder.
+> 
+> >
+> > diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> > index 3cb389e875..77550629f3 100644
+> > --- a/scripts/qapi/expr.py
+> > +++ b/scripts/qapi/expr.py
+> > @@ -181,6 +181,8 @@ def check_defn_name_str(name: str, info: QAPISourceInfo, meta: str) -> None:
+> >      """
+> >      if meta == 'event':
+> >          check_name_upper(name, info, meta)
+> > +    elif meta == 'class':
+> > +        check_name_str(name, info, meta)
+> 
+> This permits arbitrary QAPI names.  I figure we'll want to define and
+> enforce a suitable naming convention.
 
-This looks like it should be squashed into patch 7, sorry I missed this 
-in v4...
+It's the QOM type name. So if you want to enforce something stricter, it
+needs to be defined for QOM first. I seem to remember that arbitrary
+QAPI names is already stricter than arbitrary QOM names, but I was
+hoping that it is close enough to what QOM classes actually use in
+practice. I fully expect to have a list of exceptions at some point when
+converting devices.
 
-(Rest of this patch looks good to me, for the record – and while I’m at 
-it, for patches I didn’t reply to so far, I planned to send an R-b 
-later.  But then there’s things like patches 2/3 looking good to me, but 
-it turned out in my review for patch 4 that bdrv_lock_medium() is used 
-in an I/O path, so I can’t really send an R-b now anymore...)
+> >      elif meta == 'command':
+> >          check_name_lower(
+> >              name, info, meta,
+> > @@ -557,6 +559,24 @@ def check_alternate(expr: _JSONObject, info: QAPISourceInfo) -> None:
+> >          check_type(value['type'], info, source)
+> >  
+> >  
+> > +def check_class(expr: _JSONObject, info: QAPISourceInfo) -> None:
+> > +    """
+> > +    Normalize and validate this expression as a ``class`` definition.
+> > +
+> > +    :param expr: The expression to validate.
+> > +    :param info: QAPI schema source file information.
+> > +
+> > +    :raise QAPISemError: When ``expr`` is not a valid ``class``.
+> > +    :return: None, ``expr`` is normalized in-place as needed.
+> > +    """
+> > +    config = expr.get('config')
+> > +    config_boxed = expr.get('config-boxed', False)
+> > +
+> > +    if config_boxed and config is None:
+> > +        raise QAPISemError(info, "'boxed': true requires 'config'")
+> 
+> You check 'config-boxed', but the error message talks about 'boxed'.
+> 
+> > +    check_type(config, info, "'config'", allow_dict=not config_boxed)
+> > +
+> > +
+> >  def check_command(expr: _JSONObject, info: QAPISourceInfo) -> None:
+> >      """
+> >      Normalize and validate this expression as a ``command`` definition.
+> > @@ -627,7 +647,7 @@ def check_exprs(exprs: List[_JSONObject]) -> List[_JSONObject]:
+> >              continue
+> >  
+> >          metas = expr.keys() & {'enum', 'struct', 'union', 'alternate',
+> > -                               'command', 'event'}
+> > +                               'class', 'command', 'event'}
+> >          if len(metas) != 1:
+> >              raise QAPISemError(
+> >                  info,
+> > @@ -671,6 +691,12 @@ def check_exprs(exprs: List[_JSONObject]) -> List[_JSONObject]:
+> >                         ['struct', 'data'], ['base', 'if', 'features'])
+> >              normalize_members(expr['data'])
+> >              check_struct(expr, info)
+> > +        elif meta == 'class':
+> > +            check_keys(expr, info, meta,
+> > +                       ['class'], ['if', 'features', 'parent', 'config',
+> > +                        'config-boxed'])
+> > +            normalize_members(expr.get('config'))
+> > +            check_class(expr, info)
+> >          elif meta == 'command':
+> >              check_keys(expr, info, meta,
+> >                         ['command'],
+> > diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> > index b7b3fc0ce4..ebf69341d7 100644
+> > --- a/scripts/qapi/schema.py
+> > +++ b/scripts/qapi/schema.py
+> > @@ -155,6 +155,9 @@ def visit_object_type_flat(self, name, info, ifcond, features,
+> >      def visit_alternate_type(self, name, info, ifcond, features, variants):
+> >          pass
+> >  
+> > +    def visit_class(self, entity):
+> > +        pass
+> > +
+> >      def visit_command(self, name, info, ifcond, features,
+> >                        arg_type, ret_type, gen, success_response, boxed,
+> >                        allow_oob, allow_preconfig, coroutine):
+> > @@ -766,6 +769,50 @@ def __init__(self, name, info, typ, ifcond=None):
+> >          super().__init__(name, info, typ, False, ifcond)
+> >  
+> >  
+> > +class QAPISchemaClass(QAPISchemaEntity):
+> > +    meta = 'class'
+> > +
+> > +    def __init__(self, name, info, doc, ifcond, features, parent,
+> > +                 config_type, config_boxed):
+> > +        super().__init__(name, info, doc, ifcond, features)
+> > +
+> > +        assert not parent or isinstance(parent, str)
+> 
+> I can't see what ensures this.
 
-Hanna
+Indeed, check_class() fails to check this. You agree that it is the
+place where it should be checked?
 
-> +/**
-> + * Make sure that the function is running under both drain and BQL.
-> + * The latter protects from concurrent writings
-> + * from the GS API, while the former prevents concurrent reads
-> + * from I/O.
-> + */
-> +void assert_bdrv_graph_writable(BlockDriverState *bs);
-> +
-> +#endif /* BLOCK_INT_GLOBAL_STATE */
-> diff --git a/block.c b/block.c
-> index 198ec636ff..522a273140 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -1416,6 +1416,7 @@ static void bdrv_child_cb_attach(BdrvChild *child)
->   {
->       BlockDriverState *bs = child->opaque;
->   
-> +    assert_bdrv_graph_writable(bs);
->       QLIST_INSERT_HEAD(&bs->children, child, next);
->   
->       if (child->role & BDRV_CHILD_COW) {
-> @@ -1435,6 +1436,7 @@ static void bdrv_child_cb_detach(BdrvChild *child)
->   
->       bdrv_unapply_subtree_drain(child, bs);
->   
-> +    assert_bdrv_graph_writable(bs);
->       QLIST_REMOVE(child, next);
->   }
->   
-> @@ -2818,6 +2820,7 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
->           if (child->klass->detach) {
->               child->klass->detach(child);
->           }
-> +        assert_bdrv_graph_writable(old_bs);
->           QLIST_REMOVE(child, next_parent);
->       }
->   
-> @@ -2827,6 +2830,7 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
->       }
->   
->       if (new_bs) {
-> +        assert_bdrv_graph_writable(new_bs);
->           QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
->   
->           /*
-> diff --git a/block/io.c b/block/io.c
-> index cb095deeec..3be08cad29 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -734,6 +734,17 @@ void bdrv_drain_all(void)
->       bdrv_drain_all_end();
->   }
->   
-> +void assert_bdrv_graph_writable(BlockDriverState *bs)
-> +{
-> +    /*
-> +     * TODO: this function is incomplete. Because the users of this
-> +     * assert lack the necessary drains, check only for BQL.
-> +     * Once the necessary drains are added,
-> +     * assert also for qatomic_read(&bs->quiesce_counter) > 0
-> +     */
-> +    assert(qemu_in_main_thread());
-> +}
-> +
->   /**
->    * Remove an active request from the tracked requests list
->    *
+> > +        assert not config_type or isinstance(config_type, str)
+> > +        self._parent_name = parent
+> > +        self.parent = None
+> > +        self._config_type_name = config_type
+> > +        self.config_type = None
+> > +        self.config_boxed = config_boxed
+> > +
+> > +    def check(self, schema):
+> > +        super().check(schema)
+> > +
+> > +        if self._parent_name:
+> > +            self.parent = schema.lookup_entity(self._parent_name,
+> > +                                               QAPISchemaClass)
+> > +            if not self.parent:
+> > +                raise QAPISemError(
+> > +                    self.info,
+> > +                    "Unknown parent class '%s'" % self._parent_name)
+> > +
+> > +        if self._config_type_name:
+> > +            self.config_type = schema.resolve_type(
+> > +                self._config_type_name, self.info, "class 'config'")
+> 
+> "class's 'config'" for consistency with other uses of .resolve_type().
+> 
+> > +            if not isinstance(self.config_type, QAPISchemaObjectType):
+> > +                raise QAPISemError(
+> > +                    self.info,
+> > +                    "class 'config' cannot take %s"
+> > +                    % self.config_type.describe())
+> > +            if self.config_type.variants and not self.boxed:
+> 
+> self.config_boxed?
+> 
+> > +                raise QAPISemError(
+> > +                    self.info,
+> > +                    "class 'config' can take %s only with 'boxed': true"
+> 
+> 'config-boxed'?
+
+Yes, I renamed it and of course forgot some instances. Can't wait for
+the patches that would make mypy catch at least 'self.boxed'.
+
+> > +                    % self.config_type.describe())
+> > +
+> > +    def visit(self, visitor):
+> > +        super().visit(visitor)
+> > +        visitor.visit_class(self)
+> > +
+> >  class QAPISchemaCommand(QAPISchemaEntity):
+> >      meta = 'command'
+> >  
+> > @@ -1110,6 +1157,23 @@ def _def_alternate_type(self, expr, info, doc):
+> >                                      QAPISchemaVariants(
+> >                                          None, info, tag_member, variants)))
+> >  
+> > +    def _def_class(self, expr, info, doc):
+> > +        name = expr['class']
+> > +        ifcond = QAPISchemaIfCond(expr.get('if'))
+> > +        features = self._make_features(expr.get('features'), info)
+> > +        parent = expr.get('parent')
+> > +        config_type = expr.get('config')
+> > +        config_boxed = expr.get('config-boxed')
+> > +
+> > +        if isinstance(config_type, OrderedDict):
+> > +            config_type = self._make_implicit_object_type(
+> > +                name, info, ifcond,
+> > +                'config', self._make_members(config_type, info))
+> 
+> Does QAPISchemaMember.describe() need an update for this?
+
+Looks like it.
+
+Kevin
 
 
