@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B66646F900
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 03:15:04 +0100 (CET)
-Received: from localhost ([::1]:36348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A126A46FAA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 07:29:33 +0100 (CET)
+Received: from localhost ([::1]:33846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvVR8-0005ms-QH
-	for lists+qemu-devel@lfdr.de; Thu, 09 Dec 2021 21:15:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37876)
+	id 1mvZPQ-0005RR-33
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 01:29:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mvVOl-00052s-Hp; Thu, 09 Dec 2021 21:12:35 -0500
-Received: from [2607:f8b0:4864:20::131] (port=46596
- helo=mail-il1-x131.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mvVOj-0007aL-Gu; Thu, 09 Dec 2021 21:12:35 -0500
-Received: by mail-il1-x131.google.com with SMTP id j7so7151812ilk.13;
- Thu, 09 Dec 2021 18:12:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2xjAZ8/1p1w2whjEdVBF6OC2tBr3XUNo7yYYpVRIj0M=;
- b=FLWd+FvDQ3t5DaW1spUnah7eNX3BzdLizOICq0KRqhtTzAbCKex7qFe0Lam9SAOOaC
- oxYd0WIFGCZmIsmmYykcqGzitl/4uChw/hRFqmIUGfUc4nUxooca9eqoeK8lCi/zqK3s
- FYPJgPKbvwamx+1SYhybTsS8lXAkzWpS1ZWqs4UfHHJDfxlTm3zKAfCLW02krV1fRFqH
- eocjLQPzG6CGYvFBrYdK2Stq9xc9QeB9LTDHv3cu3XNky0ujiwCX4pKZp9kHnzvGpjPb
- l4GdUIlTYbCCXn2ranMIxhHqUq/kF+vAQaFolLQQOPnhgNCDTcrcra5bjPctbW3US+OQ
- Qh1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2xjAZ8/1p1w2whjEdVBF6OC2tBr3XUNo7yYYpVRIj0M=;
- b=qnL2eXcyt/nRx/tbsJd+ufn1I/SDoC8cQFrAVQ6UZ2PjBBkh8RX5GEi/2KIp0Scks1
- dhJeX1x3oblYlxzvqPmcApieZpcznMdkCis7EcwNbpJ61P4BbXwXlxxPHiSGlsZpe8dW
- ni53zHe7cRsyoCXIju9q6jt98FSbdujCerwZf4huYIOG2Jv0gQYuCFB5F2AgOk7fyCgw
- Huv3j/DiaOwPHGXGZ7qaVShF5PVAkR6G1EpIlRGX0A+HwmMLVaMrEQ8dOWihgTQgJHbT
- d3fEMaYfbc6JWQafo+SpyrwyMKuHelvO426o5Ox9YzNW6OyeUWPnZ4SvWRscHW9Ymwy4
- kC3g==
-X-Gm-Message-State: AOAM530ypKaaM/1p0lin5U9D7OZ8+zW3U5GiThmAMPUNgxRwsAA7VF6V
- rON6uv/CWuqWUPinUDylnFt/OJi/Q9fI9TKE5vY=
-X-Google-Smtp-Source: ABdhPJwKmV1M3OFOE78F9SKVq1bglvg01H9hPPXr0fIKWRjWV8nb1vp0xZix0kYOuIknk9sWU87MQyfctY+emONCs7Y=
-X-Received: by 2002:a92:cd12:: with SMTP id z18mr19328199iln.290.1639102351249; 
- Thu, 09 Dec 2021 18:12:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mvZJm-0003nG-6i
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 01:23:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48753)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mvZJe-00058I-C6
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 01:23:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639117411;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uQ5DWxJxhEJOFLA62EqBBhlt8SsXyz2E5Zba0DZHyBQ=;
+ b=HQLL36GiGj8dCNqJjERE3AShwLdp8hVduhQ/MxaWf2EKwhbSxHPUDGJ+iTOc2vXphwF2PN
+ F55jK6CY4PBjLFr54Yzw/n67XjvYujCrk2FEOI9T3f3KXN/mHtdzDG5FvSP/YXq6qb2YFI
+ l9UKOwjJHLqkF4B72Zq+f9AuqB1xSVc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-126-_DIlKWjrPN-MeGPAhbKOVw-1; Fri, 10 Dec 2021 01:23:25 -0500
+X-MC-Unique: _DIlKWjrPN-MeGPAhbKOVw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0720D1006AA1;
+ Fri, 10 Dec 2021 06:23:24 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7471145D71;
+ Fri, 10 Dec 2021 06:23:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 00E25113865F; Fri, 10 Dec 2021 07:23:21 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Subject: Re: [PATCH v7 2/7] net/vmnet: add vmnet backends to qapi/net
+References: <20211207101828.22033-1-yaroshchuk2000@gmail.com>
+ <20211207101828.22033-3-yaroshchuk2000@gmail.com>
+Date: Fri, 10 Dec 2021 07:23:21 +0100
+In-Reply-To: <20211207101828.22033-3-yaroshchuk2000@gmail.com> (Vladislav
+ Yaroshchuk's message of "Tue, 7 Dec 2021 13:18:23 +0300")
+Message-ID: <8735n1dlly.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20211208064252.375360-1-alistair.francis@opensource.wdc.com>
- <20211208064252.375360-2-alistair.francis@opensource.wdc.com>
- <d4fb2710-a03c-0c33-fa7a-9279e63507ac@amsat.org>
-In-Reply-To: <d4fb2710-a03c-0c33-fa7a-9279e63507ac@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 10 Dec 2021 12:12:05 +1000
-Message-ID: <CAKmqyKP37DKXzuDixY0123zVdU=NRODhH6MXapKrC4wtsNf39w@mail.gmail.com>
-Subject: Re: [PATCH 1/7] hw/intc: sifive_plic: Add a reset function
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::131
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x131.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,59 +80,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@opensource.wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: jasowang@redhat.com, phillip.ennen@gmail.com, qemu-devel@nongnu.org,
+ r.bolshakov@yadro.com, phillip@axleos.com, akihiko.odaki@gmail.com,
+ hsp.cat7@gmail.com, hello@adns.io, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 8, 2021 at 10:00 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Hi Alistair,
->
-> On 12/8/21 07:42, Alistair Francis wrote:
-> > From: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  hw/intc/sifive_plic.c | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >
-> > diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> > index 877e76877c..35f097799a 100644
-> > --- a/hw/intc/sifive_plic.c
-> > +++ b/hw/intc/sifive_plic.c
-> > @@ -355,6 +355,17 @@ static const MemoryRegionOps sifive_plic_ops =3D {
-> >      }
-> >  };
-> >
-> > +static void sifive_plic_reset(DeviceState *dev)
-> > +{
-> > +    SiFivePLICState *s =3D SIFIVE_PLIC(dev);
-> > +
-> > +    memset(s->source_priority, 0, sizeof(uint32_t) * s->num_sources);
-> > +    memset(s->target_priority, 0, sizeof(uint32_t) * s->num_addrs);
-> > +    memset(s->pending, 0, sizeof(uint32_t) * s->bitfield_words);
-> > +    memset(s->claimed, 0, sizeof(uint32_t) * s->bitfield_words);
-> > +    memset(s->enable, 0, sizeof(uint32_t) * s->num_enables);
->
-> Looking at sifive_plic_realize():
->
-> - Should we reset the external IRQs in a default state?
+Vladislav Yaroshchuk <yaroshchuk2000@gmail.com> writes:
 
-Good point, I'll add that.
-
-> - Shouldn't riscv_cpu_claim_interrupts() be called at reset?
-
-I don't think so. riscv_cpu_claim_interrupts is a once and done call.
-
-Alistair
-
+> Create separate netdevs for each vmnet operating mode:
+> - vmnet-host
+> - vmnet-shared
+> - vmnet-bridged
 >
-> Note: parse_hart_config() name is slightly confusing since
-> beside parsing, it also allocates addr_config. Maybe consider
-> renaming?
+> Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+> ---
+
+[...]
+
+> diff --git a/qapi/net.json b/qapi/net.json
+> index 7fab2e7cd8..8ed7bf0c04 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -452,6 +452,122 @@
+>      '*vhostdev':     'str',
+>      '*queues':       'int' } }
+>  
+> +##
+> +# @NetdevVmnetHostOptions:
+> +#
+> +# vmnet (host mode) network backend.
+> +#
+> +# Allows the vmnet interface to communicate with other vmnet
+> +# interfaces that are in host mode and also with the native host.
+
+We don't say "native host" elsewhere, just "host".  Let's drop
+"native".
+
+> +#
+> +# @start-address: The starting IPv4 address to use for the interface.
+> +#                 Must be in the private IP range (RFC 1918). Must be
+> +#                 specified along with @end-address and @subnet-mask.
+> +#                 This address is used as the gateway address. The
+> +#                 subsequent address up to and including end-address are
+> +#                 placed in the DHCP pool.
+> +#
+> +# @end-address: The DHCP IPv4 range end address to use for the
+> +#               interface. Must be in the private IP range (RFC 1918).
+> +#               Must be specified along with @start-address and
+> +#               @subnet-mask.
+> +#
+> +# @subnet-mask: The IPv4 subnet mask to use on the interface. Must
+> +#               be specified along with @start-address and @subnet-mask.
+> +#
+> +# @isolated: Enable isolation for this interface. Interface isolation
+> +#            ensures that vmnet interface is not able to communicate
+> +#            with any other vmnet interfaces. Only communication with
+> +#            host is allowed.
+> +#
+> +# @net-uuid: The identifier (UUID) to uniquely identify the isolated
+> +#            network vmnet interface should be added to. If
+> +#            set, no DHCP service is provided for this interface and
+> +#            network communication is allowed only with other interfaces
+> +#            added to this network identified by the UUID.
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'struct': 'NetdevVmnetHostOptions',
+> +  'data': {
+> +    '*start-address':   'str',
+> +    '*end-address':     'str',
+> +    '*subnet-mask': 'str',
+> +    '*isolated':    'bool',
+> +    '*net-uuid':    'str'
+> +  },
+
+Unusual formatting.  The common one is
+
+       '*net-uuid':    'str' },
+
+Let's stick to it.
+
+> +  'if': 'CONFIG_VMNET' }
+> +
+> +##
+> +# @NetdevVmnetSharedOptions:
+> +#
+> +# vmnet (shared mode) network backend.
+> +#
+> +# Allows traffic originating from the vmnet interface to reach the
+> +# Internet through a network address translator (NAT).
+> +# The vmnet interface can communicate with the native host and with
+
+Drop "native".
+
+> +# other shared mode interfaces on the same subnet. If no DHCP
+> +# settings, subnet mask and IPv6 prefix specified, the interface can
+> +# communicate with any of other interfaces in shared mode.
+> +#
+> +# @start-address: The starting IPv4 address to use for the interface.
+> +#                 Must be in the private IP range (RFC 1918). Must be
+> +#                 specified along with @end-address and @subnet-mask.
+> +#                 This address is used as the gateway address. The
+> +#                 subsequent address up to and including end-address are
+> +#                 placed in the DHCP pool.
+> +#
+> +# @end-address: The DHCP IPv4 range end address to use for the
+> +#               interface. Must be in the private IP range (RFC 1918).
+> +#               Must be specified along with @start-address and @subnet-mask.
+> +#
+> +# @subnet-mask: The IPv4 subnet mask to use on the interface. Must
+> +#                be specified along with @start-address and @subnet-mask.
+> +#
+> +# @isolated: Enable isolation for this interface. Interface isolation
+> +#            ensures that vmnet interface is not able to communicate
+> +#            with any other vmnet interfaces. Only communication with
+> +#            host is allowed.
+> +#
+> +# @nat66-prefix: The IPv6 prefix to use into guest network. Must be a
+> +#                unique local address i.e. start with fd00::/8 and have
+> +#                length of 64.
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'struct': 'NetdevVmnetSharedOptions',
+> +  'data': {
+> +    '*start-address':    'str',
+> +    '*end-address':      'str',
+> +    '*subnet-mask':  'str',
+> +    '*isolated':     'bool',
+> +    '*nat66-prefix': 'str'
+> +  },
+
+Unusual formatting again.
+
+> +  'if': 'CONFIG_VMNET' }
+> +
+> +##
+> +# @NetdevVmnetBridgedOptions:
+> +#
+> +# vmnet (bridged mode) network backend.
+> +#
+> +# Bridges the vmnet interface with a physical network interface.
+> +#
+> +# @ifname: The name of the physical interface to be bridged.
+> +#
+> +# @isolated: Enable isolation for this interface. Interface isolation
+> +#            ensures that vmnet interface is not able to communicate
+> +#            with any other vmnet interfaces. Only communication with
+> +#            host is allowed.
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'struct': 'NetdevVmnetBridgedOptions',
+> +  'data': {
+> +    'ifname':     'str',
+> +    '*isolated':  'str'
+> +  },
+
+And again.
+
+> +  'if': 'CONFIG_VMNET' }
+> +
+>  ##
+>  # @NetClientDriver:
+>  #
+> @@ -460,10 +576,16 @@
+>  # Since: 2.7
+>  #
+>  #        @vhost-vdpa since 5.1
+> +#        @vmnet-host since 7.0
+> +#        @vmnet-shared since 7.0
+> +#        @vmnet-bridged since 7.0
+>  ##
+>  { 'enum': 'NetClientDriver',
+>    'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+> -            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
+> +            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
+> +            { 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' },
+> +            { 'name': 'vmnet-shared', 'if': 'CONFIG_VMNET' },
+> +            { 'name': 'vmnet-bridged', 'if': 'CONFIG_VMNET' }] }
+>  
+>  ##
+>  # @Netdev:
+> @@ -477,6 +599,9 @@
+>  # Since: 1.2
+>  #
+>  #        'l2tpv3' - since 2.1
+> +#        'vmnet-host' - since 7.0
+> +#        'vmnet-shared' - since 7.0
+> +#        'vmnet-bridged' - since 7.0
+>  ##
+>  { 'union': 'Netdev',
+>    'base': { 'id': 'str', 'type': 'NetClientDriver' },
+> @@ -492,7 +617,10 @@
+>      'hubport':  'NetdevHubPortOptions',
+>      'netmap':   'NetdevNetmapOptions',
+>      'vhost-user': 'NetdevVhostUserOptions',
+> -    'vhost-vdpa': 'NetdevVhostVDPAOptions' } }
+> +    'vhost-vdpa': 'NetdevVhostVDPAOptions',
+> +    'vmnet-host': 'NetdevVmnetHostOptions',
+> +    'vmnet-shared': 'NetdevVmnetSharedOptions',
+> +    'vmnet-bridged': 'NetdevVmnetBridgedOptions' } }
+>  
+>  ##
+>  # @RxState:
+
+With the minor tweaks, QAPI schema
+Acked-by: Markus Armbruster <armbru@redhat.com>
+
 
