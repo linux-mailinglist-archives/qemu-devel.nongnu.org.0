@@ -2,72 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8CF46FF00
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 11:49:55 +0100 (CET)
-Received: from localhost ([::1]:55456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6250346FF09
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 11:51:22 +0100 (CET)
+Received: from localhost ([::1]:58320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvdTO-0008Lo-0m
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 05:49:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60974)
+	id 1mvdUn-0001u0-HL
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 05:51:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mvdRN-0007cs-P0
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:47:49 -0500
-Received: from [2a00:1450:4864:20::32f] (port=43855
- helo=mail-wm1-x32f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mvdRK-0008C8-NP
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:47:49 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- o19-20020a1c7513000000b0033a93202467so6294338wmc.2
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 02:47:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fG8oiNLY2NI87ku1TR1ryNNQlKhYgWZQKD9ARJrqSIE=;
- b=JoY57IylJ/1HMaglGmIQwfkaKDvFFj8fyInO/VV3hVy1cSE3EMxSxsrxaKlQs0A/v0
- 1dv/AXrYUeH9rJSE0PO1S0TajHvNiqWnnCOEDJgMDCQXmMlrBhS78IEK21O28Tb5MD3j
- IOVTwtHzpFBAy3/8L0AehklD8/cQxI/26cxDfRoxdvtzKdbp9x5vjMChyjnSR8HsaeTQ
- prOk7I/Zhr0NFNY2f0Wv09elg+cUoGTLAVkezVt6+Dz/59m1S7oQPt0zE4VSAbP2YnJq
- DeiU3HCuQlnbwlAvDgmVbI8r5IE3/bOoB6qUyd1NFgz77UR6JIca9TPJtr5ft+tFo+86
- McYw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mvdSe-00005A-6f
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:49:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21127)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mvdSa-0008Iy-TM
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 05:49:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639133343;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JiBwa5/NVd+FCuZrOZRWrZyWzC5HC7yMWl6gXzMVzcI=;
+ b=FAgWoNwgEh3iSEM1L7ilAS1IwZxqeWOK3wFszEi78lSoVfg2yQR7Dc1SAQaeW1ZZDVpKam
+ +6Bn6HfSHkTuRmiXUB0n6gJULVDULFV1PY8EcM1u2qOJIosfYPd1AUhNnd1RNT8g+Fd6jo
+ /lGimvhgLc08U0eXxzRPwpPaeeMJHh4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-461-ep4bDdrYOV-Ak93lvyVg3Q-1; Fri, 10 Dec 2021 05:49:02 -0500
+X-MC-Unique: ep4bDdrYOV-Ak93lvyVg3Q-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ v18-20020a5d5912000000b001815910d2c0so2124180wrd.1
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 02:49:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fG8oiNLY2NI87ku1TR1ryNNQlKhYgWZQKD9ARJrqSIE=;
- b=GPAZewlQyRQSmw7AkZzdcXbAJ2CuAno8KAKoLcZ8lALhjBlrgQkznQa8tFpA9I2bT/
- 2VRG4m5R8RZDDQ6aNqWrHoBN5rzW8MajlobjQt+iVS/cCcGttYNqCYJvI8kdSpmyM94A
- m5THpXaEh7DPYw8zgF+19MYvKf9lHYNfOyVSG2A2Er7m5EOO+poEBjmqoGfNC+5w220T
- v/CBrguUZccFnTyd9UiLUDRJkdValMHmBuikcZ8Qkwni8ebl+J1az34uGJJ7Medjirjs
- va6lS9inMC1U7C9KUwrhrICXpHri2+S6HU3O89Kf5BNkZTP4kE+/ITmy/DmTEVpx4fBC
- JL5Q==
-X-Gm-Message-State: AOAM533eSXavfAOrV63oszPpFqe65kIsJjrS0m+Ckgn2cl1bjY6TonZC
- pzFUeAAtx+ShM5klnHoHZ/8s1Ip/iYijvrxdnGol3Q==
-X-Google-Smtp-Source: ABdhPJxf6qQDCd5/CMZqSxaX6XQ7aaCBISuDe910CMts8YOAftDXxq3Gar/8rIjU0wBLX9rb1tvfVY50QXEims7VgDw=
-X-Received: by 2002:a1c:96:: with SMTP id 144mr15819425wma.126.1639133264827; 
- Fri, 10 Dec 2021 02:47:44 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JiBwa5/NVd+FCuZrOZRWrZyWzC5HC7yMWl6gXzMVzcI=;
+ b=aBQ9anvViFAYuz2yu+CpZ/81PtX8Q6mpUlsB9gAqUJjlH/11a+jAUbIWRFV0BuspzW
+ WKFObtzLkKCPunn+VU7zU0mmwHi8E+b4SSxguhB7umB8VHNz0sYMC/e9YgzcQjLIPQtS
+ it2r9U2mO7o2hQX+mizbr2oWzebHbEU3xhk8z8/36UvVPCXb+4guvMSr8wvdfro/eIpM
+ W88plp7OgX+wBKPmtsZTdbfqd7klM6XE/0vRuJaJ5Rq1qgFVxMjgD7K5IxopSJLCMMAz
+ z/PRVZHC2AvrKdT2WcrUa/qtC+oICwCaFpEg7CHSiMFyHdvGv7Y1TEQJ1jSTpSjH1y3X
+ rN8Q==
+X-Gm-Message-State: AOAM531dnKmf+UdSnljU0owbJAwaLPlUfN/HeTtxxOyCiDbdFx9Pr0p4
+ uuTJffuRgpKJOLNbNyS7/3xuOEjFwsq9JYFXoZcw1a0+cEBCtkXsHAmxkBkekiZI1b3TaTZtN2f
+ RZ2kbDtjydjOgChM=
+X-Received: by 2002:a05:600c:190b:: with SMTP id
+ j11mr15331870wmq.112.1639133341324; 
+ Fri, 10 Dec 2021 02:49:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzzZkNuyw4A7fORSHbTYluzvevAKNyDsgsjoOL+i9luDEYhIaopnpi0Q4kP22tZCtzABOn4Pg==
+X-Received: by 2002:a05:600c:190b:: with SMTP id
+ j11mr15331851wmq.112.1639133341117; 
+ Fri, 10 Dec 2021 02:49:01 -0800 (PST)
+Received: from redhat.com ([2.55.18.120])
+ by smtp.gmail.com with ESMTPSA id n2sm11273921wmi.36.2021.12.10.02.48.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Dec 2021 02:49:00 -0800 (PST)
+Date: Fri, 10 Dec 2021 05:48:56 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 for-7.0] scripts: Explain the difference between
+ linux-headers and standard-headers
+Message-ID: <20211210054601-mutt-send-email-mst@kernel.org>
+References: <20211209194532.1502920-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-References: <20211210084836.25202-1-pbonzini@redhat.com>
-In-Reply-To: <20211210084836.25202-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Dec 2021 10:47:33 +0000
-Message-ID: <CAFEAcA_Nh4ay7885nOnmA21d3Q2e1BE82zXHtmG6ResDxtYpXQ@mail.gmail.com>
-Subject: Re: [PATCH] tests/tcg: use CONFIG_LINUX_USER, not CONFIG_LINUX
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211209194532.1502920-1-peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,55 +95,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Dec 2021 at 09:41, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The two more or less overlap, because CONFIG_LINUX is a requirement for Linux
-> user-mode emulation.  However, CONFIG_LINUX is technically a host symbol
-> that applies even to system emulation.  Defining CONFIG_LINUX_USER, and
-> CONFIG_BSD_USER for eventual future use, is cleaner.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On Thu, Dec 09, 2021 at 07:45:32PM +0000, Peter Maydell wrote:
+> If you don't know it, it's hard to figure out the difference between
+> the linux-headers folder and the include/standard-headers folder.
+> So let's add a short explanation to clarify the difference.
+> 
+> Suggested-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+A couple of minor tweaks: what matters is which platform
+we are building for I think.
+
 > ---
->  tests/tcg/configure.sh              | 8 +++++++-
->  tests/tcg/multiarch/Makefile.target | 2 +-
->  tests/tcg/x86_64/Makefile.target    | 2 +-
->  3 files changed, 9 insertions(+), 3 deletions(-)
->
-> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-> index 9ef913df5b..f859b61d90 100755
-> --- a/tests/tcg/configure.sh
-> +++ b/tests/tcg/configure.sh
-> @@ -225,8 +225,14 @@ for target in $target_list; do
->    echo "TARGET_NAME=$arch" >> $config_target_mak
->    echo "target=$target" >> $config_target_mak
->    case $target in
-> -    *-linux-user | *-bsd-user)
-> +    *-linux-user)
->        echo "CONFIG_USER_ONLY=y" >> $config_target_mak
-> +      echo "CONFIG_LINUX_USER=y" >> $config_target_mak
-> +      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
-> +      ;;
-> +    *-bsd-user)
-> +      echo "CONFIG_USER_ONLY=y" >> $config_target_mak
-> +      echo "CONFIG_BSD_USER=y" >> $config_target_mak
->        echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
+> v1 of this was from Thomas; I suggested some expanded wording
+> and since that made the patch pretty much entirely my text
+> Thomas suggested I send this under my name.
+> ---
+>  scripts/update-linux-headers.sh | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
+> index fea4d6eb655..d23851e1d3b 100755
+> --- a/scripts/update-linux-headers.sh
+> +++ b/scripts/update-linux-headers.sh
+> @@ -9,6 +9,22 @@
+>  #
+>  # This work is licensed under the terms of the GNU GPL version 2.
+>  # See the COPYING file in the top-level directory.
+> +#
+> +# The script will copy the headers into two target folders:
+> +#
+> +# - linux-headers/ for files that are required for compiling on a
 
-I note that this is very subtly different from the logic
-used in meson.build for setting CONFIG_LINUX_USER,
-which uses "target.endswith('linux-user')" without the
-leading hyphen...
+I think it's more of a "for a Linux host"
 
-Vaguely relatedly, gdbstub.c has some ifdefs:
- #if defined(CONFIG_USER_ONLY) && defined(CONFIG_LINUX_USER)
+> +#   Linux host.  Generally we have these so we can use kernel structs
+> +#   and defines that are more recent than the headers that might be
+> +#   in /usr/include/linux 
 
-Is it possible for CONFIG_LINUX_USER to be defined when
-CONFIG_USER_ONLY is not, or is the first clause in the #if
-redundant?
+I'd just say "installed". Path does not matter.
 
-thanks
--- PMM
+>on the host system.  Usually this script
+> +#   can do simple file copies for these headers.
+> +#
+> +# - include/standard-headers/ for files that are used for guest
+> +#   device emulation and are required on all hosts.  For instance, we
+> +#   get our definitions of the virtio structures from the Linux
+> +#   kernel headers, but we need those definitions regardless of which
+> +#   host OS we are building on.
+
+we are building for
+
+>  This script has to be careful to
+> +#   sanitize the headers to remove any use of Linux-specifics such as
+> +#   types like "__u64".  This work is done in the cp_portable function.
+>  
+>  tmpdir=$(mktemp -d)
+>  linux="$1"
+> -- 
+> 2.25.1
+
 
