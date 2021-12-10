@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720DA4705A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 17:27:36 +0100 (CET)
-Received: from localhost ([::1]:40804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 556BB47064B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 17:49:21 +0100 (CET)
+Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvikB-00026X-Ap
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 11:27:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58044)
+	id 1mvj5E-0001j4-0f
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 11:49:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mvij6-00015v-BQ
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 11:26:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40045)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mviiz-0005eM-By
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 11:26:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639153580;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ea9c/72VN5fuyH42g1GN8aCYtL1wMJMZ5DqbyO13qcc=;
- b=I3Z6B5JhPXP7XwfjV1vSuX9RqwfOY0u1yhUhVDDOgs/zT3noEf11XcP258u7XSxc2diLvd
- OVa0WJfDUtAVpzmhSyCG19EPA5RlN44mvUn0Nvvbi4E4l3PyuPgMexFTS34g5RK+ZDfOBK
- vIcRqLC6mHkFXijsmIypcaJ16c8p69A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-408-AasPIe9oNTKlpXUS-aEwlA-1; Fri, 10 Dec 2021 11:26:19 -0500
-X-MC-Unique: AasPIe9oNTKlpXUS-aEwlA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03D2885B664;
- Fri, 10 Dec 2021 16:26:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.255])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B385781EB;
- Fri, 10 Dec 2021 16:26:11 +0000 (UTC)
-Date: Fri, 10 Dec 2021 17:26:10 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 3/3] iotests: check: multiprocessing support
-Message-ID: <YbN/ojNCdKRxhXW5@redhat.com>
-References: <20211203122223.2780098-1-vsementsov@virtuozzo.com>
- <20211203122223.2780098-4-vsementsov@virtuozzo.com>
- <YbNl6BA0shsS6TX1@redhat.com>
- <a1b79536-8715-1bf2-729c-2aae4345050b@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mvj48-0000Zs-Bj
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 11:48:12 -0500
+Received: from [2a00:1450:4864:20::42e] (port=40911
+ helo=mail-wr1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mvj3u-00038F-HQ
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 11:48:12 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id t9so15917439wrx.7
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 08:47:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=46aSvpLgwbmRFQ7eYd1yyC5rdxtc/aKq+7Ah8gtQNZE=;
+ b=KgW2fA4dq2vRYn7MkVR9N1WtAf64Fyn/xN3ZQTkcTISkiIxuazDcmk5o+YVmqgHh1l
+ xrHt7O9cKbMc69W1s2KbzqPV1os0vwILoLXlLVN4LepObUAbP6ky0sfJ0r4QtLRu7itN
+ 83Fhs5k+xKJdbaFv46r29Wy0UjJLJhsW+CJaP5np3QPK/62OgtJju1qjX2jNKscaLk3Y
+ Xp5p9B1qLpKCxoj/TjfQx8OomzEq7Bf6/Jwr6gMRhMekFF0FpFak/tmZ/9LGS/PEtRkt
+ qiZRmicIGA5VMYErZ6vJs19hXc4T/txIhBWn7kZG51LHjt3EvsAZWRc4v1vTdqUXXIKS
+ TN1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=46aSvpLgwbmRFQ7eYd1yyC5rdxtc/aKq+7Ah8gtQNZE=;
+ b=0GWEGTACQqyhobrbTkIZ3JZX2z1EeDoAXAwemJPvOAc1TGhEllrzLfytM0vhQpsIM/
+ bkzn4l8wHQU8eEMnMXKbWO76x8h1LjT1J2DLXV8vrwP6C/CDc6X1rSr0M+RYQVRhCGQH
+ WgwhygplpiU6fPLPNqmJIO+ieUn8WwBKJxJZDgMkPv0uaKRUWLtQS7CowZmlGW2B6SN+
+ f7Wn5f+GZPLP/O/zWhU662u9t1Q7I8r37BL7kqqV+AGmxWsvfWuhL1UCGOfxllu8n+KU
+ tm7IaXiusKJlDdNK5NeqoZ4kit9939tzystZeslfQgfwhsqsI/1NVnCBfsrr2OO58Zxy
+ CtVA==
+X-Gm-Message-State: AOAM530BOTwjkIvgzFagg5BUnZ/0juJlCMwbHnoUvwmWwCMQ1uINAjzb
+ Mgfft3IKQabxzrd0yNj/pNYH1OgnFVZop/iADkewDg==
+X-Google-Smtp-Source: ABdhPJwhbkpvXVoLYyEnqn7oR3aNpKzlzd8BCO7agOcU1lpT7I9wq+0eGOmfbDcbU5KFY74ZlWh4rAv+GTKOaImiadY=
+X-Received: by 2002:a5d:6707:: with SMTP id o7mr15618519wru.172.1639154874665; 
+ Fri, 10 Dec 2021 08:47:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <a1b79536-8715-1bf2-729c-2aae4345050b@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20211203221002.1719306-1-venture@google.com>
+In-Reply-To: <20211203221002.1719306-1-venture@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Dec 2021 16:47:43 +0000
+Message-ID: <CAFEAcA-n+XSNM1h-VTAGxNiQwMtUr-S4N9x-yWifJr-pPTRYZw@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/net: npcm7xx_emc fix missing queue_flush
+To: Patrick Venture <venture@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,44 +78,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den@openvz.org, hreitz@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: hskinnemoen@google.com, qemu-arm@nongnu.org, f4bug@amsat.org,
+ kfting@nuvoton.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.12.2021 um 15:46 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 10.12.2021 17:36, Kevin Wolf wrote:
-> > Am 03.12.2021 um 13:22 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > > Add -j <JOBS> parameter, to run tests in several jobs simultaneously.
-> > > For realization - simply utilize multiprocessing.Pool class.
-> > > 
-> > > Notes:
-> > > 
-> > > 1. Of course, tests can't run simultaneously in same TEST_DIR. So,
-> > >     use subdirectories TEST_DIR/testname/ and SOCK_DIR/testname/
-> > >     instead of simply TEST_DIR and SOCK_DIR
-> > > 
-> > > 2. multiprocessing.Pool.starmap function doesn't support passing
-> > >     context managers, so we can't simply pass "self". Happily, we need
-> > >     self only for read-only access, and it just works if it is defined
-> > >     in global space. So, add a temporary link TestRunner.shared_self
-> > >     during run_tests().
-> > > 
-> > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> > 
-> > Just wondering, is it worth even supporting the mp=false case or can we
-> > simplify the code a bit by always going through multiprocessing and
-> > using nice directory names even if only one process is spawned?
-> > 
-> > Maybe John's observation that directory names get longer might be a
-> > reason not to do that by default. Any other reasons you're aware of?
-> 
-> I just wanted to keep the behavior without a new option unchanged, to
-> not deal with possible CI failures on "make check": who know what
-> multiprocessing brings together with performance.
+On Fri, 3 Dec 2021 at 22:10, Patrick Venture <venture@google.com> wrote:
+>
+> The rx_active boolean change to true should always trigger a try_read
+> call that flushes the queue.
+>
+> Signed-off-by: Patrick Venture <venture@google.com>
+> ---
+> v2: introduced helper method to encapsulate rx activation and queue flush.
+> ---
+>  hw/net/npcm7xx_emc.c | 18 ++++++++----------
+>  1 file changed, 8 insertions(+), 10 deletions(-)
+>
 
-So basically just err on the side of caution. Makes sense.
+Applied to target-arm.next for 7.0, thanks.
 
-Kevin
-
+-- PMM
 
