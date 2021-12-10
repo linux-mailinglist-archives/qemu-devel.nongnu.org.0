@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF5F46FCB2
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 09:23:19 +0100 (CET)
-Received: from localhost ([::1]:50016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3055C46FD0E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 09:54:45 +0100 (CET)
+Received: from localhost ([::1]:60912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvbBW-0003T3-KY
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 03:23:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33312)
+	id 1mvbfw-0007YL-AX
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 03:54:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvaod-0006Xj-SF
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:59:40 -0500
-Received: from [2607:f8b0:4864:20::429] (port=47043
+ id 1mvaof-0006Yq-51
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:59:41 -0500
+Received: from [2607:f8b0:4864:20::429] (port=42783
  helo=mail-pf1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvaoV-00070G-Rq
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:59:39 -0500
-Received: by mail-pf1-x429.google.com with SMTP id o4so7726312pfp.13
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 23:59:30 -0800 (PST)
+ id 1mvaod-00070q-6f
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:59:40 -0500
+Received: by mail-pf1-x429.google.com with SMTP id u80so7755924pfc.9
+ for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 23:59:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=K3uqk/bbrB6wUj5NxyteBw8OsLoWIaRlYXSAK06k1Z8=;
- b=Y/xZsQ3HRN4oiWVwGyf3GJQplZ5ezpIPDPw6ZMILgwU1/V7w4nLsywAXCd3XpxReQ+
- fGsTlcWxs21pj0E0c3/veIygDvZ4iuw0546ZMRYN8zUHgGARzqzbZlU2RV46BWN/UhLz
- ukk3I0iOvlmGEoJZnXveS+neEH/HZ4WMJ8Exxn+puwmqvg8oGQxRHo05P+qBngFkrJNE
- WvrIsnHgB9BfsIQe8+FFrSP0W6a2+1kSaZaoXa90O/mOWIQjGWjftybel3eNa5/MMTbK
- 5a3CMnuyui0+X/Ca/AEpcirx9rNL0dBlIUUTPuccTbBhORFOelm4zOtQKyPwgsU/6BW1
- x3Mg==
+ bh=uIsjdMwkyDNkTA1xD3HW4M8Dry4CCyP3fq54zuGewp8=;
+ b=cybmKlX4nayW2ukkLbjU59bOfqneV6eJRSJZkZ6jFs2EwyIAmy7EqA2Gv0skIsYXEJ
+ 4JIKeg6p5T5Khx1FJ0wx9G4Wh030JoIlNKysnQ7SYX3nVkuKgJEkzaFS2RI/e51KwesZ
+ gQKGlkLHBm0uCJLEJ2f+6M5KQqOV4aMpjAKmFppO3siKrVNsQVn0kc4IddYtnUDcM5BA
+ /xvsE/dc83R3duE25F8yb37quO6hohbTaWjfBCuliHwvX6qf2+075HTBgwNiukVzJR/n
+ 6gHFm689H+KLfWfxD5u/dDfpglDLlndWc6jkAOPBjjdFLqnPCKLuAP1ygrZq9RbzloNp
+ +s7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=K3uqk/bbrB6wUj5NxyteBw8OsLoWIaRlYXSAK06k1Z8=;
- b=QX4egM9dE0O4fBccWY/QmJQroAaYP8g5DLkndK6DYs5XBy4yzpQzDPk4BCZQfTK3WS
- 4LVX42VJPtVwOL7wiaAbwEEMP2pI8z9cH8+uHzhon+hSFAblr5MYgzgyGb7RH2sTmY1L
- zCuk1y5aP9jpCj5gDisB4kF/Kj4fqCTzp61UUycEOJaMMqW91eUw6A9ju6hR0NZYLPN9
- eV9Vcq4gZKeKxGcuEAV+K8FocGssmlTyZnPL6ssbN01youeXQ1DQW6klXVXxhMl9OWda
- 5LbkNw1xRro4Dd36sLr7dDcWjF6vYpwugShgK6yODwLhz7lufm/uZbbv+nWos2R1u4Y4
- 0/ww==
-X-Gm-Message-State: AOAM533GHVqd0M+HFPe18YdVa8EEsVH3GO+g3XvfFJJaSObVht1yyAsK
- vdmjwe0ON8NDXKEpZUBew0K4Tc9R7SOBsJN1
-X-Google-Smtp-Source: ABdhPJz9Vn5xDZp71Vdye68cMoV7iFFLw/vskNRT+cbFdTcC6fAePmVJMXon3M4VWaYmg8JCYvhm6w==
-X-Received: by 2002:a65:6895:: with SMTP id e21mr2639504pgt.546.1639123169858; 
- Thu, 09 Dec 2021 23:59:29 -0800 (PST)
+ bh=uIsjdMwkyDNkTA1xD3HW4M8Dry4CCyP3fq54zuGewp8=;
+ b=DAtNwjuHc4mAl/J9mlBBqkaHqUUg0Fn5MLjQTirAwedSGxAezLmrlr8WDxXUDvwgqe
+ 8HBORMPBQlRlNvr4NtsKMW7zi25xbJGn+o/CSXzeDaV2iM4kHVJs4u5sRf2x9G0ML86u
+ X4l3szdeqZXEaBI78llxX+T2hJgJkgB3EPFRriYP1hs6mQKOZ7dBIo+VVBt7y3Rs2tzd
+ LauQIMJUjPeQjLpPnKlfqdanqg/Ltrylz1g+UPcZmeqIlSAFgAhkz6JJVzBXn8ZCFEAL
+ hOfir4ICpi8elpIKH/IXwU/IUUQ1Z04bHR/gzqsyqXlX1hQq/hDVnwnCHUpkh0nH0Ek0
+ HIhQ==
+X-Gm-Message-State: AOAM5338/VuZSDqMEP3WyqlyD+cXkYuRe3lvwHn32pvGi3vDeC8L3VBU
+ gJ9IMsSkuNRr4YFxKy7uI20mnucA6xXLq0Wc
+X-Google-Smtp-Source: ABdhPJygmtrQ5N9mUFnWkMszY5MsYAsosesOvUjUvCtq08b/kh/NFMpzoSXNXpLbCNxBNtvbf3YDsQ==
+X-Received: by 2002:aa7:8717:0:b0:4a2:967c:96b with SMTP id
+ b23-20020aa78717000000b004a2967c096bmr16723894pfo.14.1639123172386; 
+ Thu, 09 Dec 2021 23:59:32 -0800 (PST)
 Received: from hsinchu16.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id f4sm2087955pfg.34.2021.12.09.23.59.28
+ by smtp.gmail.com with ESMTPSA id f4sm2087955pfg.34.2021.12.09.23.59.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Dec 2021 23:59:29 -0800 (PST)
+ Thu, 09 Dec 2021 23:59:32 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 45/77] target/riscv: rvv-1.0: widening integer
- multiply-add instructions
-Date: Fri, 10 Dec 2021 15:56:31 +0800
-Message-Id: <20211210075704.23951-46-frank.chang@sifive.com>
+Subject: [PATCH v11 46/77] target/riscv: rvv-1.0: single-width saturating add
+ and subtract instructions
+Date: Fri, 10 Dec 2021 15:56:32 +0800
+Message-Id: <20211210075704.23951-47-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211210075704.23951-1-frank.chang@sifive.com>
 References: <20211210075704.23951-1-frank.chang@sifive.com>
@@ -91,35 +92,33 @@ Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
  Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+ Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
+Sign-extend vsaddu.vi immediate value.
+
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/insn32.decode | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/riscv/insn_trans/trans_rvv.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index a3f1101cd6..7548b71efd 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -474,9 +474,9 @@ vwmaccu_vv      111100 . ..... ..... 010 ..... 1010111 @r_vm
- vwmaccu_vx      111100 . ..... ..... 110 ..... 1010111 @r_vm
- vwmacc_vv       111101 . ..... ..... 010 ..... 1010111 @r_vm
- vwmacc_vx       111101 . ..... ..... 110 ..... 1010111 @r_vm
--vwmaccsu_vv     111110 . ..... ..... 010 ..... 1010111 @r_vm
--vwmaccsu_vx     111110 . ..... ..... 110 ..... 1010111 @r_vm
--vwmaccus_vx     111111 . ..... ..... 110 ..... 1010111 @r_vm
-+vwmaccsu_vv     111111 . ..... ..... 010 ..... 1010111 @r_vm
-+vwmaccsu_vx     111111 . ..... ..... 110 ..... 1010111 @r_vm
-+vwmaccus_vx     111110 . ..... ..... 110 ..... 1010111 @r_vm
- vmv_v_v         010111 1 00000 ..... 000 ..... 1010111 @r2
- vmv_v_x         010111 1 00000 ..... 100 ..... 1010111 @r2
- vmv_v_i         010111 1 00000 ..... 011 ..... 1010111 @r2
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+index f6202835ff..ed4554b6a1 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -1999,7 +1999,7 @@ GEN_OPIVX_TRANS(vsaddu_vx,  opivx_check)
+ GEN_OPIVX_TRANS(vsadd_vx,  opivx_check)
+ GEN_OPIVX_TRANS(vssubu_vx,  opivx_check)
+ GEN_OPIVX_TRANS(vssub_vx,  opivx_check)
+-GEN_OPIVI_TRANS(vsaddu_vi, IMM_ZX, vsaddu_vx, opivx_check)
++GEN_OPIVI_TRANS(vsaddu_vi, IMM_SX, vsaddu_vx, opivx_check)
+ GEN_OPIVI_TRANS(vsadd_vi, IMM_SX, vsadd_vx, opivx_check)
+ 
+ /* Vector Single-Width Averaging Add and Subtract */
 -- 
 2.31.1
 
