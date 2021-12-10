@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67B74703A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 16:17:24 +0100 (CET)
-Received: from localhost ([::1]:39292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 106694703AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 16:19:15 +0100 (CET)
+Received: from localhost ([::1]:43848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvheG-00081P-0t
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 10:17:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33722)
+	id 1mvhg1-0002dS-76
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 10:19:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mvhbK-0006NJ-IR
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 10:14:26 -0500
-Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:50905)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mvhb6-0007Ef-7T
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 10:14:22 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.84])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9594122F0D;
- Fri, 10 Dec 2021 15:13:57 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Fri, 10 Dec
- 2021 16:13:57 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0031786238d-fb69-45e8-8fe2-8b3ab58c6f38,
- 46725CDD1DA84BED7F471249384164116D1F6139) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <e96aa35b-a8d9-41fa-ae0f-5e89fe6b1cfa@kaod.org>
-Date: Fri, 10 Dec 2021 16:13:56 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mvhe7-0000W3-QU
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 10:17:17 -0500
+Received: from [2a00:1450:4864:20::431] (port=35564
+ helo=mail-wr1-x431.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mvhe5-0001kE-3g
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 10:17:15 -0500
+Received: by mail-wr1-x431.google.com with SMTP id i5so15497367wrb.2
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 07:17:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5oXb1JdzoFm+o4WTjSciaye+xc9bhxKDZL2I2abIzqU=;
+ b=MnxVjfZvGlAq5QN6BhW8oA1GGwi7QOJsS8LoOQe6a0D5G1OMa5lyyWHFxZ+h9GJLab
+ q+bTCVq4J0xag/Ah/0uGoYBdR3Qi0J9WTD2QZqVrSI0JFwjoGO5MQSzs5rCpnTomkzE0
+ RCUjbXmVnLOqTJHJSd58UPBEIZtldYpGJFAs2MwLSxfgBDmO5I7Q4OO8bVEC2ZBfDjeQ
+ tuKC5p85DHb3sZMfeWYRCAqrSZyWcqwBz33SIthckmUkwP/Ph0OA/QCn7F7E2hAEfcTv
+ B+iJc+OpLpHvRpQhyW47HHvw/q2Z2HVAm4s3+a0tGPMUqCmGvLVCCptqXVtyk8j+c2xl
+ qt8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5oXb1JdzoFm+o4WTjSciaye+xc9bhxKDZL2I2abIzqU=;
+ b=CnG5iqNrCTG/cLv07yefvDQG6kwXeNklK9NhVj3YjBogDXM8+LE9Hyn2vPu3Gwui97
+ kKE7CN3SKsiuxWSizeloJisfnWj0QT/P5vIjx6Ay2uRyfAzBkd0qZ6aasSN5h1L2j+PU
+ n0ZaCT7+BbD/Q/MOVlbWxQEfS6HmDXwRcjjgBVKsTOqjhhly0FhrIffmwH1NBRkjp7G7
+ 6EaQETufqPOuUt0ZqyNYVf8Mqp0SSMZ1a9v+kV7FxY0inYH/T5Ng4SKYnIz90SRQlVyh
+ rbYtxI+BZH5cnNXwq8as6IyuNZAmOeR9cyHwcOO01l87AR0qJQP6FrgLYSxcDGDvB+I6
+ EoLw==
+X-Gm-Message-State: AOAM530iA/5+ZMAYw2bJPCaWFPu9erbZkc/9Q9A/xMQk0KjXX2mot+t2
+ wl58H5RgsCbEUaMWyYHJvJQ/1vtwwHwoRQone0to/Q==
+X-Google-Smtp-Source: ABdhPJwRtX32qtiGFlwK5hgTqotub1/eIveq4dXRNCB3AGBi4f232R91VQC8R5YpyJz3ziVZl66xBcMU09qoFMBtdj0=
+X-Received: by 2002:adf:f64b:: with SMTP id x11mr14982240wrp.4.1639149430811; 
+ Fri, 10 Dec 2021 07:17:10 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v1] Add dummy Aspeed AST2600 Display Port MCU (DPMCU)
-Content-Language: en-US
-To: Troy Lee <leetroy@gmail.com>
-References: <20211210083034.726610-1-troy_lee@aspeedtech.com>
- <914155fd-646e-b551-9c54-3b132a5abfa5@kaod.org>
- <CAN9Jwz3ytV3ogztQrcL+YKGdgKYdNjypeMFbKfyqMiwvWhnMEw@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CAN9Jwz3ytV3ogztQrcL+YKGdgKYdNjypeMFbKfyqMiwvWhnMEw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 1271641b-30b0-4022-9692-21f827ea714f
-X-Ovh-Tracer-Id: 7977282318680296297
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrkedvgdejgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuveelvdejteegteefieevfeetffefvddvieekteevleefgeelgfeutedvfedvfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
- helo=7.mo552.mail-out.ovh.net
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.317,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20211201154023.13931-1-francisco.iglesias@xilinx.com>
+ <20211201154023.13931-3-francisco.iglesias@xilinx.com>
+In-Reply-To: <20211201154023.13931-3-francisco.iglesias@xilinx.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Dec 2021 15:16:59 +0000
+Message-ID: <CAFEAcA9qPCqZZCpnkFXe-b4pY8rsQq=pe5k99btS0ALo_FtwhQ@mail.gmail.com>
+Subject: Re: [PATCH v4 02/11] hw/arm/xlnx-versal: Connect Versal's PMC SLCR
+To: Francisco Iglesias <francisco.iglesias@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,68 +80,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Troy Lee <troy_lee@aspeedtech.com>, qemu-devel@nongnu.org,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>
+Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
+ alistair@alistair23.me, qemu-devel@nongnu.org, alistair23@gmail.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/21 15:33, Troy Lee wrote:
-> On Fri, Dec 10, 2021 at 10:05 PM Cédric Le Goater <clg@kaod.org> wrote:
->>
->> On 12/10/21 09:30, Troy Lee wrote:
->>> AST2600 Display Port MCU introduces 0x18000000~0x1803FFFF as it's memory
->>> and io address. If guest machine try to access DPMCU memory, it will
->>> cause a fatal error.
->>
->> The Aspeed SoCs have an "aspeed_soc.io" region for unimplemented devices
->> but it's too small. Anyhow, it is better to have per logic unit. We should
->> change that one day.
->>
-> Good idea!
-> 
->> For my information, which FW image are you using ?
->>
-> 
-> We're using Aspeed's SDK image, I tested with ast2600-default machine.
-> Prebuilt image can be download from:
-> https://github.com/AspeedTech-BMC/openbmc/releases/tag/v07.02
+On Wed, 1 Dec 2021 at 15:40, Francisco Iglesias
+<francisco.iglesias@xilinx.com> wrote:
+>
+> Connect Versal's PMC SLCR (system-level control registers) model.
+>
+> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+> diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
+> index 895ba12c61..729c093dfc 100644
+> --- a/include/hw/arm/xlnx-versal.h
+> +++ b/include/hw/arm/xlnx-versal.h
+> @@ -26,6 +26,7 @@
+>  #include "hw/misc/xlnx-versal-xramc.h"
+>  #include "hw/nvram/xlnx-bbram.h"
+>  #include "hw/nvram/xlnx-versal-efuse.h"
+> +#include "hw/misc/xlnx-versal-pmc-iou-slcr.h"
+>
+>  #define TYPE_XLNX_VERSAL "xlnx-versal"
+>  OBJECT_DECLARE_SIMPLE_TYPE(Versal, XLNX_VERSAL)
+> @@ -78,6 +79,7 @@ struct Versal {
+>      struct {
+>          struct {
+>              SDHCIState sd[XLNX_VERSAL_NR_SDS];
+> +            XlnxVersalPmcIouSlcr slcr;
+>          } iou;
+>
+>          XlnxZynqMPRTC rtc;
+> @@ -113,6 +115,7 @@ struct Versal {
+>  #define VERSAL_XRAM_IRQ_0          79
+>  #define VERSAL_BBRAM_APB_IRQ_0     121
+>  #define VERSAL_RTC_APB_ERR_IRQ     121
+> +#define VERSAL_PMC_IOU_SLCR_IRQ    121
 
-Excellent ! Is there one I could try in particular ?
+This looks weird -- are these devices really all the same
+IRQ number ? If so, you need to create an OR gate and wire
+the devices to the OR gate and the OR gate output to the
+qemu irq in pic[121].
 
+This seems to be a preexisting bug in this code, because
+both VERSAL_BBRAM_APB_IRQ_0 and VERSAL_RTC_APB_ERR_IRQ are
+being used despite being the same value. I would suggest
+a patch before this one to fix that bug (either by correcting the
+IRQ numbers if they're wrong, or by adding an initially 2-input
+OR gate for them).
 
-Once correctly supported, we should include one of these SDK images in :
-
-   tests/avocado/boot_linux_console.py
-
-to complete our tests of the device models.
-
-QEMU is not making much difference between the revision. You might need
-to improve that.
-
-> Without declaring the DPMCU memory, the image will hangs in u-boot.
-
-yeah. You can use -d guest_errors,unimp to catch accesses done on AHB
-windows not covered by the QEMU models. There are plenty of ways to
-move past U-Boot when models are not implemented yet. Don't waste
-too much time, just ask.
-
-eMMC is only on these branches :
-
-   https://github.com/openbmc/qemu/
-   https://github.com/legoater/qemu/
-
-Same for SBC and support is primitive.
-
-> We're still working on I3C and SPI issue to be resolved to get into rootfs.
-
-I3C has not much support in Linux and none in QEMU. You will have to
-add dummy models.
-
-SPI as a non-SPI flash driver ? The SPI flash controller models should
-be quite well covered today. What's the issue ?
-
-Thanks,
-
-C.
+thanks
+-- PMM
 
