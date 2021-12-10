@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4492D46FD72
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 10:11:58 +0100 (CET)
-Received: from localhost ([::1]:49044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F60946FD92
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 10:20:00 +0100 (CET)
+Received: from localhost ([::1]:39298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvbwb-00046v-Cw
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 04:11:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34038)
+	id 1mvc4N-0008OF-6j
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 04:19:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvapF-0008GJ-Sp
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 03:00:17 -0500
-Received: from [2607:f8b0:4864:20::42f] (port=37459
- helo=mail-pf1-x42f.google.com)
+ id 1mvapJ-0008Sr-N0
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 03:00:22 -0500
+Received: from [2607:f8b0:4864:20::631] (port=44734
+ helo=mail-pl1-x631.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvapC-0007AJ-2a
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 03:00:17 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id 8so7789039pfo.4
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 00:00:13 -0800 (PST)
+ id 1mvapH-0007Bj-4V
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 03:00:21 -0500
+Received: by mail-pl1-x631.google.com with SMTP id q17so5733701plr.11
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 00:00:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6SPymJFWwrVjEFOEX9GNKj0LnbL2E+SdmzL+ZHK+iUA=;
- b=hzMDFpkI0bCmRB/3M9yB2nfSipH5nq9dvAOuRY+e2VeR7PYqQUq9Wvup7EljUVjqIH
- nxJLB3Gv/2NsC/w15QIspPkOUoTD8M/QGYRud525lAxcGBG11cyLEjUtpzdfkdigVv+w
- tt0XAUEwwenfeLp3gVuGRCxIzkegxMTe/d7vT8LlIcXi/nPObfXvABp6p0FDTXQxVETK
- jFNCrRXTRGEf4BgymtdqKBPzJ/HgQdgLCF4pWDQe+dUIXAmLEnU4fmY8RQrImgq3XGOS
- GZOKyoLT5EFKZUgsPAQDXqwD7gsT/qToRbjQe6SjIDF5jA//4L/nIhX0HV99qIGJ6V2E
- 8YsQ==
+ bh=HelIh3xc+MQ/HAO+Ptz1VZHq5TiQpzi6qXpDAxUrZnQ=;
+ b=W76Rsx99korRxJOAmM/4oro4yZFi86bmldF1+y/U248Ew5UbJ/oGjozrdXokqdPuZ4
+ 62Sk5SPst0jtq8wI7RKgboaRitTehtSDG/Fmzfb4TTNfD3hgRMffr4JnMjcBdPwFN5w2
+ RqMGBKm5XU76bhubv519H4Wpg2jIiWTbw/sVP/IFyXxG6n2KKD0duheYwfEPBxFgnd2J
+ s7D+ZEcWZEPn5ZSJOj31YvipcHbq8MKHfsOujT/DENs2SouoyU13bJVaDrvih9n0L5iB
+ wzrI/w9Q3IFDskFMaxHGo6TFUkA4tKcOxZapuGC0S01FRKdpYVWl10XtCKFBK1ijZknX
+ t4OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6SPymJFWwrVjEFOEX9GNKj0LnbL2E+SdmzL+ZHK+iUA=;
- b=goL9M1LBovh0zkTJghr1B/ywjRzD0abzpJvRUmv18DgLyLC7WVVpZwQTIMXGZn/Bxs
- IigxbZfbuq4JvZV5GBH6yaH1FYC/0p8MMR64+r8QjEC3QnyHDNqlv6lZBEFRmXa8NeWs
- 1PWTJ3GrMSPsFwfv0HzR5DJWHZt9t4PAh5CLL2BA3QKT7fkFqzdsz/NiQF4FGm+vx0O0
- 4kOv6pAmW1NrUUkySe3x0bx5CFLywPXfXrz79BrXae3eoygN5vWefir1b9h0cr84sskr
- VuGT9raOqcROBKtLauasaY3tsNiuJJvkTEFgL/fMnJENW0Tt92QPd5wRJIvdgUlylJsy
- F6Mg==
-X-Gm-Message-State: AOAM530DqClvKx/NG9i/fZ6jUPjRhZX3EQkkb/9yIlK4IuWI8YHf2EPE
- co/zfZBw1gvLAZ+cQCGsc8QYDBaTc+ld1kXp
-X-Google-Smtp-Source: ABdhPJyW8SU7ehv64nhwd30KzaD1a4KidykNnIhMdEU4Bqv3evFWf21Hk5/MH5HYpq2qyhykknbo5Q==
-X-Received: by 2002:a63:6201:: with SMTP id w1mr29838875pgb.299.1639123212490; 
- Fri, 10 Dec 2021 00:00:12 -0800 (PST)
+ bh=HelIh3xc+MQ/HAO+Ptz1VZHq5TiQpzi6qXpDAxUrZnQ=;
+ b=v7DzlfEH/7p29yUUwc28PoaYz5TRwlqK7KuqJguE2ibthYa9THAJfG6ZhCJtezU6BA
+ NL50UzR4ssvZORWf5pnAVT1uTQ20+qHJTwtHyUE7Iivme+8CvvoOl9YIxQeivDllYr2s
+ veXHwuyyVp+pNOk5C/arYpkGA+/6sHHMzgycUAmsp+6tBv9nDyLJLKzWd/Bf8kUbIByq
+ meJ50wwlrcIniLyMq5S4Ddrt8X7BUWj8LvfHXlSmxO1YcONVs41+xXy/vHry9L/txSKq
+ tPjP+Zx2OoRmk7UzqPUUGNyd0Q+r93rfA6c7jBZnWrs5G+K1KzOvCpAfpfst5EDUtx+K
+ QYYg==
+X-Gm-Message-State: AOAM531B2w69sRuC4h5sxWnGttZD9oSqKmF3oQQf1UA6YHtVr+BNKRyP
+ yh7T+iugD5DVs9KWLW/lHVb5Nmzmok/wgRKs
+X-Google-Smtp-Source: ABdhPJwL6e+dW9IRjcAD4t53ok+ulNFLdPQUykeVVMq3N3CdnyABb4Q+H25mUk/o7ahSub71qo0rOw==
+X-Received: by 2002:a17:902:ab0c:b0:142:343d:4548 with SMTP id
+ ik12-20020a170902ab0c00b00142343d4548mr72742497plb.14.1639123217755; 
+ Fri, 10 Dec 2021 00:00:17 -0800 (PST)
 Received: from hsinchu16.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id f4sm2087955pfg.34.2021.12.10.00.00.10
+ by smtp.gmail.com with ESMTPSA id f4sm2087955pfg.34.2021.12.10.00.00.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Dec 2021 00:00:12 -0800 (PST)
+ Fri, 10 Dec 2021 00:00:17 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 61/77] target/riscv: rvv-1.0: floating-point/integer
- type-convert instructions
-Date: Fri, 10 Dec 2021 15:56:47 +0800
-Message-Id: <20211210075704.23951-62-frank.chang@sifive.com>
+Subject: [PATCH v11 63/77] target/riscv: add "set round to odd" rounding mode
+ helper function
+Date: Fri, 10 Dec 2021 15:56:49 +0800
+Message-Id: <20211210075704.23951-64-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211210075704.23951-1-frank.chang@sifive.com>
 References: <20211210075704.23951-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -87,168 +88,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Frank Chang <frank.chang@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Add the following instructions:
-
-* vfcvt.rtz.xu.f.v
-* vfcvt.rtz.x.f.v
-
-Also adjust GEN_OPFV_TRANS() to accept multiple floating-point rounding
-modes.
+helper_set_rounding_mode() is responsible for SIGILL, and "round to odd"
+should be an interface private to translation, so add a new independent
+helper_set_rod_rounding_mode().
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn32.decode              | 11 ++--
- target/riscv/insn_trans/trans_rvv.c.inc | 84 +++++++++++++++----------
- 2 files changed, 59 insertions(+), 36 deletions(-)
+ target/riscv/fpu_helper.c | 5 +++++
+ target/riscv/helper.h     | 1 +
+ target/riscv/internals.h  | 1 +
+ target/riscv/translate.c  | 7 +++++++
+ 4 files changed, 14 insertions(+)
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 20b3095f56..02064f8ec9 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -585,10 +585,13 @@ vmfge_vf        011111 . ..... ..... 101 ..... 1010111 @r_vm
- vfclass_v       010011 . ..... 10000 001 ..... 1010111 @r2_vm
- vfmerge_vfm     010111 0 ..... ..... 101 ..... 1010111 @r_vm_0
- vfmv_v_f        010111 1 00000 ..... 101 ..... 1010111 @r2
--vfcvt_xu_f_v    100010 . ..... 00000 001 ..... 1010111 @r2_vm
--vfcvt_x_f_v     100010 . ..... 00001 001 ..... 1010111 @r2_vm
--vfcvt_f_xu_v    100010 . ..... 00010 001 ..... 1010111 @r2_vm
--vfcvt_f_x_v     100010 . ..... 00011 001 ..... 1010111 @r2_vm
-+
-+vfcvt_xu_f_v       010010 . ..... 00000 001 ..... 1010111 @r2_vm
-+vfcvt_x_f_v        010010 . ..... 00001 001 ..... 1010111 @r2_vm
-+vfcvt_f_xu_v       010010 . ..... 00010 001 ..... 1010111 @r2_vm
-+vfcvt_f_x_v        010010 . ..... 00011 001 ..... 1010111 @r2_vm
-+vfcvt_rtz_xu_f_v   010010 . ..... 00110 001 ..... 1010111 @r2_vm
-+vfcvt_rtz_x_f_v    010010 . ..... 00111 001 ..... 1010111 @r2_vm
- vfwcvt_xu_f_v   100010 . ..... 01000 001 ..... 1010111 @r2_vm
- vfwcvt_x_f_v    100010 . ..... 01001 001 ..... 1010111 @r2_vm
- vfwcvt_f_xu_v   100010 . ..... 01010 001 ..... 1010111 @r2_vm
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 047be5d5c4..4bc4dfa69f 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -1,5 +1,4 @@
- /*
-- * RISC-V translation routines for the RVV Standard Extension.
-  *
-  * Copyright (c) 2020 T-Head Semiconductor Co., Ltd. All rights reserved.
-  *
-@@ -2369,34 +2368,41 @@ static bool opfv_check(DisasContext *s, arg_rmr *a)
-            vext_check_ss(s, a->rd, a->rs2, a->vm);
+diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
+index dec39d4a9e..4a5982d594 100644
+--- a/target/riscv/fpu_helper.c
++++ b/target/riscv/fpu_helper.c
+@@ -81,6 +81,11 @@ void helper_set_rounding_mode(CPURISCVState *env, uint32_t rm)
+     set_float_rounding_mode(softrm, &env->fp_status);
  }
  
--#define GEN_OPFV_TRANS(NAME, CHECK)                                \
--static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
--{                                                                  \
--    if (CHECK(s, a)) {                                             \
--        uint32_t data = 0;                                         \
--        static gen_helper_gvec_3_ptr * const fns[3] = {            \
--            gen_helper_##NAME##_h,                                 \
--            gen_helper_##NAME##_w,                                 \
--            gen_helper_##NAME##_d,                                 \
--        };                                                         \
--        TCGLabel *over = gen_new_label();                          \
--        gen_set_rm(s, RISCV_FRM_DYN);                              \
--        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
--                                                                   \
--        data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
--        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
--        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
--                           vreg_ofs(s, a->rs2), cpu_env,           \
--                           s->vlen / 8, s->vlen / 8, data,         \
--                           fns[s->sew - 1]);                       \
--        mark_vs_dirty(s);                                          \
--        gen_set_label(over);                                       \
--        return true;                                               \
--    }                                                              \
--    return false;                                                  \
-+static bool do_opfv(DisasContext *s, arg_rmr *a,
-+                    gen_helper_gvec_3_ptr *fn,
-+                    bool (*checkfn)(DisasContext *, arg_rmr *),
-+                    int rm)
++void helper_set_rod_rounding_mode(CPURISCVState *env)
 +{
-+    if (checkfn(s, a)) {
-+        uint32_t data = 0;
-+        TCGLabel *over = gen_new_label();
-+        gen_set_rm(s, rm);
-+        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
++    set_float_rounding_mode(float_round_to_odd, &env->fp_status);
++}
 +
-+        data = FIELD_DP32(data, VDATA, VM, a->vm);
-+        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-+        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
-+                           vreg_ofs(s, a->rs2), cpu_env,
-+                           s->vlen / 8, s->vlen / 8, data, fn);
-+        mark_vs_dirty(s);
-+        gen_set_label(over);
-+        return true;
+ static uint64_t do_fmadd_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2,
+                            uint64_t rs3, int flags)
+ {
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 53cf88cd40..606bf72d5c 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -3,6 +3,7 @@ DEF_HELPER_2(raise_exception, noreturn, env, i32)
+ 
+ /* Floating Point - rounding mode */
+ DEF_HELPER_FLAGS_2(set_rounding_mode, TCG_CALL_NO_WG, void, env, i32)
++DEF_HELPER_FLAGS_1(set_rod_rounding_mode, TCG_CALL_NO_WG, void, env)
+ 
+ /* Floating Point - fused */
+ DEF_HELPER_FLAGS_4(fmadd_s, TCG_CALL_NO_RWG, i64, env, i64, i64, i64)
+diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+index db105d4d64..065e8162a2 100644
+--- a/target/riscv/internals.h
++++ b/target/riscv/internals.h
+@@ -43,6 +43,7 @@ enum {
+     RISCV_FRM_RUP = 3,  /* Round Up */
+     RISCV_FRM_RMM = 4,  /* Round to Nearest, ties to Max Magnitude */
+     RISCV_FRM_DYN = 7,  /* Dynamic rounding mode */
++    RISCV_FRM_ROD = 8,  /* Round to Odd */
+ };
+ 
+ static inline uint64_t nanbox_s(float32 f)
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 3688e80d03..b4df21bda3 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -30,6 +30,7 @@
+ #include "exec/log.h"
+ 
+ #include "instmap.h"
++#include "internals.h"
+ 
+ /* global register indices */
+ static TCGv cpu_gpr[32], cpu_pc, cpu_vl;
+@@ -403,6 +404,12 @@ static void gen_set_rm(DisasContext *ctx, int rm)
+         return;
+     }
+     ctx->frm = rm;
++
++    if (rm == RISCV_FRM_ROD) {
++        gen_helper_set_rod_rounding_mode(cpu_env);
++        return;
 +    }
-+    return false;
-+}
 +
-+#define GEN_OPFV_TRANS(NAME, CHECK, FRM)               \
-+static bool trans_##NAME(DisasContext *s, arg_rmr *a)  \
-+{                                                      \
-+    static gen_helper_gvec_3_ptr * const fns[3] = {    \
-+        gen_helper_##NAME##_h,                         \
-+        gen_helper_##NAME##_w,                         \
-+        gen_helper_##NAME##_d                          \
-+    };                                                 \
-+    return do_opfv(s, a, fns[s->sew - 1], CHECK, FRM); \
+     gen_helper_set_rounding_mode(cpu_env, tcg_constant_i32(rm));
  }
- 
--GEN_OPFV_TRANS(vfsqrt_v, opfv_check)
-+GEN_OPFV_TRANS(vfsqrt_v, opfv_check, RISCV_FRM_DYN)
- 
- /* Vector Floating-Point MIN/MAX Instructions */
- GEN_OPFVV_TRANS(vfmin_vv, opfvv_check)
-@@ -2442,7 +2448,7 @@ GEN_OPFVF_TRANS(vmfgt_vf, opfvf_cmp_check)
- GEN_OPFVF_TRANS(vmfge_vf, opfvf_cmp_check)
- 
- /* Vector Floating-Point Classify Instruction */
--GEN_OPFV_TRANS(vfclass_v, opfv_check)
-+GEN_OPFV_TRANS(vfclass_v, opfv_check, RISCV_FRM_DYN)
- 
- /* Vector Floating-Point Merge Instruction */
- GEN_OPFVF_TRANS(vfmerge_vfm,  opfvf_check)
-@@ -2496,10 +2502,24 @@ static bool trans_vfmv_v_f(DisasContext *s, arg_vfmv_v_f *a)
- }
- 
- /* Single-Width Floating-Point/Integer Type-Convert Instructions */
--GEN_OPFV_TRANS(vfcvt_xu_f_v, opfv_check)
--GEN_OPFV_TRANS(vfcvt_x_f_v, opfv_check)
--GEN_OPFV_TRANS(vfcvt_f_xu_v, opfv_check)
--GEN_OPFV_TRANS(vfcvt_f_x_v, opfv_check)
-+#define GEN_OPFV_CVT_TRANS(NAME, HELPER, FRM)               \
-+static bool trans_##NAME(DisasContext *s, arg_rmr *a)       \
-+{                                                           \
-+    static gen_helper_gvec_3_ptr * const fns[3] = {         \
-+        gen_helper_##HELPER##_h,                            \
-+        gen_helper_##HELPER##_w,                            \
-+        gen_helper_##HELPER##_d                             \
-+    };                                                      \
-+    return do_opfv(s, a, fns[s->sew - 1], opfv_check, FRM); \
-+}
-+
-+GEN_OPFV_CVT_TRANS(vfcvt_xu_f_v, vfcvt_xu_f_v, RISCV_FRM_DYN)
-+GEN_OPFV_CVT_TRANS(vfcvt_x_f_v, vfcvt_x_f_v, RISCV_FRM_DYN)
-+GEN_OPFV_CVT_TRANS(vfcvt_f_xu_v, vfcvt_f_xu_v, RISCV_FRM_DYN)
-+GEN_OPFV_CVT_TRANS(vfcvt_f_x_v, vfcvt_f_x_v, RISCV_FRM_DYN)
-+/* Reuse the helper functions from vfcvt.xu.f.v and vfcvt.x.f.v */
-+GEN_OPFV_CVT_TRANS(vfcvt_rtz_xu_f_v, vfcvt_xu_f_v, RISCV_FRM_RTZ)
-+GEN_OPFV_CVT_TRANS(vfcvt_rtz_x_f_v, vfcvt_x_f_v, RISCV_FRM_RTZ)
- 
- /* Widening Floating-Point/Integer Type-Convert Instructions */
  
 -- 
 2.31.1
