@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3373846FC88
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 09:19:13 +0100 (CET)
-Received: from localhost ([::1]:40548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC63D46FC7E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 09:15:02 +0100 (CET)
+Received: from localhost ([::1]:33828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvb7Y-0005Rd-8z
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 03:19:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60148)
+	id 1mvb3V-0000qK-TM
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 03:15:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvamv-0003uR-Qu
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:57:53 -0500
-Received: from [2607:f8b0:4864:20::52a] (port=39813
- helo=mail-pg1-x52a.google.com)
+ id 1mvamx-0003vs-Hq
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:57:55 -0500
+Received: from [2607:f8b0:4864:20::42b] (port=41674
+ helo=mail-pf1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvamt-0006H2-D6
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:57:53 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id r5so7385538pgi.6
- for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 23:57:51 -0800 (PST)
+ id 1mvamv-0006He-PD
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 02:57:55 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id g19so7768401pfb.8
+ for <qemu-devel@nongnu.org>; Thu, 09 Dec 2021 23:57:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qcsDPibscCiTXvE8KRoEbfZH5l4lfx4oH3jY78KeevU=;
- b=I3V/cTiqKtuKa+3ncgnkzkkoS5xYUKfT1fQ4xQWNhPs03YEJKNWUMOkPQHRMwJ9Er+
- y8nfw55huFK09Myp0X9ILbOFQ7d8/ClFiCVFP/7nfnW9FPyTck+zc2IbzCqlhhZ6kGll
- t5u6Is31rBfPk+5qNPD+TEwiNg28DliWX2PJT/i9nFfmGp+Sm1NuOcKwGsKy2Im2aCuB
- kUGISi2mqNojwXiFl4NNO8mvgL1wZBDUIbSrDJeeQqHGVhg0cEN+H1C3a2kZpOOQHXQA
- c1EmHX3QPW/Gd5bdo5784oYhAQcYS1wnpZhhI7IDgIWX55uEhkTzHTr4Ml1OsclwX4s3
- cVvQ==
+ bh=6RnqLoIMtIKL3HM6SV5JHjayAFC1Eh8hEupFhHM74x8=;
+ b=fQndGaAONu2GFkykHlohkr/+pU+Nz8uEqjzQcun3iW9fyXpelumeCiovAdyLfHUHG1
+ cNtTiGErjYpiPzf7uowh6lJSNSXArijD/h2rVlP1VWSv/Wv+iVt1b8J0XlvGuPrDuwGZ
+ +iWdrej0XEBzPH+PXjFfrDh0PLh2vPZeyM+7GHb9pz9c3NhmlJInWPjRpidXn4vmlQWJ
+ b/MUF4fTeDhM+vSRKNcAH1PLqgjeelz20QUBAbZ/r143nYvQXAMp/AhvYvjwxSvK5a/E
+ WOPqgSe0zv4GNpCbt01jTKXedwngNMo5DphRp0HzjbakO//ljExmd/B2OZNJ/93RMc9O
+ 0Fzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qcsDPibscCiTXvE8KRoEbfZH5l4lfx4oH3jY78KeevU=;
- b=FqLnkVJzrg5yYzQYC2IvI/r3gew1G51xy027dpAyXp28mAyb7ftFyHzc4QMdAcfqKw
- lTvI72nBvnnnqm3WSa3ZOP+mDBg8w6LnpFUVYGpI1n/XR9FOfOxSVz0bL/OFhJ2MUxw/
- K9+FcNLZWyRrDYu1JphM8F5d9KNG180x22XJAv1Z/Bw90XEcFQ46sxNl8wl5s0GqpbhA
- Rij7pwex2aO5ZguwIPC298CeaZYM2K4xsX6h3/rVan0n6WueYsI277MkQGrFMKv6EbMl
- 5NGytpLSrbCUsOG+qHVIUrzhshD1uqy5ZR8WkbR8cpUJBH/XZIsY1qNqDh+zqVZijfy8
- R2MQ==
-X-Gm-Message-State: AOAM5301YlWkRCBy1Sk9ve7vNp63M6BJEDIGeLZsMSdVaIl8j2grcdQh
- b7pyhyFsj1xIOzeT3eObAKzL6vR6bEZPCk7F
-X-Google-Smtp-Source: ABdhPJxtQoxYKga2XPk6iqmWHnNE5vnNzo3sNu+sBh/BBxOdCQxDm9z0xpcGU0AC+V6DI8QnwXpbig==
-X-Received: by 2002:a63:874a:: with SMTP id i71mr39072806pge.93.1639123070055; 
- Thu, 09 Dec 2021 23:57:50 -0800 (PST)
+ bh=6RnqLoIMtIKL3HM6SV5JHjayAFC1Eh8hEupFhHM74x8=;
+ b=GenhqxLZk9RJOpOFRPkJ4d8NakzjX0leoR2BnwY/dRFcyG3ZlIiDeJi/IwHYTUOlql
+ UAaZb5CzT6XJj8Yk+iQXCMuZYUGKvsOD0HmrrR0nfrcs3wcQD9grqe1XWtmS7WDEglEU
+ g8F5bTMWpmIBbjjt2LHII3EqpVdr7zVOMOqE221QkXF1igAGjlAG9l4ATtOqRZ8P0rNv
+ rBzrfQMoeKEPht+w0w1TU+gCddGVDo0vw7lDoLWRyOXByzE+XdufNQdq2RmwtuS0IyIY
+ M1Yti+eaUzSrjOAnpJpZOP6tZwqweKIrnsGIQo3fRqreV2DTaqFJzMsJfP9e0/w57B/X
+ CK5w==
+X-Gm-Message-State: AOAM533fgLxAf8Wu+H/9L4poaWro/5bKEWJU3bJACay4YeGSuEYL+J/m
+ rNlbOXjCWCA+xzI1HXsVB184Kr2wIqg4iZrF
+X-Google-Smtp-Source: ABdhPJyv2vI7fq97JrtejJk6Kr9wyOMdY7PSu0JYq4Ib+d4qADEDXMHjedJlsYZ01hOGeTmTdabKAw==
+X-Received: by 2002:a65:6895:: with SMTP id e21mr2634253pgt.546.1639123072377; 
+ Thu, 09 Dec 2021 23:57:52 -0800 (PST)
 Received: from hsinchu16.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id f4sm2087955pfg.34.2021.12.09.23.57.48
+ by smtp.gmail.com with ESMTPSA id f4sm2087955pfg.34.2021.12.09.23.57.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Dec 2021 23:57:49 -0800 (PST)
+ Thu, 09 Dec 2021 23:57:52 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 10/77] target/riscv: rvv-1.0: add vlenb register
-Date: Fri, 10 Dec 2021 15:55:56 +0800
-Message-Id: <20211210075704.23951-11-frank.chang@sifive.com>
+Subject: [PATCH v11 11/77] target/riscv: rvv-1.0: check MSTATUS_VS when
+ accessing vector csr registers
+Date: Fri, 10 Dec 2021 15:55:57 +0800
+Message-Id: <20211210075704.23951-12-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211210075704.23951-1-frank.chang@sifive.com>
 References: <20211210075704.23951-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,58 +91,38 @@ Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
  Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>,
- Greentime Hu <greentime.hu@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greentime Hu <greentime.hu@sifive.com>
+From: Frank Chang <frank.chang@sifive.com>
 
-Signed-off-by: Greentime Hu <greentime.hu@sifive.com>
+If VS field is off, accessing vector csr registers should raise an
+illegal-instruction exception.
+
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_bits.h | 1 +
- target/riscv/csr.c      | 7 +++++++
- 2 files changed, 8 insertions(+)
+ target/riscv/csr.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 8dc6aa62c6..1e31f4d35f 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -63,6 +63,7 @@
- #define CSR_VCSR            0x00f
- #define CSR_VL              0xc20
- #define CSR_VTYPE           0xc21
-+#define CSR_VLENB           0xc22
- 
- /* VCSR fields */
- #define VCSR_VXSAT_SHIFT    0
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 832ccdcf33..5d1eec1ea0 100644
+index 5d1eec1ea0..3dfbc17738 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -285,6 +285,12 @@ static RISCVException read_vl(CPURISCVState *env, int csrno,
-     return RISCV_EXCP_NONE;
- }
- 
-+static int read_vlenb(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env_archcpu(env)->cfg.vlen >> 3;
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_vxrm(CPURISCVState *env, int csrno,
-                                 target_ulong *val)
+@@ -48,6 +48,11 @@ static RISCVException fs(CPURISCVState *env, int csrno)
+ static RISCVException vs(CPURISCVState *env, int csrno)
  {
-@@ -1835,6 +1841,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_VCSR]     = { "vcsr",     vs,     read_vcsr,    write_vcsr   },
-     [CSR_VL]       = { "vl",       vs,     read_vl                    },
-     [CSR_VTYPE]    = { "vtype",    vs,     read_vtype                 },
-+    [CSR_VLENB]    = { "vlenb",    vs,     read_vlenb                 },
-     /* User Timers and Counters */
-     [CSR_CYCLE]    = { "cycle",    ctr,    read_instret  },
-     [CSR_INSTRET]  = { "instret",  ctr,    read_instret  },
+     if (env->misa_ext & RVV) {
++#if !defined(CONFIG_USER_ONLY)
++        if (!env->debugger && !riscv_cpu_vector_enabled(env)) {
++            return RISCV_EXCP_ILLEGAL_INST;
++        }
++#endif
+         return RISCV_EXCP_NONE;
+     }
+     return RISCV_EXCP_ILLEGAL_INST;
 -- 
 2.31.1
 
