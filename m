@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E4C47040D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 16:41:07 +0100 (CET)
-Received: from localhost ([::1]:52812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8FB470411
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 16:42:10 +0100 (CET)
+Received: from localhost ([::1]:55086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvi1C-0003Bz-DH
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 10:41:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41584)
+	id 1mvi2D-0004pU-PD
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 10:42:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mvhyP-0007Rq-N2
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 10:38:14 -0500
-Received: from [2a00:1450:4864:20::52e] (port=40665
- helo=mail-ed1-x52e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mvhyN-00027C-Fs
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 10:38:12 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id r25so30728540edq.7
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 07:38:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=kDcfDfzNSjS6NbKwVULw814kgFJ/zitlP1xt5pdqtX0=;
- b=bYuwxjq58BkIj0DyhGVZGzcOrZGmg52vwpkJpQ6WUmC6HXcwqeRidSsjBhfNoTUpmV
- tOVIk0ZayFEKO2qughxDyfe9choLeJmF7lKsS3Eyv3eZ24eikivP4HWkNOtH/H5pveeM
- 7PBlmW81ZqJKVq4JagV60UI+G3XIfNjJbsPe+7So3iJVK+e2IE8Ak6fzHG8F6dWRxTtM
- IrjiW3QKWX9OA0lBnNLnv10PIp1Y6OzUJqUmnT1pxFxagZJjshExCtoCOmLbf1IdpHck
- enOPF/SUsm/6ExtZxgAaNMWEuIiGHi17kj8O09/+cs5YhA4PAfw7rdXB9ibGLFBMviDt
- hGWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=kDcfDfzNSjS6NbKwVULw814kgFJ/zitlP1xt5pdqtX0=;
- b=G9DcmvfwFQw7s9sCPrrEP+V1CwHH72M6809k+WQlU5jwMDg453pu+zZnzMay/tV0wu
- 2jmMCoK4Pa+lq0WFjxIlabqYmLr94ZZzgHrieeFb5rWeJ/LR4BVOXYI39Kh71GBy3yVn
- pddh42ya2JaGvBFMWrBzN74IKFBNBZjyjMVtU7Fs8d7+cIUXl6d7DyBQNJRyKFAR4SPJ
- 8qQOMOb2qv/lRGLBepgBM88O0NJIacCs+s1NbkaKJnuJmLDWPLND1YCfjnMPZe33XRtn
- Dk9fOSAWT/FJfisipRia6g6tRdBLmH++xhy+oV0supM9Ldy43ZWhk4ys3a20oesVtNGD
- 7pCQ==
-X-Gm-Message-State: AOAM531OfIeLNwgAT9F1h34Ay2x78oNDONLXcIsnsIywhKbF0CK4gPum
- FPrhNDlGr3Nh11g4dAJxolwFoH1SeR0=
-X-Google-Smtp-Source: ABdhPJyHy9+0fIzXuyEeUPabtp68LgDzWcQKVCXsaWAYZj56MH04Y3rAKF4HGibDKLhdKng0k78QZA==
-X-Received: by 2002:a17:906:d550:: with SMTP id
- cr16mr24797343ejc.544.1639150690029; 
- Fri, 10 Dec 2021 07:38:10 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:48f9:bea:a04c:3dfe?
- ([2001:b07:6468:f312:48f9:bea:a04c:3dfe])
- by smtp.googlemail.com with ESMTPSA id d18sm1617435edj.23.2021.12.10.07.38.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Dec 2021 07:38:09 -0800 (PST)
-Message-ID: <a31201bb-78de-e926-1476-b48b008745c1@redhat.com>
-Date: Fri, 10 Dec 2021 16:38:08 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mvi0R-0002Za-0e
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 10:40:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41641)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mvi0O-0002R9-Tc
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 10:40:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639150815;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=6TxdopvYwYexByZ5EFI8yh/7ovwgJ99/sjqHYoMnoRU=;
+ b=DsfMsGKPm35XXfMmyMIr2kq1DD1j17sH3It4zpAIG62fWQT6HeHbMZWgpD5Quz/hlHdO1U
+ LZVUsqI75AHeMxKKOzitzpByMLicRyCP3aaLzdoQxHpm57lv4Ux0WTZyO2fsJmypvS+YsH
+ It9nTkvpgMZSo1pauM/2jFHmLWunvhU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-301-8oWtlFqqNkeroFGjOaBM6A-1; Fri, 10 Dec 2021 10:40:08 -0500
+X-MC-Unique: 8oWtlFqqNkeroFGjOaBM6A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18041100CE92;
+ Fri, 10 Dec 2021 15:40:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DD996E5DD;
+ Fri, 10 Dec 2021 15:39:59 +0000 (UTC)
+Date: Fri, 10 Dec 2021 15:39:56 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
 Subject: Re: Redesign of QEMU startup & initial configuration
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Message-ID: <YbN0zLsDVr3B/s3+@redhat.com>
 References: <87lf13cx3x.fsf@dusky.pond.sub.org> <YbJU5vVdesoGuug9@redhat.com>
- <87mtl88t0j.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <87mtl88t0j.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.317,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ <fb7e946e-6881-0ea3-d824-99693f938165@redhat.com>
+ <87czm47a77.fsf@dusky.pond.sub.org>
+MIME-Version: 1.0
+In-Reply-To: <87czm47a77.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.619,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,99 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Damien Hedde <damien.hedde@greensocs.com>,
  Mark Burton <mark.burton@greensocs.com>, qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
  Mirela Grujic <mirela.grujic@greensocs.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/21 14:54, Markus Armbruster wrote:
-> I want an open path to a single binary.  Taking years to get there is
-> fine.
+On Fri, Dec 10, 2021 at 04:26:20PM +0100, Markus Armbruster wrote:
+> 
+> The existing binary provides bad CLI and limited QMP.
+> 
+> Going from limited to good QMP involves reworking the startup code.  I
+> believe that's easier in a new binary.
+> 
+> Going from bad CLI to good CLI involves incompatible change.
+> Impractical as long as the CLI is a stable interface.  I believe the
+> sane way out is a new binary.
+> 
+> However, I can't see why we'd want to put a good CLI in the old binary
+> then.  We could just as well put it in the new binary, or in a wrapper
+> program around the new binary.
 
-The single binary is a distraction in my opinion.  Imagine
-instead of vl.c you have this in your second binary:
+Having good CLI in a completely new binary is likely to be easier
+for users to understand too. The typical pitfall with our existing
+binaries is that they provide 4 ways to do the same thing, from
+the different points in QEMU's life. This constantly trips up
+unsuspecting users and also makes our docs task way more complicated
+to think about.
 
-/*
-  * This copyright line means that at some point the below actually compiled
-  * in my tree (though it was only a stub); I am not fully making it up.
-  *
-  * Copyright (c) 2020 Red Hat, Inc.
-  *
-  * SPDX-License-Identifier: GPL-2.0-or-later
-  */
+If we're going to have a good CLI, it would ideally only have
+one way to do each given task.
 
-#include "qemu/osdep.h"
-#include "qemu/rcu.h"
-#include "qemu-common.h"
-#include "chardev/char.h"
-#include "monitor/monitor.h"
-#include "qapi/error.h"
-#include "qapi/qapi-commands-misc.h"
-#include "qapi/qapi-commands-ui.h"
-#include "qemu/systemd.h"
-#include "sysemu/cpu-timers.h"
-#include "sysemu/sysemu.h"
-#include "ui/console.h"
-#include "hw/qdev-core.h"
+No matter what we do we're fighting against a mass of docs
+all over the internet talking about 15 years of old QEMU
+syntax. If we do a good CLI in a newly named binary, at
+least when reading docs, it'll be pretty clear whether
+it is talking about the old QEMU or new QEMU binaries,
+reducing liklihood of mixing things up.
 
-static void open_socket_and_monitor(void)
-{
-     int nfds = check_socket_activation();
-     Chardev *chardev;
-     if (nfds > 1) {
-         error_report("QEMU only supports listening on one socket");
-         exit(1);
-     }
-     if (!nfds) {
-         ChardevBackend backend = {
-             .type = CHARDEV_BACKEND_KIND_STDIO,
-             .u.stdio.data = &(ChardevStdio) {
-                 .has_signal = true,
-                 .signal = false
-             }
-         };
-         chardev = qemu_chardev_new("#qmp0", TYPE_CHARDEV_STDIO, &backend, NULL, &error_fatal);
-     } else {
-         ChardevBackend backend = {
-            .type = CHARDEV_BACKEND_KIND_SOCKET,
-            .u.socket.data = &(ChardevSocket) {
-                .addr = &(SocketAddressLegacy) {
-                    .type = SOCKET_ADDRESS_LEGACY_KIND_FD,
-                    .u.fd.data = &(String){
-                        .str = (char *) stringify(FIRST_SOCKET_ACTIVATION_FD)
-                    }
-                }
-            }
-         };
-         chardev = qemu_chardev_new("#qmp0", TYPE_CHARDEV_SOCKET, &backend, NULL, &error_fatal);
-     }
-     monitor_init_qmp(chardev, true, &error_fatal);
-}
 
-void qemu_init(int argc, char **argv, char **envp)
-{
-     error_init(argv[0]);
-     qemu_init_exec_dir(argv[0]);
-     qemu_init_subsystems();
 
-     /* Missing: parse -name, -sandbox, -trace, -L */
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-     loc_set_none();
-     rcu_disable_atfork();
-     qemu_init_main_loop(&error_fatal);
-     cpu_timers_init();
-     open_socket_and_monitor();
-     init_displaystate();
-     os_setup_signal_handling();
-}
-
-This is the ultimate QEMU startup code.  If we can get this code to
-actually build a machine, you've reached the point where you don't care
-about what is in the command line parser; and consequently you don't care
-if there is one binary or two.
-
-Paolo
 
