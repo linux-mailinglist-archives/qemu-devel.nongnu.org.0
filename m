@@ -2,47 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 104724703D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 16:27:43 +0100 (CET)
-Received: from localhost ([::1]:57606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 470734703EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 16:32:52 +0100 (CET)
+Received: from localhost ([::1]:42794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvhoE-0003fz-2Y
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 10:27:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48318)
+	id 1mvhtD-0004ft-Dd
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 10:32:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1mvgws-0004Xu-KY; Fri, 10 Dec 2021 09:32:34 -0500
-Received: from [201.28.113.2] (port=6297 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1mvgwr-0002Cy-3L; Fri, 10 Dec 2021 09:32:34 -0500
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 10 Dec 2021 11:13:54 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id BB7EC8009F6;
- Fri, 10 Dec 2021 11:13:53 -0300 (-03)
-From: Victor Colombo <victor.colombo@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH 4/4] target/ppc: move xscvqpdp to decodetree
-Date: Fri, 10 Dec 2021 11:13:47 -0300
-Message-Id: <20211210141347.38603-5-victor.colombo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211210141347.38603-1-victor.colombo@eldorado.org.br>
-References: <20211210141347.38603-1-victor.colombo@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <leetroy@gmail.com>)
+ id 1mvgy6-0005GO-0M; Fri, 10 Dec 2021 09:33:50 -0500
+Received: from [2607:f8b0:4864:20::22b] (port=45990
+ helo=mail-oi1-x22b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <leetroy@gmail.com>)
+ id 1mvgy3-0002Zg-Li; Fri, 10 Dec 2021 09:33:49 -0500
+Received: by mail-oi1-x22b.google.com with SMTP id 7so13406128oip.12;
+ Fri, 10 Dec 2021 06:33:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CSa0/0DWTbmm6A0A3f7ZWlAtb52saKTaSRbBjsfmaVE=;
+ b=Vj8o0Klq+3aCRa0ONQFeWsaIBTOUCYduM2F99El5vcjlfGsXGpWYHHHltXKvorJ9WP
+ RbWt8E1Tj/KOtrcaNA/mwbkYW/Ay9JF2HfzDTF942yHy6ztz+NJp82gKDpNDn4OkmfaI
+ XR9PQ1ie9G6IZKLN+C68O9ha0qQRyCl5+LvQ2I8wpyK6nalcNUXbjkolKWFAWuaBYTTr
+ 0OWyp34JejARpLxWLRmcLFcBwPcL8py9W4Up+FqMoJWVeafz8L20n08KNyzc9koC902U
+ NKLMxJjbaBWPvGr1yjUonZfK6TG+AQo73C5JNYDNWNca5xgpwh1LvDfVrcppxe5jV73O
+ 6oUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CSa0/0DWTbmm6A0A3f7ZWlAtb52saKTaSRbBjsfmaVE=;
+ b=kN4VKWIwg9S/uUo0zeDm/Fma9UHhdsfiHMh3pHKObI8cTkDvirO1EkwrPwXCeIR0jm
+ 2fT5mfIK77bLzZ1xWLFJf6HYc/KI1Pg3wtbRZi9um9xMF00tj2A1fLgmuHmCy4kwQg5D
+ mR3j5aVkvvfoVQrkXEf8oDt/0DOo+LbNdQFKtn46p4qttC7+xALRKKBTTz8OE2XH1i2r
+ UVl0c2cVoyp7KGr8cWgDDHCQVzVRUIInVXCj44yVUTB3IqiDSKpDzU5NV/M/xmJKIJvP
+ OvZeq9AgeB5+k2e4jtT31E0lnvYtteSB/GrMmsZOtt7g825or7EZKo1t02p0aAz8haNc
+ DM1w==
+X-Gm-Message-State: AOAM533+yF7APDvWdJdVWmMa5n6FphdBQKo5HIhWCgbuevdocquHwxgI
+ 63Snxsv4NfiFOv+f755K+c0tZpuHr8yRrMrV5t0=
+X-Google-Smtp-Source: ABdhPJzugvoldHE6oTWJqZ14c770zUSM4VwUbWy9av+onTb/u8GF64Aoo4iC3FW++wW4ZRCxaYK9Tp3n2ATPW1KxJDo=
+X-Received: by 2002:a05:6808:bc7:: with SMTP id
+ o7mr12776988oik.172.1639146825791; 
+ Fri, 10 Dec 2021 06:33:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 10 Dec 2021 14:13:54.0036 (UTC)
- FILETIME=[29C33B40:01D7EDD0]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+References: <20211210083034.726610-1-troy_lee@aspeedtech.com>
+ <914155fd-646e-b551-9c54-3b132a5abfa5@kaod.org>
+In-Reply-To: <914155fd-646e-b551-9c54-3b132a5abfa5@kaod.org>
+From: Troy Lee <leetroy@gmail.com>
+Date: Fri, 10 Dec 2021 22:33:34 +0800
+Message-ID: <CAN9Jwz3ytV3ogztQrcL+YKGdgKYdNjypeMFbKfyqMiwvWhnMEw@mail.gmail.com>
+Subject: Re: [PATCH v1] Add dummy Aspeed AST2600 Display Port MCU (DPMCU)
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=leetroy@gmail.com; helo=mail-oi1-x22b.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Fri, 10 Dec 2021 10:20:18 -0500
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,126 +82,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, danielhb413@gmail.com, matheus.ferst@eldorado.org.br,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Troy Lee <troy_lee@aspeedtech.com>, qemu-devel@nongnu.org,
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+On Fri, Dec 10, 2021 at 10:05 PM C=C3=A9dric Le Goater <clg@kaod.org> wrote=
+:
+>
+> On 12/10/21 09:30, Troy Lee wrote:
+> > AST2600 Display Port MCU introduces 0x18000000~0x1803FFFF as it's memor=
+y
+> > and io address. If guest machine try to access DPMCU memory, it will
+> > cause a fatal error.
+>
+> The Aspeed SoCs have an "aspeed_soc.io" region for unimplemented devices
+> but it's too small. Anyhow, it is better to have per logic unit. We shoul=
+d
+> change that one day.
+>
+Good idea!
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/fpu_helper.c             | 10 +++-------
- target/ppc/helper.h                 |  2 +-
- target/ppc/insn32.decode            |  4 ++++
- target/ppc/translate/vsx-impl.c.inc | 24 +++++++++++++-----------
- target/ppc/translate/vsx-ops.c.inc  |  1 -
- 5 files changed, 21 insertions(+), 20 deletions(-)
+> For my information, which FW image are you using ?
+>
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index ad41ef1606..46f507604f 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -2676,18 +2676,14 @@ VSX_CVT_FP_TO_FP_HP(xscvhpdp, 1, float16, float64, VsrH(3), VsrD(0), 1)
- VSX_CVT_FP_TO_FP_HP(xvcvsphp, 4, float32, float16, VsrW(i), VsrH(2 * i  + 1), 0)
- VSX_CVT_FP_TO_FP_HP(xvcvhpsp, 4, float16, float32, VsrH(2 * i + 1), VsrW(i), 0)
- 
--/*
-- * xscvqpdp isn't using VSX_CVT_FP_TO_FP() because xscvqpdpo will be
-- * added to this later.
-- */
--void helper_xscvqpdp(CPUPPCState *env, uint32_t opcode,
--                     ppc_vsr_t *xt, ppc_vsr_t *xb)
-+void helper_XSCVQPDP(CPUPPCState *env, uint32_t ro, ppc_vsr_t *xt,
-+                     ppc_vsr_t *xb)
- {
-     ppc_vsr_t t = { };
-     float_status tstat;
- 
-     tstat = env->fp_status;
--    if (unlikely(Rc(opcode) != 0)) {
-+    if (ro != 0) {
-         tstat.float_rounding_mode = float_round_to_odd;
-     }
- 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 12a3d5f269..ef5bdd38a7 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -400,7 +400,7 @@ DEF_HELPER_3(xscvdphp, void, env, vsr, vsr)
- DEF_HELPER_4(xscvdpqp, void, env, i32, vsr, vsr)
- DEF_HELPER_3(xscvdpsp, void, env, vsr, vsr)
- DEF_HELPER_2(xscvdpspn, i64, env, i64)
--DEF_HELPER_4(xscvqpdp, void, env, i32, vsr, vsr)
-+DEF_HELPER_4(XSCVQPDP, void, env, i32, vsr, vsr)
- DEF_HELPER_4(xscvqpsdz, void, env, i32, vsr, vsr)
- DEF_HELPER_4(xscvqpswz, void, env, i32, vsr, vsr)
- DEF_HELPER_4(xscvqpudz, void, env, i32, vsr, vsr)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 759b2a9aa5..fd6bb13fa0 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -438,3 +438,7 @@ XSMAXCDP        111100 ..... ..... ..... 10000000 ...   @XX3
- XSMINCDP        111100 ..... ..... ..... 10001000 ...   @XX3
- XSMAXJDP        111100 ..... ..... ..... 10010000 ...   @XX3
- XSMINJDP        111100 ..... ..... ..... 10011000 ...   @XX3
-+
-+## VSX Binary Floating-Point Convert Instructions
-+
-+XSCVQPDP        111111 ..... 10100 ..... 1101000100 .   @X_tb_rc
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index ab5cb21f13..f8669cae42 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -904,22 +904,24 @@ VSX_CMP(xvcmpgesp, 0x0C, 0x0A, 0, PPC2_VSX)
- VSX_CMP(xvcmpgtsp, 0x0C, 0x09, 0, PPC2_VSX)
- VSX_CMP(xvcmpnesp, 0x0C, 0x0B, 0, PPC2_VSX)
- 
--static void gen_xscvqpdp(DisasContext *ctx)
-+static bool trans_XSCVQPDP(DisasContext *ctx, arg_X_tb_rc *a)
- {
--    TCGv_i32 opc;
-+    TCGv_i32 ro;
-     TCGv_ptr xt, xb;
--    if (unlikely(!ctx->vsx_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VSXU);
--        return;
--    }
--    opc = tcg_const_i32(ctx->opcode);
- 
--    xt = gen_vsr_ptr(rD(ctx->opcode) + 32);
--    xb = gen_vsr_ptr(rB(ctx->opcode) + 32);
--    gen_helper_xscvqpdp(cpu_env, opc, xt, xb);
--    tcg_temp_free_i32(opc);
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+    REQUIRE_VSX(ctx);
-+
-+    ro = tcg_const_i32(a->rc);
-+
-+    xt = gen_avr_ptr(a->rt);
-+    xb = gen_avr_ptr(a->rb);
-+    gen_helper_XSCVQPDP(cpu_env, ro, xt, xb);
-+    tcg_temp_free_i32(ro);
-     tcg_temp_free_ptr(xt);
-     tcg_temp_free_ptr(xb);
-+
-+    return true;
- }
- 
- #define GEN_VSX_HELPER_2(name, op1, op2, inval, type)                         \
-diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
-index f980bc1bae..c974324c4c 100644
---- a/target/ppc/translate/vsx-ops.c.inc
-+++ b/target/ppc/translate/vsx-ops.c.inc
-@@ -133,7 +133,6 @@ GEN_VSX_XFORM_300_EO(xsnabsqp, 0x04, 0x19, 0x08, 0x00000001),
- GEN_VSX_XFORM_300_EO(xsnegqp, 0x04, 0x19, 0x10, 0x00000001),
- GEN_VSX_XFORM_300(xscpsgnqp, 0x04, 0x03, 0x00000001),
- GEN_VSX_XFORM_300_EO(xscvdpqp, 0x04, 0x1A, 0x16, 0x00000001),
--GEN_VSX_XFORM_300_EO(xscvqpdp, 0x04, 0x1A, 0x14, 0x0),
- GEN_VSX_XFORM_300_EO(xscvqpsdz, 0x04, 0x1A, 0x19, 0x00000001),
- GEN_VSX_XFORM_300_EO(xscvqpswz, 0x04, 0x1A, 0x09, 0x00000001),
- GEN_VSX_XFORM_300_EO(xscvqpudz, 0x04, 0x1A, 0x11, 0x00000001),
--- 
-2.25.1
+We're using Aspeed's SDK image, I tested with ast2600-default machine.
+Prebuilt image can be download from:
+https://github.com/AspeedTech-BMC/openbmc/releases/tag/v07.02
 
+Without declaring the DPMCU memory, the image will hangs in u-boot.
+We're still working on I3C and SPI issue to be resolved to get into rootfs.
+
+Thanks for your review.
+Troy Lee
+
+> > Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>
+> Thanks,
+>
+> C.
+>
+> > ---
+> >   hw/arm/aspeed_ast2600.c     | 8 ++++++++
+> >   include/hw/arm/aspeed_soc.h | 2 ++
+> >   2 files changed, 10 insertions(+)
+> >
+> > diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> > index 0384357a95..e33483fb5d 100644
+> > --- a/hw/arm/aspeed_ast2600.c
+> > +++ b/hw/arm/aspeed_ast2600.c
+> > @@ -19,9 +19,11 @@
+> >   #include "sysemu/sysemu.h"
+> >
+> >   #define ASPEED_SOC_IOMEM_SIZE       0x00200000
+> > +#define ASPEED_SOC_DPMCU_SIZE       0x00040000
+> >
+> >   static const hwaddr aspeed_soc_ast2600_memmap[] =3D {
+> >       [ASPEED_DEV_SRAM]      =3D 0x10000000,
+> > +    [ASPEED_DEV_DPMCU]     =3D 0x18000000,
+> >       /* 0x16000000     0x17FFFFFF : AHB BUS do LPC Bus bridge */
+> >       [ASPEED_DEV_IOMEM]     =3D 0x1E600000,
+> >       [ASPEED_DEV_PWM]       =3D 0x1E610000,
+> > @@ -44,6 +46,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] =3D {
+> >       [ASPEED_DEV_SCU]       =3D 0x1E6E2000,
+> >       [ASPEED_DEV_XDMA]      =3D 0x1E6E7000,
+> >       [ASPEED_DEV_ADC]       =3D 0x1E6E9000,
+> > +    [ASPEED_DEV_DP]        =3D 0x1E6EB000,
+> >       [ASPEED_DEV_VIDEO]     =3D 0x1E700000,
+> >       [ASPEED_DEV_SDHCI]     =3D 0x1E740000,
+> >       [ASPEED_DEV_EMMC]      =3D 0x1E750000,
+> > @@ -104,6 +107,7 @@ static const int aspeed_soc_ast2600_irqmap[] =3D {
+> >       [ASPEED_DEV_ETH3]      =3D 32,
+> >       [ASPEED_DEV_ETH4]      =3D 33,
+> >       [ASPEED_DEV_KCS]       =3D 138,   /* 138 -> 142 */
+> > +    [ASPEED_DEV_DP]        =3D 62,
+> >   };
+> >
+> >   static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
+> > @@ -298,6 +302,10 @@ static void aspeed_soc_ast2600_realize(DeviceState=
+ *dev, Error **errp)
+> >       memory_region_add_subregion(get_system_memory(),
+> >                                   sc->memmap[ASPEED_DEV_SRAM], &s->sram=
+);
+> >
+> > +    /* DPMCU */
+> > +    create_unimplemented_device("aspeed.dpmcu", sc->memmap[ASPEED_DEV_=
+DPMCU],
+> > +                                ASPEED_SOC_DPMCU_SIZE);
+> > +
+> >       /* SCU */
+> >       if (!sysbus_realize(SYS_BUS_DEVICE(&s->scu), errp)) {
+> >           return;
+> > diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+> > index 8139358549..18fb7eed46 100644
+> > --- a/include/hw/arm/aspeed_soc.h
+> > +++ b/include/hw/arm/aspeed_soc.h
+> > @@ -139,6 +139,8 @@ enum {
+> >       ASPEED_DEV_EMMC,
+> >       ASPEED_DEV_KCS,
+> >       ASPEED_DEV_HACE,
+> > +    ASPEED_DEV_DPMCU,
+> > +    ASPEED_DEV_DP,
+> >   };
+> >
+> >   #endif /* ASPEED_SOC_H */
+> >
+>
 
