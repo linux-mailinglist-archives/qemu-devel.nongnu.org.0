@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DCC046FD84
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 10:15:59 +0100 (CET)
-Received: from localhost ([::1]:60012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6530046FD98
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Dec 2021 10:20:46 +0100 (CET)
+Received: from localhost ([::1]:40896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mvc0U-0003EI-2F
-	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 04:15:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34472)
+	id 1mvc57-00013p-HF
+	for lists+qemu-devel@lfdr.de; Fri, 10 Dec 2021 04:20:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvapf-0000ZS-PM
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 03:00:44 -0500
-Received: from [2607:f8b0:4864:20::632] (port=39521
- helo=mail-pl1-x632.google.com)
+ id 1mvaph-0000cC-AE
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 03:00:48 -0500
+Received: from [2607:f8b0:4864:20::62c] (port=35417
+ helo=mail-pl1-x62c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mvapc-0007tv-Ci
- for qemu-devel@nongnu.org; Fri, 10 Dec 2021 03:00:41 -0500
-Received: by mail-pl1-x632.google.com with SMTP id z6so5750887plk.6
- for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 00:00:39 -0800 (PST)
+ id 1mvape-00085W-Q5
+ for qemu-devel@nongnu.org; Fri, 10 Dec 2021 03:00:45 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id b13so5764855plg.2
+ for <qemu-devel@nongnu.org>; Fri, 10 Dec 2021 00:00:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pzcKVi+Bv60cC1ahgvxWBHMOsNggOIgMKGBP4AAGucU=;
- b=bkXwVEtKL8U+k4gINoqJIV7sbC/dxh/XUtPPa9JJzw2WPkoLVF8ez5H4IhFHW78L6F
- CEpAd7vDrJLqL+rCtAzzbg1ZX5MDvWM+4DHrEFTCYo8g5ZJmyf9AEOMZQQSAewKOZCNK
- /zoKw2U1Ul5PxPN3jMo1lcZVHES2S0XVmey/vJ7VxwetGMOgXh+36ybeL9SUZFrFhShe
- i0SCcMG5WTX6SVzWs2DI0EKoa/CJPE7tpQqCIceIU7VqRkmZ5w/6ATrFIVjww9i0Cu1w
- uhCrleXdDn+ONwNUDmQ5/8WcgwP4Zko1ezw9W7cvv6AAwfefpZjwc/glyUpP4PSO2Y4E
- yr7w==
+ bh=kG+KZuSSZ8I30JU4tHyktEsJcWAryy8E5f237UVpCbs=;
+ b=e0DoBQ9MXKfXEl1PbLmQPg2VDI5YvGoG5tPRe3d4HTmtMIklY0b/iGHGXYpqf+BEWI
+ 0SmINKNHtx7jAD2FtSae1Khp9M0iNLugUW4Rvga+/FOvS2ukWsX4WEQQc6AAq6lvnEW/
+ 5HHcBOekBPIaCN2Tt1CYo87wfRvA02piTie5qHALbKbTQ40mSHZa69c4DtEvuedqOYRn
+ aZ4wXhagqztEL5m5uwwe8NH9P6ywfo/KtA2FwrMGUvWM/rEnsrsWql7CdYiMJ291vZ8s
+ h6Gcl8xVvlsllu7yl804wdopyTXCF9oOIP9TGiJ5VueVEHVJPs/aWIKW3QuYKHNBeJoE
+ wmfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pzcKVi+Bv60cC1ahgvxWBHMOsNggOIgMKGBP4AAGucU=;
- b=yTGNer2yFHaWBOZr4QLmbwkjW4ERB58gr/aBaCVcxHkN4wlhqh0M3uZUokwYObKXCl
- byuT1ThDEk7DYIqEeuoycbFO9sIP78vi3rlNz4P95TRKGKqwijMJtVIeStiKOIkJRFnE
- o4y/Yv9tLNyx3nTApgVDL5ctPXUQV1vGH08qnjd/QsbSItUwUubuB+rqEPRZFpgUZXLB
- fYjnd3hLtZMr8n+NquUB4AswOZW36g+PjRJcJcO5vIWYigCjUeGe12tYPwtxGNN1kKnS
- WG8+8Of1HRTrTIGOqtdlfsmvPZYDUQTiDxQ/mkuo4nbMywSqcpAWtSQLEPoIaN4LyCKB
- jHuQ==
-X-Gm-Message-State: AOAM533uUpmeEY3fTcfuXlGnNN85cim2Z46L2w/MoPhJjull6xybtWFW
- rnNouTRzM4YxYz1y1kd3WKIU7V1pN4BF57KN
-X-Google-Smtp-Source: ABdhPJwoNnRtC9Ilc+IDPWtrn8CgMSnsynzAPFkPeOm+jpoxdAX2bXxA4X/ERLMESVaxbPaqS7bK9w==
-X-Received: by 2002:a17:90b:3509:: with SMTP id
- ls9mr21876697pjb.99.1639123238419; 
- Fri, 10 Dec 2021 00:00:38 -0800 (PST)
+ bh=kG+KZuSSZ8I30JU4tHyktEsJcWAryy8E5f237UVpCbs=;
+ b=686VnzWeOMSzGTyeBz+NtIq1UQlR4GzrYGa55RzrzsZdJQwB39MjXLk1Te85Kq8N0D
+ Gz//laKsBDUJn/UjPxroX+P3Ez4liQnWjRSbVQalKx4TPoTPvx3PtGpdd/9hUAz+T87l
+ Zx9Cv9rvYb79DDEUqsbJmzBZsG6NuuwIfoj8N/4JZAzT28xEn/j+gM0n4m2aHO0JyYmx
+ 1Q1oUruDU0OoVJ7//C0Fq+WIc4Kl/gZh9HIX8HxqvBSxPRlK0BkpbVQzul5unp2W1NOi
+ gJsgH2LucMeILLluvKwglp6rWvahY51yHFwxezwRUp+F7KcWdYxhRQwtn5/eSES3TDHN
+ e3Jg==
+X-Gm-Message-State: AOAM53162foJYt/xo8U07z/CCFhhQ0o9yPSdqpFb8AchaIqeLk0ViNVX
+ WdXHKBgFQpDVd8qoE2ALItcFbB6ce/goiJhN
+X-Google-Smtp-Source: ABdhPJyr0RARgzaO7gAaXJtilwtUTgB+VS+Ki8lBMeYZyZR5mReZ2DaQitIEgXWPpyt4uuAG8/EM2A==
+X-Received: by 2002:a17:903:185:b0:141:f5f3:dae with SMTP id
+ z5-20020a170903018500b00141f5f30daemr73914014plg.56.1639123240961; 
+ Fri, 10 Dec 2021 00:00:40 -0800 (PST)
 Received: from hsinchu16.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id f4sm2087955pfg.34.2021.12.10.00.00.37
+ by smtp.gmail.com with ESMTPSA id f4sm2087955pfg.34.2021.12.10.00.00.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Dec 2021 00:00:38 -0800 (PST)
+ Fri, 10 Dec 2021 00:00:40 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 71/77] target/riscv: rvv-1.0: rename r2_zimm to r2_zimm11
-Date: Fri, 10 Dec 2021 15:56:57 +0800
-Message-Id: <20211210075704.23951-72-frank.chang@sifive.com>
+Subject: [PATCH v11 72/77] target/riscv: rvv-1.0: add vsetivli instruction
+Date: Fri, 10 Dec 2021 15:56:58 +0800
+Message-Id: <20211210075704.23951-73-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211210075704.23951-1-frank.chang@sifive.com>
 References: <20211210075704.23951-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -87,45 +87,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Rename r2_zimm to r2_zimm11 for the upcoming vsetivli instruction.
-vsetivli has 10-bits of zimm but vsetvli has 11-bits of zimm.
-
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn32.decode | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/riscv/insn32.decode              |  2 ++
+ target/riscv/insn_trans/trans_rvv.c.inc | 27 +++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 952768f8de..d7c6bc9af2 100644
+index d7c6bc9af2..3b6524bad9 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -78,7 +78,7 @@
- @r_vm    ...... vm:1 ..... ..... ... ..... ....... &rmrr %rs2 %rs1 %rd
+@@ -79,6 +79,7 @@
  @r_vm_1  ...... . ..... ..... ... ..... .......    &rmrr vm=1 %rs2 %rs1 %rd
  @r_vm_0  ...... . ..... ..... ... ..... .......    &rmrr vm=0 %rs2 %rs1 %rd
--@r2_zimm . zimm:11  ..... ... ..... ....... %rs1 %rd
-+@r2_zimm11 . zimm:11  ..... ... ..... ....... %rs1 %rd
+ @r2_zimm11 . zimm:11  ..... ... ..... ....... %rs1 %rd
++@r2_zimm10 .. zimm:10  ..... ... ..... ....... %rs1 %rd
  @r2_s    .......   ..... ..... ... ..... ....... %rs2 %rs1
  
  @hfence_gvma ....... ..... .....   ... ..... ....... %rs2 %rs1
-@@ -671,7 +671,7 @@ vsext_vf2       010010 . ..... 00111 010 ..... 1010111 @r2_vm
- vsext_vf4       010010 . ..... 00101 010 ..... 1010111 @r2_vm
+@@ -672,6 +673,7 @@ vsext_vf4       010010 . ..... 00101 010 ..... 1010111 @r2_vm
  vsext_vf8       010010 . ..... 00011 010 ..... 1010111 @r2_vm
  
--vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
-+vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm11
+ vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm11
++vsetivli        11 .......... ..... 111 ..... 1010111  @r2_zimm10
  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
  
  # *** RV32 Zba Standard Extension ***
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+index ff8f6df8f7..e540b5d33c 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -160,6 +160,26 @@ static bool do_vsetvl(DisasContext *s, int rd, int rs1, TCGv s2)
+     return true;
+ }
+ 
++static bool do_vsetivli(DisasContext *s, int rd, TCGv s1, TCGv s2)
++{
++    TCGv dst;
++
++    if (!require_rvv(s) || !has_ext(s, RVV)) {
++        return false;
++    }
++
++    dst = dest_gpr(s, rd);
++
++    gen_helper_vsetvl(dst, cpu_env, s1, s2);
++    gen_set_gpr(s, rd, dst);
++    mark_vs_dirty(s);
++    tcg_gen_movi_tl(cpu_pc, s->pc_succ_insn);
++    tcg_gen_lookup_and_goto_ptr();
++    s->base.is_jmp = DISAS_NORETURN;
++
++    return true;
++}
++
+ static bool trans_vsetvl(DisasContext *s, arg_vsetvl *a)
+ {
+     TCGv s2 = get_gpr(s, a->rs2, EXT_ZERO);
+@@ -172,6 +192,13 @@ static bool trans_vsetvli(DisasContext *s, arg_vsetvli *a)
+     return do_vsetvl(s, a->rd, a->rs1, s2);
+ }
+ 
++static bool trans_vsetivli(DisasContext *s, arg_vsetivli *a)
++{
++    TCGv s1 = tcg_const_tl(a->rs1);
++    TCGv s2 = tcg_const_tl(a->zimm);
++    return do_vsetivli(s, a->rd, s1, s2);
++}
++
+ /* vector register offset from env */
+ static uint32_t vreg_ofs(DisasContext *s, int reg)
+ {
 -- 
 2.31.1
 
