@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885E24714D8
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Dec 2021 18:07:17 +0100 (CET)
-Received: from localhost ([::1]:45994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69994714DB
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Dec 2021 18:10:39 +0100 (CET)
+Received: from localhost ([::1]:52336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mw5q7-00080Q-VK
-	for lists+qemu-devel@lfdr.de; Sat, 11 Dec 2021 12:07:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52284)
+	id 1mw5tO-0003rl-Hi
+	for lists+qemu-devel@lfdr.de; Sat, 11 Dec 2021 12:10:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mw5lM-00045E-BM
- for qemu-devel@nongnu.org; Sat, 11 Dec 2021 12:02:20 -0500
-Received: from [2607:f8b0:4864:20::42d] (port=33555
- helo=mail-pf1-x42d.google.com)
+ id 1mw5ml-0005jh-N9
+ for qemu-devel@nongnu.org; Sat, 11 Dec 2021 12:03:47 -0500
+Received: from [2607:f8b0:4864:20::52a] (port=46602
+ helo=mail-pg1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mw5lJ-0004Rf-LH
- for qemu-devel@nongnu.org; Sat, 11 Dec 2021 12:02:20 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id x5so11296270pfr.0
- for <qemu-devel@nongnu.org>; Sat, 11 Dec 2021 09:02:17 -0800 (PST)
+ id 1mw5mk-0004aM-5y
+ for qemu-devel@nongnu.org; Sat, 11 Dec 2021 12:03:47 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id r138so10670796pgr.13
+ for <qemu-devel@nongnu.org>; Sat, 11 Dec 2021 09:03:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=biZv55IM8Ro6w+eD8TPZ3y/8ACotObnu00FP/rhxgmM=;
- b=NHix4IEPkeZ8IJzaj+movv3TtbTTA2aJZHbZorWZldW6RzE/KKAocDF2m+pz59C9b/
- HBdvjfk9K3tmKdWri9hK0+RAK5zRiCvrPd3NTgXeNEwSvD9023lCVGgQj3Ja3hybfqIH
- jlcJdS97X9hjmY+MXos9ESWc3ErqoO4o+rabTQDoYwuLsuv0+AP25K8iv/scRuPiELCi
- v4IrFHtkTe/wvz1Qp5XVCCYQ4+D1Xwuin5rJWHjDJ7hFHUuQSNz6ZHo3NkOV/btsU89d
- wTeZAVeooyUgbfyRaQ4zVPzy3+Z5R1UZbE6l/TcUefqD2yl0zf8723tgokGRzbkaJQyE
- pkog==
+ bh=OaiRHSCruiO9TfsHt6fBnWquJN31LaxY5w5+/eFIRag=;
+ b=VF1BhQ4XKYeNsKEu55IRII5nnWgZJnbosJRqIhiuMsW/fg3ZZueR5CpxewYMyvfJt+
+ sFkCeLLSdddf7AUT7NfB/vtVvNIjKm3YoILrF78Me6YRUJ4dDZ8236pIIPXP3dcnZX2B
+ FbY2MrmzjW2oWkLkRpjZ4/uyI2kQK0ZITy5eAMuACjUukm1fvYM35YD3A3uw/eLfrLYn
+ 4ZoFm6cfL8E9H1e3j2Y7xTx7CmBczs+yNQuYsrRLYX95BAnlKcQS4rlRQnTBix14Ro4D
+ aFm1+4NtADOKFtEvGmgGutxH0C6HUvpS7Vc8K+qje6ffL5I/ihEg+NkMR6DXHE8hBcRT
+ Q4QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=biZv55IM8Ro6w+eD8TPZ3y/8ACotObnu00FP/rhxgmM=;
- b=6lsGB86hMlwnemykOD6lIwzygWiRw9coQKd2EU3KKsPmrzHu/ZtWh2saHtSKasQnq1
- E+CVJ8vQ2TwGUUIiyswG3rZZAqQPnvXGOjCcCiW7eeGAN1bCY1rQAQ4cQ9VK9DnUS99C
- cIui9dswz7iFSkgduat0uu1ijPZ6x1t7o3QaKmvMqNUu2aq2ouUZGBnABCXi/jnEK8V7
- iMV/qdFVhcB4NqMlG/RCTtOVyVcEYVS7lcpUYWsDwWAOUnhDrOeYKc0RnVC99YVZLIDq
- iMi5DeuFAyEOd/+akh4DTtm1ngIV+iom71sgybk9bZFkCtBZxcf02/uhCVoBT5hksgDM
- sGkw==
-X-Gm-Message-State: AOAM533otm69V1fDKev7SAVqwt6oTzhanXdHL3xvx6Qn1zY5LJoa1sl8
- gtEuhxA3a5dCd9w57NhM2gn83w==
-X-Google-Smtp-Source: ABdhPJyDGVSk6y+OlyDXk8/uu6u1knHD/+iSib8k8UZtAPV8i61Dy/tw6eVRasFNlmHvZN10IuhI9A==
-X-Received: by 2002:a63:e24:: with SMTP id d36mr34841070pgl.175.1639242135775; 
- Sat, 11 Dec 2021 09:02:15 -0800 (PST)
+ bh=OaiRHSCruiO9TfsHt6fBnWquJN31LaxY5w5+/eFIRag=;
+ b=P2HGrSZE64ke7wZ/4ACw++IIN9w7Yx1Oo03qisTBkbZYo1i8ad+8LJzVPajSIT1ANN
+ 6Ak4DcWaNT36rWM+cA4phNIlqpthKTZdVQcSIBFubeh9+yZnumeE7ihkw6LTI2JlN6wc
+ QS3/x9K6WzhAKEHqTpjejtFrBfQYe/uX/sdlLvhNHVF9ezLo+bBdQt8JSJmNuwigY3yX
+ ytpnBEWrsOmYQ3spyrUBJBzWRPhYnLnr6L8IYlWqH6rBt1HCx9Tqkn4BY5wmZgAx7HP/
+ irmgqRnzZVT9PQWeUOJWtfEX868OGYZJ+Jo/Z5gdtEWSPo41Ig9alcxPDnhqrPxdFe7O
+ RxLg==
+X-Gm-Message-State: AOAM531n1bQAemmXrSiWpkt0NywIoAAr0+h6hU6xG3YjKtJwzJbzT/25
+ h9ECvchJzAWp+h4dj2icXRfaBg==
+X-Google-Smtp-Source: ABdhPJxcd2rmI+ReXOuRbi88AutPp86rgv626PQXFRnLjD4fYP4Nd5ouUINkTJPlNZgUz8kl0W8I/w==
+X-Received: by 2002:a63:f651:: with SMTP id u17mr43049331pgj.256.1639242224759; 
+ Sat, 11 Dec 2021 09:03:44 -0800 (PST)
 Received: from [172.20.1.20] (45-19-222-18.lightspeed.sntcca.sbcglobal.net.
  [45.19.222.18])
- by smtp.gmail.com with ESMTPSA id gc22sm2402748pjb.57.2021.12.11.09.02.14
+ by smtp.gmail.com with ESMTPSA id a3sm7253282pfv.5.2021.12.11.09.03.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 11 Dec 2021 09:02:15 -0800 (PST)
-Subject: Re: [PATCH 1/4] target/ppc: Fix xs{max,min}[cj]dp to use VSX registers
+ Sat, 11 Dec 2021 09:03:44 -0800 (PST)
+Subject: Re: [PATCH 2/4] target/ppc: Move xs{max,min}[cj]dp to decodetree
 To: Victor Colombo <victor.colombo@eldorado.org.br>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 References: <20211210141347.38603-1-victor.colombo@eldorado.org.br>
- <20211210141347.38603-2-victor.colombo@eldorado.org.br>
+ <20211210141347.38603-3-victor.colombo@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dbbb0877-7039-19d4-a03d-af78539174f4@linaro.org>
-Date: Sat, 11 Dec 2021 09:02:12 -0800
+Message-ID: <0d3ab065-7dff-840f-3d58-d2ef48e7d920@linaro.org>
+Date: Sat, 11 Dec 2021 09:03:42 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211210141347.38603-2-victor.colombo@eldorado.org.br>
+In-Reply-To: <20211210141347.38603-3-victor.colombo@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
@@ -98,20 +98,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/10/21 6:13 AM, Victor Colombo wrote:
-> PPC instruction xsmaxcdp, xsmincdp, xsmaxjdp, and xsminjdp are using
-> vector registers when they should be using VSX ones. This happens
-> because the instructions are using GEN_VSX_HELPER_R3, which adds 32
-> to the register numbers, effectively making them vector registers.
-> 
-> This patch fixes it by changing these instructions to use
-> GEN_VSX_HELPER_X3.
-> 
 > Signed-off-by: Victor Colombo<victor.colombo@eldorado.org.br>
 > ---
->   target/ppc/fpu_helper.c             | 4 ++--
->   target/ppc/helper.h                 | 8 ++++----
->   target/ppc/translate/vsx-impl.c.inc | 8 ++++----
->   3 files changed, 10 insertions(+), 10 deletions(-)
+>   target/ppc/insn32.decode            | 17 +++++++++++++---
+>   target/ppc/translate/vsx-impl.c.inc | 30 +++++++++++++++++++++++++----
+>   target/ppc/translate/vsx-ops.c.inc  |  4 ----
+>   3 files changed, 40 insertions(+), 11 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
