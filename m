@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D4DE47158D
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Dec 2021 20:15:26 +0100 (CET)
-Received: from localhost ([::1]:57642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7054B47158E
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Dec 2021 20:15:32 +0100 (CET)
+Received: from localhost ([::1]:57794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mw7q9-0008RX-HN
-	for lists+qemu-devel@lfdr.de; Sat, 11 Dec 2021 14:15:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47762)
+	id 1mw7qF-00005g-J0
+	for lists+qemu-devel@lfdr.de; Sat, 11 Dec 2021 14:15:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mw7mY-0004lp-N5
- for qemu-devel@nongnu.org; Sat, 11 Dec 2021 14:11:42 -0500
-Received: from [2a00:1450:4864:20::42c] (port=43552
- helo=mail-wr1-x42c.google.com)
+ id 1mw7mZ-0004oI-L6
+ for qemu-devel@nongnu.org; Sat, 11 Dec 2021 14:11:43 -0500
+Received: from [2a00:1450:4864:20::433] (port=47073
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mw7mV-0006Ba-Pb
- for qemu-devel@nongnu.org; Sat, 11 Dec 2021 14:11:42 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id v11so20313979wrw.10
- for <qemu-devel@nongnu.org>; Sat, 11 Dec 2021 11:11:39 -0800 (PST)
+ id 1mw7mW-0006Bi-LU
+ for qemu-devel@nongnu.org; Sat, 11 Dec 2021 14:11:43 -0500
+Received: by mail-wr1-x433.google.com with SMTP id u1so20257802wru.13
+ for <qemu-devel@nongnu.org>; Sat, 11 Dec 2021 11:11:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ppVeav4mXzYSIyKy0Ag4TWya31OJHif0+sqVtDc4GRg=;
- b=SK6ZRS9XXt4tDvuCsNFDaVLjnt1IG8zeq52yOwR7oe7ppulb12b4Lh5Cy5aZbmgBEs
- 7Z8H9p8DNFO83SKAc+VgE2DtZlANZNr3u8cC5k2UZKz0/eOM/goyqKKKe5k3DagYUfNY
- z7PP71qgjjIbj3iLZyMozT8oLC59D8JnmrLrIMCvSpwapyN9/zqthwxmV4/dK14PVcBV
- krK4IDQVZv9Q9DBPMArZswdu2qebVec9LnJV2m/4u6gJ+SxmeQV7NqtPGrQ7yWuM79ov
- ITZD35uW5+Z7u5VGtX2sRj5vOcXkEXnf2AtNhAVYVzjHQdeAQJofpWtZKwYi0vUnBxXl
- Q4LQ==
+ bh=m/WoaEcAXkHQDQGnYA2VaWKRKb5cvTpqbwK+SMbmTCw=;
+ b=h3Ph0Dfws5fw5CWIFcyqSGOd4BHzj+ETZCT7WVSl6xmt6W3Thjony2p7hiWiKwvtWK
+ IwKcsCLKPYwPS+TA34DDvlmsvf6va4oFsHlZW3+dj0er+cDtnUOFvBVzYlcPkMpPqDNp
+ il1x+4nZHfhKd/vd8S639fKKhATJjyUbv+hshdUYBntkeYGmYSP81yXX0fgh12aBYjM2
+ N4UMXjKLrrzf+5M/cp/gcwOJXkjJcCmTx2uAuB//4qGkQjKlotEUh0OWvhuE455wyApy
+ 82mmY/XMC39iouIkkvqURcvdZwESp8uSpJnMSd3nq+O+FhIuEnVocVIoBBuShDq5Vgc0
+ 3+Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ppVeav4mXzYSIyKy0Ag4TWya31OJHif0+sqVtDc4GRg=;
- b=m3Qn0wGxg/AjD56Z5H6oKE4z6UWL6KaZ0bIF2VYNIa5xdLzrgDEBbI1Zbn2bPWm/yZ
- zvLuCCr27xSlU5H60slHNF1rAkRKNOzY+DAJJaLgxJnbAjFNmtBB01yu0uad+3dYiDmW
- b+1l6YcAXs4ZBSlu9zo49jdrDbQ9l0XDbC3w+/luYBT0OVCzWxrujf0kUR3uXej0bhkb
- hwkJ7EkPrPVFAJcdXFX10BxwIatgEfUH/0ZQ725h9hHngwnpkKVZfrOYMZjEylFtLYh1
- /S2Sf2dp7WvHOK0jSMOSx2bBTGqThGYAhRzIyO7RJgP8Xs7p5EY6czZhAvV1q4Tq15ID
- kT6w==
-X-Gm-Message-State: AOAM532Cfd8JGZyK+L1c68cqAdjghuz9qMfUyvcxNIP/zVwRkfH9jFcM
- SL98m1IqXc7xRlX7VJDNg7LJcPacyKq60Q==
-X-Google-Smtp-Source: ABdhPJzQpQKmgNuw7Xu6mAtaDJfyZ71xps6ctMsy4OlaZqofgW+vQdd2jfmoYhWY6a7hGvgPvjjHgQ==
-X-Received: by 2002:adf:facd:: with SMTP id a13mr1952851wrs.513.1639249898527; 
- Sat, 11 Dec 2021 11:11:38 -0800 (PST)
+ bh=m/WoaEcAXkHQDQGnYA2VaWKRKb5cvTpqbwK+SMbmTCw=;
+ b=TcwbJ9x3TgSlmM/v8ANnuzq5uNjdAspPeqTaekqA97FEmu0QpZV+ImA0KD8eSR5tjN
+ Ei043DNzm8HlBnSjeRJxam3qDMpwYGOx8XHAwoWA53gP6yGnfEftWkcBpkMxNCeF6HhI
+ A29/82QNgd/nh/ykV7Y3u1tDgc3/34TCioFnLyDV+oweR92kHaw0JJkBXyA2aw3radlo
+ T/bnqO5KxkQRIcVuLsZ98jYdrh3xqx2dHQPihpeJoWvRGmCty47lYIlPyoATcPPL/gaB
+ X/cgX+Iw+QiUKvTKohCs+J8cAceFggLmwxqCWP67uqFRrl0xhfo7W0VguwsFgPNiq1G6
+ gxZA==
+X-Gm-Message-State: AOAM531ZqyXilM6rL7iXw4g2lW1+GJmlazM6OMGwl5eACmvzOHir7Qkh
+ WzS1LDK+DjD15v4K4JufAisvxw==
+X-Google-Smtp-Source: ABdhPJx4SRFNU7p8nQvtpgAB8WK/xT31yhvdKstuX8+r8wYfyCfSnyfuPN14zvbW2YA06fnqOWSybA==
+X-Received: by 2002:a5d:4b06:: with SMTP id v6mr22091003wrq.194.1639249899312; 
+ Sat, 11 Dec 2021 11:11:39 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id m20sm2205300wmq.11.2021.12.11.11.11.37
+ by smtp.gmail.com with ESMTPSA id m20sm2205300wmq.11.2021.12.11.11.11.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Dec 2021 11:11:38 -0800 (PST)
+ Sat, 11 Dec 2021 11:11:39 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 02/26] hw/intc/arm_gicv3_its: Correct off-by-one bounds check
- on rdbase
-Date: Sat, 11 Dec 2021 19:11:11 +0000
-Message-Id: <20211211191135.1764649-3-peter.maydell@linaro.org>
+Subject: [PATCH 03/26] hw/intc/arm_gicv3_its: Remove redundant
+ ITS_CTLR_ENABLED define
+Date: Sat, 11 Dec 2021 19:11:12 +0000
+Message-Id: <20211211191135.1764649-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211211191135.1764649-1-peter.maydell@linaro.org>
 References: <20211211191135.1764649-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,44 +92,122 @@ Cc: Shashi Mallela <shashi.mallela@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The checks in the ITS on the rdbase values in guest commands are
-off-by-one: they permit the guest to pass us a value equal to
-s->gicv3->num_cpu, but the valid values are 0...num_cpu-1.  This
-meant the guest could cause us to index off the end of the
-s->gicv3->cpu[] array when calling gicv3_redist_process_lpi(), and we
-would probably crash.
+We currently define a bitmask for the GITS_CTLR ENABLED bit in
+two ways: as ITS_CTLR_ENABLED, and via the FIELD() macro as
+R_GITS_CTLR_ENABLED_MASK. Consistently use the FIELD macro version
+everywhere and remove the redundant ITS_CTLR_ENABLED define.
 
-Cc: qemu-stable@nongnu.org
-Fixes: 17fb5e36aabd4b ("hw/intc: GICv3 redistributor ITS processing")
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-Not a security bug, because only usable with emulation.
----
- hw/intc/arm_gicv3_its.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/intc/gicv3_internal.h |  2 --
+ hw/intc/arm_gicv3_its.c  | 20 ++++++++++----------
+ 2 files changed, 10 insertions(+), 12 deletions(-)
 
+diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
+index b9c37453b04..63de8667c61 100644
+--- a/hw/intc/gicv3_internal.h
++++ b/hw/intc/gicv3_internal.h
+@@ -289,8 +289,6 @@ FIELD(GITS_TYPER, CIL, 36, 1)
+ 
+ #define GITS_IDREGS           0xFFD0
+ 
+-#define ITS_CTLR_ENABLED               (1U)  /* ITS Enabled */
+-
+ #define GITS_BASER_RO_MASK                  (R_GITS_BASER_ENTRYSIZE_MASK | \
+                                               R_GITS_BASER_TYPE_MASK)
+ 
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index b99e63d58f7..677b96dfe23 100644
+index 677b96dfe23..985ae03f5fc 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -311,7 +311,7 @@ static bool process_its_cmd(GICv3ITSState *s, uint64_t value, uint32_t offset,
-          */
-         rdbase = (cte & GITS_CTE_RDBASE_PROCNUM_MASK) >> 1U;
+@@ -651,7 +651,7 @@ static void process_cmdq(GICv3ITSState *s)
+     uint8_t cmd;
+     int i;
  
--        if (rdbase > s->gicv3->num_cpu) {
-+        if (rdbase >= s->gicv3->num_cpu) {
-             return result;
+-    if (!(s->ctlr & ITS_CTLR_ENABLED)) {
++    if (!(s->ctlr & R_GITS_CTLR_ENABLED_MASK)) {
+         return;
+     }
+ 
+@@ -887,7 +887,7 @@ static MemTxResult gicv3_its_translation_write(void *opaque, hwaddr offset,
+ 
+     switch (offset) {
+     case GITS_TRANSLATER:
+-        if (s->ctlr & ITS_CTLR_ENABLED) {
++        if (s->ctlr & R_GITS_CTLR_ENABLED_MASK) {
+             devid = attrs.requester_id;
+             result = process_its_cmd(s, data, devid, NONE);
          }
+@@ -912,13 +912,13 @@ static bool its_writel(GICv3ITSState *s, hwaddr offset,
+     switch (offset) {
+     case GITS_CTLR:
+         if (value & R_GITS_CTLR_ENABLED_MASK) {
+-            s->ctlr |= ITS_CTLR_ENABLED;
++            s->ctlr |= R_GITS_CTLR_ENABLED_MASK;
+             extract_table_params(s);
+             extract_cmdq_params(s);
+             s->creadr = 0;
+             process_cmdq(s);
+         } else {
+-            s->ctlr &= ~ITS_CTLR_ENABLED;
++            s->ctlr &= ~R_GITS_CTLR_ENABLED_MASK;
+         }
+         break;
+     case GITS_CBASER:
+@@ -926,7 +926,7 @@ static bool its_writel(GICv3ITSState *s, hwaddr offset,
+          * IMPDEF choice:- GITS_CBASER register becomes RO if ITS is
+          *                 already enabled
+          */
+-        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
++        if (!(s->ctlr & R_GITS_CTLR_ENABLED_MASK)) {
+             s->cbaser = deposit64(s->cbaser, 0, 32, value);
+             s->creadr = 0;
+             s->cwriter = s->creadr;
+@@ -937,7 +937,7 @@ static bool its_writel(GICv3ITSState *s, hwaddr offset,
+          * IMPDEF choice:- GITS_CBASER register becomes RO if ITS is
+          *                 already enabled
+          */
+-        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
++        if (!(s->ctlr & R_GITS_CTLR_ENABLED_MASK)) {
+             s->cbaser = deposit64(s->cbaser, 32, 32, value);
+             s->creadr = 0;
+             s->cwriter = s->creadr;
+@@ -979,7 +979,7 @@ static bool its_writel(GICv3ITSState *s, hwaddr offset,
+          * IMPDEF choice:- GITS_BASERn register becomes RO if ITS is
+          *                 already enabled
+          */
+-        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
++        if (!(s->ctlr & R_GITS_CTLR_ENABLED_MASK)) {
+             index = (offset - GITS_BASER) / 8;
  
-@@ -505,7 +505,7 @@ static bool process_mapc(GICv3ITSState *s, uint32_t offset)
+             if (offset & 7) {
+@@ -1076,7 +1076,7 @@ static bool its_writell(GICv3ITSState *s, hwaddr offset,
+          * IMPDEF choice:- GITS_BASERn register becomes RO if ITS is
+          *                 already enabled
+          */
+-        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
++        if (!(s->ctlr & R_GITS_CTLR_ENABLED_MASK)) {
+             index = (offset - GITS_BASER) / 8;
+             s->baser[index] &= GITS_BASER_RO_MASK;
+             s->baser[index] |= (value & ~GITS_BASER_RO_MASK);
+@@ -1087,7 +1087,7 @@ static bool its_writell(GICv3ITSState *s, hwaddr offset,
+          * IMPDEF choice:- GITS_CBASER register becomes RO if ITS is
+          *                 already enabled
+          */
+-        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
++        if (!(s->ctlr & R_GITS_CTLR_ENABLED_MASK)) {
+             s->cbaser = value;
+             s->creadr = 0;
+             s->cwriter = s->creadr;
+@@ -1298,7 +1298,7 @@ static void gicv3_its_reset(DeviceState *dev)
  
-     valid = (value & CMD_FIELD_VALID_MASK);
- 
--    if ((icid > s->ct.maxids.max_collids) || (rdbase > s->gicv3->num_cpu)) {
-+    if ((icid > s->ct.maxids.max_collids) || (rdbase >= s->gicv3->num_cpu)) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "ITS MAPC: invalid collection table attributes "
-                       "icid %d rdbase %" PRIu64 "\n",  icid, rdbase);
+ static void gicv3_its_post_load(GICv3ITSState *s)
+ {
+-    if (s->ctlr & ITS_CTLR_ENABLED) {
++    if (s->ctlr & R_GITS_CTLR_ENABLED_MASK) {
+         extract_table_params(s);
+         extract_cmdq_params(s);
+     }
 -- 
 2.25.1
 
