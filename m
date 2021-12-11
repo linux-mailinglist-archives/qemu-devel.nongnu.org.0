@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6444715C8
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Dec 2021 20:47:37 +0100 (CET)
-Received: from localhost ([::1]:56544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C2A4715C5
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Dec 2021 20:43:15 +0100 (CET)
+Received: from localhost ([::1]:47808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mw8LI-0004RW-D5
-	for lists+qemu-devel@lfdr.de; Sat, 11 Dec 2021 14:47:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48596)
+	id 1mw8H5-0006uy-26
+	for lists+qemu-devel@lfdr.de; Sat, 11 Dec 2021 14:43:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mw7n2-0005HW-Ac
- for qemu-devel@nongnu.org; Sat, 11 Dec 2021 14:12:16 -0500
-Received: from [2a00:1450:4864:20::42b] (port=44583
- helo=mail-wr1-x42b.google.com)
+ id 1mw7mr-00052K-Nt
+ for qemu-devel@nongnu.org; Sat, 11 Dec 2021 14:12:02 -0500
+Received: from [2a00:1450:4864:20::430] (port=40947
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mw7mq-0006I7-Rq
- for qemu-devel@nongnu.org; Sat, 11 Dec 2021 14:12:05 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id t18so20291629wrg.11
+ id 1mw7mo-0006I0-SB
+ for qemu-devel@nongnu.org; Sat, 11 Dec 2021 14:12:01 -0500
+Received: by mail-wr1-x430.google.com with SMTP id t9so20344801wrx.7
  for <qemu-devel@nongnu.org>; Sat, 11 Dec 2021 11:11:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RZRdimySV2tzC3ZHoL/w1SnZpTEUgmFudXJ6uGktXNE=;
- b=YCoP3t/dzGidjiJUkM3yK3uA5zmXuWnDqPBJPT/QCzpo/8n0vHlwoe1sc8cYlky0mE
- 8vWDy03rqc5i9J20dOnsf03Ax4gPT5sR6SlneZhnwNN/xZNVgZFBoPEHVUoLDldgHNNF
- iVWn/3gLnFfwlys3cd7kO+p2qwY5isE24mZO2S+k/gE8y8alVg0I/6ta6Z+ixfL8/V+6
- LMpOY05gM/Qnv68dfSTghIrG8gvv+CwiuaRkigzY78cNE+Vs3+cfnf289UMKYFPMPa/h
- 7QgTia22M9i91hA3QYcX2WL32sbq8spqaPeAGB22mXcSrZweAPzjGoiQKyTsGLmoGl8T
- SMlQ==
+ bh=nosYSlY6B8BjGiEgE79mxQI/EMOO+ggHFy7fpPzljqU=;
+ b=ox7AOAvscN3ZMdOx+B9sxNJnoafh7hnqLOj9MkCuC1sjg7QwHQPl5KTtKTcWTB6Kw8
+ K+Vx75qOkaL1NQhvwN0b8KZUViY8LOZhV2ZwQsziqNGVXRzs4MpxMHA8/wBs+bvcf0V6
+ UCc89V++XzXJRfkeemppb7onb42NBqrWoifFKq5i06BObNUcS+MDlG2t5CSGd4CNBmaE
+ nzipY7BA6oA17n6PJEC34CfatrK/1pujVCiE0GT661kzXTHRb+E+BapojNNh605wKBdx
+ p7LHSGOpjyCxx1Xl+7SPmjbVgFaFLxmZdflEuwoDrU9QdkVklX1fXdAIN6+efQClk8CX
+ NhCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RZRdimySV2tzC3ZHoL/w1SnZpTEUgmFudXJ6uGktXNE=;
- b=RP+ZdR4QfT7jhUVDTUS1XMo4l86bSLsLd3FzeZtWTSKKsETugN8IX5Xi6+5gWHafDC
- qz3PF+/Zb3Z6LgQ27paFajuHVhf/dGg3rIGZkrSibMQkwrK0lxqDt8DqIp975nJ25BXH
- CmXSm+Wt7ScobyO3m9JL0A/FX/+NOQiBYLEetYitem5AL+SmGxqWyhDRYIyJpfl4lNzl
- ya5RGzoUD4tzPsx/dcbpSTID3DUsdGlQEA/sykaFAILBHUBiqhCh8GF1/MGihIDzliHT
- XYYcHAWvyPMvdMPMzl2Ku1uS7Gav90wxsmZV/vXTy4lDQwkKvvEcUvVOELlWId9Vzbs+
- wV7w==
-X-Gm-Message-State: AOAM533NU2jdU7FYGL2QFVTsxIM3In744iDKLaDnAA86d3HPBlZ3t4oV
- LqGteSffAMVyGEMCgrlaiSHKqg==
-X-Google-Smtp-Source: ABdhPJwIGWtIdtnIST8DH+Rs4rtBcALtna4QB+47LOnXvDW9/tIoWvTD/aZ+MM119wfQR9vXiBbttA==
-X-Received: by 2002:a05:6000:2c2:: with SMTP id
- o2mr21791800wry.360.1639249914991; 
- Sat, 11 Dec 2021 11:11:54 -0800 (PST)
+ bh=nosYSlY6B8BjGiEgE79mxQI/EMOO+ggHFy7fpPzljqU=;
+ b=1lh5dKbNYRPOHzLF9jXICrUEoRGwP8wyJEeUKdqfW5b2eOpo6CzqgAFWlmfLJxwetd
+ NlqlQ3xJk9xTUWvwvJRe01x/bL8L14UIvZfY8pdUJxtueRXFJvZWr+Co9MKURGO89mSE
+ kWrUxcsyIqP/i9XYUF/YBs+P1C7E0AfCtHXuUoQbah7VFdVN8j8K4EjPvrWTVKAOkaEA
+ 8RX7sQb2xzB08nQWv+oUM6btZCOwASB8wF30GLFBUsxPnp/Of4VlJGe1vaBc6ZpAtZZb
+ 1YUNR3We2pOnCsgzJVt1Y50wNNYYgdUtdAtiZoOrUYrmCfUQEtTSXC3NJ59yHkKohGp+
+ d1lQ==
+X-Gm-Message-State: AOAM5306Re4oXki0w5VxOEI256quGMJLOJeVGTrT5/WZaw9Ztw5JPx7J
+ JXmDtJ6amUNc3YEleHeNdZEoUg==
+X-Google-Smtp-Source: ABdhPJxhQujeN7d3J8wXXtQ7fdp7OFd1ePHNz4ZXPl0SyDDykSo2s4pjEL6kyfptla3H77WJmC+KMQ==
+X-Received: by 2002:a05:6000:1a48:: with SMTP id
+ t8mr21587075wry.66.1639249915796; 
+ Sat, 11 Dec 2021 11:11:55 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id m20sm2205300wmq.11.2021.12.11.11.11.54
+ by smtp.gmail.com with ESMTPSA id m20sm2205300wmq.11.2021.12.11.11.11.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Dec 2021 11:11:54 -0800 (PST)
+ Sat, 11 Dec 2021 11:11:55 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 23/26] hw/intc/arm_gicv3_its: Fix return codes in
- process_mapti()
-Date: Sat, 11 Dec 2021 19:11:32 +0000
-Message-Id: <20211211191135.1764649-24-peter.maydell@linaro.org>
+Subject: [PATCH 24/26] hw/intc/arm_gicv3_its: Fix return codes in
+ process_mapc()
+Date: Sat, 11 Dec 2021 19:11:33 +0000
+Message-Id: <20211211191135.1764649-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211211191135.1764649-1-peter.maydell@linaro.org>
 References: <20211211191135.1764649-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -93,38 +93,28 @@ Cc: Shashi Mallela <shashi.mallela@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix process_mapti() to consistently return CMD_STALL for memory
+Fix process_mapc() to consistently return CMD_STALL for memory
 errors and CMD_CONTINUE for parameter errors, as we claim in the
 comments that we do.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gicv3_its.c | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ hw/intc/arm_gicv3_its.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 275af620058..5b25347de12 100644
+index 5b25347de12..7615e9aa279 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -355,7 +355,7 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, uint64_t value,
+@@ -489,7 +489,6 @@ static ItsCmdResult process_mapc(GICv3ITSState *s, uint32_t offset)
+     uint64_t rdbase;
+     bool valid;
      MemTxResult res = MEMTX_OK;
-     uint16_t icid = 0;
-     uint64_t dte = 0;
 -    ItsCmdResult result = CMD_STALL;
-+    IteEntry ite = {};
+     uint64_t value;
  
-     devid = ((value & DEVID_MASK) >> DEVID_SHIFT);
      offset += NUM_BYTES_IN_DW;
-@@ -363,7 +363,7 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, uint64_t value,
-                                  MEMTXATTRS_UNSPECIFIED, &res);
- 
-     if (res != MEMTX_OK) {
--        return result;
-+        return CMD_STALL;
-     }
- 
-     eventid = (value & EVENTID_MASK);
-@@ -379,7 +379,7 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, uint64_t value,
+@@ -499,7 +498,7 @@ static ItsCmdResult process_mapc(GICv3ITSState *s, uint32_t offset)
                                   MEMTXATTRS_UNSPECIFIED, &res);
  
      if (res != MEMTX_OK) {
@@ -133,44 +123,20 @@ index 275af620058..5b25347de12 100644
      }
  
      icid = value & ICID_MASK;
-@@ -387,7 +387,7 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, uint64_t value,
-     dte = get_dte(s, devid, &res);
- 
-     if (res != MEMTX_OK) {
--        return result;
-+        return CMD_STALL;
-     }
-     dte_valid = FIELD_EX64(dte, DTE, VALID);
-     num_eventids = 1ULL << (FIELD_EX64(dte, DTE, SIZE) + 1);
-@@ -407,19 +407,17 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, uint64_t value,
+@@ -518,11 +517,10 @@ static ItsCmdResult process_mapc(GICv3ITSState *s, uint32_t offset)
           * we ignore this command and move onto the next
           * command in the queue
           */
 -    } else {
--        /* add ite entry to interrupt translation table */
--        IteEntry ite = {};
--        ite.itel = FIELD_DP64(ite.itel, ITE_L, VALID, dte_valid);
--        ite.itel = FIELD_DP64(ite.itel, ITE_L, INTTYPE, ITE_INTTYPE_PHYSICAL);
--        ite.itel = FIELD_DP64(ite.itel, ITE_L, INTID, pIntid);
--        ite.itel = FIELD_DP64(ite.itel, ITE_L, DOORBELL, INTID_SPURIOUS);
--        ite.iteh = FIELD_DP32(ite.iteh, ITE_H, ICID, icid);
--
--        result = update_ite(s, eventid, dte, ite) ? CMD_CONTINUE : CMD_STALL;
+-        result = update_cte(s, icid, valid, rdbase) ? CMD_CONTINUE : CMD_STALL;
 +        return CMD_CONTINUE;
      }
  
 -    return result;
-+    /* add ite entry to interrupt translation table */
-+    ite.itel = FIELD_DP64(ite.itel, ITE_L, VALID, dte_valid);
-+    ite.itel = FIELD_DP64(ite.itel, ITE_L, INTTYPE, ITE_INTTYPE_PHYSICAL);
-+    ite.itel = FIELD_DP64(ite.itel, ITE_L, INTID, pIntid);
-+    ite.itel = FIELD_DP64(ite.itel, ITE_L, DOORBELL, INTID_SPURIOUS);
-+    ite.iteh = FIELD_DP32(ite.iteh, ITE_H, ICID, icid);
-+
-+    return update_ite(s, eventid, dte, ite) ? CMD_CONTINUE : CMD_STALL;
++    return update_cte(s, icid, valid, rdbase) ? CMD_CONTINUE : CMD_STALL;
  }
  
- static bool update_cte(GICv3ITSState *s, uint16_t icid, bool valid,
+ static bool update_dte(GICv3ITSState *s, uint32_t devid, bool valid,
 -- 
 2.25.1
 
