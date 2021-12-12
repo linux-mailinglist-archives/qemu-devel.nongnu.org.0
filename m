@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22478471BEB
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 18:38:29 +0100 (CET)
-Received: from localhost ([::1]:55588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41613471BEC
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 18:41:24 +0100 (CET)
+Received: from localhost ([::1]:58652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwSns-0003wS-8J
-	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 12:38:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46808)
+	id 1mwSqh-000693-Cl
+	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 12:41:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwSk1-00022L-EY
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 12:34:32 -0500
-Received: from [2607:f8b0:4864:20::42c] (port=33662
- helo=mail-pf1-x42c.google.com)
+ id 1mwSmy-00046N-Ax
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 12:37:35 -0500
+Received: from [2607:f8b0:4864:20::52d] (port=38637
+ helo=mail-pg1-x52d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwSjz-0002qk-Cv
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 12:34:29 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id x5so13075672pfr.0
- for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 09:34:27 -0800 (PST)
+ id 1mwSmw-0003GU-JW
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 12:37:32 -0500
+Received: by mail-pg1-x52d.google.com with SMTP id s137so12549434pgs.5
+ for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 09:37:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2q3FOjs3OFD29z+I+RnET3LJqbFDCsg8vnKqytoBMz4=;
- b=Iblrj4RZ6oqYoZ8YAS2iRR3hYsRVkFItwb1VSv/eLyLO9+TwOki9QmLgKMKrENebcw
- jKzqIVfkJq1L7Pzw1I8OY+MX1Mm6DVkEPYtDkQoRQ5hnYVNRGPBBN9DGkzjm05bEYtFh
- hQ1koNw9TDfSyb9Fs4RuqKhhLHAam7Hobb9+D1B7GPzjKluIUoHCsKWbpTCjRanBztXE
- QWguSs7pen2BS2IZASw4/u/nrTeZdBlii1/8PP3BX7sso5c3+cTRIAj2+wwIMP5R2q9C
- w2YFBh8rx8fSHJyEWF4qpqJ6dQgRpTqC+pHTUJ3YZaF4RUAoMsRUNyoePsiIPVtGWz0E
- 8gIg==
+ bh=Gh0RHGql8dCapvjE2Ze2aJuQbF/9FTfF0A3mHoTFCYg=;
+ b=qJf16rkVMbZX+XDRsix8IZaJkWVc96u40JooV6Dpp60D+mVda1ZhqMXGU7j8UbwpsN
+ 5wLUtd+18e6rTjFHluhMmKPlZIb9KHWOtJ+/4dSnKSuhHXCrjj7TAmzoKnq7hQVaTV2U
+ qi2x6h6tS0KnSoX87w2M1/L4xRRYx9GWVJ6M+68TSSu/XIf33bZBdLGz79skBCipjFoj
+ p0Pk+/QolDYHhMuJmUWLSLxsTTEMuiG5e18dWqUZ6jU+GsgF06xp6bY6iXziGQzZPsSa
+ C6+wVUFnZwmudWws9ZcM0V6H9HkhP6pikaGUd9Jjitx7CPPBXOuU7rGVBB9qLSbXRNjV
+ ZJmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=2q3FOjs3OFD29z+I+RnET3LJqbFDCsg8vnKqytoBMz4=;
- b=LbOpqQhkil7ejmn6WlaZla3AmKtexEp33kSRcmFoaH46qpL4Y1sAPKgJBdAbqI4pQT
- O8Bq6P6xDJuDxBK1k7lLLzLOGkwCiPva9NLqb321BS1EchT8iObzAms0dTrvPKf8GIrm
- gYOilZlL1wCr6PMWlI7svMBTeoQobUr/R6ohJMfhoMuvovAUxFSWgyLprOOZPMEwJSXx
- IZyWVLhVLmDLTyivc+IAsvJfDIuKdm5KCYIfg6ZS/M3Cd/Yzi2ZAKzJIHfkBlOPoCrEi
- IPMhdhOVjel2t9XTLACY2R4bZqpL+paeF90wqKgdY4di8Z3+ES89Qpf7Im1zRfj1z/1O
- tHLQ==
-X-Gm-Message-State: AOAM530nlGkJkBtRouwCrkmLFvUIv1Tp0oGB4iYwJ2KTCkrn3YpxM2Cs
- piv6T/e/XpI7GG+inP8HufWjKQ==
-X-Google-Smtp-Source: ABdhPJyOHJmmiuwXn0FtJscrY9f58sRAUvg/dyIXfJbRhtA2RM+yUjpac40DjLHR7wZfT4wPycVIqQ==
-X-Received: by 2002:a65:464a:: with SMTP id k10mr42759173pgr.199.1639330466210; 
- Sun, 12 Dec 2021 09:34:26 -0800 (PST)
+ bh=Gh0RHGql8dCapvjE2Ze2aJuQbF/9FTfF0A3mHoTFCYg=;
+ b=c9Uonb4U9Ta1d6EhwdTymGtWogMIjJqZr/AJQUA29WxF4XVk2KJDzZABeqaOBk6mwC
+ 5tzYN3GQY5UVAwzc6CQT0B4vxTnhI6ykjw7dKKGVcXgCTJsCDThoGixUJnQJh1gbWprA
+ xCuLyuKve8WAAPtNfKnDsBdQz8rV2/BQanHDULiECn19Jt9qbLeTEqJLYvG4zvN6jhcI
+ YfcwRyystx0bxotkFzGiWYDxWA/d6W1/yikWIdxD/F8WijZ7WeeMB9n18GIBz+7BCYet
+ Nbw1M3QPxcq7doQtzDf/oIfVUQv0CRjNCJ689l4pcc8c3AjOeT3/buoBgoZhC4OlKls0
+ LC7Q==
+X-Gm-Message-State: AOAM531VPr276vZ6+pfsLeRCCAgYkgTIGuW8PPareVjoeAXzyIPjjQRK
+ 2dRWV3zum3w71RUp/CYgbEE3OQ==
+X-Google-Smtp-Source: ABdhPJwUE7rndxdr6B6ViIl70hkc4DLLqlmISa4LNF0pLAnUEtkiILTzuLM0NSxC5zjLbZBG5xIhQw==
+X-Received: by 2002:a05:6a00:884:b0:49f:f5b4:5d17 with SMTP id
+ q4-20020a056a00088400b0049ff5b45d17mr28248591pfj.55.1639330649215; 
+ Sun, 12 Dec 2021 09:37:29 -0800 (PST)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id 12sm4578513pjn.16.2021.12.12.09.34.25
+ by smtp.gmail.com with ESMTPSA id g13sm4492169pjc.39.2021.12.12.09.37.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Dec 2021 09:34:25 -0800 (PST)
-Subject: Re: [PATCH 03/26] hw/intc/arm_gicv3_its: Remove redundant
- ITS_CTLR_ENABLED define
+ Sun, 12 Dec 2021 09:37:28 -0800 (PST)
+Subject: Re: [PATCH 04/26] hw/intc/arm_gicv3_its: Remove maxids union from
+ TableDesc
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211211191135.1764649-1-peter.maydell@linaro.org>
- <20211211191135.1764649-4-peter.maydell@linaro.org>
+ <20211211191135.1764649-5-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ee046585-e571-a466-428b-91e2344c95ee@linaro.org>
-Date: Sun, 12 Dec 2021 09:34:24 -0800
+Message-ID: <f11d97fc-18cb-dd23-e071-fb0bd1f41b8d@linaro.org>
+Date: Sun, 12 Dec 2021 09:37:27 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211211191135.1764649-4-peter.maydell@linaro.org>
+In-Reply-To: <20211211191135.1764649-5-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -98,16 +99,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/11/21 11:11 AM, Peter Maydell wrote:
-> We currently define a bitmask for the GITS_CTLR ENABLED bit in
-> two ways: as ITS_CTLR_ENABLED, and via the FIELD() macro as
-> R_GITS_CTLR_ENABLED_MASK. Consistently use the FIELD macro version
-> everywhere and remove the redundant ITS_CTLR_ENABLED define.
+> The TableDesc struct defines properties of the in-guest-memory tables
+> which the guest tells us about by writing to the GITS_BASER<n>
+> registers.  This struct currently has a union 'maxids', but all the
+> fields of the union have the same type (uint32_t) and do the same
+> thing (record one-greater-than the maximum ID value that can be used
+> as an index into the table).
+> 
+> We're about to add another table type (the GICv4 vPE table); rather
+> than adding another specifically-named union field for that table
+> type with the same type as the other union fields, remove the union
+> entirely and just have a 'uint32_t max_ids' struct field.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/gicv3_internal.h |  2 --
->   hw/intc/arm_gicv3_its.c  | 20 ++++++++++----------
->   2 files changed, 10 insertions(+), 12 deletions(-)
+>   include/hw/intc/arm_gicv3_its_common.h |  5 +----
+>   hw/intc/arm_gicv3_its.c                | 20 ++++++++++----------
+>   2 files changed, 11 insertions(+), 14 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
