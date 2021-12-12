@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD189471C56
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 19:50:19 +0100 (CET)
-Received: from localhost ([::1]:35122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE02471CF4
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 21:25:54 +0100 (CET)
+Received: from localhost ([::1]:41430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwTvO-000676-FS
-	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 13:50:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59770)
+	id 1mwVPs-0008GS-SQ
+	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 15:25:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwTtj-0004V2-Q5
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 13:48:37 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=41541
- helo=mail-pj1-x102b.google.com)
+ id 1mwVO6-0007M3-V1
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 15:24:02 -0500
+Received: from [2607:f8b0:4864:20::1030] (port=53164
+ helo=mail-pj1-x1030.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwTth-0006Qe-Ru
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 13:48:35 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- gx15-20020a17090b124f00b001a695f3734aso11677466pjb.0
- for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 10:48:33 -0800 (PST)
+ id 1mwVO4-0003XM-SW
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 15:24:02 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id h24so10484741pjq.2
+ for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 12:24:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=868gtSq+z5opgWOFdZHCTfBALctYxqDxSS/1rU9Jbr0=;
- b=fK/mE6UOObPuYjRNFW6X24SBHIH7jch5aotcUUJQVBqD90asjgJ3RdnAwtBoRPWs9x
- QAb1in5UG4zGoRevwQ2kScjuy61sSdSMsIZ1IVGqwVW0eKprp6P8ZYknBDsYmSwSynQe
- gwxdvZwOrheHW8DzPp0/z3572GwITVyuYrg4kS0TCluphzGcjTNbBCHJfISpJ01IHZ7b
- a8Y/W4fuxgRWe1uyHABybZdHNMVJKSxAypktoz0knWq3NYDubALigohtiI3WB6K/LleW
- 5Tup5xnjrzXKrl84YzL93CgNpoAmMA3RgExWk1b9LuvZriMVpBOPi0+Egs3Vo40y9Hq8
- IuKw==
+ bh=ee5jSlGRSqmHpuaJpMCxUbnMgNxQBog5FJw1qkW5xIg=;
+ b=CO4RkmRJnG+qmaQM3lOUPYlNft4zp/FnGkrSiQJdaNetJNCK2CWov3JMTE9/ssROFW
+ Ll8HUx1s+tg953V9wG5/XQhWT8K2P8ClxxUEiqdsM6gYFqLlRSraPr+79wbcjSDztPaa
+ tnAeaxemBrh3vAcU52jD9gnn0Mp/UK75jtem8/m9NrVKw2HE26Tz3y1XZZTbUfBhBzDH
+ FFaLvlcX78JDaPqS2Qr/uVsKNDBUnyG/wts5hEHoYaoXTR3arbpS+3v/1rZwAAqjTTI4
+ F0ks+NOZ1p0ILxM8z+yjNoKN4O6MxHqaYrII+PsEK80GedCJKz8iA6EZ0CUTgL7vLZua
+ 5DlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=868gtSq+z5opgWOFdZHCTfBALctYxqDxSS/1rU9Jbr0=;
- b=WHj42Ol2jVD43j1eqfadmvhip3cRf9dKjrD0zY6j2XLIUJR6/xDZvgB4CGvQpbQ/Np
- +kYkze4f5m01veRIghQbVcxyL5RS99/tpCZWM7kMGneBHWjEOfCIWijPH5ODjjbctXxy
- 8z6o+IldaNFGF2ByRGPjefe/7qgdARTraSV/5RniKH5c3RVdAveXDds1S7fu2xjNVAPK
- kSmzEIyQnmLte1wZonzP+1Me4LOuSxn9lTuJibsQxQdyHJMxLTL/W5HvRE1O+ffgkXFE
- Ti8cx6zzEuimjdXiWa5fsy8FTpuONctN35mJryg4M4qpSZgO1cf4sLoCXZzQNf/7HFwr
- FnfQ==
-X-Gm-Message-State: AOAM531P92kpKNFxFqmCM8/0Gf8t5jBZfOLJJHCwzgJL5exizY6DqCpT
- MC5bubragmYZjmn3WyUAzIZWgw==
-X-Google-Smtp-Source: ABdhPJzoE1zL7jEnwlROegqt02F3y7Ouj8oNBEnnAVu14QLIpOOdvSby2tfdJpG5WyZ2yqcSSj32YA==
-X-Received: by 2002:a17:90b:4b89:: with SMTP id
- lr9mr38664562pjb.49.1639334912216; 
- Sun, 12 Dec 2021 10:48:32 -0800 (PST)
+ bh=ee5jSlGRSqmHpuaJpMCxUbnMgNxQBog5FJw1qkW5xIg=;
+ b=PFQLDAwLwEPrYl34MxaeGWV+PYbNF981IFJ310Z3wK6j9pc5rcx3cescEP2Zr2bDtk
+ ChBIDIV4O+FTAhDZM0prQKbdW4JPW8TuPA+VEY0E2LN5DSxAffUOkSTVJD2CA4QcRess
+ /lM9Mu/8h0+lUOGdlCypX9K1kSfPpeDTrT1qfC1RJ9a4AzRzOwc9ME8+r59sYGKJEgs5
+ kCR8rkkJjggzfcJrrA+iQYHpfUkX4xZ+D2aFE0EOVKIrEcxBG/EzGYYzeJX1gePPbmd5
+ /fzJ2QA1pHhSJbbn4z/c1WNIIRq0QXVJej2VmnU2eh4f4KJBPmkiaFtusKQDiBMjBKdW
+ guJg==
+X-Gm-Message-State: AOAM532rjq8n25ZAj3w80GZvkvcQeSs23yGSrnDNjwlpNvAZ+sOz1JlU
+ Hico0IkNHGOnmzXh1yQBiv8GKA==
+X-Google-Smtp-Source: ABdhPJzzUDifcCRnK73xVqKspgLlEVCtYBh1Kor5TDsDsBvEd6hpMfa5xYxROjFUu458Hyj57mC9ew==
+X-Received: by 2002:a17:902:e0d4:b0:142:8897:94e2 with SMTP id
+ e20-20020a170902e0d400b00142889794e2mr90942417pla.58.1639340638869; 
+ Sun, 12 Dec 2021 12:23:58 -0800 (PST)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id k5sm3847551pgm.94.2021.12.12.10.48.31
+ by smtp.gmail.com with ESMTPSA id h186sm9880365pfg.64.2021.12.12.12.23.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Dec 2021 10:48:31 -0800 (PST)
-Subject: Re: [PATCH 09/26] hw/intc/arm_gicv3_its: Correct handling of MAPI
+ Sun, 12 Dec 2021 12:23:58 -0800 (PST)
+Subject: Re: [PATCH 10/26] hw/intc/arm_gicv3_its: Use FIELD macros for DTEs
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211211191135.1764649-1-peter.maydell@linaro.org>
- <20211211191135.1764649-10-peter.maydell@linaro.org>
+ <20211211191135.1764649-11-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <61dceef8-42e8-22f0-fcfc-b7290d56d540@linaro.org>
-Date: Sun, 12 Dec 2021 10:48:30 -0800
+Message-ID: <e0bc61ca-d818-1e2d-625d-0a742b6b5d01@linaro.org>
+Date: Sun, 12 Dec 2021 12:23:56 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211211191135.1764649-10-peter.maydell@linaro.org>
+In-Reply-To: <20211211191135.1764649-11-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.051,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,28 +98,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/11/21 11:11 AM, Peter Maydell wrote:
-> The MAPI command takes arguments DeviceID, EventID, ICID, and is
-> defined to be equivalent to MAPTI DeviceID, EventID, EventID, ICID.
-> (That is, where MAPTI takes an explicit pINTID, MAPI uses the EventID
-> as the pINTID.)
+> Currently the ITS code that reads and writes DTEs uses open-coded
+> shift-and-mask to assemble the various fields into the 64-bit DTE
+> word.  The names of the macros used for mask and shift values are
+> also somewhat inconsistent, and don't follow our usual convention
+> that a MASK macro should specify the bits in their place in the word.
+> Replace all these with use of the FIELD macro.
 > 
-> We didn't quite get this right.  In particular the error checks for
-> MAPI include "EventID does not specify a valid LPI identifier", which
-> is the same as MAPTI's error check for the pINTID field.  QEMU's code
-> skips the pINTID error check entirely in the MAPI case.
-> 
-> We can fix this bug and in the process simplify the code by switching
-> to the obvious implementation of setting pIntid = eventid early
-> if ignore_pInt is true.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/arm_gicv3_its.c | 18 +++++++-----------
->   1 file changed, 7 insertions(+), 11 deletions(-)
-
+>   hw/intc/gicv3_internal.h |  7 ++++---
+>   hw/intc/arm_gicv3_its.c  | 20 +++++++++-----------
+>   2 files changed, 13 insertions(+), 14 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
