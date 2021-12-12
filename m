@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD7D471E4C
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 23:40:44 +0100 (CET)
-Received: from localhost ([::1]:58638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51385471E5D
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 23:53:22 +0100 (CET)
+Received: from localhost ([::1]:34694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwXWN-00055J-Vo
-	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 17:40:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39364)
+	id 1mwXib-00005i-0C
+	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 17:53:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwXV7-0004BP-0k
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 17:39:25 -0500
-Received: from [2607:f8b0:4864:20::102e] (port=46870
+ id 1mwXhO-0007eM-OS
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 17:52:06 -0500
+Received: from [2607:f8b0:4864:20::102e] (port=38689
  helo=mail-pj1-x102e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwXV5-0007JF-JW
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 17:39:24 -0500
+ id 1mwXhM-0003bQ-Rt
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 17:52:06 -0500
 Received: by mail-pj1-x102e.google.com with SMTP id
- np6-20020a17090b4c4600b001a90b011e06so11849650pjb.5
- for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 14:39:23 -0800 (PST)
+ p18-20020a17090ad31200b001a78bb52876so13343309pju.3
+ for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 14:52:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9vmmXETX0924Dub9xVWaPCxG4nt0KoGN2B97LOzgPXo=;
- b=Sqwql/JuUJ01zm8rmuEI8mqHdbJCKw3RG1IIIba2tHpVHWNROgViaWnMEnRZPkwQUa
- e0XAeAtqOCVPAWEfw5GEwd36WOCR8iGe+jvLPKopVSrc3kBY0A4mSPnJgGP3lsghH1dr
- yesYvzu9obMhQR3r4I0cfa0vuGBXgGQFP6QZKkt12931IN2piH5UJ3GAw58AN5+oLYVZ
- gZIgeSAIg4OzPj5W70HfBFh22xF2g+o4LzP/v3CQO+IE+7TeVfolECY7VMhtOE68tgTT
- gkybCAEhRa1JkVHs/sbAg9P06KUsNRnxkseeV4HwBHGrtdYwScSNXAQOSLH0SAZth0Dj
- HKug==
+ bh=eaecWj3ClF70OpjfgoNu9V4FG7Yk8ViKZhU2WNXXo7s=;
+ b=S+8Qw4r2iso9UTQ+TWhosE79sLU1XB+osJOQHyvdEygMz9nwELnA+TG0TEHwPwnGWL
+ B+mm+pDYVUl/qO1wZoKGu9QPL7Z2qTBesNNm8TpJwCOZsVFTpdcsupAUuyC2WhY/NI5q
+ rgXgOosudpLJAVOpTdOFumldZsKDUBfYBvZp0pdYRDhx3EKSJjNSD5R8rWQmB+/1GQ2h
+ 8l9qOmTTrWLIphd5cBxF0YdRKVbaAsjA0LM9uYHCUVbiZnxAvG6+EuboYcFTcmIRsxwh
+ L3xlBxf4M+oCLV9p1g5ma508ZfPE+LVLRtR2VTQHwXPsUFATWkm82nk7Sd+L5HGtFJVr
+ iHCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9vmmXETX0924Dub9xVWaPCxG4nt0KoGN2B97LOzgPXo=;
- b=OzzdgcgW0BNYzPUeoqv3RoZjGzNxfzeQpBjF5qLcs1aWtjm+6bPZegDE/AYKNQhnKg
- MzbQEtLw3zNtINSaKWDworwMmaDFtjDi4F5otjG6DcHw4ndJGG4rGoYuQUX65ki1kpLn
- OBda6XXeG+rcwm7/zDK3+enC6mLre98kqcQxLIor7QBZ3oWQZwzFfmgi3ApoEN7ZVOdH
- h5av4QIqK2p0wAhILF4XuCWQ7yW+GMcGNAaPOz+ACz6Fvo9FV0O/qlexIIqwhfQSABt4
- rXZfNbv9nOEdrUMzs/j6B/HIykkbGnZT8wZV9IvrRNWw4If/IaP0qLL24G1LrXsI+cZS
- eoLg==
-X-Gm-Message-State: AOAM533QVYeZTnFmgoTh9CjIedJdWcIWi8IPReOzLiT1pN6NoaZYwboj
- 77ta9BUjqQ0YXEJQLii5jBmEMg==
-X-Google-Smtp-Source: ABdhPJyej3IP+Q8D3oVsYEtC8Jmz4yEFe0wbhdC8dotprGIdiylaPBxB5rqukupT7IjTuN9CYR9beg==
-X-Received: by 2002:a17:902:db01:b0:141:ea12:2176 with SMTP id
- m1-20020a170902db0100b00141ea122176mr92433785plx.44.1639348762301; 
- Sun, 12 Dec 2021 14:39:22 -0800 (PST)
+ bh=eaecWj3ClF70OpjfgoNu9V4FG7Yk8ViKZhU2WNXXo7s=;
+ b=cgSU9bbs4tqffIO18bftKjL0iWr7OjWIkCm1qxGCxWQV2TkVQtoqJeupXmFTMjV+gE
+ e1Be2wBIUrEAGGCScl/EHgGVax3VIqa0QGiyQZB9I+6Y+sq1hzZDw/2+iho5cQEbP9M7
+ x1H1pD1CUs4K2IdRr93vmtXvED9dB+c3B4EjkKGETrmvoSeddHOS1BkMwrbAwrf4OAKw
+ ql+JV/iF++BsgaV/1YbbA0c/yLffhrQfVXiQjzIh6KvLV4F9EjWi7Yo8pL78uv8XT3Eq
+ btNqV+tOw57rP7hdY7sEdhw6y8yFJLxOM2r4NHTdGo6HtOCqlT1CcengjJQ/82BHpSIF
+ /eHQ==
+X-Gm-Message-State: AOAM533qTrKHiH/YQSg1/Ce/4k6ZH9GHKHVUJR5SZie9kbfebvNNaWA9
+ IEp/WG3HIVADF0rxCFpNuiQzow==
+X-Google-Smtp-Source: ABdhPJytKZLy+OxrpaR/vSPaYZxatrzuuD62oxGMb6Uwmp/xj5mnaBE/8aXhjnHNHEVraUWzFewBZQ==
+X-Received: by 2002:a17:90a:ac08:: with SMTP id
+ o8mr40486927pjq.87.1639349523431; 
+ Sun, 12 Dec 2021 14:52:03 -0800 (PST)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id b19sm10586606pfv.63.2021.12.12.14.39.21
+ by smtp.gmail.com with ESMTPSA id n16sm4976301pja.46.2021.12.12.14.52.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Dec 2021 14:39:21 -0800 (PST)
-Subject: Re: [PATCH 25/26] hw/intc/arm_gicv3_its: Fix return codes in
- process_mapd()
+ Sun, 12 Dec 2021 14:52:03 -0800 (PST)
+Subject: Re: [PATCH 26/26] hw/intc/arm_gicv3_its: Factor out "find address of
+ table entry" code
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211211191135.1764649-1-peter.maydell@linaro.org>
- <20211211191135.1764649-26-peter.maydell@linaro.org>
+ <20211211191135.1764649-27-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4e28a6a6-eda8-521e-2500-f3ad502aad36@linaro.org>
-Date: Sun, 12 Dec 2021 14:39:20 -0800
+Message-ID: <8406add7-f2b4-67cd-fd09-e0654ef16570@linaro.org>
+Date: Sun, 12 Dec 2021 14:52:01 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211211191135.1764649-26-peter.maydell@linaro.org>
+In-Reply-To: <20211211191135.1764649-27-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -100,16 +100,33 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/11/21 11:11 AM, Peter Maydell wrote:
-> Fix process_mapd() to consistently return CMD_STALL for memory
-> errors and CMD_CONTINUE for parameter errors, as we claim in the
-> comments that we do.
+> The ITS has several tables which all share a similar format,
+> described by the TableDesc struct: the guest may configure them
+> to be a single-level table or a two-level table. Currently we
+> open-code the process of finding the table entry in all the
+> functions which read or write the device table or the collection
+> table. Factor out the "get the address of the table entry"
+> logic into a new function, so that the code which needs to
+> read or write a table entry only needs to call table_entry_addr()
+> and then perform a suitable load or store to that address.
 > 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> Note that the error handling is slightly complicated because
+> we want to handle two cases differently:
+>   * failure to read the L1 table entry should end up causing
+>     a command stall, like other kinds of DMA error
+>   * an L1 table entry that says there is no L2 table for this
+>     index (ie whose valid bit is 0) must result in us treating
+>     the table entry as not-valid on read, and discarding
+>     writes (this is mandated by the spec)
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   hw/intc/arm_gicv3_its.c | 10 ++++------
->   1 file changed, 4 insertions(+), 6 deletions(-)
+> This is a worthwhile refactoring on its own, but still more
+> so given that GICv4 adds another table in this format.
+> ---
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
