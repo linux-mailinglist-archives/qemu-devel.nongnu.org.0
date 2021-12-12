@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C17847197E
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 10:32:29 +0100 (CET)
-Received: from localhost ([::1]:44702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5424D471982
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 10:39:26 +0100 (CET)
+Received: from localhost ([::1]:54748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwLDY-0005S5-5V
-	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 04:32:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56716)
+	id 1mwLKH-00048l-0t
+	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 04:39:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mwLBQ-0004ex-Vg
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 04:30:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40950)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mwLIT-0003C9-97
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 04:37:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mwLBN-0004E1-Fg
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 04:30:15 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mwLIQ-0005Nu-Fg
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 04:37:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639301411;
+ s=mimecast20190719; t=1639301848;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=VUmb45py6+HTpMysAKqR20XMjJGe4qZH3w+fu6xhyBQ=;
- b=bcdOzAntJCZHrq7usKoX1xWh74VG9QMLc/gUN16AdBRQi9QmMGy/Kh5HZY9dNq92lFN2xA
- 9PrMKl6+xzyOScuyfP5CjSPO+lSL6Q7Be0KzMOW6snU/mZCieffobf9w9+yL/dN3rSEuxp
- x+buNLKE4i6Ip7QkhQ6+ugdhV9JfiQA=
+ bh=C5CcDN70LFB6pL7uVn3T1x/Gq7ktgEmbAV5uLU2VFGI=;
+ b=D07ViDEtSXP/BV9SA5lHTzG3TmxX4tri7z6hnaqKKkrdXzS4HDew1lKnqk3H6VGFBm0lra
+ TY0UqLsfZ3GQahAAKCYuVe+7nAZ4ooMQ7Dn9i0lQpZuseWW1hGz2F2fuK0pfrZVlU228Wg
+ gYbaaVln/EQZNf/ytz/d9rPiZWN1CEk=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-223-sVoamlK3MUi-ie2AGERMNA-1; Sun, 12 Dec 2021 04:30:08 -0500
-X-MC-Unique: sVoamlK3MUi-ie2AGERMNA-1
+ us-mta-258-Av-1IbdpO--V3SO5Rlllbw-1; Sun, 12 Dec 2021 04:37:25 -0500
+X-MC-Unique: Av-1IbdpO--V3SO5Rlllbw-1
 Received: by mail-wm1-f70.google.com with SMTP id
- g81-20020a1c9d54000000b003330e488323so4943969wme.0
- for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 01:30:08 -0800 (PST)
+ j193-20020a1c23ca000000b003306ae8bfb7so7938809wmj.7
+ for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 01:37:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=VUmb45py6+HTpMysAKqR20XMjJGe4qZH3w+fu6xhyBQ=;
- b=fFFkEgNEKpBbfj+h5KuMEp0VPVphuVdV18D2/tQkRF4NkEH8STFG9P1BjQ561vRRYs
- +zRK7D9lu0onnigOWNPxFWT0R2PvRPMM2Ag4cCdT7Yy8uyFC0WWGi625jzgvtN0ASy90
- NhD7cuxstvt2EEyX6dXc4U99pteIUTDrZztAXC4zMsknLKtIRTxH0moWU94bDckHxt7O
- CeVoH//8Jcu3CqSfaYNASrnRU06nrAMgl8k3J/20FK7LrH0DPMUbPA79LEwTbjlPIFq7
- WIQJWn1PCfhmNbE3qVKZ05jAbaG1aZQh+BhiNRszsrBe81oq9W+gbRoVCg7F50EFl4ev
- RxWg==
-X-Gm-Message-State: AOAM531Q4m3UWGuOm8Ze330sO0i/xTAyXTJQtb2CLjPlsdJmp7s192gS
- uPLQ+5DkQhnKhuqQv3NqtuZ7LuyzhOl7xd0U/cpuztiEiqj2v9tP7oyNHoeeM5EKu73T9rRKOcf
- 46CwLJr1lCBNO9fs=
-X-Received: by 2002:a1c:1fcf:: with SMTP id f198mr28826870wmf.66.1639301407231; 
- Sun, 12 Dec 2021 01:30:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwq1qVfAGrfuvcOVoaqKje6wYi+s4c+3NCmFfO3HoP/c7EQSA4O3FaWtHE198Q1PI6q2CkBZg==
-X-Received: by 2002:a1c:1fcf:: with SMTP id f198mr28826843wmf.66.1639301407017; 
- Sun, 12 Dec 2021 01:30:07 -0800 (PST)
+ bh=C5CcDN70LFB6pL7uVn3T1x/Gq7ktgEmbAV5uLU2VFGI=;
+ b=W1UsfOKSi9sfJ8TEvJi3DF6oJX2DYUYrRl48dLdwMyNCcUGo1LhlYAfz5MVN5lRIMX
+ b0WO4l3fKfUeEqJV69bCPvw/W6TfIZwTuxgjyjiW1dFWQ40d83Lk0tSF2EIKzAkPp+S3
+ aX2i27y3B8y5CQpCdwz/a4UfdkC6wftOWRwg7Eh2zFJRFy9tqlPx8ZYiPHR2hfcWwp4t
+ qAIzqunA6qsuNolgs6j680NOlnE/RrwdGSlRp+UqoWhUBatrwg0dqnSc9F7kFUfkKwt/
+ Jsxu+Sx8pJUbALxaHV+kgmoxgV90iSLpX0RskBNWKDAyMDpOtfwJsbnN2hXFR9ml744s
+ KQhA==
+X-Gm-Message-State: AOAM532oWyJBR64apSSkPSJ/ZVYUpY4SdMW6Xc/+i3uYpvus4+klA9X0
+ dTHa5WZgbT6gGOw9ctfFLo8x6GGvQSg5k9lYCEXYPqQWNaul34OOGETKKbRwiX4uwbEsdTlZTCk
+ zSUmc/vvMSegutEY=
+X-Received: by 2002:a5d:588b:: with SMTP id n11mr24819431wrf.344.1639301844701; 
+ Sun, 12 Dec 2021 01:37:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw2/9sMOYq648R5HOBtHhSF8lXi9dvRKbFnZh3DJLBo7FsxC5IG3wBcyriiPo5JB2y+ngOCtQ==
+X-Received: by 2002:a5d:588b:: with SMTP id n11mr24819419wrf.344.1639301844468; 
+ Sun, 12 Dec 2021 01:37:24 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:107e:eefb:294:6ac8:eff6:22df])
- by smtp.gmail.com with ESMTPSA id l4sm7069118wrv.94.2021.12.12.01.30.04
+ by smtp.gmail.com with ESMTPSA id l1sm7045633wrn.15.2021.12.12.01.37.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Dec 2021 01:30:06 -0800 (PST)
-Date: Sun, 12 Dec 2021 04:30:02 -0500
+ Sun, 12 Dec 2021 01:37:23 -0800 (PST)
+Date: Sun, 12 Dec 2021 04:37:20 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Longpeng (Mike,
- Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>
-Subject: Re: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
-Message-ID: <20211212042818-mutt-send-email-mst@kernel.org>
-References: <20211208052010.1719-1-longpeng2@huawei.com>
- <YbHJivhCDvKo4eB0@stefanha-x1.localdomain>
- <721bbc1c27f545babdfbd17e1461e9f2@huawei.com>
+To: Peter Griffin <peter.griffin@linaro.org>
+Subject: Re: [PATCH 5/8] standard-headers: Add virtio_video.h
+Message-ID: <20211212043343-mutt-send-email-mst@kernel.org>
+References: <20211209145601.331477-1-peter.griffin@linaro.org>
+ <20211209145601.331477-6-peter.griffin@linaro.org>
+ <20211210055537-mutt-send-email-mst@kernel.org>
+ <20211210130946.GB382594@xps15-9570.lan>
 MIME-Version: 1.0
-In-Reply-To: <721bbc1c27f545babdfbd17e1461e9f2@huawei.com>
+In-Reply-To: <20211210130946.GB382594@xps15-9570.lan>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.713,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,97 +95,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "jasowang@redhat.com" <jasowang@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Yechuan <yechuan@huawei.com>,
- "xieyongji@bytedance.com" <xieyongji@bytedance.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- "parav@nvidia.com" <parav@nvidia.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>
+Cc: marcandre.lureau@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Dec 11, 2021 at 03:00:27AM +0000, Longpeng (Mike, Cloud Infrastructure Service Product Dept.) wrote:
+On Fri, Dec 10, 2021 at 01:09:46PM +0000, Peter Griffin wrote:
+> Hi Michael,
 > 
+> On Fri, 10 Dec 2021, Michael S. Tsirkin wrote:
 > 
-> > -----Original Message-----
-> > From: Stefan Hajnoczi [mailto:stefanha@redhat.com]
-> > Sent: Thursday, December 9, 2021 5:17 PM
-> > To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-> > <longpeng2@huawei.com>
-> > Cc: jasowang@redhat.com; mst@redhat.com; parav@nvidia.com;
-> > xieyongji@bytedance.com; sgarzare@redhat.com; Yechuan <yechuan@huawei.com>;
-> > Gonglei (Arei) <arei.gonglei@huawei.com>; qemu-devel@nongnu.org
-> > Subject: Re: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
+> > On Thu, Dec 09, 2021 at 02:55:58PM +0000, Peter Griffin wrote:
+> > > Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
+> > > ---
+> > >  include/standard-headers/linux/virtio_video.h | 483 ++++++++++++++++++
+> > >  1 file changed, 483 insertions(+)
+> > >  create mode 100644 include/standard-headers/linux/virtio_video.h
 > > 
-> > On Wed, Dec 08, 2021 at 01:20:10PM +0800, Longpeng(Mike) wrote:
-> > > From: Longpeng <longpeng2@huawei.com>
-> > >
-> > > Hi guys,
-> > >
-> > > This patch introduces vhost-vdpa-net device, which is inspired
-> > > by vhost-user-blk and the proposal of vhost-vdpa-blk device [1].
-> > >
-> > > I've tested this patch on Huawei's offload card:
-> > > ./x86_64-softmmu/qemu-system-x86_64 \
-> > >     -device vhost-vdpa-net-pci,vdpa-dev=/dev/vhost-vdpa-0
-> > >
-> > > For virtio hardware offloading, the most important requirement for us
-> > > is to support live migration between offloading cards from different
-> > > vendors, the combination of netdev and virtio-net seems too heavy, we
-> > > prefer a lightweight way.
-> > >
-> > > Maybe we could support both in the future ? Such as:
-> > >
-> > > * Lightweight
-> > >  Net: vhost-vdpa-net
-> > >  Storage: vhost-vdpa-blk
-> > >
-> > > * Heavy but more powerful
-> > >  Net: netdev + virtio-net + vhost-vdpa
-> > >  Storage: bdrv + virtio-blk + vhost-vdpa
-> > >
-> > > [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg797569.html
-> > 
-> > Stefano presented a plan for vdpa-blk at KVM Forum 2021:
-> > https://kvmforum2021.sched.com/event/ke3a/vdpa-blk-unified-hardware-and-sof
-> > tware-offload-for-virtio-blk-stefano-garzarella-red-hat
-> > 
-> > It's closer to today's virtio-net + vhost-net approach than the
-> > vhost-vdpa-blk device you have mentioned. The idea is to treat vDPA as
-> > an offload feature rather than a completely separate code path that
-> > needs to be maintained and tested. That way QEMU's block layer features
-> > and live migration work with vDPA devices and re-use the virtio-blk
-> > code. The key functionality that has not been implemented yet is a "fast
-> > path" mechanism that allows the QEMU virtio-blk device's virtqueue to be
-> > offloaded to vDPA.
-> > 
-> > The unified vdpa-blk architecture should deliver the same performance
-> > as the vhost-vdpa-blk device you mentioned but with more features, so I
-> > wonder what aspects of the vhost-vdpa-blk idea are important to you?
-> > 
-> > QEMU already has vhost-user-blk, which takes a similar approach as the
-> > vhost-vdpa-blk device you are proposing. I'm not against the
-> > vhost-vdpa-blk approach in priciple, but would like to understand your
-> > requirements and see if there is a way to collaborate on one vdpa-blk
-> > implementation instead of dividing our efforts between two.
-> > 
+> > We generally inherit these files from Linux.
+> > Was the driver posted for inclusion in Linux?
 > 
-> We prefer a simple way in the virtio hardware offloading case, it could reduce
-> our maintenance workload, we no need to maintain the virtio-net, netdev,
-> virtio-blk, bdrv and ... any more. If we need to support other vdpa devices
-> (such as virtio-crypto, virtio-fs) in the future, then we also need to maintain
-> the corresponding device emulation code?
+> Thanks for reviewing. Yes the Linux virtio-video frontend driver was posted
+> sometime back on the linux-media ML [1].
 > 
-> For the virtio hardware offloading case, we usually use the vfio-pci framework,
-> it saves a lot of our maintenance work in QEMU, we don't need to touch the device
-> types. Inspired by Jason, what we really prefer is "vhost-vdpa-pci/mmio", use it to
-> instead of the vfio-pci, it could provide the same performance as vfio-pci, but it's
-> *possible* to support live migrate between offloading cards from different vendors.
+> One piece of pushback then was not supporting vicodec/FWHT and also no Qemu
+> support [2] which is what this series is trying to address.
+> 
+> The virtio-video spec however is now at rfc v5. So my rough plan was now I have
+> something working with Qemu and vicodec I can move both the frontend driver
+> and the vhost-user-video to latest v5 spec.
+> 
+> I'm a bit unclear what the process is to get the virtio-video spec merged though.
+> I think I read somewhere they expect a matching frontend driver implementation?
+> 
+> Thanks,
+> 
+> Peter.
 
-OK, so the features you are dropping would be migration between
-a vdpa, vhost and virtio backends. I think given vhost-vdpa-blk is seems
-fair enough... What do others think?
+No, just that it all looks on track to be merged, and got some acks from
+Linux driver maintainers. This is because we don't have experts in
+all fields on the TC, so input from linux maintainers is useful.
 
-> > Stefan
+To get a change into spec the TC needs to vote
+on it. The simplest way to do that is described here.
+
+https://github.com/oasis-tcs/virtio-spec/blob/master/README.md#use-of-github-issues
+
+
+> [1] https://patchwork.kernel.org/project/linux-media/cover/20200218202753.652093-1-dmitry.sepp@opensynergy.com/
+> [2] https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg02204.html
 
 
