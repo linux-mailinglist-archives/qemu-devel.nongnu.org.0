@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BC3471A70
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 14:46:55 +0100 (CET)
-Received: from localhost ([::1]:37546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E3C471BE6
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 18:33:03 +0100 (CET)
+Received: from localhost ([::1]:50114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwPBl-0001Gc-Tl
-	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 08:46:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40226)
+	id 1mwSib-00007F-Me
+	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 12:33:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mwP8S-0007q7-R5
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 08:43:28 -0500
-Received: from [2a00:1450:4864:20::536] (port=43579
- helo=mail-ed1-x536.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mwShL-0007WW-Oh
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 12:31:43 -0500
+Received: from [2607:f8b0:4864:20::102f] (port=44897
+ helo=mail-pj1-x102f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mwP8Q-0000sx-9h
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 08:43:28 -0500
-Received: by mail-ed1-x536.google.com with SMTP id o20so44527071eds.10
- for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 05:43:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xdU9PB4tIOQ3qWvKq+tY6bIt34LHM/WAlNgwtlFnIxA=;
- b=BfXRxgpMudnBCYRQBmCL64tJHJsx9CKoyBQgvDYtsjSTkR94c1Rd0wh3IeVsgsSTbf
- TzMvXViLoLTBNxKjjVGx9tmFJs9fLIMnNnNrsWEAgVNk4+TPlPsZFj6CVnSQokB+mXW1
- u84W3EWlXPRXTiPDTxmrJPNxSacafPS8rZEDOBeK9GGYAy9BWyx15gDUCp6A1Y/22C02
- HlU27IbUgrCxr3Oju1RAnwjy8zjmWSLyPUH3Yy+TbHf0l0CZGdC2+R4ovfjq8UGz3TYL
- rmt8c3Dh8MGBKMkeaReDQhfBWEZkxCR61jtH/mETnmivvMhyIG9J7bw32J26fUcmBjfh
- Hizg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mwShJ-0002bH-Pe
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 12:31:43 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ k6-20020a17090a7f0600b001ad9d73b20bso11531359pjl.3
+ for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 09:31:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Hv5YrBursWBGRKklo2pQgpOF49HdwnDxYVuUOO9BGxQ=;
+ b=x4nr3u2/FGoEdlExKbZxUiKEOQkmkySZL4xvsbNkhaeqGxgMhQZB2hcMsOTjj34jWV
+ eq0r9w63HV3aoVZEjz4rMyNZ9wosJ0PHQghsA/ZVi31evUyK7bL8isNDlP5keq97wqsY
+ xLjlDRTGI4SNno/cEKtqOTLUWqmgPHyMNaTxATHHHUPLB6wIeXs0omzhJSKjuEYUU9Ox
+ WXAkf2uZG1V/i5x7rMF/nqZAmt/i7ciRr0bUKQMzWUr7n6D3B0i+PTduahF1Su8EGhM5
+ Bu6ku31iyHXVYeW8vQLPIOkKRLhrzHQg0aR0q8FcrIFANiyCADfv1q4RdoGg+0sjgXHf
+ 3TfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xdU9PB4tIOQ3qWvKq+tY6bIt34LHM/WAlNgwtlFnIxA=;
- b=wTcVOKZj+aWQMWrr8pN6P3zPMzjumFSpvos98nNQb1o0wR+J36HntzAfO0gJaSQimd
- mngKVKhakq54XMJ7E7wRoGuAYgbe/GS+t2W41D1xDU8yI3kdsU69Z5bL4o8uDAJlKOFU
- eDCrMDbDii6Adw00kNZxb7JPbXQ89ed5geA0VO0LMqH91ViFT0BpIWK9URT3PtLFPkR7
- hvH8dbymDFqFXhSBfTjDxiSrJKbBWcs8QpvqmL12deihhClf4ETGaNwGobgGHQPjriMV
- 56WC0NyrzWsDbWHHdpDP6p0G509dQQkgGTnBj7mVD2lB7ZaQJrXbYeVUQtmSnCg2nFr5
- gSSA==
-X-Gm-Message-State: AOAM5327pJ8iAJIZzMl4KUuX6biNUounKu8rLwj1Bt/aPefUefLLLiVU
- U8woMBKU2XIhd6eWcX6UrDDot7o6Dmsx9FZEUqm7uA==
-X-Google-Smtp-Source: ABdhPJxFtgvgTKOGrjh+Gd4RZHssr8NqyJRON1w7j0kn9bTXmXaLDJ75vxAnbTqoSfdXgxkVz2lhFmdFq3+vU94es+M=
-X-Received: by 2002:a50:f18a:: with SMTP id x10mr54516082edl.193.1639316600893; 
- Sun, 12 Dec 2021 05:43:20 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Hv5YrBursWBGRKklo2pQgpOF49HdwnDxYVuUOO9BGxQ=;
+ b=4/gQH4VBekN8GrIYZeJUWYKUQ/L5zpH0pCOU/4DelrgzE6J2EgVgykjKi3TNjYPKBK
+ wqcgXebzMsiKYxdRrLnmVfUqk+Op3kNLeLuiSnzyWt5dyZt2fbdVFyf9glEdQ3a53mGc
+ yNjxLcMjCef70wZNO3WJAOv0zIOaFl11ShPDU+Cu5pvDTNYNirw1pM7kxtMJ6W97N8+P
+ cupIpq/Xksk8rAqYxWNbItIZ9fKNn49Wpbm3GiICxuk5srfuviXIxkH4zVvJkvd4SdSI
+ SyFGZTPvWRF6wFPD7CYq+MKxMJ4QjT9CL2tJVbC2SQCl73Uat/LfemASpOHicOrYr1Y9
+ 74og==
+X-Gm-Message-State: AOAM531a0dbxuIuFp1r8HdyVzJmEn7nMMe6mvV8UfVu5Bvr+rUsEfwcq
+ zhQVDSx2/IVVbxCf8mLV+EnZig==
+X-Google-Smtp-Source: ABdhPJzf4L7EJDP1ilxVe7yKdGRqSRnRo+wC1vw8/s9TEA1NdGP6Uzx7FknxGIzYFYaix2mV4xDekg==
+X-Received: by 2002:a17:90a:4b03:: with SMTP id
+ g3mr38672451pjh.167.1639330299917; 
+ Sun, 12 Dec 2021 09:31:39 -0800 (PST)
+Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id f124sm1970531pgc.32.2021.12.12.09.31.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 12 Dec 2021 09:31:39 -0800 (PST)
+Subject: Re: [PATCH 01/26] hw/intc: clean-up error reporting for failed ITS cmd
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211211191135.1764649-1-peter.maydell@linaro.org>
+ <20211211191135.1764649-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <212e570d-b1c1-73eb-bfe7-10a216b637ea@linaro.org>
+Date: Sun, 12 Dec 2021 09:31:37 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <1639072655-19271-1-git-send-email-eric.devolder@oracle.com>
- <1639072655-19271-7-git-send-email-eric.devolder@oracle.com>
-In-Reply-To: <1639072655-19271-7-git-send-email-eric.devolder@oracle.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Sun, 12 Dec 2021 19:13:10 +0530
-Message-ID: <CAARzgwxqBfk4jSdH7EDzUHjVPBr7DiLkKSeq7grvFOX_AX3hgQ@mail.gmail.com>
-Subject: Re: [PATCH v10 06/10] ACPI ERST: build the ACPI ERST table
-To: Eric DeVolder <eric.devolder@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
+In-Reply-To: <20211211191135.1764649-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::536;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.051,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,293 +93,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
- imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
+Cc: Shashi Mallela <shashi.mallela@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-.
-
-On Thu, Dec 9, 2021 at 11:28 PM Eric DeVolder <eric.devolder@oracle.com> wrote:
->
-> This builds the ACPI ERST table to inform OSPM how to communicate
-> with the acpi-erst device.
-
-This patch starts in the middle of pci device code addition, between
-erst_reg_ops and erst_post_load. I do not like this :(
-
->
-> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+On 12/11/21 11:11 AM, Peter Maydell wrote:
+> From: Alex Bennée<alex.bennee@linaro.org>
+> 
+> While trying to debug a GIC ITS failure I saw some guest errors that
+> had poor formatting as well as leaving me confused as to what failed.
+> As most of the checks aren't possible without a valid dte split that
+> check apart and then check the other conditions in steps. This avoids
+> us relying on undefined data.
+> 
+> I still get a failure with the current kvm-unit-tests but at least I
+> know (partially) why now:
+> 
+>    Exception return from AArch64 EL1 to AArch64 EL1 PC 0x40080588
+>    PASS: gicv3: its-trigger: inv/invall: dev2/eventid=20 now triggers an LPI
+>    ITS: MAPD devid=2 size = 0x8 itt=0x40430000 valid=0
+>    INT dev_id=2 event_id=20
+>    process_its_cmd: invalid command attributes: invalid dte: 0 for 2 (MEM_TX: 0)
+>    PASS: gicv3: its-trigger: mapd valid=false: no LPI after device unmap
+>    SUMMARY: 6 tests, 1 unexpected failures
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Cc: Shashi Mallela<shashi.mallela@linaro.org>
+> Cc: Peter Maydell<peter.maydell@linaro.org>
+> Reviewed-by: Peter Maydell<peter.maydell@linaro.org>
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->  hw/acpi/erst.c | 241 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 241 insertions(+)
->
-> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
-> index 81f5435..753425a 100644
-> --- a/hw/acpi/erst.c
-> +++ b/hw/acpi/erst.c
-> @@ -711,6 +711,247 @@ static const MemoryRegionOps erst_reg_ops = {
->      .endianness = DEVICE_NATIVE_ENDIAN,
->  };
->
-> +
-> +/*******************************************************************/
-> +/*******************************************************************/
-> +
-> +/* ACPI 4.0: Table 17-19 Serialization Instructions */
-> +#define INST_READ_REGISTER                 0x00
-> +#define INST_READ_REGISTER_VALUE           0x01
-> +#define INST_WRITE_REGISTER                0x02
-> +#define INST_WRITE_REGISTER_VALUE          0x03
-> +#define INST_NOOP                          0x04
-> +#define INST_LOAD_VAR1                     0x05
-> +#define INST_LOAD_VAR2                     0x06
-> +#define INST_STORE_VAR1                    0x07
-> +#define INST_ADD                           0x08
-> +#define INST_SUBTRACT                      0x09
-> +#define INST_ADD_VALUE                     0x0A
-> +#define INST_SUBTRACT_VALUE                0x0B
-> +#define INST_STALL                         0x0C
-> +#define INST_STALL_WHILE_TRUE              0x0D
-> +#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
-> +#define INST_GOTO                          0x0F
-> +#define INST_SET_SRC_ADDRESS_BASE          0x10
-> +#define INST_SET_DST_ADDRESS_BASE          0x11
-> +#define INST_MOVE_DATA                     0x12
+>   hw/intc/arm_gicv3_its.c | 39 +++++++++++++++++++++++++++------------
+>   1 file changed, 27 insertions(+), 12 deletions(-)
 
-I prefer these definitions to come at the top of the file along with
-other definitions.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> +
-> +/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
-> +static void build_serialization_instruction_entry(GArray *table_data,
-
-This function and buiild_erst() can come at the end of erst.c. They go
-together and are doing a common but different operation from the
-operations of the pci device - building the erst table. Hence, ther
-code should be separate from pci device code. A new file would be an
-overkill at this state IMHO but in the future if erst table generation
-code gains more weight, it can be split into two files.
-
-> +    uint8_t serialization_action,
-> +    uint8_t instruction,
-> +    uint8_t flags,
-> +    uint8_t register_bit_width,
-> +    uint64_t register_address,
-> +    uint64_t value,
-> +    uint64_t mask)
-> +{
-> +    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
-> +    struct AcpiGenericAddress gas;
-> +
-> +    /* Serialization Action */
-> +    build_append_int_noprefix(table_data, serialization_action, 1);
-> +    /* Instruction */
-> +    build_append_int_noprefix(table_data, instruction         , 1);
-> +    /* Flags */
-> +    build_append_int_noprefix(table_data, flags               , 1);
-> +    /* Reserved */
-> +    build_append_int_noprefix(table_data, 0                   , 1);
-> +    /* Register Region */
-> +    gas.space_id = AML_SYSTEM_MEMORY;
-> +    gas.bit_width = register_bit_width;
-> +    gas.bit_offset = 0;
-> +    switch (register_bit_width) {
-> +    case 8:
-> +        gas.access_width = 1;
-> +        break;
-> +    case 16:
-> +        gas.access_width = 2;
-> +        break;
-> +    case 32:
-> +        gas.access_width = 3;
-> +        break;
-> +    case 64:
-> +        gas.access_width = 4;
-> +        break;
-> +    default:
-> +        gas.access_width = 0;
-> +        break;
-> +    }
-> +    gas.address = register_address;
-> +    build_append_gas_from_struct(table_data, &gas);
-> +    /* Value */
-> +    build_append_int_noprefix(table_data, value  , 8);
-> +    /* Mask */
-> +    build_append_int_noprefix(table_data, mask   , 8);
-> +}
-> +
-> +/* ACPI 4.0: 17.4.1 Serialization Action Table */
-> +void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
-> +    const char *oem_id, const char *oem_table_id)
-> +{
-> +    GArray *table_instruction_data;
-> +    unsigned action;
-> +    pcibus_t bar0, bar1;
-> +    AcpiTable table = { .sig = "ERST", .rev = 1, .oem_id = oem_id,
-> +                        .oem_table_id = oem_table_id };
-> +
-> +    bar0 = (pcibus_t)pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
-> +    trace_acpi_erst_pci_bar_0(bar0);
-> +    bar1 = (pcibus_t)pci_get_bar_addr(PCI_DEVICE(erst_dev), 1);
-> +    trace_acpi_erst_pci_bar_1(bar1);
-> +
-> +#define MASK8  0x00000000000000FFUL
-> +#define MASK16 0x000000000000FFFFUL
-> +#define MASK32 0x00000000FFFFFFFFUL
-> +#define MASK64 0xFFFFFFFFFFFFFFFFUL
-> +
-> +    /*
-> +     * Serialization Action Table
-> +     * The serialization action table must be generated first
-> +     * so that its size can be known in order to populate the
-> +     * Instruction Entry Count field.
-> +     */
-> +    table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
-> +
-> +    /* Serialization Instruction Entries */
-> +    action = ACTION_BEGIN_WRITE_OPERATION;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_BEGIN_READ_OPERATION;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_BEGIN_CLEAR_OPERATION;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_END_OPERATION;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_SET_RECORD_OFFSET;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER      , 0, 32,
-> +        bar0 + ERST_VALUE_OFFSET , 0, MASK32);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_EXECUTE_OPERATION;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_VALUE_OFFSET , ERST_EXECUTE_OPERATION_MAGIC, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_CHECK_BUSY_STATUS;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER_VALUE , 0, 32,
-> +        bar0 + ERST_VALUE_OFFSET, 0x01, MASK8);
-> +
-> +    action = ACTION_GET_COMMAND_STATUS;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER       , 0, 32,
-> +        bar0 + ERST_VALUE_OFFSET, 0, MASK8);
-> +
-> +    action = ACTION_GET_RECORD_IDENTIFIER;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER       , 0, 64,
-> +        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
-> +
-> +    action = ACTION_SET_RECORD_IDENTIFIER;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER      , 0, 64,
-> +        bar0 + ERST_VALUE_OFFSET , 0, MASK64);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_GET_RECORD_COUNT;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER       , 0, 32,
-> +        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
-> +
-> +    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +
-> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER       , 0, 64,
-> +        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
-> +
-> +    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER       , 0, 64,
-> +        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
-> +
-> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER       , 0, 32,
-> +        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
-> +
-> +    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> +    build_serialization_instruction_entry(table_instruction_data,
-> +        action, INST_READ_REGISTER       , 0, 64,
-> +        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
-> +
-> +    /* Serialization Header */
-> +    acpi_table_begin(&table, table_data);
-> +
-> +    /* Serialization Header Size */
-> +    build_append_int_noprefix(table_data, 48, 4);
-> +
-> +    /* Reserved */
-> +    build_append_int_noprefix(table_data,  0, 4);
-> +
-> +    /*
-> +     * Instruction Entry Count
-> +     * Each instruction entry is 32 bytes
-> +     */
-> +    build_append_int_noprefix(table_data,
-> +        (table_instruction_data->len / 32), 4);
-> +
-> +    /* Serialization Instruction Entries */
-> +    g_array_append_vals(table_data, table_instruction_data->data,
-> +        table_instruction_data->len);
-> +    g_array_free(table_instruction_data, TRUE);
-> +
-> +    acpi_table_end(linker, &table);
-> +}
-> +
->  /*******************************************************************/
->  /*******************************************************************/
->  static int erst_post_load(void *opaque, int version_id)
-> --
-> 1.8.3.1
->
+r~
 
