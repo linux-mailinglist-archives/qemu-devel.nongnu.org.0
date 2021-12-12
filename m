@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C91471BF2
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 18:48:43 +0100 (CET)
-Received: from localhost ([::1]:33626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CAD471C3C
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 19:32:54 +0100 (CET)
+Received: from localhost ([::1]:46444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwSxm-00008h-LM
-	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 12:48:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48446)
+	id 1mwTeX-0002Zi-0N
+	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 13:32:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwSvy-0007t8-RG
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 12:46:50 -0500
-Received: from [2607:f8b0:4864:20::102f] (port=53955
- helo=mail-pj1-x102f.google.com)
+ id 1mwTcb-00011M-MX
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 13:30:54 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=36744
+ helo=mail-pj1-x102d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwSvx-0008G9-0A
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 12:46:50 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id iq11so10314882pjb.3
- for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 09:46:48 -0800 (PST)
+ id 1mwTca-0000Hg-7a
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 13:30:53 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ n15-20020a17090a160f00b001a75089daa3so13109598pja.1
+ for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 10:30:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=AKMOGb7yZGExG+0aoc1hwSTg7fxXwyQ5vqIvI95dVWg=;
- b=rQwI+KjxjyhwBmsBsBEphW/jwP0nhmmH2aLUKZjdkzIbUITR3i3VGHRi4r/XZGBapd
- +OBtCDRx2cdRSwA9R5xNPXMzfv8sue/6F81I8dNWAG2/wzExIEUnbxiRXYAdYUpWXtPb
- InI2yOGLjkR9yU88yczr9wpx90I2eabEpXoka3tvw2VYO5Ih308h7/1w0TgFp85uJiR0
- DP5rb3zk75AFYu21ZAAVOK/zwGcABTGcqr5MUMUxIkY8QXh3lKVuDM0ttvArc55y/oK0
- q2BlZMdj4XG6EpOWMrBF+gbInFL4VbBRPq83VvDlfPoo8bo7AeeuPvWWSpFx/gki47Qz
- ucvA==
+ bh=JKKHagG8ufP0r6PxqN2dDi2HfWVv+BylaHHCTFTrh0g=;
+ b=EPfHYby91x7WayrRIqMXSS71OufMbsHe2P5K4x099iNnWsOhEKagINcxlz+GFraMqJ
+ TIXnab1VXBRoPiclwBNvrVo3KpTsBEXXVQI8gn8D+abB8XSLHucVeMMMoY+fm+5CMh2V
+ G3zkoFE0jz1QThevw4h7ueaTlZCpd3P+Fr2npQmeHVsUkKuVe62tTBru0PuPXLNphfrB
+ m+nNiwJ4Ahll988dwW0KJvAaBQpmdpWUiHm76IIn1rPAod23D36vRcMrV9uM9gfNRn55
+ EErekkSF26BNoM90zx0eWE3/B7WqmgPi3IE1o47plsVlMTkkmyYn7S0N0pEuKqxshIpp
+ 1fvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=AKMOGb7yZGExG+0aoc1hwSTg7fxXwyQ5vqIvI95dVWg=;
- b=u1Vo5hVsbx7ez5SWQtfIPg6X49SM9Ke8uPVPIkTmNOPzukb436YkBKuQH7CJlarskg
- 7ApyBIBWGipjAfiNeauD6aqgTX2U4ID64I8Um7kPDCQTQAxnNjYd2tgdBfq5QBOSk6e/
- Aq+Vg+gJLnqtQ7U0rgVgjnYB6XHn+uWx3fuhyEhyLl4pB6L+yML6WyWsRqoORTbfDRs0
- o2qZZ1Kzm1WZh6cY5WqB1rxp9n27RU/YU/OZrbwYzlORauRE/glO8DErKPF9P9+yDFQG
- pkPsjqHYjxY/sY3YC/fbPWdNCqStrw47jgrWo0cJWch4ZkGZOb49SwQBadDj51K7HDvH
- gulA==
-X-Gm-Message-State: AOAM530CNGD0mCrLH8aw3pG05Wx/H+czM+jbDtItlSD0WYJsgFyYpvD2
- tKs46BPeHKRx38l6L+ji2V3tqg==
-X-Google-Smtp-Source: ABdhPJx80cNCNPa6sS3QVSBqD5JPccVaTvCQ8V8CCtyXrUVYaIL3DTMZg0HmAVyakEGmEkbFTu5YYg==
-X-Received: by 2002:a17:902:e852:b0:142:19fe:982a with SMTP id
- t18-20020a170902e85200b0014219fe982amr91929254plg.13.1639331207458; 
- Sun, 12 Dec 2021 09:46:47 -0800 (PST)
+ bh=JKKHagG8ufP0r6PxqN2dDi2HfWVv+BylaHHCTFTrh0g=;
+ b=FrkQb1YC5wa/TI4QbKrwN251Eb8fHjI+4GAewJyOJiKL15CQIIV+K5XqkTGtNZP9hS
+ O3Ros4m8e5073RCxdF0VmvUUbI/JerrYA+gajNN0m+/FHb3G1+UZ8FHaPJWk9S34gNed
+ i+7Q+4pZeBV08/rqMskqWA+AFxkoz55YPJ9HkPo99DqSHk1Mqt2nKKALxBIBnCK/+hIL
+ sKkdTROpRAS3xhIPtTNVsSKRkIgB2Wr3Xh3UwCT54ma3c+PFKicxvnPtQGg7jY0Tuqzt
+ 3UVX/pMUj0leVuMvKKyP0E8vaobsuclPluF0jwq2OJ/5wgGj8En9s+m+WgJCp8B+rYcK
+ btbQ==
+X-Gm-Message-State: AOAM5319YEVc4SJFdMMrrsmOsEcziHO048SGjNTa3xaZHCgz0yOPK/gy
+ MKjcDC+fi3CF8BKhcrOkc8QpoA==
+X-Google-Smtp-Source: ABdhPJyoY2bWesdOn5IRvoieeIBEuiMIngm5LtVJW+XdUxUoKj9oBwVmOxMBFJkDRzvSmpIe3bT5RQ==
+X-Received: by 2002:a17:902:b210:b0:143:789a:7418 with SMTP id
+ t16-20020a170902b21000b00143789a7418mr90253853plr.38.1639333850115; 
+ Sun, 12 Dec 2021 10:30:50 -0800 (PST)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id h5sm9408195pfi.46.2021.12.12.09.46.46
+ by smtp.gmail.com with ESMTPSA id s28sm10756087pfg.147.2021.12.12.10.30.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Dec 2021 09:46:46 -0800 (PST)
-Subject: Re: [PATCH 05/26] hw/intc/arm_gicv3_its: Don't return early in
- extract_table_params() loop
+ Sun, 12 Dec 2021 10:30:49 -0800 (PST)
+Subject: Re: [PATCH 06/26] hw/intc/arm_gicv3_its: Reduce code duplication in
+ extract_table_params()
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211211191135.1764649-1-peter.maydell@linaro.org>
- <20211211191135.1764649-6-peter.maydell@linaro.org>
+ <20211211191135.1764649-7-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c9b07fc5-4355-e89b-2859-66518acf687b@linaro.org>
-Date: Sun, 12 Dec 2021 09:46:45 -0800
+Message-ID: <b907d2e1-0c4a-7e0e-2518-1e000f4b8e44@linaro.org>
+Date: Sun, 12 Dec 2021 10:30:47 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211211191135.1764649-6-peter.maydell@linaro.org>
+In-Reply-To: <20211211191135.1764649-7-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -99,28 +100,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/11/21 11:11 AM, Peter Maydell wrote:
-> In extract_table_params() we process each GITS_BASER<n> register.  If
-> the register's Valid bit is not set, this means there is no
-> in-guest-memory table and so we should not try to interpret the other
-> fields in the register.  This was incorrectly coded as a 'return'
-> rather than a 'break', so instead of looping round to process the
-> next GITS_BASER<n> we would stop entirely, treating any later tables
-> as being not valid also.
-> 
-> This has no real guest-visible effects because (since we don't have
-> GITS_TYPER.HCC != 0) the guest must in any case set up all the
-> GITS_BASER<n> to point to valid tables, so this only happens in an
-> odd misbehaving-guest corner case.
-> 
-> Fix the check to 'break', so that we leave the case statement and
-> loop back around to the next GITS_BASER<n>.
+> The extract_table_params() decodes the fields in the GITS_BASER<n>
+> registers into TableDesc structs.  Since the fields are the same for
+> all the GITS_BASER<n> registers, there is currently a lot of code
+> duplication within the switch (type) statement.  Refactor so that the
+> cases include only what is genuinely different for each type:
+> the calculation of the number of bits in the ID value that indexes
+> into the table.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
-> I suspect this was an accidental result from a refactoring at
-> some point in the development of the ITS code.
+>   hw/intc/arm_gicv3_its.c | 97 +++++++++++++++++------------------------
+>   1 file changed, 40 insertions(+), 57 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
