@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15BE2471E48
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 23:38:55 +0100 (CET)
-Received: from localhost ([::1]:56148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD7D471E4C
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 23:40:44 +0100 (CET)
+Received: from localhost ([::1]:58638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwXUc-0003PA-79
-	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 17:38:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39026)
+	id 1mwXWN-00055J-Vo
+	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 17:40:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwXTd-00021N-D4
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 17:37:53 -0500
-Received: from [2607:f8b0:4864:20::635] (port=43816
- helo=mail-pl1-x635.google.com)
+ id 1mwXV7-0004BP-0k
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 17:39:25 -0500
+Received: from [2607:f8b0:4864:20::102e] (port=46870
+ helo=mail-pj1-x102e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwXTc-0007AG-2o
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 17:37:53 -0500
-Received: by mail-pl1-x635.google.com with SMTP id m24so9903426pls.10
- for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 14:37:51 -0800 (PST)
+ id 1mwXV5-0007JF-JW
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 17:39:24 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ np6-20020a17090b4c4600b001a90b011e06so11849650pjb.5
+ for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 14:39:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=p15k33xlPH4prEcCoiFPOhhkf5Zj4JUYu+dQ8jkf8g0=;
- b=dEgLT2JsiYhDJuPoCchn33KO8Ga6u3T8TgBS+k+kEVvKCuJdjXj56le+Rd9NJl2wuS
- ZP5ePKjL35HZ/ICLu8goAzXX1S/s6gRgCtqCDwPApE8I4blYsusmo3SVcS9xEDwRl+FJ
- f1hjeoBu3p3FGYmXA3rLt34+/B8QEgpHPm2wqnxTn4KCcQaf5enjotnEYyr/pJEAqPCh
- j/bqJO4McFFw2DWCTr0lijCvHEuS269bJTBUh6vIQTiAVv8OQVuLD35fUcqoixx2bUtv
- JXPkG6BClbFV/8UsaevzKjmDhVzSttVpOgKCq4MwuD7+lm3aSc485miRKDQP+dtKiajy
- 4S4A==
+ bh=9vmmXETX0924Dub9xVWaPCxG4nt0KoGN2B97LOzgPXo=;
+ b=Sqwql/JuUJ01zm8rmuEI8mqHdbJCKw3RG1IIIba2tHpVHWNROgViaWnMEnRZPkwQUa
+ e0XAeAtqOCVPAWEfw5GEwd36WOCR8iGe+jvLPKopVSrc3kBY0A4mSPnJgGP3lsghH1dr
+ yesYvzu9obMhQR3r4I0cfa0vuGBXgGQFP6QZKkt12931IN2piH5UJ3GAw58AN5+oLYVZ
+ gZIgeSAIg4OzPj5W70HfBFh22xF2g+o4LzP/v3CQO+IE+7TeVfolECY7VMhtOE68tgTT
+ gkybCAEhRa1JkVHs/sbAg9P06KUsNRnxkseeV4HwBHGrtdYwScSNXAQOSLH0SAZth0Dj
+ HKug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=p15k33xlPH4prEcCoiFPOhhkf5Zj4JUYu+dQ8jkf8g0=;
- b=gh6l4KY+yvjNWQBL2LduzmC0FcVg9u2DBpXGI5Lr4tDU8vgU7rsBvqZS9WK3EiFOqP
- NRh8S+PvdPra3Eqin7kkAKfVoVhGizR/Na1eCj8ayqmGSMDVVCXYPFYyLg+h9nzAwEUo
- Gl60MlFlF2FuQFwAniLf5Ws42hG6bdwV8ZVpO9vI6jsqzZzLG9XI6MK+YkilWchO0xv6
- bzPwZRPUZvuM6rtq5F5RZKuiMnpO3qW4G1JwOs2Oyia/SVL7dCXlfopGQLgTiT6wHWJU
- zhmjsrJaDdN0BhtqyyeekLT+mPgwTtLuKdPDCKFz24IiSj3V5SDi/wdPeYJRybQNroIv
- lDKg==
-X-Gm-Message-State: AOAM5325fA3Y07/2epIvpmgsEQpmSD50BWsCPL+TxOQSoklSAlCUQ9E0
- cKAt1i43TiPdJNtCkroLMFrS4g==
-X-Google-Smtp-Source: ABdhPJz2b2PNeDeqrAFhjyUTDN57MPexDFsGu62t0PU4lzciRTf0NXA3YZrf89azZJ1hH2g6c8kKBA==
-X-Received: by 2002:a17:902:8e85:b0:142:7621:e3b3 with SMTP id
- bg5-20020a1709028e8500b001427621e3b3mr91160408plb.84.1639348670702; 
- Sun, 12 Dec 2021 14:37:50 -0800 (PST)
+ bh=9vmmXETX0924Dub9xVWaPCxG4nt0KoGN2B97LOzgPXo=;
+ b=OzzdgcgW0BNYzPUeoqv3RoZjGzNxfzeQpBjF5qLcs1aWtjm+6bPZegDE/AYKNQhnKg
+ MzbQEtLw3zNtINSaKWDworwMmaDFtjDi4F5otjG6DcHw4ndJGG4rGoYuQUX65ki1kpLn
+ OBda6XXeG+rcwm7/zDK3+enC6mLre98kqcQxLIor7QBZ3oWQZwzFfmgi3ApoEN7ZVOdH
+ h5av4QIqK2p0wAhILF4XuCWQ7yW+GMcGNAaPOz+ACz6Fvo9FV0O/qlexIIqwhfQSABt4
+ rXZfNbv9nOEdrUMzs/j6B/HIykkbGnZT8wZV9IvrRNWw4If/IaP0qLL24G1LrXsI+cZS
+ eoLg==
+X-Gm-Message-State: AOAM533QVYeZTnFmgoTh9CjIedJdWcIWi8IPReOzLiT1pN6NoaZYwboj
+ 77ta9BUjqQ0YXEJQLii5jBmEMg==
+X-Google-Smtp-Source: ABdhPJyej3IP+Q8D3oVsYEtC8Jmz4yEFe0wbhdC8dotprGIdiylaPBxB5rqukupT7IjTuN9CYR9beg==
+X-Received: by 2002:a17:902:db01:b0:141:ea12:2176 with SMTP id
+ m1-20020a170902db0100b00141ea122176mr92433785plx.44.1639348762301; 
+ Sun, 12 Dec 2021 14:39:22 -0800 (PST)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id mz7sm5035448pjb.7.2021.12.12.14.37.50
+ by smtp.gmail.com with ESMTPSA id b19sm10586606pfv.63.2021.12.12.14.39.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Dec 2021 14:37:50 -0800 (PST)
-Subject: Re: [PATCH 24/26] hw/intc/arm_gicv3_its: Fix return codes in
- process_mapc()
+ Sun, 12 Dec 2021 14:39:21 -0800 (PST)
+Subject: Re: [PATCH 25/26] hw/intc/arm_gicv3_its: Fix return codes in
+ process_mapd()
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211211191135.1764649-1-peter.maydell@linaro.org>
- <20211211191135.1764649-25-peter.maydell@linaro.org>
+ <20211211191135.1764649-26-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ddbca15b-2557-3a50-3ff6-47248f4311a6@linaro.org>
-Date: Sun, 12 Dec 2021 14:37:48 -0800
+Message-ID: <4e28a6a6-eda8-521e-2500-f3ad502aad36@linaro.org>
+Date: Sun, 12 Dec 2021 14:39:20 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211211191135.1764649-25-peter.maydell@linaro.org>
+In-Reply-To: <20211211191135.1764649-26-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -99,14 +100,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/11/21 11:11 AM, Peter Maydell wrote:
-> Fix process_mapc() to consistently return CMD_STALL for memory
+> Fix process_mapd() to consistently return CMD_STALL for memory
 > errors and CMD_CONTINUE for parameter errors, as we claim in the
 > comments that we do.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/arm_gicv3_its.c | 8 +++-----
->   1 file changed, 3 insertions(+), 5 deletions(-)
+>   hw/intc/arm_gicv3_its.c | 10 ++++------
+>   1 file changed, 4 insertions(+), 6 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
