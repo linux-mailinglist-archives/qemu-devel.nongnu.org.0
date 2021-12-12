@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1C34715D0
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Dec 2021 20:51:42 +0100 (CET)
-Received: from localhost ([::1]:36292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5043471847
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Dec 2021 05:51:33 +0100 (CET)
+Received: from localhost ([::1]:44064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mw8PF-0001RV-Lo
-	for lists+qemu-devel@lfdr.de; Sat, 11 Dec 2021 14:51:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48598)
+	id 1mwGpg-00077z-AU
+	for lists+qemu-devel@lfdr.de; Sat, 11 Dec 2021 23:51:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mw7n2-0005HX-CH
- for qemu-devel@nongnu.org; Sat, 11 Dec 2021 14:12:16 -0500
-Received: from [2a00:1450:4864:20::32d] (port=39718
- helo=mail-wm1-x32d.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mwGoF-00069x-IJ
+ for qemu-devel@nongnu.org; Sat, 11 Dec 2021 23:50:03 -0500
+Received: from [2a00:1450:4864:20::52d] (port=39635
+ helo=mail-ed1-x52d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mw7mq-0006IW-Ra
- for qemu-devel@nongnu.org; Sat, 11 Dec 2021 14:12:05 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- n33-20020a05600c502100b0032fb900951eso11306238wmr.4
- for <qemu-devel@nongnu.org>; Sat, 11 Dec 2021 11:11:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FiPtBXS/9wev8s0ZT0mbwmcHwHHqvxjF8Ntnd/Pa1Ac=;
- b=BZnCuqAL7dJJcgheWCX06yDSdWcsRyZKyRaQXehwC22MSU2D2WBMyUxOAO+brSMPJl
- FAhlo7ELrsnoTH8hPlnD76LqOtIbmXKVTvMNaDjy/J0KdPg9hFrHIhcIqDpsjxVqAcAs
- 2r+QrCvYvq6TuLs8yerQKRGy1uPrOA9hwedMY2/2q0kVYH+4xRiciwOL6ykliDRzNOPS
- rCFKFacYVNqqaXt4TvRfuTpvGURjIFqiSuZ2sGmN9TnZhiZbb5uqFNAkNq5QzqHrypP7
- dvZeLboId2MCmNFSPvKrT7pVM6ORu9Ekouipl25byjUYz6k9EUi+hbEXg+o39ZmXIRhX
- E40g==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mwGoC-0008ML-TN
+ for qemu-devel@nongnu.org; Sat, 11 Dec 2021 23:50:03 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id w1so41790825edc.6
+ for <qemu-devel@nongnu.org>; Sat, 11 Dec 2021 20:49:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4q/JZX4adOweN2yqxHfBs8GHQX8eN4in6QlNJojcZoA=;
+ b=s6rLx+Wdcv3dHGuf/0mFcMuaEmN50nHsdvkCzD/zsPCmsJDm3Sz2nqeAb6Y8dil2g/
+ 8OwACW2lWuac7PgOFW8tCC2jjQ5xZmS8Dy3EOb7NRwUBZszM2RAQsC+9GH9mm3AwWZiD
+ o/4M9jO+hjqLZPjnMg4HhA9dG2c4sMSbraisl0BGTOr8dVdSPkrdoqQNleNfnjNIzkpN
+ gz8kpdtf+bA4Cu/YjBpiqDuGwTfJX2ZmyECMmDiouWBzl8adeaPzQsn8QMaQRR77FQkh
+ MaKBkaDNR0K138/lDYzGnOWT7K70nvovbHWDinNWRRaBRTFqafVMfaEpYgqGhLjMund+
+ j6cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FiPtBXS/9wev8s0ZT0mbwmcHwHHqvxjF8Ntnd/Pa1Ac=;
- b=1pFSVS2OVXWUs2rpRLMcHOF+O5afRZu5/2aGuMI8t79iyZ5KJuiYzILPE3qtyyuAlc
- xMhdpgrJF0jO6dR6wci/KLf4crMOj9BBivpxTLryAPvT2RPW0e0ei/37FPRwxaFrhwse
- UewuaMxsZvXOTtrA1saC7EdILk1S6oehFlj4kPeqCcAhYVexzmo49hVnZ3IQQLni+e3m
- P8Rt6mal4NSsLEf/GYz54uzWtwQV0uLdGuyEQKMQqPcOK+CfCOfau7hgz3x7ZHGMPHfS
- CgjzxMi/Jws1jXmzVwRtUSjnBuzfKQHuVRplCQB6K9UWhLxQBk0Vp+zOphQbVulC0kyC
- 5qow==
-X-Gm-Message-State: AOAM531/EC7MDm3WlDxrH8H1wcmvOtmzJGH82MjXP1bqY3PBIF82U7Aw
- J9X3qopfwuBSVi1GYD3M/0rwpA==
-X-Google-Smtp-Source: ABdhPJx7Dtx9WUFSoEpQ0HZSJmu3JQU77QU5QZkV1Rrpsjz6a66Kkee/jbsCh+bdqaXXr7qF1xBdmQ==
-X-Received: by 2002:a05:600c:35d2:: with SMTP id
- r18mr25526050wmq.166.1639249917292; 
- Sat, 11 Dec 2021 11:11:57 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id m20sm2205300wmq.11.2021.12.11.11.11.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Dec 2021 11:11:57 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 26/26] hw/intc/arm_gicv3_its: Factor out "find address of
- table entry" code
-Date: Sat, 11 Dec 2021 19:11:35 +0000
-Message-Id: <20211211191135.1764649-27-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211211191135.1764649-1-peter.maydell@linaro.org>
-References: <20211211191135.1764649-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4q/JZX4adOweN2yqxHfBs8GHQX8eN4in6QlNJojcZoA=;
+ b=R2BERRcY0+8MPETjwOhmtIM+rwEXcLBkYZFuKa8SbX6dXI5b4qy/cCqWiUUwh2EaEC
+ qfBM38LORJvdUCyzX+ZnZmvI6wy0JiRhI5n2/9VxOIgG8gbIxwqSxH1FTyEXtouIPGgx
+ z9M0J/4W1OiD7vQTFfr2s+t6ZxL8F3QV0qclYHO1eAX2EsgJ+UM9JHqioEDb6qZ6qWYn
+ k0lt04nHhwJSiPGpkN/5uBx0+8XndptYSNkn0ufz5PkvecJfbuf42y7POGLLmvWm2YSY
+ v15URzdqc398hVwukcwFCcgQoQVgL29TcYPeIMzZI4J4Q7eQqG3ta/1EZw8B4NIHt0GU
+ 8zpw==
+X-Gm-Message-State: AOAM532DpydxkqHxAApKlXgUY/twKmPktrrx9Jt7QK8XRCX0Somk6eJu
+ TbY5ezdpvdfGQtOw2UGgaFIXl59cEHnai4zQJcY46g==
+X-Google-Smtp-Source: ABdhPJxciF7fN933qE34gqqo5KKee8eD5YVFym66PAyFkoqI0AXq7oDP7+Tdlz9Ry7LIxNEar+Lp65AWxEGynnM1xHs=
+X-Received: by 2002:aa7:de86:: with SMTP id j6mr52622601edv.1.1639284598266;
+ Sat, 11 Dec 2021 20:49:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+References: <20211210170415.583179-1-jean-philippe@linaro.org>
+In-Reply-To: <20211210170415.583179-1-jean-philippe@linaro.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Sun, 12 Dec 2021 10:19:47 +0530
+Message-ID: <CAARzgwxxRfOPbVU+QcYOkGL_pemLWH5x9z9pnhMgKoKOkAgSxw@mail.gmail.com>
+Subject: Re: [PATCH v7 0/8] virtio-iommu: Add ACPI support (Arm part + tests)
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: none client-ip=2a00:1450:4864:20::52d;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,314 +77,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org, eric.auger@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ITS has several tables which all share a similar format,
-described by the TableDesc struct: the guest may configure them
-to be a single-level table or a two-level table. Currently we
-open-code the process of finding the table entry in all the
-functions which read or write the device table or the collection
-table. Factor out the "get the address of the table entry"
-logic into a new function, so that the code which needs to
-read or write a table entry only needs to call table_entry_addr()
-and then perform a suitable load or store to that address.
+On Fri, Dec 10, 2021 at 10:35 PM Jean-Philippe Brucker
+<jean-philippe@linaro.org> wrote:
+>
+> Add ACPI support for virtio-iommu on the virt machine, by instantiating
+> a VIOT table. Also add the tests for the ACPI table.
+>
+> Since last posting [1], I rebased onto v6.2.0-rc4. Note that v6 of this
+> series [2] only contained the table and x86 support, which have been
+> merged. Everything has now been reviewed and should be good to go.
+>
+> * Patches 1-2 add the VIOT table for the virt machine
+> * Patches 3-4 are minor fixes
+> * Patches 5-8 add tests for the VIOT table. They contain the tests for
+>   q35 as well, which didn't make it last time because they depended on
+>   another fix that has now been merged.
 
-Note that the error handling is slightly complicated because
-we want to handle two cases differently:
- * failure to read the L1 table entry should end up causing
-   a command stall, like other kinds of DMA error
- * an L1 table entry that says there is no L2 table for this
-   index (ie whose valid bit is 0) must result in us treating
-   the table entry as not-valid on read, and discarding
-   writes (this is mandated by the spec)
+I believe the entire patchset has been reviewed and you are re-sending
+it so that it gets pulled in after the release?
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-This is a worthwhile refactoring on its own, but still more
-so given that GICv4 adds another table in this format.
----
- hw/intc/arm_gicv3_its.c | 212 +++++++++++++---------------------------
- 1 file changed, 70 insertions(+), 142 deletions(-)
-
-diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 3bcc4c3db85..90a9fd3b3d4 100644
---- a/hw/intc/arm_gicv3_its.c
-+++ b/hw/intc/arm_gicv3_its.c
-@@ -83,44 +83,62 @@ static uint64_t baser_base_addr(uint64_t value, uint32_t page_sz)
-     return result;
- }
- 
-+static uint64_t table_entry_addr(GICv3ITSState *s, TableDesc *td,
-+                                 uint32_t idx, MemTxResult *res)
-+{
-+    /*
-+     * Given a TableDesc describing one of the ITS in-guest-memory
-+     * tables and an index into it, return the guest address
-+     * corresponding to that table entry.
-+     * If there was a memory error reading the L1 table of an
-+     * indirect table, *res is set accordingly, and we return -1.
-+     * If the L1 table entry is marked not valid, we return -1 with
-+     * *res set to MEMTX_OK.
-+     *
-+     * The specification defines the format of level 1 entries of a
-+     * 2-level table, but the format of level 2 entries and the format
-+     * of flat-mapped tables is IMPDEF.
-+     */
-+    AddressSpace *as = &s->gicv3->dma_as;
-+    uint32_t l2idx;
-+    uint64_t l2;
-+    uint32_t num_l2_entries;
-+
-+    *res = MEMTX_OK;
-+
-+    if (!td->indirect) {
-+        /* Single level table */
-+        return td->base_addr + idx * td->entry_sz;
-+    }
-+
-+    /* Two level table */
-+    l2idx = idx / (td->page_sz / L1TABLE_ENTRY_SIZE);
-+
-+    l2 = address_space_ldq_le(as,
-+                              td->base_addr + (l2idx * L1TABLE_ENTRY_SIZE),
-+                              MEMTXATTRS_UNSPECIFIED, res);
-+    if (*res != MEMTX_OK) {
-+        return -1;
-+    }
-+    if (!(l2 & L2_TABLE_VALID_MASK)) {
-+        return -1;
-+    }
-+
-+    num_l2_entries = td->page_sz / td->entry_sz;
-+    return (l2 & ((1ULL << 51) - 1)) + (idx % num_l2_entries) * td->entry_sz;
-+}
-+
- static bool get_cte(GICv3ITSState *s, uint16_t icid, uint64_t *cte,
-                     MemTxResult *res)
- {
-     AddressSpace *as = &s->gicv3->dma_as;
--    uint64_t l2t_addr;
--    uint64_t value;
--    bool valid_l2t;
--    uint32_t l2t_id;
--    uint32_t num_l2_entries;
-+    uint64_t entry_addr = table_entry_addr(s, &s->ct, icid, res);
- 
--    if (s->ct.indirect) {
--        l2t_id = icid / (s->ct.page_sz / L1TABLE_ENTRY_SIZE);
--
--        value = address_space_ldq_le(as,
--                                     s->ct.base_addr +
--                                     (l2t_id * L1TABLE_ENTRY_SIZE),
--                                     MEMTXATTRS_UNSPECIFIED, res);
--
--        if (*res == MEMTX_OK) {
--            valid_l2t = (value & L2_TABLE_VALID_MASK) != 0;
--
--            if (valid_l2t) {
--                num_l2_entries = s->ct.page_sz / s->ct.entry_sz;
--
--                l2t_addr = value & ((1ULL << 51) - 1);
--
--                *cte =  address_space_ldq_le(as, l2t_addr +
--                                    ((icid % num_l2_entries) * GITS_CTE_SIZE),
--                                    MEMTXATTRS_UNSPECIFIED, res);
--           }
--       }
--    } else {
--        /* Flat level table */
--        *cte =  address_space_ldq_le(as, s->ct.base_addr +
--                                     (icid * GITS_CTE_SIZE),
--                                      MEMTXATTRS_UNSPECIFIED, res);
-+    if (entry_addr == -1) {
-+        return false; /* not valid */
-     }
- 
-+    *cte = address_space_ldq_le(as, entry_addr, MEMTXATTRS_UNSPECIFIED, res);
-     return FIELD_EX64(*cte, CTE, VALID);
- }
- 
-@@ -189,41 +207,12 @@ static bool get_ite(GICv3ITSState *s, uint32_t eventid, uint64_t dte,
- static uint64_t get_dte(GICv3ITSState *s, uint32_t devid, MemTxResult *res)
- {
-     AddressSpace *as = &s->gicv3->dma_as;
--    uint64_t l2t_addr;
--    uint64_t value;
--    bool valid_l2t;
--    uint32_t l2t_id;
--    uint32_t num_l2_entries;
-+    uint64_t entry_addr = table_entry_addr(s, &s->dt, devid, res);
- 
--    if (s->dt.indirect) {
--        l2t_id = devid / (s->dt.page_sz / L1TABLE_ENTRY_SIZE);
--
--        value = address_space_ldq_le(as,
--                                     s->dt.base_addr +
--                                     (l2t_id * L1TABLE_ENTRY_SIZE),
--                                     MEMTXATTRS_UNSPECIFIED, res);
--
--        if (*res == MEMTX_OK) {
--            valid_l2t = (value & L2_TABLE_VALID_MASK) != 0;
--
--            if (valid_l2t) {
--                num_l2_entries = s->dt.page_sz / s->dt.entry_sz;
--
--                l2t_addr = value & ((1ULL << 51) - 1);
--
--                value =  address_space_ldq_le(as, l2t_addr +
--                                   ((devid % num_l2_entries) * GITS_DTE_SIZE),
--                                   MEMTXATTRS_UNSPECIFIED, res);
--            }
--        }
--    } else {
--        /* Flat level table */
--        value = address_space_ldq_le(as, s->dt.base_addr +
--                                     (devid * GITS_DTE_SIZE),
--                                     MEMTXATTRS_UNSPECIFIED, res);
-+    if (entry_addr == -1) {
-+        return 0; /* a DTE entry with the Valid bit clear */
-     }
--
--    return value;
-+    return address_space_ldq_le(as, entry_addr, MEMTXATTRS_UNSPECIFIED, res);
- }
- 
- /*
-@@ -424,11 +413,7 @@ static bool update_cte(GICv3ITSState *s, uint16_t icid, bool valid,
-                        uint64_t rdbase)
- {
-     AddressSpace *as = &s->gicv3->dma_as;
--    uint64_t value;
--    uint64_t l2t_addr;
--    bool valid_l2t;
--    uint32_t l2t_id;
--    uint32_t num_l2_entries;
-+    uint64_t entry_addr;
-     uint64_t cte = 0;
-     MemTxResult res = MEMTX_OK;
- 
-@@ -442,44 +427,18 @@ static bool update_cte(GICv3ITSState *s, uint16_t icid, bool valid,
-         cte = FIELD_DP64(cte, CTE, RDBASE, rdbase);
-     }
- 
--    /*
--     * The specification defines the format of level 1 entries of a
--     * 2-level table, but the format of level 2 entries and the format
--     * of flat-mapped tables is IMPDEF.
--     */
--    if (s->ct.indirect) {
--        l2t_id = icid / (s->ct.page_sz / L1TABLE_ENTRY_SIZE);
--
--        value = address_space_ldq_le(as,
--                                     s->ct.base_addr +
--                                     (l2t_id * L1TABLE_ENTRY_SIZE),
--                                     MEMTXATTRS_UNSPECIFIED, &res);
--
--        if (res != MEMTX_OK) {
--            return false;
--        }
--
--        valid_l2t = (value & L2_TABLE_VALID_MASK) != 0;
--
--        if (valid_l2t) {
--            num_l2_entries = s->ct.page_sz / s->ct.entry_sz;
--
--            l2t_addr = value & ((1ULL << 51) - 1);
--
--            address_space_stq_le(as, l2t_addr +
--                                 ((icid % num_l2_entries) * GITS_CTE_SIZE),
--                                 cte, MEMTXATTRS_UNSPECIFIED, &res);
--        }
--    } else {
--        /* Flat level table */
--        address_space_stq_le(as, s->ct.base_addr + (icid * GITS_CTE_SIZE),
--                             cte, MEMTXATTRS_UNSPECIFIED, &res);
--    }
-+    entry_addr = table_entry_addr(s, &s->ct, icid, &res);
-     if (res != MEMTX_OK) {
-+        /* memory access error: stall */
-         return false;
--    } else {
-+    }
-+    if (entry_addr == -1) {
-+        /* No L2 table for this index: discard write and continue */
-         return true;
-     }
-+
-+    address_space_stq_le(as, entry_addr, cte, MEMTXATTRS_UNSPECIFIED, &res);
-+    return res == MEMTX_OK;
- }
- 
- static ItsCmdResult process_mapc(GICv3ITSState *s, uint32_t offset)
-@@ -527,11 +486,7 @@ static bool update_dte(GICv3ITSState *s, uint32_t devid, bool valid,
-                        uint8_t size, uint64_t itt_addr)
- {
-     AddressSpace *as = &s->gicv3->dma_as;
--    uint64_t value;
--    uint64_t l2t_addr;
--    bool valid_l2t;
--    uint32_t l2t_id;
--    uint32_t num_l2_entries;
-+    uint64_t entry_addr;
-     uint64_t dte = 0;
-     MemTxResult res = MEMTX_OK;
- 
-@@ -546,44 +501,17 @@ static bool update_dte(GICv3ITSState *s, uint32_t devid, bool valid,
-         return true;
-     }
- 
--    /*
--     * The specification defines the format of level 1 entries of a
--     * 2-level table, but the format of level 2 entries and the format
--     * of flat-mapped tables is IMPDEF.
--     */
--    if (s->dt.indirect) {
--        l2t_id = devid / (s->dt.page_sz / L1TABLE_ENTRY_SIZE);
--
--        value = address_space_ldq_le(as,
--                                     s->dt.base_addr +
--                                     (l2t_id * L1TABLE_ENTRY_SIZE),
--                                     MEMTXATTRS_UNSPECIFIED, &res);
--
--        if (res != MEMTX_OK) {
--            return false;
--        }
--
--        valid_l2t = (value & L2_TABLE_VALID_MASK) != 0;
--
--        if (valid_l2t) {
--            num_l2_entries = s->dt.page_sz / s->dt.entry_sz;
--
--            l2t_addr = value & ((1ULL << 51) - 1);
--
--            address_space_stq_le(as, l2t_addr +
--                                 ((devid % num_l2_entries) * GITS_DTE_SIZE),
--                                 dte, MEMTXATTRS_UNSPECIFIED, &res);
--        }
--    } else {
--        /* Flat level table */
--        address_space_stq_le(as, s->dt.base_addr + (devid * GITS_DTE_SIZE),
--                             dte, MEMTXATTRS_UNSPECIFIED, &res);
--    }
-+    entry_addr = table_entry_addr(s, &s->dt, devid, &res);
-     if (res != MEMTX_OK) {
-+        /* memory access error: stall */
-         return false;
--    } else {
-+    }
-+    if (entry_addr == -1) {
-+        /* No L2 table for this index: discard write and continue */
-         return true;
-     }
-+    address_space_stq_le(as, entry_addr, dte, MEMTXATTRS_UNSPECIFIED, &res);
-+    return res == MEMTX_OK;
- }
- 
- static ItsCmdResult process_mapd(GICv3ITSState *s, uint64_t value,
--- 
-2.25.1
-
+>
+> [1] https://lore.kernel.org/qemu-devel/20211020172745.620101-1-jean-philippe@linaro.org/
+> [2] https://lore.kernel.org/qemu-devel/20211026182024.2642038-1-jean-philippe@linaro.org/
+>
+> Jean-Philippe Brucker (8):
+>   hw/arm/virt-acpi-build: Add VIOT table for virtio-iommu
+>   hw/arm/virt: Remove device tree restriction for virtio-iommu
+>   hw/arm/virt: Reject instantiation of multiple IOMMUs
+>   hw/arm/virt: Use object_property_set instead of qdev_prop_set
+>   tests/acpi: allow updates of VIOT expected data files
+>   tests/acpi: add test case for VIOT
+>   tests/acpi: add expected blobs for VIOT test on q35 machine
+>   tests/acpi: add expected blob for VIOT test on virt machine
+>
+>  hw/arm/virt-acpi-build.c       |   7 ++++++
+>  hw/arm/virt.c                  |  20 ++++++++---------
+>  hw/virtio/virtio-iommu-pci.c   |  12 ++---------
+>  tests/qtest/bios-tables-test.c |  38 +++++++++++++++++++++++++++++++++
+>  hw/arm/Kconfig                 |   1 +
+>  tests/data/acpi/q35/DSDT.viot  | Bin 0 -> 9398 bytes
+>  tests/data/acpi/q35/VIOT.viot  | Bin 0 -> 112 bytes
+>  tests/data/acpi/virt/VIOT      | Bin 0 -> 88 bytes
+>  8 files changed, 58 insertions(+), 20 deletions(-)
+>  create mode 100644 tests/data/acpi/q35/DSDT.viot
+>  create mode 100644 tests/data/acpi/q35/VIOT.viot
+>  create mode 100644 tests/data/acpi/virt/VIOT
+>
+> --
+> 2.34.1
+>
 
