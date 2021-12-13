@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F52473217
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 17:43:45 +0100 (CET)
-Received: from localhost ([::1]:59240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 469C5473214
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 17:43:34 +0100 (CET)
+Received: from localhost ([::1]:58892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwoQS-0003Ck-7g
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 11:43:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51112)
+	id 1mwoQF-0002yr-Jb
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 11:43:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mwoLg-0002yY-AZ; Mon, 13 Dec 2021 11:38:48 -0500
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:46206)
+ id 1mwoLg-0002yo-Bu; Mon, 13 Dec 2021 11:38:48 -0500
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:46260)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mwoLd-0003Xh-Ln; Mon, 13 Dec 2021 11:38:48 -0500
+ id 1mwoLc-0003Xk-HZ; Mon, 13 Dec 2021 11:38:48 -0500
 Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id D7414402FC;
- Mon, 13 Dec 2021 17:38:39 +0100 (CET)
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 1935D4034A;
+ Mon, 13 Dec 2021 17:38:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=univ-grenoble-alpes.fr; s=2020; t=1639413519;
- bh=zwYQGveedQZ6qCLzSyubR6sZG021WHOxUKMx/6y7pUE=;
+ d=univ-grenoble-alpes.fr; s=2020; t=1639413520;
+ bh=XTxRfm9BdVnBnFiI5R4eIb6uQB8aJTIRuXIDG4Uwcv0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iTbxSyd+GXfB11zCBsZ6SGuHH+W7E5ZHVncd5llDYiQbtOakSIyvJhR6bRYvWHdpK
- G1x0l4PqVGZAui82ru+18DrAZUEno/10N1Sf7ZWuRhDcKTscyNps9wTQXUulg5wOel
- x1wQekTYQViMZWbmpsclDs1UkNAB0tDWEQraMS7iLo+1VYliLWjnutN4KsJeOvSVGu
- hO7yed7ivThwQ0Lmo0XYYjBEHE8ICwrkc+PwZ2txEHvub8czbc7M+VDE+eshcvnGWg
- KirskX2uUCm3QGihJ6r5UDrnaUFPtOZcOTL/Wxat/3uHkMMQk8rFcU0cksf9DcTDcl
- mDtEB1xj+soMQ==
+ b=JzBfMv+VBYmCV2IqH0voh8PVXocg674D0gtuW3KdMg5Yai3wcOHwZjyXHdySLlhBj
+ wrWJwlfuK+ISaiuW1AnoeZzSFXk8rY1no9K8iPi+ZeKOSGXWCNbeRpyxsBX8fvGXcU
+ Qrqh49esjj9ODthKazUtCgUyhAs8Ng2RWepqbbTPflENfvFJkFODuHI38bglSEQCLn
+ 9tZx3gLTJCRjxMU4zhcMilkqS6B9masSoroiZPBpTesP6pveFSmjz+M8eeGQ7wCTAH
+ EKaVyxUtfSondhKxdWRL41KHp1IrOry5Ek31A3IOCvV+X5BCkUs91c9kSUsnSIQKLO
+ MR6m5XIrqPu9Q==
 Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id C07D560066;
+ by mailhost.u-ga.fr (Postfix) with ESMTP id 0226B6006D;
  Mon, 13 Dec 2021 17:38:39 +0100 (CET)
 Received: from palmier.tima.u-ga.fr (35.201.90.79.rev.sfr.net [79.90.201.35])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 9044314005C;
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id C8A6414007F;
  Mon, 13 Dec 2021 17:38:39 +0100 (CET)
 From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
  <frederic.petrot@univ-grenoble-alpes.fr>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v7 02/18] exec/memop: Adding signed quad and octo defines
-Date: Mon, 13 Dec 2021 17:38:18 +0100
-Message-Id: <20211213163834.170504-3-frederic.petrot@univ-grenoble-alpes.fr>
+Subject: [PATCH v7 03/18] qemu/int128: addition of div/rem 128-bit operations
+Date: Mon, 13 Dec 2021 17:38:19 +0100
+Message-Id: <20211213163834.170504-4-frederic.petrot@univ-grenoble-alpes.fr>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211213163834.170504-1-frederic.petrot@univ-grenoble-alpes.fr>
 References: <20211213163834.170504-1-frederic.petrot@univ-grenoble-alpes.fr>
@@ -87,56 +87,236 @@ Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding defines to handle signed 64-bit and unsigned 128-bit quantities in
-memory accesses.
+Addition of div and rem on 128-bit integers, using the 128/64->128 divu and
+64x64->128 mulu in host-utils.
+These operations will be used within div/rem helpers in the 128-bit riscv
+target.
 
 Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/exec/memop.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+ include/qemu/int128.h |  27 ++++++++
+ util/int128.c         | 147 ++++++++++++++++++++++++++++++++++++++++++
+ util/meson.build      |   1 +
+ 3 files changed, 175 insertions(+)
+ create mode 100644 util/int128.c
 
-diff --git a/include/exec/memop.h b/include/exec/memop.h
-index 72c2f0ff3d..2a885f3917 100644
---- a/include/exec/memop.h
-+++ b/include/exec/memop.h
-@@ -86,28 +86,35 @@ typedef enum MemOp {
-     MO_UW    = MO_16,
-     MO_UL    = MO_32,
-     MO_UQ    = MO_64,
-+    MO_UO    = MO_128,
-     MO_SB    = MO_SIGN | MO_8,
-     MO_SW    = MO_SIGN | MO_16,
-     MO_SL    = MO_SIGN | MO_32,
-+    MO_SQ    = MO_SIGN | MO_64,
-+    MO_SO    = MO_SIGN | MO_128,
- 
-     MO_LEUW  = MO_LE | MO_UW,
-     MO_LEUL  = MO_LE | MO_UL,
-     MO_LEUQ  = MO_LE | MO_UQ,
-     MO_LESW  = MO_LE | MO_SW,
-     MO_LESL  = MO_LE | MO_SL,
-+    MO_LESQ  = MO_LE | MO_SQ,
- 
-     MO_BEUW  = MO_BE | MO_UW,
-     MO_BEUL  = MO_BE | MO_UL,
-     MO_BEUQ  = MO_BE | MO_UQ,
-     MO_BESW  = MO_BE | MO_SW,
-     MO_BESL  = MO_BE | MO_SL,
-+    MO_BESQ  = MO_BE | MO_SQ,
- 
- #ifdef NEED_CPU_H
-     MO_TEUW  = MO_TE | MO_UW,
-     MO_TEUL  = MO_TE | MO_UL,
-     MO_TEUQ  = MO_TE | MO_UQ,
-+    MO_TEUO  = MO_TE | MO_UO,
-     MO_TESW  = MO_TE | MO_SW,
-     MO_TESL  = MO_TE | MO_SL,
-+    MO_TESQ  = MO_TE | MO_SQ,
+diff --git a/include/qemu/int128.h b/include/qemu/int128.h
+index b6d517aea4..2c4064256c 100644
+--- a/include/qemu/int128.h
++++ b/include/qemu/int128.h
+@@ -172,6 +172,26 @@ static inline Int128 bswap128(Int128 a)
  #endif
+ }
  
-     MO_SSIZE = MO_SIZE | MO_SIGN,
++static inline Int128 int128_divu(Int128 a, Int128 b)
++{
++    return (__uint128_t)a / (__uint128_t)b;
++}
++
++static inline Int128 int128_remu(Int128 a, Int128 b)
++{
++    return (__uint128_t)a % (__uint128_t)b;
++}
++
++static inline Int128 int128_divs(Int128 a, Int128 b)
++{
++    return a / b;
++}
++
++static inline Int128 int128_rems(Int128 a, Int128 b)
++{
++    return a % b;
++}
++
+ #else /* !CONFIG_INT128 */
+ 
+ typedef struct Int128 Int128;
+@@ -379,6 +399,11 @@ static inline Int128 bswap128(Int128 a)
+     return int128_make128(bswap64(a.hi), bswap64(a.lo));
+ }
+ 
++Int128 int128_divu(Int128, Int128);
++Int128 int128_remu(Int128, Int128);
++Int128 int128_divs(Int128, Int128);
++Int128 int128_rems(Int128, Int128);
++
+ #endif /* CONFIG_INT128 */
+ 
+ static inline void bswap128s(Int128 *s)
+@@ -386,4 +411,6 @@ static inline void bswap128s(Int128 *s)
+     *s = bswap128(*s);
+ }
+ 
++#define UINT128_MAX int128_make128(~0LL, ~0LL)
++
+ #endif /* INT128_H */
+diff --git a/util/int128.c b/util/int128.c
+new file mode 100644
+index 0000000000..ed8f25fef1
+--- /dev/null
++++ b/util/int128.c
+@@ -0,0 +1,147 @@
++/*
++ * 128-bit division and remainder for compilers not supporting __int128
++ *
++ * Copyright (c) 2021 Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/host-utils.h"
++#include "qemu/int128.h"
++
++#ifndef CONFIG_INT128
++
++/*
++ * Division and remainder algorithms for 128-bit due to Stefan Kanthak,
++ * https://skanthak.homepage.t-online.de/integer.html#udivmodti4
++ * Preconditions:
++ *     - function should never be called with v equals to 0, it has to
++ *       be dealt with beforehand
++ *     - quotien pointer must be valid
++ */
++static Int128 divrem128(Int128 u, Int128 v, Int128 *q)
++{
++    Int128 qq;
++    uint64_t hi, lo, tmp;
++    int s = clz64(v.hi);
++
++    if (s == 64) {
++        /* we have uu÷0v => let's use divu128 */
++        hi = u.hi;
++        lo = u.lo;
++        tmp = divu128(&lo, &hi, v.lo);
++        *q = int128_make128(lo, hi);
++        return int128_make128(tmp, 0);
++    } else {
++        hi = int128_gethi(int128_lshift(v, s));
++
++        if (hi > u.hi) {
++            lo = u.lo;
++            tmp = u.hi;
++            divu128(&lo, &tmp, hi);
++            lo = int128_gethi(int128_lshift(int128_make128(lo, 0), s));
++        } else { /* prevent overflow */
++            lo = u.lo;
++            tmp = u.hi - hi;
++            divu128(&lo, &tmp, hi);
++            lo = int128_gethi(int128_lshift(int128_make128(lo, 1), s));
++        }
++
++        qq = int128_make64(lo);
++
++        tmp = lo * v.hi;
++        mulu64(&lo, &hi, lo, v.lo);
++        hi += tmp;
++
++        if (hi < tmp     /* quotient * divisor >= 2**128 > dividend */
++            || hi > u.hi /* quotient * divisor > dividend */
++            || (hi == u.hi && lo > u.lo)) {
++            qq.lo -= 1;
++            mulu64(&lo, &hi, qq.lo, v.lo);
++            hi += qq.lo * v.hi;
++        }
++
++        *q = qq;
++        u.hi -= hi + (u.lo < lo);
++        u.lo -= lo;
++        return u;
++    }
++}
++
++Int128 int128_divu(Int128 a, Int128 b)
++{
++    Int128 q;
++    divrem128(a, b, &q);
++    return q;
++}
++
++Int128 int128_remu(Int128 a, Int128 b)
++{
++    Int128 q;
++    return divrem128(a, b, &q);
++}
++
++Int128 int128_divs(Int128 a, Int128 b)
++{
++    Int128 q;
++    bool sgna = !int128_nonneg(a);
++    bool sgnb = !int128_nonneg(b);
++
++    if (sgna) {
++        a = int128_neg(a);
++    }
++
++    if (sgnb) {
++        b = int128_neg(b);
++    }
++
++    divrem128(a, b, &q);
++
++    if (sgna != sgnb) {
++        q = int128_neg(q);
++    }
++
++    return q;
++}
++
++Int128 int128_rems(Int128 a, Int128 b)
++{
++    Int128 q, r;
++    bool sgna = !int128_nonneg(a);
++    bool sgnb = !int128_nonneg(b);
++
++    if (sgna) {
++        a = int128_neg(a);
++    }
++
++    if (sgnb) {
++        b = int128_neg(b);
++    }
++
++    r = divrem128(a, b, &q);
++
++    if (sgna) {
++        r = int128_neg(r);
++    }
++
++    return r;
++}
++
++#endif
+diff --git a/util/meson.build b/util/meson.build
+index 05b593055a..e676b2f6c6 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -48,6 +48,7 @@ util_ss.add(files('transactions.c'))
+ util_ss.add(when: 'CONFIG_POSIX', if_true: files('drm.c'))
+ util_ss.add(files('guest-random.c'))
+ util_ss.add(files('yank.c'))
++util_ss.add(files('int128.c'))
+ 
+ if have_user
+   util_ss.add(files('selfmap.c'))
 -- 
 2.34.1
 
