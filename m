@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B3747203F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 06:07:45 +0100 (CET)
-Received: from localhost ([::1]:50154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7863D47205D
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 06:21:54 +0100 (CET)
+Received: from localhost ([::1]:52756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwdYu-0003Hv-VS
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 00:07:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59758)
+	id 1mwdmb-0005bE-9y
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 00:21:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mwdXW-0002Wd-Rb
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 00:06:18 -0500
-Received: from [2a00:1450:4864:20::32f] (port=36760
- helo=mail-wm1-x32f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mwdXQ-0005D7-0c
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 00:06:18 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- i8-20020a7bc948000000b0030db7b70b6bso13219342wml.1
- for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 21:06:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CXDbZ72EhvPIsbyJ5EezoEwlOzUgft6D4XqjM/k4Tos=;
- b=KSCMfIXUndmM5XtTu7qvshpTyYQ+K4SvpaqDdOqNi2TfOfuEoxNE5PUoIRlE/UnWvM
- LyKmhmwQuCXgl+JQ2b8cHpfzGr1BcLgVQL3LFYREOKqN/rh82VjT4GGcUUyT39OuWQju
- d8O5AaXIEvGizGSfZqVgbKd+oYfw+SYFwVN+7jOlC21RhcG5zWKOlqeu+9/GedtmQNvn
- K2qveAB13BUIQBlvO8gK/KbGiTEyKkeCWsBsmkksGh+PAwGP+exdnaglc16o9g3ce50M
- cQegVUDBeeqtG7toIbbN8qEUL9phsyYYnB/p9fWmhS6GTTVQs7C1GwruxCRCsA2vn+8m
- YhvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CXDbZ72EhvPIsbyJ5EezoEwlOzUgft6D4XqjM/k4Tos=;
- b=5r39U1rNEJBntFfxSQLdehbIWL2WI9A/CNq52pcNrkRY2kXTA0f2wimsI6C+0+2p/w
- NplHtAaEQcJvKHLiZ1kruragVKmKA0Sg+wcPOvcCZ/KtxrKLZDoShywF5wmZbsne7qFz
- eUPccVoCFUqYzdi4bCbnSGVIBhLYv7pQLe+D8WAfh8aOX1r0dOlX24hz9TEzUbaSH6Du
- WLBaHEMarxfNVQH5Xu7ih2HRmeLNUfXTH/op5o+DWl966cNsHFt2Op0yF9Hm6clH981U
- JpjpIcbTx9lTiOfsgsV2EXo5Scc+4fjcuEH3tDXq9Aca8s+VAI/+5nOgmLtkDLmr5B/W
- xGWw==
-X-Gm-Message-State: AOAM532tYZEKbblOI9IsJOiSbNx8gj+IAad34WDSroCAd+djISW4bpD0
- aejXWMmd9PX9ABvA37BxdZw+7zFvSBLJOoAmfuwfLQ==
-X-Google-Smtp-Source: ABdhPJzffgWI5BpJ72eaC/aE9on/1jFRzBqZ0PO6HX1zF1PGpy7gZGBrO+0xBSdDIZvjqofZjzR0DSV1/EJw8UQpHro=
-X-Received: by 2002:a7b:c256:: with SMTP id b22mr34822265wmj.176.1639371970299; 
- Sun, 12 Dec 2021 21:06:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mwdky-0004ut-LV
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 00:20:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56801)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mwdku-0000hn-MI
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 00:20:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639372805;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=s0N4zhpNn8pzyMthh4KNmdAJkCAUrMF9zWI/c480HNA=;
+ b=FsZ4Bu9pbwp9vmx93+G0W6aiMDLSPsWH+XQzh8pgMB0Vb/A8JuC135UhWZ0ewyw4LlW40l
+ KkLFfFYZcDWLIzHxUdNNceArgmY6FlqAck+qW1dppqXGkUX01M6BAc/yCWl7NwhtxbYRmF
+ t1CdsmMp1594gc+HPudo9dcIiGvXPn4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-555-5UB_gx7VPX6z2Bz5-DoVhg-1; Mon, 13 Dec 2021 00:20:00 -0500
+X-MC-Unique: 5UB_gx7VPX6z2Bz5-DoVhg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 543AD81CCB4;
+ Mon, 13 Dec 2021 05:19:58 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-2.ams2.redhat.com [10.36.112.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 11CF745D86;
+ Mon, 13 Dec 2021 05:19:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8ADB1113865F; Mon, 13 Dec 2021 06:19:53 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Subject: Re: [PATCH v8 2/7] net/vmnet: add vmnet backends to qapi/net
+References: <20211211104413.50524-1-yaroshchuk2000@gmail.com>
+ <20211211104413.50524-3-yaroshchuk2000@gmail.com>
+Date: Mon, 13 Dec 2021 06:19:53 +0100
+In-Reply-To: <20211211104413.50524-3-yaroshchuk2000@gmail.com> (Vladislav
+ Yaroshchuk's message of "Sat, 11 Dec 2021 13:44:08 +0300")
+Message-ID: <87v8zt13pi.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20211210100732.1080-1-jiangyifei@huawei.com>
- <20211210100732.1080-11-jiangyifei@huawei.com>
-In-Reply-To: <20211210100732.1080-11-jiangyifei@huawei.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Mon, 13 Dec 2021 10:35:59 +0530
-Message-ID: <CAAhSdy11yd+f6OZZxjX9mWxkVH4AC7Kz5Vp+RPUz6cCam9GvNQ@mail.gmail.com>
-Subject: Re: [PATCH v2 10/12] target/riscv: Add kvm_riscv_get/put_regs_timer
-To: Yifei Jiang <jiangyifei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::32f;
- envelope-from=anup@brainfault.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.713,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,155 +80,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Mingwang Li <limingwang@huawei.com>, KVM General <kvm@vger.kernel.org>,
- libvir-list@redhat.com, Anup Patel <anup.patel@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>, wanbo13@huawei.com,
- Palmer Dabbelt <palmer@dabbelt.com>, kvm-riscv@lists.infradead.org,
- wanghaibin.wang@huawei.com, Alistair Francis <Alistair.Francis@wdc.com>,
- fanliang@huawei.com, "Wubin \(H\)" <wu.wubin@huawei.com>
+Cc: jasowang@redhat.com, phillip.ennen@gmail.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, r.bolshakov@yadro.com, phillip@axleos.com,
+ akihiko.odaki@gmail.com, hsp.cat7@gmail.com, hello@adns.io, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 10, 2021 at 3:37 PM Yifei Jiang <jiangyifei@huawei.com> wrote:
->
-> Add kvm_riscv_get/put_regs_timer to synchronize virtual time context
-> from KVM.
->
-> To set register of RISCV_TIMER_REG(state) will occur a error from KVM
-> on kvm_timer_state == 0. It's better to adapt in KVM, but it doesn't matter
-> that adaping in QEMU.
->
-> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-> Signed-off-by: Mingwang Li <limingwang@huawei.com>
-> ---
->  target/riscv/cpu.h |  7 +++++
->  target/riscv/kvm.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 79 insertions(+)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index e7dba35acb..c892a2c8b7 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -259,6 +259,13 @@ struct CPURISCVState {
->
->      hwaddr kernel_addr;
->      hwaddr fdt_addr;
-> +
-> +    /* kvm timer */
-> +    bool kvm_timer_dirty;
-> +    uint64_t kvm_timer_time;
-> +    uint64_t kvm_timer_compare;
-> +    uint64_t kvm_timer_state;
-> +    uint64_t kvm_timer_frequency;
->  };
->
->  OBJECT_DECLARE_TYPE(RISCVCPU, RISCVCPUClass,
-> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-> index 171a32adf9..802c076b22 100644
-> --- a/target/riscv/kvm.c
-> +++ b/target/riscv/kvm.c
-> @@ -64,6 +64,9 @@ static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type, uint64_t idx
->  #define RISCV_CSR_REG(env, name)  kvm_riscv_reg_id(env, KVM_REG_RISCV_CSR, \
->                   KVM_REG_RISCV_CSR_REG(name))
->
-> +#define RISCV_TIMER_REG(env, name)  kvm_riscv_reg_id(env, KVM_REG_RISCV_TIMER, \
-> +                 KVM_REG_RISCV_TIMER_REG(name))
-> +
->  #define RISCV_FP_F_REG(env, idx)  kvm_riscv_reg_id(env, KVM_REG_RISCV_FP_F, idx)
->
->  #define RISCV_FP_D_REG(env, idx)  kvm_riscv_reg_id(env, KVM_REG_RISCV_FP_D, idx)
-> @@ -235,6 +238,75 @@ static int kvm_riscv_put_regs_fp(CPUState *cs)
->      return ret;
->  }
->
-> +static void kvm_riscv_get_regs_timer(CPUState *cs)
-> +{
-> +    int ret;
-> +    uint64_t reg;
-> +    CPURISCVState *env = &RISCV_CPU(cs)->env;
-> +
-> +    if (env->kvm_timer_dirty) {
-> +        return;
-> +    }
-> +
-> +    ret = kvm_get_one_reg(cs, RISCV_TIMER_REG(env, time), &reg);
-> +    if (ret) {
-> +        abort();
-> +    }
-> +    env->kvm_timer_time = reg;
-> +
-> +    ret = kvm_get_one_reg(cs, RISCV_TIMER_REG(env, compare), &reg);
-> +    if (ret) {
-> +        abort();
-> +    }
-> +    env->kvm_timer_compare = reg;
-> +
-> +    ret = kvm_get_one_reg(cs, RISCV_TIMER_REG(env, state), &reg);
-> +    if (ret) {
-> +        abort();
-> +    }
-> +    env->kvm_timer_state = reg;
+Vladislav Yaroshchuk <yaroshchuk2000@gmail.com> writes:
 
-Please read the timer frequency here.
-
-> +
-> +    env->kvm_timer_dirty = true;
-> +}
-> +
-> +static void kvm_riscv_put_regs_timer(CPUState *cs)
-> +{
-> +    int ret;
-> +    uint64_t reg;
-> +    CPURISCVState *env = &RISCV_CPU(cs)->env;
-> +
-> +    if (!env->kvm_timer_dirty) {
-> +        return;
-> +    }
-
-Over here, we should get the timer frequency and abort() with an
-error message if it does not match env->kvm_timer_frequency
-
-For now, migration will not work between Hosts with different
-timer frequency.
-
-Regards,
-Anup
-
-> +
-> +    reg = env->kvm_timer_time;
-> +    ret = kvm_set_one_reg(cs, RISCV_TIMER_REG(env, time), &reg);
-> +    if (ret) {
-> +        abort();
-> +    }
-> +
-> +    reg = env->kvm_timer_compare;
-> +    ret = kvm_set_one_reg(cs, RISCV_TIMER_REG(env, compare), &reg);
-> +    if (ret) {
-> +        abort();
-> +    }
-> +
-> +    /*
-> +     * To set register of RISCV_TIMER_REG(state) will occur a error from KVM
-> +     * on env->kvm_timer_state == 0, It's better to adapt in KVM, but it
-> +     * doesn't matter that adaping in QEMU now.
-> +     * TODO If KVM changes, adapt here.
-> +     */
-> +    if (env->kvm_timer_state) {
-> +        reg = env->kvm_timer_state;
-> +        ret = kvm_set_one_reg(cs, RISCV_TIMER_REG(env, state), &reg);
-> +        if (ret) {
-> +            abort();
-> +        }
-> +    }
-> +
-> +    env->kvm_timer_dirty = false;
-> +}
+> Create separate netdevs for each vmnet operating mode:
+> - vmnet-host
+> - vmnet-shared
+> - vmnet-bridged
 >
->  const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
->      KVM_CAP_LAST_INFO
-> --
-> 2.19.1
->
+> Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+
+QAPI schema
+Acked-by: Markus Armbruster <armbru@redhat.com>
+
 
