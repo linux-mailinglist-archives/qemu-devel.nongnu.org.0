@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59FA8472ABA
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF05472ABB
 	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 11:58:30 +0100 (CET)
-Received: from localhost ([::1]:40708 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:40778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwj2L-00043u-H9
+	id 1mwj2L-00047p-8c
 	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 05:58:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42006)
+Received: from eggs.gnu.org ([209.51.188.92]:42070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mwj0I-00028m-6b
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:56:22 -0500
-Received: from [2a00:1450:4864:20::336] (port=56156
- helo=mail-wm1-x336.google.com)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mwj0U-0002AA-Ht
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:56:38 -0500
+Received: from [2a00:1450:4864:20::334] (port=39801
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mwj0F-0002no-FM
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:56:21 -0500
-Received: by mail-wm1-x336.google.com with SMTP id p18so11561430wmq.5
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 02:56:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mwj0R-0002oq-JB
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:56:34 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ n33-20020a05600c502100b0032fb900951eso13695684wmr.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 02:56:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LFMvMQVlJhagT0WrHjhcMdfLZgqRS0X4f1TAvCuYn/I=;
- b=ivg4OZCiU1D0bWM5TjoXu7eSsjML22otTBu0voD2ZA60sgvgUSAgVLOxpI4HQwze4Q
- 4WBTj+yjQZqvWJaAM8eXqB+vS/sL2qFKWQSRW5+C+ggOemgxSwix3b5IcCkcoDYimE+N
- 8364MA/sfVQpeC2bzAk6HZBonvxJ8PrIGkqs4nSaFQ12bmdUtGAGyTAu86VVpKdTg32p
- bf9M+ucC0J+GM+9NHd0l80Bw0RA4mQyYNUwxAWB9ppgURzFtpAE3wFdFYrUkLKDjhfGr
- JtfZq35blQ5Ij9sNnSWvbnxQ5cpXq486wGZUbLuE/50CZ/FMtvV52/QSdAc3c+ztiY3x
- 1lzg==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=5z8i8oPl77F0qfGMJykN+D6j0nC3oyyBp5MOIUHSBU0=;
+ b=G1/q/ldHLw+Qu8e4nQ8IpQQ+K0T7JQC1i4TwfhPnixYWkp4CeZlB566BIbavqq44At
+ Tm020fE+GyaNU56uUrhAvBsrXm77STYXMS0rYNFU1vTknEleoRT2vgWUZAbCbdtxatjy
+ MvY+KFStNQRDo1IBzXFvDb/T8c01VIBsXivJnMLDz4GNYhRY2IaU6V4ynDl+GEB5YSww
+ dAVe+Wpu1qsOc/oJdntul2ayqqEoJQ5BCj5/GNX7QuNAKEheu+5k+YevT8aKVXzIcXpK
+ /kc7RChHcoumsXHckJIDx8/AtG9yOtAGyawdmiv2/a/WNiCdVdcR0FAOh5PEMXevJtfJ
+ VVCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LFMvMQVlJhagT0WrHjhcMdfLZgqRS0X4f1TAvCuYn/I=;
- b=HxzhRZLmY3MRX+Kivt0XGhdBaTzviOnc2dIZENC275qxFYJOkLdtfKd+Zc6S4q0PwJ
- uqHgh5UOSZDdGl8yr77fJBLMYnZnv+ogErRvP8n6l0W0i0DfTzNhfOPkqNakd/ZewbUN
- JUyGlQTd4r1Ah0WCC8zH13vCUEjVCrbFmj/oCIH2Eb5ACX8oDDwpQ3uVQBkYX4q9b0gY
- Q6Wdjj0n9eK6QrNA8j7MHCBMvvW6/khMiO1RvG9e2eYtR5avD7COVDkWMCEdZSi5MKTG
- IgSMHy8PRVX/PjX/ZpjMgiOsowINZ+Hy3orroZHWu8PbwM8UKxEYWHf90WkQdsRXaUr+
- 3Jig==
-X-Gm-Message-State: AOAM530EcHnVxzvO3ccPOMI3zseCkhG9V67Z5X/FBc6FrMDD5BGxsNbK
- EvDZgYkdZ0Pkt6704KwVd6BBC2rMxSt47qbpUArAYg==
-X-Google-Smtp-Source: ABdhPJyJfEqkYNVBsWrgqTcV7Zh53nyQLzXhWo/j6bLlxc7om+s4/DKgZBakiwapZA0DkF7wxdm0tRPIJzGu54TJQSc=
-X-Received: by 2002:a05:600c:3486:: with SMTP id
- a6mr36297863wmq.32.1639392977775; 
- Mon, 13 Dec 2021 02:56:17 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5z8i8oPl77F0qfGMJykN+D6j0nC3oyyBp5MOIUHSBU0=;
+ b=WCA84n7kMsObpcWSwvIDFhJhbWryO+EiSSTMdZdAjZbrcHWGzcro9StSTq7faAXKRd
+ SWIP9fqTKpzDtEhtMbJ38fb1DivNi1iTjiTR7oiuI6qO1+vnglu9JH9IxP3+CsQUfIEs
+ Q8NMRHiLhX+uWW2Kl+WMY8rsGb1L7bxQFCJ2CYddg6TpEPiJ1JCfSo/+NnhztgTyIlly
+ m9tZ99osliY6sIvgvlOQ+y091r0NfhBCbaDwz6qKOHhTvqKJEHagtchfrZiRXpW3E1V3
+ HwdAO1Wf1f25Ip1koCBt+lsIUkYNpFxJEW81oL1ag+gqozz3Y/aWavsmGrFY6yYIAPTG
+ CP8A==
+X-Gm-Message-State: AOAM531QFUJlDmhnYDu8eKujb6kK0FwN/FjbkwpK4qtZrj/pSPOOzeVW
+ 8aUYi8zFBJ82AsguEoN21zMUww==
+X-Google-Smtp-Source: ABdhPJxYAmbOrLDgejyiWzXwHuvpWUgJww7gRt9T9DwH9hPsKBbmRBH1wHUIPUcJ8fzYCgcIOt1K2Q==
+X-Received: by 2002:a1c:1c1:: with SMTP id 184mr36566942wmb.1.1639392989835;
+ Mon, 13 Dec 2021 02:56:29 -0800 (PST)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168])
+ by smtp.gmail.com with ESMTPSA id m17sm10220322wrz.22.2021.12.13.02.56.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Dec 2021 02:56:29 -0800 (PST)
+Date: Mon, 13 Dec 2021 10:56:07 +0000
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v7 0/8] virtio-iommu: Add ACPI support (Arm part + tests)
+Message-ID: <Ybcmx/TK8F7ayt+X@myrica>
+References: <20211210170415.583179-1-jean-philippe@linaro.org>
+ <CAARzgwxxRfOPbVU+QcYOkGL_pemLWH5x9z9pnhMgKoKOkAgSxw@mail.gmail.com>
+ <YbcSOcEy//0DSMtL@myrica>
+ <CAFEAcA9Cxi+mucFOv_=beJUkNtcCZRyURO16pB57-MrBeC2YNQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20211211191135.1764649-1-peter.maydell@linaro.org>
- <20211211191135.1764649-12-peter.maydell@linaro.org>
- <6458979b-3162-570f-e5af-1f3baff70d04@linaro.org>
- <CAFEAcA-ZWwnyzoq6-D343dMN+8AZjke8ej+fp79g0bEZ+m6n0Q@mail.gmail.com>
-In-Reply-To: <CAFEAcA-ZWwnyzoq6-D343dMN+8AZjke8ej+fp79g0bEZ+m6n0Q@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Dec 2021 10:56:06 +0000
-Message-ID: <CAFEAcA9LdfwphgD+dJL+rE7oLrRxCZu0x1roQZxf_F-g1n5hFw@mail.gmail.com>
-Subject: Re: [PATCH 11/26] hw/intc/arm_gicv3_its: Use 1ULL when shifting by
- (DTE.SIZE + 1)
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA9Cxi+mucFOv_=beJUkNtcCZRyURO16pB57-MrBeC2YNQ@mail.gmail.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -84,40 +90,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: eric.auger@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, Ani Sinha <ani@anisinha.ca>,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 Dec 2021 at 09:48, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Sun, 12 Dec 2021 at 20:43, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
+On Mon, Dec 13, 2021 at 10:04:57AM +0000, Peter Maydell wrote:
+> On Mon, 13 Dec 2021 at 09:28, Jean-Philippe Brucker
+> <jean-philippe@linaro.org> wrote:
 > >
-> > On 12/11/21 11:11 AM, Peter Maydell wrote:
+> > On Sun, Dec 12, 2021 at 10:19:47AM +0530, Ani Sinha wrote:
+> > > On Fri, Dec 10, 2021 at 10:35 PM Jean-Philippe Brucker
+> > > <jean-philippe@linaro.org> wrote:
+> > > >
+> > > > Add ACPI support for virtio-iommu on the virt machine, by instantiating
+> > > > a VIOT table. Also add the tests for the ACPI table.
+> > > >
+> > > > Since last posting [1], I rebased onto v6.2.0-rc4. Note that v6 of this
+> > > > series [2] only contained the table and x86 support, which have been
+> > > > merged. Everything has now been reviewed and should be good to go.
+> > > >
+> > > > * Patches 1-2 add the VIOT table for the virt machine
+> > > > * Patches 3-4 are minor fixes
+> > > > * Patches 5-8 add tests for the VIOT table. They contain the tests for
+> > > >   q35 as well, which didn't make it last time because they depended on
+> > > >   another fix that has now been merged.
 > > >
-> > >       if (dte_valid) {
-> > > -        max_eventid = 1UL << (FIELD_EX64(dte, DTE, SIZE) + 1);
-> > > +        max_eventid = 1ULL << (FIELD_EX64(dte, DTE, SIZE) + 1);
+> > > I believe the entire patchset has been reviewed and you are re-sending
+> > > it so that it gets pulled in after the release?
 > >
-> > Without changing the type of max_eventid, I think it'd be easiest to fix the off-by-one
-> > bug by not changing the comparisions, but changing this computation.  E.g.
-> >
-> >    max_eventid = (2 << FIELD_EX64(dte, DTE, SIZE)) - 1;
-> >
-> > so that the value becomes UINT32_MAX for SIZE=31.
->
-> I think I'd prefer to use a uint64_t. I think that part of the reason
-> for all these off-by-one errors is a lack of consistency in how we
-> chose to name variables and whether we put in them the max-allowed
-> value or the 2^n value, so the series tries to standardize on
-> "always call it num_thingy and always use the 2^n value". I prefer
-> to keep the consistency rather than rearrange things in this
-> one case so it can use a uint32_t.
+> > Yes
+> 
+> To be clear, do you mean:
+> (1) The patchset has been reviewed, and I plan to resend it (ie a v8)
+> to be pulled in after 6.2 releases
+> or
+> (2) The patchset has been reviewed already as v6, and this (v7) was just
+> a resend to be pulled in after 6.2 releases
 
-Looking at the series, I'm going to squash this patch into the
-later "Fix event ID bounds checks" patch, and do all the fixing
-of the event ID check there in a single patch.
+I meant (2), v6 had already been reviewed and I'm resending v7 to be
+pulled after 6.2 releases, sorry about the confusion.  Just for my
+understanding, should I have resent this after the 6.2 release, or is this
+OK and I should just state the intention for a patchset more clearly?
 
--- PMM
+Thanks,
+Jean
 
