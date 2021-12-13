@@ -2,93 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0EB8472768
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 11:03:53 +0100 (CET)
-Received: from localhost ([::1]:47740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E5A4727FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 11:07:10 +0100 (CET)
+Received: from localhost ([::1]:50304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwiBU-0002Xp-EX
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 05:03:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58950)
+	id 1mwiEe-0004QE-TH
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 05:07:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mwiA0-0001RM-2v
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:02:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56302)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mwi9x-0001Dc-85
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:02:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639389736;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KaE1V+fVD7OLKOljNx1IDFA7uDQo9ORBeTvN2cT7sI4=;
- b=W/91rqYdhUczqeE5pBc588c2rjOdOqSfhkymlqgMeFf4Ar5ACbo4UbM81PSGZ16VpZhR2V
- mUelRDQxK8/bd2VJ7ust/ul+i/MkywubQFyQeIKOlc8rVyXSOx6mJc6kV7G0e/OQ4/zZ1B
- Qadi0WKQKA2pYWMW1Gj/+ZN5yyS3KQw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-328-L-zriTAQM4GZk4IY5z3vHA-1; Mon, 13 Dec 2021 05:02:13 -0500
-X-MC-Unique: L-zriTAQM4GZk4IY5z3vHA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- q17-20020adff791000000b00183e734ba48so3685002wrp.8
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 02:02:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mwiCy-0003V7-1X
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:05:25 -0500
+Received: from [2a00:1450:4864:20::430] (port=43894
+ helo=mail-wr1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mwiCk-0001XB-FW
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:05:13 -0500
+Received: by mail-wr1-x430.google.com with SMTP id v11so26022500wrw.10
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 02:05:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LUai4RF3uWcr98wEaU7RneH+aH/wmUcT9WxbjbhjsFg=;
+ b=jjc9zx9CBJzWhgcgO6dLmBKP7ARGJ2NZNpxLg8CC3tW10KQyozDlni+9aFvQZzN8PE
+ UdZVMGdlPa99raaovc46LXU97m+C6/3czOV49GY7W/O4y1cnUCs9UnA4++34fqr0RZm3
+ OwrTnixGFhm4TNiTRWQM+LUwdPU8IUqFYU0YzdhR2o7ZtmUsiO4jgtbkRq3k6YjqWTdI
+ byaBU3S/liSTXtS94W+TpFxWQLQYmXLhSD4HBO+cXilT5SkNX9tY7dpUaFWKU37JHoUP
+ MTaVhI4c1ODNnOy0asUTYE7IMGJdujAqO2TX3lY1SiN39Z3DF4Vj5DOZ4epruxildqiR
+ jKYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=KaE1V+fVD7OLKOljNx1IDFA7uDQo9ORBeTvN2cT7sI4=;
- b=ul6MuppIGQzbCFbebykVrNMOLE1gwTaHetBn4wBSkBoslkW9byns0ShiBcYazZ/+vV
- 0qbfWYR888F9vXnN3X+3CIyUCOyZjI/op0z6Ta8lCwgD4aqqsOKA2Ayx9oV+HJ4IGnZW
- xXDSzI1Al9MfB2Cn0Z+/BHK2ggpFfFpcnb9F9eiDwI2QEecpT3jLNAja+QpZRGMsWZva
- hEojXkH/VIEviXJX2b4f3JEGvW7oE07XJbrkhh4sP5YV+p/jBuPyG2Zx1Cqz6lMlGzkI
- /qOXeWtota+zZA3FjandvOD7TPo8foKgDOmHfdsvRR4FOPnqnJP8wtC+IaTOmDS+Ot6t
- cLCg==
-X-Gm-Message-State: AOAM530DBxYWDcXakOuyGjRdGioQXC2yLG1eFELFfBRPlS26x4uUj7fI
- hZzh3WkywEgX/zXZ9nu1CRRgMLCqtF+JcNTMXw6xvOi/UX1nrvMu9OGd6PjaYoeVpMoV7q7J9S9
- EAbFCN7L0qh24f7o=
-X-Received: by 2002:a05:600c:4104:: with SMTP id
- j4mr36470122wmi.178.1639389731996; 
- Mon, 13 Dec 2021 02:02:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxtcy8F1At7EX1ZYHjG2kx401S653+Vw/+ZZrY9Baa8NZ51JcbuVr3hSaC589VcxVnnqBMvNQ==
-X-Received: by 2002:a05:600c:4104:: with SMTP id
- j4mr36470092wmi.178.1639389731770; 
- Mon, 13 Dec 2021 02:02:11 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id y15sm14753998wry.72.2021.12.13.02.02.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Dec 2021 02:02:11 -0800 (PST)
-Message-ID: <42569854-21ab-a821-49ac-8ab04c5e874d@redhat.com>
-Date: Mon, 13 Dec 2021 11:02:10 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LUai4RF3uWcr98wEaU7RneH+aH/wmUcT9WxbjbhjsFg=;
+ b=ts3tqroy7ONHXpb0/WDqGgfrevo1WAKqXGQ2KhjCiUlAfhRVgq/qM8OrbFFv+uXwLj
+ iRb0hgBT0oxBEHK8SD8dTw29znA1XFy3cYNXEaowZNSTZ9okhBHMsQytFm/ylMBEAMiz
+ 2ToHQS9+wbGoCADJtZe1K1FZ6gUoaN6WRNZ6AbGiWPgrjXZ3f5OpiTQtWwPHWcfq3oJ2
+ AQecytkxg176h1sIkbJMZ82dRrGslsEsA/n+zZUYIqZbg8S9gwE2ng33/0AH9F26/8vO
+ hy0A6kOMwmFlD1LUufo4biYzi/2wI4bHuhpNaWVl2jiBJRPO/7l6oBmXqMI/MHnnQ2zQ
+ TNfw==
+X-Gm-Message-State: AOAM5339a3Kkh8pinHJeZUEFC8EY8uLJn6qTSBu+EbzrkVG6gTVzVZsv
+ 6GrYoeNvv0TeQM9TWNwB8C/532YDqiNpJpkxNNGzGw==
+X-Google-Smtp-Source: ABdhPJx+Er1OKa8qt6dNrmEABCclG1cKfaBg2xz+CsKFv3z9CJT+zhKb6PeTClN89lsDYHTu8juL+APuedypwefiix4=
+X-Received: by 2002:adf:eb42:: with SMTP id u2mr31550863wrn.521.1639389908518; 
+ Mon, 13 Dec 2021 02:05:08 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v6 0/4] virtio-iommu: config related fixes and qtest
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, jean-philippe@linaro.org,
- peter.maydell@linaro.org
-References: <20211127072910.1261824-1-eric.auger@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20211127072910.1261824-1-eric.auger@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -75
-X-Spam_score: -7.6
-X-Spam_bar: -------
-X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.713,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.093, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211210170415.583179-1-jean-philippe@linaro.org>
+ <CAARzgwxxRfOPbVU+QcYOkGL_pemLWH5x9z9pnhMgKoKOkAgSxw@mail.gmail.com>
+ <YbcSOcEy//0DSMtL@myrica>
+In-Reply-To: <YbcSOcEy//0DSMtL@myrica>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Dec 2021 10:04:57 +0000
+Message-ID: <CAFEAcA9Cxi+mucFOv_=beJUkNtcCZRyURO16pB57-MrBeC2YNQ@mail.gmail.com>
+Subject: Re: [PATCH v7 0/8] virtio-iommu: Add ACPI support (Arm part + tests)
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,25 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, pbonzini@redhat.com
+Cc: eric.auger@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, Ani Sinha <ani@anisinha.ca>,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/11/2021 08.29, Eric Auger wrote:
-> Introduce a qtest for the virtio-iommu device. The test
-> allowed to identify an endianess bug in the get_config().
-> We also remove the unneeded set_config() and fix the value
-> for domain_range.end field.
-> 
-> Best Regards
-> 
-> Eric
+On Mon, 13 Dec 2021 at 09:28, Jean-Philippe Brucker
+<jean-philippe@linaro.org> wrote:
+>
+> On Sun, Dec 12, 2021 at 10:19:47AM +0530, Ani Sinha wrote:
+> > On Fri, Dec 10, 2021 at 10:35 PM Jean-Philippe Brucker
+> > <jean-philippe@linaro.org> wrote:
+> > >
+> > > Add ACPI support for virtio-iommu on the virt machine, by instantiating
+> > > a VIOT table. Also add the tests for the ACPI table.
+> > >
+> > > Since last posting [1], I rebased onto v6.2.0-rc4. Note that v6 of this
+> > > series [2] only contained the table and x86 support, which have been
+> > > merged. Everything has now been reviewed and should be good to go.
+> > >
+> > > * Patches 1-2 add the VIOT table for the virt machine
+> > > * Patches 3-4 are minor fixes
+> > > * Patches 5-8 add tests for the VIOT table. They contain the tests for
+> > >   q35 as well, which didn't make it last time because they depended on
+> > >   another fix that has now been merged.
+> >
+> > I believe the entire patchset has been reviewed and you are re-sending
+> > it so that it gets pulled in after the release?
+>
+> Yes
 
-Thanks, I've queued the series now to my testing-next branch:
+To be clear, do you mean:
+(1) The patchset has been reviewed, and I plan to resend it (ie a v8)
+to be pulled in after 6.2 releases
+or
+(2) The patchset has been reviewed already as v6, and this (v7) was just
+a resend to be pulled in after 6.2 releases
 
-  https://gitlab.com/thuth/qemu/-/commits/testing-next
+?
 
-  Thomas
-
-
+thanks
+-- PMM
 
