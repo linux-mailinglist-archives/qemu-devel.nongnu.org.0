@@ -2,79 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A680247365A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 22:05:51 +0100 (CET)
-Received: from localhost ([::1]:53436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 416A5473670
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 22:13:02 +0100 (CET)
+Received: from localhost ([::1]:58270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwsW6-0000X7-IK
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 16:05:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38342)
+	id 1mwsd3-000439-DQ
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 16:13:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwsUO-0007gK-Et
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 16:04:04 -0500
-Received: from [2607:f8b0:4864:20::42f] (port=42571
- helo=mail-pf1-x42f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwsUM-0006CZ-JP
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 16:04:04 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id u80so16017672pfc.9
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 13:04:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=to:from:subject:cc:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=gRjwRtZkB+wzmqm+kJ1cVYJO9EOBFA73Coe5bBxbges=;
- b=qczC+MWFXLmNSt6K0pBFLXms9uBZ8rSSbKEIYyS/LsI28UNzum1PRqz5ObGDnjCIZ6
- LDKI8WkR3gWG5APvvddwFIN+4KO+wCm569cZkeAlk6Os2ulJ+/AT0waLI17KXFc3lShc
- x9+Tdjp+m3TV5P6Nk/Yw4yTJxCMVHI+ix9JZX02C10SWwBIiKyj3eKB0/Gq45rPvT9lm
- o6BC1yFdLl1jtVCgaK05ddtMvkbBf5sYorG5Q/72ogNYoNm5IrPvlVqI4W3n6mxdrvnU
- dQ7ByJJd3Ly95jL9Y1vYBR9bkDh5zr/GyGm7y3NFBhch+qny55CxDdsRAlADgY6/Sd4X
- LtEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:to:from:subject:cc:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=gRjwRtZkB+wzmqm+kJ1cVYJO9EOBFA73Coe5bBxbges=;
- b=7oqOofoV0TtHuRChxIZvoUAkFSSNWUm0CaVDo9PgUcnX6jMwDCdNiS4YnQ40zhNuhQ
- /oMS/iSysbnW+NsINGT68JrTvbkzjl3Ao+9BMNopaBWxxYHm6VU7Zgw+fZdWob2zxg4U
- WD12VI0/K7qJIB95PYWzxZVg55EUt4H20V+2jIQ1VZkwozEpSwF1ZFt+eYELk4GKVLEC
- 0WA0xq0exZVEdH1FC595Zt5IlvND6MS9VZ3ACmkZ6qzoRqkOCq/cNgrl84SpEPJ0/nym
- gDQ++4nkUOI4TdGirS1HbDA2dBCMvBWjDUYrNxbhEcvS3vpZEhu+fHnMXPJuOtPoh4yi
- LKOQ==
-X-Gm-Message-State: AOAM532D5+jEwY9XdeXE0HDjdfsfPIxdZhzlK9lhX4+kv37Fo7+tHUvp
- LiONgBKsrpcMdwENMBgG8DyiRPa3OCrKoQ==
-X-Google-Smtp-Source: ABdhPJyTC4fcuQ8ZvntAS+1/EtI50kAFxh2jGK8YzL2q42OYuL/JjzdGzJ6qBoFXCOT4vGxeq+N5vg==
-X-Received: by 2002:a62:7803:0:b0:494:64ef:7bd7 with SMTP id
- t3-20020a627803000000b0049464ef7bd7mr479189pfc.85.1639429441037; 
- Mon, 13 Dec 2021 13:04:01 -0800 (PST)
-Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id l21sm44207pjt.24.2021.12.13.13.04.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Dec 2021 13:04:00 -0800 (PST)
-To: Taylor Simpson <tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Subject: update hexagon float ref files
-Message-ID: <c54f6905-5826-23c3-c619-a19eca3a4c86@linaro.org>
-Date: Mon, 13 Dec 2021 13:03:58 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1mwsZi-0002EF-PG; Mon, 13 Dec 2021 16:09:34 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33400)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1mwsZg-00072d-HL; Mon, 13 Dec 2021 16:09:34 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BDKEXhw007434; 
+ Mon, 13 Dec 2021 21:09:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=wHdd3khv0Fb/wfaES9ABglSt9N/YAlJGERYJSuAsOTg=;
+ b=le3U6kpe/z0Fb3YvXUfzTl+JidOq7Wg42oxROVtWIM78vipEse1Dsmf1F/QoSAdRQnkq
+ yqmFH4MdQ3dN697ru8+R2LEv99dM+XrH0Z6dzefWrXNND1In/DjtKIP7pPS4gvUlnW6Y
+ f74Zm9UjSemOOU0xDEjhM1eLWVk952KYSvkhRdX4D0IzkVvnRLFcoJvB3hC+x1iNGMbf
+ d6fWwNckJL2q1rUBFSHtnYjGgibTTHJwoT51KaZV8s9wP4qPcSuuyLlO1ilHpn3Nfhg8
+ xjjK7L4M9VtORepF7acieZ1dgFwZ78SxXcRRMm4/QqcZ7QwUj8hiw4tFy/EeCVJkLEkM Vw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cx9r8xu6f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Dec 2021 21:09:27 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BDKoBGu012932;
+ Mon, 13 Dec 2021 21:09:26 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cx9r8xu5s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Dec 2021 21:09:26 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BDL8L1O000630;
+ Mon, 13 Dec 2021 21:09:24 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma03fra.de.ibm.com with ESMTP id 3cvkm97uhr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Dec 2021 21:09:23 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1BDL9Kl136503850
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 13 Dec 2021 21:09:20 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A180911C052;
+ Mon, 13 Dec 2021 21:09:20 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8FB0711C04A;
+ Mon, 13 Dec 2021 21:09:20 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Mon, 13 Dec 2021 21:09:20 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
+ id 3D136E03A3; Mon, 13 Dec 2021 22:09:20 +0100 (CET)
+From: Eric Farman <farman@linux.ibm.com>
+To: Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>
+Subject: [RFC PATCH v5 0/1] s390x: Improvements to SIGP handling [QEMU]
+Date: Mon, 13 Dec 2021 22:09:18 +0100
+Message-Id: <20211213210919.856693-1-farman@linux.ibm.com>
+X-Mailer: git-send-email 2.32.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: rBPwN3Ccq6Qng1zPGRxNIp-Df_1CYrY7
+X-Proofpoint-GUID: 60Uhn26VDRw2V4sxsBDRM-cuuKECCvDD
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-13_10,2021-12-13_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015
+ suspectscore=0 mlxlogscore=894 lowpriorityscore=0 malwarescore=0
+ adultscore=0 priorityscore=1501 phishscore=0 bulkscore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112130125
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,21 +109,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Eric Farman <farman@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Happy holidays, Taylor,
+Here is an update to the SIGP handling series, to correspond to
+version 5 of the KVM series [1].
 
-I've located a bug in tests/multiarch/float_*, which means that the hexagon *.ref files 
-are out of date.
+Unlike earlier versions, there is no new interface to exploit.
+So this simply rearranges processing to mirror expectations
+on the kernel side.
 
-At your convenience, would you please check out
+[1] https://lore.kernel.org/r/20211213210550.856213-1-farman@linux.ibm.com/
 
-https://gitlab.com/rth7680/qemu/-/commits/fix-sfp-test
+Previous RFCs:
+v1: https://lore.kernel.org/r/20211008203811.1980478-1-farman@linux.ibm.com/
+v2: https://lore.kernel.org/r/20211102201122.3188108-1-farman@linux.ibm.com/
+v3: https://lore.kernel.org/r/20211110204528.1378524-1-farman@linux.ibm.com/
+v4: https://lore.kernel.org/r/20211119214327.2367026-1-farman@linux.ibm.com/
 
-and re-generate the files for me?  I'll squash the diff into my patch for bisection.
+Eric Farman (1):
+  s390x: sigp: Reorder the SIGP STOP code
 
+ target/s390x/sigp.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-r~
+-- 
+2.32.0
+
 
