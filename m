@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD60472B38
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 12:22:43 +0100 (CET)
-Received: from localhost ([::1]:40700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC66472B23
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 12:18:46 +0100 (CET)
+Received: from localhost ([::1]:33934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwjPm-0007Dt-RD
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 06:22:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47556)
+	id 1mwjLx-0002ZX-N8
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 06:18:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1mwjJV-0008WG-Vc
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:16:15 -0500
-Received: from [2a00:1450:4864:20::531] (port=39836
- helo=mail-ed1-x531.google.com)
+ id 1mwjJU-0008Vz-CP
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:16:12 -0500
+Received: from [2a00:1450:4864:20::52a] (port=42715
+ helo=mail-ed1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1mwjJS-0007FQ-EX
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:16:13 -0500
-Received: by mail-ed1-x531.google.com with SMTP id w1so50655171edc.6
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 03:16:06 -0800 (PST)
+ id 1mwjJS-0007FV-Ea
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:16:12 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id r11so50238159edd.9
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 03:16:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Tcy7w82Xek+qCwwIDIGTA5uHT+rhsP1JaipQYEHlTxQ=;
- b=WN7db/MBa5RGrOL66We0/5uw4NC/vkfqvf6Kn4rC+pkZTW0Rxg4oflF8RTCl3Zp/hU
- SS+Ivh4aQfuQt7j8kY9ovVDxZo9ZKjhA93CYhr4ykR2agOZ/SRzPMwAiD1gTtjX3nkPz
- Q4ajDyKd32uAQMnHXOC0vSko2MK0Gl8rg2+qfey6XpPhgr34qBsmvAzuJIR9gU8jmJH7
- v60UFgHNqBRVKqME4qAFBASkQWZosuuO22wImFWnFcQFfQTUXZZPqvY+ROL7HhICWm+p
- nGKCg4HCTKqSHQS6Y9bSrDL2Yq0qtFw/FFsWQWWDTNZTmtrnezX/18y4HiXhz0Bl7bJ+
- 1veQ==
+ bh=UOq7HXf+K8oMudzzz7NHQ+jQVflm2qA+bj7AzU+PASI=;
+ b=sFtXHZJzIKgcGpBwUs+JNSib1s5iRrXfkAAAcRX+NSJx1hC4sjDYBaL2J92hoqkFAa
+ xXke3SZH4C5ZvTyJF6OnLIctlTgo3IK/OGyVMLIX+/MA2Kb4nDSJKUVb5gmY4STRG4zY
+ HbOBNzz25cETmGAaEgJFhr/hyXLfEp1y3hnKoGe3bBdDX4bnPWqYir0Pdh6iyzjWGsDs
+ QVpJNm2vniDOktf62G5lr2xq85iYLnTi3TYWLNwomimi65M0PIdfYsRwxkEI+4g8XKUH
+ wL+WzLCPIaviMxgn2FVD12RiyX3BVtqxeHgdbKSoWUxj2In++uIEA+KsrmSdaVURNlda
+ 4PLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Tcy7w82Xek+qCwwIDIGTA5uHT+rhsP1JaipQYEHlTxQ=;
- b=7r00EFuw3tgeJ06UETYtOt9JvN/Z1iAa0BaRUn9a4YM87unPgrJaQMTv02yMmRtqBG
- yP5wOABptS/dpWiUmbS+MiD0IugNOOj5oY6aCXd39FKm9OPQfRdNoL/F3o1X7r6xeKIl
- hyv8Iz7SxALpTo+oI1KYMcScUkzBtjLqT+Z3KOp8bf7QorIO5IyFjvsi6PisYnaPeS/V
- kqvZeKU8pht14NRB/AAx0QYnx9Jetze4zszzMWLjmfpRfPvBCxnkMa1UcyMxb369yWln
- eVt8gL93IJaFbbdp/MkLsUB1RHYW1S3mfZ/c/qLkMYiCrhWeDroUAxKqZMz77kR1UT1X
- /q/g==
-X-Gm-Message-State: AOAM5330tn/PsPXFSRLA8aTmWJEawLd3S06vhUXK6qAwwiCGMfdvcIlk
- ejhSU76hc9RS0ASbPoj1OQNXLWZp37KWGg==
-X-Google-Smtp-Source: ABdhPJwJEeKwq7Dl363C+I1D717cV2vh4+6lXfIFf4oGZGjT+8NB3kqrzJW1qBAjQd30Sm+KG+an1Q==
-X-Received: by 2002:a17:906:5d0b:: with SMTP id
- g11mr43203910ejt.295.1639394165274; 
- Mon, 13 Dec 2021 03:16:05 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=UOq7HXf+K8oMudzzz7NHQ+jQVflm2qA+bj7AzU+PASI=;
+ b=HGzYVdz467bpAsWo92EOtbpXq5MQQl+6JzN4i8CXfv8JIqKs8cpH+6NEMr7/c1wsQ7
+ k3hVeK1i7SjHuelocZe8jyMja/9/cC0DJqOneS2gp1Er2AlQ/kySHdxb2prPfqoaspTj
+ KVjBDqL3xJQwqVcQVquzN5OilDz3N2Dh2L8hRxF+Q8rPxTRf5sMJcaILhRk2P6nykk/S
+ 83WtLHPFGKnN0fGGjCUb/s36wHurhYUKhP2LVU83qiUJS1LSAjKUGgS5ZmVog1LAfgbh
+ I5c8hZwuNK9tYiY+7m1avDYDFu5iGy0rk/jGAjJTBp/faBZB/HfZEqv5GfTOg18DkYc9
+ VuuA==
+X-Gm-Message-State: AOAM531DwZx5uOU5PGhQei3IAiOinvryLHnpHPrmfP3+CvPhHU9Xwbri
+ /CJEQOMag7hf0oi7aXpLfr+hP6mgxZ734g==
+X-Google-Smtp-Source: ABdhPJxPWDn1mFyH8gk3X7PBRa9eGUFEI04KngwIWTauWTcOlrA0foHSD+6GS+9ziK5jYsbnzB3dzw==
+X-Received: by 2002:a50:c35b:: with SMTP id q27mr63056301edb.154.1639394166451; 
+ Mon, 13 Dec 2021 03:16:06 -0800 (PST)
 Received: from kostyanf14nb.Dlink ([37.72.42.118])
- by smtp.gmail.com with ESMTPSA id a13sm6139384edk.29.2021.12.13.03.16.04
+ by smtp.gmail.com with ESMTPSA id a13sm6139384edk.29.2021.12.13.03.16.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Dec 2021 03:16:04 -0800 (PST)
+ Mon, 13 Dec 2021 03:16:05 -0800 (PST)
 From: Kostiantyn Kostiuk <konstantin@daynix.com>
 To: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH 0/5] gqa-win: get_pci_info: Fix memory leak
-Date: Mon, 13 Dec 2021 13:15:49 +0200
-Message-Id: <20211213111554.62394-1-konstantin@daynix.com>
+Subject: [PATCH 1/5] gqa-win: get_pci_info: Clean dev_info if handle is valid
+Date: Mon, 13 Dec 2021 13:15:50 +0200
+Message-Id: <20211213111554.62394-2-konstantin@daynix.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211213111554.62394-1-konstantin@daynix.com>
+References: <20211213111554.62394-1-konstantin@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::531;
- envelope-from=konstantin@daynix.com; helo=mail-ed1-x531.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::52a;
+ envelope-from=konstantin@daynix.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -89,22 +90,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This set of patches fixes memory leaks in the get_pci_info function when it fails
-to get parent device data. In this case the parent_dev_info and the parent_dev_id
-variables will be initialized, but not freed.
+Signed-off-by: Kostiantyn Kostiuk <kkostiuk@redhat.com>
+Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
+---
+ qga/commands-win32.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Bug: https://bugzilla.redhat.com/show_bug.cgi?id=1958825
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 4e84afd83b..3dd74fe225 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -514,7 +514,7 @@ DEFINE_GUID(GUID_DEVINTERFACE_STORAGEPORT,
 
-Kostiantyn Kostiuk (5):
-  gqa-win: get_pci_info: Clean dev_info if handle is valid
-  gqa-win: get_pci_info: Use common 'cleanup' label
-  gqa-win: get_pci_info: Free parent_dev_info properly
-  gqa-win: get_pci_info: Replace 'while' with 2 calls of the function
-  gqa-win: get_pci_info: Add g_autofree for few variables
+ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+ {
+-    HDEVINFO dev_info;
++    HDEVINFO dev_info = INVALID_HANDLE_VALUE;
+     SP_DEVINFO_DATA dev_info_data;
+     SP_DEVICE_INTERFACE_DATA dev_iface_data;
+     HANDLE dev_file;
+@@ -749,7 +749,9 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+     }
 
- qga/commands-win32.c | 74 ++++++++++++++++++++++++++++----------------
- 1 file changed, 47 insertions(+), 27 deletions(-)
-
+ free_dev_info:
+-    SetupDiDestroyDeviceInfoList(dev_info);
++    if (dev_info != INVALID_HANDLE_VALUE) {
++        SetupDiDestroyDeviceInfoList(dev_info);
++    }
+ out:
+     return pci;
+ }
 --
 2.25.1
 
