@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F78472CCB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 14:06:47 +0100 (CET)
-Received: from localhost ([::1]:40426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CCC6472CD6
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 14:08:55 +0100 (CET)
+Received: from localhost ([::1]:45820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwl2U-0002iV-2M
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 08:06:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43598)
+	id 1mwl4U-0006Oj-HS
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 08:08:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mwkwQ-00072L-AI; Mon, 13 Dec 2021 08:00:31 -0500
-Received: from [2a00:1450:4864:20::330] (port=39501
- helo=mail-wm1-x330.google.com)
+ id 1mwkxL-0007mE-Fp; Mon, 13 Dec 2021 08:01:30 -0500
+Received: from [2a00:1450:4864:20::42b] (port=44855
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mwkwO-0002J5-Cs; Mon, 13 Dec 2021 08:00:29 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- n33-20020a05600c502100b0032fb900951eso13932215wmr.4; 
- Mon, 13 Dec 2021 05:00:26 -0800 (PST)
+ id 1mwkxH-0002ah-J6; Mon, 13 Dec 2021 08:01:26 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id t18so26854497wrg.11;
+ Mon, 13 Dec 2021 05:01:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=QRsEWIMBpAFPuvFlO4/xubTig9kMptMut+zvRDO+d3g=;
- b=dPsHmAuD9DRC6sTK8PkkPu4C+mqEn3bioQOFxFhj67TqvWnVCmKLQ6/Cv6NKozAgYB
- 5XQcOrsBuVuIw3dXbzvQlnsmC4pc3j3KKZJdNnR9j1PpUPR9l0g4pxaBZdUkraSf8P7e
- WQwQ4ScpyD9GSXvukUCkbpaZM+fp92X/SvEvOLZM9TeCsJyJQClfx6s2mGUaX86M0KTY
- iTvDQJmDubUSX62AIkF4tzs+feqnnAu6J/YyBwgw8aLoJdEEzODoZJ8GMUj5ARmezro7
- Y1ZYoVbFq7IicLPHo3NG4bEsMgFiNjOeAaFbWYr8o4ZGboKtmKXIVMIcP6nHJgnx9liB
- 4JxA==
+ bh=Csu36sXR6qEuaYGpzFmdSiJPxadFaA86jlWo4F57irM=;
+ b=Avh2IGGr3OCnt5TAhRsSzdpm9963mPebkTb5JbicZQpPtTwd45ygXevZkNcO8eTB8d
+ 9A5FCdY8DHO8cYwAu8Lue1kOjL1stUvBH4T9JcckdT1sZzNg+SDVzo68y6PGxzHAKub9
+ qmThAjgHcrKTbkQNfaEqgIpnSkdQEAb+RxqRh0DKnQBU7M7jmPquT1Fj80OQTj4zDmXA
+ 0QbXWKNtpv+T/LpALHR0QrMTvDtK6RG3UrrkG18VRWmJA71V4+hCewzv1aPOJSIhOnmd
+ h0uL8fLsvEljUMr3jgyIuo10sLIkgdALqmzsCt9BBjYUazJmdx/sQJR07ybfCGbXWfcS
+ tlJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=QRsEWIMBpAFPuvFlO4/xubTig9kMptMut+zvRDO+d3g=;
- b=ESSOZkVWlYndNl6YnuWf3O5X6weZ9th2n36GjdnWkpnCPnm2t9B7ofXuOl/akC8qUI
- a5hUJsP9dKt0YUueCOXD6d8TjNnV/NAZDYUOjGQT2DxiceWa3ILdxG/cvdJePZgyOV3c
- +KodtZwYnFK+/pG8CudV78WqfFmW3vVk0EKB5TVSOeTrsoXu6L0BDG/X33xWAbAj1PBm
- m3EMb5SOdR1/fJDpqWIpaKssjyX5EV5O+/lqcFFOOQgoAL5lnYWCywQQrzWxSnEHBThm
- g986K1wUZqMlXKcuGNwykJVlefQE/V4uS/fyLgG6rXXAN42N473uwsI7X00HZ3lAjncb
- TCgw==
-X-Gm-Message-State: AOAM532hBa31MmtpwbRCa4QYD9His7Hz/wb1oELcJJnGUl37ZNcZuqpY
- te5fAt2DKfip1BjCEgiQTIo=
-X-Google-Smtp-Source: ABdhPJw1R887o8jn1uzVwq3ZfC5H410sDmC2uN42POTO3T6EJw0ql2BRrBxOVpiKDBPR88DoAtSLsQ==
-X-Received: by 2002:a1c:8015:: with SMTP id b21mr36851410wmd.161.1639400425028; 
- Mon, 13 Dec 2021 05:00:25 -0800 (PST)
+ bh=Csu36sXR6qEuaYGpzFmdSiJPxadFaA86jlWo4F57irM=;
+ b=hZUvysGmKAMfKnabxgChvVeSmCT64hiDwehrV5X1M9+XfK9gl6WO2lpQj6liltvAjV
+ u5iDlM/rzCOx8HvCGpxDlFCyEDoauBaY3bsDqg8MGo9FkmIL+JNwpJf8JHwJZpuYhZcK
+ XgeHP2n8DZ19w7o905bxDa6fUeK1OWbJskDXqI02fVzpr1BPpvbz0OSx1EQ+LXsOHxu9
+ BO1f8tGMoOsiFMDotc/+N5jAyamvthNMOzGgLlbz42tbGChk6AK/Shbpe9820T9BAn9H
+ Vcz7n5z5WZrf0lrn86J20oxqwueCCOrIXA8lbrP0AnP1LsJIgTDH5KUIuYY+kzAkMv2x
+ 1hKg==
+X-Gm-Message-State: AOAM530wxGKt9lvi6g6v7NJGjVEj9On5z9ThIdV4z6lHC4RPMy7xQBlf
+ UabVAlN+akoHmuLbBl90zhw6GSHX35w5EQ==
+X-Google-Smtp-Source: ABdhPJx8Aqn9J5YD7gR58t0mzX8aIBXdwXLzkOhJlkiNLefsf4fsYaidVu/a4HUYgcdYnjjO7GatFQ==
+X-Received: by 2002:a05:6000:1103:: with SMTP id
+ z3mr16560296wrw.718.1639400481320; 
+ Mon, 13 Dec 2021 05:01:21 -0800 (PST)
 Received: from [192.168.50.34] (static-180-27-86-188.ipcom.comunitel.net.
  [188.86.27.180])
- by smtp.gmail.com with ESMTPSA id p5sm11630787wrd.13.2021.12.13.05.00.24
+ by smtp.gmail.com with ESMTPSA id l8sm7795226wmc.40.2021.12.13.05.01.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Dec 2021 05:00:24 -0800 (PST)
-Message-ID: <1e18eba2-258d-4b4f-3ab4-99180c2a1659@amsat.org>
-Date: Mon, 13 Dec 2021 14:00:23 +0100
+ Mon, 13 Dec 2021 05:01:20 -0800 (PST)
+Message-ID: <4c37d323-35d6-c3ba-4ba6-41e67c1bf9cf@amsat.org>
+Date: Mon, 13 Dec 2021 14:01:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 16/26] hw/intc/arm_gicv3_its: Fix event ID bounds checks
+Subject: Re: [PATCH 18/26] hw/intc/arm_gicv3_its: Fix handling of
+ process_its_cmd() return value
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211211191135.1764649-1-peter.maydell@linaro.org>
- <20211211191135.1764649-17-peter.maydell@linaro.org>
+ <20211211191135.1764649-19-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211211191135.1764649-17-peter.maydell@linaro.org>
+In-Reply-To: <20211211191135.1764649-19-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -47
 X-Spam_score: -4.8
 X-Spam_bar: ----
@@ -99,29 +100,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/11/21 20:11, Peter Maydell wrote:
-> In process_its_cmd() and process_mapti() we must check the
-> event ID against a limit defined by the size field in the DTE,
-> which specifies the number of ID bits minus one. Convert
-> this code to our num_foo convention, fixing the off-by-one error.
+> process_its_cmd() returns a bool, like all the other process_ functions.
+> However we were putting its return value into 'res', not 'result',
+> which meant we would ignore it when deciding whether to continue
+> or stall the command queue. Fix the typo.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/intc/arm_gicv3_its.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-
-> @@ -299,10 +299,10 @@ static bool process_its_cmd(GICv3ITSState *s, uint64_t value, uint32_t offset,
->                        dte_valid ? "valid" : "invalid",
->                        ite_valid ? "valid" : "invalid",
->                        cte_valid ? "valid" : "invalid");
-> -    } else if (eventid > max_eventid) {
-> +    } else if (eventid >= num_eventids) {
->          qemu_log_mask(LOG_GUEST_ERROR,
->                        "%s: invalid command attributes: eventid %d > %d\n",
-
-">=" in format.
+>  hw/intc/arm_gicv3_its.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> -                      __func__, eventid, max_eventid);
-> +                      __func__, eventid, num_eventids);
 
