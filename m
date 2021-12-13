@@ -2,86 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0402A471F8D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 04:24:38 +0100 (CET)
-Received: from localhost ([::1]:46498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA427471FE2
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 05:16:42 +0100 (CET)
+Received: from localhost ([::1]:47862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwbx6-0000Kc-MY
-	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 22:24:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36090)
+	id 1mwclV-0005mm-J5
+	for lists+qemu-devel@lfdr.de; Sun, 12 Dec 2021 23:16:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mwbw3-00086w-3w
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 22:23:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24101)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mwbvz-0000ZZ-49
- for qemu-devel@nongnu.org; Sun, 12 Dec 2021 22:23:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639365805;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=U3u4DCZFWxLt74hbYth15/tsx14E8mUx2nwKUDNZZIA=;
- b=TZOOIKTUGreQ6Xl5UbQDswPuSIujMssMtxqsMpUkjL9eUytCmxUWAXU+N2Km/z2FeH/Qgc
- 1HwTz9Pjl2a3NnQZr+JBk3P7spsQ8K0vmxXOOOJogLQlY42BYeNx5fMu29Zerlfib/15RP
- uuoA4YZJLIzo+UrNy0++5/hsRsJp+Ag=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-33-HS440CRMPaqOjHw6v5jb-A-1; Sun, 12 Dec 2021 22:23:23 -0500
-X-MC-Unique: HS440CRMPaqOjHw6v5jb-A-1
-Received: by mail-lf1-f72.google.com with SMTP id
- e5-20020ac25ca5000000b0041bf2d8f2e1so6888129lfq.13
- for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 19:23:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mwckL-0004u5-9e
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 23:15:29 -0500
+Received: from [2a00:1450:4864:20::42f] (port=44590
+ helo=mail-wr1-x42f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mwckJ-0002cS-6r
+ for qemu-devel@nongnu.org; Sun, 12 Dec 2021 23:15:29 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id t18so24813481wrg.11
+ for <qemu-devel@nongnu.org>; Sun, 12 Dec 2021 20:15:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hQuNNiV36mSAjdx2A+UDnj7IsJtVFFXiaU04Zk+mx+E=;
+ b=aAJCn2VYvrJO3L1q1FQFa2YE3Ji4AgEAr++5j5JSEWn4z31W0lNbFNEdugdo8/HQFN
+ QwaiLEhrrdopD8g9RUhrZ6q+aGrEWP4nQbOFHkZl1kvJomRkxf2vW/6eEfqNWs7m13va
+ B/9wanYfbipg+zo1KecnjKRki2pgIFj9qtsDm7q/sjEs1rR+JNO6qJvA+U+8DWrXAFsS
+ X8e0e0JoaAhBqKMwRLSndwRLcrdGWJvE7bq5o0fBUH1QL13y/NAY9GXkwOWKMe1mO0+l
+ tL3ApUPbMU66pN8FUalPoIwI2Nu7RfBrTPR6P3mUMEK+oqO3Hxh9DORia78fF27C2vnO
+ bumQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=U3u4DCZFWxLt74hbYth15/tsx14E8mUx2nwKUDNZZIA=;
- b=jvA89sk24aub+XytcmDctClKOcQLZIxf/3WDIT5bQJ4wA5sbbDRUIm0+B3qV3Zt1RV
- XXWuh/P41+9gh5Tm9V01gNgpUZyB6w5EANZfhO9E4NY5fZ7atUkB8AmNdKIMX1xqR0Nu
- /maJugwQQjl7IqpfKHjGyY7imU9kMQJiw9z6HlsRyhcA2Yu3JV836OXfl9sNpZvXZ8CD
- lg6FVuM3VlSIuYBGfLwXBfaZcXwJF1aUVzqf1QXHLeDw2sXLUSkao6FfCPUpDwLVmXIg
- kTlDEaiKTM5kuybEhb02NvbhO+oVQufUQcThvOx/BJ+R550rKUA351FP8dEEkO7r+Oui
- 2IJw==
-X-Gm-Message-State: AOAM533n/HpJFObYXXkCkbkJFhyw0CwmXi1PzTWEjJDqQw0Q3Dx1pa1M
- J1nKLnwVeWOpYCFpybS4UEkmj4s/eNgV0CXyzCIpDf8sa/g9L3gQiqKFCPLIibSieiyi8O0wn/9
- CLCaPyeU9KVPNbb7SOPoAhQZY/S4quQk=
-X-Received: by 2002:a05:6512:3987:: with SMTP id
- j7mr25778194lfu.199.1639365802298; 
- Sun, 12 Dec 2021 19:23:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyfT+9ZoSk9BLHSEY73qFkNF6Ak8c7zmdIOYFvaTmTPip6MTNdjfYl+mtS+XHahHkRHxuKX5FYquNIyiQlM25Y=
-X-Received: by 2002:a05:6512:3987:: with SMTP id
- j7mr25778170lfu.199.1639365802043; 
- Sun, 12 Dec 2021 19:23:22 -0800 (PST)
+ bh=hQuNNiV36mSAjdx2A+UDnj7IsJtVFFXiaU04Zk+mx+E=;
+ b=wHIq3P4DKNY2xMIrFg8cl9DFVNuFzqAq70zhH/PQXdPNTscc/fHSLGGmtpx49p3TUJ
+ 8VfjCMouoxqa1rc5ClUlBp67h0tlD2ev84DU85XqenzwKUx9xMCneMxY0e6L5IjHBEnL
+ VLnVa72kIIEwym1q8sD0P83EZscpQaSr1k6SHHtA29w8mH9w+Z5gCMlYlDhEAz6EAHbI
+ zQwtenjrwAsmEH2Gw/8AVSFMj3RO3F3DjckUX+O6R4NDPUtbWhz6sMLxXhTFL7M1s3Sp
+ FLeF7HS1hoFKjZ6mh2t2oU/kn1WoWSJriFG/LLCJeOtg7T0sO2D/5szS1kYREtHMYVea
+ Y41g==
+X-Gm-Message-State: AOAM531i1k/czZZ8VB3cnXKU19Y/E7wDFWGKQ/8LWeaRGQ9X9hyufskU
+ R0JRu2EXgypvKuRpGYh1CxtqGI+z7uMtsrVU4aeL0Q==
+X-Google-Smtp-Source: ABdhPJzsEO0NbXWE7QXUW9Ts0TN3/8EV4LxFUxaBHg8aNp0CX9LcsDcD85gipYZvAa6eRtBVN7Col3rHPtQcrxKMluI=
+X-Received: by 2002:adf:d1e2:: with SMTP id g2mr29797466wrd.346.1639368924975; 
+ Sun, 12 Dec 2021 20:15:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20211208052010.1719-1-longpeng2@huawei.com>
- <CACGkMEvW0W-mMU159bUyDo2jK03FYQEn3ZedbC9vaEvDj2v7KQ@mail.gmail.com>
- <293da14ee62f4cfca9a6cec73083e154@huawei.com>
-In-Reply-To: <293da14ee62f4cfca9a6cec73083e154@huawei.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 13 Dec 2021 11:23:11 +0800
-Message-ID: <CACGkMEsRzREaawCA9CWc7D9DV3S9CqDmrQhru_1d2bUduvALPQ@mail.gmail.com>
-Subject: Re: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
-To: "Longpeng (Mike,
- Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20211210100732.1080-1-jiangyifei@huawei.com>
+ <20211210100732.1080-4-jiangyifei@huawei.com>
+In-Reply-To: <20211210100732.1080-4-jiangyifei@huawei.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Mon, 13 Dec 2021 09:45:12 +0530
+Message-ID: <CAAhSdy12sRcAarGN0z4HNDYrWPoJ+H6_HjXzc=2+ohdDvzeg5A@mail.gmail.com>
+Subject: Re: [PATCH v2 03/12] target/riscv: Implement function
+ kvm_arch_init_vcpu
+To: Yifei Jiang <jiangyifei@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.713,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::42f;
+ envelope-from=anup@brainfault.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,141 +81,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Yechuan <yechuan@huawei.com>, Yongji Xie <xieyongji@bytedance.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, Parav Pandit <parav@nvidia.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Mingwang Li <limingwang@huawei.com>, KVM General <kvm@vger.kernel.org>,
+ libvir-list@redhat.com, Anup Patel <anup.patel@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, wanbo13@huawei.com,
+ Palmer Dabbelt <palmer@dabbelt.com>, kvm-riscv@lists.infradead.org,
+ wanghaibin.wang@huawei.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ fanliang@huawei.com, "Wubin \(H\)" <wu.wubin@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Dec 11, 2021 at 1:23 PM Longpeng (Mike, Cloud Infrastructure
-Service Product Dept.) <longpeng2@huawei.com> wrote:
+On Fri, Dec 10, 2021 at 3:37 PM Yifei Jiang <jiangyifei@huawei.com> wrote:
 >
+> Get isa info from kvm while kvm init.
 >
->
-> > -----Original Message-----
-> > From: Jason Wang [mailto:jasowang@redhat.com]
-> > Sent: Wednesday, December 8, 2021 2:27 PM
-> > To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-> > <longpeng2@huawei.com>
-> > Cc: mst <mst@redhat.com>; Parav Pandit <parav@nvidia.com>; Yongji Xie
-> > <xieyongji@bytedance.com>; Stefan Hajnoczi <stefanha@redhat.com>; Stefano
-> > Garzarella <sgarzare@redhat.com>; Yechuan <yechuan@huawei.com>; Gonglei (Arei)
-> > <arei.gonglei@huawei.com>; qemu-devel <qemu-devel@nongnu.org>
-> > Subject: Re: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
-> >
-> > On Wed, Dec 8, 2021 at 1:20 PM Longpeng(Mike) <longpeng2@huawei.com> wrote:
-> > >
-> > > From: Longpeng <longpeng2@huawei.com>
-> > >
-> > > Hi guys,
-> > >
-> > > This patch introduces vhost-vdpa-net device, which is inspired
-> > > by vhost-user-blk and the proposal of vhost-vdpa-blk device [1].
-> > >
-> > > I've tested this patch on Huawei's offload card:
-> > > ./x86_64-softmmu/qemu-system-x86_64 \
-> > >     -device vhost-vdpa-net-pci,vdpa-dev=/dev/vhost-vdpa-0
-> > >
-> > > For virtio hardware offloading, the most important requirement for us
-> > > is to support live migration between offloading cards from different
-> > > vendors, the combination of netdev and virtio-net seems too heavy, we
-> > > prefer a lightweight way.
-> >
-> > Could you elaborate more on this? It's mainly the control path when
-> > using with netdev, and it provides a lot of other benefits:
-> >
-> > - decouple the transport specific stuff out of the vhost abstraction,
-> > mmio device is supported with 0 line of code
-> > - migration compatibility, reuse the migration stream that is already
-> > supported by Qemu virtio-net, this will allow migration among
-> > different vhost backends.
-> > - software mediation facility, not all the virtqueues are assigned to
-> > guests directly. One example is the virtio-net cvq, qemu may want to
-> > intercept and record the device state for migration. Reusing the
-> > current virtio-net codes simplifies a lot of codes.
-> > - transparent failover (in the future), the nic model can choose to
-> > switch between vhost backends etc.
-> >
->
-> We want to use the vdpa framework instead of the vfio-pci framework in
-> the virtio hardware offloading case, so maybe some of the benefits above
-> are not needed in our case. But we need to migrate between different
-> hardware, so I am not sure whether this approach would be harmful to the
-> requirement.
+> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+> Signed-off-by: Mingwang Li <limingwang@huawei.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-It should not, but it needs to build the migration facility for the
-net from the ground. And if we want to have a general migration
-solution instead of a vendor specific one, it may duplicate some logic
-of existing virtio-net implementation. The CVQ migration is an
-example, we don't provide a dedicated migration facility in the spec.
-So a more general way for live migration currently is using the shadow
-virtqueue which is what Eugenio is doing. So thanks to the design
-where we tried to do all the work in the vhost layer, this might not
-be a problem for this approach. But talking about the CVQ migration,
-things will be interesting. Qemu needs to decode the cvq commands in
-the middle thus it can record the device state. For having a general
-migration solution, vhost-vdpa-pci needs to do this as well.
-Virtio-net has the full CVQ logic so it's much easier, for
-vhost-vdpa-pci, it needs to duplicate them all in its own logic.
+Looks good to me.
 
+Reviewed-by: Anup Patel <anup.patel@wdc.com>
+
+Regards,
+Anup
+
+> ---
+>  target/riscv/kvm.c | 32 +++++++++++++++++++++++++++++++-
+>  1 file changed, 31 insertions(+), 1 deletion(-)
 >
-> > >
-> > > Maybe we could support both in the future ?
-> >
-> > For the net, we need to figure out the advantages of this approach
-> > first. Note that we didn't have vhost-user-net-pci or vhost-pci in the
-> > past.
-> >
+> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+> index 687dd4b621..ccf3753048 100644
+> --- a/target/riscv/kvm.c
+> +++ b/target/riscv/kvm.c
+> @@ -38,6 +38,23 @@
+>  #include "qemu/log.h"
+>  #include "hw/loader.h"
 >
-> Why didn't support vhost-user-net-pci in history ? Because its control
-> path is much more complex than the block ?
-
-I don't know, it may be simply because no one tries to do that.
-
+> +static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type, uint64_t idx)
+> +{
+> +    uint64_t id = KVM_REG_RISCV | type | idx;
+> +
+> +    switch (riscv_cpu_mxl(env)) {
+> +    case MXL_RV32:
+> +        id |= KVM_REG_SIZE_U32;
+> +        break;
+> +    case MXL_RV64:
+> +        id |= KVM_REG_SIZE_U64;
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +    return id;
+> +}
+> +
+>  const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
+>      KVM_CAP_LAST_INFO
+>  };
+> @@ -79,7 +96,20 @@ void kvm_arch_init_irq_routing(KVMState *s)
 >
-> > For the block, I will leave Stefan and Stefano to comment.
-> >
-> > > Such as:
-> > >
-> > > * Lightweight
-> > >  Net: vhost-vdpa-net
-> > >  Storage: vhost-vdpa-blk
-> > >
-> > > * Heavy but more powerful
-> > >  Net: netdev + virtio-net + vhost-vdpa
-> > >  Storage: bdrv + virtio-blk + vhost-vdpa
-> > >
-> > > [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg797569.html
-> > >
-> > > Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
-> > > ---
-> > >  hw/net/meson.build                 |   1 +
-> > >  hw/net/vhost-vdpa-net.c            | 338
-> > +++++++++++++++++++++++++++++++++++++
-> > >  hw/virtio/Kconfig                  |   5 +
-> > >  hw/virtio/meson.build              |   1 +
-> > >  hw/virtio/vhost-vdpa-net-pci.c     | 118 +++++++++++++
-> >
-> > I'd expect there's no device type specific code in this approach and
-> > any kind of vDPA devices could be used with a general pci device.
-> >
-> > Any reason for having net specific types here?
-> >
+>  int kvm_arch_init_vcpu(CPUState *cs)
+>  {
+> -    return 0;
+> +    int ret = 0;
+> +    target_ulong isa;
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    CPURISCVState *env = &cpu->env;
+> +    uint64_t id;
+> +
+> +    id = kvm_riscv_reg_id(env, KVM_REG_RISCV_CONFIG, KVM_REG_RISCV_CONFIG_REG(isa));
+> +    ret = kvm_get_one_reg(cs, id, &isa);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +    env->misa_ext = isa;
+> +
+> +    return ret;
+>  }
 >
-> No, just because there already has the proposal of vhost-vdpa-blk, so I
-> developed the vhost-vdpa-net correspondingly.
+>  int kvm_arch_msi_data_to_gsi(uint32_t data)
+> --
+> 2.19.1
 >
-> I pretty agree with your suggestion. If feasible, likes vfio-pci, we don't
-> need to maintain the device type specific code in QEMU, what's more, it's
-> possible to support the live migration of different virtio hardware.
->
-
-See above, we probably need type specific migration code.
-
-[...]
-
-Thanks
-
 
