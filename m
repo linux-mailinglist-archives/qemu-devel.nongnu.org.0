@@ -2,74 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4CD472E9D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 15:12:30 +0100 (CET)
-Received: from localhost ([::1]:50050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B936B472F59
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 15:31:41 +0100 (CET)
+Received: from localhost ([::1]:41028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwm43-0003A6-Md
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 09:12:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35298)
+	id 1mwmMd-0008TJ-JI
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 09:31:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mwm1F-0001Tx-H6
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 09:09:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48397)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mwmJr-0006xS-FC
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 09:28:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mwm1D-0000Jx-7Q
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 09:09:32 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mwmJm-0005MP-BA
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 09:28:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639404570;
+ s=mimecast20190719; t=1639405718;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IZ/4gmd772ZlCt7fwN3expiRFKmfKx7zxV1utyJtkfk=;
- b=NMWwhlR6mU6ZSJYXyZUd8aesVRt3w7+gp3NdfOcP4RW5P5/jt9UXXeKQ9jimuQ1R/YD6ES
- U4qjAaxzMZKJbHLDZynKeKvnG+CKjM5FtLqAfmdoqsJbHR0M7NUmyzvi4jHC330CyTOBV/
- 2gc1TXkIR+TW4se0mFfmX15GSejpqus=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eah4wlKH05d8CB8dtzdnGOYLsUQS+SvMifTc89FAwIM=;
+ b=KNMVasHAs+/cepcgbWOIPLdMF3WOBxSQd76chW2nnlcXmsDodHCRlokPFDt5B6UGfYsjEW
+ Q3wwxvxxKo7aViRyhLox9SrzevmfUMV4Wp3+CcOuhuqkauwL8LWqg/MklRIL8DewYu4a1w
+ cANjV75USrqJp5nA+f6EKve+/7PNCKM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-120-llFilUHzPBaQUViZltOQVA-1; Mon, 13 Dec 2021 09:09:22 -0500
-X-MC-Unique: llFilUHzPBaQUViZltOQVA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FAEB102CB76;
- Mon, 13 Dec 2021 14:09:21 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7021860C9F;
- Mon, 13 Dec 2021 14:09:19 +0000 (UTC)
-Date: Mon, 13 Dec 2021 14:09:18 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC v3 0/4] tls: add macros for coroutine-safe TLS variables
-Message-ID: <YbdUDkTkt5srNdW+@stefanha-x1.localdomain>
-References: <20211206142632.116925-1-stefanha@redhat.com>
- <CAFEAcA9=T-2AxzN1fhrtnu5U_5k7D8TPVjFXOLS_MeOCvR8FNA@mail.gmail.com>
- <Ya9nP63gwsk80POC@stefanha-x1.localdomain>
- <CAFEAcA_PfjwqS=4c=LCzZWbJBiELeBsdQ4QZur5wMtrtu1BFuQ@mail.gmail.com>
+ us-mta-549-iacymkB1Oz-ewZ0rPjkPlA-1; Mon, 13 Dec 2021 09:28:37 -0500
+X-MC-Unique: iacymkB1Oz-ewZ0rPjkPlA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d3-20020adfa343000000b0018ed6dd4629so3924079wrb.2
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 06:28:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=eah4wlKH05d8CB8dtzdnGOYLsUQS+SvMifTc89FAwIM=;
+ b=v6UKJ8aqDqc2WqGggIL4yUJZIq8tvVOllB5D5jtgVsSa7RuqDoMqUuntDI0tmPpmSG
+ ewXguuDVNNqkH2SX8MCKW5Kaa/karwPaJCqnW2l/H+QFIgUVneQxj3hv/lNfrnlNbpZ9
+ K/teu+y86phPTzbrbD9e2cPB9mFA6/64ZydXaF4g4Wyp7s3bp18+HzYsp/6h/OasfYc9
+ La4Bt17H1s6jqC1fhNdGmqE4w1fNlAcjfHlp+5KHE48KOH7qP/cXszoqj2n/9sR8i6nS
+ XithOWFkAWbeXah9vGfq1+zlewTnQ/w0XzRodTq0rbpFZwJqXBInhcpaSMnprHR3XtgD
+ IZpA==
+X-Gm-Message-State: AOAM530FxrjQznFiA0fAgqTGnR7k8+/Ikifop7ljxAN6DleXjERE+MS4
+ gUGD9LxpqvShyjuz5hnXdyacq+yxbPrhFnR1C4AUfP+cyF3XfFkVxtUX0VKLwkhVGdgu8DObjb2
+ X7QtUTg6D2X1kSQw=
+X-Received: by 2002:a7b:ce8c:: with SMTP id q12mr38954424wmj.91.1639405715543; 
+ Mon, 13 Dec 2021 06:28:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzTy1YiAwecIbjcskmIfwk5TfbOn88DdkOjP13lyPt9pgM+gFTnMxudp0UWDSlZBmHOFXaDIA==
+X-Received: by 2002:a7b:ce8c:: with SMTP id q12mr38954385wmj.91.1639405715249; 
+ Mon, 13 Dec 2021 06:28:35 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id p6sm10830136wru.41.2021.12.13.06.28.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Dec 2021 06:28:32 -0800 (PST)
+Date: Mon, 13 Dec 2021 15:28:29 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: QEMU | READ memory access in /hw/acpi/pcihp.c (#770)
+Message-ID: <20211213152829.0eb92752@redhat.com>
+In-Reply-To: <20211213031626-mutt-send-email-mst@kernel.org>
+References: <issue_98895819@gitlab.com>
+ <37127769-a8d3-9d5f-5bfe-c0a0a8b9d3e2@redhat.com>
+ <20211213031626-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_PfjwqS=4c=LCzZWbJBiELeBsdQ4QZur5wMtrtu1BFuQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3tMPZRx+5j9Ef7YM"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.713,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,84 +98,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, fweimer@redhat.com, thuth@redhat.com,
- Daniel Berrange <berrange@redhat.com>, qemu-block@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Warner Losh <imp@bsdimp.com>, sguelton@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---3tMPZRx+5j9Ef7YM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 13 Dec 2021 05:33:43 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-On Tue, Dec 07, 2021 at 01:55:34PM +0000, Peter Maydell wrote:
-> On Tue, 7 Dec 2021 at 13:53, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >
-> > On Mon, Dec 06, 2021 at 02:34:45PM +0000, Peter Maydell wrote:
-> > > On Mon, 6 Dec 2021 at 14:33, Stefan Hajnoczi <stefanha@redhat.com> wr=
-ote:
-> > > >
-> > > > v3:
-> > > > - Added __attribute__((weak)) to get_ptr_*() [Florian]
-> > >
-> > > Do we really need it *only* on get_ptr_*() ? If we need to
-> > > noinline the other two we probably also should use the same
-> > > attribute weak to force no optimizations at all.
-> >
-> > The weak attribute can't be used on static functions, so I think we nee=
-d
-> > a different approach:
-> >
-> > In file included from ../util/async.c:35:
-> > /builds/stefanha/qemu/include/qemu/coroutine-tls.h:201:11: error: weak =
-declaration of 'get_ptr_my_aiocontext' must be public
-> >      type *get_ptr_##var(void)                                         =
-       \
-> >            ^~~~~~~~
-> > ../util/async.c:673:1: note: in expansion of macro 'QEMU_DEFINE_STATIC_=
-CO_TLS'
-> >  QEMU_DEFINE_STATIC_CO_TLS(AioContext *, my_aiocontext)
-> >  ^~~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> > Adding asm volatile("") seems to work though:
-> > https://godbolt.org/z/3hn8Gh41d
->=20
-> You can see in the clang disassembly there that this isn't
-> sufficient. The compiler puts in both calls, but it ignores
-> the return results and always returns "true" from the function.
+> On Mon, Dec 13, 2021 at 08:43:55AM +0100, Thomas Huth wrote:
+> > 
+> >  Hi Michael, hi Igor,
+> > 
+> > just FYI, a crash has been reported in the ACPI code ...
+> > by the way, do you have a gitlab account, so you could be put on CC: for
+> > such bugs there, too?
+> > 
+> >  Regards,
+> >   Thomas
+> > 
+> > 
+> > -------- Forwarded Message --------
+> > Subject: 	QEMU | READ memory access in /hw/acpi/pcihp.c (#770)
+> > Date: 	Sun, 12 Dec 2021 15:03:50 +0000
+> > From: 	LucasLeeNDS (@LucasLeeNDS) <gitlab@mg.gitlab.com>
+> > Reply-To: 	QEMU / QEMU
+> > <incoming+b01bab3884ecadb087cf49724e7b33aa@incoming.gitlab.com>
+> > To: 	thuth@redhat.com
+> > 
+> > 
+> > 
+> > GitLab
+> > 
+> > LucasLeeNDS <https://gitlab.com/LucasLeeNDS> created an issue: #770
+> > <https://gitlab.com/qemu-project/qemu/-/issues/770>
+> > 
+> > Hello qemu team, An invalid pointer initialization issue was found in
+> > /hw/acpi/pcihp.c:470:9 of QEMU in versions 6.2.0-rc2.
+> > 
+> > *Reproducer*
+> > 
+> > |cat << EOF | ./qemu-system-i386 \ -M pc -nodefaults -netdev user,id=user0
+> > -device virtio-net,netdev=user0 \ -qtest stdio outl 0xcf8 0x80000b00 inw
+> > 0xcfc outl 0xcf8 0x80000b04 inw 0xcfc outl 0xcf8 0x80000b04 outw 0xcfc 0x7
+> > outl 0xcf8 0x80000b04 inw 0xcfc outl 0xcf8 0x80000000 inw 0xcfc outl 0xcf8
+> > 0x80000004 inw 0xcfc outl 0xcf8 0x80000004 outw 0xcfc 0x7 outl 0xcf8
+> > 0x80000004 inw 0xcfc outl 0xcf8 0x80000800 inw 0xcfc outl 0xcf8 0x80000804
+> > inw 0xcfc outl 0xcf8 0x80000804 outw 0xcfc 0x7 outl 0xcf8 0x80000804 inw
+> > 0xcfc outl 0xcf8 0x80000900 inw 0xcfc outl 0xcf8 0x80000920 outl 0xcfc
+> > 0xffffffff outl 0xcf8 0x80000920 inl 0xcfc outl 0xcf8 0x80000920 outl 0xcfc
+> > 0xc001 outl 0xcf8 0x80000904 inw 0xcfc outl 0xcf8 0x80000904 outw 0xcfc 0x7
+> > outl 0xcf8 0x80000904 inw 0xcfc outl 0xcf8 0x80001000 inw 0xcfc outl 0xcf8
+> > 0x80001010 outl 0xcfc 0xffffffff outl 0xcf8 0x80001010 inl 0xcfc outl 0xcf8
+> > 0x80001010 outl 0xcfc 0xc021 outl 0xcf8 0x80001014 outl 0xcfc 0xffffffff
+> > outl 0xcf8 0x80001014 inl 0xcfc outl 0xcf8 0x80001014 outl 0xcfc 0xe0000000
+> > outl 0xcf8 0x80001020 outl 0xcfc 0xffffffff outl 0xcf8 0x80001020 inl 0xcfc
+> > outl 0xcf8 0x80001020 outl 0xcfc 0xe0004000 outl 0xcf8 0x80001004 inw 0xcfc
+> > outl 0xcf8 0x80001004 outw 0xcfc 0x7 outl 0xcf8 0x80001004 inw 0xcfc
+> > clock_step outl 0xae10 0x15 outl 0xae10 0x585a5564 outl 0xae10 0x15 outl
+> > 0xcf8 0x80000b06 outl 0xcfc 0xdd58fb5a outl 0xae14 0x64296572 clock_step
+> > outl 0xae10 0x15 outl 0xae10 0x585a5564 outl 0xae10 0x15 outl 0xcf8
+> > 0x80000b06 outl 0xcfc 0xdd58fb5a outl 0xae14 0x64296572 EOF|
+> > 
+> > *Stack-Trace*
+> > 
+> > |AddressSanitizer:DEADLYSIGNAL
+> > =================================================================
+> > ==4191==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000050 (pc
+> > 0x564df8697958 bp 0x7ffe620c13f0 sp 0x7ffe620c12a0 T0) ==4191==The signal is
+> > caused by a READ memory access. ==4191==Hint: address points to the zero
+> > page. #0 0x564df8697958 in pci_write
+> > /home/test/Desktop/qemu-6.2.0-rc2/build/../hw/acpi/pcihp.c:470:9 #1
+> > 0x564df941eb3c in memory_region_write_accessor  
+> 
+> So it's this line:
+> 
+>         QTAILQ_FOREACH_SAFE(kid, &bus->qbus.children, sibling, next) {
+> 
+> in pci_write
+> 
+> probably because we supplied an invalid selector so bus is NULL?
+> 
+> Just checking that should do the job I think ...
+> Igor, what do you think?
 
-Specifying a input operand forces the compiler to evaluate the return
-value of get_ptr_i():
+It should fix the issue, would you like to send a formal patch?
 
-  static __attribute__((noinline)) long get_ptr_i()
-  {
-    long l =3D (long)&i;
-    asm volatile("" : "+rm" (l));
-    return l;
-  }
+(as for impact, it should not case issue in normal use-case,
+max possible harm would be crashing qemu/VM if user has write
+rights to pcihp IO window (typically restricted to superuser),
+that's what test case/reproducer was doing)
 
-https://godbolt.org/z/e6ddGdPMv
+> 
+> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> index 30405b5113..a5e182dd3a 100644
+> --- a/hw/acpi/pcihp.c
+> +++ b/hw/acpi/pcihp.c
+> @@ -491,6 +491,9 @@ static void pci_write(void *opaque, hwaddr addr, uint64_t data,
+>          }
+>  
+>          bus = acpi_pcihp_find_hotplug_bus(s, s->hotplug_select);
+> +        if (!bus) {
+> +            break;
+> +        }
+>          QTAILQ_FOREACH_SAFE(kid, &bus->qbus.children, sibling, next) {
+>              Object *o = OBJECT(kid->child);
+>              PCIDevice *dev = PCI_DEVICE(o);
 
-Stefan
 
---3tMPZRx+5j9Ef7YM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmG3VA4ACgkQnKSrs4Gr
-c8jaKQgAlvL9PW0hbxR3czh96/X35Umlu3mNVrwwpO8qOrSytPQ1/Jy5VRa7G+FI
-z8kq4Dm/TJRuOg/oOsKlwo2StjJ4Yh8XsjaGk7+Uy3m9r1ZiY016IFgycxLPJWrZ
-Mts0liE5IxQqlAs2VPX8DvartvnHd16Wc5ikng/2C5KAFgPjUCm9Dif1Ul+oFy5D
-+bowOqyM+vLQszja2e3Od3R4vOLjkxuG0UUvUej5Su7eR02mQB4CbCFAI+xKyUe8
-z2DzgiuqmNlM2JMK1v/OiYTviorDnRvn9dH5aYULdA6Xyf/Fv5a4IgnKI116cmIx
-VhioFUqZYDR0Vmgf6OypVgiUyNt4lw==
-=LKdR
------END PGP SIGNATURE-----
-
---3tMPZRx+5j9Ef7YM--
 
 
