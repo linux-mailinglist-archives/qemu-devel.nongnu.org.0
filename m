@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1219D472F7D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 15:38:42 +0100 (CET)
-Received: from localhost ([::1]:46096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74BDB472F98
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 15:43:07 +0100 (CET)
+Received: from localhost ([::1]:49632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwmTQ-0003r9-KF
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 09:38:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45254)
+	id 1mwmXi-0006Od-K3
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 09:43:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mwmRG-00034u-B6
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 09:36:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52581)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mwmRC-0006se-Ma
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 09:36:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639406171;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=nmZGq1bdl7rNZaOEEPZwFvIJp9DA8Qjcg5toX5N8wDM=;
- b=KB9Tb55pfyCAokJCBS7BH0rBgUPok69h2BL4V2jpNRaSM5BTQlW4rKfZNZrV8XYl2bdBfc
- s0aNpNLo4Y+EOP17hMbs2sXRZ2YAjpEqCjFBM79JoUyCcUa9Wg5LH3plXiehSazFMFnPnA
- CK+QMyvQ/7wFK9hNHIYDk727QxkCIQ4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-312-NNHZj-nyPXypqoBz3i0_jA-1; Mon, 13 Dec 2021 09:36:07 -0500
-X-MC-Unique: NNHZj-nyPXypqoBz3i0_jA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20F86345C2;
- Mon, 13 Dec 2021 14:36:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F06DB4D73A;
- Mon, 13 Dec 2021 14:36:04 +0000 (UTC)
-Date: Mon, 13 Dec 2021 14:36:01 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Simon Burge <simonb@netbsd.org>
-Subject: Re: [PATCH] MIPS - fix cycle counter timing calculations
-Message-ID: <YbdaUepfXrWbyHHe@redhat.com>
-References: <81f4fd87-a177-420b-d69d-45faa0eddb48@amsat.org>
- <20211213135405.B6EC11FA5@thoreau.thistledown.com.au>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mwmV5-00050T-Oo
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 09:40:25 -0500
+Received: from [2a00:1450:4864:20::32a] (port=37564
+ helo=mail-wm1-x32a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mwmV3-0007N9-Ro
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 09:40:23 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ k37-20020a05600c1ca500b00330cb84834fso14179008wms.2
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 06:40:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=JPm4WcBXxKEVqbRyNP4V4zmVvbgKYNseoNTPacrvNZU=;
+ b=m7/nUYPieZL547EYdrzUojLwW3ZnYBV2pshWMOZ9wkcz9sJRVqKmK85swQMS8iFsyK
+ iZTdfWCJp/U7QSVDWqLUSU0i3k0zyjb0MjQ9YM3i8vC+F5LYxMHqu+NcIi9G+s4y/nrQ
+ TjpzybblLRYDza5Lxu28F1NE4GYlBKAQb5jPvFaVQoyVkvIzJQpu/shjN9iegqXq3P1G
+ LXfgcXfaFKJgaUW7CKpCEQ2lDgGyN2rxR3HCh6Bcow0xN7G3qPUcnp6K9j4RnvFOk8MJ
+ Xd1Ra4rOp5W4o19awK2950TGPShHiTnglQE7JAezMzTJUu91+mkISFRb5dndMP/pq9Mq
+ CaJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=JPm4WcBXxKEVqbRyNP4V4zmVvbgKYNseoNTPacrvNZU=;
+ b=TsC//y6+kQUV//RfAVsOzxb6EZMkUJHFYjZOjLr0q/RmrysXJBAycSp7fzX4A1JjcT
+ O6/msYKD/2/wL5LIzNinsWmbUmIsest9rhwM0QyDYpFaBchEiz699en9H4mA0dNCAKIh
+ lGvAB+kxU9X+vvnbxXPoXRVz2MFwv6ZZj75epDZEtj200lS47SnQ9/DaYciYcXO6Ddkq
+ QxOBLNtFoyVWf3mt1eA8JO6Gqk6h4N+s3+br/DzwYT3c4vTtU+gNaCyHyfxriAh959Z7
+ TjiENTSAMyPj3SoLM50TpxhAn2zCqCDNRGbSYyWVHlzPYicnUjWAH1uNJj+BhAjiWtMf
+ SXWg==
+X-Gm-Message-State: AOAM530WjKEJ1YYG/34MsVJvXT8hAaPRjpcdtXzqYs7oH/KIqlpqV53L
+ L1LNb80gJSgiXESYQvtIt19Clg==
+X-Google-Smtp-Source: ABdhPJxf1KFueGH7vMjhWdLCJJawjYySibyB1CGDgaV3ay767lbD1L6ollGTAc/wBAjG6tXG9wbmvQ==
+X-Received: by 2002:a7b:c1cb:: with SMTP id a11mr38710473wmj.30.1639406412841; 
+ Mon, 13 Dec 2021 06:40:12 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id t11sm11079168wrz.97.2021.12.13.06.40.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Dec 2021 06:40:12 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 169E71FF96;
+ Mon, 13 Dec 2021 14:40:11 +0000 (GMT)
+References: <20211211191135.1764649-1-peter.maydell@linaro.org>
+ <20211211191135.1764649-21-peter.maydell@linaro.org>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 20/26] hw/intc/arm_gicv3_its: Use enum for return value
+ of process_* functions
+Date: Mon, 13 Dec 2021 14:40:06 +0000
+In-reply-to: <20211211191135.1764649-21-peter.maydell@linaro.org>
+Message-ID: <87v8zsk1pw.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20211213135405.B6EC11FA5@thoreau.thistledown.com.au>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.713,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,42 +92,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 14, 2021 at 12:54:05AM +1100, Simon Burge wrote:
-> Hi Phil,
-> 
-> =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= wrote:
-> 
-> > Oops, missing your Signed-off-by tag, see:
-> > https://www.qemu.org/docs/master/devel/submitting-a-patch.html#patch-emails-must-includ
-> e-a-signed-off-by-line
-> >
-> > Do you mind re-sending with your S-o-b? Meanwhile, patch dropped.
-> 
-> Hopefully I've configured "git format-patch" and "git send-email"
-> correctly and sent a better patch to the mailing list.  I'll make
-> sure to include the maintainers in future patches.
 
-Your v2 looks ok to me.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-FWIW, if you'll be sending more patches in future, it is worth giving
-'git-publish' a try. It is a higher level tool around send-email and
-format-patch, that makes it much harder to make mistakes. It pretty
-much just 'does the right thing' without you needing to worry, including
-CC'ing the people listed in MAINTAINERS for the patch diff you have.
+> When an ITS detects an error in a command, it has an
+> implementation-defined (CONSTRAINED UNPREDICTABLE) choice of whether
+> to ignore the command, proceeding to the next one in the queue, or to
+> stall the ITS command queue, processing nothing further.  The
+> behaviour required when the read of the command packet from memory
+> fails is less clearly documented, but the same set of choices as for
+> command errors seem reasonable.
+>
+> The intention of the QEMU implementation, as documented in the
+> comments, is that if we encounter a memory error reading the command
+> packet or one of the various data tables then we should stall, but
+> for command parameter errors we should ignore the queue and continue.
+> However, we don't actually do this.  To get the desired behaviour,
+> the various process_* functions need to return true to cause
+> process_cmdq() to advance to the next command and keep processing,
+> and false to stall command processing.  What they mostly do is return
+> false for any kind of error.
+>
+> To make the code clearer, replace the 'bool' return from the process_
+> functions with an enum which may be either CMD_STALL or CMD_CONTINUE.
+> In this commit no behaviour changes; in subsequent commits we will
+> adjust the error-return paths for the process_ functions one by one.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Regards,
-Daniel
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-[1] https://github.com/stefanha/git-publish
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
