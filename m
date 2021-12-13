@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85DC47340F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 19:32:15 +0100 (CET)
-Received: from localhost ([::1]:38732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC6347341C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 19:35:10 +0100 (CET)
+Received: from localhost ([::1]:42052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwq7R-0003wv-KI
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 13:32:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51646)
+	id 1mwqAH-0006GQ-73
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 13:35:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mwq5z-00032Y-Tr; Mon, 13 Dec 2021 13:30:43 -0500
-Received: from [2607:f8b0:4864:20::72f] (port=36818
- helo=mail-qk1-x72f.google.com)
+ id 1mwq8f-0004oJ-Mt; Mon, 13 Dec 2021 13:33:29 -0500
+Received: from [2607:f8b0:4864:20::82d] (port=41708
+ helo=mail-qt1-x82d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mwq5x-0005lg-Mj; Mon, 13 Dec 2021 13:30:43 -0500
-Received: by mail-qk1-x72f.google.com with SMTP id d21so7408892qkl.3;
- Mon, 13 Dec 2021 10:30:40 -0800 (PST)
+ id 1mwq8e-0006CN-8M; Mon, 13 Dec 2021 13:33:29 -0500
+Received: by mail-qt1-x82d.google.com with SMTP id v22so16121058qtx.8;
+ Mon, 13 Dec 2021 10:33:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=HCrR6ZSyFczv4BLTHNsPBzMiFk4cTjg/IR6hJQzb8BE=;
- b=iNh9Yq5jP8N8QhO6g4R4lI6F3vdPAFqMFgCXQQ11+DgObykmsmtdiAsEbHsGA/jcGm
- v3VuSB6oLsI9LqrvbIe51o0DjBDQhga+uPaHSvko7aTmT5f9iHS3MkEzfUidWdgnjZ+u
- 3QxBMztq7N8Kv2/qOyVenOCjX9rWiSbB26fnu6QcBMIdIn6nk204dNBSPruvykWwRMPB
- sJPbYCUaCCBYAgAG9Ynvl9duxn3mawPn7k/fJWWnuS8MwYnIthJjaaZi/ddp0nGz3a9X
- B5KcqHl3qTLmcMuBSR32vawzupm1C0xd7ANkb3cuDSGkil0DjKpp2WXIVrHtFIzgmrNE
- BFog==
+ bh=5J8HPOr6MpkfQojpRt5+CjgRpiaM4haFJGYOmaOK+7U=;
+ b=SZx8T7FxlF00DS6Aro/ncI3dhJGrX/fkJuiA+fqNArcyJXHVLgezozaHwrI+MR8eWk
+ M1y1SFXhTKqEM6xq943PpSUnGmbcT8DJqCck38l/wSetzBEVAE3xB1vz6caZyveyr0uu
+ FxFrQyrhdsbi2IYom4OjeGCcK5LSxo3qczeJa/+GSD4jF1hnNjr571OI5A2CfOCkee1T
+ 9xodIBTOTtueBsA7wVqRQ0zHUgKBi1CRNvc1VUH4I2FPfGa/X0Gg4vmO4y72EtuchMQr
+ jOTSwcsHACKgKbFhQJ0UjC05nrciqPzcMEDi9PrYicphbfe8Lk4p/FZ71Vz7d8URs9y9
+ jyoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=HCrR6ZSyFczv4BLTHNsPBzMiFk4cTjg/IR6hJQzb8BE=;
- b=WulWGPtBCz5fxvt7+ugN2weoNnnFo6MCHNf9SUJjzjB3PJ5jC+xK4YUku7ggCxqkzf
- gZBLtjQBO38756ozkQZyj61mz1+zD9DePqEspAEvobWnP06+jR4GwHsD/RciW0HzQj/9
- PTGaKq1hTK4ZPAjm0rXu+3bmN7iY2fKhKAGb9yqHSPDtpkuVz3hPln29VfhgkSdZa+6n
- VtinjlsiIld/Uw79ui1bw+MUGxvYzzWEfUE6GTnzbLv83ktRT2FPDhCVK86H0TW1RfP8
- M2Yk8ZSSBZu4oYnsmj0409wV53h++IXxQqOEaEolLkKVmVFuqewuAT0hrSs5XpBtj0Tz
- eV7Q==
-X-Gm-Message-State: AOAM530CHXnklebP8PDSYrxdh+Ycgrnfyd3NIQdCne6DfU+61d7zfuci
- FumvM8g9dHEIjMtEu7xTNv4=
-X-Google-Smtp-Source: ABdhPJykTgR/+FCrQ51MakANBqg4PPBh6hUh6sP+ER4BiPMSoSbKv51z9EffQqg3JFla/ULZZq4szg==
-X-Received: by 2002:a05:620a:4712:: with SMTP id
- bs18mr58697qkb.246.1639420240053; 
- Mon, 13 Dec 2021 10:30:40 -0800 (PST)
+ bh=5J8HPOr6MpkfQojpRt5+CjgRpiaM4haFJGYOmaOK+7U=;
+ b=januY/qPO81go1fAqWhBHm2qPo9QC+AOUqWH5H5lPvd/KqvW21rHIITN3niqg3xoFh
+ 5WgY3OoXeJLJVn+RK/5zdD7O/LtPN/6aWl7tbBwCUC1R3Vy1ltoDRTx3pcR8JZ1CoJYE
+ P700TCWDoLBPeikhIumZQ0d/lJ4xYY1oHliAw87Zfc4yy/uNPJ1cLS3XAUESDsq3Wggq
+ 6Kay4FsEVDlrq8wQ4gcMEroIZdbSEjdcKNhxjAgDOIcaI8WW18GTiqCRK4IEDS7JRSoM
+ noijlm2RA0vsIsRcQqJyl3B/z3PYeKQ1FhTShyzfFNs3gbT/VAeAmTjX3MgSeuhGUfie
+ 8MnA==
+X-Gm-Message-State: AOAM5324kxEdTXMmjK7DxefUvNYvmDb+CcnfhBFWpBjdyT+pu0hTP9Tw
+ NSRvEW4aFMS+MYeMyhjyCn1gLDIubD0=
+X-Google-Smtp-Source: ABdhPJw5o+fWsScCHJ1Q8uaqTsKneG7UZ9bv3IRZ/8/3e/lNWF3QyKnPbjEr/KSc9FwtanvuvHiCGw==
+X-Received: by 2002:a05:622a:138e:: with SMTP id
+ o14mr9273qtk.576.1639420407010; 
+ Mon, 13 Dec 2021 10:33:27 -0800 (PST)
 Received: from [192.168.10.222] ([177.103.2.88])
- by smtp.gmail.com with ESMTPSA id o126sm6254921qke.11.2021.12.13.10.30.38
+ by smtp.gmail.com with ESMTPSA id c1sm9543827qte.79.2021.12.13.10.33.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Dec 2021 10:30:39 -0800 (PST)
-Message-ID: <88875696-b13c-92ba-6af0-fcd7aac73b55@gmail.com>
-Date: Mon, 13 Dec 2021 15:30:36 -0300
+ Mon, 13 Dec 2021 10:33:26 -0800 (PST)
+Message-ID: <3d06debb-99d9-1376-26ef-839e9763019b@gmail.com>
+Date: Mon, 13 Dec 2021 15:33:23 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v2 01/19] ppc/pnv: Change the maximum of PHB3 devices for
- Power8NVL
+Subject: Re: [PATCH v2 03/19] ppc/pnv: Use the chip class to check the index
+ of PHB3 devices
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211213132830.108372-1-clg@kaod.org>
- <20211213132830.108372-2-clg@kaod.org>
+ <20211213132830.108372-4-clg@kaod.org>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20211213132830.108372-2-clg@kaod.org>
+In-Reply-To: <20211213132830.108372-4-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82d.google.com
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
@@ -99,29 +99,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 12/13/21 10:28, Cédric Le Goater wrote:
-> The POWER8 processors with a NVLink logic unit have 4 PHB3 devices per
-> chip.
+> The maximum number of PHB3 devices per chip can be different depending
+> on the POWER8 processor model.
 > 
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
->   hw/ppc/pnv.c | 2 +-
+>   hw/pci-host/pnv_phb3.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 44ae41a9cb6b..6359bce549ca 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1309,7 +1309,7 @@ static void pnv_chip_power8nvl_class_init(ObjectClass *klass, void *data)
+> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+> index 3aa42ef9d4b9..9c4451ca0d1c 100644
+> --- a/hw/pci-host/pnv_phb3.c
+> +++ b/hw/pci-host/pnv_phb3.c
+> @@ -993,7 +993,7 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+>       PnvMachineState *pnv = PNV_MACHINE(qdev_get_machine());
+>       int i;
 >   
->       k->chip_cfam_id = 0x120d304980000000ull;  /* P8 Naples DD1.0 */
->       k->cores_mask = POWER8_CORE_MASK;
-> -    k->num_phbs = 3;
-> +    k->num_phbs = 4;
->       k->core_pir = pnv_chip_core_pir_p8;
->       k->intc_create = pnv_chip_power8_intc_create;
->       k->intc_reset = pnv_chip_power8_intc_reset;
+> -    if (phb->phb_id >= PNV8_CHIP_PHB3_MAX) {
+> +    if (phb->phb_id >= PNV_CHIP_GET_CLASS(phb->chip)->num_phbs) {
+>           error_setg(errp, "invalid PHB index: %d", phb->phb_id);
+>           return;
+>       }
 > 
 
