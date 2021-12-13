@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AAEE472B24
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 12:18:47 +0100 (CET)
-Received: from localhost ([::1]:34088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79666472B22
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 12:18:46 +0100 (CET)
+Received: from localhost ([::1]:33924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwjLy-0002fq-51
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 06:18:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47558)
+	id 1mwjLx-0002ZG-KK
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 06:18:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1mwjJW-0008WH-3R
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:16:15 -0500
-Received: from [2a00:1450:4864:20::52f] (port=42720
- helo=mail-ed1-x52f.google.com)
+ id 1mwjJU-0008W0-HN
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:16:12 -0500
+Received: from [2a00:1450:4864:20::52a] (port=35574
+ helo=mail-ed1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1mwjJS-0007Ff-GX
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:16:13 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id r11so50238316edd.9
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 03:16:08 -0800 (PST)
+ id 1mwjJS-0007Fl-GY
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:16:12 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id v1so51262934edx.2
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 03:16:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=mMxX3If9fTUUjGK3dbCE2gziT93rl8rcCI1gT1hsj0o=;
- b=YQWbPTzWjE/zhrhyUcnkrVQdmcrZ0XeL29Q5wJ/szVWPVWhccKtUzbhXCKA5fmu5Q1
- bShuIH5YHZUGp4ORLntd9kA++NDiuw1hlC9GEwXA+o+IjCyN2BazeodWeQPPFzZMqd2R
- cd2kuM4eQMYna3hPAxCD+M5uJa0QEaLic++65hUreuV0gahubY0cbRqODVfz5NsJ8sYG
- grTetEXkQK2frk07iplg2Pkn5OFejb/NUuOgABntT6YIHTPF9btHJr5WQleJL2dMGUA/
- HuSzKdlu4ucISTCJ7VvJPbSbi75MrZLq2H8eYpTCw1kgNzVdh7y7Ij0PcCU+0tNiswZh
- deaA==
+ bh=ZyjWKDKqH2alTErU781Viw3hW4bS53yAycPis4lhQRk=;
+ b=wyu3kJG6fWDQX1PeUxnjK2xOP5Cttq05VZCASbif9/HeTqb8imyw9LueiingxDy+vX
+ hsA2PtnKKFBKHG7TFOA436UqLRi3UIp/CcIhceZRa1Q+oli1S7wrhxLcavUt8/xEpwIN
+ 3FlgEEKVjLxElcDYPs0OJ0FsWVy0x/jHW16bSWKUXKhrV2QW/OQ0iWJY2eWpPlYECWmx
+ gpoZVEYaRKxl420NI9YHxfnYa47EqivMipZNPN6zHBnJAwmLenM7neBkT6tfFIZ0koG6
+ AW2pQSuFnvZ46XZGUSaxSAjqfyQoWlYmw+BBXZsHje+rATOvsbR9EfwQMDiQN8lAj3lu
+ X1WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mMxX3If9fTUUjGK3dbCE2gziT93rl8rcCI1gT1hsj0o=;
- b=o+P0w99D3EDDuNTQU2RXHfg+Kk8/81VxlF9G5btW1TIhpy8NAyhbnOpjElOMx4PIrX
- gEtD1VprBgEIgvJb+PBdVGaI7IA+94SF7aMD4B55T4np1AeEmuBFFLnjkPNSrQc5zDnI
- kQ9lTfcRQlAg4jPPbFuXwhZGTOzscvR61B58WDBIC1AAruM6qzElLFl1FZXW8hwJK9Mo
- Mwm2d+JYSUDf+tau8ZljkmeT1Ghi5BCwESfBtj2OSDrkACb8Yi5p1e036QuYHOtsU2NF
- bWeF4d4z2FpdZhTZwFs3KTFcaSAdk6rkvCPCW/q6K15gvqTA1Du36Zhs4nMHVsnRiso6
- aUng==
-X-Gm-Message-State: AOAM530rL0C0QGEeccFOrFA8j1g0Exw7/0ogW9SHU2Xy9VeiKD++3WaW
- s+bTBCNkvTXdEIw5h+6m1HHQ5nbAb9bblw==
-X-Google-Smtp-Source: ABdhPJzkiw/Kj1mO0Ffiu8824fNwt0vSYsmnoZCdrsVW5JU+7WHPKrctN0886VdcwYVrNApw9OUgZQ==
-X-Received: by 2002:a05:6402:5206:: with SMTP id
- s6mr64355859edd.286.1639394167356; 
- Mon, 13 Dec 2021 03:16:07 -0800 (PST)
+ bh=ZyjWKDKqH2alTErU781Viw3hW4bS53yAycPis4lhQRk=;
+ b=7dWbgSEkvSq722H2DzNsn07Kb1lfTa3rTkmrX0Mdy6FpaSmUzulziylX+coGJHi2de
+ tSFLLRX2DAFNWLwxreC+NZEWsDWPBy0QZy7Rhzm56HRmQ57t3srzT1hngjwt+zUP+z68
+ zKaCHtB8quTcjcymCrD+rowG+zocpxUjeGT2pLsG1kLEWTJkQYPkJn4F8X7T+Z2SC1uz
+ 6Er9sXnEw4lPOeHxZOjaK+NFdI0zECgtoohTQqtS/Zx4sBR6ybKx4vtV1QNhbnWWIx9+
+ j/Ikd6tfoFom+bdHKAODQ1CPU1DqryV+5/P2026FGwwbjATp7nt9luIztOQLrtjyn37p
+ aOYw==
+X-Gm-Message-State: AOAM531cWg4tE6a6bfqnKfC5JicGxoxmzVjvMCUNCVRzWvEwcCZgrxsV
+ MjPgtqiS/80F8pgZtJH1rWbeFJdqAkXWTw==
+X-Google-Smtp-Source: ABdhPJzoft/rmap85EooIh5zWWrRDafibkeMhEYz/XPWAydZ7+PoY4niLLim2T+StAV/GUyKdlcycw==
+X-Received: by 2002:aa7:db47:: with SMTP id n7mr63959186edt.303.1639394168294; 
+ Mon, 13 Dec 2021 03:16:08 -0800 (PST)
 Received: from kostyanf14nb.Dlink ([37.72.42.118])
- by smtp.gmail.com with ESMTPSA id a13sm6139384edk.29.2021.12.13.03.16.06
+ by smtp.gmail.com with ESMTPSA id a13sm6139384edk.29.2021.12.13.03.16.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 13 Dec 2021 03:16:07 -0800 (PST)
 From: Kostiantyn Kostiuk <konstantin@daynix.com>
 To: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH 2/5] gqa-win: get_pci_info: Use common 'cleanup' label
-Date: Mon, 13 Dec 2021 13:15:51 +0200
-Message-Id: <20211213111554.62394-3-konstantin@daynix.com>
+Subject: [PATCH 3/5] gqa-win: get_pci_info: Free parent_dev_info properly
+Date: Mon, 13 Dec 2021 13:15:52 +0200
+Message-Id: <20211213111554.62394-4-konstantin@daynix.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211213111554.62394-1-konstantin@daynix.com>
 References: <20211213111554.62394-1-konstantin@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::52f;
- envelope-from=konstantin@daynix.com; helo=mail-ed1-x52f.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::52a;
+ envelope-from=konstantin@daynix.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -91,128 +90,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To prevent memory leaks, always try to free initialized variables.
+In case when the function fails to get parent device data,
+the parent_dev_info variable will be initialized, but not freed.
 
 Signed-off-by: Kostiantyn Kostiuk <kkostiuk@redhat.com>
 Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
 ---
- qga/commands-win32.c | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+ qga/commands-win32.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 3dd74fe225..12f7a88078 100644
+index 12f7a88078..cef14a8762 100644
 --- a/qga/commands-win32.c
 +++ b/qga/commands-win32.c
-@@ -532,7 +532,7 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-                                    DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
-     if (dev_info == INVALID_HANDLE_VALUE) {
-         error_setg_win32(errp, GetLastError(), "failed to get devices tree");
--        goto out;
-+        goto cleanup;
-     }
-
-     g_debug("enumerating devices");
-@@ -562,7 +562,7 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-                 } else {
-                     error_setg_win32(errp, GetLastError(),
-                                      "failed to get device interfaces");
--                    goto free_dev_info;
-+                    goto cleanup;
-                 }
-             }
-
-@@ -576,7 +576,7 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-                 CloseHandle(dev_file);
-                 error_setg_win32(errp, GetLastError(),
-                                  "failed to get device slot number");
--                goto free_dev_info;
-+                goto cleanup;
-             }
-
-             CloseHandle(dev_file);
-@@ -586,7 +586,7 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-         } else {
-             error_setg_win32(errp, GetLastError(),
-                              "failed to get device interfaces");
--            goto free_dev_info;
-+            goto cleanup;
-         }
-
-         g_debug("found device slot %d. Getting storage controller", number);
-@@ -603,7 +603,7 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-                 } else {
-                     error_setg_win32(errp, GetLastError(),
-                                      "failed to get device instance ID");
--                    goto out;
-+                    goto cleanup;
-                 }
-             }
-
-@@ -617,14 +617,14 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-                 g_error("CM_Locate_DevInst failed with code %lx", cr);
-                 error_setg_win32(errp, GetLastError(),
-                                  "failed to get device instance");
--                goto out;
-+                goto cleanup;
-             }
-             cr = CM_Get_Parent(&parent_dev_inst, dev_inst, 0);
-             if (cr != CR_SUCCESS) {
-                 g_error("CM_Get_Parent failed with code %lx", cr);
-                 error_setg_win32(errp, GetLastError(),
-                                  "failed to get parent device instance");
--                goto out;
-+                goto cleanup;
-             }
-
-             cr = CM_Get_Device_ID_Size(&dev_id_size, parent_dev_inst, 0);
-@@ -632,7 +632,7 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-                 g_error("CM_Get_Device_ID_Size failed with code %lx", cr);
-                 error_setg_win32(errp, GetLastError(),
-                                  "failed to get parent device ID length");
--                goto out;
-+                goto cleanup;
-             }
-
-             ++dev_id_size;
-@@ -647,7 +647,7 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-                 g_error("CM_Get_Device_ID failed with code %lx", cr);
-                 error_setg_win32(errp, GetLastError(),
-                                  "failed to get parent device ID");
--                goto out;
-+                goto cleanup;
+@@ -515,6 +515,8 @@ DEFINE_GUID(GUID_DEVINTERFACE_STORAGEPORT,
+ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+ {
+     HDEVINFO dev_info = INVALID_HANDLE_VALUE;
++    HDEVINFO parent_dev_info = INVALID_HANDLE_VALUE;
++
+     SP_DEVINFO_DATA dev_info_data;
+     SP_DEVICE_INTERFACE_DATA dev_iface_data;
+     HANDLE dev_file;
+@@ -542,7 +544,6 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+         PSP_DEVICE_INTERFACE_DETAIL_DATA pdev_iface_detail_data = NULL;
+         STORAGE_DEVICE_NUMBER sdn;
+         char *parent_dev_id = NULL;
+-        HDEVINFO parent_dev_info;
+         SP_DEVINFO_DATA parent_dev_info_data;
+         DWORD j;
+         DWORD size = 0;
+@@ -744,11 +745,13 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+                 break;
              }
          }
-
-@@ -661,14 +661,14 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-         if (parent_dev_info == INVALID_HANDLE_VALUE) {
-             error_setg_win32(errp, GetLastError(),
-                              "failed to get parent device");
--            goto out;
-+            goto cleanup;
-         }
-
-         parent_dev_info_data.cbSize = sizeof(SP_DEVINFO_DATA);
-         if (!SetupDiEnumDeviceInfo(parent_dev_info, 0, &parent_dev_info_data)) {
-             error_setg_win32(errp, GetLastError(),
-                            "failed to get parent device data");
--            goto out;
-+            goto cleanup;
-         }
-
-         for (j = 0;
-@@ -748,11 +748,10 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+-        SetupDiDestroyDeviceInfoList(parent_dev_info);
          break;
      }
 
--free_dev_info:
-+cleanup:
+ cleanup:
++    if (parent_dev_info != INVALID_HANDLE_VALUE) {
++        SetupDiDestroyDeviceInfoList(parent_dev_info);
++    }
      if (dev_info != INVALID_HANDLE_VALUE) {
          SetupDiDestroyDeviceInfoList(dev_info);
      }
--out:
-     return pci;
- }
-
 --
 2.25.1
 
