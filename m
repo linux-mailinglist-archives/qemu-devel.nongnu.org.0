@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5CA4472FCC
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 15:52:27 +0100 (CET)
-Received: from localhost ([::1]:59602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B53F472FD1
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 15:53:28 +0100 (CET)
+Received: from localhost ([::1]:34096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwmgk-00058w-9n
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 09:52:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48830)
+	id 1mwmhi-0006xe-Q9
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 09:53:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mwmeE-00039X-TW
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 09:49:50 -0500
-Received: from [2a00:1450:4864:20::435] (port=40617
- helo=mail-wr1-x435.google.com)
+ id 1mwmew-00048I-1m
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 09:50:34 -0500
+Received: from [2a00:1450:4864:20::32a] (port=34675
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mwmeD-0000UK-1s
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 09:49:50 -0500
-Received: by mail-wr1-x435.google.com with SMTP id t9so27473157wrx.7
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 06:49:48 -0800 (PST)
+ id 1mwmeu-0000cJ-6V
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 09:50:33 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ m25-20020a7bcb99000000b0033aa12cdd33so11027733wmi.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 06:50:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=h3qhblrk5zLVhJmecojGx3sVFdIygEUK64KjD2dnOEo=;
- b=Nu6wNrUsKIM449b2IbTfSkhFs10UHI676VbDTj+OulWe4+CpdLgvH/4Giu1SeZU8UR
- 3GsG33lPgK43rVtJtdxs9T7wmPsYT/bw5qKJOPre87+ZAaTOklB+hHP2OKLAxZckuvx2
- fi+ivk7Z+/8K5o8+FL776amNNu5oXE1IfnpyniQWr1OLb8dCmF6RZ2L0XvA9sivgQbr2
- KwMZL7ObCIEov6HCsT8umRTZrRLZqzqnx+AlYRB3TM0qGxCw8swJB9oKgmS64H/C6yXt
- tWyv/zp6hf7n2UUnk1gyra7pn4YbpKyzm5UF4JuNyKOMSn0BsJa7SFiVnt2QtoymUUtI
- pobA==
+ bh=CrbFd9xij7mN6UM7d64yzXe7DJGaQ6H2F5CfdzpnhVQ=;
+ b=LrQt7rhh2Qy4rtRtdPJkJTjCnMNIq5GHtnDoxjdWZVVxJo58/yZkx5ASLMgtuGjskV
+ GHPGuwUkHcLKZTH0QZmGdkabwE3bod7GenbU1IPRwQyg/LEboF0ox9R37hi2M6NDnlCF
+ 7haeLZ9ku6Tz0V+/8IMcURoJCX0/j+FF82K5vtptCQssu1oh8FA6T/KGY0xlrbaH9aLY
+ +lxirBl7Q9oLV/8OaPoRPI48KEoqTi+qYfTIZtaPHydZSeVM7xpvWtiXS9gHHBtAzdEn
+ llXySiq8QfCBkrzpNv179hqIyk7lpJjnumCBP+QmkzmflZZxeaSPmtqhATjAC2TY5RsF
+ buJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=h3qhblrk5zLVhJmecojGx3sVFdIygEUK64KjD2dnOEo=;
- b=4aLK4a3XB/V9KY33bku23MdJ2KuDDuEaf0DAt86TfpShDVSswo6ZYjZ2OMueubOTyo
- cJypMZ4AO0w2Aw5v1fQeyfPBaz7tj5m3dZUwdeUvNVA4V3Xcg7qaZn/0YnSrASBOJhIy
- uFhaPVo0eBaa885BTBGDF31lAEixDNfaTGNZzyx3SXkgHUFXLxxKfzPkugse7EwFYaPs
- wTw3Zo19nkYwwIt1ovU2NrwXS8EfxoIPA6FDWwolsdWX6ecnH/oVKivF27cxcviLoTnS
- qoC4iwaK8ES/fOIXHGsliNYmv/KcU1M3MI61bq9CcjU92migpOq2Ct+VIXUTw2fBlFQ4
- 4rTA==
-X-Gm-Message-State: AOAM531vkwBgut2rvHkfAW6Ue+EgcKxp426/cH54uyqIkvm2BDbY1/om
- f//MBta4h2eB0m6GEnapyOeojg==
-X-Google-Smtp-Source: ABdhPJyBg09JLRP29FLY6nn56gpyG9F0mnKM8PjqmbLQAsOQV9xhzIn1BNVvrCTbKipiAgNN5Ctkgw==
-X-Received: by 2002:adf:dbcb:: with SMTP id e11mr31638431wrj.575.1639406987622; 
- Mon, 13 Dec 2021 06:49:47 -0800 (PST)
+ bh=CrbFd9xij7mN6UM7d64yzXe7DJGaQ6H2F5CfdzpnhVQ=;
+ b=OHjyWIqoyO6xZO7tmiO2Kn0jrVvZWw7BSaV4fm0nXuowD8A5Djmxg6wKNHrNn9uDOv
+ LXE+Agx84LhptPINQSVEmQZQXy4tRP6EtwWYI0AJ6CS87lCNl7nbi1LMWDydDptnrYkC
+ GRAwM5nQSShGi0I9iqIsUKMRjaHeDwIRCnHO6iEwc2bVUFUD9ijFwvScv1BQxJ+WnXy+
+ gWLGkoowHxyQCqZuQXdD937BmJSSWMDtVlpGvALAzavkEixyVu+S2a/9/itvPyy9ut8l
+ 7kc1BnN9tVdORVv2M+JZTl/6azyOXLtJ+l21J+Drn7J/TErq2BybH6Evnt56z6t532V/
+ 4JAA==
+X-Gm-Message-State: AOAM530aN9OydHsLne1fkXDXqw3hooSFUGRF6JHNEgWnmq1unJGrY4Ad
+ nUrD+WFi/YB9pvmTiNWfwWxneA==
+X-Google-Smtp-Source: ABdhPJz43IqU5uRQ6M0TJ+OsWaJyBS25miWVy4ChaDkcrbDOvaX0iPXlXNC4zFDkN5wQH15zthR9jw==
+X-Received: by 2002:a1c:23cb:: with SMTP id j194mr38591023wmj.13.1639407030109; 
+ Mon, 13 Dec 2021 06:50:30 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y6sm12226329wrh.18.2021.12.13.06.49.46
+ by smtp.gmail.com with ESMTPSA id h27sm8172055wmc.43.2021.12.13.06.50.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Dec 2021 06:49:46 -0800 (PST)
+ Mon, 13 Dec 2021 06:50:29 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 198551FF96;
- Mon, 13 Dec 2021 14:49:46 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id A3CB61FF96;
+ Mon, 13 Dec 2021 14:50:28 +0000 (GMT)
 References: <20211211191135.1764649-1-peter.maydell@linaro.org>
- <20211211191135.1764649-20-peter.maydell@linaro.org>
+ <20211211191135.1764649-23-peter.maydell@linaro.org>
 User-agent: mu4e 1.7.5; emacs 28.0.90
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 19/26] hw/intc/arm_gicv3_its: Don't use data if reading
- command failed
-Date: Mon, 13 Dec 2021 14:49:40 +0000
-In-reply-to: <20211211191135.1764649-20-peter.maydell@linaro.org>
-Message-ID: <87mtl4k19x.fsf@linaro.org>
+Subject: Re: [PATCH 22/26] hw/intc/arm_gicv3_its: Refactor process_its_cmd()
+ to reduce nesting
+Date: Mon, 13 Dec 2021 14:50:23 +0000
+In-reply-to: <20211211191135.1764649-23-peter.maydell@linaro.org>
+Message-ID: <87ilvsk18r.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -99,13 +100,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Peter Maydell <peter.maydell@linaro.org> writes:
 
-> In process_cmdq(), we read 64 bits of the command packet, which
-> contain the command identifier, which we then switch() on to dispatch
-> to an appropriate sub-function.  However, if address_space_ldq_le()
-> reports a memory transaction failure, we still read the command
-> identifier out of the data and switch() on it.  Restructure the code
-> so that we stop immediately (stalling the command queue) in this
-> case.
+> Refactor process_its_cmd() so that it consistently uses
+> the structure
+>   do thing;
+>   if (error condition) {
+>       return early;
+>   }
+>   do next thing;
+>
+> rather than doing some of the work nested inside if (not error)
+> code blocks.
 >
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
