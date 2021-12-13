@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D76F4735B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 21:19:02 +0100 (CET)
-Received: from localhost ([::1]:56688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 520584735B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 21:19:01 +0100 (CET)
+Received: from localhost ([::1]:56670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwrmn-00062k-CN
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 15:19:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48828)
+	id 1mwrml-00061r-T3
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 15:18:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mwrkV-0004KG-C1; Mon, 13 Dec 2021 15:16:40 -0500
+ id 1mwrkY-0004L7-FN; Mon, 13 Dec 2021 15:16:42 -0500
 Received: from [201.28.113.2] (port=62557 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mwrkT-000685-P9; Mon, 13 Dec 2021 15:16:39 -0500
+ id 1mwrkW-000685-G7; Mon, 13 Dec 2021 15:16:42 -0500
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Mon, 13 Dec 2021 17:15:29 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 13 Dec 2021 17:15:35 -0300
 Received: from [127.0.0.1] (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 97211800A5A;
- Mon, 13 Dec 2021 17:15:29 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 0BF28800A5A;
+ Mon, 13 Dec 2021 17:15:35 -0300 (-03)
 Subject: Re: [RFC PATCH] target/ppc: do not silence snan in xscvspdpn
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
 References: <20211213121320.947362-1-matheus.ferst@eldorado.org.br>
- <e5c3273a-8438-e7cc-6856-796fa1639786@amsat.org>
+ <ecdb8bb3-30b1-ef61-ada6-6389ce2c4318@linaro.org>
 From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <32d0bb0d-3ad0-6f9e-eec5-97fce795ee24@eldorado.org.br>
-Date: Mon, 13 Dec 2021 17:15:29 -0300
+Message-ID: <14eec056-bfc8-7031-f373-65c4f7d7ce48@eldorado.org.br>
+Date: Mon, 13 Dec 2021 17:15:34 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <e5c3273a-8438-e7cc-6856-796fa1639786@amsat.org>
+In-Reply-To: <ecdb8bb3-30b1-ef61-ada6-6389ce2c4318@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 13 Dec 2021 20:15:29.0914 (UTC)
- FILETIME=[2CC0BDA0:01D7F05E]
+Content-Transfer-Encoding: 7bit
+X-OriginalArrivalTime: 13 Dec 2021 20:15:35.0294 (UTC)
+ FILETIME=[2FF5A9E0:01D7F05E]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -66,8 +66,8 @@ Cc: peter.maydell@linaro.org, danielhb413@gmail.com, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/12/2021 09:36, Philippe Mathieu-Daudé wrote:
-> On 12/13/21 13:13, matheus.ferst@eldorado.org.br wrote:
+On 13/12/2021 12:46, Richard Henderson wrote:
+> On 12/13/21 4:13 AM, matheus.ferst@eldorado.org.br wrote:
 >> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 >>
 >> The non-signalling versions of VSX scalar convert to shorter/longer
@@ -83,33 +83,13 @@ On 13/12/2021 09:36, Philippe Mathieu-Daudé wrote:
 >> float_class_snan case of parts_return_nan.
 >>
 >> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
->> ---
->> This behavior was observed in a Power9 and can be reproduced with the
->> following code:
->>
->> int main(void)
->> {
->>      __uint128_t t, b = 0x7f80000200000000;
->>
->>      asm("xscvspdpn %x0, %x1\n\t"
->>          : "=wa" (t)
->>          : "wa" (b << 64));
->>      printf("0x%016" PRIx64 "%016" PRIx64 "\n",
->>             (uint64_t)(t >> 64), (uint64_t)t);
->>
->>      b = 0x7ff0000000000002;
->>      asm("xscvdpspn %x0, %x1\n\t"
->>          : "=wa" (t)
->>          : "wa" (b << 64));
->>      printf("0x%016" PRIx64 "%016" PRIx64 "\n",
->>             (uint64_t)(t >> 64), (uint64_t)t);
->>
->>      return 0;
->> }
 > 
-> Why not add this test in tests/tcg/ppc64le/ ?
+> I think you shouldn't be using softfloat at all for this, but use the 
+> existing
+> helper_todouble function.
+> 
 
-I'll add it in v2. Is it ok to use __uint128_t in tests?
+Oh, that's better, I'll send a v2.
 
 Thanks,
 Matheus K. Ferst
