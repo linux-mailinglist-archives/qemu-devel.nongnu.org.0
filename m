@@ -2,78 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24DD7473452
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 19:48:37 +0100 (CET)
-Received: from localhost ([::1]:55992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C85DC47340F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 19:32:15 +0100 (CET)
+Received: from localhost ([::1]:38732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwqNH-0007qV-SW
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 13:48:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50184)
+	id 1mwq7R-0003wv-KI
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 13:32:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bslathi19@gmail.com>)
- id 1mwq0O-0001rY-SW; Mon, 13 Dec 2021 13:24:56 -0500
-Received: from [2607:f8b0:4864:20::12f] (port=41522
- helo=mail-il1-x12f.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mwq5z-00032Y-Tr; Mon, 13 Dec 2021 13:30:43 -0500
+Received: from [2607:f8b0:4864:20::72f] (port=36818
+ helo=mail-qk1-x72f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bslathi19@gmail.com>)
- id 1mwq0N-0004y5-DY; Mon, 13 Dec 2021 13:24:56 -0500
-Received: by mail-il1-x12f.google.com with SMTP id v13so2536572ilm.8;
- Mon, 13 Dec 2021 10:24:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mwq5x-0005lg-Mj; Mon, 13 Dec 2021 13:30:43 -0500
+Received: by mail-qk1-x72f.google.com with SMTP id d21so7408892qkl.3;
+ Mon, 13 Dec 2021 10:30:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ictXbh5mUpmLOfDQkMveVt/epIno+LDux93aq0yltOE=;
- b=Tca4WAPCaBZg0oeVyg6zo6DdhZhJtxxcUEhwHCNjybpHMy7mmlexboJN+TbwT9UAhk
- Ga5AoO1xt1jUO65PJkBoscr2szPLn4gqY/SYt/w300T/+AbrIWy8eefXcW7nOMSz+Py3
- 1vQgezDjT9tGTumKLEjKZL1/Ot1ybAdU3lNY74PeFs6q7NpZeTapFYAw9pRHDBuAPanW
- JD3pqfcUCvGy3oND+NAA5G/sq3BKpfK70Sjk8zYubfxD3rFKFcfqnrosCZKdqpm7qC/5
- TJzO8EpmRJupoQYMD7WQ42xsdrVzbs3HnI9uCXy/crGPle0+MwOGVj0ZOXY6XhwJA6Yh
- 48ow==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=HCrR6ZSyFczv4BLTHNsPBzMiFk4cTjg/IR6hJQzb8BE=;
+ b=iNh9Yq5jP8N8QhO6g4R4lI6F3vdPAFqMFgCXQQ11+DgObykmsmtdiAsEbHsGA/jcGm
+ v3VuSB6oLsI9LqrvbIe51o0DjBDQhga+uPaHSvko7aTmT5f9iHS3MkEzfUidWdgnjZ+u
+ 3QxBMztq7N8Kv2/qOyVenOCjX9rWiSbB26fnu6QcBMIdIn6nk204dNBSPruvykWwRMPB
+ sJPbYCUaCCBYAgAG9Ynvl9duxn3mawPn7k/fJWWnuS8MwYnIthJjaaZi/ddp0nGz3a9X
+ B5KcqHl3qTLmcMuBSR32vawzupm1C0xd7ANkb3cuDSGkil0DjKpp2WXIVrHtFIzgmrNE
+ BFog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ictXbh5mUpmLOfDQkMveVt/epIno+LDux93aq0yltOE=;
- b=dhYi24Dg+Pyh4xjjw5kZQsuqL5erEhZ61D6HPHjKldEXY9fdRk53GwGRgZN/eQGcWC
- Wzy7+afuoZtjA9vmb4wGAgqFoZscYFqR/oI3B+0Megu1wGbvEr4ihiApvazH5mO6tvqN
- aFkdxW/UFp2JHHJuCWSVBlSLFXkujVWc1lrtKs9qbES/DdjDr8mk8ueGN0GknecuxFLP
- YRkqyuND4GgSYNEidYeinS6DK5yKUqXgYW2Ioqa647t2T9+xpDbis2/qU47IdeCs/HIR
- CgU1ZHIMaOFk5WW47lCXetqjeIv0i1SAMxd0pvXfQ5SBs72N28g1NzoU/xZw9fEJDjmN
- Csrg==
-X-Gm-Message-State: AOAM532EzIoLpyQ15bwtbj+GwtUftzeA8hGxqh6r2Qf3o+NHjkOHj0DN
- M4jAC/fdeer1FbR3ZwjK1iYUXwfakwEkNQ==
-X-Google-Smtp-Source: ABdhPJx9IHrVCWfUFAzc7hs6Zf0MuDX6gRT6kwFr5bIkO2ofvRV4VkueMuIll4cVsU8MfYPbXH2ruQ==
-X-Received: by 2002:a05:6e02:1705:: with SMTP id
- u5mr206253ill.97.1639419893366; 
- Mon, 13 Dec 2021 10:24:53 -0800 (PST)
-Received: from LAPTOP-6MEG09M4.localdomain (s-30-204.flex.volo.net.
- [76.191.30.204]) by smtp.gmail.com with ESMTPSA id
- 8926c6da1cb9f-2faa6b4dac9sm429173.239.2021.12.13.10.24.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Dec 2021 10:24:53 -0800 (PST)
-From: Byron Lathi <bslathi19@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Target/arm: Implement Cortex-A5
-Date: Mon, 13 Dec 2021 12:24:49 -0600
-Message-Id: <20211213182449.7068-1-bslathi19@gmail.com>
-X-Mailer: git-send-email 2.20.1
+ bh=HCrR6ZSyFczv4BLTHNsPBzMiFk4cTjg/IR6hJQzb8BE=;
+ b=WulWGPtBCz5fxvt7+ugN2weoNnnFo6MCHNf9SUJjzjB3PJ5jC+xK4YUku7ggCxqkzf
+ gZBLtjQBO38756ozkQZyj61mz1+zD9DePqEspAEvobWnP06+jR4GwHsD/RciW0HzQj/9
+ PTGaKq1hTK4ZPAjm0rXu+3bmN7iY2fKhKAGb9yqHSPDtpkuVz3hPln29VfhgkSdZa+6n
+ VtinjlsiIld/Uw79ui1bw+MUGxvYzzWEfUE6GTnzbLv83ktRT2FPDhCVK86H0TW1RfP8
+ M2Yk8ZSSBZu4oYnsmj0409wV53h++IXxQqOEaEolLkKVmVFuqewuAT0hrSs5XpBtj0Tz
+ eV7Q==
+X-Gm-Message-State: AOAM530CHXnklebP8PDSYrxdh+Ycgrnfyd3NIQdCne6DfU+61d7zfuci
+ FumvM8g9dHEIjMtEu7xTNv4=
+X-Google-Smtp-Source: ABdhPJykTgR/+FCrQ51MakANBqg4PPBh6hUh6sP+ER4BiPMSoSbKv51z9EffQqg3JFla/ULZZq4szg==
+X-Received: by 2002:a05:620a:4712:: with SMTP id
+ bs18mr58697qkb.246.1639420240053; 
+ Mon, 13 Dec 2021 10:30:40 -0800 (PST)
+Received: from [192.168.10.222] ([177.103.2.88])
+ by smtp.gmail.com with ESMTPSA id o126sm6254921qke.11.2021.12.13.10.30.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Dec 2021 10:30:39 -0800 (PST)
+Message-ID: <88875696-b13c-92ba-6af0-fcd7aac73b55@gmail.com>
+Date: Mon, 13 Dec 2021 15:30:36 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 01/19] ppc/pnv: Change the maximum of PHB3 devices for
+ Power8NVL
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211213132830.108372-1-clg@kaod.org>
+ <20211213132830.108372-2-clg@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20211213132830.108372-2-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
- envelope-from=bslathi19@gmail.com; helo=mail-il1-x12f.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72f.google.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-4.093,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 13 Dec 2021 13:45:27 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,76 +92,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org,
- Byron Lathi <bslathi19@gmail.com>
+Cc: Frederic Barrat <fbarrat@linux.ibm.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for the Cortex-A5. These changes are based off of the A7 and
-A9 init functions, using the appropriate values from the technical
-reference manual for the A5.
 
-Signed-off-by: Byron Lathi <bslathi19@gmail.com>
----
- target/arm/cpu_tcg.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
 
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 13d0e9b195..38f0fc3977 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -304,6 +304,42 @@ static void cortex_a8_initfn(Object *obj)
-     define_arm_cp_regs(cpu, cortexa8_cp_reginfo);
- }
- 
-+static void cortex_a5_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,cortex-a5";
-+    set_feature(&cpu->env, ARM_FEATURE_V7);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+    cpu->midr = 0x410fc0f1;
-+    cpu->reset_fpsid = 0x41023051;
-+    cpu->isar.mvfr0 = 0x10110221;
-+    cpu->isar.mvfr1 = 0x11000011;
-+    cpu->ctr = 0x83338003;
-+    cpu->reset_sctlr = 0x00c50078;
-+    cpu->isar.id_pfr0 = 0x00001231;
-+    cpu->isar.id_pfr1 = 0x00000011;
-+    cpu->isar.id_dfr0 = 0x02010444;
-+    cpu->id_afr0 = 0x00000000;
-+    cpu->isar.id_mmfr0 = 0x00100103;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01230000;
-+    cpu->isar.id_mmfr3 = 0x00102211;
-+    cpu->isar.id_isar0 = 0x00101111;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232041;
-+    cpu->isar.id_isar3 = 0x11112131;
-+    cpu->isar.id_isar4 = 0x00011142;
-+    cpu->isar.dbgdidr = 0x1203f001;
-+    cpu->clidr = 0x09200003;
-+    cpu->ccsidr[0] = 0x701fe00a;
-+    cpu->ccsidr[1] = 0x203fe00a;
-+}
-+
- static const ARMCPRegInfo cortexa9_cp_reginfo[] = {
-     /*
-      * power_control should be set to maximum latency. Again,
-@@ -1019,6 +1055,7 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
-     { .name = "arm1136",     .initfn = arm1136_initfn },
-     { .name = "arm1176",     .initfn = arm1176_initfn },
-     { .name = "arm11mpcore", .initfn = arm11mpcore_initfn },
-+    { .name = "cortext-a5",  .initfn = cortex_a5_initfn },
-     { .name = "cortex-a7",   .initfn = cortex_a7_initfn },
-     { .name = "cortex-a8",   .initfn = cortex_a8_initfn },
-     { .name = "cortex-a9",   .initfn = cortex_a9_initfn },
--- 
-2.20.1
+On 12/13/21 10:28, Cédric Le Goater wrote:
+> The POWER8 processors with a NVLink logic unit have 4 PHB3 devices per
+> chip.
+> 
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
 
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   hw/ppc/pnv.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 44ae41a9cb6b..6359bce549ca 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -1309,7 +1309,7 @@ static void pnv_chip_power8nvl_class_init(ObjectClass *klass, void *data)
+>   
+>       k->chip_cfam_id = 0x120d304980000000ull;  /* P8 Naples DD1.0 */
+>       k->cores_mask = POWER8_CORE_MASK;
+> -    k->num_phbs = 3;
+> +    k->num_phbs = 4;
+>       k->core_pir = pnv_chip_core_pir_p8;
+>       k->intc_create = pnv_chip_power8_intc_create;
+>       k->intc_reset = pnv_chip_power8_intc_reset;
+> 
 
