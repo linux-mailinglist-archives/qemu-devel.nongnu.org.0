@@ -2,96 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E19A472E6B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 15:02:28 +0100 (CET)
-Received: from localhost ([::1]:60844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 462AC472E46
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 14:57:32 +0100 (CET)
+Received: from localhost ([::1]:51332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwluM-0008Ua-3p
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 09:02:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55422)
+	id 1mwlpb-0001tr-Df
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 08:57:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1mwlV6-0006nC-FH; Mon, 13 Dec 2021 08:36:22 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51498)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1mwlV3-0002JK-TQ; Mon, 13 Dec 2021 08:36:20 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BDCsZIG028263; 
- Mon, 13 Dec 2021 13:35:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=/q6nCMPmIySvnXp+CVKjvgQLQAQ9eeJJ3DmAuHEFkJw=;
- b=hcx8hfrhN1RtkNoMp3mGJb5Em5sdKrjijla2U9GWH5KKrkGQXF78zJXuhuX6nY6xaZr3
- 4gshkLuxJkdadWzzaC4t2Sx+Qv4Y0780kbB0KHBDlMbS4guoG3jyg3pHpRlH0/lptVkm
- Xo7K/iuHn5v6gyGrTyGnk4+ozKzG8KtR4nUPPlA8VUv8dUWazYwf0Q1W9pY3Xuro6CAc
- 5DjG2btAXc7OZrRTv+nlSJhhvRD0E0m7eY9ql+8tN7CZ31+S+yqQRR3vu52qlcU3LFze
- fcn/woOh11gOUvnxstaa0EsjTwI6a1iKaGyzCEOv/v1RdHZ2W1Yqm+7Xq4Ygv6xQubcz TQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cx2pcegsm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Dec 2021 13:35:55 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BDCsk1r030210;
- Mon, 13 Dec 2021 13:35:55 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cx2pcegs7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Dec 2021 13:35:55 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BDDVBLp028392;
- Mon, 13 Dec 2021 13:35:54 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma04dal.us.ibm.com with ESMTP id 3cvkm9ng9a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Dec 2021 13:35:54 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BDDZq2j55050606
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Dec 2021 13:35:52 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B4525AE086;
- Mon, 13 Dec 2021 13:35:52 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 81C63AE067;
- Mon, 13 Dec 2021 13:35:49 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.211.152.7])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 13 Dec 2021 13:35:48 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/ppc: Fix e6500 boot
-Date: Mon, 13 Dec 2021 10:35:42 -0300
-Message-Id: <20211213133542.2608540-1-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.33.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: nDmZ3COJ_4OfxFci6csMivJiZGZ5DGl-
-X-Proofpoint-GUID: pAE0AsRFuGmftj7vrXWlbwpfylSGKz7A
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mwlUy-0006kQ-VH
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 08:36:14 -0500
+Received: from [2a00:1450:4864:20::42a] (port=38806
+ helo=mail-wr1-x42a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mwlUv-0002IX-G1
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 08:36:12 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id q3so27073563wru.5
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 05:36:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Utkj1ZjEeBIHC6ipuTDXoC0cp0nTi/FcRqMnAO/W5Hc=;
+ b=dgNN46jkaPDQautYR6Ul66CHV1UjOHbZMfK0BC5cUs/3gRWQF+QiK9hCHAPJVpX2rK
+ DN4hLQjOHYOLSLxoSXRNOUUlsnZUh+NuuCj+RtwbbzmNvzS81t3XhWyHqYA/xdRFpbOh
+ 3MnYoGY/sJYDfB/jTvEFJhQLgk89hSyHfSLJHnK20EnkBQ2MLDj6zBVpq9KU9rXVgpwW
+ zVsuHLMu1zkun8qYU+60hQ659LCU3KQRV7xxGNJmaDRjR7byujGlXzQ5yM+7E+5qYHZA
+ F62vECuLIMACsCIkxPkR2FE1o+01bYbwxRvnysBHZAS/rn0uRshDf76Hu6y/TU6LVPQX
+ jTsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Utkj1ZjEeBIHC6ipuTDXoC0cp0nTi/FcRqMnAO/W5Hc=;
+ b=eLKm/O6O2X5WNbZjxS2jl4bMo5beRpc03l8C/0/F7EZjEuCdB70zTXhOSucN4W1d3m
+ EhEB1CRT6SGnmqVRQGpFkgCWDzG+3PwuuE+TSpSuIzvt8dDTrPNegWdHYBpM3kYB3EXQ
+ uO0P1WJGgq4e70+5ytHxFZiJ2R3rZOHel0X8LrQhdE3rlvMAggggNw/5c3h/yXiEFM4U
+ O3oVK7KITaje7m4rDo3vNV+rCut45I5UWFhd8/zROnDMqffqVKEFWgULkg/WNjpdv71o
+ PHAQd3VhiqTNbjplCx0befVp2VlSi+HKiAmBu4ozYE7vr/2IGTyVWx+cx+W90zfAp5+2
+ 6RAg==
+X-Gm-Message-State: AOAM533cu7yP5idZ0LvXURsEV3gjLsWX5jrmTG5hNbtfca1uatwd8Osa
+ iVSmZ2AVzttCwWF6NkxVKzBFvA==
+X-Google-Smtp-Source: ABdhPJzoCwilZ+NBKlDbOueLzsbgnlaVv/Kz6ie2n5F9VcAglsfg0A+q2TmSHfiMAlUDfAsC+1oZGQ==
+X-Received: by 2002:a5d:464c:: with SMTP id j12mr30972714wrs.150.1639402568222; 
+ Mon, 13 Dec 2021 05:36:08 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f13sm7805967wmq.29.2021.12.13.05.36.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Dec 2021 05:36:07 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9FD441FF96;
+ Mon, 13 Dec 2021 13:36:06 +0000 (GMT)
+References: <20211211191135.1764649-1-peter.maydell@linaro.org>
+ <20211211191135.1764649-16-peter.maydell@linaro.org>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 15/26] hw/intc/arm_gicv3_its: Rename max_l2_entries to
+ num_l2_entries
+Date: Mon, 13 Dec 2021 13:36:00 +0000
+In-reply-to: <20211211191135.1764649-16-peter.maydell@linaro.org>
+Message-ID: <87czm0lj95.fsf@linaro.org>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-13_04,2021-12-13_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxscore=0
- phishscore=0 adultscore=0 mlxlogscore=981 lowpriorityscore=0
- priorityscore=1501 clxscore=1011 suspectscore=0 impostorscore=0
- bulkscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112130086
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,98 +91,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mario@locati.it, danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org
+Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When Altivec support was added to the e6500 kernel in 2012[1], the
-QEMU code was not changed, so we don't register the VPU/VPUA
-exceptions for the e6500:
 
-  qemu: fatal: Raised an exception without defined vector 73
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Note that the error message says 73, instead of 32, which is the IVOR
-for VPU. This is because QEMU knows only knows about the VPU interrupt
-for the 7400s. In theory, we should not be raising _that_ VPU
-interrupt, but instead another one specific for the e6500.
+> In several places we have a local variable max_l2_entries which is
+> the number of entries which will fit in a level 2 table.  The
+> calculations done on this value are correct; rename it to
+> num_l2_entries to fit the convention we're using in this code.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-We unfortunately cannot register e6500-specific VPU/VPUA interrupts
-because the SPEU/EFPDI interrupts also use IVOR32/33. These are
-present only in the e500v1/2 versions. From the user manual:
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-e500v1, e500v2: only SPEU/EFPDI/EFPRI
-e500mc, e5500:  no SPEU/EFPDI/EFPRI/VPU/VPUA
-e6500:          only VPU/VPUA
-
-So I'm leaving IVOR32/33 as SPEU/EFPDI, but altering the dispatch code
-to convert the VPU #73 to a #32 when we're in the e6500. Since the
-handling for SPEU and VPU is the same this is the only change that's
-needed. The EFPDI is not implemented and will cause an abort. I don't
-think it worth it changing the error message to take VPUA into
-consideration, so I'm not changing anything there.
-
-This bug was discussed in the thread:
-https://lists.gnu.org/archive/html/qemu-ppc/2021-06/msg00222.html
-
-1- https://git.kernel.org/torvalds/c/cd66cc2ee52
-
-Reported-by: <mario@locati.it>
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
----
- target/ppc/cpu_init.c    |  6 ++++++
- target/ppc/excp_helper.c | 12 +++++++++++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 6695985e9b..d8efcb24ed 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -2273,8 +2273,14 @@ static void init_excp_e200(CPUPPCState *env, target_ulong ivpr_mask)
-     env->excp_vectors[POWERPC_EXCP_DTLB]     = 0x00000000;
-     env->excp_vectors[POWERPC_EXCP_ITLB]     = 0x00000000;
-     env->excp_vectors[POWERPC_EXCP_DEBUG]    = 0x00000000;
-+    /*
-+     * These two are the same IVOR as POWERPC_EXCP_VPU and
-+     * POWERPC_EXCP_VPUA. We deal with that when dispatching at
-+     * powerpc_excp().
-+     */
-     env->excp_vectors[POWERPC_EXCP_SPEU]     = 0x00000000;
-     env->excp_vectors[POWERPC_EXCP_EFPDI]    = 0x00000000;
-+
-     env->excp_vectors[POWERPC_EXCP_EFPRI]    = 0x00000000;
-     env->ivor_mask = 0x0000FFF7UL;
-     env->ivpr_mask = ivpr_mask;
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 17607adbe4..7bb170f440 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -344,6 +344,16 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-         excp = POWERPC_EXCP_PROGRAM;
-     }
- 
-+#ifdef TARGET_PPC64
-+    /*
-+     * SPEU and VPU share the same IVOR but they exist in different
-+     * processors. SPEU is e500v1/2 only and VPU is e6500 only.
-+     */
-+    if (excp_model == POWERPC_EXCP_BOOKE && excp == POWERPC_EXCP_VPU) {
-+        excp = POWERPC_EXCP_SPEU;
-+    }
-+#endif
-+
-     switch (excp) {
-     case POWERPC_EXCP_NONE:
-         /* Should never happen */
-@@ -569,7 +579,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-             cpu_abort(cs, "Debug exception triggered on unsupported model\n");
-         }
-         break;
--    case POWERPC_EXCP_SPEU:      /* SPE/embedded floating-point unavailable  */
-+    case POWERPC_EXCP_SPEU:   /* SPE/embedded floating-point unavailable/VPU  */
-         env->spr[SPR_BOOKE_ESR] = ESR_SPV;
-         break;
-     case POWERPC_EXCP_EFPDI:     /* Embedded floating-point data interrupt   */
--- 
-2.33.1
-
+--=20
+Alex Benn=C3=A9e
 
