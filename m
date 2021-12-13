@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79666472B22
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 12:18:46 +0100 (CET)
-Received: from localhost ([::1]:33924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A7F472B4E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 12:26:06 +0100 (CET)
+Received: from localhost ([::1]:44260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwjLx-0002ZG-KK
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 06:18:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47522)
+	id 1mwjT0-0001Bk-SY
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 06:26:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1mwjJU-0008W0-HN
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:16:12 -0500
-Received: from [2a00:1450:4864:20::52a] (port=35574
- helo=mail-ed1-x52a.google.com)
+ id 1mwjJW-0008WI-Fs
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:16:15 -0500
+Received: from [2a00:1450:4864:20::52f] (port=37457
+ helo=mail-ed1-x52f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1mwjJS-0007Fl-GY
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:16:12 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id v1so51262934edx.2
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 03:16:09 -0800 (PST)
+ id 1mwjJT-0007Fp-9j
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:16:13 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id e3so51520323edu.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 03:16:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ZyjWKDKqH2alTErU781Viw3hW4bS53yAycPis4lhQRk=;
- b=wyu3kJG6fWDQX1PeUxnjK2xOP5Cttq05VZCASbif9/HeTqb8imyw9LueiingxDy+vX
- hsA2PtnKKFBKHG7TFOA436UqLRi3UIp/CcIhceZRa1Q+oli1S7wrhxLcavUt8/xEpwIN
- 3FlgEEKVjLxElcDYPs0OJ0FsWVy0x/jHW16bSWKUXKhrV2QW/OQ0iWJY2eWpPlYECWmx
- gpoZVEYaRKxl420NI9YHxfnYa47EqivMipZNPN6zHBnJAwmLenM7neBkT6tfFIZ0koG6
- AW2pQSuFnvZ46XZGUSaxSAjqfyQoWlYmw+BBXZsHje+rATOvsbR9EfwQMDiQN8lAj3lu
- X1WQ==
+ bh=7sBF+Qy7/vzAjQ+8VJmnouHX5HxqVw+CgpLyJxT4k1k=;
+ b=NRqDmXorx8tsujvCUJOAt/z7zgkL29eL4O4bpgM4Jotg4Odx33X2p3ICUmSNY25cv2
+ 7QiMBSXHb8+9mxMzhGEWp1CBfZyLYA+H0PQhWTyZM5rWU+BxB2v96CdHZlBT5V8IHhge
+ qhDFaBb6UajJ+aVArA4oMW6+cwqMU8CcxErYZ67uyd0pcPZRQ8Q0Y9yfXfWXre//FeC3
+ pZhUaxXf/6P7/flMfdladYBnrcN83yydG0Z7nKqsQCaPHC3ogViFcFy97t+i8bD2PRyl
+ gAKrynHNg18+VZiqKmh0rJ+1qteb8ZCCFuYKswbNPK7m6GaOGtbunRzDMh/0Gl4h1Lxv
+ PF1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZyjWKDKqH2alTErU781Viw3hW4bS53yAycPis4lhQRk=;
- b=7dWbgSEkvSq722H2DzNsn07Kb1lfTa3rTkmrX0Mdy6FpaSmUzulziylX+coGJHi2de
- tSFLLRX2DAFNWLwxreC+NZEWsDWPBy0QZy7Rhzm56HRmQ57t3srzT1hngjwt+zUP+z68
- zKaCHtB8quTcjcymCrD+rowG+zocpxUjeGT2pLsG1kLEWTJkQYPkJn4F8X7T+Z2SC1uz
- 6Er9sXnEw4lPOeHxZOjaK+NFdI0zECgtoohTQqtS/Zx4sBR6ybKx4vtV1QNhbnWWIx9+
- j/Ikd6tfoFom+bdHKAODQ1CPU1DqryV+5/P2026FGwwbjATp7nt9luIztOQLrtjyn37p
- aOYw==
-X-Gm-Message-State: AOAM531cWg4tE6a6bfqnKfC5JicGxoxmzVjvMCUNCVRzWvEwcCZgrxsV
- MjPgtqiS/80F8pgZtJH1rWbeFJdqAkXWTw==
-X-Google-Smtp-Source: ABdhPJzoft/rmap85EooIh5zWWrRDafibkeMhEYz/XPWAydZ7+PoY4niLLim2T+StAV/GUyKdlcycw==
-X-Received: by 2002:aa7:db47:: with SMTP id n7mr63959186edt.303.1639394168294; 
- Mon, 13 Dec 2021 03:16:08 -0800 (PST)
+ bh=7sBF+Qy7/vzAjQ+8VJmnouHX5HxqVw+CgpLyJxT4k1k=;
+ b=d2jCkqup0l0JLy8+bC7xyblnMqLOvrssxpX4ZwnWWkx0zMsYrT0f5BrHOaMzvqR4vM
+ b4z8CoBBdI4ZfKZHxmgEcHDEinP8UnQAdxsHgPf/tyoL70Jk/BQMUfzEhX0Qx8AyEuP+
+ 6DjOEFvMepxjgKdA2nz6+MqZsyGN3PVpEWbGauEXNg+cVTaadJ4uW2sIyy3TQEACa1Z/
+ aKliwry1SWxg+W3cZjQpCASIPYDz7Q439TWOYCgKpnSBBlt3UO9QnpJisjWBmnl9Le5p
+ jSzxw61LJsOounnGY8LlhBn78IsDJbmLHm7v0N9butENCse6+wO1Mm7m4Lm5UGIE2bPW
+ gz4g==
+X-Gm-Message-State: AOAM5304vP+LY8Wc+kqYpb3WE+DY4Mvei4ubxoEsZU6exsBRApFvIVhj
+ tA9MR9a2v36Tcf43ETihPbReaKKfS90unw==
+X-Google-Smtp-Source: ABdhPJyxaZbWeHq0nWOg9jKWpG8hywPhAzhu9QiMaeVHylK8lEQW3sxZtullFO5O//WCL5dFYhh54A==
+X-Received: by 2002:aa7:d748:: with SMTP id a8mr63669081eds.21.1639394169212; 
+ Mon, 13 Dec 2021 03:16:09 -0800 (PST)
 Received: from kostyanf14nb.Dlink ([37.72.42.118])
- by smtp.gmail.com with ESMTPSA id a13sm6139384edk.29.2021.12.13.03.16.07
+ by smtp.gmail.com with ESMTPSA id a13sm6139384edk.29.2021.12.13.03.16.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Dec 2021 03:16:07 -0800 (PST)
+ Mon, 13 Dec 2021 03:16:08 -0800 (PST)
 From: Kostiantyn Kostiuk <konstantin@daynix.com>
 To: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH 3/5] gqa-win: get_pci_info: Free parent_dev_info properly
-Date: Mon, 13 Dec 2021 13:15:52 +0200
-Message-Id: <20211213111554.62394-4-konstantin@daynix.com>
+Subject: [PATCH 4/5] gqa-win: get_pci_info: Replace 'while' with 2 calls of
+ the function
+Date: Mon, 13 Dec 2021 13:15:53 +0200
+Message-Id: <20211213111554.62394-5-konstantin@daynix.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211213111554.62394-1-konstantin@daynix.com>
 References: <20211213111554.62394-1-konstantin@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::52a;
- envelope-from=konstantin@daynix.com; helo=mail-ed1-x52a.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::52f;
+ envelope-from=konstantin@daynix.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -90,51 +91,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In case when the function fails to get parent device data,
-the parent_dev_info variable will be initialized, but not freed.
+Microsoft suggests this solution in the documentation:
+https://docs.microsoft.com/en-us/windows/win32/api/setupapi/nf-setupapi-setupdigetdeviceinterfacedetaila
 
 Signed-off-by: Kostiantyn Kostiuk <kkostiuk@redhat.com>
 Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
 ---
- qga/commands-win32.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ qga/commands-win32.c | 30 ++++++++++++++++++++++++------
+ 1 file changed, 24 insertions(+), 6 deletions(-)
 
 diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 12f7a88078..cef14a8762 100644
+index cef14a8762..6bde5260e8 100644
 --- a/qga/commands-win32.c
 +++ b/qga/commands-win32.c
-@@ -515,6 +515,8 @@ DEFINE_GUID(GUID_DEVINTERFACE_STORAGEPORT,
- static GuestPCIAddress *get_pci_info(int number, Error **errp)
- {
-     HDEVINFO dev_info = INVALID_HANDLE_VALUE;
-+    HDEVINFO parent_dev_info = INVALID_HANDLE_VALUE;
-+
-     SP_DEVINFO_DATA dev_info_data;
-     SP_DEVICE_INTERFACE_DATA dev_iface_data;
-     HANDLE dev_file;
-@@ -542,7 +544,6 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-         PSP_DEVICE_INTERFACE_DETAIL_DATA pdev_iface_detail_data = NULL;
-         STORAGE_DEVICE_NUMBER sdn;
-         char *parent_dev_id = NULL;
--        HDEVINFO parent_dev_info;
-         SP_DEVINFO_DATA parent_dev_info_data;
-         DWORD j;
-         DWORD size = 0;
-@@ -744,11 +745,13 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-                 break;
+@@ -552,10 +552,10 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+         if (SetupDiEnumDeviceInterfaces(dev_info, &dev_info_data,
+                                         &GUID_DEVINTERFACE_DISK, 0,
+                                         &dev_iface_data)) {
+-            while (!SetupDiGetDeviceInterfaceDetail(dev_info, &dev_iface_data,
+-                                                    pdev_iface_detail_data,
+-                                                    size, &size,
+-                                                    &dev_info_data)) {
++            if (!SetupDiGetDeviceInterfaceDetail(dev_info, &dev_iface_data,
++                                                 pdev_iface_detail_data,
++                                                 size, &size,
++                                                 &dev_info_data)) {
+                 if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+                     pdev_iface_detail_data = g_malloc(size);
+                     pdev_iface_detail_data->cbSize =
+@@ -567,6 +567,16 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+                 }
              }
-         }
--        SetupDiDestroyDeviceInfoList(parent_dev_info);
-         break;
-     }
 
- cleanup:
-+    if (parent_dev_info != INVALID_HANDLE_VALUE) {
-+        SetupDiDestroyDeviceInfoList(parent_dev_info);
-+    }
-     if (dev_info != INVALID_HANDLE_VALUE) {
-         SetupDiDestroyDeviceInfoList(dev_info);
-     }
++            if (!SetupDiGetDeviceInterfaceDetail(dev_info, &dev_iface_data,
++                                                 pdev_iface_detail_data,
++                                                 size, &size,
++                                                 &dev_info_data)) {
++                // pdev_iface_detail_data already is allocated
++                error_setg_win32(errp, GetLastError(),
++                                    "failed to get device interfaces");
++                goto cleanup;
++            }
++
+             dev_file = CreateFile(pdev_iface_detail_data->DevicePath, 0,
+                                   FILE_SHARE_READ, NULL, OPEN_EXISTING, 0,
+                                   NULL);
+@@ -597,8 +607,8 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+             ULONG dev_id_size = 0;
+
+             size = 0;
+-            while (!SetupDiGetDeviceInstanceId(dev_info, &dev_info_data,
+-                                               parent_dev_id, size, &size)) {
++            if (!SetupDiGetDeviceInstanceId(dev_info, &dev_info_data,
++                                            parent_dev_id, size, &size)) {
+                 if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+                     parent_dev_id = g_malloc(size);
+                 } else {
+@@ -608,6 +618,14 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
+                 }
+             }
+
++            if (!SetupDiGetDeviceInstanceId(dev_info, &dev_info_data,
++                                            parent_dev_id, size, &size)) {
++                // parent_dev_id already is allocated
++                error_setg_win32(errp, GetLastError(),
++                                    "failed to get device instance ID");
++                goto cleanup;
++            }
++
+             /*
+              * CM API used here as opposed to
+              * SetupDiGetDeviceProperty(..., DEVPKEY_Device_Parent, ...)
 --
 2.25.1
 
