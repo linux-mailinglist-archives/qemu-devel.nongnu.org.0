@@ -2,45 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4962F4737CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 23:44:46 +0100 (CET)
-Received: from localhost ([::1]:56214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C459B4737E3
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 23:47:49 +0100 (CET)
+Received: from localhost ([::1]:59068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwu3p-0001fR-4w
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 17:44:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57830)
+	id 1mwu6m-0003lG-GJ
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 17:47:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mwu2d-0000zj-Rs
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 17:43:31 -0500
-Received: from [2001:41c9:1:41f::167] (port=42456
+ id 1mwu5E-0002wD-Us
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 17:46:12 -0500
+Received: from [2001:41c9:1:41f::167] (port=42476
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mwu2c-0001vM-AK
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 17:43:31 -0500
+ id 1mwu5D-0002PZ-Gx
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 17:46:12 -0500
 Received: from [2a00:23c4:8b9f:4900:2b16:6388:bafb:d365]
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mwu2H-000358-Mp; Mon, 13 Dec 2021 22:43:09 +0000
-To: yangxiaojuan <yangxiaojuan@loongson.cn>, qemu-level <qemu-devel@nongnu.org>
-References: <1638619645-11283-1-git-send-email-yangxiaojuan@loongson.cn>
- <91822021-1d4f-8e4d-1076-c4701c1e2f40@loongson.cn>
+ id 1mwu4s-00035t-SS; Mon, 13 Dec 2021 22:45:51 +0000
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20211206224528.563588-1-f4bug@amsat.org>
+ <20211206224528.563588-4-f4bug@amsat.org>
+ <99ebc4fb-f061-1e57-da07-e66035bacf9b@redhat.com>
+ <ee3af451-212d-fe82-d63d-e410374ae2d2@amsat.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <0e866be2-88ac-f5a0-43ce-0afcca41d977@ilande.co.uk>
-Date: Mon, 13 Dec 2021 22:43:11 +0000
+Message-ID: <a846f303-9e1a-e438-d339-71c854e9fa74@ilande.co.uk>
+Date: Mon, 13 Dec 2021 22:46:01 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <91822021-1d4f-8e4d-1076-c4701c1e2f40@loongson.cn>
+In-Reply-To: <ee3af451-212d-fe82-d63d-e410374ae2d2@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8b9f:4900:2b16:6388:bafb:d365
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH v3 00/27] Add LoongArch softmmu support.
+Subject: Re: [PATCH v2 3/4] hw/display/vga-mmio: QOM'ify vga_mmio_init() as
+ TYPE_VGA_MMIO
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -66,18 +70,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Finn Thain <fthain@telegraphics.com.au>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/12/2021 03:13, yangxiaojuan wrote:
+On 13/12/2021 11:05, Philippe Mathieu-Daudé wrote:
 
-> Ping!
+> On 12/13/21 11:48, Thomas Huth wrote:
+>> On 06/12/2021 23.45, Philippe Mathieu-Daudé wrote:
+>>> Introduce TYPE_VGA_MMIO, a sysbus device.
+>>>
+>>> While there is no change in the vga_mmio_init()
+>>> interface, this is a migration compatibility break
+>>> of the MIPS Acer Pica 61 Jazz machine (pica61).
+>>
+>> It's unfortunate, but as far as I know, it would be pretty difficult or
+>> even impossible to get this done without versioned machine types? So
+>> IMHO it's ok to break this in this case here.
 > 
-> Please help review the V3 patch, thank you!
+> Hervé and Zoltan were already Cc'ed, adding Mark and Finn;
+> I am not sure who else would be annoyed by that change.
 
-I've been fairly busy recently, but I will try and find some time to look at the v3 
-sometime during the week.
+No issues from this end. I've done a few bits and pieces on the 40p machine when 
+testing OpenBIOS, but that won't be affected by this change.
 
 
 ATB,
