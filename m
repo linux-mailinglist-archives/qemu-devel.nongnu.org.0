@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B6147262B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 10:51:28 +0100 (CET)
-Received: from localhost ([::1]:59866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66B847267C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 10:53:27 +0100 (CET)
+Received: from localhost ([::1]:35930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwhzT-00082R-6b
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 04:51:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54496)
+	id 1mwi1P-0002ax-1M
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 04:53:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mwhwu-0006O9-83
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 04:48:48 -0500
-Received: from [2a00:1450:4864:20::329] (port=55054
- helo=mail-wm1-x329.google.com)
+ (Exim 4.90_1) (envelope-from <mengpg2@engene.se>) id 1mwhy9-0007ZM-5S
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 04:50:05 -0500
+Received: from [2a00:1450:4864:20::432] (port=39713
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mwhws-0006Io-Qj
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 04:48:47 -0500
-Received: by mail-wm1-x329.google.com with SMTP id i12so11449406wmq.4
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 01:48:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kHt/d/vHVS/aQ9X6fukyYpmuq9yh199hKrDqQzvmKNw=;
- b=gzy9QIIVgoY9wAar/wiGgrbBUQnf/bJ52UznLPpIGqz8w4+tpV1X2sMST8/eVGzzY3
- FUGl1on3R2bFKGBBpA6PuXSUE7ORcgj0je2d++Z13Z1MjZ78wT7uiyOr1ss1cGNiATUd
- GrSvdb9ZvsfNsSzWajlnAIbD+QeU1l2lmiftoZzES6YAF7CvxLiHGUyFL7oaP0jelib8
- lckAvfiwT5zJsoLpvrPzJeWGSIxGUukesZeE5v2KZmO9p1p0LpWNYGFRx+nWO8dvNval
- odknO4LWEmHzsx1qu8ouOjxu0totg5q1YLVsIkOnN5oUMW+HvLMjhkOcRKxbb8qqvZVx
- w9rg==
+ (Exim 4.90_1) (envelope-from <mengpg2@engene.se>) id 1mwhy3-0006Q1-5w
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 04:50:03 -0500
+Received: by mail-wr1-x432.google.com with SMTP id a18so25976567wrn.6
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 01:49:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=engene-se.20210112.gappssmtp.com; s=20210112;
+ h=from:subject:to:message-id:date:user-agent:mime-version
+ :content-language;
+ bh=mNN8tqmrdqKDx4eUpF34IyJ4VEGXmrRRNjSNCLfFP7g=;
+ b=IHrV+YOYZgUAzj7wB09J29Hy/hcnefmrLMURh76Qdv2ddU45JRgfrrMKAd2Iqf37j9
+ DF/alUzx74QZCSlsgkrICfd2zXP5n1IqPePlI8wQJ1ckrLUBX4vPBs5GhTwFMgyMmZsl
+ UBd5wLBVAh/pr3wofGhFmUynhLZIjYPG49O5dwpZcC4aHiZWCSSvXqImxduuMXaldUYu
+ TOe2R7j8gUCY1I6eUZN/CqKBn8byhJlYm7TP4RjSjdiJYXF+xNPgJPb4n5vt6R8Tt1kM
+ 3eXVzbOXOe9tDwgUpxULSTWOJuM5DppM45SwQq6gKXKXs/SqNG84lNd1Cvck1jVjr7x0
+ 9iMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kHt/d/vHVS/aQ9X6fukyYpmuq9yh199hKrDqQzvmKNw=;
- b=s46rvjNjEoASYj1psN/rSPUgNwtfl3kvG3GJEmSk4KT32zHKPZlNZDOqMR07EPUSvR
- mcke612EKmrNMR1HQYoPbEBvY8AJ9Qbo1tGj1LqgrW5MItcdtNXhbGqy/78gC95LaiSm
- /UF83k/AlgXV1TvP4CDaNqIfxwJmsjy5gadAvMI+X+hUvzJOZAP3aO85bSV7nNX0D3qx
- o8zVR8RFSGi3PsXAO8PXiYZBw4ScPqg7CEsYDfhGmmTyMhnRpg4EkLl5yoCL6DzyKwlf
- +VBsNhCuOp79hSFZ1bf0l7KEak7kU7H4dksAsdiDlGuSTJbPfkFEX2XONy04z4WvLUnu
- 4fAw==
-X-Gm-Message-State: AOAM53289owrMLmOJCyq3O7g7hnydi/eXmGzeAFhBhcxyujs1W5MU17s
- irnDbIEM/ENQ4RnCXitFfHiGks4NQhXaWSm6ap6QIg==
-X-Google-Smtp-Source: ABdhPJwkA4XNL5WD43Zzcwaac6JlM6FhTt9jAzWiQWsxjWF6cNdmR/5YOAaoRmsJ4JZCJt5gBsYqCyLWpqI7626Hcwc=
-X-Received: by 2002:a05:600c:1993:: with SMTP id
- t19mr36859104wmq.21.1639388920720; 
- Mon, 13 Dec 2021 01:48:40 -0800 (PST)
+ h=x-gm-message-state:from:subject:to:message-id:date:user-agent
+ :mime-version:content-language;
+ bh=mNN8tqmrdqKDx4eUpF34IyJ4VEGXmrRRNjSNCLfFP7g=;
+ b=mgncASQvVAoLwwLgSJkQngK2uAITIKLJEseZQU6r5ZMLxc9f+Clu0V02DSUEVi6Tlb
+ xVgKbHMjUoMVSLqfyJgICtzbzoP3vLXMz9oUCbInPglvTNBJ82JxcKmdtLnOPoF1wPW3
+ mwFvoyrqYWHljPcoR6TF5s91BhY5bjhNkomLL11urxnQYmi2nraRSysA7IgiNh4A3p1C
+ ZyStWCgxzllX5KGN+9pFTN6Tr9eh6GsylXBMelhrrgFPWafJTdnXpIIdUCPtPNCE19QL
+ SGKEr8HPHV8oPx5QwY1JUsqbNRbxpyMzWJ3dClUoJCwTY3wsiQmprFj3uz4hoPX0NY3X
+ D+YQ==
+X-Gm-Message-State: AOAM531mm0srt2SE26t30/hNhrGZMw0g+scdtlxM6qdWDIFjoS4pcbg6
+ KbxRpEiBhEBzMBwbb93BkPeVJ2v9ptdy5Q==
+X-Google-Smtp-Source: ABdhPJwTruwUIbVpb4/n8LtRAR1t9dMXZ14BaZQ25/HRVAwrokegP4+0fMMxpKASnD0pCuTK2dOIDg==
+X-Received: by 2002:a5d:53cb:: with SMTP id a11mr31048518wrw.357.1639388985209; 
+ Mon, 13 Dec 2021 01:49:45 -0800 (PST)
+Received: from [192.168.86.87]
+ (42.153.192.178.dynamic.wline.res.cust.swisscom.ch. [178.192.153.42])
+ by smtp.gmail.com with ESMTPSA id bd18sm6517780wmb.43.2021.12.13.01.49.44
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Dec 2021 01:49:44 -0800 (PST)
+From: Marcus Engene <mengpg2@engene.se>
+Subject: Qemu Userspace Emulator with library + method
+To: qemu-devel@nongnu.org
+Message-ID: <2e540a20-9733-4ba4-520c-31cf6d9eac93@engene.se>
+Date: Mon, 13 Dec 2021 10:49:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211211191135.1764649-1-peter.maydell@linaro.org>
- <20211211191135.1764649-12-peter.maydell@linaro.org>
- <6458979b-3162-570f-e5af-1f3baff70d04@linaro.org>
-In-Reply-To: <6458979b-3162-570f-e5af-1f3baff70d04@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Dec 2021 09:48:29 +0000
-Message-ID: <CAFEAcA-ZWwnyzoq6-D343dMN+8AZjke8ej+fp79g0bEZ+m6n0Q@mail.gmail.com>
-Subject: Re: [PATCH 11/26] hw/intc/arm_gicv3_its: Use 1ULL when shifting by
- (DTE.SIZE + 1)
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
+Content-Type: multipart/alternative;
+ boundary="------------48F2B5E1BD7044A8DF4B9543"
+Content-Language: en-US
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: neutral client-ip=2a00:1450:4864:20::432;
+ envelope-from=mengpg2@engene.se; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,34 +87,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 12 Dec 2021 at 20:43, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 12/11/21 11:11 AM, Peter Maydell wrote:
-> >
-> >       if (dte_valid) {
-> > -        max_eventid = 1UL << (FIELD_EX64(dte, DTE, SIZE) + 1);
-> > +        max_eventid = 1ULL << (FIELD_EX64(dte, DTE, SIZE) + 1);
->
-> Without changing the type of max_eventid, I think it'd be easiest to fix the off-by-one
-> bug by not changing the comparisions, but changing this computation.  E.g.
->
->    max_eventid = (2 << FIELD_EX64(dte, DTE, SIZE)) - 1;
->
-> so that the value becomes UINT32_MAX for SIZE=31.
+This is a multi-part message in MIME format.
+--------------48F2B5E1BD7044A8DF4B9543
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-I think I'd prefer to use a uint64_t. I think that part of the reason
-for all these off-by-one errors is a lack of consistency in how we
-chose to name variables and whether we put in them the max-allowed
-value or the 2^n value, so the series tries to standardize on
-"always call it num_thingy and always use the 2^n value". I prefer
-to keep the consistency rather than rearrange things in this
-one case so it can use a uint32_t.
+Hi,
 
--- PMM
+I'd like to do instruction traces with library+function name included.
+
+ From what I understand *in_asm* only shows instructions when they are 
+being JIT:ed.
+If I call a function twice I only see the instructions once so it makes 
+sense.
+
+As a workaround, I tried to do a plugin. I looked at the examples in 
+contrib/plugins and it seems to work nicely. I see all instructions in 
+userspace:
+
+0000004000802100 48 89 e7                             movq %rsp, %rdi
+0000004000802103 e8 08 0e 00 00                       callq 0x4000802f10
+0000004000802f10 f3 0f 1e fa                          endbr64
+0000004000802f14 55                                   pushq %rbp
+0000004000802f15 48 89 e5                             movq %rsp, %rbp
+0000004000802f18 41 57                                pushq %r15
+
+However, for it to be super useful, I'd also like to see what library or 
+source file each instruction lives, and what function we're in.
+
+Example output from perf + intel_pt
+
+a.out 602812 [006] 206712.277263361: 7f8d50217084 brk+0x4 
+(/usr/lib/x86_64-linux-gnu/ld-2.31.so)     mov $0xc, %eax
+a.out 602812 [006] 206712.277263361:      7f8d50217089 brk+0x9 
+(/usr/lib/x86_64-linux-gnu/ld-2.31.so)         syscall
+a.out 602812 [006] 206712.277264027:      7f8d5021708b brk+0xb 
+(/usr/lib/x86_64-linux-gnu/ld-2.31.so)         cmp $0xfffffffffffff000, %rax
+a.out 602812 [006] 206712.277264027:      7f8d50217091 brk+0x11 
+(/usr/lib/x86_64-linux-gnu/ld-2.31.so)         jnbe 0x7f8d502170a8
+a.out 602812 [006] 206712.277264027:      7f8d50217093 brk+0x13 
+(/usr/lib/x86_64-linux-gnu/ld-2.31.so)         movq  %rax, 0x1106e(%rip)
+
+Is this doable? Do you have any advice on where to start?
+
+I tried to get the "symbol" in the plugin, but I only get null values.
+
+Kind regards,
+Marcus
+
+
+
+--------------48F2B5E1BD7044A8DF4B9543
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi,</p>
+    <p>I'd like to do instruction traces with library+function name
+      included.<br>
+      <br>
+      From what I understand <b>in_asm</b> only shows instructions when
+      they are being JIT:ed. <br>
+      If I call a function twice I only see the instructions once so it
+      makes sense.</p>
+    <p>As a workaround, I tried to do a plugin. I looked at the examples
+      in contrib/plugins and it seems to work nicely. I see all
+      instructions in userspace:<br>
+      <br>
+      <font face="monospace">0000004000802100 48 89
+        e7                             movq %rsp, %rdi<br>
+        0000004000802103 e8 08 0e 00 00                       callq
+        0x4000802f10<br>
+        0000004000802f10 f3 0f 1e fa                          endbr64 <br>
+        0000004000802f14 55                                   pushq %rbp<br>
+        0000004000802f15 48 89 e5                             movq %rsp,
+        %rbp<br>
+        0000004000802f18 41 57                                pushq %r15</font><br>
+      <br>
+      However, for it to be super useful, I'd also like to see what
+      library or source file each instruction lives, and what function
+      we're in.<br>
+      <br>
+      Example output from perf + intel_pt<br>
+      <br>
+      <font face="monospace">a.out 602812 [006] 206712.277263361:     
+        7f8d50217084 brk+0x4 (/usr/lib/x86_64-linux-gnu/ld-2.31.so)    
+            mov $0xc, %eax<br>
+        a.out 602812 [006] 206712.277263361:      7f8d50217089 brk+0x9
+        (/usr/lib/x86_64-linux-gnu/ld-2.31.so)         syscall <br>
+        a.out 602812 [006] 206712.277264027:      7f8d5021708b brk+0xb
+        (/usr/lib/x86_64-linux-gnu/ld-2.31.so)         cmp
+        $0xfffffffffffff000, %rax<br>
+        a.out 602812 [006] 206712.277264027:      7f8d50217091 brk+0x11
+        (/usr/lib/x86_64-linux-gnu/ld-2.31.so)         jnbe
+        0x7f8d502170a8<br>
+        a.out 602812 [006] 206712.277264027:      7f8d50217093 brk+0x13
+        (/usr/lib/x86_64-linux-gnu/ld-2.31.so)         movq  %rax,
+        0x1106e(%rip)</font></p>
+    <p>Is this doable? Do you have any advice on where to start?</p>
+    <p>I tried to get the "symbol" in the plugin, but I only get null
+      values.<br>
+    </p>
+    <p>Kind regards,<br>
+      Marcus</p>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------48F2B5E1BD7044A8DF4B9543--
 
