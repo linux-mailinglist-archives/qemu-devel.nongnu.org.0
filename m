@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C99BD472BA3
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 12:39:20 +0100 (CET)
-Received: from localhost ([::1]:58220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A75472BBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 12:47:04 +0100 (CET)
+Received: from localhost ([::1]:60630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwjfr-0002j0-V2
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 06:39:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52370)
+	id 1mwjnK-0004oF-CZ
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 06:47:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mwjeX-0001pI-9l
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:37:59 -0500
-Received: from [2a00:1450:4864:20::432] (port=42767
- helo=mail-wr1-x432.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mwjeU-0001lN-Tt
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:37:56 -0500
-Received: by mail-wr1-x432.google.com with SMTP id c4so26471604wrd.9
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 03:37:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=kYPlsICG/XFOEQa3rbjDxd7e69asP/0P5b4muSQyS4s=;
- b=JwVPyUxrKdAbomzZGcOv54iqOGyPajym+otYJcQDu/zpnvjLHkCtsWAQM4tIHkh6bf
- DhPrtxEMoh0uyBlbE3qSkTmmnBCW2LAm3cE5JHY/xtqDBbSQQFeRUeluywLg2AWA/Ert
- q7tEyvwpIG47ezhL3VcRXyNPXZ/EyvB/2rMbQUrqvIPi9cjE7RpKefYL67BOgSwdSXlV
- xtljxKFmEYuDqnO8aXJbf6k5vU4vtbLjVdb24TzQENOLAKvFJzd3KlDwgABhuhjpEciH
- E0K/XNSOF7EuYkdBZYEE56S+UnCKCKvAQHVJ2tx/wUG1osK4t3a1Crx2p0eFl4tv/dQc
- JsqA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mwjlo-00041U-3B
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:45:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58389)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mwjlk-0003Td-Ap
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 06:45:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639395922;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G1eAtDyIKhlHk3b+qcnElmoKvyRYlWsAnvqlFgJ3i5k=;
+ b=YUnEo4qtnmNpdRC25yOUoHdBSqvpJb59k1hi13ayBU/0U0sbWUFSjtVvIoj0/Atwo6DjNQ
+ 5QGH5rhbJ4hFitmxdWbn6FJUnX6LoMHhX18qTRGyhXK+rvVt4xBsgnEeN/fTj/3DXaPZcg
+ Bh3sTXUgTJ3rTkbr5ZL0fuxjCrGjpek=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-500-zC5CZzSJOlaCoaklcqrHIA-1; Mon, 13 Dec 2021 06:45:21 -0500
+X-MC-Unique: zC5CZzSJOlaCoaklcqrHIA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ g11-20020a1c200b000000b003320d092d08so9487738wmg.9
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 03:45:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=kYPlsICG/XFOEQa3rbjDxd7e69asP/0P5b4muSQyS4s=;
- b=hFRZV79vygP5GWkW3TEMnwmOUmFrmA0tfgFvIKsuQZu9ApNZ94UqVMvqHs3ozd1q9Z
- 2rbJD7ml/X06qRfdF5cvfARwi0vFBq7uKMQ/rjyQwJTMtzq6l96olP2RK+HFbMU/rL2U
- MgQc/nCGzBTeiJRlytcr21eWHFguQ2GAcHBJq0oc1O+aFHfT6iDmV6aEZYKn0yTAZIT0
- WABLumltNPsSIEB3WLKE+BAadkVcZXOYuiK20kNIFJp/LHFRp18n2b0fjoxG36Y+lHOY
- o5ctNPbXg+oDlwf3F4SvmTli347wZ5BDCTl9B8X77BpfOe7Wk09aprvd4z2aVFNNP9eQ
- oUTw==
-X-Gm-Message-State: AOAM530ph+ee9SRdEdgvlfTCTD1MqmGywCO9lj4e9rpZdTjsm/it14rB
- x/AosK6fT/8mp9/TEIGIjhVZAg==
-X-Google-Smtp-Source: ABdhPJxdpBNMdu2F+w7MkhL3PnGctocLMLTaOqoezFN2W4tvhMXZ06rqRG728bzz+uLNi/CFBYO4zQ==
-X-Received: by 2002:adf:d1cb:: with SMTP id b11mr30936812wrd.33.1639395469950; 
- Mon, 13 Dec 2021 03:37:49 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f19sm7488751wmq.34.2021.12.13.03.37.48
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=G1eAtDyIKhlHk3b+qcnElmoKvyRYlWsAnvqlFgJ3i5k=;
+ b=UiVEYH/BjAEQ7vzS5jnxYVv8x2PbocyDo1tb0lPwlNJU5qTi3qlIYIB6S3TCMzHeNY
+ YKJGdqzFeo84GABL58W/9L4FYUPpB0+WtCSY/W1Xg4jIVaIn0eIBJfPWiyHeNkmyab6p
+ NAhNpSfswYN5P8at8FFkyKhUzh0rl3OE8vfrOpk7lokOePk11iBc5DJYP0p/hXL7b7Y2
+ ykpL/F1bvarEWMEZRcFJSvsLmxxiyyjwHjaTaN2ElWdACHIQL+rOEBYf9cEBH5FOkk60
+ nGo+tVVNlmS8f056H4kf2i/13p9l/+Vc1BKiWKEshSjIb885R9+1UTmYzMMRkEb8rCgo
+ Un1g==
+X-Gm-Message-State: AOAM5322O6p99Aw9vrUI0ZY3uuhxvPoK7wS12Qn5AX2sQUXZesiMOY7k
+ GoYv3tE3lcf51pJmFW55rh+T2fkqdcKlEYYE60sQ9Y6UIjNzFMwUkl0MF8QWgHeS2atoJM+nB5+
+ NwMCqz1phFBEpkL0=
+X-Received: by 2002:a05:6000:2c2:: with SMTP id
+ o2mr31713199wry.360.1639395919776; 
+ Mon, 13 Dec 2021 03:45:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzhLE5kCjdq3rWgK4WtGPXkhcnC6dPLLRfn1Eh1KbGBZPG0PtkIl/pNNLdaQCL6eZQhA3BGCA==
+X-Received: by 2002:a05:6000:2c2:: with SMTP id
+ o2mr31713180wry.360.1639395919533; 
+ Mon, 13 Dec 2021 03:45:19 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id q4sm10348234wrs.56.2021.12.13.03.45.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Dec 2021 03:37:49 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7A4651FF96;
- Mon, 13 Dec 2021 11:37:48 +0000 (GMT)
-References: <20211211191135.1764649-1-peter.maydell@linaro.org>
- <20211211191135.1764649-8-peter.maydell@linaro.org>
-User-agent: mu4e 1.7.5; emacs 28.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 07/26] hw/intc/arm_gicv3_its: Correct setting of
- TableDesc entry_sz
-Date: Mon, 13 Dec 2021 11:37:42 +0000
-In-reply-to: <20211211191135.1764649-8-peter.maydell@linaro.org>
-Message-ID: <87k0g8n3ar.fsf@linaro.org>
+ Mon, 13 Dec 2021 03:45:19 -0800 (PST)
+Date: Mon, 13 Dec 2021 11:45:16 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: "Rao, Lei" <lei.rao@intel.com>
+Subject: Re: [PATCH] COLO: Move some trace code behind
+ qemu_mutex_unlock_iothread()
+Message-ID: <YbcyTCoQkUP19SGa@work-vm>
+References: <20211210221435.142472-1-lei.rao@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211210221435.142472-1-lei.rao@intel.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.713,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,36 +99,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, chen.zhang@intel.com, zhang.zhanghailiang@huawei.com,
+ quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Rao, Lei (lei.rao@intel.com) wrote:
+> Signed-off-by: Lei Rao <lei.rao@intel.com>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+You don't say why you want to move it - it's just a trace, what's the
+advantage?
 
-> We set the TableDesc entry_sz field from the appropriate
-> GITS_BASER.ENTRYSIZE field.  That ID register field specifies the
-> number of bytes per table entry minus one.  However when we use
-> td->entry_sz we assume it to be the number of bytes per table entry
-> (for instance we calculate the number of entries in a page by
-> dividing the page size by the entry size).
->
-> The effects of this bug are:
->  * we miscalculate the maximum number of entries in the table,
->    so our checks on guest index values are wrong (too lax)
->  * when looking up an entry in the second level of an indirect
->    table, we calculate an incorrect index into the L2 table.
->    Because we make the same incorrect calculation on both
->    reads and writes of the L2 table, the guest won't notice
->    unless it's unlucky enough to use an index value that
->    causes us to index off the end of the L2 table page and
->    cause guest memory corruption in whatever follows
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Dave
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  migration/colo.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/migration/colo.c b/migration/colo.c
+> index 2415325262..3ccacb29c8 100644
+> --- a/migration/colo.c
+> +++ b/migration/colo.c
+> @@ -683,8 +683,8 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
+>  
+>      qemu_mutex_lock_iothread();
+>      vm_stop_force_state(RUN_STATE_COLO);
+> -    trace_colo_vm_state_change("run", "stop");
+>      qemu_mutex_unlock_iothread();
+> +    trace_colo_vm_state_change("run", "stop");
+>  
+>      /* FIXME: This is unnecessary for periodic checkpoint mode */
+>      colo_send_message(mis->to_src_file, COLO_MESSAGE_CHECKPOINT_REPLY,
+> @@ -786,8 +786,8 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
+>  
+>      vmstate_loading = false;
+>      vm_start();
+> -    trace_colo_vm_state_change("stop", "run");
+>      qemu_mutex_unlock_iothread();
+> +    trace_colo_vm_state_change("stop", "run");
+>  
+>      if (failover_get_state() == FAILOVER_STATUS_RELAUNCH) {
+>          return;
+> @@ -870,8 +870,8 @@ void *colo_process_incoming_thread(void *opaque)
+>          abort();
+>  #endif
+>      vm_start();
+> -    trace_colo_vm_state_change("stop", "run");
+>      qemu_mutex_unlock_iothread();
+> +    trace_colo_vm_state_change("stop", "run");
+>  
+>      colo_send_message(mis->to_src_file, COLO_MESSAGE_CHECKPOINT_READY,
+>                        &local_err);
+> -- 
+> 2.32.0
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
---=20
-Alex Benn=C3=A9e
 
