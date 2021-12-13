@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 935AB47347F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 19:58:23 +0100 (CET)
-Received: from localhost ([::1]:37380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C528473480
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 19:58:30 +0100 (CET)
+Received: from localhost ([::1]:37992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwqWk-0006QJ-Mw
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 13:58:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57988)
+	id 1mwqWr-0006xQ-7P
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 13:58:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mwqUo-0004G3-7e
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 13:56:22 -0500
-Received: from [2a00:1450:4864:20::42d] (port=46728
- helo=mail-wr1-x42d.google.com)
+ id 1mwqUt-0004Lh-UY
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 13:56:29 -0500
+Received: from [2a00:1450:4864:20::331] (port=56033
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mwqUk-0001xa-VT
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 13:56:21 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id u1so28617844wru.13
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 10:56:18 -0800 (PST)
+ id 1mwqUp-0001yg-WB
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 13:56:26 -0500
+Received: by mail-wm1-x331.google.com with SMTP id p18so12641346wmq.5
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 10:56:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qjjw6SMTzOtIMG8knarIZfVDh1j7Z6jLvyP1PkdoHD4=;
- b=KVAuJh9x09CIfCIE5oV4VKiStZA6c3+32p1SRfRBTnuV/JGW+u3M0fDPVX5zYkHQ76
- lhDKbtGJSz8ZjfL6uPmSDZd9vhSLqvIaBtcSPceyI3sBgrw25j8pJF/LSEwHqs+8iCIY
- ytYT8k5SswmqciN8CcrHGs6b4ouPYkhuy+T0C2GpS7llIGCB+LMvW6FTUVmYMtLr3O3g
- nroOXcOudEySSpU0+s+fkABu5Gkj5tXmste2Gfwwu13FKY2uCAJgMJfTkGTqLRfm+oNl
- D5e7TnlYqIDc8XzzkfpNEOwkcRhYTOov//HSLIWlZfR0r6JASZ9jK7F0d/tDph4O4TE1
- rBrQ==
+ bh=mbs0XnxAH9XZ1rqWsX8q/JBDekNQiMIH/00Vs+Bfjx8=;
+ b=JFKS5mQHN8821VaJhUAUg/Dzr0jAK/sNb+RHEnD9SZVivZKJB2+3D8XngGmUWi8kB2
+ vBi3s0+X2mchW/kWth3ftHP0diuDeT0fmrXHGeqOCZv+KWaqKMQ+g/9Bd8kTFDdqcKOj
+ gqtan/MLrEmCnePaf4E+VBkZCWORnTSzYHjYOuxLaKGWFD72jRqUMEGVVrd6MJN/pswW
+ dJlojhT5uZ8M73ZHZRLK3m3plUaFUxkKWgF1JH8LB6ZanXvLr2K31EEoHCykghYFdNBS
+ OQCS/28LBbjLj3VtiZDoOcRxzlrjgnHpMppyp2zS5QZeJrlimwtSIQuJHxb8I7g5U0Rh
+ WDng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qjjw6SMTzOtIMG8knarIZfVDh1j7Z6jLvyP1PkdoHD4=;
- b=vJhmSwgX1ZakU9kOt/h1EV44HsRimGz0Tw1MU+osoQNfy/jhiSdQ9syfgfcAiepHFn
- Qwh9jaz73f3nRYCbKP7Ty1oo+hPFHojWro184pdASueWGdMnM4Z7Ds7y4rlaQydktGqL
- ZqaaB784Dcf6GTgruyR63RIKCrymhnmHwpShHMPKiLzIQ1b49tJ+XyN89p0PECGubSGs
- HVDkfY7eK33h6aWZMm4g3ewmg4USAz3H2nAsaFM/MaNa+gmpn4tBbmHk8ugP4ECx5BbU
- SLx69gx8aqTXKfwXtiEJ9543nwTL7WPEFTGGoP4RHHDNMktxHms2FIHIS1sO58Z7LiFC
- Q0dA==
-X-Gm-Message-State: AOAM531yjvXhOSEcr8fSFEmVgcfG1+qrbrhhnAmmWJ6Mx/xP2jHIgs81
- 8JCXeY4JNFyGemYnqEa8HgCOzn5oZ7I=
-X-Google-Smtp-Source: ABdhPJySAEkL6WwK43uIr2w1gfGyqXCszCUbjbOVQ7Bg9cAyRsr+AN2Xx0RzzqfULlLo9VBP+pFsCQ==
-X-Received: by 2002:a5d:6a46:: with SMTP id t6mr346491wrw.141.1639421777350;
- Mon, 13 Dec 2021 10:56:17 -0800 (PST)
+ bh=mbs0XnxAH9XZ1rqWsX8q/JBDekNQiMIH/00Vs+Bfjx8=;
+ b=m5RcDoqY5P1ExDsPZ+Oi4+X2Z46zvrQxwVYUe3a9pYQIi19zc6Mt3z3za8yRo4RtrJ
+ Qy7jX+1F/cquB6gnCsNsEuOW6zdlA3563fLg0F71cICWcpkPNWEx1bkBh3geTNK3H53e
+ dGtftEYoM0SzOUrycgzZnjPJOQt/qDSCzfaMvRM5BLYkqXpiXhrRx1kia5+XDf0082gw
+ qOdoNkgZGinCHqhqiRMwRTHcFAQfSo4AZ1HvcrpX6eRg7+lMizoOBsqPBxUzFrHPP2e5
+ e5jNU2Bmg+3cx4+kd4q0HHGcY1C3teNHL6QCc5B0JoIK1PmBLKrkuVkVEnedFRp+78O0
+ mIxQ==
+X-Gm-Message-State: AOAM530usamtVvJz4InfiibaPvrEHFIihxAFTa8krTOLEsBZ49+Lq2Z5
+ NF1oVcrecpioNxzSXkfOipkLMDzOQqA=
+X-Google-Smtp-Source: ABdhPJwnzGyngdYa0UAmNr3GfJPhDslH89Ek9Dzb5gFTxrWBj6Fq0SmpmHkP4VwrwzB7/tlM+8a2KQ==
+X-Received: by 2002:a7b:c155:: with SMTP id z21mr39315256wmi.107.1639421782208; 
+ Mon, 13 Dec 2021 10:56:22 -0800 (PST)
 Received: from x1w.redhat.com (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id e3sm11850472wrp.8.2021.12.13.10.56.16
+ by smtp.gmail.com with ESMTPSA id u13sm9389401wmq.14.2021.12.13.10.56.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Dec 2021 10:56:16 -0800 (PST)
+ Mon, 13 Dec 2021 10:56:21 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] target/hppa: Minor code movement
-Date: Mon, 13 Dec 2021 19:56:09 +0100
-Message-Id: <20211213185610.1987974-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/2] target/hppa: Fix deposit assert from trans_shrpw_imm
+Date: Mon, 13 Dec 2021 19:56:10 +0100
+Message-Id: <20211213185610.1987974-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211213185610.1987974-1-f4bug@amsat.org>
 References: <20211213185610.1987974-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,41 +88,75 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Sven Schnelle <svens@stackframe.org>, Helge Deller <deller@gmx.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the 'a->r1 == 0' if ladder earlier, simply
-to ease reviewing the next commit change.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Because sa may be 0,
+
+    tcg_gen_deposit_reg(dest, t0, cpu_gr[a->r1], 32 - sa, sa);
+
+may attempt a zero-width deposit at bit 32, which will assert
+for TARGET_REGISTER_BITS == 32.
+
+Use the newer extract2 when possible, which itself includes the
+rotri special case; otherwise mirror the code from trans_shrpw_sar,
+using concat and shri.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/635
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20211213174248.29222-1-richard.henderson@linaro.org>
 ---
- target/hppa/translate.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/hppa/translate.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index 3b9744deb44..261e4c75c7c 100644
+index 261e4c75c7c..952027a28e1 100644
 --- a/target/hppa/translate.c
 +++ b/target/hppa/translate.c
-@@ -3204,14 +3204,14 @@ static bool trans_shrpw_imm(DisasContext *ctx, arg_shrpw_imm *a)
- 
-     dest = dest_gpr(ctx, a->t);
+@@ -140,6 +140,7 @@
+ #define tcg_gen_deposit_z_reg tcg_gen_deposit_z_i64
+ #define tcg_gen_extract_reg  tcg_gen_extract_i64
+ #define tcg_gen_sextract_reg tcg_gen_sextract_i64
++#define tcg_gen_extract2_reg tcg_gen_extract2_i64
+ #define tcg_const_reg        tcg_const_i64
+ #define tcg_const_local_reg  tcg_const_local_i64
+ #define tcg_constant_reg     tcg_constant_i64
+@@ -234,6 +235,7 @@
+ #define tcg_gen_deposit_z_reg tcg_gen_deposit_z_i32
+ #define tcg_gen_extract_reg  tcg_gen_extract_i32
+ #define tcg_gen_sextract_reg tcg_gen_sextract_i32
++#define tcg_gen_extract2_reg tcg_gen_extract2_i32
+ #define tcg_const_reg        tcg_const_i32
+ #define tcg_const_local_reg  tcg_const_local_i32
+ #define tcg_constant_reg     tcg_constant_i32
+@@ -3206,6 +3208,8 @@ static bool trans_shrpw_imm(DisasContext *ctx, arg_shrpw_imm *a)
      t2 = load_gpr(ctx, a->r2);
--    if (a->r1 == a->r2) {
-+    if (a->r1 == 0) {
-+        tcg_gen_extract_reg(dest, t2, sa, 32 - sa);
-+    } else if (a->r1 == a->r2) {
+     if (a->r1 == 0) {
+         tcg_gen_extract_reg(dest, t2, sa, 32 - sa);
++    } else if (TARGET_REGISTER_BITS == 32) {
++        tcg_gen_extract2_reg(dest, t2, cpu_gr[a->r1], sa);
+     } else if (a->r1 == a->r2) {
          TCGv_i32 t32 = tcg_temp_new_i32();
          tcg_gen_trunc_reg_i32(t32, t2);
-         tcg_gen_rotri_i32(t32, t32, sa);
+@@ -3213,10 +3217,11 @@ static bool trans_shrpw_imm(DisasContext *ctx, arg_shrpw_imm *a)
          tcg_gen_extu_i32_reg(dest, t32);
          tcg_temp_free_i32(t32);
--    } else if (a->r1 == 0) {
--        tcg_gen_extract_reg(dest, t2, sa, 32 - sa);
      } else {
-         TCGv_reg t0 = tcg_temp_new();
-         tcg_gen_extract_reg(t0, t2, sa, 32 - sa);
+-        TCGv_reg t0 = tcg_temp_new();
+-        tcg_gen_extract_reg(t0, t2, sa, 32 - sa);
+-        tcg_gen_deposit_reg(dest, t0, cpu_gr[a->r1], 32 - sa, sa);
+-        tcg_temp_free(t0);
++        TCGv_i64 t64 = tcg_temp_new_i64();
++        tcg_gen_concat_reg_i64(t64, t2, cpu_gr[a->r1]);
++        tcg_gen_shri_i64(t64, t64, sa);
++        tcg_gen_trunc_i64_reg(dest, t64);
++        tcg_temp_free_i64(t64);
+     }
+     save_gpr(ctx, a->t, dest);
+ 
 -- 
 2.33.1
 
