@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469C5473214
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 17:43:34 +0100 (CET)
-Received: from localhost ([::1]:58892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFF6473207
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 17:41:18 +0100 (CET)
+Received: from localhost ([::1]:50256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwoQF-0002yr-Jb
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 11:43:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51114)
+	id 1mwoO5-0005cg-C8
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 11:41:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mwoLg-0002yo-Bu; Mon, 13 Dec 2021 11:38:48 -0500
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:46260)
+ id 1mwoLe-0002xa-IG; Mon, 13 Dec 2021 11:38:46 -0500
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:46304)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mwoLc-0003Xk-HZ; Mon, 13 Dec 2021 11:38:48 -0500
+ id 1mwoLc-0003Xn-Gi; Mon, 13 Dec 2021 11:38:46 -0500
 Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 1935D4034A;
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 4D8D94034D;
  Mon, 13 Dec 2021 17:38:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=univ-grenoble-alpes.fr; s=2020; t=1639413520;
- bh=XTxRfm9BdVnBnFiI5R4eIb6uQB8aJTIRuXIDG4Uwcv0=;
+ bh=VEu66ZfC7VzbkVKvz68XN6w+dvnIWvN/uEOLlhcRHlg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JzBfMv+VBYmCV2IqH0voh8PVXocg674D0gtuW3KdMg5Yai3wcOHwZjyXHdySLlhBj
- wrWJwlfuK+ISaiuW1AnoeZzSFXk8rY1no9K8iPi+ZeKOSGXWCNbeRpyxsBX8fvGXcU
- Qrqh49esjj9ODthKazUtCgUyhAs8Ng2RWepqbbTPflENfvFJkFODuHI38bglSEQCLn
- 9tZx3gLTJCRjxMU4zhcMilkqS6B9masSoroiZPBpTesP6pveFSmjz+M8eeGQ7wCTAH
- EKaVyxUtfSondhKxdWRL41KHp1IrOry5Ek31A3IOCvV+X5BCkUs91c9kSUsnSIQKLO
- MR6m5XIrqPu9Q==
+ b=e1cDV1OMs1Y5wtUAVOO3jwz3bx4h7zoMZydtrgfuIqgOJ8JVklRZMdq/d2NIwfgFy
+ gBogMrDgOa+N5XQ0d1+dGQL7QLy8AmSNq7Vm8Jr51yiunVrg1PwiMM1h4Av8MT7vT3
+ t81TfiT/LVrWaEiifDCffrasFr7jNH6Aw9gGIIVrk+hRFdYNFb9/fk6z4Hl1PP0awC
+ g1r3soz2L0N/PBeVLqTi+nFbvGnI3jV05Q5hja4V7ZwG4ZqNuOWofkkFOI2e33XOWY
+ rhYHIX0EgGeMVKzvLJTq9eo/uA17432B46lRMlrGbxJ5WNHRYpnZ1Nr82y17SZ3jb9
+ ZP5+cHIvv1g6g==
 Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id 0226B6006D;
- Mon, 13 Dec 2021 17:38:39 +0100 (CET)
+ by mailhost.u-ga.fr (Postfix) with ESMTP id 3889E6006B;
+ Mon, 13 Dec 2021 17:38:40 +0100 (CET)
 Received: from palmier.tima.u-ga.fr (35.201.90.79.rev.sfr.net [79.90.201.35])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id C8A6414007F;
- Mon, 13 Dec 2021 17:38:39 +0100 (CET)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 086E014005C;
+ Mon, 13 Dec 2021 17:38:40 +0100 (CET)
 From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
  <frederic.petrot@univ-grenoble-alpes.fr>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v7 03/18] qemu/int128: addition of div/rem 128-bit operations
-Date: Mon, 13 Dec 2021 17:38:19 +0100
-Message-Id: <20211213163834.170504-4-frederic.petrot@univ-grenoble-alpes.fr>
+Subject: [PATCH v7 04/18] target/riscv: additional macros to check instruction
+ support
+Date: Mon, 13 Dec 2021 17:38:20 +0100
+Message-Id: <20211213163834.170504-5-frederic.petrot@univ-grenoble-alpes.fr>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211213163834.170504-1-frederic.petrot@univ-grenoble-alpes.fr>
 References: <20211213163834.170504-1-frederic.petrot@univ-grenoble-alpes.fr>
@@ -87,236 +88,52 @@ Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Addition of div and rem on 128-bit integers, using the 128/64->128 divu and
-64x64->128 mulu in host-utils.
-These operations will be used within div/rem helpers in the 128-bit riscv
-target.
+Given that the 128-bit version of the riscv spec adds new instructions, and
+that some instructions that were previously only available in 64-bit mode
+are now available for both 64-bit and 128-bit, we added new macros to check
+for the processor mode during translation.
+Although RV128 is a superset of RV64, we keep for now the RV64 only tests
+for extensions other than RVI and RVM.
 
 Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
 Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/qemu/int128.h |  27 ++++++++
- util/int128.c         | 147 ++++++++++++++++++++++++++++++++++++++++++
- util/meson.build      |   1 +
- 3 files changed, 175 insertions(+)
- create mode 100644 util/int128.c
+ target/riscv/translate.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/include/qemu/int128.h b/include/qemu/int128.h
-index b6d517aea4..2c4064256c 100644
---- a/include/qemu/int128.h
-+++ b/include/qemu/int128.h
-@@ -172,6 +172,26 @@ static inline Int128 bswap128(Int128 a)
- #endif
- }
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 1d57bc97b5..2718ff15a1 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -368,10 +368,22 @@ EX_SH(12)
+     }                              \
+ } while (0)
  
-+static inline Int128 int128_divu(Int128 a, Int128 b)
-+{
-+    return (__uint128_t)a / (__uint128_t)b;
-+}
+-#define REQUIRE_64BIT(ctx) do {    \
+-    if (get_xl(ctx) < MXL_RV64) {  \
+-        return false;              \
+-    }                              \
++#define REQUIRE_64BIT(ctx) do {     \
++    if (get_xl(ctx) != MXL_RV64) {  \
++        return false;               \
++    }                               \
++} while (0)
 +
-+static inline Int128 int128_remu(Int128 a, Int128 b)
-+{
-+    return (__uint128_t)a % (__uint128_t)b;
-+}
++#define REQUIRE_128BIT(ctx) do {    \
++    if (get_xl(ctx) != MXL_RV128) { \
++        return false;               \
++    }                               \
++} while (0)
 +
-+static inline Int128 int128_divs(Int128 a, Int128 b)
-+{
-+    return a / b;
-+}
-+
-+static inline Int128 int128_rems(Int128 a, Int128 b)
-+{
-+    return a % b;
-+}
-+
- #else /* !CONFIG_INT128 */
++#define REQUIRE_64_OR_128BIT(ctx) do { \
++    if (get_xl(ctx) == MXL_RV32) {     \
++        return false;                  \
++    }                                  \
+ } while (0)
  
- typedef struct Int128 Int128;
-@@ -379,6 +399,11 @@ static inline Int128 bswap128(Int128 a)
-     return int128_make128(bswap64(a.hi), bswap64(a.lo));
- }
- 
-+Int128 int128_divu(Int128, Int128);
-+Int128 int128_remu(Int128, Int128);
-+Int128 int128_divs(Int128, Int128);
-+Int128 int128_rems(Int128, Int128);
-+
- #endif /* CONFIG_INT128 */
- 
- static inline void bswap128s(Int128 *s)
-@@ -386,4 +411,6 @@ static inline void bswap128s(Int128 *s)
-     *s = bswap128(*s);
- }
- 
-+#define UINT128_MAX int128_make128(~0LL, ~0LL)
-+
- #endif /* INT128_H */
-diff --git a/util/int128.c b/util/int128.c
-new file mode 100644
-index 0000000000..ed8f25fef1
---- /dev/null
-+++ b/util/int128.c
-@@ -0,0 +1,147 @@
-+/*
-+ * 128-bit division and remainder for compilers not supporting __int128
-+ *
-+ * Copyright (c) 2021 Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/host-utils.h"
-+#include "qemu/int128.h"
-+
-+#ifndef CONFIG_INT128
-+
-+/*
-+ * Division and remainder algorithms for 128-bit due to Stefan Kanthak,
-+ * https://skanthak.homepage.t-online.de/integer.html#udivmodti4
-+ * Preconditions:
-+ *     - function should never be called with v equals to 0, it has to
-+ *       be dealt with beforehand
-+ *     - quotien pointer must be valid
-+ */
-+static Int128 divrem128(Int128 u, Int128 v, Int128 *q)
-+{
-+    Int128 qq;
-+    uint64_t hi, lo, tmp;
-+    int s = clz64(v.hi);
-+
-+    if (s == 64) {
-+        /* we have uu÷0v => let's use divu128 */
-+        hi = u.hi;
-+        lo = u.lo;
-+        tmp = divu128(&lo, &hi, v.lo);
-+        *q = int128_make128(lo, hi);
-+        return int128_make128(tmp, 0);
-+    } else {
-+        hi = int128_gethi(int128_lshift(v, s));
-+
-+        if (hi > u.hi) {
-+            lo = u.lo;
-+            tmp = u.hi;
-+            divu128(&lo, &tmp, hi);
-+            lo = int128_gethi(int128_lshift(int128_make128(lo, 0), s));
-+        } else { /* prevent overflow */
-+            lo = u.lo;
-+            tmp = u.hi - hi;
-+            divu128(&lo, &tmp, hi);
-+            lo = int128_gethi(int128_lshift(int128_make128(lo, 1), s));
-+        }
-+
-+        qq = int128_make64(lo);
-+
-+        tmp = lo * v.hi;
-+        mulu64(&lo, &hi, lo, v.lo);
-+        hi += tmp;
-+
-+        if (hi < tmp     /* quotient * divisor >= 2**128 > dividend */
-+            || hi > u.hi /* quotient * divisor > dividend */
-+            || (hi == u.hi && lo > u.lo)) {
-+            qq.lo -= 1;
-+            mulu64(&lo, &hi, qq.lo, v.lo);
-+            hi += qq.lo * v.hi;
-+        }
-+
-+        *q = qq;
-+        u.hi -= hi + (u.lo < lo);
-+        u.lo -= lo;
-+        return u;
-+    }
-+}
-+
-+Int128 int128_divu(Int128 a, Int128 b)
-+{
-+    Int128 q;
-+    divrem128(a, b, &q);
-+    return q;
-+}
-+
-+Int128 int128_remu(Int128 a, Int128 b)
-+{
-+    Int128 q;
-+    return divrem128(a, b, &q);
-+}
-+
-+Int128 int128_divs(Int128 a, Int128 b)
-+{
-+    Int128 q;
-+    bool sgna = !int128_nonneg(a);
-+    bool sgnb = !int128_nonneg(b);
-+
-+    if (sgna) {
-+        a = int128_neg(a);
-+    }
-+
-+    if (sgnb) {
-+        b = int128_neg(b);
-+    }
-+
-+    divrem128(a, b, &q);
-+
-+    if (sgna != sgnb) {
-+        q = int128_neg(q);
-+    }
-+
-+    return q;
-+}
-+
-+Int128 int128_rems(Int128 a, Int128 b)
-+{
-+    Int128 q, r;
-+    bool sgna = !int128_nonneg(a);
-+    bool sgnb = !int128_nonneg(b);
-+
-+    if (sgna) {
-+        a = int128_neg(a);
-+    }
-+
-+    if (sgnb) {
-+        b = int128_neg(b);
-+    }
-+
-+    r = divrem128(a, b, &q);
-+
-+    if (sgna) {
-+        r = int128_neg(r);
-+    }
-+
-+    return r;
-+}
-+
-+#endif
-diff --git a/util/meson.build b/util/meson.build
-index 05b593055a..e676b2f6c6 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -48,6 +48,7 @@ util_ss.add(files('transactions.c'))
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('drm.c'))
- util_ss.add(files('guest-random.c'))
- util_ss.add(files('yank.c'))
-+util_ss.add(files('int128.c'))
- 
- if have_user
-   util_ss.add(files('selfmap.c'))
+ static int ex_rvc_register(DisasContext *ctx, int reg)
 -- 
 2.34.1
 
