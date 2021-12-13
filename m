@@ -2,78 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521A74729BC
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 11:24:57 +0100 (CET)
-Received: from localhost ([::1]:35420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D82124729E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 11:26:58 +0100 (CET)
+Received: from localhost ([::1]:37618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwiVs-0005dX-60
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 05:24:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35574)
+	id 1mwiXp-0007CV-ET
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 05:26:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mwiUo-0004yY-SA
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:23:50 -0500
-Received: from [2a00:1450:4864:20::333] (port=52169
- helo=mail-wm1-x333.google.com)
+ id 1mwiUv-00053T-BI
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:23:57 -0500
+Received: from [2a00:1450:4864:20::331] (port=46822
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mwiUi-0005Xs-6P
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:23:47 -0500
-Received: by mail-wm1-x333.google.com with SMTP id 137so11511332wma.1
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 02:23:43 -0800 (PST)
+ id 1mwiUt-0005Zg-PX
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:23:57 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ c6-20020a05600c0ac600b0033c3aedd30aso11224663wmr.5
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 02:23:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:references:in-reply-to
  :content-transfer-encoding;
- bh=d5gjd7DkXzFFar/87LfemtzCmDf71l2zjA4L0nnmEjE=;
- b=F7vxifWg+DWYnJC/9tgbXC4ggFouOTsTUAg8ktrNJYYVRhjC4RZDK9drxyclWvH9lQ
- m4daYx2V1p+t2JcCWyEstfbWH3eXBCBXLic/p+JgHZmovuceySV9KNDRbzIU4oWC7hPx
- J4NxSsj8ZkBZY7TmfU/vvWU4Owxhpu5wVJqa2pCIkh4/+75kuIQNYsWIkCOdVawsOarA
- Y72ojQAJGwcTclW90BGdfbc+v2brl9NMQrzNxvQ8BYIejAqvKwMAw+UbchUkqY1M9rvD
- LI8O6MroShNX/g9oO04NFs3kOtrPy4YBrPFT9l5VqeAEqfdvOIipBMD1YxePdXEJ/pnd
- PiMw==
+ bh=vN44KKytHq403COCTKZjoru4K/u9wUXKaJ+OQzgs9MM=;
+ b=UvEL/IGXxwz9xO3zCYvUkBsidr0hQaJery8YSgH8HPKMwGoMkJyYMCdS69rPOhDvos
+ gY8vIlGo9nfjvXy3T2h8WOS76ysJJHuhbN/DhBAI1lo8spb6ufCh3hW65cNiRY6Nl1ZZ
+ GoUXWTbb9kRKFHBdg4je2SfU8+dCpJFi3E326qoU7UyZ4nHuvtVFV6jH9hRuW6EVtdQC
+ WvNqKr6DrJk5trVZmQ91a3OTKKWiuBp7cH90Hxih+IXQ9xPAmooj6ABNAanueZK5Y33T
+ Lj4DWnSWlIKNdpMfLTChzI6Il08Y1Ccsg30di0FiUXL0xb77Aqnn3BKolq990EGHIe+N
+ sROw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=d5gjd7DkXzFFar/87LfemtzCmDf71l2zjA4L0nnmEjE=;
- b=g2/1hYrFOBgL8ORTOUpgeLe6H9oMvI8e+VKNEsGUYaHaslCyw+hu2P8XBQW4iSBuEg
- qw5nRH3EvXwHOfW57JdQSXyyG6TZtUYdTKotAEHEQfyyOAGKYO2TosVyb55cLVHrTt4v
- KJ5Ydpq0GCwssQQf8/JSUoJqUbbgVH7p69Ys76F+GyYpxyTJEQ+gMdWxEMM3G80I3uNv
- KVq+Wlql3OCS9Np5zTg8Pq1c405VcDo5fMzo1ExiGqfU4fa6871/yZW8LdIRkkB5dFoY
- 087PbDekgIAVZOznkKD1PwvtJf3V5VZwJPU3OWUdcrSr3YpfBHXtBGLkgPseHWs/oSK9
- VUcQ==
-X-Gm-Message-State: AOAM532epXBsknhKgL32COHQh50KZbmNGgu8Yc7mG0Nbt5d9tCOHKvV8
- 4PEA52kDiMfLWijlH94Y6jmKOZDOc7nFRQ==
-X-Google-Smtp-Source: ABdhPJyrzu9UjLrKPOIN3d1SbY21zr8Z6VbIoxGp392Yde8p95syaCVdmMUMic/OXejQIDc5v++hAw==
-X-Received: by 2002:a1c:7418:: with SMTP id p24mr36173717wmc.71.1639391022157; 
- Mon, 13 Dec 2021 02:23:42 -0800 (PST)
-Received: from x1w.. (174.red-83-50-185.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:from:to:references:in-reply-to
+ :content-transfer-encoding;
+ bh=vN44KKytHq403COCTKZjoru4K/u9wUXKaJ+OQzgs9MM=;
+ b=mpe/m31PtrWpCrxb3J2f5PjD//Z6S3xB6M9RZiRfbr0APMavXXDE5oWwCZwE+KEaj5
+ YNCkcFmQVgrvLf4xLiwoOpo5jOWq6d+bDsKy+RBtoC8UqHGNwKtGD41ZIKbBj6MjVi/K
+ azqY7Rdjpsp5XOBoVecui0IztnxQ+MQy09znPFsUDitFXMJGJ9u6Axi5CxKA+9Wl5vMU
+ LkpQhnXczf7zXzUGKHdDo2BsJtuvA/VeIP5b5n4B651EOhPSW33OfXQ5UOJ6wQXwQS6H
+ JRFPfhTTzG53YGq2682huMc+kQneHKTkaOKNp/VE1kgwSkjW3Ct4ZUiwBJYPAK+rLmSM
+ 5Nzg==
+X-Gm-Message-State: AOAM531hEQKldU5IXI8mWpD9DZA0tIhVOovs/TjT6zftqY/vdpEVgHjD
+ uOIAaMJYtuC1vz85vfOmEg3++KCsFt2Azg==
+X-Google-Smtp-Source: ABdhPJzN9uIdIoEdkpODrO2IldPCPmgJkC79byYnpOiu7ZM+1HQPKRu26XU8VHNNOvzuXrzL+r73tg==
+X-Received: by 2002:a7b:c1d5:: with SMTP id a21mr36507031wmj.14.1639391034490; 
+ Mon, 13 Dec 2021 02:23:54 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id x13sm10419767wrr.47.2021.12.13.02.23.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Dec 2021 02:23:41 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/mips: Remove duplicated MIPSCPU::cp0_count_rate
-Date: Mon, 13 Dec 2021 11:23:40 +0100
-Message-Id: <20211213102340.1847248-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.33.1
+ by smtp.gmail.com with ESMTPSA id f8sm7469359wmf.2.2021.12.13.02.23.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Dec 2021 02:23:54 -0800 (PST)
+Message-ID: <81f4fd87-a177-420b-d69d-45faa0eddb48@amsat.org>
+Date: Mon, 13 Dec 2021 11:23:53 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] MIPS - fix cycle counter timing calculations
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Simon Burge <simonb@NetBSD.org>, qemu-devel@nongnu.org
+References: <20211116072606.BE9C8A1856@thoreau.thistledown.com.au>
+ <b32b56b9-acda-66ae-6b81-e45cac403bd8@amsat.org>
+In-Reply-To: <b32b56b9-acda-66ae-6b81-e45cac403bd8@amsat.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-4.093,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,114 +94,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Simon Burge <simonb@NetBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the previous commit 9ea89876f9d ("target/mips: Fix cycle
-counter timing calculations"), MIPSCPU::cp0_count_rate is not
-used anymore. We don't need it since it is already expressed
-as mips_def_t::CCRes. Remove the duplicate and clean.
+On 12/13/21 11:10, Philippe Mathieu-Daudé wrote:
+> On 11/16/21 08:26, Simon Burge wrote:
+>> The cp0_count_ns value is calculated from the CP0_COUNT_RATE_DEFAULT
+>> constant in target/mips/cpu.c.  The cycle counter resolution is defined
+>> per-CPU in target/mips/cpu-defs.c.inc; use this value for calculating
+>> cp0_count_ns.  Fixings timing problems on guest OSs for the 20Kc CPU
+>> which has a CCRes of 1.
+>> ---
+>>  target/mips/cpu.c | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+> Good catch. Too bad you didn't Cc'ed the maintainers, this patch
+> would have been in the 6.2 release.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> Queued to mips-next.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-Based-on: <20211116072606.BE9C8A1856@thoreau.thistledown.com.au>
----
- target/mips/cpu.h      |  9 ---------
- target/mips/internal.h |  9 +++++++++
- target/mips/cpu.c      | 10 ----------
- 3 files changed, 9 insertions(+), 19 deletions(-)
+Oops, missing your Signed-off-by tag, see:
+https://www.qemu.org/docs/master/devel/submitting-a-patch.html#patch-emails-must-include-a-signed-off-by-line
 
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 56b1cbd091d..ea66b866c69 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -1168,7 +1168,6 @@ struct CPUMIPSState {
-  * @env: #CPUMIPSState
-  * @clock: this CPU input clock (may be connected
-  *         to an output clock from another device).
-- * @cp0_count_rate: rate at which the coprocessor 0 counter increments
-  *
-  * A MIPS CPU.
-  */
-@@ -1180,14 +1179,6 @@ struct MIPSCPU {
-     Clock *clock;
-     CPUNegativeOffsetState neg;
-     CPUMIPSState env;
--    /*
--     * The Count register acts as a timer, incrementing at a constant rate,
--     * whether or not an instruction is executed, retired, or any forward
--     * progress is made through the pipeline. The rate at which the counter
--     * increments is implementation dependent, and is a function of the
--     * pipeline clock of the processor, not the issue width of the processor.
--     */
--    unsigned cp0_count_rate;
- };
- 
- 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index daddb05fd43..1526fb880da 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -46,6 +46,15 @@ struct mips_def_t {
-     target_ulong CP0_LLAddr_rw_bitmask;
-     int CP0_LLAddr_shift;
-     int32_t SYNCI_Step;
-+    /*
-+     * @CCRes: rate at which the coprocessor 0 counter increments
-+     *
-+     * The Count register acts as a timer, incrementing at a constant rate,
-+     * whether or not an instruction is executed, retired, or any forward
-+     * progress is made through the pipeline. The rate at which the counter
-+     * increments is implementation dependent, and is a function of the
-+     * pipeline clock of the processor, not the issue width of the processor.
-+     */
-     int32_t CCRes;
-     int32_t CP0_Status_rw_bitmask;
-     int32_t CP0_TCStatus_rw_bitmask;
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 0766e256931..af287177d5a 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -434,13 +434,11 @@ static void mips_cpu_disas_set_info(CPUState *s, disassemble_info *info)
-  * Since commit 6af0bf9c7c3 this model assumes a CPU clocked at 200MHz.
-  */
- #define CPU_FREQ_HZ_DEFAULT     200000000
--#define CP0_COUNT_RATE_DEFAULT  2
- 
- static void mips_cp0_period_set(MIPSCPU *cpu)
- {
-     CPUMIPSState *env = &cpu->env;
- 
--    /* env->CCRes isn't initialised this early, use env->cpu_model->CCRes. */
-     env->cp0_count_ns = clock_ticks_to_ns(MIPS_CPU(cpu)->clock,
-                                           env->cpu_model->CCRes);
-     assert(env->cp0_count_ns);
-@@ -515,13 +513,6 @@ static ObjectClass *mips_cpu_class_by_name(const char *cpu_model)
-     return oc;
- }
- 
--static Property mips_cpu_properties[] = {
--    /* CP0 timer running at half the clock of the CPU */
--    DEFINE_PROP_UINT32("cp0-count-rate", MIPSCPU, cp0_count_rate,
--                       CP0_COUNT_RATE_DEFAULT),
--    DEFINE_PROP_END_OF_LIST()
--};
--
- #ifndef CONFIG_USER_ONLY
- #include "hw/core/sysemu-cpu-ops.h"
- 
-@@ -561,7 +552,6 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
-     device_class_set_parent_realize(dc, mips_cpu_realizefn,
-                                     &mcc->parent_realize);
-     device_class_set_parent_reset(dc, mips_cpu_reset, &mcc->parent_reset);
--    device_class_set_props(dc, mips_cpu_properties);
- 
-     cc->class_by_name = mips_cpu_class_by_name;
-     cc->has_work = mips_cpu_has_work;
--- 
-2.33.1
+Do you mind re-sending with your S-o-b? Meanwhile, patch dropped.
 
+Thanks,
+
+Phil.
 
