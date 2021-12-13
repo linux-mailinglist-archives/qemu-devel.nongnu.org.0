@@ -2,61 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC16E4724D4
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 10:39:04 +0100 (CET)
-Received: from localhost ([::1]:49808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30688472533
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 10:42:28 +0100 (CET)
+Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwhnT-0000nf-J5
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 04:39:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49984)
+	id 1mwhql-0002cI-BO
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 04:42:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1mwhjD-0004yq-Tc
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 04:34:40 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2848)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mwhoU-0001fC-Rn
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 04:40:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1mwhjB-0003K2-8W
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 04:34:39 -0500
-Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JCGYK3Jdwzdj5c;
- Mon, 13 Dec 2021 17:34:13 +0800 (CST)
-Received: from dggpeml500005.china.huawei.com (7.185.36.59) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 13 Dec 2021 17:34:30 +0800
-Received: from [10.174.186.51] (10.174.186.51) by
- dggpeml500005.china.huawei.com (7.185.36.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 13 Dec 2021 17:34:29 +0800
-Subject: Re: [PATCH v3 03/23] multifd: Rename used field to num
-To: Juan Quintela <quintela@redhat.com>, <qemu-devel@nongnu.org>
-CC: Leonardo Bras <leobras@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>, Xiexiangyou
- <xiexiangyou@huawei.com>
-References: <20211124100617.19786-1-quintela@redhat.com>
- <20211124100617.19786-4-quintela@redhat.com>
-Message-ID: <85f4bf3b-9259-7f19-8717-0297251ee6b2@huawei.com>
-Date: Mon, 13 Dec 2021 17:34:29 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mwhoQ-00041l-Hc
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 04:40:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639388381;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=W0h7sBr/+xzdOmiQg3Btkk5N5mtJIuKG5y5l1NrTU+s=;
+ b=XfM0hiprnVmH98AEM+FvEMw2++3P3iaeWfGLLJ1X3viIVPF8tPcDg0krxXVxQN2Lhr6sf+
+ XfXsw0Nb6QmqqAk3OiRWb6o72m7i6q2AitY1fwI65E8Je5TubbSZedUNZo1BDJwEwCSyx7
+ msKlRFqJCTgs6T6BDztvfSl5j7eaxJk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-440-vBo0DOTkMU2m2j7TWsKaaA-1; Mon, 13 Dec 2021 04:39:37 -0500
+X-MC-Unique: vBo0DOTkMU2m2j7TWsKaaA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBC6D1023F4E;
+ Mon, 13 Dec 2021 09:39:36 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 059E2101E397;
+ Mon, 13 Dec 2021 09:39:29 +0000 (UTC)
+Date: Mon, 13 Dec 2021 09:39:28 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [RFC] block-backend: prevent dangling BDS pointer in blk_drain()
+Message-ID: <YbcU0KYIpHRlu7yf@stefanha-x1.localdomain>
+References: <20211209142304.381253-1-stefanha@redhat.com>
+ <404e8b66-b64a-fded-db53-81eef675fc33@redhat.com>
+ <YbIvtoLHeZLcBE4b@stefanha-x1.localdomain>
+ <1542b233-8828-3a95-a511-b19b916398be@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20211124100617.19786-4-quintela@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.51]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500005.china.huawei.com (7.185.36.59)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=zhengchuan@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -82
-X-Spam_score: -8.3
-X-Spam_bar: --------
-X-Spam_report: (-8.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.093,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <1542b233-8828-3a95-a511-b19b916398be@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="fGyb44A/O4TKS/9z"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.713,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,182 +82,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Zheng Chuan <zhengchuan@huawei.com>
-From:  Zheng Chuan via <qemu-devel@nongnu.org>
 
-Hi, Juan,
+--fGyb44A/O4TKS/9z
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sorry, forget to send to qemu-devel, resend it.
+On Thu, Dec 09, 2021 at 07:51:02PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> 09.12.2021 19:32, Stefan Hajnoczi wrote:
+> > On Thu, Dec 09, 2021 at 04:45:13PM +0100, Hanna Reitz wrote:
+> > > On 09.12.21 15:23, Stefan Hajnoczi wrote:
+> > > > The BlockBackend root child can change during bdrv_drained_begin() =
+when
+> > > > aio_poll() is invoked. In fact the BlockDriverState can reach refcn=
+t 0
+> > > > and blk_drain() is left with a dangling BDS pointer.
+> > > >=20
+> > > > One example is scsi_device_purge_requests(), which calls blk_drain(=
+) to
+> > > > wait for in-flight requests to cancel. If the backup blockjob is ac=
+tive,
+> > > > then the BlockBackend root child is a temporary filter BDS owned by=
+ the
+> > > > blockjob. The blockjob can complete during bdrv_drained_begin() and=
+ the
+> > > > last reference to the BDS is released when the temporary filter nod=
+e is
+> > > > removed. This results in a use-after-free when blk_drain() calls
+> > > > bdrv_drained_end(bs) on the dangling pointer.
+> > > >=20
+> > > > The general problem is that a function and its callers must not ass=
+ume
+> > > > that bs is still valid across aio_poll(). Explicitly hold a referen=
+ce to
+> > > > bs in blk_drain() to avoid the dangling pointer.
+> > > >=20
+> > > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > > ---
+> > > > I found that BDS nodes are sometimes deleted with bs->quiesce_count=
+er >
+> > > > 0 (at least when running "make check"), so it is currently not poss=
+ible
+> > > > to put the bdrv_ref/unref() calls in bdrv_do_drained_begin() and
+> > > > bdrv_do_drained_end() because they will be unbalanced. That would h=
+ave
+> > > > been a more general solution than only fixing blk_drain().
+> > >=20
+> > > Deleting nodes that have a `quiesce_counter > 0` doesn=E2=80=99t seem=
+ wrong to me =E2=80=93
+> > > deleting only depends on strong references, and so I=E2=80=99d expect=
+ that anything
+> > > that increases the quiesce_counter also has a strong reference to the=
+ node
+> > > if the former wants the latter to stay around.
+> > >=20
+> > > I suppose we could make it so that both the quiesce_counter and the r=
+efcnt
+> > > need to be 0 before a BDS is deleted (and then deletion can happen bo=
+th from
+> > > bdrv_unref() and drained_end), but I don=E2=80=99t know whether that=
+=E2=80=99s really
+> > > necessary.=C2=A0 I=E2=80=99d rather leave it to the caller to ensure =
+they keep a strong
+> > > reference throughout the drain.
+> > >=20
+> > > The question is, how often do we have a situation like this, where we=
+ take a
+> > > weak reference for draining, because we assume there=E2=80=99s a stro=
+ng reference
+> > > backing us up (namely the one through blk->root), but that strong ref=
+erence
+> > > then can go away due to draining...
+> > >=20
+> > > > Any suggestions for a better fix?
+> > >=20
+> > > The fix makes sense to me.
+> >=20
+> > Okay. My concern was that this is a whole class of bugs and my patch
+> > only fixes blk_drain(). I have audited the code some more in the
+> > meantime.
+> >=20
+> > bdrv_insert_node() may be unsafe in the case where bs is a temporary
+> > filter node that is unref'd during bdrv_drained_begin():
+> >=20
+> >    BlockDriverState *bdrv_insert_node(BlockDriverState *bs, QDict *opti=
+ons,
+> >                                       int flags, Error **errp)
+> >    {
+> >        ERRP_GUARD();
+> >        int ret;
+> >        BlockDriverState *new_node_bs =3D NULL;
+> >        const char *drvname, *node_name;
+> >        BlockDriver *drv;
+> >        drvname =3D qdict_get_try_str(options, "driver");
+> >        if (!drvname) {
+> >            error_setg(errp, "driver is not specified");
+> >            goto fail;
+> >        }
+> >        drv =3D bdrv_find_format(drvname);
+> >        if (!drv) {
+> >            error_setg(errp, "Unknown driver: '%s'", drvname);
+> >            goto fail;
+> >        }
+> >        node_name =3D qdict_get_try_str(options, "node-name");
+> >        new_node_bs =3D bdrv_new_open_driver_opts(drv, node_name, option=
+s, flags,
+> >                                                errp);
+> >        options =3D NULL; /* bdrv_new_open_driver() eats options */
+> >        if (!new_node_bs) {
+> >            error_prepend(errp, "Could not create node: ");
+> >            goto fail;
+> >        }
+> >        bdrv_drained_begin(bs);
+> >        ^^^^^^^^^^^^^^^^^^^^^^^ <--- bs can be dangling pointer
+> >        ret =3D bdrv_replace_node(bs, new_node_bs, errp);
+> >        bdrv_drained_end(bs);
+> >=20
+> > The fix isn't as simple as blk_drain() because we don't want to insert
+> > the new node before the now-deleted node. I think the correct way to
+> > insert a node is against BdrvChild, not BlockDriverState. That way we
+> > can be sure the new node will be inserted into a graph that is reachabl=
+e
+> > via BdrvChild (e.g. BlockBackend) instead of a detached BDS.
+> >=20
+> > bdrv_set_aio_context_ignore() and blk_io_limits_disable() need to ref b=
+s
+> > like blk_drain() in this patch.
+> >=20
+> > There are some other bdrv_drained_begin() calls that I'm assuming are
+> > safe because they are during creation/deletion so I think we have stron=
+g
+> > references there or nothing else knows about our BDS yet.
+> >=20
+> > Do you agree with extending this patch series to cover the functions I
+> > mentioned above?
+>=20
+> I'm not sure.
+>=20
+> First, we can't support "any graph change" during some graph changing ope=
+ration.
+>=20
+> Actually, when we do some specific graph change operation, we should forb=
+id any other graph change operations, they should wait. Possibly, by adding=
+ strong references everywhere, we can avoid crashes. But what about the log=
+ic? If we do several graph changing operations simultaneously, the result i=
+s absolutely unpredictable, it's not what user wants.
+>=20
+> The problem is known. For example it may lead to 030 iotest failure. Prob=
+ably now it can't, after changes by Hanna.. But I think we'll not be safe, =
+until we have a kind of global mutex for graph changing operations. For exa=
+mple, here is my old attempt: https://lists.nongnu.org/archive/html/qemu-de=
+vel/2020-11/msg05290.html .
+>=20
+> So, probably, until we have a good solution for this, better do only nece=
+ssary small fixes like your original patch..
+>=20
+>=20
+> Second, actually bs may disappear on first yield point, which will happen=
+ earlier than bdrv_drained_being() - in bdrv_new_open_driver_opts(). So, if=
+ fix something, we'd better declare that caller of bdrv_insert_node() is re=
+sponsible for bs not disappear during function call. And check callers.
 
-On 2021/11/24 18:05, Juan Quintela wrote:
-> We will need to split it later in zero_num (number of zero pages) and
-> normal_num (number of normal pages).  This name is better.
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
->  migration/multifd.h |  2 +-
->  migration/multifd.c | 38 +++++++++++++++++++-------------------
->  2 files changed, 20 insertions(+), 20 deletions(-)
-> 
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 15c50ca0b2..86820dd028 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -55,7 +55,7 @@ typedef struct {
->  
->  typedef struct {
->      /* number of used pages */
-> -    uint32_t used;
-> +    uint32_t num;
->      /* number of allocated pages */
->      uint32_t allocated;
->      /* global number of generated multifd packets */
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 8125d0015c..8ea86d81dc 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -252,7 +252,7 @@ static MultiFDPages_t *multifd_pages_init(size_t size)
->  
->  static void multifd_pages_clear(MultiFDPages_t *pages)
->  {
-> -    pages->used = 0;
-> +    pages->num = 0;
->      pages->allocated = 0;
->      pages->packet_num = 0;
->      pages->block = NULL;
-> @@ -270,7 +270,7 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
->  
->      packet->flags = cpu_to_be32(p->flags);
->      packet->pages_alloc = cpu_to_be32(p->pages->allocated);
-> -    packet->pages_used = cpu_to_be32(p->pages->used);
-> +    packet->pages_used = cpu_to_be32(p->pages->num);
->      packet->next_packet_size = cpu_to_be32(p->next_packet_size);
->      packet->packet_num = cpu_to_be64(p->packet_num);
->  
-> @@ -278,7 +278,7 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
->          strncpy(packet->ramblock, p->pages->block->idstr, 256);
->      }
->  
-> -    for (i = 0; i < p->pages->used; i++) {
-> +    for (i = 0; i < p->pages->num; i++) {
->          /* there are architectures where ram_addr_t is 32 bit */
->          uint64_t temp = p->pages->offset[i];
->  
-> @@ -332,18 +332,18 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->          p->pages = multifd_pages_init(packet->pages_alloc);
->      }
->  
-> -    p->pages->used = be32_to_cpu(packet->pages_used);
-> -    if (p->pages->used > packet->pages_alloc) {
-> +    p->pages->num = be32_to_cpu(packet->pages_used);
-> +    if (p->pages->num > packet->pages_alloc) {
->          error_setg(errp, "multifd: received packet "
->                     "with %d pages and expected maximum pages are %d",
-> -                   p->pages->used, packet->pages_alloc) ;
-> +                   p->pages->num, packet->pages_alloc) ;
->          return -1;
->      }
->  
->      p->next_packet_size = be32_to_cpu(packet->next_packet_size);
->      p->packet_num = be64_to_cpu(packet->packet_num);
->  
-> -    if (p->pages->used == 0) {
-> +    if (p->pages->num == 0) {
->          return 0;
->      }
->  
-> @@ -356,7 +356,7 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->          return -1;
->      }
->  
-> -    for (i = 0; i < p->pages->used; i++) {
-> +    for (i = 0; i < p->pages->num; i++) {
->          uint64_t offset = be64_to_cpu(packet->offset[i]);
->  
->          if (offset > (block->used_length - page_size)) {
-> @@ -443,13 +443,13 @@ static int multifd_send_pages(QEMUFile *f)
->          }
->          qemu_mutex_unlock(&p->mutex);
->      }
-> -    assert(!p->pages->used);
-> +    assert(!p->pages->num);
->      assert(!p->pages->block);
->  
->      p->packet_num = multifd_send_state->packet_num++;
->      multifd_send_state->pages = p->pages;
->      p->pages = pages;
-> -    transferred = ((uint64_t) pages->used) * qemu_target_page_size()
-> +    transferred = ((uint64_t) pages->num) * qemu_target_page_size()
->                  + p->packet_len;
-The size of zero page should not regard as the whole pagesize.
-I think the transferred should be updated after you introduce zero_num in following patches, such as:
-+    transferred = ((uint64_t) p->normal_num) * qemu_target_page_size()
-+               + ((uint64_t) p->zero_num) * sizeof(uint64_t);
-Otherwise, migration time will get worse if we have low bandwidth limit parameter.
+bdrv_insert_node() is tricky. I will leave it alone and focus on
+bdrv_set_aio_context_ignore() and blk_io_limits_disable() because I
+think they have exactly the same problem as blk_drain().
 
-I tested it with bandwidth limit of 100MB/s and it works fine:)
+Stefan
 
->      qemu_file_update_transfer(f, transferred);
->      ram_counters.multifd_bytes += transferred;
-> @@ -469,12 +469,12 @@ int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset)
->      }
->  
->      if (pages->block == block) {
-> -        pages->offset[pages->used] = offset;
-> -        pages->iov[pages->used].iov_base = block->host + offset;
-> -        pages->iov[pages->used].iov_len = qemu_target_page_size();
-> -        pages->used++;
-> +        pages->offset[pages->num] = offset;
-> +        pages->iov[pages->num].iov_base = block->host + offset;
-> +        pages->iov[pages->num].iov_len = qemu_target_page_size();
-> +        pages->num++;
->  
-> -        if (pages->used < pages->allocated) {
-> +        if (pages->num < pages->allocated) {
->              return 1;
->          }
->      }
-> @@ -586,7 +586,7 @@ void multifd_send_sync_main(QEMUFile *f)
->      if (!migrate_use_multifd()) {
->          return;
->      }
-> -    if (multifd_send_state->pages->used) {
-> +    if (multifd_send_state->pages->num) {
->          if (multifd_send_pages(f) < 0) {
->              error_report("%s: multifd_send_pages fail", __func__);
->              return;
-> @@ -649,7 +649,7 @@ static void *multifd_send_thread(void *opaque)
->          qemu_mutex_lock(&p->mutex);
->  
->          if (p->pending_job) {
-> -            uint32_t used = p->pages->used;
-> +            uint32_t used = p->pages->num;
->              uint64_t packet_num = p->packet_num;
->              flags = p->flags;
->  
-> @@ -665,7 +665,7 @@ static void *multifd_send_thread(void *opaque)
->              p->flags = 0;
->              p->num_packets++;
->              p->num_pages += used;
-> -            p->pages->used = 0;
-> +            p->pages->num = 0;
->              p->pages->block = NULL;
->              qemu_mutex_unlock(&p->mutex);
->  
-> @@ -1091,7 +1091,7 @@ static void *multifd_recv_thread(void *opaque)
->              break;
->          }
->  
-> -        used = p->pages->used;
-> +        used = p->pages->num;
->          flags = p->flags;
->          /* recv methods don't know how to handle the SYNC flag */
->          p->flags &= ~MULTIFD_FLAG_SYNC;
-> 
+--fGyb44A/O4TKS/9z
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Regards.
-Chuan
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmG3FNAACgkQnKSrs4Gr
+c8hWbggAtgrXi7z7NfUz3IHzpkXdZY8nxRdSdOJEMv7AIrT391MK2DC8mmLlrsEK
+z8/x99hG+PGb+udNmO6XT4SOtKWJL8+L0hQwgAr6XmaDgMRrbyXuI6MgILgf6ANs
+BB+mJi1hTz0ULdyR0mT3RbcNEsMi/xAbW3uvZj00QZw2+FslpztITwFI0G9Y+4hO
+r2AKowZMWH8sZoomoeXLfJNqV2Xjw/CtW/ZQ600f6mnBaBAxh67xmN+Vsvi+NzI+
+LN0QBg3qU38qurfm43n3SZ/7y3jPFHqZEWE2qxSvjWIMSMd7SoFqxIClphp1jhry
+MH+zhIu7OQ57a/R0JVv0ui+CkS0+LQ==
+=3pCa
+-----END PGP SIGNATURE-----
+
+--fGyb44A/O4TKS/9z--
+
 
