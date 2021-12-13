@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77905473340
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 18:52:47 +0100 (CET)
-Received: from localhost ([::1]:47694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B91A47337E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 19:02:17 +0100 (CET)
+Received: from localhost ([::1]:55332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwpVF-0004zH-8X
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 12:52:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41084)
+	id 1mwpeQ-0002CQ-6q
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 13:02:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mwpTv-0003XT-Rb
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 12:51:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35223)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mwpc4-0001B1-5w
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 12:59:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mwpTi-0007Ds-2x
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 12:51:13 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mwpbz-0000UI-A0
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 12:59:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639417868;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=f0LxNXb4IQNUC9OuIExKo2Mj0cTDj2VFL7x6COsjBrU=;
- b=VC9c4svWyA6YXkNkrmZI1zrpQ4OKyXaH5b0T9A8G5d+UKvTf1irPZRdmeSIDVs1MkxC0zF
- jTPIvfxAjA2FBT8cWrh+bZglE9Z6U7s8nIChIBAWEA22x4YW5x8XXicwP5Dv8EiqWth/gm
- ygGLRFc5xYMOZe9kF1/ZsRRfN+KY2tM=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1639418382;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=GH7XnsUuA+ay1p+mlESMcbxAmTLGSGqPwzGEdS0wT90=;
+ b=Op46+PgeLyIIBfudQBa73lNhWghdlYfK7M6gI6Zc3fCxOsH9xvzWHTQa7m9J8at5Q0/Mfz
+ qnBZSY886fFLd2V2Y89PDC4QCRktkXS79ra6OwVaxzsbabs9U18HGi1tzCgtax2LXf7zra
+ Py5ZuVEKC+KwtUt5jZ2/He2xPZCc1Os=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-204-h62SIcfDOJuHH-hCPRhZtg-1; Mon, 13 Dec 2021 12:51:06 -0500
-X-MC-Unique: h62SIcfDOJuHH-hCPRhZtg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- n11-20020aa7c68b000000b003e7d68e9874so14630011edq.8
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 09:51:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=f0LxNXb4IQNUC9OuIExKo2Mj0cTDj2VFL7x6COsjBrU=;
- b=0gB15Dl8OTypIB4RVheOMULWoAzjDJe8wOOeMziP3p7H/3PJs8kof1zrNsJS6H8CYD
- BvoJLyv1bqego1wu7uNw7A3kRqOH1v97h1NCQyGuwJCROiW3TmovFoFi7ukaVFKWRu5I
- RUUOiINtfZJTowQei52ypSU4UmB8+PfYRWOUTv0KG0UfRfKZ59I09m68a7HmkyIGRSEx
- rEIqVjA7x/YWvpF/CoP63nDC01yC9KT35q1AfwEkTNpcLPmo0XWtvFVnmpusekozkOc9
- usMEi85j5G855ycY7D7qsH0T7tI2lDKuyT4/cQwWKbpWySV7U1H57NM/NHIYWEmftOdW
- awVg==
-X-Gm-Message-State: AOAM532wQhlFxi3YfdfQ5HTzXBACA9ouEr1nLEKXkdkWoRt7Hee4MMV1
- kHApDUbB/8DPYDBkgOIKI9NoYekcU3WD06Zgi1EMqHpazdd7iyBiAPuBAskScPWkStUsaarCmnU
- ffhnkYNDAeTHdG2I=
-X-Received: by 2002:a50:fe8e:: with SMTP id d14mr282535edt.51.1639417865459;
- Mon, 13 Dec 2021 09:51:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwPKKQc89Oj1muhFA5dd/JccOfIjOghXnqAILvZWTHY++iAGGGTuVtRiW95fgLcCsA2kGqdwQ==
-X-Received: by 2002:a50:fe8e:: with SMTP id d14mr282508edt.51.1639417865241;
- Mon, 13 Dec 2021 09:51:05 -0800 (PST)
-Received: from redhat.com ([2.55.148.125])
- by smtp.gmail.com with ESMTPSA id f29sm42180ejj.209.2021.12.13.09.51.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Dec 2021 09:51:03 -0800 (PST)
-Date: Mon, 13 Dec 2021 12:50:58 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v7 0/8] virtio-iommu: Add ACPI support (Arm part + tests)
-Message-ID: <20211213125048-mutt-send-email-mst@kernel.org>
-References: <20211210170415.583179-1-jean-philippe@linaro.org>
+ us-mta-251-b0iMJ1MMPdinzzs3SxOflg-1; Mon, 13 Dec 2021 12:59:34 -0500
+X-MC-Unique: b0iMJ1MMPdinzzs3SxOflg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B88394EEE;
+ Mon, 13 Dec 2021 17:59:33 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 87FDB196F8;
+ Mon, 13 Dec 2021 17:59:30 +0000 (UTC)
+Date: Mon, 13 Dec 2021 17:59:27 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: Redesign of QEMU startup & initial configuration
+Message-ID: <YbeJ/zTV/n+l2CmH@redhat.com>
+References: <87lf13cx3x.fsf@dusky.pond.sub.org> <YbJU5vVdesoGuug9@redhat.com>
+ <fb7e946e-6881-0ea3-d824-99693f938165@redhat.com>
+ <87czm47a77.fsf@dusky.pond.sub.org> <YbN0zLsDVr3B/s3+@redhat.com>
+ <87ilvszg52.fsf@dusky.pond.sub.org>
+ <edbfff5c-65df-980c-acee-05055c254636@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211210170415.583179-1-jean-philippe@linaro.org>
+In-Reply-To: <edbfff5c-65df-980c-acee-05055c254636@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.713,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,56 +83,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, eric.auger@redhat.com, qemu-devel@nongnu.org,
- shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, ani@anisinha.ca,
- imammedo@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Mark Burton <mark.burton@greensocs.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Mirela Grujic <mirela.grujic@greensocs.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 10, 2021 at 05:04:08PM +0000, Jean-Philippe Brucker wrote:
-> Add ACPI support for virtio-iommu on the virt machine, by instantiating
-> a VIOT table. Also add the tests for the ACPI table.
+On Mon, Dec 13, 2021 at 06:30:45PM +0100, Paolo Bonzini wrote:
+> On 12/13/21 16:19, Markus Armbruster wrote:
+> > I think it's more often just three: the long one that can do everything,
+> > the short one that can do simple things (and doesn't tell you anything
+> > about the long one), and the bad one you shouldn't use.
+> > 
+> > > If we're going to have a good CLI, it would ideally only have
+> > > one way to do each given task.
+> > Ideally, the long one plus good defaults suffices.
+> 
+> That's hard to do, because the short one typically creates both a backend
+> and a frontend.  It should be possible to macro-expand into the long one + a
+> -machine property, but that's extremely tedious work.
 
-ACPI parts:
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+I don't think it has to be hard, we just need to approach the
+problem differently to how we've done in the past.
 
-> Since last posting [1], I rebased onto v6.2.0-rc4. Note that v6 of this
-> series [2] only contained the table and x86 support, which have been
-> merged. Everything has now been reviewed and should be good to go.
-> 
-> * Patches 1-2 add the VIOT table for the virt machine
-> * Patches 3-4 are minor fixes
-> * Patches 5-8 add tests for the VIOT table. They contain the tests for
->   q35 as well, which didn't make it last time because they depended on
->   another fix that has now been merged.
-> 
-> [1] https://lore.kernel.org/qemu-devel/20211020172745.620101-1-jean-philippe@linaro.org/
-> [2] https://lore.kernel.org/qemu-devel/20211026182024.2642038-1-jean-philippe@linaro.org/
-> 
-> Jean-Philippe Brucker (8):
->   hw/arm/virt-acpi-build: Add VIOT table for virtio-iommu
->   hw/arm/virt: Remove device tree restriction for virtio-iommu
->   hw/arm/virt: Reject instantiation of multiple IOMMUs
->   hw/arm/virt: Use object_property_set instead of qdev_prop_set
->   tests/acpi: allow updates of VIOT expected data files
->   tests/acpi: add test case for VIOT
->   tests/acpi: add expected blobs for VIOT test on q35 machine
->   tests/acpi: add expected blob for VIOT test on virt machine
-> 
->  hw/arm/virt-acpi-build.c       |   7 ++++++
->  hw/arm/virt.c                  |  20 ++++++++---------
->  hw/virtio/virtio-iommu-pci.c   |  12 ++---------
->  tests/qtest/bios-tables-test.c |  38 +++++++++++++++++++++++++++++++++
->  hw/arm/Kconfig                 |   1 +
->  tests/data/acpi/q35/DSDT.viot  | Bin 0 -> 9398 bytes
->  tests/data/acpi/q35/VIOT.viot  | Bin 0 -> 112 bytes
->  tests/data/acpi/virt/VIOT      | Bin 0 -> 88 bytes
->  8 files changed, 58 insertions(+), 20 deletions(-)
->  create mode 100644 tests/data/acpi/q35/DSDT.viot
->  create mode 100644 tests/data/acpi/q35/VIOT.viot
->  create mode 100644 tests/data/acpi/virt/VIOT
-> 
-> -- 
-> 2.34.1
+As a general point, I think we should probably change our terminology
+here. IMHO using "long" and "short" options leads to the idea that
+they are alternatives that are both supported directly by the same
+binary and users switch between them depending on what they need.
+That's true with current QEMU impl, but I don't think we should go
+down that same route again, as it is not at all user friendly and
+leads to confusing docs due to multiple ways todo the same thing.
+
+I'd call them low-level and high-level config, to make it clearer
+that they're operating at different conceptual levels, and potentially
+(ideally even) separate binaries.
+
+I'd like a situation where machines always use low level config
+and humans can *always* use the high level config. This implies
+the high level config needs to cope with everything that the
+low level config can. This might sound contradictory but it is
+possible, if the user has ability to customize the mapping.
+
+
+If we assume the low-level config is the QAPI based JSON, then a
+high level config is essentially just a mapping of some strings
+into JSON. Looking at it in this light, we can then consider the
+high level config problem to simply be a JSON templating problem
+and pick an off the shelf solution for that such as Jinja. 
+
+
+To create our so called "short option" high level API we need to
+be able to ship a collection of useful JSON config snippets, and
+have a tool which reads some CLI args using them as input variables
+to something like the Jinja templating engine, and then launching
+the low level QEMU using the template output.
+
+
+The benefit of using a general purpose JSON templating system in a
+separate binary is that we no longer have to solve everything
+ourselves. We can provide templates that handle some obvious common
+cases. If they don't do quite what a user needs, then they can just
+clone our template, tweak it, and carry on using the high level
+tool.
+
+IOW, the ability to customize the templates, means that when
+launching QEMU the user only ever needs to use the high level
+config on the CLI, and yet they still have ability to express
+every possible QEMU config. THis is quite a different and better
+experiance than today where if a short option doesn't do what
+you need, you have to stop using it and pick a completely
+different low level config instead.
+
+It also means we can ship a variety of templates with mutually
+exclusive defaults eg a template targetting a 1990's machine
+defaults, a template targetting defaults for a general purpose
+maximum portability VM, and a template targetting defaults
+for virtio.
+
+Since it would be separate from the low level QEMU, we can
+also decide to use a non-C language for the high level tool.
+eg write it in python if we want to use Jinja as templating,
+which would also open it up as an interesting thing for a
+new set of contributors who would not touch C code.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
