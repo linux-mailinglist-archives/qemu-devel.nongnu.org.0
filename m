@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D530A4730E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 16:48:49 +0100 (CET)
-Received: from localhost ([::1]:42680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B698D4730EB
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 16:52:16 +0100 (CET)
+Received: from localhost ([::1]:48910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwnZI-0004HK-Mb
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 10:48:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37210)
+	id 1mwncd-0008Vz-Sx
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 10:52:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mwnXw-0002TD-9b
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 10:47:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22889)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mwnXt-000331-Sw
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 10:47:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639410440;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=D75PDYSycn/CxcKMsZ6GXg8a1Y5XuKvx9ddQo6oYekE=;
- b=Jk3TWUPfIvFr9uKtUbbkphG2sXX5uCEjYyf0i4ewuwB6OX467rcvOZPFXS5qnWVyv1yNMB
- wl0By3hgbo2VfFd/7+UT0HqP95Iyf1pMNqhKFlC7IuhEk0GOQt8WZMXi5PAqsFnYSujyG+
- pDlxmwQHdj5Ww7N3rnnrlLUdJlCAwaw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-St7A8-qaOyuQutR2iOjKow-1; Mon, 13 Dec 2021 10:47:17 -0500
-X-MC-Unique: St7A8-qaOyuQutR2iOjKow-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FEDD10144E2;
- Mon, 13 Dec 2021 15:47:16 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-2.ams2.redhat.com [10.36.112.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D0D871001F4D;
- Mon, 13 Dec 2021 15:47:02 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 546C7113865F; Mon, 13 Dec 2021 16:47:01 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Damien Hedde <damien.hedde@greensocs.com>
-Subject: Re: Redesign of QEMU startup & initial configuration
-References: <87lf13cx3x.fsf@dusky.pond.sub.org> <YbJU5vVdesoGuug9@redhat.com>
- <87mtl88t0j.fsf@dusky.pond.sub.org>
- <7fece46b-c578-8303-2dec-cf851ff5b61b@greensocs.com>
-Date: Mon, 13 Dec 2021 16:47:01 +0100
-In-Reply-To: <7fece46b-c578-8303-2dec-cf851ff5b61b@greensocs.com> (Damien
- Hedde's message of "Mon, 13 Dec 2021 11:51:40 +0100")
-Message-ID: <8735mwzeve.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mwnZA-00053R-2v
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 10:48:40 -0500
+Received: from [2a00:1450:4864:20::335] (port=53878
+ helo=mail-wm1-x335.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mwnZ5-00039Z-6r
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 10:48:39 -0500
+Received: by mail-wm1-x335.google.com with SMTP id y196so12234420wmc.3
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 07:48:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=uFOb//suq8hHcDGeC6dx/+f14Nrn5k+ZlOf6eBQBe9A=;
+ b=QdpNZM2+WZ7/yY6cjeqj7U1LGMD//Y0OCA/z/DDkrYN7oSUKL6pbatgAZELKPLTUWE
+ aygdU667YCpxB+4c11TOX5W0gO/AANtIw1crA8NQFvJT9G1xVNDIDmBC2fpJdEytYVre
+ KU9+2IOw/LQh6q8gvswqZc7NDEExuwUXOUgQEbYGE7c+2F3dEQ06s4ErdEy4KhA/oISQ
+ fhEeNkWCSEGNu23TEYAFPsrxnwr19XwdplhZLm2e5ec3jS2Mz+C0A2zhCq3vqU5x5l6E
+ ryIm8uMsOVZPaWy05Yu+2xsgrJ9obutXaysfGmGTc9bu9YzaUXStIX8/e21sYR5ci7Ws
+ UksQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uFOb//suq8hHcDGeC6dx/+f14Nrn5k+ZlOf6eBQBe9A=;
+ b=e1dOq67+veNkw0sSrySijuaNGy3ydMyNTSztRKRT1qJohsNmiN1o2T+r+sMgWPcKve
+ ykDe8mbTX2z5JnsNLq0gU1z6r0uHMf9lwGcldYbDBth4lvMnEXtn9pPS/w/J+SpWbqp3
+ FZLcchCRMDB7KoJPex3p4Lv+/RrIAMZxJvJ62uw9PXkHO2z3uX5X9Flnczgdp2pTDdFX
+ 4l6CSCeGadgVbqOpYc5plZbrYkGZlvqkWW33a2gj/BackZkIAeGARcgQjcKdf5HrA/5K
+ f4dWIcyz5y5yYx0vVSEMp04Gj2EhqbDkg/k+13eYRRIyYn6vzdLDQ8ZjORs1wi8MSPrA
+ V1Yw==
+X-Gm-Message-State: AOAM530GlgC2DYr8vFhTKHsBocNehY/dF71VbTv20ExblMcDLwLpX5WR
+ 4oQQcn2a71iMlMmuscUeU+BfRbLJbr1QXE2L5Nt9Ng==
+X-Google-Smtp-Source: ABdhPJyQhYraBNEbXwyoqWuNNSb/sJX2mMwlPVxM4jcDcQXnQimGa5WCNIN9JB6bU3J0TLoLt/PKmZij6Is4ugX8450=
+X-Received: by 2002:a05:600c:3486:: with SMTP id
+ a6mr38114473wmq.32.1639410513243; 
+ Mon, 13 Dec 2021 07:48:33 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.713,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211211191135.1764649-1-peter.maydell@linaro.org>
+ <20211211191135.1764649-27-peter.maydell@linaro.org>
+ <871r2gk0sq.fsf@linaro.org>
+In-Reply-To: <871r2gk0sq.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Dec 2021 15:48:21 +0000
+Message-ID: <CAFEAcA8bbi1s-fNv73ZGy9KYPaoM2WjZFW=hF0+ZcRsY7Nvf9w@mail.gmail.com>
+Subject: Re: [PATCH 26/26] hw/intc/arm_gicv3_its: Factor out "find address of
+ table entry" code
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,84 +84,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Mark Burton <mark.burton@greensocs.com>, qemu-devel@nongnu.org,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Damien Hedde <damien.hedde@greensocs.com> writes:
-
-
-[...]
-
->> Painted with a big brush, there are two kinds of code in hw/: actual
->> device emulation, and "wiring".  Both in C, and sometimes in the same .c
->> file.
->> 
->> Doing the "wiring" in configuration instead is less powerful (no longer
->> Turing complete[2]), but easier to reason about, maintain and change.
->> Change is possible even in the field.  The obvious separation between
->> emulation and wiring is a nice bonus.
->> 
->> The wiring C code supports something not unlike templating: we have a
->> number of configuration knobs that deposit something for the wiring C
->> code to pick up.
->> 
->> It's rather limited, though: the "variables" are fixed at compile time.
->> 
->> Aside: the handling of variables that doesn't get substituted is wildly
->> inconsistent.
->> 
->> Perhaps doing wiring in configuration reduces the maintenance burden to
->> a degree where we can mitigate the "defaults gone bad, but no want
->> change" issue by offering additional, better things instead of changing
->> existing, bad things.  I don't know.
+On Mon, 13 Dec 2021 at 15:00, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> We should be careful with config files, because the configuration
-> parser can become a real mess.
-
-Oh yes.
-
->                                There are 2 kinds of config files:
 >
-> 1. Imperative: an equivalent of QAPI/QMP command script. (eg like CLI
-> config files Markus proposed). These are easy to handle because they 
-> follow the QMP flow. We do one command after the other, the ordering
-> of tasks is clear.
+> Peter Maydell <peter.maydell@linaro.org> writes:
 >
-> 2. Descriptive: A description of the configuration where we describe
-> the components and the wiring. This can be really complicated because
-> we easily end up with ordering/determinism issues when instantiating
-> them afterwards. For example the  configuration parser may have to
-> solve : Which device do I create first ? I don't think a configuration
-> parser should have to solve such issues, but I'm not sure if we can
-> avoid it.
+> > The ITS has several tables which all share a similar format,
+> > described by the TableDesc struct: the guest may configure them
+> > to be a single-level table or a two-level table. Currently we
+> > open-code the process of finding the table entry in all the
+> > functions which read or write the device table or the collection
+> > table. Factor out the "get the address of the table entry"
+> > logic into a new function, so that the code which needs to
+> > read or write a table entry only needs to call table_entry_addr()
+> > and then perform a suitable load or store to that address.
+> >
+> > Note that the error handling is slightly complicated because
+> > we want to handle two cases differently:
+> >  * failure to read the L1 table entry should end up causing
+> >    a command stall, like other kinds of DMA error
+> >  * an L1 table entry that says there is no L2 table for this
+> >    index (ie whose valid bit is 0) must result in us treating
+> >    the table entry as not-valid on read, and discarding
+> >    writes (this is mandated by the spec)
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> > This is a worthwhile refactoring on its own, but still more
+> > so given that GICv4 adds another table in this format.
+> > ---
+> >  hw/intc/arm_gicv3_its.c | 212 +++++++++++++---------------------------
+> >  1 file changed, 70 insertions(+), 142 deletions(-)
+> >
+> > diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+> > index 3bcc4c3db85..90a9fd3b3d4 100644
+> > --- a/hw/intc/arm_gicv3_its.c
+> > +++ b/hw/intc/arm_gicv3_its.c
+> > @@ -83,44 +83,62 @@ static uint64_t baser_base_addr(uint64_t value, uin=
+t32_t page_sz)
+> >      return result;
+> >  }
+> >
+> > +static uint64_t table_entry_addr(GICv3ITSState *s, TableDesc *td,
+> > +                                 uint32_t idx, MemTxResult *res)
+> > +{
+>
+> It seems odd to have a uint64_t return type when....
+>
+> > +    /*
+> > +     * Given a TableDesc describing one of the ITS in-guest-memory
+> > +     * tables and an index into it, return the guest address
+> > +     * corresponding to that table entry.
+> > +     * If there was a memory error reading the L1 table of an
+> > +     * indirect table, *res is set accordingly, and we return -1.
+> > +     * If the L1 table entry is marked not valid, we return -1 with
+> > +     * *res set to MEMTX_OK.
+> > +     *
+> > +     * The specification defines the format of level 1 entries of a
+> > +     * 2-level table, but the format of level 2 entries and the format
+> > +     * of flat-mapped tables is IMPDEF.
+> > +     */
+> > +    AddressSpace *as =3D &s->gicv3->dma_as;
+> > +    uint32_t l2idx;
+> > +    uint64_t l2;
+> > +    uint32_t num_l2_entries;
+> > +
+> > +    *res =3D MEMTX_OK;
+> > +
+> > +    if (!td->indirect) {
+> > +        /* Single level table */
+> > +        return td->base_addr + idx * td->entry_sz;
+> > +    }
+> > +
+> > +    /* Two level table */
+> > +    l2idx =3D idx / (td->page_sz / L1TABLE_ENTRY_SIZE);
+> > +
+> > +    l2 =3D address_space_ldq_le(as,
+> > +                              td->base_addr + (l2idx * L1TABLE_ENTRY_S=
+IZE),
+> > +                              MEMTXATTRS_UNSPECIFIED, res);
+> > +    if (*res !=3D MEMTX_OK) {
+> > +        return -1;
+> > +    }
+> > +    if (!(l2 & L2_TABLE_VALID_MASK)) {
+> > +        return -1;
+> > +    }
+>
+> We can return signed results. I guess implicit conversion takes care of
+> it but I wonder if it would be cleaner to return an int (or maybe
+> compare against UNINT64_MAX =3D=3D INVALID_TABLE_ENTRY)?
 
-Actual instantiation necessarily happens in some order[*].
+-1 is only there to be a "definitely not a valid address" value,
+and it's less typing than UINT64_MAX.
 
-An imperative configuration dictates the order.
-
-A descriptive configuration leaves it to some planner software.
-
-Any descriptive configuration can therefore be transformed into an
-imperative one.  *Unless* the planner *also* breaks up components into
-smaller ones that aren't accessible in the imperative configuration.
-
-Example: say the configuration specifies a device and its connections as
-a unit.  Say we have two devices A and B, where A has a connection A->B,
-and B a connection B->A.  A sufficiently smart planner can then create
-A, B, A->B, B->A.  You can't express this imperatively unless connection
-B->A can be specified separately from device A.
-
-I propose to start stupid, i.e. with an imperative, low-level
-configuration.  Then add smarts as we need them.
-
-
-[*] Even if you instantiate stuff concurrently for some reason, there
-should be at least some conceptual order.
-
+-- PMM
 
