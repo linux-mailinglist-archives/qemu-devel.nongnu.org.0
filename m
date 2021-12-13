@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A150472A8F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 11:46:24 +0100 (CET)
-Received: from localhost ([::1]:54658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEBE7472A85
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 11:44:43 +0100 (CET)
+Received: from localhost ([::1]:50818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwiqb-0002N4-S3
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 05:46:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39030)
+	id 1mwip0-0008G2-TV
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 05:44:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mwili-0002wN-Ei
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:41:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45149)
+ id 1mwill-0002ya-Fj
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:41:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52245)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mwilf-0007mX-QJ
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:41:17 -0500
+ id 1mwili-0007oU-CV
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 05:41:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639392075;
+ s=mimecast20190719; t=1639392077;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z7F3Bbxh+io7h96uJ2icq61kxjI8KmHIokVFozYrTHk=;
- b=S8WdxKuyI4nBL1s36ANK7+r9TWRd+7jE21vnouNXZIZ1ZEOoNz9YwToFZkBQ/9MXdRimhB
- DCoX3ztqeFuf1tqpn8ZefxWOdbHxAvKcOQz6mz7UgCK70u1UxCM0MMHXqM9AJ4q1d+N9OV
- U2xStIuYaHvKe7suc3nN9tSqJPAsqJU=
+ bh=jFvf8EJSgXHYZIgb45dR2RFSuImjrGJV7vsU0A2n7Qs=;
+ b=LKqk/KR7jlzP+Hy4rnq6eht8h2WOVbS1bRNnu5kkVDaMCaiKUqms9fCJM8d/7JhxPUAEyx
+ VgPuI3xJK+bWsVsFeoJ3hSTGI/AsGy3SiwYfD3yiDniXMx8VWmBKhU2i6ZsTyl0TnOn4ta
+ Hi/ar0ca7vC6KEES1OuFVaEbcsKmYSc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-201-D2Ys16cvNkqqtxFnBa8kDQ-1; Mon, 13 Dec 2021 05:41:13 -0500
-X-MC-Unique: D2Ys16cvNkqqtxFnBa8kDQ-1
+ us-mta-207-ZW9TizJzMj2JLhxQZE21lQ-1; Mon, 13 Dec 2021 05:41:14 -0500
+X-MC-Unique: ZW9TizJzMj2JLhxQZE21lQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D427B102CB73;
- Mon, 13 Dec 2021 10:41:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 953DC640A1;
+ Mon, 13 Dec 2021 10:41:13 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 38B816B8EA;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE8E66B8EA;
  Mon, 13 Dec 2021 10:41:12 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH 4/6] block.c: add subtree_drains where needed
-Date: Mon, 13 Dec 2021 05:40:12 -0500
-Message-Id: <20211213104014.69858-5-eesposit@redhat.com>
+Subject: [RFC PATCH 5/6] test-bdrv-drain.c: adapt test to the new subtree
+ drains
+Date: Mon, 13 Dec 2021 05:40:13 -0500
+Message-Id: <20211213104014.69858-6-eesposit@redhat.com>
 In-Reply-To: <20211213104014.69858-1-eesposit@redhat.com>
 References: <20211213104014.69858-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -87,90 +88,92 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Protect bdrv_replace_child_noperm, as it modifies the
-graph by adding/removing elements to .children and .parents
-list of a bs.
+There are a couple of problems in this test when we add
+subtree drains in bdrv_replace_child_noperm:
+
+- First of all, inconsistency between block_job_create under
+aiocontext lock that internally calls blk_insert_bs and therefore
+bdrv_replace_child_noperm, and blk_insert_bs that is called two lines
+above in the same test without aiocontext. Since we use the
+unlocked subtree_drain, we want to move the aiocontext further
+down.
+
+- test_detach_by_parent_cb: this test uses a callback of an I/O
+function (blk_aio_preadv) to modify the grah, using bdrv_attach_child.
+This is simply not allowed anymore. I/O cannot change the graph.
+
+- test_detach_indirect: here it is simply a matter of wrong callbacks
+used. In the original test, there was only a subtree drain, so
+overriding .drained_begin was not a problem. Now that we have
+additional subtree drains, we risk to call the test callback
+to early, or multiple times. We do not want that, so override
+the callback only when we actually want to use it.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ tests/unit/test-bdrv-drain.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/block.c b/block.c
-index 3c3c90704c..1aa9e51a98 100644
---- a/block.c
-+++ b/block.c
-@@ -2369,7 +2369,11 @@ static void bdrv_replace_child_abort(void *opaque)
-      * So whether new_bs was NULL or not, we cannot pass s->childp here; and in
-      * any case, there is no reason to pass it anyway.
-      */
-+    bdrv_subtree_drained_begin_unlocked(s->child->bs);
-+    bdrv_subtree_drained_begin_unlocked(s->old_bs);
-     bdrv_replace_child_noperm(&s->child, s->old_bs, true);
-+    bdrv_subtree_drained_end_unlocked(s->old_bs);
-+    bdrv_subtree_drained_end_unlocked(s->child->bs);
-     /*
-      * The child was pre-existing, so s->old_bs must be non-NULL, and
-      * s->child thus must not have been freed
-@@ -2427,13 +2431,20 @@ static void bdrv_replace_child_tran(BdrvChild **childp,
+diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
+index a62e6451a1..9414fc68b7 100644
+--- a/tests/unit/test-bdrv-drain.c
++++ b/tests/unit/test-bdrv-drain.c
+@@ -939,10 +939,10 @@ static void test_blockjob_common_drain_node(enum drain_type drain_type,
+     blk_insert_bs(blk_target, target, &error_abort);
+     blk_set_allow_aio_context_change(blk_target, true);
  
-     if (new_bs) {
-         bdrv_ref(new_bs);
-+        bdrv_subtree_drained_begin_unlocked(new_bs);
+-    aio_context_acquire(ctx);
+     tjob = block_job_create("job0", &test_job_driver, NULL, src,
+                             0, BLK_PERM_ALL,
+                             0, 0, NULL, NULL, &error_abort);
++    aio_context_acquire(ctx);
+     job = &tjob->common;
+     block_job_add_bdrv(job, "target", target, 0, BLK_PERM_ALL, &error_abort);
+ 
+@@ -1388,8 +1388,6 @@ static void test_detach_indirect(bool by_parent_cb)
+ 
+     if (!by_parent_cb) {
+         detach_by_driver_cb_class = child_of_bds;
+-        detach_by_driver_cb_class.drained_begin =
+-            detach_by_driver_cb_drained_begin;
      }
-     /*
-      * Pass free_empty_child=false, we will free the child (if
-      * necessary) in bdrv_replace_child_commit() (if our
-      * @free_empty_child parameter was true).
-      */
-+    bdrv_subtree_drained_begin_unlocked(s->old_bs);
-     bdrv_replace_child_noperm(childp, new_bs, false);
-+    bdrv_subtree_drained_end_unlocked(s->old_bs);
-+
-+    if (new_bs) {
-+        bdrv_subtree_drained_end_unlocked(new_bs);
+ 
+     /* Create all involved nodes */
+@@ -1447,6 +1445,12 @@ static void test_detach_indirect(bool by_parent_cb)
+     acb = blk_aio_preadv(blk, 0, &qiov, 0, detach_by_parent_aio_cb, NULL);
+     g_assert(acb != NULL);
+ 
++    if (!by_parent_cb) {
++        /* set .drained_begin cb to run only in the following drain. */
++        detach_by_driver_cb_class.drained_begin =
++            detach_by_driver_cb_drained_begin;
 +    }
-     /* old_bs reference is transparently moved from *childp to @s */
++
+     /* Drain and check the expected result */
+     bdrv_subtree_drained_begin(parent_b);
+ 
+@@ -1470,6 +1474,12 @@ static void test_detach_indirect(bool by_parent_cb)
+ 
+     bdrv_subtree_drained_end(parent_b);
+ 
++    if (!by_parent_cb) {
++        /* restore .drained_begin cb, we don't need it anymore. */
++        detach_by_driver_cb_class.drained_begin =
++            child_of_bds.drained_begin;
++    }
++
+     bdrv_unref(parent_b);
+     blk_unref(blk);
+ 
+@@ -1483,7 +1493,7 @@ static void test_detach_indirect(bool by_parent_cb)
+ 
+ static void test_detach_by_parent_cb(void)
+ {
+-    test_detach_indirect(true);
++    /* test_detach_indirect(true); */
  }
  
-@@ -2951,7 +2962,9 @@ static void bdrv_attach_child_common_abort(void *opaque)
-      * need to keep it as an empty shell (after this function, it will
-      * not be attached to any parent, and it will not have a .bs).
-      */
-+    bdrv_subtree_drained_begin_unlocked(bs);
-     bdrv_replace_child_noperm(s->child, NULL, false);
-+    bdrv_subtree_drained_end_unlocked(bs);
- 
-     if (bdrv_get_aio_context(bs) != s->old_child_ctx) {
-         bdrv_try_set_aio_context(bs, s->old_child_ctx, &error_abort);
-@@ -3051,7 +3064,10 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
-     }
- 
-     bdrv_ref(child_bs);
-+
-+    bdrv_subtree_drained_begin_unlocked(child_bs);
-     bdrv_replace_child_noperm(&new_child, child_bs, true);
-+    bdrv_subtree_drained_end_unlocked(child_bs);
-     /* child_bs was non-NULL, so new_child must not have been freed */
-     assert(new_child != NULL);
- 
-@@ -3114,8 +3130,16 @@ static void bdrv_detach_child(BdrvChild **childp)
-     BlockDriverState *old_bs = (*childp)->bs;
- 
-     assert(qemu_in_main_thread());
-+    if (old_bs) {
-+        bdrv_subtree_drained_begin(old_bs);
-+    }
-+
-     bdrv_replace_child_noperm(childp, NULL, true);
- 
-+    if (old_bs) {
-+        bdrv_subtree_drained_end(old_bs);
-+    }
-+
-     if (old_bs) {
-         /*
-          * Update permissions for old node. We're just taking a parent away, so
+ static void test_detach_by_driver_cb(void)
 -- 
 2.31.1
 
