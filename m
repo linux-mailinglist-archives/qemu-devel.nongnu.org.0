@@ -2,101 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416A5473670
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 22:13:02 +0100 (CET)
-Received: from localhost ([::1]:58270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 151AB47366F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 22:12:57 +0100 (CET)
+Received: from localhost ([::1]:58112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwsd3-000439-DQ
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 16:13:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40160)
+	id 1mwscx-0003wQ-QL
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 16:12:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1mwsZi-0002EF-PG; Mon, 13 Dec 2021 16:09:34 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33400)
+ id 1mwsZh-0002DV-3m; Mon, 13 Dec 2021 16:09:33 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1mwsZg-00072d-HL; Mon, 13 Dec 2021 16:09:34 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BDKEXhw007434; 
- Mon, 13 Dec 2021 21:09:27 GMT
+ id 1mwsZe-00072Y-Km; Mon, 13 Dec 2021 16:09:32 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BDKEanL006208; 
+ Mon, 13 Dec 2021 21:09:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=wHdd3khv0Fb/wfaES9ABglSt9N/YAlJGERYJSuAsOTg=;
- b=le3U6kpe/z0Fb3YvXUfzTl+JidOq7Wg42oxROVtWIM78vipEse1Dsmf1F/QoSAdRQnkq
- yqmFH4MdQ3dN697ru8+R2LEv99dM+XrH0Z6dzefWrXNND1In/DjtKIP7pPS4gvUlnW6Y
- f74Zm9UjSemOOU0xDEjhM1eLWVk952KYSvkhRdX4D0IzkVvnRLFcoJvB3hC+x1iNGMbf
- d6fWwNckJL2q1rUBFSHtnYjGgibTTHJwoT51KaZV8s9wP4qPcSuuyLlO1ilHpn3Nfhg8
- xjjK7L4M9VtORepF7acieZ1dgFwZ78SxXcRRMm4/QqcZ7QwUj8hiw4tFy/EeCVJkLEkM Vw== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=NC5WyxT++MnvHJzBtX73jR/wgi/1XVtS0wO7SVOciEA=;
+ b=LzzB3HsOTl0ul6R+Nf9e3IR6MPBEXLTSY11qBYlSPgJ3vQNRc20mU1XwKmlz7KcJT6zj
+ RSAiInzWldVVgd7QY+rR2rXTzIaXqXozNjnjeQfF5RiRWm3ycKrVYhdTldAArwxyHZNE
+ R25zCkmMGmKJqCpY+/QzGa6r6kLRx2Ru+zoOPop+CF8al80qpYKZEiGvKIlSXLTAxImJ
+ fBubdaahZ2GGOCnHbju7ScNFms3DX/1+oQLBaSqVBkprITF9Q7fY658YreQ93mIe35wu
+ omYlMCaekmpEjrnsaQwd1RcHIS0h2LfB2NioJXMYicZ6TXIF6jFSt4v2tO9xdWSIPfe1 Wg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cx9r8xu6f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Dec 2021 21:09:27 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BDKoBGu012932;
- Mon, 13 Dec 2021 21:09:26 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cx9r8xu5s-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cx9r6erxt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 13 Dec 2021 21:09:26 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BDL8L1O000630;
- Mon, 13 Dec 2021 21:09:24 GMT
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BDL9Pue004340;
+ Mon, 13 Dec 2021 21:09:25 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cx9r6erx8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Dec 2021 21:09:25 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BDL8EBa000588;
+ Mon, 13 Dec 2021 21:09:23 GMT
 Received: from b06avi18878370.portsmouth.uk.ibm.com
  (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03fra.de.ibm.com with ESMTP id 3cvkm97uhr-1
+ by ppma01fra.de.ibm.com with ESMTP id 3cvkm97stp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 13 Dec 2021 21:09:23 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
  by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1BDL9Kl136503850
+ id 1BDL9KLm38994334
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Mon, 13 Dec 2021 21:09:20 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A180911C052;
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9FDBDAE045;
  Mon, 13 Dec 2021 21:09:20 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8FB0711C04A;
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8E649AE053;
  Mon, 13 Dec 2021 21:09:20 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
  Mon, 13 Dec 2021 21:09:20 +0000 (GMT)
 Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
- id 3D136E03A3; Mon, 13 Dec 2021 22:09:20 +0100 (CET)
+ id 3E729E032B; Mon, 13 Dec 2021 22:09:20 +0100 (CET)
 From: Eric Farman <farman@linux.ibm.com>
 To: Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>,
  Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>
-Subject: [RFC PATCH v5 0/1] s390x: Improvements to SIGP handling [QEMU]
-Date: Mon, 13 Dec 2021 22:09:18 +0100
-Message-Id: <20211213210919.856693-1-farman@linux.ibm.com>
+Subject: [RFC PATCH v5 1/1] s390x: sigp: Reorder the SIGP STOP code
+Date: Mon, 13 Dec 2021 22:09:19 +0100
+Message-Id: <20211213210919.856693-2-farman@linux.ibm.com>
 X-Mailer: git-send-email 2.32.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: rBPwN3Ccq6Qng1zPGRxNIp-Df_1CYrY7
-X-Proofpoint-GUID: 60Uhn26VDRw2V4sxsBDRM-cuuKECCvDD
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+In-Reply-To: <20211213210919.856693-1-farman@linux.ibm.com>
+References: <20211213210919.856693-1-farman@linux.ibm.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: EuZ3ykZ2ZsD4FLoPWMoBIAOex3daXhCP
+X-Proofpoint-ORIG-GUID: tbKn9mg3gkwK17_5nXkM9OdqhGhXUhuk
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-13_10,2021-12-13_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015
- suspectscore=0 mlxlogscore=894 lowpriorityscore=0 malwarescore=0
- adultscore=0 priorityscore=1501 phishscore=0 bulkscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112130125
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ clxscore=1015
+ priorityscore=1501 suspectscore=0 mlxlogscore=888 malwarescore=0
+ mlxscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0 adultscore=0
+ impostorscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2112130125
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,27 +117,51 @@ Cc: Eric Farman <farman@linux.ibm.com>, qemu-s390x@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here is an update to the SIGP handling series, to correspond to
-version 5 of the KVM series [1].
+Let's wait to mark the VCPU STOPPED until the possible
+STORE STATUS operation is completed, so that we know the
+CPU is fully stopped and done doing anything. (When we
+also clear the possible sigp_order field for STOP orders.)
 
-Unlike earlier versions, there is no new interface to exploit.
-So this simply rearranges processing to mirror expectations
-on the kernel side.
-
-[1] https://lore.kernel.org/r/20211213210550.856213-1-farman@linux.ibm.com/
-
-Previous RFCs:
-v1: https://lore.kernel.org/r/20211008203811.1980478-1-farman@linux.ibm.com/
-v2: https://lore.kernel.org/r/20211102201122.3188108-1-farman@linux.ibm.com/
-v3: https://lore.kernel.org/r/20211110204528.1378524-1-farman@linux.ibm.com/
-v4: https://lore.kernel.org/r/20211119214327.2367026-1-farman@linux.ibm.com/
-
-Eric Farman (1):
-  s390x: sigp: Reorder the SIGP STOP code
-
+Suggested-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Eric Farman <farman@linux.ibm.com>
+---
  target/s390x/sigp.c | 12 ++++++++----
  1 file changed, 8 insertions(+), 4 deletions(-)
 
+diff --git a/target/s390x/sigp.c b/target/s390x/sigp.c
+index 51c727834c..9dd977349a 100644
+--- a/target/s390x/sigp.c
++++ b/target/s390x/sigp.c
+@@ -139,7 +139,7 @@ static void sigp_stop_and_store_status(CPUState *cs, run_on_cpu_data arg)
+     case S390_CPU_STATE_OPERATING:
+         cpu->env.sigp_order = SIGP_STOP_STORE_STATUS;
+         cpu_inject_stop(cpu);
+-        /* store will be performed in do_stop_interrup() */
++        /* store will be performed in do_stop_interrupt() */
+         break;
+     case S390_CPU_STATE_STOPPED:
+         /* already stopped, just store the status */
+@@ -479,13 +479,17 @@ void do_stop_interrupt(CPUS390XState *env)
+ {
+     S390CPU *cpu = env_archcpu(env);
+ 
+-    if (s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu) == 0) {
+-        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+-    }
++    /*
++     * Complete the STOP operation before exposing the CPU as
++     * STOPPED to the system.
++     */
+     if (cpu->env.sigp_order == SIGP_STOP_STORE_STATUS) {
+         s390_store_status(cpu, S390_STORE_STATUS_DEF_ADDR, true);
+     }
+     env->sigp_order = 0;
++    if (s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu) == 0) {
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++    }
+     env->pending_int &= ~INTERRUPT_STOP;
+ }
+ 
 -- 
 2.32.0
 
