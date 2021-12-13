@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D30473528
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 20:44:13 +0100 (CET)
-Received: from localhost ([::1]:39018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 831BB47353A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 20:47:07 +0100 (CET)
+Received: from localhost ([::1]:41250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwrF6-0000ky-E7
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 14:44:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40254)
+	id 1mwrHu-0002PF-HT
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 14:47:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mwrBm-0006C5-SD
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 14:40:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21159)
+ id 1mwrGi-0001hy-HE
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 14:45:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mwrBk-0000Ly-SC
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 14:40:46 -0500
+ id 1mwrGg-0001LK-RD
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 14:45:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639424443;
+ s=mimecast20190719; t=1639424750;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DQ6WbwZusKjbdH9ZT0k1HdKCEN/KspLOaEfLVWPMP9A=;
- b=Zq/afEpG4h9SbeZ6s0xLwyJForsaIcGf8RA3L2AtCMItmdPgtBG3blbJ16iOM/G0wVrEEk
- z8m6fAA4ZoaThS/k3UN8jM/kfICa7xskymUrMGArCCx0CNO+DWG+EQmpEci7mxRLZsrUN3
- 0dgCrqOPqFWpxt9Uc6tgIu/yB6z+O0o=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+bK5PMlqHXxdrvIafWpteWQLDLEQkj0IecH4NajjsbE=;
+ b=iKMwOUeeu8jFX2uALlaqb3ZJVlaa1EE/jHdSWJqC3mA0P9qKboQWBLJeTmcrKsmtYvjD8U
+ 6+chrONSo5XnMwBPcgQnkm7RB37rjJeO8an+iSthQTLRf9QA9PtbyxDBWu1HRZoCEO6c93
+ pNzOU1apoMcC51/pXgnUGjcRcpunjPM=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-592-zlmqmFuPN3ySadFGhWhsjQ-1; Mon, 13 Dec 2021 14:40:42 -0500
-X-MC-Unique: zlmqmFuPN3ySadFGhWhsjQ-1
-Received: by mail-pj1-f69.google.com with SMTP id
- gf15-20020a17090ac7cf00b001a9a31687d0so9285540pjb.1
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 11:40:41 -0800 (PST)
+ us-mta-166-YG_NMqvRPEy0Ka8BtAA8oQ-1; Mon, 13 Dec 2021 14:45:48 -0500
+X-MC-Unique: YG_NMqvRPEy0Ka8BtAA8oQ-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ y68-20020a626447000000b004a2b2d0c39eso10656252pfb.14
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 11:45:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=DQ6WbwZusKjbdH9ZT0k1HdKCEN/KspLOaEfLVWPMP9A=;
- b=VIR/67q5rVhPqm7sQ5dhO7MaDIdgGPNtD1Vp0GbOFUuxggykH4Rfppt6nrdbegsubd
- 4FdXg3klYrsxvRIbzMrJXCmGsWPhhYQk0oRlubRf9Ru/6Hpm5btk72CcszZW/cHiq3+r
- 7KfBe5EidVCGznCx1Vq2Phs2spMo8XdsipK5N8SfMPD7DGKsVl89dHh/iVAPrbAOZ864
- DRYyxkvPczvlS56Conhvtt9Nt1tEVKtYf6cxABQLJ5QyPYhT16veOi2fYoRxSAKgQCsp
- 9OzwqS5RcYo42KAp1fFGHxf5ioQVdjUXwU9fByMMxmyqxnQLVNm+if5PKvd++sFT2rnW
- bQjQ==
-X-Gm-Message-State: AOAM530AeOkeJWnzHliX8rShe7P2cSVr6OAooruGDKIGkSLNUxbSkuqi
- J/wvUFv0LJzlv25RMbvlzzotmzKtvfL0INQ/01migd+pYj8AXtRNiQGOiU8j6RgSLpiw0SNOTxK
- DGeZLVAQPvo8EZFDN2+LUSdojLfs/Lyc=
-X-Received: by 2002:a17:90b:2252:: with SMTP id
- hk18mr404936pjb.36.1639424441028; 
- Mon, 13 Dec 2021 11:40:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyA7Vi7Kotpf9WjM+QkNwqVVKuq+/5AcAeGFoSkRxSA2lKhVQXIFeY0hrPzFnVvJv8pUi5ji5nO+NB3UjeILoM=
-X-Received: by 2002:a17:90b:2252:: with SMTP id
- hk18mr404910pjb.36.1639424440825; 
- Mon, 13 Dec 2021 11:40:40 -0800 (PST)
+ bh=+bK5PMlqHXxdrvIafWpteWQLDLEQkj0IecH4NajjsbE=;
+ b=ptULI5V8IpJuMQCYj226+ifXRgRuGrjJHOz3C/Vlaoq/LJKHSfXcJ5BL+uEMsHC9Nb
+ qc2t1+ZNMPeHReHUT8VsaA0n+/csQLXbmaD9jPTET3ZJJ+N7E8IpU7HsfmFw6+Qz6KFU
+ vtQhzRndnqg+YIG9qMQ/4misU4vUh9jEiKzMFX7WtOsoOn+ckb/N5RS6ofovRxFu8LQX
+ SuvxpXTuTs87UbJvnDSy3VNBYnV4BZ/NFE6YMnuDC53+3Hvhx/mJmTUSpwV/eYKKKRaW
+ v1mf90wBfs9B/qWlKCKpXjkmVtA84qsgxep35toyj0DsCDo8RgHjj1hFe7Awf39kW9AB
+ +vrg==
+X-Gm-Message-State: AOAM530ID1crC+aldKM9l351X1wCKvq2kPBfbCTZM2zUzNRdHWDg31lL
+ IvAEhkr8TXkaAwP7Qwtjgd5WhNB05JWaH8T+4fQ5Kv3rzhYH1hFlow0HWWIbf9wGBAN9nCRIIxJ
+ BgHH5mdlhCNsTM3OTou4MPa4emCmQenc=
+X-Received: by 2002:a63:1645:: with SMTP id 5mr491517pgw.45.1639424747725;
+ Mon, 13 Dec 2021 11:45:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwCUZRYwGrvYF3tbkCujBbmcau9hnte9oVDrgIOjCSKMTTQqhyltuBKYQNkMVaneB1qzqJRCstch7EuakfVSL4=
+X-Received: by 2002:a63:1645:: with SMTP id 5mr491500pgw.45.1639424747431;
+ Mon, 13 Dec 2021 11:45:47 -0800 (PST)
 MIME-Version: 1.0
 References: <20211213111554.62394-1-konstantin@daynix.com>
- <20211213111554.62394-4-konstantin@daynix.com>
-In-Reply-To: <20211213111554.62394-4-konstantin@daynix.com>
+ <20211213111554.62394-5-konstantin@daynix.com>
+In-Reply-To: <20211213111554.62394-5-konstantin@daynix.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 13 Dec 2021 23:40:29 +0400
-Message-ID: <CAMxuvaxFNq3bfew1gqoxRB5eWvqK9yUqCBZPU9MfeBCVvuRreg@mail.gmail.com>
-Subject: Re: [PATCH 3/5] gqa-win: get_pci_info: Free parent_dev_info properly
+Date: Mon, 13 Dec 2021 23:45:36 +0400
+Message-ID: <CAMxuvay=gUUE1odi5+8Pc5Zuxs9xdmrTidWV_02yxTR_7fCrHw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] gqa-win: get_pci_info: Replace 'while' with 2 calls
+ of the function
 To: Kostiantyn Kostiuk <konstantin@daynix.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
@@ -103,57 +102,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, Dec 13, 2021 at 3:16 PM Kostiantyn Kostiuk
 <konstantin@daynix.com> wrote:
 >
-> In case when the function fails to get parent device data,
-> the parent_dev_info variable will be initialized, but not freed.
+> Microsoft suggests this solution in the documentation:
+> https://docs.microsoft.com/en-us/windows/win32/api/setupapi/nf-setupapi-s=
+etupdigetdeviceinterfacedetaila
 >
 > Signed-off-by: Kostiantyn Kostiuk <kkostiuk@redhat.com>
 > Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
 
+Arguably, the next patch should come first, as you introduce extra
+leaking points here - alternatively, update the commit message.
+
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 > ---
->  qga/commands-win32.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  qga/commands-win32.c | 30 ++++++++++++++++++++++++------
+>  1 file changed, 24 insertions(+), 6 deletions(-)
 >
 > diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-> index 12f7a88078..cef14a8762 100644
+> index cef14a8762..6bde5260e8 100644
 > --- a/qga/commands-win32.c
 > +++ b/qga/commands-win32.c
-> @@ -515,6 +515,8 @@ DEFINE_GUID(GUID_DEVINTERFACE_STORAGEPORT,
->  static GuestPCIAddress *get_pci_info(int number, Error **errp)
->  {
->      HDEVINFO dev_info =3D INVALID_HANDLE_VALUE;
-> +    HDEVINFO parent_dev_info =3D INVALID_HANDLE_VALUE;
-> +
->      SP_DEVINFO_DATA dev_info_data;
->      SP_DEVICE_INTERFACE_DATA dev_iface_data;
->      HANDLE dev_file;
-> @@ -542,7 +544,6 @@ static GuestPCIAddress *get_pci_info(int number, Erro=
-r **errp)
->          PSP_DEVICE_INTERFACE_DETAIL_DATA pdev_iface_detail_data =3D NULL=
-;
->          STORAGE_DEVICE_NUMBER sdn;
->          char *parent_dev_id =3D NULL;
-> -        HDEVINFO parent_dev_info;
->          SP_DEVINFO_DATA parent_dev_info_data;
->          DWORD j;
->          DWORD size =3D 0;
-> @@ -744,11 +745,13 @@ static GuestPCIAddress *get_pci_info(int number, Er=
+> @@ -552,10 +552,10 @@ static GuestPCIAddress *get_pci_info(int number, Er=
 ror **errp)
->                  break;
+>          if (SetupDiEnumDeviceInterfaces(dev_info, &dev_info_data,
+>                                          &GUID_DEVINTERFACE_DISK, 0,
+>                                          &dev_iface_data)) {
+> -            while (!SetupDiGetDeviceInterfaceDetail(dev_info, &dev_iface=
+_data,
+> -                                                    pdev_iface_detail_da=
+ta,
+> -                                                    size, &size,
+> -                                                    &dev_info_data)) {
+> +            if (!SetupDiGetDeviceInterfaceDetail(dev_info, &dev_iface_da=
+ta,
+> +                                                 pdev_iface_detail_data,
+> +                                                 size, &size,
+> +                                                 &dev_info_data)) {
+>                  if (GetLastError() =3D=3D ERROR_INSUFFICIENT_BUFFER) {
+>                      pdev_iface_detail_data =3D g_malloc(size);
+>                      pdev_iface_detail_data->cbSize =3D
+> @@ -567,6 +567,16 @@ static GuestPCIAddress *get_pci_info(int number, Err=
+or **errp)
+>                  }
 >              }
->          }
-> -        SetupDiDestroyDeviceInfoList(parent_dev_info);
->          break;
->      }
 >
->  cleanup:
-> +    if (parent_dev_info !=3D INVALID_HANDLE_VALUE) {
-> +        SetupDiDestroyDeviceInfoList(parent_dev_info);
-> +    }
->      if (dev_info !=3D INVALID_HANDLE_VALUE) {
->          SetupDiDestroyDeviceInfoList(dev_info);
->      }
+> +            if (!SetupDiGetDeviceInterfaceDetail(dev_info, &dev_iface_da=
+ta,
+> +                                                 pdev_iface_detail_data,
+> +                                                 size, &size,
+> +                                                 &dev_info_data)) {
+> +                // pdev_iface_detail_data already is allocated
+> +                error_setg_win32(errp, GetLastError(),
+> +                                    "failed to get device interfaces");
+> +                goto cleanup;
+> +            }
+> +
+>              dev_file =3D CreateFile(pdev_iface_detail_data->DevicePath, =
+0,
+>                                    FILE_SHARE_READ, NULL, OPEN_EXISTING, =
+0,
+>                                    NULL);
+> @@ -597,8 +607,8 @@ static GuestPCIAddress *get_pci_info(int number, Erro=
+r **errp)
+>              ULONG dev_id_size =3D 0;
+>
+>              size =3D 0;
+> -            while (!SetupDiGetDeviceInstanceId(dev_info, &dev_info_data,
+> -                                               parent_dev_id, size, &siz=
+e)) {
+> +            if (!SetupDiGetDeviceInstanceId(dev_info, &dev_info_data,
+> +                                            parent_dev_id, size, &size))=
+ {
+>                  if (GetLastError() =3D=3D ERROR_INSUFFICIENT_BUFFER) {
+>                      parent_dev_id =3D g_malloc(size);
+>                  } else {
+> @@ -608,6 +618,14 @@ static GuestPCIAddress *get_pci_info(int number, Err=
+or **errp)
+>                  }
+>              }
+>
+> +            if (!SetupDiGetDeviceInstanceId(dev_info, &dev_info_data,
+> +                                            parent_dev_id, size, &size))=
+ {
+> +                // parent_dev_id already is allocated
+> +                error_setg_win32(errp, GetLastError(),
+> +                                    "failed to get device instance ID");
+> +                goto cleanup;
+> +            }
+> +
+>              /*
+>               * CM API used here as opposed to
+>               * SetupDiGetDeviceProperty(..., DEVPKEY_Device_Parent, ...)
 > --
 > 2.25.1
 >
