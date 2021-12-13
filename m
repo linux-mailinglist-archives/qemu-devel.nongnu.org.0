@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED2A473328
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 18:44:14 +0100 (CET)
-Received: from localhost ([::1]:43894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77905473340
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 18:52:47 +0100 (CET)
+Received: from localhost ([::1]:47694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwpMy-0001uW-Sp
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 12:44:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39290)
+	id 1mwpVF-0004zH-8X
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 12:52:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwpLp-0001Ee-Sq
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 12:43:01 -0500
-Received: from [2607:f8b0:4864:20::62d] (port=42762
- helo=mail-pl1-x62d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwpLh-000680-IV
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 12:42:59 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id u17so11677048plg.9
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 09:42:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ciPxtNnzy5RQSIuGinEff8/WK2cqYqdP2QUk/Jr3dy0=;
- b=gRyTguK3cbVqcUcPGMqhNK9owb15M+fPnv0/aYQX/xTu5ILijw7VSnzV8//bWLX76m
- VSS8ZbxIDaTmruo5v7WSHIxZuQSDJ67Ts1gRmQkeis+73wDe1AGBImFOhgx+0cPQCmtP
- QXhdRy1amUxWrRtgjGeQhCDbw6SqsOc/iay6B/xw5t7Ub++IFzHBaVMYsND3O0ZDAkbQ
- 3ho8WDedGAzYrJfL3wwj5iqZmYg7lFrAnRBnRe3fF4GEARDhXSpgze6EwPinUNziUFid
- 2GhRh02kEvuGCUxQx0Nb3FvEgbM/EIFCC/M38RIOoqqUhRxkta4vEiffIhjjChJLBKA1
- 8S+Q==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mwpTv-0003XT-Rb
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 12:51:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35223)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mwpTi-0007Ds-2x
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 12:51:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639417868;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=f0LxNXb4IQNUC9OuIExKo2Mj0cTDj2VFL7x6COsjBrU=;
+ b=VC9c4svWyA6YXkNkrmZI1zrpQ4OKyXaH5b0T9A8G5d+UKvTf1irPZRdmeSIDVs1MkxC0zF
+ jTPIvfxAjA2FBT8cWrh+bZglE9Z6U7s8nIChIBAWEA22x4YW5x8XXicwP5Dv8EiqWth/gm
+ ygGLRFc5xYMOZe9kF1/ZsRRfN+KY2tM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-204-h62SIcfDOJuHH-hCPRhZtg-1; Mon, 13 Dec 2021 12:51:06 -0500
+X-MC-Unique: h62SIcfDOJuHH-hCPRhZtg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ n11-20020aa7c68b000000b003e7d68e9874so14630011edq.8
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 09:51:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ciPxtNnzy5RQSIuGinEff8/WK2cqYqdP2QUk/Jr3dy0=;
- b=YRMF/hbBC5AariDV85vi/V4i/UUc1t8559i7uWFHJdWzFgIYSnb80hhGcVyOXBh19y
- gfekpQiTa5uU3i59CMc8twk7AE+1LxE9TMegKgz4n40SOMgikuc8GwDyxSVFvV6Nta8g
- 5/0bqhHgeGlN/lXjCRLHbjGigWAQltAeqZ/jFiIuUhKRWms5S7sEAafMsfMrDpJByIdA
- xtgsCeylXVRMjmlRucGpNjTX+6hxZd/CWeCWuDopekYx22Z/Oqg9+cgZMIC2FKhY6rPy
- DH13lgmPgL2wejgjQ2LYbGdIgjSGSKtA8Du5JU+LirGV1FNbTqDb/WUVeE496hmTC5AS
- LgCw==
-X-Gm-Message-State: AOAM5334udwEuQtVeubCig9mDM0dwq56EVTcuifOkTwO86f3Xa5e2O+W
- ukZ5P5UvEQ7UuBhjqD8SCQ5PFiVOheQT/Q==
-X-Google-Smtp-Source: ABdhPJxhimcWfmEZDVI9+hIi223ziVn/AZ8pTlZmLpDwQ8Q5wBAnMqItdGMkM1tXpCdj48pRGS4YFw==
-X-Received: by 2002:a17:902:a40f:b0:143:d470:d66d with SMTP id
- p15-20020a170902a40f00b00143d470d66dmr97179924plq.52.1639417369629; 
- Mon, 13 Dec 2021 09:42:49 -0800 (PST)
-Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
- [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id e7sm13819583pfv.156.2021.12.13.09.42.49
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=f0LxNXb4IQNUC9OuIExKo2Mj0cTDj2VFL7x6COsjBrU=;
+ b=0gB15Dl8OTypIB4RVheOMULWoAzjDJe8wOOeMziP3p7H/3PJs8kof1zrNsJS6H8CYD
+ BvoJLyv1bqego1wu7uNw7A3kRqOH1v97h1NCQyGuwJCROiW3TmovFoFi7ukaVFKWRu5I
+ RUUOiINtfZJTowQei52ypSU4UmB8+PfYRWOUTv0KG0UfRfKZ59I09m68a7HmkyIGRSEx
+ rEIqVjA7x/YWvpF/CoP63nDC01yC9KT35q1AfwEkTNpcLPmo0XWtvFVnmpusekozkOc9
+ usMEi85j5G855ycY7D7qsH0T7tI2lDKuyT4/cQwWKbpWySV7U1H57NM/NHIYWEmftOdW
+ awVg==
+X-Gm-Message-State: AOAM532wQhlFxi3YfdfQ5HTzXBACA9ouEr1nLEKXkdkWoRt7Hee4MMV1
+ kHApDUbB/8DPYDBkgOIKI9NoYekcU3WD06Zgi1EMqHpazdd7iyBiAPuBAskScPWkStUsaarCmnU
+ ffhnkYNDAeTHdG2I=
+X-Received: by 2002:a50:fe8e:: with SMTP id d14mr282535edt.51.1639417865459;
+ Mon, 13 Dec 2021 09:51:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwPKKQc89Oj1muhFA5dd/JccOfIjOghXnqAILvZWTHY++iAGGGTuVtRiW95fgLcCsA2kGqdwQ==
+X-Received: by 2002:a50:fe8e:: with SMTP id d14mr282508edt.51.1639417865241;
+ Mon, 13 Dec 2021 09:51:05 -0800 (PST)
+Received: from redhat.com ([2.55.148.125])
+ by smtp.gmail.com with ESMTPSA id f29sm42180ejj.209.2021.12.13.09.51.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Dec 2021 09:42:49 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/hppa: Fix deposit assert from trans_shrpw_imm
-Date: Mon, 13 Dec 2021 09:42:48 -0800
-Message-Id: <20211213174248.29222-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ Mon, 13 Dec 2021 09:51:03 -0800 (PST)
+Date: Mon, 13 Dec 2021 12:50:58 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v7 0/8] virtio-iommu: Add ACPI support (Arm part + tests)
+Message-ID: <20211213125048-mutt-send-email-mst@kernel.org>
+References: <20211210170415.583179-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211210170415.583179-1-jean-philippe@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.713,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,77 +92,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, ani@anisinha.ca,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because sa may be 0,
+On Fri, Dec 10, 2021 at 05:04:08PM +0000, Jean-Philippe Brucker wrote:
+> Add ACPI support for virtio-iommu on the virt machine, by instantiating
+> a VIOT table. Also add the tests for the ACPI table.
 
-    tcg_gen_deposit_reg(dest, t0, cpu_gr[a->r1], 32 - sa, sa);
+ACPI parts:
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-may attempt a zero-width deposit at bit 32, which will assert
-for TARGET_REGISTER_BITS == 32.
-
-Use the newer extract2 when possible, which itself includes the
-rotri special case; otherwise mirror the code from trans_shrpw_sar,
-using concat and shri.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/635
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/hppa/translate.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
-
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index 3b9744deb4..952027a28e 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -140,6 +140,7 @@
- #define tcg_gen_deposit_z_reg tcg_gen_deposit_z_i64
- #define tcg_gen_extract_reg  tcg_gen_extract_i64
- #define tcg_gen_sextract_reg tcg_gen_sextract_i64
-+#define tcg_gen_extract2_reg tcg_gen_extract2_i64
- #define tcg_const_reg        tcg_const_i64
- #define tcg_const_local_reg  tcg_const_local_i64
- #define tcg_constant_reg     tcg_constant_i64
-@@ -234,6 +235,7 @@
- #define tcg_gen_deposit_z_reg tcg_gen_deposit_z_i32
- #define tcg_gen_extract_reg  tcg_gen_extract_i32
- #define tcg_gen_sextract_reg tcg_gen_sextract_i32
-+#define tcg_gen_extract2_reg tcg_gen_extract2_i32
- #define tcg_const_reg        tcg_const_i32
- #define tcg_const_local_reg  tcg_const_local_i32
- #define tcg_constant_reg     tcg_constant_i32
-@@ -3204,19 +3206,22 @@ static bool trans_shrpw_imm(DisasContext *ctx, arg_shrpw_imm *a)
- 
-     dest = dest_gpr(ctx, a->t);
-     t2 = load_gpr(ctx, a->r2);
--    if (a->r1 == a->r2) {
-+    if (a->r1 == 0) {
-+        tcg_gen_extract_reg(dest, t2, sa, 32 - sa);
-+    } else if (TARGET_REGISTER_BITS == 32) {
-+        tcg_gen_extract2_reg(dest, t2, cpu_gr[a->r1], sa);
-+    } else if (a->r1 == a->r2) {
-         TCGv_i32 t32 = tcg_temp_new_i32();
-         tcg_gen_trunc_reg_i32(t32, t2);
-         tcg_gen_rotri_i32(t32, t32, sa);
-         tcg_gen_extu_i32_reg(dest, t32);
-         tcg_temp_free_i32(t32);
--    } else if (a->r1 == 0) {
--        tcg_gen_extract_reg(dest, t2, sa, 32 - sa);
-     } else {
--        TCGv_reg t0 = tcg_temp_new();
--        tcg_gen_extract_reg(t0, t2, sa, 32 - sa);
--        tcg_gen_deposit_reg(dest, t0, cpu_gr[a->r1], 32 - sa, sa);
--        tcg_temp_free(t0);
-+        TCGv_i64 t64 = tcg_temp_new_i64();
-+        tcg_gen_concat_reg_i64(t64, t2, cpu_gr[a->r1]);
-+        tcg_gen_shri_i64(t64, t64, sa);
-+        tcg_gen_trunc_i64_reg(dest, t64);
-+        tcg_temp_free_i64(t64);
-     }
-     save_gpr(ctx, a->t, dest);
- 
--- 
-2.25.1
+> Since last posting [1], I rebased onto v6.2.0-rc4. Note that v6 of this
+> series [2] only contained the table and x86 support, which have been
+> merged. Everything has now been reviewed and should be good to go.
+> 
+> * Patches 1-2 add the VIOT table for the virt machine
+> * Patches 3-4 are minor fixes
+> * Patches 5-8 add tests for the VIOT table. They contain the tests for
+>   q35 as well, which didn't make it last time because they depended on
+>   another fix that has now been merged.
+> 
+> [1] https://lore.kernel.org/qemu-devel/20211020172745.620101-1-jean-philippe@linaro.org/
+> [2] https://lore.kernel.org/qemu-devel/20211026182024.2642038-1-jean-philippe@linaro.org/
+> 
+> Jean-Philippe Brucker (8):
+>   hw/arm/virt-acpi-build: Add VIOT table for virtio-iommu
+>   hw/arm/virt: Remove device tree restriction for virtio-iommu
+>   hw/arm/virt: Reject instantiation of multiple IOMMUs
+>   hw/arm/virt: Use object_property_set instead of qdev_prop_set
+>   tests/acpi: allow updates of VIOT expected data files
+>   tests/acpi: add test case for VIOT
+>   tests/acpi: add expected blobs for VIOT test on q35 machine
+>   tests/acpi: add expected blob for VIOT test on virt machine
+> 
+>  hw/arm/virt-acpi-build.c       |   7 ++++++
+>  hw/arm/virt.c                  |  20 ++++++++---------
+>  hw/virtio/virtio-iommu-pci.c   |  12 ++---------
+>  tests/qtest/bios-tables-test.c |  38 +++++++++++++++++++++++++++++++++
+>  hw/arm/Kconfig                 |   1 +
+>  tests/data/acpi/q35/DSDT.viot  | Bin 0 -> 9398 bytes
+>  tests/data/acpi/q35/VIOT.viot  | Bin 0 -> 112 bytes
+>  tests/data/acpi/virt/VIOT      | Bin 0 -> 88 bytes
+>  8 files changed, 58 insertions(+), 20 deletions(-)
+>  create mode 100644 tests/data/acpi/q35/DSDT.viot
+>  create mode 100644 tests/data/acpi/q35/VIOT.viot
+>  create mode 100644 tests/data/acpi/virt/VIOT
+> 
+> -- 
+> 2.34.1
 
 
