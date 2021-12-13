@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B698D4730EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 16:52:16 +0100 (CET)
-Received: from localhost ([::1]:48910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96EC647311F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 17:03:21 +0100 (CET)
+Received: from localhost ([::1]:58316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwncd-0008Vz-Sx
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 10:52:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37358)
+	id 1mwnnM-0006pc-6n
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 11:03:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mwnZA-00053R-2v
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 10:48:40 -0500
-Received: from [2a00:1450:4864:20::335] (port=53878
- helo=mail-wm1-x335.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mwnZ5-00039Z-6r
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 10:48:39 -0500
-Received: by mail-wm1-x335.google.com with SMTP id y196so12234420wmc.3
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 07:48:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=uFOb//suq8hHcDGeC6dx/+f14Nrn5k+ZlOf6eBQBe9A=;
- b=QdpNZM2+WZ7/yY6cjeqj7U1LGMD//Y0OCA/z/DDkrYN7oSUKL6pbatgAZELKPLTUWE
- aygdU667YCpxB+4c11TOX5W0gO/AANtIw1crA8NQFvJT9G1xVNDIDmBC2fpJdEytYVre
- KU9+2IOw/LQh6q8gvswqZc7NDEExuwUXOUgQEbYGE7c+2F3dEQ06s4ErdEy4KhA/oISQ
- fhEeNkWCSEGNu23TEYAFPsrxnwr19XwdplhZLm2e5ec3jS2Mz+C0A2zhCq3vqU5x5l6E
- ryIm8uMsOVZPaWy05Yu+2xsgrJ9obutXaysfGmGTc9bu9YzaUXStIX8/e21sYR5ci7Ws
- UksQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uFOb//suq8hHcDGeC6dx/+f14Nrn5k+ZlOf6eBQBe9A=;
- b=e1dOq67+veNkw0sSrySijuaNGy3ydMyNTSztRKRT1qJohsNmiN1o2T+r+sMgWPcKve
- ykDe8mbTX2z5JnsNLq0gU1z6r0uHMf9lwGcldYbDBth4lvMnEXtn9pPS/w/J+SpWbqp3
- FZLcchCRMDB7KoJPex3p4Lv+/RrIAMZxJvJ62uw9PXkHO2z3uX5X9Flnczgdp2pTDdFX
- 4l6CSCeGadgVbqOpYc5plZbrYkGZlvqkWW33a2gj/BackZkIAeGARcgQjcKdf5HrA/5K
- f4dWIcyz5y5yYx0vVSEMp04Gj2EhqbDkg/k+13eYRRIyYn6vzdLDQ8ZjORs1wi8MSPrA
- V1Yw==
-X-Gm-Message-State: AOAM530GlgC2DYr8vFhTKHsBocNehY/dF71VbTv20ExblMcDLwLpX5WR
- 4oQQcn2a71iMlMmuscUeU+BfRbLJbr1QXE2L5Nt9Ng==
-X-Google-Smtp-Source: ABdhPJyQhYraBNEbXwyoqWuNNSb/sJX2mMwlPVxM4jcDcQXnQimGa5WCNIN9JB6bU3J0TLoLt/PKmZij6Is4ugX8450=
-X-Received: by 2002:a05:600c:3486:: with SMTP id
- a6mr38114473wmq.32.1639410513243; 
- Mon, 13 Dec 2021 07:48:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mwnlf-0005tH-Jl
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 11:01:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43615)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mwnlc-0005UU-7A
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 11:01:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639411291;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ne7qoKfSxVoINZDLm3Ayt6jcoqtbCFcdhO3c1Ja29ko=;
+ b=AjlHrdDe0yt9q06yDqQQNWQPiQvvWPYAdgKpWVfhzFWf3xWmimdIuDUm2zzk+KWophgPh4
+ MmaJjYLMhjrSQ5ps+9XEej0yRj72LmEDcmN50HasSLNhMcWonpDE5JgyzbT3ZmQjZdhyco
+ Ta9dPJ/eGnh5s/xEmFv2LitH3f2He7k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-153-sg8h4fjDPAOo2S6CJo_5FA-1; Mon, 13 Dec 2021 11:01:28 -0500
+X-MC-Unique: sg8h4fjDPAOo2S6CJo_5FA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F30D3102C858;
+ Mon, 13 Dec 2021 16:01:25 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 66ED57AB5B;
+ Mon, 13 Dec 2021 16:01:24 +0000 (UTC)
+Date: Mon, 13 Dec 2021 16:01:23 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 0/6] aio-posix: split poll check from ready handler
+Message-ID: <YbduUxqibwDie3Vt@stefanha-x1.localdomain>
+References: <20211207132336.36627-1-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <20211211191135.1764649-1-peter.maydell@linaro.org>
- <20211211191135.1764649-27-peter.maydell@linaro.org>
- <871r2gk0sq.fsf@linaro.org>
-In-Reply-To: <871r2gk0sq.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Dec 2021 15:48:21 +0000
-Message-ID: <CAFEAcA8bbi1s-fNv73ZGy9KYPaoM2WjZFW=hF0+ZcRsY7Nvf9w@mail.gmail.com>
-Subject: Re: [PATCH 26/26] hw/intc/arm_gicv3_its: Factor out "find address of
- table entry" code
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211207132336.36627-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Ax/RBNHfth0NNMo5"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.713,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,104 +79,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Paul Durrant <paul@xen.org>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Peter Lieven <pl@kamp.de>,
+ Stefan Weil <sw@weilnetz.de>, Julia Suvorova <jusual@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 Dec 2021 at 15:00, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > The ITS has several tables which all share a similar format,
-> > described by the TableDesc struct: the guest may configure them
-> > to be a single-level table or a two-level table. Currently we
-> > open-code the process of finding the table entry in all the
-> > functions which read or write the device table or the collection
-> > table. Factor out the "get the address of the table entry"
-> > logic into a new function, so that the code which needs to
-> > read or write a table entry only needs to call table_entry_addr()
-> > and then perform a suitable load or store to that address.
-> >
-> > Note that the error handling is slightly complicated because
-> > we want to handle two cases differently:
-> >  * failure to read the L1 table entry should end up causing
-> >    a command stall, like other kinds of DMA error
-> >  * an L1 table entry that says there is no L2 table for this
-> >    index (ie whose valid bit is 0) must result in us treating
-> >    the table entry as not-valid on read, and discarding
-> >    writes (this is mandated by the spec)
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > This is a worthwhile refactoring on its own, but still more
-> > so given that GICv4 adds another table in this format.
-> > ---
-> >  hw/intc/arm_gicv3_its.c | 212 +++++++++++++---------------------------
-> >  1 file changed, 70 insertions(+), 142 deletions(-)
-> >
-> > diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-> > index 3bcc4c3db85..90a9fd3b3d4 100644
-> > --- a/hw/intc/arm_gicv3_its.c
-> > +++ b/hw/intc/arm_gicv3_its.c
-> > @@ -83,44 +83,62 @@ static uint64_t baser_base_addr(uint64_t value, uin=
-t32_t page_sz)
-> >      return result;
-> >  }
-> >
-> > +static uint64_t table_entry_addr(GICv3ITSState *s, TableDesc *td,
-> > +                                 uint32_t idx, MemTxResult *res)
-> > +{
->
-> It seems odd to have a uint64_t return type when....
->
-> > +    /*
-> > +     * Given a TableDesc describing one of the ITS in-guest-memory
-> > +     * tables and an index into it, return the guest address
-> > +     * corresponding to that table entry.
-> > +     * If there was a memory error reading the L1 table of an
-> > +     * indirect table, *res is set accordingly, and we return -1.
-> > +     * If the L1 table entry is marked not valid, we return -1 with
-> > +     * *res set to MEMTX_OK.
-> > +     *
-> > +     * The specification defines the format of level 1 entries of a
-> > +     * 2-level table, but the format of level 2 entries and the format
-> > +     * of flat-mapped tables is IMPDEF.
-> > +     */
-> > +    AddressSpace *as =3D &s->gicv3->dma_as;
-> > +    uint32_t l2idx;
-> > +    uint64_t l2;
-> > +    uint32_t num_l2_entries;
-> > +
-> > +    *res =3D MEMTX_OK;
-> > +
-> > +    if (!td->indirect) {
-> > +        /* Single level table */
-> > +        return td->base_addr + idx * td->entry_sz;
-> > +    }
-> > +
-> > +    /* Two level table */
-> > +    l2idx =3D idx / (td->page_sz / L1TABLE_ENTRY_SIZE);
-> > +
-> > +    l2 =3D address_space_ldq_le(as,
-> > +                              td->base_addr + (l2idx * L1TABLE_ENTRY_S=
-IZE),
-> > +                              MEMTXATTRS_UNSPECIFIED, res);
-> > +    if (*res !=3D MEMTX_OK) {
-> > +        return -1;
-> > +    }
-> > +    if (!(l2 & L2_TABLE_VALID_MASK)) {
-> > +        return -1;
-> > +    }
->
-> We can return signed results. I guess implicit conversion takes care of
-> it but I wonder if it would be cleaner to return an int (or maybe
-> compare against UNINT64_MAX =3D=3D INVALID_TABLE_ENTRY)?
+--Ax/RBNHfth0NNMo5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--1 is only there to be a "definitely not a valid address" value,
-and it's less typing than UINT64_MAX.
+On Tue, Dec 07, 2021 at 01:23:30PM +0000, Stefan Hajnoczi wrote:
+> v3:
+> - Fixed FUSE export aio_set_fd_handler() call that I missed and double-ch=
+ecked
+>   for any other missing call sites using Coccinelle [Rich]
+> v2:
+> - Cleaned up unused return values in nvme and virtio-blk [Stefano]
+> - Documented try_poll_mode() ready_list argument [Stefano]
+> - Unified virtio-blk/scsi dataplane and non-dataplane virtqueue handlers =
+[Stefano]
+>=20
+> The first patch improves AioContext's adaptive polling execution time
+> measurement. This can result in better performance because the algorithm =
+makes
+> better decisions about when to poll versus when to fall back to file desc=
+riptor
+> monitoring.
+>=20
+> The remaining patches unify the virtio-blk and virtio-scsi dataplane and
+> non-dataplane virtqueue handlers. This became possible because the datapl=
+ane
+> handler function now has the same function signature as the non-dataplane
+> handler function. Stefano Garzarella prompted me to make this refactoring=
+.
+>=20
+> Stefan Hajnoczi (6):
+>   aio-posix: split poll check from ready handler
+>   virtio: get rid of VirtIOHandleAIOOutput
+>   virtio-blk: drop unused virtio_blk_handle_vq() return value
+>   virtio-scsi: prepare virtio_scsi_handle_cmd for dataplane
+>   virtio: use ->handle_output() instead of ->handle_aio_output()
+>   virtio: unify dataplane and non-dataplane ->handle_output()
+>=20
+>  include/block/aio.h             |  4 +-
+>  include/hw/virtio/virtio-blk.h  |  2 +-
+>  include/hw/virtio/virtio.h      |  5 +-
+>  util/aio-posix.h                |  1 +
+>  block/curl.c                    | 11 ++--
+>  block/export/fuse.c             |  4 +-
+>  block/io_uring.c                | 19 ++++---
+>  block/iscsi.c                   |  4 +-
+>  block/linux-aio.c               | 16 +++---
+>  block/nfs.c                     |  6 +--
+>  block/nvme.c                    | 51 ++++++++++++-------
+>  block/ssh.c                     |  4 +-
+>  block/win32-aio.c               |  4 +-
+>  hw/block/dataplane/virtio-blk.c | 16 +-----
+>  hw/block/virtio-blk.c           | 14 ++----
+>  hw/scsi/virtio-scsi-dataplane.c | 60 +++-------------------
+>  hw/scsi/virtio-scsi.c           |  2 +-
+>  hw/virtio/virtio.c              | 73 +++++++++------------------
+>  hw/xen/xen-bus.c                |  6 +--
+>  io/channel-command.c            |  6 ++-
+>  io/channel-file.c               |  3 +-
+>  io/channel-socket.c             |  3 +-
+>  migration/rdma.c                |  8 +--
+>  tests/unit/test-aio.c           |  4 +-
+>  util/aio-posix.c                | 89 +++++++++++++++++++++++++--------
+>  util/aio-win32.c                |  4 +-
+>  util/async.c                    | 10 +++-
+>  util/main-loop.c                |  4 +-
+>  util/qemu-coroutine-io.c        |  5 +-
+>  util/vhost-user-server.c        | 11 ++--
+>  30 files changed, 219 insertions(+), 230 deletions(-)
+>=20
+> --=20
+> 2.33.1
+>=20
+>=20
 
--- PMM
+Thanks, applied to my block-next tree:
+https://gitlab.com/stefanha/qemu/commits/block-next
+
+Stefan
+
+--Ax/RBNHfth0NNMo5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmG3blMACgkQnKSrs4Gr
+c8iqcgf/dPRV3F1SsSIbqM0FdwEE60A00v6lVdZPUOkO7Q/WKqfO0bMBCh4j7cCt
+/SeyrgrCLFH2cACI4jssYC+5EEvzNoxr/PUx3l+verGNr701uvth0z6T5IUkI5b3
+r6Mmb+jeKlbW+K1L0AYA5Keo2eHVj9ci4Nt2+uFmXqRXkAwADUDNuYWHmY2IqMNs
+T49i5IZyHwxO4wp0gKIA+jSpEvxhaQ8zabGWN+W/P8UtC1ZQ+Scu4fFekTOtV/zv
+a4OBp6wfnbbEJ9MNbWFH/YkUSzx4ggq1xSu1kUvszLIQaEQFqBUhBoy9RJFelUnj
+ov+bJByWyD5w7tXUU1Z6wdXJkghzJg==
+=H9XI
+-----END PGP SIGNATURE-----
+
+--Ax/RBNHfth0NNMo5--
+
 
