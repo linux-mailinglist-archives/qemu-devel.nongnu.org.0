@@ -2,72 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C69472FF6
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 16:01:15 +0100 (CET)
-Received: from localhost ([::1]:48484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32AF9472FF9
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 16:02:18 +0100 (CET)
+Received: from localhost ([::1]:49946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwmpG-0000Op-Op
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 10:01:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49958)
+	id 1mwmqH-0001Sg-3K
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 10:02:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mwmhV-0008IR-JT
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 09:53:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35142)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1mwmnc-00079c-UR; Mon, 13 Dec 2021 09:59:32 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:65502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mwmhQ-0001Dy-TS
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 09:53:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639407183;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YyUAr5MyOfbiaY6R9D2xK/d5sCFgq/0XwAYicKBw0bQ=;
- b=Z2DduF72Ex4CcC7pzGP18HpKeSh0dMdUsC6VAIz+e+XOitLP/lGeEwR9fpolbgnzGNpZmW
- JEC+SIrfMdR2KTmhFhx4o5gqoeyyf/sDqleZuPOiwlvetmAeczX+gO4RSwYHKfLUVmHqR4
- CdcAM3VqQkGwvupen08/9sqIY0mYZoE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-KsAmJSKeMdK8xoOmZh59VA-1; Mon, 13 Dec 2021 09:53:02 -0500
-X-MC-Unique: KsAmJSKeMdK8xoOmZh59VA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5652D1006AA1;
- Mon, 13 Dec 2021 14:53:01 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E84AA5E24E;
- Mon, 13 Dec 2021 14:53:00 +0000 (UTC)
-Date: Mon, 13 Dec 2021 14:52:59 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH 0/6] Removal of Aiocontext lock and usage of subtree
- drains in aborted transactions
-Message-ID: <YbdeS/q3L1mBmEyT@stefanha-x1.localdomain>
-References: <20211213104014.69858-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1mwmna-0002SK-NN; Mon, 13 Dec 2021 09:59:32 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BDEvG7M027605; 
+ Mon, 13 Dec 2021 14:59:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=4uVSW/mJ9sAcm6tvy4ZbkZM/ZfraN/RvSc37+6p1cxw=;
+ b=h1tAJeZMzEZbuJw64+KMEYz0H/Jg684GeIAoMh+Lrn7zqavotBmh49Tt2Hfant4ddpn3
+ 2V47C4pL81p8vlardIWRb5dcPAk8kP7fSYG7grRR/901VwMKth+4kEhO+CRSPdDh2W3S
+ 4Cyuo0dDKsMIqFCk7PUq0BHfiXUa8/E+Pi09PE5TiNHUi0RHDVpUam9UU8YlywvS3OYJ
+ 2n+hyy3DvdBgd+JwoTNgt52Ao7CpGVB1Cp0e7yCo34Y7qiMt6TEuCJXhNk0EToa1WT0C
+ j1ut4Qz2JEvsdpEjG1oABW107HDf9+u7GkCLzMt0u84UvuNCeyOVqLSV1cLh33IHiQcm AA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cx8d281vu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Dec 2021 14:59:15 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BDEvYRJ029020;
+ Mon, 13 Dec 2021 14:59:14 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cx8d281v2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Dec 2021 14:59:14 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BDEw84g023769;
+ Mon, 13 Dec 2021 14:59:13 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma03dal.us.ibm.com with ESMTP id 3cvkma7fc4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Dec 2021 14:59:13 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BDExCpr32506232
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 13 Dec 2021 14:59:12 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2FEBCAC06D;
+ Mon, 13 Dec 2021 14:59:12 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0C431AC068;
+ Mon, 13 Dec 2021 14:59:10 +0000 (GMT)
+Received: from localhost (unknown [9.211.152.7])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Mon, 13 Dec 2021 14:59:09 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] target/ppc: Fix e6500 boot
+In-Reply-To: <f79d58b2-ad6d-2f85-b0d5-3d9db65f07dd@kaod.org>
+References: <20211213133542.2608540-1-farosas@linux.ibm.com>
+ <f79d58b2-ad6d-2f85-b0d5-3d9db65f07dd@kaod.org>
+Date: Mon, 13 Dec 2021 11:59:06 -0300
+Message-ID: <87o85kzh39.fsf@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: b4tUSQbnMJab0PyS80gWtrErpNngMNGE
+X-Proofpoint-ORIG-GUID: KXNsXwJvoxdgrpaSCKiptWwDZB0vt1Js
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-In-Reply-To: <20211213104014.69858-1-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="nNzSLwbMnDDa0Oqv"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.713,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-13_06,2021-12-13_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=983
+ lowpriorityscore=0 bulkscore=0 adultscore=0 clxscore=1015 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112130093
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,236 +108,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, mario@locati.it
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---nNzSLwbMnDDa0Oqv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+C=C3=A9dric Le Goater <clg@kaod.org> writes:
 
-On Mon, Dec 13, 2021 at 05:40:08AM -0500, Emanuele Giuseppe Esposito wrote:
-> Hello everyone,
->=20
-> As you know already, my current goal is to try to remove the AioContext l=
-ock from the QEMU block layer.
-> Currently the AioContext is used pretty much throughout the whole block l=
-ayer, it is a little bit confusing to understand what it exactly protects, =
-and I am starting to think that in some places it is being taken just becau=
-se of the block API assumptions.
-> For example, some functions like AIO_WAIT_WHILE() release the lock with t=
-he assumption that it is always held, so all callers must take it just to a=
-llow the function to release it.
->=20
-> Removing the aiocontext lock is not a straightforward task: the first ste=
-p is to understand which function is running in the main loop thus under th=
-e BQL (Big Qemu Lock) and which is used by the iothreads. We call the forme=
-r category global state (GS) and the latter I/O.
->=20
-> The patch series "block layer: split block APIs in global state and I/O" =
-aims to do that. Once we can at least (roughly) distinguish what is called =
-by iothreads and what from the main loop, we can start analyzing what needs=
- protection and what doesn't. This series is particularly helpful because b=
-y splitting the API we know where each function runs, so it helps us identi=
-fying the cases where both the main loop and iothreads read/write the same =
-value/field (and thus need protection) and cases where the same function is=
- used only by the main loop for example, so it shouldn't need protection.
-> For example, if some BlockDriverState field is read by I/O threads but mo=
-dified in a GS function, this has to be protected in some way.
->=20
-> Another series I posted, "job: replace AioContext lock with job_mutex", p=
-rovides a good example on how the AioContext lock can be removed and simply=
- replaced by a fine grained lock.
->=20
-> Another way to have thread safety in the AioContext is to rely to the fac=
-t that in some cases, writings to a field are always done in the main loop =
-*and* under drains. In this way, we know that no request is coming to the I=
-/O threads, so we can safely modify the fields.
->=20
-> This is exactly what assert_bdrv_graph_writable() introduced in the block=
- API splitup (patch 9 in v5) is there for, even though it is currently not =
-checking for drains but only for main loop.
->=20
-> We could then use this assertion to effectively prove that some writes on=
- a field/list are safe, and completely get rid of the aiocontext lock.
-> However, this is not an easy task: for example, if we look at the ->child=
-ren and ->parents lists in BlockDriverState we can see that they are modifi=
-ed in BQL functions, but also read in I/O.
-> We therefore ideally need to add some drains (because in the current stat=
-e assert_bdrv_graph_writable() with drains would fail).
->=20
-> The main function that modifies the ->children and ->parent lists is bdrv=
-_replace_child_noperm.
-> So ideally we would like to drain both the old_bs and new_bs (the functio=
-n moves a BdrvChild from one bs to another, modifying the respective lists)=
-.
->=20
-> A couple of question to answer:
->=20
-> - which drain to use? My answer would be bdrv_subtree_drain_* class of fu=
-nctions, because it takes care of draining the whole graph of the node, whi=
-le bdrv_drained_* does not cover the child of the given node.
-> This theoretically simplifies the draining requirements, as we can just i=
-nvoke subtree_drain_* on the two bs that are involved in bdrv_replace_child=
-_noperm, and we should guarantee that the write is safe.
+> On 12/13/21 14:35, Fabiano Rosas wrote:
+>> When Altivec support was added to the e6500 kernel in 2012[1], the
+>> QEMU code was not changed, so we don't register the VPU/VPUA
+>> exceptions for the e6500:
+>>=20
+>>    qemu: fatal: Raised an exception without defined vector 73
+>>=20
+>> Note that the error message says 73, instead of 32, which is the IVOR
+>> for VPU. This is because QEMU knows only knows about the VPU interrupt
+>> for the 7400s. In theory, we should not be raising _that_ VPU
+>> interrupt, but instead another one specific for the e6500.
+>>=20
+>> We unfortunately cannot register e6500-specific VPU/VPUA interrupts
+>> because the SPEU/EFPDI interrupts also use IVOR32/33. These are
+>> present only in the e500v1/2 versions. From the user manual:
+>>=20
+>> e500v1, e500v2: only SPEU/EFPDI/EFPRI
+>> e500mc, e5500:  no SPEU/EFPDI/EFPRI/VPU/VPUA
+>> e6500:          only VPU/VPUA
+>>=20
+>> So I'm leaving IVOR32/33 as SPEU/EFPDI, but altering the dispatch code
+>> to convert the VPU #73 to a #32 when we're in the e6500. Since the
+>> handling for SPEU and VPU is the same this is the only change that's
+>> needed. The EFPDI is not implemented and will cause an abort. I don't
+>> think it worth it changing the error message to take VPUA into
+>> consideration, so I'm not changing anything there.
+>>=20
+>> This bug was discussed in the thread:
+>> https://lists.gnu.org/archive/html/qemu-ppc/2021-06/msg00222.html
+>>=20
+>> 1- https://git.kernel.org/torvalds/c/cd66cc2ee52
+>>=20
+>> Reported-by: <mario@locati.it>
+>> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>
+> One comment,
+>
+>> ---
+>>   target/ppc/cpu_init.c    |  6 ++++++
+>>   target/ppc/excp_helper.c | 12 +++++++++++-
+>>   2 files changed, 17 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+>> index 6695985e9b..d8efcb24ed 100644
+>> --- a/target/ppc/cpu_init.c
+>> +++ b/target/ppc/cpu_init.c
+>> @@ -2273,8 +2273,14 @@ static void init_excp_e200(CPUPPCState *env, targ=
+et_ulong ivpr_mask)
+>>       env->excp_vectors[POWERPC_EXCP_DTLB]     =3D 0x00000000;
+>>       env->excp_vectors[POWERPC_EXCP_ITLB]     =3D 0x00000000;
+>>       env->excp_vectors[POWERPC_EXCP_DEBUG]    =3D 0x00000000;
+>> +    /*
+>> +     * These two are the same IVOR as POWERPC_EXCP_VPU and
+>> +     * POWERPC_EXCP_VPUA. We deal with that when dispatching at
+>> +     * powerpc_excp().
+>> +     */
+>>       env->excp_vectors[POWERPC_EXCP_SPEU]     =3D 0x00000000;
+>>       env->excp_vectors[POWERPC_EXCP_EFPDI]    =3D 0x00000000;
+>> +
+>>       env->excp_vectors[POWERPC_EXCP_EFPRI]    =3D 0x00000000;
+>>       env->ivor_mask =3D 0x0000FFF7UL;
+>>       env->ivpr_mask =3D ivpr_mask;
+>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+>> index 17607adbe4..7bb170f440 100644
+>> --- a/target/ppc/excp_helper.c
+>> +++ b/target/ppc/excp_helper.c
+>> @@ -344,6 +344,16 @@ static inline void powerpc_excp(PowerPCCPU *cpu, in=
+t excp_model, int excp)
+>>           excp =3D POWERPC_EXCP_PROGRAM;
+>>       }
+>>=20=20=20
+>> +#ifdef TARGET_PPC64
+>> +    /*
+>> +     * SPEU and VPU share the same IVOR but they exist in different
+>> +     * processors. SPEU is e500v1/2 only and VPU is e6500 only.
+>> +     */
+>> +    if (excp_model =3D=3D POWERPC_EXCP_BOOKE && excp =3D=3D POWERPC_EXC=
+P_VPU) {
+>> +        excp =3D POWERPC_EXCP_SPEU;
+>> +    }
+>> +#endif
+>
+> I am not in favor of changing powerpc_excp() but I know you have
+> plans for a major clean up :)
 
-Off-topic: I don't understand the difference between the effects of
-bdrv_drained_begin() and bdrv_subtree_drained_begin(). Both call
-aio_disable_external(aio_context) and aio_poll(). bdrv_drained_begin()
-only polls parents and itself, while bdrv_subtree_drained_begin() also
-polls children. But why does that distinction matter? I wouldn't know
-when to use one over the other.
+Yep, I think is better to fix everything that is broken before the
+cleanup so we have more code working and being tested before the
+changes.
 
-On-topic: aio_disable_external() does not notify the AioContext. We
-probably get away with it since the AioContext lock is currently held,
-but it will be necessary to notify the AioContext so it disables
-external handlers when the lock is not held:
-
-  static inline void aio_disable_external(AioContext *ctx)
-  {
-      qatomic_inc(&ctx->external_disable_cnt);
-      <--- missing aio_notify() since the AioContext needs to
-           re-evaluate handlers
-  }
-
-> - where to add these drains? Inside the function or delegate to the calle=
-r?
-> According to d736f119da (and my unit tests), it is safe to modify the gra=
-ph even side a bdrv_subtree_drained_begin/end() section.
-> Therefore, wrapping each call of bdrv_replace_child_noperm with a subtree=
-_drain_begin/end is (or seems) perfectly valid.
->=20
-> Problems met so far (mostly solved):
->=20
-> 1) consider that the drains use BDRV_WAIT_WHILE, which in turns unlocks t=
-he AioContext lock. This can create problems because not all caller take th=
-e lock, but could be easily fixed by introducing BDRV_WAIT_WHILE_UNLOCKED a=
-nd bdrv_subtree_drain_begin/end_unlocked functions, but when running unit t=
-ests it is easy to find cases where the aiocontext is not always held. For =
-example, in test_blockjob_common_drain_node (tests/unit/test-bdrv-drain.c):
->=20
->     blk_insert_bs(blk_target, target, &error_abort);
->     [...]
->     aio_context_acquire(ctx);
->     tjob =3D block_job_create("job0", &test_job_driver, NULL, src,
->                             0, BLK_PERM_ALL,
->                             0, 0, NULL, NULL, &error_abort);
->=20
-> Both functions eventually call bdrv_replace_child_noperm, but none one wi=
-th the aiocontext lock held, another without.
-> In this case the solution is easy and helpful for our goal, since we are =
-reducing the area that the aiocontext lock covers.
->=20
-> 2) Some tests like tests/unit/test-bdrv-drain.c do not expect additional =
-drains. Therefore we might have cases where a specific drain callback (in t=
-his case used for testing) is called way before it is expected to do so, be=
-cause of the additional subtree drains.
-> Again also here we can simply modify the test to use the specific callbac=
-k only when we actually need to use it. The test I am referring to is test_=
-detach_by_driver_cb().
-
-I'm not sure what this means but some tests make assumptions about
-internals. They are fragile. Modifying the test sounds reasonable.
-
->=20
-> 3) Transactions. I am currently struggling a lot with this, and need a li=
-ttle bit of help trying to figure out what is happening.
-> Basically the test test_update_perm_tree() in tests/unit/test-bdrv-graph-=
-mod.c tests for permissions, but indirectly calls also the abort() procedur=
-e of the transactions.
->=20
-> The test performs the following (ignoring the permissions):
-> 1. create a blockbackend blk
-> 2. create a BlockdriverState "node" and "filter"
-> 3. create BdrvChild edge "root" that represents blk -> node
-> 4. create BdrvChild edge "child" that represents filter -> node
->=20
-> Current graph:
-> blk ------ root -------v
->                       node
-> filter --- child ------^
->=20
-> 5a. bdrv_append: modify "root" child to point blk -> filter
-> 5b. bdrv_append: create BdrvChild edge "backing" that represents filter -=
-> node (redundant edge)
-> 5c. bdrv_append: refresh permissions, and as expected make bdrv_append fa=
-il.
->=20
-> Current graph:
-> blk ------- root --------v
->                        filter
-> node <---- child --------+
->  ^-------- backing ------+
->=20
-> At this point, the transaction procedure takes place to undo everything, =
-and firstly it restores the BdrvChild "root" to point again to node, and th=
-en deletes "backing".
-> The problem here is that despite d736f119da, in this case in bdrv_replace=
-_child_abort() moving an edge under subtree_drain* has side effects, leavin=
-g the quiesce_counter, recursive_counter and parent_counter of the various =
-bs in the graph are not to zero. This is obviously due to edge movement bet=
-ween subtree_drained_begin and end, but I am not sure why the drain_saldo m=
-echanism implemented in bdrv_replace_child_noperm is not effective in this =
-case.
->=20
-> The failure is actually on the next step of the aborted transaction, bdrv=
-_attach_child_common_abort(), but the root cause
-> is due to the non-zero counters left by bdrv_replace_child_abort().
->=20
-> Error message:
-> test-bdrv-graph-mod: ../block/io.c:63: bdrv_parent_drained_end_single_no_=
-poll: Assertion `c->parent_quiesce_counter > 0' failed.
->=20
-> It is worth mentioning also that I know a way to fix this case,
-> and it is simply to not call
-> bdrv_subtree_drained_begin/end_unlocked(s->child->bs);
-> where s->child->bs is the filter bs in bdrv_replace_child_abort().
-> In this specific case, it would work correctly, leaving all counters
-> to zero once the drain ends, but I think it is not correct when/if
-> the BdrvChild is pointing into another separated graph, because we
-> would need to drain also that.
->=20
-> I even tried to reproduce this case with an unit test, but adding subtree=
-_drain_begin/end around bdrv_append does not reproduce this issue.
->=20
-> So the questions in this RFC are:
-> - is this the right approach to remove the aiocontext lock? I think so
-
-Yes, I think using drained sections to quiesce I/O is the right choice.
-
-> - are there better options?
-
-I/O needs to quiesce, at least in some cases, so I don't think we can
-avoid drained sections. It may be possible to implement other solutions
-on a case-by-case basis, but it would be more complex and still wouldn't
-get rid of some of the drained sections that are definitely needed.
-
-> - most importantly, any idea or suggestion on why this happens,
->   and why when adding drains the quiesce counters are not properly restor=
-ed in abort()?
-
-Maybe Kevin has an idea here. He wrote bdrv_subtree_drained_begin().
-
-Stefan
-
---nNzSLwbMnDDa0Oqv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmG3XksACgkQnKSrs4Gr
-c8izNAf/b38uSy3PDirGdq51ZVjm/TDtYG+wKiMohCXZO6wHlp5Jm/bvfajFNLVO
-/t1UsoTkPb8GiCTYFTffYhBOLqRRvuL0M/a3KFgnXEPOdP97iMG8CUjcpLfQ5gFQ
-4tljsjjdTBQHeMMxoCIWe5ubYbC3mp1FNHWahVDsVleVh/Ll+Ue2YXLpYrXJUsUg
-vXo6V266TCPmVDfqTu7zgNSpGOVig7gjD4t7IHMq4e4um9TRjtTvCWCn/rg2zqH1
-v0BDtcP82P5l0twaxfMg3Pr0MP2jaQT76VVn/7D1SxzOg1XnSDouci7d7i5unqcV
-Rt9qkNoeTHzWjWh4JDjQvbP1p76a4w==
-=HW3d
------END PGP SIGNATURE-----
-
---nNzSLwbMnDDa0Oqv--
+I would have sent this patch months ago if I knew how to fix it then =3D)
 
 
