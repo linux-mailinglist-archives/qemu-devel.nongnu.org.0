@@ -2,59 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BB8472E02
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 14:52:22 +0100 (CET)
-Received: from localhost ([::1]:42774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5894E472E41
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Dec 2021 14:57:09 +0100 (CET)
+Received: from localhost ([::1]:51034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwlkb-0004CT-BD
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 08:52:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52880)
+	id 1mwlpE-0001iH-FW
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 08:57:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mwlO7-0008D3-KW; Mon, 13 Dec 2021 08:29:07 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:57777)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mwlNz-0000ML-Lz; Mon, 13 Dec 2021 08:29:07 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.191])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 0529FD19BEF5;
- Mon, 13 Dec 2021 14:28:58 +0100 (CET)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 13 Dec
- 2021 14:28:57 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003710f58b3-50ef-4207-a749-2896319278b2,
- B1BC92F71A951DCA4C6DA1690085DBFA0C2EFA12) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH v2 19/19] ppc/pnv: Move num_phbs under Pnv8Chip
-Date: Mon, 13 Dec 2021 14:28:30 +0100
-Message-ID: <20211213132830.108372-20-clg@kaod.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211213132830.108372-1-clg@kaod.org>
-References: <20211213132830.108372-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mwlU1-0005f1-Rc
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 08:35:13 -0500
+Received: from [2a00:1450:4864:20::434] (port=35393
+ helo=mail-wr1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mwlTz-0001m7-UK
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 08:35:13 -0500
+Received: by mail-wr1-x434.google.com with SMTP id k9so9287947wrd.2
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 05:35:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=+TkSm0+KLWoR1q//+dPfXdpTO1ySBtnGKGve84kJrXw=;
+ b=pivv1zYIVFcogZ6rxEUjuYvtfc4j/UiuoupqZD9XtvAx+QJNVHBkx26t+gfQFatmSl
+ UdgkIIiIy9CRe0VcKEmUWDmkFq3a7SccaM6KVyOgTCOrNGmACnBzmLEhmUulOLY3mYjJ
+ fiKhvE/Oqql2EqG4GepnEykJlzVvdCmNVXkCQY6DZH95onTHuRaDS+lxbmBR431P9PWm
+ U8f24HEFN0Nur/tlcGebk1c+5ninQKENDSeiqECTNz3au6Z692h89iyhMmDHoAp8+0r6
+ k1uNaw+rb71uh2l/PTg4bgFDfnT0SqKcdRqZTty+WUOXhgWMaceEWzDC+VFyVrK2BO/e
+ 5VHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=+TkSm0+KLWoR1q//+dPfXdpTO1ySBtnGKGve84kJrXw=;
+ b=mkdJSp9r/EVleGuZmRUjDzEhMVxcNanQrRenPxsWeCFSgdHEbSjSkk1jQN70Zy1AHN
+ 2Q8YJ42ULS/nnUtP7dJyFHzMsI5NA7Q7wlVXULNkiUfzecYAHGXRSozTbWJEM3+J5R9l
+ fbVHQbpzgCfIFLrr8ttRtv3/xA2VhZO8h5yNp3eZRub+3fFmP725/7Xbp/jKaL4yCoWt
+ JbmNxmaQ+P2rcjsyh21SG2DKWAJ/b8a6IzytBd9sI24rThoTfUwzpa0W4YZJO94pLIK7
+ SrCzRru8lRZkoXOZsiOQNQX96nzl6j5O2VQ7tef+uhFbsw9hdjFknX4ABwNJNvdebDXp
+ cgTQ==
+X-Gm-Message-State: AOAM530k0dJjRcr6BSBycOkFMbJeWAoe8EQV3GNMJF2FO2QQdX/x+wcf
+ /hP5WYeaMhYrWYDIQdHAoQSg4A==
+X-Google-Smtp-Source: ABdhPJy1yziyZd05rH3kx6rpFk7FyprxmadYVA1plV52zsLQsO0RsaYAFCPnyr0Xxdfx2JpbYKXShg==
+X-Received: by 2002:a05:6000:381:: with SMTP id
+ u1mr32327267wrf.383.1639402510376; 
+ Mon, 13 Dec 2021 05:35:10 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a9sm11025798wrt.66.2021.12.13.05.35.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Dec 2021 05:35:09 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 029A61FF96;
+ Mon, 13 Dec 2021 13:35:09 +0000 (GMT)
+References: <20211211191135.1764649-1-peter.maydell@linaro.org>
+ <20211211191135.1764649-15-peter.maydell@linaro.org>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 14/26] hw/intc/arm_gicv3_its: Fix various off-by-one errors
+Date: Mon, 13 Dec 2021 13:35:01 +0000
+In-reply-to: <20211211191135.1764649-15-peter.maydell@linaro.org>
+Message-ID: <87h7bcljar.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 03c7aede-9810-4171-a7ff-6475bb94dcac
-X-Ovh-Tracer-Id: 5375327632686680870
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrkeekgdehfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,85 +91,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is not used elsewhere so that's where it belongs.
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- include/hw/ppc/pnv.h | 4 ++--
- hw/ppc/pnv.c         | 7 +++----
- 2 files changed, 5 insertions(+), 6 deletions(-)
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index ca27bd39f0ac..251c9854329d 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -52,7 +52,6 @@ struct PnvChip {
-     uint64_t     cores_mask;
-     PnvCore      **cores;
- 
--    uint32_t     num_phbs;
-     uint32_t     num_pecs;
- 
-     MemoryRegion xscom_mmio;
-@@ -82,6 +81,7 @@ struct Pnv8Chip {
- 
- #define PNV8_CHIP_PHB3_MAX 4
-     PnvPHB3      phbs[PNV8_CHIP_PHB3_MAX];
-+    uint32_t     num_phbs;
- 
-     XICSFabric    *xics;
- };
-@@ -136,8 +136,8 @@ struct PnvChipClass {
-     /*< public >*/
-     uint64_t     chip_cfam_id;
-     uint64_t     cores_mask;
--    uint32_t     num_phbs;
-     uint32_t     num_pecs;
-+    uint32_t     num_phbs;
- 
-     DeviceRealize parent_realize;
- 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 2b027e299d27..8a3732c982e5 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1099,7 +1099,6 @@ static void pnv_chip_power10_intc_print_info(PnvChip *chip, PowerPCCPU *cpu,
- 
- static void pnv_chip_power8_instance_init(Object *obj)
- {
--    PnvChip *chip = PNV_CHIP(obj);
-     Pnv8Chip *chip8 = PNV8_CHIP(obj);
-     PnvChipClass *pcc = PNV_CHIP_GET_CLASS(obj);
-     int i;
-@@ -1118,10 +1117,10 @@ static void pnv_chip_power8_instance_init(Object *obj)
-     object_initialize_child(obj, "homer", &chip8->homer, TYPE_PNV8_HOMER);
- 
-     if (defaults_enabled()) {
--        chip->num_phbs = pcc->num_phbs;
-+        chip8->num_phbs = pcc->num_phbs;
-     }
- 
--    for (i = 0; i < chip->num_phbs; i++) {
-+    for (i = 0; i < chip8->num_phbs; i++) {
-         object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV_PHB3);
-     }
- 
-@@ -1239,7 +1238,7 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
-                                 &chip8->homer.regs);
- 
-     /* PHB3 controllers */
--    for (i = 0; i < chip->num_phbs; i++) {
-+    for (i = 0; i < chip8->num_phbs; i++) {
-         PnvPHB3 *phb = &chip8->phbs[i];
- 
-         object_property_set_int(OBJECT(phb), "index", i, &error_fatal);
--- 
-2.31.1
+> The ITS code has to check whether various parameters passed in
+> commands are in-bounds, where the limit is defined in terms of the
+> number of bits that are available for the parameter.  (For example,
+> the GITS_TYPER.Devbits ID register field specifies the number of
+> DeviceID bits minus 1, and device IDs passed in the MAPTI and MAPD
+> command packets must fit in that many bits.)
+>
+> Currently we have off-by-one bugs in many of these bounds checks.
+> The typical problem is that we define a max_foo as 1 << n. In
+> the Devbits example, we set
+>   s->dt.max_ids =3D 1UL << (GITS_TYPER.Devbits + 1).
+> However later when we do the bounds check we write
+>   if (devid > s->dt.max_ids) { /* command error */ }
+> which incorrectly permits a devid of 1 << n.
+>
+> These bugs will not cause QEMU crashes because the ID values being
+> checked are only used for accesses into tables held in guest memory
+> which we access with address_space_*() functions, but they are
+> incorrect behaviour of our emulation.
+>
+> Fix them by standardizing on this pattern:
+>  * bounds limits are named num_foos and are the 2^n value
+>    (equal to the number of valid foo values)
+>  * bounds checks are either
+>    if (fooid < num_foos) { good }
+>    or
+>    if (fooid >=3D num_foos) { bad }
+>
+> In this commit we fix the handling of the number of IDs
+> in the device table and the collection table, and the number
+> of commands that will fit in the command queue.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
