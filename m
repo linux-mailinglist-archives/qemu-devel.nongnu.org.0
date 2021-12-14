@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17054743A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 14:39:31 +0100 (CET)
-Received: from localhost ([::1]:39156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D594743D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 14:49:32 +0100 (CET)
+Received: from localhost ([::1]:60464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx81g-00007z-Sb
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 08:39:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51764)
+	id 1mx8BP-0006xi-Gy
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 08:49:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mx7mk-0001Me-Ls
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:24:04 -0500
-Received: from [2a00:1450:4864:20::436] (port=42791
- helo=mail-wr1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mx7mg-0002Pn-L0
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:24:01 -0500
-Received: by mail-wr1-x436.google.com with SMTP id c4so32332827wrd.9
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 05:23:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=p6rZ7lC8vGzB9OtFisolrxFFnsJ0zFSYzbQX9ex5coE=;
- b=OVbmhuqC8fP+LeCq7WUnYHtxlx4UAW46N0a19+B/wk8HHSv1Lx1jVYxmS8GaSKgdat
- wYDh+GA+1ivrUtz27YpIVF2BZnXIvAZUzUKhMMR8IBulWmzpTCdzuK+iY0LqvxwnS1NH
- Z92uud2y6JdFToWk1WM+2mayFpgpR8JQxxr4o00v9hlgNrhOIn7d/j7URXRwnLGr6qE3
- fyof66tTaHvYfoC3uSgwEy+Cye/eRAL0FpZ6UrdYILj40tsNHlSAPyztclt9YHCNDHeH
- J2FTpyu0nSdawO8YrChG+0HRaOIdjke7G16en3u/8pNLZIyGQQz/BJtCWNAWBXtNBExY
- 4unw==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1mx7pS-0003zR-MQ
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:26:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44183)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1mx7pQ-0002ok-Hq
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:26:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639488406;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FfoTG+csa+5rV+ejcpvY2mKlRE3peSMFTRzVdeg1aCs=;
+ b=BnQCPMY2k3ZWXK/664T4L0jDIvbaBCPUElXTu33l46zkMsiLttBzCiO6uGXu6xmXZrQhjP
+ xBkwbY6iuCfQQgXXN5s60LQGzY9pv8CCP5+vfshoFFQiuwTxeQumFJcIi1hekbkljoTzWd
+ RR9jBmFjVQow0kJCdo56S4nhGYQOOsc=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-83-cDUwuqlcPo-GTJ8joNF8Nw-1; Tue, 14 Dec 2021 08:26:40 -0500
+X-MC-Unique: cDUwuqlcPo-GTJ8joNF8Nw-1
+Received: by mail-pl1-f198.google.com with SMTP id
+ p3-20020a170903248300b00143c00a5411so5420820plw.12
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 05:26:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=p6rZ7lC8vGzB9OtFisolrxFFnsJ0zFSYzbQX9ex5coE=;
- b=amiX7Xko27xeUTcM1AxGe5+ifRcg8LLJlXcE1EQQXn/lzdtw8Bohm6GwFQsct6oKvn
- 5UPcY3C/u/5bHfWQUujwHi4JdZ/gQSyzR8arOAAQUtSGcnRY+HUnpQ6zoCbm9Y9NqHMm
- +9mEhymIWtFk+fG8m74mylt30V6dJE5ezba40ljq+GKkZhaBGrju0MEdx9vzugE0tiOy
- DDNklMqAjN1fSQHRxoly4o+0yKnsWuYteKayfmGamVr5+Nuaq7o7s+4Q++fHGAhw4Nzs
- truMUPrsWXc137Oy7bOyb0uy9Qcm66+xEZTsC/th9klRlBi0DyFm6GobmMVehcQ7ewSQ
- VAEQ==
-X-Gm-Message-State: AOAM530w9RgIatd8EJyHI4Ms9zei+fVThp+hlKWLoF3/iGpE2H/b3raN
- ab3R0Gajs5ifn4D5U1MfqKQ=
-X-Google-Smtp-Source: ABdhPJydrNL8a73vXwA+zC5oaQrxLDzDcETW6caOqrvXF73hVF3XG0jsttzfXZzCzR9FEwgkBENRBw==
-X-Received: by 2002:a05:6000:18a7:: with SMTP id
- b7mr5647990wri.308.1639488237087; 
- Tue, 14 Dec 2021 05:23:57 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id h27sm2329030wmc.43.2021.12.14.05.23.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Dec 2021 05:23:56 -0800 (PST)
-Message-ID: <f90f2171-d416-be35-d42a-7a37d245dbd6@amsat.org>
-Date: Tue, 14 Dec 2021 14:23:55 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FfoTG+csa+5rV+ejcpvY2mKlRE3peSMFTRzVdeg1aCs=;
+ b=6FLSKZjFm9dq36HXL+FwNLe6uL/bs4ztQqXkFFdmMemJhWV7+nmpoyfysov1s5jkG+
+ TaNTjVHM0enDw4ePbEWWM0tP9OMkfuDHQK/g3ksZhGxJpT0+wBiQi5G72LREWWmvqefO
+ v7B5k8TgT24kMRZ7tOmNOCcTbWxRioJJ0Udyc2kG7CoKTll18qrRXFmhiloWsL/NG8FY
+ aXOoChx/ScznX8vIDl/6GNqPGyuAXboJ0S3/O4nISToXv/l1WMhgQ+oLbEex+BRtaoMQ
+ ayi6f5y/FjGmYZNpVyTZRvj9fhgxMbf6IAIelcBZWrGVPextNQT2CNJGLfvsb7TfHl38
+ LamA==
+X-Gm-Message-State: AOAM530NBhfx7hUpu1LWNw14Me4i1spvrNVKBBQkIYQSmdge9xojhUbP
+ lO1DgQXag6CaH7EUiiAP9/UKJtRLKBOzS+CNDB+abEqjBB+So84iRfd+27tdw9HUMW2VBpzwHfr
+ ghtGOlK3xVC532F4InEApDQkjRmaW5wE=
+X-Received: by 2002:a17:902:c206:b0:142:631:5ffc with SMTP id
+ 6-20020a170902c20600b0014206315ffcmr5954525pll.38.1639488399629; 
+ Tue, 14 Dec 2021 05:26:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxSzIFx4Oubxgh/QlnTd+hqmSgQdNEG4KMN62yIYB0DV/kktKve7Ff8LdRwIXNp2jhbr7cHyt81WvoVe4xC0fk=
+X-Received: by 2002:a17:902:c206:b0:142:631:5ffc with SMTP id
+ 6-20020a170902c20600b0014206315ffcmr5954498pll.38.1639488399362; Tue, 14 Dec
+ 2021 05:26:39 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v9 31/31] tests/docker: Add gentoo-loongarch64-cross image
- and run cross builds in GitLab
-Content-Language: en-US
-To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
-References: <20211214080154.196350-1-git@xen0n.name>
- <20211214080154.196350-32-git@xen0n.name>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211214080154.196350-32-git@xen0n.name>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.962,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20211214124109.103102-1-konstantin@daynix.com>
+ <20211214124109.103102-2-konstantin@daynix.com>
+In-Reply-To: <20211214124109.103102-2-konstantin@daynix.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 14 Dec 2021 17:26:28 +0400
+Message-ID: <CAMxuvayGQOtb79dBUbD3c1xWERt8Mk=Yji0+K8g7SJWgDmG3_g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] gqa-win: get_pci_info: Clean dev_info if handle is
+ valid
+To: Kostiantyn Kostiuk <konstantin@daynix.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,48 +95,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- XiaoJuan Yang <yangxiaojuan@loongson.cn>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Song Gao <gaosong@loongson.cn>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/14/21 09:01, WANG Xuerui wrote:
-> Normally this would be based on qemu/debian10 or qemu/ubuntu2004, but
-> after a week-long struggle, I still cannot build stage2 gcc with the
-> known-good LoongArch toolchain sources, so I chose the least-resistance
-> path with Gentoo as base image. As this image is not expected to be
-> re-built by CI, like hexagon, it should not take much maintenance
-> effort; also it's expected to be replaced as soon as Debian is
-> available.
-> 
-> As the LoongArch target has not been merged yet, a check-tcg job is not
-> added at the moment, but cross builds with the TCG port are already
-> possible, and added to CI matrix.
-> 
-> Due to constant flux of the toolchain sources used (especially that of
-> glibc), the binaries built with this image could currently segfault when
-> run on actual hardware. This image is expected to be updated once a
-> known-good combination is again verified.
-> 
-> As a reference, the image takes about 27 minutes to rebuild on a
-> Threadripper 3990X system with Docker operating on HDD; YMMV but it
-> probably wouldn't become significantly shorter, as everything needs to
-> be built from source in our case.
-> 
-> Signed-off-by: WANG Xuerui <git@xen0n.name>
-> ---
->  .gitlab-ci.d/container-cross.yml              |  27 ++++
->  .gitlab-ci.d/crossbuilds.yml                  |  19 +++
->  MAINTAINERS                                   |   2 +
->  tests/docker/Makefile.include                 |  21 +++
->  .../gentoo-loongarch64-cross.docker           |  19 +++
->  .../build-toolchain.sh                        | 125 ++++++++++++++++++
->  6 files changed, 213 insertions(+)
->  create mode 100644 tests/docker/dockerfiles/gentoo-loongarch64-cross.docker
->  create mode 100755 tests/docker/dockerfiles/gentoo-loongarch64-cross.docker.d/build-toolchain.sh
+On Tue, Dec 14, 2021 at 4:41 PM Kostiantyn Kostiuk
+<konstantin@daynix.com> wrote:
+>
+> Signed-off-by: Kostiantyn Kostiuk <kkostiuk@redhat.com>
+> Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+> ---
+>  qga/commands-win32.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+> index 4e84afd83b..3dd74fe225 100644
+> --- a/qga/commands-win32.c
+> +++ b/qga/commands-win32.c
+> @@ -514,7 +514,7 @@ DEFINE_GUID(GUID_DEVINTERFACE_STORAGEPORT,
+>
+>  static GuestPCIAddress *get_pci_info(int number, Error **errp)
+>  {
+> -    HDEVINFO dev_info;
+> +    HDEVINFO dev_info =3D INVALID_HANDLE_VALUE;
+>      SP_DEVINFO_DATA dev_info_data;
+>      SP_DEVICE_INTERFACE_DATA dev_iface_data;
+>      HANDLE dev_file;
+> @@ -749,7 +749,9 @@ static GuestPCIAddress *get_pci_info(int number, Erro=
+r **errp)
+>      }
+>
+>  free_dev_info:
+> -    SetupDiDestroyDeviceInfoList(dev_info);
+> +    if (dev_info !=3D INVALID_HANDLE_VALUE) {
+> +        SetupDiDestroyDeviceInfoList(dev_info);
+> +    }
+>  out:
+>      return pci;
+>  }
+> --
+> 2.25.1
+>
+
 
