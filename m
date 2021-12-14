@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1897474D20
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 22:14:27 +0100 (CET)
-Received: from localhost ([::1]:36132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A48474D22
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 22:15:46 +0100 (CET)
+Received: from localhost ([::1]:40134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxF7y-0002Iu-FV
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 16:14:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50868)
+	id 1mxF9G-0004yD-1T
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 16:15:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mxF6G-0001SR-LL
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 16:12:40 -0500
-Received: from [2607:f8b0:4864:20::429] (port=44753
- helo=mail-pf1-x429.google.com)
+ id 1mxF7b-00033f-7g
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 16:14:03 -0500
+Received: from [2607:f8b0:4864:20::633] (port=45678
+ helo=mail-pl1-x633.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mxF6F-0001SN-1x
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 16:12:40 -0500
-Received: by mail-pf1-x429.google.com with SMTP id k64so18848636pfd.11
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 13:12:38 -0800 (PST)
+ id 1mxF7Z-0001cd-9d
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 16:14:02 -0500
+Received: by mail-pl1-x633.google.com with SMTP id w24so1887696ply.12
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 13:13:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
+ h=subject:from:to:cc:references:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mNOZ7yMTAX/qwuKncETnh9VRBF52WijU9ADfqkFNlLI=;
- b=KfH4YtY2J2t9LytwMSiisil3jz1A5mjsDj/bx6Ew7+4DjmyEOOuIML7B+G0SdgUKXz
- flEhPyWBo/EjrBtjliNEJcGizX0HTXSsbs6J04T9fsAvpmRSdgfgGf+N7+tpg3b4V64V
- hlM2Lra1lBvS1aCPUZenpVCTQmaFNcsqI2smafha6fJi6yNbzmnOzQ5FiLR3HkyFcdlk
- J3vGXxMVbs/I3feTxAzm6Kxlf0iiGODOaqobyOQ3jjT4HEoMAIPGdo7TgBXQ/vmNnXpn
- 8Sa3oXMfbO9kV++t3WQlVoAtsDi8pyPGE0U9ZUp0GG8Vk9sH1TA4nlB0WYYdY1bWbx9P
- iTHA==
+ bh=/RJgQIN144AnxNs0T6g1xC7YS00CVY733YPmVMPuWb0=;
+ b=VDdgcTC80s+nem8XM5/e28p3z6YBRwlZfGLlIEaASGZLGUBUBj4JpAV6Hpo2tl9O1E
+ sIyu1IMU3bJfSPNRsvFQOb0Z8VyZEm3ZgEG2tdpRgDv16b9jfpwyloZ0yLV4okALlAKq
+ +dZd004lcoXl69uF5iuod1ufzsNb0U7nTcyw+AKYTcHbmwYmUBfCEjoycmIh9kp2nEt8
+ qBvCsyPetcHx71oNbwfbK8rrXKo7FyIVYwhz9Cxy8apSA2KcjAwBGKM43+fJ9SdLx6MG
+ aMRIWoaySGthihiW2crUhUgHRI9vyQrgWMahAiglkQ1+1bML/0N0Hn/qI5ReAU5XGagO
+ BbHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=mNOZ7yMTAX/qwuKncETnh9VRBF52WijU9ADfqkFNlLI=;
- b=Fq7iRKC4/8LiHmccujEvcHdjbrkk/F2e4LlbZKIyHJyj60kouikXHvpc7e0FDv3O9z
- a84XtIOrfQJRXakxGm7HIv9EzOFlrSuntMmfQtw6YTwPfNK0DALaZ+7o3/xr0VciBYpu
- wg2erBRntJmyHPmQhbCNImgouTVdxI7xuEbZLJszs3Ah2ScSKOgmFG4sxUUWLYdG6OwB
- C1lSzGXgJdcO+iUC+/a/UuiBEcs2ZK5U7RZDMQwsjPPv6VhTG4zEYBR0dmxlf3ClC5bq
- 648591FRBB4TRB1KmxOL+b2WKJhWG4t1DWP2qQmTfw4dWBq/Xp8X+tzjIctoAhVjDtjf
- gW+w==
-X-Gm-Message-State: AOAM533n3zd/PSdLgP85J3EZk9o/azksHJift4rxxij94903x7RNUGfU
- rW6nE4ES6AYRpe15JtKq6abk/A==
-X-Google-Smtp-Source: ABdhPJzTbGcrj0ic75BveFaUNGPv7U95pJj6phCdSvOLNdGXCryvYf5W8fKGOv7wBjnODjdnu6EjBg==
-X-Received: by 2002:a65:4bc8:: with SMTP id p8mr5296376pgr.119.1639516355003; 
- Tue, 14 Dec 2021 13:12:35 -0800 (PST)
+ bh=/RJgQIN144AnxNs0T6g1xC7YS00CVY733YPmVMPuWb0=;
+ b=ONSG0FkTgZCkblWrEkL3WCMOAIbyv7CHu/t1EmlaVZvyN426NjX/kjHPAw8Bwpq0r4
+ ougHRYpuUUG5n26XjeuK086RsQvYJynE0UHf9tRHXVgbDj340b/l8UmM/hguzQVfYyOk
+ PR1y+63xicTydqmb6VlDbZvOWJ6McazMb+8lOpabBuvuaS8HeqDLQSyhEpCxyq4IBT29
+ 86Y6WegZpziaXn06n3Pmgj1oQocIGqwj3WDfdDdt1LS7j34txH7Dw9nLcLdzb0+or/UP
+ D7ar2ipu2g6Du0dHIrKcpPudWYcYU/Bys/MAww+LztybX/ljzZVgCxi646SFLVu9Ksn1
+ RiFQ==
+X-Gm-Message-State: AOAM533oKeF8qsb1JCLl993YjZvDQ1CSwJlToDWb0ICEI2WX/hk4teZ1
+ gqHHFmVXMRMkcZtb6MYqWgtS6g==
+X-Google-Smtp-Source: ABdhPJw+IIgGlSiByOtNXwzYbfPrxtjHjX5HPHooyvfmF7Fh7QsOB2E8rh6Zqy3/9jPeDHtTYl72Gw==
+X-Received: by 2002:a17:902:8b86:b0:148:a2af:4ab4 with SMTP id
+ ay6-20020a1709028b8600b00148a2af4ab4mr1510359plb.73.1639516438856; 
+ Tue, 14 Dec 2021 13:13:58 -0800 (PST)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id y4sm8824pfi.178.2021.12.14.13.12.33
+ by smtp.gmail.com with ESMTPSA id e7sm11658pfv.156.2021.12.14.13.13.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Dec 2021 13:12:34 -0800 (PST)
+ Tue, 14 Dec 2021 13:13:58 -0800 (PST)
 Subject: Re: [PATCH] target/riscv/pmp: fix no pmp illegal intrs
+From: Richard Henderson <richard.henderson@linaro.org>
 To: Nikita Shubin <nikita.shubin@maquefel.me>
 References: <20211214092659.15709-1-nikita.shubin@maquefel.me>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6a13ed88-e109-93e4-9254-62b6b04f5913@linaro.org>
-Date: Tue, 14 Dec 2021 13:12:32 -0800
+ <6a13ed88-e109-93e4-9254-62b6b04f5913@linaro.org>
+Message-ID: <b165ef0f-3336-f4e5-61ee-b3d8cf9e02c0@linaro.org>
+Date: Tue, 14 Dec 2021 13:13:57 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211214092659.15709-1-nikita.shubin@maquefel.me>
+In-Reply-To: <6a13ed88-e109-93e4-9254-62b6b04f5913@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -96,14 +98,18 @@ Cc: qemu-riscv@nongnu.org, Nikita Shubin <n.shubin@yadro.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/14/21 1:26 AM, Nikita Shubin wrote:
-> -    if (!pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
-> +    if (riscv_feature(env, RISCV_FEATURE_PMP) &&
-> +        !pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
+On 12/14/21 1:12 PM, Richard Henderson wrote:
+> On 12/14/21 1:26 AM, Nikita Shubin wrote:
+>> -    if (!pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
+>> +    if (riscv_feature(env, RISCV_FEATURE_PMP) &&
+>> +        !pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
+> 
+> When would the number of rules become non-zero with PMP disabled?
+> When does this test make a difference?
 
-When would the number of rules become non-zero with PMP disabled?
-When does this test make a difference?
+Oh, nevermind, I see what you mean.
 
 
 r~
+
 
