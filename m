@@ -2,96 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D5B47405D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 11:22:53 +0100 (CET)
-Received: from localhost ([::1]:42210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760DC47406A
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 11:25:57 +0100 (CET)
+Received: from localhost ([::1]:45176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx4xQ-0000Qe-O3
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 05:22:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40712)
+	id 1mx50O-0002V1-2m
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 05:25:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mx4uN-0005yv-Cw
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 05:19:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51018)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mx4ya-0001lu-Mf
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 05:24:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mx4uJ-0001cd-7j
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 05:19:40 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mx4yS-00026F-Ls
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 05:24:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639477175;
+ s=mimecast20190719; t=1639477434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MLMgKK/JrOY9uRL8qCHVae/idATtrVSrEl4IRbrqANY=;
- b=EXQHJJCWC+lq+FZzBxeHhBDdl61bH7BpkZojKjHLhe5nwdvkLaFmB1r5zF5U9wJfmx+AaD
- 1sWIe3s1vMyvhDS+dol6Ws3GnMipjyVDYEOeIBeU/t8qRkOH84EagBDdVnL9jS2rNfKWA9
- 7qpgxisypBgyHBhAdTwaecCuQ3EdrNU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=P0uOi9LArlneVGVFTRNbJNueBPSfvgQWEVItDvgw+tM=;
+ b=WJQBRYIz+26uJH7eJtxOqyLHjSJSDBPsfUVAf7crX/CM7ahfG35Lamc14nvD8ZKFykiQ2h
+ W0FIjztq+n/No4MYqjQ0hr66MQ28mG1xhEgkSG4kohgb8NX29eanh2gzGxpgHhrHnK+Okp
+ ohVsBY74rWGqBPI2GIyb5IPokJFSS1Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-261--gl0QyswMfmw4XRS8_KO7g-1; Tue, 14 Dec 2021 05:19:32 -0500
-X-MC-Unique: -gl0QyswMfmw4XRS8_KO7g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 187-20020a1c02c4000000b003335872db8dso11103125wmc.2
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 02:19:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=MLMgKK/JrOY9uRL8qCHVae/idATtrVSrEl4IRbrqANY=;
- b=5/ZUs0KX6LMtJeNmzTROckGgDhAz+/86ArLbvzwpXcwQDn7rfl3XhmuAKRqycdwGb8
- oOvpm2I2LzJ5cew+kk4Nem4BMcshRsl/57RLcyirrx7TH+wfH/zpOsXwM67MKhI8KSt/
- GB54PFw3GZZjPTMv3q7ER1iYIurhJRZ1lkqhtm5JavDIaZT+1zoXwbRtdARHjsJzlvSm
- PnmunQoXV9Bl1A5OwMs8dOX5mXH5Zy7P2fJx6G5x0+9hai1U7MFk2kpQazVaqYrB3I2H
- fUs54XjPuFz9bEdndNYD2DD35DQiEaVPwCf3fYngvlbO5/EoLFbClQ2avbLi+BfDlqZS
- L45g==
-X-Gm-Message-State: AOAM532rA1I0oYiz7eDEaenUAUCNyrd3pJpEDQ/qLclSlzNSEjoOLXCt
- Eita0PTe/p1MsinXFg9BMzk7G+qEbBxV/YkzrJLUx2bCXZd1pZdPYCgOSttvhEXipziCggdlcAJ
- dUU9ixUw10R/pSJw=
-X-Received: by 2002:a05:6000:110a:: with SMTP id
- z10mr5035717wrw.396.1639477170714; 
- Tue, 14 Dec 2021 02:19:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzx7pjs2Hk1IRewPz1kXOxPrCKqnDLlC5EPSN9nSwrBF5pTle66K4CNIVHByJyXsLusM2OH3Q==
-X-Received: by 2002:a05:6000:110a:: with SMTP id
- z10mr5035692wrw.396.1639477170540; 
- Tue, 14 Dec 2021 02:19:30 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id p10sm9546424wrr.24.2021.12.14.02.19.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Dec 2021 02:19:30 -0800 (PST)
-Message-ID: <075c152d-13a4-7f33-deb8-23db30059fcd@redhat.com>
-Date: Tue, 14 Dec 2021 11:19:29 +0100
+ us-mta-225-lsoK3VTVPnutrcKj717PIQ-1; Tue, 14 Dec 2021 05:23:47 -0500
+X-MC-Unique: lsoK3VTVPnutrcKj717PIQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92884824F81
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 10:23:46 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4161A60CC9;
+ Tue, 14 Dec 2021 10:23:42 +0000 (UTC)
+Date: Tue, 14 Dec 2021 11:23:40 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [RFC PATCH 00/12] QOM/QAPI integration part 1
+Message-ID: <YbhwrGRDs5lA7I7r@redhat.com>
+References: <20211103173002.209906-1-kwolf@redhat.com>
+ <871r365042.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2] MAINTAINERS: Change my email address
-To: "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20211214075424.6920-1-zhanghailiang@xfusion.com>
- <fc7b5d91-98f6-b146-4a67-5e6800bccadc@redhat.com>
- <YbhiU8ARoS5LcORY@redhat.com> <b147182688034454a7179cae9f6481ce@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <b147182688034454a7179cae9f6481ce@huawei.com>
+In-Reply-To: <871r365042.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.962, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,59 +77,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Wencongyang \(HongMeng\)" <wencongyang2@huawei.com>,
- Hailiang Zhang <zhanghailiang@xfusion.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>
+Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ eblake@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/14/21 11:15, Gonglei (Arei) wrote:
->> -----Original Message-----
->> From: Daniel P. Berrangé [mailto:berrange@redhat.com]
->> Sent: Tuesday, December 14, 2021 5:22 PM
->> To: Philippe Mathieu-Daudé <philmd@redhat.com>
->> Cc: Hailiang Zhang <zhanghailiang@xfusion.com>;
->> qemu-devel@nongnu.org; Gonglei (Arei) <arei.gonglei@huawei.com>;
->> Wencongyang (HongMeng) <wencongyang2@huawei.com>;
->> dgilbert@redhat.com; quintela@redhat.com
->> Subject: Re: [PATCH v2] MAINTAINERS: Change my email address
->>
->> On Tue, Dec 14, 2021 at 10:04:03AM +0100, Philippe Mathieu-Daudé
->> wrote:
->>> On 12/14/21 08:54, Hailiang Zhang wrote:
->>>> The zhang.zhanghailiang@huawei.com email address has been
->> stopped.
->>>> Change it to my new email address.
->>>>
->>>> Signed-off-by: Hailiang Zhang <zhanghailiang@xfusion.com>
->>>> ---
->>>> hi Juan & Dave,
->>>>
->>>> Firstly, thank you for your working on maintaining the COLO
->> framework.
->>>> I didn't have much time on it in the past days.
->>>>
->>>> I may have some time in the next days since my job has changed.
->>>>
->>>> Because of my old email being stopped, i can not use it to send this
->> patch.
->>>> Please help me to merge this patch.
->>>
->>> Can we have an Ack-by from someone working at Huawei?
->>
->> Why do we need that ? Subsystems are not owned by companies.
->>
->> If someone moves company and wants to carry on in their existing role as
->> maintainer that is fine and doesn't need approva from their old company
->> IMHO.
->>
+Am 23.11.2021 um 17:05 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
 > 
-> Agreed. I'm just confirming HaiLiang's identity. 
+> > This series adds QOM class definitions to the QAPI schema, introduces
+> > a new TypeInfo.instance_config() callback that configures the object at
+> > creation time (instead of setting properties individually) and is
+> > separate from runtime property setters (which often used to be not
+> > really tested for runtime use), and finally generates a marshalling
+> > function for .instance_config() from the QAPI schema that makes this a
+> > natural C interface rather than a visitor based one.
+> >
+> > This is loosely based on Paolo's old proposal in the wiki:
+> > https://wiki.qemu.org/Features/QOM-QAPI_integration
+> >
+> > The series is in a rather early stage and I don't really have any
+> > automated tests or documentation in this series yet. I'm also only
+> > converting the class hierarchy for the random number generator backends
+> > to show what the result looks like, the other objects still need to be
+> > done.
+> >
+> > So the question to you isn't whether this is mergeable (it isn't), but
+> > whether you think this is the right approach for starting to integrate
+> > QOM and QAPI better.
+> >
+> > You'll also see that this doesn't really remove the duplication between
+> > property definitions in the code and configuration struct definitions in
+> > the QAPI schema yet (because we want to keep at least a read-only
+> > runtime property for every configuration option), but at least they mean
+> > somewhat different things now (creation vs. runtime) instead of being
+> > completely redundant.
+> >
+> > Possible future steps:
+> >
+> > * Define at least those properties to the schema that correspond to a
+> >   config option. For both setters and getters for each option, we'll
+> >   probably want to select in the schema between 'not available',
+> >   'automatically generated function' and 'manually implemented'.
+> >
+> >   Other runtime properties could be either left in the code or added to
+> >   the schema as well. Either way, we need to figure out how to best
+> >   describe these things in the schema.
 > 
-> Acked-by: Gonglei <arei.gonglei@huawei.com>
+> Permit me a diversion of sorts.
+> 
+> With QOM, we have properties.  A property is readable if it has a
+> getter, writable if it has a setter.  There is no real concept of
+> configuration vs. state.  Writable properties can be written at any
+> time.
+> 
+> In practice, some properties are to be used only like configuration, and
+> we check configuration at realize time (for devices), or by a surrogate
+> like qemu_add_machine_init_done_notifier().  If you set them later,
+> things may break, and you get to keep the pieces.
+> 
+> In this "QOM/QAPI integration part 1", configuration (expressed in QAPI
+> schema) makes it into QOM.
+> 
+> Now we have configuration *and* properties.
+> 
+> Do we need the properties?
 
-Thank you!
+Configuration is for creating objects, properties are for runtime after
+the creation. So for the practical answer, as long as you can find a QOM
+type that wants to allow either changing an option at runtime or just
+exposing its current value, I would say, yes, we need both. And I can
+easily list some QOM types that do.
+
+The theoretical answer is that of course you can replace properties with
+custom query-* and set-* QMP commands, but that's not only hardly an
+improvment, but also a compatibility problem.
+
+The approach I'm taking here with QAPIfication of objects (and planning
+to take for future conversions) is to drop setters that can't work at
+runtime (which might be the majority of properties), but keep properties
+around otherwise. Everything else would be a per-object decision, not
+part of the infrastructure work.
+
+> Note I'm not asking whether we need setters.  I'm asking whether we
+> need to expose configuration bits via qom-set & friends in addition to
+> the QAPI schema and query-qmp-schema.
+
+I'm not sure I follow here. How is querying or changing option values
+redundant with querying which options exist?
+
+Maybe qom-list could become obsolete if we move all properties (and not
+just the configuration) into the QAPI schema, but I don't see qom-get
+and qom-set going away.
+
+> > * Getting rid of the big 'object-add' union: While the union is not too
+> >   bad for the rather small number of user-creatable objects, it
+> >   wouldn't scale at all for devices.
+> >
+> >   My idea there is that we could define something like this:
+> >
+> >   { 'struct': 'ObjectOptions',
+> >     'data': {
+> >         'id': 'str',
+> >         'config': { 'type': 'qom-config-any:user-creatable',
+> >                     'embed': true } } }
+> >
+> >   Obviously this would be an extension of the schema language to add an
+> >   'embed' option (another hopefully more acceptable attempt to flatten
+> >   things...), so I'd like to hear opinions on this first before I go to
+> >   implement it.
+> 
+> 'embed': true would splice in the members of a struct type instead of a
+> single member of that struct type.  Correct?
+> 
+> Stretch goal: make it work for union types, too :)
+> 
+> I've thought of this before.  Plenty of nesting in the wire format
+> exists pretty much only to let us have the C structs we want.  Right
+> now, the only way to "splice in" such a struct is the base type.
+> General splicing could be useful.  It may take an introspection flag
+> day.
+
+Base types aren't visible in the introspection either, so probably not
+if you continue to just report the resulting structure?
+
+> >   Also note that 'qom-config-any:user-creatable' is new, too. The
+> >   'qom-config:...' types introduced by this series don't work for
+> >   subclasses, but only for the exact class.
+> >
+> >   On the external interface, the new 'qom-config-any:...' type including
+> >   subclasses would basically behave (and be introspected) like the union
+> >   we have today, just without being defined explicitly.
+> 
+> I'm not sure I follow.  How is the qom-config-any:user-creatable to be
+> defined?  QAPI collects all the qom-config:* types into a union
+> automatically?
+
+All classes that inherit from user-creatable, but yes, automatically
+collected.
+
+For user-creatable, we can either introduce interfaces in QAPI, too, or
+we just pretend it's actually the top-level parent class.
+
+Kevin
 
 
