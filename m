@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164C5474E70
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 00:08:32 +0100 (CET)
-Received: from localhost ([::1]:40784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A481474E71
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 00:08:45 +0100 (CET)
+Received: from localhost ([::1]:41434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxGuM-0005Mu-9c
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 18:08:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42338)
+	id 1mxGua-0005oc-0d
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 18:08:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mxGrX-0003yW-9t; Tue, 14 Dec 2021 18:05:35 -0500
-Received: from [2607:f8b0:4864:20::d33] (port=46831
- helo=mail-io1-xd33.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxGrx-0004I3-TV
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 18:06:01 -0500
+Received: from [2607:f8b0:4864:20::52b] (port=43610
+ helo=mail-pg1-x52b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mxGrV-0006Rd-Hy; Tue, 14 Dec 2021 18:05:34 -0500
-Received: by mail-io1-xd33.google.com with SMTP id x6so26816107iol.13;
- Tue, 14 Dec 2021 15:05:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o+ITWRUmIHQWVBRxImwEIdNh8qETyqn/2WsI66fHIu4=;
- b=HJfA7oW6LAbesnLp02w2ZMEV8AXinHEx0X6n+VuuldxXSGDMYJ9lgiWdTef5m06/k9
- bH59liLT9YFMa7JHKsl3vWeeA2aboEFkdxXILY2+FpV52E5M/EtEDtn0Mi0L5tsXhNtn
- rtQ+vuSPTjuccbEn1sNLPQUTHZA1NS5wvUaiEbdUnMIeUBRoecpcaIRE4X8caZZ8ySnz
- yKQMa8l1d9DjB3kqe1ta/Wvk7oOU3woNSvc6TQipTuWmVzCJ8Fsa10bc+fjzaLp9zi3b
- sRhjAAbRPGqK49SIiO9aqejUk9pRil8Fs2MCu67Cq+cbsXFjikCSBOfqpFsc86Qe1JM8
- N5KQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxGrw-0006WA-0r
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 18:06:01 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id q16so18482070pgq.10
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 15:05:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=x7FoNi4DB0uixUZVAQMbHKIUpSxANJ6tl1BJWHFJP2w=;
+ b=MNQzVgWDQDO+adiLK4rGNtBDgRSC9TqWbFdDvPs7677r72k+6Apisq4+9XMARxbFkI
+ NtKKEKnlDzugsvyvSc8rhUa64YdK7u71sQ24r2vTZc/RVGnRgVkXb5lIRvr8Ymf1oTZm
+ CyEyCLMOEaGbFtTycjhtYa+wlK1dLZnoBnfidh7Qvl9jOWyjD9SjdKCm7qslP89r5nfv
+ ojol+ow5hkdIZbDGds2gytTlGwmqSMqlqGZjx5tuploxIpCrBtIFvc3Stj0E0WrY+QDn
+ jKDr2tWtu/dqzugu1ikVmPNAg6Z5yIPMRXpYz9e2DXbnv8oVFucF24zep7t4eowfuZfF
+ px/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=o+ITWRUmIHQWVBRxImwEIdNh8qETyqn/2WsI66fHIu4=;
- b=75uyWARVJ7gwUdCumXX3e6c+3GH+96PmfJHCV/yvLH7vPjZy9OCbFzJt9KX14XOj51
- RuJJRrerWB2sVQSBKPcz7LDQBSr/JIHs389NdMe/Cdn9ILbxOIwYXn4hXYZyRXvCKLwo
- JqJ2W28aIzlDQDA7R7b8JsaLkS3AurBpXTrWDeVU44WqZFf9D1Du5DxinsXqX3j8ZyKl
- 7iiZNfabjY1FmKRA9Y3OkE6uAgPBqziQeUCW4PVD3jRYZk6d8s6LWgRfE1KgQxZ1goAv
- Mn0Ev2diWxgn7EEG2ysvsxB3J7GHvOoi7gJ1XMUGo7NaVUO3ief/hQl3oKSEbqWa+AuQ
- CNpg==
-X-Gm-Message-State: AOAM530Dbj6cMh/zM9RUX7WFtxo3UzvRewoTOLUhPu+dpbMtjwD7Cvtn
- JZvIpkyX6+EOjoXl0LM4EUZ2Ij/5z2+Xv8RTnOQ=
-X-Google-Smtp-Source: ABdhPJxeB/G5R2aLbzwglPWe7iRb/srbcwhkfOpfML6VnCA2BXFJkc96b9kGQeqr3NHhpP66RGFi58oCPOZsLDjXwUo=
-X-Received: by 2002:a05:6638:6a8:: with SMTP id
- d8mr4347912jad.672.1639523131571; 
- Tue, 14 Dec 2021 15:05:31 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=x7FoNi4DB0uixUZVAQMbHKIUpSxANJ6tl1BJWHFJP2w=;
+ b=kGB84aZdVHj9iTUhgBfdbOLjiWJZMT6SCJv1EJPB11aDErsuNGl0gvSRqsenl1svZm
+ FkWbCWXDJiAHm6LkOHz10phkTAVJ/leCp1NilmXXJFyvO7EwokRgOuaLeISAyR1wEqUY
+ GooyBAeXi1vbxEn8H8Sj/pt9hufDRn4SkPVMe48goBZ3CH00D0IL8OrwoShoPZmQ6iPj
+ KV/B6ZbJ/LD9CPkk7Jdt6VVx3MQS2Owi8fTyhcSctsDT5+kc1dXIuCxDyEQI8RXv+fze
+ HYnD/Pro6vVqd17mwD5cRnhmPVJeO27cx+lfSs3ugp8ZpKpFeVtirgUfZCFrh+o+lJ+W
+ UOwg==
+X-Gm-Message-State: AOAM532gPaYLIY99OeYLu8pYhh0tcngng8l6PpUMSxXE34VRVbfYoYkY
+ JEatP4CyNGUKwR4Bb2b9J73YCA==
+X-Google-Smtp-Source: ABdhPJwiDV8L/tRrJB+36B+Im3O4IEXjQxKIRNtogwK2acTOkoy6DwhIYDqsz7sd+H4BD0wtK3Uajg==
+X-Received: by 2002:a05:6a00:b49:b0:49f:cc01:10ff with SMTP id
+ p9-20020a056a000b4900b0049fcc0110ffmr6460403pfo.42.1639523158393; 
+ Tue, 14 Dec 2021 15:05:58 -0800 (PST)
+Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id om5sm53931pjb.5.2021.12.14.15.05.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Dec 2021 15:05:57 -0800 (PST)
+Subject: Re: [PATCH v7 04/15] linux-user/host/sparc64: Add safe-syscall.inc.S
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20211214002604.161983-1-richard.henderson@linaro.org>
+ <20211214002604.161983-5-richard.henderson@linaro.org>
+ <affabe18-4ef4-90ee-a2d3-2ad970d076cc@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ef036613-424a-8a78-787a-8abc4d2020a3@linaro.org>
+Date: Tue, 14 Dec 2021 15:05:56 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211210074329.5775-1-frank.chang@sifive.com>
-In-Reply-To: <20211210074329.5775-1-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 15 Dec 2021 09:05:05 +1000
-Message-ID: <CAKmqyKN5VFD9aaTTAQA15c-0yjKvk9-Ekpo9M8Fz_PWMv8WR2Q@mail.gmail.com>
-Subject: Re: [PATCH v6 0/8] target/riscv: support Zfh, Zfhmin extension v0.1
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d33
+In-Reply-To: <affabe18-4ef4-90ee-a2d3-2ad970d076cc@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.962,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -79,90 +93,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: git@xen0n.name, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 10, 2021 at 5:44 PM <frank.chang@sifive.com> wrote:
->
-> From: Frank Chang <frank.chang@sifive.com>
->
-> Zfh - Half width floating point
-> Zfhmin - Subset of half width floating point
->
-> Zfh, Zfhmin v0.1 is now in public review period and is required by
-> RVV extension:
-> https://groups.google.com/a/groups.riscv.org/g/isa-dev/c/63gDCinXTwE/m/871Wm9XIBQAJ
->
-> Zfh, Zfhmin can be enabled with -cpu option: Zfh=true and Zfhmin=true
-> respectively.
->
-> The port is available at:
-> https://github.com/sifive/qemu/tree/zfh-upstream-v6
->
-> Note: This patchset depends on another patchset listed in Based-on
->       section below so it is not able to be built unless the patchset
->       is applied.
->
-> Changelog:
->
-> v6:
->   * Rebase on riscv-to-apply.next.
->
-> v5:
->   * Rebase on riscv-to-apply.next.
->
-> v4:
->   * Spilt Zfh, Zfhmin cpu properties related changes into individual
->     patches.
->
-> v3:
->   * Use the renamed softfloat min/max APIs: *_minimum_number()
->     and *_maximum_number().
->   * Pick softfloat min/max APIs based on CPU privilege spec version.
->   * Add braces for if statements in REQUIRE_ZFH() and
->     REQUIRE_ZFH_OR_ZFHMIN().
->   * Rearrange the positions of Zfh and Zfhmin cpu properties.
->
-> v2:
->   * Use {get,dest}_gpr APIs.
->   * Add Zfhmin extension.
->
-> Based-on: <20211021160847.2748577-1-frank.chang@sifive.com>
->
-> Frank Chang (3):
->   target/riscv: zfh: add Zfh cpu property
->   target/riscv: zfh: implement zfhmin extension
->   target/riscv: zfh: add Zfhmin cpu property
->
-> Kito Cheng (5):
->   target/riscv: zfh: half-precision load and store
->   target/riscv: zfh: half-precision computational
->   target/riscv: zfh: half-precision convert and move
->   target/riscv: zfh: half-precision floating-point compare
->   target/riscv: zfh: half-precision floating-point classify
->
->  target/riscv/cpu.c                        |   2 +
->  target/riscv/cpu.h                        |   2 +
->  target/riscv/fpu_helper.c                 | 180 ++++++++
->  target/riscv/helper.h                     |  29 ++
->  target/riscv/insn32.decode                |  38 ++
->  target/riscv/insn_trans/trans_rvzfh.c.inc | 537 ++++++++++++++++++++++
->  target/riscv/internals.h                  |  16 +
->  target/riscv/translate.c                  |  20 +
->  8 files changed, 824 insertions(+)
->  create mode 100644 target/riscv/insn_trans/trans_rvzfh.c.inc
+On 12/14/21 7:30 AM, Philippe Mathieu-Daudé wrote:
+> Hi Richard,
+> 
+> On 12/14/21 01:25, Richard Henderson wrote:
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   linux-user/host/sparc64/hostdep.h          |  3 +
+>>   linux-user/host/sparc64/safe-syscall.inc.S | 89 ++++++++++++++++++++++
+>>   2 files changed, 92 insertions(+)
+>>   create mode 100644 linux-user/host/sparc64/safe-syscall.inc.S
+> 
+>> diff --git a/linux-user/host/sparc64/safe-syscall.inc.S b/linux-user/host/sparc64/safe-syscall.inc.S
+>> new file mode 100644
+>> index 0000000000..bb35c64cfc
+>> --- /dev/null
+>> +++ b/linux-user/host/sparc64/safe-syscall.inc.S
+>> @@ -0,0 +1,89 @@
+>> +/*
+>> + * safe-syscall.inc.S : host-specific assembly fragment
+>> + * to handle signals occurring at the same time as system calls.
+>> + * This is intended to be included by linux-user/safe-syscall.S
+>> + *
+>> + * Written by Richard Henderson <richard.henderson@linaro.org>
+>> + * Copyright (C) 2021 Red Hat, Inc.
+> 
+> Are you sure this is the correct (c)?
 
-Thanks!
+Hah.  What a cut-n-paste.
 
-Applied to riscv-to-apply.next
 
-Alistair
-
->
-> --
-> 2.31.1
->
->
+r~
 
