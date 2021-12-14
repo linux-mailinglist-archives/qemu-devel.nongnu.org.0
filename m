@@ -2,85 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC0E47434E
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 14:20:44 +0100 (CET)
-Received: from localhost ([::1]:37830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4260474357
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 14:23:38 +0100 (CET)
+Received: from localhost ([::1]:37576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx7jV-0004BJ-6F
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 08:20:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49524)
+	id 1mx7mA-00041i-6Z
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 08:23:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mx7ad-0005iF-Mv
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:11:35 -0500
-Received: from [2a00:1450:4864:20::434] (port=47008
- helo=mail-wr1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mx7aZ-0000m7-VT
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:11:30 -0500
-Received: by mail-wr1-x434.google.com with SMTP id i22so2503456wrb.13
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 05:10:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ytBG49JiKMqHQmI2s2wW7QYcTpq+jVlO+Y3WlmOmYWc=;
- b=oOn2vnXXRnX+1Z642lqlN7FP0S6ucWFuyP7bujjrqGyN4uCxQcCy0O/HwSgYJfQMaG
- ZGQoxi5TiW3tMLQ2fO62Q41SkYnHdPBBy3lJLXGszBgFAo+wgLVapVS7qJJl2wrzIoqT
- rEByirtvLKr4l4d7RFzdPSZ5QI01a6Fr3x+wW9CiCeqr4chPXWEp4IXrFX3eCtX3WYOm
- gGHBlYjJGD3OI4t2f0VqaZybVusg+F3z3i25lwfZmQvFM0Gix222oc+fhSA3U1oqVvq8
- AedlZpxEGmdKwkqqmTx9Ab9qFbnxskRniYWpYqSREJ9w5ZlcUXdkLNXI7CPqAqRD9OxP
- 9A/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ytBG49JiKMqHQmI2s2wW7QYcTpq+jVlO+Y3WlmOmYWc=;
- b=iCjjnW7B7VHbY0Zzt8j9S8b8fvgGKyA+72CexwesvBuTSWcuTTdw15r6CiD0l9tYcm
- xyTwaSSNNsuphZA0KTymVcIFe4UVaDVPpL0J/B6wK6Zpz2+Rglv4R53eFzbxzhsrxI2l
- /qUa2bqnLF7bHqyOrLslmJE0QEm4MP+RATm771/vVHNnmccu0J6rx9nblzZZAKhq+6/S
- i1dCPpuHzhbjrT/KsubhcWnvuEMDiqjWSeI9kmCaMfl+J0sK17uhvAuEolPOuAgbE6nE
- ym+2qnQLQgKhLx1TuV4VocaxV+8+HeUFo2kbAQ82ogojO83gZ+FU9KprqC/t35WLh7QE
- UUbg==
-X-Gm-Message-State: AOAM533yzfITFoofiCBbEK2BBi1sZGHvioGE8hgQlnirKd1CFHCEQKqu
- Bn7S5WkzH86/0nTjrD0jGRs=
-X-Google-Smtp-Source: ABdhPJzRgxBKOrm3R+dxQvbBh+ZARsQVMC1bmHAH1CS4i0gTitmH9B7/PqsF160M7UChAZ9WB5WOEw==
-X-Received: by 2002:adf:d1c2:: with SMTP id b2mr5791270wrd.369.1639487457531; 
- Tue, 14 Dec 2021 05:10:57 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id u2sm16175047wrs.17.2021.12.14.05.10.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Dec 2021 05:10:56 -0800 (PST)
-Message-ID: <eb81896d-809e-2dbc-0680-adf6c87e1e99@amsat.org>
-Date: Tue, 14 Dec 2021 14:10:55 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v7 10/15] bsd-user: Create special-errno.h
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211214002604.161983-1-richard.henderson@linaro.org>
- <20211214002604.161983-11-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211214002604.161983-11-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.962,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
+ id 1mx7ab-0005eg-OP
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:11:29 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:50326)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
+ id 1mx7aS-0000nd-Tb
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:11:29 -0500
+Received: from smtpclient.apple (lfbn-bor-1-1317-97.w193-250.abo.wanadoo.fr
+ [193.250.130.97])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id D0AE220785;
+ Tue, 14 Dec 2021 13:11:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1639487472;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ghlbzRGcpyMKqx499pnaNzSNywPDXcRbmfQ8XkWvkSI=;
+ b=xGzxuGZMbjqPxGrLgvBw/azMpiVf+sUTJHnxwmnO5PQF0Qn5nOw5wYONEARfl3pxNAWZl+
+ qLlMgI6cI1PQwcjXmqXgENu2QQotNbnskwatD9qQwxIxiJrgp2rpvgUqZkDI+Qo9aFbh7N
+ koDigaT+PvipM4zSr1A4ZClTsFDsF/A=
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.20.0.1.32\))
+Subject: Re: Redesign of QEMU startup & initial configuration
+From: Mark Burton <mark.burton@greensocs.com>
+In-Reply-To: <YbiWh8nQDWpMegER@redhat.com>
+Date: Tue, 14 Dec 2021 14:11:11 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <4AED38B2-E2DD-46F7-93AA-622D5F6BB570@greensocs.com>
+References: <87lf13cx3x.fsf@dusky.pond.sub.org> <YbJU5vVdesoGuug9@redhat.com>
+ <fb7e946e-6881-0ea3-d824-99693f938165@redhat.com>
+ <87czm47a77.fsf@dusky.pond.sub.org> <YbN0zLsDVr3B/s3+@redhat.com>
+ <87ilvszg52.fsf@dusky.pond.sub.org>
+ <edbfff5c-65df-980c-acee-05055c254636@redhat.com>
+ <YbeJ/zTV/n+l2CmH@redhat.com>
+ <9AF99888-A4BF-4459-92C1-71E5B76A2C79@greensocs.com>
+ <YbiWh8nQDWpMegER@redhat.com>
+To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
+X-Mailer: Apple Mail (2.3693.20.0.1.32)
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=mark.burton@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,21 +72,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: git@xen0n.name, laurent@vivier.eu, Warner Losh <imp@bsdimp.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/14/21 01:25, Richard Henderson wrote:
-> Pull the internal errno used by qemu internally its own
-> header file, for use by safe-syscall.S.
-> 
-> Reviewed-by: Warner Losh <imp@bsdimp.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  bsd-user/errno_defs.h    |  6 +++++-
->  bsd-user/special-errno.h | 24 ++++++++++++++++++++++++
->  2 files changed, 29 insertions(+), 1 deletion(-)
->  create mode 100644 bsd-user/special-errno.h
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> On 14 Dec 2021, at 14:05, Daniel P. Berrang=C3=A9 =
+<berrange@redhat.com> wrote:
+>=20
+> On Mon, Dec 13, 2021 at 09:22:14PM +0100, Mark Burton wrote:
+>>=20
+>>=20
+>>> On 13 Dec 2021, at 18:59, Daniel P. Berrang=C3=A9 =
+<berrange@redhat.com> wrote:
+>>>=20
+>>> =E2=80=A6. we no longer have to solve everything
+>>> Ourselves.=20
+>>=20
+>> I support this sentiment.
+>>=20
+>> Lets re-factor the code so people can build what they need using an =
+API.
+>> Actually, =E2=80=98QEMU=E2=80=99 only need support the existing CLI, =
+and provide a suitable internal API.
+>> If that API was relatively stable, that would help those (few) who =
+maintain a different startup mechanism (but its only a =E2=80=99nice to =
+have=E2=80=99). (Making that convenient, as Paolo has show, would also =
+be =E2=80=99nice to have=E2=80=99).
+>=20
+> To be clear I do strongly believe that the QEMU project needs
+> to deliver the higher level simplified interface too. I just
+> want that higher level interface to be flexible enough to
+> let end users expand on what it offers, without having to
+> write C code nor having to switch entirely to the low level
+> interface like we do today.
+>=20
+> IOW, QEMU needs to deliver more than just a low level building
+> block API.
+
+Why?
+Clearly it would be nice if =E2=80=9Chigher level=E2=80=9D interfaceS =
+existed in the world. Clearly QEMU could provide one, two, or many. But, =
+why do you think QEMU =E2=80=98must=E2=80=99 provide them?
+
+Cheers
+Mark.
+
+
+>=20
+> Regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    =
+https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            =
+https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    =
+https://www.instagram.com/dberrange :|
+>=20
+
 
