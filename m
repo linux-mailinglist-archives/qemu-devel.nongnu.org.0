@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C29947394B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 01:07:02 +0100 (CET)
-Received: from localhost ([::1]:50548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3EE9473971
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 01:16:48 +0100 (CET)
+Received: from localhost ([::1]:53122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwvLR-0004Ln-9P
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 19:07:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41876)
+	id 1mwvUt-0006YM-CX
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 19:16:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mwvJs-0003Y4-5J
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:05:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37136)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mwvTa-0005ly-Oo
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:15:26 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:4116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mwvJg-00039S-Gq
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:05:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639440311;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MbQT7lzowfn2VR8PkVYjciEiI38MrAipDY0DcsRXdV0=;
- b=UjKwB8zwnpCWBZCD76nXWDyRntvAuvNBtS5fBMW9L2Qca6+gxIJTRTU8nnRt6X8qnpLUn9
- 3Tl98K9IOgjv7Jf4E/5FbVdEB+OhuRRpLZyhXBcfK9HK0tIFiC+Hi0ML741jbZosCQHyF+
- GRAMtlJPlTuTgvidG7Ci1kK9SQ5JdRk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-107-j1UYsiv0NzurrU6PAqBlLQ-1; Mon, 13 Dec 2021 19:05:09 -0500
-X-MC-Unique: j1UYsiv0NzurrU6PAqBlLQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- l4-20020a05600c1d0400b00332f47a0fa3so7144586wms.8
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 16:05:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=MbQT7lzowfn2VR8PkVYjciEiI38MrAipDY0DcsRXdV0=;
- b=ReL4Ox9GWPwTRTRkc03YOTdMet5BAfdVr3v9igye2bLhtRCY0HeLaBDI0E8J/5qf9K
- WYwClh5xM8GLS4IvqebWt3/IgPnvkOq0F9TDCnXrosDtSveAxCX6+saNuQuRG6qBoabO
- q/xXMdjp8mJyusxU+Ruvs5chkv8VXBbYI2S+p/VHTdcWxOrReQCzVbGCs9Qsl0EbctfH
- FadvdaYyx7nx/ljiEvY+0fiJrxumddsBRBQc03IuVwNOTW+wWxXGeQiYfbn1Up2JO4F+
- neHpd51r8DZWuDP7bo4Ct21NZY2ldt25fRB3OoXmNCruLZ99c98+zS5rZ+M7URv8Rdff
- a+gw==
-X-Gm-Message-State: AOAM5304gHWz0H+xBttCe2cc0SQxQ0MvPfyqXRfoUgI01SJluYi2v1L9
- 6mVDd3ZwxZo75tGL+FX6TQbwus9ne4ts6Rb9rlMROl1gn0H3cFIpbuZ82ohL4xW6b2ZNkbVcqDz
- G5x83KKJGPP3PXGA=
-X-Received: by 2002:adf:bc89:: with SMTP id g9mr1795930wrh.578.1639440308612; 
- Mon, 13 Dec 2021 16:05:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwyAg5i6CXjQtdyEuxJ0d3W50OWVTCZVk1fnPOSI67aKsaT8u9+X2bz5I2M+raJHkvtn1+WHQ==
-X-Received: by 2002:adf:bc89:: with SMTP id g9mr1795887wrh.578.1639440308337; 
- Mon, 13 Dec 2021 16:05:08 -0800 (PST)
-Received: from redhat.com ([2a03:c5c0:207d:b931:2ce5:ef76:2d17:5466])
- by smtp.gmail.com with ESMTPSA id v8sm9093960wrc.114.2021.12.13.16.05.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Dec 2021 16:05:06 -0800 (PST)
-Date: Mon, 13 Dec 2021 19:05:02 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH v10 06/10] ACPI ERST: build the ACPI ERST table
-Message-ID: <20211213185833-mutt-send-email-mst@kernel.org>
-References: <1639072655-19271-1-git-send-email-eric.devolder@oracle.com>
- <1639072655-19271-7-git-send-email-eric.devolder@oracle.com>
- <20211212173145-mutt-send-email-mst@kernel.org>
- <21c92605-8039-974b-7f62-fb1d22e4a206@oracle.com>
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mwvTX-0004GW-D9
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:15:26 -0500
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JCf534b4Tz94W3;
+ Tue, 14 Dec 2021 08:14:31 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 14 Dec 2021 08:15:14 +0800
+Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
+ dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 14 Dec 2021 08:15:14 +0800
+Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
+ dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.020;
+ Tue, 14 Dec 2021 08:15:14 +0800
+To: Jason Wang <jasowang@redhat.com>
+CC: mst <mst@redhat.com>, Parav Pandit <parav@nvidia.com>, Yongji Xie
+ <xieyongji@bytedance.com>, Stefan Hajnoczi <stefanha@redhat.com>, "Stefano
+ Garzarella" <sgarzare@redhat.com>, Yechuan <yechuan@huawei.com>, "Gonglei
+ (Arei)" <arei.gonglei@huawei.com>, qemu-devel <qemu-devel@nongnu.org>
+Subject: RE: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
+Thread-Topic: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
+Thread-Index: AQHX6/NI4OLDAFxcVEG4PKqEpvh1aqwnmzgAgAUiWVCAAoXvgIAB4waw
+Date: Tue, 14 Dec 2021 00:15:14 +0000
+Message-ID: <84b5651cdb15476ea458ad53fe8a6535@huawei.com>
+References: <20211208052010.1719-1-longpeng2@huawei.com>
+ <CACGkMEvW0W-mMU159bUyDo2jK03FYQEn3ZedbC9vaEvDj2v7KQ@mail.gmail.com>
+ <293da14ee62f4cfca9a6cec73083e154@huawei.com>
+ <CACGkMEsRzREaawCA9CWc7D9DV3S9CqDmrQhru_1d2bUduvALPQ@mail.gmail.com>
+In-Reply-To: <CACGkMEsRzREaawCA9CWc7D9DV3S9CqDmrQhru_1d2bUduvALPQ@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.148.223]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <21c92605-8039-974b-7f62-fb1d22e4a206@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.713,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
+ helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,336 +77,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, ani@anisinha.ca,
- imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+From: longpeng2--- via <qemu-devel@nongnu.org>
 
-On Mon, Dec 13, 2021 at 04:02:26PM -0600, Eric DeVolder wrote:
-> Michael,
-> Thanks for reviewing! Inline responses below.
-> eric
-> 
-> On 12/12/21 16:56, Michael S. Tsirkin wrote:
-> > On Thu, Dec 09, 2021 at 12:57:31PM -0500, Eric DeVolder wrote:
-> > > This builds the ACPI ERST table to inform OSPM how to communicate
-> > > with the acpi-erst device.
-> > > 
-> > > Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> > > ---
-> > >   hw/acpi/erst.c | 241 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> > >   1 file changed, 241 insertions(+)
-> > > 
-> > > diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
-> > > index 81f5435..753425a 100644
-> > > --- a/hw/acpi/erst.c
-> > > +++ b/hw/acpi/erst.c
-> > > @@ -711,6 +711,247 @@ static const MemoryRegionOps erst_reg_ops = {
-> > >       .endianness = DEVICE_NATIVE_ENDIAN,
-> > >   };
-> > > +
-> > > +/*******************************************************************/
-> > > +/*******************************************************************/
-> > > +
-> > > +/* ACPI 4.0: Table 17-19 Serialization Instructions */
-> > > +#define INST_READ_REGISTER                 0x00
-> > > +#define INST_READ_REGISTER_VALUE           0x01
-> > > +#define INST_WRITE_REGISTER                0x02
-> > > +#define INST_WRITE_REGISTER_VALUE          0x03
-> > > +#define INST_NOOP                          0x04
-> > > +#define INST_LOAD_VAR1                     0x05
-> > > +#define INST_LOAD_VAR2                     0x06
-> > > +#define INST_STORE_VAR1                    0x07
-> > > +#define INST_ADD                           0x08
-> > > +#define INST_SUBTRACT                      0x09
-> > > +#define INST_ADD_VALUE                     0x0A
-> > > +#define INST_SUBTRACT_VALUE                0x0B
-> > > +#define INST_STALL                         0x0C
-> > > +#define INST_STALL_WHILE_TRUE              0x0D
-> > > +#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
-> > > +#define INST_GOTO                          0x0F
-> > > +#define INST_SET_SRC_ADDRESS_BASE          0x10
-> > > +#define INST_SET_DST_ADDRESS_BASE          0x11
-> > > +#define INST_MOVE_DATA                     0x12
-> > > +
-> > 
-> > I would create wrappers for the specific uses that we do have. Leave the
-> > rest alone.
-> > You just use 4 of these right? And a bunch of parameters are
-> > always the same. E.g. flags always 0, address always same.
-> 
-> If I understand correctly, I think you are suggesting making wrappers for
-> the 4 in use (ie WRITE, WRITE_VALUE, READ, READ_VALUE). in an effort to
-> simplify/hide the underlying call to
-> build_serialization_instruction_entry(). OK, I'll do that.
-> 
-> > 
-> > > +/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
-> > > +static void build_serialization_instruction_entry(GArray *table_data,
-> > > +    uint8_t serialization_action,
-> > > +    uint8_t instruction,
-> > > +    uint8_t flags,
-> > > +    uint8_t register_bit_width,
-> > 
-> > maybe make it width in bytes, then you do not need a switch.
-> 
-> I can make it bytes, but the switch is still needed as the corresponding
-> field is an encoding (ie 1,2,3,4 vs 1, 2, 4, 8).
-
-So it's ffs basically?
-
-> > 
-> > > +    uint64_t register_address,
-> > > +    uint64_t value,
-> > > +    uint64_t mask)
-> > > +{
-> > > +    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
-> > > +    struct AcpiGenericAddress gas;
-> > > +
-> > > +    /* Serialization Action */
-> > > +    build_append_int_noprefix(table_data, serialization_action, 1);
-> > > +    /* Instruction */
-> > > +    build_append_int_noprefix(table_data, instruction         , 1);
-> > > +    /* Flags */
-> > > +    build_append_int_noprefix(table_data, flags               , 1);
-> > > +    /* Reserved */
-> > > +    build_append_int_noprefix(table_data, 0                   , 1);
-> > > +    /* Register Region */
-> > > +    gas.space_id = AML_SYSTEM_MEMORY;
-> > > +    gas.bit_width = register_bit_width;
-> > > +    gas.bit_offset = 0;
-> > > +    switch (register_bit_width) {
-> > > +    case 8:
-> > > +        gas.access_width = 1;
-> > > +        break;
-> > > +    case 16:
-> > > +        gas.access_width = 2;
-> > > +        break;
-> > > +    case 32:
-> > > +        gas.access_width = 3;
-> > > +        break;
-> > > +    case 64:
-> > > +        gas.access_width = 4;
-> > > +        break;
-> > > +    default:
-> > > +        gas.access_width = 0;
-> > > +        break;
-> > 
-> > does this default actually work?
-> I actually have no idea. But given that this is driven by code in this file,
-> I'll set an assert there instead; this should never happen.
-> 
-> > 
-> > > +    }
-> > > +    gas.address = register_address;
-> > > +    build_append_gas_from_struct(table_data, &gas);
-> > > +    /* Value */
-> > > +    build_append_int_noprefix(table_data, value  , 8);
-> > > +    /* Mask */
-> > > +    build_append_int_noprefix(table_data, mask   , 8);
-> > > +}
-> > > +
-> > > +/* ACPI 4.0: 17.4.1 Serialization Action Table */
-> > > +void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
-> > > +    const char *oem_id, const char *oem_table_id)
-> > > +{
-> > > +    GArray *table_instruction_data;
-> > > +    unsigned action;
-> > > +    pcibus_t bar0, bar1;
-> > > +    AcpiTable table = { .sig = "ERST", .rev = 1, .oem_id = oem_id,
-> > > +                        .oem_table_id = oem_table_id };
-> > > +
-> > > +    bar0 = (pcibus_t)pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
-> > > +    trace_acpi_erst_pci_bar_0(bar0);
-> > > +    bar1 = (pcibus_t)pci_get_bar_addr(PCI_DEVICE(erst_dev), 1);
-> > 
-> > why do we need the cast here?
-> > Also assignment at declaration point will be cleaner, won't it?
-> Corrected; cast removed and assigned at declaration.
-> > 
-> > > +    trace_acpi_erst_pci_bar_1(bar1);
-> > 
-> > bar1 seems unused ... why do we bother with it just for trace?
-> Corrected; bar1 not needed.
-> 
-> > 
-> > > +
-> > > +#define MASK8  0x00000000000000FFUL
-> > > +#define MASK16 0x000000000000FFFFUL
-> > > +#define MASK32 0x00000000FFFFFFFFUL
-> > > +#define MASK64 0xFFFFFFFFFFFFFFFFUL
-> > 
-> > 
-> > can't we just pass # of bytes?
-> I could, but then I'd need a switch statement to convert to one of these
-> masks. The full mask is embedded in the generic address structure.
-> 
-> Perhaps in the wrapper I can use width in bytes and the switch statement can
-> producing the encoding and the mask...
-
-we don't need a switch, mask is just (1ULL << (bytes * BITS_PER_BYTE - 1) << 1) - 1
-encoding is just ffs(bytes)
-
-
-> > 
-> > > +
-> > > +    /*
-> > > +     * Serialization Action Table
-> > > +     * The serialization action table must be generated first
-> > > +     * so that its size can be known in order to populate the
-> > > +     * Instruction Entry Count field.
-> > > +     */
-> > > +    table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
-> > > +
-> > > +    /* Serialization Instruction Entries */
-> > > +    action = ACTION_BEGIN_WRITE_OPERATION;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +
-> > > +    action = ACTION_BEGIN_READ_OPERATION;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +
-> > > +    action = ACTION_BEGIN_CLEAR_OPERATION;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +
-> > > +    action = ACTION_END_OPERATION;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +
-> > > +    action = ACTION_SET_RECORD_OFFSET;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER      , 0, 32,
-> > > +        bar0 + ERST_VALUE_OFFSET , 0, MASK32);
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +
-> > > +    action = ACTION_EXECUTE_OPERATION;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_VALUE_OFFSET , ERST_EXECUTE_OPERATION_MAGIC, MASK8);
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +
-> > > +    action = ACTION_CHECK_BUSY_STATUS;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_READ_REGISTER_VALUE , 0, 32,
-> > > +        bar0 + ERST_VALUE_OFFSET, 0x01, MASK8);
-> > > +
-> > > +    action = ACTION_GET_COMMAND_STATUS;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_READ_REGISTER       , 0, 32,
-> > > +        bar0 + ERST_VALUE_OFFSET, 0, MASK8);
-> > > +
-> > > +    action = ACTION_GET_RECORD_IDENTIFIER;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_READ_REGISTER       , 0, 64,
-> > > +        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
-> > > +
-> > > +    action = ACTION_SET_RECORD_IDENTIFIER;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER      , 0, 64,
-> > > +        bar0 + ERST_VALUE_OFFSET , 0, MASK64);
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +
-> > > +    action = ACTION_GET_RECORD_COUNT;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_READ_REGISTER       , 0, 32,
-> > > +        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
-> > > +
-> > > +    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +
-> > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_READ_REGISTER       , 0, 64,
-> > > +        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
-> > > +
-> > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_READ_REGISTER       , 0, 64,
-> > > +        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
-> > > +
-> > > +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_READ_REGISTER       , 0, 32,
-> > > +        bar0 + ERST_VALUE_OFFSET, 0, MASK32);
-> > > +
-> > > +    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_WRITE_REGISTER_VALUE, 0, 32,
-> > > +        bar0 + ERST_ACTION_OFFSET, action, MASK8);
-> > > +    build_serialization_instruction_entry(table_instruction_data,
-> > > +        action, INST_READ_REGISTER       , 0, 64,
-> > > +        bar0 + ERST_VALUE_OFFSET, 0, MASK64);
-> > > +
-> > > +    /* Serialization Header */
-> > > +    acpi_table_begin(&table, table_data);
-> > > +
-> > > +    /* Serialization Header Size */
-> > > +    build_append_int_noprefix(table_data, 48, 4);
-> > > +
-> > > +    /* Reserved */
-> > > +    build_append_int_noprefix(table_data,  0, 4);
-> > > +
-> > > +    /*
-> > > +     * Instruction Entry Count
-> > > +     * Each instruction entry is 32 bytes
-> > > +     */
-> > 
-> > assert that it's a multiple of 32 maybe
-> done!
-> 
-> > 
-> > > +    build_append_int_noprefix(table_data,
-> > > +        (table_instruction_data->len / 32), 4);
-> > > +
-> > > +    /* Serialization Instruction Entries */
-> > > +    g_array_append_vals(table_data, table_instruction_data->data,
-> > > +        table_instruction_data->len);
-> > > +    g_array_free(table_instruction_data, TRUE);
-> > > +
-> > > +    acpi_table_end(linker, &table);
-> > > +}
-> > > +
-> > >   /*******************************************************************/
-> > >   /*******************************************************************/
-> > >   static int erst_post_load(void *opaque, int version_id)
-> > > -- 
-> > > 1.8.3.1
-> > 
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSmFzb24gV2FuZyBbbWFp
+bHRvOmphc293YW5nQHJlZGhhdC5jb21dDQo+IFNlbnQ6IE1vbmRheSwgRGVjZW1iZXIgMTMsIDIw
+MjEgMTE6MjMgQU0NCj4gVG86IExvbmdwZW5nIChNaWtlLCBDbG91ZCBJbmZyYXN0cnVjdHVyZSBT
+ZXJ2aWNlIFByb2R1Y3QgRGVwdC4pDQo+IDxsb25ncGVuZzJAaHVhd2VpLmNvbT4NCj4gQ2M6IG1z
+dCA8bXN0QHJlZGhhdC5jb20+OyBQYXJhdiBQYW5kaXQgPHBhcmF2QG52aWRpYS5jb20+OyBZb25n
+amkgWGllDQo+IDx4aWV5b25namlAYnl0ZWRhbmNlLmNvbT47IFN0ZWZhbiBIYWpub2N6aSA8c3Rl
+ZmFuaGFAcmVkaGF0LmNvbT47IFN0ZWZhbm8NCj4gR2FyemFyZWxsYSA8c2dhcnphcmVAcmVkaGF0
+LmNvbT47IFllY2h1YW4gPHllY2h1YW5AaHVhd2VpLmNvbT47IEdvbmdsZWkgKEFyZWkpDQo+IDxh
+cmVpLmdvbmdsZWlAaHVhd2VpLmNvbT47IHFlbXUtZGV2ZWwgPHFlbXUtZGV2ZWxAbm9uZ251Lm9y
+Zz4NCj4gU3ViamVjdDogUmU6IFtSRkNdIHZob3N0LXZkcGEtbmV0OiBhZGQgdmhvc3QtdmRwYS1u
+ZXQgaG9zdCBkZXZpY2Ugc3VwcG9ydA0KPiANCj4gT24gU2F0LCBEZWMgMTEsIDIwMjEgYXQgMToy
+MyBQTSBMb25ncGVuZyAoTWlrZSwgQ2xvdWQgSW5mcmFzdHJ1Y3R1cmUNCj4gU2VydmljZSBQcm9k
+dWN0IERlcHQuKSA8bG9uZ3BlbmcyQGh1YXdlaS5jb20+IHdyb3RlOg0KPiA+DQo+ID4NCj4gPg0K
+PiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206IEphc29uIFdhbmcg
+W21haWx0bzpqYXNvd2FuZ0ByZWRoYXQuY29tXQ0KPiA+ID4gU2VudDogV2VkbmVzZGF5LCBEZWNl
+bWJlciA4LCAyMDIxIDI6MjcgUE0NCj4gPiA+IFRvOiBMb25ncGVuZyAoTWlrZSwgQ2xvdWQgSW5m
+cmFzdHJ1Y3R1cmUgU2VydmljZSBQcm9kdWN0IERlcHQuKQ0KPiA+ID4gPGxvbmdwZW5nMkBodWF3
+ZWkuY29tPg0KPiA+ID4gQ2M6IG1zdCA8bXN0QHJlZGhhdC5jb20+OyBQYXJhdiBQYW5kaXQgPHBh
+cmF2QG52aWRpYS5jb20+OyBZb25namkgWGllDQo+ID4gPiA8eGlleW9uZ2ppQGJ5dGVkYW5jZS5j
+b20+OyBTdGVmYW4gSGFqbm9jemkgPHN0ZWZhbmhhQHJlZGhhdC5jb20+OyBTdGVmYW5vDQo+ID4g
+PiBHYXJ6YXJlbGxhIDxzZ2FyemFyZUByZWRoYXQuY29tPjsgWWVjaHVhbiA8eWVjaHVhbkBodWF3
+ZWkuY29tPjsgR29uZ2xlaQ0KPiAoQXJlaSkNCj4gPiA+IDxhcmVpLmdvbmdsZWlAaHVhd2VpLmNv
+bT47IHFlbXUtZGV2ZWwgPHFlbXUtZGV2ZWxAbm9uZ251Lm9yZz4NCj4gPiA+IFN1YmplY3Q6IFJl
+OiBbUkZDXSB2aG9zdC12ZHBhLW5ldDogYWRkIHZob3N0LXZkcGEtbmV0IGhvc3QgZGV2aWNlIHN1
+cHBvcnQNCj4gPiA+DQo+ID4gPiBPbiBXZWQsIERlYyA4LCAyMDIxIGF0IDE6MjAgUE0gTG9uZ3Bl
+bmcoTWlrZSkgPGxvbmdwZW5nMkBodWF3ZWkuY29tPiB3cm90ZToNCj4gPiA+ID4NCj4gPiA+ID4g
+RnJvbTogTG9uZ3BlbmcgPGxvbmdwZW5nMkBodWF3ZWkuY29tPg0KPiA+ID4gPg0KPiA+ID4gPiBI
+aSBndXlzLA0KPiA+ID4gPg0KPiA+ID4gPiBUaGlzIHBhdGNoIGludHJvZHVjZXMgdmhvc3QtdmRw
+YS1uZXQgZGV2aWNlLCB3aGljaCBpcyBpbnNwaXJlZA0KPiA+ID4gPiBieSB2aG9zdC11c2VyLWJs
+ayBhbmQgdGhlIHByb3Bvc2FsIG9mIHZob3N0LXZkcGEtYmxrIGRldmljZSBbMV0uDQo+ID4gPiA+
+DQo+ID4gPiA+IEkndmUgdGVzdGVkIHRoaXMgcGF0Y2ggb24gSHVhd2VpJ3Mgb2ZmbG9hZCBjYXJk
+Og0KPiA+ID4gPiAuL3g4Nl82NC1zb2Z0bW11L3FlbXUtc3lzdGVtLXg4Nl82NCBcDQo+ID4gPiA+
+ICAgICAtZGV2aWNlIHZob3N0LXZkcGEtbmV0LXBjaSx2ZHBhLWRldj0vZGV2L3Zob3N0LXZkcGEt
+MA0KPiA+ID4gPg0KPiA+ID4gPiBGb3IgdmlydGlvIGhhcmR3YXJlIG9mZmxvYWRpbmcsIHRoZSBt
+b3N0IGltcG9ydGFudCByZXF1aXJlbWVudCBmb3IgdXMNCj4gPiA+ID4gaXMgdG8gc3VwcG9ydCBs
+aXZlIG1pZ3JhdGlvbiBiZXR3ZWVuIG9mZmxvYWRpbmcgY2FyZHMgZnJvbSBkaWZmZXJlbnQNCj4g
+PiA+ID4gdmVuZG9ycywgdGhlIGNvbWJpbmF0aW9uIG9mIG5ldGRldiBhbmQgdmlydGlvLW5ldCBz
+ZWVtcyB0b28gaGVhdnksIHdlDQo+ID4gPiA+IHByZWZlciBhIGxpZ2h0d2VpZ2h0IHdheS4NCj4g
+PiA+DQo+ID4gPiBDb3VsZCB5b3UgZWxhYm9yYXRlIG1vcmUgb24gdGhpcz8gSXQncyBtYWlubHkg
+dGhlIGNvbnRyb2wgcGF0aCB3aGVuDQo+ID4gPiB1c2luZyB3aXRoIG5ldGRldiwgYW5kIGl0IHBy
+b3ZpZGVzIGEgbG90IG9mIG90aGVyIGJlbmVmaXRzOg0KPiA+ID4NCj4gPiA+IC0gZGVjb3VwbGUg
+dGhlIHRyYW5zcG9ydCBzcGVjaWZpYyBzdHVmZiBvdXQgb2YgdGhlIHZob3N0IGFic3RyYWN0aW9u
+LA0KPiA+ID4gbW1pbyBkZXZpY2UgaXMgc3VwcG9ydGVkIHdpdGggMCBsaW5lIG9mIGNvZGUNCj4g
+PiA+IC0gbWlncmF0aW9uIGNvbXBhdGliaWxpdHksIHJldXNlIHRoZSBtaWdyYXRpb24gc3RyZWFt
+IHRoYXQgaXMgYWxyZWFkeQ0KPiA+ID4gc3VwcG9ydGVkIGJ5IFFlbXUgdmlydGlvLW5ldCwgdGhp
+cyB3aWxsIGFsbG93IG1pZ3JhdGlvbiBhbW9uZw0KPiA+ID4gZGlmZmVyZW50IHZob3N0IGJhY2tl
+bmRzLg0KPiA+ID4gLSBzb2Z0d2FyZSBtZWRpYXRpb24gZmFjaWxpdHksIG5vdCBhbGwgdGhlIHZp
+cnRxdWV1ZXMgYXJlIGFzc2lnbmVkIHRvDQo+ID4gPiBndWVzdHMgZGlyZWN0bHkuIE9uZSBleGFt
+cGxlIGlzIHRoZSB2aXJ0aW8tbmV0IGN2cSwgcWVtdSBtYXkgd2FudCB0bw0KPiA+ID4gaW50ZXJj
+ZXB0IGFuZCByZWNvcmQgdGhlIGRldmljZSBzdGF0ZSBmb3IgbWlncmF0aW9uLiBSZXVzaW5nIHRo
+ZQ0KPiA+ID4gY3VycmVudCB2aXJ0aW8tbmV0IGNvZGVzIHNpbXBsaWZpZXMgYSBsb3Qgb2YgY29k
+ZXMuDQo+ID4gPiAtIHRyYW5zcGFyZW50IGZhaWxvdmVyIChpbiB0aGUgZnV0dXJlKSwgdGhlIG5p
+YyBtb2RlbCBjYW4gY2hvb3NlIHRvDQo+ID4gPiBzd2l0Y2ggYmV0d2VlbiB2aG9zdCBiYWNrZW5k
+cyBldGMuDQo+ID4gPg0KPiA+DQo+ID4gV2Ugd2FudCB0byB1c2UgdGhlIHZkcGEgZnJhbWV3b3Jr
+IGluc3RlYWQgb2YgdGhlIHZmaW8tcGNpIGZyYW1ld29yayBpbg0KPiA+IHRoZSB2aXJ0aW8gaGFy
+ZHdhcmUgb2ZmbG9hZGluZyBjYXNlLCBzbyBtYXliZSBzb21lIG9mIHRoZSBiZW5lZml0cyBhYm92
+ZQ0KPiA+IGFyZSBub3QgbmVlZGVkIGluIG91ciBjYXNlLiBCdXQgd2UgbmVlZCB0byBtaWdyYXRl
+IGJldHdlZW4gZGlmZmVyZW50DQo+ID4gaGFyZHdhcmUsIHNvIEkgYW0gbm90IHN1cmUgd2hldGhl
+ciB0aGlzIGFwcHJvYWNoIHdvdWxkIGJlIGhhcm1mdWwgdG8gdGhlDQo+ID4gcmVxdWlyZW1lbnQu
+DQo+IA0KPiBJdCBzaG91bGQgbm90LCBidXQgaXQgbmVlZHMgdG8gYnVpbGQgdGhlIG1pZ3JhdGlv
+biBmYWNpbGl0eSBmb3IgdGhlDQo+IG5ldCBmcm9tIHRoZSBncm91bmQuIEFuZCBpZiB3ZSB3YW50
+IHRvIGhhdmUgYSBnZW5lcmFsIG1pZ3JhdGlvbg0KPiBzb2x1dGlvbiBpbnN0ZWFkIG9mIGEgdmVu
+ZG9yIHNwZWNpZmljIG9uZSwgaXQgbWF5IGR1cGxpY2F0ZSBzb21lIGxvZ2ljDQo+IG9mIGV4aXN0
+aW5nIHZpcnRpby1uZXQgaW1wbGVtZW50YXRpb24uIFRoZSBDVlEgbWlncmF0aW9uIGlzIGFuDQo+
+IGV4YW1wbGUsIHdlIGRvbid0IHByb3ZpZGUgYSBkZWRpY2F0ZWQgbWlncmF0aW9uIGZhY2lsaXR5
+IGluIHRoZSBzcGVjLg0KPiBTbyBhIG1vcmUgZ2VuZXJhbCB3YXkgZm9yIGxpdmUgbWlncmF0aW9u
+IGN1cnJlbnRseSBpcyB1c2luZyB0aGUgc2hhZG93DQo+IHZpcnRxdWV1ZSB3aGljaCBpcyB3aGF0
+IEV1Z2VuaW8gaXMgZG9pbmcuIFNvIHRoYW5rcyB0byB0aGUgZGVzaWduDQo+IHdoZXJlIHdlIHRy
+aWVkIHRvIGRvIGFsbCB0aGUgd29yayBpbiB0aGUgdmhvc3QgbGF5ZXIsIHRoaXMgbWlnaHQgbm90
+DQo+IGJlIGEgcHJvYmxlbSBmb3IgdGhpcyBhcHByb2FjaC4gQnV0IHRhbGtpbmcgYWJvdXQgdGhl
+IENWUSBtaWdyYXRpb24sDQo+IHRoaW5ncyB3aWxsIGJlIGludGVyZXN0aW5nLiBRZW11IG5lZWRz
+IHRvIGRlY29kZSB0aGUgY3ZxIGNvbW1hbmRzIGluDQo+IHRoZSBtaWRkbGUgdGh1cyBpdCBjYW4g
+cmVjb3JkIHRoZSBkZXZpY2Ugc3RhdGUuIEZvciBoYXZpbmcgYSBnZW5lcmFsDQo+IG1pZ3JhdGlv
+biBzb2x1dGlvbiwgdmhvc3QtdmRwYS1wY2kgbmVlZHMgdG8gZG8gdGhpcyBhcyB3ZWxsLg0KPiBW
+aXJ0aW8tbmV0IGhhcyB0aGUgZnVsbCBDVlEgbG9naWMgc28gaXQncyBtdWNoIGVhc2llciwgZm9y
+DQo+IHZob3N0LXZkcGEtcGNpLCBpdCBuZWVkcyB0byBkdXBsaWNhdGUgdGhlbSBhbGwgaW4gaXRz
+IG93biBsb2dpYy4NCj4gDQoNCk9LLCB0aGFua3MgZm9yIHlvdXIgcGF0aWVudCBleHBsYW5hdGlv
+bi4gV2Ugd2lsbCBmb2xsb3cgdXAgdGhlIHByb2dyZXNzDQpvZiBsaXZlIG1pZ3JhdGlvbi4NCg0K
+PiA+DQo+ID4gPiA+DQo+ID4gPiA+IE1heWJlIHdlIGNvdWxkIHN1cHBvcnQgYm90aCBpbiB0aGUg
+ZnV0dXJlID8NCj4gPiA+DQo+ID4gPiBGb3IgdGhlIG5ldCwgd2UgbmVlZCB0byBmaWd1cmUgb3V0
+IHRoZSBhZHZhbnRhZ2VzIG9mIHRoaXMgYXBwcm9hY2gNCj4gPiA+IGZpcnN0LiBOb3RlIHRoYXQg
+d2UgZGlkbid0IGhhdmUgdmhvc3QtdXNlci1uZXQtcGNpIG9yIHZob3N0LXBjaSBpbiB0aGUNCj4g
+PiA+IHBhc3QuDQo+ID4gPg0KPiA+DQo+ID4gV2h5IGRpZG4ndCBzdXBwb3J0IHZob3N0LXVzZXIt
+bmV0LXBjaSBpbiBoaXN0b3J5ID8gQmVjYXVzZSBpdHMgY29udHJvbA0KPiA+IHBhdGggaXMgbXVj
+aCBtb3JlIGNvbXBsZXggdGhhbiB0aGUgYmxvY2sgPw0KPiANCj4gSSBkb24ndCBrbm93LCBpdCBt
+YXkgYmUgc2ltcGx5IGJlY2F1c2Ugbm8gb25lIHRyaWVzIHRvIGRvIHRoYXQuDQo+IA0KPiA+DQo+
+ID4gPiBGb3IgdGhlIGJsb2NrLCBJIHdpbGwgbGVhdmUgU3RlZmFuIGFuZCBTdGVmYW5vIHRvIGNv
+bW1lbnQuDQo+ID4gPg0KPiA+ID4gPiBTdWNoIGFzOg0KPiA+ID4gPg0KPiA+ID4gPiAqIExpZ2h0
+d2VpZ2h0DQo+ID4gPiA+ICBOZXQ6IHZob3N0LXZkcGEtbmV0DQo+ID4gPiA+ICBTdG9yYWdlOiB2
+aG9zdC12ZHBhLWJsaw0KPiA+ID4gPg0KPiA+ID4gPiAqIEhlYXZ5IGJ1dCBtb3JlIHBvd2VyZnVs
+DQo+ID4gPiA+ICBOZXQ6IG5ldGRldiArIHZpcnRpby1uZXQgKyB2aG9zdC12ZHBhDQo+ID4gPiA+
+ICBTdG9yYWdlOiBiZHJ2ICsgdmlydGlvLWJsayArIHZob3N0LXZkcGENCj4gPiA+ID4NCj4gPiA+
+ID4gWzFdIGh0dHBzOi8vd3d3Lm1haWwtYXJjaGl2ZS5jb20vcWVtdS1kZXZlbEBub25nbnUub3Jn
+L21zZzc5NzU2OS5odG1sDQo+ID4gPiA+DQo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IExvbmdwZW5n
+KE1pa2UpIDxsb25ncGVuZzJAaHVhd2VpLmNvbT4NCj4gPiA+ID4gLS0tDQo+ID4gPiA+ICBody9u
+ZXQvbWVzb24uYnVpbGQgICAgICAgICAgICAgICAgIHwgICAxICsNCj4gPiA+ID4gIGh3L25ldC92
+aG9zdC12ZHBhLW5ldC5jICAgICAgICAgICAgfCAzMzgNCj4gPiA+ICsrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysNCj4gPiA+ID4gIGh3L3ZpcnRpby9LY29uZmlnICAgICAgICAg
+ICAgICAgICAgfCAgIDUgKw0KPiA+ID4gPiAgaHcvdmlydGlvL21lc29uLmJ1aWxkICAgICAgICAg
+ICAgICB8ICAgMSArDQo+ID4gPiA+ICBody92aXJ0aW8vdmhvc3QtdmRwYS1uZXQtcGNpLmMgICAg
+IHwgMTE4ICsrKysrKysrKysrKysNCj4gPiA+DQo+ID4gPiBJJ2QgZXhwZWN0IHRoZXJlJ3Mgbm8g
+ZGV2aWNlIHR5cGUgc3BlY2lmaWMgY29kZSBpbiB0aGlzIGFwcHJvYWNoIGFuZA0KPiA+ID4gYW55
+IGtpbmQgb2YgdkRQQSBkZXZpY2VzIGNvdWxkIGJlIHVzZWQgd2l0aCBhIGdlbmVyYWwgcGNpIGRl
+dmljZS4NCj4gPiA+DQo+ID4gPiBBbnkgcmVhc29uIGZvciBoYXZpbmcgbmV0IHNwZWNpZmljIHR5
+cGVzIGhlcmU/DQo+ID4gPg0KPiA+DQo+ID4gTm8sIGp1c3QgYmVjYXVzZSB0aGVyZSBhbHJlYWR5
+IGhhcyB0aGUgcHJvcG9zYWwgb2Ygdmhvc3QtdmRwYS1ibGssIHNvIEkNCj4gPiBkZXZlbG9wZWQg
+dGhlIHZob3N0LXZkcGEtbmV0IGNvcnJlc3BvbmRpbmdseS4NCj4gPg0KPiA+IEkgcHJldHR5IGFn
+cmVlIHdpdGggeW91ciBzdWdnZXN0aW9uLiBJZiBmZWFzaWJsZSwgbGlrZXMgdmZpby1wY2ksIHdl
+IGRvbid0DQo+ID4gbmVlZCB0byBtYWludGFpbiB0aGUgZGV2aWNlIHR5cGUgc3BlY2lmaWMgY29k
+ZSBpbiBRRU1VLCB3aGF0J3MgbW9yZSwgaXQncw0KPiA+IHBvc3NpYmxlIHRvIHN1cHBvcnQgdGhl
+IGxpdmUgbWlncmF0aW9uIG9mIGRpZmZlcmVudCB2aXJ0aW8gaGFyZHdhcmUuDQo+ID4NCj4gDQo+
+IFNlZSBhYm92ZSwgd2UgcHJvYmFibHkgbmVlZCB0eXBlIHNwZWNpZmljIG1pZ3JhdGlvbiBjb2Rl
+Lg0KPiANCj4gWy4uLl0NCj4gDQo+IFRoYW5rcw0KDQo=
 
