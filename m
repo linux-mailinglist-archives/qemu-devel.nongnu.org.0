@@ -2,65 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7568347403B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 11:17:30 +0100 (CET)
-Received: from localhost ([::1]:33794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55BD347404A
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 11:20:26 +0100 (CET)
+Received: from localhost ([::1]:37586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx4sD-00030w-7U
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 05:17:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40406)
+	id 1mx4v3-0005dO-D2
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 05:20:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arei.gonglei@huawei.com>)
- id 1mx4qi-0001Z0-NL
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 05:15:56 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:4117)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mx4tF-0004nw-IQ
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 05:18:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arei.gonglei@huawei.com>)
- id 1mx4qe-0001Ho-TT
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 05:15:56 -0500
-Received: from canpemm100006.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JCvPw35FHz5pVP;
- Tue, 14 Dec 2021 18:15:00 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- canpemm100006.china.huawei.com (7.192.104.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 14 Dec 2021 18:15:43 +0800
-Received: from dggpemm500006.china.huawei.com ([7.185.36.236]) by
- dggpemm500006.china.huawei.com ([7.185.36.236]) with mapi id 15.01.2308.020;
- Tue, 14 Dec 2021 18:15:43 +0800
-To: =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>,
- =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-CC: Hailiang Zhang <zhanghailiang@xfusion.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "Wencongyang (HongMeng)" <wencongyang2@huawei.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "quintela@redhat.com"
- <quintela@redhat.com>
-Subject: RE: [PATCH v2] MAINTAINERS: Change my email address
-Thread-Topic: [PATCH v2] MAINTAINERS: Change my email address
-Thread-Index: AQHX8MA16JwKyLHRkUGfk5csNZkSBawxK3eAgAAFJICAAIwuEA==
-Date: Tue, 14 Dec 2021 10:15:43 +0000
-Message-ID: <b147182688034454a7179cae9f6481ce@huawei.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mx4tC-0001Wm-7a
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 05:18:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639477108;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/5YfKMTdyjD6T5jzQ2ksQLavM5w0apmY1ui/FghlGUo=;
+ b=dEWu9HyqkMLh9zxBtsB+KmjXhCLJB6/qa29K/titb57NYei874ndROFA4vlXpd1FR6SoQg
+ C9uajb473oy6Vg9appgA5KtnX5428OUmrxdE/JCbJrmoUc8Jv0RMtowaMZc7Nk8aHkJFzJ
+ LHjoEHm6tidtUSTL9llm745KPoDjjiQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-488-_pWjApksPzmBN78uFEQx_Q-1; Tue, 14 Dec 2021 05:18:27 -0500
+X-MC-Unique: _pWjApksPzmBN78uFEQx_Q-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j23-20020a05600c1c1700b0033283ea5facso5484121wms.1
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 02:18:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/5YfKMTdyjD6T5jzQ2ksQLavM5w0apmY1ui/FghlGUo=;
+ b=poiBpXH0RwqBSGPOp9sktx2SS44PCznh/PlkXWs3MAJR6hhuebxQ5e9gV2vYXN/vw2
+ iYICYRK/ZkVYl45B1J4D7jrcPdaClZOXy9qyCB2ht15padxIcIxoF3vH4m2bCtKAeXDY
+ YqgdQfpyUlYkpogyhpM+Z9j6DgwH/kkmyeDZZuGxzv7fAH6eieMZDwfVw4rIuU1WvhcL
+ +Ps/1BEkk7Ss9vwGv7GTnNdzja55PM3NbOdbW3wyePnnS8ww6LEazR5r+7/CyN1HjI7u
+ bPcJSebJH4XsOXyoAyuQ8nCCZVcj4r1+2YU/5aPQ2Z8dCLM9ayXeCdcTBcoZteg7Jg3v
+ Ftnw==
+X-Gm-Message-State: AOAM530dWFt2cjyKCew3HG1TIV50g4xQK6UsFtCL3TQ643DJnbxxrn5i
+ ansMfWFrusdf//Jive2csMNqdpA7aIIMY+omoZNrpNcscYJHhRZOqI0XeK/GYmXnlk01VG7L0MK
+ qY4p/tK2vECOseeA=
+X-Received: by 2002:a1c:a54e:: with SMTP id o75mr5070936wme.121.1639477106659; 
+ Tue, 14 Dec 2021 02:18:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwjcDbUD2YreJO4heUONAfgPMByPsVLv9heqkxXcUFhvH+M8iobf6oQHBMrkqOmulUydHL2vg==
+X-Received: by 2002:a1c:a54e:: with SMTP id o75mr5070900wme.121.1639477106411; 
+ Tue, 14 Dec 2021 02:18:26 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id o4sm507177wmr.22.2021.12.14.02.18.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Dec 2021 02:18:26 -0800 (PST)
+Message-ID: <b96112c8-c279-5cec-8670-25f12b560f5b@redhat.com>
+Date: Tue, 14 Dec 2021 11:18:25 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2] MAINTAINERS: Change my email address
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <20211214075424.6920-1-zhanghailiang@xfusion.com>
  <fc7b5d91-98f6-b146-4a67-5e6800bccadc@redhat.com>
  <YbhiU8ARoS5LcORY@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 In-Reply-To: <YbhiU8ARoS5LcORY@redhat.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.149.11]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=arei.gonglei@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.962, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,43 +100,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Hailiang Zhang <zhanghailiang@xfusion.com>, quintela@redhat.com,
+ Wen Congyang <wencongyang2@huawei.com>, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, Gonglei <arei.gonglei@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Gonglei (Arei)" <arei.gonglei@huawei.com>
-From:  "Gonglei (Arei)" via <qemu-devel@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogRGFuaWVsIFAuIEJlcnJh
-bmfDqSBbbWFpbHRvOmJlcnJhbmdlQHJlZGhhdC5jb21dDQo+IFNlbnQ6IFR1ZXNkYXksIERlY2Vt
-YmVyIDE0LCAyMDIxIDU6MjIgUE0NCj4gVG86IFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGls
-bWRAcmVkaGF0LmNvbT4NCj4gQ2M6IEhhaWxpYW5nIFpoYW5nIDx6aGFuZ2hhaWxpYW5nQHhmdXNp
-b24uY29tPjsNCj4gcWVtdS1kZXZlbEBub25nbnUub3JnOyBHb25nbGVpIChBcmVpKSA8YXJlaS5n
-b25nbGVpQGh1YXdlaS5jb20+Ow0KPiBXZW5jb25neWFuZyAoSG9uZ01lbmcpIDx3ZW5jb25neWFu
-ZzJAaHVhd2VpLmNvbT47DQo+IGRnaWxiZXJ0QHJlZGhhdC5jb207IHF1aW50ZWxhQHJlZGhhdC5j
-b20NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2Ml0gTUFJTlRBSU5FUlM6IENoYW5nZSBteSBlbWFp
-bCBhZGRyZXNzDQo+IA0KPiBPbiBUdWUsIERlYyAxNCwgMjAyMSBhdCAxMDowNDowM0FNICswMTAw
-LCBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqQ0KPiB3cm90ZToNCj4gPiBPbiAxMi8xNC8yMSAwODo1
-NCwgSGFpbGlhbmcgWmhhbmcgd3JvdGU6DQo+ID4gPiBUaGUgemhhbmcuemhhbmdoYWlsaWFuZ0Bo
-dWF3ZWkuY29tIGVtYWlsIGFkZHJlc3MgaGFzIGJlZW4NCj4gc3RvcHBlZC4NCj4gPiA+IENoYW5n
-ZSBpdCB0byBteSBuZXcgZW1haWwgYWRkcmVzcy4NCj4gPiA+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5
-OiBIYWlsaWFuZyBaaGFuZyA8emhhbmdoYWlsaWFuZ0B4ZnVzaW9uLmNvbT4NCj4gPiA+IC0tLQ0K
-PiA+ID4gaGkgSnVhbiAmIERhdmUsDQo+ID4gPg0KPiA+ID4gRmlyc3RseSwgdGhhbmsgeW91IGZv
-ciB5b3VyIHdvcmtpbmcgb24gbWFpbnRhaW5pbmcgdGhlIENPTE8NCj4gZnJhbWV3b3JrLg0KPiA+
-ID4gSSBkaWRuJ3QgaGF2ZSBtdWNoIHRpbWUgb24gaXQgaW4gdGhlIHBhc3QgZGF5cy4NCj4gPiA+
-DQo+ID4gPiBJIG1heSBoYXZlIHNvbWUgdGltZSBpbiB0aGUgbmV4dCBkYXlzIHNpbmNlIG15IGpv
-YiBoYXMgY2hhbmdlZC4NCj4gPiA+DQo+ID4gPiBCZWNhdXNlIG9mIG15IG9sZCBlbWFpbCBiZWlu
-ZyBzdG9wcGVkLCBpIGNhbiBub3QgdXNlIGl0IHRvIHNlbmQgdGhpcw0KPiBwYXRjaC4NCj4gPiA+
-IFBsZWFzZSBoZWxwIG1lIHRvIG1lcmdlIHRoaXMgcGF0Y2guDQo+ID4NCj4gPiBDYW4gd2UgaGF2
-ZSBhbiBBY2stYnkgZnJvbSBzb21lb25lIHdvcmtpbmcgYXQgSHVhd2VpPw0KPiANCj4gV2h5IGRv
-IHdlIG5lZWQgdGhhdCA/IFN1YnN5c3RlbXMgYXJlIG5vdCBvd25lZCBieSBjb21wYW5pZXMuDQo+
-IA0KPiBJZiBzb21lb25lIG1vdmVzIGNvbXBhbnkgYW5kIHdhbnRzIHRvIGNhcnJ5IG9uIGluIHRo
-ZWlyIGV4aXN0aW5nIHJvbGUgYXMNCj4gbWFpbnRhaW5lciB0aGF0IGlzIGZpbmUgYW5kIGRvZXNu
-J3QgbmVlZCBhcHByb3ZhIGZyb20gdGhlaXIgb2xkIGNvbXBhbnkNCj4gSU1ITy4NCj4gDQoNCkFn
-cmVlZC4gSSdtIGp1c3QgY29uZmlybWluZyBIYWlMaWFuZydzIGlkZW50aXR5LiANCg0KQWNrZWQt
-Ynk6IEdvbmdsZWkgPGFyZWkuZ29uZ2xlaUBodWF3ZWkuY29tPg0KDQpHb29kIGx1Y2ssIGJyby4g
-QEhhaWxpYW5nDQoNClRoYW5rcywNCi1Hb25nbGVpDQoNCj4gUmVnYXJkcywNCj4gRGFuaWVsDQo+
-IC0tDQo+IHw6IGh0dHBzOi8vYmVycmFuZ2UuY29tICAgICAgLW8tDQo+IGh0dHBzOi8vd3d3LmZs
-aWNrci5jb20vcGhvdG9zL2RiZXJyYW5nZSA6fA0KPiB8OiBodHRwczovL2xpYnZpcnQub3JnICAg
-ICAgICAgLW8tDQo+IGh0dHBzOi8vZnN0b3AxMzguYmVycmFuZ2UuY29tIDp8DQo+IHw6IGh0dHBz
-Oi8vZW50YW5nbGUtcGhvdG8ub3JnICAgIC1vLQ0KPiBodHRwczovL3d3dy5pbnN0YWdyYW0uY29t
-L2RiZXJyYW5nZSA6fA0KDQo=
+On 12/14/21 10:22, Daniel P. Berrangé wrote:
+> On Tue, Dec 14, 2021 at 10:04:03AM +0100, Philippe Mathieu-Daudé wrote:
+>> On 12/14/21 08:54, Hailiang Zhang wrote:
+>>> The zhang.zhanghailiang@huawei.com email address has been
+>>> stopped. Change it to my new email address.
+>>>
+>>> Signed-off-by: Hailiang Zhang <zhanghailiang@xfusion.com>
+>>> ---
+>>> hi Juan & Dave,
+>>>
+>>> Firstly, thank you for your working on maintaining the COLO framework.
+>>> I didn't have much time on it in the past days.
+>>>
+>>> I may have some time in the next days since my job has changed.
+>>>
+>>> Because of my old email being stopped, i can not use it to send this patch.
+>>> Please help me to merge this patch.
+>>
+>> Can we have an Ack-by from someone working at Huawei?
+> 
+> Why do we need that ?
+
+To avoid anyone impersonating Hailiang Zhang...
+
+But it doesn't have to be from the same company, as long
+as someone knowing him vouch the change. Anyhow I am not
+nacking this patch, I am trying to have a safer process.
+
+> Subsystems are not owned by companies.
+> 
+> If someone moves company and wants to carry on in their existing
+> role as maintainer that is fine and doesn't need approva from their
+> old company IMHO.
+
+I agree, this is why it is better to send that kind of change
+from the to-be-stopped email address while it is still valid.
+
+Thanks,
+
+Phil.
+
 
