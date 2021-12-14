@@ -2,62 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1BD47432C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 14:07:48 +0100 (CET)
-Received: from localhost ([::1]:45010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C68A147432B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 14:07:28 +0100 (CET)
+Received: from localhost ([::1]:47336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx7X1-0006Os-K1
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 08:07:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46968)
+	id 1mx7Wh-00081P-Ff
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 08:07:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
- id 1mx7QC-0005M3-ON
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:00:46 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:50202)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mx7TA-0006Sj-Vt
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:03:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
- id 1mx7QA-0007YR-2b
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:00:44 -0500
-Received: from smtpclient.apple (lfbn-bor-1-1317-97.w193-250.abo.wanadoo.fr
- [193.250.130.97])
- by beetle.greensocs.com (Postfix) with ESMTPSA id AB76020785;
- Tue, 14 Dec 2021 13:00:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1639486838;
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mx7T8-00083O-1B
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:03:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639487024;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6NQRIv40ws3lv4s1LEtstO83s36E5dYdogqJcZH0gag=;
- b=oqe8reIhIEa4vRzXFrXilWQe7j12cj0IfQl+9j14XL59ebutznPmBQGjThvhRilNE2D/g8
- qyGrBDKTEo30mc49mYqDdkUE2pg/tBY+ZICOFULOu4dJq4TXEhDco6ETk6+QYHcPUXfome
- GhY9UqkRtCXMCPJNm/tQg37szHTMFWU=
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.20.0.1.32\))
-Subject: Re: Redesign of QEMU startup & initial configuration
-From: Mark Burton <mark.burton@greensocs.com>
-In-Reply-To: <877dc7tnjf.fsf@dusky.pond.sub.org>
-Date: Tue, 14 Dec 2021 14:00:38 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <9A2428AE-9EDC-4E2E-BA1F-07BBCF841DEA@greensocs.com>
-References: <87lf13cx3x.fsf@dusky.pond.sub.org> <YbJU5vVdesoGuug9@redhat.com>
- <87mtl88t0j.fsf@dusky.pond.sub.org>
- <a31201bb-78de-e926-1476-b48b008745c1@redhat.com>
- <878rwozfqm.fsf@dusky.pond.sub.org>
- <16cd5683-4f97-d24c-dd19-24febcab7ba8@redhat.com>
- <877dc7tnjf.fsf@dusky.pond.sub.org>
-To: Markus Armbruster <armbru@redhat.com>
-X-Mailer: Apple Mail (2.3693.20.0.1.32)
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=mark.burton@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ bh=c1wskDCAhHNTkdUHRJPELFs5W5ZAJ5Nv2snoveg/5PA=;
+ b=OV3YCx8fx3Mrct2befce2PHMiMQrToN133iR5fR+Pske5jF0pcezQdd9YNIv1seDHZ90Im
+ R8D7fEnpAwLEZTmFk/04CGyCx2kYaFGiEtJ9fdtuqPtXlI0AATNp9esXRMtWcEzicey2k9
+ NprCAPYiaLK462qViq+eNm3Jv6ZqjpY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-103-3WMXbHB7Nri3VW3r15oZMA-1; Tue, 14 Dec 2021 08:03:41 -0500
+X-MC-Unique: 3WMXbHB7Nri3VW3r15oZMA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 066441019985;
+ Tue, 14 Dec 2021 13:03:40 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A903196F8;
+ Tue, 14 Dec 2021 13:03:39 +0000 (UTC)
+Date: Tue, 14 Dec 2021 13:03:32 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Longpeng (Mike,
+ Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>
+Subject: Re: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
+Message-ID: <YbiWJPC9vFQwBNsl@stefanha-x1.localdomain>
+References: <20211208052010.1719-1-longpeng2@huawei.com>
+ <YbHJivhCDvKo4eB0@stefanha-x1.localdomain>
+ <20211209155522.ysgig3bshwtykoxr@steredhat>
+ <9615545c46e54943b40e730a3535d550@huawei.com>
+ <YbdjvVvR+mo7nGM6@stefanha-x1.localdomain>
+ <bf42a6e1a60747a09b16f0ec085c560e@huawei.com>
+MIME-Version: 1.0
+In-Reply-To: <bf42a6e1a60747a09b16f0ec085c560e@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7IA9xGir0KZC+eVI"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,178 +85,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "mst@redhat.com" <mst@redhat.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Yechuan <yechuan@huawei.com>,
+ "xieyongji@bytedance.com" <xieyongji@bytedance.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ "parav@nvidia.com" <parav@nvidia.com>, Huangzhichao <huangzhichao@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--7IA9xGir0KZC+eVI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Dec 14, 2021 at 01:44:46AM +0000, Longpeng (Mike, Cloud Infrastruct=
+ure Service Product Dept.) wrote:
+>=20
+>=20
+> > -----Original Message-----
+> > From: Qemu-devel [mailto:qemu-devel-bounces+longpeng2=3Dhuawei.com@nong=
+nu.org]
+> > On Behalf Of Stefan Hajnoczi
+> > Sent: Monday, December 13, 2021 11:16 PM
+> > To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
+> > <longpeng2@huawei.com>
+> > Cc: mst@redhat.com; jasowang@redhat.com; qemu-devel@nongnu.org; Yechuan
+> > <yechuan@huawei.com>; xieyongji@bytedance.com; Gonglei (Arei)
+> > <arei.gonglei@huawei.com>; parav@nvidia.com; Stefano Garzarella
+> > <sgarzare@redhat.com>
+> > Subject: Re: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device suppo=
+rt
+> >=20
+> > On Sat, Dec 11, 2021 at 04:11:04AM +0000, Longpeng (Mike, Cloud Infrast=
+ructure
+> > Service Product Dept.) wrote:
+> > >
+> > >
+> > > > -----Original Message-----
+> > > > From: Stefano Garzarella [mailto:sgarzare@redhat.com]
+> > > > Sent: Thursday, December 9, 2021 11:55 PM
+> > > > To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
+> > > > <longpeng2@huawei.com>
+> > > > Cc: Stefan Hajnoczi <stefanha@redhat.com>; jasowang@redhat.com;
+> > mst@redhat.com;
+> > > > parav@nvidia.com; xieyongji@bytedance.com; Yechuan <yechuan@huawei.=
+com>;
+> > > > Gonglei (Arei) <arei.gonglei@huawei.com>; qemu-devel@nongnu.org
+> > > > Subject: Re: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device s=
+upport
+> > > >
+> > > > On Thu, Dec 09, 2021 at 09:16:58AM +0000, Stefan Hajnoczi wrote:
+> > > > >On Wed, Dec 08, 2021 at 01:20:10PM +0800, Longpeng(Mike) wrote:
+> > > > >> From: Longpeng <longpeng2@huawei.com>
+> > > > >>
+> > > > >> Hi guys,
+> > > > >>
+> > > > >> This patch introduces vhost-vdpa-net device, which is inspired
+> > > > >> by vhost-user-blk and the proposal of vhost-vdpa-blk device [1].
+> > > > >>
+> > > > >> I've tested this patch on Huawei's offload card:
+> > > > >> ./x86_64-softmmu/qemu-system-x86_64 \
+> > > > >>     -device vhost-vdpa-net-pci,vdpa-dev=3D/dev/vhost-vdpa-0
+> > > > >>
+> > > > >> For virtio hardware offloading, the most important requirement f=
+or us
+> > > > >> is to support live migration between offloading cards from diffe=
+rent
+> > > > >> vendors, the combination of netdev and virtio-net seems too heav=
+y, we
+> > > > >> prefer a lightweight way.
+> > > > >>
+> > > > >> Maybe we could support both in the future ? Such as:
+> > > > >>
+> > > > >> * Lightweight
+> > > > >>  Net: vhost-vdpa-net
+> > > > >>  Storage: vhost-vdpa-blk
+> > > > >>
+> > > > >> * Heavy but more powerful
+> > > > >>  Net: netdev + virtio-net + vhost-vdpa
+> > > > >>  Storage: bdrv + virtio-blk + vhost-vdpa
+> > > > >>
+> > > > >> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg797569=
+.html
+> > > > >
+> > > > >Stefano presented a plan for vdpa-blk at KVM Forum 2021:
+> > > > >https://kvmforum2021.sched.com/event/ke3a/vdpa-blk-unified-hardwar=
+e-an
+> > d-so
+> > > > ftware-offload-for-virtio-blk-stefano-garzarella-red-hat
+> > > > >
+> > > > >It's closer to today's virtio-net + vhost-net approach than the
+> > > > >vhost-vdpa-blk device you have mentioned. The idea is to treat vDP=
+A as
+> > > > >an offload feature rather than a completely separate code path tha=
+t
+> > > > >needs to be maintained and tested. That way QEMU's block layer fea=
+tures
+> > > > >and live migration work with vDPA devices and re-use the virtio-bl=
+k
+> > > > >code. The key functionality that has not been implemented yet is a=
+ "fast
+> > > > >path" mechanism that allows the QEMU virtio-blk device's virtqueue=
+ to be
+> > > > >offloaded to vDPA.
+> > > > >
+> > > > >The unified vdpa-blk architecture should deliver the same performa=
+nce
+> > > > >as the vhost-vdpa-blk device you mentioned but with more features,=
+ so I
+> > > > >wonder what aspects of the vhost-vdpa-blk idea are important to yo=
+u?
+> > > > >
+> > > > >QEMU already has vhost-user-blk, which takes a similar approach as=
+ the
+> > > > >vhost-vdpa-blk device you are proposing. I'm not against the
+> > > > >vhost-vdpa-blk approach in priciple, but would like to understand =
+your
+> > > > >requirements and see if there is a way to collaborate on one vdpa-=
+blk
+> > > > >implementation instead of dividing our efforts between two.
+> > > >
+> > > > Waiting for the aspects that Stefan asked, I add some details about=
+ the
+> > > > plan for vdpa-blk.
+> > > >
+> > > > Currently I'm working on the in-kernel software device. In the next
+> > > > months I hope to start working on the QEMU part. Anyway that part c=
+ould
+> > > > go in parallel with the in-kernel device, so if you are interested =
+we
+> > > > can collaborate.
+> > > >
+> > >
+> > > The work on QEMU part means supporting the vdpa in BlockDriver and vi=
+rtio-blk?
+> > >
+> > > In fact, I wanted to support the vdpa in QEMU block layer before I se=
+nt this
+> > > RFC, because the net part uses netdev + virtio-net while the storage =
+part uses
+> > > vhost-vdpa-blk (from Yongji) looks like a strange combination.
+> > >
+> > > But I found enable vdpa in QEMU block layer would take more time and =
+some
+> > > features (e.g. snapshot, IO throttling) from the QEMU block layer are=
+ not needed
+> > > in our hardware offloading case, so I turned to develop the "vhost-vd=
+pa-net",
+> > > maybe the combination of vhost-vdpa-net and vhost-vdpa-blk is congruo=
+us.
+> > >
+> > > > Having only the unified vdpa-blk architecture would allow us to sim=
+plify
+> > > > the management layers and avoid duplicate code, but it takes more t=
+ime
+> > > > to develop compared to vhost-vdpa-blk. So if vdpa-blk support in QE=
+MU is
+> > > > urgent, I could understand the need to add vhost-vdpa-blk now.
+> > > >
+> > >
+> > > I prefer a way that can support vdpa devices (not only net and storag=
+e, but
+> > also
+> > > other device types) quickly in hardware offloading case, maybe it wou=
+ld
+> > decreases
+> > > the universalism, but it could be an alternative to some users.
+> >=20
+> > If QEMU already had --blockdev vpda-blk, would you use that with
+> > --device virtio-blk-pci or still want to implement a separate --device
+> > vhost-vdpa-blk-pci device?
+> >=20
+>=20
+> vhost-vdpa-blk/net seems no need now, but a generic vdpa device may be st=
+ill
+> needed.
+>=20
+> We are still in the research stage, so I cannot decide to use vdpa-blk or=
+ the
+> generic device for the storage devices now.
+>=20
+> If we need to migrate the legacy non-offloading instances to the offloadi=
+ng
+> instances, then we have no choice but to use vdpa-blk. However, migrating=
+ from
+> non-offloading to offloading is a complex project, not only the virtualiz=
+ation
+> layer needs to support but also other layers, so it's hard to say whether=
+ this
+> is possible in practical reality.
+>=20
+> So maybe a good choice for us is :
+>   Net: -netdev type=3Dvhost-vdpa
+>   Storage: -blockdev vpda-blk
+>   Others (e.g. fs, crypto): generic vdpa device
 
-> On 14 Dec 2021, at 12:48, Markus Armbruster <armbru@redhat.com> wrote:
->=20
-> Paolo Bonzini <pbonzini@redhat.com> writes:
->=20
->> On 12/13/21 16:28, Markus Armbruster wrote:
->>> Paolo Bonzini <pbonzini@redhat.com> writes:
->>>=20
->>>> On 12/10/21 14:54, Markus Armbruster wrote:
->>>>> I want an open path to a single binary.  Taking years to get there =
-is
->>>>> fine.
->>>>=20
->>>> The single binary is a distraction in my opinion.  Imagine
->>>> instead of vl.c you have this in your second binary:
->=20
-> [...]
->=20
->>>> This is the ultimate QEMU startup code.  If we can get this code to
->>>> actually build a machine, you've reached the point where you don't =
-care
->>>> about what is in the command line parser; and consequently you =
-don't care
->>>> if there is one binary or two.
->>>=20
->>> Define "you".  Also explain why it should include me, because I =
-think it
->>> doesn't :)
->>=20
->> Impersonal you. :)
->=20
-> Unfortunate choice of a word.
->=20
->>> By when can we have this second binary in master?  Opinion, please, =
-not
->>> promise.
->>=20
->> Define "have":
->>=20
->> - a binary that builds
->>=20
->> - a binary that builds a bootable guest
->>=20
->> - a binary that builds any guest that the current well-maintained
->>  targets can build, using a given (but roughly full-featured) subset
->> of options
->>=20
->> Estimates for the first are easy (it's in my tree), estimates for the
->> second depends on somebody helping (upstreaming -M smp took months=20
->> between me being busy, reviewers being busy, and releases freezing
->> development), estimates for the third are hard.
->=20
-> Thanks.
->=20
->>> Would you object to me expanding the CLI here to the point where I =
-think
->>> we can deprecate the old binary?
->>>=20
->>> If yes, why?
->>=20
->> Yes, for two reasons.
->>=20
->> First, because there will be usually differences between the command
->> lines as mentioned elsewhere in the thread.  qemu-system-* is a good=20=
+I see, thanks!
 
->> name, but one that is already taken by 15 years of docs using the
->> existing command line.
->=20
-> A new CLI is pointless unless there are differences to the old one.
->=20
-> It is unadvisable unless we can eventually retire the old one.
->=20
-> While they coexist, the old binary name should use the old CLI, to
-> reduce confusion.
->=20
->> Second, because a command line is really hard to get right as
->> complexity increases.  QMP is the way to go to get as clean as
->> possible a configuration mechanism.  There *will* be a second set of
->> warts layered on top of the above code, and I don't want that.
->=20
-> We do not have consensus.  We may have misunderstandings.
->=20
-> Let's start with where we (hopefully) agree:
->=20
-> * We need a single, cohesive, low-level interface suitable for
->  management applications.
->=20
-> * The existing interface is specified in QAPI.  Its concrete transport
->  is QMP.
->=20
-> * The existing interface is not complete: certain things can only be
->  done with the CLI.
->=20
-> * The existing transport is not available early enough to permit
->  completing the interface.
->=20
-> * Fixing that involves a rework of startup.
->=20
-> * Reworking the existing startup and managing incompatible changes is
->  impractical, and likely to make the mess we have on our hands worse.
+Stefan
 
-For =E2=80=9CCompleting=E2=80=9D the interface, I agree.=20
-To add a certain number of use cases - many of those can be (have been - =
-aka preconfig) done, if with some degree of unpleasant-ness NOW without =
-full re-working. That would give us test cases that we can subsequently =
-use to test against as we move forward.
+--7IA9xGir0KZC+eVI
+Content-Type: application/pgp-signature; name="signature.asc"
 
->=20
-> * A new binary sidesteps the need to manage incompatible change.
->=20
-> Any objections so far?
->=20
-> Now let me make a few more points:
->=20
-> * Single, cohesive interface does not require single transport.  In
->  fact, we already have two: QMP and the (internal) C interface.
->=20
-> * QMP encodes the abstract interface in JSON, and offers the result on =
-a
->  Unix domain socket[1].
->=20
-> * The (internal) C interface encodes the abstract interface as a set =
-of
->  C data types and functions.
->=20
-> * Consider a configuration file transport that encodes the abstract
->  interface in JSON.  The only wart this adds is syntax that is
->  arguiably ill-suited to the purpose.  More suitable syntax exists.
->=20
-> * Similar for CLI.
->=20
-> * To get a "a second set of warts layered on top", we actually have to
->  layer something on top that isn't utterly trivial.  Like a
->  higher-level interface.  The "second set of warts" objection does not
->  apply to (sane) transports.
->=20
-> * We already layer an interface on top: HMP[2].  It has its warts.
->=20
-> * The old CLI is partly layered on QMP, partly on HMP, and partly on
->  internal C interfaces.  It's full of warts.
->=20
-> * Management applications are not the only users that matter.  Humans
->  matter.  Simple programs like ad hoc scripts matter.
->=20
-(Unless one considers that a =E2=80=98human=E2=80=99 and/or =E2=80=99scrip=
-t=E2=80=99 interface would just be =E2=80=98yet another management =
-interface=E2=80=99=E2=80=A6. And can/should be relegated to Somebody =
-Else=E2=80=99s Problem)
+-----BEGIN PGP SIGNATURE-----
 
-Cheers
-Mark.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmG4liQACgkQnKSrs4Gr
+c8hiuAf+LlXQvdWk8eyYEdcOZmOK/CfBw6OM0KKm0YnTHa5KJ6zdafGBPhSYM7lt
+NjOCDw3lWXv54bEvcKz/F9dYhQ3hPw5rGumZTXOQcF6s7IqhH1S8/wx4DelyPQkP
+niV9l/EohKdyrO+YzKPHOF1QW3s7OdgtYdx3MF++garI2usYkxqQ2D9e/COjo8Aw
+iQbtaZcxOBxdSp67p5gw2yB4ZDGo816fNmHidbb8fLuWx4Hsq8GhpFbYwrtBRAcG
+PwWTnP9OmWZBhyLLkPEGwwJuJVcRDVf5iUlIQyGjIVPqjoaMxjSDzKMe2CBU/kKj
+R3TRAUSJUoDo5KiSCeOEm8nfu7ZkJg==
+=p2U2
+-----END PGP SIGNATURE-----
 
-
-> Objections to these?
->=20
-> [...]
->=20
->=20
-> [1] Actually a QEMU character device now, but let's ignore that.
->=20
-> [2] Except where we choose to bypass QMP, but that's unimportant here.
->=20
+--7IA9xGir0KZC+eVI--
 
 
