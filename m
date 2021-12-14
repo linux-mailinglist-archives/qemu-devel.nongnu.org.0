@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E99F1474DEC
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 23:33:23 +0100 (CET)
-Received: from localhost ([::1]:34462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164C5474E70
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 00:08:32 +0100 (CET)
+Received: from localhost ([::1]:40784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxGMM-0007ik-GP
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 17:33:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37934)
+	id 1mxGuM-0005Mu-9c
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 18:08:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mxGKr-0006uS-Vu
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 17:31:50 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=42918
- helo=mail-pj1-x1035.google.com)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mxGrX-0003yW-9t; Tue, 14 Dec 2021 18:05:35 -0500
+Received: from [2607:f8b0:4864:20::d33] (port=46831
+ helo=mail-io1-xd33.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mxGKp-0002ng-2P
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 17:31:49 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- fv9-20020a17090b0e8900b001a6a5ab1392so17345872pjb.1
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 14:31:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CGmkoqBBuf98qLznQ8b13M2AtrDXnPOwAva2Yyy67nc=;
- b=ybtO64iIWuxnwWBJvGopReB/xg55auObYrWJoyksAns6rzeb9WOiiullxGQ35dBmz8
- ZIs5VVfWGmcsGAa3Gc3tKk5fh5D4uUO58msbCae4eEe7dnD+jwRaGM/dzDE/SLtsMuG5
- sf7sNPF1n0kQ2r5GpioDhwIALoyQsepkI4U4TprL3vj6Hk6uMBeuAEkfpmcEx0K7N/vb
- DxqXtT9jdy0WbUrZ1+WO9KjBOsL9wgmA7TrdJZmStR6JKbryav8VZKL72rYVm9GDgjJ7
- mJXv0PK4LzVQ0ctBfMkuXPCs1TtodmNSxcKrWJbB9ajQBA2lV+Shti2HTGjrBiX7mR8r
- aUEQ==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mxGrV-0006Rd-Hy; Tue, 14 Dec 2021 18:05:34 -0500
+Received: by mail-io1-xd33.google.com with SMTP id x6so26816107iol.13;
+ Tue, 14 Dec 2021 15:05:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=o+ITWRUmIHQWVBRxImwEIdNh8qETyqn/2WsI66fHIu4=;
+ b=HJfA7oW6LAbesnLp02w2ZMEV8AXinHEx0X6n+VuuldxXSGDMYJ9lgiWdTef5m06/k9
+ bH59liLT9YFMa7JHKsl3vWeeA2aboEFkdxXILY2+FpV52E5M/EtEDtn0Mi0L5tsXhNtn
+ rtQ+vuSPTjuccbEn1sNLPQUTHZA1NS5wvUaiEbdUnMIeUBRoecpcaIRE4X8caZZ8ySnz
+ yKQMa8l1d9DjB3kqe1ta/Wvk7oOU3woNSvc6TQipTuWmVzCJ8Fsa10bc+fjzaLp9zi3b
+ sRhjAAbRPGqK49SIiO9aqejUk9pRil8Fs2MCu67Cq+cbsXFjikCSBOfqpFsc86Qe1JM8
+ N5KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CGmkoqBBuf98qLznQ8b13M2AtrDXnPOwAva2Yyy67nc=;
- b=KM+aJ4mQzF3hKawRALTMbZ7wduXjkB8hMmU87wYJYLhwRFq+wNJegdUteO1QdQp59e
- MgunlxWtYPrG0JnPWFk4AzitZlt3MEJTttLXMnLkXU3YPnkJ/dQZ5s/oFKAI32RAgHHn
- Bljq/aZ10ZdsCRWkKItW8cfv9lkTWAvvJ+dZkyyfUS2unpcQIu1aZG3WUoya2/btjcN8
- +HUAn7Qm8Hvu23/aZgoy35nh0vCoGUW5SnCHluMS/xJbodayuQLgXT4ibPTUk0Gy9IdR
- DeKBgxAET4kJGnN1wZrCGt+bP1lREJMUIUush3d8de4NPYXeHTzhUEnDbYoSXnxrK4cY
- NK9A==
-X-Gm-Message-State: AOAM532u+0vLTUEcYpmlkAJmDXOKWnHg8i/5QynDH/zhW0nXRES5tx5h
- zXRnViOZgZ1d4sQaRJXBo+ULAw==
-X-Google-Smtp-Source: ABdhPJz9oZUaAfSkPobUvbDC8hrRki/z2341GI/EZLwlo9GD2ej8A0draLuJCkRYmB+vuKtJtSD66g==
-X-Received: by 2002:a17:902:c7c4:b0:141:deb4:1b2f with SMTP id
- r4-20020a170902c7c400b00141deb41b2fmr8471864pla.44.1639521105048; 
- Tue, 14 Dec 2021 14:31:45 -0800 (PST)
-Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id x16sm94751pfo.165.2021.12.14.14.31.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Dec 2021 14:31:44 -0800 (PST)
-Subject: Re: [PULL 0/1] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20211209152117.383832-1-stefanha@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <791dca68-86c1-46fb-7309-36450724f9eb@linaro.org>
-Date: Tue, 14 Dec 2021 14:31:42 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=o+ITWRUmIHQWVBRxImwEIdNh8qETyqn/2WsI66fHIu4=;
+ b=75uyWARVJ7gwUdCumXX3e6c+3GH+96PmfJHCV/yvLH7vPjZy9OCbFzJt9KX14XOj51
+ RuJJRrerWB2sVQSBKPcz7LDQBSr/JIHs389NdMe/Cdn9ILbxOIwYXn4hXYZyRXvCKLwo
+ JqJ2W28aIzlDQDA7R7b8JsaLkS3AurBpXTrWDeVU44WqZFf9D1Du5DxinsXqX3j8ZyKl
+ 7iiZNfabjY1FmKRA9Y3OkE6uAgPBqziQeUCW4PVD3jRYZk6d8s6LWgRfE1KgQxZ1goAv
+ Mn0Ev2diWxgn7EEG2ysvsxB3J7GHvOoi7gJ1XMUGo7NaVUO3ief/hQl3oKSEbqWa+AuQ
+ CNpg==
+X-Gm-Message-State: AOAM530Dbj6cMh/zM9RUX7WFtxo3UzvRewoTOLUhPu+dpbMtjwD7Cvtn
+ JZvIpkyX6+EOjoXl0LM4EUZ2Ij/5z2+Xv8RTnOQ=
+X-Google-Smtp-Source: ABdhPJxeB/G5R2aLbzwglPWe7iRb/srbcwhkfOpfML6VnCA2BXFJkc96b9kGQeqr3NHhpP66RGFi58oCPOZsLDjXwUo=
+X-Received: by 2002:a05:6638:6a8:: with SMTP id
+ d8mr4347912jad.672.1639523131571; 
+ Tue, 14 Dec 2021 15:05:31 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211209152117.383832-1-stefanha@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+References: <20211210074329.5775-1-frank.chang@sifive.com>
+In-Reply-To: <20211210074329.5775-1-frank.chang@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 15 Dec 2021 09:05:05 +1000
+Message-ID: <CAKmqyKN5VFD9aaTTAQA15c-0yjKvk9-Ekpo9M8Fz_PWMv8WR2Q@mail.gmail.com>
+Subject: Re: [PATCH v6 0/8] target/riscv: support Zfh, Zfhmin extension v0.1
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d33
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.962,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -92,40 +79,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/9/21 7:21 AM, Stefan Hajnoczi wrote:
-> The following changes since commit a3607def89f9cd68c1b994e1030527df33aa91d0:
-> 
->    Update version for v6.2.0-rc4 release (2021-12-07 17:51:38 -0800)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/stefanha/qemu.git tags/block-pull-request
-> 
-> for you to fetch changes up to cf4fbc3030c974fff726756a7ceef8386cdf500b:
-> 
->    block/nvme: fix infinite loop in nvme_free_req_queue_cb() (2021-12-09 09:19:49 +0000)
-> 
-> ----------------------------------------------------------------
-> Pull request
-> 
-> An infinite loop fix for the userspace NVMe driver.
-> 
-> ----------------------------------------------------------------
-> 
-> Stefan Hajnoczi (1):
->    block/nvme: fix infinite loop in nvme_free_req_queue_cb()
-> 
->   block/nvme.c | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions
-Applied, as the beginning of the 7.0 development tree.
+On Fri, Dec 10, 2021 at 5:44 PM <frank.chang@sifive.com> wrote:
+>
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> Zfh - Half width floating point
+> Zfhmin - Subset of half width floating point
+>
+> Zfh, Zfhmin v0.1 is now in public review period and is required by
+> RVV extension:
+> https://groups.google.com/a/groups.riscv.org/g/isa-dev/c/63gDCinXTwE/m/871Wm9XIBQAJ
+>
+> Zfh, Zfhmin can be enabled with -cpu option: Zfh=true and Zfhmin=true
+> respectively.
+>
+> The port is available at:
+> https://github.com/sifive/qemu/tree/zfh-upstream-v6
+>
+> Note: This patchset depends on another patchset listed in Based-on
+>       section below so it is not able to be built unless the patchset
+>       is applied.
+>
+> Changelog:
+>
+> v6:
+>   * Rebase on riscv-to-apply.next.
+>
+> v5:
+>   * Rebase on riscv-to-apply.next.
+>
+> v4:
+>   * Spilt Zfh, Zfhmin cpu properties related changes into individual
+>     patches.
+>
+> v3:
+>   * Use the renamed softfloat min/max APIs: *_minimum_number()
+>     and *_maximum_number().
+>   * Pick softfloat min/max APIs based on CPU privilege spec version.
+>   * Add braces for if statements in REQUIRE_ZFH() and
+>     REQUIRE_ZFH_OR_ZFHMIN().
+>   * Rearrange the positions of Zfh and Zfhmin cpu properties.
+>
+> v2:
+>   * Use {get,dest}_gpr APIs.
+>   * Add Zfhmin extension.
+>
+> Based-on: <20211021160847.2748577-1-frank.chang@sifive.com>
+>
+> Frank Chang (3):
+>   target/riscv: zfh: add Zfh cpu property
+>   target/riscv: zfh: implement zfhmin extension
+>   target/riscv: zfh: add Zfhmin cpu property
+>
+> Kito Cheng (5):
+>   target/riscv: zfh: half-precision load and store
+>   target/riscv: zfh: half-precision computational
+>   target/riscv: zfh: half-precision convert and move
+>   target/riscv: zfh: half-precision floating-point compare
+>   target/riscv: zfh: half-precision floating-point classify
+>
+>  target/riscv/cpu.c                        |   2 +
+>  target/riscv/cpu.h                        |   2 +
+>  target/riscv/fpu_helper.c                 | 180 ++++++++
+>  target/riscv/helper.h                     |  29 ++
+>  target/riscv/insn32.decode                |  38 ++
+>  target/riscv/insn_trans/trans_rvzfh.c.inc | 537 ++++++++++++++++++++++
+>  target/riscv/internals.h                  |  16 +
+>  target/riscv/translate.c                  |  20 +
+>  8 files changed, 824 insertions(+)
+>  create mode 100644 target/riscv/insn_trans/trans_rvzfh.c.inc
 
+Thanks!
 
-r~
+Applied to riscv-to-apply.next
+
+Alistair
+
+>
+> --
+> 2.31.1
+>
+>
 
