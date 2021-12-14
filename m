@@ -2,63 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84E4747459B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 15:52:57 +0100 (CET)
-Received: from localhost ([::1]:50726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E9C4745B3
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 15:55:52 +0100 (CET)
+Received: from localhost ([::1]:57768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx9Am-00022I-L3
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 09:52:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44110)
+	id 1mx9Da-0006m0-Sb
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 09:55:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mx93x-0006av-OE
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:45:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47973)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mx97b-0000Wy-4X
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:49:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26406)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mx93u-0007iV-1S
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:45:52 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mx97Y-0008AC-Gl
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:49:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639493148;
+ s=mimecast20190719; t=1639493374;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=peK29gK8SVzYMP5NwNCyWxwkWpOZCXP2YCk5TjzJQCI=;
- b=W7/Dtv1OR8El96zgVJvnDUkRc50/sUir8f1mK3b0lny0Jkr+4x2NwRVgKvmpEnGui+ZS0G
- q75nu5PpqK86Dgytrl4M31E63FJ+Lmnls9K2CIf7uFygfbLVk2AYrJxGGtOkrzqG7hcfP9
- mlhZBHlw+CdyKx95MxRnvW4j4yl/ujo=
+ bh=M3GAtztHoSw9MAdOlALANj96Pcfb/+OOyAPqimtY7+w=;
+ b=hXNsvTXMGM+XOI2L9Ftt5jJzTqEQzbv4OHLHQbQmOSxQZ5IoX+jh9GEpVI4Idvuo7Ej29O
+ 2r3VEEw9kvhRQcuArsqwAoFvr0qx0Mu58T/wiFjrqUDHVpLl7qOYHxXNuw3o5hkrDbA1Jh
+ Bpgre9QjyXhdvCArqm7T/PM9itESGDk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-38-U-FKN64YOtCq_GFA2B5f7w-1; Tue, 14 Dec 2021 09:45:45 -0500
-X-MC-Unique: U-FKN64YOtCq_GFA2B5f7w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-20-GSqi_XbNN2ejeyR9LIz72w-1; Tue, 14 Dec 2021 09:49:31 -0500
+X-MC-Unique: GSqi_XbNN2ejeyR9LIz72w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEF2261281
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 14:45:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A6E910A2915;
+ Tue, 14 Dec 2021 14:49:30 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-2.ams2.redhat.com [10.36.112.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F29F46F9C0;
- Tue, 14 Dec 2021 14:45:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F38E67AB77;
+ Tue, 14 Dec 2021 14:49:22 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6782E113865F; Tue, 14 Dec 2021 15:45:35 +0100 (CET)
+ id 9FF51113865F; Tue, 14 Dec 2021 15:49:21 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [RFC PATCH 00/12] QOM/QAPI integration part 1
-References: <20211103173002.209906-1-kwolf@redhat.com>
- <871r365042.fsf@dusky.pond.sub.org> <YbhwrGRDs5lA7I7r@redhat.com>
-Date: Tue, 14 Dec 2021 15:45:35 +0100
-In-Reply-To: <YbhwrGRDs5lA7I7r@redhat.com> (Kevin Wolf's message of "Tue, 14
- Dec 2021 11:23:40 +0100")
-Message-ID: <87fsqvqm7k.fsf@dusky.pond.sub.org>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: Meeting today?
+References: <YbJU5vVdesoGuug9@redhat.com> <87mtl88t0j.fsf@dusky.pond.sub.org>
+ <a31201bb-78de-e926-1476-b48b008745c1@redhat.com>
+ <878rwozfqm.fsf@dusky.pond.sub.org>
+ <16cd5683-4f97-d24c-dd19-24febcab7ba8@redhat.com>
+ <YbeL7EjoTtrUrGa2@redhat.com>
+ <e33c3d09-b507-798c-b18e-df684ec797e2@redhat.com>
+ <YbeWxAn6Zw7rH+5K@redhat.com>
+ <CC132B60-3F08-4F03-B328-4C33407BB944@greensocs.com>
+ <87lf0nto1k.fsf@dusky.pond.sub.org> <YbiS8Zc7fcoeoSyC@redhat.com>
+Date: Tue, 14 Dec 2021 15:49:21 +0100
+In-Reply-To: <YbiS8Zc7fcoeoSyC@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Tue, 14 Dec 2021 12:49:53 +0000")
+Message-ID: <87bl1jqm1a.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -80,162 +90,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
- eblake@redhat.com, ehabkost@redhat.com
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Mark Burton <mark.burton@greensocs.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> Am 23.11.2021 um 17:05 hat Markus Armbruster geschrieben:
->> Kevin Wolf <kwolf@redhat.com> writes:
->> 
->> > This series adds QOM class definitions to the QAPI schema, introduces
->> > a new TypeInfo.instance_config() callback that configures the object at
->> > creation time (instead of setting properties individually) and is
->> > separate from runtime property setters (which often used to be not
->> > really tested for runtime use), and finally generates a marshalling
->> > function for .instance_config() from the QAPI schema that makes this a
->> > natural C interface rather than a visitor based one.
->> >
->> > This is loosely based on Paolo's old proposal in the wiki:
->> > https://wiki.qemu.org/Features/QOM-QAPI_integration
->> >
->> > The series is in a rather early stage and I don't really have any
->> > automated tests or documentation in this series yet. I'm also only
->> > converting the class hierarchy for the random number generator backends
->> > to show what the result looks like, the other objects still need to be
->> > done.
->> >
->> > So the question to you isn't whether this is mergeable (it isn't), but
->> > whether you think this is the right approach for starting to integrate
->> > QOM and QAPI better.
->> >
->> > You'll also see that this doesn't really remove the duplication between
->> > property definitions in the code and configuration struct definitions in
->> > the QAPI schema yet (because we want to keep at least a read-only
->> > runtime property for every configuration option), but at least they mean
->> > somewhat different things now (creation vs. runtime) instead of being
->> > completely redundant.
->> >
->> > Possible future steps:
->> >
->> > * Define at least those properties to the schema that correspond to a
->> >   config option. For both setters and getters for each option, we'll
->> >   probably want to select in the schema between 'not available',
->> >   'automatically generated function' and 'manually implemented'.
->> >
->> >   Other runtime properties could be either left in the code or added to
->> >   the schema as well. Either way, we need to figure out how to best
->> >   describe these things in the schema.
->> 
->> Permit me a diversion of sorts.
->> 
->> With QOM, we have properties.  A property is readable if it has a
->> getter, writable if it has a setter.  There is no real concept of
->> configuration vs. state.  Writable properties can be written at any
->> time.
->> 
->> In practice, some properties are to be used only like configuration, and
->> we check configuration at realize time (for devices), or by a surrogate
->> like qemu_add_machine_init_done_notifier().  If you set them later,
->> things may break, and you get to keep the pieces.
->> 
->> In this "QOM/QAPI integration part 1", configuration (expressed in QAPI
->> schema) makes it into QOM.
->> 
->> Now we have configuration *and* properties.
->> 
->> Do we need the properties?
+> On Tue, Dec 14, 2021 at 12:37:43PM +0100, Markus Armbruster wrote:
+>> Mark Burton <mark.burton@greensocs.com> writes:
+>>=20
+>> > I realise it=E2=80=99s very short notice, but what about having a disc=
+ussion today at 15:00 ?
+>>=20
+>> I have a conflict today.  I could try to reschedule, but I'd prefer to
+>> talk next week instead.  Less stress, better prep.
 >
-> Configuration is for creating objects, properties are for runtime after
-> the creation. So for the practical answer, as long as you can find a QOM
-> type that wants to allow either changing an option at runtime or just
-> exposing its current value, I would say, yes, we need both. And I can
-> easily list some QOM types that do.
->
-> The theoretical answer is that of course you can replace properties with
-> custom query-* and set-* QMP commands, but that's not only hardly an
-> improvment, but also a compatibility problem.
+> I fear we've run out of time for this year if we want all interested
+> parties to be able to attend.  I'll be off on PTO from end of this
+> week until the new year, and I know alot of folk are doing similar.
 
-That would be nuts.
-
-> The approach I'm taking here with QAPIfication of objects (and planning
-> to take for future conversions) is to drop setters that can't work at
-> runtime (which might be the majority of properties), but keep properties
-> around otherwise. Everything else would be a per-object decision, not
-> part of the infrastructure work.
-
-Getting rid of such setters makes sense.
-
-It's been a while since I reviewed...  I don't remember anymore whether
-we can have configuration parameters that are also properties.  If yes,
-would it make sense to generate such properties?
-
->> Note I'm not asking whether we need setters.  I'm asking whether we
->> need to expose configuration bits via qom-set & friends in addition to
->> the QAPI schema and query-qmp-schema.
->
-> I'm not sure I follow here. How is querying or changing option values
-> redundant with querying which options exist?
->
-> Maybe qom-list could become obsolete if we move all properties (and not
-> just the configuration) into the QAPI schema, but I don't see qom-get
-> and qom-set going away.
->
->> > * Getting rid of the big 'object-add' union: While the union is not too
->> >   bad for the rather small number of user-creatable objects, it
->> >   wouldn't scale at all for devices.
->> >
->> >   My idea there is that we could define something like this:
->> >
->> >   { 'struct': 'ObjectOptions',
->> >     'data': {
->> >         'id': 'str',
->> >         'config': { 'type': 'qom-config-any:user-creatable',
->> >                     'embed': true } } }
->> >
->> >   Obviously this would be an extension of the schema language to add an
->> >   'embed' option (another hopefully more acceptable attempt to flatten
->> >   things...), so I'd like to hear opinions on this first before I go to
->> >   implement it.
->> 
->> 'embed': true would splice in the members of a struct type instead of a
->> single member of that struct type.  Correct?
->> 
->> Stretch goal: make it work for union types, too :)
->> 
->> I've thought of this before.  Plenty of nesting in the wire format
->> exists pretty much only to let us have the C structs we want.  Right
->> now, the only way to "splice in" such a struct is the base type.
->> General splicing could be useful.  It may take an introspection flag
->> day.
->
-> Base types aren't visible in the introspection either, so probably not
-> if you continue to just report the resulting structure?
-
-Yes, this should be feasible, except for splicing a union into a union,
-because then you get multiple (tag, variants), which the introspection
-schema can't do.  So don't go there, at least for now.
-
->> >   Also note that 'qom-config-any:user-creatable' is new, too. The
->> >   'qom-config:...' types introduced by this series don't work for
->> >   subclasses, but only for the exact class.
->> >
->> >   On the external interface, the new 'qom-config-any:...' type including
->> >   subclasses would basically behave (and be introspected) like the union
->> >   we have today, just without being defined explicitly.
->> 
->> I'm not sure I follow.  How is the qom-config-any:user-creatable to be
->> defined?  QAPI collects all the qom-config:* types into a union
->> automatically?
->
-> All classes that inherit from user-creatable, but yes, automatically
-> collected.
->
-> For user-creatable, we can either introduce interfaces in QAPI, too, or
-> we just pretend it's actually the top-level parent class.
-
-Thanks!
+Right.  I'll be off from Dec 23 to Jan 9.  Can we all make Jan 11?
 
 
