@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10BEA4743DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 14:52:15 +0100 (CET)
-Received: from localhost ([::1]:33880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B11474405
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 14:58:29 +0100 (CET)
+Received: from localhost ([::1]:48112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx8E2-00085A-1Q
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 08:52:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54314)
+	id 1mx8K4-0001JT-At
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 08:58:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
- id 1mx7yv-0007A4-N2
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:36:37 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:50652)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
- id 1mx7yp-0004Da-Is
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:36:37 -0500
-Received: from smtpclient.apple (lfbn-bor-1-1317-97.w193-250.abo.wanadoo.fr
- [193.250.130.97])
- by beetle.greensocs.com (Postfix) with ESMTPSA id A5AB520785;
- Tue, 14 Dec 2021 13:36:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1639488986;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jBUy9CNTwUo5wsor+Kw2YisWzHQ6W/3lfB1GYShc0Q4=;
- b=E3Ghp5jnt8BOdAaydCtSLIhM9oJONIVemnB5aWKwjFIltYTSPEeClFKdiSHr5zKPG9PAb+
- RqljKODBMYTm5dk0CgFWVu/dhNQavz2Mg7ukapAndrIl66jGZbd9uikpCvt9Skn+RxMY3m
- X8syGlq+JUvMrmmNMvu3OMI6JAg6ZIE=
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.20.0.1.32\))
-Subject: Re: Redesign of QEMU startup & initial configuration
-From: Mark Burton <mark.burton@greensocs.com>
-In-Reply-To: <YbiaYnPTUZ70hC1j@redhat.com>
-Date: Tue, 14 Dec 2021 14:36:26 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <E52F9A8B-A66C-4E54-8F74-F4F45E3FD7A8@greensocs.com>
-References: <YbJU5vVdesoGuug9@redhat.com>
- <fb7e946e-6881-0ea3-d824-99693f938165@redhat.com>
- <87czm47a77.fsf@dusky.pond.sub.org> <YbN0zLsDVr3B/s3+@redhat.com>
- <87ilvszg52.fsf@dusky.pond.sub.org>
- <edbfff5c-65df-980c-acee-05055c254636@redhat.com>
- <YbeJ/zTV/n+l2CmH@redhat.com>
- <9AF99888-A4BF-4459-92C1-71E5B76A2C79@greensocs.com>
- <YbiWh8nQDWpMegER@redhat.com>
- <4AED38B2-E2DD-46F7-93AA-622D5F6BB570@greensocs.com>
- <YbiaYnPTUZ70hC1j@redhat.com>
-To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
-X-Mailer: Apple Mail (2.3693.20.0.1.32)
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=mark.burton@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1mx83M-0005Uf-Np
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:41:13 -0500
+Received: from [2a00:1450:4864:20::42e] (port=36640
+ helo=mail-wr1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1mx83K-0005BK-L3
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:41:12 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id u17so32470664wrt.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 05:41:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:reply-to:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=d5ndx34hN9m4TAr2xVMmBcuyEYVL6HUh2Zoc6H0l7hk=;
+ b=kaRvdUhjK5mUvT3+oDIJClgAKiVvpfQFixukB5F2HVK4rUJMJ9XjxhXjCrceLjBc4h
+ StwQCf3n4o/vQdj8KeHTHh5ZcUS/vDMwQtV9JtHE0BmKFUQquPKlB4gankOpGawqLTSi
+ DiB9D4XD3hlmVj0KHHaeDaMClV/fnlmnLuz+2cAOjTXHljQ+alZaeT6ESVo2ll8lLHh6
+ tTRydUk99j6UVvoeSBCytWV94rfGcVes/oR6rF/Tt6xDstaVqyV4/zAD0WxNznlcSVsp
+ FBGOLRdd2dNFgUssQ82YMqtL4n60hzlBATcKzBhMqN9dPMdShuK8XQlm8K0MnUBT/omo
+ PWvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=d5ndx34hN9m4TAr2xVMmBcuyEYVL6HUh2Zoc6H0l7hk=;
+ b=jbxARxhSFwWtqXHbyGiIdqvNGi9GB5SMWkt/nPs68iXzJCJr4h/bN5yL4tiW+QbPql
+ Cyt9V1bdsFlHJeLR8/5zrWp0NS3MTwdDH+6c4zQnjN04emay5cZsbGfLuBORU/MnAk7Q
+ 7IytZgSWrs1nCbWylHajIj2M0jGPgcue/kBplwB5cMP4IMtGoEoMZlW064+qadSc6383
+ hH3xZgoMZHpCkj7zKX0RFbq7ysCuufaZMdgjwRpfZQLBFk+npYfPvZawP6hELdtMAQhK
+ sNlUQmvifiz+BKv0KDrDqFKA+ofD1Ilf605cF7YSLSNoTZltULi9EA2OI4N4NJaci/Ni
+ JgLQ==
+X-Gm-Message-State: AOAM532O7PBaIApAdooyFHnPtEBOMWXOUUQ+D5T0bWP0Va9svhynbTgv
+ 2XXmm3r/7luxh1YJUkXl6Pw=
+X-Google-Smtp-Source: ABdhPJySJ7nTJD03hzl2t9OmC0fdR31hCq/n5Ku3bel24kiVofteNrsCpe58LVNU6wohiG/7LHR/Qw==
+X-Received: by 2002:adf:a10f:: with SMTP id o15mr5860296wro.592.1639489258334; 
+ Tue, 14 Dec 2021 05:40:58 -0800 (PST)
+Received: from [192.168.1.186] (host31-48-92-117.range31-48.btcentralplus.com.
+ [31.48.92.117])
+ by smtp.gmail.com with ESMTPSA id u2sm16264414wrs.17.2021.12.14.05.40.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Dec 2021 05:40:58 -0800 (PST)
+Message-ID: <adfe1c14-f773-0592-e304-d80da8380cc0@gmail.com>
+Date: Tue, 14 Dec 2021 05:40:57 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH] xen-hvm: Allow disabling buffer_io_timer
+Content-Language: en-US
+To: Jason Andryuk <jandryuk@gmail.com>, qemu-devel@nongnu.org
+References: <20211210193434.75566-1-jandryuk@gmail.com>
+From: "Durrant, Paul" <xadimgnik@gmail.com>
+In-Reply-To: <20211210193434.75566-1-jandryuk@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.962, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,120 +91,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+Reply-To: paul@xen.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/12/2021 11:34, Jason Andryuk wrote:
+> commit f37f29d31488 "xen: slightly simplify bufioreq handling" hard
+> coded setting req.count = 1 during initial field setup before the main
+> loop.  This missed a subtlety that an early exit from the loop when
+> there are no ioreqs to process, would have req.count == 0 for the return
+> value.  handle_buffered_io() would then remove state->buffered_io_timer.
+> Instead handle_buffered_iopage() is basically always returning true and
+> handle_buffered_io() always re-setting the timer.
+> 
+> Restore the disabling of the timer by introducing a new handled_ioreq
+> boolean and use as the return value.  The named variable will more
+> clearly show the intent of the code.
+> 
+> Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
 
-
-> On 14 Dec 2021, at 14:21, Daniel P. Berrang=C3=A9 =
-<berrange@redhat.com> wrote:
->=20
-> On Tue, Dec 14, 2021 at 02:11:11PM +0100, Mark Burton wrote:
->>=20
->>=20
->>> On 14 Dec 2021, at 14:05, Daniel P. Berrang=C3=A9 =
-<berrange@redhat.com> wrote:
->>>=20
->>> On Mon, Dec 13, 2021 at 09:22:14PM +0100, Mark Burton wrote:
->>>>=20
->>>>=20
->>>>> On 13 Dec 2021, at 18:59, Daniel P. Berrang=C3=A9 =
-<berrange@redhat.com> wrote:
->>>>>=20
->>>>> =E2=80=A6. we no longer have to solve everything
->>>>> Ourselves.=20
->>>>=20
->>>> I support this sentiment.
->>>>=20
->>>> Lets re-factor the code so people can build what they need using an =
-API.
->>>> Actually, =E2=80=98QEMU=E2=80=99 only need support the existing =
-CLI, and provide a suitable internal API.
->>>> If that API was relatively stable, that would help those (few) who =
-maintain a different startup mechanism (but its only a =E2=80=99nice to =
-have=E2=80=99). (Making that convenient, as Paolo has show, would also =
-be =E2=80=99nice to have=E2=80=99).
->>>=20
->>> To be clear I do strongly believe that the QEMU project needs
->>> to deliver the higher level simplified interface too. I just
->>> want that higher level interface to be flexible enough to
->>> let end users expand on what it offers, without having to
->>> write C code nor having to switch entirely to the low level
->>> interface like we do today.
->>>=20
->>> IOW, QEMU needs to deliver more than just a low level building
->>> block API.
->>=20
->> Why?
->> Clearly it would be nice if =E2=80=9Chigher level=E2=80=9D interfaceS =
-existed in
->> the world. Clearly QEMU could provide one, two, or many. But, why
->> do you think QEMU =E2=80=98must=E2=80=99 provide them?
->=20
-> To serve our users who are not all wanting to be use a management
-> layer. They want to be using a simple binary to spin up adhoc
-> VMs. This is the reason why we've kept most of the short option
-> CLI args in the existing QEMU binaries, despite having more
-> comprehensive low level replacement args.=20
-
-So - there are
-a) uses today that use the CLI as it exists.
-b) users who might prefer a better interface if that was made available =
-- but, again, that doesn=E2=80=99t require QEMU itself to do anything. =
-If we provide a low-level API, and somebody else (you for instance) =
-provides a =E2=80=99nice=E2=80=99 =E2=80=98friendly=E2=80=99 CLI or =
-config file reader - those users would be happy.
-
-I still dont see why QEMU itself needs to provide this =E2=80=98high =
-level=E2=80=99 thing.=20
-
-I think we all agree (correct me if I=E2=80=99m wrong) :
-* We all want a low level interface
-* We all want the current CLI to be supported (at least for now, though =
-it could change in time)
-* We all want the CLI to be based on the low level interface
-
-I=E2=80=99m just asking why we ALSO want to support =E2=80=9Cyet another =
-high level interface=E2=80=9D=E2=80=A6.
-
-Is the argument about whether we re-implement the existing CLI ontop of =
-the =E2=80=98low level=E2=80=99 API (aka QAPI)?
-
->=20
-> If we just declare we're not going to provide this simple binary
-> any more, then we're just casting these users adrift. This in
-
-=E2=80=9CAny more=E2=80=9D - Are you talking about the existing CLI =
-users?
-
-> effect means they'll just carry on existing the historical QEMU
-> binaries and we'll never be able to eliminate them, so we'll be
-> maintaining two things forever.
-
-A CLI and the low level interface? - Yes? Can we remove the CLI and only =
-support the low-level interface ? But here you seem to be arguing =
-against yourself, so I guess I misunderstood.
-
-Cheers
-Mark.
-
->=20
-> Regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    =
-https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            =
-https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    =
-https://www.instagram.com/dberrange :|
->=20
-
+Reviewed-by: Paul Durrant <paul@xen.org>
 
