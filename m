@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F73474C82
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 21:13:16 +0100 (CET)
-Received: from localhost ([::1]:36836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4D3474C99
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 21:25:38 +0100 (CET)
+Received: from localhost ([::1]:41976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxEAl-00061d-5r
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 15:13:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40124)
+	id 1mxEMj-0001Wd-Ab
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 15:25:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mxE8M-0004Ye-Fk
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 15:10:47 -0500
-Received: from [2a00:1450:4864:20::432] (port=42826
- helo=mail-wr1-x432.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxELO-0000qO-Ns
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 15:24:14 -0500
+Received: from [2607:f8b0:4864:20::429] (port=47002
+ helo=mail-pf1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mxE8K-0002GT-SC
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 15:10:45 -0500
-Received: by mail-wr1-x432.google.com with SMTP id c4so34355927wrd.9
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 12:10:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxELM-000440-PT
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 15:24:14 -0500
+Received: by mail-pf1-x429.google.com with SMTP id o4so18739681pfp.13
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 12:24:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=64VoCnKZLnNmDIKREt2490DJeAX7XCt5aSyhw7Pg16Q=;
- b=Xha61il2iUCEu7cbw3Up7xqzeP2TkZ58JLnR3bZsRHODOmWeaRbwCuSwS/fwj2HY0v
- fnfafAlrsFjuv2vYWaMFpSaT3y5HlU9NxIwvD5cBNIK1+VjRbVquVjE+rPXw9wriIkZh
- /UXKV2tbK1lCWiKJqzpi+Xwdktoa3HpYsF38zbK0O9NaiMu2XoZ8cntbzVGUtKEiZoAg
- jA7WS2oyJQN/I7EQGxGhezFrAC7UMcej6GT8rSJFDkYvfTXDUTmCL/uqOsRzDwSwvaT5
- EYUFKpJSPGxWg9RVkxPXbUDbdfQsE/icGXrepnVvTIJu0VuWGWBKCH/JtKp0fPnI7tjS
- LaWA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=m9VUrcZQDIkykIDFIgGSIVGx3SJanN/2GT1+CSYPqaQ=;
+ b=wcd/8jJUOWsfQkpULAfOsux87RUn3YZeychvnQZJcMHJpOs4T6TCEh0xgysdCTTdFI
+ VqfHGziZ2keNefIh8Y6jRdPouP7LZT1Xpb1YZS/Ppev/BnbZmTeAbCPYYKdpKy+FCj+z
+ Am2Mj/VO6ok6hNl069pj3KQwlHoONgeHIWR/z1d/QAYaveqjKQal2QsyYYNJ7XkkstRj
+ 70BmHGp3pjyjr8r913OWoLPG14Hceyfh5HK8/QfTEY138jujF/1KIrMggHVmFb5hnsHN
+ GRerIg+B9yrFmngye0R3vqhOGpPCATE5MS+Ng00ROp4YK3LAYc2WuWPn8Ld3hPVDq5cZ
+ DCNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=64VoCnKZLnNmDIKREt2490DJeAX7XCt5aSyhw7Pg16Q=;
- b=vIkRsX3KbeS0mgI9+Cexb+KeB+wh238P+2THZLmMa1F+GckJMd6oDGNGMqiYdYETY+
- VKIyagbFmKfjIIwC342McY78POgczOmqC7+WwCg6hv2EoutRlQkcIK96urocV7ni8Psz
- 4FCQKgcs2yqCfth5YQQNDWzHrE8Io39bbECMfX1jcBv0/mXe66RbokheS5oET3cpR895
- fKrlfd8NAAqpGKVmIU1SuapYBprK9J1NvJ60V9A8iOYSAqxI8AORCn3dDHn0v92Oa9aM
- 0RlcKXxtUzJ1xqKQiQE5tsvrYoLo0Raokua1uqbgLhadLz2bJ8KQF1kXPbM3A0IEDRbA
- QduA==
-X-Gm-Message-State: AOAM532eStvxBmvsElgHfzVEXOeNLv20SNxF5LcAJkPHxO5mCWtm4pEF
- lgFUTL/dvtmTr292ww3GC/CLeg==
-X-Google-Smtp-Source: ABdhPJyJ1lTpaixiMwHibL5h9UBZkwXt5OuKI+kqMPFvs2VHOaRFnGKh+ijTX9jBvhyQSf+bd5fAkg==
-X-Received: by 2002:adf:9cd1:: with SMTP id h17mr1263093wre.43.1639512642240; 
- Tue, 14 Dec 2021 12:10:42 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g13sm1309653wrd.57.2021.12.14.12.10.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Dec 2021 12:10:41 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AC7A71FF96;
- Tue, 14 Dec 2021 20:10:40 +0000 (GMT)
-References: <20211209194532.1502920-1-peter.maydell@linaro.org>
-User-agent: mu4e 1.7.5; emacs 28.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 for-7.0] scripts: Explain the difference between
- linux-headers and standard-headers
-Date: Tue, 14 Dec 2021 20:10:36 +0000
-In-reply-to: <20211209194532.1502920-1-peter.maydell@linaro.org>
-Message-ID: <87h7bbgd6n.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=m9VUrcZQDIkykIDFIgGSIVGx3SJanN/2GT1+CSYPqaQ=;
+ b=qOiWaf9HOfYw7YmfSqJaip5qZ8p1tarIF2H8l+Jg/Dv7Yp/bjJFr+OcRSQNONO3ORY
+ oXvm+ImobiOTnduLw/0Se240ryH8aJ+fkNAhu55bEWea7LwAiS5xSvWLk1NHroyygb8k
+ fm3UjYfbBxS3xMjLJULgsFODw3Vzb1N+YyBNyKD8rFrqcxqesFg3hgv5EZO5zy6J0C5u
+ 3pT6txgbP7DpeQYT9OQvjgg0KEJaNwX8CKSYMjhuGQb/LSYMe02xLEciiO8C8wahqALz
+ yS+s3DNLJiGjBVdkbssHzilIHDsXURaZCsSsAVOr0Z+WaGh9ePexg0mWKal4m5wQ7LfB
+ RWjw==
+X-Gm-Message-State: AOAM533cQc0AzPmhP15dfsTGY06OMOljrM47ghI73XzVJy7/0yK7W8Pb
+ O6lplZUrvR1+y+8hTZ9Ucvq2psND+hbntQ==
+X-Google-Smtp-Source: ABdhPJw77UNPoxRIVkZL2sSjP+iqSy+i/S5qvc4L50P7kAcOlq5y4ZQWaRhXjMlIhq/V0cQ/PNYQ5A==
+X-Received: by 2002:a63:5a18:: with SMTP id o24mr5077780pgb.459.1639513449579; 
+ Tue, 14 Dec 2021 12:24:09 -0800 (PST)
+Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id q17sm709552pfu.117.2021.12.14.12.24.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Dec 2021 12:24:09 -0800 (PST)
+Subject: Re: [PATCH 6/6] target/arm: Implement FEAT_LPA2
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20211208231154.392029-1-richard.henderson@linaro.org>
+ <20211208231154.392029-7-richard.henderson@linaro.org>
+ <87y24ngn2s.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <fdfbf7d8-48a5-92c3-8908-f46d151dedae@linaro.org>
+Date: Tue, 14 Dec 2021 12:24:07 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+In-Reply-To: <87y24ngn2s.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.962,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -90,24 +91,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/14/21 6:57 AM, Alex Bennée wrote:
+>> +static inline bool isar_feature_aa64_tgran4_lpa2(const ARMISARegisters *id)
+>> +{
+>> +    return sextract64(id->id_aa64mmfr0,
+>> +                      R_ID_AA64MMFR0_TGRAN4_SHIFT,
+>> +                      R_ID_AA64MMFR0_TGRAN4_LENGTH) >= 1;
+> 
+> Is this correct - it shows:
+> 
+>    0b1111 4KB granule not supported.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Yes, that's why the signed extract, so not supported comes out as -1.
+See D13.1.3 "Principles of the ID scheme for fields in ID registers".
 
-> If you don't know it, it's hard to figure out the difference between
-> the linux-headers folder and the include/standard-headers folder.
-> So let's add a short explanation to clarify the difference.
->
-> Suggested-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> (a little more reading later)
+> 
+>    The ID_AA64MMFR0_EL1.TGran4_2, ID_AA64MMFR0_EL1.TGran16_2 and
+>    ID_AA64MMFR0_EL1.TGran64_2 fields that identify the memory translation stage 2 granule size, do not follow
+>    the standard ID scheme. Software must treat these fields as follows:
 
---=20
-Alex Benn=C3=A9e
+Note that we're not testing the *_2 fields, which are *stage2* support, not stage1.  I did 
+add a comment about assuming stage2 encodes the same value as stage1 (which is true for 
+all supported cpus).
+
+
+
+r~
 
