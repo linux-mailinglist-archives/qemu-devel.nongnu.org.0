@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AED1474481
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 15:07:12 +0100 (CET)
-Received: from localhost ([::1]:60752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C844745B9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 15:59:06 +0100 (CET)
+Received: from localhost ([::1]:37922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx8SU-0001sg-T1
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 09:07:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57130)
+	id 1mx9Gj-00048l-Up
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 09:59:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1mx8Bw-0000C0-0U
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:50:05 -0500
-Received: from [2a00:1450:4864:20::534] (port=33737
- helo=mail-ed1-x534.google.com)
+ (Exim 4.90_1) (envelope-from <avraham.guy@gmail.com>)
+ id 1mx86o-0002yj-D3
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:44:51 -0500
+Received: from [2607:f8b0:4864:20::636] (port=34726
+ helo=mail-pl1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1mx8Br-0006ka-LR
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:50:00 -0500
-Received: by mail-ed1-x534.google.com with SMTP id t5so63009422edd.0
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 05:49:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <avraham.guy@gmail.com>)
+ id 1mx86k-00061L-8O
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:44:45 -0500
+Received: by mail-pl1-x636.google.com with SMTP id y8so13599783plg.1
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 05:44:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:reply-to:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=d5ndx34hN9m4TAr2xVMmBcuyEYVL6HUh2Zoc6H0l7hk=;
- b=kaRvdUhjK5mUvT3+oDIJClgAKiVvpfQFixukB5F2HVK4rUJMJ9XjxhXjCrceLjBc4h
- StwQCf3n4o/vQdj8KeHTHh5ZcUS/vDMwQtV9JtHE0BmKFUQquPKlB4gankOpGawqLTSi
- DiB9D4XD3hlmVj0KHHaeDaMClV/fnlmnLuz+2cAOjTXHljQ+alZaeT6ESVo2ll8lLHh6
- tTRydUk99j6UVvoeSBCytWV94rfGcVes/oR6rF/Tt6xDstaVqyV4/zAD0WxNznlcSVsp
- FBGOLRdd2dNFgUssQ82YMqtL4n60hzlBATcKzBhMqN9dPMdShuK8XQlm8K0MnUBT/omo
- PWvQ==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=UQFV0JJMa41hROtzDEhOj0YN9QkIye5XJEi2GrUG0HQ=;
+ b=g89hHQL/Hrxe9WGerNRyJgb5Iszgxnh0v9DEOLtZ11oVkuRAUMR3SuF/WR5M7mz+Bj
+ OtlWqarsYA80WuSSW9ll64GRNfTi4z7bQ986wmpPSWqKDpibBAyM1YI1AS4D9z9basdy
+ ZKrE3UIvwkKlvw2Nu9m5v7xSqpdYdb/vzUvubdPffxhVkZWGDSw+KSRJzpTsex5pOOOF
+ 8vfBIMouqSZSlVcSp9Q0nRPwohDPivRDtSiw2vhq9utdFUd0NbvbfFdMenfNpLm88WZU
+ TjJvIIhYlFwzp1g4x2XDQTx4/Dl1vSjglj49LunoeopZFRW9403EdmQnorbQNPcOaQ7o
+ Ag0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=d5ndx34hN9m4TAr2xVMmBcuyEYVL6HUh2Zoc6H0l7hk=;
- b=qwr2Bp5FShk0IarLH6jqt6yXprMQUtUQJl8XSZcP2dx7S5g6oBJ0gvzJXUg91W1Abh
- AufO+KsQv7a2PbLhSUK2FG4kbpogOKjdxZ8wsEsfX/y48M+OrxboGL0ctznDnPMZ8A+8
- MfBnrommIL2H3WHZfnxRbDLF8C1e26gsiGrjLy+UycgljYBLD7QQSUulxVCDoBhjDquS
- 1/SQfqzokcvd7CComzZh62OqKTq22SASP06YQyoBKtIkkHFbz0v/ginNMGDr5d5VOe/3
- kTsKZzL1EMVxXrn2eNxB+OzUJOur0jnJyjQK6pl/WMb2KVIQgjynaYva3pUP13OXfdnH
- XqSw==
-X-Gm-Message-State: AOAM532nKsmnCN7nWqFvR8VQ1dhIWNilo7qmXK1BYlJjcv/9fCQI3bv0
- XmbdL+asOk3ZZSXroZ2gT5Y0d5jZaO4=
-X-Google-Smtp-Source: ABdhPJySJ7nTJD03hzl2t9OmC0fdR31hCq/n5Ku3bel24kiVofteNrsCpe58LVNU6wohiG/7LHR/Qw==
-X-Received: by 2002:adf:a10f:: with SMTP id o15mr5860296wro.592.1639489258334; 
- Tue, 14 Dec 2021 05:40:58 -0800 (PST)
-Received: from [192.168.1.186] (host31-48-92-117.range31-48.btcentralplus.com.
- [31.48.92.117])
- by smtp.gmail.com with ESMTPSA id u2sm16264414wrs.17.2021.12.14.05.40.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Dec 2021 05:40:58 -0800 (PST)
-Message-ID: <adfe1c14-f773-0592-e304-d80da8380cc0@gmail.com>
-Date: Tue, 14 Dec 2021 05:40:57 -0800
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=UQFV0JJMa41hROtzDEhOj0YN9QkIye5XJEi2GrUG0HQ=;
+ b=DjMhD6jbhGOs9o07keN1j7ciaGedAxhIy4zQANSDaTOCKi2RKV+4RduQi/Uidcdn2n
+ hyOkYzMl9H+f4Uq1BclGU5cW0hlO7zl8GdaM88WLI8ZFTVuowNylk8fSKh9Ng7KTX2rj
+ hbv55PMBGeQGrixyD11hqgdDTB5/85rir4Pa1EU+Uq/viCgjAf1vcjaA2LlZ4DL7mJgu
+ 8t5+EJRrqtXhjSoyrtaZDhuF1O//PHErU/YFLb1Vakwo6FfbYGdne4lVlaYJMDwsMKMB
+ ZcDkKbQH5if3YCvubwbSP8zHqaiq+Tv2dJrcYZ7+Klr8Iokmi3EBx5W/WXRnljc1ADWl
+ Vg9A==
+X-Gm-Message-State: AOAM533Vqj9DyYMInLByL+f1LNnbu5BYn6or6MWsSozCsGJ/ioZ9k5os
+ Hvcy7+rsp91PVuhbbzIhB5ZXahMEAqs9TqTiKbJrFOW3WRgTBNRllv4=
+X-Google-Smtp-Source: ABdhPJw381ClprzmOSZsU2Y/bOIN363uWqGIh72DKB/R3Nwxm3ifJmFg0AvxWA6hkz4FVOU6jcwn65H1uLVSJI7E2ys=
+X-Received: by 2002:a17:90b:3908:: with SMTP id
+ ob8mr5706342pjb.57.1639489475906; 
+ Tue, 14 Dec 2021 05:44:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH] xen-hvm: Allow disabling buffer_io_timer
-Content-Language: en-US
-To: Jason Andryuk <jandryuk@gmail.com>, qemu-devel@nongnu.org
-References: <20211210193434.75566-1-jandryuk@gmail.com>
-From: "Durrant, Paul" <xadimgnik@gmail.com>
-In-Reply-To: <20211210193434.75566-1-jandryuk@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
+From: =?UTF-8?B?15LXmdeQ?= <avraham.guy@gmail.com>
+Date: Tue, 14 Dec 2021 16:44:23 +0300
+Message-ID: <CADHXGBzqDHgvFJFzk-QydLUyzw00Rgnbw717bZ3hMyFPwHziaw@mail.gmail.com>
+Subject: error in qemu mac install ..
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000d30f7105d31b6398"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=xadimgnik@gmail.com; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=avraham.guy@gmail.com; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.962, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 14 Dec 2021 09:54:44 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,31 +78,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/2021 11:34, Jason Andryuk wrote:
-> commit f37f29d31488 "xen: slightly simplify bufioreq handling" hard
-> coded setting req.count = 1 during initial field setup before the main
-> loop.  This missed a subtlety that an early exit from the loop when
-> there are no ioreqs to process, would have req.count == 0 for the return
-> value.  handle_buffered_io() would then remove state->buffered_io_timer.
-> Instead handle_buffered_iopage() is basically always returning true and
-> handle_buffered_io() always re-setting the timer.
-> 
-> Restore the disabling of the timer by introducing a new handled_ioreq
-> boolean and use as the return value.  The named variable will more
-> clearly show the intent of the code.
-> 
-> Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+--000000000000d30f7105d31b6398
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+Hey
+
+trying to install for the 1st time and i got a message to contact you.
+
+also, the mouse is caught by the qemu but not moving ... so not possible to
+format the hdd .. and continue.
+
+
+guy@guyaHP:~/Downloads/macOS-Simple-KVM-master$ sudo ./basic.sh
+Home directory not accessible: Permission denied
+pulseaudio: pa_context_connect() failed
+pulseaudio: Reason: Connection refused
+pulseaudio: Failed to initialize PA contextaudio: Could not init `pa' audio
+driver
+Home directory not accessible: Permission denied
+ALSA lib confmisc.c:767:(parse_card) cannot find card '0'
+ALSA lib conf.c:4528:(_snd_config_evaluate) function snd_func_card_driver
+returned error: No such file or directory
+ALSA lib confmisc.c:392:(snd_func_concat) error evaluating strings
+ALSA lib conf.c:4528:(_snd_config_evaluate) function snd_func_concat
+returned error: No such file or directory
+ALSA lib confmisc.c:1246:(snd_func_refer) error evaluating name
+ALSA lib conf.c:4528:(_snd_config_evaluate) function snd_func_refer
+returned error: No such file or directory
+ALSA lib conf.c:5007:(snd_config_expand) Evaluate error: No such file or
+directory
+ALSA lib pcm.c:2495:(snd_pcm_open_noupdate) Unknown PCM default
+alsa: Could not initialize DAC
+alsa: Failed to open `default':
+alsa: Reason: No such file or directory
+ALSA lib confmisc.c:767:(parse_card) cannot find card '0'
+ALSA lib conf.c:4528:(_snd_config_evaluate) function snd_func_card_driver
+returned error: No such file or directory
+ALSA lib confmisc.c:392:(snd_func_concat) error evaluating strings
+ALSA lib conf.c:4528:(_snd_config_evaluate) function snd_func_concat
+returned error: No such file or directory
+ALSA lib confmisc.c:1246:(snd_func_refer) error evaluating name
+ALSA lib conf.c:4528:(_snd_config_evaluate) function snd_func_refer
+returned error: No such file or directory
+ALSA lib conf.c:5007:(snd_config_expand) Evaluate error: No such file or
+directory
+ALSA lib pcm.c:2495:(snd_pcm_open_noupdate) Unknown PCM default
+alsa: Could not initialize DAC
+alsa: Failed to open `default':
+alsa: Reason: No such file or directory
+audio: Failed to create voice `dac'
+unknown keycodes `(unnamed)', please report to qemu-devel@nongnu.org
+./basic.sh: line 30: -device: command not found
+
+
+Thank you
+
+Guy
+
+--000000000000d30f7105d31b6398
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hey</div><div><br></div><div>trying to install for th=
+e 1st time and i got a message to contact you.</div><div><br></div><div>als=
+o, the mouse is caught=C2=A0by the qemu but not moving ... so not possible =
+to format the hdd .. and continue.</div><div><br></div><div><br></div>guy@g=
+uyaHP:~/Downloads/macOS-Simple-KVM-master$ sudo ./basic.sh<br>Home director=
+y not accessible: Permission denied<br>pulseaudio: pa_context_connect() fai=
+led<br>pulseaudio: Reason: Connection refused<br>pulseaudio: Failed to init=
+ialize PA contextaudio: Could not init `pa&#39; audio driver<br>Home direct=
+ory not accessible: Permission denied<br>ALSA lib confmisc.c:767:(parse_car=
+d) cannot find card &#39;0&#39;<br>ALSA lib conf.c:4528:(_snd_config_evalua=
+te) function snd_func_card_driver returned error: No such file or directory=
+<br>ALSA lib confmisc.c:392:(snd_func_concat) error evaluating strings<br>A=
+LSA lib conf.c:4528:(_snd_config_evaluate) function snd_func_concat returne=
+d error: No such file or directory<br>ALSA lib confmisc.c:1246:(snd_func_re=
+fer) error evaluating name<br>ALSA lib conf.c:4528:(_snd_config_evaluate) f=
+unction snd_func_refer returned error: No such file or directory<br>ALSA li=
+b conf.c:5007:(snd_config_expand) Evaluate error: No such file or directory=
+<br>ALSA lib pcm.c:2495:(snd_pcm_open_noupdate) Unknown PCM default<br>alsa=
+: Could not initialize DAC<br>alsa: Failed to open `default&#39;:<br>alsa: =
+Reason: No such file or directory<br>ALSA lib confmisc.c:767:(parse_card) c=
+annot find card &#39;0&#39;<br>ALSA lib conf.c:4528:(_snd_config_evaluate) =
+function snd_func_card_driver returned error: No such file or directory<br>=
+ALSA lib confmisc.c:392:(snd_func_concat) error evaluating strings<br>ALSA =
+lib conf.c:4528:(_snd_config_evaluate) function snd_func_concat returned er=
+ror: No such file or directory<br>ALSA lib confmisc.c:1246:(snd_func_refer)=
+ error evaluating name<br>ALSA lib conf.c:4528:(_snd_config_evaluate) funct=
+ion snd_func_refer returned error: No such file or directory<br>ALSA lib co=
+nf.c:5007:(snd_config_expand) Evaluate error: No such file or directory<br>=
+ALSA lib pcm.c:2495:(snd_pcm_open_noupdate) Unknown PCM default<br>alsa: Co=
+uld not initialize DAC<br>alsa: Failed to open `default&#39;:<br>alsa: Reas=
+on: No such file or directory<br>audio: Failed to create voice `dac&#39;<br=
+>unknown keycodes `(unnamed)&#39;, please report to <a href=3D"mailto:qemu-=
+devel@nongnu.org">qemu-devel@nongnu.org</a><br>./basic.sh: line 30: -device=
+: command not found<br><div><br></div><div><br></div><div>Thank you</div><d=
+iv><br></div><div>Guy</div></div>
+
+--000000000000d30f7105d31b6398--
 
