@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8196A47399E
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 01:34:36 +0100 (CET)
-Received: from localhost ([::1]:48146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CBD34739AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 01:40:22 +0100 (CET)
+Received: from localhost ([::1]:57934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwvm7-0005vt-L8
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 19:34:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45028)
+	id 1mwvrh-000452-Fw
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 19:40:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwveC-0008LM-QG
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:26:24 -0500
-Received: from [2607:f8b0:4864:20::429] (port=33625
- helo=mail-pf1-x429.google.com)
+ id 1mwveD-0008N4-83
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:26:25 -0500
+Received: from [2607:f8b0:4864:20::42f] (port=38684
+ helo=mail-pf1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwve7-0005TM-4S
+ id 1mwve8-0005TW-O0
  for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:26:24 -0500
-Received: by mail-pf1-x429.google.com with SMTP id x5so16487324pfr.0
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 16:26:18 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id g18so16407059pfk.5
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 16:26:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eT2OMMtgUWRlyX31jrb7FBHkLkGN7+LrqX+ZG1ZjPS0=;
- b=UegC0wtoanFt+7J6lKtDfPrNiqkzITr4HLS5OZULysGaPG1Vy4UIgwbpf1X+MYwghQ
- sJCiaGU3tIMOQbfrPbystQdEuGE53mZJHPuFlLUm+2Y/C8Q5xNVDFPrsSiuYflJ0PHTs
- T1m8DLCdnVMNOQ0JgMHUG2YwzAd5cOeahP2KVzQ61bzYCKpJRvPAwDE+ivAj7p00kyL4
- oHs2fhB99dAU759wMba6Yf0miEy85D6EUwC5nPTMnFzHqcpJSq5aDw14cGebcainMaZ9
- hGVkO9E2vvs9bnvbA2TBhrVtcbSGb5MwdKsrJCaQ1lvPWmLhPD7ZqvIxjLRpE7j0sXK8
- SQ1Q==
+ bh=jGfLGGGTH1EqFPSWJdPeDV41FqhsvuJx8DurTLn0ZgA=;
+ b=LWpMNkj5rGjMc424FuA3hYlINik861oWS3mwah2SCpln/HZOZ/UwBbdue37k3Rf0F3
+ NfU5ZPH/CjxO/TGLJkeWH6C1Crnuuna3Wd689tEfj2AcMYEbhIRwDkf0Ha9A3MHFM8MF
+ VaKHSdSpAZC98T/XDiK6d1QyalSPimkMeDTb8evQaoCHUEAFFopn4rp28XlcQfpnRVKV
+ Jl0baZyB7MFcoiYAupHHH++6YJa5EpTsVr11g/Z9IrQ5gdENt/17soljdR48oy56UNLN
+ LeRl/RbjwhviVKUNkBSkwh5cS2yfqTFwwzuo8slhMNUZnSnjwtfh1x9tFbORc4XeNHEt
+ MsYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eT2OMMtgUWRlyX31jrb7FBHkLkGN7+LrqX+ZG1ZjPS0=;
- b=j4mymPx+UPkM/zGuiU8q/4l+jUVYgyC8qXcDzDNl5rauVCMHjxblNkzIo3oUyr9EOv
- xDjnRt2FNFHqDE+q2Sniljg/lsfMEkYrZUovpEaG63xVJ+xaSHzj5R6Xdy0Yn3TsKRj2
- Ge4gdTbhc4VaJNDnH86l3QIw6UMSEkitrBbkWt2+lVrLQaAob6uDaXnMRb6izmh0eLWf
- IkAWQTLsnvtL/zKPXadc7tiCzOXoHDeYDMNxliX2ZLn7cotI3Rxe2krRa5/lbQaAkgHG
- jpvsYWYu9rimCUtp+AshV5GSsYwNdkpMXF4/sAiendkDk9Lbc+7JaT0/OCsxgJfstQFV
- Ct8w==
-X-Gm-Message-State: AOAM532STKkR4k/9y9ml97k2/q8jBuCNrRwgRCcvM0FZgWqt2xs7Vuwc
- Fd2CSZcu4vfFEnPpSFsDIxSvGEwvPARJZQ==
-X-Google-Smtp-Source: ABdhPJzG9Cy51XfcnhsiqtuKWT//i2xqx2mQOf7BRMsnuB6896hZAMHHHrbkNBaoIYjKGJMfd6V1Ug==
-X-Received: by 2002:a63:6ecb:: with SMTP id j194mr1411119pgc.46.1639441577795; 
- Mon, 13 Dec 2021 16:26:17 -0800 (PST)
+ bh=jGfLGGGTH1EqFPSWJdPeDV41FqhsvuJx8DurTLn0ZgA=;
+ b=hvjXu4rlAvanHq1aJVOl/+5SKn9h3Xk/ecggh8M0WdkRpj2M0koV/KQjksrKSllIf3
+ P1Bf5aLkc5QZ4IRuOtYwjGHGViAk/rQKY/u9jKIvaSHHILt0HSA0B2S4j3VQsvcT+SQ7
+ neQ+XDSR5xTGsqIXeW01Ggf7fA7nBnrOgO6XZPSV2pfLRdU6OIFfUjnDLRwWSGkxRs9J
+ v6ZiohoowwMbGdhTymc/AcBmHLdz4DRN/b4tYvBYRMwc40hGMLBTBG3CMyN1uTqhbmLx
+ WwcW5tu+Nz1zCEfAmOkLilrtZVIsj2I2H//IRL39P6nZ9FWmt4wk1Tj6YBze5grySIyf
+ NHfQ==
+X-Gm-Message-State: AOAM531rPOaK43y97zn1YXfXV77VPqjwUWdw9vQQDd0HFeU5JbLAXGPP
+ /ihr30FqkPULwj7L6VEec3zyznfuPFA/2Q==
+X-Google-Smtp-Source: ABdhPJzN0zdfCjbUXVX1VI1GCfilMTkcjeomfEoLJSqNqv2bEtIXFKK7X8HxmBKgb8OYHKga3WWkFA==
+X-Received: by 2002:a63:fa42:: with SMTP id g2mr1370957pgk.239.1639441578488; 
+ Mon, 13 Dec 2021 16:26:18 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
  by smtp.gmail.com with ESMTPSA id w7sm11320253pgo.56.2021.12.13.16.26.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Dec 2021 16:26:17 -0800 (PST)
+ Mon, 13 Dec 2021 16:26:18 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 12/15] common-user: Adjust system call return on FreeBSD
-Date: Mon, 13 Dec 2021 16:26:01 -0800
-Message-Id: <20211214002604.161983-13-richard.henderson@linaro.org>
+Subject: [PATCH v7 13/15] linux-user: Move thunk.c from top-level
+Date: Mon, 13 Dec 2021 16:26:02 -0800
+Message-Id: <20211214002604.161983-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211214002604.161983-1-richard.henderson@linaro.org>
 References: <20211214002604.161983-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -86,149 +87,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: git@xen0n.name, laurent@vivier.eu, Warner Losh <imp@bsdimp.com>
+Cc: git@xen0n.name, laurent@vivier.eu, Warner Losh <imp@bsdimp.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-FreeBSD system calls return positive errno.  On the 4 hosts for
-which we have support, error is indicated by the C bit set or clear.
+So far, linux-user is the only user of these functions.
+Clean up the build machinery by restricting it to linux-user.
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- common-user/host/aarch64/safe-syscall.inc.S | 14 +++++++++++++-
- common-user/host/arm/safe-syscall.inc.S     |  9 +++++++++
- common-user/host/i386/safe-syscall.inc.S    | 11 +++++++++++
- common-user/host/x86_64/safe-syscall.inc.S  | 11 +++++++++++
- 4 files changed, 44 insertions(+), 1 deletion(-)
+ meson.build                   | 1 -
+ thunk.c => linux-user/thunk.c | 0
+ MAINTAINERS                   | 1 -
+ linux-user/meson.build        | 1 +
+ 4 files changed, 1 insertion(+), 2 deletions(-)
+ rename thunk.c => linux-user/thunk.c (100%)
 
-diff --git a/common-user/host/aarch64/safe-syscall.inc.S b/common-user/host/aarch64/safe-syscall.inc.S
-index 73a04b73b3..b8fd5b553e 100644
---- a/common-user/host/aarch64/safe-syscall.inc.S
-+++ b/common-user/host/aarch64/safe-syscall.inc.S
-@@ -60,17 +60,29 @@ safe_syscall_start:
-         cbnz    w10, 2f
-         svc     0x0
- safe_syscall_end:
-+
-         /* code path for having successfully executed the syscall */
-+#if defined(__linux__)
-+        /* Linux kernel returns (small) negative errno. */
-         cmp     x0, #-4096
-         b.hi    0f
-+#elif defined(__FreeBSD__)
-+        /* FreeBSD kernel returns positive errno and C bit set. */
-+        b.cs    1f
-+#else
-+#error "unsupported os"
-+#endif
-         ret
+diff --git a/meson.build b/meson.build
+index d5ac65b877..cd97b154bd 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2621,7 +2621,6 @@ subdir('linux-user')
  
-+#if defined(__linux__)
-         /* code path setting errno */
- 0:      neg     w0, w0
-         b       safe_syscall_set_errno_tail
-+#endif
+ specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
  
-         /* code path when we didn't execute the syscall */
- 2:      mov     w0, #QEMU_ERESTARTSYS
--        b       safe_syscall_set_errno_tail
-+1:      b       safe_syscall_set_errno_tail
-+
-         .cfi_endproc
-         .size   safe_syscall_base, .-safe_syscall_base
-diff --git a/common-user/host/arm/safe-syscall.inc.S b/common-user/host/arm/safe-syscall.inc.S
-index 66176a902c..bbfb89634e 100644
---- a/common-user/host/arm/safe-syscall.inc.S
-+++ b/common-user/host/arm/safe-syscall.inc.S
-@@ -74,10 +74,19 @@ safe_syscall_start:
-         bne     2f
-         swi     0
- safe_syscall_end:
-+
-         /* code path for having successfully executed the syscall */
-+#if defined(__linux__)
-+        /* Linux kernel returns (small) negative errno. */
-         cmp     r0, #-4096
-         neghi   r0, r0
-         bhi     1f
-+#elif defined(__FreeBSD__)
-+        /* FreeBSD kernel returns positive errno and C bit set. */
-+        bcs     1f
-+#else
-+#error "unsupported os"
-+#endif
-         pop     { r4, r5, r6, r7, r8, pc }
+-linux_user_ss.add(files('thunk.c'))
+ specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
  
-         /* code path when we didn't execute the syscall */
-diff --git a/common-user/host/i386/safe-syscall.inc.S b/common-user/host/i386/safe-syscall.inc.S
-index aced8c5141..baf5400a29 100644
---- a/common-user/host/i386/safe-syscall.inc.S
-+++ b/common-user/host/i386/safe-syscall.inc.S
-@@ -71,9 +71,18 @@ safe_syscall_start:
-         mov     8+16(%esp), %eax        /* syscall number */
-         int     $0x80
- safe_syscall_end:
-+
-         /* code path for having successfully executed the syscall */
-+#if defined(__linux__)
-+        /* Linux kernel returns (small) negative errno. */
-         cmp     $-4095, %eax
-         jae     0f
-+#elif defined(__FreeBSD__)
-+        /* FreeBSD kernel returns positive errno and C bit set. */
-+        jc      1f
-+#else
-+#error "unsupported os"
-+#endif
-         pop     %ebx
-         .cfi_remember_state
-         .cfi_adjust_cfa_offset -4
-@@ -90,8 +99,10 @@ safe_syscall_end:
-         ret
-         .cfi_restore_state
- 
-+#if defined(__linux__)
- 0:      neg     %eax
-         jmp     1f
-+#endif
- 
-         /* code path when we didn't execute the syscall */
- 2:      mov     $QEMU_ERESTARTSYS, %eax
-diff --git a/common-user/host/x86_64/safe-syscall.inc.S b/common-user/host/x86_64/safe-syscall.inc.S
-index 84fed206f9..a20927a783 100644
---- a/common-user/host/x86_64/safe-syscall.inc.S
-+++ b/common-user/host/x86_64/safe-syscall.inc.S
-@@ -68,9 +68,18 @@ safe_syscall_start:
-         jnz     2f
-         syscall
- safe_syscall_end:
-+
-         /* code path for having successfully executed the syscall */
-+#if defined(__linux__)
-+        /* Linux kernel returns (small) negative errno. */
-         cmp     $-4095, %rax
-         jae     0f
-+#elif defined(__FreeBSD__)
-+        /* FreeBSD kernel returns positive errno and C bit set. */
-+        jc      1f
-+#else
-+#error "unsupported os"
-+#endif
-         pop     %rbp
-         .cfi_remember_state
-         .cfi_def_cfa_offset 8
-@@ -78,8 +87,10 @@ safe_syscall_end:
-         ret
-         .cfi_restore_state
- 
-+#if defined(__linux__)
- 0:      neg     %eax
-         jmp     1f
-+#endif
- 
-         /* code path when we didn't execute the syscall */
- 2:      mov     $QEMU_ERESTARTSYS, %eax
+ common_user_ss = common_user_ss.apply(config_all, strict: false)
+diff --git a/thunk.c b/linux-user/thunk.c
+similarity index 100%
+rename from thunk.c
+rename to linux-user/thunk.c
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6dc3e1cd1d..3fd57f8fac 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3076,7 +3076,6 @@ Usermode Emulation
+ Overall usermode emulation
+ M: Riku Voipio <riku.voipio@iki.fi>
+ S: Maintained
+-F: thunk.c
+ F: accel/tcg/user-exec*.c
+ F: include/user/
+ F: common-user/
+diff --git a/linux-user/meson.build b/linux-user/meson.build
+index bf9d945504..fcf7d40f23 100644
+--- a/linux-user/meson.build
++++ b/linux-user/meson.build
+@@ -15,6 +15,7 @@ linux_user_ss.add(files(
+   'signal.c',
+   'strace.c',
+   'syscall.c',
++  'thunk.c',
+   'uaccess.c',
+   'uname.c',
+ ))
 -- 
 2.25.1
 
