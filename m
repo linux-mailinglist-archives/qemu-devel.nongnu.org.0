@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C844745B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 15:59:06 +0100 (CET)
-Received: from localhost ([::1]:37922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF634743E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 14:52:42 +0100 (CET)
+Received: from localhost ([::1]:39438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx9Gj-00048l-Up
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 09:59:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56274)
+	id 1mx8ET-0003RJ-Pl
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 08:52:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avraham.guy@gmail.com>)
- id 1mx86o-0002yj-D3
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:44:51 -0500
-Received: from [2607:f8b0:4864:20::636] (port=34726
- helo=mail-pl1-x636.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <avraham.guy@gmail.com>)
- id 1mx86k-00061L-8O
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:44:45 -0500
-Received: by mail-pl1-x636.google.com with SMTP id y8so13599783plg.1
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 05:44:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=UQFV0JJMa41hROtzDEhOj0YN9QkIye5XJEi2GrUG0HQ=;
- b=g89hHQL/Hrxe9WGerNRyJgb5Iszgxnh0v9DEOLtZ11oVkuRAUMR3SuF/WR5M7mz+Bj
- OtlWqarsYA80WuSSW9ll64GRNfTi4z7bQ986wmpPSWqKDpibBAyM1YI1AS4D9z9basdy
- ZKrE3UIvwkKlvw2Nu9m5v7xSqpdYdb/vzUvubdPffxhVkZWGDSw+KSRJzpTsex5pOOOF
- 8vfBIMouqSZSlVcSp9Q0nRPwohDPivRDtSiw2vhq9utdFUd0NbvbfFdMenfNpLm88WZU
- TjJvIIhYlFwzp1g4x2XDQTx4/Dl1vSjglj49LunoeopZFRW9403EdmQnorbQNPcOaQ7o
- Ag0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=UQFV0JJMa41hROtzDEhOj0YN9QkIye5XJEi2GrUG0HQ=;
- b=DjMhD6jbhGOs9o07keN1j7ciaGedAxhIy4zQANSDaTOCKi2RKV+4RduQi/Uidcdn2n
- hyOkYzMl9H+f4Uq1BclGU5cW0hlO7zl8GdaM88WLI8ZFTVuowNylk8fSKh9Ng7KTX2rj
- hbv55PMBGeQGrixyD11hqgdDTB5/85rir4Pa1EU+Uq/viCgjAf1vcjaA2LlZ4DL7mJgu
- 8t5+EJRrqtXhjSoyrtaZDhuF1O//PHErU/YFLb1Vakwo6FfbYGdne4lVlaYJMDwsMKMB
- ZcDkKbQH5if3YCvubwbSP8zHqaiq+Tv2dJrcYZ7+Klr8Iokmi3EBx5W/WXRnljc1ADWl
- Vg9A==
-X-Gm-Message-State: AOAM533Vqj9DyYMInLByL+f1LNnbu5BYn6or6MWsSozCsGJ/ioZ9k5os
- Hvcy7+rsp91PVuhbbzIhB5ZXahMEAqs9TqTiKbJrFOW3WRgTBNRllv4=
-X-Google-Smtp-Source: ABdhPJw381ClprzmOSZsU2Y/bOIN363uWqGIh72DKB/R3Nwxm3ifJmFg0AvxWA6hkz4FVOU6jcwn65H1uLVSJI7E2ys=
-X-Received: by 2002:a17:90b:3908:: with SMTP id
- ob8mr5706342pjb.57.1639489475906; 
- Tue, 14 Dec 2021 05:44:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mx8B7-0007xc-4v
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:49:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29146)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mx8B4-0006g5-0t
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:49:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639489749;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Br1ww2WLBgeSAWOTJDdZ2ywV1bp2CHBpBqaJJvVT0k0=;
+ b=jC2IWR578Zfv3cQSfXhXjBjN5SD595aK6mhm0dDdgbYPnsrTFOmBN99LBOcSTBItQYUP6d
+ /7yT+shZBPFNubSmfdjEBftf/HRIrdvpJ3U8xuRNE0P+d0Y2jWHwlZ4/PDoHe3p5Z8tXKo
+ sK6z1Df9AsAc+zPI/F/UpN2xs/IH3Sk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-376-cXJicdrSN5-EI2_fGuMpZA-1; Tue, 14 Dec 2021 08:48:57 -0500
+X-MC-Unique: cXJicdrSN5-EI2_fGuMpZA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A2368015CD;
+ Tue, 14 Dec 2021 13:48:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 69381100EBAD;
+ Tue, 14 Dec 2021 13:48:42 +0000 (UTC)
+Date: Tue, 14 Dec 2021 13:48:39 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Mark Burton <mark.burton@greensocs.com>
+Subject: Re: Redesign of QEMU startup & initial configuration
+Message-ID: <Ybigt8LMt20L1AqS@redhat.com>
+References: <87czm47a77.fsf@dusky.pond.sub.org> <YbN0zLsDVr3B/s3+@redhat.com>
+ <87ilvszg52.fsf@dusky.pond.sub.org>
+ <edbfff5c-65df-980c-acee-05055c254636@redhat.com>
+ <YbeJ/zTV/n+l2CmH@redhat.com>
+ <9AF99888-A4BF-4459-92C1-71E5B76A2C79@greensocs.com>
+ <YbiWh8nQDWpMegER@redhat.com>
+ <4AED38B2-E2DD-46F7-93AA-622D5F6BB570@greensocs.com>
+ <YbiaYnPTUZ70hC1j@redhat.com>
+ <E52F9A8B-A66C-4E54-8F74-F4F45E3FD7A8@greensocs.com>
 MIME-Version: 1.0
-From: =?UTF-8?B?15LXmdeQ?= <avraham.guy@gmail.com>
-Date: Tue, 14 Dec 2021 16:44:23 +0300
-Message-ID: <CADHXGBzqDHgvFJFzk-QydLUyzw00Rgnbw717bZ3hMyFPwHziaw@mail.gmail.com>
-Subject: error in qemu mac install ..
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000d30f7105d31b6398"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=avraham.guy@gmail.com; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <E52F9A8B-A66C-4E54-8F74-F4F45E3FD7A8@greensocs.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 14 Dec 2021 09:54:44 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,105 +90,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d30f7105d31b6398
-Content-Type: text/plain; charset="UTF-8"
+On Tue, Dec 14, 2021 at 02:36:26PM +0100, Mark Burton wrote:
+> 
+> 
+> > On 14 Dec 2021, at 14:21, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > 
+> > On Tue, Dec 14, 2021 at 02:11:11PM +0100, Mark Burton wrote:
+> >> 
+> >> 
+> >>> On 14 Dec 2021, at 14:05, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >>> 
+> >>> On Mon, Dec 13, 2021 at 09:22:14PM +0100, Mark Burton wrote:
+> >>>> 
+> >>>> 
+> >>>>> On 13 Dec 2021, at 18:59, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >>>>> 
+> >>>>> …. we no longer have to solve everything
+> >>>>> Ourselves. 
+> >>>> 
+> >>>> I support this sentiment.
+> >>>> 
+> >>>> Lets re-factor the code so people can build what they need using an API.
+> >>>> Actually, ‘QEMU’ only need support the existing CLI, and provide a suitable internal API.
+> >>>> If that API was relatively stable, that would help those (few) who maintain a different startup mechanism (but its only a ’nice to have’). (Making that convenient, as Paolo has show, would also be ’nice to have’).
+> >>> 
+> >>> To be clear I do strongly believe that the QEMU project needs
+> >>> to deliver the higher level simplified interface too. I just
+> >>> want that higher level interface to be flexible enough to
+> >>> let end users expand on what it offers, without having to
+> >>> write C code nor having to switch entirely to the low level
+> >>> interface like we do today.
+> >>> 
+> >>> IOW, QEMU needs to deliver more than just a low level building
+> >>> block API.
+> >> 
+> >> Why?
+> >> Clearly it would be nice if “higher level” interfaceS existed in
+> >> the world. Clearly QEMU could provide one, two, or many. But, why
+> >> do you think QEMU ‘must’ provide them?
+> > 
+> > To serve our users who are not all wanting to be use a management
+> > layer. They want to be using a simple binary to spin up adhoc
+> > VMs. This is the reason why we've kept most of the short option
+> > CLI args in the existing QEMU binaries, despite having more
+> > comprehensive low level replacement args. 
+> 
+> So - there are
+> a) uses today that use the CLI as it exists.
+> b) users who might prefer a better interface if that was made available - but, again, that doesn’t require QEMU itself to do anything. If we provide a low-level API, and somebody else (you for instance) provides a ’nice’ ‘friendly’ CLI or config file reader - those users would be happy.
+> 
+> I still dont see why QEMU itself needs to provide this ‘high level’ thing.
 
-Hey
+The QEMU project has provided this high level CLI itself historically.
+In previous discussions about dropping the simplified options, leaving
+only the QAPI based options, that idea has always been rejected by a
+non-trivial number of QEMU maintainers who consider it a core part of
+our deliverable as a project.
 
-trying to install for the 1st time and i got a message to contact you.
+> 
+> I think we all agree (correct me if I’m wrong) :
+> * We all want a low level interface
+> * We all want the current CLI to be supported (at least for now, though it could change in time)
+> * We all want the CLI to be based on the low level interface
+> 
+> I’m just asking why we ALSO want to support “yet another high level interface”….
 
-also, the mouse is caught by the qemu but not moving ... so not possible to
-format the hdd .. and continue.
-
-
-guy@guyaHP:~/Downloads/macOS-Simple-KVM-master$ sudo ./basic.sh
-Home directory not accessible: Permission denied
-pulseaudio: pa_context_connect() failed
-pulseaudio: Reason: Connection refused
-pulseaudio: Failed to initialize PA contextaudio: Could not init `pa' audio
-driver
-Home directory not accessible: Permission denied
-ALSA lib confmisc.c:767:(parse_card) cannot find card '0'
-ALSA lib conf.c:4528:(_snd_config_evaluate) function snd_func_card_driver
-returned error: No such file or directory
-ALSA lib confmisc.c:392:(snd_func_concat) error evaluating strings
-ALSA lib conf.c:4528:(_snd_config_evaluate) function snd_func_concat
-returned error: No such file or directory
-ALSA lib confmisc.c:1246:(snd_func_refer) error evaluating name
-ALSA lib conf.c:4528:(_snd_config_evaluate) function snd_func_refer
-returned error: No such file or directory
-ALSA lib conf.c:5007:(snd_config_expand) Evaluate error: No such file or
-directory
-ALSA lib pcm.c:2495:(snd_pcm_open_noupdate) Unknown PCM default
-alsa: Could not initialize DAC
-alsa: Failed to open `default':
-alsa: Reason: No such file or directory
-ALSA lib confmisc.c:767:(parse_card) cannot find card '0'
-ALSA lib conf.c:4528:(_snd_config_evaluate) function snd_func_card_driver
-returned error: No such file or directory
-ALSA lib confmisc.c:392:(snd_func_concat) error evaluating strings
-ALSA lib conf.c:4528:(_snd_config_evaluate) function snd_func_concat
-returned error: No such file or directory
-ALSA lib confmisc.c:1246:(snd_func_refer) error evaluating name
-ALSA lib conf.c:4528:(_snd_config_evaluate) function snd_func_refer
-returned error: No such file or directory
-ALSA lib conf.c:5007:(snd_config_expand) Evaluate error: No such file or
-directory
-ALSA lib pcm.c:2495:(snd_pcm_open_noupdate) Unknown PCM default
-alsa: Could not initialize DAC
-alsa: Failed to open `default':
-alsa: Reason: No such file or directory
-audio: Failed to create voice `dac'
-unknown keycodes `(unnamed)', please report to qemu-devel@nongnu.org
-./basic.sh: line 30: -device: command not found
+You're arguing for a significant change in the scope of what QEMU
+delivers to its users, punting a bunch of functionality to be
+someone else's problem.
 
 
-Thank you
+> > If we just declare we're not going to provide this simple binary
+> > any more, then we're just casting these users adrift. This in
+> 
+> “Any more” - Are you talking about the existing CLI users?
 
-Guy
+Yes.
 
---000000000000d30f7105d31b6398
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> > effect means they'll just carry on existing the historical QEMU
+> > binaries and we'll never be able to eliminate them, so we'll be
+> > maintaining two things forever.
+> 
+> A CLI and the low level interface? - Yes? Can we remove the CLI
+> and only support the low-level interface ? But here you seem to
+> be arguing against yourself, so I guess I misunderstood.
 
-<div dir=3D"ltr"><div>Hey</div><div><br></div><div>trying to install for th=
-e 1st time and i got a message to contact you.</div><div><br></div><div>als=
-o, the mouse is caught=C2=A0by the qemu but not moving ... so not possible =
-to format the hdd .. and continue.</div><div><br></div><div><br></div>guy@g=
-uyaHP:~/Downloads/macOS-Simple-KVM-master$ sudo ./basic.sh<br>Home director=
-y not accessible: Permission denied<br>pulseaudio: pa_context_connect() fai=
-led<br>pulseaudio: Reason: Connection refused<br>pulseaudio: Failed to init=
-ialize PA contextaudio: Could not init `pa&#39; audio driver<br>Home direct=
-ory not accessible: Permission denied<br>ALSA lib confmisc.c:767:(parse_car=
-d) cannot find card &#39;0&#39;<br>ALSA lib conf.c:4528:(_snd_config_evalua=
-te) function snd_func_card_driver returned error: No such file or directory=
-<br>ALSA lib confmisc.c:392:(snd_func_concat) error evaluating strings<br>A=
-LSA lib conf.c:4528:(_snd_config_evaluate) function snd_func_concat returne=
-d error: No such file or directory<br>ALSA lib confmisc.c:1246:(snd_func_re=
-fer) error evaluating name<br>ALSA lib conf.c:4528:(_snd_config_evaluate) f=
-unction snd_func_refer returned error: No such file or directory<br>ALSA li=
-b conf.c:5007:(snd_config_expand) Evaluate error: No such file or directory=
-<br>ALSA lib pcm.c:2495:(snd_pcm_open_noupdate) Unknown PCM default<br>alsa=
-: Could not initialize DAC<br>alsa: Failed to open `default&#39;:<br>alsa: =
-Reason: No such file or directory<br>ALSA lib confmisc.c:767:(parse_card) c=
-annot find card &#39;0&#39;<br>ALSA lib conf.c:4528:(_snd_config_evaluate) =
-function snd_func_card_driver returned error: No such file or directory<br>=
-ALSA lib confmisc.c:392:(snd_func_concat) error evaluating strings<br>ALSA =
-lib conf.c:4528:(_snd_config_evaluate) function snd_func_concat returned er=
-ror: No such file or directory<br>ALSA lib confmisc.c:1246:(snd_func_refer)=
- error evaluating name<br>ALSA lib conf.c:4528:(_snd_config_evaluate) funct=
-ion snd_func_refer returned error: No such file or directory<br>ALSA lib co=
-nf.c:5007:(snd_config_expand) Evaluate error: No such file or directory<br>=
-ALSA lib pcm.c:2495:(snd_pcm_open_noupdate) Unknown PCM default<br>alsa: Co=
-uld not initialize DAC<br>alsa: Failed to open `default&#39;:<br>alsa: Reas=
-on: No such file or directory<br>audio: Failed to create voice `dac&#39;<br=
->unknown keycodes `(unnamed)&#39;, please report to <a href=3D"mailto:qemu-=
-devel@nongnu.org">qemu-devel@nongnu.org</a><br>./basic.sh: line 30: -device=
-: command not found<br><div><br></div><div><br></div><div>Thank you</div><d=
-iv><br></div><div>Guy</div></div>
+The current qemu-system-$TARGET emulators have a variety of
+CLI args, some low level QAPI driven, and some higher level
+simplified args. Mgmt app consumers tend to use the former,
+while our humans userbase tends to use the latter.  I'm
+saying we need to carry on serving both userbases, unless
+we get the QEMU maintainers in general to agree to a pretty
+significant change in what the project delivers. Based on
+previous discussions, I'm doubtful we'll get agreement to
+do that.
 
---000000000000d30f7105d31b6398--
+So if we're going to successfully introduce replacement
+for qemu-system-$TARGET, we need to cater for both userbases,
+albeit we can do so with separate binaries, rather than trying
+to cram low level and high level into the same.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
