@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED31D473F21
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 10:16:48 +0100 (CET)
-Received: from localhost ([::1]:33278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0E4473F49
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 10:23:47 +0100 (CET)
+Received: from localhost ([::1]:39300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx3vT-0005TA-EN
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 04:16:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57302)
+	id 1mx42E-0001Iy-16
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 04:23:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mx3u2-0004Wb-S3
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 04:15:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58143)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mx41I-0000ch-TG
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 04:22:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mx3u0-0002F4-Ex
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 04:15:17 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mx41G-0003DG-C1
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 04:22:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639473314;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1639473765;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+Kk85KTl+7IdXUjjl4lEha/e9L8sbcBOBJQ9KBiV0Io=;
- b=MPgx2KiFtuhubUge1BtCs7POL0xPNYGSLNTNbozVP7xp0APilh8m/tAukiwrS2f3oZ3tyH
- 7Pl8K5WcarelhTzLurvMiP+kVJ162ZeGwGfnk5SXxx6xzlk7jh+WbuTPPwL3Wk1vaOtmXb
- i6s3z4IwZMYYxa/obNKOWjP0Pp6PgqI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mHospckRNEFi586JCRUr+7kFQ3wPioYAMTFIHRurmHg=;
+ b=fg9rfsOObxnHbIUjJqD5Kb5cSJa/i69TcV8oxXsfvE5eLeQmyVhylZj8ge3jASVUeOUIye
+ H5kMNN0mvtSvVPspHFurkHWPBuwKV8I7AKwjaVf/5IheTap35XHEMQlCdl1oLWrMrSPQC7
+ 74McNtLD1IN9kq52XdYi+h0spxyGXcU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-15-3cy37EwRM6K3m6KJEFWexg-1; Tue, 14 Dec 2021 04:15:11 -0500
-X-MC-Unique: 3cy37EwRM6K3m6KJEFWexg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- f5-20020a5d4dc5000000b001a0b1481734so1637109wru.23
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 01:15:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+Kk85KTl+7IdXUjjl4lEha/e9L8sbcBOBJQ9KBiV0Io=;
- b=e9mdThxnoMuk07KwQHng5XW+YO7hOTFn5LxsWtmsVkj4wD4Jq7zAlZVBu4Ti8zB0fX
- ROmy9s0lqda3z5S+Y1e1KWYTWpl7veao8h4ep6wGflhMZq6usqGknoGZWb8m0EwHpY63
- m7GhKRp3IPBrSQ3sS9UNM+dWSSkgH2GMhybRC+AWXiHpvKMiStk3014dVT8WKfIIG2VN
- tX36xUtRV//bMgOKzhmAnaTIDxTaWLP3CBldBt78r6+3/8CKLBrGN2TeMvUF5NacvcdH
- YhwaB4E5DmgyZMqDyjsDXe1mOKxcDL2X7AbHoDrZ8ztEEhsvCTcFhR/S/pweoqoW28Jm
- d9Gw==
-X-Gm-Message-State: AOAM531Xnk+MzQUJIyAd1NwCxoH1RSaPP68D868YuQelVp3M8MVyq7Rg
- QPFPMQZVBJ8cuwfXejX2FpIH6TjBWxZVxCBgice7Fl1qdClaD4Yxkvqh5wsR71o/M9y3fWW+p7A
- obrL93xXGBKdGbO4=
-X-Received: by 2002:adf:9cc4:: with SMTP id h4mr4401075wre.644.1639473310190; 
- Tue, 14 Dec 2021 01:15:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwwaC5CuZNtCtoj1wvRaVQp4eU7fOCeoggEwCILmIp4b7yM1xxO/8Ro+y2NIMeT8yPDWPYzIA==
-X-Received: by 2002:adf:9cc4:: with SMTP id h4mr4401050wre.644.1639473309914; 
- Tue, 14 Dec 2021 01:15:09 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id d2sm1541337wmb.24.2021.12.14.01.15.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Dec 2021 01:15:09 -0800 (PST)
-Message-ID: <8e55777f-b99c-2b5e-8c24-de942b907463@redhat.com>
-Date: Tue, 14 Dec 2021 10:15:08 +0100
+ us-mta-482-CIWiyxuSPTuRxEc2sdzabA-1; Tue, 14 Dec 2021 04:22:42 -0500
+X-MC-Unique: CIWiyxuSPTuRxEc2sdzabA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E551B801962;
+ Tue, 14 Dec 2021 09:22:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CF3C13AB3;
+ Tue, 14 Dec 2021 09:22:37 +0000 (UTC)
+Date: Tue, 14 Dec 2021 09:22:27 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2] MAINTAINERS: Change my email address
+Message-ID: <YbhiU8ARoS5LcORY@redhat.com>
+References: <20211214075424.6920-1-zhanghailiang@xfusion.com>
+ <fc7b5d91-98f6-b146-4a67-5e6800bccadc@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 3/4] Move CONFIG_XFS handling to meson.build
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211028185910.1729744-1-thuth@redhat.com>
- <20211028185910.1729744-4-thuth@redhat.com>
- <e02332c0-7c4e-18a2-5c33-b00e8045f6da@redhat.com>
- <7da70e19-537b-9ca5-125d-f9bcf2d3f6df@redhat.com>
- <aa0b8d39-32ad-b3a0-afff-474de704211f@redhat.com>
- <4ebf08ed-dd35-8347-45f8-18be46fae16f@redhat.com>
- <73e6f8e1-d30c-6c1b-008f-235f624d08f0@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <73e6f8e1-d30c-6c1b-008f-235f624d08f0@redhat.com>
+In-Reply-To: <fc7b5d91-98f6-b146-4a67-5e6800bccadc@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.962, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,32 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qemu-block <qemu-block@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Hailiang Zhang <zhanghailiang@xfusion.com>, quintela@redhat.com,
+ Wen Congyang <wencongyang2@huawei.com>, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, Gonglei <arei.gonglei@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/2021 11.10, Paolo Bonzini wrote:
-> On 12/10/21 09:46, Thomas Huth wrote:
->>>
->>> platform_test_xfs_fd() is only used to decide whether to invoke 
->>> XFS_IOC_DIOINFO; but failures of XFS_IOC_DIOINFO are ignored anyway, so 
->>> we can get rid of is_xfs in BDRVRawState, too.
->>
->> After staring at the code for a while, I wonder why we're not simply using 
->> fstat() here instead to get the st_blksize value... wouldn't that be 
->> better anyway since it also works with other file system types?
+On Tue, Dec 14, 2021 at 10:04:03AM +0100, Philippe Mathieu-Daudé wrote:
+> On 12/14/21 08:54, Hailiang Zhang wrote:
+> > The zhang.zhanghailiang@huawei.com email address has been
+> > stopped. Change it to my new email address.
+> > 
+> > Signed-off-by: Hailiang Zhang <zhanghailiang@xfusion.com>
+> > ---
+> > hi Juan & Dave,
+> > 
+> > Firstly, thank you for your working on maintaining the COLO framework.
+> > I didn't have much time on it in the past days.
+> > 
+> > I may have some time in the next days since my job has changed.
+> > 
+> > Because of my old email being stopped, i can not use it to send this patch.
+> > Please help me to merge this patch.
 > 
-> The value that XFS_IOC_DIOINFO returns is the logical sector size of the 
-> underlying device; it should be 512 or 4096, but more likely 512.  It can be 
-> smaller than st_blksize, because often it will be if it is 512 but the 
-> st_blksize is usually 4096.
-> 
-> If it is wrong, QEMU will do unnecessary read/modify/write operations for 
-> disk writes that are not 4K-aligned.
+> Can we have an Ack-by from someone working at Huawei?
 
-Ok, true, I've checked it and XFS_IOC_DIOINFO return 512 on my laptop 
-indeed, while fstat->st_blksize is 4096 instead. So it's not the same :-/
+Why do we need that ? Subsystems are not owned by companies.
 
-  Thomas
+If someone moves company and wants to carry on in their existing
+role as maintainer that is fine and doesn't need approva from their
+old company IMHO.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
