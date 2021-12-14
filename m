@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8494474AB0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 19:23:49 +0100 (CET)
-Received: from localhost ([::1]:52504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76BFC474B1E
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 19:44:44 +0100 (CET)
+Received: from localhost ([::1]:37740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxCSq-0003St-AI
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 13:23:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41512)
+	id 1mxCn5-0005Uj-59
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 13:44:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mxCRU-0002no-PE
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 13:22:25 -0500
-Received: from [2a00:1450:4864:20::42d] (port=47078
- helo=mail-wr1-x42d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mxCRR-0004nc-H6
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 13:22:23 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id i22so4107550wrb.13
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 10:22:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aLt2TUgSzLO10dQEKYLOpEEl8MmCeHXBkcOlhjmIuXA=;
- b=AWCrB/xP3Kz/8ONQAcadMr4/oj/cukeUipKA2S+6znnZ3rXqd0TAWM6ot0fUsw1VXD
- 4WfThEFt94k6prvEVAKY0cW4++zehnLJSw/CedZViXBHq0q9kw5X59snYzUc1i3PZyHX
- U8+Iw03ThENLMQn//mASPSKjSH7zcJs/0d3C1nThC6+S9yjR7OOYhtu8FQXoNqJB5VNX
- Y86gHAVVkV77XKCFzJzKaLblOkHtdRPYyjk5izn7PJMMYTVmZPw9VslnIaLy10oxCUBo
- 9156QY+ASQeMi+7vDHXJy4R1IRnW5kUX1TTx0Ya8uE4B7ZzY5j/n6GuJzQpvYWJIH2Lj
- R0MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aLt2TUgSzLO10dQEKYLOpEEl8MmCeHXBkcOlhjmIuXA=;
- b=24KEXukmXLGhmEhuW+qlF7KLVQ8xcZ0NoS13xGwKVqZ3i9UYnYg+KV6dghTvMiyUJz
- OOoIxXgCE7fqXasN89gVInK0YtJi7OvxqGuv1jbYfd4UkADn8eLmtJZVAobWw2Jqp7IR
- +s9JfTu4E0GJg3+L6Y2wVAdZeiyABZqRodBs6w8aphojLGLYr17Q0ucg6p5BkSoLIZzz
- KoijNPuDsWUNBcy5+8SpasRm4Zy3W/ydW5IARPwmvStiWMfDVSNe4DnNtM3dXK7RrfNa
- kYHU3pUH9mFkB70fYL+fmyrGhvwUsnKx+O7qfro+rhbZ3g5V6ltC+MlQXoYTeyXHD2Ez
- gwZg==
-X-Gm-Message-State: AOAM530Q1d4+XI6QfUAsit4SqS9gN/X1hC8deGWwfYSTP/CaXYMRo0n/
- jjp2QOnWrqQdHiP5xBL4jhEH9A==
-X-Google-Smtp-Source: ABdhPJzo2JasAMACm5MB2ozYdscJ5itcXEEqNkE+dtSu2jpT7qoYQyZxLJOHrdmZY+NRiMBXEsrJyA==
-X-Received: by 2002:a05:6000:184e:: with SMTP id
- c14mr659863wri.241.1639506135181; 
- Tue, 14 Dec 2021 10:22:15 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q24sm2706938wmj.21.2021.12.14.10.22.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Dec 2021 10:22:14 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 92C261FF96;
- Tue, 14 Dec 2021 18:22:13 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] monitor: move x-query-profile into accel/tcg to fix build
-Date: Tue, 14 Dec 2021 18:22:07 +0000
-Message-Id: <20211214182207.1416246-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mxCiW-00048A-Og
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 13:40:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29457)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mxCiT-0007AS-OO
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 13:39:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639507196;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JU00oIpOXwagYYToGQd9Zjh+yui2eVZdttbGtuW/SSY=;
+ b=IT6EdXIy738XzBmQ7BHCuq48O6CbmRBZMys4TXMnHB/tgvz+bvgqn4v+L4eWoFTGSeybsK
+ su5CleDWjZx+oDn1sHiEo5U4p4GFdSrEA18Y/7vWaUTpDGZgMfB6DDHEwO4+3JXHFi0rqd
+ nghdSw2dzyPwejvac6I2aeL6NxYwMQg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-571-GSBmsc4UNEuAKjs1oQX0-Q-1; Tue, 14 Dec 2021 13:39:44 -0500
+X-MC-Unique: GSBmsc4UNEuAKjs1oQX0-Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C76BD100C66F;
+ Tue, 14 Dec 2021 18:39:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BFC878C2E;
+ Tue, 14 Dec 2021 18:39:40 +0000 (UTC)
+Date: Tue, 14 Dec 2021 18:39:37 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Dov Murik <dovmurik@linux.ibm.com>
+Subject: Re: [PATCH] docs: Add measurement calculation details to
+ amd-memory-encryption.txt
+Message-ID: <Ybjk6XJUNIyC/LX5@redhat.com>
+References: <20211214135910.2732101-1-dovmurik@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20211214135910.2732101-1-dovmurik@linux.ibm.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,126 +83,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, James Bottomley <jejb@linux.ibm.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As --enable-profiler isn't defended in CI we missed this breakage.
-Move the qmp handler into accel/tcg so we have access to the helpers
-we need. While we are at it ensure we gate the feature on CONFIG_TCG.
+On Tue, Dec 14, 2021 at 01:59:10PM +0000, Dov Murik wrote:
+> Add a section explaining how the Guest Owner should calculate the
+> expected guest launch measurement for SEV and SEV-ES.
+> 
+> Also update the name and link to the SEV API Spec document.
+> 
+> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  docs/amd-memory-encryption.txt | 50 +++++++++++++++++++++++++++++++---
+>  1 file changed, 46 insertions(+), 4 deletions(-)
+> 
+> diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
+> index ffca382b5f..f97727482f 100644
+> --- a/docs/amd-memory-encryption.txt
+> +++ b/docs/amd-memory-encryption.txt
+> @@ -43,7 +43,7 @@ The guest policy is passed as plaintext. A hypervisor may choose to read it,
+>  but should not modify it (any modification of the policy bits will result
+>  in bad measurement). The guest policy is a 4-byte data structure containing
+>  several flags that restricts what can be done on a running SEV guest.
+> -See KM Spec section 3 and 6.2 for more details.
+> +See SEV API Spec [1] section 3 and 6.2 for more details.
+>  
+>  The guest policy can be provided via the 'policy' property (see below)
+>  
+> @@ -88,7 +88,7 @@ expects.
+>  LAUNCH_FINISH finalizes the guest launch and destroys the cryptographic
+>  context.
+>  
+> -See SEV KM API Spec [1] 'Launching a guest' usage flow (Appendix A) for the
+> +See SEV API Spec [1] 'Launching a guest' usage flow (Appendix A) for the
+>  complete flow chart.
+>  
+>  To launch a SEV guest
+> @@ -113,6 +113,45 @@ a SEV-ES guest:
+>   - Requires in-kernel irqchip - the burden is placed on the hypervisor to
+>     manage booting APs.
+>  
+> +Calculating expected guest launch measurement
+> +---------------------------------------------
+> +In order to verify the guest launch measurement, The Guest Owner must compute
+> +it in the exact same way as it is calculated by the AMD-SP.  SEV API Spec [1]
+> +section 6.5.1 describes the AMD-SP operations:
+> +
+> +    GCTX.LD is finalized, producing the hash digest of all plaintext data
+> +    imported into the guest.
+> +
+> +    The launch measurement is calculated as:
+> +
+> +    HMAC(0x04 || API_MAJOR || API_MINOR || BUILD || GCTX.POLICY || GCTX.LD || MNONCE; GCTX.TIK)
+> +
+> +    where "||" represents concatenation.
+> +
+> +The values of API_MAJOR, API_MINOR, BUILD, and GCTX.POLICY can be obtained
+> +from the 'query-sev' qmp command.
+> +
+> +The value of MNONCE is part of the response of 'query-sev-launch-measure': it
+> +is the last 16 bytes of the base64-decoded data field (see SEV API Spec [1]
+> +section 6.5.2 Table 52: LAUNCH_MEASURE Measurement Buffer).
+> +
+> +The value of GCTX.LD is SHA256(firmware_blob || kernel_hashes_blob || vmsas_blob),
+> +where:
+> +
+> +* firmware_blob is the content of the entire firmware flash file (for example,
+> +  OVMF.fd).
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Fixes: 37087fde0e ("qapi: introduce x-query-profile QMP command")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/773
----
- qapi/machine.json    |  1 +
- accel/tcg/cpu-exec.c | 31 +++++++++++++++++++++++++++++++
- monitor/qmp-cmds.c   | 31 -------------------------------
- 3 files changed, 32 insertions(+), 31 deletions(-)
+Lets add a caveat that the firmware flash should be built to be stateless
+ie that it is not secure to attempt to measure a guest where the firmware
+uses an NVRAM store.
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 067e3f5378..0c9f24a712 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1492,6 +1492,7 @@
- ##
- { 'command': 'x-query-profile',
-   'returns': 'HumanReadableText',
-+  'if': 'CONFIG_TCG',
-   'features': [ 'unstable' ] }
- 
- ##
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 409ec8c38c..9498a16681 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -1091,3 +1091,34 @@ HumanReadableText *qmp_x_query_opcount(Error **errp)
- }
- 
- #endif /* !CONFIG_USER_ONLY */
-+
-+#ifdef CONFIG_PROFILER
-+
-+int64_t dev_time;
-+
-+HumanReadableText *qmp_x_query_profile(Error **errp)
-+{
-+    g_autoptr(GString) buf = g_string_new("");
-+    static int64_t last_cpu_exec_time;
-+    int64_t cpu_exec_time;
-+    int64_t delta;
-+
-+    cpu_exec_time = tcg_cpu_exec_time();
-+    delta = cpu_exec_time - last_cpu_exec_time;
-+
-+    g_string_append_printf(buf, "async time  %" PRId64 " (%0.3f)\n",
-+                           dev_time, dev_time / (double)NANOSECONDS_PER_SECOND);
-+    g_string_append_printf(buf, "qemu time   %" PRId64 " (%0.3f)\n",
-+                           delta, delta / (double)NANOSECONDS_PER_SECOND);
-+    last_cpu_exec_time = cpu_exec_time;
-+    dev_time = 0;
-+
-+    return human_readable_text_from_str(buf);
-+}
-+#else
-+HumanReadableText *qmp_x_query_profile(Error **errp)
-+{
-+    error_setg(errp, "Internal profiler not compiled");
-+    return NULL;
-+}
-+#endif
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 343353e27a..be5e44c569 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -355,37 +355,6 @@ void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
-     }
- }
- 
--#ifdef CONFIG_PROFILER
--
--int64_t dev_time;
--
--HumanReadableText *qmp_x_query_profile(Error **errp)
--{
--    g_autoptr(GString) buf = g_string_new("");
--    static int64_t last_cpu_exec_time;
--    int64_t cpu_exec_time;
--    int64_t delta;
--
--    cpu_exec_time = tcg_cpu_exec_time();
--    delta = cpu_exec_time - last_cpu_exec_time;
--
--    g_string_append_printf(buf, "async time  %" PRId64 " (%0.3f)\n",
--                           dev_time, dev_time / (double)NANOSECONDS_PER_SECOND);
--    g_string_append_printf(buf, "qemu time   %" PRId64 " (%0.3f)\n",
--                           delta, delta / (double)NANOSECONDS_PER_SECOND);
--    last_cpu_exec_time = cpu_exec_time;
--    dev_time = 0;
--
--    return human_readable_text_from_str(buf);
--}
--#else
--HumanReadableText *qmp_x_query_profile(Error **errp)
--{
--    error_setg(errp, "Internal profiler not compiled");
--    return NULL;
--}
--#endif
--
- static int qmp_x_query_rdma_foreach(Object *obj, void *opaque)
- {
-     RdmaProvider *rdma;
+> +* if kernel is used, and kernel-hashes=on, then kernel_hashes_blob is the
+> +  content of PaddedSevHashTable (including the zero padding), which itself
+> +  includes the hashes of kernel, initrd, and cmdline that are passed to the
+> +  guest.  The PaddedSevHashTable struct is defined in target/i386/sev.c .
+> +* if SEV-ES is enabled (policy & 0x4 != 0), vmsas_blob is the concatenation of
+> +  all VMSAs of the guest vcpus.  Each VMSA is 4096 bytes long; its content is
+> +  defined inside Linux kernel code as struct vmcb_save_area, or in AMD APM
+> +  Volume 2 [2] Table B-2: VMCB Layout, State Save Area.
+
+Is there any practical guidance we can give apps on the way the VMSAs
+can be expected to be initialized ? eg can they assume essentially
+all fields in vmcb_save_area are 0 initialized except for certain
+ones ? Is initialization likely to vary at all across KVM or EDK2
+vesions or something ?
+
+> +
+> +If kernel hashes are not used, or SEV-ES is disabled, use empty blobs for
+> +kernel_hashes_blob and vmsas_blob as needed.
+
+
+Regards,
+Daniel
 -- 
-2.30.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
