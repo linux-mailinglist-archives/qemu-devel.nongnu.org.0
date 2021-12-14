@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2CC7473DC7
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 08:46:55 +0100 (CET)
-Received: from localhost ([::1]:41882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230C8473DD9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 08:57:09 +0100 (CET)
+Received: from localhost ([::1]:46328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx2WU-0007ak-DP
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 02:46:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57812)
+	id 1mx2gO-0002rs-1L
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 02:57:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0975287001=zhanghailiang@xfusion.com>)
- id 1mx2Ti-0006tq-Qi
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 02:44:02 -0500
-Received: from wxsgout01.xfusion.com ([36.138.119.38]:50296)
+ id 1mx2eL-00025w-EE
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 02:55:01 -0500
+Received: from wxsgout01.xfusion.com ([36.138.119.38]:54577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=0975287001=zhanghailiang@xfusion.com>)
- id 1mx2Tf-0005zD-Ok
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 02:44:02 -0500
+ id 1mx2eH-0007ze-CW
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 02:55:00 -0500
 Received: from wuxshcsitd00600.xfusion.com (unknown [10.32.133.213])
- by wxsgout01.xfusion.com (SkyGuard) with ESMTPS id 4JCr0Y4DpczCqtv;
- Tue, 14 Dec 2021 15:41:17 +0800 (CST)
+ by wxsgout01.xfusion.com (SkyGuard) with ESMTPS id 4JCrFL3KF9zCrJT;
+ Tue, 14 Dec 2021 15:52:22 +0800 (CST)
 Received: from localhost (10.99.3.112) by wuxshcsitd00600.xfusion.com
  (10.32.133.213) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 14 Dec
- 2021 15:44:23 +0800
+ 2021 15:55:28 +0800
 From: Hailiang Zhang <zhanghailiang@xfusion.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH] MAINTAINERS: Change my email address
-Date: Tue, 14 Dec 2021 15:40:21 +0800
-Message-ID: <20211214074021.6840-1-zhanghailiang@xfusion.com>
+Subject: [PATCH v2] MAINTAINERS: Change my email address
+Date: Tue, 14 Dec 2021 15:54:24 +0800
+Message-ID: <20211214075424.6920-1-zhanghailiang@xfusion.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,6 +69,19 @@ The zhang.zhanghailiang@huawei.com email address has been
 stopped. Change it to my new email address.
 
 Signed-off-by: Hailiang Zhang <zhanghailiang@xfusion.com>
+---
+hi Juan & Dave,
+
+Firstly, thank you for your working on maintaining the COLO framework.
+I didn't have much time on it in the past days.
+
+I may have some time in the next days since my job has changed.
+
+Because of my old email being stopped, i can not use it to send this patch.
+Please help me to merge this patch.
+
+Thanks,
+Hailiang
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
