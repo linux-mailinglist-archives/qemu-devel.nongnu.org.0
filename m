@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E9C4745B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 15:55:52 +0100 (CET)
-Received: from localhost ([::1]:57768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BE374745B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 15:56:21 +0100 (CET)
+Received: from localhost ([::1]:58672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx9Da-0006m0-Sb
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 09:55:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44866)
+	id 1mx9E4-0007Nl-Ag
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 09:56:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mx97b-0000Wy-4X
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:49:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26406)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mx97Y-0008AC-Gl
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:49:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639493374;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M3GAtztHoSw9MAdOlALANj96Pcfb/+OOyAPqimtY7+w=;
- b=hXNsvTXMGM+XOI2L9Ftt5jJzTqEQzbv4OHLHQbQmOSxQZ5IoX+jh9GEpVI4Idvuo7Ej29O
- 2r3VEEw9kvhRQcuArsqwAoFvr0qx0Mu58T/wiFjrqUDHVpLl7qOYHxXNuw3o5hkrDbA1Jh
- Bpgre9QjyXhdvCArqm7T/PM9itESGDk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-20-GSqi_XbNN2ejeyR9LIz72w-1; Tue, 14 Dec 2021 09:49:31 -0500
-X-MC-Unique: GSqi_XbNN2ejeyR9LIz72w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A6E910A2915;
- Tue, 14 Dec 2021 14:49:30 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-2.ams2.redhat.com [10.36.112.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F38E67AB77;
- Tue, 14 Dec 2021 14:49:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9FF51113865F; Tue, 14 Dec 2021 15:49:21 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: Meeting today?
-References: <YbJU5vVdesoGuug9@redhat.com> <87mtl88t0j.fsf@dusky.pond.sub.org>
- <a31201bb-78de-e926-1476-b48b008745c1@redhat.com>
- <878rwozfqm.fsf@dusky.pond.sub.org>
- <16cd5683-4f97-d24c-dd19-24febcab7ba8@redhat.com>
- <YbeL7EjoTtrUrGa2@redhat.com>
- <e33c3d09-b507-798c-b18e-df684ec797e2@redhat.com>
- <YbeWxAn6Zw7rH+5K@redhat.com>
- <CC132B60-3F08-4F03-B328-4C33407BB944@greensocs.com>
- <87lf0nto1k.fsf@dusky.pond.sub.org> <YbiS8Zc7fcoeoSyC@redhat.com>
-Date: Tue, 14 Dec 2021 15:49:21 +0100
-In-Reply-To: <YbiS8Zc7fcoeoSyC@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Tue, 14 Dec 2021 12:49:53 +0000")
-Message-ID: <87bl1jqm1a.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mx9Ba-0004nk-DX
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:53:46 -0500
+Received: from [2a00:1450:4864:20::436] (port=38533
+ helo=mail-wr1-x436.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mx9BY-0000KN-Ux
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:53:46 -0500
+Received: by mail-wr1-x436.google.com with SMTP id q3so32810297wru.5
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 06:53:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=c2NeLMcRrVsb+Pl9xSQ+FPJM5EtaaTACMt+A1OHAZvI=;
+ b=sfzB2WXJtaSED0e94BGzh6lgEcxx3ffN1j0na9SW486Q1cVTAT2gfo5EICJ61WgddE
+ LIbdPKHpnYWJdPd+NKA0cEY4gWvAIYRhQ6M57vTU+DYx5TD1KYdDB3jM0IwKsim4dZko
+ nApF1zkydd+l84CIdyJm3iUIMk6LrrB0AbF7Qr978xASjzetosn3jU2KoZtEjI+otSP4
+ jxjrS9FKzyW3Rt4VAVsfPp5HKi88RI8AWv3YAEoPkt4K9hl/Q+mWdQPnbRB3IN+tCXsl
+ RmGjMeiWp5CtI2G0WKpUUkqoSLaCrBz1lsdcwTF93P6hNeT9Qk+9G2d8RwLk5IsTIGeT
+ f6eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=c2NeLMcRrVsb+Pl9xSQ+FPJM5EtaaTACMt+A1OHAZvI=;
+ b=q//wz0QDroupRHVCgaC7tDaMaU5XFhVZtFraCV3p4nNZCqrrzTyL4Hlorr5NA1ExR1
+ BDvsMCYpma9CBD5NsHqgbj3PR7pgXc8kJEhTrbszGN0eijTQOz7zDCRDhBDR4JT6bug/
+ 06vg68tDIwBXs57U92KJnmOy8U1eGVUOG1+lV+KnBb8hJ6H2zSXBAHLNDJx9xEYK70ZZ
+ vD4wLYeGptvzgNyuZehwYGrYg1QnsZ+SiSFCshTk6AQdR9ODP+LBL/HK5NTdrsMRz+kv
+ 67zTTW5idNcOBUpLjNSLqMEgxrOq7174PAudYq7Zz2T3Ule5OPViijGKgAGTw1b4SzHh
+ smCA==
+X-Gm-Message-State: AOAM531dLHe2fmHP1XDZB9k3mV+OLY92lX4x3Oo1edV2pQyqEC8oOmVM
+ YIQzeuxx2TyEfV9zPptiAx3mKv33iaIYeA==
+X-Google-Smtp-Source: ABdhPJwc5iEXGAM02ETXdcYZ+UbT/oC3LsQiLGYzFHwXhBlninx9T675vN1NkScXhKFi4QNh5OVFJQ==
+X-Received: by 2002:a5d:47ad:: with SMTP id 13mr6362878wrb.133.1639493623492; 
+ Tue, 14 Dec 2021 06:53:43 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u23sm119423wru.21.2021.12.14.06.53.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Dec 2021 06:53:42 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2F37C1FF96;
+ Tue, 14 Dec 2021 14:53:42 +0000 (GMT)
+References: <20211208231154.392029-1-richard.henderson@linaro.org>
+ <20211208231154.392029-5-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 4/6] target/arm: Implement FEAT_LVA
+Date: Tue, 14 Dec 2021 14:53:35 +0000
+In-reply-to: <20211208231154.392029-5-richard.henderson@linaro.org>
+Message-ID: <8735mvi6fd.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,31 +90,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Mark Burton <mark.burton@greensocs.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> On Tue, Dec 14, 2021 at 12:37:43PM +0100, Markus Armbruster wrote:
->> Mark Burton <mark.burton@greensocs.com> writes:
->>=20
->> > I realise it=E2=80=99s very short notice, but what about having a disc=
-ussion today at 15:00 ?
->>=20
->> I have a conflict today.  I could try to reschedule, but I'd prefer to
->> talk next week instead.  Less stress, better prep.
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> This feature is relatively small, as it applies only to
+> 64k pages and thus requires no additional changes to the
+> table descriptor walking algorithm, only a change to the
+> minimum TSZ (which is the inverse of the maximum virtual
+> address space size).
 >
-> I fear we've run out of time for this year if we want all interested
-> parties to be able to attend.  I'll be off on PTO from end of this
-> week until the new year, and I know alot of folk are doing similar.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Right.  I'll be off from Dec 23 to Jan 9.  Can we all make Jan 11?
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
 
