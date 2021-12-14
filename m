@@ -2,74 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87FF474614
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 16:10:56 +0100 (CET)
-Received: from localhost ([::1]:35956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2119F474621
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 16:13:39 +0100 (CET)
+Received: from localhost ([::1]:43024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx9SB-0005bG-SB
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 10:10:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47598)
+	id 1mx9Uo-0001yJ-1q
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 10:13:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mx9I0-0008UO-Lz
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 10:00:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47011)
+ (Exim 4.90_1) (envelope-from <heiko@sntech.de>)
+ id 1mx9JU-0002R1-Ez; Tue, 14 Dec 2021 10:01:56 -0500
+Received: from gloria.sntech.de ([185.11.138.130]:54462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mx9Hv-0001Fm-Cs
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 10:00:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639494018;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=tCWEcOmcuomeCLBgo6dkmKuNq0aygbLxblh4epyKV3k=;
- b=PlYrJoX3pl8hIKWhkiPKB01yuchYBsotmEzbAXmDo40gDMm6QFiVZK54zk/DZCjQIqnLsY
- QNMhT7PTxK/AswWgD4yLV/vmhPzuhtt76kpszisxQN6lmR2qxajeEP5mYaGPGehGcThuuh
- 5CNm8J75rs+E8reF6iR0hW0YQ8Dznv0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-134-_GQ6Nzv8NxiVm3ovJZAZyA-1; Tue, 14 Dec 2021 10:00:15 -0500
-X-MC-Unique: _GQ6Nzv8NxiVm3ovJZAZyA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 704C510168C3;
- Tue, 14 Dec 2021 15:00:14 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.122])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D958F5ED5B;
- Tue, 14 Dec 2021 15:00:12 +0000 (UTC)
-Date: Tue, 14 Dec 2021 15:00:09 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Henry Kleynhans <hkleynhans@fb.com>
-Subject: Re: [PATCH] Relax X509 CA cert sanity checking
-Message-ID: <YbixeezdNHXgRwWv@redhat.com>
-References: <20211214113930.9205-1-henry.kleynhans@gmail.com>
- <YbiZNMxfHFRZFjFS@redhat.com>
- <BY5PR15MB35728B48C640AC319375D99AB8759@BY5PR15MB3572.namprd15.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <heiko@sntech.de>)
+ id 1mx9JQ-0001Yh-UX; Tue, 14 Dec 2021 10:01:56 -0500
+Received: from p5b127e95.dip0.t-ipconnect.de ([91.18.126.149]
+ helo=phil.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1mx9JH-0008Un-4l; Tue, 14 Dec 2021 16:01:43 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, liweiwei <liweiwei@iscas.ac.cn>,
+ lazyparser@gmail.com, liweiwei <liweiwei@iscas.ac.cn>
+Subject: Re: [RFC PATCH 3/3] target/riscv: add support for svpbmt extension
+Date: Tue, 14 Dec 2021 16:01:42 +0100
+Message-ID: <2304988.zUQuKtGZoq@phil>
+In-Reply-To: <20211128135255.22089-4-liweiwei@iscas.ac.cn>
+References: <20211128135255.22089-1-liweiwei@iscas.ac.cn>
+ <20211128135255.22089-4-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
-In-Reply-To: <BY5PR15MB35728B48C640AC319375D99AB8759@BY5PR15MB3572.namprd15.prod.outlook.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: none client-ip=185.11.138.130; envelope-from=heiko@sntech.de;
+ helo=gloria.sntech.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_NONE=0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 14 Dec 2021 10:10:23 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,35 +56,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Henry Kleynhans <henry.kleynhans@gmail.com>,
- "henry.kleynhans@fb.com" <henry.kleynhans@fb.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 14, 2021 at 02:55:02PM +0000, Henry Kleynhans wrote:
-> Hi Daniel,
+Am Sonntag, 28. November 2021, 14:52:55 CET schrieb liweiwei:
+> It uses two PTE bits, but QEMU is sequentially consistent, So it has no effect on QEMU currently.
 > 
-> I agree that this would allow QEMU startup with a broken
-> TLS setup.  Maybe the better solution is to only validate
-> the chain of trust.  Would a patch that does that be acceptable?
+> Signed-off-by: liweiwei <liweiwei@iscas.ac.cn>
+> Signed-off-by: wangjunqiang <wangjunqiang@iscas.ac.cn>
 
-Yes, that would be fine. It was only ever intended to validate
-the chain of trust needed for QEMU's usage. It simply never
-occurred to me that someone who have extra redundant certs in
-their bundle, so I didn't do anything special to handle that.
+with the Linux svpbmt patchset
+Tested-by: Heiko Stuebner <heiko@sntech.de>
 
-BTW, there's a decent amount of unit test coverage for this code
-in tests/unit/test-crypto-tlscredsx509.c which could be fairly
-easily extended to cover the scenarios of extra certs outside
-the required chain of trust.
+Thanks
+Heiko
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> ---
+>  target/riscv/cpu_bits.h   | 4 ++++
+>  target/riscv/cpu_helper.c | 9 +++++++--
+>  2 files changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 70391424b0..62713ec37a 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -473,7 +473,11 @@ typedef enum {
+>  #define PTE_A               0x040 /* Accessed */
+>  #define PTE_D               0x080 /* Dirty */
+>  #define PTE_SOFT            0x300 /* Reserved for Software */
+> +#define PTE_RSVD            0x1FC0000000000000 /* Reserved for future use */
+> +#define PTE_PBMT            0x6000000000000000 /* Page-based memory types */
+>  #define PTE_N               0x8000000000000000
+> +#define PTE_ATTR            0xFFC0000000000000 /* All attributes bits */
+> +
+>  
+>  /* Page table PPN shift amount */
+>  #define PTE_PPN_SHIFT       10
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index e68db3e119..94b01bbf78 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -588,13 +588,18 @@ restart:
+>              return TRANSLATE_FAIL;
+>          }
+>  
+> -        hwaddr ppn = (pte & ~(target_ulong)PTE_N) >> PTE_PPN_SHIFT;
+> +        hwaddr ppn = (pte & ~(target_ulong)PTE_ATTR) >> PTE_PPN_SHIFT;
+>  
+> -        if (!(pte & PTE_V)) {
+> +        if (pte & PTE_RSVD) {
+> +            return TRANSLATE_FAIL;
+> +        } else if (!(pte & PTE_V)) {
+>              /* Invalid PTE */
+>              return TRANSLATE_FAIL;
+>          } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
+>              /* Inner PTE, continue walking */
+> +            if (pte & (PTE_D | PTE_A | PTE_U | PTE_N | PTE_PBMT)) {
+> +                return TRANSLATE_FAIL;
+> +            }
+>              base = ppn << PGSHIFT;
+>          } else if ((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W) {
+>              /* Reserved leaf PTE flags: PTE_W */
+> 
+
+
+
 
 
