@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434A2473B82
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 04:26:18 +0100 (CET)
-Received: from localhost ([::1]:49448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03DA6473D76
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 08:14:21 +0100 (CET)
+Received: from localhost ([::1]:57416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwySG-0002yA-Vu
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 22:26:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46500)
+	id 1mx20x-0005uT-H0
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 02:14:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1mwyRJ-0002B1-UR
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 22:25:19 -0500
-Received: from [2a00:1450:4864:20::433] (port=40874
- helo=mail-wr1-x433.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1mwyRH-0001nS-TN
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 22:25:17 -0500
-Received: by mail-wr1-x433.google.com with SMTP id t9so30192607wrx.7
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 19:25:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jrtc27.com; s=gmail.jrtc27.user;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QUSxU9RiVv20VDseJCb/y3nyWW47kB8Mgo+wyVliFao=;
- b=UkyOXDKVSn0AleH8tEJ0TeKyWes9yzbPpRyzo5nI4sIMoD0g5RG29yjDxgVNdmryXa
- XgMK+y3LcNzNLXydk+UEtlB80P5+1SwiKdZJwy+g8PSMYTexEQzLPzADdrTD4eXJbw9k
- ZcuqAPcfhI0hJmPDye5VD7wPjmj0wZ1+z+vp6z1IjxpULye6KHsSnaFlJOs3mIvGRfCF
- lWnuiokeym732s+A6obUFjUrW0+ulOlgkacbfnLqT7KM1ahJIRroG03AOObAWmueOLDg
- DY9RLdioBypSY1JEwslpaAIVW3oGiZWeeAyRvkLHdNzG9qWjkoxvBueFYFwdis15wI/Z
- kAlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QUSxU9RiVv20VDseJCb/y3nyWW47kB8Mgo+wyVliFao=;
- b=bBrmnJpf8entQqrai9VShqBUWH6oSxx8xDdS5ZWEoxBlUsbIW9k5/o/MD6YjRUH3Fj
- EfuvA73aTp73HuEkMsfF9nj0/7RoElZbFvxdLHOky/NQv7xsJq+Rn7LuGTyD0bwxGWHZ
- 1dR7sUurpD2HysxBcek91Vf9J4KwHsCQSld/6G21bCNfKiVBdatWPceVQWeJIGvNFMs3
- 4YYypKYkNAWpD+KGM7Lovywiu9RPxJF76BKPlSqcMGeOl70g+QmahaWW39k/8rF9UyLY
- AqtI1XzBFcphi46TTclVneKqxe0i6b7UmVXeFXWPTuuBH4PWQGpE6r20FFZn1U90vFQb
- VwUw==
-X-Gm-Message-State: AOAM532D2wVAtjUAZICmeNv6fmkM7MgM48I+AmAg+0F4Mmr0C7AGIdRM
- Jw8WRc4SzZmquo/WqW/mH8HEiw==
-X-Google-Smtp-Source: ABdhPJyfvvgmyiQVEO+gpkOA7uzZv984Hrpj57B/qSXCJk0STVd/P3Bi5f1TKAMFAn1uFjoxZUCYLw==
-X-Received: by 2002:a5d:548b:: with SMTP id h11mr2873662wrv.11.1639452311544; 
- Mon, 13 Dec 2021 19:25:11 -0800 (PST)
-Received: from Jessicas-MacBook-Pro.local (global-5-141.nat-2.net.cam.ac.uk.
- [131.111.5.141])
- by smtp.gmail.com with ESMTPSA id q26sm12463692wrc.39.2021.12.13.19.25.11
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 13 Dec 2021 19:25:11 -0800 (PST)
-Received: by Jessicas-MacBook-Pro.local (Postfix, from userid 501)
- id C357DA66ECD5; Tue, 14 Dec 2021 03:25:09 +0000 (GMT)
-From: Jessica Clarke <jrtc27@jrtc27.com>
-To: qemu-riscv@nongnu.org
-Subject: [PATCH] hw/riscv: Use load address rather than entry point for
- fw_dynamic next_addr
-Date: Tue, 14 Dec 2021 03:24:56 +0000
-Message-Id: <20211214032456.70203-1-jrtc27@jrtc27.com>
-X-Mailer: git-send-email 2.33.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=jrtc27@jrtc27.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
+ id 1mx1wa-00054A-Qu
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 02:09:49 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:46814)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
+ id 1mx1wY-0001TM-C2
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 02:09:48 -0500
+Received: from smtpclient.apple (lfbn-bor-1-1317-97.w193-250.abo.wanadoo.fr
+ [193.250.130.97])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id E3AB521A89;
+ Tue, 14 Dec 2021 07:09:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1639465783;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bZsPFM8mICKdQkDdEF9negrEPwdZaFs4f2JyEI1cwvQ=;
+ b=nNJsnAmgeyt8iF1ouGtDIom3qRIXmLpnFFGD9PwXxaLUxBx/TNmjLAZIY/8B9u+vWVUKIg
+ fP4XP5J05dFSYV6IE1DLn3VO8xNayou3xOxtswHgL8g7eGjkRy3Ms/sNc6RSlFErjtl5c0
+ hmDRd05Xqxh4QMSEVLAG8Xepy4GezvE=
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.20.0.1.32\))
+Subject: Meeting today?
+From: Mark Burton <mark.burton@greensocs.com>
+In-Reply-To: <YbeWxAn6Zw7rH+5K@redhat.com>
+Date: Tue, 14 Dec 2021 08:09:42 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <CC132B60-3F08-4F03-B328-4C33407BB944@greensocs.com>
+References: <87lf13cx3x.fsf@dusky.pond.sub.org> <YbJU5vVdesoGuug9@redhat.com>
+ <87mtl88t0j.fsf@dusky.pond.sub.org>
+ <a31201bb-78de-e926-1476-b48b008745c1@redhat.com>
+ <878rwozfqm.fsf@dusky.pond.sub.org>
+ <16cd5683-4f97-d24c-dd19-24febcab7ba8@redhat.com>
+ <YbeL7EjoTtrUrGa2@redhat.com>
+ <e33c3d09-b507-798c-b18e-df684ec797e2@redhat.com>
+ <YbeWxAn6Zw7rH+5K@redhat.com>
+To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
+X-Mailer: Apple Mail (2.3693.20.0.1.32)
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=mark.burton@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,76 +72,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Jessica Clarke <jrtc27@jrtc27.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The original BBL boot method had the kernel embedded as an opaque blob
-that was blindly jumped to, which OpenSBI implemented as fw_payload.
-OpenSBI then implemented fw_jump, which allows the payload to be loaded
-elsewhere, but still blindly jumps to a fixed address at which the
-kernel is to be loaded. Finally, OpenSBI introduced fw_dynamic, which
-allows the previous stage to inform it where to jump to, rather than
-having to blindly guess like fw_jump, or embed the payload as part of
-the build like fw_payload. When used with an opaque binary (i.e. the
-output of objcopy -O binary), it matches the behaviour of the previous
-methods. However, when used with an ELF, QEMU currently passes on the
-ELF's entry point address, which causes a discrepancy compared with all
-the other boot methods if that entry point is not the first instruction
-in the binary.
+I realise it=E2=80=99s very short notice, but what about having a =
+discussion today at 15:00 ?
+Cheers
+Mark.
 
-This difference specific to fw_dynamic with an ELF is not apparent when
-booting Linux, since its entry point is the first instruction in the
-binary. However, FreeBSD has a separate ELF entry point, following the
-calling convention used by its bootloader, that differs from the first
-instruction in the binary, used for the legacy SBI entry point, and so
-the specific combination of QEMU's default fw_dynamic firmware with
-booting FreeBSD as an ELF rather than a raw binary does not work.
 
-Thus, align the behaviour when loading an ELF with the behaviour when
-loading a raw binary; namely, use the base address of the loaded kernel
-in place of the entry point.
-
-The uImage code is left as-is in using the U-Boot header's entry point,
-since the calling convention for that entry point is the same as the SBI
-one and it mirrors what U-Boot will do.
-
-Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
----
- hw/riscv/boot.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 519fa455a1..f67264374e 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -151,12 +151,19 @@ target_ulong riscv_load_kernel(const char *kernel_filename,
-                                target_ulong kernel_start_addr,
-                                symbol_fn_t sym_cb)
- {
--    uint64_t kernel_entry;
-+    uint64_t kernel_load_base, kernel_entry;
- 
-+    /*
-+     * NB: Use low address not ELF entry point to ensure that the fw_dynamic
-+     * behaviour when loading an ELF matches the fw_payload, fw_jump and BBL
-+     * behaviour, as well as fw_dynamic with a raw binary, all of which jump to
-+     * the (expected) load address load address. This allows kernels to have
-+     * separate SBI and ELF entry points (used by FreeBSD, for example).
-+     */
-     if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
--                         &kernel_entry, NULL, NULL, NULL, 0,
-+                         NULL, &kernel_load_base, NULL, NULL, 0,
-                          EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
--        return kernel_entry;
-+        return kernel_load_base;
-     }
- 
-     if (load_uimage_as(kernel_filename, &kernel_entry, NULL, NULL,
--- 
-2.33.1
+> On 13 Dec 2021, at 19:53, Daniel P. Berrang=C3=A9 =
+<berrange@redhat.com> wrote:
+>=20
+> On Mon, Dec 13, 2021 at 07:37:49PM +0100, Paolo Bonzini wrote:
+>> On 12/13/21 19:07, Daniel P. Berrang=C3=A9 wrote:
+>>>   - /usr/bin/qemu (or /usr/bin/qemu-vm) - for a high level binary =
+that
+>>>     targets humans and uses a templating system to expose a friendly
+>>>     simple config, that internally invokes whichever target specific
+>>>     /usr/bin/qemu-buildvm-$TARGET is implied, plus any other =
+vhost-user
+>>>     backends, or whatever other helper processes it needs
+>>=20
+>> Adding vhost-user backends and helper processes means one of two =
+things:
+>> either you are not going to support hotplug, or you are going to redo
+>> libvirtd with a QMP-based RPC.
+>=20
+> I can't say I thought about the helper process idea too much. I was =
+not
+> trying to imply anything beyond the fact that I think at the high =
+level
+> human users should only have interact with a single QEMU binary, not
+> per-target binaries, and also not worry about helper binaries if they
+> happen to be used as impl details.
+>=20
+> If it were possible to keep auto-spawning of helpers at the high level
+> that feels cleaner, so that the low level only has to worry about a
+> single way of doing things. If that is too hard for hotplug though,
+> so be it, leave auto-spawning in the low level.
+>=20
+> Any high level thing would need a monitor of some kind since there'll
+> always be a need for humans to interrogate the QEMU to some degree. If
+> we're trying to keep the monitor high level though, we'd want =
+something
+> closer to HMP. Perhaps again have an HMP that's based around a =
+template
+> engine that spits out QMP commands, and can extract bits of the reply
+> for pretty printing, so again we're not writing C code for each new
+> command that we care to support, just simple template snippets, that
+> users can again customize if needed.
+>=20
+> Regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    =
+https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            =
+https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    =
+https://www.instagram.com/dberrange :|
+>=20
 
 
