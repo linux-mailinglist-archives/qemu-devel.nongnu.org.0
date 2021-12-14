@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991B5474546
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 15:38:31 +0100 (CET)
-Received: from localhost ([::1]:37022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3BC47455F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 15:40:55 +0100 (CET)
+Received: from localhost ([::1]:41060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx8wo-0000cU-FE
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 09:38:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42154)
+	id 1mx8z8-0003Mo-Ds
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 09:40:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mx8uf-0007aL-HY
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:36:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27092)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mx8uc-0006Mj-E8
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:36:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639492573;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=zMEHm8d02ZPN/1SRCzxKaBTl4WXAIqs7NnA+bfaq7IA=;
- b=KOu7ENeXvvlMwtRl3ff8t8aldGnuOCQUp8eQPOWH7n4chSJNd9eATp5KP7d0zoeW+acdJv
- rqxCHGzn5kcPwBEBcb50H+gPWAqBYoD4KbHN7izgZ170F1NuKO7ijstC8UY2ru1weOjKqW
- xjpXbJNUpHHPFdiJyxspKB9tTT0waHU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-459-fsRpgwQfNNufpWcFv9wS0Q-1; Tue, 14 Dec 2021 09:36:12 -0500
-X-MC-Unique: fsRpgwQfNNufpWcFv9wS0Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AB1010168C7;
- Tue, 14 Dec 2021 14:36:11 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB37B1F423;
- Tue, 14 Dec 2021 14:35:43 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] block-backend: prevent dangling BDS pointers across
- aio_poll()
-Date: Tue, 14 Dec 2021 14:35:42 +0000
-Message-Id: <20211214143542.14758-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mx8xd-0002fa-PR
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:39:21 -0500
+Received: from [2607:f8b0:4864:20::932] (port=33514
+ helo=mail-ua1-x932.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mx8xY-0006o2-Cl
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:39:21 -0500
+Received: by mail-ua1-x932.google.com with SMTP id a14so35269403uak.0
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 06:39:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=GkidbBhNS1PPnLOwupuAj/HEg5tlBNNOjho90o2C/zY=;
+ b=v5RDL+INTKDSDLg1JgDhzv3r1SvCUHDAIytSv5LgVfLqCyLVDvgnkrllm87pxou/kK
+ R8N4XKhlL0K+N1nr2Tz8wqurIYQSByFUc3e41qVBCf9KfbwqPpigGgTfEsmSSgVJu01F
+ TwWOKG8JW+1QchLBBGZ3qYdNXY0x8Zc1QHvVO4RhXYpmVBbBD4L3KC/zcOtJ7a9T8hfL
+ rEWO8U9gY7yFKtQoA7QvdF6/ENr8Ok6r/Gq7xQ3oG2puxkz59uu2v6PyYsFuxz08QoIL
+ 5575TZWdhYoo9TOKyVp1U+nXCLZVCakD8hv8qBVoVYxtJAQI5fYboUoqmKxyDeYOAOGN
+ huoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=GkidbBhNS1PPnLOwupuAj/HEg5tlBNNOjho90o2C/zY=;
+ b=nTsT0V42JrXd+7PpkqrHp0H3f3XtuYHpPdj30tBPdS2XVYVISDy9O506elpxQP7tkf
+ DcznlRxllVLJGd0NLcT+FXbVA8ahIs1yn96WVdJdZR/YmMKbJaKccNo7Rk6hTimuahfd
+ +bBn+cnMhp8uJS6A99oxN4iXjArHqFHAukhPA2cZwHUV6XvDpVBwyr+UdsHx37K0ZANN
+ NGxNa5HxKriZB+EyVT0ktUiV6kUtLCi1PBMC0tqQpgFWTkYYeW1b2bv5s+P51OYEN0Ns
+ B4W1rRJ9rGaZvBs0eo/AEtvSZYDHi/SL/fmI+TrFqWpzcltQJnHf/PSoufkVriBLQq+O
+ vrfg==
+X-Gm-Message-State: AOAM532V5e1EqoP2+z0UsXamP5u23pg0Vmm5FWUCVFwKlfLCu6kLR7ai
+ rSsM50/B5vp4Mg2Ap3TSWAXktA==
+X-Google-Smtp-Source: ABdhPJyKgLJ2m4hcxExDAE3fVDTnLWLxr52wnD8yrx28hYE/6/XuxCVgGEk30Ufw4VkJNevprL68Ew==
+X-Received: by 2002:a05:6102:3e95:: with SMTP id
+ m21mr5216026vsv.77.1639492755170; 
+ Tue, 14 Dec 2021 06:39:15 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v81sm4411396vsv.14.2021.12.14.06.39.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Dec 2021 06:39:14 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 542B81FF96;
+ Tue, 14 Dec 2021 14:39:12 +0000 (GMT)
+References: <20211208231154.392029-1-richard.henderson@linaro.org>
+ <20211208231154.392029-3-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 2/6] target/arm: Move arm_pamax out of line
+Date: Tue, 14 Dec 2021 14:36:05 +0000
+In-reply-to: <20211208231154.392029-3-richard.henderson@linaro.org>
+Message-ID: <87bl1ji73j.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::932
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::932;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ua1-x932.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,111 +91,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-stable@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The BlockBackend root child can change when aio_poll() is invoked. This
-happens when a temporary filter node is removed upon blockjob
-completion, for example.
 
-Functions in block/block-backend.c must be aware of this when using a
-blk_bs() pointer across aio_poll() because the BlockDriverState refcnt
-may reach 0, resulting in a stale pointer.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-One example is scsi_device_purge_requests(), which calls blk_drain() to
-wait for in-flight requests to cancel. If the backup blockjob is active,
-then the BlockBackend root child is a temporary filter BDS owned by the
-blockjob. The blockjob can complete during bdrv_drained_begin() and the
-last reference to the BDS is released when the temporary filter node is
-removed. This results in a use-after-free when blk_drain() calls
-bdrv_drained_end(bs) on the dangling pointer.
+A little follow on comment in the commit message would be useful:
 
-Explicitly hold a reference to bs across block APIs that invoke
-aio_poll().
+  We will shortly need to access PAMax outside of the internals of the tran=
+slator.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
-v2:
-- Audit block/block-backend.c and fix additional cases
----
- block/block-backend.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 12ef80ea17..a40ad7fa92 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -828,10 +828,12 @@ void blk_remove_bs(BlockBackend *blk)
-     notifier_list_notify(&blk->remove_bs_notifiers, blk);
-     if (tgm->throttle_state) {
-         bs = blk_bs(blk);
-+        bdrv_ref(bs);
-         bdrv_drained_begin(bs);
-         throttle_group_detach_aio_context(tgm);
-         throttle_group_attach_aio_context(tgm, qemu_get_aio_context());
-         bdrv_drained_end(bs);
-+        bdrv_unref(bs);
-     }
- 
-     blk_update_root_state(blk);
-@@ -1705,6 +1707,7 @@ void blk_drain(BlockBackend *blk)
-     BlockDriverState *bs = blk_bs(blk);
- 
-     if (bs) {
-+        bdrv_ref(bs);
-         bdrv_drained_begin(bs);
-     }
- 
-@@ -1714,6 +1717,7 @@ void blk_drain(BlockBackend *blk)
- 
-     if (bs) {
-         bdrv_drained_end(bs);
-+        bdrv_unref(bs);
-     }
- }
- 
-@@ -2044,10 +2048,13 @@ static int blk_do_set_aio_context(BlockBackend *blk, AioContext *new_context,
-     int ret;
- 
-     if (bs) {
-+        bdrv_ref(bs);
-+
-         if (update_root_node) {
-             ret = bdrv_child_try_set_aio_context(bs, new_context, blk->root,
-                                                  errp);
-             if (ret < 0) {
-+                bdrv_unref(bs);
-                 return ret;
-             }
-         }
-@@ -2057,6 +2064,8 @@ static int blk_do_set_aio_context(BlockBackend *blk, AioContext *new_context,
-             throttle_group_attach_aio_context(tgm, new_context);
-             bdrv_drained_end(bs);
-         }
-+
-+        bdrv_unref(bs);
-     }
- 
-     blk->ctx = new_context;
-@@ -2326,11 +2335,13 @@ void blk_io_limits_disable(BlockBackend *blk)
-     ThrottleGroupMember *tgm = &blk->public.throttle_group_member;
-     assert(tgm->throttle_state);
-     if (bs) {
-+        bdrv_ref(bs);
-         bdrv_drained_begin(bs);
-     }
-     throttle_group_unregister_tgm(tgm);
-     if (bs) {
-         bdrv_drained_end(bs);
-+        bdrv_unref(bs);
-     }
- }
- 
--- 
-2.33.1
+Either way:
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
