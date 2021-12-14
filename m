@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCD7473E17
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 09:14:40 +0100 (CET)
-Received: from localhost ([::1]:47574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3709F473E28
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 09:21:02 +0100 (CET)
+Received: from localhost ([::1]:41100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx2xL-0006SI-Gb
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 03:14:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35926)
+	id 1mx33V-00044R-Ah
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 03:21:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mx2mz-0007Ic-97
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 03:03:57 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:48756
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mx2n0-0007Oc-Tg
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 03:04:00 -0500
+Received: from mail.xen0n.name ([115.28.160.31]:48760
  helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mx2mx-0000XK-9P
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 03:03:57 -0500
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mx2mz-0000XQ-5o
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 03:03:58 -0500
 Received: from ld50.lan (unknown [101.88.31.179])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 06BBF606C3;
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id D2EFD606E6;
  Tue, 14 Dec 2021 16:03:37 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1639469017; bh=pe+MEW31cRr8jfsHQtSqaYbqsmgo0zBdyE/cjStZiho=;
+ t=1639469018; bh=0th7picu79b9GZssY1KrUJjyQw0OD5pYZVdOTKfzXko=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KRctuDBiTlAULJzoGMwLqNRRcG1gAVGL5AAA376hBQgP455yK1qS84GjZ/3NMQ7YV
- btLjEPda8Qn8GF07Ao3uK8OGqECHObZyIYSwrUG0QpgHMHWqCDP3tXx+xOKgSEfzAP
- ArkT/56GliESqELU9fFZeww0m6YYg/C9ntE7MPt0=
+ b=DKvgPZxkZ4nKVPLfitS/I7SyrtNFwa3KrEyCGSDkCnxJVEik8a6mByC6SaeFKJrvo
+ JHRBHQP8SbdSU2Qand6DPQZecOML5sMrEmz1e7SO23YfJcnh9Q04SXVvSYqBuOtsmP
+ Np+Irr8okGDVqDfmGV0macmnWksKN1t3d/Gl4Jrg=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 24/31] tcg/loongarch64: Implement tcg_target_qemu_prologue
-Date: Tue, 14 Dec 2021 16:01:47 +0800
-Message-Id: <20211214080154.196350-25-git@xen0n.name>
+Subject: [PATCH v9 25/31] tcg/loongarch64: Implement exit_tb/goto_tb
+Date: Tue, 14 Dec 2021 16:01:48 +0800
+Message-Id: <20211214080154.196350-26-git@xen0n.name>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211214080154.196350-1-git@xen0n.name>
 References: <20211214080154.196350-1-git@xen0n.name>
@@ -72,92 +72,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/loongarch64/tcg-target.c.inc | 68 ++++++++++++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
+ tcg/loongarch64/tcg-target.c.inc | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index c92587c823..a806e3352e 100644
+index a806e3352e..2d066a035d 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -968,6 +968,8 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args)
-  * Entry-points
-  */
+@@ -980,6 +980,25 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+     int c2 = const_args[2];
  
-+static const tcg_insn_unit *tb_ret_addr;
+     switch (opc) {
++    case INDEX_op_exit_tb:
++        /* Reuse the zeroing that exists for goto_ptr.  */
++        if (a0 == 0) {
++            tcg_out_call_int(s, tcg_code_gen_epilogue, true);
++        } else {
++            tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_A0, a0);
++            tcg_out_call_int(s, tb_ret_addr, true);
++        }
++        break;
 +
- static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-                        const TCGArg args[TCG_MAX_OP_ARGS],
-                        const int const_args[TCG_MAX_OP_ARGS])
-@@ -1517,3 +1519,69 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-         g_assert_not_reached();
-     }
- }
++    case INDEX_op_goto_tb:
++        assert(s->tb_jmp_insn_offset == 0);
++        /* indirect jump method */
++        tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_ZERO,
++                   (uintptr_t)(s->tb_jmp_target_addr + a0));
++        tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
++        set_jmp_reset_offset(s, a0);
++        break;
 +
-+static const int tcg_target_callee_save_regs[] = {
-+    TCG_REG_S0,     /* used for the global env (TCG_AREG0) */
-+    TCG_REG_S1,
-+    TCG_REG_S2,
-+    TCG_REG_S3,
-+    TCG_REG_S4,
-+    TCG_REG_S5,
-+    TCG_REG_S6,
-+    TCG_REG_S7,
-+    TCG_REG_S8,
-+    TCG_REG_S9,
-+    TCG_REG_RA,     /* should be last for ABI compliance */
-+};
-+
-+/* Stack frame parameters.  */
-+#define REG_SIZE   (TCG_TARGET_REG_BITS / 8)
-+#define SAVE_SIZE  ((int)ARRAY_SIZE(tcg_target_callee_save_regs) * REG_SIZE)
-+#define TEMP_SIZE  (CPU_TEMP_BUF_NLONGS * (int)sizeof(long))
-+#define FRAME_SIZE ((TCG_STATIC_CALL_ARGS_SIZE + TEMP_SIZE + SAVE_SIZE \
-+                     + TCG_TARGET_STACK_ALIGN - 1) \
-+                    & -TCG_TARGET_STACK_ALIGN)
-+#define SAVE_OFS   (TCG_STATIC_CALL_ARGS_SIZE + TEMP_SIZE)
-+
-+/* We're expecting to be able to use an immediate for frame allocation.  */
-+QEMU_BUILD_BUG_ON(FRAME_SIZE > 0x7ff);
-+
-+/* Generate global QEMU prologue and epilogue code */
-+static void tcg_target_qemu_prologue(TCGContext *s)
-+{
-+    int i;
-+
-+    tcg_set_frame(s, TCG_REG_SP, TCG_STATIC_CALL_ARGS_SIZE, TEMP_SIZE);
-+
-+    /* TB prologue */
-+    tcg_out_opc_addi_d(s, TCG_REG_SP, TCG_REG_SP, -FRAME_SIZE);
-+    for (i = 0; i < ARRAY_SIZE(tcg_target_callee_save_regs); i++) {
-+        tcg_out_st(s, TCG_TYPE_REG, tcg_target_callee_save_regs[i],
-+                   TCG_REG_SP, SAVE_OFS + i * REG_SIZE);
-+    }
-+
-+#if !defined(CONFIG_SOFTMMU)
-+    if (USE_GUEST_BASE) {
-+        tcg_out_movi(s, TCG_TYPE_PTR, TCG_GUEST_BASE_REG, guest_base);
-+        tcg_regset_set_reg(s->reserved_regs, TCG_GUEST_BASE_REG);
-+    }
-+#endif
-+
-+    /* Call generated code */
-+    tcg_out_mov(s, TCG_TYPE_PTR, TCG_AREG0, tcg_target_call_iarg_regs[0]);
-+    tcg_out_opc_jirl(s, TCG_REG_ZERO, tcg_target_call_iarg_regs[1], 0);
-+
-+    /* Return path for goto_ptr. Set return value to 0 */
-+    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
-+    tcg_out_mov(s, TCG_TYPE_REG, TCG_REG_A0, TCG_REG_ZERO);
-+
-+    /* TB epilogue */
-+    tb_ret_addr = tcg_splitwx_to_rx(s->code_ptr);
-+    for (i = 0; i < ARRAY_SIZE(tcg_target_callee_save_regs); i++) {
-+        tcg_out_ld(s, TCG_TYPE_REG, tcg_target_callee_save_regs[i],
-+                   TCG_REG_SP, SAVE_OFS + i * REG_SIZE);
-+    }
-+
-+    tcg_out_opc_addi_d(s, TCG_REG_SP, TCG_REG_SP, FRAME_SIZE);
-+    tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_RA, 0);
-+}
+     case INDEX_op_mb:
+         tcg_out_mb(s, a0);
+         break;
 -- 
 2.34.0
 
