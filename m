@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBE94745CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 16:02:53 +0100 (CET)
-Received: from localhost ([::1]:47638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C944C4745E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 16:05:20 +0100 (CET)
+Received: from localhost ([::1]:53384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx9KO-0002YM-H0
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 10:02:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59492)
+	id 1mx9Mk-0006Wc-V1
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 10:05:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nikita.shubin@maquefel.me>)
- id 1mx45d-0002Nq-Rx; Tue, 14 Dec 2021 04:27:17 -0500
-Received: from forward105o.mail.yandex.net ([37.140.190.183]:47978)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nikita.shubin@maquefel.me>)
- id 1mx45b-0003dj-2Q; Tue, 14 Dec 2021 04:27:16 -0500
-Received: from iva7-79032ba5307a.qloud-c.yandex.net
- (iva7-79032ba5307a.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:320d:0:640:7903:2ba5])
- by forward105o.mail.yandex.net (Yandex) with ESMTP id 7BA3F4C3914;
- Tue, 14 Dec 2021 12:27:01 +0300 (MSK)
-Received: from iva6-2d18925256a6.qloud-c.yandex.net
- (iva6-2d18925256a6.qloud-c.yandex.net [2a02:6b8:c0c:7594:0:640:2d18:9252])
- by iva7-79032ba5307a.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
- jvVNqH1obf-R0eCX0lL; Tue, 14 Dec 2021 12:27:01 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail;
- t=1639474021; bh=st95ymli/fBelVAP9yu08SDGy3O7W+hZ7SEWKAx/JMM=;
- h=Date:Subject:To:From:Message-Id:Cc;
- b=sb69spbPdkkcv+LvIbiyp4vr/Ge2Xc9O47wLkVbtBKfkaneyf+NATPUC9DqPHG/zB
- msjT6r+pkhloPjGn6+ib6oiymwcVMQffWsY0GwTZMuL+KXbv7AefI0EXyOV+18z2Ts
- L2KhMbenKP04C1f7yK9WrXdj8lNmwDl6suTlkrW4=
-Authentication-Results: iva7-79032ba5307a.qloud-c.yandex.net;
- dkim=pass header.i=@maquefel.me
-Received: by iva6-2d18925256a6.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id i0RMZllY0d-R0PquiO5; Tue, 14 Dec 2021 12:27:00 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 2
-From: Nikita Shubin <nikita.shubin@maquefel.me>
-To: 
-Subject: [PATCH] target/riscv/pmp: fix no pmp illegal intrs
-Date: Tue, 14 Dec 2021 12:26:59 +0300
-Message-Id: <20211214092659.15709-1-nikita.shubin@maquefel.me>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <henry.kleynhans@gmail.com>)
+ id 1mx4fH-0003o9-70
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 05:04:07 -0500
+Received: from [2a00:1450:4864:20::434] (port=44929
+ helo=mail-wr1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <henry.kleynhans@gmail.com>)
+ id 1mx4fF-0007tC-9m
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 05:04:06 -0500
+Received: by mail-wr1-x434.google.com with SMTP id t18so31385437wrg.11
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 02:04:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qxMNyEkk2mkk/ZUMhz883bmGT7JS7AqG3wLOM5JwcLw=;
+ b=jJTg11i9WsUtgQCWmiwWAMc1+i28XjWb0U+FPjiGhsRLJq24CYnRI8W9LSuRHb1VRm
+ RdAIRZNU7PwdHzGzHbUchT0FFYmwf7tzA8da2ZG+nH/m5o6GANVT1UuYu1d5dpoEV7lZ
+ nfma5sJCk3VJPk9elg2vRG9xfuOz35/VJqvfOp5MgVQ28coElCeiLlkOsyzrFMVShooz
+ KWrTdGW3SIiPAQm3qw3odyW6qEbu25WYg5ZZN0DR/BpkY7ozEN9gkJ/o2giYqBCgpbfw
+ BhiGy3i6hRIsXA+63fhw4eAsriYXF8ZIo0Ma5AamOWYiE1Co/oW3Li4QadkK1TcoWiQ+
+ NjLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qxMNyEkk2mkk/ZUMhz883bmGT7JS7AqG3wLOM5JwcLw=;
+ b=M6p//t6KrnXryOI6r2QooxTgYTHL3Jmt8+zSPmXhUQk8YjGow/q+6gHLBmaKZcetLy
+ 0dq+wBnq+8vhmXRr9S7w8I7B5IO3SK2KfKB/y2G5q/Jo37H4LwIN9b+hYgOrmIqSbajK
+ uVwq3ET+XWD9LopOb1eaEGbiG3Cna0r0HeGBZ5YMv2csfF6ZyUmN8MCFpjLphIIf6uJE
+ 2R4t6l8GujeK4UZxzKBUscgSzFsIhakutDJZlpbm/Sma615XTafQmDH142suYe6MTnk9
+ L1V7VRjvrWy+HYn1cyl7KR6nVrqDxcqIQBrduvfSrOexYi738SuycQnl9ZKdazIgp0aS
+ rKVg==
+X-Gm-Message-State: AOAM530wAOpCClKwZ4v5kZ6ixDj3Bdie3ozG4ehEIJLs72Ib1UTaNjD7
+ YtwjneCQkFdb1Cn7Evnkti49lEVtWVT5hZox
+X-Google-Smtp-Source: ABdhPJzpz3+Yt5rGEs5JKgZNCpR7+Sg9J0tgYmlbNrjzgr259k5nEqZ8f8OrNXw5BW88ddrQzLgbQA==
+X-Received: by 2002:adf:8b19:: with SMTP id n25mr759586wra.619.1639476241985; 
+ Tue, 14 Dec 2021 02:04:01 -0800 (PST)
+Received: from localhost ([2620:10d:c092:400::4:d4cf])
+ by smtp.gmail.com with ESMTPSA id f6sm332549wri.12.2021.12.14.02.04.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Dec 2021 02:04:01 -0800 (PST)
+From: Henry Kleynhans <henry.kleynhans@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Relax X509 CA cert sanity checking
+Date: Tue, 14 Dec 2021 10:03:42 +0000
+Message-Id: <20211214100342.97856-1-henry.kleynhans@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.140.190.183;
- envelope-from=nikita.shubin@maquefel.me; helo=forward105o.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=henry.kleynhans@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Tue, 14 Dec 2021 09:54:44 -0500
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,40 +84,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Nikita Shubin <n.shubin@yadro.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>, atishp@atishpatra.org,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Henry Kleynhans <hkleynhans@fb.com>, henry.kleynhans@fb.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nikita Shubin <n.shubin@yadro.com>
+From: Henry Kleynhans <hkleynhans@fb.com>
 
-As per the privilege specification, any access from S/U mode should fail
-if no pmp region is configured and pmp is present, othwerwise access
-should succeed.
+The sanity checking function attempts to validate all the certificates
+in the provided CA file.  These checks are performed on certificates
+which may or may not be part of the signing chain and duplicates checks
+that should be performed by the TLS library.
 
-Fixes: d102f19a208 (target/riscv/pmp: Raise exception if no PMP entry is configured)
-Signed-off-by: Nikita Shubin <n.shubin@yadro.com>
+In real life this causes a problem if the certificate chain I want to
+use is valid, but there exist another expired certificate in the CA
+file.
+
+This patch relaxes the sanity checks to only ensure we have at least one
+valid certificate in the CA certificate file and leave the actual
+validation to the TLS library.
+
+Signed-off-by: Henry Kleynhans <hkleynhans@fb.com>
 ---
- target/riscv/op_helper.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ crypto/tlscredsx509.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index ee7c24efe7..58d992e98a 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -146,7 +146,8 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
-     uint64_t mstatus = env->mstatus;
-     target_ulong prev_priv = get_field(mstatus, MSTATUS_MPP);
+diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
+index 32948a6bdc..fb056f96a2 100644
+--- a/crypto/tlscredsx509.c
++++ b/crypto/tlscredsx509.c
+@@ -473,6 +473,7 @@ qcrypto_tls_creds_x509_sanity_check(QCryptoTLSCredsX509 *creds,
+     gnutls_x509_crt_t cert = NULL;
+     gnutls_x509_crt_t cacerts[MAX_CERTS];
+     size_t ncacerts = 0;
++    size_t nvalidca = 0;
+     size_t i;
+     int ret = -1;
  
--    if (!pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
-+    if (riscv_feature(env, RISCV_FEATURE_PMP) &&
-+        !pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
-         riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+@@ -505,11 +506,15 @@ qcrypto_tls_creds_x509_sanity_check(QCryptoTLSCredsX509 *creds,
+     for (i = 0; i < ncacerts; i++) {
+         if (qcrypto_tls_creds_check_cert(creds,
+                                          cacerts[i], cacertFile,
+-                                         isServer, true, errp) < 0) {
+-            goto cleanup;
++                                         isServer, true, errp) == 0) {
++            ++nvalidca;
+         }
      }
  
++    if (nvalidca == 0) {
++        goto cleanup;
++    }
++
+     if (cert && ncacerts &&
+         qcrypto_tls_creds_check_cert_pair(cert, certFile, cacerts,
+                                           ncacerts, cacertFile,
 -- 
-2.31.1
+2.34.1
 
 
