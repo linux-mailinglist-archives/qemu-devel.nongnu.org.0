@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B11474405
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 14:58:29 +0100 (CET)
-Received: from localhost ([::1]:48112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AED1474481
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 15:07:12 +0100 (CET)
+Received: from localhost ([::1]:60752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx8K4-0001JT-At
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 08:58:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55256)
+	id 1mx8SU-0001sg-T1
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 09:07:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1mx83M-0005Uf-Np
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:41:13 -0500
-Received: from [2a00:1450:4864:20::42e] (port=36640
- helo=mail-wr1-x42e.google.com)
+ id 1mx8Bw-0000C0-0U
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:50:05 -0500
+Received: from [2a00:1450:4864:20::534] (port=33737
+ helo=mail-ed1-x534.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1mx83K-0005BK-L3
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:41:12 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id u17so32470664wrt.3
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 05:41:00 -0800 (PST)
+ id 1mx8Br-0006ka-LR
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 08:50:00 -0500
+Received: by mail-ed1-x534.google.com with SMTP id t5so63009422edd.0
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 05:49:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:reply-to:subject
  :content-language:to:cc:references:from:in-reply-to
@@ -39,14 +39,14 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
  bh=d5ndx34hN9m4TAr2xVMmBcuyEYVL6HUh2Zoc6H0l7hk=;
- b=jbxARxhSFwWtqXHbyGiIdqvNGi9GB5SMWkt/nPs68iXzJCJr4h/bN5yL4tiW+QbPql
- Cyt9V1bdsFlHJeLR8/5zrWp0NS3MTwdDH+6c4zQnjN04emay5cZsbGfLuBORU/MnAk7Q
- 7IytZgSWrs1nCbWylHajIj2M0jGPgcue/kBplwB5cMP4IMtGoEoMZlW064+qadSc6383
- hH3xZgoMZHpCkj7zKX0RFbq7ysCuufaZMdgjwRpfZQLBFk+npYfPvZawP6hELdtMAQhK
- sNlUQmvifiz+BKv0KDrDqFKA+ofD1Ilf605cF7YSLSNoTZltULi9EA2OI4N4NJaci/Ni
- JgLQ==
-X-Gm-Message-State: AOAM532O7PBaIApAdooyFHnPtEBOMWXOUUQ+D5T0bWP0Va9svhynbTgv
- 2XXmm3r/7luxh1YJUkXl6Pw=
+ b=qwr2Bp5FShk0IarLH6jqt6yXprMQUtUQJl8XSZcP2dx7S5g6oBJ0gvzJXUg91W1Abh
+ AufO+KsQv7a2PbLhSUK2FG4kbpogOKjdxZ8wsEsfX/y48M+OrxboGL0ctznDnPMZ8A+8
+ MfBnrommIL2H3WHZfnxRbDLF8C1e26gsiGrjLy+UycgljYBLD7QQSUulxVCDoBhjDquS
+ 1/SQfqzokcvd7CComzZh62OqKTq22SASP06YQyoBKtIkkHFbz0v/ginNMGDr5d5VOe/3
+ kTsKZzL1EMVxXrn2eNxB+OzUJOur0jnJyjQK6pl/WMb2KVIQgjynaYva3pUP13OXfdnH
+ XqSw==
+X-Gm-Message-State: AOAM532nKsmnCN7nWqFvR8VQ1dhIWNilo7qmXK1BYlJjcv/9fCQI3bv0
+ XmbdL+asOk3ZZSXroZ2gT5Y0d5jZaO4=
 X-Google-Smtp-Source: ABdhPJySJ7nTJD03hzl2t9OmC0fdR31hCq/n5Ku3bel24kiVofteNrsCpe58LVNU6wohiG/7LHR/Qw==
 X-Received: by 2002:adf:a10f:: with SMTP id o15mr5860296wro.592.1639489258334; 
  Tue, 14 Dec 2021 05:40:58 -0800 (PST)
@@ -68,10 +68,10 @@ From: "Durrant, Paul" <xadimgnik@gmail.com>
 In-Reply-To: <20211210193434.75566-1-jandryuk@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=xadimgnik@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
