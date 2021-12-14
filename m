@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 466A4474B27
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 19:46:46 +0100 (CET)
-Received: from localhost ([::1]:39366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C602474BF7
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 20:32:49 +0100 (CET)
+Received: from localhost ([::1]:35584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxCp3-0006dF-3J
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 13:46:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46130)
+	id 1mxDXb-0000k3-2L
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 14:32:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mxCkb-0005CE-Sb
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 13:42:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mxCkZ-0007W4-B5
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 13:42:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639507319;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CAC3jDayoMcyWBaiN8yJfQqJE5QJgR5Hr0O1lsKs3iI=;
- b=B80QWbCIauY5/bUNJ/kI1bA7dHi3raTdwR8vLPdVgyk8383FIF+KczhmeaWKJGG7lP7T9j
- nbj5pINle+Qxd/ZSPr3oCZL6VDJzeRh/LLKFfeVmjLY+no9TG2kEukjk8uTejFeW9S+Ogz
- FkpivqIIkR8C5FfdZvvSKp88TsLzVLg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-8-NfxTKn-wMwmVtnvsJ3kzSQ-1; Tue, 14 Dec 2021 13:41:56 -0500
-X-MC-Unique: NfxTKn-wMwmVtnvsJ3kzSQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E86E1030BD4;
- Tue, 14 Dec 2021 18:41:55 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.122])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D2FBB9D5D5;
- Tue, 14 Dec 2021 18:41:36 +0000 (UTC)
-Date: Tue, 14 Dec 2021 18:41:34 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] monitor: move x-query-profile into accel/tcg to fix build
-Message-ID: <YbjlXvoQHC4yuqdw@redhat.com>
-References: <20211214182207.1416246-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxDUq-00084w-QO
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 14:29:56 -0500
+Received: from [2607:f8b0:4864:20::62b] (port=47046
+ helo=mail-pl1-x62b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxDUp-0006Ew-6h
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 14:29:56 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id p18so14325226plf.13
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 11:29:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=22+VdyIeWkXP+B2fvWT6C86+1TDcdqr2ef0HetsOKeo=;
+ b=eA0FvwoBTYi8XPZnlEG/pIvgPhESWpKOFALQB/kPb8oBVJer4/Q5mPhqr3LOyR5bW/
+ FX6IYj1MUZ/Q5I7DSxoEFx04M9KvZsEKwvYwqUD7ppYAs5KqfZgbd54nRIs4NLrUGDJr
+ VT/Y6B0uhRTtr/G58JSIcvOGFVVfiJPfokw749ITWgl4BjbVp/H31Nq8Tu8sekP9lNOf
+ eBxRbYLpN8CTvrrlMkhoUdCzgtry23vqn6dTVuQEieS9JTdOl9XYvP1OkVQrYcIyWzBL
+ 5T16p4+QSv6aIZU1fgO4BUgSlQT7Bz4LXyumznS/9uO0lbJQDuLkSSWxUnlbPmUb+RzQ
+ 9bfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=22+VdyIeWkXP+B2fvWT6C86+1TDcdqr2ef0HetsOKeo=;
+ b=pXorSQubhhhOHhj5UFFsUiM8gCD//uW0J4OIyqb5LfD1KAU3QQP2DhYtsLy45xic9N
+ HJOWlaeK66A+j7ysSHQ7yaX5yvp1ZnFfabrAqEgqLQSmK689PPc0pjX+j3tRxlAdbEG5
+ plqTV1KRnvKSKvk6c310OU1rqaI6kRDgu/TO/3d/oTY5tKk6+p48odUb0GbZXIDLMKhZ
+ w9c46CfFwl3Mpdpo53ZRkp0JO8rvl1bu4ZqfdDp9bVmx3Q7rbQpQhGvRJO8NflxRj3ml
+ tkmHT8ZHEsOw2LRIRCeeNg1xyCISwG+xnHnJljQl1JU+Vy1CbgE5LmzP9QO2sUX44w+n
+ fjLQ==
+X-Gm-Message-State: AOAM532D9+r29jyitJ3ciome4O3H3sQ1HOTvZpbVjPnbZOfJFpoOYKgL
+ ZXDA3taHgf+lx7CFTCWEyuXVPA==
+X-Google-Smtp-Source: ABdhPJybboKEVN9E5SbqVGS2T72fH3T18OIsxsE4W7vlOow268T09XINvSnkeENhI+VL0K4K/DOIvA==
+X-Received: by 2002:a17:90b:3a85:: with SMTP id
+ om5mr8035245pjb.28.1639510193504; 
+ Tue, 14 Dec 2021 11:29:53 -0800 (PST)
+Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id a13sm592312pfv.66.2021.12.14.11.29.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Dec 2021 11:29:53 -0800 (PST)
+Subject: Re: [PATCH v9 28/31] common-user: Add safe syscall handling for
+ loongarch64 hosts
+To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
+References: <20211214080154.196350-1-git@xen0n.name>
+ <20211214080154.196350-29-git@xen0n.name>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <fce709e8-f122-f410-0c62-4d14f46ed999@linaro.org>
+Date: Tue, 14 Dec 2021 11:29:51 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211214182207.1416246-1-alex.bennee@linaro.org>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211214080154.196350-29-git@xen0n.name>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.962,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,138 +92,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ XiaoJuan Yang <yangxiaojuan@loongson.cn>, Song Gao <gaosong@loongson.cn>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 14, 2021 at 06:22:07PM +0000, Alex Bennée wrote:
-> As --enable-profiler isn't defended in CI we missed this breakage.
-> Move the qmp handler into accel/tcg so we have access to the helpers
-> we need. While we are at it ensure we gate the feature on CONFIG_TCG.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Fixes: 37087fde0e ("qapi: introduce x-query-profile QMP command")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/773
-> ---
->  qapi/machine.json    |  1 +
->  accel/tcg/cpu-exec.c | 31 +++++++++++++++++++++++++++++++
->  monitor/qmp-cmds.c   | 31 -------------------------------
->  3 files changed, 32 insertions(+), 31 deletions(-)
-> 
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index 067e3f5378..0c9f24a712 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -1492,6 +1492,7 @@
->  ##
->  { 'command': 'x-query-profile',
->    'returns': 'HumanReadableText',
-> +  'if': 'CONFIG_TCG',
->    'features': [ 'unstable' ] }
->  
->  ##
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index 409ec8c38c..9498a16681 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -1091,3 +1091,34 @@ HumanReadableText *qmp_x_query_opcount(Error **errp)
->  }
->  
->  #endif /* !CONFIG_USER_ONLY */
+On 12/14/21 12:01 AM, WANG Xuerui wrote:
+> +        move    $t0, $a0        /* signal_pending pointer */
+...
+> +safe_syscall_start:
+> +        /* If signal_pending is non-zero, don't do the call */
+> +        ld.w    $t1, $t0, 0
+> +        bnez    $t1, 2f
+> +        syscall 0
 
-I think this #endif probably needs to be after the qmp_x_query_profile
-impl, as it is for the other TCG QMP cmds  ?
+We need a non-syscall clobbered register for signal_pending, per the bug fixed in 
+5d9f3ea0817215ad4baac5aa30414e9ebbaaf0d6.
 
-> +
-> +#ifdef CONFIG_PROFILER
-> +
-> +int64_t dev_time;
-> +
-> +HumanReadableText *qmp_x_query_profile(Error **errp)
-> +{
-> +    g_autoptr(GString) buf = g_string_new("");
-> +    static int64_t last_cpu_exec_time;
-> +    int64_t cpu_exec_time;
-> +    int64_t delta;
-> +
-> +    cpu_exec_time = tcg_cpu_exec_time();
-> +    delta = cpu_exec_time - last_cpu_exec_time;
-> +
-> +    g_string_append_printf(buf, "async time  %" PRId64 " (%0.3f)\n",
-> +                           dev_time, dev_time / (double)NANOSECONDS_PER_SECOND);
-> +    g_string_append_printf(buf, "qemu time   %" PRId64 " (%0.3f)\n",
-> +                           delta, delta / (double)NANOSECONDS_PER_SECOND);
-> +    last_cpu_exec_time = cpu_exec_time;
-> +    dev_time = 0;
-> +
-> +    return human_readable_text_from_str(buf);
-> +}
-> +#else
-> +HumanReadableText *qmp_x_query_profile(Error **errp)
-> +{
-> +    error_setg(errp, "Internal profiler not compiled");
-> +    return NULL;
-> +}
-> +#endif
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 343353e27a..be5e44c569 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -355,37 +355,6 @@ void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
->      }
->  }
->  
-> -#ifdef CONFIG_PROFILER
-> -
-> -int64_t dev_time;
-> -
-> -HumanReadableText *qmp_x_query_profile(Error **errp)
-> -{
-> -    g_autoptr(GString) buf = g_string_new("");
-> -    static int64_t last_cpu_exec_time;
-> -    int64_t cpu_exec_time;
-> -    int64_t delta;
-> -
-> -    cpu_exec_time = tcg_cpu_exec_time();
-> -    delta = cpu_exec_time - last_cpu_exec_time;
-> -
-> -    g_string_append_printf(buf, "async time  %" PRId64 " (%0.3f)\n",
-> -                           dev_time, dev_time / (double)NANOSECONDS_PER_SECOND);
-> -    g_string_append_printf(buf, "qemu time   %" PRId64 " (%0.3f)\n",
-> -                           delta, delta / (double)NANOSECONDS_PER_SECOND);
-> -    last_cpu_exec_time = cpu_exec_time;
-> -    dev_time = 0;
-> -
-> -    return human_readable_text_from_str(buf);
-> -}
-> -#else
-> -HumanReadableText *qmp_x_query_profile(Error **errp)
-> -{
-> -    error_setg(errp, "Internal profiler not compiled");
-> -    return NULL;
-> -}
-> -#endif
-> -
->  static int qmp_x_query_rdma_foreach(Object *obj, void *opaque)
->  {
->      RdmaProvider *rdma;
-> -- 
-> 2.30.2
-> 
+In the case of riscv, because of the way exceptions are delivered, there are no 
+syscall-clobbered registers (by the time syscall is distinguished from interrupt, all 
+registers have been saved).
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+In the case of mips, there are no non-syscall-clobbered registers that are not also 
+call-saved or syscall arguments, so I had to allocate a stack frame and save/restore s0.
 
+For loongarch64, according to glibc,
+
+#define __SYSCALL_CLOBBERS \
+   "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7", "$t8", "memory"
+
+which does suggest that a6 is unused, saved across the syscall, and also call-clobbered 
+(so we don't have to allocate a stack frame).
+
+I've had a browse through the loongarch kernel code and that seems to be all true. 
+(Curiously, loongarch restores more registers than it saves on the way out of 
+handle_syscall.  There may be a subtle reason for that, or room for improvement.)
+
+
+r~
 
