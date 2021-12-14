@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EE9473971
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 01:16:48 +0100 (CET)
-Received: from localhost ([::1]:53122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C3EE473989
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 01:28:35 +0100 (CET)
+Received: from localhost ([::1]:58506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwvUt-0006YM-CX
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 19:16:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43152)
+	id 1mwvgH-0002LS-Rj
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 19:28:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1mwvTa-0005ly-Oo
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:15:26 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:4116)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1mwvTX-0004GW-D9
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:15:26 -0500
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JCf534b4Tz94W3;
- Tue, 14 Dec 2021 08:14:31 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 14 Dec 2021 08:15:14 +0800
-Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
- dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 14 Dec 2021 08:15:14 +0800
-Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
- dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.020;
- Tue, 14 Dec 2021 08:15:14 +0800
-To: Jason Wang <jasowang@redhat.com>
-CC: mst <mst@redhat.com>, Parav Pandit <parav@nvidia.com>, Yongji Xie
- <xieyongji@bytedance.com>, Stefan Hajnoczi <stefanha@redhat.com>, "Stefano
- Garzarella" <sgarzare@redhat.com>, Yechuan <yechuan@huawei.com>, "Gonglei
- (Arei)" <arei.gonglei@huawei.com>, qemu-devel <qemu-devel@nongnu.org>
-Subject: RE: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
-Thread-Topic: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
-Thread-Index: AQHX6/NI4OLDAFxcVEG4PKqEpvh1aqwnmzgAgAUiWVCAAoXvgIAB4waw
-Date: Tue, 14 Dec 2021 00:15:14 +0000
-Message-ID: <84b5651cdb15476ea458ad53fe8a6535@huawei.com>
-References: <20211208052010.1719-1-longpeng2@huawei.com>
- <CACGkMEvW0W-mMU159bUyDo2jK03FYQEn3ZedbC9vaEvDj2v7KQ@mail.gmail.com>
- <293da14ee62f4cfca9a6cec73083e154@huawei.com>
- <CACGkMEsRzREaawCA9CWc7D9DV3S9CqDmrQhru_1d2bUduvALPQ@mail.gmail.com>
-In-Reply-To: <CACGkMEsRzREaawCA9CWc7D9DV3S9CqDmrQhru_1d2bUduvALPQ@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.148.223]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mwvdy-0007on-Lr
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:26:10 -0500
+Received: from [2607:f8b0:4864:20::102f] (port=42962
+ helo=mail-pj1-x102f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mwvdv-0005Qo-OY
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:26:10 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ fv9-20020a17090b0e8900b001a6a5ab1392so14725181pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 16:26:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7qxwy6Bpv8th+fFIx6+h/QbVO7sgK1Yy++DwUW/9vgA=;
+ b=vxKj0Yg4frLo8UhZPByCbOw7FqPIOCczmBBzlkFKUlORx57njldZfjjrUjc5X9ClMU
+ knzBYOZaWfpraN6Us+ShZNu7QZxKkFVl42rLHxJD4rvb1vau+zsSUtx1nRn+PCXWeNEu
+ xIWcqQ0QLqn9KdeFdg6HInAhGaGFtXYErx8p5GQWXMr+eHMx00zWaCY8pHmH5j2KcVyF
+ jvpnuO/obVkblWuBTYAZxqKe2vvPCYP0lSyBDQur5LWONKBwGuGSOL1LsClbTkGGSJoy
+ LR+Sw6hgml5QqZQbciPkiciW9rLjFmgrzxSn53d79eLH8cltx3D2zmZ0cVX2TLF/vjKG
+ pSYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7qxwy6Bpv8th+fFIx6+h/QbVO7sgK1Yy++DwUW/9vgA=;
+ b=N2vJLrbAi4B7whSsL3RooI14kMxd9Uwh7gR/ML6lKxfwYBWUusLLI8BSmU3VzuXLDh
+ 6P4X6XjKFbhk+CZz4/eSnTeXm5viYFmGic8DPUADXlqeqa0kiojgn4plVqHmQ2EC2H4H
+ TRrCnjKlAQh5CzLCmmZbP/Yi4Vc0q1VXiWruaC/7SujkVr5Prv6LXYCPH5lgQHcEl5Tu
+ F1qiwWbvTE0vkFMOsvnSTa12Ws3UGDTgASry4sJFZwQjGAetkOvX/B+I7NeXO/55akQl
+ pRQXjGUSHXSbapOLwROTpBY0++8QE+NU8+VyhGunn5MjeeepNlUG0bw2BgVJfoR2vPfJ
+ tNmA==
+X-Gm-Message-State: AOAM530eTnSeL6hS0vmuLFNkpkXn/Bu1lKRY7YA2e7E4cOh55mrwpIqM
+ 81SZSeQ7LhUX7h4xIozqjOzdouvgTVPIjg==
+X-Google-Smtp-Source: ABdhPJyMT9nL5frWe2dc/RTGwNNG+UszpBwKJASM3Z78ttPgagfcxcHQSgy+xRcFTT0qnoPBAI2Qbw==
+X-Received: by 2002:a17:90b:1d0b:: with SMTP id
+ on11mr1668448pjb.163.1639441566177; 
+ Mon, 13 Dec 2021 16:26:06 -0800 (PST)
+Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
+ [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id w7sm11320253pgo.56.2021.12.13.16.26.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Dec 2021 16:26:05 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 00/15] linux-user: simplify safe signal handling
+Date: Mon, 13 Dec 2021 16:25:49 -0800
+Message-Id: <20211214002604.161983-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
- helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,123 +87,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: git@xen0n.name, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-From: longpeng2--- via <qemu-devel@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSmFzb24gV2FuZyBbbWFp
-bHRvOmphc293YW5nQHJlZGhhdC5jb21dDQo+IFNlbnQ6IE1vbmRheSwgRGVjZW1iZXIgMTMsIDIw
-MjEgMTE6MjMgQU0NCj4gVG86IExvbmdwZW5nIChNaWtlLCBDbG91ZCBJbmZyYXN0cnVjdHVyZSBT
-ZXJ2aWNlIFByb2R1Y3QgRGVwdC4pDQo+IDxsb25ncGVuZzJAaHVhd2VpLmNvbT4NCj4gQ2M6IG1z
-dCA8bXN0QHJlZGhhdC5jb20+OyBQYXJhdiBQYW5kaXQgPHBhcmF2QG52aWRpYS5jb20+OyBZb25n
-amkgWGllDQo+IDx4aWV5b25namlAYnl0ZWRhbmNlLmNvbT47IFN0ZWZhbiBIYWpub2N6aSA8c3Rl
-ZmFuaGFAcmVkaGF0LmNvbT47IFN0ZWZhbm8NCj4gR2FyemFyZWxsYSA8c2dhcnphcmVAcmVkaGF0
-LmNvbT47IFllY2h1YW4gPHllY2h1YW5AaHVhd2VpLmNvbT47IEdvbmdsZWkgKEFyZWkpDQo+IDxh
-cmVpLmdvbmdsZWlAaHVhd2VpLmNvbT47IHFlbXUtZGV2ZWwgPHFlbXUtZGV2ZWxAbm9uZ251Lm9y
-Zz4NCj4gU3ViamVjdDogUmU6IFtSRkNdIHZob3N0LXZkcGEtbmV0OiBhZGQgdmhvc3QtdmRwYS1u
-ZXQgaG9zdCBkZXZpY2Ugc3VwcG9ydA0KPiANCj4gT24gU2F0LCBEZWMgMTEsIDIwMjEgYXQgMToy
-MyBQTSBMb25ncGVuZyAoTWlrZSwgQ2xvdWQgSW5mcmFzdHJ1Y3R1cmUNCj4gU2VydmljZSBQcm9k
-dWN0IERlcHQuKSA8bG9uZ3BlbmcyQGh1YXdlaS5jb20+IHdyb3RlOg0KPiA+DQo+ID4NCj4gPg0K
-PiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206IEphc29uIFdhbmcg
-W21haWx0bzpqYXNvd2FuZ0ByZWRoYXQuY29tXQ0KPiA+ID4gU2VudDogV2VkbmVzZGF5LCBEZWNl
-bWJlciA4LCAyMDIxIDI6MjcgUE0NCj4gPiA+IFRvOiBMb25ncGVuZyAoTWlrZSwgQ2xvdWQgSW5m
-cmFzdHJ1Y3R1cmUgU2VydmljZSBQcm9kdWN0IERlcHQuKQ0KPiA+ID4gPGxvbmdwZW5nMkBodWF3
-ZWkuY29tPg0KPiA+ID4gQ2M6IG1zdCA8bXN0QHJlZGhhdC5jb20+OyBQYXJhdiBQYW5kaXQgPHBh
-cmF2QG52aWRpYS5jb20+OyBZb25namkgWGllDQo+ID4gPiA8eGlleW9uZ2ppQGJ5dGVkYW5jZS5j
-b20+OyBTdGVmYW4gSGFqbm9jemkgPHN0ZWZhbmhhQHJlZGhhdC5jb20+OyBTdGVmYW5vDQo+ID4g
-PiBHYXJ6YXJlbGxhIDxzZ2FyemFyZUByZWRoYXQuY29tPjsgWWVjaHVhbiA8eWVjaHVhbkBodWF3
-ZWkuY29tPjsgR29uZ2xlaQ0KPiAoQXJlaSkNCj4gPiA+IDxhcmVpLmdvbmdsZWlAaHVhd2VpLmNv
-bT47IHFlbXUtZGV2ZWwgPHFlbXUtZGV2ZWxAbm9uZ251Lm9yZz4NCj4gPiA+IFN1YmplY3Q6IFJl
-OiBbUkZDXSB2aG9zdC12ZHBhLW5ldDogYWRkIHZob3N0LXZkcGEtbmV0IGhvc3QgZGV2aWNlIHN1
-cHBvcnQNCj4gPiA+DQo+ID4gPiBPbiBXZWQsIERlYyA4LCAyMDIxIGF0IDE6MjAgUE0gTG9uZ3Bl
-bmcoTWlrZSkgPGxvbmdwZW5nMkBodWF3ZWkuY29tPiB3cm90ZToNCj4gPiA+ID4NCj4gPiA+ID4g
-RnJvbTogTG9uZ3BlbmcgPGxvbmdwZW5nMkBodWF3ZWkuY29tPg0KPiA+ID4gPg0KPiA+ID4gPiBI
-aSBndXlzLA0KPiA+ID4gPg0KPiA+ID4gPiBUaGlzIHBhdGNoIGludHJvZHVjZXMgdmhvc3QtdmRw
-YS1uZXQgZGV2aWNlLCB3aGljaCBpcyBpbnNwaXJlZA0KPiA+ID4gPiBieSB2aG9zdC11c2VyLWJs
-ayBhbmQgdGhlIHByb3Bvc2FsIG9mIHZob3N0LXZkcGEtYmxrIGRldmljZSBbMV0uDQo+ID4gPiA+
-DQo+ID4gPiA+IEkndmUgdGVzdGVkIHRoaXMgcGF0Y2ggb24gSHVhd2VpJ3Mgb2ZmbG9hZCBjYXJk
-Og0KPiA+ID4gPiAuL3g4Nl82NC1zb2Z0bW11L3FlbXUtc3lzdGVtLXg4Nl82NCBcDQo+ID4gPiA+
-ICAgICAtZGV2aWNlIHZob3N0LXZkcGEtbmV0LXBjaSx2ZHBhLWRldj0vZGV2L3Zob3N0LXZkcGEt
-MA0KPiA+ID4gPg0KPiA+ID4gPiBGb3IgdmlydGlvIGhhcmR3YXJlIG9mZmxvYWRpbmcsIHRoZSBt
-b3N0IGltcG9ydGFudCByZXF1aXJlbWVudCBmb3IgdXMNCj4gPiA+ID4gaXMgdG8gc3VwcG9ydCBs
-aXZlIG1pZ3JhdGlvbiBiZXR3ZWVuIG9mZmxvYWRpbmcgY2FyZHMgZnJvbSBkaWZmZXJlbnQNCj4g
-PiA+ID4gdmVuZG9ycywgdGhlIGNvbWJpbmF0aW9uIG9mIG5ldGRldiBhbmQgdmlydGlvLW5ldCBz
-ZWVtcyB0b28gaGVhdnksIHdlDQo+ID4gPiA+IHByZWZlciBhIGxpZ2h0d2VpZ2h0IHdheS4NCj4g
-PiA+DQo+ID4gPiBDb3VsZCB5b3UgZWxhYm9yYXRlIG1vcmUgb24gdGhpcz8gSXQncyBtYWlubHkg
-dGhlIGNvbnRyb2wgcGF0aCB3aGVuDQo+ID4gPiB1c2luZyB3aXRoIG5ldGRldiwgYW5kIGl0IHBy
-b3ZpZGVzIGEgbG90IG9mIG90aGVyIGJlbmVmaXRzOg0KPiA+ID4NCj4gPiA+IC0gZGVjb3VwbGUg
-dGhlIHRyYW5zcG9ydCBzcGVjaWZpYyBzdHVmZiBvdXQgb2YgdGhlIHZob3N0IGFic3RyYWN0aW9u
-LA0KPiA+ID4gbW1pbyBkZXZpY2UgaXMgc3VwcG9ydGVkIHdpdGggMCBsaW5lIG9mIGNvZGUNCj4g
-PiA+IC0gbWlncmF0aW9uIGNvbXBhdGliaWxpdHksIHJldXNlIHRoZSBtaWdyYXRpb24gc3RyZWFt
-IHRoYXQgaXMgYWxyZWFkeQ0KPiA+ID4gc3VwcG9ydGVkIGJ5IFFlbXUgdmlydGlvLW5ldCwgdGhp
-cyB3aWxsIGFsbG93IG1pZ3JhdGlvbiBhbW9uZw0KPiA+ID4gZGlmZmVyZW50IHZob3N0IGJhY2tl
-bmRzLg0KPiA+ID4gLSBzb2Z0d2FyZSBtZWRpYXRpb24gZmFjaWxpdHksIG5vdCBhbGwgdGhlIHZp
-cnRxdWV1ZXMgYXJlIGFzc2lnbmVkIHRvDQo+ID4gPiBndWVzdHMgZGlyZWN0bHkuIE9uZSBleGFt
-cGxlIGlzIHRoZSB2aXJ0aW8tbmV0IGN2cSwgcWVtdSBtYXkgd2FudCB0bw0KPiA+ID4gaW50ZXJj
-ZXB0IGFuZCByZWNvcmQgdGhlIGRldmljZSBzdGF0ZSBmb3IgbWlncmF0aW9uLiBSZXVzaW5nIHRo
-ZQ0KPiA+ID4gY3VycmVudCB2aXJ0aW8tbmV0IGNvZGVzIHNpbXBsaWZpZXMgYSBsb3Qgb2YgY29k
-ZXMuDQo+ID4gPiAtIHRyYW5zcGFyZW50IGZhaWxvdmVyIChpbiB0aGUgZnV0dXJlKSwgdGhlIG5p
-YyBtb2RlbCBjYW4gY2hvb3NlIHRvDQo+ID4gPiBzd2l0Y2ggYmV0d2VlbiB2aG9zdCBiYWNrZW5k
-cyBldGMuDQo+ID4gPg0KPiA+DQo+ID4gV2Ugd2FudCB0byB1c2UgdGhlIHZkcGEgZnJhbWV3b3Jr
-IGluc3RlYWQgb2YgdGhlIHZmaW8tcGNpIGZyYW1ld29yayBpbg0KPiA+IHRoZSB2aXJ0aW8gaGFy
-ZHdhcmUgb2ZmbG9hZGluZyBjYXNlLCBzbyBtYXliZSBzb21lIG9mIHRoZSBiZW5lZml0cyBhYm92
-ZQ0KPiA+IGFyZSBub3QgbmVlZGVkIGluIG91ciBjYXNlLiBCdXQgd2UgbmVlZCB0byBtaWdyYXRl
-IGJldHdlZW4gZGlmZmVyZW50DQo+ID4gaGFyZHdhcmUsIHNvIEkgYW0gbm90IHN1cmUgd2hldGhl
-ciB0aGlzIGFwcHJvYWNoIHdvdWxkIGJlIGhhcm1mdWwgdG8gdGhlDQo+ID4gcmVxdWlyZW1lbnQu
-DQo+IA0KPiBJdCBzaG91bGQgbm90LCBidXQgaXQgbmVlZHMgdG8gYnVpbGQgdGhlIG1pZ3JhdGlv
-biBmYWNpbGl0eSBmb3IgdGhlDQo+IG5ldCBmcm9tIHRoZSBncm91bmQuIEFuZCBpZiB3ZSB3YW50
-IHRvIGhhdmUgYSBnZW5lcmFsIG1pZ3JhdGlvbg0KPiBzb2x1dGlvbiBpbnN0ZWFkIG9mIGEgdmVu
-ZG9yIHNwZWNpZmljIG9uZSwgaXQgbWF5IGR1cGxpY2F0ZSBzb21lIGxvZ2ljDQo+IG9mIGV4aXN0
-aW5nIHZpcnRpby1uZXQgaW1wbGVtZW50YXRpb24uIFRoZSBDVlEgbWlncmF0aW9uIGlzIGFuDQo+
-IGV4YW1wbGUsIHdlIGRvbid0IHByb3ZpZGUgYSBkZWRpY2F0ZWQgbWlncmF0aW9uIGZhY2lsaXR5
-IGluIHRoZSBzcGVjLg0KPiBTbyBhIG1vcmUgZ2VuZXJhbCB3YXkgZm9yIGxpdmUgbWlncmF0aW9u
-IGN1cnJlbnRseSBpcyB1c2luZyB0aGUgc2hhZG93DQo+IHZpcnRxdWV1ZSB3aGljaCBpcyB3aGF0
-IEV1Z2VuaW8gaXMgZG9pbmcuIFNvIHRoYW5rcyB0byB0aGUgZGVzaWduDQo+IHdoZXJlIHdlIHRy
-aWVkIHRvIGRvIGFsbCB0aGUgd29yayBpbiB0aGUgdmhvc3QgbGF5ZXIsIHRoaXMgbWlnaHQgbm90
-DQo+IGJlIGEgcHJvYmxlbSBmb3IgdGhpcyBhcHByb2FjaC4gQnV0IHRhbGtpbmcgYWJvdXQgdGhl
-IENWUSBtaWdyYXRpb24sDQo+IHRoaW5ncyB3aWxsIGJlIGludGVyZXN0aW5nLiBRZW11IG5lZWRz
-IHRvIGRlY29kZSB0aGUgY3ZxIGNvbW1hbmRzIGluDQo+IHRoZSBtaWRkbGUgdGh1cyBpdCBjYW4g
-cmVjb3JkIHRoZSBkZXZpY2Ugc3RhdGUuIEZvciBoYXZpbmcgYSBnZW5lcmFsDQo+IG1pZ3JhdGlv
-biBzb2x1dGlvbiwgdmhvc3QtdmRwYS1wY2kgbmVlZHMgdG8gZG8gdGhpcyBhcyB3ZWxsLg0KPiBW
-aXJ0aW8tbmV0IGhhcyB0aGUgZnVsbCBDVlEgbG9naWMgc28gaXQncyBtdWNoIGVhc2llciwgZm9y
-DQo+IHZob3N0LXZkcGEtcGNpLCBpdCBuZWVkcyB0byBkdXBsaWNhdGUgdGhlbSBhbGwgaW4gaXRz
-IG93biBsb2dpYy4NCj4gDQoNCk9LLCB0aGFua3MgZm9yIHlvdXIgcGF0aWVudCBleHBsYW5hdGlv
-bi4gV2Ugd2lsbCBmb2xsb3cgdXAgdGhlIHByb2dyZXNzDQpvZiBsaXZlIG1pZ3JhdGlvbi4NCg0K
-PiA+DQo+ID4gPiA+DQo+ID4gPiA+IE1heWJlIHdlIGNvdWxkIHN1cHBvcnQgYm90aCBpbiB0aGUg
-ZnV0dXJlID8NCj4gPiA+DQo+ID4gPiBGb3IgdGhlIG5ldCwgd2UgbmVlZCB0byBmaWd1cmUgb3V0
-IHRoZSBhZHZhbnRhZ2VzIG9mIHRoaXMgYXBwcm9hY2gNCj4gPiA+IGZpcnN0LiBOb3RlIHRoYXQg
-d2UgZGlkbid0IGhhdmUgdmhvc3QtdXNlci1uZXQtcGNpIG9yIHZob3N0LXBjaSBpbiB0aGUNCj4g
-PiA+IHBhc3QuDQo+ID4gPg0KPiA+DQo+ID4gV2h5IGRpZG4ndCBzdXBwb3J0IHZob3N0LXVzZXIt
-bmV0LXBjaSBpbiBoaXN0b3J5ID8gQmVjYXVzZSBpdHMgY29udHJvbA0KPiA+IHBhdGggaXMgbXVj
-aCBtb3JlIGNvbXBsZXggdGhhbiB0aGUgYmxvY2sgPw0KPiANCj4gSSBkb24ndCBrbm93LCBpdCBt
-YXkgYmUgc2ltcGx5IGJlY2F1c2Ugbm8gb25lIHRyaWVzIHRvIGRvIHRoYXQuDQo+IA0KPiA+DQo+
-ID4gPiBGb3IgdGhlIGJsb2NrLCBJIHdpbGwgbGVhdmUgU3RlZmFuIGFuZCBTdGVmYW5vIHRvIGNv
-bW1lbnQuDQo+ID4gPg0KPiA+ID4gPiBTdWNoIGFzOg0KPiA+ID4gPg0KPiA+ID4gPiAqIExpZ2h0
-d2VpZ2h0DQo+ID4gPiA+ICBOZXQ6IHZob3N0LXZkcGEtbmV0DQo+ID4gPiA+ICBTdG9yYWdlOiB2
-aG9zdC12ZHBhLWJsaw0KPiA+ID4gPg0KPiA+ID4gPiAqIEhlYXZ5IGJ1dCBtb3JlIHBvd2VyZnVs
-DQo+ID4gPiA+ICBOZXQ6IG5ldGRldiArIHZpcnRpby1uZXQgKyB2aG9zdC12ZHBhDQo+ID4gPiA+
-ICBTdG9yYWdlOiBiZHJ2ICsgdmlydGlvLWJsayArIHZob3N0LXZkcGENCj4gPiA+ID4NCj4gPiA+
-ID4gWzFdIGh0dHBzOi8vd3d3Lm1haWwtYXJjaGl2ZS5jb20vcWVtdS1kZXZlbEBub25nbnUub3Jn
-L21zZzc5NzU2OS5odG1sDQo+ID4gPiA+DQo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IExvbmdwZW5n
-KE1pa2UpIDxsb25ncGVuZzJAaHVhd2VpLmNvbT4NCj4gPiA+ID4gLS0tDQo+ID4gPiA+ICBody9u
-ZXQvbWVzb24uYnVpbGQgICAgICAgICAgICAgICAgIHwgICAxICsNCj4gPiA+ID4gIGh3L25ldC92
-aG9zdC12ZHBhLW5ldC5jICAgICAgICAgICAgfCAzMzgNCj4gPiA+ICsrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysNCj4gPiA+ID4gIGh3L3ZpcnRpby9LY29uZmlnICAgICAgICAg
-ICAgICAgICAgfCAgIDUgKw0KPiA+ID4gPiAgaHcvdmlydGlvL21lc29uLmJ1aWxkICAgICAgICAg
-ICAgICB8ICAgMSArDQo+ID4gPiA+ICBody92aXJ0aW8vdmhvc3QtdmRwYS1uZXQtcGNpLmMgICAg
-IHwgMTE4ICsrKysrKysrKysrKysNCj4gPiA+DQo+ID4gPiBJJ2QgZXhwZWN0IHRoZXJlJ3Mgbm8g
-ZGV2aWNlIHR5cGUgc3BlY2lmaWMgY29kZSBpbiB0aGlzIGFwcHJvYWNoIGFuZA0KPiA+ID4gYW55
-IGtpbmQgb2YgdkRQQSBkZXZpY2VzIGNvdWxkIGJlIHVzZWQgd2l0aCBhIGdlbmVyYWwgcGNpIGRl
-dmljZS4NCj4gPiA+DQo+ID4gPiBBbnkgcmVhc29uIGZvciBoYXZpbmcgbmV0IHNwZWNpZmljIHR5
-cGVzIGhlcmU/DQo+ID4gPg0KPiA+DQo+ID4gTm8sIGp1c3QgYmVjYXVzZSB0aGVyZSBhbHJlYWR5
-IGhhcyB0aGUgcHJvcG9zYWwgb2Ygdmhvc3QtdmRwYS1ibGssIHNvIEkNCj4gPiBkZXZlbG9wZWQg
-dGhlIHZob3N0LXZkcGEtbmV0IGNvcnJlc3BvbmRpbmdseS4NCj4gPg0KPiA+IEkgcHJldHR5IGFn
-cmVlIHdpdGggeW91ciBzdWdnZXN0aW9uLiBJZiBmZWFzaWJsZSwgbGlrZXMgdmZpby1wY2ksIHdl
-IGRvbid0DQo+ID4gbmVlZCB0byBtYWludGFpbiB0aGUgZGV2aWNlIHR5cGUgc3BlY2lmaWMgY29k
-ZSBpbiBRRU1VLCB3aGF0J3MgbW9yZSwgaXQncw0KPiA+IHBvc3NpYmxlIHRvIHN1cHBvcnQgdGhl
-IGxpdmUgbWlncmF0aW9uIG9mIGRpZmZlcmVudCB2aXJ0aW8gaGFyZHdhcmUuDQo+ID4NCj4gDQo+
-IFNlZSBhYm92ZSwgd2UgcHJvYmFibHkgbmVlZCB0eXBlIHNwZWNpZmljIG1pZ3JhdGlvbiBjb2Rl
-Lg0KPiANCj4gWy4uLl0NCj4gDQo+IFRoYW5rcw0KDQo=
+Changes for v7:
+  * Drop incorrect ppc64 "cleanup", which reminded me that we
+    need to select a non-syscall-clobbered register.  So that
+    meant changes to the mips edition.
+
+Changes for v6:
+  * Re-order patches so that the move to common happens after
+    all of the changes to linux-user.  Seems less confusing
+    this way.  As a consequence, the meson.build changes for
+    common-user have to happen at the same time, lest we get
+    meson configure errors for missing directories.
+  * Use a helper, safe_syscall_set_errno_tail, to set errno
+    instead of passing in &errno to safe_syscall_base.
+    This avoids the aligned register pairs problem that Peter
+    mentioned, as well as being more efficient in the common
+    case of syscall success.  As a consequence, some R-B have
+    been dropped.
+  * New untabify patch (peter).
+  * PPC64 cleanup split out of larger change.
+
+For convenience the tree is at
+
+  https://gitlab.com/rth7680/qemu/-/tree/lu-safesignal
+
+Xuerui, if you could rebase your tcg/loongarch work on
+top of this, I'd like to get both series in early in the
+next development cycle.
+
+
+r~
+
+
+Richard Henderson (15):
+  linux-user: Untabify all safe-syscall.inc.S
+  linux-user: Move syscall error detection into safe_syscall_base
+  linux-user/host/mips: Add safe-syscall.inc.S
+  linux-user/host/sparc64: Add safe-syscall.inc.S
+  linux-user: Remove HAVE_SAFE_SYSCALL and hostdep.h
+  linux-user: Rename TARGET_ERESTARTSYS to QEMU_ERESTARTSYS
+  bsd-user: Rename TARGET_ERESTARTSYS to QEMU_ERESTARTSYS
+  linux-user: Rename TARGET_QEMU_ESIGRETURN to QEMU_ESIGRETURN
+  linux-user: Create special-errno.h
+  bsd-user: Create special-errno.h
+  common-user: Move safe-syscall.* from linux-user
+  common-user: Adjust system call return on FreeBSD
+  linux-user: Move thunk.c from top-level
+  meson: Move linux_user_ss to linux-user/
+  meson: Move bsd_user_ss to bsd-user/
+
+ meson.build                                   |  23 ++-
+ bsd-user/errno_defs.h                         |   6 +-
+ bsd-user/special-errno.h                      |  24 +++
+ {linux-user => include/user}/safe-syscall.h   |  37 ++---
+ linux-user/cpu_loop-common.h                  |   1 +
+ linux-user/generic/target_errno_defs.h        |  17 --
+ linux-user/host/aarch64/hostdep.h             |  18 ---
+ linux-user/host/arm/hostdep.h                 |  18 ---
+ linux-user/host/i386/hostdep.h                |  18 ---
+ linux-user/host/ia64/hostdep.h                |  15 --
+ linux-user/host/mips/hostdep.h                |  15 --
+ linux-user/host/ppc/hostdep.h                 |  15 --
+ linux-user/host/ppc64/hostdep.h               |  18 ---
+ linux-user/host/riscv/hostdep.h               |  14 --
+ linux-user/host/s390/hostdep.h                |  15 --
+ linux-user/host/s390x/hostdep.h               |  18 ---
+ linux-user/host/sparc/hostdep.h               |  15 --
+ linux-user/host/sparc64/hostdep.h             |  15 --
+ linux-user/host/x32/hostdep.h                 |  15 --
+ linux-user/host/x86_64/hostdep.h              |  18 ---
+ linux-user/signal-common.h                    |   4 +-
+ linux-user/special-errno.h                    |  32 ++++
+ linux-user/user-internals.h                   |   1 -
+ common-user/safe-syscall-error.c              |  25 +++
+ linux-user/aarch64/cpu_loop.c                 |   4 +-
+ linux-user/aarch64/signal.c                   |   4 +-
+ linux-user/alpha/cpu_loop.c                   |   4 +-
+ linux-user/alpha/signal.c                     |   8 +-
+ linux-user/arm/cpu_loop.c                     |   4 +-
+ linux-user/arm/signal.c                       |   8 +-
+ linux-user/cris/cpu_loop.c                    |   4 +-
+ linux-user/cris/signal.c                      |   4 +-
+ linux-user/hexagon/cpu_loop.c                 |   4 +-
+ linux-user/hexagon/signal.c                   |   2 +-
+ linux-user/hppa/cpu_loop.c                    |   4 +-
+ linux-user/hppa/signal.c                      |   4 +-
+ linux-user/i386/cpu_loop.c                    |  12 +-
+ linux-user/i386/signal.c                      |   8 +-
+ linux-user/m68k/cpu_loop.c                    |   4 +-
+ linux-user/m68k/signal.c                      |   8 +-
+ linux-user/microblaze/cpu_loop.c              |   4 +-
+ linux-user/microblaze/signal.c                |   4 +-
+ linux-user/mips/cpu_loop.c                    |   4 +-
+ linux-user/mips/signal.c                      |   8 +-
+ linux-user/openrisc/cpu_loop.c                |   4 +-
+ linux-user/ppc/cpu_loop.c                     |   4 +-
+ linux-user/ppc/signal.c                       |  10 +-
+ linux-user/riscv/cpu_loop.c                   |   4 +-
+ linux-user/riscv/signal.c                     |   2 +-
+ linux-user/s390x/cpu_loop.c                   |   4 +-
+ linux-user/s390x/signal.c                     |   8 +-
+ linux-user/sh4/cpu_loop.c                     |   4 +-
+ linux-user/sh4/signal.c                       |   8 +-
+ linux-user/signal.c                           |  10 +-
+ linux-user/sparc/cpu_loop.c                   |   2 +-
+ linux-user/sparc/signal.c                     |   8 +-
+ linux-user/syscall.c                          |  21 +--
+ thunk.c => linux-user/thunk.c                 |   0
+ linux-user/xtensa/cpu_loop.c                  |   4 +-
+ linux-user/xtensa/signal.c                    |   4 +-
+ MAINTAINERS                                   |   3 +-
+ bsd-user/meson.build                          |   6 +
+ common-user/host/aarch64/safe-syscall.inc.S   |  88 +++++++++++
+ common-user/host/arm/safe-syscall.inc.S       | 108 +++++++++++++
+ common-user/host/i386/safe-syscall.inc.S      | 126 +++++++++++++++
+ common-user/host/mips/safe-syscall.inc.S      | 148 ++++++++++++++++++
+ common-user/host/ppc64/safe-syscall.inc.S     |  94 +++++++++++
+ common-user/host/riscv/safe-syscall.inc.S     |  79 ++++++++++
+ common-user/host/s390x/safe-syscall.inc.S     |  98 ++++++++++++
+ common-user/host/sparc64/safe-syscall.inc.S   |  89 +++++++++++
+ .../host/x86_64/safe-syscall.inc.S            |  44 ++++--
+ common-user/meson.build                       |   6 +
+ {linux-user => common-user}/safe-syscall.S    |   5 +-
+ linux-user/host/aarch64/safe-syscall.inc.S    |  75 ---------
+ linux-user/host/arm/safe-syscall.inc.S        |  90 -----------
+ linux-user/host/i386/safe-syscall.inc.S       | 100 ------------
+ linux-user/host/ppc64/safe-syscall.inc.S      |  96 ------------
+ linux-user/host/riscv/safe-syscall.inc.S      |  77 ---------
+ linux-user/host/s390x/safe-syscall.inc.S      |  90 -----------
+ linux-user/meson.build                        |   9 +-
+ 80 files changed, 1099 insertions(+), 932 deletions(-)
+ create mode 100644 bsd-user/special-errno.h
+ rename {linux-user => include/user}/safe-syscall.h (83%)
+ delete mode 100644 linux-user/host/aarch64/hostdep.h
+ delete mode 100644 linux-user/host/arm/hostdep.h
+ delete mode 100644 linux-user/host/i386/hostdep.h
+ delete mode 100644 linux-user/host/ia64/hostdep.h
+ delete mode 100644 linux-user/host/mips/hostdep.h
+ delete mode 100644 linux-user/host/ppc/hostdep.h
+ delete mode 100644 linux-user/host/ppc64/hostdep.h
+ delete mode 100644 linux-user/host/riscv/hostdep.h
+ delete mode 100644 linux-user/host/s390/hostdep.h
+ delete mode 100644 linux-user/host/s390x/hostdep.h
+ delete mode 100644 linux-user/host/sparc/hostdep.h
+ delete mode 100644 linux-user/host/sparc64/hostdep.h
+ delete mode 100644 linux-user/host/x32/hostdep.h
+ delete mode 100644 linux-user/host/x86_64/hostdep.h
+ create mode 100644 linux-user/special-errno.h
+ create mode 100644 common-user/safe-syscall-error.c
+ rename thunk.c => linux-user/thunk.c (100%)
+ create mode 100644 common-user/host/aarch64/safe-syscall.inc.S
+ create mode 100644 common-user/host/arm/safe-syscall.inc.S
+ create mode 100644 common-user/host/i386/safe-syscall.inc.S
+ create mode 100644 common-user/host/mips/safe-syscall.inc.S
+ create mode 100644 common-user/host/ppc64/safe-syscall.inc.S
+ create mode 100644 common-user/host/riscv/safe-syscall.inc.S
+ create mode 100644 common-user/host/s390x/safe-syscall.inc.S
+ create mode 100644 common-user/host/sparc64/safe-syscall.inc.S
+ rename {linux-user => common-user}/host/x86_64/safe-syscall.inc.S (81%)
+ create mode 100644 common-user/meson.build
+ rename {linux-user => common-user}/safe-syscall.S (91%)
+ delete mode 100644 linux-user/host/aarch64/safe-syscall.inc.S
+ delete mode 100644 linux-user/host/arm/safe-syscall.inc.S
+ delete mode 100644 linux-user/host/i386/safe-syscall.inc.S
+ delete mode 100644 linux-user/host/ppc64/safe-syscall.inc.S
+ delete mode 100644 linux-user/host/riscv/safe-syscall.inc.S
+ delete mode 100644 linux-user/host/s390x/safe-syscall.inc.S
+
+-- 
+2.25.1
+
 
