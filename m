@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D31474532
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 15:35:20 +0100 (CET)
-Received: from localhost ([::1]:32802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991DB47454A
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 15:38:51 +0100 (CET)
+Received: from localhost ([::1]:37584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx8ti-00066h-Mp
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 09:35:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41602)
+	id 1mx8x8-00010j-Ob
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 09:38:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mx8sn-0005Gl-Kv
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:34:21 -0500
-Received: from [2a00:1450:4864:20::52f] (port=40837
- helo=mail-ed1-x52f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mx8sm-0005yV-3o
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:34:21 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id r25so63133974edq.7
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 06:34:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=wzhoHe2yIViMpFVxwpjFXu4RoD17jqcz3vpqseJuhgU=;
- b=syv4nJUMuxOn91HA1NzyaUO9ngEFsIQZWF6mMLBwWIt8rZWOPbI26RkYwyVk/Ri2Nx
- PpCzGku9QdI3/020sepsv3pUWPqdzpl46h3kRRIjjov/Hxs5xTJMPDLdkCC+gV4GIqUM
- voQf8Q8Zpz4TCVHi4DDUvACRSCBSzazYy1jfBeVCmt6onir2o960EVDiBdJv10v/iR9w
- +sslaCZPMMUFJqcaSyEBIyfwdO4VZEDBdWiOx9XeB/SH0k5Zjp92GjzEhQjJk7ZQsln/
- scXTZaAG0oKIhurOsix1HMogVr1TUfAKQUojx3cchYS+er+lIm8u5DW0HgvJh37Qh30t
- PpXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=wzhoHe2yIViMpFVxwpjFXu4RoD17jqcz3vpqseJuhgU=;
- b=EzBvPVpYZ36N+eQNYFzNafno3R37t+51ojp4eW5ifeW85v8W/0aOx6rhs7rMaFkWxz
- d81Fp/+povdzSQA74j4hTowPkLkBMKKsnhXnW2VXynNw1OAylWZG35gq0jKC/47lhaiA
- fkQF6KJ4jKqipQlLtI8cVsMQQl/nIInkeHWdhlnOGIzrR+xI+4fCMcVfoBpm+f1cixDQ
- +K0KcyUZeURqu6JVyRYIZ7knQ9F13VTa65/Huq8yfIk/bJhZNHvOBKy5x3tcOGSsgIWM
- rKkTT/NG8ETswV3n3AOyWB0McKscvtU4og4YEZ4l+jCgUj/IfEtPrwKs2eeYyPJfMnkz
- dUtQ==
-X-Gm-Message-State: AOAM5313jhp7HGOO4kQMTZZNB6OAH9R7zrGEbiUK/DIzhV+wr1VCu5po
- PgEJt60XZO5vQZTVKF3sZtyRxA==
-X-Google-Smtp-Source: ABdhPJzXVj1POZgbOi/zDQb/JLDoOIAktev5yvYKqo99scxuhdVjMn7wSBWUuIollW8RoJ9BzwLe4g==
-X-Received: by 2002:a05:6402:50c7:: with SMTP id
- h7mr8347372edb.277.1639492456181; 
- Tue, 14 Dec 2021 06:34:16 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n10sm3892646edx.3.2021.12.14.06.34.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Dec 2021 06:34:15 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9FF9F1FF96;
- Tue, 14 Dec 2021 14:34:14 +0000 (GMT)
-References: <20211208231154.392029-1-richard.henderson@linaro.org>
- <20211208231154.392029-2-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.5; emacs 28.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 1/6] target/arm: Fault on invalid TCR_ELx.TxSZ
-Date: Tue, 14 Dec 2021 14:34:10 +0000
-In-reply-to: <20211208231154.392029-2-richard.henderson@linaro.org>
-Message-ID: <87fsqvi7bt.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mx8un-0007eU-A9
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:36:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46456)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mx8ul-0006OX-Bn
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 09:36:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639492582;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=m9SODp33dBpzgwK28WHEqBjB6ng3RhRkB5Rz3LVvFgE=;
+ b=BYowd1WOP3VwGdFVV4s1D+kvnYdPYd+lttdLZLtGffXtFhKw8xHmkEMKuoPE9lI4a/IAfi
+ QYBAghROrt8tpbm5L3YJ5bbkrPVQPDA5G3frC548NiYdzGnIxOkw0xA7TCnJRw7qxutpj7
+ 66grZdTSG9L6P/khVlqebrgnAb0C020=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-361-QZ5Cd4_qNNK901h0BP_I4g-1; Tue, 14 Dec 2021 09:36:18 -0500
+X-MC-Unique: QZ5Cd4_qNNK901h0BP_I4g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87808190A7C8;
+ Tue, 14 Dec 2021 14:36:17 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 36CA21036B4D;
+ Tue, 14 Dec 2021 14:35:30 +0000 (UTC)
+Date: Tue, 14 Dec 2021 15:35:29 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v2 3/4] include/sysemu/blockdev.h: move drive_add and
+ inline drive_def
+Message-ID: <YbirseSGF6nFiGlp@redhat.com>
+References: <20211130094633.277982-1-eesposit@redhat.com>
+ <20211130094633.277982-4-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211130094633.277982-4-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,23 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 30.11.2021 um 10:46 hat Emanuele Giuseppe Esposito geschrieben:
+> drive_add is only used in softmmu/vl.c, so it can be a static
+> function there, and drive_def is only a particular use case of
+> qemu_opts_parse_noisily, so it can be inlined.
+> 
+> Also remove drive_mark_claimed_by_board, as it is only defined
+> but not implemented (nor used) anywhere.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+I don't think moving drive_add() actually improves anything. Yes, you
+can make it static, but in order to do that you had to introduce
+block_if_name() as a new public function and you're moving an obviously
+block related function to common code in vl.c.
 
-> Without FEAT_LVA, the behaviour of programming an invalid value
-> is IMPLEMENTATION DEFINED.  With FEAT_LVA, programming an invalid
-> minimum value requires a Translation fault.
->
-> It is most self-consistent to choose to generate the fault always.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+So this part doesn't look like a net win to me. The rest of the series
+looks good to me.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Kevin
 
---=20
-Alex Benn=C3=A9e
 
