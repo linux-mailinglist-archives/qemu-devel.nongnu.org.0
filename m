@@ -2,110 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69905474E34
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 23:51:34 +0100 (CET)
-Received: from localhost ([::1]:37014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E99F1474DEC
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 23:33:23 +0100 (CET)
+Received: from localhost ([::1]:34462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxGdx-0001os-1X
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 17:51:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39964)
+	id 1mxGMM-0007ik-GP
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 17:33:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxGcJ-00013i-Bo
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 17:49:51 -0500
-Received: from mail-co1nam11on2088.outbound.protection.outlook.com
- ([40.107.220.88]:9217 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxGcE-0004YU-FV
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 17:49:50 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GyT//G/lyIPX6zjNjHjVwFeol/e3AFcUX3v4xOZiJL1/VuIaji7WEWo641ypBx+ij1q4cZOOZssni9gwARKfZBreRYMCnXuvnfYSTRlG5woh0wx3HCqKCwIxQcTO8MOBrB+d3WYOhy7lBttm7iMUeu/h0HwaUcUghmdMtj8OrE7SrzJmepTsLt+ngKrAX3fpkkJzwNnhoGj9RbZNmgttacXRBMFzHfaaT+4Q/RAhwZxb94lG4XWwpYLbrEXGGhywiTOCvMi3vw2NSgcqueAsorjiyrzvcs5jqM475ZSWyoqJ14dlFEwrOpWYSORoXDSnIl9eLNDi+g8q8rWtkwsjXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hJcXLGLgzAc5RFZ+B8Rm8y5R9ZojSbo22pLKbJec2DU=;
- b=Y1lqxE1sehvgYdGuK2oa7hWoezfxu0JdY+mpuhAPzQvcSn/A8aTfD8kypxzs6U4koO+XQQEVT2dK+FsoFfFb5WyCX13JALR3km19xfqXOS3tdTobe1t8FJAxMX6/0L1G6r58xbtPcNRrO89qvxaohT/qHFlwHfBvzpuKM/PCFHpYvLJWAPvMA2nzvszUOOcqU/TUmB6biQFh6CCFg48nE5gPasfv9DlG4qf4zuotItO+E3BIFgETwcupX1qYxMWQNhhcwgyRmUDh9FrJS7Rd+CJ5Y5KwMlBxvncdWs1MZa8TlCydW7RHW4yTlWm78PGHO00mFKuaXRM6nVryX19mMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hJcXLGLgzAc5RFZ+B8Rm8y5R9ZojSbo22pLKbJec2DU=;
- b=F0LMcsjNb4DbTieQDsYx9P9O8aE2v2dtjXLdGoHjzpAYN98nrn/EcoUVIEsiOuM5BF+oQeIykdSXODstX8qNMsUoMCa1CrB06WDhrE8K4F0pLXGKfVoHDGSs0OHNNSTr3EtA+yjddI9yGTlhTrvelnJGgOo3zvjHupAsX48wMzU=
-Received: from MW4P221CA0024.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::29)
- by MN2PR12MB2942.namprd12.prod.outlook.com (2603:10b6:208:108::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Tue, 14 Dec
- 2021 22:29:08 +0000
-Received: from CO1NAM11FT065.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8b:cafe::42) by MW4P221CA0024.outlook.office365.com
- (2603:10b6:303:8b::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.12 via Frontend
- Transport; Tue, 14 Dec 2021 22:29:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1NAM11FT065.mail.protection.outlook.com (10.13.174.62) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4778.13 via Frontend Transport; Tue, 14 Dec 2021 22:29:07 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 14 Dec
- 2021 16:29:03 -0600
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxGKr-0006uS-Vu
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 17:31:50 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=42918
+ helo=mail-pj1-x1035.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxGKp-0002ng-2P
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 17:31:49 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ fv9-20020a17090b0e8900b001a6a5ab1392so17345872pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 14:31:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CGmkoqBBuf98qLznQ8b13M2AtrDXnPOwAva2Yyy67nc=;
+ b=ybtO64iIWuxnwWBJvGopReB/xg55auObYrWJoyksAns6rzeb9WOiiullxGQ35dBmz8
+ ZIs5VVfWGmcsGAa3Gc3tKk5fh5D4uUO58msbCae4eEe7dnD+jwRaGM/dzDE/SLtsMuG5
+ sf7sNPF1n0kQ2r5GpioDhwIALoyQsepkI4U4TprL3vj6Hk6uMBeuAEkfpmcEx0K7N/vb
+ DxqXtT9jdy0WbUrZ1+WO9KjBOsL9wgmA7TrdJZmStR6JKbryav8VZKL72rYVm9GDgjJ7
+ mJXv0PK4LzVQ0ctBfMkuXPCs1TtodmNSxcKrWJbB9ajQBA2lV+Shti2HTGjrBiX7mR8r
+ aUEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CGmkoqBBuf98qLznQ8b13M2AtrDXnPOwAva2Yyy67nc=;
+ b=KM+aJ4mQzF3hKawRALTMbZ7wduXjkB8hMmU87wYJYLhwRFq+wNJegdUteO1QdQp59e
+ MgunlxWtYPrG0JnPWFk4AzitZlt3MEJTttLXMnLkXU3YPnkJ/dQZ5s/oFKAI32RAgHHn
+ Bljq/aZ10ZdsCRWkKItW8cfv9lkTWAvvJ+dZkyyfUS2unpcQIu1aZG3WUoya2/btjcN8
+ +HUAn7Qm8Hvu23/aZgoy35nh0vCoGUW5SnCHluMS/xJbodayuQLgXT4ibPTUk0Gy9IdR
+ DeKBgxAET4kJGnN1wZrCGt+bP1lREJMUIUush3d8de4NPYXeHTzhUEnDbYoSXnxrK4cY
+ NK9A==
+X-Gm-Message-State: AOAM532u+0vLTUEcYpmlkAJmDXOKWnHg8i/5QynDH/zhW0nXRES5tx5h
+ zXRnViOZgZ1d4sQaRJXBo+ULAw==
+X-Google-Smtp-Source: ABdhPJz9oZUaAfSkPobUvbDC8hrRki/z2341GI/EZLwlo9GD2ej8A0draLuJCkRYmB+vuKtJtSD66g==
+X-Received: by 2002:a17:902:c7c4:b0:141:deb4:1b2f with SMTP id
+ r4-20020a170902c7c400b00141deb41b2fmr8471864pla.44.1639521105048; 
+ Tue, 14 Dec 2021 14:31:45 -0800 (PST)
+Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id x16sm94751pfo.165.2021.12.14.14.31.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Dec 2021 14:31:44 -0800 (PST)
+Subject: Re: [PULL 0/1] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20211209152117.383832-1-stefanha@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <791dca68-86c1-46fb-7309-36450724f9eb@linaro.org>
+Date: Tue, 14 Dec 2021 14:31:42 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Subject: [ANNOUNCE] QEMU 6.2.0 is now available
-From: Michael Roth <michael.roth@amd.com>
-To: <qemu-devel@nongnu.org>
-CC: Richard Henderson <richard.henderson@linaro.org>
-Date: Tue, 14 Dec 2021 16:28:25 -0600
-Message-ID: <163952090545.371760.18068992651045494184@amd.com>
-User-Agent: alot/0.9
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB03.amd.com
- (10.181.40.144)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6b4a9e49-1700-4176-8a31-08d9bf51249a
-X-MS-TrafficTypeDiagnostic: MN2PR12MB2942:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB2942D189641ABBC2DC59678E95759@MN2PR12MB2942.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sNMu9EZJ+OM4UG693S4q74WZV8QTFsCPNBQwEJBz/awehmZX/StvlbkDCaZoLZk+miv46xhpJpRCyRXou5ZFaaEvQcNmIpjV+lQPPn8jMwNuY51pvrQ10GV8rd+MR3ebzDrEJKkqRMs1pqHtWv7j49sGRnaM6obNWTtAQEDIL48gmQXmjyV/JRdGYDR/d3C8pRGKSBHr7ezbqsg+wYN8VSDg897RyPpp4fD1NPM/GGUlE43GssJ9hOdeTLFUBOt7wL4HkOR3IEcqQ3j5dfZi9QnOKz65g6Oju281oUZEQVEriu1eXuQK1FnkRPBENOSJNm/NIu/1qC5S9GyeFbc1hvtVGhDISVfW4C5ysMKGsN4s+qvfY+Ndb05dsms+yFo5I+jGLeUP2ArwEmWDu98zOEaGdLfTNpbBcCjkQ6uV65T5Wkkdm5WjgLfoolJgSQMZSc5fCUkR6XXuk8/gTVz78guelt4BwRUip4MVm0AaIAxyyYZDyM/no9uos8lnd6qIeNckwMNCFcTHyc9mlLdu5uhWgoy1HmAtFpn8TyBPB1cxdRaFjeYQeKjRqboLiXAV4DzCoOWonp9yWccJjccXglQmZBhF1ldp8W+6Tdt9F8+lBjbsEj7pIwnuadYP3SpIOZ+rcGVKKydZivs+IN9bg52OVCCyRwKYcb//qO7U7muDP0H0KtRB5FPTNFMJHHILNsBavCp+PvTOEHGVFd7ATiYbG5+/vLlC9FaB9+wodYiHtPJvWNk67sW5w92tRw/xDx5dZmd4dOkKXOSabmscRLYgckDoYDLoqHxuNYcH0hq2ynDFnb4fqnOy0d6Gz6LTJjTIkxZf8gcPmJlmZ+yTCdxTAy2ZPeC515YmWd+9YOzpFAr2yzcKO5esT4OuFhpX
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(40470700001)(26005)(8936002)(966005)(186003)(16526019)(2616005)(82310400004)(81166007)(426003)(86362001)(5660300002)(336012)(8676002)(36756003)(4326008)(36860700001)(6916009)(70206006)(356005)(47076005)(508600001)(2906002)(40460700001)(316002)(6666004)(83380400001)(44832011)(70586007)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2021 22:29:07.4968 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b4a9e49-1700-4176-8a31-08d9bf51249a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT065.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB2942
-Received-SPF: softfail client-ip=40.107.220.88;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20211209152117.383832-1-stefanha@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.962,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,57 +92,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On 12/9/21 7:21 AM, Stefan Hajnoczi wrote:
+> The following changes since commit a3607def89f9cd68c1b994e1030527df33aa91d0:
+> 
+>    Update version for v6.2.0-rc4 release (2021-12-07 17:51:38 -0800)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+> 
+> for you to fetch changes up to cf4fbc3030c974fff726756a7ceef8386cdf500b:
+> 
+>    block/nvme: fix infinite loop in nvme_free_req_queue_cb() (2021-12-09 09:19:49 +0000)
+> 
+> ----------------------------------------------------------------
+> Pull request
+> 
+> An infinite loop fix for the userspace NVMe driver.
+> 
+> ----------------------------------------------------------------
+> 
+> Stefan Hajnoczi (1):
+>    block/nvme: fix infinite loop in nvme_free_req_queue_cb()
+> 
+>   block/nvme.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions
+Applied, as the beginning of the 7.0 development tree.
 
-On behalf of the QEMU Team, I'd like to announce the availability of
-the QEMU 6.2.0 release. This release contains 2300+ commits from 189
-authors.
 
-You can grab the tarball from our download page here:
-
-  https://www.qemu.org/download/#source
-
-The full list of changes are available at:
-
-  https://wiki.qemu.org/ChangeLog/6.2
-
-Highlights include:
-
- * virtio-mem: guest memory dumps are now fully supported, along with
-   pre-copy/post-copy migration and background guest snapshots.
- * QMP: support for nw DEVICE_UNPLUG_GUEST_ERROR to detect
-   guest-reported hotplug failures
- * TCG: improvements to TCG plugin argument syntax, and multi-core
-   support for cache plugin
-
- * 68k: improved support for Apple's NuBus, including ability to load
-   declaration ROMs, and slot IRQ support
- * ARM: macOS hosts with Apple Silicon CPUs now support 'hvf' accelerator f=
-or
-   AArch64 guests
- * ARM: emulation support for Fujitsu A64FX processor model
- * ARM: emulation support for kudo-mbc machine type
- * ARM: M-profile MVE extension is now supported for Cortex-M55
- * ARM: 'virt' machine now supports an emulated ITS (Interrupt Translation
-   Service) and supports more than 123 CPUs in emulation mode
- * ARM: xlnx-zcu102 and xlnx-versal-virt machines now support BBRAM and
-   eFUSE devices
- * PowerPC: improved POWER10 support for the 'powernv' machine type
- * PowerPC: initial support for POWER10 DD2.0 CPU model
- * PowerPC: support for FORM2 PAPR NUMA descriptions for 'pseries'
-   machine type
- * RISC-V: support for Zb[abcs] instruction set extensions
- * RISC-V: support for vhost-user and numa mem options across all boards
- * RISC-V: SiFive PWM support
- * x86: support for new Snowridge-v4 CPU model
- * x86: guest support for Intel SGX
- * x86: AMD SEV guests now support measurement of kernel binary when doing
-   direct kernel boot (not using a bootloader)
-
- * and lots more...
-
-Thank you to everyone involved!
+r~
 
