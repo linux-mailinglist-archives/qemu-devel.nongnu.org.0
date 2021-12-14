@@ -2,90 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E43D84746A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 16:40:03 +0100 (CET)
-Received: from localhost ([::1]:41816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9F4474719
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 17:05:54 +0100 (CET)
+Received: from localhost ([::1]:60694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx9uM-0004dG-IJ
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 10:40:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56716)
+	id 1mxAJN-0001VM-F4
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 11:05:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mx9tJ-0003wy-25
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 10:38:57 -0500
-Received: from [2a00:1450:4864:20::333] (port=37423
- helo=mail-wm1-x333.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mx9tH-0006J0-Gj
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 10:38:56 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- k37-20020a05600c1ca500b00330cb84834fso16550432wms.2
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 07:38:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=61RVRICaZjXa3HmowZQ6HbmxThCdcccueLpMQIJxWtE=;
- b=lGS5q+dmIBcmhLPZjSt45P2tqQi6Ef4V+69MRSvmhJEv2zWL1rRFIZcNJSNOJaXmlL
- SHWgNrvtTqxolrDCmqeAmsONpmXS2tuPyhRD6ufeh2voTIOjigFlK1xVOTjoiw5m1zBh
- AtCVEyntlI8HvnESdCPOQWWpMawe5uxl/bl5F36/CcwrtOH3vVE9KARSpERxiOheIwBH
- b1OlE37w3/kTUAQijIIJrcjh4lZEmUidbEDMuvH0yXtTG8o184sTbMMpVYn21pgjZMXq
- q0O4g5cCjg6X2jFPaAud7cUUv1zE4s+6c72nHMfSw99dWSe0w7BXtdoIu1/n/uulOnWi
- +Ycw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=61RVRICaZjXa3HmowZQ6HbmxThCdcccueLpMQIJxWtE=;
- b=iyitkqVuOdI6oLIfnz7R6iDmkvwVtFg1eY1Oh8YlPP8fgVTErnbMd8A5Fq4v0wi6PB
- RFZVsy4C/Y+xFT+DW5cYZgXMuPdb1ZptQ6IKXkrOMqUa93Y0sQHoPZcv0Tz89YrrEgp+
- JZMYtvr6BsESewwvqmb9hBpGeYNMVa7uDzOzTrGWwgO7Rhnzgbuo/Gh/DUR3ypdfnUAm
- UaHtjVp894OcLwj3jsCLVbD0o5GSmN4HSMtursd5H5bTyGcyubMQYwvTSH12NLg+a7ZF
- kDtXhNPNcmOkD7hxMKY9i18mHv1dl+Umgvuv0yIN8gZv3+uAdbk27QVAmD/c9cOpiqUa
- F/AQ==
-X-Gm-Message-State: AOAM532dbgWfnBBDwpGRbp4w3vIy8VwFfJH165LhHI/2l9PiEgriZEkN
- K4DHUYTR6nmMTIOyaFtVTXs=
-X-Google-Smtp-Source: ABdhPJxKkEo9kwQD5pg1bvXgT+M9oXfi2yCcb082X7NhhmaeuG55cllkTehACCHhKyr2hM7yl9Qgsg==
-X-Received: by 2002:a05:600c:4e07:: with SMTP id
- b7mr7781269wmq.16.1639496332848; 
- Tue, 14 Dec 2021 07:38:52 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id h15sm2956440wmq.32.2021.12.14.07.38.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Dec 2021 07:38:52 -0800 (PST)
-Message-ID: <8b1c7f8d-0c53-3e0c-4517-4854dbda04a0@amsat.org>
-Date: Tue, 14 Dec 2021 16:38:51 +0100
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mxAEU-0006D1-F1
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 11:00:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46384)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mxAEL-0001U8-Sm
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 11:00:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639497640;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/8/y+Zmrx5ETG8Tj5N10NU12EarY3PPFHKeC4lex2iA=;
+ b=b8BpqlTvUUAtZ5wnA6fVG6MYx8jg7UIgoIut6N/FfxXcx5CSzlT3rkzSLxHg9zdB8W9U6K
+ zqgIMscqtdhPx78HcOG3idsqGPzovvRUevgviCJBjRT+mjmOsovsuDGKRgBIgmgXIRGj1A
+ 9YyJUonPqBQY3+06ZsEO8LRRYe3nnUs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-223-XVx_WtYFP7yubqjpXxe8IQ-1; Tue, 14 Dec 2021 11:00:35 -0500
+X-MC-Unique: XVx_WtYFP7yubqjpXxe8IQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0326D190B2AD
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 16:00:34 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C8732A173;
+ Tue, 14 Dec 2021 16:00:32 +0000 (UTC)
+Date: Tue, 14 Dec 2021 17:00:30 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [RFC PATCH 00/12] QOM/QAPI integration part 1
+Message-ID: <Ybi/ngFqSiVVs07x@redhat.com>
+References: <20211103173002.209906-1-kwolf@redhat.com>
+ <871r365042.fsf@dusky.pond.sub.org> <YbhwrGRDs5lA7I7r@redhat.com>
+ <87fsqvqm7k.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v9 28/31] common-user: Add safe syscall handling for
- loongarch64 hosts
-Content-Language: en-US
-To: WANG Xuerui <i.qemu@xen0n.name>, qemu-devel@nongnu.org
-References: <20211214080154.196350-1-git@xen0n.name>
- <20211214080154.196350-29-git@xen0n.name>
- <f6218922-c386-e1bf-e1d7-9766aa4d675a@amsat.org>
- <c2fc44e2-3551-35e9-6cd7-39290a7b71b7@xen0n.name>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <c2fc44e2-3551-35e9-6cd7-39290a7b71b7@xen0n.name>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.962,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <87fsqvqm7k.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,60 +78,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- XiaoJuan Yang <yangxiaojuan@loongson.cn>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Song Gao <gaosong@loongson.cn>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ eblake@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/14/21 16:16, WANG Xuerui wrote:
-> Hi Philippe,
+Am 14.12.2021 um 15:45 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
 > 
-> On 12/14/21 21:29, Philippe Mathieu-Daudé wrote:
->> On 12/14/21 09:01, WANG Xuerui wrote:
->>> Signed-off-by: WANG Xuerui <git@xen0n.name>
->>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>> ---
->>>   .../host/loongarch64/safe-syscall.inc.S       | 81 +++++++++++++++++++
->>>   1 file changed, 81 insertions(+)
->>>   create mode 100644 common-user/host/loongarch64/safe-syscall.inc.S
-
->>> +safe_syscall_start:
->>> +        /* If signal_pending is non-zero, don't do the call */
->>> +        ld.w    $t1, $t0, 0
->>> +        bnez    $t1, 2f
->>> +        syscall 0
->>> +safe_syscall_end:
->>> +        /* code path for having successfully executed the syscall */
->>> +        li.w    $t2, -4096
->>> +        bgtu    $a0, $t2, 0f
->>> +        jr      $ra
->>> +
->>> +        /* code path setting errno */
->>> +0:      sub.d   $a0, $zero, $a0
->>> +        b       safe_syscall_set_errno_tail
->>> +
->>> +        /* code path when we didn't execute the syscall */
->>> +2:      li.w    $a0, QEMU_ERESTARTSYS
->>> +        b       safe_syscall_set_errno_tail
->>> +        .cfi_endproc
->>> +        .size   safe_syscall_base, .-safe_syscall_base
->>>
->> Why not rename 0 -> set_errno and 2 -> syscall_not_executed
->> for readability? (and eventually drop the comments).
-> This is directly taken from the RISC-V version; aside from that, this is
-> similar to all other architectures' adaptation, so maybe a future
-> refactor should touch all these other files as well, if we do? I
-> personally find the readability to be good, because when you look up 0
-> or 2 below you can't miss the comments placed close to the labels.
-
-I just noticed that in Richard's "linux-user: simplify safe signal
-handling​" series and was going to update here, so we are good :)
-
->>
->> Otherwise:
->> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > Am 23.11.2021 um 17:05 hat Markus Armbruster geschrieben:
+> >> Kevin Wolf <kwolf@redhat.com> writes:
+> >> 
+> >> > This series adds QOM class definitions to the QAPI schema, introduces
+> >> > a new TypeInfo.instance_config() callback that configures the object at
+> >> > creation time (instead of setting properties individually) and is
+> >> > separate from runtime property setters (which often used to be not
+> >> > really tested for runtime use), and finally generates a marshalling
+> >> > function for .instance_config() from the QAPI schema that makes this a
+> >> > natural C interface rather than a visitor based one.
+> >> >
+> >> > This is loosely based on Paolo's old proposal in the wiki:
+> >> > https://wiki.qemu.org/Features/QOM-QAPI_integration
+> >> >
+> >> > The series is in a rather early stage and I don't really have any
+> >> > automated tests or documentation in this series yet. I'm also only
+> >> > converting the class hierarchy for the random number generator backends
+> >> > to show what the result looks like, the other objects still need to be
+> >> > done.
+> >> >
+> >> > So the question to you isn't whether this is mergeable (it isn't), but
+> >> > whether you think this is the right approach for starting to integrate
+> >> > QOM and QAPI better.
+> >> >
+> >> > You'll also see that this doesn't really remove the duplication between
+> >> > property definitions in the code and configuration struct definitions in
+> >> > the QAPI schema yet (because we want to keep at least a read-only
+> >> > runtime property for every configuration option), but at least they mean
+> >> > somewhat different things now (creation vs. runtime) instead of being
+> >> > completely redundant.
+> >> >
+> >> > Possible future steps:
+> >> >
+> >> > * Define at least those properties to the schema that correspond to a
+> >> >   config option. For both setters and getters for each option, we'll
+> >> >   probably want to select in the schema between 'not available',
+> >> >   'automatically generated function' and 'manually implemented'.
+> >> >
+> >> >   Other runtime properties could be either left in the code or added to
+> >> >   the schema as well. Either way, we need to figure out how to best
+> >> >   describe these things in the schema.
+> >> 
+> >> Permit me a diversion of sorts.
+> >> 
+> >> With QOM, we have properties.  A property is readable if it has a
+> >> getter, writable if it has a setter.  There is no real concept of
+> >> configuration vs. state.  Writable properties can be written at any
+> >> time.
+> >> 
+> >> In practice, some properties are to be used only like configuration, and
+> >> we check configuration at realize time (for devices), or by a surrogate
+> >> like qemu_add_machine_init_done_notifier().  If you set them later,
+> >> things may break, and you get to keep the pieces.
+> >> 
+> >> In this "QOM/QAPI integration part 1", configuration (expressed in QAPI
+> >> schema) makes it into QOM.
+> >> 
+> >> Now we have configuration *and* properties.
+> >> 
+> >> Do we need the properties?
+> >
+> > Configuration is for creating objects, properties are for runtime after
+> > the creation. So for the practical answer, as long as you can find a QOM
+> > type that wants to allow either changing an option at runtime or just
+> > exposing its current value, I would say, yes, we need both. And I can
+> > easily list some QOM types that do.
+> >
+> > The theoretical answer is that of course you can replace properties with
+> > custom query-* and set-* QMP commands, but that's not only hardly an
+> > improvment, but also a compatibility problem.
 > 
+> That would be nuts.
+> 
+> > The approach I'm taking here with QAPIfication of objects (and planning
+> > to take for future conversions) is to drop setters that can't work at
+> > runtime (which might be the majority of properties), but keep properties
+> > around otherwise. Everything else would be a per-object decision, not
+> > part of the infrastructure work.
+> 
+> Getting rid of such setters makes sense.
+> 
+> It's been a while since I reviewed...  I don't remember anymore whether
+> we can have configuration parameters that are also properties.  If yes,
+> would it make sense to generate such properties?
+
+It's not only possible, but the normal case. These properties are often
+read-only after realize, but with existing types, we (almost?) always
+allow querying properties later even if they can be set only before
+realize (and therefore become part of the configuration after this
+series).
+
+As for generating, yes, I think that we do that at least partially
+(setters will probably have to be manually implemented in the common
+case). This is in fact the very proposal in the original cover letter
+that you replied to here.
+
+> >> Note I'm not asking whether we need setters.  I'm asking whether we
+> >> need to expose configuration bits via qom-set & friends in addition to
+> >> the QAPI schema and query-qmp-schema.
+> >
+> > I'm not sure I follow here. How is querying or changing option values
+> > redundant with querying which options exist?
+> >
+> > Maybe qom-list could become obsolete if we move all properties (and not
+> > just the configuration) into the QAPI schema, but I don't see qom-get
+> > and qom-set going away.
+> >
+> >> > * Getting rid of the big 'object-add' union: While the union is not too
+> >> >   bad for the rather small number of user-creatable objects, it
+> >> >   wouldn't scale at all for devices.
+> >> >
+> >> >   My idea there is that we could define something like this:
+> >> >
+> >> >   { 'struct': 'ObjectOptions',
+> >> >     'data': {
+> >> >         'id': 'str',
+> >> >         'config': { 'type': 'qom-config-any:user-creatable',
+> >> >                     'embed': true } } }
+> >> >
+> >> >   Obviously this would be an extension of the schema language to add an
+> >> >   'embed' option (another hopefully more acceptable attempt to flatten
+> >> >   things...), so I'd like to hear opinions on this first before I go to
+> >> >   implement it.
+> >> 
+> >> 'embed': true would splice in the members of a struct type instead of a
+> >> single member of that struct type.  Correct?
+> >> 
+> >> Stretch goal: make it work for union types, too :)
+> >> 
+> >> I've thought of this before.  Plenty of nesting in the wire format
+> >> exists pretty much only to let us have the C structs we want.  Right
+> >> now, the only way to "splice in" such a struct is the base type.
+> >> General splicing could be useful.  It may take an introspection flag
+> >> day.
+> >
+> > Base types aren't visible in the introspection either, so probably not
+> > if you continue to just report the resulting structure?
+> 
+> Yes, this should be feasible, except for splicing a union into a union,
+> because then you get multiple (tag, variants), which the introspection
+> schema can't do.  So don't go there, at least for now.
+
+Right. Let's think about that when we have a use case for splicing
+unions into unions.
+
+Kevin
+
 
