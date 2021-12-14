@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F6C473E13
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 09:13:20 +0100 (CET)
-Received: from localhost ([::1]:44536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6809473E19
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 09:15:55 +0100 (CET)
+Received: from localhost ([::1]:50042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mx2w3-0004Pz-Ls
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 03:13:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35676)
+	id 1mx2yZ-00085p-0D
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 03:15:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mx2mN-0006j7-Sd
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 03:03:19 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:48494
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mx2mR-0006np-F0
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 03:03:24 -0500
+Received: from mail.xen0n.name ([115.28.160.31]:48512
  helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mx2mK-0000Uc-0K
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 03:03:18 -0500
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mx2mO-0000V7-U8
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 03:03:23 -0500
 Received: from ld50.lan (unknown [101.88.31.179])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 601E2600B0;
- Tue, 14 Dec 2021 16:03:12 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 266D360184;
+ Tue, 14 Dec 2021 16:03:18 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1639468992; bh=CErMEkdepVZXKcmYTnltj6hmnjHlJAN3lTT1it71TrU=;
+ t=1639468998; bh=B4GCPhC5IL1x1OT4dxxxailnqISGmgY3Y1zq3ocPysU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=b1JfQZWL3ZXbMV0QqAEzTYs4WeyHvtM+1nZCu/5CRq5RByAbyUEK2OwzmfQ9hIHXU
- N49F0lrqfTbhiw+djdsAefK6bN5mb0OuHcOG/RipXHeMdQZvL783L1FBtAq913BhlA
- f2faSwGg+kX14qdRlz5jEfypNSOQLuELro9/OJR4=
+ b=bktfx/F3Mvx2f1EH8IsTpy+HbWPYw+viZe15B+eYaXfLjjy13DgFHumhU8IevYboK
+ Or87m1k98hKWrKOoAvVad3uU//54tr1Ul2JrcislBPpUBremaEugjsIOJGdSyu8Df2
+ 0bo7vmT1l4d8027qBgSOBNGgvxyFjriJlTuSpX0w=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 08/31] tcg/loongarch64: Implement the memory barrier op
-Date: Tue, 14 Dec 2021 16:01:31 +0800
-Message-Id: <20211214080154.196350-9-git@xen0n.name>
+Subject: [PATCH v9 09/31] tcg/loongarch64: Implement tcg_out_mov and
+ tcg_out_movi
+Date: Tue, 14 Dec 2021 16:01:32 +0800
+Message-Id: <20211214080154.196350-10-git@xen0n.name>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211214080154.196350-1-git@xen0n.name>
 References: <20211214080154.196350-1-git@xen0n.name>
@@ -74,49 +75,164 @@ Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tcg/loongarch64/tcg-target.c.inc | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ tcg/loongarch64/tcg-target.c.inc | 137 +++++++++++++++++++++++++++++++
+ 1 file changed, 137 insertions(+)
 
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index fbacaef862..f12955723d 100644
+index f12955723d..4487851b5e 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -234,3 +234,35 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
-         g_assert_not_reached();
-     }
+@@ -247,6 +247,141 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
+     tcg_out_opc_dbar(s, 0);
  }
-+
-+#include "tcg-insn-defs.c.inc"
-+
-+/*
-+ * TCG intrinsics
-+ */
-+
-+static void tcg_out_mb(TCGContext *s, TCGArg a0)
+ 
++static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg)
 +{
-+    /* Baseline LoongArch only has the full barrier, unfortunately.  */
-+    tcg_out_opc_dbar(s, 0);
-+}
-+
-+/*
-+ * Entry-points
-+ */
-+
-+static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-+                       const TCGArg args[TCG_MAX_OP_ARGS],
-+                       const int const_args[TCG_MAX_OP_ARGS])
-+{
-+    TCGArg a0 = args[0];
-+
-+    switch (opc) {
-+    case INDEX_op_mb:
-+        tcg_out_mb(s, a0);
++    if (ret == arg) {
++        return true;
++    }
++    switch (type) {
++    case TCG_TYPE_I32:
++    case TCG_TYPE_I64:
++        /*
++         * Conventional register-register move used in LoongArch is
++         * `or dst, src, zero`.
++         */
++        tcg_out_opc_or(s, ret, arg, TCG_REG_ZERO);
 +        break;
-+
 +    default:
 +        g_assert_not_reached();
 +    }
++    return true;
 +}
++
++static bool imm_part_needs_loading(bool high_bits_are_ones,
++                                   tcg_target_long part)
++{
++    if (high_bits_are_ones) {
++        return part != -1;
++    } else {
++        return part != 0;
++    }
++}
++
++/* Loads a 32-bit immediate into rd, sign-extended.  */
++static void tcg_out_movi_i32(TCGContext *s, TCGReg rd, int32_t val)
++{
++    tcg_target_long lo = sextreg(val, 0, 12);
++    tcg_target_long hi12 = sextreg(val, 12, 20);
++
++    /* Single-instruction cases.  */
++    if (lo == val) {
++        /* val fits in simm12: addi.w rd, zero, val */
++        tcg_out_opc_addi_w(s, rd, TCG_REG_ZERO, val);
++        return;
++    }
++    if (0x800 <= val && val <= 0xfff) {
++        /* val fits in uimm12: ori rd, zero, val */
++        tcg_out_opc_ori(s, rd, TCG_REG_ZERO, val);
++        return;
++    }
++
++    /* High bits must be set; load with lu12i.w + optional ori.  */
++    tcg_out_opc_lu12i_w(s, rd, hi12);
++    if (lo != 0) {
++        tcg_out_opc_ori(s, rd, rd, lo & 0xfff);
++    }
++}
++
++static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
++                         tcg_target_long val)
++{
++    /*
++     * LoongArch conventionally loads 64-bit immediates in at most 4 steps,
++     * with dedicated instructions for filling the respective bitfields
++     * below:
++     *
++     *        6                   5                   4               3
++     *  3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2
++     * +-----------------------+---------------------------------------+...
++     * |          hi52         |                  hi32                 |
++     * +-----------------------+---------------------------------------+...
++     *       3                   2                   1
++     *     1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
++     * ...+-------------------------------------+-------------------------+
++     *    |                 hi12                |            lo           |
++     * ...+-------------------------------------+-------------------------+
++     *
++     * Check if val belong to one of the several fast cases, before falling
++     * back to the slow path.
++     */
++
++    intptr_t pc_offset;
++    tcg_target_long val_lo, val_hi, pc_hi, offset_hi;
++    tcg_target_long hi32, hi52;
++    bool rd_high_bits_are_ones;
++
++    /* Value fits in signed i32.  */
++    if (type == TCG_TYPE_I32 || val == (int32_t)val) {
++        tcg_out_movi_i32(s, rd, val);
++        return;
++    }
++
++    /* PC-relative cases.  */
++    pc_offset = tcg_pcrel_diff(s, (void *)val);
++    if (pc_offset == sextreg(pc_offset, 0, 22) && (pc_offset & 3) == 0) {
++        /* Single pcaddu2i.  */
++        tcg_out_opc_pcaddu2i(s, rd, pc_offset >> 2);
++        return;
++    }
++
++    if (pc_offset == (int32_t)pc_offset) {
++        /* Offset within 32 bits; load with pcalau12i + ori.  */
++        val_lo = sextreg(val, 0, 12);
++        val_hi = val >> 12;
++        pc_hi = (val - pc_offset) >> 12;
++        offset_hi = val_hi - pc_hi;
++
++        tcg_debug_assert(offset_hi == sextreg(offset_hi, 0, 20));
++        tcg_out_opc_pcalau12i(s, rd, offset_hi);
++        if (val_lo != 0) {
++            tcg_out_opc_ori(s, rd, rd, val_lo & 0xfff);
++        }
++        return;
++    }
++
++    hi32 = sextreg(val, 32, 20);
++    hi52 = sextreg(val, 52, 12);
++
++    /* Single cu52i.d case.  */
++    if (ctz64(val) >= 52) {
++        tcg_out_opc_cu52i_d(s, rd, TCG_REG_ZERO, hi52);
++        return;
++    }
++
++    /* Slow path.  Initialize the low 32 bits, then concat high bits.  */
++    tcg_out_movi_i32(s, rd, val);
++    rd_high_bits_are_ones = (int32_t)val < 0;
++
++    if (imm_part_needs_loading(rd_high_bits_are_ones, hi32)) {
++        tcg_out_opc_cu32i_d(s, rd, hi32);
++        rd_high_bits_are_ones = hi32 < 0;
++    }
++
++    if (imm_part_needs_loading(rd_high_bits_are_ones, hi52)) {
++        tcg_out_opc_cu52i_d(s, rd, rd, hi52);
++    }
++}
++
+ /*
+  * Entry-points
+  */
+@@ -262,6 +397,8 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         tcg_out_mb(s, a0);
+         break;
+ 
++    case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
++    case INDEX_op_mov_i64:
+     default:
+         g_assert_not_reached();
+     }
 -- 
 2.34.0
 
