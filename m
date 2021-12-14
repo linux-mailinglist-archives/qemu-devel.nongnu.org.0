@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D96447398F
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 01:32:17 +0100 (CET)
-Received: from localhost ([::1]:39012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BEE547399B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Dec 2021 01:34:10 +0100 (CET)
+Received: from localhost ([::1]:45828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mwvjs-0008JO-ID
-	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 19:32:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44866)
+	id 1mwvlh-0004NL-Mg
+	for lists+qemu-devel@lfdr.de; Mon, 13 Dec 2021 19:34:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwve4-0007wc-Te
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:26:16 -0500
-Received: from [2607:f8b0:4864:20::430] (port=44686
- helo=mail-pf1-x430.google.com)
+ id 1mwve7-00083x-1C
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:26:19 -0500
+Received: from [2607:f8b0:4864:20::62f] (port=44991
+ helo=mail-pl1-x62f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mwvdz-0005Rf-LI
- for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:26:16 -0500
-Received: by mail-pf1-x430.google.com with SMTP id k64so16381998pfd.11
- for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 16:26:11 -0800 (PST)
+ id 1mwve1-0005Ro-7x
+ for qemu-devel@nongnu.org; Mon, 13 Dec 2021 19:26:18 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id q17so12343391plr.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Dec 2021 16:26:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mT+zuzmDZjEjStGuNXpCAnb7RPXTMmCHpcEJ6vHxP1Y=;
- b=YXF13fGg4flXkSMDyKjtvj47xNdYsKbM9bMeTnNo/ixKM3iasAgN3IX2PduOns+4jS
- t5wl6X1mRcet2X5ygudodl86nnLvOqNTQsBC1GX+NJ82FqVfuzYsdDL9QpH9UKIcvqAE
- YynWf0vLLXZPdnEthbszz2QwlpaZTXSyJ7eeA9/+/5jU7jVREHKFtmUp0PSEjVEbx1+0
- XPB2WS9YIPKa3wF2wt1iiAiX3OqMRJS45KI1W4xpSlMfEEwHjRWsstf+nQrTNR228HZx
- MKDfkfOhuemgwUFkHKQtlIKxlSNhwyafSOv/DlcDujalIA3O9e0whHv4gX1qUJ0I0PgU
- knrA==
+ bh=RxRUdWmNOzFbW06/oXjlpc/Ha36TYqwiBWfJ/9yrr1M=;
+ b=jLFOrhb2jZgumM7+1b+i4HZd0RuAftSgq7Ha4yNNAA55+Jcf1fbxRvEBeH0anzB63M
+ N/wk/Dd1hSNFkSzIRbbsZxAM2LSR/MTyM3uEO99fkIFdCBXS2JCNyhunwOPRmooM+UQ5
+ QEMpSpTuGRV0ckMnuxqzkkjiKQrLpGlxkOFNGwGf03euyVttTJtVShlkvYwgNtL5GcxT
+ cEhRKEK8Edp/zwKH6geRJHR7hiwRwG887zgqH0xBqCXNL/l0t/lOUpynbKsrfCaze3M6
+ WKtL91vE1HpJ7HrOYOXKaM+89AKMGOP9eFIkAj94lTa95fRRKs4T/Wi6bKyuSlGWF5Wu
+ 8oqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mT+zuzmDZjEjStGuNXpCAnb7RPXTMmCHpcEJ6vHxP1Y=;
- b=LxzllhdZOhp9JXy+pwtnnLx53UOWjOyQCVE+Q3HxujAvqnucV604B6WcwG93hkMKDa
- 77G+hsUdVQhURgKS3qtxUsva8h8RiIDMwMZi78DCBCbdIoqTNu6hoJfbF2NvcVoYGpMa
- 3U5naBYHqmLiRdEybbDCXMB/kvvL+4Uh3+fmOnTmxYS+uYQuFB3pp3QoB5byQqONPqah
- sHItdtBirMKeOKMScZjgdBPrPND8srfUoEuEk2tWqoLUsCCmKhFe9kD59YuvsY6r/83P
- CL4B/eDpwyBHtry4J55XRxlHB8lMEA3ydLbPVpZkrsGA8oOemGYNNq9a+MLEDLTpzrpb
- VYCw==
-X-Gm-Message-State: AOAM532Gerq261v0SH1F69VYcabg3bjSgEWNWtTWd87u9v5QJMuia3k+
- rwPTyJgo5qVWmAgwVDa4plvh602yr90bgg==
-X-Google-Smtp-Source: ABdhPJx4y7JXNWOff2mKCrwdQ8fu2BKY1YKVULH+9Yz1qUBB/5ZVsCHyO7LxpzFBZ9NHOLv0omR8cA==
-X-Received: by 2002:a63:354c:: with SMTP id c73mr1418923pga.532.1639441570355; 
- Mon, 13 Dec 2021 16:26:10 -0800 (PST)
+ bh=RxRUdWmNOzFbW06/oXjlpc/Ha36TYqwiBWfJ/9yrr1M=;
+ b=Zd7S2/kzwrydQxAxvP1bKqnHSif8HlMexA8m0lSpsCeZydLQFxAt+7+KmeGpKnkzkY
+ sjRURfQRa7cuw+zUZwEzoOEx6mnE+2ASGDo6abKOraGw1hYZjmhr9cvmT+gcelUkkGGb
+ O0t+ppt2wEbn6NmcDwSE19gO1pNEnj69P0m9k0WTlzWU3naucFyvlfJpVlubSr2RmgbQ
+ 9ZvqUbQexCk9aDbDB6RejM/iKHlveEydbi8VYQ4nBb/oMw7kcJtVgfmNMsctZ1iGUc+S
+ AOLAdVejTeltRGu0D850sWUIe+0347hOn8xk01XY1Ti56ropBQA/AJ1Ues7ElEwhZTU/
+ gn6w==
+X-Gm-Message-State: AOAM530y5CK4d1gIMnt7qyePZN5hvBZbTrrnkxF6ZQp+wBYrt+lovVmz
+ v0C3G+LIMrcHFREFB7s/W4/fYnhdPBkS+g==
+X-Google-Smtp-Source: ABdhPJy5Jnz/Ssn8UsMkQD4EYAeHW71N0UVisqZBfnPd7F7K4BYEXZ2d+N/VfBCv0KgvjJ3VWsbsmg==
+X-Received: by 2002:a17:90b:1bc1:: with SMTP id
+ oa1mr1809817pjb.163.1639441571212; 
+ Mon, 13 Dec 2021 16:26:11 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id w7sm11320253pgo.56.2021.12.13.16.26.09
+ by smtp.gmail.com with ESMTPSA id w7sm11320253pgo.56.2021.12.13.16.26.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Dec 2021 16:26:09 -0800 (PST)
+ Mon, 13 Dec 2021 16:26:10 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 04/15] linux-user/host/sparc64: Add safe-syscall.inc.S
-Date: Mon, 13 Dec 2021 16:25:53 -0800
-Message-Id: <20211214002604.161983-5-richard.henderson@linaro.org>
+Subject: [PATCH v7 05/15] linux-user: Remove HAVE_SAFE_SYSCALL and hostdep.h
+Date: Mon, 13 Dec 2021 16:25:54 -0800
+Message-Id: <20211214002604.161983-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211214002604.161983-1-richard.henderson@linaro.org>
 References: <20211214002604.161983-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,124 +88,471 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: git@xen0n.name, laurent@vivier.eu
+Cc: git@xen0n.name, laurent@vivier.eu, Warner Losh <imp@bsdimp.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+All supported hosts now define HAVE_SAFE_SYSCALL, so remove
+the ifdefs.  This leaves hostdep.h empty, so remove it.
+
+Reviewed-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/host/sparc64/hostdep.h          |  3 +
- linux-user/host/sparc64/safe-syscall.inc.S | 89 ++++++++++++++++++++++
- 2 files changed, 92 insertions(+)
- create mode 100644 linux-user/host/sparc64/safe-syscall.inc.S
+ linux-user/host/aarch64/hostdep.h | 18 ------------------
+ linux-user/host/arm/hostdep.h     | 18 ------------------
+ linux-user/host/i386/hostdep.h    | 18 ------------------
+ linux-user/host/ia64/hostdep.h    | 15 ---------------
+ linux-user/host/mips/hostdep.h    | 18 ------------------
+ linux-user/host/ppc/hostdep.h     | 15 ---------------
+ linux-user/host/ppc64/hostdep.h   | 18 ------------------
+ linux-user/host/riscv/hostdep.h   | 14 --------------
+ linux-user/host/s390/hostdep.h    | 15 ---------------
+ linux-user/host/s390x/hostdep.h   | 18 ------------------
+ linux-user/host/sparc/hostdep.h   | 15 ---------------
+ linux-user/host/sparc64/hostdep.h | 18 ------------------
+ linux-user/host/x32/hostdep.h     | 15 ---------------
+ linux-user/host/x86_64/hostdep.h  | 18 ------------------
+ linux-user/safe-syscall.h         | 13 +------------
+ linux-user/user-internals.h       |  1 -
+ linux-user/safe-syscall-error.c   |  3 ---
+ linux-user/signal.c               |  2 --
+ linux-user/safe-syscall.S         |  3 ---
+ 19 files changed, 1 insertion(+), 254 deletions(-)
+ delete mode 100644 linux-user/host/aarch64/hostdep.h
+ delete mode 100644 linux-user/host/arm/hostdep.h
+ delete mode 100644 linux-user/host/i386/hostdep.h
+ delete mode 100644 linux-user/host/ia64/hostdep.h
+ delete mode 100644 linux-user/host/mips/hostdep.h
+ delete mode 100644 linux-user/host/ppc/hostdep.h
+ delete mode 100644 linux-user/host/ppc64/hostdep.h
+ delete mode 100644 linux-user/host/riscv/hostdep.h
+ delete mode 100644 linux-user/host/s390/hostdep.h
+ delete mode 100644 linux-user/host/s390x/hostdep.h
+ delete mode 100644 linux-user/host/sparc/hostdep.h
+ delete mode 100644 linux-user/host/sparc64/hostdep.h
+ delete mode 100644 linux-user/host/x32/hostdep.h
+ delete mode 100644 linux-user/host/x86_64/hostdep.h
 
+diff --git a/linux-user/host/aarch64/hostdep.h b/linux-user/host/aarch64/hostdep.h
+deleted file mode 100644
+index 39299d798a..0000000000
+--- a/linux-user/host/aarch64/hostdep.h
++++ /dev/null
+@@ -1,18 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- *  * Written by Peter Maydell <peter.maydell@linaro.org>
+- *
+- * Copyright (C) 2016 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef AARCH64_HOSTDEP_H
+-#define AARCH64_HOSTDEP_H
+-
+-/* We have a safe-syscall.inc.S */
+-#define HAVE_SAFE_SYSCALL
+-
+-#endif
+diff --git a/linux-user/host/arm/hostdep.h b/linux-user/host/arm/hostdep.h
+deleted file mode 100644
+index 86b137875a..0000000000
+--- a/linux-user/host/arm/hostdep.h
++++ /dev/null
+@@ -1,18 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- *  * Written by Peter Maydell <peter.maydell@linaro.org>
+- *
+- * Copyright (C) 2016 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef ARM_HOSTDEP_H
+-#define ARM_HOSTDEP_H
+-
+-/* We have a safe-syscall.inc.S */
+-#define HAVE_SAFE_SYSCALL
+-
+-#endif
+diff --git a/linux-user/host/i386/hostdep.h b/linux-user/host/i386/hostdep.h
+deleted file mode 100644
+index ce7136501f..0000000000
+--- a/linux-user/host/i386/hostdep.h
++++ /dev/null
+@@ -1,18 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- *  * Written by Peter Maydell <peter.maydell@linaro.org>
+- *
+- * Copyright (C) 2016 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef I386_HOSTDEP_H
+-#define I386_HOSTDEP_H
+-
+-/* We have a safe-syscall.inc.S */
+-#define HAVE_SAFE_SYSCALL
+-
+-#endif
+diff --git a/linux-user/host/ia64/hostdep.h b/linux-user/host/ia64/hostdep.h
+deleted file mode 100644
+index 263bf7658e..0000000000
+--- a/linux-user/host/ia64/hostdep.h
++++ /dev/null
+@@ -1,15 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- *  * Written by Peter Maydell <peter.maydell@linaro.org>
+- *
+- * Copyright (C) 2016 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef IA64_HOSTDEP_H
+-#define IA64_HOSTDEP_H
+-
+-#endif
+diff --git a/linux-user/host/mips/hostdep.h b/linux-user/host/mips/hostdep.h
+deleted file mode 100644
+index d9e90a096b..0000000000
+--- a/linux-user/host/mips/hostdep.h
++++ /dev/null
+@@ -1,18 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- *  * Written by Peter Maydell <peter.maydell@linaro.org>
+- *
+- * Copyright (C) 2016 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef MIPS_HOSTDEP_H
+-#define MIPS_HOSTDEP_H
+-
+-/* We have a safe-syscall.inc.S */
+-#define HAVE_SAFE_SYSCALL
+-
+-#endif
+diff --git a/linux-user/host/ppc/hostdep.h b/linux-user/host/ppc/hostdep.h
+deleted file mode 100644
+index 23d8bd9d47..0000000000
+--- a/linux-user/host/ppc/hostdep.h
++++ /dev/null
+@@ -1,15 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- *  * Written by Peter Maydell <peter.maydell@linaro.org>
+- *
+- * Copyright (C) 2016 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef PPC_HOSTDEP_H
+-#define PPC_HOSTDEP_H
+-
+-#endif
+diff --git a/linux-user/host/ppc64/hostdep.h b/linux-user/host/ppc64/hostdep.h
+deleted file mode 100644
+index 0c290dd904..0000000000
+--- a/linux-user/host/ppc64/hostdep.h
++++ /dev/null
+@@ -1,18 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- *  * Written by Peter Maydell <peter.maydell@linaro.org>
+- *
+- * Copyright (C) 2016 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef PPC64_HOSTDEP_H
+-#define PPC64_HOSTDEP_H
+-
+-/* We have a safe-syscall.inc.S */
+-#define HAVE_SAFE_SYSCALL
+-
+-#endif
+diff --git a/linux-user/host/riscv/hostdep.h b/linux-user/host/riscv/hostdep.h
+deleted file mode 100644
+index 7f67c22868..0000000000
+--- a/linux-user/host/riscv/hostdep.h
++++ /dev/null
+@@ -1,14 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef RISCV_HOSTDEP_H
+-#define RISCV_HOSTDEP_H
+-
+-/* We have a safe-syscall.inc.S */
+-#define HAVE_SAFE_SYSCALL
+-
+-#endif
+diff --git a/linux-user/host/s390/hostdep.h b/linux-user/host/s390/hostdep.h
+deleted file mode 100644
+index afcba5a16a..0000000000
+--- a/linux-user/host/s390/hostdep.h
++++ /dev/null
+@@ -1,15 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- *  * Written by Peter Maydell <peter.maydell@linaro.org>
+- *
+- * Copyright (C) 2016 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef S390_HOSTDEP_H
+-#define S390_HOSTDEP_H
+-
+-#endif
+diff --git a/linux-user/host/s390x/hostdep.h b/linux-user/host/s390x/hostdep.h
+deleted file mode 100644
+index d801145854..0000000000
+--- a/linux-user/host/s390x/hostdep.h
++++ /dev/null
+@@ -1,18 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- *  * Written by Peter Maydell <peter.maydell@linaro.org>
+- *
+- * Copyright (C) 2016 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef S390X_HOSTDEP_H
+-#define S390X_HOSTDEP_H
+-
+-/* We have a safe-syscall.inc.S */
+-#define HAVE_SAFE_SYSCALL
+-
+-#endif
+diff --git a/linux-user/host/sparc/hostdep.h b/linux-user/host/sparc/hostdep.h
+deleted file mode 100644
+index 391ad923cf..0000000000
+--- a/linux-user/host/sparc/hostdep.h
++++ /dev/null
+@@ -1,15 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- *  * Written by Peter Maydell <peter.maydell@linaro.org>
+- *
+- * Copyright (C) 2016 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef SPARC_HOSTDEP_H
+-#define SPARC_HOSTDEP_H
+-
+-#endif
 diff --git a/linux-user/host/sparc64/hostdep.h b/linux-user/host/sparc64/hostdep.h
-index ce3968fca0..d832868cb1 100644
+deleted file mode 100644
+index d832868cb1..0000000000
 --- a/linux-user/host/sparc64/hostdep.h
-+++ b/linux-user/host/sparc64/hostdep.h
-@@ -12,4 +12,7 @@
- #ifndef SPARC64_HOSTDEP_H
- #define SPARC64_HOSTDEP_H
++++ /dev/null
+@@ -1,18 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- *  * Written by Peter Maydell <peter.maydell@linaro.org>
+- *
+- * Copyright (C) 2016 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef SPARC64_HOSTDEP_H
+-#define SPARC64_HOSTDEP_H
+-
+-/* We have a safe-syscall.inc.S */
+-#define HAVE_SAFE_SYSCALL
+-
+-#endif
+diff --git a/linux-user/host/x32/hostdep.h b/linux-user/host/x32/hostdep.h
+deleted file mode 100644
+index 2c2d6d37da..0000000000
+--- a/linux-user/host/x32/hostdep.h
++++ /dev/null
+@@ -1,15 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- *  * Written by Peter Maydell <peter.maydell@linaro.org>
+- *
+- * Copyright (C) 2016 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef X32_HOSTDEP_H
+-#define X32_HOSTDEP_H
+-
+-#endif
+diff --git a/linux-user/host/x86_64/hostdep.h b/linux-user/host/x86_64/hostdep.h
+deleted file mode 100644
+index 9c62bd26bd..0000000000
+--- a/linux-user/host/x86_64/hostdep.h
++++ /dev/null
+@@ -1,18 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- *  * Written by Peter Maydell <peter.maydell@linaro.org>
+- *
+- * Copyright (C) 2016 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef X86_64_HOSTDEP_H
+-#define X86_64_HOSTDEP_H
+-
+-/* We have a safe-syscall.inc.S */
+-#define HAVE_SAFE_SYSCALL
+-
+-#endif
+diff --git a/linux-user/safe-syscall.h b/linux-user/safe-syscall.h
+index 97837faddb..f43267a8fc 100644
+--- a/linux-user/safe-syscall.h
++++ b/linux-user/safe-syscall.h
+@@ -124,7 +124,7 @@
+  * need to check SA_RESTART flags in QEMU or distinguish the various
+  * kinds of restartability.
+  */
+-#ifdef HAVE_SAFE_SYSCALL
++
+ /* The core part of this function is implemented in assembly */
+ extern long safe_syscall_base(int *pending, long number, ...);
+ extern long safe_syscall_set_errno_tail(int value);
+@@ -137,15 +137,4 @@ extern char safe_syscall_end[];
+     safe_syscall_base(&((TaskState *)thread_cpu->opaque)->signal_pending, \
+                       __VA_ARGS__)
  
-+/* We have a safe-syscall.inc.S */
-+#define HAVE_SAFE_SYSCALL
-+
+-#else
+-
+-/*
+- * Fallback for architectures which don't yet provide a safe-syscall assembly
+- * fragment; note that this is racy!
+- * This should go away when all host architectures have been updated.
+- */
+-#define safe_syscall syscall
+-
+-#endif
+-
  #endif
-diff --git a/linux-user/host/sparc64/safe-syscall.inc.S b/linux-user/host/sparc64/safe-syscall.inc.S
-new file mode 100644
-index 0000000000..bb35c64cfc
---- /dev/null
-+++ b/linux-user/host/sparc64/safe-syscall.inc.S
-@@ -0,0 +1,89 @@
-+/*
-+ * safe-syscall.inc.S : host-specific assembly fragment
-+ * to handle signals occurring at the same time as system calls.
-+ * This is intended to be included by linux-user/safe-syscall.S
-+ *
-+ * Written by Richard Henderson <richard.henderson@linaro.org>
-+ * Copyright (C) 2021 Red Hat, Inc.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+        .text
-+        .balign 4
-+
-+        .register %g2, #scratch
-+        .register %g3, #scratch
-+
-+        .global safe_syscall_base
-+        .global safe_syscall_start
-+        .global safe_syscall_end
-+        .type   safe_syscall_base, @function
-+        .type   safe_syscall_start, @function
-+        .type   safe_syscall_end, @function
-+
-+#define STACK_BIAS  2047
-+#define PARAM(N)    STACK_BIAS + N*8
-+
-+        /*
-+         * This is the entry point for making a system call. The calling
-+         * convention here is that of a C varargs function with the
-+         * first argument an 'int *' to the signal_pending flag, the
-+         * second one the system call number (as a 'long'), and all further
-+         * arguments being syscall arguments (also 'long').
-+         */
-+safe_syscall_base:
-+        .cfi_startproc
-+        /*
-+         * The syscall calling convention isn't the same as the C one:
-+         * we enter with o0 == &signal_pending
-+         *               o1 == syscall number
-+         *               o2 ... o5, (stack) == syscall arguments
-+         *               and return the result in x0
-+         * and the syscall instruction needs
-+         *               g1 == syscall number
-+         *               o0 ... o5 == syscall arguments
-+         *               and returns the result in o0
-+         * Shuffle everything around appropriately.
-+         */
-+        mov     %o0, %g2                /* signal_pending pointer */
-+        mov     %o1, %g1                /* syscall number */
-+        mov     %o2, %o0                /* syscall arguments */
-+        mov     %o3, %o1
-+        mov     %o4, %o2
-+        mov     %o5, %o3
-+        ldx     [%sp + PARAM(6)], %o4
-+        ldx     [%sp + PARAM(7)], %o5
-+
-+        /*
-+         * This next sequence of code works in conjunction with the
-+         * rewind_if_safe_syscall_function(). If a signal is taken
-+         * and the interrupted PC is anywhere between 'safe_syscall_start'
-+         * and 'safe_syscall_end' then we rewind it to 'safe_syscall_start'.
-+         * The code sequence must therefore be able to cope with this, and
-+         * the syscall instruction must be the final one in the sequence.
-+         */
-+safe_syscall_start:
-+        /* if signal_pending is non-zero, don't do the call */
-+        lduw    [%g2], %g3
-+        brnz,pn %g3, 2f
-+         nop
-+        ta      0x6d
-+safe_syscall_end:
-+        /* code path for having successfully executed the syscall */
-+        bcs,pn  %xcc, 1f
-+         nop
-+        ret
-+         nop
-+
-+        /* code path when we didn't execute the syscall */
-+2:      set     TARGET_ERESTARTSYS, %o0
-+
-+        /* code path setting errno */
-+1:      mov     %o7, %g1
-+        call    safe_syscall_set_errno_tail
-+         mov    %g1, %o7
-+
-+        .cfi_endproc
-+        .size   safe_syscall_base, .-safe_syscall_base
+diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h
+index 661612a088..f71f372829 100644
+--- a/linux-user/user-internals.h
++++ b/linux-user/user-internals.h
+@@ -18,7 +18,6 @@
+ #ifndef LINUX_USER_USER_INTERNALS_H
+ #define LINUX_USER_USER_INTERNALS_H
+ 
+-#include "hostdep.h"
+ #include "exec/user/thunk.h"
+ #include "exec/exec-all.h"
+ #include "qemu/log.h"
+diff --git a/linux-user/safe-syscall-error.c b/linux-user/safe-syscall-error.c
+index d7e2700f81..55d95ac39a 100644
+--- a/linux-user/safe-syscall-error.c
++++ b/linux-user/safe-syscall-error.c
+@@ -10,10 +10,8 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "hostdep.h"
+ #include "safe-syscall.h"
+ 
+-#ifdef HAVE_SAFE_SYSCALL
+ /*
+  * This is intended to be invoked via tail-call on the error path
+  * from the assembly in host/arch/safe-syscall.inc.S.  This takes
+@@ -25,4 +23,3 @@ long safe_syscall_set_errno_tail(int value)
+     errno = value;
+     return -1;
+ }
+-#endif
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 6d5e5b698c..ca8f24b9ec 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -798,7 +798,6 @@ int queue_signal(CPUArchState *env, int sig, int si_type,
+ /* Adjust the signal context to rewind out of safe-syscall if we're in it */
+ static inline void rewind_if_in_safe_syscall(void *puc)
+ {
+-#ifdef HAVE_SAFE_SYSCALL
+     ucontext_t *uc = (ucontext_t *)puc;
+     uintptr_t pcreg = host_signal_pc(uc);
+ 
+@@ -806,7 +805,6 @@ static inline void rewind_if_in_safe_syscall(void *puc)
+         && pcreg < (uintptr_t)safe_syscall_end) {
+         host_signal_set_pc(uc, (uintptr_t)safe_syscall_start);
+     }
+-#endif
+ }
+ 
+ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
+diff --git a/linux-user/safe-syscall.S b/linux-user/safe-syscall.S
+index 42ea7c40ba..7ddc997801 100644
+--- a/linux-user/safe-syscall.S
++++ b/linux-user/safe-syscall.S
+@@ -10,15 +10,12 @@
+  * See the COPYING file in the top-level directory.
+  */
+ 
+-#include "hostdep.h"
+ #include "target_errno_defs.h"
+ 
+ /* We have the correct host directory on our include path
+  * so that this will pull in the right fragment for the architecture.
+  */
+-#ifdef HAVE_SAFE_SYSCALL
+ #include "safe-syscall.inc.S"
+-#endif
+ 
+ /* We must specifically say that we're happy for the stack to not be
+  * executable, otherwise the toolchain will default to assuming our
 -- 
 2.25.1
 
