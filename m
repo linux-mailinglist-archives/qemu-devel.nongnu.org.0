@@ -2,57 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECCE44760A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 19:25:59 +0100 (CET)
-Received: from localhost ([::1]:57628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A06476069
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 19:14:43 +0100 (CET)
+Received: from localhost ([::1]:49542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxYyV-0006pe-0z
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 13:25:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39868)
+	id 1mxYna-0007fv-Hi
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 13:14:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxXid-0005WN-Ok; Wed, 15 Dec 2021 12:05:32 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29692)
+ id 1mxXiX-0005TM-OY; Wed, 15 Dec 2021 12:05:26 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxXiZ-0004qu-Pk; Wed, 15 Dec 2021 12:05:30 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFGfauN012768; 
- Wed, 15 Dec 2021 17:04:55 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cyjgfk6qk-1
+ id 1mxXiV-0004pC-P1; Wed, 15 Dec 2021 12:05:25 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFGfaxD019429; 
+ Wed, 15 Dec 2021 17:04:56 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cyh6nw43s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Dec 2021 17:04:55 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BFH2cWD010794;
- Wed, 15 Dec 2021 17:04:53 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma04fra.de.ibm.com with ESMTP id 3cy7vvf1tc-1
+ Wed, 15 Dec 2021 17:04:56 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BFGgbL9022760;
+ Wed, 15 Dec 2021 17:04:56 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cyh6nw437-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Dec 2021 17:04:53 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1BFH4pl637356016
+ Wed, 15 Dec 2021 17:04:56 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BFH2hid024816;
+ Wed, 15 Dec 2021 17:04:54 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma06ams.nl.ibm.com with ESMTP id 3cy78e7kyx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Dec 2021 17:04:54 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BFH4q1x47317476
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 17:04:51 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 109E152057;
+ Wed, 15 Dec 2021 17:04:52 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E7C5542045;
+ Wed, 15 Dec 2021 17:04:51 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9DCC24204B;
  Wed, 15 Dec 2021 17:04:51 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id C69A852065;
- Wed, 15 Dec 2021 17:04:50 +0000 (GMT)
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Wed, 15 Dec 2021 17:04:51 +0000 (GMT)
 Received: from yukon.home (unknown [9.171.19.61])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 04AAA220247;
- Wed, 15 Dec 2021 18:04:49 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id C27C6220295;
+ Wed, 15 Dec 2021 18:04:50 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 081/102] target/ppc: do not silence SNaN in xscvspdpn
-Date: Wed, 15 Dec 2021 18:03:36 +0100
-Message-Id: <20211215170357.321643-69-clg@kaod.org>
+Subject: [PULL 082/102] target/ppc: introduce PMUEventType and PMU overflow
+ timers
+Date: Wed, 15 Dec 2021 18:03:37 +0100
+Message-Id: <20211215170357.321643-70-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211215170357.321643-1-clg@kaod.org>
 References: <20211215165847.321042-1-clg@kaod.org>
@@ -61,17 +72,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 7pbtsHq7ezSO3RZYhkh_lngDqzmLzqQ9
-X-Proofpoint-ORIG-GUID: 7pbtsHq7ezSO3RZYhkh_lngDqzmLzqQ9
+X-Proofpoint-ORIG-GUID: P_L5t_svZce0x9bJwX5WSSm-VsKFxuYO
+X-Proofpoint-GUID: Q728jUbnxPb2jB4NpuJBiOxEw2IvwLY_
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-15_10,2021-12-14_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxscore=0
- adultscore=0 lowpriorityscore=0 clxscore=1034 suspectscore=0
- impostorscore=0 malwarescore=0 phishscore=0 mlxlogscore=827
- priorityscore=1501 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2112150098
+ mlxlogscore=999 bulkscore=0
+ priorityscore=1501 mlxscore=0 malwarescore=0 phishscore=0 suspectscore=0
+ impostorscore=0 lowpriorityscore=0 spamscore=0 clxscore=1034 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2112150098
 Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -11
@@ -93,143 +104,277 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Matheus Ferst <matheus.ferst@eldorado.org.br>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-The non-signalling versions of VSX scalar convert to shorter/longer
-precision insns doesn't silence SNaNs in the hardware. To better match
-this behavior, use the non-arithmetic conversion of helper_todouble
-instead of float32_to_float64. A test is added to prevent future
-regressions.
+This patch starts an IBM Power8+ compatible PMU implementation by adding
+the representation of PMU events that we are going to sample,
+PMUEventType. This enum represents a Perf event that is being sampled by
+a specific counter 'sprn'. Events that aren't available (i.e. no event
+was set in MMCR1) will be of type 'PMU_EVENT_INVALID'. Events that are
+inactive due to frozen counter bits state are of type
+'PMU_EVENT_INACTIVE'. Other types added in this patch are
+PMU_EVENT_CYCLES and PMU_EVENT_INSTRUCTIONS.  More types will be added
+later on.
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-[ clg: Fixed spelling in commit log ]
-Message-Id: <20211214144459.1086343-1-matheus.ferst@eldorado.org.br>
+Let's also add the required PMU cycle overflow timers. They will be used
+to trigger cycle overflows when cycle events are being sampled. This
+timer will call cpu_ppc_pmu_timer_cb(), which in turn calls
+fire_PMC_interrupt().  Both functions are stubs that will be implemented
+later on when EBB support is added.
+
+Two new helper files are created to host this new logic.
+cpu_ppc_pmu_init() will init all overflow timers during CPU init time.
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20211201151734.654994-2-danielhb413@gmail.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/fpu_helper.c                 |  5 +---
- tests/tcg/ppc64le/non_signalling_xscv.c | 36 +++++++++++++++++++++++++
- tests/tcg/ppc64/Makefile.target         |  4 +--
- tests/tcg/ppc64le/Makefile.target       |  4 +--
- 4 files changed, 41 insertions(+), 8 deletions(-)
- create mode 100644 tests/tcg/ppc64le/non_signalling_xscv.c
+ target/ppc/cpu.h        | 15 ++++++++++
+ target/ppc/power8-pmu.h | 25 +++++++++++++++++
+ hw/ppc/spapr_cpu_core.c |  1 +
+ target/ppc/cpu_init.c   | 24 ++++++++++++++++
+ target/ppc/power8-pmu.c | 62 +++++++++++++++++++++++++++++++++++++++++
+ target/ppc/meson.build  |  1 +
+ 6 files changed, 128 insertions(+)
+ create mode 100644 target/ppc/power8-pmu.h
+ create mode 100644 target/ppc/power8-pmu.c
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 700c79156b06..e5c29b53b8b5 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -2816,10 +2816,7 @@ uint64_t helper_xscvdpspn(CPUPPCState *env, uint64=
-_t xb)
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index c07a8e9f7d4b..39fadca564bb 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -296,6 +296,15 @@ typedef struct ppc_v3_pate_t {
+     uint64_t dw1;
+ } ppc_v3_pate_t;
 =20
- uint64_t helper_xscvspdpn(CPUPPCState *env, uint64_t xb)
- {
--    float_status tstat =3D env->fp_status;
--    set_float_exception_flags(0, &tstat);
--
--    return float32_to_float64(xb >> 32, &tstat);
-+    return helper_todouble(xb >> 32);
- }
-=20
- /*
-diff --git a/tests/tcg/ppc64le/non_signalling_xscv.c b/tests/tcg/ppc64le/=
-non_signalling_xscv.c
-new file mode 100644
-index 000000000000..77f07033335d
---- /dev/null
-+++ b/tests/tcg/ppc64le/non_signalling_xscv.c
-@@ -0,0 +1,36 @@
-+#include <stdio.h>
-+#include <stdint.h>
-+#include <inttypes.h>
-+#include <assert.h>
++/* PMU related structs and defines */
++#define PMU_COUNTERS_NUM 6
++typedef enum {
++    PMU_EVENT_INVALID =3D 0,
++    PMU_EVENT_INACTIVE,
++    PMU_EVENT_CYCLES,
++    PMU_EVENT_INSTRUCTIONS,
++} PMUEventType;
 +
-+#define TEST(INSN, B_HI, B_LO, T_HI, T_LO) \
-+    do {                                                                =
-\
-+        __uint128_t t, b =3D B_HI;                                      =
-  \
-+        b <<=3D 64;                                                     =
-  \
-+        b |=3D B_LO;                                                    =
-  \
-+        asm(INSN " %x0, %x1\n\t"                                        =
-\
-+            : "=3Dwa" (t)                                               =
-  \
-+            : "wa" (b));                                                =
-\
-+        printf(INSN "(0x%016" PRIx64 "%016" PRIx64 ") =3D 0x%016" PRIx64=
-  \
-+               "%016" PRIx64 "\n", (uint64_t)(b >> 64), (uint64_t)b,    =
-\
-+               (uint64_t)(t >> 64), (uint64_t)t);                       =
-\
-+        assert((uint64_t)(t >> 64) =3D=3D T_HI && (uint64_t)t =3D=3D T_L=
-O);     \
-+    } while (0)
-+
-+int main(void)
-+{
-+#ifndef __SIZEOF_INT128__
-+    puts("__uint128_t not available, skipping...\n");
-+#else
-+    /* SNaN shouldn't be silenced */
-+    TEST("xscvspdpn", 0x7fbfffff00000000ULL, 0x0, 0x7ff7ffffe0000000ULL,=
- 0x0);
-+    TEST("xscvdpspn", 0x7ff7ffffffffffffULL, 0x0, 0x7fbfffff7fbfffffULL,=
- 0x0);
+ /***********************************************************************=
+******/
+ /* Machine state register bits definition                               =
+     */
+ #define MSR_SF   63 /* Sixty-four-bit mode                            hf=
+lags */
+@@ -1195,6 +1204,12 @@ struct CPUPPCState {
+     uint32_t tm_vscr;
+     uint64_t tm_dscr;
+     uint64_t tm_tar;
 +
 +    /*
-+     * SNaN inputs having no significant bits in the upper 23 bits of th=
-e
-+     * signifcand will return Infinity as the result.
++     * Timers used to fire performance monitor alerts
++     * when counting cycles.
 +     */
-+    TEST("xscvdpspn", 0x7ff000001fffffffULL, 0x0, 0x7f8000007f800000ULL,=
- 0x0);
++    QEMUTimer *pmu_cyc_overflow_timers[PMU_COUNTERS_NUM];
+ };
+=20
+ #define SET_FIT_PERIOD(a_, b_, c_, d_)          \
+diff --git a/target/ppc/power8-pmu.h b/target/ppc/power8-pmu.h
+new file mode 100644
+index 000000000000..49a813a443d7
+--- /dev/null
++++ b/target/ppc/power8-pmu.h
+@@ -0,0 +1,25 @@
++/*
++ * PMU emulation helpers for TCG IBM POWER chips
++ *
++ *  Copyright IBM Corp. 2021
++ *
++ * Authors:
++ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef POWER8_PMU
++#define POWER8_PMU
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "exec/exec-all.h"
++#include "exec/helper-proto.h"
++#include "qemu/error-report.h"
++#include "qemu/main-loop.h"
++
++void cpu_ppc_pmu_init(CPUPPCState *env);
++
 +#endif
-+    return 0;
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index 58e7341cb784..a57ba70a8781 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -20,6 +20,7 @@
+ #include "target/ppc/kvm_ppc.h"
+ #include "hw/ppc/ppc.h"
+ #include "target/ppc/mmu-hash64.h"
++#include "target/ppc/power8-pmu.h"
+ #include "sysemu/numa.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/hw_accel.h"
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index c8e6868389cb..7c47ffd6e19b 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -45,6 +45,7 @@
+ #include "helper_regs.h"
+ #include "internal.h"
+ #include "spr_tcg.h"
++#include "power8-pmu.h"
+=20
+ /* #define PPC_DEBUG_SPR */
+ /* #define USE_APPLE_GDB */
+@@ -6810,6 +6811,20 @@ static void register_power9_mmu_sprs(CPUPPCState *=
+env)
+ #endif
+ }
+=20
++/*
++ * Initialize PMU counter overflow timers for Power8 and
++ * newer Power chips when using TCG.
++ */
++static void init_tcg_pmu_power8(CPUPPCState *env)
++{
++#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
++    /* Init PMU overflow timers */
++    if (!kvm_enabled()) {
++        cpu_ppc_pmu_init(env);
++    }
++#endif
 +}
-diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.t=
-arget
-index 8f4c7ac4ed7d..0368007028c9 100644
---- a/tests/tcg/ppc64/Makefile.target
-+++ b/tests/tcg/ppc64/Makefile.target
-@@ -6,9 +6,9 @@ VPATH +=3D $(SRC_PATH)/tests/tcg/ppc64
- VPATH +=3D $(SRC_PATH)/tests/tcg/ppc64le
++
+ static void init_proc_book3s_common(CPUPPCState *env)
+ {
+     register_ne_601_sprs(env);
+@@ -7127,6 +7142,9 @@ static void init_proc_POWER8(CPUPPCState *env)
+     register_sdr1_sprs(env);
+     register_book3s_207_dbg_sprs(env);
 =20
- ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER8_VECTOR),)
--PPC64_TESTS=3Dbcdsub
-+PPC64_TESTS=3Dbcdsub non_signalling_xscv
- endif
--bcdsub: CFLAGS +=3D -mpower8-vector
-+$(PPC64_TESTS): CFLAGS +=3D -mpower8-vector
++    /* Common TCG PMU */
++    init_tcg_pmu_power8(env);
++
+     /* POWER8 Specific Registers */
+     register_book3s_ids_sprs(env);
+     register_rmor_sprs(env);
+@@ -7321,6 +7339,9 @@ static void init_proc_POWER9(CPUPPCState *env)
+     init_proc_book3s_common(env);
+     register_book3s_207_dbg_sprs(env);
 =20
- PPC64_TESTS +=3D byte_reverse
- PPC64_TESTS +=3D mtfsf
-diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefi=
-le.target
-index e031f65adcb3..480ff0898d7e 100644
---- a/tests/tcg/ppc64le/Makefile.target
-+++ b/tests/tcg/ppc64le/Makefile.target
-@@ -5,9 +5,9 @@
- VPATH +=3D $(SRC_PATH)/tests/tcg/ppc64le
++    /* Common TCG PMU */
++    init_tcg_pmu_power8(env);
++
+     /* POWER8 Specific Registers */
+     register_book3s_ids_sprs(env);
+     register_amr_sprs(env);
+@@ -7537,6 +7558,9 @@ static void init_proc_POWER10(CPUPPCState *env)
+     init_proc_book3s_common(env);
+     register_book3s_207_dbg_sprs(env);
 =20
- ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER8_VECTOR),)
--PPC64LE_TESTS=3Dbcdsub
-+PPC64LE_TESTS=3Dbcdsub non_signalling_xscv
- endif
--bcdsub: CFLAGS +=3D -mpower8-vector
-+$(PPC64LE_TESTS): CFLAGS +=3D -mpower8-vector
++    /* Common TCG PMU */
++    init_tcg_pmu_power8(env);
++
+     /* POWER8 Specific Registers */
+     register_book3s_ids_sprs(env);
+     register_amr_sprs(env);
+diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+new file mode 100644
+index 000000000000..d443bcb6c6ca
+--- /dev/null
++++ b/target/ppc/power8-pmu.c
+@@ -0,0 +1,62 @@
++/*
++ * PMU emulation helpers for TCG IBM POWER chips
++ *
++ *  Copyright IBM Corp. 2021
++ *
++ * Authors:
++ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++
++#include "power8-pmu.h"
++#include "cpu.h"
++#include "helper_regs.h"
++#include "exec/exec-all.h"
++#include "exec/helper-proto.h"
++#include "qemu/error-report.h"
++#include "qemu/main-loop.h"
++#include "hw/ppc/ppc.h"
++
++#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
++
++static void fire_PMC_interrupt(PowerPCCPU *cpu)
++{
++    CPUPPCState *env =3D &cpu->env;
++
++    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_EBE)) {
++        return;
++    }
++
++    /* PMC interrupt not implemented yet */
++    return;
++}
++
++static void cpu_ppc_pmu_timer_cb(void *opaque)
++{
++    PowerPCCPU *cpu =3D opaque;
++
++    fire_PMC_interrupt(cpu);
++}
++
++void cpu_ppc_pmu_init(CPUPPCState *env)
++{
++    PowerPCCPU *cpu =3D env_archcpu(env);
++    int i, sprn;
++
++    for (sprn =3D SPR_POWER_PMC1; sprn <=3D SPR_POWER_PMC6; sprn++) {
++        if (sprn =3D=3D SPR_POWER_PMC5) {
++            continue;
++        }
++
++        i =3D sprn - SPR_POWER_PMC1;
++
++        env->pmu_cyc_overflow_timers[i] =3D timer_new_ns(QEMU_CLOCK_VIRT=
+UAL,
++                                                       &cpu_ppc_pmu_time=
+r_cb,
++                                                       cpu);
++    }
++}
++#endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
+diff --git a/target/ppc/meson.build b/target/ppc/meson.build
+index b85f29570391..a49a8911e069 100644
+--- a/target/ppc/meson.build
++++ b/target/ppc/meson.build
+@@ -51,6 +51,7 @@ ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files=
+(
+   'mmu-book3s-v3.c',
+   'mmu-hash64.c',
+   'mmu-radix64.c',
++  'power8-pmu.c',
+ ))
 =20
- ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
- PPC64LE_TESTS +=3D byte_reverse
+ target_arch +=3D {'ppc': ppc_ss}
 --=20
 2.31.1
 
