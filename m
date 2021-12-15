@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01D247593A
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 14:00:45 +0100 (CET)
-Received: from localhost ([::1]:47326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5695A475939
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 14:00:42 +0100 (CET)
+Received: from localhost ([::1]:47064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxTtk-0000di-P6
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 08:00:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51386)
+	id 1mxTth-0000QG-Ce
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 08:00:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTlO-00049A-8X
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:52:06 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:36504
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTli-0004dv-3I
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:52:30 -0500
+Received: from mail.xen0n.name ([115.28.160.31]:36570
  helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTlH-0003yB-Mu
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:52:04 -0500
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTlU-00041j-V5
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:52:23 -0500
 Received: from ld50.lan (unknown [101.88.31.179])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 8F49A600B0;
- Wed, 15 Dec 2021 20:51:43 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 5408A60189;
+ Wed, 15 Dec 2021 20:52:06 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1639572703; bh=WEAsqqztRX3xg3wu+tNiwWV4x3PKyZPrIr2ZEgVai44=;
- h=From:To:Cc:Subject:Date:From;
- b=pWVAFiIxV62/JdENMbiGbvAseHkqC188tatmylRX3h4ZAnVQAyVziWkkX9CGjP7l3
- BInoARZ56gGRzjBNxS9Oi1VoiozBXokhkqCGp98YziT5mqe4ImmN062HUwhfFNbGDa
- /cWL7YU0s7OMKJD0I9KD30/WBc1dM0oj5oViPRzA=
+ t=1639572726; bh=hKaBkI1ZQVvveVVNuef/61xhd5iFCKbWS0ySkEDSmyU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=APOr4n55MDkKCEih1sfo301RQQxhok1JGEBep5LoTcJbfpf+b3NTYTf3zc5FZfe8D
+ ddzPj9/BmwN/BSn2ngGnMURzdSEsrhk+a+gLbiK1r1bL6Y3keN2bvK9/SsdHlZux9T
+ AazUMx0gxZYSYdU1HR8O1v3NZLd8tTM8i3uquPHw=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 00/31] LoongArch64 port of QEMU TCG
-Date: Wed, 15 Dec 2021 20:51:05 +0800
-Message-Id: <20211215125136.3449717-1-git@xen0n.name>
+Subject: [PATCH v10 05/31] tcg/loongarch64: Add register names,
+ allocation order and input/output sets
+Date: Wed, 15 Dec 2021 20:51:10 +0800
+Message-Id: <20211215125136.3449717-6-git@xen0n.name>
 X-Mailer: git-send-email 2.34.0
+In-Reply-To: <20211215125136.3449717-1-git@xen0n.name>
+References: <20211215125136.3449717-1-git@xen0n.name>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=115.28.160.31; envelope-from=git@xen0n.name;
  helo=mailbox.box.xen0n.name
@@ -68,245 +70,137 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: 20211214002604.161983-1-richard.henderson@linaro.org
-
-Hi all,
-
-This is a port of QEMU TCG to the brand-new CPU architecture LoongArch,
-introduced by Loongson with their 3A5000 chips.
-
-Patch 28 ("common-user: Add safe syscall handling for loongarch64 hosts")
-has some new content (used a different register with reason), hence
-dropped its Reviewed-by tags and needs another look. Some minor changes
-not affecting semantics are also included in this revision, again please
-check out the diff on Patchew for details.
-
-Everything is tested on real 3A5000 board (system emulation, linux-user,
-make check) and GitLab (CI jobs).
-
-## About the series
-
-Only the LP64D ABI is supported, as this is the only one fully
-implemented and supported by Loongson so far. 32-bit support is incomplete
-from outset, and removed from the very latest upstream submissions, so you
-can't even configure for that.
-
-The architecture's documentation is already translated into English;
-it can be browsed at https://loongson.github.io/LoongArch-Documentation/.
-The LoongArch ELF psABI doc (version 1.00) could be found at [1];
-if anything is missing there, it's most likely the same as RISC-V, but
-you can always raise an issue over their issue tracker at [2].
-
-[1]: https://loongson.github.io/LoongArch-Documentation/LoongArch-ELF-ABI-EN.html
-[2]: https://github.com/loongson/LoongArch-Documentation/issues
-
-In this series I made use of generated instruction encodings and
-emitters from https://github.com/loongson-community/loongarch-opcodes
-(a community project started by myself, something I must admit), as the
-LoongArch encoding is highly irregular even for a fixed 32-bit ISA, and
-I want to minimize the maintenance burden for future collaboration.
-
-This series touches some of the same files as Song Gao's previous
-submission of LoongArch *target* support, which is a bit unfortunate;
-one of us will have to rebase after either series gets in. Actual
-conflict should only happen on build system bits and include/elf.h,
-though, as we're working on entirely different areas.
-
-## How to build and test this
-
-Upstream support for LoongArch is largely WIP for now, which means you
-must apply a lot of patches if you want to even cross-build for this arch.
-The main sources I used are as follows:
-
-* binutils: (already upstream as of November 2021)
-* gcc: https://github.com/xen0n/gcc/tree/for-gentoo-gcc-12-v5
-  based on https://github.com/loongson/gcc/tree/loongarch_upstream_v3
-* glibc: https://github.com/xen0n/glibc/tree/for-gentoo-glibc-2.34-v3
-  based on https://github.com/loongson/glibc/tree/loongarch_2_34_dev
-* Linux: https://github.com/xen0n/linux/tree/loongarch-playground-v7
-  based on https://github.com/loongson/linux/tree/loongarch-next
-* Gentoo overlay: https://github.com/xen0n/loongson-overlay
-
-I have made ready-to-use Gentoo stage3 tarballs, but they're served with
-CDN off my personal cloud account, and I don't want the link to be
-exposed so that my bills skyrocket; you can reach me off-list to get the
-links if you're interested.
-
-As for the hardware availability, the boards can already be bought in
-China on Taobao, and I think some people at Loongson might be able to
-arrange for testing environments, if testing on real hardware other than
-mine is required before merging; they have their in-house Debian spin-off
-from the early days of this architecture. Their kernel is
-ABI-incompatible with the version being upstreamed and used by me, but
-QEMU should work there regardless.
-
-Lastly, I'm new to QEMU development and this is my first patch series
-here; apologizes if I get anything wrong, and any help or suggestion is
-certainly appreciated!
-
-## Changelog
-
-v10 -> v9:
-
-- Collected Reviewed-by tags from last round
-- Fixed Patch 28's register allocation for &signal_pending and added
-  explanatory comments per review
-- Updated Docker image
-- Updated a couple of places still mentioning the "LP64" ABI (properly
-  disambiguated into LP64S/LP64F/LP64D in the latest ABI spec) to say
-  "LP64*" instead
-
-v9 -> v8:
-
-- Rebased on top of Richard's lu-safesignal branch for eventual merge
-
-v8 -> v7:
-
-- Rebased to latest development branch
-- Adjusted component field of Patch 29's subject line to say
-  "linux-user" after rebase
-- Adjusted Patch 31 slightly according to review (you can check out the
-  Patchew diff between revisions for details)
-
-v7 -> v6:
-
-- Rebased to latest development branch
-- Added Docker image for cross-compilation and cross-build CI jobs
-
-v6 -> v5:
-
-- Fixed many places using 0/1 to say false/true
-- Tweaks to tcg_out_movi
-  - Moved variable declarations to top of function, as per QEMU coding
-    style
-  - Added ASCII art to better explain names like `hi12` `hi32` and `hi52`
-- Added example `uname -a` outputs to commit message of Patch 30 to help
-  people make sense of the change
-
-v5 -> v4:
-
-- Updated generated instruction definition to latest (added ldx/stx
-  family of indexed load/stores)
-- Incorporated Richard's suggestion for tcg_out_movi, tested to cover
-  the cases it's supposed to improve
-- Fixed a "size == MO_64" occurrence to just say "type"
-- Used indexed load/stores to optimize qemu_ld/st
-- Fixed zero-extension of address register for qemu_ld/st on 32-bit
-  targets
-
-v4 -> v3:
-
-- Addressed all review comments from v3
-  - Made MAX_CODE_GEN_BUFFER_SIZE to be just SIZE_MAX (but kept
-    TCG_TARGET_NB_REGS as macro definition)
-  - Updated generated instruction definition, made it clear that the
-    whole file is generated
-  - Used deposit64 for hand-written relocation code
-  - Reworked tcg_out_movi
-    - Use pcalau12i + ori for PC-relative values whose offset fits in
-      32-bit
-    - Every individual insn in the slow path (lu12i.w + ori + cu32i.d +
-      cu52i.d) can be suppressed if not needed
-  - Fixed constraint of setcond ops, don't allow constant zero for 1st
-    operand
-
-v3 -> v2:
-
-- Addressed all review comments from v2
-  - Re-organized changes to tcg-target.h so that it's incrementally
-    updated in each commit implementing ops
-  - Removed support for the eqv op
-  - Added support for bswap16_i{32,64} ops
-  - Fixed and refactored various places as pointed out during review
-- Updated generated instruction definitions to latest
-
-v2 -> v1:
-
-- Addressed all review comments from v1
-  - Use "loongarch64" everywhere, tcg directory renamed to "tcg/loongarch64"
-  - Removed all redundant TCG_TARGET_REG_BITS conditional
-  - Removed support for the neg op
-  - Added support for eqv and bswap32_i64 ops
-  - Added safe syscall handling for linux-user
-  - Fixed everything else I could see
-- Updated generated instruction definitions to latest
-- Reordered the configure/meson.build changes to come last
-
-v9: https://patchew.org/QEMU/20211214080154.196350-1-git@xen0n.name/
-v8: https://patchew.org/QEMU/20211124183231.1503090-1-git@xen0n.name/
-v7: https://patchew.org/QEMU/20211122104201.112695-1-git@xen0n.name/
-v6: https://patchew.org/QEMU/20210925173032.2434906-1-git@xen0n.name/
-v5: https://patchew.org/QEMU/20210924172527.904294-1-git@xen0n.name/
-v4: https://patchew.org/QEMU/20210923165939.729081-1-git@xen0n.name/
-v3: https://patchew.org/QEMU/20210922180927.666273-1-git@xen0n.name/
-v2: https://patchew.org/QEMU/20210921201915.601245-1-git@xen0n.name/
-v1: https://patchew.org/QEMU/20210920080451.408655-1-git@xen0n.name/
-
-WANG Xuerui (31):
-  elf: Add machine type value for LoongArch
-  MAINTAINERS: Add tcg/loongarch64 entry with myself as maintainer
-  tcg/loongarch64: Add the tcg-target.h file
-  tcg/loongarch64: Add generated instruction opcodes and encoding
-    helpers
-  tcg/loongarch64: Add register names, allocation order and input/output
-    sets
-  tcg/loongarch64: Define the operand constraints
-  tcg/loongarch64: Implement necessary relocation operations
-  tcg/loongarch64: Implement the memory barrier op
-  tcg/loongarch64: Implement tcg_out_mov and tcg_out_movi
-  tcg/loongarch64: Implement goto_ptr
-  tcg/loongarch64: Implement sign-/zero-extension ops
-  tcg/loongarch64: Implement not/and/or/xor/nor/andc/orc ops
-  tcg/loongarch64: Implement deposit/extract ops
-  tcg/loongarch64: Implement bswap{16,32,64} ops
-  tcg/loongarch64: Implement clz/ctz ops
-  tcg/loongarch64: Implement shl/shr/sar/rotl/rotr ops
-  tcg/loongarch64: Implement add/sub ops
-  tcg/loongarch64: Implement mul/mulsh/muluh/div/divu/rem/remu ops
-  tcg/loongarch64: Implement br/brcond ops
-  tcg/loongarch64: Implement setcond ops
-  tcg/loongarch64: Implement tcg_out_call
-  tcg/loongarch64: Implement simple load/store ops
-  tcg/loongarch64: Add softmmu load/store helpers, implement
-    qemu_ld/qemu_st ops
-  tcg/loongarch64: Implement tcg_target_qemu_prologue
-  tcg/loongarch64: Implement exit_tb/goto_tb
-  tcg/loongarch64: Implement tcg_target_init
-  tcg/loongarch64: Register the JIT
-  common-user: Add safe syscall handling for loongarch64 hosts
-  linux-user: Implement CPU-specific signal handler for loongarch64
-    hosts
-  configure, meson.build: Mark support for loongarch64 hosts
-  tests/docker: Add gentoo-loongarch64-cross image and run cross builds
-    in GitLab
-
- .gitlab-ci.d/container-cross.yml              |   27 +
- .gitlab-ci.d/crossbuilds.yml                  |   19 +
- MAINTAINERS                                   |    7 +
- .../host/loongarch64/safe-syscall.inc.S       |   90 +
- configure                                     |    7 +-
- include/elf.h                                 |    2 +
- linux-user/host/loongarch64/host-signal.h     |   87 +
- meson.build                                   |    2 +-
- tcg/loongarch64/tcg-insn-defs.c.inc           |  979 ++++++++++
- tcg/loongarch64/tcg-target-con-set.h          |   31 +
- tcg/loongarch64/tcg-target-con-str.h          |   28 +
- tcg/loongarch64/tcg-target.c.inc              | 1677 +++++++++++++++++
- tcg/loongarch64/tcg-target.h                  |  180 ++
- tests/docker/Makefile.include                 |   21 +
- .../gentoo-loongarch64-cross.docker           |   21 +
- .../build-toolchain.sh                        |  128 ++
- 16 files changed, 3304 insertions(+), 2 deletions(-)
- create mode 100644 common-user/host/loongarch64/safe-syscall.inc.S
- create mode 100644 linux-user/host/loongarch64/host-signal.h
- create mode 100644 tcg/loongarch64/tcg-insn-defs.c.inc
- create mode 100644 tcg/loongarch64/tcg-target-con-set.h
- create mode 100644 tcg/loongarch64/tcg-target-con-str.h
+Signed-off-by: WANG Xuerui <git@xen0n.name>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/loongarch64/tcg-target.c.inc | 118 +++++++++++++++++++++++++++++++
+ 1 file changed, 118 insertions(+)
  create mode 100644 tcg/loongarch64/tcg-target.c.inc
- create mode 100644 tcg/loongarch64/tcg-target.h
- create mode 100644 tests/docker/dockerfiles/gentoo-loongarch64-cross.docker
- create mode 100755 tests/docker/dockerfiles/gentoo-loongarch64-cross.docker.d/build-toolchain.sh
 
+diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
+new file mode 100644
+index 0000000000..653ef0a4bb
+--- /dev/null
++++ b/tcg/loongarch64/tcg-target.c.inc
+@@ -0,0 +1,118 @@
++/*
++ * Tiny Code Generator for QEMU
++ *
++ * Copyright (c) 2021 WANG Xuerui <git@xen0n.name>
++ *
++ * Based on tcg/riscv/tcg-target.c.inc
++ *
++ * Copyright (c) 2018 SiFive, Inc
++ * Copyright (c) 2008-2009 Arnaud Patard <arnaud.patard@rtp-net.org>
++ * Copyright (c) 2009 Aurelien Jarno <aurelien@aurel32.net>
++ * Copyright (c) 2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#ifdef CONFIG_DEBUG_TCG
++static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] = {
++    "zero",
++    "ra",
++    "tp",
++    "sp",
++    "a0",
++    "a1",
++    "a2",
++    "a3",
++    "a4",
++    "a5",
++    "a6",
++    "a7",
++    "t0",
++    "t1",
++    "t2",
++    "t3",
++    "t4",
++    "t5",
++    "t6",
++    "t7",
++    "t8",
++    "r21", /* reserved in the LP64* ABI, hence no ABI name */
++    "s9",
++    "s0",
++    "s1",
++    "s2",
++    "s3",
++    "s4",
++    "s5",
++    "s6",
++    "s7",
++    "s8"
++};
++#endif
++
++static const int tcg_target_reg_alloc_order[] = {
++    /* Registers preserved across calls */
++    /* TCG_REG_S0 reserved for TCG_AREG0 */
++    TCG_REG_S1,
++    TCG_REG_S2,
++    TCG_REG_S3,
++    TCG_REG_S4,
++    TCG_REG_S5,
++    TCG_REG_S6,
++    TCG_REG_S7,
++    TCG_REG_S8,
++    TCG_REG_S9,
++
++    /* Registers (potentially) clobbered across calls */
++    TCG_REG_T0,
++    TCG_REG_T1,
++    TCG_REG_T2,
++    TCG_REG_T3,
++    TCG_REG_T4,
++    TCG_REG_T5,
++    TCG_REG_T6,
++    TCG_REG_T7,
++    TCG_REG_T8,
++
++    /* Argument registers, opposite order of allocation.  */
++    TCG_REG_A7,
++    TCG_REG_A6,
++    TCG_REG_A5,
++    TCG_REG_A4,
++    TCG_REG_A3,
++    TCG_REG_A2,
++    TCG_REG_A1,
++    TCG_REG_A0,
++};
++
++static const int tcg_target_call_iarg_regs[] = {
++    TCG_REG_A0,
++    TCG_REG_A1,
++    TCG_REG_A2,
++    TCG_REG_A3,
++    TCG_REG_A4,
++    TCG_REG_A5,
++    TCG_REG_A6,
++    TCG_REG_A7,
++};
++
++static const int tcg_target_call_oarg_regs[] = {
++    TCG_REG_A0,
++    TCG_REG_A1,
++};
 -- 
 2.34.0
 
