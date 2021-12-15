@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C8E475C9D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 17:03:26 +0100 (CET)
-Received: from localhost ([::1]:47750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0077D475C35
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 16:51:18 +0100 (CET)
+Received: from localhost ([::1]:43060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxWkX-0007G1-Ir
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 11:03:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43182)
+	id 1mxWYl-0001am-PC
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 10:51:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1mxWKY-0006EC-6l
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:36:34 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:52416)
+ id 1mxWKe-0006bB-No
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:36:40 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:15566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1mxWKV-000051-Tj
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:36:33 -0500
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFEULbA028510; 
- Wed, 15 Dec 2021 15:36:30 GMT
+ id 1mxWKb-00006j-8t
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:36:40 -0500
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFEWeMs023139; 
+ Wed, 15 Dec 2021 15:36:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=U0PNMwpRERF29Fs9jnyBzcAsE4L/ciUMCOnwdrDp25s=;
- b=rwkDFLBACtkRv5IYNYp6jDLcWpHfYf+sfCdw9xrcMCfWIpHcQw5MddhfiH0KF+BuaIQ9
- uUgof2qkaEUzI3aNPPiX+RqKsPyyMxDj+6dTU75FzXNRs4HGo2eY6x7NHaxj/iOecq23
- Iga0NdCiSzgyhrzaOBYQtyb14soRAX/LKl6432Q6ft1hIPzy9uskfxNGAWIGEFgXLhKP
- onGvurHuafxp2x/QRqziE3CCUD08iNEK371JyanV1i1NmH8ger6Bpxyi9Flnlwlwg42U
- n2rr+LvsVDc4TG2ICQA0ywrj3WnzjBjTr3A/jq/bQJp1FbHkZKzx76jYwF3Dnmz/kGPi xw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cx3ukf6t5-1
+ s=corp-2021-07-09; bh=a3a4s641EqWZclBacc/JHp8P7eQoqD6hY1zM7rlLmTQ=;
+ b=iYbyKLp6HvBFxs4Wu9pJm3yzHCAYeIGyk8B88IvOLRD9lYIXZxj98Pg5Vi7nzIZsr1cI
+ sbKt+ZyugKUL53J57YpZ2Hmw8Vpg2j5roagj1r4JXvbn99jy4SBEFh73ZqVaGEVjITKf
+ 8qUYuWl76ejsGezGrZ2J8p+0OqjS8ymD6M4LV1bLOcBPM8vwLcfBSUaU7EUEj6ClVsea
+ veYFIMn0m39HtFtqf/ljypUT9+x8VkorTFEg4/xSDb5VJQ/E0rehYGXKa91IKF0QK7D5
+ WEuuOHnNO4FB/UkQuIc3sGVh4nNBWATqZ2y2rrEgzUtTk9dG72AM2Mcs9fbewpo4pFQM Tg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3cx3py778y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 15:36:30 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BFFViKh127804;
- Wed, 15 Dec 2021 15:36:29 GMT
+ Wed, 15 Dec 2021 15:36:33 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BFFUW6d094227;
+ Wed, 15 Dec 2021 15:36:32 GMT
 Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
- by userp3020.oracle.com with ESMTP id 3cvnes2d9k-1
+ (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
+ by aserp3020.oracle.com with ESMTP id 3cxmrc0uc4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 15:36:28 +0000
+ Wed, 15 Dec 2021 15:36:32 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MISUFb9rBTvSdZznrg0g9i0eZeTs9vruKa3IwwGK5gGGcHO2GQznBG9flG8Ly3U+096Sgcy2UTAmcPlxHW1OmtiXzWGQRoE9oMog7OWVBb21WkndUdFFiTgQkl69cFbJaFGer8rT2lmBnB10hW9jOm74c3xUG8RHw6jvVhIX7naLJwXl1y9wkdfyLkBNkw+eHK69a01l+/lOQdKKMYtUQDChcYgpRda1ClLxiuMDaIy9yoz1nSDbOn8jkDb/1wc6/6iaJILgl2pXQiZzEPB1w+lW2Fn124vO2ll+2uvMtO/xr0p4Q9riIBLLjNwmlQwaxe3ZkoKZU5WThPeFzzf4qw==
+ b=EnItfu41dh/hwSsP59rnlz0nvuax+8XICXjXyxHTLrdDQ4Qob5SVe8g10LvJ8N/kxyUDJsQ14deBcfgZN8GzQLQEe2CwE4LGkGoE/IGQwrBpwhCw64coquPCQW0kTGjBFtNkxNpph5NuHnFW2Kn5SrsW6rmj9xBol4gcKC0pUTCNzPbflJfkHOqKsSW73nZCdqLTyErWDzpgxZexv5sNiHlBdpTJHaYS+HV5fA1P2VVDkFs2emQptqyOjydYU6Hpet4f3/5/li7kfcSbxMK7r9rWAtlF20SWUs7EMjgPhVD2tfTW0+nN4eLfcJC3YzP1U4OUzwmWRx59z0sHcJ7kBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U0PNMwpRERF29Fs9jnyBzcAsE4L/ciUMCOnwdrDp25s=;
- b=QTtsESY+uxZRiIogoWWE5PRMfYuvG06oshbrHp7M9DnmhdCVmvOUQacXy3NKmbFEW+UKJsRRw4uWj/1DIccdLSKr83FKqAR7kSGtHLeVU3nxOlFuZX0CpNmylyxPztP60qdyZ3NtbCtCSMfmJTmJ8KEOXvfNA2F724gKwwX3y5E1ooQya7E/pqPq8QRCYsh2y9Voyd9wLJtixq2OY9b6UyqP+jN6X/UKA9hwZpeNE4KTd1M2PTftsnloW8VHS5J6ZcrTH4nFRbmtWCp1Zzt2KMaaeS5/CXpL/cJLomsGTyTdEN1TvfQS0CA2ZXdPaZGvnheMRroDKY7nD6LbRRAwEQ==
+ bh=a3a4s641EqWZclBacc/JHp8P7eQoqD6hY1zM7rlLmTQ=;
+ b=aNvsEPixa1ggincDww0uHbDPzbr+8k5F7oEDMQW/Xrk5G0qxcxj9R7/cZgMeftXFS8/Uu4XRIHF+tS2qguaGuGcqwvNuEykU2jN4Sglp+r/2TAVjLwDL+6hoEOr9E+f2uDcB8MD++6OKlrY22Kwyaf8Hq1cIop5btshg7YhcuXWCAA5GOqF5B5ck9K9bvYkTECuNbwgilibPzJYc3gCMbgFoT50hWsuCfKklD8bCO9mSQfZ7p6lQRbZ9TfCv0MIBWz5RAFlytNcG1VWOAYYLqWT1EmIPZlZ/uYr3xh2HWAawtdLNdRFIzsANhWVdNX17a5Xa6Ot4iqpXNz++ZVcCYw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U0PNMwpRERF29Fs9jnyBzcAsE4L/ciUMCOnwdrDp25s=;
- b=IZtYgSCIJ++rRTzuRvGlXq4Oq8hZbAyg53zzNTkU6YX9Zdw8SRuuVq75Uysjhrkf6KLt9toJ9ot7vzLxelJaDkOsLZS5p4A8ocpA7XDXBr1VmZlMA7rXj0ex6qE4pECXr24FowcodhwJUaaEaZmoOddJ6/1NSzLFIatluJZc2+w=
+ bh=a3a4s641EqWZclBacc/JHp8P7eQoqD6hY1zM7rlLmTQ=;
+ b=ADvjqWdX15kkkQlwExqXC+GygWaPUgPo+apkh+ruDm9ZbVfY3BpAD2XqR667+yCX1HtLQM2FAPK9e8zzbLIRcgJOLsKnHtw4g3xV4J1SiBKnr27GD26NzRobjODu5i1dNdbHRSFRipAS4vOV0wb89POPXceVnFecDgKWmREv4/c=
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
  by BLAPR10MB5282.namprd10.prod.outlook.com (2603:10b6:208:30e::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Wed, 15 Dec
- 2021 15:36:26 +0000
+ 2021 15:36:29 +0000
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::b911:b919:6383:970d]) by MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::b911:b919:6383:970d%5]) with mapi id 15.20.4778.018; Wed, 15 Dec 2021
- 15:36:26 +0000
+ 15:36:29 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 12/14] vfio-user: handle device interrupts
-Date: Wed, 15 Dec 2021 10:35:36 -0500
-Message-Id: <219410a610c55ac7f8db806aa8a4bc2e124e9d5c.1639549843.git.jag.raman@oracle.com>
+Subject: [PATCH v4 13/14] vfio-user: register handlers to facilitate migration
+Date: Wed, 15 Dec 2021 10:35:37 -0500
+Message-Id: <5f3cfae32d974c9a7ef3a1a9a2897557b9106de6.1639549843.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1639549843.git.jag.raman@oracle.com>
 References: <cover.1639549843.git.jag.raman@oracle.com>
@@ -83,75 +83,75 @@ X-ClientProxiedBy: BYAPR11CA0105.namprd11.prod.outlook.com
  (2603:10b6:208:185::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 246c52bb-ae24-4882-e0e6-08d9bfe0a7dc
+X-MS-Office365-Filtering-Correlation-Id: e562d64e-c6b5-4cb1-0e66-08d9bfe0a9db
 X-MS-TrafficTypeDiagnostic: BLAPR10MB5282:EE_
-X-Microsoft-Antispam-PRVS: <BLAPR10MB5282C1B876DCEA2915A9B66190769@BLAPR10MB5282.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:279;
+X-Microsoft-Antispam-PRVS: <BLAPR10MB528205CD41823719C1818A9E90769@BLAPR10MB5282.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1247;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cWGfsTgaZGv7B4HZz7hJRDt6YLD4XY/mPSeqzZLsFLJqOUcC+7lbeXaKg7xjOR3JwJxEdQykDpuWpyAcXH19CMqaWEIK81700BiBEOf24l60BWCBhu9L5qLUSMCRaeL+dutHk6zbtqGDFSqXP6tqyLJ7u/DURFKnbHXVjuNX03icVwMdn+LE1zeESc/8Ji41nPJqcdqipAOXu6hsg4S8GpwtupVEYXAEDcy+MyzWZ6byPieAiB9whb5zrse7C1j2kXMA+WwomS4Z9Cl3V5QSYTMa+8MDw7ocgenvjZWwYhLN1amjqrCrKnMv7bUBaGAW8X75x4k5HCHGgzkslPirddksivD4VvM8DpUGTVAXHYvZFZpqq3sGrBVswowjzeLkL7KBg/3NNvClk7FcpZKv1UC2l5srUCyQQLiwZw1dLnmNLQcRSwPhaCVjcdnKpy06zwTaJ1C/dL/rYVhy2MC9DJbchYJ4zeaHdaoux09O66eWmDOjwERvZ+yI9wSFwSdlQj1PrkrX/SUKFtRwqs8IgYobJrQUUIq49Y5PJzgsjGZ5OLYQb53yFtk7iCtr0yy1GRkbCuBtPv9LJC4t1V9X+HnO09UtpW5Hlm0Ko/ugBsXPS7Bdf0ioswK5fHyNTQN46qilRm64ptcTvRbxSHrVOeaGwVLkQUgiB0AwfkMlqG1FtGYZM/vsNaeurmxy32vC5m8cV0nKWQ7f6XU/9iDvJQ==
+X-Microsoft-Antispam-Message-Info: wd8GMTtN2ZQXXe0S4G7scX9l8bhNrEaeENDvrG9UZXQTHgmcnly5ANiM+364Kwg07cvFVHYUzVdjuAiQkPvlstXVWiEX/++puApMwdy4qEp3O8uqOAbQZjNBQtKVT91lOvCsXEaTIuRTkk6E4NlDmDGwL0N+3LdTzjmmNfZQ58sbE9fwse9zpjso+bIGHppWEP5io0drWOWBzManzIv5F/Sdu9A5LKsEZmRV0rh/VnuNMSwdoH/mytwAHXIHF2dxcGw11eJihswuKTfygB1mEODSPE15nECAQhZes+4Iw+suYncWYgnHb1xKAGx0duqTcZCvJ5dOEmlRqUjVXZlLk/XBxe0zUJ9q+iq05ZzFCHBR5cCcsuaqxYf16C/sq+kWzRY5dgra3Dii3jPTKiIpVxt0tWCXLcyAFZhDuq0W3TVHlOctuta5NH9IJsk7Je8wNyZj1NUCJm9MCP8bSfY20GNgJtIN1oj69DahAqoqzghDCnhX15exdO+BdgxdFNcmwa7hsFteVumgft///PlGMVHH7TS8xClXU4ijzMUkkAwPHggNc2hzR0QF0r69NgDiYloOKBYGcK/4lzxdRPBf6bs5SzsQu6vz/pf5y7aqskoLfsm0n6dEKvIfIssPTHmjE5AbN7DpFURaAb4R4Zf7rSMW80uF99UokU4oE0J/eQL23JtsBTouvu2FJeQdrPJqeNyquO/TSCy6ElLlzbDz5g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(2906002)(86362001)(36756003)(316002)(52116002)(6512007)(508600001)(2616005)(6506007)(4326008)(6666004)(6916009)(6486002)(7416002)(107886003)(83380400001)(8676002)(26005)(8936002)(38100700002)(38350700002)(66946007)(5660300002)(66556008)(66476007)(186003);
+ SFS:(366004)(2906002)(86362001)(36756003)(316002)(52116002)(6512007)(508600001)(2616005)(6506007)(4326008)(6666004)(6916009)(6486002)(7416002)(107886003)(83380400001)(8676002)(26005)(8936002)(38100700002)(38350700002)(30864003)(66946007)(5660300002)(66556008)(66476007)(186003);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JzVkpahkhFdj1hncoGjXvUz/k3jqH0Xy3New2v/4I5JJ/sHuMNqkIPCrs5eF?=
- =?us-ascii?Q?fxS3u3xWPSNgDz59gmdFPY8JmlqQ3rSeYpXEOUu9EPoZWBj85zRUVwVuIosS?=
- =?us-ascii?Q?6VDvybwKmhpxNe1zHQBEDBe6fWImE4orRUddVh0WEJ2u1ZUYO6p0FjZTzwPU?=
- =?us-ascii?Q?JAYFYaBQp30hD1mT6OeWIW6qD/hF85IXctUaiQ9jyWwNnNFXndgf0dWaUvbp?=
- =?us-ascii?Q?bEdqS3hWYfKFCD/rfdw8liu9yl/mCZBQzEwf1Rm0nZ6qcwSIQek1kXDpRN2h?=
- =?us-ascii?Q?fZ29p2RS/QjKxqXQZR0ExuvYXotQLDNVh4oHKd3Qw6IDIuW1uUBf4e8Dg9Ek?=
- =?us-ascii?Q?rIVyQeTMbeJ+Qv8c94d/S9B8zawWaK8j6BYBnPE73MfDoXa8pByBnPtScGah?=
- =?us-ascii?Q?vKaen9KhSkvRPXIryMwexbNFUwFACmu6kz6UeLEZzXq8z5KjDDR/VtcWRr3q?=
- =?us-ascii?Q?584Ur6LEnIxSy/hw0nCQR4XvQ3ZUxq0BsvGBjOuVU0IyvnLviN8m4r+GrHdA?=
- =?us-ascii?Q?3h2mw2plGo1RfaKvFmbRBmLy/aNEAz0TcKr9ZzdV9aTIy3+M8SBjwxDr2oQF?=
- =?us-ascii?Q?UpecRrAQNtwawrbyiw5yFL5uTUmkfi0+1UVYwmznleI3eOqDb/XDyqzEdUgk?=
- =?us-ascii?Q?gOcSUh3rxpjUezsBVIdkza2gHjdtwwXEVHUsOH0oGSdM54MCgcCzx6/liBA7?=
- =?us-ascii?Q?+VnyNJr8iyylT/fVfc1QPZARWZCOx2aNoFRy+icFDq1OJbSFu4LpKM1AortP?=
- =?us-ascii?Q?bt4XElwGFB1yH7tZx7evquw4w5WWNOQkR2my7lmzsW9cNqU45yxCXTe/RnVE?=
- =?us-ascii?Q?BAWac0dxr1UliQuQcRV9hbplZbVt2aUVAlBdOZv5pnmn9zVgKYqs+XabCxOo?=
- =?us-ascii?Q?aDaXsiVRDFCRM2EGZVlFXpXYaEIXKQgdBW9Wr5b5R0eBNAhxCwg4OHO5Y/Vz?=
- =?us-ascii?Q?QaBcSpKP2JV0HDWpt3gps955OOiwMItIs32VBa6atA3R7ulqloG7KArHL2J7?=
- =?us-ascii?Q?iIIffvXZEMFOT9zWEPFgra6wf10xlpn3hRmqktCizZGFNGLa3TmTaAPV2P62?=
- =?us-ascii?Q?gBG3EHH6VG3kmDRAnD2rJb3rV+g/XHHynVIMGZWnkUjGJx+NhNE4r56VGmo3?=
- =?us-ascii?Q?MkGqlRIhy+fn2D1aHEsiTYDLdWTATFzTRMROPRDt4SgmoF+3bLUq4N0O8Cm2?=
- =?us-ascii?Q?33R1MVgw1ZQD83aDDkku7MKLWYSZElS6sVcslKHC8bO6PYK7wVTt3ziXA7E9?=
- =?us-ascii?Q?D+RUwxWgEnuE7gs164At8atz/K1GgQM6u8oamLixCU6x0bfSvDTQeiKKaNY6?=
- =?us-ascii?Q?UWXc4pJir6PqXaQZCXr/IFy/Z3ECjC2w0bkRVRQDgjmlEgrW0BUj1UZ2hTyI?=
- =?us-ascii?Q?Dnyv8l5UwzJH4tPhXq5ueJB+bxMd9AX8CjRw4WaRLZNnu0FDbrJDqyyAcPNS?=
- =?us-ascii?Q?iufBTx4mqpEJ187mM2Tsl1xX+asCXU+w7hOPTr4/NhfW3T4cfnzWIE911EGF?=
- =?us-ascii?Q?L2JbW6OF/RHk1Zz48G0OMPlx8MDvoJDszWBdVhsd7uFDZGJRt0Dc/rQGnlne?=
- =?us-ascii?Q?WnhknVcT5zIU4f9/wKUhRDuUKxMHD4WsgvEv8bvpKaYamJssJePIkAzt9Hl9?=
- =?us-ascii?Q?99nM+jbDFnTcBsZgkGBTIR8=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KOs2JtGYssjbW6q+YdpttBelSJeRG8odg3TosNwTxMpMXLogVGbLvGAViy3f?=
+ =?us-ascii?Q?CZLfzhGCi1HKLWhzLR4xsK1CipZr1d+iKD7ihvrOoFWKRLKpkFL5UVU4PxyR?=
+ =?us-ascii?Q?2j5y2od861QsrPrEphkGW8F9h7cuff3EJdCH4LhslWm8RQH5XEviHGnb8Ps2?=
+ =?us-ascii?Q?FS8Oo+1qoM/nU/8ZgMAEBge2ETA2tH/wBINqI4oGh6nOgcJsi4tiquTTWFzc?=
+ =?us-ascii?Q?C7zugqH30QFdY9rlOBQyFdNO7UMZyW/x+zN/8pkwUD+/dh+Z27PrJpq0xMaT?=
+ =?us-ascii?Q?rga/4ePVQn0t5i9Icdx0wECjpcXZrum4xmMvQxYNtZ/FkmuyOtXyLV5Uxdwt?=
+ =?us-ascii?Q?PIjdc/9Ctheo80aBBp9OeTK4IPCSp7EHIoFQ7z5HxzpC/qFiUbSdDV8WqENj?=
+ =?us-ascii?Q?EMRxK8sskoKqHV9DIq2ZADJMlmh//eLP4+HXu/FpDxZBTA9YB7Samf5eRulz?=
+ =?us-ascii?Q?QpxKOX2viBcaCB9fnGOV0tn6eP5ri05n1BPUZu+lT83/pR/7k7oB2s/YqbUC?=
+ =?us-ascii?Q?HR2HHu43tDrfzkPT10BxQD+xn6B7NK4PQB2lGxrAki+U2f2w42b52qLhKiFT?=
+ =?us-ascii?Q?sYhgGGSmV1wjfgnuGGnMwTk1hsqLYyQRwV3+eVzuyP89qJoyvB0FysM54cO/?=
+ =?us-ascii?Q?KlfR5Hk+lveVwWumNQwbQz2sksEU38O2DU44nKQuZ4tSWH08OvPWFBew/x3K?=
+ =?us-ascii?Q?0ErK5SnFo9ctYawUxWkTnkgvfsurOtJ6TzV4zhmtJ0f5uvJ/D+QljlQPPGoU?=
+ =?us-ascii?Q?BKkLDuYhVC1gYXz9zZSgd6+BF9XNTv7Cv16pEpCFNMvm/IFR9uOdAjoJf7qC?=
+ =?us-ascii?Q?nE/fuwBTfJoDp6uoeE1g1IkzyJ4a3vXH/HUHLhtIy60MlnnCGt4RNc2vU//M?=
+ =?us-ascii?Q?NNcecmwH28rJiN4Kcit9duRogfdnJOlUMgUQ9AkgKfClNL7/oIdcdBoHRjqX?=
+ =?us-ascii?Q?NfUVqMJ+IRQv/et47p8DhYgcnezFS2J3HWBBaiI+3LTOxYnjj+NxYBukk+hT?=
+ =?us-ascii?Q?T6C1ZJxJ02XO4Vr07FCImAknk5fQukYkJUdbbHPWK1vpzT1dzNcIqAKKaZ45?=
+ =?us-ascii?Q?Nu15bF5y+kZ+tGSs6WEug1XzfEA/vWNm7dg8LjS1ldJqRiQh65bG9thGRHob?=
+ =?us-ascii?Q?gCIgPWM+8dQQcUlBZEdCwOMT0KDhdMfu5MhA5LY04SmrYx8V1lZhTM33ajeo?=
+ =?us-ascii?Q?Bq11bbcEFCZcRAD4vHNGEi8dWQyUS7DxpXNqRyXg8qgf0O2bq6Ah9NVKewCR?=
+ =?us-ascii?Q?L2v7LkN899BV1kVfceo6n8r5eYkktTGRbsda7RB0hxxN7MYwdwgRkwu8jzKc?=
+ =?us-ascii?Q?zDYJN5Wj05ksTCd/LypXPQe6ZBEDopRzze1HxOYmRYVcQQEyJ1bjy7FrDu8J?=
+ =?us-ascii?Q?09dO1OU46lPph2nCTT9C5H6xSWpd8H5NJI2fiOoSFiZJzUNpKn65t5JI9mZX?=
+ =?us-ascii?Q?2JttAA9J6aC4TRRmn0htBNmylPCNRduZtIUyGAygK6pWmovFLvT6/X0xorRq?=
+ =?us-ascii?Q?p+Dy53AxfEZOn8ufo6psnBFvTDqsmLoWKqY9eA7G9BQqYMMbDrYcVzUajRIA?=
+ =?us-ascii?Q?G7MtarC0C8AZfMObyPYZoUdrMvxXQKbuvUu2doJpdqxqGbNgZabxHeUb4W9O?=
+ =?us-ascii?Q?DSoV3lglCoVuUm7OH2kg1GQ=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 246c52bb-ae24-4882-e0e6-08d9bfe0a7dc
+X-MS-Exchange-CrossTenant-Network-Message-Id: e562d64e-c6b5-4cb1-0e66-08d9bfe0a9db
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 15:36:26.1829 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 15:36:29.4952 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aF+hRPiSjgKYoGksbr3IQcUQSoKejbV7UfJdypu9+ricLA+raFuOT9sbwWI9MpRzSlAKH1Sg5q7yeBDUntXe8w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: b/x8eQ4/QmRBP60hbxTsNmo1/D/4LqC7jSuUzqI9Heon2QCJX2UztChuZt0LAjMi8YM9UhKvDvAa8JKo2rmJqA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5282
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10198
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- adultscore=0
- malwarescore=0 bulkscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112150088
-X-Proofpoint-GUID: _Hd1nFp_OIaSYQeYRHGGOf5PMWEVJOIq
-X-Proofpoint-ORIG-GUID: _Hd1nFp_OIaSYQeYRHGGOf5PMWEVJOIq
-Received-SPF: pass client-ip=205.220.177.32; envelope-from=jag.raman@oracle.com;
- helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ bulkscore=0 spamscore=0
+ mlxlogscore=999 suspectscore=0 adultscore=0 malwarescore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2112150088
+X-Proofpoint-ORIG-GUID: X8RSICUC5YjjF2wJtCASiTsx3vsocnWn
+X-Proofpoint-GUID: X8RSICUC5YjjF2wJtCASiTsx3vsocnWn
+Received-SPF: pass client-ip=205.220.165.32; envelope-from=jag.raman@oracle.com;
+ helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -173,318 +173,535 @@ Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Forward remote device's interrupts to the guest
+Store and load the device's state during migration. use libvfio-user's
+handlers for this purpose
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- include/hw/pci/pci.h      |  6 ++++
- include/hw/remote/iohub.h |  1 +
- hw/pci/msi.c              | 13 ++++++-
- hw/pci/msix.c             | 12 ++++++-
- hw/remote/iohub.c         |  7 ++++
- hw/remote/vfio-user-obj.c | 74 +++++++++++++++++++++++++++++++++++++++
- hw/remote/trace-events    |  1 +
- 7 files changed, 112 insertions(+), 2 deletions(-)
+ include/migration/vmstate.h |   2 +
+ migration/savevm.h          |   2 +
+ hw/remote/vfio-user-obj.c   | 323 ++++++++++++++++++++++++++++++++++++
+ migration/savevm.c          |  73 ++++++++
+ migration/vmstate.c         |  19 +++
+ 5 files changed, 419 insertions(+)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index f2fc2d5375..ffc030d9ca 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -128,6 +128,8 @@ typedef uint32_t PCIConfigReadFunc(PCIDevice *pci_dev,
- typedef void PCIMapIORegionFunc(PCIDevice *pci_dev, int region_num,
-                                 pcibus_t addr, pcibus_t size, int type);
- typedef void PCIUnregisterFunc(PCIDevice *pci_dev);
-+typedef void PCIMSINotify(PCIDevice *pci_dev, unsigned vector);
-+typedef void PCIMSIxNotify(PCIDevice *pci_dev, unsigned vector);
+diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+index 017c03675c..68bea576ea 100644
+--- a/include/migration/vmstate.h
++++ b/include/migration/vmstate.h
+@@ -1165,6 +1165,8 @@ extern const VMStateInfo vmstate_info_qlist;
+ #define VMSTATE_END_OF_LIST()                                         \
+     {}
  
- typedef struct PCIIORegion {
-     pcibus_t addr; /* current PCI mapping address. -1 means not mapped */
-@@ -321,6 +323,10 @@ struct PCIDevice {
-     /* Space to store MSIX table & pending bit array */
-     uint8_t *msix_table;
-     uint8_t *msix_pba;
++uint64_t vmstate_vmsd_size(PCIDevice *pci_dev);
 +
-+    PCIMSINotify *msi_notify;
-+    PCIMSIxNotify *msix_notify;
-+
-     /* MemoryRegion container for msix exclusive BAR setup */
-     MemoryRegion msix_exclusive_bar;
-     /* Memory Regions for MSIX table and pending bit entries. */
-diff --git a/include/hw/remote/iohub.h b/include/hw/remote/iohub.h
-index 0bf98e0d78..70d98b38d0 100644
---- a/include/hw/remote/iohub.h
-+++ b/include/hw/remote/iohub.h
-@@ -30,6 +30,7 @@ typedef struct RemoteIOHubState {
-     unsigned int irq_level[REMOTE_IOHUB_NB_PIRQS];
-     ResampleToken token[REMOTE_IOHUB_NB_PIRQS];
-     QemuMutex irq_level_lock[REMOTE_IOHUB_NB_PIRQS];
-+    void (*intx_notify)(int pirq, unsigned vector);
- } RemoteIOHubState;
+ int vmstate_load_state(QEMUFile *f, const VMStateDescription *vmsd,
+                        void *opaque, int version_id);
+ int vmstate_save_state(QEMUFile *f, const VMStateDescription *vmsd,
+diff --git a/migration/savevm.h b/migration/savevm.h
+index 6461342cb4..8007064ff2 100644
+--- a/migration/savevm.h
++++ b/migration/savevm.h
+@@ -67,5 +67,7 @@ int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
+ int qemu_load_device_state(QEMUFile *f);
+ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+         bool in_postcopy, bool inactivate_disks);
++int qemu_remote_savevm(QEMUFile *f, DeviceState *dev);
++int qemu_remote_loadvm(QEMUFile *f);
  
- int remote_iohub_map_irq(PCIDevice *pci_dev, int intx);
-diff --git a/hw/pci/msi.c b/hw/pci/msi.c
-index 47d2b0f33c..93f5e400cc 100644
---- a/hw/pci/msi.c
-+++ b/hw/pci/msi.c
-@@ -51,6 +51,8 @@
-  */
- bool msi_nonbroken;
- 
-+static void pci_msi_notify(PCIDevice *dev, unsigned int vector);
-+
- /* If we get rid of cap allocator, we won't need this. */
- static inline uint8_t msi_cap_sizeof(uint16_t flags)
- {
-@@ -225,6 +227,8 @@ int msi_init(struct PCIDevice *dev, uint8_t offset,
-     dev->msi_cap = config_offset;
-     dev->cap_present |= QEMU_PCI_CAP_MSI;
- 
-+    dev->msi_notify = pci_msi_notify;
-+
-     pci_set_word(dev->config + msi_flags_off(dev), flags);
-     pci_set_word(dev->wmask + msi_flags_off(dev),
-                  PCI_MSI_FLAGS_QSIZE | PCI_MSI_FLAGS_ENABLE);
-@@ -307,7 +311,7 @@ bool msi_is_masked(const PCIDevice *dev, unsigned int vector)
-     return mask & (1U << vector);
- }
- 
--void msi_notify(PCIDevice *dev, unsigned int vector)
-+static void pci_msi_notify(PCIDevice *dev, unsigned int vector)
- {
-     uint16_t flags = pci_get_word(dev->config + msi_flags_off(dev));
-     bool msi64bit = flags & PCI_MSI_FLAGS_64BIT;
-@@ -332,6 +336,13 @@ void msi_notify(PCIDevice *dev, unsigned int vector)
-     msi_send_message(dev, msg);
- }
- 
-+void msi_notify(PCIDevice *dev, unsigned int vector)
-+{
-+    if (dev->msi_notify) {
-+        dev->msi_notify(dev, vector);
-+    }
-+}
-+
- void msi_send_message(PCIDevice *dev, MSIMessage msg)
- {
-     MemTxAttrs attrs = {};
-diff --git a/hw/pci/msix.c b/hw/pci/msix.c
-index ae9331cd0b..1c71e67f53 100644
---- a/hw/pci/msix.c
-+++ b/hw/pci/msix.c
-@@ -31,6 +31,8 @@
- #define MSIX_ENABLE_MASK (PCI_MSIX_FLAGS_ENABLE >> 8)
- #define MSIX_MASKALL_MASK (PCI_MSIX_FLAGS_MASKALL >> 8)
- 
-+static void pci_msix_notify(PCIDevice *dev, unsigned vector);
-+
- MSIMessage msix_get_message(PCIDevice *dev, unsigned vector)
- {
-     uint8_t *table_entry = dev->msix_table + vector * PCI_MSIX_ENTRY_SIZE;
-@@ -334,6 +336,7 @@ int msix_init(struct PCIDevice *dev, unsigned short nentries,
-     dev->msix_table = g_malloc0(table_size);
-     dev->msix_pba = g_malloc0(pba_size);
-     dev->msix_entry_used = g_malloc0(nentries * sizeof *dev->msix_entry_used);
-+    dev->msix_notify = pci_msix_notify;
- 
-     msix_mask_all(dev, nentries);
- 
-@@ -485,7 +488,7 @@ int msix_enabled(PCIDevice *dev)
- }
- 
- /* Send an MSI-X message */
--void msix_notify(PCIDevice *dev, unsigned vector)
-+static void pci_msix_notify(PCIDevice *dev, unsigned vector)
- {
-     MSIMessage msg;
- 
-@@ -503,6 +506,13 @@ void msix_notify(PCIDevice *dev, unsigned vector)
-     msi_send_message(dev, msg);
- }
- 
-+void msix_notify(PCIDevice *dev, unsigned vector)
-+{
-+    if (dev->msix_notify) {
-+        dev->msix_notify(dev, vector);
-+    }
-+}
-+
- void msix_reset(PCIDevice *dev)
- {
-     if (!msix_present(dev)) {
-diff --git a/hw/remote/iohub.c b/hw/remote/iohub.c
-index 547d597f0f..d28d9f3ce2 100644
---- a/hw/remote/iohub.c
-+++ b/hw/remote/iohub.c
-@@ -17,7 +17,9 @@
- #include "qemu/thread.h"
- #include "hw/remote/machine.h"
- #include "hw/remote/iohub.h"
-+#include "hw/pci/msi.h"
- #include "qemu/main-loop.h"
-+#include "trace.h"
- 
- void remote_iohub_init(RemoteIOHubState *iohub)
- {
-@@ -32,6 +34,8 @@ void remote_iohub_init(RemoteIOHubState *iohub)
-         event_notifier_init_fd(&iohub->irqfds[pirq], -1);
-         event_notifier_init_fd(&iohub->resamplefds[pirq], -1);
-     }
-+
-+    msi_nonbroken = true;
- }
- 
- void remote_iohub_finalize(RemoteIOHubState *iohub)
-@@ -62,6 +66,9 @@ void remote_iohub_set_irq(void *opaque, int pirq, int level)
-     QEMU_LOCK_GUARD(&iohub->irq_level_lock[pirq]);
- 
-     if (level) {
-+        if (iohub->intx_notify) {
-+            iohub->intx_notify(pirq, 0);
-+        }
-         if (++iohub->irq_level[pirq] == 1) {
-             event_notifier_set(&iohub->irqfds[pirq]);
-         }
+ #endif
 diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-index ae375e69b9..2b28d465d5 100644
+index 2b28d465d5..cc0b82445b 100644
 --- a/hw/remote/vfio-user-obj.c
 +++ b/hw/remote/vfio-user-obj.c
-@@ -50,6 +50,9 @@
- #include "hw/pci/pci.h"
- #include "qemu/timer.h"
- #include "hw/remote/iommu.h"
-+#include "hw/pci/msi.h"
-+#include "hw/pci/msix.h"
-+#include "hw/remote/iohub.h"
+@@ -53,6 +53,11 @@
+ #include "hw/pci/msi.h"
+ #include "hw/pci/msix.h"
+ #include "hw/remote/iohub.h"
++#include "migration/qemu-file.h"
++#include "migration/savevm.h"
++#include "migration/vmstate.h"
++#include "migration/global_state.h"
++#include "block/block.h"
  
  #define TYPE_VFU_OBJECT "x-vfio-user-server"
  OBJECT_DECLARE_TYPE(VfuObject, VfuObjectClass, VFU_OBJECT)
-@@ -81,6 +84,8 @@ struct VfuObject {
+@@ -82,6 +87,35 @@ struct VfuObject {
+     PCIDevice *pci_dev;
+ 
      int vfu_poll_fd;
++
++    /*
++     * vfu_mig_buf holds the migration data. In the remote server, this
++     * buffer replaces the role of an IO channel which links the source
++     * and the destination.
++     *
++     * Whenever the client QEMU process initiates migration, the remote
++     * server gets notified via libvfio-user callbacks. The remote server
++     * sets up a QEMUFile object using this buffer as backend. The remote
++     * server passes this object to its migration subsystem, which slurps
++     * the VMSD of the device ('devid' above) referenced by this object
++     * and stores the VMSD in this buffer.
++     *
++     * The client subsequetly asks the remote server for any data that
++     * needs to be moved over to the destination via libvfio-user
++     * library's vfu_migration_callbacks_t callbacks. The remote hands
++     * over this buffer as data at this time.
++     *
++     * A reverse of this process happens at the destination.
++     */
++    uint8_t *vfu_mig_buf;
++
++    uint64_t vfu_mig_buf_size;
++
++    uint64_t vfu_mig_buf_pending;
++
++    QEMUFile *vfu_mig_file;
++
++    vfu_migr_state_t vfu_state;
  };
  
-+static GHashTable *vfu_object_dev_table;
-+
- static void vfu_object_init_ctx(VfuObject *o, Error **errp);
- 
- static void vfu_object_set_socket(Object *obj, Visitor *v, const char *name,
-@@ -347,6 +352,54 @@ static void vfu_object_register_bars(vfu_ctx_t *vfu_ctx, PCIDevice *pdev)
-     }
+ static GHashTable *vfu_object_dev_table;
+@@ -125,6 +159,272 @@ static void vfu_object_set_device(Object *obj, const char *str, Error **errp)
+     vfu_object_init_ctx(o, errp);
  }
  
-+static void vfu_object_intx_notify(int pci_devfn, unsigned vector)
++/**
++ * Migration helper functions
++ *
++ * vfu_mig_buf_read & vfu_mig_buf_write are used by QEMU's migration
++ * subsystem - qemu_remote_loadvm & qemu_remote_savevm. loadvm/savevm
++ * call these functions via QEMUFileOps to load/save the VMSD of a
++ * device into vfu_mig_buf
++ *
++ */
++static ssize_t vfu_mig_buf_read(void *opaque, uint8_t *buf, int64_t pos,
++                                size_t size, Error **errp)
 +{
-+    vfu_ctx_t *vfu_ctx = g_hash_table_lookup(vfu_object_dev_table,
-+                                             (void *)(uint64_t)pci_devfn);
++    VfuObject *o = opaque;
 +
-+    if (vfu_ctx) {
-+        vfu_irq_trigger(vfu_ctx, vector);
++    if (pos > o->vfu_mig_buf_size) {
++        size = 0;
++    } else if ((pos + size) > o->vfu_mig_buf_size) {
++        size = o->vfu_mig_buf_size - pos;
 +    }
++
++    memcpy(buf, (o->vfu_mig_buf + pos), size);
++
++    return size;
 +}
 +
-+static void vfu_object_msi_notify(PCIDevice *pci_dev, unsigned vector)
++static ssize_t vfu_mig_buf_write(void *opaque, struct iovec *iov, int iovcnt,
++                                 int64_t pos, Error **errp)
 +{
-+    vfu_object_intx_notify(pci_dev->devfn, vector);
++    VfuObject *o = opaque;
++    uint64_t end = pos + iov_size(iov, iovcnt);
++    int i;
++
++    if (end > o->vfu_mig_buf_size) {
++        o->vfu_mig_buf = g_realloc(o->vfu_mig_buf, end);
++    }
++
++    for (i = 0; i < iovcnt; i++) {
++        memcpy((o->vfu_mig_buf + o->vfu_mig_buf_size), iov[i].iov_base,
++               iov[i].iov_len);
++        o->vfu_mig_buf_size += iov[i].iov_len;
++        o->vfu_mig_buf_pending += iov[i].iov_len;
++    }
++
++    return iov_size(iov, iovcnt);
 +}
 +
-+static int vfu_object_setup_irqs(vfu_ctx_t *vfu_ctx, PCIDevice *pci_dev)
++static int vfu_mig_buf_shutdown(void *opaque, bool rd, bool wr, Error **errp)
 +{
-+    RemoteMachineState *machine = REMOTE_MACHINE(current_machine);
-+    RemoteIOHubState *iohub = &machine->iohub;
++    VfuObject *o = opaque;
++
++    o->vfu_mig_buf_size = 0;
++
++    g_free(o->vfu_mig_buf);
++
++    o->vfu_mig_buf = NULL;
++
++    o->vfu_mig_buf_pending = 0;
++
++    return 0;
++}
++
++static const QEMUFileOps vfu_mig_fops_save = {
++    .writev_buffer  = vfu_mig_buf_write,
++    .shut_down      = vfu_mig_buf_shutdown,
++};
++
++static const QEMUFileOps vfu_mig_fops_load = {
++    .get_buffer     = vfu_mig_buf_read,
++    .shut_down      = vfu_mig_buf_shutdown,
++};
++
++/**
++ * handlers for vfu_migration_callbacks_t
++ *
++ * The libvfio-user library accesses these handlers to drive the migration
++ * at the remote end, and also to transport the data stored in vfu_mig_buf
++ *
++ */
++static void vfu_mig_state_stop_and_copy(vfu_ctx_t *vfu_ctx)
++{
++    VfuObject *o = vfu_get_private(vfu_ctx);
 +    int ret;
 +
-+    ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_INTX_IRQ, 1);
-+    if (ret < 0) {
-+        return ret;
++    if (!o->vfu_mig_file) {
++        o->vfu_mig_file = qemu_fopen_ops(o, &vfu_mig_fops_save, false);
 +    }
 +
-+    iohub->intx_notify = vfu_object_intx_notify;
-+
-+    ret = 0;
-+    if (msix_nr_vectors_allocated(pci_dev)) {
-+        ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_MSIX_IRQ,
-+                                       msix_nr_vectors_allocated(pci_dev));
-+
-+        pci_dev->msix_notify = vfu_object_msi_notify;
-+    } else if (msi_nr_vectors_allocated(pci_dev)) {
-+        ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_MSI_IRQ,
-+                                       msi_nr_vectors_allocated(pci_dev));
-+
-+        pci_dev->msi_notify = vfu_object_msi_notify;
++    ret = qemu_remote_savevm(o->vfu_mig_file, DEVICE(o->pci_dev));
++    if (ret) {
++        qemu_file_shutdown(o->vfu_mig_file);
++        o->vfu_mig_file = NULL;
++        return;
 +    }
 +
-+    if (ret < 0) {
-+        return ret;
++    qemu_fflush(o->vfu_mig_file);
++}
++
++static void vfu_mig_state_running(vfu_ctx_t *vfu_ctx)
++{
++    VfuObject *o = vfu_get_private(vfu_ctx);
++    VfuObjectClass *k = VFU_OBJECT_GET_CLASS(OBJECT(o));
++    static int migrated_devs;
++    Error *local_err = NULL;
++    int ret;
++
++    /**
++     * TODO: move to VFU_MIGR_STATE_RESUME handler. Presently, the
++     * VMSD data from source is not available at RESUME state.
++     * Working on a fix for this.
++     */
++    if (!o->vfu_mig_file) {
++        o->vfu_mig_file = qemu_fopen_ops(o, &vfu_mig_fops_load, false);
++    }
++
++    ret = qemu_remote_loadvm(o->vfu_mig_file);
++    if (ret) {
++        error_setg(&error_abort, "vfu: failed to restore device state");
++        return;
++    }
++
++    qemu_file_shutdown(o->vfu_mig_file);
++    o->vfu_mig_file = NULL;
++
++    /* VFU_MIGR_STATE_RUNNING begins here */
++    if (++migrated_devs == k->nr_devs) {
++        bdrv_invalidate_cache_all(&local_err);
++        if (local_err) {
++            error_report_err(local_err);
++            return;
++        }
++
++        vm_start();
++    }
++}
++
++static void vfu_mig_state_stop(vfu_ctx_t *vfu_ctx)
++{
++    VfuObject *o = vfu_get_private(vfu_ctx);
++    VfuObjectClass *k = VFU_OBJECT_GET_CLASS(OBJECT(o));
++    static int migrated_devs;
++
++    /**
++     * note: calling bdrv_inactivate_all() is not the best approach.
++     *
++     *  Ideally, we would identify the block devices (if any) indirectly
++     *  linked (such as via a scsi-hd device) to each of the migrated devices,
++     *  and inactivate them individually. This is essential while operating
++     *  the server in a storage daemon mode, with devices from different VMs.
++     *
++     *  However, we currently don't have this capability. As such, we need to
++     *  inactivate all devices at the same time when migration is completed.
++     */
++    if (++migrated_devs == k->nr_devs) {
++        vm_stop(RUN_STATE_PAUSED);
++        bdrv_inactivate_all();
++    }
++}
++
++static int vfu_mig_transition(vfu_ctx_t *vfu_ctx, vfu_migr_state_t state)
++{
++    VfuObject *o = vfu_get_private(vfu_ctx);
++
++    if (o->vfu_state == state) {
++        return 0;
++    }
++
++    switch (state) {
++    case VFU_MIGR_STATE_RESUME:
++        break;
++    case VFU_MIGR_STATE_STOP_AND_COPY:
++        vfu_mig_state_stop_and_copy(vfu_ctx);
++        break;
++    case VFU_MIGR_STATE_STOP:
++        vfu_mig_state_stop(vfu_ctx);
++        break;
++    case VFU_MIGR_STATE_PRE_COPY:
++        break;
++    case VFU_MIGR_STATE_RUNNING:
++        if (!runstate_is_running()) {
++            vfu_mig_state_running(vfu_ctx);
++        }
++        break;
++    default:
++        warn_report("vfu: Unknown migration state %d", state);
++    }
++
++    o->vfu_state = state;
++
++    return 0;
++}
++
++static uint64_t vfu_mig_get_pending_bytes(vfu_ctx_t *vfu_ctx)
++{
++    VfuObject *o = vfu_get_private(vfu_ctx);
++
++    return o->vfu_mig_buf_pending;
++}
++
++static int vfu_mig_prepare_data(vfu_ctx_t *vfu_ctx, uint64_t *offset,
++                                uint64_t *size)
++{
++    VfuObject *o = vfu_get_private(vfu_ctx);
++
++    if (offset) {
++        *offset = 0;
++    }
++
++    if (size) {
++        *size = o->vfu_mig_buf_size;
 +    }
 +
 +    return 0;
 +}
 +
- /*
-  * TYPE_VFU_OBJECT depends on the availability of the 'socket' and 'device'
-  * properties. It also depends on devices instantiated in QEMU. These
-@@ -437,6 +490,13 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
++static ssize_t vfu_mig_read_data(vfu_ctx_t *vfu_ctx, void *buf,
++                                 uint64_t size, uint64_t offset)
++{
++    VfuObject *o = vfu_get_private(vfu_ctx);
++
++    if (offset > o->vfu_mig_buf_size) {
++        return -1;
++    }
++
++    if ((offset + size) > o->vfu_mig_buf_size) {
++        warn_report("vfu: buffer overflow - check pending_bytes");
++        size = o->vfu_mig_buf_size - offset;
++    }
++
++    memcpy(buf, (o->vfu_mig_buf + offset), size);
++
++    o->vfu_mig_buf_pending -= size;
++
++    return size;
++}
++
++static ssize_t vfu_mig_write_data(vfu_ctx_t *vfu_ctx, void *data,
++                                  uint64_t size, uint64_t offset)
++{
++    VfuObject *o = vfu_get_private(vfu_ctx);
++    uint64_t end = offset + size;
++
++    if (end > o->vfu_mig_buf_size) {
++        o->vfu_mig_buf = g_realloc(o->vfu_mig_buf, end);
++        o->vfu_mig_buf_size = end;
++    }
++
++    memcpy((o->vfu_mig_buf + offset), data, size);
++
++    return size;
++}
++
++static int vfu_mig_data_written(vfu_ctx_t *vfu_ctx, uint64_t count)
++{
++    return 0;
++}
++
++static const vfu_migration_callbacks_t vfu_mig_cbs = {
++    .version = VFU_MIGR_CALLBACKS_VERS,
++    .transition = &vfu_mig_transition,
++    .get_pending_bytes = &vfu_mig_get_pending_bytes,
++    .prepare_data = &vfu_mig_prepare_data,
++    .read_data = &vfu_mig_read_data,
++    .data_written = &vfu_mig_data_written,
++    .write_data = &vfu_mig_write_data,
++};
++
+ static void vfu_object_ctx_run(void *opaque)
+ {
+     VfuObject *o = opaque;
+@@ -425,6 +725,7 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
+     ERRP_GUARD();
+     DeviceState *dev = NULL;
+     vfu_pci_type_t pci_type = VFU_PCI_TYPE_CONVENTIONAL;
++    uint64_t migr_regs_size, migr_size;
+     int ret;
  
-     vfu_object_register_bars(o->vfu_ctx, o->pci_dev);
+     if (o->vfu_ctx || !o->socket || !o->device ||
+@@ -497,6 +798,26 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
+         goto fail;
+     }
  
-+    ret = vfu_object_setup_irqs(o->vfu_ctx, o->pci_dev);
++    migr_regs_size = vfu_get_migr_register_area_size();
++    migr_size = migr_regs_size + vmstate_vmsd_size(o->pci_dev);
++
++    ret = vfu_setup_region(o->vfu_ctx, VFU_PCI_DEV_MIGR_REGION_IDX,
++                           migr_size, NULL,
++                           VFU_REGION_FLAG_RW, NULL, 0, -1, 0);
 +    if (ret < 0) {
-+        error_setg(errp, "vfu: Failed to setup interrupts for %s",
-+                   o->device);
++        error_setg(errp, "vfu: Failed to register migration BAR %s- %s",
++                   o->device, strerror(errno));
++        goto fail;
++    }
++
++    ret = vfu_setup_device_migration_callbacks(o->vfu_ctx, &vfu_mig_cbs,
++                                               migr_regs_size);
++    if (ret < 0) {
++        error_setg(errp, "vfu: Failed to setup migration %s- %s",
++                   o->device, strerror(errno));
 +        goto fail;
 +    }
 +
      ret = vfu_realize_ctx(o->vfu_ctx);
      if (ret < 0) {
          error_setg(errp, "vfu: Failed to realize device %s- %s",
-@@ -450,6 +510,9 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
-         goto fail;
+@@ -542,6 +863,8 @@ static void vfu_object_init(Object *obj)
      }
  
-+    g_hash_table_insert(vfu_object_dev_table,
-+                        (void *)(uint64_t)o->pci_dev->devfn, o->vfu_ctx);
+     o->vfu_poll_fd = -1;
 +
-     qemu_set_fd_handler(o->vfu_poll_fd, vfu_object_attach_ctx, NULL, o);
++    o->vfu_state = VFU_MIGR_STATE_STOP;
+ }
  
-     return;
-@@ -504,9 +567,18 @@ static void vfu_object_finalize(Object *obj)
-         remote_iommu_free(o->pci_dev);
-     }
+ static void vfu_object_finalize(Object *obj)
+diff --git a/migration/savevm.c b/migration/savevm.c
+index d59e976d50..69b7ea8b09 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1605,6 +1605,49 @@ static int qemu_savevm_state(QEMUFile *f, Error **errp)
+     return ret;
+ }
  
-+    if (o->pci_dev &&
-+            g_hash_table_lookup(vfu_object_dev_table,
-+                                (void *)(uint64_t)o->pci_dev->devfn)) {
-+        g_hash_table_remove(vfu_object_dev_table,
-+                            (void *)(uint64_t)o->pci_dev->devfn);
++static SaveStateEntry *find_se_from_dev(DeviceState *dev)
++{
++    SaveStateEntry *se;
++
++    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++        if (se->opaque == dev) {
++            return se;
++        }
 +    }
 +
-     o->pci_dev = NULL;
- 
-     if (!k->nr_devs && !k->daemon) {
-+        g_hash_table_destroy(vfu_object_dev_table);
-+        vfu_object_dev_table = NULL;
-         qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-     }
- 
-@@ -525,6 +597,8 @@ static void vfu_object_class_init(ObjectClass *klass, void *data)
-     /* Later determine how to detect a daemon */
-     k->daemon = false;
- 
-+    vfu_object_dev_table = g_hash_table_new_full(NULL, NULL, NULL, NULL);
++    return NULL;
++}
 +
-     object_class_property_add(klass, "socket", "SocketAddress", NULL,
-                               vfu_object_set_socket, NULL, NULL);
-     object_class_property_set_description(klass, "socket",
-diff --git a/hw/remote/trace-events b/hw/remote/trace-events
-index 847d50d88f..c167b3c7a5 100644
---- a/hw/remote/trace-events
-+++ b/hw/remote/trace-events
-@@ -12,3 +12,4 @@ vfu_dma_unregister(uint64_t gpa) "vfu: unregistering GPA 0x%"PRIx64""
- vfu_bar_register(int i, uint64_t addr, uint64_t size) "vfu: BAR %d: addr 0x%"PRIx64" size 0x%"PRIx64""
- vfu_bar_rw_enter(const char *op, uint64_t addr) "vfu: %s request for BAR address 0x%"PRIx64""
- vfu_bar_rw_exit(const char *op, uint64_t addr) "vfu: Finished %s of BAR address 0x%"PRIx64""
-+vfu_interrupt(int pirq) "vfu: sending interrupt to device - PIRQ %d"
++int qemu_remote_savevm(QEMUFile *f, DeviceState *dev)
++{
++    SaveStateEntry *se;
++    int ret = 0;
++
++    se = find_se_from_dev(dev);
++    if (!se) {
++        return -ENODEV;
++    }
++
++    if (!se->vmsd || !vmstate_save_needed(se->vmsd, se->opaque)) {
++        return ret;
++    }
++
++    save_section_header(f, se, QEMU_VM_SECTION_FULL);
++
++    ret = vmstate_save(f, se, NULL);
++    if (ret) {
++        qemu_file_set_error(f, ret);
++        return ret;
++    }
++
++    save_section_footer(f, se);
++
++    qemu_put_byte(f, QEMU_VM_EOF);
++    qemu_fflush(f);
++
++    return 0;
++}
++
+ void qemu_savevm_live_state(QEMUFile *f)
+ {
+     /* save QEMU_VM_SECTION_END section */
+@@ -2445,6 +2488,36 @@ qemu_loadvm_section_start_full(QEMUFile *f, MigrationIncomingState *mis)
+     return 0;
+ }
+ 
++int qemu_remote_loadvm(QEMUFile *f)
++{
++    uint8_t section_type;
++    int ret = 0;
++
++    while (true) {
++        section_type = qemu_get_byte(f);
++
++        ret = qemu_file_get_error(f);
++        if (ret) {
++            break;
++        }
++
++        switch (section_type) {
++        case QEMU_VM_SECTION_FULL:
++            ret = qemu_loadvm_section_start_full(f, NULL);
++            if (ret < 0) {
++                break;
++            }
++            break;
++        case QEMU_VM_EOF:
++            return ret;
++        default:
++            return -EINVAL;
++        }
++    }
++
++    return ret;
++}
++
+ static int
+ qemu_loadvm_section_part_end(QEMUFile *f, MigrationIncomingState *mis)
+ {
+diff --git a/migration/vmstate.c b/migration/vmstate.c
+index 05f87cdddc..83f8562792 100644
+--- a/migration/vmstate.c
++++ b/migration/vmstate.c
+@@ -63,6 +63,25 @@ static int vmstate_size(void *opaque, const VMStateField *field)
+     return size;
+ }
+ 
++uint64_t vmstate_vmsd_size(PCIDevice *pci_dev)
++{
++    DeviceClass *dc = DEVICE_GET_CLASS(DEVICE(pci_dev));
++    const VMStateField *field = NULL;
++    uint64_t size = 0;
++
++    if (!dc->vmsd) {
++        return 0;
++    }
++
++    field = dc->vmsd->fields;
++    while (field && field->name) {
++        size += vmstate_size(pci_dev, field);
++        field++;
++    }
++
++    return size;
++}
++
+ static void vmstate_handle_alloc(void *ptr, const VMStateField *field,
+                                  void *opaque)
+ {
 -- 
 2.20.1
 
