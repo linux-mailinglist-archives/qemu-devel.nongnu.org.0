@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B0B476360
+	by mail.lfdr.de (Postfix) with ESMTPS id 93913476361
 	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 21:33:59 +0100 (CET)
-Received: from localhost ([::1]:48468 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:48426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxayM-0001MT-Hu
+	id 1mxayM-0001Ku-O8
 	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 15:33:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59704)
+Received: from eggs.gnu.org ([209.51.188.92]:59706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mxaq3-0003s9-0x
+ id 1mxaq3-0003sA-2n
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:25:24 -0500
-Received: from [2a00:1450:4864:20::42c] (port=34565
- helo=mail-wr1-x42c.google.com)
+Received: from [2a00:1450:4864:20::436] (port=39581
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mxaq1-0004D9-6M
+ id 1mxaq1-0004DZ-Jm
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:25:22 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id s1so6089977wrg.1
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 12:25:20 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id a18so40252400wrn.6
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 12:25:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zikH4w8gTl4z+VcRhU+TPNlwl/NYQdcIB+Sy1v402YA=;
- b=SAhRt2XTBYlgNAm7z2SfcdgHjOTzcZzE4/dn5Vodzwg7c84SDpDjTlgbKRBEObgAWU
- 2o1oXA4wdoh6sHbSWMX0ykTrkBe9QKeso7PkbLAco+0KoAH6CrVhRtj/jnxgEOex349L
- Usk9g4UardQVQh4OcoDeif3iuYtVu/CVEwWGb5MV4OCqfniuwGpBl7Azp72/Qnbftpf2
- 8fFx+StgtTHqzgjoaM1FGi0b7t5M8a16dzCyGw1U187ENI0ZadhzYwNcw4DpGR3/wvKO
- Q7oJTG3eP+UO19KNwGaWvaD6Q4um0o9ZrfHWLF47tMYkNVxqg93U1jaFldnrEm2f55EI
- MdiQ==
+ bh=uf4qVKV+VM4gp+Wsi9C+4sdsjN8UZQNXDD9C5n6WNw4=;
+ b=FyNL1KzHSUS7b6bkrcqluLpmcxj7DFLDb2B16rsrsNFbieERPNYpRQ905tmFhqihct
+ XMYtMfYWVJEWA7j2Dm33TYJ8OjF3gULqjK9X0yi1K+2EnEYbuTblSEDWyGhvCYfqXcGM
+ 8KZxT+greWHWQUdNKKs05tlWwhbDC0bciQRfECxaKwVgNVgsTr/6d/ZGpl8k57InYF32
+ UGtav0n9WFsnFZENi00HukBFr3cah/Q/U00P6Jh3meSf9GySxTB2N8DRvgWdFHLv5Nfo
+ 4Cg4yEqla8VjO/59Iei6CTqUi0J54FdZb1QIy4Hvg0fe9YGCq2OTT/SJWHhbdXrtwTIE
+ xyrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zikH4w8gTl4z+VcRhU+TPNlwl/NYQdcIB+Sy1v402YA=;
- b=V8RvRBcJ5g0Ie4ilxGmlC/fPSCyji7odNdpYcW89PHQeVUlsXd+lsINTw0mQWq8XrE
- ICuxwlEi395eYCnlQFDG5Rqo//P/nIwjKEsUtZ3lcTvd8x5/Ax8hGf4ZmnYtuGGfdrZT
- oavIZXlvsY8q3ABgUU7cdMGZnPGPQG+kDpiJOyRQE5/M4O5+GCvvq8VXbpXRqHZTI9a9
- 8s4HDu826xTcH3IDTLtXplAQoFHhpntuYTFnrVAPKYBerl/HN/Zju8woDSPwrPHgna0e
- v94VquLkb9MB1KnKgXwiTCzwW5n/CUKw5F7+dDLcqa9gGWraHIvTjg9Em6R+G6lQlQkC
- bvVg==
-X-Gm-Message-State: AOAM5312zTJ/Q4pv5LPKUDNwy1VuEvA4aph37MM/o61lsSZHekxwgAqb
- Nk1fGoV7srAYr5fFT5yYE1LYZ57MYCI=
-X-Google-Smtp-Source: ABdhPJwwTIs6XGkW9ixzDTRFSrPtr9Y27b3oHi0HT0Asi4tH5Z0xG0wcfln9XtNmluAAeMoZh7bypg==
-X-Received: by 2002:a5d:62cf:: with SMTP id o15mr601090wrv.651.1639599919484; 
- Wed, 15 Dec 2021 12:25:19 -0800 (PST)
+ bh=uf4qVKV+VM4gp+Wsi9C+4sdsjN8UZQNXDD9C5n6WNw4=;
+ b=IjNE8bVp/+bLaztJ8Jaw72FNc6UJQFsfNmPnnVn5DLDTpGROkNuvKitHjG5XXkwwEN
+ Bv3Z5aTQNhBwNCieRZ19/7OiaRHZFETOttn8CWHVbVbQl5h/AEh8YRG/co1tgsu0RgDP
+ cST9r2HWM5JWF/ca/AWfCNnr4luceXKiuSR8tHAiPqaBr2fMubas8dEpULlvPlN8BJ7e
+ roRmeGohSIffxg/q/iF5POnA1dX4Arp8uT/JYkbwRMfUrqh2wnUZ3bYWUhzZ4e14QhLl
+ mwALb5q7PLXHSx7YIXIo+jXJtKV5KKGhYq1iDOl1gke2tbGxVwyOjvuFbtR9nBug8nto
+ Gx3A==
+X-Gm-Message-State: AOAM531Vmqeh4ksTBersJbSY3OsddbSW5s8vrQDRYIu53zAp7eVH33wO
+ xegCN7PfpnewWEYO9RoJWlRG8YKchwA=
+X-Google-Smtp-Source: ABdhPJx32zcVoqPwM5uxxIIw5Q81jJIGtL0OGRCpTBnDmnO4cwT/Be5b/zOYPWTQSP+9njHndImNIA==
+X-Received: by 2002:a05:6000:18a8:: with SMTP id
+ b8mr5778339wri.682.1639599920243; 
+ Wed, 15 Dec 2021 12:25:20 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id y11sm3794708wry.70.2021.12.15.12.25.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 15 Dec 2021 12:25:19 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/13] scripts/entitlement.sh: Use backward-compatible cp flags
-Date: Wed, 15 Dec 2021 21:25:06 +0100
-Message-Id: <20211215202515.91586-5-pbonzini@redhat.com>
+Subject: [PULL 05/13] virtio-gpu: do not byteswap padding
+Date: Wed, 15 Dec 2021 21:25:07 +0100
+Message-Id: <20211215202515.91586-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211215202515.91586-1-pbonzini@redhat.com>
 References: <20211215202515.91586-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,36 +88,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Evan Miller <emmiller@gmail.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Evan Miller <emmiller@gmail.com>
+In Linux 5.16, the padding of struct virtio_gpu_ctrl_hdr has become a
+single-byte field followed by a uint8_t[3] array of padding bytes,
+and virtio_gpu_ctrl_hdr_bswap does not compile anymore.
 
-Older versions of Mac OS X do not support cp -a. The cp man page indicates
-that -a is equivalent to -pPR.
-
-Signed-off-by: Evan Miller <emmiller@gmail.com>
-Message-Id: <40635C6E-059A-4146-B1E2-F6376700EE85@gmail.com>
-[Leave out -R, these are files and not directories. - Paolo]
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20211111110604.207376-2-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/entitlement.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/virtio/virtio-gpu-bswap.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/scripts/entitlement.sh b/scripts/entitlement.sh
-index e2c956a3ac..0f412949ec 100755
---- a/scripts/entitlement.sh
-+++ b/scripts/entitlement.sh
-@@ -15,7 +15,7 @@ ENTITLEMENT="$4"
+diff --git a/include/hw/virtio/virtio-gpu-bswap.h b/include/hw/virtio/virtio-gpu-bswap.h
+index e2bee8f595..5faac0d8d5 100644
+--- a/include/hw/virtio/virtio-gpu-bswap.h
++++ b/include/hw/virtio/virtio-gpu-bswap.h
+@@ -24,7 +24,6 @@ virtio_gpu_ctrl_hdr_bswap(struct virtio_gpu_ctrl_hdr *hdr)
+     le32_to_cpus(&hdr->flags);
+     le64_to_cpus(&hdr->fence_id);
+     le32_to_cpus(&hdr->ctx_id);
+-    le32_to_cpus(&hdr->padding);
+ }
  
- if $in_place; then
-   trap 'rm "$DST.tmp"' exit
--  cp -af "$SRC" "$DST.tmp"
-+  cp -pPf "$SRC" "$DST.tmp"
-   SRC="$DST.tmp"
- else
-   cd "$MESON_INSTALL_DESTDIR_PREFIX"
+ static inline void
 -- 
 2.33.1
 
