@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 854474757C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 12:31:54 +0100 (CET)
-Received: from localhost ([::1]:33914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C84A4757C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 12:29:40 +0100 (CET)
+Received: from localhost ([::1]:56266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxSVl-0000U2-JH
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 06:31:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41564)
+	id 1mxSTb-0004sH-D5
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 06:29:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mxRih-0007Id-UC
+ id 1mxRih-0007FO-Fu
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:41:11 -0500
-Received: from [2a00:1450:4864:20::32f] (port=54817
- helo=mail-wm1-x32f.google.com)
+Received: from [2a00:1450:4864:20::330] (port=54818
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mxRib-0008WT-NB
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:41:11 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id i12so16260237wmq.4
+ id 1mxRic-00008C-9y
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:41:10 -0500
+Received: by mail-wm1-x330.google.com with SMTP id i12so16260250wmq.4
  for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 02:41:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=jRMpMS/CyWONQSCDvYHRycsqwdxA5hg+1aajGuji4ZE=;
- b=Dj2nkxX/sfvbRz0hW4cokfHkIzo4FlsKY7EIO5XgNxkE9zQqyCoTLH9jSHCDCHYZuz
- /YD39vL3My2VzIxfpbmIHnDgOMFydO0QQiSb7zMSmaLJyvXc1oAiPN+3tzHAFI2vT4uC
- n1v3RqT/PFhwhwgROlSPf9ynEwF5nrDts9frqCHhqr7JNPQp9GF3ebqb+VzAgLNMi94l
- hVJbN8dQJeDGYp/vc8Mcf1YFPs0HOKZ4jAhjOuoSZq27QgYvA8ZMhsgnsRBkDmShKO8w
- pDArb7cYcO9faBeUDsp6xHYULjq8uBysNYEV3s/b2DFNCtzWynCHat2gDlYXIaFsDpIs
- Em8Q==
+ bh=BueFJrFQF32/n5kB0mnvMkP97sG05knzH92TC7Y/zGQ=;
+ b=FtQx4a+d4uD6UeFeRI6O5xA7qPyCeR/PhAA4H9RKUEWTZ83g8NQ0FfQdSCD3bVpxBM
+ zO4kdfE3u1bhP8OMsZtbZv/3zrwTXCtBpMJlSgydrK+o5yIJSdZC+QQrs9PrxeTr/nFf
+ r+WWQKgmD4nQ07euOmUjBcMtYbYiT49t09UdLvGjdO4Jno/GA8xU0WrACZhztics0Sm6
+ i/aqUefMo1pFYjV2TawBFBifbBLF9NZCkC34ajBTRRapyOSWFKvKW9sjTy9HkQmyL82h
+ jCGXlm1g+rXbdJiknHewRckTbQMjYNv9xdKBXTrMhYZ5yrgIpHRkYWbWVWJgbTJe/w+F
+ n1sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jRMpMS/CyWONQSCDvYHRycsqwdxA5hg+1aajGuji4ZE=;
- b=HamSOM2xwlL84rU0SNwSNQeXknLTG4XNrgwb/I/g0XwaAZggUlXHQSEXxuoa/uV8Qb
- Q3YTKjDOnBwM12IiNdtWT3u9uz/XFcgvz3NOqy/jBwKn5xPZ5Id9w2ZiGXWQR2WjmI/n
- AXiVGX2cWDqQN7x+YBGz7rv+rPL+ABDpkRbCgvRfkRmOUKuAjZFa+RNvcBMYU8UGnMH8
- Q/Etbn38E/aDRVH4p7HxugufojkEdOU8PNiT6tG1XLIAIxT+VML7K4/kWa5Fn4YtM76c
- cdK5WAbh+3ssz7HdJCBXLVEESwKDHSEdpb0t3iz2y+14/cakd2sXgi2PXzEAs1c+wWiE
- t4Fg==
-X-Gm-Message-State: AOAM530o4GLOCkCnoA+J0Q/J3DrA6laKcZwyLETkHNvqKRVAuqY8o1aQ
- hPqRfuYPVA8HoGkETn6EOly30TLfBCbwkg==
-X-Google-Smtp-Source: ABdhPJzfoJLpiPFBHY6txQqKEmcxOv45DnI7yWQXZkW4MK10LdnUMNkty4rx4Q9dS8OfPiQckwn2sg==
-X-Received: by 2002:a05:600c:220a:: with SMTP id
- z10mr4163776wml.20.1639564864415; 
+ bh=BueFJrFQF32/n5kB0mnvMkP97sG05knzH92TC7Y/zGQ=;
+ b=4BGtKoCRBXm6a+NCuJAD14yD9pBnndXaoWHNZNu31QgFsz54MUgfMp6YMJQ4kyLWy5
+ qLiMSkn1QMJIHBXHppzil0MqYF5kZUQPUyw5OIPcvTNj5U+18z4HM9hY2WvPSbVdia3f
+ qtG5XosyCHEu6OqCA5aetxH1CcfqNLfCm+IhJg6nU7BjCIse2vd9Jmn+USdLRIOTBpEU
+ LUrfMRyLCI/NiwEnte+wwbP28WpIhf1D/JTBCU/hrDMvytTZytNyDKs4R1sSCBBGoMZH
+ NBA+yuQBMB2pjwY5drBP5rqPm1YmiY08nuB9NI/CfpuGVsrl8WJ4ucdObTvk/Kxl5+y+
+ VZbg==
+X-Gm-Message-State: AOAM531/0CrZe4Dsl+FYiXZuzWljwUfTQb0OxujNaUZTsc2AwGTXdrqj
+ CVkKHHNR3p5U1ZURVtDr8yBsF0Xdkt2egA==
+X-Google-Smtp-Source: ABdhPJyg/txC6HrtyOVYfLhOeTYtVANegx4GjVggAvN1Br7M0kYKcasXdJbdUsxVoZF+KVy62oh6XA==
+X-Received: by 2002:a1c:8002:: with SMTP id b2mr3950078wmd.2.1639564864922;
  Wed, 15 Dec 2021 02:41:04 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id e18sm1600815wrs.48.2021.12.15.02.41.03
+ by smtp.gmail.com with ESMTPSA id e18sm1600815wrs.48.2021.12.15.02.41.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 15 Dec 2021 02:41:04 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/33] target/arm: Correct calculation of tlb range invalidate
- length
-Date: Wed, 15 Dec 2021 10:40:40 +0000
-Message-Id: <20211215104049.2030475-25-peter.maydell@linaro.org>
+Subject: [PULL 25/33] hw/net: npcm7xx_emc fix missing queue_flush
+Date: Wed, 15 Dec 2021 10:40:41 +0000
+Message-Id: <20211215104049.2030475-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215104049.2030475-1-peter.maydell@linaro.org>
 References: <20211215104049.2030475-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,57 +90,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The calculation of the length of TLB range invalidate operations
-in tlbi_aa64_range_get_length() is incorrect in two ways:
- * the NUM field is 5 bits, but we read only 4 bits
- * we miscalculate the page_shift value, because of an
-   off-by-one error:
-    TG 0b00 is invalid
-    TG 0b01 is 4K granule size == 4096 == 2^12
-    TG 0b10 is 16K granule size == 16384 == 2^14
-    TG 0b11 is 64K granule size == 65536 == 2^16
-   so page_shift should be (TG - 1) * 2 + 12
+From: Patrick Venture <venture@google.com>
 
-Thanks to the bug report submitter Cha HyunSoo for identifying
-both these errors.
+The rx_active boolean change to true should always trigger a try_read
+call that flushes the queue.
 
-Fixes: 84940ed82552d3c ("target/arm: Add support for FEAT_TLBIRANGE")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/734
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Patrick Venture <venture@google.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20211130173257.1274194-1-peter.maydell@linaro.org
+Message-id: 20211203221002.1719306-1-venture@google.com
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/net/npcm7xx_emc.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 9b317899a66..db837d53bd9 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -4519,18 +4519,18 @@ static uint64_t tlbi_aa64_range_get_length(CPUARMState *env,
-     uint64_t exponent;
-     uint64_t length;
+diff --git a/hw/net/npcm7xx_emc.c b/hw/net/npcm7xx_emc.c
+index 7c892f820fb..545b2b74108 100644
+--- a/hw/net/npcm7xx_emc.c
++++ b/hw/net/npcm7xx_emc.c
+@@ -284,6 +284,12 @@ static void emc_halt_rx(NPCM7xxEMCState *emc, uint32_t mista_flag)
+     emc_set_mista(emc, mista_flag);
+ }
  
--    num = extract64(value, 39, 4);
-+    num = extract64(value, 39, 5);
-     scale = extract64(value, 44, 2);
-     page_size_granule = extract64(value, 46, 2);
- 
--    page_shift = page_size_granule * 2 + 12;
--
-     if (page_size_granule == 0) {
-         qemu_log_mask(LOG_GUEST_ERROR, "Invalid page size granule %d\n",
-                       page_size_granule);
-         return 0;
-     }
- 
-+    page_shift = (page_size_granule - 1) * 2 + 12;
++static void emc_enable_rx_and_flush(NPCM7xxEMCState *emc)
++{
++    emc->rx_active = true;
++    qemu_flush_queued_packets(qemu_get_queue(emc->nic));
++}
 +
-     exponent = (5 * scale) + 1;
-     length = (num + 1) << (exponent + page_shift);
+ static void emc_set_next_tx_descriptor(NPCM7xxEMCState *emc,
+                                        const NPCM7xxEMCTxDesc *tx_desc,
+                                        uint32_t desc_addr)
+@@ -581,13 +587,6 @@ static ssize_t emc_receive(NetClientState *nc, const uint8_t *buf, size_t len1)
+     return len;
+ }
  
+-static void emc_try_receive_next_packet(NPCM7xxEMCState *emc)
+-{
+-    if (emc_can_receive(qemu_get_queue(emc->nic))) {
+-        qemu_flush_queued_packets(qemu_get_queue(emc->nic));
+-    }
+-}
+-
+ static uint64_t npcm7xx_emc_read(void *opaque, hwaddr offset, unsigned size)
+ {
+     NPCM7xxEMCState *emc = opaque;
+@@ -703,7 +702,7 @@ static void npcm7xx_emc_write(void *opaque, hwaddr offset,
+             emc->regs[REG_MGSTA] |= REG_MGSTA_RXHA;
+         }
+         if (value & REG_MCMDR_RXON) {
+-            emc->rx_active = true;
++            emc_enable_rx_and_flush(emc);
+         } else {
+             emc_halt_rx(emc, 0);
+         }
+@@ -739,8 +738,7 @@ static void npcm7xx_emc_write(void *opaque, hwaddr offset,
+         break;
+     case REG_RSDR:
+         if (emc->regs[REG_MCMDR] & REG_MCMDR_RXON) {
+-            emc->rx_active = true;
+-            emc_try_receive_next_packet(emc);
++            emc_enable_rx_and_flush(emc);
+         }
+         break;
+     case REG_MIIDA:
 -- 
 2.25.1
 
