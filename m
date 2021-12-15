@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1099F475ADE
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 15:43:43 +0100 (CET)
-Received: from localhost ([::1]:41362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C3D475B0F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 15:52:12 +0100 (CET)
+Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxVVN-0002gI-Hn
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 09:43:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48874)
+	id 1mxVdc-0008AD-0V
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 09:52:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mxV96-0001m2-TF
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:20:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mxV93-0001Gk-RO
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:20:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639578037;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HM0gMIkGCwE/OGV0w01m6oNxM/PA/HzN1TvATzCIlwA=;
- b=cHz8BDgqNt+0DsVb9wmVG7q46ZnS1njEVzOe5ybvKT4VBJxkuJbr0Rwgip9+r9gyVWes6N
- sB0++zTlzZdRCPNf8Iq3hwt2yZ5I7XKKx+QWbmkh8izbl226BNzRhJSHMv3wkoqXyHmyBZ
- gAV7XdkdNim5MNcJPVBd2oX2dm0Gj6U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-ygNFFFFmOvqUpFnVbsrDHg-1; Wed, 15 Dec 2021 09:20:34 -0500
-X-MC-Unique: ygNFFFFmOvqUpFnVbsrDHg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0123E10168DA;
- Wed, 15 Dec 2021 14:20:33 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.22.8.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C5617101E59B;
- Wed, 15 Dec 2021 14:20:30 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 15/18] tests/docker: updates to alpine package list
-Date: Wed, 15 Dec 2021 14:19:46 +0000
-Message-Id: <20211215141949.3512719-16-berrange@redhat.com>
-In-Reply-To: <20211215141949.3512719-1-berrange@redhat.com>
-References: <20211215141949.3512719-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mxVRG-0007Wk-Hc
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:39:26 -0500
+Received: from [2a00:1450:4864:20::331] (port=36862
+ helo=mail-wm1-x331.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mxVRF-0004nz-2y
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:39:26 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ i8-20020a7bc948000000b0030db7b70b6bso18661476wml.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 06:39:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Oil9VzGtKBJ8yyRinRuy6lB22ecb4YKbS26/DY7YSNc=;
+ b=C6R9BpiEbdAwfa4Yiyvji4g9qZy6ZY8ri/2gqr960ShxDhP5iWRKdNoP2TSVaJRLaA
+ /4hEYVUr7kv/GrngaTHNl3KYrXK06lJmFOJs4Ngro/VpotsmZJxKDIhBgNOYpEuzrEKk
+ ijIDdy0AsmREgW6UzCPyszahZybktzOjEVSVT0mHGXU+emW61d3ieKGMAXPpHxrqH01V
+ c9jxAAd5ZVaqMG+JNTzTXMpHepQAdSxZSwqiDuVDbsmG2SXDYaUSyoc+9jBayWPyYzmU
+ xH9ZckuILVTjK2P+Hlpl7EuE37GJUtEJOvW0g2IexbnLhYOjsfk52KSRO6gRVHA8H+Ba
+ zwGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Oil9VzGtKBJ8yyRinRuy6lB22ecb4YKbS26/DY7YSNc=;
+ b=jplur4WOTi1MIlKNFaCGLk/tABPp42D+gmTzRIQzkLpBTCCZ1Kzb8E3n5Fpxlh3edB
+ 11lgL/vJGgT9gxvE2ggafIVvw+VgJP9j69+xcxdmrH2hjcE7ILCURnHuS+upNi4+cXM4
+ f4VgB782W3bKgo5H1cfQZZrZscx4sCmy8R+X6LjEHc3X1rJQfFNe2Y38UU4PQp4ZToUT
+ R3Fbgz0iAY5qacQJRr0vl7MEo3rxNWgFKCYy0YoePid1ug0f42BJQ7vS2/G5rRPaHH0Z
+ cLdpLiPtE1SasjGn/Th7PIdXzGyFkZi0Xcql4tuC3rpBEEoPSwF5Gs3dmHG5rl3nSPWR
+ ygfQ==
+X-Gm-Message-State: AOAM533fNc44qaoH5/ypWI15GDakzgYiVOhU/b0ixJ6kBUVyDWV4jXUw
+ 81Mam6QGvzFett0PoRv6fOZGFQ==
+X-Google-Smtp-Source: ABdhPJzM2Z7e8h4cuHl8ulk9rk3xU+C4G+O3WqGTpbnIgDaRh5N8TGB2ef3NvAlQLuDdYYplSEGPzw==
+X-Received: by 2002:a05:600c:1d97:: with SMTP id
+ p23mr80112wms.144.1639579163413; 
+ Wed, 15 Dec 2021 06:39:23 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i15sm6562630wmq.18.2021.12.15.06.39.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Dec 2021 06:39:22 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DDBB71FF96;
+ Wed, 15 Dec 2021 14:39:21 +0000 (GMT)
+References: <20211118145716.4116731-1-philmd@redhat.com>
+ <20211118145716.4116731-6-philmd@redhat.com>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-6.2? v2 5/5] docs/devel/style: Misc rST rendering
+ improvements
+Date: Wed, 15 Dec 2021 14:39:15 +0000
+In-reply-to: <20211118145716.4116731-6-philmd@redhat.com>
+Message-ID: <87mtl2exuu.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,73 +93,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Darren Kenny <darren.kenny@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cleanup the package lists by removing some entries that we don't need to
-directly reference
 
-  binutils: implied by the compiler toolchain
-  coreutils: not required by QEMU build
-  mesa-egl mesa-gbm: implied by mesa-dev
-  ninja: alias for samurai package
-  shadow: not required by QEMU build
-  util-linux-dev: not directly required by QEMU build
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- tests/docker/dockerfiles/alpine.docker | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 7e6997e301..5a1808726e 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -8,9 +8,7 @@ RUN apk upgrade
- ENV PACKAGES \
- 	alsa-lib-dev \
- 	bash \
--	binutils \
- 	ccache \
--	coreutils \
- 	curl-dev \
- 	g++ \
- 	gcc \
-@@ -33,22 +31,18 @@ ENV PACKAGES \
- 	lzo-dev \
- 	make \
- 	mesa-dev \
--	mesa-egl \
--	mesa-gbm \
- 	meson \
- 	ncurses-dev \
--	ninja \
- 	perl \
- 	pulseaudio-dev \
- 	python3 \
- 	py3-sphinx \
- 	py3-sphinx_rtd_theme \
--	shadow \
-+	samurai \
- 	snappy-dev \
- 	spice-dev \
- 	texinfo \
- 	usbredir-dev \
--	util-linux-dev \
- 	vde2-dev \
- 	virglrenderer-dev \
- 	vte3-dev \
--- 
-2.33.1
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
 
