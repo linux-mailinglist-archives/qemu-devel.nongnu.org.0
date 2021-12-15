@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ACB7474F5B
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:35:10 +0100 (CET)
-Received: from localhost ([::1]:50714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2883F474FB4
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:57:01 +0100 (CET)
+Received: from localhost ([::1]:33372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxIGC-0005EN-SM
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:35:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53458)
+	id 1mxIbM-0006kA-9V
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:57:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHxM-0001gl-JA; Tue, 14 Dec 2021 19:15:40 -0500
-Received: from mail-dm6nam10on2072.outbound.protection.outlook.com
- ([40.107.93.72]:26849 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ id 1mxI04-0006jM-6I; Tue, 14 Dec 2021 19:18:28 -0500
+Received: from mail-dm6nam10on2086.outbound.protection.outlook.com
+ ([40.107.93.86]:10112 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHxK-00067X-8a; Tue, 14 Dec 2021 19:15:40 -0500
+ id 1mxI01-0006W8-EW; Tue, 14 Dec 2021 19:18:27 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EKAzgEt97n6VC1uvgTeol93AMP3nn3wUPyw7GedH+H70Du+vq5Det9mIYbm7IjO105PyssIclCxr1w4rqpMdEIIVjqVV73iTSv80hjKBKUcCwtXBeLjPM/mUwyGNu4iLveTH9bBBAIyACWmIqOb21HO1xOleX5eP/MFd+rQvX1n+4RzkE1EjjcHjI6Ij7+PZVOgXGM4eIq7Ig/q9fXM+Lws/SGFRjvj3wYZoqM2y7RujXtZLoRZuAvl3w16NUj3wWMoMuQN0eHaNaKTjNPM867eBVOvMNqp+e1oE1ayZX05PUWyGDj7+A25PTt4W+wYcdY1QaSsIq1Z04CE3MTEXpw==
+ b=WYUnZZFwFGp051vZAWQhaTFi82qRvLSuWzFTy+F0jvX4Pw0zQEZANC1+kjdpdqh9dRh/jPMCpGR4nRc5Z3e3A8SfOK6kb6G4LU+60gMfsse0aGTp11qVZLqv5SKmLINF0UhVnK+qa4PTHPo05SX5gXvfxiUU0DEnuPXQ4hTcE+04M6ryRz9Bg/dlFjaEd5xguNqpdKEQA5BvBzyV+jzGKZEFEAWHr+HGhedv2JxOzRXMvJE+VLc4yryHlROJ5UlroUpsqwR496WAtbxCW9U4iOXWcfJ/gkl7zv5aH+gahWlxzkQ0Qq6pju/ymLNHm/KpOJDfja4bbKP14v9bifn3pw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rJoBArt8iGc6Gzons6W77Ci+eHA9M1YfP6txE2pVuEI=;
- b=kVH1CML8cWGdyHOiygRxjF0UmAGmbcpY7epBcKhjv8H/bC35Rc230/iwZW3uxgVSA2fxUbKSBqGVJkV6h9uVOCvisUruf7i7SAVZWpuQTjcpTU3Q5YsUttcL4bjcMMGePE6UNcjVgwQuU1kAZHx9z4KlXmTxNzY0DkgSMtulefoELVcSvzMtU2NyhlnOo2xsp2U1ODV81yacGBH1tGKD6oavrD277AN2H7hJJVKlbAZUvZ6JqD3wJIx0Q7aZdmga0qnzDTAZ/+vzq7gGID60fV3PTvkwbzchyfmlY8+29CHDa1hLtGKk8Rzv7HLTgOZGnIp/HrHsXWHqFhC2n5tLpg==
+ bh=b7t+ouPu5WYI+gHy9SAAMmKg863mI9sae+/3yPLcA3M=;
+ b=cBlzJUeTLioUefWMlVF9Sp1lTv1HR4ykabAKnITbkLzfGUC8d9cMko5b+23dCn18RBOnhOnUCJRWz6eJdONtAaXyC7JMiKi3XI+Oli04yRy6y29lhQ/4BO999rQmfJio/dYu9K4HNmVyLKBJsUnuz8bG5TeI3SINEbTYhdK1f1ny4wiOJtCt3gAaKyjvZE36Z5vMTdFlvpHA2wbKdbXoaJ0+nVuhQkDUcmn2bW+HACGdpCi3Eo43ikVFd+8r1miAVH71lvrC5ScWm6AlCko1jFACCyHtsHYdqauY/2autJQepy9+TnAs5eQwL8rDeCKhhp6zk6QUJnS6TDBppc6mpQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rJoBArt8iGc6Gzons6W77Ci+eHA9M1YfP6txE2pVuEI=;
- b=bBP+Tkwj6Y/qaModtgUaBNVcHIoWendGpt2f1Szt/9e+SfK3vlWeCmTN8g+p/CrMduhlU3YAqLIlr0TH+uSwrnLM1Ms6dgL6LmTgFVkFr5P76XKfxprJ3Q2DCdMuLRXFFOTl/9pAhK/Ekw29VQwlpL54WaQcRnldceHvtDDKL94=
-Received: from DM6PR02CA0074.namprd02.prod.outlook.com (2603:10b6:5:1f4::15)
- by BY5PR12MB4099.namprd12.prod.outlook.com (2603:10b6:a03:20f::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.16; Wed, 15 Dec
- 2021 00:15:35 +0000
-Received: from DM6NAM11FT016.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:1f4:cafe::2d) by DM6PR02CA0074.outlook.office365.com
- (2603:10b6:5:1f4::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.13 via Frontend
- Transport; Wed, 15 Dec 2021 00:15:35 +0000
+ bh=b7t+ouPu5WYI+gHy9SAAMmKg863mI9sae+/3yPLcA3M=;
+ b=IaEPCDB2ruHnAds1nCno3Uzy/q3XxFQ+yrH2p8562xJ0ggxDk3xrKi4/RHs0APw1VPi8OfD1XgcdzmKNbLVuuXwps0xd8FYhgFrfYjEUBP5a/xcA+YcxNtQy8Su9qnV8GiH42eXdbsUinVXVrsMJrtBFbnWvA7a1djvqlAVDFyo=
+Received: from BN6PR14CA0002.namprd14.prod.outlook.com (2603:10b6:404:79::12)
+ by MN2PR12MB4061.namprd12.prod.outlook.com (2603:10b6:208:19a::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.14; Wed, 15 Dec
+ 2021 00:18:22 +0000
+Received: from BN8NAM11FT043.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:404:79:cafe::13) by BN6PR14CA0002.outlook.office365.com
+ (2603:10b6:404:79::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17 via Frontend
+ Transport; Wed, 15 Dec 2021 00:18:22 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,54 +50,54 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DM6NAM11FT016.mail.protection.outlook.com (10.13.173.139) with Microsoft SMTP
+ BN8NAM11FT043.mail.protection.outlook.com (10.13.177.218) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:15:35 +0000
+ 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:18:22 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 14 Dec
- 2021 18:15:35 -0600
+ 2021 18:18:22 -0600
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>, Jason Wang <jasowang@redhat.com>, Alexander
- Bulekov <alxndr@bu.edu>
-Subject: [PATCH 03/47] virtio-net: fix use after unmap/free for sg
-Date: Tue, 14 Dec 2021 18:00:41 -0600
-Message-ID: <20211215000125.378126-4-michael.roth@amd.com>
+CC: <qemu-stable@nongnu.org>, Nir Soffer <nirsof@gmail.com>, Nir Soffer
+ <nsoffer@redhat.com>, Eric Blake <eblake@redhat.com>
+Subject: [PATCH 04/47] qemu-nbd: Change default cache mode to writeback
+Date: Tue, 14 Dec 2021 18:00:42 -0600
+Message-ID: <20211215000125.378126-5-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215000125.378126-1-michael.roth@amd.com>
 References: <20211215000125.378126-1-michael.roth@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
 X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
  (10.181.40.144)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ab7e8852-4157-4bf1-1dc3-08d9bf600427
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4099:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR12MB4099963043CAC39625C0EBDD95769@BY5PR12MB4099.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:792;
+X-MS-Office365-Filtering-Correlation-Id: 2d28f6ac-de0b-47c1-4875-08d9bf6067b6
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4061:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR12MB40613ED0D42D647AE1240A3595769@MN2PR12MB4061.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:473;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BgpPTmY0lC1EkoDZNa5Swleb+15Eqph5xdrlDCVtnF9OPSnsbmCetkWhzmfMFASQ4cGgeKXd0/mj8/MUhRxJCCT3Zggf7WvcX30K0rTF+Sef3huMalC7JHwtEhfbuA3+4O4AS86PpBmNmFPAcdwrGETawb29zqpXY2Dmh2wfxx3SGMi0RVj5xUUNeun8SQwFEmdZdNAds2JBukgvay+9g111LC9dJQEplcgUK20aWOxukATKXOIEBt8YOsfzEMrw/ghxxLBys8rSwvk8w5l0zUezV4xDBgk9M54GgPxFFi3qh/kuiUQxoDZiNYDcgeW+LRifdyjyf0gqzurjoNyPaNpsnsnig8uGNa5WC0k3nk6etECJPaL0XcNP/O4wofz547NxEn9CzwZ0CZBQOb6DGadBeBn0tyvZmdpFQQMeuQ8VKLJwlYbKfKrXK/Idusu56RjVbO1iyJhesvChOvWjqhykxNns2xze4hHueSlhpnXHlG3qfQRRW5x/0Trfqzpl9gZ+przV4MMZcfQQNSSeKkytOm3j6Lb1sQGbVgrXztw3Gp+Oi6bXoGvGGdb1R9jW01eVzEt1PhhQSn6DKqxTJNDKIBLVKLiVOmfeTHXBvetE+VpHCaVvVKJCI9tKCN0QaXJsDeQhaR7ND0DbKrmh0OU4xCLKI2qAb1lDkbpM1FG1/zy3FrVp5m46wO8yUAgjTk/5S9jvnGEAf+0xWgbHsxt+TijXyTYewL/Z33qySo/08ZyqPVol1K3bJymp7gka6oDmIKSpm/CSIx11o2qE11k4GjK2trzFUgUtV61VGbQ=
+X-Microsoft-Antispam-Message-Info: ZNo57rfdUpmzsXr8++tpYBiMyjlbVziTzKjmJXjneBx1/GAl5mh60LvdNlf3oZq5V0x26HrBefRINZMtRnKTMGwIuelCmTlw4sbhSXxmYwqxjfty4NVVoXdVFsSoepD8Ym5nIIrF69TDA++UJ2+iZwHX7eFS5wcSBGXcpn2dZuI7zEuzZXNWi2GVlTTgeroTPoEYRxdQcPtBQN36/PYwCrpM7PmajZvPhq7afAh3guXKBo5RIAIqlSpIrtv8Cie/t4iQP8f0NZKS3dMhUUs7QLc1n1W/Dvr9SHUu2TwD4fag/Wj3ksTlsKGwjNgZX00LvDHG0O+XcVwJbrB9rwag0H+aKbkakodylsNcJVnB1fiAnhY2eZStLcblazxjg2nIgUb6Kc2M2iaQqve8rSNdo6WUvPivQwwyqPnBnOkkpYht3/L8g/sJ6IEdrXjb0SoWZlbosZbWyVJ8DibLomwCf1kCLIbTArdAE7UnIb2P/aQI8W4hjs/9D1kai931yvVtp3xFFQIxSfaw9g4YIHlG34K/G6GGDnjrPFHxHiO5cgCrtaU6Q+/ZfuoZYRAcqV+DbNS42vMbDGnyf50r3TtGcDngTdHwr25x9QF6Wc1w6xAd4rETngOHpvWWUMinjI3qWRbJRakS61eu6Bk9XiEpdFHURBGrVM0kCHI5tn4weO4L0vSViLHNIEHuNVEbeZwHHTXdzVi7lMdQcFJkt33jdfheqy4s38c8Wg1XQq68z3nQPbu96zWmI/Bo94Giew77eTOsrsjmvVkP67L00eXKyJTK4Gc4qvVO5KR9csmNU1/M+jSz0ZVmi52IA1+fmgJbMlj3jVKhE4U+mtzErhuzayNIVsCH6nBLOppRmy6JQpEBiuyACdvULPwz9HAbFF2sNCaNfy4d3XHJe4dzAJx+PMEAGVWK1UrR3UHhuPt/tT4=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(40470700001)(1076003)(70586007)(83380400001)(6666004)(40460700001)(36860700001)(82310400004)(356005)(5660300002)(70206006)(2906002)(81166007)(508600001)(26005)(426003)(8676002)(8936002)(316002)(186003)(4326008)(36756003)(336012)(86362001)(16526019)(54906003)(44832011)(47076005)(2616005)(6916009)(36900700001);
+ SFS:(4636009)(36840700001)(46966006)(40470700001)(26005)(81166007)(4326008)(2616005)(6916009)(186003)(6666004)(82310400004)(8676002)(47076005)(316002)(356005)(16526019)(83380400001)(966005)(2906002)(336012)(40460700001)(1076003)(36860700001)(36756003)(70206006)(70586007)(8936002)(5660300002)(508600001)(426003)(86362001)(44832011)(54906003)(33290500001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:15:35.6280 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab7e8852-4157-4bf1-1dc3-08d9bf600427
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:18:22.7088 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d28f6ac-de0b-47c1-4875-08d9bf6067b6
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT016.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT043.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4099
-Received-SPF: softfail client-ip=40.107.93.72;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4061
+Received-SPF: softfail client-ip=40.107.93.86;
  envelope-from=Michael.Roth@amd.com;
  helo=NAM10-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -122,124 +122,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+From: Nir Soffer <nirsof@gmail.com>
 
-When mergeable buffer is enabled, we try to set the num_buffers after
-the virtqueue elem has been unmapped. This will lead several issues,
-E.g a use after free when the descriptor has an address which belongs
-to the non direct access region. In this case we use bounce buffer
-that is allocated during address_space_map() and freed during
-address_space_unmap().
+Both qemu and qemu-img use writeback cache mode by default, which is
+already documented in qemu(1). qemu-nbd uses writethrough cache mode by
+default, and the default cache mode is not documented.
 
-Fixing this by storing the elems temporarily in an array and delay the
-unmap after we set the the num_buffers.
+According to the qemu-nbd(8):
 
-This addresses CVE-2021-3748.
+   --cache=CACHE
+          The  cache  mode  to be used with the file.  See the
+          documentation of the emulator's -drive cache=... option for
+          allowed values.
 
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Fixes: fbe78f4f55c6 ("virtio-net support")
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-(cherry picked from commit bedd7e93d01961fcb16a97ae45d93acf357e11f6)
+qemu(1) says:
+
+    The default mode is cache=writeback.
+
+So users have no reason to assume that qemu-nbd is using writethough
+cache mode. The only hint is the painfully slow writing when using the
+defaults.
+
+Looking in git history, it seems that qemu used writethrough in the past
+to support broken guests that did not flush data properly, or could not
+flush due to limitations in qemu. But qemu-nbd clients can use
+NBD_CMD_FLUSH to flush data, so using writethrough does not help anyone.
+
+Change the default cache mode to writback, and document the default and
+available values properly in the online help and manual.
+
+With this change converting image via qemu-nbd is 3.5 times faster.
+
+    $ qemu-img create dst.img 50g
+    $ qemu-nbd -t -f raw -k /tmp/nbd.sock dst.img
+
+Before this change:
+
+    $ hyperfine -r3 "./qemu-img convert -p -f raw -O raw -T none -W fedora34.img nbd+unix:///?socket=/tmp/nbd.sock"
+    Benchmark #1: ./qemu-img convert -p -f raw -O raw -T none -W fedora34.img nbd+unix:///?socket=/tmp/nbd.sock
+      Time (mean ± σ):     83.639 s ±  5.970 s    [User: 2.733 s, System: 6.112 s]
+      Range (min … max):   76.749 s … 87.245 s    3 runs
+
+After this change:
+
+    $ hyperfine -r3 "./qemu-img convert -p -f raw -O raw -T none -W fedora34.img nbd+unix:///?socket=/tmp/nbd.sock"
+    Benchmark #1: ./qemu-img convert -p -f raw -O raw -T none -W fedora34.img nbd+unix:///?socket=/tmp/nbd.sock
+      Time (mean ± σ):     23.522 s ±  0.433 s    [User: 2.083 s, System: 5.475 s]
+      Range (min … max):   23.234 s … 24.019 s    3 runs
+
+Users can avoid the issue by using --cache=writeback[1] but the defaults
+should give good performance for the common use case.
+
+[1] https://bugzilla.redhat.com/1990656
+
+Signed-off-by: Nir Soffer <nsoffer@redhat.com>
+Message-Id: <20210813205519.50518-1-nsoffer@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+CC: qemu-stable@nongnu.org
+Signed-off-by: Eric Blake <eblake@redhat.com>
+(cherry picked from commit 09615257058a0ae87b837bb041f56f7312d9ead8)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- hw/net/virtio-net.c | 39 ++++++++++++++++++++++++++++++++-------
- 1 file changed, 32 insertions(+), 7 deletions(-)
+ docs/tools/qemu-nbd.rst | 6 ++++--
+ qemu-nbd.c              | 6 ++++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 16d20cdee5..f205331dcf 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -1746,10 +1746,13 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-     VirtIONet *n = qemu_get_nic_opaque(nc);
-     VirtIONetQueue *q = virtio_net_get_subqueue(nc);
-     VirtIODevice *vdev = VIRTIO_DEVICE(n);
-+    VirtQueueElement *elems[VIRTQUEUE_MAX_SIZE];
-+    size_t lens[VIRTQUEUE_MAX_SIZE];
-     struct iovec mhdr_sg[VIRTQUEUE_MAX_SIZE];
-     struct virtio_net_hdr_mrg_rxbuf mhdr;
-     unsigned mhdr_cnt = 0;
--    size_t offset, i, guest_offset;
-+    size_t offset, i, guest_offset, j;
-+    ssize_t err;
+diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
+index ee862fa0bc..5643da26e9 100644
+--- a/docs/tools/qemu-nbd.rst
++++ b/docs/tools/qemu-nbd.rst
+@@ -98,8 +98,10 @@ driver options if ``--image-opts`` is specified.
  
-     if (!virtio_net_can_receive(nc)) {
-         return -1;
-@@ -1780,6 +1783,12 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+ .. option:: --cache=CACHE
  
-         total = 0;
+-  The cache mode to be used with the file.  See the documentation of
+-  the emulator's ``-drive cache=...`` option for allowed values.
++  The cache mode to be used with the file. Valid values are:
++  ``none``, ``writeback`` (the default), ``writethrough``,
++  ``directsync`` and ``unsafe``. See the documentation of
++  the emulator's ``-drive cache=...`` option for more info.
  
-+        if (i == VIRTQUEUE_MAX_SIZE) {
-+            virtio_error(vdev, "virtio-net unexpected long buffer chain");
-+            err = size;
-+            goto err;
-+        }
-+
-         elem = virtqueue_pop(q->rx_vq, sizeof(VirtQueueElement));
-         if (!elem) {
-             if (i) {
-@@ -1791,7 +1800,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-                              n->guest_hdr_len, n->host_hdr_len,
-                              vdev->guest_features);
-             }
--            return -1;
-+            err = -1;
-+            goto err;
-         }
+ .. option:: -n, --nocache
  
-         if (elem->in_num < 1) {
-@@ -1799,7 +1809,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-                          "virtio-net receive queue contains no in buffers");
-             virtqueue_detach_element(q->rx_vq, elem, 0);
-             g_free(elem);
--            return -1;
-+            err = -1;
-+            goto err;
-         }
- 
-         sg = elem->in_sg;
-@@ -1836,12 +1847,13 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-         if (!n->mergeable_rx_bufs && offset < size) {
-             virtqueue_unpop(q->rx_vq, elem, total);
-             g_free(elem);
--            return size;
-+            err = size;
-+            goto err;
-         }
- 
--        /* signal other side */
--        virtqueue_fill(q->rx_vq, elem, total, i++);
--        g_free(elem);
-+        elems[i] = elem;
-+        lens[i] = total;
-+        i++;
-     }
- 
-     if (mhdr_cnt) {
-@@ -1851,10 +1863,23 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-                      &mhdr.num_buffers, sizeof mhdr.num_buffers);
-     }
- 
-+    for (j = 0; j < i; j++) {
-+        /* signal other side */
-+        virtqueue_fill(q->rx_vq, elems[j], lens[j], j);
-+        g_free(elems[j]);
-+    }
-+
-     virtqueue_flush(q->rx_vq, i);
-     virtio_notify(vdev, q->rx_vq);
- 
-     return size;
-+
-+err:
-+    for (j = 0; j < i; j++) {
-+        g_free(elems[j]);
-+    }
-+
-+    return err;
- }
- 
- static ssize_t virtio_net_do_receive(NetClientState *nc, const uint8_t *buf,
+diff --git a/qemu-nbd.c b/qemu-nbd.c
+index 26ffbf15af..6c18fcd19a 100644
+--- a/qemu-nbd.c
++++ b/qemu-nbd.c
+@@ -135,7 +135,9 @@ static void usage(const char *name)
+ "                            'snapshot.id=[ID],snapshot.name=[NAME]', or\n"
+ "                            '[ID_OR_NAME]'\n"
+ "  -n, --nocache             disable host cache\n"
+-"      --cache=MODE          set cache mode (none, writeback, ...)\n"
++"      --cache=MODE          set cache mode used to access the disk image, the\n"
++"                            valid options are: 'none', 'writeback' (default),\n"
++"                            'writethrough', 'directsync' and 'unsafe'\n"
+ "      --aio=MODE            set AIO mode (native, io_uring or threads)\n"
+ "      --discard=MODE        set discard mode (ignore, unmap)\n"
+ "      --detect-zeroes=MODE  set detect-zeroes mode (off, on, unmap)\n"
+@@ -552,7 +554,7 @@ int main(int argc, char **argv)
+     bool alloc_depth = false;
+     const char *tlscredsid = NULL;
+     bool imageOpts = false;
+-    bool writethrough = true;
++    bool writethrough = false; /* Client will flush as needed. */
+     bool fork_process = false;
+     bool list = false;
+     int old_stderr = -1;
 -- 
 2.25.1
 
