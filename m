@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD0E474F65
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:39:44 +0100 (CET)
-Received: from localhost ([::1]:59926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE72474F12
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:24:05 +0100 (CET)
+Received: from localhost ([::1]:45972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxIKd-00031f-EK
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:39:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52782)
+	id 1mxI5V-0008CB-2q
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:24:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHtU-0002uw-Nv; Tue, 14 Dec 2021 19:11:42 -0500
-Received: from mail-dm6nam11on2046.outbound.protection.outlook.com
- ([40.107.223.46]:5984 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ id 1mxHu2-0003it-Fk; Tue, 14 Dec 2021 19:12:14 -0500
+Received: from mail-dm3nam07on2045.outbound.protection.outlook.com
+ ([40.107.95.45]:43009 helo=NAM02-DM3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHtM-0005fy-HF; Tue, 14 Dec 2021 19:11:39 -0500
+ id 1mxHtz-0005ip-WF; Tue, 14 Dec 2021 19:12:14 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DimdPShWFVshfoC9vhAgs2NlWaghjzqzu7P8xAccbenRoruPdcjjwW+lKRaytTJ8SJIpViFPtzsIxcZKdFNGI1OEGvlya++PbASIhyE9RuhCUYut18grM/QgNTslxY909q0DcojR89zfAhhJTTxqkwFO6XN4J1y5yTdQF0cBXvUhy++4uP/LJOljbY0d5UxNWfIWK5SHuuF/XlRfeupVw/VlmZKaIPRehr20tYS5qu6Ta+nugGhco354gP3/Drmho3742zHe9dMt8LtNVOhKgnffOyVc4Nu9ZSLicV5oQWsOiPvQtHGeVI+hqbF6CreTo35+soEWU9vQxHJbcOZmlQ==
+ b=GcJUPYuasYqUlZN1nES3M0auiQGPohTG+GvrIsCy+KGgQQsPdRqhshD7z5wOffW2a2514z2Th4/+HdBqjm/TBQAy/JHJw9Z4rpoX0SpeguK0gNWxTXVV/PCXL5qzBBstswUBN1fZa97eaNZbMVGGptoAFlc5X83kNlSy2bYgzJWIdfpSFklcc9k1TZvKBxzPOCUPSiMhNhwLtPHkBkWDL9vX4I2nI8vLRkL8t1at0WOS+Tm5Aypm0XIQRrbDve5KuNZ1EZSCRqI48CpxtndbGv+UhKRRmnZpK04hQT5QNYYZkeBVY/9nVgkdSCj6zkGVjflaAE6XjZmhBRQxHYFI6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lwxovqaTRYl9CpleMQy5WtqMwM62WmUna1KfC6QdglE=;
- b=iC0hxtd/Cmb6FVa8EMgEbu057BjB9i4560o9FHzxrccklkfHgqFa/c8eVPW3Do4WiMEZwgWHCx2i9t4NXuwOCD1mz46wmoE5kzovwkM/c52qID7FdFyD1GLAv6NmboJp5wrgEbvQPKmrE8aGRS9hhLznhTtQBAF+t3RNCFYA6ut9oI6gDlfhf1iNYl9tRkwf8bh92LNxm1waIJPc7CPZez4h7CLJcsztadpppsmTOCOh6IRbWzL5udRJBn3jNQyUcdriEYPm5GycDoPdsn9tDJYaoWzcNvM1L8ug1YkkqS4BBLvJqJD9stRVNIOnczfGmftgcggkvAwku7CNo/vN8Q==
+ bh=yzHw6xVcP7JPT9KyWOihzF5g83dU2a2sHZZIZT22jvc=;
+ b=Q09DKlyEtO5cAubmzxBB11ijfjePqhUFj5MQ91BLM2FOKb7hU6cOGxL+w0siOrnvLn2Fx981skQH1U/lEJVzxnP7B8lYuX5OF+7JKOhPGZKdMy7D/OYbGtl6m6F1/egK1yBtEgnAdnII7mCuCWREslclBiTm/U59LS+tyrwDYWfLEN80SSTPgJ9PfKNiVxNOexbZjhWZq7dkDlM2+XAQ0s4Fo0B4wEf+PlDirHdkXDQlk+VDCY3r8+CTOeaopG8tx+jvDZJpi5dlCjT2vACk6egK08rbbjHcZzBHPI+Qr0omTLrnlpoyXXL1LbX5wJ8k3Zc5fazuQhZqT5leJuVpEQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lwxovqaTRYl9CpleMQy5WtqMwM62WmUna1KfC6QdglE=;
- b=Vqllg5GEQha6Yy+sv39dLCO0BAdq50LFBsDa/DmYEeWFkINyT/QYXcGci/U/slWXr7PPyTnLYQWwmpF8ZkVAhKu5PuqCMg6Oqwj/k6DTa+ROackJMwAvcsieCjUac+OAf1SsWDLc6lNyQveT5aUmTeU35txG+6rwyN58IBtyZCo=
-Received: from DM6PR05CA0052.namprd05.prod.outlook.com (2603:10b6:5:335::21)
- by BN8PR12MB3075.namprd12.prod.outlook.com (2603:10b6:408:67::11) with
+ bh=yzHw6xVcP7JPT9KyWOihzF5g83dU2a2sHZZIZT22jvc=;
+ b=g/VpG4ayL0zPXnJqnWol3zyHcQBnZdmVxYvCxiIXidmxwEpnZnJhQfBnPh+qrYneKebBqmXw/AZfEuHu7t025u2ULb6Nyv0cMYDduBwj9UWPfLncQQxYsiaVZVJ/RXh31rlimqF8tMlH4CJF2dmu0YPkY4b1OU0mev/TN8sNIJM=
+Received: from DM5PR11CA0003.namprd11.prod.outlook.com (2603:10b6:3:115::13)
+ by MWHPR12MB1775.namprd12.prod.outlook.com (2603:10b6:300:109::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Wed, 15 Dec
- 2021 00:11:26 +0000
-Received: from DM6NAM11FT039.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:335:cafe::6c) by DM6PR05CA0052.outlook.office365.com
- (2603:10b6:5:335::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.13 via Frontend
- Transport; Wed, 15 Dec 2021 00:11:26 +0000
+ 2021 00:12:07 +0000
+Received: from DM6NAM11FT044.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:115:cafe::61) by DM5PR11CA0003.outlook.office365.com
+ (2603:10b6:3:115::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.15 via Frontend
+ Transport; Wed, 15 Dec 2021 00:12:07 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,21 +50,22 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DM6NAM11FT039.mail.protection.outlook.com (10.13.172.83) with Microsoft SMTP
+ DM6NAM11FT044.mail.protection.outlook.com (10.13.173.185) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:11:25 +0000
+ 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:12:07 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 14 Dec
- 2021 18:11:25 -0600
+ 2021 18:12:06 -0600
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, Mark
- Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH 30/47] target-i386: mmu: fix handling of noncanonical virtual
- addresses
-Date: Tue, 14 Dec 2021 18:01:08 -0600
-Message-ID: <20211215000125.378126-31-michael.roth@amd.com>
+CC: <qemu-stable@nongnu.org>, Mauro Matteo Cascella <mcascell@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Qiuhao Li <Qiuhao.Li@outlook.com>, Paolo
+ Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 31/47] hw/scsi/scsi-disk: MODE_PAGE_ALLS not allowed in MODE
+ SELECT commands
+Date: Tue, 14 Dec 2021 18:01:09 -0600
+Message-ID: <20211215000125.378126-32-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215000125.378126-1-michael.roth@amd.com>
 References: <20211215000125.378126-1-michael.roth@amd.com>
@@ -76,31 +77,31 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
  (10.181.40.144)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5520e330-628c-47e8-ac5d-08d9bf5f6f35
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3075:EE_
-X-Microsoft-Antispam-PRVS: <BN8PR12MB307503AB2BD0A4B560A426E095769@BN8PR12MB3075.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:862;
+X-MS-Office365-Filtering-Correlation-Id: 008ae836-6d87-4994-0b00-08d9bf5f8805
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1775:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR12MB1775B1180CE48CB2A6C03E3D95769@MWHPR12MB1775.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:51;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kCHLE0x4qcjtAX4Mq5m9d+SyLCuRGynevbVoRLBpyReSxOZXBM6vZl44E580jVniRA0dP+7HWmyFeFlaL5tgepkYNfzUCyYqrA5UwNMOFQwzNqbvnIZKX99P46YqzC+l/i/2zAakwP6GYcmINbR41P7aosA55gaBtHk/u2ERvn7e08MusdUgw4M/akE4f/tqNbV2eguCl3G34nvL5muRRNLcHYaPjmL0Fgxkrbrx5SazZu3/h7ipgVJLH4GhmaJ1h1RDKH5duSh+8rlvKiN1bem1NhczzAF7KMJMo9ms7Qnu06eQT2k+LCOPeMj3meHK6po0xa0JIsZ8GObiLIUNbdAfPANY23EIITu/SQsiG3d3+Pydm/UkjTt+fEbC/W571NSjm12mCOcjHQHEuG8Vi5EAcfV9lJVs7AC/2f1rmaITAwwCxPy29CCBPfdE9tnoEtzmv5b0SZMlZx+TAntBSb6Q0hs6rEWLy6Q6a1QuZoQG0QXl/cPG6wzN5LeD93yh49/E5XMKaahpsWLLrz6v/PgpgHDJvCf4fKBcNzMDg+js40+yTwlHvtUEF1g59d2r88ADxvl7T7aSngfhjOeKzhgW/bt7fbvwzJRhFmSPizajV3eURRY8Kf1kMMH5gbU1Y+z/zy4hTEwx0mEJblmUz8sLmj989RDfS/mabKBn+3ELkEBFym0A9N9HI6U7X+q++jgTUWBgXiUABAFizz66mKmbUMZWqvS0AQXbYX6gUXi3e9zJrwCcEKTYkfqoTywP/Vr7pgMk00bzxNC78TvKuRJb/YPI0rcxqSrmqDMtMIY=
+X-Microsoft-Antispam-Message-Info: 6A2MUMLiIZjphnWouBImdTJIzJuWVYEsRnI7dXQH2MHAi0xXFYtgcuoQMBm/hISnMisLgnS9DCe0lFUWFKrLDl1/2cSf0wC61kzmG2VyvHQy72skjkvSGATsXjk8Sq5jcs+aHh+oV4SE0TMiNjR/ea6VY5gPKY6DsRsyG4S9G/fV89sxbRsZWjkTRN1k9QiJDo3SR9cDy/jGWntGhUkUgSAJ+UyEbnuACWD1RvridstHV6qTJJvlhZnJxm6a/+sSfNfoXhH1HwPZHLLumddPEwpW+bg4X920HIQHDcN0XOKK2gJEsTUuS6+2xmeFqHBg3GnJCXtFl1LPRzy6QQvRAOEa1Xbn76YJjLG1JNVRNUwYCNL9NDa4jdKZncMrwj06jRLprsCTBu5qecmxt9fy916fNqPlTkfMuEawFDiqEiQjmSpouh24vfd3l5zDM73pCILPyrTAca/pfmxQ4eAa1jl6lWCQdinLZLHg1BGR7YuCBWRcKM4WgTIk6az4nTNuxeoNM+PeMJ+iPFZ0Ga+OrPP8CuTIJojY7lgOXsao1x04h5alekqwAYOcNcG+n0MH5Jv3RNfSNpgjclqcEWjEHSvpyXwWoTwzBljk9NEbNegy//dzZFlwzGg5ZtjIB3HL+6MRvX7Unv5+patz7Efu5ArOrYJcaAZVkZU2ML7Nr27Oi4hI/gbakIDYyyjrd0OcotP3BDux9iJRje8puITVJf5dc5Pqh4Bhm5Tsc39+HfiEki+NVT1v47RsM2mxPSRyDIOkPNNZL7koOV/AZJ0SaFUmWpbLgFI996rMYbICLko=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(40470700001)(508600001)(5660300002)(316002)(1076003)(8676002)(81166007)(70206006)(83380400001)(2616005)(6666004)(70586007)(54906003)(186003)(16526019)(6916009)(36860700001)(26005)(356005)(336012)(8936002)(86362001)(44832011)(47076005)(426003)(4326008)(40460700001)(2906002)(36756003)(82310400004)(36900700001);
+ SFS:(4636009)(36840700001)(40470700001)(44832011)(1076003)(54906003)(8936002)(70206006)(70586007)(186003)(16526019)(8676002)(2616005)(4326008)(36860700001)(508600001)(336012)(40460700001)(36756003)(316002)(426003)(26005)(2906002)(82310400004)(356005)(45080400002)(81166007)(86362001)(5660300002)(6916009)(32650700002)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:11:25.5254 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5520e330-628c-47e8-ac5d-08d9bf5f6f35
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:12:07.3413 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 008ae836-6d87-4994-0b00-08d9bf5f8805
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT039.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT044.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3075
-Received-SPF: softfail client-ip=40.107.223.46;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1775
+Received-SPF: softfail client-ip=40.107.95.45;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
+ helo=NAM02-DM3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -123,65 +124,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Mauro Matteo Cascella <mcascell@redhat.com>
 
-mmu_translate is supposed to return an error code for page faults; it is
-not able to handle other exceptions.  The #GP case for noncanonical
-virtual addresses is not handled correctly, and incorrectly raised as
-a page fault with error code 1.  Since it cannot happen for nested
-page tables, move it directly to handle_mmu_fault, even before the
-invocation of mmu_translate.
+This avoids an off-by-one read of 'mode_sense_valid' buffer in
+hw/scsi/scsi-disk.c:mode_sense_page().
 
-Fixes: #676
-Fixes: 661ff4879e ("target/i386: extract mmu_translate", 2021-05-11)
+Fixes: CVE-2021-3930
 Cc: qemu-stable@nongnu.org
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Fixes: a8f4bbe2900 ("scsi-disk: store valid mode pages in a table")
+Fixes: #546
+Reported-by: Qiuhao Li <Qiuhao.Li@outlook.com>
+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit b04dc92e013d55c9ac8082caefff45dcfb1310e7)
+(cherry picked from commit b3af7fdf9cc537f8f0dd3e2423d83f5c99a457e8)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- target/i386/tcg/sysemu/excp_helper.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ hw/scsi/scsi-disk.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
-index 2dea4a248e..9fb59058ef 100644
---- a/target/i386/tcg/sysemu/excp_helper.c
-+++ b/target/i386/tcg/sysemu/excp_helper.c
-@@ -94,15 +94,6 @@ static int mmu_translate(CPUState *cs, hwaddr addr, MMUTranslateFunc get_hphys_f
-             bool la57 = pg_mode & PG_MODE_LA57;
-             uint64_t pml5e_addr, pml5e;
-             uint64_t pml4e_addr, pml4e;
--            int32_t sext;
--
--            /* test virtual address sign extension */
--            sext = la57 ? (int64_t)addr >> 56 : (int64_t)addr >> 47;
--            if (get_hphys_func && sext != 0 && sext != -1) {
--                env->error_code = 0;
--                cs->exception_index = EXCP0D_GPF;
--                return 1;
--            }
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index e8a547dbb7..d4914178ea 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -1087,6 +1087,7 @@ static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbuf,
+     uint8_t *p = *p_outbuf + 2;
+     int length;
  
-             if (la57) {
-                 pml5e_addr = ((cr3 & ~0xfff) +
-@@ -423,6 +414,18 @@ static int handle_mmu_fault(CPUState *cs, vaddr addr, int size,
-         page_size = 4096;
-     } else {
-         pg_mode = get_pg_mode(env);
-+        if (pg_mode & PG_MODE_LMA) {
-+            int32_t sext;
++    assert(page < ARRAY_SIZE(mode_sense_valid));
+     if ((mode_sense_valid[page] & (1 << s->qdev.type)) == 0) {
+         return -1;
+     }
+@@ -1428,6 +1429,11 @@ static int scsi_disk_check_mode_select(SCSIDiskState *s, int page,
+         return -1;
+     }
+ 
++    /* MODE_PAGE_ALLS is only valid for MODE SENSE commands */
++    if (page == MODE_PAGE_ALLS) {
++        return -1;
++    }
 +
-+            /* test virtual address sign extension */
-+            sext = (int64_t)addr >> (pg_mode & PG_MODE_LA57 ? 56 : 47);
-+            if (sext != 0 && sext != -1) {
-+                env->error_code = 0;
-+                cs->exception_index = EXCP0D_GPF;
-+                return 1;
-+            }
-+        }
-+
-         error_code = mmu_translate(cs, addr, get_hphys, env->cr[3], is_write1,
-                                    mmu_idx, pg_mode,
-                                    &paddr, &page_size, &prot);
+     p = mode_current;
+     memset(mode_current, 0, inlen + 2);
+     len = mode_sense_page(s, page, &p, 0);
 -- 
 2.25.1
 
