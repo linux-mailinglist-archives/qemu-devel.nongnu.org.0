@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B224E475932
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 13:57:38 +0100 (CET)
-Received: from localhost ([::1]:37202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA4F4475938
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 14:00:13 +0100 (CET)
+Received: from localhost ([::1]:46092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxTqj-0001ti-IW
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 07:57:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51630)
+	id 1mxTtD-0008A8-Sp
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 08:00:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTlp-0004mi-4y
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTlp-0004nO-CZ
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:52:33 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:36812
+Received: from mail.xen0n.name ([115.28.160.31]:36820
  helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTlm-00044Q-9R
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:52:32 -0500
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTlm-00044N-Bo
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:52:33 -0500
 Received: from ld50.lan (unknown [101.88.31.179])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 5218560610;
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 01437606C3;
  Wed, 15 Dec 2021 20:52:08 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1639572728; bh=gWedNWLrjsXJsqKTWiN/oyp2x1dC9SGgjAQ8nxmwHgg=;
+ t=1639572729; bh=XzgOQSJoJKECE619BKjdZIrwyi6Abtusk6jzJ7hc8sw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cBsA5PV47SotrxfgDNlVVnzhBCLdkQ6oRwFmpNzNNGg7j14Uh2cld7O3VxEGzO+IN
- NPc9BFHKjfFfOWayET8NC48bGNsdwrPZjHFxcvLowKn42uiM84eHzO5QlqtulOAEPo
- 5ru7NkiKyI366qVI59YZSOqxCyO03LQsugUwepK4=
+ b=J3W4c6IRM8FObsVJnVWCtCLlRgbL+giLXK2dWXDmyHrgtH7P6CPJv8SXV9zyDp1JW
+ HhPEyAA9Q6FAK15e+QEf3EX9Mu2xYzThaE5udJUH0jMrAXxz7fBG9PhdXrBvpKK0ac
+ fvbe5OYeOvi86sFggzuyA2EYvw3OmXLhtLVquXdI=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 11/31] tcg/loongarch64: Implement sign-/zero-extension ops
-Date: Wed, 15 Dec 2021 20:51:16 +0800
-Message-Id: <20211215125136.3449717-12-git@xen0n.name>
+Subject: [PATCH v10 13/31] tcg/loongarch64: Implement deposit/extract ops
+Date: Wed, 15 Dec 2021 20:51:18 +0800
+Message-Id: <20211215125136.3449717-14-git@xen0n.name>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211215125136.3449717-1-git@xen0n.name>
 References: <20211215125136.3449717-1-git@xen0n.name>
@@ -75,175 +75,91 @@ Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
  tcg/loongarch64/tcg-target-con-set.h |  1 +
- tcg/loongarch64/tcg-target.c.inc     | 82 ++++++++++++++++++++++++++++
- tcg/loongarch64/tcg-target.h         | 24 ++++----
- 3 files changed, 95 insertions(+), 12 deletions(-)
+ tcg/loongarch64/tcg-target.c.inc     | 21 +++++++++++++++++++++
+ tcg/loongarch64/tcg-target.h         |  8 ++++----
+ 3 files changed, 26 insertions(+), 4 deletions(-)
 
 diff --git a/tcg/loongarch64/tcg-target-con-set.h b/tcg/loongarch64/tcg-target-con-set.h
-index 5cc4407367..7e459490ea 100644
+index 9ac24b8ad0..d958183020 100644
 --- a/tcg/loongarch64/tcg-target-con-set.h
 +++ b/tcg/loongarch64/tcg-target-con-set.h
-@@ -15,3 +15,4 @@
-  * tcg-target-con-str.h; the constraint combination is inclusive or.
-  */
- C_O0_I1(r)
-+C_O1_I1(r, r)
+@@ -18,3 +18,4 @@ C_O0_I1(r)
+ C_O1_I1(r, r)
+ C_O1_I2(r, r, rC)
+ C_O1_I2(r, r, rU)
++C_O1_I2(r, 0, rZ)
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index 3a8c52465b..25b58c7828 100644
+index d9508d5295..9eba8f8146 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -382,6 +382,36 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
-     }
- }
- 
-+static void tcg_out_ext8u(TCGContext *s, TCGReg ret, TCGReg arg)
-+{
-+    tcg_out_opc_andi(s, ret, arg, 0xff);
-+}
-+
-+static void tcg_out_ext16u(TCGContext *s, TCGReg ret, TCGReg arg)
-+{
-+    tcg_out_opc_bstrpick_w(s, ret, arg, 0, 15);
-+}
-+
-+static void tcg_out_ext32u(TCGContext *s, TCGReg ret, TCGReg arg)
-+{
-+    tcg_out_opc_bstrpick_d(s, ret, arg, 0, 31);
-+}
-+
-+static void tcg_out_ext8s(TCGContext *s, TCGReg ret, TCGReg arg)
-+{
-+    tcg_out_opc_sext_b(s, ret, arg);
-+}
-+
-+static void tcg_out_ext16s(TCGContext *s, TCGReg ret, TCGReg arg)
-+{
-+    tcg_out_opc_sext_h(s, ret, arg);
-+}
-+
-+static void tcg_out_ext32s(TCGContext *s, TCGReg ret, TCGReg arg)
-+{
-+    tcg_out_opc_addi_w(s, ret, arg, 0);
-+}
-+
- /*
-  * Entry-points
-  */
-@@ -391,6 +421,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-                        const int const_args[TCG_MAX_OP_ARGS])
- {
-     TCGArg a0 = args[0];
-+    TCGArg a1 = args[1];
- 
-     switch (opc) {
-     case INDEX_op_mb:
-@@ -401,6 +432,41 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         tcg_out_opc_jirl(s, TCG_REG_ZERO, a0, 0);
+@@ -531,6 +531,20 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         }
          break;
  
-+    case INDEX_op_ext8s_i32:
-+    case INDEX_op_ext8s_i64:
-+        tcg_out_ext8s(s, a0, a1);
++    case INDEX_op_extract_i32:
++        tcg_out_opc_bstrpick_w(s, a0, a1, a2, a2 + args[3] - 1);
++        break;
++    case INDEX_op_extract_i64:
++        tcg_out_opc_bstrpick_d(s, a0, a1, a2, a2 + args[3] - 1);
 +        break;
 +
-+    case INDEX_op_ext8u_i32:
-+    case INDEX_op_ext8u_i64:
-+        tcg_out_ext8u(s, a0, a1);
++    case INDEX_op_deposit_i32:
++        tcg_out_opc_bstrins_w(s, a0, a2, args[3], args[3] + args[4] - 1);
 +        break;
-+
-+    case INDEX_op_ext16s_i32:
-+    case INDEX_op_ext16s_i64:
-+        tcg_out_ext16s(s, a0, a1);
-+        break;
-+
-+    case INDEX_op_ext16u_i32:
-+    case INDEX_op_ext16u_i64:
-+        tcg_out_ext16u(s, a0, a1);
-+        break;
-+
-+    case INDEX_op_ext32u_i64:
-+    case INDEX_op_extu_i32_i64:
-+        tcg_out_ext32u(s, a0, a1);
-+        break;
-+
-+    case INDEX_op_ext32s_i64:
-+    case INDEX_op_extrl_i64_i32:
-+    case INDEX_op_ext_i32_i64:
-+        tcg_out_ext32s(s, a0, a1);
-+        break;
-+
-+    case INDEX_op_extrh_i64_i32:
-+        tcg_out_opc_srai_d(s, a0, a1, 32);
++    case INDEX_op_deposit_i64:
++        tcg_out_opc_bstrins_d(s, a0, a2, args[3], args[3] + args[4] - 1);
 +        break;
 +
      case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
      case INDEX_op_mov_i64:
      default:
-@@ -414,6 +480,22 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_goto_ptr:
-         return C_O0_I1(r);
+@@ -560,6 +574,8 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_ext_i32_i64:
+     case INDEX_op_not_i32:
+     case INDEX_op_not_i64:
++    case INDEX_op_extract_i32:
++    case INDEX_op_extract_i64:
+         return C_O1_I1(r, r);
  
-+    case INDEX_op_ext8s_i32:
-+    case INDEX_op_ext8s_i64:
-+    case INDEX_op_ext8u_i32:
-+    case INDEX_op_ext8u_i64:
-+    case INDEX_op_ext16s_i32:
-+    case INDEX_op_ext16s_i64:
-+    case INDEX_op_ext16u_i32:
-+    case INDEX_op_ext16u_i64:
-+    case INDEX_op_ext32s_i64:
-+    case INDEX_op_ext32u_i64:
-+    case INDEX_op_extu_i32_i64:
-+    case INDEX_op_extrl_i64_i32:
-+    case INDEX_op_extrh_i64_i32:
-+    case INDEX_op_ext_i32_i64:
-+        return C_O1_I1(r, r);
+     case INDEX_op_andc_i32:
+@@ -584,6 +600,11 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+         /* LoongArch reg-imm bitops have their imms ZERO-extended */
+         return C_O1_I2(r, r, rU);
+ 
++    case INDEX_op_deposit_i32:
++    case INDEX_op_deposit_i64:
++        /* Must deposit into the same register as input */
++        return C_O1_I2(r, 0, rZ);
 +
      default:
          g_assert_not_reached();
      }
 diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-index 25328646f0..a6d9e036fc 100644
+index cc9aecc681..1c9d0a9988 100644
 --- a/tcg/loongarch64/tcg-target.h
 +++ b/tcg/loongarch64/tcg-target.h
-@@ -107,10 +107,10 @@ typedef enum {
- #define TCG_TARGET_HAS_muls2_i32        0
- #define TCG_TARGET_HAS_muluh_i32        0
- #define TCG_TARGET_HAS_mulsh_i32        0
--#define TCG_TARGET_HAS_ext8s_i32        0
--#define TCG_TARGET_HAS_ext16s_i32       0
--#define TCG_TARGET_HAS_ext8u_i32        0
--#define TCG_TARGET_HAS_ext16u_i32       0
-+#define TCG_TARGET_HAS_ext8s_i32        1
-+#define TCG_TARGET_HAS_ext16s_i32       1
-+#define TCG_TARGET_HAS_ext8u_i32        1
-+#define TCG_TARGET_HAS_ext16u_i32       1
- #define TCG_TARGET_HAS_bswap16_i32      0
- #define TCG_TARGET_HAS_bswap32_i32      0
- #define TCG_TARGET_HAS_not_i32          0
-@@ -138,14 +138,14 @@ typedef enum {
- #define TCG_TARGET_HAS_extract_i64      0
+@@ -97,8 +97,8 @@ typedef enum {
+ #define TCG_TARGET_HAS_rem_i32          0
+ #define TCG_TARGET_HAS_div2_i32         0
+ #define TCG_TARGET_HAS_rot_i32          0
+-#define TCG_TARGET_HAS_deposit_i32      0
+-#define TCG_TARGET_HAS_extract_i32      0
++#define TCG_TARGET_HAS_deposit_i32      1
++#define TCG_TARGET_HAS_extract_i32      1
+ #define TCG_TARGET_HAS_sextract_i32     0
+ #define TCG_TARGET_HAS_extract2_i32     0
+ #define TCG_TARGET_HAS_add2_i32         0
+@@ -134,8 +134,8 @@ typedef enum {
+ #define TCG_TARGET_HAS_rem_i64          0
+ #define TCG_TARGET_HAS_div2_i64         0
+ #define TCG_TARGET_HAS_rot_i64          0
+-#define TCG_TARGET_HAS_deposit_i64      0
+-#define TCG_TARGET_HAS_extract_i64      0
++#define TCG_TARGET_HAS_deposit_i64      1
++#define TCG_TARGET_HAS_extract_i64      1
  #define TCG_TARGET_HAS_sextract_i64     0
  #define TCG_TARGET_HAS_extract2_i64     0
--#define TCG_TARGET_HAS_extrl_i64_i32    0
--#define TCG_TARGET_HAS_extrh_i64_i32    0
--#define TCG_TARGET_HAS_ext8s_i64        0
--#define TCG_TARGET_HAS_ext16s_i64       0
--#define TCG_TARGET_HAS_ext32s_i64       0
--#define TCG_TARGET_HAS_ext8u_i64        0
--#define TCG_TARGET_HAS_ext16u_i64       0
--#define TCG_TARGET_HAS_ext32u_i64       0
-+#define TCG_TARGET_HAS_extrl_i64_i32    1
-+#define TCG_TARGET_HAS_extrh_i64_i32    1
-+#define TCG_TARGET_HAS_ext8s_i64        1
-+#define TCG_TARGET_HAS_ext16s_i64       1
-+#define TCG_TARGET_HAS_ext32s_i64       1
-+#define TCG_TARGET_HAS_ext8u_i64        1
-+#define TCG_TARGET_HAS_ext16u_i64       1
-+#define TCG_TARGET_HAS_ext32u_i64       1
- #define TCG_TARGET_HAS_bswap16_i64      0
- #define TCG_TARGET_HAS_bswap32_i64      0
- #define TCG_TARGET_HAS_bswap64_i64      0
+ #define TCG_TARGET_HAS_extrl_i64_i32    1
 -- 
 2.34.0
 
