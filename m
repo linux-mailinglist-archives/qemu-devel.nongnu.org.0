@@ -2,106 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB8F74752F9
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 07:29:06 +0100 (CET)
-Received: from localhost ([::1]:43444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA77475330
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 07:52:02 +0100 (CET)
+Received: from localhost ([::1]:51036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxNmj-0004l0-Es
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 01:29:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37958)
+	id 1mxO8u-0002oc-JZ
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 01:52:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mxNjP-0003zy-M7; Wed, 15 Dec 2021 01:25:39 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5736
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mxO5r-0001P1-R8
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 01:48:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mxNjN-00054n-69; Wed, 15 Dec 2021 01:25:39 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BF5qHXu018276; 
- Wed, 15 Dec 2021 06:25:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=wWP6ryuwhvDwZetQfuN7bWQygk6n1VO/zcmuOVyS7SY=;
- b=bPCufy2NrOq35n0n8k6Q7cVGtWjgU5xLmy5F0AeDp/UPnArPic88vG62ceormjSHR8zS
- Ur4qI53kAUrW8I7KQRZeOb5mv0f32Lct/++CLYi04ZoxC/yhUYFYAmrxb2J5GChalnI5
- H4zJQ5OqGxs47YtdJE6q4pGMlhOarevIfgfPvTHBzwKw0dVDtZLKP0AuNVDEq8wWpTjY
- XVLFZH2p4gS6h5ZD28Upc5EasEret3XvqaE0fl0pNyAY7OM7nF4nH3BcU1kJQck/IApA
- e9BSjwMwThgtkwZLXrrHDJvpWDmP3mFVfSIYgQwMHQ6Tr2GiN5LQXIlgBO0wHLLYyjbD LA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cx9r9rcxw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Dec 2021 06:25:34 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BF67qWe000798;
- Wed, 15 Dec 2021 06:25:33 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cx9r9rcwt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Dec 2021 06:25:33 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BF6LcZ8031506;
- Wed, 15 Dec 2021 06:25:31 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03fra.de.ibm.com with ESMTP id 3cy7k91h65-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Dec 2021 06:25:31 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BF6PSVE43188520
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 06:25:28 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 48ADEA4057;
- Wed, 15 Dec 2021 06:25:28 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 840D3A4040;
- Wed, 15 Dec 2021 06:25:27 +0000 (GMT)
-Received: from [9.171.24.181] (unknown [9.171.24.181])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 15 Dec 2021 06:25:27 +0000 (GMT)
-Message-ID: <1ace94df-f9ab-9561-3704-a6a9e6819b4c@linux.ibm.com>
-Date: Wed, 15 Dec 2021 07:26:30 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mxO5o-0003DB-VV
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 01:48:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639550927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7hklJp3KcE1N5ripvG/57QdBheDWiyh/WzV7wLf5qQ4=;
+ b=ZxFmyZvqUjOuJ2MsTXacwtYWbEXDIBtP8hqhjF9E09O/CMyPbouNc2m7SbotKGSIV1zqjv
+ mWYtSxFEBK+ruYSSOlKTA4Da1k4K+c6IIkO8kG/0ElZbgNXrwbrd6t4JjDCD248UiU5pJS
+ rNubmmRa8hEBnK5Uye22B7WtHgXLXSU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-126-80y_BcbjMH-KqSQiFdRevA-1; Wed, 15 Dec 2021 01:48:44 -0500
+X-MC-Unique: 80y_BcbjMH-KqSQiFdRevA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9153A801962;
+ Wed, 15 Dec 2021 06:48:43 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-2.ams2.redhat.com [10.36.112.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C8C8109C8EB;
+ Wed, 15 Dec 2021 06:48:08 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 94316113865F; Wed, 15 Dec 2021 07:48:06 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: modify NetdevUserOptions through QMP in QEMU 6 - how?
+References: <CABMV8QOQzLRjm1bMTPz66FXOWaO7kYiZOG1G3ZmLHnznxVv1Yg@mail.gmail.com>
+ <007f7313-eeb2-ee6a-ae2e-9341324388c0@redhat.com>
+ <20211214094355-mutt-send-email-mst@kernel.org>
+ <CACGkMEvNyWxo-p3edf7Gdmv0tU8XLxzZfH4hOgzZZvtvNDH+KQ@mail.gmail.com>
+Date: Wed, 15 Dec 2021 07:48:06 +0100
+In-Reply-To: <CACGkMEvNyWxo-p3edf7Gdmv0tU8XLxzZfH4hOgzZZvtvNDH+KQ@mail.gmail.com>
+ (Jason Wang's message of "Wed, 15 Dec 2021 11:31:36 +0800")
+Message-ID: <87fsqunz2x.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 08/12] s390x/pci: don't fence interpreted devices without
- MSI-X
-Content-Language: en-US
-To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
-References: <20211207210425.150923-1-mjrosato@linux.ibm.com>
- <20211207210425.150923-9-mjrosato@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <20211207210425.150923-9-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: -eousFFjCXar7ctriw1iOO6vjvXrdVHs
-X-Proofpoint-GUID: IwRzPc1L-KtjKdAIdeqtNEUTDAIsItov
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-15_06,2021-12-14_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- lowpriorityscore=0 bulkscore=0 phishscore=0 priorityscore=1501
- impostorscore=0 malwarescore=0 clxscore=1015 spamscore=0 mlxlogscore=999
- adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112150035
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.64,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,45 +82,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
- cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
- borntraeger@linux.ibm.com
+Cc: Thomas Huth <thuth@redhat.com>, Alexander Sosedkin <asosedkin@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ qemu-discuss@nongnu.org, Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Jason Wang <jasowang@redhat.com> writes:
 
+> On Tue, Dec 14, 2021 at 10:53 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>>
+>> On Mon, Dec 13, 2021 at 09:02:15AM +0100, Thomas Huth wrote:
+>> >  Hi!
+>> >
+>> > On 10/12/2021 18.02, Alexander Sosedkin wrote:
+>> > > With QEMU 5 I could totally issue a QMP netdev_add
+>> > > with the same ID to adjust the NetdevUserOptions I want,
+>> > > such as restrict or hostfwd. No deleting needed,
+>> > > just a netdev_add with what I want changed as a param.
+>> >
+>> > I'm a little bit surprised that this worked, since AFAIK there is no code in
+>> > QEMU to *change* the parameters of a running netdev... likely the code added
+>> > a new netdev with the same ID, replacing the old one?
+>> >
+>> > > With QEMU 6 it started failing, claiming the ID is already used.
+>> > > And if I do netdev_del + netdev_add, I just lose connectivity.
+>> > > What's even stranger, I still see old netdev attached in info network:
+>> > >
+>> > > > netdev_del {'id': 'net0'}
+>> > > {}
+>> > > > human-monitor-command {'command-line': 'info network'}
+>> > > virtio-net-pci.0:
+>> > > index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:56
+>> > >   \ net0: index=0,type=user,net=10.0.2.0,restrict=off
+>> >
+>> > I think that's "normal" - there used to be problems in the past that the
+>> > devices (virtio-net-pci in this case) did not like the netdevs to be removed
+>> > on the fly. So the netdevs are kept around until you remove the device, too
+>> > (i.e. issue a device_del for the virtio-net-pci device).
+>> >
+>> > > > netdev_add {'type': 'user', 'id': 'net0', 'restrict': False, 'hostfwd': [{'str': 'tcp:127.0.0.1:58239-:22'}]}
+>> > > {}
+>> > > > human-monitor-command {'command-line': 'info network'}
+>> > > unseal: virtio-net-pci.0:
+>> > > index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:56
+>> > >   \ net0: index=0,type=user,net=10.0.2.0,restrict=off
+>> > > net0: index=0,type=user,net=10.0.2.0,restrict=off
+>> > >
+>> > > What's the correct QMP command sequence to modify NetdevUserOptions?
+>> >
+>> > AFAIK there is no way to modify running netdevs - you'd have to delete the
+>> > netdev and the device, and then add both again. But I might have missed
+>> > something here, so I CC:-ed some people who might be more familiar with the
+>> > details here.
+>> >
+>> >  Thomas
+>> >
+>> >
+>> > > Please CC me on replies.
+>>
+>>
+>> Wow this really goes to show how wide our feature matrix is.
+>>
+>> Yes it's probably an unintended side effect but yes it
+>> did work it seems, so we really should not just break it
+>> without warning.
 
-On 12/7/21 22:04, Matthew Rosato wrote:
-> Lack of MSI-X support is not an issue for interpreted passthrough
-> devices, so let's let these in.  This will allow, for example, ISM
-> devices to be passed through -- but only when interpretation is
-> available and being used.
-> 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> ---
->   hw/s390x/s390-pci-bus.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-> index 451bd32d92..503326210a 100644
-> --- a/hw/s390x/s390-pci-bus.c
-> +++ b/hw/s390x/s390-pci-bus.c
-> @@ -1096,7 +1096,7 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
->               pbdev->interp = false;
->           }
->   
-> -        if (s390_pci_msix_init(pbdev)) {
-> +        if (s390_pci_msix_init(pbdev) && !pbdev->interp) {
->               error_setg(errp, "MSI-X support is mandatory "
->                          "in the S390 architecture");
->               return;
-> 
+Depends.  See below.
 
-Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+>> Probably this one:
+>>
+>> commit 831734cce6494032e9233caff4d8442b3a1e7fef
+>> Author: Markus Armbruster <armbru@redhat.com>
+>> Date:   Wed Nov 25 11:02:20 2020 +0100
+>>
+>>     net: Fix handling of id in netdev_add and netdev_del
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+       CLI -netdev accumulates in option group "netdev".
+
+       Before commit 08712fcb85 "net: Track netdevs in NetClientState rather
+       than QemuOpt", netdev_add added to the option group, and netdev_del
+       removed from it, both HMP and QMP.  Thus, every netdev had a
+       corresponding QemuOpts in this option group.
+
+       Commit 08712fcb85 dropped this for QMP netdev_add and both netdev_del.
+       Now a netdev has a corresponding QemuOpts only when it was created
+       with CLI or HMP.  Two issues:
+
+       * QMP and HMP netdev_del can leave QemuOpts behind, breaking HMP
+         netdev_add.  Reproducer:
+
+           $ qemu-system-x86_64 -S -display none -nodefaults -monitor stdio
+           QEMU 5.1.92 monitor - type 'help' for more information
+           (qemu) netdev_add user,id=net0
+           (qemu) info network
+           net0: index=0,type=user,net=10.0.2.0,restrict=off
+           (qemu) netdev_del net0
+           (qemu) info network
+           (qemu) netdev_add user,id=net0
+           upstream-qemu: Duplicate ID 'net0' for netdev
+           Try "help netdev_add" for more information
+
+         Fix by restoring the QemuOpts deletion in qmp_netdev_del(), but with
+         a guard, because the QemuOpts need not exist.
+
+       * QMP netdev_add loses its "no duplicate ID" check.  Reproducer:
+
+           $ qemu-system-x86_64 -S -display none -qmp stdio
+           {"QMP": {"version": {"qemu": {"micro": 92, "minor": 1, "major": 5}, "package": "v5.2.0-rc2-1-g02c1f0142c"}, "capabilities": ["oob"]}}
+           {"execute": "qmp_capabilities"}
+           {"return": {}}
+           {"execute": "netdev_add", "arguments": {"type": "user", "id":"net0"}}
+           {"return": {}}
+           {"execute": "netdev_add", "arguments": {"type": "user", "id":"net0"}}
+           {"return": {}}
+
+         Fix by adding a duplicate ID check to net_client_init1() to replace
+         the lost one.  The check is redundant for callers where QemuOpts
+         still checks, i.e. for CLI and HMP.
+
+       Reported-by: Andrew Melnichenko <andrew@daynix.com>
+       Fixes: 08712fcb851034228b61f75bd922863a984a4f60
+       Cc: qemu-stable@nongnu.org
+       Signed-off-by: Markus Armbruster <armbru@redhat.com>
+       Reviewed-by: Eric Blake <eblake@redhat.com>
+       Signed-off-by: Jason Wang <jasowang@redhat.com>
+
+Both issues were regressions.
+
+Like Thomas, I'm surprised that adding a netdev with a duplicate ID
+changes parameters.  Unintended side effect of a regression.
+
+I suspect it only ever "worked" between commit 08712fcb85 "net: Track
+netdevs in NetClientState rather than QemuOpt" (v5.0.0) and commit
+831734cce6 "net: Fix handling of id in netdev_add and netdev_del"
+(v6.0.0).
+
+Got a reproducer for me so I can double-check?
+
+>> Jason, what is your take here?
+>
+> I might be wrong, but I agree with Thomas. Adding a netdev with the
+> same ID looks wrong, if it works, it looks like a bug. And I don't
+> think we support changing netdev properties.
+
+Ability to adjust backend parameters feels like a valid feature request.
+But we shouldn't do it by exploiting a bug's side effect.  The bug may
+have other side effects, possibly bad ones.  "ID is unique" is an
+invariant.  Code may rely on it.  We don't know what happens when we
+violate it.
+
+[...]
+
 
