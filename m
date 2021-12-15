@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C700475798
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 12:17:01 +0100 (CET)
-Received: from localhost ([::1]:53982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23AF847579C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 12:17:40 +0100 (CET)
+Received: from localhost ([::1]:55820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxSHM-00011W-FU
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 06:17:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41190)
+	id 1mxSHz-0002Lk-8A
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 06:17:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mxRiX-0006ga-Vd
+ id 1mxRiX-0006jY-WB
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:41:02 -0500
-Received: from [2a00:1450:4864:20::430] (port=42986
- helo=mail-wr1-x430.google.com)
+Received: from [2a00:1450:4864:20::434] (port=38840
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mxRiR-0008Pa-Hu
+ id 1mxRiR-0008Pj-Hz
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:41:00 -0500
-Received: by mail-wr1-x430.google.com with SMTP id c4so37352702wrd.9
+Received: by mail-wr1-x434.google.com with SMTP id e5so3954960wrc.5
  for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 02:40:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=5tWc0SpCxjJ+nrESHqQyrz7We4RccBy36x+rXAWJeBE=;
- b=SqVMyirxDOnN56MasCFEu4cgL7i6jC2KpwRBlnrccfaUgbDxH8pcmqiyOWK6RaMrot
- EZf+fVG+B1CPVMcXQt7dEc9jHSKk2t1HAV85X/WCBT2s864LxCBgv1PpwaVbtY6u5GAt
- Q46iiKPo28auMOXQUK+M4oa5y8/0Tie8Tp257/fm86OeXP+9ShU0W+01Afhi6TVcKZML
- izv6XT0i2xMjTE4VNGLixZy81pzFM6AQfC3kp97NtTEpRYiDnmpgXkA4WmXCfjtoPPTe
- 3zaRe1DZa1YnJGlwRtpAo3H+XmuERXmTxzchneO7aeho7XvKZN/J8SQFW7gHxhLWv5x9
- kR4A==
+ bh=VvbtSNqnCuWy9Lo0vAw5pT9GzYQL9wEGhx1QER6IeB0=;
+ b=qTRm6+NJOa0MM8Fb7Mp8Yt91aDCD8SYT5sFeY+FsCY082qqj6KbIhaumn11gHnUGSl
+ ATug3b/SFeaiM8N5plAO6LYGkMDL1YNme3HIpdxnEVYVMyJj7JFzAZsdSH/RbY8ExSjo
+ maXIHEX6oMkwRxQJpSQk6nzsWowEgDahNhv4cn74FMukswBACImEmF9I2lj97Nw93oaH
+ mNZHB/5etT/OdUgJiDJBa/Oo8fkphYLxBgsLfJp8O9qVY1vgHRFchxRCH+Q+5gSU4Co9
+ 6wRjpntAW7rKzZb75SILtVGZYc6kzdRy5W1i4SC9TT5kcrXrMzVMl47gViNT+nz3UwjZ
+ mFRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5tWc0SpCxjJ+nrESHqQyrz7We4RccBy36x+rXAWJeBE=;
- b=P/USKSnl3S1x4DWIA0etFqCBFL74Hb4Q+d8PZSn5Eg0BTNhROX+fvaMGp7XjJ+TDf6
- hKmHESEHMB9nfJ2eB6LzqdZVnaFTDd2qnCN84qUKFe9CIFiSmYLE0xYwMBFu7gTC6YVw
- fU+RgpQKYuc38zSNYazdGqY5jWFaPVfkE3Fiakch5vNz79kKKQCVWDlQ9rAnL2OxLDb5
- GbBNOSGYL6GHRKDMdFzPrM/KjYbwKg0rRu7BK6W+ifZit6M9yA3Q+b+AC/cf9gtNK+Vb
- VMvvrwF+FGMuuWe4h2nOZhP5cQMbWIMgthCNHi3oQ5faS0yduSF+ka4O6By1DGDsx4mv
- 0GIA==
-X-Gm-Message-State: AOAM530sMdkQyJWL9Dj/Sy8+MkTeT4KNtjVi52NTzYcpGB0CES5uahTv
- OUk2znNdhxYVo7sn7Kerp21t9awXbG25sg==
-X-Google-Smtp-Source: ABdhPJybORKTu9HAH6Y8Mm8aWB1OKJcrkdGvOQf4JVGe0r6Mo8gaqdNtfk2bboMNtFSf+P01sGN2qw==
-X-Received: by 2002:adf:fa83:: with SMTP id h3mr3274563wrr.434.1639564853409; 
+ bh=VvbtSNqnCuWy9Lo0vAw5pT9GzYQL9wEGhx1QER6IeB0=;
+ b=nejPVL/Db0qjxrk4SGGvjo7t6N53tf8dmHaY8USgXFJc14p472cCmpGOaRhNobIHAg
+ e1d4lGpgT9NQW/octafDycF6geovBYNXjqolY0drrTRcGjbQE7c6hGPXW05OJR1UlpdH
+ Ff+Np2m5MELYz/KHt01YRYsZHomJF8nCMTvpe4wDyHwJ/7mo5/DaEe7vUf3dU27CNmB4
+ NR4br2yC1BGTG3G9QWAf8ib1+fipeTWiCVl5lLsNEteIW06hRBUeK2x/jqPb5baJsi+E
+ QArPT3fVHXut6NklQnP7HvxbMlKiki+Sqylo9F9WH74gKx7WIyztLjSObzr2Srw13kYp
+ T9uA==
+X-Gm-Message-State: AOAM533cq5CeBZsDTXyxmeunsDcJTeSPxMt3DC5DquVeaGOG7RR/xh9i
+ jkTqwlhrPimBB/RsbD6VG7Z36d4yS3gsjA==
+X-Google-Smtp-Source: ABdhPJxabwHmBT6lkI3rKhrmwtUvbOP1JJuXqPhMEaUlcMh9UbQznKepa2bijNHrDzNZYz/5ZA37tQ==
+X-Received: by 2002:a05:6000:1201:: with SMTP id
+ e1mr3776644wrx.298.1639564853884; 
  Wed, 15 Dec 2021 02:40:53 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id e18sm1600815wrs.48.2021.12.15.02.40.53
@@ -55,19 +56,18 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  Wed, 15 Dec 2021 02:40:53 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/33] docs: aspeed: Give an example of booting a kernel
-Date: Wed, 15 Dec 2021 10:40:20 +0000
-Message-Id: <20211215104049.2030475-5-peter.maydell@linaro.org>
+Subject: [PULL 05/33] docs: aspeed: ADC is now modelled
+Date: Wed, 15 Dec 2021 10:40:21 +0000
+Message-Id: <20211215104049.2030475-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215104049.2030475-1-peter.maydell@linaro.org>
 References: <20211215104049.2030475-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,50 +92,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joel Stanley <joel@jms.id.au>
 
-A common use case for the ASPEED machine is to boot a Linux kernel.
-Provide a full example command line.
+Move it to the supported list.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20211117065752.330632-4-joel@jms.id.au
+Message-id: 20211117065752.330632-5-joel@jms.id.au
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/arm/aspeed.rst | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ docs/system/arm/aspeed.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
-index b87697fcf0b..6aafd611e9a 100644
+index 6aafd611e9a..d8b102fa0ad 100644
 --- a/docs/system/arm/aspeed.rst
 +++ b/docs/system/arm/aspeed.rst
-@@ -78,9 +78,9 @@ Missing devices
- Boot options
- ------------
+@@ -56,13 +56,13 @@ Supported devices
+  * Front LEDs (PCA9552 on I2C bus)
+  * LPC Peripheral Controller (a subset of subdevices are supported)
+  * Hash/Crypto Engine (HACE) - Hash support only. TODO: HMAC and RSA
++ * ADC
  
--The Aspeed machines can be started using the ``-kernel`` option to
--load a Linux kernel or from a firmware. Images can be downloaded from
--the OpenBMC jenkins :
-+The Aspeed machines can be started using the ``-kernel`` and ``-dtb`` options
-+to load a Linux kernel or from a firmware. Images can be downloaded from the
-+OpenBMC jenkins :
  
-    https://jenkins.openbmc.org/job/ci-openbmc/lastSuccessfulBuild/
+ Missing devices
+ ---------------
  
-@@ -88,6 +88,15 @@ or directly from the OpenBMC GitHub release repository :
- 
-    https://github.com/openbmc/openbmc/releases
- 
-+To boot a kernel directly from a Linux build tree:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -M ast2600-evb -nographic \
-+        -kernel arch/arm/boot/zImage \
-+        -dtb arch/arm/boot/dts/aspeed-ast2600-evb.dtb \
-+        -initrd rootfs.cpio
-+
- The image should be attached as an MTD drive. Run :
- 
- .. code-block:: bash
+  * Coprocessor support
+- * ADC (out of tree implementation)
+  * PWM and Fan Controller
+  * Slave GPIO Controller
+  * Super I/O Controller
 -- 
 2.25.1
 
