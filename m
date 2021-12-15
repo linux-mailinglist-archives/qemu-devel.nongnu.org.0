@@ -2,88 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766434760CE
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 19:34:19 +0100 (CET)
-Received: from localhost ([::1]:57656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79AEB47614C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 20:01:56 +0100 (CET)
+Received: from localhost ([::1]:36988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxZ6Y-0000Zb-I6
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 13:34:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42932)
+	id 1mxZXH-0002yO-0w
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 14:01:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mxXua-0004u2-IB
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 12:17:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39120)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mxXuX-0001wi-Uh
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 12:17:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639588668;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=mqwrPSbY/JGb754RPS3dLXynKiuM1Q8YUyM0R4IY3/s=;
- b=YYyJ+5QLZDnpb/ac7oI1P8TuWKrpae4NLjIu1CdQJT0YuTR3dp00HvXSZzHCQFw9WYKokj
- U4OayA/N8nt88wkhyQJ5VdenK/Qr/XJXQF0X6RH/XnryT5QkE2guImZarYaSI22O+7Du3X
- HqiVN7mnzmbeBDheVrX4UbtA9bAPjAk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-17-Kc9lsN3OnrrFWZl7J5w-1; Wed, 15 Dec 2021 12:17:47 -0500
-X-MC-Unique: 17-Kc9lsN3OnrrFWZl7J5w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 69-20020a1c0148000000b0033214e5b021so12871417wmb.3
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 09:17:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxXy5-0003Aj-LC
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 12:21:30 -0500
+Received: from [2607:f8b0:4864:20::52a] (port=35328
+ helo=mail-pg1-x52a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxXy4-0005Gg-4H
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 12:21:29 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id j11so20686260pgs.2
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 09:21:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1eAWYDHvdjLYyvPEumNqAI6x8J5WcjRovtfZEUnVlbs=;
+ b=Y1txZcfaq1hmG10Lp85vLmzj7z53e5eHiWJD7lSduGQqtrAY6+8elrlAXn8E4YZJdP
+ MMKlmvCooNbFP1xka25UvC4ejcj/ezTEtY+lmQ/rHrTF0VKiTvEDf8OhXfdMz7OAL5QO
+ VyQqGEOe2xI5W4l1j+jqCnKUs0r1CW3RUulpfkTq88HUJzbqqZpyPcK2iDVO8NUUah4d
+ jSp+MRh2TiiXYDEhKPUTMoT52zOFkpdJsGLOcR0hJRt0RG1htEhoc7XLqt+gNtxa5sO4
+ 43MBH66JoQMggUP+2Kx6QQZtEUAxjdRDEzbQ+fEfaNFFvujLAHw/ZfFTKdAJKPxgrSj1
+ etOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=mqwrPSbY/JGb754RPS3dLXynKiuM1Q8YUyM0R4IY3/s=;
- b=00WRtimj9CP1dbabmXbKIC78D+nxzkr9lBGt7VTlFUfAqgMRvECkw4mIVEmX3AV8F+
- +lsBSMMH5ItPcDFvmNyuEA6w19V0UzY7HcEWyKuVTsbOWvKaURZLMJ+JMPA++oW2RZrL
- aDC2yGvPx4HYrQHsgMv0DjaCVQQKwS8u4FjQ/OTpWPK59xOjJKK3WSIlncqC6wviKTaB
- vE9MmrKMAZG3kXyEJx3crV+L/wGqVOITyZmcanDXTirhprKT+DCeODxGefY+YLp0Vd+e
- +L54foMd6Zi/0ZFcD9MoBRVp/ISi6dLXMd48SYXFRPYGKIQJ1FTUTz8uWhKVd5uxT9VX
- 1eCg==
-X-Gm-Message-State: AOAM531c3w8Yx2jv57WLnA8kTKH3YThS/sF0m+pBEP8x2L8CO6Mz10jD
- nE6nZHUYHZ8z5GvSKQ0z2cm4KFpSdOzcGkuS8qF4bys6c3ZcTUk3MSRU23Fqh+DMg8eBIX41dQf
- ozZou+/nsVbxkseE=
-X-Received: by 2002:adf:b35e:: with SMTP id k30mr5252610wrd.707.1639588666290; 
- Wed, 15 Dec 2021 09:17:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwKHtlMM05FfJuT24g0V4eEjEVtkhcnPT9otRnfLgGNY6qO+NzsxwpBpjnJBPlGgBRCIjurcg==
-X-Received: by 2002:adf:b35e:: with SMTP id k30mr5252578wrd.707.1639588666140; 
- Wed, 15 Dec 2021 09:17:46 -0800 (PST)
-Received: from localhost (static-174-144-85-188.ipcom.comunitel.net.
- [188.85.144.174])
- by smtp.gmail.com with ESMTPSA id o4sm1334197wmc.43.2021.12.15.09.17.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 09:17:45 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH for-7.0] hw: Add compat machines for 7.0
-In-Reply-To: <20211208170241.110551-1-cohuck@redhat.com> (Cornelia Huck's
- message of "Wed, 8 Dec 2021 18:02:41 +0100")
-References: <20211208170241.110551-1-cohuck@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Wed, 15 Dec 2021 18:17:45 +0100
-Message-ID: <87lf0lyeh2.fsf@secure.mitica>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1eAWYDHvdjLYyvPEumNqAI6x8J5WcjRovtfZEUnVlbs=;
+ b=O8fp2GemqDwxBqNJ8nG9gANV5hHo3nD2TW44Hocg5/NE5/1hwGMWCYGcdoq43a6Nti
+ xr+GfvpOWnyvtjdvE/8KzpsD4b+hkKsl6NY0gX5XV8QGk+strbPHIpUyeaS/Qwfk8IaK
+ M4Fy940jqUWm2q/lR0Ls0KeFqclUmyNGYZuVYeKLdNgq+VfroTEKKK2m3zFiBadL4rWV
+ htTGqLG+QCLSUQ/ORA4ylsgmLsbXtI3JIBwDBBsihAoHJdvzhiXBIu8nk7KhHS0RDHRE
+ w7Qtfim9Qr+DHWWrsE/H2XFhj8KFKxDHV6PrMvMh7VbtTshZkVhZHHuMvvapxGE/yDy3
+ sLfA==
+X-Gm-Message-State: AOAM532o9FQuqlawNthnwhfNulTTO91qcbecusAe1DNaDmJf+MfweVR+
+ M//Wk3qHN9kNfv2v+huWxGzEvQ==
+X-Google-Smtp-Source: ABdhPJwuxJnWe00zFWBZFwUlT3H/j4YTOtJ4tlwPUPRKZhIEjE24Vfi40iQ7Pjb4IlwxfzyfihjPSw==
+X-Received: by 2002:a63:710d:: with SMTP id m13mr8536307pgc.545.1639588884899; 
+ Wed, 15 Dec 2021 09:21:24 -0800 (PST)
+Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-148bb55d365sm449785ad.219.2021.12.15.09.21.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Dec 2021 09:21:24 -0800 (PST)
+Subject: Re: [PATCH] target/rx: Correctly set Error Summary bit in set_fpsw()
+ helper
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20211215124312.254042-1-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <51e648cb-4cec-8792-76d9-452244388ad7@linaro.org>
+Date: Wed, 15 Dec 2021 09:21:23 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20211215124312.254042-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.64,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,32 +92,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cornelia Huck <cohuck@redhat.com> wrote:
-> Add 7.0 machine types for arm/i440fx/q35/s390x/spapr.
->
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+On 12/15/21 4:43 AM, Philippe Mathieu-Daudé wrote:
+> FIELD_DP32() does not update its first argument, so the Floating-Point
+> Error Summary Flag (FS, summary of FV/FO/FZ/FU bits) is never updated
+> to the Floating-Point Status Word (FPSW). Fix by assigning FIELD_DP32()
+> returned value to env->fpsw.
+> 
+> Fixes: 075d047e2bd ("target/rx: TCG helpers")
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-I did a similar one with 6.3 by error, I think we should get a script to
-do this everytime that we increase the version number O:-)
 
-Later, Juan.
-
+r~
 
