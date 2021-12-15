@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4EA475791
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 12:13:57 +0100 (CET)
-Received: from localhost ([::1]:47052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E6D475754
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 12:06:40 +0100 (CET)
+Received: from localhost ([::1]:57580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxSEO-0004sJ-BE
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 06:13:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40380)
+	id 1mxS7L-00013S-RQ
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 06:06:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxRfR-0003Ug-3f
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:37:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57249)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxRfP-00084F-72
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:37:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639564666;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MGEDwz/WHEDzsYBcd2/xdzZK/2l7tQqnGdIg0Ut+Jk4=;
- b=FlZ/wN4LLdh4WnxhsNutr+TDG3agLyE/DNjHy5fsGoHZbWvWhTXaFAzVHp+MsPusuurkZP
- vd2ATjUQrfOj4NVCAaSC2p6ykSEc2QRYkQry+QIWjflQHHWOEkCmQJWMA9oMlh7H1jXbcn
- io8+kPwINZb+c+AfsDV5kT71Kapm63o=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-477-3rpHwtuKP1CWFdgwgnGVTA-1; Wed, 15 Dec 2021 05:37:45 -0500
-X-MC-Unique: 3rpHwtuKP1CWFdgwgnGVTA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- v17-20020adfedd1000000b0017c5e737b02so5750685wro.18
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 02:37:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mxRiX-0006gN-SG
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:41:01 -0500
+Received: from [2a00:1450:4864:20::32e] (port=46012
+ helo=mail-wm1-x32e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mxRiP-0008PG-GI
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:40:58 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ g191-20020a1c9dc8000000b0032fbf912885so15649937wme.4
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 02:40:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IaPavhzHdCQP8pqj8eEeAUd8M3RVdPe6IBBJiLk2p0c=;
+ b=glZLgB1s2VNmzTPvfS32TOMC31TbMyfjKBqvexjf0DMiDj2LH51whySNwj1RGVrNsv
+ rFjtSF6bCkBp7jXDKY+PxqXQ9baW28ttr32fItyADHyigeTh+MOv8EHJGgtenTFJfPUN
+ KNfHNe/OC/D3HwvpctxtTlHXL1SzxmpUMZgip6u0UkyZhtmdjVTZ066z4o/ebD824+P9
+ 5rZjLfgEfrDTGqB5dBJaL6fMdQMrOpNSqvIEb9BhvEQ+vQ192XlLnFtzqNe2dwY/ea/Z
+ izH0RJNtDfw5b1NP5YX2zv2OJA7PZT+mV6euDhmKKW/PAQbd1IHnDqpX5e7bQ3xiNAqW
+ cbiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=MGEDwz/WHEDzsYBcd2/xdzZK/2l7tQqnGdIg0Ut+Jk4=;
- b=CvVV8QAsVGnFgPI1eOxFO98/267iRyzBal5ZqJ4fvbeBVD3z1RHlX7Q78TN4VY5EZi
- 3a4uyc5KFz4ezB+rpAoLIT4BO1SOPTRhDh/mzRyC8t5uQbgLHjPg8j+Fz4EfURiwwclB
- J0dExE+wyCoERjLrY0VG7PEbWRhg0o25sbZu83uDa7odYquP7eN/XKOEz01aW36Tpuu5
- JZfO54OnePdUamZjlpxl+0ge6M1MgbAAilHqMpdrWuZFXaVlu8JhYPgakqnprpFGbsWz
- LIftkG9iJr2TaI7zAQ/hJXgzDjtzWX9ySm/LBbjjO2LooaPHezAwEm9SiC0Inj7mSGQA
- eOvg==
-X-Gm-Message-State: AOAM533xbQutz6U7XqYln1Zd+uYlP+p4rormngBlbz88J5Sedh2xWUkk
- CjDAoCikpDSx4RYnFmpLPO/S3ZikEzUaDdo3DOjmWbNjEZZPoAfZ0jXMIdoWF/UQYDsBcXd5qSo
- F29VHz5nFy6nq+k0/fCz11Kdue/6JKvLeW4ppbn7APDkAqmNDQP6eF6olDG1izHig
-X-Received: by 2002:a7b:c1cb:: with SMTP id a11mr3968913wmj.30.1639564664316; 
- Wed, 15 Dec 2021 02:37:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyRFtdElpDhakGOnEdlzHrIkG1yrMnbwCkJ2xfhMM7Fl91p9SaiA6TMrBZVaD8koteegq+wWg==
-X-Received: by 2002:a7b:c1cb:: with SMTP id a11mr3968892wmj.30.1639564664043; 
- Wed, 15 Dec 2021 02:37:44 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id e8sm1555284wrr.26.2021.12.15.02.37.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Dec 2021 02:37:43 -0800 (PST)
-Message-ID: <9f49038f-6d7f-cd07-b9b9-a3a329337c1b@redhat.com>
-Date: Wed, 15 Dec 2021 11:37:42 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH-for-7.0] hw/pci: Don't open-code pci_intx()
+ bh=IaPavhzHdCQP8pqj8eEeAUd8M3RVdPe6IBBJiLk2p0c=;
+ b=CccpNw1X14GAkfLAqtznQ8MEfYcNrFK2LAvLBvObsGZiOiV7fhKBdXYIS54u4Af5et
+ gH8y3HuOLAvhEN5umP3WxQRS5Opv7RIxIfOuEIubJF9MoVE0HD81uU2oXOxu2+QXEG17
+ WME9ROeqK3yv+RpK69qWwXUbdS+at4e87aJFmOes/6yVv5SyesA2F6wPTnrNCIVFbMI1
+ 2YHF4+1L2ygYw8pIqqUHT46RtxjIfF5xowdKvvX3OzYGDJO+viafclh2N/gvw+P0+xAn
+ ugtziCM9HzpZ4wZQNYXB8K0Qe704+TTg376QlmNll8hyh+ZVaqADuVdWIEseXfaXXpS9
+ nb5A==
+X-Gm-Message-State: AOAM531C5rbKg7qFWZ7J5+CBx0/tt7m6W09G4bcT4XviafFJfjyVXMqu
+ Qp9kxKByuINqUjVecKNfJacb7/eFMi+vLg==
+X-Google-Smtp-Source: ABdhPJwvCmdCM8FOz/VlgxjhH62vXkQe4lg8XT8neZHL5OCQ1FJBGofiVUlaDoZC0KmmGIUBeyk7WA==
+X-Received: by 2002:a1c:cc0f:: with SMTP id h15mr1230020wmb.38.1639564851308; 
+ Wed, 15 Dec 2021 02:40:51 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id e18sm1600815wrs.48.2021.12.15.02.40.50
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Dec 2021 02:40:51 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-References: <20211116172655.2752742-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211116172655.2752742-1-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+Subject: [PULL 00/33] target-arm queue
+Date: Wed, 15 Dec 2021 10:40:16 +0000
+Message-Id: <20211215104049.2030475-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.64, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,79 +85,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-trivial@nongnu.org,
- Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping for review?
+Hi; here's the first target-arm pullreq for the 7.0 cycle.
 
-On 11/16/21 18:26, Philippe Mathieu-Daudé wrote:
-> Use the pci_intx() helper instead of open-coding it.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> Based-on: <20211116170133.724751-3-fbarrat@linux.ibm.com>
-> ---
->  hw/net/vmxnet3.c  | 2 +-
->  hw/remote/iohub.c | 6 ++----
->  hw/remote/proxy.c | 3 +--
->  3 files changed, 4 insertions(+), 7 deletions(-)
-> 
-> diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-> index 41f796a247d..c7fc5f44d8f 100644
-> --- a/hw/net/vmxnet3.c
-> +++ b/hw/net/vmxnet3.c
-> @@ -1350,7 +1350,7 @@ static void vmxnet3_update_features(VMXNET3State *s)
->  static bool vmxnet3_verify_intx(VMXNET3State *s, int intx)
->  {
->      return s->msix_used || msi_enabled(PCI_DEVICE(s))
-> -        || intx == pci_get_byte(s->parent_obj.config + PCI_INTERRUPT_PIN) - 1;
-> +                        || intx == pci_intx(PCI_DEVICE(s));
->  }
->  
->  static void vmxnet3_validate_interrupt_idx(bool is_msix, int idx)
-> diff --git a/hw/remote/iohub.c b/hw/remote/iohub.c
-> index 547d597f0fe..0e0bb651d1a 100644
-> --- a/hw/remote/iohub.c
-> +++ b/hw/remote/iohub.c
-> @@ -93,11 +93,9 @@ void process_set_irqfd_msg(PCIDevice *pci_dev, MPQemuMsg *msg)
->  {
->      RemoteMachineState *machine = REMOTE_MACHINE(current_machine);
->      RemoteIOHubState *iohub = &machine->iohub;
-> -    int pirq, intx;
-> +    int pirq;
->  
-> -    intx = pci_get_byte(pci_dev->config + PCI_INTERRUPT_PIN) - 1;
-> -
-> -    pirq = remote_iohub_map_irq(pci_dev, intx);
-> +    pirq = remote_iohub_map_irq(pci_dev, pci_intx(pci_dev));
->  
->      if (event_notifier_get_fd(&iohub->irqfds[pirq]) != -1) {
->          qemu_set_fd_handler(event_notifier_get_fd(&iohub->resamplefds[pirq]),
-> diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
-> index bad164299dd..22f32a5930b 100644
-> --- a/hw/remote/proxy.c
-> +++ b/hw/remote/proxy.c
-> @@ -32,14 +32,13 @@ static void proxy_intx_update(PCIDevice *pci_dev)
->  {
->      PCIProxyDev *dev = PCI_PROXY_DEV(pci_dev);
->      PCIINTxRoute route;
-> -    int pin = pci_get_byte(pci_dev->config + PCI_INTERRUPT_PIN) - 1;
->  
->      if (dev->virq != -1) {
->          kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state, &dev->intr, dev->virq);
->          dev->virq = -1;
->      }
->  
-> -    route = pci_device_route_intx_to_irq(pci_dev, pin);
-> +    route = pci_device_route_intx_to_irq(pci_dev, pci_intx(pci_dev));
->  
->      dev->virq = route.irq;
->  
-> 
+thanks
+-- PMM
 
+The following changes since commit 76b56fdfc9fa43ec6e5986aee33f108c6c6a511e:
+
+  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2021-12-14 12:46:18 -0800)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20211215
+
+for you to fetch changes up to aed176558806674d030a8305d989d4e6a5073359:
+
+  tests/acpi: add expected blob for VIOT test on virt machine (2021-12-15 10:35:26 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * ITS: error reporting cleanup
+ * aspeed: improve documentation
+ * Fix STM32F2XX USART data register readout
+ * allow emulated GICv3 to be disabled in non-TCG builds
+ * fix exception priority for singlestep, misaligned PC, bp, etc
+ * Correct calculation of tlb range invalidate length
+ * npcm7xx_emc: fix missing queue_flush
+ * virt: Add VIOT ACPI table for virtio-iommu
+ * target/i386: Use assert() to sanity-check b1 in SSE decode
+ * Don't include qemu-common unnecessarily
+
+----------------------------------------------------------------
+Alex Bennée (1):
+      hw/intc: clean-up error reporting for failed ITS cmd
+
+Jean-Philippe Brucker (8):
+      hw/arm/virt-acpi-build: Add VIOT table for virtio-iommu
+      hw/arm/virt: Remove device tree restriction for virtio-iommu
+      hw/arm/virt: Reject instantiation of multiple IOMMUs
+      hw/arm/virt: Use object_property_set instead of qdev_prop_set
+      tests/acpi: allow updates of VIOT expected data files
+      tests/acpi: add test case for VIOT
+      tests/acpi: add expected blobs for VIOT test on q35 machine
+      tests/acpi: add expected blob for VIOT test on virt machine
+
+Joel Stanley (4):
+      docs: aspeed: Add new boards
+      docs: aspeed: Update OpenBMC image URL
+      docs: aspeed: Give an example of booting a kernel
+      docs: aspeed: ADC is now modelled
+
+Olivier Hériveaux (1):
+      Fix STM32F2XX USART data register readout
+
+Patrick Venture (1):
+      hw/net: npcm7xx_emc fix missing queue_flush
+
+Peter Maydell (6):
+      target/i386: Use assert() to sanity-check b1 in SSE decode
+      include/hw/i386: Don't include qemu-common.h in .h files
+      target/hexagon/cpu.h: don't include qemu-common.h
+      target/rx/cpu.h: Don't include qemu-common.h
+      hw/arm: Don't include qemu-common.h unnecessarily
+      target/arm: Correct calculation of tlb range invalidate length
+
+Philippe Mathieu-Daudé (2):
+      hw/intc/arm_gicv3: Extract gicv3_set_gicv3state from arm_gicv3_cpuif.c
+      hw/intc/arm_gicv3: Introduce CONFIG_ARM_GIC_TCG Kconfig selector
+
+Richard Henderson (10):
+      target/arm: Hoist pc_next to a local variable in aarch64_tr_translate_insn
+      target/arm: Hoist pc_next to a local variable in arm_tr_translate_insn
+      target/arm: Hoist pc_next to a local variable in thumb_tr_translate_insn
+      target/arm: Split arm_pre_translate_insn
+      target/arm: Advance pc for arch single-step exception
+      target/arm: Split compute_fsr_fsc out of arm_deliver_fault
+      target/arm: Take an exception if PC is misaligned
+      target/arm: Assert thumb pc is aligned
+      target/arm: Suppress bp for exceptions with more priority
+      tests/tcg: Add arm and aarch64 pc alignment tests
+
+ docs/system/arm/aspeed.rst        |  26 ++++++++++++----
+ include/hw/i386/microvm.h         |   1 -
+ include/hw/i386/x86.h             |   1 -
+ target/arm/helper.h               |   1 +
+ target/arm/syndrome.h             |   5 +++
+ target/hexagon/cpu.h              |   1 -
+ target/rx/cpu.h                   |   1 -
+ hw/arm/boot.c                     |   1 -
+ hw/arm/digic_boards.c             |   1 -
+ hw/arm/highbank.c                 |   1 -
+ hw/arm/npcm7xx_boards.c           |   1 -
+ hw/arm/sbsa-ref.c                 |   1 -
+ hw/arm/stm32f405_soc.c            |   1 -
+ hw/arm/vexpress.c                 |   1 -
+ hw/arm/virt-acpi-build.c          |   7 +++++
+ hw/arm/virt.c                     |  21 ++++++-------
+ hw/char/stm32f2xx_usart.c         |   3 +-
+ hw/intc/arm_gicv3.c               |   2 +-
+ hw/intc/arm_gicv3_cpuif.c         |  10 +-----
+ hw/intc/arm_gicv3_cpuif_common.c  |  22 +++++++++++++
+ hw/intc/arm_gicv3_its.c           |  39 +++++++++++++++--------
+ hw/net/npcm7xx_emc.c              |  18 +++++------
+ hw/virtio/virtio-iommu-pci.c      |  12 ++------
+ linux-user/aarch64/cpu_loop.c     |  46 ++++++++++++++++------------
+ linux-user/hexagon/cpu_loop.c     |   1 +
+ target/arm/debug_helper.c         |  23 ++++++++++++++
+ target/arm/gdbstub.c              |   9 ++++--
+ target/arm/helper.c               |   6 ++--
+ target/arm/machine.c              |  10 ++++++
+ target/arm/tlb_helper.c           |  63 ++++++++++++++++++++++++++++----------
+ target/arm/translate-a64.c        |  23 ++++++++++++--
+ target/arm/translate.c            |  58 ++++++++++++++++++++++++++---------
+ target/i386/tcg/translate.c       |  12 ++------
+ tests/qtest/bios-tables-test.c    |  38 +++++++++++++++++++++++
+ tests/tcg/aarch64/pcalign-a64.c   |  37 ++++++++++++++++++++++
+ tests/tcg/arm/pcalign-a32.c       |  46 ++++++++++++++++++++++++++++
+ hw/arm/Kconfig                    |   1 +
+ hw/intc/Kconfig                   |   5 +++
+ hw/intc/meson.build               |  11 ++++---
+ tests/data/acpi/q35/DSDT.viot     | Bin 0 -> 9398 bytes
+ tests/data/acpi/q35/VIOT.viot     | Bin 0 -> 112 bytes
+ tests/data/acpi/virt/VIOT         | Bin 0 -> 88 bytes
+ tests/tcg/aarch64/Makefile.target |   4 +--
+ tests/tcg/arm/Makefile.target     |   4 +++
+ 44 files changed, 429 insertions(+), 145 deletions(-)
+ create mode 100644 hw/intc/arm_gicv3_cpuif_common.c
+ create mode 100644 tests/tcg/aarch64/pcalign-a64.c
+ create mode 100644 tests/tcg/arm/pcalign-a32.c
+ create mode 100644 tests/data/acpi/q35/DSDT.viot
+ create mode 100644 tests/data/acpi/q35/VIOT.viot
+ create mode 100644 tests/data/acpi/virt/VIOT
 
