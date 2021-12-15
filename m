@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085A1475954
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 14:06:22 +0100 (CET)
-Received: from localhost ([::1]:56246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA2D47594C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 14:05:09 +0100 (CET)
+Received: from localhost ([::1]:55452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxTzA-0006xm-16
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 08:06:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51510)
+	id 1mxTy0-0006SM-SX
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 08:05:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTli-0004ds-1r
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTlm-0004f8-Ja
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:52:30 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:36534
+Received: from mail.xen0n.name ([115.28.160.31]:36538
  helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTlR-00041Y-6f
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:52:21 -0500
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTlR-00041a-AD
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:52:27 -0500
 Received: from ld50.lan (unknown [101.88.31.179])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id E6D496017D;
- Wed, 15 Dec 2021 20:52:04 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 44270600B0;
+ Wed, 15 Dec 2021 20:52:05 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1639572725; bh=2il0F4oG2U/NXS3ijNKBJcFVjyz+VzUjGcGAKbXGevc=;
+ t=1639572725; bh=h6vDiJLIYpsVBbpJ4r8TDFxfc/TmLsVV4SUyHus9sFE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qg61sFIBriai1Cn4dRegJogwfuWioJnMaskc7jfH3seeZvbG6At3ZDz/8N1PqlrOh
- wHflPixRu1RjgwEYODOOOlR4B2mZMsoh9DhCMPvAQ1GV4m071nZYZkDZ+Jf6faR5p5
- RiXbhqM8LFxsAdFRSWVfNSnjyP5TrBevNyWIAWls=
+ b=Z6mdxR4ulgms/wYENrZ2D+Ue3Z0c1IzF/uek3V3tRL/ROR/Og/BEM4ZT4aZau/PLw
+ MebDMv2JL5oD3C1JfWgSw2D4HEv/bRIdKbfpKdp0+sZeufhmQFwm58l9Yc2DPu6+It
+ vbYMXbyzEVymvHGvOk+Nbpb3HwfnAgp8sXd+7CJc=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 01/31] elf: Add machine type value for LoongArch
-Date: Wed, 15 Dec 2021 20:51:06 +0800
-Message-Id: <20211215125136.3449717-2-git@xen0n.name>
+Subject: [PATCH v10 02/31] MAINTAINERS: Add tcg/loongarch64 entry with myself
+ as maintainer
+Date: Wed, 15 Dec 2021 20:51:07 +0800
+Message-Id: <20211215125136.3449717-3-git@xen0n.name>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211215125136.3449717-1-git@xen0n.name>
 References: <20211215125136.3449717-1-git@xen0n.name>
@@ -70,33 +71,31 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is already officially allocated as recorded in GNU binutils
-repo [1], and the description is updated in [2]. Add to enable further
-work.
-
-[1]: https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=4cf2ad720078a9f490dd5b5bc8893a926479196e
-[2]: https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=01a8c731aacbdbed0eb5682d13cc074dc7e25fb3
+I ported the initial code, so I should maintain it of course.
 
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/elf.h | 2 ++
- 1 file changed, 2 insertions(+)
+ MAINTAINERS | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/elf.h b/include/elf.h
-index 811bf4a1cb..3a4bcb646a 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -182,6 +182,8 @@ typedef struct mips_elf_abiflags_v0 {
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3fd57f8fac..1312a00f0d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3138,6 +3138,11 @@ S: Maintained
+ F: tcg/i386/
+ F: disas/i386.c
  
- #define EM_NANOMIPS     249     /* Wave Computing nanoMIPS */
- 
-+#define EM_LOONGARCH    258     /* LoongArch */
++LoongArch64 TCG target
++M: WANG Xuerui <git@xen0n.name>
++S: Maintained
++F: tcg/loongarch64/
 +
- /*
-  * This is an interim value that we will use until the committee comes
-  * up with a final number.
+ MIPS TCG target
+ M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ R: Aurelien Jarno <aurelien@aurel32.net>
 -- 
 2.34.0
 
