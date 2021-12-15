@@ -2,156 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4B0475A9E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 15:26:32 +0100 (CET)
-Received: from localhost ([::1]:34554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 373F3475B44
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 16:00:36 +0100 (CET)
+Received: from localhost ([::1]:52046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxVEl-00034U-89
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 09:26:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47240)
+	id 1mxVlj-0005Uj-88
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 10:00:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1mxV3e-0000hn-H1
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:15:02 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:19014)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mxV8Z-00010t-1D
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:20:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1mxV3b-0000IF-Gg
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:15:01 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFEAqOx023143; 
- Wed, 15 Dec 2021 14:14:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=corp-2021-07-09;
- bh=Bdi+NDSzwB2+1ybDDDzWvOpzMapRWw2bmOk/EqdA0aI=;
- b=DQrI8UaP65iW2scE/NXSLdNEv3/x722V1XWjrnOj1jZZqgbxrgr54tvgDy8DsViiJX0b
- 0nKFZ4EU9vZfnf0L7JcZhB2Nm+OiVUc1c1SogVdupfvqWHZRLpiv4m/ix4iAjZtB3QbS
- dxnvz7DyVwozLQ77rWKt/X8ZTTgWVx7i+NKC7EpYB5sB97Lie43KSaPi2QoyigCpmTPj
- X0BMgG/NtwtbIpM4QkzoRIGUDba9WIUK+B+992sMVKMyzk+urMHQRuG1/zxRTmnyASqm
- 45/Vozq2GPlNWk3bbRdV9rjEXlJrbSUwV9v2pUe/q0nZmO7XRClBo9wBQGznZakfn+wn Jg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cx3py6y0d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 14:14:55 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BFEC7bX175963;
- Wed, 15 Dec 2021 14:14:54 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
- by aserp3030.oracle.com with ESMTP id 3cvj1ff8vy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 14:14:54 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HA29EBBrvAMxFpz8OIlegjeshgoIRvETljlSvniINq7T2xJEeYEQMDdyJ3cakL7qEafbgQhR0AZFLcOmg6DjxSZGRwhGw5q21QnmC2JDyz96xPjEXOqT+NnjwRIhrSG5rz/YDJPNWNmBGQfkxvn4mgaIAQI96ZQ686F3SSBpRARNoe5Cii6SWULww7ofbvlDF0mt3X4+jo5QcEiaMqzt2CTxmrfzIqY6cGDIivg4y9SvZFj545XX3bruEnuHZxfA45vglOVFw6pGFYw0u0u86Lxw4FvRm2cxKyBreoZpn23+tc1ysPF3jRrf/SYWyQ2ub4qD7j3CpyIm65BgvSqi7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bdi+NDSzwB2+1ybDDDzWvOpzMapRWw2bmOk/EqdA0aI=;
- b=MdCOxjc0Q0cW2jL0Jds6Mbn8avoO0SVPj+KX76scF6uuwJ9nAqi631irvzHFN1sY5GB+k9wf9/pu3R9DnaaozHg8kRj/Tu15//VgnfwG88/kh942DcDQ94oFfpJZ+BHFlvG6SL2aL4vHqPvj+Ix9FNYP72SWXXh+0U3C4YSLtqNqgY28bmQLpTCEb60YeueQjvOlLwcq5EO5gQohQgjWUlL7XaSRNkWwMHuXbzuGDe+7FrEKmuOBisVP/Y4OnKpXfFFRiZOGLRIQSd8DF6rInC9fj41sbQrXprPEbFt7XtPFOG0baFz/2uDL+IMixnvfuAUNRGDb1/Wj9r+nwXdfTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bdi+NDSzwB2+1ybDDDzWvOpzMapRWw2bmOk/EqdA0aI=;
- b=f0qjbRrhEf3Rum7DK7ttmqXSSsVNjH6kV8Vn/EEraw91bncVo6ahFyoFCTnH8p7wWovWX4lfz5W7NpN94/Aain+Euz5s/b6n7MmyXm8NK2+K1BO6Yx1GUkO8aWUf2jRZaZoNFkqfPncpVH55NTXOunc7ykEIsJ5jvoakB0W0gTc=
-Received: from DM6PR10MB3148.namprd10.prod.outlook.com (2603:10b6:5:1a4::21)
- by DM6PR10MB2668.namprd10.prod.outlook.com (2603:10b6:5:b2::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Wed, 15 Dec
- 2021 14:14:44 +0000
-Received: from DM6PR10MB3148.namprd10.prod.outlook.com
- ([fe80::c517:d737:a012:1a0e]) by DM6PR10MB3148.namprd10.prod.outlook.com
- ([fe80::c517:d737:a012:1a0e%6]) with mapi id 15.20.4801.014; Wed, 15 Dec 2021
- 14:14:44 +0000
-From: David Edmondson <david.edmondson@oracle.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mxV8S-0001BP-1H
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:20:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639577999;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SWf/ZJYWG8/R3CDJvyl9NkVSWUf6mCX0I16EeWyRpUk=;
+ b=EoT85GaR7xiCPD4oXSEsgQUphJvYOYx7aV4xWjn5Z9WIdSC1R/cHdzKUwwLVHTcQaIXGEu
+ /7sP4EIqzav1qTeNVC9FigCKOcP2GbdO6Sk/OGPLT608lsH8WxulI3s6VIUtm+EUtW6/p4
+ pnn9vrz4tbdXaNxogw9mOdoYY/lrZTE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-53-s98u2QQqPWuU6j9yHwPgwg-1; Wed, 15 Dec 2021 09:19:55 -0500
+X-MC-Unique: s98u2QQqPWuU6j9yHwPgwg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C251801AC5;
+ Wed, 15 Dec 2021 14:19:53 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.22.8.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB5FD100164A;
+ Wed, 15 Dec 2021 14:19:50 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] migration: Report the error returned when save_live_iterate
- fails
-Date: Wed, 15 Dec 2021 14:14:37 +0000
-Message-Id: <20211215141437.1238403-1-david.edmondson@oracle.com>
-X-Mailer: git-send-email 2.33.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO2P123CA0102.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:139::17) To DM6PR10MB3148.namprd10.prod.outlook.com
- (2603:10b6:5:1a4::21)
+Subject: [PATCH v5 00/18] tests/docker: start using libvirt-ci's "lcitool" for
+ dockerfiles
+Date: Wed, 15 Dec 2021 14:19:31 +0000
+Message-Id: <20211215141949.3512719-1-berrange@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 111615be-1344-44a5-125d-08d9bfd53ddf
-X-MS-TrafficTypeDiagnostic: DM6PR10MB2668:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR10MB2668BA7B7A3A632485DDBB4388769@DM6PR10MB2668.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:212;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /08ZmfNuUHG1LH5SxN4BVi+ZOt2w9yB8bpXTxXlYpBtD61HqcemdD2Hj/DgNFjXIqvvTI7fFM1CjscATiie9qqQRRj0OaVmuEhZrluzz4Ox8jhZnm+xnOBXArbIQ/W7MkRWFaNdk+WCmG5b0QI13U6U/Sln4AcYul6GPFlZZnImwN9E8YmX1SOWENx4OVX3TtrraaFYMEmYL9Xg2gmfWYYfpsv94tgIBJ1Bnut0ALgLWgkU9YD9yXC3dFO33ElJRgBJRCdvayd+LlBDZpKCr+7EycphBwvtn3Tk2HX76W1P8hCX7DUejx7RM/5eWNwb0H+xi/KzrRLXl7cytyAefyprl++IRUyu4XJm0bhgExp8zZatt3xMn9D/YrRcT3osPjie/cqiC1ZWU5AhuW+4AKb/m8jwE47hnNL6dKDaBrwS0ObOmyd5WC24KlOPye9ZCLhhlyicq6GS7XvQjlYK50vKbJOl3EtOEw4eO0ZrFFZ7DD4sfsT6zlKfQ2Z0eemQwdX9c6NanaTrKp6cQj9fbltpWH4e7iL1pyR9WvQWU0FTDEcjCIZJ8jiWc91Ugd5nsSu44R3NIS7JQ2HHMtYdprUoP8rfO7dPi0cevAlPbc3qyZCO2Fcabj/RRR/mbChxbecuMYc1aiREfCSKAbdtW0w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR10MB3148.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(6666004)(52116002)(508600001)(4744005)(5660300002)(6916009)(1076003)(107886003)(36756003)(83380400001)(86362001)(6506007)(4326008)(6512007)(2616005)(66946007)(8936002)(66556008)(66476007)(316002)(54906003)(38100700002)(44832011)(186003)(6486002)(8676002)(2906002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YVq8+t1J2azYyr8TObAC48FdpCS/H2ZcF7edixKNO3YN9YdOKKM0kXQpLI0J?=
- =?us-ascii?Q?M/KFYuB3jviz9vzMSrY/uTYEAir/4PR1gyAAQpsyfaSY6m+2NlEvA+l6Uzhi?=
- =?us-ascii?Q?VkBzFzEECbljuqqvWJU0rhBkeHs2kmGRiAn1SLEzQCh9aMDjBgTL95cJ1Btc?=
- =?us-ascii?Q?jFLsrGPlPWOAy9Wzu76avGiL1jmhdQ1a0AOkltCrAKNPmWN/mpDyUgAcBc82?=
- =?us-ascii?Q?eq4cOG/2HFIXu+viHruB6pMC+3CCdiYupEGjOkFWsjsVFB6EGrm/Hz4DqFLh?=
- =?us-ascii?Q?eJehY8JN2VygVh4hkMwZHgTilcZSB+rxwz2PKpRzcnf8803A+S5ifmHU60C5?=
- =?us-ascii?Q?OZH6B2kW+X2IocbKwIpr7WeUTDxhb7eSc/qguu04DW8uJLGN/n296vEiBupg?=
- =?us-ascii?Q?6ZM5Q025hN70mzPHUZfEEqirTgAMQpTvO3IN7w9iGWS2QGKdEPd6tTOm3map?=
- =?us-ascii?Q?9lzcnXVthQOjWx1reJcKG4AdbdxgCheM6nzjgbuaUjy2+5DUCeqA1VDC0I0L?=
- =?us-ascii?Q?uUCmr57IR2ktVm1etCmw/SBOtgzylYZdYjLHhvXU4DFxS5Qt7y70C4BgUB4R?=
- =?us-ascii?Q?GmNy0TLPn4hgQ95QAVIDi6JOeTfU/tAolBltTi8yxVjgQwNYFpEi/wX5C6s1?=
- =?us-ascii?Q?jKf+rplAwctHs2lG76jSDmXFpHN+oFWpUo0l4t7fYEnWnKs3wIO2ip9CZdIm?=
- =?us-ascii?Q?QeZqks3jk2aggXhxnJgdkaG48ELfpeTA43CssTJBXl7uBhKsH1Dg71ypDVbj?=
- =?us-ascii?Q?BACNR4M5bx9swd3vGC0Matf8W6x0Lit3RskqNnuS9NqYFbG0vYMvlGBotstJ?=
- =?us-ascii?Q?V6HAB8otJry3U8aZ8NYoAwO+hLp6pHk1Ay2bRQMHDF6DwNqIW8IA+e2i/xHt?=
- =?us-ascii?Q?DR6IfGk5liVs3nWK/zFFbuFSUqssJjRYxh10fR5yxVRVPllwi4cK3FRubmRR?=
- =?us-ascii?Q?dALoK8aHB+VcoMpfqKHih5agp5hxjehyh1r7GdTTs6tEChPBOWF8yFzywNNd?=
- =?us-ascii?Q?sIYpm1FHxmw4a26AsT1RTJMTl3Xw/m2r1uVzYGcck2wVVNV6TMwByyM9a5aI?=
- =?us-ascii?Q?agsvddNCNyF6JrLadAUxFAfUHw6aNfDM27r7HzQssU4tdBLQibHWYGs80JXk?=
- =?us-ascii?Q?lmfgrGnTSMj1Zej71IJK0Ogsr3Va7NwKebSx+zWVRN1hUw+sESOsTejWXF0+?=
- =?us-ascii?Q?2lsqxWXuLFjSolSDyn3AW7uUHQIbv1g2g0sBkrU48QUXbFZJjLR1WQr7wHyN?=
- =?us-ascii?Q?tdlgzUx9cYfC5NKBIbtb1T4939ubASzs+pwVYwGoB8/WariKWlbWXZSEANH5?=
- =?us-ascii?Q?l3ultpoPPZisfWa+++aXoWb75Sux0sul/vIlPe4UvY0LYnt0jJqw2imjM/0I?=
- =?us-ascii?Q?npnXpQOTqjBdl/K+DOt1EIiV120YKNJyqDg7uumGi7cZJDiO9t9jbRHk4Aqa?=
- =?us-ascii?Q?gfsZDpDlRAm4GiqP9KFKn4qpkfHlKDwf8pCdxA0IPlQE5yG4P2ihDeweY2ua?=
- =?us-ascii?Q?6eWTAIGtS211QG5nawTEianobDCHGb2wMvC5iNvJSkYG/pd5Mz/aSRfZlbRM?=
- =?us-ascii?Q?ZzixCthkA0TyJhiEAzvkNMRlpJhdCI7Uv/4e1REX+zTagZQsw/GDm+wXPDGn?=
- =?us-ascii?Q?bikLpC77HpYoUwiGNjVWK7OjB8+7u7l7pmK9QmtgCD14lVgt9qAM12LMRLDh?=
- =?us-ascii?Q?EgRm5zRDAC3rgBhu0NPdU38QxxajdMPpexjFcVdyP8wLQgNP?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 111615be-1344-44a5-125d-08d9bfd53ddf
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB3148.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 14:14:44.2211 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pWL0ErqUat4GxAXbNcJBiMHom//6e0t/fWDt7I8Umg/W3+HKdKvIiRc27dW6ah8BZuf6BWsdbu6Bj6wPblAEcka6ebdEwe1WfhWiy/k8Hxk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB2668
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10198
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxlogscore=999
- suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112150081
-X-Proofpoint-ORIG-GUID: -ZmSXQ0c_4kwHp5-1fW2LkHWjBcezVFF
-X-Proofpoint-GUID: -ZmSXQ0c_4kwHp5-1fW2LkHWjBcezVFF
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=david.edmondson@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -164,38 +77,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Edmondson <david.edmondson@oracle.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Should qemu_savevm_state_iterate() encounter a failure when calling a
-particular save_live_iterate function, report the error code returned
-by the function.
-
-Signed-off-by: David Edmondson <david.edmondson@oracle.com>
----
- migration/savevm.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/migration/savevm.c b/migration/savevm.c
-index d59e976d50..26aac04d91 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1298,8 +1298,9 @@ int qemu_savevm_state_iterate(QEMUFile *f, bool postcopy)
-         save_section_footer(f, se);
- 
-         if (ret < 0) {
--            error_report("failed to save SaveStateEntry with id(name): %d(%s)",
--                         se->section_id, se->idstr);
-+            error_report("failed to save SaveStateEntry with id(name): "
-+                         "%d(%s): %d",
-+                         se->section_id, se->idstr, ret);
-             qemu_file_set_error(f, ret);
-         }
-         if (ret <= 0) {
--- 
-2.33.0
+Currently the tests/docker/dockerfiles/*Dockerfile recipes are all hand=0D
+written by contributors. There is a common design pattern, but the set=0D
+of packages listed for installation leaves alot to be desired=0D
+=0D
+ - There is no consistency at all across distros=0D
+ - Many potential build deps are not listed in the containers=0D
+ - Some packages are not used by QEMU at all=0D
+ - Adding new distros is an error prone task=0D
+=0D
+The same applies to package lists for VMs, Cirrus CI / Travis CI, and=0D
+probably more.=0D
+=0D
+This problem is not unique to QEMU, libvirt faced the exact same issues=0D
+and developed a program called "lcitool" which is part of the libvirt-ci=0D
+git repository to reduce the burden in this area.=0D
+=0D
+Despite its name, this repository is not tied to libvirt, and so as well=0D
+as the 40+ libvirt git repos, it is also used by the libosinfo and=0D
+virt-viewer projects for their CI needs.=0D
+=0D
+lcitool is capable of automating the installation and updating of VM=0D
+images, creation of dockerfiles and creation of standalone package=0D
+lists.=0D
+=0D
+In this series I'm taking the easy step which is the generation of=0D
+dockerfiles and Cirrus CI variables, since that is where the most=0D
+immediate value lies for QEMU.=0D
+=0D
+The key concept in lcitool that brings a huge win in maintainability=0D
+is that there is a single file which defines a mapping between a=0D
+build pre-requisite and the native package on each targetted distro.=0D
+=0D
+   https://gitlab.com/libvirt/libvirt-ci/-/blob/master/guests/lcitool/lcito=
+ol/ansible/vars/mappings.yml=0D
+=0D
+A project merely then to have its list of pre-requisites enumerated=0D
+For example:=0D
+=0D
+   https://gitlab.com/libvirt/libvirt-ci/-/blob/master/guests/lcitool/lcito=
+ol/ansible/vars/projects/qemu.yml=0D
+=0D
+The combination of these two files is enough to generate accurate=0D
+package lists for any supported distro. Currently supported distro=0D
+targets are=0D
+=0D
+ $ lcitool targets=0D
+  alpine-314=0D
+  alpine-edge=0D
+  centos-8=0D
+  centos-stream-8=0D
+  centos-stream-9=0D
+  debian-10=0D
+  debian-11=0D
+  debian-sid=0D
+  fedora-34=0D
+  fedora-35=0D
+  fedora-rawhide=0D
+  freebsd-12=0D
+  freebsd-13=0D
+  freebsd-current=0D
+  macos-11=0D
+  opensuse-leap-152=0D
+  opensuse-tumbleweed=0D
+  ubuntu-1804=0D
+  ubuntu-2004=0D
+=0D
+At the end of this series, I have dockerfiles auto-generated for QEMU=0D
+covering Ubuntu 18.04 & 20.04, CentOS 8, Fedora 35 and OpenSUSE 15.2=0D
+and Alpine Edge=0D
+=0D
+lcitool is also capable of generating dockerfiles for cross-compiled=0D
+non-x86 architectures for Debian, and for mingw32/64 for Fedora. This=0D
+is driven from the very same mapping.yml file listed above, which has=0D
+attributes to indicate whether a given dependancy should be pulled from=0D
+the native or cross build target. Again this means that we have strong=0D
+guarantee of consistent deps being used between cross containers.=0D
+=0D
+I have not converted cross containers in this series though, because=0D
+the way lcitool generated cross dockerfiles is different from how QEMU=0D
+does it. lcitool will always generate fully self-contained dockerfiles,=0D
+but QEMU currently uses layered dockerfiles for cross-builds, so all=0D
+cross builds share a common intermediate container.=0D
+=0D
+I've got a pending enhancement to lcitool to support split layers=0D
+for the cross-buld dockerfiles. An alternative is to just use fully=0D
+self-contained dockerfiles for cross builds too though.=0D
+=0D
+There is also scope for auto-generating the package lists for tests/vm,=0D
+but I've not attempted that yet. The same general idea appies - we just=0D
+call lcitool to spit out a yml file containing a list of native packages=0D
+for each VM target.=0D
+=0D
+If converting tests/vm, we would need to add more distros to lcitool=0D
+mappings.yml to convert openbsd, netbsd, haiku since libvirt does not=0D
+target those distros itself.=0D
+=0D
+I have provided a 'make lcitool-refresh' target that needs to be=0D
+invoked whenever the local files need re-generating with updated=0D
+package lists. This can be either when adding a new distro target=0D
+or when some build pre-requisite is added. This make target will=0D
+checkout the libvirt-ci.git submodule to do its work.=0D
+=0D
+Changed in v5:=0D
+=0D
+ - Rebased to latest git master=0D
+ - Typos in commit messages=0D
+ - CI pipeline is now validated to pass=0D
+=0D
+Changed in v4:=0D
+=0D
+ - Re-introduce use of git submodule=0D
+ - Pull qemu.yml package list into qemu.git not libvirt-ci.git=0D
+ - Improved make trget integration for refreshing files=0D
+ - Also convert Alpine dockerfile=0D
+ - Also generate cirrus CI variables files=0D
+ - Rebase fedora dockerfile to F35, since F33 is no longer=0D
+   supported by libvirt-ci as it is end of life by Fedora.=0D
+=0D
+Changed in v4:=0D
+=0D
+ - Refresh to cope with new libbpf, libffi & rtd theme packages=0D
+ - Drop use of git submodule=0D
+ - Improve documentation=0D
+=0D
+Changed in v3:=0D
+=0D
+ - Drop changes for CentOS 7=0D
+ - Catch up with newly added build deps=0D
+ - Add git submodule and make target for refresh=0D
+=0D
+Changed in v2:=0D
+=0D
+ - Remove more travis stuff from tests/docker/Makefile.include=0D
+ - Convert opensuse image to be auto-generated=0D
+ - Add SDL2_image package=0D
+ - QEMU package manifest is now officially merged in libvirt-ci.git=0D
+=0D
+Daniel P. Berrang=C3=A9 (17):=0D
+  ui: avoid compiler warnings from unused clipboard info variable=0D
+  meson: require liburing >=3D 0.3=0D
+  ui: avoid warnings about directdb on Alpine / musl libc=0D
+  ci: explicitly skip I/O tests on alpine=0D
+  tests/docker: switch fedora image to release 35=0D
+  tests: integrate lcitool for generating build env manifests=0D
+  tests/docker: auto-generate centos8.docker with lcitool=0D
+  tests/docker: auto-generate fedora.docker with lcitool=0D
+  tests/docker: auto-generate ubuntu1804.docker with lcitool=0D
+  tests/docker: auto-generate ubuntu2004.docker with lcitool=0D
+  tests/docker: auto-generate opensuse-leap.docker with lcitool=0D
+  tests/docker: remove ubuntu.docker container=0D
+  .gitlab-ci.d/cirrus: auto-generate variables with lcitool=0D
+  tests/docker: updates to alpine package list=0D
+  tests/docker: fix sorting of alpine image package lists=0D
+  tests/docker: fully expand the alpine package list=0D
+  tests/docker: auto-generate alpine.docker with lcitool=0D
+=0D
+John Snow (1):=0D
+  spice: Update QXLInterface for spice >=3D 0.15.0=0D
+=0D
+ .gitlab-ci.d/buildtest.yml                    |   2 +-=0D
+ .gitlab-ci.d/cirrus/freebsd-12.vars           |  11 +-=0D
+ .gitlab-ci.d/cirrus/freebsd-13.vars           |  11 +-=0D
+ .gitlab-ci.d/cirrus/macos-11.vars             |  11 +-=0D
+ .gitlab-ci.d/containers.yml                   |   5 -=0D
+ .gitmodules                                   |   3 +=0D
+ Makefile                                      |   2 +=0D
+ docs/devel/testing.rst                        | 104 ++++++-=0D
+ hw/display/qxl.c                              |  14 +-=0D
+ include/ui/qemu-spice.h                       |   6 +=0D
+ include/ui/sdl2.h                             |  11 +=0D
+ meson.build                                   |   3 +-=0D
+ tests/docker/dockerfiles/alpine.docker        | 175 ++++++++----=0D
+ tests/docker/dockerfiles/centos8.docker       | 243 ++++++++--------=0D
+ tests/docker/dockerfiles/fedora.docker        | 262 ++++++++++--------=0D
+ tests/docker/dockerfiles/opensuse-leap.docker | 245 ++++++++--------=0D
+ tests/docker/dockerfiles/ubuntu.docker        |  71 -----=0D
+ tests/docker/dockerfiles/ubuntu1804.docker    | 255 +++++++++--------=0D
+ tests/docker/dockerfiles/ubuntu2004.docker    | 257 +++++++++--------=0D
+ tests/lcitool/Makefile.include                |  17 ++=0D
+ tests/lcitool/libvirt-ci                      |   1 +=0D
+ tests/lcitool/projects/qemu.yml               | 115 ++++++++=0D
+ tests/lcitool/refresh                         |  96 +++++++=0D
+ ui/clipboard.c                                |   3 +-=0D
+ ui/spice-display.c                            |  11 +=0D
+ 25 files changed, 1217 insertions(+), 717 deletions(-)=0D
+ delete mode 100644 tests/docker/dockerfiles/ubuntu.docker=0D
+ create mode 100644 tests/lcitool/Makefile.include=0D
+ create mode 160000 tests/lcitool/libvirt-ci=0D
+ create mode 100644 tests/lcitool/projects/qemu.yml=0D
+ create mode 100755 tests/lcitool/refresh=0D
+=0D
+--=20=0D
+2.33.1=0D
+=0D
 
 
