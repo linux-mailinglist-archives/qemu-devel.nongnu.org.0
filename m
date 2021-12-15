@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F934475BC4
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 16:23:37 +0100 (CET)
-Received: from localhost ([::1]:42852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 236EC475BDE
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 16:33:31 +0100 (CET)
+Received: from localhost ([::1]:34266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxW80-0004uT-8Y
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 10:23:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38516)
+	id 1mxWHa-0001Yh-95
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 10:33:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mxW5b-0002k5-NQ
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:21:09 -0500
-Received: from [2a00:1450:4864:20::332] (port=45917
- helo=mail-wm1-x332.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mxW5Y-0005m8-Do
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:21:07 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- g191-20020a1c9dc8000000b0032fbf912885so16206398wme.4
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 07:21:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=48EcTsNISz23sIKndseg1G4ktnCtbAC8q1Fa0dZOUEQ=;
- b=n/mM0/BRUaskNRbtpOD13Cy3NLZEhsvC3wFUihY1z4GeMynPBtjcyzPKahDGFaf0S8
- Jl9o7o86840+Rt6AtasZmPWJ/P3x9rfeEhRxUtMZ0Ej5VDTrFwnr2N0hTDRkXtl8l3AQ
- BimxatBqSoo4N+CzVrRPIVgrK8N+IGlJSYjJ7K9TQ+W8UciI+OIVuFIPaEIA3aMdGDZX
- tupJvGqElEwifHCGfOtuFYYVrTUev+/mi7lfbdGirprHwUMn6HlZUYdMfxEDUSPcEYbB
- pyPrnMkP1LzQG7p4fJIRmCgE3Q4FCguvczcX78tIJEnS1kWaCXTX2fdclajEovj4PsY8
- EzIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=48EcTsNISz23sIKndseg1G4ktnCtbAC8q1Fa0dZOUEQ=;
- b=1LPN8/9d0yGH1g2aD3HHQi6+ZqiM5ZQkmPtNHVFt/IxXOxenNfNLws9usvhQxEFo6m
- oE9L9XHnFvFMxmq766ZoDzy3VI96P8whSQnnDqg3fvXEPF+y/BMpaLQYCGpiu4CSKwRo
- 6KTKCRotWTN2l2YSv6ZqD7seCu/pQpvQo77LCfiVUAh4BjuAsXhaJ1oWWJn3yAzLUkm1
- LxK0iALT74ujwcjc3BrgJNALLpf1+qgg08SkGfFjcbkEXiLOTxVJBkW69vdX66kwWKW7
- NiLkEXxdVsTrwZwQaUQXPyPcxuvbZ2hagW4Kk5GT4n9njsIw2Qyt85KbaUbapW1JSSo4
- rkQw==
-X-Gm-Message-State: AOAM5315Bs2Ut3NiCp2I/fFj5ZA5mH95IuOgSfM8YZKIG9dKW1bJVHZa
- PhXoJVHW52mup2YYQHFsB3gT0g==
-X-Google-Smtp-Source: ABdhPJyQFsj8gP0KciKrLXU5C510azrpBU4SYoZAa2kgBTvZBzPhgFBI8vi4hgCSWQ4dnBPK6JQYYA==
-X-Received: by 2002:a05:600c:1c1a:: with SMTP id
- j26mr290961wms.28.1639581662035; 
- Wed, 15 Dec 2021 07:21:02 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j32sm2011495wms.40.2021.12.15.07.21.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 07:21:00 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C86441FF96;
- Wed, 15 Dec 2021 15:20:58 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] docs/devel: update C standard to C11
-Date: Wed, 15 Dec 2021 15:20:55 +0000
-Message-Id: <20211215152055.1748462-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mxWFt-0008UG-Er
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:31:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50349)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mxWFq-0007km-IJ
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:31:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639582301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oqlz1tiNpEviH2PMIr4dQt/gv+P/L0F7L7mMSyJHUjA=;
+ b=Vfi6MFpyP/qYjx1g6KqTtMYekonbbNPyR3iPOL3bO3mh/wFF7qdEOHExoE8jsuqLPWESg1
+ vskDb02fYoUU6+YsIo0OjT1m2zaPhkyiN6Um2G8ASbbMIivxNHByRcUAR9XvlmKxfCIHgR
+ qN0NerbKiFQZtrD09Q9OQaIGztHdAEo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-74-NudRc8wiNSiPx6hVuEJF4Q-1; Wed, 15 Dec 2021 10:31:34 -0500
+X-MC-Unique: NudRc8wiNSiPx6hVuEJF4Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A4A618C89E8;
+ Wed, 15 Dec 2021 15:31:30 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D56805BE00;
+ Wed, 15 Dec 2021 15:31:27 +0000 (UTC)
+Date: Wed, 15 Dec 2021 16:31:26 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2] block-backend: prevent dangling BDS pointers across
+ aio_poll()
+Message-ID: <YboKTv0hpoXUot8+@redhat.com>
+References: <20211214143542.14758-1-stefanha@redhat.com>
+ <YbixZeHqqImnPbwL@redhat.com>
+ <YbnRbuf92sNj8cSA@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <YbnRbuf92sNj8cSA@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1xBMTRFBH24oiMlL"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,40 +80,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org, richard.henderson@linaro.org
+Cc: Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since 8a9d3d5640 (configure: Use -std=gnu11) we have allowed C11 code
-so lets reflect that in the style guide.
+--1xBMTRFBH24oiMlL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- docs/devel/style.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Am 15.12.2021 um 12:28 hat Stefan Hajnoczi geschrieben:
+> On Tue, Dec 14, 2021 at 03:59:49PM +0100, Kevin Wolf wrote:
+> > Am 14.12.2021 um 15:35 hat Stefan Hajnoczi geschrieben:
+> > > The BlockBackend root child can change when aio_poll() is invoked. Th=
+is
+> > > happens when a temporary filter node is removed upon blockjob
+> > > completion, for example.
+> > >=20
+> > > Functions in block/block-backend.c must be aware of this when using a
+> > > blk_bs() pointer across aio_poll() because the BlockDriverState refcn=
+t
+> > > may reach 0, resulting in a stale pointer.
+> > >=20
+> > > One example is scsi_device_purge_requests(), which calls blk_drain() =
+to
+> > > wait for in-flight requests to cancel. If the backup blockjob is acti=
+ve,
+> > > then the BlockBackend root child is a temporary filter BDS owned by t=
+he
+> > > blockjob. The blockjob can complete during bdrv_drained_begin() and t=
+he
+> > > last reference to the BDS is released when the temporary filter node =
+is
+> > > removed. This results in a use-after-free when blk_drain() calls
+> > > bdrv_drained_end(bs) on the dangling pointer.
+> > >=20
+> > > Explicitly hold a reference to bs across block APIs that invoke
+> > > aio_poll().
+> > >=20
+> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > ---
+> > > v2:
+> > > - Audit block/block-backend.c and fix additional cases
+> > > ---
+> > >  block/block-backend.c | 11 +++++++++++
+> > >  1 file changed, 11 insertions(+)
+> > >=20
+> > > diff --git a/block/block-backend.c b/block/block-backend.c
+> > > index 12ef80ea17..a40ad7fa92 100644
+> > > --- a/block/block-backend.c
+> > > +++ b/block/block-backend.c
+> > > @@ -828,10 +828,12 @@ void blk_remove_bs(BlockBackend *blk)
+> > >      notifier_list_notify(&blk->remove_bs_notifiers, blk);
+> > >      if (tgm->throttle_state) {
+> > >          bs =3D blk_bs(blk);
+> > > +        bdrv_ref(bs);
+> > >          bdrv_drained_begin(bs);
+> > >          throttle_group_detach_aio_context(tgm);
+> > >          throttle_group_attach_aio_context(tgm, qemu_get_aio_context(=
+));
+> > >          bdrv_drained_end(bs);
+> > > +        bdrv_unref(bs);
+> > >      }
+> > > =20
+> > >      blk_update_root_state(blk);
+> >=20
+> > This hunk is unnecessary, we still hold a reference that is only given
+> > up a few lines down with bdrv_root_unref_child(root).
+>=20
+> That's not the only place where the reference can be dropped:
+> bdrv_drop_filter() removes the filter node from the graph.
+>=20
+> Here is a case where it happens: block/backup.c:backup_clean() ->
+> bdrv_cbw_drop() -> bdrv_drop_filter() -> bdrv_replace_node_common() ->
+> bdrv_replace_child_commit(). After we reach this bdrv_unref() is called
+> a few times and all references are dropped because the node is no longer
+> in the graph.
+>=20
+> This happens during blk_remove_bs() -> bdrv_drained_begin(), so the bs
+> pointer in the above hunk can be stale.
 
-diff --git a/docs/devel/style.rst b/docs/devel/style.rst
-index d7315f45f4..a80abcd0c7 100644
---- a/docs/devel/style.rst
-+++ b/docs/devel/style.rst
-@@ -486,11 +486,11 @@ of arguments.
- C standard, implementation defined and undefined behaviors
- ==========================================================
- 
--C code in QEMU should be written to the C99 language specification. A copy
--of the final version of the C99 standard with corrigenda TC1, TC2, and TC3
--included, formatted as a draft, can be downloaded from:
-+C code in QEMU should be written to the C11 language specification. A
-+copy of the final version of the C11 standard formatted as a draft,
-+can be downloaded from:
- 
--    `<http://www.open-std.org/jtc1/sc22/WG14/www/docs/n1256.pdf>`_
-+    `<http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1548.pdf>`_
- 
- The C language specification defines regions of undefined behavior and
- implementation defined behavior (to give compiler authors enough leeway to
--- 
-2.30.2
+Is the scenario that blk->root doesn't go away, but the node it
+references changes? So the unref below will be for a different node than
+we're draining here?
+
+If so, let's add a comment that blk_bs(blk) can change after the drain,
+and maybe move the BlockDriverState *bs declaration inside the if block
+because the variable is invalid after it anyway.
+
+Can it also happen that instead of removing a node from the chain, a new
+one is inserted and we actually end up having drained the wrong node
+before switching the context for tgm?
+
+Kevin
+
+--1xBMTRFBH24oiMlL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmG6Ck4ACgkQfwmycsiP
+L9bS1Q//Z5yWNZdgeMgWXPjs+H4WT8UHOmP7F6B3Qhn8Ybpph44+jRqkp0GciZuC
+j8J56DjgTvucAOtXJn86b2lJLXNWtPoWpl/4Jl8dqmoVd3vo5go/kTErshhWfbXs
++RUds12NSQmzNWFKumZDUugThPvYIpz3G2TdsMvV6qilBT9ZCXbeQV7t9uEKQi7F
+kir1rOceV5eL4eOI6ade4syzj+8q1Mr5OorLTUBgR4nIQwZAOlql2G50buVsKAo8
+awHQWRwHmlmztHurzc3KRcPtJQixWSHHmlNtMLoMKxGjVPa7RdXZB4Ir0I2wA7zf
+se1Fl66WSVQwOt2bdx6kZOikKcKK+VwvNAeicQr3YkpGqw3d+IzzzeAl2yiy0Jnx
+O7ZBulzzqQ/aW/DIAI1q0/NJUTbk8znecPtNIE+GiRQJDg+ssOWWcwP2eWtG5IHG
+TGtKfWCtO5Ag9fBaIlj82aullCFO5vq8rLGaZGgEI72x5vuFcv5oh/1yLudefjTD
+27ef0I6EyhFQ3Nix1Yte2yGv7j2XImVNmBCtt6Cqq8qgNTlpl+j8gjeWN/9JwQgz
+9hbkIoskWsyRxDsjfT3l4MSrD5aZR7gMemvJfXqUCcREiogG0FYUJsqCT9zpZVUP
+SaYPqIpMm60CNH/O+Sd+LWlIi6ETxvHmp16V9mke7eJFKi6jpEE=
+=SiE/
+-----END PGP SIGNATURE-----
+
+--1xBMTRFBH24oiMlL--
 
 
