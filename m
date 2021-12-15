@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC8F4475A96
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 15:20:43 +0100 (CET)
-Received: from localhost ([::1]:45306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C44F475A9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 15:23:26 +0100 (CET)
+Received: from localhost ([::1]:54010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxV96-0007oy-Gw
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 09:20:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37320)
+	id 1mxVBl-0005XD-4u
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 09:23:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mxUXn-00086q-8B
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 08:42:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44303)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mxUXl-0001Rf-5L
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 08:42:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639575724;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vla8ivlAnKwDZ6B2C3vHg6z2wszXMVpMOeCr7XezSY4=;
- b=OYUDaonmv8810qiWouiVGXeN11Un+FGu/yReyih6StD222oHRpp2az8vlTX7eivUo8kPZD
- uZeRihQqCCMzg+Y8/FJOXXftdrHtAs3W1VNMH0gCS4blqutHAo1LkPrgRlzz+2F69NV5G9
- ZKz587qBU1ROkJ8TIZvG0FzdX63jneo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-yuHVu0tLPNiNHxq6kD9adg-1; Wed, 15 Dec 2021 08:42:03 -0500
-X-MC-Unique: yuHVu0tLPNiNHxq6kD9adg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0698F85B6C0;
- Wed, 15 Dec 2021 13:42:02 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-2.ams2.redhat.com [10.36.112.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0EF245B362;
- Wed, 15 Dec 2021 13:41:34 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4EEBF113865F; Wed, 15 Dec 2021 14:41:32 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v10 3/3] cpus-common: implement dirty page limit on
- virtual CPU
-References: <cover.1639479557.git.huangy81@chinatelecom.cn>
- <cover.1639479557.git.huangy81@chinatelecom.cn>
- <d54bfe75d5d64e64a21bda977d40f62579cd0222.1639479557.git.huangy81@chinatelecom.cn>
- <874k7anwtc.fsf@dusky.pond.sub.org>
- <4397f17c-4431-8480-127b-4228271523c8@chinatelecom.cn>
- <Ybmiw59Qh3sHukyh@xz-m1.local>
-Date: Wed, 15 Dec 2021 14:41:32 +0100
-In-Reply-To: <Ybmiw59Qh3sHukyh@xz-m1.local> (Peter Xu's message of "Wed, 15
- Dec 2021 16:09:39 +0800")
-Message-ID: <87y24m2df7.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <ilias.apalodimas@linaro.org>)
+ id 1mxUYr-0000Xl-Db
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 08:43:13 -0500
+Received: from [2a00:1450:4864:20::334] (port=40896
+ helo=mail-wm1-x334.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ilias.apalodimas@linaro.org>)
+ id 1mxUYp-0001cg-La
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 08:43:13 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ j140-20020a1c2392000000b003399ae48f58so18505036wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 05:43:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=9nEdcr5p8OcHxve1Z5DC5oBdMvprAMYX5tTrlQkG1E8=;
+ b=k5nsBURW0k2O5pBVlRPQYuFcXgIty+uBN5CKoxVY9lgwUjz1pmAHmHG9kDiVBiOvZq
+ zRbX+OpqWz/VJeGw8S1lJtef/xvnmYxtJEGVyPhuUlnDW7m0UQ56HCqZlmlzKYviBnKv
+ 7hIjKHHiNIeNGvluYGdInwIG1W3lvqk4bvKaa/8qd7of19J9rpmbWLyAZXbazYkHRrn+
+ Rrg9HSKejq7b5EcJIFVmdpEbvMhNPZqD6qzE9M/WjZomUEgz5oJkHgijUi+o5ZUEL7My
+ CV3HCvE9lqrbhulLkL2qhyFOwQJCAQvO+YlyMXY7TL0nV+ww466cTHAX1OJnqwzIoJ8R
+ Qu6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=9nEdcr5p8OcHxve1Z5DC5oBdMvprAMYX5tTrlQkG1E8=;
+ b=sF1Yb6NVEB/hqAgsLRy8wuKpEh6UzDtQC4RqqkBH9kImEx9jWi3ki6KK1np2Kv2Qdd
+ vXLTLTqGzVCDSDMjvZWqqafjdgk12sQVKUprwk73Ve4+EYx7TqypeJH45HrBUpranpGF
+ k9vk+xC/Gx+HRCeh5XmOEgqkEVS/MxtN6pdCvLvDBC2Ko+Le0vR45i34CBPFhLFm5Lx0
+ JHBLQuw7srF4SH0P1eyuQM67+lE74kwHex9qjgfF5G6W0CivwXzafV3rk9bcDCWb0Mj6
+ 4iXs+xQKpo/KVVGoYWhRcbk8olHKuQ8RKMVk1R12nFNQ3yysjwZp5vLaz0wKk2ktU+Ag
+ U1nA==
+X-Gm-Message-State: AOAM532MHFxgzUmas3djQfK0FmofkPoMHTjhfhxkmNblczPPYwzVCyf5
+ dKOvHcqP191QcoVLNnETmKqhJA==
+X-Google-Smtp-Source: ABdhPJzPyexGYnwdRdap/znx5OEHb+pRJO5tXSkPES0lYwvrRzNtXakaHDLsM1WCM4KRiy/cKOdhmw==
+X-Received: by 2002:a05:600c:2304:: with SMTP id
+ 4mr1896406wmo.71.1639575790169; 
+ Wed, 15 Dec 2021 05:43:10 -0800 (PST)
+Received: from hades (athedsl-4461669.home.otenet.gr. [94.71.4.85])
+ by smtp.gmail.com with ESMTPSA id w15sm2038057wrk.77.2021.12.15.05.43.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Dec 2021 05:43:09 -0800 (PST)
+Date: Wed, 15 Dec 2021 15:43:07 +0200
+From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] hw/arm: add control knob to disable kaslr_seed via DTB
+Message-ID: <Ybnw6+lOQPInzgqz@hades>
+References: <20211215120926.1696302-1-alex.bennee@linaro.org>
+ <CAFEAcA_psjs5vaCZ06oU_OwSYorED4zgg+y-eD4nN5X2sRBVRg@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFEAcA_psjs5vaCZ06oU_OwSYorED4zgg+y-eD4nN5X2sRBVRg@mail.gmail.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=ilias.apalodimas@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,62 +90,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Juan Quintela <quintela@redhat.com>, Hyman Huang <huangy81@chinatelecom.cn>,
- qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Jerome Forissier <jerome@forissier.org>, qemu-arm@nongnu.org,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Xu <peterx@redhat.com> writes:
+Hi Peter
 
-> On Wed, Dec 15, 2021 at 03:56:55PM +0800, Hyman Huang wrote:
->> > > +{ 'command': 'vcpu-dirty-limit',
->> > > +  'data': { 'enable': 'bool',
->> > > +            '*cpu-index': 'uint64',
->> > > +            '*dirty-rate': 'uint64'} }
->> > 
->> > Drop @enable, please.
->> > 
->> > If @dirty-rate is present, set the limit to its value.
->> > 
->> > If it's absent, cancel the limit.
->> > 
->> Ok. Indeed, this is the simplest style. :)
->> 
->> So the final qmp format should be like:
->> 
->> case 1: setup vcpu 0 dirty page limit 100MB/s
->> vcpu-dirty-limit  cpu-index=0   dirty-rate=100MB/s
->> 
->> case 2: cancle vcpu 0 dirty page limit
->> vcpu-dirty-limit  cpu-index=0
->
-> I actually agree with what you said... for human beings no one will read it as
-> "disable vcpu throttling", instead people could consider it enables vcpu
-> throttle with a default dirty rate from a gut feeling.
->
-> I think what Markus suggested is the simplest solution for computers, but it
-> can confuse human beings.  So it turns out to be a general question to QMP
-> scheme design: should we always assume QMP client to be a piece of software, or
-> should we still consider the feeling of human beings operating on QMP
-> interfaces using qmp-shell.
->
-> IMHO we should still consider the latter, if we don't lose much, anyway.  But I
-> don't have a strong opinion.
+On Wed, Dec 15, 2021 at 01:36:07PM +0000, Peter Maydell wrote:
+> On Wed, 15 Dec 2021 at 12:09, Alex Bennée <alex.bennee@linaro.org> wrote:
+> >
+> > Generally a guest needs an external source of randomness to properly
+> > enable things like address space randomisation. However in a trusted
+> > boot environment where the firmware will cryptographically verify
+> > components having random data in the DTB will cause verification to
+> > fail. Add a control knob so we can prevent this being added to the
+> > system DTB.
+> 
+> Given that the DTB is automatically generated for the virt board,
+> firmware has no way to guarantee that it's the same every time
+> anyway, surely ?
 
-If you want a more explicit interface, then I'd recommend to go right
-back to v7:
+The firmware needs hardware assistance to do this. In order to have some 
+guarantees on the loaded DTB, the firmware measures and extends the TPM PCRs.
+In that case you'd expect the measurements to match across reboots assuming 
+the command line hasn't been changed.  The kaslr-seed is obviously a deal
+breaker for this. 
 
-    {"execute": "set-vcpu-dirty-limit",
-     "arguments": {"cpu-index": 0, "dirtyrate": 200}}
-
-    {"execute": "cancel-vcpu-dirty-limit",
-     "arguments": {"cpu-index": 0}}
-
-Bonus: it already has my Acked-by.
-
+Thanks
+/Ilias
 
