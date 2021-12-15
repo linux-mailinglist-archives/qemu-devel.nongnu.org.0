@@ -2,156 +2,154 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A6C475CC1
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 17:09:16 +0100 (CET)
-Received: from localhost ([::1]:58926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24AEA475C4E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 16:54:24 +0100 (CET)
+Received: from localhost ([::1]:51940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxWqC-0006hh-33
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 11:09:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43342)
+	id 1mxWbn-0007hD-4L
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 10:54:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1mxWKj-0006mJ-41
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:36:45 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:28434)
+ (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
+ id 1mxWMb-0000VD-NB
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:38:41 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:31462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1mxWKg-000081-AB
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:36:44 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFEMpeo023149; 
- Wed, 15 Dec 2021 15:36:39 GMT
+ (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
+ id 1mxWMW-0000RR-4b
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:38:40 -0500
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFELE6Q028543; 
+ Wed, 15 Dec 2021 15:38:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=/tT6da/bYxsNG8JAdvbdg5Qc+57FS8nthI5B8zzLovw=;
- b=vUXw9H+ZhLbQa9tKu400K4RWC9wSGGzXV6eUOZfSMvOFaOjf4SxvvRFy6Q5vAA0ICmtI
- Iy61YEZXOAJKmNHpnz2StOGhNOG6g9uEEiCDt6ppIYzRq36gg3cggnLbLo9aKPvXi/Hm
- Pe6wun38VPfw8lYtJYd1yhz4I2Wg+5QESXFoTSfGk2RF66jCMsYCaRmClk4VfZRzcmUL
- 0detaH64HUIosUELykEtJqq409bwZqGPfZD4S34IPxsVPdOGaSu5wKY6ysxoCxigpZta
- 91C0w9lf2XHlrO1SAdro9X3k4f0Is1hLLVt+N044Oar7DvMKxkmpUW6Oq8IdbAu+wCQX GQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cx3py779c-1
+ subject : date : message-id : content-type : mime-version;
+ s=corp-2021-07-09; bh=PQpKa0GeLZZ0v7hw2nmXYMgHQ62e4OvLpvmZ2cFN0gs=;
+ b=eWeYaehO0oUi/OflAI6rXCu0tGkcm7BWDVP0vzWUEa5aCreMgYXeQATuwozWwSueB+nS
+ tdejRRwKYppnmV5SjN4R1aZscR1fPZ++7hKM7Jllm3wNKyUAhCA2lOAMoZI3nTTT0Xe1
+ h5lUTa3Se5CW3eIVOsRuGCNcxNn6HioJSilZxJcgqM7kUP2FgXt7Y/qlnB/WFPFzEyYe
+ 2sw9rWK+33CO5OGyNgKBt6BQ4Uo4w+4f9qtCN6xayQd0fREPu9FdcRUkS1BfPT3DmzGB
+ +YmXnDlg1dJCqG0c59lnXFCpkvuAPfKx3l4Bi6EN1GKWS0b9Z6jrBi/HuZcDprZ8OzYA pA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3cx3ukf700-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 15:36:38 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BFFUSaX083829;
- Wed, 15 Dec 2021 15:36:37 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2171.outbound.protection.outlook.com [104.47.56.171])
- by userp3030.oracle.com with ESMTP id 3cvh40b3du-1
+ Wed, 15 Dec 2021 15:38:32 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BFFUXT4094314;
+ Wed, 15 Dec 2021 15:38:31 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
+ by aserp3020.oracle.com with ESMTP id 3cxmrc0wfr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 15:36:36 +0000
+ Wed, 15 Dec 2021 15:38:31 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xyip5rC0roq0onT1kWad1zSPSCi7RQiErWh3ra9I+q/1/0EfvFIV11Y0y2g+JBB7PtbhWCL8cu55dQ8CJG0AuiDrfwB8XvhniymAXiOeIqoqxUaLOQsAFJu7L8HGgMZiCM/FTsWfFqcR+TomiyHYr7a1UduGLpaq4H5DPzpClr7CfMwDnKZTQTvvLF3mqZVVpTUUpMJflnRhPWycBK0EH2txEGZssH93pNX0L7J5etQ1jM1hc1ZxX2qXzsqird1/paxGLBamdbHBbzadlQfbpmz5HkLjiKIIbmjNkC30cSmy9KLOJh/KRre7WQ6G+TQfaHeUPVM7zQwZAfeYhwNogg==
+ b=geKO+MROcTiAq90X1EzbLKJwyq+sg+WpgHQ9k/YkKXLZoRjANBMbKCAdfEDzvqNIVgpXexInPPY+9qnlnxckThchDRNKGg9d4P8m7aomPdon0jYQEUR9fVLQapso0m7LqGtryiSfZr7puPQ2O7WSWI5c6cFqTnaGPLHR1BxY53qxSasf4YA1T2jbLaS87PexSQoN0Tt4I3+sJ0uOZ8hiuraQ2/c0UsR6LWXzUFjxvJLKua7LwYR8MZFQwvSvzg/xf9qY3BnpV+5Fxt4i4b7k3z0L/4PPobjnZ9UGbjjyCb/Hd44HxUp6c/jmJ4NPbzL59mTBzadenahliKyyT/1dZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/tT6da/bYxsNG8JAdvbdg5Qc+57FS8nthI5B8zzLovw=;
- b=AQ35fV4f2NsTHshOXWU7Ug0j0AxRIHCazpmZCAjJDQ99xLuCcgQ9WhZEuC/0zzZ90krphwHoxNMsQ4RN4wUuOq98HgJLQ5zC/uPg0zVkgE/fPpHkl+blzqR+CajABAsBSwX2EMAQQwCHlouwKvLRoJmBb+OMIDl2tfJBKY+g6KE7qEMPAOVXzb6Sk5IARSd1UkV/4W/jxdZgDOiMak1q8w823Dg6Po4ktvwkD6aJbus+n/X8elaT2p5PWFXT65kHiHjnX42MMhYsDCHFz06YX10h95V4FeLp4N2ew7VSC5YXxFB/5NeKaaVvHzCN25dwv8QPkxjxpvITQh5oBMy+3Q==
+ bh=PQpKa0GeLZZ0v7hw2nmXYMgHQ62e4OvLpvmZ2cFN0gs=;
+ b=oDieam8Jzp9w5vP7B6o0LrIs+g6mb1mCUM41jlCjkjyZLlDSig9eEQ74YaUJ1CWFHvOc3LUKM0lBhsKmnztqflQMipEsnP9HoyI61HajGhcw3I1MIjajD1HK1ntjMva6KpmldhSyJCAjFCR7LtW9hviL1y6id3Yz18gLCYBcxgdRbxWz4UiUbdIPmCxUK/3/0OaiwnTC3nDxBoPH8nV3C21+IPdgWZ2BrGdan3ADM5sIUtxC3CcQjH+LJNrOQAd7xfNNw8FoudYAMraR1Rg3Jmm0z2qvvRZL/Ev+kN0R5FkjGZs+wKgqFXc3C/EFHcidj0CA3s0w3mijKpz7NrV5wg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/tT6da/bYxsNG8JAdvbdg5Qc+57FS8nthI5B8zzLovw=;
- b=uKd9jGApyTR7Md29jcZKk0ZjqZafVr82r4u+nVKQJ7hZYX3augpv6QPQprUJHI6uJnDbg/TfxxrUzMEyJ047eyUm3q8uYmyArxRFm8n/hem2rW0DCx/42BDAyxTpCm3YDxbkiSa/HwZt9fQDntLGgWu5yF8+oS1DKJi+WA+OmO8=
-Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
- by MN2PR10MB4048.namprd10.prod.outlook.com (2603:10b6:208:181::33)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Wed, 15 Dec
- 2021 15:36:32 +0000
-Received: from MN2PR10MB4013.namprd10.prod.outlook.com
- ([fe80::b911:b919:6383:970d]) by MN2PR10MB4013.namprd10.prod.outlook.com
- ([fe80::b911:b919:6383:970d%5]) with mapi id 15.20.4778.018; Wed, 15 Dec 2021
- 15:36:32 +0000
-From: Jagannathan Raman <jag.raman@oracle.com>
+ bh=PQpKa0GeLZZ0v7hw2nmXYMgHQ62e4OvLpvmZ2cFN0gs=;
+ b=Gyy6eoQr4tGsbwO4yBd4KgzTmNBYnz3eRwcr0bReNHQuoo4NTk8/NXJdzL+VxTSiYvedjwf1YmGDJ8Ir+ZtNShDkCdKS1we50pk6IA6ZYFCuQXyyuiaX556KUSnaupR9JLUoEIekUFoGchwAwhVI5POJZqhjuyaTDutC1vZgxhU=
+Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
+ by CO6PR10MB5441.namprd10.prod.outlook.com (2603:10b6:5:35a::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Wed, 15 Dec
+ 2021 15:38:29 +0000
+Received: from CO1PR10MB4531.namprd10.prod.outlook.com
+ ([fe80::143c:ea64:7017:19f]) by CO1PR10MB4531.namprd10.prod.outlook.com
+ ([fe80::143c:ea64:7017:19f%4]) with mapi id 15.20.4778.018; Wed, 15 Dec 2021
+ 15:38:29 +0000
+From: Eric DeVolder <eric.devolder@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 14/14] vfio-user: avocado tests for vfio-user
-Date: Wed, 15 Dec 2021 10:35:38 -0500
-Message-Id: <0ca430dd43d35ff2ae4667247f6d669a84e5ce99.1639549843.git.jag.raman@oracle.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1639549843.git.jag.raman@oracle.com>
-References: <cover.1639549843.git.jag.raman@oracle.com>
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH v11 00/10] acpi: Error Record Serialization Table, ERST,
+ support for QEMU
+Date: Wed, 15 Dec 2021 10:38:05 -0500
+Message-Id: <1639582695-7328-1-git-send-email-eric.devolder@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
 Content-Type: text/plain
-X-ClientProxiedBy: BYAPR11CA0105.namprd11.prod.outlook.com
- (2603:10b6:a03:f4::46) To MN2PR10MB4013.namprd10.prod.outlook.com
- (2603:10b6:208:185::25)
+X-ClientProxiedBy: SN1PR12CA0073.namprd12.prod.outlook.com
+ (2603:10b6:802:20::44) To CO1PR10MB4531.namprd10.prod.outlook.com
+ (2603:10b6:303:6c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 600b8c18-1c7f-4dad-5075-08d9bfe0abcd
-X-MS-TrafficTypeDiagnostic: MN2PR10MB4048:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR10MB4048A5218E246BF85BF47D7690769@MN2PR10MB4048.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Office365-Filtering-Correlation-Id: d7a78f5f-930d-4816-dede-08d9bfe0f0fb
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5441:EE_
+X-Microsoft-Antispam-PRVS: <CO6PR10MB5441A214E032154F36DF45AA97769@CO6PR10MB5441.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8FYOGJSg0WfqO/FapQMWremauBvpuKKXq+J4yrHf3JGSBPh3zB/oVYMbFfzfk1rre4s6Yiz8onApHf1n/6cb5khR/+moB/ShziY5HW3csOXr4V3Zkn/ohWiUPACJ0GPdhuAV94ZJR3p6PmD92naAoXUuIm1CWiKgkk2JDhCBWurshMSpSW0b/AU9pDmLbtzLyKE9lEVb0vgWmZgI8Vfm5jCyfhXIcWnIPbeqaFAMXZzZhGp+3owxt3P/N1SQg/bsOnABi2lZbUoPu7/GiMNobVBo6U1RoRmK1b6TNZyRyzbM5xb4J97QMfY27IUWduFSgDNCoKMPCiuJU/Wj/fUHclQzGtf4KzWkFjXWUVMhIa2+dk824Mfaq1mjymuSkrY2d0QELCZ3g01gpvZpVehipUk5lqjL7kfp4GYwp9SnP9u1913aW+YCOR2rshAnGR4dlg+CwJRcrjrHHrolqVT15atjqHeOBFtKQbSd4cTTqSC6RViMQdQk35dkryeLg9/ic0hMqVb6ULdaRB6HtSKD66cCrn9a/sQ/WtF2d0CQ3BXuS2AjquFQsqgNojiCQFXBKWrXw8zp5rJAfGlpUL3GhyncohKZDwyK2cgx/BUJ49SycOuOdkWs2D5pPAwKkM+v+EKGTgc0NzjVe5FpfybtFrZAQIGJ6TGLATrDDtkiwKL3hjR/HKPZ6q/D9IFXU4gO68BVGsJC3huMEhi87Ogboe5FK9CbhKa+RolJiPyP9iWSY5bHVic1xSRwXWbna0lSIg2sX2GBqsMQwT9lwwnudbKgPAQAfbDg040R5tdiPb0=
+X-Microsoft-Antispam-Message-Info: HRoppXIfQNlx07c/4ieI0UYeWqnMdrxsHFSPtJ8tOMHAQy69hd3cTCnVN4x/Q2fz28DLSktqUVxp+BIl3c41cKCYcZN2TaoFUfB8ZGUAWSJsOfciW96bPZhPIYwob79N/E2gkOws7xBEwkP9jv8VsZKW/t5lbpvJ1bPBEwZucS7B/hfQO0dnrcQbqc/O+wKj1Hp77vbVhE7PL5/5nzpl1LWvIcK+ZT5xBodxE88b4RpyCjhTjgm/c9ERFyLjwZkfOcM6PNB8fkkbxxECEShzc4o0EbimFyJOdzLcrW1XY36RIZO++1/eflx0ffkfLdub5yE6LXasJIOqOFw4z3REJpzuaJ586t5mxxD3gjSbsoScpmRiLFsWm9uFYk8JPC6ehAxzZmN3kMMmZmGHM6MIhvJ0xZhV5ZAAQoAciWS+1IIFL7Ta2SAHftzLs0UsV8YwepH7f5DnCNqKTswF9nFYHZugJrlOwbxV5HTIE+ZmNPyhJiND4EIx16xBMcnMha1iyixG/Ryjgb0QYZzfcUchRd6ztxBh5NEpXBBS3mbHdhe8boWXLlqyu7Xz59o5HfTTwD/8dmXdUwaIGt3zyY2cmlpwf+/G7UDTRoJEY+q6QFDSQkNsUQVIswFA9zWgOU7mk12b+UMszP3PWF1uVxaj65fk3A7cJvAZtJt3kUawZG9OIWZWs6G5HJn2ZUMuSnkVLuBbZp3VZ5aO5TjFVr4huQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(508600001)(8936002)(5660300002)(7416002)(6506007)(6486002)(26005)(66476007)(4326008)(2906002)(66946007)(66556008)(107886003)(36756003)(186003)(2616005)(6916009)(38350700002)(6512007)(38100700002)(86362001)(316002)(8676002)(83380400001)(52116002);
+ IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(6916009)(86362001)(38350700002)(8936002)(66946007)(52116002)(316002)(66476007)(83380400001)(66556008)(6512007)(6506007)(6666004)(2616005)(38100700002)(5660300002)(8676002)(186003)(6486002)(26005)(508600001)(36756003)(107886003)(4326008)(2906002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?v9VmGW4rGRnOUFyCHNZIwIpNQ5rRVk6UkT4YsV6bd2reHTUp8y4vn+atwBRz?=
- =?us-ascii?Q?zwHPnIuiKbK4ko4SXevAUZzi8g7J32jszLYDwVdNZOay4ZhOv1Gt+cfVnLpP?=
- =?us-ascii?Q?9kONAdKyGGqkP1+4wb2+7aAbiqoLb9W2lofzTckiYLE2cvO7q8oo7jkxqIkC?=
- =?us-ascii?Q?cZKw+9TTw4bVfz4HA0DGtFS64VAekGxFMIvIxmqV/dpEb/cM0M5vXdybtMl/?=
- =?us-ascii?Q?a0skYxJwN5pVmgQAvLK45elME2BA4bz7sdvi6VgWihNu+Ov1t672L4xKEJIT?=
- =?us-ascii?Q?MmzoJh8hDpeZGQJ6Wn5GidZ30O1WHyku/9V5pAWpUENxAq3mc1zrhec+22WV?=
- =?us-ascii?Q?IIg7H9wCCkDrQQr3hcbsTTYLm2Rm/4aCb+7cve09GAO9jqlSefW/RtVGZYEr?=
- =?us-ascii?Q?bPCbQ6eKZTwVf9Ka4M4MKRH/TvUpt1FQWSyuvWPoNZaQwctWJxcocHUo9ldg?=
- =?us-ascii?Q?PU9qhb7C3z/A+9kegukXSJ72cGvm5HU9V0ycFUDh1xkJ1Xcm3zMmvdzpfdxy?=
- =?us-ascii?Q?Q+61JJN3pLrdT/c+c3Dqv8ajB3e2YCQhnS2E6aVw/KVIsg9ChWQaUnGuJvMZ?=
- =?us-ascii?Q?Xsdfv00dG3Hh5rxdWXVa5l1Vm2A0rudhxvjb2RhSpexpQ0kugq7eKYk9qasR?=
- =?us-ascii?Q?UuK2PzMwjJFufAb4HXropHMBTL8yry5amqikKa+YAv3RJxGMWEJCrgJ8YQkA?=
- =?us-ascii?Q?SaQtxCoar9LLCV8Pyjt20aMVyWIw1tje/rmh5tBXtjpWeUm+N3sLm6C2Om2h?=
- =?us-ascii?Q?pm+cgY2oSpsPQWLo2T1/iT95agqc/yJnwk5FQIIqGW0u5FvTEIQxldwxMM/L?=
- =?us-ascii?Q?oj9jgf5qIVHAkc9vl7YKgPLzF0wTTwCzYw7o39lV6b6a7ak7VnoVMUVdc2BZ?=
- =?us-ascii?Q?J3zmyIAnqXVAJp20XBsBHIUoCfbS9xDsKRqh1kQj9Yp8VuBz/20CiYdiwckq?=
- =?us-ascii?Q?/RNt1IADUQBTbyuD2oTWc1nSnY1jmISH5E5lQbdzN0+mIzw6MRj35VVAnjnd?=
- =?us-ascii?Q?PBMtYshlVvkfOFXFNqZK59N+fZa2N+rsmcqwtn2Y+MbHQtP6jna030N7SyNf?=
- =?us-ascii?Q?AhjW3xRI+yKLHqckNLIRj4//xn87cCKmuUrNodfduPdX4CRFUAR9tGuCK3o0?=
- =?us-ascii?Q?TjGETUVBV5zQudJY69Szb1A6uXhOqKB3nYK8tvS1+7OFiz2pFZGwvxBQP2hy?=
- =?us-ascii?Q?zlsj+rpYe2rZGSRp4byTjFrAKjswWPKsJWvsDsiWw4frVx2GurqbmeiV1JVS?=
- =?us-ascii?Q?LbES6W5mkGSMxLPLzuCw9XVJPX5qlpdUsduIdFUSaLtZSn3R7xC2bQTDAOUc?=
- =?us-ascii?Q?tHPaVRFqBg5MQ18/NDKG1ZxqYOBUvaDOBSRK/e4RZOGrInW7fcMZGRCCW1Uh?=
- =?us-ascii?Q?kdpwii2Ta3yG70kanYHlpShW0/jJ6iNkF9oIdQlrciQyXHXj12wXLJNvQ6cM?=
- =?us-ascii?Q?5+5d+aXm8uQKnfjmMpT/rcRb/yJ7WgFxlGgzF14EkJJsLX576qMLFZCFpAa8?=
- =?us-ascii?Q?8d0zj4S7jMY1BH9oSVZuzCZn+THC/GXmGLZUtQFXtEOuxcjeppKLZvmrfVMQ?=
- =?us-ascii?Q?Zu2L6CGj70wF07+svwmorVKm5RuuV3Ff60zx3azePX+2y4xK+sopsjGCcw6/?=
- =?us-ascii?Q?G7YxVGXGQsopxGnlBPv39WQ=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?q/kQrQZjRj+LKQ00qEqKtpeNUvkN/Tu8hLnS2e+BxgmaH0oJIt0YGlQTZrJC?=
+ =?us-ascii?Q?0SI5+tIhEcoCVYNC+qE/kJI5T1dhGZmgerX+3Cp2m6j2zdRPRR8TdjRBNBiP?=
+ =?us-ascii?Q?/sBdL+cz/2f8xOL3DdMPEhMNziaESGtFTd0OaU61t9qjZOCdD4eobv2dh7/2?=
+ =?us-ascii?Q?e2mu2epYGuk6HsQC8mgSAtv4cGjXQzmi6QEH75oL40PT2oLozaL7WWhPUDXJ?=
+ =?us-ascii?Q?KkmD10mrcKh1qWLCvJuH5Gz3hf8F2qK41MjGPvO7htTF+oGMXpDxlLdxEdRr?=
+ =?us-ascii?Q?rQh7qVeemYLJHfggTB4FC1PoMmm08+dXzfsJbAWwYPWNbHYP6Jfn4ZTImr7l?=
+ =?us-ascii?Q?cDRZJwRboU5tCsUagHEf2xaCbivhLhF6Ub8NYhIObSa/O3jI0JyIncrOpV5r?=
+ =?us-ascii?Q?XPmpFdfGLwdL7HPHtfqqXFRXyOaJoZwOWDYsy4PbHUhqQGTpAnG5MLM5tlgp?=
+ =?us-ascii?Q?crv+VZs+5tRpTwDV7nqNncUlmRQx72KYZOVSgKj9qe2iFrW9QV6NxwoG5JF6?=
+ =?us-ascii?Q?K7OOgqbWizXOqnI43GCTBWiGVtkb32/6n4r3ufEdHo7+NBODEPjNS2J5jQj1?=
+ =?us-ascii?Q?wJgAKwwgG2ED9q1dvSTjP/vJbxRvNj5KeYkJw9XTOVp9yRJh/hJzZeJcxpR9?=
+ =?us-ascii?Q?qp8cs9lyBq7Xb8zzNRSZgGx1rE5+O3e3PmJ/vNlKML0PHco/gvLPQfcEqCn/?=
+ =?us-ascii?Q?AkELuOKZnpnOk8hNB6aSz09Qc9OXDVFt9m6B1DkSQm3h1M39vqbWbWvWBre6?=
+ =?us-ascii?Q?StLOvp5fCxo2K4Bg2pdXtfwE1H58qlz4dNYoPQ/q/8R8iHwk+sZVq19jg4e+?=
+ =?us-ascii?Q?y6aMB+pwN3LOqxB3dil2EmqWOTaZGaKHPZ+wh85NCXUl2NwlMT5aaOYNeDvo?=
+ =?us-ascii?Q?mT+tap4U3YjAjvQ4p+UFlLQdyehwf9nG5iFxVRni08MfxfiPkWpFM1yeqyDd?=
+ =?us-ascii?Q?HS+RhxUEAKtFfnXbPcs4lRArC/hX7x/flKyTdlAUwNI+1OFAFWQxOEgrDYTM?=
+ =?us-ascii?Q?pPLmazy1L4MFFufs9xa0vewGS2qjkZHZYrZwA/BBf4+PZlxr6lrvAC6ZyiNd?=
+ =?us-ascii?Q?hMCLmi75lJyHdnUY/kE3Ze108S2lbZNAPcXQZietcFNdvF7ZkDZL+oKdv5ev?=
+ =?us-ascii?Q?bHKoS/ys4afrlfA7oNTbNHA/cnG6uvTClBJ0U8ykJ4jHFPnkJybzLRy+CWY6?=
+ =?us-ascii?Q?tzWQ3/BT2ySLhDU8YWSj/a4D2vA7SjMscK0IQKvAsEG/urVsI1ei78tBGVAI?=
+ =?us-ascii?Q?SkUV2C/O+S8bPh0hE1RNM8q4m9p6TF7jaBAIo3qYSeUdh7LdLr5mK5jVqpgO?=
+ =?us-ascii?Q?3wI9kR6ZrROub6+Nd3o90NgkQe+dlvA7pCKJe64vFOxWWQcUs1zDIsbIvpZv?=
+ =?us-ascii?Q?OAMVzUXEhTKF9zU+drGrOFndMbccardm30MowAOJ3EIqPj8M/ssGX9H4vc8K?=
+ =?us-ascii?Q?8mLSfqCbIfXCDG4NNxHiuVRL39Gl1iMI+7WpdJcNB1seKjPj1ICOptT7rG+Z?=
+ =?us-ascii?Q?jwXAk1jqjAi0xvNhyDPeW9vlqlu5KD7T0iq8axrV2NVLAzKmLBaV0Py6FCc8?=
+ =?us-ascii?Q?C3fRG/L0ekPZXJoYtXrF+m/6glzqYKyTjKk6ZSjWvJvUaRNdSwVbS9r9zE71?=
+ =?us-ascii?Q?2tf4OKBglTpk6IyxCnhXVbfk7EczWMX7UVgnjlfFmwMl7nr3hlY1Riuqtt0J?=
+ =?us-ascii?Q?2j83eA=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 600b8c18-1c7f-4dad-5075-08d9bfe0abcd
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7a78f5f-930d-4816-dede-08d9bfe0f0fb
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 15:36:32.8387 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 15:38:28.9222 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: N28bQGNSBDYulS6RPdTWFxrUHkteOicKfujHLilK6rLwObFEY1nr9DH+6bjtF5h+8D8yHxkOMlQlT4dRQMZ7RA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4048
+X-MS-Exchange-CrossTenant-UserPrincipalName: V7B6gqhp6UsJhHwcQWSbzrK1hWfkQ89UeIUWyFtulp/98KOgWCXtajp2A7Mge31zhILs/djYYJt5zIqH7v1WUy/fWRqrDKJc3VaetggYzx0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5441
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10198
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- spamscore=0 suspectscore=0
- malwarescore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ bulkscore=0 spamscore=0
+ mlxlogscore=999 suspectscore=0 adultscore=0 malwarescore=0 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
  definitions=main-2112150088
-X-Proofpoint-ORIG-GUID: 1ZNUKBAGaDIlmn6Q7LssKIM3sLat6vC5
-X-Proofpoint-GUID: 1ZNUKBAGaDIlmn6Q7LssKIM3sLat6vC5
-Received-SPF: pass client-ip=205.220.165.32; envelope-from=jag.raman@oracle.com;
- helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-GUID: UwsvbiU7-Gx9wbkaENPJLHfkmycfa9Pw
+X-Proofpoint-ORIG-GUID: UwsvbiU7-Gx9wbkaENPJLHfkmycfa9Pw
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -164,271 +162,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
- jag.raman@oracle.com, bleal@redhat.com, swapnil.ingle@nutanix.com,
- john.levon@nutanix.com, philmd@redhat.com, wainersm@redhat.com,
- alex.williamson@redhat.com, thanos.makatos@nutanix.com,
- marcandre.lureau@gmail.com, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ konrad.wilk@oracle.com, pbonzini@redhat.com, ani@anisinha.ca,
+ imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avocado tests for libvfio-user in QEMU - tests startup,
-hotplug and migration of the server object
+This patchset introduces support for the ACPI Error Record
+Serialization Table, ERST.
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+For background and implementation information, please see
+docs/specs/acpi_erst.rst, which is patch 2/10.
+
+Suggested-by: Konrad Wilk <konrad.wilk@oracle.com>
+Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+
 ---
- MAINTAINERS                |   1 +
- tests/avocado/vfio-user.py | 225 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 226 insertions(+)
- create mode 100644 tests/avocado/vfio-user.py
+v11: 15dec2021
+ - Simplified build_erst() via feedback from Michael Tsirkin
+ - Addressed additional feedback from Ani Sinha
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5dc67d79a1..385a4d8869 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3468,6 +3468,7 @@ F: subprojects/libvfio-user
- F: hw/remote/vfio-user-obj.c
- F: include/hw/remote/iommu.h
- F: hw/remote/iommu.c
-+F: tests/avocado/vfio-user.py
- 
- EBPF:
- M: Jason Wang <jasowang@redhat.com>
-diff --git a/tests/avocado/vfio-user.py b/tests/avocado/vfio-user.py
-new file mode 100644
-index 0000000000..376c02c41f
---- /dev/null
-+++ b/tests/avocado/vfio-user.py
-@@ -0,0 +1,225 @@
-+# vfio-user protocol sanity test
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+
-+import os
-+import socket
-+import uuid
-+
-+from avocado_qemu import QemuSystemTest
-+from avocado_qemu import wait_for_console_pattern
-+from avocado_qemu import exec_command
-+from avocado_qemu import exec_command_and_wait_for_pattern
-+
-+from avocado.utils import network
-+from avocado.utils import wait
-+
-+class VfioUser(QemuSystemTest):
-+    """
-+    :avocado: tags=vfiouser
-+    """
-+    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-+    timeout = 20
-+
-+    @staticmethod
-+    def migration_finished(vm):
-+        res = vm.command('query-migrate')
-+        if 'status' in res:
-+            return res['status'] in ('completed', 'failed')
-+        else:
-+            return False
-+
-+    def _get_free_port(self):
-+        port = network.find_free_port()
-+        if port is None:
-+            self.cancel('Failed to find a free port')
-+        return port
-+
-+    def validate_vm_launch(self, vm):
-+        wait_for_console_pattern(self, 'as init process',
-+                                 'Kernel panic - not syncing', vm=vm)
-+        exec_command(self, 'mount -t sysfs sysfs /sys', vm=vm)
-+        exec_command_and_wait_for_pattern(self,
-+                                          'cat /sys/bus/pci/devices/*/uevent',
-+                                          'PCI_ID=1000:0012', vm=vm)
-+
-+    def launch_server_startup(self, socket, *opts):
-+        server_vm = self.get_vm()
-+        server_vm.add_args('-machine', 'x-remote')
-+        server_vm.add_args('-nodefaults')
-+        server_vm.add_args('-device', 'lsi53c895a,id=lsi1')
-+        server_vm.add_args('-object', 'x-vfio-user-server,id=vfioobj1,'
-+                           'type=unix,path='+socket+',device=lsi1')
-+        for opt in opts:
-+            server_vm.add_args(opt)
-+        server_vm.launch()
-+        return server_vm
-+
-+    def launch_server_hotplug(self, socket):
-+        server_vm = self.get_vm()
-+        server_vm.add_args('-machine', 'x-remote')
-+        server_vm.add_args('-nodefaults')
-+        server_vm.add_args('-device', 'lsi53c895a,id=lsi1')
-+        server_vm.launch()
-+        server_vm.command('human-monitor-command',
-+                          command_line='object_add x-vfio-user-server,'
-+                                       'id=vfioobj,socket.type=unix,'
-+                                       'socket.path='+socket+',device=lsi1')
-+        return server_vm
-+
-+    def launch_client(self, kernel_path, initrd_path, kernel_command_line,
-+                      machine_type, socket, *opts):
-+        client_vm = self.get_vm()
-+        client_vm.set_console()
-+        client_vm.add_args('-machine', machine_type)
-+        client_vm.add_args('-accel', 'kvm')
-+        client_vm.add_args('-cpu', 'host')
-+        client_vm.add_args('-object',
-+                           'memory-backend-memfd,id=sysmem-file,size=2G')
-+        client_vm.add_args('--numa', 'node,memdev=sysmem-file')
-+        client_vm.add_args('-m', '2048')
-+        client_vm.add_args('-kernel', kernel_path,
-+                           '-initrd', initrd_path,
-+                           '-append', kernel_command_line)
-+        client_vm.add_args('-device',
-+                           'vfio-user-pci,x-enable-migration=true,'
-+                           'socket='+socket)
-+        for opt in opts:
-+            client_vm.add_args(opt)
-+        client_vm.launch()
-+        return client_vm
-+
-+    def do_test_startup(self, kernel_url, initrd_url, kernel_command_line,
-+                machine_type):
-+        self.require_accelerator('kvm')
-+
-+        kernel_path = self.fetch_asset(kernel_url)
-+        initrd_path = self.fetch_asset(initrd_url)
-+        socket = os.path.join('/tmp', str(uuid.uuid4()))
-+        if os.path.exists(socket):
-+            os.remove(socket)
-+        self.launch_server_startup(socket)
-+        client = self.launch_client(kernel_path, initrd_path,
-+                                    kernel_command_line, machine_type, socket)
-+        self.validate_vm_launch(client)
-+
-+    def do_test_hotplug(self, kernel_url, initrd_url, kernel_command_line,
-+                machine_type):
-+        self.require_accelerator('kvm')
-+
-+        kernel_path = self.fetch_asset(kernel_url)
-+        initrd_path = self.fetch_asset(initrd_url)
-+        socket = os.path.join('/tmp', str(uuid.uuid4()))
-+        if os.path.exists(socket):
-+            os.remove(socket)
-+        self.launch_server_hotplug(socket)
-+        client = self.launch_client(kernel_path, initrd_path,
-+                                    kernel_command_line, machine_type, socket)
-+        self.validate_vm_launch(client)
-+
-+    def do_test_migrate(self, kernel_url, initrd_url, kernel_command_line,
-+                machine_type):
-+        self.require_accelerator('kvm')
-+
-+        kernel_path = self.fetch_asset(kernel_url)
-+        initrd_path = self.fetch_asset(initrd_url)
-+        srv_socket = os.path.join('/tmp', str(uuid.uuid4()))
-+        if os.path.exists(srv_socket):
-+            os.remove(srv_socket)
-+        dst_socket = os.path.join('/tmp', str(uuid.uuid4()))
-+        if os.path.exists(dst_socket):
-+            os.remove(dst_socket)
-+        client_uri = 'tcp:localhost:%u' % self._get_free_port()
-+        server_uri = 'tcp:localhost:%u' % self._get_free_port()
-+
-+        """ Launch destination VM """
-+        self.launch_server_startup(dst_socket, '-incoming', server_uri)
-+        dst_client = self.launch_client(kernel_path, initrd_path,
-+                                        kernel_command_line, machine_type,
-+                                        dst_socket, '-incoming', client_uri)
-+
-+        """ Launch source VM """
-+        self.launch_server_startup(srv_socket)
-+        src_client = self.launch_client(kernel_path, initrd_path,
-+                                        kernel_command_line, machine_type,
-+                                        srv_socket)
-+        self.validate_vm_launch(src_client)
-+
-+        """ Kick off migration """
-+        src_client.qmp('migrate', uri=client_uri)
-+
-+        wait.wait_for(self.migration_finished,
-+                      timeout=self.timeout,
-+                      step=0.1,
-+                      args=(dst_client,))
-+
-+    def test_vfio_user_x86_64(self):
-+        """
-+        :avocado: tags=arch:x86_64
-+        :avocado: tags=distro:centos
-+        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/x86_64/os/images'
-+                      '/pxeboot/vmlinuz')
-+        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/x86_64/os/images'
-+                      '/pxeboot/initrd.img')
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyS0 rdinit=/bin/bash')
-+        machine_type = 'pc'
-+        self.do_test_startup(kernel_url, initrd_url, kernel_command_line,
-+                             machine_type)
-+
-+    def test_vfio_user_aarch64(self):
-+        """
-+        :avocado: tags=arch:aarch64
-+        :avocado: tags=distro:ubuntu
-+        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/aarch64/os/images'
-+                      '/pxeboot/vmlinuz')
-+        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/aarch64/os/images'
-+                      '/pxeboot/initrd.img')
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'rdinit=/bin/bash console=ttyAMA0')
-+        machine_type = 'virt,gic-version=3'
-+        self.do_test_startup(kernel_url, initrd_url, kernel_command_line,
-+                             machine_type)
-+
-+    def test_vfio_user_hotplug_x86_64(self):
-+        """
-+        :avocado: tags=arch:x86_64
-+        :avocado: tags=distro:centos
-+        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/x86_64/os/images'
-+                      '/pxeboot/vmlinuz')
-+        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/x86_64/os/images'
-+                      '/pxeboot/initrd.img')
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyS0 rdinit=/bin/bash')
-+        machine_type = 'pc'
-+        self.do_test_hotplug(kernel_url, initrd_url, kernel_command_line,
-+                             machine_type)
-+
-+    def test_vfio_user_migrate_x86_64(self):
-+        """
-+        :avocado: tags=arch:x86_64
-+        :avocado: tags=distro:centos
-+        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/x86_64/os/images'
-+                      '/pxeboot/vmlinuz')
-+        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/x86_64/os/images'
-+                      '/pxeboot/initrd.img')
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyS0 rdinit=/bin/bash')
-+        machine_type = 'pc'
-+        self.do_test_migrate(kernel_url, initrd_url, kernel_command_line,
-+                             machine_type)
-+
+v10: 9dec2021
+ - Addressed additional feedback from Ani Sinha
+
+v9: 2dec2021
+ - Addressed feedback from Ani Sinha
+
+v8: 15oct2021
+ - Added Kconfig option for ERST, per Ani Sinha
+ - Fixed patch ordering, per Ani
+
+v7: 7oct2021
+ - style improvements, per Igor
+ - use of endian accessors for storage header, per Igor
+ - a number of optimizations and improvements, per Igor
+ - updated spec for header, per Igor
+ - updated spec for rst format, per Michael Tsirkin
+ - updated spec for new record_size parameter
+   Due to changes in the spec, I am not carrying the
+   Acked-by from Ani Sinha.
+ - changes for and testing of migration to systems with
+   differing ERST_RECORD_SIZE
+
+v6: 5aug2021
+ - Fixed compile warning/error, per Michael Tsirkin
+ - Fixed mingw32 build error, per Michael
+ - Converted exchange buffer to MemoryBackend, per Igor
+ - Migrated test to PCI, per Igor
+ - Significantly reduced amount of copying, per Igor
+ - Corrections/enhancements to acpi_erst.txt, per Igor
+ - Many misc/other small items, per Igor
+
+v5: 30jun2021
+ - Create docs/specs/acpi_erst.txt, per Igor
+ - Separate PCI BARs for registers and memory, per Igor
+ - Convert debugging to use trace infrastructure, per Igor
+ - Various other fixups, per Igor
+
+v4: 11jun2021
+ - Converted to a PCI device, per Igor.
+ - Updated qtest.
+ - Rearranged patches, per Igor.
+
+v3: 28may2021
+ - Converted to using a TYPE_MEMORY_BACKEND_FILE object rather than
+   internal array with explicit file operations, per Igor.
+ - Changed the way the qdev and base address are handled, allowing
+   ERST to be disabled at run-time. Also aligns better with other
+   existing code.
+
+v2: 8feb2021
+ - Added qtest/smoke test per Paolo Bonzini
+ - Split patch into smaller chunks, per Igor Mammedov
+ - Did away with use of ACPI packed structures, per Igor Mammedov
+
+v1: 26oct2020
+ - initial post
+
+---
+Eric DeVolder (10):
+  ACPI ERST: bios-tables-test.c steps 1 and 2
+  ACPI ERST: specification for ERST support
+  ACPI ERST: PCI device_id for ERST
+  ACPI ERST: header file for ERST
+  ACPI ERST: support for ACPI ERST feature
+  ACPI ERST: build the ACPI ERST table
+  ACPI ERST: create ACPI ERST table for pc/x86 machines
+  ACPI ERST: qtest for ERST
+  ACPI ERST: bios-tables-test testcase
+  ACPI ERST: step 6 of bios-tables-test.c
+
+ docs/specs/acpi_erst.rst          |  200 +++++++
+ hw/acpi/Kconfig                   |    6 +
+ hw/acpi/erst.c                    | 1033 +++++++++++++++++++++++++++++++++++++
+ hw/acpi/meson.build               |    1 +
+ hw/acpi/trace-events              |   15 +
+ hw/i386/acpi-build.c              |   15 +
+ hw/i386/acpi-microvm.c            |   15 +
+ include/hw/acpi/erst.h            |   24 +
+ include/hw/pci/pci.h              |    1 +
+ tests/data/acpi/microvm/ERST.pcie |  Bin 0 -> 912 bytes
+ tests/data/acpi/pc/DSDT.acpierst  |  Bin 0 -> 5969 bytes
+ tests/data/acpi/pc/ERST.acpierst  |  Bin 0 -> 912 bytes
+ tests/data/acpi/q35/DSDT.acpierst |  Bin 0 -> 8306 bytes
+ tests/data/acpi/q35/ERST.acpierst |  Bin 0 -> 912 bytes
+ tests/qtest/bios-tables-test.c    |   56 ++
+ tests/qtest/erst-test.c           |  167 ++++++
+ tests/qtest/meson.build           |    2 +
+ 17 files changed, 1535 insertions(+)
+ create mode 100644 docs/specs/acpi_erst.rst
+ create mode 100644 hw/acpi/erst.c
+ create mode 100644 include/hw/acpi/erst.h
+ create mode 100644 tests/data/acpi/microvm/ERST.pcie
+ create mode 100644 tests/data/acpi/pc/DSDT.acpierst
+ create mode 100644 tests/data/acpi/pc/ERST.acpierst
+ create mode 100644 tests/data/acpi/q35/DSDT.acpierst
+ create mode 100644 tests/data/acpi/q35/ERST.acpierst
+ create mode 100644 tests/qtest/erst-test.c
+
 -- 
-2.20.1
+1.8.3.1
 
 
