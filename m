@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F6047597D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 14:14:42 +0100 (CET)
-Received: from localhost ([::1]:38674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FD8475974
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 14:12:26 +0100 (CET)
+Received: from localhost ([::1]:35140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxU7F-0006GJ-5q
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 08:14:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51822)
+	id 1mxU50-0003dV-Lb
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 08:12:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTmA-0004z1-VO
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:52:58 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:36850
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTmO-00059K-7W
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:53:08 -0500
+Received: from mail.xen0n.name ([115.28.160.31]:36892
  helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTm4-00046X-6C
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:52:54 -0500
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mxTmJ-00048G-AL
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:53:07 -0500
 Received: from ld50.lan (unknown [101.88.31.179])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id AD5EF607FA;
- Wed, 15 Dec 2021 20:52:13 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 0A7D8607FB;
+ Wed, 15 Dec 2021 20:52:14 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1639572733; bh=HzbtEQWn74F/CCM1S77UE6SPAF/7bD6tegy24bWa63c=;
+ t=1639572734; bh=JzeJXAkASRuv+roZ3M/dcU9DVtYEuUn15KjXtDUyMQg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M/qMYwWTIuYOgQk1v32/mxYZ7NFCA1Qbb4TY4r1oSsCs7nxccaiXjNMrfmBHZrsdD
- +IigYHAzNeM77xCAH0rZjnvKdzo4iXPdSPmOpSMc/5vbNid7xyaNb7oy2wyl6aOJOh
- /i8zMzG45uiaxthtYOH3AGZ6TQ4ZzBhiqdyhGrrI=
+ b=DaZwN6Whg/y8NHNRNI5sVUUgAZ4cqRDRsqbAWrpLnrmc29gNCBYAXtqdl9xeUhD5j
+ 7EogwXM8Q1ML8KA/bd+t8DL5mivUzDr6Z4oG4PZzJmasG7CfsTtkJtDU5cbbNx6yzc
+ m2fOV8gxOdMkJqJL7SFtJimCrIcAcRxz6n4xEgLM=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 27/31] tcg/loongarch64: Register the JIT
-Date: Wed, 15 Dec 2021 20:51:32 +0800
-Message-Id: <20211215125136.3449717-28-git@xen0n.name>
+Subject: [PATCH v10 28/31] common-user: Add safe syscall handling for
+ loongarch64 hosts
+Date: Wed, 15 Dec 2021 20:51:33 +0800
+Message-Id: <20211215125136.3449717-29-git@xen0n.name>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211215125136.3449717-1-git@xen0n.name>
 References: <20211215125136.3449717-1-git@xen0n.name>
@@ -70,63 +71,107 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: WANG Xuerui <git@xen0n.name>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/loongarch64/tcg-target.c.inc | 44 ++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ .../host/loongarch64/safe-syscall.inc.S       | 90 +++++++++++++++++++
+ 1 file changed, 90 insertions(+)
+ create mode 100644 common-user/host/loongarch64/safe-syscall.inc.S
 
-diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index 19bfc135f6..9cd46c9be3 100644
---- a/tcg/loongarch64/tcg-target.c.inc
-+++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -1631,3 +1631,47 @@ static void tcg_target_init(TCGContext *s)
-     tcg_regset_set_reg(s->reserved_regs, TCG_REG_TP);
-     tcg_regset_set_reg(s->reserved_regs, TCG_REG_RESERVED);
- }
+diff --git a/common-user/host/loongarch64/safe-syscall.inc.S b/common-user/host/loongarch64/safe-syscall.inc.S
+new file mode 100644
+index 0000000000..b88a069c45
+--- /dev/null
++++ b/common-user/host/loongarch64/safe-syscall.inc.S
+@@ -0,0 +1,90 @@
++/*
++ * safe-syscall.inc.S : host-specific assembly fragment
++ * to handle signals occurring at the same time as system calls.
++ * This is intended to be included by common-user/safe-syscall.S
++ *
++ * Ported to LoongArch by WANG Xuerui <git@xen0n.name>
++ *
++ * Based on safe-syscall.inc.S code for RISC-V,
++ * originally written by Richard Henderson <rth@twiddle.net>
++ * Copyright (C) 2018 Linaro, Inc.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
 +
-+typedef struct {
-+    DebugFrameHeader h;
-+    uint8_t fde_def_cfa[4];
-+    uint8_t fde_reg_ofs[ARRAY_SIZE(tcg_target_callee_save_regs) * 2];
-+} DebugFrame;
++        .global safe_syscall_base
++        .global safe_syscall_start
++        .global safe_syscall_end
++        .type   safe_syscall_base, @function
++        .type   safe_syscall_start, @function
++        .type   safe_syscall_end, @function
 +
-+#define ELF_HOST_MACHINE EM_LOONGARCH
++        /*
++         * This is the entry point for making a system call. The calling
++         * convention here is that of a C varargs function with the
++         * first argument an 'int *' to the signal_pending flag, the
++         * second one the system call number (as a 'long'), and all further
++         * arguments being syscall arguments (also 'long').
++         */
++safe_syscall_base:
++        .cfi_startproc
++        /*
++         * The syscall calling convention is nearly the same as C:
++         * we enter with a0 == &signal_pending
++         *               a1 == syscall number
++         *               a2 ... a7 == syscall arguments
++         *               and return the result in a0
++         * and the syscall instruction needs
++         *               a7 == syscall number
++         *               a0 ... a5 == syscall arguments
++         *               and returns the result in a0
++         * Shuffle everything around appropriately.
++         */
++        move    $t0, $a0        /* signal_pending pointer */
++        move    $t1, $a1        /* syscall number */
++        move    $a0, $a2        /* syscall arguments */
++        move    $a1, $a3
++        move    $a2, $a4
++        move    $a3, $a5
++        move    $a4, $a6
++        move    $a5, $a7
++        move    $a7, $t1
 +
-+static const DebugFrame debug_frame = {
-+    .h.cie.len = sizeof(DebugFrameCIE) - 4, /* length after .len member */
-+    .h.cie.id = -1,
-+    .h.cie.version = 1,
-+    .h.cie.code_align = 1,
-+    .h.cie.data_align = -(TCG_TARGET_REG_BITS / 8) & 0x7f, /* sleb128 */
-+    .h.cie.return_column = TCG_REG_RA,
++        /*
++         * We need to preserve the signal_pending pointer but t0 is
++         * clobbered by syscalls on LoongArch, so we need to move it
++         * somewhere else, ideally both preserved across syscalls and
++         * clobbered by procedure calls so we don't have to allocate a
++         * stack frame; a6 is just the register we want here.
++         */
++        move    $a6, $t0
 +
-+    /* Total FDE size does not include the "len" member.  */
-+    .h.fde.len = sizeof(DebugFrame) - offsetof(DebugFrame, h.fde.cie_offset),
++        /*
++         * This next sequence of code works in conjunction with the
++         * rewind_if_safe_syscall_function(). If a signal is taken
++         * and the interrupted PC is anywhere between 'safe_syscall_start'
++         * and 'safe_syscall_end' then we rewind it to 'safe_syscall_start'.
++         * The code sequence must therefore be able to cope with this, and
++         * the syscall instruction must be the final one in the sequence.
++         */
++safe_syscall_start:
++        /* If signal_pending is non-zero, don't do the call */
++        ld.w    $t1, $a6, 0
++        bnez    $t1, 2f
++        syscall 0
++safe_syscall_end:
++        /* code path for having successfully executed the syscall */
++        li.w    $t2, -4096
++        bgtu    $a0, $t2, 0f
++        jr      $ra
 +
-+    .fde_def_cfa = {
-+        12, TCG_REG_SP,                 /* DW_CFA_def_cfa sp, ...  */
-+        (FRAME_SIZE & 0x7f) | 0x80,     /* ... uleb128 FRAME_SIZE */
-+        (FRAME_SIZE >> 7)
-+    },
-+    .fde_reg_ofs = {
-+        0x80 + 23, 11,                  /* DW_CFA_offset, s0, -88 */
-+        0x80 + 24, 10,                  /* DW_CFA_offset, s1, -80 */
-+        0x80 + 25, 9,                   /* DW_CFA_offset, s2, -72 */
-+        0x80 + 26, 8,                   /* DW_CFA_offset, s3, -64 */
-+        0x80 + 27, 7,                   /* DW_CFA_offset, s4, -56 */
-+        0x80 + 28, 6,                   /* DW_CFA_offset, s5, -48 */
-+        0x80 + 29, 5,                   /* DW_CFA_offset, s6, -40 */
-+        0x80 + 30, 4,                   /* DW_CFA_offset, s7, -32 */
-+        0x80 + 31, 3,                   /* DW_CFA_offset, s8, -24 */
-+        0x80 + 22, 2,                   /* DW_CFA_offset, s9, -16 */
-+        0x80 + 1 , 1,                   /* DW_CFA_offset, ra, -8 */
-+    }
-+};
++        /* code path setting errno */
++0:      sub.d   $a0, $zero, $a0
++        b       safe_syscall_set_errno_tail
 +
-+void tcg_register_jit(const void *buf, size_t buf_size)
-+{
-+    tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
-+}
++        /* code path when we didn't execute the syscall */
++2:      li.w    $a0, QEMU_ERESTARTSYS
++        b       safe_syscall_set_errno_tail
++        .cfi_endproc
++        .size   safe_syscall_base, .-safe_syscall_base
 -- 
 2.34.0
 
