@@ -2,82 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C44F475A9A
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 15:23:26 +0100 (CET)
-Received: from localhost ([::1]:54010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34FBF475A61
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 15:15:14 +0100 (CET)
+Received: from localhost ([::1]:60646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxVBl-0005XD-4u
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 09:23:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37502)
+	id 1mxV3p-0007WE-7e
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 09:15:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ilias.apalodimas@linaro.org>)
- id 1mxUYr-0000Xl-Db
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 08:43:13 -0500
-Received: from [2a00:1450:4864:20::334] (port=40896
- helo=mail-wm1-x334.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ilias.apalodimas@linaro.org>)
- id 1mxUYp-0001cg-La
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 08:43:13 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- j140-20020a1c2392000000b003399ae48f58so18505036wmj.5
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 05:43:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=9nEdcr5p8OcHxve1Z5DC5oBdMvprAMYX5tTrlQkG1E8=;
- b=k5nsBURW0k2O5pBVlRPQYuFcXgIty+uBN5CKoxVY9lgwUjz1pmAHmHG9kDiVBiOvZq
- zRbX+OpqWz/VJeGw8S1lJtef/xvnmYxtJEGVyPhuUlnDW7m0UQ56HCqZlmlzKYviBnKv
- 7hIjKHHiNIeNGvluYGdInwIG1W3lvqk4bvKaa/8qd7of19J9rpmbWLyAZXbazYkHRrn+
- Rrg9HSKejq7b5EcJIFVmdpEbvMhNPZqD6qzE9M/WjZomUEgz5oJkHgijUi+o5ZUEL7My
- CV3HCvE9lqrbhulLkL2qhyFOwQJCAQvO+YlyMXY7TL0nV+ww466cTHAX1OJnqwzIoJ8R
- Qu6A==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mxUda-0007la-ES
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 08:48:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29191)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mxUdT-0005o7-4t
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 08:48:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639576078;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yg1hmIa/mOh7Kt0DE8u7ESU2Zis1ASujsD3nlrAEayM=;
+ b=L41qMpQr8zgeC2jMo7KJCdRKaXMwpL6Q96Q4IsU9aOnvfE1ZDbpqEm1rYPhjttxw0TU+lX
+ 5mZWUAl41rtquQyQNEzjQpsIwDtAewCKkzSH1Tb00Y3WpuEqW25HlvGstR4RFIuiYO6Fvn
+ ED8UjsSy0no2A0VfLcrwbaWHbaiQV0k=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-365-_79Q-5EWOo2PyCuMlnHpWw-1; Wed, 15 Dec 2021 08:47:53 -0500
+X-MC-Unique: _79Q-5EWOo2PyCuMlnHpWw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d7-20020a5d6447000000b00186a113463dso5915667wrw.10
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 05:47:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=9nEdcr5p8OcHxve1Z5DC5oBdMvprAMYX5tTrlQkG1E8=;
- b=sF1Yb6NVEB/hqAgsLRy8wuKpEh6UzDtQC4RqqkBH9kImEx9jWi3ki6KK1np2Kv2Qdd
- vXLTLTqGzVCDSDMjvZWqqafjdgk12sQVKUprwk73Ve4+EYx7TqypeJH45HrBUpranpGF
- k9vk+xC/Gx+HRCeh5XmOEgqkEVS/MxtN6pdCvLvDBC2Ko+Le0vR45i34CBPFhLFm5Lx0
- JHBLQuw7srF4SH0P1eyuQM67+lE74kwHex9qjgfF5G6W0CivwXzafV3rk9bcDCWb0Mj6
- 4iXs+xQKpo/KVVGoYWhRcbk8olHKuQ8RKMVk1R12nFNQ3yysjwZp5vLaz0wKk2ktU+Ag
- U1nA==
-X-Gm-Message-State: AOAM532MHFxgzUmas3djQfK0FmofkPoMHTjhfhxkmNblczPPYwzVCyf5
- dKOvHcqP191QcoVLNnETmKqhJA==
-X-Google-Smtp-Source: ABdhPJzPyexGYnwdRdap/znx5OEHb+pRJO5tXSkPES0lYwvrRzNtXakaHDLsM1WCM4KRiy/cKOdhmw==
-X-Received: by 2002:a05:600c:2304:: with SMTP id
- 4mr1896406wmo.71.1639575790169; 
- Wed, 15 Dec 2021 05:43:10 -0800 (PST)
-Received: from hades (athedsl-4461669.home.otenet.gr. [94.71.4.85])
- by smtp.gmail.com with ESMTPSA id w15sm2038057wrk.77.2021.12.15.05.43.09
+ bh=Yg1hmIa/mOh7Kt0DE8u7ESU2Zis1ASujsD3nlrAEayM=;
+ b=zav/n0abkC452yI5uLuzZStcAITakpFR3F0pgthEMik1y1dE4hNR749hDzpe4EKEMI
+ aycAbIla608X/cYlpC0Ej2O12YAgbocL9j5frzAsMe76qmM5J8ujrFm/2EZM7axFAAkZ
+ g0gMPhl7F9ECenXeWkFQURkrE+qoG3PpP/NgtLJnyry3Z2FKXMynD1BOUxTsoOaRQwhk
+ j7poVrIV6F3vKWiJza1pyBPTk5uDFzM96xLsXL9trltISaqaPVQHt10oMC+a8uIfQzN0
+ Lv3CyYUZO2irQxQtu4PYHKm0KQ9UC2eEBm8If9y643ikjVkfioEeTclgGRC/JEjmPPQj
+ m37w==
+X-Gm-Message-State: AOAM532C4SYU4r/yS2PGGCiaBCSTsCKtP3KtwsfoKM4ASD5oVXk+attP
+ uecikevTdsygcArJEJLJ10zdPQjxo+yQJbCAJ5xkgiUifPAsxSG5Acz2U3uBWNXcOubBOv/BbtE
+ Vz5sIRArdyX8psVQ=
+X-Received: by 2002:a5d:4ccb:: with SMTP id c11mr4176307wrt.689.1639576071880; 
+ Wed, 15 Dec 2021 05:47:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw15wxHZ3EhpNW6MAovRfrUGkOgzTkI7x0xH3tcvdbbehuqQQLLgg2X+nSzHlMhL5b85M2g0A==
+X-Received: by 2002:a5d:4ccb:: with SMTP id c11mr4176289wrt.689.1639576071647; 
+ Wed, 15 Dec 2021 05:47:51 -0800 (PST)
+Received: from steredhat (host-87-21-203-138.retail.telecomitalia.it.
+ [87.21.203.138])
+ by smtp.gmail.com with ESMTPSA id k6sm1810752wmj.16.2021.12.15.05.47.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 05:43:09 -0800 (PST)
-Date: Wed, 15 Dec 2021 15:43:07 +0200
-From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/arm: add control knob to disable kaslr_seed via DTB
-Message-ID: <Ybnw6+lOQPInzgqz@hades>
-References: <20211215120926.1696302-1-alex.bennee@linaro.org>
- <CAFEAcA_psjs5vaCZ06oU_OwSYorED4zgg+y-eD4nN5X2sRBVRg@mail.gmail.com>
+ Wed, 15 Dec 2021 05:47:51 -0800 (PST)
+Date: Wed, 15 Dec 2021 14:47:48 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v4 03/18] meson: require liburing >= 0.3
+Message-ID: <20211215134748.i4mtaysdyrcwuf7y@steredhat>
+References: <20211124130150.268230-1-berrange@redhat.com>
+ <20211124130150.268230-4-berrange@redhat.com>
+ <977ffa85-1f5f-7493-cb05-5e2024e3c017@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+In-Reply-To: <977ffa85-1f5f-7493-cb05-5e2024e3c017@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA_psjs5vaCZ06oU_OwSYorED4zgg+y-eD4nN5X2sRBVRg@mail.gmail.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=ilias.apalodimas@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,33 +100,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jerome Forissier <jerome@forissier.org>, qemu-arm@nongnu.org,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter
+On Wed, Dec 15, 2021 at 12:27:43PM +0100, Philippe Mathieu-Daudé wrote:
+>Cc'ing Stefan & Stefano.
 
-On Wed, Dec 15, 2021 at 01:36:07PM +0000, Peter Maydell wrote:
-> On Wed, 15 Dec 2021 at 12:09, Alex Benn�e <alex.bennee@linaro.org> wrote:
-> >
-> > Generally a guest needs an external source of randomness to properly
-> > enable things like address space randomisation. However in a trusted
-> > boot environment where the firmware will cryptographically verify
-> > components having random data in the DTB will cause verification to
-> > fail. Add a control knob so we can prevent this being added to the
-> > system DTB.
-> 
-> Given that the DTB is automatically generated for the virt board,
-> firmware has no way to guarantee that it's the same every time
-> anyway, surely ?
+Thanks Phil!
 
-The firmware needs hardware assistance to do this. In order to have some 
-guarantees on the loaded DTB, the firmware measures and extends the TPM PCRs.
-In that case you'd expect the measurements to match across reboots assuming 
-the command line hasn't been changed.  The kaslr-seed is obviously a deal
-breaker for this. 
+>
+>On 11/24/21 14:01, Daniel P. Berrangé wrote:
+>> openSUSE Leap 15.2 ships with liburing == 0.2 against which QEMU fails
+>> to build.
+>>
+>> ../util/fdmon-io_uring.c: In function ‘fdmon_io_uring_need_wait’:
+>> ../util/fdmon-io_uring.c:305:9: error: implicit declaration of function ‘io_uring_sq_ready’; did you mean ‘io_uring_cq_ready’? [-Werror=implicit-function-declaration]
+>>      if (io_uring_sq_ready(&ctx->fdmon_io_uring)) {
+>>          ^~~~~~~~~~~~~~~~~
+>>          io_uring_cq_ready
+>>
+>> This method was introduced in liburing 0.3, so set that as a minimum
+>> requirement.
+>>
+>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>> ---
+>>  meson.build | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meson.build b/meson.build
+>> index e2d38a43e6..04d36bf47e 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -427,7 +427,8 @@ if not get_option('linux_aio').auto() or have_block
+>>  endif
+>>  linux_io_uring = not_found
+>>  if not get_option('linux_io_uring').auto() or have_block
+>> -  linux_io_uring = dependency('liburing', required: get_option('linux_io_uring'),
+>> +  linux_io_uring = dependency('liburing', version: '>=0.3',
+>> +                              required: get_option('linux_io_uring'),
+>>                                method: 'pkg-config', kwargs: static_kwargs)
+>>  endif
+>>  libxml2 = not_found
+>>
+>
 
-Thanks
-/Ilias
+LGTM!
+
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+
 
