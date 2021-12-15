@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5413B4759C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 14:35:48 +0100 (CET)
-Received: from localhost ([::1]:43336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66BA4759DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 14:45:37 +0100 (CET)
+Received: from localhost ([::1]:33804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxURf-0004pX-Dp
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 08:35:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54484)
+	id 1mxUbA-0001yl-Rl
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 08:45:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxTrl-0006iY-KE
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:58:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33044)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxTrj-0005SC-Gq
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:58:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639573119;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=jxs5VKpzdwhALfjqhDYzr0GvZpYK6+uFqhSC+CIjp1s=;
- b=cn3u03v1UYcKG8zcRTaMUKmfvcDSIWBpYKDbPbmL4CvDXs/sy8CLLkRWMEDQOaMWw/Mp0Y
- NKGfcalu6vrkni1B+arpH95R8VU2SAsqn27lXv/ValpyvXwSp5EFXYQmj5t9JW4u/ekHKq
- CzAp39N9eAydj0XD2e8E9NtQsPAmuWc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-376-zfijBs4-P1aVVLPD-JAVqQ-1; Wed, 15 Dec 2021 07:58:33 -0500
-X-MC-Unique: zfijBs4-P1aVVLPD-JAVqQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C34E4801B35;
- Wed, 15 Dec 2021 12:58:32 +0000 (UTC)
-Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94DD85F6B7;
- Wed, 15 Dec 2021 12:58:25 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] block/file-posix: Simplify the XFS_IOC_DIOINFO handling
-Date: Wed, 15 Dec 2021 13:58:24 +0100
-Message-Id: <20211215125824.250091-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <ilias.apalodimas@linaro.org>)
+ id 1mxU8Z-0001LQ-34
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 08:16:03 -0500
+Received: from [2607:f8b0:4864:20::b30] (port=38679
+ helo=mail-yb1-xb30.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ilias.apalodimas@linaro.org>)
+ id 1mxU8X-00050f-4f
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 08:16:02 -0500
+Received: by mail-yb1-xb30.google.com with SMTP id v64so55055448ybi.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 05:16:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=gM6mFIK2UrpQvcXb+mChAgCxKybKifKP5Azjm0zqeB8=;
+ b=Pq5hksYVPGwo7Vw5mZTtqHXgjJQm803IxmjEt7WERURL5/keaPAIrKPDDuTYlXScK8
+ zmWNSRl13eRdDivHBsUrPWJqw5Y9mPKIrssyGOselCWHMNIzPiaDBS/ZMaaqDymTggDC
+ 93X+QKQGumF2jWpfMySdAoJrcET/fp6MVIDbOG6NySsvSSLcvniMswp8kOhcAQNaLks3
+ sm4njv3A04dlkigPcJJzTOMDI0A7SZDD4pr7SifN5e1H5e098L3ElZlt11rtqA0cEuhu
+ eee/uIXGCcnx85WAZBarQkcQR0v7ah7sfswhEYWXVzPa1DYB7Ug5mSj8YDRIlx3cWA0B
+ R7/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gM6mFIK2UrpQvcXb+mChAgCxKybKifKP5Azjm0zqeB8=;
+ b=YonQZcs1Xc/O2dzH+Y19y8HMeYMzv1PMkRutcpXA2hSsJqKt1Kn6F3lDM+zr+NHvKz
+ bsjz2KTQCpCxQnxWR7DrDTVxn3VEYFpSESohNOv8Vs6uwxmHMMr2FfPL8i+NZ9n46Bls
+ ZL2w03SOfMVmkCg/l5JPOsEy3MAsgo3Q4K5nM3YdVmC6hKpSQygoiglwoyD1qjrehMyq
+ 43QZRxJsEOX/hOIc5U30KMPOcbPpCe6D32NU1iJLFLQ/IG48eh09Gs8fNvSJvV91je1a
+ 8t5Tz/8jmv2AvGBCw1wwc/79ShVkMKZj1UiIAm/ic1EafIquTgs6GhqOdRfqx2Ve/HFS
+ vsWA==
+X-Gm-Message-State: AOAM530SHpGUn7QDcQIWApU1ZcYIDXQrP2hPWHDFhwxhYtRFGEc6cpIR
+ JCDSCB/02KRU/CEJQIUfN5kTpyU8/wxYi9n2ysPLkQ==
+X-Google-Smtp-Source: ABdhPJywNhvA3FVevV5ejsIO69dXayAfsk7pk3SadZxSgGfnWJ/JWLP/ORavyrGcZVHvRDNhjMcmZqmnHBq4HczOCzE=
+X-Received: by 2002:a25:e792:: with SMTP id e140mr6189596ybh.426.1639574158977; 
+ Wed, 15 Dec 2021 05:15:58 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20211215120926.1696302-1-alex.bennee@linaro.org>
+In-Reply-To: <20211215120926.1696302-1-alex.bennee@linaro.org>
+From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Date: Wed, 15 Dec 2021 15:15:22 +0200
+Message-ID: <CAC_iWjL6x+qPmWSeeV1QWg=8X5XmXVaCJb99==_1uoyQsOps_w@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm: add control knob to disable kaslr_seed via DTB
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b30
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=ilias.apalodimas@linaro.org; helo=mail-yb1-xb30.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, WEIRD_QUOTING=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,183 +81,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Jerome Forissier <jerome@forissier.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The handling for the XFS_IOC_DIOINFO ioctl is currently quite excessive:
-This is not a "real" feature like the other features that we provide with
-the "--enable-xxx" and "--disable-xxx" switches for the configure script,
-since this does not influence lots of code (it's only about one call to
-xfsctl() in file-posix.c), so people don't gain much with the ability to
-disable this with "--disable-xfsctl".
-It's also unfortunate that the ioctl will be disabled on Linux in case
-the user did not install the right xfsprogs-devel package before running
-configure. Thus let's simplify this by providing the ioctl definition
-on our own, so we can completely get rid of the header dependency and
-thus the related code in the configure script.
+Hi Alex,
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- block/file-posix.c | 37 ++++++++++++++++---------------------
- configure          | 31 -------------------------------
- meson.build        |  1 -
- 3 files changed, 16 insertions(+), 53 deletions(-)
+On Wed, 15 Dec 2021 at 14:09, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> Generally a guest needs an external source of randomness to properly
+> enable things like address space randomisation. However in a trusted
+> boot environment where the firmware will cryptographically verify
+> components having random data in the DTB will cause verification to
+> fail. Add a control knob so we can prevent this being added to the
+> system DTB.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+> Cc: Jerome Forissier <jerome@forissier.org>
+> ---
+>  docs/system/arm/virt.rst |  7 +++++++
+>  include/hw/arm/virt.h    |  1 +
+>  hw/arm/virt.c            | 32 ++++++++++++++++++++++++++++++--
+>  3 files changed, 38 insertions(+), 2 deletions(-)
+>
+> diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
+> index 850787495b..c86a4808df 100644
+> --- a/docs/system/arm/virt.rst
+> +++ b/docs/system/arm/virt.rst
+> @@ -121,6 +121,13 @@ ras
+>    Set ``on``/``off`` to enable/disable reporting host memory errors to a=
+ guest
+>    using ACPI and guest external abort exceptions. The default is off.
+>
+> +kaslr-dtb-seed
+> +  Set ``on``/``off`` to pass a random seed via the guest dtb to use for =
+features
+> +  like address space randomisation. The default is ``on``. You will want
+> +  to disable it if your trusted boot chain will verify the DTB it is
+> +  passed. It would be the responsibility of the firmware to come up
+> +  with a seed and pass it on if it wants to.
+> +
+>  Linux guest kernel configuration
+>  """"""""""""""""""""""""""""""""
+>
+> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> index dc6b66ffc8..acd0665fe7 100644
+> --- a/include/hw/arm/virt.h
+> +++ b/include/hw/arm/virt.h
+> @@ -148,6 +148,7 @@ struct VirtMachineState {
+>      bool virt;
+>      bool ras;
+>      bool mte;
+> +    bool kaslr_dtb_seed;
+>      OnOffAuto acpi;
+>      VirtGICType gic_version;
+>      VirtIOMMUType iommu;
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 30da05dfe0..4496612e89 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -248,11 +248,15 @@ static void create_fdt(VirtMachineState *vms)
+>
+>      /* /chosen must exist for load_dtb to fill in necessary properties l=
+ater */
+>      qemu_fdt_add_subnode(fdt, "/chosen");
+> -    create_kaslr_seed(ms, "/chosen");
+> +    if (vms->kaslr_dtb_seed) {
+> +        create_kaslr_seed(ms, "/chosen");
+> +    }
+>
+>      if (vms->secure) {
+>          qemu_fdt_add_subnode(fdt, "/secure-chosen");
+> -        create_kaslr_seed(ms, "/secure-chosen");
+> +        if (vms->kaslr_dtb_seed) {
+> +            create_kaslr_seed(ms, "/secure-chosen");
+> +        }
+>      }
+>
+>      /* Clock node, for the benefit of the UART. The kernel device tree
+> @@ -2236,6 +2240,20 @@ static void virt_set_its(Object *obj, bool value, =
+Error **errp)
+>      vms->its =3D value;
+>  }
+>
+> +static bool virt_get_kaslr_dtb_seed(Object *obj, Error **errp)
+> +{
+> +    VirtMachineState *vms =3D VIRT_MACHINE(obj);
+> +
+> +    return vms->kaslr_dtb_seed;
+> +}
+> +
+> +static void virt_set_kaslr_dtb_seed(Object *obj, bool value, Error **err=
+p)
+> +{
+> +    VirtMachineState *vms =3D VIRT_MACHINE(obj);
+> +
+> +    vms->kaslr_dtb_seed =3D value;
+> +}
+> +
+>  static char *virt_get_oem_id(Object *obj, Error **errp)
+>  {
+>      VirtMachineState *vms =3D VIRT_MACHINE(obj);
+> @@ -2765,6 +2783,13 @@ static void virt_machine_class_init(ObjectClass *o=
+c, void *data)
+>                                            "Set on/off to enable/disable =
+"
+>                                            "ITS instantiation");
+>
+> +    object_class_property_add_bool(oc, "kaslr-dtb-seed",
+> +                                   virt_get_kaslr_dtb_seed,
+> +                                   virt_set_kaslr_dtb_seed);
+> +    object_class_property_set_description(oc, "kaslr-dtb-seed",
+> +                                          "Set off to disable passing of=
+ kaslr "
+> +                                          "dtb node to guest");
+> +
+>      object_class_property_add_str(oc, "x-oem-id",
+>                                    virt_get_oem_id,
+>                                    virt_set_oem_id);
+> @@ -2829,6 +2854,9 @@ static void virt_instance_init(Object *obj)
+>      /* MTE is disabled by default.  */
+>      vms->mte =3D false;
+>
+> +    /* Supply a kaslr-seed by default */
+> +    vms->kaslr_dtb_seed =3D true;
+> +
+>      vms->irqmap =3D a15irqmap;
+>
+>      virt_flash_create(vms);
+> --
+> 2.30.2
+>
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index b283093e5b..1f1756e192 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -106,10 +106,6 @@
- #include <sys/diskslice.h>
- #endif
- 
--#ifdef CONFIG_XFS
--#include <xfs/xfs.h>
--#endif
--
- /* OS X does not have O_DSYNC */
- #ifndef O_DSYNC
- #ifdef O_SYNC
-@@ -156,9 +152,6 @@ typedef struct BDRVRawState {
-     int perm_change_flags;
-     BDRVReopenState *reopen_state;
- 
--#ifdef CONFIG_XFS
--    bool is_xfs:1;
--#endif
-     bool has_discard:1;
-     bool has_write_zeroes:1;
-     bool discard_zeroes:1;
-@@ -409,14 +402,22 @@ static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
-     if (probe_logical_blocksize(fd, &bs->bl.request_alignment) < 0) {
-         bs->bl.request_alignment = 0;
-     }
--#ifdef CONFIG_XFS
--    if (s->is_xfs) {
--        struct dioattr da;
--        if (xfsctl(NULL, fd, XFS_IOC_DIOINFO, &da) >= 0) {
--            bs->bl.request_alignment = da.d_miniosz;
--            /* The kernel returns wrong information for d_mem */
--            /* s->buf_align = da.d_mem; */
--        }
-+
-+#ifdef __linux__
-+    /*
-+     * The XFS ioctl definitions are shipped in extra packages that might
-+     * not always be available. Since we just need the XFS_IOC_DIOINFO ioctl
-+     * here, we simply use our own definition instead:
-+     */
-+    struct xfs_dioattr {
-+        uint32_t d_mem;
-+        uint32_t d_miniosz;
-+        uint32_t d_maxiosz;
-+    } da;
-+    if (ioctl(fd, _IOR('X', 30, struct xfs_dioattr), &da) >= 0) {
-+        bs->bl.request_alignment = da.d_miniosz;
-+        /* The kernel returns wrong information for d_mem */
-+        /* s->buf_align = da.d_mem; */
-     }
- #endif
- 
-@@ -798,12 +799,6 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
- #endif
-     s->needs_alignment = raw_needs_alignment(bs);
- 
--#ifdef CONFIG_XFS
--    if (platform_test_xfs_fd(s->fd)) {
--        s->is_xfs = true;
--    }
--#endif
--
-     bs->supported_zero_flags = BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK;
-     if (S_ISREG(st.st_mode)) {
-         /* When extending regular files, we get zeros from the OS */
-diff --git a/configure b/configure
-index bb99a40ed0..e0d8bedd3a 100755
---- a/configure
-+++ b/configure
-@@ -291,7 +291,6 @@ EXTRA_CXXFLAGS=""
- EXTRA_LDFLAGS=""
- 
- xen_ctrl_version="$default_feature"
--xfs="$default_feature"
- membarrier="$default_feature"
- vhost_kernel="$default_feature"
- vhost_net="$default_feature"
-@@ -1020,10 +1019,6 @@ for opt do
-   ;;
-   --enable-opengl) opengl="yes"
-   ;;
--  --disable-xfsctl) xfs="no"
--  ;;
--  --enable-xfsctl) xfs="yes"
--  ;;
-   --disable-zlib-test)
-   ;;
-   --enable-guest-agent) guest_agent="yes"
-@@ -1448,7 +1443,6 @@ cat << EOF
-   avx512f         AVX512F optimization support
-   replication     replication support
-   opengl          opengl support
--  xfsctl          xfsctl support
-   qom-cast-debug  cast debugging support
-   tools           build qemu-io, qemu-nbd and qemu-img tools
-   bochs           bochs image format support
-@@ -2340,28 +2334,6 @@ EOF
-     fi
- fi
- 
--##########################################
--# xfsctl() probe, used for file-posix.c
--if test "$xfs" != "no" ; then
--  cat > $TMPC << EOF
--#include <stddef.h>  /* NULL */
--#include <xfs/xfs.h>
--int main(void)
--{
--    xfsctl(NULL, 0, 0, NULL);
--    return 0;
--}
--EOF
--  if compile_prog "" "" ; then
--    xfs="yes"
--  else
--    if test "$xfs" = "yes" ; then
--      feature_not_found "xfs" "Install xfsprogs/xfslibs devel"
--    fi
--    xfs=no
--  fi
--fi
--
- ##########################################
- # plugin linker support probe
- 
-@@ -3478,9 +3450,6 @@ echo "CONFIG_BDRV_RO_WHITELIST=$block_drv_ro_whitelist" >> $config_host_mak
- if test "$block_drv_whitelist_tools" = "yes" ; then
-   echo "CONFIG_BDRV_WHITELIST_TOOLS=y" >> $config_host_mak
- fi
--if test "$xfs" = "yes" ; then
--  echo "CONFIG_XFS=y" >> $config_host_mak
--fi
- qemu_version=$(head $source_path/VERSION)
- echo "PKGVERSION=$pkgversion" >>$config_host_mak
- echo "SRC_PATH=$source_path" >> $config_host_mak
-diff --git a/meson.build b/meson.build
-index ae67ca28ab..bd2ed3dd49 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3417,7 +3417,6 @@ if spice_protocol.found()
-   summary_info += {'  spice server support': spice}
- endif
- summary_info += {'rbd support':       rbd}
--summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
- summary_info += {'smartcard support': cacard}
- summary_info += {'U2F support':       u2f}
- summary_info += {'libusb':            libusb}
--- 
-2.27.0
+This is particularly useful if the bootloader uses a TPM to measures
+the DTB and end up with a measured boot flow.
 
+Acked-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
 
