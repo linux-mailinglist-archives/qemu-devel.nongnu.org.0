@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368874753D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 08:40:17 +0100 (CET)
-Received: from localhost ([::1]:48178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30604753EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 08:55:46 +0100 (CET)
+Received: from localhost ([::1]:43928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxOtb-0005nF-Q9
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 02:40:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49640)
+	id 1mxP8b-0005Tv-RO
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 02:55:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxOnm-0002lf-SL
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxOno-0002mc-1n
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:34:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51396)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxOnk-0004Gq-CB
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:34:13 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxOnl-0004H8-Fn
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:34:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639553651;
+ s=mimecast20190719; t=1639553652;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2WhIPKaQUpIOd/sgZxtI9VP2y4nEtpxaYAil6cZOZP0=;
- b=FSB1NFS/+f2eQ7LFPWLS3Tg/VpNShdsuiO6+Zgc2Z4JG++yxkdkwTWW0Dsk32oAYO/uE4L
- tRDV+vyAfkb1zMSLTXTBrrYUu1dfo6r9IX+To4UtPajkik2VsLkOARQmuH6reY+ijGkDkz
- i1N49Xq4VDu0JTg6Q0isBNDP7Q/ePAI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Sw07NBkfI0x6sgogPILWtEduyw/eQ2sFZjFujeyINBI=;
+ b=RB+WWPd0zTr4W9stCDHcxSIWFhYPkY3Xbk3Hmc41kQ6dP0STlhfi3kL+TkvNFpjJTRCjXt
+ Z7BHOr0h+/ymDZ9ZxyO6EJqlVpXM/VR4/IwLKeVOWDM84fNZflK6wqur3eeymH18bfUsFZ
+ oAO4ZPOVHCBRzPdHnUXz3AURpFC8bRQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-602-LCN4Y4AVPP6e2sVntZZBYA-1; Wed, 15 Dec 2021 02:34:05 -0500
-X-MC-Unique: LCN4Y4AVPP6e2sVntZZBYA-1
+ us-mta-313-U8H-fQK7OsOn-6N5y3N7Aw-1; Wed, 15 Dec 2021 02:34:08 -0500
+X-MC-Unique: U8H-fQK7OsOn-6N5y3N7Aw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57A192F25;
- Wed, 15 Dec 2021 07:34:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5813801ADC;
+ Wed, 15 Dec 2021 07:34:07 +0000 (UTC)
 Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B023B1092790;
- Wed, 15 Dec 2021 07:34:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9EDC71092790;
+ Wed, 15 Dec 2021 07:34:04 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/16] qtest and gitlab-CI improvements
-Date: Wed, 15 Dec 2021 08:33:46 +0100
-Message-Id: <20211215073402.144286-1-thuth@redhat.com>
+Subject: [PULL 01/16] qtest/libqos: add a function to initialize secondary PCI
+ buses
+Date: Wed, 15 Dec 2021 08:33:47 +0100
+Message-Id: <20211215073402.144286-2-thuth@redhat.com>
+In-Reply-To: <20211215073402.144286-1-thuth@redhat.com>
+References: <20211215073402.144286-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,87 +78,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi!
+From: Laurent Vivier <lvivier@redhat.com>
 
-The following changes since commit 76b56fdfc9fa43ec6e5986aee33f108c6c6a511e:
+Scan the PCI devices to find bridge and set PCI_SECONDARY_BUS and
+PCI_SUBORDINATE_BUS (algorithm from seabios)
 
-  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2021-12-14 12:46:18 -0800)
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20211208130350.10178-2-lvivier@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ include/hw/pci/pci_bridge.h |   8 +++
+ tests/qtest/libqos/pci.c    | 119 ++++++++++++++++++++++++++++++++++++
+ tests/qtest/libqos/pci.h    |   1 +
+ 3 files changed, 128 insertions(+)
 
-are available in the Git repository at:
-
-  https://gitlab.com/thuth/qemu.git tags/pull-request-2021-12-15
-
-for you to fetch changes up to 7876cba8fc0cab9a4c803a30f427d4b20b95a868:
-
-  gitlab-ci: Test compilation on Windows with MSYS2 (2021-12-15 08:08:59 +0100)
-
-----------------------------------------------------------------
-* Add virtio-net failover test
-* Make qtests a little bit more flexible with regards to reduced configs
-* Move libssh setup from configure to meson.build
-* Run device-crash-test in CI
-* Add jobs for NetBSD and OpenBSD to the CI
-* Test compilation with MSYS2 in the gitlab-ci, too
-* Add new virtio-iommu test
-
-----------------------------------------------------------------
-Eric Auger (4):
-      virtio-iommu: Remove set_config callback
-      virtio-iommu: Fix endianness in get_config
-      virtio-iommu: Fix the domain_range end
-      tests: qtest: Add virtio-iommu test
-
-Laurent Vivier (4):
-      qtest/libqos: add a function to initialize secondary PCI buses
-      tests/qtest: add some tests for virtio-net failover
-      tests/libqtest: add some virtio-net failover migration cancelling tests
-      tests/libqtest: add a migration test with two couples of failover devices
-
-Thomas Huth (8):
-      tests/qtest: Run the PPC 32-bit tests with the 64-bit target binary, too
-      tests/qtest: Fence the tests that need xlnx-zcu102 with CONFIG_XLNX_ZYNQMP_ARM
-      tests/qtest: Add a function that gets a list with available machine types
-      tests/qtest: Add a function to check whether a machine is available
-      Move the libssh setup from configure to meson.build
-      gitlab-ci.d/buildtest: Add jobs that run the device-crash-test
-      gitlab-ci: Add cirrus-ci based tests for NetBSD and OpenBSD
-      gitlab-ci: Test compilation on Windows with MSYS2
-
- .gitlab-ci.d/buildtest.yml        |   23 +
- .gitlab-ci.d/cirrus.yml           |   35 +
- .gitlab-ci.d/cirrus/kvm-build.yml |   31 +
- .gitlab-ci.d/qemu-project.yml     |    1 +
- .gitlab-ci.d/windows.yml          |   98 +++
- configure                         |   27 -
- hw/virtio/trace-events            |    3 +-
- hw/virtio/virtio-iommu.c          |   42 +-
- include/hw/pci/pci_bridge.h       |    8 +
- meson.build                       |   13 +-
- meson_options.txt                 |    2 +
- scripts/meson-buildoptions.sh     |    3 +
- tests/qtest/boot-serial-test.c    |    3 +-
- tests/qtest/cdrom-test.c          |    8 +-
- tests/qtest/libqos/libqtest.h     |    8 +
- tests/qtest/libqos/meson.build    |    1 +
- tests/qtest/libqos/pci.c          |  119 ++++
- tests/qtest/libqos/pci.h          |    1 +
- tests/qtest/libqos/virtio-iommu.c |  126 ++++
- tests/qtest/libqos/virtio-iommu.h |   40 ++
- tests/qtest/libqtest.c            |   79 ++-
- tests/qtest/meson.build           |    9 +-
- tests/qtest/prom-env-test.c       |    8 +-
- tests/qtest/virtio-iommu-test.c   |  326 +++++++++
- tests/qtest/virtio-net-failover.c | 1352 +++++++++++++++++++++++++++++++++++++
- 25 files changed, 2290 insertions(+), 76 deletions(-)
- create mode 100644 .gitlab-ci.d/cirrus/kvm-build.yml
- create mode 100644 .gitlab-ci.d/windows.yml
- create mode 100644 tests/qtest/libqos/virtio-iommu.c
- create mode 100644 tests/qtest/libqos/virtio-iommu.h
- create mode 100644 tests/qtest/virtio-iommu-test.c
- create mode 100644 tests/qtest/virtio-net-failover.c
+diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
+index a94d350034..30691a6e57 100644
+--- a/include/hw/pci/pci_bridge.h
++++ b/include/hw/pci/pci_bridge.h
+@@ -138,6 +138,7 @@ typedef struct PCIBridgeQemuCap {
+     uint64_t mem_pref_64; /* Prefetchable memory to reserve (64-bit MMIO) */
+ } PCIBridgeQemuCap;
+ 
++#define REDHAT_PCI_CAP_TYPE_OFFSET      3
+ #define REDHAT_PCI_CAP_RESOURCE_RESERVE 1
+ 
+ /*
+@@ -152,6 +153,13 @@ typedef struct PCIResReserve {
+     uint64_t mem_pref_64;
+ } PCIResReserve;
+ 
++#define REDHAT_PCI_CAP_RES_RESERVE_BUS_RES     4
++#define REDHAT_PCI_CAP_RES_RESERVE_IO          8
++#define REDHAT_PCI_CAP_RES_RESERVE_MEM         16
++#define REDHAT_PCI_CAP_RES_RESERVE_PREF_MEM_32 20
++#define REDHAT_PCI_CAP_RES_RESERVE_PREF_MEM_64 24
++#define REDHAT_PCI_CAP_RES_RESERVE_CAP_SIZE    32
++
+ int pci_bridge_qemu_reserve_cap_init(PCIDevice *dev, int cap_offset,
+                                PCIResReserve res_reserve, Error **errp);
+ 
+diff --git a/tests/qtest/libqos/pci.c b/tests/qtest/libqos/pci.c
+index e1e96189c8..3a9076ae58 100644
+--- a/tests/qtest/libqos/pci.c
++++ b/tests/qtest/libqos/pci.c
+@@ -13,6 +13,8 @@
+ #include "qemu/osdep.h"
+ #include "pci.h"
+ 
++#include "hw/pci/pci.h"
++#include "hw/pci/pci_bridge.h"
+ #include "hw/pci/pci_regs.h"
+ #include "qemu/host-utils.h"
+ #include "qgraph.h"
+@@ -99,6 +101,123 @@ void qpci_device_init(QPCIDevice *dev, QPCIBus *bus, QPCIAddress *addr)
+     g_assert(!addr->device_id || device_id == addr->device_id);
+ }
+ 
++static uint8_t qpci_find_resource_reserve_capability(QPCIDevice *dev)
++{
++    uint16_t device_id;
++    uint8_t cap = 0;
++
++    if (qpci_config_readw(dev, PCI_VENDOR_ID) != PCI_VENDOR_ID_REDHAT) {
++        return 0;
++    }
++
++    device_id = qpci_config_readw(dev, PCI_DEVICE_ID);
++
++    if (device_id != PCI_DEVICE_ID_REDHAT_PCIE_RP &&
++        device_id != PCI_DEVICE_ID_REDHAT_BRIDGE) {
++        return 0;
++    }
++
++    do {
++        cap = qpci_find_capability(dev, PCI_CAP_ID_VNDR, cap);
++    } while (cap &&
++             qpci_config_readb(dev, cap + REDHAT_PCI_CAP_TYPE_OFFSET) !=
++             REDHAT_PCI_CAP_RESOURCE_RESERVE);
++    if (cap) {
++        uint8_t cap_len = qpci_config_readb(dev, cap + PCI_CAP_FLAGS);
++        if (cap_len < REDHAT_PCI_CAP_RES_RESERVE_CAP_SIZE) {
++            return 0;
++        }
++    }
++    return cap;
++}
++
++static void qpci_secondary_buses_rec(QPCIBus *qbus, int bus, int *pci_bus)
++{
++    QPCIDevice *dev;
++    uint16_t class;
++    uint8_t pribus, secbus, subbus;
++    int index;
++
++    for (index = 0; index < 32; index++) {
++        dev = qpci_device_find(qbus, QPCI_DEVFN(bus + index, 0));
++        if (dev == NULL) {
++            continue;
++        }
++        class = qpci_config_readw(dev, PCI_CLASS_DEVICE);
++        if (class == PCI_CLASS_BRIDGE_PCI) {
++            qpci_config_writeb(dev, PCI_SECONDARY_BUS, 255);
++            qpci_config_writeb(dev, PCI_SUBORDINATE_BUS, 0);
++        }
++        g_free(dev);
++    }
++
++    for (index = 0; index < 32; index++) {
++        dev = qpci_device_find(qbus, QPCI_DEVFN(bus + index, 0));
++        if (dev == NULL) {
++            continue;
++        }
++        class = qpci_config_readw(dev, PCI_CLASS_DEVICE);
++        if (class != PCI_CLASS_BRIDGE_PCI) {
++            g_free(dev);
++            continue;
++        }
++
++        pribus = qpci_config_readb(dev, PCI_PRIMARY_BUS);
++        if (pribus != bus) {
++            qpci_config_writeb(dev, PCI_PRIMARY_BUS, bus);
++        }
++
++        secbus = qpci_config_readb(dev, PCI_SECONDARY_BUS);
++        (*pci_bus)++;
++        if (*pci_bus != secbus) {
++            secbus = *pci_bus;
++            qpci_config_writeb(dev, PCI_SECONDARY_BUS, secbus);
++        }
++
++        subbus = qpci_config_readb(dev, PCI_SUBORDINATE_BUS);
++        qpci_config_writeb(dev, PCI_SUBORDINATE_BUS, 255);
++
++        qpci_secondary_buses_rec(qbus, secbus << 5, pci_bus);
++
++        if (subbus != *pci_bus) {
++            uint8_t res_bus = *pci_bus;
++            uint8_t cap = qpci_find_resource_reserve_capability(dev);
++
++            if (cap) {
++                uint32_t tmp_res_bus;
++
++                tmp_res_bus = qpci_config_readl(dev, cap +
++                                            REDHAT_PCI_CAP_RES_RESERVE_BUS_RES);
++                if (tmp_res_bus != (uint32_t)-1) {
++                    res_bus = tmp_res_bus & 0xFF;
++                    if ((uint8_t)(res_bus + secbus) < secbus ||
++                        (uint8_t)(res_bus + secbus) < res_bus) {
++                        res_bus = 0;
++                    }
++                    if (secbus + res_bus > *pci_bus) {
++                        res_bus = secbus + res_bus;
++                    }
++                }
++            }
++            subbus = res_bus;
++            *pci_bus = res_bus;
++        }
++
++        qpci_config_writeb(dev, PCI_SUBORDINATE_BUS, subbus);
++        g_free(dev);
++    }
++}
++
++int qpci_secondary_buses_init(QPCIBus *bus)
++{
++    int last_bus = 0;
++
++    qpci_secondary_buses_rec(bus, 0, &last_bus);
++
++    return last_bus;
++}
++
++
+ void qpci_device_enable(QPCIDevice *dev)
+ {
+     uint16_t cmd;
+diff --git a/tests/qtest/libqos/pci.h b/tests/qtest/libqos/pci.h
+index ee64fdecbd..becb800f9e 100644
+--- a/tests/qtest/libqos/pci.h
++++ b/tests/qtest/libqos/pci.h
+@@ -81,6 +81,7 @@ void qpci_device_foreach(QPCIBus *bus, int vendor_id, int device_id,
+                          void *data);
+ QPCIDevice *qpci_device_find(QPCIBus *bus, int devfn);
+ void qpci_device_init(QPCIDevice *dev, QPCIBus *bus, QPCIAddress *addr);
++int qpci_secondary_buses_init(QPCIBus *bus);
+ 
+ bool qpci_has_buggy_msi(QPCIDevice *dev);
+ bool qpci_check_buggy_msi(QPCIDevice *dev);
+-- 
+2.27.0
 
 
