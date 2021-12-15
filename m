@@ -2,73 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F63F47507D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 02:27:28 +0100 (CET)
-Received: from localhost ([::1]:53944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF52475093
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 02:42:31 +0100 (CET)
+Received: from localhost ([::1]:37846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxJ4o-0004yf-6j
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 20:27:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34002)
+	id 1mxJJN-0005jz-RL
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 20:42:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kip@rivosinc.com>) id 1mxImR-0008VV-4C
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 20:08:27 -0500
-Received: from [2607:f8b0:4864:20::a2e] (port=35562
- helo=mail-vk1-xa2e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kip@rivosinc.com>) id 1mxImM-0004JV-3h
- for qemu-devel@nongnu.org; Tue, 14 Dec 2021 20:08:26 -0500
-Received: by mail-vk1-xa2e.google.com with SMTP id q21so13642874vkn.2
- for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 17:08:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=f5xrJSxk3ukYQZaL8pUkKgM5XqQMCay4PyBtgCmi7pU=;
- b=cOHNXeZ7Fdjnv1lmG+D53h4DjmxfEqzMqJwPjuN9XZQ8RYVA/vqwlOqpS/fEl+z7+i
- 54I9sO7xHyxNtegl0vXrAkFFlcjavT4N9e29/BP7dEjUYLiYOHtg7j74No179rd0yBJc
- 4rBhZ1y3dd4GB8+9iUO2ZBvaJAxpFwdnTeAb2kTmvuAFsPEUsbvV/8hXkgdwF9W6XImP
- Y4WmllSOjSL0eb1nvpWHb1feEKvBpHe1CsPoWsU1RxTBKjRTAazNrY4ZwKj5UJIe2bu0
- 7BAICS+JX6eFd2QdwrkHR9KjxTAH0k5/Xc1JW9zaWnkWnJV1sLpf6tekP+J+WVQ+XCxU
- oPLg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mxJGq-0004yk-3d
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 20:39:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57592)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mxJGm-00010X-OZ
+ for qemu-devel@nongnu.org; Tue, 14 Dec 2021 20:39:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639532384;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Aj05ngn+pYpi3ih8y+k4SvjxjLitsmtsvL682/gGlzQ=;
+ b=fq6nHZI1jszFbvOmbC1za3aPdxKfdraXfGwlq05HN+cE7fvSwWxbq2wEQxevjZjP6BuLJd
+ NGzpxL/WDWijADKy3D/2f2QKp6L1G8OfHOgqTZxoqLsg+inayRTUG2JfnsKMEV7AO807My
+ AhtG7J2pRR7iC7HDIWx2IG+Wz6v0C9Y=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-551-pQMTvxZlMI2KBcRCVCTEpA-1; Tue, 14 Dec 2021 20:39:43 -0500
+X-MC-Unique: pQMTvxZlMI2KBcRCVCTEpA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l4-20020a05600c1d0400b00332f47a0fa3so8333736wms.8
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 17:39:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=f5xrJSxk3ukYQZaL8pUkKgM5XqQMCay4PyBtgCmi7pU=;
- b=4mJAxLJwM+ZY4lqqNc0SzphnDrrHJlzYmBF1yu2nE7otoC4o3IAqFb+tl2eSfnWJDM
- BR2L7Jiy8MeI20cNNROLcI0yY1+RDqFYHjvhb+O8pRY3lsY7sgV40L8HhbAxmul52ugd
- 1qv9pb/ZaZeL52txFNM68mdoCKe2TshXLJ9E/piArqVf9KniYxdKxaSZQb95g/E7Y5fP
- Ny7wXWbVSCuGwBlD7Mmy9aJeNCOMmtDh1tu03IrWHjcWJVH7e8XtFWkd5TYVWK0Jlhyv
- R7+3QtwxjhwgyLlEdAYYrT2KMR7nY2jed3MvmeLmLcYJJLVrGf3InyyVLCyAFdoRVk77
- 0vKA==
-X-Gm-Message-State: AOAM530su4+xVB6SJxfK0Nu8HHwvGnTTqa4ZeQ1eEGplCA4dYjakzkr0
- AvkfbAEx31EnPGMQAH4Cg6rYgCXbSzvK5QzwlbrXjw==
-X-Google-Smtp-Source: ABdhPJwY0G4b37RSX5ZN2M3mH0TB+9fsCJV5G8TCdjK+kj+qbK8gXjUCMU6gK6NNX3p7ovtEPCIUakpIS93QpQfcYV0=
-X-Received: by 2002:ac5:cdfa:: with SMTP id v26mr2403291vkn.12.1639530500319; 
- Tue, 14 Dec 2021 17:08:20 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Aj05ngn+pYpi3ih8y+k4SvjxjLitsmtsvL682/gGlzQ=;
+ b=mDxsEjkXtxMgSzQBbgvczRJBi26Z/byFXGTPWEKrpK34h7zN5k8J8WQLfkFpqD1+LZ
+ pr6kb0JjUGPheakVlkV2iRJ5QRrolIyyaCWoti8aUH7F5lk09BGIswc3EtGKGfNJVOlB
+ D51dk3Qy9N1bEyMm7NzuCRRhJC7S/6Ci5hhVCydMWHtnx5vCH0i1d3d7L9KbyeySehJK
+ YPUUmGN0XXZ8pvEbYURwI+0XHBwH/RWL2ByvUnPZU2Ep3sxoG/oAlEyMSZ+/0L3gbUKO
+ 5kQ63sOteGynnRNcNa8uvU9FrtyNG5dNImfFXOklXzmYF6UEM6HGsTBSzYffz5AIRCdx
+ tpYw==
+X-Gm-Message-State: AOAM531Aj7ZMFTdYrrW/m5xrHjguqUhb5jGnXui9yrmfsCm8JKllpMfU
+ bQ2mHyscV3VtpNAuaBMzASSG0P5LKsHmWFvDtpDrqzUjOZp5Jhhi4uto0nOU4YRkk88pdXvYq8T
+ /iO3LQ+Gu1rNkJwg=
+X-Received: by 2002:a7b:c94e:: with SMTP id i14mr2361622wml.85.1639532382031; 
+ Tue, 14 Dec 2021 17:39:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy4x1Vo/BOkZ/PySLNM+Kw1FJsFJpxWRlZranslQTkn+i6F7M4zN6Lbp6tfywGyIF9kRv23jg==
+X-Received: by 2002:a7b:c94e:: with SMTP id i14mr2361608wml.85.1639532381731; 
+ Tue, 14 Dec 2021 17:39:41 -0800 (PST)
+Received: from xz-m1.local ([64.64.123.14])
+ by smtp.gmail.com with ESMTPSA id p62sm385553wmp.10.2021.12.14.17.39.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Dec 2021 17:39:40 -0800 (PST)
+Date: Wed, 15 Dec 2021 09:39:34 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v3 23/23] migration: Use multifd before we check for the
+ zero page
+Message-ID: <YblHVs12XLehGhJw@xz-m1.local>
+References: <20211124100617.19786-1-quintela@redhat.com>
+ <20211124100617.19786-24-quintela@redhat.com>
+ <Yaj+V6LstcnNERaZ@work-vm> <87fsragb58.fsf@secure.mitica>
+ <Ya8NoTyiXOCQ/MLL@xz-m1.local> <87o85k7u6e.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20211211041917.135345-1-anup.patel@wdc.com>
- <20211211041917.135345-17-anup.patel@wdc.com>
-In-Reply-To: <20211211041917.135345-17-anup.patel@wdc.com>
-From: Kip Walker <kip@rivosinc.com>
-Date: Tue, 14 Dec 2021 17:08:09 -0800
-Message-ID: <CABYrWZ95qCu8QiEfpQEy+=1cecLf+ruODAEg-vL8z58aBJffXw@mail.gmail.com>
-Subject: Re: [PATCH v5 16/23] hw/riscv: virt: Use AIA INTC compatible string
- when available
-To: Anup Patel <anup.patel@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a2e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2e;
- envelope-from=kip@rivosinc.com; helo=mail-vk1-xa2e.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <87o85k7u6e.fsf@secure.mitica>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.716,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 14 Dec 2021 20:20:55 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,57 +96,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
- qemu-devel@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: Leonardo Bras <leobras@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 10, 2021 at 8:35 PM Anup Patel <anup.patel@wdc.com> wrote:
->
-> We should use the AIA INTC compatible string in the CPU INTC
-> DT nodes when the CPUs support AIA feature. This will allow
-> Linux INTC driver to use AIA local interrupt CSRs.
->
-> Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  hw/riscv/virt.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 3af074148e..936156554c 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -211,8 +211,17 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
->          qemu_fdt_add_subnode(mc->fdt, intc_name);
->          qemu_fdt_setprop_cell(mc->fdt, intc_name, "phandle",
->              intc_phandles[cpu]);
-> -        qemu_fdt_setprop_string(mc->fdt, intc_name, "compatible",
-> -            "riscv,cpu-intc");
-> +        if (riscv_feature(&s->soc[socket].harts[cpu].env,
-> +                          RISCV_FEATURE_AIA)) {
-> +            static const char * const compat[2] = {
-> +                "riscv,cpu-intc-aia", "riscv,cpu-intc"
-> +            };
-> +            qemu_fdt_setprop_string_array(mc->fdt, name, "compatible",
-> +                                      (char **)&compat, ARRAY_SIZE(compat));
+On Mon, Dec 13, 2021 at 10:03:53AM +0100, Juan Quintela wrote:
+> Peter Xu <peterx@redhat.com> wrote:
+> > On Thu, Dec 02, 2021 at 06:38:27PM +0100, Juan Quintela wrote:
+> >> This needs to be improved to be compatible with old versions.
+> >
+> > Any plan to let new binary work with old binary?
+> 
+> Yes, but I was waiting for 7.0 to get out.  Basically I need to do:
+> 
+> if (old)
+>     run the old code
+> else
+>     new code
+> 
+> this needs to be done only in a couple of places, but I need the
+> machine_type 7.0 created to put the property there.
 
-I think this should be intc_name rather than name.
+OK.  We can also have the tunable be false by default until the new machine
+type arrives; then the series won't need to be blocked by the machine type
+patch and it'll be only one last patch to be adjusted there.
 
-Kip
+> 
+> > Maybe boost the version field for multifd packet (along with a
+> > multifd_version=2 parameter and only set on new machine types)?
+> 
+> For now, we only need to add a flag for the ZERO_PAGE functionality.  if
+> we are on older qemu, just don't test for zero pages.  On reception, we
+> can just accept everything, i.e. if there are no zero pages, everything
+> is ok.
 
-> +        } else {
-> +            qemu_fdt_setprop_string(mc->fdt, intc_name, "compatible",
-> +                "riscv,cpu-intc");
-> +        }
->          qemu_fdt_setprop(mc->fdt, intc_name, "interrupt-controller", NULL, 0);
->          qemu_fdt_setprop_cell(mc->fdt, intc_name, "#interrupt-cells", 1);
->
-> --
-> 2.25.1
->
->
+Do you mean zero detection for multifd=on only?  As otherwise it could regress
+old machine types in some very common scenarios, iiuc, e.g. idle guests.
+
+> 
+> > PS: We should really have some handshake mechanism between src/dst, I dreamt it
+> > for a long time..  So that we only need to specify the capability/parameters on
+> > src someday and we'll never see incompatible migration failing randomly because
+> > the handshake should guarantee no stupid mistake..  Sad.
+> 
+> That has been on my ToDo list for too long, just need the time to do
+> it.  It would make everything much, much easier.
+> 
+> >> But .... if we don't care about RDMA, why do we care about
+> >> control_save_page()?
+> >
+> > Could anyone help to explain why we don't care?  I still see bugfixes coming..
+> 
+> Sentence was inside a context.  We don't care for RDMA while we are on
+> multifd.  If multifd ever supports RDMA, it would be a new
+> implementation that don't use such hooks.
+> 
+> IMVHO, RDMA implementation in qemu is quite bad.  For historic reasons,
+> they needed to use qemu_file abstraction for comunication, so they are
+> dropping directly the ability of doing direct copies of pages.
+> So, if one is requiring to mlock all the guest memory on both sides to
+> use RDMA, the *right* thing to do from my point of view is just
+> "remotely" read the page without any overhead.
+> 
+> Yes, that requires quite a bit of changes, I was not suggesting that it
+> was a trivial task.
+
+I see!
+
+Thanks,
+
+-- 
+Peter Xu
+
 
