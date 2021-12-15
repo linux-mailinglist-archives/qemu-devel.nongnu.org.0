@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B294757E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 12:38:13 +0100 (CET)
-Received: from localhost ([::1]:53914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92CA84757B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 12:24:08 +0100 (CET)
+Received: from localhost ([::1]:45446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxSbs-0005cX-QH
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 06:38:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41608)
+	id 1mxSOF-0005rh-Lb
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 06:24:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mxRij-0007Ml-Gi
+ id 1mxRij-0007Mr-KY
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:41:13 -0500
-Received: from [2a00:1450:4864:20::336] (port=54824
- helo=mail-wm1-x336.google.com)
+Received: from [2a00:1450:4864:20::32a] (port=44973
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mxRie-0000LR-SR
+ id 1mxRif-0000Md-E0
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:41:13 -0500
-Received: by mail-wm1-x336.google.com with SMTP id i12so16260348wmq.4
+Received: by mail-wm1-x32a.google.com with SMTP id
+ p27-20020a05600c1d9b00b0033bf8532855so15664373wms.3
  for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 02:41:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=bo0mTQjcOMMWuhko1G14Jx9iZKqWtrs0vKnktosNhhc=;
- b=hPGL3a2FP8c3HH3qc/broYy/kEc47QjyrNasVaNVh+kG1ifdhGOj19GCPL9mdMzehJ
- gbOC/y0F4YpsarHanpyj1suq+Iv0Dk8uBFblpmd/8ZFxC35qkMD5UAHWivfJ0l5E7EJL
- H3iCe5N/Q6xn5gkuhAI2XnbQ5dHOdS7oX3GLiXtztNuWUgFyIo549hNxLM5gn1BC3gTa
- BK8N74xR3hv1mYOBN2oWxq1ZP2hiiLHaYiyKbaES9I7RPb0cPZQfSi6ra3QebFZg9TE9
- A95wIEAps6AiAK2jMPVLtASk9edTpEVXtjBQnQl0lyJh8MWoIA5EFLZ5KAM5sCN6WABW
- crcg==
+ bh=AxAfi0cSCTWP0iQobjmr0rvRXa2XPUga+L6BtFS0ls8=;
+ b=asxNSw+sUQmaJBWVfsUCoQq5vwTKFerAZ7hHiBEzsMdxDuj2mBsdv9yi3LME4Ib4AT
+ Xg4ydphVVRyCy989cmX1+AY50HAGMXXkNckqMPIL+1VzBo2DdrCbi/FwlNRytpngczSt
+ qhuw7AtvSzNJuLpMFvbWzjceI/GbfRRhaRrFQEQ/XmQUSBaOQrz4M6xGpX+WPX6l/T/j
+ ovXaTqa3To0gDQesuTy5wEwSGvbzUIPlHswGikJ0MQ1jGaY30OGEAR7vWovE6kxKCW8T
+ 2R+IR6sSbpgkHJfTDVJJkhKadLJrP/CAItxVZQAKs11VaExAuiOPbrnyLduM/yI4chIh
+ lAwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bo0mTQjcOMMWuhko1G14Jx9iZKqWtrs0vKnktosNhhc=;
- b=4geem2TfY8LNprrvGGHCsFyvuZljobUMPF/jBbDLcTitv4mYZiaYMUCvphSjZPW20y
- 5Q7Q9w+8E2nU8qUKG+/cnd7UWAkMJ2Z1g+7khsC8XV2dGDDY8zBC0+gQ2JshPOGymJFv
- X72j2e4UV2ZuBNh+XRIbcpykRGK69ALGgmB3gF4jCRq62JGCieJVAIgwHeFMLy/+KmpB
- xPy8yiAXRy/YVoSNOQKWesooPfHr4O+CG8b87BOcn2KE+VO4Gwe1HSP9ls397xGuTo4v
- +gPest5Ngnk9Q/f65uVPlp7cSJD6HM/yo6XrqMYHgiAXQwpQfycQxLhV7FL4LQ4y4X1d
- 5JVg==
-X-Gm-Message-State: AOAM530WkKONvO5MxsV4gOgK7FoWz5E6eMUUoKThGvd5tjrKUmaWyiTa
- sbfTnwwItmc2Mmq1lOHyE0YTrLyXkr+ZAA==
-X-Google-Smtp-Source: ABdhPJz4NDZOKff7LEdBUKmlAOlobzxqIGOqjFuW9pusZ2Jkzt2bxkS2Nx2/UIX9Ta0Sdrd4lItYQQ==
-X-Received: by 2002:a05:600c:1e8d:: with SMTP id
- be13mr4053711wmb.79.1639564867428; 
- Wed, 15 Dec 2021 02:41:07 -0800 (PST)
+ bh=AxAfi0cSCTWP0iQobjmr0rvRXa2XPUga+L6BtFS0ls8=;
+ b=vIERub9Amfw4BSLyZjo7Tai1jkJVtRno0FI8coScsiCn5ly8KjbhcEm8wLlMxh1YM2
+ B9MTbxyPUZpbZXZRv3SEPuTKeY7TnERWuNk1U0xCqItS0qSE+WX74sBVJPZtsKC0M/X+
+ 2pelz1Q4E92LqfgtOhqKn13iozrBLXj+8LK+x4YNJr69opTjdNEISAA0g03FV91dtkt+
+ PpsNOpTbJcbNhizvbhBCx8NwvGw+rOrxAJLvBgUEKjGfnphonmM9nOakzu2RPlg361ac
+ pNXzSkaPTED79KngQK1H+5GpdphktwY2o1+CeKS5+pgyz9T2cs7hJLpciExyTa15lpbv
+ d+jA==
+X-Gm-Message-State: AOAM533qkB1MdDVf/JrpVUGlYGrwVV+p9YP1u6m6MUutty7swk50Hf1j
+ 8NpsvkrB/L4Wp7dzzOrS4b2GfB4HMMVuMg==
+X-Google-Smtp-Source: ABdhPJwfH4yrftyVLbDhsZmoLZSS/pXN9hzRrA0R3zwVLa9dc5mTHdXBplZuc+wrJBk/Xm1uPwEcZQ==
+X-Received: by 2002:a7b:c0d7:: with SMTP id s23mr2998395wmh.135.1639564868031; 
+ Wed, 15 Dec 2021 02:41:08 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id e18sm1600815wrs.48.2021.12.15.02.41.07
  for <qemu-devel@nongnu.org>
@@ -56,18 +56,18 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  Wed, 15 Dec 2021 02:41:07 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/33] tests/acpi: allow updates of VIOT expected data files
-Date: Wed, 15 Dec 2021 10:40:46 +0000
-Message-Id: <20211215104049.2030475-31-peter.maydell@linaro.org>
+Subject: [PULL 31/33] tests/acpi: add test case for VIOT
+Date: Wed, 15 Dec 2021 10:40:47 +0000
+Message-Id: <20211215104049.2030475-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215104049.2030475-1-peter.maydell@linaro.org>
 References: <20211215104049.2030475-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,41 +92,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-Create empty data files and allow updates for the upcoming VIOT tests.
+Add two test cases for VIOT, one on the q35 machine and the other on
+virt. To test complex topologies the q35 test has two PCIe buses that
+bypass the IOMMU (and are therefore not described by VIOT), and two
+buses that are translated by virtio-iommu.
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Message-id: 20211210170415.583179-6-jean-philippe@linaro.org
+Message-id: 20211210170415.583179-7-jean-philippe@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
- tests/data/acpi/q35/DSDT.viot               | 0
- tests/data/acpi/q35/VIOT.viot               | 0
- tests/data/acpi/virt/VIOT                   | 0
- 4 files changed, 3 insertions(+)
- create mode 100644 tests/data/acpi/q35/DSDT.viot
- create mode 100644 tests/data/acpi/q35/VIOT.viot
- create mode 100644 tests/data/acpi/virt/VIOT
+ tests/qtest/bios-tables-test.c | 38 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8bf..29b5b1eabc7 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,4 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/VIOT",
-+"tests/data/acpi/q35/DSDT.viot",
-+"tests/data/acpi/q35/VIOT.viot",
-diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
-new file mode 100644
-index 00000000000..e69de29bb2d
-diff --git a/tests/data/acpi/q35/VIOT.viot b/tests/data/acpi/q35/VIOT.viot
-new file mode 100644
-index 00000000000..e69de29bb2d
-diff --git a/tests/data/acpi/virt/VIOT b/tests/data/acpi/virt/VIOT
-new file mode 100644
-index 00000000000..e69de29bb2d
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 258874167ef..58df53b15b5 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1465,6 +1465,42 @@ static void test_acpi_virt_tcg(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_q35_viot(void)
++{
++    test_data data = {
++        .machine = MACHINE_Q35,
++        .variant = ".viot",
++    };
++
++    /*
++     * To keep things interesting, two buses bypass the IOMMU.
++     * VIOT should only describes the other two buses.
++     */
++    test_acpi_one("-machine default_bus_bypass_iommu=on "
++                  "-device virtio-iommu-pci "
++                  "-device pxb-pcie,bus_nr=0x10,id=pcie.100,bus=pcie.0 "
++                  "-device pxb-pcie,bus_nr=0x20,id=pcie.200,bus=pcie.0,bypass_iommu=on "
++                  "-device pxb-pcie,bus_nr=0x30,id=pcie.300,bus=pcie.0",
++                  &data);
++    free_test_data(&data);
++}
++
++static void test_acpi_virt_viot(void)
++{
++    test_data data = {
++        .machine = "virt",
++        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
++        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
++        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
++        .ram_start = 0x40000000ULL,
++        .scan_len = 128ULL * 1024 * 1024,
++    };
++
++    test_acpi_one("-cpu cortex-a57 "
++                  "-device virtio-iommu-pci", &data);
++    free_test_data(&data);
++}
++
+ static void test_oem_fields(test_data *data)
+ {
+     int i;
+@@ -1639,6 +1675,7 @@ int main(int argc, char *argv[])
+             qtest_add_func("acpi/q35/kvm/xapic", test_acpi_q35_kvm_xapic);
+             qtest_add_func("acpi/q35/kvm/dmar", test_acpi_q35_kvm_dmar);
+         }
++        qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
+     } else if (strcmp(arch, "aarch64") == 0) {
+         if (has_tcg) {
+             qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+@@ -1646,6 +1683,7 @@ int main(int argc, char *argv[])
+             qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+             qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
+             qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
++            qtest_add_func("acpi/virt/viot", test_acpi_virt_viot);
+         }
+     }
+     ret = g_test_run();
 -- 
 2.25.1
 
