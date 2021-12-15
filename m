@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1684F475869
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 13:08:34 +0100 (CET)
-Received: from localhost ([::1]:55588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 192FA475852
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 13:01:56 +0100 (CET)
+Received: from localhost ([::1]:44276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxT5F-0004DO-0a
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 07:08:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56572)
+	id 1mxSyp-0004La-6B
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 07:01:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxSVe-0002OE-NG
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:31:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41524)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxSWq-0004qS-Bc
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:33:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxSVa-0000I6-KL
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:31:46 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxSWl-0000SX-4c
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:32:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639567897;
+ s=mimecast20190719; t=1639567974;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zIWys8/ljtRphHR38m2OBt+VZvG7vWvQ9VYLLj8iTIk=;
- b=iPopnlGhX6LKQ2Z5w3JpTrmdOfAoZ84HTBn3Ut+22dZf/VUJAzfyirdir6Hn5iahxrs5iu
- SzcqheR46z5RutcPlg+Yhi4/XtNvjKOZ5BdlvvLmlKZ6roXUW5AwZDVLZAObdOwbrneJYR
- CoJ+S6PLTBBKWhxB+wHZmG4nBz0qVWE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9Q+oGx65oFHZ0EgLgqOrHIIqPlfhDIrEicMq85Fjl1U=;
+ b=CB47olqveFb4QI5Y7i0MHYQVyGAgQGKTStIlIvQF6vz0TWwdjiSq+TtrltItEMO5oKKb+F
+ UTQME39ldMD4Y3+PoYcNUKzUG7p2pPCnPADYFYGpnzKblMKsK85mYGnRMJifU8UBaba7sK
+ vW0guNFU41zyvwHHKnBJzzgBUnr1Lo8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-16-x_vMyXm7Nm2TEverC-Ll0g-1; Wed, 15 Dec 2021 06:31:36 -0500
-X-MC-Unique: x_vMyXm7Nm2TEverC-Ll0g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- ay17-20020a05600c1e1100b0033f27b76819so12461065wmb.4
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 03:31:36 -0800 (PST)
+ us-mta-65-QMJerkzuM7ikI3MZuSlimQ-1; Wed, 15 Dec 2021 06:32:53 -0500
+X-MC-Unique: QMJerkzuM7ikI3MZuSlimQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ c4-20020adfed84000000b00185ca4eba36so5805956wro.21
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 03:32:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zIWys8/ljtRphHR38m2OBt+VZvG7vWvQ9VYLLj8iTIk=;
- b=Pci74oFmQ0Lb7ahKQM2zpWMO8wCBtr1EOfB3O/3mgSzBB0r2Q04i3OwBEDnpEzFLm3
- bjVw04AF5eQCP5zhDhEp7S2bDhyVl+eg0XBTGxWP7dPQhHxgD7FpVY+cSeozQkUDsQEn
- /+A4yzHX+R7D9UQYABDcQFYrN4SsoITxf6qnKvMk/HtklS+7/Wuw8yBSlquy1d5JUmek
- 1XU+yxawm94uv0BmhYi5VFziVa5kbg7K3VGxZxXvAKYLjy4VPHTv/4jMrdW4GxrwHR+o
- FNWLmGT8R2ISZ+tfeOWqzdIwVrhJ+7/i31omPv75BX/ZccCn+Q4PDVC5ujyzlGqIpgVq
- p/LA==
-X-Gm-Message-State: AOAM531JQopotNTOBZBf9xQ9P5jpkeIOaQKnNyOeGR4jH1VdIkeNRXbM
- EUp4b3ZhGLG9H4yAJP6SNPlXch7cW++JFZElwjulLyAsg83Yjt+o2LpPi1n0aS76mcXtoejwADB
- x/0uDXDEueFybieo=
-X-Received: by 2002:a05:600c:22cb:: with SMTP id
- 11mr4064353wmg.181.1639567895221; 
- Wed, 15 Dec 2021 03:31:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJydN9yl+o9UYqU7K4sJezqFVHrfsxLSlrPlrs+5BsRCZK46HEiexIccRz9LLIYpauSwQkRgsQ==
-X-Received: by 2002:a05:600c:22cb:: with SMTP id
- 11mr4064324wmg.181.1639567894905; 
- Wed, 15 Dec 2021 03:31:34 -0800 (PST)
+ bh=9Q+oGx65oFHZ0EgLgqOrHIIqPlfhDIrEicMq85Fjl1U=;
+ b=odAahMHOwK0TwVuOdS8sYYjBNFqvtDNwqjTsPVrC59lK5qC7QaQDkPLZXU1DZll9zk
+ G+DmwHwVB9NYf0g1ijbzfXxCtFL6YxthCbxSjU3OFDFNPnswwzDrdlq5kD7T4/UmMYDS
+ yoqkQIiet7a8NbxMGSzkBfSu86igSScgrz1EuYagrbfGgOvwr7VwwqQwOrwH56dKM6+7
+ AP06mw+L9eI3+pgqR8r0pcwleaVXXjoGIn8s/ahvGPDVTMl2WxpKJobBaqWwBzRlJmf0
+ xJSceTp87XXSleHKB8oCQuvec0oPxaWVk0LMv8qUyDdVQOtMwn2Eu4TaAF/puMtkZjoN
+ /Yfg==
+X-Gm-Message-State: AOAM533nNDB01EFzIRIgQlEcT/Q+3lgyYPAzy8ug0pnldGd9zMTGrFLN
+ 81lX7RvMBkin95sFg76Wh6fMdKeFEfrvoedrKD81BRoRat6E7DmSPV+EpyntQ0j2jnhy69NnYSW
+ DG2+Aw/X+EEWWvbA=
+X-Received: by 2002:a05:6000:12d2:: with SMTP id
+ l18mr3782085wrx.289.1639567972313; 
+ Wed, 15 Dec 2021 03:32:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwb/3mbUyaXbeYqK91i5n/ARPlyEnQU3VuYKvTkMTD/0kAVbk5RqGl64a/J97y/WQTQMLCj6g==
+X-Received: by 2002:a05:6000:12d2:: with SMTP id
+ l18mr3782069wrx.289.1639567972110; 
+ Wed, 15 Dec 2021 03:32:52 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id v6sm4820268wmh.8.2021.12.15.03.31.34
+ by smtp.gmail.com with ESMTPSA id l3sm1532895wmq.46.2021.12.15.03.32.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Dec 2021 03:31:34 -0800 (PST)
-Message-ID: <a18b26b9-f0a0-5bbc-0ecf-d97480f72030@redhat.com>
-Date: Wed, 15 Dec 2021 12:31:33 +0100
+ Wed, 15 Dec 2021 03:32:51 -0800 (PST)
+Message-ID: <3f98d986-bd10-8211-6d31-b32f12886ff0@redhat.com>
+Date: Wed, 15 Dec 2021 12:32:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v4 15/18] tests/docker: updates to alpine package list
+Subject: Re: [PATCH v4 17/18] tests/docker: fully expand the alpine package
+ list
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
 References: <20211124130150.268230-1-berrange@redhat.com>
- <20211124130150.268230-16-berrange@redhat.com>
+ <20211124130150.268230-18-berrange@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211124130150.268230-16-berrange@redhat.com>
+In-Reply-To: <20211124130150.268230-18-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,15 +82,16 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
 X-Spam_bar: -----
 X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.64, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.64, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,25 +113,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/24/21 14:01, Daniel P. Berrangé wrote:
-> Cleanup the package lists by removing some entries that we don't need to
-> directly reference
-> 
->   binutils: implied by the compiler toolchain
->   coreutils: not required by QEMU build
->   mesa-egl mesa-gbm: implied by mesa-dev
->   ninja: alias for samurai package
+> Add many extra alpine packages to cover the various optional QEMU build
+> dependancies pulled in by other dockerfiles.
 
-I'd rather keep the alias to avoid looking for ninja or
-for what samurai is. Anyhow,
+Typo "dependencies".
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
->   shadow: not required by QEMU build
->   util-linux-dev: not directly required by QEMU build
-> 
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  tests/docker/dockerfiles/alpine.docker | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
+>  tests/docker/dockerfiles/alpine.docker | 58 +++++++++++++++++++++++++-
+>  1 file changed, 57 insertions(+), 1 deletion(-)
 
 
