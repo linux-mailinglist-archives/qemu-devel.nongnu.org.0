@@ -2,165 +2,156 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81949475C8D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 17:02:30 +0100 (CET)
-Received: from localhost ([::1]:44286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C8E475C9D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 17:03:26 +0100 (CET)
+Received: from localhost ([::1]:47750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxWjd-0004mC-KM
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 11:02:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43146)
+	id 1mxWkX-0007G1-Ir
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 11:03:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1mxWKW-00067D-BU
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:36:32 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:61428)
+ id 1mxWKY-0006EC-6l
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:36:34 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:52416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1mxWKU-0008WR-6v
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:36:32 -0500
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFEa9rN005911; 
- Wed, 15 Dec 2021 15:36:26 GMT
+ id 1mxWKV-000051-Tj
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:36:33 -0500
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFEULbA028510; 
+ Wed, 15 Dec 2021 15:36:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=hOSBlTBFB+s6ea/5oe5bG28IG9JqPOZLvRE8szeF1lM=;
- b=tyrjb7j4VX2HZkpW01NlNgO01HFWV2MU2WflC+HrWXFNFF+aUFpY9b4FvRKeiFiuFkKK
- Souc31Efqy4I5REUdxI36LiHgLpFhCBk2KI10B4pSewps6aUdEAn6ltiASLLT0a9fuqT
- vMDjYrQJnQGJRIdp9ZxpMJuirt+IIi+zJWLGqPgJWjYsItK4fyofW4GBqi3mCuF59pGD
- m5TAC/tITXhXTGGgWgbUmrqvY+gvfXFL3KbFfSchhhdLZlNhim4vO4jG8BP4R4HDUVSs
- MLMksXbx1hBXZLiWGmY5khcE8TNjI5ATB58mMJziRlzkJa1Gbp7o1i7E720NLQIsCWZb jA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cx56u6ug9-1
+ subject : date : message-id : in-reply-to : references :
+ content-transfer-encoding : content-type : mime-version;
+ s=corp-2021-07-09; bh=U0PNMwpRERF29Fs9jnyBzcAsE4L/ciUMCOnwdrDp25s=;
+ b=rwkDFLBACtkRv5IYNYp6jDLcWpHfYf+sfCdw9xrcMCfWIpHcQw5MddhfiH0KF+BuaIQ9
+ uUgof2qkaEUzI3aNPPiX+RqKsPyyMxDj+6dTU75FzXNRs4HGo2eY6x7NHaxj/iOecq23
+ Iga0NdCiSzgyhrzaOBYQtyb14soRAX/LKl6432Q6ft1hIPzy9uskfxNGAWIGEFgXLhKP
+ onGvurHuafxp2x/QRqziE3CCUD08iNEK371JyanV1i1NmH8ger6Bpxyi9Flnlwlwg42U
+ n2rr+LvsVDc4TG2ICQA0ywrj3WnzjBjTr3A/jq/bQJp1FbHkZKzx76jYwF3Dnmz/kGPi xw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3cx3ukf6t5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 15:36:26 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BFFUXS6094355;
- Wed, 15 Dec 2021 15:36:25 GMT
+ Wed, 15 Dec 2021 15:36:30 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BFFViKh127804;
+ Wed, 15 Dec 2021 15:36:29 GMT
 Received: from nam12-bn8-obe.outbound.protection.outlook.com
  (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
- by aserp3020.oracle.com with ESMTP id 3cxmrc0u86-1
+ by userp3020.oracle.com with ESMTP id 3cvnes2d9k-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 15:36:24 +0000
+ Wed, 15 Dec 2021 15:36:28 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zgb7Vh6z8+C6lNfaqvjgnNwiaJLuWwWeI2aoK7MlANoMse8alr3ipMgrl0AvqniFXDmT4JBHeJJaKNsEHqaCfGCjyIohCpljdhC+EQ60UXgk/tDtA/E/tmN+lGQxQvi9FSb7I+dL/3csZQORhB6+m1PMLKRuofmoy0f3D0mYdpvJLiSdDDbpw3x1X422IyfKibRpt5siwa0/UP6/+F6W0H/eR+0/TXqKoxcH7DVhsrkzCz/mg/jZ6n37XenNgblDiGcYjgvh0NCvxTW1jMzrAIvh7VqKjabCUUGIiJyXvBAmWR3TGk5rhVVA+cQmM3aGGkOnpxDickkC+K4Xznj2mg==
+ b=MISUFb9rBTvSdZznrg0g9i0eZeTs9vruKa3IwwGK5gGGcHO2GQznBG9flG8Ly3U+096Sgcy2UTAmcPlxHW1OmtiXzWGQRoE9oMog7OWVBb21WkndUdFFiTgQkl69cFbJaFGer8rT2lmBnB10hW9jOm74c3xUG8RHw6jvVhIX7naLJwXl1y9wkdfyLkBNkw+eHK69a01l+/lOQdKKMYtUQDChcYgpRda1ClLxiuMDaIy9yoz1nSDbOn8jkDb/1wc6/6iaJILgl2pXQiZzEPB1w+lW2Fn124vO2ll+2uvMtO/xr0p4Q9riIBLLjNwmlQwaxe3ZkoKZU5WThPeFzzf4qw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hOSBlTBFB+s6ea/5oe5bG28IG9JqPOZLvRE8szeF1lM=;
- b=A41mI0B4PyjRfJwEpFHI3gkWlu4KlfWACCaC26nNlJpZ5yp39MHHGNat07HnbtszC3jMZ76+vQSdEOOuazO9DVc5z60I7MMJGLJ8BVGFEo6cpQYI0uTLPyetWt5O45d2O9v2gsL1W3HPR5Ni2pxM6BsYTvFc1mNy2B5Rq3lmyz7cphHMc3BDHa33K6y8RIJQitF25U6yPZ8dHliFHabt56pFFbQ9g8YW/FRZYCEwqo9gt7Rm2wbbbhmt+lvMygX5DKetDr6iJx0wnIZsTA6FIflKzf5qgXqnp6Ry2+0AGJAGYFk9ZfgXwBfJOntGgZsB4qyaQpGwb9+c78z30xqyzg==
+ bh=U0PNMwpRERF29Fs9jnyBzcAsE4L/ciUMCOnwdrDp25s=;
+ b=QTtsESY+uxZRiIogoWWE5PRMfYuvG06oshbrHp7M9DnmhdCVmvOUQacXy3NKmbFEW+UKJsRRw4uWj/1DIccdLSKr83FKqAR7kSGtHLeVU3nxOlFuZX0CpNmylyxPztP60qdyZ3NtbCtCSMfmJTmJ8KEOXvfNA2F724gKwwX3y5E1ooQya7E/pqPq8QRCYsh2y9Voyd9wLJtixq2OY9b6UyqP+jN6X/UKA9hwZpeNE4KTd1M2PTftsnloW8VHS5J6ZcrTH4nFRbmtWCp1Zzt2KMaaeS5/CXpL/cJLomsGTyTdEN1TvfQS0CA2ZXdPaZGvnheMRroDKY7nD6LbRRAwEQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hOSBlTBFB+s6ea/5oe5bG28IG9JqPOZLvRE8szeF1lM=;
- b=Wb6xp9YDmf8g+AAuSMM9sdOmxS+0kjKTR9NxDCsRuT/alDpThvPect/xJPqKlQvV7XLeb8zn2un168+ygO3cJijzVl65zmV4nWW9X+iErXQckTbn/zkTJZnPIUvvT26QO8o+4O/0mW1pXv0bVZ+sEFL6URE4u3zMZdJK9HJ+Vko=
+ bh=U0PNMwpRERF29Fs9jnyBzcAsE4L/ciUMCOnwdrDp25s=;
+ b=IZtYgSCIJ++rRTzuRvGlXq4Oq8hZbAyg53zzNTkU6YX9Zdw8SRuuVq75Uysjhrkf6KLt9toJ9ot7vzLxelJaDkOsLZS5p4A8ocpA7XDXBr1VmZlMA7rXj0ex6qE4pECXr24FowcodhwJUaaEaZmoOddJ6/1NSzLFIatluJZc2+w=
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
  by BLAPR10MB5282.namprd10.prod.outlook.com (2603:10b6:208:30e::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Wed, 15 Dec
- 2021 15:36:22 +0000
+ 2021 15:36:26 +0000
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::b911:b919:6383:970d]) by MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::b911:b919:6383:970d%5]) with mapi id 15.20.4778.018; Wed, 15 Dec 2021
- 15:36:22 +0000
+ 15:36:26 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 11/14] vfio-user: IOMMU support for remote device
-Date: Wed, 15 Dec 2021 10:35:35 -0500
-Message-Id: <acae079dec4261d762311b86a0e699ba9ad79737.1639549843.git.jag.raman@oracle.com>
+Subject: [PATCH v4 12/14] vfio-user: handle device interrupts
+Date: Wed, 15 Dec 2021 10:35:36 -0500
+Message-Id: <219410a610c55ac7f8db806aa8a4bc2e124e9d5c.1639549843.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1639549843.git.jag.raman@oracle.com>
 References: <cover.1639549843.git.jag.raman@oracle.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: BYAPR11CA0105.namprd11.prod.outlook.com
  (2603:10b6:a03:f4::46) To MN2PR10MB4013.namprd10.prod.outlook.com
  (2603:10b6:208:185::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e57d8d15-4eb8-4282-032e-08d9bfe0a5ce
+X-MS-Office365-Filtering-Correlation-Id: 246c52bb-ae24-4882-e0e6-08d9bfe0a7dc
 X-MS-TrafficTypeDiagnostic: BLAPR10MB5282:EE_
-X-Microsoft-Antispam-PRVS: <BLAPR10MB528269C0EC972315290EC64190769@BLAPR10MB5282.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:38;
+X-Microsoft-Antispam-PRVS: <BLAPR10MB5282C1B876DCEA2915A9B66190769@BLAPR10MB5282.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:279;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: f8DkJEPyRndYDK0oMkm5mKjOBFKA9U+4VwYVnf5rrLCZCCoRt7G9dqxtuJv7p5ZNgol2Ql2X72FbTvUZOkOI4f7g65IMPQOTCtIvD96QQySKEQHe9b/CfqgP25u/KwYeiH/TgrI9xQCPNwNepgoG//7v4tTXH4Nx2Swv7zpy+OPUWbottUkf4erneCMAi659Crr3NfxBdEsDOnad8aECvpJV4WBHkRA+J7aV/GPo15up3cA84BLL2OV/5DhkRknf/jOJBWiKDrJQNK5Lo18SMklUen5yPDOj49yZECWOt6JxSXGDSheGto2l77j0ZHQnQqfMYK/H3WCahQbZl920zaVXKgiU36ohM9ckxYuLPS6+fsxG4SYwNG5okvQ8U8BjSqrIzu0SBmxm88T3cuzIPeBNMdrIfZjRUSyzlEZJKmwHH21OVrbDvFDwaDXJgpsT5tH6LB6b5HXfrBRJL1PfpJErblKzd2+XRRvjeLXT1UC6S5TNIjnrygpyuJUcNPUmT+A3i536u2a0KkUWtwaEziVe67Q+0OPBRgZj+doe0j/npa0B49IKDkRWTa+43OclZyiyxLEkBTM1FQCvWwUcbsKWaJDgjMrOGtbVIwQ6KRDZT2NfsQYsJ3E7BJ1IODhlhnek1+ExVb8+BXKkrBjzhIXE6uDihCbQriIW8WDBD+XBC19nNC1eWfJtyBNRMypJtb2USD0gIvAxr1HA9iqxAA==
+X-Microsoft-Antispam-Message-Info: cWGfsTgaZGv7B4HZz7hJRDt6YLD4XY/mPSeqzZLsFLJqOUcC+7lbeXaKg7xjOR3JwJxEdQykDpuWpyAcXH19CMqaWEIK81700BiBEOf24l60BWCBhu9L5qLUSMCRaeL+dutHk6zbtqGDFSqXP6tqyLJ7u/DURFKnbHXVjuNX03icVwMdn+LE1zeESc/8Ji41nPJqcdqipAOXu6hsg4S8GpwtupVEYXAEDcy+MyzWZ6byPieAiB9whb5zrse7C1j2kXMA+WwomS4Z9Cl3V5QSYTMa+8MDw7ocgenvjZWwYhLN1amjqrCrKnMv7bUBaGAW8X75x4k5HCHGgzkslPirddksivD4VvM8DpUGTVAXHYvZFZpqq3sGrBVswowjzeLkL7KBg/3NNvClk7FcpZKv1UC2l5srUCyQQLiwZw1dLnmNLQcRSwPhaCVjcdnKpy06zwTaJ1C/dL/rYVhy2MC9DJbchYJ4zeaHdaoux09O66eWmDOjwERvZ+yI9wSFwSdlQj1PrkrX/SUKFtRwqs8IgYobJrQUUIq49Y5PJzgsjGZ5OLYQb53yFtk7iCtr0yy1GRkbCuBtPv9LJC4t1V9X+HnO09UtpW5Hlm0Ko/ugBsXPS7Bdf0ioswK5fHyNTQN46qilRm64ptcTvRbxSHrVOeaGwVLkQUgiB0AwfkMlqG1FtGYZM/vsNaeurmxy32vC5m8cV0nKWQ7f6XU/9iDvJQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(366004)(2906002)(86362001)(36756003)(316002)(52116002)(6512007)(508600001)(2616005)(6506007)(4326008)(6666004)(6916009)(6486002)(7416002)(107886003)(83380400001)(8676002)(26005)(8936002)(38100700002)(38350700002)(66946007)(5660300002)(66556008)(66476007)(186003);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkVRQzBEMW1JcW80WFBjUENFSTZrNm1wajFCY2VIOUd2eTM4WkZXYVByMVVy?=
- =?utf-8?B?T1NXS29Qam1iSlR1djBVRHFMVmw5dW05dWNwYm51TUx4N3Fnam5rcXNpOVdt?=
- =?utf-8?B?QUN4cDhoZTEvVndKTmxqdVM2MHZPNzNhVjhjMU5VRERXb25oSlhzcURBK3RT?=
- =?utf-8?B?RE9YM0xYQU03dWVRa1RERlNlTXhDeEdBOXpzWnM2eG8rd1liMktnZlFhbWF3?=
- =?utf-8?B?UEUwK2lwZGZtUFV3V0hhZEF6UTNCYjJlckVJZnp5SGw3S1dxZ0x0YnJIYjgr?=
- =?utf-8?B?SVVwOXRDeWZ5NSsxdXJaaVduZG1uZnh1QUw5N2JLOVFmOFU1cE5OazJCM0F0?=
- =?utf-8?B?c3FRMHJXVHZ3SFFzd1N4bE9SbUNndVRIWnJzbW1EcGZkV25GYmZJdjJPTE1O?=
- =?utf-8?B?cmFrWlNRSzk5dUZXbXZtOTdzd3lTMGFFeTRlcnNQT0NWUUY5WWVveEIvdEhD?=
- =?utf-8?B?anVWYWFBRUkrbThCbnZPZUo0RnptbjlVd0tpQXNrZGVKQVRpdUlJT2xTbkQ2?=
- =?utf-8?B?ZnVtbWVzbjd3dGxLc3k1eWh4ZWpRWDFlSnM5TWRseEVnZ0JMbVN4UTBDYzZG?=
- =?utf-8?B?UnpTemgvM2laejRmZGgzRVZJcENtNVovU3l3cmtwbG1BQ0MwWDRSVVlTb0x5?=
- =?utf-8?B?VUZLdTgzZmRMMjlrSlFkOWFVMTRhOVJsTWk4aUIwRjNXM042emZmMVJORGU2?=
- =?utf-8?B?ekUvK29pY0dNVlM5OG9mVnhFTUp4M0Rad1JHb2JoT3JXcmNqdVNWRWxncGN6?=
- =?utf-8?B?eW5HRG5XREVDTENUOStIOW9vSS96M0pZK3dFalg5MFgxV0pHYW05ZkVGbm1T?=
- =?utf-8?B?OFkvSng0QXFqRW94MVdwNlVieTFBOU5FejBxaHpYdXVRNXBxZUc5bTZ6SjR3?=
- =?utf-8?B?MmppVDhJOWdzNklSNTZRY2xDUlBEbVorc0gwbHNqZnBYemFqN3Q4NWhNSlo2?=
- =?utf-8?B?cmtETHE5cXpKMW1hT1N4MHNvcHFCUHY4K3VJWnZCSkNLZW8vb2ZicUlCZEpq?=
- =?utf-8?B?OUZRelJoaG9hcmlqTktlTTk2SmFHemJaNGxqbkR3aGFWbEptQzUwTGlkbjJM?=
- =?utf-8?B?WUl2SkFHcFdiSDRSQzRHbWFtbno2aFdHdm8zTVZKL2x2bUhSVGJCUzBTMHgy?=
- =?utf-8?B?c0NUWWZJTndGK3k0V2VUSFhzMk5VNlpKR3l5OWJvUXlIL3hnM083YTJZRDNN?=
- =?utf-8?B?TWordUR5WTNKZFJHQTEwVGxsQTNMVHI3S2lsUHBBOUw5eEcvUkcvVnZpQjh4?=
- =?utf-8?B?YW5VZ3BPZk04aFJ5c3k5Y1VsUDJmVjc1cytEYkZqUm1Ka1dMcG9CWFg1Tjdi?=
- =?utf-8?B?bWN1TkJPdTBQYkhTclJ4RFJXZExqZTZxLzRLTEJyOU8yeTZiUXo0TUo3MUg5?=
- =?utf-8?B?cm5oa2hvSUpZZ240ZFNyb3NEejVxKzFjUjMzb0J5V2dYU2I4MmllSldQb2tV?=
- =?utf-8?B?R3duQWZMSGZQeWZja1lkUnRXYTN4V1J3TXYvMXZpbWx6TWN1TjVZczlzNE83?=
- =?utf-8?B?a1BZSVIzK1FwRVpxMzU1TldNRHJtSXN0VXQ3Wml1QmxRTk1wVHZwUkZ5NXBu?=
- =?utf-8?B?SGtVYkl1VlNFdmVXM3AwSmR0NVp1SmttTGRXYlJDdkUrdExZbGQwdXozVVdN?=
- =?utf-8?B?T21qV1FpTjJKSG1aeXFYNFlIN1czTTJ2ekRiaVMxZm1QVGU1UzhUdU9VUTJB?=
- =?utf-8?B?SUNRVGhOM1dhWTdjQjNXeWVMVDhhazZRakxvZldwNUNtQTlKUlBhdzZ4MHY4?=
- =?utf-8?B?SXhvbWlMZmxEcXBNRE9LeVY2N3dTbkkwa3FucVQ4MWFtdTBKcTlBL3A1dmRn?=
- =?utf-8?B?QVY5Mlo3c25qaTJVSWVBUlFUbW1mWXZ2ejNqemkwM25TZzRYRWZoZFBURFZa?=
- =?utf-8?B?SFV0cmFCY2xSUjVsWEk4Y0FJMmlXbThhT3hKVGc3TFVmK0hYbjU4ajZYSmVo?=
- =?utf-8?B?V0FLNWJzODZ3YnpTSGhWUkg0ZXJEU2d4VmJyZlhZbE9iVWdKVGd0c2xhUHRp?=
- =?utf-8?B?WG16VnVuTHlLNW9ERFFVMFZIdWtUM0Z6MzV1R3pUcDFpVTM5TTBLSFVHY2hF?=
- =?utf-8?B?U3dKOWRDYUNRaldWc0pubGp0YVEzWTFyTlNFQWlEWkJuWXFBelZIWlJDZjJI?=
- =?utf-8?B?VUJ2c3lzR0tiaHBHMyt4VVA5eFVBbndTMVZ3Mm0xT3N1ZUpPakF6djFGcnFk?=
- =?utf-8?Q?X6m+UdbvVtoeSw8zXG+DHAo=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JzVkpahkhFdj1hncoGjXvUz/k3jqH0Xy3New2v/4I5JJ/sHuMNqkIPCrs5eF?=
+ =?us-ascii?Q?fxS3u3xWPSNgDz59gmdFPY8JmlqQ3rSeYpXEOUu9EPoZWBj85zRUVwVuIosS?=
+ =?us-ascii?Q?6VDvybwKmhpxNe1zHQBEDBe6fWImE4orRUddVh0WEJ2u1ZUYO6p0FjZTzwPU?=
+ =?us-ascii?Q?JAYFYaBQp30hD1mT6OeWIW6qD/hF85IXctUaiQ9jyWwNnNFXndgf0dWaUvbp?=
+ =?us-ascii?Q?bEdqS3hWYfKFCD/rfdw8liu9yl/mCZBQzEwf1Rm0nZ6qcwSIQek1kXDpRN2h?=
+ =?us-ascii?Q?fZ29p2RS/QjKxqXQZR0ExuvYXotQLDNVh4oHKd3Qw6IDIuW1uUBf4e8Dg9Ek?=
+ =?us-ascii?Q?rIVyQeTMbeJ+Qv8c94d/S9B8zawWaK8j6BYBnPE73MfDoXa8pByBnPtScGah?=
+ =?us-ascii?Q?vKaen9KhSkvRPXIryMwexbNFUwFACmu6kz6UeLEZzXq8z5KjDDR/VtcWRr3q?=
+ =?us-ascii?Q?584Ur6LEnIxSy/hw0nCQR4XvQ3ZUxq0BsvGBjOuVU0IyvnLviN8m4r+GrHdA?=
+ =?us-ascii?Q?3h2mw2plGo1RfaKvFmbRBmLy/aNEAz0TcKr9ZzdV9aTIy3+M8SBjwxDr2oQF?=
+ =?us-ascii?Q?UpecRrAQNtwawrbyiw5yFL5uTUmkfi0+1UVYwmznleI3eOqDb/XDyqzEdUgk?=
+ =?us-ascii?Q?gOcSUh3rxpjUezsBVIdkza2gHjdtwwXEVHUsOH0oGSdM54MCgcCzx6/liBA7?=
+ =?us-ascii?Q?+VnyNJr8iyylT/fVfc1QPZARWZCOx2aNoFRy+icFDq1OJbSFu4LpKM1AortP?=
+ =?us-ascii?Q?bt4XElwGFB1yH7tZx7evquw4w5WWNOQkR2my7lmzsW9cNqU45yxCXTe/RnVE?=
+ =?us-ascii?Q?BAWac0dxr1UliQuQcRV9hbplZbVt2aUVAlBdOZv5pnmn9zVgKYqs+XabCxOo?=
+ =?us-ascii?Q?aDaXsiVRDFCRM2EGZVlFXpXYaEIXKQgdBW9Wr5b5R0eBNAhxCwg4OHO5Y/Vz?=
+ =?us-ascii?Q?QaBcSpKP2JV0HDWpt3gps955OOiwMItIs32VBa6atA3R7ulqloG7KArHL2J7?=
+ =?us-ascii?Q?iIIffvXZEMFOT9zWEPFgra6wf10xlpn3hRmqktCizZGFNGLa3TmTaAPV2P62?=
+ =?us-ascii?Q?gBG3EHH6VG3kmDRAnD2rJb3rV+g/XHHynVIMGZWnkUjGJx+NhNE4r56VGmo3?=
+ =?us-ascii?Q?MkGqlRIhy+fn2D1aHEsiTYDLdWTATFzTRMROPRDt4SgmoF+3bLUq4N0O8Cm2?=
+ =?us-ascii?Q?33R1MVgw1ZQD83aDDkku7MKLWYSZElS6sVcslKHC8bO6PYK7wVTt3ziXA7E9?=
+ =?us-ascii?Q?D+RUwxWgEnuE7gs164At8atz/K1GgQM6u8oamLixCU6x0bfSvDTQeiKKaNY6?=
+ =?us-ascii?Q?UWXc4pJir6PqXaQZCXr/IFy/Z3ECjC2w0bkRVRQDgjmlEgrW0BUj1UZ2hTyI?=
+ =?us-ascii?Q?Dnyv8l5UwzJH4tPhXq5ueJB+bxMd9AX8CjRw4WaRLZNnu0FDbrJDqyyAcPNS?=
+ =?us-ascii?Q?iufBTx4mqpEJ187mM2Tsl1xX+asCXU+w7hOPTr4/NhfW3T4cfnzWIE911EGF?=
+ =?us-ascii?Q?L2JbW6OF/RHk1Zz48G0OMPlx8MDvoJDszWBdVhsd7uFDZGJRt0Dc/rQGnlne?=
+ =?us-ascii?Q?WnhknVcT5zIU4f9/wKUhRDuUKxMHD4WsgvEv8bvpKaYamJssJePIkAzt9Hl9?=
+ =?us-ascii?Q?99nM+jbDFnTcBsZgkGBTIR8=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e57d8d15-4eb8-4282-032e-08d9bfe0a5ce
+X-MS-Exchange-CrossTenant-Network-Message-Id: 246c52bb-ae24-4882-e0e6-08d9bfe0a7dc
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 15:36:22.6832 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 15:36:26.1829 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hgjd4BBE0DILIYYCI3NXAC/KrOp+rKq7NmHNUwvLkqnmB4kYZQVEy+pZ6YYq4l5PGEcEkyWT5kkDLlZn/+HgRQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: aF+hRPiSjgKYoGksbr3IQcUQSoKejbV7UfJdypu9+ricLA+raFuOT9sbwWI9MpRzSlAKH1Sg5q7yeBDUntXe8w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5282
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10198
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- bulkscore=0 spamscore=0
- mlxlogscore=999 suspectscore=0 adultscore=0 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2112150088
-X-Proofpoint-ORIG-GUID: 1cw_7gz2Ag6toHKgpF9HONuMfeSnaYtS
-X-Proofpoint-GUID: 1cw_7gz2Ag6toHKgpF9HONuMfeSnaYtS
-Received-SPF: pass client-ip=205.220.165.32; envelope-from=jag.raman@oracle.com;
- helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ adultscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112150088
+X-Proofpoint-GUID: _Hd1nFp_OIaSYQeYRHGGOf5PMWEVJOIq
+X-Proofpoint-ORIG-GUID: _Hd1nFp_OIaSYQeYRHGGOf5PMWEVJOIq
+Received-SPF: pass client-ip=205.220.177.32; envelope-from=jag.raman@oracle.com;
+ helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -182,330 +173,318 @@ Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Assign separate address space for each device in the remote processes.
+Forward remote device's interrupts to the guest
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- include/hw/pci/pci.h      |   2 +
- include/hw/remote/iommu.h |  24 ++++++++
- hw/pci/pci.c              |   2 +-
- hw/remote/iommu.c         | 117 ++++++++++++++++++++++++++++++++++++++
- hw/remote/machine.c       |   5 ++
- hw/remote/vfio-user-obj.c |  20 ++++++-
- MAINTAINERS               |   2 +
- hw/remote/meson.build     |   1 +
- 8 files changed, 169 insertions(+), 4 deletions(-)
- create mode 100644 include/hw/remote/iommu.h
- create mode 100644 hw/remote/iommu.c
+ include/hw/pci/pci.h      |  6 ++++
+ include/hw/remote/iohub.h |  1 +
+ hw/pci/msi.c              | 13 ++++++-
+ hw/pci/msix.c             | 12 ++++++-
+ hw/remote/iohub.c         |  7 ++++
+ hw/remote/vfio-user-obj.c | 74 +++++++++++++++++++++++++++++++++++++++
+ hw/remote/trace-events    |  1 +
+ 7 files changed, 112 insertions(+), 2 deletions(-)
 
 diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 5c4016b995..f2fc2d5375 100644
+index f2fc2d5375..ffc030d9ca 100644
 --- a/include/hw/pci/pci.h
 +++ b/include/hw/pci/pci.h
-@@ -734,6 +734,8 @@ void lsi53c8xx_handle_legacy_cmdline(DeviceState *lsi_dev);
- qemu_irq pci_allocate_irq(PCIDevice *pci_dev);
- void pci_set_irq(PCIDevice *pci_dev, int level);
+@@ -128,6 +128,8 @@ typedef uint32_t PCIConfigReadFunc(PCIDevice *pci_dev,
+ typedef void PCIMapIORegionFunc(PCIDevice *pci_dev, int region_num,
+                                 pcibus_t addr, pcibus_t size, int type);
+ typedef void PCIUnregisterFunc(PCIDevice *pci_dev);
++typedef void PCIMSINotify(PCIDevice *pci_dev, unsigned vector);
++typedef void PCIMSIxNotify(PCIDevice *pci_dev, unsigned vector);
  
-+void pci_init_bus_master(PCIDevice *pci_dev);
+ typedef struct PCIIORegion {
+     pcibus_t addr; /* current PCI mapping address. -1 means not mapped */
+@@ -321,6 +323,10 @@ struct PCIDevice {
+     /* Space to store MSIX table & pending bit array */
+     uint8_t *msix_table;
+     uint8_t *msix_pba;
 +
- static inline void pci_irq_assert(PCIDevice *pci_dev)
++    PCIMSINotify *msi_notify;
++    PCIMSIxNotify *msix_notify;
++
+     /* MemoryRegion container for msix exclusive BAR setup */
+     MemoryRegion msix_exclusive_bar;
+     /* Memory Regions for MSIX table and pending bit entries. */
+diff --git a/include/hw/remote/iohub.h b/include/hw/remote/iohub.h
+index 0bf98e0d78..70d98b38d0 100644
+--- a/include/hw/remote/iohub.h
++++ b/include/hw/remote/iohub.h
+@@ -30,6 +30,7 @@ typedef struct RemoteIOHubState {
+     unsigned int irq_level[REMOTE_IOHUB_NB_PIRQS];
+     ResampleToken token[REMOTE_IOHUB_NB_PIRQS];
+     QemuMutex irq_level_lock[REMOTE_IOHUB_NB_PIRQS];
++    void (*intx_notify)(int pirq, unsigned vector);
+ } RemoteIOHubState;
+ 
+ int remote_iohub_map_irq(PCIDevice *pci_dev, int intx);
+diff --git a/hw/pci/msi.c b/hw/pci/msi.c
+index 47d2b0f33c..93f5e400cc 100644
+--- a/hw/pci/msi.c
++++ b/hw/pci/msi.c
+@@ -51,6 +51,8 @@
+  */
+ bool msi_nonbroken;
+ 
++static void pci_msi_notify(PCIDevice *dev, unsigned int vector);
++
+ /* If we get rid of cap allocator, we won't need this. */
+ static inline uint8_t msi_cap_sizeof(uint16_t flags)
  {
-     pci_set_irq(pci_dev, 1);
-diff --git a/include/hw/remote/iommu.h b/include/hw/remote/iommu.h
-new file mode 100644
-index 0000000000..42ce0ca383
---- /dev/null
-+++ b/include/hw/remote/iommu.h
-@@ -0,0 +1,24 @@
-+/*
-+ * IOMMU for remote device
-+ *
-+ * Copyright © 2021 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef REMOTE_IOMMU_H
-+#define REMOTE_IOMMU_H
-+
-+#include "hw/pci/pci_bus.h"
-+
-+void remote_iommu_free(PCIDevice *pci_dev);
-+
-+void remote_iommu_init(void);
-+
-+void remote_iommu_set(PCIBus *bus);
-+
-+MemoryRegion *remote_iommu_get_ram(PCIDevice *pci_dev);
-+
-+#endif
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 4a84e478ce..57d561cc03 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -95,7 +95,7 @@ static const VMStateDescription vmstate_pcibus = {
-     }
- };
+@@ -225,6 +227,8 @@ int msi_init(struct PCIDevice *dev, uint8_t offset,
+     dev->msi_cap = config_offset;
+     dev->cap_present |= QEMU_PCI_CAP_MSI;
  
--static void pci_init_bus_master(PCIDevice *pci_dev)
-+void pci_init_bus_master(PCIDevice *pci_dev)
- {
-     AddressSpace *dma_as = pci_device_iommu_address_space(pci_dev);
- 
-diff --git a/hw/remote/iommu.c b/hw/remote/iommu.c
-new file mode 100644
-index 0000000000..30c866badb
---- /dev/null
-+++ b/hw/remote/iommu.c
-@@ -0,0 +1,117 @@
-+/*
-+ * Remote IOMMU
-+ *
-+ * Copyright © 2021 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
++    dev->msi_notify = pci_msi_notify;
 +
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
-+#include "hw/remote/iommu.h"
-+#include "hw/pci/pci_bus.h"
-+#include "exec/memory.h"
-+#include "exec/address-spaces.h"
-+#include "trace.h"
-+
-+struct VFUIOMMU {
-+    AddressSpace  as;
-+    MemoryRegion  mr;
-+};
-+
-+typedef struct VFUPciBus {
-+    PCIBus           *bus;
-+    struct VFUIOMMU  *iommu[];
-+} VFUPciBus;
-+
-+GHashTable *remote_as_table;
-+
-+static AddressSpace *remote_iommu_get_as(PCIBus *bus, void *opaque, int devfn)
-+{
-+    VFUPciBus *vfu_pci_bus = NULL;
-+    struct VFUIOMMU *iommu = NULL;
-+
-+    if (!remote_as_table) {
-+        return &address_space_memory;
-+    }
-+
-+    vfu_pci_bus = g_hash_table_lookup(remote_as_table, bus);
-+
-+    if (!vfu_pci_bus) {
-+        vfu_pci_bus = g_malloc0(sizeof(VFUPciBus));
-+        vfu_pci_bus->bus = bus;
-+        g_hash_table_insert(remote_as_table, bus, vfu_pci_bus);
-+    }
-+
-+    iommu = vfu_pci_bus->iommu[devfn];
-+
-+    if (!iommu) {
-+        g_autofree char *mr_name = g_strdup_printf("vfu-ram-%d", devfn);
-+        g_autofree char *as_name = g_strdup_printf("vfu-as-%d", devfn);
-+
-+        iommu = g_malloc0(sizeof(struct VFUIOMMU));
-+
-+        memory_region_init(&iommu->mr, NULL, mr_name, UINT64_MAX);
-+        address_space_init(&iommu->as, &iommu->mr, as_name);
-+
-+        vfu_pci_bus->iommu[devfn] = iommu;
-+    }
-+
-+    return &iommu->as;
-+}
-+
-+void remote_iommu_free(PCIDevice *pci_dev)
-+{
-+    VFUPciBus *vfu_pci_bus = NULL;
-+    struct VFUIOMMU *iommu = NULL;
-+
-+    if (!remote_as_table) {
-+        return;
-+    }
-+
-+    vfu_pci_bus = g_hash_table_lookup(remote_as_table, pci_get_bus(pci_dev));
-+
-+    if (!vfu_pci_bus) {
-+        return;
-+    }
-+
-+    iommu = vfu_pci_bus->iommu[pci_dev->devfn];
-+
-+    vfu_pci_bus->iommu[pci_dev->devfn] = NULL;
-+
-+    if (iommu) {
-+        memory_region_unref(&iommu->mr);
-+        address_space_destroy(&iommu->as);
-+        g_free(iommu);
-+    }
-+}
-+
-+void remote_iommu_init(void)
-+{
-+    remote_as_table = g_hash_table_new_full(NULL, NULL, NULL, NULL);
-+}
-+
-+void remote_iommu_set(PCIBus *bus)
-+{
-+    pci_setup_iommu(bus, remote_iommu_get_as, NULL);
-+}
-+
-+MemoryRegion *remote_iommu_get_ram(PCIDevice *pci_dev)
-+{
-+    PCIBus *bus = pci_get_bus(pci_dev);
-+    VFUPciBus *vfu_pci_bus;
-+
-+    if (!remote_as_table) {
-+        return get_system_memory();
-+    }
-+
-+    vfu_pci_bus = g_hash_table_lookup(remote_as_table, bus);
-+    if (!vfu_pci_bus) {
-+        return get_system_memory();
-+    }
-+
-+    return &vfu_pci_bus->iommu[pci_dev->devfn]->mr;
-+}
-diff --git a/hw/remote/machine.c b/hw/remote/machine.c
-index 952105eab5..023be0491e 100644
---- a/hw/remote/machine.c
-+++ b/hw/remote/machine.c
-@@ -21,6 +21,7 @@
- #include "qapi/error.h"
- #include "hw/pci/pci_host.h"
- #include "hw/remote/iohub.h"
-+#include "hw/remote/iommu.h"
- 
- static void remote_machine_init(MachineState *machine)
- {
-@@ -52,6 +53,10 @@ static void remote_machine_init(MachineState *machine)
- 
-     remote_iohub_init(&s->iohub);
- 
-+    remote_iommu_init();
-+
-+    remote_iommu_set(pci_host->bus);
-+
-     pci_bus_irqs(pci_host->bus, remote_iohub_set_irq, remote_iohub_map_irq,
-                  &s->iohub, REMOTE_IOHUB_NB_PIRQS);
+     pci_set_word(dev->config + msi_flags_off(dev), flags);
+     pci_set_word(dev->wmask + msi_flags_off(dev),
+                  PCI_MSI_FLAGS_QSIZE | PCI_MSI_FLAGS_ENABLE);
+@@ -307,7 +311,7 @@ bool msi_is_masked(const PCIDevice *dev, unsigned int vector)
+     return mask & (1U << vector);
  }
+ 
+-void msi_notify(PCIDevice *dev, unsigned int vector)
++static void pci_msi_notify(PCIDevice *dev, unsigned int vector)
+ {
+     uint16_t flags = pci_get_word(dev->config + msi_flags_off(dev));
+     bool msi64bit = flags & PCI_MSI_FLAGS_64BIT;
+@@ -332,6 +336,13 @@ void msi_notify(PCIDevice *dev, unsigned int vector)
+     msi_send_message(dev, msg);
+ }
+ 
++void msi_notify(PCIDevice *dev, unsigned int vector)
++{
++    if (dev->msi_notify) {
++        dev->msi_notify(dev, vector);
++    }
++}
++
+ void msi_send_message(PCIDevice *dev, MSIMessage msg)
+ {
+     MemTxAttrs attrs = {};
+diff --git a/hw/pci/msix.c b/hw/pci/msix.c
+index ae9331cd0b..1c71e67f53 100644
+--- a/hw/pci/msix.c
++++ b/hw/pci/msix.c
+@@ -31,6 +31,8 @@
+ #define MSIX_ENABLE_MASK (PCI_MSIX_FLAGS_ENABLE >> 8)
+ #define MSIX_MASKALL_MASK (PCI_MSIX_FLAGS_MASKALL >> 8)
+ 
++static void pci_msix_notify(PCIDevice *dev, unsigned vector);
++
+ MSIMessage msix_get_message(PCIDevice *dev, unsigned vector)
+ {
+     uint8_t *table_entry = dev->msix_table + vector * PCI_MSIX_ENTRY_SIZE;
+@@ -334,6 +336,7 @@ int msix_init(struct PCIDevice *dev, unsigned short nentries,
+     dev->msix_table = g_malloc0(table_size);
+     dev->msix_pba = g_malloc0(pba_size);
+     dev->msix_entry_used = g_malloc0(nentries * sizeof *dev->msix_entry_used);
++    dev->msix_notify = pci_msix_notify;
+ 
+     msix_mask_all(dev, nentries);
+ 
+@@ -485,7 +488,7 @@ int msix_enabled(PCIDevice *dev)
+ }
+ 
+ /* Send an MSI-X message */
+-void msix_notify(PCIDevice *dev, unsigned vector)
++static void pci_msix_notify(PCIDevice *dev, unsigned vector)
+ {
+     MSIMessage msg;
+ 
+@@ -503,6 +506,13 @@ void msix_notify(PCIDevice *dev, unsigned vector)
+     msi_send_message(dev, msg);
+ }
+ 
++void msix_notify(PCIDevice *dev, unsigned vector)
++{
++    if (dev->msix_notify) {
++        dev->msix_notify(dev, vector);
++    }
++}
++
+ void msix_reset(PCIDevice *dev)
+ {
+     if (!msix_present(dev)) {
+diff --git a/hw/remote/iohub.c b/hw/remote/iohub.c
+index 547d597f0f..d28d9f3ce2 100644
+--- a/hw/remote/iohub.c
++++ b/hw/remote/iohub.c
+@@ -17,7 +17,9 @@
+ #include "qemu/thread.h"
+ #include "hw/remote/machine.h"
+ #include "hw/remote/iohub.h"
++#include "hw/pci/msi.h"
+ #include "qemu/main-loop.h"
++#include "trace.h"
+ 
+ void remote_iohub_init(RemoteIOHubState *iohub)
+ {
+@@ -32,6 +34,8 @@ void remote_iohub_init(RemoteIOHubState *iohub)
+         event_notifier_init_fd(&iohub->irqfds[pirq], -1);
+         event_notifier_init_fd(&iohub->resamplefds[pirq], -1);
+     }
++
++    msi_nonbroken = true;
+ }
+ 
+ void remote_iohub_finalize(RemoteIOHubState *iohub)
+@@ -62,6 +66,9 @@ void remote_iohub_set_irq(void *opaque, int pirq, int level)
+     QEMU_LOCK_GUARD(&iohub->irq_level_lock[pirq]);
+ 
+     if (level) {
++        if (iohub->intx_notify) {
++            iohub->intx_notify(pirq, 0);
++        }
+         if (++iohub->irq_level[pirq] == 1) {
+             event_notifier_set(&iohub->irqfds[pirq]);
+         }
 diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-index 9399e87cbe..ae375e69b9 100644
+index ae375e69b9..2b28d465d5 100644
 --- a/hw/remote/vfio-user-obj.c
 +++ b/hw/remote/vfio-user-obj.c
-@@ -49,6 +49,7 @@
- #include "hw/qdev-core.h"
+@@ -50,6 +50,9 @@
  #include "hw/pci/pci.h"
  #include "qemu/timer.h"
-+#include "hw/remote/iommu.h"
+ #include "hw/remote/iommu.h"
++#include "hw/pci/msi.h"
++#include "hw/pci/msix.h"
++#include "hw/remote/iohub.h"
  
  #define TYPE_VFU_OBJECT "x-vfio-user-server"
  OBJECT_DECLARE_TYPE(VfuObject, VfuObjectClass, VFU_OBJECT)
-@@ -210,6 +211,7 @@ static ssize_t vfu_object_cfg_access(vfu_ctx_t *vfu_ctx, char * const buf,
+@@ -81,6 +84,8 @@ struct VfuObject {
+     int vfu_poll_fd;
+ };
  
- static void dma_register(vfu_ctx_t *vfu_ctx, vfu_dma_info_t *info)
- {
-+    VfuObject *o = vfu_get_private(vfu_ctx);
-     MemoryRegion *subregion = NULL;
-     g_autofree char *name = NULL;
-     static unsigned int suffix;
-@@ -226,14 +228,15 @@ static void dma_register(vfu_ctx_t *vfu_ctx, vfu_dma_info_t *info)
-     memory_region_init_ram_ptr(subregion, NULL, name,
-                                iov->iov_len, info->vaddr);
++static GHashTable *vfu_object_dev_table;
++
+ static void vfu_object_init_ctx(VfuObject *o, Error **errp);
  
--    memory_region_add_subregion(get_system_memory(), (hwaddr)iov->iov_base,
--                                subregion);
-+    memory_region_add_subregion(remote_iommu_get_ram(o->pci_dev),
-+                                (hwaddr)iov->iov_base, subregion);
- 
-     trace_vfu_dma_register((uint64_t)iov->iov_base, iov->iov_len);
+ static void vfu_object_set_socket(Object *obj, Visitor *v, const char *name,
+@@ -347,6 +352,54 @@ static void vfu_object_register_bars(vfu_ctx_t *vfu_ctx, PCIDevice *pdev)
+     }
  }
  
- static void dma_unregister(vfu_ctx_t *vfu_ctx, vfu_dma_info_t *info)
- {
-+    VfuObject *o = vfu_get_private(vfu_ctx);
-     MemoryRegion *mr = NULL;
-     ram_addr_t offset;
- 
-@@ -242,7 +245,7 @@ static void dma_unregister(vfu_ctx_t *vfu_ctx, vfu_dma_info_t *info)
-         return;
-     }
- 
--    memory_region_del_subregion(get_system_memory(), mr);
-+    memory_region_del_subregion(remote_iommu_get_ram(o->pci_dev), mr);
- 
-     object_unparent((OBJECT(mr)));
- 
-@@ -320,6 +323,7 @@ static vfu_region_access_cb_t *vfu_object_bar_handlers[PCI_NUM_REGIONS] = {
-  */
- static void vfu_object_register_bars(vfu_ctx_t *vfu_ctx, PCIDevice *pdev)
- {
-+    VfuObject *o = vfu_get_private(vfu_ctx);
-     int i;
- 
-     for (i = 0; i < PCI_NUM_REGIONS; i++) {
-@@ -332,6 +336,12 @@ static void vfu_object_register_bars(vfu_ctx_t *vfu_ctx, PCIDevice *pdev)
-                          vfu_object_bar_handlers[i],
-                          VFU_REGION_FLAG_RW, NULL, 0, -1, 0);
- 
-+        if ((o->pci_dev->io_regions[i].type & PCI_BASE_ADDRESS_SPACE) == 0) {
-+            memory_region_unref(o->pci_dev->io_regions[i].address_space);
-+            o->pci_dev->io_regions[i].address_space =
-+                remote_iommu_get_ram(o->pci_dev);
-+        }
++static void vfu_object_intx_notify(int pci_devfn, unsigned vector)
++{
++    vfu_ctx_t *vfu_ctx = g_hash_table_lookup(vfu_object_dev_table,
++                                             (void *)(uint64_t)pci_devfn);
 +
-         trace_vfu_bar_register(i, pdev->io_regions[i].addr,
-                                pdev->io_regions[i].size);
++    if (vfu_ctx) {
++        vfu_irq_trigger(vfu_ctx, vector);
++    }
++}
++
++static void vfu_object_msi_notify(PCIDevice *pci_dev, unsigned vector)
++{
++    vfu_object_intx_notify(pci_dev->devfn, vector);
++}
++
++static int vfu_object_setup_irqs(vfu_ctx_t *vfu_ctx, PCIDevice *pci_dev)
++{
++    RemoteMachineState *machine = REMOTE_MACHINE(current_machine);
++    RemoteIOHubState *iohub = &machine->iohub;
++    int ret;
++
++    ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_INTX_IRQ, 1);
++    if (ret < 0) {
++        return ret;
++    }
++
++    iohub->intx_notify = vfu_object_intx_notify;
++
++    ret = 0;
++    if (msix_nr_vectors_allocated(pci_dev)) {
++        ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_MSIX_IRQ,
++                                       msix_nr_vectors_allocated(pci_dev));
++
++        pci_dev->msix_notify = vfu_object_msi_notify;
++    } else if (msi_nr_vectors_allocated(pci_dev)) {
++        ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_MSI_IRQ,
++                                       msi_nr_vectors_allocated(pci_dev));
++
++        pci_dev->msi_notify = vfu_object_msi_notify;
++    }
++
++    if (ret < 0) {
++        return ret;
++    }
++
++    return 0;
++}
++
+ /*
+  * TYPE_VFU_OBJECT depends on the availability of the 'socket' and 'device'
+  * properties. It also depends on devices instantiated in QEMU. These
+@@ -437,6 +490,13 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
+ 
+     vfu_object_register_bars(o->vfu_ctx, o->pci_dev);
+ 
++    ret = vfu_object_setup_irqs(o->vfu_ctx, o->pci_dev);
++    if (ret < 0) {
++        error_setg(errp, "vfu: Failed to setup interrupts for %s",
++                   o->device);
++        goto fail;
++    }
++
+     ret = vfu_realize_ctx(o->vfu_ctx);
+     if (ret < 0) {
+         error_setg(errp, "vfu: Failed to realize device %s- %s",
+@@ -450,6 +510,9 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
+         goto fail;
      }
-@@ -490,6 +500,10 @@ static void vfu_object_finalize(Object *obj)
  
-     o->device = NULL;
++    g_hash_table_insert(vfu_object_dev_table,
++                        (void *)(uint64_t)o->pci_dev->devfn, o->vfu_ctx);
++
+     qemu_set_fd_handler(o->vfu_poll_fd, vfu_object_attach_ctx, NULL, o);
  
-+    if (o->pci_dev) {
-+        remote_iommu_free(o->pci_dev);
+     return;
+@@ -504,9 +567,18 @@ static void vfu_object_finalize(Object *obj)
+         remote_iommu_free(o->pci_dev);
+     }
+ 
++    if (o->pci_dev &&
++            g_hash_table_lookup(vfu_object_dev_table,
++                                (void *)(uint64_t)o->pci_dev->devfn)) {
++        g_hash_table_remove(vfu_object_dev_table,
++                            (void *)(uint64_t)o->pci_dev->devfn);
 +    }
 +
      o->pci_dev = NULL;
  
      if (!k->nr_devs && !k->daemon) {
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b5eb306662..5dc67d79a1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3466,6 +3466,8 @@ F: hw/remote/iohub.c
- F: include/hw/remote/iohub.h
- F: subprojects/libvfio-user
- F: hw/remote/vfio-user-obj.c
-+F: include/hw/remote/iommu.h
-+F: hw/remote/iommu.c
++        g_hash_table_destroy(vfu_object_dev_table);
++        vfu_object_dev_table = NULL;
+         qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+     }
  
- EBPF:
- M: Jason Wang <jasowang@redhat.com>
-diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-index 534ac5df79..bcef83c8cc 100644
---- a/hw/remote/meson.build
-+++ b/hw/remote/meson.build
-@@ -6,6 +6,7 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
- remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
- remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy.c'))
- remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('iohub.c'))
-+remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('iommu.c'))
- remote_ss.add(when: 'CONFIG_VFIO_USER_SERVER', if_true: files('vfio-user-obj.c'))
+@@ -525,6 +597,8 @@ static void vfu_object_class_init(ObjectClass *klass, void *data)
+     /* Later determine how to detect a daemon */
+     k->daemon = false;
  
- remote_ss.add(when: 'CONFIG_VFIO_USER_SERVER', if_true: vfiouser)
++    vfu_object_dev_table = g_hash_table_new_full(NULL, NULL, NULL, NULL);
++
+     object_class_property_add(klass, "socket", "SocketAddress", NULL,
+                               vfu_object_set_socket, NULL, NULL);
+     object_class_property_set_description(klass, "socket",
+diff --git a/hw/remote/trace-events b/hw/remote/trace-events
+index 847d50d88f..c167b3c7a5 100644
+--- a/hw/remote/trace-events
++++ b/hw/remote/trace-events
+@@ -12,3 +12,4 @@ vfu_dma_unregister(uint64_t gpa) "vfu: unregistering GPA 0x%"PRIx64""
+ vfu_bar_register(int i, uint64_t addr, uint64_t size) "vfu: BAR %d: addr 0x%"PRIx64" size 0x%"PRIx64""
+ vfu_bar_rw_enter(const char *op, uint64_t addr) "vfu: %s request for BAR address 0x%"PRIx64""
+ vfu_bar_rw_exit(const char *op, uint64_t addr) "vfu: Finished %s of BAR address 0x%"PRIx64""
++vfu_interrupt(int pirq) "vfu: sending interrupt to device - PIRQ %d"
 -- 
 2.20.1
 
