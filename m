@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B17E475876
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 13:11:16 +0100 (CET)
-Received: from localhost ([::1]:58292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A94E475851
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 13:01:40 +0100 (CET)
+Received: from localhost ([::1]:43202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxT7r-0006JK-LP
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 07:11:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59518)
+	id 1mxSyZ-0003Xq-8b
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 07:01:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mxSdu-0002NR-AO
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:40:19 -0500
-Received: from [2a00:1450:4864:20::434] (port=46658
- helo=mail-wr1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mxSdr-0001TU-Qw
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:40:17 -0500
-Received: by mail-wr1-x434.google.com with SMTP id i22so7863855wrb.13
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 03:40:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=+KUaozHLUvU+YeVT21SWfKKvnMlisBchjGqjbYG/Zjg=;
- b=Rix3SHyr2R+Ii6IxLDisctDxPfYTjQj0ACDzLA/0rvy/lJZwpZr4W916EOtXOWt4ux
- QempJfKoZPvHFe60u5IoAbKIhlJxFx+jDwK8zhQ8PT5RAD5dVIhwASkjN80F15pJ4fET
- 0T+K/orDdMDwMWs3kcdm/nRXUTqq6hzV25B6eRQDRQAdsJGv1+4Q+B6G2Qta0JGETj20
- Vk+r5C+oeidS+nT2XAMh+6rjcD7ppru5L66Znw1mYkpK0LuVM9SleNlQ9xfju41lH3bo
- IWaaYPypUzsQG17PwWiczjvGvuCZrfOdmjCgPbcxpSEm7iAEDgvVeSAY9AP/Y6R5hXDj
- DhtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=+KUaozHLUvU+YeVT21SWfKKvnMlisBchjGqjbYG/Zjg=;
- b=ZScQ3U9O7fkwfywV3Qbch77dnPHFfFs9we4asZ039US2/3X07JCyVvNZmwz4bGSMRP
- q+YpBK0q9PevtXr2fz/91G9ETCnQ8oEfSa/J2P7Gm94e8Hq4jHdA7Nen0R1I7locUheS
- NMCwuTDXx+vUiPg4j8NOEOB5vuHwdTO5RrsZwIFlAvskgY2wrWL94cA83hugedl3Qlr6
- iNe0lIVnrWC7xTZ6n8yKfbJviDfhNWKU8sX2qO0uq0xUscFESETRvjaJ39of1c2FO5UH
- lKqHNgkTjbCu+fj/OI8w3hFrS+4BFvM27nk4LdPlMmYYJVU3rXverQc4Wm0t8UIWgh2b
- vQQg==
-X-Gm-Message-State: AOAM533KeW7rwG3jUmcaXE2VUoMXAaEpT+AGDlFeJq+SGvqosOX5h8wP
- oDDxBLHIRxkhlQAODBS/gOgdIQ==
-X-Google-Smtp-Source: ABdhPJwDr67/e2O3lQ+p40AfPkj/+669PtuLy8tpJlOaUG1iD/ucc8CtqzLOv+3iiIx4HNOwX1r9WQ==
-X-Received: by 2002:a05:6000:110a:: with SMTP id
- z10mr4178124wrw.396.1639568413305; 
- Wed, 15 Dec 2021 03:40:13 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z15sm1681942wrr.65.2021.12.15.03.40.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 03:40:12 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B8C731FF96;
- Wed, 15 Dec 2021 11:40:11 +0000 (GMT)
-References: <20211215084958.185214-1-thuth@redhat.com>
- <fb033cf6-ab9b-3f85-e95d-0093715de48f@amsat.org>
-User-agent: mu4e 1.7.5; emacs 28.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] linux-user: Remove the deprecated ppc64abi32 target
-Date: Wed, 15 Dec 2021 11:39:06 +0000
-In-reply-to: <fb033cf6-ab9b-3f85-e95d-0093715de48f@amsat.org>
-Message-ID: <878rwmgkpw.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mxShi-000059-Kg
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:44:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44665)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mxShe-0003VV-Lk
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:44:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639568648;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f/p3gstzxqVvl5ZI5MwzFzJvQUpfLwXOU2yrIzJijwY=;
+ b=YuZYMVY73qBO02D1QUIdTb9mmra6BtWKvp793mrhi661GAK0Txocln1UhZD3KoHYBPWEAP
+ RV1SDJgBlbay88SE0iulLFOO8KL4DgHLHhhUkVLQjnbrSq8ZrZBNFaA2/+M7dr2vXSr4nl
+ YMKQ5tN4PQkKE0WDaJBVIrjuAn47MhQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-164-XtIMJupKPXiWp_hIlHQ1gg-1; Wed, 15 Dec 2021 06:44:00 -0500
+X-MC-Unique: XtIMJupKPXiWp_hIlHQ1gg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88D5F1006AA1;
+ Wed, 15 Dec 2021 11:43:57 +0000 (UTC)
+Received: from redhat.com (unknown [10.22.8.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 45F377E66C;
+ Wed, 15 Dec 2021 11:43:25 +0000 (UTC)
+Date: Wed, 15 Dec 2021 11:43:23 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v4 15/18] tests/docker: updates to alpine package list
+Message-ID: <YbnU27X8w9MACkxe@redhat.com>
+References: <20211124130150.268230-1-berrange@redhat.com>
+ <20211124130150.268230-16-berrange@redhat.com>
+ <a18b26b9-f0a0-5bbc-0ecf-d97480f72030@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <a18b26b9-f0a0-5bbc-0ecf-d97480f72030@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,33 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Laurent Vivier <laurent@vivier.eu>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Dec 15, 2021 at 12:31:33PM +0100, Philippe Mathieu-Daudé wrote:
+> On 11/24/21 14:01, Daniel P. Berrangé wrote:
+> > Cleanup the package lists by removing some entries that we don't need to
+> > directly reference
+> > 
+> >   binutils: implied by the compiler toolchain
+> >   coreutils: not required by QEMU build
+> >   mesa-egl mesa-gbm: implied by mesa-dev
+> >   ninja: alias for samurai package
+> 
+> I'd rather keep the alias to avoid looking for ninja or
+> for what samurai is. Anyhow,
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+This change was done to align with the package lists that
+lcitool will generate. In lcitool we always aim to use the
+canonical package name, rather than any alias, so it is
+explicit what impl we're using for something.
 
-> On 12/15/21 09:49, Thomas Huth wrote:
->> It's likely broken, and nobody cared for picking it up again
->> during the deprecation phase, so let's remove this now.
->>=20
->> Since this is the last entry in deprecated_targets_list, remove
->> the related code in the configure script, too.
->
-> Can we keep that part to keep the gate open to deprecate more
-> targets / features?
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> 
+> >   shadow: not required by QEMU build
+> >   util-linux-dev: not directly required by QEMU build
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  tests/docker/dockerfiles/alpine.docker | 8 +-------
+> >  1 file changed, 1 insertion(+), 7 deletions(-)
+> 
 
-I'm agnostic about it because it is essentially dead code so can
-silently bit-rot. We can always resurrect the code from CI later if we
-need to but I suspect future deprecation should be handled in meson?
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
