@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 491C94763D6
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 21:59:32 +0100 (CET)
-Received: from localhost ([::1]:46862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFF94763D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 21:59:59 +0100 (CET)
+Received: from localhost ([::1]:48180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxbN5-0003qi-Dl
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 15:59:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38724)
+	id 1mxbNX-0004jB-03
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 15:59:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxbKt-00012C-AO
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:57:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58612)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxbL5-0001Qv-1L
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:57:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxbKr-00058V-Rz
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:57:15 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxbKw-00059B-IH
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:57:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639601833;
+ s=mimecast20190719; t=1639601837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OOkRh2MZ/DBLfZ4HT9jmHJS4If0ihWIm6frAMrPlFV0=;
- b=eL83DB4m1h/zV+i9j2aTa2f3ZBZ/VHdKasYchAi305zxkIGmZVpZ7xGFbCqc6Rf9YV7gT9
- 4x8hI5El+HURHh9Vi/s2vKPkgDfrikH6GF47iA7dVRntWn3BQrxK8hv6D8gZPnR+z25Dlj
- eZKlsWzKaxOs1GFa/p3fBl3SULblenc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oSQRyRj2GbkDloms+3kG1uqQcojtiwJxAy2G0BkB6EI=;
+ b=jM278o4wITRECFw9UPzaPGE+dDlvuZNjxtpKfP3zCRXuhnlcuQe87zOgEkFxyLtk8WclC4
+ 3kBvEZ0fgZe9JaUER5CodIwgDDn5OwFoSTeqA66cKVgtB1U1v2uzzMVwvQnYSjdlB80Bxc
+ flBYz0wLgUgxgBUEAYBxf76U3BRUqKI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-452-X8_Ivvs0O_CHfiAmCTK3Pg-1; Wed, 15 Dec 2021 15:57:12 -0500
-X-MC-Unique: X8_Ivvs0O_CHfiAmCTK3Pg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 144-20020a1c0496000000b003305ac0e03aso164243wme.8
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 12:57:12 -0800 (PST)
+ us-mta-394-tBp-NpvSObCXeIqFPxnomw-1; Wed, 15 Dec 2021 15:57:16 -0500
+X-MC-Unique: tBp-NpvSObCXeIqFPxnomw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ p3-20020a056000018300b00186b195d4ddso6189203wrx.15
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 12:57:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OOkRh2MZ/DBLfZ4HT9jmHJS4If0ihWIm6frAMrPlFV0=;
- b=AUaByRBpR9Irc0Em5Nk+fCtj9+oFq3xrKE4J2ni1mOTmnQDuxQuJqdL8Oj3vaUXWPP
- j7KH0B9OycQeRf6QzmhJWyQm8vCV70cf/J25ylCkifWa6Bl4RzSleJ0OqfQUleisS8U3
- kyCfU1y2LLMZih1Zv7koHD57gyPuKoU176nqttg/a4jWEeOap7sRqmMkRCfn5fwy6i0c
- IcpkhslCZV4ZZWLVQann72o5epi/awBEjOunUk+KsVu8WJrEs0W/QiBB6ZFVbFDnvvn8
- /+ufaMxjgroNysIXcgaqY4oByxHby2U9feclYM1gBqV7N4kZ65gfMXxNpHDDmT5OM6fn
- beSA==
-X-Gm-Message-State: AOAM533Q/Gih0a3yJ0osYZrj0UFDG4sja15o+L6MHLJoc6iNHNyzGaRh
- Jyg+DHBImZrSvzrWJPkBiW8tzGnSt1NT4/+lqHJXchOvnR3SaHjIHIaHreBOJW5wJ5Cd7bCE6VE
- 5JbHSBq3nOukNtn4SLwc2Akim4iIe5OWsi4GNkT1GzyU/LTXD42RmKBLRMPG9HtYT
-X-Received: by 2002:adf:ec85:: with SMTP id z5mr1529835wrn.568.1639601830695; 
- Wed, 15 Dec 2021 12:57:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwgX1cpLtsgJ3wxILAQYLUhqa2o58p5r47g9Uo5MGHKubIQ/xUVRmrWJro6fBZy7QKMDdlylQ==
-X-Received: by 2002:adf:ec85:: with SMTP id z5mr1529806wrn.568.1639601830512; 
- Wed, 15 Dec 2021 12:57:10 -0800 (PST)
+ bh=oSQRyRj2GbkDloms+3kG1uqQcojtiwJxAy2G0BkB6EI=;
+ b=RynDzuEi7SsptnBwEsfzw5w85NSD0iEKVaZkiLG/3vt9TvtPt1KncLZwR8NHLJZLvj
+ 8kVStVwJRoYhnozaievFZgHNIbizaUv+vDR3rdL+EAA70BFjYdJTocbGNsWjjA7STfgn
+ e2b/IxV1QxzvsxQlVkTyF1GRBcu2XjT/BIbGKO8lZ+aV8f7Bb/Y3uRFl8tPhMhW6ORKi
+ hwoH1una7OHMQuL9M+JRnl/PyDyN1ZI7XyFjs8w+XRxbModRCpUjIpvMSDusJ0+CCY88
+ Ax28nTLwXifIQRMm/NcinWuCmXByIIJKBRw0vsTC61jFBVuqIZDS6CzMDXRsOdx518x4
+ ewfQ==
+X-Gm-Message-State: AOAM5324Cx0pMZFi9zS6twZwZWOlv5At+e6X8+4XTYFI6RrsTNqIMm7W
+ bts8hrx7xCbV+4osmOS3+NgmX18UL9jLg9mKY10/3gN1LUSDnzKndlXzyKngMsbYkTtdS1du6d1
+ 15Mx1VUXoCkntqTIto2s+YkLWrquc4IuQGNDK07Ty+VlyqpfDEYQWG3S7+l6UQS42
+X-Received: by 2002:a05:600c:19cc:: with SMTP id
+ u12mr1981863wmq.24.1639601835462; 
+ Wed, 15 Dec 2021 12:57:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzb8G+oMVd86cvwguQJsJmKfSEz09jDT1yPJwprMX48giyS9Rnw06hdOAozhRSrnIbC+jMqDg==
+X-Received: by 2002:a05:600c:19cc:: with SMTP id
+ u12mr1981830wmq.24.1639601835155; 
+ Wed, 15 Dec 2021 12:57:15 -0800 (PST)
 Received: from localhost.localdomain
  (174.red-83-50-185.dynamicip.rima-tde.net. [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id f15sm3521642wmg.30.2021.12.15.12.57.09
+ by smtp.gmail.com with ESMTPSA id g124sm5980438wme.28.2021.12.15.12.57.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 12:57:10 -0800 (PST)
+ Wed, 15 Dec 2021 12:57:14 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 1/3] hw/sd/sdhci: Honor failed DMA transactions
-Date: Wed, 15 Dec 2021 21:56:54 +0100
-Message-Id: <20211215205656.488940-2-philmd@redhat.com>
+Subject: [RFC PATCH 2/3] hw/sd/sdhci: Prohibit DMA accesses to devices
+Date: Wed, 15 Dec 2021 21:56:55 +0100
+Message-Id: <20211215205656.488940-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211215205656.488940-1-philmd@redhat.com>
 References: <20211215205656.488940-1-philmd@redhat.com>
@@ -82,7 +84,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,82 +113,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-DMA transactions might fail. The DMA API returns a MemTxResult,
-indicating such failures. Do not ignore it. On failure, raise
-the ADMA error flag and eventually triggering an IRQ (see spec
-chapter 1.13.5: "ADMA2 States").
+The issue reported by OSS-Fuzz produces the following backtrace:
 
+  ==447470==ERROR: AddressSanitizer: heap-buffer-overflow
+  READ of size 1 at 0x61500002a080 thread T0
+      #0 0x71766d47 in sdhci_read_dataport hw/sd/sdhci.c:474:18
+      #1 0x7175f139 in sdhci_read hw/sd/sdhci.c:1022:19
+      #2 0x721b937b in memory_region_read_accessor softmmu/memory.c:440:11
+      #3 0x72171e51 in access_with_adjusted_size softmmu/memory.c:554:18
+      #4 0x7216f47c in memory_region_dispatch_read1 softmmu/memory.c:1424:16
+      #5 0x7216ebb9 in memory_region_dispatch_read softmmu/memory.c:1452:9
+      #6 0x7212db5d in flatview_read_continue softmmu/physmem.c:2879:23
+      #7 0x7212f958 in flatview_read softmmu/physmem.c:2921:12
+      #8 0x7212f418 in address_space_read_full softmmu/physmem.c:2934:18
+      #9 0x721305a9 in address_space_rw softmmu/physmem.c:2962:16
+      #10 0x7175a392 in dma_memory_rw_relaxed include/sysemu/dma.h:89:12
+      #11 0x7175a0ea in dma_memory_rw include/sysemu/dma.h:132:12
+      #12 0x71759684 in dma_memory_read include/sysemu/dma.h:152:12
+      #13 0x7175518c in sdhci_do_adma hw/sd/sdhci.c:823:27
+      #14 0x7174bf69 in sdhci_data_transfer hw/sd/sdhci.c:935:13
+      #15 0x7176aaa7 in sdhci_send_command hw/sd/sdhci.c:376:9
+      #16 0x717629ee in sdhci_write hw/sd/sdhci.c:1212:9
+      #17 0x72172513 in memory_region_write_accessor softmmu/memory.c:492:5
+      #18 0x72171e51 in access_with_adjusted_size softmmu/memory.c:554:18
+      #19 0x72170766 in memory_region_dispatch_write softmmu/memory.c:1504:16
+      #20 0x721419ee in flatview_write_continue softmmu/physmem.c:2812:23
+      #21 0x721301eb in flatview_write softmmu/physmem.c:2854:12
+      #22 0x7212fca8 in address_space_write softmmu/physmem.c:2950:18
+      #23 0x721d9a53 in qtest_process_command softmmu/qtest.c:727:9
+
+A DMA descriptor is previously filled in RAM. An I/O access to the
+device (frames #22 to #16) start the DMA engine (frame #13). The
+engine fetch the descriptor and execute the request, which itself
+accesses the SDHCI I/O registers (frame #1 and #0), triggering a
+re-entrancy issue.
+
+Fix by prohibit transactions from the DMA to devices. The DMA engine
+is thus restricted to memories.
+
+Reported-by: OSS-Fuzz (Issue 36391)
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/451
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sdhci.c | 34 +++++++++++++++++++++++++---------
- 1 file changed, 25 insertions(+), 9 deletions(-)
+ hw/sd/sdhci.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index e0bbc903446..fe2f21f0c37 100644
+index fe2f21f0c37..0e5e988927e 100644
 --- a/hw/sd/sdhci.c
 +++ b/hw/sd/sdhci.c
-@@ -742,6 +742,7 @@ static void sdhci_do_adma(SDHCIState *s)
+@@ -741,6 +741,7 @@ static void sdhci_do_adma(SDHCIState *s)
+ {
      unsigned int begin, length;
      const uint16_t block_size = s->blksize & BLOCK_SIZE_MASK;
++    const MemTxAttrs attrs = { .memory = true };
      ADMADescr dscr = {};
-+    MemTxResult res;
+     MemTxResult res;
      int i;
- 
-     if (s->trnmod & SDHC_TRNS_BLK_CNT_EN && !s->blkcnt) {
-@@ -790,10 +791,13 @@ static void sdhci_do_adma(SDHCIState *s)
-                         s->data_count = block_size;
-                         length -= block_size - begin;
+@@ -794,7 +795,7 @@ static void sdhci_do_adma(SDHCIState *s)
+                     res = dma_memory_write(s->dma_as, dscr.addr,
+                                            &s->fifo_buffer[begin],
+                                            s->data_count - begin,
+-                                           MEMTXATTRS_UNSPECIFIED);
++                                           attrs);
+                     if (res != MEMTX_OK) {
+                         break;
                      }
--                    dma_memory_write(s->dma_as, dscr.addr,
--                                     &s->fifo_buffer[begin],
--                                     s->data_count - begin,
--                                     MEMTXATTRS_UNSPECIFIED);
-+                    res = dma_memory_write(s->dma_as, dscr.addr,
-+                                           &s->fifo_buffer[begin],
-+                                           s->data_count - begin,
-+                                           MEMTXATTRS_UNSPECIFIED);
-+                    if (res != MEMTX_OK) {
-+                        break;
-+                    }
-                     dscr.addr += s->data_count - begin;
-                     if (s->data_count == block_size) {
-                         s->data_count = 0;
-@@ -816,10 +820,13 @@ static void sdhci_do_adma(SDHCIState *s)
-                         s->data_count = block_size;
-                         length -= block_size - begin;
+@@ -823,7 +824,7 @@ static void sdhci_do_adma(SDHCIState *s)
+                     res = dma_memory_read(s->dma_as, dscr.addr,
+                                           &s->fifo_buffer[begin],
+                                           s->data_count - begin,
+-                                          MEMTXATTRS_UNSPECIFIED);
++                                          attrs);
+                     if (res != MEMTX_OK) {
+                         break;
                      }
--                    dma_memory_read(s->dma_as, dscr.addr,
--                                    &s->fifo_buffer[begin],
--                                    s->data_count - begin,
--                                    MEMTXATTRS_UNSPECIFIED);
-+                    res = dma_memory_read(s->dma_as, dscr.addr,
-+                                          &s->fifo_buffer[begin],
-+                                          s->data_count - begin,
-+                                          MEMTXATTRS_UNSPECIFIED);
-+                    if (res != MEMTX_OK) {
-+                        break;
-+                    }
-                     dscr.addr += s->data_count - begin;
-                     if (s->data_count == block_size) {
-                         sdbus_write_data(&s->sdbus, s->fifo_buffer, block_size);
-@@ -833,7 +840,16 @@ static void sdhci_do_adma(SDHCIState *s)
-                     }
-                 }
-             }
--            s->admasysaddr += dscr.incr;
-+            if (res != MEMTX_OK) {
-+                if (s->errintstsen & SDHC_EISEN_ADMAERR) {
-+                    trace_sdhci_error("Set ADMA error flag");
-+                    s->errintsts |= SDHC_EIS_ADMAERR;
-+                    s->norintsts |= SDHC_NIS_ERR;
-+                }
-+                sdhci_update_irq(s);
-+            } else {
-+                s->admasysaddr += dscr.incr;
-+            }
-             break;
-         case SDHC_ADMA_ATTR_ACT_LINK:   /* link to next descriptor table */
-             s->admasysaddr = dscr.addr;
 -- 
 2.33.1
 
