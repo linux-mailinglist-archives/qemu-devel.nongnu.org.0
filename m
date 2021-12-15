@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 578B7475793
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 12:15:00 +0100 (CET)
-Received: from localhost ([::1]:50086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389E047579F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 12:18:52 +0100 (CET)
+Received: from localhost ([::1]:34396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxSFP-0006sZ-Fr
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 06:14:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41226)
+	id 1mxSJ9-0006qS-1B
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 06:18:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mxRiX-0006jK-Sr
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:41:01 -0500
-Received: from [2a00:1450:4864:20::436] (port=38842
- helo=mail-wr1-x436.google.com)
+ id 1mxRiY-0006k6-5d
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:41:02 -0500
+Received: from [2a00:1450:4864:20::42a] (port=43843
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mxRiR-0008Ps-M9
+ id 1mxRiS-0008Q1-6y
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:41:01 -0500
-Received: by mail-wr1-x436.google.com with SMTP id e5so3955038wrc.5
+Received: by mail-wr1-x42a.google.com with SMTP id v11so37332326wrw.10
  for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 02:40:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=im9w3HrkyiMx/80cKplH47XGgi3jaF34akWwEvzEQuQ=;
- b=A0Y8CE+rRJmX2WMr+N7Oa6ImS61afUVdcFNu0VkzCu7BUZn+/dhx0YjNJwado00z2E
- ll7wgfi4XxfVZ4DMyt0QWO5uDVtsNm0KgHFwPvWPnMBxkPmHI7BrRj4niIEwVWfYHN8L
- ua004q/h4uBQjzpwLQ2UwFvF9pzdsIaehgin8TD7f8PL7c/1Y2gR2Nzlam8LUeAAya9r
- 7n+wdLIdJr/Hq37yWkDeYGMwUh5UceO7TdP1XPuiLKYgbCyBjqmTMZiuPKaShvC1Bnjd
- k9BKxCTMH8QYJNA97aG+TNCh5ZsRr4dxGVN5461n+Yd0i1Wa0BA4n1+7JPoU3801CRXM
- /45w==
+ bh=fqhgJq2CB3BEUpVjd/zJhy6cguqz09ikl8mo+0Dzrp4=;
+ b=Fgtm/atD6qWBuwLPO9HOW6ZV+SugxwkDRv3s+AEj3RPo3jZ6SUTPr92CVuP5hacDlJ
+ 1N1PCu+/5+BQ/rI6V2LpwQj6KMG4cF6KNcOc0qTHs5QTiskw9IhZvNvc8VtW9AZvWS97
+ PPQ25hpk4PM42inmFKhWPVrdoeYGhDxgxlYd8Q5ydDnK397LaPQQctU9uZQlB6PLtcAS
+ 3Bc6xwGtaYE9r9zkrnB3nsizzidJ4gGCAn6JaSXQpgffMA9xnL8Pg6l0N0HM6b2VVpkW
+ 9fl+Wg2NoEKnGXigMCO0zDkWB8zD41oA+aZWNJrHKI2Dk8Dch8yQNYESF+JkkEQqK77x
+ clIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=im9w3HrkyiMx/80cKplH47XGgi3jaF34akWwEvzEQuQ=;
- b=N2JOQfIpo/yOtNKVJNiZotW8q1zb6EtZGKN6expd4JA7SHPRmeGVf3S7sLZ7a7Q3dn
- 9/uS+5HV034bw2I4tuu3gLwRbSRbjAzSCd+W5C2U/orHSQIQeBqcjoXZasFmXWSaROHP
- CK3yx3AVELVUbScZBKiGVDorBZpd+DdhqUcPG8VzMNVN6WjUK4bG+f2g8sHigleEW0V2
- ijT5Ney0hFM+YsBKsJ9dadur48sQ2C7Z5jIIFH/o1EEY6aSwJ7EWolnfZHuqJhrakcpd
- x5U1M85CsvAen7BY+9MQ1cFbfczVcIXg5CHgnGrycxA54f1//SCUl87I9lg03jZ1cwHI
- sbiw==
-X-Gm-Message-State: AOAM5305y2ElZ+gkfquyzv65SrQorA8SQTzbm6WNf+O/635EGk3fBzXU
- Gyqp/96Eweu/wQsYIx3C9tOX/tBMuAYV9Q==
-X-Google-Smtp-Source: ABdhPJz8MOtHXVXgPBGh24PXIK8W1BxkG6BNeUKRcfkJHiyduRVGireAyBEDdnRASaHt9WlO9SBUyA==
-X-Received: by 2002:a5d:6781:: with SMTP id v1mr3830358wru.239.1639564854398; 
+ bh=fqhgJq2CB3BEUpVjd/zJhy6cguqz09ikl8mo+0Dzrp4=;
+ b=mx17ElXoWfRH28uH2Jaz5JR89k9KEGmLzptts5628y2WLiP6JFileRFkMjpRSUmrAv
+ 0lJYa75nUbfqYKvAxsdmTG9G0brnSSBgJqYz2CN9x7kggu04gw0J+Kuoo9ysmb3ThaDr
+ uGYlhDyAfZACMmQ4WhUBBYHcVaibXphBBLyNe0RvgW5WNc6oxTgIuFxF5cKFseXYv2TZ
+ 4QAaFTm+wV93Slq5ME1NjKdfwX2aflbhQ5WQV3us4gJ+T6YZBy1IQw7yNIx0OIRXMDZF
+ rFCLSMb8NpN88xvA4U9FGCXQORd8CiQDjbW5l3m07jPblDqyp5qA3q2aIwUAc55sxxRf
+ IPSA==
+X-Gm-Message-State: AOAM531RRfHoQukoigHZTMwrXbV+EcEyQQ87F/QsbwJ7g2Mp+V0SK52C
+ MvqI5KVUhBXdYgD47NQyXnSMd3JoSRibcw==
+X-Google-Smtp-Source: ABdhPJyjuzyh4crAkuE2Trwa+PtZQTSInV8OLaYoJcF5azibFV5f/uD9E1Rguw/nOGoWUF124Ohsfg==
+X-Received: by 2002:a5d:52c3:: with SMTP id r3mr3898222wrv.115.1639564854908; 
  Wed, 15 Dec 2021 02:40:54 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id e18sm1600815wrs.48.2021.12.15.02.40.53
+ by smtp.gmail.com with ESMTPSA id e18sm1600815wrs.48.2021.12.15.02.40.54
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 15 Dec 2021 02:40:54 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/33] Fix STM32F2XX USART data register readout
-Date: Wed, 15 Dec 2021 10:40:22 +0000
-Message-Id: <20211215104049.2030475-7-peter.maydell@linaro.org>
+Subject: [PULL 07/33] hw/intc/arm_gicv3: Extract gicv3_set_gicv3state from
+ arm_gicv3_cpuif.c
+Date: Wed, 15 Dec 2021 10:40:23 +0000
+Message-Id: <20211215104049.2030475-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215104049.2030475-1-peter.maydell@linaro.org>
 References: <20211215104049.2030475-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,37 +91,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Olivier Hériveaux <olivier.heriveaux@ledger.fr>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Fix issue where the data register may be overwritten by next character
-reception before being read and returned.
+gicv3_set_gicv3state() is used by arm_gicv3_common.c in
+arm_gicv3_common_realize(). Since we want to restrict
+arm_gicv3_cpuif.c to TCG, extract gicv3_set_gicv3state()
+to a new file. Add this file to the meson 'specific'
+source set, since it needs access to "cpu.h".
 
-Signed-off-by: Olivier Hériveaux <olivier.heriveaux@ledger.fr>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20211128120723.4053-1-olivier.heriveaux@ledger.fr
+Message-id: 20211115223619.2599282-2-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/char/stm32f2xx_usart.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/intc/arm_gicv3_cpuif.c        | 10 +---------
+ hw/intc/arm_gicv3_cpuif_common.c | 22 ++++++++++++++++++++++
+ hw/intc/meson.build              |  1 +
+ 3 files changed, 24 insertions(+), 9 deletions(-)
+ create mode 100644 hw/intc/arm_gicv3_cpuif_common.c
 
-diff --git a/hw/char/stm32f2xx_usart.c b/hw/char/stm32f2xx_usart.c
-index 8df0832424c..fde67f4f03f 100644
---- a/hw/char/stm32f2xx_usart.c
-+++ b/hw/char/stm32f2xx_usart.c
-@@ -103,10 +103,11 @@ static uint64_t stm32f2xx_usart_read(void *opaque, hwaddr addr,
-         return retvalue;
-     case USART_DR:
-         DB_PRINT("Value: 0x%" PRIx32 ", %c\n", s->usart_dr, (char) s->usart_dr);
-+        retvalue = s->usart_dr & 0x3FF;
-         s->usart_sr &= ~USART_SR_RXNE;
-         qemu_chr_fe_accept_input(&s->chr);
-         qemu_set_irq(s->irq, 0);
--        return s->usart_dr & 0x3FF;
-+        return retvalue;
-     case USART_BRR:
-         return s->usart_brr;
-     case USART_CR1:
+diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
+index 85fc369e550..d7e03d0cab8 100644
+--- a/hw/intc/arm_gicv3_cpuif.c
++++ b/hw/intc/arm_gicv3_cpuif.c
+@@ -1,5 +1,5 @@
+ /*
+- * ARM Generic Interrupt Controller v3
++ * ARM Generic Interrupt Controller v3 (emulation)
+  *
+  * Copyright (c) 2016 Linaro Limited
+  * Written by Peter Maydell
+@@ -21,14 +21,6 @@
+ #include "hw/irq.h"
+ #include "cpu.h"
+ 
+-void gicv3_set_gicv3state(CPUState *cpu, GICv3CPUState *s)
+-{
+-    ARMCPU *arm_cpu = ARM_CPU(cpu);
+-    CPUARMState *env = &arm_cpu->env;
+-
+-    env->gicv3state = (void *)s;
+-};
+-
+ static GICv3CPUState *icc_cs_from_env(CPUARMState *env)
+ {
+     return env->gicv3state;
+diff --git a/hw/intc/arm_gicv3_cpuif_common.c b/hw/intc/arm_gicv3_cpuif_common.c
+new file mode 100644
+index 00000000000..ff1239f65db
+--- /dev/null
++++ b/hw/intc/arm_gicv3_cpuif_common.c
+@@ -0,0 +1,22 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * ARM Generic Interrupt Controller v3
++ *
++ * Copyright (c) 2016 Linaro Limited
++ * Written by Peter Maydell
++ *
++ * This code is licensed under the GPL, version 2 or (at your option)
++ * any later version.
++ */
++
++#include "qemu/osdep.h"
++#include "gicv3_internal.h"
++#include "cpu.h"
++
++void gicv3_set_gicv3state(CPUState *cpu, GICv3CPUState *s)
++{
++    ARMCPU *arm_cpu = ARM_CPU(cpu);
++    CPUARMState *env = &arm_cpu->env;
++
++    env->gicv3state = (void *)s;
++};
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index c89d2ca180e..11352806db2 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -25,6 +25,7 @@ softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_PMU', if_true: files('xlnx-pmu-iomod-in
+ 
+ specific_ss.add(when: 'CONFIG_ALLWINNER_A10_PIC', if_true: files('allwinner-a10-pic.c'))
+ specific_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c', 'apic_common.c'))
++specific_ss.add(when: 'CONFIG_ARM_GIC', if_true: files('arm_gicv3_cpuif_common.c'))
+ specific_ss.add(when: 'CONFIG_ARM_GIC', if_true: files('arm_gicv3_cpuif.c'))
+ specific_ss.add(when: 'CONFIG_ARM_GIC_KVM', if_true: files('arm_gic_kvm.c'))
+ specific_ss.add(when: ['CONFIG_ARM_GIC_KVM', 'TARGET_AARCH64'], if_true: files('arm_gicv3_kvm.c', 'arm_gicv3_its_kvm.c'))
 -- 
 2.25.1
 
