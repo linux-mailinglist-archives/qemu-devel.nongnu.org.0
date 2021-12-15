@@ -2,59 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02BF476496
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 22:31:51 +0100 (CET)
-Received: from localhost ([::1]:56726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23CC476538
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 23:05:57 +0100 (CET)
+Received: from localhost ([::1]:43252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxbsM-0007PB-MV
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 16:31:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43448)
+	id 1mxcPM-0002oW-Di
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 17:05:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mxbfH-0005N2-NP
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 16:18:21 -0500
-Received: from [2001:41c9:1:41f::167] (port=45856
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxcOE-00025Y-LP
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 17:04:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mxbfF-0008Hr-PW
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 16:18:19 -0500
-Received: from [2a00:23c4:8b9f:c400:72e2:646b:9043:c91d]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mxbet-000BvI-0Q; Wed, 15 Dec 2021 21:17:59 +0000
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20211215140454.1725364-1-alex.bennee@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <ca69a722-f992-eaa6-b963-cbc535594bf8@ilande.co.uk>
-Date: Wed, 15 Dec 2021 21:18:05 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxcOB-0006mp-KM
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 17:04:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639605882;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uU9Im938XZWgLm3rxr20OpDmuWlGaSflCyxUQit7kTA=;
+ b=P4kQ478MfB5qXZrbYZjnNWP7fGrFsco1qttRvmrDlcsapOyyTHyVWnOeS6zad6wAC6oJgk
+ ZxWQWo1ZQCX28NOrxRHjM5mTrgVHQZcvznkhq+YsxX4TMmu7LhsGlf9yC32m1ADZGLXCCQ
+ /EyVCMu9GUGA0AKsWCdDrIn3pwz55Us=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-465-j8laWlnaN4a7xrCln7zVbQ-1; Wed, 15 Dec 2021 17:04:40 -0500
+X-MC-Unique: j8laWlnaN4a7xrCln7zVbQ-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ s6-20020a05622a018600b002b2d93b9c73so31492285qtw.9
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 14:04:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=uU9Im938XZWgLm3rxr20OpDmuWlGaSflCyxUQit7kTA=;
+ b=w8lIhSWwIjQrzZUgZDXd19Rddu3FR+Qnz1IYdo1Vgd5uzpqI3Yws/SWmJINnPYXGXU
+ tpVRECzy+mk72gf3r+Rc8HnatR4xbDdoa5TV+ThgEam5EAgvmk7m8oIsX/NeaWVVXLxj
+ WtsTIEOaV+t3CfSrzHmMYSzdRpZ+QLQdwkOoUzgxEaLS/goLp5gDVtyrhvYiRRHV8bsK
+ vbwi6/tI2zKnwg2fN0QuxsIvctMkgYFhH/raFYdMmbgED5y8k28C6HfPQZE1adZWVvtd
+ DCndrZhkdKNWqhbQSE/H+1SN3czE5Qdp0P8li2ivQB4hSbRq2GN0kGW2zyR8Wis+pDhz
+ p4EQ==
+X-Gm-Message-State: AOAM531BGh03tIJLSQ3fk2JCbVP0/OM1nFjaU4NLnKrnVz0pFoND/Vrj
+ jAHwLuzM6YbTf38DTgiuc69Wm6f0lPQRGDrXvq7FyGA+K8Adiz2w3bhTGPaDcWPSrUeo5bHkNPS
+ 4tHN6enQ9clRaBWI=
+X-Received: by 2002:a05:6214:260c:: with SMTP id
+ gu12mr13550532qvb.87.1639605880413; 
+ Wed, 15 Dec 2021 14:04:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwjQ+AEZOyOh9uyV8Usmu38gu2yNMyJFEOx0VnQJifETh7oCMW0+HVWSnDqSIa1m7WUWWOpVA==
+X-Received: by 2002:a05:6214:260c:: with SMTP id
+ gu12mr13550491qvb.87.1639605880191; 
+ Wed, 15 Dec 2021 14:04:40 -0800 (PST)
+Received: from localhost ([181.191.236.130])
+ by smtp.gmail.com with ESMTPSA id r16sm2414892qta.46.2021.12.15.14.04.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Dec 2021 14:04:39 -0800 (PST)
+Date: Wed, 15 Dec 2021 19:04:31 -0300
+From: Beraldo Leal <bleal@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v4 02/14] tests/avocado: Specify target VM argument to
+ helper routines
+Message-ID: <20211215220431.ggp5fjccaunj55mf@laptop.redhat>
+References: <cover.1639549843.git.jag.raman@oracle.com>
+ <31a4b3bb6a48f291890641ab348e7749c70a2d06.1639549843.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20211215140454.1725364-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8b9f:c400:72e2:646b:9043:c91d
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3] monitor: move x-query-profile into accel/tcg to fix
- build
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
- (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.64,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <31a4b3bb6a48f291890641ab348e7749c70a2d06.1639549843.git.jag.raman@oracle.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=bleal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,162 +96,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
+ swapnil.ingle@nutanix.com, john.levon@nutanix.com, alex.bennee@linaro.org,
+ qemu-devel@nongnu.org, wainersm@redhat.com, alex.williamson@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@gmail.com, stefanha@redhat.com,
+ crosa@redhat.com, thanos.makatos@nutanix.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/12/2021 14:04, Alex Bennée wrote:
-
-> As --enable-profiler isn't defended in CI we missed this breakage.
-> Move the qmp handler into accel/tcg so we have access to the helpers
-> we need. While we are at it ensure we gate the feature on CONFIG_TCG.
+On Wed, Dec 15, 2021 at 10:35:26AM -0500, Jagannathan Raman wrote:
+> Specify target VM for exec_command and
+> exec_command_and_wait_for_pattern routines
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Fixes: 37087fde0e ("qapi: introduce x-query-profile QMP command")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/773
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Message-Id: <20211214195048.1438209-1-alex.bennee@linaro.org>
-> 
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 > ---
-> v3
->    - also add #ifdef CONFIG_TCG to hmp-commands-info.hx
-> ---
->   qapi/machine.json    |  1 +
->   accel/tcg/cpu-exec.c | 31 +++++++++++++++++++++++++++++++
->   monitor/qmp-cmds.c   | 31 -------------------------------
->   hmp-commands-info.hx |  2 ++
->   4 files changed, 34 insertions(+), 31 deletions(-)
+>  tests/avocado/avocado_qemu/__init__.py | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 > 
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index 067e3f5378..0c9f24a712 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -1492,6 +1492,7 @@
->   ##
->   { 'command': 'x-query-profile',
->     'returns': 'HumanReadableText',
-> +  'if': 'CONFIG_TCG',
->     'features': [ 'unstable' ] }
->   
->   ##
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index 409ec8c38c..8b4cd6c59d 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -1090,4 +1090,35 @@ HumanReadableText *qmp_x_query_opcount(Error **errp)
->       return human_readable_text_from_str(buf);
->   }
->   
-> +#ifdef CONFIG_PROFILER
-> +
-> +int64_t dev_time;
-> +
-> +HumanReadableText *qmp_x_query_profile(Error **errp)
-> +{
-> +    g_autoptr(GString) buf = g_string_new("");
-> +    static int64_t last_cpu_exec_time;
-> +    int64_t cpu_exec_time;
-> +    int64_t delta;
-> +
-> +    cpu_exec_time = tcg_cpu_exec_time();
-> +    delta = cpu_exec_time - last_cpu_exec_time;
-> +
-> +    g_string_append_printf(buf, "async time  %" PRId64 " (%0.3f)\n",
-> +                           dev_time, dev_time / (double)NANOSECONDS_PER_SECOND);
-> +    g_string_append_printf(buf, "qemu time   %" PRId64 " (%0.3f)\n",
-> +                           delta, delta / (double)NANOSECONDS_PER_SECOND);
-> +    last_cpu_exec_time = cpu_exec_time;
-> +    dev_time = 0;
-> +
-> +    return human_readable_text_from_str(buf);
-> +}
-> +#else
-> +HumanReadableText *qmp_x_query_profile(Error **errp)
-> +{
-> +    error_setg(errp, "Internal profiler not compiled");
-> +    return NULL;
-> +}
-> +#endif
-> +
->   #endif /* !CONFIG_USER_ONLY */
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 343353e27a..be5e44c569 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -355,37 +355,6 @@ void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
->       }
->   }
->   
-> -#ifdef CONFIG_PROFILER
-> -
-> -int64_t dev_time;
-> -
-> -HumanReadableText *qmp_x_query_profile(Error **errp)
-> -{
-> -    g_autoptr(GString) buf = g_string_new("");
-> -    static int64_t last_cpu_exec_time;
-> -    int64_t cpu_exec_time;
-> -    int64_t delta;
-> -
-> -    cpu_exec_time = tcg_cpu_exec_time();
-> -    delta = cpu_exec_time - last_cpu_exec_time;
-> -
-> -    g_string_append_printf(buf, "async time  %" PRId64 " (%0.3f)\n",
-> -                           dev_time, dev_time / (double)NANOSECONDS_PER_SECOND);
-> -    g_string_append_printf(buf, "qemu time   %" PRId64 " (%0.3f)\n",
-> -                           delta, delta / (double)NANOSECONDS_PER_SECOND);
-> -    last_cpu_exec_time = cpu_exec_time;
-> -    dev_time = 0;
-> -
-> -    return human_readable_text_from_str(buf);
-> -}
-> -#else
-> -HumanReadableText *qmp_x_query_profile(Error **errp)
-> -{
-> -    error_setg(errp, "Internal profiler not compiled");
-> -    return NULL;
-> -}
-> -#endif
-> -
->   static int qmp_x_query_rdma_foreach(Object *obj, void *opaque)
->   {
->       RdmaProvider *rdma;
-> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> index 407a1da800..e90f20a107 100644
-> --- a/hmp-commands-info.hx
-> +++ b/hmp-commands-info.hx
-> @@ -358,6 +358,7 @@ SRST
->       Show host USB devices.
->   ERST
->   
-> +#if defined(CONFIG_TCG)
->       {
->           .name       = "profile",
->           .args_type  = "",
-> @@ -365,6 +366,7 @@ ERST
->           .help       = "show profiling information",
->           .cmd_info_hrt = qmp_x_query_profile,
->       },
-> +#endif
->   
->   SRST
->     ``info profile``
+> diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+> index 75063c0c30..26ac782f53 100644
+> --- a/tests/avocado/avocado_qemu/__init__.py
+> +++ b/tests/avocado/avocado_qemu/__init__.py
+> @@ -198,7 +198,7 @@ def wait_for_console_pattern(test, success_message, failure_message=None,
+>      """
+>      _console_interaction(test, success_message, failure_message, None, vm=vm)
+>  
+> -def exec_command(test, command):
+> +def exec_command(test, command, vm=None):
 
-Thanks Alex, I can confirm that a build of git master with --enable-profiler now 
-works for my test case with this patch applied:
+nitpick: if possible, it would be nice to update the docstring, by
+adding this new argument.
 
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>      """
+>      Send a command to a console (appending CRLF characters), while logging
+>      the content.
+> @@ -208,10 +208,11 @@ def exec_command(test, command):
+>      :param command: the command to send
+>      :type command: str
+>      """
+> -    _console_interaction(test, None, None, command + '\r')
+> +    _console_interaction(test, None, None, command + '\r', vm=vm)
+>  
+>  def exec_command_and_wait_for_pattern(test, command,
+> -                                      success_message, failure_message=None):
+> +                                      success_message, failure_message=None,
+> +                                      vm=None):
 
+Same here.
 
-ATB,
+Other than that, lgtm.
 
-Mark.
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
+
+--
+Beraldo
+
 
