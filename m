@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F59474EE8
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:11:37 +0100 (CET)
-Received: from localhost ([::1]:38936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E40474EFA
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:17:26 +0100 (CET)
+Received: from localhost ([::1]:52322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxHtP-000116-UA
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:11:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51700)
+	id 1mxHz3-0001sG-D8
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:17:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHng-00027u-AA; Tue, 14 Dec 2021 19:05:43 -0500
-Received: from mail-dm6nam12on2076.outbound.protection.outlook.com
- ([40.107.243.76]:25056 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ id 1mxHo6-0002HM-0J; Tue, 14 Dec 2021 19:06:06 -0500
+Received: from mail-dm6nam12on2052.outbound.protection.outlook.com
+ ([40.107.243.52]:34081 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHnd-0004x2-U9; Tue, 14 Dec 2021 19:05:40 -0500
+ id 1mxHo0-0004zF-PB; Tue, 14 Dec 2021 19:06:03 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L9dUJqquZ+i65i0WBOsprquF2CdmQlINaa8lx3OHVB9SLRejAp1KweSBEipM4zIn5p2Xn923A48dFxYY2f3yA3aXhFTxN1FaaAOdHyTxjAvourCLXKDW3U5/6CybvYyA+ePThptE6jnpmkF8QZBvlBfEulYR+IAtSq/10lWrzjwrwbsIz5LREszGdMEXaisD7i3yhsmi9sBONjretkFIL+FY8irFyZ3/RBZMowbbFIIlmYgg9tquVvy9npqYAeRcjUBjApadFwDQPtXVhtoOJojJXOMABRDNBH++gMlDGu8tMlxoWA0oS5DRQ7TKZUl7309ALABo5kKo52Tmm+Cs1Q==
+ b=Oz3S2zaFjnrZTHpcm5n9/VVU8ctVBFQ+WRPi2dph6ogDZmlVTomQCR9k5m6cU7d0QkvIRmTc2MpTXuHoR+xIicoyQH3Cy9WqJkSsiDiSvCijCgRojfP0+lSxZL0t+bIu4avsFPGT1oKgfD6inuuScvIDzGNNk9s/faMBbcjJ/SVX6kRx31ls5hJk0rzXK4LYAnOUZKkPyaTKCJcYj1bvmoDpblWIHoISfKBg09bQCkUf4Gkn7i3R1MkhW4Ma6j/w+/Zb6P3+/zdKFtYZriiLD1SpbDtIULYZXzVYgVmGFMtJY1TcXjw233LeDpo/4FU2pnJjNjq7lq5gP5v5bX5vgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PL2Fdo3wsZ5I2F1oEIRNaFaaXPvQiwop93qVTHcORUQ=;
- b=jrdy7lsZChOCTqtqpG5ZvSaaNXT6s6TPsD7dvJsLuBdvm3M4FCqe17Sv+lgZa/IyqVgKoRWrVa4Yl+qHhD9oBxlRoSZ/GBuy7yL1xURunJ+bTneZxJQ3AqxQBMbumdRHFdON6CIcv0LdwlTNONdSRvqUrzd/rbr3a7cGEKXyWt2+NvbLL90Tk+2nO1W1ytxXWYUlTF0nQJvnSizrR4SRD4NJpw69L/+imE7E5U2fZYG+h2IFamB3FEbv3Ou1Lfr1xLwQVJ72QLt4lqXWL25LimdAzyb+tfZMcSkjNVrQ1+XTO3NNN2/r5dlfeYqt9DGMvsttpkfs+WxE2xqg7U0HZg==
+ bh=BOPHl9TZ4xavFvMc8UO3kmxtOBeNhkMLiGz0TtDChdc=;
+ b=M50MykweA9/cOlJxTp9LsuPyGTVO04PpufRq2wfkFX3QdavpEe4POEqKGu36onolbZ5aGQ1BckEsJLXJ/I/+W7tkqFgjSaZfaWCCxE3Df62QyfH3MM8CAwygc/LEUDL9XgkYgaVmBrfmYCZlpCrcAM2ZQx9OISJIZmp4CEK71452V8t4bWG5ZyuF2kFkjH9XGf48v1rwUURQKoFMYQE4dEmrXrzzYEtxIDYeIAb/eUUnjwUbO+662usf/UL4XKiKwbvzGIcLqlHuTnM6O1Fcl5c+0FTQIv2fph/7aCF0T0srhrftTxbckqN9CsYwSp8aar/XZu+fUNB6QZNt5OVeTg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PL2Fdo3wsZ5I2F1oEIRNaFaaXPvQiwop93qVTHcORUQ=;
- b=UzU8rXJwu7ysR7pNtjNsfhNaumvNQTQewz6874YLw7LItRfMNbNJ/oERD2IxWX/CIQ2gtovAxKJBfpaWzfIlBRjZfEXGHICY8UfDnVMo5kQAv6gzeGMxzi1yQUe3XDXLB028o560H4zjwPHquLWby+X/Tv5V4EO29GnPk8WDczQ=
-Received: from MWHPR18CA0032.namprd18.prod.outlook.com (2603:10b6:320:31::18)
- by BL0PR12MB4609.namprd12.prod.outlook.com (2603:10b6:208:8d::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Wed, 15 Dec
- 2021 00:05:30 +0000
-Received: from CO1NAM11FT038.eop-nam11.prod.protection.outlook.com
- (2603:10b6:320:31:cafe::2a) by MWHPR18CA0032.outlook.office365.com
- (2603:10b6:320:31::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.14 via Frontend
- Transport; Wed, 15 Dec 2021 00:05:30 +0000
+ bh=BOPHl9TZ4xavFvMc8UO3kmxtOBeNhkMLiGz0TtDChdc=;
+ b=EMvXDRtxI3lilanNiejucEY3XkJ8lv56NlNVzP+KnI6hLhnwHHIA50f36rgWsJK+fR56CQiJMjYlsaVeonZ8gG1KKjMnVhP6kBYSkmnYy9fBinwj3jtEBCbaG4mPA74Jahm5pBqJLDlvy26S6wjDMOG0MTC1kYtZ4VAVH7hpvYk=
+Received: from MW4PR04CA0143.namprd04.prod.outlook.com (2603:10b6:303:84::28)
+ by DM5PR12MB2533.namprd12.prod.outlook.com (2603:10b6:4:b0::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.15; Wed, 15 Dec
+ 2021 00:05:52 +0000
+Received: from CO1NAM11FT030.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:84:cafe::d6) by MW4PR04CA0143.outlook.office365.com
+ (2603:10b6:303:84::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.13 via Frontend
+ Transport; Wed, 15 Dec 2021 00:05:52 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,21 +50,21 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1NAM11FT038.mail.protection.outlook.com (10.13.174.231) with Microsoft SMTP
+ CO1NAM11FT030.mail.protection.outlook.com (10.13.174.125) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:05:29 +0000
+ 15.20.4778.16 via Frontend Transport; Wed, 15 Dec 2021 00:05:51 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 14 Dec
- 2021 18:05:28 -0600
+ 2021 18:05:50 -0600
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 14/47] plugins: do not limit exported symbols if modules are
- active
-Date: Tue, 14 Dec 2021 18:00:52 -0600
-Message-ID: <20211215000125.378126-15-michael.roth@amd.com>
+CC: <qemu-stable@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH 15/47] qemu-sockets: fix unix socket path copy (again)
+Date: Tue, 14 Dec 2021 18:00:53 -0600
+Message-ID: <20211215000125.378126-16-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215000125.378126-1-michael.roth@amd.com>
 References: <20211215000125.378126-1-michael.roth@amd.com>
@@ -76,29 +76,29 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
  (10.181.40.144)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ac2c4095-1fd6-46f9-64d8-08d9bf5e9b1c
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4609:EE_
-X-Microsoft-Antispam-PRVS: <BL0PR12MB460947FCECD4E5FFBD919ACB95769@BL0PR12MB4609.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-MS-Office365-Filtering-Correlation-Id: 8a748a26-2e47-4f1e-d56c-08d9bf5ea7eb
+X-MS-TrafficTypeDiagnostic: DM5PR12MB2533:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR12MB2533BB2F71BF092E6AC24F7595769@DM5PR12MB2533.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1227;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KMiOfwMMImjx/ygXpDk4GVyza6X61Dt3WZ9vzNhwDdreri7G/PfQ7qvrtHS732c4VZENlMYAM/rnVRqIWCALLXW0xD3PRaqBdf208h4O41DPvGAO/y+TziXPk9v6Hy57Nls8ddsWE9ij37q0pPHe5xVSVLOEQgx93j+gXrYwJSFLB9dlBbPgAcE6QrHAMI7Liien7MMMYXTeQzvoC0dbXegXOqr/7di4VgZW+a50ioGnRNQrCaiyj6N5sFtHtX5hCLnM3UTs+gefhP2GmwRJyyOH+SRmI63xbih5iF0AmR6oJFoEe1QCADtzHXByEv26owsuPOpYT9Li0dbOA2j5W/vdmfQwnFdk52T/6hzODIUunhXnEoyq20i+J7fBBy5iTaFEuAldhAE75KirGbN1+rIGu0q1bOoV5Z8oNvP602ERTBC7WnKPxc7VMtuJQIYgXgzwxzgkVnZPwlPLEt7VlArw1yOwejX7LCEtau1A45+VenvM7QYRQcpTb+6J5OmDvINp++9IYf7trtVxAdYqojpXPkGrioa7VCVeFkOg4FeXrwQDpfu2YJ+ofw/mgaUT5fijIpvsx7z8W/ssGUxGQR1wIv5IqFbyfBG86dy1LZzR2NyS7872C0H8pDtwfizmkejg96XWrGfbxqQW2GWPP38cnX3IpfwZawkURJQkcOqznY5A0FF6hLn+98UAKPDPV5VTLen0Jf5VDstUyFvvcs/zPTCEua2RpYsRLPei6nS/sy/Vb5JLcCiXih5k3SWBOjA8HES5YOlkhU3+K1D/ePR175WmFmKXr3YaWTBnNzGgUQLu7VeNssbIxWUss5kEswKF+khTwD2kuW0rrIXxKTuQoFunHVB9C0CjPeuI4oQECA7klCCQVX4e8UofPaOB
+X-Microsoft-Antispam-Message-Info: AASTR4e9QnxcKI+Le0f5Vtp8+3BgHm29SN0JkTGECHrgD+lN04b/1XsEEVmXGaU9NdeQz/o0lYXfCsasc5PR+GJ1X5Iv30eZovG2rIxixpGka1HFQw72dvSFu4basExobemh+DYZSgUp1jbOzzqZFdmHn7+aGEdmrjS186FslGL59trOXTBvhssIqp5t31XNR6QPCsrWCfDQTlPXgU4/LKoAQXr3MSPYBn8/m+Pw3GGkFoHzm3hnX+VGOBbv2w9dgSUwxn3PQkE7yFWyjpJpufzQsZGjQIcSADowrP/QQqbIY1gY9hrG7lshgNu8LhmF/SMOfegeNgKqcBa9zxSZBodrVOJvQ5NKxRCGGEGKMt2zPgOQXrfeYI9haQGdY+w0zS1apifzV8IA6iWiRWca2J7Xo89ZIF5XWUoeQODiNivDjmO/q893SI1dutAEHSiu1YV7sTS1Hm5pSXtWluJCiBuuO8IO1Sv21csLpoOA2518Qe4wRBCUVMm5SZ5SfquSbo+TDJtL/9ySHiQhhPrNRkNpx2g5B8acyAp/xVcFV63Nsv+X7HWtV3uI3fWM+m9XPikjJ9AmnQ4G/npYIRVUmfU17rhzcpVz2vcVD6x+OEntBXUwFhoYSnRSR2V3A66qn0As2J6pbCE+tt8tAErdrw8C0ITRPiaPqYncBUlEJz4etBAgaFVxGcuGT0x0MxNQlEaDKWEVQKyeInWXcrTms2tGZu0eA+liE7AY43LVzuFiwxBVRtNtaRb1Im3r16HrnvOpO/L4bN7rrC5cyiUYe6CsfqEVl6sgtEqV6q2/SUwsXMPna44IWFLE9GNTV0eRERESDaiTvlYQlWR3h9dXMGY9tnePTPwFz/BVx2Tmzh+WfVNNxWTxTum8LadzGrCUDWKUZnpkQfxMrDdnp2sgIQ==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(40470700001)(86362001)(966005)(2616005)(1076003)(54906003)(4326008)(36756003)(26005)(8676002)(5660300002)(186003)(2906002)(40460700001)(6916009)(6666004)(8936002)(336012)(44832011)(83380400001)(81166007)(356005)(36860700001)(426003)(82310400004)(316002)(508600001)(70206006)(70586007)(47076005)(16526019)(36900700001);
+ SFS:(4636009)(36840700001)(46966006)(40470700001)(508600001)(86362001)(47076005)(44832011)(316002)(356005)(36860700001)(4326008)(81166007)(70206006)(8676002)(70586007)(5660300002)(83380400001)(6916009)(40460700001)(2616005)(8936002)(2906002)(426003)(1076003)(336012)(36756003)(186003)(966005)(82310400004)(54906003)(16526019)(26005)(36900700001)(16193025007);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:05:29.8077 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac2c4095-1fd6-46f9-64d8-08d9bf5e9b1c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:05:51.3155 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a748a26-2e47-4f1e-d56c-08d9bf5ea7eb
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT038.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT030.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4609
-Received-SPF: softfail client-ip=40.107.243.76;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2533
+Received-SPF: softfail client-ip=40.107.243.52;
  envelope-from=Michael.Roth@amd.com;
  helo=NAM12-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -123,71 +123,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
 
-On Mac --enable-modules and --enable-plugins are currently incompatible, because the
-Apple -Wl,-exported_symbols_list command line options prevents the export of any
-symbols needed by the modules.  On x86 -Wl,--dynamic-list does not have this effect,
-but only because the -Wl,--export-dynamic option provided by gmodule-2.0.pc overrides
-it.  On Apple there is no -Wl,--export-dynamic, because it is the default, and thus
-no override.
+Commit 4cfd970ec188558daa6214f26203fe553fb1e01f added an
+assert which ensures the path within an address of a unix
+socket returned from the kernel is at least one byte and
+does not exceed sun_path buffer. Both of this constraints
+are wrong:
 
-Either way, when modules are active there is no reason to include the plugin_ldflags.
-While at it, avoid the useless -Wl,--export-dynamic when --enable-plugins is
-specified but --enable-modules is not; this way, the GNU and Apple configurations
-are more similar.
+A unix socket can be unnamed, in this case the path is
+completely empty (not even \0)
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/516
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-[AJB: fix noexport to no-export]
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210811100550.54714-1-pbonzini@redhat.com>
-Cc: qemu-stable@nongnu.org
-(cherry picked from commit b906acace2d4f68b6ff8de73739a773cc4851436)
+And some implementations (notable linux) can add extra
+trailing byte (\0) _after_ the sun_path buffer if we
+passed buffer larger than it (and we do).
+
+So remove the assertion (since it causes real-life breakage)
+but at the same time fix the usage of sun_path. Namely,
+we should not access sun_path[0] if kernel did not return
+it at all (this is the case for unnamed sockets),
+and use the returned salen when copyig actual path as an
+upper constraint for the amount of bytes to copy - this
+will ensure we wont exceed the information provided by
+the kernel, regardless whenever there is a trailing \0
+or not. This also helps with unnamed sockets.
+
+Note the case of abstract socket, the sun_path is actually
+a blob and can contain \0 characters, - it should not be
+passed to g_strndup and the like, it should be accessed by
+memcpy-like functions.
+
+Fixes: 4cfd970ec188558daa6214f26203fe553fb1e01f
+Fixes: http://bugs.debian.org/993145
+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+CC: qemu-stable@nongnu.org
+(cherry picked from commit 118d527f2e4baec5fe8060b22a6212468b8e4d3f)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- configure           |  5 ++---
- plugins/meson.build | 14 ++++++++------
- 2 files changed, 10 insertions(+), 9 deletions(-)
+ util/qemu-sockets.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/configure b/configure
-index 9a79a004d7..7659870810 100755
---- a/configure
-+++ b/configure
-@@ -3187,9 +3187,8 @@ glib_req_ver=2.56
- glib_modules=gthread-2.0
- if test "$modules" = yes; then
-     glib_modules="$glib_modules gmodule-export-2.0"
--fi
--if test "$plugins" = "yes"; then
--    glib_modules="$glib_modules gmodule-2.0"
-+elif test "$plugins" = "yes"; then
-+    glib_modules="$glib_modules gmodule-no-export-2.0"
- fi
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index f2f3676d1f..c5043999e9 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -1345,25 +1345,22 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
+     SocketAddress *addr;
+     struct sockaddr_un *su = (struct sockaddr_un *)sa;
  
- for i in $glib_modules; do
-diff --git a/plugins/meson.build b/plugins/meson.build
-index e77723010e..bfd5c9822a 100644
---- a/plugins/meson.build
-+++ b/plugins/meson.build
-@@ -1,9 +1,11 @@
--if 'CONFIG_HAS_LD_DYNAMIC_LIST' in config_host
--  plugin_ldflags = ['-Wl,--dynamic-list=' + (meson.build_root() / 'qemu-plugins-ld.symbols')]
--elif 'CONFIG_HAS_LD_EXPORTED_SYMBOLS_LIST' in config_host
--  plugin_ldflags = ['-Wl,-exported_symbols_list,' + (meson.build_root() / 'qemu-plugins-ld64.symbols')]
--else
--  plugin_ldflags = []
-+plugin_ldflags = []
-+# Modules need more symbols than just those in plugins/qemu-plugins.symbols
-+if not enable_modules
-+  if 'CONFIG_HAS_LD_DYNAMIC_LIST' in config_host
-+    plugin_ldflags = ['-Wl,--dynamic-list=' + (meson.build_root() / 'qemu-plugins-ld.symbols')]
-+  elif 'CONFIG_HAS_LD_EXPORTED_SYMBOLS_LIST' in config_host
-+    plugin_ldflags = ['-Wl,-exported_symbols_list,' + (meson.build_root() / 'qemu-plugins-ld64.symbols')]
-+  endif
- endif
+-    assert(salen >= sizeof(su->sun_family) + 1 &&
+-           salen <= sizeof(struct sockaddr_un));
+-
+     addr = g_new0(SocketAddress, 1);
+     addr->type = SOCKET_ADDRESS_TYPE_UNIX;
++    salen -= offsetof(struct sockaddr_un, sun_path);
+ #ifdef CONFIG_LINUX
+-    if (!su->sun_path[0]) {
++    if (salen > 0 && !su->sun_path[0]) {
+         /* Linux abstract socket */
+-        addr->u.q_unix.path = g_strndup(su->sun_path + 1,
+-                                        salen - sizeof(su->sun_family) - 1);
++        addr->u.q_unix.path = g_strndup(su->sun_path + 1, salen - 1);
+         addr->u.q_unix.has_abstract = true;
+         addr->u.q_unix.abstract = true;
+         addr->u.q_unix.has_tight = true;
+-        addr->u.q_unix.tight = salen < sizeof(*su);
++        addr->u.q_unix.tight = salen < sizeof(su->sun_path);
+         return addr;
+     }
+ #endif
  
- specific_ss.add(when: 'CONFIG_PLUGIN', if_true: [files(
+-    addr->u.q_unix.path = g_strndup(su->sun_path, sizeof(su->sun_path));
++    addr->u.q_unix.path = g_strndup(su->sun_path, salen);
+     return addr;
+ }
+ #endif /* WIN32 */
 -- 
 2.25.1
 
