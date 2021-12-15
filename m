@@ -2,71 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F9247571D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 11:59:46 +0100 (CET)
-Received: from localhost ([::1]:42640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEA0475703
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 11:57:35 +0100 (CET)
+Received: from localhost ([::1]:34012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxS0f-0007RW-D9
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 05:59:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39088)
+	id 1mxRyY-0001eL-QJ
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 05:57:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mxRat-0003qp-L7
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:33:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25705)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxRbX-0005S1-Oh
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:33:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41288)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mxRas-0007OB-02
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:33:07 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxRbV-0007SW-RV
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:33:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639564385;
+ s=mimecast20190719; t=1639564425;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G5sZynob5e7ZwKiDY9uVFFmgy+epw9wVO5qAWBQ6UOE=;
- b=PT1NpeFNtTxLKGAys+gqfHMgQTI1hPJeZrKrvklhnDN6zzoK6ZzX5rYYxOINbIzlO3KgrI
- UQ796XPKRoTe2su3T+SiGgtTDOgyv1I2nFP+X/oCzboI4/zjrJfwXCEYw1p3zFHgIcpYhk
- STG+0aXlp0jOgihliA9Mv7QvoT3ULPw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iVsq4vQRp4gnLdmijyN4t6GqqgCnvn13DaFM3wrmniM=;
+ b=LQOXW/wT0p+drHwDLdx2IkuYTyiiBox9fy4EgNLcHzJbbDU13DAiL4SbgQoRn3SabcBJip
+ Rjxe/GnrZadQrSHMIr3m06smVvhmSi+DB8zzKr42XyseeT/2pgqpWx0p+2W0s7zgYciwLk
+ J3ThmMEBwJivPeDEbICD8yOjEPN/ZZA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-371-ImfLjs0POSyPHbGglKbBBw-1; Wed, 15 Dec 2021 05:33:02 -0500
-X-MC-Unique: ImfLjs0POSyPHbGglKbBBw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 180AA81EE61;
- Wed, 15 Dec 2021 10:33:01 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B052575C47;
- Wed, 15 Dec 2021 10:32:59 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 18/18] multifd: Make zlib compression method not use iovs
-Date: Wed, 15 Dec 2021 11:32:18 +0100
-Message-Id: <20211215103218.17527-19-quintela@redhat.com>
-In-Reply-To: <20211215103218.17527-1-quintela@redhat.com>
-References: <20211215103218.17527-1-quintela@redhat.com>
+ us-mta-649-X5cn7AlTPIeANGfhMIEnRA-1; Wed, 15 Dec 2021 05:33:44 -0500
+X-MC-Unique: X5cn7AlTPIeANGfhMIEnRA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 138-20020a1c0090000000b00338bb803204so12415274wma.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 02:33:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iVsq4vQRp4gnLdmijyN4t6GqqgCnvn13DaFM3wrmniM=;
+ b=YC618HdUG39DMJhpixj3QcMc1UFDObRv2BuidwL2g/5nRIyep+iBevBM4pBD8zS40x
+ /nKZPnRWPcRPCvFbzX6OTj9Zdynl/81vC58zsNzOkxrmJKmczYjtHi1ZGBwZRyORgRWw
+ Bhn3z54yd8V3w6cJqXvxpgHRAH1E5jB8XAOMh6SmMhbBIFarU+F+QUuGnb09V8ZUFRKF
+ qtauAIqaJ7+t2OSbXkn/3hWxY6U5VRL93xAdK4DQK4XjWITDApe2zyfEck2i4eAbHHht
+ kC9d0HHmCqV9KySEyTtS6UV4oRllUXrIpmdXbqOv72/3AGb7WXeFRUyO8o5FY7rgzBMr
+ Z9nw==
+X-Gm-Message-State: AOAM530kYncET5V1QsAP9asaPCv4JmU76a3OMqm9KMb8YIEF7orfSOwI
+ NKAx9jVG5K3GxBO6F+qYtaR+TlUSNPSngAEVKSnFg+L3sEcV38BfD3Z1E08BxMJxWK4jYQeNbop
+ c/lCmbyuAULx6coxsYeC6LtnWvHRf7lpZX29wOjA1u2SL5KWZrmADujHr6SjawXWP
+X-Received: by 2002:a7b:c357:: with SMTP id l23mr4047464wmj.35.1639564422539; 
+ Wed, 15 Dec 2021 02:33:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxjJVIlpBdQMKXbg2tX1zx2FwnucaCxS4KLdwS0iaWjnYLfQnLikPXUkYlP8vCcf6N+GFx80w==
+X-Received: by 2002:a7b:c357:: with SMTP id l23mr4047444wmj.35.1639564422285; 
+ Wed, 15 Dec 2021 02:33:42 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id n33sm4698083wms.46.2021.12.15.02.33.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Dec 2021 02:33:41 -0800 (PST)
+Message-ID: <f64cc438-eab1-6409-3d7c-18b0b49fb65d@redhat.com>
+Date: Wed, 15 Dec 2021 11:33:41 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH-for-6.2? v2 0/5] docs/devel/style: Improve rST rendering
+To: qemu-devel@nongnu.org
+References: <20211118145716.4116731-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211118145716.4116731-1-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.64, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,91 +99,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Darren Kenny <darren.kenny@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/multifd-zlib.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ping?
 
-diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-index e85ef8824d..da6201704c 100644
---- a/migration/multifd-zlib.c
-+++ b/migration/multifd-zlib.c
-@@ -13,6 +13,7 @@
- #include "qemu/osdep.h"
- #include <zlib.h>
- #include "qemu/rcu.h"
-+#include "exec/ramblock.h"
- #include "exec/target_page.h"
- #include "qapi/error.h"
- #include "migration.h"
-@@ -98,8 +99,8 @@ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
-  */
- static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
- {
--    struct iovec *iov = p->pages->iov;
-     struct zlib_data *z = p->data;
-+    size_t page_size = qemu_target_page_size();
-     z_stream *zs = &z->zs;
-     uint32_t out_size = 0;
-     int ret;
-@@ -113,8 +114,8 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
-             flush = Z_SYNC_FLUSH;
-         }
- 
--        zs->avail_in = iov[i].iov_len;
--        zs->next_in = iov[i].iov_base;
-+        zs->avail_in = page_size;
-+        zs->next_in = p->pages->block->host + p->pages->offset[i];
- 
-         zs->avail_out = available;
-         zs->next_out = z->zbuff + out_size;
-@@ -235,6 +236,7 @@ static void zlib_recv_cleanup(MultiFDRecvParams *p)
- static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
- {
-     struct zlib_data *z = p->data;
-+    size_t page_size = qemu_target_page_size();
-     z_stream *zs = &z->zs;
-     uint32_t in_size = p->next_packet_size;
-     /* we measure the change of total_out */
-@@ -259,7 +261,6 @@ static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
-     zs->next_in = z->zbuff;
- 
-     for (i = 0; i < p->pages->num; i++) {
--        struct iovec *iov = &p->pages->iov[i];
-         int flush = Z_NO_FLUSH;
-         unsigned long start = zs->total_out;
- 
-@@ -267,8 +268,8 @@ static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
-             flush = Z_SYNC_FLUSH;
-         }
- 
--        zs->avail_out = iov->iov_len;
--        zs->next_out = iov->iov_base;
-+        zs->avail_out = page_size;
-+        zs->next_out = p->pages->block->host + p->pages->offset[i];
- 
-         /*
-          * Welcome to inflate semantics
-@@ -281,8 +282,8 @@ static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
-         do {
-             ret = inflate(zs, flush);
-         } while (ret == Z_OK && zs->avail_in
--                             && (zs->total_out - start) < iov->iov_len);
--        if (ret == Z_OK && (zs->total_out - start) < iov->iov_len) {
-+                             && (zs->total_out - start) < page_size);
-+        if (ret == Z_OK && (zs->total_out - start) < page_size) {
-             error_setg(errp, "multifd %d: inflate generated too few output",
-                        p->id);
-             return -1;
--- 
-2.33.1
+On 11/18/21 15:57, Philippe Mathieu-Daudé wrote:
+> Various changes in docs/devel/style.rst to improve its
+> rST rendering (around C types/qualifiers/functions).
+> 
+> Since v1:
+> - Addressed Darren Kenny comments on function names
+> 
+> Based-on: <20211118144317.4106651-1-philmd@redhat.com>
+> 
+> Philippe Mathieu-Daudé (5):
+>   docs/devel/style: Render C types as monospaced text
+>   docs/devel/style: Improve Error** functions rST rendering
+>   docs/devel/style: Improve string format rST rendering
+>   docs/devel/style: Render C function names as monospaced text
+>   docs/devel/style: Misc rST rendering improvements
+> 
+>  docs/devel/style.rst | 222 ++++++++++++++++++++++---------------------
+>  1 file changed, 113 insertions(+), 109 deletions(-)
+> 
 
 
