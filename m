@@ -2,92 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34FBF475A61
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 15:15:14 +0100 (CET)
-Received: from localhost ([::1]:60646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A69475A4F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 15:07:43 +0100 (CET)
+Received: from localhost ([::1]:44758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxV3p-0007WE-7e
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 09:15:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38776)
+	id 1mxUwY-0004QA-5e
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 09:07:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mxUda-0007la-ES
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 08:48:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29191)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mxUrZ-0000ob-Qa
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:02:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mxUdT-0005o7-4t
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 08:48:04 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mxUrT-0001Rb-Es
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:02:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639576078;
+ s=mimecast20190719; t=1639576946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Yg1hmIa/mOh7Kt0DE8u7ESU2Zis1ASujsD3nlrAEayM=;
- b=L41qMpQr8zgeC2jMo7KJCdRKaXMwpL6Q96Q4IsU9aOnvfE1ZDbpqEm1rYPhjttxw0TU+lX
- 5mZWUAl41rtquQyQNEzjQpsIwDtAewCKkzSH1Tb00Y3WpuEqW25HlvGstR4RFIuiYO6Fvn
- ED8UjsSy0no2A0VfLcrwbaWHbaiQV0k=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Js92v9nhcn0A039TeYzZywEDlOcBF39tHZpP44A/jrU=;
+ b=WHL1K73pQhpZT0bL3B3fDXUCtL1G6HrTkSgxROLOqWgSyu6RjgXBN4M8DMQLYKkVsbFlaZ
+ rpaMC8REGzGPvdufYLql7t2ZvxAd1QdsWkdgg2eNBXEGXWEhSK4XtXnOBk+nnUWnocK9dQ
+ siDSPitwPeuOvc/xtDWmvLmY40uoLKs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-365-_79Q-5EWOo2PyCuMlnHpWw-1; Wed, 15 Dec 2021 08:47:53 -0500
-X-MC-Unique: _79Q-5EWOo2PyCuMlnHpWw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d7-20020a5d6447000000b00186a113463dso5915667wrw.10
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 05:47:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Yg1hmIa/mOh7Kt0DE8u7ESU2Zis1ASujsD3nlrAEayM=;
- b=zav/n0abkC452yI5uLuzZStcAITakpFR3F0pgthEMik1y1dE4hNR749hDzpe4EKEMI
- aycAbIla608X/cYlpC0Ej2O12YAgbocL9j5frzAsMe76qmM5J8ujrFm/2EZM7axFAAkZ
- g0gMPhl7F9ECenXeWkFQURkrE+qoG3PpP/NgtLJnyry3Z2FKXMynD1BOUxTsoOaRQwhk
- j7poVrIV6F3vKWiJza1pyBPTk5uDFzM96xLsXL9trltISaqaPVQHt10oMC+a8uIfQzN0
- Lv3CyYUZO2irQxQtu4PYHKm0KQ9UC2eEBm8If9y643ikjVkfioEeTclgGRC/JEjmPPQj
- m37w==
-X-Gm-Message-State: AOAM532C4SYU4r/yS2PGGCiaBCSTsCKtP3KtwsfoKM4ASD5oVXk+attP
- uecikevTdsygcArJEJLJ10zdPQjxo+yQJbCAJ5xkgiUifPAsxSG5Acz2U3uBWNXcOubBOv/BbtE
- Vz5sIRArdyX8psVQ=
-X-Received: by 2002:a5d:4ccb:: with SMTP id c11mr4176307wrt.689.1639576071880; 
- Wed, 15 Dec 2021 05:47:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw15wxHZ3EhpNW6MAovRfrUGkOgzTkI7x0xH3tcvdbbehuqQQLLgg2X+nSzHlMhL5b85M2g0A==
-X-Received: by 2002:a5d:4ccb:: with SMTP id c11mr4176289wrt.689.1639576071647; 
- Wed, 15 Dec 2021 05:47:51 -0800 (PST)
-Received: from steredhat (host-87-21-203-138.retail.telecomitalia.it.
- [87.21.203.138])
- by smtp.gmail.com with ESMTPSA id k6sm1810752wmj.16.2021.12.15.05.47.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 05:47:51 -0800 (PST)
-Date: Wed, 15 Dec 2021 14:47:48 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 03/18] meson: require liburing >= 0.3
-Message-ID: <20211215134748.i4mtaysdyrcwuf7y@steredhat>
-References: <20211124130150.268230-1-berrange@redhat.com>
- <20211124130150.268230-4-berrange@redhat.com>
- <977ffa85-1f5f-7493-cb05-5e2024e3c017@redhat.com>
+ us-mta-184--CTFbndZMGC_uS_ip2VoUQ-1; Wed, 15 Dec 2021 09:02:25 -0500
+X-MC-Unique: -CTFbndZMGC_uS_ip2VoUQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FE542F31;
+ Wed, 15 Dec 2021 14:02:24 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-2.ams2.redhat.com [10.36.112.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D24965E486;
+ Wed, 15 Dec 2021 14:02:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 47CA7113865F; Wed, 15 Dec 2021 15:02:22 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/13] Block device patches patches for 2021-12-15
+Date: Wed, 15 Dec 2021 15:02:09 +0100
+Message-Id: <20211215140222.769652-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <977ffa85-1f5f-7493-cb05-5e2024e3c017@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,58 +76,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 15, 2021 at 12:27:43PM +0100, Philippe Mathieu-Daudé wrote:
->Cc'ing Stefan & Stefano.
+The following changes since commit 76b56fdfc9fa43ec6e5986aee33f108c6c6a511e:
 
-Thanks Phil!
+  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2021-12-14 12:46:18 -0800)
 
->
->On 11/24/21 14:01, Daniel P. Berrangé wrote:
->> openSUSE Leap 15.2 ships with liburing == 0.2 against which QEMU fails
->> to build.
->>
->> ../util/fdmon-io_uring.c: In function ‘fdmon_io_uring_need_wait’:
->> ../util/fdmon-io_uring.c:305:9: error: implicit declaration of function ‘io_uring_sq_ready’; did you mean ‘io_uring_cq_ready’? [-Werror=implicit-function-declaration]
->>      if (io_uring_sq_ready(&ctx->fdmon_io_uring)) {
->>          ^~~~~~~~~~~~~~~~~
->>          io_uring_cq_ready
->>
->> This method was introduced in liburing 0.3, so set that as a minimum
->> requirement.
->>
->> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->> ---
->>  meson.build | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/meson.build b/meson.build
->> index e2d38a43e6..04d36bf47e 100644
->> --- a/meson.build
->> +++ b/meson.build
->> @@ -427,7 +427,8 @@ if not get_option('linux_aio').auto() or have_block
->>  endif
->>  linux_io_uring = not_found
->>  if not get_option('linux_io_uring').auto() or have_block
->> -  linux_io_uring = dependency('liburing', required: get_option('linux_io_uring'),
->> +  linux_io_uring = dependency('liburing', version: '>=0.3',
->> +                              required: get_option('linux_io_uring'),
->>                                method: 'pkg-config', kwargs: static_kwargs)
->>  endif
->>  libxml2 = not_found
->>
->
+are available in the Git repository at:
 
-LGTM!
+  git://repo.or.cz/qemu/armbru.git tags/pull-block-2021-12-15
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+for you to fetch changes up to 95fd260f0a3663ed229b8e0d2ef111a9f8bd93ad:
+
+  blockdev: Drop unused drive_get_next() (2021-12-15 14:56:14 +0100)
+
+----------------------------------------------------------------
+Block device patches patches for 2021-12-15
+
+----------------------------------------------------------------
+Markus Armbruster (13):
+      hw/sd/ssi-sd: Do not create SD card within controller's realize
+      hw: Replace trivial drive_get_next() by drive_get()
+      hw/arm/npcm7xx_boards: Replace drive_get_next() by drive_get()
+      hw/arm/versatilepb hw/arm/vexpress: Replace drive_get_next() by drive_get()
+      hw/arm/imx25_pdk: Replace drive_get_next() by drive_get()
+      hw/arm/mcimx6ul-evk: Replace drive_get_next() by drive_get()
+      hw/arm/mcimx7d-sabre: Replace drive_get_next() by drive_get()
+      hw/arm/xlnx-versal-virt: Replace drive_get_next() by drive_get()
+      hw/microblaze: Replace drive_get_next() by drive_get()
+      hw/arm/xlnx-zcu102: Replace drive_get_next() by drive_get()
+      hw/arm/xilinx_zynq: Replace drive_get_next() by drive_get()
+      hw/arm/aspeed: Replace drive_get_next() by drive_get()
+      blockdev: Drop unused drive_get_next()
+
+ include/sysemu/blockdev.h           |  1 -
+ blockdev.c                          | 10 ----------
+ hw/arm/aspeed.c                     | 21 +++++++++++++--------
+ hw/arm/cubieboard.c                 |  2 +-
+ hw/arm/imx25_pdk.c                  |  2 +-
+ hw/arm/integratorcp.c               |  2 +-
+ hw/arm/mcimx6ul-evk.c               |  2 +-
+ hw/arm/mcimx7d-sabre.c              |  2 +-
+ hw/arm/msf2-som.c                   |  2 +-
+ hw/arm/npcm7xx_boards.c             |  6 +++---
+ hw/arm/orangepi.c                   |  2 +-
+ hw/arm/raspi.c                      |  2 +-
+ hw/arm/realview.c                   |  2 +-
+ hw/arm/sabrelite.c                  |  2 +-
+ hw/arm/stellaris.c                  | 15 ++++++++++++++-
+ hw/arm/versatilepb.c                |  4 ++--
+ hw/arm/vexpress.c                   |  6 +++---
+ hw/arm/xilinx_zynq.c                | 16 +++++++++-------
+ hw/arm/xlnx-versal-virt.c           |  3 ++-
+ hw/arm/xlnx-zcu102.c                |  6 +++---
+ hw/microblaze/petalogix_ml605_mmu.c |  2 +-
+ hw/misc/sifive_u_otp.c              |  4 ++--
+ hw/riscv/microchip_pfsoc.c          |  2 +-
+ hw/riscv/sifive_u.c                 | 15 +++++++++++++--
+ hw/sd/ssi-sd.c                      | 29 +----------------------------
+ hw/sparc64/niagara.c                |  2 +-
+ 26 files changed, 78 insertions(+), 84 deletions(-)
+
+-- 
+2.31.1
 
 
