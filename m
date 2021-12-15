@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D589476357
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 21:31:35 +0100 (CET)
-Received: from localhost ([::1]:41354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 033EC476392
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 21:42:25 +0100 (CET)
+Received: from localhost ([::1]:60904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxaw2-0004tw-A8
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 15:31:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59848)
+	id 1mxb6W-0001ld-3w
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 15:42:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mxaq7-0003vN-On
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:25:28 -0500
-Received: from [2a00:1450:4864:20::32d] (port=56044
- helo=mail-wm1-x32d.google.com)
+ id 1mxaq8-0003w1-CI
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:25:29 -0500
+Received: from [2a00:1450:4864:20::436] (port=45859
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mxaq5-0004Gy-Vd
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:25:27 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id p18so17466500wmq.5
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 12:25:25 -0800 (PST)
+ id 1mxaq6-0004IR-I5
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:25:28 -0500
+Received: by mail-wr1-x436.google.com with SMTP id o13so40160035wrs.12
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 12:25:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HIBRkSSHz3eAVQoo1k/hPPyUZpwaJoco5cdah1TL9hU=;
- b=GSyVwY/6XnA3oEG01u5HpiZMe7rZeKkXwO4mOlykz5rOKEqlYQL/qY6JR4SOv+owdD
- 3sO+2eM9tS80I9pkwgSM+gh5uEX+UeQMjp9q20jx5g+F2PEO/ux4JycoLdje/Rt1xtJS
- AYyPH7OeCnuDbmvWula8P6gERxyQrrvHJwg8z0bqBAUq9Cg8cVO8vQojZtWLy5sd3Bao
- 5PjgBtZMR5AHxWnI/qbLadWEdN0nUWU7xTBedZ6qvOO9RbvUOMJWg9lY0unw87e62aJl
- HfE+5GJSQA+Av9JtSe3LonLh8AXd4sBjyoRQOGOMgaqUd9jTR/YNcNZ7SwNaNToQJCwQ
- KYvg==
+ bh=efR+euqp1TfYQWL3xVKZMvdNbeMwI7/EvU88T1y9UZs=;
+ b=DiJovghtuH+uxPgqAibyXpta+8rSO8RUzbSJY4OaqGjluwSxD23c4HhK+v4+6uZpcO
+ CbrFaOqpdds633M+rC8zCcFsZ2J9TiT4QYQBjN11+QcM3hSbSq5Gt8fBQhJgXhEAJ5VU
+ xlROvkVq6150klQIUyLlVs6b5PTesaJu7/TJEXax8u8pyI2e2zHRl9isp8jkdpLU+b6b
+ E4qMgUpIYLtYer36mK3hu4+Fjpd4GF2Hpr97Manwr24rAA8FUW/eL5EEJh12W280BOlB
+ CwjdB4XCoT9191D9SeZkhSg99/3VC+mpj8A9vQgR65cfyPGCf9vZhvhA+EgTSElOThWD
+ zLXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HIBRkSSHz3eAVQoo1k/hPPyUZpwaJoco5cdah1TL9hU=;
- b=t/Ap5Yf/T9g5P+3KfKEHpZi5Ave/Oz5fyPsDF86fXyFd3KpO1xR/fSBYFmGIYP79qk
- VZKjDklDCR0LOqvl9HW1WacXvsK99TTErgBjYeh/Jao+MgvR0G+OeOYM0BI6FK/inFVI
- R91kXbPbBOCEyz0vemoi9aP6/nauHk0wzwujoFv8Mfm0cYnE+/DygfmgBrXIg0qH7e6Y
- e0uxldCq4BC9wCU5Dr2do4C4S/s3Uj8ZHAErMTE00cRC0+6jDNt75Xz2uGmHraJT7/wI
- DRFL3va8L3g3R5orvnFX9y41/78PJVF4vHDIz+S4N6LG24onvYlXnkFj+NDoLW5/zVLk
- xA6A==
-X-Gm-Message-State: AOAM532nh8ua4dRFHmG562LCshN8l3aAsOQZpRXuvLzVBo4/Kf0sNUlo
- XC+09oCOshMgvfZ71KtmTl2QDzi1658=
-X-Google-Smtp-Source: ABdhPJy1+G1yd/cTvPbzwEtUI7LKI49AJjbKPnNOUHw3uYyRSPh0HydleBAZSDVV+3/IZF5noTxcTg==
-X-Received: by 2002:a1c:ed07:: with SMTP id l7mr1864944wmh.12.1639599924701;
- Wed, 15 Dec 2021 12:25:24 -0800 (PST)
+ bh=efR+euqp1TfYQWL3xVKZMvdNbeMwI7/EvU88T1y9UZs=;
+ b=oyBq3VVVqHtczeqBysu3qIkd7uWcQzofQKRhG0SzXA7WD2tfZn3zryQ1tj5tQ59vNw
+ BCXZrmWNn+azJ7/pPDcFqjyknuPxwhgcW/dq1pSbdBPWdEfgMDQV1E/FSkRDDtZK2Vx7
+ JD5edAod2153sG5hJmOz+FBoGOurVdyPHCl3WJNeCVD+wzRhJH8S4tocQu1v10bBvNyL
+ CXKN9bKIDB2jcimtLQMecXag7U2XufcpkkaEXFhJsVegnoFaQ91fDV+zPcmDYIHgHm2c
+ 5plOjoKYpqlErFYuSINsSvG++gbGdK00rby8DdcymY1O/X8dfPhN99WRh1MMiGjrEQuv
+ vNew==
+X-Gm-Message-State: AOAM5303+PJnXeZkNV09NYlBrTbs1Q4tixvA50ZPIchN0isCmu3Q9/yq
+ bMJulen14mPIHUrPxfFMh3dGyAKGuOQ=
+X-Google-Smtp-Source: ABdhPJzOpG8VBfuIxrxE81aP4mgiVOlVb3iu080cCzzywci4X9F/S9myPfSAZpc2qAzxtb3MTG0FMw==
+X-Received: by 2002:adf:eac8:: with SMTP id o8mr4931091wrn.93.1639599925331;
+ Wed, 15 Dec 2021 12:25:25 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id y11sm3794708wry.70.2021.12.15.12.25.24
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 12:25:24 -0800 (PST)
+ Wed, 15 Dec 2021 12:25:25 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/13] doc: Add the SGX numa description
-Date: Wed, 15 Dec 2021 21:25:14 +0100
-Message-Id: <20211215202515.91586-13-pbonzini@redhat.com>
+Subject: [PULL 13/13] configure: remove dead variables
+Date: Wed, 15 Dec 2021 21:25:15 +0100
+Message-Id: <20211215202515.91586-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211215202515.91586-1-pbonzini@redhat.com>
 References: <20211215202515.91586-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,73 +87,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yang Zhong <yang.zhong@intel.com>
-
-Add the SGX numa reference command and how to check if
-SGX numa is support or not with multiple EPC sections.
-
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20211101162009.62161-5-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/system/i386/sgx.rst | 31 +++++++++++++++++++++++++++----
- 1 file changed, 27 insertions(+), 4 deletions(-)
+ configure | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/docs/system/i386/sgx.rst b/docs/system/i386/sgx.rst
-index f8fade5ac2..0f0a73f758 100644
---- a/docs/system/i386/sgx.rst
-+++ b/docs/system/i386/sgx.rst
-@@ -141,8 +141,7 @@ To launch a SGX guest:
-   |qemu_system_x86| \\
-    -cpu host,+sgx-provisionkey \\
-    -object memory-backend-epc,id=mem1,size=64M,prealloc=on \\
--   -object memory-backend-epc,id=mem2,size=28M \\
--   -M sgx-epc.0.memdev=mem1,sgx-epc.1.memdev=mem2
-+   -M sgx-epc.0.memdev=mem1,sgx-epc.0.node=0
- 
- Utilizing SGX in the guest requires a kernel/OS with SGX support.
- The support can be determined in guest by::
-@@ -152,8 +151,32 @@ The support can be determined in guest by::
- and SGX epc info by::
- 
-   $ dmesg | grep sgx
--  [    1.242142] sgx: EPC section 0x180000000-0x181bfffff
--  [    1.242319] sgx: EPC section 0x181c00000-0x1837fffff
-+  [    0.182807] sgx: EPC section 0x140000000-0x143ffffff
-+  [    0.183695] sgx: [Firmware Bug]: Unable to map EPC section to online node. Fallback to the NUMA node 0.
-+
-+To launch a SGX numa guest:
-+
-+.. parsed-literal::
-+
-+  |qemu_system_x86| \\
-+   -cpu host,+sgx-provisionkey \\
-+   -object memory-backend-ram,size=2G,host-nodes=0,policy=bind,id=node0 \\
-+   -object memory-backend-epc,id=mem0,size=64M,prealloc=on,host-nodes=0,policy=bind \\
-+   -numa node,nodeid=0,cpus=0-1,memdev=node0 \\
-+   -object memory-backend-ram,size=2G,host-nodes=1,policy=bind,id=node1 \\
-+   -object memory-backend-epc,id=mem1,size=28M,prealloc=on,host-nodes=1,policy=bind \\
-+   -numa node,nodeid=1,cpus=2-3,memdev=node1 \\
-+   -M sgx-epc.0.memdev=mem0,sgx-epc.0.node=0,sgx-epc.1.memdev=mem1,sgx-epc.1.node=1
-+
-+and SGX epc numa info by::
-+
-+  $ dmesg | grep sgx
-+  [    0.369937] sgx: EPC section 0x180000000-0x183ffffff
-+  [    0.370259] sgx: EPC section 0x184000000-0x185bfffff
-+
-+  $ dmesg | grep SRAT
-+  [    0.009981] ACPI: SRAT: Node 0 PXM 0 [mem 0x180000000-0x183ffffff]
-+  [    0.009982] ACPI: SRAT: Node 1 PXM 1 [mem 0x184000000-0x185bfffff]
- 
- References
- ----------
+diff --git a/configure b/configure
+index 48c21775f3..d3aac031a5 100755
+--- a/configure
++++ b/configure
+@@ -626,7 +626,6 @@ fi
+ case $targetos in
+ MINGW32*)
+   mingw32="yes"
+-  supported_os="yes"
+   plugins="no"
+   pie="no"
+ ;;
+@@ -668,7 +667,6 @@ SunOS)
+   QEMU_CFLAGS="-D__EXTENSIONS__ $QEMU_CFLAGS"
+ ;;
+ Haiku)
+-  haiku="yes"
+   pie="no"
+   QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE -fPIC $QEMU_CFLAGS"
+ ;;
+@@ -3472,9 +3470,6 @@ fi
+ if test "$solaris" = "yes" ; then
+   echo "CONFIG_SOLARIS=y" >> $config_host_mak
+ fi
+-if test "$haiku" = "yes" ; then
+-  echo "CONFIG_HAIKU=y" >> $config_host_mak
+-fi
+ if test "$static" = "yes" ; then
+   echo "CONFIG_STATIC=y" >> $config_host_mak
+ fi
 -- 
 2.33.1
-
 
 
