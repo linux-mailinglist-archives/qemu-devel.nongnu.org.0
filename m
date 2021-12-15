@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CF8F476461
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 22:13:26 +0100 (CET)
-Received: from localhost ([::1]:36188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B86476474
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 22:20:41 +0100 (CET)
+Received: from localhost ([::1]:58898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxbaW-0008FN-VA
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 16:13:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41008)
+	id 1mxbhW-0006eu-B4
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 16:20:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxbWD-0003rm-5U
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 16:08:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57242)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxbWH-00048m-Gn
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 16:09:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxbW9-0006aM-FR
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 16:08:56 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxbWG-0006cv-1T
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 16:09:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639602532;
+ s=mimecast20190719; t=1639602539;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9B3OITeijFYQcc5hK/JPoO4TyY/4Jm/044b+1lyKbdg=;
- b=UHQjzLhLbpML1WVrbrTvWepMU2JEEK13xKnIZRcPqZZO49gvaVZ8Isk07FHfA1LXxyqsRO
- lWxxseUmRLIe3LGY30c26Mo8sCz9KXNmxwvthMXe2GD2+svK1QkkEOFjMDSqrUmKrspJyB
- UWTb8lzRDPkYMFgtahu9KLv6wtMzcl8=
+ bh=bD+Iw+cQM3uHkNIkanehEK2ltYup32z/f+o2t1hFQGI=;
+ b=UWIbLIxpFzXa5WzytFVaylLxftb9U5BOkJNKFiwkKD7BoCM1lA3fONB3PEUzsqQU04E1X1
+ N+dRIzmcCvG1Ybj630yIziVam9vdYGpU5QT+1e+taIpotLcokCqJIpT09UWKhUmzRZVM55
+ 23wBzhbL4ewAWXthcrGosf4vVhR9Ktw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-536-1u0gJNI3OrCkUMZn6FmfJQ-1; Wed, 15 Dec 2021 16:08:51 -0500
-X-MC-Unique: 1u0gJNI3OrCkUMZn6FmfJQ-1
+ us-mta-622-yRJO-f-_PMSnzIYx0CrAQg-1; Wed, 15 Dec 2021 16:08:56 -0500
+X-MC-Unique: yRJO-f-_PMSnzIYx0CrAQg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93A6C760C4;
- Wed, 15 Dec 2021 21:08:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD67A1054F92;
+ Wed, 15 Dec 2021 21:08:55 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.19.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AFABB5F4EA;
- Wed, 15 Dec 2021 21:08:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA9B35BE35;
+ Wed, 15 Dec 2021 21:08:50 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC qemu.qmp PATCH 10/24] Add build and test container to gitlab CI
- configuration
-Date: Wed, 15 Dec 2021 16:06:20 -0500
-Message-Id: <20211215210634.3779791-11-jsnow@redhat.com>
+Subject: [RFC qemu.qmp PATCH 11/24] Add package build step to GitLab CI
+Date: Wed, 15 Dec 2021 16:06:21 -0500
+Message-Id: <20211215210634.3779791-12-jsnow@redhat.com>
 In-Reply-To: <20211215210634.3779791-1-jsnow@redhat.com>
 References: <20211215210634.3779791-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -86,129 +85,45 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Heavily copy-pasted from the QEMU source tree, with bits and pieces not
-needed for this repository trimmed down.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- .gitlab-ci.d/containers.yml    | 28 ++++++++++++++++++++++++++++
- .gitlab-ci.d/index.yml         |  8 ++++++++
- .gitlab-ci.d/python.Dockerfile | 31 +++++++++++++++++++++++++++++++
- .gitlab-ci.yml                 |  3 +++
- INDEX.rst                      |  2 ++
- 5 files changed, 72 insertions(+)
- create mode 100644 .gitlab-ci.d/containers.yml
- create mode 100644 .gitlab-ci.d/index.yml
- create mode 100644 .gitlab-ci.d/python.Dockerfile
- create mode 100644 .gitlab-ci.yml
+ .gitlab-ci.d/build.yml | 13 +++++++++++++
+ .gitlab-ci.d/index.yml |  2 ++
+ 2 files changed, 15 insertions(+)
+ create mode 100644 .gitlab-ci.d/build.yml
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+diff --git a/.gitlab-ci.d/build.yml b/.gitlab-ci.d/build.yml
 new file mode 100644
-index 0000000..fdcbbe4
+index 0000000..6a68408
 --- /dev/null
-+++ b/.gitlab-ci.d/containers.yml
-@@ -0,0 +1,28 @@
-+# Heavily inspired-by/copy-pasted-from the
-+# container template from the QEMU source tree.
-+
-+.container_job_template:
-+  image: docker:stable
-+  stage: containers
-+  services:
-+    - docker:dind
-+  before_script:
-+    - export TAG="$NAME"
-+    - export FQTAG="$CI_REGISTRY_IMAGE/$TAG:latest"
-+    - docker info
-+    - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
++++ b/.gitlab-ci.d/build.yml
+@@ -0,0 +1,13 @@
++build-package:
++  stage: build
++  image: $CI_REGISTRY_IMAGE/python:latest
++  needs:
++    job: python-container
 +  script:
-+    - echo "TAG:$TAG"
-+    - echo "FQTAG:$FQTAG"
-+    - cd .gitlab-ci.d
-+    - docker pull "$FQTAG"
-+    - docker build --cache-from "$FQTAG" -t "$TAG" -f "$NAME.Dockerfile" .
-+    - docker tag "$TAG" "$FQTAG"
-+    - docker push "$FQTAG"
-+  after_script:
-+    - docker logout
-+
-+python-container:
-+  extends: .container_job_template
++    - python3 -m build
++  artifacts:
++    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA"
++    paths:
++      - dist/*
 +  variables:
-+    NAME: python
++    GIT_DEPTH: 1
 diff --git a/.gitlab-ci.d/index.yml b/.gitlab-ci.d/index.yml
-new file mode 100644
-index 0000000..5ef8fcf
---- /dev/null
+index 5ef8fcf..cf61dec 100644
+--- a/.gitlab-ci.d/index.yml
 +++ b/.gitlab-ci.d/index.yml
-@@ -0,0 +1,8 @@
-+# This file contains the set of jobs run by this project:
-+# https://gitlab.com/jsnow/qemu.qmp/-/pipelines
-+
-+stages:
-+  - containers
-+
-+include:
-+  - local: '/.gitlab-ci.d/containers.yml'
-diff --git a/.gitlab-ci.d/python.Dockerfile b/.gitlab-ci.d/python.Dockerfile
-new file mode 100644
-index 0000000..9501ed4
---- /dev/null
-+++ b/.gitlab-ci.d/python.Dockerfile
-@@ -0,0 +1,31 @@
-+# Python library build & testing environment.
-+
-+# Fedora is convenient, as it allows us to easily access multiple
-+# versions of the python interpreter, which is great for tox testing.
-+FROM fedora:latest
-+
-+# 「はじめまして！」
-+MAINTAINER John Snow <jsnow@redhat.com>
-+
-+# Please keep the packages sorted alphabetically.
-+RUN dnf --setopt=install_weak_deps=False install -y \
-+        gcc \
-+        git \
-+        make \
-+        pipenv \
-+        python3 \
-+        python3-pip \
-+        python3-tox \
-+        python3-virtualenv \
-+        python3.10 \
-+        python3.6 \
-+        python3.7 \
-+        python3.8 \
-+        python3.9 \
-+    && python3 -m pip install --upgrade \
-+        build \
-+        pip \
-+    && dnf clean all \
-+    && rm -rf ~/.cache/pip \
-+    && rm -rf /var/cache/dnf \
-+    ;
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-new file mode 100644
-index 0000000..f93a1e1
---- /dev/null
-+++ b/.gitlab-ci.yml
-@@ -0,0 +1,3 @@
-+# Hello, is it me you're looking for?
-+include:
-+  - local: '/.gitlab-ci.d/index.yml'
-diff --git a/INDEX.rst b/INDEX.rst
-index 9c45740..8b7a56a 100644
---- a/INDEX.rst
-+++ b/INDEX.rst
-@@ -47,6 +47,8 @@ Files in this directory
+@@ -3,6 +3,8 @@
  
- - ``qemu/`` Python 'qemu' namespace package source directory.
- - ``tests/`` Python package tests directory.
-+- ``.gitlab-ci.d/`` Files used for GitLab CI configuration.
-+- ``.gitlab-ci.yml`` Primary GitLab CI configuration file.
- - ``avocado.cfg`` Configuration for the Avocado test-runner.
-   Used by ``make check`` et al.
- - ``INDEX.rst`` you are here!
+ stages:
+   - containers
++  - build
+ 
+ include:
+   - local: '/.gitlab-ci.d/containers.yml'
++  - local: '/.gitlab-ci.d/build.yml'
 -- 
 2.31.1
 
