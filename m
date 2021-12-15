@@ -2,52 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045164760C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 19:30:56 +0100 (CET)
-Received: from localhost ([::1]:41408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F0147611D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 19:53:55 +0100 (CET)
+Received: from localhost ([::1]:40838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxZ3H-0006Ti-19
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 13:30:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41582)
+	id 1mxZPW-0002n5-L0
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 13:53:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mxXoc-000211-Kr; Wed, 15 Dec 2021 12:11:42 -0500
-Received: from [201.28.113.2] (port=6300 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mxXoa-0006gS-SF; Wed, 15 Dec 2021 12:11:42 -0500
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 15 Dec 2021 14:11:32 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 68C828009F6;
- Wed, 15 Dec 2021 14:11:32 -0300 (-03)
-Subject: Re: [PATCH for-7.0 v2] target/ppc: do not silence SNaN in xscvspdpn
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20211214144459.1086343-1-matheus.ferst@eldorado.org.br>
- <1d56a137-e20f-aabc-89b8-4d6c8a37c34a@kaod.org>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <c5be5a2b-e2ff-c5b1-33a3-3eee43c3d839@eldorado.org.br>
-Date: Wed, 15 Dec 2021 14:11:32 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mxXqI-0004ux-Su
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 12:13:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28942)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mxXqG-0007F2-6d
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 12:13:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639588403;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Ho6C3mzkobyr0kkgBwGJf8ZVAFSV08hew1QHHDo/ey0=;
+ b=Mz/tcLFzbp6YFzXGYsjUmJFagi9wLiIXPuj+hb+/hKYs3zQCA1wMPwkVSXaxK325huk12Z
+ qmRV50iceaN56lNaxZV0RTYGbUoRidQIQtdj9eNdIVn7Oor13V5spo7EzuozQlOoQ+GR6U
+ pWOkPnAwUFVYQE1tyX22rrCB9U7LD1U=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-421-3sSlA3idP9-0II8eLoU2EA-1; Wed, 15 Dec 2021 12:13:20 -0500
+X-MC-Unique: 3sSlA3idP9-0II8eLoU2EA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ h12-20020adfa4cc000000b001a22dceda69so798026wrb.16
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 09:13:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=Ho6C3mzkobyr0kkgBwGJf8ZVAFSV08hew1QHHDo/ey0=;
+ b=GaGjWboZiLz+m4p4wZ5/7OQSBAVO7mpaHrpGQf+DYDJ/eRfltSnvALfGQ12wUfWwbn
+ bI7ICIEwP2tJX+YN7E4SblLLNBLR0DyQbgoVw/7C7Ev85tHoRk012qgrV/z03BR8xMhd
+ yvEuqwuY+I+XLxzb2lIM+eJBmtMmoMXnspiyzWZ3N3W+p38W3JIDji0RF/f5YFYMUH6T
+ Wf8akKD8stBh9TInmpQC1paE/cx6tinKNF8q4bbk9YKWKyA7JwxWKLDgfYeS1Uwet4Wn
+ 1dYZI/vs/A9K3KDewuAwmc4leAgXAQnyZw7AYpbIAnbapaX4GC2N8q7T+7E59podTWu9
+ Q49w==
+X-Gm-Message-State: AOAM532Bo4HA2qcgDInRNpgGN0MWKnMc1po4tbQ4Gkdk5vLptE59WIp8
+ uqAtTyqN0R3VEROWORFG2mbzch6Fpqoi0TKKdAq/weOMS0fxuyKyNdktlel4xb/eTAqDrWTtxAD
+ Jnh9RtxH3gMquZ6o=
+X-Received: by 2002:a05:600c:1f0c:: with SMTP id
+ bd12mr899467wmb.56.1639588399264; 
+ Wed, 15 Dec 2021 09:13:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzs7YWwJVJzYCcqG8d9kG/EoBAg/PYqRzOYypBXzsmfyaVc0r7MdOinzhMjBxwlQ24eItCsGA==
+X-Received: by 2002:a05:600c:1f0c:: with SMTP id
+ bd12mr899401wmb.56.1639588398778; 
+ Wed, 15 Dec 2021 09:13:18 -0800 (PST)
+Received: from localhost (static-174-144-85-188.ipcom.comunitel.net.
+ [188.85.144.174])
+ by smtp.gmail.com with ESMTPSA id g18sm6848693wmq.4.2021.12.15.09.13.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Dec 2021 09:13:18 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] hw: Add compat machines for 6.3
+In-Reply-To: <CAFEAcA-94WxKObDZQn_XRaJ7SDBKvqgvqwPb3v3Uyg73rZepgQ@mail.gmail.com>
+ (Peter Maydell's message of "Wed, 15 Dec 2021 17:09:01 +0000")
+References: <20211215170548.20776-1-quintela@redhat.com>
+ <CAFEAcA-94WxKObDZQn_XRaJ7SDBKvqgvqwPb3v3Uyg73rZepgQ@mail.gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Wed, 15 Dec 2021 18:13:17 +0100
+Message-ID: <87tuf9yeoi.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <1d56a137-e20f-aabc-89b8-4d6c8a37c34a@kaod.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 15 Dec 2021 17:11:32.0700 (UTC)
- FILETIME=[CEE309C0:01D7F1D6]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.64,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,38 +99,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
- david@gibson.dropbear.id.au, f4bug@amsat.org
+Reply-To: quintela@redhat.com
+Cc: Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/12/2021 13:53, Cédric Le Goater wrote:
-> On 12/14/21 15:44, matheus.ferst@eldorado.org.br wrote:
->> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Peter Maydell <peter.maydell@linaro.org> wrote:
+> On Wed, 15 Dec 2021 at 17:06, Juan Quintela <quintela@redhat.com> wrote:
 >>
->> The non-signalling versions of VSX scalar convert to shorter/longer
->> precision insns doesn't silence SNaNs in the hardware. To better match
->> this behavior, use the non-arithmatic conversion of helper_todouble
->> instead of float32_to_float64. A test is added to prevent future
->> regressions.
+>> Add 6.2 machine types for arm/i440fx/q35/s390x/spapr.
 >>
->> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> 
-> 
-> Applied to ppc-next.
-> 
-> Thanks,
-> 
-> C.
+>> Shameless copy of commit
+>>         52e64f5b1f2c81472b57dbad255ab9b00302f10d
+>> from
+>>         Yanan Wang <wangyanan55@huawei.com>
+>
+>> +DEFINE_VIRT_MACHINE_AS_LATEST(6, 3)
+>
+> There is no 6.3 -- the next release (being next year) will be 7.0.
+> Cornelia's posted an update-machine-types patch:
+> https://patchew.org/QEMU/20211208170241.110551-1-cohuck@redhat.com/
 
-Hi Cédric,
+Hi
 
-Alex requested some changes in the test part, could you drop this patch 
-for now?
+Didn't see it when I was doing this.
 
-Thanks,
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+I got confused with the version number on the tree.
+
+Sorry for the noise.
+
+Later, Juan.
+
 
