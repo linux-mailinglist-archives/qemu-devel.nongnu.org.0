@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E918047585E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 13:05:45 +0100 (CET)
-Received: from localhost ([::1]:48462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEDEF475866
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 13:07:15 +0100 (CET)
+Received: from localhost ([::1]:52650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxT2W-0007Wz-V3
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 07:05:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36100)
+	id 1mxT3y-0002CG-Qb
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 07:07:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxSx5-0004PD-C1
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:00:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30443)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxSzY-0007LZ-71
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:02:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxSx1-0007GJ-Su
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:00:05 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxSzV-0007fb-Bs
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:02:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639569603;
+ s=mimecast20190719; t=1639569755;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3kDV+/shjunLtnlYvkaDBcqXgZfCA1rvDEjoM/Uw2iY=;
- b=ditpF4Y+mCh/jMgNQCBV5CxLFGeNcgYMGY7JwT+wai50gkgemmiyxo7rzlQS4ua8sPRSqd
- PAFIS9A77aykyCYQCGVwTn20aAJRLdZXij2nAic1ogy/n4ro1gLHGBgFpVii0QiQBLZQzQ
- NmYF7tHBeXGr9MOWtL4cinelG8wDExM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ELExsZkkG8gvV5UXN3QwBWtKuNLEskVOjRJtgwxtgCw=;
+ b=AYe9i0Y/9wuMOHp9JKpfFkLdz4taWAXTkUNlU+FwfEfXACoci88CS4Kxi2OkZ1RnaDoUGJ
+ 3gDyQrvfxH1waDkVV6Aw+Xar1UqLBOiw7epBUcoqRB7AMDRQRVMOtOIJ/jSZRUab7t50s/
+ V+ZE46T8TYleCKEm5rk74g1Vr7ZZLzc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-qS9HLTs-MJK5eaHJkCDZWw-1; Wed, 15 Dec 2021 07:00:01 -0500
-X-MC-Unique: qS9HLTs-MJK5eaHJkCDZWw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- q17-20020adfcd91000000b0017bcb12ad4fso5832536wrj.12
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 04:00:01 -0800 (PST)
+ us-mta-629-VV1Zli2bMcmrlq7oOCQZ2w-1; Wed, 15 Dec 2021 07:02:34 -0500
+X-MC-Unique: VV1Zli2bMcmrlq7oOCQZ2w-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ p3-20020a056000018300b00186b195d4ddso5854877wrx.15
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 04:02:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=3kDV+/shjunLtnlYvkaDBcqXgZfCA1rvDEjoM/Uw2iY=;
- b=6f2wK0FDMmb7sv1prcBnipHQb1McRmVP3oiEKkVBkiwLE3jGU5pAJ7u/IjssR73+F1
- ZvZPXIH2yvbf2JOIum44Qrq3x2li0jRQfzFG+yw1Bt5UYiT46WCMwsX9Xcj3Wsv1ziuI
- kcFdI8hlA2Mu8W/w6Kpx9hlcvtAU2oML+fKES1EbklLIJF9/mERoxYeOGP1DsGT58Rze
- kS+Pf3s9nABe5zX7zcikrWhyADdthGplygOk4j6/ExQQ6LZE67rhJcSAe/r2hHEAo1eH
- 5iLOUleYTL6/8bSQ2PwzlE/p1wZzNBnDfA+xhThk1hd1qxnhIQnIwWypUfWJs3uD2CFM
- Pvfw==
-X-Gm-Message-State: AOAM531nyMDQHPlxDAHEOjr0xkvU4bwvlulY0CxsRz3kE/JHjqGlu7Dm
- 5Ezo/ZqXLm+GeP+SuM8tRIbjhNTqd5zSxWTTHJ4VYDi50VEHowRyMVhIEwhBSVMDZ3g4Bdw5S2Y
- uAY3yB7cvb4eO0W0=
-X-Received: by 2002:a5d:6101:: with SMTP id v1mr4067207wrt.598.1639569600615; 
- Wed, 15 Dec 2021 04:00:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxtjxyFKeDNBGljscai2F+RSmwZ80GinPJw3Lscz4cP8CnaFp7w0AySeIv6ERSdWThYbVoAQw==
-X-Received: by 2002:a5d:6101:: with SMTP id v1mr4067193wrt.598.1639569600399; 
- Wed, 15 Dec 2021 04:00:00 -0800 (PST)
+ bh=ELExsZkkG8gvV5UXN3QwBWtKuNLEskVOjRJtgwxtgCw=;
+ b=NSlf4nnJgPiIiJFyXbqllYGBTprMCBm8fP8py/gPabI6AdNTefPd5unwTYqDxohk8j
+ 7IPiVPOlclosIdoeftxJ1BnmizjmO18FzqO3VHJ+mL9RtwBhuFiBBsOu8Ae9Xgt8E4lP
+ ZsG7N8443cEkMCS4ajNDmJ8lkF6GGVTv1GAQf1UeQZFg1rbG5AUwr3ioBSOZk55m/Fbv
+ df6SjMTPRLORMNpOzYUxAUpO54g/JvTmgK2g5FeqfljnDmY9ZqMlVcsfmp0GotgQKsMH
+ xRjFm1B7jKNRgDsJLJUvOrxF0FzEy9iiFDoGg21kGSWQ4ER8bnpkTelK8ygiNTzUFRMq
+ Woyw==
+X-Gm-Message-State: AOAM533HZwNux827uuwEfadik8SLdWigf+ryPs72xUvcq9w0SwIiFk77
+ aAonfNOzAyWdx/PJuFpvC7j71yPFMNfXFyU8BKkAV25ovRsojORWfU9Mv5dygmAwwa+olxIgvNs
+ 3oY1koLUJOibPTkM=
+X-Received: by 2002:a05:6000:1848:: with SMTP id
+ c8mr4008388wri.265.1639569752893; 
+ Wed, 15 Dec 2021 04:02:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzRUdXtkqVQEA/2Cmeg1nZpBk66ukpK9SQ+qFI4SNKqXYrUTVAqGXBoLvJZMEBdMtRkO5zTnw==
+X-Received: by 2002:a05:6000:1848:: with SMTP id
+ c8mr4008368wri.265.1639569752673; 
+ Wed, 15 Dec 2021 04:02:32 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id g5sm2631685wri.45.2021.12.15.03.59.59
+ by smtp.gmail.com with ESMTPSA id 12sm105223wmi.35.2021.12.15.04.02.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Dec 2021 03:59:59 -0800 (PST)
-Message-ID: <b25b2c55-c12c-f9f7-4773-baba838bc68b@redhat.com>
-Date: Wed, 15 Dec 2021 12:59:59 +0100
+ Wed, 15 Dec 2021 04:02:32 -0800 (PST)
+Message-ID: <75644656-e02d-e487-0c7a-ec03dfdb4663@redhat.com>
+Date: Wed, 15 Dec 2021 13:02:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v4 04/18] ui: avoid warnings about directdb on Alpine /
- musl libc
+Subject: Re: [PATCH v4 05/18] ci: explicitly skip I/O tests on alpine
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  Thomas Huth <thuth@redhat.com>
 References: <20211124130150.268230-1-berrange@redhat.com>
- <20211124130150.268230-5-berrange@redhat.com>
- <b1babd61-02f9-8083-cda0-99d69839b10e@redhat.com>
- <YZ5BLGegxcbFmEpo@redhat.com>
+ <20211124130150.268230-6-berrange@redhat.com>
+ <fb749701-0dee-8ae6-da2d-f7ed2c09004f@redhat.com>
+ <YZ5CPNSZ1YPfCXLT@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <YZ5BLGegxcbFmEpo@redhat.com>
+In-Reply-To: <YZ5CPNSZ1YPfCXLT@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -111,48 +112,67 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/24/21 14:42, Daniel P. Berrangé wrote:
-> On Wed, Nov 24, 2021 at 02:32:56PM +0100, Thomas Huth wrote:
+On 11/24/21 14:46, Daniel P. Berrangé wrote:
+> On Wed, Nov 24, 2021 at 02:36:59PM +0100, Thomas Huth wrote:
 >> On 24/11/2021 14.01, Daniel P. Berrangé wrote:
->>> On Alpine, SDL is built with directfb support and this triggers warnings
->>> during QEMU build
+>>> The block I/O tests don't work on Alpine because their alternative libc
+>>> impl emits different strings for errnos, which breaks the expected
+>>> output matching. e.g.
 >>>
->>> In file included from /usr/include/directfb/direct/thread.h:38,
->>>                   from /usr/include/directfb/direct/debug.h:43,
->>>                   from /usr/include/directfb/direct/interface.h:36,
->>>                   from /usr/include/directfb/directfb.h:49,
->>>                   from /usr/include/SDL2/SDL_syswm.h:80,
->>>                   from /builds/berrange/qemu/include/ui/sdl2.h:8,
->>>                   from ../ui/sdl2-gl.c:31:
->>> /usr/include/directfb/direct/os/waitqueue.h:41:25: error: redundant redeclaration of 'direct_waitqueue_init' [-Werror=redundant-decls]
->>>     41 | DirectResult DIRECT_API direct_waitqueue_init        ( DirectWaitQueue *queue );
->>>        |                         ^~~~~~~~~~~~~~~~~~~~~
->>
->> I think that's a bug in the SDL2 package of Alpine. I've had trouble with
->> that one in the past already ... so not sure whether it's our job now to
->> work around bugs in that crappy Alpine package... I'd prefer if we simply do
->> not compile-test SDL on Alpine instead.
-> 
-> It is a harmless bug in directfb headers, which has no ill
-> effects other than producing a warning when some app uses
-> -Wredundant-decls.  Of course Alpine would ideally get this
-> patched, but at the same time it is reasonable for Alpine
-> users to want SDL and if someone has this package installed
-> already we don't want QEMU build to break due to -Werror.
+>>> === IO: pattern 102
+>>>   wrote 512/512 bytes at offset 512
+>>>   512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+>>> -qemu-img: Error while reading offset 0 of blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: Input/output error
+>>> +qemu-img: Error while reading offset 0 of blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: I/O error
+>>>   4
+>>>   Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1073741824
+>>>   Formatting 'TEST_DIR/t.IMGFMT.2', fmt=IMGFMT size=0
+>>>
+>>> Currently the I/O tests are skipped as a side effect of the Alpine image
+>>> containing a minimal busybox 'sed' binary, rather than GNU Sed. This is
+>>> a fragile assumption that will be invalidated when the dockerfile is
+>>> changed to be autogenerated from a standardized package list that
+>>> includes GNU Sed.
 
-We should avoid adding #pragma directives in generic header,
-but I agree -Wredundant-decls is harmless here, so:
+"GNU sed" in lowercase? ("stream editor", 2 occurrences in description).
+
+>>>
+>>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>>> ---
+>>>   .gitlab-ci.d/buildtest.yml | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+>>> index 71d0f407ad..e1fe37e563 100644
+>>> --- a/.gitlab-ci.d/buildtest.yml
+>>> +++ b/.gitlab-ci.d/buildtest.yml
+>>> @@ -24,7 +24,7 @@ check-system-alpine:
+>>>         artifacts: true
+>>>     variables:
+>>>       IMAGE: alpine
+>>> -    MAKE_CHECK_ARGS: check
+>>> +    MAKE_CHECK_ARGS: check-unit check-qtest
+>>
+>> Hmm, that's just a work-around ... what if some user wants to run "make
+>> check" on an Alpine installation that has the real GNU sed installed? ... I
+>> think this rather requires some fixing in the iotests instead - or maybe the
+>> related tests should simply not be in the "auto" group anymore?
+> 
+> Of course, the I/o tests should be fixed, but that's a big job that on
+> one has volunteered for.
+> 
+> Taking the tests in question out of the "auto" group would be very
+> detrimental for test coverage on other platforms. There are many
+> affected tests so that is not desirable.
+> 
+> As explained above, the CI job is already skipping the I/O tests today
+> as a side effect of only having Busybox sed. This change just makes
+> that explicit in the CI config so it is clear that we're missing this
+> coverage and won't accidentally break when GNU Sed appears in the
+> dockerfile.
+
+This sounds reasonable.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> Case in point, as we auto-generate dockerfiles to ensure
-> all pre-requisites are installed in all dockerfiles,  the
-> Alpine dockerfile gains SDL and exposes this bug. We could
-> turn off -Werror but that's a overly big hammer compared
-> to this targetted fix.
-> 
-> Regards,
-> Daniel
-> 
 
 
