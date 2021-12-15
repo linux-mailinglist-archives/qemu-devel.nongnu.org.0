@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D4C4753EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 08:56:14 +0100 (CET)
-Received: from localhost ([::1]:44378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 680DA4753DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 08:46:37 +0100 (CET)
+Received: from localhost ([::1]:59576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxP93-0005lt-TS
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 02:56:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49808)
+	id 1mxOzk-00058j-Ee
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 02:46:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxOny-0003E4-BF
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:34:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25600)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxOnw-00039G-NB
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:34:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxOnv-0004Iu-Dw
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:34:26 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxOnv-0004Ik-0m
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:34:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639553662;
+ s=mimecast20190719; t=1639553661;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nlJ4r6AtKSzzhlkkGjMpvMBWY7RfMrRTwn1yyrykKjo=;
- b=LOa6lLJQy74dO/eEuavW5j+Hls2p1rifL3waKw5akxHmKCfNC4LPyjMlHs2+7uOvOJu+aY
- A5BHJcDhkW3a2XCQzvZClSsZ2Kx/a32J/0tsT/FA1JgX2pGSnsfeWJST6/6nvFzJvtamm4
- uV7s7++30njevaDwCZsnae52cO87NG8=
+ bh=Z48alLw/im+ochSlr+Mo16B/ARMNqNw59dEjukANF7w=;
+ b=hKylKGdRMPby3b0NCP5GV329iwmrjk0GGj35tQjOj9+ONdcF8aKbvr1ayGVgxAUrohoiSS
+ SW3T3pbwXf2j1cvZs0AvD091uO2oHfZ/r/cFxxZih8Zbt+ekaV0VhDcoD8d9Drp75uVK9r
+ rdCm3uxBCYj/BSU6faRxvxHGF9HIvt4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-651-0sn_LjtRMfaEk4NP2RaAMQ-1; Wed, 15 Dec 2021 02:34:19 -0500
-X-MC-Unique: 0sn_LjtRMfaEk4NP2RaAMQ-1
+ us-mta-296--XnwA5wzNuuSJepgcZwnNg-1; Wed, 15 Dec 2021 02:34:20 -0500
+X-MC-Unique: -XnwA5wzNuuSJepgcZwnNg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07A7B2F43;
- Wed, 15 Dec 2021 07:34:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A3CA2F45;
+ Wed, 15 Dec 2021 07:34:19 +0000 (UTC)
 Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D00B1092797;
- Wed, 15 Dec 2021 07:34:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4EE721092790;
+ Wed, 15 Dec 2021 07:34:18 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/16] tests/qtest: Add a function to check whether a machine
- is available
-Date: Wed, 15 Dec 2021 08:33:54 +0100
-Message-Id: <20211215073402.144286-9-thuth@redhat.com>
+Subject: [PULL 09/16] Move the libssh setup from configure to meson.build
+Date: Wed, 15 Dec 2021 08:33:55 +0100
+Message-Id: <20211215073402.144286-10-thuth@redhat.com>
 In-Reply-To: <20211215073402.144286-1-thuth@redhat.com>
 References: <20211215073402.144286-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -57,15 +56,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,129 +77,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "Richard W . M . Jones" <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is nowadays possible to build QEMU with a reduced set of machines
-in each binary. However, the qtests still hard-code the expected
-machines and fail if the binary does not feature the required machine.
-Let's get a little bit more flexible here: Add a function that can be
-used to query whether a certain machine is available or not, and use
-it in some tests as an example (more work has to be done in other
-tests which will follow later).
+It's easier to do this in meson.build now.
 
-Message-Id: <20211201104347.51922-5-thuth@redhat.com>
-Acked-by: John Snow <jsnow@redhat.com>
+Message-Id: <20211209144801.148388-1-thuth@redhat.com>
+Acked-by: Richard W.M. Jones <rjones@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/boot-serial-test.c |  3 ++-
- tests/qtest/cdrom-test.c       |  8 +++++---
- tests/qtest/libqos/libqtest.h  |  8 ++++++++
- tests/qtest/libqtest.c         | 17 +++++++++++++++++
- tests/qtest/prom-env-test.c    |  8 +++++---
- 5 files changed, 37 insertions(+), 7 deletions(-)
+ configure                     | 27 ---------------------------
+ meson.build                   | 13 +++++++++----
+ meson_options.txt             |  2 ++
+ scripts/meson-buildoptions.sh |  3 +++
+ 4 files changed, 14 insertions(+), 31 deletions(-)
 
-diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
-index 83828ba270..4d8e1343bd 100644
---- a/tests/qtest/boot-serial-test.c
-+++ b/tests/qtest/boot-serial-test.c
-@@ -285,7 +285,8 @@ int main(int argc, char *argv[])
-     g_test_init(&argc, &argv, NULL);
+diff --git a/configure b/configure
+index 48c21775f3..bb99a40ed0 100755
+--- a/configure
++++ b/configure
+@@ -344,7 +344,6 @@ debug_stack_usage="no"
+ crypto_afalg="no"
+ tls_priority="NORMAL"
+ tpm="$default_feature"
+-libssh="$default_feature"
+ live_block_migration=${default_feature:-yes}
+ numa="$default_feature"
+ replication=${default_feature:-yes}
+@@ -1078,10 +1077,6 @@ for opt do
+   ;;
+   --enable-tpm) tpm="yes"
+   ;;
+-  --disable-libssh) libssh="no"
+-  ;;
+-  --enable-libssh) libssh="yes"
+-  ;;
+   --disable-live-block-migration) live_block_migration="no"
+   ;;
+   --enable-live-block-migration) live_block_migration="yes"
+@@ -1448,7 +1443,6 @@ cat << EOF
+   live-block-migration   Block migration in the main migration stream
+   coroutine-pool  coroutine freelist (better performance)
+   tpm             TPM support
+-  libssh          ssh block device support
+   numa            libnuma support
+   avx2            AVX2 optimization support
+   avx512f         AVX512F optimization support
+@@ -2561,21 +2555,6 @@ if test "$modules" = yes; then
+     fi
+ fi
  
-     for (i = 0; tests[i].arch != NULL; i++) {
--        if (strcmp(arch, tests[i].arch) == 0) {
-+        if (g_str_equal(arch, tests[i].arch) &&
-+            qtest_has_machine(tests[i].machine)) {
-             char *name = g_strdup_printf("boot-serial/%s", tests[i].machine);
-             qtest_add_data_func(name, &tests[i], test_machine);
-             g_free(name);
-diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
-index 5af944a5fb..c1fcac5c45 100644
---- a/tests/qtest/cdrom-test.c
-+++ b/tests/qtest/cdrom-test.c
-@@ -109,9 +109,11 @@ static void test_cdrom_param(gconstpointer data)
- static void add_cdrom_param_tests(const char **machines)
- {
-     while (*machines) {
--        char *testname = g_strdup_printf("cdrom/param/%s", *machines);
--        qtest_add_data_func(testname, *machines, test_cdrom_param);
--        g_free(testname);
-+        if (qtest_has_machine(*machines)) {
-+            char *testname = g_strdup_printf("cdrom/param/%s", *machines);
-+            qtest_add_data_func(testname, *machines, test_cdrom_param);
-+            g_free(testname);
-+        }
-         machines++;
-     }
- }
-diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
-index 59e9271195..dff6b31cf0 100644
---- a/tests/qtest/libqos/libqtest.h
-+++ b/tests/qtest/libqos/libqtest.h
-@@ -710,6 +710,14 @@ QDict *qmp_fd(int fd, const char *fmt, ...) GCC_FMT_ATTR(2, 3);
- void qtest_cb_for_every_machine(void (*cb)(const char *machine),
-                                 bool skip_old_versioned);
+-##########################################
+-# libssh probe
+-if test "$libssh" != "no" ; then
+-  if $pkg_config --exists "libssh >= 0.8.7"; then
+-    libssh_cflags=$($pkg_config libssh --cflags)
+-    libssh_libs=$($pkg_config libssh --libs)
+-    libssh=yes
+-  else
+-    if test "$libssh" = "yes" ; then
+-      error_exit "libssh required for --enable-libssh"
+-    fi
+-    libssh=no
+-  fi
+-fi
+-
+ ##########################################
+ # TPM emulation is only on POSIX
  
-+/**
-+ * qtest_has_machine:
-+ * @machine: The machine to look for
-+ *
-+ * Returns: true if the machine is available in the target binary.
-+ */
-+bool qtest_has_machine(const char *machine);
-+
- /**
-  * qtest_qmp_device_add_qdict:
-  * @qts: QTestState instance to operate on
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 7ae2dc4e1d..65ed949685 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -1401,6 +1401,23 @@ void qtest_cb_for_every_machine(void (*cb)(const char *machine),
-     }
- }
+@@ -3636,12 +3615,6 @@ if test "$cmpxchg128" = "yes" ; then
+   echo "CONFIG_CMPXCHG128=y" >> $config_host_mak
+ fi
  
-+bool qtest_has_machine(const char *machine)
-+{
-+    struct MachInfo *machines;
-+    int i;
+-if test "$libssh" = "yes" ; then
+-  echo "CONFIG_LIBSSH=y" >> $config_host_mak
+-  echo "LIBSSH_CFLAGS=$libssh_cflags" >> $config_host_mak
+-  echo "LIBSSH_LIBS=$libssh_libs" >> $config_host_mak
+-fi
+-
+ if test "$live_block_migration" = "yes" ; then
+   echo "CONFIG_LIVE_BLOCK_MIGRATION=y" >> $config_host_mak
+ fi
+diff --git a/meson.build b/meson.build
+index 96de1a6ef9..ae67ca28ab 100644
+--- a/meson.build
++++ b/meson.build
+@@ -874,11 +874,15 @@ if not get_option('glusterfs').auto() or have_block
+     ''', dependencies: glusterfs)
+   endif
+ endif
 +
-+    machines = qtest_get_machines();
+ libssh = not_found
+-if 'CONFIG_LIBSSH' in config_host
+-  libssh = declare_dependency(compile_args: config_host['LIBSSH_CFLAGS'].split(),
+-                              link_args: config_host['LIBSSH_LIBS'].split())
++if not get_option('libssh').auto() or have_block
++  libssh = dependency('libssh', version: '>=0.8.7',
++                    method: 'pkg-config',
++                    required: get_option('libssh'),
++                    kwargs: static_kwargs)
+ endif
 +
-+    for (i = 0; machines[i].name != NULL; i++) {
-+        if (g_str_equal(machine, machines[i].name) ||
-+            (machines[i].alias && g_str_equal(machine, machines[i].alias))) {
-+            return true;
-+        }
-+    }
-+
-+    return false;
-+}
-+
- /*
-  * Generic hot-plugging test via the device_add QMP commands.
-  */
-diff --git a/tests/qtest/prom-env-test.c b/tests/qtest/prom-env-test.c
-index f41d80154a..bdbb01d8e5 100644
---- a/tests/qtest/prom-env-test.c
-+++ b/tests/qtest/prom-env-test.c
-@@ -71,9 +71,11 @@ static void add_tests(const char *machines[])
-     char *name;
- 
-     for (i = 0; machines[i] != NULL; i++) {
--        name = g_strdup_printf("prom-env/%s", machines[i]);
--        qtest_add_data_func(name, machines[i], test_machine);
--        g_free(name);
-+        if (qtest_has_machine(machines[i])) {
-+            name = g_strdup_printf("prom-env/%s", machines[i]);
-+            qtest_add_data_func(name, machines[i], test_machine);
-+            g_free(name);
-+        }
-     }
- }
- 
+ libbzip2 = not_found
+ if not get_option('bzip2').auto() or have_block
+   libbzip2 = cc.find_library('bz2', has_headers: ['bzlib.h'],
+@@ -1451,6 +1455,7 @@ config_host_data.set('CONFIG_EBPF', libbpf.found())
+ config_host_data.set('CONFIG_LIBDAXCTL', libdaxctl.found())
+ config_host_data.set('CONFIG_LIBISCSI', libiscsi.found())
+ config_host_data.set('CONFIG_LIBNFS', libnfs.found())
++config_host_data.set('CONFIG_LIBSSH', libssh.found())
+ config_host_data.set('CONFIG_LINUX_AIO', libaio.found())
+ config_host_data.set('CONFIG_LINUX_IO_URING', linux_io_uring.found())
+ config_host_data.set('CONFIG_LIBPMEM', libpmem.found())
+@@ -3430,7 +3435,7 @@ endif
+ summary_info += {'seccomp support':   seccomp}
+ summary_info += {'GlusterFS support': glusterfs}
+ summary_info += {'TPM support':       config_host.has_key('CONFIG_TPM')}
+-summary_info += {'libssh support':    config_host.has_key('CONFIG_LIBSSH')}
++summary_info += {'libssh support':    libssh}
+ summary_info += {'lzo support':       lzo}
+ summary_info += {'snappy support':    snappy}
+ summary_info += {'bzip2 support':     libbzip2}
+diff --git a/meson_options.txt b/meson_options.txt
+index e392323732..4114bfcaa4 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -105,6 +105,8 @@ option('libdaxctl', type : 'feature', value : 'auto',
+        description: 'libdaxctl support')
+ option('libpmem', type : 'feature', value : 'auto',
+        description: 'libpmem support')
++option('libssh', type : 'feature', value : 'auto',
++       description: 'ssh block device support')
+ option('libudev', type : 'feature', value : 'auto',
+        description: 'Use libudev to enumerate host devices')
+ option('libusb', type : 'feature', value : 'auto',
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 7a17ff4218..ae8f18edc2 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -53,6 +53,7 @@ meson_options_help() {
+   printf "%s\n" '  libiscsi        libiscsi userspace initiator'
+   printf "%s\n" '  libnfs          libnfs block device driver'
+   printf "%s\n" '  libpmem         libpmem support'
++  printf "%s\n" '  libssh          ssh block device support'
+   printf "%s\n" '  libudev         Use libudev to enumerate host devices'
+   printf "%s\n" '  libusb          libusb support for USB passthrough'
+   printf "%s\n" '  libxml2         libxml2 support for Parallels image format'
+@@ -177,6 +178,8 @@ _meson_option_parse() {
+     --disable-libnfs) printf "%s" -Dlibnfs=disabled ;;
+     --enable-libpmem) printf "%s" -Dlibpmem=enabled ;;
+     --disable-libpmem) printf "%s" -Dlibpmem=disabled ;;
++    --enable-libssh) printf "%s" -Dlibssh=enabled ;;
++    --disable-libssh) printf "%s" -Dlibssh=disabled ;;
+     --enable-libudev) printf "%s" -Dlibudev=enabled ;;
+     --disable-libudev) printf "%s" -Dlibudev=disabled ;;
+     --enable-libusb) printf "%s" -Dlibusb=enabled ;;
 -- 
 2.27.0
 
