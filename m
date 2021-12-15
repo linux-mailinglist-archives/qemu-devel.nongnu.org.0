@@ -2,92 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2397475D47
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 17:23:11 +0100 (CET)
-Received: from localhost ([::1]:54450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD302475CC0
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 17:08:57 +0100 (CET)
+Received: from localhost ([::1]:57556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxX3e-0007tC-UN
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 11:23:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48350)
+	id 1mxWps-0005kq-Ow
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 11:08:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxWcm-00039V-1j
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:55:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31811)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxWcj-0008L9-Hl
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:55:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639583719;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0Cn5bUCdbOyPN9Ffj5xXynBA2m5BnjJKBALLM/WFL0M=;
- b=LygNetg4L8A/rJBxH17e2OZgDOcjJ74ba372NED78YE+yH1yExDzHIjJBZev8xsqLyaIfD
- c/KtITEAzY8susQSxtKZ3PvUv5Kd5zWhbP40yYtBcChCkOu+z173/b9+Wzdmlt491MfW1R
- AlnD1reI6btZ3jMc9WxM1nDbCCh/V9Q=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-13-28k0PCDIPJOU5Nht_ve0Ow-1; Wed, 15 Dec 2021 10:54:29 -0500
-X-MC-Unique: 28k0PCDIPJOU5Nht_ve0Ow-1
-Received: by mail-wm1-f69.google.com with SMTP id
- b83-20020a1c1b56000000b0033283ea5facso13825wmb.1
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 07:54:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mxWkx-00027m-R8
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 11:03:51 -0500
+Received: from [2a00:1450:4864:20::42c] (port=37843
+ helo=mail-wr1-x42c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mxWku-0001Hw-Ol
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 11:03:50 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id t26so2719437wrb.4
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 08:03:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=0e5HBNbHyEqvOL12iqzoCrjH59Hx+1Hy5p/tNz+Wepg=;
+ b=qryD3tJHy7w52WKKyAgHuxNEFZ+3ogxZKE4Jba6dDZDdKAHLdy30Ewg8EMvHPLFlBV
+ 5Bxhl7g9eM1YcyfOMAdIdXuJ1oohT2j9iD4bvviJK9RtKwtWTsHXf6IZn6EasEgLqlTt
+ 5+Sq/4MjjHKUeVA34sImj52+S3T8IPoaDqUcAD2Uffq/3zZh8QZOA9x+NWKzAG8qNi/N
+ pD2D1zZ++5haZRT72YgCfEXqj3W9xDQxctOg2pTE6nRQWeDJV3bs3NXECLw2E7FQF+cb
+ CxJ8PH84Z+aseGOX0586W4P4+ldFSRKp88uaAshY1GvD7oz+Ceak5SB8PSokhwjkk9Dr
+ VqrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0Cn5bUCdbOyPN9Ffj5xXynBA2m5BnjJKBALLM/WFL0M=;
- b=ixLoIBeOS8mannTU4O2cYohus6JMun5JxJ9reTdun7O1Ra2raw/zw+FJORFtkm84sZ
- GEmO1GpXzczFomatAw5Lmq7snsacdz/ZKHgsCGhUqd6d3AgqOimIQBNzjUgkMlRsW682
- xZfaJKDlZPmJD09WIy5d2bIt8e1FZEaMdhXUVXyQ6txKPP4W3TfTxs8UflkEyPkPU1ym
- hZF8Svw13R0GwuWs655LprbyWYDgEbYEXbTEIBLY5J9+PvaXLywv/0TRf9l2T3Nb9c0X
- vIaqQgSbjo2Gv1iSo2smSuEB1WrgBxSEJpITR3GLsv91wROnmuDJ2f5Xd1+nwjvJa3Pw
- 9eVg==
-X-Gm-Message-State: AOAM533QhGm9DaYBj849uYiYTOY3xXW7ZegUtBsJgVmlMx35+VpNJ8zg
- C3PpIWz+jAbKENj97509sVCp893skRCmM3tYYTEVLhz4qevxe9TXS5SCKPLmwbCF9PtaxbR5hKy
- wGKDp61Tc6FshZ/w=
-X-Received: by 2002:adf:e54a:: with SMTP id z10mr5029509wrm.328.1639583668658; 
- Wed, 15 Dec 2021 07:54:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyg63fQgSxKLUB4mRRYAKvdF6hwUy4nL7hywjU/rARkLGZkf9d3zl+Er1q9wuYQSk4oMFkrVA==
-X-Received: by 2002:adf:e54a:: with SMTP id z10mr5029475wrm.328.1639583668465; 
- Wed, 15 Dec 2021 07:54:28 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id 10sm1566066wmp.3.2021.12.15.07.54.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Dec 2021 07:54:28 -0800 (PST)
-Message-ID: <99801855-fcd1-db07-c598-34532b1e48bc@redhat.com>
-Date: Wed, 15 Dec 2021 16:54:25 +0100
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=0e5HBNbHyEqvOL12iqzoCrjH59Hx+1Hy5p/tNz+Wepg=;
+ b=K6Hb4ItppbZzCBG1p5lbNWqYajbBM5i8gDKJKV4GtpKDWRKNFLamRJTeiNBm7be3Yl
+ 23QXes0HzaK+qFqfBKNOlqTAPS3rx0OtuNGa6Rm/dlamicNCarJqwqYad0LI/y2yv948
+ 4R7oU1D/u2bR+xaJoyW3b6x2EBNQSXPFyRkHLa0qKiksCJgGCz+8SMW5W277wo1VqkXJ
+ lRXPmKP7mEqg9ojUSiAHcHMimGpZuGgPHqwCoSKTy5e0wdGDE0JSi8aEdlMnc4Z6/LRI
+ rD7xVSrwkTWejZovoscAU+6pG8bFY7WhwjMIAnNJvLWVsFa+tyuhKC21TufgJQwfyHwc
+ 44Tg==
+X-Gm-Message-State: AOAM531jF+7Stxl/Jr0GwCYzSH/dgmQAIx1VA+PAkMW5kfftfwu9nTi1
+ Jl6/HLXIsIBeF1VUcJlgE4PFNQ==
+X-Google-Smtp-Source: ABdhPJyE2EdLAbyB3zialxWU/e2A3RBX8T7/DfwYXRvgTyTHG3eEXH77OOlseZo8vP1v1W8CVQjkTw==
+X-Received: by 2002:a5d:598a:: with SMTP id n10mr4944702wri.406.1639584226757; 
+ Wed, 15 Dec 2021 08:03:46 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h16sm2783763wrm.27.2021.12.15.08.03.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Dec 2021 08:03:45 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CADDD1FF96;
+ Wed, 15 Dec 2021 16:03:44 +0000 (GMT)
+References: <20211213121320.947362-1-matheus.ferst@eldorado.org.br>
+ <e5c3273a-8438-e7cc-6856-796fa1639786@amsat.org>
+ <32d0bb0d-3ad0-6f9e-eec5-97fce795ee24@eldorado.org.br>
+ <02d2318e-f857-60d2-27f8-da7992193008@amsat.org>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH] target/ppc: do not silence snan in xscvspdpn
+Date: Wed, 15 Dec 2021 15:55:08 +0000
+In-reply-to: <02d2318e-f857-60d2-27f8-da7992193008@amsat.org>
+Message-ID: <87ee6dg8in.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v4 02/14] tests/avocado: Specify target VM argument to
- helper routines
-To: Jagannathan Raman <jag.raman@oracle.com>, qemu-devel@nongnu.org
-References: <cover.1639549843.git.jag.raman@oracle.com>
- <31a4b3bb6a48f291890641ab348e7749c70a2d06.1639549843.git.jag.raman@oracle.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <31a4b3bb6a48f291890641ab348e7749c70a2d06.1639549843.git.jag.raman@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.64, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,25 +92,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
- bleal@redhat.com, swapnil.ingle@nutanix.com, john.levon@nutanix.com,
- wainersm@redhat.com, alex.williamson@redhat.com, thanos.makatos@nutanix.com,
- marcandre.lureau@gmail.com, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: peter.maydell@linaro.org, danielhb413@gmail.com, groug@kaod.org,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>, aurelien@aurel32.net,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/15/21 16:35, Jagannathan Raman wrote:
-> Specify target VM for exec_command and
-> exec_command_and_wait_for_pattern routines
-> 
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->  tests/avocado/avocado_qemu/__init__.py | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
+> On 12/13/21 21:15, Matheus K. Ferst wrote:
+>> On 13/12/2021 09:36, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> On 12/13/21 13:13, matheus.ferst@eldorado.org.br wrote:
+>>>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>>>
+>>>> The non-signalling versions of VSX scalar convert to shorter/longer
+>>>> precision insns doesn't silence SNaNs in the hardware. We are currently
+>>>> honoring this behavior in xscvdpspn, since helper_xscvdpspn handles the
+>>>> conversion with extracts/deposits/etc. OTOH, xscvspdpn uses
+>>>> float32_to_float64 that calls parts_float_to_float, which uses
+>>>> parts_return_nan that finally calls parts_silence_nan if the input is =
+an
+>>>> SNaN.
+>>>>
+>>>> To address this problem, this patch adds a new float_status flag
+>>>> (return_snan) to avoid the call to parts_silence_nan in the
+>>>> float_class_snan case of parts_return_nan.
+>>>>
+>>>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>>> ---
+>>>> This behavior was observed in a Power9 and can be reproduced with the
+>>>> following code:
+>>>>
+>>>> int main(void)
+>>>> {
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 __uint128_t t, b =3D 0x7f80000200000000;
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 asm("xscvspdpn %x0, %x1\n\t"
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : "=3Dwa" (t)
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : "wa" (b << 64));
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 printf("0x%016" PRIx64 "%016" PRIx64 "\n",
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (ui=
+nt64_t)(t >> 64), (uint64_t)t);
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 b =3D 0x7ff0000000000002;
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 asm("xscvdpspn %x0, %x1\n\t"
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : "=3Dwa" (t)
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : "wa" (b << 64));
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 printf("0x%016" PRIx64 "%016" PRIx64 "\n",
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (ui=
+nt64_t)(t >> 64), (uint64_t)t);
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>>> }
+>>>
+>>> Why not add this test in tests/tcg/ppc64le/ ?
+>>=20
+>> I'll add it in v2. Is it ok to use __uint128_t in tests?
+>
+> What about:
+>
+>   int main(void)
+>   {
+>   #ifndef __SIZEOF_INT128__
+>       printf("uint128_t not available, skipping...\n");
+>   #else
+>       ...
+>   #endif
+>       return 0;
+>   }
+
+We have a tests/tcg/configure.sh which does feature tests although it is
+mainly testing for the presence of compiler target flags.  We do this
+because while the docker compilers are all pretty modern the user might
+be using their own cross compiler.
+
+I'm generally not keen on the tests silently skipping because it gives a
+false impression things have been tested. If it is possible to avoid
+INT128 shenanigans to load the values into the inline assembler lets do
+that, otherwise lets feature test and ifdef a skip-test in the makefile.
+
+--=20
+Alex Benn=C3=A9e
 
