@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D412347569E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 11:43:14 +0100 (CET)
-Received: from localhost ([::1]:34972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0844D4756D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 11:47:57 +0100 (CET)
+Received: from localhost ([::1]:43544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxRkf-00088J-US
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 05:43:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38672)
+	id 1mxRpE-0005bS-4u
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 05:47:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mxRaV-0002yb-1q
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:32:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47860)
+ id 1mxRaY-000300-RB
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:32:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mxRaS-0007Hk-Et
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:32:42 -0500
+ id 1mxRaU-0007I6-Ou
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:32:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639564358;
+ s=mimecast20190719; t=1639564360;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ueqG1EF3qxBlRxx0QWcB94/JCSj03U7TM7FSAKTreEA=;
- b=Vz7o2Vctxyfr19pWRqnWg5/ybE5CQIlxgPPysqvcbyPWx3ANjfJ/BlCpCnouPZiuqkDLY/
- f3wYJWkcJI2SMNfohC/qxBWmH4wfX7xHaua0oQyM4OfWgoNih/i0tyO8EZ2/AF51wKoTBM
- EWX6sgyM8ktDlmudh4DzNAsupdBaiU0=
+ bh=IbVOmwHr7tIyfVfQFBVLUvLhoZTHq87yY1Kqzu6JrQM=;
+ b=cbBoMFNTp2jWAof5sXEFpkDpUH2J2JTiuH5z2bKnVCrcXRbu84vEBLMECahxnS1cSgHhee
+ o4gRKPDiBprRrs8M/PdnI1f9ES3YwFefim/DlkggtdSefeMponh0lvggbI4Qzhr+ZzY2p7
+ DZYxnSfu0nTbva241OOLxHsdTMtyGiI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-495-2nRsaIw4OPuWqEwR-42bvA-1; Wed, 15 Dec 2021 05:32:35 -0500
-X-MC-Unique: 2nRsaIw4OPuWqEwR-42bvA-1
+ us-mta-113-Ci_qlZg8PYadheY0hl6WBg-1; Wed, 15 Dec 2021 05:32:37 -0500
+X-MC-Unique: Ci_qlZg8PYadheY0hl6WBg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C75E10144E0;
- Wed, 15 Dec 2021 10:32:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 446C210B7440;
+ Wed, 15 Dec 2021 10:32:36 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9986275C43;
- Wed, 15 Dec 2021 10:32:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A7C1C6E978;
+ Wed, 15 Dec 2021 10:32:34 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/18] dump: Remove is_zero_page()
-Date: Wed, 15 Dec 2021 11:32:06 +0100
-Message-Id: <20211215103218.17527-7-quintela@redhat.com>
+Subject: [PULL 07/18] multifd: Delete useless operation
+Date: Wed, 15 Dec 2021 11:32:07 +0100
+Message-Id: <20211215103218.17527-8-quintela@redhat.com>
 In-Reply-To: <20211215103218.17527-1-quintela@redhat.com>
 References: <20211215103218.17527-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -56,8 +56,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -81,49 +81,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It just calls buffer_is_zero().  Just change the callers.
+We are dividing by page_size to multiply again in the only use.
+Once there, improve the comments.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- dump/dump.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ migration/multifd-zlib.c | 13 ++++---------
+ migration/multifd-zstd.c | 13 ++++---------
+ 2 files changed, 8 insertions(+), 18 deletions(-)
 
-diff --git a/dump/dump.c b/dump/dump.c
-index 662d0a62cd..a84d8b1598 100644
---- a/dump/dump.c
-+++ b/dump/dump.c
-@@ -1293,14 +1293,6 @@ static size_t get_len_buf_out(size_t page_size, uint32_t flag_compress)
-     return 0;
- }
- 
--/*
-- * check if the page is all 0
-- */
--static inline bool is_zero_page(const uint8_t *buf, size_t page_size)
--{
--    return buffer_is_zero(buf, page_size);
--}
--
- static void write_dump_pages(DumpState *s, Error **errp)
+diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
+index ab4ba75d75..3fc7813b44 100644
+--- a/migration/multifd-zlib.c
++++ b/migration/multifd-zlib.c
+@@ -42,7 +42,6 @@ struct zlib_data {
+  */
+ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
  {
-     int ret = 0;
-@@ -1357,7 +1349,7 @@ static void write_dump_pages(DumpState *s, Error **errp)
-      */
-     while (get_next_page(&block_iter, &pfn_iter, &buf, s)) {
-         /* check zero page */
--        if (is_zero_page(buf, s->dump_info.page_size)) {
-+        if (buffer_is_zero(buf, s->dump_info.page_size)) {
-             ret = write_cache(&page_desc, &pd_zero, sizeof(PageDescriptor),
-                               false);
-             if (ret < 0) {
+-    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
+     struct zlib_data *z = g_malloc0(sizeof(struct zlib_data));
+     z_stream *zs = &z->zs;
+ 
+@@ -54,9 +53,8 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
+         error_setg(errp, "multifd %d: deflate init failed", p->id);
+         return -1;
+     }
+-    /* We will never have more than page_count pages */
+-    z->zbuff_len = page_count * qemu_target_page_size();
+-    z->zbuff_len *= 2;
++    /* To be safe, we reserve twice the size of the packet */
++    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
+     z->zbuff = g_try_malloc(z->zbuff_len);
+     if (!z->zbuff) {
+         deflateEnd(&z->zs);
+@@ -180,7 +178,6 @@ static int zlib_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
+  */
+ static int zlib_recv_setup(MultiFDRecvParams *p, Error **errp)
+ {
+-    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
+     struct zlib_data *z = g_malloc0(sizeof(struct zlib_data));
+     z_stream *zs = &z->zs;
+ 
+@@ -194,10 +191,8 @@ static int zlib_recv_setup(MultiFDRecvParams *p, Error **errp)
+         error_setg(errp, "multifd %d: inflate init failed", p->id);
+         return -1;
+     }
+-    /* We will never have more than page_count pages */
+-    z->zbuff_len = page_count * qemu_target_page_size();
+-    /* We know compression "could" use more space */
+-    z->zbuff_len *= 2;
++    /* To be safe, we reserve twice the size of the packet */
++    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
+     z->zbuff = g_try_malloc(z->zbuff_len);
+     if (!z->zbuff) {
+         inflateEnd(zs);
+diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
+index 693bddf8c9..cc3b8869c0 100644
+--- a/migration/multifd-zstd.c
++++ b/migration/multifd-zstd.c
+@@ -47,7 +47,6 @@ struct zstd_data {
+  */
+ static int zstd_send_setup(MultiFDSendParams *p, Error **errp)
+ {
+-    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
+     struct zstd_data *z = g_new0(struct zstd_data, 1);
+     int res;
+ 
+@@ -67,9 +66,8 @@ static int zstd_send_setup(MultiFDSendParams *p, Error **errp)
+                    p->id, ZSTD_getErrorName(res));
+         return -1;
+     }
+-    /* We will never have more than page_count pages */
+-    z->zbuff_len = page_count * qemu_target_page_size();
+-    z->zbuff_len *= 2;
++    /* To be safe, we reserve twice the size of the packet */
++    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
+     z->zbuff = g_try_malloc(z->zbuff_len);
+     if (!z->zbuff) {
+         ZSTD_freeCStream(z->zcs);
+@@ -191,7 +189,6 @@ static int zstd_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
+  */
+ static int zstd_recv_setup(MultiFDRecvParams *p, Error **errp)
+ {
+-    uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
+     struct zstd_data *z = g_new0(struct zstd_data, 1);
+     int ret;
+ 
+@@ -212,10 +209,8 @@ static int zstd_recv_setup(MultiFDRecvParams *p, Error **errp)
+         return -1;
+     }
+ 
+-    /* We will never have more than page_count pages */
+-    z->zbuff_len = page_count * qemu_target_page_size();
+-    /* We know compression "could" use more space */
+-    z->zbuff_len *= 2;
++    /* To be safe, we reserve twice the size of the packet */
++    z->zbuff_len = MULTIFD_PACKET_SIZE * 2;
+     z->zbuff = g_try_malloc(z->zbuff_len);
+     if (!z->zbuff) {
+         ZSTD_freeDStream(z->zds);
 -- 
 2.33.1
 
