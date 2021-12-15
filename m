@@ -2,154 +2,147 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9C3475BF5
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 16:39:28 +0100 (CET)
-Received: from localhost ([::1]:43852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB0D475C04
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 16:43:28 +0100 (CET)
+Received: from localhost ([::1]:52914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxWNL-00088h-0s
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 10:39:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42834)
+	id 1mxWRD-0005tv-Ad
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 10:43:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1mxWK1-0005EQ-Nz
+ id 1mxWK1-0005EO-60
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:36:03 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:21998)
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:24020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1mxWJx-0008RP-3a
+ id 1mxWJx-0008RT-1y
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 10:36:00 -0500
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFENbrB009133; 
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFEYwBW008125; 
  Wed, 15 Dec 2021 15:35:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=corp-2021-07-09;
- bh=f9qzjElp8E40gKe93mvPnbQUckfCAa8H3XJjTgX3gMY=;
- b=rTMIEOs+tZuBnpqxA4bfrGk0FU/mwvWeUVpdDX5EjxUdXPTAKKKH/FLbY/MQBCsBqeQ0
- YHAQHl61Im7fDAhMYg/cZfg9YT1XjXTNClikJOz4HHwVbs3S8VK/i8qSQIOCRzV22Le3
- ZJwvDDh+4r7l+coiIZhzp3AMIZftX8/VKQqGWQFqV3ZH/v2hZwPLiKRDiBLtCUi9VUZv
- SqjPAHP7vKhx0/qOSXH4GJmeAz8jHHegZ6H0YnBjWUw4SAhh3by5KTGB09DienZymp5N
- 1rpjd1N0MzB7CUZxOPkBfA2zOprA2766lHUdhNrO4YjAPloA26p8fFuQP74eGoez7/qt /A== 
+ subject : date : message-id : in-reply-to : references :
+ content-transfer-encoding : content-type : mime-version;
+ s=corp-2021-07-09; bh=kR7vPzM1V8PihMFmjBOTnuFSROPHpR+JbmdbUlqkwEQ=;
+ b=soTNCbAP1LmFBz5Kv2pTmhDH/QehGOS0EsJfE+So7yTJsa0n2wMcL7xRdQmtcJTXLyb/
+ qpivWwgGYwwMq9W74hzqWhi0C3QnRbVjZ+9INX5FMPrw24KttlGZo8IGiVp1PoKPDE4m
+ uSLBo+fmxIMb1/RBznVdTBK/J21DXiH6eIc2OjB9yDqfbyzwabf/lma/Fl07RW8Y+qSN
+ R85LpIDQ4fBJugWVVYqRvmZzxEQtT1n1QJpBcZdgWH8nBihnk5iZSTPdOkJxtJDmmHsq
+ V3bIOVvYbgXUQzLsGiXLlLpxUcTCCP8rHNMCIJxrngBP7c8lHtT/9d+n8/1WGmpVR+pL 7g== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cx5akexwq-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3cx2nff720-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 15:35:52 +0000
+ Wed, 15 Dec 2021 15:35:53 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BFFVi0F127819;
- Wed, 15 Dec 2021 15:35:51 GMT
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BFFVi0G127819;
+ Wed, 15 Dec 2021 15:35:52 GMT
 Received: from nam12-mw2-obe.outbound.protection.outlook.com
  (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
- by userp3020.oracle.com with ESMTP id 3cvnes2c6r-1
+ by userp3020.oracle.com with ESMTP id 3cvnes2c6r-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 15:35:51 +0000
+ Wed, 15 Dec 2021 15:35:52 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kWMcLKTI0Lugm1h+KXiTxmXZhDVkh61N4pPx5Q6vY44Ru3930xQPkyox9t3aZ9Gykw+FieIf2cGqsmgAlis7dP+OBsA5s8RqoFYeHYEFIhmUTGOKCR/7EWjuU24YKH/u1xfnaDIdeLKN7W0hVUwJkfMqdB0cEK/IqGBjc7J/A1OzKD+8smOPjcxOvLIRfhdirkSif+dyp3JeEZikn5spGI8obqux191dH8IbESWbYTcsKEXjvid7qm2PEnCcP9j1lrYVtjOA7Fof586Yst8u6PsyhlC1P0YWIgebk51PIxFtMJlKZeNCqFb2coBRPC0NBVJUQqb5vZfyV29wXAUsog==
+ b=CERaBYGuU1dhALy07pjcS32rzUOB44E0QNmkCElKJyCN/3OBPNl5u8kbLpycK93indlmWQ+tc8hvknoR/fHofycU/IckRHqtc0HwkEdRA6HxYi4kHV5tBLtgnUeVMx7bzrgTwRbbssdNx71PM0BQ+2oV2K4GDyl949Q9UetdpF7dOCk8RqBTxeKxuKXGBoCN3Qh6hfmSfjWzGHbSAY/YpBbyEomPixL7INsnOf/Y1C/lUPbyc4rhHbQiE3AiLhMQ4ts++fmp913C/5CKPIIX0uthq+K8/vrf17iHUEmNw+lMaOIb6C0tLw061sdj40wt0MnfIUftuEWfXY19p4gwjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f9qzjElp8E40gKe93mvPnbQUckfCAa8H3XJjTgX3gMY=;
- b=Rw5b118mT5KjD64xROEvp2YSAkcoWlfchK8+zvUNvGzE9jTeHG8+K5xy/Gs4PfuGZAfKHOZu4jo+tfkiRwv7NLQ/yGMO+uIOFggEMjuZqUYsX1wKwOKi0rBB2iHY8IIt5tvaKZcNYU42zoKDFc0l3YAfWI6qfNr3r5SZBrmsiSVIE5DYFJTShC7Pz2ec6Bsb31h6DCwX+Ka6JQBoypq/A+/vgB5fPioAzFCqyQp9x4ZP7mK++9rKE+bl69CGp5fgnkpzp//NgAahidr/gHS3U/JxpNsRUM3/mFcbnbMc4uTLGSp/xz4GGRwcCaPvxzQHe1/ndt2thVEslPIrgoFr3A==
+ bh=kR7vPzM1V8PihMFmjBOTnuFSROPHpR+JbmdbUlqkwEQ=;
+ b=Jl+j24dF+dQV/vMgBCYKXq1coSpEHizvaefis9DQSmJRvdEZyU+Q7Tqf/tIPQLUDwtrJRGevSIuyzN5XAjD39VAA9onbH7CuknOv29joz/yUKOn39mPqBL6D1DVw2B3ncf7puDO/rV1dzGt/3GjUWRY+eapohtZ13fhKbMOKQnsqn2K8fiIQ1NCc1VOWlK5y6ysCPsRxgSaWme+ju8/QkkBSn6Rr6Sne3ftuRoe48VJIuqMlgdiVduQyEZSyfNXhQEhkG3ddOK7F+dtHZdKnP4I5VQuTrMwQBUME8uVrYlxyggg3MV1L8rhNPvvRaqpgPfB7dCDCMHEfVUuQ0EtuZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f9qzjElp8E40gKe93mvPnbQUckfCAa8H3XJjTgX3gMY=;
- b=kyloR5jTTyL/eOaCzwHnYIoqpvtIxOwDEQptjdgLsSL1aBHbz9MIozai7x785+sWpCF+aSa9bpmEZXeSw3DcS3mlX5htIjPBlvG1wexCQnt/MvQfmRS4ZrWCHYFxIGNSw7bPk+I2wUvZntb9qTKkYbtCsiv+bMcftJWd9LXTrgc=
+ bh=kR7vPzM1V8PihMFmjBOTnuFSROPHpR+JbmdbUlqkwEQ=;
+ b=Lw6Pftes7MdvwuWWrWlL5Wm/1NOJKyG9vkF42CslYPgVyzTfyH21ZrsbvPIpFPpF/7oipu3foJXd1hkEC4n3lE9zwkFKRMb+mpFJFSow5WRNEP0Zk1zwq153adX3orX8Om3sTwLLKOSKVFZRw3CQfE7Q1yCGmbpyWYJT0HADs5Q=
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
  by MN2PR10MB4094.namprd10.prod.outlook.com (2603:10b6:208:11e::29)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Wed, 15 Dec
- 2021 15:35:46 +0000
+ 2021 15:35:49 +0000
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::b911:b919:6383:970d]) by MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::b911:b919:6383:970d%5]) with mapi id 15.20.4778.018; Wed, 15 Dec 2021
- 15:35:46 +0000
+ 15:35:49 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 00/14] vfio-user server in QEMU
-Date: Wed, 15 Dec 2021 10:35:24 -0500
-Message-Id: <cover.1639549843.git.jag.raman@oracle.com>
+Subject: [PATCH v4 01/14] configure, meson: override C compiler for cmake
+Date: Wed, 15 Dec 2021 10:35:25 -0500
+Message-Id: <e47416efc496ca0447ce26e477c886acabd7e3de.1639549843.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 2.20.1
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <cover.1639549843.git.jag.raman@oracle.com>
+References: <cover.1639549843.git.jag.raman@oracle.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: BYAPR11CA0105.namprd11.prod.outlook.com
  (2603:10b6:a03:f4::46) To MN2PR10MB4013.namprd10.prod.outlook.com
  (2603:10b6:208:185::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9e8a5103-d467-4fa2-350f-08d9bfe08fe9
+X-MS-Office365-Filtering-Correlation-Id: d807fb28-db52-48ed-502d-08d9bfe091d4
 X-MS-TrafficTypeDiagnostic: MN2PR10MB4094:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR10MB4094A0EB3995A687782A02FF90769@MN2PR10MB4094.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <MN2PR10MB4094B16B6EDFF5249BFF519F90769@MN2PR10MB4094.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: h3bIn5KKhQ9YCIjIVw5nm3mthhfBBc6QD+ikvcvVCVPMgIU1HJZMv8zNyD3mgdL8tg4sOIxUxuQsJSvk9KLrLc0nsFuhq/JIdwTFM6mFUXx4Mk3GMVazx40Drj+lbE6wQwzI2mMxZsLk+pbI4eho0TWhWEiZ9K6ZE+J/wyvLNQ1v1e+OIYYxGf/Nmc6elAyjNNUxQlMfo95jy0jc+h+bl92AsKJvODpxcpXyZDBCusZj7Xppu4d66dnAttxZE87SOdYE4vc2ib8dnnd9YmmvXI+5hvMV6Aw2SPimmM0soDsDPo5QaqxJH3L7jDJD/soCp+I7zV0M95jk9O6yOSKUMUEPEFexF2SapNezQN7yXH7GRgU80et0SaM3bgOlm+UpbM9UXU420WvRaNuz1qW5THcfCyrZhXtFEybH0LxuZRlIwyclcMQxws4Da3O9Wyg/cC0RPTjUrt8+3P0CAZfhoduMJ04WM5YHwO+DyCMAwLnGaRrRPCcJttIvjsnt8SeqQRGSgeUBj5kmpJAFu0lfQMxxCYsnjiU2++YguHlLvkJhO2V78a45kKG/Fra5aF86xQgwW+yOTxvHORXI5sJkOevgBTprmaZy3wST8EWt90NB0DpvMYfxADx2NT/dZwuLyDS8oFhFl/Rw3jX8Ncgy2Ggqm+ByaymL0/zY8Hn4Wod9T/lb40LqPoPB7bkXApxbasB2ALedZA3pn2z0JawDqg==
+X-Microsoft-Antispam-Message-Info: Wu9MtQ+iunguZXDExnhPd3wgCElV+/JlVXEF8rBZL3Qj9vxq9BlJYjE6aYcle4cSqosK8gROIWAV00mj37g7wGYIAV0Is4U02DPPJdyO1KGq3s/hprFtW+j/WVCeXb9QO2zKy37m+eR91NX7QMos9vQ0y1FlbZQR5Ma4LPXxk8//+oTYZ8FFcRC567q72mLStpP7fQw8oa+jmf8roEvNAmCGKcLmgi7C+KtVLOd/fYk8fwuPNM2GHF7U6l5mja2boi1JEx4BBgSRdaoiNGQozkXrF/eZfpRWYKvh2AsgdzmAPcot4Q/hGqkA8PxumZCZxe8ZlVP39NieAhhRifYgbQoJeXhjqGRmmgWS45scj35ECj3KIrdzOYRACbSo5kG0EScAsGKQ+r4pEuTpsrVjMQ1h5EeKv0gmZ3tQk24w3wxsSgGLgo4CZSwWjfaPedCxtsRFLMShoCBOanHCw4ZuYm/Rbqr42zMVPQTXV7G58FUgVTNcevEAMrY2NrE18bLtvCAo4wxXRR59PPWDyDzFDL03mhf6GJR1Wq5mDxUMI0AFzDzMFJ9O1aETvVz4B/s0bk9PAejZmqXssRO0VooxjmKzQzOSSzkHzvjKw5BbcJP6psR945np3+Q08qu4oXHsjVbFdHVYLY4c9w1un8/LIg43TqwzSiYYSUmJSaMxUERYx7IEd9hDI6YXeDz7PfHaV5kCRd0HlgftF6Vk6Vn3Zg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(66556008)(6666004)(52116002)(4326008)(2616005)(6506007)(86362001)(8936002)(6512007)(5660300002)(6486002)(26005)(2906002)(38350700002)(6916009)(38100700002)(316002)(186003)(107886003)(66946007)(83380400001)(8676002)(66476007)(508600001)(36756003)(7416002);
+ SFS:(366004)(66556008)(6666004)(52116002)(4326008)(2616005)(6506007)(86362001)(8936002)(6512007)(5660300002)(6486002)(26005)(2906002)(38350700002)(6916009)(38100700002)(316002)(186003)(107886003)(66946007)(8676002)(66476007)(508600001)(36756003)(7416002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dG01RDdHR29EY21lOVo4Q2JJbE51UHBZWlAzZ29STEIvaUJNR1J5S2ZRcXJ4?=
- =?utf-8?B?RFFxeGwzVnlYRFB0OWRUZmZ2bFlLRU50V2JwaTVvUnpQREZBZUNWZkZHelkw?=
- =?utf-8?B?QXN5WDlGWHhaZUtsQ3pxZHh2QjRPU0NmTTVydDVVR0JUak5qaDVVaUlJYjFs?=
- =?utf-8?B?bjByQ0Faa01lWWtWNi9OUXNWSlNYOEhlYWpCZFlTQzd3WThJZ3lTL1NwUzV2?=
- =?utf-8?B?NXZ4aTViZ3lGWEJhWnpqc3FKS2Jnc1N5QjI3c3ZjQXR0b0hEbllCUFZUeVNJ?=
- =?utf-8?B?V1prOHJWVHE4SFlTMm1qRXFRN2wrQnBzMmhWbFlNM0Y0QVFHMUtrcjlZc1du?=
- =?utf-8?B?dzZIYlRJUWhLaFpqbm1XMVVoQUNubGlUNWpEdHhuWG5OTlJGenYvem9SR0F5?=
- =?utf-8?B?ak50SThqcGVmTGJhM293aTh0RGpLZys1UWhBZEsrZXJ1c2s4bHJsU1RiYlV3?=
- =?utf-8?B?cStwTTgzcldKSVdmZVBIL3lVQTRMQklqM0JaVEkxSVFqS1MrbEczcVIvQlh4?=
- =?utf-8?B?eUNmdUdETi9DMytzSk9XRmU2QWt5RVNaQjJubmdxVGVmTWRHNmFqcnpNZmV2?=
- =?utf-8?B?S1hXSEFMUDdmZ0RiWDBydmp5ZXJZVWJRMnBjbkFtRE1Fd3VIbXFiVnp5RTQ1?=
- =?utf-8?B?VTROdFlvOW1UcFZnTnJnNjFkZXluNHhkN1RjYnZOenBnQWdWOU5VaTF0YlQ5?=
- =?utf-8?B?UUZtRXlDbzY3VDdVU090MVcvalJiRE5aMmxzTHVyWDJlalBQendjN0kwdmR1?=
- =?utf-8?B?YzZFRjlyWmk2cXNtMk5Qd0NNVnN4anE0aFB5TU1LVXpNMzhKN1VoYi9xWnYz?=
- =?utf-8?B?MTltaHltYU1oNTRyWjM0SzNheGVkYllJUkU4U1NmcUVWcjFNOGI0TFpYNCt1?=
- =?utf-8?B?ODBLUWFTYWlBSzk2bThmcFRNdmdtL2RWUllLRXpSOVoxWTZQeVQydjNDMXV4?=
- =?utf-8?B?dVBRbTA1RzBhUGhqZEIzVnYyTVdlVlBJOFJGY3JvZ1A1K0hyVnBoYWtFODBP?=
- =?utf-8?B?b04vaWJhYmJEUTh2SU16S2tZdnprUmdCeTQvR0N0cmVVbjh5dEQyYXhEYTFk?=
- =?utf-8?B?d1ptNllOY2QyYjVLVkpsQk1MTjVKL3N3LzZGQ1BvU3hZK1h0RVYxVkNGSU4x?=
- =?utf-8?B?VGpYeE9EMDlVVnhhOE5KQWQzaHJ4SEphVzhuRUdtUGRXc1p6Rkd0M2NpL1Ex?=
- =?utf-8?B?YzNxY2JWSlJtZmhKbjNQV2NsMXFRNnU3blR0Z0tZdG05anZMWGpaNklMSzBE?=
- =?utf-8?B?OG1IREV1VHJOQldkMmJrQXNSTGM5RExocmJReWJQOXZ5VW5hK01OMEh6clZM?=
- =?utf-8?B?TWIzZ0dnYlpDb0w3azRBUlZzSmV0WnV5blNnK0FIWmxFOUp2TW9PYnM0M25V?=
- =?utf-8?B?N25QdVZLTGxVWG4zRG1YdE5wVWgySE5IckRjaUpYVlVLbmMyMnh3ZGpSZ21I?=
- =?utf-8?B?cU9Mb2prTW0zbkJSOEUwZ1VaaUp2N250d1l3OTFIOHBoWTRnODNGWk4rOW9y?=
- =?utf-8?B?N1JjWmgrdE5UZENpZ1k1TnJWUm5YSlBlbS9UUkc5dUlGRXpFM1J4di9LWVIw?=
- =?utf-8?B?MVRmRUo3S3NGbE52QVdWa043dnhxMXpKN3d0MUJ0QjFGTUJpQUk1eGFDSjNW?=
- =?utf-8?B?UEYrZG1NTUVIRnhQVHZ4MDRnRFJpaGFKdkRWVnJMUHozWGphUEhpcnFVWGI4?=
- =?utf-8?B?QmZKY2RqR3RMay9JUE9ROGVYblJYalJWdVZXLzlWRHZVaHRRdmFuZGtnK3VH?=
- =?utf-8?B?WXVWNitPa1FvcU9pNy9NVEIwN2dmQjY1ZG1XNGVnWE5KWEEyVklpS1dSSUl0?=
- =?utf-8?B?bnNQNWI4ZnB1UkdWdVhhRmdsWm9JMDRid1ZPUTN3dFBQQUVRRXB3dXYyaVMw?=
- =?utf-8?B?R2ZmZmozZ0NQcXRtM29GemR1ODRiQ1Q1SzRHekU0L1lRR2RJNFJSNDVZbU9j?=
- =?utf-8?B?U21ZVDNzL0JEa3lmNzlJZXhGUGxkZkRMbnN6elRabjhmNFljNnRwT2pWS0J4?=
- =?utf-8?B?RkVVNXRzaENqNTFzUE4yd1JQRzA3UHNRSVJhSXBnZUpwcTllQmxXTXQxZjNR?=
- =?utf-8?B?bHlLSlhVaWZmZ2JzcVVDS1J2bS90YnBzVkd2NGpISnpDNW94d2g2SkZXZVNO?=
- =?utf-8?B?b3dPVFpOZnhnaWJONmZpQ1RuTTJ5L3ZEdGdPcW5OWHQ1NEdZcXV0TFlsNStF?=
- =?utf-8?Q?3eTRaXUOX0+FEmwu+6EBREQ=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?oU7K4kA8yWPGHLAVj/HFasuqcX64IzVUAWPeq4i1juFj5UAaaBwOQ3tbvLhy?=
+ =?us-ascii?Q?yNBKv9xfLEcQ5U7/v5DJbSvWywgx6D+LCEIh/IyeKsAq5tCcPQ189sfaE3ZT?=
+ =?us-ascii?Q?DRq8ES1KKQKewCI8iIZ5oVZKOofmUbJvJT0u/fU4oO33dhj5vuVCyYT/vWGa?=
+ =?us-ascii?Q?KysIDQaZlmqXAaD2j+3OeBgTQsfBBGgJVOKmBBIJi7w0NSFd71HGFBpGlh+Z?=
+ =?us-ascii?Q?lZTTUHVR8ml6m3GIU8aSUPRCP/IedCFDmlYRxoay1hVigCubpnlGHdQEgi1A?=
+ =?us-ascii?Q?UsMw7KZ7UzvrTAfSIpcZME+1PK/pzl6ocPR0Yiui6VNZNXFQ9Drh8i2Ll5zl?=
+ =?us-ascii?Q?MpQEmCgid69kAddFg3HXQ3unuLJNKL8y0aphlFhgQhIqttmnchDa/9jDSHRy?=
+ =?us-ascii?Q?7/SMcMSXjEFfntAJNJFvE+IxqypTonTbGwF7NR1k59iDm5uXvDrKAL6uFzyw?=
+ =?us-ascii?Q?UCsfEV62U+89mqP9Pf0wcGgStpnJJcsXG8kBObzFKwOv0jzkt1Qw/403RaUW?=
+ =?us-ascii?Q?+gRbB1Z98NkZw/WbBt1hCDW6zVQu6AcOlsnpJbYcvoO0Bj2OXZsoN56pfW09?=
+ =?us-ascii?Q?HPCwKTntWCwIwK/zwzUU27uZSOFkwVGSd1r6xOR/pyA1jCb0nvrM51klD0Vf?=
+ =?us-ascii?Q?P6yhSTjcXPs3YP9CFriEMzDxr8SU7sS1UG5bjgkPgdOY5ga7lvhjwA6+R9hB?=
+ =?us-ascii?Q?ieBPTV64QQ8+X7/5/Qxc3XhT/FekeXgVu31YM45mzGcELRwznlcanmE5UHCn?=
+ =?us-ascii?Q?JtDg5/vzeIGJHaolZORD7HQNOqJk03exS5s58qpK3aZ3iq3xkKk9ZebWPAc8?=
+ =?us-ascii?Q?zOiuESEnUEZ6PHT7RcEWM+kYCA7pGJk/lgHAlcAr6izc7mXBNBoyaEh5V9GC?=
+ =?us-ascii?Q?lLNIwxJth5px39+lhK5VhFvaUldtc62I6UO3vz0jmt9Ze3FjFT28j+CJVoJV?=
+ =?us-ascii?Q?gFWlqtiLLOaDmj5DpVjUEcp4CINtA2gisxnjNkJ0g1RGckbtlUJLIv4b6Ig5?=
+ =?us-ascii?Q?KuSjdIYRnZCUELtus8rZjotbz3GNyqVZKDknSCnJZwiq3VId7iUSJnsgnODB?=
+ =?us-ascii?Q?UgBQdUqANEe6PRVqp5XStImi2OqRQ+nrTQw46ndv5AdcZkss4KNJvvSx4nmx?=
+ =?us-ascii?Q?wCR+qSuMsPVlWibzoAHlN77SqqHdTHSSWAjBt36/VJgXGvAWPp9511/Y1RXB?=
+ =?us-ascii?Q?ULYw/Bxx6piRcYTlzW2T8sXqlA+LII+/zMTCMD0ch3Am7jsqQkvFQqODmVwh?=
+ =?us-ascii?Q?mRAVR1Wia2T4g4LyKeB4h3iBxcUT2hj4F5HUwf6MzxtYBKEMIqyqEQDh5DIT?=
+ =?us-ascii?Q?okceQoqw6nmtBZTsEWWnWf0Hi3a2ZB2Xp0zE6itTCVhdFRLU17aXe+Nh+Yow?=
+ =?us-ascii?Q?w9xGfHCvmgbZRDvH6wBDChlU4vwjT96qLumDYO8cKAYrYBbU6UB0GDT37ftP?=
+ =?us-ascii?Q?Sdn+rziBlyoIKjks1R5QeO55JNnd7VPOVYIr7s/pnHimpCczL1ZGzPVaOYzy?=
+ =?us-ascii?Q?F2UFn8ULhoIXoCP06j0eoCRLn4bXabkb2DtHhCyWLO5GXSNztVefjhRpku4R?=
+ =?us-ascii?Q?VRgMV+v/CbavtHdP17FmZ+X5VssZDWRY1XzlOBAiWnuu79+aLmaPFNzhNC0R?=
+ =?us-ascii?Q?LeBQdiGC+8o3BHvw8xgXAcQ=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e8a5103-d467-4fa2-350f-08d9bfe08fe9
+X-MS-Exchange-CrossTenant-Network-Message-Id: d807fb28-db52-48ed-502d-08d9bfe091d4
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 15:35:45.9046 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 15:35:49.2481 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: E72BzlA96UTsdPlQchbSYWElu4Hqr8flVw+G2VCaA9DKkESYU1sHZPaB0tns/cJm8ajS/9TcXxha4VdxxjkPPQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2/Hm5GtXgoAJvqWt5dYdwkt5keNH3DPC8qUCYUdDwc3pgenxxgAl0LtE4DvcXv/FH0USUCk+or3agxytHIy38w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4094
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10198
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
  adultscore=0
- malwarescore=0 bulkscore=0 spamscore=0 mlxlogscore=889 mlxscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
  phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2112150088
-X-Proofpoint-GUID: cLoIS2quXFJmAHhfLKRnfdARHmxxzv6Q
-X-Proofpoint-ORIG-GUID: cLoIS2quXFJmAHhfLKRnfdARHmxxzv6Q
+X-Proofpoint-ORIG-GUID: 6rhtBHMrMtQ4cUozpXlexyhQqETHcX25
+X-Proofpoint-GUID: 6rhtBHMrMtQ4cUozpXlexyhQqETHcX25
 Received-SPF: pass client-ip=205.220.177.32; envelope-from=jag.raman@oracle.com;
  helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -180,119 +173,35 @@ Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: <cover.1636057885.git.john.g.johnson@oracle.com>
+The compiler path that cmake gets from meson is corrupted. It results in
+the following error:
+| -- The C compiler identification is unknown
+| CMake Error at CMakeLists.txt:35 (project):
+| The CMAKE_C_COMPILER:
+| /opt/rh/devtoolset-9/root/bin/cc;-m64;-mcx16
+| is not a full path to an existing compiler tool.
 
-Hi,
+Explicitly specify the C compiler for cmake to avoid this error
 
-Thank you very much for reviewing the patches in the previous revision!
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure | 2 ++
+ 1 file changed, 2 insertions(+)
 
-We have addressed your comments. We added the support for MSI/x and
-IOMMU in this series.
-
-Please share your feedback for the latest series - appreciate your time.
-
-Please the list below for changes since last revision:
-
-[PATCH v4 02/14] tests/avocado: Specify target VM argument to helper routines
-  - New in this series
-
-[PATCH v4 03/14] vfio-user: build library
- - Added VFIO_USER_SERVER Kconfig option and vfio_user_server option to
-   the configure script. VFIO_USER_SERVER depends on MULTIPROCESS
- - Reverted to enabling multiprocess by default. As such, tagging distros
-   in the multiprocess acceptance test for multiprocess is not
-   necessary - reverted them.
-
-[PATCH v4 04/14] vfio-user: define vfio-user-server object
- - Using qapi_free_SocketAddress to free SocketAddress
- - Changed object name to x-vfio-user-server
- - Removed max_devs class variable. This is not needed anymore as we added
-   IOMMU support in this series
-
-[PATCH v4 05/14] vfio-user: instantiate vfio-user context
- - Redesigned init code to abort QEMU during startup upon error, whereas
-   synchronously report the error and continue running QEMU during hotplug
- - Added qemu_remove_machine_init_done_notifier() in object finalize
- - Removed NULL initialization of o->vfu_ctx
-
-[PATCH v4 07/14] vfio-user: run vfio-user context
- - Addressed comment about hot plug from this patch, in patch 4
- - poll for fd to become readable instead of busy spinning alone
-
-[PATCH v4 11/14] vfio-user: IOMMU support for remote device
- - New in this series
-
-[PATCH v4 12/14] handle device interrupts
- - Added support for MSI/MSI-x interrupts
- - refactored INTx handling code to leverage the hash table used by
-   the MSI code
- - Added a hash table to lookup vfio-user context by PCI device
-   function index
-
-[PATCH v4 13/14] vfio-user: register handlers to facilitate migration
- - Compute the size of the migration data when registering for migration
-   BAR. This alleviates the need to hard code a sufficiently large value
-   for the migration BAR.
-
-[PATCH v4 14/14] vfio-user: avocado tests for vfio-user
- - Corrected the object’s name in the test
- - Added tests for hotplug and migration cases
-
-Thank you very much!
-
-Jagannathan Raman (14):
-  configure, meson: override C compiler for cmake
-  tests/avocado: Specify target VM argument to helper routines
-  vfio-user: build library
-  vfio-user: define vfio-user-server object
-  vfio-user: instantiate vfio-user context
-  vfio-user: find and init PCI device
-  vfio-user: run vfio-user context
-  vfio-user: handle PCI config space accesses
-  vfio-user: handle DMA mappings
-  vfio-user: handle PCI BAR accesses
-  vfio-user: IOMMU support for remote device
-  vfio-user: handle device interrupts
-  vfio-user: register handlers to facilitate migration
-  vfio-user: avocado tests for vfio-user
-
- configure                                  |  21 +-
- meson.build                                |  44 +-
- qapi/qom.json                              |  20 +-
- include/hw/pci/pci.h                       |   8 +
- include/hw/remote/iohub.h                  |   1 +
- include/hw/remote/iommu.h                  |  24 +
- include/migration/vmstate.h                |   2 +
- migration/savevm.h                         |   2 +
- hw/pci/msi.c                               |  13 +-
- hw/pci/msix.c                              |  12 +-
- hw/pci/pci.c                               |   2 +-
- hw/remote/iohub.c                          |   7 +
- hw/remote/iommu.c                          | 117 +++
- hw/remote/machine.c                        |   5 +
- hw/remote/vfio-user-obj.c                  | 957 +++++++++++++++++++++
- migration/savevm.c                         |  73 ++
- migration/vmstate.c                        |  19 +
- .gitlab-ci.d/buildtest.yml                 |   2 +
- .gitmodules                                |   3 +
- Kconfig.host                               |   4 +
- MAINTAINERS                                |   5 +
- hw/remote/Kconfig                          |   4 +
- hw/remote/meson.build                      |   4 +
- hw/remote/trace-events                     |  11 +
- meson_options.txt                          |   2 +
- subprojects/libvfio-user                   |   1 +
- tests/avocado/avocado_qemu/__init__.py     |  10 +-
- tests/avocado/vfio-user.py                 | 225 +++++
- tests/docker/dockerfiles/centos8.docker    |   2 +
- tests/docker/dockerfiles/ubuntu2004.docker |   2 +
- 30 files changed, 1591 insertions(+), 11 deletions(-)
- create mode 100644 include/hw/remote/iommu.h
- create mode 100644 hw/remote/iommu.c
- create mode 100644 hw/remote/vfio-user-obj.c
- create mode 160000 subprojects/libvfio-user
- create mode 100644 tests/avocado/vfio-user.py
-
+diff --git a/configure b/configure
+index 48c21775f3..dd000ce299 100755
+--- a/configure
++++ b/configure
+@@ -3919,6 +3919,8 @@ if test "$skip_meson" = no; then
+   echo "cpp_args = [$(meson_quote $CXXFLAGS $EXTRA_CXXFLAGS)]" >> $cross
+   echo "c_link_args = [$(meson_quote $CFLAGS $LDFLAGS $EXTRA_CFLAGS $EXTRA_LDFLAGS)]" >> $cross
+   echo "cpp_link_args = [$(meson_quote $CXXFLAGS $LDFLAGS $EXTRA_CXXFLAGS $EXTRA_LDFLAGS)]" >> $cross
++  echo "[cmake]" >> $cross
++  echo "CMAKE_C_COMPILER = [$(meson_quote $cc $CPU_CFLAGS)]" >> $cross
+   echo "[binaries]" >> $cross
+   echo "c = [$(meson_quote $cc $CPU_CFLAGS)]" >> $cross
+   test -n "$cxx" && echo "cpp = [$(meson_quote $cxx $CPU_CFLAGS)]" >> $cross
 -- 
 2.20.1
 
