@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9BC8474F07
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:20:13 +0100 (CET)
-Received: from localhost ([::1]:60894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E959474F90
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:51:53 +0100 (CET)
+Received: from localhost ([::1]:45102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxI1l-0007eZ-28
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:20:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52976)
+	id 1mxIWO-00045v-4M
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:51:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHui-0005W8-00; Tue, 14 Dec 2021 19:12:56 -0500
-Received: from mail-mw2nam10on2065.outbound.protection.outlook.com
- ([40.107.94.65]:22241 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ id 1mxHv3-0005xN-NN; Tue, 14 Dec 2021 19:13:17 -0500
+Received: from mail-co1nam11on2084.outbound.protection.outlook.com
+ ([40.107.220.84]:13537 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHuf-0005nW-3N; Tue, 14 Dec 2021 19:12:55 -0500
+ id 1mxHuz-0005oE-RF; Tue, 14 Dec 2021 19:13:17 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lLeHLXMUx55tdGSjxl2fq7FIoHyL8BjGFuvkDcQTwRDXhm6WG9UrlRPgcUdQfucf55dCJpeQpwTw8SzF+k/xrPF2/YolhlywgZ5Lf84uxQHmn26a+2cgQxdBZ/YZbYkE3ogUcadgZRCg7LvCV3Vx1pld0+qOlbtLRzYErYGxJyrJeA1QpcYS6/XSEJIqs+hcLzNoasyBhcD+oGj9XdDIIQMcBvzUGOYTPcP/UnTmFi2uk8dfQ0BAFv2zR7CnV3Hl+GcnLFKv8jlv+o0tlAeob3L7o9APCA4AnO+A0cFKOEaTqVKnxYGBnUNA+O+hTNJhhVQg5bQA/ZJfywWQtSh5nA==
+ b=IZ1/+Om3pPLLXT/Q6OCb9l2HRzUh5G6j/hJ3LnSnAk2dlzaRah2EJ7DzvIWP+bjUNP6YXuQ/PBqWvmznv89T9u6uOM+RQF4cjW54GI4jNvzv15F+R300SDsWUTIWZYOnn4Bi/sXb/uWMEl9IS1Szqf4EIkNpxEI/GIE/c8ChUHYmi0SZrXF4PMc7awsxS4R4w6kH3IShRAwrMUAtsCMb3Lle3+hXsZWAlKgXy0FMXHnk5iQzf17a5toiXnQg+5pVmoPi4e80ZqTdQffLGfRPFOZBUIQBjGXG8AF+HG0lb3SM9nrrlqap3SVZV2IbD6MVm53KejR0eMl+ro8H0VnMFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bz9nhSKbhpDvpoQv6ltenATNG0v8B5ioh69SSjaa3Ok=;
- b=TYrFshl7grgIyCjQtFbim9Mo40XSamEI1fk9DgObSfqyKQfv3eFtPWzw8w+FzccQe5Oqw8Fx6t2BkekviHfxz2qOfpyVWrvu4XAwhn5+dAdrgSaT3ppiuE/KQ+AWcwp2YkXKyzexRYTd74IOxUXkSmbx0WUgWN6tXgIs5FtfMXUbXyxZEEqbOn4S27Q395C0urse4eaKCcQMa4v+lFNwG7V3RfR9RMhVtWBJj0TW+C2BI00/4WyIiXqvRHDQYtDAzYNKm0vS+awUubBiEmcKLY3W8+31Hfb0K/ZXHVgYmKwT8SHeLC6BD/6YWX6YIbQrRdJhdsUFMI89UrMHia8W6A==
+ bh=1Yo2dFdhUZyw09j4ZkDFcAPqi6n8mM6gCKojG61+iF8=;
+ b=Uz3RQ+PhTrt2EWtaLW4C8Uhj8+hBvqYGhcXb7Q36rOIEYIjejJOOB9MQQugrJmVBmVRJN5m/cwwkYPrKDp8JpSk7SFTijiKJA85SvpV0iwHg2tYPKrpbTL+3bAuAxNMek5NYqQWV4zo98KQzSyRJruIfY7kUy4tit2zBzfLs2awCYGXWP9siVWb5KG6FUNc6UhgX5eqVsleq23f6vgDuBVkPGnSXN8K5JbOX9P0nEEI7kanHh6kM63jUzeUPCjdcx9bH4MpKgCRw0//E10vVe3ttXeDD/J5tejeyyLRvvD2w/Hy9CjAqjwQuXSgRWAQsHA5/4V0cMRyMQqSuMjEKgQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bz9nhSKbhpDvpoQv6ltenATNG0v8B5ioh69SSjaa3Ok=;
- b=jPT8TCdwfh1GH9i6SWLyOzoW30DlYyY8iO09nxLviCCwGnonWZXGCw+BvvJ4LWmPHihsW3glKsP1r52dZIz00RVNt+Jqfp68e5c4vQyos9CfToElA9Yd4DrsgMQyG1KOsRIvcu4GX/Gx+IYBOf1Xcxh7gPaUpkW6giZXU3O1QrU=
-Received: from DM6PR11CA0050.namprd11.prod.outlook.com (2603:10b6:5:14c::27)
- by BN9PR12MB5049.namprd12.prod.outlook.com (2603:10b6:408:132::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.16; Wed, 15 Dec
- 2021 00:12:49 +0000
-Received: from DM6NAM11FT013.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:14c:cafe::f5) by DM6PR11CA0050.outlook.office365.com
- (2603:10b6:5:14c::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.13 via Frontend
- Transport; Wed, 15 Dec 2021 00:12:49 +0000
+ bh=1Yo2dFdhUZyw09j4ZkDFcAPqi6n8mM6gCKojG61+iF8=;
+ b=oksErmY9kB550FCDkvVtQiWAwjhvB2NAdP5+mcqpEhifCZtl2c4BfBb0deRyE336KMLzDNWYBIenq+/N4k38XlMl9WvbwoC9PXWg/XohFSBNfjQ9qo1abUAIadD8KJ37TTtsFIyiKgzYDlrXDCagdfYamBsgRhQUSRYiWdePk48=
+Received: from DM5PR08CA0030.namprd08.prod.outlook.com (2603:10b6:4:60::19) by
+ DM6PR12MB4058.namprd12.prod.outlook.com (2603:10b6:5:21d::16) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4801.14; Wed, 15 Dec 2021 00:13:10 +0000
+Received: from DM6NAM11FT038.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:60:cafe::c2) by DM5PR08CA0030.outlook.office365.com
+ (2603:10b6:4:60::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.12 via Frontend
+ Transport; Wed, 15 Dec 2021 00:13:10 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,20 +50,20 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DM6NAM11FT013.mail.protection.outlook.com (10.13.173.142) with Microsoft SMTP
+ DM6NAM11FT038.mail.protection.outlook.com (10.13.173.137) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:12:48 +0000
+ 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:13:09 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 14 Dec
- 2021 18:12:48 -0600
+ 2021 18:13:09 -0600
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
 CC: <qemu-stable@nongnu.org>, Greg Kurz <groug@kaod.org>, Paolo Bonzini
  <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 33/47] rcu: Introduce force_rcu notifier
-Date: Tue, 14 Dec 2021 18:01:11 -0600
-Message-ID: <20211215000125.378126-34-michael.roth@amd.com>
+Subject: [PATCH 34/47] accel/tcg: Register a force_rcu notifier
+Date: Tue, 14 Dec 2021 18:01:12 -0600
+Message-ID: <20211215000125.378126-35-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215000125.378126-1-michael.roth@amd.com>
 References: <20211215000125.378126-1-michael.roth@amd.com>
@@ -75,31 +75,31 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
  (10.181.40.144)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 36de5dc2-503a-48b7-7c62-08d9bf5fa0d6
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5049:EE_
-X-Microsoft-Antispam-PRVS: <BN9PR12MB5049DCECC7FE586AE5B6AD3A95769@BN9PR12MB5049.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
+X-MS-Office365-Filtering-Correlation-Id: 123671ca-d312-4cd8-130a-08d9bf5fad48
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4058:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB40580CB31672538B5615E48695769@DM6PR12MB4058.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:608;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: M2pz0QmMuso/eTBvz7Lmco3/+R8ncfUBiScPTino0fQM8lgK/k6D0azKk6fOIpqB5HuMOh4B7sBlUCWE5wKeqEs05JAgt87OC1Dhy1acdLKLoVPBwiRrVShqlqN2JL07qyKqLsA0+y6KeMfcMx/1kdumqdCybT1vsQQ9tMt82V2AODufZFx7uyeRJp+IybERskjZnvpQTttecEMvVSI/b6jzUo6M9v3hK2HdjOo72Q9e/YypEQv5YAs5IzZ1o8dJpVZ+91B8xp6/btYzom30qFEE4Uj0l9Cmu9vEDfCUcblTlCCwaPkklOHZX8MbzVKudQ3lVeCDyaIPyfMrdwWyol/qUpi7/08kYV92Uvvz2jmM3Dbw/xR7z5/SQfvu1o42Hurs0mW+tJnAp6rmBAilaJf4Ukh/WNXMmULBZ176k8VcU8l9V4a7l9AZi6q5ygkyg/GIZ/PiH+LVBdY3LtqirHQK+Ur20Relid4Mtqw6/2j1IzgzVGkJ01D0TvXPn8o+wA1m7obKXvo7LrKLM04PaQrYS1AW5/OjR64VqQlqFLBpGQTg4WR2KeZm1QoDJIUtq9WGtDgTWUo5x++4kzZcebn2SDY5jl7JNuZYx75jt3RMRNvWbONblpYCEMKD7UYqa4rs0Ep4NEZ6db4zPfDPiKjEvBYGLfl34dHY3R3qceYicHiBRT5OiSf27JHK6O3hzaUjmSSYOQp4jVYx9dKG4fVjQTAETyGeDAxkMtBI89ebxRcU4+NQAkULyB3GmyZbhsqlwYj+MPQWDVwj6b+ungP/JM80jPVM3Ji9QHkNQGTIzt1H5Lx5vmso653I6gl20kYjkTMXLJMl6J+m2Qxl2JJH412KMMML9uRYoyrGefsHg6mT+zB5q4/5gJA4HvaA
+X-Microsoft-Antispam-Message-Info: rWP4ObEGAnMKSOtQA11HtJzWKx0xKB/4QrszoI2YWL6joPc48NctG1W3bLk57DyM/ac0hzQvcmlILjJbr5cUVRdFJHtmQvKnnJ5AHpNu9IE51zxdQAcrrSK/Cp0rFwj1AI18OzyBwIsoTcLeSFg4hLKXmXhnRqC+ARBMbtnNdkGhBegMQPQ4+Rt8gX0JCmMZjrFoWzNz9A8aTMdqL9LsdgMKmS2ggl7nFVMu/MFfjj5emFNEOTm7Ivjk27fJeVvraAPp0KHwU7q8tL8QIYizXYwD1f5u5icL6VnRLllhTwUnhU54Dz7EAVvtCvaNSiUQUolSktW5W2DZPn4NmjgPPa+ZUmOWC1S7WTwMF72bEW67KYZs0T3iDTcaxf59lAEB29CmwecBlBePrK/ySNxcnfWHfSxau3fooTFg94ZdzQO/CaGE+hyc9ZrqCNN3j0luShdjKZ5jipOnW6xpVkCAyGBJuS2BVQDiq6fmwtgBDDMysw8mQ4Cm0OIge/SdNKAAQsP7BiBuZaru/t9zUfDSFDn4ZJqKIqfHy93b6Urq1yDg6TJU525uedZ8pBd+7e9q7noDdW5HjiGA8Kx0PxwEfJ+9AOaw1r3S26uuhuoQbNV7zCz1E+bCbRUQXb3QbIIYDp6RQXfPq4N+rXb/kDiByxFZUA1XfFkXQtfDgd3NWSj5Zi2VXoaLgKs9v2gA9X8ppx02XzWc40DmWGC+b3W0bKEhzHiHWz2sTfLjHOq9OoNRWpLiIjAh3i1ounvhRmDUly2WiJWoILfjrTjnAdcnu7NqMqEl1SylK3YE6DNTZl3OiWbOQOsRnOS3Qyzoei6j97ikpUnkzn+23LeY82T9sK78kZQPViQ/UK14+nMCmbm4Iu291qxLdPNtXDbWt9D9
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(40470700001)(336012)(26005)(36860700001)(316002)(356005)(54906003)(82310400004)(2906002)(2616005)(81166007)(36756003)(16526019)(508600001)(5660300002)(40460700001)(6916009)(86362001)(186003)(8676002)(4326008)(44832011)(966005)(426003)(83380400001)(70206006)(70586007)(1076003)(47076005)(6666004)(8936002)(36900700001);
+ SFS:(4636009)(36840700001)(46966006)(40470700001)(70586007)(2906002)(47076005)(356005)(6916009)(8676002)(508600001)(83380400001)(81166007)(36756003)(44832011)(40460700001)(86362001)(8936002)(36860700001)(70206006)(26005)(966005)(2616005)(5660300002)(6666004)(186003)(4326008)(16526019)(316002)(1076003)(336012)(426003)(82310400004)(54906003)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:12:48.9971 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36de5dc2-503a-48b7-7c62-08d9bf5fa0d6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:13:09.8834 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 123671ca-d312-4cd8-130a-08d9bf5fad48
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT013.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT038.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5049
-Received-SPF: softfail client-ip=40.107.94.65;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4058
+Received-SPF: softfail client-ip=40.107.220.84;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -124,126 +124,163 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The drain_rcu_call() function can be blocked as long as an RCU reader
-stays in a read-side critical section. This is typically what happens
-when a TCG vCPU is executing a busy loop. It can deadlock the QEMU
-monitor as reported in https://gitlab.com/qemu-project/qemu/-/issues/650 .
+A TCG vCPU doing a busy loop systematicaly hangs the QEMU monitor
+if the user passes 'device_add' without argument. This is because
+drain_cpu_all() which is called from qmp_device_add() cannot return
+if readers don't exit read-side critical sections. That is typically
+what busy-looping TCG vCPUs do:
 
-This can be avoided by allowing drain_rcu_call() to enforce an RCU grace
-period. Since each reader might need to do specific actions to end a
-read-side critical section, do it with notifiers.
+int cpu_exec(CPUState *cpu)
+{
+[...]
+    rcu_read_lock();
+[...]
+    while (!cpu_handle_exception(cpu, &ret)) {
+        // Busy loop keeps vCPU here
+    }
+[...]
+    rcu_read_unlock();
 
-Prepare ground for this by adding a notifier list to the RCU reader
-struct and use it in wait_for_readers() if drain_rcu_call() is in
-progress. An API is added for readers to register their notifiers.
+    return ret;
+}
 
-This is largely based on a draft from Paolo Bonzini.
+For MTTCG, have all vCPU threads register a force_rcu notifier that will
+kick them out of the loop using async_run_on_cpu(). The notifier is called
+with the rcu_registry_lock mutex held, using async_run_on_cpu() ensures
+there are no deadlocks.
 
+For RR, a single thread runs all vCPUs. Just register a single notifier
+that kicks the current vCPU to the next one.
+
+For MTTCG:
 Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+
+For RR:
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+
+Fixes: 7bed89958bfb ("device_core: use drain_call_rcu in in qmp_device_add")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/650
 Signed-off-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211109183523.47726-2-groug@kaod.org>
+Message-Id: <20211109183523.47726-3-groug@kaod.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit ef149763a8fcce70b85dfda27cc1222ecf765750)
+(cherry picked from commit dd47a8f654d84f666b235ce8891e17ee76f9be8b)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- include/qemu/rcu.h | 15 +++++++++++++++
- util/rcu.c         | 19 +++++++++++++++++++
- 2 files changed, 34 insertions(+)
+ accel/tcg/tcg-accel-ops-mttcg.c | 26 ++++++++++++++++++++++++++
+ accel/tcg/tcg-accel-ops-rr.c    | 10 ++++++++++
+ 2 files changed, 36 insertions(+)
 
-diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-index 515d327cf1..e69efbd47f 100644
---- a/include/qemu/rcu.h
-+++ b/include/qemu/rcu.h
-@@ -27,6 +27,7 @@
- #include "qemu/thread.h"
- #include "qemu/queue.h"
- #include "qemu/atomic.h"
+diff --git a/accel/tcg/tcg-accel-ops-mttcg.c b/accel/tcg/tcg-accel-ops-mttcg.c
+index 847d2079d2..29632bd4c0 100644
+--- a/accel/tcg/tcg-accel-ops-mttcg.c
++++ b/accel/tcg/tcg-accel-ops-mttcg.c
+@@ -28,6 +28,7 @@
+ #include "sysemu/tcg.h"
+ #include "sysemu/replay.h"
+ #include "qemu/main-loop.h"
 +#include "qemu/notify.h"
- #include "qemu/sys_membarrier.h"
+ #include "qemu/guest-random.h"
+ #include "exec/exec-all.h"
+ #include "hw/boards.h"
+@@ -35,6 +36,26 @@
+ #include "tcg-accel-ops.h"
+ #include "tcg-accel-ops-mttcg.h"
  
- #ifdef __cplusplus
-@@ -66,6 +67,13 @@ struct rcu_reader_data {
- 
-     /* Data used for registry, protected by rcu_registry_lock */
-     QLIST_ENTRY(rcu_reader_data) node;
++typedef struct MttcgForceRcuNotifier {
++    Notifier notifier;
++    CPUState *cpu;
++} MttcgForceRcuNotifier;
++
++static void do_nothing(CPUState *cpu, run_on_cpu_data d)
++{
++}
++
++static void mttcg_force_rcu(Notifier *notify, void *data)
++{
++    CPUState *cpu = container_of(notify, MttcgForceRcuNotifier, notifier)->cpu;
 +
 +    /*
-+     * NotifierList used to force an RCU grace period.  Accessed under
-+     * rcu_registry_lock.  Note that the notifier is called _outside_
-+     * the thread!
++     * Called with rcu_registry_lock held, using async_run_on_cpu() ensures
++     * that there are no deadlocks.
 +     */
-+    NotifierList force_rcu;
- };
- 
- extern __thread struct rcu_reader_data rcu_reader;
-@@ -180,6 +188,13 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(RCUReadAuto, rcu_read_auto_unlock)
- #define RCU_READ_LOCK_GUARD() \
-     g_autoptr(RCUReadAuto) _rcu_read_auto __attribute__((unused)) = rcu_read_auto_lock()
- 
-+/*
-+ * Force-RCU notifiers tell readers that they should exit their
-+ * read-side critical section.
-+ */
-+void rcu_add_force_rcu_notifier(Notifier *n);
-+void rcu_remove_force_rcu_notifier(Notifier *n);
-+
- #ifdef __cplusplus
- }
- #endif
-diff --git a/util/rcu.c b/util/rcu.c
-index 13ac0f75cb..c91da9f137 100644
---- a/util/rcu.c
-+++ b/util/rcu.c
-@@ -46,6 +46,7 @@
- unsigned long rcu_gp_ctr = RCU_GP_LOCKED;
- 
- QemuEvent rcu_gp_event;
-+static int in_drain_call_rcu;
- static QemuMutex rcu_registry_lock;
- static QemuMutex rcu_sync_lock;
- 
-@@ -107,6 +108,8 @@ static void wait_for_readers(void)
-                  * get some extra futex wakeups.
-                  */
-                 qatomic_set(&index->waiting, false);
-+            } else if (qatomic_read(&in_drain_call_rcu)) {
-+                notifier_list_notify(&index->force_rcu, NULL);
-             }
-         }
- 
-@@ -339,8 +342,10 @@ void drain_call_rcu(void)
-      * assumed.
-      */
- 
-+    qatomic_inc(&in_drain_call_rcu);
-     call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
-     qemu_event_wait(&rcu_drain.drain_complete_event);
-+    qatomic_dec(&in_drain_call_rcu);
- 
-     if (locked) {
-         qemu_mutex_lock_iothread();
-@@ -363,6 +368,20 @@ void rcu_unregister_thread(void)
-     qemu_mutex_unlock(&rcu_registry_lock);
- }
- 
-+void rcu_add_force_rcu_notifier(Notifier *n)
-+{
-+    qemu_mutex_lock(&rcu_registry_lock);
-+    notifier_list_add(&rcu_reader.force_rcu, n);
-+    qemu_mutex_unlock(&rcu_registry_lock);
++    async_run_on_cpu(cpu, do_nothing, RUN_ON_CPU_NULL);
 +}
 +
-+void rcu_remove_force_rcu_notifier(Notifier *n)
-+{
-+    qemu_mutex_lock(&rcu_registry_lock);
-+    notifier_remove(n);
-+    qemu_mutex_unlock(&rcu_registry_lock);
-+}
-+
- static void rcu_init_complete(void)
+ /*
+  * In the multi-threaded case each vCPU has its own thread. The TLS
+  * variable current_cpu can be used deep in the code to find the
+@@ -43,12 +64,16 @@
+ 
+ static void *mttcg_cpu_thread_fn(void *arg)
  {
-     QemuThread thread;
++    MttcgForceRcuNotifier force_rcu;
+     CPUState *cpu = arg;
+ 
+     assert(tcg_enabled());
+     g_assert(!icount_enabled());
+ 
+     rcu_register_thread();
++    force_rcu.notifier.notify = mttcg_force_rcu;
++    force_rcu.cpu = cpu;
++    rcu_add_force_rcu_notifier(&force_rcu.notifier);
+     tcg_register_thread();
+ 
+     qemu_mutex_lock_iothread();
+@@ -100,6 +125,7 @@ static void *mttcg_cpu_thread_fn(void *arg)
+ 
+     tcg_cpus_destroy(cpu);
+     qemu_mutex_unlock_iothread();
++    rcu_remove_force_rcu_notifier(&force_rcu.notifier);
+     rcu_unregister_thread();
+     return NULL;
+ }
+diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
+index c02c061ecb..aa5b4ac247 100644
+--- a/accel/tcg/tcg-accel-ops-rr.c
++++ b/accel/tcg/tcg-accel-ops-rr.c
+@@ -28,6 +28,7 @@
+ #include "sysemu/tcg.h"
+ #include "sysemu/replay.h"
+ #include "qemu/main-loop.h"
++#include "qemu/notify.h"
+ #include "qemu/guest-random.h"
+ #include "exec/exec-all.h"
+ 
+@@ -135,6 +136,11 @@ static void rr_deal_with_unplugged_cpus(void)
+     }
+ }
+ 
++static void rr_force_rcu(Notifier *notify, void *data)
++{
++    rr_kick_next_cpu();
++}
++
+ /*
+  * In the single-threaded case each vCPU is simulated in turn. If
+  * there is more than a single vCPU we create a simple timer to kick
+@@ -145,10 +151,13 @@ static void rr_deal_with_unplugged_cpus(void)
+ 
+ static void *rr_cpu_thread_fn(void *arg)
+ {
++    Notifier force_rcu;
+     CPUState *cpu = arg;
+ 
+     assert(tcg_enabled());
+     rcu_register_thread();
++    force_rcu.notify = rr_force_rcu;
++    rcu_add_force_rcu_notifier(&force_rcu);
+     tcg_register_thread();
+ 
+     qemu_mutex_lock_iothread();
+@@ -257,6 +266,7 @@ static void *rr_cpu_thread_fn(void *arg)
+         rr_deal_with_unplugged_cpus();
+     }
+ 
++    rcu_remove_force_rcu_notifier(&force_rcu);
+     rcu_unregister_thread();
+     return NULL;
+ }
 -- 
 2.25.1
 
