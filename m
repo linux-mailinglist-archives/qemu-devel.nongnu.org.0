@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CB8475BC7
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 16:25:35 +0100 (CET)
-Received: from localhost ([::1]:47902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5701B475BD2
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 16:29:06 +0100 (CET)
+Received: from localhost ([::1]:53018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxW9u-0008K2-7N
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 10:25:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48868)
+	id 1mxWDI-0003U3-QY
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 10:29:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mxV96-0001jy-9P
+ id 1mxV96-0001ly-Oj
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:20:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47524)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mxV8x-0001F7-HP
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:20:39 -0500
+ id 1mxV8z-0001FI-Iv
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:20:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639578030;
+ s=mimecast20190719; t=1639578033;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kXbjkd4hEp1kPk/sffs7IroP7suhEqbgS3CBXUdJ1Zo=;
- b=aq3tbCwNCBU/oId28H3jcth6/mdBh55IEQADjmFD4uARPkYaO9aY8UMnVbQtxH62zwsW3Q
- U7rsPTyEZ5Ebl6dvspai3/EdVL82s3Iu40TWQUaeW0+3lhnMS4JLtOnSFodznWupBev6Cu
- wkUdAKtJrLRiZg2EKoBz2lF6qX18Frw=
+ bh=j5TR0Rur0P86aX7EroQG9Z4uql5ehRfmZgsDUqmuxpI=;
+ b=fhfv5fB05NhzeJJmulBKgPsfYtNvZAFenmmWgftMQmfWO0mI/MSA4c/sS6gBkTT45vJmQO
+ Jl4Mcz6FMICU/moPycUjkSRNIRGD3KMSwiseruTADJqTdNiv/R5XWiqlafwkwEq0N+FJiS
+ c86DmknP7BgHT8nuJt/IidNRopdFsVU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-570-ey9Ng0DcMJSEjcWnoWuUYg-1; Wed, 15 Dec 2021 09:20:23 -0500
-X-MC-Unique: ey9Ng0DcMJSEjcWnoWuUYg-1
+ us-mta-91-HAr42WCeOC-jrLeYAqys4w-1; Wed, 15 Dec 2021 09:20:31 -0500
+X-MC-Unique: HAr42WCeOC-jrLeYAqys4w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC6E936393;
- Wed, 15 Dec 2021 14:20:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DA8510168D1;
+ Wed, 15 Dec 2021 14:20:30 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.22.8.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 79199101E68B;
- Wed, 15 Dec 2021 14:20:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4DCEC101E59B;
+ Wed, 15 Dec 2021 14:20:28 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 11/18] tests/docker: auto-generate ubuntu2004.docker with
+Subject: [PATCH v5 14/18] .gitlab-ci.d/cirrus: auto-generate variables with
  lcitool
-Date: Wed, 15 Dec 2021 14:19:42 +0000
-Message-Id: <20211215141949.3512719-12-berrange@redhat.com>
+Date: Wed, 15 Dec 2021 14:19:45 +0000
+Message-Id: <20211215141949.3512719-15-berrange@redhat.com>
 In-Reply-To: <20211215141949.3512719-1-berrange@redhat.com>
 References: <20211215141949.3512719-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -59,15 +59,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,304 +92,123 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit is best examined using the "-b" option to diff.
+The current Cirrus CI variables files were previously generated by using
+lcitool. This change wires them up to the refresh script to make that
+link explicit.
+
+This changes the package list because libvirt-ci now knows about the
+mapping for dtc on FreeBSD and macOS platforms.
+
+The variables are also now emit in sorted order for stability across
+runs.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/dockerfiles/ubuntu2004.docker | 257 ++++++++++++---------
- tests/lcitool/refresh                      |   9 +-
- 2 files changed, 151 insertions(+), 115 deletions(-)
+ .gitlab-ci.d/cirrus/freebsd-12.vars | 11 +++++++----
+ .gitlab-ci.d/cirrus/freebsd-13.vars | 11 +++++++----
+ .gitlab-ci.d/cirrus/macos-11.vars   | 11 ++++++-----
+ tests/lcitool/refresh               | 10 ++++++++++
+ 4 files changed, 30 insertions(+), 13 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 15a026be09..40402b91fe 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -1,119 +1,148 @@
-+# THIS FILE WAS AUTO-GENERATED
-+#
-+#  $ lcitool dockerfile ubuntu-2004 qemu
-+#
+diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/freebsd-12.vars
+index 2099b21354..9c52266811 100644
+--- a/.gitlab-ci.d/cirrus/freebsd-12.vars
++++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
+@@ -2,12 +2,15 @@
+ #
+ #  $ lcitool variables freebsd-12 qemu
+ #
+-# https://gitlab.com/libvirt/libvirt-ci/-/commit/c7e275ab27ac0dcd09da290817b9adeea1fd1eb1
 +# https://gitlab.com/libvirt/libvirt-ci
-+
- FROM docker.io/library/ubuntu:20.04
--ENV PACKAGES \
--    bc \
--    bsdmainutils \
--    bzip2 \
--    ca-certificates \
--    ccache \
--    clang \
--    dbus \
--    debianutils \
--    diffutils \
--    exuberant-ctags \
--    findutils \
--    g++ \
--    gcc \
--    gcovr \
--    genisoimage \
--    gettext \
--    git \
--    hostname \
--    libaio-dev \
--    libasan5 \
--    libasound2-dev \
--    libattr1-dev \
--    libbrlapi-dev \
--    libbz2-dev \
--    libc6-dev \
--    libcacard-dev \
--    libcap-ng-dev \
--    libcapstone-dev \
--    libcurl4-gnutls-dev \
--    libdaxctl-dev \
--    libdrm-dev \
--    libepoxy-dev \
--    libfdt-dev \
--    libffi-dev \
--    libgbm-dev \
--    libgcrypt20-dev \
--    libglib2.0-dev \
--    libglusterfs-dev \
--    libgnutls28-dev \
--    libgtk-3-dev \
--    libibverbs-dev \
--    libiscsi-dev \
--    libjemalloc-dev \
--    libjpeg-turbo8-dev \
--    liblttng-ust-dev \
--    liblzo2-dev \
--    libncursesw5-dev \
--    libnfs-dev \
--    libnuma-dev \
--    libpam0g-dev \
--    libpixman-1-dev \
--    libpmem-dev \
--    libpng-dev \
--    libpulse-dev \
--    librbd-dev \
--    librdmacm-dev \
--    libsasl2-dev \
--    libsdl2-dev \
--    libsdl2-image-dev \
--    libseccomp-dev \
--    libselinux-dev \
--    libslirp-dev \
--    libsnappy-dev \
--    libspice-protocol-dev \
--    libspice-server-dev \
--    libssh-dev \
--    libsystemd-dev \
--    libtasn1-6-dev \
--    libtest-harness-perl \
--    libubsan1 \
--    libudev-dev \
--    libusb-1.0-0-dev \
--    libusbredirhost-dev \
--    libvdeplug-dev \
--    libvirglrenderer-dev \
--    libvte-2.91-dev \
--    libxen-dev \
--    libxml2-dev \
--    libzstd-dev \
--    llvm \
--    locales \
--    make \
--    multipath-tools \
--    ncat \
--    nettle-dev \
--    ninja-build \
--    openssh-client \
--    perl-base \
--    pkgconf \
--    python3 \
--    python3-numpy \
--    python3-opencv \
--    python3-pillow \
--    python3-pip \
--    python3-setuptools \
--    python3-sphinx \
--    python3-sphinx-rtd-theme \
--    python3-venv \
--    python3-wheel \
--    python3-yaml \
--    rpm2cpio \
--    sed \
--    sparse \
--    systemtap-sdt-dev \
--    tar \
--    tesseract-ocr \
--    tesseract-ocr-eng \
--    texinfo \
--    xfslibs-dev \
--    zlib1g-dev
--RUN apt-get update && \
--    DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
--RUN dpkg -l $PACKAGES | sort > /packages.txt
  
-+RUN export DEBIAN_FRONTEND=noninteractive && \
-+    apt-get update && \
-+    apt-get install -y eatmydata && \
-+    eatmydata apt-get dist-upgrade -y && \
-+    eatmydata apt-get install --no-install-recommends -y \
-+            bash \
-+            bc \
-+            bsdmainutils \
-+            bzip2 \
-+            ca-certificates \
-+            ccache \
-+            clang \
-+            dbus \
-+            debianutils \
-+            diffutils \
-+            exuberant-ctags \
-+            findutils \
-+            g++ \
-+            gcc \
-+            gcovr \
-+            genisoimage \
-+            gettext \
-+            git \
-+            hostname \
-+            libaio-dev \
-+            libasan5 \
-+            libasound2-dev \
-+            libattr1-dev \
-+            libbrlapi-dev \
-+            libbz2-dev \
-+            libc6-dev \
-+            libcacard-dev \
-+            libcap-ng-dev \
-+            libcapstone-dev \
-+            libcurl4-gnutls-dev \
-+            libdaxctl-dev \
-+            libdrm-dev \
-+            libepoxy-dev \
-+            libfdt-dev \
-+            libffi-dev \
-+            libgbm-dev \
-+            libgcrypt20-dev \
-+            libglib2.0-dev \
-+            libglusterfs-dev \
-+            libgnutls28-dev \
-+            libgtk-3-dev \
-+            libibverbs-dev \
-+            libiscsi-dev \
-+            libjemalloc-dev \
-+            libjpeg-turbo8-dev \
-+            liblttng-ust-dev \
-+            liblzo2-dev \
-+            libncursesw5-dev \
-+            libnfs-dev \
-+            libnuma-dev \
-+            libpam0g-dev \
-+            libpcre2-dev \
-+            libpixman-1-dev \
-+            libpmem-dev \
-+            libpng-dev \
-+            libpulse-dev \
-+            librbd-dev \
-+            librdmacm-dev \
-+            libsasl2-dev \
-+            libsdl2-dev \
-+            libsdl2-image-dev \
-+            libseccomp-dev \
-+            libselinux1-dev \
-+            libslirp-dev \
-+            libsnappy-dev \
-+            libspice-protocol-dev \
-+            libspice-server-dev \
-+            libssh-dev \
-+            libsystemd-dev \
-+            libtasn1-6-dev \
-+            libtest-harness-perl \
-+            libubsan1 \
-+            libudev-dev \
-+            libusb-1.0-0-dev \
-+            libusbredirhost-dev \
-+            libvdeplug-dev \
-+            libvirglrenderer-dev \
-+            libvte-2.91-dev \
-+            libxen-dev \
-+            libxml2-dev \
-+            libzstd-dev \
-+            llvm \
-+            locales \
-+            make \
-+            multipath-tools \
-+            ncat \
-+            nettle-dev \
-+            ninja-build \
-+            openssh-client \
-+            perl-base \
-+            pkgconf \
-+            python3 \
-+            python3-numpy \
-+            python3-opencv \
-+            python3-pillow \
-+            python3-pip \
-+            python3-setuptools \
-+            python3-sphinx \
-+            python3-sphinx-rtd-theme \
-+            python3-venv \
-+            python3-wheel \
-+            python3-yaml \
-+            rpm2cpio \
-+            sed \
-+            sparse \
-+            systemtap-sdt-dev \
-+            tar \
-+            tesseract-ocr \
-+            tesseract-ocr-eng \
-+            texinfo \
-+            xfslibs-dev \
-+            zlib1g-dev && \
-+    eatmydata apt-get autoremove -y && \
-+    eatmydata apt-get autoclean -y && \
-+    sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
-+    dpkg-reconfigure locales && \
-+    dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
-+    mkdir -p /usr/libexec/ccache-wrappers && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/clang && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
-+
-+RUN pip3 install \
-+         meson==0.56.0
-+
-+ENV LANG "en_US.UTF-8"
-+ENV MAKE "/usr/bin/make"
-+ENV NINJA "/usr/bin/ninja"
-+ENV PYTHON "/usr/bin/python3"
-+ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
- # Apply patch https://reviews.llvm.org/D75820
- # This is required for TSan in clang-10 to compile with QEMU.
- RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h
+-PACKAGING_COMMAND='pkg'
+ CCACHE='/usr/local/bin/ccache'
++CPAN_PKGS=''
++CROSS_PKGS=''
+ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+-PYTHON='/usr/local/bin/python3'
++PACKAGING_COMMAND='pkg'
+ PIP3='/usr/local/bin/pip-3.8'
+-PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
++PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
++PYPI_PKGS=''
++PYTHON='/usr/local/bin/python3'
+diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/freebsd-13.vars
+index 323fe806d5..7b44dba324 100644
+--- a/.gitlab-ci.d/cirrus/freebsd-13.vars
++++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
+@@ -2,12 +2,15 @@
+ #
+ #  $ lcitool variables freebsd-13 qemu
+ #
+-# https://gitlab.com/libvirt/libvirt-ci/-/commit/c7e275ab27ac0dcd09da290817b9adeea1fd1eb1
++# https://gitlab.com/libvirt/libvirt-ci
+ 
+-PACKAGING_COMMAND='pkg'
+ CCACHE='/usr/local/bin/ccache'
++CPAN_PKGS=''
++CROSS_PKGS=''
+ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+-PYTHON='/usr/local/bin/python3'
++PACKAGING_COMMAND='pkg'
+ PIP3='/usr/local/bin/pip-3.8'
+-PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
++PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage ctags curl cyrus-sasl dbus diffutils dtc gettext git glib gmake gnutls gsed gtk3 libepoxy libffi libgcrypt libjpeg-turbo libnfs libspice-server libssh libtasn1 libxml2 llvm lttng-ust lzo2 meson ncurses nettle ninja opencv p5-Test-Harness perl5 pixman pkgconf png py38-numpy py38-pillow py38-pip py38-sphinx py38-sphinx_rtd_theme py38-virtualenv py38-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
++PYPI_PKGS=''
++PYTHON='/usr/local/bin/python3'
+diff --git a/.gitlab-ci.d/cirrus/macos-11.vars b/.gitlab-ci.d/cirrus/macos-11.vars
+index cbec8a44a3..613d1373c2 100644
+--- a/.gitlab-ci.d/cirrus/macos-11.vars
++++ b/.gitlab-ci.d/cirrus/macos-11.vars
+@@ -2,14 +2,15 @@
+ #
+ #  $ lcitool variables macos-11 qemu
+ #
+-# https://gitlab.com/libvirt/libvirt-ci/-/commit/c7e275ab27ac0dcd09da290817b9adeea1fd1eb1
++# https://gitlab.com/libvirt/libvirt-ci
+ 
+-PACKAGING_COMMAND='brew'
+ CCACHE='/usr/local/bin/ccache'
++CPAN_PKGS='Test::Harness'
++CROSS_PKGS=''
+ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+-PYTHON='/usr/local/bin/python3'
++PACKAGING_COMMAND='brew'
+ PIP3='/usr/local/bin/pip3'
+-PKGS='bash bc bzip2 capstone ccache cpanminus ctags curl dbus diffutils gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb libxml2 llvm lzo make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
++PKGS='bash bc bzip2 capstone ccache cpanminus ctags curl dbus diffutils dtc gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb libxml2 llvm lzo make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
+ PYPI_PKGS='PyYAML numpy pillow sphinx sphinx-rtd-theme virtualenv'
+-CPAN_PKGS='Test::Harness'
++PYTHON='/usr/local/bin/python3'
 diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index 1e30674d67..310bad1315 100755
+index b8a69cee59..b8cf0a7386 100755
 --- a/tests/lcitool/refresh
 +++ b/tests/lcitool/refresh
-@@ -65,12 +65,19 @@ ubuntu1804_skipssh = [
-    "ENV QEMU_CONFIGURE_OPTS --disable-libssh\n"
- ]
+@@ -60,6 +60,11 @@ def generate_dockerfile(host, target, cross=None, trailer=None):
+    cmd.extend([target, "qemu"])
+    generate(filename, cmd, trailer)
  
-+ubuntu2004_tsanhack = [
-+   "# Apply patch https://reviews.llvm.org/D75820\n",
-+   "# This is required for TSan in clang-10 to compile with QEMU.\n",
-+   "RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h\n"
-+]
++def generate_cirrus(target, trailer=None):
++   filename = Path(src_dir, ".gitlab-ci.d", "cirrus", target + ".vars")
++   cmd = [lcitool_path, "variables", target, "qemu"]
++   generate(filename, cmd, trailer)
 +
- try:
-    generate_dockerfile("centos8", "centos-8")
-    generate_dockerfile("fedora", "fedora-35")
-    generate_dockerfile("ubuntu1804", "ubuntu-1804",
-                        trailer="".join(ubuntu1804_skipssh))
--
-+   generate_dockerfile("ubuntu2004", "ubuntu-2004",
-+                       trailer="".join(ubuntu2004_tsanhack))
+ ubuntu1804_skipssh = [
+    "# https://bugs.launchpad.net/qemu/+bug/1838763\n",
+    "ENV QEMU_CONFIGURE_OPTS --disable-libssh\n"
+@@ -79,6 +84,11 @@ try:
+    generate_dockerfile("ubuntu2004", "ubuntu-2004",
+                        trailer="".join(ubuntu2004_tsanhack))
+    generate_dockerfile("opensuse-leap", "opensuse-leap-152")
++
++   generate_cirrus("freebsd-12")
++   generate_cirrus("freebsd-13")
++   generate_cirrus("macos-11")
++
     sys.exit(0)
  except Exception as ex:
     print(str(ex), file=sys.stderr)
