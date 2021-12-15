@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2092475FE9
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 18:54:31 +0100 (CET)
-Received: from localhost ([::1]:54832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89BF2475F8F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 18:43:39 +0100 (CET)
+Received: from localhost ([::1]:45222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxYU2-0005pB-VT
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 12:54:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39210)
+	id 1mxYJW-0005Pt-ME
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 12:43:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxXiA-0004dL-Vz; Wed, 15 Dec 2021 12:05:03 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32492)
+ id 1mxXiA-0004dJ-52; Wed, 15 Dec 2021 12:05:03 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43258
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxXi9-0004gz-3U; Wed, 15 Dec 2021 12:05:02 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFGfaCf010472; 
+ id 1mxXi7-0004gZ-Jj; Wed, 15 Dec 2021 12:05:01 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFGfaFk020487; 
  Wed, 15 Dec 2021 17:04:31 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cye72sntf-1
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cyhyk42vr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Dec 2021 17:04:30 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BFH2kAt004398;
- Wed, 15 Dec 2021 17:04:28 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3cy7jqyfdn-1
+ Wed, 15 Dec 2021 17:04:31 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BFH430p028853;
+ Wed, 15 Dec 2021 17:04:29 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma01fra.de.ibm.com with ESMTP id 3cy7k375w4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Dec 2021 17:04:28 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1BFH4Qgx46924146
+ Wed, 15 Dec 2021 17:04:29 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BFH4R2U40632732
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 17:04:26 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5210611C058;
- Wed, 15 Dec 2021 17:04:26 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1916111C04C;
+ Wed, 15 Dec 2021 17:04:27 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 00B774C040;
+ Wed, 15 Dec 2021 17:04:27 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BAEE14C046;
  Wed, 15 Dec 2021 17:04:26 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Wed, 15 Dec 2021 17:04:26 +0000 (GMT)
 Received: from yukon.home (unknown [9.171.19.61])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 6207C220295;
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 124BF220247;
  Wed, 15 Dec 2021 18:04:25 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 046/102] softfloat: Add float64r32 arithmetic routines
-Date: Wed, 15 Dec 2021 18:03:01 +0100
-Message-Id: <20211215170357.321643-34-clg@kaod.org>
+Subject: [PULL 047/102] target/ppc: Add helpers for fmadds et al
+Date: Wed, 15 Dec 2021 18:03:02 +0100
+Message-Id: <20211215170357.321643-35-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211215170357.321643-1-clg@kaod.org>
 References: <20211215165847.321042-1-clg@kaod.org>
@@ -64,24 +65,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Km0ygSCY316eprjboF1cQ1bBDvZSzfxz
-X-Proofpoint-ORIG-GUID: Km0ygSCY316eprjboF1cQ1bBDvZSzfxz
+X-Proofpoint-GUID: fQRZqeDYXqiS45QDRfrBRrGMH-_laBwV
+X-Proofpoint-ORIG-GUID: fQRZqeDYXqiS45QDRfrBRrGMH-_laBwV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-15_10,2021-12-14_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  clxscore=1034 bulkscore=0
- adultscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
- mlxscore=0 suspectscore=0 spamscore=0 malwarescore=0 mlxlogscore=782
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxlogscore=844 mlxscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
+ impostorscore=0 priorityscore=1501 suspectscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2112150098
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,220 +104,136 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-These variants take a float64 as input, compute the result to
-infinite precision (as we do with FloatParts), round the result
-to the precision and dynamic range of float32, and then return
-the result in the format of float64.
-
-This is the operation PowerPC requires for its float32 operations.
+Use float64r32_muladd.  Fixes a double-rounding issue with performing
+the compuation in float64 and then rounding afterward.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211119160502.17432-28-richard.henderson@linaro.org>
+Message-Id: <20211119160502.17432-29-richard.henderson@linaro.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/fpu/softfloat.h |  12 +++++
- fpu/softfloat.c         | 110 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 122 insertions(+)
+ target/ppc/helper.h                |  4 ++++
+ target/ppc/fpu_helper.c            | 17 ++++++++++++++++-
+ target/ppc/translate/fp-impl.c.inc | 13 +++++--------
+ 3 files changed, 25 insertions(+), 9 deletions(-)
 
-diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index 0d3b40780762..d34b2c44d256 100644
---- a/include/fpu/softfloat.h
-+++ b/include/fpu/softfloat.h
-@@ -908,6 +908,18 @@ static inline bool float64_unordered_quiet(float64 a=
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 632a81c6766f..8a9f2ee7ed4f 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -101,6 +101,10 @@ DEF_HELPER_4(fmadd, i64, env, i64, i64, i64)
+ DEF_HELPER_4(fmsub, i64, env, i64, i64, i64)
+ DEF_HELPER_4(fnmadd, i64, env, i64, i64, i64)
+ DEF_HELPER_4(fnmsub, i64, env, i64, i64, i64)
++DEF_HELPER_4(fmadds, i64, env, i64, i64, i64)
++DEF_HELPER_4(fmsubs, i64, env, i64, i64, i64)
++DEF_HELPER_4(fnmadds, i64, env, i64, i64, i64)
++DEF_HELPER_4(fnmsubs, i64, env, i64, i64, i64)
+ DEF_HELPER_2(fsqrt, f64, env, f64)
+ DEF_HELPER_2(fre, i64, env, i64)
+ DEF_HELPER_2(fres, i64, env, i64)
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index aef81a818f63..12dd889fb5f8 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -705,10 +705,25 @@ static float64 do_fmadd(CPUPPCState *env, float64 a=
 , float64 b,
- *-----------------------------------------------------------------------=
------*/
- float64 float64_default_nan(float_status *status);
-=20
-+/*----------------------------------------------------------------------=
-------
-+| Software IEC/IEEE double-precision operations, rounding to single prec=
-ision,
-+| returning a result in double precision, with only one rounding step.
-+*-----------------------------------------------------------------------=
------*/
-+
-+float64 float64r32_add(float64, float64, float_status *status);
-+float64 float64r32_sub(float64, float64, float_status *status);
-+float64 float64r32_mul(float64, float64, float_status *status);
-+float64 float64r32_div(float64, float64, float_status *status);
-+float64 float64r32_muladd(float64, float64, float64, int, float_status *=
-status);
-+float64 float64r32_sqrt(float64, float_status *status);
-+
- /*----------------------------------------------------------------------=
-------
- | Software IEC/IEEE extended double-precision conversion routines.
- *-----------------------------------------------------------------------=
------*/
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 834ed3a054f7..7f524d437767 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -1693,6 +1693,50 @@ static float64 float64_round_pack_canonical(FloatP=
-arts64 *p,
-     return float64_pack_raw(p);
+     return ret;
  }
 =20
-+static float64 float64r32_round_pack_canonical(FloatParts64 *p,
-+                                               float_status *s)
++static uint64_t do_fmadds(CPUPPCState *env, float64 a, float64 b,
++                          float64 c, int madd_flags, uintptr_t retaddr)
 +{
-+    parts_uncanon(p, s, &float32_params);
++    float64 ret =3D float64r32_muladd(a, b, c, madd_flags, &env->fp_stat=
+us);
++    int flags =3D get_float_exception_flags(&env->fp_status);
 +
-+    /*
-+     * In parts_uncanon, we placed the fraction for float32 at the lsb.
-+     * We need to adjust the fraction higher so that the least N bits ar=
-e
-+     * zero, and the fraction is adjacent to the float64 implicit bit.
-+     */
-+    switch (p->cls) {
-+    case float_class_normal:
-+        if (unlikely(p->exp =3D=3D 0)) {
-+            /*
-+             * The result is denormal for float32, but can be represente=
-d
-+             * in normalized form for float64.  Adjust, per canonicalize=
-.
-+             */
-+            int shift =3D frac_normalize(p);
-+            p->exp =3D (float32_params.frac_shift -
-+                      float32_params.exp_bias - shift + 1 +
-+                      float64_params.exp_bias);
-+            frac_shr(p, float64_params.frac_shift);
-+        } else {
-+            frac_shl(p, float32_params.frac_shift - float64_params.frac_=
-shift);
-+            p->exp +=3D float64_params.exp_bias - float32_params.exp_bia=
-s;
-+        }
-+        break;
-+    case float_class_snan:
-+    case float_class_qnan:
-+        frac_shl(p, float32_params.frac_shift - float64_params.frac_shif=
-t);
-+        p->exp =3D float64_params.exp_max;
-+        break;
-+    case float_class_inf:
-+        p->exp =3D float64_params.exp_max;
-+        break;
-+    case float_class_zero:
-+        break;
-+    default:
-+        g_assert_not_reached();
++    if (unlikely(flags & float_flag_invalid)) {
++        float_invalid_op_madd(env, flags, 1, retaddr);
 +    }
-+
-+    return float64_pack_raw(p);
++    return ret;
 +}
 +
- static void float128_unpack_canonical(FloatParts128 *p, float128 f,
-                                       float_status *s)
- {
-@@ -1938,6 +1982,28 @@ float64_sub(float64 a, float64 b, float_status *s)
-     return float64_addsub(a, b, s, hard_f64_sub, soft_f64_sub);
+ #define FPU_FMADD(op, madd_flags)                                    \
+     uint64_t helper_##op(CPUPPCState *env, uint64_t arg1,            \
+                          uint64_t arg2, uint64_t arg3)               \
+-    { return do_fmadd(env, arg1, arg2, arg3, madd_flags, GETPC()); }
++    { return do_fmadd(env, arg1, arg2, arg3, madd_flags, GETPC()); } \
++    uint64_t helper_##op##s(CPUPPCState *env, uint64_t arg1,         \
++                         uint64_t arg2, uint64_t arg3)               \
++    { return do_fmadds(env, arg1, arg2, arg3, madd_flags, GETPC()); }
+=20
+ #define MADD_FLGS 0
+ #define MSUB_FLGS float_muladd_negate_c
+diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp=
+-impl.c.inc
+index 0767e45d87d8..2e3162d3e7c0 100644
+--- a/target/ppc/translate/fp-impl.c.inc
++++ b/target/ppc/translate/fp-impl.c.inc
+@@ -31,7 +31,7 @@ static void gen_set_cr1_from_fpscr(DisasContext *ctx)
+ #endif
+=20
+ /***                       Floating-Point arithmetic                    =
+   ***/
+-#define _GEN_FLOAT_ACB(name, op, op1, op2, isfloat, set_fprf, type)     =
+      \
++#define _GEN_FLOAT_ACB(name, op1, op2, set_fprf, type)                  =
+      \
+ static void gen_f##name(DisasContext *ctx)                              =
+      \
+ {                                                                       =
+      \
+     TCGv_i64 t0;                                                        =
+      \
+@@ -50,10 +50,7 @@ static void gen_f##name(DisasContext *ctx)            =
+                        \
+     get_fpr(t0, rA(ctx->opcode));                                       =
+      \
+     get_fpr(t1, rC(ctx->opcode));                                       =
+      \
+     get_fpr(t2, rB(ctx->opcode));                                       =
+      \
+-    gen_helper_f##op(t3, cpu_env, t0, t1, t2);                          =
+      \
+-    if (isfloat) {                                                      =
+      \
+-        gen_helper_frsp(t3, cpu_env, t3);                               =
+      \
+-    }                                                                   =
+      \
++    gen_helper_f##name(t3, cpu_env, t0, t1, t2);                        =
+      \
+     set_fpr(rD(ctx->opcode), t3);                                       =
+      \
+     if (set_fprf) {                                                     =
+      \
+         gen_compute_fprf_float64(t3);                                   =
+      \
+@@ -68,8 +65,8 @@ static void gen_f##name(DisasContext *ctx)             =
+                       \
  }
 =20
-+static float64 float64r32_addsub(float64 a, float64 b, float_status *sta=
-tus,
-+                                 bool subtract)
-+{
-+    FloatParts64 pa, pb, *pr;
-+
-+    float64_unpack_canonical(&pa, a, status);
-+    float64_unpack_canonical(&pb, b, status);
-+    pr =3D parts_addsub(&pa, &pb, status, subtract);
-+
-+    return float64r32_round_pack_canonical(pr, status);
-+}
-+
-+float64 float64r32_add(float64 a, float64 b, float_status *status)
-+{
-+    return float64r32_addsub(a, b, status, false);
-+}
-+
-+float64 float64r32_sub(float64 a, float64 b, float_status *status)
-+{
-+    return float64r32_addsub(a, b, status, true);
-+}
-+
- static bfloat16 QEMU_FLATTEN
- bfloat16_addsub(bfloat16 a, bfloat16 b, float_status *status, bool subtr=
-act)
- {
-@@ -2069,6 +2135,17 @@ float64_mul(float64 a, float64 b, float_status *s)
-                         f64_is_zon2, f64_addsubmul_post);
+ #define GEN_FLOAT_ACB(name, op2, set_fprf, type)                        =
+      \
+-_GEN_FLOAT_ACB(name, name, 0x3F, op2, 0, set_fprf, type);               =
+      \
+-_GEN_FLOAT_ACB(name##s, name, 0x3B, op2, 1, set_fprf, type);
++_GEN_FLOAT_ACB(name, 0x3F, op2, set_fprf, type);                        =
+      \
++_GEN_FLOAT_ACB(name##s, 0x3B, op2, set_fprf, type);
+=20
+ #define _GEN_FLOAT_AB(name, op, op1, op2, inval, isfloat, set_fprf, type=
+)     \
+ static void gen_f##name(DisasContext *ctx)                              =
+      \
+@@ -233,7 +230,7 @@ static void gen_frsqrtes(DisasContext *ctx)
  }
 =20
-+float64 float64r32_mul(float64 a, float64 b, float_status *status)
-+{
-+    FloatParts64 pa, pb, *pr;
-+
-+    float64_unpack_canonical(&pa, a, status);
-+    float64_unpack_canonical(&pb, b, status);
-+    pr =3D parts_mul(&pa, &pb, status);
-+
-+    return float64r32_round_pack_canonical(pr, status);
-+}
-+
- bfloat16 QEMU_FLATTEN
- bfloat16_mul(bfloat16 a, bfloat16 b, float_status *status)
- {
-@@ -2296,6 +2373,19 @@ float64_muladd(float64 xa, float64 xb, float64 xc,=
- int flags, float_status *s)
-     return soft_f64_muladd(ua.s, ub.s, uc.s, flags, s);
- }
-=20
-+float64 float64r32_muladd(float64 a, float64 b, float64 c,
-+                          int flags, float_status *status)
-+{
-+    FloatParts64 pa, pb, pc, *pr;
-+
-+    float64_unpack_canonical(&pa, a, status);
-+    float64_unpack_canonical(&pb, b, status);
-+    float64_unpack_canonical(&pc, c, status);
-+    pr =3D parts_muladd(&pa, &pb, &pc, flags, status);
-+
-+    return float64r32_round_pack_canonical(pr, status);
-+}
-+
- bfloat16 QEMU_FLATTEN bfloat16_muladd(bfloat16 a, bfloat16 b, bfloat16 c=
-,
-                                       int flags, float_status *status)
- {
-@@ -2419,6 +2509,17 @@ float64_div(float64 a, float64 b, float_status *s)
-                         f64_div_pre, f64_div_post);
- }
-=20
-+float64 float64r32_div(float64 a, float64 b, float_status *status)
-+{
-+    FloatParts64 pa, pb, *pr;
-+
-+    float64_unpack_canonical(&pa, a, status);
-+    float64_unpack_canonical(&pb, b, status);
-+    pr =3D parts_div(&pa, &pb, status);
-+
-+    return float64r32_round_pack_canonical(pr, status);
-+}
-+
- bfloat16 QEMU_FLATTEN
- bfloat16_div(bfloat16 a, bfloat16 b, float_status *status)
- {
-@@ -4285,6 +4386,15 @@ float64 QEMU_FLATTEN float64_sqrt(float64 xa, floa=
-t_status *s)
-     return soft_f64_sqrt(ua.s, s);
- }
-=20
-+float64 float64r32_sqrt(float64 a, float_status *status)
-+{
-+    FloatParts64 p;
-+
-+    float64_unpack_canonical(&p, a, status);
-+    parts_sqrt(&p, status, &float64_params);
-+    return float64r32_round_pack_canonical(&p, status);
-+}
-+
- bfloat16 QEMU_FLATTEN bfloat16_sqrt(bfloat16 a, float_status *status)
- {
-     FloatParts64 p;
+ /* fsel */
+-_GEN_FLOAT_ACB(sel, sel, 0x3F, 0x17, 0, 0, PPC_FLOAT_FSEL);
++_GEN_FLOAT_ACB(sel, 0x3F, 0x17, 0, PPC_FLOAT_FSEL);
+ /* fsub - fsubs */
+ GEN_FLOAT_AB(sub, 0x14, 0x000007C0, 1, PPC_FLOAT);
+ /* Optional: */
 --=20
 2.31.1
 
