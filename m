@@ -2,56 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475BF4759B1
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 14:31:57 +0100 (CET)
-Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 940FA475A23
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 14:58:29 +0100 (CET)
+Received: from localhost ([::1]:60160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxUNw-0006nb-Cq
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 08:31:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53870)
+	id 1mxUnc-0003PJ-6B
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 08:58:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mxTqg-00040q-Gp
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:57:34 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:36984
- helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mxTrL-0005QV-6L
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:58:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mxTqd-00057n-GY
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:57:34 -0500
-Received: from [100.100.35.147] (unknown [58.34.185.106])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mxTrI-0005Ic-TJ
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 07:58:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639573091;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xk7OaS/xC2u4XkaTsuCAJydUKIBhb3vrXaG3P5FNai0=;
+ b=DGWBOug3oxfo3QdHy0D6aSQUtCAtK6H3zkVydN+NblVDHRO3hIgiOpOty0rZWlec8ASXvx
+ z1iN0jjInEPpcXMlI9unAqY+hlG59NlhR714LaD9LyoHN1vyVOixBC7oqD8X2nzavLmWqv
+ +0XDSd5OaZK5Y0mQIHysQER7wVGpvq8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-39-auqwIZSPOy-HUu35WfbmMQ-1; Wed, 15 Dec 2021 07:58:03 -0500
+X-MC-Unique: auqwIZSPOy-HUu35WfbmMQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id B9E5F600B0;
- Wed, 15 Dec 2021 20:57:18 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1639573038; bh=AmeyALJc+CxU0vtMVpRh+ut6h/x4tb3iUj4OTzGqbMU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=xsZ3c+7iHCBMOaAoZlzVDlb6XgxQABqEsYfE+wD7vy7dJRk+9jLOfwLCzSTRlkWSM
- 0i+nPEEDNhaSgPbDcXeZR2Afrcpooljv9F/au5b6fTSbKYe5VeWxnJyyvvEnNLPqk6
- iyh71BV6Ka71UuwtTgring/eOCf71oQsW12asZ/o=
-Message-ID: <a686e6e1-06ad-6f9c-ae5b-72675cbc0bbc@xen0n.name>
-Date: Wed, 15 Dec 2021 20:57:18 +0800
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42A7D100F942;
+ Wed, 15 Dec 2021 12:58:02 +0000 (UTC)
+Received: from redhat.com (unknown [10.22.8.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7184D7E8C8;
+ Wed, 15 Dec 2021 12:57:59 +0000 (UTC)
+Date: Wed, 15 Dec 2021 12:57:56 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 00/18] tests/docker: start using libvirt-ci's
+ "lcitool" for dockerfiles
+Message-ID: <YbnmVHYYslHKtJTN@redhat.com>
+References: <20211124130150.268230-1-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:95.0)
- Gecko/20100101 Thunderbird/95.0a1
-Subject: Re: [PATCH v9 28/31] common-user: Add safe syscall handling for
- loongarch64 hosts
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211214080154.196350-1-git@xen0n.name>
- <20211214080154.196350-29-git@xen0n.name>
- <fce709e8-f122-f410-0c62-4d14f46ed999@linaro.org>
-From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <fce709e8-f122-f410-0c62-4d14f46ed999@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20211124130150.268230-1-berrange@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: -36
-X-Spam_score: -3.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.64,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,59 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- XiaoJuan Yang <yangxiaojuan@loongson.cn>, Song Gao <gaosong@loongson.cn>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+On Wed, Nov 24, 2021 at 01:01:32PM +0000, Daniel P. Berrangé wrote:
+> One unsolved problem here is that the rebase to Fedora 35 has
+> caused the oss-fuzz job in CI to reliably fail with a timeout.
+> Running locally on F35 the fuzz script never finishes even after
+> 24 hours. There's a genuine problem hiding in there in the
+> tests or code itself, that newer clang has likely exposed.
 
-On 2021/12/15 03:29, Richard Henderson wrote:
-> On 12/14/21 12:01 AM, WANG Xuerui wrote:
->> +        move    $t0, $a0        /* signal_pending pointer */
-> ...
->> +safe_syscall_start:
->> +        /* If signal_pending is non-zero, don't do the call */
->> +        ld.w    $t1, $t0, 0
->> +        bnez    $t1, 2f
->> +        syscall 0
->
-> We need a non-syscall clobbered register for signal_pending, per the
-> bug fixed in 5d9f3ea0817215ad4baac5aa30414e9ebbaaf0d6.
->
-> In the case of riscv, because of the way exceptions are delivered,
-> there are no syscall-clobbered registers (by the time syscall is
-> distinguished from interrupt, all registers have been saved).
->
-> In the case of mips, there are no non-syscall-clobbered registers that
-> are not also call-saved or syscall arguments, so I had to allocate a
-> stack frame and save/restore s0.
->
-> For loongarch64, according to glibc,
->
-> #define __SYSCALL_CLOBBERS \
->   "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7", "$t8", "memory"
->
-> which does suggest that a6 is unused, saved across the syscall, and
-> also call-clobbered (so we don't have to allocate a stack frame).
->
-> I've had a browse through the loongarch kernel code and that seems to
-> be all true. (Curiously, loongarch restores more registers than it
-> saves on the way out of handle_syscall.  There may be a subtle reason
-> for that, or room for improvement.)
+Well something has changed in the last month - either Fedora 35
+got some fixes or something in QEMU got fixed. The oss-fuzz
+jobs now pass on Fedora 35 reliably both locally and in CI.
 
-Of course I completely forgot the fact that LoongArch looks more like
-MIPS than RISC-V in kernel land (facepalm)
 
-I've checked the LoongArch kernel sources too and yeah using a6 is ideal
-and unlikely to break in the future (we're not allowing any more
-7-argument syscalls into the kernel after all). I've just sent v10 with
-some other minor changes.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
->
->
-> r~
 
