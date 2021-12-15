@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ACD0475663
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 11:29:38 +0100 (CET)
-Received: from localhost ([::1]:37636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B5A475655
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 11:28:22 +0100 (CET)
+Received: from localhost ([::1]:34176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxRXV-0006dV-6r
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 05:29:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36824)
+	id 1mxRWH-0004JY-UT
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 05:28:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mxRSs-0000jg-M6; Wed, 15 Dec 2021 05:24:50 -0500
-Received: from [2a00:1450:4864:20::335] (port=43581
- helo=mail-wm1-x335.google.com)
+ id 1mxRU0-0001xa-Qp; Wed, 15 Dec 2021 05:26:00 -0500
+Received: from [2a00:1450:4864:20::32c] (port=37421
+ helo=mail-wm1-x32c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mxRSq-00062D-VP; Wed, 15 Dec 2021 05:24:50 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- o19-20020a1c7513000000b0033a93202467so15600278wmc.2; 
- Wed, 15 Dec 2021 02:24:47 -0800 (PST)
+ id 1mxRTv-0006K6-AL; Wed, 15 Dec 2021 05:25:59 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ k37-20020a05600c1ca500b00330cb84834fso18161086wms.2; 
+ Wed, 15 Dec 2021 02:25:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=8l9DEKZEeBSB3HzgDS7e/xqnm2n2oYtGvqgXIqm6dPU=;
- b=Y5Ftyt9JKwhcHR/i+0gJDq6PRL56pxz7k6FN/r+FruVyMNR+gQxYzoa1SXrbwfusVr
- gW4L5TE0EPLdu+ayXFjYelE+khWnm4T5Uj4H4Z5kZPOFbfnDkWFtFahUSOt2TVjjg/iW
- y8CVhhBjntW/AunKMCksTItEhe7FmdJQWgvEzN99WCP91bBcI34inRHWdTCzhVSCMLcW
- cuYhCKRLTO9lEH6Mpncp3VZsAtD+g6PLF1MY783HksYl9Fsut2izF5c+wfKy+U1jS0CR
- N5Ouh9elqeSY8SZcKOGIHln9MyV1NCyEB577stA8LytCM3UyYELgarE4ofSInC4z57IH
- FuQg==
+ bh=+AA8L+lmPS4Y8CfZ5titB/nnVN7X7WdAbSVCwQErl50=;
+ b=awIoh5lWFe7z+GHvRVpSKCrTnBYYuCLtv/GILR/UcmpVQGZU0i5JsVQVztEy3d7U3B
+ DInxFOOZPX1wOmAMCToeI7wvqq5TvsTIYoNQe3qrBwzxiJjS79YSdh5xpYlOUHt9Pkgm
+ qNwG7/c5rtTkpaMVqf50u7J/dzSHTYJi00Gve85j3loUUwmU/g90VxK4vY/LIIoZO/um
+ grZj4s3MuMaqF1K5AO6ED66ZFUqaHMJBY7JD4bYnZOygzHp1i2wyJJ87rDxZ17SmZpCh
+ qgruFpEW+X6+CULZcugrubJA1AXa1yJfHdlTsOC9i1s47SvEAnTa45JsMk6wo3VIxl1W
+ pbHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=8l9DEKZEeBSB3HzgDS7e/xqnm2n2oYtGvqgXIqm6dPU=;
- b=BOS0M7Nt2Nta8ZEaNmGizNdtZnZbI+x6k2LGEF4rfzESPjAYYmxrJ+LOXcP5HZxxpZ
- zvREAadLbJ9/MkPEnbfXkhzSez6P5vLNdvqLopwy2znZwP4X+cWxgqmWlQ68H30CE7Ks
- c/9ERmnCuLseAaixMeYVpt+MiO0nt7EIwaloKqymwhUUWz+0X3yfFQAVvmkCwaWqFDsI
- lCTSC2kITiSrFS/oVv2KZNhcbL0Qe9ioeiht4RHIteFPciJYRrC8rKdW2S4GDGfVNWFG
- w6yNPtdxNc97RhO8vTtjIsSWKQp9ajp4cA+oa5DRhLY0FMMiPiZoNNWPbOdCEGhhKIgJ
- looQ==
-X-Gm-Message-State: AOAM533pq5vyJo9USltCkPPfF/DylkNdEGj5lUDX3ZhkHc7UPZgamV1X
- wEI4IsYTbQmpQZlaYJrglw/GYE6sgX4=
-X-Google-Smtp-Source: ABdhPJzc1At7Vt2AVvfpir/btkWzGI2o2dB6O/X9yPdd6BfcEv26QCe10wHALHz84yHYpV2BGyRcDA==
-X-Received: by 2002:a1c:cc0f:: with SMTP id h15mr1175262wmb.38.1639563886092; 
- Wed, 15 Dec 2021 02:24:46 -0800 (PST)
+ bh=+AA8L+lmPS4Y8CfZ5titB/nnVN7X7WdAbSVCwQErl50=;
+ b=08lWzP3emRp6yoaK+C19O7uX8y4mlheL/dJ9mu/iiRK8DC4gY5aX9kuPmeeso+mc1g
+ VhkZt6krQ9JE9zWT9H4P3yqLBEr7PXaFF6oiY01ryorLDpVNRCpdmz5G0MRjjhqnaB1H
+ gB6YOJ00xzpEoQj8wtU2Q8NkJOVoTPJDj52ExlaLGwBLf38kDguiscjtAI1jmpr7LfWV
+ 9zOQDl/5iqZdBwaF1k7xkEmAFbDpjGJkA/1V8t5Ct5UeizjBy0/Xs7WSWMBLFfhq+qxa
+ AAG0PYJ/sqG38BPGyXlb33ImXP/DLBxyN6+6JD265YkVYO//SdOrmV0WbcRjS7uv+kWo
+ +iUg==
+X-Gm-Message-State: AOAM531BVT27+ebFjU2rABluqC4nByim3Y6z1nO2duxXXOU1rvOR0PM8
+ po5Bf1WD4QgsVKLunsUK713gTKTA2cc=
+X-Google-Smtp-Source: ABdhPJy7kvUX6dw/8YAh0wf79Rsn+bzKTrNspTJhIaz4VYLuxAKqeDbN+DgL9mdXz9IPHeGe1AjJeQ==
+X-Received: by 2002:a1c:7908:: with SMTP id l8mr3917841wme.16.1639563952545;
+ Wed, 15 Dec 2021 02:25:52 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id i17sm1577005wmq.48.2021.12.15.02.24.45
+ by smtp.gmail.com with ESMTPSA id o12sm1246483wrv.76.2021.12.15.02.25.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Dec 2021 02:24:45 -0800 (PST)
-Message-ID: <60230067-bf75-0352-d5d6-93529c03aa24@amsat.org>
-Date: Wed, 15 Dec 2021 11:24:44 +0100
+ Wed, 15 Dec 2021 02:25:51 -0800 (PST)
+Message-ID: <0b08d0ca-7a72-9332-ff3d-df8901416a94@amsat.org>
+Date: Wed, 15 Dec 2021 11:25:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH] hw/net/allwinner_emac: Replace MII_ANAR_TX ->
- MII_ANLPAR_TX definition
+Subject: Re: [PATCH] hw/avr: Realize AVRCPU qdev object using qdev_realize()
 Content-Language: en-US
 To: qemu-devel@nongnu.org
-References: <20211122105145.1053455-1-f4bug@amsat.org>
+References: <20211205224109.322152-1-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211122105145.1053455-1-f4bug@amsat.org>
+In-Reply-To: <20211205224109.322152-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -92,36 +91,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Jason Wang <jasowang@redhat.com>, qemu-arm@nongnu.org,
- Beniamino Galvani <b.galvani@gmail.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-trivial@nongnu.org,
+ Michael Rolnik <mrolnik@gmail.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping?
+Hi Laurent,
 
-On 11/22/21 11:51, Philippe Mathieu-Daudé wrote:
-> While both MII_ANAR_TX / MII_ANLPAR_TX have the same value,
-> the ANAR and ANLPAR registers are different, so technically
-> the ANLPAR register have to use the MII_ANLPAR_TX definition.
+This patch is reviewed, can it go via your trivial tree?
+
+On 12/5/21 23:41, Philippe Mathieu-Daudé wrote:
+> TYPE_AVR_CPU inherits TYPE_CPU, which itself inherits TYPE_DEVICE.
+> TYPE_DEVICE instances are realized using qdev_realize(), we don't
+> need to access QOM internal values.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/net/allwinner_emac.c | 2 +-
+>  hw/avr/atmega.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/net/allwinner_emac.c b/hw/net/allwinner_emac.c
-> index ddddf35c45d..3aed92b8f1a 100644
-> --- a/hw/net/allwinner_emac.c
-> +++ b/hw/net/allwinner_emac.c
-> @@ -50,7 +50,7 @@ static void mii_reset(RTL8201CPState *mii, bool link_ok)
->                  MII_BMSR_10T_HD | MII_BMSR_MFPS | MII_BMSR_AUTONEG;
->      mii->anar = MII_ANAR_TXFD | MII_ANAR_TX | MII_ANAR_10FD | MII_ANAR_10 |
->                  MII_ANAR_CSMACD;
-> -    mii->anlpar = MII_ANAR_TX;
-> +    mii->anlpar = MII_ANLPAR_TX;
+> diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
+> index 0608e2d475e..a34803e6427 100644
+> --- a/hw/avr/atmega.c
+> +++ b/hw/avr/atmega.c
+> @@ -233,7 +233,7 @@ static void atmega_realize(DeviceState *dev, Error **errp)
 >  
->      mii_set_link(mii, link_ok);
->  }
+>      /* CPU */
+>      object_initialize_child(OBJECT(dev), "cpu", &s->cpu, mc->cpu_type);
+> -    object_property_set_bool(OBJECT(&s->cpu), "realized", true, &error_abort);
+> +    qdev_realize(DEVICE(&s->cpu), NULL, &error_abort);
+>      cpudev = DEVICE(&s->cpu);
+>  
+>      /* SRAM */
 > 
 
