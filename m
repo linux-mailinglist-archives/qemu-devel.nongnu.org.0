@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B5D475405
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 09:03:51 +0100 (CET)
-Received: from localhost ([::1]:33160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3EE47540F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 09:06:24 +0100 (CET)
+Received: from localhost ([::1]:36102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxPGQ-0000qP-KK
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 03:03:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49850)
+	id 1mxPIt-0002sn-Gn
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 03:06:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxOo3-0003Uj-Ax
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:34:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33557)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxOo6-0003dC-FN
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:34:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxOo1-0004KM-P5
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:34:31 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxOo5-0004Kr-0y
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:34:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639553669;
+ s=mimecast20190719; t=1639553672;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UQ8C6HBk7OQvK9jhuSbMsE3A1ZideXwQ/keIyQPQGmw=;
- b=UHMKdxEM7+WhfICnDo5aDnxFjLckBNKNjlb4ldR5FkPH0CumJAJqta/w03aVBGiVBY+S+a
- rBrBkSHUXJV5z7ai0SII6JvT+vqzVaEtQhUl00G8i2oYR7Ai4lsJZOrvE0pMPlRjZpnQK/
- Vpq0yoWhlP/bH2Zn6VTCNTfTxlH44mw=
+ bh=+27Y8zhSJqLctAanOZcF4V3W+XNgiAT0N4mJ4sDQZac=;
+ b=UWeb3KNAIbr/ak0zWFBO0lcrwUfmqwa0zJUkEjHpMzZOPLAJ6EpF8kqmr7N1jQjhMDOVyD
+ mPsCjopoKnqSNDgZdZLswypEs2WBDBG0sfdAZy2eqJhhb7hKvupPQsqM7PxZvdCI3mcHGR
+ bigN+uENBNw/r+0I5qkDhSwfGqF5n38=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-49-7L5I4-iXMTytHmPkHp2kLw-1; Wed, 15 Dec 2021 02:34:27 -0500
-X-MC-Unique: 7L5I4-iXMTytHmPkHp2kLw-1
+ us-mta-531-halVZkjCOd-5plWBh97YZw-1; Wed, 15 Dec 2021 02:34:28 -0500
+X-MC-Unique: halVZkjCOd-5plWBh97YZw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FB892F2C;
- Wed, 15 Dec 2021 07:34:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCF721853022;
+ Wed, 15 Dec 2021 07:34:27 +0000 (UTC)
 Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8A8631092790;
- Wed, 15 Dec 2021 07:34:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C77E31092790;
+ Wed, 15 Dec 2021 07:34:26 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/16] virtio-iommu: Fix endianness in get_config
-Date: Wed, 15 Dec 2021 08:33:59 +0100
-Message-Id: <20211215073402.144286-14-thuth@redhat.com>
+Subject: [PULL 14/16] virtio-iommu: Fix the domain_range end
+Date: Wed, 15 Dec 2021 08:34:00 +0100
+Message-Id: <20211215073402.144286-15-thuth@redhat.com>
 In-Reply-To: <20211215073402.144286-1-thuth@redhat.com>
 References: <20211215073402.144286-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -85,69 +85,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Auger <eric.auger@redhat.com>
 
-Endianess is not properly handled when populating
-the returned config. Use the cpu_to_le* primitives
-for each separate field. Also, while at it, trace
-the domain range start.
+in old times the domain range was defined by a domain_bits le32.
+This was then converted into a domain_range struct. During the
+upgrade the original value of '32' (bits) has been kept while
+the end field now is the max value of the domain id (UINT32_MAX).
+Fix that and also use UINT64_MAX for the input_range.end.
 
-Reported-by: Thomas Huth <thuth@redhat.com>
+Reported-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Message-Id: <20211127072910.1261824-3-eric.auger@redhat.com>
+Message-Id: <20211127072910.1261824-4-eric.auger@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/virtio/trace-events   |  2 +-
- hw/virtio/virtio-iommu.c | 24 ++++++++++++++++--------
- 2 files changed, 17 insertions(+), 9 deletions(-)
+ hw/virtio/virtio-iommu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index 54bd7da00c..f7ad6be5fb 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -91,7 +91,7 @@ virtio_mmio_setting_irq(int level) "virtio_mmio setting IRQ %d"
- virtio_iommu_device_reset(void) "reset!"
- virtio_iommu_get_features(uint64_t features) "device supports features=0x%"PRIx64
- virtio_iommu_device_status(uint8_t status) "driver status = %d"
--virtio_iommu_get_config(uint64_t page_size_mask, uint64_t start, uint64_t end, uint32_t domain_range, uint32_t probe_size) "page_size_mask=0x%"PRIx64" start=0x%"PRIx64" end=0x%"PRIx64" domain_range=%d probe_size=0x%x"
-+virtio_iommu_get_config(uint64_t page_size_mask, uint64_t start, uint64_t end, uint32_t domain_start, uint32_t domain_end, uint32_t probe_size) "page_size_mask=0x%"PRIx64" input range start=0x%"PRIx64" input range end=0x%"PRIx64" domain range start=%d domain range end=%d probe_size=0x%x"
- virtio_iommu_attach(uint32_t domain_id, uint32_t ep_id) "domain=%d endpoint=%d"
- virtio_iommu_detach(uint32_t domain_id, uint32_t ep_id) "domain=%d endpoint=%d"
- virtio_iommu_map(uint32_t domain_id, uint64_t virt_start, uint64_t virt_end, uint64_t phys_start, uint32_t flags) "domain=%d virt_start=0x%"PRIx64" virt_end=0x%"PRIx64 " phys_start=0x%"PRIx64" flags=%d"
 diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 645c0aa399..30ee09187b 100644
+index 30ee09187b..aa9c16a17b 100644
 --- a/hw/virtio/virtio-iommu.c
 +++ b/hw/virtio/virtio-iommu.c
-@@ -822,14 +822,22 @@ unlock:
- static void virtio_iommu_get_config(VirtIODevice *vdev, uint8_t *config_data)
- {
-     VirtIOIOMMU *dev = VIRTIO_IOMMU(vdev);
--    struct virtio_iommu_config *config = &dev->config;
--
--    trace_virtio_iommu_get_config(config->page_size_mask,
--                                  config->input_range.start,
--                                  config->input_range.end,
--                                  config->domain_range.end,
--                                  config->probe_size);
--    memcpy(config_data, &dev->config, sizeof(struct virtio_iommu_config));
-+    struct virtio_iommu_config *dev_config = &dev->config;
-+    struct virtio_iommu_config *out_config = (void *)config_data;
-+
-+    out_config->page_size_mask = cpu_to_le64(dev_config->page_size_mask);
-+    out_config->input_range.start = cpu_to_le64(dev_config->input_range.start);
-+    out_config->input_range.end = cpu_to_le64(dev_config->input_range.end);
-+    out_config->domain_range.start = cpu_to_le32(dev_config->domain_range.start);
-+    out_config->domain_range.end = cpu_to_le32(dev_config->domain_range.end);
-+    out_config->probe_size = cpu_to_le32(dev_config->probe_size);
-+
-+    trace_virtio_iommu_get_config(dev_config->page_size_mask,
-+                                  dev_config->input_range.start,
-+                                  dev_config->input_range.end,
-+                                  dev_config->domain_range.start,
-+                                  dev_config->domain_range.end,
-+                                  dev_config->probe_size);
- }
+@@ -978,8 +978,8 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+     s->event_vq = virtio_add_queue(vdev, VIOMMU_DEFAULT_QUEUE_SIZE, NULL);
  
- static uint64_t virtio_iommu_get_features(VirtIODevice *vdev, uint64_t f,
+     s->config.page_size_mask = TARGET_PAGE_MASK;
+-    s->config.input_range.end = -1UL;
+-    s->config.domain_range.end = 32;
++    s->config.input_range.end = UINT64_MAX;
++    s->config.domain_range.end = UINT32_MAX;
+     s->config.probe_size = VIOMMU_PROBE_SIZE;
+ 
+     virtio_add_feature(&s->features, VIRTIO_RING_F_EVENT_IDX);
 -- 
 2.27.0
 
