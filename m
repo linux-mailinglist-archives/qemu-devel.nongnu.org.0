@@ -2,171 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9031476157
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 20:09:57 +0100 (CET)
-Received: from localhost ([::1]:53704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C1C47615E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 20:15:51 +0100 (CET)
+Received: from localhost ([::1]:33866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxZf2-0005sH-OF
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 14:09:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50840)
+	id 1mxZkj-0003KZ-R8
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 14:15:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1mxYX2-0005MV-78
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 12:57:37 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:35076)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1mxYWz-00072D-JJ
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 12:57:35 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFGB51o013374; 
- Wed, 15 Dec 2021 17:57:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=h+BGw59klwuRDxaqCqdhxpYUps4/RBx9mPXInGECQ8E=;
- b=dhDuUoOn87szghPA43qZml3vMajN58w24ZHDK6Pn4/O0Bl7JVqzsq1a2AjXfaHovbMqJ
- iArZ9QBIv+zlEdX6mkqbPL42YEJM0Y497kkkNNECKKwRC8JAYtgcchUxpOOtwOIW+r09
- THb+N78jE0c+4N8n/5TwgMCT1wKrmdMnbHdhmyWX+aqq1RBwZzrSpGw21alFQ31JhHSs
- JyF8E+tlMjrld2c6baRHMnJYznWKdP41JTYntzji5m4zoH05naKWTn35C9WjlekLrx//
- rSYLmPqsUoOBfvhuzpFE5qcYKwg7m1hleuVKQ2VkBdR1uxnzuj9CKcaX9vVEGzYttZlF uQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cyknp0c69-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 17:57:29 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BFHuVH6133573;
- Wed, 15 Dec 2021 17:57:28 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2174.outbound.protection.outlook.com [104.47.57.174])
- by userp3030.oracle.com with ESMTP id 3cvh40h8rq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 17:57:28 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VwxaasP3faPMqslbGen3Zfi+3Oy1hyBXvA/ZbK20M8ODmT9j46oF2cK/Z2Uwr+CDUtUCTtMppKXjxFmTvLdw25CjAV5mhBMePR33H73sDH8vNM0KO/IlPlGIMaIa/8QCyyqolRkCF6BVAtPNHDTxPlzHLgGDILzNOdqIB5W4TqTk2NXFjyqcARBqfPKhXC8lWZh1VAc2VfiYc0fX8N3Z29KfZreXHI2ViRAawxUTeuvS+lbRpSecO60HYI9YXQU82eltuZs+ipE/OhK9VY6G8T7Zw+OijE4QenYp5yE44t4p/eKRfHiPOeUjm5aIxbvXwBLsyvWTFX1q0HA8L6+InA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h+BGw59klwuRDxaqCqdhxpYUps4/RBx9mPXInGECQ8E=;
- b=emymVmXJNpGUJOvbw0lHZlQzZfW6WsI3jcFThSYI7fbkArgBGP8FWamI/VvcIPSmZi4DcFfbBxZf1KusqnxHEj8hGC2uPfR74AWKfmANIyyWMwxPS1WNFOK2b59vg9EtwKUuiE8EAQYPUaOdlmeEl9ngTTuFjef4rOpbQw37Y9zp6kOqPoKjsqeyEHQViulL4aTZMGJ8i7N29rkurb1qNytjhdc88QgMlMKmnzatqF5iF8UTgsQ7ulb0NDYMPrO0CS2P38E2wCrDkFKCZgILzilVLuJUxyMpfxD4LdrF9Q2bQdJKuHxFL9Iduz1Z82OXEUVcYXfbPcZcF4Ep8exrAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mxYfZ-0004Mw-VM
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 13:06:25 -0500
+Received: from [2a00:1450:4864:20::536] (port=45805
+ helo=mail-ed1-x536.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mxYfW-00086U-Jz
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 13:06:25 -0500
+Received: by mail-ed1-x536.google.com with SMTP id y12so76875181eda.12
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 10:06:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h+BGw59klwuRDxaqCqdhxpYUps4/RBx9mPXInGECQ8E=;
- b=ArgRKE+fKD7GB713/BJCQpQMgZ1IaysAuxrbhUCbR9PDHbOZgmh0z/3J42PAQfAVa3hQcT6QDlgsiNRrrpbrA/+J+uqf06vNNdjheW6kM8pHCZ6CHH5qZOZamVW8af4iOchHxKwDsTYjwDbWKkbquPnjpw8wOjXhyw7/ixx7FbA=
-Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
- by MWHPR10MB1759.namprd10.prod.outlook.com (2603:10b6:301:8::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.12; Wed, 15 Dec
- 2021 17:57:26 +0000
-Received: from CO1PR10MB4531.namprd10.prod.outlook.com
- ([fe80::143c:ea64:7017:19f]) by CO1PR10MB4531.namprd10.prod.outlook.com
- ([fe80::143c:ea64:7017:19f%4]) with mapi id 15.20.4778.018; Wed, 15 Dec 2021
- 17:57:25 +0000
-Message-ID: <2596427e-7c29-3d23-a0d4-3a0a8c960153@oracle.com>
-Date: Wed, 15 Dec 2021 11:57:21 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v11 06/10] ACPI ERST: build the ACPI ERST table
-Content-Language: en-US
-To: Ani Sinha <ani@anisinha.ca>
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6VOxcoL/DzC8yPZbfPab6x66LRyaBK0WD6BYPkzqImc=;
+ b=VmHbP0/R6zKOiE54lcA6qNzqZcPf67R+OYSjOwJg9IXNy3V3uS7GvH3ikfHXfjEQ33
+ e8fDeEJDVVVI9uF+PwmsQmi2tqvBN3jXIIKABuNbtpVkVdoUJ7jZSgfQgJli3nv6z++O
+ sI8MvrHww6oFvO8hAX4wxMGwT/SJbBg+csbP/nLeBQYuj2ChnEtKB50VCMtgiIinkSlg
+ UFPzePyhFd4opudN4MOynvVUcKv0ZYdISnJllulbDMFgELohQyFzxe1H28/w2P2NKDWQ
+ rXKFo3vzpVJ4g3g0m+Tc1MNsfLFATpKu0QT3MYGWT230QUbnj8leBzzqgStAO8oSShZk
+ 4mig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6VOxcoL/DzC8yPZbfPab6x66LRyaBK0WD6BYPkzqImc=;
+ b=DSf3Sqv1v99ZOIyuqg9snIyJv1QENQS1v25HuVecDXBOIuay4oIHnBek4h7Fufiidi
+ z8EWO5ZSzlh/qj+ZSVMxuT8vI0bOqukTQTadkMELctAd+aAIuCNqdJGFtyFf1FHBWU9h
+ KZY3HbViyn7HYw5OBO11jrWnBCiTYWzxbaGSk/IzE8BymCnPO0/jvchvX0FlPvSqQPuI
+ dnDs/59UkgQSgb00RbCITzMaxpv322ZXi5+cZUHZCqfYJg+KXNaIm6wJqpfIASGDGknb
+ jNMXeHCVEq83pXPZVNpRG68iKy5Lp+xpg9F46O4U2Q0EdnCvtn2HJUtzqCXuJzSM0G6+
+ PySA==
+X-Gm-Message-State: AOAM532b1kiy45Jorim2f6sl39neYrCw6mQDp9k2yT/2+o5YaHujbGtI
+ SGrTDL0itxzvV6C+JRVT9xbjqmphrtSXa4cYcD0/PA==
+X-Google-Smtp-Source: ABdhPJwXvJ77iNNYJodvNW9foBYocKIQ2VldgpH7QEo8Z4Rqh5hXLvJdy0xpdrTQh1s1UBysZfjITapMjXEVqAta7oM=
+X-Received: by 2002:a17:907:608e:: with SMTP id
+ ht14mr12292316ejc.259.1639591580523; 
+ Wed, 15 Dec 2021 10:06:20 -0800 (PST)
+MIME-Version: 1.0
 References: <1639582695-7328-1-git-send-email-eric.devolder@oracle.com>
  <1639582695-7328-7-git-send-email-eric.devolder@oracle.com>
  <CAARzgwy0qBE2rBtsjFaW6ED_bWW4SjV0JNfVYmc=P7groLJthw@mail.gmail.com>
-From: Eric DeVolder <eric.devolder@oracle.com>
-In-Reply-To: <CAARzgwy0qBE2rBtsjFaW6ED_bWW4SjV0JNfVYmc=P7groLJthw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR05CA0023.namprd05.prod.outlook.com
- (2603:10b6:a03:33b::28) To CO1PR10MB4531.namprd10.prod.outlook.com
- (2603:10b6:303:6c::22)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2cd2eb6c-2281-402b-731e-08d9bff45a45
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1759:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR10MB1759B66E045D1C3D411EC74597769@MWHPR10MB1759.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DBY1OSGAEdGAjF4pvJqpj4vsgFqpVKZWLRlI5LTDxWfBgnLs5ZO/TB5l8NhCBXC66I7dHjXYbSUmTg5UDxp94Wk7xca0Mj2/U/uQvgqt2Pm2kvHG/JbG7yLm4XQ4MDHJ32qoEvm5r5KkMcxQqq/Bta6YftmY00NCsIgFg4GQKBZxa0o4IxM9g7rebNWmLHGtKvYglet4scFp9HWbuxfw2uB8Kc9MoCtrdieOwZHIb865Rdi1wJl9sFtlSi2xhFuSZA20HULGO41w5bf40g4HubgpgV1uXBWwQ0tvFjb+EP8f5j4Vge86rEUuozmd3ykBlfyAK7Bfr+gn/xKNCq39504QNN716sGhwH4aUQIjWkixKWMSwxEY1qX7SGUv7H4XMqRjQHlM/fiVZU8bm/nIrgeQ4dkA3ehiJUUC4vYNV/BtPbR4cAyYmTF6LEyS2XGYMDx9urT9i7ozqZvhJhrxjaCzZQX1BoyjcmOlEU36hFD1NeYjg8HXfiPb28XM6/xXIinBvcp+vpbk3SNJ/kPT4ynSpz1wJrzfJNLe44Hm3lirBwR9DJjyZuiGlceizLn+/Ub15Jqk+c5n1VUgWPJDoM40lJMIfhCGjvmLLyxhx69m0P4O9VB1edIY8Js5utUKnFaoR0a6LTOOm1CAMTcdOxO/lwlm+M47h8AesXwRL3PPHXshUd1BpKCJhL+JHZFLRHlBkUx6EyZBO/Src8AzNQ1rVJnoefodSHwCgE8gZbI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(31686004)(107886003)(8676002)(6512007)(6486002)(8936002)(508600001)(53546011)(66946007)(38100700002)(66556008)(36756003)(5660300002)(6506007)(2906002)(186003)(4326008)(66476007)(6916009)(316002)(83380400001)(31696002)(2616005)(6666004)(86362001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L1dwNVNVeUUzMEt5YTFxM1BvWXZXTTU1RUYwenVmbTFneUl6clRGL2x0SHNO?=
- =?utf-8?B?eGljbW4zbUZiQ2R5ZjVHVlYyUzVlNVRKTGRNeXRMZ3doZkN0aW02MmdqWU1l?=
- =?utf-8?B?Y2JvQyt6VWpBdkh0TjJNcHdJR3ZaMHNjRVZIWkFROG1jYjUxQmQrejlZUldO?=
- =?utf-8?B?T2tSM0h2SmEzS20vZFNRREFSYUxBczZnSHVsWXgzYUIxT1VzQ1ZTWUN4TmxF?=
- =?utf-8?B?WXVhWWNqeFdBallxUXRiRWxiTnorYkRiblhuNXJlUmFzbmNFMkJGODJxQXNM?=
- =?utf-8?B?Skh2a3ViaVJSRFZkcy9VWVpkaE9JOHJIb3ZYamYrY1JhZkJQZkxHVXNIRW5o?=
- =?utf-8?B?eTVhNngrNGJEejlIdERVMkM1Y3hCZk1NWk52aXJTMmM1ampRUzhUVUgzdTY4?=
- =?utf-8?B?YnRiaGdENUh5aXpNY3lNWHlrd0QrdkpCRnNWbW5NWWxSU2FvWW93S0VLTGxU?=
- =?utf-8?B?cWZiM0NiN3l3d2RqdjVyR3MyM25rMDJLMnlLanJDbjFodCtxOVZ4b0FhY2tu?=
- =?utf-8?B?TnF0ZGlqRUdjUERVVWwwZkx1S29qeEtHVmlQTVVIei8vQ2RSU0dLN0pwT0V6?=
- =?utf-8?B?TUk0cWtSUUFDbks0OWE5cjljclFPOWg1RXduQnBiU3JtU1hrYjlvZ3NBeFlX?=
- =?utf-8?B?a092SFpYNnltb25pQ3V5TC9DQWZKZmZISTFBVVpLaDZCRG5Nb2MxaWxaTjl3?=
- =?utf-8?B?QUpSemxjTVVLZmQwUGFWTVdGT25xUFBxTURtY0tNLzBBNGhTek9tc1V5NGFK?=
- =?utf-8?B?dmRhM1g1ZERwQVYwU3lpSlF4UVZFNGhOSmY5V3NnbW51a0Z0UEJ2SS9xaGZz?=
- =?utf-8?B?dHY5U1VIcmx3c1dObEZ0Q3d4VWgyN3NPTmxlbW1zdUlOdjBUOVJlY3dUNDNJ?=
- =?utf-8?B?RFJvVDBEYUwrS1FicjZRaTNCK3M4WXBkSzY3d2RJT0pxMkdPRzdOejVNdEVr?=
- =?utf-8?B?NkdYbk1Oc2FsaDlYanNVdG1nQnF2MUo5MTcvaG9FT1FzY2Vna0t1ZWZjU1pm?=
- =?utf-8?B?UXJRWDdIL05Zd21KM2p2MVlzSTg5c0o3WWxSQWZTQUJoNzJRdXljQTNSd0lR?=
- =?utf-8?B?WUg3N1hNTFFmR21tY2NpUUFvNCtFZkJGc1BMcWU1MUdZbW9lY3B2b1NEcDQx?=
- =?utf-8?B?YjZMR0tGNVU2QlkybTJSeFNOWHhVd29XUmg3SEdWWmJpdVBWZGw5Sy95bFBy?=
- =?utf-8?B?d3BOZStibEtrUGNzOEs4b3JHR2dHMFhvdGEzVEZpRTdvenlvVWZWbGhTUDkv?=
- =?utf-8?B?dG1tMDBNclFUcVU5aFVYRlM2blZ2TG1hTmJ2N1ZKZkxrbWNxaG9RZk1lTUQy?=
- =?utf-8?B?RTVOZERQQy9GaVdpSkMvbDZldUZSM2ZlaFZEZVd3SkxCYzAwN1VKMElrSjVJ?=
- =?utf-8?B?cXRJNkhEMkd6UVZFU09weXZBMS92d2VwOVJFOVpCbVhoSGJEa3BhVGllYnRJ?=
- =?utf-8?B?V283b25PZk0vek5xeVE3MGk3dkNOcHYzMUpPYVVkV0R5dFN0U3BXdTFuY0Ro?=
- =?utf-8?B?aVY4NWxLZ0tLMDdyK29QUWIrVHJJV3FDeTJGcTI1U2Q5OGVxWDlkYnlaRXhh?=
- =?utf-8?B?dFY0NkJvM3JVcWVISXE2Yit4ZEpybDVTSmovZWpIRHBTT1BpYUxCQUcvd1Vq?=
- =?utf-8?B?WWRkdGVwOXl0TmVLL0ZVbkc3L2RvNk5RdE0zSk1LcERFOUU3c2JodW53NUFx?=
- =?utf-8?B?QkRaQWZCcTBQRmxpaG9nTGxJbi9aMXNBOEwraGFueUs2U21IazhOWmJZMjM2?=
- =?utf-8?B?TmFwTVpaeVpTemtWMXZDejFCbVlWaG8rZUE3ZVVFSEZic09tRXJGWDhyM0ZV?=
- =?utf-8?B?UnZacXNhYTZNVmRBT0VIbWZLdUl6YTNMaXJhS2hDZ3p2VmQ0SWdmTjlNWml2?=
- =?utf-8?B?bC8zcEE1NGJFL0EvMU9UZTl4RGJxcXFWc2dPQXppdnZ0S2xkMUlnZFh6bkNG?=
- =?utf-8?B?UUk0cW1sdU04WEF3L2MyOW1uNlNWQnR5c1V3VGZVU0dSS2Y3KzBrd05Yc2Vr?=
- =?utf-8?B?ZkdLK2Z0L0hyRjh4WDJrNDlnRnIvNUh6RjRkWEFWdlB5NFdZVkVrUXZQZkVU?=
- =?utf-8?B?d3NYUFZiZ2I1TFdQaVBJbk8yUnJXUGxzeDZaZC9qOFp1SE0ya3BiQ3Z4L3Vp?=
- =?utf-8?B?K1VvNnA2RGMzSHJWSE5JUWJVVkovMjhwc3pLK3ZhcXhSZEE1K2IzeVRYZzdG?=
- =?utf-8?B?QXRQMmllVFh2ci9FajdkekxXRWUzcXhqTExSTDF6UU1ySjJNSTkrTWE2ZWxl?=
- =?utf-8?B?amhaQkJJTXRObjY3eWYxdHEwTmttbEVOaytPSDdDV0R0Rmt6dyt2VFE2Ui9J?=
- =?utf-8?Q?LVhkfKT87VaPNuLirr?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2cd2eb6c-2281-402b-731e-08d9bff45a45
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 17:57:25.8311 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SlF/Yj5g37KrlDNLWvKwBvrekB2UE4tma/ZpsQR68FNb1bwpRFwBlstMuGUews78FihtnXBQyzI/Z5ws9W6gmTQrtCzLuFMfB7fBEVJwpKc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1759
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10199
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- spamscore=0 suspectscore=0
- malwarescore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2112150101
-X-Proofpoint-ORIG-GUID: zMPz73XMFV4h-LN5lrSTVTNr5AQoz-Um
-X-Proofpoint-GUID: zMPz73XMFV4h-LN5lrSTVTNr5AQoz-Um
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=eric.devolder@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.64,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <2596427e-7c29-3d23-a0d4-3a0a8c960153@oracle.com>
+In-Reply-To: <2596427e-7c29-3d23-a0d4-3a0a8c960153@oracle.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Wed, 15 Dec 2021 23:36:09 +0530
+Message-ID: <CAARzgwzDzLLvxfwha9owVN3ArGEx52tsJRFdCY+odqu6fKV0cw@mail.gmail.com>
+Subject: Re: [PATCH v11 06/10] ACPI ERST: build the ACPI ERST table
+To: Eric DeVolder <eric.devolder@oracle.com>
+Content-Type: multipart/alternative; boundary="000000000000bbfb8f05d333293c"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::536;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -179,282 +82,723 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
+Cc: berrange@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ mst@redhat.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
  imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Ani,
-Thanks for such quick feedback! One inline response below.
-eric
+--000000000000bbfb8f05d333293c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/15/21 10:33, Ani Sinha wrote:
-> On Wed, Dec 15, 2021 at 9:08 PM Eric DeVolder <eric.devolder@oracle.com> wrote:
->>
->> This builds the ACPI ERST table to inform OSPM how to communicate
->> with the acpi-erst device.
->>
->> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
->> ---
->>   hw/acpi/erst.c | 188 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 188 insertions(+)
->>
->> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
->> index bb6cad4..05177b3 100644
->> --- a/hw/acpi/erst.c
->> +++ b/hw/acpi/erst.c
->> @@ -59,6 +59,27 @@
->>   #define STATUS_RECORD_STORE_EMPTY     0x04
->>   #define STATUS_RECORD_NOT_FOUND       0x05
->>
->> +/* ACPI 4.0: Table 17-19 Serialization Instructions */
->> +#define INST_READ_REGISTER                 0x00
->> +#define INST_READ_REGISTER_VALUE           0x01
->> +#define INST_WRITE_REGISTER                0x02
->> +#define INST_WRITE_REGISTER_VALUE          0x03
->> +#define INST_NOOP                          0x04
->> +#define INST_LOAD_VAR1                     0x05
->> +#define INST_LOAD_VAR2                     0x06
->> +#define INST_STORE_VAR1                    0x07
->> +#define INST_ADD                           0x08
->> +#define INST_SUBTRACT                      0x09
->> +#define INST_ADD_VALUE                     0x0A
->> +#define INST_SUBTRACT_VALUE                0x0B
->> +#define INST_STALL                         0x0C
->> +#define INST_STALL_WHILE_TRUE              0x0D
->> +#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
->> +#define INST_GOTO                          0x0F
->> +#define INST_SET_SRC_ADDRESS_BASE          0x10
->> +#define INST_SET_DST_ADDRESS_BASE          0x11
->> +#define INST_MOVE_DATA                     0x12
->> +
->>   /* UEFI 2.1: Appendix N Common Platform Error Record */
->>   #define UEFI_CPER_RECORD_MIN_SIZE 128U
->>   #define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
->> @@ -172,6 +193,173 @@ typedef struct {
->>
->>   /*******************************************************************/
->>   /*******************************************************************/
->> +
->> +/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
->> +static void build_serialization_instruction_entry(GArray *table_data,
->> +    uint8_t serialization_action,
->> +    uint8_t instruction,
->> +    uint8_t flags,
->> +    uint8_t register_bit_width,
->> +    uint64_t register_address,
->> +    uint64_t value)
->> +{
->> +    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
->> +    struct AcpiGenericAddress gas;
->> +    uint64_t mask;
->> +
->> +    /* Serialization Action */
->> +    build_append_int_noprefix(table_data, serialization_action, 1);
->> +    /* Instruction */
->> +    build_append_int_noprefix(table_data, instruction         , 1);
->> +    /* Flags */
->> +    build_append_int_noprefix(table_data, flags               , 1);
->> +    /* Reserved */
->> +    build_append_int_noprefix(table_data, 0                   , 1);
->> +    /* Register Region */
->> +    gas.space_id = AML_SYSTEM_MEMORY;
->> +    gas.bit_width = register_bit_width;
->> +    gas.bit_offset = 0;
->> +    gas.access_width = ctz32(register_bit_width) - 2;
->> +    gas.address = register_address;
->> +    build_append_gas_from_struct(table_data, &gas);
->> +    /* Value */
->> +    build_append_int_noprefix(table_data, value  , 8);
->> +    /* Mask */
->> +    mask = (1ULL << (register_bit_width - 1) << 1) - 1;
->> +    build_append_int_noprefix(table_data, mask  , 8);
->> +}
->> +
->> +/* ACPI 4.0: 17.4.1 Serialization Action Table */
->> +void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
->> +    const char *oem_id, const char *oem_table_id)
->> +{
->> +    GArray *table_instruction_data;
->> +    unsigned action;
-> 
-> This variable can be eliminated (see below).
-> 
->> +    pcibus_t bar0 = pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
->> +    AcpiTable table = { .sig = "ERST", .rev = 1, .oem_id = oem_id,
->> +                        .oem_table_id = oem_table_id };
->> +
->> +    trace_acpi_erst_pci_bar_0(bar0);
->> +
->> +    /*
->> +     * Serialization Action Table
->> +     * The serialization action table must be generated first
->> +     * so that its size can be known in order to populate the
->> +     * Instruction Entry Count field.
->> +     */
->> +    table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
->> +
->> +    /*
->> +     * Macros for use with construction of the action instructions
->> +     */
->> +#define build_read_register(action, width_in_bits, reg) \
->> +    build_serialization_instruction_entry(table_instruction_data, \
->> +        action, INST_READ_REGISTER, 0, width_in_bits, \
->> +        bar0 + reg, 0)
->> +
->> +#define build_read_register_value(action, width_in_bits, reg, value) \
->> +    build_serialization_instruction_entry(table_instruction_data, \
->> +        action, INST_READ_REGISTER_VALUE, 0, width_in_bits, \
->> +        bar0 + reg, value)
->> +
->> +#define build_write_register(action, width_in_bits, reg, value) \
->> +    build_serialization_instruction_entry(table_instruction_data, \
->> +        action, INST_WRITE_REGISTER, 0, width_in_bits, \
->> +        bar0 + reg, value)
->> +
->> +#define build_write_register_value(action, width_in_bits, reg, value) \
->> +    build_serialization_instruction_entry(table_instruction_data, \
->> +        action, INST_WRITE_REGISTER_VALUE, 0, width_in_bits, \
->> +        bar0 + reg, value)
->> +
->> +    /* Serialization Instruction Entries */
->> +    action = ACTION_BEGIN_WRITE_OPERATION;
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +
->> +    action = ACTION_BEGIN_READ_OPERATION;
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +
->> +    action = ACTION_BEGIN_CLEAR_OPERATION;
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +
->> +    action = ACTION_END_OPERATION;
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +
->> +    action = ACTION_SET_RECORD_OFFSET;
->> +    build_write_register(action, 32, ERST_VALUE_OFFSET, 0);
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +
->> +    action = ACTION_EXECUTE_OPERATION;
->> +    build_write_register_value(action, 32, ERST_VALUE_OFFSET,
->> +        ERST_EXECUTE_OPERATION_MAGIC);
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
-> 
-> 
-> 
->> +
->> +    action = ACTION_CHECK_BUSY_STATUS;
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +    build_read_register_value(action, 32, ERST_VALUE_OFFSET, 0x01);
->> +
->> +    action = ACTION_GET_COMMAND_STATUS;
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +    build_read_register(action, 32, ERST_VALUE_OFFSET);
->> +
->> +    action = ACTION_GET_RECORD_IDENTIFIER;
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +    build_read_register(action, 64, ERST_VALUE_OFFSET);
->> +
->> +    action = ACTION_SET_RECORD_IDENTIFIER;
->> +    build_write_register(action, 64, ERST_VALUE_OFFSET, 0);
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +
->> +    action = ACTION_GET_RECORD_COUNT;
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +    build_read_register(action, 32, ERST_VALUE_OFFSET);
->> +
->> +    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +
->> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +    build_read_register(action, 64, ERST_VALUE_OFFSET);
->> +
->> +    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +    build_read_register(action, 64, ERST_VALUE_OFFSET);
->> +
->> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +    build_read_register(action, 32, ERST_VALUE_OFFSET);
->> +
->> +    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
->> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
->> +    build_read_register(action, 64, ERST_VALUE_OFFSET);
-> 
-> if I am reading this right, build_write_register_value() is called
-> with the same parameters, except that action is changing. We can
-> optimize repetative calls with the same parameters.
-> 
-> build_read_register can be split into build_read_register_32() and
-> build_read_register_64().
-> So we can have :
-> build_write_register_value(ACTION_GET_EXECUTE_OPERATION_TIMINGS);
-> build_read_register_64(ACTION_GET_EXECUTE_OPERATION_TIMINGS);
-> 
+On Wed, Dec 15, 2021 at 23:27 Eric DeVolder <eric.devolder@oracle.com>
+wrote:
 
-If I understand correctly, you are essentially asking for appropriate accessor functions.
-I did an inventory and the following would be the list of unique accessors needed:
+> Hi Ani,
+> Thanks for such quick feedback! One inline response below.
+> eric
+>
+> On 12/15/21 10:33, Ani Sinha wrote:
+> > On Wed, Dec 15, 2021 at 9:08 PM Eric DeVolder <eric.devolder@oracle.com=
+>
+> wrote:
+> >>
+> >> This builds the ACPI ERST table to inform OSPM how to communicate
+> >> with the acpi-erst device.
+> >>
+> >> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> >> ---
+> >>   hw/acpi/erst.c | 188
+> +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> >>   1 file changed, 188 insertions(+)
+> >>
+> >> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+> >> index bb6cad4..05177b3 100644
+> >> --- a/hw/acpi/erst.c
+> >> +++ b/hw/acpi/erst.c
+> >> @@ -59,6 +59,27 @@
+> >>   #define STATUS_RECORD_STORE_EMPTY     0x04
+> >>   #define STATUS_RECORD_NOT_FOUND       0x05
+> >>
+> >> +/* ACPI 4.0: Table 17-19 Serialization Instructions */
+> >> +#define INST_READ_REGISTER                 0x00
+> >> +#define INST_READ_REGISTER_VALUE           0x01
+> >> +#define INST_WRITE_REGISTER                0x02
+> >> +#define INST_WRITE_REGISTER_VALUE          0x03
+> >> +#define INST_NOOP                          0x04
+> >> +#define INST_LOAD_VAR1                     0x05
+> >> +#define INST_LOAD_VAR2                     0x06
+> >> +#define INST_STORE_VAR1                    0x07
+> >> +#define INST_ADD                           0x08
+> >> +#define INST_SUBTRACT                      0x09
+> >> +#define INST_ADD_VALUE                     0x0A
+> >> +#define INST_SUBTRACT_VALUE                0x0B
+> >> +#define INST_STALL                         0x0C
+> >> +#define INST_STALL_WHILE_TRUE              0x0D
+> >> +#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
+> >> +#define INST_GOTO                          0x0F
+> >> +#define INST_SET_SRC_ADDRESS_BASE          0x10
+> >> +#define INST_SET_DST_ADDRESS_BASE          0x11
+> >> +#define INST_MOVE_DATA                     0x12
+> >> +
+> >>   /* UEFI 2.1: Appendix N Common Platform Error Record */
+> >>   #define UEFI_CPER_RECORD_MIN_SIZE 128U
+> >>   #define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
+> >> @@ -172,6 +193,173 @@ typedef struct {
+> >>
+> >>   /*******************************************************************=
+/
+> >>   /*******************************************************************=
+/
+> >> +
+> >> +/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
+> >> +static void build_serialization_instruction_entry(GArray *table_data,
+> >> +    uint8_t serialization_action,
+> >> +    uint8_t instruction,
+> >> +    uint8_t flags,
+> >> +    uint8_t register_bit_width,
+> >> +    uint64_t register_address,
+> >> +    uint64_t value)
+> >> +{
+> >> +    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
+> >> +    struct AcpiGenericAddress gas;
+> >> +    uint64_t mask;
+> >> +
+> >> +    /* Serialization Action */
+> >> +    build_append_int_noprefix(table_data, serialization_action, 1);
+> >> +    /* Instruction */
+> >> +    build_append_int_noprefix(table_data, instruction         , 1);
+> >> +    /* Flags */
+> >> +    build_append_int_noprefix(table_data, flags               , 1);
+> >> +    /* Reserved */
+> >> +    build_append_int_noprefix(table_data, 0                   , 1);
+> >> +    /* Register Region */
+> >> +    gas.space_id =3D AML_SYSTEM_MEMORY;
+> >> +    gas.bit_width =3D register_bit_width;
+> >> +    gas.bit_offset =3D 0;
+> >> +    gas.access_width =3D ctz32(register_bit_width) - 2;
+> >> +    gas.address =3D register_address;
+> >> +    build_append_gas_from_struct(table_data, &gas);
+> >> +    /* Value */
+> >> +    build_append_int_noprefix(table_data, value  , 8);
+> >> +    /* Mask */
+> >> +    mask =3D (1ULL << (register_bit_width - 1) << 1) - 1;
+> >> +    build_append_int_noprefix(table_data, mask  , 8);
+> >> +}
+> >> +
+> >> +/* ACPI 4.0: 17.4.1 Serialization Action Table */
+> >> +void build_erst(GArray *table_data, BIOSLinker *linker, Object
+> *erst_dev,
+> >> +    const char *oem_id, const char *oem_table_id)
+> >> +{
+> >> +    GArray *table_instruction_data;
+> >> +    unsigned action;
+> >
+> > This variable can be eliminated (see below).
+> >
+> >> +    pcibus_t bar0 =3D pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
+> >> +    AcpiTable table =3D { .sig =3D "ERST", .rev =3D 1, .oem_id =3D oe=
+m_id,
+> >> +                        .oem_table_id =3D oem_table_id };
+> >> +
+> >> +    trace_acpi_erst_pci_bar_0(bar0);
+> >> +
+> >> +    /*
+> >> +     * Serialization Action Table
+> >> +     * The serialization action table must be generated first
+> >> +     * so that its size can be known in order to populate the
+> >> +     * Instruction Entry Count field.
+> >> +     */
+> >> +    table_instruction_data =3D g_array_new(FALSE, FALSE, sizeof(char)=
+);
+> >> +
+> >> +    /*
+> >> +     * Macros for use with construction of the action instructions
+> >> +     */
+> >> +#define build_read_register(action, width_in_bits, reg) \
+> >> +    build_serialization_instruction_entry(table_instruction_data, \
+> >> +        action, INST_READ_REGISTER, 0, width_in_bits, \
+> >> +        bar0 + reg, 0)
+> >> +
+> >> +#define build_read_register_value(action, width_in_bits, reg, value) =
+\
+> >> +    build_serialization_instruction_entry(table_instruction_data, \
+> >> +        action, INST_READ_REGISTER_VALUE, 0, width_in_bits, \
+> >> +        bar0 + reg, value)
+> >> +
+> >> +#define build_write_register(action, width_in_bits, reg, value) \
+> >> +    build_serialization_instruction_entry(table_instruction_data, \
+> >> +        action, INST_WRITE_REGISTER, 0, width_in_bits, \
+> >> +        bar0 + reg, value)
+> >> +
+> >> +#define build_write_register_value(action, width_in_bits, reg, value)=
+ \
+> >> +    build_serialization_instruction_entry(table_instruction_data, \
+> >> +        action, INST_WRITE_REGISTER_VALUE, 0, width_in_bits, \
+> >> +        bar0 + reg, value)
+> >> +
+> >> +    /* Serialization Instruction Entries */
+> >> +    action =3D ACTION_BEGIN_WRITE_OPERATION;
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +
+> >> +    action =3D ACTION_BEGIN_READ_OPERATION;
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +
+> >> +    action =3D ACTION_BEGIN_CLEAR_OPERATION;
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +
+> >> +    action =3D ACTION_END_OPERATION;
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +
+> >> +    action =3D ACTION_SET_RECORD_OFFSET;
+> >> +    build_write_register(action, 32, ERST_VALUE_OFFSET, 0);
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +
+> >> +    action =3D ACTION_EXECUTE_OPERATION;
+> >> +    build_write_register_value(action, 32, ERST_VALUE_OFFSET,
+> >> +        ERST_EXECUTE_OPERATION_MAGIC);
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >
+> >
+> >
+> >> +
+> >> +    action =3D ACTION_CHECK_BUSY_STATUS;
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +    build_read_register_value(action, 32, ERST_VALUE_OFFSET, 0x01);
+> >> +
+> >> +    action =3D ACTION_GET_COMMAND_STATUS;
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +    build_read_register(action, 32, ERST_VALUE_OFFSET);
+> >> +
+> >> +    action =3D ACTION_GET_RECORD_IDENTIFIER;
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +    build_read_register(action, 64, ERST_VALUE_OFFSET);
+> >> +
+> >> +    action =3D ACTION_SET_RECORD_IDENTIFIER;
+> >> +    build_write_register(action, 64, ERST_VALUE_OFFSET, 0);
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +
+> >> +    action =3D ACTION_GET_RECORD_COUNT;
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +    build_read_register(action, 32, ERST_VALUE_OFFSET);
+> >> +
+> >> +    action =3D ACTION_BEGIN_DUMMY_WRITE_OPERATION;
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +
+> >> +    action =3D ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +    build_read_register(action, 64, ERST_VALUE_OFFSET);
+> >> +
+> >> +    action =3D ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +    build_read_register(action, 64, ERST_VALUE_OFFSET);
+> >> +
+> >> +    action =3D ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +    build_read_register(action, 32, ERST_VALUE_OFFSET);
+> >> +
+> >> +    action =3D ACTION_GET_EXECUTE_OPERATION_TIMINGS;
+> >> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action=
+);
+> >> +    build_read_register(action, 64, ERST_VALUE_OFFSET);
+> >
+> > if I am reading this right, build_write_register_value() is called
+> > with the same parameters, except that action is changing. We can
+> > optimize repetative calls with the same parameters.
+> >
+> > build_read_register can be split into build_read_register_32() and
+> > build_read_register_64().
+> > So we can have :
+> > build_write_register_value(ACTION_GET_EXECUTE_OPERATION_TIMINGS);
+> > build_read_register_64(ACTION_GET_EXECUTE_OPERATION_TIMINGS);
+> >
+>
+> If I understand correctly, you are essentially asking for appropriate
+> accessor functions.
+> I did an inventory and the following would be the list of unique accessor=
+s
+> needed:
+>
+> To ACTION register:
+>   write_value_32
+>
+> To VALUE register:
+>   write_value_32
+>   write_32
+>   write_64
+>   read_value_32
+>   read_32
+>   read_64
+>
+> So that is 7 accessors, which must spell out the access type and register
+> name in the macro.
+>
+> With respect to the comment on eliminating the action variable. Given the
+> current code I did miss an
+> optimization to avoid passing 'action' as the first parameter to the
+> macros; I should have just used
+> it directly within the macro. Plus the 'action' assignment acts as
+> documentation to inform you as to
+> which action is being constructed. But in other places, 'action' is being
+> used as a true parameter
+> to the macros as the value to write.
+>
+> If you think that going to more accessors is simpler/more clear, then I'l=
+l
+> do so.
 
-To ACTION register:
-  write_value_32
 
-To VALUE register:
-  write_value_32
-  write_32
-  write_64
-  read_value_32
-  read_32
-  read_64
-
-So that is 7 accessors, which must spell out the access type and register name in the macro.
-
-With respect to the comment on eliminating the action variable. Given the current code I did miss an 
-optimization to avoid passing 'action' as the first parameter to the macros; I should have just used 
-it directly within the macro. Plus the 'action' assignment acts as documentation to inform you as to 
-which action is being constructed. But in other places, 'action' is being used as a true parameter 
-to the macros as the value to write.
-
-If you think that going to more accessors is simpler/more clear, then I'll do so.
-
-Thanks!
-eric
+Let=E2=80=99s wait and see what Michael thinks about this.
 
 
+>
+> Thanks!
+> eric
+>
+>
+>
+>
+> >> +
+> >> +    /* Serialization Header */
+> >> +    acpi_table_begin(&table, table_data);
+> >> +
+> >> +    /* Serialization Header Size */
+> >> +    build_append_int_noprefix(table_data, 48, 4);
+> >> +
+> >> +    /* Reserved */
+> >> +    build_append_int_noprefix(table_data,  0, 4);
+> >> +
+> >> +    /*
+> >> +     * Instruction Entry Count
+> >> +     * Each instruction entry is 32 bytes
+> >> +     */
+> >> +    g_assert((table_instruction_data->len) % 32 =3D=3D 0);
+> >> +    build_append_int_noprefix(table_data,
+> >> +        (table_instruction_data->len / 32), 4);
+> >> +
+> >> +    /* Serialization Instruction Entries */
+> >> +    g_array_append_vals(table_data, table_instruction_data->data,
+> >> +        table_instruction_data->len);
+> >> +    g_array_free(table_instruction_data, TRUE);
+> >> +
+> >> +    acpi_table_end(linker, &table);
+> >> +}
+> >> +
+> >> +/*******************************************************************/
+> >> +/*******************************************************************/
+> >>   static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState *s, unsigned
+> index)
+> >>   {
+> >>       uint8_t *rc =3D NULL;
+> >> --
+> >> 1.8.3.1
+> >>
+>
 
+--000000000000bbfb8f05d333293c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->> +
->> +    /* Serialization Header */
->> +    acpi_table_begin(&table, table_data);
->> +
->> +    /* Serialization Header Size */
->> +    build_append_int_noprefix(table_data, 48, 4);
->> +
->> +    /* Reserved */
->> +    build_append_int_noprefix(table_data,  0, 4);
->> +
->> +    /*
->> +     * Instruction Entry Count
->> +     * Each instruction entry is 32 bytes
->> +     */
->> +    g_assert((table_instruction_data->len) % 32 == 0);
->> +    build_append_int_noprefix(table_data,
->> +        (table_instruction_data->len / 32), 4);
->> +
->> +    /* Serialization Instruction Entries */
->> +    g_array_append_vals(table_data, table_instruction_data->data,
->> +        table_instruction_data->len);
->> +    g_array_free(table_instruction_data, TRUE);
->> +
->> +    acpi_table_end(linker, &table);
->> +}
->> +
->> +/*******************************************************************/
->> +/*******************************************************************/
->>   static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState *s, unsigned index)
->>   {
->>       uint8_t *rc = NULL;
->> --
->> 1.8.3.1
->>
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Dec 15, 2021 at 23:27 Eric DeVolder &lt;<a href=3D"=
+mailto:eric.devolder@oracle.com">eric.devolder@oracle.com</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-=
+color:rgb(204,204,204)">Hi Ani,<br>
+Thanks for such quick feedback! One inline response below.<br>
+eric<br>
+<br>
+On 12/15/21 10:33, Ani Sinha wrote:<br>
+&gt; On Wed, Dec 15, 2021 at 9:08 PM Eric DeVolder &lt;<a href=3D"mailto:er=
+ic.devolder@oracle.com" target=3D"_blank">eric.devolder@oracle.com</a>&gt; =
+wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; This builds the ACPI ERST table to inform OSPM how to communicate<=
+br>
+&gt;&gt; with the acpi-erst device.<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Eric DeVolder &lt;<a href=3D"mailto:eric.devolder@o=
+racle.com" target=3D"_blank">eric.devolder@oracle.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 =C2=A0hw/acpi/erst.c | 188 +++++++++++++++++++++++++++++++++=
+++++++++++++++++++++++++<br>
+&gt;&gt;=C2=A0 =C2=A01 file changed, 188 insertions(+)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c<br>
+&gt;&gt; index bb6cad4..05177b3 100644<br>
+&gt;&gt; --- a/hw/acpi/erst.c<br>
+&gt;&gt; +++ b/hw/acpi/erst.c<br>
+&gt;&gt; @@ -59,6 +59,27 @@<br>
+&gt;&gt;=C2=A0 =C2=A0#define STATUS_RECORD_STORE_EMPTY=C2=A0 =C2=A0 =C2=A00=
+x04<br>
+&gt;&gt;=C2=A0 =C2=A0#define STATUS_RECORD_NOT_FOUND=C2=A0 =C2=A0 =C2=A0 =
+=C2=A00x05<br>
+&gt;&gt;<br>
+&gt;&gt; +/* ACPI 4.0: Table 17-19 Serialization Instructions */<br>
+&gt;&gt; +#define INST_READ_REGISTER=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A00x00<br>
+&gt;&gt; +#define INST_READ_REGISTER_VALUE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A00x01<br>
+&gt;&gt; +#define INST_WRITE_REGISTER=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 0x02<br>
+&gt;&gt; +#define INST_WRITE_REGISTER_VALUE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 0x03<br>
+&gt;&gt; +#define INST_NOOP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x04<br>
+&gt;&gt; +#define INST_LOAD_VAR1=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x05<br>
+&gt;&gt; +#define INST_LOAD_VAR2=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x06<br>
+&gt;&gt; +#define INST_STORE_VAR1=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x07<br>
+&gt;&gt; +#define INST_ADD=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x08<br>
+&gt;&gt; +#define INST_SUBTRACT=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x09<br>
+&gt;&gt; +#define INST_ADD_VALUE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x0A<br>
+&gt;&gt; +#define INST_SUBTRACT_VALUE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 0x0B<br>
+&gt;&gt; +#define INST_STALL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x0C<br>
+&gt;&gt; +#define INST_STALL_WHILE_TRUE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 0x0D<br>
+&gt;&gt; +#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E<br>
+&gt;&gt; +#define INST_GOTO=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x0F<br>
+&gt;&gt; +#define INST_SET_SRC_ADDRESS_BASE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 0x10<br>
+&gt;&gt; +#define INST_SET_DST_ADDRESS_BASE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 0x11<br>
+&gt;&gt; +#define INST_MOVE_DATA=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x12<br>
+&gt;&gt; +<br>
+&gt;&gt;=C2=A0 =C2=A0/* UEFI 2.1: Appendix N Common Platform Error Record *=
+/<br>
+&gt;&gt;=C2=A0 =C2=A0#define UEFI_CPER_RECORD_MIN_SIZE 128U<br>
+&gt;&gt;=C2=A0 =C2=A0#define UEFI_CPER_RECORD_LENGTH_OFFSET 20U<br>
+&gt;&gt; @@ -172,6 +193,173 @@ typedef struct {<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0/*****************************************************=
+**************/<br>
+&gt;&gt;=C2=A0 =C2=A0/*****************************************************=
+**************/<br>
+&gt;&gt; +<br>
+&gt;&gt; +/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */<br>
+&gt;&gt; +static void build_serialization_instruction_entry(GArray *table_d=
+ata,<br>
+&gt;&gt; +=C2=A0 =C2=A0 uint8_t serialization_action,<br>
+&gt;&gt; +=C2=A0 =C2=A0 uint8_t instruction,<br>
+&gt;&gt; +=C2=A0 =C2=A0 uint8_t flags,<br>
+&gt;&gt; +=C2=A0 =C2=A0 uint8_t register_bit_width,<br>
+&gt;&gt; +=C2=A0 =C2=A0 uint64_t register_address,<br>
+&gt;&gt; +=C2=A0 =C2=A0 uint64_t value)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +=C2=A0 =C2=A0 /* ACPI 4.0: Table 17-18 Serialization Instruction =
+Entry */<br>
+&gt;&gt; +=C2=A0 =C2=A0 struct AcpiGenericAddress gas;<br>
+&gt;&gt; +=C2=A0 =C2=A0 uint64_t mask;<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 /* Serialization Action */<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(table_data, serialization=
+_action, 1);<br>
+&gt;&gt; +=C2=A0 =C2=A0 /* Instruction */<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(table_data, instruction=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0, 1);<br>
+&gt;&gt; +=C2=A0 =C2=A0 /* Flags */<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(table_data, flags=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0, 1);<br>
+&gt;&gt; +=C2=A0 =C2=A0 /* Reserved */<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(table_data, 0=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0, 1);<br>
+&gt;&gt; +=C2=A0 =C2=A0 /* Register Region */<br>
+&gt;&gt; +=C2=A0 =C2=A0 gas.space_id =3D AML_SYSTEM_MEMORY;<br>
+&gt;&gt; +=C2=A0 =C2=A0 gas.bit_width =3D register_bit_width;<br>
+&gt;&gt; +=C2=A0 =C2=A0 gas.bit_offset =3D 0;<br>
+&gt;&gt; +=C2=A0 =C2=A0 gas.access_width =3D ctz32(register_bit_width) - 2;=
+<br>
+&gt;&gt; +=C2=A0 =C2=A0 gas.address =3D register_address;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_append_gas_from_struct(table_data, &amp;gas);=
+<br>
+&gt;&gt; +=C2=A0 =C2=A0 /* Value */<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(table_data, value=C2=A0 ,=
+ 8);<br>
+&gt;&gt; +=C2=A0 =C2=A0 /* Mask */<br>
+&gt;&gt; +=C2=A0 =C2=A0 mask =3D (1ULL &lt;&lt; (register_bit_width - 1) &l=
+t;&lt; 1) - 1;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(table_data, mask=C2=A0 , =
+8);<br>
+&gt;&gt; +}<br>
+&gt;&gt; +<br>
+&gt;&gt; +/* ACPI 4.0: 17.4.1 Serialization Action Table */<br>
+&gt;&gt; +void build_erst(GArray *table_data, BIOSLinker *linker, Object *e=
+rst_dev,<br>
+&gt;&gt; +=C2=A0 =C2=A0 const char *oem_id, const char *oem_table_id)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +=C2=A0 =C2=A0 GArray *table_instruction_data;<br>
+&gt;&gt; +=C2=A0 =C2=A0 unsigned action;<br>
+&gt; <br>
+&gt; This variable can be eliminated (see below).<br>
+&gt; <br>
+&gt;&gt; +=C2=A0 =C2=A0 pcibus_t bar0 =3D pci_get_bar_addr(PCI_DEVICE(erst_=
+dev), 0);<br>
+&gt;&gt; +=C2=A0 =C2=A0 AcpiTable table =3D { .sig =3D &quot;ERST&quot;, .r=
+ev =3D 1, .oem_id =3D oem_id,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 .oem_table_id =3D oem_table_id };<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 trace_acpi_erst_pci_bar_0(bar0);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 /*<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* Serialization Action Table<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* The serialization action table must be gene=
+rated first<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* so that its size can be known in order to p=
+opulate the<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* Instruction Entry Count field.<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt;&gt; +=C2=A0 =C2=A0 table_instruction_data =3D g_array_new(FALSE, FALSE=
+, sizeof(char));<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 /*<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* Macros for use with construction of the act=
+ion instructions<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt;&gt; +#define build_read_register(action, width_in_bits, reg) \<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_serialization_instruction_entry(table_instruc=
+tion_data, \<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 action, INST_READ_REGISTER, 0, width_=
+in_bits, \<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bar0 + reg, 0)<br>
+&gt;&gt; +<br>
+&gt;&gt; +#define build_read_register_value(action, width_in_bits, reg, val=
+ue) \<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_serialization_instruction_entry(table_instruc=
+tion_data, \<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 action, INST_READ_REGISTER_VALUE, 0, =
+width_in_bits, \<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bar0 + reg, value)<br>
+&gt;&gt; +<br>
+&gt;&gt; +#define build_write_register(action, width_in_bits, reg, value) \=
+<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_serialization_instruction_entry(table_instruc=
+tion_data, \<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 action, INST_WRITE_REGISTER, 0, width=
+_in_bits, \<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bar0 + reg, value)<br>
+&gt;&gt; +<br>
+&gt;&gt; +#define build_write_register_value(action, width_in_bits, reg, va=
+lue) \<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_serialization_instruction_entry(table_instruc=
+tion_data, \<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 action, INST_WRITE_REGISTER_VALUE, 0,=
+ width_in_bits, \<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bar0 + reg, value)<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 /* Serialization Instruction Entries */<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_BEGIN_WRITE_OPERATION;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_BEGIN_READ_OPERATION;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_BEGIN_CLEAR_OPERATION;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_END_OPERATION;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_SET_RECORD_OFFSET;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register(action, 32, ERST_VALUE_OFFSET,=
+ 0);<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_EXECUTE_OPERATION;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_VALUE_O=
+FFSET,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ERST_EXECUTE_OPERATION_MAGIC);<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_CHECK_BUSY_STATUS;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_read_register_value(action, 32, ERST_VALUE_OF=
+FSET, 0x01);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_GET_COMMAND_STATUS;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_read_register(action, 32, ERST_VALUE_OFFSET);=
+<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_GET_RECORD_IDENTIFIER;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_read_register(action, 64, ERST_VALUE_OFFSET);=
+<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_SET_RECORD_IDENTIFIER;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register(action, 64, ERST_VALUE_OFFSET,=
+ 0);<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_GET_RECORD_COUNT;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_read_register(action, 32, ERST_VALUE_OFFSET);=
+<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_BEGIN_DUMMY_WRITE_OPERATION;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_GET_ERROR_LOG_ADDRESS_RANGE;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_read_register(action, 64, ERST_VALUE_OFFSET);=
+<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_read_register(action, 64, ERST_VALUE_OFFSET);=
+<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRI=
+BUTES;<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_read_register(action, 32, ERST_VALUE_OFFSET);=
+<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 action =3D ACTION_GET_EXECUTE_OPERATION_TIMINGS;<br=
+>
+&gt;&gt; +=C2=A0 =C2=A0 build_write_register_value(action, 32, ERST_ACTION_=
+OFFSET, action);<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_read_register(action, 64, ERST_VALUE_OFFSET);=
+<br>
+&gt; <br>
+&gt; if I am reading this right, build_write_register_value() is called<br>
+&gt; with the same parameters, except that action is changing. We can<br>
+&gt; optimize repetative calls with the same parameters.<br>
+&gt; <br>
+&gt; build_read_register can be split into build_read_register_32() and<br>
+&gt; build_read_register_64().<br>
+&gt; So we can have :<br>
+&gt; build_write_register_value(ACTION_GET_EXECUTE_OPERATION_TIMINGS);<br>
+&gt; build_read_register_64(ACTION_GET_EXECUTE_OPERATION_TIMINGS);<br>
+&gt; <br>
+<br>
+If I understand correctly, you are essentially asking for appropriate acces=
+sor functions.<br>
+I did an inventory and the following would be the list of unique accessors =
+needed:<br>
+<br>
+To ACTION register:<br>
+=C2=A0 write_value_32<br>
+<br>
+To VALUE register:<br>
+=C2=A0 write_value_32<br>
+=C2=A0 write_32<br>
+=C2=A0 write_64<br>
+=C2=A0 read_value_32<br>
+=C2=A0 read_32<br>
+=C2=A0 read_64<br>
+<br>
+So that is 7 accessors, which must spell out the access type and register n=
+ame in the macro.<br>
+<br>
+With respect to the comment on eliminating the action variable. Given the c=
+urrent code I did miss an <br>
+optimization to avoid passing &#39;action&#39; as the first parameter to th=
+e macros; I should have just used <br>
+it directly within the macro. Plus the &#39;action&#39; assignment acts as =
+documentation to inform you as to <br>
+which action is being constructed. But in other places, &#39;action&#39; is=
+ being used as a true parameter <br>
+to the macros as the value to write.<br>
+<br>
+If you think that going to more accessors is simpler/more clear, then I&#39=
+;ll do so.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Let=E2=
+=80=99s wait and see what Michael thinks about this.=C2=A0</div><div dir=3D=
+"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bo=
+rder-left-color:rgb(204,204,204)" dir=3D"auto"><br>
+<br>
+Thanks!<br>
+eric<br>
+<br>
+<br>
+<br>
+<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 /* Serialization Header */<br>
+&gt;&gt; +=C2=A0 =C2=A0 acpi_table_begin(&amp;table, table_data);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 /* Serialization Header Size */<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(table_data, 48, 4);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 /* Reserved */<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(table_data,=C2=A0 0, 4);<=
+br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 /*<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* Instruction Entry Count<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* Each instruction entry is 32 bytes<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt;&gt; +=C2=A0 =C2=A0 g_assert((table_instruction_data-&gt;len) % 32 =3D=
+=3D 0);<br>
+&gt;&gt; +=C2=A0 =C2=A0 build_append_int_noprefix(table_data,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 (table_instruction_data-&gt;len / 32)=
+, 4);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 /* Serialization Instruction Entries */<br>
+&gt;&gt; +=C2=A0 =C2=A0 g_array_append_vals(table_data, table_instruction_d=
+ata-&gt;data,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 table_instruction_data-&gt;len);<br>
+&gt;&gt; +=C2=A0 =C2=A0 g_array_free(table_instruction_data, TRUE);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 acpi_table_end(linker, &amp;table);<br>
+&gt;&gt; +}<br>
+&gt;&gt; +<br>
+&gt;&gt; +/****************************************************************=
+***/<br>
+&gt;&gt; +/****************************************************************=
+***/<br>
+&gt;&gt;=C2=A0 =C2=A0static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState=
+ *s, unsigned index)<br>
+&gt;&gt;=C2=A0 =C2=A0{<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint8_t *rc =3D NULL;<br>
+&gt;&gt; --<br>
+&gt;&gt; 1.8.3.1<br>
+&gt;&gt;<br>
+</blockquote></div></div>
+
+--000000000000bbfb8f05d333293c--
 
