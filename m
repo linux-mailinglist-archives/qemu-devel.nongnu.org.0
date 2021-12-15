@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90729476348
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 21:28:35 +0100 (CET)
-Received: from localhost ([::1]:59700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7339A476354
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 21:31:24 +0100 (CET)
+Received: from localhost ([::1]:40396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxat8-0006ig-CV
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 15:28:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59698)
+	id 1mxavr-0004FO-GL
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 15:31:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mxaq2-0003s2-Mm
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:25:22 -0500
-Received: from [2a00:1450:4864:20::436] (port=40729
- helo=mail-wr1-x436.google.com)
+ id 1mxaq1-0003re-PT
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:25:21 -0500
+Received: from [2a00:1450:4864:20::331] (port=36735
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mxaq0-0004Cm-Ae
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:25:22 -0500
-Received: by mail-wr1-x436.google.com with SMTP id t9so40236338wrx.7
+ id 1mxaq0-0004D2-Ac
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:25:21 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ i132-20020a1c3b8a000000b003456cac51c4so173616wma.1
  for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 12:25:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xmUl3GHvDt5jkoLgxo7KE1syR+hCWNdVZ7f+9mI+wv8=;
- b=oy6DWqG3Sd4CAtOx81p9YE3qX1DSPETkaZIBVVhFMPCAkDeUKIIzV/N/B6t70FT8BO
- gFJQOJYanI7efSsXCyRF0chah1vReBx0kQ0GPhWrtTS65J/4PSit5ha0dDTnKuaZLoAo
- yD+OwCr5pBKKIwTqDLS4ggMkWr5lxrsk5b1MRYth6r0El7T6Bg3HhmKy6DP+hn+kzyJB
- DjTBBp0ID6hKTJW1Hy8qe7UQtYt4uEps1xs3riJ8lNJtXNl+rlLIYrxNGtUALm+NIPi6
- Vwu8YaqoIjzmvGbs5aNUSTCyZQEUA6nPeEtT+XN4hcvcfbvP4z/IWHiCdFNKc+zZCwYU
- M3fQ==
+ bh=qynRAK6syjYcWPpMhJJKxrKJeeVQ3iCliIIgVelKYDY=;
+ b=hsONJ36Dpat2LIGq6LHRiW/UROdQ8MWPW6Qdmk3zFzRcHIGFSjVFXfDKZl7RtDqSV9
+ mEnIvcbpgtNOL+XqtSK5kKGE3m0aKRtEPVWt9eAfhNVViRypJ9PqgD3wDRY7sbGAAeVI
+ b1DTWvV8jecPostNz73GhccO5/sAY3ncDurxNyokbIN1J8KDwh87jhX1nwYuMD4roTWB
+ JDHorcwdDBiehQSydQgZ0UyazZfJzjVjL8r6J8dFge70SMDFyE5FIhBsP7ZAw4tNJ/bg
+ H0wXtjS+3NOjivWwm+NL21dj8x4uChOL1SmJ3KjFVWeprj9SCuJ1wiGZe7hljqCAJwJW
+ qy2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xmUl3GHvDt5jkoLgxo7KE1syR+hCWNdVZ7f+9mI+wv8=;
- b=C7oh2qrtgbSofWyPvl/KLXFU8uzZ7ncX74QNfobcg+FGl6IJTTvAb6ceikWvAlCAY2
- 5YYRXFoozbjMBGeU6McXyVMWqHISWTkVjPKg1Hfo0Krs1DObZOrTWMKUGdMKe797lIhi
- AP/sn1oST2FThbIGN89lB5q3489H0LMtC5UZYtF/1kg5ecJ0nLlonKTvnFkq679nvT6I
- w5AVijShFBvwmXvzOWxShcemeD2mOac7ePf1nWDuma3FfWccO/vUekWoFtRuVxiz6MBR
- VodCYRAHlxHiOywok5ehebx0ZbsPlN/W1lBSj60qrN7uymv5d5xwb5lLqQzQ4ksrpEIz
- SJ2w==
-X-Gm-Message-State: AOAM530LWUggaBK0HHCkJnNvCEOy9pZ1THXdqYx/NNUG4N/uSFWGljvw
- eAhaeVRid5mv7PTPGA33IH2QJvMOujk=
-X-Google-Smtp-Source: ABdhPJxmpDA7MvWivE92p24Wxfm0DDctN5JZK24Q39vB4nRVwt+sZPffbFuJWG8zL5A+j2hHwwOY5A==
-X-Received: by 2002:adf:d1e2:: with SMTP id g2mr6031383wrd.346.1639599918265; 
+ bh=qynRAK6syjYcWPpMhJJKxrKJeeVQ3iCliIIgVelKYDY=;
+ b=1iLu6uZv1rzIVImuJRYfhAGurOWkTEd0pQJ/9GUArj4kQeZBqBjeuy/5XuAxvRqEyb
+ BkI0p19JTc1QCkOtK6onvIb6maUcS2sXW7sQFMjtD/JQOYxdtYCiurjbbhMQkgExiIde
+ DSgObMLC/rxXF9SVK3+j0HJnAXQaCngvyLLy+HnwNikqNnatxRelh754AoYNyuRzI+ZK
+ ru5BcUua3Wh6sewPDjsgFRvMxtxQnA4pVMnKqlywfbgxqUplqjxl0mWiUSKEqKLukrUY
+ lHo3mcgAGxyRpMZd2ar4qY/kcKqn02V4HSeagBNyeVeuPv/EWZujMjZZtbuOcrj7aE7h
+ jB0A==
+X-Gm-Message-State: AOAM530LDyeiyoPx3BSLF6pnWaNFqVtoooul8kfAzX1m1a0YytMKW2S+
+ oWrnbhXnFi4WyJNAoz8M9bdwmwNEPpc=
+X-Google-Smtp-Source: ABdhPJyLyi99wDZLdf8qjlD9KyMYCfHPgAmfBR4YDHHZKX55WIUR7CgJ8kFeYPBP0g4aHjsabzhmkQ==
+X-Received: by 2002:a1c:9dd4:: with SMTP id g203mr1863217wme.114.1639599918947; 
  Wed, 15 Dec 2021 12:25:18 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id y11sm3794708wry.70.2021.12.15.12.25.17
+ by smtp.gmail.com with ESMTPSA id y11sm3794708wry.70.2021.12.15.12.25.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 12:25:17 -0800 (PST)
+ Wed, 15 Dec 2021 12:25:18 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/13] tests/qtest: Add fuzz-lsi53c895a-test
-Date: Wed, 15 Dec 2021 21:25:04 +0100
-Message-Id: <20211215202515.91586-3-pbonzini@redhat.com>
+Subject: [PULL 03/13] qapi/machine.json: Fix incorrect description for die-id
+Date: Wed, 15 Dec 2021 21:25:05 +0100
+Message-Id: <20211215202515.91586-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211215202515.91586-1-pbonzini@redhat.com>
 References: <20211215202515.91586-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,115 +87,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Yanan Wang <wangyanan55@huawei.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Yanan Wang <wangyanan55@huawei.com>
 
-Without the previous commit, this test triggers:
+In terms of scope, die-id should mean "the die number within
+socket the CPU belongs to" instead of "the die number within
+node/board the CPU belongs to". Fix it to avoid confusing
+the Doc reader.
 
-  $ make check-qtest-x86_64
-  [...]
-  Running test qtest-x86_64/fuzz-lsi53c895a-test
-  qemu-system-x86_64: hw/scsi/lsi53c895a.c:624: lsi_do_dma: Assertion `s->current' failed.
-  ERROR qtest-x86_64/fuzz-lsi53c895a-test - too few tests run (expected 1, got 0)
-
-Suggested-by: Alexander Bulekov <alxndr@bu.edu>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
-Message-Id: <20211123111732.83137-3-philmd@redhat.com>
+Fixes: 176d2cda0d ("i386/cpu: Consolidate die-id validity in smp context")
+Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20211122032651.16064-1-wangyanan55@huawei.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- MAINTAINERS                        |  1 +
- tests/qtest/fuzz-lsi53c895a-test.c | 52 ++++++++++++++++++++++++++++++
- tests/qtest/meson.build            |  1 +
- 3 files changed, 54 insertions(+)
- create mode 100644 tests/qtest/fuzz-lsi53c895a-test.c
+ qapi/machine.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 006a2293ba..4d2143ff23 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1825,6 +1825,7 @@ F: hw/scsi/*
- F: tests/qtest/virtio-scsi-test.c
- F: tests/qtest/fuzz-virtio-scsi-test.c
- F: tests/qtest/am53c974-test.c
-+F: tests/qtest/fuzz-lsi53c895a-test.c
- T: git https://github.com/bonzini/qemu.git scsi-next
- 
- SSI
-diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
-new file mode 100644
-index 0000000000..ba5d468970
---- /dev/null
-+++ b/tests/qtest/fuzz-lsi53c895a-test.c
-@@ -0,0 +1,52 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * QTest fuzzer-generated testcase for LSI53C895A device
-+ *
-+ * Copyright (c) Red Hat
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "libqos/libqtest.h"
-+
-+/*
-+ * This used to trigger the assert in lsi_do_dma()
-+ * https://bugs.launchpad.net/qemu/+bug/697510
-+ * https://bugs.launchpad.net/qemu/+bug/1905521
-+ * https://bugs.launchpad.net/qemu/+bug/1908515
-+ */
-+static void test_lsi_do_dma_empty_queue(void)
-+{
-+    QTestState *s;
-+
-+    s = qtest_init("-M q35 -nographic -monitor none -serial none "
-+                   "-drive if=none,id=drive0,"
-+                            "file=null-co://,file.read-zeroes=on,format=raw "
-+                   "-device lsi53c895a,id=scsi0 "
-+                   "-device scsi-hd,drive=drive0,"
-+                            "bus=scsi0.0,channel=0,scsi-id=0,lun=0");
-+    qtest_outl(s, 0xcf8, 0x80001814);
-+    qtest_outl(s, 0xcfc, 0xe1068000);
-+    qtest_outl(s, 0xcf8, 0x80001818);
-+    qtest_outl(s, 0xcf8, 0x80001804);
-+    qtest_outw(s, 0xcfc, 0x7);
-+    qtest_outl(s, 0xcf8, 0x80002010);
-+
-+    qtest_writeb(s, 0xe106802e, 0xff); /* Fill DSP bits 16-23 */
-+    qtest_writeb(s, 0xe106802f, 0xff); /* Fill DSP bits 24-31: trigger SCRIPT */
-+
-+    qtest_quit(s);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    const char *arch = qtest_get_arch();
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-+        qtest_add_func("fuzz/lsi53c895a/lsi_do_dma_empty_queue",
-+                       test_lsi_do_dma_empty_queue);
-+    }
-+
-+    return g_test_run();
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index c9d8458062..d2ce20d304 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -19,6 +19,7 @@ slow_qtests = {
- 
- qtests_generic = \
-   (config_all_devices.has_key('CONFIG_MEGASAS_SCSI_PCI') ? ['fuzz-megasas-test'] : []) + \
-+  (config_all_devices.has_key('CONFIG_LSI_SCSI_PCI') ? ['fuzz-lsi53c895a-test'] : []) + \
-   (config_all_devices.has_key('CONFIG_VIRTIO_SCSI') ? ['fuzz-virtio-scsi-test'] : []) + \
-   (config_all_devices.has_key('CONFIG_SB16') ? ['fuzz-sb16-test'] : []) + \
-   (config_all_devices.has_key('CONFIG_SDHCI_PCI') ? ['fuzz-sdcard-test'] : []) + \
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 067e3f5378..f1839acf20 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -867,7 +867,7 @@
+ #
+ # @node-id: NUMA node ID the CPU belongs to
+ # @socket-id: socket number within node/board the CPU belongs to
+-# @die-id: die number within node/board the CPU belongs to (Since 4.1)
++# @die-id: die number within socket the CPU belongs to (since 4.1)
+ # @core-id: core number within die the CPU belongs to
+ # @thread-id: thread number within core the CPU belongs to
+ #
 -- 
 2.33.1
 
