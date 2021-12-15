@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E475475847
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 12:58:53 +0100 (CET)
-Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9275447585B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 13:04:55 +0100 (CET)
+Received: from localhost ([::1]:46734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxSvs-0000QW-7R
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 06:58:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54202)
+	id 1mxT1i-0006CZ-GF
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 07:04:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxSRv-000444-UC
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:27:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32552)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxSSr-0005jx-6R
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:28:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxSRs-00087d-Pc
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:27:54 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxSSp-0008CF-9m
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:28:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639567672;
+ s=mimecast20190719; t=1639567730;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EUBJmSSoMrAQp9Iz55l4BmvmHFVld7NbwiLtiG9hV/E=;
- b=aDaERB/GyN6AoNzUv0CAuo/ML+OMrCZAGRh8uKI4OVrsXu9UZaZTqihF3OohTUda2J0ZFY
- PnYnOBzs4GRTNxN2uHoV/YSnybgcrgtuhbhUJnmrugY2dkWy3TE8w5q5UfYN76J0CdwTqA
- sq0fiPHXsPm2Ww/E6KjdZtnSQ6QPORE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zg1UaZVbz4hFODdZt1B8y8s4SJFwv5b38uu5m/eGVqc=;
+ b=auYo5vq+a5fPN8SJDaAOWNJMYQXnNjhXCvnpys6mYUuiTv8+OosT9/OzIPbetrwurGjtwN
+ OjC6kgx6HQ3zoHhIFShPuI+W7irIiHBven3QzVDIWYpawP1m6BhVTZv/CNs7TeXe1B4xPl
+ 2KWbQYISVKyaPnt8oVNAScsDl4tij1k=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-55-jRGj7af8MqWQ4U4PAIvFYw-1; Wed, 15 Dec 2021 06:27:46 -0500
-X-MC-Unique: jRGj7af8MqWQ4U4PAIvFYw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- k11-20020adfc70b000000b001a2333d9406so196041wrg.3
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 03:27:46 -0800 (PST)
+ us-mta-459--0ManL9uNv6hlUPK9WX0nw-1; Wed, 15 Dec 2021 06:28:47 -0500
+X-MC-Unique: -0ManL9uNv6hlUPK9WX0nw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ x17-20020a5d6511000000b0019838caab88so5817022wru.6
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 03:28:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=EUBJmSSoMrAQp9Iz55l4BmvmHFVld7NbwiLtiG9hV/E=;
- b=Z/RG3Bs8OglG6FOvd796e/cIeZ/dj+tk8wiVOfZaqx24w6kJtD/uMsMrc+6PuFooZ0
- G9SV8Kow6bBg2+kCr+yIBGW+dN66RTa5QARLDNDyiPXiCmodyukSoXFcghE7gjwfpe4z
- uQHgg4xkA/lE+ewofQz4RcCzr1RYzIwAMBZ7gUgiS53yWfs0kprBz0pB0GzvePQVfKfo
- blrh5GM2UACznDpOomwu3/l5ukOThEeBRNDWT764/imjyw1g8PafkkihW5mAT71g73JA
- NV7tFQi1IBW3u4xZIZqMJZH6hVbPiTbZfibjwITC7MTsvjh7un2CcHZwSKyYXP25SIPs
- eqqA==
-X-Gm-Message-State: AOAM5320g/mcUgNyrboBSqOQYCelMGFxG2VvsTltf+Itj46Rv0mDDnKZ
- Bd2Fhdp5Iid0KKesnT/U/SOelAyZNtTWrr1LH12C3BrqgC2/yIsvsoelQtt5vb/JlRvIhFIaPhx
- zpCtQFF3MVovgW8M=
-X-Received: by 2002:a05:600c:35d3:: with SMTP id
- r19mr3972745wmq.176.1639567665416; 
- Wed, 15 Dec 2021 03:27:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzqgsXj8P6vweNrGkm/yjRr4okbtquY/UxxVpQV2LK6Np/b8ayqeXPpQggyuA2hCFNhsv/t3w==
-X-Received: by 2002:a05:600c:35d3:: with SMTP id
- r19mr3972720wmq.176.1639567665109; 
- Wed, 15 Dec 2021 03:27:45 -0800 (PST)
+ bh=zg1UaZVbz4hFODdZt1B8y8s4SJFwv5b38uu5m/eGVqc=;
+ b=3LF1hEuJGHRFoX1dJT+dpcVfvXYv2w20nCBEGCLdPxdyOMWzScp1WV/4+JKeVBnLWw
+ nQMqPufkNjBSbv1ZM5czORxK04yzGMIvpG8JC85cg04XeFtiHyjq+im2QyJW+WqvmAIX
+ CTvlyMhkeE7ZfnQd1RH4OvImPF0gRbN+hS5SGfdakoZnYesU/Hdcqkld/qFZnu8BSKGx
+ Ljr2JHDK7cC6kY4Oc6rUPWEMTp1b5alfcvLt3tcag0k3G7pbt9jzl7cx/ORfhm6zVZ7D
+ cysZADmYeGm9G+u/IDow6L02PPL4E4HGyg26QkuDmU1GxCx6DpEja3ZiJd1cnpZWDoZ+
+ CGlQ==
+X-Gm-Message-State: AOAM530wEfpPV0kBx/6uzp4Y8lmg6alFUlaSWwIJt7U6TlxrDNyJhzws
+ LjKrA0T131xTzqXxYvqqLCyt8NA4zi+4ZBGw/vylyjT+Eht5lJfLOnnN1BseWelqsniN57fBE+H
+ YcnvEgOITbx7lYkg=
+X-Received: by 2002:a05:600c:4fcd:: with SMTP id
+ o13mr4026971wmq.175.1639567726539; 
+ Wed, 15 Dec 2021 03:28:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzBGXXXjOt/YLFVp1GvhgpuoD4uactTicIea6opsxIvNKCXFmOh2oK1rnzMEZJwmY2OIM6VXg==
+X-Received: by 2002:a05:600c:4fcd:: with SMTP id
+ o13mr4026958wmq.175.1639567726392; 
+ Wed, 15 Dec 2021 03:28:46 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id n10sm1100114wri.67.2021.12.15.03.27.44
+ by smtp.gmail.com with ESMTPSA id l3sm1523350wmq.46.2021.12.15.03.28.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Dec 2021 03:27:44 -0800 (PST)
-Message-ID: <977ffa85-1f5f-7493-cb05-5e2024e3c017@redhat.com>
-Date: Wed, 15 Dec 2021 12:27:43 +0100
+ Wed, 15 Dec 2021 03:28:45 -0800 (PST)
+Message-ID: <3c5ecc0c-121f-6535-04e5-a26c2f53400c@redhat.com>
+Date: Wed, 15 Dec 2021 12:28:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v4 03/18] meson: require liburing >= 0.3
+Subject: Re: [PATCH v4 06/18] tests/docker: switch fedora image to release 35
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+ qemu-devel@nongnu.org
 References: <20211124130150.268230-1-berrange@redhat.com>
- <20211124130150.268230-4-berrange@redhat.com>
+ <20211124130150.268230-7-berrange@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211124130150.268230-4-berrange@redhat.com>
+In-Reply-To: <20211124130150.268230-7-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -112,40 +111,16 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Stefan & Stefano.
-
 On 11/24/21 14:01, Daniel P. Berrangé wrote:
-> openSUSE Leap 15.2 ships with liburing == 0.2 against which QEMU fails
-> to build.
-> 
-> ../util/fdmon-io_uring.c: In function ‘fdmon_io_uring_need_wait’:
-> ../util/fdmon-io_uring.c:305:9: error: implicit declaration of function ‘io_uring_sq_ready’; did you mean ‘io_uring_cq_ready’? [-Werror=implicit-function-declaration]
->      if (io_uring_sq_ready(&ctx->fdmon_io_uring)) {
->          ^~~~~~~~~~~~~~~~~
->          io_uring_cq_ready
-> 
-> This method was introduced in liburing 0.3, so set that as a minimum
-> requirement.
+> The Fedora 33 release is shortly end of life. Switch to the newest
+> Fedora 35 to maximise lifespan until we need to update again.
 > 
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  meson.build | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index e2d38a43e6..04d36bf47e 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -427,7 +427,8 @@ if not get_option('linux_aio').auto() or have_block
->  endif
->  linux_io_uring = not_found
->  if not get_option('linux_io_uring').auto() or have_block
-> -  linux_io_uring = dependency('liburing', required: get_option('linux_io_uring'),
-> +  linux_io_uring = dependency('liburing', version: '>=0.3',
-> +                              required: get_option('linux_io_uring'),
->                                method: 'pkg-config', kwargs: static_kwargs)
->  endif
->  libxml2 = not_found
-> 
+>  tests/docker/dockerfiles/fedora.docker | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
