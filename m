@@ -2,73 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C0247583E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 12:57:21 +0100 (CET)
-Received: from localhost ([::1]:36508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1684F475869
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 13:08:34 +0100 (CET)
+Received: from localhost ([::1]:55588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxSuO-00071L-68
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 06:57:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54916)
+	id 1mxT5F-0004DO-0a
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 07:08:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mxSTG-000699-AU
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:29:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52785)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxSVe-0002OE-NG
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:31:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mxST2-0008Da-LP
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:29:17 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxSVa-0000I6-KL
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 06:31:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639567742;
+ s=mimecast20190719; t=1639567897;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rZygp4+7rd+gUDsh3u9hKpPHrSyUXo0FH26Mgnok3iA=;
- b=Puwv+OzssUhSHPX2h77l+0sJE4fiSWZ95P5nr5e6zx9GVw6eUUqvSg0S7W3kUw/gIdZf0R
- dbINYBIqXrZKecdm02+LPuBKy5Go6vLpRt1x26eaWxLE6RH/9R/U24DWNhX6PRu2j22mzI
- psiQAQ2weg1K3f/+1PKmQCr0DtBErac=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zIWys8/ljtRphHR38m2OBt+VZvG7vWvQ9VYLLj8iTIk=;
+ b=iPopnlGhX6LKQ2Z5w3JpTrmdOfAoZ84HTBn3Ut+22dZf/VUJAzfyirdir6Hn5iahxrs5iu
+ SzcqheR46z5RutcPlg+Yhi4/XtNvjKOZ5BdlvvLmlKZ6roXUW5AwZDVLZAObdOwbrneJYR
+ CoJ+S6PLTBBKWhxB+wHZmG4nBz0qVWE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-144-MGbTVg3WNYSTwOrTbjEemw-1; Wed, 15 Dec 2021 06:28:59 -0500
-X-MC-Unique: MGbTVg3WNYSTwOrTbjEemw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDBF581EE61;
- Wed, 15 Dec 2021 11:28:57 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 615C97E675;
- Wed, 15 Dec 2021 11:28:47 +0000 (UTC)
-Date: Wed, 15 Dec 2021 11:28:46 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v2] block-backend: prevent dangling BDS pointers across
- aio_poll()
-Message-ID: <YbnRbuf92sNj8cSA@stefanha-x1.localdomain>
-References: <20211214143542.14758-1-stefanha@redhat.com>
- <YbixZeHqqImnPbwL@redhat.com>
+ us-mta-16-x_vMyXm7Nm2TEverC-Ll0g-1; Wed, 15 Dec 2021 06:31:36 -0500
+X-MC-Unique: x_vMyXm7Nm2TEverC-Ll0g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ ay17-20020a05600c1e1100b0033f27b76819so12461065wmb.4
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 03:31:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=zIWys8/ljtRphHR38m2OBt+VZvG7vWvQ9VYLLj8iTIk=;
+ b=Pci74oFmQ0Lb7ahKQM2zpWMO8wCBtr1EOfB3O/3mgSzBB0r2Q04i3OwBEDnpEzFLm3
+ bjVw04AF5eQCP5zhDhEp7S2bDhyVl+eg0XBTGxWP7dPQhHxgD7FpVY+cSeozQkUDsQEn
+ /+A4yzHX+R7D9UQYABDcQFYrN4SsoITxf6qnKvMk/HtklS+7/Wuw8yBSlquy1d5JUmek
+ 1XU+yxawm94uv0BmhYi5VFziVa5kbg7K3VGxZxXvAKYLjy4VPHTv/4jMrdW4GxrwHR+o
+ FNWLmGT8R2ISZ+tfeOWqzdIwVrhJ+7/i31omPv75BX/ZccCn+Q4PDVC5ujyzlGqIpgVq
+ p/LA==
+X-Gm-Message-State: AOAM531JQopotNTOBZBf9xQ9P5jpkeIOaQKnNyOeGR4jH1VdIkeNRXbM
+ EUp4b3ZhGLG9H4yAJP6SNPlXch7cW++JFZElwjulLyAsg83Yjt+o2LpPi1n0aS76mcXtoejwADB
+ x/0uDXDEueFybieo=
+X-Received: by 2002:a05:600c:22cb:: with SMTP id
+ 11mr4064353wmg.181.1639567895221; 
+ Wed, 15 Dec 2021 03:31:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJydN9yl+o9UYqU7K4sJezqFVHrfsxLSlrPlrs+5BsRCZK46HEiexIccRz9LLIYpauSwQkRgsQ==
+X-Received: by 2002:a05:600c:22cb:: with SMTP id
+ 11mr4064324wmg.181.1639567894905; 
+ Wed, 15 Dec 2021 03:31:34 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id v6sm4820268wmh.8.2021.12.15.03.31.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Dec 2021 03:31:34 -0800 (PST)
+Message-ID: <a18b26b9-f0a0-5bbc-0ecf-d97480f72030@redhat.com>
+Date: Wed, 15 Dec 2021 12:31:33 +0100
 MIME-Version: 1.0
-In-Reply-To: <YbixZeHqqImnPbwL@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v4 15/18] tests/docker: updates to alpine package list
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211124130150.268230-1-berrange@redhat.com>
+ <20211124130150.268230-16-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211124130150.268230-16-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uR1hRuk4fMrx5QiY"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-1.64, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,98 +102,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, qemu-stable@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---uR1hRuk4fMrx5QiY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/24/21 14:01, Daniel P. Berrangé wrote:
+> Cleanup the package lists by removing some entries that we don't need to
+> directly reference
+> 
+>   binutils: implied by the compiler toolchain
+>   coreutils: not required by QEMU build
+>   mesa-egl mesa-gbm: implied by mesa-dev
+>   ninja: alias for samurai package
 
-On Tue, Dec 14, 2021 at 03:59:49PM +0100, Kevin Wolf wrote:
-> Am 14.12.2021 um 15:35 hat Stefan Hajnoczi geschrieben:
-> > The BlockBackend root child can change when aio_poll() is invoked. This
-> > happens when a temporary filter node is removed upon blockjob
-> > completion, for example.
-> >=20
-> > Functions in block/block-backend.c must be aware of this when using a
-> > blk_bs() pointer across aio_poll() because the BlockDriverState refcnt
-> > may reach 0, resulting in a stale pointer.
-> >=20
-> > One example is scsi_device_purge_requests(), which calls blk_drain() to
-> > wait for in-flight requests to cancel. If the backup blockjob is active=
-,
-> > then the BlockBackend root child is a temporary filter BDS owned by the
-> > blockjob. The blockjob can complete during bdrv_drained_begin() and the
-> > last reference to the BDS is released when the temporary filter node is
-> > removed. This results in a use-after-free when blk_drain() calls
-> > bdrv_drained_end(bs) on the dangling pointer.
-> >=20
-> > Explicitly hold a reference to bs across block APIs that invoke
-> > aio_poll().
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> > v2:
-> > - Audit block/block-backend.c and fix additional cases
-> > ---
-> >  block/block-backend.c | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >=20
-> > diff --git a/block/block-backend.c b/block/block-backend.c
-> > index 12ef80ea17..a40ad7fa92 100644
-> > --- a/block/block-backend.c
-> > +++ b/block/block-backend.c
-> > @@ -828,10 +828,12 @@ void blk_remove_bs(BlockBackend *blk)
-> >      notifier_list_notify(&blk->remove_bs_notifiers, blk);
-> >      if (tgm->throttle_state) {
-> >          bs =3D blk_bs(blk);
-> > +        bdrv_ref(bs);
-> >          bdrv_drained_begin(bs);
-> >          throttle_group_detach_aio_context(tgm);
-> >          throttle_group_attach_aio_context(tgm, qemu_get_aio_context())=
-;
-> >          bdrv_drained_end(bs);
-> > +        bdrv_unref(bs);
-> >      }
-> > =20
-> >      blk_update_root_state(blk);
->=20
-> This hunk is unnecessary, we still hold a reference that is only given
-> up a few lines down with bdrv_root_unref_child(root).
+I'd rather keep the alias to avoid looking for ninja or
+for what samurai is. Anyhow,
 
-That's not the only place where the reference can be dropped:
-bdrv_drop_filter() removes the filter node from the graph.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Here is a case where it happens: block/backup.c:backup_clean() ->
-bdrv_cbw_drop() -> bdrv_drop_filter() -> bdrv_replace_node_common() ->
-bdrv_replace_child_commit(). After we reach this bdrv_unref() is called
-a few times and all references are dropped because the node is no longer
-in the graph.
-
-This happens during blk_remove_bs() -> bdrv_drained_begin(), so the bs
-pointer in the above hunk can be stale.
-
-Stefan
-
---uR1hRuk4fMrx5QiY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmG50W4ACgkQnKSrs4Gr
-c8i/Cgf9HyPEVKwbJMNLj0NKY385Tlw7edlUomimClsQIvsBMn/BJd5xzB8IDL83
-QJL+i/aZJEt7Hloj2ckX26qRNMIlHEfqRSRtX0/Td7sHiVsL5WzXdt+j9G/imLcG
-6N0lKbauAsSAXZqnjGgMllSp2sCeXOnf1LhqHmvqKkn4wYstlD9Yyn+j6Qeb/e9D
-RH8ap+DZXXE2p5HVQUS3uPMPbzCRKS9ZEKF2J82UvwTrUpIirq/shtGvzsS/4TzM
-hHRTY27YAEz5sEE5zilyapOFZjubizKtUB+DNhiOg7fJsA0/QIPJ9S4cyJB/rxR3
-UzwHxluWkPcjyFtCrvj5dZnwJcqv+Q==
-=kZzB
------END PGP SIGNATURE-----
-
---uR1hRuk4fMrx5QiY--
+>   shadow: not required by QEMU build
+>   util-linux-dev: not directly required by QEMU build
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  tests/docker/dockerfiles/alpine.docker | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
 
 
