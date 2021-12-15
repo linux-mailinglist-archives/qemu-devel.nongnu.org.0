@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05CE476482
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 22:24:13 +0100 (CET)
-Received: from localhost ([::1]:41550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF5B476490
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 22:29:46 +0100 (CET)
+Received: from localhost ([::1]:53012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxbky-0005cw-LR
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 16:24:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41528)
+	id 1mxbqL-0004tV-OX
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 16:29:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxbXQ-00051y-1T
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxbXP-00051s-By
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 16:10:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43270)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxbXM-0006ku-Lg
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxbXM-0006lD-FT
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 16:10:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639602606;
+ s=mimecast20190719; t=1639602608;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jDalYezetSTOGjmpTfMhwzKWEwEh+GWVerHGkFhpnYI=;
- b=iNyNrnMtEB3LDOkmgcksqgbH436Aa5eBCcMHrwJJEF0JoIgy2Q4NoUitcV1opLieMjBj3M
- ct4N2SDiQ528HjSxGklWGlnWdh17GJ+fr2c77baGAHe0YU7w00cfmgt+uUMFBexKJb5caO
- b1IkNbuMnJMUjBLjxWuDLOd3K1hoKfg=
+ bh=3iKWnjTOO4/XPQJJpbai2DRzjpF4JYa94HPcrlj90gU=;
+ b=Hc4X3ZdN27KbUZjEsf+GK2Q4extd/0Zec3uihV3Ye2u4HOX3ILFt2gws1hgGEw4JkGmcvD
+ XurqAc9mzRhby4pe+NN4Qfuyq3kcd33ZCUt7LeEledVJIqupfqU9myPrmBXXKlrt2hg+hN
+ dHU/tMRVDASL4mIkLGGtiIMLcqpuIv0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-486-0NcfGChmN--5z9YA7ljZOQ-1; Wed, 15 Dec 2021 16:10:05 -0500
-X-MC-Unique: 0NcfGChmN--5z9YA7ljZOQ-1
+ us-mta-367-bgxBehC4Pd21BcZg9sFETA-1; Wed, 15 Dec 2021 16:10:06 -0500
+X-MC-Unique: bgxBehC4Pd21BcZg9sFETA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98228100F94C;
- Wed, 15 Dec 2021 21:10:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A077B189DF5C;
+ Wed, 15 Dec 2021 21:10:05 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.19.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3C4F47367;
- Wed, 15 Dec 2021 21:10:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE1955F4E1;
+ Wed, 15 Dec 2021 21:10:04 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC qemu.qmp PATCH 23/24] docs: add doc build to GitLab CI build step
-Date: Wed, 15 Dec 2021 16:06:33 -0500
-Message-Id: <20211215210634.3779791-24-jsnow@redhat.com>
+Subject: [RFC qemu.qmp PATCH 24/24] v0.0.1
+Date: Wed, 15 Dec 2021 16:06:34 -0500
+Message-Id: <20211215210634.3779791-25-jsnow@redhat.com>
 In-Reply-To: <20211215210634.3779791-1-jsnow@redhat.com>
 References: <20211215210634.3779791-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,15 +56,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,37 +85,25 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
+Add v0.0.1 tag, marking the first public alpha release of the qemu.qmp
+package.
 ---
- .gitlab-ci.d/build.yml         | 1 +
- .gitlab-ci.d/python.Dockerfile | 2 ++
- 2 files changed, 3 insertions(+)
+ README.rst | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/.gitlab-ci.d/build.yml b/.gitlab-ci.d/build.yml
-index bf2d487..5634173 100644
---- a/.gitlab-ci.d/build.yml
-+++ b/.gitlab-ci.d/build.yml
-@@ -4,6 +4,7 @@ build-package:
-   needs:
-     job: python-container
-   script:
-+    - make docs
-     - python3 -m build
-   artifacts:
-     name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA"
-diff --git a/.gitlab-ci.d/python.Dockerfile b/.gitlab-ci.d/python.Dockerfile
-index 93661b2..728d8d8 100644
---- a/.gitlab-ci.d/python.Dockerfile
-+++ b/.gitlab-ci.d/python.Dockerfile
-@@ -15,6 +15,8 @@ RUN dnf --setopt=install_weak_deps=False install -y \
-         pipenv \
-         python3 \
-         python3-pip \
-+        python3-sphinx \
-+        python3-sphinx_rtd_theme \
-         python3-tox \
-         python3-virtualenv \
-         python3.10 \
+diff --git a/README.rst b/README.rst
+index bd4a301..e82ac03 100644
+--- a/README.rst
++++ b/README.rst
+@@ -126,4 +126,7 @@ locally before submitting to GitLab CI as my due diligence.)
+ Changelog
+ ---------
+ 
+-- No public release yet.
++0.0.1 (2022-xx-xx)
++^^^^^^^^^^^^^^^^^^
++
++- Initial public release.
 -- 
 2.31.1
 
