@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B095474F64
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:39:11 +0100 (CET)
-Received: from localhost ([::1]:59426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F185474F67
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:43:00 +0100 (CET)
+Received: from localhost ([::1]:35244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxIK6-0002g2-4m
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:39:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53684)
+	id 1mxINn-0005Y1-8h
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:42:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHyS-0002fm-Hn; Tue, 14 Dec 2021 19:16:48 -0500
-Received: from mail-dm3nam07on2071.outbound.protection.outlook.com
- ([40.107.95.71]:60449 helo=NAM02-DM3-obe.outbound.protection.outlook.com)
+ id 1mxHym-0003ji-2V; Tue, 14 Dec 2021 19:17:10 -0500
+Received: from mail-bn1nam07on2047.outbound.protection.outlook.com
+ ([40.107.212.47]:55782 helo=NAM02-BN1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHyP-0006Il-5M; Tue, 14 Dec 2021 19:16:48 -0500
+ id 1mxHyi-0006Lk-JE; Tue, 14 Dec 2021 19:17:07 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EU8mdaiu78yNDTa5/o0r4lMPGwkEo6TYmCHvB3XSKq8u5Hf+aatIg6Qfbf1Fn/judVn6KEPKR1NFcvv8hublbV3NnzBkX8Zn4apjF/vd7IIugjFe1xo1/BlEfRByfZRq8+REEOCuTgdizZdB83QkelFZK6l7gBg9MuoDNnHdQ+FkNb5Tg33D0Qrm9yzfl07LPlHM5HFR2eEHTbhM5rp3/RRwAxFVkNnK9p++ffEeHHyc5EJWT1fR5JnevIyvfOlbSST7VhJDyVniIeIS1HEKcwdlhf3R8804wSV9/4p7uZLmNT+BRiAhEQwkQnXsamwGFeoAkRyMCk5tN+AfSWt41Q==
+ b=O1VFn24WkN5KYPZMB112Ilgzpf4f/aKiC5rAS+2HWr0rTclCET5Dl4mBL6c0cn1npEPCnjNIh84qVqZXKm/xIt+z6eyvD+3MmPBwamH5seCzpoHCGhBJO0SY86cQjOLEgemYkJYvxMt2KzCa2WEFFUq0LaVku7xpEhBxySLbMqAQY4rU9nclvtmGMtPnEQC+vqUaf8tAIE/SsqIb/syl2DjAXrXWROtZjQAkMAmZ+9O6SSa/O7hrtW3fxoiRcHe5W7RnvhNCfU0Lm89w33IlpBNeFBBJhshIplX5xXmeK/OqRp2td9Z1HVpn1rprYYRZQorK0H6hHGKPCUCWu+J2XA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mtvA+uV3GXSLKg4KZLljaWhwZf0XoThAmHZ0A1E5uC4=;
- b=b2DRF3W7R5gNBLwA9w4psholcZqBZSEU25Ghv/M+LGQyaWl18pfjWioz33KIG5lyeTKhVEqNTrBCqODjBwB7pWox096w8EMXlnpLeRHTJVF6RLp2Nt+HIELgXiZagCbOt3smkTuuapt7iHkdJbvVjLB9q1x+ZOS7INkuFTxOCs4Lf378ysghFF4tGujW3StDVNp6Vzyj+F3iFfyo/2aI21NXkiB88Ce8nW35IylmlMvrQ7ZEF3hMb1GPklboLQXr05errLoiRRYc5wS4ks1NO60/EpO+H6eEBgBy+KLT0u2CrdBq4wvTRs+7Pu6HVhz5ClrPomi9PGtx0GPArbGacQ==
+ bh=1VeDxXEwpH5Csi8NGSGEuKTInv+T7BdeiF4bF6Z+4qk=;
+ b=RVD9XrDERPNp8ZPhJ14sljVsTcSbKrJVOVrqCRbUVwXE+DqizAj4hoRQ1wSW58FAGQ0MO8hfUZPQwmp8umRktmkfbpQNq7aP7Qj79d8wicgJeElzb4qxq4FBTbdltyYAY7ic6A8DssaBrywTQHEjxHKBlALvjYfAYFnFdQDr4lgWvjUC1ZnmpIAKPI84OTIULhY5iPUSTSSq+T/t8kFgsj3UgQFsKZAUhPrW4UY+6qSe3YkT4mxw7g1OhtyiUmYZx2pp81TB0/UdtAltti/JAnruPHgPPMBihtYyhDnl7i+uY6YgtsfVGCaKNefYLQsRKCs+aAmRD26KYekzt1iOPw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mtvA+uV3GXSLKg4KZLljaWhwZf0XoThAmHZ0A1E5uC4=;
- b=5oBJ3GoAwDZF219OwlEwKVyQLViFKD8uDVwOgo4yM7J9fEhPnZg+YYzqa4ffzSAABLOYf0cuBsFbz6C+X4+fIc7C4uwAi54WoZCHYZgAymQnSIU4Aw8PFqKuEv22n7KCKfes9ARu9+v4g5D/NxH/6KcatmdVgQitw5IRCd9n7C4=
-Received: from BN6PR1201CA0005.namprd12.prod.outlook.com
- (2603:10b6:405:4c::15) by BL0PR12MB2515.namprd12.prod.outlook.com
- (2603:10b6:207:40::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.15; Wed, 15 Dec
- 2021 00:16:38 +0000
-Received: from BN8NAM11FT053.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:4c:cafe::52) by BN6PR1201CA0005.outlook.office365.com
- (2603:10b6:405:4c::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.13 via Frontend
- Transport; Wed, 15 Dec 2021 00:16:38 +0000
+ bh=1VeDxXEwpH5Csi8NGSGEuKTInv+T7BdeiF4bF6Z+4qk=;
+ b=Hs1xE0XFTmIv77FX8OolqB7e/dag9ejE/0z4RctRnNQg5HyOTqyN53tVU4vsRocAs7ljN69Z/D50iKvUfAZs5JnHrm8u7+GRxO0kDP8vYaVdMe6Zn5IN3eOuTVsZRL0/xfpsXxVdVDg88glD05MXbfhZc2x4iWKD+/m/0/Feqkc=
+Received: from BN6PR16CA0018.namprd16.prod.outlook.com (2603:10b6:404:f5::28)
+ by MW3PR12MB4361.namprd12.prod.outlook.com (2603:10b6:303:5a::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Wed, 15 Dec
+ 2021 00:16:59 +0000
+Received: from BN8NAM11FT036.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:404:f5:cafe::fa) by BN6PR16CA0018.outlook.office365.com
+ (2603:10b6:404:f5::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14 via Frontend
+ Transport; Wed, 15 Dec 2021 00:16:59 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,23 +50,22 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN8NAM11FT053.mail.protection.outlook.com (10.13.177.209) with Microsoft SMTP
+ BN8NAM11FT036.mail.protection.outlook.com (10.13.177.168) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:16:38 +0000
+ 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:16:58 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 14 Dec
- 2021 18:16:37 -0600
+ 2021 18:16:58 -0600
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
 CC: <qemu-stable@nongnu.org>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philmd@redhat.com>, Gaoning Pan <pgn@zju.edu.cn>, Darren Kenny
- <darren.kenny@oracle.com>, Hanna Reitz <hreitz@redhat.com>, John Snow
- <jsnow@redhat.com>
-Subject: [PATCH 43/47] hw/block/fdc: Kludge missing floppy drive to fix
+ <philmd@redhat.com>, Alexander Bulekov <alxndr@bu.edu>, Darren Kenny
+ <darren.kenny@oracle.com>, John Snow <jsnow@redhat.com>
+Subject: [PATCH 44/47] tests/qtest/fdc-test: Add a regression test for
  CVE-2021-20196
-Date: Tue, 14 Dec 2021 18:01:21 -0600
-Message-ID: <20211215000125.378126-44-michael.roth@amd.com>
+Date: Tue, 14 Dec 2021 18:01:22 -0600
+Message-ID: <20211215000125.378126-45-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215000125.378126-1-michael.roth@amd.com>
 References: <20211215000125.378126-1-michael.roth@amd.com>
@@ -78,31 +77,31 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
  (10.181.40.144)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d4f264de-e1d7-4d5f-a384-08d9bf60295a
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2515:EE_
-X-Microsoft-Antispam-PRVS: <BL0PR12MB2515BA15F12B7F4DD2CC723C95769@BL0PR12MB2515.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:356;
+X-MS-Office365-Filtering-Correlation-Id: bc5b569f-d1ec-4898-6432-08d9bf6035ca
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4361:EE_
+X-Microsoft-Antispam-PRVS: <MW3PR12MB4361C22B34886675735C8A8495769@MW3PR12MB4361.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:125;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: re+94pMDh0CeINvACaAySUxXNLECakqgL7JTujKyxTEiafPH01ZoSEhGHaaiSWprl9n7BfxYFwClUjtiGz3rjAMpTCPfr8H+ZTMj8qOlIF7BggqGkVQ7Y82RjSbuB07P92m8LfSQ62saaQuhWnT75/H7loogm+cwq4t6p5BEqRG2znjdOnF7JJxTAd+q3ZfrpCjYmhFDWx/br5PlnTXmhlS4GapN1irndBaAPoumF5jc5e3PaTfRi7Cyom3o7JpUEBaNU+ABJ+Qx8cc7i0v/61GWyWFujTccK3o+IDFUl95vIEnCQeI20F2gOxpF1A3NuNnwZ95j2XEITZ/Ujkl0sW9BQteREsq4w047xhHBLC8c7Th3OajXpyVP9CCNhDfnkN6pV+W9KutnsZMc/MCKfKD/4YzDdRuAl+LjF3ka1+vLivE5dJwnaohs2eJ8112tPTBH+649vQHWAOwnRWq34bMfcKV6tbeIZJwrYIDGBfw6WR5e9XFe7ulG4KkkWg+ZCc0zAW7QZTCR80Aj5UmQChwLWV99vnUB394LPazcKzPF80EFWatJoMCm1Q7zarYrVMdu015faILKkU8gr/UzYoHs3oaCBumk7MIaF2ZaVjzJgG6cFPUieiYgTuUNwOU/gXZ9WD0TL157inZweHOC8O1O2C5nHMY6wAvJsiUELfcvF73e85UqX7MtrKLBndfFRGhBIkcyDj/JSCYHIcQPqSQ1O5ejr6P6fMbbAsk5UTcCN/sZl4JhkgL1qf15yRQeWPEC09PRYL5JeRQoiHw+2t3hKxSgggT+WcmNe10zbJPRnTcTdi4mpqx7HLdWL/L/6w2rJxeeEwTENWFw5Vf+5i2Tths34iK8AnJXcMvvX77ZPmzCwpaYF4Sq4WZWhV/WBlOTn/BK2PMfP3UnzNWqYA6wPWbwcepxLjyizqxDJFU=
+X-Microsoft-Antispam-Message-Info: h46L0Qft6ziD5Uycf1+q+quTZw5d2GCIEhTT6fm6E0yHBA7O1a6WG6Fp7E/TP4SwJV/XYeOLLJSvH/1S26w/W4PZmgk3n1cAoNRdeqsoiasx91SzNescQELz76JX48+LESIEWPbP4ujlqMzU4a1tAcILzJc8wM3nPsQ3mAGh/Jt8gHgH0vSrPRXrcQ7ZFG22fPF4hvaaDj6eS/AiaIbSmFaHz3IfaDSOtdbFo/0JpZzTTd/eGdB2/KG8xCCmKIBc8vpBVv0ZVhYtgkjRueSfJpRATkEFJCWHg4HOLFi+FfKYU2h0lrOaWHRKv9ErIyFulbygiMok4ODBr+0Hk+Q984Z6Mb7xtKPfAoUewe99r/tCtVA9FjXzZPg+5ynAGQfBdxURUjk4sbHkhOeOwFWiKPh0kC7m5a43b/nYfNQsu/HtnVeDCYcFd85aTVtd6JSEstHZKr+EPd3bGpzAU6CPynWfx2DId0YkBd13jEayI1iLOx4xnT7O/fRzRnOL7Zmk6lJoK4K3ZUZydyH9FYb8OVUi6yxpOleBcZ+svePhw9AyPIH4g0p9sQEn7livV+0do5Gaa3f/9PX6pjrt5JzqG89F5mxHEnciZAuxGq+rEfnPw6Su3Dax+0LH7NE4jC4yVzv0NSSBtpCjN3GajvTbl2sjVleRtU5JsvgF4Xha+v0tQMWdJiimaOdRZMibiN9t5PtmUqi3K/DUM8GYINDJWukd7hWkRgBkrxtqfp4fJ8bmKbJp/RFzrcxbrbZ1QhJ7xkJWN1s143JLxqgF+XYaX+iqBrm0G6znUHeiGvvfio0=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(40470700001)(36756003)(2906002)(4326008)(81166007)(82310400004)(8676002)(356005)(6916009)(36860700001)(8936002)(316002)(40460700001)(44832011)(5660300002)(70586007)(16526019)(26005)(86362001)(6666004)(508600001)(54906003)(426003)(336012)(47076005)(70206006)(966005)(83380400001)(2616005)(186003)(1076003)(36900700001);
+ SFS:(4636009)(46966006)(36840700001)(40470700001)(16526019)(40460700001)(1076003)(6916009)(81166007)(44832011)(47076005)(186003)(336012)(316002)(508600001)(426003)(83380400001)(4326008)(26005)(356005)(54906003)(8936002)(8676002)(2906002)(82310400004)(70206006)(36756003)(86362001)(6666004)(70586007)(2616005)(36860700001)(5660300002)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:16:38.0894 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4f264de-e1d7-4d5f-a384-08d9bf60295a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:16:58.9389 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc5b569f-d1ec-4898-6432-08d9bf6035ca
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT053.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT036.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2515
-Received-SPF: softfail client-ip=40.107.95.71;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4361
+Received-SPF: softfail client-ip=40.107.212.47;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM02-DM3-obe.outbound.protection.outlook.com
+ helo=NAM02-BN1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -127,58 +126,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Guest might select another drive on the bus by setting the
-DRIVE_SEL bit of the DIGITAL OUTPUT REGISTER (DOR).
-The current controller model doesn't expect a BlockBackend
-to be NULL. A simple way to fix CVE-2021-20196 is to create
-an empty BlockBackend when it is missing. All further
-accesses will be safely handled, and the controller state
-machines keep behaving correctly.
+Without the previous commit, when running 'make check-qtest-i386'
+with QEMU configured with '--enable-sanitizers' we get:
 
-Cc: qemu-stable@nongnu.org
-Fixes: CVE-2021-20196
-Reported-by: Gaoning Pan (Ant Security Light-Year Lab) <pgn@zju.edu.cn>
+  AddressSanitizer:DEADLYSIGNAL
+  =================================================================
+  ==287878==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000344
+  ==287878==The signal is caused by a WRITE memory access.
+  ==287878==Hint: address points to the zero page.
+      #0 0x564b2e5bac27 in blk_inc_in_flight block/block-backend.c:1346:5
+      #1 0x564b2e5bb228 in blk_pwritev_part block/block-backend.c:1317:5
+      #2 0x564b2e5bcd57 in blk_pwrite block/block-backend.c:1498:11
+      #3 0x564b2ca1cdd3 in fdctrl_write_data hw/block/fdc.c:2221:17
+      #4 0x564b2ca1b2f7 in fdctrl_write hw/block/fdc.c:829:9
+      #5 0x564b2dc49503 in portio_write softmmu/ioport.c:201:9
+
+Add the reproducer for CVE-2021-20196.
+
+Suggested-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20211124161536.631563-3-philmd@redhat.com
-BugLink: https://bugs.launchpad.net/qemu/+bug/1912780
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/338
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20211124161536.631563-4-philmd@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
-(cherry picked from commit 1ab95af033a419e7a64e2d58e67dd96b20af5233)
+(cherry picked from commit cc20926e9b8077bff6813efc8dcdeae90d1a3b10)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- hw/block/fdc.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ tests/qtest/fdc-test.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index c3e09973ca..af398c1116 100644
---- a/hw/block/fdc.c
-+++ b/hw/block/fdc.c
-@@ -1166,7 +1166,19 @@ static FDrive *get_drv(FDCtrl *fdctrl, int unit)
+diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
+index 26b69f7c5c..8f6eee84a4 100644
+--- a/tests/qtest/fdc-test.c
++++ b/tests/qtest/fdc-test.c
+@@ -32,6 +32,9 @@
+ /* TODO actually test the results and get rid of this */
+ #define qmp_discard_response(...) qobject_unref(qmp(__VA_ARGS__))
  
- static FDrive *get_cur_drv(FDCtrl *fdctrl)
- {
--    return get_drv(fdctrl, fdctrl->cur_drv);
-+    FDrive *cur_drv = get_drv(fdctrl, fdctrl->cur_drv);
++#define DRIVE_FLOPPY_BLANK \
++    "-drive if=floppy,file=null-co://,file.read-zeroes=on,format=raw,size=1440k"
 +
-+    if (!cur_drv->blk) {
-+        /*
-+         * Kludge: empty drive line selected. Create an anonymous
-+         * BlockBackend to avoid NULL deref with various BlockBackend
-+         * API calls within this model (CVE-2021-20196).
-+         * Due to the controller QOM model limitations, we don't
-+         * attach the created to the controller device.
-+         */
-+        cur_drv->blk = blk_create_empty_drive();
-+    }
-+    return cur_drv;
+ #define TEST_IMAGE_SIZE 1440 * 1024
+ 
+ #define FLOPPY_BASE 0x3f0
+@@ -546,6 +549,40 @@ static void fuzz_registers(void)
+     }
  }
  
- /* Status A register : 0x00 (read-only) */
++static bool qtest_check_clang_sanitizer(void)
++{
++#if defined(__SANITIZE_ADDRESS__) || __has_feature(address_sanitizer)
++    return true;
++#else
++    g_test_skip("QEMU not configured using --enable-sanitizers");
++    return false;
++#endif
++}
++static void test_cve_2021_20196(void)
++{
++    QTestState *s;
++
++    if (!qtest_check_clang_sanitizer()) {
++        return;
++    }
++
++    s = qtest_initf("-nographic -m 32M -nodefaults " DRIVE_FLOPPY_BLANK);
++
++    qtest_outw(s, 0x3f4, 0x0500);
++    qtest_outb(s, 0x3f5, 0x00);
++    qtest_outb(s, 0x3f5, 0x00);
++    qtest_outw(s, 0x3f4, 0x0000);
++    qtest_outb(s, 0x3f5, 0x00);
++    qtest_outw(s, 0x3f1, 0x0400);
++    qtest_outw(s, 0x3f4, 0x0000);
++    qtest_outw(s, 0x3f4, 0x0000);
++    qtest_outb(s, 0x3f5, 0x00);
++    qtest_outb(s, 0x3f5, 0x01);
++    qtest_outw(s, 0x3f1, 0x0500);
++    qtest_outb(s, 0x3f5, 0x00);
++    qtest_quit(s);
++}
++
+ int main(int argc, char **argv)
+ {
+     int fd;
+@@ -576,6 +613,7 @@ int main(int argc, char **argv)
+     qtest_add_func("/fdc/read_no_dma_18", test_read_no_dma_18);
+     qtest_add_func("/fdc/read_no_dma_19", test_read_no_dma_19);
+     qtest_add_func("/fdc/fuzz-registers", fuzz_registers);
++    qtest_add_func("/fdc/fuzz/cve_2021_20196", test_cve_2021_20196);
+ 
+     ret = g_test_run();
+ 
 -- 
 2.25.1
 
