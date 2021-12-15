@@ -2,93 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C19547614E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 20:03:49 +0100 (CET)
-Received: from localhost ([::1]:42468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A54747614D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 20:03:24 +0100 (CET)
+Received: from localhost ([::1]:40946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxZZ6-0006eh-D9
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 14:03:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42190)
+	id 1mxZYh-0005cL-Kq
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 14:03:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxXrI-0006P7-Vj
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 12:14:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36592)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxXrH-0008W3-F9
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 12:14:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639588466;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D7W8yCdgxujTQXBUcwTQP0YT4WKi+2Bfreyrw9yWArg=;
- b=Z9NHrm6416+Hyh9mp3F8g4Nk8uVbG8qFcjMWG8x0aCBu8W18lz2Y4CTV48/DKN+d3TjvBh
- hzNbshVk6xBw037MJzyLhwATQTR0kZFoGp970qho8H8tcdQZ/ezgfxK3MQcAPwCnlD/Bfi
- CoODnGVpI1ZwnRL8uupzSHiaf5ho18k=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-266-gzAcOfkrPlWi1Cq1dbXrDg-1; Wed, 15 Dec 2021 12:14:23 -0500
-X-MC-Unique: gzAcOfkrPlWi1Cq1dbXrDg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n16-20020a05600c3b9000b003331973fdbbso9302547wms.0
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 09:14:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxXrb-0006Xy-5G
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 12:14:48 -0500
+Received: from [2607:f8b0:4864:20::102e] (port=56224
+ helo=mail-pj1-x102e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxXrY-0000Cl-Rd
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 12:14:46 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id v23so17980619pjr.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 09:14:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=sPjmjlHxaEfBxh6AJTHB4EYW5RbYzPQnOlFXe7TbtcA=;
+ b=pEqBg4dD/65fWJ0ykfw8UaV2EkbUaJtOXIegyUWcAQndP3Lr9SiBn5bInfyrN77cS5
+ L2lOp0CGnJG6uhcUhLhMP5EMlWrg507+VgmbmekZ3Y2B4W/M5VRT/nraLZzehVUydBWJ
+ AL0dzrUyVhq5B8cZtAf2aL2obFRvqCN1DFvj/XH2tOfS9XrdHDMkwEa3AGksEsqaumwR
+ oR4FMztxLNc8k32e9lRfu/ULCm2MGvk/wI7RUPK6Sa54Wv4+Q1U5IFL3vrfSKGvlkDUS
+ wEF2BHfD0oV/MZzPQIb3zmrmWwfDYn35u042uySwFKqV2ZzmjGSAk33cv0oSXERniTZM
+ QM1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=D7W8yCdgxujTQXBUcwTQP0YT4WKi+2Bfreyrw9yWArg=;
- b=OZeUF96uDkDNmddoaU9fwY1RvnfptVYVmmXuvYddmt24ScfqswR837bp4I8W1Frces
- 3l4jL2zEU2ZN4IiSfMKl+a14LO/YYhNCKu2Q1NjCYzpvQDwzDOLhDqrWeGCvCpK8WR6F
- +INY07BOILx01381UcG5OoNa0i00bIl/7UK9wSrvlX9sVYdCFynrhL+gVMrYlPxyZs4j
- Xt5muG5WowRk+vEr4W4ANkG33aO7oEHHEcPu1FkTHKKNuE/JU4Ywr56HQ03iQ4z9fNQO
- 6grbe9vMQeCS9qGscy+/N/p7yrp6fwMITiBhw1OHM2ZPHfJ8Mn/IOmb87AdibKQXUfLv
- Eb4Q==
-X-Gm-Message-State: AOAM5322zdWZr+3NZlFy6Yfb9eSw16v9mU/51gfakZ5PwBg897zrFvrI
- IvCllsWuPIq2BUdHkev6dKKAwtzNHUKUW3c36ETLj+fFs6PoVJ7Z/oJodJDFpZMtnl7PvqlWrix
- aoHUQuFc2inlubu4=
-X-Received: by 2002:adf:c7d2:: with SMTP id y18mr2177897wrg.717.1639588461963; 
- Wed, 15 Dec 2021 09:14:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxPE4GaZDmaoWlY64T3fyjCJSZhKNFMTTdpWsY2DyYhJBgAiitMM3iwZIKkoYqxDxjYizRQDA==
-X-Received: by 2002:adf:c7d2:: with SMTP id y18mr2177865wrg.717.1639588461750; 
- Wed, 15 Dec 2021 09:14:21 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id m15sm34071wrw.27.2021.12.15.09.14.20
+ bh=sPjmjlHxaEfBxh6AJTHB4EYW5RbYzPQnOlFXe7TbtcA=;
+ b=J1zlPnjQbNTByv23XkXte2zY9GsPhR47/Ukm/Yxz9mkLkbY2hmPhFrJv7UwgzLLljq
+ J9MfAPzHjorkorWbfD2KyKQE6Kh0s+Q7C2bC5wbCWu9KhANYDjFciIHi7rJEgitdUM0I
+ 6EGwPXQulVThlk2KE0dhU0+V0Jis06wulI9LIzXHeQ8BuTRrlUhroTXtlxxLgCdSTSgm
+ MM+Lk6f6ddJsnZLx6DV0E5ckkUTd/BcEdxm/jCKvs5Q0pFyarRNZgdyTnBjcTvUS51HM
+ gEkSSKiAoVwMRWo3xqZlSdClTO/t4izPImBtJpn86zk174Ek6O4P6pq3s5UXLI95abOE
+ XkRA==
+X-Gm-Message-State: AOAM533vl5ETyT9Wl3pFRVrfO2W6tqo5hMc8X3L4BYxDKMQZSBg3hhC2
+ zcSBnwLX7/PmkpVp41Iwr2UCbtDYK+5URw==
+X-Google-Smtp-Source: ABdhPJxwnNBR3dQy7Vc2Tcwg8ZiJGL53QIWlMB04N2bHh/9MiEzVKA2hA09LCDJo14mw5LzHgriejg==
+X-Received: by 2002:a17:902:8603:b0:148:af0c:cbd with SMTP id
+ f3-20020a170902860300b00148af0c0cbdmr2200573plo.126.1639588483061; 
+ Wed, 15 Dec 2021 09:14:43 -0800 (PST)
+Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id 10sm1585478pfm.56.2021.12.15.09.14.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Dec 2021 09:14:21 -0800 (PST)
-Message-ID: <3e160727-eb18-3e7f-1a60-3d143b6bde1f@redhat.com>
-Date: Wed, 15 Dec 2021 18:14:20 +0100
+ Wed, 15 Dec 2021 09:14:42 -0800 (PST)
+Subject: Re: [PULL 00/16] qtest and gitlab-CI improvements
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20211215073402.144286-1-thuth@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8bad026b-d648-e72e-bb2d-c2fea5463a0d@linaro.org>
+Date: Wed, 15 Dec 2021 09:14:41 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [RFC PATCH v2 3/5] exec/memattrs: Introduce MemTxAttrs::bus_perm
- field
-To: David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>
-References: <20210823164157.751807-1-philmd@redhat.com>
- <20210823164157.751807-4-philmd@redhat.com> <YSPr6dN+iKKFlCxy@t490s>
- <922195af-f70d-eaf6-2aa4-b924f8196076@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <922195af-f70d-eaf6-2aa4-b924f8196076@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211215073402.144286-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.64, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.64,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,40 +90,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, qemu-devel@nongnu.org,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Alexander Bulekov <alxndr@bu.edu>,
- qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/21 21:04, David Hildenbrand wrote:
-> On 23.08.21 20:41, Peter Xu wrote:
->> On Mon, Aug 23, 2021 at 06:41:55PM +0200, Philippe Mathieu-Daudé wrote:
->>> +/* Permission to restrict bus memory accesses. See
->>> MemTxAttrs::bus_perm */
->>> +enum {
->>> +    MEMTXPERM_UNSPECIFIED   = 0,
->>> +    MEMTXPERM_UNRESTRICTED  = 1,
->>> +    MEMTXPERM_RAM_DEVICE    = 2,
->>> +};
->>
->> Is there a difference between UNSPECIFIED and UNRESTRICTED?
->>
->> If no, should we merge them?
->>
+On 12/14/21 11:33 PM, Thomas Huth wrote:
+>   Hi!
 > 
-> I'd assume MEMTXPERM_UNSPECIFIED has to be treated like
-> MEMTXPERM_UNRESTRICTED, so I'd also think we should just squash them.
+> The following changes since commit 76b56fdfc9fa43ec6e5986aee33f108c6c6a511e:
+> 
+>    Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2021-12-14 12:46:18 -0800)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/thuth/qemu.git tags/pull-request-2021-12-15
+> 
+> for you to fetch changes up to 7876cba8fc0cab9a4c803a30f427d4b20b95a868:
+> 
+>    gitlab-ci: Test compilation on Windows with MSYS2 (2021-12-15 08:08:59 +0100)
+> 
+> ----------------------------------------------------------------
+> * Add virtio-net failover test
+> * Make qtests a little bit more flexible with regards to reduced configs
+> * Move libssh setup from configure to meson.build
+> * Run device-crash-test in CI
+> * Add jobs for NetBSD and OpenBSD to the CI
+> * Test compilation with MSYS2 in the gitlab-ci, too
+> * Add new virtio-iommu test
+> 
+> ----------------------------------------------------------------
+> Eric Auger (4):
+>        virtio-iommu: Remove set_config callback
+>        virtio-iommu: Fix endianness in get_config
+>        virtio-iommu: Fix the domain_range end
+>        tests: qtest: Add virtio-iommu test
+> 
+> Laurent Vivier (4):
+>        qtest/libqos: add a function to initialize secondary PCI buses
+>        tests/qtest: add some tests for virtio-net failover
+>        tests/libqtest: add some virtio-net failover migration cancelling tests
+>        tests/libqtest: add a migration test with two couples of failover devices
+> 
+> Thomas Huth (8):
+>        tests/qtest: Run the PPC 32-bit tests with the 64-bit target binary, too
+>        tests/qtest: Fence the tests that need xlnx-zcu102 with CONFIG_XLNX_ZYNQMP_ARM
+>        tests/qtest: Add a function that gets a list with available machine types
+>        tests/qtest: Add a function to check whether a machine is available
+>        Move the libssh setup from configure to meson.build
+>        gitlab-ci.d/buildtest: Add jobs that run the device-crash-test
+>        gitlab-ci: Add cirrus-ci based tests for NetBSD and OpenBSD
+>        gitlab-ci: Test compilation on Windows with MSYS2
+> 
+>   .gitlab-ci.d/buildtest.yml        |   23 +
+>   .gitlab-ci.d/cirrus.yml           |   35 +
+>   .gitlab-ci.d/cirrus/kvm-build.yml |   31 +
+>   .gitlab-ci.d/qemu-project.yml     |    1 +
+>   .gitlab-ci.d/windows.yml          |   98 +++
+>   configure                         |   27 -
+>   hw/virtio/trace-events            |    3 +-
+>   hw/virtio/virtio-iommu.c          |   42 +-
+>   include/hw/pci/pci_bridge.h       |    8 +
+>   meson.build                       |   13 +-
+>   meson_options.txt                 |    2 +
+>   scripts/meson-buildoptions.sh     |    3 +
+>   tests/qtest/boot-serial-test.c    |    3 +-
+>   tests/qtest/cdrom-test.c          |    8 +-
+>   tests/qtest/libqos/libqtest.h     |    8 +
+>   tests/qtest/libqos/meson.build    |    1 +
+>   tests/qtest/libqos/pci.c          |  119 ++++
+>   tests/qtest/libqos/pci.h          |    1 +
+>   tests/qtest/libqos/virtio-iommu.c |  126 ++++
+>   tests/qtest/libqos/virtio-iommu.h |   40 ++
+>   tests/qtest/libqtest.c            |   79 ++-
+>   tests/qtest/meson.build           |    9 +-
+>   tests/qtest/prom-env-test.c       |    8 +-
+>   tests/qtest/virtio-iommu-test.c   |  326 +++++++++
+>   tests/qtest/virtio-net-failover.c | 1352 +++++++++++++++++++++++++++++++++++++
+>   25 files changed, 2290 insertions(+), 76 deletions(-)
+>   create mode 100644 .gitlab-ci.d/cirrus/kvm-build.yml
+>   create mode 100644 .gitlab-ci.d/windows.yml
+>   create mode 100644 tests/qtest/libqos/virtio-iommu.c
+>   create mode 100644 tests/qtest/libqos/virtio-iommu.h
+>   create mode 100644 tests/qtest/virtio-iommu-test.c
+>   create mode 100644 tests/qtest/virtio-net-failover.c
 
-For now they are treated the same way, but ideally we should
-explicitly classify bus accesses and remove the MEMTXPERM_UNSPECIFIED.
+Applied, thanks.
 
-While we can use the same definition with comments, I think having
-different definitions ease maintainance (thinking of git-grep), but
-if we know we will never classify/convert the devices, then indeed
-having MEMTXPERM_UNSPECIFIED is pointless and confusing.
+r~
 
 
