@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE72474F12
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:24:05 +0100 (CET)
-Received: from localhost ([::1]:45972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D05474F28
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:26:45 +0100 (CET)
+Received: from localhost ([::1]:54590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxI5V-0008CB-2q
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:24:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52864)
+	id 1mxI84-0005Yd-AJ
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:26:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHu2-0003it-Fk; Tue, 14 Dec 2021 19:12:14 -0500
-Received: from mail-dm3nam07on2045.outbound.protection.outlook.com
- ([40.107.95.45]:43009 helo=NAM02-DM3-obe.outbound.protection.outlook.com)
+ id 1mxHuO-0004cR-AG; Tue, 14 Dec 2021 19:12:36 -0500
+Received: from mail-sn1anam02on2070.outbound.protection.outlook.com
+ ([40.107.96.70]:3722 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHtz-0005ip-WF; Tue, 14 Dec 2021 19:12:14 -0500
+ id 1mxHuK-0005kt-F8; Tue, 14 Dec 2021 19:12:36 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GcJUPYuasYqUlZN1nES3M0auiQGPohTG+GvrIsCy+KGgQQsPdRqhshD7z5wOffW2a2514z2Th4/+HdBqjm/TBQAy/JHJw9Z4rpoX0SpeguK0gNWxTXVV/PCXL5qzBBstswUBN1fZa97eaNZbMVGGptoAFlc5X83kNlSy2bYgzJWIdfpSFklcc9k1TZvKBxzPOCUPSiMhNhwLtPHkBkWDL9vX4I2nI8vLRkL8t1at0WOS+Tm5Aypm0XIQRrbDve5KuNZ1EZSCRqI48CpxtndbGv+UhKRRmnZpK04hQT5QNYYZkeBVY/9nVgkdSCj6zkGVjflaAE6XjZmhBRQxHYFI6w==
+ b=hFsJKfpXkFLGxdtO3NuWeDVLB1HhU22RXmWP/wLhirPYDddqCjR87qc3DW1pg42T4yefSmPRTNTpIKR2/NYRJ2YX9Vnc2RGe9yS5Dy+8WOVFdCWrzQHC1KTPcUB7vsC86UhtARaO+ORJY4hk4DnKp/9VG0XkyXOpvi/1NX0LnD/kWsjEPxxA2i3EV5gwrWP/wbBfzS0kjLfW1zO8PK6ULkUd0z9cKjQla08yPGxvFiU18YvAR0dxT1JbUEIhbZnhGAsQR3yyXWlKi1T4Afa9rseymNZ9xV4+MfuI/f6J2j5eAMSz92wIvDUMqHm9jaAloPTubEYanVsE871lMbh+DQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yzHw6xVcP7JPT9KyWOihzF5g83dU2a2sHZZIZT22jvc=;
- b=Q09DKlyEtO5cAubmzxBB11ijfjePqhUFj5MQ91BLM2FOKb7hU6cOGxL+w0siOrnvLn2Fx981skQH1U/lEJVzxnP7B8lYuX5OF+7JKOhPGZKdMy7D/OYbGtl6m6F1/egK1yBtEgnAdnII7mCuCWREslclBiTm/U59LS+tyrwDYWfLEN80SSTPgJ9PfKNiVxNOexbZjhWZq7dkDlM2+XAQ0s4Fo0B4wEf+PlDirHdkXDQlk+VDCY3r8+CTOeaopG8tx+jvDZJpi5dlCjT2vACk6egK08rbbjHcZzBHPI+Qr0omTLrnlpoyXXL1LbX5wJ8k3Zc5fazuQhZqT5leJuVpEQ==
+ bh=8jjlg8j7uE0kLAtkoFMk8R6boU6/m82+LAr9NWo0tbg=;
+ b=CRjE6uOIucWj5RZQ/MgK0THER+d3Yha+8BuRjJkvDoERcnUiYezUbiWIPvlYaJ6Qfm6p36VfnYdhkGgFuZyYP3fhk6Vqa1DhKvNYU+bRLNP8g6W8aDam3y4jIS1wBg8lBlueXtHqXIq4vZqGmT/w6HqQ9BZGXq5BZSQ5L99NlgCi7lOeANRntBjwZFuiPhXQ2nHMTL/bJOsVsF629TefbH6P5QWGbNGPB3CzWQjAXhGSLZeNRHBWku2asQeqotUFKpglR65U+ipfvZoyAnckoYI5FrK8WCLCz0y9SufXW919Qhnc+Jw3EsWUjdcLLl15/uolBujSAa+8SRtJoWEXKA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yzHw6xVcP7JPT9KyWOihzF5g83dU2a2sHZZIZT22jvc=;
- b=g/VpG4ayL0zPXnJqnWol3zyHcQBnZdmVxYvCxiIXidmxwEpnZnJhQfBnPh+qrYneKebBqmXw/AZfEuHu7t025u2ULb6Nyv0cMYDduBwj9UWPfLncQQxYsiaVZVJ/RXh31rlimqF8tMlH4CJF2dmu0YPkY4b1OU0mev/TN8sNIJM=
-Received: from DM5PR11CA0003.namprd11.prod.outlook.com (2603:10b6:3:115::13)
- by MWHPR12MB1775.namprd12.prod.outlook.com (2603:10b6:300:109::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Wed, 15 Dec
- 2021 00:12:07 +0000
-Received: from DM6NAM11FT044.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:115:cafe::61) by DM5PR11CA0003.outlook.office365.com
- (2603:10b6:3:115::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.15 via Frontend
- Transport; Wed, 15 Dec 2021 00:12:07 +0000
+ bh=8jjlg8j7uE0kLAtkoFMk8R6boU6/m82+LAr9NWo0tbg=;
+ b=y0tnrZnk8tmb9nBlCzgOf5yq+/lDDOH+I/6oJmO2fCO5qB8ugng1R+O6JompcXVE3vsG+XQ/lHBB6EowhKEld7Lqy7/GA3oqNiaSOTGrym3krBIMCMh4NNfjmjELHAT6gM990Wh+mbu4Uhrh44ukOkY5ShTfDHLvT9RYgTsueNQ=
+Received: from DM6PR06CA0043.namprd06.prod.outlook.com (2603:10b6:5:54::20) by
+ MWHPR12MB1472.namprd12.prod.outlook.com (2603:10b6:301:11::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4801.14; Wed, 15 Dec 2021 00:12:28 +0000
+Received: from DM6NAM11FT055.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:54:cafe::c7) by DM6PR06CA0043.outlook.office365.com
+ (2603:10b6:5:54::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.13 via Frontend
+ Transport; Wed, 15 Dec 2021 00:12:28 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,22 +50,19 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DM6NAM11FT044.mail.protection.outlook.com (10.13.173.185) with Microsoft SMTP
+ DM6NAM11FT055.mail.protection.outlook.com (10.13.173.103) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:12:07 +0000
+ 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:12:28 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 14 Dec
- 2021 18:12:06 -0600
+ 2021 18:12:27 -0600
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>, Mauro Matteo Cascella <mcascell@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Qiuhao Li <Qiuhao.Li@outlook.com>, Paolo
- Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 31/47] hw/scsi/scsi-disk: MODE_PAGE_ALLS not allowed in MODE
- SELECT commands
-Date: Tue, 14 Dec 2021 18:01:09 -0600
-Message-ID: <20211215000125.378126-32-michael.roth@amd.com>
+CC: <qemu-stable@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH 32/47] hw: m68k: virt: Add compat machine for 6.1
+Date: Tue, 14 Dec 2021 18:01:10 -0600
+Message-ID: <20211215000125.378126-33-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215000125.378126-1-michael.roth@amd.com>
 References: <20211215000125.378126-1-michael.roth@amd.com>
@@ -77,31 +74,31 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
  (10.181.40.144)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 008ae836-6d87-4994-0b00-08d9bf5f8805
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1775:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR12MB1775B1180CE48CB2A6C03E3D95769@MWHPR12MB1775.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:51;
+X-MS-Office365-Filtering-Correlation-Id: f89740ff-5665-47b1-3902-08d9bf5f946b
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1472:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR12MB14724D3CFE1B6B311414027C95769@MWHPR12MB1472.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:256;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6A2MUMLiIZjphnWouBImdTJIzJuWVYEsRnI7dXQH2MHAi0xXFYtgcuoQMBm/hISnMisLgnS9DCe0lFUWFKrLDl1/2cSf0wC61kzmG2VyvHQy72skjkvSGATsXjk8Sq5jcs+aHh+oV4SE0TMiNjR/ea6VY5gPKY6DsRsyG4S9G/fV89sxbRsZWjkTRN1k9QiJDo3SR9cDy/jGWntGhUkUgSAJ+UyEbnuACWD1RvridstHV6qTJJvlhZnJxm6a/+sSfNfoXhH1HwPZHLLumddPEwpW+bg4X920HIQHDcN0XOKK2gJEsTUuS6+2xmeFqHBg3GnJCXtFl1LPRzy6QQvRAOEa1Xbn76YJjLG1JNVRNUwYCNL9NDa4jdKZncMrwj06jRLprsCTBu5qecmxt9fy916fNqPlTkfMuEawFDiqEiQjmSpouh24vfd3l5zDM73pCILPyrTAca/pfmxQ4eAa1jl6lWCQdinLZLHg1BGR7YuCBWRcKM4WgTIk6az4nTNuxeoNM+PeMJ+iPFZ0Ga+OrPP8CuTIJojY7lgOXsao1x04h5alekqwAYOcNcG+n0MH5Jv3RNfSNpgjclqcEWjEHSvpyXwWoTwzBljk9NEbNegy//dzZFlwzGg5ZtjIB3HL+6MRvX7Unv5+patz7Efu5ArOrYJcaAZVkZU2ML7Nr27Oi4hI/gbakIDYyyjrd0OcotP3BDux9iJRje8puITVJf5dc5Pqh4Bhm5Tsc39+HfiEki+NVT1v47RsM2mxPSRyDIOkPNNZL7koOV/AZJ0SaFUmWpbLgFI996rMYbICLko=
+X-Microsoft-Antispam-Message-Info: Xt4nZEx8xpinNDIcnFYI6ia2HoZU6qib28HTnolJuXo/ecLPGJLW3qnmwpj9P8JYiNkKpXH7qGBaw3cV919Grc7U0Twq9jq3AWTSTvvHGS/lfNww0/Cmg1VzP7JJcQFjHZ+9zPdGKu/PJKvUm3gp+2vcy7C+k2eypf8vpxEhlP7KUM5eD9fe0mFAaYmQSgVLQqRH36ovpNT2vjFNAbbjcmkPO2r6EIgDmRhDcRMscR8TTSztVwxi7/cG3G2IETttHFWpXAl5OfpKywesG9qfy2QR8dvqV+bXVhRxrY7WOScZRjgrP2mESmGWIPtkIIO4K3TGDTe7UUr34UiivPXamLVtT6nRF0mrq+YFhWxbclymrIB1TWHnyqOATk8Gf3UIZKeZTjfh8VUDOC7epOQp3pqr424liu9KmM1mqJD4Yqgfrq7Tl7IBWLC1Qwi06osin03MeSXr784txoZHchHQ+cJmc+sJie84qObm5/98JDaWbhPbrsIGARRjpPI/gSVJSN37F5bwxdTmz8NP9yMm6GIAFJXeVIgV3pCGswR9rRru+jW5kfMzAunudfo2tm9YF2KasPR3WVxvPBwxHRp7AFbQUIqvBR0jYOPEougkwMsdQD+q+gX1IEMLSgLAOx4w+zRGL7JYkNQowBdcS7F0hXXwyvY403mtxTsSAA7irSSh1FSWztDJ5wWxe2AMwt4HNX4cm1+7ZwYUWwg9MJXGRjHeKUGRhzrh+twyzjT5PTlOFTSSnyuYTMq2AL842MPF++PECwKAyWcOtp8RD/lHpmTdD64CicenxwbZt0CAPQ8=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(40470700001)(44832011)(1076003)(54906003)(8936002)(70206006)(70586007)(186003)(16526019)(8676002)(2616005)(4326008)(36860700001)(508600001)(336012)(40460700001)(36756003)(316002)(426003)(26005)(2906002)(82310400004)(356005)(45080400002)(81166007)(86362001)(5660300002)(6916009)(32650700002)(36900700001);
+ SFS:(4636009)(46966006)(36840700001)(40470700001)(26005)(426003)(2616005)(336012)(47076005)(2906002)(16526019)(54906003)(44832011)(86362001)(36756003)(316002)(186003)(81166007)(40460700001)(356005)(82310400004)(70206006)(508600001)(6916009)(1076003)(36860700001)(6666004)(70586007)(8676002)(4326008)(8936002)(5660300002)(83380400001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:12:07.3413 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 008ae836-6d87-4994-0b00-08d9bf5f8805
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:12:28.1395 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f89740ff-5665-47b1-3902-08d9bf5f946b
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT044.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT055.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1775
-Received-SPF: softfail client-ip=40.107.95.45;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1472
+Received-SPF: softfail client-ip=40.107.96.70;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM02-DM3-obe.outbound.protection.outlook.com
+ helo=NAM02-SN1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -124,49 +121,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mauro Matteo Cascella <mcascell@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
 
-This avoids an off-by-one read of 'mode_sense_valid' buffer in
-hw/scsi/scsi-disk.c:mode_sense_page().
+Add the missing machine type for m68k/virt
 
-Fixes: CVE-2021-3930
 Cc: qemu-stable@nongnu.org
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Fixes: a8f4bbe2900 ("scsi-disk: store valid mode pages in a table")
-Fixes: #546
-Reported-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit b3af7fdf9cc537f8f0dd3e2423d83f5c99a457e8)
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20211106194158.4068596-2-laurent@vivier.eu>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+(cherry picked from commit 6837f299762679429924242a63f16490862578e3)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- hw/scsi/scsi-disk.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/m68k/virt.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index e8a547dbb7..d4914178ea 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -1087,6 +1087,7 @@ static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbuf,
-     uint8_t *p = *p_outbuf + 2;
-     int length;
+diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+index 4e8bce5aa6..0d9e3f83c1 100644
+--- a/hw/m68k/virt.c
++++ b/hw/m68k/virt.c
+@@ -304,7 +304,14 @@ type_init(virt_machine_register_types)
+     } \
+     type_init(machvirt_machine_##major##_##minor##_init);
  
-+    assert(page < ARRAY_SIZE(mode_sense_valid));
-     if ((mode_sense_valid[page] & (1 << s->qdev.type)) == 0) {
-         return -1;
-     }
-@@ -1428,6 +1429,11 @@ static int scsi_disk_check_mode_select(SCSIDiskState *s, int page,
-         return -1;
-     }
- 
-+    /* MODE_PAGE_ALLS is only valid for MODE SENSE commands */
-+    if (page == MODE_PAGE_ALLS) {
-+        return -1;
-+    }
++static void virt_machine_6_1_options(MachineClass *mc)
++{
++}
++DEFINE_VIRT_MACHINE(6, 1, true)
 +
-     p = mode_current;
-     memset(mode_current, 0, inlen + 2);
-     len = mode_sense_page(s, page, &p, 0);
+ static void virt_machine_6_0_options(MachineClass *mc)
+ {
++    virt_machine_6_1_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_6_0, hw_compat_6_0_len);
+ }
+-DEFINE_VIRT_MACHINE(6, 0, true)
++DEFINE_VIRT_MACHINE(6, 0, false)
 -- 
 2.25.1
 
