@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B615F47648C
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 22:28:29 +0100 (CET)
-Received: from localhost ([::1]:50176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8384047647D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 22:23:09 +0100 (CET)
+Received: from localhost ([::1]:36534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxbp5-00032D-Sd
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 16:28:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41510)
+	id 1mxbjw-0002Is-Jq
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 16:23:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxbXP-00051u-Ho
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxbXR-000520-L1
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 16:10:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36536)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxbXM-0006ko-LR
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 16:10:11 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxbXQ-0006lu-6Z
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 16:10:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639602606;
+ s=mimecast20190719; t=1639602611;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q/iCBe5M6HPriY9xDBWl3NX2LHiyzJRybtXTRiVxdgM=;
- b=EgvDGiB09MBgJrIVbEYBXDbn5U9wHlqmuuTEadI5YqV+ZlNF8GS/ML1egQwkWr4bMc7NTD
- rjysCurIJLm3l9kT/TAqEYHAz2lTHF+Zb46oUU+6paXEvrDuV53i33YrbR3eiQYk6CN0Rp
- /1bMl2PIzXG+mOliaJ4MBVNeoh/xwG8=
+ bh=BtMdI8HuXS9TZz2TChs6gbI0FWOZlZejy3yCoiFuRaw=;
+ b=fo3uMbiRhs4OgbGZ0luqv6YlkOkQ6jY5bWJfyiBZ4u+0q0Dlm766QIwKWjYCeQ2C0QvJCE
+ PRi2Hyg5f0L9LBv9jennEJv7LTCu9EFD8C6TbTVFfUvjdX6N6hA+M/FtNvHsuNDLZtGi9E
+ LnUhqzpZ3C5EoHzJzJhFN4fAnEl15BQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-61-ApEYCzN_M22uDS9kPWxtzQ-1; Wed, 15 Dec 2021 16:10:03 -0500
-X-MC-Unique: ApEYCzN_M22uDS9kPWxtzQ-1
+ us-mta-196-GHmYVr3QMW6vCsBiV4pnkw-1; Wed, 15 Dec 2021 16:10:03 -0500
+X-MC-Unique: GHmYVr3QMW6vCsBiV4pnkw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A3A51883627;
- Wed, 15 Dec 2021 21:10:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FD8B93923;
+ Wed, 15 Dec 2021 21:10:02 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.19.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 819E25F4E9;
- Wed, 15 Dec 2021 21:10:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 908EE47361;
+ Wed, 15 Dec 2021 21:10:01 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC qemu.qmp PATCH 20/24] python: adjust apidoc stubs
-Date: Wed, 15 Dec 2021 16:06:30 -0500
-Message-Id: <20211215210634.3779791-21-jsnow@redhat.com>
+Subject: [RFC qemu.qmp PATCH 21/24] Fix doc cross-reference regressions
+Date: Wed, 15 Dec 2021 16:06:31 -0500
+Message-Id: <20211215210634.3779791-22-jsnow@redhat.com>
 In-Reply-To: <20211215210634.3779791-1-jsnow@redhat.com>
 References: <20211215210634.3779791-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,15 +56,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,187 +85,36 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change the configuration for the generated apidoc stubs.
-
-Some of the changes, as a summary:
-
-- Collapse the hierarchy to omit the QEMU namespace page
-- Add more meaningful titles to the subpackages
-- Prefer source ordering in most places
-- Do not index pages that do not define their own symbols (via __all__)
-- Show hidden members for qemu.aqmp.protocol, since this interface is
-  designed to be extended.
+Before enabling docs building as a CI step, lingering cross-reference
+failures need to be addressed.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- docs/index.rst               |  6 +++---
- docs/qemu.qmp.aqmp_tui.rst   |  7 -------
- docs/qemu.qmp.error.rst      |  1 +
- docs/qemu.qmp.message.rst    |  1 +
- docs/qemu.qmp.models.rst     |  1 +
- docs/qemu.qmp.protocol.rst   |  2 ++
- docs/qemu.qmp.qmp_client.rst |  1 +
- docs/qemu.qmp.qmp_shell.rst  |  7 -------
- docs/qemu.qmp.rst            |  8 ++++----
- docs/qemu.qmp.util.rst       |  1 +
- docs/qemu.rst                | 10 ----------
- 11 files changed, 14 insertions(+), 31 deletions(-)
- delete mode 100644 docs/qemu.qmp.aqmp_tui.rst
- delete mode 100644 docs/qemu.qmp.qmp_shell.rst
- delete mode 100644 docs/qemu.rst
+ qemu/qmp/legacy.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/docs/index.rst b/docs/index.rst
-index bff786a..2c7ccdb 100644
---- a/docs/index.rst
-+++ b/docs/index.rst
-@@ -3,14 +3,14 @@
-    You can adapt this file completely to your liking, but it should at least
-    contain the root `toctree` directive.
+diff --git a/qemu/qmp/legacy.py b/qemu/qmp/legacy.py
+index 6c250cd..8e976f9 100644
+--- a/qemu/qmp/legacy.py
++++ b/qemu/qmp/legacy.py
+@@ -71,7 +71,7 @@ class QEMUMonitorProtocol:
+     :param nickname: Optional nickname used for logging.
  
--Welcome to qemu's documentation!
--================================
-+qemu.qmp library documentation
-+==============================
+     ..note::
+-        No connection is established during `__init__`, this is done by
++        No connection is established during ``__init__``, this is done by
+         the `connect()` or `accept()` methods.
+     """
  
- .. toctree::
-    :maxdepth: 4
-    :caption: Contents:
+@@ -287,7 +287,7 @@ class QEMUMonitorProtocol:
+         Set the timeout for QMP RPC execution.
  
--   qemu
-+   qemu.qmp
+         This timeout affects the `cmd`, `cmd_obj`, and `command` methods.
+-        The `accept`, `pull_event` and `get_event` methods have their
++        The `accept`, `pull_event` and `get_events` methods have their
+         own configurable timeouts.
  
- 
- Indices and tables
-diff --git a/docs/qemu.qmp.aqmp_tui.rst b/docs/qemu.qmp.aqmp_tui.rst
-deleted file mode 100644
-index a5c55f9..0000000
---- a/docs/qemu.qmp.aqmp_tui.rst
-+++ /dev/null
-@@ -1,7 +0,0 @@
--qemu.qmp.aqmp\_tui module
--=========================
--
--.. automodule:: qemu.qmp.aqmp_tui
--   :members:
--   :undoc-members:
--   :show-inheritance:
-diff --git a/docs/qemu.qmp.error.rst b/docs/qemu.qmp.error.rst
-index 89f069d..5105330 100644
---- a/docs/qemu.qmp.error.rst
-+++ b/docs/qemu.qmp.error.rst
-@@ -5,3 +5,4 @@ qemu.qmp.error module
-    :members:
-    :undoc-members:
-    :show-inheritance:
-+   :member-order: bysource
-diff --git a/docs/qemu.qmp.message.rst b/docs/qemu.qmp.message.rst
-index 765ae63..b824dc6 100644
---- a/docs/qemu.qmp.message.rst
-+++ b/docs/qemu.qmp.message.rst
-@@ -5,3 +5,4 @@ qemu.qmp.message module
-    :members:
-    :undoc-members:
-    :show-inheritance:
-+   :member-order: bysource
-diff --git a/docs/qemu.qmp.models.rst b/docs/qemu.qmp.models.rst
-index 55585b7..1e2f608 100644
---- a/docs/qemu.qmp.models.rst
-+++ b/docs/qemu.qmp.models.rst
-@@ -5,3 +5,4 @@ qemu.qmp.models module
-    :members:
-    :undoc-members:
-    :show-inheritance:
-+   :member-order: bysource
-diff --git a/docs/qemu.qmp.protocol.rst b/docs/qemu.qmp.protocol.rst
-index fca55ad..947e15f 100644
---- a/docs/qemu.qmp.protocol.rst
-+++ b/docs/qemu.qmp.protocol.rst
-@@ -5,3 +5,5 @@ qemu.qmp.protocol module
-    :members:
-    :undoc-members:
-    :show-inheritance:
-+   :private-members:
-+   :member-order: bysource
-diff --git a/docs/qemu.qmp.qmp_client.rst b/docs/qemu.qmp.qmp_client.rst
-index 1d5beda..83b8101 100644
---- a/docs/qemu.qmp.qmp_client.rst
-+++ b/docs/qemu.qmp.qmp_client.rst
-@@ -5,3 +5,4 @@ qemu.qmp.qmp\_client module
-    :members:
-    :undoc-members:
-    :show-inheritance:
-+   :member-order: bysource
-diff --git a/docs/qemu.qmp.qmp_shell.rst b/docs/qemu.qmp.qmp_shell.rst
-deleted file mode 100644
-index 0510cd3..0000000
---- a/docs/qemu.qmp.qmp_shell.rst
-+++ /dev/null
-@@ -1,7 +0,0 @@
--qemu.qmp.qmp\_shell module
--==========================
--
--.. automodule:: qemu.qmp.qmp_shell
--   :members:
--   :undoc-members:
--   :show-inheritance:
-diff --git a/docs/qemu.qmp.rst b/docs/qemu.qmp.rst
-index 305e5b0..d1d2cd3 100644
---- a/docs/qemu.qmp.rst
-+++ b/docs/qemu.qmp.rst
-@@ -1,10 +1,12 @@
--qemu.qmp package
--================
-+qemu.qmp - Asynchronous QEMU Monitor Protocol (QMP) library
-+===========================================================
- 
- .. automodule:: qemu.qmp
-    :members:
-    :undoc-members:
-    :show-inheritance:
-+   :noindex:
-+   :member-order: bysource
- 
- Submodules
- ----------
-@@ -12,7 +14,6 @@ Submodules
- .. toctree::
-    :maxdepth: 4
- 
--   qemu.qmp.aqmp_tui
-    qemu.qmp.error
-    qemu.qmp.events
-    qemu.qmp.legacy
-@@ -20,5 +21,4 @@ Submodules
-    qemu.qmp.models
-    qemu.qmp.protocol
-    qemu.qmp.qmp_client
--   qemu.qmp.qmp_shell
-    qemu.qmp.util
-diff --git a/docs/qemu.qmp.util.rst b/docs/qemu.qmp.util.rst
-index 8f2ac87..24a6f82 100644
---- a/docs/qemu.qmp.util.rst
-+++ b/docs/qemu.qmp.util.rst
-@@ -5,3 +5,4 @@ qemu.qmp.util module
-    :members:
-    :undoc-members:
-    :show-inheritance:
-+   :member-order: bysource
-diff --git a/docs/qemu.rst b/docs/qemu.rst
-deleted file mode 100644
-index f33a4f4..0000000
---- a/docs/qemu.rst
-+++ /dev/null
-@@ -1,10 +0,0 @@
--qemu namespace
--==============
--
--Subpackages
-------------
--
--.. toctree::
--   :maxdepth: 4
--
--   qemu.qmp
+         :param timeout:
 -- 
 2.31.1
 
