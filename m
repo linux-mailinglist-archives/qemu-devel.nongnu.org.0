@@ -2,84 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E0C475765
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 12:09:46 +0100 (CET)
-Received: from localhost ([::1]:38620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB119475753
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 12:05:11 +0100 (CET)
+Received: from localhost ([::1]:54838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxSAL-0007UZ-C4
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 06:09:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39870)
+	id 1mxS5u-0007dF-Ow
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 06:05:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mxRdm-0001Bm-1f
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:36:07 -0500
-Received: from [2a00:1450:4864:20::42b] (port=36556
- helo=mail-wr1-x42b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mxRdj-0007ny-Ty
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:36:05 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id u17so37379026wrt.3
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 02:36:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/L0gEkcuOfxZxHG2dkFeJ1x6Wsa+jJUwg6/DS6AAwcM=;
- b=cifXNxfHX/a8gk+46BdXsTPrvq4gVxNSAbQtMOrz8NhR8UXZvEZk+YaUqt6lqmXe7A
- r9EpQJFvSsfBF0IyXiwk086qBq8HhPI5Yxz8iVNVaaqkirdm6SjBzBJ78haz4QM/10KY
- abTaWGE+vGMWc5HR0UROMeKLhAtetSlM4Efy2cVCAmw9qg4eknWLBuny6Yw0tVmPuV1D
- Btpuao+AX9ihFrcbqrThU4fMTWmmc1Ln0f+3pAoWVqGuJf3vUh1vcW8J7lBWxAfSutHD
- cxqG+AETUJYud+xMd9yBuSJLvGq6rvkl4WLlrdUoPPNyhZDhG2T0Ar97k68Df2JCQm2v
- HveA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxReX-0001xi-SR
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:36:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58266)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxReV-0007uT-L9
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:36:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639564610;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ptKoSAfT5SsWIhv5lmYV8KPEM4zjV9bjMbcaoWPndEY=;
+ b=R7gR8gjGzMN9Cyd5vApRyburHobYgRRfZbDp5dkzsOt4PzXmOeVEjfqsrtfqHkjmVPPDG0
+ SWrkp8MkYYIoeQPqOkW/TOwEDkFC/+55KNooXZpB2CDT5q77nWxbV3YeminPQ74q1gtHWe
+ xxRhhkUD0xU/fC8EO9IcYfBRTbqR0eQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-226-O95k_qqSMEOkr8f4eDiImA-1; Wed, 15 Dec 2021 05:36:50 -0500
+X-MC-Unique: O95k_qqSMEOkr8f4eDiImA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v23-20020a05600c215700b0034566adb612so690393wml.0
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 02:36:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/L0gEkcuOfxZxHG2dkFeJ1x6Wsa+jJUwg6/DS6AAwcM=;
- b=hGdWQM18eXFDpgQqwK9CnF5JeEiuOQJB5ZrqWuHWJpIYYXOr/g98nAdO9dZK3OBI/e
- rVtm3zeBSzG6L3LtqBnNnddF92YMX2Zuwv8AlNHYNgpxrV4G+cqlezqoEnrbVVRZO8+t
- MotjzcxyoVGUwAwEu5GJ7f3M91nX1geDrejn6nI46ZX1uPEFqNAyxMflzrignFEtJRVd
- xzMQXV4E1WBm6FrcqEE3vRFrazUc46O02bdcuVoW6VY7Nvw2G1rivU494SY/Kf8PWI5U
- w0Ee6OzJ2iSpglQqhVrgEdFyjWG+UKwXqgdnI0jqKmXgEziTYUW0ry8Nc1FtrnyNgf0e
- KlJw==
-X-Gm-Message-State: AOAM533JbMAuOhtVG4BWS3UNOnGtgTmhXWJ1FmzeYlJpYTWkWvTSbdUf
- k64vy5prvix4HGXl83iYkcmpN9+7rRg=
-X-Google-Smtp-Source: ABdhPJwJbbMrs9NQKZs/PqY07ZlPXOm6q4QkuSb6+wumfLenuNfl4Zwy06KEFh2xiu5H+6zf1zVK2Q==
-X-Received: by 2002:a5d:598a:: with SMTP id n10mr3755639wri.406.1639564562529; 
- Wed, 15 Dec 2021 02:36:02 -0800 (PST)
+ bh=ptKoSAfT5SsWIhv5lmYV8KPEM4zjV9bjMbcaoWPndEY=;
+ b=vu09KgaoOyvup7/BhPxVKdsc0TAxeSA+BP1+3CT7yHi6evi4piG8TU2Xp5ioQZytji
+ XZmB7+OJm63rqwwDKJRpztLPn8Lp6jBKRmc4epP5jEaOHS/bYdKTM48bu4AvL/KPdbmx
+ dAfIuf0rauTGqq8aI4L5vZG/0mWjW6HhCCjqM/dK9ta3kHG6XyW/xgHo7gMO52KiEsjd
+ AFQbcr4fycgW8k4g3ElpGalJwTiGukdwgouOW1pF3I7gZ1zSGlU94N3tNaPuEEs+DOY1
+ 0iGgsu7tb4fEYrG1xgz+H0Hs5vOqsTWuZG8Gmibq79VAYEkIVTFkO7GEml2isJd8maPX
+ P7tg==
+X-Gm-Message-State: AOAM531+a9b4W5UmUOmBExnCEiFzHjyY4aCoZm3Qd6a/hZkO14eZNgqx
+ IcG/ef+NX6Ye2shr24RPMAiayiUJLzQ9w6PUqayJDr3e8h0qfxGxjmw48tqDddinax3xDOwiHCA
+ 0WKN5jQp7+K92xVuUr0nS1iKow51U3ub3F9qaXzlt0QRtx6kvaDSOj8YJPmxgENsO
+X-Received: by 2002:adf:e545:: with SMTP id z5mr3752097wrm.444.1639564608443; 
+ Wed, 15 Dec 2021 02:36:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyBnUf22YjzKJbcPC/wjehGcYrBCnzHHS+4oHxIIgmKjGoySZZ7bBKyLwVNBvgSyN8jPjVkHw==
+X-Received: by 2002:adf:e545:: with SMTP id z5mr3752079wrm.444.1639564608279; 
+ Wed, 15 Dec 2021 02:36:48 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id n7sm1572373wro.68.2021.12.15.02.36.01
+ by smtp.gmail.com with ESMTPSA id t8sm1902442wmq.32.2021.12.15.02.36.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Dec 2021 02:36:02 -0800 (PST)
-Message-ID: <d5337055-56f4-b1ee-f805-20fa08d46f73@amsat.org>
-Date: Wed, 15 Dec 2021 11:36:01 +0100
+ Wed, 15 Dec 2021 02:36:47 -0800 (PST)
+Message-ID: <03770439-52cd-ba59-8ae2-643671d3b682@redhat.com>
+Date: Wed, 15 Dec 2021 11:36:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH] linux-user/hexagon: Use generic target_stat64 structure
-Content-Language: en-US
+Subject: Re: [PATCH-for-7.0] target/i386/kvm: Replace use of __u32 type
 To: qemu-devel@nongnu.org
-References: <20211116210919.2823206-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211116210919.2823206-1-f4bug@amsat.org>
+References: <20211116193955.2793171-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211116193955.2793171-1-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.64,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.64, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,77 +98,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping.
+Hi Laurent,
 
-On 11/16/21 22:09, Philippe Mathieu-Daudé wrote:
-> Linux Hexagon port doesn't define a specific 'struct stat'
-> but uses the generic one (see Linux commit 6103ec56c65c [*]
-> "asm-generic: add generic ABI headers" which predates the
-> introduction of the Hexagon port).
+This patch is reviewed, can it go via your trivial tree?
+
+On 11/16/21 20:39, Philippe Mathieu-Daudé wrote:
+> QEMU coding style mandates to not use Linux kernel internal
+> types for scalars types. Replace __u32 by uint32_t.
 > 
-> Remove the target specific target_stat (which in fact is the
-> target_stat64 structure but uses incorrect target_long and
-> ABI unsafe long long types) and use the generic target_stat64
-> instead.
-> 
-> [*] https://github.com/torvalds/linux/commit/6103ec56c65c3#diff-5f59b07b38273b7d6a74193bc81a8cd18928c688276eae20cb10c569de3253ee
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  linux-user/syscall_defs.h | 28 ++--------------------------
->  1 file changed, 2 insertions(+), 26 deletions(-)
+>  target/i386/kvm/kvm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index a5ce487dcc3..7ab612d163b 100644
-> --- a/linux-user/syscall_defs.h
-> +++ b/linux-user/syscall_defs.h
-> @@ -2129,7 +2129,8 @@ struct target_stat64  {
->      abi_ulong __unused5;
->  };
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index 5a698bde19a..13f8e30c2a5 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -1406,7 +1406,7 @@ static int hyperv_fill_cpuids(CPUState *cs,
+>      c->edx = cpu->hyperv_limits[2];
 >  
-> -#elif defined(TARGET_OPENRISC) || defined(TARGET_NIOS2) || defined(TARGET_RISCV)
-> +#elif defined(TARGET_OPENRISC) || defined(TARGET_NIOS2) \
-> +        || defined(TARGET_RISCV) || defined(TARGET_HEXAGON)
+>      if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
+> -        __u32 function;
+> +        uint32_t function;
 >  
->  /* These are the asm-generic versions of the stat and stat64 structures */
->  
-> @@ -2240,31 +2241,6 @@ struct target_stat64 {
->      uint64_t   st_ino;
->  };
->  
-> -#elif defined(TARGET_HEXAGON)
-> -
-> -struct target_stat {
-> -    unsigned long long st_dev;
-> -    unsigned long long st_ino;
-> -    unsigned int st_mode;
-> -    unsigned int st_nlink;
-> -    unsigned int st_uid;
-> -    unsigned int st_gid;
-> -    unsigned long long st_rdev;
-> -    target_ulong __pad1;
-> -    long long st_size;
-> -    target_long st_blksize;
-> -    int __pad2;
-> -    long long st_blocks;
-> -
-> -    target_long target_st_atime;
-> -    target_long target_st_atime_nsec;
-> -    target_long target_st_mtime;
-> -    target_long target_st_mtime_nsec;
-> -    target_long target_st_ctime;
-> -    target_long target_st_ctime_nsec;
-> -    int __unused[2];
-> -};
-> -
->  #else
->  #error unsupported CPU
->  #endif
+>          /* Create zeroed 0x40000006..0x40000009 leaves */
+>          for (function = HV_CPUID_IMPLEMENT_LIMITS + 1;
 > 
+
 
