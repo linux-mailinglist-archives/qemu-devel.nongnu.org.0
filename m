@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D303474EEE
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:13:26 +0100 (CET)
-Received: from localhost ([::1]:43354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F59474EE8
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:11:37 +0100 (CET)
+Received: from localhost ([::1]:38936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxHvB-000471-L7
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:13:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51648)
+	id 1mxHtP-000116-UA
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:11:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHnL-00020B-6z; Tue, 14 Dec 2021 19:05:24 -0500
-Received: from mail-bn8nam12on2081.outbound.protection.outlook.com
- ([40.107.237.81]:16743 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ id 1mxHng-00027u-AA; Tue, 14 Dec 2021 19:05:43 -0500
+Received: from mail-dm6nam12on2076.outbound.protection.outlook.com
+ ([40.107.243.76]:25056 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHnF-0004qs-Di; Tue, 14 Dec 2021 19:05:18 -0500
+ id 1mxHnd-0004x2-U9; Tue, 14 Dec 2021 19:05:40 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Pklm5/wBi1r0N16OmTi5wZejhTmQi7G859sZCE1sBKGpc3nF3EwPY0ORSeglV2AU+4dkwdNz/Ut0NYW0/auGaUTuxPcZzL4Rtw/S3vx32GVrKz4c49pkVfOS28RTw4xjdyWqmpvxcI1ps08csaAz6+Hj5x5ZT4r4tH1KfSNyGD4TND5jsGn7B0AfbYq/c72+bNO5banYACu8VFUDgmVsSjA9pfbf8onyFj9f6s8LjVDMkLn7UkKIswUUbMbSc6gu1pSFdPuOLmeI+eehTvwvnS3QgyrG0IB+5lsVecFs7/mRlJvl5sRtV63MxXPugXPoS/fRUISU5t376Ve/8RXDPw==
+ b=L9dUJqquZ+i65i0WBOsprquF2CdmQlINaa8lx3OHVB9SLRejAp1KweSBEipM4zIn5p2Xn923A48dFxYY2f3yA3aXhFTxN1FaaAOdHyTxjAvourCLXKDW3U5/6CybvYyA+ePThptE6jnpmkF8QZBvlBfEulYR+IAtSq/10lWrzjwrwbsIz5LREszGdMEXaisD7i3yhsmi9sBONjretkFIL+FY8irFyZ3/RBZMowbbFIIlmYgg9tquVvy9npqYAeRcjUBjApadFwDQPtXVhtoOJojJXOMABRDNBH++gMlDGu8tMlxoWA0oS5DRQ7TKZUl7309ALABo5kKo52Tmm+Cs1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SeaOXCnm9IgN1WtX3R7sq3RUXWdT/zLa7akmq3V8HnY=;
- b=dnQBiTCdgL8NrQpp6E9FPWKT4yQFMv08PSwQgw0nF/JkGEYw3KAbzzeQVQSyQoD670q9T11bYYqhCosRX5iGzYAek2ECotxHQO9aKA7/o9diVAo4Q3G2wM9HfMJLpbVOi5jCYQ1EqcDLJAr88zyj4rYmkKQe5cg42AHb3oop+pIgCBZOya/knN4RHzXxW4elU1dk3MjAX8wUxWexeF0EQuonTptIfknmRbDZJqEkvKgX2WRmGdM9LgSyITNrIEHmzDFa1+ovcQm6M5AffSehYFLlk5/oJ8CHbrvolG4oXCaGpeKokcibzTFq9Ej7D1maeGgIOpLlw0v/hVgA1Pn8Mg==
+ bh=PL2Fdo3wsZ5I2F1oEIRNaFaaXPvQiwop93qVTHcORUQ=;
+ b=jrdy7lsZChOCTqtqpG5ZvSaaNXT6s6TPsD7dvJsLuBdvm3M4FCqe17Sv+lgZa/IyqVgKoRWrVa4Yl+qHhD9oBxlRoSZ/GBuy7yL1xURunJ+bTneZxJQ3AqxQBMbumdRHFdON6CIcv0LdwlTNONdSRvqUrzd/rbr3a7cGEKXyWt2+NvbLL90Tk+2nO1W1ytxXWYUlTF0nQJvnSizrR4SRD4NJpw69L/+imE7E5U2fZYG+h2IFamB3FEbv3Ou1Lfr1xLwQVJ72QLt4lqXWL25LimdAzyb+tfZMcSkjNVrQ1+XTO3NNN2/r5dlfeYqt9DGMvsttpkfs+WxE2xqg7U0HZg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SeaOXCnm9IgN1WtX3R7sq3RUXWdT/zLa7akmq3V8HnY=;
- b=ttnZ+xJTc/5uzJBIhT94ICVv9EpK7PIPm9kmiiNqNJN0GsQ4Cr52IX/k3vGJ4RU0zH9fMiBCQ8d6fayy45aA6Ek7e1pi+CMLIW2RURnMNdOn/gwmjlalxqwN/2Do97xzLsLmWnmIYewrOHc/40B0ID4lzihcvjuwMcV+V1yiukk=
-Received: from MW4PR03CA0040.namprd03.prod.outlook.com (2603:10b6:303:8e::15)
- by BY5PR12MB4210.namprd12.prod.outlook.com (2603:10b6:a03:203::8)
+ bh=PL2Fdo3wsZ5I2F1oEIRNaFaaXPvQiwop93qVTHcORUQ=;
+ b=UzU8rXJwu7ysR7pNtjNsfhNaumvNQTQewz6874YLw7LItRfMNbNJ/oERD2IxWX/CIQ2gtovAxKJBfpaWzfIlBRjZfEXGHICY8UfDnVMo5kQAv6gzeGMxzi1yQUe3XDXLB028o560H4zjwPHquLWby+X/Tv5V4EO29GnPk8WDczQ=
+Received: from MWHPR18CA0032.namprd18.prod.outlook.com (2603:10b6:320:31::18)
+ by BL0PR12MB4609.namprd12.prod.outlook.com (2603:10b6:208:8d::25)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.16; Wed, 15 Dec
- 2021 00:05:08 +0000
-Received: from CO1NAM11FT007.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8e:cafe::e5) by MW4PR03CA0040.outlook.office365.com
- (2603:10b6:303:8e::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.15 via Frontend
- Transport; Wed, 15 Dec 2021 00:05:08 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Wed, 15 Dec
+ 2021 00:05:30 +0000
+Received: from CO1NAM11FT038.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:320:31:cafe::2a) by MWHPR18CA0032.outlook.office365.com
+ (2603:10b6:320:31::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.14 via Frontend
+ Transport; Wed, 15 Dec 2021 00:05:30 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,21 +50,21 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1NAM11FT007.mail.protection.outlook.com (10.13.174.131) with Microsoft SMTP
+ CO1NAM11FT038.mail.protection.outlook.com (10.13.174.231) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:05:08 +0000
+ 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:05:29 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 14 Dec
- 2021 18:05:07 -0600
+ 2021 18:05:28 -0600
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>, Mahmoud Mandour <ma.mandourr@gmail.com>,
+CC: <qemu-stable@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 13/47] plugins/execlog: removed unintended "s" at the end of
- log lines.
-Date: Tue, 14 Dec 2021 18:00:51 -0600
-Message-ID: <20211215000125.378126-14-michael.roth@amd.com>
+Subject: [PATCH 14/47] plugins: do not limit exported symbols if modules are
+ active
+Date: Tue, 14 Dec 2021 18:00:52 -0600
+Message-ID: <20211215000125.378126-15-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215000125.378126-1-michael.roth@amd.com>
 References: <20211215000125.378126-1-michael.roth@amd.com>
@@ -76,31 +76,31 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
  (10.181.40.144)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6444326d-ac21-4420-fa7e-08d9bf5e8e29
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4210:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR12MB4210F203054D93A442F690C295769@BY5PR12MB4210.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:41;
+X-MS-Office365-Filtering-Correlation-Id: ac2c4095-1fd6-46f9-64d8-08d9bf5e9b1c
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4609:EE_
+X-Microsoft-Antispam-PRVS: <BL0PR12MB460947FCECD4E5FFBD919ACB95769@BL0PR12MB4609.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FWy5oQwQhpwhGc3e/exN1Hfr01wkfYqRbn4s/gC3jLA4S87B9k7LRkE4qiC9tWpJnv+LWLUWFVnMO4H9OPDvZju0zQ0QvL2xV/zcZJ8MVIDqQOXUoZtDjGjkinEbjEzZUVH7HZr9SbOs2LczRF5TmX50G7R7/wN9IubcvTEGlHDe2+3RzcqTR77nd4Jz+xGI+ERUO0qk2bSKtO1Q5ws7K7MRCLqtnjrRduxWgiVdNIyPkeWCvnMzemxtqlGLDz1VNh1DVC2qvoEyAWOBPMPfx10Yhr1pUsQsIGn0O2OuCw4XaBwJyo9UYyccM4SloZduLPz0ikF8kLvtK2iWYmWD6LHqNx50uyOasxE8AriXscT9ssD7juiZ+Rm7LT1JOc0JPSmdg0Diyqmn8+ku2st3OQ3ltq9T+8+5K9RENS1PoGcDYCFW+8ow9GxxBuV6LRQ9yJDTdf7Vnsi3+5VQQHhzSA84UHwt5jMoeJVVL+Fj4AFiJohEqpkqxs1rhegIp++3xRdbI+Ohq8stSqrVpW+qvdagZ7DCWr3M2b38l0SQbjD/X7efpbmO68cSqaEiZ/oI7gfSgeys1LAWyJA1hc+UEBfzG7SqUyDe9zbgy4VLHZESCr/XX2CqYd9z4GTm5PAkWcfIqCsSTN1OtW2dlh1uoN2oFlYHV6011mc2T//b/Ok4rAm48WKQbbEuKCqG80AmEBRYr7u/i55dx3VTZk2Sh+sd4TLZ7wiRYmMvxJ2t9KBJKtI8wh04uzK8V52WFd/lgTrl4i07PiiCWS1DGHuQR3G5SX9uGsd3qk25mYm31vg=
+X-Microsoft-Antispam-Message-Info: KMiOfwMMImjx/ygXpDk4GVyza6X61Dt3WZ9vzNhwDdreri7G/PfQ7qvrtHS732c4VZENlMYAM/rnVRqIWCALLXW0xD3PRaqBdf208h4O41DPvGAO/y+TziXPk9v6Hy57Nls8ddsWE9ij37q0pPHe5xVSVLOEQgx93j+gXrYwJSFLB9dlBbPgAcE6QrHAMI7Liien7MMMYXTeQzvoC0dbXegXOqr/7di4VgZW+a50ioGnRNQrCaiyj6N5sFtHtX5hCLnM3UTs+gefhP2GmwRJyyOH+SRmI63xbih5iF0AmR6oJFoEe1QCADtzHXByEv26owsuPOpYT9Li0dbOA2j5W/vdmfQwnFdk52T/6hzODIUunhXnEoyq20i+J7fBBy5iTaFEuAldhAE75KirGbN1+rIGu0q1bOoV5Z8oNvP602ERTBC7WnKPxc7VMtuJQIYgXgzwxzgkVnZPwlPLEt7VlArw1yOwejX7LCEtau1A45+VenvM7QYRQcpTb+6J5OmDvINp++9IYf7trtVxAdYqojpXPkGrioa7VCVeFkOg4FeXrwQDpfu2YJ+ofw/mgaUT5fijIpvsx7z8W/ssGUxGQR1wIv5IqFbyfBG86dy1LZzR2NyS7872C0H8pDtwfizmkejg96XWrGfbxqQW2GWPP38cnX3IpfwZawkURJQkcOqznY5A0FF6hLn+98UAKPDPV5VTLen0Jf5VDstUyFvvcs/zPTCEua2RpYsRLPei6nS/sy/Vb5JLcCiXih5k3SWBOjA8HES5YOlkhU3+K1D/ePR175WmFmKXr3YaWTBnNzGgUQLu7VeNssbIxWUss5kEswKF+khTwD2kuW0rrIXxKTuQoFunHVB9C0CjPeuI4oQECA7klCCQVX4e8UofPaOB
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(40470700001)(36860700001)(5660300002)(4326008)(508600001)(8676002)(47076005)(316002)(4744005)(44832011)(81166007)(2616005)(6666004)(66574015)(70586007)(426003)(1076003)(26005)(336012)(16526019)(186003)(40460700001)(36756003)(54906003)(83380400001)(8936002)(2906002)(70206006)(6916009)(86362001)(356005)(82310400004)(36900700001);
+ SFS:(4636009)(46966006)(36840700001)(40470700001)(86362001)(966005)(2616005)(1076003)(54906003)(4326008)(36756003)(26005)(8676002)(5660300002)(186003)(2906002)(40460700001)(6916009)(6666004)(8936002)(336012)(44832011)(83380400001)(81166007)(356005)(36860700001)(426003)(82310400004)(316002)(508600001)(70206006)(70586007)(47076005)(16526019)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:05:08.1045 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6444326d-ac21-4420-fa7e-08d9bf5e8e29
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:05:29.8077 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac2c4095-1fd6-46f9-64d8-08d9bf5e9b1c
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT007.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT038.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4210
-Received-SPF: softfail client-ip=40.107.237.81;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4609
+Received-SPF: softfail client-ip=40.107.243.76;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -123,32 +123,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+On Mac --enable-modules and --enable-plugins are currently incompatible, because the
+Apple -Wl,-exported_symbols_list command line options prevents the export of any
+symbols needed by the modules.  On x86 -Wl,--dynamic-list does not have this effect,
+but only because the -Wl,--export-dynamic option provided by gmodule-2.0.pc overrides
+it.  On Apple there is no -Wl,--export-dynamic, because it is the default, and thus
+no override.
+
+Either way, when modules are active there is no reason to include the plugin_ldflags.
+While at it, avoid the useless -Wl,--export-dynamic when --enable-plugins is
+specified but --enable-modules is not; this way, the GNU and Apple configurations
+are more similar.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/516
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+[AJB: fix noexport to no-export]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210803151428.125323-1-ma.mandourr@gmail.com>
-Message-Id: <20210806141015.2487502-2-alex.bennee@linaro.org>
+Message-Id: <20210811100550.54714-1-pbonzini@redhat.com>
 Cc: qemu-stable@nongnu.org
-(cherry picked from commit b40310616d2bd550279dd22b05483c3c613a00ff)
+(cherry picked from commit b906acace2d4f68b6ff8de73739a773cc4851436)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- contrib/plugins/execlog.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure           |  5 ++---
+ plugins/meson.build | 14 ++++++++------
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
-index 2de9f0d7d4..a5275dcc15 100644
---- a/contrib/plugins/execlog.c
-+++ b/contrib/plugins/execlog.c
-@@ -67,7 +67,7 @@ static void vcpu_insn_exec(unsigned int cpu_index, void *udata)
-     /* Print previous instruction in cache */
-     if (s->len) {
-         qemu_plugin_outs(s->str);
--        qemu_plugin_outs("s\n");
-+        qemu_plugin_outs("\n");
-     }
+diff --git a/configure b/configure
+index 9a79a004d7..7659870810 100755
+--- a/configure
++++ b/configure
+@@ -3187,9 +3187,8 @@ glib_req_ver=2.56
+ glib_modules=gthread-2.0
+ if test "$modules" = yes; then
+     glib_modules="$glib_modules gmodule-export-2.0"
+-fi
+-if test "$plugins" = "yes"; then
+-    glib_modules="$glib_modules gmodule-2.0"
++elif test "$plugins" = "yes"; then
++    glib_modules="$glib_modules gmodule-no-export-2.0"
+ fi
  
-     /* Store new instruction in cache */
+ for i in $glib_modules; do
+diff --git a/plugins/meson.build b/plugins/meson.build
+index e77723010e..bfd5c9822a 100644
+--- a/plugins/meson.build
++++ b/plugins/meson.build
+@@ -1,9 +1,11 @@
+-if 'CONFIG_HAS_LD_DYNAMIC_LIST' in config_host
+-  plugin_ldflags = ['-Wl,--dynamic-list=' + (meson.build_root() / 'qemu-plugins-ld.symbols')]
+-elif 'CONFIG_HAS_LD_EXPORTED_SYMBOLS_LIST' in config_host
+-  plugin_ldflags = ['-Wl,-exported_symbols_list,' + (meson.build_root() / 'qemu-plugins-ld64.symbols')]
+-else
+-  plugin_ldflags = []
++plugin_ldflags = []
++# Modules need more symbols than just those in plugins/qemu-plugins.symbols
++if not enable_modules
++  if 'CONFIG_HAS_LD_DYNAMIC_LIST' in config_host
++    plugin_ldflags = ['-Wl,--dynamic-list=' + (meson.build_root() / 'qemu-plugins-ld.symbols')]
++  elif 'CONFIG_HAS_LD_EXPORTED_SYMBOLS_LIST' in config_host
++    plugin_ldflags = ['-Wl,-exported_symbols_list,' + (meson.build_root() / 'qemu-plugins-ld64.symbols')]
++  endif
+ endif
+ 
+ specific_ss.add(when: 'CONFIG_PLUGIN', if_true: [files(
 -- 
 2.25.1
 
