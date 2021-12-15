@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA24A47568F
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 11:37:58 +0100 (CET)
-Received: from localhost ([::1]:53912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B95C34756D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 11:47:36 +0100 (CET)
+Received: from localhost ([::1]:42820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxRfZ-0001Ob-O9
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 05:37:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38610)
+	id 1mxRos-000518-0r
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 05:47:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mxRaP-0002vk-F2
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:32:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52748)
+ id 1mxRaS-0002wX-Nu
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:32:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mxRaN-0007Gt-1r
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:32:36 -0500
+ id 1mxRaP-0007HE-4Y
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:32:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639564354;
+ s=mimecast20190719; t=1639564356;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IueGQ5vGsurlSi24esPo3NVJeeyROrP31iJRN0y7JBI=;
- b=ZwX1NUDWB1LhTc1vn9mUYqeur9O4v/zeu78Gzqyp8NFLsVliTJfjFFsdG2YfWa2h7sLvsS
- YH8lOLePWa4iedn0jLgbN/VFDCyjDRQaMCjKcLx+B7d8BStrJAq67ZhhHzdSjOLZGxlkIw
- 3v8YmcCmFZ05lxpGlTj/FUUsQrktgcU=
+ bh=0go/oYucwrQb9URjrILXM9UBAkmykahMJxyBmR67KI8=;
+ b=bDtjaqSETG+JEufzX70qukzAnrqH5rSr40+/ZIO7oJ6XNmyNLiBu6YqvfglBMqCSPiyGek
+ bEQKV9fq/r220U3IXdXbc5tXUkER7Q5DEfmYUPxVAmmXNFBhLejb+HMOSLALZRx4bWm5A7
+ 2DiBsKT5kOah64kjhPU9lEXM6aGINAA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-516-KmqLlw4ZOHC0rStgFcfkLg-1; Wed, 15 Dec 2021 05:32:31 -0500
-X-MC-Unique: KmqLlw4ZOHC0rStgFcfkLg-1
+ us-mta-389-W3QkFv4dMZqDtoazhpeJwA-1; Wed, 15 Dec 2021 05:32:33 -0500
+X-MC-Unique: W3QkFv4dMZqDtoazhpeJwA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A80A2F24;
- Wed, 15 Dec 2021 10:32:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 310DC801962;
+ Wed, 15 Dec 2021 10:32:32 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 13A1A6E978;
- Wed, 15 Dec 2021 10:32:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 94E3A6E978;
+ Wed, 15 Dec 2021 10:32:30 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/18] migration/colo: Optimize COLO primary node start code
- path
-Date: Wed, 15 Dec 2021 11:32:04 +0100
-Message-Id: <20211215103218.17527-5-quintela@redhat.com>
+Subject: [PULL 05/18] migration: Remove is_zero_range()
+Date: Wed, 15 Dec 2021 11:32:05 +0100
+Message-Id: <20211215103218.17527-6-quintela@redhat.com>
 In-Reply-To: <20211215103218.17527-1-quintela@redhat.com>
 References: <20211215103218.17527-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -59,15 +58,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,71 +81,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Zhang Chen <chen.zhang@intel.com>, Juan Quintela <quintela@redhat.com>
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhang Chen <chen.zhang@intel.com>
+It just calls buffer_is_zero().  Just change the callers.
 
-Optimize COLO primary start path from:
-MIGRATION_STATUS_XXX --> MIGRATION_STATUS_ACTIVE --> MIGRATION_STATUS_COLO --> MIGRATION_STATUS_COMPLETED
-To:
-MIGRATION_STATUS_XXX --> MIGRATION_STATUS_COLO --> MIGRATION_STATUS_COMPLETED
-No need to start primary COLO through "MIGRATION_STATUS_ACTIVE".
-
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- migration/colo.c      |  2 --
- migration/migration.c | 13 +++++++------
- 2 files changed, 7 insertions(+), 8 deletions(-)
+ migration/ram.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/migration/colo.c b/migration/colo.c
-index 2a85504966..4a772afe78 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -666,8 +666,6 @@ void migrate_start_colo_process(MigrationState *s)
-                                 colo_checkpoint_notify, s);
+diff --git a/migration/ram.c b/migration/ram.c
+index 2c688f5bbb..57efa67f20 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -81,11 +81,6 @@
+ /* 0x80 is reserved in migration.h start with 0x100 next */
+ #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
  
-     qemu_sem_init(&s->colo_exit_sem, 0);
--    migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
--                      MIGRATION_STATUS_COLO);
-     colo_process_checkpoint(s);
-     qemu_mutex_lock_iothread();
- }
-diff --git a/migration/migration.c b/migration/migration.c
-index c0ab86e9a5..2c1edb2cb9 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3613,12 +3613,7 @@ static void migration_iteration_finish(MigrationState *s)
-         migration_calculate_complete(s);
-         runstate_set(RUN_STATE_POSTMIGRATE);
-         break;
+-static inline bool is_zero_range(uint8_t *p, uint64_t size)
+-{
+-    return buffer_is_zero(p, size);
+-}
 -
--    case MIGRATION_STATUS_ACTIVE:
--        /*
--         * We should really assert here, but since it's during
--         * migration, let's try to reduce the usage of assertions.
--         */
-+    case MIGRATION_STATUS_COLO:
-         if (!migrate_colo_enabled()) {
-             error_report("%s: critical error: calling COLO code without "
-                          "COLO enabled", __func__);
-@@ -3628,6 +3623,12 @@ static void migration_iteration_finish(MigrationState *s)
-          * Fixme: we will run VM in COLO no matter its old running state.
-          * After exited COLO, we will keep running.
-          */
-+         /* Fallthrough */
-+    case MIGRATION_STATUS_ACTIVE:
-+        /*
-+         * We should really assert here, but since it's during
-+         * migration, let's try to reduce the usage of assertions.
-+         */
-         s->vm_was_running = true;
-         /* Fallthrough */
-     case MIGRATION_STATUS_FAILED:
+ XBZRLECacheStats xbzrle_counters;
+ 
+ /* struct contains XBZRLE cache and a static page
+@@ -1180,7 +1175,7 @@ static int save_zero_page_to_file(RAMState *rs, QEMUFile *file,
+     uint8_t *p = block->host + offset;
+     int len = 0;
+ 
+-    if (is_zero_range(p, TARGET_PAGE_SIZE)) {
++    if (buffer_is_zero(p, TARGET_PAGE_SIZE)) {
+         len += save_page_header(rs, file, block, offset | RAM_SAVE_FLAG_ZERO);
+         qemu_put_byte(file, 0);
+         len += 1;
+@@ -3367,7 +3362,7 @@ static inline void *colo_cache_from_block_offset(RAMBlock *block,
+  */
+ void ram_handle_compressed(void *host, uint8_t ch, uint64_t size)
+ {
+-    if (ch != 0 || !is_zero_range(host, size)) {
++    if (ch != 0 || !buffer_is_zero(host, size)) {
+         memset(host, ch, size);
+     }
+ }
 -- 
 2.33.1
 
