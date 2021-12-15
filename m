@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D8F4762FC
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 21:17:32 +0100 (CET)
-Received: from localhost ([::1]:49836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD9C47631B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 21:22:00 +0100 (CET)
+Received: from localhost ([::1]:52156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxaiR-00084s-If
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 15:17:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56640)
+	id 1mxaml-0001H0-Kh
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 15:21:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mxadO-0002tp-Rj
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:12:18 -0500
-Received: from [2607:f8b0:4864:20::102d] (port=54176
- helo=mail-pj1-x102d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mxadM-0000dM-PT
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:12:18 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id mj19so3531289pjb.3
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 12:12:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=+KaVrdqnVbmmJ/K45/h0w/9lGkfNI7T1bIPgXE8XNx8=;
- b=CYDZnfX0VeUt6x4dShxGNEXHUL/DHY5QGWZGFWGDGI8L7sqx+MAU5zlOH30RbrEq/+
- gH31Zm5cpAUeZm09Mi4cSu/NKr0I8qv/B+b8DtmW/KGNRs5EB9iwpgdE06Ym02Jr0ycu
- 6txbjQ6bOpHOALqce3sr03hT1rrdAULg5Z7qLCsm6IZwoX9DmPJGHEzqYiKnW+C0mZH9
- HEDEzjnXrmaKv6KxRljGYphmSN/S1ionh3V2WWUjGr9QufihfZrH7/gJ416S7B4K8bNm
- 4mRzUKEDsKZXAgy87+eSeKtYAVBNNWVdqFeDPAbcFaxC3Z4bxFYWpbXCciRp+GJ94fpL
- DcZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+KaVrdqnVbmmJ/K45/h0w/9lGkfNI7T1bIPgXE8XNx8=;
- b=dfVew20Koa2nU668+5Hm1aSr5g1oDgamVLqPB8Lsqv/3exByFVh84MYJKDkS987M7e
- 6s9AY79hgF011XrG1olHIIP7N+K4W/yJygrvTIJHm72jrQ2HiyiCmbpo4Up4OlWOg5/v
- HmfX1EVG7OfpjfL+WaNSmgDIeDZ9p0TXBrZ+BdKBaDA5+lGWxCp3X7e2To4WawkrimCD
- 8bk2dBeteZyq+YAoRNDQxsyJxGjRtuh+rYhYzACiMFqCJrILquZIiOoS/TmcBlwvq5S9
- Ely3Zc0rm//LJaPwsG67yD2BB94bEBlXwnJd8BxcyfAZUsvUjcaFojm9E9gC2ABfOO/3
- 1MDQ==
-X-Gm-Message-State: AOAM532kLr5+TSRx4epy/IAKi9LkZq+Ad7tgytG0vamlUOWlH+RkoIA7
- 0CCVGOQZfaO5epEhLdcLJE3VLs/fwkXSDA==
-X-Google-Smtp-Source: ABdhPJwvg/2aZ0mLpMDMF75jxXq6iF9D3iGmXbyWWIAZ3fCBqy1zBkfo7q33e3orJFU5nvUU1Mhnvg==
-X-Received: by 2002:a17:902:714f:b0:142:892d:a46 with SMTP id
- u15-20020a170902714f00b00142892d0a46mr12900674plm.39.1639599135248; 
- Wed, 15 Dec 2021 12:12:15 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id p2sm2871046pja.55.2021.12.15.12.12.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Dec 2021 12:12:14 -0800 (PST)
-Subject: Re: [PULL 00/33] target-arm queue
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20211215104049.2030475-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <03c9a697-f2d5-1aa4-033a-6fb298c1f4bf@linaro.org>
-Date: Wed, 15 Dec 2021 12:12:13 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <20211215104049.2030475-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+ (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
+ id 1mxafr-0005qO-02
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:14:51 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:38904)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
+ id 1mxafn-0000rf-VW
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:14:50 -0500
+Received: from smtpclient.apple (lfbn-bor-1-1317-97.w193-250.abo.wanadoo.fr
+ [193.250.130.97])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id AD37020787;
+ Wed, 15 Dec 2021 20:14:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1639599284;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XX2IC4C6dF8LldsUXygm6T7c3f0eUyKA00w2MLwiYb4=;
+ b=X6WZ5Gdby5Ei1/AiuOeDiLFTySpMt3dznAaVq106HO6YdW5VXyBISGjbv5RUJKZKUmSIfK
+ GfF2nskbrAMrcKBYFVpnYM1sTEcSnFUXyvKqXFAzsuWu0KUzY1/E6Gdrv+dyXOQXgVcUCF
+ AsaZpGdbVxrUkCIaopi76FpLJk8hjGE=
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.20.0.1.32\))
+Subject: Re: Redesign of QEMU startup & initial configuration
+From: Mark Burton <mark.burton@greensocs.com>
+In-Reply-To: <da52f408-6037-20a9-78a9-77f12d86f620@redhat.com>
+Date: Wed, 15 Dec 2021 21:14:44 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <500D0A58-A328-4E71-A2FD-23515E2ED4CC@greensocs.com>
+References: <87lf13cx3x.fsf@dusky.pond.sub.org> <YbJU5vVdesoGuug9@redhat.com>
+ <87mtl88t0j.fsf@dusky.pond.sub.org>
+ <a31201bb-78de-e926-1476-b48b008745c1@redhat.com>
+ <878rwozfqm.fsf@dusky.pond.sub.org>
+ <16cd5683-4f97-d24c-dd19-24febcab7ba8@redhat.com>
+ <877dc7tnjf.fsf@dusky.pond.sub.org>
+ <da52f408-6037-20a9-78a9-77f12d86f620@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+X-Mailer: Apple Mail (2.3693.20.0.1.32)
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=mark.burton@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.64,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,144 +71,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/15/21 2:40 AM, Peter Maydell wrote:
-> Hi; here's the first target-arm pullreq for the 7.0 cycle.
-> 
-> thanks
-> -- PMM
-> 
-> The following changes since commit 76b56fdfc9fa43ec6e5986aee33f108c6c6a511e:
-> 
->    Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2021-12-14 12:46:18 -0800)
-> 
-> are available in the Git repository at:
-> 
->    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20211215
-> 
-> for you to fetch changes up to aed176558806674d030a8305d989d4e6a5073359:
-> 
->    tests/acpi: add expected blob for VIOT test on virt machine (2021-12-15 10:35:26 +0000)
-> 
-> ----------------------------------------------------------------
-> target-arm queue:
->   * ITS: error reporting cleanup
->   * aspeed: improve documentation
->   * Fix STM32F2XX USART data register readout
->   * allow emulated GICv3 to be disabled in non-TCG builds
->   * fix exception priority for singlestep, misaligned PC, bp, etc
->   * Correct calculation of tlb range invalidate length
->   * npcm7xx_emc: fix missing queue_flush
->   * virt: Add VIOT ACPI table for virtio-iommu
->   * target/i386: Use assert() to sanity-check b1 in SSE decode
->   * Don't include qemu-common unnecessarily
-> 
-> ----------------------------------------------------------------
-> Alex Bennée (1):
->        hw/intc: clean-up error reporting for failed ITS cmd
-> 
-> Jean-Philippe Brucker (8):
->        hw/arm/virt-acpi-build: Add VIOT table for virtio-iommu
->        hw/arm/virt: Remove device tree restriction for virtio-iommu
->        hw/arm/virt: Reject instantiation of multiple IOMMUs
->        hw/arm/virt: Use object_property_set instead of qdev_prop_set
->        tests/acpi: allow updates of VIOT expected data files
->        tests/acpi: add test case for VIOT
->        tests/acpi: add expected blobs for VIOT test on q35 machine
->        tests/acpi: add expected blob for VIOT test on virt machine
-> 
-> Joel Stanley (4):
->        docs: aspeed: Add new boards
->        docs: aspeed: Update OpenBMC image URL
->        docs: aspeed: Give an example of booting a kernel
->        docs: aspeed: ADC is now modelled
-> 
-> Olivier Hériveaux (1):
->        Fix STM32F2XX USART data register readout
-> 
-> Patrick Venture (1):
->        hw/net: npcm7xx_emc fix missing queue_flush
-> 
-> Peter Maydell (6):
->        target/i386: Use assert() to sanity-check b1 in SSE decode
->        include/hw/i386: Don't include qemu-common.h in .h files
->        target/hexagon/cpu.h: don't include qemu-common.h
->        target/rx/cpu.h: Don't include qemu-common.h
->        hw/arm: Don't include qemu-common.h unnecessarily
->        target/arm: Correct calculation of tlb range invalidate length
-> 
-> Philippe Mathieu-Daudé (2):
->        hw/intc/arm_gicv3: Extract gicv3_set_gicv3state from arm_gicv3_cpuif.c
->        hw/intc/arm_gicv3: Introduce CONFIG_ARM_GIC_TCG Kconfig selector
-> 
-> Richard Henderson (10):
->        target/arm: Hoist pc_next to a local variable in aarch64_tr_translate_insn
->        target/arm: Hoist pc_next to a local variable in arm_tr_translate_insn
->        target/arm: Hoist pc_next to a local variable in thumb_tr_translate_insn
->        target/arm: Split arm_pre_translate_insn
->        target/arm: Advance pc for arch single-step exception
->        target/arm: Split compute_fsr_fsc out of arm_deliver_fault
->        target/arm: Take an exception if PC is misaligned
->        target/arm: Assert thumb pc is aligned
->        target/arm: Suppress bp for exceptions with more priority
->        tests/tcg: Add arm and aarch64 pc alignment tests
-> 
->   docs/system/arm/aspeed.rst        |  26 ++++++++++++----
->   include/hw/i386/microvm.h         |   1 -
->   include/hw/i386/x86.h             |   1 -
->   target/arm/helper.h               |   1 +
->   target/arm/syndrome.h             |   5 +++
->   target/hexagon/cpu.h              |   1 -
->   target/rx/cpu.h                   |   1 -
->   hw/arm/boot.c                     |   1 -
->   hw/arm/digic_boards.c             |   1 -
->   hw/arm/highbank.c                 |   1 -
->   hw/arm/npcm7xx_boards.c           |   1 -
->   hw/arm/sbsa-ref.c                 |   1 -
->   hw/arm/stm32f405_soc.c            |   1 -
->   hw/arm/vexpress.c                 |   1 -
->   hw/arm/virt-acpi-build.c          |   7 +++++
->   hw/arm/virt.c                     |  21 ++++++-------
->   hw/char/stm32f2xx_usart.c         |   3 +-
->   hw/intc/arm_gicv3.c               |   2 +-
->   hw/intc/arm_gicv3_cpuif.c         |  10 +-----
->   hw/intc/arm_gicv3_cpuif_common.c  |  22 +++++++++++++
->   hw/intc/arm_gicv3_its.c           |  39 +++++++++++++++--------
->   hw/net/npcm7xx_emc.c              |  18 +++++------
->   hw/virtio/virtio-iommu-pci.c      |  12 ++------
->   linux-user/aarch64/cpu_loop.c     |  46 ++++++++++++++++------------
->   linux-user/hexagon/cpu_loop.c     |   1 +
->   target/arm/debug_helper.c         |  23 ++++++++++++++
->   target/arm/gdbstub.c              |   9 ++++--
->   target/arm/helper.c               |   6 ++--
->   target/arm/machine.c              |  10 ++++++
->   target/arm/tlb_helper.c           |  63 ++++++++++++++++++++++++++++----------
->   target/arm/translate-a64.c        |  23 ++++++++++++--
->   target/arm/translate.c            |  58 ++++++++++++++++++++++++++---------
->   target/i386/tcg/translate.c       |  12 ++------
->   tests/qtest/bios-tables-test.c    |  38 +++++++++++++++++++++++
->   tests/tcg/aarch64/pcalign-a64.c   |  37 ++++++++++++++++++++++
->   tests/tcg/arm/pcalign-a32.c       |  46 ++++++++++++++++++++++++++++
->   hw/arm/Kconfig                    |   1 +
->   hw/intc/Kconfig                   |   5 +++
->   hw/intc/meson.build               |  11 ++++---
->   tests/data/acpi/q35/DSDT.viot     | Bin 0 -> 9398 bytes
->   tests/data/acpi/q35/VIOT.viot     | Bin 0 -> 112 bytes
->   tests/data/acpi/virt/VIOT         | Bin 0 -> 88 bytes
->   tests/tcg/aarch64/Makefile.target |   4 +--
->   tests/tcg/arm/Makefile.target     |   4 +++
->   44 files changed, 429 insertions(+), 145 deletions(-)
->   create mode 100644 hw/intc/arm_gicv3_cpuif_common.c
->   create mode 100644 tests/tcg/aarch64/pcalign-a64.c
->   create mode 100644 tests/tcg/arm/pcalign-a32.c
->   create mode 100644 tests/data/acpi/q35/DSDT.viot
->   create mode 100644 tests/data/acpi/q35/VIOT.viot
->   create mode 100644 tests/data/acpi/virt/VIOT
 
-Applied, thanks.
+FWIW I Agree.
 
-r~
+(Which probably means somethings hiding somewhere :-) )
+
+Cheers
+Mark.
+
+> On 15 Dec 2021, at 21:00, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>=20
+> On 12/14/21 12:48, Markus Armbruster wrote:
+>> Let's start with where we (hopefully) agree:
+>=20
+> More or less I do agree with this, except for a couple points below =
+where I think we disagree.
+>=20
+>> * We need a single, cohesive, low-level interface suitable for
+>>   management applications.
+>> * The existing interface is specified in QAPI.  Its concrete =
+transport
+>>   is QMP.
+>> * The existing interface is not complete: certain things can only be
+>>   done with the CLI.
+>>=20
+>> * The existing transport is not available early enough to permit
+>>   completing the interface.
+>=20
+> So far so good.
+>=20
+>> * Fixing that involves a rework of startup.
+>> * Reworking the existing startup and managing incompatible changes is
+>>   impractical, and likely to make the mess we have on our hands =
+worse.
+>=20
+> Not really, in particular the startup has been mostly reworked already =
+and I disagree that it is messy.  softmmu/vl.c is messy, sure: it has N =
+different command line parser for command line options, magic related to =
+default devices, and complicated ordering of -object creation.
+>=20
+> But the building of emulator data structures is not messy; only the =
+code that transforms the user's instructions into startup commands.  The =
+messy parts are almost entirely contained within softmmu/vl.c.
+>=20
+> The one (and important, but fixable) exception is backends for =
+on-board devices: serial_hd, drive_get, and nd_table.
+>=20
+>> * A new binary sidesteps the need to manage incompatible change.
+>=20
+> More precisely, a new binary sidesteps the need to integrate an =
+existing mechanism with a new transport, and deal with the =
+incompatibilities that arise.
+>=20
+>> Any objections so far?
+>> Now let me make a few more points:
+>> * Single, cohesive interface does not require single transport.  In
+>>   fact, we already have two: QMP and the (internal) C interface.
+>> * QMP encodes the abstract interface in JSON, and offers the result =
+on a
+>>   Unix domain socket[1].
+>> * The (internal) C interface encodes the abstract interface as a set =
+of
+>>   C data types and functions.
+>> * Consider a configuration file transport that encodes the abstract
+>>   interface in JSON.  The only wart this adds is syntax that is
+>>   arguiably ill-suited to the purpose.  More suitable syntax exists.
+>> * Similar for CLI.
+>> * To get a "a second set of warts layered on top", we actually have =
+to
+>>   layer something on top that isn't utterly trivial.  Like a
+>>   higher-level interface.  The "second set of warts" objection does =
+not
+>>   apply to (sane) transports.
+>=20
+> The problem is that CLI and HMP, being targeted to humans (and as you =
+say below humans matter), are not necessarily trivial transports.  If =
+people find the trivial transport unusable, we will not be able to =
+retire the old CLI.
+>=20
+> Bad CLI is also very hard to deprecate because, unlike QMP (for which =
+you can delegate the workarounds to Libvirt & friends) and HMP (for =
+which people can just learn the new thing and type it), it is baked in =
+countless scripts.  People hate it when scripts break.
+>=20
+>> * The old CLI is partly layered on QMP, partly on HMP, and partly on
+>>   internal C interfaces.  It's full of warts.
+>=20
+> I've worked on moving it more towards QMP or at least QOM, and much =
+less on internal C interfaces.  It still has warts but they are =
+self-contained and due to the baroque ordering of options.  My point is =
+that we can continue this work to the point that having separate entry =
+points (one CLI-centered, one QMP-only) is not a problem.
+>=20
+> The issues with the CLI then can be completely self-contained within =
+softmmu/vl.c, and will not influence the innards of QEMU.
+>=20
+> Paolo
+>=20
+>> * Management applications are not the only users that matter.  Humans
+>>   matter.  Simple programs like ad hoc scripts matter.
 
 
