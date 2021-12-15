@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0671D475B6A
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 16:08:55 +0100 (CET)
-Received: from localhost ([::1]:40082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE46475BDD
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 16:33:08 +0100 (CET)
+Received: from localhost ([::1]:33772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxVtl-0000az-S2
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 10:08:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48966)
+	id 1mxWHC-0001Dp-OF
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 10:33:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mxV9E-0002FT-J3
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:20:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25021)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mxV9C-0001J2-3l
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:20:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639578045;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GNfXk77IW70ZUrqGv/VoHUbgV48RVxyHxtkNgNPidx0=;
- b=ZXWp6/d8H3chx2kS/bzk9XURhVXa0ufubWG6n1jNTGvHWhxPruMeXIA+lpY10QKbtSEWhr
- kjMY8UGbIWgn3/52kNh8dU6bve9Ugv9xgxGf/P+/8O9GR2LcPT6NkZDbCWL7TjyQgd/VXi
- fGQhuQYXe9isLJcNwVzxKPtISCAMXlI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-333-IL4TapgiNO2mvDE-OBkB5A-1; Wed, 15 Dec 2021 09:20:42 -0500
-X-MC-Unique: IL4TapgiNO2mvDE-OBkB5A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF144835E24;
- Wed, 15 Dec 2021 14:20:40 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.22.8.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7F3FA101E692;
- Wed, 15 Dec 2021 14:20:38 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 18/18] tests/docker: auto-generate alpine.docker with
- lcitool
-Date: Wed, 15 Dec 2021 14:19:49 +0000
-Message-Id: <20211215141949.3512719-19-berrange@redhat.com>
-In-Reply-To: <20211215141949.3512719-1-berrange@redhat.com>
-References: <20211215141949.3512719-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mxVBZ-0007CB-S7
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:23:13 -0500
+Received: from [2a00:1450:4864:20::42a] (port=45629
+ helo=mail-wr1-x42a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mxVBX-0001qK-Rm
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:23:13 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id o13so38437259wrs.12
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 06:23:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=CvrooWElS6xvcOsJOHqfyqNtUyk/5R9z4LUy8GugdFU=;
+ b=SMGjhH1R/tgAeeRUrNAIp4IcVeyGg9uGXTXhQWxK8Da02QylMLX8OXKCNxqO4pJNnz
+ ufiNIYPsfYQAnM8xg+cKG5R8BCQMwQyPFnf+aSFX0gRzITQCUMbqOb0JlJSt99880K0D
+ TNUQ3R6VaKW0kIIiZfpERZ9vcvN/WE1Gtqi/eE52LUduBFoPP/NMEetsLClY4abD+ttk
+ AKMrIHXzBNEj9HxWEIPCnVmp+R+3gRXFNNPagKW5LzXa6uuexcN+fC5vDbgIqVD6E6ox
+ Ds2sqErJVleTj6Ls060TbtFFVTTvNgYFPH18ZUV7VUT33+m1y7qtUzb/5FPzHgWzkH45
+ FZQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=CvrooWElS6xvcOsJOHqfyqNtUyk/5R9z4LUy8GugdFU=;
+ b=y3FTjl+AKebM904f6mcK64uWRpJanOLBn4Wd4oIJO0XZX1kYPIwvzBFJkrUXzT5LfS
+ 0Itrmx0xejzwZTkSAIJlh4V4v1e7SUBg2BGpJOWp1usLo7LAz7nZiqi+prIf+JIH1kR+
+ 0tusxq4neG+EDKJRHER1RcMalsZ4NPFUVKioLUHin6sn2Szvbdx+GuAVuRAtkQGfBRnk
+ K8BzfUbpemjm1iEBg4Eyy2tRK7PYcw91pgoS9oEKBQLyXT/0LyDsJ7dS72FLKhlrgcpb
+ H/pTvakuYH93wDY2Rdpy5VuuOtyFP9fKiMaHpNp2fGlYnEKyOdWm9Wdo/L5RKxnwPT+y
+ b/uA==
+X-Gm-Message-State: AOAM531qt8lY7G9F1kVzMDLgiy1ihmAdak+Sct/trRZKQnbh/p5Qtm6i
+ o0b6s2Be2oU9npiMfvh3t/yfaw==
+X-Google-Smtp-Source: ABdhPJztAgCIRN6xAptu2V5nppOxCEOywqGlwlZKo5Q24rm5rV2luTCGaS0D4NoQdLRggerselCYdw==
+X-Received: by 2002:a5d:4a0b:: with SMTP id m11mr4514825wrq.120.1639578190154; 
+ Wed, 15 Dec 2021 06:23:10 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l16sm2422024wrx.117.2021.12.15.06.23.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Dec 2021 06:23:09 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 86CA61FF96;
+ Wed, 15 Dec 2021 14:23:08 +0000 (GMT)
+References: <20211118145716.4116731-1-philmd@redhat.com>
+ <20211118145716.4116731-2-philmd@redhat.com>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-6.2? v2 1/5] docs/devel/style: Render C types as
+ monospaced text
+Date: Wed, 15 Dec 2021 14:20:54 +0000
+In-reply-to: <20211118145716.4116731-2-philmd@redhat.com>
+Message-ID: <874k7agd6b.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,273 +91,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Darren Kenny <darren.kenny@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit is best examined using the "-b" option to diff.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- tests/docker/dockerfiles/alpine.docker | 225 +++++++++++++------------
- tests/lcitool/refresh                  |   1 +
- 2 files changed, 120 insertions(+), 106 deletions(-)
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 0ac30c8014..97c7a88d1f 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -1,109 +1,122 @@
-+# THIS FILE WAS AUTO-GENERATED
-+#
-+#  $ lcitool dockerfile alpine-edge qemu
-+#
-+# https://gitlab.com/libvirt/libvirt-ci
- 
--FROM alpine:edge
-+FROM docker.io/library/alpine:edge
- 
--RUN apk update
--RUN apk upgrade
-+RUN apk update && \
-+    apk upgrade && \
-+    apk add \
-+        alsa-lib-dev \
-+        attr-dev \
-+        bash \
-+        bc \
-+        bzip2 \
-+        bzip2-dev \
-+        ca-certificates \
-+        capstone-dev \
-+        ccache \
-+        cdrkit \
-+        ceph-dev \
-+        clang \
-+        ctags \
-+        curl-dev \
-+        cyrus-sasl-dev \
-+        dbus \
-+        diffutils \
-+        dtc-dev \
-+        eudev-dev \
-+        findutils \
-+        g++ \
-+        gcc \
-+        gcovr \
-+        gettext \
-+        git \
-+        glib-dev \
-+        glib-static \
-+        gnutls-dev \
-+        gtk+3.0-dev \
-+        libaio-dev \
-+        libbpf-dev \
-+        libcap-ng-dev \
-+        libdrm-dev \
-+        libepoxy-dev \
-+        libffi-dev \
-+        libgcrypt-dev \
-+        libjpeg-turbo-dev \
-+        libnfs-dev \
-+        libpng-dev \
-+        libseccomp-dev \
-+        libselinux-dev \
-+        libslirp-dev \
-+        libssh-dev \
-+        libtasn1-dev \
-+        liburing-dev \
-+        libusb-dev \
-+        libxml2-dev \
-+        linux-pam-dev \
-+        llvm11 \
-+        lttng-ust-dev \
-+        lzo-dev \
-+        make \
-+        mesa-dev \
-+        meson \
-+        multipath-tools \
-+        ncurses-dev \
-+        ndctl-dev \
-+        net-tools \
-+        nettle-dev \
-+        nmap-ncat \
-+        numactl-dev \
-+        openssh-client \
-+        pcre-dev \
-+        perl \
-+        perl-test-harness \
-+        pixman-dev \
-+        pkgconf \
-+        pulseaudio-dev \
-+        py3-numpy \
-+        py3-pillow \
-+        py3-pip \
-+        py3-sphinx \
-+        py3-sphinx_rtd_theme \
-+        py3-virtualenv \
-+        py3-yaml \
-+        python3 \
-+        rpm2cpio \
-+        samurai \
-+        sdl2-dev \
-+        sdl2_image-dev \
-+        sed \
-+        snappy-dev \
-+        sparse \
-+        spice-dev \
-+        spice-protocol \
-+        tar \
-+        tesseract-ocr \
-+        texinfo \
-+        usbredir-dev \
-+        util-linux \
-+        vde2-dev \
-+        virglrenderer-dev \
-+        vte3-dev \
-+        which \
-+        xen-dev \
-+        xfsprogs-dev \
-+        zlib-dev \
-+        zlib-static \
-+        zstd-dev && \
-+    mkdir -p /usr/libexec/ccache-wrappers && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/clang && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
- 
--# Please keep this list sorted alphabetically
--ENV PACKAGES \
--	alsa-lib-dev \
--	attr-dev \
--	bash \
--	bc \
--	bzip2 \
--	bzip2-dev \
--	ca-certificates \
--	capstone-dev \
--	ccache \
--	cdrkit \
--	ceph-dev \
--	clang \
--	ctags \
--	curl-dev \
--	cyrus-sasl-dev \
--	dbus \
--	diffutils \
--	dtc-dev \
--	eudev-dev \
--	findutils \
--	g++ \
--	gcc \
--	gcovr \
--	gettext \
--	git \
--	glib-dev \
--	glib-static \
--	gnutls-dev \
--	gtk+3.0-dev \
--	libaio-dev \
--	libbpf-dev \
--	libcap-ng-dev \
--	libdrm-dev \
--	libepoxy-dev \
--	libffi-dev \
--	libgcrypt-dev \
--	libjpeg-turbo-dev \
--	libnfs-dev \
--	libpng-dev \
--	libseccomp-dev \
--	libselinux-dev \
--	libslirp-dev \
--	libssh-dev \
--	libtasn1-dev \
--	liburing-dev \
--	libusb-dev \
--	libxml2-dev \
--	linux-pam-dev \
--	llvm11 \
--	lttng-ust-dev \
--	lzo-dev \
--	make \
--	mesa-dev \
--	meson \
--	multipath-tools \
--	ncurses-dev \
--	ndctl-dev \
--	net-tools \
--	nettle-dev \
--	nmap-ncat \
--	numactl-dev \
--	openssh-client \
--	pcre-dev \
--	perl \
--	perl-test-harness \
--	pixman-dev \
--	pkgconf \
--	pulseaudio-dev \
--	py3-numpy \
--	py3-pillow \
--	py3-pip \
--	py3-sphinx \
--	py3-sphinx_rtd_theme \
--	py3-virtualenv \
--	py3-yaml \
--	python3 \
--	rpm2cpio \
--	samurai \
--	sdl2-dev \
--	sdl2_image-dev \
--	sed \
--	snappy-dev \
--	sparse \
--	spice-dev \
--	spice-protocol \
--	tar \
--	tesseract-ocr \
--	texinfo \
--	usbredir-dev \
--	util-linux \
--	vde2-dev \
--	virglrenderer-dev \
--	vte3-dev \
--	which \
--	xen-dev \
--	xfsprogs-dev \
--	zlib-dev \
--	zlib-static \
--	zstd-dev
--
--RUN apk add $PACKAGES
-+ENV LANG "en_US.UTF-8"
-+ENV MAKE "/usr/bin/make"
-+ENV NINJA "/usr/bin/ninja"
-+ENV PYTHON "/usr/bin/python3"
-+ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
-diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index b8cf0a7386..033120e223 100755
---- a/tests/lcitool/refresh
-+++ b/tests/lcitool/refresh
-@@ -84,6 +84,7 @@ try:
-    generate_dockerfile("ubuntu2004", "ubuntu-2004",
-                        trailer="".join(ubuntu2004_tsanhack))
-    generate_dockerfile("opensuse-leap", "opensuse-leap-152")
-+   generate_dockerfile("alpine", "alpine-edge")
- 
-    generate_cirrus("freebsd-12")
-    generate_cirrus("freebsd-13")
--- 
-2.33.1
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  docs/devel/style.rst | 59 ++++++++++++++++++++++----------------------
+>  1 file changed, 30 insertions(+), 29 deletions(-)
+>
+> diff --git a/docs/devel/style.rst b/docs/devel/style.rst
+> index e00af62e763..3e519dc6ade 100644
+> --- a/docs/devel/style.rst
+> +++ b/docs/devel/style.rst
+> @@ -111,7 +111,7 @@ Variables are lower_case_with_underscores; easy to ty=
+pe and read.  Structured
+>  type names are in CamelCase; harder to type but standing out.  Enum type
+>  names and function type names should also be in CamelCase.  Scalar type
+>  names are lower_case_with_underscores_ending_with_a_t, like the POSIX
+> -uint64_t and family.  Note that this last convention contradicts POSIX
+> +``uint64_t`` and family.  Note that this last convention contradicts POS=
+IX
+>  and is therefore likely to be changed.
+>=20=20
+>  Variable Naming Conventions
+> @@ -290,57 +290,57 @@ a few useful guidelines here.
+>  Scalars
+>  -------
+>=20=20
+> -If you're using "int" or "long", odds are good that there's a better typ=
+e.
+> -If a variable is counting something, it should be declared with an
+> -unsigned type.
+> +If you're using '``int``' or '``long``', odds are good that there's a
+> better
 
+We seem to be switching between quoted and unquoted ``types``. Are the
+quotes really needed if they are also highlighted by the monospace font?
+
+Either way:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
