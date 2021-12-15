@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F449476356
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 21:31:26 +0100 (CET)
-Received: from localhost ([::1]:40376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7E347638A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 21:41:09 +0100 (CET)
+Received: from localhost ([::1]:58740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxavs-0004Eh-Mb
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 15:31:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59826)
+	id 1mxb5I-0000Cy-E7
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 15:41:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mxaq6-0003vD-UP
+ id 1mxaq7-0003vI-CP
  for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:25:28 -0500
-Received: from [2a00:1450:4864:20::32e] (port=38595
- helo=mail-wm1-x32e.google.com)
+Received: from [2a00:1450:4864:20::433] (port=42545
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mxaq4-0004FN-Qb
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:25:26 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- p3-20020a05600c1d8300b003334fab53afso157062wms.3
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 12:25:24 -0800 (PST)
+ id 1mxaq5-0004Fu-EH
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 15:25:27 -0500
+Received: by mail-wr1-x433.google.com with SMTP id c4so40216155wrd.9
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 12:25:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qJ0T7w1/EpxM1EPS/S8htldDo8uYBjVwDt7qXgtP+7k=;
- b=iI4YgJcQiniChggfDpi7X3+YfFLjs3sxUQG0xgTe1nyzu+VLooI3fJbUtY1hneAlYK
- Zur1FSpBxdZ0eKalSoDRMnUR6ELBk4jiODcBklS7sIflHgvcdYvRmUCA1R0vZP63kbeT
- okK4T/olpnV596f0ym44yhRylZCiVvyvvqlyOPRCxLsjN9AOJnzEMfpfLRj71Ye8ZbQG
- OnTM/fV4DlDxb3BIsyOeCXbogxkmzy+PswT6j/eRQeP+CYRde6066Th7E9RgQM14EqJk
- fn7sy6SJa3DtpXaD7qIe3MDPv4sUGUOukFi5qFdnxafu6brgWQ41x+OcL9Gpsxp+qwgP
- O6Uw==
+ bh=g9ILVW2e3Wz+75W91mAmLGa/p+44XplQBZq4j1RIf8o=;
+ b=Rusit/swwwajlzQE72Oj9upVYS/yqFgWWvyWAhC9FfOpV3JpUG06JMBZSRhTV5B6tF
+ U6OjiNSgxuls0dr33pbADdtrPWoC3QDnpMd0yr5rArS21JGnTTUZd77NXFmcf/bDzkWG
+ LNHS93deKtGqlrpjLmVGKc5yPb4oIfzeW1ug6NF851PAzL+PkZpMeH/mQDmWOcURXxRE
+ abIVKz30VAajUDGGkQ9U9qiBlMmmg4CGTAoK4lHc1uoP1TghKRn2qJL1/X8TD77ozHMa
+ d8TBAzAnL68Jz4DBK1bQ4SAYBqsbcNJlpvhJgRUV2FPnCcUT+vOEzgrgxTRvJfYxQDEx
+ psYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qJ0T7w1/EpxM1EPS/S8htldDo8uYBjVwDt7qXgtP+7k=;
- b=b8croXORuAQ3mEK9JxPlg4in5flDfB4dp0qSfpeOHyVRgQz65yR99eJGQxHwdCo0ho
- yFBfO0P9SdRGZra+JLyu6WigIRM314VE867vtgVtNhMTlDJ/Ko8s8Tq1bnID8PLJmfBd
- 35m2YZZ/ef6wXPoDrO/fHPj+oKldAJtesgfW0SHtSzl3Cc1ccDpWj2j9+9K3e5EtVbju
- z0f6z/rCy2kCHVyg6mQ6uNyDrVb580Dv00sJU50deb+hC4y70/IzLDXf2MJIMfDIoKwm
- oS7fnIY2K3qaFirrzgGwU0ePiNkbzEFH9drIx0e9txCekV1JsoTY/MuAKT00blshVZhD
- xRSQ==
-X-Gm-Message-State: AOAM533xJJ3AT8zlq4+M2motaoRtd2KxQaZjwLNnKezu1AFDuUbug4N6
- 75bvS+nC4m8adOwWF56nCk8k0+tZixc=
-X-Google-Smtp-Source: ABdhPJwEx6/9liNhxtKwd6bsXGFADadfpeeib8m8MNMfazsIyb1FvNgL1AYtsbz2Was4KvzDoDnCug==
-X-Received: by 2002:a05:600c:3506:: with SMTP id
- h6mr1837479wmq.122.1639599923509; 
- Wed, 15 Dec 2021 12:25:23 -0800 (PST)
+ bh=g9ILVW2e3Wz+75W91mAmLGa/p+44XplQBZq4j1RIf8o=;
+ b=bZ7d2h8nnuK+h51bqjZk5qBnBft8wmaGlZfnyghvyylVyjyr0AdKnTB0/DZnBnH5n7
+ l/tHdicXf15M4shgj1VPHyue8uMQDfWaasshdQ22YpZ2FEOCJooa9rx53PBcaeTY24Hj
+ KfuLf/VeRi3c5fXg3bHvbBW2utjPYPOh/5wwAtBb08IIIhJJoQml33ouPs0FTPLbQzIe
+ IpAesJk+OTxhBhbC7Ys2RNN5pSHquvxnZpt096sFVF3k+F8p+uihtfjEMTHAupVNWyKR
+ ERijb8qfxlr3422VGakU2pGJzdv5hN48esjGYGF4KthtH7ln/G+tw0tVMAtRGFzizQiE
+ PC4A==
+X-Gm-Message-State: AOAM530JMj2Jmpdl8kDejqeShyZqxFvLtW5QjsPoki27ZLUeTJ3ech+r
+ lg/zyAffddmA5TUN9YxqsE49uxjbwaw=
+X-Google-Smtp-Source: ABdhPJxhT6VLNpmBTTa9OcMgbqTwtO6OjuqcI6bf3Qq043R0+XTZZZh4duhfLLh984u9g/8pI7vLjg==
+X-Received: by 2002:adf:e8d2:: with SMTP id k18mr5269197wrn.187.1639599924100; 
+ Wed, 15 Dec 2021 12:25:24 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id y11sm3794708wry.70.2021.12.15.12.25.22
+ by smtp.gmail.com with ESMTPSA id y11sm3794708wry.70.2021.12.15.12.25.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 15 Dec 2021 12:25:23 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/13] numa: Enable numa for SGX EPC sections
-Date: Wed, 15 Dec 2021 21:25:12 +0100
-Message-Id: <20211215202515.91586-11-pbonzini@redhat.com>
+Subject: [PULL 11/13] numa: Support SGX numa in the monitor and Libvirt
+ interfaces
+Date: Wed, 15 Dec 2021 21:25:13 +0100
+Message-Id: <20211215202515.91586-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211215202515.91586-1-pbonzini@redhat.com>
 References: <20211215202515.91586-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,275 +93,197 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yang Zhong <yang.zhong@intel.com>
 
-The basic SGX did not enable numa for SGX EPC sections, which
-result in all EPC sections located in numa node 0. This patch
-enable SGX numa function in the guest and the EPC section can
-work with RAM as one numa node.
+Add the SGXEPCSection list into SGXInfo to show the multiple
+SGX EPC sections detailed info, not the total size like before.
+This patch can enable numa support for 'info sgx' command and
+QMP interfaces. The new interfaces show each EPC section info
+in one numa node. Libvirt can use QMP interface to get the
+detailed host SGX EPC capabilities to decide how to allocate
+host EPC sections to guest.
 
-The Guest kernel related log:
-[    0.009981] ACPI: SRAT: Node 0 PXM 0 [mem 0x180000000-0x183ffffff]
-[    0.009982] ACPI: SRAT: Node 1 PXM 1 [mem 0x184000000-0x185bfffff]
-The SRAT table can normally show SGX EPC sections menory info in different
-numa nodes.
+(qemu) info sgx
+ SGX support: enabled
+ SGX1 support: enabled
+ SGX2 support: enabled
+ FLC support: enabled
+ NUMA node #0: size=67108864
+ NUMA node #1: size=29360128
 
-The SGX EPC numa related command:
- ......
- -m 4G,maxmem=20G \
- -smp sockets=2,cores=2 \
- -cpu host,+sgx-provisionkey \
- -object memory-backend-ram,size=2G,host-nodes=0,policy=bind,id=node0 \
- -object memory-backend-epc,id=mem0,size=64M,prealloc=on,host-nodes=0,policy=bind \
- -numa node,nodeid=0,cpus=0-1,memdev=node0 \
- -object memory-backend-ram,size=2G,host-nodes=1,policy=bind,id=node1 \
- -object memory-backend-epc,id=mem1,size=28M,prealloc=on,host-nodes=1,policy=bind \
- -numa node,nodeid=1,cpus=2-3,memdev=node1 \
- -M sgx-epc.0.memdev=mem0,sgx-epc.0.node=0,sgx-epc.1.memdev=mem1,sgx-epc.1.node=1 \
- ......
+The QMP interface show:
+(QEMU) query-sgx
+{"return": {"sgx": true, "sgx2": true, "sgx1": true, "sections": \
+[{"node": 0, "size": 67108864}, {"node": 1, "size": 29360128}], "flc": true}}
+
+(QEMU) query-sgx-capabilities
+{"return": {"sgx": true, "sgx2": true, "sgx1": true, "sections": \
+[{"node": 0, "size": 17070817280}, {"node": 1, "size": 17079205888}], "flc": true}}
 
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20211101162009.62161-2-yang.zhong@intel.com>
+Message-Id: <20211101162009.62161-4-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/numa.c            |  5 ++---
- hw/i386/acpi-build.c      |  2 ++
- hw/i386/sgx-epc.c         |  3 +++
- hw/i386/sgx-stub.c        |  4 ++++
- hw/i386/sgx.c             | 44 +++++++++++++++++++++++++++++++++++++++
- include/hw/i386/sgx-epc.h |  3 +++
- monitor/hmp-cmds.c        |  1 +
- qapi/machine.json         | 10 ++++++++-
- qemu-options.hx           |  4 ++--
- 9 files changed, 70 insertions(+), 6 deletions(-)
+ hw/i386/sgx.c         | 51 +++++++++++++++++++++++++++++++++++--------
+ qapi/misc-target.json | 19 ++++++++++++++--
+ 2 files changed, 59 insertions(+), 11 deletions(-)
 
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index e6050b2273..1aa05dcf42 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -784,9 +784,8 @@ static void numa_stat_memory_devices(NumaNodeMem node_mem[])
-                 break;
-             case MEMORY_DEVICE_INFO_KIND_SGX_EPC:
-                 se = value->u.sgx_epc.data;
--                /* TODO: once we support numa, assign to right node */
--                node_mem[0].node_mem += se->size;
--                node_mem[0].node_plugged_mem += se->size;
-+                node_mem[se->node].node_mem += se->size;
-+                node_mem[se->node].node_plugged_mem = 0;
-                 break;
-             default:
-                 g_assert_not_reached();
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index a99c6e4fe3..8383b83ee3 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2068,6 +2068,8 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-         nvdimm_build_srat(table_data);
-     }
- 
-+    sgx_epc_build_srat(table_data);
-+
-     /*
-      * TODO: this part is not in ACPI spec and current linux kernel boots fine
-      * without these entries. But I recall there were issues the last time I
-diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
-index e508827e78..96b2940d75 100644
---- a/hw/i386/sgx-epc.c
-+++ b/hw/i386/sgx-epc.c
-@@ -21,6 +21,7 @@
- 
- static Property sgx_epc_properties[] = {
-     DEFINE_PROP_UINT64(SGX_EPC_ADDR_PROP, SGXEPCDevice, addr, 0),
-+    DEFINE_PROP_UINT32(SGX_EPC_NUMA_NODE_PROP, SGXEPCDevice, node, 0),
-     DEFINE_PROP_LINK(SGX_EPC_MEMDEV_PROP, SGXEPCDevice, hostmem,
-                      TYPE_MEMORY_BACKEND_EPC, HostMemoryBackendEpc *),
-     DEFINE_PROP_END_OF_LIST(),
-@@ -139,6 +140,8 @@ static void sgx_epc_md_fill_device_info(const MemoryDeviceState *md,
-     se->memaddr = epc->addr;
-     se->size = object_property_get_uint(OBJECT(epc), SGX_EPC_SIZE_PROP,
-                                         NULL);
-+    se->node = object_property_get_uint(OBJECT(epc), SGX_EPC_NUMA_NODE_PROP,
-+                                        NULL);
-     se->memdev = object_get_canonical_path(OBJECT(epc->hostmem));
- 
-     info->u.sgx_epc.data = se;
-diff --git a/hw/i386/sgx-stub.c b/hw/i386/sgx-stub.c
-index c9b379e665..26833eb233 100644
---- a/hw/i386/sgx-stub.c
-+++ b/hw/i386/sgx-stub.c
-@@ -6,6 +6,10 @@
- #include "qapi/error.h"
- #include "qapi/qapi-commands-misc-target.h"
- 
-+void sgx_epc_build_srat(GArray *table_data)
-+{
-+}
-+
- SGXInfo *qmp_query_sgx(Error **errp)
- {
-     error_setg(errp, "SGX support is not compiled in");
 diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
-index 8fef3dd8fa..d04299904a 100644
+index d04299904a..5de5dd0893 100644
 --- a/hw/i386/sgx.c
 +++ b/hw/i386/sgx.c
-@@ -23,6 +23,7 @@
- #include "sysemu/hw_accel.h"
- #include "sysemu/reset.h"
- #include <sys/ioctl.h>
-+#include "hw/acpi/aml-build.h"
+@@ -83,11 +83,13 @@ static uint64_t sgx_calc_section_metric(uint64_t low, uint64_t high)
+            ((high & MAKE_64BIT_MASK(0, 20)) << 32);
+ }
  
- #define SGX_MAX_EPC_SECTIONS            8
- #define SGX_CPUID_EPC_INVALID           0x0
-@@ -36,6 +37,46 @@
+-static uint64_t sgx_calc_host_epc_section_size(void)
++static SGXEPCSectionList *sgx_calc_host_epc_sections(void)
+ {
++    SGXEPCSectionList *head = NULL, **tail = &head;
++    SGXEPCSection *section;
+     uint32_t i, type;
+     uint32_t eax, ebx, ecx, edx;
+-    uint64_t size = 0;
++    uint32_t j = 0;
  
- #define RETRY_NUM                       2
+     for (i = 0; i < SGX_MAX_EPC_SECTIONS; i++) {
+         host_cpuid(0x12, i + 2, &eax, &ebx, &ecx, &edx);
+@@ -101,10 +103,13 @@ static uint64_t sgx_calc_host_epc_section_size(void)
+             break;
+         }
  
-+static int sgx_epc_device_list(Object *obj, void *opaque)
-+{
-+    GSList **list = opaque;
-+
-+    if (object_dynamic_cast(obj, TYPE_SGX_EPC)) {
-+        *list = g_slist_append(*list, DEVICE(obj));
-+    }
-+
-+    object_child_foreach(obj, sgx_epc_device_list, opaque);
-+    return 0;
-+}
-+
-+static GSList *sgx_epc_get_device_list(void)
-+{
-+    GSList *list = NULL;
-+
-+    object_child_foreach(qdev_get_machine(), sgx_epc_device_list, &list);
-+    return list;
-+}
-+
-+void sgx_epc_build_srat(GArray *table_data)
+-        size += sgx_calc_section_metric(ecx, edx);
++        section = g_new0(SGXEPCSection, 1);
++        section->node = j++;
++        section->size = sgx_calc_section_metric(ecx, edx);
++        QAPI_LIST_APPEND(tail, section);
+     }
+ 
+-    return size;
++    return head;
+ }
+ 
+ static void sgx_epc_reset(void *opaque)
+@@ -168,13 +173,35 @@ SGXInfo *qmp_query_sgx_capabilities(Error **errp)
+     info->sgx1 = eax & (1U << 0) ? true : false;
+     info->sgx2 = eax & (1U << 1) ? true : false;
+ 
+-    info->section_size = sgx_calc_host_epc_section_size();
++    info->sections = sgx_calc_host_epc_sections();
+ 
+     close(fd);
+ 
+     return info;
+ }
+ 
++static SGXEPCSectionList *sgx_get_epc_sections_list(void)
 +{
 +    GSList *device_list = sgx_epc_get_device_list();
++    SGXEPCSectionList *head = NULL, **tail = &head;
++    SGXEPCSection *section;
 +
 +    for (; device_list; device_list = device_list->next) {
 +        DeviceState *dev = device_list->data;
 +        Object *obj = OBJECT(dev);
-+        uint64_t addr, size;
-+        int node;
 +
-+        node = object_property_get_uint(obj, SGX_EPC_NUMA_NODE_PROP,
-+                                        &error_abort);
-+        addr = object_property_get_uint(obj, SGX_EPC_ADDR_PROP, &error_abort);
-+        size = object_property_get_uint(obj, SGX_EPC_SIZE_PROP, &error_abort);
-+
-+        build_srat_memory(table_data, addr, size, node, MEM_AFFINITY_ENABLED);
++        section = g_new0(SGXEPCSection, 1);
++        section->node = object_property_get_uint(obj, SGX_EPC_NUMA_NODE_PROP,
++                                                 &error_abort);
++        section->size = object_property_get_uint(obj, SGX_EPC_SIZE_PROP,
++                                                 &error_abort);
++        QAPI_LIST_APPEND(tail, section);
 +    }
 +    g_slist_free(device_list);
++
++    return head;
 +}
 +
- static uint64_t sgx_calc_section_metric(uint64_t low, uint64_t high)
+ SGXInfo *qmp_query_sgx(Error **errp)
  {
-     return (low & MAKE_64BIT_MASK(12, 20)) +
-@@ -226,6 +267,9 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
-         /* set the memdev link with memory backend */
-         object_property_parse(obj, SGX_EPC_MEMDEV_PROP, list->value->memdev,
-                               &error_fatal);
-+        /* set the numa node property for sgx epc object */
-+        object_property_set_uint(obj, SGX_EPC_NUMA_NODE_PROP, list->value->node,
-+                             &error_fatal);
-         object_property_set_bool(obj, "realized", true, &error_fatal);
-         object_unref(obj);
+     SGXInfo *info = NULL;
+@@ -193,14 +220,13 @@ SGXInfo *qmp_query_sgx(Error **errp)
+         return NULL;
      }
-diff --git a/include/hw/i386/sgx-epc.h b/include/hw/i386/sgx-epc.h
-index a6a65be854..581fac389a 100644
---- a/include/hw/i386/sgx-epc.h
-+++ b/include/hw/i386/sgx-epc.h
-@@ -25,6 +25,7 @@
- #define SGX_EPC_ADDR_PROP "addr"
- #define SGX_EPC_SIZE_PROP "size"
- #define SGX_EPC_MEMDEV_PROP "memdev"
-+#define SGX_EPC_NUMA_NODE_PROP "node"
  
- /**
-  * SGXEPCDevice:
-@@ -38,6 +39,7 @@ typedef struct SGXEPCDevice {
+-    SGXEPCState *sgx_epc = &pcms->sgx_epc;
+     info = g_new0(SGXInfo, 1);
  
-     /* public */
-     uint64_t addr;
-+    uint32_t node;
-     HostMemoryBackendEpc *hostmem;
- } SGXEPCDevice;
+     info->sgx = true;
+     info->sgx1 = true;
+     info->sgx2 = true;
+     info->flc = true;
+-    info->section_size = sgx_epc->size;
++    info->sections = sgx_get_epc_sections_list();
  
-@@ -56,6 +58,7 @@ typedef struct SGXEPCState {
- } SGXEPCState;
- 
- bool sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size);
-+void sgx_epc_build_srat(GArray *table_data);
- 
- static inline uint64_t sgx_epc_above_4g_end(SGXEPCState *sgx_epc)
- {
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 9c91bf93e9..2669156b28 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1810,6 +1810,7 @@ void hmp_info_memory_devices(Monitor *mon, const QDict *qdict)
-                                se->id ? se->id : "");
-                 monitor_printf(mon, "  memaddr: 0x%" PRIx64 "\n", se->memaddr);
-                 monitor_printf(mon, "  size: %" PRIu64 "\n", se->size);
-+                monitor_printf(mon, "  node: %" PRId64 "\n", se->node);
-                 monitor_printf(mon, "  memdev: %s\n", se->memdev);
-                 break;
-             default:
-diff --git a/qapi/machine.json b/qapi/machine.json
-index f1839acf20..edeab6084b 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1207,12 +1207,15 @@
- #
- # @memdev: memory backend linked with device
- #
-+# @node: the numa node
-+#
- # Since: 6.2
- ##
- { 'struct': 'SgxEPCDeviceInfo',
-   'data': { '*id': 'str',
-             'memaddr': 'size',
-             'size': 'size',
-+            'node': 'int',
-             'memdev': 'str'
-           }
+     return info;
  }
-@@ -1285,10 +1288,15 @@
- #
- # @memdev: memory backend linked with device
- #
+@@ -208,6 +234,7 @@ SGXInfo *qmp_query_sgx(Error **errp)
+ void hmp_info_sgx(Monitor *mon, const QDict *qdict)
+ {
+     Error *err = NULL;
++    SGXEPCSectionList *section_list, *section;
+     g_autoptr(SGXInfo) info = qmp_query_sgx(&err);
+ 
+     if (err) {
+@@ -222,8 +249,14 @@ void hmp_info_sgx(Monitor *mon, const QDict *qdict)
+                    info->sgx2 ? "enabled" : "disabled");
+     monitor_printf(mon, "FLC support: %s\n",
+                    info->flc ? "enabled" : "disabled");
+-    monitor_printf(mon, "size: %" PRIu64 "\n",
+-                   info->section_size);
++
++    section_list = info->sections;
++    for (section = section_list; section; section = section->next) {
++        monitor_printf(mon, "NUMA node #%" PRId64 ": ",
++                       section->value->node);
++        monitor_printf(mon, "size=%" PRIu64 "\n",
++                       section->value->size);
++    }
+ }
+ 
+ bool sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size)
+diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+index 5aa2b95b7d..1022aa0184 100644
+--- a/qapi/misc-target.json
++++ b/qapi/misc-target.json
+@@ -337,6 +337,21 @@
+   'if': 'TARGET_ARM' }
+ 
+ 
++##
++# @SGXEPCSection:
++#
++# Information about intel SGX EPC section info
++#
 +# @node: the numa node
 +#
++# @size: the size of epc section
++#
++# Since: 6.2
++##
++{ 'struct': 'SGXEPCSection',
++  'data': { 'node': 'int',
++            'size': 'uint64'}}
++
+ ##
+ # @SGXInfo:
+ #
+@@ -350,7 +365,7 @@
+ #
+ # @flc: true if FLC is supported
+ #
+-# @section-size: The EPC section size for guest
++# @sections: The EPC sections info for guest
+ #
  # Since: 6.2
  ##
- { 'struct': 'SgxEPC',
--  'data': { 'memdev': 'str' } }
-+  'data': { 'memdev': 'str',
-+            'node': 'int'
-+          }
-+}
+@@ -359,7 +374,7 @@
+             'sgx1': 'bool',
+             'sgx2': 'bool',
+             'flc': 'bool',
+-            'section-size': 'uint64'},
++            'sections': ['SGXEPCSection']},
+    'if': 'TARGET_I386' }
  
  ##
- # @SgxEPCProperties:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index ae2c6dbbfc..489b58e151 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -127,11 +127,11 @@ SRST
- ERST
- 
- DEF("M", HAS_ARG, QEMU_OPTION_M,
--    "                sgx-epc.0.memdev=memid\n",
-+    "                sgx-epc.0.memdev=memid,sgx-epc.0.node=numaid\n",
-     QEMU_ARCH_ALL)
- 
- SRST
--``sgx-epc.0.memdev=@var{memid}``
-+``sgx-epc.0.memdev=@var{memid},sgx-epc.0.node=@var{numaid}``
-     Define an SGX EPC section.
- ERST
- 
 -- 
 2.33.1
 
