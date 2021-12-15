@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8ED0474F39
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:28:24 +0100 (CET)
-Received: from localhost ([::1]:33564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA953474F41
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 01:30:50 +0100 (CET)
+Received: from localhost ([::1]:40202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxI9f-000208-QW
-	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:28:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52370)
+	id 1mxIC1-0006Vn-WE
+	for lists+qemu-devel@lfdr.de; Tue, 14 Dec 2021 19:30:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHr0-0000UN-HG; Tue, 14 Dec 2021 19:09:06 -0500
-Received: from mail-bn8nam11on2068.outbound.protection.outlook.com
- ([40.107.236.68]:32481 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ id 1mxHrJ-0000n4-W7; Tue, 14 Dec 2021 19:09:26 -0500
+Received: from mail-dm6nam11on2073.outbound.protection.outlook.com
+ ([40.107.223.73]:12957 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mxHqx-0005Jf-0B; Tue, 14 Dec 2021 19:09:05 -0500
+ id 1mxHrH-0005Kn-Rt; Tue, 14 Dec 2021 19:09:25 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mb/QFpPe/Zqt2U1btGnQAqOLTCgf54W5TB/Nui3ZhETg5PDp98oJnAsTUqzUhroqbYZu6OdhVu6YPF1xDcCWx7T4mCwap3eGMwNJ+ZItkKnklch6+5CU2jRnAvMXO8TQybIQhVGh6AaquDo2YUnCKekXW28JsVIE0q0TaXxqhoV0qP5y6l+zEPZWY4RJNyuw7gTT2rD6chU1Kr8dbN6Xz4tKMN+4KNTHx2V5yEn75jcEXyiJBfhcbydtI9mEm16wro9V8H27IEo34Lm/XiiCziwlC5YZrFj+e+FvQ/LfY9V/wddFfkr6OQo1hLLzOlwCHMiuAyBYP0Vg+sggf4i/cQ==
+ b=LT/uZTthpWOYVHuQXSeftcaklFBsyrkkxJ/8jAxzMWXQH6zmw8gZB4NwxABHK0JvsOkDcJezLR8hMm1dTGYndYh4CpnMPx3KW6iFCSdPG9uTWA8Ro1saUYSEeYLcna0mttgX24VIA3TKSXLrcNmethxn2ipHBzNd3USgyErCmpYr5mPQOdhe9FCkrKhAHpHmyjQCVxCRc1fO8N8cp/l9N0COB6taiBdPvLtOXceg9WsSK2JsVucJt7kTlllcekPSCZj/8TZDV5CFbEFQrdSZeGH6BpE3oZnyRaDkupqaOJzrBxXvOT5xbH9dfWhXQGhF5CA9B3stcQ3wBW/uwXxiuw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e7o5PoOj9k4Bu4+LVt0hJRob+/pynn9F2kPl20ynBAM=;
- b=KPe0uNTK8ba862pIqf2WzR/ZX6qkdrZEdIXo5Lbr5tuqJFfbXyXwwRvFPKdFxvMeEW7uScO5VG2kTCabggWBMHfkDYz+HkWhJS3745PGO6p0LzvxhaVkidCrKJZCcI20gMcP6CYmk66PZdVwkVgKc7nu1kY72X6DFJx/R5WfyuSl2keb8n1crhQatbq8Ycm33WnkLx45yup9cJnBlmSiB2lbN2o3e5bo43vFSIJ/RW8X1/yv42gKQriU9L+F0kHA9xyS9LObwiVmacJCvyjCDbM/JAAhXLVuPoqVzRFwVDMv3ZFlO+fv1GJq/vZZ28YPHbXnZ4zmhFXFFKM5ashfug==
+ bh=PilaNm/eLzo+8DV5CCqH2aP8mI7kdYzWft/M9wReY3Y=;
+ b=DwoV/7855wjexq457+Bcaz288h34kUxmrA0gcQh3zhIqpcwrZRKPLaMTyhn89FH9MutqPMb8E7zY+KTalUu5Ctf9F6TyJEC3tLRR2tDfC2FoyajK7+BNVuGyAxNDthPFHxKyk95hos9A1KncMli40XsuiIcz+TQXwr2q1byWfhq/zvZ7pv72nOYu7C7Hs691wgpwaG6ty6E2b0rFJC3iHWfTLtBfNLRoP19X5v8XAqyHShQ+I58AE/o5ez6JpbTV0JNEoHFHbK8j2Sd72Ako9jY0wLGrvd/31td5f6bcCrC1COkS3vy/v2djCDlOtkcrcxELeoO6Nkp2JEKtDZdg6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e7o5PoOj9k4Bu4+LVt0hJRob+/pynn9F2kPl20ynBAM=;
- b=U9pcnIsJVncDFXhn68dBzJ2rHT5PZgnhsSOUwxR6AaxPsRiRbiJSEyqTFX03ff98gk1OFd/MhsIQHyzAhzUOiqyTRNhO1QOBz1GUU220M3R3+62pE93DVIcJis3iD8d3IRCjLd5SpCtet3RPwaOQ8CSTbyHBo735LARO5uePTIg=
-Received: from MW3PR05CA0003.namprd05.prod.outlook.com (2603:10b6:303:2b::8)
- by MN2PR12MB3375.namprd12.prod.outlook.com (2603:10b6:208:cc::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Wed, 15 Dec
- 2021 00:09:00 +0000
-Received: from CO1NAM11FT047.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:2b:cafe::60) by MW3PR05CA0003.outlook.office365.com
- (2603:10b6:303:2b::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.11 via Frontend
- Transport; Wed, 15 Dec 2021 00:09:00 +0000
+ bh=PilaNm/eLzo+8DV5CCqH2aP8mI7kdYzWft/M9wReY3Y=;
+ b=XCXau5rskwDaQKBAN6S9OfvFym58K0/2ttRAq9LixmSVIP8dHdBsXs7q2l303O9CuEyipj6z60j69d46G8YtU/rR61a7AuVDuLtRuQk4YoppwffJMDmidL5Vm7YhqT7PdOALO2FsLvlLNI9EtJy1joCxc7P+rw0/3YLV/i6fmHM=
+Received: from MWHPR10CA0058.namprd10.prod.outlook.com (2603:10b6:300:2c::20)
+ by CY4PR1201MB2533.namprd12.prod.outlook.com (2603:10b6:903:d9::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Wed, 15 Dec
+ 2021 00:09:21 +0000
+Received: from CO1NAM11FT066.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:300:2c:cafe::a8) by MWHPR10CA0058.outlook.office365.com
+ (2603:10b6:300:2c::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.12 via Frontend
+ Transport; Wed, 15 Dec 2021 00:09:21 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,58 +50,57 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1NAM11FT047.mail.protection.outlook.com (10.13.174.132) with Microsoft SMTP
+ CO1NAM11FT066.mail.protection.outlook.com (10.13.175.18) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:08:59 +0000
+ 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 00:09:20 +0000
 Received: from localhost (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 14 Dec
- 2021 18:08:58 -0600
+ 2021 18:09:19 -0600
 From: Michael Roth <michael.roth@amd.com>
 To: <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- <marcel.apfelbaum@gmail.com>, <zuban32s@gmail.com>,
- <jing2.liu@linux.intel.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH 23/47] pci: fix PCI resource reserve capability on BE
-Date: Tue, 14 Dec 2021 18:01:01 -0600
-Message-ID: <20211215000125.378126-24-michael.roth@amd.com>
+CC: <qemu-stable@nongnu.org>, Ani Sinha <ani@anisinha.ca>, "Michael S .
+ Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Subject: [PATCH 24/47] tests/acpi/bios-tables-test: add and allow changes to a
+ new q35 DSDT table blob
+Date: Tue, 14 Dec 2021 18:01:02 -0600
+Message-ID: <20211215000125.378126-25-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215000125.378126-1-michael.roth@amd.com>
 References: <20211215000125.378126-1-michael.roth@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
 X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
  (10.181.40.144)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a18854b8-7bbe-45cc-f464-08d9bf5f182b
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3375:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB33759A2072E092F042D16D1C95769@MN2PR12MB3375.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:586;
+X-MS-Office365-Filtering-Correlation-Id: 64717c27-b7d2-48ce-2578-08d9bf5f24aa
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB2533:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR1201MB25332155F2953AD0D5275F7095769@CY4PR1201MB2533.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:366;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WpJ7MufF/p2Elqzvtw6OKiteYbKnTRmTyCBCM1lCtlQZGYz6NzaCVumTzGPgqwHrZRE3rsch78bPicfz9T860VgikMMeLnC5+0z9DL8eSNiwFKVmBS1iR/EXDuOmL1fIQtDXufYacMHfU7J4J2kjenbJNR1CDp/U5h8RPI7HeSVhSOR640OIGhK6gFmH00tsXy88a9XvZwFX43MwsSFtapNBuH9zkYsRybDjWux5HEgsBbkit3/IH0P76yu+tBCTWonY66FCwWzJf2tFk22SPZPAcftgIDcLf69Z3S7+M/N8XF8YqHecQeVWfb6I+5TQkvkTpxAEgw6iGIkjBUFR+Y9PLdBMxQGRj8Br3RAAvEr0dCZOSiMpbjTIPOHZTKgfjhXkGvhG0R/1DyO6qNw8oqprhXNiNK7uaQMp0insdDZoYmLryCqOjRe5xtbDzTcaXlFEr/59vJ4TG4jN5hVe3fKhqTvCBWAPYNWlhQUG2v60ew9SJutJAGRDrztzbZsrDX6zZXkBCejzKFH/xwXZ9qJrmyxkNrGDbBikiAdU/jcOUD9QIw7EuN8dgb8zDelhEvxRHJB1lDic07b7F8CHU5n1iMTaThzLFPjV4tzzh/3AKR9zk8jRYPz0Xwprizh2rMskWsaBGQ38xrRoLH37kZPdAXBaMS1tzvFbM8JYy+k7O3fz+tfTo9y6ocrjWEjAc665HAy68/ChY8O/1yyDjXtsbgAfqmD6Ar/UUjctxNz6buCD6GCdW2Iyi9AUAB6UGO07Sf1A+9g22LeQrxoeAG2ijedC+lTk9eTcDnbZHec=
+X-Microsoft-Antispam-Message-Info: d8ZIZ0Wv4x0u0Am7vbC52xGdvcgYgq/TBB/cRVSZ6qYer7ggzAH3wc1HQljNDIGpRNvXAzsrfnOLzW0bHBsFABr0m2vUjcMu7N7HhpSMYPt8TlrX380Xrbn43/nyv5qoWk6ualZ/e0wjhpdhGdx8lXlKLgtBvoALBiwj+at1QCKvOtom4bZk4KiIv2nXcLeVXAQee8nX2WFOaasc0ED26U2wexuRwf5P8fmrFTsWwwAMqgQ4aT1msjrNsW4a0IlYy9dvHXBWqFO3BbcesN2asUZ6LKgwMepANSOrUdckAgvOc8zuX/CUTnxBu/2elPP1TuTbtmN517+GS2i0pEFJKIwBEqz82E1Ht29gWNONT6bzV8MCcTJCIx1m+LrzvGmR7YM/5yP1R63NkbKQSbTCL4tHZTTbhOWHV55UEYuigyo26kGBaJJzS0pwyKarhT1+EM1qSZ4kXKlkQ6XIWBIaCMAFx5gGz3mnDIbcS5LtthLO2w0/Rn+Y2JQNiXVbG5KrSnCIPxgLnGoW9G1pkpc2DrpeK1a7cEOnDxVKGEYp1vO9G5ENCSPNjrO/GKpIHNiPZn8Z0S/+ngiITQHfJ4AVQV+IHtK/wJPCtQKohaIWsWJYAYCz89vdwjQgbV0nLx2nFHIh56p5pvh9Dm6IAYQVzQtNBF4K04NXW3LjSwhOhLlIWa+QjHqcnPFDd17aMM/YT4zh1GXucDOlX9QbtIVqEcXX8gg+snaAdFrFzQkHu6Wq9GZKZiEBI0pr7dB8c+EgkqBIjILJ6EWD3dkWVQW8x4HUqfbLsOTX/JbmJ3k93g8=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(40470700001)(426003)(70586007)(36756003)(81166007)(336012)(5660300002)(44832011)(70206006)(36860700001)(82310400004)(83380400001)(8936002)(508600001)(356005)(47076005)(2616005)(2906002)(1076003)(4326008)(8676002)(26005)(86362001)(16526019)(40460700001)(6666004)(6916009)(54906003)(186003)(316002)(36900700001);
+ SFS:(4636009)(46966006)(36840700001)(40470700001)(2616005)(336012)(4326008)(316002)(44832011)(1076003)(86362001)(5660300002)(54906003)(508600001)(426003)(40460700001)(8936002)(36860700001)(70586007)(6916009)(356005)(186003)(70206006)(16526019)(83380400001)(26005)(82310400004)(8676002)(81166007)(2906002)(36756003)(47076005)(6666004)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:08:59.6405 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a18854b8-7bbe-45cc-f464-08d9bf5f182b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 00:09:20.6002 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64717c27-b7d2-48ce-2578-08d9bf5f24aa
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT047.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT066.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3375
-Received-SPF: softfail client-ip=40.107.236.68;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB2533
+Received-SPF: softfail client-ip=40.107.223.73;
  envelope-from=Michael.Roth@amd.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -124,59 +123,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Michael S. Tsirkin" <mst@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
 
-PCI resource reserve capability should use LE format as all other PCI
-things. If we don't then seabios won't boot:
+We are adding a new unit test to cover the acpi hotplug support in q35 for
+multi-function bridges. This test uses a new table DSDT.multi-bridge.
+We need to allow changes in DSDT acpi table for addition of this new
+unit test.
 
-=== PCI new allocation pass #1 ===
-PCI: check devices
-PCI: QEMU resource reserve cap: size 10000000000000 type io
-PCI: secondary bus 1 size 10000000000000 type io
-PCI: secondary bus 1 size 00200000 type mem
-PCI: secondary bus 1 size 00200000 type prefmem
-=== PCI new allocation pass #2 ===
-PCI: out of I/O address space
-
-This became more important since we started reserving IO by default,
-previously no one noticed.
-
-Fixes: e2a6290aab ("hw/pcie-root-port: Fix hotplug for PCI devices requiring IO")
-Cc: marcel.apfelbaum@gmail.com
-Fixes: 226263fb5c ("hw/pci: add QEMU-specific PCI capability to the Generic PCI Express Root Port")
-Cc: zuban32s@gmail.com
-Fixes: 6755e618d0 ("hw/pci: add PCI resource reserve capability to legacy PCI bridge")
-Cc: jing2.liu@linux.intel.com
-Tested-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+Message-Id: <20211007135750.1277213-2-ani@anisinha.ca>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-(cherry picked from commit 0e464f7d993113119f0fd17b890831440734ce15)
+Acked-by: Igor Mammedov <imammedo@redhat.com>
+(cherry picked from commit 6dcb1cc9512c6b4cd8f85abc537abaf6f6c0738b)
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- hw/pci/pci_bridge.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ tests/data/acpi/q35/DSDT.multi-bridge       | 0
+ tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+ 2 files changed, 1 insertion(+)
+ create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
 
-diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
-index 3789c17edc..6a1e8e433c 100644
---- a/hw/pci/pci_bridge.c
-+++ b/hw/pci/pci_bridge.c
-@@ -448,11 +448,11 @@ int pci_bridge_qemu_reserve_cap_init(PCIDevice *dev, int cap_offset,
-     PCIBridgeQemuCap cap = {
-             .len = cap_len,
-             .type = REDHAT_PCI_CAP_RESOURCE_RESERVE,
--            .bus_res = res_reserve.bus,
--            .io = res_reserve.io,
--            .mem = res_reserve.mem_non_pref,
--            .mem_pref_32 = res_reserve.mem_pref_32,
--            .mem_pref_64 = res_reserve.mem_pref_64
-+            .bus_res = cpu_to_le32(res_reserve.bus),
-+            .io = cpu_to_le64(res_reserve.io),
-+            .mem = cpu_to_le32(res_reserve.mem_non_pref),
-+            .mem_pref_32 = cpu_to_le32(res_reserve.mem_pref_32),
-+            .mem_pref_64 = cpu_to_le64(res_reserve.mem_pref_64)
-     };
- 
-     int offset = pci_add_capability(dev, PCI_CAP_ID_VNDR,
+diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..dabc024f53 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,2 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/q35/DSDT.multi-bridge",
 -- 
 2.25.1
 
