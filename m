@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DEF475AC2
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 15:38:32 +0100 (CET)
-Received: from localhost ([::1]:60714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8716B475B0D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 15:51:19 +0100 (CET)
+Received: from localhost ([::1]:57538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxVQM-00052e-CH
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 09:38:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43500)
+	id 1mxVck-0005jf-Ks
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 09:51:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mxUrj-0000zW-B8
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:02:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23451)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mxUrd-0000rc-KF
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:02:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mxUrY-0001SM-NN
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:02:42 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mxUrY-0001SK-N8
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 09:02:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1639576951;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q8wuBbA6KJHFYzEa9NqTny4Vq5gQgwJ925a7MzEvbvw=;
- b=cAExGYtNlYNj79mOh4IP6X5Fa0U2COmgeLKjQJr3JvQEgOdQRRGVQXBfK0kBPLw4pwFEde
- 0sgl5nHBTUWhvqnL1TMlIs9zlw2wZ+S90oKa7Uk5C2Y0Nk1NsJN+9RSj9utUpZRq7fyZSA
- E1RvwSGYk5maWk5YJ+YaRcSaezUMNNc=
+ bh=3VDWlihgIQN1ahbyNL4iqIQ345qkWnfRwEmVyLliHxw=;
+ b=b0cFVNnt2QCfoRv7H7EL4M2Lxl6R2AvgDBMqKmwgeJrIY50Oq1pYgpsqv0S5W1xcYIOoLt
+ anHE2HWtx+UNz8Tl0rzatXheMHUM/iAcvlMsyt5MPeRvdAyKexwrdFQPqgYh3+WgslnRH4
+ /DoDBaNO3qlWNx1M52jokFmgsPCMmUs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-446-xP5W-CnZMdmhUHoeH-HwOw-1; Wed, 15 Dec 2021 09:02:28 -0500
-X-MC-Unique: xP5W-CnZMdmhUHoeH-HwOw-1
+ us-mta-496-waxmmB28OwKyIKh1XTmD2A-1; Wed, 15 Dec 2021 09:02:27 -0500
+X-MC-Unique: waxmmB28OwKyIKh1XTmD2A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 046E38042F8;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09B51101D60D;
  Wed, 15 Dec 2021 14:02:26 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-2.ams2.redhat.com [10.36.112.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AE7A45BD13;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB7B55BD07;
  Wed, 15 Dec 2021 14:02:25 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6B3A21138223; Wed, 15 Dec 2021 15:02:22 +0100 (CET)
+ id 6E9F11138224; Wed, 15 Dec 2021 15:02:22 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/13] hw/arm/xlnx-zcu102: Replace drive_get_next() by
+Subject: [PULL 11/13] hw/arm/xilinx_zynq: Replace drive_get_next() by
  drive_get()
-Date: Wed, 15 Dec 2021 15:02:19 +0100
-Message-Id: <20211215140222.769652-11-armbru@redhat.com>
+Date: Wed, 15 Dec 2021 15:02:20 +0100
+Message-Id: <20211215140222.769652-12-armbru@redhat.com>
 In-Reply-To: <20211215140222.769652-1-armbru@redhat.com>
 References: <20211215140222.769652-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -95,52 +95,78 @@ This lets you define unit numbers implicitly by execution order.  If the
 order changes, or new calls appear "in the middle", unit numbers change.
 ABI break.  Hard to spot in review.
 
-Machine "xlnx-zcu102" connects backends with drive_get_next() in
-several counting loops.  Change it to use drive_get() directly.  This
-makes the unit numbers explicit in the code.
+Machine "xlnx-zcu102" connects backends with drive_get_next() in two
+counting loops, one of them in a helper function.  Change it to use
+drive_get() directly.  This makes the unit numbers explicit in the
+code.
 
-Cc: Alistair Francis <alistair@alistair23.me>
 Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Alistair Francis <alistair@alistair23.me>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-arm@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20211117163409.3587705-11-armbru@redhat.com>
+Message-Id: <20211117163409.3587705-12-armbru@redhat.com>
 Acked-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- hw/arm/xlnx-zcu102.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/arm/xilinx_zynq.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-index 3dc2b5e8ca..45eb19ab3b 100644
---- a/hw/arm/xlnx-zcu102.c
-+++ b/hw/arm/xlnx-zcu102.c
-@@ -169,7 +169,7 @@ static void xlnx_zcu102_init(MachineState *machine)
-     /* Create and plug in the SD cards */
-     for (i = 0; i < XLNX_ZYNQMP_NUM_SDHCI; i++) {
-         BusState *bus;
--        DriveInfo *di = drive_get_next(IF_SD);
-+        DriveInfo *di = drive_get(IF_SD, 0, i);
-         BlockBackend *blk = di ? blk_by_legacy_dinfo(di) : NULL;
-         DeviceState *carddev;
-         char *bus_name;
-@@ -190,7 +190,7 @@ static void xlnx_zcu102_init(MachineState *machine)
-         BusState *spi_bus;
-         DeviceState *flash_dev;
-         qemu_irq cs_line;
--        DriveInfo *dinfo = drive_get_next(IF_MTD);
-+        DriveInfo *dinfo = drive_get(IF_MTD, 0, i);
-         gchar *bus_name = g_strdup_printf("spi%d", i);
+diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+index 69c333e91b..50e7268396 100644
+--- a/hw/arm/xilinx_zynq.c
++++ b/hw/arm/xilinx_zynq.c
+@@ -125,9 +125,10 @@ static void gem_init(NICInfo *nd, uint32_t base, qemu_irq irq)
+     sysbus_connect_irq(s, 0, irq);
+ }
  
-         spi_bus = qdev_get_child_bus(DEVICE(&s->soc), bus_name);
-@@ -212,7 +212,7 @@ static void xlnx_zcu102_init(MachineState *machine)
-         BusState *spi_bus;
-         DeviceState *flash_dev;
-         qemu_irq cs_line;
--        DriveInfo *dinfo = drive_get_next(IF_MTD);
-+        DriveInfo *dinfo = drive_get(IF_MTD, 0, XLNX_ZYNQMP_NUM_SPIS + i);
-         int bus = i / XLNX_ZYNQMP_NUM_QSPI_BUS_CS;
-         gchar *bus_name = g_strdup_printf("qspi%d", bus);
+-static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
+-                                         bool is_qspi)
++static inline int zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
++                                        bool is_qspi, int unit0)
+ {
++    int unit = unit0;
+     DeviceState *dev;
+     SysBusDevice *busdev;
+     SSIBus *spi;
+@@ -156,7 +157,7 @@ static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
+         spi = (SSIBus *)qdev_get_child_bus(dev, bus_name);
  
+         for (j = 0; j < num_ss; ++j) {
+-            DriveInfo *dinfo = drive_get_next(IF_MTD);
++            DriveInfo *dinfo = drive_get(IF_MTD, 0, unit++);
+             flash_dev = qdev_new("n25q128");
+             if (dinfo) {
+                 qdev_prop_set_drive_err(flash_dev, "drive",
+@@ -170,6 +171,7 @@ static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
+         }
+     }
+ 
++    return unit;
+ }
+ 
+ static void zynq_init(MachineState *machine)
+@@ -247,9 +249,9 @@ static void zynq_init(MachineState *machine)
+         pic[n] = qdev_get_gpio_in(dev, n);
+     }
+ 
+-    zynq_init_spi_flashes(0xE0006000, pic[58-IRQ_OFFSET], false);
+-    zynq_init_spi_flashes(0xE0007000, pic[81-IRQ_OFFSET], false);
+-    zynq_init_spi_flashes(0xE000D000, pic[51-IRQ_OFFSET], true);
++    n = zynq_init_spi_flashes(0xE0006000, pic[58 - IRQ_OFFSET], false, 0);
++    n = zynq_init_spi_flashes(0xE0007000, pic[81 - IRQ_OFFSET], false, n);
++    n = zynq_init_spi_flashes(0xE000D000, pic[51 - IRQ_OFFSET], true, n);
+ 
+     sysbus_create_simple(TYPE_CHIPIDEA, 0xE0002000, pic[53 - IRQ_OFFSET]);
+     sysbus_create_simple(TYPE_CHIPIDEA, 0xE0003000, pic[76 - IRQ_OFFSET]);
+@@ -298,7 +300,7 @@ static void zynq_init(MachineState *machine)
+         sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, hci_addr);
+         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[hci_irq - IRQ_OFFSET]);
+ 
+-        di = drive_get_next(IF_SD);
++        di = drive_get(IF_SD, 0, n);
+         blk = di ? blk_by_legacy_dinfo(di) : NULL;
+         carddev = qdev_new(TYPE_SD_CARD);
+         qdev_prop_set_drive_err(carddev, "drive", blk, &error_fatal);
 -- 
 2.31.1
 
