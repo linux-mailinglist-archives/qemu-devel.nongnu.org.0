@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95C34756D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 11:47:36 +0100 (CET)
-Received: from localhost ([::1]:42820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D412347569E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 11:43:14 +0100 (CET)
+Received: from localhost ([::1]:34972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxRos-000518-0r
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 05:47:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38634)
+	id 1mxRkf-00088J-US
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 05:43:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mxRaS-0002wX-Nu
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:32:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47371)
+ id 1mxRaV-0002yb-1q
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:32:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mxRaP-0007HE-4Y
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:32:38 -0500
+ id 1mxRaS-0007Hk-Et
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 05:32:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639564356;
+ s=mimecast20190719; t=1639564358;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0go/oYucwrQb9URjrILXM9UBAkmykahMJxyBmR67KI8=;
- b=bDtjaqSETG+JEufzX70qukzAnrqH5rSr40+/ZIO7oJ6XNmyNLiBu6YqvfglBMqCSPiyGek
- bEQKV9fq/r220U3IXdXbc5tXUkER7Q5DEfmYUPxVAmmXNFBhLejb+HMOSLALZRx4bWm5A7
- 2DiBsKT5kOah64kjhPU9lEXM6aGINAA=
+ bh=ueqG1EF3qxBlRxx0QWcB94/JCSj03U7TM7FSAKTreEA=;
+ b=Vz7o2Vctxyfr19pWRqnWg5/ybE5CQIlxgPPysqvcbyPWx3ANjfJ/BlCpCnouPZiuqkDLY/
+ f3wYJWkcJI2SMNfohC/qxBWmH4wfX7xHaua0oQyM4OfWgoNih/i0tyO8EZ2/AF51wKoTBM
+ EWX6sgyM8ktDlmudh4DzNAsupdBaiU0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-389-W3QkFv4dMZqDtoazhpeJwA-1; Wed, 15 Dec 2021 05:32:33 -0500
-X-MC-Unique: W3QkFv4dMZqDtoazhpeJwA-1
+ us-mta-495-2nRsaIw4OPuWqEwR-42bvA-1; Wed, 15 Dec 2021 05:32:35 -0500
+X-MC-Unique: 2nRsaIw4OPuWqEwR-42bvA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 310DC801962;
- Wed, 15 Dec 2021 10:32:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C75E10144E0;
+ Wed, 15 Dec 2021 10:32:34 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94E3A6E978;
- Wed, 15 Dec 2021 10:32:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9986275C43;
+ Wed, 15 Dec 2021 10:32:32 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/18] migration: Remove is_zero_range()
-Date: Wed, 15 Dec 2021 11:32:05 +0100
-Message-Id: <20211215103218.17527-6-quintela@redhat.com>
+Subject: [PULL 06/18] dump: Remove is_zero_page()
+Date: Wed, 15 Dec 2021 11:32:06 +0100
+Message-Id: <20211215103218.17527-7-quintela@redhat.com>
 In-Reply-To: <20211215103218.17527-1-quintela@redhat.com>
 References: <20211215103218.17527-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -56,8 +56,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -91,44 +91,39 @@ It just calls buffer_is_zero().  Just change the callers.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- migration/ram.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ dump/dump.c | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 2c688f5bbb..57efa67f20 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -81,11 +81,6 @@
- /* 0x80 is reserved in migration.h start with 0x100 next */
- #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
+diff --git a/dump/dump.c b/dump/dump.c
+index 662d0a62cd..a84d8b1598 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -1293,14 +1293,6 @@ static size_t get_len_buf_out(size_t page_size, uint32_t flag_compress)
+     return 0;
+ }
  
--static inline bool is_zero_range(uint8_t *p, uint64_t size)
+-/*
+- * check if the page is all 0
+- */
+-static inline bool is_zero_page(const uint8_t *buf, size_t page_size)
 -{
--    return buffer_is_zero(p, size);
+-    return buffer_is_zero(buf, page_size);
 -}
 -
- XBZRLECacheStats xbzrle_counters;
- 
- /* struct contains XBZRLE cache and a static page
-@@ -1180,7 +1175,7 @@ static int save_zero_page_to_file(RAMState *rs, QEMUFile *file,
-     uint8_t *p = block->host + offset;
-     int len = 0;
- 
--    if (is_zero_range(p, TARGET_PAGE_SIZE)) {
-+    if (buffer_is_zero(p, TARGET_PAGE_SIZE)) {
-         len += save_page_header(rs, file, block, offset | RAM_SAVE_FLAG_ZERO);
-         qemu_put_byte(file, 0);
-         len += 1;
-@@ -3367,7 +3362,7 @@ static inline void *colo_cache_from_block_offset(RAMBlock *block,
-  */
- void ram_handle_compressed(void *host, uint8_t ch, uint64_t size)
+ static void write_dump_pages(DumpState *s, Error **errp)
  {
--    if (ch != 0 || !is_zero_range(host, size)) {
-+    if (ch != 0 || !buffer_is_zero(host, size)) {
-         memset(host, ch, size);
-     }
- }
+     int ret = 0;
+@@ -1357,7 +1349,7 @@ static void write_dump_pages(DumpState *s, Error **errp)
+      */
+     while (get_next_page(&block_iter, &pfn_iter, &buf, s)) {
+         /* check zero page */
+-        if (is_zero_page(buf, s->dump_info.page_size)) {
++        if (buffer_is_zero(buf, s->dump_info.page_size)) {
+             ret = write_cache(&page_desc, &pd_zero, sizeof(PageDescriptor),
+                               false);
+             if (ret < 0) {
 -- 
 2.33.1
 
