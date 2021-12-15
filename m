@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9AF4753AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 08:29:12 +0100 (CET)
-Received: from localhost ([::1]:38634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7C74753A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 08:27:10 +0100 (CET)
+Received: from localhost ([::1]:37494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxOit-0006nj-E3
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 02:29:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46666)
+	id 1mxOgv-00061Q-6B
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 02:27:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mxOW8-0002tF-BB
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:16:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60433)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mxOZc-0004E1-FC
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:19:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mxOW5-0001PH-L3
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:15:58 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mxOZa-0002Tb-HU
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 02:19:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639552556;
+ s=mimecast20190719; t=1639552773;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bWI1RfU9758FRKPbf6VCXOiJAe0rF6hrxrFwHt7oxas=;
- b=X0oVk3dKrkP6fS5vblRYpvzaUwEaUGdR+j1iqp+gD7gyVPjkV0+4IMbBCVrgx4YdSQOZ9r
- yQY+igFgm1OPp5py36AlcPTjFevX6JOkY6n/osqzC6Nag9ZvjLPBozNLoVyr+IrPpkhKcE
- Q2vngYip57Cb7dyPx6ngVxto8Gihti4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+DUrpMIK33zGI+v+zx6USjbVyi2aW8dSmiDjblLWRms=;
+ b=UXccWMiePk05Tt83GpsUAq+Y05rdYjX3fKPB8IELJ5L3lIl8Dl5b+xo71rIlEahhXSI2lo
+ 9tpre8mrh/GQnc6UPfm0hZXfY2FXZdwf09KuX3sWc4bmDM9e4IcFo+S3s24craSHUyRwAV
+ Hy4p3xfrdwod9jhTaeklt1ExjrZljQY=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-475-womRZX8kNna_-c7CA9R-Ew-1; Wed, 15 Dec 2021 02:15:54 -0500
-X-MC-Unique: womRZX8kNna_-c7CA9R-Ew-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92C88612FD;
- Wed, 15 Dec 2021 07:15:53 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-2.ams2.redhat.com [10.36.112.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2942B7E11E;
- Wed, 15 Dec 2021 07:15:52 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B0DCE113865F; Wed, 15 Dec 2021 08:15:50 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v10 2/3] cpu-throttle: implement virtual CPU throttle
-References: <cover.1639479557.git.huangy81@chinatelecom.cn>
- <cover.1639479557.git.huangy81@chinatelecom.cn>
- <671e8a25261262085b998a08ef8dafdcdc9e0ae9.1639479557.git.huangy81@chinatelecom.cn>
-Date: Wed, 15 Dec 2021 08:15:50 +0100
-In-Reply-To: <671e8a25261262085b998a08ef8dafdcdc9e0ae9.1639479557.git.huangy81@chinatelecom.cn>
- (huangy's message of "Tue, 14 Dec 2021 19:07:33 +0800")
-Message-ID: <87bl1inxsp.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-329-bfJQSvh5PIaSCrkob_FPTg-1; Wed, 15 Dec 2021 02:19:32 -0500
+X-MC-Unique: bfJQSvh5PIaSCrkob_FPTg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ v1-20020aa7cd41000000b003e80973378aso19288199edw.14
+ for <qemu-devel@nongnu.org>; Tue, 14 Dec 2021 23:19:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+DUrpMIK33zGI+v+zx6USjbVyi2aW8dSmiDjblLWRms=;
+ b=HNmWuIJv6aP6jVGbVLVN4VRrWubz2m8OcOsNvspUlRL6b4MtYDGoreBHrvwJsknvXg
+ NRNleVK6WX+1uP3uizccRbiPhiRYw4o+4Ivb/qj+xIb2wrC5kN9DCePNjDRBupv29g04
+ mOyWLBXb0ufgyWKWsAw8ktevzV1YaoYAuTunLobSggSaAKIN7lr+Ux6nqfJMeaBXcKxN
+ Ny4Hf32TaPwsxy+dLa1S3fAgE2+znjOiJTWcYTRFfMg9acEA45aZKc7d84ZaevKR8GZo
+ o9ybIow5gdEgH9L0Fz1/O7Yf/ep0YQBVPIoXJTAzSUmFTGoPLuEhPtpXS3mryFLT1+6i
+ ijSw==
+X-Gm-Message-State: AOAM530h3m/MEi3spSHoQgTHPKGfhEl08Nt1U8hh1rSN8M8Ecv2n6XkP
+ rlCt+E2TV6znnX14LOdNWC4jG3bowqCSBYTS6RqBCUETZ8Iy3fl3/8v5VHVnZ++oAsZroPDVUIz
+ JbCdcNlyShIEROQk=
+X-Received: by 2002:a05:6402:1a4f:: with SMTP id
+ bf15mr13503019edb.260.1639552771326; 
+ Tue, 14 Dec 2021 23:19:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxZ7RK4Ln2UEdUD3O7ApO/eRtSpcf+F1b7jYkqs/77wQXA3wlh/Qbf4M/fq1S41LlCBBtKXBg==
+X-Received: by 2002:a05:6402:1a4f:: with SMTP id
+ bf15mr13502998edb.260.1639552771003; 
+ Tue, 14 Dec 2021 23:19:31 -0800 (PST)
+Received: from redhat.com ([2a03:c5c0:207d:b04b:8335:12e0:5819:f7df])
+ by smtp.gmail.com with ESMTPSA id gz10sm337494ejc.38.2021.12.14.23.19.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Dec 2021 23:19:30 -0800 (PST)
+Date: Wed, 15 Dec 2021 02:19:27 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: modify NetdevUserOptions through QMP in QEMU 6 - how?
+Message-ID: <20211215021826-mutt-send-email-mst@kernel.org>
+References: <CABMV8QOQzLRjm1bMTPz66FXOWaO7kYiZOG1G3ZmLHnznxVv1Yg@mail.gmail.com>
+ <007f7313-eeb2-ee6a-ae2e-9341324388c0@redhat.com>
+ <20211214094355-mutt-send-email-mst@kernel.org>
+ <CACGkMEvNyWxo-p3edf7Gdmv0tU8XLxzZfH4hOgzZZvtvNDH+KQ@mail.gmail.com>
+ <f30cf42d-30e9-4529-6531-1ef9d236005a@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <f30cf42d-30e9-4529-6531-1ef9d236005a@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -83,75 +98,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>
+Cc: Alexander Sosedkin <asosedkin@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-discuss@nongnu.org,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-huangy81@chinatelecom.cn writes:
+On Wed, Dec 15, 2021 at 08:03:50AM +0100, Thomas Huth wrote:
+> On 15/12/2021 04.31, Jason Wang wrote:
+> > On Tue, Dec 14, 2021 at 10:53 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > 
+> > > On Mon, Dec 13, 2021 at 09:02:15AM +0100, Thomas Huth wrote:
+> > > >   Hi!
+> > > > 
+> > > > On 10/12/2021 18.02, Alexander Sosedkin wrote:
+> > > > > With QEMU 5 I could totally issue a QMP netdev_add
+> > > > > with the same ID to adjust the NetdevUserOptions I want,
+> > > > > such as restrict or hostfwd. No deleting needed,
+> > > > > just a netdev_add with what I want changed as a param.
+> > > > 
+> > > > I'm a little bit surprised that this worked, since AFAIK there is no code in
+> > > > QEMU to *change* the parameters of a running netdev... likely the code added
+> > > > a new netdev with the same ID, replacing the old one?
+> > > > 
+> > > > > With QEMU 6 it started failing, claiming the ID is already used.
+> > > > > And if I do netdev_del + netdev_add, I just lose connectivity.
+> > > > > What's even stranger, I still see old netdev attached in info network:
+> > > > > 
+> > > > > > netdev_del {'id': 'net0'}
+> > > > > {}
+> > > > > > human-monitor-command {'command-line': 'info network'}
+> > > > > virtio-net-pci.0:
+> > > > > index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:56
+> > > > >    \ net0: index=0,type=user,net=10.0.2.0,restrict=off
+> > > > 
+> > > > I think that's "normal" - there used to be problems in the past that the
+> > > > devices (virtio-net-pci in this case) did not like the netdevs to be removed
+> > > > on the fly. So the netdevs are kept around until you remove the device, too
+> > > > (i.e. issue a device_del for the virtio-net-pci device).
+> > > > 
+> > > > > > netdev_add {'type': 'user', 'id': 'net0', 'restrict': False, 'hostfwd': [{'str': 'tcp:127.0.0.1:58239-:22'}]}
+> > > > > {}
+> > > > > > human-monitor-command {'command-line': 'info network'}
+> > > > > unseal: virtio-net-pci.0:
+> > > > > index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:56
+> > > > >    \ net0: index=0,type=user,net=10.0.2.0,restrict=off
+> > > > > net0: index=0,type=user,net=10.0.2.0,restrict=off
+> > > > > 
+> > > > > What's the correct QMP command sequence to modify NetdevUserOptions?
+> > > > 
+> > > > AFAIK there is no way to modify running netdevs - you'd have to delete the
+> > > > netdev and the device, and then add both again. But I might have missed
+> > > > something here, so I CC:-ed some people who might be more familiar with the
+> > > > details here.
+> > > > 
+> > > >   Thomas
+> > > > 
+> > > > 
+> > > > > Please CC me on replies.
+> > > 
+> > > 
+> > > Wow this really goes to show how wide our feature matrix is.
+> > > 
+> > > Yes it's probably an unintended side effect but yes it
+> > > did work it seems, so we really should not just break it
+> > > without warning.
+> > > 
+> > > 
+> > > Probably this one:
+> > > 
+> > > commit 831734cce6494032e9233caff4d8442b3a1e7fef
+> > > Author: Markus Armbruster <armbru@redhat.com>
+> > > Date:   Wed Nov 25 11:02:20 2020 +0100
+> > > 
+> > >      net: Fix handling of id in netdev_add and netdev_del
+> > > 
+> > > 
+> > > 
+> > > Jason, what is your take here?
+> > 
+> > I might be wrong, but I agree with Thomas. Adding a netdev with the
+> > same ID looks wrong, if it works, it looks like a bug.
+> 
+> It certainly calls for trouble as soon as you try to delete the netdev again
+> - does it delete the first (inactive) instance? Does it delete the second
+> active one? Does it delete both? (Otherwise it will leave a dangling
+> instance behind) ...
+> So if changing netdev parameters on the fly is something that we want, we
+> should implement this properly instead indeed, and not via such an
+> accidental bug.
+> 
+>  Thomas
 
-> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->
-> Setup a negative feedback system when vCPU thread
-> handling KVM_EXIT_DIRTY_RING_FULL exit by introducing
-> throttle_us_per_full field in struct CPUState. Sleep
-> throttle_us_per_full microseconds to throttle vCPU
-> if dirtylimit is enabled.
->
-> Start a thread to track current dirty page rates and
-> tune the throttle_us_per_full dynamically untill current
-> dirty page rate reach the quota.
->
-> Introduce the util function in the header for dirtylimit
-> implementation.
->
-> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
 
-[...]
+Alexander, could you supply a reporoducer so we can check in which
+QEMU versions it worked?
+If it worked for a long time, then even if it was a result of a bug
+it's an accidental ABI and we should not just break it.
 
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index bbfd48c..ac5fa56 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -1850,6 +1850,25 @@
->  { 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
-> =20
->  ##
-> +# @DirtyLimitInfo:
-> +#
-> +# Dirty page rate limit information of virtual CPU.
-> +#
-> +# @cpu-index: index of virtual CPU.
-> +#
-> +# @limit-rate: upper limit of dirty page rate for virtual CPU.
-
-If I understand your code correctly, zero means unlimited.  This is
-undocumented.
-
-In review of v9, I asked to "make @dirty-rate optional, present means
-enable, absent means disable."  Any particular reason for not doing it
-that way?
-
-> +#
-> +# @current-rate: current dirty page rate for virtual CPU.
-> +#
-> +# Since: 7.0
-> +#
-> +##
-> +{ 'struct': 'DirtyLimitInfo',
-> +  'data': { 'cpu-index': 'int',
-> +            'limit-rate': 'int64',
-> +            'current-rate': 'int64' } }
-> +
-> +##
->  # @snapshot-save:
->  #
->  # Save a VM snapshot
-
-[...]
+-- 
+MST
 
 
