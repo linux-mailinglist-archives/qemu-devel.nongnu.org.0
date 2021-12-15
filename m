@@ -2,89 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF9B476142
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 19:58:52 +0100 (CET)
-Received: from localhost ([::1]:56922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C19547614E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Dec 2021 20:03:49 +0100 (CET)
+Received: from localhost ([::1]:42468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxZUJ-0005VV-Uk
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 13:58:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56516)
+	id 1mxZZ6-0006eh-D9
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 14:03:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxYxI-00054z-25
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 13:24:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43012)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxXrI-0006P7-Vj
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 12:14:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxYxG-0007PZ-GH
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 13:24:43 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxXrH-0008W3-F9
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 12:14:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639592682;
+ s=mimecast20190719; t=1639588466;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4mzR8fzIq0zn1fqfmM14R0Bl8uzchpxL44PQBaxe0yI=;
- b=a9TrGpxaDYBP6q1Qdit7+YKpN5gKUl5qIW3H9w3gPD/7Dfdbj8QlAJJ51aUg6d/U6JMQos
- 3PM8qq40vovyj9M8zVI1k0Kh9rnal41Yn0V61w2rRL35P963hsfv0RUor8sxblzIPA6SVO
- SVYaOSHMilKTRFoobXct5cdVYFIxKxQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=D7W8yCdgxujTQXBUcwTQP0YT4WKi+2Bfreyrw9yWArg=;
+ b=Z9NHrm6416+Hyh9mp3F8g4Nk8uVbG8qFcjMWG8x0aCBu8W18lz2Y4CTV48/DKN+d3TjvBh
+ hzNbshVk6xBw037MJzyLhwATQTR0kZFoGp970qho8H8tcdQZ/ezgfxK3MQcAPwCnlD/Bfi
+ CoODnGVpI1ZwnRL8uupzSHiaf5ho18k=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-319-GIwTXlE2PKKVAn-9-yJ19w-1; Wed, 15 Dec 2021 13:24:41 -0500
-X-MC-Unique: GIwTXlE2PKKVAn-9-yJ19w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l4-20020a05600c1d0400b00332f47a0fa3so9353601wms.8
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 10:24:40 -0800 (PST)
+ us-mta-266-gzAcOfkrPlWi1Cq1dbXrDg-1; Wed, 15 Dec 2021 12:14:23 -0500
+X-MC-Unique: gzAcOfkrPlWi1Cq1dbXrDg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n16-20020a05600c3b9000b003331973fdbbso9302547wms.0
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 09:14:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=4mzR8fzIq0zn1fqfmM14R0Bl8uzchpxL44PQBaxe0yI=;
- b=b84KkbnD2GmL/JdFMItaNDW30BvJ8am62kv479VfUarbRrtC/hkNMANgEU0pHklTAm
- ecTZ7XaFYHaFyGexmqTstcHne99XjevZJ1gGZ7dvixiHSwswbzisSJszn3D4AMDVdqJ0
- sF80E/3YXzPtg8XHdglVnXDySHx2rGJs2XkVDQcnhOKiJVciN+DA6MbxHroumZ2OwrOO
- WAZsz4+qaMLJvCDhwqVNlKvqA5QD7IAgmTj2XdLPG5+E4rax1q+aNZJ/A/cW6soUhNsA
- R6tVEY9k4HrxnyhiPhermlvh30cCdys4RFUdMOuw1TyGRr7kZTYbOELdiYboNkiXEzq3
- MyPw==
-X-Gm-Message-State: AOAM530a3AdRSOroovWwjJYn4rdgzHiCgQMkgUm46G1Kb0xJ9d0nB1SF
- I8SoSAWdKB6rqvJJBYIGEZqUxGBxAN/rX4bJkQrKFJMDSO4Cn3TbldsGCyJcZz8Ikm5rJz5QJyT
- EW+ZmBlDmPcA+n60kgPnTPnsCakkBkwmuqSiwhpc+mkgdCxnZ5YAoJt33VZLoT4lQ
-X-Received: by 2002:a05:600c:3489:: with SMTP id
- a9mr1268610wmq.120.1639592679631; 
- Wed, 15 Dec 2021 10:24:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzjDwwBzg4qM9VuIUo4SsY/rYgAnw8MhOpilDb7jMV/eZQPVAVJ9516Umrn+mKP4jElxhqajg==
-X-Received: by 2002:a05:600c:3489:: with SMTP id
- a9mr1268568wmq.120.1639592679356; 
- Wed, 15 Dec 2021 10:24:39 -0800 (PST)
-Received: from localhost.localdomain
- (174.red-83-50-185.dynamicip.rima-tde.net. [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id 8sm3103664wrb.49.2021.12.15.10.24.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 10:24:39 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 2/3] softmmu/physmem: Simplify flatview_write and
- address_space_access_valid
-Date: Wed, 15 Dec 2021 19:24:20 +0100
-Message-Id: <20211215182421.418374-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211215182421.418374-1-philmd@redhat.com>
-References: <20211215182421.418374-1-philmd@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=D7W8yCdgxujTQXBUcwTQP0YT4WKi+2Bfreyrw9yWArg=;
+ b=OZeUF96uDkDNmddoaU9fwY1RvnfptVYVmmXuvYddmt24ScfqswR837bp4I8W1Frces
+ 3l4jL2zEU2ZN4IiSfMKl+a14LO/YYhNCKu2Q1NjCYzpvQDwzDOLhDqrWeGCvCpK8WR6F
+ +INY07BOILx01381UcG5OoNa0i00bIl/7UK9wSrvlX9sVYdCFynrhL+gVMrYlPxyZs4j
+ Xt5muG5WowRk+vEr4W4ANkG33aO7oEHHEcPu1FkTHKKNuE/JU4Ywr56HQ03iQ4z9fNQO
+ 6grbe9vMQeCS9qGscy+/N/p7yrp6fwMITiBhw1OHM2ZPHfJ8Mn/IOmb87AdibKQXUfLv
+ Eb4Q==
+X-Gm-Message-State: AOAM5322zdWZr+3NZlFy6Yfb9eSw16v9mU/51gfakZ5PwBg897zrFvrI
+ IvCllsWuPIq2BUdHkev6dKKAwtzNHUKUW3c36ETLj+fFs6PoVJ7Z/oJodJDFpZMtnl7PvqlWrix
+ aoHUQuFc2inlubu4=
+X-Received: by 2002:adf:c7d2:: with SMTP id y18mr2177897wrg.717.1639588461963; 
+ Wed, 15 Dec 2021 09:14:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxPE4GaZDmaoWlY64T3fyjCJSZhKNFMTTdpWsY2DyYhJBgAiitMM3iwZIKkoYqxDxjYizRQDA==
+X-Received: by 2002:adf:c7d2:: with SMTP id y18mr2177865wrg.717.1639588461750; 
+ Wed, 15 Dec 2021 09:14:21 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id m15sm34071wrw.27.2021.12.15.09.14.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Dec 2021 09:14:21 -0800 (PST)
+Message-ID: <3e160727-eb18-3e7f-1a60-3d143b6bde1f@redhat.com>
+Date: Wed, 15 Dec 2021 18:14:20 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [RFC PATCH v2 3/5] exec/memattrs: Introduce MemTxAttrs::bus_perm
+ field
+To: David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>
+References: <20210823164157.751807-1-philmd@redhat.com>
+ <20210823164157.751807-4-philmd@redhat.com> <YSPr6dN+iKKFlCxy@t490s>
+ <922195af-f70d-eaf6-2aa4-b924f8196076@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <922195af-f70d-eaf6-2aa4-b924f8196076@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ NICE_REPLY_A=-1.64, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,65 +101,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Peter Xu <peterx@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, qemu-devel@nongnu.org,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Alexander Bulekov <alxndr@bu.edu>,
  qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove unuseful local 'result' variables.
+On 8/23/21 21:04, David Hildenbrand wrote:
+> On 23.08.21 20:41, Peter Xu wrote:
+>> On Mon, Aug 23, 2021 at 06:41:55PM +0200, Philippe Mathieu-Daudé wrote:
+>>> +/* Permission to restrict bus memory accesses. See
+>>> MemTxAttrs::bus_perm */
+>>> +enum {
+>>> +    MEMTXPERM_UNSPECIFIED   = 0,
+>>> +    MEMTXPERM_UNRESTRICTED  = 1,
+>>> +    MEMTXPERM_RAM_DEVICE    = 2,
+>>> +};
+>>
+>> Is there a difference between UNSPECIFIED and UNRESTRICTED?
+>>
+>> If no, should we merge them?
+>>
+> 
+> I'd assume MEMTXPERM_UNSPECIFIED has to be treated like
+> MEMTXPERM_UNRESTRICTED, so I'd also think we should just squash them.
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- softmmu/physmem.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+For now they are treated the same way, but ideally we should
+explicitly classify bus accesses and remove the MEMTXPERM_UNSPECIFIED.
 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 007e7526f0a..6c97a20107a 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2815,14 +2815,11 @@ static MemTxResult flatview_write(FlatView *fv, hwaddr addr, MemTxAttrs attrs,
-     hwaddr l;
-     hwaddr addr1;
-     MemoryRegion *mr;
--    MemTxResult result = MEMTX_OK;
- 
-     l = len;
-     mr = flatview_translate(fv, addr, &addr1, &l, true, attrs);
--    result = flatview_write_continue(fv, addr, attrs, buf, len,
--                                     addr1, l, mr);
--
--    return result;
-+    return flatview_write_continue(fv, addr, attrs, buf, len,
-+                                   addr1, l, mr);
- }
- 
- /* Called within RCU critical section.  */
-@@ -3119,12 +3116,10 @@ bool address_space_access_valid(AddressSpace *as, hwaddr addr,
-                                 MemTxAttrs attrs)
- {
-     FlatView *fv;
--    bool result;
- 
-     RCU_READ_LOCK_GUARD();
-     fv = address_space_to_flatview(as);
--    result = flatview_access_valid(fv, addr, len, is_write, attrs);
--    return result;
-+    return flatview_access_valid(fv, addr, len, is_write, attrs);
- }
- 
- static hwaddr
--- 
-2.33.1
+While we can use the same definition with comments, I think having
+different definitions ease maintainance (thinking of git-grep), but
+if we know we will never classify/convert the devices, then indeed
+having MEMTXPERM_UNSPECIFIED is pointless and confusing.
 
 
