@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB98477EEB
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 22:38:29 +0100 (CET)
-Received: from localhost ([::1]:58314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 539FF477E80
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 22:12:06 +0100 (CET)
+Received: from localhost ([::1]:56302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxySK-0006gx-L8
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 16:38:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38292)
+	id 1mxy2n-0000bN-Ep
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 16:12:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLu-0003v2-Lg; Thu, 16 Dec 2021 15:27:46 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39224)
+ id 1mxxLl-0003IL-G7; Thu, 16 Dec 2021 15:27:37 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLo-0007Tz-RN; Thu, 16 Dec 2021 15:27:46 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGJNcTw016323; 
- Thu, 16 Dec 2021 20:26:59 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cyqbjarwr-1
+ id 1mxxLg-0007Rq-Uv; Thu, 16 Dec 2021 15:27:37 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGJIWnb031197; 
+ Thu, 16 Dec 2021 20:27:00 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cys71g2sy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:26:59 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKDCO6019530;
- Thu, 16 Dec 2021 20:26:57 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma06ams.nl.ibm.com with ESMTP id 3cy78ek0r5-1
+ Thu, 16 Dec 2021 20:27:00 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKBqq0016331;
+ Thu, 16 Dec 2021 20:26:58 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma04ams.nl.ibm.com with ESMTP id 3cy7qwatce-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:26:56 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BGKQsbl40829346
+ Thu, 16 Dec 2021 20:26:57 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BGKQtvC37093808
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 20:26:54 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8FE364204B;
- Thu, 16 Dec 2021 20:26:54 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 44A6842045;
+ Thu, 16 Dec 2021 20:26:55 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2D60E4C046;
+ Thu, 16 Dec 2021 20:26:55 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DFE7D4C040;
  Thu, 16 Dec 2021 20:26:54 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Thu, 16 Dec 2021 20:26:54 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.48.122])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 79FD8220238;
- Thu, 16 Dec 2021 21:26:53 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 31BB12201A0;
+ Thu, 16 Dec 2021 21:26:54 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 057/101] target/ppc: Fix MPCxxx FPU interrupt address
-Date: Thu, 16 Dec 2021 21:25:30 +0100
-Message-Id: <20211216202614.414266-58-clg@kaod.org>
+Subject: [PULL 058/101] target/ppc: Remove 603e exception model
+Date: Thu, 16 Dec 2021 21:25:31 +0100
+Message-Id: <20211216202614.414266-59-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211216202614.414266-1-clg@kaod.org>
 References: <20211216202614.414266-1-clg@kaod.org>
@@ -62,17 +63,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: fSzoA1pLQWlyFAm_K_JRJxUtd7V2RiiY
-X-Proofpoint-ORIG-GUID: fSzoA1pLQWlyFAm_K_JRJxUtd7V2RiiY
+X-Proofpoint-ORIG-GUID: m98Z6h22G1IyRkXso73GPh7bB5HgLsPu
+X-Proofpoint-GUID: m98Z6h22G1IyRkXso73GPh7bB5HgLsPu
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- malwarescore=0 bulkscore=0 mlxlogscore=666 impostorscore=0
- lowpriorityscore=0 suspectscore=0 phishscore=0 spamscore=0
- priorityscore=1501 clxscore=1034 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2112160109
+ lowpriorityscore=0
+ mlxlogscore=747 malwarescore=0 clxscore=1034 mlxscore=0 bulkscore=0
+ suspectscore=0 phishscore=0 spamscore=0 impostorscore=0 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112160109
 Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -11
@@ -101,44 +102,104 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Fabiano Rosas <farosas@linux.ibm.com>
 
-The Floating-point Unavailable and Decrementer interrupts are being
-registered at the same 0x900 address. The FPU should be at 0x800
-instead.
+The 603e uses the same exception code as 603 so we don't need a
+dedicated entry for it.
 
-Verified on MPC555, MPC860 and MPC885 user manuals.
+This is only a removal of redundant code, no functional change.
 
-Reported-by: BALATON Zoltan <balaton@eik.bme.hu>
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20211208123029.2052625-2-farosas@linux.ibm.com>
+Message-Id: <20211208123029.2052625-3-farosas@linux.ibm.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/cpu_init.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/ppc/cpu-qom.h     |  2 --
+ target/ppc/cpu_init.c    | 32 ++------------------------------
+ target/ppc/excp_helper.c |  1 -
+ 3 files changed, 2 insertions(+), 33 deletions(-)
 
+diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
+index ef9e32447473..7d299f90c74f 100644
+--- a/target/ppc/cpu-qom.h
++++ b/target/ppc/cpu-qom.h
+@@ -98,8 +98,6 @@ enum powerpc_excp_t {
+     POWERPC_EXCP_602,
+     /* PowerPC 603 exception model      */
+     POWERPC_EXCP_603,
+-    /* PowerPC 603e exception model     */
+-    POWERPC_EXCP_603E,
+     /* PowerPC G2 exception model       */
+     POWERPC_EXCP_G2,
+     /* PowerPC 604 exception model      */
 diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index ed0e2136d9c8..7e61994e3596 100644
+index 7e61994e3596..db065687775d 100644
 --- a/target/ppc/cpu_init.c
 +++ b/target/ppc/cpu_init.c
-@@ -2155,7 +2155,7 @@ static void init_excp_MPC5xx(CPUPPCState *env)
-     env->excp_vectors[POWERPC_EXCP_EXTERNAL] =3D 0x00000500;
-     env->excp_vectors[POWERPC_EXCP_ALIGN]    =3D 0x00000600;
-     env->excp_vectors[POWERPC_EXCP_PROGRAM]  =3D 0x00000700;
--    env->excp_vectors[POWERPC_EXCP_FPU]      =3D 0x00000900;
-+    env->excp_vectors[POWERPC_EXCP_FPU]      =3D 0x00000800;
-     env->excp_vectors[POWERPC_EXCP_DECR]     =3D 0x00000900;
-     env->excp_vectors[POWERPC_EXCP_SYSCALL]  =3D 0x00000C00;
-     env->excp_vectors[POWERPC_EXCP_TRACE]    =3D 0x00000D00;
-@@ -2182,7 +2182,7 @@ static void init_excp_MPC8xx(CPUPPCState *env)
-     env->excp_vectors[POWERPC_EXCP_EXTERNAL] =3D 0x00000500;
-     env->excp_vectors[POWERPC_EXCP_ALIGN]    =3D 0x00000600;
-     env->excp_vectors[POWERPC_EXCP_PROGRAM]  =3D 0x00000700;
--    env->excp_vectors[POWERPC_EXCP_FPU]      =3D 0x00000900;
-+    env->excp_vectors[POWERPC_EXCP_FPU]      =3D 0x00000800;
-     env->excp_vectors[POWERPC_EXCP_DECR]     =3D 0x00000900;
-     env->excp_vectors[POWERPC_EXCP_SYSCALL]  =3D 0x00000C00;
-     env->excp_vectors[POWERPC_EXCP_TRACE]    =3D 0x00000D00;
+@@ -4721,41 +4721,13 @@ POWERPC_FAMILY(603)(ObjectClass *oc, void *data)
+                  POWERPC_FLAG_BE | POWERPC_FLAG_BUS_CLK;
+ }
+=20
+-static void init_proc_603E(CPUPPCState *env)
+-{
+-    register_ne_601_sprs(env);
+-    register_sdr1_sprs(env);
+-    register_603_sprs(env);
+-    /* Time base */
+-    register_tbl(env);
+-    /* hardware implementation registers */
+-    /* XXX : not implemented */
+-    spr_register(env, SPR_HID0, "HID0",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_generic, &spr_write_generic,
+-                 0x00000000);
+-    /* XXX : not implemented */
+-    spr_register(env, SPR_HID1, "HID1",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_generic, &spr_write_generic,
+-                 0x00000000);
+-    /* Memory management */
+-    register_low_BATs(env);
+-    register_6xx_7xx_soft_tlb(env, 64, 2);
+-    init_excp_603(env);
+-    env->dcache_line_size =3D 32;
+-    env->icache_line_size =3D 32;
+-    /* Allocate hardware IRQ controller */
+-    ppc6xx_irq_init(env_archcpu(env));
+-}
+-
+ POWERPC_FAMILY(603E)(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(oc);
+     PowerPCCPUClass *pcc =3D POWERPC_CPU_CLASS(oc);
+=20
+     dc->desc =3D "PowerPC 603e";
+-    pcc->init_proc =3D init_proc_603E;
++    pcc->init_proc =3D init_proc_603;
+     pcc->check_pow =3D check_pow_hid0;
+     pcc->insns_flags =3D PPC_INSNS_BASE | PPC_STRING | PPC_MFTB |
+                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
+@@ -4781,7 +4753,7 @@ POWERPC_FAMILY(603E)(ObjectClass *oc, void *data)
+                     (1ull << MSR_RI) |
+                     (1ull << MSR_LE);
+     pcc->mmu_model =3D POWERPC_MMU_SOFT_6xx;
+-    pcc->excp_model =3D POWERPC_EXCP_603E;
++    pcc->excp_model =3D POWERPC_EXCP_603;
+     pcc->bus_model =3D PPC_FLAGS_INPUT_6xx;
+     pcc->bfd_mach =3D bfd_mach_ppc_ec603e;
+     pcc->flags =3D POWERPC_FLAG_TGPR | POWERPC_FLAG_SE |
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index f1da0e119d6f..1612b9b30e35 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -672,7 +672,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int =
+excp_model, int excp)
+         switch (excp_model) {
+         case POWERPC_EXCP_602:
+         case POWERPC_EXCP_603:
+-        case POWERPC_EXCP_603E:
+         case POWERPC_EXCP_G2:
+             /* Swap temporary saved registers with GPRs */
+             if (!(new_msr & ((target_ulong)1 << MSR_TGPR))) {
 --=20
 2.31.1
 
