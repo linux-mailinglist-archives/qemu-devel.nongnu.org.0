@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7647C477EA9
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 22:21:56 +0100 (CET)
-Received: from localhost ([::1]:48192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CB7477EBC
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 22:27:09 +0100 (CET)
+Received: from localhost ([::1]:57144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxyCJ-0005vc-9H
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 16:21:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38146)
+	id 1mxyHM-0003ao-Pg
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 16:27:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLr-0003hs-La; Thu, 16 Dec 2021 15:27:43 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11736)
+ id 1mxxLr-0003ha-MG; Thu, 16 Dec 2021 15:27:43 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLo-0007Ss-MV; Thu, 16 Dec 2021 15:27:43 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGJ4bjX013802; 
- Thu, 16 Dec 2021 20:27:05 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cype3cksf-1
+ id 1mxxLo-0007TA-NH; Thu, 16 Dec 2021 15:27:43 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGHpBob009955; 
+ Thu, 16 Dec 2021 20:27:06 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cyqbjaryx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:27:05 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKCXvC010876;
+ Thu, 16 Dec 2021 20:27:06 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKC81B028579;
  Thu, 16 Dec 2021 20:27:03 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma05fra.de.ibm.com with ESMTP id 3cy78hj78r-1
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma02fra.de.ibm.com with ESMTP id 3cy7sjt0eg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 16 Dec 2021 20:27:03 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BGKR04U42860948
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BGKR1wG37749000
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 20:27:00 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BF93AAE045;
- Thu, 16 Dec 2021 20:27:00 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 86C7AAE04D;
- Thu, 16 Dec 2021 20:27:00 +0000 (GMT)
+ Thu, 16 Dec 2021 20:27:01 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6CB3711C050;
+ Thu, 16 Dec 2021 20:27:01 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2C49111C04C;
+ Thu, 16 Dec 2021 20:27:01 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 16 Dec 2021 20:27:00 +0000 (GMT)
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 16 Dec 2021 20:27:01 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.48.122])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id DAE782201A0;
- Thu, 16 Dec 2021 21:26:59 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 74DB1220238;
+ Thu, 16 Dec 2021 21:27:00 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 066/101] ppc/ppc405: Change ppc405ep_init() return value
-Date: Thu, 16 Dec 2021 21:25:39 +0100
-Message-Id: <20211216202614.414266-67-clg@kaod.org>
+Subject: [PULL 067/101] ppc/ppc405: Add some address space definitions
+Date: Thu, 16 Dec 2021 21:25:40 +0100
+Message-Id: <20211216202614.414266-68-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211216202614.414266-1-clg@kaod.org>
 References: <20211216202614.414266-1-clg@kaod.org>
@@ -63,17 +63,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: RDCeLb0l-eIyTKR0qr8LofGt75k_7Pua
-X-Proofpoint-ORIG-GUID: RDCeLb0l-eIyTKR0qr8LofGt75k_7Pua
+X-Proofpoint-GUID: LKJUPqDb9KGnVc5HJ76jIlYrs6uMxj14
+X-Proofpoint-ORIG-GUID: LKJUPqDb9KGnVc5HJ76jIlYrs6uMxj14
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=594
- impostorscore=0 phishscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
- bulkscore=0 clxscore=1034 adultscore=0 priorityscore=1501 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112160109
+ mlxscore=0 adultscore=0
+ malwarescore=0 bulkscore=0 mlxlogscore=753 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 spamscore=0
+ priorityscore=1501 clxscore=1034 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2112160109
 Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -11
@@ -95,83 +95,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I will be useful to rework the boot from Linux.
-
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20211206103712.1866296-7-clg@kaod.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Message-Id: <20211206103712.1866296-8-clg@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/ppc405.h        | 2 +-
- hw/ppc/ppc405_boards.c | 6 +++++-
- hw/ppc/ppc405_uc.c     | 4 ++--
- 3 files changed, 8 insertions(+), 4 deletions(-)
+ hw/ppc/ppc405.h        |  7 +++++++
+ hw/ppc/ppc405_boards.c | 16 +++++++---------
+ 2 files changed, 14 insertions(+), 9 deletions(-)
 
 diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-index 4cb77aca5690..ad5f4026b5db 100644
+index ad5f4026b5db..ea48c3626908 100644
 --- a/hw/ppc/ppc405.h
 +++ b/hw/ppc/ppc405.h
-@@ -61,7 +61,7 @@ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ppc4xx=
-_bd_info_t *bd);
- void ppc4xx_plb_init(CPUPPCState *env);
- void ppc405_ebc_init(CPUPPCState *env);
+@@ -27,6 +27,13 @@
 =20
--CPUPPCState *ppc405ep_init(MemoryRegion *address_space_mem,
-+PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
-                         MemoryRegion ram_memories[2],
-                         hwaddr ram_bases[2],
-                         hwaddr ram_sizes[2],
+ #include "hw/ppc/ppc4xx.h"
+=20
++#define PPC405EP_SDRAM_BASE 0x00000000
++#define PPC405EP_NVRAM_BASE 0xF0000000
++#define PPC405EP_FPGA_BASE  0xF0300000
++#define PPC405EP_SRAM_BASE  0xFFF00000
++#define PPC405EP_SRAM_SIZE  (512 * KiB)
++#define PPC405EP_FLASH_BASE 0xFFF80000
++
+ /* Bootinfo as set-up by u-boot */
+ typedef struct ppc4xx_bd_info_t ppc4xx_bd_info_t;
+ struct ppc4xx_bd_info_t {
 diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-index 2ac38c86a643..fcdb6d4cf8a0 100644
+index fcdb6d4cf8a0..60dc81fa4880 100644
 --- a/hw/ppc/ppc405_boards.c
 +++ b/hw/ppc/ppc405_boards.c
-@@ -145,6 +145,7 @@ static void ref405ep_init(MachineState *machine)
-     const char *initrd_filename =3D machine->initrd_filename;
-     char *filename;
-     ppc4xx_bd_info_t bd;
-+    PowerPCCPU *cpu;
-     CPUPPCState *env;
-     DeviceState *dev;
-     SysBusDevice *s;
-@@ -180,8 +181,11 @@ static void ref405ep_init(MachineState *machine)
-     memory_region_init(&ram_memories[1], NULL, "ef405ep.ram1", 0);
-     ram_bases[1] =3D 0x00000000;
-     ram_sizes[1] =3D 0x00000000;
--    env =3D ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
-+
-+    cpu =3D ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
-                         33333333, &uicdev, kernel_filename =3D=3D NULL ?=
- 0 : 1);
-+    env =3D &cpu->env;
-+
+@@ -154,7 +154,6 @@ static void ref405ep_init(MachineState *machine)
+     ram_addr_t bdloc;
+     MemoryRegion *ram_memories =3D g_new(MemoryRegion, 2);
+     hwaddr ram_bases[2], ram_sizes[2];
+-    target_ulong sram_size;
+     long bios_size;
+     //int phy_addr =3D 0;
+     //static int phy_addr =3D 1;
+@@ -187,10 +186,9 @@ static void ref405ep_init(MachineState *machine)
+     env =3D &cpu->env;
+=20
      /* allocate SRAM */
-     sram_size =3D 512 * KiB;
-     memory_region_init_ram(sram, NULL, "ef405ep.sram", sram_size,
-diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index 6806d6be31d5..4ad81695e80a 100644
---- a/hw/ppc/ppc405_uc.c
-+++ b/hw/ppc/ppc405_uc.c
-@@ -1391,7 +1391,7 @@ static void ppc405ep_cpc_init (CPUPPCState *env, cl=
-k_setup_t clk_setup[8],
- #endif
- }
-=20
--CPUPPCState *ppc405ep_init(MemoryRegion *address_space_mem,
-+PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
-                         MemoryRegion ram_memories[2],
-                         hwaddr ram_bases[2],
-                         hwaddr ram_sizes[2],
-@@ -1490,5 +1490,5 @@ CPUPPCState *ppc405ep_init(MemoryRegion *address_sp=
-ace_mem,
-     /* CPU control */
-     ppc405ep_cpc_init(env, clk_setup, sysclk);
-=20
--    return env;
-+    return cpu;
- }
+-    sram_size =3D 512 * KiB;
+-    memory_region_init_ram(sram, NULL, "ef405ep.sram", sram_size,
++    memory_region_init_ram(sram, NULL, "ef405ep.sram", PPC405EP_SRAM_SIZ=
+E,
+                            &error_fatal);
+-    memory_region_add_subregion(sysmem, 0xFFF00000, sram);
++    memory_region_add_subregion(sysmem, PPC405EP_SRAM_BASE, sram);
+     /* allocate and load BIOS */
+ #ifdef USE_FLASH_BIOS
+     dinfo =3D drive_get(IF_PFLASH, 0, 0);
+@@ -230,24 +228,24 @@ static void ref405ep_init(MachineState *machine)
+         }
+     }
+     /* Register FPGA */
+-    ref405ep_fpga_init(sysmem, 0xF0300000);
++    ref405ep_fpga_init(sysmem, PPC405EP_FPGA_BASE);
+     /* Register NVRAM */
+     dev =3D qdev_new("sysbus-m48t08");
+     qdev_prop_set_int32(dev, "base-year", 1968);
+     s =3D SYS_BUS_DEVICE(dev);
+     sysbus_realize_and_unref(s, &error_fatal);
+-    sysbus_mmio_map(s, 0, 0xF0000000);
++    sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
+     /* Load kernel */
+     linux_boot =3D (kernel_filename !=3D NULL);
+     if (linux_boot) {
+         memset(&bd, 0, sizeof(bd));
+-        bd.bi_memstart =3D 0x00000000;
++        bd.bi_memstart =3D PPC405EP_SDRAM_BASE;
+         bd.bi_memsize =3D machine->ram_size;
+         bd.bi_flashstart =3D -bios_size;
+         bd.bi_flashsize =3D -bios_size;
+         bd.bi_flashoffset =3D 0;
+-        bd.bi_sramstart =3D 0xFFF00000;
+-        bd.bi_sramsize =3D sram_size;
++        bd.bi_sramstart =3D PPC405EP_SRAM_BASE;
++        bd.bi_sramsize =3D PPC405EP_SRAM_SIZE;
+         bd.bi_bootflags =3D 0;
+         bd.bi_intfreq =3D 133333333;
+         bd.bi_busfreq =3D 33333333;
 --=20
 2.31.1
 
