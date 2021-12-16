@@ -2,87 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A1B477341
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:36:34 +0100 (CET)
-Received: from localhost ([::1]:53854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1359A47731D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:29:09 +0100 (CET)
+Received: from localhost ([::1]:44018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxqvx-0003K3-VL
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:36:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37432)
+	id 1mxqom-0004es-5R
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:29:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxqhK-0007Np-CI
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:21:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56740)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqjg-0001d8-Ml
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:23:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxqhI-0008Rg-L8
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:21:26 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqjf-0000V0-5t
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:23:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639660884;
+ s=mimecast20190719; t=1639661030;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/GzY8ZQXqYzqjBhsu6pmj6VQA0pIeHk9D4zRzXUj104=;
- b=PH4Gw+umWwuPA6pMmTz9w5aDLQrOuqPV9gZ6QcLqkx9DHVAmh9ZwgYC/V1X0HgFTNxiy44
- YQ0Zs6/EE82sok4r6aL3ggqAM8IPYUqz6pTM6MFn7o19wpXP/QeK1Y9R+qCIN96yeMJq88
- PZRuGT1rGlkNRbdi1Rnrc3hG27CFHVk=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CyqJvCZgSeYqSaSJX8CibDEHflrmsRZgXyVxRI4bC9w=;
+ b=CwhDvcBAG++9iM8DNVdPuWaE1zDwRTihzWjWE9QCmi80RDvP2SF51L/yRlOW96YXMCRLyG
+ UeY26YHuh0eWgEybdcs+NKL7SezQ5kiwxDtxNrl1T36N+LIJDUNfPVvD173acpPGpKRq74
+ TiBeJjRQH1zC+Z2+Q2PYZUEMvF9T3X8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-465-2Qg9ciwmOQ2BDtrY7h7YQg-1; Thu, 16 Dec 2021 08:21:21 -0500
-X-MC-Unique: 2Qg9ciwmOQ2BDtrY7h7YQg-1
-Received: by mail-qt1-f198.google.com with SMTP id
- h20-20020ac85e14000000b002b2e9555bb1so33616181qtx.3
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:21:21 -0800 (PST)
+ us-mta-580-GjD952uANcGlYQtUMIhR5g-1; Thu, 16 Dec 2021 08:23:49 -0500
+X-MC-Unique: GjD952uANcGlYQtUMIhR5g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ n22-20020adf8b16000000b001a22f61b29cso1532014wra.23
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:23:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/GzY8ZQXqYzqjBhsu6pmj6VQA0pIeHk9D4zRzXUj104=;
- b=OAKQqjYIHEP+kHcTvOs7mRUB1SrXrQHIwePIRW4Ow3Wu228W/ebQe2OcsL42S9G1MS
- mQmnlfDPrIbU0/oQI0kvo59ooc+RFhkDO3ktdMeVObi6S1NdijlVn/qDth+b9AXKAsXP
- q9k0u57m2GEYepAAZk6UwFm3F7qWlS780QJ1ycjv/WygzQQprT0NBhaip1bg/MfQBzcv
- FzBAjPrkNFH7KpTI0y4qNWDMEWZFBAlGhinRB2VnJP+pgNAw0A9bOa9PGmFCMXRGZrTW
- HzZI04ClM+SRARRDVeD1dylomZ0IuXxcLzhS9g0K+Nj0QILENZhXoyPBT1plJHEGGZoq
- EbTg==
-X-Gm-Message-State: AOAM532GYx0452PgxYGHjO+d3oJKLd8xFixRglrcX54eq6iBGdBLUEOZ
- 8VIEE1uDPRlzkyy3mf5MK4uidepXUBHmU3uoFUUjJDuNkH4/olXgQ/S7U1+MCnZrAJtn0CBTj1l
- hg2r8qW0A+udX/HQ=
-X-Received: by 2002:a05:6214:c47:: with SMTP id
- r7mr15812162qvj.51.1639660880590; 
- Thu, 16 Dec 2021 05:21:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx1vMpTKARwWSIwPKOxRFMlscF4sgs4UVkruMYj2UcHzJWuQBRqi/9icGx5/LvKeYoWkNCVAg==
-X-Received: by 2002:a05:6214:c47:: with SMTP id
- r7mr15812146qvj.51.1639660880411; 
- Thu, 16 Dec 2021 05:21:20 -0800 (PST)
-Received: from localhost ([181.191.236.130])
- by smtp.gmail.com with ESMTPSA id c22sm4133153qtd.76.2021.12.16.05.21.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 05:21:20 -0800 (PST)
-Date: Thu, 16 Dec 2021 10:21:13 -0300
-From: Beraldo Leal <bleal@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 07/25] python/qmp: switch qemu-ga-client to AQMP
-Message-ID: <20211216132113.33lkasmzkdnu655y@laptop.redhat>
-References: <20211215193939.3768033-1-jsnow@redhat.com>
- <20211215193939.3768033-8-jsnow@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=CyqJvCZgSeYqSaSJX8CibDEHflrmsRZgXyVxRI4bC9w=;
+ b=FQK6PggtIzmGQXPT8IafXGzyXVZ62AZewnZiolrMpBD8uz73eaSXvZi8NpLRekc8OU
+ WHX4ODuF3NRyXEyjC0EpyZH4HEfkzBtvfYCs/FZyYHT6JRXuGvRcqMNOuGYTF/bOaTQ6
+ uGpG1kVAwPs+5C61fs28ImfHibDWHPe6RB+Qt1xPX5ebMGEZrzENEUhV4ltB3PK6SPTK
+ JkXLG59ElxI7tALCQat0U0bvg56gcf/coEd3E5Uc4jVB/bQWQOY7H8gnq30z0EWe48Qq
+ wiIji/3Qk0+zbR9wkpUS+GcAGDqFQE9RIpyR68D3yrH85F+iWCCrnAiHdEPycicOFyiZ
+ Bbpw==
+X-Gm-Message-State: AOAM532Z69DGEYpGCSHe33XGaJ1zAn9WYwI4q3zrZqYqEOjorCHLi/mV
+ 263FKTtSJUPwYP66kiwpsBMJXjklsgCrjLucPAO0nFqmjfVdsUtuvGitGPTWUujq7DVW8IQSoWo
+ 70JQyyHGB2c7NBSk=
+X-Received: by 2002:adf:ee47:: with SMTP id w7mr8929484wro.368.1639661028480; 
+ Thu, 16 Dec 2021 05:23:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw0pZrE8UAnEzkYNzUKEdZI7UorCBUEtSIc0vJdQ5IP2xuM4xyHiliteNSISmnx2WTCkTCiVw==
+X-Received: by 2002:adf:ee47:: with SMTP id w7mr8929467wro.368.1639661028343; 
+ Thu, 16 Dec 2021 05:23:48 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id bg12sm5853557wmb.5.2021.12.16.05.23.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Dec 2021 05:23:47 -0800 (PST)
+Message-ID: <7c4f8cdf-2a8c-35a6-a425-c549de34c9b6@redhat.com>
+Date: Thu, 16 Dec 2021 14:23:46 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211215193939.3768033-8-jsnow@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v4 03/10] hw/core/machine: Wrap target specific parameters
+ together
+To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20211121122502.9844-1-wangyanan55@huawei.com>
+ <20211121122502.9844-4-wangyanan55@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211121122502.9844-4-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=bleal@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.034, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,112 +101,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel Berrange <berrange@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Wainer Moschetta <wainersm@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ wanghaibin.wang@huawei.com, Markus Armbruster <armbru@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 15, 2021 at 02:39:21PM -0500, John Snow wrote:
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/qemu/qmp/qemu_ga_client.py | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
+On 11/21/21 13:24, Yanan Wang wrote:
+> Wrap the CPU target specific parameters together into a single
+> variable, so that we don't need to update the other lines but
+> a single line when new topology parameters are introduced.
+
+Where new params are introduced? Not in this series apparently.
+
+> No functional change intended.
 > 
-> diff --git a/python/qemu/qmp/qemu_ga_client.py b/python/qemu/qmp/qemu_ga_client.py
-> index b3e1d98c9e..15ed430c61 100644
-> --- a/python/qemu/qmp/qemu_ga_client.py
-> +++ b/python/qemu/qmp/qemu_ga_client.py
-> @@ -37,8 +37,8 @@
->  # the COPYING file in the top-level directory.
->  
->  import argparse
-> +import asyncio
->  import base64
-> -import errno
->  import os
->  import random
->  import sys
-> @@ -50,8 +50,8 @@
->      Sequence,
->  )
->  
-> -from qemu import qmp
-> -from qemu.qmp import SocketAddrT
-> +from qemu.aqmp import ConnectError, SocketAddrT
-> +from qemu.aqmp.legacy import QEMUMonitorProtocol
->  
->  
->  # This script has not seen many patches or careful attention in quite
-> @@ -61,7 +61,7 @@
->  # pylint: disable=missing-docstring
->  
->  
-> -class QemuGuestAgent(qmp.QEMUMonitorProtocol):
-> +class QemuGuestAgent(QEMUMonitorProtocol):
->      def __getattr__(self, name: str) -> Callable[..., Any]:
->          def wrapper(**kwds: object) -> object:
->              return self.command('guest-' + name.replace('_', '-'), **kwds)
-> @@ -149,7 +149,7 @@ def ping(self, timeout: Optional[float]) -> bool:
->          self.qga.settimeout(timeout)
->          try:
->              self.qga.ping()
-> -        except TimeoutError:
-> +        except asyncio.TimeoutError:
->              return False
->          return True
->  
-> @@ -172,7 +172,7 @@ def suspend(self, mode: str) -> None:
->          try:
->              getattr(self.qga, 'suspend' + '_' + mode)()
->              # On error exception will raise
-> -        except TimeoutError:
-> +        except asyncio.TimeoutError:
->              # On success command will timed out
->              return
->  
-> @@ -182,7 +182,7 @@ def shutdown(self, mode: str = 'powerdown') -> None:
->  
->          try:
->              self.qga.shutdown(mode=mode)
-> -        except TimeoutError:
-> +        except asyncio.TimeoutError:
->              pass
->  
->  
-> @@ -277,7 +277,7 @@ def _cmd_reboot(client: QemuGuestAgentClient, args: Sequence[str]) -> None:
->  
->  def send_command(address: str, cmd: str, args: Sequence[str]) -> None:
->      if not os.path.exists(address):
-> -        print('%s not found' % address)
-> +        print(f"'{address}' not found. (Is QEMU running?)")
->          sys.exit(1)
->  
->      if cmd not in commands:
-> @@ -287,10 +287,10 @@ def send_command(address: str, cmd: str, args: Sequence[str]) -> None:
->  
->      try:
->          client = QemuGuestAgentClient(address)
-> -    except OSError as err:
-> +    except ConnectError as err:
->          print(err)
-> -        if err.errno == errno.ECONNREFUSED:
-> -            print('Hint: qemu is not running?')
-> +        if isinstance(err.exc, ConnectionError):
-> +            print('(Is QEMU running?)')
->          sys.exit(1)
->  
->      if cmd == 'fsfreeze' and args[0] == 'freeze':
-
-From the Python PoV, LGTM:
-
-Reviewed-by: Beraldo Leal <bleal@redhat.com>
-
---
-Beraldo
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> ---
+>  hw/core/machine-smp.c | 17 ++++++++++-------
+>  1 file changed, 10 insertions(+), 7 deletions(-)
 
 
