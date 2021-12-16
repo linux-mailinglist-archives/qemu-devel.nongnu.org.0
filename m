@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2540B4767A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 03:02:22 +0100 (CET)
-Received: from localhost ([::1]:56772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C4014767A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 03:03:25 +0100 (CET)
+Received: from localhost ([::1]:33854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxg68-00055m-Vc
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 21:02:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50262)
+	id 1mxg7A-0000Cg-CT
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 21:03:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3TZy6YQcKCoQswutwlqowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--komlodi.bounces.google.com>)
- id 1mxg3Z-0003I7-47
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 20:59:41 -0500
-Received: from [2607:f8b0:4864:20::34a] (port=48664
- helo=mail-ot1-x34a.google.com)
+ <3T5y6YQcKCoYuywvynsqyyqvo.myw0ow4-no5ovxyxqx4.y1q@flex--komlodi.bounces.google.com>)
+ id 1mxg5t-0006F3-Pj
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 21:02:06 -0500
+Received: from [2607:f8b0:4864:20::249] (port=36588
+ helo=mail-oi1-x249.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3TZy6YQcKCoQswutwlqowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--komlodi.bounces.google.com>)
- id 1mxg3W-0007Rh-Lf
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 20:59:40 -0500
-Received: by mail-ot1-x34a.google.com with SMTP id
- v13-20020a056830140d00b0055c8421bd62so10715567otp.15
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 17:59:37 -0800 (PST)
+ <3T5y6YQcKCoYuywvynsqyyqvo.myw0ow4-no5ovxyxqx4.y1q@flex--komlodi.bounces.google.com>)
+ id 1mxg5r-0007rY-PD
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 21:02:05 -0500
+Received: by mail-oi1-x249.google.com with SMTP id
+ e3-20020aca3703000000b002c1f9ecb392so8870452oia.3
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 18:02:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=QQN9Ad1Yq1PXKvpv4A5/4edmKsppTSY8pdqUGWCYZGo=;
- b=JKf1dTM61Oh8+25BUatVQcSjvZQgGrik/qq+kMl5XPXShBsYiPRhcumNP4x2bSSovU
- JdyUuNfPjBKkWnG57j3Q/CZ3e1G5PRrT+JJgPPjnBIh/oZuZ/WatD0+a3tBrN0+y90Tn
- J7MxYide1PFQeiZdJlKESpauIgpNXtwo24gF5yd39qb6zWIXW3M5OmI8Y7iPmXyFy+GB
- zCB1h8alDuvoShsXvX8JEuYWwUBTh6x6sWQn45/xxd9L/bhBMpo/vPnsyRZtyFwssAcf
- AueE+rYimdkce+SSRyoxrnTrYXu9WEe3UlDS5qQjKPOuxJGTDu7mFoWdrc9Z164Eud0L
- MfLw==
+ :cc; bh=6qi5FujVcKqpsTRdgntkPSLgLU+R3PZ9Af/Wfz1k8V4=;
+ b=icTy68oIXhSUnegyqXN5M0qvdWpmUiqAXps6OzNYKHTYEKsrFnd2hLJCl+u2bBTwvj
+ nE21B3k9sTHxsUuc85xgehYkmONnHBaFdkQcrKUcGMZXbJOub4I3Xqzf7pm+AmSpHZtc
+ kwx148jjjLb3lCFW9KVOCwg9yUy7ddM0L1AkJWtxGQikF/wA6Cb48U8SzVd4dzVvZMsY
+ flcLxkhQzKuCmWzjeZFkVPIyBVbZhQ6MLKFrQt++S8Bp473Ojj5ctMViz1ll2G29QR4Y
+ 4PK2EOwCaYFA9+Nup9s6FXzgjOIuWUhonXcr2danxHgVi0ZPkpZU14FI6Vi40GsZui7B
+ 4GiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=QQN9Ad1Yq1PXKvpv4A5/4edmKsppTSY8pdqUGWCYZGo=;
- b=WBBoWN33aTxCMmIYas25EfnLlZmKf+TO9lNgw3XcR9t2YWzUYdTOgDlyLsv7jz2Cx9
- HweG/vac3lVhMIKPbSTjlj6QRDRFEE5iRmz3bjDev2PYtrJE74g6AcwKuMdc8P7vJmVQ
- Q05Q+6rENgdbe0PS1syDtzoxYiHu3b3PYKwnE4eCyHOc6c+ZklfGQ3OUdAQi0NhUUFbu
- 8LWHh6JugXibbTQlZ5C26An5mOJy/yr4aweqMSoGDqa0XWuCsBtfEsZ1PJ9rpfpaZ6kr
- RcmlO9aJ0T+0KdJn3nuNnGnB0C4NjexMp/TL3X62J9KYViKoYjNXzsoiT/sSZNuSycsi
- lB3w==
-X-Gm-Message-State: AOAM532P29RVx2rli8a18Yt35Ewue6YkZZfHR7yB8JfNDtmNR3njcLIo
- yCrKXQzYJ/UftIcAnqcXEBV4cdXFYGOMFofC3s8C3fZ6A0goqYJcIWJFiDyemLx7iYBc2LCCIy5
- vjc63b3Zm+SCwTrAnk/84ui3/BFKUn97sIE7QPr1oYQfg7lZuzfIVKhIJiwLC1b8=
-X-Google-Smtp-Source: ABdhPJw5++u6Kwml2mpt3jQTcimpBlVHlrTNVDzlnpEhHOXhdWOL4Y7lWKJjBx9bkXg5SdbAbOOjuIb788Ja
+ bh=6qi5FujVcKqpsTRdgntkPSLgLU+R3PZ9Af/Wfz1k8V4=;
+ b=1Sp074zwfT/fNvjLoYHp5OqpboIfYgmF20TuoO9FLwbWIk13YviqVWMwTIqeFY1iTM
+ ZGq5vmYwDNPj2TvCZCi8HOrsnzSMgnBaVydMwyWiqx9lxhpLA7i6tZCYbjHqahso5sth
+ LQPXv5ydG7i478RAH6x92c2x+qW9zjMdCqDZ095KpnUtDO4OIDniPBme83rSvLGMk4Ti
+ zJPMA49qBFibwl6h10PJRePJceJkWLS2dHSWMc2hc0t4w3oTDd5qTEiqHM4wEl8qW40g
+ 4UhT0KZ/pYKNI2Jc4Ov0BxfAA9uSNQg48xjQJwHZMAp73pjlAj/gA3/IZu91ksMezi0a
+ hMLQ==
+X-Gm-Message-State: AOAM531hHVZZthjvTFIAp+RpXCOvFwgPn3Doqws+eQkV1+7uz8Tfb0EO
+ uq9XCCDXBtHXSs+QZq9zEe3W6GqpadJVGXw/P3GrlQFSYxIYQtnsbRllAMXo15EObriUeaym+bC
+ S4jw0AvL7X27RaCdrFCN9HWUhEOsLVp1MyJBk5+V22A6h65ZE5cFzENqRY+KY1a0=
+X-Google-Smtp-Source: ABdhPJxrTHsG5+2c+sQSlHFBBnUm8KLUXsPGSsDXbA7TYndLV52eCGbryefwyD1JyF6VC3iqLm9TzO67HfTO
 X-Received: from komlodi.c.googlers.com
  ([fda3:e722:ac3:cc00:7f:e700:c0a8:35ee])
- (user=komlodi job=sendgmr) by 2002:a17:90b:128e:: with SMTP id
- fw14mr3231350pjb.173.1639619661681; Wed, 15 Dec 2021 17:54:21 -0800 (PST)
-Date: Thu, 16 Dec 2021 01:54:13 +0000
+ (user=komlodi job=sendgmr) by 2002:a17:90b:4c44:: with SMTP id
+ np4mr3215030pjb.195.1639619663012; Wed, 15 Dec 2021 17:54:23 -0800 (PST)
+Date: Thu, 16 Dec 2021 01:54:14 +0000
 In-Reply-To: <20211216015417.1234812-1-komlodi@google.com>
-Message-Id: <20211216015417.1234812-3-komlodi@google.com>
+Message-Id: <20211216015417.1234812-4-komlodi@google.com>
 Mime-Version: 1.0
 References: <20211216015417.1234812-1-komlodi@google.com>
 X-Mailer: git-send-email 2.34.1.173.g76aa8bc2d0-goog
-Subject: [RFC PATCH 2/6] hw/gpio/gpio_transmitter: Add allowlist
+Subject: [RFC PATCH 3/6] hw/gpio/npcm7xx: Number controllers
 From: Joe Komlodi <komlodi@google.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org, venture@google.com, hskinnemoen@google.com, 
  kfting@nuvoton.com
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::34a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::249
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::34a;
- envelope-from=3TZy6YQcKCoQswutwlqowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--komlodi.bounces.google.com;
- helo=mail-ot1-x34a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::249;
+ envelope-from=3T5y6YQcKCoYuywvynsqyyqvo.myw0ow4-no5ovxyxqx4.y1q@flex--komlodi.bounces.google.com;
+ helo=mail-oi1-x249.google.com
 X-Spam_score_int: -87
 X-Spam_score: -8.8
 X-Spam_bar: --------
@@ -92,238 +92,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To avoid spamming whoever is connected to the chardev any time a pin state
-changes, we'll provide an allowlist so the transmitter only transmits on
-state changes the user cares about.
+For transmitting the GPIO state to the outside world, the GPIO transmitter will
+need to know which controller's state has been updated.
 
-The allowlist is a qdev property that takes in an array of pin numbers
-to pay attention to, and maps it to a relative pin number on a
-controller, assuming each controller has 32-bits of pins.
-
-If no allowlist is specified, we transmit on any pin update.
+To do this, we'll just number each controller at initialization.
 
 Signed-off-by: Joe Komlodi <komlodi@google.com>
 ---
- hw/gpio/google_gpio_transmitter.c         | 122 ++++++++++++++++++++++
- include/hw/gpio/google_gpio_transmitter.h |  20 ++++
- 2 files changed, 142 insertions(+)
+ hw/arm/npcm7xx.c               | 1 +
+ hw/gpio/npcm7xx_gpio.c         | 2 ++
+ include/hw/gpio/npcm7xx_gpio.h | 1 +
+ 3 files changed, 4 insertions(+)
 
-diff --git a/hw/gpio/google_gpio_transmitter.c b/hw/gpio/google_gpio_transmitter.c
-index 3429121ccb..b0331e8f03 100644
---- a/hw/gpio/google_gpio_transmitter.c
-+++ b/hw/gpio/google_gpio_transmitter.c
-@@ -19,6 +19,7 @@
+diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
+index ace21d8943..6a48a9a6d4 100644
+--- a/hw/arm/npcm7xx.c
++++ b/hw/arm/npcm7xx.c
+@@ -595,6 +595,7 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < ARRAY_SIZE(s->gpio); i++) {
+         Object *obj = OBJECT(&s->gpio[i]);
  
- #include "qemu/osdep.h"
- 
-+#include "migration/vmstate.h"
- #include "hw/gpio/google_gpio_transmitter.h"
- #include "hw/qdev-properties-system.h"
- #include "hw/sysbus.h"
-@@ -28,11 +29,36 @@
- 
- #define PACKET_REVISION 0x01
- 
-+static bool google_gpio_tx_check_allowlist(GoogleGPIOTXState *s,
-+                                           uint32_t controller, uint32_t gpios)
-+{
-+    /* If the user didn't give us a list, allow everything */
-+    if (!s->gpio_state_by_ctlr) {
-+        return true;
-+    }
-+
-+    GPIOCtlrState *gs = g_hash_table_lookup(s->gpio_state_by_ctlr, &controller);
-+
-+    if (!gs) {
-+        return false;
-+    }
-+
-+    bool updated = (gs->gpios & gs->allowed) != (gpios & gs->allowed);
-+    /* Update the new state */
-+    gs->gpios = gpios;
-+
-+    return updated;
-+}
-+
- void google_gpio_tx_transmit(GoogleGPIOTXState *s, uint8_t controller,
-                               uint32_t gpios)
- {
-     uint8_t packet[6];
- 
-+    if (!google_gpio_tx_check_allowlist(s, controller, gpios)) {
-+        return;
-+    }
-+
-     packet[0] = PACKET_REVISION;
-     packet[1] = controller;
-     memcpy(&packet[2], &gpios, sizeof(gpios));
-@@ -91,18 +117,112 @@ static int google_gpio_tx_can_receive(void *opaque)
-     return 1;
- }
- 
-+void google_gpio_tx_state_init(GoogleGPIOTXState *s, uint8_t controller,
-+                               uint32_t gpios)
-+{
-+    if (!s->gpio_state_by_ctlr) {
-+        return;
-+    }
-+
-+    GPIOCtlrState *gs = g_hash_table_lookup(s->gpio_state_by_ctlr, &controller);
-+    if (gs) {
-+        gs->gpios = gpios;
-+    }
-+}
-+
-+void google_gpio_tx_allowlist_qdev_init(GoogleGPIOTXState *s,
-+                                        const uint32_t *allowed_pins,
-+                                        size_t num)
-+{
-+    size_t i;
-+    char propname[64];
-+
-+    qdev_prop_set_uint32(DEVICE(s), "len-gpio-allowlist", num);
-+
-+    for (i = 0; i < num; i++) {
-+        snprintf(propname, sizeof(propname), "gpio-allowlist[%zu]", i);
-+        qdev_prop_set_uint32(DEVICE(s), propname, allowed_pins[i]);
-+    }
-+}
-+
-+static void google_gpio_tx_allowlist_init(GoogleGPIOTXState *s)
-+{
-+    size_t i;
-+    GPIOCtlrState *gs;
-+
-+    if (!s->gpio_allowlist) {
-+        return;
-+    }
-+
-+    s->gpio_state_by_ctlr = g_hash_table_new_full(g_int_hash, g_int_equal,
-+                                                  g_free, g_free);
-+
-+    for (i = 0; i < s->gpio_allowlist_sz; i++) {
-+        uint32_t controller = s->gpio_allowlist[i] / 32;
-+        uint32_t pin = (1 << (s->gpio_allowlist[i] % 32));
-+
-+        gs = g_hash_table_lookup(s->gpio_state_by_ctlr, &controller);
-+        if (gs) {
-+            gs->allowed |= pin;
-+        } else {
-+            gs = g_malloc0(sizeof(*gs));
-+            gs->allowed |= pin;
-+            /*
-+             * The hash table relies on a pointer to be the key, so the pointer
-+             * containing the controller num must remain unchanged.
-+             * Because of that, just allocate a new key with the controller num.
-+             */
-+            uint32_t *ctlr = g_memdup(&controller, sizeof(controller));
-+            g_hash_table_insert(s->gpio_state_by_ctlr, ctlr, gs);
-+        }
-+    }
-+}
-+
- static void google_gpio_tx_realize(DeviceState *dev, Error **errp)
- {
-     GoogleGPIOTXState *s = GOOGLE_GPIO_TX(dev);
- 
-+    google_gpio_tx_allowlist_init(s);
-+
-     qemu_chr_fe_set_handlers(&s->chr, google_gpio_tx_can_receive,
-                              google_gpio_tx_receive,
-                              google_gpio_tx_event,
-                              NULL, OBJECT(s), NULL, true);
- }
- 
-+static void google_gpio_tx_finalize(Object *obj)
-+{
-+    GoogleGPIOTXState *s = GOOGLE_GPIO_TX(obj);
-+
-+    g_hash_table_destroy(s->gpio_state_by_ctlr);
-+    g_free(s->gpio_allowlist);
-+}
-+
-+static int google_gpio_tx_post_load(void *opaque, int version_id)
-+{
-+    GoogleGPIOTXState *s = GOOGLE_GPIO_TX(opaque);
-+
-+    google_gpio_tx_allowlist_init(s);
-+    return 0;
-+}
-+
-+static const VMStateDescription vmstate_google_gpio_tx = {
-+    .name = "gpio_transmitter",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .post_load = google_gpio_tx_post_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_VARRAY_UINT32(gpio_allowlist, GoogleGPIOTXState,
-+                              gpio_allowlist_sz, 0, vmstate_info_uint32,
-+                              uint32_t),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static Property google_gpio_properties[] = {
-     DEFINE_PROP_CHR("gpio-chardev", GoogleGPIOTXState, chr),
-+    DEFINE_PROP_ARRAY("gpio-allowlist", GoogleGPIOTXState, gpio_allowlist_sz,
-+                      gpio_allowlist, qdev_prop_uint32, uint32_t),
-     DEFINE_PROP_END_OF_LIST(),
++        object_property_set_uint(obj, "controller-num", i, &error_abort);
+         object_property_set_uint(obj, "reset-pullup",
+                                  npcm7xx_gpio[i].reset_pu, &error_abort);
+         object_property_set_uint(obj, "reset-pulldown",
+diff --git a/hw/gpio/npcm7xx_gpio.c b/hw/gpio/npcm7xx_gpio.c
+index 3376901ab1..5075f61b3b 100644
+--- a/hw/gpio/npcm7xx_gpio.c
++++ b/hw/gpio/npcm7xx_gpio.c
+@@ -387,6 +387,8 @@ static const VMStateDescription vmstate_npcm7xx_gpio = {
  };
  
-@@ -112,6 +232,7 @@ static void google_gpio_tx_class_init(ObjectClass *klass, void *data)
+ static Property npcm7xx_gpio_properties[] = {
++    /* The GPIO controller number (out of 8) */
++    DEFINE_PROP_UINT8("controller-num", NPCM7xxGPIOState, controller_num, 0),
+     /* Bit n set => pin n has pullup enabled by default. */
+     DEFINE_PROP_UINT32("reset-pullup", NPCM7xxGPIOState, reset_pu, 0),
+     /* Bit n set => pin n has pulldown enabled by default. */
+diff --git a/include/hw/gpio/npcm7xx_gpio.h b/include/hw/gpio/npcm7xx_gpio.h
+index b1d771bd77..b065bba1c5 100644
+--- a/include/hw/gpio/npcm7xx_gpio.h
++++ b/include/hw/gpio/npcm7xx_gpio.h
+@@ -35,6 +35,7 @@ typedef struct NPCM7xxGPIOState {
+     uint32_t reset_pd;
+     uint32_t reset_osrc;
+     uint32_t reset_odsc;
++    uint8_t  controller_num;
  
-     dc->desc = "Google GPIO Controller Transmitter";
-     dc->realize = google_gpio_tx_realize;
-+    dc->vmsd = &vmstate_google_gpio_tx;
-     device_class_set_props(dc, google_gpio_properties);
- }
+     MemoryRegion mmio;
  
-@@ -120,6 +241,7 @@ static const TypeInfo google_gpio_tx_types[] = {
-         .name = TYPE_GOOGLE_GPIO_TRANSMITTER,
-         .parent = TYPE_SYS_BUS_DEVICE,
-         .instance_size = sizeof(GoogleGPIOTXState),
-+        .instance_finalize = google_gpio_tx_finalize,
-         .class_init = google_gpio_tx_class_init,
-     },
- };
-diff --git a/include/hw/gpio/google_gpio_transmitter.h b/include/hw/gpio/google_gpio_transmitter.h
-index fa7d7b3b77..ddc3561372 100644
---- a/include/hw/gpio/google_gpio_transmitter.h
-+++ b/include/hw/gpio/google_gpio_transmitter.h
-@@ -34,13 +34,33 @@ typedef enum {
-     GPIOTXCODE_UNKNOWN_VERSION = 0xe1,
- } GoogleGPIOTXCode;
- 
-+typedef struct {
-+    uint32_t gpios;
-+    uint32_t allowed;
-+} GPIOCtlrState;
-+
- typedef struct {
-     SysBusDevice parent;
- 
-+    GHashTable *gpio_state_by_ctlr;
-+    uint32_t *gpio_allowlist;
-+    uint32_t gpio_allowlist_sz;
-+
-     CharBackend chr;
- } GoogleGPIOTXState;
- 
- void google_gpio_tx_transmit(GoogleGPIOTXState *s, uint8_t controller,
-                              uint32_t gpios);
-+/*
-+ * If using an allowlist, this function should be called by the GPIO controller
-+ * to set an initial state of the controller's GPIO pins.
-+ * Otherwise all pins will be assumed to have an initial state of 0.
-+ */
-+void google_gpio_tx_state_init(GoogleGPIOTXState *s, uint8_t controller,
-+                               uint32_t gpios);
- 
-+/* Helper function to be called to initialize the allowlist qdev properties */
-+void google_gpio_tx_allowlist_qdev_init(GoogleGPIOTXState *s,
-+                                        const uint32_t *allowed_pins,
-+                                        size_t num);
- #endif /* GOOGLE_GPIO_TRANSMITTER_H */
 -- 
 2.34.1.173.g76aa8bc2d0-goog
 
