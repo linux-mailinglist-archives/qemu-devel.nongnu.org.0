@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0935F4772DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:15:00 +0100 (CET)
-Received: from localhost ([::1]:55888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA40477301
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:19:19 +0100 (CET)
+Received: from localhost ([::1]:60402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxqb4-0001QA-D8
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:14:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54780)
+	id 1mxqfG-0004is-0f
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:19:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mxqJz-0004Pk-Hv
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 07:57:19 -0500
-Received: from [2a00:1450:4864:20::429] (port=34398
- helo=mail-wr1-x429.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mxqJx-00024U-GJ
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 07:57:18 -0500
-Received: by mail-wr1-x429.google.com with SMTP id s1so9922760wrg.1
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 04:57:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=vUOhw4MzPwlig/N3h9CCxcN2gmPc08bdlgxkafnqUgo=;
- b=E4S4E3RwqueMqpSdyCAQ+HbnEZkibMjOu0KdB9wbyVrLpxZWYVBbdIkKhKGg8y8ife
- e+EYttbbFNR2g0l0BCzpFSfkYo1DeQ4saojltJ4QDzWXmmTysH2TheWnxSfWFqVkz27q
- k6+aycqTrQKuSFRfDx0MlacWIe9xUJslIiz+2hopc3EDadFtcWPvobI7On+fVMthmpiw
- HjLOPe93gex7hLQqIzyiKocuAtMeuOSXgXCMhQh6dwjxCeq9rspcN824V0ZMn8rsKyT0
- rCQSYLwc/Pa9lwT8pJ15nJPuq77SZ+N2DKjXmgGhT40L/CgPs4IHVihcZEhGmy4/m88k
- rrCw==
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxqcL-0002re-7l
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:16:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20384)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxqcG-0006wZ-91
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:16:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639660568;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uOC6naAZHyotOBROzybQtHxV3pzPo8s9wyZfsr5xv9s=;
+ b=YfXL9w5usU82Xkdllq9UtWVlxh6M9//gy9IfOhmYLBsc60BAGMeLQ1mqgno720TEm93ViC
+ Nj/uaabdPYAzZk/kbFj5JPLwA0dQK9gKADrAgahFi7leLUSUUIWiDRtiadN9UPUbrWLgSi
+ TDw0TEG/cCYpbPrwNHvI4VIMyO3gYiY=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-629-AicMk1aqPYyMTxih6oGSOw-1; Thu, 16 Dec 2021 08:16:07 -0500
+X-MC-Unique: AicMk1aqPYyMTxih6oGSOw-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ 12-20020a05621420cc00b00410c7826fc6so6801928qve.19
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:16:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=vUOhw4MzPwlig/N3h9CCxcN2gmPc08bdlgxkafnqUgo=;
- b=32i4MvbwE8y7BppKAGOikGV56Zbl54fblT1VYPj5ME64bOp33DkvFzMNV5HtPGLeYS
- FNvGIH4wZFqocHiUu+MHZt5b63fA6wXWgpZBH83xJ9zblG1qLgZpyc/qMK6gEp8gr1Qj
- 3Dc0g+JhXL4x+lbOw+U0CvFTHyFBVASykTvN0y3hrfDjZxi+UMoeDMle53bxjxxtjqS2
- DxcgybLdUrs5o1BJiM9ydBQycgiS0Ypp9DXmWtkUUH5GG14wPk2O5RfkGljQfZFcVIDv
- 350rcJfdOarFESaeYfy/IoDH26Gl+awjnnnAOU/R1R5+Q1QwVM4IQzqWcjNIVQMnNTNo
- N2lw==
-X-Gm-Message-State: AOAM531aUcnj/NVphJJh6GOfdbirSJG7D6MkJrmRR/XRIf48ClaLYvVW
- elhs+qpd0yOeyXCoDyhJ0pkJuHoVQXWqtg==
-X-Google-Smtp-Source: ABdhPJz84xaJz5LkOvWXjXLI6KzZkMV6FYoseogY5khkKU42nVV0li8kxoKbIeVS6Wij+FBiNGSQNg==
-X-Received: by 2002:adf:9e49:: with SMTP id v9mr8720680wre.469.1639659436184; 
- Thu, 16 Dec 2021 04:57:16 -0800 (PST)
-Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
- [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id w25sm4993533wmk.20.2021.12.16.04.57.15
+ bh=uOC6naAZHyotOBROzybQtHxV3pzPo8s9wyZfsr5xv9s=;
+ b=DY7OKz+cTyhPWiQmu2YG6yIEpyjB9X9eWE/4KbZ6+U1dlJkcHhLdbTCcAjpESUM8QQ
+ tTY6ZN6QlVVTnJPSTCEnJyB8N0sQ//kAT9v9EqYDyZZCho1PkOev4/Kh6CIUEFUxgRIX
+ vLazWjt2IJmkjXrzS1yTs1R2dbwsgLp6yC9IGx/DAkKgw/+chFabghaXdZONzJo6f/Ms
+ 99XbUp+4O8VvNEqmQuCUWHQALEtdnCNZsYrdsplheJzoRxVIpGKr7EK+lyu5fTlHLdb1
+ J4QIPpnr7KlIWa4sT8JFMhNJiZcyEOoh0bdeCKvah54pkw2/3Vfm7ntHGrkR6pQCfOTE
+ bKZg==
+X-Gm-Message-State: AOAM532rlEYD+LT+Ik0JVCOXrixlDVtDqzYqkzmmLtPdmm9ErZ1HJ52u
+ rmRfR+f4Q4nVngsVPUC3Y4NKxdhYDKBDVfkiNfq8suoP5WzegEpI41hqmyQz+Z5HxtCh3EGsNfi
+ WeHjinW0J8n6/eqA=
+X-Received: by 2002:a05:6214:2682:: with SMTP id
+ gm2mr11382711qvb.2.1639660566635; 
+ Thu, 16 Dec 2021 05:16:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy1O54yiIVTggBvq2B0mEBCOGw4Nm/HUEkCckMg+/USs56CNjogltlq5orOLeSVT1EOt7KLag==
+X-Received: by 2002:a05:6214:2682:: with SMTP id
+ gm2mr11382685qvb.2.1639660566410; 
+ Thu, 16 Dec 2021 05:16:06 -0800 (PST)
+Received: from localhost ([181.191.236.130])
+ by smtp.gmail.com with ESMTPSA id x4sm4234067qtw.44.2021.12.16.05.16.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 04:57:15 -0800 (PST)
-Date: Thu, 16 Dec 2021 12:56:53 +0000
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 31/33] tests/acpi: add test case for VIOT
-Message-ID: <Ybs3lb7rZ0lP1I/N@myrica>
-References: <20211215104049.2030475-1-peter.maydell@linaro.org>
- <20211215104049.2030475-32-peter.maydell@linaro.org>
- <54ed293c-9f7a-f82d-7a6d-35d51eb45b77@linaro.org>
- <YbsNoEUfJRsqtKmF@myrica>
- <CAFEAcA_T-_bouEcfxydBmXUts4-rhUW4cb3KU=x-7WRgJM4smA@mail.gmail.com>
+ Thu, 16 Dec 2021 05:16:05 -0800 (PST)
+Date: Thu, 16 Dec 2021 10:16:03 -0300
+From: Beraldo Leal <bleal@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 04/25] python/aqmp: add SocketAddrT to package root
+Message-ID: <20211216131603.tsomctdifr6qcru3@laptop.redhat>
+References: <20211215193939.3768033-1-jsnow@redhat.com>
+ <20211215193939.3768033-5-jsnow@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20211215193939.3768033-5-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA_T-_bouEcfxydBmXUts4-rhUW4cb3KU=x-7WRgJM4smA@mail.gmail.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=bleal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,62 +95,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel Berrange <berrange@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Wainer Moschetta <wainersm@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 16, 2021 at 11:28:04AM +0000, Peter Maydell wrote:
-> On Thu, 16 Dec 2021 at 09:58, Jean-Philippe Brucker
-> <jean-philippe@linaro.org> wrote:
-> >
-> > On Wed, Dec 15, 2021 at 04:59:10PM -0800, Richard Henderson wrote:
-> > > On 12/15/21 2:40 AM, Peter Maydell wrote:
-> > > > From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > > >
-> > > > Add two test cases for VIOT, one on the q35 machine and the other on
-> > > > virt. To test complex topologies the q35 test has two PCIe buses that
-> > > > bypass the IOMMU (and are therefore not described by VIOT), and two
-> > > > buses that are translated by virtio-iommu.
-> > > >
-> > > > Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> > > > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> > > > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > > > Message-id: 20211210170415.583179-7-jean-philippe@linaro.org
-> > > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > > > ---
-> > > >   tests/qtest/bios-tables-test.c | 38 ++++++++++++++++++++++++++++++++++
-> > > >   1 file changed, 38 insertions(+)
-> > >
-> > > I should have been more careful while applying.  The aarch64 host failure
-> > > for this is not transient as I first assumed:
-> > >
-> > > PASS 5 qtest-aarch64/bios-tables-test /aarch64/acpi/virt/oem-fields
-> > > qemu-system-aarch64: kvm_init_vcpu: kvm_arch_init_vcpu failed (0): Invalid argument
-> > > Broken pipe
-> > > ERROR qtest-aarch64/bios-tables-test - too few tests run (expected 6, got 5)
-> > > make: *** [Makefile.mtest:312: run-test-37] Error 1
-> >
-> > I'm guessing adding "tcg_only = true", like all other virt machine tests
-> > in this file, should work around this, but I don't really understand the
-> > problem because I can't reproduce it on my aarch64 host (I'm running
-> > "configure --target-list=aarch64-softmmu" followed by "make -j10
-> > check-qtest V=1" in a loop)
+On Wed, Dec 15, 2021 at 02:39:18PM -0500, John Snow wrote:
+> It's a commonly needed definition, it can be re-exported by the root.
 > 
-> What host are you testing on? The test case explicitly asks
-> for "-cpu cortex-a57", so it is only going to work with KVM
-> on hosts with a Cortex-A57.
-
-Ah yes that is it, I'm running AMD Seattle which has 8 Cortex-A57. Sorry
-about this
-
-Thanks,
-Jean
-
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/qemu/aqmp/__init__.py | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 > 
-> Richard: given I'm off work for Christmas now, if Jean-Philippe's
-> suggested fix fixes this are you OK with just applying it directly
-> to un-break the CI ?
-> 
-> thanks
-> -- PMM
+> diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
+> index 880d5b6fa7..c6fa2dda58 100644
+> --- a/python/qemu/aqmp/__init__.py
+> +++ b/python/qemu/aqmp/__init__.py
+> @@ -26,7 +26,12 @@
+>  from .error import AQMPError
+>  from .events import EventListener
+>  from .message import Message
+> -from .protocol import ConnectError, Runstate, StateError
+> +from .protocol import (
+> +    ConnectError,
+> +    Runstate,
+> +    SocketAddrT,
+> +    StateError,
+> +)
+>  from .qmp_client import ExecInterruptedError, ExecuteError, QMPClient
+>  
+>  
+> @@ -48,4 +53,7 @@
+>      'ConnectError',
+>      'ExecuteError',
+>      'ExecInterruptedError',
+> +
+> +    # Type aliases
+> +    'SocketAddrT',
+>  )
+
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
+
+--
+Beraldo
+
 
