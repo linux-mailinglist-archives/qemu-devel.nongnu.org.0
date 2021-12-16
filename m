@@ -2,80 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E884E4778FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 17:28:40 +0100 (CET)
-Received: from localhost ([::1]:48740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B20C477924
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 17:33:40 +0100 (CET)
+Received: from localhost ([::1]:51220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxtcV-00008E-Ug
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 11:28:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57526)
+	id 1mxthK-00023V-OX
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 11:33:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxtbJ-0007ia-FI
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:27:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51581)
+ (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
+ id 1mxtbX-0007sT-Gq
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:27:39 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:48646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxtbH-0004Bp-Qm
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:27:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639672039;
+ (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
+ id 1mxtbU-0004DM-Ms
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:27:38 -0500
+Received: from smtpclient.apple (unknown [172.17.10.10])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 8781F20775;
+ Thu, 16 Dec 2021 16:27:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1639672053;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vXO3DHnhua7Z/Jj2XFftDl7jqw8Xq35n6R+MffOvD0I=;
- b=NZyisFwTrZDNuNS9kvB/nREf1MBjDGcvMnIV2mE66RNayVq8U2qY0o12y9CHz/FEbu4e53
- Xnyva4J7cjJxQYU/iE/Uko61JfeVULchSlIpjUss/N8l0hIYmaKpBHvjOWA4uZL97KGcXW
- HFUA0/9kFTZ1ULgVwc7oWxGLKaMfJQE=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-530-xebYswPgP_ieXfKgwFmDxQ-1; Thu, 16 Dec 2021 11:27:16 -0500
-X-MC-Unique: xebYswPgP_ieXfKgwFmDxQ-1
-Received: by mail-ua1-f72.google.com with SMTP id
- q12-20020a9f2b4c000000b002ddac466f76so15812072uaj.12
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 08:27:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vXO3DHnhua7Z/Jj2XFftDl7jqw8Xq35n6R+MffOvD0I=;
- b=QgLLuQ5G3he43vU4zxlTCWMS07Eefln9PI0quZzj/4AS8Yb9xSYTSNFKmk8zDZKois
- Mpd1PMFfZrxUJqAfnnreOA4lZp3rJpwbJkGc4n+UmW5rGzqcuAgQY/WQ5tEMXJKj9duD
- hwmwIALbUTl9CtQVV7nOe7D0yhf2YnqqwIhys3hozoq2n5AlTQEuOZ3AcB56hi3GeK9T
- d2tVZ09Ik2HRK9bxxd7ifEhL7x8+pknvPBSkk0CsBVsiw6P8rNu/luAfmLCI7Q07nrtL
- KNrzMvxSFSMITZdDAbSACb65A7+tYM4zdTr1h/nZXxJm+Pan41or9g+3ixzpuleYkZYU
- 366A==
-X-Gm-Message-State: AOAM530vcrOj/1Jz13VysM5qDmp/QE1ciquqyl04GVT3rZDlvcn8w0s9
- utrGdc37R33tth1O5bjL1urieHZNuuml4M7EYVva6B4MjQJ2t2hg4dBuE92S5lhQx33PrOMUWUj
- Rv3AV8NHtPb5Yi5JLTJPcrnNmPU80LSs=
-X-Received: by 2002:a67:d78c:: with SMTP id q12mr6191744vsj.35.1639672035766; 
- Thu, 16 Dec 2021 08:27:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwgJbT1kceDaFkf5csMta9Pe6/Od1osGg64xPNttcrGNJ0uyCT2BuC00uJSGZ03LvnyctK/IQbb9mS/lBgFvsA=
-X-Received: by 2002:a67:d78c:: with SMTP id q12mr6191735vsj.35.1639672035567; 
- Thu, 16 Dec 2021 08:27:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20211215193939.3768033-1-jsnow@redhat.com>
- <YbsaCNlzcnQUOcza@redhat.com>
-In-Reply-To: <YbsaCNlzcnQUOcza@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 16 Dec 2021 11:27:04 -0500
-Message-ID: <CAFn=p-ansvqEOwrbqTkRuTSyQsuhUeWbf5N1bicfn5n-sK7H4g@mail.gmail.com>
-Subject: Re: [PATCH v2 00/25] Python: delete synchronous qemu.qmp package
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000003a804505d345e572"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ bh=oWd0kM7H+Xlq6zXd+TfuVp9c1h1zeJ9XpWY3TnjLvh8=;
+ b=BspVi/Gskdrs1PZGWtwvxl8+6+Tdf7juOH6g6T1qx68gvy8wQnhli3eCmGiU8Ckja36GyA
+ zdf+YTpXZnjrTKPIYO4ApC75SqimJVCXhmTCNXdLB2KzdAHcwDUUzk3PCdjDdSYJeNJDEj
+ eEssDOXufdfcrFY7lx2HrwRYyqlhT6g=
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.20.0.1.32\))
+Subject: Re: Redesign of QEMU startup & initial configuration
+From: Mark Burton <mark.burton@greensocs.com>
+In-Reply-To: <YbtmJKN4PMheMElx@redhat.com>
+Date: Thu, 16 Dec 2021 17:27:33 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <FFD798FB-EFA1-470D-95CE-E645D0F0158E@greensocs.com>
+References: <87mtl88t0j.fsf@dusky.pond.sub.org>
+ <a31201bb-78de-e926-1476-b48b008745c1@redhat.com>
+ <878rwozfqm.fsf@dusky.pond.sub.org>
+ <16cd5683-4f97-d24c-dd19-24febcab7ba8@redhat.com>
+ <877dc7tnjf.fsf@dusky.pond.sub.org>
+ <da52f408-6037-20a9-78a9-77f12d86f620@redhat.com>
+ <875yroyhih.fsf@dusky.pond.sub.org>
+ <8dd178b7-631b-25b4-4f68-334b0d583f72@redhat.com>
+ <YbteCdJDt8B95sfj@redhat.com>
+ <FA6AC81F-1101-42CD-B3FB-54E4F81CF60D@greensocs.com>
+ <YbtmJKN4PMheMElx@redhat.com>
+To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
+X-Mailer: Apple Mail (2.3693.20.0.1.32)
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=mark.burton@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,109 +74,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Beraldo Leal <bleal@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Wainer Moschetta <wainersm@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003a804505d345e572
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Dec 16, 2021 at 5:51 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
-
-> On Wed, Dec 15, 2021 at 02:39:14PM -0500, John Snow wrote:
-> > GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-qmp-legacy-switc=
-h
-> > CI: https://gitlab.com/jsnow/qemu/-/pipelines/430491195
-> >
-> > Hi, this series is part of an effort to publish the qemu.qmp package on
-> > PyPI. It is the first of three series to complete this work:
-> >
-> > --> (1) Switch the new Async QMP library in to python/qemu/qmp
-> >     (2) Fork python/qemu/qmp out into its own repository,
-> >         with updated GitLab CI/CD targets to build packages.
-> >     (3) Update qemu.git to install qemu.qmp from PyPI,
-> >         and then delete python/qemu/qmp.
->
-> What timeframe are you suggesting step (3) for ?
->
->
-Roughly around when (2) happens; I don't want to maintain the same code in
-two different places.
 
 
-> In the series for (2) you're calling it version 0.0.1 indicating
-> it is liable to  have API incompatible changes.
->
+>>=20
+>> Totally agree on this (of course).
+>>=20
+>> Thats why I=E2=80=99m here - I care about the people who care about =
+emulation  :-)
+>>=20
+>> In general, what we are working on is exactly the ability to service =
+the =E2=80=98complex=E2=80=99 emulation use case. No CLI, nor single =
+=E2=80=98config=E2=80=99 file will be good enough, in all cases we will =
+need to drive directly into QMP.
+>=20
+> Can you clarify when you say 'what we are working on' here who & what
+> are you refering to ? Something Greensocs is developing or am I
+> mis-interpreting ?
 
-Yes. (We can pin to version 0.0.1 in-tree and bump it manually when
-required.)
+Yes - on behalf of Edgar and others.
+There are various Device tree (or device tree like) syntaxes that people =
+want to use to =E2=80=98configure=E2=80=99 a machine. A typical use case =
+could potentially also include =E2=80=98CLI=E2=80=99 features as well =
+for users to select files or whatever. (Wether that CLI is interpreted =
+by QEMU or another mechanism isn=E2=80=99t very important).
+Equally, GreenSocs itself would also like a =E2=80=98cleaner=E2=80=99 =
+way to =E2=80=98instantiate=E2=80=99 QEMU within a different simulation =
+environment - for that, we want to strip off the startup and essentially =
+provide our own (hence Paolo=E2=80=99s rather simple code is very =
+appealing). So those are 2 use cases we care about on our side.
 
+Cheers
+Mark
 
-> For step (3), either we're going to have to fetch a precise
-> version number to avoid risk of API breakage, or we're going
-> to have to call it stable in (2) and commit to the API.
->
-
-Pinning is what I'd prefer, I have some changes in mind that may require
-some API changes, so I'd rather not call it stable yet.
-
---0000000000003a804505d345e572
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 16, 2021 at 5:51 AM Danie=
-l P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redh=
-at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Wed, Dec 15, 2021 at 02:39:14PM -0500, John Snow wrote:<br>
-&gt; GitLab: <a href=3D"https://gitlab.com/jsnow/qemu/-/commits/python-qmp-=
-legacy-switch" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/jsno=
-w/qemu/-/commits/python-qmp-legacy-switch</a><br>
-&gt; CI: <a href=3D"https://gitlab.com/jsnow/qemu/-/pipelines/430491195" re=
-l=3D"noreferrer" target=3D"_blank">https://gitlab.com/jsnow/qemu/-/pipeline=
-s/430491195</a><br>
-&gt; <br>
-&gt; Hi, this series is part of an effort to publish the qemu.qmp package o=
-n<br>
-&gt; PyPI. It is the first of three series to complete this work:<br>
-&gt; <br>
-&gt; --&gt; (1) Switch the new Async QMP library in to python/qemu/qmp<br>
-&gt;=C2=A0 =C2=A0 =C2=A0(2) Fork python/qemu/qmp out into its own repositor=
-y,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with updated GitLab CI/CD targets to =
-build packages.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0(3) Update qemu.git to install qemu.qmp from PyPI,<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0and then delete python/qemu/qmp.<br>
-<br>
-What timeframe are you suggesting step (3) for ?<br>
-<br></blockquote><div><br></div><div>Roughly around when (2) happens; I don=
-&#39;t want to maintain the same code in two different places.<br></div><di=
-v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-In the series for (2) you&#39;re calling it version 0.0.1 indicating<br>
-it is liable to=C2=A0 have API incompatible changes.<br></blockquote><div><=
-br></div><div>Yes. (We can pin to version 0.0.1 in-tree and bump it manuall=
-y when required.)<br></div><div>=C2=A0<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">
-For step (3), either we&#39;re going to have to fetch a precise<br>
-version number to avoid risk of API breakage, or we&#39;re going<br>
-to have to call it stable in (2) and commit to the API.<br></blockquote><di=
-v><br></div><div>Pinning is what I&#39;d prefer, I have some changes in min=
-d that may require some API changes, so I&#39;d rather not call it stable y=
-et.<br></div><div>=C2=A0</div></div></div>
-
---0000000000003a804505d345e572--
+>=20
+> Regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    =
+https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            =
+https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    =
+https://www.instagram.com/dberrange :|
+>=20
 
 
