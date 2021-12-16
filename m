@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C79476E16
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9FD476E17
 	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 10:48:36 +0100 (CET)
-Received: from localhost ([::1]:33716 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:33626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxnNL-0007FZ-Bu
+	id 1mxnNL-0007CK-ML
 	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 04:48:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51268)
+Received: from eggs.gnu.org ([209.51.188.92]:51270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxnJu-0004LV-B0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxnJu-0004LZ-BC
  for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:45:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57950)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxnJq-0001KV-4v
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxnJr-0001Kq-UR
  for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:45:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639647897;
+ s=mimecast20190719; t=1639647899;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nNijh0j14IXrFAhUPvLrmPRgcHlgDJ2ynjAxSWO21+E=;
- b=V3BNs5SbzVy8wTGhhw2K7TT8xTigh3jstTw2GVwg25ZW9bk6ehSvmwEXXNcF4cG6oWgSbr
- 1YPFMPkrp5Iml4cx/Yg1Nrhvxi3lntBq4ddxFavcdGcAuB0/wxjCjNoi81uYpW/c0RVJL3
- YA3mTbt7RXoEMM9EUh34KBKZ1+szgUs=
+ bh=+heNAJzBYcQqUJv+wZFkrIwF3MqprZmh+dNG1wNntR4=;
+ b=Tj5TVtEJOkZooSTWmN6xIilbQPuo/Awvsrc+HoRzjbQjVYTtP3eznmA4jymk+/MFO2X/xt
+ 3/Z/10BXerVpvvNikfqgogqc5pwST0GJsGJIsunuKrAbqSzJXrg+jGkPZkAG6+OySB62jK
+ 3aPd0Da0h+1MchH2kgQreizzoof+qcM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-mekszwF5MTyag_RB7pA6Fw-1; Thu, 16 Dec 2021 04:44:53 -0500
-X-MC-Unique: mekszwF5MTyag_RB7pA6Fw-1
+ us-mta-15-oSabtK-yMzCTPtT9xRQY-g-1; Thu, 16 Dec 2021 04:44:54 -0500
+X-MC-Unique: oSabtK-yMzCTPtT9xRQY-g-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B468D1934105;
- Thu, 16 Dec 2021 09:44:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C810A81EE60;
+ Thu, 16 Dec 2021 09:44:52 +0000 (UTC)
 Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 76DE110A403A;
- Thu, 16 Dec 2021 09:44:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0839710A403A;
+ Thu, 16 Dec 2021 09:44:51 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/8] s390: kvm: adjust diag318 resets to retain data
-Date: Thu, 16 Dec 2021 10:44:40 +0100
-Message-Id: <20211216094447.58496-2-thuth@redhat.com>
+Subject: [PULL 2/8] MAINTAINERS: update email address of Christian Borntraeger
+Date: Thu, 16 Dec 2021 10:44:41 +0100
+Message-Id: <20211216094447.58496-3-thuth@redhat.com>
 In-Reply-To: <20211216094447.58496-1-thuth@redhat.com>
 References: <20211216094447.58496-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -77,75 +77,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- Collin Walling <walling@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Janosch Frank <frankja@linux.ibm.com>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Collin Walling <walling@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
 
-The CPNC portion of the diag318 data is erroneously reset during an
-initial CPU reset caused by SIGP. Let's go ahead and relocate the
-diag318_info field within the CPUS390XState struct such that it is
-only zeroed during a clear reset. This way, the CPNC will be retained
-for each VCPU in the configuration after the diag318 instruction
-has been invoked.
+My borntraeger@de.ibm.com email is just a forwarder to the
+linux.ibm.com address. Let us remove the extra hop to avoid
+a potential source of errors.
 
-The s390_machine_reset code already takes care of zeroing the diag318
-data on VM resets, which also cover resets caused by diag308.
+While at it, add the relevant email addresses to mailmap.
 
-Fixes: fabdada9357b ("s390: guest support for diagnose 0x318")
-Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Signed-off-by: Collin Walling <walling@linux.ibm.com>
-Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Christian Borntraeger <borntraeger@linux.ibm.com>
-Message-Id: <20211117152303.627969-1-walling@linux.ibm.com>
+Signed-off-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+Message-Id: <20211126102449.287524-1-borntraeger@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/cpu.h     | 4 ++--
- target/s390x/kvm/kvm.c | 4 ++++
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ .mailmap    | 1 +
+ MAINTAINERS | 6 +++---
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index ca3845d023..a75e559134 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -63,6 +63,8 @@ struct CPUS390XState {
-     uint64_t etoken;       /* etoken */
-     uint64_t etoken_extension; /* etoken extension */
+diff --git a/.mailmap b/.mailmap
+index 8beb2f95ae..c45d1c5301 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -50,6 +50,7 @@ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
+ Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
++Christian Borntraeger <borntraeger@linux.ibm.com> <borntraeger@de.ibm.com>
+ Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+ Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
+ Greg Kurz <groug@kaod.org> <gkurz@linux.vnet.ibm.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7543eb4d59..0644ba2b4a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -393,7 +393,7 @@ F: target/ppc/kvm.c
  
-+    uint64_t diag318_info;
-+
-     /* Fields up to this point are not cleared by initial CPU reset */
-     struct {} start_initial_reset_fields;
+ S390 KVM CPUs
+ M: Halil Pasic <pasic@linux.ibm.com>
+-M: Christian Borntraeger <borntraeger@de.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
+ S: Supported
+ F: target/s390x/kvm/
+ F: target/s390x/ioinst.[ch]
+@@ -1527,7 +1527,7 @@ S390 Machines
+ -------------
+ S390 Virtio-ccw
+ M: Halil Pasic <pasic@linux.ibm.com>
+-M: Christian Borntraeger <borntraeger@de.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
+ S: Supported
+ F: hw/char/sclp*.[hc]
+ F: hw/char/terminal3270.c
+@@ -1541,7 +1541,7 @@ T: git https://github.com/borntraeger/qemu.git s390-next
+ L: qemu-s390x@nongnu.org
  
-@@ -118,8 +120,6 @@ struct CPUS390XState {
-     uint16_t external_call_addr;
-     DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
- 
--    uint64_t diag318_info;
--
- #if !defined(CONFIG_USER_ONLY)
-     uint64_t tlb_fill_tec;   /* translation exception code during tlb_fill */
-     int tlb_fill_exc;        /* exception number seen during tlb_fill */
-diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-index 5b1fdb55c4..6acf14d5ec 100644
---- a/target/s390x/kvm/kvm.c
-+++ b/target/s390x/kvm/kvm.c
-@@ -1585,6 +1585,10 @@ void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info)
-         env->diag318_info = diag318_info;
-         cs->kvm_run->s.regs.diag318 = diag318_info;
-         cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
-+        /*
-+         * diag 318 info is zeroed during a clear reset and
-+         * diag 308 IPL subcodes.
-+         */
-     }
- }
- 
+ S390-ccw boot
+-M: Christian Borntraeger <borntraeger@de.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
+ M: Thomas Huth <thuth@redhat.com>
+ S: Supported
+ F: hw/s390x/ipl.*
 -- 
 2.27.0
 
