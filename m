@@ -2,62 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766C8477AA2
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 18:33:18 +0100 (CET)
-Received: from localhost ([::1]:54524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2CEB477ABE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 18:36:47 +0100 (CET)
+Received: from localhost ([::1]:60800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxud3-0002mS-DR
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 12:33:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46772)
+	id 1mxugQ-00076I-DB
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 12:36:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxual-0001GC-De; Thu, 16 Dec 2021 12:30:56 -0500
-Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201]:52151)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxuc1-0002VK-9J
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 12:32:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxuad-0000Ud-TA; Thu, 16 Dec 2021 12:30:51 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.51])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id CA73521DCC;
- Thu, 16 Dec 2021 17:30:37 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 16 Dec
- 2021 18:30:36 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G00313a1b285-ff0a-465d-89a8-25b18a7d8924,
- C4E9F14F77021FCD78381261BFC7BBA46F2BB44E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <09a593f8-a0fc-4971-5e69-b915ee9d724d@kaod.org>
-Date: Thu, 16 Dec 2021 18:30:35 +0100
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxuby-0001PF-Dt
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 12:32:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639675929;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZZuTPWzW+w0Y/JTYd3jlwmaSu5H4c3+tVUbbscNEZaQ=;
+ b=N3BNQnGg6mgDtrHWJtNji/SeQ57T6qzT/6qowoMeJu6GoKx37dp/l0xGhK/pz8CL+aHzJ0
+ wr2UaxHj0O3RDH15XjQ4C6beciNZSw/SYo6fqCvEazpi24bi7gSjxa5zcMTa4T8YbsJ/fa
+ IONmPCM6/LtSapcuvkCWwMtzATejkKc=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-537-hOq79ACEPuyHyqbH8G9RXw-1; Thu, 16 Dec 2021 12:32:06 -0500
+X-MC-Unique: hOq79ACEPuyHyqbH8G9RXw-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ j194-20020a1f23cb000000b00302c74a4262so12348422vkj.11
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 09:32:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZZuTPWzW+w0Y/JTYd3jlwmaSu5H4c3+tVUbbscNEZaQ=;
+ b=C4d6Xq1pKDGpGCRlhZ0mBcx6dOdK+W2+7hjLCRQ0oXdgzVDe+jG6RxSsX+MivBVDLX
+ sfbjnVUWi93hpqLY6XTJGVm58gBZ/fdTpW2U4JQZKoj/LpG9L8bXSFK5dPFgD1UAo1UF
+ hcIX1wpgc4b4Z+iCw2RdowzvjBi8mR33Tpg7FgBS6pHxllFeeONF3dCz1ArBW5fVgeZT
+ bLc0xhMI3FxHSKGDKdrSbcDD0qYMDXloMtpJrV6qwZZ8mKPjyr2XvcZB9vs13qEYNSGp
+ NTD+ub+yoGUQuj7pF5FVNrqlA1xFc+Hyd3VvniaZ59F0kDo9S11wp9MU0cMGfujNXnvl
+ DVCA==
+X-Gm-Message-State: AOAM530bxydevyxPkDeTiF/8HwM7SWuXAmjO81a8mGCcMl/iJ3ZzB+J7
+ NZsCNVGy97Sa00UmJwyK1p6ZYnusnC4+h5XHoMSapyT71wixs2lXTb4CRuDXzFqpFjFOhsVxMDx
+ HuIHQb8+IJ0whMAT31+xg+1MlHQHDwQU=
+X-Received: by 2002:ab0:298f:: with SMTP id u15mr4173827uap.79.1639675925399; 
+ Thu, 16 Dec 2021 09:32:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzpue8hqWW0JsZvBu9eF4ZpMzAg+ulrE2RkpqTl6vfFEuMTvwgotVibu6TQM9+TnfzOWs9hW5QHRKRmYNbPgiM=
+X-Received: by 2002:ab0:298f:: with SMTP id u15mr4173810uap.79.1639675925218; 
+ Thu, 16 Dec 2021 09:32:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 1/3] ppc: Add QOM interface for machine check injection
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <20211013214042.618918-1-clg@kaod.org>
- <20211013214042.618918-2-clg@kaod.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20211013214042.618918-2-clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: c4632d9e-620b-43e6-bec1-3342479c5323
-X-Ovh-Tracer-Id: 8628052463135001452
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrleeggddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
- helo=4.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.034,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211215193939.3768033-1-jsnow@redhat.com>
+ <20211215193939.3768033-4-jsnow@redhat.com>
+ <YbsSm3JUHvPAnyTx@redhat.com>
+In-Reply-To: <YbsSm3JUHvPAnyTx@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 16 Dec 2021 12:31:54 -0500
+Message-ID: <CAFn=p-ZkVW+Znu9jD1UqWb1mCp+fnP1hC_XXf0PDvby=g8xZaA@mail.gmail.com>
+Subject: Re: [PATCH v2 03/25] python/aqmp: copy type definitions from qmp
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000011dbdc05d346cdd7"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,237 +90,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, Nicholas Piggin <npiggin@gmail.com>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Beraldo Leal <bleal@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Wainer Moschetta <wainersm@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/13/21 23:40, Cédric Le Goater wrote:
-> From: Nicholas Piggin <npiggin@gmail.com>
-> 
-> This implements a machine check injection framework and defines a
-> 'mce' monitor command for ppc.
-> 
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> [ clg: - moved definition under "hw/ppc/mce.h"
->         - renamed to PPCMceInjection
->         - simplified injection call in hmp_mce
->         - QMP support ]
-> Message-Id: <20200325144147.221875-4-npiggin@gmail.com>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+--00000000000011dbdc05d346cdd7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Dec 16, 2021 at 5:19 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+wrote:
 
-I did not initially copy the QAPI and HMP maintainers :/
+> On Wed, Dec 15, 2021 at 02:39:17PM -0500, John Snow wrote:
+> > Copy the remaining type definitions from QMP into the qemu.aqmp.legacy
+> > module. Now, most users don't need to import anything else but
+> > qemu.aqmp.legacy.
+>
+> I'm probably missing the historical discussion but it feels very
+> wierd to be saying
+>
+>    "most users don't need anything except  <something> legacy"
+>
+> Naively, I'd expect most users to want something *not* legacy.
+>
+>
+> Regards,
+> Daniel
+>
 
-One important question is about the stability of the API. MCE is
-implementation specific and may change with CPUs. How much of it
-can we change once it is merged ? May be this is not the right
-approach.
+The legacy.py module is a wrapper that pretends to be the
+QEMUMonitorProtocol class written by Luiz Capitulino. It exists as a
+synchronous wrapper around the async core. However, it's not a design that
+I think actually makes sense long-term for the library as a standalone
+project, so I named it legacy to intuit that it's providing compatibility
+for an older interface.
 
+The goal is to eventually remove it in favor of a sync.py that has a sync
+interface that's more closely aligned to the async core. I've got a series
+for this, but I wanted to pursue this tree-wide switcheroo first.
 
-Thanks,
+As for the phrasing, I suppose I mean: "most users [that need the legacy
+interface] don't need to import both the old interface AND the legacy
+wrapper that mimics it, they can just import the legacy wrapper."
 
-C.
+--00000000000011dbdc05d346cdd7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->   qapi/misc-target.json | 26 ++++++++++++++++++++
->   include/hw/ppc/mce.h  | 31 ++++++++++++++++++++++++
->   target/ppc/monitor.c  | 56 +++++++++++++++++++++++++++++++++++++++++++
->   hmp-commands.hx       | 20 +++++++++++++++-
->   4 files changed, 132 insertions(+), 1 deletion(-)
->   create mode 100644 include/hw/ppc/mce.h
-> 
-> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-> index 594fbd1577fa..b1456901893c 100644
-> --- a/qapi/misc-target.json
-> +++ b/qapi/misc-target.json
-> @@ -394,3 +394,29 @@
->   #
->   ##
->   { 'command': 'query-sgx-capabilities', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
-> +
-> +##
-> +# @mce:
-> +#
-> +# This command injects a machine check exception
-> +#
-> +# @cpu-index: CPU number on which to inject the machine check exception
-> +#
-> +# @srr1-mask : possible reasons for the exception
-> +#
-> +# @dsisr : more reasons
-> +#
-> +# @dar : effective address of next instruction
-> +#
-> +# @recovered : recoverable exception. Set MSR[RI]
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'command': 'mce',
-> +  'data': { 'cpu-index': 'uint32',
-> +            'srr1-mask': 'uint64',
-> +            'dsisr': 'uint32',
-> +            'dar': 'uint64',
-> +            'recovered': 'bool' },
-> +  'if': 'TARGET_PPC' }
-> diff --git a/include/hw/ppc/mce.h b/include/hw/ppc/mce.h
-> new file mode 100644
-> index 000000000000..b2b7dfa3342c
-> --- /dev/null
-> +++ b/include/hw/ppc/mce.h
-> @@ -0,0 +1,31 @@
-> +/*
-> + * Copyright (c) 2021, IBM Corporation.
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#ifndef HW_PPC_MCE_H
-> +#define HW_PPC_MCE_H
-> +
-> +typedef struct PPCMceInjectionParams {
-> +    uint64_t srr1_mask;
-> +    uint32_t dsisr;
-> +    uint64_t dar;
-> +    bool recovered;
-> +} PPCMceInjectionParams;
-> +
-> +typedef struct PPCMceInjection PPCMceInjection;
-> +
-> +#define TYPE_PPC_MCE_INJECTION "ppc-mce-injection"
-> +#define PPC_MCE_INJECTION(obj) \
-> +    INTERFACE_CHECK(PPCMceInjection, (obj), TYPE_PPC_MCE_INJECTION)
-> +typedef struct PPCMceInjectionClass PPCMceInjectionClass;
-> +DECLARE_CLASS_CHECKERS(PPCMceInjectionClass, PPC_MCE_INJECTION,
-> +                       TYPE_PPC_MCE_INJECTION)
-> +
-> +struct PPCMceInjectionClass {
-> +    InterfaceClass parent_class;
-> +    void (*inject_mce)(CPUState *cs, PPCMceInjectionParams *p);
-> +};
-> +
-> +#endif
-> diff --git a/target/ppc/monitor.c b/target/ppc/monitor.c
-> index a475108b2dbc..ae1a047e86de 100644
-> --- a/target/ppc/monitor.c
-> +++ b/target/ppc/monitor.c
-> @@ -23,11 +23,15 @@
->    */
->   
->   #include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "qapi/qapi-commands-misc-target.h"
->   #include "cpu.h"
->   #include "monitor/monitor.h"
->   #include "qemu/ctype.h"
->   #include "monitor/hmp-target.h"
->   #include "monitor/hmp.h"
-> +#include "qapi/qmp/qdict.h"
-> +#include "hw/ppc/mce.h"
->   
->   static target_long monitor_get_ccr(Monitor *mon, const struct MonitorDef *md,
->                                      int val)
-> @@ -76,6 +80,48 @@ void hmp_info_tlb(Monitor *mon, const QDict *qdict)
->       dump_mmu(env1);
->   }
->   
-> +void qmp_mce(uint32_t cpu_index, uint64_t srr1_mask, uint32_t dsisr,
-> +             uint64_t dar, bool recovered, Error **errp)
-> +{
-> +    PPCMceInjection *mce = (PPCMceInjection *)
-> +        object_dynamic_cast(qdev_get_machine(), TYPE_PPC_MCE_INJECTION);
-> +    CPUState *cs;
-> +
-> +    if (!mce) {
-> +        error_setg(errp, "MCE injection not supported on this machine");
-> +        return;
-> +    }
-> +
-> +    cs = qemu_get_cpu(cpu_index);
-> +
-> +    if (cs != NULL) {
-> +        PPCMceInjectionClass *mcec = PPC_MCE_INJECTION_GET_CLASS(mce);
-> +        PPCMceInjectionParams p = {
-> +            .srr1_mask = srr1_mask,
-> +            .dsisr = dsisr,
-> +            .dar = dar,
-> +            .recovered = recovered,
-> +        };
-> +        mcec->inject_mce(cs, &p);
-> +    }
-> +}
-> +
-> +void hmp_mce(Monitor *mon, const QDict *qdict)
-> +{
-> +    uint32_t cpu_index = qdict_get_int(qdict, "cpu_index");
-> +    uint64_t srr1_mask = qdict_get_int(qdict, "srr1_mask");
-> +    uint32_t dsisr = qdict_get_int(qdict, "dsisr");
-> +    uint64_t dar = qdict_get_int(qdict, "dar");
-> +    bool recovered = qdict_get_int(qdict, "recovered");
-> +    Error *err = NULL;
-> +
-> +    qmp_mce(cpu_index, srr1_mask, dsisr, dar, recovered, &err);
-> +    if (err) {
-> +        hmp_handle_error(mon, err);
-> +        return;
-> +    }
-> +}
-> +
->   const MonitorDef monitor_defs[] = {
->       { "fpscr", offsetof(CPUPPCState, fpscr) },
->       /* Next instruction pointer */
-> @@ -156,3 +202,13 @@ int target_get_monitor_def(CPUState *cs, const char *name, uint64_t *pval)
->   
->       return -EINVAL;
->   }
-> +
-> +static const TypeInfo type_infos[] = {
-> +    {
-> +        .name = TYPE_PPC_MCE_INJECTION,
-> +        .parent = TYPE_INTERFACE,
-> +        .class_size = sizeof(PPCMceInjectionClass),
-> +    },
-> +};
-> +
-> +DEFINE_TYPES(type_infos);
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index cf723c69acb7..15d939ae096e 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1461,12 +1461,30 @@ ERST
->           .cmd        = hmp_mce,
->       },
->   
-> -#endif
->   SRST
->   ``mce`` *cpu* *bank* *status* *mcgstatus* *addr* *misc*
->     Inject an MCE on the given CPU (x86 only).
->   ERST
->   
-> +#endif
-> +
-> +#if defined(TARGET_PPC)
-> +
-> +    {
-> +        .name       = "mce",
-> +        .args_type  = "cpu_index:i,srr1_mask:l,dsisr:i,dar:l,recovered:i",
-> +        .params     = "cpu srr1_mask dsisr dar recovered",
-> +        .help       = "inject a MCE on the given CPU",
-> +        .cmd        = hmp_mce,
-> +    },
-> +
-> +SRST
-> +``mce`` *cpu* *srr1_mask* *dsisr* *dar* *recovered*
-> +  Inject an MCE on the given CPU (PPC only).
-> +ERST
-> +
-> +#endif
-> +
->       {
->           .name       = "getfd",
->           .args_type  = "fdname:s",
-> 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 16, 2021 at 5:19 AM Danie=
+l P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redh=
+at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On Wed, Dec 15, 2021 at 02:39:17PM -0500, John Snow wrote:<br>
+&gt; Copy the remaining type definitions from QMP into the qemu.aqmp.legacy=
+<br>
+&gt; module. Now, most users don&#39;t need to import anything else but<br>
+&gt; qemu.aqmp.legacy.<br>
+<br>
+I&#39;m probably missing the historical discussion but it feels very<br>
+wierd to be saying<br>
+<br>
+=C2=A0 =C2=A0&quot;most users don&#39;t need anything except=C2=A0 &lt;some=
+thing&gt; legacy&quot;<br>
+<br>
+Naively, I&#39;d expect most users to want something *not* legacy.<br>
+<br>
+<br>
+Regards,<br>
+Daniel<br></blockquote></div><div class=3D"gmail_quote"><br></div><div clas=
+s=3D"gmail_quote">The legacy.py module is a wrapper that pretends to be the=
+ QEMUMonitorProtocol class written by Luiz Capitulino. It exists as a synch=
+ronous wrapper around the async core. However, it&#39;s not a design that I=
+ think actually makes sense long-term for the library as a standalone proje=
+ct, so I named it legacy to intuit that it&#39;s providing compatibility fo=
+r an older interface.</div><div class=3D"gmail_quote"><br></div><div class=
+=3D"gmail_quote">The goal is to eventually remove it in favor of a sync.py =
+that has a sync interface that&#39;s more closely aligned to the async core=
+. I&#39;ve got a series for this, but I wanted to pursue this tree-wide swi=
+tcheroo first.</div><div class=3D"gmail_quote"><br></div><div class=3D"gmai=
+l_quote">As for the phrasing, I suppose I mean: &quot;most users [that need=
+ the legacy interface] don&#39;t need to import both the old interface AND =
+the legacy wrapper that mimics it, they can just import the legacy wrapper.=
+&quot;</div><div class=3D"gmail_quote"><br></div></div>
+
+--00000000000011dbdc05d346cdd7--
 
 
