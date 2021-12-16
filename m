@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC8D476BBF
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 09:19:13 +0100 (CET)
-Received: from localhost ([::1]:47168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 054BD476BCE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 09:22:55 +0100 (CET)
+Received: from localhost ([::1]:50998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxlyq-0001kk-Op
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 03:19:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56648)
+	id 1mxm2Q-0004UP-1r
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 03:22:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mxlxy-0000y1-Py; Thu, 16 Dec 2021 03:18:18 -0500
-Received: from [2a00:1450:4864:20::434] (port=45627
- helo=mail-wr1-x434.google.com)
+ id 1mxm0q-00037Y-RL; Thu, 16 Dec 2021 03:21:16 -0500
+Received: from [2a00:1450:4864:20::42c] (port=45652
+ helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mxlxx-0003ep-0C; Thu, 16 Dec 2021 03:18:18 -0500
-Received: by mail-wr1-x434.google.com with SMTP id o13so42557494wrs.12;
- Thu, 16 Dec 2021 00:18:16 -0800 (PST)
+ id 1mxm0m-000571-Cn; Thu, 16 Dec 2021 03:21:16 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id o13so42570736wrs.12;
+ Thu, 16 Dec 2021 00:21:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=p5tCa+dHy5xswPnHLHB8LGM/jqV4EU7dfLQEwtpd8vA=;
- b=f48TJxb+ayk4gHBdbgxbCgTzo+aOJPkEURjWQIc0MHfdwTNTlYMohctTBVx0Sqi8jR
- Uu2oJJnnupFg9hkSUmsSFVNCYEpqv6Z8f31OxvC9VPL1hUYkVjU59cI/U1wljXydbhPM
- Q/szuX/cU/VZQ0TV5eANm9QIb+Sf00eNdjhAh+WFKgag5latThAFalHTCJohqjJO8x4Z
- Fb96K+YOtC5OYwfYtGTPHf21jwOCzfhXhCR3H/iBLAUCK0HjKmodhP/POxGPykvWUf/Q
- /r2PFkuUdhiSUrQcLM2toWqV6LX+2jonqUTew436HhMQosuj3KDNzg2MX/zxTwlArlu5
- XsFA==
+ bh=Vd3H6S1aTLN50ghgeY+AqThH60JIHlU7y/p5g+hOCtw=;
+ b=iUpuRpsyaR1OVM4WLlZ0BYErCd5GU9G97eDzpl+pSv/sA1nrdYjYEIgEKSdsU9DSVK
+ 1ODSeucwDIcKnobEyICDEXwuZmv7o0hKPBFMAl4+mJFEFAjlsumAvsM4kbFl7yLdsiB8
+ K21B8gwF/zv2XDexeeojMDsjI4NDIHBloij5hA+kLtdpPnqpPveS7GUh+7siF4XTTXbh
+ O9VLlnBfFDqCKpug/a8arFPM9zwTDGBPmXVItDjcu5wWUKMMgSS4WgmoDcoSGyEMbg4b
+ r2roPedQNan5clQQ5FSfosPjWIYKuZBnEO6uEhcHJTHzuMVmN59evjpWB2d1uCdHGHrT
+ O9BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=p5tCa+dHy5xswPnHLHB8LGM/jqV4EU7dfLQEwtpd8vA=;
- b=vkBAPPOo6mGpgmbJD087A1iwA6ovelv5MgZYA9gJD3m17LfpFS+1fgT9N/0abiTS+m
- 2Xilyi00C5uNJoe5WrsH3ZaI5TLtRN1H3iEzDMyGrrw1PAhuS1/ngvD6RIn8s2Gf1+BI
- QQkUkZY+GS9Zi4QmI8hkH2V4yz4nvcgm2SXn+nQDZzcke3wyNZKqemNYFaqe4MfleR4A
- DCnZ4I6zUIAdxWhjvCarvI+7yclgJM76lx912FoLSnRalpE2tKQT3M2tfWvsvMhWl+97
- AcqvjI3t0SY2sk1dCcGYcVjkH7b/maFWdbfwnwgElnmEtPG2B8rx3F7/XLtBSAEf3fcA
- pCAg==
-X-Gm-Message-State: AOAM531HxpFdpgJlwKPmZvRNi0z/xbzYlsbC2JSh1GAb8qQ4+n95hJpF
- kcfCSqQE891KigVDYO7Dizs=
-X-Google-Smtp-Source: ABdhPJzPwlidgBgZfUkkvx/ngyMBO1ZskHqDqRObNcW+7+kUjWIivTeae0eRgreAxlzEleG4VVpA0g==
-X-Received: by 2002:adf:c70a:: with SMTP id k10mr7770851wrg.652.1639642695315; 
- Thu, 16 Dec 2021 00:18:15 -0800 (PST)
+ bh=Vd3H6S1aTLN50ghgeY+AqThH60JIHlU7y/p5g+hOCtw=;
+ b=wKtakj5CvUPErjZMtwRg/UsDQVz2WWXb3OY0qQoEzybtKPMqkZm1eHAGO9zmfII9ea
+ TkptPtlboVeEt9oaT8oiv0HrkD6yRw11tc6k4EhcsRbYup81FyD+M0zggU1+chAhPqWY
+ QophFmom2yrm3x0gDQMg4M6/2S5LrG3Ze1pX3Am7uvFPHTDP837SK8Rld2tdN15Fo4OA
+ R5DAH1sH/YTDfk9RqLUiedsY6+BpKG7hcCgx/6NiWwMeTXZqZDarl/daAKDYHGA/lZjO
+ /EBNWaktOFNEQFsH7je/X4I+Bhi9wEX4QAkxMwZkl6r4SChJITg5wWbZlU4X4gMRYx9T
+ 6E9w==
+X-Gm-Message-State: AOAM532Fjl8kVgZw1vMQRnoE0Upg+OtmSGwPJ7FSFaZkfIcRmuu+UcDq
+ dZN9QgISoqBQjru1pYbjdgU=
+X-Google-Smtp-Source: ABdhPJx2aDKdY/BaP7v8xBTiPW45hZ8bbIkrSvAmDJWdEV5jIPEFzA9dBGMICmQujkio1i6xnaPPSA==
+X-Received: by 2002:a5d:61ca:: with SMTP id q10mr7830083wrv.102.1639642870715; 
+ Thu, 16 Dec 2021 00:21:10 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id w8sm4191877wre.106.2021.12.16.00.18.14
+ by smtp.gmail.com with ESMTPSA id u14sm4273327wrf.39.2021.12.16.00.21.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Dec 2021 00:18:14 -0800 (PST)
-Message-ID: <90fb8940-f684-f546-fd18-288af467df8d@amsat.org>
-Date: Thu, 16 Dec 2021 09:18:13 +0100
+ Thu, 16 Dec 2021 00:21:10 -0800 (PST)
+Message-ID: <dca5a41b-858d-1270-1105-54fcee7fecc8@amsat.org>
+Date: Thu, 16 Dec 2021 09:21:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v2 8/9] hw/riscv: virt: Allow support for 32 cores
+Subject: Re: [PATCH v2 2/2] hw/arm: Add Cortex-A5 to virt device
 Content-Language: en-US
-To: Anup Patel <anup@brainfault.org>,
- Alistair Francis <alistair.francis@opensource.wdc.com>
-References: <20211216045427.757779-1-alistair.francis@opensource.wdc.com>
- <20211216045427.757779-9-alistair.francis@opensource.wdc.com>
- <CAAhSdy0ruRoGvxby2Y44NwSmtPWyGqO03es-W4fegmcWa0mxJw@mail.gmail.com>
+To: Byron Lathi <bslathi19@gmail.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org, bslathi19@gmail.org
+References: <20211216064820.61342-1-bslathi19@gmail.com>
+ <20211216064820.61342-3-bslathi19@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <CAAhSdy0ruRoGvxby2Y44NwSmtPWyGqO03es-W4fegmcWa0mxJw@mail.gmail.com>
+In-Reply-To: <20211216064820.61342-3-bslathi19@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,38 +92,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/21 06:58, Anup Patel wrote:
-> On Thu, Dec 16, 2021 at 10:27 AM Alistair Francis
-> <alistair.francis@opensource.wdc.com> wrote:
->>
->> From: Alistair Francis <alistair.francis@wdc.com>
->>
->> Linux supports up to 32 cores for both 32-bit and 64-bit RISC-V, so
->> let's set that as the maximum for the virt board.
->>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/435
->> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-
-> IMO, we should keep QEMU VIRT_CPUS_MAX as high as
-> possible to allow any kind of software Linux, OpenSBI, FreeBSD,
-> Xvisor, Xen, etc. Let the guest software decide it's own limit (such
-> as NR_CPUS of Linux).
-
-Agreed.
+On 12/16/21 07:48, Byron Lathi wrote:
+> Add the Cortex-A5 to the list of supported CPUs by the virt platform.
+> 
+> Signed-off-by: Byron Lathi <bslathi19@gmail.com>
+> ---
+>  docs/system/arm/virt.rst | 1 +
+>  hw/arm/virt.c            | 1 +
+>  2 files changed, 2 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> 
-> Reviewed-by: Anup Patel <anup.patel@wdc.com>
-> 
-> Regards,
-> Anup
 
