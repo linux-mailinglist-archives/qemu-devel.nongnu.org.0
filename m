@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 466DA477DD3
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 21:49:08 +0100 (CET)
-Received: from localhost ([::1]:38982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52C4477DED
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 21:54:35 +0100 (CET)
+Received: from localhost ([::1]:54954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxxgY-0003IL-Dh
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 15:49:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37540)
+	id 1mxxlr-0005bz-1i
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 15:54:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLU-0002TR-98; Thu, 16 Dec 2021 15:27:20 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:44176
- helo=mx0a-001b2d01.pphosted.com)
+ id 1mxxLc-0002wy-VP; Thu, 16 Dec 2021 15:27:28 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLK-0007Mo-K9; Thu, 16 Dec 2021 15:27:17 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGJIq8g005112; 
- Thu, 16 Dec 2021 20:26:48 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cye12hs8b-1
+ id 1mxxLX-0007Ph-4m; Thu, 16 Dec 2021 15:27:28 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGJtq9s017562; 
+ Thu, 16 Dec 2021 20:26:53 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cynfwpc1t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:26:47 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKCha7011764;
- Thu, 16 Dec 2021 20:26:46 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma01fra.de.ibm.com with ESMTP id 3cy7k3j3wr-1
+ Thu, 16 Dec 2021 20:26:53 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKCWgs010869;
+ Thu, 16 Dec 2021 20:26:50 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma05fra.de.ibm.com with ESMTP id 3cy78hj77y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:26:45 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1BGKIfRP46596400
+ Thu, 16 Dec 2021 20:26:50 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BGKQmUJ43385098
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 20:18:41 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 983D442041;
- Thu, 16 Dec 2021 20:26:43 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5D9E64204C;
- Thu, 16 Dec 2021 20:26:43 +0000 (GMT)
+ Thu, 16 Dec 2021 20:26:48 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 480BF4C044;
+ Thu, 16 Dec 2021 20:26:48 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0E6EF4C046;
+ Thu, 16 Dec 2021 20:26:48 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 16 Dec 2021 20:26:43 +0000 (GMT)
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 16 Dec 2021 20:26:47 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.48.122])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id A9964220238;
- Thu, 16 Dec 2021 21:26:42 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 638CE220238;
+ Thu, 16 Dec 2021 21:26:47 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 039/101] target/ppc: Do not call do_float_check_status from
- do_fmadd
-Date: Thu, 16 Dec 2021 21:25:12 +0100
-Message-Id: <20211216202614.414266-40-clg@kaod.org>
+Subject: [PULL 047/101] target/ppc: Add helpers for fmadds et al
+Date: Thu, 16 Dec 2021 21:25:20 +0100
+Message-Id: <20211216202614.414266-48-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211216202614.414266-1-clg@kaod.org>
 References: <20211216202614.414266-1-clg@kaod.org>
@@ -65,25 +63,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: PwgGQ2qf0W-RZtHnaV6lrXiqYm1bgMwM
-X-Proofpoint-ORIG-GUID: PwgGQ2qf0W-RZtHnaV6lrXiqYm1bgMwM
+X-Proofpoint-GUID: -qPOGvhRFYXmP5DQ5bu6dImrsJxFde13
+X-Proofpoint-ORIG-GUID: -qPOGvhRFYXmP5DQ5bu6dImrsJxFde13
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 impostorscore=0 spamscore=0 clxscore=1034
- adultscore=0 mlxscore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
- mlxlogscore=595 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112160109
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ clxscore=1034 mlxscore=0
+ lowpriorityscore=0 phishscore=0 adultscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 mlxlogscore=832 malwarescore=0
+ suspectscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2112160109
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,37 +101,136 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We will process flags other than in valid in helper_float_check_status,
-which is invoked after the writeback to FRT.
-Fixes a bug in which FRT is not written when OE/UE/XE are enabled.
+Use float64r32_muladd.  Fixes a double-rounding issue with performing
+the compuation in float64 and then rounding afterward.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211119160502.17432-21-richard.henderson@linaro.org>
+Message-Id: <20211119160502.17432-29-richard.henderson@linaro.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/fpu_helper.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ target/ppc/helper.h                |  4 ++++
+ target/ppc/fpu_helper.c            | 17 ++++++++++++++++-
+ target/ppc/translate/fp-impl.c.inc | 13 +++++--------
+ 3 files changed, 25 insertions(+), 9 deletions(-)
 
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 632a81c6766f..8a9f2ee7ed4f 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -101,6 +101,10 @@ DEF_HELPER_4(fmadd, i64, env, i64, i64, i64)
+ DEF_HELPER_4(fmsub, i64, env, i64, i64, i64)
+ DEF_HELPER_4(fnmadd, i64, env, i64, i64, i64)
+ DEF_HELPER_4(fnmsub, i64, env, i64, i64, i64)
++DEF_HELPER_4(fmadds, i64, env, i64, i64, i64)
++DEF_HELPER_4(fmsubs, i64, env, i64, i64, i64)
++DEF_HELPER_4(fnmadds, i64, env, i64, i64, i64)
++DEF_HELPER_4(fnmsubs, i64, env, i64, i64, i64)
+ DEF_HELPER_2(fsqrt, f64, env, f64)
+ DEF_HELPER_2(fre, i64, env, i64)
+ DEF_HELPER_2(fres, i64, env, i64)
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index d7e0362e808e..dd9d40f74b9b 100644
+index aef81a818f63..12dd889fb5f8 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -699,11 +699,8 @@ static float64 do_fmadd(CPUPPCState *env, float64 a,=
- float64 b,
-     float64 ret =3D float64_muladd(a, b, c, madd_flags, &env->fp_status)=
-;
-     int flags =3D get_float_exception_flags(&env->fp_status);
-=20
--    if (flags) {
--        if (flags & float_flag_invalid) {
--            float_invalid_op_madd(env, flags, 1, retaddr);
--        }
--        do_float_check_status(env, retaddr);
-+    if (unlikely(flags & float_flag_invalid)) {
-+        float_invalid_op_madd(env, flags, 1, retaddr);
-     }
+@@ -705,10 +705,25 @@ static float64 do_fmadd(CPUPPCState *env, float64 a=
+, float64 b,
      return ret;
  }
+=20
++static uint64_t do_fmadds(CPUPPCState *env, float64 a, float64 b,
++                          float64 c, int madd_flags, uintptr_t retaddr)
++{
++    float64 ret =3D float64r32_muladd(a, b, c, madd_flags, &env->fp_stat=
+us);
++    int flags =3D get_float_exception_flags(&env->fp_status);
++
++    if (unlikely(flags & float_flag_invalid)) {
++        float_invalid_op_madd(env, flags, 1, retaddr);
++    }
++    return ret;
++}
++
+ #define FPU_FMADD(op, madd_flags)                                    \
+     uint64_t helper_##op(CPUPPCState *env, uint64_t arg1,            \
+                          uint64_t arg2, uint64_t arg3)               \
+-    { return do_fmadd(env, arg1, arg2, arg3, madd_flags, GETPC()); }
++    { return do_fmadd(env, arg1, arg2, arg3, madd_flags, GETPC()); } \
++    uint64_t helper_##op##s(CPUPPCState *env, uint64_t arg1,         \
++                         uint64_t arg2, uint64_t arg3)               \
++    { return do_fmadds(env, arg1, arg2, arg3, madd_flags, GETPC()); }
+=20
+ #define MADD_FLGS 0
+ #define MSUB_FLGS float_muladd_negate_c
+diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp=
+-impl.c.inc
+index 0767e45d87d8..2e3162d3e7c0 100644
+--- a/target/ppc/translate/fp-impl.c.inc
++++ b/target/ppc/translate/fp-impl.c.inc
+@@ -31,7 +31,7 @@ static void gen_set_cr1_from_fpscr(DisasContext *ctx)
+ #endif
+=20
+ /***                       Floating-Point arithmetic                    =
+   ***/
+-#define _GEN_FLOAT_ACB(name, op, op1, op2, isfloat, set_fprf, type)     =
+      \
++#define _GEN_FLOAT_ACB(name, op1, op2, set_fprf, type)                  =
+      \
+ static void gen_f##name(DisasContext *ctx)                              =
+      \
+ {                                                                       =
+      \
+     TCGv_i64 t0;                                                        =
+      \
+@@ -50,10 +50,7 @@ static void gen_f##name(DisasContext *ctx)            =
+                        \
+     get_fpr(t0, rA(ctx->opcode));                                       =
+      \
+     get_fpr(t1, rC(ctx->opcode));                                       =
+      \
+     get_fpr(t2, rB(ctx->opcode));                                       =
+      \
+-    gen_helper_f##op(t3, cpu_env, t0, t1, t2);                          =
+      \
+-    if (isfloat) {                                                      =
+      \
+-        gen_helper_frsp(t3, cpu_env, t3);                               =
+      \
+-    }                                                                   =
+      \
++    gen_helper_f##name(t3, cpu_env, t0, t1, t2);                        =
+      \
+     set_fpr(rD(ctx->opcode), t3);                                       =
+      \
+     if (set_fprf) {                                                     =
+      \
+         gen_compute_fprf_float64(t3);                                   =
+      \
+@@ -68,8 +65,8 @@ static void gen_f##name(DisasContext *ctx)             =
+                       \
+ }
+=20
+ #define GEN_FLOAT_ACB(name, op2, set_fprf, type)                        =
+      \
+-_GEN_FLOAT_ACB(name, name, 0x3F, op2, 0, set_fprf, type);               =
+      \
+-_GEN_FLOAT_ACB(name##s, name, 0x3B, op2, 1, set_fprf, type);
++_GEN_FLOAT_ACB(name, 0x3F, op2, set_fprf, type);                        =
+      \
++_GEN_FLOAT_ACB(name##s, 0x3B, op2, set_fprf, type);
+=20
+ #define _GEN_FLOAT_AB(name, op, op1, op2, inval, isfloat, set_fprf, type=
+)     \
+ static void gen_f##name(DisasContext *ctx)                              =
+      \
+@@ -233,7 +230,7 @@ static void gen_frsqrtes(DisasContext *ctx)
+ }
+=20
+ /* fsel */
+-_GEN_FLOAT_ACB(sel, sel, 0x3F, 0x17, 0, 0, PPC_FLOAT_FSEL);
++_GEN_FLOAT_ACB(sel, 0x3F, 0x17, 0, PPC_FLOAT_FSEL);
+ /* fsub - fsubs */
+ GEN_FLOAT_AB(sub, 0x14, 0x000007C0, 1, PPC_FLOAT);
+ /* Optional: */
 --=20
 2.31.1
 
