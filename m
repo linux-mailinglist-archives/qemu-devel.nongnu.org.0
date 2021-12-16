@@ -2,149 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3618C476F1C
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 11:47:53 +0100 (CET)
-Received: from localhost ([::1]:46902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1656476F1E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 11:49:15 +0100 (CET)
+Received: from localhost ([::1]:50238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxoIi-0000jb-9O
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 05:47:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48620)
+	id 1mxoK3-0002z9-2L
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 05:49:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mxoGy-0007bT-Iz; Thu, 16 Dec 2021 05:46:05 -0500
-Received: from mail-eopbgr150098.outbound.protection.outlook.com
- ([40.107.15.98]:17568 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mxoGv-00037P-Vd; Thu, 16 Dec 2021 05:46:04 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cmobF5r5VE38nr/VRUAOsRxjt0uqaR3wQebLtUCWDXBC+KFBTdlUY6Jk2G3Oo+1Qeajmshx7NtqglKS4D1RpUNgDMFftpu82uPGKY8UCT4nd98oKrY86+U3E3eTW9OBVUOE6eWttAZc9G8smAwEkJ52//7ld965i8PrXb9jWsjMS+Er88HFGfJVlrZjajsiDpIFnHCFqCKmbjLA8d0wG7EARz5J301wnK5kgoxb/Ib9VaVjxY7P/LhiqZAn9qnDdDFnpl1VfvyvuE6pg4Q2qv0JMu7srJkxhU0iAbAiH4OJfATqF4ufwuafNYejY+FxAywb354jOrDmVmVlLaVHGiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BvhRZnRwnfEkQscWpO3p17Aa3CQqkNWQA/ZWJlvumNI=;
- b=Wf1pEXfZmRfSGE0P0XGlILowDOUVlZLPrab0c50FBu81mDhWh0YraUTDwhRcEQBfF0JrGLBUdv7u2j68CgWCdqEC0Dy21UW1SUJbWyWku0GL0eBmVrz9z1FjgqlFhxnX/a5v4DgauhMrRAy9Baj7icVV31m+Q8yNwHlh+tQNy7TPfBrYZW84aDePo9c7xFdSGqRiqrJs8uIiErVTDEcVvWqvkJwUQIVVgh+9yeq5q9XQzXnNxy0cv1qJISulCaQil9ylksWSAPE+HCHeUCr33ThEXgE8Hg9eW9t+F5dlVXp9+yBlSeeWdZbovXujQzJWB95S/d9q1zqIaf7f2UVSZw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BvhRZnRwnfEkQscWpO3p17Aa3CQqkNWQA/ZWJlvumNI=;
- b=ZNEo0ErvBHK1gQpIk1uCwZDJTucoeskOrZQi4xCTKs2fo1CGDRnLY1N8xHklEl1ygxK5JtOPjHfkWCowuFch3/XfR9362NMIZ7jFW6jKXOYeGzVHYFcdeQoAkZLPxmJTKsTpQAx1nOoqSfprJg3HW/H4urktPkgIXYAhH/p7ik4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM0PR08MB4961.eurprd08.prod.outlook.com (2603:10a6:208:161::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Thu, 16 Dec
- 2021 10:45:56 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Thu, 16 Dec 2021
- 10:45:56 +0000
-Message-ID: <720ff9e4-8f68-c8d9-23ba-0770deb0955a@virtuozzo.com>
-Date: Thu, 16 Dec 2021 13:45:53 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 09/25] python/qmp: switch qmp-shell to AQMP
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Daniel Berrange <berrange@redhat.com>, Andrea Bolognani
- <abologna@redhat.com>, Wainer Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-block@nongnu.org
-References: <20211215193939.3768033-1-jsnow@redhat.com>
- <20211215193939.3768033-10-jsnow@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <20211215193939.3768033-10-jsnow@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM6P192CA0042.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:209:82::19) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1mxoHl-0008Rg-6C
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 05:46:54 -0500
+Received: from [2a00:1450:4864:20::136] (port=37551
+ helo=mail-lf1-x136.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1mxoHj-0003Lz-6m
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 05:46:52 -0500
+Received: by mail-lf1-x136.google.com with SMTP id c32so48923821lfv.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 02:46:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B8hC57Zk7fXOc3sduHbFd/yh6uJwyBHoagTvV+dWSgM=;
+ b=NVbUtYGaF2bsaZLq3dx1hWaY5mEV9PCncEvBuaMrN9gH8vyIF27MvokYmvGx4nz/nX
+ 3/Woi3RvoQ1vkrJtGl+wpK9uTpUVA3ZogndalBPh0xPFXXH5A2v+Ewms/ia5Zumm5LQK
+ s5CMIPc1bzVXeh6PEPw8flsazP29yrZFfIMog2v/TgYIsNgNUeDBA+wOkoAzprA3qA0X
+ 1fg3kOmaa5Vvv4mUV+Sr0yFajakk668VVrQ2oqG/Fkzzyox+JMk6uqWAfjdx8f3oO1hB
+ 4HLc6+xAcfP1oso0FJ7BaU0KIGBuCrWN53aAoX5PfDtq+kFdaMGALWFnraZdWlTt2kDn
+ nrjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B8hC57Zk7fXOc3sduHbFd/yh6uJwyBHoagTvV+dWSgM=;
+ b=vzkXCQruseVccxnl8pLnuxa5D4f9ZHtAJK0A7rBPwYPkbcPrrwlMoHxLmJgnuJ9y1x
+ JRdK9LL0/amZn/qGQFR0XINWDdS1lkyMZlEsNQ/DKhWWiCkxlJPIIBzMPnhgCIFjSuPH
+ Jj589stsb54x5vAaKs81VtLZupiUA0l2lNd4PGlVaQjtWptM6fBBHyfXmFN2HgGGPJYh
+ S69QRVTAeawgefXDcsRqCGxyD4y2xH8rmxWwpJTLXPAl20rcywZPZ2puiY6Em85BXKC2
+ /CkGbiJhtAs9zdU+8QiRWe4+kZsoMXTm8NdBSh10sI1HH2fy18xy5DAeL3nuLYPNowA4
+ ZCKQ==
+X-Gm-Message-State: AOAM530lcTO0wojDmZXMW2NzauTquSEH1BDLK81SB8Nl+GrjGjN4GtxH
+ fFF0G6JbLrTa1U1BCTplm/PPgl5ShjJsWhu2
+X-Google-Smtp-Source: ABdhPJzCK8zaMlWhc40pGing1yQ4ZxmzwMrkajV+1M1KM4b4x/f22ZmlQbklXVhj9hpXTek9lQI8Pg==
+X-Received: by 2002:a05:6512:3f28:: with SMTP id
+ y40mr14043506lfa.609.1639651607810; 
+ Thu, 16 Dec 2021 02:46:47 -0800 (PST)
+Received: from UNIT-808.labs.intellij.net ([91.132.204.20])
+ by smtp.gmail.com with ESMTPSA id b6sm1018908ljr.103.2021.12.16.02.46.43
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 16 Dec 2021 02:46:47 -0800 (PST)
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7] isa-applesmc: provide OSK forwarding on Apple hosts
+Date: Thu, 16 Dec 2021 13:46:21 +0300
+Message-Id: <20211216104621.85108-1-yaroshchuk2000@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Received: from [192.168.100.10] (185.215.60.230) by
- AM6P192CA0042.EURP192.PROD.OUTLOOK.COM (2603:10a6:209:82::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
- Thu, 16 Dec 2021 10:45:55 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ef96034d-6c62-494f-77bd-08d9c0813d36
-X-MS-TrafficTypeDiagnostic: AM0PR08MB4961:EE_
-X-Microsoft-Antispam-PRVS: <AM0PR08MB49619F73B1C38624827CBF76C1779@AM0PR08MB4961.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PwVxygLnMpB5nTsKEbY1qd7QOxSraFYenWRcN9HjP1PFqHz1HgHafvZbr4wJZMWidWz05ogI4kWCR9NzlTIOlfieJVxr291aP6L45JSJ9B6m6S6bw1KmVFeHSieGETW/02x+qxHWhRw8vqbC1yokfCX8sIxI9y4qOWH5gRateMPHCTwy8rYI9Z87eRaAY8Rms8LsaFL5j8wLqLEIg8M5GjwLS5J5SwEfVHsqCBw0PdJWCN6lgQu/pN/SgLxlk4XqDuJ0jmJatZtX1tR0B3ErnTItftKiw20+er1Rc0/Jk0RJsPnt4xxOu/WZZ5jlEK4bKos+V3hhl6U1hLQRF59gQJHclH0g/Lo60GRVMHEUnxNAptcY1I7nEGI0hzIna2iCNokXIST4XgU8EOUYLHreo94zQnKhXOP1PQ+/DA8Lcf4ewQ2p/Hrs8PrY7EzvUU1yqJlV5XgLYl5kN5l9wZ3cBkmTtd/fVMexlev+MqKqA950zFPdhmCKdU5op7agjz/eK8c7zRAMbnoOCf4UZGtGz2obEppti/RdKRlidtXnHoudjQ/QV8qnFO1mw3kh3E1TkEvxgHocZP24/BkTcigb4fuYgKuvR+vgkuCnX5h+NfdXHgYGiU2+g3sq6FxmkvS64WpZPJ8YV+SDiCFr130nf8pobpKdiPn7icEeQTbRleS6VDmZ6Xcf8LsayCEeWMcHpMvllINZNagQuSvjP5ZH7XkYvoZaVye2cQvtDibn7CwEso5euckSB3Zg5U16Txz7GQdH399fB7ldeJIGn3qHwA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(26005)(5660300002)(4744005)(31686004)(7416002)(508600001)(8936002)(8676002)(16576012)(36756003)(2906002)(38350700002)(38100700002)(6486002)(4326008)(956004)(2616005)(186003)(31696002)(54906003)(66556008)(86362001)(52116002)(66476007)(66946007)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dXJzdGJSSVJZNDhndnUrdkcwT3FuRThMenl1ZFdFc2I1dDMzVUVOTFJMK3p6?=
- =?utf-8?B?S0tRVlZwVFZQSUoweXMvMEVCRGVUWDZtSUFWSnBaYk1yUXJ0ZHo5TXNyRURN?=
- =?utf-8?B?Uk5XeG91b0hYdnlWcUt5M0xxZFJsaXkycVVNNUNyeXRRV1hXQjhlT0ErQ1hJ?=
- =?utf-8?B?dEJ1RElYd1JrOWg3TzM2WU9aS01ydjRoQjdCYTc2RVpBODZ4WmFmeUwzditT?=
- =?utf-8?B?L3JOdzFxOC9DbGQrcDBtTDVqd0FNR2x4MkQvWGUwN3k5U1Z5Y0FTTGRHTjkz?=
- =?utf-8?B?TzM3bnBxdGllbC9JR0RmZWZydzdDWDMyWWlTOWE4aG1KS2prdkZ6QWRqK1pH?=
- =?utf-8?B?K3BzWVhhV0F5b1l3MW1kR0xTZDhidjUyT056TWpXNlNZYzRTa2JpZVI1OGMr?=
- =?utf-8?B?Y3g5OXhQNWlySUlMTUNXcXhVbzZTUXhaWm44Z1RQOEVGaXVDMXBHWG0vYWUy?=
- =?utf-8?B?YllUR1djVWVDaGxRVUJlNGFEekpKaEkwZ29LK1ZpaU1YMEF4WGowbG1pcnQx?=
- =?utf-8?B?WXhsNTVJd0l4MHMxSWtiaFlSQzBTUWY2RHVRbHNkMEprZGJqRTlIdmcxWlF1?=
- =?utf-8?B?SkExQVNhWVVaWkl1TzRjY2Y3TCtzeXgzNno3MGFSVitTc1Bnc2ozUjVkZXR5?=
- =?utf-8?B?QUJVR1dpZ1hlMTNYdE9neG1JNDM1dWJKc1l4TlQxRGFhajZxNkNyZkxNK3cx?=
- =?utf-8?B?emRuWWZjVUd3bS91WUxqTTQ2WXdOalljUkEvVmRsT0U3Rmt6UWgwbzgrVUVM?=
- =?utf-8?B?MXU5eUl1TjFjNENlamEwdEl3RTlwMllPM2lMYWxCYm54NER6RDhaZHNJcHRx?=
- =?utf-8?B?cnZTYzBWeklIckdVd1pOeUJ4T1hCMC9QTUFYcEJmTS9qZncvbGZFUVVtekpX?=
- =?utf-8?B?Q3FlcTNEMVFUOWZ2OVpVNlN6YkZoeUYvSWdXWmd1RVFFNzRHQjNlLzJKMWk2?=
- =?utf-8?B?Q3RGNEZwK3pCY2tkNEdvWFhGdURGNzlkZU53ZXpYRE1XM2s3MjM0eXp6ZHU0?=
- =?utf-8?B?eHlTT25GRGNKeDVTQisxYlU3MXZud1d3NHhyTzZ2cmh5NXZyZEc4NDA0RGFN?=
- =?utf-8?B?aFAxc2RhdzdId3A3OGJmUDcvVlY4aUFMbUYrOXdWMDNrZCtnMi95bks2RXNu?=
- =?utf-8?B?RkE3NTVPeGlQTDllN09BRCtsdmI3Sy94SHpNbzlBamVHRUNvdkFJZlEzOEhV?=
- =?utf-8?B?dDdVOFI5K0JXVGxnbWxkWW15dHRxRk9IS2FHeDQ5ZUtHTldQeU00dmZ4UCsy?=
- =?utf-8?B?Y0dMbVo1UHRWWEpZSVQwSG9BbE9IekthMFhEU0JMeEQwakIxRGN4UnZWeHZP?=
- =?utf-8?B?NythREI4UmJpU0NSMXhJQlNhTWhYMURmVm16S1M3UDVseVJJN1hlV1dsNTNU?=
- =?utf-8?B?azVSdlRhM0RqMW1zQXMwb056bGxZZ05JNWlqazQvTzJlZDNscWRBZU0xdStT?=
- =?utf-8?B?QittbDdkeDNnSW1VczBXL0J1aWxSa0srT0lGZFRwN01naDlqeUp4cHVFVEdU?=
- =?utf-8?B?MVc2L2ZTSUxmQ1A1VkdzaTh3ZVRvSnFscHlkcjBHQVdFMEZEa25maDJNWVFn?=
- =?utf-8?B?OFlwcFJmWkd4RDlFUDBOZlptU2VZRXBkYUNUM1cwRUs3NS9OQUhqWnpwTGtN?=
- =?utf-8?B?aTB3VzFLNHI3VS9ZSXJUazYrS3lLUzQ1RFdXZVc4V3lJVHF0M0J3WmswY1RL?=
- =?utf-8?B?eENzTWR0dlRQUnJBRGM3ZkJET0IwVjI4WVFsUTZFNXRoVEY5Uk1VVmtyVXkr?=
- =?utf-8?B?YmhUVW1XbklMKzRLelNNWjBoN05VeHExc0Vaa0tFN2xDMnBlRlkyOElhYmVR?=
- =?utf-8?B?dGg5b01mbXFWRUhqcEJ3ZjZySkEyZklBVjF6M2EyZFNNQVZQOFdpN3pnTWJp?=
- =?utf-8?B?L0YvaHpmTUxWeGxCQ3FHMnRJQ2N2SXBqc0d4citrMDFaeFljeFVzRHIrTEVv?=
- =?utf-8?B?OWt1WE9VdFlHNW5CK0JpZ0NCY0p3bzNqekNiaTlBenVUbjZ1R2hUdjJRNzVB?=
- =?utf-8?B?QTgrYmo5VmRJWUFRcXB1NENFL3Q5dnp5YmhEcFcreTV1REZVMFlRWlI2d2cx?=
- =?utf-8?B?REtIR0dQeEJlVHhydjlJcGVWYzFQSzJ6b0YxVUY4dUNnYnNDNGpBdUE4SHhi?=
- =?utf-8?B?Z015QkUwdG5PTnVDZ3BDQTBjS0k4THo5dTVwZGx0SmE0MlJ3ZFh3L2l5QkxE?=
- =?utf-8?B?OXNMNWR4Y3RWclNGUUxpckpDVVE4QXVsSVhtNFNWYnZYa0svTXIzam9ONjFy?=
- =?utf-8?B?ZktZZXhqSzhOQ1hzaEpncHhRTFVBPT0=?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef96034d-6c62-494f-77bd-08d9c0813d36
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2021 10:45:56.1492 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 65aWetXytsKjEoTF/4Xo23wkh3F9O9BPgJQrTS+6IBtsYS/35MZdYUABksyKO+Hy/o7A9Ab+BDE73JDcnYX3Vja1XjnJu3q6gnbepHHt48Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4961
-Received-SPF: pass client-ip=40.107.15.98;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::136
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-lf1-x136.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.034, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -157,18 +85,314 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: phil@philjordan.eu, t0rr3sp3dr0@gmail.com,
+ Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, f4bug@amsat.org,
+ laurent@vivier.eu, r.bolshakov@yadro.com, agraf@csgraf.de, pbonzini@redhat.com,
+ gsomlo@gmail.com, suse@csgraf.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-15.12.2021 22:39, John Snow wrote:
-> We have a replacement for async QMP, but it doesn't have feature parity
-> yet. For now, then, port the old tool onto the new backend.
-> 
-> Signed-off-by: John Snow<jsnow@redhat.com>
+On Apple hosts we can read AppleSMC OSK key directly from host's
+SMC and forward this value to QEMU Guest.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+New 'hostosk' property is added:
+  `-device isa-applesmc,hostosk=on`
+The property is set to 'on' by default for machine version > 6.2
 
+Apple licence allows use and run up to two additional copies
+or instances of macOS operating system within virtual operating system
+environments on each Apple-branded computer that is already running
+the Apple Software, for purposes of:
+  * software development
+  * testing during software development
+  * using macOS Server
+  * personal, non-commercial use
+
+Guest macOS requires AppleSMC with correct OSK. The most legal
+way to pass it to the Guest is to forward the key from host SMC
+without any value exposion.
+
+Based on https://web.archive.org/web/20200103161737/osxbook.com/book/bonus/chapter7/tpmdrmmyth/
+
+Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+---
+ hw/arm/virt.c              |   1 +
+ hw/core/machine.c          |   5 ++
+ hw/i386/pc_piix.c          |   1 +
+ hw/i386/pc_q35.c           |   1 +
+ hw/m68k/virt.c             |   1 +
+ hw/misc/applesmc.c         | 123 ++++++++++++++++++++++++++++++++++++-
+ hw/ppc/spapr.c             |   1 +
+ hw/s390x/s390-virtio-ccw.c |   1 +
+ include/hw/boards.h        |   3 +
+ 9 files changed, 135 insertions(+), 2 deletions(-)
+
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 6bce595aba..4d6b72fe6f 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2858,6 +2858,7 @@ type_init(machvirt_machine_init);
+ 
+ static void virt_machine_6_2_options(MachineClass *mc)
+ {
++    compat_props_add(mc->compat_props, hw_compat_6_2, hw_compat_6_2_len);
+ }
+ DEFINE_VIRT_MACHINE_AS_LATEST(6, 2)
+ 
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 53a99abc56..afa871378e 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -37,6 +37,11 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-pci.h"
+ 
++GlobalProperty hw_compat_6_2[] = {
++    { "isa-applesmc", "hostosk", "off" }
++};
++const size_t hw_compat_6_2_len = G_N_ELEMENTS(hw_compat_6_2);
++
+ GlobalProperty hw_compat_6_1[] = {
+     { "vhost-user-vsock-device", "seqpacket", "off" },
+     { "nvme-ns", "shared", "off" },
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 223dd3e05d..1c2ab5222e 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -420,6 +420,7 @@ static void pc_i440fx_6_2_machine_options(MachineClass *m)
+     m->alias = "pc";
+     m->is_default = true;
+     pcmc->default_cpu_version = 1;
++    compat_props_add(m->compat_props, hw_compat_6_2, hw_compat_6_2_len);
+ }
+ 
+ DEFINE_I440FX_MACHINE(v6_2, "pc-i440fx-6.2", NULL,
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index e1e100316d..7186d736d3 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -366,6 +366,7 @@ static void pc_q35_6_2_machine_options(MachineClass *m)
+     pc_q35_machine_options(m);
+     m->alias = "q35";
+     pcmc->default_cpu_version = 1;
++    compat_props_add(m->compat_props, hw_compat_6_2, hw_compat_6_2_len);
+ }
+ 
+ DEFINE_Q35_MACHINE(v6_2, "pc-q35-6.2", NULL,
+diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+index 0efa4a45c7..10281a81c5 100644
+--- a/hw/m68k/virt.c
++++ b/hw/m68k/virt.c
+@@ -306,6 +306,7 @@ type_init(virt_machine_register_types)
+ 
+ static void virt_machine_6_2_options(MachineClass *mc)
+ {
++    compat_props_add(mc->compat_props, hw_compat_6_2, hw_compat_6_2_len);
+ }
+ DEFINE_VIRT_MACHINE(6, 2, true)
+ 
+diff --git a/hw/misc/applesmc.c b/hw/misc/applesmc.c
+index 1b9acaf1d3..72755db380 100644
+--- a/hw/misc/applesmc.c
++++ b/hw/misc/applesmc.c
+@@ -37,6 +37,11 @@
+ #include "qemu/module.h"
+ #include "qemu/timer.h"
+ #include "qom/object.h"
++#include "qapi/error.h"
++
++#if defined(__APPLE__) && defined(__MACH__)
++#include <IOKit/IOKitLib.h>
++#endif
+ 
+ /* #define DEBUG_SMC */
+ 
+@@ -109,6 +114,7 @@ struct AppleSMCState {
+     uint8_t data_pos;
+     uint8_t data[255];
+     char *osk;
++    bool hostosk;
+     QLIST_HEAD(, AppleSMCData) data_def;
+ };
+ 
+@@ -312,6 +318,101 @@ static const MemoryRegionOps applesmc_err_io_ops = {
+     },
+ };
+ 
++#if defined(__APPLE__) && defined(__MACH__)
++/*
++ * Based on
++ * https://web.archive.org/web/20200103161737/osxbook.com/book/bonus/chapter7/tpmdrmmyth/
++ */
++enum {
++    SMC_HANDLE_EVENT     = 2,
++    SMC_READ_KEY         = 5
++};
++
++struct AppleSMCParam {
++    uint32_t key;
++    uint8_t pad0[22];
++    IOByteCount data_size;
++    uint8_t pad1[10];
++    uint8_t command;
++    uint32_t pad2;
++    uint8_t bytes[32];
++};
++
++static bool applesmc_read_host_osk(char *host_osk, Error **errp)
++{
++    assert(host_osk != NULL);
++
++    io_service_t hostsmc_service = IO_OBJECT_NULL;
++    io_connect_t hostsmc_connect = IO_OBJECT_NULL;
++    size_t smc_param_size = sizeof(struct AppleSMCParam);
++    IOReturn status = kIOReturnError;
++    int i;
++
++    struct AppleSMCParam smc_param[2] = {
++         {
++             .key = ('OSK0'),
++             .data_size = sizeof(smc_param[0].bytes),
++             .command = SMC_READ_KEY,
++         }, {
++             .key = ('OSK1'),
++             .data_size = sizeof(smc_param[0].bytes),
++             .command = SMC_READ_KEY,
++         },
++    };
++
++    hostsmc_service = IOServiceGetMatchingService(
++        kIOMasterPortDefault,
++        IOServiceMatching("AppleSMC"));
++    if (hostsmc_service == IO_OBJECT_NULL) {
++        error_setg(errp, "Unable to get host-AppleSMC service");
++        goto error;
++    }
++
++    status = IOServiceOpen(hostsmc_service,
++                           mach_task_self(),
++                           0,
++                           &hostsmc_connect);
++    if (status != kIOReturnSuccess || hostsmc_connect == IO_OBJECT_NULL) {
++        error_setg(errp, "Unable to open host-AppleSMC service");
++        goto error;
++    }
++
++    for (i = 0; i < ARRAY_SIZE(smc_param); ++i) {
++        status = IOConnectCallStructMethod(
++                hostsmc_connect,
++                SMC_HANDLE_EVENT,
++                &smc_param[i],
++                sizeof(struct AppleSMCParam),
++                &smc_param[i],
++                &smc_param_size
++            );
++
++        if (status != kIOReturnSuccess) {
++            error_setg(errp, "Unable to read OSK from host-AppleSMC");
++            goto error;
++        }
++    }
++
++    memcpy(host_osk, smc_param[0].bytes, 32);
++    memcpy(host_osk + 32, smc_param[1].bytes, 32);
++
++    IOServiceClose(hostsmc_connect);
++    IOObjectRelease(hostsmc_service);
++    return true;
++
++error:
++    IOServiceClose(hostsmc_connect);
++    IOObjectRelease(hostsmc_service);
++    return false;
++}
++#else
++static bool applesmc_read_host_osk(char *host_osk, Error **errp)
++{
++    error_setg(errp, "OSK read is not supported on this host");
++    return false;
++}
++#endif
++
+ static void applesmc_isa_realize(DeviceState *dev, Error **errp)
+ {
+     AppleSMCState *s = APPLE_SMC(dev);
+@@ -331,9 +432,26 @@ static void applesmc_isa_realize(DeviceState *dev, Error **errp)
+     isa_register_ioport(&s->parent_obj, &s->io_err,
+                         s->iobase + APPLESMC_ERR_PORT);
+ 
+-    if (!s->osk || (strlen(s->osk) != 64)) {
+-        warn_report("Using AppleSMC with invalid key");
++    if (s->osk && s->hostosk) {
++        error_setg(errp, "-osk property cannot be used with -hostosk=on");
++    }
++
++    if (!s->osk && !s->hostosk) {
+         s->osk = default_osk;
++        warn_report("Using AppleSMC with default (dummy) OSK");
++    }
++
++    if (s->hostosk) {
++        s->osk = g_malloc0(65);
++        /* Fail hard if we cannot read requested host OSK */
++        if (!applesmc_read_host_osk(s->osk, errp)) {
++            g_assert_not_reached();
++        }
++    }
++
++    if (s->osk && strlen(s->osk) != 64) {
++        /* Only valid OSK is accepted within 'osk' property */
++        error_setg(errp, "Using AppleSMC with key of invalid length");
+     }
+ 
+     QLIST_INIT(&s->data_def);
+@@ -344,6 +462,7 @@ static Property applesmc_isa_properties[] = {
+     DEFINE_PROP_UINT32(APPLESMC_PROP_IO_BASE, AppleSMCState, iobase,
+                        APPLESMC_DEFAULT_IOBASE),
+     DEFINE_PROP_STRING("osk", AppleSMCState, osk),
++    DEFINE_PROP_BOOL("hostosk", AppleSMCState, hostosk, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 3b5fd749be..fefac898e6 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4671,6 +4671,7 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
+ static void spapr_machine_6_2_class_options(MachineClass *mc)
+ {
+     /* Defaults for the latest behaviour inherited from the base class */
++    compat_props_add(mc->compat_props, hw_compat_6_2, hw_compat_6_2_len);
+ }
+ 
+ DEFINE_SPAPR_MACHINE(6_2, "6.2", true);
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 653587ea62..3abb249c3d 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -797,6 +797,7 @@ static void ccw_machine_6_2_instance_options(MachineState *machine)
+ 
+ static void ccw_machine_6_2_class_options(MachineClass *mc)
+ {
++    compat_props_add(mc->compat_props, hw_compat_6_2, hw_compat_6_2_len);
+ }
+ DEFINE_CCW_MACHINE(6_2, "6.2", true);
+ 
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 9c1c190104..b7b68471ff 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -375,6 +375,9 @@ struct MachineState {
+     } \
+     type_init(machine_initfn##_register_types)
+ 
++extern GlobalProperty hw_compat_6_2[];
++extern const size_t hw_compat_6_2_len;
++
+ extern GlobalProperty hw_compat_6_1[];
+ extern const size_t hw_compat_6_1_len;
+ 
 -- 
-Best regards,
-Vladimir
+2.23.0
+
 
