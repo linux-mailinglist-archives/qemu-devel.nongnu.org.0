@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DDC847794D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 17:36:54 +0100 (CET)
-Received: from localhost ([::1]:53774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38EB9477965
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 17:39:44 +0100 (CET)
+Received: from localhost ([::1]:56340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxtkT-0003sN-06
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 11:36:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59170)
+	id 1mxtnD-0005om-BB
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 11:39:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxti8-0002u9-84
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:34:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38837)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxti4-00051X-Tl
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:34:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639672464;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4XSFFVFenxHwQPTRrwUSGtw1+atpMv921LWVGiBDQ3M=;
- b=bVNFmP5CsqShkpStGehCu6uTLPWLNqV3y1j8O8XuhIz2ZmbbM2hIuol0DcNLz8dcOZ4MKM
- E+GrTE6lmKR0r5u8nuToZ5hd0NHZ26Dl6sg0ttnuAWNUQqs7IWLOrPb9vQrjlPnbmarIDy
- 3jiZUyrRSSaJ/ulW0R2a7B7NzXgAa9I=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-400-bSfEBdxsPE60KXKOR6yNTw-1; Thu, 16 Dec 2021 11:34:14 -0500
-X-MC-Unique: bSfEBdxsPE60KXKOR6yNTw-1
-Received: by mail-vk1-f199.google.com with SMTP id
- q3-20020a056122116300b002faa0b9026fso12223854vko.18
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 08:34:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxtmD-00057y-N6
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:38:41 -0500
+Received: from [2607:f8b0:4864:20::102f] (port=38903
+ helo=mail-pj1-x102f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxtmB-0005gA-U1
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:38:41 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ n15-20020a17090a394f00b001b0f6d6468eso3111351pjf.3
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 08:38:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=TFwKTH4LtTpDuZl5ZgBUSTrQgVfxuVLAFgwDKvI0eoI=;
+ b=nH38c/+z7mE0iRQUEXAbHIUWfpU2pn4YG/wEDCttxGAPoUUpR5CRNBBj8XALOBAatQ
+ t2ZusLdeL3upKVP8DhVt+syx++WCbWZd6hlttXVXtz0ddSG3moAkFoW7wJ8ZXLKRTBzt
+ OBueFdTHJsKN4cJtoi9kxABEd9jFQ8H3sw5/njLiCgDc0WtPlT+twL0SpcUvE9RQP2QV
+ x+wp98OB4qDnkmy4SsFg6lwbfO4GrjZl1NZC2bPHcfhOajS5FzTp9nlvHGRvdUkDDkbC
+ v/SY+64dfdssYDzDDKZpfk1UslghPVKeEQnLBqKj/Zj+Ir/5GZJoJxlyErJtSQ56tPbU
+ oxkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4XSFFVFenxHwQPTRrwUSGtw1+atpMv921LWVGiBDQ3M=;
- b=Tm+T3lQNeLLn1y2LWrbnBUe/OPbTkig9NkIiyMKswvZ+E1bT+gtz+y3UUiVkSDmnBV
- KeNMM1FmLNgzoWEldzOmYsD11oCeCsTjFNqig5HZ0i3QFwm7mixeSeHUdhpg1bRTr+h9
- bU9DjNK0YVwVVSLWhxAqPDHV15UJy824W7Jv16C+rJQdE+jMrDeUmtcbAjZLuT8Xjlzx
- TzGpkAuuhgu6ESBFPhTNRLQ9DhnrHj/KF1qeJfWt5lBY91jGCr1Daucj1rFQiSb7K4be
- 40EoZoSN+yhcz79jHbiV8nnvtmKsI5y0CCEiBdRi1u/OH1IhyX/rW1+HaIqOKRoU8eGL
- 348g==
-X-Gm-Message-State: AOAM5330DiLo1Kc3QzbIXIP7Xue9GFpQQzch7NVYxZRPQCw3eKOZ9/Dw
- mTZopU0INj7ZtbgunKn5/XpoxMkwdcLIRArSfPWPmqzft85UBbBQq0GBUCT6N/p6/rOynvsbKVe
- dDMEHndRfQuuenacoLtcn4lNqCkaawCk=
-X-Received: by 2002:a67:441:: with SMTP id 62mr5355134vse.61.1639672453623;
- Thu, 16 Dec 2021 08:34:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwbapbPvrPh9GxdniAVL1QlL3xy1RvYgmqnDUHf1XfXyUtZ4sO/3l69s3WRLNCvRPVREisAiDBtWg6UghbECB8=
-X-Received: by 2002:a67:441:: with SMTP id 62mr5355120vse.61.1639672453427;
- Thu, 16 Dec 2021 08:34:13 -0800 (PST)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TFwKTH4LtTpDuZl5ZgBUSTrQgVfxuVLAFgwDKvI0eoI=;
+ b=SI8E8K5EV1XQsJFe148PAvQ/HSx9r5jJ88SnuUZKOm7iD1XM98lx2RGvLpRnALQl4v
+ 9CZqWJkJzJEP2oc8bQFvFfO1p8DM+w0oPwDVZ3td4+WQenXHPE6LYgAgV2hYjx2va4TA
+ /IMGboPjn8BX0fUm21xd9Um4xc+rsPbokFdTZUKNySyHjFIlEjPPGtjgWjYSdvAx//A4
+ I89etimOqtt6hMEgoY/8a1SHFXPogwJgphwc92ntrjefU0bYDipQzsfvoO1mNWR1caVL
+ ytvD+txB1y5W1voltZg5VD+O+icyGCSJUSwzFF6ls9hgKjJa1daXEwceodkO3MFGbxaD
+ rc7A==
+X-Gm-Message-State: AOAM532M/eroU0SmmLLpHFvF7JCTDbr2ztwoSRu9j9LYKRm7bYQvBJAX
+ vtpTzp9TXw7Bl5g1NwfVQZJeyHNPUHy2/Q==
+X-Google-Smtp-Source: ABdhPJxbEisEnPciLljPjIWt/4IaldGaMDfPXPjjy0FadHZrrz8unyuhA1tdx7d4+Q4Jx7gzXft10w==
+X-Received: by 2002:a17:90a:5ae2:: with SMTP id
+ n89mr2696420pji.177.1639672718409; 
+ Thu, 16 Dec 2021 08:38:38 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id q8sm6380659pfk.152.2021.12.16.08.38.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Dec 2021 08:38:37 -0800 (PST)
+Subject: Re: [PULL 0/8] s390x patches (and one gitlab-CI fix)
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20211216094447.58496-1-thuth@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <76b05ebe-6c6e-7bdc-016b-dc36aaadb2d4@linaro.org>
+Date: Thu, 16 Dec 2021 08:38:35 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211215210634.3779791-1-jsnow@redhat.com>
- <20211215210634.3779791-4-jsnow@redhat.com>
- <YbsYO514CsqjYn5t@redhat.com>
-In-Reply-To: <YbsYO514CsqjYn5t@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 16 Dec 2021 11:34:02 -0500
-Message-ID: <CAFn=p-Y+oo7HUKBCfRZNJG==51xT10_DNEYXV9uFneZMVLp36w@mail.gmail.com>
-Subject: Re: [RFC qemu.qmp PATCH 03/24] Update maintainer metadata
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000022891f05d345fec4"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211216094447.58496-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.034,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,148 +91,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Beraldo Leal <bleal@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000022891f05d345fec4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 12/16/21 1:44 AM, Thomas Huth wrote:
+>   Hi!
+> 
+> The following changes since commit e630bc7ec9dda656a452ed28cac4d1e9ed605d71:
+> 
+>    Merge tag 'pull-block-2021-12-15' of git://repo.or.cz/qemu/armbru into staging (2021-12-15 12:14:44 -0800)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/thuth/qemu.git tags/s390x-2021-12-16
+> 
+> for you to fetch changes up to 79e42726050b7be6c2104a9af678ce911897dfaa:
+> 
+>    gitlab-ci: Speed up the msys2-64bit job by using --without-default-devices (2021-12-16 10:22:39 +0100)
+> 
+> ----------------------------------------------------------------
+> * Small fixes for the s390x PCI code
+> * Fix reset handling of the diag318 data
+> * Add compat machines for 7.0 (all architectures)
+> * Ease timeout problem of the new msys2-64bit job
+> 
+> ----------------------------------------------------------------
+> Christian Borntraeger (1):
+>        MAINTAINERS: update email address of Christian Borntraeger
+> 
+> Collin L. Walling (1):
+>        s390: kvm: adjust diag318 resets to retain data
+> 
+> Cornelia Huck (1):
+>        hw: Add compat machines for 7.0
+> 
+> Matthew Rosato (4):
+>        s390x/pci: use a reserved ID for the default PCI group
+>        s390x/pci: don't use hard-coded dma range in reg_ioat
+>        s390x/pci: use the passthrough measurement update interval
+>        s390x/pci: add supported DT information to clp response
+> 
+> Thomas Huth (1):
+>        gitlab-ci: Speed up the msys2-64bit job by using --without-default-devices
+> 
+>   .gitlab-ci.d/windows.yml        |  2 +-
+>   .mailmap                        |  1 +
+>   MAINTAINERS                     |  6 +++---
+>   hw/arm/virt.c                   |  9 ++++++++-
+>   hw/core/machine.c               |  3 +++
+>   hw/i386/pc.c                    |  3 +++
+>   hw/i386/pc_piix.c               | 14 +++++++++++++-
+>   hw/i386/pc_q35.c                | 13 ++++++++++++-
+>   hw/ppc/spapr.c                  | 15 +++++++++++++--
+>   hw/s390x/s390-pci-bus.c         |  1 +
+>   hw/s390x/s390-pci-inst.c        | 15 +++++++++------
+>   hw/s390x/s390-pci-vfio.c        |  1 +
+>   hw/s390x/s390-virtio-ccw.c      | 14 +++++++++++++-
+>   include/hw/boards.h             |  3 +++
+>   include/hw/i386/pc.h            |  3 +++
+>   include/hw/s390x/s390-pci-bus.h |  3 ++-
+>   include/hw/s390x/s390-pci-clp.h |  3 ++-
+>   target/s390x/cpu.h              |  4 ++--
+>   target/s390x/kvm/kvm.c          |  4 ++++
+>   19 files changed, 97 insertions(+), 20 deletions(-)
 
-On Thu, Dec 16, 2021 at 5:43 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
+Fails like so:
 
-> On Wed, Dec 15, 2021 at 04:06:13PM -0500, John Snow wrote:
-> > I'm the primary author of this particular component; update the metadat=
-a
-> > accordingly.
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >  setup.cfg | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/setup.cfg b/setup.cfg
-> > index 9999bca..7cd8470 100644
-> > --- a/setup.cfg
-> > +++ b/setup.cfg
-> > @@ -1,7 +1,9 @@
-> >  [metadata]
-> >  name =3D qemu.qmp
-> >  version =3D file:VERSION
-> > -maintainer =3D QEMU Developer Team
-> > +author =3D John Snow
-> > +author_email =3D jsnow@redhat.com
->
-> Isn't the authorship of this more of a collaborative effort ?
-> IOW, shouldn't it just be "The QEMU Project" as for the
-> maintainer.
->
+  (162/171) tests/avocado/x86_cpu_model_versions.py:X86CPUModelAliases.test_4_1_alias: 
+FAIL: None != 'Cascadelake-Server-v1' : Cascadelake-Server must be an alias of 
+Cascadelake-Server-v1 (0.14 s)
 
-Sorta. The code in this specific package is > 95% written by me, so I felt
-the authorship credit here was roughly appropriate. So, I put myself as the
-"Author" but "QEMU Project" as the "maintainer". I put a lot of work into
-this, so it felt weird to say that it was authored by a mailing list.
+https://gitlab.com/qemu-project/qemu/-/jobs/1893456217
 
-I also wanted to avoid not listing my own name at all, since this has
-largely been my initiative to polish it up, write docs, and split it out --
-it feels rude to just dump responsibility straight back on the list and
-pretend I'm not the point of contact for it.
+Which is presumably the compat machines in patch 7.
 
->
-> > +maintainer =3D QEMU Project
-> >  maintainer_email =3D qemu-devel@nongnu.org
-> >  url =3D https://www.qemu.org/
-> >  download_url =3D https://www.qemu.org/download/
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
->
 
---00000000000022891f05d345fec4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 16, 2021 at 5:43 AM Danie=
-l P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redh=
-at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Wed, Dec 15, 2021 at 04:06:13PM -0500, John Snow wrote:<br>
-&gt; I&#39;m the primary author of this particular component; update the me=
-tadata<br>
-&gt; accordingly.<br>
-&gt; <br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 setup.cfg | 4 +++-<br>
-&gt;=C2=A0 1 file changed, 3 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/setup.cfg b/setup.cfg<br>
-&gt; index 9999bca..7cd8470 100644<br>
-&gt; --- a/setup.cfg<br>
-&gt; +++ b/setup.cfg<br>
-&gt; @@ -1,7 +1,9 @@<br>
-&gt;=C2=A0 [metadata]<br>
-&gt;=C2=A0 name =3D qemu.qmp<br>
-&gt;=C2=A0 version =3D file:VERSION<br>
-&gt; -maintainer =3D QEMU Developer Team<br>
-&gt; +author =3D John Snow<br>
-&gt; +author_email =3D <a href=3D"mailto:jsnow@redhat.com" target=3D"_blank=
-">jsnow@redhat.com</a><br>
-<br>
-Isn&#39;t the authorship of this more of a collaborative effort ?<br>
-IOW, shouldn&#39;t it just be &quot;The QEMU Project&quot; as for the<br>
-maintainer.<br></blockquote><div><br></div><div>Sorta. The code in this spe=
-cific package is &gt; 95% written by me, so I felt the authorship credit he=
-re was roughly appropriate. So, I put myself as the &quot;Author&quot; but =
-&quot;QEMU Project&quot; as the &quot;maintainer&quot;. I put a lot of work=
- into this, so it felt weird to say that it was authored by a mailing list.=
-</div><div><br></div><div>I also wanted to avoid not listing my own name at=
- all, since this has largely been my initiative to polish it up, write docs=
-, and split it out -- it feels rude to just dump responsibility straight ba=
-ck on the list and pretend I&#39;m not the point of contact for it.<br></di=
-v>=C2=A0<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt; +maintainer =3D QEMU Project<br>
-&gt;=C2=A0 maintainer_email =3D <a href=3D"mailto:qemu-devel@nongnu.org" ta=
-rget=3D"_blank">qemu-devel@nongnu.org</a><br>
-&gt;=C2=A0 url =3D <a href=3D"https://www.qemu.org/" rel=3D"noreferrer" tar=
-get=3D"_blank">https://www.qemu.org/</a><br>
-&gt;=C2=A0 download_url =3D <a href=3D"https://www.qemu.org/download/" rel=
-=3D"noreferrer" target=3D"_blank">https://www.qemu.org/download/</a><br>
-<br>
-Regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
-s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
-oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
-nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
-"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
-https://www.instagram.com/dberrange</a> :|<br>
-<br>
-</blockquote></div></div>
-
---00000000000022891f05d345fec4--
-
+r~
 
