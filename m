@@ -2,83 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C244A4768DC
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 04:54:09 +0100 (CET)
-Received: from localhost ([::1]:42432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B85476948
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 05:56:45 +0100 (CET)
+Received: from localhost ([::1]:43770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxhqK-0005hj-DK
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 22:54:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40606)
+	id 1mxiou-0005Ce-8t
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 23:56:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mxhpM-0004rs-EV
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 22:53:08 -0500
-Received: from [2607:f8b0:4864:20::62a] (port=45810
- helo=mail-pl1-x62a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mxhpI-00023x-I3
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 22:53:06 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id w24so5663709ply.12
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 19:53:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=c7dtqfqUGYpURJLUiRBAdh+GEkSX0Hnoa+Az7G/KBrM=;
- b=Q1v0YM40EU/de/AfUD6dBIbCYCSQsAWVa6fbEs4sI5Lsaj+cJCOFwhg3+YrJ3+w3Qq
- SE2fMRDua80spd/tcb1anJ898NucqgUQumNL7JzYOadGMifx9rvQGuJxggIKMIKsWwrw
- KEkyL7vQ1VsLa6CbGSA9lWJedzplwKghUPQvYkHcyFapGTIH/BgDxYZKY+mJK143zpAL
- HKLhhsSQFil4p19+PSzDq/rMZ8H0E23YiicG6WuMICDxfKi6ttipd6t1jAzNzCjgF+c3
- zbefzdCVyIg4cdrF7INjmi4BurZfX0+Azg5VOUyD7erj/ITK6YXUYgGl3u6sh23UD6D9
- t8hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=c7dtqfqUGYpURJLUiRBAdh+GEkSX0Hnoa+Az7G/KBrM=;
- b=u8pTguyIvMBTEtRsoWhfeF+/DbfKD1gGsfIXpn0q72wi0fKY0hND2YaKZEnvfdrLiv
- bKAKl0btFPTHIEEWI1AUvmULEocsyM4S02SvS87tMkYpi9GWIMFl7ZzHrDOWfcNA0KOu
- iGqpMMggpfpJWvSW3hSv3gN7FDNWUeMMWDBnXO9LlZreW0qvKC9R9jSpqIij6vbsykXT
- 1/Qw8U7lbAfS9i9DK96C5DtVUpQ5Z/BZr+yRDeewy5bRcOOZuwgEqmv8YsMh2wMwQsN3
- TXTatrJUB0e0tiQGkbvPCjEi59w2WPcQZNQJPAq1uoOZd8gZS1i07A+gmNvoEdZo/KIe
- nT4A==
-X-Gm-Message-State: AOAM530vv0iSoAFbFHxp9fY5vrO2x7tdGfIDwxDDnoyaOtOsqDeZyri9
- aFqMd+jxGVvPFAyeZB735vr8fG09QlmJaA==
-X-Google-Smtp-Source: ABdhPJzLCoPfzvgWRjD9BqQi5A4E0Y5g1/HK3pFk85tnzgib+toHwyVtl3r7llfAbPGkZume2kEixQ==
-X-Received: by 2002:a17:90b:1bc3:: with SMTP id
- oa3mr3703228pjb.52.1639626782815; 
- Wed, 15 Dec 2021 19:53:02 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id z2sm4127143pff.107.2021.12.15.19.53.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Dec 2021 19:53:02 -0800 (PST)
-Subject: Re: [PULL 000/102] ppc queue
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211215165847.321042-1-clg@kaod.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2ef5a85e-8955-2028-026d-7cb3ad13d718@linaro.org>
-Date: Wed, 15 Dec 2021 19:53:00 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1)
+ (envelope-from <prvs=977d27bfe=alistair.francis@opensource.wdc.com>)
+ id 1mxin0-0002Jq-Rn
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 23:54:46 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:45669)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=977d27bfe=alistair.francis@opensource.wdc.com>)
+ id 1mximy-0003oJ-Un
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 23:54:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1639630485; x=1671166485;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=a5GlfVVoy9AEKVLH8CrZSSzqoUOWy1GWj6EYcgPFIq4=;
+ b=Kltem4wZ+qDxzZ6QHu6rN7ikUyVb/CqcKjBH7kFhvkY9LRQhuvJFS91f
+ p7EpwyRyj8Mc/DRK/+16iTHjQKuXqciNZ3pF6vwga1FrBnXIIWdv/siXa
+ /J0LVeiO/yNkmiKUGe1Q0AWPbZg3RntUgVNONowygpHeySUPbM7MiOcxh
+ YQLM/0/p4Im0rLD+jiNlT5WmaEfXV865Ba00aHp8C02qGeI6cE5ghVGsa
+ 71UmjynmBT5i59KMbk91CYK9VQvKyaJubhe9hb8hvXNm0M2sHiCOUfwUe
+ Wq0Jrr7LV4XG1MXXXXXut223LmZfirwsUN5tZ0qltDRWS4QxEbsjj160l w==;
+X-IronPort-AV: E=Sophos;i="5.88,210,1635177600"; d="scan'208";a="189397523"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 16 Dec 2021 12:54:39 +0800
+IronPort-SDR: FnV4fhOdsT+3NkTgH7F+phEU+y64NtfUKDrvOZnkxSeypYrvCqpMCsaDGf5CEXNqz6lC6uu1jB
+ wfpZiMXXpjr2gzdtifZDVUZlsKx5EZF1j8wLbKTeQQI+XySpLmaTS777Cg/pHluhQokNwl5I/A
+ aDlIE7sVmYSzdE7W994YNnL8oELzCpJfRyizibpPcMdPI/rihY8Yfnt9AhKy4rvT+FUcRAquOT
+ d5pJsd6rNUhDrmxkSk0sOM24LbOxrbBSrAsVaxtOTLeVGe/IqAeYR3AtW+3LGGlMuWXbWZCHLa
+ 2HDbRzS0nL/V4EUkwCpziFdM
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2021 20:27:33 -0800
+IronPort-SDR: EZr5JPyO1zsn4KjknSKwch+mWCByaZMDdqafAg1NV9VtZCWcF0gAqsLnGOsPV7UjhYYBpHhxLR
+ +L60jhmdhQ/C8Z2/h/rO1V6yOs5i/YJW+PE4hDP8G+5WuJDp3vkJkxK8XZ6cuuWYJz85cDjlR3
+ H5YzxD5Q/6iL9yrLg729+bPXwHwxrkUAecAuNm0t8yQyYg74bMs2iCD6ZYGzFDX/u2Oc9c5PII
+ pjR74TkUlLSCVexHRkVDtpnfyZXWhUg5Ihf8AfHTbc0AFhucx1Lr3gIBL2F0Ol1/zOeu16oCm3
+ 2bA=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2021 20:54:40 -0800
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JF0CL3mdQz1Rwnx
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 20:54:38 -0800 (PST)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1639630478; x=1642222479; bh=a5GlfVVoy9AEKVLH8CrZSSzqoUOWy1GW
+ j6EYcgPFIq4=; b=jwJ9NXxdmiJAlAT7sR0eqRUeFdAemgG6mYkcljSOFB+3T/LR
+ xrwV7rWH1Tcd0fraoHkcHIZsogPCarvHAFReAIl/va6kvJ8gqSh60mcfzg2PNx0j
+ LwKO9d+msMu516Wuonf2g8zlFcPjssaHJQ28mk2aLVOHgE72LAlOgbegZrlVOb/0
+ K8XkzC1LlSLa43bdj+FeoqXNdC0EbsQvG9rFxIHFf0p3AJu1IyKG3WXNVruAzLJs
+ inDkiis/gGpJnmpaTRK8yNxMB9Hu/okD+DezwMgslxCHytWHhH0hnWqN6lwGRQB9
+ IexfRF0Y1UmbbMDqWi48SAKJXXEK3B2DR7Sf2g==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id Gtd5BA-Rx_De for <qemu-devel@nongnu.org>;
+ Wed, 15 Dec 2021 20:54:38 -0800 (PST)
+Received: from toolbox.alistair23.me (unknown [10.225.165.66])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JF0CF3Ssyz1RtVG;
+ Wed, 15 Dec 2021 20:54:32 -0800 (PST)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, alistair23@gmail.com,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, bmeng.cn@gmail.com
+Subject: [PATCH v2 0/9] A collection of RISC-V cleanups and improvements
+Date: Thu, 16 Dec 2021 14:54:18 +1000
+Message-Id: <20211216045427.757779-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20211215165847.321042-1-clg@kaod.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.64,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.154.45;
+ envelope-from=prvs=977d27bfe=alistair.francis@opensource.wdc.com;
+ helo=esa6.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,245 +114,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/15/21 8:57 AM, Cédric Le Goater wrote:
-> The following changes since commit 76b56fdfc9fa43ec6e5986aee33f108c6c6a511e:
-> 
->    Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2021-12-14 12:46:18 -0800)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/legoater/qemu/ tags/pull-ppc-20211215
-> 
-> for you to fetch changes up to cdf906d7ea79afb3283b57e3cf1b89f1334f7f2b:
-> 
->    ppc/pnv: Use QOM hierarchy to scan PEC PHB4 devices (2021-12-15 08:20:37 +0100)
-> 
-> ----------------------------------------------------------------
-> ppc 7.0 queue:
-> 
-> * General cleanup for Mac machines (Peter)
-> * Fixes for FPU exceptions (Lucas)
-> * Support for new ISA31 instructions (Matheus)
-> * Fixes for ivshmem (Daniel)
-> * Cleanups for PowerNV PHB (Christophe and Cedric)
-> * Updates of PowerNV and pSeries documentation (Leonardo and Daniel)
-> * Fixes for PowerNV (Daniel)
-> * Large cleanup of FPU implementation (Richard)
-> * Removal of SoftTLBs support for PPC74x CPUs (Fabiano)
-> * Fixes for exception models in MPCx and 60x CPUs (Fabiano)
-> * Removal of 401/403 CPUs (Cedric)
-> * Deprecation of taihu machine (Thomas)
-> * Large rework of PPC405 machine (Cedric)
-> * Fixes for VSX instructions (Victor and Matheus)
-> * Fix for e6500 CPU (Fabiano)
-> * Initial support for PMU (Daniel)
-> 
-> ----------------------------------------------------------------
-> Alexey Kardashevskiy (1):
->        pseries: Update SLOF firmware image
-> 
-> Christophe Lombard (1):
->        pci-host: Allow extended config space access for PowerNV PHB4 model
-> 
-> Cédric Le Goater (28):
->        Merge tag 'qemu-slof-20211112' of github.com:aik/qemu into ppc-next
->        target/ppc: remove 401/403 CPUs
->        ppc/ppc405: Change kernel load address
->        ppc: Add trace-events for DCR accesses
->        ppc/ppc405: Convert printfs to trace-events
->        ppc/ppc405: Drop flag parameter in ppc405_set_bootinfo()
->        ppc/ppc405: Change ppc405ep_init() return value
->        ppc/ppc405: Add some address space definitions
->        ppc/ppc405: Remove flash support
->        ppc/ppc405: Rework FW load
->        ppc/ppc405: Introduce ppc405_set_default_bootinfo()
->        ppc/ppc405: Fix boot from kernel
->        ppc/ppc405: Change default PLL values at reset
->        ppc/ppc405: Fix bi_pci_enetaddr2 field in U-Boot board information
->        ppc/ppc405: Add update of bi_procfreq field
->        ppc/pnv: Introduce a "chip" property under PHB3
->        ppc/pnv: Use the chip class to check the index of PHB3 devices
->        ppc/pnv: Drop the "num-phbs" property
->        ppc/pnv: Move mapping of the PHB3 CQ regions under pnv_pbcq_realize()
->        ppc/pnv: Use QOM hierarchy to scan PHB3 devices
->        ppc/pnv: Introduce a num_pecs class attribute for PHB4 PEC devices
->        ppc/pnv: Introduce version and device_id class atributes for PHB4 devices
->        ppc/pnv: Introduce a "chip" property under the PHB4 model
->        ppc/pnv: Introduce a num_stack class attribute
->        ppc/pnv: Compute the PHB index from the PHB4 PEC model
->        ppc/pnv: Remove "system-memory" property from PHB4 PEC
->        ppc/pnv: Move realize of PEC stacks under the PEC model
->        ppc/pnv: Use QOM hierarchy to scan PEC PHB4 devices
-> 
-> Daniel Henrique Barboza (13):
->        ivshmem.c: change endianness to LITTLE_ENDIAN
->        ivshmem-test.c: enable test_ivshmem_server for ppc64 arch
->        ppc/pnv.c: add a friendly warning when accel=kvm is used
->        docs/system/ppc/powernv.rst: document KVM support status
->        ppc/pnv.c: fix "system-id" FDT when -uuid is set
->        target/ppc: introduce PMUEventType and PMU overflow timers
->        target/ppc: PMU basic cycle count for pseries TCG
->        target/ppc: PMU: update counters on PMCs r/w
->        target/ppc: PMU: update counters on MMCR1 write
->        target/ppc: enable PMU counter overflow with cycle events
->        target/ppc: enable PMU instruction count
->        target/ppc/power8-pmu.c: add PM_RUN_INST_CMPL (0xFA) event
->        PPC64/TCG: Implement 'rfebb' instruction
-> 
-> Fabiano Rosas (8):
->        target/ppc: Disable software TLB for the 7450 family
->        target/ppc: Disable unused facilities in the e600 CPU
->        target/ppc: Remove the software TLB model of 7450 CPUs
->        target/ppc: Fix MPCxxx FPU interrupt address
->        target/ppc: Remove 603e exception model
->        target/ppc: Set 601v exception model id
->        target/ppc: Fix e6500 boot
->        Revert "target/ppc: Move SPR_DSISR setting to powerpc_excp"
-> 
-> Leonardo Garcia (5):
->        docs: Minor updates on the powernv documentation.
->        docs: Introducing pseries documentation.
->        docs: rSTify ppc-spapr-hcalls.txt
->        docs: Rename ppc-spapr-hcalls.txt to ppc-spapr-hcalls.rst.
->        Link new ppc-spapr-hcalls.rst file to pseries.rst.
-> 
-> Lucas Mateus Castro (alqotel) (3):
->        target/ppc: Fixed call to deferred exception
->        test/tcg/ppc64le: test mtfsf
->        target/ppc: ppc_store_fpscr doesn't update bits 0 to 28 and 52
-> 
-> Matheus Ferst (6):
->        target/ppc: Implement Vector Expand Mask
->        target/ppc: Implement Vector Extract Mask
->        target/ppc: Implement Vector Mask Move insns
->        target/ppc: fix xscvqpdp register access
->        target/ppc: move xscvqpdp to decodetree
->        target/ppc: do not silence SNaN in xscvspdpn
-> 
-> Peter Maydell (1):
->        hw/ppc/mac.h: Remove MAX_CPUS macro
-> 
-> Richard Henderson (34):
->        softfloat: Extend float_exception_flags to 16 bits
->        softfloat: Add flag specific to Inf - Inf
->        softfloat: Add flag specific to Inf * 0
->        softfloat: Add flags specific to Inf / Inf and 0 / 0
->        softfloat: Add flag specific to sqrt(-x)
->        softfloat: Add flag specific to convert non-nan to int
->        softfloat: Add flag specific to signaling nans
->        target/ppc: Update float_invalid_op_addsub for new flags
->        target/ppc: Update float_invalid_op_mul for new flags
->        target/ppc: Update float_invalid_op_div for new flags
->        target/ppc: Move float_check_status from FPU_FCTI to translate
->        target/ppc: Update float_invalid_cvt for new flags
->        target/ppc: Fix VXCVI return value
->        target/ppc: Remove inline from do_fri
->        target/ppc: Use FloatRoundMode in do_fri
->        target/ppc: Tidy inexact handling in do_fri
->        target/ppc: Clean up do_fri
->        target/ppc: Update fmadd for new flags
->        target/ppc: Split out do_fmadd
->        target/ppc: Do not call do_float_check_status from do_fmadd
->        target/ppc: Split out do_frsp
->        target/ppc: Update do_frsp for new flags
->        target/ppc: Use helper_todouble in do_frsp
->        target/ppc: Update sqrt for new flags
->        target/ppc: Update xsrqpi and xsrqpxp to new flags
->        target/ppc: Update fre to new flags
->        softfloat: Add float64r32 arithmetic routines
->        target/ppc: Add helpers for fmadds et al
->        target/ppc: Add helper for fsqrts
->        target/ppc: Add helpers for fadds, fsubs, fdivs
->        target/ppc: Add helper for fmuls
->        target/ppc: Add helper for frsqrtes
->        target/ppc: Update fres to new flags and float64r32
->        target/ppc: Use helper_todouble/tosingle in helper_xststdcsp
-> 
-> Thomas Huth (1):
->        ppc: Mark the 'taihu' machine as deprecated
-> 
-> Victor Colombo (2):
->        target/ppc: Fix xs{max, min}[cj]dp to use VSX registers
->        target/ppc: Move xs{max,min}[cj]dp to decodetree
-> 
->   docs/about/deprecated.rst               |   9 +
->   docs/specs/ppc-spapr-hcalls.rst         | 100 +++++
->   docs/specs/ppc-spapr-hcalls.txt         |  78 ----
->   docs/system/ppc/powernv.rst             |  68 ++--
->   docs/system/ppc/pseries.rst             | 226 +++++++++++
->   hw/ppc/mac.h                            |   3 -
->   hw/ppc/ppc405.h                         |  14 +-
->   include/fpu/softfloat-types.h           |  23 +-
->   include/fpu/softfloat.h                 |  14 +-
->   include/hw/pci-host/pnv_phb3.h          |   3 +
->   include/hw/pci-host/pnv_phb4.h          |   5 +
->   include/hw/ppc/pnv.h                    |   2 +
->   target/ppc/cpu-models.h                 |  19 -
->   target/ppc/cpu-qom.h                    |  12 +-
->   target/ppc/cpu.h                        |  63 ++-
->   target/ppc/helper.h                     |  29 +-
->   target/ppc/power8-pmu.h                 |  26 ++
->   target/ppc/spr_tcg.h                    |   5 +
->   target/ppc/insn32.decode                |  54 ++-
->   fpu/softfloat.c                         | 114 +++++-
->   hw/misc/ivshmem.c                       |   2 +-
->   hw/pci-host/pnv_phb3.c                  |   3 +-
->   hw/pci-host/pnv_phb3_pbcq.c             |  11 +
->   hw/pci-host/pnv_phb4.c                  |   1 +
->   hw/pci-host/pnv_phb4_pec.c              |  75 +++-
->   hw/ppc/mac_newworld.c                   |   3 +-
->   hw/ppc/mac_oldworld.c                   |   3 +-
->   hw/ppc/pnv.c                            | 177 +++++----
->   hw/ppc/ppc.c                            |   2 +
->   hw/ppc/ppc405_boards.c                  | 245 ++++++------
->   hw/ppc/ppc405_uc.c                      | 225 +++++------
->   hw/ppc/spapr_cpu_core.c                 |   1 +
->   target/ppc/cpu-models.c                 |  34 --
->   target/ppc/cpu.c                        |   2 +-
->   target/ppc/cpu_init.c                   | 658 +++-----------------------------
->   target/ppc/excp_helper.c                |  95 +++--
->   target/ppc/fpu_helper.c                 | 598 ++++++++++++++++-------------
->   target/ppc/helper_regs.c                |   7 +
->   target/ppc/mmu_common.c                 |  60 +--
->   target/ppc/mmu_helper.c                 |  32 --
->   target/ppc/power8-pmu.c                 | 350 +++++++++++++++++
->   target/ppc/translate.c                  | 104 +++--
->   tests/qtest/ivshmem-test.c              |   5 +-
->   tests/tcg/ppc64le/mtfsf.c               |  61 +++
->   tests/tcg/ppc64le/non_signalling_xscv.c |  36 ++
->   fpu/softfloat-parts.c.inc               |  57 +--
->   fpu/softfloat-specialize.c.inc          |  12 +-
->   target/ppc/power8-pmu-regs.c.inc        |  69 +++-
->   target/ppc/translate/branch-impl.c.inc  |  33 ++
->   target/ppc/translate/fp-impl.c.inc      |  53 +--
->   target/ppc/translate/vmx-impl.c.inc     | 231 +++++++++++
->   target/ppc/translate/vsx-impl.c.inc     |  55 ++-
->   target/ppc/translate/vsx-ops.c.inc      |   5 -
->   hw/ppc/trace-events                     |  23 ++
->   pc-bios/README                          |   2 +-
->   pc-bios/slof.bin                        | Bin 991744 -> 991920 bytes
->   roms/SLOF                               |   2 +-
->   target/ppc/meson.build                  |   1 +
->   tests/tcg/ppc64/Makefile.target         |   5 +-
->   tests/tcg/ppc64le/Makefile.target       |   5 +-
->   60 files changed, 2555 insertions(+), 1655 deletions(-)
->   create mode 100644 docs/specs/ppc-spapr-hcalls.rst
->   delete mode 100644 docs/specs/ppc-spapr-hcalls.txt
->   create mode 100644 target/ppc/power8-pmu.h
->   create mode 100644 target/ppc/power8-pmu.c
->   create mode 100644 tests/tcg/ppc64le/mtfsf.c
->   create mode 100644 tests/tcg/ppc64le/non_signalling_xscv.c
->   create mode 100644 target/ppc/translate/branch-impl.c.inc
+From: Alistair Francis <alistair.francis@wdc.com>=0D
 
-Fails testing:
-
-/home/gitlab-runner/builds/yKcZqVC9/0/qemu-project/qemu/docs/specs/ppc-spapr-hcalls.rst:101:Block 
-quote ends without a blank line; unexpected unindent.
-
-
-r~
+This is a few patches to cleanup some RISC-V hardware and mark the=0D
+Hyperisor extension as non experimental.=0D
+=0D
+v2:=0D
+ - Add some more fixes=0D
+ - Address review comments=0D
+=0D
+Alistair Francis (9):=0D
+  hw/intc: sifive_plic: Add a reset function=0D
+  hw/intc: sifive_plic: Cleanup the write function=0D
+  hw/intc: sifive_plic: Cleanup the read function=0D
+  hw/intc: sifive_plic: Cleanup remaining functions=0D
+  target/riscv: Mark the Hypervisor extension as non experimental=0D
+  target/riscv: Enable the Hypervisor extension by default=0D
+  hw/riscv: Use error_fatal for SoC realisation=0D
+  hw/riscv: virt: Allow support for 32 cores=0D
+  hw/riscv: virt: Set the clock-frequency=0D
+=0D
+ include/hw/riscv/virt.h    |   2 +-=0D
+ hw/intc/sifive_plic.c      | 254 +++++++++++--------------------------=0D
+ hw/riscv/microchip_pfsoc.c |   2 +-=0D
+ hw/riscv/opentitan.c       |   2 +-=0D
+ hw/riscv/sifive_e.c        |   2 +-=0D
+ hw/riscv/sifive_u.c        |   2 +-=0D
+ hw/riscv/virt.c            |   1 +=0D
+ target/riscv/cpu.c         |   2 +-=0D
+ 8 files changed, 83 insertions(+), 184 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
