@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90DF476A69
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 07:35:07 +0100 (CET)
-Received: from localhost ([::1]:37030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF825476A71
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 07:36:18 +0100 (CET)
+Received: from localhost ([::1]:39118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxkM4-0002zc-Eh
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 01:35:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39134)
+	id 1mxkNF-0004PT-W8
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 01:36:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mxkGe-0001I2-HK
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 01:29:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35551)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mxkGb-0001uf-Mq
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 01:29:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639636164;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hltzC0jH0InsE4jc4nIJQXMG5CeN7I/5TezuBuQh9eE=;
- b=RZ3RoD2fxmMbt9u6cYgXd0M7STT1PhN9DtJQG7Q3qEOHxs6LsgcClN9YC3dvkM6cUtir7D
- wwEMf3+GPSEjXvQk/KLugASx67jNHSol2K0OHvX0gyWsNIINfc2bOpEsz1DChp235RYDc+
- Rhg905gdXFgrhUgXn//ta2csUrxKI2Q=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-255-lmbt8F5dOeGtVCLE5ZEgSg-1; Thu, 16 Dec 2021 01:29:22 -0500
-X-MC-Unique: lmbt8F5dOeGtVCLE5ZEgSg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- t30-20020adfa2de000000b001a24004e1fbso314086wra.10
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 22:29:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mxkKO-0002tk-6d; Thu, 16 Dec 2021 01:33:20 -0500
+Received: from [2607:f8b0:4864:20::d32] (port=34681
+ helo=mail-io1-xd32.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mxkKI-0002Qy-DL; Thu, 16 Dec 2021 01:33:19 -0500
+Received: by mail-io1-xd32.google.com with SMTP id e128so33824459iof.1;
+ Wed, 15 Dec 2021 22:33:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=x9LNsJ3RSqSMJBVPcgLRNzbhZB8uFa6w/6LwStHARTU=;
+ b=FEsx07/0dvW8BKaXMyy9aDTfwlxmMydv7Oeo5Cgi2wnzW7bHBwBh7fFnjg4LStRzC3
+ kHnJ2q/PNKNxx/uRghCcgCetHBLpHOH3zzMOyImGI/4EMLy2q+2Tpays/5R4vAhhV+ND
+ n8wwnu//by4TBy4xpxSH59jJIitwtnuCi3ZK0yK0ESbbyXkd90Zh2WdeMV52R5dqMJ/D
+ 1Kgh3YmE1DvbeJDhATqGNJQm5BzRIoMS7dJ6sNDUBTTJV7ajaLAbJBUzcKBlHY0iQdii
+ Xx1liJ11LNSQRLhrCoTP3DIno513X/YTs91IW/D/UqRQkECY+XABZULvJ8gcXAsr2fSh
+ i3Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=hltzC0jH0InsE4jc4nIJQXMG5CeN7I/5TezuBuQh9eE=;
- b=S7IvEszSu2lkTWSSOs9qJZWBfDDt7SEzzbCDHiYTscM4FbXumC5z/wRII7d8zqii4u
- Mtr4324RiTwP1j7Q5etZpQXwMOH0PoBKuWrmjW77IVYS2oLkT06ZPp195lRMVteyfv83
- DyLt3T9RiuAyDmvETNHGgqmNGA5tIyGqW8mM+nGz8Kh7KHt2W/310fVbYW2u8VpuGuLt
- BCvzgjatXDkr+GT9ryIBVqAx+rgm+VhdiZUmdiaXU0QQrW4vlA/lhAfUemaBs6U2N1vn
- 3ROYCNAwRTgX6HfKzVLfvyqj+tmxKxgwzGOry+J2WjZkajjDLcfpD1odrhZvD1Mmwnun
- nzbA==
-X-Gm-Message-State: AOAM533P5XUSp4MkFP12mRknR01YSbdYffGnQD3uu3P6VnertHmeV/Vs
- ZJ6AvF1QgbylCX0YKRblG2WzrbfHezZ2T2hrA9SxzYsA+4sVq/9izVvpuJhhcjDFpK5Ah2MVAqQ
- lcws7xGyVdi4o9bk=
-X-Received: by 2002:adf:9142:: with SMTP id j60mr7672055wrj.647.1639636160083; 
- Wed, 15 Dec 2021 22:29:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzX+T9NNLdFZLk9doCVVEU/thTxcm8lH7TAils+KIVa32uOr+/Y76DYKjl6obHoWYvFCKXSKQ==
-X-Received: by 2002:adf:9142:: with SMTP id j60mr7672033wrj.647.1639636159849; 
- Wed, 15 Dec 2021 22:29:19 -0800 (PST)
-Received: from xz-m1.local ([64.64.123.12])
- by smtp.gmail.com with ESMTPSA id f18sm3780031wre.7.2021.12.15.22.29.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 22:29:19 -0800 (PST)
-Date: Thu, 16 Dec 2021 14:29:12 +0800
-From: Peter Xu <peterx@redhat.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Subject: Re: [PATCH v2 1/4] target/i386: Fix sanity check on max APIC ID /
- X2APIC enablement
-Message-ID: <YbrcuC+MEigJpxCS@xz-m1.local>
-References: <20211209220840.14889-1-dwmw2@infradead.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=x9LNsJ3RSqSMJBVPcgLRNzbhZB8uFa6w/6LwStHARTU=;
+ b=4BUiG380q9sFe7UEJpT/+ihgzyTmVAfWSVqSU5wIgi4SyJ0HNcRDfwyAF5G6fGHza4
+ DIy9FNe7We0+eVeBjfn7GdKtOW1++fDxm6wiszhQlcxZ0xy5JyxGMdMtA9dyl26TW0Ay
+ tspVV8b86m3OJdXPS03B+iZ0gi4mDnYQgXkaoSH16191qVXwYLe/Zquz5Jt7kruGaNaD
+ mfoclDYqzMcCsBw1f6/+aBIHwyeixkNRzgsFeZwHEe8r47odHVvVO2kaZYNpam4tLNxR
+ z8zEIMaEYKUgg7UEav9VdUNIUg60cOeubHBfOszRBkPcAVynDPN9cypUIU++LtYlqp9r
+ fE/Q==
+X-Gm-Message-State: AOAM533inFMfsirdGhNkgcHCEFpwCJZReLA/ieTbHkjMXPSjbJGRQYQh
+ bMD81Vp5ibxezw4i9i1LyYbFkhKyS5NcrE6KOto=
+X-Google-Smtp-Source: ABdhPJwk+ofezbjhLgyTNJI29tBgMaDv//ZJHrwTgjeHZ3RLaUbyALBYJDOzgNcRT4LHe4nUdTh4sfrA2Qvgoa2DXpA=
+X-Received: by 2002:a05:6638:32a2:: with SMTP id
+ f34mr8667522jav.63.1639636392237; 
+ Wed, 15 Dec 2021 22:33:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211209220840.14889-1-dwmw2@infradead.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211210075704.23951-1-frank.chang@sifive.com>
+In-Reply-To: <20211210075704.23951-1-frank.chang@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 16 Dec 2021 16:32:45 +1000
+Message-ID: <CAKmqyKOX9K42BJvJ5_gH5+EzD+yUKwHX44BOv7RVzXeSuYvYAg@mail.gmail.com>
+Subject: Re: [PATCH v11 00/77] support vector extension v1.0
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d32
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,109 +78,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 09, 2021 at 10:08:37PM +0000, David Woodhouse wrote:
-> The check on x86ms->apic_id_limit in pc_machine_done() had two problems.
-> 
-> Firstly, we need KVM to support the X2APIC API in order to allow IRQ
-> delivery to APICs >= 255. So we need to call/check kvm_enable_x2apic(),
-> which was done elsewhere in *some* cases but not all.
-> 
-> Secondly, microvm needs the same check. So move it from pc_machine_done()
-> to x86_cpus_init() where it will work for both.
-> 
-> The check in kvm_cpu_instance_init() is now redundant and can be dropped.
-> 
-> Signed-off-by: David Woodhouse <dwmw2@infradead.org>
-> Acked-by: Claudio Fontana <cfontana@suse.de>
-> ---
->  hw/i386/pc.c              |  8 --------
->  hw/i386/x86.c             | 16 ++++++++++++++++
->  target/i386/kvm/kvm-cpu.c |  2 +-
->  3 files changed, 17 insertions(+), 9 deletions(-)
-> 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index a2ef40ecbc..9959f93216 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -736,14 +736,6 @@ void pc_machine_done(Notifier *notifier, void *data)
->          /* update FW_CFG_NB_CPUS to account for -device added CPUs */
->          fw_cfg_modify_i16(x86ms->fw_cfg, FW_CFG_NB_CPUS, x86ms->boot_cpus);
->      }
-> -
-> -
-> -    if (x86ms->apic_id_limit > 255 && !xen_enabled() &&
-> -        !kvm_irqchip_in_kernel()) {
-> -        error_report("current -smp configuration requires kernel "
-> -                     "irqchip support.");
-> -        exit(EXIT_FAILURE);
-> -    }
->  }
->  
->  void pc_guest_info_init(PCMachineState *pcms)
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index b84840a1bb..f64639b873 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -39,6 +39,7 @@
->  #include "sysemu/replay.h"
->  #include "sysemu/sysemu.h"
->  #include "sysemu/cpu-timers.h"
-> +#include "sysemu/xen.h"
->  #include "trace.h"
->  
->  #include "hw/i386/x86.h"
-> @@ -136,6 +137,21 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
->       */
->      x86ms->apic_id_limit = x86_cpu_apic_id_from_index(x86ms,
->                                                        ms->smp.max_cpus - 1) + 1;
-> +
-> +    /*
-> +     * Can we support APIC ID 255 or higher?
-> +     *
-> +     * Under Xen: yes.
-> +     * With userspace emulated lapic: no
-> +     * With KVM's in-kernel lapic: only if X2APIC API is enabled.
-> +     */
-> +    if (x86ms->apic_id_limit > 255 && !xen_enabled() &&
-> +        (!kvm_irqchip_in_kernel() || !kvm_enable_x2apic())) {
+On Fri, Dec 10, 2021 at 6:00 PM <frank.chang@sifive.com> wrote:
+>
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> This patchset implements the vector extension v1.0 for RISC-V on QEMU.
+>
+> RVV v1.0 spec is now fronzen for public review:
+> https://github.com/riscv/riscv-v-spec/releases/tag/v1.0
+>
+> The port is available here:
+> https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v11
+>
+> RVV v1.0 can be enabled with -cpu option: v=true and specify vext_spec
+> option to v1.0 (i.e. vext_spec=v1.0)
+>
+> Note: This patchset depends on other patchsets listed in Based-on
+>       section below so it is not able to be built unless those patchsets
+>       are applied.
+>
+> Changelog:
+>
+> v11
+>   * Rebase on riscv-to-apply.next.
+>
+> v10
+>   * Add ELEN checks for widening and narrowing instructions.
+>
+> v9
+>   * Remove explicitly set mstatus.SD patches as mstatus.SD is now
+>     set in add_status_sd().
+>   * Rebase on riscv-to-apply.next branch.
+>
+> v8
+>   * Use {get,dest}_gpr APIs.
+>   * remove vector AMO instructions.
+>   * rename vpopc.m to vcpop.m.
+>   * rename vle1.v and vse1.v to vlm.v and vsm.v.
+>   * rename vmandnot.mm and vmornot.mm to vmandn.mm and vmorn.mm.
+>
+> v7
+>   * remove hardcoded GDB vector registers list.
+>   * add vsetivli instruction.
+>   * add vle1.v and vse1.v instructions.
+>
+> v6
+>   * add vector floating-point reciprocal estimate instruction.
+>   * add vector floating-point reciprocal square-root estimate instruction.
+>   * update check rules for segment register groups, each segment register
+>     group has to follow overlap rules.
+>   * update viota.m instruction check rules.
+>
+> v5
+>   * refactor RVV v1.0 check functions.
+>     (Thanks to Richard Henderson's bitwise tricks.)
+>   * relax RV_VLEN_MAX to 1024-bits.
+>   * implement vstart CSR's behaviors.
+>   * trigger illegal instruction exception if frm is not valid for
+>     vector floating-point instructions.
+>   * rebase on riscv-to-apply.next.
+>
+> v4
+>   * remove explicit float flmul variable in DisasContext.
+>   * replace floating-point calculations with shift operations to
+>     improve performance.
+>   * relax RV_VLEN_MAX to 512-bits.
+>
+> v3
+>   * apply nan-box helpers from Richard Henderson.
+>   * remove fp16 api changes as they are sent independently in another
+>     pathcset by Chih-Min Chao.
+>   * remove all tail elements clear functions as tail elements can
+>     retain unchanged for either VTA set to undisturbed or agnostic.
+>   * add fp16 nan-box check generator function.
+>   * add floating-point rounding mode enum.
+>   * replace flmul arithmetic with shifts to avoid floating-point
+>     conversions.
+>   * add Zvqmac extension.
+>   * replace gdbstub vector register xml files with dynamic generator.
+>   * bumped to RVV v1.0.
+>   * RVV v1.0 related changes:
+>     * add vl<nf>re<eew>.v and vs<nf>r.v vector whole register
+>       load/store instructions
+>     * add vrgatherei16 instruction.
+>     * rearranged bits in vtype to make vlmul bits into a contiguous
+>       field.
+>
+> v2
+>   * drop v0.7.1 support.
+>   * replace invisible return check macros with functions.
+>   * move mark_vs_dirty() to translators.
+>   * add SSTATUS_VS flag for s-mode.
+>   * nan-box scalar fp register for floating-point operations.
+>   * add gdbstub files for vector registers to allow system-mode
+>     debugging with GDB.
+>
+> Based-on: <20211021160847.2748577-1-frank.chang@sifive.com>
+> Based-on: <20211210074329.5775-1-frank.chang@sifive.com>
+>
+> Frank Chang (72):
+>   target/riscv: drop vector 0.7.1 and add 1.0 support
+>   target/riscv: Use FIELD_EX32() to extract wd field
+>   target/riscv: rvv-1.0: set mstatus.SD bit if mstatus.VS is dirty
+>   target/riscv: rvv-1.0: introduce writable misa.v field
+>   target/riscv: rvv-1.0: add translation-time vector context status
+>   target/riscv: rvv-1.0: remove rvv related codes from fcsr registers
+>   target/riscv: rvv-1.0: check MSTATUS_VS when accessing vector csr
+>     registers
+>   target/riscv: rvv-1.0: remove MLEN calculations
+>   target/riscv: rvv-1.0: add fractional LMUL
+>   target/riscv: rvv-1.0: add VMA and VTA
+>   target/riscv: rvv-1.0: update check functions
+>   target/riscv: introduce more imm value modes in translator functions
+>   target/riscv: rvv:1.0: add translation-time nan-box helper function
+>   target/riscv: rvv-1.0: remove amo operations instructions
+>   target/riscv: rvv-1.0: configure instructions
+>   target/riscv: rvv-1.0: stride load and store instructions
+>   target/riscv: rvv-1.0: index load and store instructions
+>   target/riscv: rvv-1.0: fix address index overflow bug of indexed
+>     load/store insns
+>   target/riscv: rvv-1.0: fault-only-first unit stride load
+>   target/riscv: rvv-1.0: load/store whole register instructions
+>   target/riscv: rvv-1.0: update vext_max_elems() for load/store insns
+>   target/riscv: rvv-1.0: take fractional LMUL into vector max elements
+>     calculation
+>   target/riscv: rvv-1.0: floating-point square-root instruction
+>   target/riscv: rvv-1.0: floating-point classify instructions
+>   target/riscv: rvv-1.0: count population in mask instruction
+>   target/riscv: rvv-1.0: find-first-set mask bit instruction
+>   target/riscv: rvv-1.0: set-X-first mask bit instructions
+>   target/riscv: rvv-1.0: iota instruction
+>   target/riscv: rvv-1.0: element index instruction
+>   target/riscv: rvv-1.0: allow load element with sign-extended
+>   target/riscv: rvv-1.0: register gather instructions
+>   target/riscv: rvv-1.0: integer scalar move instructions
+>   target/riscv: rvv-1.0: floating-point move instruction
+>   target/riscv: rvv-1.0: floating-point scalar move instructions
+>   target/riscv: rvv-1.0: whole register move instructions
+>   target/riscv: rvv-1.0: integer extension instructions
+>   target/riscv: rvv-1.0: single-width averaging add and subtract
+>     instructions
+>   target/riscv: rvv-1.0: single-width bit shift instructions
+>   target/riscv: rvv-1.0: integer add-with-carry/subtract-with-borrow
+>   target/riscv: rvv-1.0: narrowing integer right shift instructions
+>   target/riscv: rvv-1.0: widening integer multiply-add instructions
+>   target/riscv: rvv-1.0: single-width saturating add and subtract
+>     instructions
+>   target/riscv: rvv-1.0: integer comparison instructions
+>   target/riscv: rvv-1.0: floating-point compare instructions
+>   target/riscv: rvv-1.0: mask-register logical instructions
+>   target/riscv: rvv-1.0: slide instructions
+>   target/riscv: rvv-1.0: floating-point slide instructions
+>   target/riscv: rvv-1.0: narrowing fixed-point clip instructions
+>   target/riscv: rvv-1.0: single-width floating-point reduction
+>   target/riscv: rvv-1.0: widening floating-point reduction instructions
+>   target/riscv: rvv-1.0: single-width scaling shift instructions
+>   target/riscv: rvv-1.0: remove widening saturating scaled multiply-add
+>   target/riscv: rvv-1.0: remove vmford.vv and vmford.vf
+>   target/riscv: rvv-1.0: remove integer extract instruction
+>   target/riscv: rvv-1.0: floating-point min/max instructions
+>   target/riscv: introduce floating-point rounding mode enum
+>   target/riscv: rvv-1.0: floating-point/integer type-convert
+>     instructions
+>   target/riscv: rvv-1.0: widening floating-point/integer type-convert
+>   target/riscv: add "set round to odd" rounding mode helper function
+>   target/riscv: rvv-1.0: narrowing floating-point/integer type-convert
+>   target/riscv: rvv-1.0: relax RV_VLEN_MAX to 1024-bits
+>   target/riscv: rvv-1.0: implement vstart CSR
+>   target/riscv: rvv-1.0: trigger illegal instruction exception if frm is
+>     not valid
+>   target/riscv: rvv-1.0: floating-point reciprocal square-root estimate
+>     instruction
+>   target/riscv: rvv-1.0: floating-point reciprocal estimate instruction
+>   target/riscv: rvv-1.0: rename r2_zimm to r2_zimm11
+>   target/riscv: rvv-1.0: add vsetivli instruction
+>   target/riscv: rvv-1.0: add evl parameter to vext_ldst_us()
+>   target/riscv: rvv-1.0: add vector unit-stride mask load/store insns
+>   target/riscv: rvv-1.0: rename vmandnot.mm and vmornot.mm to vmandn.mm
+>     and vmorn.mm
+>   target/riscv: rvv-1.0: update opivv_vadc_check() comment
+>   target/riscv: rvv-1.0: Add ELEN checks for widening and narrowing
+>     instructions
+>
+> Greentime Hu (1):
+>   target/riscv: rvv-1.0: add vlenb register
+>
+> Hsiangkai Wang (1):
+>   target/riscv: gdb: support vector registers for rv64 & rv32
+>
+> LIU Zhiwei (3):
+>   target/riscv: rvv-1.0: add mstatus VS field
+>   target/riscv: rvv-1.0: add sstatus VS field
+>   target/riscv: rvv-1.0: add vcsr register
+>
+>  target/riscv/cpu.c                      |   18 +-
+>  target/riscv/cpu.h                      |   61 +-
+>  target/riscv/cpu_bits.h                 |   10 +
+>  target/riscv/cpu_helper.c               |   39 +-
+>  target/riscv/csr.c                      |   63 +-
+>  target/riscv/fpu_helper.c               |   17 +-
+>  target/riscv/gdbstub.c                  |  184 ++
+>  target/riscv/helper.h                   |  435 ++-
+>  target/riscv/insn32.decode              |  294 +-
+>  target/riscv/insn_trans/trans_rvv.c.inc | 2429 +++++++++------
+>  target/riscv/internals.h                |   24 +-
+>  target/riscv/translate.c                |   73 +-
+>  target/riscv/vector_helper.c            | 3601 ++++++++++++-----------
+>  13 files changed, 4157 insertions(+), 3091 deletions(-)
 
-I'm wondering whether we should still leave it be in the accel code, or is
-therer something that guarantees when reaching here kvm accel is initialized?
+Thanks!
 
-> +        error_report("current -smp configuration requires kernel "
-> +                     "irqchip and X2APIC API support.");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
->      possible_cpus = mc->possible_cpu_arch_ids(ms);
->      for (i = 0; i < ms->smp.cpus; i++) {
->          x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
-> diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-> index d95028018e..c60cb2dafb 100644
-> --- a/target/i386/kvm/kvm-cpu.c
-> +++ b/target/i386/kvm/kvm-cpu.c
-> @@ -165,7 +165,7 @@ static void kvm_cpu_instance_init(CPUState *cs)
->          /* only applies to builtin_x86_defs cpus */
->          if (!kvm_irqchip_in_kernel()) {
->              x86_cpu_change_kvm_default("x2apic", "off");
-> -        } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
-> +        } else if (kvm_irqchip_is_split()) {
->              x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
->          }
->  
-> -- 
+Applied to riscv-to-apply.next
+
+Alistair
+
+>
+> --
 > 2.31.1
-> 
-
--- 
-Peter Xu
-
+>
+>
 
