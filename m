@@ -2,76 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F56F478013
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 23:45:13 +0100 (CET)
-Received: from localhost ([::1]:40208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBDF0477E7D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 22:10:15 +0100 (CET)
+Received: from localhost ([::1]:54098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxzUt-00083A-8v
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 17:45:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59684)
+	id 1mxy0z-0007WJ-99
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 16:10:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abhijeetinamdar3005@gmail.com>)
- id 1mxx1r-0006ls-E3; Thu, 16 Dec 2021 15:07:03 -0500
-Received: from [2607:f8b0:4864:20::82d] (port=34784
- helo=mail-qt1-x82d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <abhijeetinamdar3005@gmail.com>)
- id 1mxx1p-0002dO-Ju; Thu, 16 Dec 2021 15:07:03 -0500
-Received: by mail-qt1-x82d.google.com with SMTP id o17so436316qtk.1;
- Thu, 16 Dec 2021 12:07:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nWTKQ9psyQ13r8t6k5U5jGGROERzHfOfOUuOaiS7K/I=;
- b=qOgQiYWcZJD0m1YC1m6zzUwhxhIdddufh7vW+KJQ3a3GxK4AXDBFJxqmtF4G9LfgIt
- /764ORNknCe1QL+OhFbJfupxuu/cURdwYQk8j/qlrxE6iYA1v+GtgZTS+DJQkigQlS4h
- NQOqLphlF5JAm+Ya3TIpnHsHQVBRBPq+b+2ciwMNKyfb3jg2e/UOLYlMcOOvwYQlXNlI
- 3MhXdfwrYYBDXkrt8CSaqatvQ77lkgsj7V/GcRIERR5PIGrQOWjmixaDxIS4k86M1Mq4
- Tdg2TL66iPHpt1hmHGwj1Dx8xN0gdCNfYKTO5BlH9UUWX7/Wx1VXAyOQGsErAgJ/5vTF
- 1LNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nWTKQ9psyQ13r8t6k5U5jGGROERzHfOfOUuOaiS7K/I=;
- b=UzgiUm37Moy7sbq3GE/HBxHFHcC1jFipudDlyB9tNRtxghQJLr+HYCcrclAlp11Opd
- 2NW0f7UKx2I7Ut11TxXUR1UPrVq6CaQ2vyufzTNvqN/WVWx9rZ64qA3p/1DyWSfXFXvS
- kP+bnzGZFBGldIfBeME2mV455yGIPuGD1U15ZZ2n8gXmBexFqpByYJMFX/WTtoCKiUc9
- 1OFJTsRVwRxWZGtBlKlwLBorwBjN9wqqibCxRot+bPy01bWbdrMgaqL/5qqTUsJrhjfH
- C1vj0XEvqudRo5NDH4E2OXwlK9WCEJqJbwytCvCdAStFa6SD1gDq0VKOdnEVsTwNCecW
- tb0g==
-X-Gm-Message-State: AOAM533mx8vIBqG2G8zmYZMWbjisVqps7J/13ADquPLkJ4tmZLeFO54W
- 8AJbv8KyY8V85wAtLD931naSPxY38aV6pmdat/o=
-X-Google-Smtp-Source: ABdhPJyDRc/wYObnlz7DBok1rjl8WQ0T0hUaNJMEoyD2UeOn1dgL+Y8u9EYW1v5BzEUmsLiRrmREojtQiUIorpycRbk=
-X-Received: by 2002:a05:622a:612:: with SMTP id
- z18mr18719223qta.442.1639685220074; 
- Thu, 16 Dec 2021 12:07:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mxxLU-0002TS-9N; Thu, 16 Dec 2021 15:27:20 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:44730
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mxxLK-0007L5-4G; Thu, 16 Dec 2021 15:27:16 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGJEsbX005671; 
+ Thu, 16 Dec 2021 20:26:33 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cyr22gb3k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Dec 2021 20:26:33 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKBiMV016032;
+ Thu, 16 Dec 2021 20:26:31 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04ams.nl.ibm.com with ESMTP id 3cy7qwatb5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Dec 2021 20:26:31 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1BGKIQdX49545508
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Dec 2021 20:18:27 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E407111C052;
+ Thu, 16 Dec 2021 20:26:28 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9220811C04C;
+ Thu, 16 Dec 2021 20:26:28 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 16 Dec 2021 20:26:28 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.48.122])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id CA9D42201A0;
+ Thu, 16 Dec 2021 21:26:27 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PULL 016/101] docs: Introducing pseries documentation.
+Date: Thu, 16 Dec 2021 21:24:49 +0100
+Message-Id: <20211216202614.414266-17-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211216202614.414266-1-clg@kaod.org>
+References: <20211216202614.414266-1-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Gxiv92DF2q_sz1TbyjnsJQNtjWYKIxd3
+X-Proofpoint-ORIG-GUID: Gxiv92DF2q_sz1TbyjnsJQNtjWYKIxd3
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <CAP4GjT1x=9z9jwRxUg-J_nyGQKiga=xcDddWzG5a9HCkiC2Tog@mail.gmail.com>
- <6b16b0e4-c0db-02de-1d95-ec831fdff938@amsat.org>
- <CAFEAcA9v6JQD3OR1tKL7yJaY+=-ohhvMCzF4xpSRAATXAB59vA@mail.gmail.com>
- <CAP4GjT1dhNPhHgNWJFH1CJg4zkZU0zkGr-rAqTZE1-HzqG=ahw@mail.gmail.com>
-In-Reply-To: <CAP4GjT1dhNPhHgNWJFH1CJg4zkZU0zkGr-rAqTZE1-HzqG=ahw@mail.gmail.com>
-From: abhijeet inamdar <abhijeetinamdar3005@gmail.com>
-Date: Thu, 16 Dec 2021 21:06:49 +0100
-Message-ID: <CAP4GjT3uOQgqc6pGDEKJjALSgjpHKYUaiZEHMtnYKWxV9oxfZQ@mail.gmail.com>
-Subject: Re: Exception return
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000016098205d348f76c"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
- envelope-from=abhijeetinamdar3005@gmail.com; helo=mail-qt1-x82d.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0
+ mlxscore=0 impostorscore=0 spamscore=0 clxscore=1034 adultscore=0
+ bulkscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112160109
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 16 Dec 2021 16:15:06 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,185 +96,353 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-discuss <qemu-discuss@nongnu.org>
+Cc: Leonardo Garcia <lagarcia@br.ibm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000016098205d348f76c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Leonardo Garcia <lagarcia@br.ibm.com>
 
-If I won't make that change it gives me immediate error as follows:
+The purpose of this document is to substitute the content currently
+available in the QEMU wiki at [0]. This initial version does contain
+some additional content as well. Whenever this documentation gets
+upstream and is reflected in [1], the QEMU wiki will be edited to point
+to this documentation, so that we only need to keep it updated in one
+place.
 
-Taking exception 18 [v7M INVSTATE UsageFault]
-...BusFault with BFSR.STKERR
-...taking pending nonsecure exception 3
-qemu: fatal: Lockup: can't take terminal derived exception (original
-exception priority -1)
+0. https://wiki.qemu.org/Documentation/Platforms/POWER
+1. https://qemu.readthedocs.io/en/latest/system/ppc/pseries.html
 
-BR.
-Abhijeet.
+Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Message-Id: <66b6fdde52062fdf4f4b4dc35a9f06a899c88293.1638981899.git.lagarc=
+ia@br.ibm.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ docs/system/ppc/pseries.rst | 226 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 226 insertions(+)
 
-On Thu, Dec 16, 2021 at 9:02 PM abhijeet inamdar <
-abhijeetinamdar3005@gmail.com> wrote:
+diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
+index 932d4dd17d29..e46f09d4c8d7 100644
+--- a/docs/system/ppc/pseries.rst
++++ b/docs/system/ppc/pseries.rst
+@@ -1,12 +1,238 @@
+ pSeries family boards (``pseries``)
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
++The Power machine para-virtualized environment described by the `Linux on =
+Power
++Architecture Reference document (LoPAR)
++<https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200812=
+.pdf>`_
++is called pSeries. This environment is also known as sPAPR, System p guest=
+s, or
++simply Power Linux guests (although it is capable of running other operati=
+ng
++systems, such as AIX).
++
++Even though pSeries is designed to behave as a guest environment, it is al=
+so
++capable of acting as a hypervisor OS, providing, on that role, nested
++virtualization capabilities.
++
+ Supported devices
+ -----------------
+=20
++ * Multi processor support for many Power processors generations: POWER7,
++   POWER7+, POWER8, POWER8NVL, POWER9, and Power10. Support for POWER5+ ex=
+ists,
++   but its state is unknown.
++ * Interrupt Controller, XICS (POWER8) and XIVE (POWER9 and Power10)
++ * vPHB PCIe Host bridge.
++ * vscsi and vnet devices, compatible with the same devices available on a
++   PowerVM hypervisor with VIOS managing LPARs.
++ * Virtio based devices.
++ * PCIe device pass through.
++
+ Missing devices
+ ---------------
+=20
++ * SPICE support.
+=20
+ Firmware
+ --------
++
++`SLOF <https://github.com/aik/SLOF>`_ (Slimline Open Firmware) is an
++implementation of the `IEEE 1275-1994, Standard for Boot (Initialization
++Configuration) Firmware: Core Requirements and Practices
++<https://standards.ieee.org/standard/1275-1994.html>`_.
++
++QEMU includes a prebuilt image of SLOF which is updated when a more recent
++version is required.
++
++Build directions
++----------------
++
++.. code-block:: bash
++
++  ./configure --target-list=3Dppc64-softmmu && make
++
++Running instructions
++--------------------
++
++Someone can select the pSeries machine type by running QEMU with the follo=
+wing
++options:
++
++.. code-block:: bash
++
++  qemu-system-ppc64 -M pseries <other QEMU arguments>
++
++sPAPR devices
++-------------
++
++The sPAPR specification defines a set of para-virtualized devices, which a=
+re
++also supported by the pSeries machine in QEMU and can be instantiated with=
+ the
++``-device`` option:
++
++* ``spapr-vlan`` : a virtual network interface.
++* ``spapr-vscsi`` : a virtual SCSI disk interface.
++* ``spapr-rng`` : a pseudo-device for passing random number generator data=
+ to the
++  guest (see the `H_RANDOM hypercall feature
++  <https://wiki.qemu.org/Features/HRandomHypercall>`_ for details).
++* ``spapr-vty``: a virtual teletype.
++* ``spapr-pci-host-bridge``: a PCI host bridge.
++* ``tpm-spapr``: a Trusted Platform Module (TPM).
++* ``spapr-tpm-proxy``: a TPM proxy.
++
++These are compatible with the devices historically available for use when
++running the IBM PowerVM hypervisor with LPARs.
++
++However, since these devices have originally been specified with another
++hypervisor and non-Linux guests in mind, you should use the virtio counter=
+parts
++(virtio-net, virtio-blk/scsi and virtio-rng for instance) if possible inst=
+ead,
++since they will most probably give you better performance with Linux guest=
+s in a
++QEMU environment.
++
++The pSeries machine in QEMU is always instantiated with the following devi=
+ces:
++
++* A NVRAM device (``spapr-nvram``).
++* A virtual teletype (``spapr-vty``).
++* A PCI host bridge (``spapr-pci-host-bridge``).
++
++Hence, it is not needed to add them manually, unless you use the ``-nodefa=
+ults``
++command line option in QEMU.
++
++In the case of the default ``spapr-nvram`` device, if someone wants to mak=
+e the
++contents of the NVRAM device persistent, they will need to specify a PFLASH
++device when starting QEMU, i.e. either use
++``-drive if=3Dpflash,file=3D<filename>,format=3Draw`` to set the default P=
+FLASH
++device, or specify one with an ID
++(``-drive if=3Dnone,file=3D<filename>,format=3Draw,id=3Dpfid``) and pass t=
+hat ID to the
++NVRAM device with ``-global spapr-nvram.drive=3Dpfid``.
++
++sPAPR specification
++^^^^^^^^^^^^^^^^^^^
++
++The main source of documentation on the sPAPR standard is the `Linux on Po=
+wer
++Architecture Reference document (LoPAR)
++<https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200812=
+.pdf>`_.
++However, documentation specific to QEMU's implementation of the specificat=
+ion
++can  also be found in QEMU documentation:
++
++.. toctree::
++   :maxdepth: 1
++
++   ../../specs/ppc-spapr-numa.rst
++   ../../specs/ppc-spapr-xive.rst
++
++Other documentation available in QEMU docs directory:
++
++* Hypervisor calls (a.k.a. hcalls) (``docs/specs/ppc-spapr-hcalls.txt``).
++* Hot plug (``/docs/specs/ppc-spapr-hotplug.txt``).
++* Hypervisor calls needed by the Ultravisor
++  (``/docs/specs/ppc-spapr-uv-hcalls.txt``).
++
++Switching between the KVM-PR and KVM-HV kernel module
++-----------------------------------------------------
++
++Currently, there are two implementations of KVM on Power, ``kvm_hv.ko`` and
++``kvm_pr.ko``.
++
++
++If a host supports both KVM modes, and both KVM kernel modules are loaded,=
+ it is
++possible to switch between the two modes with the ``kvm-type`` parameter:
++
++* Use ``qemu-system-ppc64 -M pseries,accel=3Dkvm,kvm-type=3DPR`` to use the
++  ``kvm_pr.ko`` kernel module.
++* Use ``qemu-system-ppc64 -M pseries,accel=3Dkvm,kvm-type=3DHV`` to use ``=
+kvm_hv.ko``
++  instead.
++
++KVM-PR
++^^^^^^
++
++KVM-PR uses the so-called **PR**\ oblem state of the PPC CPUs to run the g=
+uests,
++i.e. the virtual machine is run in user mode and all privileged instructio=
+ns
++trap and have to be emulated by the host. That means you can run KVM-PR in=
+side
++a pSeries guest (or a PowerVM LPAR for that matter), and that is where it =
+has
++originated, as historically (prior to POWER7) it was not possible to run L=
+inux
++on hypervisor mode on a Power processor (this function was restricted to
++PowerVM, the IBM proprietary hypervisor).
++
++Because all privileged instructions are trapped, guests that use a lot of
++privileged instructions run quite slow with KVM-PR. On the other hand, bec=
+ause
++of that, this kernel module can run on pretty much every PPC hardware, and=
+ is
++able to emulate a lot of guests CPUs. This module can even be used to run =
+other
++PowerPC guests like an emulated PowerMac.
++
++As KVM-PR can be run inside a pSeries guest, it can also provide nested
++virtualization capabilities (i.e. running a guest from within a guest).
++
++It is important to notice that, as KVM-HV provides a much better execution
++performance, maintenance work has been much more focused on it in the past
++years. Maintenance for KVM-PR has been minimal.
++
++In order to run KVM-PR guests with POWER9 processors, someone will need to=
+ start
++QEMU with ``kernel_irqchip=3Doff`` command line option.
++
++KVM-HV
++^^^^^^
++
++KVM-HV uses the hypervisor mode of more recent Power processors, that allow
++access to the bare metal hardware directly. Although POWER7 had this capab=
+ility,
++it was only starting with POWER8 that this was officially supported by IBM.
++
++Originally, KVM-HV was only available when running on a PowerNV platform (=
+a.k.a.
++Power bare metal). Although it runs on a PowerNV platform, it can only be =
+used
++to start pSeries guests. As the pSeries guest doesn't have access to the
++hypervisor mode of the Power CPU, it wasn't possible to run KVM-HV on a gu=
+est.
++This limitation has been lifted, and now it is possible to run KVM-HV insi=
+de
++pSeries guests as well, making nested virtualization possible with KVM-HV.
++
++As KVM-HV has access to privileged instructions, guests that use a lot of =
+these
++can run much faster than with KVM-PR. On the other hand, the guest CPU has=
+ to be
++of the same type as the host CPU this way, e.g. it is not possible to spec=
+ify an
++embedded PPC CPU for the guest with KVM-HV. However, there is at least the
++possibility to run the guest in a backward-compatibility mode of the previ=
+ous
++CPUs generations, e.g. you can run a POWER7 guest on a POWER8 host by using
++``-cpu POWER8,compat=3Dpower7`` as parameter to QEMU.
++
++Modules support
++---------------
++
++As noticed in the sections above, each module can run in a different
++environment. The following table shows with which environment each module =
+can
++run. As long as you are in a supported environment, you can run KVM-PR or =
+KVM-HV
++nested. Combinations not shown in the table are not available.
++
+++--------------+------------+------+-------------------+----------+-------=
+-+
++| Platform     | Host type  | Bits | Page table format | KVM-HV   | KVM-PR=
+ |
+++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D+=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D+
++| PowerNV      | bare metal | 32   | hash              | no       | yes   =
+ |
++|              |            |      +-------------------+----------+-------=
+-+
++|              |            |      | radix             | N/A      | N/A   =
+ |
++|              |            +------+-------------------+----------+-------=
+-+
++|              |            | 64   | hash              | yes      | yes   =
+ |
++|              |            |      +-------------------+----------+-------=
+-+
++|              |            |      | radix             | yes      | no    =
+ |
+++--------------+------------+------+-------------------+----------+-------=
+-+
++| pSeries [1]_ | PowerNV    | 32   | hash              | no       | yes   =
+ |
++|              |            |      +-------------------+----------+-------=
+-+
++|              |            |      | radix             | N/A      | N/A   =
+ |
++|              |            +------+-------------------+----------+-------=
+-+
++|              |            | 64   | hash              | no       | yes   =
+ |
++|              |            |      +-------------------+----------+-------=
+-+
++|              |            |      | radix             | yes [2]_ | no    =
+ |
++|              +------------+------+-------------------+----------+-------=
+-+
++|              | PowerVM    | 32   | hash              | no       | yes   =
+ |
++|              |            |      +-------------------+----------+-------=
+-+
++|              |            |      | radix             | N/A      | N/A   =
+ |
++|              |            +------+-------------------+----------+-------=
+-+
++|              |            | 64   | hash              | no       | yes   =
+ |
++|              |            |      +-------------------+----------+-------=
+-+
++|              |            |      | radix [3]_        | no       | yes   =
+ |
+++--------------+------------+------+-------------------+----------+-------=
+-+
++
++.. [1] On POWER9 DD2.1 processors, the page table format on the host and g=
+uest
++   must be the same.
++
++.. [2] KVM-HV cannot run nested on POWER8 machines.
++
++.. [3] Introduced on Power10 machines.
++
++Maintainer contact information
++------------------------------
++
++C=C3=A9dric Le Goater <clg@kaod.org>
++
++Daniel Henrique Barboza <danielhb413@gmail.com>
+\ No newline at end of file
+--=20
+2.31.1
 
-> I made some changes to the code in qemu :
-> https://github.com/qemu/qemu/blob/stable-6.0/target/arm/cpu.c#L339 . I
-> have commented out the variable vecbase and directly given the address of
-> my vector address(not zero) or where they are located in our binary file.
-> Is that a problem?
->
-> BR.
-> Abhijeet.
->
-> On Thu, Dec 16, 2021 at 7:47 PM Peter Maydell <peter.maydell@linaro.org>
-> wrote:
->
->> On Thu, 16 Dec 2021 at 17:44, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg>
->> wrote:
->> >
->> > Cc'ing qemu-arm developers.
->> >
->> > On 12/16/21 18:31, abhijeet inamdar wrote:
->> > > Hi,
->> > >
->> > > I was running my .elf file on my custom machine(CM3) and was hit wit=
-h
->> > > this error when debugging and had the required -d flags and single
->> stepping.
->> > >
->> > > IN: Hal_MemFault
->> > > 0x7004e794:  4770       bx       lr
->> > >
->> > > Trace 0: 0x7f4faa471100 [00000000/7004e794/0x312000c1]  Hal_MemFault
->> > > R00=3D7004938d R01=3D00000000 R02=3D7004938c R03=3Dffffffff
->> > > R04=3D7005e410 R05=3D10020000 R06=3De000eda0 R07=3D00000000
->> > > R08=3D00000010 R09=3D1003f8e0 R10=3De000ed94 R11=3D00000000
->> > > R12=3Dffffffff R13=3D1003dbe0 R14=3Dfffffff9 R15=3D7004e794
->> > > XPSR=3D01000003 ---- T handler
->> > > Taking exception 8 [QEMU v7M exception exit]
->> > > Exception return: magic PC fffffff9 previous exception 3
->> > > M profile return from interrupt with misaligned PC is UNPREDICTABLE
->> on v7M
->> > > ...successful exception return
->> > > DRBAR[6]: 0xa0000000 misaligned to DRSR region size, mask =3D 0x3fff=
-ffff
->> > > Taking exception 3 [Prefetch Abort]
->> > > ...with CFSR.IACCVIOL
->> > > ...taking pending nonsecure exception 3
->>
->> The logging here tells you what happened:
->>
->>  * we are in an exception handler
->>  * we do the bx lr to magic value which is M-profile's exception-return
->>  * ...but there's something wrong with the return address we pull
->>    off the stack, because it's not an aligned value (its least
->>    significant bit is set)
->>  * moreover, it's an address that corresponds to an MPU region
->>    that has been misprogrammed (the DRBAR value isn't right);
->>    the MPU treats such regions as not matching
->>  * and so we take an instruction access fault
->>
->> So you have two problems:
->>  (1) the PC value on the stack that you're trying to return to is wrong
->>  (2) you're programming the MPU wrong
->>
->> You need to investigate and fix both.
->>
->> -- PMM
->>
->
-
---00000000000016098205d348f76c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">If I won&#39;t make=C2=A0that=C2=A0change it gives me imme=
-diate error as follows:<div><br></div><div>Taking exception 18 [v7M INVSTAT=
-E UsageFault]<br>...BusFault with BFSR.STKERR<br>...taking pending nonsecur=
-e exception 3<br>qemu: fatal: Lockup: can&#39;t take terminal derived excep=
-tion (original exception priority -1)<br></div><div><br></div><div>BR.</div=
-><div>Abhijeet.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, Dec 16, 2021 at 9:02 PM abhijeet inamdar &lt;<=
-a href=3D"mailto:abhijeetinamdar3005@gmail.com">abhijeetinamdar3005@gmail.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-"><div dir=3D"ltr">I made some changes to the code in qemu :=C2=A0<a href=
-=3D"https://github.com/qemu/qemu/blob/stable-6.0/target/arm/cpu.c#L339" tar=
-get=3D"_blank">https://github.com/qemu/qemu/blob/stable-6.0/target/arm/cpu.=
-c#L339</a> . I have commented out the variable vecbase and directly given t=
-he address of my vector address(not zero) or where they are=C2=A0located in=
- our binary file. Is that a problem?=C2=A0<div><br></div><div>BR.</div><div=
->Abhijeet.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Dec 16, 2021 at 7:47 PM Peter Maydell &lt;<a href=
-=3D"mailto:peter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro=
-.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">On Thu, 16 Dec 2021 at 17:44, Philippe Mathieu-Daud=C3=A9 &lt;<a href=
-=3D"mailto:f4bug@amsat.org" target=3D"_blank">f4bug@amsat.org</a>&gt; wrote=
-:<br>
-&gt;<br>
-&gt; Cc&#39;ing qemu-arm developers.<br>
-&gt;<br>
-&gt; On 12/16/21 18:31, abhijeet inamdar wrote:<br>
-&gt; &gt; Hi,<br>
-&gt; &gt;<br>
-&gt; &gt; I was running my .elf file on my custom machine(CM3) and was hit =
-with<br>
-&gt; &gt; this error when debugging and had the required -d flags and singl=
-e stepping.<br>
-&gt; &gt;<br>
-&gt; &gt; IN: Hal_MemFault<br>
-&gt; &gt; 0x7004e794:=C2=A0 4770=C2=A0 =C2=A0 =C2=A0 =C2=A0bx=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0lr<br>
-&gt; &gt;<br>
-&gt; &gt; Trace 0: 0x7f4faa471100 [00000000/7004e794/0x312000c1]=C2=A0 Hal_=
-MemFault<br>
-&gt; &gt; R00=3D7004938d R01=3D00000000 R02=3D7004938c R03=3Dffffffff<br>
-&gt; &gt; R04=3D7005e410 R05=3D10020000 R06=3De000eda0 R07=3D00000000<br>
-&gt; &gt; R08=3D00000010 R09=3D1003f8e0 R10=3De000ed94 R11=3D00000000<br>
-&gt; &gt; R12=3Dffffffff R13=3D1003dbe0 R14=3Dfffffff9 R15=3D7004e794<br>
-&gt; &gt; XPSR=3D01000003 ---- T handler<br>
-&gt; &gt; Taking exception 8 [QEMU v7M exception exit]<br>
-&gt; &gt; Exception return: magic PC fffffff9 previous exception 3<br>
-&gt; &gt; M profile return from interrupt with misaligned PC is UNPREDICTAB=
-LE on v7M<br>
-&gt; &gt; ...successful exception return<br>
-&gt; &gt; DRBAR[6]: 0xa0000000 misaligned to DRSR region size, mask =3D 0x3=
-fffffff<br>
-&gt; &gt; Taking exception 3 [Prefetch Abort]<br>
-&gt; &gt; ...with CFSR.IACCVIOL<br>
-&gt; &gt; ...taking pending nonsecure exception 3<br>
-<br>
-The logging here tells you what happened:<br>
-<br>
-=C2=A0* we are in an exception handler<br>
-=C2=A0* we do the bx lr to magic value which is M-profile&#39;s exception-r=
-eturn<br>
-=C2=A0* ...but there&#39;s something wrong with the return address we pull<=
-br>
-=C2=A0 =C2=A0off the stack, because it&#39;s not an aligned value (its leas=
-t<br>
-=C2=A0 =C2=A0significant bit is set)<br>
-=C2=A0* moreover, it&#39;s an address that corresponds to an MPU region<br>
-=C2=A0 =C2=A0that has been misprogrammed (the DRBAR value isn&#39;t right);=
-<br>
-=C2=A0 =C2=A0the MPU treats such regions as not matching<br>
-=C2=A0* and so we take an instruction access fault<br>
-<br>
-So you have two problems:<br>
-=C2=A0(1) the PC value on the stack that you&#39;re trying to return to is =
-wrong<br>
-=C2=A0(2) you&#39;re programming the MPU wrong<br>
-<br>
-You need to investigate and fix both.<br>
-<br>
--- PMM<br>
-</blockquote></div>
-</blockquote></div>
-
---00000000000016098205d348f76c--
 
