@@ -2,96 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B3C4773F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 15:06:06 +0100 (CET)
-Received: from localhost ([::1]:57376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3BE7477416
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 15:12:42 +0100 (CET)
+Received: from localhost ([::1]:42908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxrOX-00048e-2Z
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 09:06:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48772)
+	id 1mxrUv-0005Xp-9R
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 09:12:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mxrK4-00081O-My
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 09:01:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60300)
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxrLv-0002GN-LV
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 09:03:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mxrK2-0003Qj-6e
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 09:01:27 -0500
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxrLs-0003uh-8p
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 09:03:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639663285;
+ s=mimecast20190719; t=1639663398;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bq6mbfsujRdIyF7vSAQXUxVT+yBnlPNNDeeoxN5jeEw=;
- b=PXjnrnc5cR8tfHiCCVLSVxnN3u39KMy3Eu2/eaemGPs+1qNSYk+vNX6J4RADMKUvH3GWbw
- yWJxGOrb3Dl282Fls6kabGeSiv7Ene48J9WpWSf4wjd5tP8Zl29dkoldOH2jjQCd91nIqS
- 2CHAn+4rz/Zil0o662whLv5KUk8YwmM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1jmoTazJd4fyVbKTJDreoYwWJT8cxa6PZ69kOgHJM/Y=;
+ b=GBXYsVPvnDYb0I3Ohl7sICXQfdA2jWQ8BLd4CgqzMn6rW5ULk0rjW3CeQ6LrOpl3cjIoSc
+ Eam7E+N4Xx2oSt9+UiXNyFX+LP7oGlABdGhpDd21WOcZ5DUl7OsbNDpqoSlnXwLCaqasWF
+ /pi0a3cbH4UaOb12eSRmNLyVeCjb5UQ=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615-jDXrsRRVNx-ZvpsmhSQBvQ-1; Thu, 16 Dec 2021 09:01:24 -0500
-X-MC-Unique: jDXrsRRVNx-ZvpsmhSQBvQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r10-20020a1c440a000000b003456b2594e0so1698782wma.8
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 06:01:24 -0800 (PST)
+ us-mta-299-Moy-vVGuPliPlY8YSKAH3Q-1; Thu, 16 Dec 2021 09:03:17 -0500
+X-MC-Unique: Moy-vVGuPliPlY8YSKAH3Q-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ bk35-20020a05620a1a2300b0046d2a9b93dfso20677853qkb.16
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 06:03:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Bq6mbfsujRdIyF7vSAQXUxVT+yBnlPNNDeeoxN5jeEw=;
- b=ZfgkK2pJ9VPHjnUtndZY5D/Jry6EHDR0BQZgApKylXDXFfRpTajC+O0QIghHVNhdsJ
- xQDGka8zXCsj/tENh/TtMmpLMJDQ+3hdLxdyVSblGRdWtfAoxAe8FMP253GZxyKlHctW
- dASVnuCq9cIKD5W8HzONqZtsDo46drcveZaxk06iMjhHnONUDfvwBa16xE9i3PDd2hfT
- b/O71DfEMcPmb4c4DrZuXup9CVrwTJ83DnSQgQtN9UI2qQsV1Nqt+6d/W1T+eI5uzjJN
- nCkGRCsFQVfQnUllsLHbw6bjpTf5A0vsKbWZZ64KjoZdHsxW1EcOw7CNGjGulE247RWp
- rEbA==
-X-Gm-Message-State: AOAM532SI5AwASGcG88oOyMz9CTAHVOn/4la3nSPeWzVv9S7VzqOzKBp
- OCKm2ANJScWebiBDfX+ecT4bxW6m5EOTW25CYqnki3Zm6LwzecweRQNW8at/zO85IUwjH7EonXN
- piqsWWs8mu5RFcDM=
-X-Received: by 2002:a05:6000:144a:: with SMTP id
- v10mr2356892wrx.357.1639663283054; 
- Thu, 16 Dec 2021 06:01:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJytozbo/6hfv9J8ipL72lOPkENF7w6I+he3Yv+TqS+kXP5A7//F7UZgHNOeF7URJ2tk0pfIEQ==
-X-Received: by 2002:a05:6000:144a:: with SMTP id
- v10mr2356872wrx.357.1639663282828; 
- Thu, 16 Dec 2021 06:01:22 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id g16sm5576073wmq.20.2021.12.16.06.01.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Dec 2021 06:01:22 -0800 (PST)
-Message-ID: <8970014e-000b-475e-e782-68a1dc50587e@redhat.com>
-Date: Thu, 16 Dec 2021 15:01:21 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1jmoTazJd4fyVbKTJDreoYwWJT8cxa6PZ69kOgHJM/Y=;
+ b=73dXtz1fmMDNZQwyFygx8Qx2UwYr0aa0gYNliNtnDQVd8fdyLzjP1+zMKedlyJRYk8
+ H9yv13c2qTS68mZ+J/iVsBx/qkoi45jqJz0VHpYks30R1Z1fcQP8OlEUd96gEmgSPs6v
+ dtxy20TfgvJ9tuV0+5/KYBDuPRsifFG4aY5hccp5hv5KbKk4DZvC3KlbeG/2bfP5WB6N
+ HqATw8J7JyeToba0kjHG5csL343tjcthJiwho4x/USPr+UfmU+dJqgnXE6DYhoklnQNx
+ /boiDzf+2kxKIk3ZiprFltvoUrEE/gHnGTgF7gtYxNmli9k+BFhcF81dig4ZekfNSg1O
+ bqKg==
+X-Gm-Message-State: AOAM530IrtNmhODJnUHB2QV7JvQMGycXENsFy7hQKURQwRTIMWRs8JzJ
+ paJOScNC7Dp0m3ZWvl1O5/n7Szw2ZVjE7Dhmf2e44xFEBToMz/M73mLU+DWILGKFjmhE2akwXu/
+ 9Mpq0FXi5BPHeBwM=
+X-Received: by 2002:ac8:570b:: with SMTP id 11mr17436050qtw.128.1639663396570; 
+ Thu, 16 Dec 2021 06:03:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwPoXFYu7jt6iHNcN77d94bDFX9GDuLfv7HknL+WTkwGg2u0W9va8tOtgJhfkIzNPdGLSp2Qg==
+X-Received: by 2002:ac8:570b:: with SMTP id 11mr17436019qtw.128.1639663396326; 
+ Thu, 16 Dec 2021 06:03:16 -0800 (PST)
+Received: from localhost ([181.191.236.130])
+ by smtp.gmail.com with ESMTPSA id p1sm2801200qke.109.2021.12.16.06.03.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Dec 2021 06:03:15 -0800 (PST)
+Date: Thu, 16 Dec 2021 11:03:13 -0300
+From: Beraldo Leal <bleal@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 20/25] python/aqmp: take QMPBadPortError and
+ parse_address from qemu.qmp
+Message-ID: <20211216140313.ldyy6vffwzuj446s@laptop.redhat>
+References: <20211215193939.3768033-1-jsnow@redhat.com>
+ <20211215193939.3768033-21-jsnow@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 09/31] block: introduce assert_bdrv_graph_writable
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20211124064418.3120601-1-eesposit@redhat.com>
- <20211124064418.3120601-10-eesposit@redhat.com>
- <6dd02c7c-5f0e-9dce-28b8-6ed7fb834a50@redhat.com>
- <9b8fae21-9263-7db6-1f51-cae4662395ab@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <9b8fae21-9263-7db6-1f51-cae4662395ab@redhat.com>
+In-Reply-To: <20211215193939.3768033-21-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=bleal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.034, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,72 +94,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+ Daniel Berrange <berrange@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Wainer Moschetta <wainersm@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14.12.21 20:48, Emanuele Giuseppe Esposito wrote:
->
->
-> On 10/12/2021 18:43, Hanna Reitz wrote:
->> On 24.11.21 07:43, Emanuele Giuseppe Esposito wrote:
->>> We want to be sure that the functions that write the child and
->>> parent list of a bs are under BQL and drain.
->>>
->>> BQL prevents from concurrent writings from the GS API, while
->>> drains protect from I/O.
->>>
->>> TODO: drains are missing in some functions using this assert.
->>> Therefore a proper assertion will fail. Because adding drains
->>> requires additional discussions, they will be added in future
->>> series.
->>>
->>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>> ---
->>>   include/block/block_int-global-state.h | 10 +++++++++-
->>>   block.c                                |  4 ++++
->>>   block/io.c                             | 11 +++++++++++
->>>   3 files changed, 24 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/include/block/block_int-global-state.h 
->>> b/include/block/block_int-global-state.h
->>> index a1b7d0579d..fa96e8b449 100644
->>> --- a/include/block/block_int-global-state.h
->>> +++ b/include/block/block_int-global-state.h
->>> @@ -312,4 +312,12 @@ void 
->>> bdrv_remove_aio_context_notifier(BlockDriverState *bs,
->>>    */
->>>   void bdrv_drain_all_end_quiesce(BlockDriverState *bs);
->>> -#endif /* BLOCK_INT_GLOBAL_STATE*/
->>
->> This looks like it should be squashed into patch 7, sorry I missed 
->> this in v4...
->>
->> (Rest of this patch looks good to me, for the record – and while I’m 
->> at it, for patches I didn’t reply to so far, I planned to send an R-b 
->> later.  But then there’s things like patches 2/3 looking good to me, 
->> but it turned out in my review for patch 4 that bdrv_lock_medium() is 
->> used in an I/O path, so I can’t really send an R-b now anymore...)
->>
-> Sorry I don't understand this, what should be squashed into patch 7? 
-> The assertion? If so, why?
+On Wed, Dec 15, 2021 at 02:39:34PM -0500, John Snow wrote:
+> Shift these definitions over from the qmp package to the async qmp
+> package.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/qemu/aqmp/aqmp_tui.py |  2 +-
+>  python/qemu/aqmp/legacy.py   | 30 ++++++++++++++++++++++++++----
+>  python/qemu/qmp/__init__.py  | 26 --------------------------
+>  3 files changed, 27 insertions(+), 31 deletions(-)
+> 
+> diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py
+> index a2929f771c..184a3e4690 100644
+> --- a/python/qemu/aqmp/aqmp_tui.py
+> +++ b/python/qemu/aqmp/aqmp_tui.py
+> @@ -35,8 +35,8 @@
+>  import urwid
+>  import urwid_readline
+>  
+> -from ..qmp import QEMUMonitorProtocol, QMPBadPortError
+>  from .error import ProtocolError
+> +from .legacy import QEMUMonitorProtocol, QMPBadPortError
+>  from .message import DeserializationError, Message, UnexpectedTypeError
+>  from .protocol import ConnectError, Runstate
+>  from .qmp_client import ExecInterruptedError, QMPClient
+> diff --git a/python/qemu/aqmp/legacy.py b/python/qemu/aqmp/legacy.py
+> index 0890f95b16..76b09671cc 100644
+> --- a/python/qemu/aqmp/legacy.py
+> +++ b/python/qemu/aqmp/legacy.py
+> @@ -22,9 +22,6 @@
+>  from .qmp_client import QMPClient
+>  
+>  
+> -# (Temporarily) Re-export QMPBadPortError
+> -QMPBadPortError = qemu.qmp.QMPBadPortError
+> -
+>  #: QMPMessage is an entire QMP message of any kind.
+>  QMPMessage = Dict[str, Any]
+>  
+> @@ -45,6 +42,12 @@
+>  # pylint: disable=missing-docstring
+>  
+>  
+> +class QMPBadPortError(QMPError):
+> +    """
+> +    Unable to parse socket address: Port was non-numerical.
+> +    """
+> +
+> +
+>  class QEMUMonitorProtocol(qemu.qmp.QEMUMonitorProtocol):
+>      def __init__(self, address: SocketAddrT,
+>                   server: bool = False,
+> @@ -72,7 +75,26 @@ def _get_greeting(self) -> Optional[QMPMessage]:
+>          return None
+>  
+>      # __enter__ and __exit__ need no changes
+> -    # parse_address needs no changes
+> +
+> +    @classmethod
+> +    def parse_address(cls, address: str) -> SocketAddrT:
+> +        """
+> +        Parse a string into a QMP address.
+> +
+> +        Figure out if the argument is in the port:host form.
+> +        If it's not, it's probably a file path.
+> +        """
+> +        components = address.split(':')
+> +        if len(components) == 2:
+> +            try:
+> +                port = int(components[1])
+> +            except ValueError:
+> +                msg = f"Bad port: '{components[1]}' in '{address}'."
+> +                raise QMPBadPortError(msg) from None
+> +            return (components[0], port)
+> +
+> +        # Treat as filepath.
+> +        return address
+>  
+>      def connect(self, negotiate: bool = True) -> Optional[QMPMessage]:
+>          self._aqmp.await_greeting = negotiate
+> diff --git a/python/qemu/qmp/__init__.py b/python/qemu/qmp/__init__.py
+> index 358c0971d0..4e08641154 100644
+> --- a/python/qemu/qmp/__init__.py
+> +++ b/python/qemu/qmp/__init__.py
+> @@ -102,12 +102,6 @@ def __init__(self, reply: QMPMessage):
+>          self.reply = reply
+>  
+>  
+> -class QMPBadPortError(QMPError):
+> -    """
+> -    Unable to parse socket address: Port was non-numerical.
+> -    """
+> -
+> -
+>  class QEMUMonitorProtocol:
+>      """
+>      Provide an API to connect to QEMU via QEMU Monitor Protocol (QMP) and then
+> @@ -237,26 +231,6 @@ def __exit__(self,
+>          # Implement context manager exit function.
+>          self.close()
+>  
+> -    @classmethod
+> -    def parse_address(cls, address: str) -> SocketAddrT:
+> -        """
+> -        Parse a string into a QMP address.
+> -
+> -        Figure out if the argument is in the port:host form.
+> -        If it's not, it's probably a file path.
+> -        """
+> -        components = address.split(':')
+> -        if len(components) == 2:
+> -            try:
+> -                port = int(components[1])
+> -            except ValueError:
+> -                msg = f"Bad port: '{components[1]}' in '{address}'."
+> -                raise QMPBadPortError(msg) from None
+> -            return (components[0], port)
+> -
+> -        # Treat as filepath.
+> -        return address
+> -
+>      def connect(self, negotiate: bool = True) -> Optional[QMPMessage]:
+>          """
+>          Connect to the QMP Monitor and perform capabilities negotiation.
 
-No, the
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
 
--#endif /* BLOCK_INT_GLOBAL_STATE*/
-+#endif /* BLOCK_INT_GLOBAL_STATE */
-
-part of the hunk.
-
-Hanna
+--
+Beraldo
 
 
