@@ -2,71 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 114AD476D84
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 10:36:47 +0100 (CET)
-Received: from localhost ([::1]:47050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9892476D85
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 10:37:39 +0100 (CET)
+Received: from localhost ([::1]:49280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxnBt-00059d-NQ
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 04:36:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48478)
+	id 1mxnCl-0006iE-1j
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 04:37:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mxn92-0003Ak-Tf
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:33:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33426)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxnBZ-0005RX-Fc
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:36:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mxn91-0005XB-I6
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:33:48 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxnBW-0005su-WD
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:36:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639647227;
+ s=mimecast20190719; t=1639647382;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j22Ow4wxdJqqQ11TGkXPtt8Cm/zwrypXO4NPqYVvLfc=;
- b=F1fJGfUMszXsnVww4ocG24GdY4BtEGoNB9W2/5FYQfxHMww7OdWXLdOoiVpsMXzBYQSoJ2
- tFy3NJ2yZ2Tpw3bTU6WbS8qPTZuOsJ/olXD5evN3wzob0QYqVF+BktT2VdQcm5uLIfoZuA
- Cr9R5NpYqkuNVnOxrk80mxpS2HLx/jU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8QyFDatt2lpTwVoJu5iOD1S4cNl7E73ndMajMjxMxsg=;
+ b=hR2TzL+vzJE7T9+c85AXC/mYwAL/VS3FuCDSO+rhTx7AVaD8EPhwFi5eN1qWuqjg3JpXt3
+ tii1wYBdrmMgaTZd6JmvD8/CEwfFQzDqkfK8SAAZOmMynXYfOxkOBBhfF9KN0uECJVd4WD
+ /+fs7xngW/wfnJB867R1SywvlFbaD48=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-92-InPHbztPN0aMezmDr46iBg-1; Thu, 16 Dec 2021 04:33:43 -0500
-X-MC-Unique: InPHbztPN0aMezmDr46iBg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90F46802C92;
- Thu, 16 Dec 2021 09:33:41 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.163])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D5DC784FF6;
- Thu, 16 Dec 2021 09:33:31 +0000 (UTC)
-Date: Thu, 16 Dec 2021 09:33:30 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v4 04/14] vfio-user: define vfio-user-server object
-Message-ID: <YbsH6lrcL9RIrSxR@stefanha-x1.localdomain>
-References: <cover.1639549843.git.jag.raman@oracle.com>
- <22b0d82a54d53043323bda2ae0b409fb54cbf007.1639549843.git.jag.raman@oracle.com>
+ us-mta-127-qUQ9R6TUNmqpN-EwDUs5cQ-1; Thu, 16 Dec 2021 04:36:21 -0500
+X-MC-Unique: qUQ9R6TUNmqpN-EwDUs5cQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ o17-20020a05600c511100b00343141e2a16so7562700wms.5
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 01:36:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=8QyFDatt2lpTwVoJu5iOD1S4cNl7E73ndMajMjxMxsg=;
+ b=YuzCETBa6KeH+OD1LJBjxjBb/6bA+AG4U9GUiyrhphbykH7AJhDVtmCKHv3fbACvMC
+ qYPBSpybFfKAmQp6UNjPpLHOQkNaMaB/CvjRl40epqDVs4WUiOfRpYbLeu1C0V8LkmDd
+ 3tEeoj0HUzZ6VsNRWqEh+zuNfFISZo3mJMYDDvYEuN/Jh9jyiw8Vi8v3MsOW1fQ2zZ7Z
+ uVtfmllMMQjTTZWJosfoCb+KG/38JJvs9S2PIa7wmFvfMHtpm6dNbjY5w0U8baMBF06n
+ 50wVSB9gKnfH9WdQNRPQoFV3H6AIhd0hA8VoEm2SzEMMXfntlaHify1PWIx6OgeYysTl
+ mGqA==
+X-Gm-Message-State: AOAM530GakZQAYduT0dM7zW18ScqOG++K3TBmEzJm4YhuWuhxxmyxkyK
+ HIiDWQEhzYfJA28HoI9Q1vGqgKhJ5AWv1f+zuyQz4bWZ4Zxb9DhUJN0t+A+C6J7U0sWgW3ThrEf
+ 2MTKP6LBdLX1hmKU=
+X-Received: by 2002:a5d:50cd:: with SMTP id f13mr7999165wrt.672.1639647380073; 
+ Thu, 16 Dec 2021 01:36:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy/X6nVGKPXCVMzIicFsN+brtBCsVKTG8qJwW8ddWxsaULJDrHo0znc7xFqJa6U6wjzjom0tw==
+X-Received: by 2002:a5d:50cd:: with SMTP id f13mr7999146wrt.672.1639647379839; 
+ Thu, 16 Dec 2021 01:36:19 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id y15sm5947434wry.72.2021.12.16.01.36.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Dec 2021 01:36:19 -0800 (PST)
+Message-ID: <61ba1305-321a-1de2-a399-e7b608e4dad4@redhat.com>
+Date: Thu, 16 Dec 2021 10:36:18 +0100
 MIME-Version: 1.0
-In-Reply-To: <22b0d82a54d53043323bda2ae0b409fb54cbf007.1639549843.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] e1000: fix tx re-entrancy problem
+To: Jon Maloy <jmaloy@redhat.com>, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>, Alexander Bulekov <alxndr@redhat.com>
+References: <20211021161047.578751-1-jmaloy@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211021161047.578751-1-jmaloy@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NYM9Et6g6QJf0qVT"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.034, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,86 +100,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
- bleal@redhat.com, swapnil.ingle@nutanix.com, john.levon@nutanix.com,
- philmd@redhat.com, qemu-devel@nongnu.org, wainersm@redhat.com,
- alex.williamson@redhat.com, thanos.makatos@nutanix.com,
- marcandre.lureau@gmail.com, crosa@redhat.com, pbonzini@redhat.com,
- alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---NYM9Et6g6QJf0qVT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Jon,
 
-On Wed, Dec 15, 2021 at 10:35:28AM -0500, Jagannathan Raman wrote:
-> diff --git a/qapi/qom.json b/qapi/qom.json
-> index ccd1167808..6001a9b8f0 100644
-> --- a/qapi/qom.json
-> +++ b/qapi/qom.json
-> @@ -703,6 +703,20 @@
->  { 'struct': 'RemoteObjectProperties',
->    'data': { 'fd': 'str', 'devid': 'str' } }
-> =20
-> +##
-> +# @VfioUserServerProperties:
-> +#
-> +# Properties for x-vfio-user-server objects.
-> +#
-> +# @socket: socket to be used by the libvfiouser library
-> +#
-> +# @device: the id of the device to be emulated at the server
-> +#
-> +# Since: 6.2
+On 10/21/21 18:10, Jon Maloy wrote:
+> The fact that the MMIO handler is not re-entrant causes an infinite
+> loop under certain conditions:
+> 
+> Guest write to TDT ->  Loopback -> RX (DMA to TDT) -> TX
+> 
+> We now eliminate the effect of this problem locally in e1000, by adding
+> a boolean in struct E1000State indicating when the TX side is busy. This
+> will cause any entering new call to return early instead of interfering
+> with the ongoing work, and eliminates any risk of looping.
+> 
+> This is intended to address CVE-2021-20257.
+> 
+> Signed-off-by: Jon Maloy <jmaloy@redhat.com>
+> ---
+>  hw/net/e1000.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 
-6.2 has been released so the version number needs to be incremented.
-
-> +struct VfuObjectClass {
-> +    ObjectClass parent_class;
-> +
-> +    unsigned int nr_devs;
-> +
-> +    bool daemon;
-
-I was wondering what this means. auto_shutdown might be a clearer name.
-
-> +static void vfu_object_set_socket(Object *obj, Visitor *v, const char *n=
-ame,
-> +                                  void *opaque, Error **errp)
-> +{
-> +    VfuObject *o =3D VFU_OBJECT(obj);
-> +
-> +    qapi_free_SocketAddress(o->socket);
-> +
-> +    o->socket =3D NULL;
-> +
-> +    visit_type_SocketAddress(v, name, &o->socket, errp);
-> +
-> +    if (o->socket->type !=3D SOCKET_ADDRESS_TYPE_UNIX) {
-> +        qapi_free_SocketAddress(o->socket);
-> +        o->socket =3D NULL;
-> +        error_setg(errp, "vfu: Unsupported socket type - %s",
-> +                   o->socket->u.q_unix.path);
-
-s/o->socket->u.q_unix.path/SocketAddressType_str(o->socket->type)/
-
---NYM9Et6g6QJf0qVT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmG7B+oACgkQnKSrs4Gr
-c8gzlgf+KbHDvvTTqEos/w1ZQ9eH8s+M0oC1CBP5yI3C2S2ygcb9/0jod/uARy2b
-MPwTpmE2jTO40bX9wCaxMSfpKNsul7ux1eg9AdwMZKWOM0XuptLB+g2Z/AZ+6OhD
-/QIG5m/im+8FXtsdLs0qsfMWBLdvL12RI+sa9WgHBplUKdweXC5tmwrv/4rrnebT
-42KQzcAUNBr6G4fy0CVUStlRiwSHemAGpsyrPpfgaNE0Nw4tK75uB5STEPjevgXl
-ER4VoSYwAEoAHkJMLT06vmJ6YF33wLS8egY0/c1XueOZmNx36ip+usbQRb+U5oyr
-r1oypfHT8LpzZiqor0xsHce8Sbagvw==
-=oBzo
------END PGP SIGNATURE-----
-
---NYM9Et6g6QJf0qVT--
+I can not find the reproducer in the repository, have you sent one?
 
 
