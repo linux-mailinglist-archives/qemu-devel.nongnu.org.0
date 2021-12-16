@@ -2,164 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF47F478000
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 23:27:11 +0100 (CET)
-Received: from localhost ([::1]:42640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47DEE478002
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 23:30:14 +0100 (CET)
+Received: from localhost ([::1]:49238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxzDS-00063t-MQ
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 17:27:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53902)
+	id 1mxzGP-0002xK-CD
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 17:30:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1mxyMR-0005vO-QR
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 16:32:26 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:17284)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mxyVQ-0004UF-Ex
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 16:41:40 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1mxyMM-0003Lr-DA
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 16:32:23 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGLE4mR009316; 
- Thu, 16 Dec 2021 21:32:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=YPZMq4iVcL8P6VhiK8U7El/Kz9x8HxslQ01E1QgA7iM=;
- b=EF5jav7bKQ8Lp32kp4OlroQU+/BAD07iUtftXCcDBYxTALODrYU4kNHx+xtgbL7zG2y9
- xm3o2W55qll0zkxbklW/ETuZTVeO1KvgBHoac7KK7GiGlPl+5lGjXON/O/28PG86/69g
- DLhDAFCtXu37K/7eDB9mS6vdOlVg8fntzm22mUT22NzUXYpokwhrzvIi7XKKWLHrPCyC
- SFpHDu6gKtAkh/37b5AvHimT6N9eeEOGszJDFyntcx0SOFu/gM8AkVMMXgRTaL5AMlYG
- 5W4Mk8EJUYSQA3IQWzyYTarpqvoDgLUZAcDqmyWbujtkhs4O7U3wIxTxVIl1Rf4ro02J Kw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cyknp44rr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 21:32:14 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BGLGE2J120856;
- Thu, 16 Dec 2021 21:32:13 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2172.outbound.protection.outlook.com [104.47.56.172])
- by aserp3030.oracle.com with ESMTP id 3cyjuaghgw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 21:32:13 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lift2B2W1xxXNR2uxwIZ8mHLee/4F7lghjGsgLhfWqH+nQRRe8OgUyXv4x+P/9GDPKM2iwacXLAdz0g8HI+lQmT+7KUYfgU6k5c8dfnEy02k1PAlSYDLM2NnBr8LhUyKBLEwHPmnTuZm+YmvIP0XWiJP6ZTyoFvt9h8iHM3BCEsgJ4t7aVQO39Fu+9VM51J4+alcbqfdEfA0Gr+FEUN+ZLEuaUunSNJqflFUfzcg7zHTZXCnHP8Ig4SuavyFldl/YZcumo7ZEkB5GepmhiDNrY9zW32sqCQGO88NN/sdTmhgzn3SwRI7Ybysha6jeo5XA8NrIig4x+IS17d3w3LTlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YPZMq4iVcL8P6VhiK8U7El/Kz9x8HxslQ01E1QgA7iM=;
- b=K3vNMYsQUcl9CgckJA+ZGpPaCH7bcgluw48WYu3VlOkXPKMGBEGW37R0P0pGDmoVqm6eMafBvWF2dR1H4wXoO39zBbmp0tzZkdXRdOanjyn4Bf9uzHAaYexfdLYgHEco1BP+ejY72sDwRcQYTB7Z5jqCLLvcHdGyQUNkx5Fm+WlVSgrCc14r0SxX/LzlQVFMmdi+GLH1EhQtXZ+8MN1UT5xIhtfVAfTbAx03yKAO+lWSV8gxuWQQu5M3RX3akooYyv1HqUvHK4Ptk5dGpRe1c053nTWSUuLKQjWu6IEpPIWNY+Ykt7nkv0+E7fgiq2vf5563G5UF6KeS8htnTp3qFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YPZMq4iVcL8P6VhiK8U7El/Kz9x8HxslQ01E1QgA7iM=;
- b=d83tlDga2SIxlsTPxN5ScUCxcW5WdYBgQGOOSDLeioNlKejrAE8niUBWUgRjtFwHDgLoL0d9Cor0TICjJKGEGELFCjkpmNSwRI4irgnNAcYdDya19oHZ0VMQ/vr2FQegWDFRBRnsgderHhb6vqlVwBoqfzcyDeiKhrvwUVeSTuw=
-Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
- by BLAPR10MB5379.namprd10.prod.outlook.com (2603:10b6:208:325::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Thu, 16 Dec
- 2021 21:32:11 +0000
-Received: from MN2PR10MB4013.namprd10.prod.outlook.com
- ([fe80::b911:b919:6383:970d]) by MN2PR10MB4013.namprd10.prod.outlook.com
- ([fe80::b911:b919:6383:970d%5]) with mapi id 15.20.4778.018; Thu, 16 Dec 2021
- 21:32:11 +0000
-From: Jag Raman <jag.raman@oracle.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v4 05/14] vfio-user: instantiate vfio-user context
-Thread-Topic: [PATCH v4 05/14] vfio-user: instantiate vfio-user context
-Thread-Index: AQHX8YAo8XZPtNBaYEq7LyWMvxUT8aw04xsAgADCqAA=
-Date: Thu, 16 Dec 2021 21:32:11 +0000
-Message-ID: <B0026FB7-D3C0-4496-B2B6-EBA5269DD270@oracle.com>
-References: <cover.1639549843.git.jag.raman@oracle.com>
- <661e4b32da4b2ae7e0027fb483d74b96faff2cb8.1639549843.git.jag.raman@oracle.com>
- <YbsNEI91U7TQVo5Z@stefanha-x1.localdomain>
-In-Reply-To: <YbsNEI91U7TQVo5Z@stefanha-x1.localdomain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3654.120.0.1.13)
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 673b94cb-a672-4624-5b9f-08d9c0db851e
-x-ms-traffictypediagnostic: BLAPR10MB5379:EE_
-x-microsoft-antispam-prvs: <BLAPR10MB53790CB7EFB49295E9DFE2BC90779@BLAPR10MB5379.namprd10.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5/0oUxFblw9AhzKizBP2+26SscZrn0Y3SuBpNmSwjAC791wQr0+9aJw0vZKslubfE4lRblmgWPqqdq/MMQLAe/4tHY8qPqNkiIj/FQ4QUfskafxEoAfKHSTGpu9DT9uh3UQXwjbPMmxNnhdJ9iOqKuelffX3/F3WaEeDfT08o98CkoFFz2DxQ7F/QqA9eFZR94jaQd9VMBDbMt7LpIDe9tZ6uawUgYHimtg50GJ2AdCXLcCHyNOmJsowk72bQcL2JsAc9XkfS7Af3Jxi9fJSPokHd4AgI45kNJ55nT6++EURYdQkNzeulzI5TsdJAAwpLlAzkC2mnraaPvaA6DqxVhz6iG1XusCR9gm+pwtcMmzB01vgVnxf/p/QdxJ4Lu1uEvJjbF0+Ok+4mWO1IH7lJV1SiFBQ5EW8TC0qtkKfyq5XGm3JbycQyt9hA5WH+TBvLnOr8c8Jt2y/bATW610oLRQuAPlE5dtmy5Y7Ys5BMepOgy39n6qYzZS3hrzKMYGjznk+1/deQZV0yN1bjBJSXsdEjYNtNT8nTJHEwWPQ/m/yPX4XOzNHMss3Vv+v6tA0XxSf1Vk/mjkxDJf0NUCkAauD5ve5qKp5mB4ArcweZrj+RPOYPwrC86+/gb0kcWk0GQX/LTb0axeZgTi1/CScAUPr/nz33VIBHRL318nD7tCFkBlkU0TGA3vjyDvvAgvLgNBL0wh7WEPNfUCai8PzLjNyv84nYJXs8tIbukTRExycSCK/fSzH8k2zu+6kBSp6
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(4326008)(186003)(2616005)(38070700005)(5660300002)(71200400001)(122000001)(6916009)(6506007)(316002)(53546011)(66946007)(66446008)(64756008)(7416002)(33656002)(66476007)(66556008)(4744005)(76116006)(91956017)(6486002)(6512007)(86362001)(44832011)(8676002)(54906003)(8936002)(2906002)(38100700002)(508600001)(36756003)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?3Y6rd+TAVliQmxRtm8DXN/QGruZIi51ebkR+EsQZvrwtfj+Qz+YtsMU7YK?=
- =?iso-8859-1?Q?85vIOsf1Mtxz6sibCjQaqHt8mr6nAMhAdslra4dR2bfG4WAwNqBkWApSHv?=
- =?iso-8859-1?Q?blSPx8ZkFsJLKnfr2kKnGoXmtylpDMcUpT8rSJAiVYlQUlgWFWzFxEe4hg?=
- =?iso-8859-1?Q?PGVYrDTGAxH+x8yfwInRGUxWoU2KxTjZQlDidramcxvStKmkcO4rukk1+8?=
- =?iso-8859-1?Q?cpxJI+bOhiQFjVYlratHLxp2LfusIGbrb8beVO6IuzXz+uv+fqPiRX7O+U?=
- =?iso-8859-1?Q?XIqOhGeGA7uu6FBX4gPk/x83ssn6BnpuR2eH8Y58Lv14FXzk4bYcLA1PmQ?=
- =?iso-8859-1?Q?Q/6bpB1FTyaW+1G1RDn4yBc1uyhXxE95P5swtYbupuhHkKB5xbQKtR9Bxy?=
- =?iso-8859-1?Q?dyQU2Wr869dOCte2bcPtDcEb3vI2pASZhkrBOpFatdQ7SVLBbnV4lHpZSW?=
- =?iso-8859-1?Q?QSdpI0k5xJKAnTCCPUH72dlT3yiwlpDz+wWAABuPEKoh1Gm9QBEeosauOv?=
- =?iso-8859-1?Q?SiAL5bJ3NptQyATDr7PPTwRmev8/6o1oZDrTMpRVpEzFBtwvDQcHtYcCOK?=
- =?iso-8859-1?Q?KO5Bvcitp75724DFZmeN1N1ilF/ZnG6j7zE7bI4EEJug+0MFly5w03pwfq?=
- =?iso-8859-1?Q?1RwsGBsDj39zirqOAyuZ7+koXUTyut7OFH8S+DEvwGoQAmfaF+b78gR9En?=
- =?iso-8859-1?Q?ggSCuC0d/SWkq49gw3Xp1EjAxdr7Pfgqj7i5xh+u945H3T6S9gsRq+QMmE?=
- =?iso-8859-1?Q?ubWJCXuXFIR/wA39Zu72kYR/BpJ0Pqf5iIa9ecRNh982JC7AfjJ0SV46bP?=
- =?iso-8859-1?Q?ayhLFzcBQAM5jg492/QMSRDMJhpYK/895SmXi5mbtiCYujUeMF8joI+Bmg?=
- =?iso-8859-1?Q?5QMSLKJkMmRy//N5XVQdce4BvctFyCWDD9yA+7gAzBC6rCRinmBE/Y47xr?=
- =?iso-8859-1?Q?170esQqeZRnOwRm2RERlwi6gmc1xtNzJeCgfKQPMj30d/WHP0O5JUu8NIM?=
- =?iso-8859-1?Q?zTjPoJq1KfvdnIF+Uy1dJTZecwC/kXPnM0NT/P5jBp6fKyH73WXY1KzTpf?=
- =?iso-8859-1?Q?1U+OiScWUnOJQw5q0Ky/uwkSMKM4k1HxrHB+wtNdnKU3HmKcMteMM1IizB?=
- =?iso-8859-1?Q?pdx0x/4F0T2tdaF2AbdILeQ6cgTxC9h2k3wgP/1qPwAOI+7wvrYWZFKEXj?=
- =?iso-8859-1?Q?nrwBYgaXylFAai+sR7cntd0jzdHGZvhi8tJCmQZJcnhHq//uQ5fNXwMSpj?=
- =?iso-8859-1?Q?V9FCzkkcML4D6dtK1pENTks+OpOjeYOWOFz1JT8adY/iKE5giiOw3hitDR?=
- =?iso-8859-1?Q?imR0Z6Nc71/9eFPeUMYbns4S5VKAJ45kywZKcBl9l7MTbcndtD7t4saZAq?=
- =?iso-8859-1?Q?9avE001miJmbxTue6bfn1AkhovBFGJ0hNTct5WyH0v1XpZ1NVC2j1GAx0m?=
- =?iso-8859-1?Q?6snkLTOhahLYgmvQyYHAGV7f3gPBBkykZxVC9KG7O482UCnMY25GBw6fPo?=
- =?iso-8859-1?Q?r2HtN/dpTwYJHJrYYvdxXypZFXO3zkMukabPec3RnzwIC8uwtzOifcSs8V?=
- =?iso-8859-1?Q?+rFjpD+Coy1rdDQ0ULoEQHIGUCT54OFTp/lSeTPMPhPNA71tqIv6HBFL67?=
- =?iso-8859-1?Q?PzqGO8vSvz+tAnja2k7ppKXDimOmx2pUynnLe6ijuRUbKWSzOwomYQ0Gv8?=
- =?iso-8859-1?Q?Z/c2kG9Oa7rP0cQg40jHZi9dqIWE5n9nknQM0pEOCbIGBC6vSkW5+Znm1N?=
- =?iso-8859-1?Q?xgUw=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <B7C7A4B8A7A32C4DB48533CA70953C49@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mxyVO-0005ez-D9
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 16:41:40 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGJE0Z7009912; 
+ Thu, 16 Dec 2021 21:41:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=nnQcvrIKZcAtmuCSJtRpH2VcbWvgmS+mGpZ9O1QTZuw=;
+ b=GAo7kmcU/USwK1+H+jaHIaNzm/4wKu6lO7Ae5O5NtqQLbfcIzYWx/FT1DufsI+y/q+cc
+ WjwLQbqk74MnNBmNx/4fYGdSUaQbY1XXtO94u4tx4jCiP8SNCehIkrlDUV/lBwtcaVqC
+ cLz98NM+u9ljpbh6k3riHKJ2si0EaR3B9Uco+YQ1jin7mSo6c9CiOR70Yx3tKwoZk9KD
+ 1ru1OYjS24yKrio0QUtgK6m8bhiezyzXt2ZZ8nHAOFDES85IqkSQ/YOM3J9+59tmyC/q
+ qDmFAWTb0tMTJM1Q6/pHoOsDzeZUPIIVG4+0Y/bYwll5pfpbW3bLFoApAXMfRpsVhUPD aw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cyn1k8cmb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Dec 2021 21:41:35 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BGLVBLL000378;
+ Thu, 16 Dec 2021 21:41:34 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cyn1k8ckt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Dec 2021 21:41:34 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGLW5vI000847;
+ Thu, 16 Dec 2021 21:41:33 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma04dal.us.ibm.com with ESMTP id 3cy7hfxvga-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Dec 2021 21:41:33 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BGLfWCL23462258
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Dec 2021 21:41:32 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 32F05C6059;
+ Thu, 16 Dec 2021 21:41:32 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8D900C6063;
+ Thu, 16 Dec 2021 21:41:29 +0000 (GMT)
+Received: from [9.160.32.17] (unknown [9.160.32.17])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 16 Dec 2021 21:41:29 +0000 (GMT)
+Message-ID: <1c972953-a7b0-f06c-7d78-0e5fbf13b00e@linux.ibm.com>
+Date: Thu, 16 Dec 2021 23:41:27 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 673b94cb-a672-4624-5b9f-08d9c0db851e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2021 21:32:11.2272 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BeyYjOY5swuFzTqCdG7omis0W7xPleCEffpcNm3v5DALhpo8pgIdaghnbQ9SnfmOpIVLSLIRDNfGsGsDqW4+lg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5379
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10200
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- phishscore=0
- spamscore=0 mlxscore=0 adultscore=0 bulkscore=0 suspectscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112160114
-X-Proofpoint-ORIG-GUID: L5TblQ9gCcACPMY2p1kwqHkaazXSCnHh
-X-Proofpoint-GUID: L5TblQ9gCcACPMY2p1kwqHkaazXSCnHh
-Received-SPF: pass client-ip=205.220.165.32; envelope-from=jag.raman@oracle.com;
- helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] docs: Add measurement calculation details to
+ amd-memory-encryption.txt
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20211214135910.2732101-1-dovmurik@linux.ibm.com>
+ <Ybjk6XJUNIyC/LX5@redhat.com>
+ <336cbad3-06da-f11c-8cd1-ca058dd9c6b0@linux.ibm.com>
+ <YbtkzdpERCnODpft@redhat.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+In-Reply-To: <YbtkzdpERCnODpft@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: bWX6Sb6VdSP1YhElQnSzTuhOWju-FQMs
+X-Proofpoint-GUID: BJbXbflXOSCU2I9yXNeueRNAQT-pIgvV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=999
+ lowpriorityscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
+ clxscore=1015 malwarescore=0 spamscore=0 mlxscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112160115
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.034,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -172,45 +117,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>,
- "thuth@redhat.com" <thuth@redhat.com>, "bleal@redhat.com" <bleal@redhat.com>,
- "swapnil.ingle@nutanix.com" <swapnil.ingle@nutanix.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "philmd@redhat.com" <philmd@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- "wainersm@redhat.com" <wainersm@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@gmail.com>,
- "crosa@redhat.com" <crosa@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, James Bottomley <jejb@linux.ibm.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-> On Dec 16, 2021, at 4:55 AM, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->=20
-> On Wed, Dec 15, 2021 at 10:35:29AM -0500, Jagannathan Raman wrote:
->> +static void vfu_object_init_ctx(VfuObject *o, Error **errp)
->> +{
->> +    ERRP_GUARD();
->> +
->> +    if (o->vfu_ctx || !o->socket || !o->device ||
->> +            !phase_check(PHASE_MACHINE_READY)) {
->> +        return;
->> +    }
->> +
->> +    if (o->err) {
->> +        error_propagate(errp, o->err);
->=20
-> Missing o->err =3D NULL because ownership has been passed to errp.
+On 16/12/2021 18:09, Daniel P. Berrangé wrote:
+> On Thu, Dec 16, 2021 at 12:38:34PM +0200, Dov Murik wrote:
+>>
+>>
+>> On 14/12/2021 20:39, Daniel P. Berrangé wrote:
+>>> On Tue, Dec 14, 2021 at 01:59:10PM +0000, Dov Murik wrote:
+>>>> Add a section explaining how the Guest Owner should calculate the
+>>>> expected guest launch measurement for SEV and SEV-ES.
+>>>>
+>>>> Also update the name and link to the SEV API Spec document.
+>>>>
+>>>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+>>>> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+>>>> ---
+>>>>  docs/amd-memory-encryption.txt | 50 +++++++++++++++++++++++++++++++---
+>>>>  1 file changed, 46 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
+>>>> index ffca382b5f..f97727482f 100644
+>>>> --- a/docs/amd-memory-encryption.txt
+>>>> +++ b/docs/amd-memory-encryption.txt
+>>>> @@ -43,7 +43,7 @@ The guest policy is passed as plaintext. A hypervisor may choose to read it,
+>>>>  but should not modify it (any modification of the policy bits will result
+>>>>  in bad measurement). The guest policy is a 4-byte data structure containing
+>>>>  several flags that restricts what can be done on a running SEV guest.
+>>>> -See KM Spec section 3 and 6.2 for more details.
+>>>> +See SEV API Spec [1] section 3 and 6.2 for more details.
+>>>>  
+>>>>  The guest policy can be provided via the 'policy' property (see below)
+>>>>  
+>>>> @@ -88,7 +88,7 @@ expects.
+>>>>  LAUNCH_FINISH finalizes the guest launch and destroys the cryptographic
+>>>>  context.
+>>>>  
+>>>> -See SEV KM API Spec [1] 'Launching a guest' usage flow (Appendix A) for the
+>>>> +See SEV API Spec [1] 'Launching a guest' usage flow (Appendix A) for the
+>>>>  complete flow chart.
+>>>>  
+>>>>  To launch a SEV guest
+>>>> @@ -113,6 +113,45 @@ a SEV-ES guest:
+>>>>   - Requires in-kernel irqchip - the burden is placed on the hypervisor to
+>>>>     manage booting APs.
+>>>>  
+>>>> +Calculating expected guest launch measurement
+>>>> +---------------------------------------------
+>>>> +In order to verify the guest launch measurement, The Guest Owner must compute
+>>>> +it in the exact same way as it is calculated by the AMD-SP.  SEV API Spec [1]
+>>>> +section 6.5.1 describes the AMD-SP operations:
+>>>> +
+>>>> +    GCTX.LD is finalized, producing the hash digest of all plaintext data
+>>>> +    imported into the guest.
+>>>> +
+>>>> +    The launch measurement is calculated as:
+>>>> +
+>>>> +    HMAC(0x04 || API_MAJOR || API_MINOR || BUILD || GCTX.POLICY || GCTX.LD || MNONCE; GCTX.TIK)
+>>>> +
+>>>> +    where "||" represents concatenation.
+>>>> +
+>>>> +The values of API_MAJOR, API_MINOR, BUILD, and GCTX.POLICY can be obtained
+>>>> +from the 'query-sev' qmp command.
+>>>> +
+>>>> +The value of MNONCE is part of the response of 'query-sev-launch-measure': it
+>>>> +is the last 16 bytes of the base64-decoded data field (see SEV API Spec [1]
+>>>> +section 6.5.2 Table 52: LAUNCH_MEASURE Measurement Buffer).
+>>>> +
+>>>> +The value of GCTX.LD is SHA256(firmware_blob || kernel_hashes_blob || vmsas_blob),
+>>>> +where:
+>>>> +
+>>>> +* firmware_blob is the content of the entire firmware flash file (for example,
+>>>> +  OVMF.fd).
+>>>
+>>> Lets add a caveat that the firmware flash should be built to be stateless
+>>> ie that it is not secure to attempt to measure a guest where the firmware
+>>> uses an NVRAM store.
+>>>
+>>
+>> * firmware_blob is the content of the entire firmware flash file (for   
+>>   example, OVMF.fd).  Note that you must build a stateless firmware file    
+>>   which doesn't use an NVRAM store, because the NVRAM area is not
+>>   measured, and therefore it is not secure to use a firmware which uses 
+>>   state from an NVRAM store.
+> 
+> Looks good to me.
+> 
+>>>> +* if kernel is used, and kernel-hashes=on, then kernel_hashes_blob is the
+>>>> +  content of PaddedSevHashTable (including the zero padding), which itself
+>>>> +  includes the hashes of kernel, initrd, and cmdline that are passed to the
+>>>> +  guest.  The PaddedSevHashTable struct is defined in target/i386/sev.c .
+>>>> +* if SEV-ES is enabled (policy & 0x4 != 0), vmsas_blob is the concatenation of
+>>>> +  all VMSAs of the guest vcpus.  Each VMSA is 4096 bytes long; its content is
+>>>> +  defined inside Linux kernel code as struct vmcb_save_area, or in AMD APM
+>>>> +  Volume 2 [2] Table B-2: VMCB Layout, State Save Area.
+>>>
+>>> Is there any practical guidance we can give apps on the way the VMSAs
+>>> can be expected to be initialized ? eg can they assume essentially
+>>> all fields in vmcb_save_area are 0 initialized except for certain
+>>> ones ? Is initialization likely to vary at all across KVM or EDK2
+>>> vesions or something ?
+>>
+>> From my own experience, the VMSA of vcpu0 doesn't change; it is basically what QEMU
+>> sets up in x86_cpu_reset() (which is mostly zeros but not all).  I don't know if it
+>> may change in newer QEMU (machine types?) or kvm.  As for vcpu1+, in SEV-ES the
+>> CS:EIP for the APs is taken from a GUIDed table at the end of the OVMF image, and has
+>> actually changed a few months ago when the memory layout changed to support both TDX
+>> and SEV.
+> 
+> That is an unplesantly large number of moving parts that could
+> potentially impact the expected state :-(  I think we need to
+> be careful to avoid gratuitous changes, to avoid creating a
+> combinatorial expansion in the number of possibly valid VMSA
+> blocks.
+> 
+> It makes me wonder if we need to think about defining some
+> standard approach for distro vendors (and/or cloud vendors)
+> to publish the expected contents for various combinations
+> of their software pieces.
+> 
+>>
+>>
+>> Here are the VMSAs for my 2-vcpu SEV-ES VM:
+>>
+>>
+>> $ hd vmsa/vmsa_cpu0.bin
+> 
+> ...snipp...
+> 
+> was there a nice approach / tool you used to capture
+> this initial state ?
+> 
 
-OK, will do!
+I wouldn't qualify this as nice: I ended up modifying my
+host kernel's kvm (see patch below).  Later I wrote a
+script to parse that hex dump from the kernel log into
+proper 4096-byte binary VMSA files.
 
-Thank you!
---
-Jag
+
+
+diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
+index 7fbce342eec4..4e45fe37b93d 100644
+--- a/arch/x86/kvm/svm/sev.c
++++ b/arch/x86/kvm/svm/sev.c
+@@ -624,6 +624,12 @@ static int sev_launch_update_vmsa(struct kvm *kvm, struct kvm_sev_cmd *argp)
+                 */
+                clflush_cache_range(svm->vmsa, PAGE_SIZE);
+
++                /* dubek */
++                pr_info("DEBUG_VMSA - cpu %d START ---------------\n", i);
++                print_hex_dump(KERN_INFO, "DEBUG_VMSA", DUMP_PREFIX_OFFSET, 16, 1, svm->vmsa, PAGE_SIZE, true);
++                pr_info("DEBUG_VMSA - cpu %d END ---------------\n", i);
++                /* ----- */
++
+                vmsa.handle = sev->handle;
+                vmsa.address = __sme_pa(svm->vmsa);
+                vmsa.len = PAGE_SIZE;
+
 
 
