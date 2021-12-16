@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF732477EB7
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 22:24:24 +0100 (CET)
-Received: from localhost ([::1]:52262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E651B477EC8
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 22:28:08 +0100 (CET)
+Received: from localhost ([::1]:32892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxyEh-0000HE-Eu
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 16:24:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37576)
+	id 1mxyIK-0006NW-2Z
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 16:28:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLV-0002Uz-8b; Thu, 16 Dec 2021 15:27:21 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41478)
+ id 1mxxLV-0002Ut-7v; Thu, 16 Dec 2021 15:27:21 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43682
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLK-0007Lk-3q; Thu, 16 Dec 2021 15:27:15 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGIId0c016810; 
+ id 1mxxLK-0007Mj-I0; Thu, 16 Dec 2021 15:27:17 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGJKij4026839; 
  Thu, 16 Dec 2021 20:26:42 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cyqbjarse-1
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cyr22gb65-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 16 Dec 2021 20:26:42 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKCgC3011756;
- Thu, 16 Dec 2021 20:26:39 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma01fra.de.ibm.com with ESMTP id 3cy7k3j3w9-1
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKBqpv016331;
+ Thu, 16 Dec 2021 20:26:40 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3cy7qwatbp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:26:39 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BGKQbZ641484724
+ Thu, 16 Dec 2021 20:26:40 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BGKQcc540435974
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 20:26:37 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E5EB9A4053;
- Thu, 16 Dec 2021 20:26:36 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ABA8BA4040;
- Thu, 16 Dec 2021 20:26:36 +0000 (GMT)
+ Thu, 16 Dec 2021 20:26:38 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 30B1242041;
+ Thu, 16 Dec 2021 20:26:38 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E575342042;
+ Thu, 16 Dec 2021 20:26:37 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 16 Dec 2021 20:26:36 +0000 (GMT)
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 16 Dec 2021 20:26:37 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.48.122])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 0FDAF220238;
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 9D4912201A0;
  Thu, 16 Dec 2021 21:26:36 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 029/101] target/ppc: Update float_invalid_op_div for new flags
-Date: Thu, 16 Dec 2021 21:25:02 +0100
-Message-Id: <20211216202614.414266-30-clg@kaod.org>
+Subject: [PULL 030/101] target/ppc: Move float_check_status from FPU_FCTI to
+ translate
+Date: Thu, 16 Dec 2021 21:25:03 +0100
+Message-Id: <20211216202614.414266-31-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211216202614.414266-1-clg@kaod.org>
 References: <20211216202614.414266-1-clg@kaod.org>
@@ -63,24 +64,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ym2xb8n7N036BXHiTtVT6XzoFAIEZz_u
-X-Proofpoint-ORIG-GUID: ym2xb8n7N036BXHiTtVT6XzoFAIEZz_u
+X-Proofpoint-GUID: xy5T_vBEsKIJyesMfJ1q0Rx7FmdLxyAs
+X-Proofpoint-ORIG-GUID: xy5T_vBEsKIJyesMfJ1q0Rx7FmdLxyAs
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- malwarescore=0 bulkscore=0 mlxlogscore=730 impostorscore=0
- lowpriorityscore=0 suspectscore=0 phishscore=0 spamscore=0
- priorityscore=1501 clxscore=1034 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2112160109
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ phishscore=0 suspectscore=0
+ mlxscore=0 impostorscore=0 spamscore=0 clxscore=1034 adultscore=0
+ bulkscore=0 malwarescore=0 mlxlogscore=956 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112160109
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,107 +103,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Now that vxidi, vxzdz, and vxsnan are computed directly by
-softfloat, we don't need to recompute it via classes.
+Fixes a bug in which e.g XE enabled causes inexact to be raised
+before the writeback to the architectural register.
+
+All of the users of GEN_FLOAT_B either set set_fprf, or are one
+of the convert-to-integer instructions that require this behaviour.
+Split out the two gen_helper_* calls in gen_compute_fprf_float64
+and protect only the first with set_fprf.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211119160502.17432-11-richard.henderson@linaro.org>
+Message-Id: <20211119160502.17432-12-richard.henderson@linaro.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/fpu_helper.c | 38 ++++++++++++++------------------------
- 1 file changed, 14 insertions(+), 24 deletions(-)
+ target/ppc/fpu_helper.c            | 9 +++------
+ target/ppc/translate/fp-impl.c.inc | 3 ++-
+ 2 files changed, 5 insertions(+), 7 deletions(-)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index f02bb3a4afd8..9bcd7abd165f 100644
+index 9bcd7abd165f..f453b0475116 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -557,17 +557,14 @@ float64 helper_fmul(CPUPPCState *env, float64 arg1,=
- float64 arg2)
-     return ret;
+@@ -600,12 +600,9 @@ uint64_t helper_##op(CPUPPCState *env, float64 arg) =
+                   \
+     uint64_t ret =3D float64_to_##cvt(arg, &env->fp_status);            =
+ \
+     int status =3D get_float_exception_flags(&env->fp_status);          =
+ \
+                                                                        \
+-    if (unlikely(status)) {                                            \
+-        if (status & float_flag_invalid) {                             \
+-            float_invalid_cvt(env, 1, GETPC(), float64_classify(arg)); \
+-            ret =3D nanval;                                             =
+ \
+-        }                                                              \
+-        do_float_check_status(env, GETPC());                           \
++    if (unlikely(status & float_flag_invalid)) {                       \
++        float_invalid_cvt(env, 1, GETPC(), float64_classify(arg));     \
++        ret =3D nanval;                                                 =
+ \
+     }                                                                  \
+     return ret;                                                        \
  }
-=20
--static void float_invalid_op_div(CPUPPCState *env, bool set_fprc,
--                                 uintptr_t retaddr, int classes)
-+static void float_invalid_op_div(CPUPPCState *env, int flags,
-+                                 bool set_fprc, uintptr_t retaddr)
- {
--    classes &=3D ~is_neg;
--    if (classes =3D=3D is_inf) {
--        /* Division of infinity by infinity */
-+    if (flags & float_flag_invalid_idi) {
-         float_invalid_op_vxidi(env, set_fprc, retaddr);
--    } else if (classes =3D=3D is_zero) {
--        /* Division of zero by zero */
-+    } else if (flags & float_flag_invalid_zdz) {
-         float_invalid_op_vxzdz(env, set_fprc, retaddr);
--    } else if (classes & is_snan) {
-+    } else if (flags & float_flag_invalid_snan) {
-         float_invalid_op_vxsnan(env, retaddr);
-     }
- }
-@@ -576,17 +573,13 @@ static void float_invalid_op_div(CPUPPCState *env, =
-bool set_fprc,
- float64 helper_fdiv(CPUPPCState *env, float64 arg1, float64 arg2)
- {
-     float64 ret =3D float64_div(arg1, arg2, &env->fp_status);
--    int status =3D get_float_exception_flags(&env->fp_status);
-+    int flags =3D get_float_exception_flags(&env->fp_status);
-=20
--    if (unlikely(status)) {
--        if (status & float_flag_invalid) {
--            float_invalid_op_div(env, 1, GETPC(),
--                                 float64_classify(arg1) |
--                                 float64_classify(arg2));
--        }
--        if (status & float_flag_divbyzero) {
--            float_zero_divide_excp(env, GETPC());
--        }
-+    if (unlikely(flags & float_flag_invalid)) {
-+        float_invalid_op_div(env, flags, 1, GETPC());
-+    }
-+    if (unlikely(flags & float_flag_divbyzero)) {
-+        float_zero_divide_excp(env, GETPC());
-     }
-=20
-     return ret;
-@@ -1803,9 +1796,8 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,  =
-                           \
-         env->fp_status.float_exception_flags |=3D tstat.float_exception_=
-flags;  \
-                                                                         =
+diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp=
+-impl.c.inc
+index 8afd6a087d1d..0767e45d87d8 100644
+--- a/target/ppc/translate/fp-impl.c.inc
++++ b/target/ppc/translate/fp-impl.c.inc
+@@ -157,8 +157,9 @@ static void gen_f##name(DisasContext *ctx)           =
+                         \
+     gen_helper_f##name(t1, cpu_env, t0);                                =
       \
-         if (unlikely(tstat.float_exception_flags & float_flag_invalid)) =
-{     \
--            float_invalid_op_div(env, sfprf, GETPC(),                   =
+     set_fpr(rD(ctx->opcode), t1);                                       =
       \
--                                 tp##_classify(xa->fld) |               =
+     if (set_fprf) {                                                     =
       \
--                                 tp##_classify(xb->fld));               =
+-        gen_compute_fprf_float64(t1);                                   =
       \
-+            float_invalid_op_div(env, tstat.float_exception_flags,      =
++        gen_helper_compute_fprf_float64(cpu_env, t1);                   =
       \
-+                                 sfprf, GETPC());                       =
+     }                                                                   =
       \
-         }                                                               =
++    gen_helper_float_check_status(cpu_env);                             =
       \
-         if (unlikely(tstat.float_exception_flags & float_flag_divbyzero)=
-) {   \
-             float_zero_divide_excp(env, GETPC());                       =
+     if (unlikely(Rc(ctx->opcode) !=3D 0)) {                             =
+        \
+         gen_set_cr1_from_fpscr(ctx);                                    =
       \
-@@ -1846,9 +1838,7 @@ void helper_xsdivqp(CPUPPCState *env, uint32_t opco=
-de,
-     env->fp_status.float_exception_flags |=3D tstat.float_exception_flag=
-s;
-=20
-     if (unlikely(tstat.float_exception_flags & float_flag_invalid)) {
--        float_invalid_op_div(env, 1, GETPC(),
--                             float128_classify(xa->f128) |
--                             float128_classify(xb->f128));
-+        float_invalid_op_div(env, tstat.float_exception_flags, 1, GETPC(=
-));
-     }
-     if (unlikely(tstat.float_exception_flags & float_flag_divbyzero)) {
-         float_zero_divide_excp(env, GETPC());
+     }                                                                   =
+      \
 --=20
 2.31.1
 
