@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46F74768A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 04:23:41 +0100 (CET)
-Received: from localhost ([::1]:33832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961C94768A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 04:24:26 +0100 (CET)
+Received: from localhost ([::1]:37010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxhMq-0006jB-Tj
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 22:23:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36292)
+	id 1mxhNZ-0000Sn-8B
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 22:24:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mxhKa-0005LW-Uh
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 22:21:22 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:4119)
+ id 1mxhMB-00077k-Fw; Wed, 15 Dec 2021 22:23:02 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:3210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mxhKY-000547-Cb
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 22:21:20 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JDy6k2Wymz91gb;
- Thu, 16 Dec 2021 11:20:30 +0800 (CST)
+ id 1mxhM8-0005H5-CU; Wed, 15 Dec 2021 22:22:59 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4JDy6s5XB0z8vsR;
+ Thu, 16 Dec 2021 11:20:37 +0800 (CST)
 Received: from [10.174.187.128] (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.20; Thu, 16 Dec 2021 11:21:15 +0800
-Subject: Re: [PATCH v5 5/8] tests/unit/test-smp-parse: Add 'smp-generic-valid'
- machine type
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- <qemu-devel@nongnu.org>
-CC: Eduardo Habkost <eduardo@habkost.net>, Richard Henderson
- <richard.henderson@linaro.org>
-References: <20211215164856.381990-1-philmd@redhat.com>
- <20211215164856.381990-6-philmd@redhat.com>
-Message-ID: <6b2218c6-430e-e7aa-0c32-9502acc53413@huawei.com>
-Date: Thu, 16 Dec 2021 11:21:14 +0800
+ 15.1.2308.20; Thu, 16 Dec 2021 11:22:50 +0800
+Subject: Re: [PATCH v4 00/10] ARM virt: Introduce CPU clusters topology support
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
+ <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Ani Sinha
+ <ani@anisinha.ca>, Markus Armbruster <armbru@redhat.com>, Eric Blake
+ <eblake@redhat.com>, <wanghaibin.wang@huawei.com>
+References: <20211121122502.9844-1-wangyanan55@huawei.com>
+Message-ID: <b5a9c162-c2b8-4673-4a70-5f84d3e86ff2@huawei.com>
+Date: Thu, 16 Dec 2021 11:22:50 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20211215164856.381990-6-philmd@redhat.com>
+In-Reply-To: <20211121122502.9844-1-wangyanan55@huawei.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggeme701-chm.china.huawei.com (10.1.199.97) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
 X-Spam_score_int: -57
 X-Spam_score: -5.8
 X-Spam_bar: -----
@@ -72,74 +72,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
 From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
+Ping...
 
-On 2021/12/16 0:48, Philippe Mathieu-Daudé wrote:
-> Keep the common TYPE_MACHINE class initialization in
-> machine_base_class_init(), make it abstract, and move
-> the non-common code to a new class: "smp-generic-valid".
+On 2021/11/21 20:24, Yanan Wang wrote:
+> Hi,
 >
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->   tests/unit/test-smp-parse.c | 19 +++++++++++++++----
->   1 file changed, 15 insertions(+), 4 deletions(-)
+> This series introduces the new CPU clusters topology parameter
+> and enable the support for it on ARM virt machines.
 >
-> diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-> index 72e7236afd9..5349ae14824 100644
-> --- a/tests/unit/test-smp-parse.c
-> +++ b/tests/unit/test-smp-parse.c
-> @@ -478,13 +478,19 @@ static void machine_base_class_init(ObjectClass *oc, void *data)
->   {
->       MachineClass *mc = MACHINE_CLASS(oc);
->   
-> +    mc->smp_props.prefer_sockets = true;
-> +
-> +    mc->name = g_strdup(SMP_MACHINE_NAME);
-> +}
-> +
-> +static void machine_without_dies_valid_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
-> +
->       mc->min_cpus = MIN_CPUS;
->       mc->max_cpus = MAX_CPUS;
->   
-> -    mc->smp_props.prefer_sockets = true;
->       mc->smp_props.dies_supported = false;
-> -
-> -    mc->name = g_strdup(SMP_MACHINE_NAME);
->   }
->   
->   static void machine_without_dies_invalid_class_init(ObjectClass *oc, void *data)
-> @@ -606,9 +612,14 @@ static const TypeInfo smp_machine_types[] = {
->       {
->           .name           = TYPE_MACHINE,
->           .parent         = TYPE_OBJECT,
-> +        .abstract       = true,
->           .class_init     = machine_base_class_init,
->           .class_size     = sizeof(MachineClass),
->           .instance_size  = sizeof(MachineState),
-> +    }, {
-> +        .name           = MACHINE_TYPE_NAME("smp-generic-valid"),
-> +        .parent         = TYPE_MACHINE,
-> +        .class_init     = machine_without_dies_valid_class_init,
-Similar to patch #4, can we also rename 
-"machine_without_dies_valid_class_init"
-to "machine_generic_valid_class_init" ?
-
-Thanks,
-Yanan
->       }, {
->           .name           = MACHINE_TYPE_NAME("smp-generic-invalid"),
->           .parent         = TYPE_MACHINE,
-> @@ -629,7 +640,7 @@ int main(int argc, char *argv[])
->       g_test_init(&argc, &argv, NULL);
->   
->       g_test_add_data_func("/test-smp-parse/generic/valid",
-> -                         TYPE_MACHINE,
-> +                         MACHINE_TYPE_NAME("smp-generic-valid"),
->                            test_generic_valid);
->       g_test_add_data_func("/test-smp-parse/generic/invalid",
->                            MACHINE_TYPE_NAME("smp-generic-invalid"),
+> Background and descriptions:
+> The new Cluster-Aware Scheduling support has landed in Linux 5.16,
+> which has been proved to benefit the scheduling performance (e.g.
+> load balance and wake_affine strategy) on both x86_64 and AArch64.
+> We can see Kernel PR [1] and the latest patch set [2] for reference.
+>
+> So now in Linux 5.16 we have four-level arch-neutral CPU topology
+> definition like below and a new scheduler level for clusters.
+> struct cpu_topology {
+>      int thread_id;
+>      int core_id;
+>      int cluster_id;
+>      int package_id;
+>      int llc_id;
+>      cpumask_t thread_sibling;
+>      cpumask_t core_sibling;
+>      cpumask_t cluster_sibling;
+>      cpumask_t llc_sibling;
+> }
+>
+> A cluster generally means a group of CPU cores which share L2 cache
+> or other mid-level resources, and it is the shared resources that
+> is used to improve scheduler's behavior. From the point of view of
+> the size range, it's between CPU die and CPU core. For example, on
+> some ARM64 Kunpeng servers, we have 6 clusters in each NUMA node,
+> and 4 CPU cores in each cluster. The 4 CPU cores share a separate
+> L2 cache and a L3 cache tag, which brings cache affinity advantage.
+>
+> [1] https://lore.kernel.org/lkml/163572864855.3357115.17938524897008353101.tglx@xen13/
+> [2] https://lkml.org/lkml/2021/9/24/178
+>
+> In virtualization, on the Hosts which have pClusters, if we can
+> design a vCPU topology with cluster level for guest kernel and
+> have a dedicated vCPU pinning. A Cluster-Aware Guest kernel can
+> also make use of the cache affinity of CPU clusters to gain
+> similar scheduling performance.
+>
+> This series consists of two parts:
+> The first part (patch 1-3):
+> Implement infrastructure for CPU cluster level topology support,
+> including the SMP documentation, configuration and parsing.
+>
+> The second part (part 4-10):
+> Enable CPU cluster support on ARM virt machines, so that users
+> can specify a 4-level CPU hierarchy sockets/clusters/cores/threads.
+> And the 4-level topology will be described to guest kernel through
+> ACPI PPTT and DT cpu-map.
+>
+> Changelog:
+> v3->v4:
+> - Significant change from v3 to v4, since the whole series is reworked
+>    based on latest QEMU SMP frame.
+> - v3: https://lore.kernel.org/qemu-devel/20210516103228.37792-1-wangyanan55@huawei.com/
+>
+> Yanan Wang (10):
+>    qemu-options: Improve readability of SMP related Docs
+>    hw/core/machine: Introduce CPU cluster topology support
+>    hw/core/machine: Wrap target specific parameters together
+>    hw/arm/virt: Support clusters on ARM virt machines
+>    hw/arm/virt: Support cluster level in DT cpu-map
+>    hw/acpi/aml-build: Improve scalability of PPTT generation
+>    hw/arm/virt-acpi-build: Make an ARM specific PPTT generator
+>    tests/acpi/bios-tables-test: Allow changes to virt/PPTT file
+>    hw/acpi/virt-acpi-build: Support cluster level in PPTT generation
+>    tests/acpi/bios-table-test: Update expected virt/PPTT file
+>
+>   hw/acpi/aml-build.c         |  66 ++------------------------
+>   hw/arm/virt-acpi-build.c    |  92 +++++++++++++++++++++++++++++++++++-
+>   hw/arm/virt.c               |  16 ++++---
+>   hw/core/machine-smp.c       |  29 +++++++++---
+>   hw/core/machine.c           |   3 ++
+>   include/hw/acpi/aml-build.h |   5 +-
+>   include/hw/boards.h         |   6 ++-
+>   qapi/machine.json           |   5 +-
+>   qemu-options.hx             |  91 +++++++++++++++++++++++++++--------
+>   softmmu/vl.c                |   3 ++
+>   tests/data/acpi/virt/PPTT   | Bin 76 -> 96 bytes
+>   11 files changed, 214 insertions(+), 102 deletions(-)
+>
+> --
+> 2.19.1
+>
+> .
 
 
