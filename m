@@ -2,93 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3908477EEC
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 22:38:29 +0100 (CET)
-Received: from localhost ([::1]:58326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A783478010
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 23:43:12 +0100 (CET)
+Received: from localhost ([::1]:37768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxySL-0006hL-0p
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 16:38:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38460)
+	id 1mxzSw-0006My-BK
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 17:43:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxM1-0004K0-G0; Thu, 16 Dec 2021 15:27:53 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34474)
+ id 1mxxM8-0004kq-16; Thu, 16 Dec 2021 15:28:01 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLx-0007ZA-Jz; Thu, 16 Dec 2021 15:27:53 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGIJ9vR038641; 
+ id 1mxxLr-0007Ww-P6; Thu, 16 Dec 2021 15:27:59 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGICuFs013601; 
  Thu, 16 Dec 2021 20:27:21 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cymkwfkwf-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cyp05djsn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 16 Dec 2021 20:27:20 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BGJqnon009913;
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BGKL3EQ004425;
  Thu, 16 Dec 2021 20:27:20 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cymkwfkvv-1
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cyp05djs8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 16 Dec 2021 20:27:20 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKDCQi004774;
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKDE5M019549;
  Thu, 16 Dec 2021 20:27:18 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 3cy7jravy9-1
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06ams.nl.ibm.com with ESMTP id 3cy78ek0sq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:27:17 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BGKRFwc42795294
+ Thu, 16 Dec 2021 20:27:18 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BGKRGXN44368162
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 20:27:15 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7B64E4C040;
- Thu, 16 Dec 2021 20:27:15 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2AE2D4C04A;
+ Thu, 16 Dec 2021 20:27:16 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 28DA211C04A;
+ Thu, 16 Dec 2021 20:27:16 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D465911C052;
  Thu, 16 Dec 2021 20:27:15 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Thu, 16 Dec 2021 20:27:15 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.48.122])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 52DAF2201A0;
- Thu, 16 Dec 2021 21:27:14 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 1A1FB220238;
+ Thu, 16 Dec 2021 21:27:15 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 088/101] PPC64/TCG: Implement 'rfebb' instruction
-Date: Thu, 16 Dec 2021 21:26:01 +0100
-Message-Id: <20211216202614.414266-89-clg@kaod.org>
+Subject: [PULL 089/101] ppc/pnv: Introduce a "chip" property under PHB3
+Date: Thu, 16 Dec 2021 21:26:02 +0100
+Message-Id: <20211216202614.414266-90-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211216202614.414266-1-clg@kaod.org>
 References: <20211216202614.414266-1-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: l_SoNrkIpkfpblAR2FxT6BChuX7QjbUT
-X-Proofpoint-ORIG-GUID: AAAD6ieD-GsVi1IMLWmgl8Okbl4RfOZj
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: vpDMSnT-Rhf-f1SPu0ie04_ZeskAmQgp
+X-Proofpoint-ORIG-GUID: NwDZZpmwKz9K52HaM4KyYPyepzVrgApW
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0
- clxscore=1034 lowpriorityscore=0 malwarescore=0 spamscore=0
- priorityscore=1501 phishscore=0 mlxscore=0 mlxlogscore=868 impostorscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501
+ impostorscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
+ malwarescore=0 clxscore=1034 mlxlogscore=756 spamscore=0 phishscore=0
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2112160109
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,206 +100,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Matheus Ferst <matheus.ferst@eldorado.org.br>,
- David Gibson <david@gibson.dropbear.id.au>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+This change will help us move the mapping of XSCOM regions under the
+PHB3 realize routine, which will be necessary for user created PHB3
+devices.
 
-An Event-Based Branch (EBB) allows applications to change the NIA when a
-event-based exception occurs. Event-based exceptions are enabled by
-setting the Branch Event Status and Control Register (BESCR). If the
-event-based exception is enabled when the exception occurs, an EBB
-happens.
-
-The following operations happens during an EBB:
-
-- Global Enable (GE) bit of BESCR is set to 0;
-- bits 0-61 of the Event-Based Branch Return Register (EBBRR) are set
-to the the effective address of the NIA that would have executed if the EBB
-didn't happen;
-- Instruction fetch and execution will continue in the effective address
-contained in the Event-Based Branch Handler Register (EBBHR).
-
-The EBB Handler will process the event and then execute the Return From
-Event-Based Branch (rfebb) instruction. rfebb sets BESCR_GE and then
-redirects execution to the address pointed in EBBRR. This process is
-described in the PowerISA v3.1, Book II, Chapter 6 [1].
-
-This patch implements the rfebb instruction. Descriptions of all
-relevant BESCR bits are also added - this patch is only using BESCR_GE,
-but the next patches will use the remaining bits.
-
-[1] https://wiki.raptorcs.com/w/images/f/f5/PowerISA_public.v3.1.pdf
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20211201151734.654994-9-danielhb413@gmail.com>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20211213132830.108372-3-clg@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/cpu.h                       | 13 ++++++++++
- target/ppc/helper.h                    |  1 +
- target/ppc/insn32.decode               |  5 ++++
- target/ppc/excp_helper.c               | 31 ++++++++++++++++++++++++
- target/ppc/translate.c                 |  2 ++
- target/ppc/translate/branch-impl.c.inc | 33 ++++++++++++++++++++++++++
- 6 files changed, 85 insertions(+)
- create mode 100644 target/ppc/translate/branch-impl.c.inc
+ include/hw/pci-host/pnv_phb3.h | 3 +++
+ hw/pci-host/pnv_phb3.c         | 1 +
+ hw/ppc/pnv.c                   | 2 ++
+ 3 files changed, 6 insertions(+)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index b0473526ced0..fc66c3561dab 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -392,6 +392,19 @@ typedef enum {
- /* PMU uses CTRL_RUN to sample PM_RUN_INST_CMPL */
- #define CTRL_RUN PPC_BIT(63)
+diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb=
+3.h
+index e2a2e3624532..e9c13e6bd821 100644
+--- a/include/hw/pci-host/pnv_phb3.h
++++ b/include/hw/pci-host/pnv_phb3.h
+@@ -16,6 +16,7 @@
+ #include "qom/object.h"
 =20
-+/* EBB/BESCR bits */
-+/* Global Enable */
-+#define BESCR_GE PPC_BIT(0)
-+/* External Event-based Exception Enable */
-+#define BESCR_EE PPC_BIT(30)
-+/* Performance Monitor Event-based Exception Enable */
-+#define BESCR_PME PPC_BIT(31)
-+/* External Event-based Exception Occurred */
-+#define BESCR_EEO PPC_BIT(62)
-+/* Performance Monitor Event-based Exception Occurred */
-+#define BESCR_PMEO PPC_BIT(63)
-+#define BESCR_INVALID PPC_BITMASK(32, 33)
-+
- /* LPCR bits */
- #define LPCR_VPM0         PPC_BIT(0)
- #define LPCR_VPM1         PPC_BIT(1)
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 13d8305a08bf..fb6cac38b4c5 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -18,6 +18,7 @@ DEF_HELPER_2(pminsn, void, env, i32)
- DEF_HELPER_1(rfid, void, env)
- DEF_HELPER_1(rfscv, void, env)
- DEF_HELPER_1(hrfid, void, env)
-+DEF_HELPER_2(rfebb, void, env, tl)
- DEF_HELPER_2(store_lpcr, void, env, tl)
- DEF_HELPER_2(store_pcr, void, env, tl)
- DEF_HELPER_2(store_mmcr0, void, env, tl)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 8bdc059a4c79..2a9c91a4235e 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -470,3 +470,8 @@ XSMINJDP        111100 ..... ..... ..... 10011000 ...  =
- @XX3
- ## VSX Binary Floating-Point Convert Instructions
+ typedef struct PnvPHB3 PnvPHB3;
++typedef struct PnvChip PnvChip;
 =20
- XSCVQPDP        111111 ..... 10100 ..... 1101000100 .   @X_tb_rc
-+
-+### rfebb
-+&XL_s           s:uint8_t
-+@XL_s           ......-------------- s:1 .......... -   &XL_s
-+RFEBB           010011-------------- .   0010010010 -   @XL_s
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 6ba0840e9935..f90e616aacda 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -1228,6 +1228,37 @@ void helper_hrfid(CPUPPCState *env)
- }
- #endif
+ /*
+  * PHB3 XICS Source for MSIs
+@@ -157,6 +158,8 @@ struct PnvPHB3 {
+     PnvPHB3RootPort root;
 =20
-+#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
-+void helper_rfebb(CPUPPCState *env, target_ulong s)
-+{
-+    target_ulong msr =3D env->msr;
+     QLIST_HEAD(, PnvPhb3DMASpace) dma_spaces;
 +
-+    /*
-+     * Handling of BESCR bits 32:33 according to PowerISA v3.1:
-+     *
-+     * "If BESCR 32:33 !=3D 0b00 the instruction is treated as if
-+     *  the instruction form were invalid."
-+     */
-+    if (env->spr[SPR_BESCR] & BESCR_INVALID) {
-+        raise_exception_err(env, POWERPC_EXCP_PROGRAM,
-+                            POWERPC_EXCP_INVAL | POWERPC_EXCP_INVAL_INVAL);
-+    }
-+
-+    env->nip =3D env->spr[SPR_EBBRR];
-+
-+    /* Switching to 32-bit ? Crop the nip */
-+    if (!msr_is_64bit(env, msr)) {
-+        env->nip =3D (uint32_t)env->spr[SPR_EBBRR];
-+    }
-+
-+    if (s) {
-+        env->spr[SPR_BESCR] |=3D BESCR_GE;
-+    } else {
-+        env->spr[SPR_BESCR] &=3D ~BESCR_GE;
-+    }
-+}
-+#endif
-+
- /*************************************************************************=
-****/
- /* Embedded PowerPC specific helpers */
- void helper_40x_rfci(CPUPPCState *env)
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 68fbbf67ecb4..114456148c4b 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -7461,6 +7461,8 @@ static bool resolve_PLS_D(DisasContext *ctx, arg_D *d=
-, arg_PLS_D *a)
++    PnvChip *chip;
+ };
 =20
- #include "translate/spe-impl.c.inc"
+ uint64_t pnv_phb3_reg_read(void *opaque, hwaddr off, unsigned size);
+diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+index a7f96850055a..3aa42ef9d4b9 100644
+--- a/hw/pci-host/pnv_phb3.c
++++ b/hw/pci-host/pnv_phb3.c
+@@ -1092,6 +1092,7 @@ static const char *pnv_phb3_root_bus_path(PCIHostSt=
+ate *host_bridge,
+ static Property pnv_phb3_properties[] =3D {
+         DEFINE_PROP_UINT32("index", PnvPHB3, phb_id, 0),
+         DEFINE_PROP_UINT32("chip-id", PnvPHB3, chip_id, 0),
++        DEFINE_PROP_LINK("chip", PnvPHB3, chip, TYPE_PNV_CHIP, PnvChip *=
+),
+         DEFINE_PROP_END_OF_LIST(),
+ };
 =20
-+#include "translate/branch-impl.c.inc"
-+
- /* Handles lfdp, lxsd, lxssp */
- static void gen_dform39(DisasContext *ctx)
- {
-diff --git a/target/ppc/translate/branch-impl.c.inc b/target/ppc/translate/=
-branch-impl.c.inc
-new file mode 100644
-index 000000000000..29cfa11854fa
---- /dev/null
-+++ b/target/ppc/translate/branch-impl.c.inc
-@@ -0,0 +1,33 @@
-+/*
-+ * Power ISA decode for branch instructions
-+ *
-+ *  Copyright IBM Corp. 2021
-+ *
-+ * Authors:
-+ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
-+
-+static bool trans_RFEBB(DisasContext *ctx, arg_XL_s *arg)
-+{
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA207S);
-+
-+    gen_icount_io_start(ctx);
-+    gen_update_cfar(ctx, ctx->cia);
-+    gen_helper_rfebb(cpu_env, cpu_gpr[arg->s]);
-+
-+    ctx->base.is_jmp =3D DISAS_CHAIN;
-+
-+    return true;
-+}
-+#else
-+static bool trans_RFEBB(DisasContext *ctx, arg_XL_s *arg)
-+{
-+    gen_invalid(ctx);
-+    return true;
-+}
-+#endif
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 44ae41a9cb6b..3e43c53376c7 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -1231,6 +1231,8 @@ static void pnv_chip_power8_realize(DeviceState *de=
+v, Error **errp)
+         object_property_set_int(OBJECT(phb), "index", i, &error_fatal);
+         object_property_set_int(OBJECT(phb), "chip-id", chip->chip_id,
+                                 &error_fatal);
++        object_property_set_link(OBJECT(phb), "chip", OBJECT(chip),
++                                 &error_fatal);
+         if (!sysbus_realize(SYS_BUS_DEVICE(phb), errp)) {
+             return;
+         }
 --=20
 2.31.1
 
