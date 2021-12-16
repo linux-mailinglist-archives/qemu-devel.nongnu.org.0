@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C73477047
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 12:31:17 +0100 (CET)
-Received: from localhost ([::1]:53814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA8F477054
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 12:33:07 +0100 (CET)
+Received: from localhost ([::1]:58946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxoyi-0003YY-1G
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 06:31:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33692)
+	id 1mxp0U-00076Z-Ox
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 06:33:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mxovr-0001Cg-JK
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 06:28:19 -0500
-Received: from [2a00:1450:4864:20::42e] (port=42814
- helo=mail-wr1-x42e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mxovp-0004tm-U8
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 06:28:19 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id c4so43572268wrd.9
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 03:28:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kj27WNCjr8c1O/pA0rw1f4KbvTOPcbXj/xyS+XrDqIs=;
- b=OsQ2zkJ2M7nYrpLtBUqFMiGwkuyOZVUIb3svBrraQjkb8dxRaPoXfjlNMGOLB7f8yC
- AWAdK0XM6WPIeNMZhcYpU8X2HqwxolUqx2TdY7joRnD0Su34b6WQ9NMsPq3MCRY4YrfQ
- WFBH1eQGs4ecPQhz0djJatSwlTGAHSLoy0v7UgGLozqZ5usMTGWy2huTwx1A2xfj58AZ
- D3eSm3U/cV3bLCwO2Jn6VZzIsRoGH6lFBEFQj6fbqBYIjNgkxLEdZPrVaZRGpVYAS7xU
- KYEsUtQ1NW6RdhesWE/DQLIBVz7n7+h17vuSuxPT4cL01amF7WSaTklplFVB7Tvp9J6R
- owDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kj27WNCjr8c1O/pA0rw1f4KbvTOPcbXj/xyS+XrDqIs=;
- b=MQLhhm7dOCz2gYDcxFGW79iq/j4Vgt7ShwZ9rRAXzd7nAVOoPF20iWSTS3QWkDWnZi
- MdSuJFVOGUgPiIcBWlnT5fTFI8nqP00py8Bk01N8dOZuUI2s89s0oIg6kDhD8dHwGJzE
- 8+r46wFNkOxTvxYCDAhY/9y4t2lnVcoEaCtpbQHWXS8RvA9coB9FdgT3ttE9eVayoQ69
- maQhbnqzFkOVVo0c1vNrS5Lq4yHghwZAgJazZulQEirZ88i91P4N919PcnRIIUKn6cGw
- KxozdYuTAxtpIjVFV3PaXkNyGfoVvP53sZuTufOZpuG1rLt8+lL6Rms8xEQr7OVt5Clz
- RW9w==
-X-Gm-Message-State: AOAM532zATCh6NrkCSjkQCMFq60MHlOOEF2cfktHngRebmCVvHOIQcVU
- gPbTPRWXQYL1trFKFzRPvrF6/csQLfRzUOU3zcR8wA==
-X-Google-Smtp-Source: ABdhPJw0n48stApcTATid54zNsjNMmZWNL3zPDLyobuYf2NaLJYQL6tTy21qILo3VrAXrU0Y+wZ2cEnDG14gGcIOiGk=
-X-Received: by 2002:a05:6000:1141:: with SMTP id
- d1mr8100823wrx.2.1639654095889; 
- Thu, 16 Dec 2021 03:28:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mxozC-0005fG-QK
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 06:31:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45316)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mxoz8-0005SI-PN
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 06:31:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639654301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kqVYoxbxgufKQJHJr64Etu/B2p7gG/4srzJD3MYakvI=;
+ b=PpugwJXlcfGNPbRwgYSX6er4cMzj8xdkddhxqatXZ5Xu+ubVsZU5nHJEZhXdwW/0GTogX0
+ mtwAyqDI1l2ixkLRS0y2FmbjetFQRqJ/Z0tqcG/KpZkNvtgLnKURUTdVoE+P8Qih3j95Vo
+ 1Pxolon13/lU6OTr+v79SApovcaJ4eo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-596-a4XWvqiLNYO-M4ynwLf99w-1; Thu, 16 Dec 2021 06:31:38 -0500
+X-MC-Unique: a4XWvqiLNYO-M4ynwLf99w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A40ED81CCB9;
+ Thu, 16 Dec 2021 11:31:36 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D4052E058;
+ Thu, 16 Dec 2021 11:30:21 +0000 (UTC)
+Date: Thu, 16 Dec 2021 11:30:20 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: john.levon@nutanix.com, thanos.makatos@nutanix.com
+Subject: Re: [PATCH v4 08/14] vfio-user: handle PCI config space accesses
+Message-ID: <YbsjTPnOiAkNKmhb@stefanha-x1.localdomain>
+References: <cover.1639549843.git.jag.raman@oracle.com>
+ <34e287d0a8d585f104bdd06681b32fc93e8746c7.1639549843.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-References: <20211215104049.2030475-1-peter.maydell@linaro.org>
- <20211215104049.2030475-32-peter.maydell@linaro.org>
- <54ed293c-9f7a-f82d-7a6d-35d51eb45b77@linaro.org>
- <YbsNoEUfJRsqtKmF@myrica>
-In-Reply-To: <YbsNoEUfJRsqtKmF@myrica>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Dec 2021 11:28:04 +0000
-Message-ID: <CAFEAcA_T-_bouEcfxydBmXUts4-rhUW4cb3KU=x-7WRgJM4smA@mail.gmail.com>
-Subject: Re: [PULL 31/33] tests/acpi: add test case for VIOT
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <34e287d0a8d585f104bdd06681b32fc93e8746c7.1639549843.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="k+kU4GmQ4iNJJAcD"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,54 +80,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
+ Jagannathan Raman <jag.raman@oracle.com>, bleal@redhat.com,
+ swapnil.ingle@nutanix.com, philmd@redhat.com, qemu-devel@nongnu.org,
+ wainersm@redhat.com, alex.williamson@redhat.com, marcandre.lureau@gmail.com,
+ crosa@redhat.com, pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Dec 2021 at 09:58, Jean-Philippe Brucker
-<jean-philippe@linaro.org> wrote:
->
-> On Wed, Dec 15, 2021 at 04:59:10PM -0800, Richard Henderson wrote:
-> > On 12/15/21 2:40 AM, Peter Maydell wrote:
-> > > From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > >
-> > > Add two test cases for VIOT, one on the q35 machine and the other on
-> > > virt. To test complex topologies the q35 test has two PCIe buses that
-> > > bypass the IOMMU (and are therefore not described by VIOT), and two
-> > > buses that are translated by virtio-iommu.
-> > >
-> > > Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> > > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> > > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > > Message-id: 20211210170415.583179-7-jean-philippe@linaro.org
-> > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > > ---
-> > >   tests/qtest/bios-tables-test.c | 38 ++++++++++++++++++++++++++++++++++
-> > >   1 file changed, 38 insertions(+)
-> >
-> > I should have been more careful while applying.  The aarch64 host failure
-> > for this is not transient as I first assumed:
-> >
-> > PASS 5 qtest-aarch64/bios-tables-test /aarch64/acpi/virt/oem-fields
-> > qemu-system-aarch64: kvm_init_vcpu: kvm_arch_init_vcpu failed (0): Invalid argument
-> > Broken pipe
-> > ERROR qtest-aarch64/bios-tables-test - too few tests run (expected 6, got 5)
-> > make: *** [Makefile.mtest:312: run-test-37] Error 1
->
-> I'm guessing adding "tcg_only = true", like all other virt machine tests
-> in this file, should work around this, but I don't really understand the
-> problem because I can't reproduce it on my aarch64 host (I'm running
-> "configure --target-list=aarch64-softmmu" followed by "make -j10
-> check-qtest V=1" in a loop)
+--k+kU4GmQ4iNJJAcD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What host are you testing on? The test case explicitly asks
-for "-cpu cortex-a57", so it is only going to work with KVM
-on hosts with a Cortex-A57.
+On Wed, Dec 15, 2021 at 10:35:32AM -0500, Jagannathan Raman wrote:
+> Define and register handlers for PCI config space accesses
+>=20
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> ---
+>  hw/remote/vfio-user-obj.c | 45 +++++++++++++++++++++++++++++++++++++++
+>  hw/remote/trace-events    |  2 ++
+>  2 files changed, 47 insertions(+)
+>=20
+> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+> index a01a0ad185..c6d0c675b7 100644
+> --- a/hw/remote/vfio-user-obj.c
+> +++ b/hw/remote/vfio-user-obj.c
+> @@ -43,6 +43,7 @@
+>  #include "qapi/qapi-visit-sockets.h"
+>  #include "qemu/notify.h"
+>  #include "qemu/thread.h"
+> +#include "qemu/main-loop.h"
+>  #include "sysemu/sysemu.h"
+>  #include "libvfio-user.h"
+>  #include "hw/qdev-core.h"
+> @@ -174,6 +175,39 @@ retry_attach:
+>      qemu_set_fd_handler(o->vfu_poll_fd, vfu_object_ctx_run, NULL, o);
+>  }
+> =20
+> +static ssize_t vfu_object_cfg_access(vfu_ctx_t *vfu_ctx, char * const bu=
+f,
+> +                                     size_t count, loff_t offset,
+> +                                     const bool is_write)
+> +{
+> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
+> +    uint32_t pci_access_width =3D sizeof(uint32_t);
+> +    size_t bytes =3D count;
+> +    uint32_t val =3D 0;
+> +    char *ptr =3D buf;
+> +    int len;
+> +
+> +    while (bytes > 0) {
+> +        len =3D (bytes > pci_access_width) ? pci_access_width : bytes;
+> +        if (is_write) {
+> +            memcpy(&val, ptr, len);
+> +            pci_host_config_write_common(o->pci_dev, offset,
+> +                                         pci_config_size(o->pci_dev),
+> +                                         val, len);
+> +            trace_vfu_cfg_write(offset, val);
+> +        } else {
+> +            val =3D pci_host_config_read_common(o->pci_dev, offset,
+> +                                              pci_config_size(o->pci_dev=
+), len);
+> +            memcpy(ptr, &val, len);
+> +            trace_vfu_cfg_read(offset, val);
+> +        }
+> +        offset +=3D len;
+> +        ptr +=3D len;
+> +        bytes -=3D len;
+> +    }
+> +
+> +    return count;
+> +}
+> +
+>  /*
+>   * TYPE_VFU_OBJECT depends on the availability of the 'socket' and 'devi=
+ce'
+>   * properties. It also depends on devices instantiated in QEMU. These
+> @@ -244,6 +278,17 @@ static void vfu_object_init_ctx(VfuObject *o, Error =
+**errp)
+>          goto fail;
+>      }
+> =20
+> +    ret =3D vfu_setup_region(o->vfu_ctx, VFU_PCI_DEV_CFG_REGION_IDX,
+> +                           pci_config_size(o->pci_dev), &vfu_object_cfg_=
+access,
+> +                           VFU_REGION_FLAG_RW | VFU_REGION_FLAG_ALWAYS_C=
+B,
+> +                           NULL, 0, -1, 0);
 
-Richard: given I'm off work for Christmas now, if Jean-Philippe's
-suggested fix fixes this are you OK with just applying it directly
-to un-break the CI ?
+Thanos or John: QEMU's pci_host_config_read/write_common() works with
+host-endian values. I don't know which endianness libvfio-user's region
+callbacks expect. Does this patch look endian-safe to you (e.g. will it
+work on a big-endian host)?
 
-thanks
--- PMM
+Thanks,
+Stefan
+
+--k+kU4GmQ4iNJJAcD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmG7I0wACgkQnKSrs4Gr
+c8jsqQf/b8i3ieRLyDTYd6mlp+PrczZLMCExhSkuTrKsAMnx97mNqgE/yMnYs0rW
+1buTSx52NlFzmSMl5SCCwI6qCHyHaaw5u5FsSimUA4LxRky5L7XhIbDMvnez3qa/
+bYcAX1xlP8lwZjwW095bhCkINDnQmNArAy4HN9dao8kakIbrPJQHi8mIQxXSYcn2
+MBUBmNOAg646vNh7zJ8HP67PYhjD4gImc+vd1BSKwgqygNbmfkD/HfgddXedEKgo
+rZl34fL/TvYkT2SQPW3qAeq6yLWbwPeU8udGfk/CIMfx6g/fZ9OpJcytCvMS/iPA
+/B+JKipT3fQNZrbKcsd1xs14+306WQ==
+=wB0w
+-----END PGP SIGNATURE-----
+
+--k+kU4GmQ4iNJJAcD--
+
 
