@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B24477D95
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 21:29:11 +0100 (CET)
-Received: from localhost ([::1]:48614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC3C477DBD
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 21:40:46 +0100 (CET)
+Received: from localhost ([::1]:47016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxxNG-00056c-8v
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 15:29:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36902)
+	id 1mxxYT-0006VQ-Gu
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 15:40:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxKj-0000zD-Ig; Thu, 16 Dec 2021 15:26:33 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9686
+ id 1mxxKs-0001B2-5a; Thu, 16 Dec 2021 15:26:42 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59774
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxKi-0007Cs-43; Thu, 16 Dec 2021 15:26:33 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKMr72007018; 
- Thu, 16 Dec 2021 20:26:29 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3d08sn5bg4-1
+ id 1mxxKo-0007HV-Nt; Thu, 16 Dec 2021 15:26:41 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGK13AB014278; 
+ Thu, 16 Dec 2021 20:26:30 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cygmwwuep-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 16 Dec 2021 20:26:29 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BGKFMo5007866;
- Thu, 16 Dec 2021 20:26:29 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3d08sn5bfp-1
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKDCQX004774;
+ Thu, 16 Dec 2021 20:26:28 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3cy7jravv0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:26:28 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKDD3r019537;
- Thu, 16 Dec 2021 20:26:27 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3cy78ek0pd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:26:26 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BGKQOJO40436206
+ Thu, 16 Dec 2021 20:26:27 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BGKQPDq44433670
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 20:26:24 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B4299AE045;
- Thu, 16 Dec 2021 20:26:24 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6418BAE057;
- Thu, 16 Dec 2021 20:26:24 +0000 (GMT)
+ Thu, 16 Dec 2021 20:26:25 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 707B84C058;
+ Thu, 16 Dec 2021 20:26:25 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 273154C040;
+ Thu, 16 Dec 2021 20:26:25 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 16 Dec 2021 20:26:24 +0000 (GMT)
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 16 Dec 2021 20:26:25 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.48.122])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 8970E2201A0;
- Thu, 16 Dec 2021 21:26:23 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 51B4F220238;
+ Thu, 16 Dec 2021 21:26:24 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 010/101] ivshmem-test.c: enable test_ivshmem_server for ppc64
- arch
-Date: Thu, 16 Dec 2021 21:24:43 +0100
-Message-Id: <20211216202614.414266-11-clg@kaod.org>
+Subject: [PULL 011/101] pci-host: Allow extended config space access for
+ PowerNV PHB4 model
+Date: Thu, 16 Dec 2021 21:24:44 +0100
+Message-Id: <20211216202614.414266-12-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211216202614.414266-1-clg@kaod.org>
 References: <20211216202614.414266-1-clg@kaod.org>
@@ -72,16 +65,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: iA5lO6CzmulZ9uPYyozewvZGcEc4lfPm
-X-Proofpoint-GUID: GGNh9uLi95Bpx1TLnzThZ61Gqs0ztIhJ
+X-Proofpoint-GUID: cpiOoTsdKU8bsCsorFFHxBpM41Wd9SD3
+X-Proofpoint-ORIG-GUID: cpiOoTsdKU8bsCsorFFHxBpM41Wd9SD3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1034 suspectscore=0
- phishscore=0 mlxlogscore=767 spamscore=0 priorityscore=1501
- impostorscore=0 mlxscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501
+ spamscore=0 phishscore=0 clxscore=1034 lowpriorityscore=0 malwarescore=0
+ mlxlogscore=999 mlxscore=0 impostorscore=0 adultscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2112160109
 Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
@@ -103,73 +96,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
+Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Christophe Lombard <clombard@linux.vnet.ibm.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+From: Christophe Lombard <clombard@linux.vnet.ibm.com>
 
-This test, if enabled by hand, was failing when the ivhsmem device was
-being declared as DEVICE_NATIVE_ENDIAN with the following error:
+The PCIe extended configuration space on the device is not currently
+accessible to the host. if by default,  it is still inaccessible for
+conventional for PCIe buses, add the current flag
+PCI_BUS_EXTENDED_CONFIG_SPACE on the root bus permits PCI-E extended
+config space access.
 
-/ppc64/ivshmem/pair: OK
-/ppc64/ivshmem/server:
-**
-ERROR:/home/danielhb/qemu/tests/qtest/ivshmem-test.c:367:test_ivshmem_ser=
-ver:
-assertion failed (ret !=3D 0): (0 !=3D 0)
-Aborted
-
-After the endianness change done in the previous patch, we can verify in
-both a a Power 9 little-endian host and in a Power 8 big-endian host
-that this test is now passing:
-
-$ QTEST_QEMU_BINARY=3D./ppc64-softmmu/qemu-system-ppc64 ./tests/qtest/ivs=
-hmem-test -m slow
-/ppc64/ivshmem/single: OK
-/ppc64/ivshmem/hotplug: OK
-/ppc64/ivshmem/memdev: OK
-/ppc64/ivshmem/pair: OK
-/ppc64/ivshmem/server: OK
-
-Let's keep it that way by officially enabling it for ppc64.
-
-Acked-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20211124092948.335389-3-danielhb413@gmail.com>
+Signed-off-by: Christophe Lombard <clombard@linux.vnet.ibm.com>
+Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20211109145053.43524-1-clombard@linux.vnet.ibm.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- tests/qtest/ivshmem-test.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ hw/pci-host/pnv_phb4.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/qtest/ivshmem-test.c b/tests/qtest/ivshmem-test.c
-index dfa69424ed90..fe94dd3b96fa 100644
---- a/tests/qtest/ivshmem-test.c
-+++ b/tests/qtest/ivshmem-test.c
-@@ -463,7 +463,6 @@ static gchar *mktempshm(int size, int *fd)
- int main(int argc, char **argv)
- {
-     int ret, fd;
--    const char *arch =3D qtest_get_arch();
-     gchar dir[] =3D "/tmp/ivshmem-test.XXXXXX";
+diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+index 5c375a9f285d..40b793201a34 100644
+--- a/hw/pci-host/pnv_phb4.c
++++ b/hw/pci-host/pnv_phb4.c
+@@ -1205,6 +1205,7 @@ static void pnv_phb4_realize(DeviceState *dev, Erro=
+r **errp)
+                                      &phb->pci_mmio, &phb->pci_io,
+                                      0, 4, TYPE_PNV_PHB4_ROOT_BUS);
+     pci_setup_iommu(pci->bus, pnv_phb4_dma_iommu, phb);
++    pci->bus->flags |=3D PCI_BUS_EXTENDED_CONFIG_SPACE;
 =20
-     g_test_init(&argc, &argv, NULL);
-@@ -488,9 +487,7 @@ int main(int argc, char **argv)
-     qtest_add_func("/ivshmem/memdev", test_ivshmem_memdev);
-     if (g_test_slow()) {
-         qtest_add_func("/ivshmem/pair", test_ivshmem_pair);
--        if (strcmp(arch, "ppc64") !=3D 0) {
--            qtest_add_func("/ivshmem/server", test_ivshmem_server);
--        }
-+        qtest_add_func("/ivshmem/server", test_ivshmem_server);
-     }
-=20
- out:
+     /* Add a single Root port */
+     qdev_prop_set_uint8(DEVICE(&phb->root), "chassis", phb->chip_id);
 --=20
 2.31.1
 
