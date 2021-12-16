@@ -2,90 +2,152 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13DCC477B2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 18:58:44 +0100 (CET)
-Received: from localhost ([::1]:38246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D51D477B3A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 19:02:47 +0100 (CET)
+Received: from localhost ([::1]:46376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxv1f-0005Jj-6O
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 12:58:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53298)
+	id 1mxv5a-0002eV-F8
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 13:02:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxuyg-0002Pc-0a
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 12:55:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44969)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mxv2w-0000KK-Nq; Thu, 16 Dec 2021 13:00:02 -0500
+Received: from mail-am6eur05on2115.outbound.protection.outlook.com
+ ([40.107.22.115]:35872 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxuye-0007QJ-6F
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 12:55:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639677335;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UGIjOqreiR3wf0mzjMXHC2g8ApWAQ49FKn1AAebFmwc=;
- b=Y3jQG/KSIJHxj2lACXAEWPMGT42ULeINMD1EbIa+UtJUqmr12Thbirw5BmDevVcIQFliEA
- QzcewVBIiuFYslu2piPO3OumC3uo3DuCTuQhMOlDrmjx7LPIfNowBSQqLmifdUcJ0Udj3B
- wv9+oy9tVWVX5HaJbA6ZoT4d1R1zrWU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-62-KyEP2K_UPZy-GiI4jVRlDA-1; Thu, 16 Dec 2021 12:55:34 -0500
-X-MC-Unique: KyEP2K_UPZy-GiI4jVRlDA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- f202-20020a1c1fd3000000b00344f1cae317so1221493wmf.0
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 09:55:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UGIjOqreiR3wf0mzjMXHC2g8ApWAQ49FKn1AAebFmwc=;
- b=numrWMEPlQQhDz2aMwBvAiIC2Le11AWvKQCVcOtuGzyOvImkrkVqgQmEGi1MXmZCY4
- jTkAEvuSWUbm9/zzWRTlecMvwArKiWAULswNIw7pqsaXZkQki4t60RwOu0zui9vAZaim
- 1fvL81j+2T8+kgLA5Y9xG1QbQJd64QKS5hFK/5PrxOrkOtpxa9V11gPnFN0TJnGkuS/T
- N5dgmL2jGt7YqEYE/iW3KN31dB6ifHg3EGbJHjvLng7DqihlV+5+An+dRhdk3lVfhEje
- 0q6UUeDFay6HDrE/xVQhPW600Zutz4VXKsuqb5+jdz2pY49PSKaTqCxJHKBzrHDN6+3T
- lABA==
-X-Gm-Message-State: AOAM5317Udq90gVDBU7IB4CzhSdghadxM2yuc7e/ttlTqha2NkhdHp33
- j3s/t2BrO7i2h7pXMzApRHBFVsqjHdpAzh6OeqMmpf5yObyzc7Hy4NztOYbI57wbpuCGPpcIgt/
- hcco4LtHFmm4wp+csfAmjanpoM/x2jEbVlFcikcg+UXFIymbNwKMjfRFsaW5Mcwzw
-X-Received: by 2002:a05:6000:15ca:: with SMTP id
- y10mr10179928wry.642.1639677329978; 
- Thu, 16 Dec 2021 09:55:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxfnK03Kv0K9CSC7sl1OfJrbOKYMl9wq8FDK48j9kAeeeUDkNhtP8urE/K/I3TexWuHcKVuSg==
-X-Received: by 2002:a05:6000:15ca:: with SMTP id
- y10mr10179895wry.642.1639677329708; 
- Thu, 16 Dec 2021 09:55:29 -0800 (PST)
-Received: from localhost.localdomain
- (174.red-83-50-185.dynamicip.rima-tde.net. [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id t17sm9238842wmq.15.2021.12.16.09.55.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 09:55:29 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] hw/nvme/ctrl: Prohibit DMA accesses to devices
- (CVE-2021-3929)
-Date: Thu, 16 Dec 2021 18:55:10 +0100
-Message-Id: <20211216175510.884749-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211216175510.884749-1-philmd@redhat.com>
-References: <20211216175510.884749-1-philmd@redhat.com>
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mxv2u-0008BH-8A; Thu, 16 Dec 2021 13:00:02 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O/mJp4XiXFuWIOh6JhJ1l4ebfR0I0UQU90p8DiAUwdCA9pcrFV84HSKnZ+oAKyc6K5Goz4TTJMgRgHTthIk0PfHbwli1whewc33+dDOXQ2rpWAIdJ56fAu9jDayps3vZ3+TrBYjOcSMCd0lJVyPwcYCsTOa9HhffY4z7dTKiV+CFNLiQ9dH/h06E9+7wYgkvwlhz7fq/xiCyQ9WD/4Ttxu3R0xRQBOwC9bA+qySUmSMct5M4LEzyCdOLJ1FSeiID/ZDfvoQLCNa2K1ODtpmxxfbZFI9FhiSDyNmWgf4TdKgJvEsgR3EsBddgzaBBQ0xs2r7Ol9pLeFjxh7eAH/HKmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D5K8pP2ZvHci/sDkku5kdIMft0gedERdMyygNfELTHU=;
+ b=OjpX1pwWoPxvM0yhRGXWpJVQ0R42huTF4XcCmAD73AEQX9Oa1dIWMlfGsno5Qgl5QznKKKLoaRVVRFrgl3F15IRM5TzsdEk+vxLa1kisV06cEs7o3Qe2uBP8rp54Yb9WDKyPYqoqu5YldO3deN80q3o7C32aj1EfurhV43y3gOAJ6dPpO4I3mz630c9Y+3x5g+8mXWc7bmYK1v2NN1OzKOG6Vl7V3qTVc3bBAeysyfHt6hX1d3xBcGNJmOwOamvCQqIas0YohffCKV2Zx34SgjQ4SNpibdSOqKK3xvo6cUiVdmhzj04plPrGv7lxEhFk4Lfg5p86UdcoH2LWoaHX8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D5K8pP2ZvHci/sDkku5kdIMft0gedERdMyygNfELTHU=;
+ b=nbbxYkxwgUndwQywmcUSNDss3DMK1F3Tlwx8MrG8WcF4FuByt4GV6Mh/2JtYNh774Af4agsgG7BK7HuCLCKoN5m6QK+/zY4F5kZxjqj9wr/U8MUfMPH84YZE2c/dXt+vom7rSF+kByIDNNOw6FXnd1JZFzSxyuZ4W1KwWTIQSs8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by AM8PR08MB5729.eurprd08.prod.outlook.com (2603:10a6:20b:1de::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Thu, 16 Dec
+ 2021 17:59:50 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Thu, 16 Dec 2021
+ 17:59:50 +0000
+Message-ID: <ceb2f83d-17aa-e1ae-465f-470e27f52aef@virtuozzo.com>
+Date: Thu, 16 Dec 2021 20:59:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 02/25] python/aqmp: handle asyncio.TimeoutError on
+ execute()
+Content-Language: en-US
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost
+ <eduardo@habkost.net>, Daniel Berrange <berrange@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>,
+ Wainer Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Qemu-block <qemu-block@nongnu.org>
+References: <20211215193939.3768033-1-jsnow@redhat.com>
+ <20211215193939.3768033-3-jsnow@redhat.com>
+ <d02c037f-6d6d-7ea8-4647-87dd9f5f014b@virtuozzo.com>
+ <CAFn=p-bCgLKP=4-o9PORrwpjH+gTQRRhF_+6gCp_wb6AqqZqyg@mail.gmail.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <CAFn=p-bCgLKP=4-o9PORrwpjH+gTQRRhF_+6gCp_wb6AqqZqyg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-ClientProxiedBy: FR3P281CA0053.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4a::6) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
+MIME-Version: 1.0
+Received: from [192.168.100.10] (185.215.60.230) by
+ FR3P281CA0053.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:4a::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
+ Thu, 16 Dec 2021 17:59:48 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0cc25187-1cb3-49f4-9726-08d9c0bdda93
+X-MS-TrafficTypeDiagnostic: AM8PR08MB5729:EE_
+X-Microsoft-Antispam-PRVS: <AM8PR08MB57295202E4683C6986130A99C1779@AM8PR08MB5729.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qFdleNLvk7Vj+avHq+B+jObhqSVuuKt6yx/LzF+Dscw8aaxWz1P23lWmypwIBoyS5K6DEw2dXExWU/hSCghswpFrUK/xTBTG905NTM6gyx6r3f1lr96R9V0PKr7F0hUDdOB/DSKYSqFO95AMKwEswmlFQ++IiqJ0y3YkIhdGf6dk6gIJ5j1NjiCiPb41UrHRfrwOPIzsjv7ZwUn9fPe6D+2Ob6SvNmaM7FxUHKizbwjr+IJ46QALQsXVSXAKaQ3MJyj1CAdyASgp9rjSoX2OWa3zu43a5D6rhlX8n98TRT+GDDEcg/uhqMUVGbTMLnjPnd1yjoVNmp/kbar81pPYPr98pRgoWY7BsRpy6JhV6DXQBzgxUPmLRQhpZqFwOGFHw62WOpgC0PvRSKLCC9jfbQHb7JWfg7UNUZpV3DrJ55hZIU8WdLJP7J5uSm2/7PPrSp9D12NKtALzl+jq3YlKBQfwDaJeqRViKagB9GZ11Pj9+3aoKJPa4s0ljIM2QMStRf55oLKSHfAKyzAXmfKUa4GH6onZ0JyvntIxjxf4Vo3wz6krJ7qlf75KXXMvKBb3Dun5jCyHoyqP1v+PTSxpVzRkTGiuB1Zmg5rujYPxUOdgsAJBrdPp7/T52B5O2H5pjTiRqhVNcg8rsDFCVQKl6qncZA6o2nduujo5VM2Ki6hfRHAS+tvXNQklOWjfIRnrWLCI8IDog2JgqP60dmHwFsu+ztQZcJe8kPO/7w3QbT0d/jVUd6jQqJ64tzTgCOM7BBOuopQcSjxR8HuOlM7TVA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(66556008)(5660300002)(52116002)(16576012)(38350700002)(186003)(508600001)(6916009)(31696002)(38100700002)(6486002)(7416002)(66946007)(26005)(2906002)(36756003)(83380400001)(86362001)(66476007)(4326008)(316002)(956004)(31686004)(54906003)(8676002)(2616005)(8936002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RmJCSUkwajNuRjJPa0RjUXV0S085aVhpbzlzOXM5c25EZ0JkSm5zOWxJdTY1?=
+ =?utf-8?B?MTY1YUpibHpEcm5zeGdPSDRjcVh4OG1PRy8xRFErbGx5YzNWcEMrOUhmV0pr?=
+ =?utf-8?B?UWxWVzFTNm5jVEJ1bVpSVVV6QzlFeWlNcEw3YlBBc3oxM3dGTmF5VEVGaHJI?=
+ =?utf-8?B?ZnB6NEw2ajl1NXJDZ0x1bVFZb2NERmpObklnMzZYeWxGeWhkV3RIM2JBY2Ew?=
+ =?utf-8?B?UmRMbFpNNHFnZUpsL3Z6cERIb1RpVU9ycVp5aXFVYWZRN2RqMlNBMTNoUitI?=
+ =?utf-8?B?cTdvOGJQcTVwdlRrV3JuMmJ0cjY1MXpGdG9NU0k4WldxRk9SbnNrMy8va2Rz?=
+ =?utf-8?B?NFVUSmUrUU02VDZqQmJiM2JKUFJoOHp5TFYwLzZQenpudkZGdjE3VVhST3NQ?=
+ =?utf-8?B?eVlHNU1OeXhMSldqRUV1QmRJOGtYNW9WQzdVNE11OUM0a21PV2tESHF1ZDRo?=
+ =?utf-8?B?TjVCamtMZXQzUFNpNU5hM2tFWVZjQXFqY2YyNkFCRkVXS2N3V01UaHhLOGVP?=
+ =?utf-8?B?UHEzOGtId3drMzhqc2RwZE9tTW1hY3Q1eTRJQnhUOGNYRytlaWVKQ2c5SWFz?=
+ =?utf-8?B?RnB2UXgvbjFKVkgxZnM5Yk13KzExWkRZcnE4aHZ0ZnNaU2loR3luSzl4K0Vj?=
+ =?utf-8?B?ekhET3F3R0NvMGQrbENwM25pMkdXR0hGWWNyeW40OE5wV0xUZTkwVXNHeGdn?=
+ =?utf-8?B?RitjNUdOS2pkejFkNHpjUXBmeVdQT0piaTdpV3JKTUhTaC8rR0xGSWpOUzFN?=
+ =?utf-8?B?R1c4U0p4VDgzdUZ2bVVGNDEvS3hQOE9EVHE4NlM0c3ZMMjAzYUZPb1hTek9x?=
+ =?utf-8?B?aFRYR3l4YWVjZ1B3d3ZKTnNqVit2VmYvSUVwcDFYQ2dWQjh1ZnM2bTMyNm44?=
+ =?utf-8?B?cXNURmlOdU9yNW1KejEySDlZd3ZGejlKWkJoaERuME00QS9uTldhdHYrN2Jw?=
+ =?utf-8?B?OTBRRkhPOEppSXNFTS95a2FpUDNKS1FHYWQ5WEZ4UjhMSmtvU0dvV1VvZUd6?=
+ =?utf-8?B?Wms2cEVIa0dwVlpoYnNyMW9nUUcvWXNGbWpicFJWSTJKa2VNd2NuRG9FTHFC?=
+ =?utf-8?B?TzZpZ3ozVGpLUDlZOCtGelYyam12Z3c0R2V3OUNjTTJxSVJEeVVVZ0dSSkF4?=
+ =?utf-8?B?UDUxSzVJbG90Y2JQaURJNHZBUE1YOVpQcU04MHR0YzUyd2ZRV2VOZUdhTi9i?=
+ =?utf-8?B?WFZPOVhWZXI0NHNOY1QxQ0w1eWRKVmdpeTF1eVdmY25xNmRDZGZuc09xRnZF?=
+ =?utf-8?B?TFh5WDU2ZDRJaWMyMFRFcVZ5a1orVGtGY09IM1UxcDN4UE04QVB0ZU1DWTYy?=
+ =?utf-8?B?bWJLYmZhR0htY0xqRFVJdDh5YzhTK3A0R1FheGlIb25YcG1OOXFzTFFjdHR0?=
+ =?utf-8?B?Q3lTbzI1ZDNnUUNJczljYXlrcVh3LzRRQXU3Zy9NaDdiUVRvQnlOU29BbVNh?=
+ =?utf-8?B?NWZkOUhpMWhsMW9aZzQ3ZUc5Z3Z5eHY1Z0FEZmQ5aDFMTXN2Y2t5QXJTNmhZ?=
+ =?utf-8?B?Y2wrOExqTTBuNDdsR05FL2Q2eGE4NTNFcE5JcHl5TXVRM3FTM1l1ZlhRMFZG?=
+ =?utf-8?B?b0MyZ3AvNWs4TkJCY2ZvMVZhWGxZN1V5MDlkL0RnbFFIbThpYjRObkFreGdB?=
+ =?utf-8?B?U0tGcWRoSHBXak4yQ0RMUGtYa0xsZDhRZGxJUXFuYVhCdjdpUTB2aVdpdTI0?=
+ =?utf-8?B?cXZ0ODdrRW8xS3I2YzI5bFhzZjVrdjE5dklHY2MxMjJ1Z2Jmem9KY0VjOGhn?=
+ =?utf-8?B?Z2UwbVZwTDZDaUNKbWYyVGxTTSs1ZmtjTmxTalRlLzRpSTF0MnBxdGdQSnVi?=
+ =?utf-8?B?REUyeGRhdG53cUtBVktibUVXeThMWGFXNUhENHk4K3hlUTNOSHdCM0I3czlK?=
+ =?utf-8?B?TkxTKy9pUEY2aFd0cUZWLzBOckpEditOeU9tUnVZVGQwaGhxc2tXZ3c1RXU1?=
+ =?utf-8?B?bUErNlZ2WCtTRDloZ2FFY0cyS1FoZlMxY2pVVEs3NnBCVCtVeStoOThMYWJ2?=
+ =?utf-8?B?cldUOFFRaGFUMW4wYVpWRE05bElBSUdLcG00bGE0VUNqZmM4MlVISWwxeGFs?=
+ =?utf-8?B?ODd4aDFaZGJOdW90TFZMUXBuWDA3MmtiUi8vaWNWRHIya1dpcWdzZkd2d0Z1?=
+ =?utf-8?B?dGE1QnY5T2YzRnpaRzNteCtKZ2RCbDVrYm44cHdCMGx1dnlta1UxeEFVSFl6?=
+ =?utf-8?B?THRaL2JpalNkZHRYd21ia1FLMWNOd1EzVkU1d2FKdmxpVm1aTk5vZDlpamlq?=
+ =?utf-8?Q?XwwYol+7YIYbDLUgaHMOBdA85H2WMXe7daicbbs/lI=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0cc25187-1cb3-49f4-9726-08d9c0bdda93
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2021 17:59:50.0522 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p5YWZPvjJQxLdevWn1wp/GnElSJuw1Yy9LZn1BUaMD0b/z4A4DMOzga9cil8kvqh+fb11RNSF8+9wuBN6unIqf7IvBj9VssycMtHo+TysAk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5729
+Received-SPF: pass client-ip=40.107.22.115;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.034, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,110 +160,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Peter Xu <peterx@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Keith Busch <kbusch@kernel.org>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Async DMA requests might access MMIO regions and re-program the
-NVMe controller internal registers while DMA requests are still
-scheduled or in flight. Avoid that by prohibing the controller
-to access non-memories regions.
+16.12.2021 20:22, John Snow wrote:
+> 
+> 
+> On Thu, Dec 16, 2021 at 4:51 AM Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com <mailto:vsementsov@virtuozzo.com>> wrote:
+> 
+>     15.12.2021 22:39, John Snow wrote:
+>      > This exception can be injected into any await statement. If we are
+>      > canceled via timeout, we want to clear the pending execution record on
+>      > our way out.
+> 
+>     Hmm, but there are more await statements in the file, shouldn't we care about them too ?
+> 
+> 
+> Did any catch your eye? Depending on where it fails, it may not need any additional cleanup. In this case, it's important to delete the _pending entry so that we don't leave stale entries behind.
 
-The bug has been audited looking at the following report from
-Qiuhao Li:
+No. I simply searched for "await" reading the first sentence of commit message. Now I better follow what you are doing.
 
-  =================================================================
-  ==793444==ERROR: AddressSanitizer: heap-use-after-free on address 0x616000026198
-  WRITE of size 2 at 0x616000026198 thread T0
-      #0 0x55d64d672178 in nvme_process_sq hw/nvme/ctrl.c:5556:25
-      #1 0x55d64f3b3fde in timerlist_run_timers util/qemu-timer.c:573:9
-      #2 0x55d64f3b430c in qemu_clock_run_timers util/qemu-timer.c:587:12
+> 
+>      >
+>      > Signed-off-by: John Snow <jsnow@redhat.com <mailto:jsnow@redhat.com>>
+>      > ---
+>      >   python/qemu/aqmp/qmp_client.py | 8 ++++++--
+>      >   1 file changed, 6 insertions(+), 2 deletions(-)
+>      >
+>      > diff --git a/python/qemu/aqmp/qmp_client.py b/python/qemu/aqmp/qmp_client.py
+>      > index 8105e29fa8..6a985ffe30 100644
+>      > --- a/python/qemu/aqmp/qmp_client.py
+>      > +++ b/python/qemu/aqmp/qmp_client.py
+>      > @@ -435,7 +435,11 @@ async def _issue(self, msg: Message) -> Union[None, str]:
+>      >               msg_id = msg['id']
+>      >
+>      >           self._pending[msg_id] = asyncio.Queue(maxsize=1)
+>      > -        await self._outgoing.put(msg)
+>      > +        try:
+>      > +            await self._outgoing.put(msg)
+>      > +        except:
+> 
+>     Doesn't pylint and others complain about plain "except". Do we really need to catch any exception here? As far as I know that's not a good practice.
+> 
+> 
+> pylint won't complain as long as you also ubiquitously re-raise the exception. It's only a bad practice to suppress all exceptions, but it's OK to define cleanup actions.
+> 
+>      > +            del self._pending[msg_id]
+>      > +            raise
+>      >
+>      >           return msg_id
+>      >
+>      > @@ -452,9 +456,9 @@ async def _reply(self, msg_id: Union[str, None]) -> Message:
+>      >               was lost, or some other problem.
+>      >           """
+>      >           queue = self._pending[msg_id]
+>      > -        result = await queue.get()
+>      >
+>      >           try:
+>      > +            result = await queue.get()
+>      >               if isinstance(result, ExecInterruptedError):
+>      >                   raise result
+>      >               return result
+>      >
+> 
+>     This one looks good, just include it into existing try-finally
+> 
+>     Hmm. _issue() and _reply() are used only in one place, as a pair. It looks like both "awaits" should be better under one try-finally block.
+> 
+> 
+> They could. I split them for the sake of sub-classing if you wanted to perform additional actions on the outgoing/incoming arms of the execute() action. Specifically, I am accommodating the case that someone wants to subclass QMPClient and create methods where a QMP command is *sent* but is not *awaited*, i.e. _issue() is called without an immediate _reply(). This allows us the chance to create something like a PendingExecution object that could be awaited later on.
+> 
+> The simpler case, execute(), doesn't bother with separating those actions and just awaits the reply immediately.
+> 
+> 
+>     For example, move "self._pending[msg_id] = asyncio.Queue(maxsize=1)" to _execute, and just do try-finally in _execute() around _issue and _reply. Or may be just merge the whole logic in _execute, it doesn't seem too much. What do you think?
+> 
 
-  0x616000026198 is located 24 bytes inside of 624-byte region [0x616000026180,0x6160000263f0)
-  freed by thread T0 here:
-      #1 0x7f9e20a0ddac in g_free (/lib64/libglib-2.0.so.0+0x56dac)
-      #2 0x55d64d661ec2 in nvme_ctrl_reset hw/nvme/ctrl.c:5578:13
-      #3 0x55d64d65b5e4 in nvme_write_bar hw/nvme/ctrl.c:5824:13
-      #4 0x55d64d658f70 in nvme_mmio_write hw/nvme/ctrl.c:6174:9
-      #5 0x55d64e36f413 in memory_region_write_accessor softmmu/memory.c:492:5
-      #6 0x55d64e36ed51 in access_with_adjusted_size softmmu/memory.c:554:18
-      #7 0x55d64e36d666 in memory_region_dispatch_write softmmu/memory.c:1504:16
-      #8 0x55d64e33e8ee in flatview_write_continue softmmu/physmem.c:2812:23
-      #9 0x55d64e32d0eb in flatview_write softmmu/physmem.c:2854:12
-      #10 0x55d64e32cba8 in address_space_write softmmu/physmem.c:2950:18
-      #11 0x55d64e32d417 in address_space_rw softmmu/physmem.c:2960:16
-      #12 0x55d64cd207e2 in dma_memory_rw_relaxed include/sysemu/dma.h:89:12
-      #13 0x55d64cd2054a in dma_memory_rw include/sysemu/dma.h:132:12
-      #14 0x55d64cd1c922 in dma_buf_rw softmmu/dma-helpers.c:312:16
-      #15 0x55d64cd1c2e1 in dma_buf_read softmmu/dma-helpers.c:327:12
-      #16 0x55d64d638aab in nvme_tx hw/nvme/ctrl.c:1156:19
-      #17 0x55d64d6a72f4 in nvme_c2h hw/nvme/ctrl.c:1191:12
-      #18 0x55d64d6b7554 in nvme_fw_log_info hw/nvme/ctrl.c:4142:12
-      #19 0x55d64d6ab5e8 in nvme_get_log hw/nvme/ctrl.c:4294:16
-      #20 0x55d64d6740d5 in nvme_admin_cmd hw/nvme/ctrl.c:5499:16
-      #21 0x55d64d6720a3 in nvme_process_sq hw/nvme/ctrl.c:5554:13
-      #22 0x55d64f3b3fde in timerlist_run_timers util/qemu-timer.c:573:9
 
-  previously allocated by thread T0 here:
-      #1 0x7f9e20a115e0 in g_malloc0 (/lib64/libglib-2.0.so.0+0x5a5e0)
-      #2 0x55d64d661856 in nvme_start_ctrl hw/nvme/ctrl.c:5718:5
-      #3 0x55d64d65b503 in nvme_write_bar hw/nvme/ctrl.c:5815:17
-      #4 0x55d64d658f70 in nvme_mmio_write hw/nvme/ctrl.c:6174:9
-      #5 0x55d64e36f413 in memory_region_write_accessor softmmu/memory.c:492:5
-      #6 0x55d64e36ed51 in access_with_adjusted_size softmmu/memory.c:554:18
-      #7 0x55d64e36d666 in memory_region_dispatch_write softmmu/memory.c:1504:16
-      #8 0x55d64e33e8ee in flatview_write_continue softmmu/physmem.c:2812:23
-      #9 0x55d64e32d0eb in flatview_write softmmu/physmem.c:2854:12
-      #10 0x55d64e32cba8 in address_space_write softmmu/physmem.c:2950:18
+OK, that's all reasonable, thanks:
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-  SUMMARY: AddressSanitizer: heap-use-after-free hw/nvme/ctrl.c:5556:25 in nvme_process_sq
-  Shadow bytes around the buggy address:
-    0x0c2c7fffcbe0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c2c7fffcbf0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c2c7fffcc00: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c2c7fffcc10: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c2c7fffcc20: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  =>0x0c2c7fffcc30: fd fd fd[fd]fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c2c7fffcc40: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c2c7fffcc50: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c2c7fffcc60: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-    0x0c2c7fffcc70: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fa fa
-    0x0c2c7fffcc80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  Shadow byte legend (one shadow byte represents 8 application bytes):
-    Heap left redzone:       fa
-    Freed heap region:       fd
-  ==793444==ABORTING
-
-Fixes: CVE-2021-3929
-Reported-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/nvme/ctrl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 604ed0aea0d..2be2c340b34 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -1146,7 +1146,7 @@ static uint16_t nvme_tx(NvmeCtrl *n, NvmeSg *sg, uint8_t *ptr, uint32_t len,
-     assert(sg->flags & NVME_SG_ALLOC);
- 
-     if (sg->flags & NVME_SG_DMA) {
--        const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-+        const MemTxAttrs attrs = { .memory = true };
-         MemTxResult res;
-         uint64_t residual;
- 
 -- 
-2.33.1
-
+Best regards,
+Vladimir
 
