@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD1C477F8D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 22:49:03 +0100 (CET)
-Received: from localhost ([::1]:52658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0D5477EDA
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 22:32:09 +0100 (CET)
+Received: from localhost ([::1]:40758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxycY-00058P-B7
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 16:49:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38260)
+	id 1mxyMC-0003HS-Dl
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 16:32:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLt-0003s8-Tv; Thu, 16 Dec 2021 15:27:45 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36984)
+ id 1mxxLs-0003nK-T1; Thu, 16 Dec 2021 15:27:44 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLo-0007Ti-OG; Thu, 16 Dec 2021 15:27:45 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGIU6K9038660; 
+ id 1mxxLo-0007Te-NX; Thu, 16 Dec 2021 15:27:44 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGK0O0C031414; 
  Thu, 16 Dec 2021 20:27:08 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cymkwfksk-1
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cype3ckt6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:27:07 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKCjID011781;
+ Thu, 16 Dec 2021 20:27:08 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKC8n5028568;
  Thu, 16 Dec 2021 20:27:05 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma01fra.de.ibm.com with ESMTP id 3cy7k3j3xh-1
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma02fra.de.ibm.com with ESMTP id 3cy7sjt0em-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 16 Dec 2021 20:27:05 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BGKR2Iw43385112
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BGKR3L744761370
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 20:27:02 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 92B0442049;
- Thu, 16 Dec 2021 20:27:02 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 593684203F;
+ Thu, 16 Dec 2021 20:27:03 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2B1534C05A;
+ Thu, 16 Dec 2021 20:27:03 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E5FDF4C050;
  Thu, 16 Dec 2021 20:27:02 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Thu, 16 Dec 2021 20:27:02 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.48.122])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id AD03F220238;
- Thu, 16 Dec 2021 21:27:01 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 473482201A0;
+ Thu, 16 Dec 2021 21:27:02 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 069/101] ppc/ppc405: Rework FW load
-Date: Thu, 16 Dec 2021 21:25:42 +0100
-Message-Id: <20211216202614.414266-70-clg@kaod.org>
+Subject: [PULL 070/101] ppc/ppc405: Introduce ppc405_set_default_bootinfo()
+Date: Thu, 16 Dec 2021 21:25:43 +0100
+Message-Id: <20211216202614.414266-71-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211216202614.414266-1-clg@kaod.org>
 References: <20211216202614.414266-1-clg@kaod.org>
@@ -62,16 +63,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: LnnSDhTsUprCkZyv_aOIZiCPku0_wWgu
-X-Proofpoint-ORIG-GUID: LnnSDhTsUprCkZyv_aOIZiCPku0_wWgu
+X-Proofpoint-GUID: 1cV8fhan9krBn1s1KfJhYrMbZtglyTbu
+X-Proofpoint-ORIG-GUID: 1cV8fhan9krBn1s1KfJhYrMbZtglyTbu
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0
- clxscore=1034 lowpriorityscore=0 malwarescore=0 spamscore=0
- priorityscore=1501 phishscore=0 mlxscore=0 mlxlogscore=812 impostorscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxlogscore=751
+ impostorscore=0 phishscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
+ bulkscore=0 clxscore=1034 adultscore=0 priorityscore=1501 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2112160109
 Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
@@ -98,114 +99,140 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU installs a custom U-Boot in-memory descriptor to share board
-information with Linux, which means that the QEMU machine was
-initially designed to support booting Linux directly without using the
-loaded FW. But, it's not that simple because the CPU still starts at
-address 0xfffffffc where nothing is currently mapped. Support must
-have been broken these last years.
-
-Since we can not find a "ppc405_rom.bin" firmware file, request one to
-be specified on the command line. A consequence of this change is that
-the machine can be booted directly from Linux without any FW being
-loaded. This is still broken and the CPU start address will be fixed
-in the next changes.
+This routine is a small helper to cleanup the code. The update of the
+flash fields were removed because there are not of any use when booting
+from a Linux kernel image. It should be functionally equivalent.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20211206103712.1866296-10-clg@kaod.org>
+Message-Id: <20211206103712.1866296-11-clg@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/ppc405_boards.c | 45 +++++++++++++++++++-----------------------
- 1 file changed, 20 insertions(+), 25 deletions(-)
+ hw/ppc/ppc405.h        |  2 +-
+ hw/ppc/ppc405_boards.c | 28 +---------------------------
+ hw/ppc/ppc405_uc.c     | 41 ++++++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 42 insertions(+), 29 deletions(-)
 
+diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+index ea48c3626908..6fb8b41bbc77 100644
+--- a/hw/ppc/ppc405.h
++++ b/hw/ppc/ppc405.h
+@@ -63,7 +63,7 @@ struct ppc4xx_bd_info_t {
+ };
+=20
+ /* PowerPC 405 core */
+-ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ppc4xx_bd_info_t *bd);
++ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
+=20
+ void ppc4xx_plb_init(CPUPPCState *env);
+ void ppc405_ebc_init(CPUPPCState *env);
 diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-index a385e8f15070..cfed43dba2f3 100644
+index cfed43dba2f3..71a652e2d846 100644
 --- a/hw/ppc/ppc405_boards.c
 +++ b/hw/ppc/ppc405_boards.c
-@@ -139,24 +139,19 @@ static void ref405ep_fpga_init(MemoryRegion *sysmem=
-, uint32_t base)
- static void ref405ep_init(MachineState *machine)
- {
-     MachineClass *mc =3D MACHINE_GET_CLASS(machine);
--    const char *bios_name =3D machine->firmware ?: BIOS_FILENAME;
+@@ -142,7 +142,6 @@ static void ref405ep_init(MachineState *machine)
      const char *kernel_filename =3D machine->kernel_filename;
      const char *kernel_cmdline =3D machine->kernel_cmdline;
      const char *initrd_filename =3D machine->initrd_filename;
--    char *filename;
-     ppc4xx_bd_info_t bd;
+-    ppc4xx_bd_info_t bd;
      PowerPCCPU *cpu;
      CPUPPCState *env;
      DeviceState *dev;
-     SysBusDevice *s;
--    MemoryRegion *bios;
-     MemoryRegion *sram =3D g_new(MemoryRegion, 1);
+@@ -221,32 +220,7 @@ static void ref405ep_init(MachineState *machine)
+     /* Load kernel */
+     linux_boot =3D (kernel_filename !=3D NULL);
+     if (linux_boot) {
+-        memset(&bd, 0, sizeof(bd));
+-        bd.bi_memstart =3D PPC405EP_SDRAM_BASE;
+-        bd.bi_memsize =3D machine->ram_size;
+-        bd.bi_flashstart =3D -bios_size;
+-        bd.bi_flashsize =3D -bios_size;
+-        bd.bi_flashoffset =3D 0;
+-        bd.bi_sramstart =3D PPC405EP_SRAM_BASE;
+-        bd.bi_sramsize =3D PPC405EP_SRAM_SIZE;
+-        bd.bi_bootflags =3D 0;
+-        bd.bi_intfreq =3D 133333333;
+-        bd.bi_busfreq =3D 33333333;
+-        bd.bi_baudrate =3D 115200;
+-        bd.bi_s_version[0] =3D 'Q';
+-        bd.bi_s_version[1] =3D 'M';
+-        bd.bi_s_version[2] =3D 'U';
+-        bd.bi_s_version[3] =3D '\0';
+-        bd.bi_r_version[0] =3D 'Q';
+-        bd.bi_r_version[1] =3D 'E';
+-        bd.bi_r_version[2] =3D 'M';
+-        bd.bi_r_version[3] =3D 'U';
+-        bd.bi_r_version[4] =3D '\0';
+-        bd.bi_procfreq =3D 133333333;
+-        bd.bi_plb_busfreq =3D 33333333;
+-        bd.bi_pci_busfreq =3D 33333333;
+-        bd.bi_opbfreq =3D 33333333;
+-        bdloc =3D ppc405_set_bootinfo(env, &bd);
++        bdloc =3D ppc405_set_bootinfo(env, machine->ram_size);
+         env->gpr[3] =3D bdloc;
+         kernel_base =3D KERNEL_LOAD_ADDR;
+         /* now we can load the kernel */
+diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+index 4ad81695e80a..303af584443d 100644
+--- a/hw/ppc/ppc405_uc.c
++++ b/hw/ppc/ppc405_uc.c
+@@ -41,7 +41,35 @@
+ #include "qapi/error.h"
+ #include "trace.h"
+=20
+-ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ppc4xx_bd_info_t *bd)
++static void ppc405_set_default_bootinfo(ppc4xx_bd_info_t *bd,
++                                        ram_addr_t ram_size)
++{
++        memset(bd, 0, sizeof(*bd));
++
++        bd->bi_memstart =3D PPC405EP_SDRAM_BASE;
++        bd->bi_memsize =3D ram_size;
++        bd->bi_sramstart =3D PPC405EP_SRAM_BASE;
++        bd->bi_sramsize =3D PPC405EP_SRAM_SIZE;
++        bd->bi_bootflags =3D 0;
++        bd->bi_intfreq =3D 133333333;
++        bd->bi_busfreq =3D 33333333;
++        bd->bi_baudrate =3D 115200;
++        bd->bi_s_version[0] =3D 'Q';
++        bd->bi_s_version[1] =3D 'M';
++        bd->bi_s_version[2] =3D 'U';
++        bd->bi_s_version[3] =3D '\0';
++        bd->bi_r_version[0] =3D 'Q';
++        bd->bi_r_version[1] =3D 'E';
++        bd->bi_r_version[2] =3D 'M';
++        bd->bi_r_version[3] =3D 'U';
++        bd->bi_r_version[4] =3D '\0';
++        bd->bi_procfreq =3D 133333333;
++        bd->bi_plb_busfreq =3D 33333333;
++        bd->bi_pci_busfreq =3D 33333333;
++        bd->bi_opbfreq =3D 33333333;
++}
++
++static ram_addr_t __ppc405_set_bootinfo(CPUPPCState *env, ppc4xx_bd_info=
+_t *bd)
+ {
+     CPUState *cs =3D env_cpu(env);
      ram_addr_t bdloc;
-     MemoryRegion *ram_memories =3D g_new(MemoryRegion, 2);
-     hwaddr ram_bases[2], ram_sizes[2];
--    long bios_size;
--    //int phy_addr =3D 0;
--    //static int phy_addr =3D 1;
-+    long bios_size =3D -1;
-     target_ulong kernel_base, initrd_base;
-     long kernel_size, initrd_size;
-     int linux_boot;
-@@ -190,31 +185,31 @@ static void ref405ep_init(MachineState *machine)
-     memory_region_add_subregion(sysmem, PPC405EP_SRAM_BASE, sram);
+@@ -93,6 +121,17 @@ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ppc4=
+xx_bd_info_t *bd)
+     return bdloc;
+ }
 =20
-     /* allocate and load BIOS */
--    {
--        bios =3D g_new(MemoryRegion, 1);
-+    if (machine->firmware) {
-+        MemoryRegion *bios =3D g_new(MemoryRegion, 1);
-+        g_autofree char *filename;
++ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size)
++{
++    ppc4xx_bd_info_t bd;
 +
-         memory_region_init_rom(bios, NULL, "ef405ep.bios", BIOS_SIZE,
-                                &error_fatal);
++    memset(&bd, 0, sizeof(bd));
++
++    ppc405_set_default_bootinfo(&bd, ram_size);
++
++    return __ppc405_set_bootinfo(env, &bd);
++}
++
+ /***********************************************************************=
+******/
+ /* Shared peripherals */
 =20
--        filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
--        if (filename) {
--            bios_size =3D load_image_size(filename,
--                                        memory_region_get_ram_ptr(bios),
--                                        BIOS_SIZE);
--            g_free(filename);
--            if (bios_size < 0) {
--                error_report("Could not load PowerPC BIOS '%s'", bios_na=
-me);
--                exit(1);
--            }
--            bios_size =3D (bios_size + 0xfff) & ~0xfff;
--            memory_region_add_subregion(sysmem, (uint32_t)(-bios_size), =
-bios);
--        } else if (!qtest_enabled() || kernel_filename !=3D NULL) {
--            error_report("Could not load PowerPC BIOS '%s'", bios_name);
-+        filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, machine->firmwa=
-re);
-+        if (!filename) {
-+            error_report("Could not find firmware '%s'", machine->firmwa=
-re);
-+            exit(1);
-+        }
-+
-+        bios_size =3D load_image_size(filename,
-+                                    memory_region_get_ram_ptr(bios),
-+                                    BIOS_SIZE);
-+        if (bios_size < 0) {
-+            error_report("Could not load PowerPC BIOS '%s'", machine->fi=
-rmware);
-             exit(1);
--        } else {
--            /* Avoid an uninitialized variable warning */
--            bios_size =3D -1;
-         }
-+
-+        bios_size =3D (bios_size + 0xfff) & ~0xfff;
-+        memory_region_add_subregion(sysmem, (uint32_t)(-bios_size), bios=
-);
-     }
-+
-     /* Register FPGA */
-     ref405ep_fpga_init(sysmem, PPC405EP_FPGA_BASE);
-     /* Register NVRAM */
 --=20
 2.31.1
 
