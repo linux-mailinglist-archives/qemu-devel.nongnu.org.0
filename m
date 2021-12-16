@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2316477E10
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 22:02:48 +0100 (CET)
-Received: from localhost ([::1]:43370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF732477EB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 22:24:24 +0100 (CET)
+Received: from localhost ([::1]:52262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxxtn-00006Q-O5
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 16:02:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37534)
+	id 1mxyEh-0000HE-Eu
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 16:24:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLU-0002TP-9S; Thu, 16 Dec 2021 15:27:20 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26190)
+ id 1mxxLV-0002Uz-8b; Thu, 16 Dec 2021 15:27:21 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLK-0007M9-4G; Thu, 16 Dec 2021 15:27:15 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGIU6K1038660; 
- Thu, 16 Dec 2021 20:26:37 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cymkwfkjx-1
+ id 1mxxLK-0007Lk-3q; Thu, 16 Dec 2021 15:27:15 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGIId0c016810; 
+ Thu, 16 Dec 2021 20:26:42 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cyqbjarse-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:26:37 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKDCNx004781;
- Thu, 16 Dec 2021 20:26:35 GMT
+ Thu, 16 Dec 2021 20:26:42 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKCgC3011756;
+ Thu, 16 Dec 2021 20:26:39 GMT
 Received: from b06cxnps4074.portsmouth.uk.ibm.com
  (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03ams.nl.ibm.com with ESMTP id 3cy7jravvk-1
+ by ppma01fra.de.ibm.com with ESMTP id 3cy7k3j3w9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:26:35 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
+ Thu, 16 Dec 2021 20:26:39 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
  by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BGKQW7F29556998
+ 1BGKQbZ641484724
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 20:26:32 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CC94F11C04A;
- Thu, 16 Dec 2021 20:26:32 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 942BA11C050;
- Thu, 16 Dec 2021 20:26:32 +0000 (GMT)
+ Thu, 16 Dec 2021 20:26:37 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E5EB9A4053;
+ Thu, 16 Dec 2021 20:26:36 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ABA8BA4040;
+ Thu, 16 Dec 2021 20:26:36 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 16 Dec 2021 20:26:32 +0000 (GMT)
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 16 Dec 2021 20:26:36 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.48.122])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id EE1892201A0;
- Thu, 16 Dec 2021 21:26:31 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 0FDAF220238;
+ Thu, 16 Dec 2021 21:26:36 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 022/101] softfloat: Add flag specific to Inf * 0
-Date: Thu, 16 Dec 2021 21:24:55 +0100
-Message-Id: <20211216202614.414266-23-clg@kaod.org>
+Subject: [PULL 029/101] target/ppc: Update float_invalid_op_div for new flags
+Date: Thu, 16 Dec 2021 21:25:02 +0100
+Message-Id: <20211216202614.414266-30-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211216202614.414266-1-clg@kaod.org>
 References: <20211216202614.414266-1-clg@kaod.org>
@@ -63,17 +63,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: kcQo1YUcJY-5y-SyV_FCJqgYezggaMT0
-X-Proofpoint-ORIG-GUID: kcQo1YUcJY-5y-SyV_FCJqgYezggaMT0
+X-Proofpoint-GUID: ym2xb8n7N036BXHiTtVT6XzoFAIEZz_u
+X-Proofpoint-ORIG-GUID: ym2xb8n7N036BXHiTtVT6XzoFAIEZz_u
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0
- clxscore=1034 lowpriorityscore=0 malwarescore=0 spamscore=0
- priorityscore=1501 phishscore=0 mlxscore=0 mlxlogscore=884 impostorscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112160109
+ mlxscore=0 adultscore=0
+ malwarescore=0 bulkscore=0 mlxlogscore=730 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 spamscore=0
+ priorityscore=1501 clxscore=1034 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2112160109
 Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -11
@@ -101,135 +101,107 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-PowerPC has this flag, and it's easier to compute it here
-than after the fact.
+Now that vxidi, vxzdz, and vxsnan are computed directly by
+softfloat, we don't need to recompute it via classes.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211119160502.17432-4-richard.henderson@linaro.org>
+Message-Id: <20211119160502.17432-11-richard.henderson@linaro.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/fpu/softfloat-types.h  |  1 +
- fpu/softfloat-parts.c.inc      |  4 ++--
- fpu/softfloat-specialize.c.inc | 12 ++++++------
- 3 files changed, 9 insertions(+), 8 deletions(-)
+ target/ppc/fpu_helper.c | 38 ++++++++++++++------------------------
+ 1 file changed, 14 insertions(+), 24 deletions(-)
 
-diff --git a/include/fpu/softfloat-types.h b/include/fpu/softfloat-types.=
-h
-index eaa12e1e0033..56b4cf783544 100644
---- a/include/fpu/softfloat-types.h
-+++ b/include/fpu/softfloat-types.h
-@@ -153,6 +153,7 @@ enum {
-     float_flag_input_denormal  =3D 0x0020,
-     float_flag_output_denormal =3D 0x0040,
-     float_flag_invalid_isi     =3D 0x0080,  /* inf - inf */
-+    float_flag_invalid_imz     =3D 0x0100,  /* inf * 0 */
- };
-=20
- /*
-diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
-index eb2b475ca466..3ed793347b18 100644
---- a/fpu/softfloat-parts.c.inc
-+++ b/fpu/softfloat-parts.c.inc
-@@ -423,7 +423,7 @@ static FloatPartsN *partsN(mul)(FloatPartsN *a, Float=
-PartsN *b,
-=20
-     /* Inf * Zero =3D=3D NaN */
-     if (unlikely(ab_mask =3D=3D float_cmask_infzero)) {
--        float_raise(float_flag_invalid, s);
-+        float_raise(float_flag_invalid | float_flag_invalid_imz, s);
-         parts_default_nan(a, s);
-         return a;
-     }
-@@ -489,6 +489,7 @@ static FloatPartsN *partsN(muladd)(FloatPartsN *a, Fl=
-oatPartsN *b,
-=20
-     if (unlikely(ab_mask !=3D float_cmask_normal)) {
-         if (unlikely(ab_mask =3D=3D float_cmask_infzero)) {
-+            float_raise(float_flag_invalid | float_flag_invalid_imz, s);
-             goto d_nan;
-         }
-=20
-@@ -567,7 +568,6 @@ static FloatPartsN *partsN(muladd)(FloatPartsN *a, Fl=
-oatPartsN *b,
-     goto finish_sign;
-=20
-  d_nan:
--    float_raise(float_flag_invalid, s);
-     parts_default_nan(a, s);
-     return a;
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index f02bb3a4afd8..9bcd7abd165f 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -557,17 +557,14 @@ float64 helper_fmul(CPUPPCState *env, float64 arg1,=
+ float64 arg2)
+     return ret;
  }
-diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.=
-inc
-index f2ad0f335e63..943e3301d209 100644
---- a/fpu/softfloat-specialize.c.inc
-+++ b/fpu/softfloat-specialize.c.inc
-@@ -506,7 +506,7 @@ static int pickNaNMulAdd(FloatClass a_cls, FloatClass=
- b_cls, FloatClass c_cls,
-      * the default NaN
-      */
-     if (infzero && is_qnan(c_cls)) {
--        float_raise(float_flag_invalid, status);
-+        float_raise(float_flag_invalid | float_flag_invalid_imz, status)=
-;
-         return 3;
+=20
+-static void float_invalid_op_div(CPUPPCState *env, bool set_fprc,
+-                                 uintptr_t retaddr, int classes)
++static void float_invalid_op_div(CPUPPCState *env, int flags,
++                                 bool set_fprc, uintptr_t retaddr)
+ {
+-    classes &=3D ~is_neg;
+-    if (classes =3D=3D is_inf) {
+-        /* Division of infinity by infinity */
++    if (flags & float_flag_invalid_idi) {
+         float_invalid_op_vxidi(env, set_fprc, retaddr);
+-    } else if (classes =3D=3D is_zero) {
+-        /* Division of zero by zero */
++    } else if (flags & float_flag_invalid_zdz) {
+         float_invalid_op_vxzdz(env, set_fprc, retaddr);
+-    } else if (classes & is_snan) {
++    } else if (flags & float_flag_invalid_snan) {
+         float_invalid_op_vxsnan(env, retaddr);
+     }
+ }
+@@ -576,17 +573,13 @@ static void float_invalid_op_div(CPUPPCState *env, =
+bool set_fprc,
+ float64 helper_fdiv(CPUPPCState *env, float64 arg1, float64 arg2)
+ {
+     float64 ret =3D float64_div(arg1, arg2, &env->fp_status);
+-    int status =3D get_float_exception_flags(&env->fp_status);
++    int flags =3D get_float_exception_flags(&env->fp_status);
+=20
+-    if (unlikely(status)) {
+-        if (status & float_flag_invalid) {
+-            float_invalid_op_div(env, 1, GETPC(),
+-                                 float64_classify(arg1) |
+-                                 float64_classify(arg2));
+-        }
+-        if (status & float_flag_divbyzero) {
+-            float_zero_divide_excp(env, GETPC());
+-        }
++    if (unlikely(flags & float_flag_invalid)) {
++        float_invalid_op_div(env, flags, 1, GETPC());
++    }
++    if (unlikely(flags & float_flag_divbyzero)) {
++        float_zero_divide_excp(env, GETPC());
      }
 =20
-@@ -533,7 +533,7 @@ static int pickNaNMulAdd(FloatClass a_cls, FloatClass=
- b_cls, FloatClass c_cls,
-          * case sets InvalidOp and returns the default NaN
-          */
-         if (infzero) {
--            float_raise(float_flag_invalid, status);
-+            float_raise(float_flag_invalid | float_flag_invalid_imz, sta=
-tus);
-             return 3;
-         }
-         /* Prefer sNaN over qNaN, in the a, b, c order. */
-@@ -556,7 +556,7 @@ static int pickNaNMulAdd(FloatClass a_cls, FloatClass=
- b_cls, FloatClass c_cls,
-          * case sets InvalidOp and returns the input value 'c'
-          */
-         if (infzero) {
--            float_raise(float_flag_invalid, status);
-+            float_raise(float_flag_invalid | float_flag_invalid_imz, sta=
-tus);
-             return 2;
-         }
-         /* Prefer sNaN over qNaN, in the c, a, b order. */
-@@ -580,7 +580,7 @@ static int pickNaNMulAdd(FloatClass a_cls, FloatClass=
- b_cls, FloatClass c_cls,
-      * a default NaN
-      */
-     if (infzero) {
--        float_raise(float_flag_invalid, status);
-+        float_raise(float_flag_invalid | float_flag_invalid_imz, status)=
-;
-         return 2;
-     }
+     return ret;
+@@ -1803,9 +1796,8 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,  =
+                           \
+         env->fp_status.float_exception_flags |=3D tstat.float_exception_=
+flags;  \
+                                                                         =
+      \
+         if (unlikely(tstat.float_exception_flags & float_flag_invalid)) =
+{     \
+-            float_invalid_op_div(env, sfprf, GETPC(),                   =
+      \
+-                                 tp##_classify(xa->fld) |               =
+      \
+-                                 tp##_classify(xb->fld));               =
+      \
++            float_invalid_op_div(env, tstat.float_exception_flags,      =
+      \
++                                 sfprf, GETPC());                       =
+      \
+         }                                                               =
+      \
+         if (unlikely(tstat.float_exception_flags & float_flag_divbyzero)=
+) {   \
+             float_zero_divide_excp(env, GETPC());                       =
+      \
+@@ -1846,9 +1838,7 @@ void helper_xsdivqp(CPUPPCState *env, uint32_t opco=
+de,
+     env->fp_status.float_exception_flags |=3D tstat.float_exception_flag=
+s;
 =20
-@@ -597,7 +597,7 @@ static int pickNaNMulAdd(FloatClass a_cls, FloatClass=
- b_cls, FloatClass c_cls,
- #elif defined(TARGET_RISCV)
-     /* For RISC-V, InvalidOp is set when multiplicands are Inf and zero =
-*/
-     if (infzero) {
--        float_raise(float_flag_invalid, status);
-+        float_raise(float_flag_invalid | float_flag_invalid_imz, status)=
-;
+     if (unlikely(tstat.float_exception_flags & float_flag_invalid)) {
+-        float_invalid_op_div(env, 1, GETPC(),
+-                             float128_classify(xa->f128) |
+-                             float128_classify(xb->f128));
++        float_invalid_op_div(env, tstat.float_exception_flags, 1, GETPC(=
+));
      }
-     return 3; /* default NaN */
- #elif defined(TARGET_XTENSA)
-@@ -606,7 +606,7 @@ static int pickNaNMulAdd(FloatClass a_cls, FloatClass=
- b_cls, FloatClass c_cls,
-      * an input NaN if we have one (ie c).
-      */
-     if (infzero) {
--        float_raise(float_flag_invalid, status);
-+        float_raise(float_flag_invalid | float_flag_invalid_imz, status)=
-;
-         return 2;
-     }
-     if (status->use_first_nan) {
+     if (unlikely(tstat.float_exception_flags & float_flag_divbyzero)) {
+         float_zero_divide_excp(env, GETPC());
 --=20
 2.31.1
 
