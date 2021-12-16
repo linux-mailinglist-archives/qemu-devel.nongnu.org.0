@@ -2,56 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A9D4767F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 03:32:33 +0100 (CET)
-Received: from localhost ([::1]:47496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD5A47686E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 04:02:52 +0100 (CET)
+Received: from localhost ([::1]:54996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxgZM-0002XN-KU
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 21:32:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55456)
+	id 1mxh2h-0000z4-DR
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 22:02:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mxgX4-0000RU-9R
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 21:30:10 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:60699)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mxh1u-0000Jr-Ty
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 22:02:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mxgWy-0006zt-SH
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 21:30:09 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 1BG2ShGd027532
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 15 Dec 2021 21:28:46 -0500
-Date: Wed, 15 Dec 2021 21:28:43 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: dhbbb <504224090@qq.com>
-Subject: Re: =?utf-8?B?5Zue5aSN77yaIOWbnuWkje+8miAg5Zue5aSN77yaICDlm54=?=
- =?utf-8?B?5aSN77ya?= Questiones About MORPHUZZ (the generic-fuzzer)
-Message-ID: <20211216022843.skjgj25vabbw2zhm@mozz.bu.edu>
-References: <tencent_4282D21D3B35A32FF5838C42AA1C387D1606@qq.com>
- <20211201165950.v55p4bubcxgm2tom@mozz.bu.edu>
- <20211201170201.t2imhfbtwf7vseij@mozz.bu.edu>
- <tencent_94FD82719BDA4B2631B51D3C3BEB45898205@qq.com>
- <20211202185406.pq3zwpblqmw7prz6@mozz.bu.edu>
- <tencent_1EC093B2609482D9191809A96B649C527D09@qq.com>
- <20211210041545.nkgnu6dknaj72lxe@mozz.bu.edu>
- <tencent_0E2E3841168C1238FB0A2318B5AB8C54AA06@qq.com>
- <20211215154744.jdmspuqrotevwy6r@mozz.bu.edu>
- <tencent_ACAD547770EF2C22251E766AC61FEA071907@qq.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mxh1p-00071a-RU
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 22:02:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639623716;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ugmcOgQOsypVQYIfz3Py7cD/6VTWzHCSa0hU5S4CAdU=;
+ b=Aa3Ok/lgjVF6HPKgbIWobHqJQo2KuVgig9ZA0i8Yb7HjvE9xgt2EOSJRaAAiqnJ6pm5Ofo
+ ABOIfJlw7SkW7CO7laT912/C6m69MVFAcMqdjx3h08kd0bPlP3QMuY8l765ayhcAvfi5J3
+ 4ti0enkV6nTgDr9euQsddVcDl7bCx78=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-274-otkpM8pNOAKc3brBUn9DNg-1; Wed, 15 Dec 2021 22:01:53 -0500
+X-MC-Unique: otkpM8pNOAKc3brBUn9DNg-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ s16-20020a2ea710000000b0021b674e9347so7928883lje.8
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 19:01:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ugmcOgQOsypVQYIfz3Py7cD/6VTWzHCSa0hU5S4CAdU=;
+ b=Ap660jnpugzIl/d8uFt9UR2dBsvPEJAZnGKIu9lO5nyvMJv9weFgR07x6wKvRKGCvM
+ kHiGyX6QuNyh9Gc1Bp5xTyYDKxmPst0PmGRs1EnTDs0eBInckUsvNatR69yNFnLa4gw1
+ ICD5pFiEEYfqjlBpFgGfa/QogDgCl+U+RyWCA1Fsn4W6qWhhMpBkwV6xyK0dsOdq5Wa0
+ UGzu7aKPCsp3/B+GaZHVxg01IMtE8ne89c5F7BlPfbtKQLwj3tzJbQDMnHJZXBKnxHZC
+ CpFSN8PkUAYlUtMJ2iH3YC+Voe+qLB8Nm7cgThI/UzvRlCK0hTLyZKjRsjJBUO9mYVBx
+ 88eQ==
+X-Gm-Message-State: AOAM531kgrZ2yct0FvcYcBrGk/FXItoyqugFoh1lRsbiQ+43FIUTJQKh
+ j/Fotv6nsMaC+7LRWI2O/EROksdtc4TjoA0AKQyHtHN2dRcchWJ0qw6Rlk4gZ5b+aJuYj9pIu+X
+ x5LkDuP6AzqodI12Opj7fKBcu+TTQWms=
+X-Received: by 2002:ac2:50c6:: with SMTP id h6mr13105768lfm.580.1639623711672; 
+ Wed, 15 Dec 2021 19:01:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz2ePXFY0zsrSLn6biWZ5CxVApUPtrg5aIkJlmOSM8wuuSRMJgWtJrxkd0Sw0bzY2COG2jm88TcrBcGu/wQOiA=
+X-Received: by 2002:ac2:50c6:: with SMTP id h6mr13105747lfm.580.1639623711412; 
+ Wed, 15 Dec 2021 19:01:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <tencent_ACAD547770EF2C22251E766AC61FEA071907@qq.com>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.999,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20211208052010.1719-1-longpeng2@huawei.com>
+ <YbHJivhCDvKo4eB0@stefanha-x1.localdomain>
+ <721bbc1c27f545babdfbd17e1461e9f2@huawei.com>
+ <20211212042818-mutt-send-email-mst@kernel.org>
+ <CACGkMEs_99AsAfxCJurJtBOQELD7pnc6RAqJDoO9yseVJDy9tA@mail.gmail.com>
+ <YbdjRRcfrNjHjfko@stefanha-x1.localdomain>
+ <CACGkMEt9UF2eVB6692aGoKBD2v0zPwopZG1jaG_O=mg3-cwwSA@mail.gmail.com>
+ <YbiYAKIkLAgosXEH@stefanha-x1.localdomain>
+ <CACGkMEsZfgDriSx1e=JOU4E8QyB5KoU+i2M2F8N12BrMbu5suQ@mail.gmail.com>
+ <Ybm+YVQS1l73nnuU@stefanha-x1.localdomain>
+In-Reply-To: <Ybm+YVQS1l73nnuU@stefanha-x1.localdomain>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 16 Dec 2021 11:01:40 +0800
+Message-ID: <CACGkMEtqujKwU=3P1VQ-PgAQPvzrpAf_huVzVZHAi11vyn8xPA@mail.gmail.com>
+Subject: Re: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,693 +98,210 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Yechuan <yechuan@huawei.com>,
+ "xieyongji@bytedance.com" <xieyongji@bytedance.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ "parav@nvidia.com" <parav@nvidia.com>, "Longpeng \(Mike,
+ Cloud Infrastructure Service Product Dept.\)" <longpeng2@huawei.com>,
+ "sgarzare@redhat.com" <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Dec 15, 2021 at 6:07 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> On Wed, Dec 15, 2021 at 11:18:05AM +0800, Jason Wang wrote:
+> > On Tue, Dec 14, 2021 at 9:11 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > >
+> > > On Tue, Dec 14, 2021 at 10:22:53AM +0800, Jason Wang wrote:
+> > > > On Mon, Dec 13, 2021 at 11:14 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > > > >
+> > > > > On Mon, Dec 13, 2021 at 10:47:00AM +0800, Jason Wang wrote:
+> > > > > > On Sun, Dec 12, 2021 at 5:30 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > > > > >
+> > > > > > > On Sat, Dec 11, 2021 at 03:00:27AM +0000, Longpeng (Mike, Cloud Infrastructure Service Product Dept.) wrote:
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > > -----Original Message-----
+> > > > > > > > > From: Stefan Hajnoczi [mailto:stefanha@redhat.com]
+> > > > > > > > > Sent: Thursday, December 9, 2021 5:17 PM
+> > > > > > > > > To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
+> > > > > > > > > <longpeng2@huawei.com>
+> > > > > > > > > Cc: jasowang@redhat.com; mst@redhat.com; parav@nvidia.com;
+> > > > > > > > > xieyongji@bytedance.com; sgarzare@redhat.com; Yechuan <yechuan@huawei.com>;
+> > > > > > > > > Gonglei (Arei) <arei.gonglei@huawei.com>; qemu-devel@nongnu.org
+> > > > > > > > > Subject: Re: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
+> > > > > > > > >
+> > > > > > > > > On Wed, Dec 08, 2021 at 01:20:10PM +0800, Longpeng(Mike) wrote:
+> > > > > > > > > > From: Longpeng <longpeng2@huawei.com>
+> > > > > > > > > >
+> > > > > > > > > > Hi guys,
+> > > > > > > > > >
+> > > > > > > > > > This patch introduces vhost-vdpa-net device, which is inspired
+> > > > > > > > > > by vhost-user-blk and the proposal of vhost-vdpa-blk device [1].
+> > > > > > > > > >
+> > > > > > > > > > I've tested this patch on Huawei's offload card:
+> > > > > > > > > > ./x86_64-softmmu/qemu-system-x86_64 \
+> > > > > > > > > >     -device vhost-vdpa-net-pci,vdpa-dev=/dev/vhost-vdpa-0
+> > > > > > > > > >
+> > > > > > > > > > For virtio hardware offloading, the most important requirement for us
+> > > > > > > > > > is to support live migration between offloading cards from different
+> > > > > > > > > > vendors, the combination of netdev and virtio-net seems too heavy, we
+> > > > > > > > > > prefer a lightweight way.
+> > > > > > > > > >
+> > > > > > > > > > Maybe we could support both in the future ? Such as:
+> > > > > > > > > >
+> > > > > > > > > > * Lightweight
+> > > > > > > > > >  Net: vhost-vdpa-net
+> > > > > > > > > >  Storage: vhost-vdpa-blk
+> > > > > > > > > >
+> > > > > > > > > > * Heavy but more powerful
+> > > > > > > > > >  Net: netdev + virtio-net + vhost-vdpa
+> > > > > > > > > >  Storage: bdrv + virtio-blk + vhost-vdpa
+> > > > > > > > > >
+> > > > > > > > > > [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg797569.html
+> > > > > > > > >
+> > > > > > > > > Stefano presented a plan for vdpa-blk at KVM Forum 2021:
+> > > > > > > > > https://kvmforum2021.sched.com/event/ke3a/vdpa-blk-unified-hardware-and-sof
+> > > > > > > > > tware-offload-for-virtio-blk-stefano-garzarella-red-hat
+> > > > > > > > >
+> > > > > > > > > It's closer to today's virtio-net + vhost-net approach than the
+> > > > > > > > > vhost-vdpa-blk device you have mentioned. The idea is to treat vDPA as
+> > > > > > > > > an offload feature rather than a completely separate code path that
+> > > > > > > > > needs to be maintained and tested. That way QEMU's block layer features
+> > > > > > > > > and live migration work with vDPA devices and re-use the virtio-blk
+> > > > > > > > > code. The key functionality that has not been implemented yet is a "fast
+> > > > > > > > > path" mechanism that allows the QEMU virtio-blk device's virtqueue to be
+> > > > > > > > > offloaded to vDPA.
+> > > > > > > > >
+> > > > > > > > > The unified vdpa-blk architecture should deliver the same performance
+> > > > > > > > > as the vhost-vdpa-blk device you mentioned but with more features, so I
+> > > > > > > > > wonder what aspects of the vhost-vdpa-blk idea are important to you?
+> > > > > > > > >
+> > > > > > > > > QEMU already has vhost-user-blk, which takes a similar approach as the
+> > > > > > > > > vhost-vdpa-blk device you are proposing. I'm not against the
+> > > > > > > > > vhost-vdpa-blk approach in priciple, but would like to understand your
+> > > > > > > > > requirements and see if there is a way to collaborate on one vdpa-blk
+> > > > > > > > > implementation instead of dividing our efforts between two.
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > We prefer a simple way in the virtio hardware offloading case, it could reduce
+> > > > > > > > our maintenance workload, we no need to maintain the virtio-net, netdev,
+> > > > > > > > virtio-blk, bdrv and ... any more. If we need to support other vdpa devices
+> > > > > > > > (such as virtio-crypto, virtio-fs) in the future, then we also need to maintain
+> > > > > > > > the corresponding device emulation code?
+> > > > > > > >
+> > > > > > > > For the virtio hardware offloading case, we usually use the vfio-pci framework,
+> > > > > > > > it saves a lot of our maintenance work in QEMU, we don't need to touch the device
+> > > > > > > > types. Inspired by Jason, what we really prefer is "vhost-vdpa-pci/mmio", use it to
+> > > > > > > > instead of the vfio-pci, it could provide the same performance as vfio-pci, but it's
+> > > > > > > > *possible* to support live migrate between offloading cards from different vendors.
+> > > > > > >
+> > > > > > > OK, so the features you are dropping would be migration between
+> > > > > > > a vdpa, vhost and virtio backends. I think given vhost-vdpa-blk is seems
+> > > > > > > fair enough... What do others think?
+> > > > > >
+> > > > > > I think it should be fine, and it would be even better to make it not
+> > > > > > specific to device type.
+> > > > >
+> > > > > That's an interesting idea. A generic vDPA VirtIODevice could exposed as
+> > > > >
+> > > > >   --device vhost-vdpa-pci,
+> > > > >            [vhostfd=FD,|
+> > > > >             vhostpath=/dev/vhost-vdpa-N]
+> > > > >
+> > > > > (and for virtio-mmio and virtio-ccw too).
+> > > > >
+> > > > > I don't think this is possible yet because the vhost_vdpa ioctls are
+> > > > > missing some introspection functionality. Here is what I found:
+> > > > > - Device ID: ok, use VHOST_VDPA_GET_DEVICE_ID
+> > > > > - Device feature bits: ok, use VHOST_GET_BACKEND_FEATURES
+> > > > > - Configuration space size: missing, need ioctl for ops->get_config_size()
+> > > >
+> > > > Any specific reason that we need this considering we've already had
+> > > > VHOST_VDPA_GET_CONFIG and we do the size validation there?
+> > >
+> > > QEMU's virtio_init() takes a size_t config_size argument. We need to
+> > > determine the size of the vhost_vdpa's configuration space in order to
+> > > create the VirtIODevice in QEMU.
+> > >
+> > > Do you mean probing by checking for the VHOST_VDPA_GET_CONFIG -E2BIG
+> > > return value? It's hacky but I guess it's possible to do a binary search
+> > > that calls VHOST_VDPA_GET_CONFIG each iteration and reduces the size if
+> > > -E2BIG is returned or increases the size otherwise.
+> > >
+> > > Or do you mean re-writing QEMU's hw/virtio/virtio.c to allow the
+> > > VirtIODevice to override the size and we pass accesses through to
+> > > vhost_vdpa. That way it might be possible to avoid fetching the
+> > > configuration space size at startup, but I'm not sure this will work
+> > > because QEMU might depend on knowing the exact size (e.g. live
+> > > migration).
+> >
+> > Good point, so looking at virtio-blk it has:
+> >
+> >     virtio_blk_set_config_size(s, s->host_features);
+> >     virtio_init(vdev, "virtio-blk", VIRTIO_ID_BLOCK, s->config_size);
+> >
+> > I think here virtio-blk/net should check the vhost-vdpa features here
+> > and fail if they are not the same?
+>
+> The vhost feature bit code in QEMU is complicated and I can't respond
+> without investing too much time studying it :).
+>
+> > This looks better than overriding the config_size with what vhost-vdpa
+> > provides since it can override the features that the cli tries to
+> > enable.
+>
+> I'm thinking about the generic --device vhost-vdpa idea. QEMU should not
+> require knowledge of the device feature bits in that case, so it cannot
+> calculate the configuration space size.
 
-On 211216 1011, dhbbb wrote:
-> Hello Alex,
-> I have found some crashes with&nbsp;qemu-fuzz-i386 (generic-fuzz) such as=
- heap-buffer-overflow.But some of the crashes can't reproduce in qemu-syste=
-m-i386(No segment fault).Are these crashes false positives?&nbsp;
+In this case, it looks to me the config size could be deduced from
+VHOST_VDPA_GET_FEATURES?
 
-Usually, when we can't reproduce bugs in qemu-system-i386, it is because
-they: 1.) Relied on Double-Fetches. There is no reliable way to
-reproduce these bugs, because they are timing-sensitive. An easy way to
-check if a bug is a double fetch is to re-run the crash- file with
-QEMU_AVOID_DOUBLE_FETCH
+>
+> > >
+> > > > > - Max virtqueue size: ok, VHOST_VDPA_GET_VRING_NUM
+> > > > > - Number of virtqueues: probe using VHOST_GET_VRING_BASE?
+> > > >
+> > > > I'm not sure whether or not we need this and it seems not necessary
+> > > > since it can be deduced from the config space and features.
+> > >
+> > > It can only be deduced in a device-specific way (net, blk, etc). I can't
+> > > think of a way to detect the number of virtqueues for an arbitrary
+> > > VIRTIO device from the features bits and configuration space contents.
+> >
+> > Yes, I'm not against this idea but it looks to me it works even without this.
+> >
+> > Modern PCI has num_queues but we don't have things like this in MMIO
+> > and legacy PCI.
+>
+> Even if the VIRTIO hardware interface doesn't expose this information to
+> the guest, QEMU's VirtIODevice API needs it. Device emulation code must
+> call virtio_add_queue() to expose virtqueues to the guest.
 
-2.) Relied on the sparse memory device. In generic_fuzz.c there is a
-line: sparse_mem_init(0, UINT64_MAX); Essentially this creates a special
-device that we use to simulate "infinite" memory, which makes DMA
-fuzzing easier. The problem is that once a bug is found, we need to
-somehow remove sparse-memory device, so that we can reproduce in
-qemu-system-i386.
-For example, look at:
-https://gitlab.com/qemu-project/qemu/-/issues/383
+We don't need this for current multiqueue virtio-net with vhost-vdpa
+since the queue num were deduced from the VHOST_VDPA_GET_CONFIG during
+the initialization of vhost-vdpa backend.
 
-The reproducer has a very large address:
-write 0xab2c00000001 ...
-(The VM would need over 188 TB of ram)
-So, to account for this, I added an additional memory slot at that
-location:
--device pc-dimm,id=3Dnv1,memdev=3Dmem1,addr=3D0xab2c00000000 -object \
-memory-backend-ram,id=3Dmem1,size=3D2M
+If we are talking about generic vhost-vdpa-pci, we don't need
+virtio_add_queue() in this case.
 
-Another alternative is to try to minimize the crash- file until it does
-not contain any large addresses, anymore, however there's not script for
-this upstream, yet
--Alex
+Thanks
 
->=20
->=20
->=20
-> ------------------&nbsp;=E5=8E=9F=E5=A7=8B=E9=82=AE=E4=BB=B6&nbsp;-------=
------------
-> =E5=8F=91=E4=BB=B6=E4=BA=BA:                                             =
-                                                                           =
-"Alexander Bulekov"                                                        =
-                            <alxndr@bu.edu&gt;;
-> =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4:&nbsp;2021=E5=B9=B412=E6=9C=8815=E6=
-=97=A5(=E6=98=9F=E6=9C=9F=E4=B8=89) =E6=99=9A=E4=B8=8A11:47
-> =E6=94=B6=E4=BB=B6=E4=BA=BA:&nbsp;"dhbbb"<504224090@qq.com&gt;;
->=20
-> =E4=B8=BB=E9=A2=98:&nbsp;Re: =E5=9B=9E=E5=A4=8D=EF=BC=9A  =E5=9B=9E=E5=A4=
-=8D=EF=BC=9A  =E5=9B=9E=E5=A4=8D=EF=BC=9A Questiones About MORPHUZZ (the ge=
-neric-fuzzer)
->=20
->=20
->=20
-> Nice! You can send them to qemu-security@nongnu.org or with GPG to
-> secalert@redhat.com
->=20
-> Here are the official instructions:
-> https://www.qemu.org/contribute/security-process/
->=20
-> On 211215 1626, dhbbb wrote:
-> &gt; Hello Alex,
-> &gt; Thanks for your kind reply!It really helps a lot.
-> &gt; I seem to have found some bugs in QEMU. Who should I report these pr=
-oblems to? If I want to apply for some CVE numbers, what should I do?
-> &gt;=20
-> &gt;=20
-> &gt;=20
-> &gt;=20
-> &gt; ------------------&amp;nbsp;=E5=8E=9F=E5=A7=8B=E9=82=AE=E4=BB=B6&amp=
-;nbsp;------------------
-> &gt; =E5=8F=91=E4=BB=B6=E4=BA=BA:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-"Alexander Bulekov"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <alxndr=
-@bu.edu&amp;gt;;
-> &gt; =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4:&amp;nbsp;2021=E5=B9=B412=E6=9C=
-=8810=E6=97=A5(=E6=98=9F=E6=9C=9F=E4=BA=94) =E4=B8=AD=E5=8D=8812:15
-> &gt; =E6=94=B6=E4=BB=B6=E4=BA=BA:&amp;nbsp;"dhbbb"<504224090@qq.com&amp;g=
-t;;
-> &gt;=20
-> &gt; =E4=B8=BB=E9=A2=98:&amp;nbsp;Re:&nbsp; =E5=9B=9E=E5=A4=8D=EF=BC=9A&n=
-bsp; =E5=9B=9E=E5=A4=8D=EF=BC=9A Questiones About MORPHUZZ (the generic-fuz=
-zer)
-> &gt;=20
-> &gt;=20
-> &gt;=20
-> &gt; On 211210 1050, dhbbb wrote:
-> &gt; &amp;gt; Hello Alex,
-> &gt; &amp;gt; When I try to find the memoryregion with info MTREE, it dis=
-plays Info: no menu item 'MTREE' in node '(DIR) top'.Do I need to start QEM=
-U before running this command?
-> &gt;=20
-> &gt; Yes - this command goes into the qemu monitor, after you start QEMU.
-> &gt; https://en.wikibooks.org/wiki/QEMU/Monitor
-> &gt;=20
-> &gt; e.g. start qemu with
-> &gt; qemu-system-i386&amp;nbsp; -monitor stdio -serial none
-> &gt; Then type
-> &gt; "info mtree" into the monitor
-> &gt;=20
-> &gt; -Alex
-> &gt;=20
-> &gt; &amp;gt;=20
-> &gt; &amp;gt;=20
-> &gt; &amp;gt;=20
-> &gt; &amp;gt;=20
-> &gt; &amp;gt; ------------------&amp;amp;nbsp;=E5=8E=9F=E5=A7=8B=E9=82=AE=
-=E4=BB=B6&amp;amp;nbsp;------------------
-> &gt; &amp;gt; =E5=8F=91=E4=BB=B6=E4=BA=BA:&amp;nbsp;&amp;nbsp;&amp;nbsp;&=
-amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
-bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&=
-amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
-bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&=
-amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
-bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&=
-amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
-bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&=
-amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
-bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&=
-amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
-bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&=
-amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
-bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&=
-amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
-bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; "Alexander Bulekov"&amp;nbsp;&amp;nbsp;&=
-amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
-bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&=
-amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
-bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&=
-amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
-bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&=
-amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
-bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&=
-amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
-bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&=
-amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; <alxndr@bu.edu&=
-amp;amp;gt;;
-> &gt; &amp;gt; =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4:&amp;amp;nbsp;2021=E5=
-=B9=B412=E6=9C=883=E6=97=A5(=E6=98=9F=E6=9C=9F=E4=BA=94) =E5=87=8C=E6=99=A8=
-2:54
-> &gt; &amp;gt; =E6=94=B6=E4=BB=B6=E4=BA=BA:&amp;amp;nbsp;"dhbbb"<504224090=
-@qq.com&amp;amp;gt;;
-> &gt; &amp;gt;=20
-> &gt; &amp;gt; =E4=B8=BB=E9=A2=98:&amp;amp;nbsp;Re:&amp;nbsp; =E5=9B=9E=E5=
-=A4=8D=EF=BC=9A Questiones About MORPHUZZ (the generic-fuzzer)
-> &gt; &amp;gt;=20
-> &gt; &amp;gt;=20
-> &gt; &amp;gt;=20
-> &gt; &amp;gt; Our priority was fuzzing on Google OSS-Fuzz (which required=
- us to use
-> &gt; &amp;gt; libfuzzer). At the time, libfuzzer also had some of the bes=
-t lossless
-> &gt; &amp;gt; coverage and comparison-coverage features. Of course it wou=
-ld have been
-> &gt; &amp;gt; nice to have a fork-server as well :)
-> &gt; &amp;gt; Since then there has been a lot of work on AFL++, and it se=
-ems to beat
-> &gt; &amp;gt; all of the benchmarks, but since OSS-Fuzz is still centered=
- around
-> &gt; &amp;gt; libfuzzer, that is what we focus on, upstream.
-> &gt; &amp;gt;=20
-> &gt; &amp;gt; On 211202 2259, dhbbb wrote:
-> &gt; &amp;gt; &amp;amp;gt; Hello Alex,
-> &gt; &amp;gt; &amp;amp;gt; Because I really don't know much about libfuzz=
-er and haven't used it much before.I want to know is there any reason why y=
-ou chose libfuzzer instead of other Fuzzers?
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt; ------------------&amp;amp;amp;nbsp;=E5=8E=9F=
-=E5=A7=8B=E9=82=AE=E4=BB=B6&amp;amp;amp;nbsp;------------------
-> &gt; &amp;gt; &amp;amp;gt; =E5=8F=91=E4=BB=B6=E4=BA=BA:&amp;amp;nbsp;&amp=
-;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;=
-nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;=
-&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;=
-amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;n=
-bsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&=
-amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;a=
-mp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nb=
-sp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&a=
-mp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;am=
-p;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbs=
-p;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&am=
-p;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp=
-;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp=
-;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp=
-;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;=
-nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;=
-&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;=
-amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;n=
-bsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&=
-amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;a=
-mp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nb=
-sp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp; "=
-Alexander Bulekov"&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&=
-amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;a=
-mp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nb=
-sp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&a=
-mp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;am=
-p;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbs=
-p;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&am=
-p;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp=
-;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp=
-;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp=
-;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;=
-nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;=
-&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;=
-amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;n=
-bsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&=
-amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp; <alxndr@bu.edu&amp;=
-amp;amp;gt;;
-> &gt; &amp;gt; &amp;amp;gt; =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4:&amp;amp;=
-amp;nbsp;2021=E5=B9=B412=E6=9C=882=E6=97=A5(=E6=98=9F=E6=9C=9F=E5=9B=9B) =
-=E5=87=8C=E6=99=A81:02
-> &gt; &amp;gt; &amp;amp;gt; =E6=94=B6=E4=BB=B6=E4=BA=BA:&amp;amp;amp;nbsp;=
-"dhbbb"<504224090@qq.com&amp;amp;amp;gt;;
-> &gt; &amp;gt; &amp;amp;gt; =E6=8A=84=E9=80=81:&amp;amp;amp;nbsp;"qemu-dev=
-el"<qemu-devel@nongnu.org&amp;amp;amp;gt;;
-> &gt; &amp;gt; &amp;amp;gt; =E4=B8=BB=E9=A2=98:&amp;amp;amp;nbsp;Re: Quest=
-iones About MORPHUZZ (the generic-fuzzer)
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt; On 211201 1537, dhbbb wrote:
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;gt; Hello Alex=EF=BC=8C
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;gt; Thanks for your kind reply,it=
- really helped me a lot! I am more
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;gt; familiar with AFL than libfuz=
-zer=EF=BC=8Cand i noticed that you said "This
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;gt; minimal init/exec interface i=
-s also supported by other fuzzers, such
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;gt; as AFL[++]".But your project =
-seems to be highly integrated with
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;gt; QEMU,so if I want to use othe=
-r fuzzers as&amp;amp;amp;amp;nbsp;QMORPHUZZ's
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;gt; &amp;amp;amp;amp;nbsp;fuzzing=
--backend&amp;amp;amp;amp;nbsp;, could you please tell me where to start?
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;
-> &gt; &amp;gt; &amp;amp;gt; Sure. (I am cc-ing the qemu-mailing list, as o=
-thers are interested in
-> &gt; &amp;gt; &amp;amp;gt; this as well.)
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt; Here's how the execution looks for something l=
-ike
-> &gt; &amp;gt; &amp;amp;gt; ./qemu-fuzz- --fuzz_target=3Dgeneric-fuzz -job=
-s=3D2 -workers=3D2
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp; LLVMFuzzerInitialize
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; v
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp; qemu_init
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; +-------------- fork ----------+
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; fork&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; v&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; v
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp; worker1&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; w=
-orker2
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; v&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; v
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; RunOne&amp;amp;amp;nbsp;&amp;a=
-mp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;=
-amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp=
-;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nb=
-sp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;=
-&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&am=
-p;amp;amp;nbsp;&amp;amp;amp;nbsp; RunOne
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; v&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; v
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp; pre_fuzz&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp=
-;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;am=
-p;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbs=
-p;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; pre_fuzz
-> &gt; &amp;gt; &amp;amp;gt; (init shared memory)&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; (init shared memory)
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; v&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; v
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp; generic_fuzz ---fork-+&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; generic_fu=
-zz ---fork-+
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&am=
-p;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;a=
-mp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;=
-amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbs=
-p;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&am=
-p;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;a=
-mp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;=
-amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbs=
-p;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp; v&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&am=
-p;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;a=
-mp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;=
-amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbs=
-p;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; v
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; (run the input)&amp;amp;amp;nbsp;&=
-amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp=
-;amp;amp;nbsp;&amp;amp;amp;nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; (run th=
-e input)
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&am=
-p;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;a=
-mp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;=
-amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbs=
-p;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; v&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp; v&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&am=
-p;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;a=
-mp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;=
-amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; v&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbs=
-p;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; v
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; wait&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; exit&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp=
-;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nb=
-sp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; wait&amp;amp;amp;=
-nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbs=
-p;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&=
-amp;amp;amp;nbsp; exit
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp; v&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp; v
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp; RunOne&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;a=
-mp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;=
-amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp=
-;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nb=
-sp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;=
-&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&am=
-p;amp;amp;nbsp; RunOne
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; v&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;=
-amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp=
-;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; v
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;generic_fuzz ---fork-+&amp;a=
-mp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;=
-amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; generic_fuz=
-z ---fork-+
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |=
-&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&am=
-p;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;a=
-mp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;=
-amp;nbsp;&amp;amp;amp;nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbs=
-p;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |=
-&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&am=
-p;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;a=
-mp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;=
-amp;nbsp;&amp;amp;amp;nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbs=
-p;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; |&amp;amp;am=
-p;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; v=
-&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&am=
-p;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;a=
-mp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;=
-amp;nbsp;&amp;amp;amp;nbsp; |&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;=
-nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbs=
-p;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; v
-> &gt; &amp;gt; &amp;amp;gt; &amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;a=
-mp;nbsp;&amp;amp;amp;nbsp; ...&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;=
-amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp=
-;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nb=
-sp;&amp;amp;amp;nbsp; ...&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;n=
-bsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; .=
-=2E.&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp=
-;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&a=
-mp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp;&amp;amp;amp;nbsp; ...
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt; LibFuzzer essentially provides two main interf=
-aces that we use.
-> &gt; &amp;gt; &amp;amp;gt; The first, LLVMFuzzerInitialize, runs a single=
- time when you first run
-> &gt; &amp;gt; &amp;amp;gt; ./qemu-fuzz-...
-> &gt; &amp;gt; &amp;amp;gt; It is defined in tests/qtest/fuzz/fuzz.c
-> &gt; &amp;gt; &amp;amp;gt; Most of the code is there so we can specify wh=
-ich --fuzz-target we want
-> &gt; &amp;gt; &amp;amp;gt; to run, and select the corresponding qemu argu=
-ments that we would
-> &gt; &amp;gt; &amp;amp;gt; normally pass to ./qemu-system-i386. Then we c=
-all qemu_init, which
-> &gt; &amp;gt; &amp;amp;gt; initializes the VM correspondingly. None of th=
-is should be very
-> &gt; &amp;gt; &amp;amp;gt; libfuzzer specific.
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt; The second interface, LLVMFuzzerTestOneInput, =
-is the one that LibFuzzer
-> &gt; &amp;gt; &amp;amp;gt; calls for every single input. This is also def=
-ined in fuzz.c.
-> &gt; &amp;gt; &amp;amp;gt; Importantly, in between FuzzerInitialize and F=
-uzzerTestOneInput,
-> &gt; &amp;gt; &amp;amp;gt; libFuzzer might fork the process multiple time=
-s in order to create
-> &gt; &amp;gt; &amp;amp;gt; additional workers (if --jobs and --workers ar=
-guments are specified).
-> &gt; &amp;gt; &amp;amp;gt; Since we hacked on our own forkserver onto Lib=
-Fuzzer, and this requires
-> &gt; &amp;gt; &amp;amp;gt; separate shared memory for each worker, we als=
-o run some initialization
-> &gt; &amp;gt; &amp;amp;gt; code a single time in each worker. This is the=
- "!pre_fuzz_done &amp;amp;amp;amp;&amp;amp;amp;amp;
-> &gt; &amp;gt; &amp;amp;gt; fuzz_target-&amp;amp;amp;gt;pre_fuzz" part. Fo=
-r the generic fuzzer, here we also do all
-> &gt; &amp;gt; &amp;amp;gt; of the generic-fuzz-specific initialization (s=
-uch as finding all of the
-> &gt; &amp;gt; &amp;amp;gt; MemoryRegions we want to fuzz). I think the on=
-ly thing specific to
-> &gt; &amp;gt; &amp;amp;gt; LibFuzzer here should be the call to counter_s=
-hm_init(), which we use to
-> &gt; &amp;gt; &amp;amp;gt; establish the LibFuzzer-specific shared memory=
- regions (since LibFuzzer
-> &gt; &amp;gt; &amp;amp;gt; has no built-in fork-server feature).
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt; The final important libFuzzer-specific part is=
- that in the actual fuzz()
-> &gt; &amp;gt; &amp;amp;gt; function (aka generic_fuzz for the generic-fuz=
-zer, which is called for
-> &gt; &amp;gt; &amp;amp;gt; each input), we manually fork() the process an=
-d re-establish timers for
-> &gt; &amp;gt; &amp;amp;gt; the timeout. For other fuzzers, which have bui=
-lt-in forkservers,
-> &gt; &amp;gt; &amp;amp;gt; presumably, we wouldn't need this.
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt; I think AFL++ provides interoperability with t=
-he
-> &gt; &amp;gt; &amp;amp;gt; LLVMFuzzerInitialize/LLVMFuzzerTestOneInput in=
-terface. So in order to
-> &gt; &amp;gt; &amp;amp;gt; use AFL++ we would need to strip out the libfu=
-zzer-specific shm and
-> &gt; &amp;gt; &amp;amp;gt; fork-server parts, and see how we can integrat=
-e AFL++' built-in
-> &gt; &amp;gt; &amp;amp;gt; forkserver. I am happy to help more with this =
-if you are interested in
-> &gt; &amp;gt; &amp;amp;gt; adding AFL++ support, upstream.
-> &gt; &amp;gt; &amp;amp;gt;=20
-> &gt; &amp;gt; &amp;amp;gt; -Alex
+>
+> I suppose --device vhost-vdpa could probe the number of virtqueues using
+> VHOST_GET_VRING_BASE and then call virtio_add_queue(), but it's a little
+> hacky and involves unnecessary ioctl calls.
+>
+> Instead I would add ioctls to fetch the configuration space size and
+> number of virtqueues from the vhost_vdpa device.
+>
+> With these two ioctls added --device vhost-vdpa could create a
+> VirtIODevice that works with any QEMU VIRTIO transport (pci, mmio, ccw).
+> It would work with any vDPA device without device-specific knowledge.
+> Live migration might be possible with some additional work.
+>
+> Stefan
+
 
