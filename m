@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D133B476C40
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 09:54:32 +0100 (CET)
-Received: from localhost ([::1]:58364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C46AF476C3E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 09:54:12 +0100 (CET)
+Received: from localhost ([::1]:56614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxmX1-0004TV-S7
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 03:54:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35496)
+	id 1mxmWh-0003JH-Su
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 03:54:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mxmUN-0000Za-3T
+ id 1mxmUN-0000Zc-R6
  for qemu-devel@nongnu.org; Thu, 16 Dec 2021 03:51:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46817)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mxmUK-00048f-PI
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 03:51:46 -0500
+ id 1mxmUL-000494-Rm
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 03:51:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639644703;
+ s=mimecast20190719; t=1639644705;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0DXohqXswgTBqzM99CvS1dZO31xqFN4j0wc4obLrF/I=;
- b=H3Zk541bMaSa+ZnkglDMPmd60zIU+KCBbQtK8WKntEBN4588heteAPGOUtnkEdybjCwtvJ
- ExcCjIWbT48Cvdga8+4B95agYrq4yL8nf1URAzXDltF4cNw5/WYljntgvXlTSUiSJ+KqWf
- TEu6O9O4l1RSfOC4kz9gRIGPyOBNnCU=
+ bh=HYlD6TOFjvCShzjuklplaU9V9dCleRW8qoPWy0G46K4=;
+ b=bgVRthDzoq3VRMSzKsBe+A0KhTN3uAioQidsnfnes30anh/yBYMT09k5jKh4fsONcTwzew
+ SbLNz8uISGr8/GLP93lx+/kpr3TsnkwZctXYmw67XuKnTGq2jzg1Acft1p907Sq1Zoo7wN
+ xHAhctYymqIsHIv5wdrLoMiV8vlNA+4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-462-50zSkA6HP0KX1ykUbmpjKg-1; Thu, 16 Dec 2021 03:51:42 -0500
-X-MC-Unique: 50zSkA6HP0KX1ykUbmpjKg-1
+ us-mta-424-FFlEGU90PA2jUOF_vl-vHA-1; Thu, 16 Dec 2021 03:51:43 -0500
+X-MC-Unique: FFlEGU90PA2jUOF_vl-vHA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCE62100D841
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 08:51:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B804B19253C5
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 08:51:42 +0000 (UTC)
 Received: from avogadro.mxp.redhat.com (unknown [10.39.194.194])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F65C2C1AB
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 08:51:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A2592C1AB
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 08:51:42 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/10] configure: simplify creation of plugin symbol list
-Date: Thu, 16 Dec 2021 09:51:30 +0100
-Message-Id: <20211216085139.99682-2-pbonzini@redhat.com>
+Subject: [PATCH 02/10] configure: make $targetos lowercase,
+ use windows instead of MINGW32
+Date: Thu, 16 Dec 2021 09:51:31 +0100
+Message-Id: <20211216085139.99682-3-pbonzini@redhat.com>
 In-Reply-To: <20211216085139.99682-1-pbonzini@redhat.com>
 References: <20211216085139.99682-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -82,73 +83,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---dynamic-list is present on all supported ELF (not Windows or Darwin)
-platforms, since it dates back to 2006; -exported_symbols_list is
-likewise present on all supported versions of macOS.  Do not bother
-doing a functional test in configure.
-
-Since stuff is being moved to meson, move the creation of the
-Darwin-formatted symbols list there, reducing the transform to a single
-sed command.  This also requires using -Xlinker instead of -Wl, in order
-to support weird paths that include a comma.
+targetos is already mostly the same as Meson host_machine.system(),
+just in CamelCase.  Adjust Windows, which is different, and switch to
+lowercase to match Meson.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure           | 16 ----------------
- plugins/meson.build | 13 +++++++++----
- 2 files changed, 9 insertions(+), 20 deletions(-)
+ configure | 58 ++++++++++++++++++++++++-------------------------------
+ 1 file changed, 25 insertions(+), 33 deletions(-)
 
 diff --git a/configure b/configure
-index d3aac031a5..ba7ab435a6 100755
+index ba7ab435a6..63438c1900 100755
 --- a/configure
 +++ b/configure
-@@ -3689,22 +3689,6 @@ fi
+@@ -502,30 +502,30 @@ EOF
+ }
  
- if test "$plugins" = "yes" ; then
-     echo "CONFIG_PLUGIN=y" >> $config_host_mak
--    # Copy the export object list to the build dir
--    if test "$ld_dynamic_list" = "yes" ; then
--	echo "CONFIG_HAS_LD_DYNAMIC_LIST=yes" >> $config_host_mak
--	ld_symbols=qemu-plugins-ld.symbols
--	cp "$source_path/plugins/qemu-plugins.symbols" $ld_symbols
--    elif test "$ld_exported_symbols_list" = "yes" ; then
--	echo "CONFIG_HAS_LD_EXPORTED_SYMBOLS_LIST=yes" >> $config_host_mak
--	ld64_symbols=qemu-plugins-ld64.symbols
--	echo "# Automatically generated by configure - do not modify" > $ld64_symbols
--	grep 'qemu_' "$source_path/plugins/qemu-plugins.symbols" | sed 's/;//g' | \
--	    sed -E 's/^[[:space:]]*(.*)/_\1/' >> $ld64_symbols
--    else
--	error_exit \
--	    "If \$plugins=yes, either \$ld_dynamic_list or " \
--	    "\$ld_exported_symbols_list should have been set to 'yes'."
--    fi
+ if check_define __linux__ ; then
+-  targetos="Linux"
++  targetos=linux
+ elif check_define _WIN32 ; then
+-  targetos='MINGW32'
++  targetos=windows
+ elif check_define __OpenBSD__ ; then
+-  targetos='OpenBSD'
++  targetos=openbsd
+ elif check_define __sun__ ; then
+-  targetos='SunOS'
++  targetos=sunos
+ elif check_define __HAIKU__ ; then
+-  targetos='Haiku'
++  targetos=haiku
+ elif check_define __FreeBSD__ ; then
+-  targetos='FreeBSD'
++  targetos=freebsd
+ elif check_define __FreeBSD_kernel__ && check_define __GLIBC__; then
+-  targetos='GNU/kFreeBSD'
++  targetos=gnu/kfreebsd
+ elif check_define __DragonFly__ ; then
+-  targetos='DragonFly'
++  targetos=dragonfly
+ elif check_define __NetBSD__; then
+-  targetos='NetBSD'
++  targetos=netbsd
+ elif check_define __APPLE__; then
+-  targetos='Darwin'
++  targetos=darwin
+ else
+   # This is a fatal error, but don't report it yet, because we
+   # might be going to just print the --help text, or it might
+   # be the result of a missing compiler.
+-  targetos='bogus'
++  targetos=bogus
  fi
  
- if test -n "$gdb_bin"; then
-diff --git a/plugins/meson.build b/plugins/meson.build
-index b3de57853b..eec10283c5 100644
---- a/plugins/meson.build
-+++ b/plugins/meson.build
-@@ -1,10 +1,15 @@
- plugin_ldflags = []
- # Modules need more symbols than just those in plugins/qemu-plugins.symbols
- if not enable_modules
--  if 'CONFIG_HAS_LD_DYNAMIC_LIST' in config_host
--    plugin_ldflags = ['-Wl,--dynamic-list=qemu-plugins-ld.symbols']
--  elif 'CONFIG_HAS_LD_EXPORTED_SYMBOLS_LIST' in config_host
--    plugin_ldflags = ['-Wl,-exported_symbols_list,qemu-plugins-ld64.symbols']
-+  if targetos == 'darwin'
-+    qemu_plugins_symbols_list = configure_file(
-+      input: files('qemu-plugins.symbols'),
-+      output: 'qemu-plugins-ld64.symbols',
-+      capture: true,
-+      command: ['sed', '-ne', 's/^[[:space:]]*\\(qemu_.*\\);/_\\1/p', '@INPUT@'])
-+    plugin_ldflags = ['-Xlinker', '-exported_symbols_list', '-Xlinker', qemu_plugins_symbols_list]
-+  else
-+    plugin_ldflags = ['-Xlinker', '--dynamic-list=' + (meson.project_source_root() / 'plugins/qemu-plugins.symbols')]
-   endif
- endif
+ # Some host OSes need non-standard checks for which CPU to use.
+@@ -533,7 +533,7 @@ fi
+ # cross-compiling to one of these OSes then you'll need to specify
+ # the correct CPU with the --cpu option.
+ case $targetos in
+-SunOS)
++sunos)
+   # $(uname -m) returns i86pc even on an x86_64 box, so default based on isainfo
+   if test -z "$cpu" && test "$(isainfo -k)" = "amd64"; then
+     cpu="x86_64"
+@@ -624,40 +624,40 @@ fi
+ # OS specific
  
+ case $targetos in
+-MINGW32*)
++windows)
+   mingw32="yes"
+   plugins="no"
+   pie="no"
+ ;;
+-GNU/kFreeBSD)
++gnu/kfreebsd)
+   bsd="yes"
+ ;;
+-FreeBSD)
++freebsd)
+   bsd="yes"
+   bsd_user="yes"
+   make="${MAKE-gmake}"
+   # needed for kinfo_getvmmap(3) in libutil.h
+ ;;
+-DragonFly)
++dragonfly)
+   bsd="yes"
+   make="${MAKE-gmake}"
+ ;;
+-NetBSD)
++netbsd)
+   bsd="yes"
+   make="${MAKE-gmake}"
+ ;;
+-OpenBSD)
++openbsd)
+   bsd="yes"
+   make="${MAKE-gmake}"
+ ;;
+-Darwin)
++darwin)
+   bsd="yes"
+   darwin="yes"
+   # Disable attempts to use ObjectiveC features in os/object.h since they
+   # won't work when we're compiling with gcc as a C compiler.
+   QEMU_CFLAGS="-DOS_OBJECT_USE_OBJC=0 $QEMU_CFLAGS"
+ ;;
+-SunOS)
++sunos)
+   solaris="yes"
+   make="${MAKE-gmake}"
+   smbd="${SMBD-/usr/sfw/sbin/smbd}"
+@@ -666,11 +666,11 @@ SunOS)
+ # needed for TIOCWIN* defines in termios.h
+   QEMU_CFLAGS="-D__EXTENSIONS__ $QEMU_CFLAGS"
+ ;;
+-Haiku)
++haiku)
+   pie="no"
+   QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE -fPIC $QEMU_CFLAGS"
+ ;;
+-Linux)
++linux)
+   linux="yes"
+   linux_user="yes"
+   vhost_user=${default_feature:-yes}
+@@ -3355,8 +3355,8 @@ QEMU_GA_MSI_MINGW_DLL_PATH="$($pkg_config --variable=prefix glib-2.0)/bin"
+ # Mac OS X ships with a broken assembler
+ roms=
+ if { test "$cpu" = "i386" || test "$cpu" = "x86_64"; } && \
+-        test "$targetos" != "Darwin" && test "$targetos" != "SunOS" && \
+-        test "$targetos" != "Haiku" && test "$softmmu" = yes ; then
++        test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
++        test "$targetos" != "haiku" && test "$softmmu" = yes ; then
+     # Different host OS linkers have different ideas about the name of the ELF
+     # emulation. Linux and OpenBSD/amd64 use 'elf_i386'; FreeBSD uses the _fbsd
+     # variant; OpenBSD/i386 uses the _obsd variant; and Windows uses i386pe.
+@@ -3914,15 +3914,7 @@ if test "$skip_meson" = no; then
+   if test "$cross_compile" = "yes"; then
+     cross_arg="--cross-file config-meson.cross"
+     echo "[host_machine]" >> $cross
+-    if test "$mingw32" = "yes" ; then
+-        echo "system = 'windows'" >> $cross
+-    fi
+-    if test "$linux" = "yes" ; then
+-        echo "system = 'linux'" >> $cross
+-    fi
+-    if test "$darwin" = "yes" ; then
+-        echo "system = 'darwin'" >> $cross
+-    fi
++    echo "system = '$targetos'" >> $cross
+     case "$ARCH" in
+         i386)
+             echo "cpu_family = 'x86'" >> $cross
 -- 
 2.33.1
 
