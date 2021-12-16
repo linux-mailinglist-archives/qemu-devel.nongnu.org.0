@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD5A47686E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 04:02:52 +0100 (CET)
-Received: from localhost ([::1]:54996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 631CF476890
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 04:16:59 +0100 (CET)
+Received: from localhost ([::1]:58080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxh2h-0000z4-DR
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 22:02:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32916)
+	id 1mxhGM-0003oo-1i
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 22:16:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mxh1u-0000Jr-Ty
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 22:02:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28725)
+ id 1mxhEe-00031O-FH
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 22:15:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mxh1p-00071a-RU
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 22:02:01 -0500
+ id 1mxhEb-0001gm-VE
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 22:15:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639623716;
+ s=mimecast20190719; t=1639624508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ugmcOgQOsypVQYIfz3Py7cD/6VTWzHCSa0hU5S4CAdU=;
- b=Aa3Ok/lgjVF6HPKgbIWobHqJQo2KuVgig9ZA0i8Yb7HjvE9xgt2EOSJRaAAiqnJ6pm5Ofo
- ABOIfJlw7SkW7CO7laT912/C6m69MVFAcMqdjx3h08kd0bPlP3QMuY8l765ayhcAvfi5J3
- 4ti0enkV6nTgDr9euQsddVcDl7bCx78=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ppUO6vniSrn5PILnlWXFxibdrqyVKmXU6AvlbAwHTRs=;
+ b=dbhQnlElgCFbZdQNz7HnzLHlDchjDBjc5o6ZLHCzex9JhQoJLQgv8aOwByQQZ+s/rUQhHP
+ DRo24newJxNOmFx6+Hr3xbtOv9OlutLb5b1QU8no0aXMBPxjC0PCUb9wTNFB/q/utvIE0a
+ thQnoiBwI9Yr5e8d5qZ75gvb6wVDTLs=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-274-otkpM8pNOAKc3brBUn9DNg-1; Wed, 15 Dec 2021 22:01:53 -0500
-X-MC-Unique: otkpM8pNOAKc3brBUn9DNg-1
-Received: by mail-lj1-f199.google.com with SMTP id
- s16-20020a2ea710000000b0021b674e9347so7928883lje.8
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 19:01:53 -0800 (PST)
+ us-mta-336-k5DDF9gEOBmIUP72EfUSFw-1; Wed, 15 Dec 2021 22:15:07 -0500
+X-MC-Unique: k5DDF9gEOBmIUP72EfUSFw-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ y23-20020a2e3217000000b00218c6ede162so7914675ljy.23
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 19:15:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ugmcOgQOsypVQYIfz3Py7cD/6VTWzHCSa0hU5S4CAdU=;
- b=Ap660jnpugzIl/d8uFt9UR2dBsvPEJAZnGKIu9lO5nyvMJv9weFgR07x6wKvRKGCvM
- kHiGyX6QuNyh9Gc1Bp5xTyYDKxmPst0PmGRs1EnTDs0eBInckUsvNatR69yNFnLa4gw1
- ICD5pFiEEYfqjlBpFgGfa/QogDgCl+U+RyWCA1Fsn4W6qWhhMpBkwV6xyK0dsOdq5Wa0
- UGzu7aKPCsp3/B+GaZHVxg01IMtE8ne89c5F7BlPfbtKQLwj3tzJbQDMnHJZXBKnxHZC
- CpFSN8PkUAYlUtMJ2iH3YC+Voe+qLB8Nm7cgThI/UzvRlCK0hTLyZKjRsjJBUO9mYVBx
- 88eQ==
-X-Gm-Message-State: AOAM531kgrZ2yct0FvcYcBrGk/FXItoyqugFoh1lRsbiQ+43FIUTJQKh
- j/Fotv6nsMaC+7LRWI2O/EROksdtc4TjoA0AKQyHtHN2dRcchWJ0qw6Rlk4gZ5b+aJuYj9pIu+X
- x5LkDuP6AzqodI12Opj7fKBcu+TTQWms=
-X-Received: by 2002:ac2:50c6:: with SMTP id h6mr13105768lfm.580.1639623711672; 
- Wed, 15 Dec 2021 19:01:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz2ePXFY0zsrSLn6biWZ5CxVApUPtrg5aIkJlmOSM8wuuSRMJgWtJrxkd0Sw0bzY2COG2jm88TcrBcGu/wQOiA=
-X-Received: by 2002:ac2:50c6:: with SMTP id h6mr13105747lfm.580.1639623711412; 
- Wed, 15 Dec 2021 19:01:51 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ppUO6vniSrn5PILnlWXFxibdrqyVKmXU6AvlbAwHTRs=;
+ b=ERZeBCMHWqvRdkIBcB1COwbaH//a3fhbICPSaKPHZx6VuleDGFBgXqJjwZmLy7hPY2
+ txFzJ6d4y83kS5aXIlTIi84aOUG5+HNu+9kuANLt7KM7g+1uXh2ZsSMjW9haNwEjXyAQ
+ K43x18syUcPQN59q+wAFY8GoBsJcX7v39OF1LlNIc3P+9Dvh6yIxs4OmTatVk7ZN+jW2
+ BASCgNQufrb3kxmTGtKHPGH2mgIedliYdz/HJziUzp+9yoqmdSVSDjlMh3tq6ZNNB/E8
+ FZxjLLPvagFfM8FFzSu67vE2x0BbYZFhMpdWMmt6ybEfl2WcE92oRdkCrQ0uHZJ4utXQ
+ pvQA==
+X-Gm-Message-State: AOAM5319mz42LHWaJtM1vrqJ5UjoWYjH/UFgTkZHcYKAYsRkZt4LaSvt
+ PpHFPyludZiRtdhXFbgeoT8AS1nNjQAdyzvidjXE8Z3j8NUtcF7lE6SA6StXeolofIlzBqqJpsY
+ ab4230P/N8WDFLVOPoT1tBiJ+AYPRWH4=
+X-Received: by 2002:a05:6512:685:: with SMTP id
+ t5mr13205808lfe.84.1639624506026; 
+ Wed, 15 Dec 2021 19:15:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz1jJwSfT+o4f7K0MNCc64/cWm6jRB8IkzuKNJcqJlFOoe8gaYzNXIPf42UnICtt6u7Mri+6VB+LF//QkprShg=
+X-Received: by 2002:a05:6512:685:: with SMTP id
+ t5mr13205781lfe.84.1639624505766; 
+ Wed, 15 Dec 2021 19:15:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20211208052010.1719-1-longpeng2@huawei.com>
- <YbHJivhCDvKo4eB0@stefanha-x1.localdomain>
- <721bbc1c27f545babdfbd17e1461e9f2@huawei.com>
- <20211212042818-mutt-send-email-mst@kernel.org>
- <CACGkMEs_99AsAfxCJurJtBOQELD7pnc6RAqJDoO9yseVJDy9tA@mail.gmail.com>
- <YbdjRRcfrNjHjfko@stefanha-x1.localdomain>
- <CACGkMEt9UF2eVB6692aGoKBD2v0zPwopZG1jaG_O=mg3-cwwSA@mail.gmail.com>
- <YbiYAKIkLAgosXEH@stefanha-x1.localdomain>
- <CACGkMEsZfgDriSx1e=JOU4E8QyB5KoU+i2M2F8N12BrMbu5suQ@mail.gmail.com>
- <Ybm+YVQS1l73nnuU@stefanha-x1.localdomain>
-In-Reply-To: <Ybm+YVQS1l73nnuU@stefanha-x1.localdomain>
+References: <20211215205656.488940-1-philmd@redhat.com>
+ <20211215205656.488940-3-philmd@redhat.com>
+In-Reply-To: <20211215205656.488940-3-philmd@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 16 Dec 2021 11:01:40 +0800
-Message-ID: <CACGkMEtqujKwU=3P1VQ-PgAQPvzrpAf_huVzVZHAi11vyn8xPA@mail.gmail.com>
-Subject: Re: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
-To: Stefan Hajnoczi <stefanha@redhat.com>
+Date: Thu, 16 Dec 2021 11:14:54 +0800
+Message-ID: <CACGkMEvEeVG_+B_v1Ww-i__mM0NQeYHgh4zdurX81zarErvTVA@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/3] hw/sd/sdhci: Prohibit DMA accesses to devices
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -85,7 +81,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,210 +94,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Yechuan <yechuan@huawei.com>,
- "xieyongji@bytedance.com" <xieyongji@bytedance.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- "parav@nvidia.com" <parav@nvidia.com>, "Longpeng \(Mike,
- Cloud Infrastructure Service Product Dept.\)" <longpeng2@huawei.com>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, Li Qiang <liq3ea@gmail.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 15, 2021 at 6:07 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Thu, Dec 16, 2021 at 4:57 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> On Wed, Dec 15, 2021 at 11:18:05AM +0800, Jason Wang wrote:
-> > On Tue, Dec 14, 2021 at 9:11 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > >
-> > > On Tue, Dec 14, 2021 at 10:22:53AM +0800, Jason Wang wrote:
-> > > > On Mon, Dec 13, 2021 at 11:14 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > > > >
-> > > > > On Mon, Dec 13, 2021 at 10:47:00AM +0800, Jason Wang wrote:
-> > > > > > On Sun, Dec 12, 2021 at 5:30 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > > > >
-> > > > > > > On Sat, Dec 11, 2021 at 03:00:27AM +0000, Longpeng (Mike, Cloud Infrastructure Service Product Dept.) wrote:
-> > > > > > > >
-> > > > > > > >
-> > > > > > > > > -----Original Message-----
-> > > > > > > > > From: Stefan Hajnoczi [mailto:stefanha@redhat.com]
-> > > > > > > > > Sent: Thursday, December 9, 2021 5:17 PM
-> > > > > > > > > To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-> > > > > > > > > <longpeng2@huawei.com>
-> > > > > > > > > Cc: jasowang@redhat.com; mst@redhat.com; parav@nvidia.com;
-> > > > > > > > > xieyongji@bytedance.com; sgarzare@redhat.com; Yechuan <yechuan@huawei.com>;
-> > > > > > > > > Gonglei (Arei) <arei.gonglei@huawei.com>; qemu-devel@nongnu.org
-> > > > > > > > > Subject: Re: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
-> > > > > > > > >
-> > > > > > > > > On Wed, Dec 08, 2021 at 01:20:10PM +0800, Longpeng(Mike) wrote:
-> > > > > > > > > > From: Longpeng <longpeng2@huawei.com>
-> > > > > > > > > >
-> > > > > > > > > > Hi guys,
-> > > > > > > > > >
-> > > > > > > > > > This patch introduces vhost-vdpa-net device, which is inspired
-> > > > > > > > > > by vhost-user-blk and the proposal of vhost-vdpa-blk device [1].
-> > > > > > > > > >
-> > > > > > > > > > I've tested this patch on Huawei's offload card:
-> > > > > > > > > > ./x86_64-softmmu/qemu-system-x86_64 \
-> > > > > > > > > >     -device vhost-vdpa-net-pci,vdpa-dev=/dev/vhost-vdpa-0
-> > > > > > > > > >
-> > > > > > > > > > For virtio hardware offloading, the most important requirement for us
-> > > > > > > > > > is to support live migration between offloading cards from different
-> > > > > > > > > > vendors, the combination of netdev and virtio-net seems too heavy, we
-> > > > > > > > > > prefer a lightweight way.
-> > > > > > > > > >
-> > > > > > > > > > Maybe we could support both in the future ? Such as:
-> > > > > > > > > >
-> > > > > > > > > > * Lightweight
-> > > > > > > > > >  Net: vhost-vdpa-net
-> > > > > > > > > >  Storage: vhost-vdpa-blk
-> > > > > > > > > >
-> > > > > > > > > > * Heavy but more powerful
-> > > > > > > > > >  Net: netdev + virtio-net + vhost-vdpa
-> > > > > > > > > >  Storage: bdrv + virtio-blk + vhost-vdpa
-> > > > > > > > > >
-> > > > > > > > > > [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg797569.html
-> > > > > > > > >
-> > > > > > > > > Stefano presented a plan for vdpa-blk at KVM Forum 2021:
-> > > > > > > > > https://kvmforum2021.sched.com/event/ke3a/vdpa-blk-unified-hardware-and-sof
-> > > > > > > > > tware-offload-for-virtio-blk-stefano-garzarella-red-hat
-> > > > > > > > >
-> > > > > > > > > It's closer to today's virtio-net + vhost-net approach than the
-> > > > > > > > > vhost-vdpa-blk device you have mentioned. The idea is to treat vDPA as
-> > > > > > > > > an offload feature rather than a completely separate code path that
-> > > > > > > > > needs to be maintained and tested. That way QEMU's block layer features
-> > > > > > > > > and live migration work with vDPA devices and re-use the virtio-blk
-> > > > > > > > > code. The key functionality that has not been implemented yet is a "fast
-> > > > > > > > > path" mechanism that allows the QEMU virtio-blk device's virtqueue to be
-> > > > > > > > > offloaded to vDPA.
-> > > > > > > > >
-> > > > > > > > > The unified vdpa-blk architecture should deliver the same performance
-> > > > > > > > > as the vhost-vdpa-blk device you mentioned but with more features, so I
-> > > > > > > > > wonder what aspects of the vhost-vdpa-blk idea are important to you?
-> > > > > > > > >
-> > > > > > > > > QEMU already has vhost-user-blk, which takes a similar approach as the
-> > > > > > > > > vhost-vdpa-blk device you are proposing. I'm not against the
-> > > > > > > > > vhost-vdpa-blk approach in priciple, but would like to understand your
-> > > > > > > > > requirements and see if there is a way to collaborate on one vdpa-blk
-> > > > > > > > > implementation instead of dividing our efforts between two.
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > > We prefer a simple way in the virtio hardware offloading case, it could reduce
-> > > > > > > > our maintenance workload, we no need to maintain the virtio-net, netdev,
-> > > > > > > > virtio-blk, bdrv and ... any more. If we need to support other vdpa devices
-> > > > > > > > (such as virtio-crypto, virtio-fs) in the future, then we also need to maintain
-> > > > > > > > the corresponding device emulation code?
-> > > > > > > >
-> > > > > > > > For the virtio hardware offloading case, we usually use the vfio-pci framework,
-> > > > > > > > it saves a lot of our maintenance work in QEMU, we don't need to touch the device
-> > > > > > > > types. Inspired by Jason, what we really prefer is "vhost-vdpa-pci/mmio", use it to
-> > > > > > > > instead of the vfio-pci, it could provide the same performance as vfio-pci, but it's
-> > > > > > > > *possible* to support live migrate between offloading cards from different vendors.
-> > > > > > >
-> > > > > > > OK, so the features you are dropping would be migration between
-> > > > > > > a vdpa, vhost and virtio backends. I think given vhost-vdpa-blk is seems
-> > > > > > > fair enough... What do others think?
-> > > > > >
-> > > > > > I think it should be fine, and it would be even better to make it not
-> > > > > > specific to device type.
-> > > > >
-> > > > > That's an interesting idea. A generic vDPA VirtIODevice could exposed as
-> > > > >
-> > > > >   --device vhost-vdpa-pci,
-> > > > >            [vhostfd=FD,|
-> > > > >             vhostpath=/dev/vhost-vdpa-N]
-> > > > >
-> > > > > (and for virtio-mmio and virtio-ccw too).
-> > > > >
-> > > > > I don't think this is possible yet because the vhost_vdpa ioctls are
-> > > > > missing some introspection functionality. Here is what I found:
-> > > > > - Device ID: ok, use VHOST_VDPA_GET_DEVICE_ID
-> > > > > - Device feature bits: ok, use VHOST_GET_BACKEND_FEATURES
-> > > > > - Configuration space size: missing, need ioctl for ops->get_config_size()
-> > > >
-> > > > Any specific reason that we need this considering we've already had
-> > > > VHOST_VDPA_GET_CONFIG and we do the size validation there?
-> > >
-> > > QEMU's virtio_init() takes a size_t config_size argument. We need to
-> > > determine the size of the vhost_vdpa's configuration space in order to
-> > > create the VirtIODevice in QEMU.
-> > >
-> > > Do you mean probing by checking for the VHOST_VDPA_GET_CONFIG -E2BIG
-> > > return value? It's hacky but I guess it's possible to do a binary search
-> > > that calls VHOST_VDPA_GET_CONFIG each iteration and reduces the size if
-> > > -E2BIG is returned or increases the size otherwise.
-> > >
-> > > Or do you mean re-writing QEMU's hw/virtio/virtio.c to allow the
-> > > VirtIODevice to override the size and we pass accesses through to
-> > > vhost_vdpa. That way it might be possible to avoid fetching the
-> > > configuration space size at startup, but I'm not sure this will work
-> > > because QEMU might depend on knowing the exact size (e.g. live
-> > > migration).
-> >
-> > Good point, so looking at virtio-blk it has:
-> >
-> >     virtio_blk_set_config_size(s, s->host_features);
-> >     virtio_init(vdev, "virtio-blk", VIRTIO_ID_BLOCK, s->config_size);
-> >
-> > I think here virtio-blk/net should check the vhost-vdpa features here
-> > and fail if they are not the same?
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 >
-> The vhost feature bit code in QEMU is complicated and I can't respond
-> without investing too much time studying it :).
+> The issue reported by OSS-Fuzz produces the following backtrace:
 >
-> > This looks better than overriding the config_size with what vhost-vdpa
-> > provides since it can override the features that the cli tries to
-> > enable.
+>   =3D=3D447470=3D=3DERROR: AddressSanitizer: heap-buffer-overflow
+>   READ of size 1 at 0x61500002a080 thread T0
+>       #0 0x71766d47 in sdhci_read_dataport hw/sd/sdhci.c:474:18
+>       #1 0x7175f139 in sdhci_read hw/sd/sdhci.c:1022:19
+>       #2 0x721b937b in memory_region_read_accessor softmmu/memory.c:440:1=
+1
+>       #3 0x72171e51 in access_with_adjusted_size softmmu/memory.c:554:18
+>       #4 0x7216f47c in memory_region_dispatch_read1 softmmu/memory.c:1424=
+:16
+>       #5 0x7216ebb9 in memory_region_dispatch_read softmmu/memory.c:1452:=
+9
+>       #6 0x7212db5d in flatview_read_continue softmmu/physmem.c:2879:23
+>       #7 0x7212f958 in flatview_read softmmu/physmem.c:2921:12
+>       #8 0x7212f418 in address_space_read_full softmmu/physmem.c:2934:18
+>       #9 0x721305a9 in address_space_rw softmmu/physmem.c:2962:16
+>       #10 0x7175a392 in dma_memory_rw_relaxed include/sysemu/dma.h:89:12
+>       #11 0x7175a0ea in dma_memory_rw include/sysemu/dma.h:132:12
+>       #12 0x71759684 in dma_memory_read include/sysemu/dma.h:152:12
+>       #13 0x7175518c in sdhci_do_adma hw/sd/sdhci.c:823:27
+>       #14 0x7174bf69 in sdhci_data_transfer hw/sd/sdhci.c:935:13
+>       #15 0x7176aaa7 in sdhci_send_command hw/sd/sdhci.c:376:9
+>       #16 0x717629ee in sdhci_write hw/sd/sdhci.c:1212:9
+>       #17 0x72172513 in memory_region_write_accessor softmmu/memory.c:492=
+:5
+>       #18 0x72171e51 in access_with_adjusted_size softmmu/memory.c:554:18
+>       #19 0x72170766 in memory_region_dispatch_write softmmu/memory.c:150=
+4:16
+>       #20 0x721419ee in flatview_write_continue softmmu/physmem.c:2812:23
+>       #21 0x721301eb in flatview_write softmmu/physmem.c:2854:12
+>       #22 0x7212fca8 in address_space_write softmmu/physmem.c:2950:18
+>       #23 0x721d9a53 in qtest_process_command softmmu/qtest.c:727:9
 >
-> I'm thinking about the generic --device vhost-vdpa idea. QEMU should not
-> require knowledge of the device feature bits in that case, so it cannot
-> calculate the configuration space size.
+> A DMA descriptor is previously filled in RAM. An I/O access to the
+> device (frames #22 to #16) start the DMA engine (frame #13). The
+> engine fetch the descriptor and execute the request, which itself
+> accesses the SDHCI I/O registers (frame #1 and #0), triggering a
+> re-entrancy issue.
+>
+> Fix by prohibit transactions from the DMA to devices. The DMA engine
+> is thus restricted to memories.
+>
+> Reported-by: OSS-Fuzz (Issue 36391)
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/451
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/sd/sdhci.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+> index fe2f21f0c37..0e5e988927e 100644
+> --- a/hw/sd/sdhci.c
+> +++ b/hw/sd/sdhci.c
+> @@ -741,6 +741,7 @@ static void sdhci_do_adma(SDHCIState *s)
+>  {
+>      unsigned int begin, length;
+>      const uint16_t block_size =3D s->blksize & BLOCK_SIZE_MASK;
+> +    const MemTxAttrs attrs =3D { .memory =3D true };
+>      ADMADescr dscr =3D {};
+>      MemTxResult res;
+>      int i;
+> @@ -794,7 +795,7 @@ static void sdhci_do_adma(SDHCIState *s)
+>                      res =3D dma_memory_write(s->dma_as, dscr.addr,
+>                                             &s->fifo_buffer[begin],
+>                                             s->data_count - begin,
+> -                                           MEMTXATTRS_UNSPECIFIED);
+> +                                           attrs);
+>                      if (res !=3D MEMTX_OK) {
+>                          break;
+>                      }
+> @@ -823,7 +824,7 @@ static void sdhci_do_adma(SDHCIState *s)
+>                      res =3D dma_memory_read(s->dma_as, dscr.addr,
+>                                            &s->fifo_buffer[begin],
+>                                            s->data_count - begin,
+> -                                          MEMTXATTRS_UNSPECIFIED);
+> +                                          attrs);
+>                      if (res !=3D MEMTX_OK) {
+>                          break;
+>                      }
 
-In this case, it looks to me the config size could be deduced from
-VHOST_VDPA_GET_FEATURES?
+I wonder how we can fix this for other devices, as this seems to be a
+known issue for many years. We've received many reports from the
+networking side.
 
->
-> > >
-> > > > > - Max virtqueue size: ok, VHOST_VDPA_GET_VRING_NUM
-> > > > > - Number of virtqueues: probe using VHOST_GET_VRING_BASE?
-> > > >
-> > > > I'm not sure whether or not we need this and it seems not necessary
-> > > > since it can be deduced from the config space and features.
-> > >
-> > > It can only be deduced in a device-specific way (net, blk, etc). I can't
-> > > think of a way to detect the number of virtqueues for an arbitrary
-> > > VIRTIO device from the features bits and configuration space contents.
-> >
-> > Yes, I'm not against this idea but it looks to me it works even without this.
-> >
-> > Modern PCI has num_queues but we don't have things like this in MMIO
-> > and legacy PCI.
->
-> Even if the VIRTIO hardware interface doesn't expose this information to
-> the guest, QEMU's VirtIODevice API needs it. Device emulation code must
-> call virtio_add_queue() to expose virtqueues to the guest.
+It looks like this patch simply forbids p2p which is probably not the
+case for other devices.
 
-We don't need this for current multiqueue virtio-net with vhost-vdpa
-since the queue num were deduced from the VHOST_VDPA_GET_CONFIG during
-the initialization of vhost-vdpa backend.
-
-If we are talking about generic vhost-vdpa-pci, we don't need
-virtio_add_queue() in this case.
+I remember there's ideas like using bh from Paolo or detecting
+reentrancy in the memory core, both of them seems more general than
+this?
 
 Thanks
 
+> --
+> 2.33.1
 >
-> I suppose --device vhost-vdpa could probe the number of virtqueues using
-> VHOST_GET_VRING_BASE and then call virtio_add_queue(), but it's a little
-> hacky and involves unnecessary ioctl calls.
->
-> Instead I would add ioctls to fetch the configuration space size and
-> number of virtqueues from the vhost_vdpa device.
->
-> With these two ioctls added --device vhost-vdpa could create a
-> VirtIODevice that works with any QEMU VIRTIO transport (pci, mmio, ccw).
-> It would work with any vDPA device without device-specific knowledge.
-> Live migration might be possible with some additional work.
->
-> Stefan
 
 
