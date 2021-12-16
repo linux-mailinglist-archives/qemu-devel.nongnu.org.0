@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9490B476E37
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 10:51:00 +0100 (CET)
-Received: from localhost ([::1]:40926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C79476E16
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 10:48:36 +0100 (CET)
+Received: from localhost ([::1]:33716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxnPf-0003cK-Ln
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 04:50:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51244)
+	id 1mxnNL-0007FZ-Bu
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 04:48:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxnJs-0004Gu-Cl
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:45:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46969)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxnJu-0004LV-B0
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:45:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxnJo-0001KK-PE
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:44:59 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxnJq-0001KV-4v
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:45:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639647894;
+ s=mimecast20190719; t=1639647897;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2mXzSBK1g0yJedi+/RbJp0o0xMM8kJtBFzYSs0nLvKE=;
- b=WLxNF1Twgg/XJpqRHe9W4BqN8NLjmTUshWnY2oMVOV36hREfzaYEkSn3VQT2RK/z3zet7z
- mwR4tkVJxNw5zG/4fcsLxj49XGR8DEOf9KhYz0TGH9l+J/SSepG5j6wl9vqjqVHead2AZa
- L2XB2OY4iLfwl/fzu3WI3szB9Go7Npo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nNijh0j14IXrFAhUPvLrmPRgcHlgDJ2ynjAxSWO21+E=;
+ b=V3BNs5SbzVy8wTGhhw2K7TT8xTigh3jstTw2GVwg25ZW9bk6ehSvmwEXXNcF4cG6oWgSbr
+ 1YPFMPkrp5Iml4cx/Yg1Nrhvxi3lntBq4ddxFavcdGcAuB0/wxjCjNoi81uYpW/c0RVJL3
+ YA3mTbt7RXoEMM9EUh34KBKZ1+szgUs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-fIjyIHXNPT6MMQdT2jS3Bw-1; Thu, 16 Dec 2021 04:44:51 -0500
-X-MC-Unique: fIjyIHXNPT6MMQdT2jS3Bw-1
+ us-mta-625-mekszwF5MTyag_RB7pA6Fw-1; Thu, 16 Dec 2021 04:44:53 -0500
+X-MC-Unique: mekszwF5MTyag_RB7pA6Fw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E7581934104;
- Thu, 16 Dec 2021 09:44:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B468D1934105;
+ Thu, 16 Dec 2021 09:44:51 +0000 (UTC)
 Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 87A0D10A48A5;
- Thu, 16 Dec 2021 09:44:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 76DE110A403A;
+ Thu, 16 Dec 2021 09:44:50 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/8] s390x patches (and one gitlab-CI fix)
-Date: Thu, 16 Dec 2021 10:44:39 +0100
-Message-Id: <20211216094447.58496-1-thuth@redhat.com>
+Subject: [PULL 1/8] s390: kvm: adjust diag318 resets to retain data
+Date: Thu, 16 Dec 2021 10:44:40 +0100
+Message-Id: <20211216094447.58496-2-thuth@redhat.com>
+In-Reply-To: <20211216094447.58496-1-thuth@redhat.com>
+References: <20211216094447.58496-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,68 +77,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
+ Collin Walling <walling@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Janosch Frank <frankja@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi!
+From: Collin Walling <walling@linux.ibm.com>
 
-The following changes since commit e630bc7ec9dda656a452ed28cac4d1e9ed605d71:
+The CPNC portion of the diag318 data is erroneously reset during an
+initial CPU reset caused by SIGP. Let's go ahead and relocate the
+diag318_info field within the CPUS390XState struct such that it is
+only zeroed during a clear reset. This way, the CPNC will be retained
+for each VCPU in the configuration after the diag318 instruction
+has been invoked.
 
-  Merge tag 'pull-block-2021-12-15' of git://repo.or.cz/qemu/armbru into staging (2021-12-15 12:14:44 -0800)
+The s390_machine_reset code already takes care of zeroing the diag318
+data on VM resets, which also cover resets caused by diag308.
 
-are available in the Git repository at:
+Fixes: fabdada9357b ("s390: guest support for diagnose 0x318")
+Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Signed-off-by: Collin Walling <walling@linux.ibm.com>
+Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+Message-Id: <20211117152303.627969-1-walling@linux.ibm.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ target/s390x/cpu.h     | 4 ++--
+ target/s390x/kvm/kvm.c | 4 ++++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-  https://gitlab.com/thuth/qemu.git tags/s390x-2021-12-16
-
-for you to fetch changes up to 79e42726050b7be6c2104a9af678ce911897dfaa:
-
-  gitlab-ci: Speed up the msys2-64bit job by using --without-default-devices (2021-12-16 10:22:39 +0100)
-
-----------------------------------------------------------------
-* Small fixes for the s390x PCI code
-* Fix reset handling of the diag318 data
-* Add compat machines for 7.0 (all architectures)
-* Ease timeout problem of the new msys2-64bit job
-
-----------------------------------------------------------------
-Christian Borntraeger (1):
-      MAINTAINERS: update email address of Christian Borntraeger
-
-Collin L. Walling (1):
-      s390: kvm: adjust diag318 resets to retain data
-
-Cornelia Huck (1):
-      hw: Add compat machines for 7.0
-
-Matthew Rosato (4):
-      s390x/pci: use a reserved ID for the default PCI group
-      s390x/pci: don't use hard-coded dma range in reg_ioat
-      s390x/pci: use the passthrough measurement update interval
-      s390x/pci: add supported DT information to clp response
-
-Thomas Huth (1):
-      gitlab-ci: Speed up the msys2-64bit job by using --without-default-devices
-
- .gitlab-ci.d/windows.yml        |  2 +-
- .mailmap                        |  1 +
- MAINTAINERS                     |  6 +++---
- hw/arm/virt.c                   |  9 ++++++++-
- hw/core/machine.c               |  3 +++
- hw/i386/pc.c                    |  3 +++
- hw/i386/pc_piix.c               | 14 +++++++++++++-
- hw/i386/pc_q35.c                | 13 ++++++++++++-
- hw/ppc/spapr.c                  | 15 +++++++++++++--
- hw/s390x/s390-pci-bus.c         |  1 +
- hw/s390x/s390-pci-inst.c        | 15 +++++++++------
- hw/s390x/s390-pci-vfio.c        |  1 +
- hw/s390x/s390-virtio-ccw.c      | 14 +++++++++++++-
- include/hw/boards.h             |  3 +++
- include/hw/i386/pc.h            |  3 +++
- include/hw/s390x/s390-pci-bus.h |  3 ++-
- include/hw/s390x/s390-pci-clp.h |  3 ++-
- target/s390x/cpu.h              |  4 ++--
- target/s390x/kvm/kvm.c          |  4 ++++
- 19 files changed, 97 insertions(+), 20 deletions(-)
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index ca3845d023..a75e559134 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -63,6 +63,8 @@ struct CPUS390XState {
+     uint64_t etoken;       /* etoken */
+     uint64_t etoken_extension; /* etoken extension */
+ 
++    uint64_t diag318_info;
++
+     /* Fields up to this point are not cleared by initial CPU reset */
+     struct {} start_initial_reset_fields;
+ 
+@@ -118,8 +120,6 @@ struct CPUS390XState {
+     uint16_t external_call_addr;
+     DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
+ 
+-    uint64_t diag318_info;
+-
+ #if !defined(CONFIG_USER_ONLY)
+     uint64_t tlb_fill_tec;   /* translation exception code during tlb_fill */
+     int tlb_fill_exc;        /* exception number seen during tlb_fill */
+diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+index 5b1fdb55c4..6acf14d5ec 100644
+--- a/target/s390x/kvm/kvm.c
++++ b/target/s390x/kvm/kvm.c
+@@ -1585,6 +1585,10 @@ void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info)
+         env->diag318_info = diag318_info;
+         cs->kvm_run->s.regs.diag318 = diag318_info;
+         cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
++        /*
++         * diag 318 info is zeroed during a clear reset and
++         * diag 308 IPL subcodes.
++         */
+     }
+ }
+ 
+-- 
+2.27.0
 
 
