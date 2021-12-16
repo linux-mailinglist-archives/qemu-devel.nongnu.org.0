@@ -2,65 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38CD477B17
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 18:53:01 +0100 (CET)
-Received: from localhost ([::1]:58448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B733D477B29
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 18:58:10 +0100 (CET)
+Received: from localhost ([::1]:36830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxuw8-0008C0-Na
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 12:53:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52442)
+	id 1mxv17-0004My-SQ
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 12:58:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mxuuy-0006rS-6k
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 12:51:48 -0500
-Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229]:53583)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxuyV-0001xq-9C
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 12:55:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mxuus-0006ll-DB
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 12:51:46 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.179])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id C1522202C6;
- Thu, 16 Dec 2021 17:51:39 +0000 (UTC)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 16 Dec
- 2021 18:51:38 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006a92e98b8-072e-4047-8c06-f8c29123efde,
- C4E9F14F77021FCD78381261BFC7BBA46F2BB44E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <77cde36a-d770-5176-b28d-2db7a157e45e@kaod.org>
-Date: Thu, 16 Dec 2021 18:51:38 +0100
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxuyT-0007Ia-M1
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 12:55:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639677324;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9Urlydxg+2BSyKrwnBQwUCV/SCY0+vc92ieEZk/sGhs=;
+ b=EjOzcctXcg3diEAu5EHgHHzsy2YL1Eoy1w7UxpJKjW/a5O3e2+qQqSLKhU/8ZGos1gOAZq
+ BqcUU3PlofaRlpQHZDUQyfxxSbbl+bALM0Vn9f7BU9JxWIBr/PAswTD/8yGukcW9lBCT/k
+ ckv8oyDVVfiET0UjPwpla8KT4vqRKAQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-62-wf9SjYATMGS4Ja6iu5ISFA-1; Thu, 16 Dec 2021 12:55:21 -0500
+X-MC-Unique: wf9SjYATMGS4Ja6iu5ISFA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ n22-20020adf8b16000000b001a22f61b29cso1802676wra.23
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 09:55:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/q5mbobjymTvMb3JoeQARok1xStZGc6TvlOlvh2Z7eU=;
+ b=nF+QRYlo8Dc44AJLrS6RUEeaFZd7DoqFrZMRjyDWGFqI1i7ic97O6qGghpuA9qV1oj
+ nsTO1i/kZUkcspGg4hMtsh+H+w3YHJiZSUL4dS6OJoDKujNfGppdbp8e7mreDXBJqrsy
+ MUi7dtWJt/A0EdCUi3DBi3MoFkTcHmilHtHJ9TBo+80RibntGtmCDE7hG6j01d8+wPGh
+ NTZn+uXaAQTZfPvKFuaiGr1BrPF2KW6P0I5P8qOjqDRMEoZ31ovIoqn1xp58FGcfKcxG
+ kRijH7Wf9tw8Ymojqbt82ujqHFHxDBM6HCwRSpUQmMMyb/g2DN+R3gsebKCzH950TlQe
+ V22g==
+X-Gm-Message-State: AOAM532J7ZwmSVuVm6GIAdZrguQoHGbWAnmoEsh/sdX5rebzhyZo/n/P
+ W9ACUpxaUgJRUB0F4oKNEANXbVetNmw2URNaLDn3W2uyyInF49xrHNoFZ3tWLFiE63Z4r+q6Lai
+ PfG3VTPt4wdExc8rE3rIfnukPXv8H8uPst3dzwSAoNOFqWWJohXU1mMrs6TXC83Li
+X-Received: by 2002:a7b:c341:: with SMTP id l1mr6210671wmj.60.1639677320410;
+ Thu, 16 Dec 2021 09:55:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy/8Ulrgr7fZaqAk6+dPlwQ0OZ/IdHkb+B8LQwyA1Ax3APoO1COY9fAykJG6ouXlglk7iLHNQ==
+X-Received: by 2002:a7b:c341:: with SMTP id l1mr6210629wmj.60.1639677320045;
+ Thu, 16 Dec 2021 09:55:20 -0800 (PST)
+Received: from localhost.localdomain
+ (174.red-83-50-185.dynamicip.rima-tde.net. [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id w17sm5817985wmc.14.2021.12.16.09.55.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Dec 2021 09:55:19 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] hw/nvme: Fix CVE-2021-3929 (DMA re-entrancy exploitation)
+Date: Thu, 16 Dec 2021 18:55:08 +0100
+Message-Id: <20211216175510.884749-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PULL 000/102] ppc queue
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, <qemu-ppc@nongnu.org>,
- <qemu-devel@nongnu.org>
-References: <20211215165847.321042-1-clg@kaod.org>
- <2ef5a85e-8955-2028-026d-7cb3ad13d718@linaro.org>
- <2f7401a9-a466-2e5b-df8b-6544fc7b16ba@kaod.org>
- <56e6beae-1c4f-2723-6174-f239f1a38c94@kaod.org>
- <c794cd0d-fb49-467b-dc2b-01f2ea86a4c2@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <c794cd0d-fb49-467b-dc2b-01f2ea86a4c2@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: c23dece3-bec2-4fa5-84af-235b64db2eb9
-X-Ovh-Tracer-Id: 8983273882970000291
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrleeggddutdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekkeefheefvdefhefgjeelveekheeileehudevkeefvdfhleetiedvffdtudeknecuffhomhgrihhnpehgihhtlhgrsgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehlrghgrghrtghirgeslhhinhhugidrihgsmhdrtghomh
-Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
- helo=4.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.034,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,39 +93,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Leonardo_Augusto_Guimar=c3=a3es_Garcia?= <lagarcia@linux.ibm.com>
+ Mauro Matteo Cascella <mcascell@redhat.com>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Peter Xu <peterx@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Keith Busch <kbusch@kernel.org>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/21 13:21, Richard Henderson wrote:
-> On 12/15/21 11:02 PM, Cédric Le Goater wrote:
->>>> Fails testing:
->>>>
->>>> /home/gitlab-runner/builds/yKcZqVC9/0/qemu-project/qemu/docs/specs/ppc-spapr-hcalls.rst:101:Block quote ends without a blank line; unexpected unindent.
->>>
->>> I didn't see it under  :
->>>
->>>   https://gitlab.com/legoater/qemu/-/pipelines/429852244
->>>
->>> Is the job being run by default ?
->>
->> It's certainly due to
->>
->>    [PULL 017/102] docs: rSTify ppc-spapr-hcalls.txt
->>
->> However, it does not reproduce on f34 and 21.10 systems using python-sphinx
->> 3.4.3-2 and 3.5.4-2
-> 
-> Correct, it's a system running 18.04.5 LTS, python3-sphinx 1.6.7.
-> 
-> https://gitlab.com/qemu-project/qemu/-/jobs/1890700682
-> 
-> Is our s390x ci host really the only one left running 18.04?
-> That seems like a mistake...
+Now that the DMA API allow passing MemTxAttrs argument and=0D
+returning MemTxResult (with MEMTX_BUS_ERROR in particular),=0D
+we can restrict the NVMe controller to memories (prohibitting=0D
+accesses by the DMA engine to devices) and block yet another=0D
+DMA re-entrancy attack.=0D
+=0D
+I'll will try to get a reproducer (and authorization to commit=0D
+it as qtest) from the reporter.=0D
+=0D
+Based-on: <20211216123558.799425-1-philmd@redhat.com>=0D
+"hw: Have DMA API take MemTxAttrs arg & propagate MemTxResult (part 2)"=0D
+https://lore.kernel.org/qemu-devel/20211216123558.799425-1-philmd@redhat.co=
+m/=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  hw/nvme/ctrl: Do not ignore DMA access errors=0D
+  hw/nvme/ctrl: Prohibit DMA accesses to devices (CVE-2021-3929)=0D
+=0D
+ hw/nvme/ctrl.c | 9 +++++----=0D
+ 1 file changed, 5 insertions(+), 4 deletions(-)=0D
+=0D
+--=20=0D
+2.33.1=0D
+=0D
 
-ok. Tell me if you want a resend.
-
-Thanks,
-
-C.
 
